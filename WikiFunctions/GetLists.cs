@@ -44,12 +44,6 @@ namespace WikiFunctions.Lists
         /// </summary>
         public static bool QuietMode;
 
-        readonly static Regex regexli = new Regex("<li>.*</li>", RegexOptions.Compiled);
-        readonly static Regex regexe = new Regex("<li>\\(?<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a> \\(redirect page\\)", RegexOptions.Compiled);
-        readonly static Regex regexe2 = new Regex("<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a>", RegexOptions.Compiled);
-        readonly static Regex regexLog = new Regex(@"<li>.*?<a .*?</a> \(<a .*?</a>\).*?<a href=""[^""]*""[^>]* title=""([^""]*)"">[^<>]*</a>", RegexOptions.Compiled);
-        readonly static Regex RegexFromFile = new Regex("(^[a-z]{2,3}:)|(simple:)", RegexOptions.Compiled);
-
         #region From variant
         /// <summary>
         /// Gets a list of pages from any supported kind of source
@@ -61,835 +55,6 @@ namespace WikiFunctions.Lists
         public static List<Article> FromVariant(WikiFunctions.Lists.IListMakerProvider what, params string[] params1)
         {
             return what.MakeList(params1);
-        }
-        #endregion
-
-        #region From category
-
-        /// <summary>
-        /// Gets a list of articles and sub-categories in a category.
-        /// </summary>
-        /// <param name="category">The category.</param>
-        /// <param name="subCategories">Whether to get all sub categories as well.</param>
-        /// <returns>The list of the articles.</returns>
-        public static List<Article> FromCategory(bool subCategories, params string[] categories)
-        {
-            List<Article> list = new List<Article>();
-            List<string> badcategories = new List<string>();
-            List<string> vistedCategories = new List<string>();
-
-            for (int i = 0; i < categories.Length; i++)
-            {
-                if (!vistedCategories.Contains(categories[i]))
-                {
-                    vistedCategories.Add(categories[i]);
-                    string cmtitle = Tools.WikiEncode(Regex.Replace(categories[i], Variables.NamespacesCaseInsensitive[14], ""));
-
-                    string url = Variables.URLLong + "api.php?action=query&list=categorymembers&cmtitle=Category:" + cmtitle + "&cmcategory=" + cmtitle + "&format=xml&cmlimit=500";
-                    int ns = 0;
-
-                    while (true)
-                    {
-                        string title = "";
-                        string html = Tools.GetHTML(url);
-                        if (html.Contains("categorymembers /"))
-                        {
-                            badcategories.Add(categories[i]);
-                            break;
-                        }
-                        bool more = false;
-
-                        using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
-                        {
-                            while (reader.Read())
-                            {
-                                if (reader.Name.Equals("cm"))
-                                {
-                                    if (reader.MoveToAttribute("ns"))
-                                        ns = int.Parse(reader.Value);
-                                    else
-                                        ns = 0;
-
-                                    if (reader.MoveToAttribute("title"))
-                                    {
-                                        title = reader.Value.ToString();
-                                        list.Add(new WikiFunctions.Article(title, ns));
-                                    }
-
-                                    if (subCategories && ns == 14)
-                                    {
-                                        Array.Resize<string>(ref categories, categories.Length + 1);
-                                        categories[categories.Length - 1] = title.Replace(Variables.Namespaces[14], "");
-                                    }
-                                }
-                                else if (reader.Name.Equals("categorymembers"))
-                                {
-                                    reader.MoveToAttribute("cmcontinue");
-                                    if (reader.Value.Length > 0)
-                                    {
-                                        string continueFrom = Tools.WikiEncode(reader.Value.ToString());
-                                        url = Variables.URLLong + "api.php?action=query&list=categorymembers&cmtitle=Category:" + cmtitle + "&cmcategory=" + cmtitle + "&format=xml&cmlimit=500&cmcontinue=" + continueFrom;
-                                        more = true;
-                                    }
-                                }
-                            }
-                        }
-                        if (!more)
-                            break;
-                    }
-                }
-            }
-            if (badcategories.Count != 0 && !QuietMode)
-            {
-                StringBuilder errorMessage = new StringBuilder("The following Categories are empty or do not exist:");
-
-                foreach (string badcat in badcategories)
-                    errorMessage.AppendLine(" ● " + badcat);
-
-                MessageBox.Show(errorMessage.ToString());
-            }
-            return list;
-        }
-        #endregion
-
-        #region From whatlinkshere
-
-        /// <summary>
-        /// Gets a list of articles that link to the given page.
-        /// </summary>
-        /// <param name="embedded">Gets articles that embed (transclude).</param>
-        /// <param name="includeRedirects">Whether to get links to the redirects</param>
-        /// <param name="pages">The page to find links to.</param>
-        /// <returns>The list of the articles.</returns>
-        public static List<Article> FromWhatLinksHere(bool embedded, bool includeRedirects, params string[] pages)
-        {
-            string request = "backlinks";
-            string initial = "bl";
-            if (embedded)
-            {
-                request = "embeddedin";
-                initial = "ei";
-            }
-            List<Article> list = new List<Article>();
-
-            foreach (string page in pages)
-            {
-                if (page.Trim().Length == 0) continue;
-                string url = Variables.URLLong + "api.php?action=query&list=" + request + "&" + initial + "title=" + Tools.RemoveHashFromPageTitle(Tools.WikiEncode(page)) + "&format=xml&" + initial + "limit=500";
-
-                if (includeRedirects)
-                    url += "&blredirect";
-
-                string title = "";
-                int ns = 0;
-
-                while (true)
-                {
-                    string html = Tools.GetHTML(url);
-                    bool more = false;
-
-                    using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
-                    {
-                        while (reader.Read())
-                        {
-                            if (reader.Name.Equals(initial))
-                            {
-                                if (reader.MoveToAttribute("ns"))
-                                    ns = int.Parse(reader.Value);
-                                else
-                                    ns = 0;
-
-                                if (reader.MoveToAttribute("title"))
-                                {
-                                    title = reader.Value;
-                                    list.Add(new WikiFunctions.Article(title, ns));
-                                }
-                            }
-                            else if (reader.Name.Equals(request))
-                            {
-                                reader.MoveToAttribute(initial + "continue");
-                                if (reader.Value.Length != 0)
-                                {
-                                    string continueFrom = reader.Value;
-                                    url = Variables.URLLong + "api.php?action=query&list=" + request + "&" + initial + "title=" + Tools.WikiEncode(page) + "&format=xml&" + initial + "limit=500&" + initial + "continue=" + continueFrom;
-                                    
-                                    if (includeRedirects)
-                                        url += "&blredirect";
-
-                                    more = true;
-                                }
-                            }
-                        }
-                    }
-                    if (!more)
-                        break;
-                }
-            }
-            return list;
-        }
-
-        /// <summary>
-        /// Gets a list of articles that link to the given page.
-        /// </summary>
-        /// <param name="embedded">Gets articles that embed (transclude).</param>
-        /// <param name="pages">The page to find links to.</param>
-        /// <returns>The list of the articles.</returns>
-        public static List<Article> FromWhatLinksHere(bool embedded, params string[] pages)
-        {
-            return FromWhatLinksHere(embedded, false, pages);
-        }
-
-        #endregion
-
-        #region From redirects
-
-        /// <summary>
-        /// Gets a list of articles that redirect to the given page.
-        /// </summary>
-        /// <param name="pages">The pages to find redirects to.</param>
-        /// <returns>The list of the articles.</returns>
-        public static List<Article> FromRedirects(params string[] pages)
-        {
-            return FromRedirects(true, pages);
-        }
-
-        /// <summary>
-        /// Gets a list of articles that redirects to the given page.
-        /// </summary>
-        /// <param name="Pages">The pages to find redirects to.</param>
-        /// <returns>The list of the articles.</returns>
-        /// <param name="HandleErrors">Handle errors, or let them filter down to caller</param>
-        public static List<Article> FromRedirects(bool HandleErrors, params string[] pages) // HandleErrors param is used by kingbotk plugin
-        {
-            List<Article> list = new List<Article>();
-
-            foreach (string onePage in pages)
-            {
-                try
-                {
-                    string title = "";
-                    int ns = 0;
-                    string page = onePage;
-                    page = Tools.WikiEncode(page);
-                    string url = Variables.URLLong + "api.php?action=query&list=backlinks&bltitle=" + page + "&bllimit=500&blfilterredir=redirects&format=xml";
-
-                    while (true)
-                    {
-                        bool more = false;
-                        string html = Tools.GetHTML(url);
-
-                        using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
-                        {
-                            while (reader.Read())
-                            {
-                                if (reader.Name.Equals("bl"))
-                                {
-                                    if (reader.MoveToAttribute("ns"))
-                                        ns = int.Parse(reader.Value);
-                                    else
-                                        ns = 0;
-
-                                    if (reader.MoveToAttribute("title"))
-                                    {
-                                        title = reader.Value.ToString();
-                                        list.Add(new WikiFunctions.Article(title, ns));
-                                    }
-                                }
-                                else if (reader.Name.Equals("backlinks"))
-                                {
-                                    reader.MoveToAttribute("blcontinue");
-                                    if (reader.Value.Length != 0)
-                                    {
-                                        string continueFrom = reader.Value;
-                                        url = Variables.URLLong + "api.php?action=query&list=backlinks&bltitle=" + page + "&bllimit=500&blfilterredir=redirects&format=xml&blcontinue=" + continueFrom;
-                                        more = true;
-                                    }
-                                }
-                            }
-                            if (!more)
-                                break;
-                        }
-                    }
-                }
-                catch (ThreadAbortException)
-                {
-                    throw;
-                }
-                catch (Exception ex)
-                {
-                    if (HandleErrors)
-                        ErrorHandler.Handle(ex);
-                    else
-                        throw;
-                }
-            }
-            return list;
-        }
-
-        #endregion
-
-        #region From links on page
-
-        /// <summary>
-        /// Gets a list of links on a page.
-        /// </summary>
-        /// <param name="articles">The page to find links on.</param>
-        /// <returns>The list of the links.</returns>
-        public static List<Article> FromLinksOnPage(params string[] articles)
-        {
-            List<Article> list = new List<Article>();
-
-            foreach (string article in articles)
-            {
-                try
-                {
-                    string url = Variables.URLLong + "api.php?action=query&prop=links&titles=" + Tools.WikiEncode(article) + "&format=xml";
-                    string title = "";
-                    int ns = 0;
-
-                    while (true)
-                    {
-                        string html = Tools.GetHTML(url);
-                        bool more = false;
-
-                        using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
-                        {
-                            while (reader.Read())
-                            {
-                                if (reader.Name.Equals("pl"))
-                                {
-                                    if (reader.MoveToAttribute("ns"))
-                                        ns = int.Parse(reader.Value);
-                                    else
-                                        ns = 0;
-
-                                    if (reader.MoveToAttribute("title"))
-                                    {
-                                        title = reader.Value.ToString();
-                                        list.Add(new WikiFunctions.Article(title, ns));
-                                    }
-                                }
-                            }
-                        }
-                        if (!more)
-                            break;
-                    }
-                }
-                catch (ThreadAbortException)
-                {
-                    throw;
-                }
-                catch (Exception ex)
-                {
-                    ErrorHandler.Handle(ex);
-                }
-            }
-
-            return list;
-        }
-
-        #endregion
-
-        #region Images on page
-
-        /// <summary>
-        /// Gets a list of Images on a page.
-        /// </summary>
-        /// <param name="articles">The page to find images on.</param>
-        /// <returns>The list of the images.</returns>
-        public static List<Article> FromImagesOnPage(params string[] articles)
-        {
-            List<Article> list = new List<Article>();
-
-            foreach (string article in articles)
-            {
-                string url = Variables.URLLong + "api.php?action=query&prop=images&titles=" + Tools.WikiEncode(article) + "&format=xml";
-
-                while (true)
-                {
-                    string html = Tools.GetHTML(url);
-                    bool more = false;
-                    int ns;
-                    string title = "";
-
-                    using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
-                    {
-                        while (reader.Read())
-                        {
-                            if (reader.Name.Equals("im"))
-                            {
-                                if (reader.MoveToAttribute("ns"))
-                                    ns = int.Parse(reader.Value);
-                                else
-                                    ns = 0;
-
-                                if (reader.MoveToAttribute("title"))
-                                {
-                                    title = reader.Value.ToString();
-                                    list.Add(new WikiFunctions.Article(title, ns));
-                                }
-                            }
-                        }
-                    }
-                    if (!more)
-                        break;
-                }
-            }
-            return list;
-        }
-
-        #endregion
-
-        #region Transclusions on Page
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="articles"></param>
-        /// <returns></returns>
-        public static List<Article> FromTransclusionsOnPage(params string[] articles)
-        {
-            List<Article> list = new List<Article>();
-
-            foreach (string article in articles)
-            {
-                string url = Variables.URLLong + "api.php?action=query&prop=templates&titles=" + Tools.WikiEncode(article) + "&format=xml";
-
-                while (true)
-                {
-                    string html = Tools.GetHTML(url);
-                    bool more = false;
-                    int ns;
-                    string title = "";
-
-                    using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
-                    {
-                        while (reader.Read())
-                        {
-                            if (reader.Name.Equals("tl"))
-                            {
-                                if (reader.MoveToAttribute("ns"))
-                                    ns = int.Parse(reader.Value);
-                                else
-                                    ns = 0;
-
-                                if (reader.MoveToAttribute("title"))
-                                {
-                                    title = reader.Value.ToString();
-                                    list.Add(new WikiFunctions.Article(title, ns));
-                                }
-                            }
-                        }
-                    }
-                    if (!more)
-                        break;
-                }
-            }
-            return list;
-        }
-
-        #endregion
-
-        #region From text file
-
-        static readonly Regex LoadWikiLink = new Regex(@"\[\[:?(.*?)(?:\]\]|\|)", RegexOptions.Compiled);
-
-        /// <summary>
-        /// Gets a list of pages from text file
-        /// </summary>
-        /// <param name="fileNames">The file path of the list.</param>
-        /// <returns>The list of the links.</returns>
-        public static List<Article> FromTextFile(params string[] fileNames)
-        {
-            List<Article> list = new List<Article>();
-
-            foreach (string fileName in fileNames)
-            {
-                string pageText = "";
-                string title = "";
-
-                using (StreamReader sr = new StreamReader(fileName, Encoding.Default))
-                {
-                    pageText = sr.ReadToEnd();
-                    sr.Close();
-                }
-
-                if (LoadWikiLink.IsMatch(pageText))
-                {
-                    foreach (Match m in LoadWikiLink.Matches(pageText))
-                    {
-                        title = m.Groups[1].Value;
-                        if (!RegexFromFile.IsMatch(title) && (!(title.StartsWith("#"))))
-                        {
-                            list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(title))));
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (string s in pageText.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
-                    {
-                        if (s.Trim().Length == 0 || !Tools.IsValidTitle(s)) continue;
-                        list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim()))));
-                    }
-                }
-            }
-
-            return list;
-        }
-
-        #endregion
-
-        #region From google
-
-        /// <summary>
-        /// Gets a list from a google search of the site.
-        /// </summary>
-        /// <param name="googles">The term to search for.</param>
-        /// <returns>The list of the articles.</returns>
-        public static List<Article> FromGoogleSearch(params string[] googles)
-        {
-            List<Article> list = new List<Article>();
-
-            foreach (string g in googles)
-            {
-                int intStart = 0;
-                string google = Tools.WikiEncode(g);
-                google = google.Replace("_", " ");
-                string url = "http://www.google.com/search?q=" + google + "+site:" + Variables.URL + "&num=100&hl=en&lr=&start=0&sa=N&filter=0";
-                string title = "";
-
-                //Regex pattern to find links
-                Regex regexGoogle = new Regex("href\\s*=\\s*(?:\"(?<1>[^\"]*)\"|(?<1>\\S+) class=l)",
-                    RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
-                do
-                {
-                    string googleText = Tools.GetHTML(url, Encoding.Default);
-
-                    //Find each match to the pattern
-                    foreach (Match m in regexGoogle.Matches(googleText))
-                    {
-                        title = m.Groups[1].Value;
-                        if (!title.StartsWith(Variables.URL + "/wiki/")) continue;
-
-                        list.Add(new WikiFunctions.Article(Tools.GetPageFromURL(title)));
-                    }
-
-                    if (googleText.Contains("img src=\"nav_next.gif\""))
-                    {
-                        intStart += 100;
-                        url = "http://www.google.com/search?q=" + google + "+site:" + Variables.URL + "&num=100&hl=en&lr=&start=" + intStart.ToString() + "&sa=N&filter=0";
-                    }
-                    else
-                        break;
-
-                } while (true);
-            }
-            return FilterSomeArticles(list);
-        }
-
-        #endregion
-
-        #region From user contributions
-
-        /// <summary>
-        /// Gets a list from a users contribs.
-        /// </summary>
-        /// <param name="users">The name of the user.</param>
-        /// <returns>The list of the articles.</returns>
-        public static List<Article> FromUserContribs(params string[] users)
-        {
-            return FromUserContribs(false, users);
-        }
-
-        /// <summary>
-        /// Gets a list from a users contribs.
-        /// </summary>
-        /// <param name="all">Whether to load all contribs or not</param>
-        /// <param name="users">The name of the user.</param>
-        /// <returns>The list of the articles.</returns>
-        public static List<Article> FromUserContribs(bool all, params string[] users)
-        {
-            List<Article> list = new List<Article>();
-
-            foreach (string u in users)
-            {
-                string title = "";
-                int ns = 0;
-                string page = u;
-                page = Tools.WikiEncode(page);
-
-                string url = Variables.URLLong + "api.php?action=query&list=usercontribs&ucuser=" + page + "&uclimit=500&format=xml";
-
-                while (true)
-                {
-                    bool more = false;
-                    string html = Tools.GetHTML(url);
-
-                    using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
-                    {
-                        while (reader.Read())
-                        {
-                            if (reader.Name.Equals("item"))
-                            {
-                                if (reader.MoveToAttribute("ns"))
-                                    ns = int.Parse(reader.Value);
-                                else
-                                    ns = 0;
-
-                                if (reader.MoveToAttribute("title"))
-                                {
-                                    title = reader.Value.ToString();
-                                    list.Add(new WikiFunctions.Article(title, ns));
-                                }
-                            }
-                            else if (reader.Name.Equals("usercontribs"))
-                            {
-                                reader.MoveToAttribute("ucstart");
-                                if (reader.Value.Length != 0 && (all || list.Count < 2000))
-                                {
-                                    string continueFrom = reader.Value;
-                                    url = Variables.URLLong + "api.php?action=query&list=usercontribs&ucuser=" + page + "&uclimit=500&format=xml&ucstart=" + continueFrom;
-                                    more = true;
-                                }
-                            }
-                        }
-                        if (!more)
-                            break;
-                    }
-                }
-            }
-
-            return list;
-        }
-
-        #endregion
-
-        #region From special page
-
-        /// <summary>
-        /// Gets a list of links on a special page.
-        /// </summary>
-        /// <param name="specials">The page to find links on, e.g. "Deadendpages" or "Deadendpages&limit=500&offset=0".</param>
-        /// <returns>The list of the articles.</returns>
-        public static List<Article> FromSpecialPage(params string[] specials)
-        {
-            //TODO:Fix!
-            List<Article> list = new List<Article>();
-
-            int limit = 1000;
-
-            foreach (string s in specials)
-            {
-                string special = Regex.Replace(s, "^" + Variables.NamespacesCaseInsensitive[-1], "", RegexOptions.IgnoreCase);
-
-                string url = Variables.URLLong + "index.php?title=Special:" + special;
-                if (!url.Contains("&limit=")) url += "&limit=" + limit.ToString();
-                string pageText = Tools.GetHTML(url);
-
-                pageText = Tools.StringBetween(pageText, "<!-- start content -->", "<!-- end content -->");
-                string title = "";
-                int ns = 0;
-
-                if (Regex.IsMatch(s, @"^Log ?[/\?&]", RegexOptions.IgnoreCase) || !regexli.IsMatch(pageText))
-                {
-                    Regex r = regexe;
-                    if (Regex.IsMatch(s, @"^Log ?[/\?&]", RegexOptions.IgnoreCase))
-                        r = regexLog;
-                    foreach (Match m in r.Matches(pageText))
-                    {
-                        title = m.Groups[1].Value.Trim();
-                        if (title.Length == 0) continue;
-                        if (title != "Wikipedia:Special pages" && title != "Wikipedia talk:Special:Lonelypages" && title != "Wikipedia:Offline reports" && title != "Template:Specialpageslist")
-                        {
-                            title = title.Replace("&amp;", "&").Replace("&quot;", "\"");
-                            if (title.Length == 0)
-                                continue;
-
-                            ns = Tools.CalculateNS(title);
-                            if (ns < 0) continue;
-                            list.Add(new WikiFunctions.Article(title, ns));
-
-                            if (limit >= 0 && list.Count >= limit)
-                                break;
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (Match m in regexli.Matches(pageText))
-                    {
-                        foreach (Match m2 in regexe2.Matches(m.Value))
-                        {
-                            if (m2.Value.Contains("&amp;action=") && !m2.Value.Contains("&amp;action=edit"))
-                                continue;
-
-                            title = m2.Groups[1].Value;
-
-                            title = HttpUtility.HtmlDecode(title);
-
-                            if (title.Trim().Length == 0) continue;
-
-                            list.Add(new WikiFunctions.Article(title));
-
-                            if (limit >= 0 && list.Count >= limit)
-                                break;
-                        }
-                    }
-                }
-            }
-            return FilterSomeArticles(list);
-        }
-
-        #endregion
-
-        #region From image links
-
-        /// <summary>
-        /// Gets a list of articles that use an image.
-        /// </summary>
-        /// <param name="images">The image.</param>
-        /// <returns>The list of the articles.</returns>
-        public static List<Article> FromImageLinks(params string[] images)
-        {
-            List<Article> list = new List<Article>();
-
-            foreach (string i in images)
-            {
-                string image = Regex.Replace(i, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
-                image = Tools.WikiEncode(image);
-
-                string url = Variables.URLLong + "api.php?action=query&list=imageusage&iutitle=Image:" + image + "&iulimit=500&format=xml";
-                string title = "";
-                int ns = 0;
-
-                while (true)
-                {
-                    string html = Tools.GetHTML(url);
-                    bool more = false;
-
-                    using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
-                    {
-                        while (reader.Read())
-                        {
-                            if (reader.Name.Equals("iu"))
-                            {
-                                if (reader.MoveToAttribute("ns"))
-                                    ns = int.Parse(reader.Value);
-                                else
-                                    ns = 0;
-
-                                if (reader.MoveToAttribute("title"))
-                                {
-                                    title = reader.Value.ToString();
-                                    list.Add(new WikiFunctions.Article(title, ns));
-                                }
-                            }
-                            else if (reader.Name.Equals("imageusage"))
-                            {
-                                reader.MoveToAttribute("iucontinue");
-                                if (reader.Value.Length != 0)
-                                {
-                                    string continueFrom = reader.Value.ToString();
-                                    url = Variables.URLLong + "api.php?action=query&list=imageusage&iutitle=Image:" + image + "&format=xml&iulimit=500&iucontinue=" + continueFrom;
-                                    more = true;
-                                }
-                            }
-                        }
-                    }
-                    if (!more)
-                        break;
-                }
-            }
-            return list;
-        }
-
-        #endregion
-
-        #region From watchlist
-
-        public static List<Article> FromWatchList()
-        {
-            WikiFunctions.Browser.WebControl webbrowser = new  WikiFunctions.Browser.WebControl();
-            webbrowser.ScriptErrorsSuppressed = true;
-            webbrowser.Navigate(Variables.URLLong + "index.php?title=Special:Watchlist&action=raw");
-            webbrowser.Wait();
-
-            string html = webbrowser.Document.GetElementById("titles").InnerText;
-            List<Article> list = new List<Article>();
-
-            try
-            {
-                string[] splitter = { "\r\n" };
-                foreach (string entry in html.Split(splitter, StringSplitOptions.RemoveEmptyEntries))
-                {
-                    if (entry.Length > 0)
-                        list.Add(new Article(entry));
-                }
-            }
-            catch { }
-            return list;
-        }
-
-        #endregion
-
-        #region From wiki search
-        /// <summary>
-        /// Gets a list from wiki's internal search
-        /// </summary>
-        /// <param name="terms">The terms to search for.</param>
-        /// <returns>The list of the articles.</returns>
-        public static List<Article> FromWikiSearch(params string[] terms)
-        {
-            //TODO:api.php?
-            List<Article> list = new List<Article>();
-
-            //Regex pattern to find links
-            Regex searchRegex = new Regex("<li><a .*? title=\\\"([^\"]*)\">", RegexOptions.Compiled);
-            string ns = "&ns0=1";
-
-            // explicitly add available namespaces to search options
-            foreach (int k in Variables.Namespaces.Keys)
-            {
-                if (k <= 0) continue;
-                ns += "&ns" + k.ToString() + "=1";
-            }
-
-            foreach (string s in terms)
-            {
-                int intStart = 0;
-                string url = Variables.URLLong + "index.php?title=Special:Search&fulltext=Search&search=" + HttpUtility.UrlEncode(s) + "&limit=100&uselang=en" + ns;
-                string title = "";
-
-                do
-                {
-                    int n = list.Count;
-                    string searchText = Tools.GetHTML(url);
-
-                    //Find each match to the pattern
-                    foreach (Match m in searchRegex.Matches(searchText))
-                    {
-                        title = m.Groups[1].Value;
-                        title = HttpUtility.HtmlDecode(title);//title.Replace("&amp;", "&").Replace("&quot;", "\"").Replace("_", " ");
-                        if (title.Contains("\""))
-                        {
-                            title = title.Replace("'", "");
-                        }
-                        list.Add(new WikiFunctions.Article(title));
-                    }
-
-                    if (list.Count != n)
-                    {
-                        intStart += 100;
-                        url = Variables.URLLong + "index.php?title=Special:Search&fulltext=Search&search=" + HttpUtility.UrlEncode(s) + "&limit=100&uselang=en&offset=" + intStart.ToString() + ns;
-                    }
-                    else
-                        break;
-
-                } while (true);
-            }
-            return list;
         }
         #endregion
 
@@ -934,7 +99,7 @@ namespace WikiFunctions.Lists
 
         #region Other methods
 
-        private static List<Article> FilterSomeArticles(List<Article> UnfilteredArticles)
+        public static List<Article> FilterSomeArticles(List<Article> UnfilteredArticles)
         {
             //Filter out artcles which we definately do not want to edit and remove duplicates.
             List<Article> items = new List<Article>();
@@ -1055,7 +220,6 @@ namespace WikiFunctions.Lists
         #endregion
     }
 
-    // TODO: Move elsewhere when finished
     #region ListMakerProviders
     /// <summary>
     /// Gets a list of pages in Named Categories for the ListMaker (Non-Recursive)
@@ -1066,8 +230,93 @@ namespace WikiFunctions.Lists
 
         public virtual List<Article> MakeList(string[] searchCriteria)
         {
-            return GetLists.FromCategory(subCats,
+            return FromCategory(subCats,
                 Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[14], "")));
+        }
+
+        /// <summary>
+        /// Gets a list of articles and sub-categories in a category.
+        /// </summary>
+        /// <param name="category">The category.</param>
+        /// <param name="subCategories">Whether to get all sub categories as well.</param>
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromCategory(bool subCategories, params string[] categories)
+        {
+            List<Article> list = new List<Article>();
+            List<string> badcategories = new List<string>();
+            List<string> vistedCategories = new List<string>();
+
+            for (int i = 0; i < categories.Length; i++)
+            {
+                if (!vistedCategories.Contains(categories[i]))
+                {
+                    vistedCategories.Add(categories[i]);
+                    string cmtitle = Tools.WikiEncode(Regex.Replace(categories[i], Variables.NamespacesCaseInsensitive[14], ""));
+
+                    string url = Variables.URLLong + "api.php?action=query&list=categorymembers&cmtitle=Category:" + cmtitle + "&cmcategory=" + cmtitle + "&format=xml&cmlimit=500";
+                    int ns = 0;
+
+                    while (true)
+                    {
+                        string title = "";
+                        string html = Tools.GetHTML(url);
+                        if (html.Contains("categorymembers /"))
+                        {
+                            badcategories.Add(categories[i]);
+                            break;
+                        }
+                        bool more = false;
+
+                        using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
+                        {
+                            while (reader.Read())
+                            {
+                                if (reader.Name.Equals("cm"))
+                                {
+                                    if (reader.MoveToAttribute("ns"))
+                                        ns = int.Parse(reader.Value);
+                                    else
+                                        ns = 0;
+
+                                    if (reader.MoveToAttribute("title"))
+                                    {
+                                        title = reader.Value.ToString();
+                                        list.Add(new WikiFunctions.Article(title, ns));
+                                    }
+
+                                    if (subCategories && ns == 14)
+                                    {
+                                        Array.Resize<string>(ref categories, categories.Length + 1);
+                                        categories[categories.Length - 1] = title.Replace(Variables.Namespaces[14], "");
+                                    }
+                                }
+                                else if (reader.Name.Equals("categorymembers"))
+                                {
+                                    reader.MoveToAttribute("cmcontinue");
+                                    if (reader.Value.Length > 0)
+                                    {
+                                        string continueFrom = Tools.WikiEncode(reader.Value.ToString());
+                                        url = Variables.URLLong + "api.php?action=query&list=categorymembers&cmtitle=Category:" + cmtitle + "&cmcategory=" + cmtitle + "&format=xml&cmlimit=500&cmcontinue=" + continueFrom;
+                                        more = true;
+                                    }
+                                }
+                            }
+                        }
+                        if (!more)
+                            break;
+                    }
+                }
+            }
+            if (badcategories.Count != 0 && !GetLists.QuietMode)
+            {
+                StringBuilder errorMessage = new StringBuilder("The following Categories are empty or do not exist:");
+
+                foreach (string badcat in badcategories)
+                    errorMessage.AppendLine(" ● " + badcat);
+
+                MessageBox.Show(errorMessage.ToString());
+            }
+            return list;
         }
 
         public virtual string DisplayText
@@ -1128,7 +377,7 @@ namespace WikiFunctions.Lists
             {
                 if (openListDialog.ShowDialog() == DialogResult.OK)
                 {
-                    ret = GetLists.FromTextFile(openListDialog.FileNames);
+                    ret = FromTextFile(openListDialog.FileNames);
                 }
                 return ret;
             }
@@ -1137,6 +386,53 @@ namespace WikiFunctions.Lists
                 ErrorHandler.Handle(ex);
                 return ret;
             }
+        }
+
+        readonly static Regex RegexFromFile = new Regex("(^[a-z]{2,3}:)|(simple:)", RegexOptions.Compiled);
+        readonly static Regex LoadWikiLink = new Regex(@"\[\[:?(.*?)(?:\]\]|\|)", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Gets a list of pages from text file
+        /// </summary>
+        /// <param name="fileNames">The file path of the list.</param>
+        /// <returns>The list of the links.</returns>
+        public static List<Article> FromTextFile(params string[] fileNames)
+        {
+            List<Article> list = new List<Article>();
+
+            foreach (string fileName in fileNames)
+            {
+                string pageText = "";
+                string title = "";
+
+                using (StreamReader sr = new StreamReader(fileName, Encoding.Default))
+                {
+                    pageText = sr.ReadToEnd();
+                    sr.Close();
+                }
+
+                if (LoadWikiLink.IsMatch(pageText))
+                {
+                    foreach (Match m in LoadWikiLink.Matches(pageText))
+                    {
+                        title = m.Groups[1].Value;
+                        if (!RegexFromFile.IsMatch(title) && (!(title.StartsWith("#"))))
+                        {
+                            list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(title))));
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (string s in pageText.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        if (s.Trim().Length == 0 || !Tools.IsValidTitle(s)) continue;
+                        list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim()))));
+                    }
+                }
+            }
+
+            return list;
         }
 
         public string DisplayText
@@ -1163,7 +459,92 @@ namespace WikiFunctions.Lists
         protected bool incRedirects = false;
 
         public virtual List<Article> MakeList(string[] searchCriteria)
-        { return GetLists.FromWhatLinksHere(embedded, incRedirects, Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
+        { return FromWhatLinksHere(embedded, incRedirects, Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
+
+        /// <summary>
+        /// Gets a list of articles that link to the given page.
+        /// </summary>
+        /// <param name="embedded">Gets articles that embed (transclude).</param>
+        /// <param name="includeRedirects">Whether to get links to the redirects</param>
+        /// <param name="pages">The page to find links to.</param>
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromWhatLinksHere(bool embedded, bool includeRedirects, params string[] pages)
+        {
+            string request = "backlinks";
+            string initial = "bl";
+            if (embedded)
+            {
+                request = "embeddedin";
+                initial = "ei";
+            }
+            List<Article> list = new List<Article>();
+
+            foreach (string page in pages)
+            {
+                if (page.Trim().Length == 0) continue;
+                string url = Variables.URLLong + "api.php?action=query&list=" + request + "&" + initial + "title=" + Tools.RemoveHashFromPageTitle(Tools.WikiEncode(page)) + "&format=xml&" + initial + "limit=500";
+
+                if (includeRedirects)
+                    url += "&blredirect";
+
+                string title = "";
+                int ns = 0;
+
+                while (true)
+                {
+                    string html = Tools.GetHTML(url);
+                    bool more = false;
+
+                    using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.Name.Equals(initial))
+                            {
+                                if (reader.MoveToAttribute("ns"))
+                                    ns = int.Parse(reader.Value);
+                                else
+                                    ns = 0;
+
+                                if (reader.MoveToAttribute("title"))
+                                {
+                                    title = reader.Value;
+                                    list.Add(new WikiFunctions.Article(title, ns));
+                                }
+                            }
+                            else if (reader.Name.Equals(request))
+                            {
+                                reader.MoveToAttribute(initial + "continue");
+                                if (reader.Value.Length != 0)
+                                {
+                                    string continueFrom = reader.Value;
+                                    url = Variables.URLLong + "api.php?action=query&list=" + request + "&" + initial + "title=" + Tools.WikiEncode(page) + "&format=xml&" + initial + "limit=500&" + initial + "continue=" + continueFrom;
+
+                                    if (includeRedirects)
+                                        url += "&blredirect";
+
+                                    more = true;
+                                }
+                            }
+                        }
+                    }
+                    if (!more)
+                        break;
+                }
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// Gets a list of articles that link to the given page.
+        /// </summary>
+        /// <param name="embedded">Gets articles that embed (transclude).</param>
+        /// <param name="pages">The page to find links to.</param>
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromWhatLinksHere(bool embedded, params string[] pages)
+        {
+            return FromWhatLinksHere(embedded, false, pages);
+        }
 
         public virtual string DisplayText
         { get { return "What links here"; } }
@@ -1220,10 +601,69 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of all links on the Named Pages
     /// </summary>
-    internal sealed class LinksOnPageListMakerProvider : IListMakerProvider
+    public sealed class LinksOnPageListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
-        { return GetLists.FromLinksOnPage(Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
+        { return FromLinksOnPage(Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
+
+        /// <summary>
+        /// Gets a list of links on a page.
+        /// </summary>
+        /// <param name="articles">The page to find links on.</param>
+        /// <returns>The list of the links.</returns>
+        public static List<Article> FromLinksOnPage(params string[] articles)
+        {
+            List<Article> list = new List<Article>();
+
+            foreach (string article in articles)
+            {
+                try
+                {
+                    string url = Variables.URLLong + "api.php?action=query&prop=links&titles=" + Tools.WikiEncode(article) + "&format=xml";
+                    string title = "";
+                    int ns = 0;
+
+                    while (true)
+                    {
+                        string html = Tools.GetHTML(url);
+                        bool more = false;
+
+                        using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
+                        {
+                            while (reader.Read())
+                            {
+                                if (reader.Name.Equals("pl"))
+                                {
+                                    if (reader.MoveToAttribute("ns"))
+                                        ns = int.Parse(reader.Value);
+                                    else
+                                        ns = 0;
+
+                                    if (reader.MoveToAttribute("title"))
+                                    {
+                                        title = reader.Value.ToString();
+                                        list.Add(new WikiFunctions.Article(title, ns));
+                                    }
+                                }
+                            }
+                        }
+                        if (!more)
+                            break;
+                    }
+                }
+                catch (ThreadAbortException)
+                {
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    ErrorHandler.Handle(ex);
+                }
+            }
+
+            return list;
+        }
+
 
         public string DisplayText
         { get { return "Links on page"; } }
@@ -1246,7 +686,53 @@ namespace WikiFunctions.Lists
     internal sealed class ImagesOnPageListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
-        { return GetLists.FromImagesOnPage(Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
+        { return FromImagesOnPage(Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
+
+        /// <summary>
+        /// Gets a list of Images on a page.
+        /// </summary>
+        /// <param name="articles">The page to find images on.</param>
+        /// <returns>The list of the images.</returns>
+        public static List<Article> FromImagesOnPage(params string[] articles)
+        {
+            List<Article> list = new List<Article>();
+
+            foreach (string article in articles)
+            {
+                string url = Variables.URLLong + "api.php?action=query&prop=images&titles=" + Tools.WikiEncode(article) + "&format=xml";
+
+                while (true)
+                {
+                    string html = Tools.GetHTML(url);
+                    bool more = false;
+                    int ns;
+                    string title = "";
+
+                    using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.Name.Equals("im"))
+                            {
+                                if (reader.MoveToAttribute("ns"))
+                                    ns = int.Parse(reader.Value);
+                                else
+                                    ns = 0;
+
+                                if (reader.MoveToAttribute("title"))
+                                {
+                                    title = reader.Value.ToString();
+                                    list.Add(new WikiFunctions.Article(title, ns));
+                                }
+                            }
+                        }
+                    }
+                    if (!more)
+                        break;
+                }
+            }
+            return list;
+        }
 
         public string DisplayText
         { get { return "Images on page"; } }
@@ -1269,7 +755,53 @@ namespace WikiFunctions.Lists
     internal sealed class TransclusionsOnPageListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
-        { return GetLists.FromTransclusionsOnPage(Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
+        { return FromTransclusionsOnPage(Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="articles"></param>
+        /// <returns></returns>
+        public static List<Article> FromTransclusionsOnPage(params string[] articles)
+        {
+            List<Article> list = new List<Article>();
+
+            foreach (string article in articles)
+            {
+                string url = Variables.URLLong + "api.php?action=query&prop=templates&titles=" + Tools.WikiEncode(article) + "&format=xml";
+
+                while (true)
+                {
+                    string html = Tools.GetHTML(url);
+                    bool more = false;
+                    int ns;
+                    string title = "";
+
+                    using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.Name.Equals("tl"))
+                            {
+                                if (reader.MoveToAttribute("ns"))
+                                    ns = int.Parse(reader.Value);
+                                else
+                                    ns = 0;
+
+                                if (reader.MoveToAttribute("title"))
+                                {
+                                    title = reader.Value.ToString();
+                                    list.Add(new WikiFunctions.Article(title, ns));
+                                }
+                            }
+                        }
+                    }
+                    if (!more)
+                        break;
+                }
+            }
+            return list;
+        }
 
         public string DisplayText
         { get { return "Transclusions on page"; } }
@@ -1294,7 +826,54 @@ namespace WikiFunctions.Lists
     internal sealed class GoogleSearchListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
-        { return GetLists.FromGoogleSearch(searchCriteria); }
+        { return FromGoogleSearch(searchCriteria); }
+
+        /// <summary>
+        /// Gets a list from a google search of the site.
+        /// </summary>
+        /// <param name="googles">The term to search for.</param>
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromGoogleSearch(params string[] googles)
+        {
+            List<Article> list = new List<Article>();
+
+            foreach (string g in googles)
+            {
+                int intStart = 0;
+                string google = Tools.WikiEncode(g);
+                google = google.Replace("_", " ");
+                string url = "http://www.google.com/search?q=" + google + "+site:" + Variables.URL + "&num=100&hl=en&lr=&start=0&sa=N&filter=0";
+                string title = "";
+
+                //Regex pattern to find links
+                Regex regexGoogle = new Regex("href\\s*=\\s*(?:\"(?<1>[^\"]*)\"|(?<1>\\S+) class=l)",
+                    RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+                do
+                {
+                    string googleText = Tools.GetHTML(url, Encoding.Default);
+
+                    //Find each match to the pattern
+                    foreach (Match m in regexGoogle.Matches(googleText))
+                    {
+                        title = m.Groups[1].Value;
+                        if (!title.StartsWith(Variables.URL + "/wiki/")) continue;
+
+                        list.Add(new WikiFunctions.Article(Tools.GetPageFromURL(title)));
+                    }
+
+                    if (googleText.Contains("img src=\"nav_next.gif\""))
+                    {
+                        intStart += 100;
+                        url = "http://www.google.com/search?q=" + google + "+site:" + Variables.URL + "&num=100&hl=en&lr=&start=" + intStart.ToString() + "&sa=N&filter=0";
+                    }
+                    else
+                        break;
+
+                } while (true);
+            }
+            return GetLists.FilterSomeArticles(list);
+        }
 
         public string DisplayText
         { get { return "Google Search"; } }
@@ -1320,8 +899,79 @@ namespace WikiFunctions.Lists
 
         public virtual List<Article> MakeList(string[] searchCriteria)
         {
-            return GetLists.FromUserContribs(all,
+            return FromUserContribs(all,
                 Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[2], "")));
+        }
+
+        /// <summary>
+        /// Gets a list from a users contribs.
+        /// </summary>
+        /// <param name="users">The name of the user.</param>
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromUserContribs(params string[] users)
+        {
+            return FromUserContribs(false, users);
+        }
+
+        /// <summary>
+        /// Gets a list from a users contribs.
+        /// </summary>
+        /// <param name="all">Whether to load all contribs or not</param>
+        /// <param name="users">The name of the user.</param>
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromUserContribs(bool all, params string[] users)
+        {
+            List<Article> list = new List<Article>();
+
+            foreach (string u in users)
+            {
+                string title = "";
+                int ns = 0;
+                string page = u;
+                page = Tools.WikiEncode(page);
+
+                string url = Variables.URLLong + "api.php?action=query&list=usercontribs&ucuser=" + page + "&uclimit=500&format=xml";
+
+                while (true)
+                {
+                    bool more = false;
+                    string html = Tools.GetHTML(url);
+
+                    using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.Name.Equals("item"))
+                            {
+                                if (reader.MoveToAttribute("ns"))
+                                    ns = int.Parse(reader.Value);
+                                else
+                                    ns = 0;
+
+                                if (reader.MoveToAttribute("title"))
+                                {
+                                    title = reader.Value.ToString();
+                                    list.Add(new WikiFunctions.Article(title, ns));
+                                }
+                            }
+                            else if (reader.Name.Equals("usercontribs"))
+                            {
+                                reader.MoveToAttribute("ucstart");
+                                if (reader.Value.Length != 0 && (all || list.Count < 2000))
+                                {
+                                    string continueFrom = reader.Value;
+                                    url = Variables.URLLong + "api.php?action=query&list=usercontribs&ucuser=" + page + "&uclimit=500&format=xml&ucstart=" + continueFrom;
+                                    more = true;
+                                }
+                            }
+                        }
+                        if (!more)
+                            break;
+                    }
+                }
+            }
+
+            return list;
         }
 
         public virtual string DisplayText
@@ -1363,9 +1013,88 @@ namespace WikiFunctions.Lists
     /// </summary>
     internal sealed class SpecialPageListMakerProvider : IListMakerProvider
     {
+        readonly static Regex regexli = new Regex("<li>.*</li>", RegexOptions.Compiled);
+        readonly static Regex regexe = new Regex("<li>\\(?<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a> \\(redirect page\\)", RegexOptions.Compiled);
+        readonly static Regex regexe2 = new Regex("<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a>", RegexOptions.Compiled);
+        readonly static Regex regexLog = new Regex(@"<li>.*?<a .*?</a> \(<a .*?</a>\).*?<a href=""[^""]*""[^>]* title=""([^""]*)"">[^<>]*</a>", RegexOptions.Compiled);
+
         public List<Article> MakeList(string[] searchCriteria)
         {
-            return GetLists.FromSpecialPage(Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[-1], "")));
+            return FromSpecialPage(Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[-1], "")));
+        }
+
+        /// <summary>
+        /// Gets a list of links on a special page.
+        /// </summary>
+        /// <param name="specials">The page to find links on, e.g. "Deadendpages" or "Deadendpages&limit=500&offset=0".</param>
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromSpecialPage(params string[] specials)
+        {
+            //TODO:Fix!
+            List<Article> list = new List<Article>();
+
+            int limit = 1000;
+
+            foreach (string s in specials)
+            {
+                string special = Regex.Replace(s, "^" + Variables.NamespacesCaseInsensitive[-1], "", RegexOptions.IgnoreCase);
+
+                string url = Variables.URLLong + "index.php?title=Special:" + special;
+                if (!url.Contains("&limit=")) url += "&limit=" + limit.ToString();
+                string pageText = Tools.GetHTML(url);
+
+                pageText = Tools.StringBetween(pageText, "<!-- start content -->", "<!-- end content -->");
+                string title = "";
+                int ns = 0;
+
+                if (Regex.IsMatch(s, @"^Log ?[/\?&]", RegexOptions.IgnoreCase) || !regexli.IsMatch(pageText))
+                {
+                    Regex r = regexe;
+                    if (Regex.IsMatch(s, @"^Log ?[/\?&]", RegexOptions.IgnoreCase))
+                        r = regexLog;
+                    foreach (Match m in r.Matches(pageText))
+                    {
+                        title = m.Groups[1].Value.Trim();
+                        if (title.Length == 0) continue;
+                        if (title != "Wikipedia:Special pages" && title != "Wikipedia talk:Special:Lonelypages" && title != "Wikipedia:Offline reports" && title != "Template:Specialpageslist")
+                        {
+                            title = title.Replace("&amp;", "&").Replace("&quot;", "\"");
+                            if (title.Length == 0)
+                                continue;
+
+                            ns = Tools.CalculateNS(title);
+                            if (ns < 0) continue;
+                            list.Add(new WikiFunctions.Article(title, ns));
+
+                            if (limit >= 0 && list.Count >= limit)
+                                break;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (Match m in regexli.Matches(pageText))
+                    {
+                        foreach (Match m2 in regexe2.Matches(m.Value))
+                        {
+                            if (m2.Value.Contains("&amp;action=") && !m2.Value.Contains("&amp;action=edit"))
+                                continue;
+
+                            title = m2.Groups[1].Value;
+
+                            title = HttpUtility.HtmlDecode(title);
+
+                            if (title.Trim().Length == 0) continue;
+
+                            list.Add(new WikiFunctions.Article(title));
+
+                            if (limit >= 0 && list.Count >= limit)
+                                break;
+                        }
+                    }
+                }
+            }
+            return GetLists.FilterSomeArticles(list);
         }
 
         public string DisplayText
@@ -1390,7 +1119,66 @@ namespace WikiFunctions.Lists
     {
         public List<Article> MakeList(string[] searchCriteria)
         {
-            return GetLists.FromImageLinks(Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[6], "")));
+            return FromImageLinks(Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[6], "")));
+        }
+
+        /// <summary>
+        /// Gets a list of articles that use an image.
+        /// </summary>
+        /// <param name="images">The image.</param>
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromImageLinks(params string[] images)
+        {
+            List<Article> list = new List<Article>();
+
+            foreach (string i in images)
+            {
+                string image = Regex.Replace(i, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
+                image = Tools.WikiEncode(image);
+
+                string url = Variables.URLLong + "api.php?action=query&list=imageusage&iutitle=Image:" + image + "&iulimit=500&format=xml";
+                string title = "";
+                int ns = 0;
+
+                while (true)
+                {
+                    string html = Tools.GetHTML(url);
+                    bool more = false;
+
+                    using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.Name.Equals("iu"))
+                            {
+                                if (reader.MoveToAttribute("ns"))
+                                    ns = int.Parse(reader.Value);
+                                else
+                                    ns = 0;
+
+                                if (reader.MoveToAttribute("title"))
+                                {
+                                    title = reader.Value.ToString();
+                                    list.Add(new WikiFunctions.Article(title, ns));
+                                }
+                            }
+                            else if (reader.Name.Equals("imageusage"))
+                            {
+                                reader.MoveToAttribute("iucontinue");
+                                if (reader.Value.Length != 0)
+                                {
+                                    string continueFrom = reader.Value.ToString();
+                                    url = Variables.URLLong + "api.php?action=query&list=imageusage&iutitle=Image:" + image + "&format=xml&iulimit=500&iucontinue=" + continueFrom;
+                                    more = true;
+                                }
+                            }
+                        }
+                    }
+                    if (!more)
+                        break;
+                }
+            }
+            return list;
         }
 
         public string DisplayText
@@ -1414,7 +1202,64 @@ namespace WikiFunctions.Lists
     internal sealed class WikiSearchListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
-        { return GetLists.FromWikiSearch(searchCriteria); }
+        { return FromWikiSearch(searchCriteria); }
+
+        /// <summary>
+        /// Gets a list from wiki's internal search
+        /// </summary>
+        /// <param name="terms">The terms to search for.</param>
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromWikiSearch(params string[] terms)
+        {
+            //TODO:api.php?
+            List<Article> list = new List<Article>();
+
+            //Regex pattern to find links
+            Regex searchRegex = new Regex("<li><a .*? title=\\\"([^\"]*)\">", RegexOptions.Compiled);
+            string ns = "&ns0=1";
+
+            // explicitly add available namespaces to search options
+            foreach (int k in Variables.Namespaces.Keys)
+            {
+                if (k <= 0) continue;
+                ns += "&ns" + k.ToString() + "=1";
+            }
+
+            foreach (string s in terms)
+            {
+                int intStart = 0;
+                string url = Variables.URLLong + "index.php?title=Special:Search&fulltext=Search&search=" + HttpUtility.UrlEncode(s) + "&limit=100&uselang=en" + ns;
+                string title = "";
+
+                do
+                {
+                    int n = list.Count;
+                    string searchText = Tools.GetHTML(url);
+
+                    //Find each match to the pattern
+                    foreach (Match m in searchRegex.Matches(searchText))
+                    {
+                        title = m.Groups[1].Value;
+                        title = HttpUtility.HtmlDecode(title);//title.Replace("&amp;", "&").Replace("&quot;", "\"").Replace("_", " ");
+                        if (title.Contains("\""))
+                        {
+                            title = title.Replace("'", "");
+                        }
+                        list.Add(new WikiFunctions.Article(title));
+                    }
+
+                    if (list.Count != n)
+                    {
+                        intStart += 100;
+                        url = Variables.URLLong + "index.php?title=Special:Search&fulltext=Search&search=" + HttpUtility.UrlEncode(s) + "&limit=100&uselang=en&offset=" + intStart.ToString() + ns;
+                    }
+                    else
+                        break;
+
+                } while (true);
+            }
+            return list;
+        }
 
         public string DisplayText
         { get { return "Wiki search"; } }
@@ -1437,7 +1282,91 @@ namespace WikiFunctions.Lists
     internal sealed class RedirectsListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
-        { return GetLists.FromRedirects(Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
+        { return FromRedirects(Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
+
+        /// <summary>
+        /// Gets a list of articles that redirect to the given page.
+        /// </summary>
+        /// <param name="pages">The pages to find redirects to.</param>
+        /// <returns>The list of the articles.</returns>
+        public static List<Article> FromRedirects(params string[] pages)
+        {
+            return FromRedirects(true, pages);
+        }
+
+        /// <summary>
+        /// Gets a list of articles that redirects to the given page.
+        /// </summary>
+        /// <param name="Pages">The pages to find redirects to.</param>
+        /// <returns>The list of the articles.</returns>
+        /// <param name="HandleErrors">Handle errors, or let them filter down to caller</param>
+        public static List<Article> FromRedirects(bool HandleErrors, params string[] pages) // HandleErrors param is used by kingbotk plugin
+        {
+            List<Article> list = new List<Article>();
+
+            foreach (string onePage in pages)
+            {
+                try
+                {
+                    string title = "";
+                    int ns = 0;
+                    string page = onePage;
+                    page = Tools.WikiEncode(page);
+                    string url = Variables.URLLong + "api.php?action=query&list=backlinks&bltitle=" + page + "&bllimit=500&blfilterredir=redirects&format=xml";
+
+                    while (true)
+                    {
+                        bool more = false;
+                        string html = Tools.GetHTML(url);
+
+                        using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
+                        {
+                            while (reader.Read())
+                            {
+                                if (reader.Name.Equals("bl"))
+                                {
+                                    if (reader.MoveToAttribute("ns"))
+                                        ns = int.Parse(reader.Value);
+                                    else
+                                        ns = 0;
+
+                                    if (reader.MoveToAttribute("title"))
+                                    {
+                                        title = reader.Value.ToString();
+                                        list.Add(new WikiFunctions.Article(title, ns));
+                                    }
+                                }
+                                else if (reader.Name.Equals("backlinks"))
+                                {
+                                    reader.MoveToAttribute("blcontinue");
+                                    if (reader.Value.Length != 0)
+                                    {
+                                        string continueFrom = reader.Value;
+                                        url = Variables.URLLong + "api.php?action=query&list=backlinks&bltitle=" + page + "&bllimit=500&blfilterredir=redirects&format=xml&blcontinue=" + continueFrom;
+                                        more = true;
+                                    }
+                                }
+                            }
+                            if (!more)
+                                break;
+                        }
+                    }
+                }
+                catch (ThreadAbortException)
+                {
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    if (HandleErrors)
+                        ErrorHandler.Handle(ex);
+                    else
+                        throw;
+                }
+            }
+            return list;
+        }
+
 
         public string DisplayText
         { get { return "Redirects"; } }
@@ -1457,10 +1386,33 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets all the pages from the Current Users Watchlist
     /// </summary>
-    internal sealed class MyWatchlistListMakerProvider : IListMakerProvider
+    public sealed class MyWatchlistListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
-        { return GetLists.FromWatchList(); }
+        { return FromWatchList(); }
+
+        public static List<Article> FromWatchList()
+        {
+            WikiFunctions.Browser.WebControl webbrowser = new WikiFunctions.Browser.WebControl();
+            webbrowser.ScriptErrorsSuppressed = true;
+            webbrowser.Navigate(Variables.URLLong + "index.php?title=Special:Watchlist&action=raw");
+            webbrowser.Wait();
+
+            string html = webbrowser.Document.GetElementById("titles").InnerText;
+            List<Article> list = new List<Article>();
+
+            try
+            {
+                string[] splitter = { "\r\n" };
+                foreach (string entry in html.Split(splitter, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    if (entry.Length > 0)
+                        list.Add(new Article(entry));
+                }
+            }
+            catch { }
+            return list;
+        }
 
         public string DisplayText
         { get { return "My Watchlist"; } }
