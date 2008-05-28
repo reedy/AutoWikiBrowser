@@ -42,7 +42,7 @@ namespace WikiFunctions.Lists
         /// </summary>
         /// <param name="userInput"></param>
         /// <returns></returns>
-        List<Article> MakeList(string[] userInput); // TODO: This may need to use param, or accept one string and perform string splitting within the encapsulated code
+        List<Article> MakeList(string[] searchCriteria);
 
         /// <summary>
         /// The text to display as the combobox list item
