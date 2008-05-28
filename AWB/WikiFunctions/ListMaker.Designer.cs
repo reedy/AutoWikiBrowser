@@ -87,7 +87,7 @@ namespace WikiFunctions.Controls.Lists
             this.mnuListBox.SuspendLayout();
             this.SuspendLayout();
             // 
-            // txtSelectSource
+            // UserInputTextBox
             // 
             this.UserInputTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
@@ -95,7 +95,7 @@ namespace WikiFunctions.Controls.Lists
             this.UserInputTextBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.UserInputTextBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.UserInputTextBox.Location = new System.Drawing.Point(71, 30);
-            this.UserInputTextBox.Name = "txtSelectSource";
+            this.UserInputTextBox.Name = "UserInputTextBox";
             this.UserInputTextBox.Size = new System.Drawing.Size(122, 20);
             this.UserInputTextBox.TabIndex = 2;
             this.UserInputTextBox.DoubleClick += new System.EventHandler(this.txtSelectSource_DoubleClick);
@@ -173,7 +173,6 @@ namespace WikiFunctions.Controls.Lists
             this.cmboSourceSelect.Location = new System.Drawing.Point(71, 2);
             this.cmboSourceSelect.Name = "cmboSourceSelect";
             this.cmboSourceSelect.Size = new System.Drawing.Size(122, 21);
-            this.cmboSourceSelect.Sorted = true;
             this.cmboSourceSelect.TabIndex = 1;
             this.cmboSourceSelect.Tag = "Source of pages to edit";
             this.cmboSourceSelect.SelectedIndexChanged += new System.EventHandler(this.cmboSourceSelect_SelectedIndexChanged);
