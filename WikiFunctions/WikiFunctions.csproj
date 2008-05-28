@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -150,14 +150,14 @@
     <Compile Include="FindandReplace.Designer.cs">
       <DependentUpon>FindandReplace.cs</DependentUpon>
     </Compile>
-    <Compile Include="Lists.cs" />
+    <Compile Include="IListMakerProvider.cs" />
+    <Compile Include="ListMakerProviders.cs" />
     <Compile Include="ListSplitter.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ListSplitter.Designer.cs">
       <DependentUpon>ListSplitter.cs</DependentUpon>
     </Compile>
-    <Compile Include="GetLists.cs" />
     <Compile Include="HideText.cs" />
     <Compile Include="ListComparer.cs">
       <SubType>Form</SubType>
