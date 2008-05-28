@@ -296,7 +296,7 @@ namespace AutoWikiBrowser
                                 if (t.GetInterface("IListMakerPlugin") != null)
                                 {
                                     IListMakerPlugin plugin = (IListMakerPlugin)Activator.CreateInstance(t);
-                                    WikiFunctions.Controls.Lists.ListMaker.AddProvider(plugin); //Program.AWB.ListMaker.AddProvider(plugin);
+                                    WikiFunctions.Controls.Lists.ListMaker.AddProvider(plugin);
                                 }
                             }
                         }

@@ -162,6 +162,9 @@ namespace WikiFunctions.Plugin
         bool CheckStatus(bool Login);
     }
 
+    /// <summary>
+    ///  Exposes various commands a plugin or module may send to AWB
+    /// </summary>
     public interface IAutoWikiBrowserCommands
     {
         void ShowHelp(string URL);
