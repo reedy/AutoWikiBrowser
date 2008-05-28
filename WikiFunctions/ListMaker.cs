@@ -69,7 +69,7 @@ namespace WikiFunctions.Controls.Lists
             listItems.Add(new UserContribsAllListMakerProvider());
             listItems.Add(new SpecialPageListMakerProvider());
             listItems.Add(new ImageFileLinksListMakerProvider());
-            //listItems.Add(new DatabaseScannerListMakerProvider());
+            listItems.Add(new DatabaseScannerListMakerProvider(lbArticles));
             listItems.Add(new MyWatchlistListMakerProvider());
             listItems.Add(new WikiSearchListMakerProvider());
             listItems.Add(new RedirectsListMakerProvider());
@@ -531,12 +531,6 @@ namespace WikiFunctions.Controls.Lists
 
         #region Methods
 
-        private void launchDumpSearcher()
-        {
-            WikiFunctions.DBScanner.DatabaseScanner ds = new WikiFunctions.DBScanner.DatabaseScanner(lbArticles);
-            ds.Show();
-        }
-
         private delegate void AddToListDel(string s);
         /// <summary>
         /// Adds the given string to the list, first turning it into an Article
@@ -568,6 +562,9 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public void Add(List<Article> l)
         {
+            if (l == null)
+                return;
+
             if (this.InvokeRequired)
             {
                 this.Invoke(new AddDel(Add), l);
@@ -686,12 +683,6 @@ namespace WikiFunctions.Controls.Lists
                 BusyStatus = false;
                 UpdateNumberOfArticles();
             }
-
-            //if (st == SourceType.DatabaseDump)
-            //{
-            //    launchDumpSearcher();
-            //    return;
-            //}
 		}
 
         string[] strSource;

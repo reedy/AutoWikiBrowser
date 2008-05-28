@@ -756,6 +756,7 @@ namespace WikiFunctions.Lists
         /// <returns>The list of the articles.</returns>
         public static List<Article> FromSpecialPage(int limit, params string[] specials)
         {
+            //TODO:Fix!
             List<Article> list = new List<Article>();
 
             if (limit < 0) limit = 1000;
