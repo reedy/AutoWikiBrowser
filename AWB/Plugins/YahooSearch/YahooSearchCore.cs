@@ -45,7 +45,7 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
 
         string baseUrl = "http://search.yahooapis.com/WebSearchService/V1/webSearch?appid=" + appID + "&query={0}&results={1}&site=" + WikiFunctions.Variables.URL + "&start={2}";
 
-        public List<Article> Search(string[] searchCriteria)
+        public List<Article> MakeList(string[] searchCriteria)
         {
             List<Article> articles = new List<Article>();
             int start = 1, noResults = 100;
@@ -131,9 +131,9 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
         public bool SelectSourceEnabled
         { get { return true; } }
 
-        public bool Selected() { return true; }
+        public void Selected() { }
 
-        public bool IsThreaded
+        public bool RunOnSeperateThread
         { get { return true; } }
         #endregion
     }
