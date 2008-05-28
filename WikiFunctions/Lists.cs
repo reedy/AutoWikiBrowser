@@ -52,12 +52,12 @@ namespace WikiFunctions.Lists
         /// <summary>
         /// The text to display inside the Select Source text box
         /// </summary>
-        string SelectSourceTextBoxText { get; }
+        string UserInputTextBoxText { get; }
 
         /// <summary>
         /// Indicates whether the Select Source text box should be enabled
         /// </summary>
-        bool SelectSourceTextBoxEnabled { get;}
+        bool UserInputTextBoxEnabled { get;}
 
         /// <summary>
         /// Called when the ListMaker Provider has been selected in the ComboBox
@@ -92,10 +92,10 @@ namespace WikiFunctions.Lists
         public virtual string DisplayText
         { get { return "Category"; } }
 
-        public string SelectSourceTextBoxText
+        public string UserInputTextBoxText
         { get { return Variables.Namespaces[14]; } }
 
-        public bool SelectSourceTextBoxEnabled
+        public bool UserInputTextBoxEnabled
         { get { return true; } }
 
         public void Selected() { }
@@ -152,10 +152,10 @@ namespace WikiFunctions.Lists
         public string DisplayText
         { get { return "Text File"; } }
 
-        public string SelectSourceTextBoxText
+        public string UserInputTextBoxText
         { get { return "From file:"; } }
 
-        public bool SelectSourceTextBoxEnabled
+        public bool UserInputTextBoxEnabled
         { get { return false; } }
 
         public void Selected() { }
@@ -172,10 +172,10 @@ namespace WikiFunctions.Lists
         public virtual string DisplayText
         { get { return "What links here"; } }
 
-        public virtual string SelectSourceTextBoxText
+        public virtual string UserInputTextBoxText
         { get { return "What links to:"; } }
 
-        public bool SelectSourceTextBoxEnabled
+        public bool UserInputTextBoxEnabled
         { get { return true; } }
 
         public void Selected() { }
@@ -201,7 +201,7 @@ namespace WikiFunctions.Lists
         public override string DisplayText
         { get { return "What transcludes page"; } }
 
-        public override string SelectSourceTextBoxText
+        public override string UserInputTextBoxText
         { get { return "What embeds:"; } }
     }
 
@@ -213,10 +213,10 @@ namespace WikiFunctions.Lists
         public string DisplayText
         { get { return "Links on page"; } }
 
-        public string SelectSourceTextBoxText
+        public string UserInputTextBoxText
         { get { return "Links on:"; } }
 
-        public bool SelectSourceTextBoxEnabled
+        public bool UserInputTextBoxEnabled
         { get { return true; } }
 
         public void Selected() { }
@@ -233,10 +233,10 @@ namespace WikiFunctions.Lists
         public string DisplayText
         { get { return "Images on page"; } }
 
-        public string SelectSourceTextBoxText
+        public string UserInputTextBoxText
         { get { return "Images on:"; } }
 
-        public bool SelectSourceTextBoxEnabled
+        public bool UserInputTextBoxEnabled
         { get { return true; } }
 
         public void Selected() { }
@@ -253,10 +253,10 @@ namespace WikiFunctions.Lists
         public string DisplayText
         { get { return "Transclusions on page"; } }
 
-        public string SelectSourceTextBoxText
+        public string UserInputTextBoxText
         { get { return "Transclusions on:"; } }
 
-        public bool SelectSourceTextBoxEnabled
+        public bool UserInputTextBoxEnabled
         { get { return true; }
         }
 
@@ -274,10 +274,10 @@ namespace WikiFunctions.Lists
         public string DisplayText
         { get { return "Google Search"; } }
 
-        public string SelectSourceTextBoxText
+        public string UserInputTextBoxText
         { get { return "Google Search:"; } }
 
-        public bool SelectSourceTextBoxEnabled
+        public bool UserInputTextBoxEnabled
         { get { return true; } }
 
         public void Selected() { }
@@ -300,10 +300,10 @@ namespace WikiFunctions.Lists
         public virtual string DisplayText
         { get { return "User contribs"; } }
 
-        public string SelectSourceTextBoxText
+        public string UserInputTextBoxText
         { get { return Variables.Namespaces[2]; } }
 
-        public bool SelectSourceTextBoxEnabled
+        public bool UserInputTextBoxEnabled
         { get { return true; } }
 
         public void Selected() { }
@@ -336,10 +336,10 @@ namespace WikiFunctions.Lists
         public string DisplayText
         { get { return "Special page"; } }
 
-        public string SelectSourceTextBoxText
+        public string UserInputTextBoxText
         { get { return Variables.Namespaces[-1]; } }
 
-        public bool SelectSourceTextBoxEnabled
+        public bool UserInputTextBoxEnabled
         { get { return true; } }
 
         public void Selected() { }
@@ -360,10 +360,10 @@ namespace WikiFunctions.Lists
         public string DisplayText
         { get { return "Image file links"; } }
 
-        public string SelectSourceTextBoxText
+        public string UserInputTextBoxText
         { get { return Variables.Namespaces[6]; } }
 
-        public bool SelectSourceTextBoxEnabled
+        public bool UserInputTextBoxEnabled
         { get { return true; } }
 
         public void Selected() { }
@@ -380,10 +380,10 @@ namespace WikiFunctions.Lists
         public string DisplayText
         { get { return "Wiki search"; } }
 
-        public string SelectSourceTextBoxText
+        public string UserInputTextBoxText
         { get { return "Wiki search:"; } }
 
-        public bool SelectSourceTextBoxEnabled
+        public bool UserInputTextBoxEnabled
         { get { return true; } }
 
         public void Selected() { }
@@ -400,10 +400,10 @@ namespace WikiFunctions.Lists
         public string DisplayText
         { get { return "Redirects"; } }
 
-        public string SelectSourceTextBoxText
+        public string UserInputTextBoxText
         { get { return "Redirects to:"; } }
 
-        public bool SelectSourceTextBoxEnabled
+        public bool UserInputTextBoxEnabled
         { get { return true; } }
 
         public void Selected() { }
@@ -420,10 +420,10 @@ namespace WikiFunctions.Lists
         public string DisplayText
         { get { return "My Watchlist"; } }
 
-        public string SelectSourceTextBoxText
+        public string UserInputTextBoxText
         { get { return ""; } }
 
-        public bool SelectSourceTextBoxEnabled
+        public bool UserInputTextBoxEnabled
         { get { return false; } }
 
         public void Selected() { }

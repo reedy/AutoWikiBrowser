@@ -171,7 +171,7 @@ namespace AutoWikiBrowser
                 webBrowserEdit.None += CaseWasNull;
                 webBrowserEdit.Fault += StartDelayedRestartTimer;
                 webBrowserEdit.StatusChanged += UpdateWebBrowserStatus;
-                listMaker1.txtSelectSource.ContextMenuStrip = mnuMakeFromTextBox;
+                listMaker1.UserInputTextBox.ContextMenuStrip = mnuMakeFromTextBox;
                 listMaker1.BusyStateChanged += SetProgressBar;
                 listMaker1.NoOfArticlesChanged += UpdateButtons;
                 listMaker1.StatusTextChanged += UpdateListStatus;
@@ -3857,39 +3857,36 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void menuitemMakeFromTextBoxUndo_Click(object sender, EventArgs e)
         {
-            listMaker1.txtSelectSource.Undo();
+            listMaker1.UserInputTextBox.Undo();
         }
 
         private void menuitemMakeFromTextBoxCut_Click(object sender, EventArgs e)
         {
-            listMaker1.txtSelectSource.Cut();
+            listMaker1.UserInputTextBox.Cut();
         }
 
         private void menuitemMakeFromTextBoxCopy_Click(object sender, EventArgs e)
         {
-            listMaker1.txtSelectSource.Copy();
+            listMaker1.UserInputTextBox.Copy();
         }
 
         private void menuitemMakeFromTextBoxPaste_Click(object sender, EventArgs e)
         {
-            listMaker1.txtSelectSource.Paste();
+            listMaker1.UserInputTextBox.Paste();
         }
 
         private void mnuCopyToCategoryLog_Click(object sender, EventArgs e)
         {
-            if (listMaker1.txtSelectSource.SelectionLength > 0)
-                loggingSettings1.LoggingCategoryTextBox.Text = listMaker1.txtSelectSource.SelectedText;
+            if (listMaker1.UserInputTextBox.SelectionLength > 0)
+                loggingSettings1.LoggingCategoryTextBox.Text = listMaker1.UserInputTextBox.SelectedText;
             else
-                loggingSettings1.LoggingCategoryTextBox.Text = listMaker1.txtSelectSource.Text;
+                loggingSettings1.LoggingCategoryTextBox.Text = listMaker1.UserInputTextBox.Text;
         }
 
         private void ListMakerSourceSelectHandler(object sender, EventArgs e)
         {
-            bool cats = false; 
-            //TODO:Detect if Category
-            //(listMaker1.SelectedSource == SourceType.Category || listMaker1.SelectedSource == SourceType.CategoryRecursive);
-            toolStripSeparatorMakeFromTextBox.Visible = cats;
-            mnuCopyToCategoryLog.Visible = cats;
+            toolStripSeparatorMakeFromTextBox.Visible = mnuCopyToCategoryLog.Visible = 
+                listMaker1.cmboSourceSelect.Text.Contains("Category");
         }
 
         private void externalProcessingToolStripMenuItem_Click(object sender, EventArgs e)

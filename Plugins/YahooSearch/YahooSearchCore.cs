@@ -122,13 +122,10 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
         public string DisplayText
         { get { return "Yahoo Search"; } }
 
-        public string SelectSourceTextBoxText
+        public string UserInputTextBoxText
         { get { return "Yahoo Search:"; } }
 
-        public bool SelectSourceTextBoxEnabled
-        { get { return true; } }
-
-        public bool SelectSourceEnabled
+        public bool UserInputTextBoxEnabled
         { get { return true; } }
 
         public void Selected() { }

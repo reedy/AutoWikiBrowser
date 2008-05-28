@@ -33,7 +33,7 @@ namespace WikiFunctions.Controls.Lists
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ListMaker));
-            this.txtSelectSource = new System.Windows.Forms.TextBox();
+            this.UserInputTextBox = new System.Windows.Forms.TextBox();
             this.lblNumberOfArticles = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
             this.txtNewArticle = new System.Windows.Forms.TextBox();
@@ -89,17 +89,17 @@ namespace WikiFunctions.Controls.Lists
             // 
             // txtSelectSource
             // 
-            this.txtSelectSource.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.UserInputTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSelectSource.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.txtSelectSource.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.txtSelectSource.Location = new System.Drawing.Point(71, 30);
-            this.txtSelectSource.Name = "txtSelectSource";
-            this.txtSelectSource.Size = new System.Drawing.Size(122, 20);
-            this.txtSelectSource.TabIndex = 2;
-            this.txtSelectSource.DoubleClick += new System.EventHandler(this.txtSelectSource_DoubleClick);
-            this.txtSelectSource.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSelectSource_KeyDown);
+            this.UserInputTextBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.UserInputTextBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.UserInputTextBox.Location = new System.Drawing.Point(71, 30);
+            this.UserInputTextBox.Name = "txtSelectSource";
+            this.UserInputTextBox.Size = new System.Drawing.Size(122, 20);
+            this.UserInputTextBox.TabIndex = 2;
+            this.UserInputTextBox.DoubleClick += new System.EventHandler(this.txtSelectSource_DoubleClick);
+            this.UserInputTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSelectSource_KeyDown);
             // 
             // lblNumberOfArticles
             // 
@@ -556,7 +556,7 @@ namespace WikiFunctions.Controls.Lists
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.btnRemoveArticle);
             this.Controls.Add(this.btnRemoveDuplicates);
-            this.Controls.Add(this.txtSelectSource);
+            this.Controls.Add(this.UserInputTextBox);
             this.Controls.Add(this.lbArticles);
             this.Controls.Add(this.btnArticlesListClear);
             this.Controls.Add(this.btnArticlesListSave);
@@ -624,7 +624,7 @@ namespace WikiFunctions.Controls.Lists
         private System.Windows.Forms.ToolStripMenuItem selectedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem duplicatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem invertSelectionToolStripMenuItem;
-        public System.Windows.Forms.TextBox txtSelectSource;
+        public System.Windows.Forms.TextBox UserInputTextBox;
         private System.Windows.Forms.ToolStripMenuItem openHistoryInBrowserToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem moveToTopToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem moveToBottomToolStripMenuItem;
