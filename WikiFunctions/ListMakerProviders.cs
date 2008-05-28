@@ -51,7 +51,7 @@ namespace WikiFunctions.Lists
 
         public virtual List<Article> MakeList(string[] searchCriteria)
         {
-            searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[14], ""));
+            searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
             List<Article> list = new List<Article>();
             List<string> badcategories = new List<string>();
@@ -654,7 +654,7 @@ namespace WikiFunctions.Lists
 
         public virtual List<Article> MakeList(string[] searchCriteria)
         {
-            searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[2], ""));
+            searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
             List<Article> list = new List<Article>();
 
@@ -662,8 +662,7 @@ namespace WikiFunctions.Lists
             {
                 string title = "";
                 int ns = 0;
-                string page = u;
-                page = Tools.WikiEncode(page);
+                string page = Tools.WikiEncode(Regex.Replace(u, Variables.NamespacesCaseInsensitive[14], ""));
 
                 string url = Variables.URLLong + "api.php?action=query&list=usercontribs&ucuser=" + page + "&uclimit=500&format=xml";
 
@@ -765,7 +764,6 @@ namespace WikiFunctions.Lists
 
             foreach (string s in searchCriteria)
             {
-                //TODO:Maybe better way than altering array?
                 string special = Regex.Replace(s, "^" + Variables.NamespacesCaseInsensitive[-1], "", RegexOptions.IgnoreCase);
 
                 string url = Variables.URLLong + "index.php?title=Special:" + special;
@@ -852,7 +850,7 @@ namespace WikiFunctions.Lists
     {
         public List<Article> MakeList(string[] searchCriteria)
         {
-            searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[6], ""));
+            searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
             List<Article> list = new List<Article>();
 
@@ -1085,9 +1083,6 @@ namespace WikiFunctions.Lists
     public class MyWatchlistListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
-        { return FromWatchList(); }
-
-        static List<Article> FromWatchList()
         {
             WikiFunctions.Browser.WebControl webbrowser = new WikiFunctions.Browser.WebControl();
             webbrowser.ScriptErrorsSuppressed = true;

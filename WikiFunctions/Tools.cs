@@ -1099,18 +1099,11 @@ Message: {2}
             return System.Web.HttpUtility.UrlDecode(link).Replace('_', ' ');
         }
 
-        public static string[] RegexReplaceOnArray(string[] input, string find, string rep)
-        {
-            if (input == null)
-                return null;
-
-            for (int i = 0; i < input.Length; i++)
-            {
-                input[i] = Regex.Replace(input[i], find, rep, RegexOptions.IgnoreCase);
-            }
-            return input;
-        }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public static string[] FirstToUpperAndRemoveHashOnArray(string[] input)
         {
             if (input == null)
@@ -1200,6 +1193,9 @@ Message: {2}
             return res.ToArray();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static void RegistryMigration()
         {
             try
