@@ -31,21 +31,23 @@ using System.Threading;
 
 namespace WikiFunctions.Lists
 {
-    public static class GetLists
-    {
-        /// <summary>
-        /// whether errors shoud be ignored without informing user
-        /// </summary>
-        public static bool QuietMode;
-    }
-
     #region ListMakerProviders
     /// <summary>
     /// Gets a list of pages in Named Categories for the ListMaker (Non-Recursive)
     /// </summary>
     public class CategoryListMakerProvider : IListMakerProvider
     {
+        protected bool quietMode = false;
         protected bool subCategories = false;
+
+        public CategoryListMakerProvider()
+        { }
+
+        /// <param name="QuietMode">Whether errors should be supressed</param>
+        public CategoryListMakerProvider(bool QuietMode)
+        {
+            this.quietMode = QuietMode;
+        }
 
         public virtual List<Article> MakeList(string[] searchCriteria)
         {
@@ -116,7 +118,7 @@ namespace WikiFunctions.Lists
                     }
                 }
             }
-            if (badcategories.Count != 0 && !GetLists.QuietMode)
+            if (badcategories.Count != 0 && !this.quietMode)
             {
                 StringBuilder errorMessage = new StringBuilder("The following Categories are empty or do not exist:");
 
@@ -151,13 +153,11 @@ namespace WikiFunctions.Lists
         public CategoryRecursiveListMakerProvider()
         {
             this.subCategories = true;
+            this.quietMode = true;
         }
         public override List<Article> MakeList(string[] searchCriteria)
         {
-            GetLists.QuietMode = true;
             List<Article> ret = base.MakeList(searchCriteria);
-            GetLists.QuietMode = false;
-
             return ret;
         }
 
