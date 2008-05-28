@@ -30,9 +30,6 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Threading;
 
-// TODO: These need to be moved into objects which implement IListMakerProvider (perhaps rename this file to ListMakerProviders?)
-// TODO: Providers which are very similar and which currently share methods like FromWhatLinksHere() can use a base class for the base functionality and an inherited class which does the secondary job, and both get thrown onto the listmaker at design time (if possible) or run time if not
-
 namespace WikiFunctions.Lists
 {
     /// <summary>
@@ -1301,16 +1298,4 @@ namespace WikiFunctions.Lists
         #endregion
     }
     #endregion
-
-    [Serializable]
-    public class PageDoesNotExistException : ApplicationException
-    {
-        public PageDoesNotExistException() { }
-        public PageDoesNotExistException(string message)
-            : base(message) { }
-        public PageDoesNotExistException(string message, System.Exception inner)
-            : base(message, inner) { }
-        protected PageDoesNotExistException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-            : base(info, context) { }
-    }
 }

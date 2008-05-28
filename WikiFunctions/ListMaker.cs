@@ -1195,3 +1195,19 @@ namespace WikiFunctions.Controls.Lists
         }
     }
 }
+
+namespace WikiFunctions.Lists
+{
+    // TODO: Document what I do
+    [Serializable]
+    public sealed class PageDoesNotExistException : ApplicationException
+    {
+        public PageDoesNotExistException() { }
+        public PageDoesNotExistException(string message)
+            : base(message) { }
+        public PageDoesNotExistException(string message, System.Exception inner)
+            : base(message, inner) { }
+        private PageDoesNotExistException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+            : base(info, context) { }
+    }
+}
