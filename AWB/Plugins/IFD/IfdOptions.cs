@@ -111,11 +111,9 @@ namespace AutoWikiBrowser.Plugins.IFD
                     ToDo.Keys.CopyTo(imgs, 0);
                     Enabled = false;
 
-                    GetLists.QuietMode = true;
                     req.GetList(new WikiFunctions.Lists.ImageFileLinksListMakerProvider(), imgs);
-
                     req.Wait();
-                    GetLists.QuietMode = false;
+
                     Enabled = true;
 
                     if (req.Result != null && req.Result is List<Article>)
