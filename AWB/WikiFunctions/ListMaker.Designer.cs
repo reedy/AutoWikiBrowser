@@ -173,6 +173,7 @@ namespace WikiFunctions.Controls.Lists
             this.cmboSourceSelect.Location = new System.Drawing.Point(71, 2);
             this.cmboSourceSelect.Name = "cmboSourceSelect";
             this.cmboSourceSelect.Size = new System.Drawing.Size(122, 21);
+            this.cmboSourceSelect.Sorted = true;
             this.cmboSourceSelect.TabIndex = 1;
             this.cmboSourceSelect.Tag = "Source of pages to edit";
             this.cmboSourceSelect.SelectedIndexChanged += new System.EventHandler(this.cmboSourceSelect_SelectedIndexChanged);

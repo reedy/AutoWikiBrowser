@@ -219,7 +219,7 @@ namespace WikiFunctions.AWBSettings
         public ListPrefs(WikiFunctions.Controls.Lists.ListMaker listMaker, bool SaveArticleList)
         {
             ListSource = listMaker.SourceText;
-            Source = listMaker.SelectedSource;
+            SourceIndex = listMaker.SelectedSource;
             if (SaveArticleList)
                 ArticleList = listMaker.GetArticleList();
             else
@@ -227,7 +227,7 @@ namespace WikiFunctions.AWBSettings
         }
 
         public string ListSource = "";
-        public WikiFunctions.Lists.SourceType Source = WikiFunctions.Lists.SourceType.Category;
+        public int SourceIndex = 0;
         public List<Article> ArticleList = new List<Article>();
     }
 
