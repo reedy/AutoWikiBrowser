@@ -519,17 +519,6 @@ namespace WikiFunctions.Lists
             return list;
         }
 
-        /// <summary>
-        /// Gets a list of articles that link to the given page.
-        /// </summary>
-        /// <param name="embedded">Gets articles that embed (transclude).</param>
-        /// <param name="pages">The page to find links to.</param>
-        /// <returns>The list of the articles.</returns>
-        static List<Article> FromWhatLinksHere(bool embedded, params string[] pages)
-        {
-            return FromWhatLinksHere(embedded, false, pages);
-        }
-
         public virtual string DisplayText
         { get { return "What links here"; } }
 
@@ -647,7 +636,6 @@ namespace WikiFunctions.Lists
 
             return list;
         }
-
 
         public string DisplayText
         { get { return "Links on page"; } }
@@ -1266,17 +1254,7 @@ namespace WikiFunctions.Lists
     internal sealed class RedirectsListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
-        { return FromRedirects(Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
-
-        /// <summary>
-        /// Gets a list of articles that redirect to the given page.
-        /// </summary>
-        /// <param name="pages">The pages to find redirects to.</param>
-        /// <returns>The list of the articles.</returns>
-        static List<Article> FromRedirects(params string[] pages)
-        {
-            return FromRedirects(true, pages);
-        }
+        { return FromRedirects(true, Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
 
         /// <summary>
         /// Gets a list of articles that redirects to the given page.
@@ -1350,7 +1328,6 @@ namespace WikiFunctions.Lists
             }
             return list;
         }
-
 
         public string DisplayText
         { get { return "Redirects"; } }
