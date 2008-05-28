@@ -73,16 +73,11 @@ namespace WikiFunctions.Lists
     // TODO: Move elsewhere when finished
     #region ListMakerProviders
     /// <summary>
-    /// 
+    /// Gets a list of pages in Named Categories for the ListMaker (Non-Recursive)
     /// </summary>
     internal class CategoryListMakerProvider : IListMakerProvider
     {
         protected bool subCats = false;
-
-        //public virtual List<Article> Search(string searchCriteria)
-        //{
-        //    return Search(searchCriteria.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
-        //}
 
         public virtual List<Article> MakeList(string[] searchCriteria)
         {
@@ -107,7 +102,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Gets a list of pages in Named Categories for the ListMaker (Recursive - Will visit ALL subcategories)
     /// </summary>
     internal sealed class CategoryRecursiveListMakerProvider : CategoryListMakerProvider
     {
@@ -129,7 +124,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Gets a list of pages from a text file
     /// </summary>
     internal sealed class TextFileListMakerProvider : IListMakerProvider
     {
@@ -176,7 +171,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Gets a list of pages which link to the Named Pages
     /// </summary>
     internal class WhatLinksHereListMakerProvider : IListMakerProvider
     {
@@ -202,7 +197,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Gets a list of pages which link to the Named Pages (including what links to the redirects)
     /// </summary>
     internal sealed class WhatLinksHereIncludingRedirectsListMakerProvider : WhatLinksHereListMakerProvider
     {
@@ -219,7 +214,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Gets a list of pages which transclude the Named Pages
     /// </summary>
     internal sealed class WhatTranscludesPageListMakerProvider : WhatLinksHereListMakerProvider
     {
@@ -239,7 +234,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Gets a list of all links on the Named Pages
     /// </summary>
     internal sealed class LinksOnPageListMakerProvider : IListMakerProvider
     {
@@ -262,7 +257,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Gets a list of all Images on the Named Pages
     /// </summary>
     internal sealed class ImagesOnPageListMakerProvider : IListMakerProvider
     {
@@ -285,7 +280,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Gets a list of all the transclusions on the Named Pages
     /// </summary>
     internal sealed class TransclusionsOnPageListMakerProvider : IListMakerProvider
     {
@@ -309,7 +304,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Gets a list of google results based on the named pages
     /// </summary>
     internal sealed class GoogleSearchListMakerProvider : IListMakerProvider
     {
@@ -332,7 +327,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Gets the user contribs of the Named Users
     /// </summary>
     internal class UserContribsListMakerProvider : IListMakerProvider
     {
@@ -361,7 +356,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Gets ALL the user contribs of the Named Users
     /// </summary>
     internal sealed class UserContribsAllListMakerProvider : UserContribsListMakerProvider
     {
@@ -380,7 +375,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Gets the list of pages on the Named Special Pages
     /// </summary>
     internal sealed class SpecialPageListMakerProvider : IListMakerProvider
     {
@@ -407,7 +402,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Gets a list of pages which link to the Named Images
     /// </summary>
     internal sealed class ImageFileLinksListMakerProvider : IListMakerProvider
     {
@@ -434,7 +429,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Gets a list of pages which are returned from a wiki search of the Named Pages
     /// </summary>
     internal sealed class WikiSearchListMakerProvider : IListMakerProvider
     {
@@ -457,7 +452,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Gets a list of pages which redirect to the Named Pages
     /// </summary>
     internal sealed class RedirectsListMakerProvider : IListMakerProvider
     {
@@ -480,7 +475,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Gets all the pages from the Current Users Watchlist
     /// </summary>
     internal sealed class MyWatchlistListMakerProvider : IListMakerProvider
     {
@@ -503,16 +498,16 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Runs the Database Scanner
     /// </summary>
     public class DatabaseScannerListMakerProvider : IListMakerProvider
     {
         private ListBox listMakerListbox;
 
         /// <summary>
-        /// 
+        /// Default constructor
         /// </summary>
-        /// <param name="lb"></param>
+        /// <param name="lb">List box for DBScanner to add articles to</param>
         public DatabaseScannerListMakerProvider(ListBox lb)
         {
             this.listMakerListbox = lb;
