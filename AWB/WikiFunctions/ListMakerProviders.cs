@@ -506,18 +506,12 @@ namespace WikiFunctions.Lists
     internal sealed class ImagesOnPageListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
-        { return FromImagesOnPage(Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
+        { 
+            searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
-        /// <summary>
-        /// Gets a list of Images on a page.
-        /// </summary>
-        /// <param name="articles">The page to find images on.</param>
-        /// <returns>The list of the images.</returns>
-        static List<Article> FromImagesOnPage(params string[] articles)
-        {
             List<Article> list = new List<Article>();
 
-            foreach (string article in articles)
+            foreach (string article in searchCriteria)
             {
                 string url = Variables.URLLong + "api.php?action=query&prop=images&titles=" + Tools.WikiEncode(article) + "&format=xml";
 
@@ -575,18 +569,12 @@ namespace WikiFunctions.Lists
     internal sealed class TransclusionsOnPageListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
-        { return FromTransclusionsOnPage(Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
+        { 
+            searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="articles"></param>
-        /// <returns></returns>
-        static List<Article> FromTransclusionsOnPage(params string[] articles)
-        {
             List<Article> list = new List<Article>();
 
-            foreach (string article in articles)
+            foreach (string article in searchCriteria)
             {
                 string url = Variables.URLLong + "api.php?action=query&prop=templates&titles=" + Tools.WikiEncode(article) + "&format=xml";
 
@@ -630,9 +618,7 @@ namespace WikiFunctions.Lists
         { get { return "Transclusions on:"; } }
 
         public bool UserInputTextBoxEnabled
-        {
-            get { return true; }
-        }
+        { get { return true; } }
 
         public void Selected() { }
 
@@ -645,29 +631,20 @@ namespace WikiFunctions.Lists
     /// </summary>
     internal sealed class GoogleSearchListMakerProvider : IListMakerProvider
     {
-        public List<Article> MakeList(string[] searchCriteria)
-        { return FromGoogleSearch(searchCriteria); }
+        private static Regex regexGoogle = new Regex("href\\s*=\\s*(?:\"(?<1>[^\"]*)\"|(?<1>\\S+) class=l)",
+    RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        /// <summary>
-        /// Gets a list from a google search of the site.
-        /// </summary>
-        /// <param name="googles">The term to search for.</param>
-        /// <returns>The list of the articles.</returns>
-        static List<Article> FromGoogleSearch(params string[] googles)
-        {
+        public List<Article> MakeList(string[] searchCriteria)
+        { 
             List<Article> list = new List<Article>();
 
-            foreach (string g in googles)
+            foreach (string g in searchCriteria)
             {
                 int intStart = 0;
                 string google = Tools.WikiEncode(g);
                 google = google.Replace("_", " ");
                 string url = "http://www.google.com/search?q=" + google + "+site:" + Variables.URL + "&num=100&hl=en&lr=&start=0&sa=N&filter=0";
                 string title = "";
-
-                //Regex pattern to find links
-                Regex regexGoogle = new Regex("href\\s*=\\s*(?:\"(?<1>[^\"]*)\"|(?<1>\\S+) class=l)",
-                    RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
                 do
                 {
@@ -719,31 +696,11 @@ namespace WikiFunctions.Lists
 
         public virtual List<Article> MakeList(string[] searchCriteria)
         {
-            return FromUserContribs(all,
-                Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[2], "")));
-        }
+            searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[2], ""));
 
-        /// <summary>
-        /// Gets a list from a users contribs.
-        /// </summary>
-        /// <param name="users">The name of the user.</param>
-        /// <returns>The list of the articles.</returns>
-        static List<Article> FromUserContribs(params string[] users)
-        {
-            return FromUserContribs(false, users);
-        }
-
-        /// <summary>
-        /// Gets a list from a users contribs.
-        /// </summary>
-        /// <param name="all">Whether to load all contribs or not</param>
-        /// <param name="users">The name of the user.</param>
-        /// <returns>The list of the articles.</returns>
-        static List<Article> FromUserContribs(bool all, params string[] users)
-        {
             List<Article> list = new List<Article>();
 
-            foreach (string u in users)
+            foreach (string u in searchCriteria)
             {
                 string title = "";
                 int ns = 0;
@@ -840,22 +797,14 @@ namespace WikiFunctions.Lists
 
         public List<Article> MakeList(string[] searchCriteria)
         {
-            return FromSpecialPage(Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[-1], "")));
-        }
+            searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[-1], ""));
 
-        /// <summary>
-        /// Gets a list of links on a special page.
-        /// </summary>
-        /// <param name="specials">The page to find links on, e.g. "Deadendpages" or "Deadendpages&limit=500&offset=0".</param>
-        /// <returns>The list of the articles.</returns>
-        static List<Article> FromSpecialPage(params string[] specials)
-        {
             //TODO:Fix!
             List<Article> list = new List<Article>();
 
             int limit = 1000;
 
-            foreach (string s in specials)
+            foreach (string s in searchCriteria)
             {
                 string special = Regex.Replace(s, "^" + Variables.NamespacesCaseInsensitive[-1], "", RegexOptions.IgnoreCase);
 
@@ -939,19 +888,11 @@ namespace WikiFunctions.Lists
     {
         public List<Article> MakeList(string[] searchCriteria)
         {
-            return FromImageLinks(Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[6], "")));
-        }
+            searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[6], ""));
 
-        /// <summary>
-        /// Gets a list of articles that use an image.
-        /// </summary>
-        /// <param name="images">The image.</param>
-        /// <returns>The list of the articles.</returns>
-        static List<Article> FromImageLinks(params string[] images)
-        {
             List<Article> list = new List<Article>();
 
-            foreach (string i in images)
+            foreach (string i in searchCriteria)
             {
                 string image = Regex.Replace(i, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
                 image = Tools.WikiEncode(image);
@@ -1021,21 +962,13 @@ namespace WikiFunctions.Lists
     /// </summary>
     internal sealed class WikiSearchListMakerProvider : IListMakerProvider
     {
-        public List<Article> MakeList(string[] searchCriteria)
-        { return FromWikiSearch(searchCriteria); }
+        private static Regex searchRegex = new Regex("<li><a .*? title=\\\"([^\"]*)\">", RegexOptions.Compiled);
 
-        /// <summary>
-        /// Gets a list from wiki's internal search
-        /// </summary>
-        /// <param name="terms">The terms to search for.</param>
-        /// <returns>The list of the articles.</returns>
-        static List<Article> FromWikiSearch(params string[] terms)
+        public List<Article> MakeList(string[] searchCriteria)
         {
             //TODO:api.php?
             List<Article> list = new List<Article>();
 
-            //Regex pattern to find links
-            Regex searchRegex = new Regex("<li><a .*? title=\\\"([^\"]*)\">", RegexOptions.Compiled);
             string ns = "&ns0=1";
 
             // explicitly add available namespaces to search options
@@ -1045,7 +978,7 @@ namespace WikiFunctions.Lists
                 ns += "&ns" + k.ToString() + "=1";
             }
 
-            foreach (string s in terms)
+            foreach (string s in searchCriteria)
             {
                 int intStart = 0;
                 string url = Variables.URLLong + "index.php?title=Special:Search&fulltext=Search&search=" + HttpUtility.UrlEncode(s) + "&limit=100&uselang=en" + ns;
@@ -1102,19 +1035,12 @@ namespace WikiFunctions.Lists
     internal sealed class RedirectsListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
-        { return FromRedirects(true, Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
-
-        /// <summary>
-        /// Gets a list of articles that redirects to the given page.
-        /// </summary>
-        /// <param name="Pages">The pages to find redirects to.</param>
-        /// <returns>The list of the articles.</returns>
-        /// <param name="HandleErrors">Handle errors, or let them filter down to caller</param>
-        static List<Article> FromRedirects(bool HandleErrors, params string[] pages) // HandleErrors param is used by kingbotk plugin
         {
+            searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
+
             List<Article> list = new List<Article>();
 
-            foreach (string onePage in pages)
+            foreach (string onePage in searchCriteria)
             {
                 try
                 {
@@ -1168,10 +1094,7 @@ namespace WikiFunctions.Lists
                 }
                 catch (Exception ex)
                 {
-                    if (HandleErrors)
-                        ErrorHandler.Handle(ex);
-                    else
-                        throw;
+                    ErrorHandler.Handle(ex);
                 }
             }
             return list;
