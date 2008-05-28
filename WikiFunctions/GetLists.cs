@@ -435,7 +435,7 @@ namespace WikiFunctions.Lists
     internal class WhatLinksHereListMakerProvider : IListMakerProvider
     {
         protected bool embedded = false;
-        protected bool incRedirects = false;
+        protected bool includeRedirects = false;
 
         public List<Article> MakeList(string searchCriteria)
         {
@@ -443,17 +443,9 @@ namespace WikiFunctions.Lists
         }
 
         public virtual List<Article> MakeList(string[] searchCriteria)
-        { return FromWhatLinksHere(embedded, incRedirects, Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
+        { 
+            searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
-        /// <summary>
-        /// Gets a list of articles that link to the given page.
-        /// </summary>
-        /// <param name="embedded">Gets articles that embed (transclude).</param>
-        /// <param name="includeRedirects">Whether to get links to the redirects</param>
-        /// <param name="pages">The page to find links to.</param>
-        /// <returns>The list of the articles.</returns>
-        static List<Article> FromWhatLinksHere(bool embedded, bool includeRedirects, params string[] pages)
-        {
             string request = "backlinks";
             string initial = "bl";
             if (embedded)
@@ -463,7 +455,7 @@ namespace WikiFunctions.Lists
             }
             List<Article> list = new List<Article>();
 
-            foreach (string page in pages)
+            foreach (string page in searchCriteria)
             {
                 if (page.Trim().Length == 0) continue;
                 string url = Variables.URLLong + "api.php?action=query&list=" + request + "&" + initial + "title=" + Tools.RemoveHashFromPageTitle(Tools.WikiEncode(page)) + "&format=xml&" + initial + "limit=500";
@@ -541,7 +533,7 @@ namespace WikiFunctions.Lists
     {
         public WhatLinksHereIncludingRedirectsListMakerProvider()
         {
-            this.incRedirects = true;
+            this.includeRedirects = true;
         }
 
         public override List<Article> MakeList(string[] searchCriteria)
@@ -577,18 +569,12 @@ namespace WikiFunctions.Lists
     public sealed class LinksOnPageListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
-        { return FromLinksOnPage(Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
+        { 
+            searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
-        /// <summary>
-        /// Gets a list of links on a page.
-        /// </summary>
-        /// <param name="articles">The page to find links on.</param>
-        /// <returns>The list of the links.</returns>
-        static List<Article> FromLinksOnPage(params string[] articles)
-        {
             List<Article> list = new List<Article>();
 
-            foreach (string article in articles)
+            foreach (string article in searchCriteria)
             {
                 try
                 {
@@ -637,7 +623,7 @@ namespace WikiFunctions.Lists
             return list;
         }
 
-        public string DisplayText
+       public string DisplayText
         { get { return "Links on page"; } }
 
         public string UserInputTextBoxText
