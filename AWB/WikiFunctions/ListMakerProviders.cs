@@ -386,7 +386,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of all links on the Named Pages
     /// </summary>
-    public sealed class LinksOnPageListMakerProvider : IListMakerProvider
+    public class LinksOnPageListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
         { 
@@ -842,7 +842,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages which link to the Named Images
     /// </summary>
-    public sealed class ImageFileLinksListMakerProvider : IListMakerProvider
+    public class ImageFileLinksListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
         {
@@ -1076,7 +1076,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets all the pages from the Current Users Watchlist
     /// </summary>
-    public sealed class MyWatchlistListMakerProvider : IListMakerProvider
+    public class MyWatchlistListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
         { return FromWatchList(); }
