@@ -855,7 +855,7 @@ namespace WikiFunctions.Controls.Lists
         public void ConvertToTalkPages()
         {
             List<Article> list = GetArticleList();
-            list = GetLists.ConvertToTalk(list);
+            list = Tools.ConvertToTalk(list);
             lbArticles.Items.Clear();
             Add(list);
         }
@@ -866,7 +866,7 @@ namespace WikiFunctions.Controls.Lists
         public void ConvertFromTalkPages()
         {
             List<Article> list = GetArticleList();
-            list = GetLists.ConvertFromTalk(list);
+            list = Tools.ConvertFromTalk(list);
             lbArticles.Items.Clear();
             Add(list);
         }
