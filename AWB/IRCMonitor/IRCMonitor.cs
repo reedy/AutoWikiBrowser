@@ -1114,8 +1114,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
         {
             try
             {
-                List<Article> list = new List<Article>();
-                list = GetLists.FromWatchList();
+                List<Article> list = new WikiFunctions.Lists.MyWatchlistListMakerProvider().MakeList(new string[0]);
 
                 foreach (Article a in list)
                 {

@@ -330,7 +330,8 @@ namespace WikiFunctions.Lists
             {
                 if (of.ShowDialog() == DialogResult.OK)
                 {
-                    list2 = GetLists.FromTextFile(of.FileName);
+                    //TODO:Migrate
+                    list2 = WikiFunctions.Lists.TextFileListMakerProvider.FromTextFile(of.FileName);
 
                     foreach (Article a in list2)
                         lbRemove.Items.Add(a);
