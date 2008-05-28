@@ -111,7 +111,6 @@ namespace WikiFunctions.Controls.Lists
             this.listMaker1.Size = new System.Drawing.Size(201, 351);
             this.listMaker1.SourceText = "";
             this.listMaker1.TabIndex = 0;
-            this.listMaker1.WikiStatus = true;
             // 
             // ListSplitter
             // 

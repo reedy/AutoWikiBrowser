@@ -195,7 +195,6 @@ namespace WikiFunctions.Controls.Lists
             this.listMaker1.Size = new System.Drawing.Size(201, 351);
             this.listMaker1.SourceText = "";
             this.listMaker1.TabIndex = 14;
-            this.listMaker1.WikiStatus = true;
             // 
             // groupBox2
             // 
@@ -214,7 +213,6 @@ namespace WikiFunctions.Controls.Lists
             this.listMaker2.Size = new System.Drawing.Size(201, 351);
             this.listMaker2.SourceText = "";
             this.listMaker2.TabIndex = 14;
-            this.listMaker2.WikiStatus = true;
             // 
             // groupBox3
             // 

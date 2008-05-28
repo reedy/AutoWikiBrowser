@@ -1111,6 +1111,18 @@ Message: {2}
             return input;
         }
 
+        public static string[] FirstToUpperAndRemoveHashOnArray(string[] input)
+        {
+            if (input == null)
+                return null;
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                input[i] = Tools.TurnFirstToUpper(Tools.RemoveHashFromPageTitle(input[i].Trim('[', ']')));
+            }
+            return input;
+        }
+
         #region Copy
         /// <summary>
         /// Copy selected items from a listbox

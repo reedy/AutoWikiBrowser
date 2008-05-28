@@ -81,9 +81,8 @@ namespace WikiFunctions.Lists
 
         public virtual List<Article> MakeList(string[] searchCriteria)
         {
-            searchCriteria = Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[14], "");
-
-            return GetLists.FromCategory(subCats, searchCriteria);
+            return GetLists.FromCategory(subCats, 
+                Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[14], "")));
         }
 
         public virtual string DisplayText
@@ -179,7 +178,7 @@ namespace WikiFunctions.Lists
         protected bool incRedirects = false;
 
         public virtual List<Article> MakeList(string[] searchCriteria)
-        { return GetLists.FromWhatLinksHere(embedded, incRedirects, searchCriteria); }
+        { return GetLists.FromWhatLinksHere(embedded, incRedirects, Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
 
         public virtual string DisplayText
         { get { return "What links here"; } }
@@ -239,7 +238,7 @@ namespace WikiFunctions.Lists
     internal sealed class LinksOnPageListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
-        { return GetLists.FromLinksOnPage(searchCriteria); }
+        { return GetLists.FromLinksOnPage(Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
 
         public string DisplayText
         { get { return "Links on page"; } }
@@ -262,7 +261,7 @@ namespace WikiFunctions.Lists
     internal sealed class ImagesOnPageListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
-        { return GetLists.FromImagesOnPage(searchCriteria); }
+        { return GetLists.FromImagesOnPage(Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
 
         public string DisplayText
         { get { return "Images on page"; } }
@@ -285,7 +284,7 @@ namespace WikiFunctions.Lists
     internal sealed class TransclusionsOnPageListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
-        { return GetLists.FromTransclusionsOnPage(searchCriteria); }
+        { return GetLists.FromTransclusionsOnPage(Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
 
         public string DisplayText
         { get { return "Transclusions on page"; } }
@@ -335,9 +334,8 @@ namespace WikiFunctions.Lists
 
         public virtual List<Article> MakeList(string[] searchCriteria)
         {
-            searchCriteria = Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[2], "");
-
-            return GetLists.FromUserContribs(all, searchCriteria);
+            return GetLists.FromUserContribs(all, 
+                Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[2], "")));
         }
 
         public virtual string DisplayText
@@ -381,9 +379,7 @@ namespace WikiFunctions.Lists
     {
         public List<Article> MakeList(string[] searchCriteria)
         {
-            searchCriteria = Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[-1], "");
-
-            return GetLists.FromSpecialPage(searchCriteria);
+            return GetLists.FromSpecialPage(Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[-1], "")));
         }
 
         public string DisplayText
@@ -408,9 +404,7 @@ namespace WikiFunctions.Lists
     {
         public List<Article> MakeList(string[] searchCriteria)
         {
-            searchCriteria = Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[6], "");
-
-            return GetLists.FromImageLinks(searchCriteria);
+            return GetLists.FromImageLinks(Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[6], "")));
         }
 
         public string DisplayText
@@ -457,7 +451,7 @@ namespace WikiFunctions.Lists
     internal sealed class RedirectsListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
-        { return GetLists.FromRedirects(searchCriteria); }
+        { return GetLists.FromRedirects(Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
 
         public string DisplayText
         { get { return "Redirects"; } }
