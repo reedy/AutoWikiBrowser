@@ -225,32 +225,22 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class CategoryListMakerProvider : IListMakerProvider
     {
-        protected bool subCats = false;
+        protected bool subCategories = false;
 
         public virtual List<Article> MakeList(string[] searchCriteria)
         {
-            return FromCategory(subCats,
-                Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[14], "")));
-        }
+            searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[14], ""));
 
-        /// <summary>
-        /// Gets a list of articles and sub-categories in a category.
-        /// </summary>
-        /// <param name="category">The category.</param>
-        /// <param name="subCategories">Whether to get all sub categories as well.</param>
-        /// <returns>The list of the articles.</returns>
-        static List<Article> FromCategory(bool subCategories, params string[] categories)
-        {
             List<Article> list = new List<Article>();
             List<string> badcategories = new List<string>();
             List<string> vistedCategories = new List<string>();
 
-            for (int i = 0; i < categories.Length; i++)
+            for (int i = 0; i < searchCriteria.Length; i++)
             {
-                if (!vistedCategories.Contains(categories[i]))
+                if (!vistedCategories.Contains(searchCriteria[i]))
                 {
-                    vistedCategories.Add(categories[i]);
-                    string cmtitle = Tools.WikiEncode(Regex.Replace(categories[i], Variables.NamespacesCaseInsensitive[14], ""));
+                    vistedCategories.Add(searchCriteria[i]);
+                    string cmtitle = Tools.WikiEncode(Regex.Replace(searchCriteria[i], Variables.NamespacesCaseInsensitive[14], ""));
 
                     string url = Variables.URLLong + "api.php?action=query&list=categorymembers&cmtitle=Category:" + cmtitle + "&cmcategory=" + cmtitle + "&format=xml&cmlimit=500";
                     int ns = 0;
@@ -261,7 +251,7 @@ namespace WikiFunctions.Lists
                         string html = Tools.GetHTML(url);
                         if (html.Contains("categorymembers /"))
                         {
-                            badcategories.Add(categories[i]);
+                            badcategories.Add(searchCriteria[i]);
                             break;
                         }
                         bool more = false;
@@ -285,8 +275,8 @@ namespace WikiFunctions.Lists
 
                                     if (subCategories && ns == 14)
                                     {
-                                        Array.Resize<string>(ref categories, categories.Length + 1);
-                                        categories[categories.Length - 1] = title.Replace(Variables.Namespaces[14], "");
+                                        Array.Resize<string>(ref searchCriteria, searchCriteria.Length + 1);
+                                        searchCriteria[searchCriteria.Length - 1] = title.Replace(Variables.Namespaces[14], "");
                                     }
                                 }
                                 else if (reader.Name.Equals("categorymembers"))
@@ -340,7 +330,7 @@ namespace WikiFunctions.Lists
     {
         public CategoryRecursiveListMakerProvider()
         {
-            this.subCats = true;
+            this.subCategories = true;
         }
         public override List<Article> MakeList(string[] searchCriteria)
         {
@@ -360,6 +350,8 @@ namespace WikiFunctions.Lists
     /// </summary>
     internal sealed class TextFileListMakerProvider : IListMakerProvider
     {
+        private readonly static Regex RegexFromFile = new Regex("(^[a-z]{2,3}:)|(simple:)", RegexOptions.Compiled);
+        private readonly static Regex LoadWikiLink = new Regex(@"\[\[:?(.*?)(?:\]\]|\|)", RegexOptions.Compiled);
         private OpenFileDialog openListDialog;
 
         public TextFileListMakerProvider()
@@ -376,69 +368,52 @@ namespace WikiFunctions.Lists
 
         public List<Article> MakeList(string[] searchCriteria)
         {
-            List<Article> ret = new List<Article>();
+            List<Article> list = new List<Article>();
             try
             {
                 if (openListDialog.ShowDialog() == DialogResult.OK)
                 {
-                    ret = FromTextFile(openListDialog.FileNames);
+                    foreach (string fileName in searchCriteria)
+                    {
+                        string pageText = "";
+                        string title = "";
+
+                        using (StreamReader sr = new StreamReader(fileName, Encoding.Default))
+                        {
+                            pageText = sr.ReadToEnd();
+                            sr.Close();
+                        }
+
+                        if (LoadWikiLink.IsMatch(pageText))
+                        {
+                            foreach (Match m in LoadWikiLink.Matches(pageText))
+                            {
+                                title = m.Groups[1].Value;
+                                if (!RegexFromFile.IsMatch(title) && (!(title.StartsWith("#"))))
+                                {
+                                    list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(title))));
+                                }
+                            }
+                        }
+                        else
+                        {
+                            foreach (string s in pageText.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
+                            {
+                                if (s.Trim().Length == 0 || !Tools.IsValidTitle(s)) continue;
+                                list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim()))));
+                            }
+                        }
+                    }
                 }
-                return ret;
+                return list;
             }
             catch (Exception ex)
             {
                 ErrorHandler.Handle(ex);
-                return ret;
+                return list;
             }
         }
-
-        readonly static Regex RegexFromFile = new Regex("(^[a-z]{2,3}:)|(simple:)", RegexOptions.Compiled);
-        readonly static Regex LoadWikiLink = new Regex(@"\[\[:?(.*?)(?:\]\]|\|)", RegexOptions.Compiled);
-
-        /// <summary>
-        /// Gets a list of pages from text file
-        /// </summary>
-        /// <param name="fileNames">The file path of the list.</param>
-        /// <returns>The list of the links.</returns>
-        static List<Article> FromTextFile(params string[] fileNames)
-        {
-            List<Article> list = new List<Article>();
-
-            foreach (string fileName in fileNames)
-            {
-                string pageText = "";
-                string title = "";
-
-                using (StreamReader sr = new StreamReader(fileName, Encoding.Default))
-                {
-                    pageText = sr.ReadToEnd();
-                    sr.Close();
-                }
-
-                if (LoadWikiLink.IsMatch(pageText))
-                {
-                    foreach (Match m in LoadWikiLink.Matches(pageText))
-                    {
-                        title = m.Groups[1].Value;
-                        if (!RegexFromFile.IsMatch(title) && (!(title.StartsWith("#"))))
-                        {
-                            list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(title))));
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (string s in pageText.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
-                    {
-                        if (s.Trim().Length == 0 || !Tools.IsValidTitle(s)) continue;
-                        list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim()))));
-                    }
-                }
-            }
-
-            return list;
-        }
-
+        
         public string DisplayText
         { get { return "Text File"; } }
 
