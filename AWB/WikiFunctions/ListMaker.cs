@@ -277,8 +277,8 @@ namespace WikiFunctions.Controls.Lists
 
             IListMakerProvider searchItem = listItems[cmboSourceSelect.SelectedIndex];
 
-            lblSourceSelect.Text = searchItem.SelectSourceTextBoxText;
-            txtSelectSource.Enabled = searchItem.SelectSourceTextBoxEnabled;
+            lblSourceSelect.Text = searchItem.UserInputTextBoxText;
+            UserInputTextBox.Enabled = searchItem.UserInputTextBoxEnabled;
        }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -319,7 +319,7 @@ namespace WikiFunctions.Controls.Lists
         private void btnMakeList_Click(object sender, EventArgs e)
         {
             //make sure there is some text.
-            if (txtSelectSource.Enabled && string.IsNullOrEmpty(txtSelectSource.Text))
+            if (UserInputTextBox.Enabled && string.IsNullOrEmpty(UserInputTextBox.Text))
             {
                 MessageBox.Show("Please enter some text", "No text", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -332,8 +332,8 @@ namespace WikiFunctions.Controls.Lists
             //    txtSelectSource.Text = Tools.TurnFirstToUpper(txtSelectSource.Text);
             //}
 
-            txtSelectSource.Text = txtSelectSource.Text.Trim();
-            txtSelectSource.AutoCompleteCustomSource.Add(txtSelectSource.Text);
+            UserInputTextBox.Text = UserInputTextBox.Text.Trim();
+            UserInputTextBox.AutoCompleteCustomSource.Add(UserInputTextBox.Text);
 
             MakeList();
         }
@@ -401,7 +401,7 @@ namespace WikiFunctions.Controls.Lists
 
         private void txtSelectSource_DoubleClick(object sender, EventArgs e)
         {
-            txtSelectSource.SelectAll();
+            UserInputTextBox.SelectAll();
         }
 
         #endregion
@@ -438,8 +438,8 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public string SourceText
         {
-            get { return txtSelectSource.Text; }
-            set { txtSelectSource.Text = value; }
+            get { return UserInputTextBox.Text; }
+            set { UserInputTextBox.Text = value; }
         }
 
         /// <summary>
@@ -655,7 +655,7 @@ namespace WikiFunctions.Controls.Lists
 
         public void MakeList()
         {
-            MakeList(listItems[cmboSourceSelect.SelectedIndex], txtSelectSource.Text.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
+            MakeList(listItems[cmboSourceSelect.SelectedIndex], UserInputTextBox.Text.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
         }
 
         /// <summary>
@@ -713,7 +713,7 @@ namespace WikiFunctions.Controls.Lists
             }
             catch (Exception ex)
             {
-                ErrorHandler.ListMakerText = txtSelectSource.Text;
+                ErrorHandler.ListMakerText = UserInputTextBox.Text;
                 ErrorHandler.Handle(ex);
             }
             finally
