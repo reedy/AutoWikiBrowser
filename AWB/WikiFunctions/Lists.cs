@@ -71,8 +71,10 @@ namespace WikiFunctions.Lists
     }
 
     // TODO: Move elsewhere when finished
-    // TODO: Document me (just a header for each class saying what it does)
     #region ListMakerProviders
+    /// <summary>
+    /// 
+    /// </summary>
     internal class CategoryListMakerProvider : IListMakerProvider
     {
         protected bool subCats = false;
@@ -104,6 +106,9 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     internal sealed class CategoryRecursiveListMakerProvider : CategoryListMakerProvider
     {
         public CategoryRecursiveListMakerProvider()
@@ -123,6 +128,9 @@ namespace WikiFunctions.Lists
         { get { return "Category (recursive)"; } }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     internal sealed class TextFileListMakerProvider : IListMakerProvider
     {
         private OpenFileDialog openListDialog;
@@ -167,6 +175,9 @@ namespace WikiFunctions.Lists
         { get { return false; } }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     internal class WhatLinksHereListMakerProvider : IListMakerProvider
     {
         protected bool embedded = false;
@@ -190,6 +201,9 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     internal sealed class WhatLinksHereIncludingRedirectsListMakerProvider : WhatLinksHereListMakerProvider
     {
         public WhatLinksHereIncludingRedirectsListMakerProvider()
@@ -204,6 +218,9 @@ namespace WikiFunctions.Lists
         { get { return base.DisplayText + " (inc. Redirects)"; } }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     internal sealed class WhatTranscludesPageListMakerProvider : WhatLinksHereListMakerProvider
     {
         public WhatTranscludesPageListMakerProvider()
@@ -221,6 +238,9 @@ namespace WikiFunctions.Lists
         { get { return "What embeds:"; } }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     internal sealed class LinksOnPageListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
@@ -241,6 +261,9 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     internal sealed class ImagesOnPageListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
@@ -261,6 +284,9 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     internal sealed class TransclusionsOnPageListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
@@ -282,6 +308,9 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     internal sealed class GoogleSearchListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
@@ -302,6 +331,9 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     internal class UserContribsListMakerProvider : IListMakerProvider
     {
         protected bool all = false;
@@ -328,6 +360,9 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     internal sealed class UserContribsAllListMakerProvider : UserContribsListMakerProvider
     {
         public UserContribsAllListMakerProvider()
@@ -344,6 +379,9 @@ namespace WikiFunctions.Lists
         { get { return base.DisplayText + " (all)"; } }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     internal sealed class SpecialPageListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
@@ -368,6 +406,9 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     internal sealed class ImageFileLinksListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
@@ -392,6 +433,9 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     internal sealed class WikiSearchListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
@@ -412,6 +456,9 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     internal sealed class RedirectsListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
@@ -432,6 +479,9 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     internal sealed class MyWatchlistListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
@@ -452,9 +502,17 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class DatabaseScannerListMakerProvider : IListMakerProvider
     {
-        ListBox listMakerListbox;
+        private ListBox listMakerListbox;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lb"></param>
         public DatabaseScannerListMakerProvider(ListBox lb)
         {
             this.listMakerListbox = lb;
