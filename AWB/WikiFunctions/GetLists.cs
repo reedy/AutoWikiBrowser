@@ -62,17 +62,6 @@ namespace WikiFunctions.Lists
         {
             return what.MakeList(params1);
         }
-
-        /// <summary>
-        /// Gets a list of pages from any supported kind of source
-        /// </summary>
-        /// <param name="What">Which source to use</param>
-        /// <param name="Params">Optional parameters, depend on source</param>
-        /// <returns>The list of pages</returns>
-        //public static List<Article> FromVariant(From what, params string[] params1)
-        //{
-        //    return FromVariant(what, -1, params1);
-        //}
         #endregion
 
         #region From category
@@ -1065,6 +1054,471 @@ namespace WikiFunctions.Lists
         }
         #endregion
     }
+
+    // TODO: Move elsewhere when finished
+    #region ListMakerProviders
+    /// <summary>
+    /// Gets a list of pages in Named Categories for the ListMaker (Non-Recursive)
+    /// </summary>
+    public class CategoryListMakerProvider : IListMakerProvider
+    {
+        protected bool subCats = false;
+
+        public virtual List<Article> MakeList(string[] searchCriteria)
+        {
+            return GetLists.FromCategory(subCats,
+                Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[14], "")));
+        }
+
+        public virtual string DisplayText
+        { get { return "Category"; } }
+
+        public string UserInputTextBoxText
+        { get { return Variables.Namespaces[14]; } }
+
+        public bool UserInputTextBoxEnabled
+        { get { return true; } }
+
+        public void Selected() { }
+
+        public bool RunOnSeperateThread
+        { get { return true; } }
+    }
+
+    /// <summary>
+    /// Gets a list of pages in Named Categories for the ListMaker (Recursive - Will visit ALL subcategories)
+    /// </summary>
+    internal sealed class CategoryRecursiveListMakerProvider : CategoryListMakerProvider
+    {
+        public CategoryRecursiveListMakerProvider()
+        {
+            this.subCats = true;
+        }
+        public override List<Article> MakeList(string[] searchCriteria)
+        {
+            GetLists.QuietMode = true;
+            List<Article> ret = base.MakeList(searchCriteria);
+            GetLists.QuietMode = false;
+
+            return ret;
+        }
+
+        public override string DisplayText
+        { get { return "Category (recursive)"; } }
+    }
+
+    /// <summary>
+    /// Gets a list of pages from a text file
+    /// </summary>
+    internal sealed class TextFileListMakerProvider : IListMakerProvider
+    {
+        private OpenFileDialog openListDialog;
+
+        public TextFileListMakerProvider()
+        {
+            openListDialog = new OpenFileDialog();
+            openListDialog.Filter = "text files|*.txt|All files|*.*";
+            openListDialog.Multiselect = true;
+        }
+
+        public List<Article> MakeList(string[] searchCriteria)
+        {
+            List<Article> ret = new List<Article>();
+            try
+            {
+                if (openListDialog.ShowDialog() == DialogResult.OK)
+                {
+                    ret = GetLists.FromTextFile(openListDialog.FileNames);
+                }
+                return ret;
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.Handle(ex);
+                return ret;
+            }
+        }
+
+        public string DisplayText
+        { get { return "Text File"; } }
+
+        public string UserInputTextBoxText
+        { get { return "From file:"; } }
+
+        public bool UserInputTextBoxEnabled
+        { get { return false; } }
+
+        public void Selected() { }
+
+        public bool RunOnSeperateThread
+        { get { return false; } }
+    }
+
+    /// <summary>
+    /// Gets a list of pages which link to the Named Pages
+    /// </summary>
+    internal class WhatLinksHereListMakerProvider : IListMakerProvider
+    {
+        protected bool embedded = false;
+        protected bool incRedirects = false;
+
+        public virtual List<Article> MakeList(string[] searchCriteria)
+        { return GetLists.FromWhatLinksHere(embedded, incRedirects, Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
+
+        public virtual string DisplayText
+        { get { return "What links here"; } }
+
+        public virtual string UserInputTextBoxText
+        { get { return "What links to:"; } }
+
+        public bool UserInputTextBoxEnabled
+        { get { return true; } }
+
+        public void Selected() { }
+
+        public bool RunOnSeperateThread
+        { get { return true; } }
+    }
+
+    /// <summary>
+    /// Gets a list of pages which link to the Named Pages (including what links to the redirects)
+    /// </summary>
+    internal sealed class WhatLinksHereIncludingRedirectsListMakerProvider : WhatLinksHereListMakerProvider
+    {
+        public WhatLinksHereIncludingRedirectsListMakerProvider()
+        {
+            this.incRedirects = true;
+        }
+
+        public override List<Article> MakeList(string[] searchCriteria)
+        { return base.MakeList(searchCriteria); }
+
+        public override string DisplayText
+        { get { return base.DisplayText + " (inc. Redirects)"; } }
+    }
+
+    /// <summary>
+    /// Gets a list of pages which transclude the Named Pages
+    /// </summary>
+    internal sealed class WhatTranscludesPageListMakerProvider : WhatLinksHereListMakerProvider
+    {
+        public WhatTranscludesPageListMakerProvider()
+        {
+            this.embedded = true;
+        }
+
+        public override List<Article> MakeList(string[] searchCriteria)
+        { return base.MakeList(searchCriteria); }
+
+        public override string DisplayText
+        { get { return "What transcludes page"; } }
+
+        public override string UserInputTextBoxText
+        { get { return "What embeds:"; } }
+    }
+
+    /// <summary>
+    /// Gets a list of all links on the Named Pages
+    /// </summary>
+    internal sealed class LinksOnPageListMakerProvider : IListMakerProvider
+    {
+        public List<Article> MakeList(string[] searchCriteria)
+        { return GetLists.FromLinksOnPage(Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
+
+        public string DisplayText
+        { get { return "Links on page"; } }
+
+        public string UserInputTextBoxText
+        { get { return "Links on:"; } }
+
+        public bool UserInputTextBoxEnabled
+        { get { return true; } }
+
+        public void Selected() { }
+
+        public bool RunOnSeperateThread
+        { get { return true; } }
+    }
+
+    /// <summary>
+    /// Gets a list of all Images on the Named Pages
+    /// </summary>
+    internal sealed class ImagesOnPageListMakerProvider : IListMakerProvider
+    {
+        public List<Article> MakeList(string[] searchCriteria)
+        { return GetLists.FromImagesOnPage(Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
+
+        public string DisplayText
+        { get { return "Images on page"; } }
+
+        public string UserInputTextBoxText
+        { get { return "Images on:"; } }
+
+        public bool UserInputTextBoxEnabled
+        { get { return true; } }
+
+        public void Selected() { }
+
+        public bool RunOnSeperateThread
+        { get { return true; } }
+    }
+
+    /// <summary>
+    /// Gets a list of all the transclusions on the Named Pages
+    /// </summary>
+    internal sealed class TransclusionsOnPageListMakerProvider : IListMakerProvider
+    {
+        public List<Article> MakeList(string[] searchCriteria)
+        { return GetLists.FromTransclusionsOnPage(Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
+
+        public string DisplayText
+        { get { return "Transclusions on page"; } }
+
+        public string UserInputTextBoxText
+        { get { return "Transclusions on:"; } }
+
+        public bool UserInputTextBoxEnabled
+        {
+            get { return true; }
+        }
+
+        public void Selected() { }
+
+        public bool RunOnSeperateThread
+        { get { return true; } }
+    }
+
+    /// <summary>
+    /// Gets a list of google results based on the named pages
+    /// </summary>
+    internal sealed class GoogleSearchListMakerProvider : IListMakerProvider
+    {
+        public List<Article> MakeList(string[] searchCriteria)
+        { return GetLists.FromGoogleSearch(searchCriteria); }
+
+        public string DisplayText
+        { get { return "Google Search"; } }
+
+        public string UserInputTextBoxText
+        { get { return "Google Search:"; } }
+
+        public bool UserInputTextBoxEnabled
+        { get { return true; } }
+
+        public void Selected() { }
+
+        public bool RunOnSeperateThread
+        { get { return true; } }
+    }
+
+    /// <summary>
+    /// Gets the user contribs of the Named Users
+    /// </summary>
+    internal class UserContribsListMakerProvider : IListMakerProvider
+    {
+        protected bool all = false;
+
+        public virtual List<Article> MakeList(string[] searchCriteria)
+        {
+            return GetLists.FromUserContribs(all,
+                Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[2], "")));
+        }
+
+        public virtual string DisplayText
+        { get { return "User contribs"; } }
+
+        public string UserInputTextBoxText
+        { get { return Variables.Namespaces[2]; } }
+
+        public bool UserInputTextBoxEnabled
+        { get { return true; } }
+
+        public void Selected() { }
+
+        public bool RunOnSeperateThread
+        { get { return true; } }
+    }
+
+    /// <summary>
+    /// Gets ALL the user contribs of the Named Users
+    /// </summary>
+    internal sealed class UserContribsAllListMakerProvider : UserContribsListMakerProvider
+    {
+        public UserContribsAllListMakerProvider()
+        {
+            this.all = true;
+        }
+
+        public override List<Article> MakeList(string[] searchCriteria)
+        {
+            return base.MakeList(searchCriteria);
+        }
+
+        public override string DisplayText
+        { get { return base.DisplayText + " (all)"; } }
+    }
+
+    /// <summary>
+    /// Gets the list of pages on the Named Special Pages
+    /// </summary>
+    internal sealed class SpecialPageListMakerProvider : IListMakerProvider
+    {
+        public List<Article> MakeList(string[] searchCriteria)
+        {
+            return GetLists.FromSpecialPage(Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[-1], "")));
+        }
+
+        public string DisplayText
+        { get { return "Special page"; } }
+
+        public string UserInputTextBoxText
+        { get { return Variables.Namespaces[-1]; } }
+
+        public bool UserInputTextBoxEnabled
+        { get { return true; } }
+
+        public void Selected() { }
+
+        public bool RunOnSeperateThread
+        { get { return true; } }
+    }
+
+    /// <summary>
+    /// Gets a list of pages which link to the Named Images
+    /// </summary>
+    public sealed class ImageFileLinksListMakerProvider : IListMakerProvider
+    {
+        public List<Article> MakeList(string[] searchCriteria)
+        {
+            return GetLists.FromImageLinks(Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[6], "")));
+        }
+
+        public string DisplayText
+        { get { return "Image file links"; } }
+
+        public string UserInputTextBoxText
+        { get { return Variables.Namespaces[6]; } }
+
+        public bool UserInputTextBoxEnabled
+        { get { return true; } }
+
+        public void Selected() { }
+
+        public bool RunOnSeperateThread
+        { get { return true; } }
+    }
+
+    /// <summary>
+    /// Gets a list of pages which are returned from a wiki search of the Named Pages
+    /// </summary>
+    internal sealed class WikiSearchListMakerProvider : IListMakerProvider
+    {
+        public List<Article> MakeList(string[] searchCriteria)
+        { return GetLists.FromWikiSearch(searchCriteria); }
+
+        public string DisplayText
+        { get { return "Wiki search"; } }
+
+        public string UserInputTextBoxText
+        { get { return "Wiki search:"; } }
+
+        public bool UserInputTextBoxEnabled
+        { get { return true; } }
+
+        public void Selected() { }
+
+        public bool RunOnSeperateThread
+        { get { return true; } }
+    }
+
+    /// <summary>
+    /// Gets a list of pages which redirect to the Named Pages
+    /// </summary>
+    internal sealed class RedirectsListMakerProvider : IListMakerProvider
+    {
+        public List<Article> MakeList(string[] searchCriteria)
+        { return GetLists.FromRedirects(Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
+
+        public string DisplayText
+        { get { return "Redirects"; } }
+
+        public string UserInputTextBoxText
+        { get { return "Redirects to:"; } }
+
+        public bool UserInputTextBoxEnabled
+        { get { return true; } }
+
+        public void Selected() { }
+
+        public bool RunOnSeperateThread
+        { get { return true; } }
+    }
+
+    /// <summary>
+    /// Gets all the pages from the Current Users Watchlist
+    /// </summary>
+    internal sealed class MyWatchlistListMakerProvider : IListMakerProvider
+    {
+        public List<Article> MakeList(string[] searchCriteria)
+        { return GetLists.FromWatchList(); }
+
+        public string DisplayText
+        { get { return "My Watchlist"; } }
+
+        public string UserInputTextBoxText
+        { get { return ""; } }
+
+        public bool UserInputTextBoxEnabled
+        { get { return false; } }
+
+        public void Selected() { }
+
+        public bool RunOnSeperateThread
+        { get { return true; } }
+    }
+
+    /// <summary>
+    /// Runs the Database Scanner
+    /// </summary>
+    internal sealed class DatabaseScannerListMakerProvider : IListMakerProvider
+    {
+        private ListBox listMakerListbox;
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="lb">List box for DBScanner to add articles to</param>
+        public DatabaseScannerListMakerProvider(ListBox lb)
+        {
+            this.listMakerListbox = lb;
+        }
+
+        #region IListMakerProvider Members
+
+        public List<Article> MakeList(string[] searchCriteria)
+        {
+            WikiFunctions.DBScanner.DatabaseScanner ds = new WikiFunctions.DBScanner.DatabaseScanner(listMakerListbox);
+            ds.Show();
+            return null;
+        }
+
+        public string DisplayText
+        { get { return "Database dump"; } }
+
+        public string UserInputTextBoxText
+        { get { return ""; } }
+
+        public bool UserInputTextBoxEnabled
+        { get { return false; } }
+
+        public void Selected() { }
+
+        public bool RunOnSeperateThread
+        { get { return false; } }
+
+        #endregion
+    }
+    #endregion
 
     [Serializable]
     public class PageDoesNotExistException : ApplicationException
