@@ -1,7 +1,7 @@
 /*
 ListMaker
-(c) Martin Richards
-(c) Stephen Kennedy
+(C) Martin Richards
+(C) Stephen Kennedy, Sam Reed 2008
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -119,7 +119,6 @@ namespace WikiFunctions.Controls.Lists
         public void Add(Article item)
         {
             lbArticles.Items.Add(item);
-            Saved = false;
             UpdateNumberOfArticles();
         }
 
@@ -129,7 +128,6 @@ namespace WikiFunctions.Controls.Lists
         public void Clear()
         {
             lbArticles.Items.Clear();
-            Saved = false;
             UpdateNumberOfArticles();
         }
 
@@ -202,7 +200,6 @@ namespace WikiFunctions.Controls.Lists
                 if (lbArticles.Items.Count > 0)
                     lbArticles.SelectedIndex = intPosition;
 
-                Saved = false;
                 UpdateNumberOfArticles();
                 return true;
             }
@@ -236,7 +233,6 @@ namespace WikiFunctions.Controls.Lists
         public void Insert(int index, Article item)
         {
             lbArticles.Items.Insert(index, item);
-            Saved = false;
             UpdateNumberOfArticles();
         }
 
@@ -247,7 +243,6 @@ namespace WikiFunctions.Controls.Lists
         {
             Article a = new Article(item);
             lbArticles.Items.Insert(index, a);
-            Saved = false;
             UpdateNumberOfArticles();
         }
 
@@ -257,7 +252,6 @@ namespace WikiFunctions.Controls.Lists
         public void RemoveAt(int index)
         {
             lbArticles.Items.RemoveAt(index);
-            Saved = false;
             UpdateNumberOfArticles();
         }
 
@@ -450,16 +444,6 @@ namespace WikiFunctions.Controls.Lists
             get { return lbArticles.Items.Count; }
         }
 
-        bool bSaved = true;
-        /// <summary>
-        /// Gets a value showing whether the list has been saved since last changed
-        /// </summary>
-        public bool Saved
-        {
-            get { return bSaved; }
-            private set { bSaved = value; }
-        }
-
         string strStatus = "";
         /// <summary>
         /// The status of the process
@@ -490,15 +474,10 @@ namespace WikiFunctions.Controls.Lists
             }
         }
 
-        string strListFile = "";
         /// <summary>
         /// The file the list was made from
         /// </summary>
-        public string ListFile
-        {
-            get { return strListFile; }
-            set { strListFile = value; }
-        }
+        string strListFile = "";
 
         /// <summary>
         /// Returns the selected article
@@ -527,7 +506,6 @@ namespace WikiFunctions.Controls.Lists
                 return;
             }
 
-            Saved = false;
             if (s.Contains("#"))
                 s = s.Substring(0, s.IndexOf('#'));
 
@@ -554,8 +532,6 @@ namespace WikiFunctions.Controls.Lists
                 this.Invoke(new AddDel(Add), l);
                 return;
             }
-
-            Saved = false;
 
             lbArticles.BeginUpdate();
 
@@ -674,7 +650,6 @@ namespace WikiFunctions.Controls.Lists
 
         private void MakeListPlugin()
         {
-            Saved = false;
             StartProgressBar();
 
             try
@@ -707,7 +682,6 @@ namespace WikiFunctions.Controls.Lists
 
             try
             {
-                Saved = false;
                 int i = lbArticles.SelectedIndex;
 
                 if (lbArticles.SelectedItems.Count > 0)
@@ -734,7 +708,6 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public void Filter()
         {
-
             SpecialFilter.lb = lbArticles;
             SpecialFilter.ShowDialog(this);
         }
@@ -786,7 +759,6 @@ namespace WikiFunctions.Controls.Lists
                     sw = new StreamWriter(strListFile, false, Encoding.UTF8);
                     sw.Write(strList);
                     sw.Close();
-                    Saved = true;
                 }
             }
             catch (Exception ex)
@@ -863,7 +835,7 @@ namespace WikiFunctions.Controls.Lists
         }
 
         /// <summary>
-        /// 
+        /// Updates the Number of Articles
         /// </summary>
         public void UpdateNumberOfArticles()
         {
