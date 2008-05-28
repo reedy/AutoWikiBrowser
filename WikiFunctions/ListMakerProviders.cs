@@ -37,8 +37,8 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class CategoryListMakerProvider : IListMakerProvider
     {
-        protected bool quietMode = false;
-        protected bool subCategories = false;
+        protected bool quietMode;
+        protected bool subCategories;
 
         public CategoryListMakerProvider()
         { }
@@ -254,8 +254,8 @@ namespace WikiFunctions.Lists
     /// </summary>
     internal class WhatLinksHereListMakerProvider : IListMakerProvider
     {
-        protected bool embedded = false;
-        protected bool includeRedirects = false;
+        protected bool embedded;
+        protected bool includeRedirects;
 
         public List<Article> MakeList(string searchCriteria)
         {
@@ -650,7 +650,7 @@ namespace WikiFunctions.Lists
     /// </summary>
     internal class UserContribsListMakerProvider : IListMakerProvider
     {
-        protected bool all = false;
+        protected bool all;
 
         public virtual List<Article> MakeList(string[] searchCriteria)
         {
