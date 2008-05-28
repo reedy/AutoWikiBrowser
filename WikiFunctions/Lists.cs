@@ -103,7 +103,7 @@ namespace WikiFunctions.Lists
 
         public string SelectSourceTextBoxText
         {
-            get { return Variables.Namespaces[14] + ":"; }
+            get { return Variables.Namespaces[14]; }
         }
 
         public bool SelectSourceTextBoxEnabled
@@ -430,7 +430,7 @@ namespace WikiFunctions.Lists
 
         public string SelectSourceTextBoxText
         {
-            get { return Variables.Namespaces[2] + ":"; }
+            get { return Variables.Namespaces[2]; }
         }
 
         public bool SelectSourceTextBoxEnabled
@@ -483,7 +483,7 @@ namespace WikiFunctions.Lists
 
         public string SelectSourceTextBoxText
         {
-            get { return Variables.Namespaces[-1] + ":"; }
+            get { return Variables.Namespaces[-1]; }
         }
 
         public bool SelectSourceTextBoxEnabled
@@ -522,7 +522,7 @@ namespace WikiFunctions.Lists
 
         public string SelectSourceTextBoxText
         {
-            get { return Variables.Namespaces[6] + ":"; }
+            get { return Variables.Namespaces[6]; }
         }
 
         public bool SelectSourceTextBoxEnabled
