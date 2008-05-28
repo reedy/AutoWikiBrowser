@@ -61,8 +61,7 @@ namespace WikiFunctions.Background
         public event BackgroundRequestComplete Complete;
 
         public BackgroundRequest()
-        {
-        }
+        { }
 
         public BackgroundRequest(BackgroundRequestComplete handler)
         {
@@ -289,7 +288,7 @@ namespace WikiFunctions.Background
         /// <param name="What">Which source to use</param>
         /// <param name="Limit">Max. number of pages to return, -1 if no limit</param>
         /// <param name="Params">Optional parameters, depend on source</param>
-        public void GetList(GetLists.From what, int limit, params string[] params1)
+        public void GetList(WikiFunctions.Lists.IListMakerProvider what, int limit, params string[] params1)
         {
             objParam1 = what;
             objParam2 = params1;
@@ -305,7 +304,7 @@ namespace WikiFunctions.Background
         /// </summary>
         /// <param name="What">Which source to use</param>
         /// <param name="Params">Optional parameters, depend on source</param>
-        public void GetList(GetLists.From what, params string[] params1)
+        public void GetList(WikiFunctions.Lists.IListMakerProvider what, params string[] params1)
         {
             GetList(what, -1, params1);
         }
@@ -321,7 +320,7 @@ namespace WikiFunctions.Background
 
             try
             {
-                Result = GetLists.FromVariant((GetLists.From)objParam1, intParam, (string[])objParam2);
+                Result = ((WikiFunctions.Lists.IListMakerProvider)objParam1).MakeList((string[])objParam2);
                 InvokeOnComplete();
             }
             catch (Exception e)

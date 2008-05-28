@@ -75,7 +75,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages in Named Categories for the ListMaker (Non-Recursive)
     /// </summary>
-    internal class CategoryListMakerProvider : IListMakerProvider
+    public class CategoryListMakerProvider : IListMakerProvider
     {
         protected bool subCats = false;
 
@@ -400,7 +400,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages which link to the Named Images
     /// </summary>
-    internal sealed class ImageFileLinksListMakerProvider : IListMakerProvider
+    public sealed class ImageFileLinksListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
         {
@@ -494,7 +494,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Runs the Database Scanner
     /// </summary>
-    public class DatabaseScannerListMakerProvider : IListMakerProvider
+    internal sealed class DatabaseScannerListMakerProvider : IListMakerProvider
     {
         private ListBox listMakerListbox;
 
