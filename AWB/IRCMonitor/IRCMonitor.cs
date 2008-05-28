@@ -1054,7 +1054,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
             try
             {
                 //HACK:
-                List<Article> bots = GetLists.FromListUsers("bot", "");
+                List<Article> bots = IRCMTools.FromListUsers("bot", "");
                 string item = "";
 
                 foreach (Article a in bots)
@@ -1085,7 +1085,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
 
             try
             {
-                foreach (Article a in GetLists.FromListUsers("sysop", ""))
+                foreach (Article a in IRCMTools.FromListUsers("sysop", ""))
                 {
                     string name = a.Name.Replace(Variables.Namespaces[2], "");
                     if (!lbWhiteList.Items.Contains(name))
