@@ -91,8 +91,7 @@ namespace WikiFunctions.Lists
                 }
             }
             finally
-            {
-            }
+            { }
             return list;
         }
         #endregion
@@ -240,7 +239,7 @@ namespace WikiFunctions.Lists
         /// <param name="category">The category.</param>
         /// <param name="subCategories">Whether to get all sub categories as well.</param>
         /// <returns>The list of the articles.</returns>
-        public static List<Article> FromCategory(bool subCategories, params string[] categories)
+        static List<Article> FromCategory(bool subCategories, params string[] categories)
         {
             List<Article> list = new List<Article>();
             List<string> badcategories = new List<string>();
@@ -370,6 +369,11 @@ namespace WikiFunctions.Lists
             openListDialog.Multiselect = true;
         }
 
+        public List<Article> MakeList(string searchCriteria)
+        {
+            return MakeList(searchCriteria.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
+        }
+
         public List<Article> MakeList(string[] searchCriteria)
         {
             List<Article> ret = new List<Article>();
@@ -396,7 +400,7 @@ namespace WikiFunctions.Lists
         /// </summary>
         /// <param name="fileNames">The file path of the list.</param>
         /// <returns>The list of the links.</returns>
-        public static List<Article> FromTextFile(params string[] fileNames)
+        static List<Article> FromTextFile(params string[] fileNames)
         {
             List<Article> list = new List<Article>();
 
@@ -458,6 +462,11 @@ namespace WikiFunctions.Lists
         protected bool embedded = false;
         protected bool incRedirects = false;
 
+        public List<Article> MakeList(string searchCriteria)
+        {
+            return MakeList(searchCriteria.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
+        }
+
         public virtual List<Article> MakeList(string[] searchCriteria)
         { return FromWhatLinksHere(embedded, incRedirects, Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria)); }
 
@@ -468,7 +477,7 @@ namespace WikiFunctions.Lists
         /// <param name="includeRedirects">Whether to get links to the redirects</param>
         /// <param name="pages">The page to find links to.</param>
         /// <returns>The list of the articles.</returns>
-        public static List<Article> FromWhatLinksHere(bool embedded, bool includeRedirects, params string[] pages)
+        static List<Article> FromWhatLinksHere(bool embedded, bool includeRedirects, params string[] pages)
         {
             string request = "backlinks";
             string initial = "bl";
@@ -541,7 +550,7 @@ namespace WikiFunctions.Lists
         /// <param name="embedded">Gets articles that embed (transclude).</param>
         /// <param name="pages">The page to find links to.</param>
         /// <returns>The list of the articles.</returns>
-        public static List<Article> FromWhatLinksHere(bool embedded, params string[] pages)
+        static List<Article> FromWhatLinksHere(bool embedded, params string[] pages)
         {
             return FromWhatLinksHere(embedded, false, pages);
         }
@@ -611,7 +620,7 @@ namespace WikiFunctions.Lists
         /// </summary>
         /// <param name="articles">The page to find links on.</param>
         /// <returns>The list of the links.</returns>
-        public static List<Article> FromLinksOnPage(params string[] articles)
+        static List<Article> FromLinksOnPage(params string[] articles)
         {
             List<Article> list = new List<Article>();
 
@@ -693,7 +702,7 @@ namespace WikiFunctions.Lists
         /// </summary>
         /// <param name="articles">The page to find images on.</param>
         /// <returns>The list of the images.</returns>
-        public static List<Article> FromImagesOnPage(params string[] articles)
+        static List<Article> FromImagesOnPage(params string[] articles)
         {
             List<Article> list = new List<Article>();
 
@@ -762,7 +771,7 @@ namespace WikiFunctions.Lists
         /// </summary>
         /// <param name="articles"></param>
         /// <returns></returns>
-        public static List<Article> FromTransclusionsOnPage(params string[] articles)
+        static List<Article> FromTransclusionsOnPage(params string[] articles)
         {
             List<Article> list = new List<Article>();
 
@@ -833,7 +842,7 @@ namespace WikiFunctions.Lists
         /// </summary>
         /// <param name="googles">The term to search for.</param>
         /// <returns>The list of the articles.</returns>
-        public static List<Article> FromGoogleSearch(params string[] googles)
+        static List<Article> FromGoogleSearch(params string[] googles)
         {
             List<Article> list = new List<Article>();
 
@@ -908,7 +917,7 @@ namespace WikiFunctions.Lists
         /// </summary>
         /// <param name="users">The name of the user.</param>
         /// <returns>The list of the articles.</returns>
-        public static List<Article> FromUserContribs(params string[] users)
+        static List<Article> FromUserContribs(params string[] users)
         {
             return FromUserContribs(false, users);
         }
@@ -919,7 +928,7 @@ namespace WikiFunctions.Lists
         /// <param name="all">Whether to load all contribs or not</param>
         /// <param name="users">The name of the user.</param>
         /// <returns>The list of the articles.</returns>
-        public static List<Article> FromUserContribs(bool all, params string[] users)
+        static List<Article> FromUserContribs(bool all, params string[] users)
         {
             List<Article> list = new List<Article>();
 
@@ -1028,7 +1037,7 @@ namespace WikiFunctions.Lists
         /// </summary>
         /// <param name="specials">The page to find links on, e.g. "Deadendpages" or "Deadendpages&limit=500&offset=0".</param>
         /// <returns>The list of the articles.</returns>
-        public static List<Article> FromSpecialPage(params string[] specials)
+        static List<Article> FromSpecialPage(params string[] specials)
         {
             //TODO:Fix!
             List<Article> list = new List<Article>();
@@ -1127,7 +1136,7 @@ namespace WikiFunctions.Lists
         /// </summary>
         /// <param name="images">The image.</param>
         /// <returns>The list of the articles.</returns>
-        public static List<Article> FromImageLinks(params string[] images)
+        static List<Article> FromImageLinks(params string[] images)
         {
             List<Article> list = new List<Article>();
 
@@ -1209,7 +1218,7 @@ namespace WikiFunctions.Lists
         /// </summary>
         /// <param name="terms">The terms to search for.</param>
         /// <returns>The list of the articles.</returns>
-        public static List<Article> FromWikiSearch(params string[] terms)
+        static List<Article> FromWikiSearch(params string[] terms)
         {
             //TODO:api.php?
             List<Article> list = new List<Article>();
@@ -1289,7 +1298,7 @@ namespace WikiFunctions.Lists
         /// </summary>
         /// <param name="pages">The pages to find redirects to.</param>
         /// <returns>The list of the articles.</returns>
-        public static List<Article> FromRedirects(params string[] pages)
+        static List<Article> FromRedirects(params string[] pages)
         {
             return FromRedirects(true, pages);
         }
@@ -1300,7 +1309,7 @@ namespace WikiFunctions.Lists
         /// <param name="Pages">The pages to find redirects to.</param>
         /// <returns>The list of the articles.</returns>
         /// <param name="HandleErrors">Handle errors, or let them filter down to caller</param>
-        public static List<Article> FromRedirects(bool HandleErrors, params string[] pages) // HandleErrors param is used by kingbotk plugin
+        static List<Article> FromRedirects(bool HandleErrors, params string[] pages) // HandleErrors param is used by kingbotk plugin
         {
             List<Article> list = new List<Article>();
 
@@ -1391,7 +1400,7 @@ namespace WikiFunctions.Lists
         public List<Article> MakeList(string[] searchCriteria)
         { return FromWatchList(); }
 
-        public static List<Article> FromWatchList()
+        static List<Article> FromWatchList()
         {
             WikiFunctions.Browser.WebControl webbrowser = new WikiFunctions.Browser.WebControl();
             webbrowser.ScriptErrorsSuppressed = true;
