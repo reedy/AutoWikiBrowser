@@ -891,10 +891,10 @@ namespace WikiFunctions.Lists
 
         public static List<Article> FromWatchList()
         {
-            WebBrowser webbrowser = new WebBrowser();
+            WikiFunctions.Browser.WebControl webbrowser = new  WikiFunctions.Browser.WebControl();
             webbrowser.ScriptErrorsSuppressed = true;
             webbrowser.Navigate(Variables.URLLong + "index.php?title=Special:Watchlist&action=raw");
-            while (webbrowser.ReadyState != WebBrowserReadyState.Complete) Application.DoEvents();
+            webbrowser.Wait();
 
             string html = webbrowser.Document.GetElementById("titles").InnerText;
             List<Article> list = new List<Article>();

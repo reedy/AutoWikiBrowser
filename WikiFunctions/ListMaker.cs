@@ -428,7 +428,7 @@ namespace WikiFunctions.Controls.Lists
             get { return cmboSourceSelect.SelectedIndex; }
             set
             {
-                if (value < cmboSourceSelect.Items.Count)
+                if (value < (cmboSourceSelect.Items.Count - 1))
                     cmboSourceSelect.SelectedIndex = value;
             }
         }
@@ -1217,9 +1217,34 @@ namespace WikiFunctions.Controls.Lists
             set { SpecialFilter.Settings = value; }
         }
 
-        public void AddProvider(IListMakerProvider provider)
+        public static void AddProvider(IListMakerProvider provider)
         {
             listItems.Add(provider);
+        }
+
+        public static int ListMakerPluginCount()
+        {
+            int count = 0;
+            foreach (IListMakerProvider p in listItems)
+                if (p is WikiFunctions.Plugin.IListMakerPlugin)
+                    count++;
+
+            return count;
+        }
+
+        public static List<string> ListMakerPlugins()
+        {
+            List<string> ret = new List<string>();
+
+            foreach (IListMakerProvider p in listItems)
+            {
+                WikiFunctions.Plugin.IListMakerPlugin plugin = (p as WikiFunctions.Plugin.IListMakerPlugin);
+
+                if (plugin != null)
+                    ret.Add(plugin.Name);
+            }
+
+            return ret;
         }
     }
 }

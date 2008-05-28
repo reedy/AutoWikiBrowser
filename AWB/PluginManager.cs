@@ -128,12 +128,12 @@ namespace AutoWikiBrowser
                 lvi.Group = lvPlugin.Groups["groupArticleLoaded"];
                 lvPlugin.Items.Add(lvi);
             }
-            //foreach (string pluginName in )
-            //{
-            //    lvi = new ListViewItem(pluginName);
-            //    lvi.Group = lvPlugin.Groups["groupLMLoaded"];
-            //    lvPlugin.Items.Add(lvi);
-            //}
+            foreach (string pluginName in WikiFunctions.Controls.Lists.ListMaker.ListMakerPlugins())
+            {
+                lvi = new ListViewItem(pluginName);
+                lvi.Group = lvPlugin.Groups["groupLMLoaded"];
+                lvPlugin.Items.Add(lvi);
+            }
 
             UpdatePluginCount();
         }
@@ -162,15 +162,16 @@ namespace AutoWikiBrowser
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
-            foreach (ListViewItem item in lvPlugin.SelectedItems)
-            {
-                if (item.Group == lvPlugin.Groups["groupArticleLoaded"])
-                {
-                    loadPluginToolStripMenuItem.Enabled = false;
-                    return;
-                }
-            }
-            loadPluginToolStripMenuItem.Enabled = true;
+            //foreach (ListViewItem item in lvPlugin.SelectedItems)
+            //{
+            //    if (item.Group == lvPlugin.Groups["groupArticleLoaded"])
+            //    {
+            //        loadPluginToolStripMenuItem.Enabled = false;
+            //        return;
+            //    }
+            //}
+            //loadPluginToolStripMenuItem.Enabled = true;
+            loadPluginToolStripMenuItem.Enabled = false;
         }
 
         private void loadPluginToolStripMenuItem_Click(object sender, EventArgs e)
@@ -187,7 +188,7 @@ namespace AutoWikiBrowser
 
         private void UpdatePluginCount()
         {
-            lblPluginCount.Text = lvPlugin.Items.Count.ToString(); //Plugin.Count().ToString();
+            lblPluginCount.Text = lvPlugin.Items.Count.ToString();
         }
     }
 
@@ -295,7 +296,7 @@ namespace AutoWikiBrowser
                                 if (t.GetInterface("IListMakerPlugin") != null)
                                 {
                                     IListMakerPlugin plugin = (IListMakerPlugin)Activator.CreateInstance(t);
-                                    Program.AWB.ListMaker.AddProvider(plugin);
+                                    WikiFunctions.Controls.Lists.ListMaker.AddProvider(plugin); //Program.AWB.ListMaker.AddProvider(plugin);
                                 }
                             }
                         }
