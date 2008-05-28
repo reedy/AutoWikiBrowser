@@ -951,7 +951,7 @@ namespace WikiFunctions.Lists
                     foreach (Match m in searchRegex.Matches(searchText))
                     {
                         title = m.Groups[1].Value;
-                        title = HttpUtility.HtmlDecode(title);//title.Replace("&amp;", "&").Replace("&quot;", "\"").Replace("_", " ");
+                        title = HttpUtility.HtmlDecode(title);
                         if (title.Contains("\""))
                         {
                             title = title.Replace("'", "");
