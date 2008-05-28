@@ -106,10 +106,13 @@ namespace WikiFunctions.Lists
 
     internal sealed class CategoryRecursiveListMakerProvider : CategoryListMakerProvider
     {
+        public CategoryRecursiveListMakerProvider()
+        {
+            this.subCats = true;
+        }
         public override List<Article> MakeList(string[] searchCriteria)
         {
             GetLists.QuietMode = true;
-            subCats = true;
             List<Article> ret = base.MakeList(searchCriteria);
             GetLists.QuietMode = false;
 
@@ -166,8 +169,11 @@ namespace WikiFunctions.Lists
 
     internal class WhatLinksHereListMakerProvider : IListMakerProvider
     {
+        protected bool embedded = false;
+        protected bool incRedirects = false;
+
         public virtual List<Article> MakeList(string[] searchCriteria)
-        { return GetLists.FromWhatLinksHere(false, searchCriteria); }
+        { return GetLists.FromWhatLinksHere(embedded, incRedirects, searchCriteria); }
 
         public virtual string DisplayText
         { get { return "What links here"; } }
@@ -186,8 +192,13 @@ namespace WikiFunctions.Lists
 
     internal sealed class WhatLinksHereIncludingRedirectsListMakerProvider : WhatLinksHereListMakerProvider
     {
+        public WhatLinksHereIncludingRedirectsListMakerProvider()
+        {
+            this.incRedirects = true;
+        }
+
         public override List<Article> MakeList(string[] searchCriteria)
-        { return GetLists.FromWhatLinksHere(false, true, searchCriteria); }
+        { return base.MakeList(searchCriteria); }
 
         public override string DisplayText
         { get { return base.DisplayText + " (inc. Redirects)"; } }
@@ -195,8 +206,13 @@ namespace WikiFunctions.Lists
 
     internal sealed class WhatTranscludesPageListMakerProvider : WhatLinksHereListMakerProvider
     {
+        public WhatTranscludesPageListMakerProvider()
+        {
+            this.embedded = true;
+        }
+
         public override List<Article> MakeList(string[] searchCriteria)
-        { return GetLists.FromWhatLinksHere(true, searchCriteria); }
+        { return base.MakeList(searchCriteria); }
 
         public override string DisplayText
         { get { return "What transcludes page"; } }
@@ -314,9 +330,13 @@ namespace WikiFunctions.Lists
 
     internal sealed class UserContribsAllListMakerProvider : UserContribsListMakerProvider
     {
+        public UserContribsAllListMakerProvider()
+        {
+            this.all = true;
+        }
+
         public override List<Article> MakeList(string[] searchCriteria)
         {
-            all = false;
             return base.MakeList(searchCriteria);
         }
 
