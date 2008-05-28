@@ -59,6 +59,12 @@ namespace AWBPackager
                 Directory.CreateDirectory(Tmp + "Plugins\\IFD\\");
                 File.Copy(currFolder + "IFD.dll", Tmp + "Plugins\\IFD\\IFD.dll", true);
 
+                Directory.CreateDirectory(Tmp + "Plugins\\Yahoo Search Plugin\\");
+                File.Copy(currFolder + "YahooSearchPlugin.dll", Tmp + "Plugins\\Yahoo Search Plugin\\YahooSearchPlugin.dll", true);
+
+                Directory.CreateDirectory(Tmp + "Plugins\\Delinker\\");
+                File.Copy(currFolder + "DelinkerPlugin.dll", Tmp + "Plugins\\Delinker\\DelinkerPlugin.dll", true);
+
                 currFolder = AWBDir + "IRCMonitor\\bin\\Release\\";
                 File.Copy(currFolder + "IRCMonitor.exe", Tmp + "IRCMonitor.exe", true);
 
@@ -69,12 +75,6 @@ namespace AWBPackager
                 File.Copy(currFolder + "Physics generic template.xml", Tmp + "Plugins\\Kingbotk\\Physics generic template.xml", true);
                 File.Copy(currFolder + "Film generic template.xml", Tmp + "Plugins\\Kingbotk\\Film generic template.xml", true);
                 File.Copy(currFolder + "Readme.txt", Tmp + "Plugins\\Kingbotk\\Readme.txt", true);
-
-                Directory.CreateDirectory(Tmp + "Plugins\\Yahoo Search Plugin\\");
-                File.Copy(currFolder + "YahooSearchPlugin.dll", Tmp + "Plugins\\Yahoo Search Plugin\\YahooSearchPlugin.dll", true);
-
-                Directory.CreateDirectory(Tmp + "Plugins\\Delinker\\");
-                File.Copy(currFolder + "DelinkerPlugin.dll", Tmp + "Plugins\\Delinker\\DelinkerPlugin.dll", true);
 
                 Console.WriteLine("Files copied to temporary directory");
 
