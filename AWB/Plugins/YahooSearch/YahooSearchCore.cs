@@ -123,7 +123,7 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
         { get { return "Yahoo Search"; } }
 
         public string SelectSourceTextBoxText
-        { get { return "Search string"; } }
+        { get { return "Yahoo Search:"; } }
 
         public bool SelectSourceTextBoxEnabled
         { get { return true; } }
