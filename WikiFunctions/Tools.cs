@@ -1351,5 +1351,20 @@ Message: {2}
             else
                 return a.URLEncodedName;
         }
+
+        public static List<Article> FilterSomeArticles(List<Article> UnfilteredArticles)
+        {
+            //Filter out artcles which we definately do not want to edit and remove duplicates.
+            List<Article> items = new List<Article>();
+
+            foreach (Article a in UnfilteredArticles)
+            {
+                if (a.NameSpaceKey >= 0 && a.NameSpaceKey != 9 && a.NameSpaceKey != 8 && !a.Name.StartsWith("Commons:"))
+                {
+                    items.Add(a);
+                }
+            }
+            return items;
+        }
     }
 }

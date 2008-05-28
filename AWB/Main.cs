@@ -2559,7 +2559,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void openPageInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Tools.OpenURLInBrowser(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName);
-
         }
 
         private void openTalkPageInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
