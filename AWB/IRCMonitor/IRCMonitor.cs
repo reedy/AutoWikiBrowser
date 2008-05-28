@@ -1053,10 +1053,9 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
 
             try
             {
-                List<Article> bots = new List<Article>();
-                string item = "";
                 //HACK:
-                bots = GetLists.FromListUsers("bot", "");//FromCategory(false, "Wikipedia bots");
+                List<Article> bots = GetLists.FromListUsers("bot", "");
+                string item = "";
 
                 foreach (Article a in bots)
                 {

@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WikiFunctions.Plugins.ListMaker.YahooSearch</RootNamespace>
-    <AssemblyName>YahooSearch</AssemblyName>
+    <AssemblyName>YahooSearchPlugin</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>2.0</OldToolsVersion>

@@ -70,6 +70,12 @@ namespace AWBPackager
                 File.Copy(currFolder + "Film generic template.xml", Tmp + "Plugins\\Kingbotk\\Film generic template.xml", true);
                 File.Copy(currFolder + "Readme.txt", Tmp + "Plugins\\Kingbotk\\Readme.txt", true);
 
+                Directory.CreateDirectory(Tmp + "Plugins\\Yahoo Search Plugin\\");
+                File.Copy(currFolder + "YahooSearchPlugin.dll", Tmp + "Plugins\\Yahoo Search Plugin\\YahooSearchPlugin.dll", true);
+
+                Directory.CreateDirectory(Tmp + "Plugins\\Delinker\\");
+                File.Copy(currFolder + "DelinkerPlugin.dll", Tmp + "Plugins\\Delinker\\DelinkerPlugin.dll", true);
+
                 Console.WriteLine("Files copied to temporary directory");
 
                 string filename = "AWB.zip";
