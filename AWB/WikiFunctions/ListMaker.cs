@@ -1084,15 +1084,19 @@ namespace WikiFunctions.Controls.Lists
 
         private void loadArticlesInBrowser()
         {
-            foreach (Article item in lbArticles.SelectedItems)
+            try
             {
-                try
+                foreach (Article item in lbArticles.SelectedItems)
                 {
-                    Tools.OpenArticleInBrowser(item.Name);
+                    try
+                    {
+                        Tools.OpenArticleInBrowser(item.Name);
+                    }
+                    catch { }
                 }
-                catch { }
             }
-        }
+            catch { }
+        } 
 
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
         {
