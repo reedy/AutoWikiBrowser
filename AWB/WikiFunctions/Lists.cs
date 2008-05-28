@@ -432,28 +432,38 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
-    //public class DatabaseScannerListMakerProvider : IListMakerProvider
-    //{
-    //    #region IListMakerProvider Members
+    public class DatabaseScannerListMakerProvider : IListMakerProvider
+    {
+        ListBox listMakerListbox;
+        public DatabaseScannerListMakerProvider(ListBox lb)
+        {
+            this.listMakerListbox = lb;
+        }
 
-    //    public List<Article> Search(string[] searchCriteria)
-    //    { return new List<Article>(); }
+        #region IListMakerProvider Members
 
-    //    public string DisplayText
-    //    { get { return "Database dump"; } }
+        public List<Article> MakeList(string[] searchCriteria)
+        {             
+            WikiFunctions.DBScanner.DatabaseScanner ds = new WikiFunctions.DBScanner.DatabaseScanner(listMakerListbox);
+            ds.Show();
+            return null; 
+        }
 
-    //    public string SelectSourceTextBoxText
-    //    { get { return ""; } }
+        public string DisplayText
+        { get { return "Database dump"; } }
 
-    //    public bool SelectSourceTextBoxEnabled
-    //    { get { return false; } }
+        public string UserInputTextBoxText
+        { get { return ""; } }
 
-    //    public void Selected() { }
+        public bool UserInputTextBoxEnabled
+        { get { return false; } }
 
-    //    public bool IsThreaded
-    //    { get { return false; } }
+        public void Selected() { }
 
-    //    #endregion
-    //}
+        public bool RunOnSeperateThread
+        { get { return false; } }
+
+        #endregion
+    }
     #endregion
 }
