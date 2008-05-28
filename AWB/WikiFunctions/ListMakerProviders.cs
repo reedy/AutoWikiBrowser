@@ -45,20 +45,6 @@ namespace WikiFunctions.Lists
         /// </summary>
         public static bool QuietMode;
 
-        #region From variant
-        /// <summary>
-        /// Gets a list of pages from any supported kind of source
-        /// </summary>
-        /// <param name="What">Which source to use</param>
-        /// <param name="Limit">Max. number of pages to return, -1 if no limit</param>
-        /// <param name="Params">Optional parameters, depend on source</param>
-        /// <returns>The list of pages</returns>
-        public static List<Article> FromVariant(WikiFunctions.Lists.IListMakerProvider what, params string[] params1)
-        {
-            return what.MakeList(params1);
-        }
-        #endregion
-
         #region From Special:Listusers
         /// <summary>
         /// Gets a list of users with given parameters
@@ -112,110 +98,6 @@ namespace WikiFunctions.Lists
                 }
             }
             return items;
-        }
-
-        /// <summary>
-        /// Turns a list of articles into an list of the associated talk pages.
-        /// </summary>
-        /// <param name="list">The list of articles.</param>
-        /// <returns>The list of the talk pages.</returns>
-        public static List<Article> ConvertToTalk(List<Article> list)
-        {
-            List<Article> newList = new List<Article>();
-
-            foreach (Article a in list)
-            {
-                if (Tools.IsTalkPage(a.NameSpaceKey))
-                {
-                    newList.Add(a);
-                    continue;
-                }
-                else if (a.NameSpaceKey == 0)
-                {
-                    newList.Add(new WikiFunctions.Article(Variables.Namespaces[1] + a.Name));
-                    continue;
-                }
-                else
-                {
-                    string s = Regex.Replace(a.Name, "^" + Variables.Namespaces[a.NameSpaceKey], Variables.Namespaces[a.NameSpaceKey + 1]);
-                    newList.Add(new WikiFunctions.Article(s));
-                    continue;
-                }
-            }
-            return newList;
-        }
-
-        /// <summary>
-        /// Turns an article into its associated talk page
-        /// </summary>
-        /// <param name="a">The Article</param>
-        /// <returns>Article Title</returns>
-        public static string ConvertToTalk(Article a)
-        {
-            if (Tools.IsTalkPage(a.NameSpaceKey))
-            {
-                return a.URLEncodedName;
-            }
-            else if (a.NameSpaceKey == 0)
-            {
-                return (Variables.Namespaces[1] + a.Name);
-            }
-            else
-            {
-                return Regex.Replace(a.Name, "^" + Variables.Namespaces[a.NameSpaceKey], Variables.Namespaces[a.NameSpaceKey + 1]);
-            }
-        }
-
-        /// <summary>
-        /// Turns a list of talk pages into a list of the associated articles.
-        /// </summary>
-        /// <param name="list">The list of talk pages.</param>
-        /// <returns>The list of articles.</returns>
-        public static List<Article> ConvertFromTalk(List<Article> list)
-        {
-            List<Article> newList = new List<Article>();
-
-            foreach (Article a in list)
-            {
-                if (Tools.IsTalkPage(a.NameSpaceKey))
-                {
-                    if (a.NameSpaceKey == 1)
-                    {
-                        string s = Regex.Replace(a.Name, "^" + Variables.Namespaces[a.NameSpaceKey], "");
-                        newList.Add(new WikiFunctions.Article(s));
-                    }
-                    else
-                    {
-                        string s = Regex.Replace(a.Name, "^" + Variables.Namespaces[a.NameSpaceKey], Variables.Namespaces[a.NameSpaceKey - 1]);
-                        newList.Add(new WikiFunctions.Article(s));
-                    }
-                }
-                else
-                    newList.Add(a);
-            }
-            return newList;
-        }
-
-        /// <summary>
-        /// Turns a talk page into its associated article
-        /// </summary>
-        /// <param name="a">The Article</param>
-        /// <returns>Article Title</returns>
-        public static string ConvertFromTalk(Article a)
-        {
-            if (Tools.IsTalkPage(a.NameSpaceKey))
-            {
-                if (a.NameSpaceKey == 1)
-                {
-                    return Regex.Replace(a.Name, "^" + Variables.Namespaces[a.NameSpaceKey], "");
-                }
-                else
-                {
-                    return Regex.Replace(a.Name, "^" + Variables.Namespaces[a.NameSpaceKey], Variables.Namespaces[a.NameSpaceKey - 1]);
-                }
-            }
-            else
-                return a.URLEncodedName;
         }
         #endregion
     }
