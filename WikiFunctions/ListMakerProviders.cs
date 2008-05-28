@@ -752,10 +752,11 @@ namespace WikiFunctions.Lists
         readonly static Regex regexe = new Regex("<li>\\(?<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a> \\(redirect page\\)", RegexOptions.Compiled);
         readonly static Regex regexe2 = new Regex("<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a>", RegexOptions.Compiled);
         readonly static Regex regexLog = new Regex(@"<li>.*?<a .*?</a> \(<a .*?</a>\).*?<a href=""[^""]*""[^>]* title=""([^""]*)"">[^<>]*</a>", RegexOptions.Compiled);
+        readonly static Regex regexLog2 = new Regex(@"^Log ?[/\?&]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         public List<Article> MakeList(string[] searchCriteria)
         {
-            searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[-1], ""));
+            searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
             //TODO:Fix!
             List<Article> list = new List<Article>();
@@ -764,21 +765,26 @@ namespace WikiFunctions.Lists
 
             foreach (string s in searchCriteria)
             {
+                //TODO:Maybe better way than altering array?
                 string special = Regex.Replace(s, "^" + Variables.NamespacesCaseInsensitive[-1], "", RegexOptions.IgnoreCase);
 
                 string url = Variables.URLLong + "index.php?title=Special:" + special;
                 if (!url.Contains("&limit=")) url += "&limit=" + limit.ToString();
-                string pageText = Tools.GetHTML(url);
-
-                pageText = Tools.StringBetween(pageText, "<!-- start content -->", "<!-- end content -->");
+                string pageText = Tools.StringBetween(Tools.GetHTML(url), "<!-- start content -->", "<!-- end content -->");
+                
                 string title = "";
                 int ns = 0;
 
-                if (Regex.IsMatch(s, @"^Log ?[/\?&]", RegexOptions.IgnoreCase) || !regexli.IsMatch(pageText))
+                bool matchSuccessful = regexLog2.IsMatch(s);
+
+                if (matchSuccessful || !regexli.IsMatch(pageText))
                 {
-                    Regex r = regexe;
-                    if (Regex.IsMatch(s, @"^Log ?[/\?&]", RegexOptions.IgnoreCase))
+                    Regex r;
+                    if (matchSuccessful)
                         r = regexLog;
+                    else
+                        r = regexe;
+
                     foreach (Match m in r.Matches(pageText))
                     {
                         title = m.Groups[1].Value.Trim();
