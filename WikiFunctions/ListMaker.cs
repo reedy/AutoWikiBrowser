@@ -443,10 +443,14 @@ namespace WikiFunctions.Controls.Lists
         /// <summary>
         /// Gets or sets the selected index
         /// </summary>
-        public SourceType SelectedSource
-        {//TODO:Update/Deal with
-            get { return (SourceType)cmboSourceSelect.SelectedIndex; }
-            set { }//cmboSourceSelect.SelectedIndex = (int)value; } //TODO:Re-enable when populated
+        public int SelectedSource
+        {
+            get { return cmboSourceSelect.SelectedIndex; }
+            set
+            {
+                if (value < cmboSourceSelect.Items.Count)
+                    cmboSourceSelect.SelectedIndex = (int)value;
+            }
         }
 
         /// <summary>

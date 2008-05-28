@@ -211,7 +211,6 @@ namespace WikiFunctions.Controls.Lists
             // 
             this.listMaker2.Location = new System.Drawing.Point(7, 18);
             this.listMaker2.Name = "listMaker2";
-            this.listMaker2.SelectedSource = WikiFunctions.Lists.SourceType.Category;
             this.listMaker2.Size = new System.Drawing.Size(201, 351);
             this.listMaker2.SourceText = "";
             this.listMaker2.TabIndex = 14;
