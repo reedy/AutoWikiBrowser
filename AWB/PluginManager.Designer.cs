@@ -85,14 +85,14 @@ namespace AutoWikiBrowser
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadPluginToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(138, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(185, 48);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // loadPluginToolStripMenuItem
             // 
             this.loadPluginToolStripMenuItem.Name = "loadPluginToolStripMenuItem";
-            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
-            this.loadPluginToolStripMenuItem.Text = "Load Plugin";
+            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.loadPluginToolStripMenuItem.Text = "Load Selected Plugin";
             this.loadPluginToolStripMenuItem.Click += new System.EventHandler(this.loadPluginToolStripMenuItem_Click);
             // 
             // menuStrip1
