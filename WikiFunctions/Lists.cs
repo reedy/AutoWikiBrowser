@@ -1,5 +1,5 @@
 ﻿/*
-(c) 2008 Stephen Kennedy
+(c) 2008 Stephen Kennedy, Sam Reed
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -38,18 +38,11 @@ namespace WikiFunctions.Lists
     public interface IListMakerProvider
     {
         /// <summary>
-        /// Process the search criteria and return a list of articles
+        /// Process the user input (if any) and return a list of articles
         /// </summary>
-        /// <param name="searchCriteria"></param>
+        /// <param name="userInput"></param>
         /// <returns></returns>
-        List<Article> Search(string[] searchCriteria); // TODO: This may need to use param, or accept one string and perform string splitting within the encapsulated code
-
-        ///// <summary>
-        ///// Process the search criteria and return a list of articles
-        ///// </summary>
-        ///// <param name="searchCriteria"></param>
-        ///// <returns></returns>
-        //List<Article> Search(string searchCriteria);
+        List<Article> MakeList(string[] userInput); // TODO: This may need to use param, or accept one string and perform string splitting within the encapsulated code
 
         /// <summary>
         /// The text to display as the combobox list item
@@ -62,26 +55,32 @@ namespace WikiFunctions.Lists
         string SelectSourceTextBoxText { get; }
 
         /// <summary>
-        /// 
+        /// Indicates whether the Select Source text box should be enabled
         /// </summary>
         bool SelectSourceTextBoxEnabled { get;}
+
+        ///// <summary>
+        ///// Called when the ListMaker Provider has been selected in the ComboBox
+        ///// </summary>
+        ///// <returns>A boolean indicating whether Select Source text box should be enabled</returns>
+        //bool Selected();
 
         /// <summary>
         /// Called when the ListMaker Provider has been selected in the ComboBox
         /// </summary>
-        /// <returns>A boolean indicating whether Select Source text box should be enabled</returns>
-        bool Selected();
+        void Selected();
 
         /// <summary>
-        /// 
+        /// True if the object expects to be started on a seperate thread
         /// </summary>
-        bool IsThreaded { get;}
+        bool RunOnSeperateThread { get;}
     }
 
-    public class Category : IListMakerProvider
+    // TODO: Move elsewhere when finished
+    // TODO: Document me (just a header for each class saying what it does)
+    #region ListMakerProviders
+    internal class Category : IListMakerProvider
     {
-        #region IListMakerProvider Members
-
         protected bool subCats = false;
 
         //public virtual List<Article> Search(string searchCriteria)
@@ -89,7 +88,7 @@ namespace WikiFunctions.Lists
         //    return Search(searchCriteria.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
         //}
 
-        public virtual List<Article> Search(string[] searchCriteria)
+        public virtual List<Article> MakeList(string[] searchCriteria)
         {
             searchCriteria = Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[14], "");
 
@@ -97,50 +96,40 @@ namespace WikiFunctions.Lists
         }
 
         public virtual string DisplayText
-        {
-            get { return "Category"; }
-        }
+        { get { return "Category"; } }
 
         public string SelectSourceTextBoxText
-        {
-            get { return Variables.Namespaces[14]; }
-        }
+        { get { return Variables.Namespaces[14]; } }
 
         public bool SelectSourceTextBoxEnabled
         { get { return true; } }
 
-        public bool Selected()
-        {
-            return true;
-        }
+        public void Selected() { }
 
-        public bool IsThreaded
+        public bool RunOnSeperateThread
         { get { return true; } }
-
-        #endregion
     }
 
-    public class CategoryRecursive : Category
+    internal sealed class CategoryRecursive : Category
     {
-        public override List<Article> Search(string[] searchCriteria)
+        public override List<Article> MakeList(string[] searchCriteria)
         {
             GetLists.QuietMode = true;
             subCats = true;
-            List<Article> ret = base.Search(searchCriteria);
+            List<Article> ret = base.MakeList(searchCriteria);
             GetLists.QuietMode = false;
 
             return ret;
         }
 
         public override string DisplayText
-        {
-            get { return "Category (recursive)"; }
-        }
+        { get { return "Category (recursive)"; } }
     }
 
-    public class TextFile : IListMakerProvider
+    internal sealed class TextFile : IListMakerProvider
     {
-        OpenFileDialog openListDialog;
+        private OpenFileDialog openListDialog;
+
         public TextFile()
         {
             openListDialog = new OpenFileDialog();
@@ -148,9 +137,7 @@ namespace WikiFunctions.Lists
             openListDialog.Multiselect = true;
         }
 
-        #region IListMakerProvider Members
-
-        public List<Article> Search(string[] searchCriteria)
+        public List<Article> MakeList(string[] searchCriteria)
         {
             List<Article> ret = new List<Article>();
             try
@@ -169,254 +156,148 @@ namespace WikiFunctions.Lists
         }
 
         public string DisplayText
-        {
-            get { return "Text File"; }
-        }
+        { get { return "Text File"; } }
 
         public string SelectSourceTextBoxText
-        {
-            get { return "From file:"; }
-        }
+        { get { return "From file:"; } }
 
         public bool SelectSourceTextBoxEnabled
         { get { return false; } }
 
-        public bool Selected()
-        {
-            return false;
-        }
+        public void Selected() { }
 
-        public bool IsThreaded
-        {
-            get { return false; }
-        }
-
-        #endregion
+        public bool RunOnSeperateThread
+        { get { return false; } }
     }
 
-    public class WhatLinksHere : IListMakerProvider
+    internal class WhatLinksHere : IListMakerProvider
     {
-        #region IListMakerProvider Members
-
-        public virtual List<Article> Search(string[] searchCriteria)
-        {
-            return GetLists.FromWhatLinksHere(false, searchCriteria);
-        }
+        public virtual List<Article> MakeList(string[] searchCriteria)
+        { return GetLists.FromWhatLinksHere(false, searchCriteria); }
 
         public virtual string DisplayText
-        {
-            get { return "What links here"; }
-        }
+        { get { return "What links here"; } }
 
         public virtual string SelectSourceTextBoxText
-        {
-            get { return "What links to:"; }
-        }
+        { get { return "What links to:"; } }
 
         public bool SelectSourceTextBoxEnabled
-        {
-            get { return true; }
-        }
+        { get { return true; } }
 
-        public bool Selected()
-        {
-            return true;
-        }
+        public void Selected() { }
 
-        public bool IsThreaded
-        {
-            get { return true; }
-        }
-
-        #endregion
+        public bool RunOnSeperateThread
+        { get { return true; } }
     }
 
-    public class WhatLinksHereIncludingRedirects : WhatLinksHere
+    internal sealed class WhatLinksHereIncludingRedirects : WhatLinksHere
     {
-        public override List<Article> Search(string[] searchCriteria)
-        {
-            return GetLists.FromWhatLinksHere(false, true, searchCriteria);
-        }
+        public override List<Article> MakeList(string[] searchCriteria)
+        { return GetLists.FromWhatLinksHere(false, true, searchCriteria); }
 
         public override string DisplayText
-        {
-            get { return base.DisplayText + " (inc. Redirects)"; }
-        }
+        { get { return base.DisplayText + " (inc. Redirects)"; } }
     }
 
-    public class WhatTranscludesPage : WhatLinksHere
+    internal sealed class WhatTranscludesPage : WhatLinksHere
     {
-        public override List<Article> Search(string[] searchCriteria)
-        {
-            return GetLists.FromWhatLinksHere(true, searchCriteria);
-        }
+        public override List<Article> MakeList(string[] searchCriteria)
+        { return GetLists.FromWhatLinksHere(true, searchCriteria); }
 
         public override string DisplayText
-        {
-            get { return "What transcludes page"; }
-        }
+        { get { return "What transcludes page"; } }
 
         public override string SelectSourceTextBoxText
-        {
-            get { return "What embeds:"; }
-        }
+        { get { return "What embeds:"; } }
     }
 
-    public class LinksOnPage : IListMakerProvider
+    internal sealed class LinksOnPage : IListMakerProvider
     {
-        #region IListMakerProvider Members
-
-        public List<Article> Search(string[] searchCriteria)
-        {
-            return GetLists.FromLinksOnPage(searchCriteria);
-        }
+        public List<Article> MakeList(string[] searchCriteria)
+        { return GetLists.FromLinksOnPage(searchCriteria); }
 
         public string DisplayText
-        {
-            get { return "Links on page"; }
-        }
+        { get { return "Links on page"; } }
 
         public string SelectSourceTextBoxText
-        {
-            get { return "Links on:"; }
-        }
+        { get { return "Links on:"; } }
 
         public bool SelectSourceTextBoxEnabled
-        {
-            get { return true; }
-        }
+        { get { return true; } }
 
-        public bool Selected()
-        {
-            return true;
-        }
+        public void Selected() { }
 
-        public bool IsThreaded
-        {
-            get { return true; }
-        }
-
-        #endregion
+        public bool RunOnSeperateThread
+        { get { return true; } }
     }
 
-    public class ImagesOnPage : IListMakerProvider
+    internal sealed class ImagesOnPage : IListMakerProvider
     {
-        #region IListMakerProvider Members
-
-        public List<Article> Search(string[] searchCriteria)
-        {
-            return GetLists.FromImagesOnPage(searchCriteria);
-        }
+        public List<Article> MakeList(string[] searchCriteria)
+        { return GetLists.FromImagesOnPage(searchCriteria); }
 
         public string DisplayText
-        {
-            get { return "Images on page"; }
-        }
+        { get { return "Images on page"; } }
 
         public string SelectSourceTextBoxText
-        {
-            get { return "Images on:"; }
-        }
+        { get { return "Images on:"; } }
 
         public bool SelectSourceTextBoxEnabled
-        {
-            get { return true; }
-        }
+        { get { return true; } }
 
-        public bool Selected()
-        {
-            return true;
-        }
+        public void Selected() { }
 
-        public bool IsThreaded
-        {
-            get { return true; }
-        }
-
-        #endregion
+        public bool RunOnSeperateThread
+        { get { return true; } }
     }
 
-    public class TransclusionsOnPage : IListMakerProvider
+    internal sealed class TransclusionsOnPage : IListMakerProvider
     {
-        #region IListMakerProvider Members
 
-        public List<Article> Search(string[] searchCriteria)
-        {
-            return GetLists.FromTransclusionsOnPage(searchCriteria);
-        }
+        public List<Article> MakeList(string[] searchCriteria)
+        { return GetLists.FromTransclusionsOnPage(searchCriteria); }
 
         public string DisplayText
-        {
-            get { return "Transclusions on page"; }
-        }
+        { get { return "Transclusions on page"; } }
 
         public string SelectSourceTextBoxText
-        {
-            get { return "Transclusions on:"; }
-        }
+        { get { return "Transclusions on:"; } }
 
         public bool SelectSourceTextBoxEnabled
-        {
-            get { return true; }
+        { get { return true; }
         }
 
-        public bool Selected()
-        {
-            return true;
-        }
+        public void Selected() { }
 
-        public bool IsThreaded
-        {
-            get { return true; }
-        }
-
-        #endregion
+        public bool RunOnSeperateThread
+        { get { return true; } }
     }
 
-    public class GoogleSearch : IListMakerProvider
+    internal sealed class GoogleSearch : IListMakerProvider
     {
-        #region IListMakerProvider Members
-
-        public List<Article> Search(string[] searchCriteria)
-        {
-            return GetLists.FromGoogleSearch(searchCriteria);
-        }
+        public List<Article> MakeList(string[] searchCriteria)
+        { return GetLists.FromGoogleSearch(searchCriteria); }
 
         public string DisplayText
-        {
-            get { return "Google Search"; }
-        }
+        { get { return "Google Search"; } }
 
         public string SelectSourceTextBoxText
-        {
-            get { return "Google Search:"; }
-        }
+        { get { return "Google Search:"; } }
 
         public bool SelectSourceTextBoxEnabled
-        {
-            get { return true; }
-        }
+        { get { return true; } }
 
-        public bool Selected()
-        {
-            return true;
-        }
+        public void Selected() { }
 
-        public bool IsThreaded
-        {
-            get { return true; }
-        }
-
-        #endregion
+        public bool RunOnSeperateThread
+        { get { return true; } }
     }
 
-    public class UserContribs : IListMakerProvider
+    internal class UserContribs : IListMakerProvider
     {
-        #region IListMakerProvider Members
-
         protected bool all = false;
 
-        public virtual List<Article> Search(string[] searchCriteria)
+        public virtual List<Article> MakeList(string[] searchCriteria)
         {
             searchCriteria = Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[2], "");
 
@@ -424,52 +305,35 @@ namespace WikiFunctions.Lists
         }
 
         public virtual string DisplayText
-        {
-            get { return "User contribs"; }
-        }
+        { get { return "User contribs"; } }
 
         public string SelectSourceTextBoxText
-        {
-            get { return Variables.Namespaces[2]; }
-        }
+        { get { return Variables.Namespaces[2]; } }
 
         public bool SelectSourceTextBoxEnabled
-        {
-            get { return true; }
-        }
+        { get { return true; } }
 
-        public bool Selected()
-        {
-            return true;
-        }
+        public void Selected() { }
 
-        public bool IsThreaded
-        {
-            get { return true; }
-        }
-
-        #endregion
+        public bool RunOnSeperateThread
+        { get { return true; } }
     }
 
-    public class UserContribsAll : UserContribs
+    internal sealed class UserContribsAll : UserContribs
     {
-        public override List<Article> Search(string[] searchCriteria)
+        public override List<Article> MakeList(string[] searchCriteria)
         {
             all = false;
-            return base.Search(searchCriteria);
+            return base.MakeList(searchCriteria);
         }
 
         public override string DisplayText
-        {
-            get { return base.DisplayText + " (all)"; }
-        }
+        { get { return base.DisplayText + " (all)"; } }
     }
 
-    public class SpecialPage : IListMakerProvider
+    internal sealed class SpecialPage : IListMakerProvider
     {
-        #region IListMakerProvider Members
-
-        public List<Article> Search(string[] searchCriteria)
+        public List<Article> MakeList(string[] searchCriteria)
         {
             searchCriteria = Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[-1], "");
 
@@ -477,38 +341,23 @@ namespace WikiFunctions.Lists
         }
 
         public string DisplayText
-        {
-            get { return "Special page"; }
-        }
+        { get { return "Special page"; } }
 
         public string SelectSourceTextBoxText
-        {
-            get { return Variables.Namespaces[-1]; }
-        }
+        { get { return Variables.Namespaces[-1]; } }
 
         public bool SelectSourceTextBoxEnabled
-        {
-            get { return true; }
-        }
+        { get { return true; } }
 
-        public bool Selected()
-        {
-            return true;
-        }
+        public void Selected() { }
 
-        public bool IsThreaded
-        {
-            get { return true; }
-        }
-
-        #endregion
+        public bool RunOnSeperateThread
+        { get { return true; } }
     }
 
-    public class ImageFileLinks : IListMakerProvider
+    internal sealed class ImageFileLinks : IListMakerProvider
     {
-        #region IListMakerProvider Members
-
-        public List<Article> Search(string[] searchCriteria)
+        public List<Article> MakeList(string[] searchCriteria)
         {
             searchCriteria = Tools.RegexReplaceOnArray(searchCriteria, "^" + Variables.NamespacesCaseInsensitive[6], "");
 
@@ -516,142 +365,78 @@ namespace WikiFunctions.Lists
         }
 
         public string DisplayText
-        {
-            get { return "Image file links"; }
-        }
+        { get { return "Image file links"; } }
 
         public string SelectSourceTextBoxText
-        {
-            get { return Variables.Namespaces[6]; }
-        }
+        { get { return Variables.Namespaces[6]; } }
 
         public bool SelectSourceTextBoxEnabled
-        {
-            get { return true; }
-        }
+        { get { return true; } }
 
-        public bool Selected()
-        {
-            return true;
-        }
+        public void Selected() { }
 
-        public bool IsThreaded
-        {
-            get { return true; }
-        }
-
-        #endregion
+        public bool RunOnSeperateThread
+        { get { return true; } }
     }
 
-    public class WikiSearch : IListMakerProvider
+    internal sealed class WikiSearch : IListMakerProvider
     {
-        #region IListMakerProvider Members
-
-        public List<Article> Search(string[] searchCriteria)
-        {
-            return GetLists.FromWikiSearch(searchCriteria);
-        }
+        public List<Article> MakeList(string[] searchCriteria)
+        { return GetLists.FromWikiSearch(searchCriteria); }
 
         public string DisplayText
-        {
-            get { return "Wiki search"; }
-        }
+        { get { return "Wiki search"; } }
 
         public string SelectSourceTextBoxText
-        {
-            get { return "Wiki search:"; }
-        }
+        { get { return "Wiki search:"; } }
 
         public bool SelectSourceTextBoxEnabled
-        {
-            get { return true; }
-        }
+        { get { return true; } }
 
-        public bool Selected()
-        {
-            return true;
-        }
+        public void Selected() { }
 
-        public bool IsThreaded
-        {
-            get { return true; }
-        }
-
-        #endregion
+        public bool RunOnSeperateThread
+        { get { return true; } }
     }
 
-    public class Redirects : IListMakerProvider
+    internal sealed class Redirects : IListMakerProvider
     {
-        #region IListMakerProvider Members
-
-        public List<Article> Search(string[] searchCriteria)
-        {
-            return GetLists.FromRedirects(searchCriteria);
-        }
+        public List<Article> MakeList(string[] searchCriteria)
+        { return GetLists.FromRedirects(searchCriteria); }
 
         public string DisplayText
-        {
-            get { return "Redirects"; }
-        }
+        { get { return "Redirects"; } }
 
         public string SelectSourceTextBoxText
-        {
-            get { return "Redirects to:"; }
-        }
+        { get { return "Redirects to:"; } }
 
         public bool SelectSourceTextBoxEnabled
-        {
-            get { return true; }
-        }
+        { get { return true; } }
 
-        public bool Selected()
-        {
-            return true;
-        }
+        public void Selected() { }
 
-        public bool IsThreaded
-        {
-            get { return true; }
-        }
-
-        #endregion
+        public bool RunOnSeperateThread
+        { get { return true; } }
     }
 
-    public class MyWatchlist : IListMakerProvider
+    internal sealed class MyWatchlist : IListMakerProvider
     {
-        #region IListMakerProvider Members
-
-        public List<Article> Search(string[] searchCriteria)
-        {
-            return GetLists.FromWatchList();
-        }
+        public List<Article> MakeList(string[] searchCriteria)
+        { return GetLists.FromWatchList(); }
 
         public string DisplayText
-        {
-            get { return "My Watchlist"; }
-        }
+        { get { return "My Watchlist"; } }
 
         public string SelectSourceTextBoxText
-        {
-            get { return ""; }
-        }
+        { get { return ""; } }
 
         public bool SelectSourceTextBoxEnabled
-        {
-            get { return false; }
-        }
+        { get { return false; } }
 
-        public bool Selected()
-        {
-            return false;
-        }
+        public void Selected() { }
 
-        public bool IsThreaded
-        {
-            get { return true; }
-        }
-
-        #endregion
+        public bool RunOnSeperateThread
+        { get { return true; } }
     }
 
     //public class DatabaseScanner : IListMakerProvider
@@ -690,6 +475,7 @@ namespace WikiFunctions.Lists
 
     //    #endregion
     //}
+    #endregion
 
     // TODO: May well no longer be needed
     public enum SourceType { None = -1, Category, CategoryRecursive, WhatLinksHere, WhatLinksHereIncludingRedirects, WhatTranscludesPage, LinksOnPage, ImagesOnPage, TransclusionsOnPage, TextFile, GoogleWikipedia, UserContribs, AllUserContribs, SpecialPage, ImageFileLinks, DatabaseDump, MyWatchlist, WikiSearch, Redirects, Plugin }

@@ -680,7 +680,7 @@ namespace WikiFunctions.Controls.Lists
 
             pluginToRun = listItems[cmboSourceSelect.SelectedIndex];
 
-            if (pluginToRun.IsThreaded)
+            if (pluginToRun.RunOnSeperateThread)
             {
                 strSource = sourceValues;
                 ThreadStart thr_Process = new ThreadStart(MakeListPlugin);
@@ -692,7 +692,7 @@ namespace WikiFunctions.Controls.Lists
             {
                 BusyStatus = true;
 
-                Add(pluginToRun.Search(sourceValues));
+                Add(pluginToRun.MakeList(sourceValues));
 
                 BusyStatus = false;
                 UpdateNumberOfArticles();
@@ -715,7 +715,7 @@ namespace WikiFunctions.Controls.Lists
 
             try
             {
-                Add(pluginToRun.Search(strSource));
+                Add(pluginToRun.MakeList(strSource));
             }
             catch (ThreadAbortException) { }
             catch (PageDoesNotExistException ex)
