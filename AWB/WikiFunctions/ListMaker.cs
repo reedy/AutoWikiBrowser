@@ -18,26 +18,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-/* Category
-Category (recursive)
-What links here
-What links here (inc. Redirects)
-What transcludes page
-Links on page
-Images on page
-Transclusions on page
-Text file
-Google search
-User contribs
-User contribs (all)
-Special page
-Image file links
-Database dump
-My watchlist
-Wiki search
-Redirects
-*/
-
 using System;
 using System.Collections.Generic;
 using System.Collections;
@@ -103,8 +83,7 @@ namespace WikiFunctions.Controls.Lists
             cmboSourceSelect.ValueMember = "DisplayText";
         }
 
-        new public static void Refresh()
-        { }
+        new public static void Refresh() { }
 
         public string strlbArticlesTooltip = "";
         public string strtxtNewArticleTooltip = "";
@@ -346,6 +325,7 @@ namespace WikiFunctions.Controls.Lists
                 return;
             }
 
+            //TODO:Re-add in
             //if (st != SourceType.WikiSearch && st != SourceType.GoogleWikipedia)
             //{
             //    txtSelectSource.Text = Tools.RemoveHashFromPageTitle(txtSelectSource.Text.Trim('[', ']'));
@@ -355,7 +335,7 @@ namespace WikiFunctions.Controls.Lists
             txtSelectSource.Text = txtSelectSource.Text.Trim();
             txtSelectSource.AutoCompleteCustomSource.Add(txtSelectSource.Text);
 
-            MakeList(SourceType.None, txtSelectSource.Text.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
+            MakeList();
         }
 
         private void lbArticles_MouseMove(object sender, MouseEventArgs e)
@@ -449,7 +429,7 @@ namespace WikiFunctions.Controls.Lists
             set
             {
                 if (value < cmboSourceSelect.Items.Count)
-                    cmboSourceSelect.SelectedIndex = (int)value;
+                    cmboSourceSelect.SelectedIndex = value;
             }
         }
 
@@ -673,18 +653,23 @@ namespace WikiFunctions.Controls.Lists
 
         Thread ListerThread = null;
 
+        public void MakeList()
+        {
+            MakeList(listItems[cmboSourceSelect.SelectedIndex], txtSelectSource.Text.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
+        }
+
         /// <summary>
         /// Makes a list of pages
         /// </summary>
         /// <param name="ST">The type of list to create</param>
         /// <param name="SourceValues">An array of string values to create the list with, e.g. an array of categories. Use null if not appropriate</param>
-        public void MakeList(SourceType st, string[] sourceValues)
+        public void MakeList(IListMakerProvider provider, string[] sourceValues)
         {
             btnStop.Visible = true;
 
-            pluginToRun = listItems[cmboSourceSelect.SelectedIndex];
+            providerToRun = provider;
 
-            if (pluginToRun.RunOnSeperateThread)
+            if (providerToRun.RunOnSeperateThread)
             {
                 strSource = sourceValues;
                 ThreadStart thr_Process = new ThreadStart(MakeListPlugin);
@@ -696,7 +681,7 @@ namespace WikiFunctions.Controls.Lists
             {
                 BusyStatus = true;
 
-                Add(pluginToRun.MakeList(sourceValues));
+                Add(providerToRun.MakeList(sourceValues));
 
                 BusyStatus = false;
                 UpdateNumberOfArticles();
@@ -710,7 +695,7 @@ namespace WikiFunctions.Controls.Lists
 		}
 
         string[] strSource;
-        WikiFunctions.Lists.IListMakerProvider pluginToRun;
+        WikiFunctions.Lists.IListMakerProvider providerToRun;
 
         private void MakeListPlugin()
         {
@@ -719,7 +704,7 @@ namespace WikiFunctions.Controls.Lists
 
             try
             {
-                Add(pluginToRun.MakeList(strSource));
+                Add(providerToRun.MakeList(strSource));
             }
             catch (ThreadAbortException) { }
             catch (PageDoesNotExistException ex)
@@ -1061,7 +1046,7 @@ namespace WikiFunctions.Controls.Lists
                 }
             }
             if (i > 0)
-                MakeList(SourceType.Category, c);
+                MakeList(new CategoryListMakerProvider(), c);
         }
 
         private void fromWhatlinkshereToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1075,7 +1060,8 @@ namespace WikiFunctions.Controls.Lists
                 i++;
             }
 
-            MakeList(SourceType.WhatLinksHere, c);
+            if (i > 0)
+                MakeList(new WhatLinksHereListMakerProvider(), c);
         }
 
         private void fromTranscludesHereToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1089,7 +1075,8 @@ namespace WikiFunctions.Controls.Lists
                 i++;
             }
 
-            MakeList(SourceType.WhatTranscludesPage, c);
+            if (i > 0)
+                MakeList(new WhatTranscludesPageListMakerProvider(), c);
         }
 
         private void fromLinksOnPageToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1103,7 +1090,8 @@ namespace WikiFunctions.Controls.Lists
                 i++;
             }
 
-            MakeList(SourceType.LinksOnPage, c);
+            if (i > 0)
+                MakeList(new LinksOnPageListMakerProvider(), c);
         }
 
         private void fromImageLinksToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1117,7 +1105,8 @@ namespace WikiFunctions.Controls.Lists
                 i++;
             }
 
-            MakeList(SourceType.ImageFileLinks, c);
+            if (i > 0)
+                MakeList(new ImageFileLinksListMakerProvider(), c);
         }
 
         private void fromRedirectsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1131,7 +1120,8 @@ namespace WikiFunctions.Controls.Lists
                 i++;
             }
 
-            MakeList(SourceType.Redirects, c);
+            if (i > 0)
+                MakeList(new RedirectsListMakerProvider(), c);
         }
 
         private void clearToolStripMenuItem1_Click(object sender, EventArgs e)
