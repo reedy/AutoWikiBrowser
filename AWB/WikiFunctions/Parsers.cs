@@ -1706,8 +1706,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             bool orphaned = true;
             try
             {
-                //TODO:Migrate
-                List<Article> links = WikiFunctions.Lists.WhatLinksHereListMakerProvider.FromWhatLinksHere(false, ArticleTitle);
+                List<Article> links = new WikiFunctions.Lists.WhatLinksHereListMakerProvider().MakeList(ArticleTitle);
                 foreach (Article a in links)
                     if (Tools.IsMainSpace(a.Name) && !Tools.IsRedirect(a.Name))
                     {
