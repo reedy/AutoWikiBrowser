@@ -59,12 +59,6 @@ namespace WikiFunctions.Lists
         /// </summary>
         bool SelectSourceTextBoxEnabled { get;}
 
-        ///// <summary>
-        ///// Called when the ListMaker Provider has been selected in the ComboBox
-        ///// </summary>
-        ///// <returns>A boolean indicating whether Select Source text box should be enabled</returns>
-        //bool Selected();
-
         /// <summary>
         /// Called when the ListMaker Provider has been selected in the ComboBox
         /// </summary>
@@ -79,7 +73,7 @@ namespace WikiFunctions.Lists
     // TODO: Move elsewhere when finished
     // TODO: Document me (just a header for each class saying what it does)
     #region ListMakerProviders
-    internal class Category : IListMakerProvider
+    internal class CategoryListMakerProvider : IListMakerProvider
     {
         protected bool subCats = false;
 
@@ -110,7 +104,7 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
-    internal sealed class CategoryRecursive : Category
+    internal sealed class CategoryRecursiveListMakerProvider : CategoryListMakerProvider
     {
         public override List<Article> MakeList(string[] searchCriteria)
         {
@@ -126,11 +120,11 @@ namespace WikiFunctions.Lists
         { get { return "Category (recursive)"; } }
     }
 
-    internal sealed class TextFile : IListMakerProvider
+    internal sealed class TextFileListMakerProvider : IListMakerProvider
     {
         private OpenFileDialog openListDialog;
 
-        public TextFile()
+        public TextFileListMakerProvider()
         {
             openListDialog = new OpenFileDialog();
             openListDialog.Filter = "text files|*.txt|All files|*.*";
@@ -170,7 +164,7 @@ namespace WikiFunctions.Lists
         { get { return false; } }
     }
 
-    internal class WhatLinksHere : IListMakerProvider
+    internal class WhatLinksHereListMakerProvider : IListMakerProvider
     {
         public virtual List<Article> MakeList(string[] searchCriteria)
         { return GetLists.FromWhatLinksHere(false, searchCriteria); }
@@ -190,7 +184,7 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
-    internal sealed class WhatLinksHereIncludingRedirects : WhatLinksHere
+    internal sealed class WhatLinksHereIncludingRedirectsListMakerProvider : WhatLinksHereListMakerProvider
     {
         public override List<Article> MakeList(string[] searchCriteria)
         { return GetLists.FromWhatLinksHere(false, true, searchCriteria); }
@@ -199,7 +193,7 @@ namespace WikiFunctions.Lists
         { get { return base.DisplayText + " (inc. Redirects)"; } }
     }
 
-    internal sealed class WhatTranscludesPage : WhatLinksHere
+    internal sealed class WhatTranscludesPageListMakerProvider : WhatLinksHereListMakerProvider
     {
         public override List<Article> MakeList(string[] searchCriteria)
         { return GetLists.FromWhatLinksHere(true, searchCriteria); }
@@ -211,7 +205,7 @@ namespace WikiFunctions.Lists
         { get { return "What embeds:"; } }
     }
 
-    internal sealed class LinksOnPage : IListMakerProvider
+    internal sealed class LinksOnPageListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
         { return GetLists.FromLinksOnPage(searchCriteria); }
@@ -231,7 +225,7 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
-    internal sealed class ImagesOnPage : IListMakerProvider
+    internal sealed class ImagesOnPageListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
         { return GetLists.FromImagesOnPage(searchCriteria); }
@@ -251,9 +245,8 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
-    internal sealed class TransclusionsOnPage : IListMakerProvider
+    internal sealed class TransclusionsOnPageListMakerProvider : IListMakerProvider
     {
-
         public List<Article> MakeList(string[] searchCriteria)
         { return GetLists.FromTransclusionsOnPage(searchCriteria); }
 
@@ -273,7 +266,7 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
-    internal sealed class GoogleSearch : IListMakerProvider
+    internal sealed class GoogleSearchListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
         { return GetLists.FromGoogleSearch(searchCriteria); }
@@ -293,7 +286,7 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
-    internal class UserContribs : IListMakerProvider
+    internal class UserContribsListMakerProvider : IListMakerProvider
     {
         protected bool all = false;
 
@@ -319,7 +312,7 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
-    internal sealed class UserContribsAll : UserContribs
+    internal sealed class UserContribsAllListMakerProvider : UserContribsListMakerProvider
     {
         public override List<Article> MakeList(string[] searchCriteria)
         {
@@ -331,7 +324,7 @@ namespace WikiFunctions.Lists
         { get { return base.DisplayText + " (all)"; } }
     }
 
-    internal sealed class SpecialPage : IListMakerProvider
+    internal sealed class SpecialPageListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
         {
@@ -355,7 +348,7 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
-    internal sealed class ImageFileLinks : IListMakerProvider
+    internal sealed class ImageFileLinksListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
         {
@@ -379,7 +372,7 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
-    internal sealed class WikiSearch : IListMakerProvider
+    internal sealed class WikiSearchListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
         { return GetLists.FromWikiSearch(searchCriteria); }
@@ -399,7 +392,7 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
-    internal sealed class Redirects : IListMakerProvider
+    internal sealed class RedirectsListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
         { return GetLists.FromRedirects(searchCriteria); }
@@ -419,7 +412,7 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
-    internal sealed class MyWatchlist : IListMakerProvider
+    internal sealed class MyWatchlistListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
         { return GetLists.FromWatchList(); }
@@ -439,39 +432,26 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
-    //public class DatabaseScanner : IListMakerProvider
+    //public class DatabaseScannerListMakerProvider : IListMakerProvider
     //{
     //    #region IListMakerProvider Members
 
     //    public List<Article> Search(string[] searchCriteria)
-    //    {
-    //        return new List<Article>();
-    //    }
+    //    { return new List<Article>(); }
 
     //    public string DisplayText
-    //    {
-    //        get { return "Database dump"; }
-    //    }
+    //    { get { return "Database dump"; } }
 
     //    public string SelectSourceTextBoxText
-    //    {
-    //        get { return ""; }
-    //    }
+    //    { get { return ""; } }
 
     //    public bool SelectSourceTextBoxEnabled
-    //    {
-    //        get { return false; }
-    //    }
+    //    { get { return false; } }
 
-    //    public bool Selected()
-    //    {
-    //        return false;
-    //    }
+    //    public void Selected() { }
 
     //    public bool IsThreaded
-    //    {
-    //        get { return false; }
-    //    }
+    //    { get { return false; } }
 
     //    #endregion
     //}

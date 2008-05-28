@@ -624,10 +624,10 @@ namespace WikiFunctions.Controls.Lists
         private System.Windows.Forms.ToolStripMenuItem duplicatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem invertSelectionToolStripMenuItem;
         public System.Windows.Forms.TextBox txtSelectSource;
-        public System.Windows.Forms.ComboBox cmboSourceSelect;
         private System.Windows.Forms.ToolStripMenuItem openHistoryInBrowserToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem moveToTopToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem moveToBottomToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        public System.Windows.Forms.ComboBox cmboSourceSelect;
     }
 }

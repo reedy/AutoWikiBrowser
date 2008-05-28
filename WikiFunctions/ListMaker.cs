@@ -75,24 +75,24 @@ namespace WikiFunctions.Controls.Lists
 
         public ListMaker()
         {
-            listItems.Add(new Category());
-            listItems.Add(new CategoryRecursive());
-            listItems.Add(new WhatLinksHere());
-            listItems.Add(new WhatLinksHereIncludingRedirects());
-            listItems.Add(new WhatTranscludesPage());
-            listItems.Add(new LinksOnPage());
-            listItems.Add(new ImagesOnPage());
-            listItems.Add(new TransclusionsOnPage());
-            listItems.Add(new TextFile());
-            listItems.Add(new GoogleSearch());
-            listItems.Add(new UserContribs());
-            listItems.Add(new UserContribsAll());
-            listItems.Add(new SpecialPage());
-            listItems.Add(new ImageFileLinks());
-            //listItems.Add(new DatabaseScanner());
-            listItems.Add(new MyWatchlist());
-            listItems.Add(new WikiSearch());
-            listItems.Add(new Redirects());
+            listItems.Add(new CategoryListMakerProvider());
+            listItems.Add(new CategoryRecursiveListMakerProvider());
+            listItems.Add(new WhatLinksHereListMakerProvider());
+            listItems.Add(new WhatLinksHereIncludingRedirectsListMakerProvider());
+            listItems.Add(new WhatTranscludesPageListMakerProvider());
+            listItems.Add(new LinksOnPageListMakerProvider());
+            listItems.Add(new ImagesOnPageListMakerProvider());
+            listItems.Add(new TransclusionsOnPageListMakerProvider());
+            listItems.Add(new TextFileListMakerProvider());
+            listItems.Add(new GoogleSearchListMakerProvider());
+            listItems.Add(new UserContribsListMakerProvider());
+            listItems.Add(new UserContribsAllListMakerProvider());
+            listItems.Add(new SpecialPageListMakerProvider());
+            listItems.Add(new ImageFileLinksListMakerProvider());
+            //listItems.Add(new DatabaseScannerListMakerProvider());
+            listItems.Add(new MyWatchlistListMakerProvider());
+            listItems.Add(new WikiSearchListMakerProvider());
+            listItems.Add(new RedirectsListMakerProvider());
 
             InitializeComponent();
 

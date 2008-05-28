@@ -167,7 +167,7 @@ namespace AutoWikiBrowser
                 if (item.Group == lvPlugin.Groups["groupArticleLoaded"])
                 {
                     loadPluginToolStripMenuItem.Enabled = false;
-                    break;
+                    return;
                 }
             }
             loadPluginToolStripMenuItem.Enabled = true;
