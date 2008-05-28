@@ -325,13 +325,6 @@ namespace WikiFunctions.Controls.Lists
                 return;
             }
 
-            //TODO:Re-add in
-            //if (st != SourceType.WikiSearch && st != SourceType.GoogleWikipedia)
-            //{
-            //    txtSelectSource.Text = Tools.RemoveHashFromPageTitle(txtSelectSource.Text.Trim('[', ']'));
-            //    txtSelectSource.Text = Tools.TurnFirstToUpper(txtSelectSource.Text);
-            //}
-
             UserInputTextBox.Text = UserInputTextBox.Text.Trim();
             UserInputTextBox.AutoCompleteCustomSource.Add(UserInputTextBox.Text);
 
@@ -380,7 +373,6 @@ namespace WikiFunctions.Controls.Lists
             if (e.KeyCode == Keys.Return || e.KeyCode == Keys.Enter)
                 btnMakeList.PerformClick();
         }
-
 
         private void mnuListBox_Opening(object sender, CancelEventArgs e)
         {
@@ -466,14 +458,6 @@ namespace WikiFunctions.Controls.Lists
         {
             get { return bSaved; }
             private set { bSaved = value; }
-        }
-
-        bool bWikiStatus = true;
-        [Browsable(false)]
-        public bool WikiStatus
-        {
-            get { return bWikiStatus; }
-            set { bWikiStatus = value; }
         }
 
         string strStatus = "";
