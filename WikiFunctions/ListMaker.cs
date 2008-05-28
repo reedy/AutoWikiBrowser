@@ -269,7 +269,7 @@ namespace WikiFunctions.Controls.Lists
         {
             if (DesignMode) return; // avoid calling Variables constructor
 
-            IListMakerProvider searchItem = listItems[cmboSourceSelect.SelectedIndex];
+            IListMakerProvider searchItem = (IListMakerProvider)cmboSourceSelect.SelectedItem;
 
             lblSourceSelect.Text = searchItem.UserInputTextBoxText;
             UserInputTextBox.Enabled = searchItem.UserInputTextBoxEnabled;
@@ -612,7 +612,7 @@ namespace WikiFunctions.Controls.Lists
 
         public void MakeList()
         {
-            MakeList(listItems[cmboSourceSelect.SelectedIndex], UserInputTextBox.Text.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
+            MakeList((IListMakerProvider)cmboSourceSelect.SelectedItem, UserInputTextBox.Text.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
         }
 
         /// <summary>
