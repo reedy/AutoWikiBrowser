@@ -103,7 +103,7 @@ namespace WikiFunctions.Lists
 
         public string SelectSourceTextBoxText
         {
-            get { return Variables.Namespaces[14]; }
+            get { return Variables.Namespaces[14] + ":"; }
         }
 
         public bool SelectSourceTextBoxEnabled
@@ -210,7 +210,7 @@ namespace WikiFunctions.Lists
 
         public virtual string SelectSourceTextBoxText
         {
-            get { return "What links to"; }
+            get { return "What links to:"; }
         }
 
         public bool SelectSourceTextBoxEnabled
@@ -258,7 +258,7 @@ namespace WikiFunctions.Lists
 
         public override string SelectSourceTextBoxText
         {
-            get { return "What embeds"; }
+            get { return "What embeds:"; }
         }
     }
 
@@ -278,7 +278,7 @@ namespace WikiFunctions.Lists
 
         public string SelectSourceTextBoxText
         {
-            get { return "Links on"; }
+            get { return "Links on:"; }
         }
 
         public bool SelectSourceTextBoxEnabled
@@ -315,7 +315,7 @@ namespace WikiFunctions.Lists
 
         public string SelectSourceTextBoxText
         {
-            get { return "Images on"; }
+            get { return "Images on:"; }
         }
 
         public bool SelectSourceTextBoxEnabled
@@ -352,7 +352,7 @@ namespace WikiFunctions.Lists
 
         public string SelectSourceTextBoxText
         {
-            get { return "Transclusions on"; }
+            get { return "Transclusions on:"; }
         }
 
         public bool SelectSourceTextBoxEnabled
@@ -384,7 +384,7 @@ namespace WikiFunctions.Lists
 
         public string DisplayText
         {
-            get { return "Google earch"; }
+            get { return "Google Search"; }
         }
 
         public string SelectSourceTextBoxText
@@ -430,7 +430,7 @@ namespace WikiFunctions.Lists
 
         public string SelectSourceTextBoxText
         {
-            get { return Variables.Namespaces[2]; }
+            get { return Variables.Namespaces[2] + ":"; }
         }
 
         public bool SelectSourceTextBoxEnabled
@@ -483,7 +483,7 @@ namespace WikiFunctions.Lists
 
         public string SelectSourceTextBoxText
         {
-            get { return Variables.Namespaces[-1]; }
+            get { return Variables.Namespaces[-1] + ":"; }
         }
 
         public bool SelectSourceTextBoxEnabled
@@ -522,7 +522,7 @@ namespace WikiFunctions.Lists
 
         public string SelectSourceTextBoxText
         {
-            get { return Variables.Namespaces[6]; }
+            get { return Variables.Namespaces[6] + ":"; }
         }
 
         public bool SelectSourceTextBoxEnabled
@@ -559,7 +559,7 @@ namespace WikiFunctions.Lists
 
         public string SelectSourceTextBoxText
         {
-            get { return "Wiki search"; }
+            get { return "Wiki search:"; }
         }
 
         public bool SelectSourceTextBoxEnabled
@@ -596,7 +596,7 @@ namespace WikiFunctions.Lists
 
         public string SelectSourceTextBoxText
         {
-            get { return "Redirects to"; }
+            get { return "Redirects to:"; }
         }
 
         public bool SelectSourceTextBoxEnabled
