@@ -195,25 +195,25 @@ namespace AutoWikiBrowser
     namespace Plugins
     {
         internal static class Plugin
-        // TODO: Document me
         {
             /// <summary>
-            /// 
+            /// Dictionary of Plugins, name, and reference to plugin
             /// </summary>
             internal static Dictionary<string, IAWBPlugin> Items = new Dictionary<string, IAWBPlugin>();
 
             /// <summary>
-            /// 
+            /// String of plugins formatted like
+            /// * [[WP:AWB/Plugin]]
             /// </summary>
             /// <returns></returns>
             internal static string GetPluginsWikiTextBlock()
             {
-                string retval = "";
+                StringBuilder retval = new StringBuilder();
                 foreach (KeyValuePair<string, IAWBPlugin> plugin in Items)
                 {
-                    retval += "* " + plugin.Value.WikiName + System.Environment.NewLine;
+                    retval.AppendLine("* " + plugin.Value.WikiName);
                 }
-                return retval;
+                return retval.ToString();
             }
 
             /// <summary>
@@ -226,9 +226,9 @@ namespace AutoWikiBrowser
             }
 
             /// <summary>
-            /// 
+            /// Gets a List of all the plugin names currently loaded
             /// </summary>
-            /// <returns></returns>
+            /// <returns>List of Plugin Names</returns>
             internal static List<string> GetPluginList()
             {
                 List<string> plugins = new List<string>();
@@ -242,10 +242,10 @@ namespace AutoWikiBrowser
             }
 
             /// <summary>
-            /// 
+            /// Loads the plugin at startup, and updates the splash screen
             /// </summary>
-            /// <param name="awb"></param>
-            /// <param name="splash"></param>
+            /// <param name="awb">IAutoWikiBrowser instance of AWB</param>
+            /// <param name="splash">Splash Screen instance</param>
             internal static void LoadPluginsStartup(IAutoWikiBrowser awb, Splash splash)
             {
                 splash.SetProgress(75);
@@ -257,11 +257,11 @@ namespace AutoWikiBrowser
             }
 
             /// <summary>
-            /// 
+            /// Loads all the plugins from the directory where AWB resides
             /// </summary>
-            /// <param name="awb"></param>
-            /// <param name="Plugins"></param>
-            /// <param name="afterStartup"></param>
+            /// <param name="awb">IAutoWikiBrowser instance of AWB</param>
+            /// <param name="Plugins">Array of Plugin Names</param>
+            /// <param name="afterStartup">Whether the plugin(s) are being loaded post-startup</param>
             internal static void LoadPlugins(IAutoWikiBrowser awb, string[] Plugins, bool afterStartup)
             {
                 try
@@ -309,10 +309,10 @@ namespace AutoWikiBrowser
             }
 
             /// <summary>
-            /// 
+            /// Passes a reference of the main form to the plugin for initialisation
             /// </summary>
-            /// <param name="plugin"></param>
-            /// <param name="awb"></param>
+            /// <param name="plugin">IAWBPlugin to initialise</param>
+            /// <param name="awb">IAutoWikiBrowser instance of AWB</param>
             private static void InitialisePlugin(IAWBPlugin plugin, IAutoWikiBrowser awb)
             {
                 try
@@ -326,10 +326,10 @@ namespace AutoWikiBrowser
             }
 
             /// <summary>
-            /// 
+            /// Gets the Version string of a IAWBPlugin
             /// </summary>
-            /// <param name="plugin"></param>
-            /// <returns></returns>
+            /// <param name="plugin">IAWBPlugin to get Version of</param>
+            /// <returns>Version STring</returns>
             internal static string GetPluginVersionString(IAWBPlugin plugin)
             { return System.Reflection.Assembly.GetAssembly(plugin.GetType()).GetName().Version.ToString(); }
         }
