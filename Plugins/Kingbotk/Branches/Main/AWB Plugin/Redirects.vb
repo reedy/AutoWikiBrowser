@@ -114,7 +114,7 @@
             System.Windows.Forms.Application.DoEvents() ' the statusbar text wasn't updating without this; if happens elsewhere may need to write a small subroutine
 
             Try
-                Return WikiFunctions.Lists.GetLists.FromRedirects(False, New String() {"Template:" & Target})
+                Return New WikiFunctions.Lists.RedirectsListMakerProvider().MakeList(New String() {"Template:" & Target})
             Catch
                 Throw
             Finally
