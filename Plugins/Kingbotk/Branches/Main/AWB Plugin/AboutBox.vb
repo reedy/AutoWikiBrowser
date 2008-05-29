@@ -1,3 +1,20 @@
+'Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
+'Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
+
+'This program is free software; you can redistribute it and/or modify
+'it under the terms of the GNU General Public License as published by
+'the Free Software Foundation; either version 2 of the License, or
+'(at your option) any later version.
+
+'This program is distributed in the hope that it will be useful,
+'but WITHOUT ANY WARRANTY; without even the implied warranty of
+'MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+'GNU General Public License for more details.
+
+'You should have received a copy of the GNU General Public License
+'along with this program; if not, write to the Free Software
+'Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
 Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
     Friend NotInheritable Class AboutBox
         Private Sub AboutBox_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -36,5 +53,27 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             linkReedy.LinkVisited = True
             Tools.OpenENArticleInBrowser("Reedy Boy", True)
         End Sub
+
+        Private Sub LicencingButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LicencingButton.Click
+            Dim GPL As New GPLAboutBox
+            GPL.ShowDialog(PluginManager.AWBForm.Form)
+        End Sub
+
+        Private Class GPLAboutBox
+            Inherits WikiFunctions.Controls.AboutBox
+
+            Protected Overrides Sub Initialise()
+                Text = conAWBPluginName
+                'toolTip1.SetToolTip(linkLabel1, "")
+                linkLabel1.Visible = False
+                lblMadeBy.Text = "Made by Stephen Kennedy with Sam Reed"
+                lnkDownload.Visible = False
+                lblVersion.Text = "Version " & AboutBox.Version
+                textBoxDescription.Text = _
+                   AssemblyDescription(System.Reflection.Assembly.GetExecutingAssembly) & _
+                   Environment.NewLine & Environment.NewLine & My.Resources.GPL
+            End Sub
+        End Class
+
     End Class
 End Namespace

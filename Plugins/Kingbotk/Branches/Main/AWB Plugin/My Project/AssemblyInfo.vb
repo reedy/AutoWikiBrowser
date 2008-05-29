@@ -1,4 +1,21 @@
-﻿Imports System.Resources
+﻿'Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
+'Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
+
+'This program is free software; you can redistribute it and/or modify
+'it under the terms of the GNU General Public License as published by
+'the Free Software Foundation; either version 2 of the License, or
+'(at your option) any later version.
+
+'This program is distributed in the hope that it will be useful,
+'but WITHOUT ANY WARRANTY; without even the implied warranty of
+'MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+'GNU General Public License for more details.
+
+'You should have received a copy of the GNU General Public License
+'along with this program; if not, write to the Free Software
+'Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+Imports System.Resources
 
 Imports System
 Imports System.Reflection
@@ -14,7 +31,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("WikiProject templating plugin for AutoWikiBrowser")> 
 <Assembly: AssemblyCompany("SDK Software")> 
 <Assembly: AssemblyProduct("Kingbotk AWB Plugin")> 
-<Assembly: AssemblyCopyright("Copyright © SDK Software 2008")> 
+<Assembly: AssemblyCopyright("Copyright © Stephen Kennedy, Sam Reed 2008")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)> 
@@ -33,7 +50,7 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("2.0.0.7")> 
-<Assembly: AssemblyFileVersion("2.0.0.7")> 
+<Assembly: AssemblyVersion("2.1.0.0")> 
+<Assembly: AssemblyFileVersion("2.1.0.0")> 
 
 <Assembly: NeutralResourcesLanguageAttribute("")> 
