@@ -29,7 +29,7 @@ namespace WikiFunctions.Controls
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutBox));
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblMadeBy = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.okButton = new System.Windows.Forms.Button();
             this.textBoxDescription = new System.Windows.Forms.TextBox();
@@ -38,14 +38,14 @@ namespace WikiFunctions.Controls
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
-            // label1
+            // lblMadeBy
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(48, 13);
-            this.label1.TabIndex = 29;
-            this.label1.Text = "Made by";
+            this.lblMadeBy.AutoSize = true;
+            this.lblMadeBy.Location = new System.Drawing.Point(16, 18);
+            this.lblMadeBy.Name = "lblMadeBy";
+            this.lblMadeBy.Size = new System.Drawing.Size(48, 13);
+            this.lblMadeBy.TabIndex = 29;
+            this.lblMadeBy.Text = "Made by";
             // 
             // linkLabel1
             // 
@@ -97,7 +97,7 @@ namespace WikiFunctions.Controls
             this.lnkDownload.AutoSize = true;
             this.lnkDownload.Location = new System.Drawing.Point(16, 60);
             this.lnkDownload.Name = "lnkDownload";
-            this.lnkDownload.Size = new System.Drawing.Size(211, 13);
+            this.lnkDownload.Size = new System.Drawing.Size(207, 13);
             this.lnkDownload.TabIndex = 33;
             this.lnkDownload.TabStop = true;
             this.lnkDownload.Text = "Download the newest \"Pages\" XML dump";
@@ -112,7 +112,7 @@ namespace WikiFunctions.Controls
             this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.textBoxDescription);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblMadeBy);
             this.Controls.Add(this.linkLabel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -131,7 +131,7 @@ namespace WikiFunctions.Controls
 
         #endregion
 
-        protected System.Windows.Forms.Label label1;
+        protected System.Windows.Forms.Label lblMadeBy;
         protected System.Windows.Forms.LinkLabel linkLabel1;
         protected System.Windows.Forms.Button okButton;
         protected System.Windows.Forms.TextBox textBoxDescription;
