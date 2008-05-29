@@ -30,13 +30,14 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.linkKingboy = New System.Windows.Forms.LinkLabel
             Me.Label2 = New System.Windows.Forms.Label
             Me.linkReedy = New System.Windows.Forms.LinkLabel
+            Me.LicencingButton = New System.Windows.Forms.Button
             Me.SuspendLayout()
             '
             'OKButton
             '
             Me.OKButton.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
             Me.OKButton.DialogResult = System.Windows.Forms.DialogResult.Cancel
-            Me.OKButton.Location = New System.Drawing.Point(346, 34)
+            Me.OKButton.Location = New System.Drawing.Point(348, 16)
             Me.OKButton.Name = "OKButton"
             Me.OKButton.Size = New System.Drawing.Size(87, 23)
             Me.OKButton.TabIndex = 0
@@ -144,6 +145,15 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.linkReedy.TabStop = True
             Me.linkReedy.Text = "Sam"
             '
+            'LicencingButton
+            '
+            Me.LicencingButton.Location = New System.Drawing.Point(348, 45)
+            Me.LicencingButton.Name = "LicencingButton"
+            Me.LicencingButton.Size = New System.Drawing.Size(87, 23)
+            Me.LicencingButton.TabIndex = 50
+            Me.LicencingButton.Text = "Licensing"
+            Me.LicencingButton.UseVisualStyleBackColor = True
+            '
             'AboutBox
             '
             Me.AcceptButton = Me.OKButton
@@ -151,6 +161,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
             Me.BackgroundImage = Global.My.Resources.Resources.king_worship1
             Me.ClientSize = New System.Drawing.Size(448, 262)
+            Me.Controls.Add(Me.LicencingButton)
             Me.Controls.Add(Me.linkReedy)
             Me.Controls.Add(Me.Label2)
             Me.Controls.Add(Me.linkKingboy)
@@ -182,6 +193,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Private WithEvents TextBoxDescription As System.Windows.Forms.Label
         Private WithEvents Label1 As System.Windows.Forms.Label
         Private WithEvents Label2 As System.Windows.Forms.Label
+        Friend WithEvents LicencingButton As System.Windows.Forms.Button
 
     End Class
 End Namespace
