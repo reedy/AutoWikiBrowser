@@ -1169,34 +1169,63 @@ namespace WikiFunctions.Controls.Lists
             set { SpecialFilter.Settings = value; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="provider"></param>
         public static void AddProvider(IListMakerProvider provider)
         {
             listItems.Add(provider);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public static int ListMakerPluginCount()
         {
             int count = 0;
-            foreach (IListMakerProvider p in listItems)
-                if (p is WikiFunctions.Plugin.IListMakerPlugin)
-                    count++;
+            foreach (WikiFunctions.Plugin.IListMakerPlugin p in GetListMakerPlugins())
+            {
+                count++;
+            }
 
             return count;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public static List<string> ListMakerPlugins()
         {
             List<string> ret = new List<string>();
+
+            foreach (WikiFunctions.Plugin.IListMakerPlugin p in GetListMakerPlugins())
+            {
+                ret.Add(p.Name);
+            }
+
+            return ret;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static List<WikiFunctions.Plugin.IListMakerPlugin> GetListMakerPlugins()
+        {
+            List<WikiFunctions.Plugin.IListMakerPlugin> plugins = new List<WikiFunctions.Plugin.IListMakerPlugin>();
 
             foreach (IListMakerProvider p in listItems)
             {
                 WikiFunctions.Plugin.IListMakerPlugin plugin = (p as WikiFunctions.Plugin.IListMakerPlugin);
 
                 if (plugin != null)
-                    ret.Add(plugin.Name);
+                    plugins.Add(plugin);
             }
 
-            return ret;
+            return plugins;
         }
     }
 }

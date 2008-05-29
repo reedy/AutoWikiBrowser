@@ -329,8 +329,16 @@ namespace AutoWikiBrowser
             /// Gets the Version string of a IAWBPlugin
             /// </summary>
             /// <param name="plugin">IAWBPlugin to get Version of</param>
-            /// <returns>Version STring</returns>
+            /// <returns>Version String</returns>
             internal static string GetPluginVersionString(IAWBPlugin plugin)
+            { return System.Reflection.Assembly.GetAssembly(plugin.GetType()).GetName().Version.ToString(); }
+
+            /// <summary>
+            /// Gets the Version string of a IListMakerPlugin
+            /// </summary>
+            /// <param name="plugin">IListMakerPlugin to get Version of</param>
+            /// <returns>Version String</returns>
+            internal static string GetPluginVersionString(IListMakerPlugin plugin)
             { return System.Reflection.Assembly.GetAssembly(plugin.GetType()).GetName().Version.ToString(); }
         }
     }
