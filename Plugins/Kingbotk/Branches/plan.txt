@@ -7,7 +7,7 @@ Generic template creation wizard, step user through setting up all the params we
 Add article reading with stub and infobox recognition - perhaps in assessments mode only initially, to test it, then for bots when proven?
 -HasInfobox and IsStub should probably go into AWB/WikiFunctions actually
 
-Support the WP container templates, perhaps with a protected wiki list of templates which should be moved into the box; pages which have more than 2 such templates would get a new container. The regexes might be difficult as template instances could include extra sets of curly brackets and all sorts of muck.
+Perhaps have a protected wiki list of templates which should be moved into the container shells; pages which have more than 2 such templates would get a new container. The regexes might be difficult as template instances could include extra sets of curly brackets and all sorts of muck.
 -This would be universally useful and probably ought to go into AWB/WikiFunctions or WikiFunctions2
 
 [New version testing warning]
