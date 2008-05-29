@@ -1927,7 +1927,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
             myPrefs = null;
 
-            listMaker1.AddRemoveRedirects();
+            ListMaker.AddRemoveRedirects();
         }
 
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)

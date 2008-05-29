@@ -40,6 +40,8 @@ namespace WikiFunctions.Controls.Lists
     {
         private static BindingList<IListMakerProvider> listItems = new BindingList<IListMakerProvider>();
 
+        private static IListMakerProvider redirectLMProvider = new RedirectsListMakerProvider(); //used to keep easy track of the redirect provider so it can be added/removed
+
         public event ListMakerEventHandler StatusTextChanged;
         public event ListMakerEventHandler BusyStateChanged;
         public event ListMakerEventHandler NoOfArticlesChanged;
@@ -72,7 +74,7 @@ namespace WikiFunctions.Controls.Lists
             listItems.Add(new DatabaseScannerListMakerProvider(lbArticles));
             listItems.Add(new MyWatchlistListMakerProvider());
             listItems.Add(new WikiSearchListMakerProvider());
-            listItems.Add(new RedirectsListMakerProvider());
+            listItems.Add(redirectLMProvider);
 
             InitializeComponent();
 
@@ -134,18 +136,12 @@ namespace WikiFunctions.Controls.Lists
         /// <summary>
         /// Removes/Adds the "Redirects" option from/to the list
         /// </summary>
-        public void AddRemoveRedirects()
+        public static void AddRemoveRedirects()
         {
-            //TODO:Fix/Change to use itemList
             if (Variables.LangCode != LangCodeEnum.en)
-            {              
-                //cmboSourceSelect.Items.Remove("Redirects");
-            }
-            else
-                if (!cmboSourceSelect.Items.Contains(new RedirectsListMakerProvider()))
-                {
-                    //cmboSourceSelect.Items.Add("Redirects");
-                }
+                listItems.Remove(redirectLMProvider);
+            else if (!listItems.Contains(redirectLMProvider))
+                listItems.Add(redirectLMProvider);
         }
 
         /// <summary>
