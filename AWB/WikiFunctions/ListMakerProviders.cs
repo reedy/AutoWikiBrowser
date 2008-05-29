@@ -148,7 +148,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages in Named Categories for the ListMaker (Recursive - Will visit ALL subcategories)
     /// </summary>
-    internal sealed class CategoryRecursiveListMakerProvider : CategoryListMakerProvider
+    public class CategoryRecursiveListMakerProvider : CategoryListMakerProvider
     {
         public CategoryRecursiveListMakerProvider()
         {
@@ -168,7 +168,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages from a text file
     /// </summary>
-    internal sealed class TextFileListMakerProvider : IListMakerProvider
+    public class TextFileListMakerProvider : IListMakerProvider
     {
         private readonly static Regex RegexFromFile = new Regex("(^[a-z]{2,3}:)|(simple:)", RegexOptions.Compiled);
         private readonly static Regex LoadWikiLink = new Regex(@"\[\[:?(.*?)(?:\]\]|\|)", RegexOptions.Compiled);
@@ -252,7 +252,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages which link to the Named Pages
     /// </summary>
-    internal class WhatLinksHereListMakerProvider : IListMakerProvider
+    public class WhatLinksHereListMakerProvider : IListMakerProvider
     {
         protected bool embedded;
         protected bool includeRedirects;
@@ -349,7 +349,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages which link to the Named Pages (including what links to the redirects)
     /// </summary>
-    internal sealed class WhatLinksHereIncludingRedirectsListMakerProvider : WhatLinksHereListMakerProvider
+    public class WhatLinksHereIncludingRedirectsListMakerProvider : WhatLinksHereListMakerProvider
     {
         public WhatLinksHereIncludingRedirectsListMakerProvider()
         {
@@ -366,7 +366,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages which transclude the Named Pages
     /// </summary>
-    internal sealed class WhatTranscludesPageListMakerProvider : WhatLinksHereListMakerProvider
+    public class WhatTranscludesPageListMakerProvider : WhatLinksHereListMakerProvider
     {
         public WhatTranscludesPageListMakerProvider()
         {
@@ -461,7 +461,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of all Images on the Named Pages
     /// </summary>
-    internal sealed class ImagesOnPageListMakerProvider : IListMakerProvider
+    public class ImagesOnPageListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
         { 
@@ -524,7 +524,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of all the transclusions on the Named Pages
     /// </summary>
-    internal sealed class TransclusionsOnPageListMakerProvider : IListMakerProvider
+    public class TransclusionsOnPageListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
         { 
@@ -587,7 +587,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of google results based on the named pages
     /// </summary>
-    internal sealed class GoogleSearchListMakerProvider : IListMakerProvider
+    public class GoogleSearchListMakerProvider : IListMakerProvider
     {
         private static Regex regexGoogle = new Regex("href\\s*=\\s*(?:\"(?<1>[^\"]*)\"|(?<1>\\S+) class=l)",
     RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -648,7 +648,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets the user contribs of the Named Users
     /// </summary>
-    internal class UserContribsListMakerProvider : IListMakerProvider
+    public class UserContribsListMakerProvider : IListMakerProvider
     {
         protected bool all;
 
@@ -726,7 +726,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets ALL the user contribs of the Named Users
     /// </summary>
-    internal sealed class UserContribsAllListMakerProvider : UserContribsListMakerProvider
+    public class UserContribsAllListMakerProvider : UserContribsListMakerProvider
     {
         public UserContribsAllListMakerProvider()
         {
@@ -745,7 +745,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets the list of pages on the Named Special Pages
     /// </summary>
-    internal sealed class SpecialPageListMakerProvider : IListMakerProvider
+    public class SpecialPageListMakerProvider : IListMakerProvider
     {
         readonly static Regex regexli = new Regex("<li>.*</li>", RegexOptions.Compiled);
         readonly static Regex regexe = new Regex("<li>\\(?<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a> \\(redirect page\\)", RegexOptions.Compiled);
@@ -922,7 +922,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages which are returned from a wiki search of the Named Pages
     /// </summary>
-    internal sealed class WikiSearchListMakerProvider : IListMakerProvider
+    public class WikiSearchListMakerProvider : IListMakerProvider
     {
         private static Regex searchRegex = new Regex("<li><a .*? title=\\\"([^\"]*)\">", RegexOptions.Compiled);
 
@@ -994,7 +994,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages which redirect to the Named Pages
     /// </summary>
-    internal sealed class RedirectsListMakerProvider : IListMakerProvider
+    public class RedirectsListMakerProvider : IListMakerProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
         {
@@ -1123,7 +1123,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Runs the Database Scanner
     /// </summary>
-    internal sealed class DatabaseScannerListMakerProvider : IListMakerProvider
+    public class DatabaseScannerListMakerProvider : IListMakerProvider
     {
         private ListBox listMakerListbox;
 
