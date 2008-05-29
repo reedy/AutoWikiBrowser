@@ -86,12 +86,17 @@ Is this SVN (1) or a release (2)? ");
                 currFolder = AWBDir + "IRCMonitor\\bin\\Release\\";
                 File.Copy(currFolder + "IRCMonitor.exe", Tmp + "IRCMonitor.exe", true);
 
-                currFolder = AWBDir + "Plugins\\Kingbotk\\AWB Plugin\\bin\\Release\\";
-
                 Directory.CreateDirectory(Tmp + "Plugins\\Kingbotk\\");
-                File.Copy(currFolder + "Kingbotk AWB Plugin.dll", Tmp + "Plugins\\Kingbotk\\Kingbotk AWB Plugin.dll", true);
+                currFolder = AWBDir + "Plugins\\Kingbotk\\";
+
                 File.Copy(currFolder + "Physics generic template.xml", Tmp + "Plugins\\Kingbotk\\Physics generic template.xml", true);
                 File.Copy(currFolder + "Film generic template.xml", Tmp + "Plugins\\Kingbotk\\Film generic template.xml", true);
+                File.Copy(currFolder + "COPYING", Tmp + "Plugins\\Kingbotk\\COPYING", true);
+
+                currFolder += "AWB Plugin\\bin\\Release\\";
+
+                File.Copy(currFolder + "Kingbotk AWB Plugin.dll", Tmp + "Plugins\\Kingbotk\\Kingbotk AWB Plugin.dll", true);
+
 
                 Console.WriteLine("Files copied to temporary directory");
 
