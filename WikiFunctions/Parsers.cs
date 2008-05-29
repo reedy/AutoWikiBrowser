@@ -148,7 +148,7 @@ namespace WikiFunctions.Parse
         /// <returns>The re-organised text.</returns>
         public string SortMetaData(string ArticleText, string ArticleTitle)
         {
-            if (Variables.Project <= ProjectEnum.lastWMF)
+            if (Variables.Project <= ProjectEnum.species)
                 return Sorter.Sort(ArticleText, ArticleTitle);
             else
                 return ArticleText;

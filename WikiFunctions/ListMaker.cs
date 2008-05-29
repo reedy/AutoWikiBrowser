@@ -136,11 +136,16 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public void AddRemoveRedirects()
         {
+            //TODO:Fix/Change to use itemList
             if (Variables.LangCode != LangCodeEnum.en)
-                cmboSourceSelect.Items.Remove("Redirects");
+            {              
+                //cmboSourceSelect.Items.Remove("Redirects");
+            }
             else
-                if (!cmboSourceSelect.Items.Contains("Redirects"))
-                    cmboSourceSelect.Items.Add("Redirects");
+                if (!cmboSourceSelect.Items.Contains(new RedirectsListMakerProvider()))
+                {
+                    //cmboSourceSelect.Items.Add("Redirects");
+                }
         }
 
         /// <summary>

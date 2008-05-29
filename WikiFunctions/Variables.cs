@@ -39,7 +39,7 @@ using System.Net;
 namespace WikiFunctions
 {
     public enum LangCodeEnum { en, ar, be, bg, ca, da, de, dsb, eo, es, fi, fr, he, hu, Is, it, ja, ku, nl, no, mi, pl, pt, ro, ru, simple, sk, sl, sr, sv, ta, te, tj, uk, ur, zh }
-    public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, commons, meta, species, lastWMF = species, wikia, custom }
+    public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, commons, meta, species, wikia, custom }
 
     /// <summary>
     /// Holds some deepest-level things to be initialised prior to most other static classes,
@@ -177,7 +177,7 @@ namespace WikiFunctions
         /// Returns true if we are currently editing a WMF wiki
         /// </summary>
         public static bool IsWikimediaProject
-        { get { return Project <= ProjectEnum.lastWMF; } }
+        { get { return Project <= ProjectEnum.species; } }
 
         /// <summary>
         /// Returns true if we are currently editing the English Wikipedia
