@@ -35,13 +35,31 @@ namespace AWBPackager
         {
             try
             {
+                string filename = "AWB.zip";
+
+                Console.Write(@"Please ensure a release build has been built before continuing.
+Is this SVN (1) or a release (2)? ");
+
+                switch (int.Parse(Console.ReadLine()))
+                {
+                    case 1:
+                        Console.Write("Please enter the current SVN revision: ");
+                        string SVNRev = Console.ReadLine();
+                        filename = "AutoWikiBrowser_rev" + SVNRev + ".zip";
+                        break;
+                    case 2:
+                        Console.Write("Please enter the version: ");
+                        string Ver = Console.ReadLine();
+                        filename = "AutoWikiBrowser" + Ver.Replace(".", "") + ".zip";
+                        break;
+                }
+
                 AWBDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase).Replace("file:\\", "");
                 Tmp = AWBDir + "\\" + Tmp;
                 AWBDir = AWBDir.Remove(AWBDir.IndexOf("Extras"));
                 string currFolder;
                 Directory.CreateDirectory(Tmp);
 
-                //File.Copy(AWBDir + "COPYING", Tmp + "COPYING", true);
 
                 currFolder = AWBDir + "AWB\\bin\\Release\\";
 
@@ -68,33 +86,14 @@ namespace AWBPackager
                 currFolder = AWBDir + "IRCMonitor\\bin\\Release\\";
                 File.Copy(currFolder + "IRCMonitor.exe", Tmp + "IRCMonitor.exe", true);
 
-                currFolder = AWBDir + "Plugins\\Kingbotk\\";
+                currFolder = AWBDir + "Plugins\\Kingbotk\\AWB Plugin\\bin\\Release\\";
 
                 Directory.CreateDirectory(Tmp + "Plugins\\Kingbotk\\");
                 File.Copy(currFolder + "Kingbotk AWB Plugin.dll", Tmp + "Plugins\\Kingbotk\\Kingbotk AWB Plugin.dll", true);
                 File.Copy(currFolder + "Physics generic template.xml", Tmp + "Plugins\\Kingbotk\\Physics generic template.xml", true);
                 File.Copy(currFolder + "Film generic template.xml", Tmp + "Plugins\\Kingbotk\\Film generic template.xml", true);
-                File.Copy(currFolder + "Readme.txt", Tmp + "Plugins\\Kingbotk\\Readme.txt", true);
 
                 Console.WriteLine("Files copied to temporary directory");
-
-                string filename = "AWB.zip";
-
-                Console.Write("Is this SVN (1) or a release (2)? ");
-
-                switch (int.Parse(Console.ReadLine()))
-                {
-                    case 1:
-                        Console.Write("Please enter the current SVN revision: ");
-                        string SVNRev = Console.ReadLine();
-                        filename = "AutoWikiBrowser_rev" + SVNRev + ".zip";
-                        break;
-                    case 2:
-                        Console.Write("Please enter the version: ");
-                        string Ver = Console.ReadLine();
-                        filename = "AutoWikiBrowser" + Ver.Replace(".", "") + ".zip";
-                        break;
-                }
 
                 FastZip zip = new FastZip();
 
