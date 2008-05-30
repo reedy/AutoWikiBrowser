@@ -1167,7 +1167,7 @@ namespace WikiFunctions.Controls.Lists
         }
 
         /// <summary>
-        /// 
+        /// Get/Set the Special Filter settings
         /// </summary>
         public AWBSettings.SpecialFilterPrefs SpecialFilterSettings
         {
@@ -1176,33 +1176,27 @@ namespace WikiFunctions.Controls.Lists
         }
 
         /// <summary>
-        /// 
+        /// Add a IListMakerProvider or a IListMakerPlugin to all ListMakers
         /// </summary>
-        /// <param name="provider"></param>
+        /// <param name="provider">IListMakerProvider/IListMakerPlugin to add</param>
         public static void AddProvider(IListMakerProvider provider)
         {
             listItems.Add(provider);
         }
 
         /// <summary>
-        /// 
+        /// Gets the Number of IListMakerPlugins currently loaded
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Number of IListmakerPlugins loaded into the ListMaker</returns>
         public static int GetListMakerPluginCount()
         {
-            int count = 0;
-            foreach (WikiFunctions.Plugin.IListMakerPlugin p in GetListMakerPlugins())
-            {
-                count++;
-            }
-
-            return count;
+            return GetListMakerPlugins().Count;
         }
 
         /// <summary>
-        /// 
+        /// Gets a list of all the IListMakerPlugin Names
         /// </summary>
-        /// <returns></returns>
+        /// <returns>List of IListMakerPlugin Names</returns>
         public static List<string> GetListMakerPluginNames()
         {
             List<string> ret = new List<string>();
@@ -1216,9 +1210,9 @@ namespace WikiFunctions.Controls.Lists
         }
 
         /// <summary>
-        /// 
+        /// Gets all the IListMakerPlugins from the list of IListMakerProviders
         /// </summary>
-        /// <returns></returns>
+        /// <returns>List of IListMakerPlugins currently loaded</returns>
         public static List<WikiFunctions.Plugin.IListMakerPlugin> GetListMakerPlugins()
         {
             List<WikiFunctions.Plugin.IListMakerPlugin> plugins = new List<WikiFunctions.Plugin.IListMakerPlugin>();
