@@ -57,24 +57,27 @@ namespace WikiFunctions.Controls.Lists
 
         public ListMaker()
         {
-            listItems.Add(new CategoryListMakerProvider());
-            listItems.Add(new CategoryRecursiveListMakerProvider());
-            listItems.Add(new WhatLinksHereListMakerProvider());
-            listItems.Add(new WhatLinksHereIncludingRedirectsListMakerProvider());
-            listItems.Add(new WhatTranscludesPageListMakerProvider());
-            listItems.Add(new LinksOnPageListMakerProvider());
-            listItems.Add(new ImagesOnPageListMakerProvider());
-            listItems.Add(new TransclusionsOnPageListMakerProvider());
-            listItems.Add(new TextFileListMakerProvider());
-            listItems.Add(new GoogleSearchListMakerProvider());
-            listItems.Add(new UserContribsListMakerProvider());
-            listItems.Add(new UserContribsAllListMakerProvider());
-            listItems.Add(new SpecialPageListMakerProvider());
-            listItems.Add(new ImageFileLinksListMakerProvider());
-            listItems.Add(new DatabaseScannerListMakerProvider(lbArticles));
-            listItems.Add(new MyWatchlistListMakerProvider());
-            listItems.Add(new WikiSearchListMakerProvider());
-            listItems.Add(redirectLMProvider);
+            if (listItems.Count == 0)
+            {
+                listItems.Add(new CategoryListMakerProvider());
+                listItems.Add(new CategoryRecursiveListMakerProvider());
+                listItems.Add(new WhatLinksHereListMakerProvider());
+                listItems.Add(new WhatLinksHereIncludingRedirectsListMakerProvider());
+                listItems.Add(new WhatTranscludesPageListMakerProvider());
+                listItems.Add(new LinksOnPageListMakerProvider());
+                listItems.Add(new ImagesOnPageListMakerProvider());
+                listItems.Add(new TransclusionsOnPageListMakerProvider());
+                listItems.Add(new TextFileListMakerProvider());
+                listItems.Add(new GoogleSearchListMakerProvider());
+                listItems.Add(new UserContribsListMakerProvider());
+                listItems.Add(new UserContribsAllListMakerProvider());
+                listItems.Add(new SpecialPageListMakerProvider());
+                listItems.Add(new ImageFileLinksListMakerProvider());
+                listItems.Add(new DatabaseScannerListMakerProvider(lbArticles));
+                listItems.Add(new MyWatchlistListMakerProvider());
+                listItems.Add(new WikiSearchListMakerProvider());
+                listItems.Add(redirectLMProvider);
+            }
 
             InitializeComponent();
 
@@ -1163,6 +1166,9 @@ namespace WikiFunctions.Controls.Lists
             lbArticles.EndUpdate();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public AWBSettings.SpecialFilterPrefs SpecialFilterSettings
         {
             get { return SpecialFilter.Settings; }
@@ -1182,7 +1188,7 @@ namespace WikiFunctions.Controls.Lists
         /// 
         /// </summary>
         /// <returns></returns>
-        public static int ListMakerPluginCount()
+        public static int GetListMakerPluginCount()
         {
             int count = 0;
             foreach (WikiFunctions.Plugin.IListMakerPlugin p in GetListMakerPlugins())
@@ -1197,7 +1203,7 @@ namespace WikiFunctions.Controls.Lists
         /// 
         /// </summary>
         /// <returns></returns>
-        public static List<string> ListMakerPlugins()
+        public static List<string> GetListMakerPluginNames()
         {
             List<string> ret = new List<string>();
 
