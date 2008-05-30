@@ -323,23 +323,17 @@ namespace WikiFunctions.Lists
 
         private void btnGetList_Click(object sender, EventArgs e)
         {
-            OpenFileDialog of = new OpenFileDialog();
-            List<Article> list2 = new List<Article>();
+           List<Article> list2 = new List<Article>();
 
-            try
-            {
-                if (of.ShowDialog() == DialogResult.OK)
-                {
-                    list2 = new WikiFunctions.Lists.TextFileListMakerProvider().MakeList(of.FileName);
-
-                    foreach (Article a in list2)
-                        lbRemove.Items.Add(a);
-                }
-            }
-            catch (Exception ex)
-            {
-                ErrorHandler.Handle(ex);
-            }
+           try
+           {
+               foreach (Article a in new WikiFunctions.Lists.TextFileListMakerProvider().MakeList())
+                   lbRemove.Items.Add(a);
+           }
+           catch (Exception ex)
+           {
+               ErrorHandler.Handle(ex);
+           }
         }
 
         private void btnClear_Click(object sender, EventArgs e)

@@ -186,42 +186,47 @@ namespace WikiFunctions.Lists
             return MakeList(searchCriteria.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
         }
 
+        public List<Article> MakeList()
+        {
+            return MakeList(new string[0]);
+        }
+
         public List<Article> MakeList(string[] searchCriteria)
         {
             List<Article> list = new List<Article>();
             try
             {
-                if (openListDialog.ShowDialog() == DialogResult.OK)
+                if (searchCriteria.Length == 0 && openListDialog.ShowDialog() == DialogResult.OK)
+                    searchCriteria = openListDialog.FileNames;
+
+                foreach (string fileName in searchCriteria)
                 {
-                    foreach (string fileName in searchCriteria)
+                    string pageText = "";
+                    string title = "";
+
+                    using (StreamReader sr = new StreamReader(fileName, Encoding.Default))
                     {
-                        string pageText = "";
-                        string title = "";
+                        pageText = sr.ReadToEnd();
+                        sr.Close();
+                    }
 
-                        using (StreamReader sr = new StreamReader(fileName, Encoding.Default))
+                    if (LoadWikiLink.IsMatch(pageText))
+                    {
+                        foreach (Match m in LoadWikiLink.Matches(pageText))
                         {
-                            pageText = sr.ReadToEnd();
-                            sr.Close();
-                        }
-
-                        if (LoadWikiLink.IsMatch(pageText))
-                        {
-                            foreach (Match m in LoadWikiLink.Matches(pageText))
+                            title = m.Groups[1].Value;
+                            if (!RegexFromFile.IsMatch(title) && (!(title.StartsWith("#"))))
                             {
-                                title = m.Groups[1].Value;
-                                if (!RegexFromFile.IsMatch(title) && (!(title.StartsWith("#"))))
-                                {
-                                    list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(title))));
-                                }
+                                list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(title))));
                             }
                         }
-                        else
+                    }
+                    else
+                    {
+                        foreach (string s in pageText.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
                         {
-                            foreach (string s in pageText.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
-                            {
-                                if (s.Trim().Length == 0 || !Tools.IsValidTitle(s)) continue;
-                                list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim()))));
-                            }
+                            if (s.Trim().Length == 0 || !Tools.IsValidTitle(s)) continue;
+                            list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim()))));
                         }
                     }
                 }
