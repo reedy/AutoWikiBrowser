@@ -128,7 +128,7 @@ namespace AutoWikiBrowser
                 lvi.Group = lvPlugin.Groups["groupArticleLoaded"];
                 lvPlugin.Items.Add(lvi);
             }
-            foreach (string pluginName in WikiFunctions.Controls.Lists.ListMaker.ListMakerPlugins())
+            foreach (string pluginName in WikiFunctions.Controls.Lists.ListMaker.GetListMakerPluginNames())
             {
                 lvi = new ListViewItem(pluginName);
                 lvi.Group = lvPlugin.Groups["groupLMLoaded"];
