@@ -323,17 +323,8 @@ namespace WikiFunctions.Lists
 
         private void btnGetList_Click(object sender, EventArgs e)
         {
-           List<Article> list2 = new List<Article>();
-
-           try
-           {
-               foreach (Article a in new WikiFunctions.Lists.TextFileListMakerProvider().MakeList())
-                   lbRemove.Items.Add(a);
-           }
-           catch (Exception ex)
-           {
-               ErrorHandler.Handle(ex);
-           }
+            foreach (Article a in new WikiFunctions.Lists.TextFileListMakerProvider().MakeList())
+                lbRemove.Items.Add(a);
         }
 
         private void btnClear_Click(object sender, EventArgs e)
