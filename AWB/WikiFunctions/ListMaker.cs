@@ -642,7 +642,10 @@ namespace WikiFunctions.Controls.Lists
             {
                 BusyStatus = true;
 
-                Add(providerToRun.MakeList(sourceValues));
+                if (!provider.UserInputTextBoxEnabled)
+                    Add(providerToRun.MakeList(new string[0]));
+                else
+                    Add(providerToRun.MakeList(sourceValues));
 
                 BusyStatus = false;
                 UpdateNumberOfArticles();
