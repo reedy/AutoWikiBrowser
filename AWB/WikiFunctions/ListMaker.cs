@@ -988,6 +988,16 @@ namespace WikiFunctions.Controls.Lists
 
         private void fromCategoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            addToFromCategory(false);
+        }
+
+        private void fromCategoryrecursiveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            addToFromCategory(true);
+        }
+
+        private void addToFromCategory(bool recursive)
+        {
             string[] c = new string[lbArticles.SelectedItems.Count];
 
             int i = 0;
@@ -1000,7 +1010,12 @@ namespace WikiFunctions.Controls.Lists
                 }
             }
             if (i > 0)
-                MakeList(new CategoryListMakerProvider(), c);
+            {
+                if (recursive)
+                    MakeList(new CategoryRecursiveListMakerProvider(), c);
+                else
+                    MakeList(new CategoryListMakerProvider(), c);
+            }
         }
 
         private void fromWhatlinkshereToolStripMenuItem_Click(object sender, EventArgs e)

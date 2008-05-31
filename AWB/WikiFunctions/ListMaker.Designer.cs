@@ -84,6 +84,7 @@ namespace WikiFunctions.Controls.Lists
             this.btnArticlesListSave = new System.Windows.Forms.Button();
             this.btnRemoveDuplicates = new System.Windows.Forms.Button();
             this.lbArticles = new WikiFunctions.Controls.Lists.ListBox2();
+            this.fromCategoryrecursiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuListBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -207,7 +208,7 @@ namespace WikiFunctions.Controls.Lists
             this.openInBrowserToolStripMenuItem,
             this.openHistoryInBrowserToolStripMenuItem});
             this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(209, 458);
+            this.mnuListBox.Size = new System.Drawing.Size(209, 480);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // filterOutNonMainSpaceArticlesToolStripMenuItem
@@ -323,6 +324,7 @@ namespace WikiFunctions.Controls.Lists
             // 
             this.addSelectedToListToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fromCategoryToolStripMenuItem,
+            this.fromCategoryrecursiveToolStripMenuItem,
             this.fromTranscludesHereToolStripMenuItem,
             this.fromWhatlinkshereToolStripMenuItem,
             this.fromLinksOnPageToolStripMenuItem,
@@ -335,42 +337,42 @@ namespace WikiFunctions.Controls.Lists
             // fromCategoryToolStripMenuItem
             // 
             this.fromCategoryToolStripMenuItem.Name = "fromCategoryToolStripMenuItem";
-            this.fromCategoryToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.fromCategoryToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.fromCategoryToolStripMenuItem.Text = "From category";
             this.fromCategoryToolStripMenuItem.Click += new System.EventHandler(this.fromCategoryToolStripMenuItem_Click);
             // 
             // fromTranscludesHereToolStripMenuItem
             // 
             this.fromTranscludesHereToolStripMenuItem.Name = "fromTranscludesHereToolStripMenuItem";
-            this.fromTranscludesHereToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.fromTranscludesHereToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.fromTranscludesHereToolStripMenuItem.Text = "From transclusions";
             this.fromTranscludesHereToolStripMenuItem.Click += new System.EventHandler(this.fromTranscludesHereToolStripMenuItem_Click);
             // 
             // fromWhatlinkshereToolStripMenuItem
             // 
             this.fromWhatlinkshereToolStripMenuItem.Name = "fromWhatlinkshereToolStripMenuItem";
-            this.fromWhatlinkshereToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.fromWhatlinkshereToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.fromWhatlinkshereToolStripMenuItem.Text = "From whatlinkshere";
             this.fromWhatlinkshereToolStripMenuItem.Click += new System.EventHandler(this.fromWhatlinkshereToolStripMenuItem_Click);
             // 
             // fromLinksOnPageToolStripMenuItem
             // 
             this.fromLinksOnPageToolStripMenuItem.Name = "fromLinksOnPageToolStripMenuItem";
-            this.fromLinksOnPageToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.fromLinksOnPageToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.fromLinksOnPageToolStripMenuItem.Text = "From links on page";
             this.fromLinksOnPageToolStripMenuItem.Click += new System.EventHandler(this.fromLinksOnPageToolStripMenuItem_Click);
             // 
             // fromImageLinksToolStripMenuItem
             // 
             this.fromImageLinksToolStripMenuItem.Name = "fromImageLinksToolStripMenuItem";
-            this.fromImageLinksToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.fromImageLinksToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.fromImageLinksToolStripMenuItem.Text = "From image file links";
             this.fromImageLinksToolStripMenuItem.Click += new System.EventHandler(this.fromImageLinksToolStripMenuItem_Click);
             // 
             // fromRedirectsToolStripMenuItem
             // 
             this.fromRedirectsToolStripMenuItem.Name = "fromRedirectsToolStripMenuItem";
-            this.fromRedirectsToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.fromRedirectsToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.fromRedirectsToolStripMenuItem.Text = "From redirects";
             this.fromRedirectsToolStripMenuItem.Click += new System.EventHandler(this.fromRedirectsToolStripMenuItem_Click);
             // 
@@ -550,6 +552,13 @@ namespace WikiFunctions.Controls.Lists
             this.lbArticles.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbArticles_MouseMove);
             this.lbArticles.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbArticles_KeyDown);
             // 
+            // fromCategoryrecursiveToolStripMenuItem
+            // 
+            this.fromCategoryrecursiveToolStripMenuItem.Name = "fromCategoryrecursiveToolStripMenuItem";
+            this.fromCategoryrecursiveToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.fromCategoryrecursiveToolStripMenuItem.Text = "From category (recursive)";
+            this.fromCategoryrecursiveToolStripMenuItem.Click += new System.EventHandler(this.fromCategoryrecursiveToolStripMenuItem_Click);
+            // 
             // ListMaker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -630,5 +639,6 @@ namespace WikiFunctions.Controls.Lists
         private System.Windows.Forms.ToolStripMenuItem moveToBottomToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         public System.Windows.Forms.ComboBox cmboSourceSelect;
+        private System.Windows.Forms.ToolStripMenuItem fromCategoryrecursiveToolStripMenuItem;
     }
 }
