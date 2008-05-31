@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -261,6 +261,8 @@
     <Compile Include="SubstTemplates.Designer.cs">
       <DependentUpon>SubstTemplates.cs</DependentUpon>
     </Compile>
+    <None Include="SvnInfo.template.cs" />
+    <Compile Include="SvnInfo.cs" />
     <Compile Include="TalkPageHeaders.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="ReplaceSpecial\Utility.cs" />
@@ -433,4 +435,11 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PreBuildEvent>cd ..\..
+del SvnInfo.cs
+"C:\Program Files\TortoiseSVN\bin\SubWCRev" .. SvnInfo.template.cs SvnInfo.cs
+if not exist SvnInfo.cs copy SvnInfo.template.cs SvnInfo.cs
+cd $(OutDir)</PreBuildEvent>
+  </PropertyGroup>
 </Project>

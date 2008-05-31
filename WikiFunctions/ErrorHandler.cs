@@ -82,6 +82,8 @@ namespace WikiFunctions
                     
                     errorMessage.Append("</table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
 
+                    if (!Variables.Revision.Contains("?")) errorMessage.Append(", revision " + Variables.Revision);
+
                     if (!string.IsNullOrEmpty(CurrentArticle))
                     {
                         string link = "[" + Variables.URLLong + "index.php?title=" + Tools.WikiEncode(CurrentArticle) + "&oldid=" + CurrentRevision.ToString() + "]";
