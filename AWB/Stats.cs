@@ -287,7 +287,7 @@ namespace AutoWikiBrowser
         {
             int i = 0;
 
-            postvars.Add("PluginCount", plugins.Count.ToString());
+            postvars.Add("PluginCount", /*(*/plugins.Count/*+ WikiFunctions.Controls.Lists.ListMaker.ListMakerPluginCount())*/.ToString());
 
             foreach (IAWBPlugin plugin in plugins)
             {
@@ -296,6 +296,14 @@ namespace AutoWikiBrowser
                 postvars.Add(P + "N", plugin.Name);
                 postvars.Add(P + "V", Plugins.Plugin.GetPluginVersionString(plugin));
             }
+
+            //foreach (IListMakerPlugin plugin in WikiFunctions.Controls.Lists.ListMaker.GetListMakerPlugins())
+            //{
+            //    i++;
+            //    string P = "P" + i.ToString();
+            //    postvars.Add(P + "N", plugin.Name);
+            //    postvars.Add(P + "V", Plugins.Plugin.GetPluginVersionString(plugin));
+            //}
         }
 
         private static void ReadXML(string xml)
