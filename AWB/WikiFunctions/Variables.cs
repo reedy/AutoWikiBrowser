@@ -47,13 +47,17 @@ namespace WikiFunctions
     /// </summary>
     public static class Globals
     {
+        /// <summary>
+        /// Set this to true in unit tests, to disable checkpage loading and other slow stuff.
+        /// This disables some functions, however.
+        /// </summary>
         public static bool UnitTestMode = false;
     }
 
     /// <summary>
     /// Holds static variables, to allow functionality on different wikis.
     /// </summary>
-    public static class Variables
+    public static partial class Variables
     {
         static Variables()
         {
@@ -84,6 +88,18 @@ namespace WikiFunctions
                 SetToEnglish("Wikipedia:", "Wikipedia talk:");
                 Stub = "[Ss]tub";
                 RegenerateRegexes();
+            }
+        }
+
+        /// <summary>
+        /// Gets the SVN revision of the current build and the date it was committed
+        /// </summary>
+        public static string Revision
+        {
+            get // see SvnInfo.template.cs for details
+            {
+                if (!m_Revision.Contains("$")) return m_Revision;
+                else return "?"; //fallback in case of failed revision extraction
             }
         }
 

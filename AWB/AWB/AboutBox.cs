@@ -39,6 +39,7 @@ namespace AutoWikiBrowser
 
             lblIEVersion.Text = "IE version: " + ieVersion;
             lblAWBVersion.Text = "AWB Version " + Program.VersionString;
+            lblRevision.Text = "SVN revision: " + Variables.Revision;
             textBoxDescription.Text = WikiFunctions.Controls.AboutBox.GetDetailedMessage(Assembly.GetExecutingAssembly());
             lblOSVersion.Text = "Windows version: " + Environment.OSVersion.Version.Major.ToString() + "." + Environment.OSVersion.Version.Minor.ToString();
             lblNETVersion.Text = ".NET Version: " + Environment.Version.ToString();
