@@ -36,7 +36,7 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
     /// <remarks>
     /// http://developer.yahoo.com/search/web/V1/webSearch.html
     /// "The Web Search service is limited to 5,000 queries per IP address per day."
-    /// This search will also only return <s>1000</s> 998 results per search
+    /// This search will also only return 1000 results per search
     /// </remarks>
     public class YahooSearchListMakerPlugin : IListMakerPlugin
     {
@@ -90,9 +90,9 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
                                     resultsReturned = int.Parse(val);
                             }
 
-                            if (reader.Name.Equals("ClickUrl"))
+                            if (reader.Name.Equals("DisplayUrl"))
                             {
-                                title = reader.ReadString();
+                                title = "http://" + reader.ReadString();
 
                                 if (!title.StartsWith(Variables.URL + "/wiki/")) continue;
 
