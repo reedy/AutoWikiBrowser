@@ -98,7 +98,7 @@ namespace WikiFunctions
         {
             get // see SvnInfo.template.cs for details
             {
-                if (!m_Revision.Contains("$")) return m_Revision;
+                if (!m_Revision.Contains("$")) return m_Revision.Replace("/", "-");
                 else return "?"; //fallback in case of failed revision extraction
             }
         }
