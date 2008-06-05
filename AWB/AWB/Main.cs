@@ -2341,18 +2341,24 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
             if (e.Modifiers == Keys.Control)
             {
-                if (e.KeyCode == Keys.S && btnSave.Enabled)
+                if (e.KeyCode == Keys.S)
                 {
-                    Save();
+                    if (btnSave.Enabled)
+                        Save();
+                    else if (btnStart.Enabled)
+                        Start();
+
                     e.SuppressKeyPress = true;
                     return;
                 }
-                else if (e.KeyCode == Keys.S && btnStart.Enabled)
+
+                if (e.KeyCode == Keys.G)
                 {
                     Start();
                     e.SuppressKeyPress = true;
                     return;
                 }
+
                 if (e.KeyCode == Keys.I && btnIgnore.Enabled)
                 {
                     SkipPage("user");
