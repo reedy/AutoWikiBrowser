@@ -472,7 +472,6 @@ namespace WikiFunctions.Lists
             get
             {
                 prefs = new WikiFunctions.AWBSettings.SpecialFilterPrefs();
-
                 
                 foreach (Control chk in groupBox1.Controls)
                 {

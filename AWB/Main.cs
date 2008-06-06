@@ -668,7 +668,7 @@ namespace AutoWikiBrowser
 
                     if (chkSkipGeneralFixes.Checked && chkGeneralFixes.Checked && TheArticle.OnlyGeneralFixesChanged)
                     {
-                        SkipPage("Only General Fix Changes");
+                        SkipPage("Only general fix changes");
                         return;
                     }
                 }
