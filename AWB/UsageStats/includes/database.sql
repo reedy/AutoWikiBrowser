@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: mysql.kingboyk.com
--- Generation Time: May 29, 2008 at 03:45 PM
+-- Generation Time: Jun 06, 2008 at 04:26 AM
 -- Server version: 5.0.24
 -- PHP Version: 4.4.7
 
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `lkpCultures` (
   `Country` varchar(2) NOT NULL,
   UNIQUE KEY `Unique` (`Language`,`Country`),
   KEY `CultureID` (`CultureID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=40 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `lkpOS` (
   `OS` varchar(100) NOT NULL,
   PRIMARY KEY  (`OSID`),
   UNIQUE KEY `OS` (`OS`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -84,9 +84,10 @@ CREATE TABLE IF NOT EXISTS `lkpOS` (
 CREATE TABLE IF NOT EXISTS `lkpPlugins` (
   `PluginID` mediumint(8) unsigned NOT NULL auto_increment,
   `Plugin` varchar(255) character set utf8 NOT NULL,
+  `PluginType` smallint(5) unsigned NOT NULL default '0',
   PRIMARY KEY  (`PluginID`),
   UNIQUE KEY `Plugin` (`Plugin`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -99,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `lkpUsers` (
   `User` varchar(255) character set utf8 NOT NULL,
   PRIMARY KEY  (`UserID`),
   UNIQUE KEY `User` (`User`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=739 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -117,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `lkpVersions` (
   UNIQUE KEY `Unique` (`Major`,`Minor`,`Build`,`Revision`),
   KEY `Major` (`Major`),
   KEY `Minor` (`Minor`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -131,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `lkpWikis` (
   `LangCode` varchar(3) NOT NULL COMMENT '2 letter language code, or CUS for custom, WIK for Wikia',
   PRIMARY KEY  (`SiteID`),
   UNIQUE KEY `Unique` (`Site`,`LangCode`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=104 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -152,7 +153,7 @@ CREATE TABLE IF NOT EXISTS `log` (
   `SessionID` int(10) unsigned default NULL,
   PRIMARY KEY  (`LogID`),
   KEY `SessionID` (`SessionID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Log requests, in case something goes wrong' AUTO_INCREMENT=9626 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Log requests, in case something goes wrong';
 
 -- --------------------------------------------------------
 
@@ -196,7 +197,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
   KEY `User` (`User`),
   KEY `OS` (`OS`),
   KEY `Version` (`Version`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=7145 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
