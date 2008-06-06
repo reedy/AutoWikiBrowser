@@ -2470,7 +2470,6 @@ namespace AutoWikiBrowser
             this.listMaker1.SelectedSource = 0;
             this.listMaker1.Size = new System.Drawing.Size(196, 350);
             this.listMaker1.SourceText = "";
-            this.listMaker1.SpecialFilterSettings = ((WikiFunctions.AWBSettings.SpecialFilterPrefs)(resources.GetObject("listMaker1.SpecialFilterSettings")));
             this.listMaker1.TabIndex = 0;
             // 
             // MainTab
@@ -2947,11 +2946,11 @@ namespace AutoWikiBrowser
             // chkSkipNoPageLinks
             // 
             this.chkSkipNoPageLinks.AutoSize = true;
-            this.chkSkipNoPageLinks.Location = new System.Drawing.Point(6, 311);
+            this.chkSkipNoPageLinks.Location = new System.Drawing.Point(6, 303);
             this.chkSkipNoPageLinks.Name = "chkSkipNoPageLinks";
-            this.chkSkipNoPageLinks.Size = new System.Drawing.Size(110, 17);
+            this.chkSkipNoPageLinks.Size = new System.Drawing.Size(138, 17);
             this.chkSkipNoPageLinks.TabIndex = 16;
-            this.chkSkipNoPageLinks.Text = "Contains no Links";
+            this.chkSkipNoPageLinks.Text = "Page Contains no Links";
             this.chkSkipNoPageLinks.UseVisualStyleBackColor = true;
             // 
             // groupBox3
@@ -2959,7 +2958,7 @@ namespace AutoWikiBrowser
             this.groupBox3.Controls.Add(this.radSkipNone);
             this.groupBox3.Controls.Add(this.radSkipExistent);
             this.groupBox3.Controls.Add(this.radSkipNonExistent);
-            this.groupBox3.Location = new System.Drawing.Point(6, 213);
+            this.groupBox3.Location = new System.Drawing.Point(6, 205);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(131, 92);
             this.groupBox3.TabIndex = 15;
