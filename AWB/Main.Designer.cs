@@ -1604,7 +1604,7 @@ namespace AutoWikiBrowser
             this.btnStart.TabIndex = 1;
             this.btnStart.Tag = "Start the process";
             this.btnStart.Text = "Start";
-            this.toolTip1.SetToolTip(this.btnStart, "Start the process!");
+            this.toolTip1.SetToolTip(this.btnStart, "Start the process! (Ctrl + G)");
             this.btnStart.UseVisualStyleBackColor = false;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
@@ -2454,6 +2454,7 @@ namespace AutoWikiBrowser
             this.listMaker1.Location = new System.Drawing.Point(7, 15);
             this.listMaker1.Margin = new System.Windows.Forms.Padding(4);
             this.listMaker1.Name = "listMaker1";
+            this.listMaker1.SelectedSource = 0;
             this.listMaker1.Size = new System.Drawing.Size(196, 350);
             this.listMaker1.SourceText = "";
             this.listMaker1.SpecialFilterSettings = ((WikiFunctions.AWBSettings.SpecialFilterPrefs)(resources.GetObject("listMaker1.SpecialFilterSettings")));
