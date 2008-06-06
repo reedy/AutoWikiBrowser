@@ -125,10 +125,13 @@ namespace AutoWikiBrowser
             }
             set
             {
-                foreach (CheckBox chk in gbOptions.Controls)
+                if (value.Count > 0)
                 {
-                    if (value.Contains((int)chk.Tag))
-                        chk.Checked = true;
+                    foreach (CheckBox chk in gbOptions.Controls)
+                    {
+                        if (value.Contains((int)chk.Tag))
+                            chk.Checked = true;
+                    }
                 }
             }
         }

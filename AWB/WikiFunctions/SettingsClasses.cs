@@ -565,11 +565,11 @@ namespace WikiFunctions.AWBSettings
     public class SpecialFilterPrefs
     {
         internal SpecialFilterPrefs() { }
-        public SpecialFilterPrefs(/*Dictionary<int, bool> nameValues, */bool RemoveDupes,
+        public SpecialFilterPrefs(List<int> nameValues, bool RemoveDupes,
             bool FilterTitlesThatContain, bool FilterTitlesThatDontContain, bool AreRegex,
             int OpType, List<string> Remove)
         {
-            //namespaceValues = nameValues;
+            namespaceValues = nameValues;
 
             remDupes = RemoveDupes;
             filterTitlesThatContain = FilterTitlesThatContain;
