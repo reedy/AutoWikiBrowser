@@ -201,11 +201,19 @@ namespace WikiFunctions
         { Trace.AWBSkipped(reason); }
 
         /// <summary>
-        /// Returns whether the only change betweent the current article text and the original article text is whitespace changes
+        /// Returns whether the only change between the current article text and the original article text is whitespace changes
         /// </summary>
         public bool OnlyWhiteSpaceChanged
         {
             get { return (string.Compare(Regex.Replace(mOriginalArticleText, @"\s+", ""), Regex.Replace(mArticleText, @"\s+", "")) == 0); }
+        }
+
+        /// <summary>
+        /// Returns whether the only change between the current article text and the original article text was by the general fixes
+        /// </summary>
+        public bool OnlyGeneralFixesChanged
+        {
+            get { return (generalFixesCausedChange && (ArticleText == afterGeneralFixesArticleText)); }
         }
 
         /// <summary>
@@ -733,6 +741,9 @@ namespace WikiFunctions
         }
 
         #region General fixes
+        bool generalFixesCausedChange;
+        string afterGeneralFixesArticleText;
+
         /// <summary>
         /// Performs numerous minor improvements to the page text
         /// </summary>
@@ -743,6 +754,13 @@ namespace WikiFunctions
         /// will be replaced with {{reflist}}</param>
         public void PerformGeneralFixes(Parsers parsers, HideText removeText, ISkipOptions skip, bool replaceReferenceTags)
         {
+            bool textAlreadyChanged = (ArticleText != OriginalArticleText);
+
+            string beforeGeneralFixesArticleText = "";
+
+            if (!textAlreadyChanged)
+                beforeGeneralFixesArticleText = ArticleText;
+
             HideText(removeText);
 
             Variables.Profiler.Profile("HideText");
@@ -807,6 +825,14 @@ namespace WikiFunctions
             //AWBChangeArticleText("Remove duplicate wikilink", parsers.RemoveDuplicateWikiLinks(ArticleText), true);
 
             UnHideText(removeText);
+
+            if (!textAlreadyChanged)
+            {
+                generalFixesCausedChange = (ArticleText != beforeGeneralFixesArticleText);
+
+                if (generalFixesCausedChange)
+                    afterGeneralFixesArticleText = ArticleText;
+            }
 
             Variables.Profiler.Profile("End of general fixes");
         }
