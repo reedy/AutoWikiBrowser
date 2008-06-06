@@ -581,7 +581,7 @@ namespace WikiFunctions.AWBSettings
             remove = Remove;
         }
 
-        //public Dictionary<int, bool> namespaceValues = new Dictionary<int,bool>();
+        public List<int> namespaceValues = new List<int>();
 
         public bool remDupes = false;
 
