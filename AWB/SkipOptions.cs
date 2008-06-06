@@ -41,37 +41,37 @@ namespace AutoWikiBrowser
 
         public bool SkipNoUnicode
         {
-            get { return rdoNoUnicode.Checked; }
+            get { return chkNoUnicode.Checked; }
         }
 
         public bool SkipNoTag
         {
-            get { return rdoNoTag.Checked; }
+            get { return chkNoTag.Checked; }
         }
 
         public bool SkipNoHeaderError
         {
-            get { return rdoNoHeaderError.Checked; }
+            get { return chkNoHeaderError.Checked; }
         }
 
         public bool SkipNoBoldTitle
         {
-            get { return rdoNoBoldTitle.Checked; }
+            get { return chkNoBoldTitle.Checked; }
         }
 
         public bool SkipNoBulletedLink
         {
-            get { return rdoNoBulletedLink.Checked; }
+            get { return chkNoBulletedLink.Checked; }
         }
 
         public bool SkipNoBadLink
         {
-            get { return rdoNoBadLink.Checked; }
+            get { return chkNoBadLink.Checked; }
         }
 
         public bool SkipNoDefaultSortAdded
         {
-            get { return rdoDefaultSortAdded.Checked; }
+            get { return chkDefaultSortAdded.Checked; }
         }
 
         #endregion
@@ -98,26 +98,41 @@ namespace AutoWikiBrowser
         {
             get
             {
-                foreach (RadioButton rd in gbOptions.Controls)
+                foreach (CheckBox chk in gbOptions.Controls)
                 {
-                    if (rd.Checked)
-                        return rd.Tag.ToString();
+                    if (chk.Checked)
+                        return chk.Tag.ToString();
                 }
 
                 return "0";
             }
             set
             {
-                foreach (RadioButton rd in gbOptions.Controls)
+                foreach (CheckBox chk in gbOptions.Controls)
                 {
-                    if (rd.Tag.ToString() == value)
+                    if (chk.Tag.ToString() == value)
                     {
-                        rd.Checked = true;
+                        chk.Checked = true;
                         return;
                     }
                 }
-                rdoNone.Checked = true;
             }
+        }
+
+        public List<string> SelectedItems
+        {
+            get 
+            {
+                List<string> ret = new List<string>();
+                foreach (CheckBox chk in gbOptions.Controls)
+                {
+                    if (chk.Checked)
+                        ret.Add(chk.Tag.ToString());
+                }
+
+                return ret;
+            }
+            set { }
         }
 
         #endregion
