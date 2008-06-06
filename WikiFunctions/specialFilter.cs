@@ -466,32 +466,24 @@ namespace WikiFunctions.Lists
             if (Visible) UpdateText();
         }
 
+        CheckBox tmp;
         public WikiFunctions.AWBSettings.SpecialFilterPrefs Settings
         {
             get
             {
                 prefs = new WikiFunctions.AWBSettings.SpecialFilterPrefs();
 
-                //CheckBox tmp;
-                //foreach (Control chk in groupBox1.Controls)
-                //{
-                //    tmp = (chk as CheckBox);
+                
+                foreach (Control chk in groupBox1.Controls)
+                {
+                    tmp = (chk as CheckBox);
 
-                //    if (tmp == null)
-                //        continue;
-                //    try
-                //    {
-                //        string name = chk.Text;
+                    if (tmp == null)
+                        continue;
 
-                //        if (name.Contains("Article"))
-                //            name = name.Replace("Article", "");
-
-                //        prefs.namespaceValues.Add(Tools.CalculateNS(name + ":"), tmp.Checked);
-                //    }
-                //    catch
-                //    {
-                //    }
-                //}
+                    if (tmp.Checked)
+                        prefs.namespaceValues.Add((int)tmp.Tag);
+                }
 
                 prefs.filterTitlesThatContain = chkContains.Checked;
                 prefs.filterTitlesThatContainText = txtContains.Text;
@@ -512,24 +504,19 @@ namespace WikiFunctions.Lists
             {
                 prefs = value;
 
-                //if (prefs.namespaceValues.Count > 0)
-                //{
-                //    CheckBox tmp;
-                //    foreach (Control chk in groupBox1.Controls)
-                //    {
-                //        tmp = chk as CheckBox;
+                if (prefs.namespaceValues.Count > 0)
+                {
+                    foreach (Control chk in groupBox1.Controls)
+                    {
+                        tmp = chk as CheckBox;
 
-                //        if (tmp == null)
-                //            continue;
+                        if (tmp == null)
+                            continue;
 
-                //        string name = chk.Text;
-
-                //        if (name.Contains("Article"))
-                //            name = name.Replace("Article", "").Trim();
-
-                //        prefs.namespaceValues.Add(Tools.CalculateNS(name + ":"), tmp.Checked);
-                //    }
-                //}
+                        if (prefs.namespaceValues.Contains((int)tmp.Tag))
+                            tmp.Checked = true;
+                    }
+                }
 
                 chkContains.Checked = prefs.filterTitlesThatContain;
                 txtContains.Text = prefs.filterTitlesThatContainText;
