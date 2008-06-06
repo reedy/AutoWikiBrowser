@@ -334,7 +334,7 @@ namespace WikiFunctions.Lists
             this.chkHelpTalk.Name = "chkHelpTalk";
             this.chkHelpTalk.Size = new System.Drawing.Size(68, 17);
             this.chkHelpTalk.TabIndex = 14;
-            this.chkHelp.Tag = 15;
+            this.chkHelpTalk.Tag = 15;
             this.chkHelpTalk.Text = "Help talk";
             this.chkHelpTalk.UseVisualStyleBackColor = true;
             // 
