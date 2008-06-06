@@ -513,8 +513,7 @@ namespace WikiFunctions.Lists
                         if (tmp == null)
                             continue;
 
-                        if (prefs.namespaceValues.Contains((int)tmp.Tag))
-                            tmp.Checked = true;
+                        tmp.Checked = prefs.namespaceValues.Contains((int)tmp.Tag);
                     }
                 }
 
