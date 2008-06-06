@@ -100,7 +100,7 @@ namespace AutoWikiBrowser
         private ListComparer lc;
         private ListSplitter splitter;
 
-        private static Help h = new Help();
+        private static Help helpForm = new Help();
 
         private WikiDiff diff = new WikiDiff();
 
@@ -2630,7 +2630,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void helpToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Help.ShowHelp(h);
+            helpForm.Show();
         }
 
         #region Edit Box Menu
