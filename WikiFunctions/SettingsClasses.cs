@@ -299,7 +299,7 @@ namespace WikiFunctions.AWBSettings
         public SkipPrefs(bool mSkipNonexistent, bool mSkipexistent, bool mSkipWhenNoChanges, bool mSkipWhenSpamFilterBlocked, bool mSkipInuse, bool mSkipDoes,
             bool mSkipDoesNot, string mSkipDoesText, string mSkipDoesNotText, bool mRegex, bool mCaseSensitive,
             bool mSkipNoFindAndReplace, bool mSkipNoRegexTypoFix, bool mSkipNoDisambiguation,
-            bool mSkipWhitespaceOnly, bool mSkipOnlyGeneralFixChanges, bool mSkipNoLinksOnPage, List<string> mGeneralSkipList)
+            bool mSkipWhitespaceOnly, bool mSkipOnlyGeneralFixChanges, bool mSkipNoLinksOnPage, List<int> mGeneralSkipList)
         {
             SkipNonexistent = mSkipNonexistent;
             Skipexistent = mSkipexistent;
@@ -315,7 +315,7 @@ namespace WikiFunctions.AWBSettings
             SkipNoFindAndReplace = mSkipNoFindAndReplace;
             SkipNoRegexTypoFix = mSkipNoRegexTypoFix;
             SkipNoDisambiguation = mSkipNoDisambiguation;
-            GeneralSkipList = mGeneralSkip;
+            GeneralSkipList = mGeneralSkipList;
             SkipWhenOnlyWhitespaceChanged = mSkipWhitespaceOnly;
             SkipOnlyGeneralFixChanges = mSkipOnlyGeneralFixChanges;
             SkipNoLinksOnPage = mSkipNoLinksOnPage;
@@ -343,7 +343,7 @@ namespace WikiFunctions.AWBSettings
         public bool SkipNoDisambiguation = false;
         public bool SkipNoLinksOnPage = false;
 
-        public List<string> GeneralSkipList = new List<string>();
+        public List<int> GeneralSkipList = new List<int>();
         public string GeneralSkip = ""; //to be removed at later date
     }
 
