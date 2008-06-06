@@ -124,7 +124,7 @@ function htmlstats(){
 	PrintTableRow('Total Number of Records in Database', $row['RecordCount']);
 
 	//Sessions & Saves per sites
-	echo <<< EOF
+	echo '
 
 </table>
 <p/>
@@ -137,21 +137,21 @@ function htmlstats(){
 		<th scope="col" class="sortable">Number of Saves</th>
 	</tr>
 </thead>
-EOF;
+';
 
 	$result = $db->sites();
 	
 	while($row = $result->fetch_assoc())
 	{
 		$site=BuildWikiHostname($row['LangCode'], $row['Site']);		
-		echo <<<EOF
+		echo '
 
 	<tr>
-		<td>{$site}</td>
-		<td>{$row['CountOfSessionID']}</td>
-		<td>{$row['SumOfSaves']}</td>
+		<td>'.$site.'</td>
+		<td>'.$row['CountOfSessionID'].'</td>
+		<td>'.$row['SumOfSaves'].'</td>
 	</tr>
-EOF;
+';
 	}
 		  
 	$result->close();
@@ -161,7 +161,7 @@ EOF;
 	OS_XHTML($db->OSs(true), ' (last 30 days)');
 	
 	//Number of saves by language (culture)
-	echo <<< EOF
+	echo '
 
 </table>
 <p/>
@@ -174,18 +174,18 @@ EOF;
 		<th scope="col" class="sortable">Number of Saves</th>
 	</tr>
 </thead>
-EOF;
+';
 	$result = $db->cultures();
 	
 	while($row = $result->fetch_assoc()) {
-		  echo <<< EOF
+		  echo '
 
 	<tr>
-		<td>{$row['Language']}</td>
-		<td>{$row['Country']}</td>
-		<td>{$row['SumOfSaves']}</td>
+		<td>'.$row['Language'].'</td>
+		<td>'.$row['Country'].'</td>
+		<td>'.$row['SumOfSaves'].'</td>
 	</tr>
-EOF;
+';
 	}
 	
 	$result->close();
@@ -193,7 +193,7 @@ EOF;
 	//User with the most saves
 	$row = $db->busiest_user();
 	$site=BuildWikiHostname($row['LangCode'], $row['Site']);
-	echo <<< EOF
+	echo '
 
 </table>
 <p/>
@@ -207,14 +207,14 @@ EOF;
 	</tr>
 </thead>
 	<tr>
-		<td>{$site}</td>
-		<td>{$row['LangCode']}</td>
-		<td>{$row['SumOfSaves']}</td>
+		<td>'.$site.'</td>
+		<td>'.$row['LangCode'].'</td>
+		<td>'.$row['SumOfSaves'].'</td>
 	</tr>
-EOF;
+';
 
 	// List of plugins
-	echo <<< EOF
+	echo '
 
 </table>
 <p/>
@@ -226,18 +226,18 @@ EOF;
 		<th colspan="1" scope="col" class="sortable">Plugin Type</th>
 	</tr>
 </thead>
-EOF;
+';
 
 	$result = $db->plugins();
 	
 	while ($row = $result->fetch_assoc()) {
-		echo <<< EOF
-
+		$plugintype=PluginType($row['PluginType']);
+		echo '
 	<tr>
-		<td colspan="2" align="left">{$row['Plugin']}</td>
-		<td colspan="2" align="left">{$row['PluginType']}</td>
+		<td colspan="2" align="left">'.$row['Plugin'].'</td>
+		<td colspan="2" align="left">'.PluginType($row['PluginType']).'</td>
 	</tr>
-EOF;
+';
 	}
 	
 	$result->close();
@@ -288,7 +288,7 @@ their username or switching to a different wiki mid-session.</p>
 
 // Helper routines:
 function OS_XHTML($result, $headersuffix) {
-	echo <<< EOF
+	echo '
 
 </table>
 <p/>
@@ -301,18 +301,18 @@ function OS_XHTML($result, $headersuffix) {
 		<th scope="col" class="sortable">Number of Saves</th>
 	</tr>
 </thead>
-EOF;
+';
 
 	while($row = $result->fetch_assoc())
 	{
-		echo <<< EOF
+		echo '
 
 	<tr>
-		<td>{$row['OS']}</td>
-		<td>{$row['CountOfSessionID']}</td>
-		<td>{$row['SumOfSaves']}</td>
+		<td>'.$row['OS'].'</td>
+		<td>'.$row['CountOfSessionID'].'</td>
+		<td>'.$row['SumOfSaves'].'</td>
 	</tr>
-EOF;
+';
 	}
 	
 	$result->close();
@@ -344,12 +344,25 @@ function BuildWikiHostname($lang, $site) {
 	return "<a href=\"http://{$site}/\">{$site}</a>";
 }
 
+function PluginType($plugintype)
+{
+	switch ($plugintype)
+	{
+		case 0:
+			return "AWB Plugin";
+		case 1:
+			return "ListMaker Plugin";
+		default:
+			return "unknown";
+	}
+}
+
 function PrintTableRow($header, $data) {
-	echo <<<EOF
+	echo '
 	
 	<tr>
-		<th align="left" scope="row">{$header}</th><td>{$data}</td>
+		<th align="left" scope="row">'.$header.'</th><td>'.$data.'</td>
 	</tr>
-EOF;
+';
 }
 ?>
