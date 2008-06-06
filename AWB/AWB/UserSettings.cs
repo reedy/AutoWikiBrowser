@@ -258,7 +258,7 @@ namespace AutoWikiBrowser
                chkSkipIfInuse.Checked, chkSkipIfContains.Checked, chkSkipIfNotContains.Checked, txtSkipIfContains.Text,
                txtSkipIfNotContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked,
                chkSkipWhenNoFAR.Checked, chkSkipIfNoRegexTypo.Checked, chkSkipNoDab.Checked, chkSkipWhitespace.Checked,
-               chkSkipGeneralFixes.Checked, chkSkipNoPageLinks.Checked, Skip.SelectedItem),
+               chkSkipGeneralFixes.Checked, chkSkipNoPageLinks.Checked, Skip.SelectedItems),
                new GeneralPrefs(SaveArticleList, ignoreNoBotsToolStripMenuItem.Checked, cmboEditSummary.Items,
                cmboEditSummary.Text, new string[10] {PasteMore1.Text, PasteMore2.Text, PasteMore3.Text, 
                 PasteMore4.Text, PasteMore5.Text, PasteMore6.Text, PasteMore7.Text, PasteMore8.Text,
@@ -397,7 +397,8 @@ namespace AutoWikiBrowser
 
             chkSkipWhenNoFAR.Checked = p.SkipOptions.SkipNoFindAndReplace;
             chkSkipIfNoRegexTypo.Checked = p.SkipOptions.SkipNoRegexTypoFix;
-            Skip.SelectedItem = p.SkipOptions.GeneralSkip;
+            Skip.SelectedItems = p.SkipOptions.GeneralSkipList;
+            Skip.SelectedItem = p.SkipOptions.GeneralSkip; //deprecated, to be removed at a later date
             chkSkipNoDab.Checked = p.SkipOptions.SkipNoDisambiguation;
             chkSkipNoPageLinks.Checked = p.SkipOptions.SkipNoLinksOnPage;
 

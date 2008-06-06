@@ -29,22 +29,21 @@ namespace AutoWikiBrowser
         private void InitializeComponent()
         {
             this.btnClose = new System.Windows.Forms.Button();
-            this.rdoNone = new System.Windows.Forms.RadioButton();
-            this.rdoNoUnicode = new System.Windows.Forms.RadioButton();
-            this.rdoNoTag = new System.Windows.Forms.RadioButton();
+            this.chkNoUnicode = new System.Windows.Forms.CheckBox();
+            this.chkNoTag = new System.Windows.Forms.CheckBox();
             this.gbOptions = new System.Windows.Forms.GroupBox();
-            this.rdoDefaultSortAdded = new System.Windows.Forms.RadioButton();
-            this.rdoNoBadLink = new System.Windows.Forms.RadioButton();
-            this.rdoNoBulletedLink = new System.Windows.Forms.RadioButton();
-            this.rdoNoBoldTitle = new System.Windows.Forms.RadioButton();
-            this.rdoNoHeaderError = new System.Windows.Forms.RadioButton();
+            this.chkDefaultSortAdded = new System.Windows.Forms.CheckBox();
+            this.chkNoBadLink = new System.Windows.Forms.CheckBox();
+            this.chkNoBulletedLink = new System.Windows.Forms.CheckBox();
+            this.chkNoBoldTitle = new System.Windows.Forms.CheckBox();
+            this.chkNoHeaderError = new System.Windows.Forms.CheckBox();
             this.gbOptions.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnClose
             // 
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(101, 221);
+            this.btnClose.Location = new System.Drawing.Point(101, 203);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 1;
@@ -52,117 +51,98 @@ namespace AutoWikiBrowser
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
-            // rdoNone
+            // chkNoUnicode
             // 
-            this.rdoNone.AutoSize = true;
-            this.rdoNone.Checked = true;
-            this.rdoNone.Location = new System.Drawing.Point(6, 19);
-            this.rdoNone.Name = "rdoNone";
-            this.rdoNone.Size = new System.Drawing.Size(51, 17);
-            this.rdoNone.TabIndex = 0;
-            this.rdoNone.TabStop = true;
-            this.rdoNone.Tag = "0";
-            this.rdoNone.Text = "None";
-            this.rdoNone.UseVisualStyleBackColor = true;
+            this.chkNoUnicode.AutoSize = true;
+            this.chkNoUnicode.Location = new System.Drawing.Point(6, 88);
+            this.chkNoUnicode.Name = "chkNoUnicode";
+            this.chkNoUnicode.Size = new System.Drawing.Size(96, 17);
+            this.chkNoUnicode.TabIndex = 4;
+            this.chkNoUnicode.Tag = "1";
+            this.chkNoUnicode.Text = "Unicodification";
+            this.chkNoUnicode.UseVisualStyleBackColor = true;
             // 
-            // rdoNoUnicode
+            // chkNoTag
             // 
-            this.rdoNoUnicode.AutoSize = true;
-            this.rdoNoUnicode.Location = new System.Drawing.Point(6, 111);
-            this.rdoNoUnicode.Name = "rdoNoUnicode";
-            this.rdoNoUnicode.Size = new System.Drawing.Size(95, 17);
-            this.rdoNoUnicode.TabIndex = 4;
-            this.rdoNoUnicode.Tag = "1";
-            this.rdoNoUnicode.Text = "Unicodification";
-            this.rdoNoUnicode.UseVisualStyleBackColor = true;
-            // 
-            // rdoNoTag
-            // 
-            this.rdoNoTag.AutoSize = true;
-            this.rdoNoTag.Location = new System.Drawing.Point(6, 134);
-            this.rdoNoTag.Name = "rdoNoTag";
-            this.rdoNoTag.Size = new System.Drawing.Size(89, 17);
-            this.rdoNoTag.TabIndex = 5;
-            this.rdoNoTag.Tag = "2";
-            this.rdoNoTag.Text = "Tag changed";
-            this.rdoNoTag.UseVisualStyleBackColor = true;
+            this.chkNoTag.AutoSize = true;
+            this.chkNoTag.Location = new System.Drawing.Point(6, 111);
+            this.chkNoTag.Name = "chkNoTag";
+            this.chkNoTag.Size = new System.Drawing.Size(90, 17);
+            this.chkNoTag.TabIndex = 5;
+            this.chkNoTag.Tag = "2";
+            this.chkNoTag.Text = "Tag changed";
+            this.chkNoTag.UseVisualStyleBackColor = true;
             // 
             // gbOptions
             // 
-            this.gbOptions.Controls.Add(this.rdoDefaultSortAdded);
-            this.gbOptions.Controls.Add(this.rdoNoBadLink);
-            this.gbOptions.Controls.Add(this.rdoNoBulletedLink);
-            this.gbOptions.Controls.Add(this.rdoNone);
-            this.gbOptions.Controls.Add(this.rdoNoBoldTitle);
-            this.gbOptions.Controls.Add(this.rdoNoHeaderError);
-            this.gbOptions.Controls.Add(this.rdoNoTag);
-            this.gbOptions.Controls.Add(this.rdoNoUnicode);
+            this.gbOptions.Controls.Add(this.chkDefaultSortAdded);
+            this.gbOptions.Controls.Add(this.chkNoBadLink);
+            this.gbOptions.Controls.Add(this.chkNoBulletedLink);
+            this.gbOptions.Controls.Add(this.chkNoBoldTitle);
+            this.gbOptions.Controls.Add(this.chkNoHeaderError);
+            this.gbOptions.Controls.Add(this.chkNoTag);
+            this.gbOptions.Controls.Add(this.chkNoUnicode);
             this.gbOptions.Location = new System.Drawing.Point(12, 12);
             this.gbOptions.Name = "gbOptions";
-            this.gbOptions.Size = new System.Drawing.Size(164, 203);
+            this.gbOptions.Size = new System.Drawing.Size(164, 185);
             this.gbOptions.TabIndex = 0;
             this.gbOptions.TabStop = false;
             this.gbOptions.Text = "Skip if no...";
             // 
-            // rdoDefaultSortAdded
+            // chkDefaultSortAdded
             // 
-            this.rdoDefaultSortAdded.AutoSize = true;
-            this.rdoDefaultSortAdded.Location = new System.Drawing.Point(6, 180);
-            this.rdoDefaultSortAdded.Name = "rdoDefaultSortAdded";
-            this.rdoDefaultSortAdded.Size = new System.Drawing.Size(123, 17);
-            this.rdoDefaultSortAdded.TabIndex = 7;
-            this.rdoDefaultSortAdded.TabStop = true;
-            this.rdoDefaultSortAdded.Tag = "3";
-            this.rdoDefaultSortAdded.Text = "{{defaultsort}} added";
-            this.rdoDefaultSortAdded.UseVisualStyleBackColor = true;
+            this.chkDefaultSortAdded.AutoSize = true;
+            this.chkDefaultSortAdded.Location = new System.Drawing.Point(6, 157);
+            this.chkDefaultSortAdded.Name = "chkDefaultSortAdded";
+            this.chkDefaultSortAdded.Size = new System.Drawing.Size(124, 17);
+            this.chkDefaultSortAdded.TabIndex = 7;
+            this.chkDefaultSortAdded.Tag = "3";
+            this.chkDefaultSortAdded.Text = "{{defaultsort}} added";
+            this.chkDefaultSortAdded.UseVisualStyleBackColor = true;
             // 
-            // rdoNoBadLink
+            // chkNoBadLink
             // 
-            this.rdoNoBadLink.AutoSize = true;
-            this.rdoNoBadLink.Location = new System.Drawing.Point(6, 88);
-            this.rdoNoBadLink.Name = "rdoNoBadLink";
-            this.rdoNoBadLink.Size = new System.Drawing.Size(93, 17);
-            this.rdoNoBadLink.TabIndex = 3;
-            this.rdoNoBadLink.TabStop = true;
-            this.rdoNoBadLink.Tag = "6";
-            this.rdoNoBadLink.Text = "Bad links fixed";
-            this.rdoNoBadLink.UseVisualStyleBackColor = true;
+            this.chkNoBadLink.AutoSize = true;
+            this.chkNoBadLink.Location = new System.Drawing.Point(6, 65);
+            this.chkNoBadLink.Name = "chkNoBadLink";
+            this.chkNoBadLink.Size = new System.Drawing.Size(94, 17);
+            this.chkNoBadLink.TabIndex = 3;
+            this.chkNoBadLink.Tag = "6";
+            this.chkNoBadLink.Text = "Bad links fixed";
+            this.chkNoBadLink.UseVisualStyleBackColor = true;
             // 
-            // rdoNoBulletedLink
+            // chkNoBulletedLink
             // 
-            this.rdoNoBulletedLink.AutoSize = true;
-            this.rdoNoBulletedLink.Location = new System.Drawing.Point(6, 65);
-            this.rdoNoBulletedLink.Name = "rdoNoBulletedLink";
-            this.rdoNoBulletedLink.Size = new System.Drawing.Size(122, 17);
-            this.rdoNoBulletedLink.TabIndex = 2;
-            this.rdoNoBulletedLink.TabStop = true;
-            this.rdoNoBulletedLink.Tag = "5";
-            this.rdoNoBulletedLink.Text = "External link bulleted";
-            this.rdoNoBulletedLink.UseVisualStyleBackColor = true;
+            this.chkNoBulletedLink.AutoSize = true;
+            this.chkNoBulletedLink.Location = new System.Drawing.Point(6, 42);
+            this.chkNoBulletedLink.Name = "chkNoBulletedLink";
+            this.chkNoBulletedLink.Size = new System.Drawing.Size(123, 17);
+            this.chkNoBulletedLink.TabIndex = 2;
+            this.chkNoBulletedLink.Tag = "5";
+            this.chkNoBulletedLink.Text = "External link bulleted";
+            this.chkNoBulletedLink.UseVisualStyleBackColor = true;
             // 
-            // rdoNoBoldTitle
+            // chkNoBoldTitle
             // 
-            this.rdoNoBoldTitle.AutoSize = true;
-            this.rdoNoBoldTitle.Location = new System.Drawing.Point(6, 42);
-            this.rdoNoBoldTitle.Name = "rdoNoBoldTitle";
-            this.rdoNoBoldTitle.Size = new System.Drawing.Size(92, 17);
-            this.rdoNoBoldTitle.TabIndex = 1;
-            this.rdoNoBoldTitle.TabStop = true;
-            this.rdoNoBoldTitle.Tag = "4";
-            this.rdoNoBoldTitle.Text = "Title boldened";
-            this.rdoNoBoldTitle.UseVisualStyleBackColor = true;
+            this.chkNoBoldTitle.AutoSize = true;
+            this.chkNoBoldTitle.Location = new System.Drawing.Point(6, 19);
+            this.chkNoBoldTitle.Name = "chkNoBoldTitle";
+            this.chkNoBoldTitle.Size = new System.Drawing.Size(93, 17);
+            this.chkNoBoldTitle.TabIndex = 1;
+            this.chkNoBoldTitle.Tag = "4";
+            this.chkNoBoldTitle.Text = "Title boldened";
+            this.chkNoBoldTitle.UseVisualStyleBackColor = true;
             // 
-            // rdoNoHeaderError
+            // chkNoHeaderError
             // 
-            this.rdoNoHeaderError.AutoSize = true;
-            this.rdoNoHeaderError.Location = new System.Drawing.Point(6, 157);
-            this.rdoNoHeaderError.Name = "rdoNoHeaderError";
-            this.rdoNoHeaderError.Size = new System.Drawing.Size(109, 17);
-            this.rdoNoHeaderError.TabIndex = 6;
-            this.rdoNoHeaderError.TabStop = true;
-            this.rdoNoHeaderError.Tag = "3";
-            this.rdoNoHeaderError.Text = "Header error fixed";
-            this.rdoNoHeaderError.UseVisualStyleBackColor = true;
+            this.chkNoHeaderError.AutoSize = true;
+            this.chkNoHeaderError.Location = new System.Drawing.Point(6, 134);
+            this.chkNoHeaderError.Name = "chkNoHeaderError";
+            this.chkNoHeaderError.Size = new System.Drawing.Size(110, 17);
+            this.chkNoHeaderError.TabIndex = 6;
+            this.chkNoHeaderError.Tag = "3";
+            this.chkNoHeaderError.Text = "Header error fixed";
+            this.chkNoHeaderError.UseVisualStyleBackColor = true;
             // 
             // SkipOptions
             // 
@@ -170,7 +150,7 @@ namespace AutoWikiBrowser
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(188, 256);
+            this.ClientSize = new System.Drawing.Size(188, 235);
             this.Controls.Add(this.gbOptions);
             this.Controls.Add(this.btnClose);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -190,14 +170,13 @@ namespace AutoWikiBrowser
         #endregion
 
         private System.Windows.Forms.Button btnClose;
-        private System.Windows.Forms.RadioButton rdoNone;
-        private System.Windows.Forms.RadioButton rdoNoUnicode;
-        private System.Windows.Forms.RadioButton rdoNoTag;
+        private System.Windows.Forms.CheckBox chkNoUnicode;
+        private System.Windows.Forms.CheckBox chkNoTag;
         private System.Windows.Forms.GroupBox gbOptions;
-        private System.Windows.Forms.RadioButton rdoNoHeaderError;
-        private System.Windows.Forms.RadioButton rdoNoBoldTitle;
-        private System.Windows.Forms.RadioButton rdoNoBulletedLink;
-        private System.Windows.Forms.RadioButton rdoNoBadLink;
-        private System.Windows.Forms.RadioButton rdoDefaultSortAdded;
+        private System.Windows.Forms.CheckBox chkNoHeaderError;
+        private System.Windows.Forms.CheckBox chkNoBoldTitle;
+        private System.Windows.Forms.CheckBox chkNoBulletedLink;
+        private System.Windows.Forms.CheckBox chkNoBadLink;
+        private System.Windows.Forms.CheckBox chkDefaultSortAdded;
     }
 }
