@@ -297,7 +297,7 @@ ORDER BY lkpCultures.Language, lkpCultures.Country', 'cultures');
 	}
 		
 	function plugins() {
-		return $this->db_mysql_query('SELECT lkpPlugins.Plugin FROM lkpPlugins GROUP BY lkpPlugins.Plugin ORDER BY lkpPlugins.Plugin', 'plugins');
+		return $this->db_mysql_query('SELECT lkpPlugins.Plugin, lkpPlugins.PluginType FROM lkpPlugins GROUP BY lkpPlugins.Plugin ORDER BY lkpPlugins.Plugin', 'plugins');
 	}
 	
 	function busiest_user() {
