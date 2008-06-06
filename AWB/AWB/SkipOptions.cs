@@ -94,18 +94,9 @@ namespace AutoWikiBrowser
             this.Hide();
         }
 
+        [Obsolete("Replaced with Selected Items")]
         public string SelectedItem
         {
-            get
-            {
-                foreach (CheckBox chk in gbOptions.Controls)
-                {
-                    if (chk.Checked)
-                        return chk.Tag.ToString();
-                }
-
-                return "0";
-            }
             set
             {
                 foreach (CheckBox chk in gbOptions.Controls)
@@ -119,20 +110,27 @@ namespace AutoWikiBrowser
             }
         }
 
-        public List<string> SelectedItems
+        public List<int> SelectedItems
         {
             get 
             {
-                List<string> ret = new List<string>();
+                List<int> ret = new List<int>();
                 foreach (CheckBox chk in gbOptions.Controls)
                 {
                     if (chk.Checked)
-                        ret.Add(chk.Tag.ToString());
+                        ret.Add((int)chk.Tag);
                 }
 
                 return ret;
             }
-            set { }
+            set
+            {
+                foreach (CheckBox chk in gbOptions.Controls)
+                {
+                    if (value.Contains((int)chk.Tag))
+                        chk.Checked = true;
+                }
+            }
         }
 
         #endregion
