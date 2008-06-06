@@ -239,6 +239,7 @@ namespace AutoWikiBrowser
             this.chkSkipSpamFilter = new System.Windows.Forms.CheckBox();
             this.chkSkipIfInuse = new System.Windows.Forms.CheckBox();
             this.chkSkipWhitespace = new System.Windows.Forms.CheckBox();
+            this.chkSkipGeneralFixes = new System.Windows.Forms.CheckBox();
             this.txtEdit = new System.Windows.Forms.TextBox();
             this.mnuHistory = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -2158,6 +2159,18 @@ namespace AutoWikiBrowser
                     "");
             this.chkSkipWhitespace.UseVisualStyleBackColor = true;
             // 
+            // chkSkipGeneralFixes
+            // 
+            this.chkSkipGeneralFixes.AutoSize = true;
+            this.chkSkipGeneralFixes.Location = new System.Drawing.Point(6, 182);
+            this.chkSkipGeneralFixes.Name = "chkSkipGeneralFixes";
+            this.chkSkipGeneralFixes.Size = new System.Drawing.Size(142, 17);
+            this.chkSkipGeneralFixes.TabIndex = 17;
+            this.chkSkipGeneralFixes.Text = "Only general fix changes";
+            this.toolTip1.SetToolTip(this.chkSkipGeneralFixes, "Automatically skips articles when only whitespace changes were automatically made" +
+                    "");
+            this.chkSkipGeneralFixes.UseVisualStyleBackColor = true;
+            // 
             // txtEdit
             // 
             this.txtEdit.AcceptsReturn = true;
@@ -2911,6 +2924,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.chkSkipGeneralFixes);
             this.groupBox8.Controls.Add(this.chkSkipNoPageLinks);
             this.groupBox8.Controls.Add(this.txtSkipIfNotContains);
             this.groupBox8.Controls.Add(this.groupBox3);
@@ -2933,7 +2947,7 @@ namespace AutoWikiBrowser
             // chkSkipNoPageLinks
             // 
             this.chkSkipNoPageLinks.AutoSize = true;
-            this.chkSkipNoPageLinks.Location = new System.Drawing.Point(6, 280);
+            this.chkSkipNoPageLinks.Location = new System.Drawing.Point(6, 311);
             this.chkSkipNoPageLinks.Name = "chkSkipNoPageLinks";
             this.chkSkipNoPageLinks.Size = new System.Drawing.Size(110, 17);
             this.chkSkipNoPageLinks.TabIndex = 16;
@@ -2945,7 +2959,7 @@ namespace AutoWikiBrowser
             this.groupBox3.Controls.Add(this.radSkipNone);
             this.groupBox3.Controls.Add(this.radSkipExistent);
             this.groupBox3.Controls.Add(this.radSkipNonExistent);
-            this.groupBox3.Location = new System.Drawing.Point(6, 182);
+            this.groupBox3.Location = new System.Drawing.Point(6, 213);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(131, 92);
             this.groupBox3.TabIndex = 15;
@@ -4064,5 +4078,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.TextBox txtSkipIfNotContains;
         private System.Windows.Forms.CheckBox chkSkipIfContains;
         private System.Windows.Forms.CheckBox chkSkipNoPageLinks;
+        private System.Windows.Forms.CheckBox chkSkipGeneralFixes;
     }
 }

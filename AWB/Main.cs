@@ -665,6 +665,12 @@ namespace AutoWikiBrowser
                         SkipPage("Only whitespace changed");
                         return;
                     }
+
+                    if (chkSkipGeneralFixes.Checked && chkGeneralFixes.Checked && TheArticle.OnlyGeneralFixesChanged)
+                    {
+                        SkipPage("Only General Fix Changes");
+                        return;
+                    }
                 }
             }
 
@@ -683,25 +689,31 @@ namespace AutoWikiBrowser
 
             if (!Abort)
             {
-                if (toolStripComboOnLoad.SelectedIndex == 0)
-                    GetDiff();
-                else if (toolStripComboOnLoad.SelectedIndex == 1)
-                    GetPreview();
-                else if (toolStripComboOnLoad.SelectedIndex == 2)
+                switch (toolStripComboOnLoad.SelectedIndex)
                 {
-                    if (BotMode)
-                    {
-                        StartDelayedAutoSaveTimer();
-                        return;
-                    }
+                    case 0:
+                        GetDiff();
+                        break;
+                    case 1:
+                        GetPreview();
+                        break;
+                    case 3:
+                        {
+                            if (BotMode)
+                            {
+                                StartDelayedAutoSaveTimer();
+                                return;
+                            }
 
-                    Bleepflash();
+                            Bleepflash();
 
-                    this.Focus();
-                    txtEdit.Focus();
-                    txtEdit.SelectionLength = 0;
+                            this.Focus();
+                            txtEdit.Focus();
+                            txtEdit.SelectionLength = 0;
 
-                    EnableButtons();
+                            EnableButtons();
+                            break;
+                        }
                 }
                 SetWatchButton(webBrowserEdit.IsWatched());
 
@@ -2585,7 +2597,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void chkGeneralParse_CheckedChanged(object sender, EventArgs e)
         {
-            alphaSortInterwikiLinksToolStripMenuItem.Enabled = chkGeneralFixes.Checked;
+            alphaSortInterwikiLinksToolStripMenuItem.Enabled = chkSkipGeneralFixes.Enabled = chkGeneralFixes.Checked;
         }
 
         private void btnFindAndReplaceAdvanced_Click(object sender, EventArgs e)
