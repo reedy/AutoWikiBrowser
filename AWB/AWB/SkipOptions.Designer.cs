@@ -58,7 +58,7 @@ namespace AutoWikiBrowser
             this.chkNoUnicode.Name = "chkNoUnicode";
             this.chkNoUnicode.Size = new System.Drawing.Size(96, 17);
             this.chkNoUnicode.TabIndex = 4;
-            this.chkNoUnicode.Tag = "1";
+            this.chkNoUnicode.Tag = 1;
             this.chkNoUnicode.Text = "Unicodification";
             this.chkNoUnicode.UseVisualStyleBackColor = true;
             // 
@@ -69,7 +69,7 @@ namespace AutoWikiBrowser
             this.chkNoTag.Name = "chkNoTag";
             this.chkNoTag.Size = new System.Drawing.Size(90, 17);
             this.chkNoTag.TabIndex = 5;
-            this.chkNoTag.Tag = "2";
+            this.chkNoTag.Tag = 2;
             this.chkNoTag.Text = "Tag changed";
             this.chkNoTag.UseVisualStyleBackColor = true;
             // 
@@ -96,7 +96,7 @@ namespace AutoWikiBrowser
             this.chkDefaultSortAdded.Name = "chkDefaultSortAdded";
             this.chkDefaultSortAdded.Size = new System.Drawing.Size(124, 17);
             this.chkDefaultSortAdded.TabIndex = 7;
-            this.chkDefaultSortAdded.Tag = "3";
+            this.chkDefaultSortAdded.Tag = 3;
             this.chkDefaultSortAdded.Text = "{{defaultsort}} added";
             this.chkDefaultSortAdded.UseVisualStyleBackColor = true;
             // 
@@ -107,7 +107,7 @@ namespace AutoWikiBrowser
             this.chkNoBadLink.Name = "chkNoBadLink";
             this.chkNoBadLink.Size = new System.Drawing.Size(94, 17);
             this.chkNoBadLink.TabIndex = 3;
-            this.chkNoBadLink.Tag = "6";
+            this.chkNoBadLink.Tag = 6;
             this.chkNoBadLink.Text = "Bad links fixed";
             this.chkNoBadLink.UseVisualStyleBackColor = true;
             // 
@@ -118,7 +118,7 @@ namespace AutoWikiBrowser
             this.chkNoBulletedLink.Name = "chkNoBulletedLink";
             this.chkNoBulletedLink.Size = new System.Drawing.Size(123, 17);
             this.chkNoBulletedLink.TabIndex = 2;
-            this.chkNoBulletedLink.Tag = "5";
+            this.chkNoBulletedLink.Tag = 5;
             this.chkNoBulletedLink.Text = "External link bulleted";
             this.chkNoBulletedLink.UseVisualStyleBackColor = true;
             // 
@@ -129,7 +129,7 @@ namespace AutoWikiBrowser
             this.chkNoBoldTitle.Name = "chkNoBoldTitle";
             this.chkNoBoldTitle.Size = new System.Drawing.Size(93, 17);
             this.chkNoBoldTitle.TabIndex = 1;
-            this.chkNoBoldTitle.Tag = "4";
+            this.chkNoBoldTitle.Tag = 4;
             this.chkNoBoldTitle.Text = "Title boldened";
             this.chkNoBoldTitle.UseVisualStyleBackColor = true;
             // 
@@ -140,7 +140,7 @@ namespace AutoWikiBrowser
             this.chkNoHeaderError.Name = "chkNoHeaderError";
             this.chkNoHeaderError.Size = new System.Drawing.Size(110, 17);
             this.chkNoHeaderError.TabIndex = 6;
-            this.chkNoHeaderError.Tag = "3";
+            this.chkNoHeaderError.Tag = 3;
             this.chkNoHeaderError.Text = "Header error fixed";
             this.chkNoHeaderError.UseVisualStyleBackColor = true;
             // 
@@ -158,7 +158,6 @@ namespace AutoWikiBrowser
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Tag = "";
             this.Text = "Skip options";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SkipOptions_FormClosing);
             this.gbOptions.ResumeLayout(false);

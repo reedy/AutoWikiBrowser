@@ -237,7 +237,6 @@ namespace AutoWikiBrowser
             catch (Exception ex)
             {
                 ErrorHandler.Handle(ex);
-                MessageBox.Show(ex.Message, "Error saving settings", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
