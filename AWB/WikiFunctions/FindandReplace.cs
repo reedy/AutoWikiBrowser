@@ -104,6 +104,8 @@ namespace WikiFunctions.Parse
             if ((bool)dataGridRow.Cells["single"].FormattedValue)
                 rep.RegularExpressionOptions = rep.RegularExpressionOptions | RegexOptions.Singleline;
 
+            rep.Comment = (string)dataGridRow.Cells["comment"].Value.ToString();
+
             return rep;
         }
 
@@ -241,9 +243,9 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="Find">The string to find.</param>
         /// <param name="ReplaceWith">The replacement string.</param>
-        public void AddNew(string Find, string ReplaceWith, bool CaseSensitive, bool IsRegex, bool Multiline, bool Singleline, bool enabled)
+        public void AddNew(string Find, string ReplaceWith, bool CaseSensitive, bool IsRegex, bool Multiline, bool Singleline, bool enabled, string comment)
         {
-            dataGridView1.Rows.Add(Find, ReplaceWith, CaseSensitive, IsRegex, Multiline, Singleline, enabled);
+            dataGridView1.Rows.Add(Find, ReplaceWith, CaseSensitive, IsRegex, Multiline, Singleline, enabled, comment);
             if (!enabled)
                 dataGridView1.Rows[dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGray;
 
@@ -257,9 +259,9 @@ namespace WikiFunctions.Parse
             bool singleLine = R.RegularExpressionOptions.ToString().Contains("Singleline");
 
             if(!R.IsRegex)
-                dataGridView1.Rows.Add(Regex.Unescape(Decode(R.Find)), Decode(R.Replace), caseSens, R.IsRegex, multiine, singleLine, R.Enabled);
+                dataGridView1.Rows.Add(Regex.Unescape(Decode(R.Find)), Decode(R.Replace), caseSens, R.IsRegex, multiine, singleLine, R.Enabled, R.Comment);
             else
-                dataGridView1.Rows.Add(Decode(R.Find), Decode(R.Replace), caseSens, R.IsRegex, multiine, singleLine, R.Enabled);
+                dataGridView1.Rows.Add(Decode(R.Find), Decode(R.Replace), caseSens, R.IsRegex, multiine, singleLine, R.Enabled, R.Comment);
 
             if (!R.Enabled)
                 dataGridView1.Rows[dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGray;
@@ -473,8 +475,6 @@ namespace WikiFunctions.Parse
                 }
             }
         }
-
-
         #endregion
 
         private void chkIgnoreMore_CheckedChanged(object sender, EventArgs e)
@@ -560,17 +560,19 @@ namespace WikiFunctions.Parse
 
     public struct Replacement
     {
-        public Replacement(string Find, string Replace, bool IsRegex, bool Enabled, RegexOptions RegularExpressionOptions)
+        public Replacement(string Find, string Replace, bool IsRegex, bool Enabled, RegexOptions RegularExpressionOptions, string Comment)
         {
             this.Find = Find;
             this.Replace = Replace;
             this.IsRegex = IsRegex;
             this.Enabled = Enabled;
             this.RegularExpressionOptions = RegularExpressionOptions;
+            this.Comment = Comment;
         }
 
         public string Find;
         public string Replace;
+        public string Comment;
 
         public bool IsRegex;
         public bool Enabled;
