@@ -222,7 +222,8 @@ EOF;
 	<caption>Known Plugins</caption>
 <thead>
 	<tr>
-		<th colspan="3" scope="col" class="sortable">Plugin</th>
+		<th colspan="2" scope="col" class="sortable">Plugin</th>
+		<th colspan="1" scope="col" class="sortable">Plugin Type</th>
 	</tr>
 </thead>
 EOF;
@@ -233,7 +234,8 @@ EOF;
 		echo <<< EOF
 
 	<tr>
-		<td colspan="3" align="left">{$row['Plugin']}</td>
+		<td colspan="2" align="left">{$row['Plugin']}</td>
+		<td colspan="2" align="left">{$row['PluginType']}</td>
 	</tr>
 EOF;
 	}

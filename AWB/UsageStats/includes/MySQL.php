@@ -223,8 +223,9 @@ class DB {
 		
 		for ($i = 1; $i <= $_POST['PluginCount']; $i++) { // 1-based
 			$pluginname=$_POST["P{$i}N"];
+			$plugintype=$_POST["P{$i}T"];
 			$pluginid=$this->get_or_add_lookup_record('lkpPlugins', 'PluginID', "Plugin=\"{$pluginname}\"", 
-			   'Plugin', "\"{$pluginname}\"");
+			   'Plugin, PluginType', "\"{$pluginname}\", {$plugintype}");
 			
 			$versionarray=explode(".", $_POST["P{$i}V"]);		
 			if (count($versionarray) != 4)

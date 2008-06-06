@@ -128,7 +128,7 @@ namespace AutoWikiBrowser
         }
 
         /// <summary>
-        /// Call when a plugin got added *after* application startup
+        /// Call when a plugin was added *after* application startup
         /// </summary>
         internal static void AddedPlugin(IAWBPlugin plugin)
         {
@@ -136,6 +136,9 @@ namespace AutoWikiBrowser
             if (EstablishedContact) newAWBPlugins.Add(plugin);
         }
 
+        /// <summary>
+        /// Call when a plugin was added *after* application startup
+        /// </summary>
         internal static void AddedPlugin(IListMakerPlugin plugin)
         {
             if (EstablishedContact) newListMakerPlugins.Add(plugin);
