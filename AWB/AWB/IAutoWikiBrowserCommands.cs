@@ -43,7 +43,7 @@ namespace AutoWikiBrowser
         void IAutoWikiBrowserCommands.AddLogItem(bool Skipped, AWBLogListener LogListener)
         { LogControl1.AddLog(Skipped, LogListener); }
         void IAutoWikiBrowserCommands.TurnOffLogging() { Program.MyTrace.TurnOffLogging(); }
-        void IAutoWikiBrowserCommands.ShowHelp(string URL) { Help.ShowHelp(h, URL); }
-        void IAutoWikiBrowserCommands.ShowHelpEnWiki(string Article) { Help.ShowHelpEN(h, Article); }
+        void IAutoWikiBrowserCommands.ShowHelp(string URL) { helpForm.ShowHelp(helpForm, URL); }
+        void IAutoWikiBrowserCommands.ShowHelpEnWiki(string Article) { helpForm.ShowHelpEN(helpForm, Article); }
     }
 }

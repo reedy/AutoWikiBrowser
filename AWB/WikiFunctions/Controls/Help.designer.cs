@@ -33,8 +33,8 @@ namespace WikiFunctions.Controls
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lbTopics = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.webBrowserHelp = new System.Windows.Forms.WebBrowser();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.webBrowserHelp = new System.Windows.Forms.WebBrowser();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -102,16 +102,6 @@ namespace WikiFunctions.Controls
             this.label1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
-            // webBrowserHelp
-            // 
-            this.webBrowserHelp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowserHelp.Location = new System.Drawing.Point(0, 24);
-            this.webBrowserHelp.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowserHelp.Name = "webBrowserHelp";
-            this.webBrowserHelp.Size = new System.Drawing.Size(587, 609);
-            this.webBrowserHelp.TabIndex = 0;
-            this.webBrowserHelp.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserHelp_DocumentCompleted);
-            // 
             // toolStrip1
             // 
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
@@ -120,6 +110,16 @@ namespace WikiFunctions.Controls
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             this.toolStrip1.Visible = false;
+            // 
+            // webBrowserHelp
+            // 
+            this.webBrowserHelp.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowserHelp.Location = new System.Drawing.Point(0, 0);
+            this.webBrowserHelp.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowserHelp.Name = "webBrowserHelp";
+            this.webBrowserHelp.Size = new System.Drawing.Size(587, 633);
+            this.webBrowserHelp.TabIndex = 0;
+            this.webBrowserHelp.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserHelp_DocumentCompleted);
             // 
             // menuStrip1
             // 

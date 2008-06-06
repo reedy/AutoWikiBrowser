@@ -31,9 +31,9 @@ namespace AutoWikiBrowser
     internal sealed partial class Help : WikiFunctions.Controls.Help
     {
         public Help()
+            : base()
         {
             this.Text = "AWB Help";
-            InitializeComponent();
         }
 
         // TODO: convert hyperlinks in the page to use the simple skin too.
@@ -41,23 +41,15 @@ namespace AutoWikiBrowser
         // TODO: After performing an update, display a message in Help browser with link to changelog (ShowHelp();)
         protected override string URL
         {
-            // get { return "http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/User_manual"; } // Met's version
-            get { return Tools.GetENLinkWithSimpleSkinAndLocalLanguage("Wikipedia:AutoWikiBrowser/User_manual"); 
-            } // printable=yes looks nice but unfortunately zaps the hyperlinks
-            // Not hardcoding URL allows some of the Wikipedia links to be displayed in user's current language
+            get { return Tools.GetENLinkWithSimpleSkinAndLocalLanguage("Wikipedia:AutoWikiBrowser/User_manual"); }
         }
 
-        public static void ShowHelp(Help h)
-        { ShowHelp(h, ""); }
-
-        public static void ShowHelpEN(Help h, string Article)
+        public void ShowHelpEN(Help h, string Article)
         { ShowHelp(h, Tools.GetENLinkWithSimpleSkinAndLocalLanguage(Article)); }
 
-        public static void ShowHelp(Help h, string url)
+        public void ShowHelp(Help h, string url)
         {
-            if (h == null || h.IsDisposed)
-                h = new Help();
-            h.Show();
+            this.Show();
             if (string.IsNullOrEmpty(url))
                 h.Navigate();
             else
@@ -66,9 +58,6 @@ namespace AutoWikiBrowser
 
         private void Navigate()
         { Navigate(URL); }
-
-        protected override void Help_Load(object sender, EventArgs e)
-        { } // do nothing, we'll load URL in ShowHelp()
     }
 }
 

@@ -31,7 +31,7 @@ namespace WikiFunctions.Controls
     /// <summary>
     /// Provides a web-based help browser. Must be inherited.
     /// </summary>
-    public abstract partial class Help : Form
+    public partial class Help : Form
     {
         // TODO: Add menu and buttons for back, forward, home (=URL property), etc
         protected Help()
@@ -54,7 +54,7 @@ namespace WikiFunctions.Controls
             webBrowserHelp.Navigate(Tools.GetENLinkWithSimpleSkinAndLocalLanguage(Article));
         }
 
-        protected internal abstract string URL { get; }
+        protected internal virtual string URL { get { return ""; } }
 
         protected Regex TOC = new Regex(@"<LI class=toclevel-([12345])><A href=""#(.*?)""><SPAN class=tocnumber>.*?</SPAN> <SPAN class=toctext>.*?</SPAN></A>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
