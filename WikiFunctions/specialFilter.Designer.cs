@@ -110,6 +110,7 @@ namespace WikiFunctions.Lists
             this.chkCategory.Name = "chkCategory";
             this.chkCategory.Size = new System.Drawing.Size(68, 17);
             this.chkCategory.TabIndex = 15;
+            this.chkCategory.Tag = 1;
             this.chkCategory.Text = "Category";
             this.chkCategory.UseVisualStyleBackColor = true;
             // 
@@ -122,6 +123,7 @@ namespace WikiFunctions.Lists
             this.chkTemplate.Name = "chkTemplate";
             this.chkTemplate.Size = new System.Drawing.Size(70, 17);
             this.chkTemplate.TabIndex = 11;
+            this.chkTemplate.Tag = 2;
             this.chkTemplate.Text = "Template";
             this.chkTemplate.UseVisualStyleBackColor = true;
             // 
@@ -134,6 +136,7 @@ namespace WikiFunctions.Lists
             this.chkWikipedia.Name = "chkWikipedia";
             this.chkWikipedia.Size = new System.Drawing.Size(73, 17);
             this.chkWikipedia.TabIndex = 5;
+            this.chkWikipedia.Tag = 3;
             this.chkWikipedia.Text = "Wikipedia";
             this.chkWikipedia.UseVisualStyleBackColor = true;
             // 
@@ -146,6 +149,7 @@ namespace WikiFunctions.Lists
             this.chkUser.Name = "chkUser";
             this.chkUser.Size = new System.Drawing.Size(48, 17);
             this.chkUser.TabIndex = 3;
+            this.chkUser.Tag = 4;
             this.chkUser.Text = "User";
             this.chkUser.UseVisualStyleBackColor = true;
             // 
@@ -158,6 +162,7 @@ namespace WikiFunctions.Lists
             this.chkImage.Name = "chkImage";
             this.chkImage.Size = new System.Drawing.Size(58, 17);
             this.chkImage.TabIndex = 7;
+            this.chkImage.Tag = 5;
             this.chkImage.Text = "Image:";
             this.chkImage.UseVisualStyleBackColor = true;
             // 
@@ -220,6 +225,7 @@ namespace WikiFunctions.Lists
             this.chkArticle.Name = "chkArticle";
             this.chkArticle.Size = new System.Drawing.Size(49, 17);
             this.chkArticle.TabIndex = 1;
+            this.chkArticle.Tag = 6;
             this.chkArticle.Text = "Main";
             this.chkArticle.UseVisualStyleBackColor = true;
             // 
@@ -232,6 +238,7 @@ namespace WikiFunctions.Lists
             this.chkArticleTalk.Name = "chkArticleTalk";
             this.chkArticleTalk.Size = new System.Drawing.Size(75, 17);
             this.chkArticleTalk.TabIndex = 2;
+            this.chkArticleTalk.Tag = 7;
             this.chkArticleTalk.Text = "Article talk";
             this.chkArticleTalk.UseVisualStyleBackColor = true;
             // 
@@ -244,6 +251,7 @@ namespace WikiFunctions.Lists
             this.chkUserTalk.Name = "chkUserTalk";
             this.chkUserTalk.Size = new System.Drawing.Size(68, 17);
             this.chkUserTalk.TabIndex = 4;
+            this.chkUserTalk.Tag = 8;
             this.chkUserTalk.Text = "User talk";
             this.chkUserTalk.UseVisualStyleBackColor = true;
             // 
@@ -256,6 +264,7 @@ namespace WikiFunctions.Lists
             this.chkWikipediaTalk.Name = "chkWikipediaTalk";
             this.chkWikipediaTalk.Size = new System.Drawing.Size(93, 17);
             this.chkWikipediaTalk.TabIndex = 6;
+            this.chkWikipediaTalk.Tag = 9;
             this.chkWikipediaTalk.Text = "Wikipedia talk";
             this.chkWikipediaTalk.UseVisualStyleBackColor = true;
             // 
@@ -268,6 +277,7 @@ namespace WikiFunctions.Lists
             this.chkImageTalk.Name = "chkImageTalk";
             this.chkImageTalk.Size = new System.Drawing.Size(75, 17);
             this.chkImageTalk.TabIndex = 8;
+            this.chkImageTalk.Tag = 10;
             this.chkImageTalk.Text = "Image talk";
             this.chkImageTalk.UseVisualStyleBackColor = true;
             // 
@@ -278,6 +288,7 @@ namespace WikiFunctions.Lists
             this.chkMediaWiki.Name = "chkMediaWiki";
             this.chkMediaWiki.Size = new System.Drawing.Size(76, 17);
             this.chkMediaWiki.TabIndex = 9;
+            this.chkMediaWiki.Tag = 11;
             this.chkMediaWiki.Text = "MediaWiki";
             this.chkMediaWiki.UseVisualStyleBackColor = true;
             // 
@@ -288,6 +299,7 @@ namespace WikiFunctions.Lists
             this.chkMediaWikiTalk.Name = "chkMediaWikiTalk";
             this.chkMediaWikiTalk.Size = new System.Drawing.Size(97, 17);
             this.chkMediaWikiTalk.TabIndex = 10;
+            this.chkMediaWikiTalk.Tag = 12;
             this.chkMediaWikiTalk.Text = "MediaWikiTalk";
             this.chkMediaWikiTalk.UseVisualStyleBackColor = true;
             // 
@@ -300,6 +312,7 @@ namespace WikiFunctions.Lists
             this.chkTemplateTalk.Name = "chkTemplateTalk";
             this.chkTemplateTalk.Size = new System.Drawing.Size(90, 17);
             this.chkTemplateTalk.TabIndex = 12;
+            this.chkTemplateTalk.Tag = 13;
             this.chkTemplateTalk.Text = "Template talk";
             this.chkTemplateTalk.UseVisualStyleBackColor = true;
             // 
@@ -310,6 +323,7 @@ namespace WikiFunctions.Lists
             this.chkHelp.Name = "chkHelp";
             this.chkHelp.Size = new System.Drawing.Size(48, 17);
             this.chkHelp.TabIndex = 13;
+            this.chkHelp.Tag = 14;
             this.chkHelp.Text = "Help";
             this.chkHelp.UseVisualStyleBackColor = true;
             // 
@@ -320,6 +334,7 @@ namespace WikiFunctions.Lists
             this.chkHelpTalk.Name = "chkHelpTalk";
             this.chkHelpTalk.Size = new System.Drawing.Size(68, 17);
             this.chkHelpTalk.TabIndex = 14;
+            this.chkHelp.Tag = 15;
             this.chkHelpTalk.Text = "Help talk";
             this.chkHelpTalk.UseVisualStyleBackColor = true;
             // 
@@ -332,6 +347,7 @@ namespace WikiFunctions.Lists
             this.chkCategoryTalk.Name = "chkCategoryTalk";
             this.chkCategoryTalk.Size = new System.Drawing.Size(88, 17);
             this.chkCategoryTalk.TabIndex = 16;
+            this.chkCategoryTalk.Tag = 16;
             this.chkCategoryTalk.Text = "Category talk";
             this.chkCategoryTalk.UseVisualStyleBackColor = true;
             // 
@@ -342,6 +358,7 @@ namespace WikiFunctions.Lists
             this.chkPortal.Name = "chkPortal";
             this.chkPortal.Size = new System.Drawing.Size(53, 17);
             this.chkPortal.TabIndex = 17;
+            this.chkPortal.Tag = 17;
             this.chkPortal.Text = "Portal";
             this.chkPortal.UseVisualStyleBackColor = true;
             // 
@@ -352,6 +369,7 @@ namespace WikiFunctions.Lists
             this.chkPortalTalk.Name = "chkPortalTalk";
             this.chkPortalTalk.Size = new System.Drawing.Size(73, 17);
             this.chkPortalTalk.TabIndex = 18;
+            this.chkPortalTalk.Tag = 18;
             this.chkPortalTalk.Text = "Portal talk";
             this.chkPortalTalk.UseVisualStyleBackColor = true;
             // 
