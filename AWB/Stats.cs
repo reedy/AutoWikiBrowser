@@ -92,7 +92,8 @@ namespace AutoWikiBrowser
         private static int LastEditCount;
         private static string mUserName = "";
         private static bool SentUserName;
-        private static List<IAWBPlugin> newplugins = new List<IAWBPlugin>();
+        private static List<IAWBPlugin> newAWBPlugins = new List<IAWBPlugin>();
+        private static List<IListMakerPlugin> newListMakerPlugins = new List<IListMakerPlugin>();
 
  #region Public
         internal static void Initialise()
@@ -111,7 +112,7 @@ namespace AutoWikiBrowser
             {
                 if (EstablishedContact)
                 {
-                    if (Program.AWB.NumberOfEdits > LastEditCount || newplugins.Count > 0
+                    if (Program.AWB.NumberOfEdits > LastEditCount || newAWBPlugins.Count > 0
                         || HaveUserNameToSend) SubsequentContact();
                 }
                 else
@@ -132,7 +133,12 @@ namespace AutoWikiBrowser
         internal static void AddedPlugin(IAWBPlugin plugin)
         {
             // if we've already written to the remote database, we'll need to add details of this plugin when we next contact it, otherwise do nothing
-            if (EstablishedContact) newplugins.Add(plugin);
+            if (EstablishedContact) newAWBPlugins.Add(plugin);
+        }
+
+        internal static void AddedPlugin(IListMakerPlugin plugin)
+        {
+            if (EstablishedContact) newListMakerPlugins.Add(plugin);
         }
 #endregion
 
@@ -188,7 +194,7 @@ namespace AutoWikiBrowser
 #else
             postvars.Add("Debug", "N");
 #endif
-                EnumeratePlugins(postvars, Plugins.Plugin.Items.Values);
+                EnumeratePlugins(postvars, Plugins.Plugin.Items.Values, WikiFunctions.Controls.Lists.ListMaker.GetListMakerPlugins());
 
                 ReadXML(PostData(postvars));
             }
@@ -211,14 +217,15 @@ namespace AutoWikiBrowser
                 postvars.Add("RecordID", RecordId.ToString());
                 postvars.Add("Verify", SecretNumber.ToString());
 
-                EnumeratePlugins(postvars, newplugins);
+                EnumeratePlugins(postvars, newAWBPlugins, newListMakerPlugins);
                 ProcessUsername(postvars);
 
                 if (Program.AWB.NumberOfEdits > LastEditCount)
                     postvars.Add("Saves", Program.AWB.NumberOfEdits.ToString());
 
                 PostData(postvars);
-                newplugins.Clear();
+                newAWBPlugins.Clear();
+                newListMakerPlugins.Clear();
             }
             catch
             {
@@ -283,27 +290,29 @@ namespace AutoWikiBrowser
             return ret.ToString();
         }
 
-        private static void EnumeratePlugins(NameValueCollection postvars, ICollection<IAWBPlugin> plugins)
+        private static void EnumeratePlugins(NameValueCollection postvars, ICollection<IAWBPlugin> awbPlugins, ICollection<IListMakerPlugin> listLakerPlugins)
         {
             int i = 0;
 
-            postvars.Add("PluginCount", /*(*/plugins.Count/*+ WikiFunctions.Controls.Lists.ListMaker.ListMakerPluginCount())*/.ToString());
+            postvars.Add("PluginCount", (awbPlugins.Count + listLakerPlugins.Count).ToString());
 
-            foreach (IAWBPlugin plugin in plugins)
+            foreach (IAWBPlugin plugin in awbPlugins)
             {
                 i++;
                 string P = "P" + i.ToString();
                 postvars.Add(P + "N", plugin.Name);
                 postvars.Add(P + "V", Plugins.Plugin.GetPluginVersionString(plugin));
+                postvars.Add(P + "T", "0");
             }
 
-            //foreach (IListMakerPlugin plugin in WikiFunctions.Controls.Lists.ListMaker.GetListMakerPlugins())
-            //{
-            //    i++;
-            //    string P = "P" + i.ToString();
-            //    postvars.Add(P + "N", plugin.Name);
-            //    postvars.Add(P + "V", Plugins.Plugin.GetPluginVersionString(plugin));
-            //}
+            foreach (IListMakerPlugin plugin in listLakerPlugins)
+            {
+                i++;
+                string P = "P" + i.ToString();
+                postvars.Add(P + "N", plugin.Name);
+                postvars.Add(P + "V", Plugins.Plugin.GetPluginVersionString(plugin));
+                postvars.Add(P + "T", "1");
+            }
         }
 
         private static void ReadXML(string xml)
