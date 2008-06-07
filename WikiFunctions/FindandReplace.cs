@@ -104,6 +104,9 @@ namespace WikiFunctions.Parse
             if ((bool)dataGridRow.Cells["single"].FormattedValue)
                 rep.RegularExpressionOptions = rep.RegularExpressionOptions | RegexOptions.Singleline;
 
+            if (dataGridRow.Cells["comment"].Value == null)
+                dataGridRow.Cells["comment"].Value = "";
+
             rep.Comment = (string)dataGridRow.Cells["comment"].Value.ToString();
 
             return rep;
