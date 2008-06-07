@@ -57,6 +57,8 @@ namespace WikiFunctions.Controls.Lists
 
         public ListMaker()
         {
+            InitializeComponent();
+
             if (listItems.Count == 0)
             {
                 listItems.Add(new CategoryListMakerProvider());
@@ -80,8 +82,6 @@ namespace WikiFunctions.Controls.Lists
                 listItems.Add(new WikiSearchListMakerProvider());
                 listItems.Add(redirectLMProvider);
             }
-
-            InitializeComponent();
 
             // We'll manage our own collection of list items:
             cmboSourceSelect.DataSource = listItems;
@@ -651,6 +651,7 @@ namespace WikiFunctions.Controls.Lists
 
                 BusyStatus = false;
                 UpdateNumberOfArticles();
+                btnStop.Visible = false;
             }
 		}
 
