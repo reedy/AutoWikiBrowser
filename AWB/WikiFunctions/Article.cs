@@ -209,6 +209,22 @@ namespace WikiFunctions
         }
 
         /// <summary>
+        /// Does a case-insensitive comparison of the text, returning true if the same
+        /// </summary>
+        public bool OnlyCasingChanged
+        {
+            get { return (string.Compare(mOriginalArticleText, mArticleText, true) == 0); }
+        }
+
+        /// <summary>
+        /// Returns whether the only change between the current article text and the original article text is whitespace and casing changes
+        /// </summary>
+        public bool OnlyWhiteSpaceAndCasingChanged
+        {
+            get { return (string.Compare(Regex.Replace(mOriginalArticleText, @"\s+", ""), Regex.Replace(mArticleText, @"\s+", ""), true) == 0); }
+        }
+
+        /// <summary>
         /// Returns whether the only change between the current article text and the original article text was by the general fixes
         /// </summary>
         public bool OnlyGeneralFixesChanged
