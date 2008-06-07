@@ -59,6 +59,7 @@ namespace WikiFunctions.Controls.Lists
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
             this.addSelectedToListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fromCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fromCategoryrecursiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fromTranscludesHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fromWhatlinkshereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fromLinksOnPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -84,7 +85,6 @@ namespace WikiFunctions.Controls.Lists
             this.btnArticlesListSave = new System.Windows.Forms.Button();
             this.btnRemoveDuplicates = new System.Windows.Forms.Button();
             this.lbArticles = new WikiFunctions.Controls.Lists.ListBox2();
-            this.fromCategoryrecursiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuListBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -208,7 +208,7 @@ namespace WikiFunctions.Controls.Lists
             this.openInBrowserToolStripMenuItem,
             this.openHistoryInBrowserToolStripMenuItem});
             this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(209, 480);
+            this.mnuListBox.Size = new System.Drawing.Size(209, 458);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // filterOutNonMainSpaceArticlesToolStripMenuItem
@@ -340,6 +340,13 @@ namespace WikiFunctions.Controls.Lists
             this.fromCategoryToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
             this.fromCategoryToolStripMenuItem.Text = "From category";
             this.fromCategoryToolStripMenuItem.Click += new System.EventHandler(this.fromCategoryToolStripMenuItem_Click);
+            // 
+            // fromCategoryrecursiveToolStripMenuItem
+            // 
+            this.fromCategoryrecursiveToolStripMenuItem.Name = "fromCategoryrecursiveToolStripMenuItem";
+            this.fromCategoryrecursiveToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.fromCategoryrecursiveToolStripMenuItem.Text = "From category (recursive)";
+            this.fromCategoryrecursiveToolStripMenuItem.Click += new System.EventHandler(this.fromCategoryrecursiveToolStripMenuItem_Click);
             // 
             // fromTranscludesHereToolStripMenuItem
             // 
@@ -551,13 +558,6 @@ namespace WikiFunctions.Controls.Lists
             this.lbArticles.DoubleClick += new System.EventHandler(this.lbArticles_DoubleClick);
             this.lbArticles.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbArticles_MouseMove);
             this.lbArticles.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbArticles_KeyDown);
-            // 
-            // fromCategoryrecursiveToolStripMenuItem
-            // 
-            this.fromCategoryrecursiveToolStripMenuItem.Name = "fromCategoryrecursiveToolStripMenuItem";
-            this.fromCategoryrecursiveToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
-            this.fromCategoryrecursiveToolStripMenuItem.Text = "From category (recursive)";
-            this.fromCategoryrecursiveToolStripMenuItem.Click += new System.EventHandler(this.fromCategoryrecursiveToolStripMenuItem_Click);
             // 
             // ListMaker
             // 
