@@ -429,9 +429,11 @@ namespace WikiFunctions.DBScanner
 
                 if (saveFileDialog2.ShowDialog() == DialogResult.OK)
                 {
-                    StreamWriter sw = new StreamWriter(saveFileDialog2.FileName, false, Encoding.UTF8);
-                    sw.Write(strList);
-                    sw.Close();
+                    using (StreamWriter sw = new StreamWriter(saveFileDialog2.FileName, false, Encoding.UTF8))
+                    {
+                        sw.Write(strList);
+                        sw.Close();
+                    }
                 }
             }
             catch (Exception ex) { ErrorHandler.Handle(ex); }
