@@ -51,18 +51,18 @@ namespace WikiFunctions.Lists
 
         public virtual List<Article> MakeList(string[] searchCriteria)
         {
-            searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
+            List<string> searchCriteriaList = new List<string>(Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria));
 
             List<Article> list = new List<Article>();
             List<string> badcategories = new List<string>();
             List<string> vistedCategories = new List<string>();
 
-            for (int i = 0; i < searchCriteria.Length; i++)
+            for (int i = 0; i < searchCriteriaList.Count; i++)
             {
-                if (!vistedCategories.Contains(searchCriteria[i]))
+                if (!vistedCategories.Contains(searchCriteriaList[i]))
                 {
-                    vistedCategories.Add(searchCriteria[i]);
-                    string cmtitle = Tools.WikiEncode(Regex.Replace(searchCriteria[i], Variables.NamespacesCaseInsensitive[14], ""));
+                    vistedCategories.Add(searchCriteriaList[i]);
+                    string cmtitle = Tools.WikiEncode(Regex.Replace(searchCriteriaList[i], Variables.NamespacesCaseInsensitive[14], ""));
 
                     string url = Variables.URLLong + "api.php?action=query&list=categorymembers&cmtitle=Category:" + cmtitle + "&cmcategory=" + cmtitle + "&format=xml&cmlimit=500";
                     int ns = 0;
@@ -73,7 +73,7 @@ namespace WikiFunctions.Lists
                         string html = Tools.GetHTML(url);
                         if (html.Contains("categorymembers /"))
                         {
-                            badcategories.Add(searchCriteria[i]);
+                            badcategories.Add(searchCriteriaList[i]);
                             break;
                         }
                         bool more = false;
@@ -95,10 +95,9 @@ namespace WikiFunctions.Lists
                                         list.Add(new WikiFunctions.Article(title, ns));
                                     }
 
-                                    if (subCategories && ns == 14)
+                                    if (subCategories && (ns == 14))
                                     {
-                                        Array.Resize<string>(ref searchCriteria, searchCriteria.Length + 1);
-                                        searchCriteria[searchCriteria.Length - 1] = title.Replace(Variables.Namespaces[14], "");
+                                        searchCriteriaList.Add(title.Replace(Variables.Namespaces[14], ""));
                                     }
                                 }
                                 else if (reader.Name.Equals("categorymembers"))
@@ -163,6 +162,105 @@ namespace WikiFunctions.Lists
 
         public override string DisplayText
         { get { return "Category (recursive)"; } }
+    }
+
+    public class CategoryRecursiveOneLevelListMakerProvider : CategoryRecursiveUserDefinedLevelListMakerProvider
+    {
+        public CategoryRecursiveOneLevelListMakerProvider()
+            : base(1)
+        { }
+
+        public override List<Article> MakeList(string[] searchCriteria)
+        {
+            return base.MakeList(searchCriteria, true);
+        }
+
+        public override string DisplayText
+        {
+            get { return "Category (recursive 1 level)"; }
+        }
+    }
+
+    public class CategoryRecursiveUserDefinedLevelListMakerProvider : CategoryListMakerProvider
+    {
+        protected int level;
+
+        protected CategoryRecursiveUserDefinedLevelListMakerProvider(int Level)
+        {
+            this.level = Level;
+            this.subCategories = false;
+            this.quietMode = true;
+        }
+
+        public CategoryRecursiveUserDefinedLevelListMakerProvider()
+            : this(0)
+        { }
+
+        public override List<Article> MakeList(string[] searchCriteria)
+        {
+            return MakeList(searchCriteria, false);
+        }
+
+        protected List<Article> MakeList(string[] searchCriteria, bool levelSet)
+        {
+            if (!levelSet)
+            {
+                using (WikiFunctions.Controls.LevelNumber num = new WikiFunctions.Controls.LevelNumber())
+                {
+                    num.ShowDialog();
+                    level = num.Levels;
+                }
+            }
+            List<Article> articlesToReturn = new List<Article>();
+            List<Article> articles = base.MakeList(searchCriteria);
+
+            for (int i = 0; i < level; i++)
+            {
+                articlesToReturn.AddRange(articles);
+
+                List<string> moreCats = new List<string>();
+
+                foreach (Article a in articles)
+                {
+                    if (a.NameSpaceKey == 14)
+                        moreCats.Add(a.ToString());
+                }
+
+                articles.Clear();
+
+                if (moreCats.Count == 0)
+                    break;
+
+                articles.AddRange(base.MakeList(moreCats.ToArray()));
+            }
+
+            articlesToReturn.AddRange(articles);
+
+            return articlesToReturn;
+        }
+
+        public List<Article> MakeList(string[] searchCriteria, int Level)
+        {
+            this.Level = Level;
+            return MakeList(searchCriteria, true);
+        }
+
+        public int Level
+        {
+            get { return this.level; }
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException("value", "Value is less than 0");
+
+                this.level = value;
+            }
+        }
+
+        public override string DisplayText
+        {
+            get { return "Category (recursive user defined level)"; }
+        }
     }
 
     /// <summary>

@@ -61,6 +61,8 @@ namespace WikiFunctions.Controls.Lists
             {
                 listItems.Add(new CategoryListMakerProvider());
                 listItems.Add(new CategoryRecursiveListMakerProvider());
+                listItems.Add(new CategoryRecursiveOneLevelListMakerProvider());
+                listItems.Add(new CategoryRecursiveUserDefinedLevelListMakerProvider());
                 listItems.Add(new WhatLinksHereListMakerProvider());
                 listItems.Add(new WhatLinksHereIncludingRedirectsListMakerProvider());
                 listItems.Add(new WhatTranscludesPageListMakerProvider());
