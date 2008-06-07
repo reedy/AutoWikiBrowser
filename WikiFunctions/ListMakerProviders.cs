@@ -39,6 +39,7 @@ namespace WikiFunctions.Lists
     {
         protected bool quietMode;
         protected bool subCategories;
+        protected List<string> vistedCategories;
 
         public CategoryListMakerProvider()
         { }
@@ -55,7 +56,7 @@ namespace WikiFunctions.Lists
 
             List<Article> list = new List<Article>();
             List<string> badcategories = new List<string>();
-            List<string> vistedCategories = new List<string>();
+            vistedCategories = new List<string>();
 
             for (int i = 0; i < searchCriteriaList.Count; i++)
             {
@@ -164,6 +165,9 @@ namespace WikiFunctions.Lists
         { get { return "Category (recursive)"; } }
     }
 
+    /// <summary>
+    /// Gets a list of pages in Named Categories for the ListMaker (Recursive - Will visit 1 level of subcategories)
+    /// </summary>
     public class CategoryRecursiveOneLevelListMakerProvider : CategoryRecursiveUserDefinedLevelListMakerProvider
     {
         public CategoryRecursiveOneLevelListMakerProvider()
@@ -181,10 +185,15 @@ namespace WikiFunctions.Lists
         }
     }
 
+    /// <summary>
+    /// Gets a list of pages in Named Categories for the ListMaker (Recursive - Will visit the specified number of levels of subcategories)
+    /// </summary>
     public class CategoryRecursiveUserDefinedLevelListMakerProvider : CategoryListMakerProvider
     {
-        protected int level;
+        private int level;
+        protected List<string> allVistedCategories;
 
+        /// <param name="Level">Levels of Subcategories to visit</param>
         protected CategoryRecursiveUserDefinedLevelListMakerProvider(int Level)
         {
             this.level = Level;
@@ -201,6 +210,7 @@ namespace WikiFunctions.Lists
             return MakeList(searchCriteria, false);
         }
 
+        /// <param name="levelSet">Whether the level has already been set by the code</param>
         protected List<Article> MakeList(string[] searchCriteria, bool levelSet)
         {
             if (!levelSet)
@@ -214,6 +224,8 @@ namespace WikiFunctions.Lists
             List<Article> articlesToReturn = new List<Article>();
             List<Article> articles = base.MakeList(searchCriteria);
 
+            allVistedCategories = new List<string>(vistedCategories);
+
             for (int i = 0; i < level; i++)
             {
                 articlesToReturn.AddRange(articles);
@@ -222,7 +234,7 @@ namespace WikiFunctions.Lists
 
                 foreach (Article a in articles)
                 {
-                    if (a.NameSpaceKey == 14)
+                    if (a.NameSpaceKey == 14 && !allVistedCategories.Contains(a.ToString()))
                         moreCats.Add(a.ToString());
                 }
 
@@ -232,6 +244,7 @@ namespace WikiFunctions.Lists
                     break;
 
                 articles.AddRange(base.MakeList(moreCats.ToArray()));
+                allVistedCategories.AddRange(vistedCategories);
             }
 
             articlesToReturn.AddRange(articles);
@@ -245,6 +258,9 @@ namespace WikiFunctions.Lists
             return MakeList(searchCriteria, true);
         }
 
+        /// <summary>
+        /// Get/Set Level
+        /// </summary>
         public int Level
         {
             get { return this.level; }
