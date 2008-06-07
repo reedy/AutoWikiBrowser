@@ -561,8 +561,10 @@ namespace WikiFunctions.Parse
         }
     }
 
-    public struct Replacement
+    public class Replacement
     {
+        public Replacement() { }
+
         public Replacement(string Find, string Replace, bool IsRegex, bool Enabled, RegexOptions RegularExpressionOptions, string Comment)
         {
             this.Find = Find;
