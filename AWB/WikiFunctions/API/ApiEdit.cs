@@ -26,6 +26,7 @@ using System.Web;
 using System.IO;
 using System.Xml;
 
+/// MediaWiki API manual: http://www.mediawiki.org/wiki/API
 /// Site prerequisites: MediaWiki 1.13+ with the following settings:
 /// * $wgEnableAPI = true; (enabled by default in DefaultSettings.php)
 /// * $wgEnableWriteAPI = true;
@@ -38,11 +39,16 @@ using System.Xml;
 
 namespace WikiFunctions.API
 {
+    //TODO: refactor XML parsing
     /// <summary>
     /// This class edits MediaWiki sites using api.php
     /// </summary>
     public class ApiEdit
     {
+        private ApiEdit()
+        {
+        }
+
         /// <summary>
         /// Creates a new instance of the ApiEdit class
         /// </summary>
@@ -70,17 +76,19 @@ namespace WikiFunctions.API
         }
 
         /// <summary>
-        /// Creates a new instance of the ApiEdit class by cloning an existing instance
+        /// Creates a new instance of the ApiEdit class by cloning the current instance
         /// ATTENTION: the clones will share the same cookie container, so logging off or logging under another username
-        /// with one edit will automatically make another one do the same
+        /// with one instance will automatically make another one do the same
         /// </summary>
-        /// <param name="toClone">Object to clone</param>
-        public ApiEdit(ApiEdit toClone)
+        public ApiEdit Clone()
         {
-            m_URL = toClone.m_URL;
-            m_Maxlag = toClone.m_Maxlag;
-            m_Cookies = toClone.m_Cookies;
-            ProxySettings = toClone.ProxySettings;
+            ApiEdit clone = new ApiEdit();
+            clone.m_URL = m_URL;
+            clone.m_Maxlag = m_Maxlag;
+            clone.m_Cookies = m_Cookies;
+            clone.ProxySettings = ProxySettings;
+
+            return clone;
         }
 
         #region Properties
@@ -198,7 +206,7 @@ namespace WikiFunctions.API
         protected string BuildUrl(string[,] request, bool autoParams)
         {
             string url = URL + "api.php?format=xml" + BuildQuery(request);
-            if (autoParams) url += "&assert=false&maxlag=" + Maxlag;
+            if (autoParams) url += "&assert=user&maxlag=" + Maxlag;
 
             return url;
         }
@@ -319,7 +327,7 @@ namespace WikiFunctions.API
         /// <returns>Page content</returns>
         public string Open(string title)
         {
-            if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "pageName");
+            if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
 
             Reset();
 
@@ -379,19 +387,64 @@ namespace WikiFunctions.API
                     { watch ? "watch" : null, null }
                 },
                 new string[,]
-                {
-                    { "token", m_EditToken },
-                    { "text", pageText },
+                {// order matters here - https://bugzilla.wikimedia.org/show_bug.cgi?id=14210#c4
+                    { "md5", MD5(pageText) },
                     { "summary", summary },
-                    { "timestamp", m_Timestamp }
+                    { "timestamp", m_Timestamp },
+                    { "text", pageText },
+                    { "token", m_EditToken }
                 });
 
             CheckForError(result, "edit");
             Reset();
         }
 
-        public void Delete(string title, string summary)
+        public void Delete(string title, string reason)
         {
+            if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
+            if (string.IsNullOrEmpty(reason)) throw new ArgumentException("Deletion reason required", "reason");
+
+            Reset();
+            m_Action = "delete";
+
+            string result = HttpGet(
+                new string[,]
+                {
+                    { "action", "query" },
+                    { "prop", "info" },
+                    { "intoken", "delete" },
+                    { "titles", title },
+
+                });
+
+            CheckForError(result);
+
+            try
+            {
+                XmlReader xr = XmlReader.Create(new StringReader(result));
+                if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
+                m_EditToken = xr.GetAttribute("deletetoken");
+            }
+            catch (Exception ex)
+            {
+                throw new ApiBrokenXmlException(this, ex);
+            }
+
+            result = HttpPost(
+                new string[,]
+                {
+                    { "action", "delete" }
+                },
+                new string[,]
+                {
+                    { "title", title },
+                    { "token", m_EditToken },
+                    { "reason", reason }
+                });
+
+            CheckForError(result);
+
+            Reset();
         }
         #endregion
 
@@ -457,6 +510,29 @@ namespace WikiFunctions.API
             if (value) return "1";
 
             return "0";
+        }
+
+        /// <summary>
+        /// For private use, static to avoid unneeded reinitialisation
+        /// </summary>
+        private static System.Security.Cryptography.MD5 m_MD5 = System.Security.Cryptography.MD5.Create();
+
+        protected static string MD5(string input)
+        {
+            return MD5(Encoding.UTF8.GetBytes(input));
+        }
+
+        protected static string MD5(byte[] input)
+        {
+            byte[] hash = m_MD5.ComputeHash(input);
+
+            StringBuilder sb = new StringBuilder(20);
+            for (int i = 0; i < hash.Length; i++)
+            {
+                sb.Append(hash[i].ToString("x2"));
+            }
+
+            return sb.ToString();
         }
 
         #endregion
