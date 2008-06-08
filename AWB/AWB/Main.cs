@@ -499,7 +499,7 @@ namespace AutoWikiBrowser
                     webBrowserEdit.Busy = true;
 
                 TheArticle = new ArticleEX(listMaker1.SelectedArticle().Name);
-                ErrorHandler.CurrentArticle = TheArticle.Name;
+                ErrorHandler.CurrentPage = TheArticle.Name;
 
                 NewHistory();
 
@@ -635,7 +635,7 @@ namespace AutoWikiBrowser
                 else if (!BotMode)
                     MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
 
-            ErrorHandler.CurrentArticle = "";
+            ErrorHandler.CurrentPage = "";
 
             if (!doNotAutomaticallyDoAnythingToolStripMenuItem.Checked)
             {
@@ -1832,6 +1832,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             Find.ResetFind();
             try
             {
+                // After manual changes, automatic edit summary may be inaccurate, removing it altogether
                 TheArticle.EditSummary = "";
             }
             catch { }
@@ -2484,7 +2485,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void bypassAllRedirectsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //txtEdit.Text = parsers.BypassRedirects(txtEdit.Text);
             if (MessageBox.Show("Replacement of links to redirects with direct links is strongly discouraged, " +
                 "however it could be useful in some circumstances. Are you sure you want to continue?",
                 "Bypass redirects", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
@@ -2656,9 +2656,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             ArticleEX a = new ArticleEX(TheArticle.Name);
 
             a.OriginalArticleText = txtEdit.Text;
-            ErrorHandler.CurrentArticle = TheArticle.Name;
+            ErrorHandler.CurrentPage = TheArticle.Name;
             ProcessPage(a);
-            ErrorHandler.CurrentArticle = "";
+            ErrorHandler.CurrentPage = "";
             txtEdit.Text = a.ArticleText;
             GetDiff();
         }
