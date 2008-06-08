@@ -660,9 +660,21 @@ namespace AutoWikiBrowser
                         return;
                     }
 
+                    if (chkSkipWhitespace.Checked && chkSkipCasing.Checked && TheArticle.OnlyWhiteSpaceAndCasingChanged)
+                    {
+                        SkipPage("Only whitespace/casing changed");
+                        return;
+                    }
+                    
                     if (chkSkipWhitespace.Checked && TheArticle.OnlyWhiteSpaceChanged)
                     {
                         SkipPage("Only whitespace changed");
+                        return;
+                    }
+                    
+                    if (chkSkipCasing.Checked && TheArticle.OnlyCasingChanged)
+                    {
+                        SkipPage("Only casing changed");
                         return;
                     }
 

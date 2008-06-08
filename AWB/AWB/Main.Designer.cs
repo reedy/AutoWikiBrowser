@@ -377,6 +377,7 @@ namespace AutoWikiBrowser
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
+            this.chkSkipCasing = new System.Windows.Forms.CheckBox();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -2117,7 +2118,7 @@ namespace AutoWikiBrowser
             // chkSkipNoChanges
             // 
             this.chkSkipNoChanges.AutoSize = true;
-            this.chkSkipNoChanges.Location = new System.Drawing.Point(6, 136);
+            this.chkSkipNoChanges.Location = new System.Drawing.Point(6, 113);
             this.chkSkipNoChanges.Name = "chkSkipNoChanges";
             this.chkSkipNoChanges.Size = new System.Drawing.Size(131, 17);
             this.chkSkipNoChanges.TabIndex = 8;
@@ -2128,7 +2129,7 @@ namespace AutoWikiBrowser
             // chkSkipSpamFilter
             // 
             this.chkSkipSpamFilter.AutoSize = true;
-            this.chkSkipSpamFilter.Location = new System.Drawing.Point(6, 113);
+            this.chkSkipSpamFilter.Location = new System.Drawing.Point(111, 90);
             this.chkSkipSpamFilter.Name = "chkSkipSpamFilter";
             this.chkSkipSpamFilter.Size = new System.Drawing.Size(149, 17);
             this.chkSkipSpamFilter.TabIndex = 7;
@@ -2150,7 +2151,7 @@ namespace AutoWikiBrowser
             // chkSkipWhitespace
             // 
             this.chkSkipWhitespace.AutoSize = true;
-            this.chkSkipWhitespace.Location = new System.Drawing.Point(6, 159);
+            this.chkSkipWhitespace.Location = new System.Drawing.Point(24, 136);
             this.chkSkipWhitespace.Name = "chkSkipWhitespace";
             this.chkSkipWhitespace.Size = new System.Drawing.Size(159, 17);
             this.chkSkipWhitespace.TabIndex = 9;
@@ -2470,6 +2471,7 @@ namespace AutoWikiBrowser
             this.listMaker1.SelectedSource = 0;
             this.listMaker1.Size = new System.Drawing.Size(196, 350);
             this.listMaker1.SourceText = "";
+            this.listMaker1.SpecialFilterSettings = ((WikiFunctions.AWBSettings.SpecialFilterPrefs)(resources.GetObject("listMaker1.SpecialFilterSettings")));
             this.listMaker1.TabIndex = 0;
             // 
             // MainTab
@@ -2923,6 +2925,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.chkSkipCasing);
             this.groupBox8.Controls.Add(this.chkSkipGeneralFixes);
             this.groupBox8.Controls.Add(this.chkSkipNoPageLinks);
             this.groupBox8.Controls.Add(this.txtSkipIfNotContains);
@@ -3646,6 +3649,18 @@ namespace AutoWikiBrowser
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
             // 
+            // chkSkipCasing
+            // 
+            this.chkSkipCasing.AutoSize = true;
+            this.chkSkipCasing.Location = new System.Drawing.Point(24, 159);
+            this.chkSkipCasing.Name = "chkSkipCasing";
+            this.chkSkipCasing.Size = new System.Drawing.Size(136, 17);
+            this.chkSkipCasing.TabIndex = 18;
+            this.chkSkipCasing.Text = "Only &casing is changed";
+            this.toolTip1.SetToolTip(this.chkSkipCasing, "Automatically skips articles when only whitespace changes were automatically made" +
+                    "");
+            this.chkSkipCasing.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -4078,5 +4093,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkSkipIfContains;
         private System.Windows.Forms.CheckBox chkSkipNoPageLinks;
         private System.Windows.Forms.CheckBox chkSkipGeneralFixes;
+        private System.Windows.Forms.CheckBox chkSkipCasing;
     }
 }
