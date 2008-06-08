@@ -19,7 +19,7 @@ namespace WikiFunctions
         /// <summary>
         /// Title of the page currently being processed
         /// </summary>
-        public static string CurrentArticle;
+        public static string CurrentPage;
 
         /// <summary>
         /// Revision of the page currently being processed
@@ -74,19 +74,20 @@ namespace WikiFunctions
 
                     handler.txtError.Text = ex.Message;
 
-                    StringBuilder errorMessage = new StringBuilder("{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = <table><tr><td>Exception:<td><code>" + ex.GetType().Name + "</code><tr><td>Message:<td><code>" +
-                        ex.Message + "</code><tr><td>Call stack:<td><pre>" + ex.StackTrace + "</pre>");
+                    StringBuilder errorMessage = new StringBuilder("{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = ");
 
                     if (Thread.CurrentThread.Name != "Main thread")
                         errorMessage.Append("\r\nThread: " + Thread.CurrentThread.Name);
-                    
+
+                    errorMessage.Append("<table>");
+                    FormatException(ex, errorMessage, true);
                     errorMessage.Append("</table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
 
                     if (!Variables.Revision.Contains("?")) errorMessage.Append(", revision " + Variables.Revision);
 
-                    if (!string.IsNullOrEmpty(CurrentArticle))
+                    if (!string.IsNullOrEmpty(CurrentPage))
                     {
-                        string link = "[" + Variables.URLLong + "index.php?title=" + Tools.WikiEncode(CurrentArticle) + "&oldid=" + CurrentRevision.ToString() + "]";
+                        string link = "[" + Variables.URLLong + "index.php?title=" + Tools.WikiEncode(CurrentPage) + "&oldid=" + CurrentRevision.ToString() + "]";
 
                         errorMessage.Append("\r\n | duplicate = [encountered while processing page ''" + link + "'']");
                     } else if (!string.IsNullOrEmpty(ListMakerText))
@@ -100,6 +101,24 @@ namespace WikiFunctions
 
                     handler.ShowDialog();
                 }
+            }
+        }
+
+        /// <summary>
+        /// Formats exception information for bug report
+        /// </summary>
+        /// <param name="ex">Exception to process</param>
+        /// <param name="sb">StringBuilder used for output</param>
+        /// <param name="topLevel">false if exception is nested, true otherwise</param>
+        private static void FormatException(Exception ex, StringBuilder sb, bool topLevel)
+        {
+            sb.Append("<tr><td>" + (topLevel ? "Exception" : "Inner exception") + ":<td><code>" 
+                + ex.GetType().Name + "</code><tr><td>Message:<td><code>"
+                + ex.Message + "</code><tr><td>Call stack:<td><pre>" + ex.StackTrace + "</pre></tr>\r\n");
+
+            if (ex.InnerException != null)
+            {
+                FormatException(ex.InnerException, sb, false);
             }
         }
 
