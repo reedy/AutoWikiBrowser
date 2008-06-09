@@ -2471,7 +2471,6 @@ namespace AutoWikiBrowser
             this.listMaker1.SelectedSource = 0;
             this.listMaker1.Size = new System.Drawing.Size(196, 350);
             this.listMaker1.SourceText = "";
-            this.listMaker1.SpecialFilterSettings = ((WikiFunctions.AWBSettings.SpecialFilterPrefs)(resources.GetObject("listMaker1.SpecialFilterSettings")));
             this.listMaker1.TabIndex = 0;
             // 
             // MainTab
