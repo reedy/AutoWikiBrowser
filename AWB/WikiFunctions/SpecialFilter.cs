@@ -503,7 +503,7 @@ namespace WikiFunctions.Lists
             {
                 prefs = value;
 
-                if (prefs.namespaceValues.Count > 0)
+                if (prefs != null && prefs.namespaceValues.Count > 0)
                 {
                     foreach (Control chk in groupBox1.Controls)
                     {
