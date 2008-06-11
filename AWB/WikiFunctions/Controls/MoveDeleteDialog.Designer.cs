@@ -42,6 +42,7 @@ namespace WikiFunctions.Controls
             this.txtExpiry = new System.Windows.Forms.TextBox();
             this.chkUnlock = new System.Windows.Forms.CheckBox();
             this.chkAutoProtect = new System.Windows.Forms.CheckBox();
+            this.chkCascadingProtection = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // txtNewTitle
@@ -74,7 +75,7 @@ namespace WikiFunctions.Controls
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(132, 152);
+            this.btnOk.Location = new System.Drawing.Point(132, 173);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 4;
@@ -85,7 +86,7 @@ namespace WikiFunctions.Controls
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(213, 152);
+            this.btnCancel.Location = new System.Drawing.Point(213, 173);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 5;
@@ -125,6 +126,7 @@ namespace WikiFunctions.Controls
             this.lbMove.Name = "lbMove";
             this.lbMove.Size = new System.Drawing.Size(145, 43);
             this.lbMove.TabIndex = 9;
+            this.lbMove.SelectedIndexChanged += new System.EventHandler(this.lbMove_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -182,11 +184,23 @@ namespace WikiFunctions.Controls
             this.chkAutoProtect.UseVisualStyleBackColor = true;
             this.chkAutoProtect.Visible = false;
             // 
+            // chkCascadingProtection
+            // 
+            this.chkCascadingProtection.AutoSize = true;
+            this.chkCascadingProtection.Enabled = false;
+            this.chkCascadingProtection.Location = new System.Drawing.Point(7, 153);
+            this.chkCascadingProtection.Name = "chkCascadingProtection";
+            this.chkCascadingProtection.Size = new System.Drawing.Size(399, 17);
+            this.chkCascadingProtection.TabIndex = 16;
+            this.chkCascadingProtection.Text = "Cascading protection (automatically protect any pages transcluded in this page)";
+            this.chkCascadingProtection.UseVisualStyleBackColor = true;
+            // 
             // MoveDeleteDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(413, 187);
+            this.ClientSize = new System.Drawing.Size(413, 208);
+            this.Controls.Add(this.chkCascadingProtection);
             this.Controls.Add(this.chkAutoProtect);
             this.Controls.Add(this.chkUnlock);
             this.Controls.Add(this.label5);
@@ -226,5 +240,6 @@ namespace WikiFunctions.Controls
         private System.Windows.Forms.TextBox txtExpiry;
         private System.Windows.Forms.CheckBox chkUnlock;
         private System.Windows.Forms.CheckBox chkAutoProtect;
+        private System.Windows.Forms.CheckBox chkCascadingProtection;
     }
 }

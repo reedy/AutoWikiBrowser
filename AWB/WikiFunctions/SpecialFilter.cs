@@ -507,7 +507,7 @@ namespace WikiFunctions.Lists
                 {
                     foreach (Control chk in groupBox1.Controls)
                     {
-                        tmp = chk as CheckBox;
+                        tmp = (chk as CheckBox);
 
                         if (tmp == null)
                             continue;
