@@ -640,7 +640,7 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Invokes the Protect button
         /// </summary>
-        public void Protect(int EditProtectionLevel, int MoveProtectionLevel)
+        public void Protect(int EditProtectionLevel, int MoveProtectionLevel, bool CascadingProtection)
         {
             if (CanProtect)
             {
@@ -648,57 +648,42 @@ namespace WikiFunctions.Browser
                 ProcessStage = enumProcessStage.protect;
                 Status = "Protecting page";
 
-                HtmlElement editProtElement = this.Document.GetElementById("mwProtect-level-edit");
-                if (EditProtectionLevel != 0)
-                {
-                    editProtElement.Children[0].SetAttribute("selected", "");
-                    switch (EditProtectionLevel)
-                    {
-                        case 1:
-                            editProtElement.Children[1].SetAttribute("selected", "selected");
-                            editProtElement.Children[2].SetAttribute("selected", "");
-                            break;
-                        case 2:
-                            editProtElement.Children[1].SetAttribute("selected", "");
-                            editProtElement.Children[2].SetAttribute("selected", "selected");
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                else
-                {
-                    editProtElement.Children[0].SetAttribute("selected", "selected");
-                    editProtElement.Children[1].SetAttribute("selected", "");
-                    editProtElement.Children[2].SetAttribute("selected", "");
-                }
+                SetListBoxValues(this.Document.GetElementById("mwProtect-level-edit"), EditProtectionLevel);
+                SetListBoxValues(this.Document.GetElementById("mwProtect-level-move"), MoveProtectionLevel);
 
-                HtmlElement moveProtElement = this.Document.GetElementById("mwProtect-level-move");
-                if (MoveProtectionLevel != 0)
-                {
-                    moveProtElement.Children[0].SetAttribute("selected", "");
-                    switch (MoveProtectionLevel)
-                    {
-                        case 1:
-                            moveProtElement.Children[1].SetAttribute("selected", "selected");
-                            moveProtElement.Children[2].SetAttribute("selected", "");
-                            break;
-                        case 2:
-                            moveProtElement.Children[1].SetAttribute("selected", "");
-                            moveProtElement.Children[2].SetAttribute("selected", "selected");
-                            break;
-                        default:
-                            break;
-                    }
-                }
+                if (CascadingProtection)
+                    this.Document.GetElementById("mwProtect-cascade").SetAttribute("checked", "checked");
                 else
-                {
-                    moveProtElement.Children[0].SetAttribute("selected", "selected");
-                    moveProtElement.Children[1].SetAttribute("selected", "");
-                    moveProtElement.Children[2].SetAttribute("selected", "");
-                }
+                    this.Document.GetElementById("mwProtect-cascade").SetAttribute("checked", "");
 
                 this.Document.GetElementById("mw-Protect-submit").InvokeMember("click");
+            }
+        }
+
+        private void SetListBoxValues(HtmlElement element, int Level)
+        {
+            if (Level != 0)
+            {
+                element.Children[0].SetAttribute("selected", "");
+                switch (Level)
+                {
+                    case 1:
+                        element.Children[1].SetAttribute("selected", "selected");
+                        element.Children[2].SetAttribute("selected", "");
+                        break;
+                    case 2:
+                        element.Children[1].SetAttribute("selected", "");
+                        element.Children[2].SetAttribute("selected", "selected");
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                element.Children[0].SetAttribute("selected", "selected");
+                element.Children[1].SetAttribute("selected", "");
+                element.Children[2].SetAttribute("selected", "");
             }
         }
 
@@ -969,7 +954,7 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Protects an article, returns true if successful
         /// </summary>
-        public bool ProtectPage(string Article, string Summary, int EditProtectionLevel, int MoveProtectionLevel, string ProtectExpiry)
+        public bool ProtectPage(string Article, string Summary, int EditProtectionLevel, int MoveProtectionLevel, string ProtectExpiry, bool CascadingProtection)
         {
             LoadProtectPage(Article);
             Wait();
@@ -986,7 +971,7 @@ namespace WikiFunctions.Browser
                 return false;
             }
 
-            Protect(EditProtectionLevel, MoveProtectionLevel);
+            Protect(EditProtectionLevel, MoveProtectionLevel, CascadingProtection);
             Wait();
             AllowNavigation = false;
 

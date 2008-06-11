@@ -3098,7 +3098,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 if (dlg.ShowDialog(this) == DialogResult.OK)
                 {
                     LastProtect = dlg.Summary;
-                    webBrowserEdit.ProtectPage(TheArticle.Name, dlg.Summary, dlg.EditProtectionLevel, dlg.MoveProtectionLevel, dlg.ProtectExpiry);
+                    webBrowserEdit.ProtectPage(TheArticle.Name, dlg.Summary, dlg.EditProtectionLevel, dlg.MoveProtectionLevel, dlg.ProtectExpiry, dlg.CascadingProtection);
                 }
             }
             catch (Exception ex)

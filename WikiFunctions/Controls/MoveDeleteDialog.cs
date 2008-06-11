@@ -127,19 +127,21 @@ namespace WikiFunctions.Controls
         public int EditProtectionLevel
         {
             get { return lbEdit.SelectedIndex; }
-            set { lbEdit.SelectedIndex = value; }
         }
 
         public int MoveProtectionLevel
         {
             get { return lbMove.SelectedIndex; }
-            set { lbMove.SelectedIndex = value; }
         }
 
         public string ProtectExpiry
         {
             get { return txtExpiry.Text; }
-            set { txtExpiry.Text = value; }
+        }
+
+        public bool CascadingProtection
+        {
+            get { return (chkCascadingProtection.Enabled && chkCascadingProtection.Checked); }
         }
 
         private void chkUnlock_CheckedChanged(object sender, EventArgs e)
@@ -151,6 +153,13 @@ namespace WikiFunctions.Controls
         {
             if (!chkUnlock.Checked)
                 lbMove.SelectedIndex = lbEdit.SelectedIndex;
+
+            chkCascadingProtection.Enabled = ((lbEdit.SelectedIndex == 2) && (lbMove.SelectedIndex == 2));
+        }
+
+        private void lbMove_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            chkCascadingProtection.Enabled = ((lbEdit.SelectedIndex == 2) && (lbMove.SelectedIndex == 2));
         }
     }
 }
