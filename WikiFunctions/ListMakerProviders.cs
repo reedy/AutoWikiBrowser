@@ -1043,54 +1043,60 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class WikiSearchListMakerProvider : IListMakerProvider
     {
-        private static Regex searchRegex = new Regex("<li><a .*? title=\\\"([^\"]*)\">", RegexOptions.Compiled);
-
         public List<Article> MakeList(string[] searchCriteria)
         {
-            //TODO:api.php?
+            //TODO:sroffset - Use this value to continue paging (more results?)
+
             List<Article> list = new List<Article>();
 
-            string ns = "&ns0=1";
+            StringBuilder nsStringBuilder = new StringBuilder("srnamespace=");
 
-            // explicitly add available namespaces to search options
-            foreach (int k in Variables.Namespaces.Keys)
-            {
-                if (k <= 0) continue;
-                ns += "&ns" + k.ToString() + "=1";
-            }
+            // Is this needed...?
+            //// explicitly add available namespaces to search options
+            //foreach (int k in Variables.Namespaces.Keys)
+            //{
+            //    if (k <= 0) continue;
+            //    nsStringBuilder.Append(k + "|");
+            //}
+
+            //string ns = nsStringBuilder.ToString();
+            //ns = ns.Remove(0, ns.LastIndexOf('|'));
 
             foreach (string s in searchCriteria)
             {
-                int intStart = 0;
-                string url = Variables.URLLong + "index.php?title=Special:Search&fulltext=Search&search=" + HttpUtility.UrlEncode(s) + "&limit=100&uselang=en" + ns;
+                string search = Tools.WikiEncode(s);
+
+                string url = Variables.URLLong + "api.php?action=query&list=search&srwhat=text&srsearch=" + s + "&srlimit=500&format=xml";
                 string title = "";
+                int nsBuilder = 0;
 
-                do
+                while (true)
                 {
-                    int n = list.Count;
-                    string searchText = Tools.GetHTML(url);
+                    string html = Tools.GetHTML(url);
+                    bool more = false;
 
-                    //Find each match to the pattern
-                    foreach (Match m in searchRegex.Matches(searchText))
+                    using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
                     {
-                        title = m.Groups[1].Value;
-                        title = HttpUtility.HtmlDecode(title);
-                        if (title.Contains("\""))
+                        while (reader.Read())
                         {
-                            title = title.Replace("'", "");
+                            if (reader.Name.Equals("p"))
+                            {
+                                if (reader.MoveToAttribute("ns"))
+                                    nsBuilder = int.Parse(reader.Value);
+                                else
+                                    nsBuilder = 0;
+
+                                if (reader.MoveToAttribute("title"))
+                                {
+                                    title = reader.Value.ToString();
+                                    list.Add(new WikiFunctions.Article(title, nsBuilder));
+                                }
+                            }
                         }
-                        list.Add(new WikiFunctions.Article(title));
                     }
-
-                    if (list.Count != n)
-                    {
-                        intStart += 100;
-                        url = Variables.URLLong + "index.php?title=Special:Search&fulltext=Search&search=" + HttpUtility.UrlEncode(s) + "&limit=100&uselang=en&offset=" + intStart.ToString() + ns;
-                    }
-                    else
+                    if (!more)
                         break;
-
-                } while (true);
+                }
             }
             return list;
         }
