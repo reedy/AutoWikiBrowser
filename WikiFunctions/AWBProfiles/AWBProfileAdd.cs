@@ -62,6 +62,9 @@ namespace WikiFunctions.Profiles
             if (!string.IsNullOrEmpty(txtPath.Text))
                 chkDefaultSettings.Checked = true;
 
+            if (!string.IsNullOrEmpty(txtPassword.Text))
+                chkSavePassword.Checked = true;
+
             this.Text = "Edit Profile";
             justLoading = false;
         }
@@ -92,12 +95,15 @@ namespace WikiFunctions.Profiles
                 AWBProfile profile = new AWBProfile();
 
                 profile.Username = txtUsername.Text;
-                profile.Password = txtPassword.Text;
+
+                if (chkSavePassword.Checked && !string.IsNullOrEmpty(txtPassword.Text))
+                    profile.Password = txtPassword.Text;
+
                 profile.defaultsettings = txtPath.Text;
 
                 int idUpload = AWBProfiles.GetIDOfUploadAccount();
 
-                if (chkUseForUpload.Checked && idUpload != -1 && idUpload != editid)
+                if (chkUseForUpload.Checked && (idUpload != -1) && (idUpload != editid))
                     AWBProfiles.SetOtherAccountsAsNotForUpload();
 
                 profile.useforupload = chkUseForUpload.Checked;
