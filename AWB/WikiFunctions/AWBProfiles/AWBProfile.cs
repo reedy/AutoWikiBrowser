@@ -105,7 +105,7 @@ namespace WikiFunctions.Profiles
 
             // one try...catch without a resume has the effect that all remaining code in the try block is skipped
             // WHY are we just ignoring these errors anyway? There should be a wrapper around Registry.GetValue perhaps?
-            try { prof.Password = RegistryGetAndDecryptValue(id + "Pass", ""); }
+            try { prof.Password = RegistryGetAndDecryptValue(id + "\\Pass", ""); }
             catch { prof.Password = ""; }
             finally
             {
