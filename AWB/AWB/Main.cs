@@ -2406,7 +2406,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 }
                 if (e.KeyCode == Keys.F)
                 {
-                    Find.Find1(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked,
+                    if (TheArticle != null)
+                        Find.Find1(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked,
                         txtEdit, TheArticle.Name);
                     e.SuppressKeyPress = true;
                     return;
