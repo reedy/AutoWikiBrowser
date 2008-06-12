@@ -42,6 +42,8 @@ namespace IRCM
     /// </summary>
     public partial class IRCMonitor : Form
     {
+        WikiFunctions.Profiles.AWBProfilesForm profiles;
+
         #region Main events and constructor
         /// <summary>
         /// This form demonstates usage of the WikiIRC framework.
@@ -82,6 +84,9 @@ namespace IRCM
             Variables.User.BotStatusChanged += UpdateBotStatus;
             Variables.User.AdminStatusChanged += UpdateAdminStatus;
             Variables.User.WikiStatusChanged += UpdateWikiStatus;
+
+            profiles = new WikiFunctions.Profiles.AWBProfilesForm(webBrowser);
+            profiles.LoadProfile += LoadProfileSettings;
         }
 
         private ProjectSettings Project = new ENWikipediaSettings();
@@ -2006,9 +2011,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
 
         private void profilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            WikiFunctions.Profiles.AWBProfilesForm profiles = new WikiFunctions.Profiles.AWBProfilesForm(webBrowser);
-            profiles.LoadProfile += LoadProfileSettings;
-            profiles.Show(this);
+            profiles.ShowDialog(this);
         }
 
         private void LoadProfileSettings(object sender, EventArgs e)
