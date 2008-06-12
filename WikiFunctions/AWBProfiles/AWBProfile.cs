@@ -101,8 +101,6 @@ namespace WikiFunctions.Profiles
             {
                 if (MessageBox.Show("Profile corrupt. Would you like to delete this profile?", "Delete corrupt profile?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     DeleteProfile(id);
-
-                throw new Exception("");
             }
 
             // one try...catch without a resume has the effect that all remaining code in the try block is skipped
