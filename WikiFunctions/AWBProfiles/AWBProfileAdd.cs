@@ -1,6 +1,6 @@
 /*
 AWB Profiles
-Copyright (C) 2007 Sam Reed
+Copyright (C) 2008 Sam Reed
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -31,7 +31,6 @@ namespace WikiFunctions.Profiles
 {
     public partial class AWBProfileAdd : Form
     {
-        //AWBProfile AWBProfile = new AWBProfile();
         private int editid;
         private bool justLoading;
 

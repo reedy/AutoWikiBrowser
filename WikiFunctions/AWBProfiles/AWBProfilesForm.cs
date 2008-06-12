@@ -1,6 +1,6 @@
 /*
 AWB Profiles
-Copyright (C) 2007 Sam Reed, Stephen Kennedy
+Copyright (C) 2008 Sam Reed, Stephen Kennedy
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
