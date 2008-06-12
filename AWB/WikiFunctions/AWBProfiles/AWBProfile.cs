@@ -17,10 +17,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-// TODO: NB: Needs testing after tidying and restructuring. Existing profiles
-// will not work unless a bit of code is written to move them, as I've renamed
-// the registry key.
-
 using System;
 using System.Collections.Generic;
 using System.Text;
