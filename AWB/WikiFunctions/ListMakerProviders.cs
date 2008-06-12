@@ -1045,35 +1045,34 @@ namespace WikiFunctions.Lists
     {
         public List<Article> MakeList(string[] searchCriteria)
         {
-            //TODO:sroffset - Use this value to continue paging (more results?)
-
             List<Article> list = new List<Article>();
 
-            StringBuilder nsStringBuilder = new StringBuilder("srnamespace=");
+            StringBuilder nsStringBuilder = new StringBuilder("&srnamespace=0|");
 
-            // Is this needed...?
-            //// explicitly add available namespaces to search options
-            //foreach (int k in Variables.Namespaces.Keys)
-            //{
-            //    if (k <= 0) continue;
-            //    nsStringBuilder.Append(k + "|");
-            //}
+            // explicitly add available namespaces to search options
+            foreach (int k in Variables.Namespaces.Keys)
+            {
+                if (k <= 0) continue;
+                nsStringBuilder.Append(k + "|");
+            }
 
-            //string ns = nsStringBuilder.ToString();
-            //ns = ns.Remove(0, ns.LastIndexOf('|'));
+            string ns = nsStringBuilder.ToString();
+            ns = ns.Remove(ns.LastIndexOf('|'));
+            string sroffset = "";
 
             foreach (string s in searchCriteria)
             {
                 string search = Tools.WikiEncode(s);
 
-                string url = Variables.URLLong + "api.php?action=query&list=search&srwhat=text&srsearch=" + s + "&srlimit=500&format=xml";
+                string url = Variables.URLLong + "api.php?action=query&list=search&srwhat=text&srsearch="
+                    + s + "&srlimit=500&format=xml" + ns;
                 string title = "";
                 int nsBuilder = 0;
 
                 while (true)
                 {
-                    string html = Tools.GetHTML(url);
-                    bool more = false;
+                    string html = Tools.GetHTML(url+sroffset);
+                    sroffset = "";
 
                     using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
                     {
@@ -1092,10 +1091,21 @@ namespace WikiFunctions.Lists
                                     list.Add(new WikiFunctions.Article(title, nsBuilder));
                                 }
                             }
+                            else if (reader.Name.Equals("search") && string.IsNullOrEmpty(sroffset))
+                            {
+                                sroffset = reader.GetAttribute("sroffset");
+                                if (!string.IsNullOrEmpty(sroffset))
+                                {
+                                    sroffset = "&sroffset=" + sroffset;
+                                }
+                                else 
+                                {
+                                    sroffset = "";
+                                }
+                            }
                         }
                     }
-                    if (!more)
-                        break;
+                    if (string.IsNullOrEmpty(sroffset)) break;
                 }
             }
             return list;
