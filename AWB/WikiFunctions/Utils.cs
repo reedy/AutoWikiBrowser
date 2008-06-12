@@ -38,7 +38,11 @@ namespace WikiFunctions
         /// <param name="defaultValue"></param>
         /// <returns></returns>
         public static string GetValue(string keyNameSuffix, object defaultValue)
-        { return registryKey.GetValue(BuildKeyName(keyNameSuffix), defaultValue).ToString(); }
+        {
+            string wantedKey = keyNameSuffix.Substring(keyNameSuffix.LastIndexOf("\\"));
+            Microsoft.Win32.RegistryKey regKey = registryKey.OpenSubKey(BuildKeyName(keyNameSuffix.Replace(wantedKey, "")));
+            return regKey.GetValue(wantedKey.Replace("\\", ""), defaultValue).ToString(); 
+        }
 
         /// <summary>
         /// Writes a string value to an AWB registry subkey
@@ -81,7 +85,7 @@ namespace WikiFunctions
         { registryKey.DeleteSubKey(BuildKeyName(keyNameSuffix)); }
 
         private static string BuildKeyName(string keyNameSuffix)
-        { return KeyPrefix + "\\" + keyNameSuffix; }
+        { return KeyPrefix + keyNameSuffix; }
     }
 
     namespace Encryption
