@@ -173,7 +173,6 @@ namespace WikiFunctions.Profiles
         private void btnExit_Click(object sender, EventArgs e)
         {
             Close();
-            Dispose();
         }
 
         public string SettingsToLoad

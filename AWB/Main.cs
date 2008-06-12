@@ -177,6 +177,10 @@ namespace AutoWikiBrowser
                 listMaker1.StatusTextChanged += UpdateListStatus;
                 listMaker1.cmboSourceSelect.SelectedIndexChanged += new EventHandler(ListMakerSourceSelectHandler);
                 //Text = "AutoWikiBrowser - Default.xml";
+
+                profiles = new WikiFunctions.Profiles.AWBProfilesForm(webBrowserEdit);
+                profiles.LoadProfile += LoadProfileSettings;
+
                 splash.SetProgress(15);
 
                 WikiFunctions.Profiles.AWBProfiles.ResetTempPassword();
@@ -279,8 +283,6 @@ namespace AutoWikiBrowser
 
                 if (userProfileToLoad != -1)
                 {
-                    profiles = new WikiFunctions.Profiles.AWBProfilesForm(webBrowserEdit);
-                    profiles.LoadProfile += LoadProfileSettings;
                     profiles.login(userProfileToLoad);
                 }
             }
@@ -3518,8 +3520,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void profilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            profiles = new WikiFunctions.Profiles.AWBProfilesForm(webBrowserEdit);
-            profiles.LoadProfile += LoadProfileSettings;
             profiles.ShowDialog(this);
         }
 
