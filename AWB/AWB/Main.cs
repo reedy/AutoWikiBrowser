@@ -842,7 +842,7 @@ namespace AutoWikiBrowser
                 {
                     if (!BotMode)
                     {
-                        MessageBox.Show("There was a problem loading the page. Re-start the process", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        SkipPage("There was a problem loading the page");
                         return false;
                     }
 
