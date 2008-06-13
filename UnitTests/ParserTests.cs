@@ -241,6 +241,15 @@ http://example.com }}");
             Assert.AreEqual("foo\r\n*a\r\nb", p.FixSyntax("foo\r\n*a<br>\r\nb"));
         
             Assert.AreEqual("*a", p.FixSyntax("*a<br>\r\n")); // \r\n\ trimmed
+
+            Assert.AreEqual("*a", p.FixSyntax("*a<br\\>\r\n"));
+            Assert.AreEqual("*a", p.FixSyntax("*a<br/>\r\n"));
+            Assert.AreEqual("*a", p.FixSyntax("*a <br\\> \r\n"));
+            Assert.AreEqual("*a", p.FixSyntax("*a <br/> \r\n"));
+            Assert.AreEqual("*a", p.FixSyntax("*a<br\\> \r\n"));
+            Assert.AreEqual("*a", p.FixSyntax("*a <br\\>\r\n"));
+            Assert.AreEqual("*a", p.FixSyntax("*a     <br\\>    \r\n"));
+
             Assert.AreEqual("*:#;a\r\n*b", p.FixSyntax("*:#;a<br>\r\n*b"));
             Assert.AreEqual("###;;;:::***a\r\nb", p.FixSyntax("###;;;:::***a<br />\r\nb"));
             Assert.AreEqual("*&a\r\nb", p.FixSyntax("*&a<br/>\r\nb"));
