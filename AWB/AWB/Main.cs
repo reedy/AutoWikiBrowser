@@ -1479,7 +1479,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             string tag = cmboEditSummary.Text + TheArticle.SavedSummary;
 
-            if ((BotMode && chkSuppressTag.Checked)
+            if ((Variables.User.IsBot && chkSuppressTag.Checked)
                 || (!Variables.IsWikimediaProject && SupressUsingAWB))
                 return tag;
 
