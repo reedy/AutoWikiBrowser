@@ -512,11 +512,7 @@ namespace WikiFunctions.Controls.Lists
                 return;
             }
 
-            if (s.Contains("#"))
-                s = s.Substring(0, s.IndexOf('#'));
-
-            Article a = new Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s)));
-            lbArticles.Items.Add(a);
+            lbArticles.Items.Add(new Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s))));
             UpdateNumberOfArticles();
             if (FilterNonMainAuto)
                 FilterNonMainArticles();

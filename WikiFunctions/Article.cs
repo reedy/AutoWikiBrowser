@@ -62,7 +62,11 @@ namespace WikiFunctions
         public Article(string mName, int mNameSpaceKey)
             : this()
         {
-            this.mName = mName;
+            if (mName.Contains("#"))
+                this.mName = mName.Substring(0, mName.IndexOf('#'));
+            else
+                this.mName = mName;
+
             this.mNameSpaceKey = mNameSpaceKey;
         }
 
