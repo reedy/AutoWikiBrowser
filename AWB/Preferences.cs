@@ -35,7 +35,8 @@ namespace AutoWikiBrowser
         public MyPreferences(LangCodeEnum lang, ProjectEnum proj, string customproj,
             Font textFont, bool lowPriority, bool flash, bool beep, bool minimize,
             bool saveArticleList, decimal timeOut, bool autoSaveEditBox,
-            string autoSaveEditBoxFile, decimal autoSaveEditBoxPeriod, bool suppressUsingAWB)
+            string autoSaveEditBoxFile, decimal autoSaveEditBoxPeriod, bool suppressUsingAWB,
+            bool addUsingAWBOnArticleAction)
         {
             InitializeComponent();
 
@@ -74,6 +75,8 @@ namespace AutoWikiBrowser
                 chkSupressAWB.Checked = suppressUsingAWB;
             else
                 chkSupressAWB.Checked = false;
+
+            chkAddUsingAWBToActionSummaries.Checked = addUsingAWBOnArticleAction;
 
             cmboProject_SelectedIndexChanged(null, null);
 
@@ -166,10 +169,16 @@ namespace AutoWikiBrowser
                 TextBoxFont = fontDialog.Font;
         }
 
-        public bool PerfSupressUsingAWB
+        public bool PrefSuppressUsingAWB
         {
             get { return chkSupressAWB.Checked; }
             set { chkSupressAWB.Checked = value; }
+        }
+
+        public bool PrefAddUsingAWBOnArticleAction
+        {
+            get { return chkAddUsingAWBToActionSummaries.Checked; }
+            set { chkAddUsingAWBToActionSummaries.Checked = value; }
         }
 
         public bool LowThreadPriority

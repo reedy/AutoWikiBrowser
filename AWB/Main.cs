@@ -401,11 +401,21 @@ namespace AutoWikiBrowser
             set { sAutoSaveEditFile = value; }
         }
 
-        private bool bSupressUsingAWB;
-        private bool SupressUsingAWB
+        private bool bSuppressUsingAWB;
+        private bool SuppressUsingAWB
         {
-            get { return bSupressUsingAWB; }
-            set { bSupressUsingAWB = value; }
+            get { return bSuppressUsingAWB; }
+            set { bSuppressUsingAWB = value; }
+        }
+        
+        /// <summary>
+        /// Setting: Add "Using AWB" to the summary when deleting or protecting an article?
+        /// </summary>
+        private bool mAddUsingAWBOnArticleAction;
+        private bool AddUsingAWBOnArticleAction
+        {
+            get { return mAddUsingAWBOnArticleAction; }
+            set { mAddUsingAWBOnArticleAction = value; }
         }
 
         private decimal dAutoSaveEditPeriod = 60;
@@ -1480,7 +1490,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             string tag = cmboEditSummary.Text + TheArticle.SavedSummary;
 
             if ((Variables.User.IsBot && chkSuppressTag.Checked)
-                || (!Variables.IsWikimediaProject && SupressUsingAWB))
+                || (!Variables.IsWikimediaProject && SuppressUsingAWB))
                 return tag;
 
             if (tag.Length >= 255)
@@ -1926,7 +1936,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             MyPreferences myPrefs = new MyPreferences(Variables.LangCode, Variables.Project,
                 Variables.CustomProject, txtEdit.Font, LowThreadPriority, Flash, Beep,
                 Minimize, SaveArticleList, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxFile,
-                AutoSaveEditBoxPeriod, SupressUsingAWB);
+                AutoSaveEditBoxPeriod, SuppressUsingAWB, AddUsingAWBOnArticleAction);
 
             if (myPrefs.ShowDialog(this) == DialogResult.OK)
             {
@@ -1940,7 +1950,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 AutoSaveEditBoxEnabled = myPrefs.PerfAutoSaveEditBoxEnabled;
                 AutoSaveEditBoxPeriod = myPrefs.PerfAutoSaveEditBoxPeriod;
                 AutoSaveEditBoxFile = myPrefs.PerfAutoSaveEditBoxFile;
-                SupressUsingAWB = myPrefs.PerfSupressUsingAWB;
+                SuppressUsingAWB = myPrefs.PrefSuppressUsingAWB;
+                AddUsingAWBOnArticleAction = myPrefs.PrefAddUsingAWBOnArticleAction;
 
                 if (myPrefs.Language != Variables.LangCode || myPrefs.Project != Variables.Project || myPrefs.CustomProject != Variables.CustomProject)
                 {
@@ -3039,19 +3050,23 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         #endregion
 
         #region ArticleActions
+        // TODO: Since this is essentially/conceptually Article.Delete(), Article.Move() etc shouldn't this region be encapsulated?
+
+        private static ArticleActionDialog dlgArticleAction;
+
         private void MoveArticle()
         {
-            MoveDeleteDialog dlg = new MoveDeleteDialog(1);
+            dlgArticleAction = new ArticleActionDialog(1);
 
             try
             {
-                dlg.NewTitle = TheArticle.Name;
-                dlg.Summary = LastMove;
+                dlgArticleAction.NewTitle = TheArticle.Name;
+                dlgArticleAction.Summary = LastMove;
 
-                if (dlg.ShowDialog(this) == DialogResult.OK)
+                if (dlgArticleAction.ShowDialog(this) == DialogResult.OK)
                 {
-                    LastMove = dlg.Summary;
-                    webBrowserEdit.MovePage(TheArticle.Name, dlg.NewTitle, dlg.Summary);
+                    LastMove = dlgArticleAction.Summary;
+                    webBrowserEdit.MovePage(TheArticle.Name, dlgArticleAction.NewTitle, ArticleActionSummary);
                 }
             }
             catch (Exception ex)
@@ -3060,22 +3075,22 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
             finally
             {
-                dlg.Dispose();
+                dlgArticleAction.Dispose();
             }
         }
 
         private void DeleteArticle()
         {
-            MoveDeleteDialog dlg = new MoveDeleteDialog(2);
+            dlgArticleAction = new ArticleActionDialog(2);
 
             try
             {
-                dlg.Summary = LastDelete;
+                dlgArticleAction.Summary = LastDelete;
 
-                if (dlg.ShowDialog(this) == DialogResult.OK)
+                if (dlgArticleAction.ShowDialog(this) == DialogResult.OK)
                 {
-                    LastDelete = dlg.Summary;
-                    webBrowserEdit.DeletePage(TheArticle.Name, dlg.Summary);
+                    LastDelete = dlgArticleAction.Summary;
+                    webBrowserEdit.DeletePage(TheArticle.Name, ArticleActionSummary);
                 }
             }
             catch (Exception ex)
@@ -3084,29 +3099,38 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
             finally
             {
-                dlg.Dispose();
+                dlgArticleAction.Dispose();
             }
         }
-        static MoveDeleteDialog dlg;
 
         private void ProtectArticle()
         {
-            if (dlg == null)
-                dlg = new MoveDeleteDialog(3);
+            dlgArticleAction = new ArticleActionDialog(3);
 
             try
             {
-                dlg.Summary = LastProtect;
+                dlgArticleAction.Summary = LastProtect;
 
-                if (dlg.ShowDialog(this) == DialogResult.OK)
+                if (dlgArticleAction.ShowDialog(this) == DialogResult.OK)
                 {
-                    LastProtect = dlg.Summary;
-                    webBrowserEdit.ProtectPage(TheArticle.Name, dlg.Summary, dlg.EditProtectionLevel, dlg.MoveProtectionLevel, dlg.ProtectExpiry, dlg.CascadingProtection);
+                    LastProtect = dlgArticleAction.Summary;
+                    webBrowserEdit.ProtectPage(TheArticle.Name, ArticleActionSummary, dlgArticleAction.EditProtectionLevel, dlgArticleAction.MoveProtectionLevel, dlgArticleAction.ProtectExpiry, dlgArticleAction.CascadingProtection);
                 }
             }
             catch (Exception ex)
             {
                 ErrorHandler.Handle(ex);
+            }
+        }
+
+        private string ArticleActionSummary
+        {
+            get
+            {
+                if (AddUsingAWBOnArticleAction)
+                    return dlgArticleAction.Summary + " (" + Variables.SummaryTag.Trim() + ")";
+                else
+                    return dlgArticleAction.Summary;
             }
         }
 

@@ -367,9 +367,9 @@ namespace WikiFunctions.AWBSettings
             bool mWatch, bool mTimerEnabled, bool mSortListAlphabetically, bool mAddIgnoredToLog, int mTextBoxSize,
             string mTextBoxFont, bool mLowThreadPriority, bool mBeep, bool mFlash, bool mMinimize,
             decimal mTimeOutLimit, bool autoSaveEditBoxEnabled, decimal autoSaveEditBoxPeriod,
-            string autoSaveEditBoxFile, bool mLockSummary, bool mEditToolbarEnabled, bool mSupressUsingAWB,
-            bool mfilterNonMainSpace, bool mAutoFilterDupes, bool mSortInterWikiOrder, bool mReplaceReferenceTags,
-            bool mFocusAtEndOfEditBox)
+            string autoSaveEditBoxFile, bool mLockSummary, bool mEditToolbarEnabled, bool mSuppressUsingAWB,
+            bool mAddUsingAWBToActionSummaries, bool mfilterNonMainSpace, bool mAutoFilterDupes, bool mSortInterWikiOrder,
+            bool mReplaceReferenceTags, bool mFocusAtEndOfEditBox)
         {
             SaveArticleList = mSaveArticleList;
             IgnoreNoBots = mIgnoreNoBots;
@@ -403,7 +403,8 @@ namespace WikiFunctions.AWBSettings
                 autoSaveEditBoxFile);
             LockSummary = mLockSummary;
             EditToolbarEnabled = mEditToolbarEnabled;
-            SupressUsingAWB = mSupressUsingAWB;
+            SuppressUsingAWB = mSuppressUsingAWB;
+            AddUsingAWBToActionSummaries = mAddUsingAWBToActionSummaries;
             filterNonMainSpace = mfilterNonMainSpace;
             AutoFilterDuplicates = mAutoFilterDupes;
             FocusAtEndOfEditBox = mFocusAtEndOfEditBox;
@@ -446,7 +447,8 @@ namespace WikiFunctions.AWBSettings
         public bool Minimize = false;
         public bool LockSummary = false;
         public bool SaveArticleList = true;
-        public bool SupressUsingAWB = false;
+        public bool SuppressUsingAWB = false;
+        public bool AddUsingAWBToActionSummaries = false;
         public decimal TimeOutLimit = 30;
         public bool IgnoreNoBots = false;
 
