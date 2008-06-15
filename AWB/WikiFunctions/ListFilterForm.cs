@@ -35,14 +35,17 @@ namespace WikiFunctions.Lists
 {
     public partial class ListFilterForm : Form
     {
-        public ListBox2 lb;
+        private ListBox2 lb = null;
 
-        public ListFilterForm()
+        public ListFilterForm(ListBox2 lb)
         {
             InitializeComponent();
+
+            if (lb == null)
+                throw new ArgumentNullException("lb");
+
             if (prefs != null)
                 Settings = ListFilterForm.prefs;
-            //UpdateText();
         }      
 
         List<Article> list = new List<Article>();

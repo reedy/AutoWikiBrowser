@@ -43,7 +43,7 @@ namespace WikiFunctions.DBScanner
         TimeSpan StartTime;
         ListBox AWBListbox;
 
-        ListFilterForm SpecialFilter = new ListFilterForm();
+        ListFilterForm SpecialFilter;
 
         ThreadPriority priority = ThreadPriority.Normal;
         ThreadPriority Priority
@@ -63,6 +63,7 @@ namespace WikiFunctions.DBScanner
         public DatabaseScanner()
         {
             InitializeComponent();
+            SpecialFilter = new ListFilterForm(lbArticles);
         }
 
         public DatabaseScanner(ListBox l)
@@ -535,7 +536,6 @@ namespace WikiFunctions.DBScanner
 
         private void btnFilter_Click(object sender, EventArgs e)
         {
-            SpecialFilter.lb = lbArticles;
             SpecialFilter.ShowDialog(this);
             lblCount.Text = lbArticles.Items.Count.ToString();
         }
