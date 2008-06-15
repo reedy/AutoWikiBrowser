@@ -73,6 +73,7 @@ namespace WikiFunctions.Lists
             this.btnGetList = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.chkRemoveDups = new System.Windows.Forms.CheckBox();
+            this.chkSortAZ = new System.Windows.Forms.CheckBox();
             this.contextmenuFilter.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -558,10 +559,11 @@ namespace WikiFunctions.Lists
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.chkSortAZ);
             this.groupBox4.Controls.Add(this.chkRemoveDups);
             this.groupBox4.Location = new System.Drawing.Point(239, 169);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(192, 55);
+            this.groupBox4.Size = new System.Drawing.Size(192, 63);
             this.groupBox4.TabIndex = 35;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Other";
@@ -569,6 +571,8 @@ namespace WikiFunctions.Lists
             // chkRemoveDups
             // 
             this.chkRemoveDups.AutoSize = true;
+            this.chkRemoveDups.Checked = true;
+            this.chkRemoveDups.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkRemoveDups.Location = new System.Drawing.Point(7, 20);
             this.chkRemoveDups.Name = "chkRemoveDups";
             this.chkRemoveDups.Size = new System.Drawing.Size(119, 17);
@@ -576,7 +580,19 @@ namespace WikiFunctions.Lists
             this.chkRemoveDups.Text = "Remove Duplicates";
             this.chkRemoveDups.UseVisualStyleBackColor = true;
             // 
-            // SpecialFilter
+            // chkSortAZ
+            // 
+            this.chkSortAZ.AutoSize = true;
+            this.chkSortAZ.Checked = true;
+            this.chkSortAZ.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSortAZ.Location = new System.Drawing.Point(7, 40);
+            this.chkSortAZ.Name = "chkSortAZ";
+            this.chkSortAZ.Size = new System.Drawing.Size(112, 17);
+            this.chkSortAZ.TabIndex = 36;
+            this.chkSortAZ.Text = "Sort alphabetically";
+            this.chkSortAZ.UseVisualStyleBackColor = true;
+            // 
+            // ListFilterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -589,7 +605,7 @@ namespace WikiFunctions.Lists
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnApply);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "SpecialFilter";
+            this.Name = "ListFilterForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
@@ -655,5 +671,6 @@ namespace WikiFunctions.Lists
         private System.Windows.Forms.Button btnSelectAll;
         private System.Windows.Forms.Button btnNonTalk;
         private System.Windows.Forms.Button btnTalkOnly;
+        private System.Windows.Forms.CheckBox chkSortAZ;
     }
 }
