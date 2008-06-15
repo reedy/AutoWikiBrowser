@@ -1539,7 +1539,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void UpdateBotStatus(object sender, EventArgs e)
         {
-            chkAutoMode.Enabled = Variables.User.IsBot;
+            chkAutoMode.Enabled = chkSuppressTag.Enabled = Variables.User.IsBot;
             if (BotMode)
                 BotMode = Variables.User.IsBot;
             lblOnlyBots.Visible = !Variables.User.IsBot;
@@ -1572,7 +1572,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void SetBotModeEnabled(bool enabled)
         {
-            label2.Enabled = chkSuppressTag.Enabled = nudBotSpeed.Enabled
+            label2.Enabled /*= chkSuppressTag.Enabled*/ = nudBotSpeed.Enabled
             = lblAutoDelay.Enabled = btnResetNudges.Enabled = lblNudges.Enabled = chkNudge.Enabled
             = chkNudgeSkip.Enabled = chkNudge.Checked = chkShutdown.Enabled = enabled;
         }
