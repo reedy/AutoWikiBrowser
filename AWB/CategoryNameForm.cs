@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace AutoWikiBrowser
 {
-    public partial class frmCategoryName : Form
+    public partial class CategoryNameForm : Form
     {
-        public frmCategoryName()
+        public CategoryNameForm()
         {
             InitializeComponent();
         }

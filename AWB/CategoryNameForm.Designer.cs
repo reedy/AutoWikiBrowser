@@ -1,6 +1,6 @@
 namespace AutoWikiBrowser
 {
-    partial class frmCategoryName
+    partial class CategoryNameForm
     {
         /// <summary>
         /// Required designer variable.
