@@ -106,11 +106,11 @@
     <Compile Include="ExternalProgram.Designer.cs">
       <DependentUpon>ExternalProgram.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmCategoryName.cs">
+    <Compile Include="CategoryNameForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmCategoryName.Designer.cs">
-      <DependentUpon>frmCategoryName.cs</DependentUpon>
+    <Compile Include="CategoryNameForm.Designer.cs">
+      <DependentUpon>CategoryNameForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Help.cs">
       <SubType>Form</SubType>
@@ -193,9 +193,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>ExternalProgram.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmCategoryName.resx">
+    <EmbeddedResource Include="CategoryNameForm.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>frmCategoryName.cs</DependentUpon>
+      <DependentUpon>CategoryNameForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoggingSettings.resx">
       <DependentUpon>LoggingSettings.cs</DependentUpon>
