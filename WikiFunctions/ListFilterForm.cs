@@ -55,6 +55,12 @@ namespace WikiFunctions.Lists
                 if (chkRemoveDups.Checked)
                     RemoveDuplicates();
 
+                if (chkSortAZ.Checked)
+                {
+                    lb.Sorted = true;
+                    lb.Sorted = false;
+                }
+
                 list.Clear();
 
                 foreach (Article a in lb)
@@ -491,6 +497,7 @@ namespace WikiFunctions.Lists
                 prefs.areRegex = chkIsRegex.Checked;
 
                 prefs.remDupes = chkRemoveDups.Checked;
+                prefs.sortAZ = chkSortAZ.Checked;
 
                 prefs.opType = cbOpType.SelectedIndex;
 
@@ -523,6 +530,7 @@ namespace WikiFunctions.Lists
                 chkIsRegex.Checked = prefs.areRegex;
 
                 chkRemoveDups.Checked = prefs.remDupes;
+                chkSortAZ.Checked = prefs.sortAZ;
 
                 cbOpType.SelectedIndex = prefs.opType;
 

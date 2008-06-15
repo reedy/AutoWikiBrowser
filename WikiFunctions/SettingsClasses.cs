@@ -568,26 +568,26 @@ namespace WikiFunctions.AWBSettings
     [Serializable]
     public class SpecialFilterPrefs
     {
-        internal SpecialFilterPrefs() { }
-        public SpecialFilterPrefs(List<int> nameValues, bool RemoveDupes,
+        internal SpecialFilterPrefs() { } // Use default values
+        public SpecialFilterPrefs(List<int> nameValues, bool RemoveDupes, bool SortListAZ,
             bool FilterTitlesThatContain, bool FilterTitlesThatDontContain, bool AreRegex,
             int OpType, List<string> Remove)
         {
+            // Create object and initialise values
             namespaceValues = nameValues;
-
             remDupes = RemoveDupes;
+            sortAZ = SortListAZ;
             filterTitlesThatContain = FilterTitlesThatContain;
             filterTitlesThatDontContain = FilterTitlesThatDontContain;
             areRegex = AreRegex;
-
             opType = OpType;
-
             remove = Remove;
         }
 
         public List<int> namespaceValues = new List<int>();
 
-        public bool remDupes = false;
+        public bool remDupes = true;
+        public bool sortAZ = true;
 
         public bool filterTitlesThatContain = false;
         public string filterTitlesThatContainText = "";
