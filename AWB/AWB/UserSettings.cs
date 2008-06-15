@@ -374,7 +374,7 @@ namespace AutoWikiBrowser
             udNewlineChars.Value = p.Editprefs.Newlines;
 
             nudBotSpeed.Value = p.Editprefs.AutoDelay;
-            chkSuppressTag.Checked = p.Editprefs.SuppressTag;
+            chkSuppressTag.Checked = p.Editprefs.SupressTag;
 
             chkRegExTypo.Checked = p.Editprefs.RegexTypoFix;
 

@@ -53,7 +53,7 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public event ListMakerEventHandler ListFinished;
 
-        SpecialFilter SpecialFilter = new SpecialFilter();
+        ListFilterForm SpecialFilter = new ListFilterForm();
 
         public ListMaker()
         {

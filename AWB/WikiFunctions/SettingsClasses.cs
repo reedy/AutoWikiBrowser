@@ -261,7 +261,7 @@ namespace WikiFunctions.AWBSettings
             Text = mText;
             Newlines = mNewlines;
             AutoDelay = mAutoDelay;
-            SuppressTag = mSuppressTag;
+            SupressTag = mSuppressTag;
             RegexTypoFix = mRegexTypoFix;
         }
 

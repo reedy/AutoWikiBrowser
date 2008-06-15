@@ -43,7 +43,7 @@ namespace WikiFunctions.DBScanner
         TimeSpan StartTime;
         ListBox AWBListbox;
 
-        SpecialFilter SpecialFilter = new SpecialFilter();
+        ListFilterForm SpecialFilter = new ListFilterForm();
 
         ThreadPriority priority = ThreadPriority.Normal;
         ThreadPriority Priority
