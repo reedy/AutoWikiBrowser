@@ -33,15 +33,15 @@ using WikiFunctions.Controls.Lists;
 
 namespace WikiFunctions.Lists
 {
-    public partial class SpecialFilter : Form
+    public partial class ListFilterForm : Form
     {
         public ListBox2 lb;
 
-        public SpecialFilter()
+        public ListFilterForm()
         {
             InitializeComponent();
             if (prefs != null)
-                Settings = SpecialFilter.prefs;
+                Settings = ListFilterForm.prefs;
             //UpdateText();
         }      
 
