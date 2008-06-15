@@ -247,7 +247,7 @@ namespace WikiFunctions
 
         private static void AWBDefaultSummaryTag()
         {
-            mSummaryTag = " ";
+            mSummaryTag = " using ";
             strWPAWB = "[[Project:AutoWikiBrowser|AWB]]";
         }
 

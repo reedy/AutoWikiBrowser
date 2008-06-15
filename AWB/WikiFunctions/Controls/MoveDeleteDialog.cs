@@ -27,9 +27,9 @@ using System.Windows.Forms;
 
 namespace WikiFunctions.Controls
 {
-    public partial class MoveDeleteDialog : Form
+    public partial class ArticleActionDialog : Form
     {
-        public MoveDeleteDialog(int MoveDeleteProtect)
+        public ArticleActionDialog(int MoveDeleteProtect)
         {
             InitializeComponent();
 

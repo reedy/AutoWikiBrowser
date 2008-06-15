@@ -1,6 +1,6 @@
 namespace WikiFunctions.Controls
 {
-    partial class MoveDeleteDialog
+    partial class ArticleActionDialog
     {
         /// <summary>
         /// Required designer variable.

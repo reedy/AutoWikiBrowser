@@ -69,6 +69,7 @@ namespace AutoWikiBrowser
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.PrivacyCheckBox = new System.Windows.Forms.CheckBox();
             this.PrivacyLabel = new System.Windows.Forms.Label();
+            this.chkAddUsingAWBToActionSummaries = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTimeOutLimit)).BeginInit();
@@ -140,7 +141,7 @@ namespace AutoWikiBrowser
             // 
             // btnTextBoxFont
             // 
-            this.btnTextBoxFont.Location = new System.Drawing.Point(188, 19);
+            this.btnTextBoxFont.Location = new System.Drawing.Point(520, 228);
             this.btnTextBoxFont.Name = "btnTextBoxFont";
             this.btnTextBoxFont.Size = new System.Drawing.Size(112, 23);
             this.btnTextBoxFont.TabIndex = 10;
@@ -204,12 +205,12 @@ namespace AutoWikiBrowser
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.chkAddUsingAWBToActionSummaries);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.chkAlwaysConfirmExit);
             this.groupBox2.Controls.Add(this.chkSupressAWB);
             this.groupBox2.Controls.Add(this.chkSaveArticleList);
             this.groupBox2.Controls.Add(this.chkMinimize);
-            this.groupBox2.Controls.Add(this.btnTextBoxFont);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.chkLowPriority);
             this.groupBox2.Controls.Add(this.numTimeOutLimit);
@@ -226,7 +227,7 @@ namespace AutoWikiBrowser
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(95, 153);
+            this.label4.Location = new System.Drawing.Point(93, 173);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(128, 13);
             this.label4.TabIndex = 11;
@@ -237,7 +238,7 @@ namespace AutoWikiBrowser
             this.chkAlwaysConfirmExit.AutoSize = true;
             this.chkAlwaysConfirmExit.Checked = true;
             this.chkAlwaysConfirmExit.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkAlwaysConfirmExit.Location = new System.Drawing.Point(6, 88);
+            this.chkAlwaysConfirmExit.Location = new System.Drawing.Point(6, 103);
             this.chkAlwaysConfirmExit.Name = "chkAlwaysConfirmExit";
             this.chkAlwaysConfirmExit.Size = new System.Drawing.Size(86, 17);
             this.chkAlwaysConfirmExit.TabIndex = 9;
@@ -260,7 +261,7 @@ namespace AutoWikiBrowser
             this.chkSaveArticleList.AutoSize = true;
             this.chkSaveArticleList.Checked = true;
             this.chkSaveArticleList.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkSaveArticleList.Location = new System.Drawing.Point(6, 111);
+            this.chkSaveArticleList.Location = new System.Drawing.Point(6, 124);
             this.chkSaveArticleList.Name = "chkSaveArticleList";
             this.chkSaveArticleList.Size = new System.Drawing.Size(159, 17);
             this.chkSaveArticleList.TabIndex = 3;
@@ -270,7 +271,7 @@ namespace AutoWikiBrowser
             // chkMinimize
             // 
             this.chkMinimize.AutoSize = true;
-            this.chkMinimize.Location = new System.Drawing.Point(6, 65);
+            this.chkMinimize.Location = new System.Drawing.Point(6, 82);
             this.chkMinimize.Name = "chkMinimize";
             this.chkMinimize.Size = new System.Drawing.Size(197, 17);
             this.chkMinimize.TabIndex = 2;
@@ -280,7 +281,7 @@ namespace AutoWikiBrowser
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 153);
+            this.label7.Location = new System.Drawing.Point(4, 173);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(29, 13);
             this.label7.TabIndex = 7;
@@ -289,7 +290,7 @@ namespace AutoWikiBrowser
             // chkLowPriority
             // 
             this.chkLowPriority.AutoSize = true;
-            this.chkLowPriority.Location = new System.Drawing.Point(6, 42);
+            this.chkLowPriority.Location = new System.Drawing.Point(6, 61);
             this.chkLowPriority.Name = "chkLowPriority";
             this.chkLowPriority.Size = new System.Drawing.Size(250, 17);
             this.chkLowPriority.TabIndex = 1;
@@ -298,7 +299,7 @@ namespace AutoWikiBrowser
             // 
             // numTimeOutLimit
             // 
-            this.numTimeOutLimit.Location = new System.Drawing.Point(38, 151);
+            this.numTimeOutLimit.Location = new System.Drawing.Point(36, 171);
             this.numTimeOutLimit.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.numTimeOutLimit.Maximum = new decimal(new int[] {
             120,
@@ -324,7 +325,7 @@ namespace AutoWikiBrowser
             this.chkBeep.AutoSize = true;
             this.chkBeep.Checked = true;
             this.chkBeep.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkBeep.Location = new System.Drawing.Point(171, 134);
+            this.chkBeep.Location = new System.Drawing.Point(169, 154);
             this.chkBeep.Name = "chkBeep";
             this.chkBeep.Size = new System.Drawing.Size(51, 17);
             this.chkBeep.TabIndex = 6;
@@ -336,7 +337,7 @@ namespace AutoWikiBrowser
             this.chkFlash.AutoSize = true;
             this.chkFlash.Checked = true;
             this.chkFlash.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkFlash.Location = new System.Drawing.Point(114, 134);
+            this.chkFlash.Location = new System.Drawing.Point(112, 154);
             this.chkFlash.Name = "chkFlash";
             this.chkFlash.Size = new System.Drawing.Size(51, 17);
             this.chkFlash.TabIndex = 5;
@@ -346,7 +347,7 @@ namespace AutoWikiBrowser
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(2, 135);
+            this.label1.Location = new System.Drawing.Point(0, 155);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(106, 13);
             this.label1.TabIndex = 4;
@@ -470,6 +471,16 @@ namespace AutoWikiBrowser
             this.PrivacyLabel.TabIndex = 1;
             this.PrivacyLabel.Text = resources.GetString("PrivacyLabel.Text");
             // 
+            // chkAddUsingAWBToActionSummaries
+            // 
+            this.chkAddUsingAWBToActionSummaries.AutoSize = true;
+            this.chkAddUsingAWBToActionSummaries.Location = new System.Drawing.Point(6, 40);
+            this.chkAddUsingAWBToActionSummaries.Name = "chkAddUsingAWBToActionSummaries";
+            this.chkAddUsingAWBToActionSummaries.Size = new System.Drawing.Size(286, 17);
+            this.chkAddUsingAWBToActionSummaries.TabIndex = 11;
+            this.chkAddUsingAWBToActionSummaries.Text = "Add \"using AWB\" to when deleting or protecting pages";
+            this.chkAddUsingAWBToActionSummaries.UseVisualStyleBackColor = true;
+            // 
             // MyPreferences
             // 
             this.AcceptButton = this.btnOK;
@@ -480,6 +491,7 @@ namespace AutoWikiBrowser
             this.Controls.Add(this.label6);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.btnTextBoxFont);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -541,5 +553,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Label PrivacyLabel;
         private System.Windows.Forms.CheckBox PrivacyCheckBox;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckBox chkAddUsingAWBToActionSummaries;
     }
 }

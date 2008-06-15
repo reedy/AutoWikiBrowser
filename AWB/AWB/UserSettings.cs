@@ -268,8 +268,9 @@ namespace AutoWikiBrowser
                showTimerToolStripMenuItem.Checked, sortAlphabeticallyToolStripMenuItem.Checked,
                addIgnoredToLogFileToolStripMenuItem.Checked, (int)txtEdit.Font.Size, txtEdit.Font.Name,
                LowThreadPriority, Beep, Flash, Minimize, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxPeriod,
-               AutoSaveEditBoxFile, chkLock.Checked, EditToolBarVisible, SupressUsingAWB, filterOutNonMainSpaceToolStripMenuItem.Checked,
-               removeDuplicatesToolStripMenuItem.Checked, alphaSortInterwikiLinksToolStripMenuItem.Checked, replaceReferenceTagsToolStripMenuItem.Checked,
+               AutoSaveEditBoxFile, chkLock.Checked, EditToolBarVisible, SuppressUsingAWB, AddUsingAWBOnArticleAction,
+               filterOutNonMainSpaceToolStripMenuItem.Checked, removeDuplicatesToolStripMenuItem.Checked,
+               alphaSortInterwikiLinksToolStripMenuItem.Checked, replaceReferenceTagsToolStripMenuItem.Checked,
                focusAtEndOfEditTextBoxToolStripMenuItem.Checked), new DabPrefs(chkEnableDab.Checked,
                txtDabLink.Text, txtDabVariants.Lines, (int)udContextChars.Value), new ModulePrefs(
                cModule.ModuleEnabled, cModule.Language, cModule.Code), externalProgram.Settings, loggingSettings1.SerialisableSettings, listMaker1.SpecialFilterSettings,
@@ -450,7 +451,8 @@ namespace AutoWikiBrowser
             AutoSaveEditBoxPeriod = p.General.AutoSaveEdit.SavePeriod;
             AutoSaveEditBoxFile = p.General.AutoSaveEdit.SaveFile;
 
-            SupressUsingAWB = p.General.SupressUsingAWB;
+            SuppressUsingAWB = p.General.SuppressUsingAWB;
+            AddUsingAWBOnArticleAction = p.General.AddUsingAWBToActionSummaries;
 
             filterOutNonMainSpaceToolStripMenuItem.Checked = p.General.filterNonMainSpace;
             removeDuplicatesToolStripMenuItem.Checked = p.General.AutoFilterDuplicates;
