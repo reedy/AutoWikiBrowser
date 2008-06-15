@@ -37,8 +37,6 @@ namespace WikiFunctions.Controls.Lists
         public ListComparer()
         {
             InitializeComponent();
-            listMaker1.MakeListEnabled = true;
-            listMaker2.MakeListEnabled = true;
         }
 
         public ListComparer(List<Article> list)

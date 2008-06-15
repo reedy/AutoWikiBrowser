@@ -53,7 +53,7 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public event ListMakerEventHandler ListFinished;
 
-        ListFilterForm SpecialFilter = new ListFilterForm();
+        ListFilterForm SpecialFilter;
 
         public ListMaker()
         {
@@ -82,6 +82,8 @@ namespace WikiFunctions.Controls.Lists
                 listItems.Add(new WikiSearchListMakerProvider());
                 listItems.Add(redirectLMProvider);
             }
+
+            SpecialFilter = new ListFilterForm(lbArticles);
 
             // We'll manage our own collection of list items:
             cmboSourceSelect.DataSource = listItems;
@@ -714,7 +716,6 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public void Filter()
         {
-            SpecialFilter.lb = lbArticles;
             SpecialFilter.ShowDialog(this);
         }
 
@@ -723,7 +724,6 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public void removeListDuplicates()
         {
-            SpecialFilter.lb = lbArticles;
             SpecialFilter.Clear();
             SpecialFilter.RemoveDuplicates();
 
