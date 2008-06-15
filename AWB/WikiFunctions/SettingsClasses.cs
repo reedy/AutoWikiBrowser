@@ -286,7 +286,7 @@ namespace WikiFunctions.AWBSettings
         public int Newlines = 2;
 
         public int AutoDelay = 10;
-        public bool SuppressTag = false;
+        public bool SupressTag = false;
         public bool OverrideWatchlist = false;
         public bool RegexTypoFix = false;
     }
