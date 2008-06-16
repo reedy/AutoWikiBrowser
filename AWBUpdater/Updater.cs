@@ -146,6 +146,7 @@ namespace AwbUpdater
         /// </summary>
         private void ExitEarly()
         {
+            progressUpdate.Value = 99;
             MessageBox.Show("Nothing to update. The Updater will now close");
             StartAwb();
             Application.Exit();
