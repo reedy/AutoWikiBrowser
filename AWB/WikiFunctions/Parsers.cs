@@ -1512,6 +1512,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (Regex.IsMatch(ArticleText, "\\[\\[ ?Category ?:[ _]?([0-9]{1,2}[ _]century[ _]deaths|[0-9s]{4,5}[ _]deaths|Disappeared[ _]people|Living[ _]people|Year[ _]of[ _]death[ _]missing|Possibly[ _]living[ _]people)", RegexOptions.IgnoreCase))
                 return ArticleText;
 
+            if (Regex.IsMatch(ArticleText, @"\{\{(Template:)?(Recent death|Recentdeath|Recentlydeceased)\}\}", RegexOptions.IgnoreCase))
+                return ArticleText;
+
             Match m = Regex.Match(ArticleText, "\\[\\[ ?Category ?:[ _]?([0-9]{4})[ _]births(\\|.*?)?\\]\\]", RegexOptions.IgnoreCase);
 
             if (!m.Success)
