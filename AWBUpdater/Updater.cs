@@ -165,6 +165,22 @@ namespace AwbUpdater
         #endregion
 
         /// <summary>
+        /// Creates the temporary folder if it doesnt already exist
+        /// </summary>
+        private void CreateTempDir()
+        {
+            if (Directory.Exists(tempDirectory))
+            {
+                // clear its content just to be sure that no parasitic files are left
+                Directory.Delete(tempDirectory, true);
+            }
+
+            Directory.CreateDirectory(tempDirectory);
+
+            progressUpdate.Value = 10;
+        }
+
+        /// <summary>
         /// Checks and compares the current AWB version with the version listed on the checkpage
         /// </summary>
         private void AWBversion()
@@ -233,24 +249,8 @@ namespace AwbUpdater
                 catch
                 { MessageBox.Show("Unable to find AutoWikiBrowser.exe to query its version."); }
 
-                progressUpdate.Value = 30;
+                progressUpdate.Value = 35;
             }
-        }
-
-        /// <summary>
-        /// Creates the temporary folder if it doesnt already exist
-        /// </summary>
-        private void CreateTempDir()
-        {
-            if (Directory.Exists(tempDirectory))
-            {
-                // clear its content just to be sure that no parasitic files are left
-                Directory.Delete(tempDirectory, true); 
-            }
-            
-            Directory.CreateDirectory(tempDirectory);
-
-            progressUpdate.Value = 35;
         }
 
         /// <summary>
@@ -293,9 +293,7 @@ namespace AwbUpdater
         {
             try
             {
-                FastZip zip = new FastZip();
-
-                zip.ExtractZip(File, tempDirectory, null);
+                new FastZip().ExtractZip(File, tempDirectory, null);
             }
             catch (Exception ex)
             {
@@ -326,45 +324,6 @@ namespace AwbUpdater
             while (awbOpen);
 
             progressUpdate.Value = 75;
-        }
-
-        void CopyFile(string source, string destination)
-        {
-            string actualFile = source.Replace(tempDirectory, "");
-            try
-            {
-                File.Copy(source, destination, true);
-            }
-            catch (DirectoryNotFoundException)
-            {
-                string dirToCreate = AWBdirectory;
-                foreach (string dir in actualFile.Substring(0, actualFile.LastIndexOf("\\")).Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries))
-                {
-                    dirToCreate += "\\" + dir;
-
-                    if (!Directory.Exists(dirToCreate))
-                        Directory.CreateDirectory(dirToCreate);
-                }
-
-                CopyFile(source, destination);
-            }
-            //TODO:Is this needed...?
-            //catch (IOException ex)
-            //{
-            //    if (MessageBox.Show(
-            //        this,
-            //        "Problem replacing file:\r\n   " + ex.Message + "\r\n\r\n" +
-            //            "Please close all applications that may use it and press 'Retry' to try again " +
-            //            "or 'Cancel' to cancel the upgrade.",
-            //        "Error",
-            //        MessageBoxButtons.RetryCancel,
-            //        MessageBoxIcon.Error) != DialogResult.Retry)
-            //    {
-            //        MessageBox.Show(this, "Update aborted. AutoWikiBrowser may be unfunctional.", "AWB Updater");
-            //        KillTempDir();
-            //        Close();
-            //    }
-            //}
         }
 
         /// <summary>
@@ -409,7 +368,46 @@ namespace AwbUpdater
                     }
                 }
             }
-            progressUpdate.Value = 90;
+            progressUpdate.Value = 95;
+        }
+
+        private void CopyFile(string source, string destination)
+        {
+            string actualFile = source.Replace(tempDirectory, "");
+            try
+            {
+                File.Copy(source, destination, true);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                string dirToCreate = AWBdirectory;
+                foreach (string dir in actualFile.Substring(0, actualFile.LastIndexOf("\\")).Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    dirToCreate += "\\" + dir;
+
+                    if (!Directory.Exists(dirToCreate))
+                        Directory.CreateDirectory(dirToCreate);
+                }
+
+                CopyFile(source, destination);
+            }
+            //TODO:Is this needed...?
+            //catch (IOException ex)
+            //{
+            //    if (MessageBox.Show(
+            //        this,
+            //        "Problem replacing file:\r\n   " + ex.Message + "\r\n\r\n" +
+            //            "Please close all applications that may use it and press 'Retry' to try again " +
+            //            "or 'Cancel' to cancel the upgrade.",
+            //        "Error",
+            //        MessageBoxButtons.RetryCancel,
+            //        MessageBoxIcon.Error) != DialogResult.Retry)
+            //    {
+            //        MessageBox.Show(this, "Update aborted. AutoWikiBrowser may be unfunctional.", "AWB Updater");
+            //        KillTempDir();
+            //        Close();
+            //    }
+            //}
         }
 
         /// <summary>
@@ -429,7 +427,7 @@ namespace AwbUpdater
             if (!awbOpen && System.IO.File.Exists(AWBdirectory + "AutoWikiBrowser.exe") && MessageBox.Show("Would you like to Start AWB?", "Start AWB?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 System.Diagnostics.Process.Start(AWBdirectory + "AutoWikiBrowser.exe");
 
-            progressUpdate.Value = 95;
+            progressUpdate.Value = 99;
         }
 
         /// <summary>
