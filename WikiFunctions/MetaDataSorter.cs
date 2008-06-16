@@ -297,15 +297,17 @@ namespace WikiFunctions.Parse
                 string[] temp = (string[])InterwikiAlpha.Clone();
                 temp[Array.IndexOf(temp, "en")] = "";
 
-                InterwikiAlphaEnFirst = new string[size + 1];
+                InterwikiAlphaEnFirst = new string[size];
                 InterwikiAlphaEnFirst[0] = "en";
                 no = 1;
 
                 foreach (string s in temp)
                 {
                     if (s.Trim().Length > 0)
+                    {
                         InterwikiAlphaEnFirst[no] = s;
-                    no++;
+                        no++;
+                    }
                 }
             }
             catch { }
