@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace WikiFunctions
 {
@@ -31,7 +32,7 @@ namespace WikiFunctions
         /// </summary>
         public static string ListMakerText;
 
-        public ErrorHandler()
+        protected ErrorHandler()
         {
             InitializeComponent();
         }
@@ -97,7 +98,9 @@ namespace WikiFunctions
 
                     handler.txtDetails.Text = errorMessage.ToString();
 
-                    handler.textBox1.Text = "AWB encountered " + ex.GetType().Name;
+                    handler.txtSubject.Text = ex.GetType().Name + " in " + Thrower(ex);
+
+                    MethodNames(ex);
 
                     handler.ShowDialog();
                 }
@@ -121,6 +124,53 @@ namespace WikiFunctions
                 FormatException(ex.InnerException, sb, false);
             }
         }
+
+        /// <summary>
+        /// Returns names of functions in stack trace of an exception
+        /// </summary>
+        /// <param name="ex">Exception to process</param>
+        /// <returns>List of fully qualified function names</returns>
+        private static string[] MethodNames(Exception ex)
+        {
+            MatchCollection mc = Regex.Matches(ex.StackTrace, @"([a-zA-Z_0-9.]+)(?=\()");
+
+            string[] res = new string[mc.Count];
+
+            for (int i = 0; i < res.Length; i++) res[i] = mc[i].Groups[1].Value;
+
+            return res;
+        }
+
+        static readonly string[] PresetNamespaces =
+            new string[] { "System", "Microsoft", "Mono" };
+
+        /// <summary>
+        /// Returns the name of our function where supposedly error resides;
+        /// it's the last non-framework function in the stack
+        /// </summary>
+        /// <param name="ex">Exception to process</param>
+        /// <returns>Function names without namespace</returns>
+        private static string Thrower(Exception ex)
+        {
+            string[] trace = MethodNames(ex);
+
+            int i;
+            for (i = 0; i < trace.Length; i++)
+            {
+                bool l = false;
+                foreach (string ns in PresetNamespaces)
+                {
+                    if (trace[i].StartsWith(ns)) l = true;
+                }
+                if (!l) break;
+            }
+
+            // strip namespace for clarity
+            string res = Regex.Match(trace[i], @"\w+\.\w+$").Value;
+
+            return res;
+        }
+
 
         private void btnCopy_Click(object sender, EventArgs e)
         {
