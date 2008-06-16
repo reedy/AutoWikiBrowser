@@ -9,6 +9,11 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
 using System.Text.RegularExpressions;
+using System.Web;
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+/// Don't use anything WikiFunctions-specific here, for source-compatibility with Updater  ///
+//////////////////////////////////////////////////////////////////////////////////////////////
 
 namespace WikiFunctions
 {
@@ -31,16 +36,6 @@ namespace WikiFunctions
         /// Current text that the list is being made from in ListMaker
         /// </summary>
         public static string ListMakerText;
-
-        protected ErrorHandler()
-        {
-            InitializeComponent();
-        }
-
-        private void ErrorHandler_Load(object sender, EventArgs e)
-        {
-            Text = Application.ProductName;
-        }
 
         /// <summary>
         /// Displays exception information. Should be called from try...catch handlers
@@ -88,7 +83,9 @@ namespace WikiFunctions
 
                     if (!string.IsNullOrEmpty(CurrentPage))
                     {
-                        string link = "[" + Variables.URLLong + "index.php?title=" + Tools.WikiEncode(CurrentPage) + "&oldid=" + CurrentRevision.ToString() + "]";
+                        // don't use Tools.WikiEncode here, to keep code portable to updater
+                        // as it's not a pretty URL, we don't need to follow the MediaWiki encoding rules
+                        string link = "[" + Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(CurrentPage) + "&oldid=" + CurrentRevision.ToString() + "]";
 
                         errorMessage.Append("\r\n | duplicate = [encountered while processing page ''" + link + "'']");
                     } else if (!string.IsNullOrEmpty(ListMakerText))
@@ -100,13 +97,12 @@ namespace WikiFunctions
 
                     handler.txtSubject.Text = ex.GetType().Name + " in " + Thrower(ex);
 
-                    MethodNames(ex);
-
                     handler.ShowDialog();
                 }
             }
         }
 
+        #region Static helper functions
         /// <summary>
         /// Formats exception information for bug report
         /// </summary>
@@ -142,7 +138,7 @@ namespace WikiFunctions
         }
 
         static readonly string[] PresetNamespaces =
-            new string[] { "System", "Microsoft", "Mono" };
+            new string[] { "System.", "Microsoft.", "Mono." };
 
         /// <summary>
         /// Returns the name of our function where supposedly error resides;
@@ -154,21 +150,42 @@ namespace WikiFunctions
         {
             string[] trace = MethodNames(ex);
 
+            if (trace.Length == 0) return "unknown function";
+
             int i;
+            string res = "";
             for (i = 0; i < trace.Length; i++)
             {
-                bool l = false;
+                bool match = false;
                 foreach (string ns in PresetNamespaces)
                 {
-                    if (trace[i].StartsWith(ns)) l = true;
+                    if (trace[i].StartsWith(ns)) match = true;
                 }
-                if (!l) break;
+                if (match)
+                    res = trace[0];
+                else
+                {
+                    res = trace[i];
+                    break;
+                }
             }
 
             // strip namespace for clarity
-            string res = Regex.Match(trace[i], @"\w+\.\w+$").Value;
+            res = Regex.Match(res, @"\w+\.\w+$").Value;
 
             return res;
+        }
+
+        #endregion
+
+        protected ErrorHandler()
+        {
+            InitializeComponent();
+        }
+
+        private void ErrorHandler_Load(object sender, EventArgs e)
+        {
+            Text = Application.ProductName;
         }
 
 
@@ -186,7 +203,11 @@ namespace WikiFunctions
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkLabel1.LinkVisited = true;
-            Tools.OpenURLInBrowser("http://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser/Bugs&action=edit&section=new");
+            try
+            {
+                System.Diagnostics.Process.Start("http://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser/Bugs&action=edit&section=new");
+            }
+            catch { }
         }
     }
 }
