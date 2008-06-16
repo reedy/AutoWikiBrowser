@@ -376,13 +376,6 @@ namespace AwbUpdater
 
             if (awbUpdate)
             {
-                foreach (string file in Directory.GetFiles(tempDirectory, "*.*", SearchOption.AllDirectories))
-                {
-                    CopyFile(file, AWBdirectory + file.Replace(tempDirectory, ""));
-                }
-
-                //TODO:Update plugins in folder with AWB if exist in plugin folder
-
                 //Explicit Deletions (Remove these if they exist!!)
                 if (File.Exists(AWBdirectory + "WikiFunctions2.dll"))
                     File.Delete(AWBdirectory + "WikiFunctions2.dll");
@@ -392,6 +385,25 @@ namespace AwbUpdater
 
                 if (Directory.Exists(AWBdirectory + "\\Plugins\\WPAssessmentsCatCreator"))
                     Directory.Delete(AWBdirectory + "\\Plugins\\WPAssessmentsCatCreator", true);
+
+                foreach (string file in Directory.GetFiles(tempDirectory, "*.*", SearchOption.AllDirectories))
+                {
+                    CopyFile(file, AWBdirectory + file.Replace(tempDirectory, ""));
+                }
+
+                string[] pluginFiles = Directory.GetFiles(AWBdirectory + "\\Plugins", "*.*", SearchOption.AllDirectories);
+
+                foreach (string file in Directory.GetFiles(AWBdirectory, "*.*", SearchOption.TopDirectoryOnly))
+                {
+                    foreach (string pluginFile in pluginFiles)
+                    {
+                        if (file.Substring(file.LastIndexOf("\\")) == pluginFile.Substring(pluginFile.LastIndexOf("\\")))
+                        {
+                            File.Copy(pluginFile, file, true);
+                            break;
+                        }
+                    }
+                }
             }
             progressUpdate.Value = 90;
         }
