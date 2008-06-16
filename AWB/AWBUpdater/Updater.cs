@@ -337,6 +337,9 @@ namespace AwbUpdater
             if (awbUpdate)
             {
                 //Explicit Deletions (Remove these if they exist!!)
+                if (File.Exists(AWBdirectory + "Wikidiff2.dll"))
+                    File.Delete(AWBdirectory + "Wikidiff2.dll");
+
                 if (File.Exists(AWBdirectory + "WikiFunctions2.dll"))
                     File.Delete(AWBdirectory + "WikiFunctions2.dll");
 
