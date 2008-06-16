@@ -336,12 +336,14 @@ namespace AwbUpdater
             }
             catch (DirectoryNotFoundException)
             {
-                string[] splitDirs = actualFile.Substring(0, actualFile.LastIndexOf("\\")).Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries);
+                string dirToCreate = AWBdirectory;
+                foreach (string dir in actualFile.Substring(0, actualFile.LastIndexOf("\\")).Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    dirToCreate += "\\" + dir;
 
-                if (splitDirs.Length == 1)
-                    Directory.CreateDirectory(AWBdirectory + "\\" + splitDirs[0]);
-                else
-                    Directory.CreateDirectory(AWBdirectory + "\\" + splitDirs[0] + "\\" + splitDirs[1]);
+                    if (!Directory.Exists(dirToCreate))
+                        Directory.CreateDirectory(dirToCreate);
+                }
 
                 CopyFile(source, destination);
             }
