@@ -109,18 +109,18 @@ namespace WikiFunctions
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 157);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(91, 13);
+            this.label2.Size = new System.Drawing.Size(50, 13);
             this.label2.TabIndex = 9;
-            this.label2.Text = "Subject/headline:";
+            this.label2.Text = "Heading:";
             // 
             // txtSubject
             // 
             this.txtSubject.BackColor = System.Drawing.SystemColors.Control;
-            this.txtSubject.Location = new System.Drawing.Point(109, 154);
+            this.txtSubject.Location = new System.Drawing.Point(68, 154);
             this.txtSubject.Multiline = true;
             this.txtSubject.Name = "txtSubject";
             this.txtSubject.ReadOnly = true;
-            this.txtSubject.Size = new System.Drawing.Size(264, 20);
+            this.txtSubject.Size = new System.Drawing.Size(305, 20);
             this.txtSubject.TabIndex = 10;
             this.txtSubject.Text = "AWB encountered an exception";
             // 
