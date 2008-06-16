@@ -28,6 +28,7 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ListSplitter));
             this.numSplitAmount = new System.Windows.Forms.NumericUpDown();
             this.btnSave = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -45,7 +46,7 @@ namespace WikiFunctions.Controls.Lists
             0,
             0,
             0});
-            this.numSplitAmount.Location = new System.Drawing.Point(228, 162);
+            this.numSplitAmount.Location = new System.Drawing.Point(235, 158);
             this.numSplitAmount.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -67,7 +68,7 @@ namespace WikiFunctions.Controls.Lists
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(241, 230);
+            this.btnSave.Location = new System.Drawing.Point(247, 230);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(96, 27);
             this.btnSave.TabIndex = 6;
@@ -78,15 +79,15 @@ namespace WikiFunctions.Controls.Lists
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(247, 146);
+            this.label2.Location = new System.Drawing.Point(256, 142);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(81, 13);
+            this.label2.Size = new System.Drawing.Size(77, 13);
             this.label2.TabIndex = 8;
             this.label2.Text = "Pages per File:";
             // 
             // btnXMLSave
             // 
-            this.btnXMLSave.Location = new System.Drawing.Point(217, 197);
+            this.btnXMLSave.Location = new System.Drawing.Point(223, 197);
             this.btnXMLSave.Name = "btnXMLSave";
             this.btnXMLSave.Size = new System.Drawing.Size(142, 27);
             this.btnXMLSave.TabIndex = 9;
@@ -108,7 +109,8 @@ namespace WikiFunctions.Controls.Lists
             // 
             this.listMaker1.Location = new System.Drawing.Point(12, 12);
             this.listMaker1.Name = "listMaker1";
-            this.listMaker1.Size = new System.Drawing.Size(201, 351);
+            this.listMaker1.SelectedSource = 0;
+            this.listMaker1.Size = new System.Drawing.Size(205, 349);
             this.listMaker1.SourceText = "";
             this.listMaker1.TabIndex = 0;
             // 
