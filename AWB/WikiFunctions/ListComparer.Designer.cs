@@ -193,7 +193,7 @@ namespace WikiFunctions.Controls.Lists
             this.listMaker1.Location = new System.Drawing.Point(7, 18);
             this.listMaker1.Name = "listMaker1";
             this.listMaker1.SelectedSource = 0;
-            this.listMaker1.Size = new System.Drawing.Size(201, 351);
+            this.listMaker1.Size = new System.Drawing.Size(205, 349);
             this.listMaker1.SourceText = "";
             this.listMaker1.TabIndex = 14;
             // 
@@ -212,7 +212,7 @@ namespace WikiFunctions.Controls.Lists
             this.listMaker2.Location = new System.Drawing.Point(7, 18);
             this.listMaker2.Name = "listMaker2";
             this.listMaker2.SelectedSource = 0;
-            this.listMaker2.Size = new System.Drawing.Size(201, 351);
+            this.listMaker2.Size = new System.Drawing.Size(205, 349);
             this.listMaker2.SourceText = "";
             this.listMaker2.TabIndex = 14;
             // 

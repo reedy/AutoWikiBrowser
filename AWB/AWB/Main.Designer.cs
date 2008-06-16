@@ -240,6 +240,7 @@ namespace AutoWikiBrowser
             this.chkSkipIfInuse = new System.Windows.Forms.CheckBox();
             this.chkSkipWhitespace = new System.Windows.Forms.CheckBox();
             this.chkSkipGeneralFixes = new System.Windows.Forms.CheckBox();
+            this.chkSkipCasing = new System.Windows.Forms.CheckBox();
             this.txtEdit = new System.Windows.Forms.TextBox();
             this.mnuHistory = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -377,7 +378,6 @@ namespace AutoWikiBrowser
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
-            this.chkSkipCasing = new System.Windows.Forms.CheckBox();
             this.mnuTextBox.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -2172,6 +2172,18 @@ namespace AutoWikiBrowser
                     "");
             this.chkSkipGeneralFixes.UseVisualStyleBackColor = true;
             // 
+            // chkSkipCasing
+            // 
+            this.chkSkipCasing.AutoSize = true;
+            this.chkSkipCasing.Location = new System.Drawing.Point(24, 159);
+            this.chkSkipCasing.Name = "chkSkipCasing";
+            this.chkSkipCasing.Size = new System.Drawing.Size(136, 17);
+            this.chkSkipCasing.TabIndex = 18;
+            this.chkSkipCasing.Text = "Only &casing is changed";
+            this.toolTip1.SetToolTip(this.chkSkipCasing, "Automatically skips articles when only whitespace changes were automatically made" +
+                    "");
+            this.chkSkipCasing.UseVisualStyleBackColor = true;
+            // 
             // txtEdit
             // 
             this.txtEdit.AcceptsReturn = true;
@@ -2465,11 +2477,11 @@ namespace AutoWikiBrowser
             // 
             // listMaker1
             // 
-            this.listMaker1.Location = new System.Drawing.Point(7, 15);
+            this.listMaker1.Location = new System.Drawing.Point(1, 16);
             this.listMaker1.Margin = new System.Windows.Forms.Padding(4);
             this.listMaker1.Name = "listMaker1";
             this.listMaker1.SelectedSource = 0;
-            this.listMaker1.Size = new System.Drawing.Size(196, 350);
+            this.listMaker1.Size = new System.Drawing.Size(205, 349);
             this.listMaker1.SourceText = "";
             this.listMaker1.TabIndex = 0;
             // 
@@ -3522,6 +3534,7 @@ namespace AutoWikiBrowser
             this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
             this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
             this.loggingSettings1.Name = "loggingSettings1";
+            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
             this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
             this.loggingSettings1.TabIndex = 0;
             // 
@@ -3646,18 +3659,6 @@ namespace AutoWikiBrowser
             // 
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
-            // 
-            // chkSkipCasing
-            // 
-            this.chkSkipCasing.AutoSize = true;
-            this.chkSkipCasing.Location = new System.Drawing.Point(24, 159);
-            this.chkSkipCasing.Name = "chkSkipCasing";
-            this.chkSkipCasing.Size = new System.Drawing.Size(136, 17);
-            this.chkSkipCasing.TabIndex = 18;
-            this.chkSkipCasing.Text = "Only &casing is changed";
-            this.toolTip1.SetToolTip(this.chkSkipCasing, "Automatically skips articles when only whitespace changes were automatically made" +
-                    "");
-            this.chkSkipCasing.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
