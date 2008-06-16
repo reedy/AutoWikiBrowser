@@ -945,7 +945,7 @@ namespace AutoWikiBrowser
             //{//Read-Only DB
             //    StartDelayedRestartTimer(null, null);
             //    return;
-            }
+            //}
 
             //lower restart delay
             if (intRestartDelay > 5)
