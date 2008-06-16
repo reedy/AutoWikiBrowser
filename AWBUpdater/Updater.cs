@@ -330,6 +330,7 @@ namespace AwbUpdater
 
         void CopyFile(string source, string destination)
         {
+            string actualFile = source.Replace(tempDirectory, "");
             try
             {
                 File.Copy(source, destination, true);
