@@ -511,7 +511,6 @@ namespace AutoWikiBrowser
                     webBrowserEdit.Busy = true;
 
                 TheArticle = new ArticleEX(listMaker1.SelectedArticle().Name);
-                ErrorHandler.CurrentPage = TheArticle.Name;
 
                 NewHistory();
 
@@ -647,14 +646,18 @@ namespace AutoWikiBrowser
                 else if (!BotMode)
                     MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
 
-            ErrorHandler.CurrentPage = "";
-
             if (!doNotAutomaticallyDoAnythingToolStripMenuItem.Checked)
             {
                 StatusLabelText = "Processing page";
                 Application.DoEvents();
 
+                //FIXME: this position is imprefect, since above there is code that can explode, but this way
+                //at least we don't get bogus reports of unrelated pages
+                ErrorHandler.CurrentPage = TheArticle.Name;
+
                 ProcessPage();
+
+                ErrorHandler.CurrentPage = "";
 
                 UpdateWebBrowserStatus(null, null);
 
