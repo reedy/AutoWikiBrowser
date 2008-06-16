@@ -39,7 +39,7 @@ namespace WikiFunctions.Controls.Lists
             this.txtNewArticle = new System.Windows.Forms.TextBox();
             this.lblSourceSelect = new System.Windows.Forms.Label();
             this.btnMakeList = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblMakeFrom = new System.Windows.Forms.Label();
             this.cmboSourceSelect = new System.Windows.Forms.ComboBox();
             this.mnuListBox = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.filterOutNonMainSpaceArticlesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -95,9 +95,9 @@ namespace WikiFunctions.Controls.Lists
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.UserInputTextBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.UserInputTextBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.UserInputTextBox.Location = new System.Drawing.Point(71, 30);
+            this.UserInputTextBox.Location = new System.Drawing.Point(67, 30);
             this.UserInputTextBox.Name = "UserInputTextBox";
-            this.UserInputTextBox.Size = new System.Drawing.Size(131, 20);
+            this.UserInputTextBox.Size = new System.Drawing.Size(136, 20);
             this.UserInputTextBox.TabIndex = 2;
             this.UserInputTextBox.DoubleClick += new System.EventHandler(this.txtSelectSource_DoubleClick);
             this.UserInputTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSelectSource_KeyDown);
@@ -138,14 +138,14 @@ namespace WikiFunctions.Controls.Lists
             // 
             this.lblSourceSelect.Location = new System.Drawing.Point(-3, 22);
             this.lblSourceSelect.Name = "lblSourceSelect";
-            this.lblSourceSelect.Size = new System.Drawing.Size(75, 34);
+            this.lblSourceSelect.Size = new System.Drawing.Size(72, 34);
             this.lblSourceSelect.TabIndex = 23;
             this.lblSourceSelect.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // btnMakeList
             // 
             this.btnMakeList.Enabled = false;
-            this.btnMakeList.Location = new System.Drawing.Point(93, 56);
+            this.btnMakeList.Location = new System.Drawing.Point(99, 56);
             this.btnMakeList.Name = "btnMakeList";
             this.btnMakeList.Size = new System.Drawing.Size(74, 23);
             this.btnMakeList.TabIndex = 3;
@@ -154,14 +154,14 @@ namespace WikiFunctions.Controls.Lists
             this.btnMakeList.UseVisualStyleBackColor = true;
             this.btnMakeList.Click += new System.EventHandler(this.btnMakeList_Click);
             // 
-            // label1
+            // lblMakeFrom
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 5);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(57, 13);
-            this.label1.TabIndex = 21;
-            this.label1.Text = "Make from";
+            this.lblMakeFrom.AutoSize = true;
+            this.lblMakeFrom.Location = new System.Drawing.Point(1, 6);
+            this.lblMakeFrom.Name = "lblMakeFrom";
+            this.lblMakeFrom.Size = new System.Drawing.Size(60, 13);
+            this.lblMakeFrom.TabIndex = 21;
+            this.lblMakeFrom.Text = "Make from:";
             // 
             // cmboSourceSelect
             // 
@@ -171,9 +171,9 @@ namespace WikiFunctions.Controls.Lists
             this.cmboSourceSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboSourceSelect.FormattingEnabled = true;
             this.cmboSourceSelect.IntegralHeight = false;
-            this.cmboSourceSelect.Location = new System.Drawing.Point(71, 2);
+            this.cmboSourceSelect.Location = new System.Drawing.Point(67, 3);
             this.cmboSourceSelect.Name = "cmboSourceSelect";
-            this.cmboSourceSelect.Size = new System.Drawing.Size(131, 21);
+            this.cmboSourceSelect.Size = new System.Drawing.Size(136, 21);
             this.cmboSourceSelect.Sorted = true;
             this.cmboSourceSelect.TabIndex = 1;
             this.cmboSourceSelect.Tag = "Source of pages to edit";
@@ -474,7 +474,7 @@ namespace WikiFunctions.Controls.Lists
             this.btnStop.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStop.Image = ((System.Drawing.Image)(resources.GetObject("btnStop.Image")));
             this.btnStop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnStop.Location = new System.Drawing.Point(173, 56);
+            this.btnStop.Location = new System.Drawing.Point(179, 56);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(24, 23);
             this.btnStop.TabIndex = 4;
@@ -547,10 +547,10 @@ namespace WikiFunctions.Controls.Lists
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.lbArticles.ContextMenuStrip = this.mnuListBox;
             this.lbArticles.FormattingEnabled = true;
-            this.lbArticles.Location = new System.Drawing.Point(4, 82);
+            this.lbArticles.Location = new System.Drawing.Point(3, 82);
             this.lbArticles.Name = "lbArticles";
             this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbArticles.Size = new System.Drawing.Size(199, 186);
+            this.lbArticles.Size = new System.Drawing.Size(200, 186);
             this.lbArticles.TabIndex = 5;
             this.lbArticles.DoubleClick += new System.EventHandler(this.lbArticles_DoubleClick);
             this.lbArticles.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbArticles_MouseMove);
@@ -560,21 +560,21 @@ namespace WikiFunctions.Controls.Lists
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.UserInputTextBox);
+            this.Controls.Add(this.cmboSourceSelect);
             this.Controls.Add(this.btnRemoveArticle);
             this.Controls.Add(this.btnRemoveDuplicates);
-            this.Controls.Add(this.UserInputTextBox);
             this.Controls.Add(this.lbArticles);
             this.Controls.Add(this.btnArticlesListClear);
             this.Controls.Add(this.btnArticlesListSave);
             this.Controls.Add(this.txtNewArticle);
             this.Controls.Add(this.btnAdd);
-            this.Controls.Add(this.cmboSourceSelect);
-            this.Controls.Add(this.lblSourceSelect);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnFilter);
-            this.Controls.Add(this.btnStop);
             this.Controls.Add(this.lblNumberOfArticles);
+            this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnMakeList);
+            this.Controls.Add(this.lblMakeFrom);
+            this.Controls.Add(this.lblSourceSelect);
             this.Name = "ListMaker";
             this.Size = new System.Drawing.Size(205, 349);
             this.mnuListBox.ResumeLayout(false);
@@ -591,7 +591,7 @@ namespace WikiFunctions.Controls.Lists
         private System.Windows.Forms.TextBox txtNewArticle;
         private System.Windows.Forms.Label lblSourceSelect;
         private System.Windows.Forms.Button btnMakeList;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblMakeFrom;
         private System.Windows.Forms.ToolStripMenuItem filterOutNonMainSpaceArticlesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem specialFilterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem convertToTalkPagesToolStripMenuItem;
