@@ -35,7 +35,7 @@ namespace WikiFunctions
             this.txtError = new System.Windows.Forms.TextBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtSubject = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -113,16 +113,16 @@ namespace WikiFunctions
             this.label2.TabIndex = 9;
             this.label2.Text = "Subject/headline:";
             // 
-            // textBox1
+            // txtSubject
             // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox1.Location = new System.Drawing.Point(109, 154);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(264, 20);
-            this.textBox1.TabIndex = 10;
-            this.textBox1.Text = "AWB encountered an exception";
+            this.txtSubject.BackColor = System.Drawing.SystemColors.Control;
+            this.txtSubject.Location = new System.Drawing.Point(109, 154);
+            this.txtSubject.Multiline = true;
+            this.txtSubject.Name = "txtSubject";
+            this.txtSubject.ReadOnly = true;
+            this.txtSubject.Size = new System.Drawing.Size(264, 20);
+            this.txtSubject.TabIndex = 10;
+            this.txtSubject.Text = "AWB encountered an exception";
             // 
             // ErrorHandler
             // 
@@ -132,7 +132,7 @@ namespace WikiFunctions
             this.BackColor = System.Drawing.SystemColors.Control;
             this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(385, 426);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtSubject);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.txtError);
@@ -158,6 +158,6 @@ namespace WikiFunctions
         private System.Windows.Forms.TextBox txtError;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtSubject;
     }
 }
