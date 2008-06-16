@@ -292,7 +292,7 @@ namespace WikiFunctions.Parse
                 }
 
                 InterwikiAlpha = (string[])InterwikiLocalFirst.Clone();
-                Array.Sort(InterwikiAlpha);
+                Array.Sort(InterwikiAlpha, StringComparer.Create(new System.Globalization.CultureInfo("en-US", true), true));
 
                 string[] temp = (string[])InterwikiAlpha.Clone();
                 temp[Array.IndexOf(temp, "en")] = "";
