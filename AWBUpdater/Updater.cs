@@ -49,15 +49,17 @@ namespace AwbUpdater
             InitializeComponent();
 
             AWBdirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\";
-            tempDirectory = AWBdirectory + "temp\\";
+            tempDirectory = Environment.GetEnvironmentVariable("TEMP");
+            if (!tempDirectory.EndsWith("\\")) tempDirectory += "\\";
+            tempDirectory += "$AWB$Updater$Temp$\\";
         }
 
         /// <summary>
         /// Version of the Updater
         /// </summary>
-        public static string AssemblyVersion
+        public static int AssemblyVersion
         {
-            get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); }
+            get { return VersionToString(Assembly.GetExecutingAssembly().GetName().Version.ToString()); }
         }
 
         private void Updater_Load(object sender, EventArgs e)
@@ -77,33 +79,33 @@ namespace AwbUpdater
                 if (proxy.IsBypassed(new Uri("http://en.wikipedia.org")))
                     proxy = null;
 
-                updateUI("Getting Current AWB and Updater Versions");
+                UpdateUI("Getting current AWB and Updater versions", true);
                 AWBversion();
 
                 if ((!updaterUpdate && !awbUpdate) && string.IsNullOrEmpty(AWBWebAddress))
                     ExitEarly();
                 else
                 {
-                    updateUI("Creating a temporary directory");
+                    UpdateUI("Creating a temporary directory", true);
                     CreateTempDir();
 
-                    updateUI("Downloading AWB");
+                    UpdateUI("Downloading AWB", true);
                     GetAwbFromInternet();
 
-                    updateUI("Unzipping AWB to the temporary directory");
+                    UpdateUI("Unzipping AWB to the temporary directory", true);
                     UnzipAwb();
 
-                    updateUI("Making sure AWB is closed");
+                    UpdateUI("Making sure AWB is closed", true);
                     CloseAwb();
 
-                    updateUI("Copying AWB files from temp to AWB directory");
+                    UpdateUI("Copying AWB files from temp to AWB directory", true);
                     CopyFiles();
                     MessageBox.Show("AWB Update Successful", "Update Successful");
 
-                    updateUI("Starting AWB");
+                    UpdateUI("Starting AWB", true);
                     StartAwb();
 
-                    updateUI("Cleaning up from Update");
+                    UpdateUI("Cleaning up from Update", true);
                     KillTempDir();
 
                     Application.Exit();
@@ -115,14 +117,28 @@ namespace AwbUpdater
             }
         }
 
+        #region UI functions
         /// <summary>
         /// Multiple use function to update the GUI items
         /// </summary>
         /// <param name="currentStatus">What the updater is currently doing</param>
-        private void updateUI(string currentStatus)
+        /// <param name="newLine">If true, adds new line to log instead of reusing last existing one</param>
+        private void UpdateUI(string currentStatus, bool newLine)
         {
-            lblCurrentTask.Text = currentStatus;
+            if (newLine)
+            {
+                lstLog.Items.Add(currentStatus);
+            }
+            else
+            {
+                lstLog.Items[lstLog.Items.Count - 1] = currentStatus;
+            }
             Application.DoEvents();
+        }
+
+        private void AppendLine(string line)
+        {
+            lstLog.Items[lstLog.Items.Count] += line;
         }
 
         /// <summary>
@@ -134,6 +150,18 @@ namespace AwbUpdater
             StartAwb();
             Application.Exit();
         }
+
+        /// <summary>
+        /// Sets UI to "ready to exit" state
+        /// </summary>
+        private void ReadyToExit()
+        {
+            btnCancel.Text = "Close";
+            lblStatus.Text = "Press close to exit";
+            progressUpdate.Visible = false;
+            btnCancel.Enabled = true;
+        }
+        #endregion
 
         /// <summary>
         /// Checks and compares the current AWB version with the version listed on the checkpage
@@ -167,33 +195,36 @@ namespace AwbUpdater
                 Application.Exit();
             }
 
-            Match m_awbversion = Regex.Match(text, @"<!-- Current version: (.*?) -->");
-            Match m_awbnewest = Regex.Match(text, @"<!-- Newest version: (.*?) -->");
-            Match m_updversion = Regex.Match(text, @"<!-- Updater version: (.*?) -->");
+            int awbCurrentVersion = 
+                VersionToString(Regex.Match(text, @"<!-- Current version: (.*?) -->").Groups[1].Value);
+            int awbNewestVersion = 
+                VersionToString(Regex.Match(text, @"<!-- Newest version: (.*?) -->").Groups[1].Value);
+            int updaterVersion = VersionToString(Regex.Match(text, @"<!-- Updater version: (.*?) -->").Groups[1].Value);
 
-            if ((m_awbversion.Success && m_awbversion.Groups[1].Value.Length == 4) || (m_awbnewest.Success && m_awbnewest.Groups[1].Value.Length == 4))
+            if ((awbCurrentVersion > 4000) || (awbNewestVersion > 4000))
             {
                 try
                 {
                     awbUpdate = updaterUpdate = false;
-                    FileVersionInfo versionAWB = FileVersionInfo.GetVersionInfo(AWBdirectory + "AutoWikiBrowser.exe");
+                    FileVersionInfo awbVersionInfo = FileVersionInfo.GetVersionInfo(AWBdirectory + "AutoWikiBrowser.exe");
+                    int awbFileVersion = VersionToString(awbVersionInfo.FileVersion);
 
-                    if ((Convert.ToInt32(versionAWB.FileVersion.Replace(".", ""))) < (Convert.ToInt32(m_awbversion.Groups[1].Value)))
+                    if (awbFileVersion < awbCurrentVersion)
                         awbUpdate = true;
-                    else if ((Convert.ToInt32(versionAWB.FileVersion.Replace(".", "")) >= (Convert.ToInt32(m_awbversion.Groups[1].Value))) &&
-                        ((Convert.ToInt32(versionAWB.FileVersion.Replace(".", "")) < (Convert.ToInt32(m_awbnewest.Groups[1].Value)))) &&
+                    else if ((awbFileVersion >= awbCurrentVersion) &&
+                        (awbFileVersion < awbNewestVersion) &&
                         MessageBox.Show("There is an optional update to AutoWikiBrowser. Would you like to upgrade?", "Optional Update", MessageBoxButtons.YesNo) == DialogResult.Yes)
                         awbUpdate = true;
 
                     if (awbUpdate)
                     {
-                        AWBZipName = "AutoWikiBrowser" + m_awbnewest.Groups[1].Value.Replace(".", "") + ".zip";
+                        AWBZipName = "AutoWikiBrowser" + awbNewestVersion.ToString() + ".zip";
                         AWBWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + AWBZipName;
                     }
-                    else if (m_updversion.Success && m_updversion.Groups[1].Value.Length == 4 &&
-                        Convert.ToInt32(m_updversion.Groups[1].Value) > Convert.ToInt32(AssemblyVersion.Replace(".", "")))
+                    else if ((updaterVersion > 1400) &&
+                        (updaterVersion > AssemblyVersion))
                     {
-                        UpdaterZipName = "AWBUpdater" + m_updversion.Groups[1].Value.Replace(".", "") + ".zip";
+                        UpdaterZipName = "AWBUpdater" + updaterVersion.ToString() + ".zip";
                         UpdaterWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + UpdaterZipName;
                         updaterUpdate = true;
                     }
@@ -210,8 +241,13 @@ namespace AwbUpdater
         /// </summary>
         private void CreateTempDir()
         {
-            if (!Directory.Exists(tempDirectory))
-                Directory.CreateDirectory(tempDirectory);
+            if (Directory.Exists(tempDirectory))
+            {
+                // clear its content just to be sure that no parasitic files are left
+                Directory.Delete(tempDirectory, true); 
+            }
+            
+            Directory.CreateDirectory(tempDirectory);
 
             progressUpdate.Value = 35;
         }
@@ -405,6 +441,15 @@ namespace AwbUpdater
         {
             tmrTimer.Enabled = false;
             UpdateAwb();
+        }
+
+        static int VersionToString(string version)
+        {
+            int res;
+            if (!int.TryParse(version.Replace(".", ""), out res))
+                res = 0;
+
+            return res;
         }
     }
 }

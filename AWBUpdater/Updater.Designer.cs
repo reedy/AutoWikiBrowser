@@ -31,59 +31,61 @@ namespace AwbUpdater
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Updater));
             this.progressUpdate = new System.Windows.Forms.ProgressBar();
-            this.lblProgress = new System.Windows.Forms.Label();
             this.tmrTimer = new System.Windows.Forms.Timer(this.components);
-            this.lblCurrent = new System.Windows.Forms.Label();
-            this.lblCurrentTask = new System.Windows.Forms.Label();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.lstLog = new System.Windows.Forms.ListBox();
+            this.lblStatus = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // progressUpdate
             // 
-            this.progressUpdate.Location = new System.Drawing.Point(89, 12);
+            this.progressUpdate.Location = new System.Drawing.Point(12, 124);
             this.progressUpdate.Name = "progressUpdate";
-            this.progressUpdate.Size = new System.Drawing.Size(234, 23);
+            this.progressUpdate.Size = new System.Drawing.Size(311, 23);
             this.progressUpdate.TabIndex = 0;
-            // 
-            // lblProgress
-            // 
-            this.lblProgress.AutoSize = true;
-            this.lblProgress.Location = new System.Drawing.Point(32, 22);
-            this.lblProgress.Name = "lblProgress";
-            this.lblProgress.Size = new System.Drawing.Size(51, 13);
-            this.lblProgress.TabIndex = 1;
-            this.lblProgress.Text = "Progress:";
             // 
             // tmrTimer
             // 
             this.tmrTimer.Tick += new System.EventHandler(this.tmrTimer_Tick);
             // 
-            // lblCurrent
+            // btnCancel
             // 
-            this.lblCurrent.AutoSize = true;
-            this.lblCurrent.Location = new System.Drawing.Point(12, 45);
-            this.lblCurrent.Name = "lblCurrent";
-            this.lblCurrent.Size = new System.Drawing.Size(71, 13);
-            this.lblCurrent.TabIndex = 2;
-            this.lblCurrent.Text = "Current Task:";
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.Enabled = false;
+            this.btnCancel.Location = new System.Drawing.Point(345, 124);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 4;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
             // 
-            // lblCurrentTask
+            // lstLog
             // 
-            this.lblCurrentTask.AutoSize = true;
-            this.lblCurrentTask.Location = new System.Drawing.Point(89, 45);
-            this.lblCurrentTask.Name = "lblCurrentTask";
-            this.lblCurrentTask.Size = new System.Drawing.Size(31, 13);
-            this.lblCurrentTask.TabIndex = 3;
-            this.lblCurrentTask.Text = "Task";
+            this.lstLog.FormattingEnabled = true;
+            this.lstLog.Location = new System.Drawing.Point(12, 12);
+            this.lstLog.Name = "lstLog";
+            this.lstLog.Size = new System.Drawing.Size(408, 95);
+            this.lstLog.TabIndex = 5;
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.AutoSize = true;
+            this.lblStatus.Location = new System.Drawing.Point(12, 129);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(47, 13);
+            this.lblStatus.TabIndex = 6;
+            this.lblStatus.Text = "lblStatus";
             // 
             // Updater
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(335, 94);
-            this.Controls.Add(this.lblCurrentTask);
-            this.Controls.Add(this.lblCurrent);
-            this.Controls.Add(this.lblProgress);
+            this.CancelButton = this.btnCancel;
+            this.ClientSize = new System.Drawing.Size(432, 159);
+            this.Controls.Add(this.lstLog);
+            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.progressUpdate);
+            this.Controls.Add(this.lblStatus);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -98,10 +100,10 @@ namespace AwbUpdater
         #endregion
 
         private System.Windows.Forms.ProgressBar progressUpdate;
-        private System.Windows.Forms.Label lblProgress;
         private System.Windows.Forms.Timer tmrTimer;
-        private System.Windows.Forms.Label lblCurrent;
-        private System.Windows.Forms.Label lblCurrentTask;
+        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.ListBox lstLog;
+        private System.Windows.Forms.Label lblStatus;
     }
 }
 
