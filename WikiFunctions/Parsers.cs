@@ -323,7 +323,7 @@ namespace WikiFunctions.Parse
             return "{{reflist}}";
         }
 
-        static readonly Regex ReferenceListTags = new Regex(@"<(span|div)( class=""(references-small|small|references-2column)|)?"">[\r\n\s]*<references[\s]?/>[\r\n\s]*</(span|div)>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        static readonly Regex ReferenceListTags = new Regex(@"(<(span|div)( class=""(references-small|small|references-2column)|)?"">[\r\n\s]*){1,2}[\r\n\s]*<references[\s]?/>([\r\n\s]*</(span|div)>){1,2}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Replaces various old reference tag formats, with the new {{reflist}}
@@ -1512,7 +1512,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (Regex.IsMatch(ArticleText, "\\[\\[ ?Category ?:[ _]?([0-9]{1,2}[ _]century[ _]deaths|[0-9s]{4,5}[ _]deaths|Disappeared[ _]people|Living[ _]people|Year[ _]of[ _]death[ _]missing|Possibly[ _]living[ _]people)", RegexOptions.IgnoreCase))
                 return ArticleText;
 
-            if (Regex.IsMatch(ArticleText, @"\{\{(Template:)?(Recent death|Recentdeath|Recentlydeceased)\}\}", RegexOptions.IgnoreCase))
+            if (Regex.IsMatch(ArticleText, @"\{\{(Template:)?(Recent ?death|Recentlydeceased)\}\}", RegexOptions.IgnoreCase))
                 return ArticleText;
 
             Match m = Regex.Match(ArticleText, "\\[\\[ ?Category ?:[ _]?([0-9]{4})[ _]births(\\|.*?)?\\]\\]", RegexOptions.IgnoreCase);
