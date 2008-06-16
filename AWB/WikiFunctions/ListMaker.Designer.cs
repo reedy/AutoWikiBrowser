@@ -126,9 +126,9 @@ namespace WikiFunctions.Controls.Lists
             // 
             this.txtNewArticle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtNewArticle.Location = new System.Drawing.Point(52, 325);
+            this.txtNewArticle.Location = new System.Drawing.Point(56, 325);
             this.txtNewArticle.Name = "txtNewArticle";
-            this.txtNewArticle.Size = new System.Drawing.Size(148, 20);
+            this.txtNewArticle.Size = new System.Drawing.Size(147, 20);
             this.txtNewArticle.TabIndex = 12;
             this.txtNewArticle.DoubleClick += new System.EventHandler(this.txtNewArticle_DoubleClick);
             this.txtNewArticle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.txtNewArticle_MouseMove);
@@ -567,8 +567,8 @@ namespace WikiFunctions.Controls.Lists
             this.Controls.Add(this.lbArticles);
             this.Controls.Add(this.btnArticlesListClear);
             this.Controls.Add(this.btnArticlesListSave);
-            this.Controls.Add(this.txtNewArticle);
             this.Controls.Add(this.btnAdd);
+            this.Controls.Add(this.txtNewArticle);
             this.Controls.Add(this.btnFilter);
             this.Controls.Add(this.lblNumberOfArticles);
             this.Controls.Add(this.btnStop);
