@@ -67,6 +67,29 @@ namespace UnitTests
             // don't use * quantifier for \s
             Assert.AreEqual("<refname=\"foo\"></ref>", Parsers.SimplifyReferenceTags("<refname=\"foo\"></ref>"));
         }
+
+        [Test]
+        //to check: r2957
+        public void TestFixReferenceListTags()
+        {
+            Assert.AreEqual("<references/>", parser.FixReferenceListTags("<references/>"));
+            Assert.AreEqual("<div><references/></div>", parser.FixReferenceListTags("<div><references/></div>"));
+
+            Assert.AreEqual("{{reflist}}", parser.FixReferenceListTags("<div class=\"references-small\"><references/>\r\n</div>"));
+            Assert.AreEqual("{{reflist|2}}", parser.FixReferenceListTags("<div class=\"references-2column\"><references/></div>"));
+            Assert.AreEqual("{{reflist|2}}",
+                parser.FixReferenceListTags(@"<div class=""references-2column""><div class=""references-small"">
+<references/></div></div>"));
+            Assert.AreEqual("{{reflist|2}}",
+                parser.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column"">
+<references/></div></div>"));
+
+            // evil don't do's
+            Assert.That(parser.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column"">
+<references/></div>* some other ref</div>"), Is.Not.Contains("{{reflist"));
+            Assert.That(parser.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column"">
+<references/></div>"), Is.Not.Contains("{{reflist"));
+        }
     }
 
     [TestFixture]
