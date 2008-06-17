@@ -63,11 +63,8 @@ namespace AutoWikiBrowser
         private static bool Abort;
 
         private static string LastArticle = "";
-        private static string mSettingsFile = "";
-        private static string mSettingsFileDisplay = "";
-        private static string LastMove = "";
-        private static string LastDelete = "";
-        private static string LastProtect = "";
+        private static string mSettingsFile = "", mSettingsFileDisplay = "";
+        private static string LastMove = "", LastDelete = "", LastProtect = "";
 
         private static int oldselection;
         private static int retries;
@@ -176,7 +173,6 @@ namespace AutoWikiBrowser
                 listMaker1.NoOfArticlesChanged += UpdateButtons;
                 listMaker1.StatusTextChanged += UpdateListStatus;
                 listMaker1.cmboSourceSelect.SelectedIndexChanged += new EventHandler(ListMakerSourceSelectHandler);
-                //Text = "AutoWikiBrowser - Default.xml";
 
                 profiles = new WikiFunctions.Profiles.AWBProfilesForm(webBrowserEdit);
                 profiles.LoadProfile += LoadProfileSettings;
@@ -315,7 +311,7 @@ namespace AutoWikiBrowser
 
         #region Properties
 
-        private ArticleEX stredittingarticle; // = new ArticleWithLogging(""); 
+        private ArticleEX stredittingarticle;
         internal ArticleEX TheArticle
         {
             get { return stredittingarticle; }
@@ -407,7 +403,7 @@ namespace AutoWikiBrowser
             get { return bSuppressUsingAWB; }
             set { bSuppressUsingAWB = value; }
         }
-        
+
         /// <summary>
         /// Setting: Add "Using AWB" to the summary when deleting or protecting an article?
         /// </summary>
@@ -480,7 +476,7 @@ namespace AutoWikiBrowser
 
                 StopDelayedRestartTimer();
                 DisableButtons();
-                //TheArticle.EditSummary = "";
+
                 skippable = true;
                 txtEdit.Clear();
 
@@ -680,13 +676,13 @@ namespace AutoWikiBrowser
                         SkipPage("Only whitespace/casing changed");
                         return;
                     }
-                    
+
                     if (chkSkipWhitespace.Checked && TheArticle.OnlyWhiteSpaceChanged)
                     {
                         SkipPage("Only whitespace changed");
                         return;
                     }
-                    
+
                     if (chkSkipCasing.Checked && TheArticle.OnlyCasingChanged)
                     {
                         SkipPage("Only casing changed");
@@ -1316,7 +1312,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             catch (Exception ex)
             {
                 ErrorHandler.Handle(ex);
-                return;
             }
         }
 
@@ -1330,7 +1325,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             catch (Exception ex)
             {
                 ErrorHandler.Handle(ex);
-                return;
             }
         }
 
@@ -1344,7 +1338,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             catch (Exception ex)
             {
                 ErrorHandler.Handle(ex);
-                return;
             }
         }
 
@@ -1917,7 +1910,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             Tools.WriteDebugEnabled = true;
             listMaker1.Add("Project:AutoWikiBrowser/Sandbox");
-            //Variables.User.WikiStatus = true; // Stop logging in and the username code doesn't work!
             lblOnlyBots.Visible = false;
             dumpHTMLToolStripMenuItem.Visible = true;
             logOutDebugToolStripMenuItem.Visible = true;
@@ -2021,7 +2013,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 {
                     // TODO: Hide or disable some of the text box context menu stuff, which is likely WP-EN only (and do the opposite for WP-EN)
                     chkAutoTagger.Checked = false;
-                    //chkGeneralFixes.Checked = false; // helluva works everywhere.. more or less
                 }
 
                 userTalkWarningsLoaded = false; // force reload
@@ -2033,12 +2024,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 else
                     lblProject.Text = Variables.URL;
             }
-            catch (ArgumentNullException ex)
+            catch (ArgumentNullException)
             {
-                if (ex is ArgumentNullException)
-                    MessageBox.Show("The interwiki list didn't load correctly. Please check your internet connection, and then restart AWB");
-                else
-                    throw;
+                MessageBox.Show("The interwiki list didn't load correctly. Please check your internet connection, and then restart AWB");
             }
         }
 
@@ -2051,7 +2039,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             bool enabled = listMaker1.NumberOfArticles > 0;
             SetStartButton(enabled);
 
-            //listMaker1.ButtonsEnabled = enabled;
             lbltsNumberofItems.Text = "Pages: " + listMaker1.NumberOfArticles.ToString();
             bypassAllRedirectsToolStripMenuItem.Enabled = Variables.User.IsAdmin;
         }
@@ -2998,31 +2985,38 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void cmboImages_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmboImages.SelectedIndex == 0)
+            switch (cmboImages.SelectedIndex)
             {
-                lblImageWith.Text = "";
+                case 0:
+                    {
+                        lblImageWith.Text = "";
 
-                txtImageReplace.Enabled = txtImageWith.Enabled = chkSkipNoImgChange.Enabled = false;
-            }
-            else if (cmboImages.SelectedIndex == 1)
-            {
-                lblImageWith.Text = "With Image:";
+                        txtImageReplace.Enabled = txtImageWith.Enabled = chkSkipNoImgChange.Enabled = false;
+                        break;
+                    }
+                case 1:
+                    {
+                        lblImageWith.Text = "With Image:";
 
-                txtImageWith.Enabled = txtImageReplace.Enabled = chkSkipNoImgChange.Enabled = true;
-            }
-            else if (cmboImages.SelectedIndex == 2)
-            {
-                lblImageWith.Text = "";
+                        txtImageWith.Enabled = txtImageReplace.Enabled = chkSkipNoImgChange.Enabled = true;
+                        break;
+                    }
+                case 2:
+                    {
+                        lblImageWith.Text = "";
 
-                txtImageWith.Enabled = false;
-                txtImageReplace.Enabled = true;
-                chkSkipNoImgChange.Enabled = true;
-            }
-            else if (cmboImages.SelectedIndex == 3)
-            {
-                lblImageWith.Text = "Comment:";
+                        txtImageWith.Enabled = false;
+                        txtImageReplace.Enabled = true;
+                        chkSkipNoImgChange.Enabled = true;
+                        break;
+                    }
+                case 3:
+                    {
+                        lblImageWith.Text = "Comment:";
 
-                txtImageWith.Enabled = txtImageReplace.Enabled = chkSkipNoImgChange.Enabled = true;
+                        txtImageWith.Enabled = txtImageReplace.Enabled = chkSkipNoImgChange.Enabled = true;
+                        break;
+                    }
             }
         }
 
@@ -3943,7 +3937,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void ListMakerSourceSelectHandler(object sender, EventArgs e)
         {
-            toolStripSeparatorMakeFromTextBox.Visible = mnuCopyToCategoryLog.Visible = 
+            toolStripSeparatorMakeFromTextBox.Visible = mnuCopyToCategoryLog.Visible =
                 listMaker1.cmboSourceSelect.Text.Contains("Category");
         }
 
