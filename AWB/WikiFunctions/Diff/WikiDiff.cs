@@ -417,9 +417,8 @@ td.diff-addedline span.diffchange {
 
         public static WordComparer Comparer = new WordComparer();
 
-        static readonly Regex Splitter = new Regex(//@"([\p{Sm}\p{P}]+|[^\s\p{P}\p{Sm}]*)(\s*)",
-            @"([\p{Sm}\p{P}]|[^\s\p{P}\p{Sm}]*)(\s*)", 
-            RegexOptions.Compiled);
+        //static readonly Regex Splitter = new Regex(//@"([\p{Sm}\p{P}]+|[^\s\p{P}\p{Sm}]*)(\s*)",
+        //    @"([\p{Sm}\p{P}]|[^\s\p{P}\p{Sm}]*)(\s*)", RegexOptions.Compiled);
 
         /// borrowed from wikidiff2 for consistency
         private static bool IsText(char ch)
