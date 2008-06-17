@@ -68,8 +68,9 @@ namespace UnitTests
             Assert.AreEqual("<refname=\"foo\"></ref>", Parsers.SimplifyReferenceTags("<refname=\"foo\"></ref>"));
         }
 
-        [Test]
-        //to check: r2957
+        [Test, Category("Unarchived bugs")]
+        // problem commit: r2957
+        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#References-2column_not_replaced_with_2_argument_to_reflist
         public void TestFixReferenceListTags()
         {
             Assert.AreEqual("<references/>", parser.FixReferenceListTags("<references/>"));
@@ -268,9 +269,12 @@ http://example.com }}");
             Assert.AreEqual("*a", p.FixSyntax("*a<br\\>\r\n"));
             Assert.AreEqual("*a", p.FixSyntax("*a<br/>\r\n"));
             Assert.AreEqual("*a", p.FixSyntax("*a <br\\> \r\n"));
-            Assert.AreEqual("*a", p.FixSyntax("*a <br/> \r\n"));
+
+            // leading (back)slash is hack for incorrectly formatted breaks per
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#br_tags_are_not_always_removed
+            Assert.AreEqual("*a", p.FixSyntax("*a </br/> \r\n"));
             Assert.AreEqual("*a", p.FixSyntax("*a<br\\> \r\n"));
-            Assert.AreEqual("*a", p.FixSyntax("*a <br\\>\r\n"));
+            Assert.AreEqual("*a", p.FixSyntax("*a <\\br\\>\r\n"));
             Assert.AreEqual("*a", p.FixSyntax("*a     <br\\>    \r\n"));
 
             Assert.AreEqual("*:#;a\r\n*b", p.FixSyntax("*:#;a<br>\r\n*b"));
