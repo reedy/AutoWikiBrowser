@@ -65,6 +65,7 @@ namespace AwbUpdater
         private void Updater_Load(object sender, EventArgs e)
         {
             tmrTimer.Enabled = true;
+            UpdateUI("Initialising...", true);
         }
 
         /// <summary>
@@ -146,10 +147,9 @@ namespace AwbUpdater
         /// </summary>
         private void ExitEarly()
         {
-            progressUpdate.Value = 99;
-            MessageBox.Show("Nothing to update. The Updater will now close");
+            UpdateUI("Nothing to update", true);
             StartAwb();
-            Application.Exit();
+            ReadyToExit();
         }
 
         /// <summary>
@@ -247,7 +247,7 @@ namespace AwbUpdater
                     }
                 }
                 catch
-                { MessageBox.Show("Unable to find AutoWikiBrowser.exe to query its version."); }
+                { UpdateUI("   Unable to find AutoWikiBrowser.exe to query its version", true); }
 
                 progressUpdate.Value = 35;
             }
@@ -455,6 +455,11 @@ namespace AwbUpdater
                 res = 0;
 
             return res;
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
