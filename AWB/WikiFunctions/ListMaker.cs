@@ -1118,11 +1118,6 @@ namespace WikiFunctions.Controls.Lists
             }
             catch { }
         } 
-
-        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            RemoveSelectedArticle();
-        }
         #endregion
 
         private void btnRemoveDuplicates_Click(object sender, EventArgs e)
