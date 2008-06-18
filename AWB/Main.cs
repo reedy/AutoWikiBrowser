@@ -1491,7 +1491,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
             int maxSummaryLength = (200 - (Variables.SummaryTag.Length + 1));
 
-
             if (tag.Length >= maxSummaryLength)
                 tag = tag.Substring(0, maxSummaryLength);
 
@@ -2014,8 +2013,15 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 //user interface
                 if (!Variables.IsWikipediaEN)
                 {
-                    // TODO: Hide or disable some of the text box context menu stuff, which is likely WP-EN only (and do the opposite for WP-EN)
+                    insertTagToolStripMenuItem.Visible = birthdeathCatsToolStripMenuItem.Visible = metadataTemplateToolStripMenuItem.Visible =
+                         toolStripSeparator24.Visible = false;
+
                     chkAutoTagger.Checked = false;
+                }
+                else if (!insertTagToolStripMenuItem.Visible)
+                {
+                    insertTagToolStripMenuItem.Visible = birthdeathCatsToolStripMenuItem.Visible = metadataTemplateToolStripMenuItem.Visible =
+                        toolStripSeparator24.Visible = true;
                 }
 
                 userTalkWarningsLoaded = false; // force reload
