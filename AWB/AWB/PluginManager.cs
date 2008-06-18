@@ -268,7 +268,8 @@ namespace AutoWikiBrowser
                 {
                     foreach (string Plugin in Plugins)
                     {
-                        if (Plugin.EndsWith("DotNetWikiBot.dll") || Plugin.EndsWith("Diff.dll"))
+                        if (Plugin.EndsWith("DotNetWikiBot.dll") || Plugin.EndsWith("Diff.dll")
+                            || Plugin.EndsWith("WikiFunctions.dll"))
                             continue;
 
                         Assembly asm = null;
