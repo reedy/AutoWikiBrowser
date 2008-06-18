@@ -42,7 +42,9 @@ namespace AwbUpdater
 
         IWebProxy proxy;
 
-        bool updaterUpdate, awbUpdate;
+        bool updaterUpdate;
+        bool awbUpdate;
+        bool updateSucessful;
 
         public Updater()
         {
@@ -59,7 +61,7 @@ namespace AwbUpdater
         /// </summary>
         public static int AssemblyVersion
         {
-            get { return VersionToString(Assembly.GetExecutingAssembly().GetName().Version.ToString()); }
+            get { return StringToVersion(Assembly.GetExecutingAssembly().GetName().Version.ToString()); }
         }
 
         private void Updater_Load(object sender, EventArgs e)
@@ -99,18 +101,21 @@ namespace AwbUpdater
                     UpdateUI("Making sure AWB is closed", true);
                     CloseAwb();
 
-                    UpdateUI("Copying AWB files from temp to AWB directory", true);
+                    UpdateUI("Copying AWB files from temp to AWB directory...", true);
                     CopyFiles();
-                    MessageBox.Show("AWB Update Successful", "Update Successful");
+                    UpdateUI("Update successful", true);
 
-                    UpdateUI("Starting AWB", true);
-                    StartAwb();
 
-                    UpdateUI("Cleaning up from Update", true);
+                    UpdateUI("Cleaning up from update", true);
                     KillTempDir();
 
-                    Application.Exit();
+                    updateSucessful = true;
+                    ReadyToExit();
                 }
+            }
+            catch (AbortException)
+            {
+                ReadyToExit();
             }
             catch (Exception ex)
             {
@@ -134,12 +139,13 @@ namespace AwbUpdater
             {
                 lstLog.Items[lstLog.Items.Count - 1] = currentStatus;
             }
+            lstLog.SelectedIndex = lstLog.Items.Count - 1;
             Application.DoEvents();
         }
 
         private void AppendLine(string line)
         {
-            lstLog.Items[lstLog.Items.Count] += line;
+            lstLog.Items[lstLog.Items.Count - 1] += line;
         }
 
         /// <summary>
@@ -187,6 +193,7 @@ namespace AwbUpdater
         {
             string text = "";
 
+            UpdateUI("   Retrieving current version...", true);
             try
             {
                 HttpWebRequest rq = (HttpWebRequest)WebRequest.Create("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
@@ -208,15 +215,15 @@ namespace AwbUpdater
             }
             catch
             {
-                MessageBox.Show("Error fetching current version number.");
-                Application.Exit();
+                AppendLine("FAILED");
+                throw new AbortException();
             }
 
             int awbCurrentVersion = 
-                VersionToString(Regex.Match(text, @"<!-- Current version: (.*?) -->").Groups[1].Value);
+                StringToVersion(Regex.Match(text, @"<!-- Current version: (.*?) -->").Groups[1].Value);
             int awbNewestVersion = 
-                VersionToString(Regex.Match(text, @"<!-- Newest version: (.*?) -->").Groups[1].Value);
-            int updaterVersion = VersionToString(Regex.Match(text, @"<!-- Updater version: (.*?) -->").Groups[1].Value);
+                StringToVersion(Regex.Match(text, @"<!-- Newest version: (.*?) -->").Groups[1].Value);
+            int updaterVersion = StringToVersion(Regex.Match(text, @"<!-- Updater version: (.*?) -->").Groups[1].Value);
 
             if ((awbCurrentVersion > 4000) || (awbNewestVersion > 4000))
             {
@@ -224,13 +231,13 @@ namespace AwbUpdater
                 {
                     awbUpdate = updaterUpdate = false;
                     FileVersionInfo awbVersionInfo = FileVersionInfo.GetVersionInfo(AWBdirectory + "AutoWikiBrowser.exe");
-                    int awbFileVersion = VersionToString(awbVersionInfo.FileVersion);
+                    int awbFileVersion = StringToVersion(awbVersionInfo.FileVersion);
 
                     if (awbFileVersion < awbCurrentVersion)
                         awbUpdate = true;
                     else if ((awbFileVersion >= awbCurrentVersion) &&
                         (awbFileVersion < awbNewestVersion) &&
-                        MessageBox.Show("There is an optional update to AutoWikiBrowser. Would you like to upgrade?", "Optional Update", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        MessageBox.Show("There is an optional update to AutoWikiBrowser. Would you like to upgrade?", "Optional update", MessageBoxButtons.YesNo) == DialogResult.Yes)
                         awbUpdate = true;
 
                     if (awbUpdate)
@@ -377,40 +384,63 @@ namespace AwbUpdater
         private void CopyFile(string source, string destination)
         {
             string actualFile = source.Replace(tempDirectory, "");
-            try
-            {
-                File.Copy(source, destination, true);
-            }
-            catch (DirectoryNotFoundException)
-            {
-                string dirToCreate = AWBdirectory;
-                foreach (string dir in actualFile.Substring(0, actualFile.LastIndexOf("\\")).Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries))
-                {
-                    dirToCreate += "\\" + dir;
+            CreatePath(destination);
+            UpdateUI("     " + destination, true);
 
-                    if (!Directory.Exists(dirToCreate))
-                        Directory.CreateDirectory(dirToCreate);
+            // loop until the file is successfully copied, or user is tired of retrying
+            while (true)
+            {
+                try
+                {
+                    File.Copy(source, destination, true);
+                }
+                catch (Exception ex)
+                {
+                    if (MessageBox.Show(
+                        this,
+                        "Problem replacing file:\r\n   " + ex.Message + "\r\n\r\n" +
+                            "Please close all applications that may use it and press 'Retry' to try again " +
+                            "or 'Cancel' to cancel the upgrade.",
+                        "Error",
+                        MessageBoxButtons.RetryCancel,
+                        MessageBoxIcon.Error) == DialogResult.Retry)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        AppendLine("... FAILED");
+                        UpdateUI("Update aborted. AutoWikiBrowser may be unfunctional", true);
+                        KillTempDir();
+                        ReadyToExit();
+                        throw new AbortException();
+                    }
                 }
 
-                CopyFile(source, destination);
+                break;
             }
-            //TODO:Is this needed...?
-            //catch (IOException ex)
-            //{
-            //    if (MessageBox.Show(
-            //        this,
-            //        "Problem replacing file:\r\n   " + ex.Message + "\r\n\r\n" +
-            //            "Please close all applications that may use it and press 'Retry' to try again " +
-            //            "or 'Cancel' to cancel the upgrade.",
-            //        "Error",
-            //        MessageBoxButtons.RetryCancel,
-            //        MessageBoxIcon.Error) != DialogResult.Retry)
-            //    {
-            //        MessageBox.Show(this, "Update aborted. AutoWikiBrowser may be unfunctional.", "AWB Updater");
-            //        KillTempDir();
-            //        Close();
-            //    }
-            //}
+        }
+
+        /// <summary>
+        /// Creates all subdirectories in the path, if needed
+        /// </summary>
+        /// <param name="path">Path to process, assumed to start from </param>
+        void CreatePath(string path)
+        {
+            path = Path.GetDirectoryName(path); // strip filename
+            if (!Directory.Exists(path))
+            {
+                UpdateUI("   Creating directory " + path + "...", true);
+                try
+                {
+                    Directory.CreateDirectory(path);
+                }
+                catch (Exception ex)
+                {
+                    AppendLine(" FAILED");
+                    UpdateUI("     (" + ex.Message + ")", true);
+                }
+            }
         }
 
         /// <summary>
@@ -427,8 +457,11 @@ namespace AwbUpdater
                     break;
             }
 
-            if (!awbOpen && System.IO.File.Exists(AWBdirectory + "AutoWikiBrowser.exe") && MessageBox.Show("Would you like to Start AWB?", "Start AWB?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (!awbOpen && System.IO.File.Exists(AWBdirectory + "AutoWikiBrowser.exe")
+                && MessageBox.Show("Would you like to start AWB?", "Start AWB?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
                 System.Diagnostics.Process.Start(AWBdirectory + "AutoWikiBrowser.exe");
+            }
 
             progressUpdate.Value = 99;
         }
@@ -448,7 +481,7 @@ namespace AwbUpdater
             UpdateAwb();
         }
 
-        static int VersionToString(string version)
+        static int StringToVersion(string version)
         {
             int res;
             if (!int.TryParse(version.Replace(".", ""), out res))
@@ -459,7 +492,20 @@ namespace AwbUpdater
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            if (updateSucessful) StartAwb();
+            
             Close();
+        }
+    }
+
+    /// <summary>
+    /// This exception stops processing and prepared the updater for exit
+    /// </summary>
+    internal class AbortException : Exception
+    {
+        public AbortException()
+            : base()
+        {
         }
     }
 }
