@@ -1489,8 +1489,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 || (!Variables.IsWikimediaProject && SuppressUsingAWB))
                 return tag;
 
-            if (tag.Length >= 255)
-                tag = tag.Substring(0, (255 - (Variables.SummaryTag.Length + 1)));
+            int maxSummaryLength = (200 - (Variables.SummaryTag.Length + 1));
+
+
+            if (tag.Length >= maxSummaryLength)
+                tag = tag.Substring(0, maxSummaryLength);
 
             tag += " " + Variables.SummaryTag;
 
