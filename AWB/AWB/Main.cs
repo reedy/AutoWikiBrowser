@@ -2013,15 +2013,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 //user interface
                 if (!Variables.IsWikipediaEN)
                 {
-                    insertTagToolStripMenuItem.Visible = birthdeathCatsToolStripMenuItem.Visible = metadataTemplateToolStripMenuItem.Visible =
-                         toolStripSeparator24.Visible = false;
-
+                    humanNameDisambigTagToolStripMenuItem.Visible = birthdeathCatsToolStripMenuItem.Visible = false;
                     chkAutoTagger.Checked = false;
                 }
-                else if (!insertTagToolStripMenuItem.Visible)
+                else if (!humanNameDisambigTagToolStripMenuItem.Visible)
                 {
-                    insertTagToolStripMenuItem.Visible = birthdeathCatsToolStripMenuItem.Visible = metadataTemplateToolStripMenuItem.Visible =
-                        toolStripSeparator24.Visible = true;
+                    humanNameDisambigTagToolStripMenuItem.Visible = birthdeathCatsToolStripMenuItem.Visible = true;
                 }
 
                 userTalkWarningsLoaded = false; // force reload
@@ -2581,6 +2578,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             txtEdit.SelectedText = toolStripTextBox1.Text;
         }
+
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
             try
