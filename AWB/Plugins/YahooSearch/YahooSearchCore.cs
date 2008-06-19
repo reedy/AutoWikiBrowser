@@ -130,7 +130,7 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
 
         public void Selected() { }
 
-        public bool RunOnSeperateThread
+        public bool RunOnSeparateThread
         { get { return true; } }
         #endregion
     }

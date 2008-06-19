@@ -309,7 +309,7 @@ namespace WikiFunctions.Plugin
     /// </summary>
     /// <remarks>Ideally we would pass an IAutoWikiBrowser at init() time, but that might not be thread-safe
     /// and also the Listmaker control is not AWB specific.</remarks>
-    public interface IListMakerPlugin : WikiFunctions.Lists.IListMakerProvider
+    public interface IListMakerPlugin : WikiFunctions.Lists.IListProvider
     {
         /// <summary>
         /// The name of the plugin

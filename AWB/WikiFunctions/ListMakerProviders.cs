@@ -31,11 +31,43 @@ using System.Threading;
 
 namespace WikiFunctions.Lists
 {
+    /// <summary>
+    /// To-be base for all API-based providers
+    /// </summary>
+    public abstract class ApiListMakerProvider : IListProvider
+    {
+        /// <summary>
+        /// Gets the list of XML elements that represent pages,
+        /// e.g. <p>, <cm>, <bl> etc
+        /// </summary>
+        protected abstract string[] PageElements { get; }
+
+        #region To be overridden
+
+        public List<Article> MakeList(string[] searchCriteria)
+        {
+            throw new NotImplementedException();
+        }
+
+        public abstract string DisplayText { get; }
+
+        public abstract string UserInputTextBoxText { get; }
+
+        public abstract bool UserInputTextBoxEnabled { get; }
+
+        public abstract void Selected();
+
+        public abstract bool RunOnSeparateThread { get; }
+        
+        #endregion
+    }
+
+
     #region ListMakerProviders
     /// <summary>
     /// Gets a list of pages in Named Categories for the ListMaker (Non-Recursive)
     /// </summary>
-    public class CategoryListMakerProvider : IListMakerProvider
+    public class CategoryListMakerProvider : IListProvider
     {
         protected bool quietMode;
         protected bool subCategories;
@@ -141,7 +173,7 @@ namespace WikiFunctions.Lists
 
         public void Selected() { }
 
-        public bool RunOnSeperateThread
+        public bool RunOnSeparateThread
         { get { return true; } }
     }
 
@@ -282,7 +314,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages from a text file
     /// </summary>
-    public class TextFileListMakerProvider : IListMakerProvider
+    public class TextFileListMakerProvider : IListProvider
     {
         private readonly static Regex RegexFromFile = new Regex("(^[a-z]{2,3}:)|(simple:)", RegexOptions.Compiled);
         private readonly static Regex LoadWikiLink = new Regex(@"\[\[:?(.*?)(?:\]\]|\|)", RegexOptions.Compiled);
@@ -364,14 +396,14 @@ namespace WikiFunctions.Lists
 
         public void Selected() { }
 
-        public bool RunOnSeperateThread
+        public bool RunOnSeparateThread
         { get { return false; } }
     }
 
     /// <summary>
     /// Gets a list of pages which link to the Named Pages
     /// </summary>
-    public class WhatLinksHereListMakerProvider : IListMakerProvider
+    public class WhatLinksHereListMakerProvider : IListProvider
     {
         protected bool embedded;
         protected bool includeRedirects;
@@ -461,7 +493,7 @@ namespace WikiFunctions.Lists
 
         public void Selected() { }
 
-        public bool RunOnSeperateThread
+        public bool RunOnSeparateThread
         { get { return true; } }
     }
 
@@ -505,7 +537,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of all links on the Named Pages
     /// </summary>
-    public class LinksOnPageListMakerProvider : IListMakerProvider
+    public class LinksOnPageListMakerProvider : IListProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
         { 
@@ -573,14 +605,14 @@ namespace WikiFunctions.Lists
 
         public void Selected() { }
 
-        public bool RunOnSeperateThread
+        public bool RunOnSeparateThread
         { get { return true; } }
     }
 
     /// <summary>
     /// Gets a list of all Images on the Named Pages
     /// </summary>
-    public class ImagesOnPageListMakerProvider : IListMakerProvider
+    public class ImagesOnPageListMakerProvider : IListProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
         { 
@@ -636,14 +668,14 @@ namespace WikiFunctions.Lists
 
         public void Selected() { }
 
-        public bool RunOnSeperateThread
+        public bool RunOnSeparateThread
         { get { return true; } }
     }
 
     /// <summary>
     /// Gets a list of all the transclusions on the Named Pages
     /// </summary>
-    public class TransclusionsOnPageListMakerProvider : IListMakerProvider
+    public class TransclusionsOnPageListMakerProvider : IListProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
         { 
@@ -699,14 +731,14 @@ namespace WikiFunctions.Lists
 
         public void Selected() { }
 
-        public bool RunOnSeperateThread
+        public bool RunOnSeparateThread
         { get { return true; } }
     }
 
     /// <summary>
     /// Gets a list of google results based on the named pages
     /// </summary>
-    public class GoogleSearchListMakerProvider : IListMakerProvider
+    public class GoogleSearchListMakerProvider : IListProvider
     {
         private static Regex regexGoogle = new Regex("href\\s*=\\s*(?:\"(?<1>[^\"]*)\"|(?<1>\\S+) class=l)",
     RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -760,14 +792,14 @@ namespace WikiFunctions.Lists
 
         public void Selected() { }
 
-        public bool RunOnSeperateThread
+        public bool RunOnSeparateThread
         { get { return true; } }
     }
 
     /// <summary>
     /// Gets the user contribs of the Named Users
     /// </summary>
-    public class UserContribsListMakerProvider : IListMakerProvider
+    public class UserContribsListMakerProvider : IListProvider
     {
         protected bool all;
 
@@ -838,7 +870,7 @@ namespace WikiFunctions.Lists
 
         public void Selected() { }
 
-        public bool RunOnSeperateThread
+        public bool RunOnSeparateThread
         { get { return true; } }
     }
 
@@ -864,7 +896,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets the list of pages on the Named Special Pages
     /// </summary>
-    public class SpecialPageListMakerProvider : IListMakerProvider
+    public class SpecialPageListMakerProvider : IListProvider
     {
         readonly static Regex regexli = new Regex("<li>.*</li>", RegexOptions.Compiled);
         readonly static Regex regexe = new Regex("<li>\\(?<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a> \\(redirect page\\)", RegexOptions.Compiled);
@@ -958,14 +990,14 @@ namespace WikiFunctions.Lists
 
         public void Selected() { }
 
-        public bool RunOnSeperateThread
+        public bool RunOnSeparateThread
         { get { return true; } }
     }
 
     /// <summary>
     /// Gets a list of pages which link to the Named Images
     /// </summary>
-    public class ImageFileLinksListMakerProvider : IListMakerProvider
+    public class ImageFileLinksListMakerProvider : IListProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
         {
@@ -1034,14 +1066,14 @@ namespace WikiFunctions.Lists
 
         public void Selected() { }
 
-        public bool RunOnSeperateThread
+        public bool RunOnSeparateThread
         { get { return true; } }
     }
 
     /// <summary>
     /// Gets a list of pages which are returned from a wiki search of the Named Pages
     /// </summary>
-    public class WikiSearchListMakerProvider : IListMakerProvider
+    public class WikiSearchListMakerProvider : IListProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
         {
@@ -1122,14 +1154,14 @@ namespace WikiFunctions.Lists
 
         public void Selected() { }
 
-        public bool RunOnSeperateThread
+        public bool RunOnSeparateThread
         { get { return true; } }
     }
 
     /// <summary>
     /// Gets a list of pages which redirect to the Named Pages
     /// </summary>
-    public class RedirectsListMakerProvider : IListMakerProvider
+    public class RedirectsListMakerProvider : IListProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
         {
@@ -1208,14 +1240,14 @@ namespace WikiFunctions.Lists
 
         public void Selected() { }
 
-        public bool RunOnSeperateThread
+        public bool RunOnSeparateThread
         { get { return true; } }
     }
 
     /// <summary>
     /// Gets all the pages from the Current Users Watchlist
     /// </summary>
-    public class MyWatchlistListMakerProvider : IListMakerProvider
+    public class MyWatchlistListMakerProvider : IListProvider
     {
         public List<Article> MakeList(string[] searchCriteria)
         {
@@ -1251,14 +1283,14 @@ namespace WikiFunctions.Lists
 
         public void Selected() { }
 
-        public bool RunOnSeperateThread
+        public bool RunOnSeparateThread
         { get { return true; } }
     }
 
     /// <summary>
     /// Runs the Database Scanner
     /// </summary>
-    public class DatabaseScannerListMakerProvider : IListMakerProvider
+    public class DatabaseScannerListMakerProvider : IListProvider
     {
         private ListBox listMakerListbox;
 
@@ -1291,7 +1323,7 @@ namespace WikiFunctions.Lists
 
         public void Selected() { }
 
-        public bool RunOnSeperateThread
+        public bool RunOnSeparateThread
         { get { return false; } }
 
         #endregion

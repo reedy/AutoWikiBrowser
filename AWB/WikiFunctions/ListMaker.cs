@@ -38,9 +38,9 @@ namespace WikiFunctions.Controls.Lists
 
     public partial class ListMaker : UserControl, IEnumerable<Article>, ICollection<Article>, IList<Article>
     {
-        private static BindingList<IListMakerProvider> listItems = new BindingList<IListMakerProvider>();
+        private static BindingList<IListProvider> listItems = new BindingList<IListProvider>();
 
-        private static IListMakerProvider redirectLMProvider = new RedirectsListMakerProvider(); //used to keep easy track of the redirect provider so it can be added/removed
+        private static IListProvider redirectLMProvider = new RedirectsListMakerProvider(); //used to keep easy track of the redirect provider so it can be added/removed
 
         public event ListMakerEventHandler StatusTextChanged;
         public event ListMakerEventHandler BusyStateChanged;
@@ -277,7 +277,7 @@ namespace WikiFunctions.Controls.Lists
         {
             if (DesignMode) return; // avoid calling Variables constructor
 
-            IListMakerProvider searchItem = (IListMakerProvider)cmboSourceSelect.SelectedItem;
+            IListProvider searchItem = (IListProvider)cmboSourceSelect.SelectedItem;
 
             lblSourceSelect.Text = searchItem.UserInputTextBoxText;
             UserInputTextBox.Enabled = searchItem.UserInputTextBoxEnabled;
@@ -616,7 +616,7 @@ namespace WikiFunctions.Controls.Lists
 
         public void MakeList()
         {
-            MakeList((IListMakerProvider)cmboSourceSelect.SelectedItem, UserInputTextBox.Text.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
+            MakeList((IListProvider)cmboSourceSelect.SelectedItem, UserInputTextBox.Text.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
         }
 
         /// <summary>
@@ -624,13 +624,13 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         /// <param name="ST">The type of list to create</param>
         /// <param name="SourceValues">An array of string values to create the list with, e.g. an array of categories. Use null if not appropriate</param>
-        public void MakeList(IListMakerProvider provider, string[] sourceValues)
+        public void MakeList(IListProvider provider, string[] sourceValues)
         {
             btnStop.Visible = true;
 
             providerToRun = provider;
 
-            if (providerToRun.RunOnSeperateThread)
+            if (providerToRun.RunOnSeparateThread)
             {
                 strSource = sourceValues;
                 ThreadStart thr_Process = new ThreadStart(MakeListPlugin);
@@ -654,7 +654,7 @@ namespace WikiFunctions.Controls.Lists
 		}
 
         string[] strSource;
-        WikiFunctions.Lists.IListMakerProvider providerToRun;
+        WikiFunctions.Lists.IListProvider providerToRun;
 
         private void MakeListPlugin()
         {
@@ -1192,7 +1192,7 @@ namespace WikiFunctions.Controls.Lists
         /// Add a IListMakerProvider or a IListMakerPlugin to all ListMakers
         /// </summary>
         /// <param name="provider">IListMakerProvider/IListMakerPlugin to add</param>
-        public static void AddProvider(IListMakerProvider provider)
+        public static void AddProvider(IListProvider provider)
         {
             listItems.Add(provider);
         }
@@ -1230,7 +1230,7 @@ namespace WikiFunctions.Controls.Lists
         {
             List<WikiFunctions.Plugin.IListMakerPlugin> plugins = new List<WikiFunctions.Plugin.IListMakerPlugin>();
 
-            foreach (IListMakerProvider p in listItems)
+            foreach (IListProvider p in listItems)
             {
                 WikiFunctions.Plugin.IListMakerPlugin plugin = (p as WikiFunctions.Plugin.IListMakerPlugin);
 

@@ -35,7 +35,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// An interface implemented by objects which attach to the WikiFunctions' ListMaker combo box and return lists of articles
     /// </summary>
-    public interface IListMakerProvider
+    public interface IListProvider
     {
         /// <summary>
         /// Process the user input (if any) and return a list of articles
@@ -57,7 +57,7 @@ namespace WikiFunctions.Lists
         /// <summary>
         /// Indicates whether the Select Source text box should be enabled
         /// </summary>
-        bool UserInputTextBoxEnabled { get;}
+        bool UserInputTextBoxEnabled { get; }
 
         /// <summary>
         /// Called when the ListMaker Provider has been selected in the ComboBox
@@ -67,6 +67,6 @@ namespace WikiFunctions.Lists
         /// <summary>
         /// True if the object expects to be started on a seperate thread
         /// </summary>
-        bool RunOnSeperateThread { get;}
+        bool RunOnSeparateThread { get; }
     }
 }
