@@ -35,7 +35,7 @@ namespace WikiFunctions.Lists
 {
     public partial class ListFilterForm : Form
     {
-        private ListBox2 lb = null;
+        private ListBox2 destListBox;
 
         public ListFilterForm(ListBox2 lb)
         {
@@ -43,6 +43,8 @@ namespace WikiFunctions.Lists
 
             if (lb == null)
                 throw new ArgumentNullException("lb");
+
+            destListBox = lb;
 
             if (prefs != null)
                 Settings = ListFilterForm.prefs;
@@ -60,13 +62,13 @@ namespace WikiFunctions.Lists
 
                 if (chkSortAZ.Checked)
                 {
-                    lb.Sorted = true;
-                    lb.Sorted = false;
+                    destListBox.Sorted = true;
+                    destListBox.Sorted = false;
                 }
 
                 list.Clear();
 
-                foreach (Article a in lb)
+                foreach (Article a in destListBox)
                     list.Add(a);
 
                 bool does = (chkContains.Checked && !string.IsNullOrEmpty(txtContains.Text));
@@ -78,18 +80,18 @@ namespace WikiFunctions.Lists
                 if (does || doesnot)
                     FilterMatches(does, doesnot);
 
-                if (lb.Items.Count > 0 && lb.Items[0] is Article)
+                if (destListBox.Items.Count > 0 && destListBox.Items[0] is Article)
                     FilterNamespace();
 
-                lb.Items.Clear();
+                destListBox.Items.Clear();
 
                 foreach (Article a in list)
-                    lb.Items.Add(a);
+                    destListBox.Items.Add(a);
 
                 //Only try to update number of articles using listmaker method IF the parent is indeed a listmaker
                 //Causes exception on DBScanner otherwise
-                if (lb.Parent is ListMaker)
-                    (lb.Parent as ListMaker).UpdateNumberOfArticles();
+                if (destListBox.Parent is ListMaker)
+                    (destListBox.Parent as ListMaker).UpdateNumberOfArticles();
             }
             catch (Exception ex)
             {
@@ -102,15 +104,15 @@ namespace WikiFunctions.Lists
         {
             list.Clear();
 
-            foreach (Article a in lb)
+            foreach (Article a in destListBox)
             {
                 if (!list.Contains(a))
                     list.Add(a);
             }
-            lb.Items.Clear();
+            destListBox.Items.Clear();
 
             foreach (Article a in list)
-                lb.Items.Add(a);
+                destListBox.Items.Add(a);
         }
 
         private void FilterNamespace()
