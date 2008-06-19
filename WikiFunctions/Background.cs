@@ -286,7 +286,7 @@ namespace WikiFunctions.Background
         /// </summary>
         /// <param name="What">Which source to use</param>
         /// <param name="Params">Optional parameters, depend on source</param>
-        public void GetList(WikiFunctions.Lists.IListMakerProvider what, params string[] params1)
+        public void GetList(WikiFunctions.Lists.IListProvider what, params string[] params1)
         {
             objParam1 = what;
             objParam2 = params1;
@@ -307,7 +307,7 @@ namespace WikiFunctions.Background
 
             try
             {
-                Result = ((WikiFunctions.Lists.IListMakerProvider)objParam1).MakeList((string[])objParam2);
+                Result = ((WikiFunctions.Lists.IListProvider)objParam1).MakeList((string[])objParam2);
                 InvokeOnComplete();
             }
             catch (Exception e)
