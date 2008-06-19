@@ -99,13 +99,12 @@ namespace WikiFunctions.DBScanner
 
                 intMatches = 0;
 
-                timerProgessUpdate.Enabled = true;
-
                 UpdateControls(true);
 
                 txtStartFrom.Text = Tools.TurnFirstToUpper(txtStartFrom.Text);
                 Start();
 
+                timerProgessUpdate.Enabled = true;
             }
             catch (Exception ex)
             {
