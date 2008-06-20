@@ -124,7 +124,7 @@ namespace AutoWikiBrowser
                         builder.AppendLine(String.Format("Error: {0}\r\nLine: {1}\r\nNumber: {2}\r\n", err.ErrorText, err.Line, err.ErrorNumber));
                     }
 
-                    MessageBox.Show(this, builder.ToString(), "There were compilation errors");
+                    MessageBox.Show(this, builder.ToString(), "Compilation errors");
 
                     Module = null;
                     return;
