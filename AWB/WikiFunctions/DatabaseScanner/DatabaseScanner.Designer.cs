@@ -88,7 +88,6 @@ namespace WikiFunctions.DBScanner
             this.lblLimitResutls = new System.Windows.Forms.Label();
             this.nudLimitResults = new System.Windows.Forms.NumericUpDown();
             this.btnStart = new System.Windows.Forms.Button();
-            this.lbArticles = new WikiFunctions.Controls.Lists.ListBox2();
             this.btnFilter = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.lblListType = new System.Windows.Forms.Label();
@@ -148,6 +147,8 @@ namespace WikiFunctions.DBScanner
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkDefaultSort = new System.Windows.Forms.CheckBox();
+            this.lbArticles = new WikiFunctions.Controls.Lists.ListBox2();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLinks)).BeginInit();
@@ -800,17 +801,6 @@ namespace WikiFunctions.DBScanner
             this.btnStart.Text = "Start";
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
-            // lbArticles
-            // 
-            this.lbArticles.ContextMenuStrip = this.ArticlesListBoxContextMenu;
-            this.lbArticles.FormattingEnabled = true;
-            this.lbArticles.Location = new System.Drawing.Point(6, 69);
-            this.lbArticles.MultiColumn = true;
-            this.lbArticles.Name = "lbArticles";
-            this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbArticles.Size = new System.Drawing.Size(291, 238);
-            this.lbArticles.TabIndex = 5;
-            // 
             // btnFilter
             // 
             this.btnFilter.Location = new System.Drawing.Point(6, 308);
@@ -963,6 +953,7 @@ namespace WikiFunctions.DBScanner
             // 
             // AWBSpecificGroup
             // 
+            this.AWBSpecificGroup.Controls.Add(this.chkDefaultSort);
             this.AWBSpecificGroup.Controls.Add(this.chkTypo);
             this.AWBSpecificGroup.Controls.Add(this.chkUnbulletedLinks);
             this.AWBSpecificGroup.Controls.Add(this.chkHeaderError);
@@ -972,7 +963,7 @@ namespace WikiFunctions.DBScanner
             this.AWBSpecificGroup.Controls.Add(this.chkNoBold);
             this.AWBSpecificGroup.Location = new System.Drawing.Point(6, 6);
             this.AWBSpecificGroup.Name = "AWBSpecificGroup";
-            this.AWBSpecificGroup.Size = new System.Drawing.Size(286, 122);
+            this.AWBSpecificGroup.Size = new System.Drawing.Size(293, 122);
             this.AWBSpecificGroup.TabIndex = 3;
             this.AWBSpecificGroup.TabStop = false;
             this.AWBSpecificGroup.Text = "A&WB specific";
@@ -1193,10 +1184,8 @@ namespace WikiFunctions.DBScanner
             this.lnkBase.AutoSize = true;
             this.lnkBase.Location = new System.Drawing.Point(83, 20);
             this.lnkBase.Name = "lnkBase";
-            this.lnkBase.Size = new System.Drawing.Size(55, 13);
+            this.lnkBase.Size = new System.Drawing.Size(0, 13);
             this.lnkBase.TabIndex = 3;
-            this.lnkBase.TabStop = true;
-            this.lnkBase.Text = "linkLabel1";
             this.lnkBase.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkBase_LinkClicked);
             // 
             // txtGenerator
@@ -1421,15 +1410,36 @@ namespace WikiFunctions.DBScanner
             this.toolStripMenuItem6.Size = new System.Drawing.Size(138, 22);
             this.toolStripMenuItem6.Text = "&Low";
             // 
+            // chkDefaultSort
+            // 
+            this.chkDefaultSort.AutoSize = true;
+            this.chkDefaultSort.Location = new System.Drawing.Point(166, 88);
+            this.chkDefaultSort.Name = "chkDefaultSort";
+            this.chkDefaultSort.Size = new System.Drawing.Size(129, 17);
+            this.chkDefaultSort.TabIndex = 8;
+            this.chkDefaultSort.Text = "Missing {{defaultsort}}";
+            this.chkDefaultSort.UseVisualStyleBackColor = true;
+            // 
+            // lbArticles
+            // 
+            this.lbArticles.ContextMenuStrip = this.ArticlesListBoxContextMenu;
+            this.lbArticles.FormattingEnabled = true;
+            this.lbArticles.Location = new System.Drawing.Point(6, 69);
+            this.lbArticles.MultiColumn = true;
+            this.lbArticles.Name = "lbArticles";
+            this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lbArticles.Size = new System.Drawing.Size(291, 238);
+            this.lbArticles.TabIndex = 5;
+            // 
             // DatabaseScanner
             // 
             this.AcceptButton = this.btnStart;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(614, 588);
-            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.groupBox4);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.groupBox3);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1594,6 +1604,7 @@ namespace WikiFunctions.DBScanner
         private DateTimePicker endDate;
         private Label lblEndDate;
         private Label lblDate;
+        private CheckBox chkDefaultSort;
     }
 }
 
