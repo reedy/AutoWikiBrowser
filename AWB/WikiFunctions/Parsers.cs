@@ -312,6 +312,9 @@ namespace WikiFunctions.Parse
 
         string ReflistMatchEvaluator(Match m)
         {
+            // don't change anything if div tags mismatch
+            if (DivStart.Matches(m.Value).Count != DivEnd.Matches(m.Value).Count) return m.Value;
+
             if (m.Value.Contains("references-2column")) return "{{reflist|2}}";
 
             string s = Regex.Match(m.Value, @"[^-]column-count:[\s]*?(\d*)").Groups[1].Value;
@@ -323,7 +326,15 @@ namespace WikiFunctions.Parse
             return "{{reflist}}";
         }
 
-        static readonly Regex ReferenceListTags = new Regex(@"<(span|div)( class=""(references-small|small|references-2column)|)?"">[\r\n\s]*<references[\s]?/>[\r\n\s]*</(span|div)>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        /// <summary>
+        /// Main regex for {{reflist}} converter
+        /// </summary>
+        static readonly Regex ReferenceListTags = new Regex(@"(<(span|div)( class=""(references-small|small|references-2column)|)?"">[\r\n\s]*){1,2}[\r\n\s]*<references[\s]?/>([\r\n\s]*</(span|div)>){1,2}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        static readonly Regex DivStart = new Regex(@"<div\b.*?>", RegexOptions.Compiled);
+        static readonly Regex DivEnd = new Regex(@"< ?/ ?div\b.*?>", RegexOptions.Compiled);
+
+
         /// <summary>
         /// Replaces various old reference tag formats, with the new {{reflist}}
         /// </summary>
@@ -1838,35 +1849,5 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             else return Regex.IsMatch(ArticleText, Variables.inUseRegexString);
         }
         #endregion
-
-        //#region unused
-
-        ////[http://en.wikipedia.org/wiki/Dog] to [[Dog]]
-        ////private string ExtToInternalLinks(string ArticleText)
-        ////{
-        ////    foreach (Match m in Regex.Matches(ArticleText, "\\[http://en\\.wikipedia\\.org/wiki/.*?\\]"))
-        ////    {
-        ////        string a = HttpUtility.UrlDecode(m.ToString());
-
-        ////        if (a.Contains(" "))
-        ////        {
-        ////            int intP;
-        ////            //string a = n;
-        ////            intP = a.IndexOf(" ");
-
-        ////            string b = a.Substring(intP);
-        ////            a = a.Remove(intP);
-        ////            b = b.TrimStart();
-        ////            a = a.Replace("_", " ");
-
-        ////            ArticleText = ArticleText.Replace(m.ToString(), a);
-        ////        }
-        ////    }
-
-        ////    ArticleText = Regex.Replace(ArticleText, "\\[http://en\\.wikipedia\\.org/wiki/(.*?)\\]", "[[$1]]");
-        ////    return ArticleText;
-        ////}
-
-        //#endregion
     }
 }

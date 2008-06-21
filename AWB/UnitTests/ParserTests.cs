@@ -82,8 +82,8 @@ namespace UnitTests
                 parser.FixReferenceListTags(@"<div class=""references-2column""><div class=""references-small"">
 <references/></div></div>"));
             Assert.AreEqual("{{reflist|2}}",
-                parser.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column"">
-<references/></div></div>"));
+                parser.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column""> <references/>
+</div></div>"));
 
             // evil don't do's
             Assert.That(parser.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column"">
