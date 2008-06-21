@@ -90,7 +90,7 @@ namespace WikiFunctions.DBScanner
 
                 if (fileName.Length == 0)
                 {
-                    MessageBox.Show("Please open an \"Pages\" XML data-dump file from the file menu\r\n\r\nSee the About menu for where to download this file.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Please open an \"Pages\" XML data-dump file\r\n\r\nSee the About menu for where to download this file.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -168,19 +168,19 @@ namespace WikiFunctions.DBScanner
             namespaces.Add(8);
             namespaces.Add(100);
 
-            if (ignoreCategoryNamespaceToolStripMenuItem.Checked)
+            if (!chkCategoryNamespace.Checked)
                 namespaces.Add(14);
 
-            if (ignoreImagesToolStripMenuItem.Checked)
+            if (!chkImageNamespace.Checked)
                 namespaces.Add(6);
 
-            if (ignoreTemplateNamespaceToolStripMenuItem.Checked)
+            if (!chkTemplateNamespace.Checked)
                 namespaces.Add(10);
 
-            if (ignoreWikipediaNamespaceToolStripMenuItem.Checked)
+            if (!chkProjectNamespace.Checked)
                 namespaces.Add(4);
 
-            if (ignoreMainNamespaceToolStripMenuItem.Checked)
+            if (!chkMainNamespace.Checked)
                 namespaces.Add(0);
         }
 
@@ -195,7 +195,7 @@ namespace WikiFunctions.DBScanner
 
             s.Add(new CheckNamespace(namespaces));
 
-            if (ignoreRedirectsToolStripMenuItem1.Checked)
+            if (chkIgnoreRedirects.Checked)
                 s.Add(new IsNotRedirect());
 
             if (chkArticleDoesContain.Checked)
@@ -251,8 +251,8 @@ namespace WikiFunctions.DBScanner
             else if (rdoTypo.Checked)
                 s.Add(new Typo());
 
-            Main = new MainProcess(s, fileName, Priority, ignoreCommentsToolStripMenuItem.Checked, txtStartFrom.Text);
-            progressBar1.Maximum = (int)(Main.stream.Length / 1024);
+            Main = new MainProcess(s, fileName, Priority, chkIgnoreComments.Checked, txtStartFrom.Text);
+            progressBar.Maximum = (int)(Main.stream.Length / 1024);
             Main.FoundArticle += MessageReceived;
             Main.StoppedEvent += Stopped;
             Main.Start();
@@ -283,7 +283,7 @@ namespace WikiFunctions.DBScanner
                     Main.StoppedEvent -= Stopped;
                 }
 
-                progressBar1.Value = 0;
+                progressBar.Value = 0;
 
                 timerProgessUpdate.Enabled = false;
 
@@ -411,15 +411,6 @@ namespace WikiFunctions.DBScanner
             }
         }
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (openXMLDialog.ShowDialog() == DialogResult.OK)
-                    fileName = openXMLDialog.FileName;
-            }
-            catch (Exception ex) { ErrorHandler.Handle(ex); }
-        }
 
         private void Save()
         {
@@ -427,9 +418,9 @@ namespace WikiFunctions.DBScanner
             {
                 string strList = txtList.Text;
 
-                if (saveFileDialog2.ShowDialog() == DialogResult.OK)
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    using (StreamWriter sw = new StreamWriter(saveFileDialog2.FileName, false, Encoding.UTF8))
+                    using (StreamWriter sw = new StreamWriter(saveFileDialog.FileName, false, Encoding.UTF8))
                     {
                         sw.Write(strList);
                         sw.Close();
@@ -439,25 +430,11 @@ namespace WikiFunctions.DBScanner
             catch (Exception ex) { ErrorHandler.Handle(ex); }
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Save();
-        }
-
         private void btnSave_Click(object sender, EventArgs e)
         {
             Save();
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Tools.About();
-        }
 
         private void chkRegex_CheckedChanged(object sender, EventArgs e)
         {
@@ -642,14 +619,16 @@ namespace WikiFunctions.DBScanner
             belowNormalToolStripMenuItem.Checked = lowestToolStripMenuItem.Checked = false;
 
             Priority = ThreadPriority.Highest;
+            threadPriorityButton.Text = highestToolStripMenuItem.Text;
         }
-
+        
         private void aboveNormalToolStripMenuItem_Click(object sender, EventArgs e)
         {
             highestToolStripMenuItem.Checked = normalToolStripMenuItem.Checked =
             belowNormalToolStripMenuItem.Checked = lowestToolStripMenuItem.Checked = false;
 
             Priority = ThreadPriority.AboveNormal;
+            threadPriorityButton.Text = aboveNormalToolStripMenuItem.Text;
         }
 
         private void normalToolStripMenuItem_Click(object sender, EventArgs e)
@@ -658,6 +637,7 @@ namespace WikiFunctions.DBScanner
             belowNormalToolStripMenuItem.Checked = lowestToolStripMenuItem.Checked = false;
 
             Priority = ThreadPriority.Normal;
+            threadPriorityButton.Text = normalToolStripMenuItem.Text;
         }
 
         private void belowNormalToolStripMenuItem_Click(object sender, EventArgs e)
@@ -666,6 +646,7 @@ namespace WikiFunctions.DBScanner
             normalToolStripMenuItem.Checked = lowestToolStripMenuItem.Checked = false;
 
             Priority = ThreadPriority.BelowNormal;
+            threadPriorityButton.Text = belowNormalToolStripMenuItem.Text;
         }
 
         private void lowestToolStripMenuItem_Click(object sender, EventArgs e)
@@ -674,6 +655,7 @@ namespace WikiFunctions.DBScanner
             normalToolStripMenuItem.Checked = belowNormalToolStripMenuItem.Checked = false;
 
             Priority = ThreadPriority.Lowest;
+            threadPriorityButton.Text = lowestToolStripMenuItem.Text;
         }
 
         private void nudLimitResults_ValueChanged(object sender, EventArgs e)
@@ -685,7 +667,7 @@ namespace WikiFunctions.DBScanner
 
         #region properties
 
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        private void btnReset_Click(object sender, EventArgs e)
         {
             resetSettings();
         }
@@ -693,18 +675,18 @@ namespace WikiFunctions.DBScanner
         private void resetSettings()
         {
             //menu
-            ignoreRedirectsToolStripMenuItem1.Checked = true;
-            ignoreCommentsToolStripMenuItem.Checked = false;
-            ignoreImagesToolStripMenuItem.Checked = true;
-            ignoreTemplateNamespaceToolStripMenuItem.Checked = true;
-            ignoreWikipediaNamespaceToolStripMenuItem.Checked = true;
-            ignoreCategoryNamespaceToolStripMenuItem.Checked = true;
-            ignoreMainNamespaceToolStripMenuItem.Checked = false;
+            chkIgnoreRedirects.Checked = true;
+            chkIgnoreComments.Checked = false;
+            chkImageNamespace.Checked = false;
+            chkTemplateNamespace.Checked = false;
+            chkProjectNamespace.Checked = false;
+            chkCategoryNamespace.Checked = false;
+            chkMainNamespace.Checked = true;
 
             //contains
             txtArticleDoesContain.Text = "";
             txtArticleDoesNotContain.Text = "";
-            chkArticleDoesContain.Checked = false; ;
+            chkArticleDoesContain.Checked = false;
             chkArticleDoesNotContain.Checked = false;
 
             chkRegex.Checked = false;
@@ -735,7 +717,7 @@ namespace WikiFunctions.DBScanner
             rdoBullet.Checked = false;
             rdoHash.Checked = true;
 
-            fileName = ""; ;
+            fileName = "";
         }
 
         private void UpdateControls(bool busy)
@@ -756,9 +738,74 @@ namespace WikiFunctions.DBScanner
             // update progress bar
             double matchesByLimit = (double)intMatches / intLimit;
             if (matchesByLimit > (double)Main.stream.Position / Main.stream.Length)
-                progressBar1.Value = (int)(matchesByLimit * (Main.stream.Length / 1024));
+                progressBar.Value = (int)(matchesByLimit * (Main.stream.Length / 1024));
             else
-                progressBar1.Value = (int)(Main.stream.Position / 1024);
+                progressBar.Value = (int)(Main.stream.Position / 1024);
+        }
+
+        private void btnOpen(object sender, EventArgs e)
+        {
+            try
+            {
+                if (openXMLDialog.ShowDialog() == DialogResult.OK)
+                {
+                    fileName = openXMLDialog.FileName;
+                    txtDumpLocation.Text = fileName;
+
+                    int dataFound = 0;
+
+                    using (XmlTextReader reader = new XmlTextReader(new StreamReader(fileName)))
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.Name.Equals("sitename"))
+                            {
+                                txtSitename.Text = reader.ReadString();
+                                dataFound++;
+                            }
+                            if (reader.Name.Equals("generator"))
+                            {
+                                txtGenerator.Text = reader.ReadString();
+                                dataFound++;
+                            }
+                            if (reader.Name.Equals("case"))
+                            {
+                                txtCase.Text = reader.ReadString();
+                                dataFound++;
+                            }
+
+                            if (dataFound == 3)
+                                break;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex) { ErrorHandler.Handle(ex); }
+        }
+
+        private void btnAbout_Click(object sender, EventArgs e)
+        {
+            Tools.About();
+        }
+
+        private void lnkGenDump_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Tools.OpenENArticleInBrowser("mw:Manual:DumpBackup.php", false);
+        }
+
+        private void lnkBase_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Tools.OpenURLInBrowser(lnkBase.Text);
+        }
+
+        private void lnkWikiaDumps_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Tools.OpenURLInBrowser("http://www.wikia.com/wiki/Database_download");
+        }
+
+        private void lnkWmfDumps_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Tools.OpenURLInBrowser("http://download.wikimedia.org/");
         }
     }
 }

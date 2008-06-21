@@ -78,10 +78,10 @@ namespace WikiFunctions.Logging.Uploader
     {
         private Profiles.AWBProfile mAWBProfile;
 
-        public override string  Password
+        public override string Password
         { get { return mAWBProfile.Password; } set { mAWBProfile.Password = value; } }
 
-        public override string  Username
+        public override string Username
         { get { return mAWBProfile.Username; } set { mAWBProfile.Username = value; } }
 
         public Profiles.AWBProfile AWBProfile
