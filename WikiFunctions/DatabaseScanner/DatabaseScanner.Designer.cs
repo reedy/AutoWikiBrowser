@@ -77,7 +77,7 @@ namespace WikiFunctions.DBScanner
             this.rdoUnbulletedLinks = new System.Windows.Forms.RadioButton();
             this.chkABCHeader = new System.Windows.Forms.CheckBox();
             this.txtStartFrom = new System.Windows.Forms.TextBox();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ArticlesListBoxContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openRevisionInBowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -155,7 +155,7 @@ namespace WikiFunctions.DBScanner
             ((System.ComponentModel.ISupportInitialize)(this.nudWords)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudHeadingSpace)).BeginInit();
-            this.contextMenuStrip1.SuspendLayout();
+            this.ArticlesListBoxContextMenu.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLimitResults)).BeginInit();
             this.groupBox4.SuspendLayout();
@@ -687,17 +687,17 @@ namespace WikiFunctions.DBScanner
             this.txtStartFrom.TabIndex = 3;
             this.tooltip.SetToolTip(this.txtStartFrom, "Page to start scanning from, leave blank to start at beginning");
             // 
-            // contextMenuStrip1
+            // ArticlesListBoxContextMenu
             // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ArticlesListBoxContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openInBrowserToolStripMenuItem,
             this.openRevisionInBowserToolStripMenuItem,
             this.toolStripSeparator1,
             this.copyToolStripMenuItem,
             this.removeToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(202, 98);
-            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            this.ArticlesListBoxContextMenu.Name = "contextMenuStrip1";
+            this.ArticlesListBoxContextMenu.Size = new System.Drawing.Size(202, 120);
+            this.ArticlesListBoxContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // openInBrowserToolStripMenuItem
             // 
@@ -1423,7 +1423,7 @@ namespace WikiFunctions.DBScanner
             // 
             // lbArticles
             // 
-            this.lbArticles.ContextMenuStrip = this.contextMenuStrip1;
+            this.lbArticles.ContextMenuStrip = this.ArticlesListBoxContextMenu;
             this.lbArticles.FormattingEnabled = true;
             this.lbArticles.Location = new System.Drawing.Point(6, 69);
             this.lbArticles.MultiColumn = true;
@@ -1458,7 +1458,7 @@ namespace WikiFunctions.DBScanner
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudHeadingSpace)).EndInit();
-            this.contextMenuStrip1.ResumeLayout(false);
+            this.ArticlesListBoxContextMenu.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLimitResults)).EndInit();
@@ -1504,7 +1504,7 @@ namespace WikiFunctions.DBScanner
         private Button btnTransfer;
         private Button btnAlphaList;
         private Button btnClearList;
-        private ContextMenuStrip contextMenuStrip1;
+        private ContextMenuStrip ArticlesListBoxContextMenu;
         private ToolStripMenuItem copyToolStripMenuItem;
         private GroupBox groupBox3;
         private GroupBox groupBox4;
