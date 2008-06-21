@@ -69,7 +69,6 @@ namespace UnitTests
         }
 
         [Test, Category("Unarchived bugs")]
-        // problem commit: r2957
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#References-2column_not_replaced_with_2_argument_to_reflist
         public void TestFixReferenceListTags()
         {
@@ -293,25 +292,6 @@ http://example.com }}");
             StringAssert.StartsWith("==foo==", p.FixHeadings("=='''foo'''==\r\n", "test"));
             Assert.AreEqual("quux\r\n==foo==\r\nbar", p.FixHeadings("quux\r\n=='''foo'''==\r\nbar", "test"));
             Assert.AreEqual("quux\r\n==foo==\r\n\r\nbar", p.FixHeadings("quux\r\n=='''foo'''==\r\n\r\nbar", "test"));
-        }
-
-        [Test, Category("Unarchived bugs")]
-        public void TestParagraphFormatter()
-        {
-            Assert.AreEqual("", p.FixSyntax("<p>")); // trimmed by whitespace optimiser
-            Assert.AreEqual("a\r\n\r\nb", p.FixSyntax("a</p>b"));
-            Assert.AreEqual("a\r\n\r\nb", p.FixSyntax("<p>a</p>b"));
-            Assert.AreEqual("a\r\n\r\n\r\nb", p.FixSyntax("a\r\n<p>b"));
-
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Clean_up_deformats_tables_removing_.3C_p_.3E_tags
-            Assert.AreEqual("| a<p>b", p.FixSyntax("| a<p>b"));
-            Assert.AreEqual("! a<p>b", p.FixSyntax("! a<p>b"));
-            Assert.AreEqual("foo\r\n| a<p>b", p.FixSyntax("foo\r\n| a<p>b"));
-            Assert.AreEqual("foo\r\n! a<p>b", p.FixSyntax("foo\r\n! a<p>b"));
-            Assert.AreEqual("foo! a\r\n\r\nb", p.FixSyntax("foo! a<p>b"));
-            Assert.AreEqual("{{foo|bar}} a\r\n\r\nb", p.FixSyntax("{{foo|bar}} a<p>b"));
-            Assert.AreEqual("!<p>", p.FixSyntax("!<p>"));
-            Assert.AreEqual("|<p>", p.FixSyntax("|<p>"));
         }
 
         [Test, Category("Incomplete")]

@@ -231,7 +231,9 @@ namespace WikiFunctions.Parse
                 //Remove 2 or more <br />'s
                 //This piece's existance here is counter-intuitive, but it requires HideMore()
                 //and I don't want to call this slow function yet another time --MaxSem
-                ArticleText = Regex.Replace(ArticleText.Trim(), @"(<br[\s/]*> *){2,}", "\r\n", RegexOptions.IgnoreCase);
+                ArticleText = SyntaxRemoveBr.Replace(ArticleText, "\r\n");
+                ArticleText = SyntaxRemoveParagraphs.Replace(ArticleText, "\r\n\r\n");
+
             }
             ArticleText = hidetext.AddBackMore(ArticleText);
             return ArticleText;
@@ -451,6 +453,8 @@ namespace WikiFunctions.Parse
 
         // Matches <p> tags only if current line does not start from ! or | (indicator of table cells)
         readonly Regex SyntaxRemoveParagraphs = new Regex(@"(?<!^[!\|].*)</? ?[Pp]>", RegexOptions.Multiline | RegexOptions.Compiled);
+        // same shit for <br>
+        readonly Regex SyntaxRemoveBr = new Regex(@"(?<!^[!\|].*)(<br[\s/]*> *){2,}", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
 
         //readonly Regex InOpenBrackets = new Regex(@"\[\[[^\]]{,100}", RegexOptions.RightToLeft | RegexOptions.Compiled);
 
@@ -467,8 +471,6 @@ namespace WikiFunctions.Parse
 
             if (Regex.IsMatch(ArticleText, "</?b>", RegexOptions.IgnoreCase))
                 ArticleText = SyntaxRegexBold.Replace(ArticleText, "'''$1'''");
-
-            ArticleText = SyntaxRemoveParagraphs.Replace(ArticleText, "\r\n\r\n");
 
             ArticleText = Regex.Replace(ArticleText, "^<hr>|^----+", "----", RegexOptions.Multiline);
 
