@@ -236,19 +236,19 @@ namespace WikiFunctions.DBScanner
 
             Parsers parsers = new Parsers();
 
-            if (rdoBadLinks.Checked)
+            if (chkBadLinks.Checked)
                 s.Add(new HasBadLinks());
-            else if (rdoNoBold.Checked)
+            if (chkNoBold.Checked)
                 s.Add(new HasNoBoldTitle(parsers));
-            else if (rdoSimpleLinks.Checked)
+            if (chkSimpleLinks.Checked)
                 s.Add(new HasSimpleLinks());
-            else if (rdoHasHTML.Checked)
+            if (chkHasHTML.Checked)
                 s.Add(new HasHTMLEntities(parsers));
-            else if (rdoHeaderError.Checked)
+            if (chkHeaderError.Checked)
                 s.Add(new HasSectionError(parsers));
-            else if (rdoUnbulletedLinks.Checked)
+            if (chkUnbulletedLinks.Checked)
                 s.Add(new HasUnbulletedLinks());
-            else if (rdoTypo.Checked)
+            if (chkTypo.Checked)
                 s.Add(new Typo());
 
             Main = new MainProcess(s, fileName, Priority, chkIgnoreComments.Checked, txtStartFrom.Text);
@@ -708,7 +708,8 @@ namespace WikiFunctions.DBScanner
             nudLinks.Value = 5;
 
             //extra
-            rdoNone.Checked = true;
+            foreach (CheckBox c in AWBSpecificGroup.Controls)
+                c.Checked = false;
 
             //results
             chkHeading.Checked = false;
@@ -722,7 +723,7 @@ namespace WikiFunctions.DBScanner
 
         private void UpdateControls(bool busy)
         {
-            groupBox1.Enabled = groupBox2.Enabled = groupBox4.Enabled = groupBox5.Enabled = 
+            groupBox1.Enabled = groupBox2.Enabled = groupBox4.Enabled = AWBSpecificGroup.Enabled = 
             btnFilter.Enabled = nudLimitResults.Enabled = txtStartFrom.Enabled = !busy;
             if (busy) { btnStart.Text = "Stop"; } else { btnStart.Text = "Start"; }
         }
