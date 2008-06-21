@@ -250,6 +250,8 @@ namespace WikiFunctions.DBScanner
                 s.Add(new HasUnbulletedLinks());
             if (chkTypo.Checked)
                 s.Add(new Typo());
+            if (chkDefaultSort.Checked)
+                s.Add(new MissingDefaultsort(parsers));
 
             Main = new MainProcess(s, fileName, Priority, chkIgnoreComments.Checked, txtStartFrom.Text);
             progressBar.Maximum = (int)(Main.stream.Length / 1024);
@@ -764,6 +766,11 @@ namespace WikiFunctions.DBScanner
                                 txtSitename.Text = reader.ReadString();
                                 dataFound++;
                             }
+                            if (reader.Name.Equals("base"))
+                            {
+                                lnkBase.Text = reader.ReadString();
+                                dataFound++;
+                            }
                             if (reader.Name.Equals("generator"))
                             {
                                 txtGenerator.Text = reader.ReadString();
@@ -775,7 +782,7 @@ namespace WikiFunctions.DBScanner
                                 dataFound++;
                             }
 
-                            if (dataFound == 3)
+                            if (dataFound == 4)
                                 break;
                         }
                     }

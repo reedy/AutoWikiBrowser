@@ -344,6 +344,24 @@ namespace WikiFunctions.DBScanner
         }
     }
 
+    public class MissingDefaultsort : Scan
+    {
+        public MissingDefaultsort(Parsers p)
+        {
+            parsers = p;
+        }
+
+        bool skip = true;
+        Parsers parsers;
+
+        public override bool Check(ref string ArticleText, ref string ArticleTitle)
+        {
+            parsers.ChangeToDefaultSort(ArticleText, ArticleTitle, out skip);
+
+            return !skip;
+        }
+    }
+
     public class Typo : Scan
     {
         public Typo() { }
