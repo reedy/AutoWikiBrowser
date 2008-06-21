@@ -98,7 +98,7 @@ namespace UnitTests
             AssertChange("a[[ b]]", "a [[b]]");
         }
 
-        [Test]
+        [Test, Category("Unarchived bugs")]
         // this transformation is currently at Parsers.FixDates()
         public void DoubleBr()
         {
@@ -114,6 +114,41 @@ namespace UnitTests
             AssertChange("{{foo|bar=a<br><br>b}}<br><br>quux", "{{foo|bar=a<br><br>b}}\r\nquux");
 
             AssertNotChanged("<blockquote>\r\n<br><br></blockquote>");
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#AWB_ruins_formatting_of_table_when_applying_general_clean_up_fixes
+            AssertNotChanged("|a<br><br>b");
+            AssertNotChanged("!a<br><br>b");
+            AssertNotChanged("| foo || a<br><br>b");
+            AssertNotChanged("! foo !! a<br><br>b");
+
+            AssertChange("[[foo|bar]] a<br><br>b", "[[foo|bar]] a\r\nb");
+            AssertChange("foo! a<br><br>b", "foo! a\r\nb");
         }
+
+        [Test]
+        public void TestParagraphFormatter()
+        {
+            AssertChange("<p>", ""); // trimmed by whitespace optimiser
+            AssertChange("a</p>b", "a\r\n\r\nb");
+            AssertChange("<p>a</p>b", "a\r\n\r\nb");
+            AssertChange("a\r\n<p>b", "a\r\n\r\n\r\nb");
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#Clean_up_deformats_tables_removing_.3C_p_.3E_tags
+            AssertNotChanged("| a<p>b");
+            AssertNotChanged("! a<p>b");
+            AssertNotChanged("foo\r\n| a<p>b");
+            AssertNotChanged("foo\r\n! a<p>b");
+            AssertNotChanged("foo! a\r\n\r\nb");
+            AssertNotChanged("{{foo|bar}} a\r\n\r\nb");
+            AssertNotChanged("!<p>");
+            AssertNotChanged("|<p>");
+
+            AssertNotChanged("<blockquote>a<p>b</blockquote>");
+            AssertNotChanged("<blockquote>\r\na<p>b\r\n</blockquote>");
+
+            AssertNotChanged("{{cquote|a<p>b}}");
+            AssertNotChanged("{{cquote|foo\r\na<p>b}}");
+        }
+
     }
 }
