@@ -696,7 +696,7 @@ namespace WikiFunctions.DBScanner
             this.copyToolStripMenuItem,
             this.removeToolStripMenuItem});
             this.ArticlesListBoxContextMenu.Name = "contextMenuStrip1";
-            this.ArticlesListBoxContextMenu.Size = new System.Drawing.Size(202, 120);
+            this.ArticlesListBoxContextMenu.Size = new System.Drawing.Size(202, 98);
             this.ArticlesListBoxContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // openInBrowserToolStripMenuItem
@@ -1084,18 +1084,18 @@ namespace WikiFunctions.DBScanner
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(62, 161);
+            this.btnReset.Location = new System.Drawing.Point(72, 152);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(54, 20);
+            this.btnReset.Size = new System.Drawing.Size(60, 29);
             this.btnReset.TabIndex = 4;
             this.btnReset.Text = "Reset";
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // btnAbout
             // 
-            this.btnAbout.Location = new System.Drawing.Point(6, 161);
+            this.btnAbout.Location = new System.Drawing.Point(6, 152);
             this.btnAbout.Name = "btnAbout";
-            this.btnAbout.Size = new System.Drawing.Size(50, 20);
+            this.btnAbout.Size = new System.Drawing.Size(60, 29);
             this.btnAbout.TabIndex = 5;
             this.btnAbout.Text = "About";
             this.btnAbout.Click += new System.EventHandler(this.btnAbout_Click);
@@ -1195,6 +1195,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.txtSitename.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSitename.BackColor = System.Drawing.SystemColors.Window;
             this.txtSitename.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtSitename.Location = new System.Drawing.Point(83, 3);
             this.txtSitename.Name = "txtSitename";
@@ -1217,6 +1218,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.txtGenerator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtGenerator.BackColor = System.Drawing.SystemColors.Window;
             this.txtGenerator.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtGenerator.Location = new System.Drawing.Point(83, 43);
             this.txtGenerator.Name = "txtGenerator";
@@ -1228,6 +1230,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.txtCase.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCase.BackColor = System.Drawing.SystemColors.Window;
             this.txtCase.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtCase.Location = new System.Drawing.Point(83, 63);
             this.txtCase.Name = "txtCase";
