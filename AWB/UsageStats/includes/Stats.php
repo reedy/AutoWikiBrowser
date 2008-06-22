@@ -293,7 +293,7 @@ function OS_XHTML($result, $headersuffix) {
 </table>
 <p/>
 <table class="sortable">
-<caption>Operating Systems{$headersuffix}</caption>
+<caption>Operating Systems'.$headersuffix.'</caption>
 <thead>
 	<tr>
 		<th scope="col" class="sortable">OS</th>
