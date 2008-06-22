@@ -424,7 +424,10 @@ namespace WikiFunctions.Controls.Lists
             set
             {
                 if (value < (cmboSourceSelect.Items.Count - 1))
+                {
                     cmboSourceSelect.SelectedIndex = value;
+                    cmboSourceSelect_SelectedIndexChanged(null, null);
+                }
             }
         }
 
