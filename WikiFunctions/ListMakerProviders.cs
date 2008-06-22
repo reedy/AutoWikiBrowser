@@ -1328,5 +1328,66 @@ namespace WikiFunctions.Lists
 
         #endregion
     }
+
+    /// <summary>
+    /// Gets 100 random articles from the 0 namespace
+    /// </summary>
+    public class RandomPagesListMakerProvider : IListProvider
+    {
+        #region IListProvider Members
+
+        public List<Article> MakeList(string[] searchCriteria)
+        {
+            List<Article> list = new List<Article>();
+
+            string url = Variables.URLLong + "api.php?action=query&list=random&rnnamespace=0&rnlimit=10&format=xml";
+
+            for (int i = 0; i < 10; i++)
+            {
+                string html = Tools.GetHTML(url);
+                string title = "";
+
+                using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
+                {
+                    while (reader.Read())
+                    {
+                        if (reader.Name.Equals("page"))
+                        {
+                            if (reader.MoveToAttribute("title"))
+                            {
+                                title = reader.Value.ToString();
+                                list.Add(new WikiFunctions.Article(title, 0));
+                            }
+                        }
+                    }
+                }
+            }
+            return list;
+        }
+
+        public string DisplayText
+        {
+            get { return "Random Pages"; }
+        }
+
+        public string UserInputTextBoxText
+        {
+            get { return ""; }
+        }
+
+        public bool UserInputTextBoxEnabled
+        {
+            get { return false; }
+        }
+
+        public void Selected() { }
+
+        public bool RunOnSeparateThread
+        {
+            get { return true; }
+        }
+
+        #endregion
+    }
     #endregion
 }

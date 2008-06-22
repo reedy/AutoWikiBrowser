@@ -80,6 +80,7 @@ namespace WikiFunctions.Controls.Lists
                 listItems.Add(new DatabaseScannerListMakerProvider(lbArticles));
                 listItems.Add(new MyWatchlistListMakerProvider());
                 listItems.Add(new WikiSearchListMakerProvider());
+                listItems.Add(new RandomPagesListMakerProvider());
                 listItems.Add(redirectLMProvider);
             }
 
