@@ -543,8 +543,6 @@ namespace WikiFunctions
                         Namespaces[13] = "Diskusija wó pomocy:";
                         Namespaces[14] = "Kategorija:";
                         Namespaces[15] = "Diskusija wó kategoriji:";
-                        //Namespaces[100] = ":";
-                        //Namespaces[101] = ":";
                         break;
 
                     case LangCodeEnum.es:
@@ -662,6 +660,8 @@ namespace WikiFunctions
                         Namespaces[13] = "Segítségvita:";
                         Namespaces[14] = "Kategória:";
                         Namespaces[15] = "Kategóriavita:";
+                        Namespaces[100] = "Portál:";
+                        Namespaces[101] = "Portálvita:";
 
                         mSummaryTag = " ";
                         strWPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
