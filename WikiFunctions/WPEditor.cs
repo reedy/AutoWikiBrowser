@@ -46,8 +46,7 @@ namespace WikiFunctions
         /// Instantiates the Editor class.
         /// </summary>
         public Editor()
-        {
-        }
+        { }
 
         protected CookieCollection logincookies;
         protected bool LoggedIn;
