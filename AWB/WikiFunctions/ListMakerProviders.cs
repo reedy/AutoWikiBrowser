@@ -894,107 +894,6 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// Gets the list of pages on the Named Special Pages
-    /// </summary>
-    public class SpecialPageListMakerProvider : IListProvider
-    {
-        readonly static Regex regexli = new Regex("<li>.*</li>", RegexOptions.Compiled);
-        readonly static Regex regexe = new Regex("<li>\\(?<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a> \\(redirect page\\)", RegexOptions.Compiled);
-        readonly static Regex regexe2 = new Regex("<a href=\"[^\"]*\" title=\"([^\"]*)\">[^<>]*</a>", RegexOptions.Compiled);
-        readonly static Regex regexLog = new Regex(@"<li>.*?<a .*?</a> \(<a .*?</a>\).*?<a href=""[^""]*""[^>]* title=""([^""]*)"">[^<>]*</a>", RegexOptions.Compiled);
-        readonly static Regex regexLog2 = new Regex(@"^Log ?[/\?&]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-        public List<Article> MakeList(string[] searchCriteria)
-        {
-            searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
-
-            //TODO:Fix!
-            List<Article> list = new List<Article>();
-
-            int limit = 1000;
-
-            foreach (string s in searchCriteria)
-            {
-                string special = Regex.Replace(s, "^" + Variables.NamespacesCaseInsensitive[-1], "", RegexOptions.IgnoreCase);
-
-                string url = Variables.URLLong + "index.php?title=Special:" + special;
-                if (!url.Contains("&limit=")) url += "&limit=" + limit.ToString();
-                string pageText = Tools.StringBetween(Tools.GetHTML(url), "<!-- start content -->", "<!-- end content -->");
-                
-                string title = "";
-                int ns = 0;
-
-                bool matchSuccessful = regexLog2.IsMatch(s);
-
-                if (matchSuccessful || !regexli.IsMatch(pageText))
-                {
-                    Regex r;
-                    if (matchSuccessful)
-                        r = regexLog;
-                    else
-                        r = regexe;
-
-                    foreach (Match m in r.Matches(pageText))
-                    {
-                        title = m.Groups[1].Value.Trim();
-                        if (title.Length == 0) continue;
-                        if (title != "Wikipedia:Special pages" && title != "Wikipedia talk:Special:Lonelypages" && title != "Wikipedia:Offline reports" && title != "Template:Specialpageslist")
-                        {
-                            title = title.Replace("&amp;", "&").Replace("&quot;", "\"");
-                            if (title.Length == 0)
-                                continue;
-
-                            ns = Tools.CalculateNS(title);
-                            if (ns < 0) continue;
-                            list.Add(new WikiFunctions.Article(title, ns));
-
-                            if (limit >= 0 && list.Count >= limit)
-                                break;
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (Match m in regexli.Matches(pageText))
-                    {
-                        foreach (Match m2 in regexe2.Matches(m.Value))
-                        {
-                            if (m2.Value.Contains("&amp;action=") && !m2.Value.Contains("&amp;action=edit"))
-                                continue;
-
-                            title = m2.Groups[1].Value;
-
-                            title = HttpUtility.HtmlDecode(title);
-
-                            if (title.Trim().Length == 0) continue;
-
-                            list.Add(new WikiFunctions.Article(title));
-
-                            if (limit >= 0 && list.Count >= limit)
-                                break;
-                        }
-                    }
-                }
-            }
-            return Tools.FilterSomeArticles(list);
-        }
-
-        public string DisplayText
-        { get { return "Special page"; } }
-
-        public string UserInputTextBoxText
-        { get { return Variables.Namespaces[-1]; } }
-
-        public bool UserInputTextBoxEnabled
-        { get { return true; } }
-
-        public void Selected() { }
-
-        public bool RunOnSeparateThread
-        { get { return true; } }
-    }
-
-    /// <summary>
     /// Gets a list of pages which link to the Named Images
     /// </summary>
     public class ImageFileLinksListMakerProvider : IListProvider
@@ -1345,7 +1244,6 @@ namespace WikiFunctions.Lists
             for (int i = 0; i < 10; i++)
             {
                 string html = Tools.GetHTML(url);
-                string title = "";
 
                 using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
                 {
@@ -1355,8 +1253,7 @@ namespace WikiFunctions.Lists
                         {
                             if (reader.MoveToAttribute("title"))
                             {
-                                title = reader.Value.ToString();
-                                list.Add(new WikiFunctions.Article(title, 0));
+                                list.Add(new WikiFunctions.Article(reader.Value.ToString(), 0));
                             }
                         }
                     }
