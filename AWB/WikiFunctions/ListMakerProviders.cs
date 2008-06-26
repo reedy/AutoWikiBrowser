@@ -1155,8 +1155,11 @@ namespace WikiFunctions.Lists
             webbrowser.Navigate(Variables.URLLong + "index.php?title=Special:Watchlist&action=raw");
             webbrowser.Wait();
 
-            string html = webbrowser.Document.GetElementById("titles").InnerText;
             List<Article> list = new List<Article>();
+
+            HtmlElement textarea = webbrowser.Document.GetElementById("titles");
+            string html;
+            if (textarea == null || (html = textarea.InnerText) == null) return list;
 
             try
             {
@@ -1167,7 +1170,11 @@ namespace WikiFunctions.Lists
                         list.Add(new Article(entry));
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                ErrorHandler.Handle(ex);
+            }
+
             return list;
         }
 
