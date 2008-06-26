@@ -111,6 +111,7 @@ namespace AutoWikiBrowser
             }
             set
             {
+                if (value == null) return;
                 LoggingPrefs prefs = value;
 
                 try
