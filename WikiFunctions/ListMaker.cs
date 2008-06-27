@@ -639,7 +639,7 @@ namespace WikiFunctions.Controls.Lists
                 strSource = sourceValues;
                 ThreadStart thr_Process = new ThreadStart(MakeListPlugin);
                 ListerThread = new Thread(thr_Process);
-                ListerThread.ApartmentState = ApartmentState.STA;
+                ListerThread.SetApartmentState(ApartmentState.STA);
                 ListerThread.IsBackground = true;
                 ListerThread.Start();
             }
