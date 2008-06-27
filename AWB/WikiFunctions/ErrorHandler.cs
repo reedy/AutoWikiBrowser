@@ -152,9 +152,8 @@ namespace WikiFunctions
 
             if (trace.Length == 0) return "unknown function";
 
-            int i;
             string res = "";
-            for (i = 0; i < trace.Length; i++)
+            for (int i = 0; i < trace.Length; i++)
             {
                 bool match = false;
                 foreach (string ns in PresetNamespaces)
@@ -187,7 +186,6 @@ namespace WikiFunctions
         {
             Text = Application.ProductName;
         }
-
 
         private void btnCopy_Click(object sender, EventArgs e)
         {

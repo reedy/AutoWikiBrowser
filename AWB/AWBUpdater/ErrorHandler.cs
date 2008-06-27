@@ -7,6 +7,13 @@ using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Reflection;
+using System.Threading;
+using System.Text.RegularExpressions;
+using System.Web;
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+/// Don't use anything WikiFunctions-specific here, for source-compatibility with Updater  ///
+//////////////////////////////////////////////////////////////////////////////////////////////
 
 namespace AwbUpdater
 {
@@ -15,15 +22,20 @@ namespace AwbUpdater
     /// </summary>
     public partial class ErrorHandler : Form
     {
-        public ErrorHandler()
-        {
-            InitializeComponent();
-        }
+        /// <summary>
+        /// Title of the page currently being processed
+        /// </summary>
+        public static string CurrentPage;
 
-        private void ErrorHandler_Load(object sender, EventArgs e)
-        {
-            Text = Application.ProductName;
-        }
+        /// <summary>
+        /// Revision of the page currently being processed
+        /// </summary>
+        public static int CurrentRevision;
+
+        /// <summary>
+        /// Current text that the list is being made from in ListMaker
+        /// </summary>
+        public static string ListMakerText;
 
         /// <summary>
         /// Displays exception information. Should be called from try...catch handlers
@@ -33,33 +45,158 @@ namespace AwbUpdater
         {
             if (ex != null)
             {
-                if (ex is System.Net.WebException)
+                /*// invalid regex - only ArgumentException, without subclasses
+                if (ex.GetType().ToString().Equals("System.ArgumentException")
+                    && ex.StackTrace.Contains("System.Text.RegularExpressions"))
                 {
-                    MessageBox.Show(ex.Message, "Network access error. Please try again later", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "Invalid regular expression",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                else
+                // network access error
+                else */if (ex is System.Net.WebException)
+                {
+                    MessageBox.Show(ex.Message, "Network access error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                // out of memory error
+                else if (ex is System.OutOfMemoryException)
+                {
+                    MessageBox.Show(ex.Message, "Out of Memory error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else // suggest a bug report for other exceptions
                 {
                     ErrorHandler handler = new ErrorHandler();
 
                     handler.txtError.Text = ex.Message;
 
-                    handler.txtDetails.Text = "{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = Exception: " + ex.GetType().Name + "\r\nMessage: " +
-                        ex.Message + "\r\nCall stack:" + ex.StackTrace + "\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                    StringBuilder errorMessage = new StringBuilder("{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = ");
 
-                    handler.txtDetails.Text += "\r\n}}";
+                    if (Thread.CurrentThread.Name != "Main thread")
+                        errorMessage.Append("\r\nThread: " + Thread.CurrentThread.Name);
 
-                    handler.textBox1.Text = "AWB Updater encountered " + ex.GetType().Name;
+                    errorMessage.Append("<table>");
+                    FormatException(ex, errorMessage, true);
+                    errorMessage.Append("</table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
+
+                    //if (!Variables.Revision.Contains("?")) errorMessage.Append(", revision " + Variables.Revision);
+
+                    //if (!string.IsNullOrEmpty(CurrentPage))
+                    //{
+                    //    // don't use Tools.WikiEncode here, to keep code portable to updater
+                    //    // as it's not a pretty URL, we don't need to follow the MediaWiki encoding rules
+                    //    string link = "[" + Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(CurrentPage) + "&oldid=" + CurrentRevision.ToString() + "]";
+
+                    //    errorMessage.Append("\r\n | duplicate = [encountered while processing page ''" + link + "'']");
+                    //}
+                    //else if (!string.IsNullOrEmpty(ListMakerText))
+                    //    errorMessage.Append("\r\n | duplicate = '''ListMaker Text:''' " + ListMakerText);
+
+                    errorMessage.Append("\r\n}}");
+
+                    handler.txtDetails.Text = errorMessage.ToString();
+
+                    handler.txtSubject.Text = ex.GetType().Name + " in " + Thrower(ex);
 
                     handler.ShowDialog();
                 }
             }
         }
 
+        #region Static helper functions
+        /// <summary>
+        /// Formats exception information for bug report
+        /// </summary>
+        /// <param name="ex">Exception to process</param>
+        /// <param name="sb">StringBuilder used for output</param>
+        /// <param name="topLevel">false if exception is nested, true otherwise</param>
+        private static void FormatException(Exception ex, StringBuilder sb, bool topLevel)
+        {
+            sb.Append("<tr><td>" + (topLevel ? "Exception" : "Inner exception") + ":<td><code>"
+                + ex.GetType().Name + "</code><tr><td>Message:<td><code>"
+                + ex.Message + "</code><tr><td>Call stack:<td><pre>" + ex.StackTrace + "</pre></tr>\r\n");
+
+            if (ex.InnerException != null)
+            {
+                FormatException(ex.InnerException, sb, false);
+            }
+        }
+
+        /// <summary>
+        /// Returns names of functions in stack trace of an exception
+        /// </summary>
+        /// <param name="ex">Exception to process</param>
+        /// <returns>List of fully qualified function names</returns>
+        private static string[] MethodNames(Exception ex)
+        {
+            MatchCollection mc = Regex.Matches(ex.StackTrace, @"([a-zA-Z_0-9.]+)(?=\()");
+
+            string[] res = new string[mc.Count];
+
+            for (int i = 0; i < res.Length; i++) res[i] = mc[i].Groups[1].Value;
+
+            return res;
+        }
+
+        static readonly string[] PresetNamespaces =
+            new string[] { "System.", "Microsoft.", "Mono." };
+
+        /// <summary>
+        /// Returns the name of our function where supposedly error resides;
+        /// it's the last non-framework function in the stack
+        /// </summary>
+        /// <param name="ex">Exception to process</param>
+        /// <returns>Function names without namespace</returns>
+        private static string Thrower(Exception ex)
+        {
+            string[] trace = MethodNames(ex);
+
+            if (trace.Length == 0) return "unknown function";
+
+            string res = "";
+            for (int i = 0; i < trace.Length; i++)
+            {
+                bool match = false;
+                foreach (string ns in PresetNamespaces)
+                {
+                    if (trace[i].StartsWith(ns)) match = true;
+                }
+                if (match)
+                    res = trace[0];
+                else
+                {
+                    res = trace[i];
+                    break;
+                }
+            }
+
+            // strip namespace for clarity
+            res = Regex.Match(res, @"\w+\.\w+$").Value;
+
+            return res;
+        }
+
+        #endregion
+
+        protected ErrorHandler()
+        {
+            InitializeComponent();
+        }
+
+        private void ErrorHandler_Load(object sender, EventArgs e)
+        {
+            Text = Application.ProductName;
+        }
+
         private void btnCopy_Click(object sender, EventArgs e)
         {
-            Clipboard.Clear();
-            System.Threading.Thread.Sleep(1000);
-            Clipboard.SetText(txtDetails.Text);
+            try
+            {
+                Clipboard.Clear();
+                System.Threading.Thread.Sleep(1000);
+                Clipboard.SetText(txtDetails.Text);
+            }
+            catch { }
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

@@ -35,7 +35,7 @@ namespace AwbUpdater
             this.txtError = new System.Windows.Forms.TextBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtSubject = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -99,8 +99,8 @@ namespace AwbUpdater
             this.linkLabel1.TabIndex = 8;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "AWB is constantly being improved by a group of dedicated developers.  If you woul" +
-                "d, please visit Wikipedia_talk:AutoWikiBrowser/Bugs add the following text to th" +
-                "e page:";
+                "d, please visit Wikipedia_talk:AutoWikiBrowser/Bugs and add the following text t" +
+                "o the page:";
             this.linkLabel1.UseCompatibleTextRendering = true;
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
@@ -109,20 +109,20 @@ namespace AwbUpdater
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 157);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(91, 13);
+            this.label2.Size = new System.Drawing.Size(50, 13);
             this.label2.TabIndex = 9;
-            this.label2.Text = "Subject/headline:";
+            this.label2.Text = "Heading:";
             // 
-            // textBox1
+            // txtSubject
             // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox1.Location = new System.Drawing.Point(109, 154);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(264, 20);
-            this.textBox1.TabIndex = 10;
-            this.textBox1.Text = "AWB encountered an exception";
+            this.txtSubject.BackColor = System.Drawing.SystemColors.Control;
+            this.txtSubject.Location = new System.Drawing.Point(68, 154);
+            this.txtSubject.Multiline = true;
+            this.txtSubject.Name = "txtSubject";
+            this.txtSubject.ReadOnly = true;
+            this.txtSubject.Size = new System.Drawing.Size(305, 20);
+            this.txtSubject.TabIndex = 10;
+            this.txtSubject.Text = "AWB encountered an exception";
             // 
             // ErrorHandler
             // 
@@ -132,7 +132,7 @@ namespace AwbUpdater
             this.BackColor = System.Drawing.SystemColors.Control;
             this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(385, 426);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtSubject);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.txtError);
@@ -142,7 +142,7 @@ namespace AwbUpdater
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "ErrorHandler";
-            this.Text = "ErrorHandler";
+            this.Text = "Program error";
             this.Load += new System.EventHandler(this.ErrorHandler_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -158,6 +158,6 @@ namespace AwbUpdater
         private System.Windows.Forms.TextBox txtError;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtSubject;
     }
 }
