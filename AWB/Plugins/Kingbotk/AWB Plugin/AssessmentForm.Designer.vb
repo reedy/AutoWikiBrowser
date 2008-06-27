@@ -73,7 +73,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             'PictureBox1
             '
             Me.PictureBox1.Image = Global.My.Resources.Resources.WP1
-            Me.PictureBox1.Location = New System.Drawing.Point(12, 199)
+            Me.PictureBox1.Location = New System.Drawing.Point(12, 201)
             Me.PictureBox1.Name = "PictureBox1"
             Me.PictureBox1.Size = New System.Drawing.Size(64, 61)
             Me.PictureBox1.TabIndex = 2
@@ -83,10 +83,10 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             '
             Me.ClassCheckedListBox.CheckOnClick = True
             Me.ClassCheckedListBox.FormattingEnabled = True
-            Me.ClassCheckedListBox.Items.AddRange(New Object() {"Unassessed", "Stub", "Start", "B", "GA", "A", "FA", "Not Applicable", "List", "FL"})
+            Me.ClassCheckedListBox.Items.AddRange(New Object() {"Unassessed", "Stub", "Start", "C", "B", "GA", "A", "FA", "Not Applicable", "List", "FL"})
             Me.ClassCheckedListBox.Location = New System.Drawing.Point(12, 26)
             Me.ClassCheckedListBox.Name = "ClassCheckedListBox"
-            Me.ClassCheckedListBox.Size = New System.Drawing.Size(120, 154)
+            Me.ClassCheckedListBox.Size = New System.Drawing.Size(120, 169)
             Me.ClassCheckedListBox.TabIndex = 3
             Me.ToolTip1.SetToolTip(Me.ClassCheckedListBox, "Article classification")
             '
