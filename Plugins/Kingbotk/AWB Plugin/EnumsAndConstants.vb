@@ -20,6 +20,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         Unassessed = 0
         Stub
         Start
+        C
         B
         GA
         A

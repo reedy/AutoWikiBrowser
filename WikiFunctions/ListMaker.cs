@@ -280,6 +280,7 @@ namespace WikiFunctions.Controls.Lists
 
             IListProvider searchItem = (IListProvider)cmboSourceSelect.SelectedItem;
 
+            searchItem.Selected();
             lblSourceSelect.Text = searchItem.UserInputTextBoxText;
             UserInputTextBox.Enabled = searchItem.UserInputTextBoxEnabled;
        }
