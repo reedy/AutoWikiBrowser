@@ -1144,7 +1144,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// Gets all the pages from the Current Users Watchlist
+    /// Gets all the pages from the current user's watchlist
     /// </summary>
     public class MyWatchlistListMakerProvider : IListProvider
     {
