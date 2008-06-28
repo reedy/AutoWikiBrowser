@@ -347,23 +347,49 @@ http://example.com }}");
         }
     }
 
-    [TestFixture]
+    [TestFixture, Category("Incomplete")]
     public class BoldTitleTests
     {
         Parsers p = new Parsers();
+        bool dummy;
 
         public BoldTitleTests()
         {
             Globals.UnitTestMode = true;
+            WikiRegexes.MakeLangSpecificRegexes();
         }
 
         [Test]
         //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Title_bolding
-        public void DontEmboldenImages()
+        public void DontEmboldenImagesAndTemplates()
         {
-            bool dummy;
             Assert.That(p.BoldTitle("[[Image:Foo.jpg]]", "Foo", out dummy), Is.Not.Contains("'''Foo'''"));
+            Assert.That(p.BoldTitle("{{Foo}}", "Foo", out dummy), Is.Not.Contains("'''Foo'''"));
+            Assert.That(p.BoldTitle("{{template| Foo is a bar}}", "Foo", out dummy), Is.Not.Contains("'''Foo'''"));
         }
+
+        [Test]
+        public void SimpleCases()
+        {
+            Assert.AreEqual("'''Foo''' is a bar", p.BoldTitle("Foo is a bar", "Foo", out dummy));
+            Assert.AreEqual("Fooo is a bar", p.BoldTitle("Fooo is a bar", "Foo", out dummy));
+            Assert.AreEqual("'''Foo''' is a bar, Foo moar", p.BoldTitle("Foo is a bar, Foo moar", "Foo", out dummy));
+            Assert.AreEqual("Foo is a bar, '''Foo''' moar", p.BoldTitle("Foo is a bar, '''Foo''' moar", "Foo", out dummy));
+        }
+
+        [Test]
+        public void LinkToBold()
+        {
+            Assert.AreEqual("'''Foo''' is a bar, Foo moar", p.BoldTitle("[[Foo]] is a bar, Foo moar", "Foo", out dummy));
+            //Assert.AreEqual("'''Foo''' is a bar, '''Foo''' moar", p.BoldTitle("[[Foo]] is a bar, '''Foo''' moar", "Foo", out dummy));
+        }
+
+        //Needs more investigation
+        //[Test]
+        //public void CaseInsensitivity()
+        //{
+        //    Assert.AreEqual("'''foo''' is a bar", p.BoldTitle("foo is a bar", "Foo", out dummy));
+        //}
     }
 
     [TestFixture]
@@ -567,6 +593,7 @@ http://example.com }}");
     }
 
     [TestFixture]
+    //TODO: write tests for category addition
     public class RecategorizerTests
     {
         Parsers p = new Parsers();
@@ -576,13 +603,21 @@ http://example.com }}");
             Globals.UnitTestMode = true;
         }
 
-        [Test]
+        [Test, Category("Unarchived bugs")]
         public void Replacement()
         {
             bool noChange;
 
             Assert.AreEqual("[[Category:Bar]]", p.ReCategoriser("Foo", "Bar", "[[Category:Foo]]", out noChange));
             Assert.IsFalse(noChange);
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Replacing_Arabic_categories
+            // addresses special case in Tools.CaseInsensitive
+            Assert.AreEqual("[[Category:Bar]]", p.ReCategoriser("-Foo bar-", "Bar", "[[Category:-Foo bar-]]", out noChange));
+            Assert.IsFalse(noChange);
+            Assert.AreEqual("[[Category:-Bar II-]]", p.ReCategoriser("Foo", "-Bar II-", "[[Category:Foo]]", out noChange));
+            Assert.IsFalse(noChange);
+
 
             Assert.AreEqual("[[Category:Bar]]", p.ReCategoriser("Foo", "Bar", "[[ catEgory: Foo]]", out noChange));
             Assert.IsFalse(noChange);
@@ -593,7 +628,7 @@ http://example.com }}");
             Assert.AreEqual("[[Category:Bar|boz]]", p.ReCategoriser("Foo", "Bar", "[[Category:Foo|boz]]", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("[[Category:Bar| boz]]", p.ReCategoriser("foo? Bar!", "Bar", "[[ category:Foo? Bar! | boz]]", out noChange));
+            Assert.AreEqual("[[Category:Bar| boz]]", p.ReCategoriser("foo? Bar!", "Bar", "[[ category:Foo?_Bar! | boz]]", out noChange));
             Assert.IsFalse(noChange);
 
             Assert.AreEqual(@"[[Category:Boz]]
@@ -610,12 +645,17 @@ http://example.com }}");
             Assert.IsTrue(noChange);
         }
 
-        [Test]
+        [Test, Category("Unarchived bugs")]
         public void Removal()
         {
             bool noChange;
 
             Assert.AreEqual("", p.RemoveCategory("Foo", "[[Category:Foo]]", out noChange));
+            Assert.IsFalse(noChange);
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Replacing_Arabic_categories
+            // addresses special case in Tools.CaseInsensitive
+            Assert.AreEqual("", p.RemoveCategory("-Foo bar-", "[[Category:-Foo bar-]]", out noChange));
             Assert.IsFalse(noChange);
 
             Assert.AreEqual("", p.RemoveCategory("Foo", "[[ category: foo | bar]]", out noChange));
@@ -633,7 +673,7 @@ http://example.com }}");
             Assert.AreEqual("\r\n", p.RemoveCategory("Foo", "[[Category:Foo]]\r\n\r\n", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("", p.RemoveCategory("Foo? Bar!", "[[Category:Foo? Bar!|boz]]", out noChange));
+            Assert.AreEqual("", p.RemoveCategory("Foo? Bar!", "[[Category:Foo?_Bar!|boz]]", out noChange));
             Assert.IsFalse(noChange);
 
             Assert.AreEqual("[[Category:Fooo]]", p.RemoveCategory("Foo", "[[Category:Fooo]]", out noChange));

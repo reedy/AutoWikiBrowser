@@ -224,6 +224,7 @@ namespace WikiFunctions
 
         /// <summary>
         /// Matches Dates like January 21
+        /// TODO: internationalise
         /// </summary>
         public static readonly Regex Dates2 = new Regex("^(January|February|March|April|May|June|July|August|September|October|November|December) [0-9]{1,2}$", RegexOptions.Compiled);
 
