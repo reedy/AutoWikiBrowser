@@ -562,11 +562,19 @@ namespace WikiFunctions.Browser
         }
 
         /// <summary>
+        /// Returns true if browser is currently doing something
+        /// </summary>
+        public bool Loading
+        {
+            get { return ReadyState != WebBrowserReadyState.Complete; }
+        }
+
+        /// <summary>
         /// wait for current operation to complete
         /// </summary>
         public void Wait()
         {
-            while (ReadyState != WebBrowserReadyState.Complete && !Shutdown) Application.DoEvents();
+            while (Loading && !Shutdown) Application.DoEvents();
         }
 
         #endregion
