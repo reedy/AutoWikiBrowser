@@ -378,10 +378,10 @@ namespace WikiFunctions
             {
                 input = input.Trim();
                 // escaping breaks many places that alredy escape their data
-                return "[" + char.ToUpper(input[0]) + char.ToLower(input[0]) + "]" + /*Regex.Escape(*/input.Remove(0, 1)/*)*/;
+                return "[" + char.ToUpper(input[0]) + char.ToLower(input[0]) + "]" + input.Remove(0, 1);
             }
             else
-                return Regex.Escape(input);
+                return input;
         }
 
         /// <summary>

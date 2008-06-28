@@ -1140,7 +1140,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 return ArticleText;
             }
 
-            string escTitle = Regex.Escape(ArticleTitle);
+            string escTitle = Regex.Escape(ArticleTitle).Replace(@"\ ", "[ _]");
 
             //remove self links first
             Regex tregex = new Regex("\\[\\[(" + Tools.CaseInsensitive(escTitle) + ")\\]\\]");
