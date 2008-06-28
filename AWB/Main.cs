@@ -1248,6 +1248,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void GetPreview()
         {
+            if (webBrowserEdit.Loading) return;
             webBrowserEdit.BringToFront();
             webBrowserEdit.SetArticleText(txtEdit.Text);
 
@@ -1968,19 +1969,15 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //refresh login status, and reload check list
+            CheckStatus(false);
+
             //refresh typo list
             LoadTypos(true);
 
             //refresh talk warnings list
             if (userTalkWarningsLoaded)
                 LoadUserTalkWarnings();
-
-            //refresh login status, and reload check list
-            if (!Variables.User.WikiStatus)
-            {
-                if (!CheckStatus(false))
-                    return;
-            }
         }
 
         private void SetProject(LangCodeEnum code, ProjectEnum project, string customProject)
