@@ -191,7 +191,6 @@ namespace AutoWikiBrowser
             // chkAddUsingAWBToActionSummaries
             // 
             this.chkAddUsingAWBToActionSummaries.AutoSize = true;
-            this.chkAddUsingAWBToActionSummaries.Enabled = false;
             this.chkAddUsingAWBToActionSummaries.Location = new System.Drawing.Point(6, 105);
             this.chkAddUsingAWBToActionSummaries.Name = "chkAddUsingAWBToActionSummaries";
             this.chkAddUsingAWBToActionSummaries.Size = new System.Drawing.Size(286, 17);
