@@ -27,9 +27,9 @@ using System.Windows.Forms;
 
 namespace AutoWikiBrowser
 {
-    internal sealed partial class DlgTalk : Form
+    internal sealed partial class TalkMessage : Form
     {
-        public DlgTalk()
+        public TalkMessage()
         {
             InitializeComponent();
         }

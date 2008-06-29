@@ -94,11 +94,11 @@
     <Compile Include="ExitQuestion.Designer.cs">
       <DependentUpon>ExitQuestion.cs</DependentUpon>
     </Compile>
-    <Compile Include="dlgTalk.cs">
+    <Compile Include="TalkMessage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="dlgTalk.Designer.cs">
-      <DependentUpon>dlgTalk.cs</DependentUpon>
+    <Compile Include="TalkMessage.Designer.cs">
+      <DependentUpon>TalkMessage.cs</DependentUpon>
     </Compile>
     <Compile Include="ExternalProgram.cs">
       <SubType>Form</SubType>
@@ -181,9 +181,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>CustomModule.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="dlgTalk.resx">
+    <EmbeddedResource Include="TalkMessage.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>dlgTalk.cs</DependentUpon>
+      <DependentUpon>TalkMessage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ExitQuestion.resx">
       <SubType>Designer</SubType>

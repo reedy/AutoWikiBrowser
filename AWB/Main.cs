@@ -874,7 +874,7 @@ namespace AutoWikiBrowser
                     webBrowserEdit.Document.Write("");
                     this.Focus();
 
-                    using (DlgTalk DlgTalk = new DlgTalk())
+                    using (TalkMessage DlgTalk = new TalkMessage())
                     {
                         if (DlgTalk.ShowDialog() == DialogResult.Yes)
                             Tools.OpenUserTalkInBrowser();
