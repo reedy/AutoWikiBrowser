@@ -265,7 +265,7 @@ namespace AutoWikiBrowser
                chkFindCaseSensitive.Checked, wordWrapToolStripMenuItem1.Checked, EnableToolBar,
                bypassRedirectsToolStripMenuItem.Checked, doNotAutomaticallyDoAnythingToolStripMenuItem.Checked,
                toolStripComboOnLoad.SelectedIndex, chkMinor.Checked, addAllToWatchlistToolStripMenuItem.Checked,
-               showTimerToolStripMenuItem.Checked, sortAlphabeticallyToolStripMenuItem.Checked,
+               ShowMovingAverageTimer, sortAlphabeticallyToolStripMenuItem.Checked,
                AddIgnoredToLogFile, (int)txtEdit.Font.Size, txtEdit.Font.Name,
                LowThreadPriority, Beep, Flash, Minimize, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxPeriod,
                AutoSaveEditBoxFile, chkLock.Checked, EditToolBarVisible, SuppressUsingAWB, AddUsingAWBOnArticleAction,
@@ -441,8 +441,7 @@ namespace AutoWikiBrowser
             toolStripComboOnLoad.SelectedIndex = p.General.OnLoadAction;
             chkMinor.Checked = p.General.Minor;
             addAllToWatchlistToolStripMenuItem.Checked = p.General.Watch;
-            showTimerToolStripMenuItem.Checked = p.General.TimerEnabled;
-            ShowTimer();
+            ShowMovingAverageTimer = p.General.TimerEnabled;
 
             sortAlphabeticallyToolStripMenuItem.Checked = p.General.SortListAlphabetically;
             AddIgnoredToLogFile = p.General.AddIgnoredToLog;

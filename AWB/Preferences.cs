@@ -36,7 +36,7 @@ namespace AutoWikiBrowser
             Font textFont, bool lowPriority, bool flash, bool beep, bool minimize,
             bool saveArticleList, decimal timeOut, bool autoSaveEditBox,
             string autoSaveEditBoxFile, decimal autoSaveEditBoxPeriod, bool suppressUsingAWB,
-            bool addUsingAWBOnArticleAction, bool ignoreNoBots, bool falsePositives)
+            bool addUsingAWBOnArticleAction, bool ignoreNoBots, bool falsePositives, bool showTimer)
         {
             InitializeComponent();
 
@@ -71,6 +71,7 @@ namespace AutoWikiBrowser
             PrefAutoSaveEditBoxPeriod = autoSaveEditBoxPeriod;
             PrefIgnoreNoBots = ignoreNoBots;
             PrefFalsePositives = falsePositives;
+            PrefShowTimer = showTimer;
 
             chkSupressAWB.Enabled = (cmboProject.Text == "custom" || cmboProject.Text == "wikia");
             if (chkSupressAWB.Enabled)
@@ -265,6 +266,12 @@ namespace AutoWikiBrowser
         {
             get { return chkAddIgnoredToLogFile.Checked; }
             set { chkAddIgnoredToLogFile.Checked = value; }
+        }
+
+        public bool PrefShowTimer
+        {
+            get { return chkShowTimer.Checked; }
+            set { chkShowTimer.Checked = value; }
         }
         #endregion
 
