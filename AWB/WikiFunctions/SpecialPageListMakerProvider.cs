@@ -42,7 +42,7 @@ namespace WikiFunctions.Lists
             InitializeComponent();
         }
 
-        public List<Article> MakeList(string[] searchCriteria)
+        public List<Article> MakeList(params string[] searchCriteria)
         {
             //searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
             txtSource.Text = "";
@@ -60,11 +60,11 @@ namespace WikiFunctions.Lists
                 searchCriteria = txtSource.Text.Split(new char[] { '|' });
                 if (radAllPages.Checked)
                 {
-                    list = new AllPagesSpecialPageProvider().MakeList(searchCriteria, Tools.CalculateNS(cboNamespaces.Text));
+                    list = new AllPagesSpecialPageProvider().MakeList(Tools.CalculateNS(cboNamespaces.Text), searchCriteria);
                 }
                 else if (radPrefixIndex.Checked)
                 {
-                    list = new PrefixIndexSpecialPageProvider().MakeList(searchCriteria, Tools.CalculateNS(cboNamespaces.Text));
+                    list = new PrefixIndexSpecialPageProvider().MakeList(Tools.CalculateNS(cboNamespaces.Text), searchCriteria);
                 }
             }
             
@@ -108,7 +108,7 @@ namespace WikiFunctions.Lists
 
     interface ISpecialPageProvider
     {
-        List<Article> MakeList(string[] searchCriteria, int Namespace);
+        List<Article> MakeList(int Namespace, params string[] searchCriteria);
     }
 
     public class AllPagesSpecialPageProvider : ISpecialPageProvider
@@ -117,7 +117,7 @@ namespace WikiFunctions.Lists
 
         #region ISpecialPageProvider Members
 
-        public virtual List<Article> MakeList(string[] searchCriteria, int Namespace)
+        public virtual List<Article> MakeList(int Namespace, params string[] searchCriteria)
         {
             List<Article> list = new List<Article>();
 
@@ -172,9 +172,9 @@ namespace WikiFunctions.Lists
             from = "apprefix";
         }
 
-        public override List<Article> MakeList(string[] searchCriteria, int Namespace)
+        public override List<Article> MakeList(int Namespace, params string[] searchCriteria)
         {
-            return base.MakeList(searchCriteria, Namespace);
+            return base.MakeList(Namespace, searchCriteria);
         }
     }
 }

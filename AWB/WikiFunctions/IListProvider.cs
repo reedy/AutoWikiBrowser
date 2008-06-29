@@ -42,7 +42,7 @@ namespace WikiFunctions.Lists
         /// </summary>
         /// <param name="userInput"></param>
         /// <returns></returns>
-        List<Article> MakeList(string[] searchCriteria);
+        List<Article> MakeList(params string[] searchCriteria);
 
         /// <summary>
         /// The text to display as the combobox list item
