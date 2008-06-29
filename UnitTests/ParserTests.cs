@@ -68,8 +68,8 @@ namespace UnitTests
             Assert.AreEqual("<refname=\"foo\"></ref>", Parsers.SimplifyReferenceTags("<refname=\"foo\"></ref>"));
         }
 
-        [Test, Category("Unarchived bugs")]
-        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#References-2column_not_replaced_with_2_argument_to_reflist
+        [Test]
+        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#References-2column_not_replaced_with_2_argument_to_reflist
         public void TestFixReferenceListTags()
         {
             Assert.AreEqual("<references/>", parser.FixReferenceListTags("<references/>"));
