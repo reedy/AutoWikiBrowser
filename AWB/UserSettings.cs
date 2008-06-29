@@ -258,7 +258,7 @@ namespace AutoWikiBrowser
                txtSkipIfNotContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked,
                chkSkipWhenNoFAR.Checked, chkSkipIfNoRegexTypo.Checked, chkSkipNoDab.Checked, chkSkipWhitespace.Checked, chkSkipCasing.Checked,
                chkSkipGeneralFixes.Checked, chkSkipNoPageLinks.Checked, Skip.SelectedItems),
-               new GeneralPrefs(SaveArticleList, ignoreNoBotsToolStripMenuItem.Checked, cmboEditSummary.Items,
+               new GeneralPrefs(SaveArticleList, IgnoreNoBots, cmboEditSummary.Items,
                cmboEditSummary.Text, new string[10] {PasteMore1.Text, PasteMore2.Text, PasteMore3.Text, 
                 PasteMore4.Text, PasteMore5.Text, PasteMore6.Text, PasteMore7.Text, PasteMore8.Text,
                 PasteMore9.Text, PasteMore10.Text}, txtFind.Text, chkFindRegex.Checked,
@@ -266,7 +266,7 @@ namespace AutoWikiBrowser
                bypassRedirectsToolStripMenuItem.Checked, doNotAutomaticallyDoAnythingToolStripMenuItem.Checked,
                toolStripComboOnLoad.SelectedIndex, chkMinor.Checked, addAllToWatchlistToolStripMenuItem.Checked,
                showTimerToolStripMenuItem.Checked, sortAlphabeticallyToolStripMenuItem.Checked,
-               addIgnoredToLogFileToolStripMenuItem.Checked, (int)txtEdit.Font.Size, txtEdit.Font.Name,
+               AddIgnoredToLogFile, (int)txtEdit.Font.Size, txtEdit.Font.Name,
                LowThreadPriority, Beep, Flash, Minimize, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxPeriod,
                AutoSaveEditBoxFile, chkLock.Checked, EditToolBarVisible, SuppressUsingAWB, AddUsingAWBOnArticleAction,
                filterOutNonMainSpaceToolStripMenuItem.Checked, removeDuplicatesToolStripMenuItem.Checked,
@@ -348,7 +348,7 @@ namespace AutoWikiBrowser
 
             SaveArticleList = p.General.SaveArticleList;
 
-            ignoreNoBotsToolStripMenuItem.Checked = p.General.IgnoreNoBots;
+            IgnoreNoBots = p.General.IgnoreNoBots;
 
             listMaker1.Add(p.List.ArticleList);
 
@@ -445,7 +445,7 @@ namespace AutoWikiBrowser
             ShowTimer();
 
             sortAlphabeticallyToolStripMenuItem.Checked = p.General.SortListAlphabetically;
-            addIgnoredToLogFileToolStripMenuItem.Checked = p.General.AddIgnoredToLog;
+            AddIgnoredToLogFile = p.General.AddIgnoredToLog;
 
             AutoSaveEditBoxEnabled = p.General.AutoSaveEdit.Enabled;
             AutoSaveEditBoxPeriod = p.General.AutoSaveEdit.SavePeriod;

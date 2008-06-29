@@ -433,6 +433,30 @@ namespace AutoWikiBrowser
                 Application.DoEvents();
             }
         }
+
+        private bool IgnoreNoBots = false;
+        private bool addIgnoredToLogFile = false;
+
+        private bool AddIgnoredToLogFile
+        {
+            set
+            {
+                addIgnoredToLogFile = value;
+                if (addIgnoredToLogFile)
+                {
+                    btnFalsePositive.Visible = btntsFalsePositive.Visible = true;
+                    btnStop.Location = new System.Drawing.Point(220, 62);
+                    btnStop.Size = new System.Drawing.Size(51, 23);
+                }
+                else
+                {
+                    btnFalsePositive.Visible = btntsFalsePositive.Visible = false;
+                    btnStop.Location = new System.Drawing.Point(156, 62);
+                    btnStop.Size = new System.Drawing.Size(117, 23);
+                }
+            }
+            get { return addIgnoredToLogFile; }
+        }
         #endregion
 
         #region MainProcess
@@ -1036,7 +1060,7 @@ namespace AutoWikiBrowser
                 if (noParse.Contains(theArticle.Name))
                     process = false;
 
-                if (!ignoreNoBotsToolStripMenuItem.Checked &&
+                if (!IgnoreNoBots &&
                     !Parsers.CheckNoBots(theArticle.ArticleText, Variables.User.Name))
                 {
                     theArticle.AWBSkip("Restricted by {{bots}}/{{nobots}}");
@@ -1934,22 +1958,24 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             MyPreferences myPrefs = new MyPreferences(Variables.LangCode, Variables.Project,
                 Variables.CustomProject, txtEdit.Font, LowThreadPriority, Flash, Beep,
                 Minimize, SaveArticleList, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxFile,
-                AutoSaveEditBoxPeriod, SuppressUsingAWB, AddUsingAWBOnArticleAction);
+                AutoSaveEditBoxPeriod, SuppressUsingAWB, AddUsingAWBOnArticleAction, IgnoreNoBots, AddIgnoredToLogFile);
 
             if (myPrefs.ShowDialog(this) == DialogResult.OK)
             {
                 txtEdit.Font = myPrefs.TextBoxFont;
                 LowThreadPriority = myPrefs.LowThreadPriority;
-                Flash = myPrefs.PerfFlash;
-                Beep = myPrefs.PerfBeep;
-                Minimize = myPrefs.PerfMinimize;
-                SaveArticleList = myPrefs.PerfSaveArticleList;
-                TimeOut = myPrefs.PerfTimeOutLimit;
-                AutoSaveEditBoxEnabled = myPrefs.PerfAutoSaveEditBoxEnabled;
-                AutoSaveEditBoxPeriod = myPrefs.PerfAutoSaveEditBoxPeriod;
-                AutoSaveEditBoxFile = myPrefs.PerfAutoSaveEditBoxFile;
+                Flash = myPrefs.PrefFlash;
+                Beep = myPrefs.PrefBeep;
+                Minimize = myPrefs.PrefMinimize;
+                SaveArticleList = myPrefs.PrefSaveArticleList;
+                TimeOut = myPrefs.PrefTimeOutLimit;
+                AutoSaveEditBoxEnabled = myPrefs.PrefAutoSaveEditBoxEnabled;
+                AutoSaveEditBoxPeriod = myPrefs.PrefAutoSaveEditBoxPeriod;
+                AutoSaveEditBoxFile = myPrefs.PrefAutoSaveEditBoxFile;
                 SuppressUsingAWB = myPrefs.PrefSuppressUsingAWB;
                 AddUsingAWBOnArticleAction = myPrefs.PrefAddUsingAWBOnArticleAction;
+                IgnoreNoBots = myPrefs.PrefIgnoreNoBots;
+                AddIgnoredToLogFile = myPrefs.PrefFalsePositives;
 
                 if (myPrefs.Language != Variables.LangCode || myPrefs.Project != Variables.Project || myPrefs.CustomProject != Variables.CustomProject)
                 {
@@ -2338,22 +2364,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             WikiFunctions.DBScanner.DatabaseScanner ds = new WikiFunctions.DBScanner.DatabaseScanner();
             ds.Show();
             UpdateButtons(null, null);
-        }
-
-        private void addIgnoredToLogFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (addIgnoredToLogFileToolStripMenuItem.Checked)
-            {
-                btnFalsePositive.Visible = btntsFalsePositive.Visible = true;
-                btnStop.Location = new System.Drawing.Point(220, 62);
-                btnStop.Size = new System.Drawing.Size(51, 23);
-            }
-            else
-            {
-                btnFalsePositive.Visible = btntsFalsePositive.Visible = false;
-                btnStop.Location = new System.Drawing.Point(156, 62);
-                btnStop.Size = new System.Drawing.Size(117, 23);
-            }
         }
 
         private void alphaSortInterwikiLinksToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
@@ -3965,6 +3975,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void UsageStatsMenuItem_Click(object sender, EventArgs e)
         { UsageStats.OpenUsageStatsURL(); }
+
+        private void ignoreNoBotsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
         #endregion
 }

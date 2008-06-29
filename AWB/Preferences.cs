@@ -36,7 +36,7 @@ namespace AutoWikiBrowser
             Font textFont, bool lowPriority, bool flash, bool beep, bool minimize,
             bool saveArticleList, decimal timeOut, bool autoSaveEditBox,
             string autoSaveEditBoxFile, decimal autoSaveEditBoxPeriod, bool suppressUsingAWB,
-            bool addUsingAWBOnArticleAction)
+            bool addUsingAWBOnArticleAction, bool ignoreNoBots, bool falsePositives)
         {
             InitializeComponent();
 
@@ -60,15 +60,17 @@ namespace AutoWikiBrowser
 
             TextBoxFont = textFont;
             LowThreadPriority = lowPriority;
-            PerfFlash = flash;
-            PerfBeep = beep;
-            PerfMinimize = minimize;
-            PerfSaveArticleList = saveArticleList;
-            PerfTimeOutLimit = timeOut;
+            PrefFlash = flash;
+            PrefBeep = beep;
+            PrefMinimize = minimize;
+            PrefSaveArticleList = saveArticleList;
+            PrefTimeOutLimit = timeOut;
 
-            PerfAutoSaveEditBoxEnabled = autoSaveEditBox;
-            PerfAutoSaveEditBoxFile = autoSaveEditBoxFile;
-            PerfAutoSaveEditBoxPeriod = autoSaveEditBoxPeriod;
+            PrefAutoSaveEditBoxEnabled = autoSaveEditBox;
+            PrefAutoSaveEditBoxFile = autoSaveEditBoxFile;
+            PrefAutoSaveEditBoxPeriod = autoSaveEditBoxPeriod;
+            PrefIgnoreNoBots = ignoreNoBots;
+            PrefFalsePositives = falsePositives;
 
             chkSupressAWB.Enabled = (cmboProject.Text == "custom" || cmboProject.Text == "wikia");
             if (chkSupressAWB.Enabled)
@@ -81,7 +83,7 @@ namespace AutoWikiBrowser
             cmboProject_SelectedIndexChanged(null, null);
 
             chkAlwaysConfirmExit.Checked = Properties.Settings.Default.DontAskForTerminate;
-            PrivacyCheckBox.Checked = !Properties.Settings.Default.Privacy;
+            chkPrivacy.Checked = !Properties.Settings.Default.Privacy;
         }
 
         #region Language and project
@@ -187,49 +189,55 @@ namespace AutoWikiBrowser
             set { chkLowPriority.Checked = value; }
         }
 
-        public bool PerfFlash
+        public bool PrefFlash
         {
             get { return chkFlash.Checked; }
             set { chkFlash.Checked = value; }
         }
 
-        public bool PerfBeep
+        public bool PrefBeep
         {
             get { return chkBeep.Checked; }
             set { chkBeep.Checked = value; }
         }
 
-        public bool PerfMinimize
+        public bool PrefMinimize
         {
             get { return chkMinimize.Checked; }
             set { chkMinimize.Checked = value; }
         }
 
-        public bool PerfSaveArticleList
+        public bool PrefSaveArticleList
         {
             get { return chkSaveArticleList.Checked; }
             set { chkSaveArticleList.Checked = value; }
         }
 
-        public decimal PerfTimeOutLimit
+        public decimal PrefTimeOutLimit
         {
-            get { return numTimeOutLimit.Value; }
-            set { numTimeOutLimit.Value = value; }
+            get { return nudTimeOutLimit.Value; }
+            set { nudTimeOutLimit.Value = value; }
         }
 
-        public bool PerfAutoSaveEditBoxEnabled
+        public bool PrefAutoSaveEditBoxEnabled
         {
             get { return chkAutoSaveEdit.Checked; }
-            set { chkAutoSaveEdit.Checked = btnSetFile.Enabled = numEditBoxAutosave.Enabled = label9.Enabled = label10.Enabled = value; }
+            set { chkAutoSaveEdit.Checked = btnSetFile.Enabled = nudEditBoxAutosave.Enabled = txtAutosave.Enabled = lblAutosaveFile.Enabled = value; }
         }
 
-        public decimal PerfAutoSaveEditBoxPeriod
+        public decimal PrefAutoSaveEditBoxPeriod
         {
-            get { return numEditBoxAutosave.Value; }
-            set { numEditBoxAutosave.Value = value; }
+            get { return nudEditBoxAutosave.Value; }
+            set { nudEditBoxAutosave.Value = value; }
         }
 
-        public List<String> PerfCustomWikis
+        public string PrefAutoSaveEditBoxFile
+        {
+            get { return txtAutosave.Text; }
+            set { txtAutosave.Text = value; }
+        }
+
+        public List<String> PrefCustomWikis
         {
             get
             {
@@ -247,16 +255,22 @@ namespace AutoWikiBrowser
             }
         }
 
-        public string PerfAutoSaveEditBoxFile
+        public bool PrefIgnoreNoBots
         {
-            get { return txtAutosave.Text; }
-            set { txtAutosave.Text = value; }
+            get { return chkIgnoreNoBots.Checked; }
+            set { chkIgnoreNoBots.Checked = value; }
+        }
+
+        public bool PrefFalsePositives
+        {
+            get { return chkAddIgnoredToLogFile.Checked; }
+            set { chkAddIgnoredToLogFile.Checked = value; }
         }
         #endregion
 
         private void chkAutoSaveEdit_CheckedChanged(object sender, EventArgs e)
         {
-            PerfAutoSaveEditBoxEnabled = chkAutoSaveEdit.Checked;
+            PrefAutoSaveEditBoxEnabled = chkAutoSaveEdit.Checked;
         }
 
         private void btnSetFile_Click(object sender, EventArgs e)
@@ -300,9 +314,9 @@ namespace AutoWikiBrowser
                 Properties.Settings.Default.DontAskForTerminate = chkAlwaysConfirmExit.Checked;
                 save = true;
             }
-            if (Properties.Settings.Default.Privacy != PrivacyCheckBox.Checked)
+            if (Properties.Settings.Default.Privacy != chkPrivacy.Checked)
             {
-                Properties.Settings.Default.Privacy = !PrivacyCheckBox.Checked;
+                Properties.Settings.Default.Privacy = !chkPrivacy.Checked;
                 save = true;
             }
 
