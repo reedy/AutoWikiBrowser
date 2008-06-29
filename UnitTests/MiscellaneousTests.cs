@@ -23,7 +23,12 @@ namespace UnitTests
 
         private string Hide(string text)
         {
-            hider = new HideText();
+            return Hide(text, true, false, true);
+        }
+
+        private string Hide(string text, bool HideExternalLinks, bool LeaveMetaHeadings, bool HideImages)
+        {
+            hider = new HideText(HideExternalLinks, LeaveMetaHeadings, HideImages);
             return hider.HideMore(text);
         }
 
@@ -66,12 +71,34 @@ namespace UnitTests
         {
             AssertAllHidden("[[Image:foo]]");
             AssertAllHidden("[[Image:foo|100px|bar]]");
-            AssertAllHidden("[[Image:foo|A [[bar]].]]");
+            AssertAllHidden("[[Image:foo|A [[bar]] [http://boz.com gee].]]");
             AssertAllHidden("[[Image:foo|A [[bar]] [[test]].]]");
             AssertAllHidden("[[Image:foo|A [[bar]]]]");
             AssertAllHidden("[[Image:foo|A [[bar|quux]].]]");
             AssertAllHidden("[[Image:foo|A [[bar]][http://fubar].]]");
             AssertAllHidden("[[Image:foo|A [[bar]][http://fubar].{{quux}}]]");
+            AssertAllHidden("[[Image:foo|test [[Image:bar|thumb]]]]");
+        }
+
+        [Test]
+        public void HideGalleries()
+        {
+            AssertAllHidden(@"<gallery>
+Image:foo|a [[bar]]
+Image:quux[http://example.com]
+</gallery>");
+            AssertAllHidden(@"<gallery name=""test"">
+Image:foo|a [[bar]]
+Image:quux[http://example.com]
+</gallery>");
+        }
+
+        [Test]
+        public void HideExternalLinks()
+        {
+            AssertAllHidden("[http://foo]");
+            AssertAllHidden("[http://foo bar]");
+            AssertAllHidden("[http://foo [bar]");
         }
     }
 }

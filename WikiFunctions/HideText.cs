@@ -127,8 +127,6 @@ namespace WikiFunctions.Parse
 
             ReplaceMore(WikiRegexes.Blockquote.Matches(ArticleText), ref ArticleText);
 
-            ReplaceMore(WikiRegexes.Images.Matches(ArticleText), ref ArticleText);
-
             ReplaceMore(WikiRegexes.Source.Matches(ArticleText), ref ArticleText);
 
             if (HideExternal) ReplaceMore(WikiRegexes.ExternalLinks.Matches(ArticleText), ref ArticleText);
@@ -139,6 +137,8 @@ namespace WikiFunctions.Parse
 
             ReplaceMore(WikiRegexes.UnFormattedText.Matches(ArticleText), ref ArticleText);
 
+            ReplaceMore(WikiRegexes.WikiLinksOnly.Matches(ArticleText), ref ArticleText);
+            
             ReplaceMore(WikiRegexes.SimpleWikiLink.Matches(ArticleText), ref ArticleText);
 
             ReplaceMore(WikiRegexes.Cites.Matches(ArticleText), ref ArticleText);
@@ -146,6 +146,9 @@ namespace WikiFunctions.Parse
             ReplaceMore(WikiRegexes.Refs.Matches(ArticleText), ref ArticleText);
 
             ReplaceMore(WikiRegexes.WikiLink.Matches(ArticleText), ref ArticleText);
+
+            //TODO: replace with gallery-only regex, all normal images should be hidden by now as simple wikilinks
+            ReplaceMore(WikiRegexes.Images.Matches(ArticleText), ref ArticleText);
 
             return ArticleText;
         }
