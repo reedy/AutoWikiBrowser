@@ -435,8 +435,8 @@ namespace AutoWikiBrowser
         }
 
         private bool IgnoreNoBots = false;
-        private bool addIgnoredToLogFile = false;
 
+        private bool addIgnoredToLogFile = false;
         private bool AddIgnoredToLogFile
         {
             set
@@ -457,6 +457,18 @@ namespace AutoWikiBrowser
             }
             get { return addIgnoredToLogFile; }
         }
+
+        bool showTimer = true;
+        private bool ShowMovingAverageTimer
+        {
+            set
+            {
+                showTimer = value;
+                ShowTimer();
+            }
+            get { return showTimer; }
+        }
+
         #endregion
 
         #region MainProcess
@@ -1303,7 +1315,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             //remember article text in case it is lost, this is set to "" again when the article title is removed
             LastArticle = txtEdit.Text;
 
-            if (showTimerToolStripMenuItem.Checked)
+            if (ShowMovingAverageTimer)
             {
                 StopSaveInterval(null, null);
                 Ticker += SaveInterval;
@@ -1958,7 +1970,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             MyPreferences myPrefs = new MyPreferences(Variables.LangCode, Variables.Project,
                 Variables.CustomProject, txtEdit.Font, LowThreadPriority, Flash, Beep,
                 Minimize, SaveArticleList, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxFile,
-                AutoSaveEditBoxPeriod, SuppressUsingAWB, AddUsingAWBOnArticleAction, IgnoreNoBots, AddIgnoredToLogFile);
+                AutoSaveEditBoxPeriod, SuppressUsingAWB, AddUsingAWBOnArticleAction, IgnoreNoBots,
+                AddIgnoredToLogFile, ShowMovingAverageTimer);
 
             if (myPrefs.ShowDialog(this) == DialogResult.OK)
             {
@@ -1976,6 +1989,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 AddUsingAWBOnArticleAction = myPrefs.PrefAddUsingAWBOnArticleAction;
                 IgnoreNoBots = myPrefs.PrefIgnoreNoBots;
                 AddIgnoredToLogFile = myPrefs.PrefFalsePositives;
+                ShowMovingAverageTimer = myPrefs.PrefShowTimer;
 
                 if (myPrefs.Language != Variables.LangCode || myPrefs.Project != Variables.Project || myPrefs.CustomProject != Variables.CustomProject)
                 {
@@ -2174,14 +2188,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             lblBotTimer.Text = "Bot timer: " + intTimer.ToString();
         }
 
-        private void showTimerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowTimer();
-        }
-
         private void ShowTimer()
         {
-            lblTimer.Visible = showTimerToolStripMenuItem.Checked;
+            lblTimer.Visible = ShowMovingAverageTimer;
             StopSaveInterval(null, null);
         }
 

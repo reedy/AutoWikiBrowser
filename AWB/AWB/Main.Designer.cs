@@ -136,7 +136,6 @@ namespace AutoWikiBrowser
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.markAllAsMinorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addAllToWatchlistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showTimerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.alphaSortInterwikiLinksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.replaceReferenceTagsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1047,7 +1046,6 @@ namespace AutoWikiBrowser
             this.toolStripSeparator6,
             this.markAllAsMinorToolStripMenuItem,
             this.addAllToWatchlistToolStripMenuItem,
-            this.showTimerToolStripMenuItem,
             this.toolStripSeparator7,
             this.alphaSortInterwikiLinksToolStripMenuItem,
             this.replaceReferenceTagsToolStripMenuItem,
@@ -1134,14 +1132,6 @@ namespace AutoWikiBrowser
             this.addAllToWatchlistToolStripMenuItem.Name = "addAllToWatchlistToolStripMenuItem";
             this.addAllToWatchlistToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
             this.addAllToWatchlistToolStripMenuItem.Text = "Add all to &watchlist";
-            // 
-            // showTimerToolStripMenuItem
-            // 
-            this.showTimerToolStripMenuItem.CheckOnClick = true;
-            this.showTimerToolStripMenuItem.Name = "showTimerToolStripMenuItem";
-            this.showTimerToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
-            this.showTimerToolStripMenuItem.Text = "Show ti&mer";
-            this.showTimerToolStripMenuItem.Click += new System.EventHandler(this.showTimerToolStripMenuItem_Click);
             // 
             // toolStripSeparator7
             // 
@@ -3790,7 +3780,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem alphaSortInterwikiLinksToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
-        private System.Windows.Forms.ToolStripMenuItem showTimerToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripMenuItem unicodifyToolStripMenuItem;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
