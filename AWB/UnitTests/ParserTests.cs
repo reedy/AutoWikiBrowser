@@ -476,7 +476,7 @@ http://example.com }}");
         public void DontChangeCertainEntities()
         {
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#.26emsp.3B
-            Assert.AreEqual("&emsp;", parser.Unicodify("&emsp;"));
+            Assert.AreEqual("&emsp;&#013;", parser.Unicodify("&emsp;&#013;"));
         }
 
         [Test]
