@@ -156,26 +156,26 @@
     <Compile Include="FindandReplace.Designer.cs">
       <DependentUpon>FindandReplace.cs</DependentUpon>
     </Compile>
-    <Compile Include="IListProvider.cs" />
-    <Compile Include="ListMakerProviders.cs">
+    <Compile Include="List\IListProvider.cs" />
+    <Compile Include="List\ListMakerProviders.cs">
     </Compile>
-    <Compile Include="ListSplitter.cs">
+    <Compile Include="List\ListSplitter.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ListSplitter.Designer.cs">
+    <Compile Include="List\ListSplitter.Designer.cs">
       <DependentUpon>ListSplitter.cs</DependentUpon>
     </Compile>
     <Compile Include="HideText.cs" />
-    <Compile Include="ListComparer.cs">
+    <Compile Include="List\ListComparer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ListComparer.Designer.cs">
+    <Compile Include="List\ListComparer.Designer.cs">
       <DependentUpon>ListComparer.cs</DependentUpon>
     </Compile>
-    <Compile Include="ListMaker.cs">
+    <Compile Include="List\ListMaker.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ListMaker.Designer.cs">
+    <Compile Include="List\ListMaker.Designer.cs">
       <DependentUpon>ListMaker.cs</DependentUpon>
     </Compile>
     <Compile Include="Logging\LoggingBase.cs" />
@@ -256,16 +256,16 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SiteInfo.cs" />
-    <Compile Include="ListFilterForm.cs">
+    <Compile Include="List\ListFilterForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ListFilterForm.designer.cs">
+    <Compile Include="List\ListFilterForm.designer.cs">
       <DependentUpon>ListFilterForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="SpecialPageListMakerProvider.cs">
+    <Compile Include="List\SpecialPageListMakerProvider.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SpecialPageListMakerProvider.Designer.cs">
+    <Compile Include="List\SpecialPageListMakerProvider.Designer.cs">
       <DependentUpon>SpecialPageListMakerProvider.cs</DependentUpon>
     </Compile>
     <Compile Include="SubstTemplates.cs">
@@ -360,15 +360,15 @@
       <DependentUpon>FindandReplace.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="ListSplitter.resx">
+    <EmbeddedResource Include="List\ListSplitter.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ListSplitter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ListComparer.resx">
+    <EmbeddedResource Include="List\ListComparer.resx">
       <DependentUpon>ListComparer.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="ListMaker.resx">
+    <EmbeddedResource Include="List\ListMaker.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ListMaker.cs</DependentUpon>
     </EmbeddedResource>
@@ -408,11 +408,11 @@
       <DependentUpon>TemplateParamRuleControl.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="ListFilterForm.resx">
+    <EmbeddedResource Include="List\ListFilterForm.resx">
       <DependentUpon>ListFilterForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="SpecialPageListMakerProvider.resx">
+    <EmbeddedResource Include="List\SpecialPageListMakerProvider.resx">
       <DependentUpon>SpecialPageListMakerProvider.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
