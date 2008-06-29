@@ -118,16 +118,16 @@
     <Compile Include="Help.Designer.cs">
       <DependentUpon>Help.cs</DependentUpon>
     </Compile>
-    <Compile Include="IAutoWikiBrowser.cs">
+    <Compile Include="IAutoWikiBrowser\IAutoWikiBrowser.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="IAutoWikiBrowserCommands.cs">
+    <Compile Include="IAutoWikiBrowser\IAutoWikiBrowserCommands.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="IAutoWikiBrowserForm.cs">
+    <Compile Include="IAutoWikiBrowser\IAutoWikiBrowserForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="IAutoWikiBrowserInfo.cs">
+    <Compile Include="IAutoWikiBrowser\IAutoWikiBrowserInfo.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="LoggingSettings.cs">
@@ -269,7 +269,7 @@
     <Compile Include="SummaryEditor.Designer.cs">
       <DependentUpon>SummaryEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="IAutoWikiBrowserTabs.cs">
+    <Compile Include="IAutoWikiBrowser\IAutoWikiBrowserTabs.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UserSettings.cs">
@@ -325,6 +325,10 @@
     <ProjectReference Include="..\Plugins\IFD\IFD.csproj">
       <Project>{3843A310-3E53-40E1-8276-5ADF988CBA6C}</Project>
       <Name>IFD</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Plugins\Kingbotk\AWB Plugin\Kingbotk Plugin.vbproj">
+      <Project>{70AF6097-1ED6-475C-878E-A0BAEDB705F6}</Project>
+      <Name>Kingbotk Plugin</Name>
     </ProjectReference>
     <ProjectReference Include="..\Plugins\Server\Server Plugin.csproj">
       <Project>{9AF2D0F6-4ADA-4029-B2B4-28480E56EF0C}</Project>
