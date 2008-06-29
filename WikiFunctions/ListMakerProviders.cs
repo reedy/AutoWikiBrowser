@@ -213,7 +213,7 @@ namespace WikiFunctions.Lists
 
         public override string DisplayText
         {
-            get { return "Category (recursive 1 level)"; }
+            get { return "Category (recurse 1 level)"; }
         }
     }
 
@@ -307,7 +307,7 @@ namespace WikiFunctions.Lists
 
         public override string DisplayText
         {
-            get { return "Category (recursive user defined level)"; }
+            get { return "Category (recurse user defined level)"; }
         }
     }
 
@@ -389,7 +389,7 @@ namespace WikiFunctions.Lists
         { get { return "Text File"; } }
 
         public string UserInputTextBoxText
-        { get { return "From file:"; } }
+        { get { return ""; } }
 
         public bool UserInputTextBoxEnabled
         { get { return false; } }
