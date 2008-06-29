@@ -1,6 +1,6 @@
 namespace AutoWikiBrowser
 {
-    partial class DlgTalk
+    partial class TalkMessage
     {
         /// <summary>
         /// Required designer variable.
