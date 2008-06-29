@@ -157,7 +157,7 @@
       <DependentUpon>FindandReplace.cs</DependentUpon>
     </Compile>
     <Compile Include="List\IListProvider.cs" />
-    <Compile Include="List\ListMakerProviders.cs">
+    <Compile Include="List\ListProviders.cs">
     </Compile>
     <Compile Include="List\ListSplitter.cs">
       <SubType>Form</SubType>
