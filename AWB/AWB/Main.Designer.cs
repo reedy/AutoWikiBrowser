@@ -132,7 +132,6 @@ namespace AutoWikiBrowser
             this.bypassRedirectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.doNotAutomaticallyDoAnythingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripComboOnLoad = new System.Windows.Forms.ToolStripComboBox();
-            this.ignoreNoBotsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.focusAtEndOfEditTextBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.markAllAsMinorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -142,7 +141,6 @@ namespace AutoWikiBrowser
             this.alphaSortInterwikiLinksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.replaceReferenceTagsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
-            this.addIgnoredToLogFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.summariesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
             this.showHidePanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1045,7 +1043,6 @@ namespace AutoWikiBrowser
             this.bypassRedirectsToolStripMenuItem,
             this.doNotAutomaticallyDoAnythingToolStripMenuItem,
             this.toolStripComboOnLoad,
-            this.ignoreNoBotsToolStripMenuItem,
             this.focusAtEndOfEditTextBoxToolStripMenuItem,
             this.toolStripSeparator6,
             this.markAllAsMinorToolStripMenuItem,
@@ -1055,7 +1052,6 @@ namespace AutoWikiBrowser
             this.alphaSortInterwikiLinksToolStripMenuItem,
             this.replaceReferenceTagsToolStripMenuItem,
             this.toolStripSeparator11,
-            this.addIgnoredToLogFileToolStripMenuItem,
             this.summariesToolStripMenuItem,
             this.toolStripSeparator19,
             this.showHidePanelToolStripMenuItem,
@@ -1111,13 +1107,6 @@ namespace AutoWikiBrowser
             "On load: Show edit page"});
             this.toolStripComboOnLoad.Name = "toolStripComboOnLoad";
             this.toolStripComboOnLoad.Size = new System.Drawing.Size(160, 21);
-            // 
-            // ignoreNoBotsToolStripMenuItem
-            // 
-            this.ignoreNoBotsToolStripMenuItem.CheckOnClick = true;
-            this.ignoreNoBotsToolStripMenuItem.Name = "ignoreNoBotsToolStripMenuItem";
-            this.ignoreNoBotsToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
-            this.ignoreNoBotsToolStripMenuItem.Text = "Ignore {{bots}} and {{no&bots}}";
             // 
             // focusAtEndOfEditTextBoxToolStripMenuItem
             // 
@@ -1182,14 +1171,6 @@ namespace AutoWikiBrowser
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
             this.toolStripSeparator11.Size = new System.Drawing.Size(261, 6);
-            // 
-            // addIgnoredToLogFileToolStripMenuItem
-            // 
-            this.addIgnoredToLogFileToolStripMenuItem.CheckOnClick = true;
-            this.addIgnoredToLogFileToolStripMenuItem.Name = "addIgnoredToLogFileToolStripMenuItem";
-            this.addIgnoredToLogFileToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
-            this.addIgnoredToLogFileToolStripMenuItem.Text = "Enable button to log false positives";
-            this.addIgnoredToLogFileToolStripMenuItem.Click += new System.EventHandler(this.addIgnoredToLogFileToolStripMenuItem_Click);
             // 
             // summariesToolStripMenuItem
             // 
@@ -2483,6 +2464,7 @@ namespace AutoWikiBrowser
             this.listMaker1.SelectedSource = 0;
             this.listMaker1.Size = new System.Drawing.Size(205, 349);
             this.listMaker1.SourceText = "";
+            this.listMaker1.SpecialFilterSettings = ((WikiFunctions.AWBSettings.SpecialFilterPrefs)(resources.GetObject("listMaker1.SpecialFilterSettings")));
             this.listMaker1.TabIndex = 0;
             // 
             // MainTab
@@ -3834,7 +3816,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripTextBox PasteMore8;
         private System.Windows.Forms.ToolStripTextBox PasteMore9;
         private System.Windows.Forms.ToolStripTextBox PasteMore10;
-        private System.Windows.Forms.ToolStripMenuItem addIgnoredToLogFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
         private System.Windows.Forms.ToolStripMenuItem specialFilterToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem convertListToToolStripMenuItem;
@@ -3895,7 +3876,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator19;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator20;
         private System.Windows.Forms.ToolStripMenuItem openSelectionInBrowserToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ignoreNoBotsToolStripMenuItem;
         private NudgeTimer NudgeTimer;
         private System.Windows.Forms.SaveFileDialog strListFile;
         private System.Windows.Forms.Timer EditBoxSaveTimer;
