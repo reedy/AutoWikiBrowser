@@ -269,9 +269,9 @@ namespace WikiFunctions.DBScanner
             this.chkArticleDoesContain.AutoSize = true;
             this.chkArticleDoesContain.Location = new System.Drawing.Point(3, 3);
             this.chkArticleDoesContain.Name = "chkArticleDoesContain";
-            this.chkArticleDoesContain.Size = new System.Drawing.Size(97, 17);
+            this.chkArticleDoesContain.Size = new System.Drawing.Size(70, 17);
             this.chkArticleDoesContain.TabIndex = 0;
-            this.chkArticleDoesContain.Text = "Page &contains:";
+            this.chkArticleDoesContain.Text = "&Contains:";
             this.chkArticleDoesContain.CheckedChanged += new System.EventHandler(this.chkDoesContain_CheckedChanged);
             // 
             // txtArticleDoesContain
@@ -280,7 +280,7 @@ namespace WikiFunctions.DBScanner
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel3.SetColumnSpan(this.txtArticleDoesContain, 2);
             this.txtArticleDoesContain.Enabled = false;
-            this.txtArticleDoesContain.Location = new System.Drawing.Point(106, 3);
+            this.txtArticleDoesContain.Location = new System.Drawing.Point(98, 3);
             this.txtArticleDoesContain.Name = "txtArticleDoesContain";
             this.txtArticleDoesContain.Size = new System.Drawing.Size(193, 20);
             this.txtArticleDoesContain.TabIndex = 1;
@@ -301,7 +301,7 @@ namespace WikiFunctions.DBScanner
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel3.SetColumnSpan(this.txtArticleDoesNotContain, 2);
             this.txtArticleDoesNotContain.Enabled = false;
-            this.txtArticleDoesNotContain.Location = new System.Drawing.Point(106, 29);
+            this.txtArticleDoesNotContain.Location = new System.Drawing.Point(98, 29);
             this.txtArticleDoesNotContain.Name = "txtArticleDoesNotContain";
             this.txtArticleDoesNotContain.Size = new System.Drawing.Size(193, 20);
             this.txtArticleDoesNotContain.TabIndex = 3;
@@ -309,7 +309,7 @@ namespace WikiFunctions.DBScanner
             // chkRegex
             // 
             this.chkRegex.AutoSize = true;
-            this.chkRegex.Location = new System.Drawing.Point(106, 55);
+            this.chkRegex.Location = new System.Drawing.Point(98, 55);
             this.chkRegex.Name = "chkRegex";
             this.chkRegex.Size = new System.Drawing.Size(57, 17);
             this.chkRegex.TabIndex = 4;
@@ -319,7 +319,7 @@ namespace WikiFunctions.DBScanner
             // chkCaseSensitive
             // 
             this.chkCaseSensitive.AutoSize = true;
-            this.chkCaseSensitive.Location = new System.Drawing.Point(106, 78);
+            this.chkCaseSensitive.Location = new System.Drawing.Point(98, 78);
             this.chkCaseSensitive.Name = "chkCaseSensitive";
             this.chkCaseSensitive.Size = new System.Drawing.Size(94, 17);
             this.chkCaseSensitive.TabIndex = 5;
@@ -330,7 +330,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.chkSingle.AutoSize = true;
             this.chkSingle.Enabled = false;
-            this.chkSingle.Location = new System.Drawing.Point(206, 55);
+            this.chkSingle.Location = new System.Drawing.Point(198, 55);
             this.chkSingle.Name = "chkSingle";
             this.chkSingle.Size = new System.Drawing.Size(71, 17);
             this.chkSingle.TabIndex = 6;
@@ -342,7 +342,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.chkMulti.AutoSize = true;
             this.chkMulti.Enabled = false;
-            this.chkMulti.Location = new System.Drawing.Point(206, 78);
+            this.chkMulti.Location = new System.Drawing.Point(198, 78);
             this.chkMulti.Name = "chkMulti";
             this.chkMulti.Size = new System.Drawing.Size(64, 17);
             this.chkMulti.TabIndex = 7;
@@ -354,7 +354,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.chkIgnoreComments.AutoSize = true;
             this.tableLayoutPanel3.SetColumnSpan(this.chkIgnoreComments, 2);
-            this.chkIgnoreComments.Location = new System.Drawing.Point(106, 101);
+            this.chkIgnoreComments.Location = new System.Drawing.Point(98, 101);
             this.chkIgnoreComments.Name = "chkIgnoreComments";
             this.chkIgnoreComments.Size = new System.Drawing.Size(140, 17);
             this.chkIgnoreComments.TabIndex = 18;
@@ -648,9 +648,9 @@ namespace WikiFunctions.DBScanner
             // btnClear
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.Location = new System.Drawing.Point(232, 199);
+            this.btnClear.Location = new System.Drawing.Point(202, 199);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(45, 23);
+            this.btnClear.Size = new System.Drawing.Size(75, 23);
             this.btnClear.TabIndex = 10;
             this.btnClear.Text = "Clear";
             this.tooltip.SetToolTip(this.btnClear, "Clear");
@@ -858,7 +858,7 @@ namespace WikiFunctions.DBScanner
             this.btnFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnFilter.Location = new System.Drawing.Point(6, 278);
             this.btnFilter.Name = "btnFilter";
-            this.btnFilter.Size = new System.Drawing.Size(53, 23);
+            this.btnFilter.Size = new System.Drawing.Size(75, 23);
             this.btnFilter.TabIndex = 6;
             this.btnFilter.Text = "Filter";
             this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
@@ -866,9 +866,9 @@ namespace WikiFunctions.DBScanner
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(155, 278);
+            this.btnSave.Location = new System.Drawing.Point(130, 278);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(47, 23);
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 9;
             this.btnSave.Text = "Save";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -1695,8 +1695,8 @@ namespace WikiFunctions.DBScanner
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(612, 543);
             this.Controls.Add(this.statusStrip);
-            this.Controls.Add(this.tbParameters);
             this.Controls.Add(this.btnStart);
+            this.Controls.Add(this.tbParameters);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.nudLimitResults);
