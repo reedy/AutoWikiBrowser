@@ -409,7 +409,7 @@ namespace WikiFunctions.DBScanner
                     this.Text = "Wiki Database Scanner - " + shortened;
                 }
                 else
-                    this.Text = "Wiki Data Database Scanner";
+                    this.Text = "Wiki Database Scanner";
             }
         }
 
@@ -516,12 +516,6 @@ namespace WikiFunctions.DBScanner
         {
             SpecialFilter.ShowDialog(this);
             lblCount.Text = lbArticles.Items.Count.ToString();
-        }
-
-        private void AlphaList_Click(object sender, EventArgs e)
-        {
-            lbArticles.Sorted = true;
-            lbArticles.Sorted = false;
         }
 
         private void lbClear_Click(object sender, EventArgs e)
@@ -710,7 +704,7 @@ namespace WikiFunctions.DBScanner
             nudLinks.Value = 5;
 
             //extra
-            foreach (CheckBox c in AWBSpecificGroup.Controls)
+            foreach (CheckBox c in layoutAWB.Controls)
                 c.Checked = false;
 
             //results
