@@ -98,7 +98,7 @@ namespace UnitTests
             AssertChange("a[[ b]]", "a [[b]]");
         }
 
-        [Test, Category("Unarchived bugs")]
+        [Test]
         // this transformation is currently at Parsers.FixDates()
         public void DoubleBr()
         {
@@ -115,7 +115,7 @@ namespace UnitTests
 
             AssertNotChanged("<blockquote>\r\n<br><br></blockquote>");
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#AWB_ruins_formatting_of_table_when_applying_general_clean_up_fixes
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#AWB_ruins_formatting_of_table_when_applying_general_clean_up_fixes
             AssertNotChanged("|a<br><br>b");
             AssertNotChanged("!a<br><br>b");
             AssertNotChanged("| foo || a<br><br>b");
