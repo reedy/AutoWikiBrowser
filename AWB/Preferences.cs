@@ -73,7 +73,7 @@ namespace AutoWikiBrowser
             PrefIgnoreNoBots = ignoreNoBots;
             PrefFalsePositives = falsePositives;
             PrefShowTimer = showTimer;
-            b cPrefAddUsingAWBOnArticleAction = addUsingAWBOnArticleAction;
+            PrefAddUsingAWBOnArticleAction = addUsingAWBOnArticleAction;
 
             chkSupressAWB.Enabled = (cmboProject.Text == "custom" || cmboProject.Text == "wikia");
             if (chkSupressAWB.Enabled)
