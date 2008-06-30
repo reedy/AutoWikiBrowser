@@ -271,6 +271,9 @@ namespace WikiFunctions.Parse
                 string interwikiLocalAlphaRaw = remExtra(Tools.StringBetween(text, "<!--InterwikiLocalAlphaBegins-->", "<!--InterwikiLocalAlphaEnds-->"));
                 string interwikiLocalFirstRaw = remExtra(Tools.StringBetween(text, "<!--InterwikiLocalFirstBegins-->", "<!--InterwikiLocalFirstEnds-->"));
 
+                //Build InterwikiLink Regex
+                WikiRegexes.InterWikiLinks = new Regex(@"\[\[(" + interwikiLocalFirstRaw.Replace(", ", "|") + @"):.*?\]\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
                 int no = 0;
                 int size = IWSplit.Matches(interwikiLocalFirstRaw).Count + 1;
                 
