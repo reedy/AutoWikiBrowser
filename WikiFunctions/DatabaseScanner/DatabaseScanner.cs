@@ -210,29 +210,20 @@ namespace WikiFunctions.DBScanner
             if (chkTitleDoesNotContain.Checked)
                 s.Add(new TitleDoesNotContain(TitleDoesNotRegex));
 
-            if (cmboLength.SelectedIndex != 0)
-            {
-                if (cmboLength.SelectedIndex == 1)
-                    s.Add(new CountCharacters(MoreLessThan.MoreThan, (int)nudLength.Value));
-                else if (cmboLength.SelectedIndex == 2)
-                    s.Add(new CountCharacters(MoreLessThan.LessThan, (int)nudLength.Value));
-            }
+            if (cmboLength.SelectedIndex == 1)
+                s.Add(new CountCharacters(MoreLessThan.MoreThan, (int)nudLength.Value));
+            else if (cmboLength.SelectedIndex == 2)
+                s.Add(new CountCharacters(MoreLessThan.LessThan, (int)nudLength.Value));
 
-            if (cmboLinks.SelectedIndex != 0)
-            {
-                if (cmboLinks.SelectedIndex == 1)
-                    s.Add(new CountLinks(MoreLessThan.MoreThan, (int)nudLinks.Value));
-                else if (cmboLinks.SelectedIndex == 2)
-                    s.Add(new CountLinks(MoreLessThan.LessThan, (int)nudLinks.Value));
-            }
+            if (cmboLinks.SelectedIndex == 1)
+                s.Add(new CountLinks(MoreLessThan.MoreThan, (int)nudLinks.Value));
+            else if (cmboLinks.SelectedIndex == 2)
+                s.Add(new CountLinks(MoreLessThan.LessThan, (int)nudLinks.Value));
 
-            if (cmboWords.SelectedIndex != 0)
-            {
-                if (cmboWords.SelectedIndex == 1)
-                    s.Add(new CountWords(MoreLessThan.MoreThan, (int)nudWords.Value));
-                else if (cmboWords.SelectedIndex == 2)
-                    s.Add(new CountWords(MoreLessThan.LessThan, (int)nudWords.Value));
-            }
+            if (cmboWords.SelectedIndex == 1)
+                s.Add(new CountWords(MoreLessThan.MoreThan, (int)nudWords.Value));
+            else if (cmboWords.SelectedIndex == 2)
+                s.Add(new CountWords(MoreLessThan.LessThan, (int)nudWords.Value));
 
             Parsers parsers = new Parsers();
 
