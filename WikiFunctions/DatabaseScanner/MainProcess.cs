@@ -108,11 +108,13 @@ namespace WikiFunctions.DBScanner
         {
             string articleText = "";
             string articleTitle = "";
+            string articleTimestamp = "";
 
+            string timestamp = "timestamp";
             string page = "page";
             string title = "title";
             string text = "text";
-
+ 
             bool test = true;        
 
             try
@@ -144,6 +146,8 @@ namespace WikiFunctions.DBScanner
                         {
                             reader.ReadToFollowing(title);
                             articleTitle = reader.ReadString();
+                            reader.ReadToFollowing(timestamp);
+                            articleTimestamp = reader.ReadString();
                             reader.ReadToFollowing(text);
                             articleText = reader.ReadString();
 
@@ -152,7 +156,7 @@ namespace WikiFunctions.DBScanner
 
                             foreach (Scan z in s)
                             {
-                                if (!z.Check(ref articleText, ref articleTitle))
+                                if (!z.Check(ref articleText, ref articleTitle, ref articleTimestamp))
                                 {
                                     test = false;
                                     break;
