@@ -86,7 +86,6 @@ namespace WikiFunctions.DBScanner
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.lbArticles = new WikiFunctions.Controls.Lists.ListBox2();
             this.btnFilter = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.lblStartFrom = new System.Windows.Forms.Label();
@@ -166,6 +165,7 @@ namespace WikiFunctions.DBScanner
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.tbConvert = new System.Windows.Forms.TabPage();
+            this.lbArticles = new WikiFunctions.Controls.Lists.ListBox2();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLength)).BeginInit();
@@ -840,19 +840,6 @@ namespace WikiFunctions.DBScanner
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Results";
             // 
-            // lbArticles
-            // 
-            this.lbArticles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbArticles.ContextMenuStrip = this.ArticlesListBoxContextMenu;
-            this.lbArticles.FormattingEnabled = true;
-            this.lbArticles.Location = new System.Drawing.Point(6, 19);
-            this.lbArticles.Name = "lbArticles";
-            this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbArticles.Size = new System.Drawing.Size(277, 251);
-            this.lbArticles.TabIndex = 5;
-            // 
             // btnFilter
             // 
             this.btnFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -1154,6 +1141,7 @@ namespace WikiFunctions.DBScanner
             this.chkSearchDates.Size = new System.Drawing.Size(86, 17);
             this.chkSearchDates.TabIndex = 4;
             this.chkSearchDates.Text = "Search Date";
+            this.chkSearchDates.CheckedChanged += new System.EventHandler(this.chkSearchDates_CheckedChanged);
             // 
             // lblDate
             // 
@@ -1687,6 +1675,19 @@ namespace WikiFunctions.DBScanner
             this.tbConvert.TabIndex = 1;
             this.tbConvert.Text = "Convert";
             this.tbConvert.UseVisualStyleBackColor = true;
+            // 
+            // lbArticles
+            // 
+            this.lbArticles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbArticles.ContextMenuStrip = this.ArticlesListBoxContextMenu;
+            this.lbArticles.FormattingEnabled = true;
+            this.lbArticles.Location = new System.Drawing.Point(6, 19);
+            this.lbArticles.Name = "lbArticles";
+            this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lbArticles.Size = new System.Drawing.Size(277, 251);
+            this.lbArticles.TabIndex = 5;
             // 
             // DatabaseScanner
             // 

@@ -244,6 +244,9 @@ namespace WikiFunctions.DBScanner
             if (chkDefaultSort.Checked)
                 s.Add(new MissingDefaultsort(parsers));
 
+            if (chkSearchDates.Checked)
+                s.Add(new DateRange(dtpFrom.Value, dtpTo.Value));
+
             Main = new MainProcess(s, fileName, Priority, chkIgnoreComments.Checked, txtStartFrom.Text);
             progressBar.Maximum = (int)(Main.stream.Length / 1024);
             Main.FoundArticle += MessageReceived;
@@ -698,6 +701,8 @@ namespace WikiFunctions.DBScanner
             foreach (CheckBox c in layoutAWB.Controls)
                 c.Checked = false;
 
+            chkSearchDates.Checked = false;
+
             //results
             chkHeading.Checked = false;
             nudHeadingSpace.Value = 25;
@@ -724,11 +729,14 @@ namespace WikiFunctions.DBScanner
         private void updateProgressBar()
         {
             // update progress bar
-            double matchesByLimit = (double)intMatches / intLimit;
-            if (matchesByLimit > (double)Main.stream.Position / Main.stream.Length)
-                progressBar.Value = (int)(matchesByLimit * (Main.stream.Length / 1024));
-            else
-                progressBar.Value = (int)(Main.stream.Position / 1024);
+            if (Main.stream.CanRead)
+            {
+                double matchesByLimit = (double)intMatches / intLimit;
+                if (matchesByLimit > (double)Main.stream.Position / Main.stream.Length)
+                    progressBar.Value = (int)(matchesByLimit * (Main.stream.Length / 1024));
+                else
+                    progressBar.Value = (int)(Main.stream.Position / 1024);
+            }
         }
 
         private void btnOpen(object sender, EventArgs e)
@@ -799,6 +807,11 @@ namespace WikiFunctions.DBScanner
         private void lnkWmfDumps_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Tools.OpenURLInBrowser("http://download.wikimedia.org/");
+        }
+
+        private void chkSearchDates_CheckedChanged(object sender, EventArgs e)
+        {
+            dtpFrom.Enabled = dtpTo.Enabled = chkSearchDates.Checked;
         }
     }
 }
