@@ -907,7 +907,7 @@ namespace WikiFunctions.DBScanner
             // btnStart
             // 
             this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStart.Location = new System.Drawing.Point(525, 34);
+            this.btnStart.Location = new System.Drawing.Point(528, 38);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 23);
             this.btnStart.TabIndex = 1;
@@ -1345,7 +1345,7 @@ namespace WikiFunctions.DBScanner
             // btnBrowse
             // 
             this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBrowse.Location = new System.Drawing.Point(418, 6);
+            this.btnBrowse.Location = new System.Drawing.Point(418, 4);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(75, 23);
             this.btnBrowse.TabIndex = 2;
@@ -1471,6 +1471,7 @@ namespace WikiFunctions.DBScanner
             // grpEdit
             // 
             this.grpEdit.Controls.Add(this.textBox1);
+            this.grpEdit.Enabled = false;
             this.grpEdit.Location = new System.Drawing.Point(6, 6);
             this.grpEdit.Name = "grpEdit";
             this.grpEdit.Size = new System.Drawing.Size(250, 145);
@@ -1491,6 +1492,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.grpMove.Controls.Add(this.checkedListBox1);
             this.grpMove.Controls.Add(this.comboBox1);
+            this.grpMove.Enabled = false;
             this.grpMove.Location = new System.Drawing.Point(262, 6);
             this.grpMove.Name = "grpMove";
             this.grpMove.Size = new System.Drawing.Size(231, 145);
@@ -1580,7 +1582,7 @@ namespace WikiFunctions.DBScanner
             // btnReset
             // 
             this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnReset.Location = new System.Drawing.Point(525, 63);
+            this.btnReset.Location = new System.Drawing.Point(528, 67);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(75, 23);
             this.btnReset.TabIndex = 4;
@@ -1696,8 +1698,8 @@ namespace WikiFunctions.DBScanner
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(612, 543);
             this.Controls.Add(this.statusStrip);
-            this.Controls.Add(this.btnStart);
             this.Controls.Add(this.tbParameters);
+            this.Controls.Add(this.btnStart);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.nudLimitResults);
