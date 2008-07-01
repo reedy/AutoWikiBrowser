@@ -155,5 +155,17 @@ namespace UnitTests
             RegexAssert.NoMatch(WikiRegexes.Refs, "<refname=foo>bar</ref>");
             RegexAssert.NoMatch(WikiRegexes.Refs, "<refname=foo/>");
         }
+
+        [Test]
+        ///
+        public void PossibleInterwikis()
+        {
+            RegexAssert.Matches(WikiRegexes.PossibleInterwikis, "foo[[en:bar]]", "[[en:bar]]");
+            RegexAssert.Matches(WikiRegexes.PossibleInterwikis, "[[en:bar]][[ru:", "[[en:bar]]");
+            RegexAssert.Matches(WikiRegexes.PossibleInterwikis, "foo[[en:bar:quux]][[ru:boz test]]", "[[en:bar:quux]]", "[[ru:boz test]]");
+
+            RegexAssert.NoMatch(WikiRegexes.PossibleInterwikis, "[[:en:foo]]");
+            RegexAssert.NoMatch(WikiRegexes.PossibleInterwikis, "[[:foo]]");
+        }
     }
 }

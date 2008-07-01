@@ -456,6 +456,19 @@ namespace WikiFunctions
         }
 
         /// <summary>
+        /// Returns number of interwiki links in the text
+        /// </summary>
+        public static int InterwikiCount(string text)
+        {
+            int count = 0;
+            foreach (Match m in WikiRegexes.PossibleInterwikis.Matches(text))
+            {
+                if (WikiFunctions.Parse.SiteMatrix.Languages.Contains(m.Groups[1].Value.ToLower())) count++;
+            }
+            return count;
+        }
+
+        /// <summary>
         /// Returns the number of [[links]] in the string
         /// </summary>
         public static int LinkCount(string Text)
