@@ -1796,7 +1796,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
                 intImages = Regex.Matches(articleText, "\\[\\[" + Variables.Namespaces[6], RegexOptions.IgnoreCase).Count;
 
-                intInterLinks = WikiRegexes.InterWikiLinks.Matches(articleText).Count;
+                intInterLinks = Tools.InterwikiCount(articleText);
 
                 intLinks = WikiRegexes.WikiLinksOnly.Matches(articleText).Count;
 

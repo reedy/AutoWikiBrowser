@@ -28,7 +28,7 @@ namespace WikiFunctions.Parse
         List<HideObject> NoUnformatted = new List<HideObject>();
         readonly Regex NoWikiIgnoreRegex = new Regex("<!-- ?(cat(egories)?|\\{\\{.*?stub\\}\\}.*?|other languages?|language links?|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wikis?|The below are interlanguage links\\.?) ?-->", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        void Replace(MatchCollection matches, ref string ArticleText)
+        void Replace(IEnumerable matches, ref string ArticleText)
         {
             string s;
             foreach (Match m in matches)
@@ -65,7 +65,13 @@ namespace WikiFunctions.Parse
             if (HideExternal)
             {
                 Replace(WikiRegexes.ExternalLinks.Matches(ArticleText), ref ArticleText);
-                Replace(WikiRegexes.InterWikiLinks.Matches(ArticleText), ref ArticleText);
+                List<Match> matches = new List<Match>();
+                foreach (Match m in WikiRegexes.PossibleInterwikis.Matches(ArticleText))
+                {
+                    if (SiteMatrix.Languages.Contains(m.Groups[1].Value.ToLower()))
+                        matches.Add(m);
+                }
+                Replace(matches, ref ArticleText);
             }
 
             return ArticleText;

@@ -41,61 +41,75 @@ namespace WikiFunctions.Parse
 
         static SiteMatrix()
         {
-            string strMatrix = Tools.GetHTML("http://en.wikipedia.org/w/api.php?action=sitematrix&format=xml");
-
-            XmlDocument matrix = new XmlDocument();
-            matrix.LoadXml(strMatrix);
-
-            string langCode;
-            string langName;
-
-            foreach (XmlNode lang in matrix.GetElementsByTagName("language"))
+            if (Globals.UnitTestMode) // or unit tests gonna run like a turtle
             {
-                langCode = lang.Attributes["code"].Value;
-                langName = lang.Attributes["name"].Value;
-                Languages.Add(langCode);
-                LanguageNames[langCode] = langName;
-                
-                foreach (XmlNode site in lang.ChildNodes[0].ChildNodes)
-                {
-                    if (site.Name != "site") continue;
+                Languages.AddRange(new string[] { "en", "ru", "sq" });
+                WikipediaLanguages.AddRange(Languages);
+                WiktionaryLanguages.AddRange(Languages);
+                WikibooksLanguages.AddRange(Languages);
+                WikinewsLanguages.AddRange(Languages);
+                WikisourceLanguages.AddRange(Languages);
+                WikiquoteLanguages.AddRange(Languages);
+                WikiversityLanguages.AddRange(Languages);
+            }
+            else
+            {
+                string strMatrix = Tools.GetHTML("http://en.wikipedia.org/w/api.php?action=sitematrix&format=xml");
 
-                    switch (site.Attributes["code"].Value)
+                XmlDocument matrix = new XmlDocument();
+                matrix.LoadXml(strMatrix);
+
+                string langCode;
+                string langName;
+
+                foreach (XmlNode lang in matrix.GetElementsByTagName("language"))
+                {
+                    langCode = lang.Attributes["code"].Value;
+                    langName = lang.Attributes["name"].Value;
+                    Languages.Add(langCode);
+                    LanguageNames[langCode] = langName;
+
+                    foreach (XmlNode site in lang.ChildNodes[0].ChildNodes)
                     {
-                        case "wiki":
-                            WikipediaLanguages.Add(langCode);
-                            break;
-                        case "wiktionary":
-                            WiktionaryLanguages.Add(langCode);
-                            break;
-                        case "wikibooks":
-                            WikibooksLanguages.Add(langCode);
-                            break;
-                        case "wikinews":
-                            WikinewsLanguages.Add(langCode);
-                            break;
-                        case "wikisource":
-                            WikisourceLanguages.Add(langCode);
-                            break;
-                        case "wikiquote":
-                            WikiquoteLanguages.Add(langCode);
-                            break;
-                        case "wikiversity":
-                            WikiversityLanguages.Add(langCode);
-                            break;
+                        if (site.Name != "site") continue;
+
+                        switch (site.Attributes["code"].Value)
+                        {
+                            case "wiki":
+                                WikipediaLanguages.Add(langCode);
+                                break;
+                            case "wiktionary":
+                                WiktionaryLanguages.Add(langCode);
+                                break;
+                            case "wikibooks":
+                                WikibooksLanguages.Add(langCode);
+                                break;
+                            case "wikinews":
+                                WikinewsLanguages.Add(langCode);
+                                break;
+                            case "wikisource":
+                                WikisourceLanguages.Add(langCode);
+                                break;
+                            case "wikiquote":
+                                WikiquoteLanguages.Add(langCode);
+                                break;
+                            case "wikiversity":
+                                WikiversityLanguages.Add(langCode);
+                                break;
+                        }
                     }
                 }
-            }
 
-            //should already be sorted, but we must be sure
-            Languages.Sort();
-            WikipediaLanguages.Sort();
-            WiktionaryLanguages.Sort();
-            WikibooksLanguages.Sort();
-            WikinewsLanguages.Sort();
-            WikisourceLanguages.Sort();
-            WikiquoteLanguages.Sort();
-            WikiversityLanguages.Sort();
+                //should already be sorted, but we must be sure
+                Languages.Sort();
+                WikipediaLanguages.Sort();
+                WiktionaryLanguages.Sort();
+                WikibooksLanguages.Sort();
+                WikinewsLanguages.Sort();
+                WikisourceLanguages.Sort();
+                WikiquoteLanguages.Sort();
+                WikiversityLanguages.Sort();
+            }
         }
 
         public static List<string> GetProjectLanguages(ProjectEnum project)
@@ -270,9 +284,6 @@ namespace WikiFunctions.Parse
 
                 string interwikiLocalAlphaRaw = remExtra(Tools.StringBetween(text, "<!--InterwikiLocalAlphaBegins-->", "<!--InterwikiLocalAlphaEnds-->"));
                 string interwikiLocalFirstRaw = remExtra(Tools.StringBetween(text, "<!--InterwikiLocalFirstBegins-->", "<!--InterwikiLocalFirstEnds-->"));
-
-                //Build InterwikiLink Regex
-                WikiRegexes.InterWikiLinks = new Regex(@"\[\[(" + interwikiLocalFirstRaw.Replace(", ", "|") + @"):.*?\]\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
                 int no = 0;
                 int size = IWSplit.Matches(interwikiLocalFirstRaw).Count + 1;
