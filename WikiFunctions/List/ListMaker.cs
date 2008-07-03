@@ -197,7 +197,7 @@ namespace WikiFunctions.Controls.Lists
                 while (lbArticles.SelectedItems.Count > 0)
                     lbArticles.SetSelected(lbArticles.SelectedIndex, false);
 
-                txtNewArticle.Text = item.Name;
+                txtPage.Text = item.Name;
 
                 int intPosition = lbArticles.Items.IndexOf(item);
 
@@ -281,33 +281,26 @@ namespace WikiFunctions.Controls.Lists
             IListProvider searchItem = (IListProvider)cmboSourceSelect.SelectedItem;
 
             searchItem.Selected();
-            lblSourceSelect.Text = searchItem.UserInputTextBoxText;
+            lblUserInput.Text = searchItem.UserInputTextBoxText;
             UserInputTextBox.Enabled = searchItem.UserInputTextBoxEnabled;
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            if (txtNewArticle.Text.Length == 0)
+            // Why do we need this?
+            if (txtPage.Text.Length == 0)
             {
                 UpdateNumberOfArticles();
                 return;
             }
 
-            Add(txtNewArticle.Text);
-            txtNewArticle.Text = "";
+            Add(normalizeTitle(txtPage.Text));
+            txtPage.Text = "";
         }
 
         private void btnRemoveArticle_Click(object sender, EventArgs e)
         {
             RemoveSelectedArticle();
-        }
-
-        private void btnArticlesListClear_Click(object sender, EventArgs e)
-        {
-            if (lbArticles.Items.Count <= 1 || (MessageBox.Show(
-            "Are you sure you want to clear the article list?", "Clear?", MessageBoxButtons.YesNo)
-            == DialogResult.Yes))
-                Clear();
         }
 
         private void btnFilter_Click(object sender, EventArgs e)
@@ -344,21 +337,21 @@ namespace WikiFunctions.Controls.Lists
             if ((nIdx >= 0) && (nIdx < lbArticles.Items.Count))
                 strTip = lbArticles.Items[nIdx].ToString();
             if (strTip != strlbArticlesTooltip)
-                toolTip1.SetToolTip(lbArticles, strTip);
+                tooltip.SetToolTip(lbArticles, strTip);
             strlbArticlesTooltip = strTip;
         }
 
         private void txtNewArticle_MouseMove(object sender, MouseEventArgs e)
         {
-            if (txtNewArticle.Text != strtxtNewArticleTooltip)
-                toolTip1.SetToolTip(txtNewArticle, txtNewArticle.Text);
-            strtxtNewArticleTooltip = txtNewArticle.Text;
+            if (txtPage.Text != strtxtNewArticleTooltip)
+                tooltip.SetToolTip(txtPage, txtPage.Text);
+            strtxtNewArticleTooltip = txtPage.Text;
         }
 
         private void lbArticles_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete)
-                btnRemoveArticle.PerformClick();
+                btnRemove.PerformClick();
         }
 
 
@@ -375,24 +368,49 @@ namespace WikiFunctions.Controls.Lists
         private void txtSelectSource_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return || e.KeyCode == Keys.Enter)
-                btnMakeList.PerformClick();
+                btnGenerate.PerformClick();
+        }
+
+        private void btnRemoveDuplicates_Click(object sender, EventArgs e)
+        {
+            // No selected pages
+            selectedToolStripMenuItem.Enabled = (lbArticles.SelectedItem != null);
+
+            // Code doesn't work right on the first click, could you help Reedy?
+            mnuRemove.Show(btnRemMore, new System.Drawing.Point(0, 0), ToolStripDropDownDirection.AboveRight);
         }
 
         private void mnuListBox_Opening(object sender, CancelEventArgs e)
         {
-            addSelectedToListToolStripMenuItem.Enabled = copyToolStripMenuItem.Enabled = cutToolStripMenuItem.Enabled = (lbArticles.SelectedItems.Count > 0);
+            // No selected pages
+            openInBrowserToolStripMenuItem.Enabled =
+            openHistoryInBrowserToolStripMenuItem.Enabled =
+            cutToolStripMenuItem.Enabled = 
+            copyToolStripMenuItem.Enabled =
+            //  Remove menu
+                selectedToolStripMenuItem.Enabled =
+            addSelectedToListToolStripMenuItem.Enabled = 
+            moveToTopToolStripMenuItem.Enabled = 
+            moveToBottomToolStripMenuItem.Enabled = 
+            (lbArticles.SelectedItem != null);
 
-            removeToolStripMenuItem.Enabled = lbArticles.SelectedItem != null;
-            clearToolStripMenuItem1.Enabled = filterOutNonMainSpaceArticlesToolStripMenuItem.Enabled =
-            convertToTalkPagesToolStripMenuItem.Enabled = convertFromTalkPagesToolStripMenuItem.Enabled =
-            sortAlphebeticallyMenuItem.Enabled = saveListToTextFileToolStripMenuItem1.Enabled = specialFilterToolStripMenuItem.Enabled =
-            selectAllToolStripMenuItem.Enabled = invertSelectionToolStripMenuItem.Enabled = selectNoneToolStripMenuItem.Enabled =
-            openInBrowserToolStripMenuItem.Enabled = (lbArticles.Items.Count > 0);
+            // Single page
+            specialFilterToolStripMenuItem.Enabled =
+            sortAlphaMenuItem.Enabled =
+            (lbArticles.Items.Count > 1);
+
+            // No pages
+            selectMnu.Enabled =
+            removeToolStripMenuItem.Enabled =
+            convertToTalkPagesToolStripMenuItem.Enabled =
+            convertFromTalkPagesToolStripMenuItem.Enabled =
+            saveListToFileToolStripMenuItem.Enabled =
+            (lbArticles.Items.Count > 0);
         }
 
         private void txtNewArticle_DoubleClick(object sender, EventArgs e)
         {
-            txtNewArticle.SelectAll();
+            txtPage.SelectAll();
         }
 
         private void txtSelectSource_DoubleClick(object sender, EventArgs e)
@@ -411,8 +429,8 @@ namespace WikiFunctions.Controls.Lists
         {
             set
             {
-                btnFilter.Enabled = btnRemoveArticle.Enabled = btnArticlesListClear.Enabled =
-                btnArticlesListSave.Enabled = btnRemoveDuplicates.Enabled = value;
+                btnFilter.Enabled = btnRemove.Enabled = btnRemMore.Enabled =
+                saveListToFileToolStripMenuItem.Enabled = value;
             }
         }
 
@@ -446,7 +464,7 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public bool MakeListEnabled
         {
-            set { btnMakeList.Enabled = value; }
+            set { btnGenerate.Enabled = value; }
         }
 
         /// <summary>
@@ -506,7 +524,41 @@ namespace WikiFunctions.Controls.Lists
         #endregion
 
         #region Methods
-
+        /// <summary>
+        /// Normalizers URLs or titles into conistant urls
+        /// </summary>
+        public string normalizeTitle(string s)
+        {
+            // Could be done better see
+            // http://en.wikipedia.org/wiki/Wikipedia:AWB/FR#External_to_Interwiki
+            /*
+             * Code taken from dispenser's tools
+function fixTitle(e) {
+    // Convert from the escaped UTF-8 byte code into Unicode
+    s = unescape(decodeURI(e.value))
+    // Convert secure URLs into non-secure equivalents (note the secure system is considered a 'hack')
+    s = s.replace(/\w+:\/\/secure\.wikimedia\.org\/(\w+)\/(\w+)\//, 'http://$2.$1.org/')
+    // Convert http://lang.domain.org/wiki/ into interwiki format
+    s = s.replace(/http:\/\/(\w+)\.(\w+)\.org\/wiki\/([^#{|}\[\]]*).*REMOVEME/i, '$2:$1:$3')
+    // Scripts paths (/w/index.php?...) into interwiki format
+    s = s.replace(/http:\/\/(\w+)\.(\w+)\.org\/.*?title=([^#&{|}\[\]]*).*REMOVEME/i, '$2:$1:$3')
+    // Remove [[brackets]] from link
+    s = s.replace(/[^\n]*?\[\[([^[\]{|}]+)[^\n]*REMOVEME/g, '$1')
+    // '_' -> ' ' and hard coded home wiki
+    s = s.replace(/_/g, ' ').replace(/^ *(w:|wikipedia:|)(en:|([a-z\-]+:)) *REMOVEME/i, '$3')
+    // Use short prefix form (wiktionary:en:Wiktionary:Main Page -> wikt:en:Wiktionary:Main Page)
+    s = s.replace(/^ *(?:wikimedia:(m)eta|wikimedia:(commons)|(wikt)ionary|wiki(?:(n)ews|(b)ooks|(q)uote|(s)ource|(v)ersity))(:[a-z\-]+:)/i, '$1$2$3$4$5$6$7$8$9')
+    // Put back in
+    e.value = s
+}
+            */
+            // Assumsuption flaw: that all wikis use /wiki/ as the default path
+            string url = Variables.URL + "/wiki/";
+            if (Regex.Match(s, url).Success)
+                return s.Replace(url, "");
+            else
+                return s;
+        }
         private delegate void AddToListDel(string s);
         /// <summary>
         /// Adds the given string to the list, first turning it into an Article
@@ -594,7 +646,7 @@ namespace WikiFunctions.Controls.Lists
 
             this.Cursor = Cursors.WaitCursor;
             Status = "Getting list";
-            btnMakeList.Enabled = false;
+            btnGenerate.Enabled = false;
         }
 
         private delegate void SetProgBarDelegate();
@@ -607,7 +659,7 @@ namespace WikiFunctions.Controls.Lists
             }
 
             this.Cursor = Cursors.Default;
-            btnMakeList.Enabled = true;
+            btnGenerate.Enabled = true;
             Status = "List complete!";
             BusyStatus = false;
             btnStop.Visible = false;
@@ -699,7 +751,7 @@ namespace WikiFunctions.Controls.Lists
                 int i = lbArticles.SelectedIndex;
 
                 if (lbArticles.SelectedItems.Count > 0)
-                    txtNewArticle.Text = lbArticles.SelectedItem.ToString();
+                    txtPage.Text = lbArticles.SelectedItem.ToString();
 
                 while (lbArticles.SelectedItems.Count > 0)
                     lbArticles.Items.Remove(lbArticles.SelectedItem);
@@ -851,9 +903,9 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public void UpdateNumberOfArticles()
         {
-            lblNumberOfArticles.Text = lbArticles.Items.Count.ToString() + " page";
+            lblNumOfPages.Text = lbArticles.Items.Count.ToString() + " page";
             if (lbArticles.Items.Count != 1)
-                lblNumberOfArticles.Text += "s";
+                lblNumOfPages.Text += "s";
             if (NoOfArticlesChanged != null)
                 this.NoOfArticlesChanged(null, null);
 
@@ -938,12 +990,10 @@ namespace WikiFunctions.Controls.Lists
             Tools.Copy(lbArticles);
         }
 
-
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
-                string url = Variables.URL + "/wiki/";
 
                 string textTba = Clipboard.GetDataObject().GetData(DataFormats.UnicodeText).ToString();
                 string[] splitter = { "\r\n", "|" };
@@ -952,10 +1002,8 @@ namespace WikiFunctions.Controls.Lists
 
                 foreach (string entry in splitTextTBA)
                 {
-                    if (Regex.Match(entry, url).Success)
-                        Add(entry.Replace(url, ""));
-                    else if (!string.IsNullOrEmpty(entry.Trim()))
-                        Add(entry);
+                    if(!string.IsNullOrEmpty(entry.Trim()))
+                        Add(normalizeTitle(entry));
                 }
             }
             catch { }
@@ -1100,7 +1148,10 @@ namespace WikiFunctions.Controls.Lists
 
         private void clearToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Clear();
+            if (lbArticles.Items.Count <= 100 || (MessageBox.Show(
+            "Are you sure you want to clear the large list?", "Clear?", MessageBoxButtons.YesNo)
+            == DialogResult.Yes))
+                Clear();
         }
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1125,11 +1176,6 @@ namespace WikiFunctions.Controls.Lists
             catch { }
         }
         #endregion
-
-        private void btnRemoveDuplicates_Click(object sender, EventArgs e)
-        {
-            removeListDuplicates();
-        }
 
         private void btnStop_Click(object sender, EventArgs e)
         {
