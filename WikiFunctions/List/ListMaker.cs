@@ -371,9 +371,7 @@ namespace WikiFunctions.Controls.Lists
         {
             // No selected pages
             selectedToolStripMenuItem.Enabled = (lbArticles.SelectedItem != null);
-
-            // Code doesn't work right on the first click, could you help Reedy?
-            mnuRemove.Show(btnRemMore, Control.MousePosition, ToolStripDropDownDirection.AboveRight);
+            mnuRemove.Show(btnRemMore, new Point(0,0), ToolStripDropDownDirection.AboveRight);
         }
 
         private void mnuListBox_Opening(object sender, CancelEventArgs e)
