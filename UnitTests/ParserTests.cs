@@ -590,6 +590,13 @@ http://example.com }}");
                 p.ChangeToDefaultSort("[[Category:Test1| Foooo]][[Category:Test2| Foooo]]", "Bar", out noChange));
             Assert.IsTrue(noChange);
         }
+
+        [Test]
+        public void ExternalToInternal()
+        {
+            //TODO:MOAR
+            //Assert.AreEqual("", Parsers.ExternalURLToInternalLink(""));
+        }
     }
 
     [TestFixture]

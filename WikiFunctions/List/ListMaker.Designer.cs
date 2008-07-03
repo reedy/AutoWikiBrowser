@@ -115,7 +115,7 @@ namespace WikiFunctions.Controls.Lists
             // btnAdd
             // 
             this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAdd.Location = new System.Drawing.Point(182, 82);
+            this.btnAdd.Location = new System.Drawing.Point(183, 81);
             this.btnAdd.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(20, 20);
@@ -308,6 +308,7 @@ namespace WikiFunctions.Controls.Lists
             this.duplicatesToolStripMenuItem,
             this.filterOutNonMainSpaceArticlesToolStripMenuItem});
             this.mnuRemove.Name = "mnuRemove";
+            this.mnuRemove.OwnerItem = this.removeToolStripMenuItem;
             this.mnuRemove.Size = new System.Drawing.Size(163, 92);
             // 
             // selectedToolStripMenuItem
@@ -501,9 +502,9 @@ namespace WikiFunctions.Controls.Lists
             // btnFilter
             // 
             this.btnFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFilter.Location = new System.Drawing.Point(119, 323);
+            this.btnFilter.Location = new System.Drawing.Point(122, 323);
             this.btnFilter.Name = "btnFilter";
-            this.btnFilter.Size = new System.Drawing.Size(41, 23);
+            this.btnFilter.Size = new System.Drawing.Size(80, 23);
             this.btnFilter.TabIndex = 12;
             this.btnFilter.Text = "Filter";
             this.tooltip.SetToolTip(this.btnFilter, "Apply a filter to substract or add to the list");
@@ -515,7 +516,7 @@ namespace WikiFunctions.Controls.Lists
             this.btnRemove.Location = new System.Drawing.Point(3, 323);
             this.btnRemove.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
             this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(75, 23);
+            this.btnRemove.Size = new System.Drawing.Size(80, 23);
             this.btnRemove.TabIndex = 10;
             this.btnRemove.Text = "&Remove";
             this.tooltip.SetToolTip(this.btnRemove, "Remove the selected item");
@@ -525,7 +526,7 @@ namespace WikiFunctions.Controls.Lists
             // 
             this.btnRemMore.ContextMenuStrip = this.mnuRemove;
             this.btnRemMore.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemMore.Location = new System.Drawing.Point(78, 323);
+            this.btnRemMore.Location = new System.Drawing.Point(91, 323);
             this.btnRemMore.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
             this.btnRemMore.Name = "btnRemMore";
             this.btnRemMore.Size = new System.Drawing.Size(23, 23);
@@ -555,10 +556,10 @@ namespace WikiFunctions.Controls.Lists
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.lbArticles);
-            this.Controls.Add(this.btnFilter);
-            this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.txtPage);
+            this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.btnRemMore);
+            this.Controls.Add(this.btnFilter);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnGenerate);
             this.Controls.Add(this.lblNumOfPages);
