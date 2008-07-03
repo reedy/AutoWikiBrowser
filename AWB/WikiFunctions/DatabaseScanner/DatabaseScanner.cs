@@ -698,7 +698,7 @@ namespace WikiFunctions.DBScanner
             nudLinks.Value = 5;
 
             //extra
-            foreach (CheckBox c in layoutAWB.Controls)
+            foreach (CheckBox c in flwAWB.Controls)
                 c.Checked = false;
 
             chkSearchDates.Checked = false;
@@ -715,7 +715,7 @@ namespace WikiFunctions.DBScanner
 
         private void UpdateControls(bool busy)
         {
-            groupBox1.Enabled = groupBox2.Enabled = groupBox4.Enabled = AWBSpecificGroup.Enabled = 
+            gbText.Enabled = gbTitle.Enabled = groupBox4.Enabled = gbAWBSpecific.Enabled = 
             btnFilter.Enabled = nudLimitResults.Enabled = txtStartFrom.Enabled = !busy;
             if (busy) { btnStart.Text = "Stop"; } else { btnStart.Text = "Start"; }
         }
