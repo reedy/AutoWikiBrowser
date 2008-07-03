@@ -521,33 +521,25 @@ namespace WikiFunctions.Controls.Lists
 
         #region Methods
         /// <summary>
-        /// Normalizers URLs or titles into conistant urls
+        /// Removes URL and such if applicable
         /// </summary>
         public string NormalizeTitle(string s)
         {
-            // Could be done better see
-            // http://en.wikipedia.org/wiki/Wikipedia:AWB/FR#External_to_Interwiki
-            /*
-             * Code taken from dispenser's tools
-function fixTitle(e) {
-    // Convert from the escaped UTF-8 byte code into Unicode
-    s = unescape(decodeURI(e.value))
-    // Convert secure URLs into non-secure equivalents (note the secure system is considered a 'hack')
-    s = s.replace(/\w+:\/\/secure\.wikimedia\.org\/(\w+)\/(\w+)\//, 'http://$2.$1.org/')
-    // Convert http://lang.domain.org/wiki/ into interwiki format
-    s = s.replace(/http:\/\/(\w+)\.(\w+)\.org\/wiki\/([^#{|}\[\]]*).*REMOVEME/i, '$2:$1:$3')
-    // Scripts paths (/w/index.php?...) into interwiki format
-    s = s.replace(/http:\/\/(\w+)\.(\w+)\.org\/.*?title=([^#&{|}\[\]]*).*REMOVEME/i, '$2:$1:$3')
-    // Remove [[brackets]] from link
-    s = s.replace(/[^\n]*?\[\[([^[\]{|}]+)[^\n]*REMOVEME/g, '$1')
-    // '_' -> ' ' and hard coded home wiki
-    s = s.replace(/_/g, ' ').replace(/^ *(w:|wikipedia:|)(en:|([a-z\-]+:)) *REMOVEME/i, '$3')
-    // Use short prefix form (wiktionary:en:Wiktionary:Main Page -> wikt:en:Wiktionary:Main Page)
-    s = s.replace(/^ *(?:wikimedia:(m)eta|wikimedia:(commons)|(wikt)ionary|wiki(?:(n)ews|(b)ooks|(q)uote|(s)ource|(v)ersity))(:[a-z\-]+:)/i, '$1$2$3$4$5$6$7$8$9')
-    // Put back in
-    e.value = s
-}
-            */
+            //// Convert from the escaped UTF-8 byte code into Unicode
+            //s = System.Web.HttpUtility.UrlDecode(s);
+            //// Convert secure URLs into non-secure equivalents (note the secure system is considered a 'hack')
+            //s = Parse.Parsers.ExtToInt1.Replace(s, "http://$2.$1.org/");
+            //// Convert http://lang.domain.org/wiki/ into interwiki format
+            //s = Parse.Parsers.ExtToInt2.Replace(s, "$2:$1:$3");
+            //// Scripts paths (/w/index.php?...) into interwiki format
+            //s = Parse.Parsers.ExtToInt3.Replace(s, "$2:$1:$3");
+            //// Remove [[brackets]] from link
+            //s = Parse.Parsers.ExtToInt4.Replace(s, "$1");
+            //// '_' -> ' ' and hard coded home wiki
+            //s = Parse.Parsers.ExtToInt5.Replace(s, "$3");
+            //// Use short prefix form (wiktionary:en:Wiktionary:Main Page -> wikt:en:Wiktionary:Main Page)
+            //return Parse.Parsers.ExtToInt6.Replace(s, "$1$2$3$4$5$6$7$8$9");
+
             // Assumsuption flaw: that all wikis use /wiki/ as the default path
             string url = Variables.URL + "/wiki/";
             if (Regex.Match(s, url).Success)

@@ -827,6 +827,9 @@ namespace WikiFunctions
             BulletExternalLinks(parsers, skip.SkipNoBulletedLink);
             Variables.Profiler.Profile("BulletExternalLinks");
 
+            //AWBChangeArticleText("External to internal links", Parsers.ExternalURLToInternalLink(ArticleText), true);
+            //Variables.Profiler.Profile("ExternalURLToInternalLink");
+
             Variables.Profiler.Profile("Links");
 
             if (!Globals.UnitTestMode) // disable to avoid ssslow network requests
