@@ -287,14 +287,10 @@ namespace WikiFunctions.Controls.Lists
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            // Why do we need this?
-            if (txtPage.Text.Length == 0)
-            {
-                UpdateNumberOfArticles();
+            if (txtPage.Text.Trim().Length == 0)
                 return;
-            }
 
-            Add(normalizeTitle(txtPage.Text));
+            Add(NormalizeTitle(txtPage.Text));
             txtPage.Text = "";
         }
 
@@ -377,7 +373,7 @@ namespace WikiFunctions.Controls.Lists
             selectedToolStripMenuItem.Enabled = (lbArticles.SelectedItem != null);
 
             // Code doesn't work right on the first click, could you help Reedy?
-            mnuRemove.Show(btnRemMore, new System.Drawing.Point(0, 0), ToolStripDropDownDirection.AboveRight);
+            mnuRemove.Show(btnRemMore, Control.MousePosition, ToolStripDropDownDirection.AboveRight);
         }
 
         private void mnuListBox_Opening(object sender, CancelEventArgs e)
@@ -527,7 +523,7 @@ namespace WikiFunctions.Controls.Lists
         /// <summary>
         /// Normalizers URLs or titles into conistant urls
         /// </summary>
-        public string normalizeTitle(string s)
+        public string NormalizeTitle(string s)
         {
             // Could be done better see
             // http://en.wikipedia.org/wiki/Wikipedia:AWB/FR#External_to_Interwiki
@@ -559,6 +555,7 @@ function fixTitle(e) {
             else
                 return s;
         }
+
         private delegate void AddToListDel(string s);
         /// <summary>
         /// Adds the given string to the list, first turning it into an Article
@@ -1003,7 +1000,7 @@ function fixTitle(e) {
                 foreach (string entry in splitTextTBA)
                 {
                     if(!string.IsNullOrEmpty(entry.Trim()))
-                        Add(normalizeTitle(entry));
+                        Add(NormalizeTitle(entry));
                 }
             }
             catch { }
