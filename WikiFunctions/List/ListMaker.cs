@@ -283,7 +283,7 @@ namespace WikiFunctions.Controls.Lists
             searchItem.Selected();
             lblSourceSelect.Text = searchItem.UserInputTextBoxText;
             UserInputTextBox.Enabled = searchItem.UserInputTextBoxEnabled;
-       }
+        }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
@@ -300,6 +300,14 @@ namespace WikiFunctions.Controls.Lists
         private void btnRemoveArticle_Click(object sender, EventArgs e)
         {
             RemoveSelectedArticle();
+        }
+
+        private void btnArticlesListClear_Click(object sender, EventArgs e)
+        {
+            if (lbArticles.Items.Count <= 1 || (MessageBox.Show(
+            "Are you sure you want to clear the article list?", "Clear?", MessageBoxButtons.YesNo)
+            == DialogResult.Yes))
+                Clear();
         }
 
         private void btnFilter_Click(object sender, EventArgs e)
@@ -336,21 +344,21 @@ namespace WikiFunctions.Controls.Lists
             if ((nIdx >= 0) && (nIdx < lbArticles.Items.Count))
                 strTip = lbArticles.Items[nIdx].ToString();
             if (strTip != strlbArticlesTooltip)
-                tooltip.SetToolTip(lbArticles, strTip);
+                toolTip1.SetToolTip(lbArticles, strTip);
             strlbArticlesTooltip = strTip;
         }
 
         private void txtNewArticle_MouseMove(object sender, MouseEventArgs e)
         {
             if (txtNewArticle.Text != strtxtNewArticleTooltip)
-                tooltip.SetToolTip(txtNewArticle, txtNewArticle.Text);
+                toolTip1.SetToolTip(txtNewArticle, txtNewArticle.Text);
             strtxtNewArticleTooltip = txtNewArticle.Text;
         }
 
         private void lbArticles_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete)
-                btnRemove.PerformClick();
+                btnRemoveArticle.PerformClick();
         }
 
 
@@ -375,9 +383,9 @@ namespace WikiFunctions.Controls.Lists
             addSelectedToListToolStripMenuItem.Enabled = copyToolStripMenuItem.Enabled = cutToolStripMenuItem.Enabled = (lbArticles.SelectedItems.Count > 0);
 
             removeToolStripMenuItem.Enabled = lbArticles.SelectedItem != null;
-            clearToolStripMenuItem.Enabled = filterOutNonMainSpaceArticlesToolStripMenuItem.Enabled =
+            clearToolStripMenuItem1.Enabled = filterOutNonMainSpaceArticlesToolStripMenuItem.Enabled =
             convertToTalkPagesToolStripMenuItem.Enabled = convertFromTalkPagesToolStripMenuItem.Enabled =
-            sortAlphebeticallyMenuItem.Enabled = saveListToFileToolStripMenuItem.Enabled = specialFilterToolStripMenuItem.Enabled =
+            sortAlphebeticallyMenuItem.Enabled = saveListToTextFileToolStripMenuItem1.Enabled = specialFilterToolStripMenuItem.Enabled =
             selectAllToolStripMenuItem.Enabled = invertSelectionToolStripMenuItem.Enabled = selectNoneToolStripMenuItem.Enabled =
             openInBrowserToolStripMenuItem.Enabled = (lbArticles.Items.Count > 0);
         }
@@ -403,8 +411,8 @@ namespace WikiFunctions.Controls.Lists
         {
             set
             {
-                btnFilter.Enabled = btnRemove.Enabled = btnRemoveDuplicates.Enabled =
-                btnArticlesListSave.Enabled = value;
+                btnFilter.Enabled = btnRemoveArticle.Enabled = btnArticlesListClear.Enabled =
+                btnArticlesListSave.Enabled = btnRemoveDuplicates.Enabled = value;
             }
         }
 
@@ -649,7 +657,7 @@ namespace WikiFunctions.Controls.Lists
                 UpdateNumberOfArticles();
                 btnStop.Visible = false;
             }
-		}
+        }
 
         string[] strSource;
         WikiFunctions.Lists.IListProvider providerToRun;
@@ -1092,10 +1100,7 @@ namespace WikiFunctions.Controls.Lists
 
         private void clearToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            if (lbArticles.Items.Count <= 100 || (MessageBox.Show(
-            "Are you sure you want to clear the large list?", "Clear?", MessageBoxButtons.YesNo)
-            == DialogResult.Yes))
-                Clear();
+            Clear();
         }
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1118,12 +1123,12 @@ namespace WikiFunctions.Controls.Lists
                 }
             }
             catch { }
-        } 
+        }
         #endregion
 
         private void btnRemoveDuplicates_Click(object sender, EventArgs e)
         {
-            mnuRemove.Show(btnRemoveDuplicates, System.Drawing.Point.Empty);
+            removeListDuplicates();
         }
 
         private void btnStop_Click(object sender, EventArgs e)
