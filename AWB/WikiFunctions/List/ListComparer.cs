@@ -54,13 +54,13 @@ namespace WikiFunctions.Controls.Lists
                 if (listMaker2.Contains(article))
                     lbBoth.Items.Add(article.Name);
                 else
-                    lbOnly1.Items.Add(article.Name);
+                    lbNo1.Items.Add(article.Name);
             }
 
             foreach (Article article in listMaker2)
             {
                 if (!listMaker1.Contains(article))
-                    lbOnly2.Items.Add(article.Name);
+                    lbNo2.Items.Add(article.Name);
             }
         
             updateCounts();
@@ -113,14 +113,14 @@ namespace WikiFunctions.Controls.Lists
         private void clear()
         {
             lbBoth.Items.Clear();
-            lbOnly1.Items.Clear();
-            lbOnly2.Items.Clear();
+            lbNo1.Items.Clear();
+            lbNo2.Items.Clear();
         }
 
         private void updateCounts()
         {
-            lblNo1.Text = lbOnly1.Items.Count.ToString() + " pages";
-            lblNo2.Text = lbOnly2.Items.Count.ToString() + " pages";
+            lblNo1.Text = lbNo1.Items.Count.ToString() + " pages";
+            lblNo2.Text = lbNo2.Items.Count.ToString() + " pages";
             lblNoBoth.Text = lbBoth.Items.Count.ToString() + " pages";
         }
 
@@ -130,9 +130,9 @@ namespace WikiFunctions.Controls.Lists
             string s = "";
             StringBuilder strList = new StringBuilder("");
 
-            while (i < lbOnly1.Items.Count)
+            while (i < lbNo1.Items.Count)
             {
-                s = lbOnly1.Items[i].ToString();
+                s = lbNo1.Items[i].ToString();
                 strList.AppendLine("# [[" + s + "]]");
                 i++;
             }
@@ -145,9 +145,9 @@ namespace WikiFunctions.Controls.Lists
             string s = "";
             StringBuilder strList = new StringBuilder("");
 
-            while (i < lbOnly2.Items.Count)
+            while (i < lbNo2.Items.Count)
             {
-                s = lbOnly2.Items[i].ToString();
+                s = lbNo2.Items[i].ToString();
                 strList.AppendLine("# [[" + s + "]]");
                 i++;
             }
