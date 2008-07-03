@@ -28,19 +28,19 @@ namespace AutoWikiBrowser
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblCategory = new System.Windows.Forms.Label();
             this.txtCategory = new System.Windows.Forms.TextBox();
             this.btnOk = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // label1
+            // lblCategory
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(52, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Category:";
+            this.lblCategory.AutoSize = true;
+            this.lblCategory.Location = new System.Drawing.Point(13, 9);
+            this.lblCategory.Name = "lblCategory";
+            this.lblCategory.Size = new System.Drawing.Size(52, 13);
+            this.lblCategory.TabIndex = 0;
+            this.lblCategory.Text = "Category:";
             // 
             // txtCategory
             // 
@@ -59,7 +59,7 @@ namespace AutoWikiBrowser
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
-            // frmCategoryName
+            // CategoryNameForm
             // 
             this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -68,11 +68,11 @@ namespace AutoWikiBrowser
             this.ControlBox = false;
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.txtCategory);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblCategory);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "frmCategoryName";
+            this.Name = "CategoryNameForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Category";
             this.Load += new System.EventHandler(this.frmCategoryName_Load);
@@ -83,7 +83,7 @@ namespace AutoWikiBrowser
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblCategory;
         private System.Windows.Forms.TextBox txtCategory;
         private System.Windows.Forms.Button btnOk;
     }

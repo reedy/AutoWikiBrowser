@@ -33,7 +33,7 @@ namespace AutoWikiBrowser
         {
             InitializeComponent();
 
-            lblMessage.Text = msg + "Are you sure you want to exit?";
+            lblPrompt.Text = msg + "Are you sure you want to exit?";
 
             lblTimeAndEdits.Text = "You made " + Edits.ToString() + " edits in " + time.ToString();
         }

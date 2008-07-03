@@ -28,48 +28,48 @@ namespace AutoWikiBrowser
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblMessage = new System.Windows.Forms.Label();
+            this.lblPrompt = new System.Windows.Forms.Label();
             this.ButtonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.chkDontAskAgain = new System.Windows.Forms.CheckBox();
             this.lblTimeAndEdits = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblDidYouSave = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // lblMessage
+            // lblPrompt
             // 
-            this.lblMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMessage.Location = new System.Drawing.Point(12, 9);
-            this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(246, 25);
-            this.lblMessage.TabIndex = 0;
-            this.lblMessage.Text = "Exit AutoWikiBrowser?";
-            this.lblMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblPrompt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPrompt.Location = new System.Drawing.Point(12, 9);
+            this.lblPrompt.Name = "lblPrompt";
+            this.lblPrompt.Size = new System.Drawing.Size(246, 25);
+            this.lblPrompt.TabIndex = 0;
+            this.lblPrompt.Text = "Exit AutoWikiBrowser?";
+            this.lblPrompt.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ButtonOK
             // 
             this.ButtonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.ButtonOK.Location = new System.Drawing.Point(54, 79);
+            this.ButtonOK.Location = new System.Drawing.Point(54, 97);
             this.ButtonOK.Name = "ButtonOK";
             this.ButtonOK.Size = new System.Drawing.Size(75, 23);
             this.ButtonOK.TabIndex = 1;
-            this.ButtonOK.Text = "&Yes";
+            this.ButtonOK.Text = "E&xit";
             this.ButtonOK.UseVisualStyleBackColor = true;
             // 
             // buttonCancel
             // 
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(135, 79);
+            this.buttonCancel.Location = new System.Drawing.Point(135, 97);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 2;
-            this.buttonCancel.Text = "&No";
+            this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
             // chkDontAskAgain
             // 
             this.chkDontAskAgain.AutoSize = true;
-            this.chkDontAskAgain.Location = new System.Drawing.Point(84, 108);
+            this.chkDontAskAgain.Location = new System.Drawing.Point(84, 74);
             this.chkDontAskAgain.Name = "chkDontAskAgain";
             this.chkDontAskAgain.Size = new System.Drawing.Size(100, 17);
             this.chkDontAskAgain.TabIndex = 3;
@@ -84,14 +84,14 @@ namespace AutoWikiBrowser
             this.lblTimeAndEdits.TabIndex = 4;
             this.lblTimeAndEdits.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label1
+            // lblDidYouSave
             // 
-            this.label1.Location = new System.Drawing.Point(12, 53);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(246, 23);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Have you remembered to save your settings?";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblDidYouSave.Location = new System.Drawing.Point(12, 53);
+            this.lblDidYouSave.Name = "lblDidYouSave";
+            this.lblDidYouSave.Size = new System.Drawing.Size(246, 23);
+            this.lblDidYouSave.TabIndex = 5;
+            this.lblDidYouSave.Text = "Have you remembered to save your settings?";
+            this.lblDidYouSave.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ExitQuestion
             // 
@@ -100,12 +100,12 @@ namespace AutoWikiBrowser
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
             this.ClientSize = new System.Drawing.Size(270, 132);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblDidYouSave);
             this.Controls.Add(this.lblTimeAndEdits);
             this.Controls.Add(this.chkDontAskAgain);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.ButtonOK);
-            this.Controls.Add(this.lblMessage);
+            this.Controls.Add(this.lblPrompt);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -120,11 +120,11 @@ namespace AutoWikiBrowser
 
         #endregion
 
-        private System.Windows.Forms.Label lblMessage;
+        private System.Windows.Forms.Label lblPrompt;
         private System.Windows.Forms.Button ButtonOK;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Label lblTimeAndEdits;
         private System.Windows.Forms.CheckBox chkDontAskAgain;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblDidYouSave;
     }
 }
