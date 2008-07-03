@@ -90,7 +90,7 @@ namespace AutoWikiBrowser
             this.txtWarning.ReadOnly = true;
             this.txtWarning.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtWarning.Size = new System.Drawing.Size(254, 127);
-            this.txtWarning.TabIndex = 9;
+            this.txtWarning.TabIndex = 10;
             this.txtWarning.TabStop = false;
             this.txtWarning.Text = "WarningMessage";
             // 
@@ -101,7 +101,7 @@ namespace AutoWikiBrowser
             this.okButton.Location = new System.Drawing.Point(413, 230);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
-            this.okButton.TabIndex = 11;
+            this.okButton.TabIndex = 0;
             this.okButton.Text = "OK";
             this.okButton.UseVisualStyleBackColor = false;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
@@ -123,7 +123,7 @@ namespace AutoWikiBrowser
             this.linkAWBPage.Location = new System.Drawing.Point(12, 9);
             this.linkAWBPage.Name = "linkAWBPage";
             this.linkAWBPage.Size = new System.Drawing.Size(197, 29);
-            this.linkAWBPage.TabIndex = 0;
+            this.linkAWBPage.TabIndex = 1;
             this.linkAWBPage.TabStop = true;
             this.linkAWBPage.Text = "AutoWikiBrowser";
             this.linkAWBPage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkAWBPage_LinkClicked);
@@ -222,7 +222,7 @@ namespace AutoWikiBrowser
             this.lblDevs.Location = new System.Drawing.Point(9, 126);
             this.lblDevs.Name = "lblDevs";
             this.lblDevs.Size = new System.Drawing.Size(174, 13);
-            this.lblDevs.TabIndex = 4;
+            this.lblDevs.TabIndex = 5;
             this.lblDevs.Text = "Now developed and maintained by:";
             // 
             // lblTimeAndEdits
@@ -230,7 +230,7 @@ namespace AutoWikiBrowser
             this.lblTimeAndEdits.Location = new System.Drawing.Point(234, 235);
             this.lblTimeAndEdits.Name = "lblTimeAndEdits";
             this.lblTimeAndEdits.Size = new System.Drawing.Size(161, 13);
-            this.lblTimeAndEdits.TabIndex = 10;
+            this.lblTimeAndEdits.TabIndex = 11;
             this.lblTimeAndEdits.Visible = false;
             // 
             // lblNETVersion
@@ -275,7 +275,7 @@ namespace AutoWikiBrowser
             this.lblDetails.Location = new System.Drawing.Point(12, 193);
             this.lblDetails.Name = "lblDetails";
             this.lblDetails.Size = new System.Drawing.Size(42, 13);
-            this.lblDetails.TabIndex = 6;
+            this.lblDetails.TabIndex = 7;
             this.lblDetails.Text = "Details:";
             // 
             // lblOriginalDevs
@@ -284,7 +284,7 @@ namespace AutoWikiBrowser
             this.lblOriginalDevs.Location = new System.Drawing.Point(7, 81);
             this.lblOriginalDevs.Name = "lblOriginalDevs";
             this.lblOriginalDevs.Size = new System.Drawing.Size(100, 13);
-            this.lblOriginalDevs.TabIndex = 2;
+            this.lblOriginalDevs.TabIndex = 3;
             this.lblOriginalDevs.Text = "Original developers:";
             // 
             // linkJogers
@@ -330,7 +330,7 @@ namespace AutoWikiBrowser
             this.flwDevs.Location = new System.Drawing.Point(28, 142);
             this.flwDevs.Name = "flwDevs";
             this.flwDevs.Size = new System.Drawing.Size(200, 48);
-            this.flwDevs.TabIndex = 5;
+            this.flwDevs.TabIndex = 6;
             // 
             // flwOriginalDevs
             // 
@@ -339,7 +339,7 @@ namespace AutoWikiBrowser
             this.flwOriginalDevs.Location = new System.Drawing.Point(28, 97);
             this.flwOriginalDevs.Name = "flwOriginalDevs";
             this.flwOriginalDevs.Size = new System.Drawing.Size(200, 22);
-            this.flwOriginalDevs.TabIndex = 3;
+            this.flwOriginalDevs.TabIndex = 4;
             // 
             // flowLayoutPanel3
             // 
@@ -350,7 +350,7 @@ namespace AutoWikiBrowser
             this.flowLayoutPanel3.Location = new System.Drawing.Point(28, 209);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
             this.flowLayoutPanel3.Size = new System.Drawing.Size(200, 44);
-            this.flowLayoutPanel3.TabIndex = 7;
+            this.flowLayoutPanel3.TabIndex = 8;
             // 
             // flwOSVersion
             // 
@@ -361,7 +361,7 @@ namespace AutoWikiBrowser
             this.flwOSVersion.Location = new System.Drawing.Point(234, 41);
             this.flwOSVersion.Name = "flwOSVersion";
             this.flwOSVersion.Size = new System.Drawing.Size(254, 43);
-            this.flwOSVersion.TabIndex = 8;
+            this.flwOSVersion.TabIndex = 9;
             // 
             // flowLayoutPanel1
             // 
@@ -372,7 +372,7 @@ namespace AutoWikiBrowser
             this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 41);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(216, 37);
-            this.flowLayoutPanel1.TabIndex = 1;
+            this.flowLayoutPanel1.TabIndex = 2;
             // 
             // AboutBox
             // 

@@ -20,7 +20,7 @@ namespace AutoWikiBrowser
             get
             {
                 if (!string.IsNullOrEmpty(txtCategory.Text.Trim()))
-                    return label1.Text + txtCategory.Text;
+                    return lblCategory.Text + txtCategory.Text;
                 else
                     return "";
             }
@@ -28,7 +28,7 @@ namespace AutoWikiBrowser
 
         private void frmCategoryName_Load(object sender, EventArgs e)
         {
-            label1.Text = WikiFunctions.Variables.Namespaces[14];
+            lblCategory.Text = WikiFunctions.Variables.Namespaces[14];
 
             if (!string.IsNullOrEmpty(txtCategory.Text))
                 txtCategory.SelectAll();
