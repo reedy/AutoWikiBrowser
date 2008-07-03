@@ -148,9 +148,9 @@ namespace WikiFunctions.Controls.Lists
             // btnGenerate
             // 
             this.btnGenerate.Enabled = false;
-            this.btnGenerate.Location = new System.Drawing.Point(67, 56);
+            this.btnGenerate.Location = new System.Drawing.Point(75, 51);
             this.btnGenerate.Name = "btnGenerate";
-            this.btnGenerate.Size = new System.Drawing.Size(74, 23);
+            this.btnGenerate.Size = new System.Drawing.Size(74, 25);
             this.btnGenerate.TabIndex = 5;
             this.btnGenerate.Tag = "Get all pages needing editting";
             this.btnGenerate.Text = "Make list";
@@ -491,9 +491,9 @@ namespace WikiFunctions.Controls.Lists
             // 
             this.btnStop.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnStop.Image = ((System.Drawing.Image)(resources.GetObject("btnStop.Image")));
-            this.btnStop.Location = new System.Drawing.Point(147, 56);
+            this.btnStop.Location = new System.Drawing.Point(158, 51);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(24, 23);
+            this.btnStop.Size = new System.Drawing.Size(24, 25);
             this.btnStop.TabIndex = 6;
             this.tooltip.SetToolTip(this.btnStop, "Abort generating the list");
             this.btnStop.Visible = false;
@@ -502,9 +502,9 @@ namespace WikiFunctions.Controls.Lists
             // btnFilter
             // 
             this.btnFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFilter.Location = new System.Drawing.Point(122, 323);
+            this.btnFilter.Location = new System.Drawing.Point(122, 321);
             this.btnFilter.Name = "btnFilter";
-            this.btnFilter.Size = new System.Drawing.Size(80, 23);
+            this.btnFilter.Size = new System.Drawing.Size(80, 25);
             this.btnFilter.TabIndex = 12;
             this.btnFilter.Text = "Filter";
             this.tooltip.SetToolTip(this.btnFilter, "Apply a filter to substract or add to the list");
@@ -513,10 +513,10 @@ namespace WikiFunctions.Controls.Lists
             // btnRemove
             // 
             this.btnRemove.ContextMenuStrip = this.mnuRemove;
-            this.btnRemove.Location = new System.Drawing.Point(3, 323);
+            this.btnRemove.Location = new System.Drawing.Point(3, 321);
             this.btnRemove.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
             this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(80, 23);
+            this.btnRemove.Size = new System.Drawing.Size(80, 25);
             this.btnRemove.TabIndex = 10;
             this.btnRemove.Text = "&Remove";
             this.tooltip.SetToolTip(this.btnRemove, "Remove the selected item");
@@ -526,10 +526,10 @@ namespace WikiFunctions.Controls.Lists
             // 
             this.btnRemMore.ContextMenuStrip = this.mnuRemove;
             this.btnRemMore.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemMore.Location = new System.Drawing.Point(91, 323);
+            this.btnRemMore.Location = new System.Drawing.Point(90, 321);
             this.btnRemMore.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
             this.btnRemMore.Name = "btnRemMore";
-            this.btnRemMore.Size = new System.Drawing.Size(23, 23);
+            this.btnRemMore.Size = new System.Drawing.Size(25, 25);
             this.btnRemMore.TabIndex = 11;
             this.btnRemMore.Text = "▾";
             this.btnRemMore.Click += new System.EventHandler(this.btnRemoveDuplicates_Click);
@@ -554,16 +554,16 @@ namespace WikiFunctions.Controls.Lists
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.lbArticles);
             this.Controls.Add(this.txtPage);
+            this.Controls.Add(this.btnGenerate);
             this.Controls.Add(this.btnAdd);
+            this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.btnRemMore);
             this.Controls.Add(this.btnFilter);
-            this.Controls.Add(this.btnStop);
-            this.Controls.Add(this.btnGenerate);
             this.Controls.Add(this.lblNumOfPages);
             this.Controls.Add(this.UserInputTextBox);
+            this.Controls.Add(this.btnStop);
             this.Controls.Add(this.lblUserInput);
             this.Controls.Add(this.cmboSourceSelect);
             this.Controls.Add(this.lblSourceSelect);
