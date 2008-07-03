@@ -40,7 +40,14 @@ namespace WikiFunctions.Controls.Lists
     {
         private static BindingList<IListProvider> listItems = new BindingList<IListProvider>();
 
-        private static IListProvider redirectLMProvider = new RedirectsListMakerProvider(); //used to keep easy track of the redirect provider so it can be added/removed
+        //used to keep easy track of providers for add/remove/use in code
+        private static IListProvider redirectLProvider = new RedirectsListMakerProvider();
+        private static IListProvider categoryLProvider = new CategoryListMakerProvider();
+        private static IListProvider categoryRecursiveLProvider = new CategoryRecursiveListMakerProvider();
+        private static IListProvider whatLinksLProvider = new WhatLinksHereListMakerProvider();
+        private static IListProvider whatTranscludesLProvider = new WhatTranscludesPageListMakerProvider();
+        private static IListProvider linksOnPageLProvider = new LinksOnPageListMakerProvider();
+        private static IListProvider imageFileLinksLProvider = new ImageFileLinksListMakerProvider();
 
         public event ListMakerEventHandler StatusTextChanged;
         public event ListMakerEventHandler BusyStateChanged;
@@ -61,14 +68,14 @@ namespace WikiFunctions.Controls.Lists
 
             if (listItems.Count == 0)
             {
-                listItems.Add(new CategoryListMakerProvider());
-                listItems.Add(new CategoryRecursiveListMakerProvider());
+                listItems.Add(categoryLProvider);
+                listItems.Add(categoryRecursiveLProvider);
                 listItems.Add(new CategoryRecursiveOneLevelListMakerProvider());
                 listItems.Add(new CategoryRecursiveUserDefinedLevelListMakerProvider());
-                listItems.Add(new WhatLinksHereListMakerProvider());
+                listItems.Add(whatLinksLProvider);
                 listItems.Add(new WhatLinksHereIncludingRedirectsListMakerProvider());
-                listItems.Add(new WhatTranscludesPageListMakerProvider());
-                listItems.Add(new LinksOnPageListMakerProvider());
+                listItems.Add(whatTranscludesLProvider);
+                listItems.Add(linksOnPageLProvider);
                 listItems.Add(new ImagesOnPageListMakerProvider());
                 listItems.Add(new TransclusionsOnPageListMakerProvider());
                 listItems.Add(new TextFileListMakerProvider());
@@ -76,12 +83,12 @@ namespace WikiFunctions.Controls.Lists
                 listItems.Add(new UserContribsListMakerProvider());
                 listItems.Add(new UserContribsAllListMakerProvider());
                 listItems.Add(new SpecialPageListMakerProvider());
-                listItems.Add(new ImageFileLinksListMakerProvider());
+                listItems.Add(imageFileLinksLProvider);
                 listItems.Add(new DatabaseScannerListMakerProvider(lbArticles));
                 listItems.Add(new MyWatchlistListMakerProvider());
                 listItems.Add(new WikiSearchListMakerProvider());
                 listItems.Add(new RandomPagesListMakerProvider());
-                listItems.Add(redirectLMProvider);
+                listItems.Add(redirectLProvider);
             }
 
             SpecialFilter = new ListFilterForm(lbArticles);
@@ -147,9 +154,9 @@ namespace WikiFunctions.Controls.Lists
         public static void AddRemoveRedirects()
         {
             if (Variables.LangCode != LangCodeEnum.en)
-                listItems.Remove(redirectLMProvider);
-            else if (!listItems.Contains(redirectLMProvider))
-                listItems.Add(redirectLMProvider);
+                listItems.Remove(redirectLProvider);
+            else if (!listItems.Contains(redirectLProvider))
+                listItems.Add(redirectLProvider);
         }
 
         /// <summary>
@@ -311,6 +318,8 @@ namespace WikiFunctions.Controls.Lists
 
         private void btnMakeList_Click(object sender, EventArgs e)
         {
+            UserInputTextBox.Text = UserInputTextBox.Text.Trim();
+
             //make sure there is some text.
             if (UserInputTextBox.Enabled && string.IsNullOrEmpty(UserInputTextBox.Text))
             {
@@ -318,7 +327,6 @@ namespace WikiFunctions.Controls.Lists
                 return;
             }
 
-            UserInputTextBox.Text = UserInputTextBox.Text.Trim();
             UserInputTextBox.AutoCompleteCustomSource.Add(UserInputTextBox.Text);
 
             MakeList();
@@ -350,7 +358,6 @@ namespace WikiFunctions.Controls.Lists
                 btnRemove.PerformClick();
         }
 
-
         private void txtNewArticle_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return || e.KeyCode == Keys.Enter)
@@ -371,7 +378,7 @@ namespace WikiFunctions.Controls.Lists
         {
             // No selected pages
             selectedToolStripMenuItem.Enabled = (lbArticles.SelectedItem != null);
-            mnuRemove.Show(btnRemMore, new Point(0,0), ToolStripDropDownDirection.AboveRight);
+            mnuRemove.Show(btnRemMore, new Point(0, 0), ToolStripDropDownDirection.AboveRight);
         }
 
         private void mnuListBox_Opening(object sender, CancelEventArgs e)
@@ -379,13 +386,13 @@ namespace WikiFunctions.Controls.Lists
             // No selected pages
             openInBrowserToolStripMenuItem.Enabled =
             openHistoryInBrowserToolStripMenuItem.Enabled =
-            cutToolStripMenuItem.Enabled = 
+            cutToolStripMenuItem.Enabled =
             copyToolStripMenuItem.Enabled =
-            //  Remove menu
+                //  Remove menu
                 selectedToolStripMenuItem.Enabled =
-            addSelectedToListToolStripMenuItem.Enabled = 
-            moveToTopToolStripMenuItem.Enabled = 
-            moveToBottomToolStripMenuItem.Enabled = 
+            addSelectedToListToolStripMenuItem.Enabled =
+            moveToTopToolStripMenuItem.Enabled =
+            moveToBottomToolStripMenuItem.Enabled =
             (lbArticles.SelectedItem != null);
 
             // Single page
@@ -411,7 +418,6 @@ namespace WikiFunctions.Controls.Lists
         {
             UserInputTextBox.SelectAll();
         }
-
         #endregion
 
         #region Properties
@@ -582,9 +588,7 @@ namespace WikiFunctions.Controls.Lists
             }
 
             lbArticles.BeginUpdate();
-
             lbArticles.Items.AddRange(l.ToArray());
-
             lbArticles.EndUpdate();
 
             UpdateNumberOfArticles();
@@ -748,8 +752,7 @@ namespace WikiFunctions.Controls.Lists
                 else
                     lbArticles.SelectedIndex = i - 1;
             }
-            catch
-            { }
+            catch { }
 
             lbArticles.EndUpdate();
 
@@ -921,11 +924,9 @@ namespace WikiFunctions.Controls.Lists
             lbArticles.Items.Clear();
             Add(list);
         }
-
         #endregion
 
         #region Context menu
-
         private void filterOutNonMainSpaceArticlesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FilterNonMainArticles();
@@ -981,15 +982,13 @@ namespace WikiFunctions.Controls.Lists
         {
             try
             {
-
                 string textTba = Clipboard.GetDataObject().GetData(DataFormats.UnicodeText).ToString();
-                string[] splitter = { "\r\n", "|" };
 
-                string[] splitTextTBA = textTba.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
+                string[] splitTextTBA = textTba.Split(new string[] { "\r\n", "|" }, StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (string entry in splitTextTBA)
                 {
-                    if(!string.IsNullOrEmpty(entry.Trim()))
+                    if (!string.IsNullOrEmpty(entry.Trim()))
                         Add(NormalizeTitle(entry));
                 }
             }
@@ -1052,9 +1051,9 @@ namespace WikiFunctions.Controls.Lists
             if (i > 0)
             {
                 if (recursive)
-                    MakeList(new CategoryRecursiveListMakerProvider(), c);
+                    MakeList(categoryRecursiveLProvider, c);
                 else
-                    MakeList(new CategoryListMakerProvider(), c);
+                    MakeList(categoryLProvider, c);
             }
         }
 
@@ -1070,7 +1069,7 @@ namespace WikiFunctions.Controls.Lists
             }
 
             if (i > 0)
-                MakeList(new WhatLinksHereListMakerProvider(), c);
+                MakeList(whatLinksLProvider, c);
         }
 
         private void fromTranscludesHereToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1085,7 +1084,7 @@ namespace WikiFunctions.Controls.Lists
             }
 
             if (i > 0)
-                MakeList(new WhatTranscludesPageListMakerProvider(), c);
+                MakeList(whatTranscludesLProvider, c);
         }
 
         private void fromLinksOnPageToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1100,7 +1099,7 @@ namespace WikiFunctions.Controls.Lists
             }
 
             if (i > 0)
-                MakeList(new LinksOnPageListMakerProvider(), c);
+                MakeList(linksOnPageLProvider, c);
         }
 
         private void fromImageLinksToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1115,7 +1114,7 @@ namespace WikiFunctions.Controls.Lists
             }
 
             if (i > 0)
-                MakeList(new ImageFileLinksListMakerProvider(), c);
+                MakeList(imageFileLinksLProvider, c);
         }
 
         private void fromRedirectsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1130,7 +1129,7 @@ namespace WikiFunctions.Controls.Lists
             }
 
             if (i > 0)
-                MakeList(new RedirectsListMakerProvider(), c);
+                MakeList(redirectLProvider, c);
         }
 
         private void clearToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -1153,10 +1152,7 @@ namespace WikiFunctions.Controls.Lists
             {
                 foreach (Article item in lbArticles.SelectedItems)
                 {
-                    try
-                    {
-                        Tools.OpenArticleInBrowser(item.Name);
-                    }
+                    try { Tools.OpenArticleInBrowser(item.Name); }
                     catch { }
                 }
             }
