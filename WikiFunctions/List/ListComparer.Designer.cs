@@ -202,7 +202,6 @@ namespace WikiFunctions.Controls.Lists
             this.listMaker1.SelectedSource = 0;
             this.listMaker1.Size = new System.Drawing.Size(212, 358);
             this.listMaker1.SourceText = "";
-            this.listMaker1.SpecialFilterSettings = ((WikiFunctions.AWBSettings.SpecialFilterPrefs)(resources.GetObject("listMaker1.SpecialFilterSettings")));
             this.listMaker1.TabIndex = 14;
             // 
             // gbList2
@@ -223,7 +222,6 @@ namespace WikiFunctions.Controls.Lists
             this.listMaker2.SelectedSource = 0;
             this.listMaker2.Size = new System.Drawing.Size(212, 358);
             this.listMaker2.SourceText = "";
-            this.listMaker2.SpecialFilterSettings = ((WikiFunctions.AWBSettings.SpecialFilterPrefs)(resources.GetObject("listMaker2.SpecialFilterSettings")));
             this.listMaker2.TabIndex = 14;
             // 
             // gbResults
