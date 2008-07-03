@@ -36,7 +36,9 @@ namespace WikiFunctions.Controls.Lists
             this.saveXML = new System.Windows.Forms.SaveFileDialog();
             this.saveTXT = new System.Windows.Forms.SaveFileDialog();
             this.listMaker1 = new WikiFunctions.Controls.Lists.ListMaker();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.numSplitAmount)).BeginInit();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // numSplitAmount
@@ -46,7 +48,7 @@ namespace WikiFunctions.Controls.Lists
             0,
             0,
             0});
-            this.numSplitAmount.Location = new System.Drawing.Point(235, 158);
+            this.numSplitAmount.Location = new System.Drawing.Point(83, 3);
             this.numSplitAmount.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -58,7 +60,7 @@ namespace WikiFunctions.Controls.Lists
             0,
             0});
             this.numSplitAmount.Name = "numSplitAmount";
-            this.numSplitAmount.Size = new System.Drawing.Size(120, 20);
+            this.numSplitAmount.Size = new System.Drawing.Size(55, 20);
             this.numSplitAmount.TabIndex = 2;
             this.numSplitAmount.Value = new decimal(new int[] {
             100,
@@ -68,31 +70,29 @@ namespace WikiFunctions.Controls.Lists
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(247, 230);
+            this.btnSave.Location = new System.Drawing.Point(3, 29);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(96, 27);
-            this.btnSave.TabIndex = 6;
-            this.btnSave.Text = "Save to TXT File";
-            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Size = new System.Drawing.Size(140, 23);
+            this.btnSave.TabIndex = 4;
+            this.btnSave.Text = "Save to text files";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(256, 142);
+            this.label2.Location = new System.Drawing.Point(3, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(77, 13);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Pages per File:";
+            this.label2.Size = new System.Drawing.Size(74, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Pages per file:";
             // 
             // btnXMLSave
             // 
-            this.btnXMLSave.Location = new System.Drawing.Point(223, 197);
+            this.btnXMLSave.Location = new System.Drawing.Point(3, 58);
             this.btnXMLSave.Name = "btnXMLSave";
-            this.btnXMLSave.Size = new System.Drawing.Size(142, 27);
-            this.btnXMLSave.TabIndex = 9;
-            this.btnXMLSave.Text = "Save to XML Settings File";
-            this.btnXMLSave.UseVisualStyleBackColor = true;
+            this.btnXMLSave.Size = new System.Drawing.Size(140, 23);
+            this.btnXMLSave.TabIndex = 3;
+            this.btnXMLSave.Text = "Save to XML settings files";
             this.btnXMLSave.Click += new System.EventHandler(this.btnXMLSave_Click);
             // 
             // saveXML
@@ -112,25 +112,35 @@ namespace WikiFunctions.Controls.Lists
             this.listMaker1.SelectedSource = 0;
             this.listMaker1.Size = new System.Drawing.Size(205, 349);
             this.listMaker1.SourceText = "";
+            this.listMaker1.SpecialFilterSettings = ((WikiFunctions.AWBSettings.SpecialFilterPrefs)(resources.GetObject("listMaker1.SpecialFilterSettings")));
             this.listMaker1.TabIndex = 0;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.label2);
+            this.flowLayoutPanel1.Controls.Add(this.numSplitAmount);
+            this.flowLayoutPanel1.Controls.Add(this.btnSave);
+            this.flowLayoutPanel1.Controls.Add(this.btnXMLSave);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(223, 12);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(143, 145);
+            this.flowLayoutPanel1.TabIndex = 5;
             // 
             // ListSplitter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(371, 369);
+            this.ClientSize = new System.Drawing.Size(378, 369);
+            this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.listMaker1);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.btnXMLSave);
-            this.Controls.Add(this.numSplitAmount);
-            this.Controls.Add(this.btnSave);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "ListSplitter";
             this.Text = "List Splitter";
             this.Load += new System.EventHandler(this.ListSplitter_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numSplitAmount)).EndInit();
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -143,5 +153,6 @@ namespace WikiFunctions.Controls.Lists
         private System.Windows.Forms.Button btnXMLSave;
         private System.Windows.Forms.SaveFileDialog saveXML;
         private System.Windows.Forms.SaveFileDialog saveTXT;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
     }
 }

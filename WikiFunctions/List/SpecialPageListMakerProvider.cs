@@ -60,11 +60,11 @@ namespace WikiFunctions.Lists
                 searchCriteria = txtSource.Text.Split(new char[] { '|' });
                 if (radAllPages.Checked)
                 {
-                    list = new AllPagesSpecialPageProvider().MakeList(Tools.CalculateNS(cboNamespaces.Text), searchCriteria);
+                    list = new AllPagesSpecialPageProvider().MakeList(Tools.CalculateNS(cboNamespace.Text), searchCriteria);
                 }
                 else if (radPrefixIndex.Checked)
                 {
-                    list = new PrefixIndexSpecialPageProvider().MakeList(Tools.CalculateNS(cboNamespaces.Text), searchCriteria);
+                    list = new PrefixIndexSpecialPageProvider().MakeList(Tools.CalculateNS(cboNamespace.Text), searchCriteria);
                 }
             }
             
@@ -101,7 +101,7 @@ namespace WikiFunctions.Lists
         {
             foreach (string name in Variables.Namespaces.Values)
             {
-                cboNamespaces.Items.Add(name);
+                cboNamespace.Items.Add(name);
             }
         }
     }
