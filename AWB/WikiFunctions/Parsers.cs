@@ -1824,8 +1824,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
         public static string ExternalURLToInternalLink(string ArticleText)
         {
-            //TODO:Unit tests
-
             // Convert from the escaped UTF-8 byte code into Unicode
             ArticleText = System.Web.HttpUtility.UrlDecode(ArticleText);
             // Convert secure URLs into non-secure equivalents (note the secure system is considered a 'hack')
