@@ -308,7 +308,6 @@ namespace WikiFunctions.Controls.Lists
             this.duplicatesToolStripMenuItem,
             this.filterOutNonMainSpaceArticlesToolStripMenuItem});
             this.mnuRemove.Name = "mnuRemove";
-            this.mnuRemove.OwnerItem = this.removeToolStripMenuItem;
             this.mnuRemove.Size = new System.Drawing.Size(163, 92);
             // 
             // selectedToolStripMenuItem
