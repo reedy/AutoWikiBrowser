@@ -1471,9 +1471,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 }
                 if (allsame && matches > 1 && !string.IsNullOrEmpty(sort))
                 {
-                    if (sort.Length > 4  && // So that this doesn't get confused by sort keys of "*", " ", etc.
+                    if (sort.Length > 4 && // So that this doesn't get confused by sort keys of "*", " ", etc.
                         !sort.StartsWith(" ")) // MW bug: DEFAULTSORT doesn't treat leading spaces the same way 
-                        //as categories do
+                    //as categories do
                     {
                         foreach (Match m in cats)
                         {
@@ -1487,7 +1487,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             else // already has DEFAULTSORT
             {
                 string s = Tools.RemoveDiacritics(match.Groups[1].Value).Trim();
-                if (s != match.Groups[1].Value && s.Length > 0) 
+                if (s != match.Groups[1].Value && s.Length > 0)
                     ArticleText = ArticleText.Replace(match.Value, "{{DEFAULTSORT:" + s + "}}");
             }
 
@@ -1645,7 +1645,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string commentsStripped = WikiRegexes.Comments.Replace(ArticleText, "");
             Sorter.interwikis(ref commentsStripped);
             int words = Tools.WordCount(commentsStripped);
-            
+
             // bulleted or indented text should weigh less than simple text.
             // for example, actor stubs may contain large filmographies
             string crapStripped = WikiRegexes.BulletedText.Replace(commentsStripped, "");
@@ -1813,6 +1813,33 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             ArticleText = dupeLinks2.Replace(ArticleText, "[[$1]]$2$1");
 
             return ArticleText;
+        }
+
+        public static Regex ExtToInt1 = new Regex(@"/\w+:\/\/secure\.wikimedia\.org\/(\w+)\/(\w+)\//", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static Regex ExtToInt2 = new Regex(@"/http:\/\/(\w+)\.(\w+)\.org\/wiki\/([^#{|}\[\]]*).*REMOVEME/i", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static Regex ExtToInt3 = new Regex(@"/http:\/\/(\w+)\.(\w+)\.org\/.*?title=([^#&{|}\[\]]*).*REMOVEME/i", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static Regex ExtToInt4 = new Regex(@"/[^\n]*?\[\[([^[\]{|}]+)[^\n]*REMOVEME/g", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static Regex ExtToInt5 = new Regex(@"/^ *(w:|wikipedia:|)(en:|([a-z\-]+:)) *REMOVEME/i", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static Regex ExtToInt6 = new Regex(@"/^ *(?:wikimedia:(m)eta|wikimedia:(commons)|(wikt)ionary|wiki(?:(n)ews|(b)ooks|(q)uote|(s)ource|(v)ersity))(:[a-z\-]+:)/i", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        public static string ExternalURLToInternalLink(string ArticleText)
+        {
+            //TODO:Unit tests
+
+            // Convert from the escaped UTF-8 byte code into Unicode
+            ArticleText = System.Web.HttpUtility.UrlDecode(ArticleText);
+            // Convert secure URLs into non-secure equivalents (note the secure system is considered a 'hack')
+            ArticleText = ExtToInt1.Replace(ArticleText, "http://$2.$1.org/");
+            // Convert http://lang.domain.org/wiki/ into interwiki format
+            ArticleText = ExtToInt2.Replace(ArticleText, "$2:$1:$3");
+            // Scripts paths (/w/index.php?...) into interwiki format
+            ArticleText = ExtToInt3.Replace(ArticleText, "$2:$1:$3");
+            // Remove [[brackets]] from link
+            ArticleText = ExtToInt4.Replace(ArticleText, "$1");
+            // '_' -> ' ' and hard coded home wiki
+            ArticleText = ExtToInt5.Replace(ArticleText, "$3");
+            // Use short prefix form (wiktionary:en:Wiktionary:Main Page -> wikt:en:Wiktionary:Main Page)
+            return ExtToInt6.Replace(ArticleText, "$1$2$3$4$5$6$7$8$9");
         }
         #endregion
 
