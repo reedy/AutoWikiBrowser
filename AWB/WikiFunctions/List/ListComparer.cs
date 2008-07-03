@@ -119,9 +119,9 @@ namespace WikiFunctions.Controls.Lists
 
         private void updateCounts()
         {
-            lblOnly1.Text = lbOnly1.Items.Count.ToString() + " pages";
-            lblOnly2.Text = lbOnly2.Items.Count.ToString() + " pages";
-            lblBoth.Text = lbBoth.Items.Count.ToString() + " pages";
+            lblNo1.Text = lbOnly1.Items.Count.ToString() + " pages";
+            lblNo2.Text = lbOnly2.Items.Count.ToString() + " pages";
+            lblNoBoth.Text = lbBoth.Items.Count.ToString() + " pages";
         }
 
         private void btnSaveOnly1_Click(object sender, EventArgs e)

@@ -39,40 +39,46 @@ namespace WikiFunctions.Controls.Lists
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnGo = new System.Windows.Forms.Button();
             this.openListDialog = new System.Windows.Forms.OpenFileDialog();
-            this.lblBoth = new System.Windows.Forms.Label();
+            this.lblNoBoth = new System.Windows.Forms.Label();
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
             this.btnSaveBoth = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblBoth = new System.Windows.Forms.Label();
+            this.gbList1 = new System.Windows.Forms.GroupBox();
             this.listMaker1 = new WikiFunctions.Controls.Lists.ListMaker();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.gbList2 = new System.Windows.Forms.GroupBox();
             this.listMaker2 = new WikiFunctions.Controls.Lists.ListMaker();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.btnSaveOnly2 = new System.Windows.Forms.Button();
+            this.gbResults = new System.Windows.Forms.GroupBox();
+            this.flwDiff2 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblOnly2 = new System.Windows.Forms.Label();
+            this.lblNo2 = new System.Windows.Forms.Label();
             this.lbOnly2 = new System.Windows.Forms.ListBox();
             this.mnuList = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.copySelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label1 = new System.Windows.Forms.Label();
-            this.btnSaveOnly1 = new System.Windows.Forms.Button();
+            this.btnSaveOnly2 = new System.Windows.Forms.Button();
+            this.flwBoth = new System.Windows.Forms.FlowLayoutPanel();
+            this.flwDiff1 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblOnly1 = new System.Windows.Forms.Label();
+            this.lblNo1 = new System.Windows.Forms.Label();
             this.lbOnly1 = new System.Windows.Forms.ListBox();
+            this.btnSaveOnly1 = new System.Windows.Forms.Button();
             this.mnuDuplicates.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.gbList1.SuspendLayout();
+            this.gbList2.SuspendLayout();
+            this.gbResults.SuspendLayout();
+            this.flwDiff2.SuspendLayout();
             this.mnuList.SuspendLayout();
+            this.flwBoth.SuspendLayout();
+            this.flwDiff1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbBoth
             // 
             this.lbBoth.ContextMenuStrip = this.mnuDuplicates;
             this.lbBoth.FormattingEnabled = true;
-            this.lbBoth.Location = new System.Drawing.Point(9, 34);
+            this.lbBoth.Location = new System.Drawing.Point(3, 16);
             this.lbBoth.Name = "lbBoth";
             this.lbBoth.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
             this.lbBoth.Size = new System.Drawing.Size(130, 277);
@@ -87,42 +93,42 @@ namespace WikiFunctions.Controls.Lists
             this.toolStripSeparator2,
             this.copyToolStripMenuItem});
             this.mnuDuplicates.Name = "mnuDuplicates";
-            this.mnuDuplicates.Size = new System.Drawing.Size(220, 82);
+            this.mnuDuplicates.Size = new System.Drawing.Size(209, 104);
             // 
             // transferDuplicatesToList1ToolStripMenuItem
             // 
             this.transferDuplicatesToList1ToolStripMenuItem.Name = "transferDuplicatesToList1ToolStripMenuItem";
-            this.transferDuplicatesToList1ToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.transferDuplicatesToList1ToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.transferDuplicatesToList1ToolStripMenuItem.Text = "Transfer Duplicates to List 1";
             this.transferDuplicatesToList1ToolStripMenuItem.Click += new System.EventHandler(this.transferDuplicatesToList1ToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(216, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(205, 6);
             // 
             // openInBrowserToolStripMenuItem
             // 
             this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
-            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.openInBrowserToolStripMenuItem.Text = "Open in Browser";
             this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(216, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(205, 6);
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.copyToolStripMenuItem.Text = "Copy Selected";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // btnGo
             // 
-            this.btnGo.Location = new System.Drawing.Point(486, 156);
+            this.btnGo.Location = new System.Drawing.Point(460, 155);
             this.btnGo.Name = "btnGo";
             this.btnGo.Size = new System.Drawing.Size(57, 56);
             this.btnGo.TabIndex = 5;
@@ -135,14 +141,14 @@ namespace WikiFunctions.Controls.Lists
             this.openListDialog.Filter = "Text files|*.txt";
             this.openListDialog.SupportMultiDottedExtensions = true;
             // 
-            // lblBoth
+            // lblNoBoth
             // 
-            this.lblBoth.AutoSize = true;
-            this.lblBoth.Location = new System.Drawing.Point(72, 18);
-            this.lblBoth.Name = "lblBoth";
-            this.lblBoth.Size = new System.Drawing.Size(13, 13);
-            this.lblBoth.TabIndex = 8;
-            this.lblBoth.Text = "0";
+            this.lblNoBoth.AutoSize = true;
+            this.lblNoBoth.Location = new System.Drawing.Point(60, 0);
+            this.lblNoBoth.Name = "lblNoBoth";
+            this.lblNoBoth.Size = new System.Drawing.Size(13, 13);
+            this.lblNoBoth.TabIndex = 8;
+            this.lblNoBoth.Text = "0";
             // 
             // saveListDialog
             // 
@@ -151,7 +157,7 @@ namespace WikiFunctions.Controls.Lists
             // 
             // btnSaveBoth
             // 
-            this.btnSaveBoth.Location = new System.Drawing.Point(37, 317);
+            this.btnSaveBoth.Location = new System.Drawing.Point(3, 299);
             this.btnSaveBoth.Name = "btnSaveBoth";
             this.btnSaveBoth.Size = new System.Drawing.Size(75, 23);
             this.btnSaveBoth.TabIndex = 9;
@@ -161,7 +167,7 @@ namespace WikiFunctions.Controls.Lists
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(168, 346);
+            this.btnClear.Location = new System.Drawing.Point(178, 347);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 23);
             this.btnClear.TabIndex = 10;
@@ -169,108 +175,104 @@ namespace WikiFunctions.Controls.Lists
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
-            // label3
+            // lblBoth
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 18);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(60, 13);
-            this.label3.TabIndex = 13;
-            this.label3.Text = "Duplicates:";
+            this.lblBoth.AutoSize = true;
+            this.lblBoth.Location = new System.Drawing.Point(3, 0);
+            this.lblBoth.Name = "lblBoth";
+            this.lblBoth.Size = new System.Drawing.Size(51, 13);
+            this.lblBoth.TabIndex = 13;
+            this.lblBoth.Text = "Common:";
             // 
-            // groupBox1
+            // gbList1
             // 
-            this.groupBox1.Controls.Add(this.listMaker1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(218, 377);
-            this.groupBox1.TabIndex = 16;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "List 1";
+            this.gbList1.Controls.Add(this.listMaker1);
+            this.gbList1.Location = new System.Drawing.Point(12, 12);
+            this.gbList1.Name = "gbList1";
+            this.gbList1.Size = new System.Drawing.Size(218, 377);
+            this.gbList1.TabIndex = 16;
+            this.gbList1.TabStop = false;
+            this.gbList1.Text = "List 1";
             // 
             // listMaker1
             // 
-            this.listMaker1.Location = new System.Drawing.Point(7, 18);
+            this.listMaker1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listMaker1.Location = new System.Drawing.Point(3, 16);
             this.listMaker1.Name = "listMaker1";
             this.listMaker1.SelectedSource = 0;
-            this.listMaker1.Size = new System.Drawing.Size(205, 349);
+            this.listMaker1.Size = new System.Drawing.Size(212, 358);
             this.listMaker1.SourceText = "";
+            this.listMaker1.SpecialFilterSettings = ((WikiFunctions.AWBSettings.SpecialFilterPrefs)(resources.GetObject("listMaker1.SpecialFilterSettings")));
             this.listMaker1.TabIndex = 14;
             // 
-            // groupBox2
+            // gbList2
             // 
-            this.groupBox2.Controls.Add(this.listMaker2);
-            this.groupBox2.Location = new System.Drawing.Point(236, 12);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(218, 377);
-            this.groupBox2.TabIndex = 17;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "List 2";
+            this.gbList2.Controls.Add(this.listMaker2);
+            this.gbList2.Location = new System.Drawing.Point(236, 12);
+            this.gbList2.Name = "gbList2";
+            this.gbList2.Size = new System.Drawing.Size(218, 377);
+            this.gbList2.TabIndex = 17;
+            this.gbList2.TabStop = false;
+            this.gbList2.Text = "List 2";
             // 
             // listMaker2
             // 
-            this.listMaker2.Location = new System.Drawing.Point(7, 18);
+            this.listMaker2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listMaker2.Location = new System.Drawing.Point(3, 16);
             this.listMaker2.Name = "listMaker2";
             this.listMaker2.SelectedSource = 0;
-            this.listMaker2.Size = new System.Drawing.Size(205, 349);
+            this.listMaker2.Size = new System.Drawing.Size(212, 358);
             this.listMaker2.SourceText = "";
+            this.listMaker2.SpecialFilterSettings = ((WikiFunctions.AWBSettings.SpecialFilterPrefs)(resources.GetObject("listMaker2.SpecialFilterSettings")));
             this.listMaker2.TabIndex = 14;
             // 
-            // groupBox3
+            // gbResults
             // 
-            this.groupBox3.Controls.Add(this.label4);
-            this.groupBox3.Controls.Add(this.btnSaveOnly2);
-            this.groupBox3.Controls.Add(this.lblOnly2);
-            this.groupBox3.Controls.Add(this.lbOnly2);
-            this.groupBox3.Controls.Add(this.label1);
-            this.groupBox3.Controls.Add(this.btnSaveOnly1);
-            this.groupBox3.Controls.Add(this.lblOnly1);
-            this.groupBox3.Controls.Add(this.lbOnly1);
-            this.groupBox3.Controls.Add(this.label3);
-            this.groupBox3.Controls.Add(this.btnClear);
-            this.groupBox3.Controls.Add(this.btnSaveBoth);
-            this.groupBox3.Controls.Add(this.lblBoth);
-            this.groupBox3.Controls.Add(this.lbBoth);
-            this.groupBox3.Location = new System.Drawing.Point(569, 12);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(420, 377);
-            this.groupBox3.TabIndex = 18;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Results";
+            this.gbResults.Controls.Add(this.flwDiff2);
+            this.gbResults.Controls.Add(this.flwBoth);
+            this.gbResults.Controls.Add(this.flwDiff1);
+            this.gbResults.Controls.Add(this.btnClear);
+            this.gbResults.Location = new System.Drawing.Point(523, 12);
+            this.gbResults.Name = "gbResults";
+            this.gbResults.Size = new System.Drawing.Size(424, 377);
+            this.gbResults.TabIndex = 18;
+            this.gbResults.TabStop = false;
+            this.gbResults.Text = "Results";
             // 
-            // label4
+            // flwDiff2
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(278, 18);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(70, 13);
-            this.label4.TabIndex = 21;
-            this.label4.Text = "Only in List 2:";
-            // 
-            // btnSaveOnly2
-            // 
-            this.btnSaveOnly2.Location = new System.Drawing.Point(307, 317);
-            this.btnSaveOnly2.Name = "btnSaveOnly2";
-            this.btnSaveOnly2.Size = new System.Drawing.Size(75, 23);
-            this.btnSaveOnly2.TabIndex = 20;
-            this.btnSaveOnly2.Text = "Save list";
-            this.btnSaveOnly2.UseVisualStyleBackColor = true;
-            this.btnSaveOnly2.Click += new System.EventHandler(this.btnSaveOnly2_Click);
+            this.flwDiff2.Controls.Add(this.lblOnly2);
+            this.flwDiff2.Controls.Add(this.lblNo2);
+            this.flwDiff2.Controls.Add(this.lbOnly2);
+            this.flwDiff2.Controls.Add(this.btnSaveOnly2);
+            this.flwDiff2.Location = new System.Drawing.Point(284, 16);
+            this.flwDiff2.Name = "flwDiff2";
+            this.flwDiff2.Size = new System.Drawing.Size(140, 325);
+            this.flwDiff2.TabIndex = 24;
             // 
             // lblOnly2
             // 
             this.lblOnly2.AutoSize = true;
-            this.lblOnly2.Location = new System.Drawing.Point(354, 18);
+            this.lblOnly2.Location = new System.Drawing.Point(3, 0);
             this.lblOnly2.Name = "lblOnly2";
-            this.lblOnly2.Size = new System.Drawing.Size(13, 13);
-            this.lblOnly2.TabIndex = 19;
-            this.lblOnly2.Text = "0";
+            this.lblOnly2.Size = new System.Drawing.Size(83, 13);
+            this.lblOnly2.TabIndex = 21;
+            this.lblOnly2.Text = "Unqiue in List 2:";
+            // 
+            // lblNo2
+            // 
+            this.lblNo2.AutoSize = true;
+            this.lblNo2.Location = new System.Drawing.Point(92, 0);
+            this.lblNo2.Name = "lblNo2";
+            this.lblNo2.Size = new System.Drawing.Size(13, 13);
+            this.lblNo2.TabIndex = 19;
+            this.lblNo2.Text = "0";
             // 
             // lbOnly2
             // 
             this.lbOnly2.ContextMenuStrip = this.mnuList;
             this.lbOnly2.FormattingEnabled = true;
-            this.lbOnly2.Location = new System.Drawing.Point(281, 34);
+            this.lbOnly2.Location = new System.Drawing.Point(3, 16);
             this.lbOnly2.Name = "lbOnly2";
             this.lbOnly2.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
             this.lbOnly2.Size = new System.Drawing.Size(130, 277);
@@ -283,39 +285,90 @@ namespace WikiFunctions.Controls.Lists
             this.toolStripSeparator3,
             this.copySelectedToolStripMenuItem});
             this.mnuList.Name = "mnuList1";
-            this.mnuList.Size = new System.Drawing.Size(162, 54);
+            this.mnuList.Size = new System.Drawing.Size(154, 54);
             // 
             // openInBrowserToolStripMenuItem1
             // 
             this.openInBrowserToolStripMenuItem1.Name = "openInBrowserToolStripMenuItem1";
-            this.openInBrowserToolStripMenuItem1.Size = new System.Drawing.Size(161, 22);
+            this.openInBrowserToolStripMenuItem1.Size = new System.Drawing.Size(153, 22);
             this.openInBrowserToolStripMenuItem1.Text = "Open in Browser";
             this.openInBrowserToolStripMenuItem1.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem1_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(158, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(150, 6);
             // 
             // copySelectedToolStripMenuItem
             // 
             this.copySelectedToolStripMenuItem.Name = "copySelectedToolStripMenuItem";
-            this.copySelectedToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.copySelectedToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.copySelectedToolStripMenuItem.Text = "Copy Selected";
             this.copySelectedToolStripMenuItem.Click += new System.EventHandler(this.copySelectedToolStripMenuItem_Click);
             // 
-            // label1
+            // btnSaveOnly2
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(142, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 13);
-            this.label1.TabIndex = 17;
-            this.label1.Text = "Only in List 1:";
+            this.btnSaveOnly2.Location = new System.Drawing.Point(3, 299);
+            this.btnSaveOnly2.Name = "btnSaveOnly2";
+            this.btnSaveOnly2.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveOnly2.TabIndex = 20;
+            this.btnSaveOnly2.Text = "Save list";
+            this.btnSaveOnly2.UseVisualStyleBackColor = true;
+            this.btnSaveOnly2.Click += new System.EventHandler(this.btnSaveOnly2_Click);
+            // 
+            // flwBoth
+            // 
+            this.flwBoth.Controls.Add(this.lblBoth);
+            this.flwBoth.Controls.Add(this.lblNoBoth);
+            this.flwBoth.Controls.Add(this.lbBoth);
+            this.flwBoth.Controls.Add(this.btnSaveBoth);
+            this.flwBoth.Location = new System.Drawing.Point(145, 16);
+            this.flwBoth.Name = "flwBoth";
+            this.flwBoth.Size = new System.Drawing.Size(140, 325);
+            this.flwBoth.TabIndex = 23;
+            // 
+            // flwDiff1
+            // 
+            this.flwDiff1.Controls.Add(this.lblOnly1);
+            this.flwDiff1.Controls.Add(this.lblNo1);
+            this.flwDiff1.Controls.Add(this.lbOnly1);
+            this.flwDiff1.Controls.Add(this.btnSaveOnly1);
+            this.flwDiff1.Location = new System.Drawing.Point(6, 16);
+            this.flwDiff1.Name = "flwDiff1";
+            this.flwDiff1.Size = new System.Drawing.Size(140, 325);
+            this.flwDiff1.TabIndex = 22;
+            // 
+            // lblOnly1
+            // 
+            this.lblOnly1.AutoSize = true;
+            this.lblOnly1.Location = new System.Drawing.Point(3, 0);
+            this.lblOnly1.Name = "lblOnly1";
+            this.lblOnly1.Size = new System.Drawing.Size(83, 13);
+            this.lblOnly1.TabIndex = 17;
+            this.lblOnly1.Text = "Unique in List 1:";
+            // 
+            // lblNo1
+            // 
+            this.lblNo1.AutoSize = true;
+            this.lblNo1.Location = new System.Drawing.Point(92, 0);
+            this.lblNo1.Name = "lblNo1";
+            this.lblNo1.Size = new System.Drawing.Size(13, 13);
+            this.lblNo1.TabIndex = 15;
+            this.lblNo1.Text = "0";
+            // 
+            // lbOnly1
+            // 
+            this.lbOnly1.ContextMenuStrip = this.mnuList;
+            this.lbOnly1.FormattingEnabled = true;
+            this.lbOnly1.Location = new System.Drawing.Point(3, 16);
+            this.lbOnly1.Name = "lbOnly1";
+            this.lbOnly1.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.lbOnly1.Size = new System.Drawing.Size(130, 277);
+            this.lbOnly1.TabIndex = 14;
             // 
             // btnSaveOnly1
             // 
-            this.btnSaveOnly1.Location = new System.Drawing.Point(168, 317);
+            this.btnSaveOnly1.Location = new System.Drawing.Point(3, 299);
             this.btnSaveOnly1.Name = "btnSaveOnly1";
             this.btnSaveOnly1.Size = new System.Drawing.Size(75, 23);
             this.btnSaveOnly1.TabIndex = 16;
@@ -323,34 +376,15 @@ namespace WikiFunctions.Controls.Lists
             this.btnSaveOnly1.UseVisualStyleBackColor = true;
             this.btnSaveOnly1.Click += new System.EventHandler(this.btnSaveOnly1_Click);
             // 
-            // lblOnly1
-            // 
-            this.lblOnly1.AutoSize = true;
-            this.lblOnly1.Location = new System.Drawing.Point(218, 18);
-            this.lblOnly1.Name = "lblOnly1";
-            this.lblOnly1.Size = new System.Drawing.Size(13, 13);
-            this.lblOnly1.TabIndex = 15;
-            this.lblOnly1.Text = "0";
-            // 
-            // lbOnly1
-            // 
-            this.lbOnly1.ContextMenuStrip = this.mnuList;
-            this.lbOnly1.FormattingEnabled = true;
-            this.lbOnly1.Location = new System.Drawing.Point(145, 34);
-            this.lbOnly1.Name = "lbOnly1";
-            this.lbOnly1.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.lbOnly1.Size = new System.Drawing.Size(130, 277);
-            this.lbOnly1.TabIndex = 14;
-            // 
             // ListComparer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1003, 401);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
+            this.ClientSize = new System.Drawing.Size(954, 401);
+            this.Controls.Add(this.gbList1);
+            this.Controls.Add(this.gbList2);
             this.Controls.Add(this.btnGo);
+            this.Controls.Add(this.gbResults);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -359,11 +393,16 @@ namespace WikiFunctions.Controls.Lists
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "List comparer";
             this.mnuDuplicates.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.gbList1.ResumeLayout(false);
+            this.gbList2.ResumeLayout(false);
+            this.gbResults.ResumeLayout(false);
+            this.flwDiff2.ResumeLayout(false);
+            this.flwDiff2.PerformLayout();
             this.mnuList.ResumeLayout(false);
+            this.flwBoth.ResumeLayout(false);
+            this.flwBoth.PerformLayout();
+            this.flwDiff1.ResumeLayout(false);
+            this.flwDiff1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -373,23 +412,23 @@ namespace WikiFunctions.Controls.Lists
         private System.Windows.Forms.ListBox lbBoth;
         private System.Windows.Forms.Button btnGo;
         private System.Windows.Forms.OpenFileDialog openListDialog;
-        private System.Windows.Forms.Label lblBoth;
+        private System.Windows.Forms.Label lblNoBoth;
         private System.Windows.Forms.SaveFileDialog saveListDialog;
         private System.Windows.Forms.Button btnSaveBoth;
         private System.Windows.Forms.Button btnClear;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblBoth;
         private ListMaker listMaker1;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox gbList1;
+        private System.Windows.Forms.GroupBox gbList2;
         private ListMaker listMaker2;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button btnSaveOnly2;
+        private System.Windows.Forms.GroupBox gbResults;
         private System.Windows.Forms.Label lblOnly2;
+        private System.Windows.Forms.Button btnSaveOnly2;
+        private System.Windows.Forms.Label lblNo2;
         private System.Windows.Forms.ListBox lbOnly2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnSaveOnly1;
         private System.Windows.Forms.Label lblOnly1;
+        private System.Windows.Forms.Button btnSaveOnly1;
+        private System.Windows.Forms.Label lblNo1;
         private System.Windows.Forms.ListBox lbOnly1;
         private System.Windows.Forms.ContextMenuStrip mnuDuplicates;
         private System.Windows.Forms.ToolStripMenuItem transferDuplicatesToList1ToolStripMenuItem;
@@ -401,6 +440,9 @@ namespace WikiFunctions.Controls.Lists
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem copySelectedToolStripMenuItem;
+        private System.Windows.Forms.FlowLayoutPanel flwDiff2;
+        private System.Windows.Forms.FlowLayoutPanel flwBoth;
+        private System.Windows.Forms.FlowLayoutPanel flwDiff1;
     }
 }
 
