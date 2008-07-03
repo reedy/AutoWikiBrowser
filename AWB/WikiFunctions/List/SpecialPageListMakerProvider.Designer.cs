@@ -30,15 +30,18 @@
         {
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblTitle = new System.Windows.Forms.Label();
             this.radAllPages = new System.Windows.Forms.RadioButton();
             this.radPrefixIndex = new System.Windows.Forms.RadioButton();
-            this.label3 = new System.Windows.Forms.Label();
-            this.cboNamespaces = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblRecent = new System.Windows.Forms.Label();
+            this.cboNamespace = new System.Windows.Forms.ComboBox();
+            this.lblNamespace = new System.Windows.Forms.Label();
+            this.lblSource = new System.Windows.Forms.Label();
             this.txtSource = new System.Windows.Forms.TextBox();
+            this.flwPages = new System.Windows.Forms.FlowLayoutPanel();
+            this.gbPages = new System.Windows.Forms.GroupBox();
+            this.flwPages.SuspendLayout();
+            this.gbPages.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnOk
@@ -62,31 +65,21 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // label1
+            // lblTitle
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(130, 16);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Maintenance reports";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(12, 64);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(84, 16);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "List of pages";
+            this.lblTitle.AutoSize = true;
+            this.lblTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitle.Location = new System.Drawing.Point(12, 9);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(130, 16);
+            this.lblTitle.TabIndex = 4;
+            this.lblTitle.Text = "Maintenance reports";
             // 
             // radAllPages
             // 
             this.radAllPages.AutoSize = true;
             this.radAllPages.Checked = true;
-            this.radAllPages.Location = new System.Drawing.Point(15, 83);
+            this.radAllPages.Location = new System.Drawing.Point(3, 3);
             this.radAllPages.Name = "radAllPages";
             this.radAllPages.Size = new System.Drawing.Size(68, 17);
             this.radAllPages.TabIndex = 6;
@@ -97,48 +90,48 @@
             // radPrefixIndex
             // 
             this.radPrefixIndex.AutoSize = true;
-            this.radPrefixIndex.Location = new System.Drawing.Point(15, 106);
+            this.radPrefixIndex.Location = new System.Drawing.Point(3, 26);
             this.radPrefixIndex.Name = "radPrefixIndex";
             this.radPrefixIndex.Size = new System.Drawing.Size(178, 17);
             this.radPrefixIndex.TabIndex = 7;
             this.radPrefixIndex.Text = "All pages with prefix (Prefixindex)";
             this.radPrefixIndex.UseVisualStyleBackColor = true;
             // 
-            // label3
+            // lblRecent
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(12, 150);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(161, 16);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "Recent changes and logs";
+            this.lblRecent.AutoSize = true;
+            this.lblRecent.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRecent.Location = new System.Drawing.Point(12, 150);
+            this.lblRecent.Name = "lblRecent";
+            this.lblRecent.Size = new System.Drawing.Size(161, 16);
+            this.lblRecent.TabIndex = 8;
+            this.lblRecent.Text = "Recent changes and logs";
             // 
-            // cboNamespaces
+            // cboNamespace
             // 
-            this.cboNamespaces.FormattingEnabled = true;
-            this.cboNamespaces.Location = new System.Drawing.Point(82, 236);
-            this.cboNamespaces.Name = "cboNamespaces";
-            this.cboNamespaces.Size = new System.Drawing.Size(135, 21);
-            this.cboNamespaces.TabIndex = 9;
+            this.cboNamespace.FormattingEnabled = true;
+            this.cboNamespace.Location = new System.Drawing.Point(82, 236);
+            this.cboNamespace.Name = "cboNamespace";
+            this.cboNamespace.Size = new System.Drawing.Size(135, 21);
+            this.cboNamespace.TabIndex = 9;
             // 
-            // label4
+            // lblNamespace
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 239);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(64, 13);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "Namespace";
+            this.lblNamespace.AutoSize = true;
+            this.lblNamespace.Location = new System.Drawing.Point(12, 239);
+            this.lblNamespace.Name = "lblNamespace";
+            this.lblNamespace.Size = new System.Drawing.Size(64, 13);
+            this.lblNamespace.TabIndex = 10;
+            this.lblNamespace.Text = "Namespace";
             // 
-            // label5
+            // lblSource
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(31, 214);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(40, 13);
-            this.label5.TabIndex = 11;
-            this.label5.Text = "Pages:";
+            this.lblSource.AutoSize = true;
+            this.lblSource.Location = new System.Drawing.Point(31, 214);
+            this.lblSource.Name = "lblSource";
+            this.lblSource.Size = new System.Drawing.Size(40, 13);
+            this.lblSource.TabIndex = 11;
+            this.lblSource.Text = "Pages:";
             // 
             // txtSource
             // 
@@ -147,6 +140,27 @@
             this.txtSource.Size = new System.Drawing.Size(135, 20);
             this.txtSource.TabIndex = 12;
             // 
+            // flwPages
+            // 
+            this.flwPages.Controls.Add(this.radAllPages);
+            this.flwPages.Controls.Add(this.radPrefixIndex);
+            this.flwPages.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flwPages.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flwPages.Location = new System.Drawing.Point(3, 16);
+            this.flwPages.Name = "flwPages";
+            this.flwPages.Size = new System.Drawing.Size(202, 52);
+            this.flwPages.TabIndex = 0;
+            // 
+            // gbPages
+            // 
+            this.gbPages.Controls.Add(this.flwPages);
+            this.gbPages.Location = new System.Drawing.Point(9, 56);
+            this.gbPages.Name = "gbPages";
+            this.gbPages.Size = new System.Drawing.Size(208, 71);
+            this.gbPages.TabIndex = 13;
+            this.gbPages.TabStop = false;
+            this.gbPages.Text = "List of pages";
+            // 
             // SpecialPageListMakerProvider
             // 
             this.AcceptButton = this.btnOk;
@@ -154,21 +168,22 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(344, 332);
-            this.Controls.Add(this.txtSource);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.cboNamespaces);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.radPrefixIndex);
-            this.Controls.Add(this.radAllPages);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.gbPages);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
+            this.Controls.Add(this.cboNamespace);
+            this.Controls.Add(this.lblNamespace);
+            this.Controls.Add(this.txtSource);
+            this.Controls.Add(this.lblSource);
+            this.Controls.Add(this.lblRecent);
+            this.Controls.Add(this.lblTitle);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "SpecialPageListMakerProvider";
             this.Text = "Special Pages";
             this.Load += new System.EventHandler(this.SpecialPageListMakerProvider_Load);
+            this.flwPages.ResumeLayout(false);
+            this.flwPages.PerformLayout();
+            this.gbPages.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -178,14 +193,15 @@
 
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.RadioButton radAllPages;
         private System.Windows.Forms.RadioButton radPrefixIndex;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox cboNamespaces;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblRecent;
+        private System.Windows.Forms.ComboBox cboNamespace;
+        private System.Windows.Forms.Label lblNamespace;
+        private System.Windows.Forms.Label lblSource;
         private System.Windows.Forms.TextBox txtSource;
+        private System.Windows.Forms.FlowLayoutPanel flwPages;
+        private System.Windows.Forms.GroupBox gbPages;
     }
 }

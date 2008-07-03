@@ -300,6 +300,15 @@ namespace WikiFunctions.Lists
             if (cbOpType.SelectedIndex == 0)
             {
                 // find difference
+                // Doesn't seem to work
+                //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Can.27t_find_difference_in_list_filter
+                // loaded in:
+                // a, b, c
+                //       c, d, e
+                // expected:
+                // a, b,    d, e
+                // got:
+                // (none)
                 List<Article> list2 = new List<Article>();
                 foreach (Article a in list)
                     if (BinarySearch(remove, a, 0, remove.Count - 1) == -1)
@@ -384,92 +393,16 @@ namespace WikiFunctions.Lists
             }
 
             chkPortal.Visible = (Variables.Namespaces.ContainsKey(100));
-            chkPortalTalk.Visible = (Variables.Namespaces.ContainsKey(100));
+            chkPortalTalk.Visible = (Variables.Namespaces.ContainsKey(101));
         }
-
-        #region contextMenu
-
-        private void nonTalkOnlyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SetSomeChecks(false);
-        }
-
-        private void talkSpaceOnlyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SetSomeChecks(true);
-        }
-
-        private void SetSomeChecks(bool All)
-        {
-            chkArticle.Checked = !All;
-            chkArticleTalk.Checked = All;
-            chkCategory.Checked = !All;
-            chkCategoryTalk.Checked = All;
-            chkHelp.Checked = !All;
-            chkHelpTalk.Checked = All;
-            chkImage.Checked = !All;
-            chkImageTalk.Checked = All;
-            chkMediaWiki.Checked = !All;
-            chkMediaWikiTalk.Checked = All;
-            chkPortal.Checked = !All;
-            chkPortalTalk.Checked = All;
-            chkTemplate.Checked = !All;
-            chkTemplateTalk.Checked = All;
-            chkUser.Checked = !All;
-            chkUserTalk.Checked = All;
-            chkWikipedia.Checked = !All;
-            chkWikipediaTalk.Checked = All;
-        }
-
-        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SetCheckBoxes(true);
-        }
-
-        private void deselectAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SetCheckBoxes(false);
-        }
-
-        #endregion
 
         private void specialFilter_Load(object sender, EventArgs e)
         {
             cbOpType.SelectedIndex = 0;
         }
-
-        private void btnSelectAll_Click(object sender, EventArgs e)
-        {
-            SetCheckBoxes(true);
-        }
-
-        private void btnSelectNone_Click(object sender, EventArgs e)
-        {
-            SetCheckBoxes(false);
-        }
-
-        private void SetCheckBoxes(bool All)
-        {
-            chkArticle.Checked = chkArticleTalk.Checked = chkCategory.Checked = chkCategoryTalk.Checked =
-            chkHelp.Checked = chkHelpTalk.Checked = chkImage.Checked = chkImageTalk.Checked = chkMediaWiki.Checked =
-            chkMediaWikiTalk.Checked = chkPortal.Checked = chkPortalTalk.Checked = chkTemplate.Checked = 
-            chkTemplateTalk.Checked = chkUser.Checked = chkUserTalk.Checked = chkWikipedia.Checked =
-            chkWikipediaTalk.Checked = All;
-        }
-
         internal void Clear()
         {
             list.Clear();
-        }
-
-        private void btnTalkOnly_Click(object sender, EventArgs e)
-        {
-            SetSomeChecks(true);
-        }
-
-        private void btnNonTalk_Click(object sender, EventArgs e)
-        {
-            SetSomeChecks(false);
         }
 
         private void SpecialFilter_VisibleChanged(object sender, EventArgs e)
@@ -484,14 +417,16 @@ namespace WikiFunctions.Lists
             {
                 prefs = new WikiFunctions.AWBSettings.SpecialFilterPrefs();
                 
-                foreach (Control chk in groupBox1.Controls)
+                foreach (Control chk in gbNamespaces.Controls)
+                //foreach (Control chk in flwTalk.Controls)
                 {
                     tmp = (chk as CheckBox);
 
                     if (tmp == null)
                         continue;
 
-                    if (tmp.Checked)
+                    // Why is the Tag number a different number from the namespace number?
+                    if (tmp.Checked && tmp.Tag != null)
                         prefs.namespaceValues.Add((int)tmp.Tag);
                 }
 
@@ -515,7 +450,7 @@ namespace WikiFunctions.Lists
             {
                 prefs = value;
 
-                if ((prefs != null) && (prefs.namespaceValues.Count > 0))
+                /*if ((prefs != null) && (prefs.namespaceValues.Count > 0))
                 {
                     foreach (Control chk in groupBox1.Controls)
                     {
@@ -526,7 +461,7 @@ namespace WikiFunctions.Lists
 
                         tmp.Checked = prefs.namespaceValues.Contains((int)tmp.Tag);
                     }
-                }
+                }*/
 
                 chkContains.Checked = prefs.filterTitlesThatContain;
                 txtContains.Text = prefs.filterTitlesThatContainText;
@@ -542,6 +477,35 @@ namespace WikiFunctions.Lists
                 foreach (string s in prefs.remove)
                     lbRemove.Items.Add(s);
             }
+        }
+
+        private void chkContents_CheckedChanged(object sender, EventArgs e)
+        {
+            foreach (CheckBox chk in flwContent.Controls)
+            {
+                chk.Checked = chkContents.Checked;
+            }
+        }
+
+        private void chkTalk_CheckedChanged(object sender, EventArgs e)
+        {
+            foreach (CheckBox chk in flwTalk.Controls)
+            {
+                chk.Checked = chkTalk.Checked;
+            }
+        }
+        private void Content_CheckedChanged(object sender, EventArgs e)
+        {
+            // Should check the main checkbox when all sub checkboxes are checked
+            // and "Indeterminate" when some of them are checked
+            // and unchecked when all the checkboxes are unchecked
+            // Doesn't work
+
+            // chkContents.CheckState = CheckState.Indeterminate;
+        }
+        private void Talk_CheckedChanged(object sender, EventArgs e)
+        {
+            // chkTalk.CheckState = CheckState.Indeterminate;
         }
     }
 }
