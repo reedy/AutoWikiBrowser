@@ -498,7 +498,7 @@ http://example.com }}");
         }
 
         [Test]
-        public void TestIsCorrectEditSummary()
+        public void IsCorrectEditSummary()
         {
             // no wikilinks
             Assert.IsTrue(Parsers.IsCorrectEditSummary(""));
@@ -522,7 +522,7 @@ http://example.com }}");
         }
 
         [Test]
-        public void TestChangeToDefaultSort()
+        public void ChangeToDefaultSort()
         {
             bool noChange;
 
@@ -591,11 +591,19 @@ http://example.com }}");
             Assert.IsTrue(noChange);
         }
 
-        [Test]
-        public void ExternalToInternal()
+        [Test, Category("Incomplete")]
+        public void ExternalURLToInternalLink()
         {
             //TODO:MOAR
-            //Assert.AreEqual("", Parsers.ExternalURLToInternalLink(""));
+            Assert.AreEqual("", Parsers.ExternalURLToInternalLink(""));
+            Assert.AreEqual("%20", Parsers.ExternalURLToInternalLink("%20"));
+
+            // ExtToInt1
+            Assert.AreEqual("https://secure.wikimedia.org/otrs/index.pl?Action=AgentTicketQueue",
+                Parsers.ExternalURLToInternalLink("https://secure.wikimedia.org/otrs/index.pl?Action=AgentTicketQueue"));
+
+            // ExtToInt2
+            Assert.AreEqual("[[:ru:Яипу|Foo]]", Parsers.ExternalURLToInternalLink("[http://ru.wikipedia.org/wiki/Яипу Foo]"));
         }
     }
 
