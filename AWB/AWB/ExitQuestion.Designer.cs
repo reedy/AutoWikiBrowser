@@ -86,7 +86,7 @@ namespace AutoWikiBrowser
             // 
             // lblDidYouSave
             // 
-            this.lblDidYouSave.Location = new System.Drawing.Point(12, 53);
+            this.lblDidYouSave.Location = new System.Drawing.Point(12, 39);
             this.lblDidYouSave.Name = "lblDidYouSave";
             this.lblDidYouSave.Size = new System.Drawing.Size(246, 23);
             this.lblDidYouSave.TabIndex = 5;
