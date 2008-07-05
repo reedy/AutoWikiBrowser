@@ -53,7 +53,7 @@ namespace WikiFunctions
                     return k.Key;
             }
 
-            foreach (KeyValuePair<int, string> k in Variables.enLangNamespaces)
+            foreach (KeyValuePair<int, string> k in Variables.CanonicalNamespaces)
             {
                 if (ArticleTitle.StartsWith(k.Value))
                     return k.Key;

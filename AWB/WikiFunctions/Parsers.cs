@@ -1437,9 +1437,16 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public string ChangeToDefaultSort(string ArticleText, string ArticleTitle, out bool NoChange)
         {
             testText = ArticleText;
+            NoChange = true;
+
+            // we don't need to process that {{lifetime}} crap
+            Match match = WikiRegexes.Defaultsort.Match(ArticleText);
+            if (match.Success && !match.Value.ToUpper().Contains("DEFAULTSORT")) return ArticleText;
+
             ArticleText = TalkPages.TalkPageHeaders.FormatDefaultSort(ArticleText);
 
-            Match match = WikiRegexes.Defaultsort.Match(ArticleText);
+            // match again, after normalisation
+            match = WikiRegexes.Defaultsort.Match(ArticleText);
             if (!match.Success)
             {
                 string sort = null;
