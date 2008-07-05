@@ -78,10 +78,10 @@ namespace WikiFunctions.Controls.Lists
             // 
             this.lbBoth.ContextMenuStrip = this.mnuDuplicates;
             this.lbBoth.FormattingEnabled = true;
-            this.lbBoth.Location = new System.Drawing.Point(3, 16);
+            this.lbBoth.Location = new System.Drawing.Point(3, 29);
             this.lbBoth.Name = "lbBoth";
             this.lbBoth.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.lbBoth.Size = new System.Drawing.Size(130, 277);
+            this.lbBoth.Size = new System.Drawing.Size(130, 264);
             this.lbBoth.TabIndex = 2;
             // 
             // mnuDuplicates
@@ -144,7 +144,7 @@ namespace WikiFunctions.Controls.Lists
             // lblNoBoth
             // 
             this.lblNoBoth.AutoSize = true;
-            this.lblNoBoth.Location = new System.Drawing.Point(60, 0);
+            this.lblNoBoth.Location = new System.Drawing.Point(3, 13);
             this.lblNoBoth.Name = "lblNoBoth";
             this.lblNoBoth.Size = new System.Drawing.Size(13, 13);
             this.lblNoBoth.TabIndex = 8;
@@ -232,7 +232,7 @@ namespace WikiFunctions.Controls.Lists
             this.gbResults.Controls.Add(this.btnClear);
             this.gbResults.Location = new System.Drawing.Point(523, 12);
             this.gbResults.Name = "gbResults";
-            this.gbResults.Size = new System.Drawing.Size(424, 377);
+            this.gbResults.Size = new System.Drawing.Size(431, 377);
             this.gbResults.TabIndex = 18;
             this.gbResults.TabStop = false;
             this.gbResults.Text = "Results";
@@ -243,6 +243,7 @@ namespace WikiFunctions.Controls.Lists
             this.flwDiff2.Controls.Add(this.lblNo2);
             this.flwDiff2.Controls.Add(this.lbNo2);
             this.flwDiff2.Controls.Add(this.btnSaveOnly2);
+            this.flwDiff2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flwDiff2.Location = new System.Drawing.Point(284, 16);
             this.flwDiff2.Name = "flwDiff2";
             this.flwDiff2.Size = new System.Drawing.Size(140, 325);
@@ -260,7 +261,7 @@ namespace WikiFunctions.Controls.Lists
             // lblNo2
             // 
             this.lblNo2.AutoSize = true;
-            this.lblNo2.Location = new System.Drawing.Point(92, 0);
+            this.lblNo2.Location = new System.Drawing.Point(3, 13);
             this.lblNo2.Name = "lblNo2";
             this.lblNo2.Size = new System.Drawing.Size(13, 13);
             this.lblNo2.TabIndex = 19;
@@ -270,10 +271,10 @@ namespace WikiFunctions.Controls.Lists
             // 
             this.lbNo2.ContextMenuStrip = this.mnuList;
             this.lbNo2.FormattingEnabled = true;
-            this.lbNo2.Location = new System.Drawing.Point(3, 16);
+            this.lbNo2.Location = new System.Drawing.Point(3, 29);
             this.lbNo2.Name = "lbNo2";
             this.lbNo2.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.lbNo2.Size = new System.Drawing.Size(130, 277);
+            this.lbNo2.Size = new System.Drawing.Size(130, 264);
             this.lbNo2.TabIndex = 18;
             // 
             // mnuList
@@ -320,6 +321,7 @@ namespace WikiFunctions.Controls.Lists
             this.flwBoth.Controls.Add(this.lblNoBoth);
             this.flwBoth.Controls.Add(this.lbBoth);
             this.flwBoth.Controls.Add(this.btnSaveBoth);
+            this.flwBoth.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flwBoth.Location = new System.Drawing.Point(145, 16);
             this.flwBoth.Name = "flwBoth";
             this.flwBoth.Size = new System.Drawing.Size(140, 325);
@@ -331,6 +333,7 @@ namespace WikiFunctions.Controls.Lists
             this.flwDiff1.Controls.Add(this.lblNo1);
             this.flwDiff1.Controls.Add(this.lbNo1);
             this.flwDiff1.Controls.Add(this.btnSaveOnly1);
+            this.flwDiff1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flwDiff1.Location = new System.Drawing.Point(6, 16);
             this.flwDiff1.Name = "flwDiff1";
             this.flwDiff1.Size = new System.Drawing.Size(140, 325);
@@ -348,7 +351,7 @@ namespace WikiFunctions.Controls.Lists
             // lblNo1
             // 
             this.lblNo1.AutoSize = true;
-            this.lblNo1.Location = new System.Drawing.Point(92, 0);
+            this.lblNo1.Location = new System.Drawing.Point(3, 13);
             this.lblNo1.Name = "lblNo1";
             this.lblNo1.Size = new System.Drawing.Size(13, 13);
             this.lblNo1.TabIndex = 15;
@@ -358,10 +361,10 @@ namespace WikiFunctions.Controls.Lists
             // 
             this.lbNo1.ContextMenuStrip = this.mnuList;
             this.lbNo1.FormattingEnabled = true;
-            this.lbNo1.Location = new System.Drawing.Point(3, 16);
+            this.lbNo1.Location = new System.Drawing.Point(3, 29);
             this.lbNo1.Name = "lbNo1";
             this.lbNo1.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.lbNo1.Size = new System.Drawing.Size(130, 277);
+            this.lbNo1.Size = new System.Drawing.Size(130, 264);
             this.lbNo1.TabIndex = 14;
             // 
             // btnSaveOnly1
@@ -378,7 +381,7 @@ namespace WikiFunctions.Controls.Lists
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(954, 401);
+            this.ClientSize = new System.Drawing.Size(959, 401);
             this.Controls.Add(this.gbList1);
             this.Controls.Add(this.gbList2);
             this.Controls.Add(this.btnGo);
