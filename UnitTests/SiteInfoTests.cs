@@ -42,7 +42,7 @@ namespace UnitTests
         [Test]
         public void Creation()
         {
-            SiteInfo si = new SiteInfo("http://foo/", Variables.enLangNamespaces);
+            SiteInfo si = new SiteInfo("http://foo/", Variables.CanonicalNamespaces);
             c.Add(si);
             Assert.AreEqual(si, c.Find(si.ScriptPath));
             Assert.AreEqual(si, c.Find("http://foo"));

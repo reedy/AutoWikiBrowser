@@ -24,6 +24,7 @@ using System.Text.RegularExpressions;
 using System.Collections;
 using System.Web;
 using System.Xml;
+using WikiFunctions.TalkPages;
 
 namespace WikiFunctions.Parse
 {
@@ -419,7 +420,11 @@ namespace WikiFunctions.Parse
 
             if (!string.IsNullOrEmpty(defaultSort))
                 ArticleText = ArticleText.Replace(defaultSort, "");
-            defaultSort = WikiRegexes.Defaultsort.Replace(defaultSort, "{{DEFAULTSORT:${key}}}");
+
+            if (defaultSort.ToUpper().Contains("DEFAULTSORT"))
+            {
+                defaultSort = TalkPageHeaders.FormatDefaultSort(defaultSort);
+            }
             if (!string.IsNullOrEmpty(defaultSort)) defaultSort += "\r\n";
 
             return defaultSort + ListToString(categoryList);

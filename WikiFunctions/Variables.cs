@@ -61,23 +61,23 @@ namespace WikiFunctions
     {
         static Variables()
         {
-            enLangNamespaces[-2] = "Media:";
-            enLangNamespaces[-1] = "Special:";
-            enLangNamespaces[1] = "Talk:";
-            enLangNamespaces[2] = "User:";
-            enLangNamespaces[3] = "User talk:";
-            enLangNamespaces[4] = "Project:";
-            enLangNamespaces[5] = "Project talk:";
-            enLangNamespaces[6] = "Image:";
-            enLangNamespaces[7] = "Image talk:";
-            enLangNamespaces[8] = "MediaWiki:";
-            enLangNamespaces[9] = "MediaWiki talk:";
-            enLangNamespaces[10] = "Template:";
-            enLangNamespaces[11] = "Template talk:";
-            enLangNamespaces[12] = "Help:";
-            enLangNamespaces[13] = "Help talk:";
-            enLangNamespaces[14] = "Category:";
-            enLangNamespaces[15] = "Category talk:";
+            CanonicalNamespaces[-2] = "Media:";
+            CanonicalNamespaces[-1] = "Special:";
+            CanonicalNamespaces[1] = "Talk:";
+            CanonicalNamespaces[2] = "User:";
+            CanonicalNamespaces[3] = "User talk:";
+            CanonicalNamespaces[4] = "Project:";
+            CanonicalNamespaces[5] = "Project talk:";
+            CanonicalNamespaces[6] = "Image:";
+            CanonicalNamespaces[7] = "Image talk:";
+            CanonicalNamespaces[8] = "MediaWiki:";
+            CanonicalNamespaces[9] = "MediaWiki talk:";
+            CanonicalNamespaces[10] = "Template:";
+            CanonicalNamespaces[11] = "Template talk:";
+            CanonicalNamespaces[12] = "Help:";
+            CanonicalNamespaces[13] = "Help talk:";
+            CanonicalNamespaces[14] = "Category:";
+            CanonicalNamespaces[15] = "Category talk:";
 
             if (!Globals.UnitTestMode)
             {
@@ -119,7 +119,7 @@ namespace WikiFunctions
         /// <summary>
         /// Provides access to the en namespace keys
         /// </summary>
-        public static Dictionary<int, string> enLangNamespaces = new Dictionary<int, string>(20);
+        public static Dictionary<int, string> CanonicalNamespaces = new Dictionary<int, string>(20);
 
         /// <summary>
         /// Provides access to the namespace keys
@@ -1188,8 +1188,8 @@ namespace WikiFunctions
             foreach (KeyValuePair<int, string> k in Namespaces)
             {
                 //other languages can use the english syntax
-                if (LangNotEnglish && enLangNamespaces.ContainsKey(k.Key))
-                    NamespacesCaseInsensitive.Add(k.Key, "(?:" + Tools.AllCaseInsensitive(k.Value) + "|" + Tools.AllCaseInsensitive(enLangNamespaces[k.Key]).Replace(":", " ?:") + ")");
+                if (LangNotEnglish && CanonicalNamespaces.ContainsKey(k.Key))
+                    NamespacesCaseInsensitive.Add(k.Key, "(?:" + Tools.AllCaseInsensitive(k.Value) + "|" + Tools.AllCaseInsensitive(CanonicalNamespaces[k.Key]).Replace(":", " ?:") + ")");
                 else
                     NamespacesCaseInsensitive.Add(k.Key, Tools.AllCaseInsensitive(k.Value).Replace(":", " ?:"));
             }
@@ -1227,7 +1227,7 @@ namespace WikiFunctions
                 if (MessageBox.Show(@"An error occured while loading project information from the server.
 Do you want to use default settings?", "Error loading namespaces", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    Namespaces = enLangNamespaces;
+                    Namespaces = CanonicalNamespaces;
                     MonthNames = (string[])ENLangMonthNames.Clone();
                     return;
                 }

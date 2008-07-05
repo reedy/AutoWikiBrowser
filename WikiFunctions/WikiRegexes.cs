@@ -30,15 +30,18 @@ namespace WikiFunctions
     {
         public static void MakeLangSpecificRegexes()
         {
+            TemplateStart = Variables.NamespacesCaseInsensitive[10];
+            if (TemplateStart[0] == '(') TemplateStart = TemplateStart.Insert(TemplateStart.Length - 1, "|");
+            else TemplateStart = "(?:" + TemplateStart + "|)";
+            TemplateStart = @"\{\{\s*" + TemplateStart;
+
             Category = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[14] + @"(.*?)\]\]|<[Gg]allery\b([^>]*?)>[\s\S]*?</ ?[Gg]allery>", RegexOptions.Compiled);
             Images = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[6] + @"(.*?)\]\]|<[Gg]allery\b([^>]*?)>[\s\S]*?</ ?[Gg]allery>", RegexOptions.Compiled);
             Stub = new Regex(@"{{.*?" + Variables.Stub + @"}}", RegexOptions.Compiled);
             PossiblyCommentedStub = new Regex(@"(<!-- ?\{\{[^}]*?" + Variables.Stub + @"\b\}\}.*?-->|\{\{[^}]*?" + Variables.Stub + @"\}\})", RegexOptions.Compiled);
-            string s = Variables.NamespacesCaseInsensitive[10];
-            if (s[0] == '(') s = s.Insert(s.Length - 1, "|");
-            else s = "(?:" + s + "|)";
-            TemplateCall = new Regex(@"{{\s*" + s + @"\s*([^\]\|]*)\s*(.*)}}", RegexOptions.Compiled | RegexOptions.Singleline);
+            TemplateCall = new Regex(TemplateStart + @"\s*([^\]\|]*)\s*(.*)}}", RegexOptions.Compiled | RegexOptions.Singleline);
 
+            string s;
             switch (Variables.LangCode)
             {
                 case LangCodeEnum.ar:
@@ -76,11 +79,23 @@ namespace WikiFunctions
 
             if (Variables.LangCode == LangCodeEnum.ru)
             {
-                Disambigs = new Regex(@"{{([Dd]isambiguation|[Dd]isambig|[Нн]еоднозначность])}}", RegexOptions.Compiled);
+                Disambigs = new Regex(TemplateStart + @"([Dd]isambiguation|[Dd]isambig|[Нн]еоднозначность)}}", RegexOptions.Compiled);
             }
             else
                 Disambigs = new Regex(@"{{([234]CC|[Dd]isambig|[Gg]eodis|[Hh]ndis|[Ss]urname|[Nn]umberdis|[Rr]oaddis|[Ll]etter-disambig)}}", RegexOptions.Compiled);
+
+            s = "(?i:defaultsort)";
+            if (Variables.LangCode == LangCodeEnum.en)
+                s = "(?:(?i:defaultsort|lifetime|BIRTH-DEATH-SORT)|BD)";
+
+            Defaultsort = new Regex(TemplateStart + s + @"\s*[:|](?<key>[^\}]*)}}",
+                RegexOptions.Compiled | RegexOptions.ExplicitCapture);
         }
+
+        /// <summary>
+        /// Piece of template call, including curly brace and possible namespace
+        /// </summary>
+        public static string TemplateStart;
 
         /// <summary>
         /// Matches all wikilinks, categories, images etc.
@@ -115,9 +130,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{DEFAULTSORT}}
         /// </summary>
-        public static readonly Regex Defaultsort = new Regex(
-            @"{{\s*(template\s*:\s*)*\s*defaultsort\s*(:|\|)(?<key>[^\}]*)}}",
-            RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
+        public static Regex Defaultsort;
 
         /// <summary>
         /// Matches all headings

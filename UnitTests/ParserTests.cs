@@ -589,6 +589,11 @@ http://example.com }}");
             Assert.AreEqual("[[Category:Test1| Foooo]][[Category:Test2| Foooo]]",
                 p.ChangeToDefaultSort("[[Category:Test1| Foooo]][[Category:Test2| Foooo]]", "Bar", out noChange));
             Assert.IsTrue(noChange);
+
+            // {{lifetime}} and crap like that is not supported
+            p.ChangeToDefaultSort("{{lifetime|shite}}[[Category:Test1|Foooo]][[Category:Test2|Foooo]]",
+                "Bar", out noChange);
+            Assert.IsTrue(noChange);
         }
 
         [Test, Category("Incomplete")]

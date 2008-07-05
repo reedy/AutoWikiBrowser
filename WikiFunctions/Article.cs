@@ -827,8 +827,11 @@ namespace WikiFunctions
             BulletExternalLinks(parsers, skip.SkipNoBulletedLink);
             Variables.Profiler.Profile("BulletExternalLinks");
 
-            //AWBChangeArticleText("External to internal links", Parsers.ExternalURLToInternalLink(ArticleText), true);
-            //Variables.Profiler.Profile("ExternalURLToInternalLink");
+            //if (Variables.IsWikimediaProject)
+            //{
+            //    AWBChangeArticleText("External to internal links", Parsers.ExternalURLToInternalLink(ArticleText), true);
+            //    Variables.Profiler.Profile("ExternalURLToInternalLink");
+            //}
 
             Variables.Profiler.Profile("Links");
 
