@@ -29,16 +29,16 @@ namespace WikiFunctions.Controls
         private void InitializeComponent()
         {
             this.txtNewTitle = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblNewTitle = new System.Windows.Forms.Label();
+            this.lblSummary = new System.Windows.Forms.Label();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.cmboSummary = new System.Windows.Forms.ComboBox();
             this.lbEdit = new System.Windows.Forms.ListBox();
             this.lbMove = new System.Windows.Forms.ListBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblEdit = new System.Windows.Forms.Label();
+            this.lblMove = new System.Windows.Forms.Label();
+            this.lblExpiry = new System.Windows.Forms.Label();
             this.txtExpiry = new System.Windows.Forms.TextBox();
             this.chkUnlock = new System.Windows.Forms.CheckBox();
             this.chkAutoProtect = new System.Windows.Forms.CheckBox();
@@ -47,49 +47,51 @@ namespace WikiFunctions.Controls
             // 
             // txtNewTitle
             // 
+            this.txtNewTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.txtNewTitle.Location = new System.Drawing.Point(62, 12);
             this.txtNewTitle.Name = "txtNewTitle";
             this.txtNewTitle.Size = new System.Drawing.Size(339, 20);
-            this.txtNewTitle.TabIndex = 0;
+            this.txtNewTitle.TabIndex = 1;
             // 
-            // label1
+            // lblNewTitle
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 15);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(48, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "New title";
+            this.lblNewTitle.AutoSize = true;
+            this.lblNewTitle.Location = new System.Drawing.Point(8, 15);
+            this.lblNewTitle.Name = "lblNewTitle";
+            this.lblNewTitle.Size = new System.Drawing.Size(48, 13);
+            this.lblNewTitle.TabIndex = 0;
+            this.lblNewTitle.Text = "New title";
             // 
-            // label2
+            // lblSummary
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 41);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(50, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Summary";
+            this.lblSummary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblSummary.AutoSize = true;
+            this.lblSummary.Location = new System.Drawing.Point(8, 41);
+            this.lblSummary.Name = "lblSummary";
+            this.lblSummary.Size = new System.Drawing.Size(50, 13);
+            this.lblSummary.TabIndex = 4;
+            this.lblSummary.Text = "Summary";
             // 
             // btnOk
             // 
-            this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(132, 173);
+            this.btnOk.Location = new System.Drawing.Point(132, 174);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 4;
+            this.btnOk.TabIndex = 13;
             this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = true;
             // 
             // btnCancel
             // 
-            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(213, 173);
+            this.btnCancel.Location = new System.Drawing.Point(213, 174);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 5;
+            this.btnCancel.TabIndex = 14;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
@@ -99,7 +101,7 @@ namespace WikiFunctions.Controls
             this.cmboSummary.Location = new System.Drawing.Point(62, 38);
             this.cmboSummary.Name = "cmboSummary";
             this.cmboSummary.Size = new System.Drawing.Size(339, 21);
-            this.cmboSummary.TabIndex = 6;
+            this.cmboSummary.TabIndex = 5;
             // 
             // lbEdit
             // 
@@ -111,7 +113,7 @@ namespace WikiFunctions.Controls
             this.lbEdit.Location = new System.Drawing.Point(62, 81);
             this.lbEdit.Name = "lbEdit";
             this.lbEdit.Size = new System.Drawing.Size(145, 43);
-            this.lbEdit.TabIndex = 8;
+            this.lbEdit.TabIndex = 7;
             this.lbEdit.SelectedIndexChanged += new System.EventHandler(this.lbEdit_SelectedIndexChanged);
             // 
             // lbMove
@@ -125,42 +127,44 @@ namespace WikiFunctions.Controls
             this.lbMove.Location = new System.Drawing.Point(213, 81);
             this.lbMove.Name = "lbMove";
             this.lbMove.Size = new System.Drawing.Size(145, 43);
-            this.lbMove.TabIndex = 9;
+            this.lbMove.TabIndex = 10;
             this.lbMove.SelectedIndexChanged += new System.EventHandler(this.lbMove_SelectedIndexChanged);
             // 
-            // label3
+            // lblEdit
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(59, 65);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(25, 13);
-            this.label3.TabIndex = 10;
-            this.label3.Text = "Edit";
+            this.lblEdit.AutoSize = true;
+            this.lblEdit.Location = new System.Drawing.Point(59, 65);
+            this.lblEdit.Name = "lblEdit";
+            this.lblEdit.Size = new System.Drawing.Size(25, 13);
+            this.lblEdit.TabIndex = 6;
+            this.lblEdit.Text = "Edit";
             // 
-            // label4
+            // lblMove
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(210, 65);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(34, 13);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "Move";
+            this.lblMove.AutoSize = true;
+            this.lblMove.Location = new System.Drawing.Point(210, 65);
+            this.lblMove.Name = "lblMove";
+            this.lblMove.Size = new System.Drawing.Size(34, 13);
+            this.lblMove.TabIndex = 9;
+            this.lblMove.Text = "Move";
             // 
-            // label5
+            // lblExpiry
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(8, 41);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(35, 13);
-            this.label5.TabIndex = 13;
-            this.label5.Text = "Expiry";
+            this.lblExpiry.AutoSize = true;
+            this.lblExpiry.Location = new System.Drawing.Point(8, 41);
+            this.lblExpiry.Name = "lblExpiry";
+            this.lblExpiry.Size = new System.Drawing.Size(35, 13);
+            this.lblExpiry.TabIndex = 2;
+            this.lblExpiry.Text = "Expiry";
             // 
             // txtExpiry
             // 
+            this.txtExpiry.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.txtExpiry.Location = new System.Drawing.Point(62, 38);
             this.txtExpiry.Name = "txtExpiry";
             this.txtExpiry.Size = new System.Drawing.Size(339, 20);
-            this.txtExpiry.TabIndex = 12;
+            this.txtExpiry.TabIndex = 3;
             // 
             // chkUnlock
             // 
@@ -168,7 +172,7 @@ namespace WikiFunctions.Controls
             this.chkUnlock.Location = new System.Drawing.Point(212, 130);
             this.chkUnlock.Name = "chkUnlock";
             this.chkUnlock.Size = new System.Drawing.Size(146, 17);
-            this.chkUnlock.TabIndex = 14;
+            this.chkUnlock.TabIndex = 11;
             this.chkUnlock.Text = "Unlock move permissions";
             this.chkUnlock.UseVisualStyleBackColor = true;
             this.chkUnlock.CheckedChanged += new System.EventHandler(this.chkUnlock_CheckedChanged);
@@ -179,45 +183,49 @@ namespace WikiFunctions.Controls
             this.chkAutoProtect.Location = new System.Drawing.Point(62, 130);
             this.chkAutoProtect.Name = "chkAutoProtect";
             this.chkAutoProtect.Size = new System.Drawing.Size(99, 17);
-            this.chkAutoProtect.TabIndex = 15;
+            this.chkAutoProtect.TabIndex = 8;
             this.chkAutoProtect.Text = "Auto Protect All";
             this.chkAutoProtect.UseVisualStyleBackColor = true;
             this.chkAutoProtect.Visible = false;
             // 
             // chkCascadingProtection
             // 
+            this.chkCascadingProtection.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.chkCascadingProtection.AutoSize = true;
             this.chkCascadingProtection.Enabled = false;
-            this.chkCascadingProtection.Location = new System.Drawing.Point(7, 153);
+            this.chkCascadingProtection.Location = new System.Drawing.Point(7, 154);
             this.chkCascadingProtection.Name = "chkCascadingProtection";
             this.chkCascadingProtection.Size = new System.Drawing.Size(399, 17);
-            this.chkCascadingProtection.TabIndex = 16;
+            this.chkCascadingProtection.TabIndex = 12;
             this.chkCascadingProtection.Text = "Cascading protection (automatically protect any pages transcluded in this page)";
             this.chkCascadingProtection.UseVisualStyleBackColor = true;
             // 
-            // MoveDeleteDialog
+            // ArticleActionDialog
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(413, 208);
-            this.Controls.Add(this.chkCascadingProtection);
-            this.Controls.Add(this.chkAutoProtect);
-            this.Controls.Add(this.chkUnlock);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.txtExpiry);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.lbMove);
-            this.Controls.Add(this.lbEdit);
-            this.Controls.Add(this.cmboSummary);
+            this.AcceptButton = this.btnOk;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.AutoSize = true;
+            this.CancelButton = this.btnCancel;
+            this.ClientSize = new System.Drawing.Size(413, 209);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.chkCascadingProtection);
+            this.Controls.Add(this.chkUnlock);
+            this.Controls.Add(this.lbMove);
+            this.Controls.Add(this.lblMove);
+            this.Controls.Add(this.chkAutoProtect);
+            this.Controls.Add(this.lbEdit);
+            this.Controls.Add(this.lblEdit);
+            this.Controls.Add(this.txtExpiry);
+            this.Controls.Add(this.lblExpiry);
+            this.Controls.Add(this.cmboSummary);
+            this.Controls.Add(this.lblSummary);
             this.Controls.Add(this.txtNewTitle);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Name = "MoveDeleteDialog";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Controls.Add(this.lblNewTitle);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Name = "ArticleActionDialog";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Enter details";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -227,16 +235,16 @@ namespace WikiFunctions.Controls
         #endregion
 
         private System.Windows.Forms.TextBox txtNewTitle;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblNewTitle;
+        private System.Windows.Forms.Label lblSummary;
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.ComboBox cmboSummary;
         private System.Windows.Forms.ListBox lbEdit;
         private System.Windows.Forms.ListBox lbMove;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblEdit;
+        private System.Windows.Forms.Label lblMove;
+        private System.Windows.Forms.Label lblExpiry;
         private System.Windows.Forms.TextBox txtExpiry;
         private System.Windows.Forms.CheckBox chkUnlock;
         private System.Windows.Forms.CheckBox chkAutoProtect;

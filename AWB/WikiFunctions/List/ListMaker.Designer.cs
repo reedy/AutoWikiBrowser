@@ -118,7 +118,7 @@ namespace WikiFunctions.Controls.Lists
             this.btnAdd.Location = new System.Drawing.Point(183, 81);
             this.btnAdd.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(20, 20);
+            this.btnAdd.Size = new System.Drawing.Size(20, 21);
             this.btnAdd.TabIndex = 8;
             this.btnAdd.Text = "+";
             this.tooltip.SetToolTip(this.btnAdd, "Append to list as a page");
@@ -557,9 +557,9 @@ namespace WikiFunctions.Controls.Lists
             this.Controls.Add(this.lbArticles);
             this.Controls.Add(this.txtPage);
             this.Controls.Add(this.btnGenerate);
-            this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.btnRemMore);
+            this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.btnFilter);
             this.Controls.Add(this.lblNumOfPages);
             this.Controls.Add(this.UserInputTextBox);

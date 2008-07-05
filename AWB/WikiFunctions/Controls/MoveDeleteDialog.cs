@@ -35,9 +35,9 @@ namespace WikiFunctions.Controls
 
             if (MoveDeleteProtect == 1)
             {
-                label3.Visible = false;
-                label4.Visible = false;
-                label5.Visible = false;
+                lblEdit.Visible = false;
+                lblMove.Visible = false;
+                lblExpiry.Visible = false;
                 lbEdit.Visible = false;
                 lbMove.Visible = false;
                 txtExpiry.Visible = false;
@@ -51,19 +51,19 @@ namespace WikiFunctions.Controls
             }
             else if (MoveDeleteProtect == 2)
             {
-                label3.Visible = false;
-                label4.Visible = false;
-                label5.Visible = false;
+                lblEdit.Visible = false;
+                lblMove.Visible = false;
+                lblExpiry.Visible = false;
                 lbEdit.Visible = false;
                 lbMove.Visible = false;
                 txtExpiry.Visible = false;
                 this.Text = "Delete";
                 btnOk.Text = "Delete";
                 this.Size = new Size(this.Width, 115);
-                label2.Location = new System.Drawing.Point(8, 15);
+                lblSummary.Location = new System.Drawing.Point(8, 15);
                 cmboSummary.Location = new System.Drawing.Point(62, 12);
 
-                label1.Visible = false;
+                lblNewTitle.Visible = false;
                 txtNewTitle.Visible = false;
 
                 string[] deletemessages = new string[23];
@@ -95,9 +95,9 @@ namespace WikiFunctions.Controls
             }
             else
             {
-                label2.Location = new System.Drawing.Point(8, 15);
+                lblSummary.Location = new System.Drawing.Point(8, 15);
                 cmboSummary.Location = new System.Drawing.Point(62, 12);
-                label1.Visible = false;
+                lblNewTitle.Visible = false;
                 txtNewTitle.Visible = false;
                 this.Text = "Protect";
                 btnOk.Text = "Protect";
