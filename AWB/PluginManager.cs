@@ -307,7 +307,11 @@ namespace AutoWikiBrowser
                 }
                 catch (Exception ex)
                 {
+#if debug
+                    ErrorHandler.Handle(ex);
+#else
                     MessageBox.Show(ex.Message, "Problem loading plugins");
+#endif
                 }
             }
 
