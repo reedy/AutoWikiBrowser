@@ -31,39 +31,7 @@ using System.Threading;
 
 namespace WikiFunctions.Lists
 {
-    /// <summary>
-    /// To-be base for all API-based providers
-    /// </summary>
-    public abstract class ApiListMakerProvider : IListProvider
-    {
-        /// <summary>
-        /// Gets the list of XML elements that represent pages,
-        /// e.g. <p>, <cm>, <bl> etc
-        /// </summary>
-        protected abstract string[] PageElements { get; }
 
-        #region To be overridden
-
-        public List<Article> MakeList(params string[] searchCriteria)
-        {
-            throw new NotImplementedException();
-        }
-
-        public abstract string DisplayText { get; }
-
-        public abstract string UserInputTextBoxText { get; }
-
-        public abstract bool UserInputTextBoxEnabled { get; }
-
-        public abstract void Selected();
-
-        public abstract bool RunOnSeparateThread { get; }
-        
-        #endregion
-    }
-
-
-    #region ListMakerProviders
     /// <summary>
     /// Gets a list of pages in Named Categories for the ListMaker (Non-Recursive)
     /// </summary>
@@ -1293,5 +1261,4 @@ namespace WikiFunctions.Lists
 
         #endregion
     }
-    #endregion
 }
