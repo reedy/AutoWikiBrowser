@@ -1592,7 +1592,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void UpdateAdminStatus(object sender, EventArgs e) 
         {
-            btnProtect.Visible = btnMove.Visible = btnDelete.Visible = Variables.User.IsAdmin;
+            btnProtect.Enabled = btnMove.Enabled = btnDelete.Enabled = Variables.User.IsAdmin;
         }
 
         private void UpdateWikiStatus(object sender, EventArgs e) { }
