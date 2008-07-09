@@ -517,7 +517,7 @@ namespace WikiFunctions.Lists
             {
                 try
                 {
-                    string url = Variables.URLLong + "api.php?action=query&prop=links&titles=" + Tools.WikiEncode(article) + "&format=xml";
+                    string url = Variables.URLLong + "api.php?action=query&prop=links&titles=" + Tools.WikiEncode(article) + "&pllimit=500&format=xml";
                     string title = "";
                     int ns = 0;
 
