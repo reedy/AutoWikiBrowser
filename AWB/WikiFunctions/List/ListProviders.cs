@@ -601,7 +601,7 @@ namespace WikiFunctions.Lists
 
             foreach (string article in searchCriteria)
             {
-                string url = Variables.URLLong + "api.php?action=query&prop=images&titles=" + Tools.WikiEncode(article) + "&format=xml";
+                string url = Variables.URLLong + "api.php?action=query&prop=images&titles=" + Tools.WikiEncode(article) + "&imlimit=500&format=xml";
 
                 while (true)
                 {
@@ -664,7 +664,7 @@ namespace WikiFunctions.Lists
 
             foreach (string article in searchCriteria)
             {
-                string url = Variables.URLLong + "api.php?action=query&prop=templates&titles=" + Tools.WikiEncode(article) + "&format=xml";
+                string url = Variables.URLLong + "api.php?action=query&prop=templates&titles=" + Tools.WikiEncode(article) + "&tllimit=500&format=xml";
 
                 while (true)
                 {
