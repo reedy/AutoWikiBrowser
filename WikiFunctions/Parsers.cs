@@ -1879,7 +1879,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static bool IsInUse(string ArticleText)
         {
             if (Variables.LangCode != LangCodeEnum.en) return false;
-            else return Regex.IsMatch(ArticleText, Variables.inUseRegexString);
+            else return Variables.InUse.IsMatch(ArticleText);
         }
         #endregion
     }

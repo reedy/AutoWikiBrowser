@@ -327,7 +327,7 @@ namespace WikiFunctions
 
         public static string Stub;
         public static string SectStub;
-        public static string inUseRegexString = "\\{\\{[Ii]nuse";
+        public static Regex InUse = new Regex("(?!.*?<!--.*?{{inuse.*?}}.*?-->)(^.*?{{inuse.*)", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
 
         /// <summary>
         /// Sets different language variables, such as namespaces. Default is english Wikipedia
