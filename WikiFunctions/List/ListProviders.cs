@@ -543,6 +543,17 @@ namespace WikiFunctions.Lists
                                         list.Add(new WikiFunctions.Article(title, ns));
                                     }
                                 }
+                                else if (reader.Name.Equals("links"))
+                                {
+                                    reader.MoveToAttribute("plcontinue");
+                                    if (reader.Value.Length != 0)
+                                    {
+                                        string continueFrom = reader.Value;
+                                        url = Variables.URLLong + "api.php?action=query&prop=links&titles=" + Tools.WikiEncode(article) + "&pllimit=500&format=xml&plcontinue=" + continueFrom;
+
+                                        more = true;
+                                    }
+                                }
                             }
                         }
                         if (!more)
