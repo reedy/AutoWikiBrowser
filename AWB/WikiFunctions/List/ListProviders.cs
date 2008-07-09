@@ -63,6 +63,10 @@ namespace WikiFunctions.Lists
                 if (!vistedCategories.Contains(searchCriteriaList[i]))
                 {
                     vistedCategories.Add(searchCriteriaList[i]);
+
+                    if (string.IsNullOrEmpty(searchCriteriaList[i]))
+                        continue;
+
                     string cmtitle = Tools.WikiEncode(Regex.Replace(searchCriteriaList[i], Variables.NamespacesCaseInsensitive[14], ""));
 
                     string url = Variables.URLLong + "api.php?action=query&list=categorymembers&cmtitle=Category:" + cmtitle + "&cmcategory=" + cmtitle + "&format=xml&cmlimit=500";
