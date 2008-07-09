@@ -1800,7 +1800,6 @@ namespace AutoWikiBrowser
             this.btnProtect.TabIndex = 7;
             this.btnProtect.Text = "Protect";
             this.toolTip1.SetToolTip(this.btnProtect, "Protect this page");
-            this.btnProtect.Visible = false;
             this.btnProtect.Click += new System.EventHandler(this.btnProtect_Click);
             // 
             // btnMove
@@ -1812,7 +1811,6 @@ namespace AutoWikiBrowser
             this.btnMove.TabIndex = 6;
             this.btnMove.Text = "&Move";
             this.toolTip1.SetToolTip(this.btnMove, "Rename this page");
-            this.btnMove.Visible = false;
             this.btnMove.Click += new System.EventHandler(this.btnMove_Click);
             // 
             // btnDelete
@@ -1825,7 +1823,6 @@ namespace AutoWikiBrowser
             this.btnDelete.TabIndex = 8;
             this.btnDelete.Text = "&Delete";
             this.toolTip1.SetToolTip(this.btnDelete, "Delete this page");
-            this.btnDelete.Visible = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnSubst
