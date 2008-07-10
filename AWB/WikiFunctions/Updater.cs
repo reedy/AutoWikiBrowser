@@ -42,7 +42,7 @@ namespace WikiFunctions
                 }
                 else
                 {
-                    bool Update;
+                    bool Update = false;
 
                     string text = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
 
@@ -54,8 +54,7 @@ namespace WikiFunctions
 
                     if ((awbCurrentVersion > 4000) || (awbNewestVersion > 4000))
                     {
-                        awbUpdate = updaterUpdate = false;
-                        FileVersionInfo awbVersionInfo = FileVersionInfo.GetVersionInfo(AWBdirectory + "AutoWikiBrowser.exe");
+                        FileVersionInfo awbVersionInfo = FileVersionInfo.GetVersionInfo(AWBDirectory + "AutoWikiBrowser.exe");
                         int awbFileVersion = StringToVersion(awbVersionInfo.FileVersion);
 
                         if (awbFileVersion < awbCurrentVersion)
@@ -66,7 +65,7 @@ namespace WikiFunctions
                             Update = true;
 
                         if (!Update && (updaterVersion > 1400) &&
-                    (updaterVersion > StringToVersion(FileVersionInfo.GetVersionInfo(AWBDirectory + "AWBUpdater.exe"))))
+                    (updaterVersion > StringToVersion(FileVersionInfo.GetVersionInfo(AWBDirectory + "AWBUpdater.exe").FileVersion)))
                         {
                             MessageBox.Show("There is an Update to the AWB updater. Updating Now", "Updater update", MessageBoxButtons.YesNo);
                             Update = true;
