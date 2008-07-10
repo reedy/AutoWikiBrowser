@@ -106,7 +106,7 @@ namespace WikiFunctions.MWB
             UpdateEnabledStates();
         }
 
-        void SaveCurrentRule()
+        private void SaveCurrentRule()
         {
             IRule r = currentRule_;
             if (r == null)
@@ -116,7 +116,7 @@ namespace WikiFunctions.MWB
             setTreeViewColours();
         }
 
-        void RestoreSelectedRule()
+        private void RestoreSelectedRule()
         {
             if (RulesTreeView.SelectedNode == null)
             {
@@ -195,7 +195,7 @@ namespace WikiFunctions.MWB
             RestoreSelectedRule();
         }
 
-        TreeNodeCollection GetOwningNodes(TreeNode t)
+        private TreeNodeCollection GetOwningNodes(TreeNode t)
         {
             TreeNode p = t.Parent;
             if (p != null)
@@ -257,8 +257,8 @@ namespace WikiFunctions.MWB
 
             RulesTreeView.SelectedNode.Text = name;
         }
-        
-        void UpdateEnabledStates()
+
+        private void UpdateEnabledStates()
         {
             bool has_selection = RulesTreeView.SelectedNode != null;
 
@@ -299,7 +299,7 @@ namespace WikiFunctions.MWB
             DeleteCmd();
         }
 
-        void DeleteCmd()
+        private void DeleteCmd()
         {
             TreeNode st = RulesTreeView.SelectedNode;
             if (st == null)
@@ -345,13 +345,12 @@ namespace WikiFunctions.MWB
             return text;
         }
                
-        
         private void DeleteMenuItem_Click(object sender, EventArgs e)
         {
             DeleteCmd();
         }
 
-        void CutCmd()
+        private void CutCmd()
         {
             TreeNode s = RulesTreeView.SelectedNode;
             if (s == null)
@@ -361,8 +360,8 @@ namespace WikiFunctions.MWB
             DeleteCmd();
             RestoreSelectedRule();
         }
-        
-        void CopyCmd()
+
+        private void CopyCmd()
         {
             TreeNode s = RulesTreeView.SelectedNode;
             if (s == null)
@@ -374,7 +373,7 @@ namespace WikiFunctions.MWB
             UpdateEnabledStates();
         }
 
-        void PasteCmd()
+        private void PasteCmd()
         {
             SaveCurrentRule();
             if (clipboard_ == null)
@@ -514,12 +513,12 @@ namespace WikiFunctions.MWB
             }
         }
 
-        void NewSubrule()
+        private void NewSubrule()
         {
             AddNewSubrule(RuleFactory.CreateRule());
         }
 
-        void AddNewSubrule(IRule r)
+        private void AddNewSubrule(IRule r)
         {
             SaveCurrentRule();
 
@@ -639,7 +638,6 @@ namespace WikiFunctions.MWB
 
             e.Effect = DragDropEffects.Move;
         }
-
 
         private void RulesTreeView_DragDrop(object sender, DragEventArgs e)
         {
