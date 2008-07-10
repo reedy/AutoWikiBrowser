@@ -90,6 +90,10 @@ namespace AutoWikiBrowser
         {
             try
             {
+                findAndReplace.Clear();
+                replaceSpecial.Clear();
+                substTemplates.Clear();
+
                 LoadPrefs(new UserPrefs());
                 LoadDefaultEditSummaries();
 
@@ -284,13 +288,13 @@ namespace AutoWikiBrowser
         {
             splash.SetProgress(80);
 
-            if (File.Exists("Default.xml"))
+            if (string.IsNullOrEmpty(SettingsFile) && File.Exists("Default.xml"))
                 SettingsFile = "Default.xml";
 
-            if (!string.IsNullOrEmpty(SettingsFile))
-                LoadPrefs(SettingsFile);
-            else
+            if (string.IsNullOrEmpty(SettingsFile))
                 LoadPrefs(new UserPrefs());
+            else
+                LoadPrefs(SettingsFile);
 
             splash.SetProgress(85);
         }

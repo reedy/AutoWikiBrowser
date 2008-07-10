@@ -41,6 +41,7 @@ namespace WikiFunctions.Controls.Lists
         private static BindingList<IListProvider> listItems = new BindingList<IListProvider>();
 
         //used to keep easy track of providers for add/remove/use in code
+        #region ListProviders
         private static IListProvider redirectLProvider = new RedirectsListMakerProvider();
         private static IListProvider categoryLProvider = new CategoryListMakerProvider();
         private static IListProvider categoryRecursiveLProvider = new CategoryRecursiveListMakerProvider();
@@ -48,6 +49,7 @@ namespace WikiFunctions.Controls.Lists
         private static IListProvider whatTranscludesLProvider = new WhatTranscludesPageListMakerProvider();
         private static IListProvider linksOnPageLProvider = new LinksOnPageListMakerProvider();
         private static IListProvider imageFileLinksLProvider = new ImageFileLinksListMakerProvider();
+        #endregion
 
         public event ListMakerEventHandler StatusTextChanged;
         public event ListMakerEventHandler BusyStateChanged;
@@ -901,9 +903,8 @@ namespace WikiFunctions.Controls.Lists
         public void ConvertToTalkPages()
         {
             List<Article> list = GetArticleList();
-            list = Tools.ConvertToTalk(list);
             lbArticles.Items.Clear();
-            Add(list);
+            Add(Tools.ConvertToTalk(list));
         }
 
         /// <summary>
@@ -912,9 +913,8 @@ namespace WikiFunctions.Controls.Lists
         public void ConvertFromTalkPages()
         {
             List<Article> list = GetArticleList();
-            list = Tools.ConvertFromTalk(list);
             lbArticles.Items.Clear();
-            Add(list);
+            Add(Tools.ConvertFromTalk(list));
         }
         #endregion
 
