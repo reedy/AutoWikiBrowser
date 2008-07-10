@@ -70,7 +70,6 @@ namespace WikiFunctions.MWB
 
         public abstract Object Clone();
 
-
         public static TreeNode CloneTreeNode(TreeNode tn)
         {
             if (tn == null)
