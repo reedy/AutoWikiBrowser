@@ -39,9 +39,6 @@ namespace AutoWikiBrowser
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
 
-                string fileToLoad = "";
-                int profileID = -1;
-
                 MainForm awb = new MainForm();
 
                 for (int i = 0; i < args.Length; i++)
