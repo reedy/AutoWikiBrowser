@@ -42,6 +42,8 @@ namespace AutoWikiBrowser
                 string fileToLoad = "";
                 int profileID = -1;
 
+                MainForm awb = new MainForm();
+
                 for (int i = 0; i < args.Length; i++)
                 {
                     switch (args[i])
@@ -51,21 +53,16 @@ namespace AutoWikiBrowser
                             {
                                 string tmp = args[i + 1].ToString();
                                 if (tmp.Contains(".xml") && System.IO.File.Exists(tmp))
-                                    fileToLoad = tmp;
+                                    awb.ProfileToLoad = tmp;
                             }
                             catch { }
                             break;
                         case "/u":
-                            try { profileID = Convert.ToInt32(args[i + 1]); }
+                            try { awb.SettingsFile = int.Parse(args[i + 1]); }
                             catch { }
                             break;
                     }
                 }
-
-                MainForm awb = new MainForm();
-
-                awb.ProfileToLoad = profileID;
-                awb.SettingsFile = fileToLoad;
 
                 Program.AWB = awb;
                 Application.Run(awb);

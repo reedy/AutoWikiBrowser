@@ -73,12 +73,6 @@ namespace AutoWikiBrowser
             Tools.OpenENArticleInBrowser("MaxSem", true);
         }
 
-        private void linkMets501_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            linkMets501.LinkVisited = true;
-            Tools.OpenENArticleInBrowser("Mets501", true);
-        }
-
         private void linkReedy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkReedy.LinkVisited = true;
@@ -89,18 +83,6 @@ namespace AutoWikiBrowser
         {
             linkKingboy.LinkVisited = true;
             Tools.OpenENArticleInBrowser("Kingboyk", true);
-        }
-
-        private void linkMartinp23_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            linkMartinp23.LinkVisited = true;
-            Tools.OpenENArticleInBrowser("Martinp23", true);
-        }
-
-        private void linkJogers_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            linkJogers.LinkVisited = true;
-            Tools.OpenENArticleInBrowser("Jogers", true);
         }
 
         private void linkAWBPage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

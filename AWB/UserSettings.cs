@@ -236,6 +236,8 @@ namespace AutoWikiBrowser
             catch (Exception ex)
             {
                 ErrorHandler.Handle(ex);
+                if (File.Exists(SettingsFile + ".old"))
+                    File.Copy(SettingsFile + ".old", SettingsFile, true);
             }
         }
 

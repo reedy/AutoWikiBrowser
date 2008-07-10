@@ -74,9 +74,9 @@ namespace AutoWikiBrowser
             this.lblTimer.AutoSize = true;
             this.lblTimer.Location = new System.Drawing.Point(97, 51);
             this.lblTimer.Name = "lblTimer";
-            this.lblTimer.Size = new System.Drawing.Size(181, 13);
+            this.lblTimer.Size = new System.Drawing.Size(176, 13);
             this.lblTimer.TabIndex = 4;
-            this.lblTimer.Text = "Time until <sShutdownType>: <time>";
+            this.lblTimer.Text = "Time until <ShutdownType>: <time>";
             // 
             // CountdownTimer
             // 

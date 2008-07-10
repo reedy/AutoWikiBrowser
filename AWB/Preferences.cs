@@ -91,16 +91,14 @@ namespace AutoWikiBrowser
 
         public LangCodeEnum Language
         {
-            get
-            {
-                return Variables.ParseLanguage(cmboLang.SelectedItem.ToString());
-            }
+            get { return Variables.ParseLanguage(cmboLang.SelectedItem.ToString()); }
         }
 
         public ProjectEnum Project
         {
             get { return (ProjectEnum)Enum.Parse(typeof(ProjectEnum), cmboProject.SelectedItem.ToString()); }
         }
+
         public string CustomProject
         {
             get
