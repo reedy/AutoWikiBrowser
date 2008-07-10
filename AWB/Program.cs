@@ -53,12 +53,12 @@ namespace AutoWikiBrowser
                             {
                                 string tmp = args[i + 1].ToString();
                                 if (tmp.Contains(".xml") && System.IO.File.Exists(tmp))
-                                    awb.ProfileToLoad = tmp;
+                                    awb.SettingsFile = tmp;
                             }
                             catch { }
                             break;
                         case "/u":
-                            try { awb.SettingsFile = int.Parse(args[i + 1]); }
+                            try { awb.ProfileToLoad = int.Parse(args[i + 1]); }
                             catch { }
                             break;
                     }
