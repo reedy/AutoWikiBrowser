@@ -114,17 +114,8 @@ namespace WikiFunctions.AWBSettings
                 if (settings.Contains("<projectlang proj="))
                     throw new Exception("This file uses old settings format unsupported by this version of AWB.");
 
-                // fix for format regression
-                settings = settings.Replace("RegularExpressinonOptions>", "RegularExpressionOptions>");
-
                 XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), new Type[] { typeof(PrefsKeyPair) });
                 return (UserPrefs)xs.Deserialize(new StringReader(settings));
-
-                //using (FileStream fStream = new FileStream(file, FileMode.Create))
-                //{
-                //    XmlSerializer xs = new XmlSerializer(typeof(UserPrefs));
-                //    return (UserPrefs)xs.Deserialize(new StringReader(file));
-                //}
             }
             catch { throw; }
         }
@@ -148,9 +139,8 @@ namespace WikiFunctions.AWBSettings
         {
             List<System.Type> types = new List<Type>();
             /* Find out what types the plugins are using for their settings so we can 
-                      * add them to the Serializer. The plugin author must ensure s(he) is using
-                      * serializable types.
-                      */
+               add them to the Serializer. The plugin author must ensure s(he) is using
+               serializable types.*/
 
             foreach (PluginPrefs pl in Prefs.Plugin)
             {

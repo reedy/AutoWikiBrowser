@@ -105,7 +105,7 @@ namespace WikiFunctions.MWB
         this.DeleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         this.DeleteButton.Location = new System.Drawing.Point(179, 450);
         this.DeleteButton.Name = "DeleteButton";
-        this.DeleteButton.Size = new System.Drawing.Size(55, 23);
+        this.DeleteButton.Size = new System.Drawing.Size(80, 23);
         this.DeleteButton.TabIndex = 6;
         this.DeleteButton.Text = "&Delete";
         this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
@@ -124,9 +124,9 @@ namespace WikiFunctions.MWB
         // 
         this.OkButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
         this.OkButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-        this.OkButton.Location = new System.Drawing.Point(605, 450);
+        this.OkButton.Location = new System.Drawing.Point(613, 450);
         this.OkButton.Name = "OkButton";
-        this.OkButton.Size = new System.Drawing.Size(75, 23);
+        this.OkButton.Size = new System.Drawing.Size(80, 23);
         this.OkButton.TabIndex = 7;
         this.OkButton.Text = "Close";
         this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
@@ -166,32 +166,32 @@ namespace WikiFunctions.MWB
             this.collapseAllToolStripMenuItem});
         this.TreeViewContextMenu.Name = "TreeViewContextMenu";
         this.TreeViewContextMenu.ShowImageMargin = false;
-        this.TreeViewContextMenu.Size = new System.Drawing.Size(128, 214);
+        this.TreeViewContextMenu.Size = new System.Drawing.Size(120, 192);
         // 
         // NewRuleContextMenuItem
         // 
         this.NewRuleContextMenuItem.Name = "NewRuleContextMenuItem";
-        this.NewRuleContextMenuItem.Size = new System.Drawing.Size(127, 22);
+        this.NewRuleContextMenuItem.Size = new System.Drawing.Size(119, 22);
         this.NewRuleContextMenuItem.Text = "New &Rule";
         this.NewRuleContextMenuItem.Click += new System.EventHandler(this.NewRuleContextMenuItem_Click);
         // 
         // NewSubruleContextMenuItem
         // 
         this.NewSubruleContextMenuItem.Name = "NewSubruleContextMenuItem";
-        this.NewSubruleContextMenuItem.Size = new System.Drawing.Size(127, 22);
+        this.NewSubruleContextMenuItem.Size = new System.Drawing.Size(119, 22);
         this.NewSubruleContextMenuItem.Text = "New &Subrule";
         this.NewSubruleContextMenuItem.Click += new System.EventHandler(this.NewSubruleContextMenuItem_Click);
         // 
         // toolStripSeparator1
         // 
         this.toolStripSeparator1.Name = "toolStripSeparator1";
-        this.toolStripSeparator1.Size = new System.Drawing.Size(124, 6);
+        this.toolStripSeparator1.Size = new System.Drawing.Size(116, 6);
         // 
         // CutContextMenuItem
         // 
         this.CutContextMenuItem.Name = "CutContextMenuItem";
         this.CutContextMenuItem.ShortcutKeyDisplayString = "Ctrl+X";
-        this.CutContextMenuItem.Size = new System.Drawing.Size(127, 22);
+        this.CutContextMenuItem.Size = new System.Drawing.Size(119, 22);
         this.CutContextMenuItem.Text = "Cu&t";
         this.CutContextMenuItem.Click += new System.EventHandler(this.CutMenuItem_Click);
         // 
@@ -199,7 +199,7 @@ namespace WikiFunctions.MWB
         // 
         this.CopyContextMenuItem.Name = "CopyContextMenuItem";
         this.CopyContextMenuItem.ShortcutKeyDisplayString = "Ctrl+C";
-        this.CopyContextMenuItem.Size = new System.Drawing.Size(127, 22);
+        this.CopyContextMenuItem.Size = new System.Drawing.Size(119, 22);
         this.CopyContextMenuItem.Text = "&Copy";
         this.CopyContextMenuItem.Click += new System.EventHandler(this.CopyMenuItem_Click);
         // 
@@ -207,7 +207,7 @@ namespace WikiFunctions.MWB
         // 
         this.PasteContextMenuItem.Name = "PasteContextMenuItem";
         this.PasteContextMenuItem.ShortcutKeyDisplayString = "Ctrl+V";
-        this.PasteContextMenuItem.Size = new System.Drawing.Size(127, 22);
+        this.PasteContextMenuItem.Size = new System.Drawing.Size(119, 22);
         this.PasteContextMenuItem.Text = "&Paste";
         this.PasteContextMenuItem.Click += new System.EventHandler(this.PasteMenuItem_Click);
         // 
@@ -215,26 +215,26 @@ namespace WikiFunctions.MWB
         // 
         this.DeleteContextMenuItem.Name = "DeleteContextMenuItem";
         this.DeleteContextMenuItem.ShortcutKeyDisplayString = "Del";
-        this.DeleteContextMenuItem.Size = new System.Drawing.Size(127, 22);
+        this.DeleteContextMenuItem.Size = new System.Drawing.Size(119, 22);
         this.DeleteContextMenuItem.Text = "&Delete";
         this.DeleteContextMenuItem.Click += new System.EventHandler(this.DeleteMenuItem_Click);
         // 
         // toolStripSeparator4
         // 
         this.toolStripSeparator4.Name = "toolStripSeparator4";
-        this.toolStripSeparator4.Size = new System.Drawing.Size(124, 6);
+        this.toolStripSeparator4.Size = new System.Drawing.Size(116, 6);
         // 
         // expandAllToolStripMenuItem
         // 
         this.expandAllToolStripMenuItem.Name = "expandAllToolStripMenuItem";
-        this.expandAllToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+        this.expandAllToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
         this.expandAllToolStripMenuItem.Text = "&Expand all";
         this.expandAllToolStripMenuItem.Click += new System.EventHandler(this.expandAllToolStripMenuItem_Click);
         // 
         // collapseAllToolStripMenuItem
         // 
         this.collapseAllToolStripMenuItem.Name = "collapseAllToolStripMenuItem";
-        this.collapseAllToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+        this.collapseAllToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
         this.collapseAllToolStripMenuItem.Text = "&Collapse all";
         this.collapseAllToolStripMenuItem.Click += new System.EventHandler(this.collapseAllToolStripMenuItem_Click);
         // 
@@ -480,8 +480,8 @@ namespace WikiFunctions.MWB
         this.Controls.Add(this.splitContainer);
         this.Controls.Add(this.menuStrip1);
         this.Controls.Add(this.NewRuleButton);
-        this.Controls.Add(this.DeleteButton);
         this.Controls.Add(this.NewSubruleButton);
+        this.Controls.Add(this.DeleteButton);
         this.Controls.Add(this.OkButton);
         this.DoubleBuffered = true;
         this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
