@@ -51,13 +51,11 @@ namespace AutoWikiBrowser
             this.linkBluemoose = new System.Windows.Forms.LinkLabel();
             this.linkAWBPage = new System.Windows.Forms.LinkLabel();
             this.linkLigulem = new System.Windows.Forms.LinkLabel();
-            this.linkMets501 = new System.Windows.Forms.LinkLabel();
             this.linkMaxSem = new System.Windows.Forms.LinkLabel();
             this.linkBugs = new System.Windows.Forms.LinkLabel();
             this.linkFeatureRequests = new System.Windows.Forms.LinkLabel();
             this.linkReedy = new System.Windows.Forms.LinkLabel();
             this.linkKingboy = new System.Windows.Forms.LinkLabel();
-            this.linkMartinp23 = new System.Windows.Forms.LinkLabel();
             this.lblDevs = new System.Windows.Forms.Label();
             this.lblTimeAndEdits = new System.Windows.Forms.Label();
             this.lblNETVersion = new System.Windows.Forms.Label();
@@ -66,7 +64,6 @@ namespace AutoWikiBrowser
             this.lblAWBVersion = new System.Windows.Forms.Label();
             this.lblDetails = new System.Windows.Forms.Label();
             this.lblOriginalDevs = new System.Windows.Forms.Label();
-            this.linkJogers = new System.Windows.Forms.LinkLabel();
             this.UsageStatsLabel = new System.Windows.Forms.LinkLabel();
             this.lblRevision = new System.Windows.Forms.Label();
             this.flwDevs = new System.Windows.Forms.FlowLayoutPanel();
@@ -139,21 +136,10 @@ namespace AutoWikiBrowser
             this.linkLigulem.Text = "User:Ligulem";
             this.linkLigulem.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLigulem_LinkClicked);
             // 
-            // linkMets501
-            // 
-            this.linkMets501.AutoSize = true;
-            this.linkMets501.Location = new System.Drawing.Point(88, 13);
-            this.linkMets501.Name = "linkMets501";
-            this.linkMets501.Size = new System.Drawing.Size(73, 13);
-            this.linkMets501.TabIndex = 4;
-            this.linkMets501.TabStop = true;
-            this.linkMets501.Text = "User:Mets501";
-            this.linkMets501.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkMets501_LinkClicked);
-            // 
             // linkMaxSem
             // 
             this.linkMaxSem.AutoSize = true;
-            this.linkMaxSem.Location = new System.Drawing.Point(88, 0);
+            this.linkMaxSem.Location = new System.Drawing.Point(3, 13);
             this.linkMaxSem.Name = "linkMaxSem";
             this.linkMaxSem.Size = new System.Drawing.Size(73, 13);
             this.linkMaxSem.TabIndex = 3;
@@ -186,7 +172,7 @@ namespace AutoWikiBrowser
             // linkReedy
             // 
             this.linkReedy.AutoSize = true;
-            this.linkReedy.Location = new System.Drawing.Point(88, 26);
+            this.linkReedy.Location = new System.Drawing.Point(3, 26);
             this.linkReedy.Name = "linkReedy";
             this.linkReedy.Size = new System.Drawing.Size(63, 13);
             this.linkReedy.TabIndex = 5;
@@ -197,24 +183,13 @@ namespace AutoWikiBrowser
             // linkKingboy
             // 
             this.linkKingboy.AutoSize = true;
-            this.linkKingboy.Location = new System.Drawing.Point(3, 13);
+            this.linkKingboy.Location = new System.Drawing.Point(3, 0);
             this.linkKingboy.Name = "linkKingboy";
             this.linkKingboy.Size = new System.Drawing.Size(76, 13);
             this.linkKingboy.TabIndex = 1;
             this.linkKingboy.TabStop = true;
             this.linkKingboy.Text = "User:Kingboyk";
             this.linkKingboy.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkKingboy_LinkClicked);
-            // 
-            // linkMartinp23
-            // 
-            this.linkMartinp23.AutoSize = true;
-            this.linkMartinp23.Location = new System.Drawing.Point(3, 26);
-            this.linkMartinp23.Name = "linkMartinp23";
-            this.linkMartinp23.Size = new System.Drawing.Size(79, 13);
-            this.linkMartinp23.TabIndex = 2;
-            this.linkMartinp23.TabStop = true;
-            this.linkMartinp23.Text = "User:Martinp23";
-            this.linkMartinp23.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkMartinp23_LinkClicked);
             // 
             // lblDevs
             // 
@@ -287,17 +262,6 @@ namespace AutoWikiBrowser
             this.lblOriginalDevs.TabIndex = 3;
             this.lblOriginalDevs.Text = "Original developers:";
             // 
-            // linkJogers
-            // 
-            this.linkJogers.AutoSize = true;
-            this.linkJogers.Location = new System.Drawing.Point(3, 0);
-            this.linkJogers.Name = "linkJogers";
-            this.linkJogers.Size = new System.Drawing.Size(63, 13);
-            this.linkJogers.TabIndex = 0;
-            this.linkJogers.TabStop = true;
-            this.linkJogers.Text = "User:Jogers";
-            this.linkJogers.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkJogers_LinkClicked);
-            // 
             // UsageStatsLabel
             // 
             this.UsageStatsLabel.AutoSize = true;
@@ -320,11 +284,8 @@ namespace AutoWikiBrowser
             // 
             // flwDevs
             // 
-            this.flwDevs.Controls.Add(this.linkJogers);
             this.flwDevs.Controls.Add(this.linkKingboy);
-            this.flwDevs.Controls.Add(this.linkMartinp23);
             this.flwDevs.Controls.Add(this.linkMaxSem);
-            this.flwDevs.Controls.Add(this.linkMets501);
             this.flwDevs.Controls.Add(this.linkReedy);
             this.flwDevs.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flwDevs.Location = new System.Drawing.Point(28, 142);
@@ -434,15 +395,12 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.LinkLabel linkLigulem;
         private System.Windows.Forms.Label lblTimeAndEdits;
         private System.Windows.Forms.Label lblDevs;
-        private System.Windows.Forms.LinkLabel linkMets501;
         private System.Windows.Forms.LinkLabel linkMaxSem;
         private System.Windows.Forms.LinkLabel linkBugs;
         private System.Windows.Forms.LinkLabel linkFeatureRequests;
         private System.Windows.Forms.LinkLabel linkReedy;
         private System.Windows.Forms.LinkLabel linkKingboy;
-        private System.Windows.Forms.LinkLabel linkMartinp23;
         private System.Windows.Forms.Label lblOriginalDevs;
-        private System.Windows.Forms.LinkLabel linkJogers;
         private System.Windows.Forms.LinkLabel UsageStatsLabel;
         private System.Windows.Forms.Label lblRevision;
         private System.Windows.Forms.FlowLayoutPanel flwDevs;

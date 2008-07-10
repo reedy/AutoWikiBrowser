@@ -34,29 +34,61 @@ namespace WikiFunctions
         {
             try
             {
-                String tempPath = ".\\";
-                if (File.Exists(tempPath + "AWBUpdater.exe.new"))
+                string AWBDirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\";
+                if (File.Exists(AWBDirectory + "AWBUpdater.exe.new"))
                 {
-                    File.Copy(tempPath + "AWBUpdater.exe.new", tempPath + "AWBUpdater.exe", true);
-                    File.Delete(tempPath + "AWBUpdater.exe.new");
+                    File.Copy(AWBDirectory + "AWBUpdater.exe.new", AWBDirectory + "AWBUpdater.exe", true);
+                    File.Delete(AWBDirectory + "AWBUpdater.exe.new");
                 }
                 else
                 {
-                    //TODO:Tweak to check for optional AWB Updates
+                    bool Update;
+
                     string text = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
 
-                    Match m_updversion = Regex.Match(text, @"<!-- Updater version: (.*?) -->", RegexOptions.IgnoreCase);
+                    int awbCurrentVersion =
+    StringToVersion(Regex.Match(text, @"<!-- Current version: (.*?) -->").Groups[1].Value);
+                    int awbNewestVersion =
+                        StringToVersion(Regex.Match(text, @"<!-- Newest version: (.*?) -->").Groups[1].Value);
+                    int updaterVersion = StringToVersion(Regex.Match(text, @"<!-- Updater version: (.*?) -->").Groups[1].Value);
 
-                    if (m_updversion.Success && m_updversion.Groups[1].Value.Length == 4)
+                    if ((awbCurrentVersion > 4000) || (awbNewestVersion > 4000))
                     {
-                        FileVersionInfo versionUpdater = FileVersionInfo.GetVersionInfo(".\\AWBUpdater.exe");
+                        awbUpdate = updaterUpdate = false;
+                        FileVersionInfo awbVersionInfo = FileVersionInfo.GetVersionInfo(AWBdirectory + "AutoWikiBrowser.exe");
+                        int awbFileVersion = StringToVersion(awbVersionInfo.FileVersion);
 
-                        if ((Convert.ToInt32(m_updversion.Groups[1].Value) > Convert.ToInt32(versionUpdater.FileVersion.Replace(".", ""))) && (MessageBox.Show("There is an update for the updater. Run the updater now?", "Update Updater?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
-                            System.Diagnostics.Process.Start(".\\AWBUpdater.exe");
+                        if (awbFileVersion < awbCurrentVersion)
+                            Update = true;
+                        else if ((awbFileVersion >= awbCurrentVersion) &&
+                            (awbFileVersion < awbNewestVersion) &&
+                            MessageBox.Show("There is an optional update to AutoWikiBrowser. Would you like to upgrade?", "Optional update", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                            Update = true;
+
+                        if (!Update && (updaterVersion > 1400) &&
+                    (updaterVersion > StringToVersion(FileVersionInfo.GetVersionInfo(AWBDirectory + "AWBUpdater.exe"))))
+                        {
+                            MessageBox.Show("There is an Update to the AWB updater. Updating Now", "Updater update", MessageBoxButtons.YesNo);
+                            Update = true;
+                        }
+
+                        if (Update)
+                        {
+                            System.Diagnostics.Process.Start(AWBDirectory + "AWBUpdater.exe");
+                        }
                     }
                 }
             }
             catch { }
+        }
+
+        static int StringToVersion(string version)
+        {
+            int res;
+            if (!int.TryParse(version.Replace(".", ""), out res))
+                res = 0;
+
+            return res;
         }
 
         static BackgroundRequest request;
