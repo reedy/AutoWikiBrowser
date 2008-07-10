@@ -374,13 +374,6 @@ namespace WikiFunctions.Controls.Lists
                 btnGenerate.PerformClick();
         }
 
-        private void btnRemoveDuplicates_Click(object sender, EventArgs e)
-        {
-            // No selected pages
-            selectedToolStripMenuItem.Enabled = (lbArticles.SelectedItem != null);
-            mnuRemove.Show(btnRemMore, new Point(0, 0), ToolStripDropDownDirection.AboveRight);
-        }
-
         private void mnuListBox_Opening(object sender, CancelEventArgs e)
         {
             // No selected pages
@@ -429,8 +422,7 @@ namespace WikiFunctions.Controls.Lists
         {
             set
             {
-                btnFilter.Enabled = btnRemove.Enabled = btnRemMore.Enabled =
-                saveListToFileToolStripMenuItem.Enabled = value;
+                btnFilter.Enabled = btnRemove.Enabled = saveListToFileToolStripMenuItem.Enabled = value;
             }
         }
 

@@ -54,7 +54,6 @@ namespace WikiFunctions.Controls.Lists
             this.selectNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.invertSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuRemove = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.selectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.duplicatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,10 +82,8 @@ namespace WikiFunctions.Controls.Lists
             this.btnStop = new System.Windows.Forms.Button();
             this.btnFilter = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
-            this.btnRemMore = new System.Windows.Forms.Button();
             this.lbArticles = new WikiFunctions.Controls.Lists.ListBox2();
             this.mnuListBox.SuspendLayout();
-            this.mnuRemove.SuspendLayout();
             this.SuspendLayout();
             // 
             // UserInputTextBox
@@ -295,21 +292,14 @@ namespace WikiFunctions.Controls.Lists
             // 
             // removeToolStripMenuItem
             // 
-            this.removeToolStripMenuItem.DropDown = this.mnuRemove;
-            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.removeToolStripMenuItem.Text = "&Remove";
-            // 
-            // mnuRemove
-            // 
-            this.mnuRemove.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.removeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectedToolStripMenuItem,
             this.clearToolStripMenuItem,
             this.duplicatesToolStripMenuItem,
             this.filterOutNonMainSpaceArticlesToolStripMenuItem});
-            this.mnuRemove.Name = "mnuRemove";
-            this.mnuRemove.OwnerItem = this.removeToolStripMenuItem;
-            this.mnuRemove.Size = new System.Drawing.Size(163, 92);
+            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.removeToolStripMenuItem.Text = "&Remove";
             // 
             // selectedToolStripMenuItem
             // 
@@ -502,9 +492,9 @@ namespace WikiFunctions.Controls.Lists
             // btnFilter
             // 
             this.btnFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFilter.Location = new System.Drawing.Point(122, 321);
+            this.btnFilter.Location = new System.Drawing.Point(104, 321);
             this.btnFilter.Name = "btnFilter";
-            this.btnFilter.Size = new System.Drawing.Size(80, 25);
+            this.btnFilter.Size = new System.Drawing.Size(98, 25);
             this.btnFilter.TabIndex = 12;
             this.btnFilter.Text = "Filter";
             this.tooltip.SetToolTip(this.btnFilter, "Apply a filter to substract or add to the list");
@@ -512,27 +502,14 @@ namespace WikiFunctions.Controls.Lists
             // 
             // btnRemove
             // 
-            this.btnRemove.ContextMenuStrip = this.mnuRemove;
             this.btnRemove.Location = new System.Drawing.Point(3, 321);
             this.btnRemove.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
             this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(80, 25);
+            this.btnRemove.Size = new System.Drawing.Size(98, 25);
             this.btnRemove.TabIndex = 10;
             this.btnRemove.Text = "&Remove";
             this.tooltip.SetToolTip(this.btnRemove, "Remove the selected item");
             this.btnRemove.Click += new System.EventHandler(this.btnRemoveArticle_Click);
-            // 
-            // btnRemMore
-            // 
-            this.btnRemMore.ContextMenuStrip = this.mnuRemove;
-            this.btnRemMore.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemMore.Location = new System.Drawing.Point(90, 321);
-            this.btnRemMore.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
-            this.btnRemMore.Name = "btnRemMore";
-            this.btnRemMore.Size = new System.Drawing.Size(25, 25);
-            this.btnRemMore.TabIndex = 11;
-            this.btnRemMore.Text = "▾";
-            this.btnRemMore.Click += new System.EventHandler(this.btnRemoveDuplicates_Click);
             // 
             // lbArticles
             // 
@@ -558,11 +535,10 @@ namespace WikiFunctions.Controls.Lists
             this.Controls.Add(this.txtPage);
             this.Controls.Add(this.btnGenerate);
             this.Controls.Add(this.btnRemove);
-            this.Controls.Add(this.btnRemMore);
             this.Controls.Add(this.btnAdd);
-            this.Controls.Add(this.btnFilter);
             this.Controls.Add(this.lblNumOfPages);
             this.Controls.Add(this.UserInputTextBox);
+            this.Controls.Add(this.btnFilter);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.lblUserInput);
             this.Controls.Add(this.cmboSourceSelect);
@@ -570,7 +546,6 @@ namespace WikiFunctions.Controls.Lists
             this.Name = "ListMaker";
             this.Size = new System.Drawing.Size(205, 349);
             this.mnuListBox.ResumeLayout(false);
-            this.mnuRemove.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -608,7 +583,6 @@ namespace WikiFunctions.Controls.Lists
         private System.Windows.Forms.ToolStripMenuItem fromRedirectsToolStripMenuItem;
         private System.Windows.Forms.Button btnFilter;
         private System.Windows.Forms.Button btnRemove;
-        private System.Windows.Forms.Button btnRemMore;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectNoneToolStripMenuItem;
@@ -628,7 +602,6 @@ namespace WikiFunctions.Controls.Lists
         public System.Windows.Forms.ComboBox cmboSourceSelect;
         private System.Windows.Forms.ToolStripMenuItem fromCategoryrecursiveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectMnu;
-        private System.Windows.Forms.ContextMenuStrip mnuRemove;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
