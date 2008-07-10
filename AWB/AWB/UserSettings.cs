@@ -283,13 +283,12 @@ namespace AutoWikiBrowser
         {
             splash.SetProgress(80);
 
-            if (string.IsNullOrEmpty(SettingsFile) && File.Exists("Default.xml"))
-                SettingsFile = "Default.xml";
-
-            if (string.IsNullOrEmpty(SettingsFile))
-                LoadPrefs(new UserPrefs());
-            else
+            if (!string.IsNullOrEmpty(SettingsFile))
                 LoadPrefs(SettingsFile);
+            else if (File.Exists("Default.xml"))
+                LoadPrefs("Default.xml");
+            else
+                LoadPrefs(new UserPrefs());              
 
             splash.SetProgress(85);
         }
