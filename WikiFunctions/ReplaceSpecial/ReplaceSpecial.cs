@@ -438,6 +438,15 @@ namespace WikiFunctions.MWB
             return l;
         }
 
+        public IRule GetSelectedRule()
+        {
+            TreeNode tn = RulesTreeView.SelectedNode;
+            IRule r = (IRule)tn.Tag;
+            if (tn.Nodes.Count > 0) RecurseNode(tn, ref r);
+
+            return r;
+        }
+
         public void AddNewRule(List<IRule> Rules)
         {
             RulesTreeView.Nodes.Clear();
