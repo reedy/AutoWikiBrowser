@@ -90,12 +90,7 @@ namespace AutoWikiBrowser
         {
             try
             {
-                findAndReplace.Clear();
-                replaceSpecial.Clear();
-                substTemplates.Clear();
-
                 LoadPrefs(new UserPrefs());
-                LoadDefaultEditSummaries();
 
                 try
                 {
@@ -309,10 +304,6 @@ namespace AutoWikiBrowser
                 if (string.IsNullOrEmpty(path))
                     return;
 
-                findAndReplace.Clear();
-                replaceSpecial.Clear();
-                substTemplates.Clear();
-
                 LoadPrefs(UserPrefs.LoadPrefs(path));
 
                 SettingsFile = path;
@@ -332,14 +323,18 @@ namespace AutoWikiBrowser
         {
             SetProject(p.LanguageCode, p.Project, p.CustomProject);
 
+            findAndReplace.Clear();
             chkFindandReplace.Checked = p.FindAndReplace.Enabled;
             findAndReplace.ignoreLinks = p.FindAndReplace.IgnoreSomeText;
             findAndReplace.ignoreMore = p.FindAndReplace.IgnoreMoreText;
             findAndReplace.AppendToSummary = p.FindAndReplace.AppendSummary;
             findAndReplace.AfterOtherFixes = p.FindAndReplace.AfterOtherFixes;
             findAndReplace.AddNew(p.FindAndReplace.Replacements);
+
+            replaceSpecial.Clear();
             replaceSpecial.AddNewRule(p.FindAndReplace.AdvancedReps);
 
+            substTemplates.Clear();
             substTemplates.TemplateList = p.FindAndReplace.SubstTemplates;
             substTemplates.ExpandRecursively = p.FindAndReplace.ExpandRecursively;
             substTemplates.IgnoreUnformatted = p.FindAndReplace.IgnoreUnformatted;
