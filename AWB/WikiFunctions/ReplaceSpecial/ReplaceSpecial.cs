@@ -62,7 +62,6 @@ namespace WikiFunctions.MWB
         public const string XmlName = "replacerules";
 
         IRule currentRule_;
-        TreeNode clipboard_;
         Control ruleControl_;
         RuleTreeHistory history_;
 
@@ -280,8 +279,7 @@ namespace WikiFunctions.MWB
             NewSubruleInTemplateCallMenuItem.Enabled = has_selection;
             NewSubruleTemplateParameterMenuItem.Enabled = has_selection;
 
-            PasteMenuItem.Enabled = clipboard_ != null;
-            PasteContextMenuItem.Enabled = clipboard_ != null;
+            PasteMenuItem.Enabled = PasteContextMenuItem.Enabled = true;
 
             CutMenuItem.Enabled = has_selection;
             CutContextMenuItem.Enabled = has_selection;
@@ -333,7 +331,7 @@ namespace WikiFunctions.MWB
         {
             SaveCurrentRule();
         }
-        
+
         public string ApplyRules(string text, string title)
         {
             foreach (TreeNode tn in RulesTreeView.Nodes)
@@ -344,7 +342,7 @@ namespace WikiFunctions.MWB
 
             return text;
         }
-               
+
         private void DeleteMenuItem_Click(object sender, EventArgs e)
         {
             DeleteCmd();
@@ -352,45 +350,32 @@ namespace WikiFunctions.MWB
 
         private void CutCmd()
         {
-            TreeNode s = RulesTreeView.SelectedNode;
-            if (s == null)
+            if (RulesTreeView.SelectedNode == null)
                 return;
-            SaveCurrentRule();
-            clipboard_ = IRule.CloneTreeNode(s);
+
+            CopyCmd();
             DeleteCmd();
             RestoreSelectedRule();
         }
 
         private void CopyCmd()
         {
-            TreeNode s = RulesTreeView.SelectedNode;
-            if (s == null)
+            if (RulesTreeView.SelectedNode == null)
                 return;
             SaveCurrentRule();
             history_.Save();
 
-            clipboard_ = IRule.CloneTreeNode(s);
+            Clipboard.SetDataObject(Serialize((IRule)GetSelectedRule()), true);
             UpdateEnabledStates();
         }
 
         private void PasteCmd()
         {
             SaveCurrentRule();
-            if (clipboard_ == null)
-                return;
             history_.Save();
-            TreeNode c = IRule.CloneTreeNode(clipboard_);
-            TreeNode s = RulesTreeView.SelectedNode;
-            if (s == null)
-            {
-                RulesTreeView.Nodes.Add(c);
-            }
-            else
-            {
-                TreeNodeCollection col = this.GetOwningNodes(s);
-                col.Insert(col.IndexOf(s), c);
-            }
-            RulesTreeView.SelectedNode = c;
+
+            AddNewRule(Deserialize(Clipboard.GetDataObject().GetData(typeof(string)).ToString()));
+
             RulesTreeView.Select();
             RestoreSelectedRule();
             RulesTreeView.ExpandAll();
@@ -617,19 +602,18 @@ namespace WikiFunctions.MWB
                     e.Handled = false;
                     break;
             }
-
         }
-        
+
         private void RulesTreeView_ItemDrag(object sender, ItemDragEventArgs e)
         {
             DoDragDrop(e.Item, DragDropEffects.Move);
         }
-        
+
         private void RulesTreeView_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = e.AllowedEffect;
         }
-        
+
         private void RulesTreeView_DragOver(object sender, DragEventArgs e)
         {
             Point targetPoint = RulesTreeView.PointToClient(new Point(e.X, e.Y));
@@ -736,5 +720,41 @@ namespace WikiFunctions.MWB
             }
             RulesTreeView.EndUpdate();
         }
+
+        #region Serialize/Deserialize for Clipboard work
+        //Base code from http://www.dotnetjohn.com/articles.aspx?articleid=173
+
+        private string Serialize(IRule rule)
+        {
+            System.IO.MemoryStream memoryStream = new System.IO.MemoryStream();
+            System.Xml.Serialization.XmlSerializer xs = new System.Xml.Serialization.XmlSerializer(typeof(IRule));
+            XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
+            xs.Serialize(xmlTextWriter, rule);
+            memoryStream = (System.IO.MemoryStream)xmlTextWriter.BaseStream;
+
+            return UTF8ByteArrayToString(memoryStream.ToArray());
+        }
+
+        public IRule Deserialize(string pXmlizedString)
+        {
+            System.Xml.Serialization.XmlSerializer xs = new System.Xml.Serialization.XmlSerializer(typeof(IRule));
+            System.IO.MemoryStream memoryStream = new System.IO.MemoryStream(StringToUTF8ByteArray(pXmlizedString));
+            XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
+
+            return (IRule)xs.Deserialize(memoryStream);
+        }
+
+        private string UTF8ByteArrayToString(byte[] characters)
+        {
+            UTF8Encoding encoding = new UTF8Encoding();
+            return (encoding.GetString(characters));
+        }
+
+        private byte[] StringToUTF8ByteArray(string pXmlString)
+        {
+            UTF8Encoding encoding = new UTF8Encoding();
+            return encoding.GetBytes(pXmlString);
+        }
+        #endregion
     }
 }

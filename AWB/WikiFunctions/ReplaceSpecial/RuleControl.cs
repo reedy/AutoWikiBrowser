@@ -33,7 +33,6 @@ namespace WikiFunctions.MWB
     {
         IRuleControlOwner owner_ = null;
 
-
         public RuleControl(IRuleControlOwner owner)
         {
             InitializeComponent();
@@ -42,7 +41,6 @@ namespace WikiFunctions.MWB
             this.Anchor =
               AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
         }
-
 
         public void SetName(string name)
         {
@@ -90,7 +88,6 @@ namespace WikiFunctions.MWB
                 r.ifRegexOptions_ |= RegexOptions.Multiline;
         }
 
-
         public void RestoreFromRule(Rule r)
         {
             NameTextbox.Text = r.Name;
@@ -120,8 +117,7 @@ namespace WikiFunctions.MWB
             UpdateRegexOptionCheckboxes();
         }
 
-
-        void UpdateRegexOptionCheckboxes()
+        private void UpdateRegexOptionCheckboxes()
         {
             bool enable = ReplaceIsRegexCheckbox.Checked;
             ReplaceIsCaseSensitiveCheckBox.Enabled = enable;
@@ -137,12 +133,10 @@ namespace WikiFunctions.MWB
             TestIf.Enabled = enable;
         }
 
-
         private void ReplaceIsRegexCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             UpdateRegexOptionCheckboxes();
         }
-
 
         private void IfIsRegexCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -182,5 +176,4 @@ namespace WikiFunctions.MWB
                 IfIsSinglelineCheckBox, IfIsCaseSensitiveCheckBox);
         }
     }
-
 }
