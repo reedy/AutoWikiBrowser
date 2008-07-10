@@ -1592,7 +1592,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void UpdateAdminStatus(object sender, EventArgs e) 
         {
-            btnProtect.Enabled = btnMove.Enabled = btnDelete.Enabled = Variables.User.IsAdmin;
+            btnProtect.Enabled = btnMove.Enabled = btnDelete.Enabled = btntsDelete.Enabled = (Variables.User.IsAdmin && btnSave.Enabled);
         }
 
         private void UpdateWikiStatus(object sender, EventArgs e) { }
@@ -2118,8 +2118,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             btnSave.Enabled = btnIgnore.Enabled = btnPreview.Enabled = btnDiff.Enabled =
             btntsPreview.Enabled = btntsChanges.Enabled = listMaker1.MakeListEnabled =
-            btntsSave.Enabled = btntsIgnore.Enabled = btnMove.Enabled = btntsDelete.Enabled = btnDelete.Enabled =
-            btnWatch.Enabled = btnProtect.Enabled = findGroup.Enabled = enabled;
+            btntsSave.Enabled = btntsIgnore.Enabled = /*btnWatch.Enabled = */ findGroup.Enabled = enabled;
+
+            btnDelete.Enabled = btntsDelete.Enabled = btnMove.Enabled = btnProtect.Enabled = (enabled && Variables.User.IsAdmin);
         }
 
         #endregion
@@ -3079,6 +3080,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void MoveArticle()
         {
+            if (TheArticle == null)
+                return;
+
             dlgArticleAction = new ArticleActionDialog(1);
 
             try
@@ -3104,6 +3108,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void DeleteArticle()
         {
+            if (TheArticle == null)
+                return;
+
             dlgArticleAction = new ArticleActionDialog(2);
 
             try
@@ -3128,6 +3135,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void ProtectArticle()
         {
+            if (TheArticle == null)
+                return;
+
             dlgArticleAction = new ArticleActionDialog(3);
 
             try
