@@ -74,6 +74,10 @@ namespace AutoWikiBrowser
             get { return chkDefaultSortAdded.Checked; }
         }
 
+        public bool SkipNoUserTalkTemplatesSubstd
+        {
+            get { return chkUserTalkTemplates.Checked; }
+        }
         #endregion
 
         #region Methods

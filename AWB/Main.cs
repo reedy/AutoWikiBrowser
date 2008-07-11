@@ -1174,7 +1174,7 @@ namespace AutoWikiBrowser
                         Variables.Profiler.Profile("loadUserTalkWarnings");
                     }
 
-                    theArticle.PerformUserTalkGeneralFixes(RemoveText, userTalkTemplatesRegex);
+                    theArticle.PerformUserTalkGeneralFixes(RemoveText, userTalkTemplatesRegex, Skip.SkipNoUserTalkTemplatesSubstd);
                 }
 
                 // find and replace after general fixes
