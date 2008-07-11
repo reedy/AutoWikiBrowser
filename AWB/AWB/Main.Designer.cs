@@ -238,6 +238,7 @@ namespace AutoWikiBrowser
             this.chkSkipWhitespace = new System.Windows.Forms.CheckBox();
             this.chkSkipGeneralFixes = new System.Windows.Forms.CheckBox();
             this.chkSkipCasing = new System.Windows.Forms.CheckBox();
+            this.imgComment = new System.Windows.Forms.PictureBox();
             this.txtEdit = new System.Windows.Forms.TextBox();
             this.mnuHistory = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -333,7 +334,7 @@ namespace AutoWikiBrowser
             this.chkSuppressTag = new System.Windows.Forms.CheckBox();
             this.chkAutoMode = new System.Windows.Forms.CheckBox();
             this.lblAutoDelay = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.BotImage = new System.Windows.Forms.PictureBox();
             this.lblOnlyBots = new System.Windows.Forms.Label();
             this.tpStart = new System.Windows.Forms.TabPage();
             this.SummaryLabel = new System.Windows.Forms.Label();
@@ -390,6 +391,7 @@ namespace AutoWikiBrowser
             ((System.ComponentModel.ISupportInitialize)(this.imgItalics)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgBold)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgStrike)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgComment)).BeginInit();
             this.mnuHistory.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.mnuNotify.SuspendLayout();
@@ -416,7 +418,7 @@ namespace AutoWikiBrowser
             this.groupBox16.SuspendLayout();
             this.groupBox14.SuspendLayout();
             this.groupBox7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BotImage)).BeginInit();
             this.tpStart.SuspendLayout();
             this.findGroup.SuspendLayout();
             this.AlertGroup.SuspendLayout();
@@ -2155,6 +2157,19 @@ namespace AutoWikiBrowser
                     "");
             this.chkSkipCasing.UseVisualStyleBackColor = true;
             // 
+            // imgComment
+            // 
+            this.imgComment.Enabled = false;
+            this.imgComment.Image = global::AutoWikiBrowser.Properties.Resources.Button_hide_comment;
+            this.imgComment.Location = new System.Drawing.Point(256, 3);
+            this.imgComment.Name = "imgComment";
+            this.imgComment.Size = new System.Drawing.Size(23, 22);
+            this.imgComment.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgComment.TabIndex = 12;
+            this.imgComment.TabStop = false;
+            this.toolTip1.SetToolTip(this.imgComment, "Subscript text");
+            this.imgComment.Click += new System.EventHandler(this.imgComment_Click);
+            // 
             // txtEdit
             // 
             this.txtEdit.AcceptsReturn = true;
@@ -2998,7 +3013,7 @@ namespace AutoWikiBrowser
             this.tpBots.Controls.Add(this.groupBox16);
             this.tpBots.Controls.Add(this.groupBox14);
             this.tpBots.Controls.Add(this.groupBox7);
-            this.tpBots.Controls.Add(this.pictureBox1);
+            this.tpBots.Controls.Add(this.BotImage);
             this.tpBots.Controls.Add(this.lblOnlyBots);
             this.tpBots.Location = new System.Drawing.Point(4, 22);
             this.tpBots.Name = "tpBots";
@@ -3161,16 +3176,16 @@ namespace AutoWikiBrowser
             this.lblAutoDelay.TabIndex = 2;
             this.lblAutoDelay.Text = "&Delay";
             // 
-            // pictureBox1
+            // BotImage
             // 
-            this.pictureBox1.ErrorImage = null;
-            this.pictureBox1.Image = global::AutoWikiBrowser.Properties.Resources.BotImage;
-            this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(136, 215);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(136, 129);
-            this.pictureBox1.TabIndex = 41;
-            this.pictureBox1.TabStop = false;
+            this.BotImage.ErrorImage = null;
+            this.BotImage.Image = global::AutoWikiBrowser.Properties.Resources.BotImage;
+            this.BotImage.InitialImage = null;
+            this.BotImage.Location = new System.Drawing.Point(136, 215);
+            this.BotImage.Name = "BotImage";
+            this.BotImage.Size = new System.Drawing.Size(136, 129);
+            this.BotImage.TabIndex = 41;
+            this.BotImage.TabStop = false;
             // 
             // lblOnlyBots
             // 
@@ -3426,6 +3441,7 @@ namespace AutoWikiBrowser
             // 
             // tpEdit
             // 
+            this.tpEdit.Controls.Add(this.imgComment);
             this.tpEdit.Controls.Add(this.imgSub);
             this.tpEdit.Controls.Add(this.imgSup);
             this.tpEdit.Controls.Add(this.imgStrike);
@@ -3671,6 +3687,7 @@ namespace AutoWikiBrowser
             ((System.ComponentModel.ISupportInitialize)(this.imgItalics)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgBold)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgStrike)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgComment)).EndInit();
             this.mnuHistory.ResumeLayout(false);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
@@ -3712,7 +3729,7 @@ namespace AutoWikiBrowser
             this.groupBox14.PerformLayout();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BotImage)).EndInit();
             this.tpStart.ResumeLayout(false);
             this.tpStart.PerformLayout();
             this.findGroup.ResumeLayout(false);
@@ -3991,7 +4008,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.RadioButton radShutdown;
         private System.Windows.Forms.CheckBox chkShutdown;
         private System.Windows.Forms.Timer ShutdownTimer;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox BotImage;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox imgNowiki;
         private System.Windows.Forms.PictureBox imgMath;
@@ -4062,5 +4079,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkSkipNoPageLinks;
         private System.Windows.Forms.CheckBox chkSkipGeneralFixes;
         private System.Windows.Forms.CheckBox chkSkipCasing;
+        private System.Windows.Forms.PictureBox imgComment;
     }
 }
