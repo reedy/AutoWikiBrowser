@@ -35,17 +35,17 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages in Named Categories for the ListMaker (Non-Recursive)
     /// </summary>
-    public class CategoryListMakerProvider : IListProvider
+    public class CategoryListProvider : IListProvider
     {
         protected bool quietMode;
         protected bool subCategories;
         protected List<string> vistedCategories;
 
-        public CategoryListMakerProvider()
+        public CategoryListProvider()
         { }
 
         /// <param name="QuietMode">Whether errors should be supressed</param>
-        public CategoryListMakerProvider(bool QuietMode)
+        public CategoryListProvider(bool QuietMode)
         {
             this.quietMode = QuietMode;
         }
@@ -152,9 +152,9 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages in Named Categories for the ListMaker (Recursive - Will visit ALL subcategories)
     /// </summary>
-    public class CategoryRecursiveListMakerProvider : CategoryListMakerProvider
+    public class CategoryRecursiveListProvider : CategoryListProvider
     {
-        public CategoryRecursiveListMakerProvider()
+        public CategoryRecursiveListProvider()
         {
             this.subCategories = true;
             this.quietMode = true;
@@ -172,9 +172,9 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages in Named Categories for the ListMaker (Recursive - Will visit 1 level of subcategories)
     /// </summary>
-    public class CategoryRecursiveOneLevelListMakerProvider : CategoryRecursiveUserDefinedLevelListMakerProvider
+    public class CategoryRecursiveOneLevelListProvider : CategoryRecursiveUserDefinedLevelListProvider
     {
-        public CategoryRecursiveOneLevelListMakerProvider()
+        public CategoryRecursiveOneLevelListProvider()
             : base(1)
         { }
 
@@ -192,20 +192,20 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages in Named Categories for the ListMaker (Recursive - Will visit the specified number of levels of subcategories)
     /// </summary>
-    public class CategoryRecursiveUserDefinedLevelListMakerProvider : CategoryListMakerProvider
+    public class CategoryRecursiveUserDefinedLevelListProvider : CategoryListProvider
     {
         private int level;
         protected List<string> allVistedCategories;
 
         /// <param name="Level">Levels of Subcategories to visit</param>
-        protected CategoryRecursiveUserDefinedLevelListMakerProvider(int Level)
+        protected CategoryRecursiveUserDefinedLevelListProvider(int Level)
         {
             this.level = Level;
             this.subCategories = false;
             this.quietMode = true;
         }
 
-        public CategoryRecursiveUserDefinedLevelListMakerProvider()
+        public CategoryRecursiveUserDefinedLevelListProvider()
             : this(0)
         { }
 
@@ -286,13 +286,13 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages from a text file
     /// </summary>
-    public class TextFileListMakerProvider : IListProvider
+    public class TextFileListProvider : IListProvider
     {
         private readonly static Regex RegexFromFile = new Regex("(^[a-z]{2,3}:)|(simple:)", RegexOptions.Compiled);
         private readonly static Regex LoadWikiLink = new Regex(@"\[\[:?(.*?)(?:\]\]|\|)", RegexOptions.Compiled);
         private OpenFileDialog openListDialog;
 
-        public TextFileListMakerProvider()
+        public TextFileListProvider()
         {
             openListDialog = new OpenFileDialog();
             openListDialog.Filter = "text files|*.txt|All files|*.*";
@@ -375,7 +375,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages which link to the Named Pages
     /// </summary>
-    public class WhatLinksHereListMakerProvider : IListProvider
+    public class WhatLinksHereListProvider : IListProvider
     {
         protected bool embedded;
         protected bool includeRedirects;
@@ -472,9 +472,9 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages which link to the Named Pages (including what links to the redirects)
     /// </summary>
-    public class WhatLinksHereIncludingRedirectsListMakerProvider : WhatLinksHereListMakerProvider
+    public class WhatLinksHereIncludingRedirectsListProvider : WhatLinksHereListProvider
     {
-        public WhatLinksHereIncludingRedirectsListMakerProvider()
+        public WhatLinksHereIncludingRedirectsListProvider()
         {
             this.includeRedirects = true;
         }
@@ -489,7 +489,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages which transclude the Named Pages
     /// </summary>
-    public class WhatTranscludesPageListMakerProvider : WhatLinksHereListMakerProvider
+    public class WhatTranscludesPageListMakerProvider : WhatLinksHereListProvider
     {
         public WhatTranscludesPageListMakerProvider()
         {
@@ -509,7 +509,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of all links on the Named Pages
     /// </summary>
-    public class LinksOnPageListMakerProvider : IListProvider
+    public class LinksOnPageListProvider : IListProvider
     {
         public List<Article> MakeList(params string[] searchCriteria)
         { 
@@ -595,7 +595,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of all Images on the Named Pages
     /// </summary>
-    public class ImagesOnPageListMakerProvider : IListProvider
+    public class ImagesOnPageListProvider : IListProvider
     {
         public List<Article> MakeList(params string[] searchCriteria)
         { 
@@ -658,7 +658,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of all the transclusions on the Named Pages
     /// </summary>
-    public class TransclusionsOnPageListMakerProvider : IListProvider
+    public class TransclusionsOnPageListProvider : IListProvider
     {
         public List<Article> MakeList(params string[] searchCriteria)
         { 
@@ -721,7 +721,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of google results based on the named pages
     /// </summary>
-    public class GoogleSearchListMakerProvider : IListProvider
+    public class GoogleSearchListProvider : IListProvider
     {
         private static Regex regexGoogle = new Regex("href\\s*=\\s*(?:\"(?<1>[^\"]*)\"|(?<1>\\S+) class=l)",
     RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -782,7 +782,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets the user contribs of the Named Users
     /// </summary>
-    public class UserContribsListMakerProvider : IListProvider
+    public class UserContribsListProvider : IListProvider
     {
         protected bool all;
 
@@ -860,9 +860,9 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets ALL the user contribs of the Named Users
     /// </summary>
-    public class UserContribsAllListMakerProvider : UserContribsListMakerProvider
+    public class UserContribsAllListProvider : UserContribsListProvider
     {
-        public UserContribsAllListMakerProvider()
+        public UserContribsAllListProvider()
         {
             this.all = true;
         }
@@ -879,7 +879,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages which link to the Named Images
     /// </summary>
-    public class ImageFileLinksListMakerProvider : IListProvider
+    public class ImageFileLinksListProvider : IListProvider
     {
         public List<Article> MakeList(params string[] searchCriteria)
         {
@@ -955,7 +955,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages which are returned from a wiki search of the Named Pages
     /// </summary>
-    public class WikiSearchListMakerProvider : IListProvider
+    public class WikiSearchListProvider : IListProvider
     {
         public List<Article> MakeList(params string[] searchCriteria)
         {
@@ -1043,7 +1043,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages which redirect to the Named Pages
     /// </summary>
-    public class RedirectsListMakerProvider : IListProvider
+    public class RedirectsListProvider : IListProvider
     {
         public List<Article> MakeList(params string[] searchCriteria)
         {
@@ -1129,7 +1129,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets all the pages from the current user's watchlist
     /// </summary>
-    public class MyWatchlistListMakerProvider : IListProvider
+    public class MyWatchlistListProvider : IListProvider
     {
         public List<Article> MakeList(params string[] searchCriteria)
         {
@@ -1179,7 +1179,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Runs the Database Scanner
     /// </summary>
-    public class DatabaseScannerListMakerProvider : IListProvider
+    public class DatabaseScannerListProvider : IListProvider
     {
         private ListBox listMakerListbox;
 
@@ -1187,7 +1187,7 @@ namespace WikiFunctions.Lists
         /// Default constructor
         /// </summary>
         /// <param name="lb">List box for DBScanner to add articles to</param>
-        public DatabaseScannerListMakerProvider(ListBox lb)
+        public DatabaseScannerListProvider(ListBox lb)
         {
             this.listMakerListbox = lb;
         }
@@ -1221,7 +1221,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets 100 random articles from the 0 namespace
     /// </summary>
-    public class RandomPagesListMakerProvider : IListProvider
+    public class RandomPagesListProvider : IListProvider
     {
         #region IListProvider Members
 

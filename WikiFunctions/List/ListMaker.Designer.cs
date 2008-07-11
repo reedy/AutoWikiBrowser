@@ -83,6 +83,7 @@ namespace WikiFunctions.Controls.Lists
             this.btnFilter = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
             this.lbArticles = new WikiFunctions.Controls.Lists.ListBox2();
+            this.imagesOnPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuListBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -204,7 +205,7 @@ namespace WikiFunctions.Controls.Lists
             this.saveListToFileToolStripMenuItem,
             this.sortAlphaMenuItem});
             this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(213, 370);
+            this.mnuListBox.Size = new System.Drawing.Size(213, 392);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // openInBrowserToolStripMenuItem
@@ -343,11 +344,12 @@ namespace WikiFunctions.Controls.Lists
             this.addSelectedToListToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fromCategoryToolStripMenuItem,
             this.fromCategoryrecursiveToolStripMenuItem,
-            this.fromTranscludesHereToolStripMenuItem,
-            this.fromWhatlinkshereToolStripMenuItem,
-            this.fromLinksOnPageToolStripMenuItem,
             this.fromImageLinksToolStripMenuItem,
-            this.fromRedirectsToolStripMenuItem});
+            this.imagesOnPageToolStripMenuItem,
+            this.fromLinksOnPageToolStripMenuItem,
+            this.fromTranscludesHereToolStripMenuItem,
+            this.fromRedirectsToolStripMenuItem,
+            this.fromWhatlinkshereToolStripMenuItem});
             this.addSelectedToListToolStripMenuItem.Name = "addSelectedToListToolStripMenuItem";
             this.addSelectedToListToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.addSelectedToListToolStripMenuItem.Text = "Add selected to list from...";
@@ -527,6 +529,13 @@ namespace WikiFunctions.Controls.Lists
             this.lbArticles.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbArticles_MouseMove);
             this.lbArticles.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbArticles_KeyDown);
             // 
+            // imagesOnPageToolStripMenuItem
+            // 
+            this.imagesOnPageToolStripMenuItem.Name = "imagesOnPageToolStripMenuItem";
+            this.imagesOnPageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.imagesOnPageToolStripMenuItem.Text = "Images on page";
+            this.imagesOnPageToolStripMenuItem.Click += new System.EventHandler(this.imagesOnPageToolStripMenuItem_Click);
+            // 
             // ListMaker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -603,5 +612,6 @@ namespace WikiFunctions.Controls.Lists
         private System.Windows.Forms.ToolStripMenuItem fromCategoryrecursiveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectMnu;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem imagesOnPageToolStripMenuItem;
     }
 }

@@ -343,7 +343,7 @@ namespace WikiFunctions.Lists
 
         private void btnGetList_Click(object sender, EventArgs e)
         {
-            foreach (Article a in new WikiFunctions.Lists.TextFileListMakerProvider().MakeList())
+            foreach (Article a in new WikiFunctions.Lists.TextFileListProvider().MakeList())
                 lbRemove.Items.Add(a);
         }
 

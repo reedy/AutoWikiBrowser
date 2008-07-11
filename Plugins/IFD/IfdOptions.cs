@@ -111,7 +111,7 @@ namespace AutoWikiBrowser.Plugins.IFD
                     ToDo.Keys.CopyTo(imgs, 0);
                     Enabled = false;
 
-                    req.GetList(new WikiFunctions.Lists.ImageFileLinksListMakerProvider(), imgs);
+                    req.GetList(new WikiFunctions.Lists.ImageFileLinksListProvider(), imgs);
                     req.Wait();
 
                     Enabled = true;
