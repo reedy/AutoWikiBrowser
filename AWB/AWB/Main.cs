@@ -3661,86 +3661,32 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         #region EditToolbar
         private void imgBold_Click(object sender, EventArgs e)
         {
-            if (txtEdit.SelectionLength == 0)
-            {
-                txtEdit.SelectedText = "'''Bold text'''";
-                txtEdit.SelectionStart = txtEdit.SelectionStart - 12;
-                txtEdit.SelectionLength = 9;
-            }
-            else
-            {
-                txtEdit.SelectedText = "'''" + txtEdit.SelectedText + "'''";
-            }
+            EditToolBarAction("'''Bold text'''",12,9,"'''");
         }
 
         private void imgItalics_Click(object sender, EventArgs e)
         {
-            if (txtEdit.SelectionLength == 0)
-            {
-                txtEdit.SelectedText = "''Italic text''";
-                txtEdit.SelectionStart = txtEdit.SelectionStart - 13;
-                txtEdit.SelectionLength = 11;
-            }
-            else
-            {
-                txtEdit.SelectedText = "''" + txtEdit.SelectedText + "''";
-            }
+            EditToolBarAction("''Italic text''",13,11,"''");
         }
 
         private void imgLink_Click(object sender, EventArgs e)
         {
-            if (txtEdit.SelectionLength == 0)
-            {
-                txtEdit.SelectedText = "[[Link title]]";
-                txtEdit.SelectionStart = txtEdit.SelectionStart - 12;
-                txtEdit.SelectionLength = 10;
-            }
-            else
-            {
-                txtEdit.SelectedText = "[[" + txtEdit.SelectedText + "]]";
-            }
+            EditToolBarAction("[[Link title]]",12,10,"[[","]]");
         }
 
         private void imgExtlink_Click(object sender, EventArgs e)
         {
-            if (txtEdit.SelectionLength == 0)
-            {
-                txtEdit.SelectedText = "[http://www.example.com link title]";
-                txtEdit.SelectionStart = txtEdit.SelectionStart - 34;
-                txtEdit.SelectionLength = 33;
-            }
-            else
-            {
-                txtEdit.SelectedText = "[" + txtEdit.SelectedText + "]";
-            }
+            EditToolBarAction("[http://www.example.com link title]",34,33,"[","]");
         }
 
         private void imgMath_Click(object sender, EventArgs e)
         {
-            if (txtEdit.SelectionLength == 0)
-            {
-                txtEdit.SelectedText = "<math>Insert formula here</math>";
-                txtEdit.SelectionStart = txtEdit.SelectionStart - 26;
-                txtEdit.SelectionLength = 19;
-            }
-            else
-            {
-                txtEdit.SelectedText = "<math>" + txtEdit.SelectedText + "</math>";
-            }
+            EditToolBarAction("<math>Insert formula here</math>",26,19,"<math>","</math>");
         }
 
         private void imgNowiki_Click(object sender, EventArgs e)
         {
-            if (txtEdit.SelectionLength == 0)
-            {
-                txtEdit.SelectedText = "<nowiki>Insert non-formatted text here</nowiki>";
-                txtEdit.SelectionStart = txtEdit.SelectionStart - 39;
-                txtEdit.SelectionLength = 30;
-            }
-            else
-            {
-                txtEdit.SelectedText = "<nowiki>" + txtEdit.SelectedText + "</nowiki>";
-            }
+            EditToolBarAction("<nowiki>Insert non-formatted text here</nowiki>", 39, 30, "<nowiki>", "</nowiki>");
         }
 
         private void imgHr_Click(object sender, EventArgs e)
@@ -3750,71 +3696,62 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void imgRedirect_Click(object sender, EventArgs e)
         {
-            if (txtEdit.SelectionLength == 0)
-            {
-                txtEdit.SelectedText = "#REDIRECT [[Insert text]]";
-                txtEdit.SelectionStart = txtEdit.SelectionStart - 13;
-                txtEdit.SelectionLength = 11;
-            }
-            else
-            {
-                txtEdit.SelectedText = "#REDIRECT [[" + txtEdit.SelectedText + "]]";
-            }
+            EditToolBarAction("#REDIRECT [[Insert text]]",13,11,"#REDIRECT [[","]]");
         }
 
         private void imgStrike_Click(object sender, EventArgs e)
         {
-            if (txtEdit.SelectionLength == 0)
-            {
-                txtEdit.SelectedText = "<s>Strike-through text</s>";
-                txtEdit.SelectionStart = txtEdit.SelectionStart - 23;
-                txtEdit.SelectionLength = 19;
-            }
-            else
-            {
-                txtEdit.SelectedText = "<s>" + txtEdit.SelectedText + "</s>";
-            }
+            EditToolBarAction("<s>Strike-through text</s>",23,19,"<s>","</s>");
         }
 
         private void imgSup_Click(object sender, EventArgs e)
         {
-            if (txtEdit.SelectionLength == 0)
-            {
-                txtEdit.SelectedText = "<sup>Superscript text</sup>";
-                txtEdit.SelectionStart = txtEdit.SelectionStart - 22;
-                txtEdit.SelectionLength = 16;
-            }
-            else
-            {
-                txtEdit.SelectedText = "<sup>" + txtEdit.SelectedText + "</sup>";
-            }
+            EditToolBarAction("<sup>Superscript text</sup>",22,16,"<sup>","</sup");
         }
 
         private void imgSub_Click(object sender, EventArgs e)
         {
-            if (txtEdit.SelectionLength == 0)
-            {
-                txtEdit.SelectedText = "<sub>Subscript text</sub>";
-                txtEdit.SelectionStart = txtEdit.SelectionStart - 20;
-                txtEdit.SelectionLength = 14;
-            }
-            else
-            {
-                txtEdit.SelectedText = "<sub>" + txtEdit.SelectedText + "</sub>";
-            }
+            EditToolBarAction("<sub>Subscript text</sub>",20,14,"<sub>","</sub");
         }
 
         private void imgComment_Click(object sender, EventArgs e)
         {
+            EditToolBarAction("<!-- Comment -->", 11, 7, "<!-- ", " -->");
+        }
+
+        /// <summary>
+        /// Applys EditToolBar button action
+        /// </summary>
+        /// <param name="noSelection">String to display if no text already select</param>
+        /// <param name="selectionStartOffset">Start position to highlight from end of noSelection</param>
+        /// <param name="selectionLength">Length of selection of text to replace</param>
+        /// <param name="selectionBeforeAfter">String if there is a selection to display before and after selected text</param>
+        private void EditToolBarAction(string noSelection, int selectionStartOffset, int selectionLength,
+    string selectionBeforeAfter)
+        {
+            EditToolBarAction(noSelection, selectionStartOffset, selectionLength, selectionBeforeAfter, selectionBeforeAfter);
+        }
+
+        /// <summary>
+        /// Applys EditToolBar button action
+        /// </summary>
+        /// <param name="noSelection">String to display if no text already select</param>
+        /// <param name="selectionStartOffset">Start position to highlight from end of noSelection</param>
+        /// <param name="selectionLength">Length of selection of text to replace</param>
+        /// <param name="selectionBefore">String to display before user selected text</param>
+        /// <param name="selectionAfter">String to display after user selected text</param>
+        private void EditToolBarAction(string noSelection, int selectionStartOffset, int selectionLength,
+            string selectionBefore, string selectionAfter)
+        {
             if (txtEdit.SelectionLength == 0)
             {
-                txtEdit.SelectedText = "<!-- Comment -->";
-                txtEdit.SelectionStart = txtEdit.SelectionStart - 11;
-                txtEdit.SelectionLength = 7;
+                txtEdit.SelectedText = noSelection;
+                txtEdit.SelectionStart = txtEdit.SelectionStart - selectionStartOffset;
+                txtEdit.SelectionLength = selectionLength;
             }
             else
             {
-                txtEdit.SelectedText = "<!-- " + txtEdit.SelectedText + " -->";
+                txtEdit.SelectedText = selectionBefore + txtEdit.SelectedText + selectionAfter;
             }
         }
 
@@ -4002,11 +3939,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void UsageStatsMenuItem_Click(object sender, EventArgs e)
         { UsageStats.OpenUsageStatsURL(); }
-
-        private void ignoreNoBotsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
     }
         #endregion
 }

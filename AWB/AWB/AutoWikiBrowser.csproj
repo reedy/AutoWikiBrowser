@@ -281,6 +281,7 @@
     <Content Include="Resources\AutoWikiBrowser2.png" />
     <Content Include="Resources\button_bold.png" />
     <Content Include="Resources\button_extlink.png" />
+    <Content Include="Resources\Button_hide_comment.png" />
     <Content Include="Resources\button_hr.png" />
     <Content Include="Resources\button_italic.png" />
     <Content Include="Resources\button_link.png" />
