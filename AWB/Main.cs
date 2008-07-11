@@ -3804,11 +3804,25 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             }
         }
 
+        private void imgComment_Click(object sender, EventArgs e)
+        {
+            if (txtEdit.SelectionLength == 0)
+            {
+                txtEdit.SelectedText = "<!-- Comment -->";
+                txtEdit.SelectionStart = txtEdit.SelectionStart - 11;
+                txtEdit.SelectionLength = 7;
+            }
+            else
+            {
+                txtEdit.SelectedText = "<!-- " + txtEdit.SelectedText + " -->";
+            }
+        }
+
         private void SetEditToolBarEnabled(bool enabled)
         {
             imgBold.Enabled = imgExtlink.Enabled = imgHr.Enabled = imgItalics.Enabled = imgLink.Enabled =
             imgMath.Enabled = imgNowiki.Enabled = imgRedirect.Enabled = imgStrike.Enabled = imgSub.Enabled =
-            imgSup.Enabled = enabled;
+            imgSup.Enabled = imgComment.Enabled =  enabled;
         }
 
         private bool EditToolBarVisible
@@ -3830,7 +3844,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
                     imgBold.Visible = imgExtlink.Visible = imgHr.Visible = imgItalics.Visible = imgLink.Visible =
                     imgMath.Visible = imgNowiki.Visible = imgRedirect.Visible = imgStrike.Visible = imgSub.Visible =
-                    imgSup.Visible = value;
+                    imgSup.Visible = imgComment.Visible = value;
                 }
                 showHideEditToolbarToolStripMenuItem.Checked = value;
             }
