@@ -1168,24 +1168,13 @@ namespace AutoWikiBrowser
                 }
                 else if (process && chkGeneralFixes.Checked && theArticle.NameSpaceKey == 3)
                 {
-                    theArticle.HideText(RemoveText);
-
-                    Variables.Profiler.Profile("HideText");
-
                     if (!userTalkWarningsLoaded)
                     {
                         LoadUserTalkWarnings();
                         Variables.Profiler.Profile("loadUserTalkWarnings");
                     }
 
-                    theArticle.AWBChangeArticleText("Subst user talk warnings",
-                        Parsers.SubstUserTemplates(theArticle.ArticleText, theArticle.Name, userTalkTemplatesRegex), true);
-
-                    Variables.Profiler.Profile("SubstUserTemplates");
-
-                    theArticle.UnHideText(RemoveText);
-
-                    Variables.Profiler.Profile("UnHideText");
+                    theArticle.PerformUserTalkGeneralFixes(RemoveText, userTalkTemplatesRegex);
                 }
 
                 // find and replace after general fixes

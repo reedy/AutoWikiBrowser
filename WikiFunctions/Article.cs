@@ -774,12 +774,7 @@ namespace WikiFunctions
         /// will be replaced with {{reflist}}</param>
         public void PerformGeneralFixes(Parsers parsers, HideText removeText, ISkipOptions skip, bool replaceReferenceTags)
         {
-            bool textAlreadyChanged = (ArticleText != OriginalArticleText);
-
-            string beforeGeneralFixesArticleText = "";
-
-            if (!textAlreadyChanged)
-                beforeGeneralFixesArticleText = ArticleText;
+            BeforeGeneralFixesTextChanged();
 
             HideText(removeText);
 
@@ -852,6 +847,31 @@ namespace WikiFunctions
 
             UnHideText(removeText);
 
+            AfterGeneralFixesTextChanged();
+
+            Variables.Profiler.Profile("End of general fixes");
+        }
+        #endregion
+
+        string beforeGeneralFixesArticleText = "";
+        bool textAlreadyChanged;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void BeforeGeneralFixesTextChanged()
+        {
+            textAlreadyChanged = (ArticleText != OriginalArticleText);
+
+            if (!textAlreadyChanged)
+                beforeGeneralFixesArticleText = ArticleText;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void AfterGeneralFixesTextChanged()
+        {
             if (!textAlreadyChanged)
             {
                 generalFixesCausedChange = (ArticleText != beforeGeneralFixesArticleText);
@@ -859,10 +879,30 @@ namespace WikiFunctions
                 if (generalFixesCausedChange)
                     afterGeneralFixesArticleText = ArticleText;
             }
-
-            Variables.Profiler.Profile("End of general fixes");
         }
-        #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="removeText"></param>
+        /// <param name="userTalkTemplatesRegex"></param>
+        public void PerformUserTalkGeneralFixes(HideText removeText, Regex userTalkTemplatesRegex)
+        {
+            BeforeGeneralFixesTextChanged();
+
+            HideText(removeText);
+            Variables.Profiler.Profile("HideText");
+
+            AWBChangeArticleText("Subst user talk warnings",
+                Parsers.SubstUserTemplates(ArticleText, Name, userTalkTemplatesRegex), true);
+
+            Variables.Profiler.Profile("SubstUserTemplates");
+
+            UnHideText(removeText);
+            Variables.Profiler.Profile("UnHideText");
+
+            AfterGeneralFixesTextChanged();
+        }
     }
 
     /// <summary>
