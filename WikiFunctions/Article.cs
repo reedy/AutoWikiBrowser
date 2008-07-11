@@ -761,7 +761,7 @@ namespace WikiFunctions
         }
 
         #region General fixes
-        bool generalFixesCausedChange;
+        bool generalFixesCausedChange, textAlreadyChanged;
         string afterGeneralFixesArticleText;
 
         /// <summary>
@@ -853,28 +853,23 @@ namespace WikiFunctions
         }
         #endregion
 
-        string beforeGeneralFixesArticleText = "";
-        bool textAlreadyChanged;
-
         /// <summary>
-        /// 
+        /// Check if the article text has already been changed when the code reaches this point
         /// </summary>
         private void BeforeGeneralFixesTextChanged()
         {
             textAlreadyChanged = (ArticleText != OriginalArticleText);
-
-            if (!textAlreadyChanged)
-                beforeGeneralFixesArticleText = ArticleText;
         }
 
         /// <summary>
-        /// 
+        /// If the text hasnt been changed prior to starting general fixes, see if the general fixes have made a change,
+        /// if it has, make a copy of the article text post general fix changes
         /// </summary>
         private void AfterGeneralFixesTextChanged()
         {
             if (!textAlreadyChanged)
             {
-                generalFixesCausedChange = (ArticleText != beforeGeneralFixesArticleText);
+                generalFixesCausedChange = (ArticleText != OriginalArticleText);
 
                 if (generalFixesCausedChange)
                     afterGeneralFixesArticleText = ArticleText;
@@ -882,10 +877,10 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// 
+        /// Performs the general fixes for user talk pages (ie user talk template substitution)
         /// </summary>
         /// <param name="removeText"></param>
-        /// <param name="userTalkTemplatesRegex"></param>
+        /// <param name="userTalkTemplatesRegex">Regex of user talk templates to substitute</param>
         public void PerformUserTalkGeneralFixes(HideText removeText, Regex userTalkTemplatesRegex, bool SkipIfNoChange)
         {
             string originalText = ArticleText;
