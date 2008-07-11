@@ -1852,7 +1852,7 @@ namespace AutoWikiBrowser
             // 
             this.imgSub.Enabled = false;
             this.imgSub.Image = global::AutoWikiBrowser.Properties.Resources.Button_lower_letter;
-            this.imgSub.Location = new System.Drawing.Point(230, 3);
+            this.imgSub.Location = new System.Drawing.Point(233, 3);
             this.imgSub.Name = "imgSub";
             this.imgSub.Size = new System.Drawing.Size(23, 22);
             this.imgSub.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -1865,7 +1865,7 @@ namespace AutoWikiBrowser
             // 
             this.imgSup.Enabled = false;
             this.imgSup.Image = global::AutoWikiBrowser.Properties.Resources.Button_upper_letter;
-            this.imgSup.Location = new System.Drawing.Point(207, 3);
+            this.imgSup.Location = new System.Drawing.Point(210, 3);
             this.imgSup.Name = "imgSup";
             this.imgSup.Size = new System.Drawing.Size(23, 22);
             this.imgSup.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -1878,7 +1878,7 @@ namespace AutoWikiBrowser
             // 
             this.imgRedirect.Enabled = false;
             this.imgRedirect.Image = global::AutoWikiBrowser.Properties.Resources.Button_redirect;
-            this.imgRedirect.Location = new System.Drawing.Point(161, 3);
+            this.imgRedirect.Location = new System.Drawing.Point(164, 3);
             this.imgRedirect.Name = "imgRedirect";
             this.imgRedirect.Size = new System.Drawing.Size(23, 22);
             this.imgRedirect.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -1891,7 +1891,7 @@ namespace AutoWikiBrowser
             // 
             this.imgHr.Enabled = false;
             this.imgHr.Image = global::AutoWikiBrowser.Properties.Resources.button_hr;
-            this.imgHr.Location = new System.Drawing.Point(138, 3);
+            this.imgHr.Location = new System.Drawing.Point(141, 3);
             this.imgHr.Name = "imgHr";
             this.imgHr.Size = new System.Drawing.Size(23, 22);
             this.imgHr.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -1904,7 +1904,7 @@ namespace AutoWikiBrowser
             // 
             this.imgNowiki.Enabled = false;
             this.imgNowiki.Image = global::AutoWikiBrowser.Properties.Resources.button_nowiki;
-            this.imgNowiki.Location = new System.Drawing.Point(115, 3);
+            this.imgNowiki.Location = new System.Drawing.Point(118, 3);
             this.imgNowiki.Name = "imgNowiki";
             this.imgNowiki.Size = new System.Drawing.Size(23, 22);
             this.imgNowiki.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -1917,7 +1917,7 @@ namespace AutoWikiBrowser
             // 
             this.imgMath.Enabled = false;
             this.imgMath.Image = global::AutoWikiBrowser.Properties.Resources.button_math;
-            this.imgMath.Location = new System.Drawing.Point(92, 3);
+            this.imgMath.Location = new System.Drawing.Point(95, 3);
             this.imgMath.Name = "imgMath";
             this.imgMath.Size = new System.Drawing.Size(23, 22);
             this.imgMath.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -1930,7 +1930,7 @@ namespace AutoWikiBrowser
             // 
             this.imgExtlink.Enabled = false;
             this.imgExtlink.Image = global::AutoWikiBrowser.Properties.Resources.button_extlink;
-            this.imgExtlink.Location = new System.Drawing.Point(69, 3);
+            this.imgExtlink.Location = new System.Drawing.Point(72, 3);
             this.imgExtlink.Name = "imgExtlink";
             this.imgExtlink.Size = new System.Drawing.Size(23, 22);
             this.imgExtlink.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -1943,7 +1943,7 @@ namespace AutoWikiBrowser
             // 
             this.imgLink.Enabled = false;
             this.imgLink.Image = global::AutoWikiBrowser.Properties.Resources.button_link;
-            this.imgLink.Location = new System.Drawing.Point(46, 3);
+            this.imgLink.Location = new System.Drawing.Point(49, 3);
             this.imgLink.Name = "imgLink";
             this.imgLink.Size = new System.Drawing.Size(23, 22);
             this.imgLink.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -1956,7 +1956,7 @@ namespace AutoWikiBrowser
             // 
             this.imgItalics.Enabled = false;
             this.imgItalics.Image = global::AutoWikiBrowser.Properties.Resources.button_italic;
-            this.imgItalics.Location = new System.Drawing.Point(23, 3);
+            this.imgItalics.Location = new System.Drawing.Point(26, 3);
             this.imgItalics.Name = "imgItalics";
             this.imgItalics.Size = new System.Drawing.Size(23, 22);
             this.imgItalics.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -2026,7 +2026,7 @@ namespace AutoWikiBrowser
             // 
             this.imgStrike.Enabled = false;
             this.imgStrike.Image = global::AutoWikiBrowser.Properties.Resources.Button_strike;
-            this.imgStrike.Location = new System.Drawing.Point(184, 3);
+            this.imgStrike.Location = new System.Drawing.Point(187, 3);
             this.imgStrike.Name = "imgStrike";
             this.imgStrike.Size = new System.Drawing.Size(23, 22);
             this.imgStrike.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -3506,6 +3506,7 @@ namespace AutoWikiBrowser
             this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
             this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
             this.loggingSettings1.Name = "loggingSettings1";
+            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
             this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
             this.loggingSettings1.TabIndex = 0;
             // 
