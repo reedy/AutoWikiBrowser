@@ -15,7 +15,6 @@ namespace WikiFunctions.Lists
         int m_Limit;
         #endregion
 
-
         /// <summary>
         /// Gets the list of XML elements that represent pages,
         /// e.g. <p>, <cm>, <bl> etc

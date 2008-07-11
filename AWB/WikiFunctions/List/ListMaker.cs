@@ -42,13 +42,14 @@ namespace WikiFunctions.Controls.Lists
 
         //used to keep easy track of providers for add/remove/use in code
         #region ListProviders
-        private static IListProvider redirectLProvider = new RedirectsListMakerProvider();
-        private static IListProvider categoryLProvider = new CategoryListMakerProvider();
-        private static IListProvider categoryRecursiveLProvider = new CategoryRecursiveListMakerProvider();
-        private static IListProvider whatLinksLProvider = new WhatLinksHereListMakerProvider();
+        private static IListProvider redirectLProvider = new RedirectsListProvider();
+        private static IListProvider categoryLProvider = new CategoryListProvider();
+        private static IListProvider categoryRecursiveLProvider = new CategoryRecursiveListProvider();
+        private static IListProvider whatLinksLProvider = new WhatLinksHereListProvider();
         private static IListProvider whatTranscludesLProvider = new WhatTranscludesPageListMakerProvider();
-        private static IListProvider linksOnPageLProvider = new LinksOnPageListMakerProvider();
-        private static IListProvider imageFileLinksLProvider = new ImageFileLinksListMakerProvider();
+        private static IListProvider linksOnPageLProvider = new LinksOnPageListProvider();
+        private static IListProvider imageFileLinksLProvider = new ImageFileLinksListProvider();
+        private static IListProvider imagesOnPageLProvider = new ImagesOnPageListProvider();
         #endregion
 
         public event ListMakerEventHandler StatusTextChanged;
@@ -72,24 +73,24 @@ namespace WikiFunctions.Controls.Lists
             {
                 listItems.Add(categoryLProvider);
                 listItems.Add(categoryRecursiveLProvider);
-                listItems.Add(new CategoryRecursiveOneLevelListMakerProvider());
-                listItems.Add(new CategoryRecursiveUserDefinedLevelListMakerProvider());
+                listItems.Add(new CategoryRecursiveOneLevelListProvider());
+                listItems.Add(new CategoryRecursiveUserDefinedLevelListProvider());
                 listItems.Add(whatLinksLProvider);
-                listItems.Add(new WhatLinksHereIncludingRedirectsListMakerProvider());
+                listItems.Add(new WhatLinksHereIncludingRedirectsListProvider());
                 listItems.Add(whatTranscludesLProvider);
                 listItems.Add(linksOnPageLProvider);
-                listItems.Add(new ImagesOnPageListMakerProvider());
-                listItems.Add(new TransclusionsOnPageListMakerProvider());
-                listItems.Add(new TextFileListMakerProvider());
-                listItems.Add(new GoogleSearchListMakerProvider());
-                listItems.Add(new UserContribsListMakerProvider());
-                listItems.Add(new UserContribsAllListMakerProvider());
+                listItems.Add(imagesOnPageLProvider);
+                listItems.Add(new TransclusionsOnPageListProvider());
+                listItems.Add(new TextFileListProvider());
+                listItems.Add(new GoogleSearchListProvider());
+                listItems.Add(new UserContribsListProvider());
+                listItems.Add(new UserContribsAllListProvider());
                 listItems.Add(new SpecialPageListMakerProvider());
                 listItems.Add(imageFileLinksLProvider);
-                listItems.Add(new DatabaseScannerListMakerProvider(lbArticles));
-                listItems.Add(new MyWatchlistListMakerProvider());
-                listItems.Add(new WikiSearchListMakerProvider());
-                listItems.Add(new RandomPagesListMakerProvider());
+                listItems.Add(new DatabaseScannerListProvider(lbArticles));
+                listItems.Add(new MyWatchlistListProvider());
+                listItems.Add(new WikiSearchListProvider());
+                listItems.Add(new RandomPagesListProvider());
                 listItems.Add(redirectLProvider);
             }
 
@@ -1019,97 +1020,45 @@ namespace WikiFunctions.Controls.Lists
 
         private void fromCategoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            addToFromCategory(false);
+            AddFromSelectedList(categoryLProvider);
         }
 
         private void fromCategoryrecursiveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            addToFromCategory(true);
-        }
-
-        private void addToFromCategory(bool recursive)
-        {
-            string[] c = new string[lbArticles.SelectedItems.Count];
-
-            int i = 0;
-            foreach (object o in lbArticles.SelectedItems)
-            {
-                if (o.ToString().Contains(Variables.Namespaces[14]))
-                {
-                    c[i] = o.ToString().Substring(Variables.Namespaces[14].Length);
-                    i++;
-                }
-            }
-            if (i > 0)
-            {
-                if (recursive)
-                    MakeList(categoryRecursiveLProvider, c);
-                else
-                    MakeList(categoryLProvider, c);
-            }
+            AddFromSelectedList(categoryRecursiveLProvider);
         }
 
         private void fromWhatlinkshereToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string[] c = new string[lbArticles.SelectedItems.Count];
-
-            int i = 0;
-            foreach (object o in lbArticles.SelectedItems)
-            {
-                c[i] = o.ToString();
-                i++;
-            }
-
-            if (i > 0)
-                MakeList(whatLinksLProvider, c);
+            AddFromSelectedList(whatLinksLProvider);
         }
 
         private void fromTranscludesHereToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string[] c = new string[lbArticles.SelectedItems.Count];
-
-            int i = 0;
-            foreach (object o in lbArticles.SelectedItems)
-            {
-                c[i] = o.ToString();
-                i++;
-            }
-
-            if (i > 0)
-                MakeList(whatTranscludesLProvider, c);
+            AddFromSelectedList(whatTranscludesLProvider);
         }
 
         private void fromLinksOnPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string[] c = new string[lbArticles.SelectedItems.Count];
-
-            int i = 0;
-            foreach (object o in lbArticles.SelectedItems)
-            {
-                c[i] = o.ToString();
-                i++;
-            }
-
-            if (i > 0)
-                MakeList(linksOnPageLProvider, c);
+            AddFromSelectedList(linksOnPageLProvider);
         }
 
         private void fromImageLinksToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string[] c = new string[lbArticles.SelectedItems.Count];
+            AddFromSelectedList(imageFileLinksLProvider);
+        }
 
-            int i = 0;
-            foreach (object o in lbArticles.SelectedItems)
-            {
-                c[i] = o.ToString();
-                i++;
-            }
-
-            if (i > 0)
-                MakeList(imageFileLinksLProvider, c);
+        private void imagesOnPageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddFromSelectedList(imagesOnPageLProvider);
         }
 
         private void fromRedirectsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddFromSelectedList(redirectLProvider);
+        }
+
+        private void AddFromSelectedList(IListProvider provider)
         {
             string[] c = new string[lbArticles.SelectedItems.Count];
 
@@ -1121,7 +1070,7 @@ namespace WikiFunctions.Controls.Lists
             }
 
             if (i > 0)
-                MakeList(redirectLProvider, c);
+                MakeList(provider, c);
         }
 
         private void clearToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -1267,6 +1216,8 @@ namespace WikiFunctions.Controls.Lists
 
             return plugins;
         }
+
+
     }
 }
 
