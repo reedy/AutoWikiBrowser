@@ -92,6 +92,7 @@ namespace WikiFunctions.Controls.Lists
                 listItems.Add(new WikiSearchListProvider());
                 listItems.Add(new RandomPagesListProvider());
                 listItems.Add(redirectLProvider);
+                //listItems.Add(new TestCategoryProvider());
             }
 
             SpecialFilter = new ListFilterForm(lbArticles);

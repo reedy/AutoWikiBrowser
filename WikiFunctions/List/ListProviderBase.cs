@@ -3,25 +3,28 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Xml;
+using System.IO;
 
 namespace WikiFunctions.Lists
 {
     /// <summary>
     /// Parent abstract class for all API-based providers
+    /// currently simultaneous call of more than one API generator is not fully supported
     /// </summary>
     public abstract class ApiListMakerProvider : IListProvider
     {
         #region Internals
-        int m_Limit;
+        int m_Limit = 5000;
         #endregion
 
         /// <summary>
         /// Gets the list of XML elements that represent pages,
         /// e.g. <p>, <cm>, <bl> etc
         /// </summary>
-        protected abstract string[] PageElements { get; }
+        protected abstract ICollection<string> PageElements { get; }
 
-        protected abstract string[] Actions { get; }
+        protected abstract ICollection<string> Actions { get; }
 
         /// <summary>
         /// Upper limit for number of pages returned, could be a bit exceeded by number of pages the last request
@@ -59,7 +62,7 @@ namespace WikiFunctions.Lists
             }
         }
 
-        static readonly Regex RemoveCmcategory = new Regex("&cmcategory=.*", RegexOptions.Compiled);
+        static readonly Regex RemoveCmcategory = new Regex("&cmcategory=[^&]*", RegexOptions.Compiled);
 
         #endregion
 
@@ -85,10 +88,43 @@ namespace WikiFunctions.Lists
 
                     Hack1_12 = true;
                     url = RemoveCmcategory.Replace(url, "");
-                    text = Tools.GetHTML(url);
+                    text = Tools.GetHTML(url + postfix);
                 }
 
+                XmlTextReader xml = new XmlTextReader(new StringReader(text));
+                xml.MoveToContent();
+                postfix = "";
 
+                while (xml.Read())
+                {
+                    if (xml.Name == "query-continue")
+                    {
+                        XmlReader r = xml.ReadSubtree();
+
+                        r.Read();
+
+                        while (r.Read())
+                        {
+                            if (!r.IsStartElement()) continue;
+                            if (!r.MoveToFirstAttribute()) 
+                                throw new FormatException("Malformed element '" + r.Name + "' in <query-continue>");
+                            postfix += "&" + r.Name + "=" + HttpUtility.UrlEncode(r.Value);
+                        }
+                    }
+                    else if (PageElements.Contains(xml.Name))
+                    {
+                        int ns = -1;
+                        int.TryParse(xml.GetAttribute("ns"), out ns);
+                        string name = xml.GetAttribute("title");
+                        if (!string.IsNullOrEmpty(name))
+                        {
+                            if (ns >= 0) lst.Add(new Article(name, ns));
+                            else 
+                                lst.Add(new Article(name));
+                        }
+                    }
+                }
+                if (string.IsNullOrEmpty(postfix)) break;
             }
 
             return lst;
@@ -114,14 +150,14 @@ namespace WikiFunctions.Lists
     public abstract class CategoryProviderBase : ApiListMakerProvider
     {
         #region Overrides
-        string[] pe = new string[] { "cm" };
-        protected override string[] PageElements
+        List<string> pe = new List<string>(new string[] { "cm" });
+        protected override ICollection<string> PageElements
         {
             get { return pe; }
         }
 
-        string[] ac = new string[] { "categorymembers" };
-        protected override string[] Actions
+        List<string> ac = new List<string>(new string[] { "categorymembers" });
+        protected override ICollection<string> Actions
         {
             get { return ac; }
         }
@@ -140,13 +176,14 @@ namespace WikiFunctions.Lists
 
         public List<Article> GetListing(string category)
         {
-            List<Article> lst = new List<Article>();
+            //List<Article> lst = new List<Article>();
 
             string title = HttpUtility.UrlEncode(category);
 
-            string url = Variables.URLLong + "";
+            string url = Variables.URLLong + 
+                "api.php?action=query&list=categorymembers&cmtitle=Category:" + title + "&cmcategory=" + title + "&format=xml&cmlimit=500";
 
-            return lst;
+            return ApiMakeList(url, 0);
         }
 
         public List<Article> RecurseCategory(string category, int levels)
@@ -165,6 +202,7 @@ namespace WikiFunctions.Lists
             List<Article> lst = new List<Article>();
             foreach (string cat in searchCriteria)
             {
+                lst.AddRange(GetListing(cat));
             }
 
             return lst;
