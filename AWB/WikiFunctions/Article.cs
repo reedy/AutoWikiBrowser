@@ -886,10 +886,9 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="removeText"></param>
         /// <param name="userTalkTemplatesRegex"></param>
-        public void PerformUserTalkGeneralFixes(HideText removeText, Regex userTalkTemplatesRegex)
+        public void PerformUserTalkGeneralFixes(HideText removeText, Regex userTalkTemplatesRegex, bool SkipIfNoChange)
         {
-            BeforeGeneralFixesTextChanged();
-
+            string originalText = ArticleText;
             HideText(removeText);
             Variables.Profiler.Profile("HideText");
 
@@ -901,7 +900,10 @@ namespace WikiFunctions
             UnHideText(removeText);
             Variables.Profiler.Profile("UnHideText");
 
-            AfterGeneralFixesTextChanged();
+            if (SkipIfNoChange && (originalText == ArticleText))
+            {
+                Trace.AWBSkipped("No user talk templates subst'd");
+            }
         }
     }
 

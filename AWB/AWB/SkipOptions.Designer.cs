@@ -37,13 +37,14 @@ namespace AutoWikiBrowser
             this.chkNoBulletedLink = new System.Windows.Forms.CheckBox();
             this.chkNoBoldTitle = new System.Windows.Forms.CheckBox();
             this.chkNoHeaderError = new System.Windows.Forms.CheckBox();
+            this.chkUserTalkTemplates = new System.Windows.Forms.CheckBox();
             this.gbOptions.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnClose
             // 
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(101, 203);
+            this.btnClose.Location = new System.Drawing.Point(101, 225);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 1;
@@ -75,6 +76,7 @@ namespace AutoWikiBrowser
             // 
             // gbOptions
             // 
+            this.gbOptions.Controls.Add(this.chkUserTalkTemplates);
             this.gbOptions.Controls.Add(this.chkDefaultSortAdded);
             this.gbOptions.Controls.Add(this.chkNoBadLink);
             this.gbOptions.Controls.Add(this.chkNoBulletedLink);
@@ -84,7 +86,7 @@ namespace AutoWikiBrowser
             this.gbOptions.Controls.Add(this.chkNoUnicode);
             this.gbOptions.Location = new System.Drawing.Point(12, 12);
             this.gbOptions.Name = "gbOptions";
-            this.gbOptions.Size = new System.Drawing.Size(164, 185);
+            this.gbOptions.Size = new System.Drawing.Size(164, 207);
             this.gbOptions.TabIndex = 0;
             this.gbOptions.TabStop = false;
             this.gbOptions.Text = "Skip if no...";
@@ -144,13 +146,24 @@ namespace AutoWikiBrowser
             this.chkNoHeaderError.Text = "Header error fixed";
             this.chkNoHeaderError.UseVisualStyleBackColor = true;
             // 
+            // chkUserTalkTemplates
+            // 
+            this.chkUserTalkTemplates.AutoSize = true;
+            this.chkUserTalkTemplates.Location = new System.Drawing.Point(6, 180);
+            this.chkUserTalkTemplates.Name = "chkUserTalkTemplates";
+            this.chkUserTalkTemplates.Size = new System.Drawing.Size(152, 17);
+            this.chkUserTalkTemplates.TabIndex = 8;
+            this.chkUserTalkTemplates.Tag = 8;
+            this.chkUserTalkTemplates.Text = "User talk templates subst\'d";
+            this.chkUserTalkTemplates.UseVisualStyleBackColor = true;
+            // 
             // SkipOptions
             // 
             this.AcceptButton = this.btnClose;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(188, 235);
+            this.ClientSize = new System.Drawing.Size(188, 255);
             this.Controls.Add(this.gbOptions);
             this.Controls.Add(this.btnClose);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -177,5 +190,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkNoBulletedLink;
         private System.Windows.Forms.CheckBox chkNoBadLink;
         private System.Windows.Forms.CheckBox chkDefaultSortAdded;
+        private System.Windows.Forms.CheckBox chkUserTalkTemplates;
     }
 }
