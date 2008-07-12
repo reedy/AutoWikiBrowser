@@ -703,6 +703,8 @@ namespace WikiFunctions.Controls.Lists
 
         private void MakeListPlugin()
         {
+            Thread.CurrentThread.Name = "ListMaker (" + providerToRun.GetType().Name + ": "
+                + UserInputTextBox.Text + ")";
             StartProgressBar();
 
             try
@@ -718,6 +720,7 @@ namespace WikiFunctions.Controls.Lists
             {
                 ErrorHandler.ListMakerText = UserInputTextBox.Text;
                 ErrorHandler.Handle(ex);
+                ErrorHandler.ListMakerText = "";
             }
             finally
             {

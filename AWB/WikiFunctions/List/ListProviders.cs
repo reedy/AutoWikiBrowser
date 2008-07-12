@@ -879,9 +879,22 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages which link to the Named Images
     /// </summary>
-    public class ImageFileLinksListProvider : IListProvider
+    public class ImageFileLinksListProvider : ApiListMakerProvider
     {
-        public List<Article> MakeList(params string[] searchCriteria)
+        static readonly List<string> pe = new List<string>(new string[] { "iu" });
+        protected override ICollection<string> PageElements
+        {
+            get { return pe; }
+        }
+
+        static readonly List<string> ac = new List<string>(new string[] { "imageusage" });
+        protected override ICollection<string> Actions
+        {
+            get { return ac; }
+        }
+
+
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
@@ -890,65 +903,27 @@ namespace WikiFunctions.Lists
             foreach (string i in searchCriteria)
             {
                 string image = Regex.Replace(i, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
-                image = Tools.WikiEncode(image);
+                image = HttpUtility.UrlEncode(image);
 
-                string url = Variables.URLLong + "api.php?action=query&list=imageusage&iutitle=Image:" + image + "&iulimit=500&format=xml";
-                string title = "";
-                int ns = 0;
+                string url = Variables.URLLong + "api.php?action=query&list=imageusage&iutitle=Image:" + image + "&iulimit={limit}&format=xml";
 
-                while (true)
-                {
-                    string html = Tools.GetHTML(url);
-                    bool more = false;
-
-                    using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
-                    {
-                        while (reader.Read())
-                        {
-                            if (reader.Name.Equals("iu"))
-                            {
-                                if (reader.MoveToAttribute("ns"))
-                                    ns = int.Parse(reader.Value);
-                                else
-                                    ns = 0;
-
-                                if (reader.MoveToAttribute("title"))
-                                {
-                                    title = reader.Value.ToString();
-                                    list.Add(new WikiFunctions.Article(title, ns));
-                                }
-                            }
-                            else if (reader.Name.Equals("imageusage"))
-                            {
-                                reader.MoveToAttribute("iucontinue");
-                                if (reader.Value.Length != 0)
-                                {
-                                    string continueFrom = reader.Value.ToString();
-                                    url = Variables.URLLong + "api.php?action=query&list=imageusage&iutitle=Image:" + image + "&format=xml&iulimit=500&iucontinue=" + continueFrom;
-                                    more = true;
-                                }
-                            }
-                        }
-                    }
-                    if (!more)
-                        break;
-                }
+                list.AddRange(ApiMakeList(url, list.Count));
             }
             return list;
         }
 
-        public string DisplayText
+        public override string DisplayText
         { get { return "Image file links"; } }
 
-        public string UserInputTextBoxText
+        public override string UserInputTextBoxText
         { get { return Variables.Namespaces[6]; } }
 
-        public bool UserInputTextBoxEnabled
+        public override bool UserInputTextBoxEnabled
         { get { return true; } }
 
-        public void Selected() { }
+        public override void Selected() { }
 
-        public bool RunOnSeparateThread
+        public override bool RunOnSeparateThread
         { get { return true; } }
     }
 
