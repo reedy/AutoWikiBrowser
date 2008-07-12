@@ -12,7 +12,7 @@ namespace WikiFunctions.Lists
     /// Parent abstract class for all API-based providers
     /// currently simultaneous call of more than one API generator is not fully supported
     /// </summary>
-    public abstract class ApiListMakerProvider : IListProvider
+    public abstract class ApiListProviderBase : IListProvider
     {
         #region Internals
         int m_Limit = 5000;
@@ -80,7 +80,7 @@ namespace WikiFunctions.Lists
         /// <param name="haveSoFar">Number of pages already retrieved, for upper limit control</param>
         /// <returns>List of pages</returns>
         public List<Article> ApiMakeList(string url, int haveSoFar)
-        {
+        {// TODO: error handling
             List<Article> lst = new List<Article>();
             string postfix = "";
 
@@ -155,7 +155,7 @@ namespace WikiFunctions.Lists
         #endregion
     }
 
-    public abstract class CategoryProviderBase : ApiListMakerProvider
+    public abstract class CategoryProviderBase : ApiListProviderBase
     {
         #region Overrides
         List<string> pe = new List<string>(new string[] { "cm" });
