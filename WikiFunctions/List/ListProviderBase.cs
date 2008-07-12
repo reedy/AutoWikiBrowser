@@ -16,6 +16,7 @@ namespace WikiFunctions.Lists
     {
         #region Internals
         int m_Limit = 5000;
+        int m_PageSize = 500;
         #endregion
 
         /// <summary>
@@ -33,6 +34,12 @@ namespace WikiFunctions.Lists
         {
             get { return m_Limit; }
             set { m_Limit = value; }
+        }
+
+        public int PageSize
+        {
+            get { return m_PageSize; }
+            set { m_PageSize = value; }
         }
 
         #region Dirty hack for 1.12's inability to accept cmtitle and cmcategory at the same time
@@ -77,18 +84,20 @@ namespace WikiFunctions.Lists
             List<Article> lst = new List<Article>();
             string postfix = "";
 
-            if (Hack1_12) url = RemoveCmcategory.Replace(url, "");
+            string newUrl = url.Replace("{limit}", PageSize.ToString());
+
+            if (Hack1_12) newUrl = RemoveCmcategory.Replace(newUrl, "");
 
             while (lst.Count + haveSoFar < Limit)
             {
-                string text = Tools.GetHTML(url + postfix);
+                string text = Tools.GetHTML(newUrl + postfix);
                 if (text.Contains("code=\"cmtitleandcategory\""))
                 {
                     if (Hack1_12) throw new ListProviderException("cmtitleandcategory persists.");
 
                     Hack1_12 = true;
-                    url = RemoveCmcategory.Replace(url, "");
-                    text = Tools.GetHTML(url + postfix);
+                    newUrl = RemoveCmcategory.Replace(url, "");
+                    text = Tools.GetHTML(newUrl + postfix);
                 }
 
                 XmlTextReader xml = new XmlTextReader(new StringReader(text));
@@ -116,12 +125,11 @@ namespace WikiFunctions.Lists
                         int ns = -1;
                         int.TryParse(xml.GetAttribute("ns"), out ns);
                         string name = xml.GetAttribute("title");
-                        if (!string.IsNullOrEmpty(name))
-                        {
-                            if (ns >= 0) lst.Add(new Article(name, ns));
-                            else 
-                                lst.Add(new Article(name));
-                        }
+
+                        if (ns >= 0) lst.Add(new Article(name, ns));
+                        else
+                            lst.Add(new Article(name));
+
                     }
                 }
                 if (string.IsNullOrEmpty(postfix)) break;
@@ -174,17 +182,25 @@ namespace WikiFunctions.Lists
 
         #endregion
 
-        public List<Article> GetListing(string category)
+        public List<Article> GetListing(string category, int haveSoFar)
         {
             //List<Article> lst = new List<Article>();
 
             string title = HttpUtility.UrlEncode(category);
 
             string url = Variables.URLLong + 
-                "api.php?action=query&list=categorymembers&cmtitle=Category:" + title + "&cmcategory=" + title + "&format=xml&cmlimit=500";
+                "api.php?action=query&list=categorymembers&cmtitle=Category:" + title + "&cmcategory=" + title 
+                + "&format=xml&cmlimit={limit}";
 
             return ApiMakeList(url, 0);
         }
+
+        public List<Article> GetListing(string category)
+        {
+            return GetListing(category, 0);
+        }
+
+        protected List<Article> Visited;
 
         public List<Article> RecurseCategory(string category, int levels)
         {
@@ -202,7 +218,7 @@ namespace WikiFunctions.Lists
             List<Article> lst = new List<Article>();
             foreach (string cat in searchCriteria)
             {
-                lst.AddRange(GetListing(cat));
+                lst.AddRange(GetListing(cat, lst.Count));
             }
 
             return lst;
