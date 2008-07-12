@@ -509,9 +509,21 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of all links on the Named Pages
     /// </summary>
-    public class LinksOnPageListProvider : IListProvider
+    public class LinksOnPageListProvider : ApiListProviderBase
     {
-        public List<Article> MakeList(params string[] searchCriteria)
+        static readonly List<string> pe = new List<string>(new string[] { "pl" });
+        protected override ICollection<string> PageElements
+        {
+            get { return pe; }
+        }
+
+        static readonly List<string> ac = new List<string>(new string[] { "links" });
+        protected override ICollection<string> Actions
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public override List<Article> MakeList(params string[] searchCriteria)
         { 
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
@@ -519,85 +531,48 @@ namespace WikiFunctions.Lists
 
             foreach (string article in searchCriteria)
             {
-                try
-                {
-                    string url = Variables.URLLong + "api.php?action=query&prop=links&titles=" + Tools.WikiEncode(article) + "&pllimit=500&format=xml";
-                    string title = "";
-                    int ns = 0;
+                string url = Variables.URLLong + "api.php?action=query&prop=links&titles=" 
+                    + HttpUtility.UrlEncode(article) + "&pllimit={limit}&format=xml";
 
-                    while (true)
-                    {
-                        string html = Tools.GetHTML(url);
-                        bool more = false;
-
-                        using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
-                        {
-                            while (reader.Read())
-                            {
-                                if (reader.Name.Equals("pl"))
-                                {
-                                    if (reader.MoveToAttribute("ns"))
-                                        ns = int.Parse(reader.Value);
-                                    else
-                                        ns = 0;
-
-                                    if (reader.MoveToAttribute("title"))
-                                    {
-                                        title = reader.Value.ToString();
-                                        list.Add(new WikiFunctions.Article(title, ns));
-                                    }
-                                }
-                                else if (reader.Name.Equals("links"))
-                                {
-                                    reader.MoveToAttribute("plcontinue");
-                                    if (reader.Value.Length != 0)
-                                    {
-                                        string continueFrom = reader.Value;
-                                        url = Variables.URLLong + "api.php?action=query&prop=links&titles=" + Tools.WikiEncode(article) + "&pllimit=500&format=xml&plcontinue=" + continueFrom;
-
-                                        more = true;
-                                    }
-                                }
-                            }
-                        }
-                        if (!more)
-                            break;
-                    }
-                }
-                catch (ThreadAbortException)
-                {
-                    throw;
-                }
-                catch (Exception ex)
-                {
-                    ErrorHandler.Handle(ex);
-                }
+                list.AddRange(ApiMakeList(url, list.Count));
             }
 
             return list;
         }
 
-       public string DisplayText
+        public override string DisplayText
         { get { return "Links on page"; } }
 
-        public string UserInputTextBoxText
+        public override string UserInputTextBoxText
         { get { return "Links on:"; } }
 
-        public bool UserInputTextBoxEnabled
+        public override bool UserInputTextBoxEnabled
         { get { return true; } }
 
-        public void Selected() { }
+        public override void Selected() { }
 
-        public bool RunOnSeparateThread
+        public override bool RunOnSeparateThread
         { get { return true; } }
     }
 
     /// <summary>
     /// Gets a list of all Images on the Named Pages
     /// </summary>
-    public class ImagesOnPageListProvider : IListProvider
+    public class ImagesOnPageListProvider : ApiListProviderBase
     {
-        public List<Article> MakeList(params string[] searchCriteria)
+        static readonly List<string> pe = new List<string>(new string[] { "im" });
+        protected override ICollection<string> PageElements
+        {
+            get { return pe; }
+        }
+
+        static readonly List<string> ac = new List<string>(new string[] { "images" });
+        protected override ICollection<string> Actions
+        {
+            get { return ac; }
+        }
+
+        public override List<Article> MakeList(params string[] searchCriteria)
         { 
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
@@ -605,62 +580,47 @@ namespace WikiFunctions.Lists
 
             foreach (string article in searchCriteria)
             {
-                string url = Variables.URLLong + "api.php?action=query&prop=images&titles=" + Tools.WikiEncode(article) + "&imlimit=500&format=xml";
+                string url = Variables.URLLong + "api.php?action=query&prop=images&titles=" 
+                    + HttpUtility.UrlEncode(article) + "&imlimit={limit}&format=xml";
 
-                while (true)
-                {
-                    string html = Tools.GetHTML(url);
-                    bool more = false;
-                    int ns;
-                    string title = "";
-
-                    using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
-                    {
-                        while (reader.Read())
-                        {
-                            if (reader.Name.Equals("im"))
-                            {
-                                if (reader.MoveToAttribute("ns"))
-                                    ns = int.Parse(reader.Value);
-                                else
-                                    ns = 0;
-
-                                if (reader.MoveToAttribute("title"))
-                                {
-                                    title = reader.Value.ToString();
-                                    list.Add(new WikiFunctions.Article(title, ns));
-                                }
-                            }
-                        }
-                    }
-                    if (!more)
-                        break;
-                }
+                list.AddRange(ApiMakeList(url, list.Count));
             }
             return list;
         }
 
-        public string DisplayText
+        public override string DisplayText
         { get { return "Images on page"; } }
 
-        public string UserInputTextBoxText
+        public override string UserInputTextBoxText
         { get { return "Images on:"; } }
 
-        public bool UserInputTextBoxEnabled
+        public override bool UserInputTextBoxEnabled
         { get { return true; } }
 
-        public void Selected() { }
+        public override void Selected() { }
 
-        public bool RunOnSeparateThread
+        public override bool RunOnSeparateThread
         { get { return true; } }
     }
 
     /// <summary>
     /// Gets a list of all the transclusions on the Named Pages
     /// </summary>
-    public class TransclusionsOnPageListProvider : IListProvider
+    public class TransclusionsOnPageListProvider : ApiListProviderBase
     {
-        public List<Article> MakeList(params string[] searchCriteria)
+        static readonly List<string> pe = new List<string>(new string[] { "tl" });
+        protected override ICollection<string> PageElements
+        {
+            get { return pe; }
+        }
+
+        static readonly List<string> ac = new List<string>(new string[] { "templates" });
+        protected override ICollection<string> Actions
+        {
+            get { return ac; }
+        }
+
+        public override List<Article> MakeList(params string[] searchCriteria)
         { 
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
@@ -668,53 +628,26 @@ namespace WikiFunctions.Lists
 
             foreach (string article in searchCriteria)
             {
-                string url = Variables.URLLong + "api.php?action=query&prop=templates&titles=" + Tools.WikiEncode(article) + "&tllimit=500&format=xml";
+                string url = Variables.URLLong + "api.php?action=query&prop=templates&titles=" 
+                    + HttpUtility.UrlEncode(article) + "&tllimit={limit}&format=xml";
 
-                while (true)
-                {
-                    string html = Tools.GetHTML(url);
-                    bool more = false;
-                    int ns;
-                    string title = "";
-
-                    using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
-                    {
-                        while (reader.Read())
-                        {
-                            if (reader.Name.Equals("tl"))
-                            {
-                                if (reader.MoveToAttribute("ns"))
-                                    ns = int.Parse(reader.Value);
-                                else
-                                    ns = 0;
-
-                                if (reader.MoveToAttribute("title"))
-                                {
-                                    title = reader.Value.ToString();
-                                    list.Add(new WikiFunctions.Article(title, ns));
-                                }
-                            }
-                        }
-                    }
-                    if (!more)
-                        break;
-                }
+                list.AddRange(ApiMakeList(url, list.Count));
             }
             return list;
         }
 
-        public string DisplayText
+        public override string DisplayText
         { get { return "Transclusions on page"; } }
 
-        public string UserInputTextBoxText
+        public override string UserInputTextBoxText
         { get { return "Transclusions on:"; } }
 
-        public bool UserInputTextBoxEnabled
+        public override bool UserInputTextBoxEnabled
         { get { return true; } }
 
-        public void Selected() { }
+        public override void Selected() { }
 
-        public bool RunOnSeparateThread
+        public override bool RunOnSeparateThread
         { get { return true; } }
     }
 
@@ -879,7 +812,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages which link to the Named Images
     /// </summary>
-    public class ImageFileLinksListProvider : ApiListMakerProvider
+    public class ImageFileLinksListProvider : ApiListProviderBase
     {
         static readonly List<string> pe = new List<string>(new string[] { "iu" });
         protected override ICollection<string> PageElements
@@ -893,7 +826,6 @@ namespace WikiFunctions.Lists
             get { return ac; }
         }
 
-
         public override List<Article> MakeList(params string[] searchCriteria)
         {
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
@@ -905,7 +837,8 @@ namespace WikiFunctions.Lists
                 string image = Regex.Replace(i, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
                 image = HttpUtility.UrlEncode(image);
 
-                string url = Variables.URLLong + "api.php?action=query&list=imageusage&iutitle=Image:" + image + "&iulimit={limit}&format=xml";
+                string url = Variables.URLLong + "api.php?action=query&list=imageusage&iutitle=Image:" 
+                    + image + "&iulimit={limit}&format=xml";
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
@@ -930,9 +863,26 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages which are returned from a wiki search of the Named Pages
     /// </summary>
-    public class WikiSearchListProvider : IListProvider
+    public class WikiSearchListProvider : ApiListProviderBase
     {
-        public List<Article> MakeList(params string[] searchCriteria)
+        static readonly List<string> pe = new List<string>(new string[] { "p" });
+        protected override ICollection<string> PageElements
+        {
+            get { return pe; }
+        }
+
+        static readonly List<string> ac = new List<string>(new string[] { "search" });
+        protected override ICollection<string> Actions
+        {
+            get { return ac; }
+        }
+
+        public WikiSearchListProvider()
+        {
+            Limit = 1000; // slow query
+        }
+
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             List<Article> list = new List<Article>();
 
@@ -947,71 +897,31 @@ namespace WikiFunctions.Lists
 
             string ns = nsStringBuilder.ToString();
             ns = ns.Remove(ns.LastIndexOf('|'));
-            string sroffset = "";
 
             foreach (string s in searchCriteria)
             {
-                string search = Tools.WikiEncode(s);
+                string search = HttpUtility.UrlEncode(s);
 
                 string url = Variables.URLLong + "api.php?action=query&list=search&srwhat=text&srsearch="
-                    + s + "&srlimit=500&format=xml" + ns;
-                string title = "";
-                int nsBuilder = 0;
+                    + s + "&srlimit={limit}&format=xml" + ns;
 
-                while (true)
-                {
-                    string html = Tools.GetHTML(url+sroffset);
-                    sroffset = "";
-
-                    using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
-                    {
-                        while (reader.Read())
-                        {
-                            if (reader.Name.Equals("p"))
-                            {
-                                if (reader.MoveToAttribute("ns"))
-                                    nsBuilder = int.Parse(reader.Value);
-                                else
-                                    nsBuilder = 0;
-
-                                if (reader.MoveToAttribute("title"))
-                                {
-                                    title = reader.Value.ToString();
-                                    list.Add(new WikiFunctions.Article(title, nsBuilder));
-                                }
-                            }
-                            else if (reader.Name.Equals("search") && string.IsNullOrEmpty(sroffset))
-                            {
-                                sroffset = reader.GetAttribute("sroffset");
-                                if (!string.IsNullOrEmpty(sroffset))
-                                {
-                                    sroffset = "&sroffset=" + sroffset;
-                                }
-                                else 
-                                {
-                                    sroffset = "";
-                                }
-                            }
-                        }
-                    }
-                    if (string.IsNullOrEmpty(sroffset)) break;
-                }
+                list.AddRange(ApiMakeList(url, list.Count));
             }
             return list;
         }
 
-        public string DisplayText
+        public override string DisplayText
         { get { return "Wiki search"; } }
 
-        public string UserInputTextBoxText
+        public override string UserInputTextBoxText
         { get { return "Wiki search:"; } }
 
-        public bool UserInputTextBoxEnabled
+        public override bool UserInputTextBoxEnabled
         { get { return true; } }
 
-        public void Selected() { }
+        public override void Selected() { }
 
-        public bool RunOnSeparateThread
+        public override bool RunOnSeparateThread
         { get { return true; } }
     }
 
