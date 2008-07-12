@@ -553,8 +553,7 @@ namespace WikiFunctions.DBScanner
 
         private static string convert(string text)
         {
-            return text.Replace(@"\r\n", @"
-");
+            return text.Replace("\r\n", "\n");
         }
 
         private void txtTitleContains_Leave(object sender, EventArgs e)
