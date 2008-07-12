@@ -294,6 +294,8 @@ namespace WikiFunctions
             else
                 r.UserAgent = UserAgent;
 
+            r.Proxy.Credentials = CredentialCache.DefaultCredentials;
+
             return r;
         }
 
