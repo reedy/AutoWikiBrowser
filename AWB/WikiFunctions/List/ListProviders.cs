@@ -134,6 +134,7 @@ namespace WikiFunctions.Lists
             return list;
         }
 
+        #region ListMaker properties
         public virtual string DisplayText
         { get { return "Category"; } }
 
@@ -147,6 +148,7 @@ namespace WikiFunctions.Lists
 
         public bool RunOnSeparateThread
         { get { return true; } }
+        #endregion
     }
 
     /// <summary>
@@ -356,7 +358,8 @@ namespace WikiFunctions.Lists
                 return list;
             }
         }
-        
+
+        #region ListMaker properties
         public string DisplayText
         { get { return "Text File"; } }
 
@@ -370,6 +373,7 @@ namespace WikiFunctions.Lists
 
         public bool RunOnSeparateThread
         { get { return false; } }
+        #endregion
     }
 
     /// <summary>
@@ -391,11 +395,6 @@ namespace WikiFunctions.Lists
 
             string request = "backlinks";
             string initial = "bl";
-            if (embedded)
-            {
-                request = "embeddedin";
-                initial = "ei";
-            }
             List<Article> list = new List<Article>();
 
             foreach (string page in searchCriteria)
@@ -454,6 +453,7 @@ namespace WikiFunctions.Lists
             return list;
         }
 
+        #region ListMaker properties
         public virtual string DisplayText
         { get { return "What links here"; } }
 
@@ -467,6 +467,7 @@ namespace WikiFunctions.Lists
 
         public bool RunOnSeparateThread
         { get { return true; } }
+        #endregion
     }
 
     /// <summary>
@@ -489,21 +490,53 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages which transclude the Named Pages
     /// </summary>
-    public class WhatTranscludesPageListMakerProvider : WhatLinksHereListProvider
+    public class WhatTranscludesPageListMakerProvider : ApiListProviderBase
     {
-        public WhatTranscludesPageListMakerProvider()
+        #region Tags: <embeddedin>/<ei>
+        static readonly List<string> pe = new List<string>(new string[] { "ei" });
+        protected override ICollection<string> PageElements
         {
-            this.embedded = true;
+            get { return pe; }
         }
 
-        public override List<Article> MakeList(params string[] searchCriteria)
-        { return base.MakeList(searchCriteria); }
+        static readonly List<string> ac = new List<string>(new string[] { "embeddedin" });
+        protected override ICollection<string> Actions
+        {
+            get { throw new NotImplementedException(); }
+        }
+        #endregion
 
+        public override List<Article> MakeList(params string[] searchCriteria)
+        {
+            List<Article> list = new List<Article>();
+
+            foreach (string page in searchCriteria)
+            {
+                string url = Variables.URLLong + "api.php?action=query&list=embeddedin&eititle="
+                    + HttpUtility.UrlEncode(page) + "&eilimit={limit}&format=xml";
+
+                list.AddRange(ApiMakeList(url, list.Count));
+            }
+
+            return list;
+        }
+
+        #region ListMaker properties
         public override string DisplayText
         { get { return "What transcludes page"; } }
 
         public override string UserInputTextBoxText
         { get { return "What embeds:"; } }
+
+        public override bool UserInputTextBoxEnabled
+        { get { return true; } }
+
+        public override void Selected()
+        { }
+
+        public override bool RunOnSeparateThread
+        { get { return true; } }
+        #endregion
     }
 
     /// <summary>
@@ -511,6 +544,7 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class LinksOnPageListProvider : ApiListProviderBase
     {
+        #region Tags: <links>/<pl>
         static readonly List<string> pe = new List<string>(new string[] { "pl" });
         protected override ICollection<string> PageElements
         {
@@ -522,6 +556,7 @@ namespace WikiFunctions.Lists
         {
             get { throw new NotImplementedException(); }
         }
+        #endregion
 
         public override List<Article> MakeList(params string[] searchCriteria)
         { 
@@ -540,6 +575,7 @@ namespace WikiFunctions.Lists
             return list;
         }
 
+        #region ListMaker properties
         public override string DisplayText
         { get { return "Links on page"; } }
 
@@ -553,6 +589,7 @@ namespace WikiFunctions.Lists
 
         public override bool RunOnSeparateThread
         { get { return true; } }
+        #endregion
     }
 
     /// <summary>
@@ -560,6 +597,7 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class ImagesOnPageListProvider : ApiListProviderBase
     {
+        #region Tags: <images>/<im>
         static readonly List<string> pe = new List<string>(new string[] { "im" });
         protected override ICollection<string> PageElements
         {
@@ -571,6 +609,7 @@ namespace WikiFunctions.Lists
         {
             get { return ac; }
         }
+        #endregion
 
         public override List<Article> MakeList(params string[] searchCriteria)
         { 
@@ -588,6 +627,7 @@ namespace WikiFunctions.Lists
             return list;
         }
 
+        #region ListMaker properties
         public override string DisplayText
         { get { return "Images on page"; } }
 
@@ -601,6 +641,7 @@ namespace WikiFunctions.Lists
 
         public override bool RunOnSeparateThread
         { get { return true; } }
+        #endregion
     }
 
     /// <summary>
@@ -608,6 +649,7 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class TransclusionsOnPageListProvider : ApiListProviderBase
     {
+        #region Tags: <templates>/<tl>
         static readonly List<string> pe = new List<string>(new string[] { "tl" });
         protected override ICollection<string> PageElements
         {
@@ -619,6 +661,7 @@ namespace WikiFunctions.Lists
         {
             get { return ac; }
         }
+        #endregion
 
         public override List<Article> MakeList(params string[] searchCriteria)
         { 
@@ -636,6 +679,7 @@ namespace WikiFunctions.Lists
             return list;
         }
 
+        #region ListMaker properties
         public override string DisplayText
         { get { return "Transclusions on page"; } }
 
@@ -649,6 +693,7 @@ namespace WikiFunctions.Lists
 
         public override bool RunOnSeparateThread
         { get { return true; } }
+        #endregion
     }
 
     /// <summary>
@@ -697,6 +742,7 @@ namespace WikiFunctions.Lists
             return Tools.FilterSomeArticles(list);
         }
 
+        #region ListMaker properties
         public string DisplayText
         { get { return "Google Search"; } }
 
@@ -710,6 +756,7 @@ namespace WikiFunctions.Lists
 
         public bool RunOnSeparateThread
         { get { return true; } }
+        #endregion
     }
 
     /// <summary>
@@ -775,6 +822,7 @@ namespace WikiFunctions.Lists
             return list;
         }
 
+        #region ListMaker properties
         public virtual string DisplayText
         { get { return "User contribs"; } }
 
@@ -788,6 +836,7 @@ namespace WikiFunctions.Lists
 
         public bool RunOnSeparateThread
         { get { return true; } }
+        #endregion
     }
 
     /// <summary>
@@ -814,6 +863,7 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class ImageFileLinksListProvider : ApiListProviderBase
     {
+        #region Tags: <imageusage>/<iu>
         static readonly List<string> pe = new List<string>(new string[] { "iu" });
         protected override ICollection<string> PageElements
         {
@@ -825,6 +875,7 @@ namespace WikiFunctions.Lists
         {
             get { return ac; }
         }
+        #endregion
 
         public override List<Article> MakeList(params string[] searchCriteria)
         {
@@ -845,6 +896,7 @@ namespace WikiFunctions.Lists
             return list;
         }
 
+        #region ListMaker properties
         public override string DisplayText
         { get { return "Image file links"; } }
 
@@ -858,6 +910,7 @@ namespace WikiFunctions.Lists
 
         public override bool RunOnSeparateThread
         { get { return true; } }
+        #endregion
     }
 
     /// <summary>
@@ -865,6 +918,7 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class WikiSearchListProvider : ApiListProviderBase
     {
+        #region Tags: <search>/<p>
         static readonly List<string> pe = new List<string>(new string[] { "p" });
         protected override ICollection<string> PageElements
         {
@@ -876,6 +930,7 @@ namespace WikiFunctions.Lists
         {
             get { return ac; }
         }
+        #endregion
 
         public WikiSearchListProvider()
         {
@@ -910,6 +965,7 @@ namespace WikiFunctions.Lists
             return list;
         }
 
+        #region ListMaker properties
         public override string DisplayText
         { get { return "Wiki search"; } }
 
@@ -923,14 +979,29 @@ namespace WikiFunctions.Lists
 
         public override bool RunOnSeparateThread
         { get { return true; } }
+        #endregion
     }
 
     /// <summary>
     /// Gets a list of pages which redirect to the Named Pages
     /// </summary>
-    public class RedirectsListProvider : IListProvider
+    public class RedirectsListProvider : ApiListProviderBase
     {
-        public List<Article> MakeList(params string[] searchCriteria)
+        #region Tags: <backlinks>/<bl>
+        static readonly List<string> pe = new List<string>(new string[] { "bl" });
+        protected override ICollection<string> PageElements
+        {
+            get { return pe; }
+        }
+
+        static readonly List<string> ac = new List<string>(new string[] { "backlinks" });
+        protected override ICollection<string> Actions
+        {
+            get { return ac; }
+        }
+        #endregion
+
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
@@ -938,77 +1009,31 @@ namespace WikiFunctions.Lists
 
             foreach (string onePage in searchCriteria)
             {
-                try
-                {
-                    string title = "";
-                    int ns = 0;
-                    string page = onePage;
-                    page = Tools.WikiEncode(page);
-                    string url = Variables.URLLong + "api.php?action=query&list=backlinks&bltitle=" + page + "&bllimit=500&blfilterredir=redirects&format=xml";
 
-                    while (true)
-                    {
-                        bool more = false;
-                        string html = Tools.GetHTML(url);
+                string page = HttpUtility.UrlEncode(onePage);
+                string url = Variables.URLLong + "api.php?action=query&list=backlinks&bltitle="
+                    + page + "&bllimit={limit}&blfilterredir=redirects&format=xml";
 
-                        using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
-                        {
-                            while (reader.Read())
-                            {
-                                if (reader.Name.Equals("bl"))
-                                {
-                                    if (reader.MoveToAttribute("ns"))
-                                        ns = int.Parse(reader.Value);
-                                    else
-                                        ns = 0;
-
-                                    if (reader.MoveToAttribute("title"))
-                                    {
-                                        title = reader.Value.ToString();
-                                        list.Add(new WikiFunctions.Article(title, ns));
-                                    }
-                                }
-                                else if (reader.Name.Equals("backlinks"))
-                                {
-                                    reader.MoveToAttribute("blcontinue");
-                                    if (reader.Value.Length != 0)
-                                    {
-                                        string continueFrom = reader.Value;
-                                        url = Variables.URLLong + "api.php?action=query&list=backlinks&bltitle=" + page + "&bllimit=500&blfilterredir=redirects&format=xml&blcontinue=" + continueFrom;
-                                        more = true;
-                                    }
-                                }
-                            }
-                            if (!more)
-                                break;
-                        }
-                    }
-                }
-                catch (ThreadAbortException)
-                {
-                    throw;
-                }
-                catch (Exception ex)
-                {
-                    ErrorHandler.Handle(ex);
-                }
+                list.AddRange(ApiMakeList(url, list.Count));
             }
             return list;
         }
 
-        public string DisplayText
+        #region ListMaker properties
+        public override string DisplayText
         { get { return "Redirects"; } }
 
-        public string UserInputTextBoxText
+        public override string UserInputTextBoxText
         { get { return "Redirects to:"; } }
 
-        public bool UserInputTextBoxEnabled
+        public override bool UserInputTextBoxEnabled
         { get { return true; } }
 
-        public void Selected() { }
+        public override void Selected() { }
 
-        public bool RunOnSeparateThread
+        public override bool RunOnSeparateThread
         { get { return true; } }
+        #endregion
     }
 
     /// <summary>
@@ -1046,6 +1071,7 @@ namespace WikiFunctions.Lists
             return list;
         }
 
+        #region ListMaker properties
         public string DisplayText
         { get { return "My Watchlist"; } }
 
@@ -1059,6 +1085,7 @@ namespace WikiFunctions.Lists
 
         public bool RunOnSeparateThread
         { get { return true; } }
+        #endregion
     }
 
     /// <summary>
@@ -1077,8 +1104,6 @@ namespace WikiFunctions.Lists
             this.listMakerListbox = lb;
         }
 
-        #region IListMakerProvider Members
-
         public List<Article> MakeList(params string[] searchCriteria)
         {
             WikiFunctions.DBScanner.DatabaseScanner ds = new WikiFunctions.DBScanner.DatabaseScanner(listMakerListbox);
@@ -1086,6 +1111,7 @@ namespace WikiFunctions.Lists
             return null;
         }
 
+        #region ListMaker properties
         public string DisplayText
         { get { return "Database dump"; } }
 
@@ -1099,7 +1125,6 @@ namespace WikiFunctions.Lists
 
         public bool RunOnSeparateThread
         { get { return false; } }
-
         #endregion
     }
 
@@ -1108,7 +1133,6 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class RandomPagesListProvider : IListProvider
     {
-        #region IListProvider Members
 
         public List<Article> MakeList(params string[] searchCriteria)
         {
@@ -1137,6 +1161,7 @@ namespace WikiFunctions.Lists
             return list;
         }
 
+        #region ListMaker properties
         public string DisplayText
         {
             get { return "Random Pages"; }
@@ -1158,7 +1183,6 @@ namespace WikiFunctions.Lists
         {
             get { return true; }
         }
-
         #endregion
     }
 }
