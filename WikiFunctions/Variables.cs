@@ -39,7 +39,7 @@ using System.Net;
 namespace WikiFunctions
 {
     public enum LangCodeEnum { en, ar, be, bg, ca, da, de, dsb, eo, es, fi, fr, he, hu, Is, it, ja, ku, nl, no, mi, pl, pt, ro, ru, simple, sk, sl, sq, sr, sv, ta, te, tj, uk, ur, zh }
-    public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, commons, meta, species, wikia, custom }
+    public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, species, commons, meta, mediawiki, wikia, custom }
 
     /// <summary>
     /// Holds some deepest-level things to be initialised prior to most other static classes,
@@ -207,7 +207,7 @@ namespace WikiFunctions
         public static bool IsWikimediaMonolingualProject
         {
             get { return (Project == ProjectEnum.commons || Project == ProjectEnum.meta
-                    || Project == ProjectEnum.species); } }
+                    || Project == ProjectEnum.species || Project == ProjectEnum.mediawiki); } }
 
         /// <summary>
         /// Returns true if we are currently editing a "custom" wiki
@@ -1143,6 +1143,12 @@ namespace WikiFunctions
                 Namespaces[130] = "Pomoč:";
                 Namespaces[131] = "Pogovor o pomoči:";
                 URL = "http://meta.wikimedia.org";
+                mLangCode = LangCodeEnum.en;
+            }
+            else if (projectName == ProjectEnum.mediawiki)
+            {
+                SetToEnglish("Project:", "Project talk:");
+                URL = "http://www.mediawiki.org";
                 mLangCode = LangCodeEnum.en;
             }
             else if (projectName == ProjectEnum.species)
