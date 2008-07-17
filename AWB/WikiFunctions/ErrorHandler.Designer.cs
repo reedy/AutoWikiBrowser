@@ -50,7 +50,7 @@ namespace WikiFunctions
             // btnClose
             // 
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(262, 391);
+            this.btnClose.Location = new System.Drawing.Point(262, 415);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(111, 23);
             this.btnClose.TabIndex = 4;
@@ -60,17 +60,17 @@ namespace WikiFunctions
             // txtDetails
             // 
             this.txtDetails.BackColor = System.Drawing.SystemColors.Control;
-            this.txtDetails.Location = new System.Drawing.Point(15, 177);
+            this.txtDetails.Location = new System.Drawing.Point(15, 199);
             this.txtDetails.Multiline = true;
             this.txtDetails.Name = "txtDetails";
             this.txtDetails.ReadOnly = true;
             this.txtDetails.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtDetails.Size = new System.Drawing.Size(358, 208);
+            this.txtDetails.Size = new System.Drawing.Size(358, 210);
             this.txtDetails.TabIndex = 5;
             // 
             // btnCopy
             // 
-            this.btnCopy.Location = new System.Drawing.Point(12, 391);
+            this.btnCopy.Location = new System.Drawing.Point(12, 415);
             this.btnCopy.Name = "btnCopy";
             this.btnCopy.Size = new System.Drawing.Size(124, 23);
             this.btnCopy.TabIndex = 6;
@@ -107,7 +107,7 @@ namespace WikiFunctions
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 157);
+            this.label2.Location = new System.Drawing.Point(12, 166);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(50, 13);
             this.label2.TabIndex = 9;
@@ -120,7 +120,7 @@ namespace WikiFunctions
             this.txtSubject.Multiline = true;
             this.txtSubject.Name = "txtSubject";
             this.txtSubject.ReadOnly = true;
-            this.txtSubject.Size = new System.Drawing.Size(305, 20);
+            this.txtSubject.Size = new System.Drawing.Size(305, 39);
             this.txtSubject.TabIndex = 10;
             this.txtSubject.Text = "AWB encountered an exception";
             // 
@@ -131,7 +131,7 @@ namespace WikiFunctions
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(385, 426);
+            this.ClientSize = new System.Drawing.Size(385, 450);
             this.Controls.Add(this.txtSubject);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.linkLabel1);

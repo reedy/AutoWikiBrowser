@@ -170,7 +170,7 @@ namespace WikiFunctions
             }
 
             // strip namespace for clarity
-            res = Regex.Match(res, @"\w+\.\w+$").Value;
+            res = Regex.Match(res, @"\w+\.{1,2}\w+$").Value;
 
             return res;
         }
