@@ -38,7 +38,7 @@ using System.Net;
 
 namespace WikiFunctions
 {
-    public enum LangCodeEnum { en, ar, be, bg, ca, da, de, dsb, eo, es, fi, fr, he, hu, Is, it, ja, ku, nl, no, mi, pl, pt, ro, ru, simple, sk, sl, sq, sr, sv, ta, te, tj, uk, ur, zh }
+    public enum LangCodeEnum { en, ar, be, bg, ca, da, de, dsb, eo, es, fi, fr, he, hi, hu, Is, it, ja, ku, nl, no, mi, pl, pt, ro, ru, simple, sk, sl, sq, sr, sv, ta, te, tj, uk, ur, zh }
     public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, species, commons, meta, mediawiki, wikia, custom }
 
     /// <summary>
@@ -642,6 +642,28 @@ namespace WikiFunctions
                         Namespaces[103] = "Discussion Projet:";
                         Namespaces[104] = "Référence:";
                         Namespaces[105] = "Discussion Référence:";
+                        break;
+
+                    case LangCodeEnum.hi:
+                        Namespaces[-2] = "Media:";
+                        Namespaces[-1] = "विशेष:";
+                        Namespaces[1] = "वार्ता:";
+                        Namespaces[2] = "सदस्य:";
+                        Namespaces[3] = "सदस्य वार्ता:";
+                        Namespaces[4] = "विकिपीडिया:";
+                        Namespaces[5] = "विकिपीडिया वार्ता:";
+                        Namespaces[6] = "चित्र:";
+                        Namespaces[7] = "चित्र वार्ता:";
+                        Namespaces[8] = "MediaWiki:";
+                        Namespaces[9] = "MediaWiki talk:";
+                        Namespaces[10] = "साँचा:";
+                        Namespaces[11] = "साँचा वार्ता:";
+                        Namespaces[12] = "Help:";
+                        Namespaces[13] = "Help talk:";
+                        Namespaces[14] = "श्रेणी:";
+                        Namespaces[15] = "श्रेणी वार्ता:";
+                        Namespaces[100] = "प्रवेशद्वार:";
+                        Namespaces[101] = "प्रवेशद्वार वार्ता:";
                         break;
 
                     case LangCodeEnum.hu:
@@ -1518,7 +1540,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 //load check page
                 if (Variables.IsWikia)
                     webBrowserLogin.Navigate("http://www.wikia.com/wiki/index.php?title=Wikia:AutoWikiBrowser/CheckPage&action=edit");
-                else if (Variables.Project == ProjectEnum.wikipedia && Variables.LangCode == LangCodeEnum.ar)
+                else if ((Variables.Project == ProjectEnum.wikipedia) && (Variables.LangCode == LangCodeEnum.ar))
                     webBrowserLogin.Navigate("http://ar.wikipedia.org/w/index.php?title=%D9%88%D9%8A%D9%83%D9%8A%D8%A8%D9%8A%D8%AF%D9%8A%D8%A7:%D9%82%D8%A7%D8%A6%D9%85%D8%A9_%D8%A7%D9%84%D9%88%D9%8A%D9%83%D9%8A%D8%A8%D9%8A%D8%AF%D9%8A%D9%88%D9%86_%D8%A7%D9%84%D9%85%D8%B3%D9%85%D9%88%D8%AD_%D9%84%D9%87%D9%85_%D8%A8%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85_%D8%A7%D9%84%D8%A3%D9%88%D8%AA%D9%88_%D9%88%D9%8A%D9%83%D9%8A_%D8%A8%D8%B1%D8%A7%D9%88%D8%B2%D8%B1&action=edit");
                 else
                     webBrowserLogin.Navigate(Variables.URLLong + "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");

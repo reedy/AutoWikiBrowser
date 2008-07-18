@@ -1641,12 +1641,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         public bool CheckStatus(bool Login)
         {
             StatusLabelText = "Loading page to check if we are logged in.";
-            WikiStatusResult result = Variables.User.UpdateWikiStatus();
 
             bool b = false;
             string label = "Software disabled";
 
-            switch (result)
+            switch (Variables.User.UpdateWikiStatus())
             {
                 case WikiStatusResult.Error:
                     lblUserName.BackColor = Color.Red;
