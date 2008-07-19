@@ -2785,9 +2785,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 editSummary = TheArticle.EditSummary;
 
             if (string.IsNullOrEmpty(editSummary))
-                toolTip1.SetToolTip(cmboEditSummary, "");
+                ToolTip.SetToolTip(cmboEditSummary, "");
             else
-                toolTip1.SetToolTip(cmboEditSummary, MakeSummary());
+                ToolTip.SetToolTip(cmboEditSummary, MakeSummary());
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -2964,7 +2964,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 if (panel1.Visible)
                     webBrowserEdit.Height = panel1.Location.Y - 48;
                 else
-                    webBrowserEdit.Height = statusStrip1.Location.Y - 48;
+                    webBrowserEdit.Height = StatusMain.Location.Y - 48;
             }
             else
             {
@@ -2972,7 +2972,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 if (panel1.Visible)
                     webBrowserEdit.Height = panel1.Location.Y - 25;
                 else
-                    webBrowserEdit.Height = statusStrip1.Location.Y - 25;
+                    webBrowserEdit.Height = StatusMain.Location.Y - 25;
             }
 
             webBrowserDiff.Location = webBrowserEdit.Location;
@@ -3786,7 +3786,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         #region various menus and event handlers
         private void txtFind_MouseHover(object sender, EventArgs e)
         {
-            toolTip1.SetToolTip(txtFind, txtFind.Text);
+            ToolTip.SetToolTip(txtFind, txtFind.Text);
         }
 
         private void btnWatch_Click(object sender, EventArgs e)

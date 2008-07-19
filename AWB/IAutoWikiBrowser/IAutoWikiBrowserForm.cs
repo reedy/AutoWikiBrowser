@@ -34,7 +34,7 @@ namespace AutoWikiBrowser
         Button IAutoWikiBrowserForm.DiffButton { get { return btnDiff; } }
         Button IAutoWikiBrowserForm.StartButton { get { return btnStart; } }
         ComboBox IAutoWikiBrowserForm.EditSummaryComboBox { get { return cmboEditSummary; } }
-        StatusStrip IAutoWikiBrowserForm.StatusStrip { get { return statusStrip1; } }
+        StatusStrip IAutoWikiBrowserForm.StatusStrip { get { return StatusMain; } }
         NotifyIcon IAutoWikiBrowserForm.NotifyIcon { get { return ntfyTray; } }
         RadioButton IAutoWikiBrowserForm.SkipNonExistentPages { get { return radSkipNonExistent; } }
         CheckBox IAutoWikiBrowserForm.ApplyGeneralFixesCheckBox { get { return chkGeneralFixes; } }
