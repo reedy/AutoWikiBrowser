@@ -61,10 +61,7 @@ namespace WikiFunctions.Lists
                     RemoveDuplicates();
 
                 if (chkSortAZ.Checked)
-                {
-                    destListBox.Sorted = true;
-                    destListBox.Sorted = false;
-                }
+                    destListBox.Sort();
 
                 list.Clear();
 
@@ -360,13 +357,13 @@ namespace WikiFunctions.Lists
         private void chkContains_CheckedChanged(object sender, EventArgs e)
         {
             txtContains.Enabled = chkContains.Checked;
-            chkIsRegex.Enabled = chkContains.Checked || chkNotContains.Checked;
+            chkIsRegex.Enabled = (chkContains.Checked || chkNotContains.Checked);
         }
 
         private void chkNotContains_CheckedChanged(object sender, EventArgs e)
         {
             txtDoesNotContain.Enabled = chkNotContains.Checked;
-            chkIsRegex.Enabled = chkContains.Checked || chkNotContains.Checked;
+            chkIsRegex.Enabled = (chkContains.Checked || chkNotContains.Checked);
         }
 
         public void UpdateText()
@@ -390,10 +387,11 @@ namespace WikiFunctions.Lists
             {
                 chkPortal.Text = Variables.Namespaces[100];
                 chkPortalTalk.Text = Variables.Namespaces[101];
-            }
 
-            chkPortal.Visible = (Variables.Namespaces.ContainsKey(100));
-            chkPortalTalk.Visible = (Variables.Namespaces.ContainsKey(101));
+                chkPortal.Visible = chkPortalTalk.Visible = true;
+            }
+            else
+                chkPortal.Visible = chkPortalTalk.Visible = false;
         }
 
         private void specialFilter_Load(object sender, EventArgs e)
@@ -410,25 +408,54 @@ namespace WikiFunctions.Lists
             if (Visible) UpdateText();
         }
 
+        private void GetListTags(Control.ControlCollection controls)
+        {
+            foreach (Control cntrl in controls)
+            {
+                if (cntrl is FlowLayoutPanel)
+                {
+                    GetListTags(cntrl.Controls);
+                    continue;
+                }
+
+                tmp = (cntrl as CheckBox);
+
+                if (tmp == null)
+                    continue;
+
+                if (tmp.Checked && tmp.Tag != null)
+                    prefs.namespaceValues.Add((int)tmp.Tag);
+            }
+        }
+
+        private void SetListTags(Control.ControlCollection controls)
+        {
+            foreach (Control cntrl in controls)
+            {
+                if (cntrl is FlowLayoutPanel)
+                {
+                    SetListTags(cntrl.Controls);
+                    continue;
+                }
+
+                tmp = (cntrl as CheckBox);
+
+                if (tmp == null)
+                    continue;
+
+                if (tmp.Tag != null)
+                    tmp.Checked = prefs.namespaceValues.Contains((int)tmp.Tag);
+            }
+        }
+
         CheckBox tmp;
         public WikiFunctions.AWBSettings.SpecialFilterPrefs Settings
         {
             get
             {
                 prefs = new WikiFunctions.AWBSettings.SpecialFilterPrefs();
-                
-                foreach (Control chk in gbNamespaces.Controls)
-                //foreach (Control chk in flwTalk.Controls)
-                {
-                    tmp = (chk as CheckBox);
 
-                    if (tmp == null)
-                        continue;
-
-                    // Why is the Tag number a different number from the namespace number?
-                    if (tmp.Checked && tmp.Tag != null)
-                        prefs.namespaceValues.Add((int)tmp.Tag);
-                }
+                GetListTags(gbNamespaces.Controls);
 
                 prefs.filterTitlesThatContain = chkContains.Checked;
                 prefs.filterTitlesThatContainText = txtContains.Text;
@@ -450,18 +477,10 @@ namespace WikiFunctions.Lists
             {
                 prefs = value;
 
-                /*if ((prefs != null) && (prefs.namespaceValues.Count > 0))
+                if ((prefs != null) && (prefs.namespaceValues.Count > 0))
                 {
-                    foreach (Control chk in groupBox1.Controls)
-                    {
-                        tmp = (chk as CheckBox);
-
-                        if (tmp == null)
-                            continue;
-
-                        tmp.Checked = prefs.namespaceValues.Contains((int)tmp.Tag);
-                    }
-                }*/
+                    SetListTags(gbNamespaces.Controls);
+                }
 
                 chkContains.Checked = prefs.filterTitlesThatContain;
                 txtContains.Text = prefs.filterTitlesThatContainText;

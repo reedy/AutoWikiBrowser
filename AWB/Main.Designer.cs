@@ -1552,7 +1552,6 @@ namespace AutoWikiBrowser
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(117, 36);
             this.btnSave.TabIndex = 10;
-            this.btnSave.Tag = "Apply all the changes";
             this.btnSave.Text = "&Save";
             this.ToolTip.SetToolTip(this.btnSave, "Save the changes and continue  (Ctrl + S)");
             this.btnSave.UseVisualStyleBackColor = false;
@@ -1579,7 +1578,6 @@ namespace AutoWikiBrowser
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(117, 23);
             this.btnStart.TabIndex = 1;
-            this.btnStart.Tag = "Start the process";
             this.btnStart.Text = "Start";
             this.ToolTip.SetToolTip(this.btnStart, "Start the process! (Ctrl + G)");
             this.btnStart.UseVisualStyleBackColor = false;
@@ -1709,7 +1707,6 @@ namespace AutoWikiBrowser
             this.chkGeneralFixes.Name = "chkGeneralFixes";
             this.chkGeneralFixes.Size = new System.Drawing.Size(114, 17);
             this.chkGeneralFixes.TabIndex = 1;
-            this.chkGeneralFixes.Tag = "Apply general minor fixes";
             this.chkGeneralFixes.Text = "Apply general fixes";
             this.ToolTip.SetToolTip(this.chkGeneralFixes, "Apply general minor fixes");
             this.chkGeneralFixes.CheckedChanged += new System.EventHandler(this.chkGeneralParse_CheckedChanged);
@@ -2483,7 +2480,6 @@ namespace AutoWikiBrowser
             this.listMaker1.SelectedSource = 0;
             this.listMaker1.Size = new System.Drawing.Size(205, 349);
             this.listMaker1.SourceText = "";
-            this.listMaker1.SpecialFilterSettings = ((WikiFunctions.AWBSettings.SpecialFilterPrefs)(resources.GetObject("listMaker1.SpecialFilterSettings")));
             this.listMaker1.TabIndex = 0;
             // 
             // MainTab
