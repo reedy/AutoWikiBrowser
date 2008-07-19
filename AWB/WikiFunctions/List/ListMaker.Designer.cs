@@ -150,7 +150,6 @@ namespace WikiFunctions.Controls.Lists
             this.btnGenerate.Name = "btnGenerate";
             this.btnGenerate.Size = new System.Drawing.Size(74, 25);
             this.btnGenerate.TabIndex = 5;
-            this.btnGenerate.Tag = "Get all pages needing editting";
             this.btnGenerate.Text = "Make list";
             this.tooltip.SetToolTip(this.btnGenerate, "Generate a list from the selected options above");
             this.btnGenerate.Click += new System.EventHandler(this.btnMakeList_Click);
@@ -177,7 +176,6 @@ namespace WikiFunctions.Controls.Lists
             this.cmboSourceSelect.Size = new System.Drawing.Size(138, 21);
             this.cmboSourceSelect.Sorted = true;
             this.cmboSourceSelect.TabIndex = 1;
-            this.cmboSourceSelect.Tag = "Select the type of list generator";
             this.cmboSourceSelect.SelectedIndexChanged += new System.EventHandler(this.cmboSourceSelect_SelectedIndexChanged);
             // 
             // mnuListBox

@@ -857,8 +857,7 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public void AlphaSortList()
         {
-            lbArticles.Sorted = true;
-            lbArticles.Sorted = false;
+            lbArticles.Sort();
         }
 
         /// <summary>

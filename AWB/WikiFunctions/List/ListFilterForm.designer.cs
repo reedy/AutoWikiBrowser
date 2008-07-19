@@ -109,7 +109,7 @@ namespace WikiFunctions.Lists
             this.chkCategory.Name = "chkCategory";
             this.chkCategory.Size = new System.Drawing.Size(68, 17);
             this.chkCategory.TabIndex = 14;
-            this.chkCategory.Tag = 1;
+            this.chkCategory.Tag = "14";
             this.chkCategory.Text = "Category";
             this.chkCategory.Click += new System.EventHandler(this.Content_CheckedChanged);
             // 
@@ -122,7 +122,7 @@ namespace WikiFunctions.Lists
             this.chkTemplate.Name = "chkTemplate";
             this.chkTemplate.Size = new System.Drawing.Size(70, 17);
             this.chkTemplate.TabIndex = 10;
-            this.chkTemplate.Tag = 2;
+            this.chkTemplate.Tag = "10";
             this.chkTemplate.Text = "Template";
             this.chkTemplate.Click += new System.EventHandler(this.Content_CheckedChanged);
             // 
@@ -135,7 +135,7 @@ namespace WikiFunctions.Lists
             this.chkWikipedia.Name = "chkWikipedia";
             this.chkWikipedia.Size = new System.Drawing.Size(94, 17);
             this.chkWikipedia.TabIndex = 4;
-            this.chkWikipedia.Tag = 3;
+            this.chkWikipedia.Tag = "4";
             this.chkWikipedia.Text = "(Project name)";
             this.chkWikipedia.Click += new System.EventHandler(this.Content_CheckedChanged);
             // 
@@ -148,7 +148,7 @@ namespace WikiFunctions.Lists
             this.chkUser.Name = "chkUser";
             this.chkUser.Size = new System.Drawing.Size(48, 17);
             this.chkUser.TabIndex = 2;
-            this.chkUser.Tag = 4;
+            this.chkUser.Tag = "2";
             this.chkUser.Text = "User";
             this.chkUser.Click += new System.EventHandler(this.Content_CheckedChanged);
             // 
@@ -161,7 +161,7 @@ namespace WikiFunctions.Lists
             this.chkImage.Name = "chkImage";
             this.chkImage.Size = new System.Drawing.Size(58, 17);
             this.chkImage.TabIndex = 6;
-            this.chkImage.Tag = 5;
+            this.chkImage.Tag = "6";
             this.chkImage.Text = "Image:";
             this.chkImage.Click += new System.EventHandler(this.Content_CheckedChanged);
             // 
@@ -229,7 +229,7 @@ namespace WikiFunctions.Lists
             this.chkArticle.Name = "chkArticle";
             this.chkArticle.Size = new System.Drawing.Size(54, 17);
             this.chkArticle.TabIndex = 0;
-            this.chkArticle.Tag = 6;
+            this.chkArticle.Tag = "0";
             this.chkArticle.Text = "(main)";
             this.chkArticle.Click += new System.EventHandler(this.Content_CheckedChanged);
             // 
@@ -242,7 +242,7 @@ namespace WikiFunctions.Lists
             this.chkArticleTalk.Name = "chkArticleTalk";
             this.chkArticleTalk.Size = new System.Drawing.Size(47, 17);
             this.chkArticleTalk.TabIndex = 1;
-            this.chkArticleTalk.Tag = 7;
+            this.chkArticleTalk.Tag = "1";
             this.chkArticleTalk.Text = "Talk";
             this.chkArticleTalk.Click += new System.EventHandler(this.Talk_CheckedChanged);
             // 
@@ -255,7 +255,7 @@ namespace WikiFunctions.Lists
             this.chkUserTalk.Name = "chkUserTalk";
             this.chkUserTalk.Size = new System.Drawing.Size(68, 17);
             this.chkUserTalk.TabIndex = 3;
-            this.chkUserTalk.Tag = 8;
+            this.chkUserTalk.Tag = "3";
             this.chkUserTalk.Text = "User talk";
             this.chkUserTalk.Click += new System.EventHandler(this.Talk_CheckedChanged);
             // 
@@ -268,7 +268,7 @@ namespace WikiFunctions.Lists
             this.chkWikipediaTalk.Name = "chkWikipediaTalk";
             this.chkWikipediaTalk.Size = new System.Drawing.Size(79, 17);
             this.chkWikipediaTalk.TabIndex = 5;
-            this.chkWikipediaTalk.Tag = 9;
+            this.chkWikipediaTalk.Tag = "5";
             this.chkWikipediaTalk.Text = "Project talk";
             this.chkWikipediaTalk.Click += new System.EventHandler(this.Talk_CheckedChanged);
             // 
@@ -281,7 +281,7 @@ namespace WikiFunctions.Lists
             this.chkImageTalk.Name = "chkImageTalk";
             this.chkImageTalk.Size = new System.Drawing.Size(75, 17);
             this.chkImageTalk.TabIndex = 7;
-            this.chkImageTalk.Tag = 10;
+            this.chkImageTalk.Tag = "7";
             this.chkImageTalk.Text = "Image talk";
             this.chkImageTalk.Click += new System.EventHandler(this.Talk_CheckedChanged);
             // 
@@ -292,7 +292,7 @@ namespace WikiFunctions.Lists
             this.chkMediaWiki.Name = "chkMediaWiki";
             this.chkMediaWiki.Size = new System.Drawing.Size(76, 17);
             this.chkMediaWiki.TabIndex = 8;
-            this.chkMediaWiki.Tag = 11;
+            this.chkMediaWiki.Tag = "8";
             this.chkMediaWiki.Text = "MediaWiki";
             this.chkMediaWiki.Click += new System.EventHandler(this.Content_CheckedChanged);
             // 
@@ -303,7 +303,7 @@ namespace WikiFunctions.Lists
             this.chkMediaWikiTalk.Name = "chkMediaWikiTalk";
             this.chkMediaWikiTalk.Size = new System.Drawing.Size(96, 17);
             this.chkMediaWikiTalk.TabIndex = 9;
-            this.chkMediaWikiTalk.Tag = 12;
+            this.chkMediaWikiTalk.Tag = "9";
             this.chkMediaWikiTalk.Text = "MediaWiki talk";
             this.chkMediaWikiTalk.Click += new System.EventHandler(this.Talk_CheckedChanged);
             // 
@@ -316,7 +316,7 @@ namespace WikiFunctions.Lists
             this.chkTemplateTalk.Name = "chkTemplateTalk";
             this.chkTemplateTalk.Size = new System.Drawing.Size(90, 17);
             this.chkTemplateTalk.TabIndex = 11;
-            this.chkTemplateTalk.Tag = 13;
+            this.chkTemplateTalk.Tag = "11";
             this.chkTemplateTalk.Text = "Template talk";
             this.chkTemplateTalk.Click += new System.EventHandler(this.Talk_CheckedChanged);
             // 
@@ -327,7 +327,7 @@ namespace WikiFunctions.Lists
             this.chkHelp.Name = "chkHelp";
             this.chkHelp.Size = new System.Drawing.Size(48, 17);
             this.chkHelp.TabIndex = 12;
-            this.chkHelp.Tag = 14;
+            this.chkHelp.Tag = "12";
             this.chkHelp.Text = "Help";
             this.chkHelp.Click += new System.EventHandler(this.Content_CheckedChanged);
             // 
@@ -338,7 +338,7 @@ namespace WikiFunctions.Lists
             this.chkHelpTalk.Name = "chkHelpTalk";
             this.chkHelpTalk.Size = new System.Drawing.Size(68, 17);
             this.chkHelpTalk.TabIndex = 13;
-            this.chkHelpTalk.Tag = 15;
+            this.chkHelpTalk.Tag = "13";
             this.chkHelpTalk.Text = "Help talk";
             this.chkHelpTalk.Click += new System.EventHandler(this.Talk_CheckedChanged);
             // 
@@ -351,7 +351,7 @@ namespace WikiFunctions.Lists
             this.chkCategoryTalk.Name = "chkCategoryTalk";
             this.chkCategoryTalk.Size = new System.Drawing.Size(88, 17);
             this.chkCategoryTalk.TabIndex = 15;
-            this.chkCategoryTalk.Tag = 16;
+            this.chkCategoryTalk.Tag = "15";
             this.chkCategoryTalk.Text = "Category talk";
             this.chkCategoryTalk.Click += new System.EventHandler(this.Talk_CheckedChanged);
             // 
@@ -362,7 +362,7 @@ namespace WikiFunctions.Lists
             this.chkPortal.Name = "chkPortal";
             this.chkPortal.Size = new System.Drawing.Size(53, 17);
             this.chkPortal.TabIndex = 100;
-            this.chkPortal.Tag = 17;
+            this.chkPortal.Tag = "16";
             this.chkPortal.Text = "Portal";
             this.chkPortal.Click += new System.EventHandler(this.Content_CheckedChanged);
             // 
@@ -373,7 +373,7 @@ namespace WikiFunctions.Lists
             this.chkPortalTalk.Name = "chkPortalTalk";
             this.chkPortalTalk.Size = new System.Drawing.Size(73, 17);
             this.chkPortalTalk.TabIndex = 101;
-            this.chkPortalTalk.Tag = 18;
+            this.chkPortalTalk.Tag = "17";
             this.chkPortalTalk.Text = "Portal talk";
             this.chkPortalTalk.Click += new System.EventHandler(this.Talk_CheckedChanged);
             // 
@@ -416,6 +416,7 @@ namespace WikiFunctions.Lists
             this.chkTalk.Name = "chkTalk";
             this.chkTalk.Size = new System.Drawing.Size(47, 17);
             this.chkTalk.TabIndex = 2;
+            this.chkTalk.Tag = "1001";
             this.chkTalk.Text = "&Talk";
             this.chkTalk.CheckedChanged += new System.EventHandler(this.chkTalk_CheckedChanged);
             // 
@@ -445,6 +446,7 @@ namespace WikiFunctions.Lists
             this.chkContents.Name = "chkContents";
             this.chkContents.Size = new System.Drawing.Size(63, 17);
             this.chkContents.TabIndex = 0;
+            this.chkContents.Tag = "1000";
             this.chkContents.Text = "&Content";
             this.chkContents.CheckedChanged += new System.EventHandler(this.chkContents_CheckedChanged);
             // 

@@ -55,5 +55,11 @@ namespace WikiFunctions.Controls.Lists
                 i++;
             }
         }
+
+        public void Sort()
+        {
+            this.Sorted = true;
+            this.Sorted = false;
+        }
     }
 }
