@@ -35,9 +35,9 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets the list of pages on the Named Special Pages
     /// </summary>
-    public partial class SpecialPageListMakerProvider : Form, IListProvider
+    public partial class SpecialPageListProvider : Form, IListProvider
     {
-        public SpecialPageListMakerProvider()
+        public SpecialPageListProvider()
         {
             InitializeComponent();
         }
