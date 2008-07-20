@@ -420,7 +420,7 @@ namespace WikiFunctions.Lists
 
                 tmp = (cntrl as CheckBox);
 
-                if (tmp == null && tmp.Checked && tmp.Tag != null)
+                if (tmp != null && tmp.Checked && tmp.Tag != null)
                     prefs.namespaceValues.Add(int.Parse(tmp.Tag.ToString()));
             }
         }
