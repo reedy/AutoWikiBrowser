@@ -99,6 +99,7 @@ namespace WikiFunctions.Lists
 
         private void SpecialPageListMakerProvider_Load(object sender, EventArgs e)
         {
+            cboNamespace.Items.Clear();
             foreach (string name in Variables.Namespaces.Values)
             {
                 cboNamespace.Items.Add(name);
