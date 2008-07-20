@@ -420,11 +420,8 @@ namespace WikiFunctions.Lists
 
                 tmp = (cntrl as CheckBox);
 
-                if (tmp == null)
-                    continue;
-
-                if (tmp.Checked && tmp.Tag != null)
-                    prefs.namespaceValues.Add((int)tmp.Tag);
+                if (tmp == null && tmp.Checked && tmp.Tag != null)
+                    prefs.namespaceValues.Add(int.Parse(tmp.Tag.ToString()));
             }
         }
 
@@ -440,11 +437,8 @@ namespace WikiFunctions.Lists
 
                 tmp = (cntrl as CheckBox);
 
-                if (tmp == null)
-                    continue;
-
-                if (tmp.Tag != null)
-                    tmp.Checked = prefs.namespaceValues.Contains((int)tmp.Tag);
+                if (tmp != null && tmp.Tag != null)
+                    tmp.Checked = prefs.namespaceValues.Contains(int.Parse(tmp.Tag.ToString()));
             }
         }
 
