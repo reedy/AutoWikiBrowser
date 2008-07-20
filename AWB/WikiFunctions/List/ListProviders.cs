@@ -1069,6 +1069,36 @@ namespace WikiFunctions.Lists
             }
 
             return list;
+
+            //TODO:API way to get watchlist.. Doesnt seem to show as logged in
+            //List<Article> list = new List<Article>();
+
+            //string url = Variables.URLLong + "api.php?action=query&list=watchlist&wllimit=500&wlprop=title&format=xml";
+            //string html = Tools.GetHTML(url);
+            //string title;
+            //int ns;
+
+            //using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
+            //{
+            //    while (reader.Read())
+            //    {
+            //        if (reader.Name.Equals("item"))
+            //        {
+            //            if (reader.MoveToAttribute("ns"))
+            //                ns = int.Parse(reader.Value);
+            //            else
+            //                ns = 0;
+
+            //            if (reader.MoveToAttribute("title"))
+            //            {
+            //                title = reader.Value.ToString();
+            //                list.Add(new WikiFunctions.Article(title, ns));
+            //            }
+            //        }
+            //    }
+            //}
+
+            //return list;
         }
 
         #region ListMaker properties
