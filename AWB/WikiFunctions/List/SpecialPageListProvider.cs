@@ -37,35 +37,37 @@ namespace WikiFunctions.Lists
     /// </summary>
     public partial class SpecialPageListProvider : Form, IListProvider
     {
+        private static BindingList<ISpecialPageProvider> listItems = new BindingList<ISpecialPageProvider>();
+
         public SpecialPageListProvider()
         {
             InitializeComponent();
+
+            if (listItems.Count == 0)
+            {
+                listItems.Add(new PrefixIndexSpecialPageProvider());
+                listItems.Add(new AllPagesSpecialPageProvider());
+            }
+
+            cmboSourceSelect.DataSource = listItems;
+            cmboSourceSelect.DisplayMember = "DisplayText";
+            cmboSourceSelect.ValueMember = "DisplayText";
         }
 
         public List<Article> MakeList(params string[] searchCriteria)
         {
-            //searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
-            txtSource.Text = "";
-            foreach (string crit in searchCriteria)
-            {
-                txtSource.Text += crit + "|";
-            }
-
-            txtSource.Text = txtSource.Text.Substring(0, txtSource.Text.LastIndexOf('|'));
+            txtPages.Text = "";
 
             List<Article> list = new List<Article>();
 
             if (this.ShowDialog() == DialogResult.OK)
             {
-                searchCriteria = txtSource.Text.Split(new char[] { '|' });
-                if (radAllPages.Checked)
-                {
-                    list = new AllPagesSpecialPageProvider().MakeList(Tools.CalculateNS(cboNamespace.Text), searchCriteria);
-                }
-                else if (radPrefixIndex.Checked)
-                {
-                    list = new PrefixIndexSpecialPageProvider().MakeList(Tools.CalculateNS(cboNamespace.Text), searchCriteria);
-                }
+                searchCriteria = txtPages.Text.Split(new char[] { '|' });
+
+                ISpecialPageProvider item = (ISpecialPageProvider)cmboSourceSelect.SelectedItem;
+
+                if (item.PagesNeeded && !string.IsNullOrEmpty(txtPages.Text))
+                    list = item.MakeList(Tools.CalculateNS(cboNamespace.Text), searchCriteria);
             }
             
             return Tools.FilterSomeArticles(list);
@@ -75,10 +77,10 @@ namespace WikiFunctions.Lists
         { get { return "Special page"; } }
 
         public string UserInputTextBoxText
-        { get { return "Target page(s):"; } }
+        { get { return ""; } }
 
         public bool UserInputTextBoxEnabled
-        { get { return true; } }
+        { get { return false; } }
 
         public void Selected() { }
 
@@ -105,11 +107,21 @@ namespace WikiFunctions.Lists
                 cboNamespace.Items.Add(name);
             }
         }
+
+        private void cmboSourceSelect_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (DesignMode) return;
+
+            txtPages.Enabled = cboNamespace.Enabled = ((ISpecialPageProvider)cmboSourceSelect.SelectedItem).PagesTextBoxEnabled;
+        }
     }
 
     interface ISpecialPageProvider
     {
         List<Article> MakeList(int Namespace, params string[] searchCriteria);
+        string DisplayText { get; }
+        bool PagesTextBoxEnabled { get; }
+        bool PagesNeeded { get; }
     }
 
     public class AllPagesSpecialPageProvider : ISpecialPageProvider
@@ -159,10 +171,23 @@ namespace WikiFunctions.Lists
                         break;
                 }
             }
-
             return list;
         }
 
+        public virtual string DisplayText
+        {
+            get { return "All Pages"; }
+        }
+
+        public virtual bool PagesTextBoxEnabled
+        {
+            get { return true; }
+        }
+
+        public virtual bool PagesNeeded
+        {
+            get { return false; }
+        }
         #endregion
     }
 
@@ -176,6 +201,21 @@ namespace WikiFunctions.Lists
         public override List<Article> MakeList(int Namespace, params string[] searchCriteria)
         {
             return base.MakeList(Namespace, searchCriteria);
+        }
+
+        public override string DisplayText
+        {
+            get { return "All pages with prefix (Prefixindex)"; }
+        }
+
+        public override bool PagesTextBoxEnabled
+        {
+            get { return true; }
+        }
+
+        public override bool PagesNeeded
+        {
+            get { return true; }
         }
     }
 }
