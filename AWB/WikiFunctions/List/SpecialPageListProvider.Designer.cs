@@ -1,6 +1,6 @@
 ﻿namespace WikiFunctions.Lists
 {
-    partial class SpecialPageListMakerProvider
+    partial class SpecialPageListProvider
     {
         /// <summary>
         /// Required designer variable.

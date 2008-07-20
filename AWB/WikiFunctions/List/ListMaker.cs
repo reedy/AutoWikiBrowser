@@ -85,7 +85,7 @@ namespace WikiFunctions.Controls.Lists
                 listItems.Add(new GoogleSearchListProvider());
                 listItems.Add(new UserContribsListProvider());
                 listItems.Add(new UserContribsAllListProvider());
-                listItems.Add(new SpecialPageListMakerProvider());
+                listItems.Add(new SpecialPageListProvider());
                 listItems.Add(imageFileLinksLProvider);
                 listItems.Add(new DatabaseScannerListProvider(lbArticles));
                 listItems.Add(new MyWatchlistListProvider());
