@@ -56,7 +56,7 @@ namespace WikiFunctions.Controls.Lists
             }
         }
 
-        public void Sort()
+        public new void Sort()
         {
             this.Sorted = true;
             this.Sorted = false;
