@@ -239,7 +239,7 @@ namespace AutoWikiBrowser
             this.chkSkipGeneralFixes = new System.Windows.Forms.CheckBox();
             this.chkSkipCasing = new System.Windows.Forms.CheckBox();
             this.imgComment = new System.Windows.Forms.PictureBox();
-            this.txtEdit = new System.Windows.Forms.TextBox();
+            this.txtEdit = new WikiFunctions.Controls.ArticleTextBox();
             this.mnuHistory = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -3990,7 +3990,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button btnIgnore;
         private System.Windows.Forms.TabControl EditBoxTab;
         private System.Windows.Forms.TabPage tpEdit;
-        private System.Windows.Forms.TextBox txtEdit;
+        private WikiFunctions.Controls.ArticleTextBox txtEdit;
         private System.Windows.Forms.TabPage tpLogs;
         private System.Windows.Forms.ToolStripButton btntsShowHideParameters;
         private System.Windows.Forms.ToolStripMenuItem enlargeEditAreaToolStripMenuItem;

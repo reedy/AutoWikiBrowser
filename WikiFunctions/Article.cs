@@ -142,13 +142,6 @@ namespace WikiFunctions
         { get { return mEditSummary; } set { mEditSummary = value; } }
 
         /// <summary>
-        ///  Last stored EditSummary before reset
-        /// </summary>
-        [XmlIgnore]
-        public string SavedSummary
-        { get { return mSavedSummary; } }
-
-        /// <summary>
         /// Returns true if the article is a stub (a very short article or an article tagged with a "stub template")
         /// </summary>
         [XmlIgnore]
@@ -188,15 +181,6 @@ namespace WikiFunctions
         #endregion
 
         #region AWB worker subroutines
-        /// <summary>
-        /// Save the contents of the EditSummary property in the SavedSummary property
-        /// </summary>
-        public void SaveSummary()
-        {
-            mSavedSummary =
-              mEditSummary; // EditSummary gets reset by MainForm.txtEdit_TextChanged before it's used, I don't know why
-        }
-
         /// <summary>
         /// AWB skips the article; passed through to the underlying AWBLogListener object
         /// </summary>

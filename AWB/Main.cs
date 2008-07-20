@@ -734,7 +734,6 @@ namespace AutoWikiBrowser
             }
 
             webBrowserEdit.SetArticleText(TheArticle.ArticleText);
-            TheArticle.SaveSummary();
             txtEdit.Text = TheArticle.ArticleText;
 
             //Update statistics and alerts
@@ -1333,6 +1332,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             try
             {
                 txtEdit.Text = diff.UndoChange(left, right);
+                TheArticle.EditSummary = "";
                 GetDiff();
             }
             catch (Exception ex)
@@ -1346,6 +1346,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             try
             {
                 txtEdit.Text = diff.UndoDeletion(left, right);
+                TheArticle.EditSummary = "";
                 GetDiff();
             }
             catch (Exception ex)
@@ -1359,6 +1360,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             try
             {
                 txtEdit.Text = diff.UndoAddition(right);
+                TheArticle.EditSummary = "";
                 GetDiff();
             }
             catch (Exception ex)
@@ -1509,7 +1511,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private string MakeSummary()
         {
-            string tag = cmboEditSummary.Text + TheArticle.SavedSummary;
+            string tag = cmboEditSummary.Text + TheArticle.EditSummary;
 
             if ((Variables.User.IsBot && chkSuppressTag.Checked)
                 || (!Variables.IsWikimediaProject && SuppressUsingAWB))
@@ -3480,6 +3482,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void undoAllChangesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             txtEdit.Text = TheArticle.OriginalArticleText;
+            TheArticle.EditSummary = "";
         }
 
         private void reloadEditPageToolStripMenuItem_Click(object sender, EventArgs e)

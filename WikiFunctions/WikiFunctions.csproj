@@ -84,6 +84,9 @@
       <DependentUpon>UserPassword.cs</DependentUpon>
     </Compile>
     <Compile Include="Background.cs" />
+    <Compile Include="Controls\ArticleTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Help.cs">
       <SubType>Form</SubType>
     </Compile>
