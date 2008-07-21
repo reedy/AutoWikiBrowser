@@ -803,7 +803,7 @@ namespace WikiFunctions.Browser
             this.AllowNavigation = true;
             ProcessStage = enumProcessStage.none;
             Status = "Logging Out";
-            this.Navigate(Variables.URLLong + "index.php?title=Special:Userlogout");
+            this.Navigate(Variables.URLLong + "api.php?action=logout");
             Busy = false;
         }
 
