@@ -87,18 +87,6 @@ namespace WikiFunctions.Lists
         public bool RunOnSeparateThread
         { get { return true; } }
 
-        private void btnOk_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.OK;
-            this.Close();
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
-        }
-
         private void SpecialPageListMakerProvider_Load(object sender, EventArgs e)
         {
             cboNamespace.Items.Clear();
