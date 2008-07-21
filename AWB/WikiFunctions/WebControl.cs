@@ -823,7 +823,7 @@ namespace WikiFunctions.Browser
                 return;
             }
 
-            if (this.Url.AbsolutePath.Contains("Userlogout"))
+            if (this.Url.AbsolutePath.Contains("api.php?action=logout"))
                 this.AllowNavigation = false;
             else if (ProcessStage == enumProcessStage.load)
             {
