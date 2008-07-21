@@ -223,7 +223,7 @@ namespace WikiFunctions.Lists
             {
                 using (WikiFunctions.Controls.LevelNumber num = new WikiFunctions.Controls.LevelNumber())
                 {
-                    num.ShowDialog();
+                    if (num.ShowDialog() != DialogResult.OK) return new List<Article>();
                     level = num.Levels;
                 }
             }

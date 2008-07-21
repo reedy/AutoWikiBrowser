@@ -19,10 +19,5 @@ namespace WikiFunctions.Controls
         {
             get { return (int)numLevels.Value; }
         }
-
-        private void btnOk_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
     }
 }
