@@ -40,30 +40,29 @@
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(85, 91);
+            this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnOk.Location = new System.Drawing.Point(98, 94);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 0;
-            this.btnOk.Text = "&Ok";
+            this.btnOk.Text = "&OK";
             this.btnOk.UseVisualStyleBackColor = true;
-            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(166, 91);
+            this.btnCancel.Location = new System.Drawing.Point(179, 94);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 1;
             this.btnCancel.Text = "&Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // cboNamespace
             // 
             this.cboNamespace.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboNamespace.FormattingEnabled = true;
-            this.cboNamespace.Location = new System.Drawing.Point(85, 64);
+            this.cboNamespace.Location = new System.Drawing.Point(98, 65);
             this.cboNamespace.Name = "cboNamespace";
             this.cboNamespace.Size = new System.Drawing.Size(156, 21);
             this.cboNamespace.TabIndex = 9;
@@ -71,7 +70,7 @@
             // lblNamespace
             // 
             this.lblNamespace.AutoSize = true;
-            this.lblNamespace.Location = new System.Drawing.Point(12, 67);
+            this.lblNamespace.Location = new System.Drawing.Point(12, 68);
             this.lblNamespace.Name = "lblNamespace";
             this.lblNamespace.Size = new System.Drawing.Size(67, 13);
             this.lblNamespace.TabIndex = 10;
@@ -80,7 +79,7 @@
             // lblSource
             // 
             this.lblSource.AutoSize = true;
-            this.lblSource.Location = new System.Drawing.Point(39, 15);
+            this.lblSource.Location = new System.Drawing.Point(12, 15);
             this.lblSource.Name = "lblSource";
             this.lblSource.Size = new System.Drawing.Size(44, 13);
             this.lblSource.TabIndex = 11;
@@ -88,7 +87,7 @@
             // 
             // txtPages
             // 
-            this.txtPages.Location = new System.Drawing.Point(85, 39);
+            this.txtPages.Location = new System.Drawing.Point(98, 39);
             this.txtPages.Name = "txtPages";
             this.txtPages.Size = new System.Drawing.Size(156, 20);
             this.txtPages.TabIndex = 12;
@@ -101,7 +100,7 @@
             this.cmboSourceSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboSourceSelect.FormattingEnabled = true;
             this.cmboSourceSelect.IntegralHeight = false;
-            this.cmboSourceSelect.Location = new System.Drawing.Point(85, 12);
+            this.cmboSourceSelect.Location = new System.Drawing.Point(98, 12);
             this.cmboSourceSelect.Name = "cmboSourceSelect";
             this.cmboSourceSelect.Size = new System.Drawing.Size(156, 21);
             this.cmboSourceSelect.Sorted = true;
@@ -111,7 +110,7 @@
             // lblPages
             // 
             this.lblPages.AutoSize = true;
-            this.lblPages.Location = new System.Drawing.Point(39, 42);
+            this.lblPages.Location = new System.Drawing.Point(12, 42);
             this.lblPages.Name = "lblPages";
             this.lblPages.Size = new System.Drawing.Size(40, 13);
             this.lblPages.TabIndex = 15;
