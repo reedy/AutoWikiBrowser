@@ -521,7 +521,7 @@ http://example.com }}");
             Assert.IsFalse(Parsers.IsCorrectEditSummary("[[test]] [["));
         }
 
-        [Test]
+        [Test, Category("Unarchived bugs")]
         public void ChangeToDefaultSort()
         {
             bool noChange;
@@ -594,6 +594,15 @@ http://example.com }}");
             p.ChangeToDefaultSort("{{lifetime|shite}}[[Category:Test1|Foooo]][[Category:Test2|Foooo]]",
                 "Bar", out noChange);
             Assert.IsTrue(noChange);
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#AWB_needs_to_handle_lifetime_template_correctly
+            // pages with multiple sort specifiers shouldn't be changed
+            p.ChangeToDefaultSort("{{DEFAULTSORT:Foo}}{{lifetime|Bar}}",
+                "Foo", out noChange);
+            Assert.IsTrue(noChange);
+            // continued...
+            p.ChangeToDefaultSort("{{defaultsort| Tést}}{{DEFAULTSORT: Tést}}", "Foo", out noChange);
+            Assert.IsTrue(noChange);
         }
 
         [Test, Category("Incomplete")]
@@ -623,7 +632,7 @@ http://example.com }}");
             Globals.UnitTestMode = true;
         }
 
-        [Test, Category("Unarchived bugs")]
+        [Test]
         public void Replacement()
         {
             bool noChange;
@@ -631,7 +640,7 @@ http://example.com }}");
             Assert.AreEqual("[[Category:Bar]]", p.ReCategoriser("Foo", "Bar", "[[Category:Foo]]", out noChange));
             Assert.IsFalse(noChange);
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Replacing_Arabic_categories
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Replacing_Arabic_categories
             // addresses special case in Tools.CaseInsensitive
             Assert.AreEqual("[[Category:Bar]]", p.ReCategoriser("-Foo bar-", "Bar", "[[Category:-Foo bar-]]", out noChange));
             Assert.IsFalse(noChange);
@@ -665,7 +674,7 @@ http://example.com }}");
             Assert.IsTrue(noChange);
         }
 
-        [Test, Category("Unarchived bugs")]
+        [Test]
         public void Removal()
         {
             bool noChange;
@@ -673,7 +682,7 @@ http://example.com }}");
             Assert.AreEqual("", p.RemoveCategory("Foo", "[[Category:Foo]]", out noChange));
             Assert.IsFalse(noChange);
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Replacing_Arabic_categories
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Replacing_Arabic_categories
             // addresses special case in Tools.CaseInsensitive
             Assert.AreEqual("", p.RemoveCategory("-Foo bar-", "[[Category:-Foo bar-]]", out noChange));
             Assert.IsFalse(noChange);
