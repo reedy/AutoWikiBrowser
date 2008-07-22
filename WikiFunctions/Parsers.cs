@@ -1440,14 +1440,17 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             NoChange = true;
 
             // we don't need to process that {{lifetime}} crap
-            Match match = WikiRegexes.Defaultsort.Match(ArticleText);
-            if (match.Success && !match.Value.ToUpper().Contains("DEFAULTSORT")) return ArticleText;
+            MatchCollection ds = WikiRegexes.Defaultsort.Matches(ArticleText);
+            if (ds.Count > 1 || (ds.Count == 1 && !ds[0].Value.ToUpper().Contains("DEFAULTSORT"))) return ArticleText;
 
             ArticleText = TalkPages.TalkPageHeaders.FormatDefaultSort(ArticleText);
 
             // match again, after normalisation
-            match = WikiRegexes.Defaultsort.Match(ArticleText);
-            if (!match.Success)
+            ds = WikiRegexes.Defaultsort.Matches(ArticleText);
+            if (ds.Count > 1)
+                return testText;
+
+            if (ds.Count == 0)
             {
                 string sort = null;
                 bool allsame = true;
@@ -1493,9 +1496,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             }
             else // already has DEFAULTSORT
             {
-                string s = Tools.RemoveDiacritics(match.Groups[1].Value).Trim();
-                if (s != match.Groups[1].Value && s.Length > 0)
-                    ArticleText = ArticleText.Replace(match.Value, "{{DEFAULTSORT:" + s + "}}");
+                string s = Tools.RemoveDiacritics(ds[0].Groups[1].Value).Trim();
+                if (s != ds[0].Groups[1].Value && s.Length > 0)
+                    ArticleText = ArticleText.Replace(ds[0].Value, "{{DEFAULTSORT:" + s + "}}");
             }
 
             NoChange = (testText == ArticleText);
