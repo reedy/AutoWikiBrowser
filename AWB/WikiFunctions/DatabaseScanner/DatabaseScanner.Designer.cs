@@ -163,6 +163,7 @@ namespace WikiFunctions.DBScanner
             this.tbConvert = new System.Windows.Forms.TabPage();
             this.btnPause = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.gbText.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLength)).BeginInit();
@@ -228,7 +229,7 @@ namespace WikiFunctions.DBScanner
             this.gbText.Controls.Add(this.tableLayoutPanel3);
             this.gbText.Location = new System.Drawing.Point(6, 6);
             this.gbText.Name = "gbText";
-            this.gbText.Size = new System.Drawing.Size(268, 149);
+            this.gbText.Size = new System.Drawing.Size(277, 141);
             this.gbText.TabIndex = 1;
             this.gbText.TabStop = false;
             this.gbText.Text = "Te&xt Searching";
@@ -259,7 +260,7 @@ namespace WikiFunctions.DBScanner
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(262, 116);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(271, 125);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // chkArticleDoesContain
@@ -280,7 +281,7 @@ namespace WikiFunctions.DBScanner
             this.txtArticleDoesContain.Enabled = false;
             this.txtArticleDoesContain.Location = new System.Drawing.Point(98, 3);
             this.txtArticleDoesContain.Name = "txtArticleDoesContain";
-            this.txtArticleDoesContain.Size = new System.Drawing.Size(193, 20);
+            this.txtArticleDoesContain.Size = new System.Drawing.Size(171, 20);
             this.txtArticleDoesContain.TabIndex = 1;
             // 
             // chkArticleDoesNotContain
@@ -301,7 +302,7 @@ namespace WikiFunctions.DBScanner
             this.txtArticleDoesNotContain.Enabled = false;
             this.txtArticleDoesNotContain.Location = new System.Drawing.Point(98, 29);
             this.txtArticleDoesNotContain.Name = "txtArticleDoesNotContain";
-            this.txtArticleDoesNotContain.Size = new System.Drawing.Size(193, 20);
+            this.txtArticleDoesNotContain.Size = new System.Drawing.Size(171, 20);
             this.txtArticleDoesNotContain.TabIndex = 3;
             // 
             // chkRegex
@@ -677,7 +678,7 @@ namespace WikiFunctions.DBScanner
             // btnClearList
             // 
             this.btnClearList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClearList.Location = new System.Drawing.Point(213, 278);
+            this.btnClearList.Location = new System.Drawing.Point(227, 278);
             this.btnClearList.Name = "btnClearList";
             this.btnClearList.Size = new System.Drawing.Size(75, 23);
             this.btnClearList.TabIndex = 8;
@@ -784,13 +785,13 @@ namespace WikiFunctions.DBScanner
             this.copyToolStripMenuItem,
             this.removeToolStripMenuItem});
             this.ArticlesListBoxContextMenu.Name = "contextMenuStrip1";
-            this.ArticlesListBoxContextMenu.Size = new System.Drawing.Size(188, 98);
+            this.ArticlesListBoxContextMenu.Size = new System.Drawing.Size(201, 98);
             this.ArticlesListBoxContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // openInBrowserToolStripMenuItem
             // 
             this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
-            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.openInBrowserToolStripMenuItem.Text = "&Open in browser";
             this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
             // 
@@ -798,25 +799,25 @@ namespace WikiFunctions.DBScanner
             // 
             this.openRevisionInBowserToolStripMenuItem.Enabled = false;
             this.openRevisionInBowserToolStripMenuItem.Name = "openRevisionInBowserToolStripMenuItem";
-            this.openRevisionInBowserToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.openRevisionInBowserToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.openRevisionInBowserToolStripMenuItem.Text = "Open revision in bowser";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(184, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(197, 6);
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.copyToolStripMenuItem.Text = "&Copy";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.removeToolStripMenuItem.Text = "&Remove";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
@@ -829,7 +830,7 @@ namespace WikiFunctions.DBScanner
             this.gbOutput.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbOutput.Location = new System.Drawing.Point(0, 0);
             this.gbOutput.Name = "gbOutput";
-            this.gbOutput.Size = new System.Drawing.Size(294, 307);
+            this.gbOutput.Size = new System.Drawing.Size(308, 307);
             this.gbOutput.TabIndex = 0;
             this.gbOutput.TabStop = false;
             this.gbOutput.Text = "Results";
@@ -844,7 +845,7 @@ namespace WikiFunctions.DBScanner
             this.lbArticles.Location = new System.Drawing.Point(6, 19);
             this.lbArticles.Name = "lbArticles";
             this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbArticles.Size = new System.Drawing.Size(282, 251);
+            this.lbArticles.Size = new System.Drawing.Size(296, 251);
             this.lbArticles.TabIndex = 5;
             // 
             // btnFilter
@@ -860,7 +861,7 @@ namespace WikiFunctions.DBScanner
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(135, 278);
+            this.btnSave.Location = new System.Drawing.Point(149, 278);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 9;
@@ -919,7 +920,7 @@ namespace WikiFunctions.DBScanner
             // btnStart
             // 
             this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStart.Location = new System.Drawing.Point(525, 40);
+            this.btnStart.Location = new System.Drawing.Point(539, 40);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 23);
             this.btnStart.TabIndex = 1;
@@ -981,10 +982,11 @@ namespace WikiFunctions.DBScanner
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.progressBar,
             this.lblCount,
+            this.toolStripStatusLabel1,
             this.threadPriorityButton});
             this.statusStrip.Location = new System.Drawing.Point(0, 521);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(612, 22);
+            this.statusStrip.Size = new System.Drawing.Size(626, 22);
             this.statusStrip.TabIndex = 5;
             this.statusStrip.Text = "status";
             // 
@@ -998,7 +1000,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.lblCount.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblCount.Name = "lblCount";
-            this.lblCount.Size = new System.Drawing.Size(360, 17);
+            this.lblCount.Size = new System.Drawing.Size(293, 17);
             this.lblCount.Spring = true;
             this.lblCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -1011,7 +1013,7 @@ namespace WikiFunctions.DBScanner
             this.belowNormalToolStripMenuItem,
             this.lowestToolStripMenuItem});
             this.threadPriorityButton.Name = "threadPriorityButton";
-            this.threadPriorityButton.Size = new System.Drawing.Size(85, 20);
+            this.threadPriorityButton.Size = new System.Drawing.Size(84, 20);
             this.threadPriorityButton.Text = "Below Normal";
             this.threadPriorityButton.ToolTipText = "Thread Priority";
             // 
@@ -1019,7 +1021,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.highestToolStripMenuItem.CheckOnClick = true;
             this.highestToolStripMenuItem.Name = "highestToolStripMenuItem";
-            this.highestToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.highestToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.highestToolStripMenuItem.Text = "&High";
             this.highestToolStripMenuItem.Click += new System.EventHandler(this.highestToolStripMenuItem_Click);
             // 
@@ -1027,7 +1029,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.aboveNormalToolStripMenuItem.CheckOnClick = true;
             this.aboveNormalToolStripMenuItem.Name = "aboveNormalToolStripMenuItem";
-            this.aboveNormalToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.aboveNormalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.aboveNormalToolStripMenuItem.Text = "&Above Normal";
             this.aboveNormalToolStripMenuItem.Click += new System.EventHandler(this.aboveNormalToolStripMenuItem_Click);
             // 
@@ -1035,7 +1037,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.normalToolStripMenuItem.CheckOnClick = true;
             this.normalToolStripMenuItem.Name = "normalToolStripMenuItem";
-            this.normalToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.normalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.normalToolStripMenuItem.Text = "&Normal";
             this.normalToolStripMenuItem.Click += new System.EventHandler(this.normalToolStripMenuItem_Click);
             // 
@@ -1045,7 +1047,7 @@ namespace WikiFunctions.DBScanner
             this.belowNormalToolStripMenuItem.CheckOnClick = true;
             this.belowNormalToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.belowNormalToolStripMenuItem.Name = "belowNormalToolStripMenuItem";
-            this.belowNormalToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.belowNormalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.belowNormalToolStripMenuItem.Text = "&Below Normal";
             this.belowNormalToolStripMenuItem.Click += new System.EventHandler(this.belowNormalToolStripMenuItem_Click);
             // 
@@ -1053,7 +1055,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.lowestToolStripMenuItem.CheckOnClick = true;
             this.lowestToolStripMenuItem.Name = "lowestToolStripMenuItem";
-            this.lowestToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.lowestToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.lowestToolStripMenuItem.Text = "&Low";
             this.lowestToolStripMenuItem.Click += new System.EventHandler(this.lowestToolStripMenuItem_Click);
             // 
@@ -1185,7 +1187,7 @@ namespace WikiFunctions.DBScanner
             this.tbParameters.Location = new System.Drawing.Point(12, 12);
             this.tbParameters.Name = "tbParameters";
             this.tbParameters.SelectedIndex = 0;
-            this.tbParameters.Size = new System.Drawing.Size(507, 193);
+            this.tbParameters.Size = new System.Drawing.Size(521, 183);
             this.tbParameters.TabIndex = 0;
             // 
             // tabDump
@@ -1503,7 +1505,7 @@ namespace WikiFunctions.DBScanner
             this.tabText.Location = new System.Drawing.Point(4, 22);
             this.tabText.Name = "tabText";
             this.tabText.Padding = new System.Windows.Forms.Padding(3);
-            this.tabText.Size = new System.Drawing.Size(499, 167);
+            this.tabText.Size = new System.Drawing.Size(513, 157);
             this.tabText.TabIndex = 2;
             this.tabText.Text = "Text";
             this.tabText.UseVisualStyleBackColor = true;
@@ -1520,9 +1522,9 @@ namespace WikiFunctions.DBScanner
             this.gbProperties.Controls.Add(this.lblLength);
             this.gbProperties.Controls.Add(this.cmboLength);
             this.gbProperties.Controls.Add(this.nudLength);
-            this.gbProperties.Location = new System.Drawing.Point(275, 6);
+            this.gbProperties.Location = new System.Drawing.Point(289, 6);
             this.gbProperties.Name = "gbProperties";
-            this.gbProperties.Size = new System.Drawing.Size(218, 149);
+            this.gbProperties.Size = new System.Drawing.Size(218, 141);
             this.gbProperties.TabIndex = 18;
             this.gbProperties.TabStop = false;
             this.gbProperties.Text = "Page Text Properties";
@@ -1557,7 +1559,7 @@ namespace WikiFunctions.DBScanner
             // btnReset
             // 
             this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnReset.Location = new System.Drawing.Point(525, 98);
+            this.btnReset.Location = new System.Drawing.Point(539, 98);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(75, 23);
             this.btnReset.TabIndex = 3;
@@ -1647,7 +1649,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.btnPause.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPause.Enabled = false;
-            this.btnPause.Location = new System.Drawing.Point(526, 69);
+            this.btnPause.Location = new System.Drawing.Point(540, 69);
             this.btnPause.Name = "btnPause";
             this.btnPause.Size = new System.Drawing.Size(74, 23);
             this.btnPause.TabIndex = 2;
@@ -1657,7 +1659,7 @@ namespace WikiFunctions.DBScanner
             // splitContainer1
             // 
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer1.Location = new System.Drawing.Point(12, 211);
+            this.splitContainer1.Location = new System.Drawing.Point(12, 201);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -1667,19 +1669,25 @@ namespace WikiFunctions.DBScanner
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer1.Size = new System.Drawing.Size(588, 307);
-            this.splitContainer1.SplitterDistance = 294;
+            this.splitContainer1.Size = new System.Drawing.Size(602, 307);
+            this.splitContainer1.SplitterDistance = 308;
             this.splitContainer1.TabIndex = 5;
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(82, 17);
+            this.toolStripStatusLabel1.Text = "Thread priority:";
             // 
             // DatabaseScanner
             // 
             this.AcceptButton = this.btnStart;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(612, 543);
-            this.Controls.Add(this.splitContainer1);
+            this.ClientSize = new System.Drawing.Size(626, 543);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.tbParameters);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.btnReset);
@@ -1873,6 +1881,7 @@ namespace WikiFunctions.DBScanner
         private Button btnPause;
         private FlowLayoutPanel flwHelpLinks;
         private SplitContainer splitContainer1;
+        private ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
 
