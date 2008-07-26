@@ -815,11 +815,7 @@ namespace WikiFunctions.DBScanner
 
         private void btnSaveArticleList_Click(object sender, EventArgs e)
         {
-            if (lbArticles.Parent is ListMaker)
-                (lbArticles.Parent as ListMaker).SaveList();
-            else
-            {
-            }
+            ListMaker.SaveList(lbArticles);
         }
     }
 }

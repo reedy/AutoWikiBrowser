@@ -78,7 +78,7 @@ namespace WikiFunctions.Controls.Lists
             this.specialFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveListToFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sortAlphaMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
+            saveListDialog = new System.Windows.Forms.SaveFileDialog();
             this.tooltip = new System.Windows.Forms.ToolTip(this.components);
             this.btnStop = new System.Windows.Forms.Button();
             this.btnFilter = new System.Windows.Forms.Button();
@@ -480,10 +480,10 @@ namespace WikiFunctions.Controls.Lists
             // 
             // saveListDialog
             // 
-            this.saveListDialog.DefaultExt = "txt";
-            this.saveListDialog.Filter = "Text file with wiki markup|*.txt|Plaintext list|*.txt|CSV (Comma Seperated Values" +
+            saveListDialog.DefaultExt = "txt";
+            saveListDialog.Filter = "Text file with wiki markup|*.txt|Plaintext list|*.txt|CSV (Comma Seperated Values" +
                 ")|*.txt";
-            this.saveListDialog.Title = "Save article list";
+            saveListDialog.Title = "Save article list";
             // 
             // btnStop
             // 
@@ -584,7 +584,7 @@ namespace WikiFunctions.Controls.Lists
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
-        private System.Windows.Forms.SaveFileDialog saveListDialog;
+        private static System.Windows.Forms.SaveFileDialog saveListDialog;
         private System.Windows.Forms.ToolTip tooltip;
         public System.Windows.Forms.ContextMenuStrip mnuListBox;
         private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem;

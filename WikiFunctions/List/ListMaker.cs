@@ -315,11 +315,6 @@ namespace WikiFunctions.Controls.Lists
             Filter();
         }
 
-        private void btnArticlesListSave_Click(object sender, EventArgs e)
-        {
-            SaveList();
-        }
-
         private void btnMakeList_Click(object sender, EventArgs e)
         {
             UserInputTextBox.Text = UserInputTextBox.Text.Trim();
@@ -780,8 +775,8 @@ namespace WikiFunctions.Controls.Lists
         /// <summary>
         /// Saves the list to the specified text file.
         /// </summary>
-        public void SaveList()
-        {//Save lbArticles list to text file.
+        public static void SaveList(ListBox2 lbArticles)
+        {
             try
             {
                 StringBuilder strList = new StringBuilder("");
@@ -940,7 +935,7 @@ namespace WikiFunctions.Controls.Lists
 
         private void saveListToTextFileToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            SaveList();
+            SaveList(lbArticles);
         }
 
         private void selectedToolStripMenuItem_Click(object sender, EventArgs e)
