@@ -426,7 +426,7 @@ namespace WikiFunctions.DBScanner
             catch (Exception ex) { ErrorHandler.Handle(ex); }
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
+        private void btnSaveTxtList_Click(object sender, EventArgs e)
         {
             Save();
         }
@@ -811,6 +811,15 @@ namespace WikiFunctions.DBScanner
         private void chkSearchDates_CheckedChanged(object sender, EventArgs e)
         {
             dtpFrom.Enabled = dtpTo.Enabled = chkSearchDates.Checked;
+        }
+
+        private void btnSaveArticleList_Click(object sender, EventArgs e)
+        {
+            if (lbArticles.Parent is ListMaker)
+                (lbArticles.Parent as ListMaker).SaveList();
+            else
+            {
+            }
         }
     }
 }
