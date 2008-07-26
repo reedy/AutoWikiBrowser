@@ -86,13 +86,14 @@ namespace WikiFunctions.DBScanner
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gbOutput = new System.Windows.Forms.GroupBox();
-            this.lbArticles = new WikiFunctions.Controls.Lists.ListBox2();
+            this.btnSaveArticleList = new System.Windows.Forms.Button();
             this.btnFilter = new System.Windows.Forms.Button();
             this.lblStartFrom = new System.Windows.Forms.Label();
             this.lblLimitResutls = new System.Windows.Forms.Label();
             this.nudLimitResults = new System.Windows.Forms.NumericUpDown();
             this.btnStart = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.btnSaveTxtList = new System.Windows.Forms.Button();
             this.lblListType = new System.Windows.Forms.Label();
             this.rdoBullet = new System.Windows.Forms.RadioButton();
             this.rdoHash = new System.Windows.Forms.RadioButton();
@@ -163,9 +164,8 @@ namespace WikiFunctions.DBScanner
             this.tbConvert = new System.Windows.Forms.TabPage();
             this.btnPause = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.btnSaveTxtList = new System.Windows.Forms.Button();
-            this.btnSaveArticleList = new System.Windows.Forms.Button();
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
+            this.lbArticles = new WikiFunctions.Controls.Lists.ListBox2();
             this.gbText.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLength)).BeginInit();
@@ -837,18 +837,15 @@ namespace WikiFunctions.DBScanner
             this.gbOutput.TabStop = false;
             this.gbOutput.Text = "Results";
             // 
-            // lbArticles
+            // btnSaveArticleList
             // 
-            this.lbArticles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbArticles.ContextMenuStrip = this.ArticlesListBoxContextMenu;
-            this.lbArticles.FormattingEnabled = true;
-            this.lbArticles.Location = new System.Drawing.Point(6, 19);
-            this.lbArticles.Name = "lbArticles";
-            this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbArticles.Size = new System.Drawing.Size(296, 251);
-            this.lbArticles.TabIndex = 5;
+            this.btnSaveArticleList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSaveArticleList.Location = new System.Drawing.Point(146, 278);
+            this.btnSaveArticleList.Name = "btnSaveArticleList";
+            this.btnSaveArticleList.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveArticleList.TabIndex = 12;
+            this.btnSaveArticleList.Text = "Save";
+            this.btnSaveArticleList.Click += new System.EventHandler(this.btnSaveArticleList_Click);
             // 
             // btnFilter
             // 
@@ -941,6 +938,15 @@ namespace WikiFunctions.DBScanner
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Convert results into &list";
             // 
+            // btnSaveTxtList
+            // 
+            this.btnSaveTxtList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSaveTxtList.Location = new System.Drawing.Point(114, 246);
+            this.btnSaveTxtList.Name = "btnSaveTxtList";
+            this.btnSaveTxtList.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveTxtList.TabIndex = 11;
+            this.btnSaveTxtList.Text = "Save";
+            // 
             // lblListType
             // 
             this.lblListType.AutoSize = true;
@@ -977,7 +983,7 @@ namespace WikiFunctions.DBScanner
             this.lblCount,
             this.toolStripStatusLabel1,
             this.threadPriorityButton});
-            this.statusStrip.Location = new System.Drawing.Point(0, 521);
+            this.statusStrip.Location = new System.Drawing.Point(0, 525);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(626, 22);
             this.statusStrip.TabIndex = 5;
@@ -1186,7 +1192,7 @@ namespace WikiFunctions.DBScanner
             this.tbParameters.Location = new System.Drawing.Point(12, 12);
             this.tbParameters.Name = "tbParameters";
             this.tbParameters.SelectedIndex = 0;
-            this.tbParameters.Size = new System.Drawing.Size(521, 183);
+            this.tbParameters.Size = new System.Drawing.Size(521, 191);
             this.tbParameters.TabIndex = 0;
             // 
             // tabDump
@@ -1207,7 +1213,7 @@ namespace WikiFunctions.DBScanner
             this.tabDump.Location = new System.Drawing.Point(4, 22);
             this.tabDump.Name = "tabDump";
             this.tabDump.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDump.Size = new System.Drawing.Size(513, 157);
+            this.tabDump.Size = new System.Drawing.Size(513, 165);
             this.tabDump.TabIndex = 0;
             this.tabDump.Text = "Dump";
             this.tabDump.UseVisualStyleBackColor = true;
@@ -1268,7 +1274,7 @@ namespace WikiFunctions.DBScanner
             // btnAbout
             // 
             this.btnAbout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAbout.Location = new System.Drawing.Point(418, 138);
+            this.btnAbout.Location = new System.Drawing.Point(418, 136);
             this.btnAbout.Name = "btnAbout";
             this.btnAbout.Size = new System.Drawing.Size(75, 23);
             this.btnAbout.TabIndex = 15;
@@ -1388,7 +1394,7 @@ namespace WikiFunctions.DBScanner
             this.tabProps.Location = new System.Drawing.Point(4, 22);
             this.tabProps.Name = "tabProps";
             this.tabProps.Padding = new System.Windows.Forms.Padding(3);
-            this.tabProps.Size = new System.Drawing.Size(513, 157);
+            this.tabProps.Size = new System.Drawing.Size(513, 165);
             this.tabProps.TabIndex = 1;
             this.tabProps.Text = "Title";
             this.tabProps.UseVisualStyleBackColor = true;
@@ -1460,7 +1466,7 @@ namespace WikiFunctions.DBScanner
             this.tabRev.Location = new System.Drawing.Point(4, 22);
             this.tabRev.Name = "tabRev";
             this.tabRev.Padding = new System.Windows.Forms.Padding(3);
-            this.tabRev.Size = new System.Drawing.Size(513, 157);
+            this.tabRev.Size = new System.Drawing.Size(513, 165);
             this.tabRev.TabIndex = 4;
             this.tabRev.Text = "Revision";
             this.tabRev.UseVisualStyleBackColor = true;
@@ -1472,7 +1478,7 @@ namespace WikiFunctions.DBScanner
             this.tabRestrict.Location = new System.Drawing.Point(4, 22);
             this.tabRestrict.Name = "tabRestrict";
             this.tabRestrict.Padding = new System.Windows.Forms.Padding(3);
-            this.tabRestrict.Size = new System.Drawing.Size(513, 157);
+            this.tabRestrict.Size = new System.Drawing.Size(513, 165);
             this.tabRestrict.TabIndex = 5;
             this.tabRestrict.Text = "Restriction";
             this.tabRestrict.UseVisualStyleBackColor = true;
@@ -1504,7 +1510,7 @@ namespace WikiFunctions.DBScanner
             this.tabText.Location = new System.Drawing.Point(4, 22);
             this.tabText.Name = "tabText";
             this.tabText.Padding = new System.Windows.Forms.Padding(3);
-            this.tabText.Size = new System.Drawing.Size(513, 157);
+            this.tabText.Size = new System.Drawing.Size(513, 165);
             this.tabText.TabIndex = 2;
             this.tabText.Text = "Text";
             this.tabText.UseVisualStyleBackColor = true;
@@ -1550,7 +1556,7 @@ namespace WikiFunctions.DBScanner
             this.tabAWB.Location = new System.Drawing.Point(4, 22);
             this.tabAWB.Name = "tabAWB";
             this.tabAWB.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAWB.Size = new System.Drawing.Size(513, 157);
+            this.tabAWB.Size = new System.Drawing.Size(513, 165);
             this.tabAWB.TabIndex = 3;
             this.tabAWB.Text = "Searching";
             this.tabAWB.UseVisualStyleBackColor = true;
@@ -1658,7 +1664,7 @@ namespace WikiFunctions.DBScanner
             // splitContainer1
             // 
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer1.Location = new System.Drawing.Point(12, 201);
+            this.splitContainer1.Location = new System.Drawing.Point(12, 209);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -1672,25 +1678,6 @@ namespace WikiFunctions.DBScanner
             this.splitContainer1.SplitterDistance = 308;
             this.splitContainer1.TabIndex = 5;
             // 
-            // btnSaveTxtList
-            // 
-            this.btnSaveTxtList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSaveTxtList.Location = new System.Drawing.Point(114, 246);
-            this.btnSaveTxtList.Name = "btnSaveTxtList";
-            this.btnSaveTxtList.Size = new System.Drawing.Size(75, 23);
-            this.btnSaveTxtList.TabIndex = 11;
-            this.btnSaveTxtList.Text = "Save";
-            // 
-            // btnSaveArticleList
-            // 
-            this.btnSaveArticleList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSaveArticleList.Location = new System.Drawing.Point(146, 278);
-            this.btnSaveArticleList.Name = "btnSaveArticleList";
-            this.btnSaveArticleList.Size = new System.Drawing.Size(75, 23);
-            this.btnSaveArticleList.TabIndex = 12;
-            this.btnSaveArticleList.Text = "Save";
-            this.btnSaveArticleList.Click += new System.EventHandler(this.btnSaveArticleList_Click);
-            // 
             // saveListDialog
             // 
             this.saveListDialog.DefaultExt = "txt";
@@ -1698,20 +1685,33 @@ namespace WikiFunctions.DBScanner
                 ")|*.txt";
             this.saveListDialog.Title = "Save article list";
             // 
+            // lbArticles
+            // 
+            this.lbArticles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbArticles.ContextMenuStrip = this.ArticlesListBoxContextMenu;
+            this.lbArticles.FormattingEnabled = true;
+            this.lbArticles.Location = new System.Drawing.Point(6, 19);
+            this.lbArticles.Name = "lbArticles";
+            this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lbArticles.Size = new System.Drawing.Size(296, 251);
+            this.lbArticles.TabIndex = 5;
+            // 
             // DatabaseScanner
             // 
             this.AcceptButton = this.btnStart;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(626, 543);
+            this.ClientSize = new System.Drawing.Size(626, 547);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.tbParameters);
-            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.btnPause);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.btnReset);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(620, 400);
+            this.MinimumSize = new System.Drawing.Size(642, 583);
             this.Name = "DatabaseScanner";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Wiki Database Scanner";
@@ -1905,7 +1905,3 @@ namespace WikiFunctions.DBScanner
         private SaveFileDialog saveListDialog;
     }
 }
-
-
-
-
