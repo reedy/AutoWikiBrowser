@@ -499,7 +499,7 @@ namespace WikiFunctions.Controls.Lists
         /// <summary>
         /// The file the list was made from
         /// </summary>
-        string strListFile = "";
+        static string strListFile = "";
 
         /// <summary>
         /// Returns the selected article
@@ -773,9 +773,17 @@ namespace WikiFunctions.Controls.Lists
         }
 
         /// <summary>
-        /// Saves the list to the specified text file.
+        /// Saves the list box of the current ListMaker to the specified text file.
         /// </summary>
-        public static void SaveList(ListBox2 lbArticles)
+        public void SaveList()
+        {
+            SaveList(lbArticles);
+        }
+
+        /// <summary>
+        /// Saves the list from the passed ListBox2 to the specified text file.
+        /// </summary>
+        public static void SaveList(ListBox2 ArticlesListBox)
         {
             try
             {
@@ -789,15 +797,15 @@ namespace WikiFunctions.Controls.Lists
                     switch (saveListDialog.FilterIndex)
                     {
                         case 1: //wikitext
-                            foreach (Article a in lbArticles)
+                            foreach (Article a in ArticlesListBox)
                                 strList.AppendLine("# [[:" + a.Name + "]]");
                             break;
                         case 2: //plaintext
-                            foreach (Article a in lbArticles)
+                            foreach (Article a in ArticlesListBox)
                                 strList.AppendLine(a.Name);
                             break;
                         case 3: //CSV
-                            foreach (Article a in lbArticles)
+                            foreach (Article a in ArticlesListBox)
                                 strList.Append(a.Name + ", ");
 
                             strList = strList.Remove(strList.Length - 2, 2);
@@ -935,7 +943,7 @@ namespace WikiFunctions.Controls.Lists
 
         private void saveListToTextFileToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            SaveList(lbArticles);
+            SaveList();
         }
 
         private void selectedToolStripMenuItem_Click(object sender, EventArgs e)
