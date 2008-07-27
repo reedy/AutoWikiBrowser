@@ -987,6 +987,7 @@ namespace WikiFunctions.Controls.Lists
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            lbArticles.BeginUpdate();
             try
             {
                 string textTba = Clipboard.GetDataObject().GetData(DataFormats.UnicodeText).ToString();
@@ -1000,6 +1001,7 @@ namespace WikiFunctions.Controls.Lists
                 }
             }
             catch { }
+            lbArticles.EndUpdate();
         }
 
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)

@@ -480,7 +480,7 @@ namespace WikiFunctions
         public static string RemoveSyntax(string Text)
         {
             if (Text[0] == '#' || Text[0] == '*')
-                Text = Text.Substring(1, (Text.Length - 1));
+                Text = Text.Substring(1);
 
             Text = Text.Replace("_", " ").Trim();
             Text = Text.Trim('[', ']');
