@@ -293,11 +293,11 @@ namespace WikiFunctions.DBScanner
                 TimeSpan endTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
                 endTime = endTime.Subtract(StartTime);
 
+                if (AWBListbox != null && AWBListbox.Parent is ListMaker)
+                    (AWBListbox.Parent as ListMaker).UpdateNumberOfArticles();
+
                 if (Main != null && Main.Message)
                     MessageBox.Show(lbArticles.Items.Count.ToString() + " matches in " + endTime.ToString().TrimEnd('0'));
-
-                if (AWBListbox != null)
-                    ((ListMaker)AWBListbox.Parent).UpdateNumberOfArticles();
 
                 Main = null;
             }
