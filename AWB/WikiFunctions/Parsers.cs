@@ -1070,6 +1070,20 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             else
                 return GetTemplateName(setting);
         }
+
+        private static Regex EmptyComments = new Regex(@"<!--\s*-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        /// <summary>
+        /// Removes comments with nothing/only whitespace between tags
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <returns>The modified article text (removed empty comments).</returns>
+        public static string RemoveEmptyComments(string ArticleText)
+        {
+            if (EmptyComments.Match(ArticleText).Success)
+                return EmptyComments.Replace(ArticleText, "");
+            else
+                return ArticleText;
+        }
         #endregion
 
         #region other functions
