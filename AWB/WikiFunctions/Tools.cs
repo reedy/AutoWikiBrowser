@@ -149,12 +149,7 @@ namespace WikiFunctions
             ArticleTitle = WikiDecode(ArticleTitle).Trim();
             if (ArticleTitle.Length == 0) return false;
 
-            //foreach (string s in InvalidChars)
-            //    if (ArticleTitle.Contains(s))
-            //        return false;
-            return ArticleTitle.IndexOfAny(InvalidChars) < 0;
-
-            //return true;
+            return (ArticleTitle.IndexOfAny(InvalidChars) < 0);
         }
 
         /// <summary>
@@ -168,11 +163,6 @@ namespace WikiFunctions
             while ((pos = Title.IndexOfAny(InvalidChars)) >= 0)
                 Title = Title.Remove(pos, 1);
 
-            //foreach (string character in InvalidChars)
-            //{
-            //    if (Regex.Match(Title, Regex.Escape(character)).Success)
-            //        Title = Title.Replace(character, "");
-            //}
             return Title;
         }
 
@@ -825,9 +815,11 @@ namespace WikiFunctions
         {
             try
             {
-                StreamWriter writer = new StreamWriter(Application.StartupPath + "\\" + File, append, Encoding.UTF8);
-                writer.Write(Message);
-                writer.Close();
+                using (StreamWriter writer = new StreamWriter(Application.StartupPath + "\\" + File, append, Encoding.UTF8))
+                {
+                    writer.Write(Message);
+                    writer.Close();
+                }
             }
             catch (Exception ex)
             {
