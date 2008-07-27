@@ -130,25 +130,25 @@
     <value>459, 10</value>
   </metadata>
   <metadata name="mnuHistory.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>572, 48</value>
+    <value>559, 47</value>
   </metadata>
   <metadata name="saveListDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>556, 10</value>
   </metadata>
   <metadata name="saveXML.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>685, 10</value>
+    <value>670, 13</value>
   </metadata>
   <metadata name="openXML.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>468, 48</value>
+    <value>455, 47</value>
   </metadata>
   <metadata name="Timer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>291, 14</value>
   </metadata>
   <metadata name="toolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>374, 51</value>
+    <value>361, 50</value>
   </metadata>
   <metadata name="ntfyTray.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>782, 10</value>
+    <value>759, 15</value>
   </metadata>
   <metadata name="mnuNotify.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 50</value>
@@ -539,7 +539,7 @@
   <metadata name="EditBoxSaveTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>224, 50</value>
   </metadata>
-  <data name="listMaker1.SpecialFilterSettings" mimetype="application/x-microsoft.net.object.binary.base64">
+  <data name="listMaker.SpecialFilterSettings" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAERXaWtpRnVuY3Rpb25zLCBWZXJzaW9uPTQuMy4yLjEsIEN1bHR1
         cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49bnVsbAUBAAAALFdpa2lGdW5jdGlvbnMuQVdCU2V0dGlu
@@ -554,22 +554,34 @@
         AAAJBAAAAAD/////CQUAAAAEAwAAAH5TeXN0ZW0uQ29sbGVjdGlvbnMuR2VuZXJpYy5MaXN0YDFbW1N5
         c3RlbS5JbnQzMiwgbXNjb3JsaWIsIFZlcnNpb249Mi4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJs
         aWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XV0DAAAABl9pdGVtcwVfc2l6ZQhfdmVyc2lvbgcAAAgI
-        CAkGAAAAAAAAAAAAAAAEBQAAAH9TeXN0ZW0uQ29sbGVjdGlvbnMuR2VuZXJpYy5MaXN0YDFbW1N5c3Rl
+        CAkGAAAADgAAAA4AAAAEBQAAAH9TeXN0ZW0uQ29sbGVjdGlvbnMuR2VuZXJpYy5MaXN0YDFbW1N5c3Rl
         bS5TdHJpbmcsIG1zY29ybGliLCBWZXJzaW9uPTIuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGlj
         S2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4OV1dAwAAAAZfaXRlbXMFX3NpemUIX3ZlcnNpb24GAAAICAkH
-        AAAAAAAAAAAAAAAPBgAAAAAAAAAIEQcAAAAAAAAACw==
+        AAAAAAAAAAAAAAAPBgAAABAAAAAIAQAAAAMAAAAFAAAABwAAAAsAAAAPAAAA6QMAAAAAAAACAAAABAAA
+        AAYAAAAKAAAADgAAAOgDAAAAAAAAAAAAABEHAAAAAAAAAAs=
+</value>
+  </data>
+  <data name="loggingSettings1.SerialisableSettings" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAERXaWtpRnVuY3Rpb25zLCBWZXJzaW9uPTQuMy4yLjEsIEN1bHR1
+        cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49bnVsbAUBAAAAJldpa2lGdW5jdGlvbnMuQVdCU2V0dGlu
+        Z3MuTG9nZ2luZ1ByZWZzDQAAAApMb2dWZXJib3NlB0xvZ1dpa2kITG9nWEhUTUwIVXBsb2FkWU4UVXBs
+        b2FkQWRkVG9XYXRjaGxpc3QTVXBsb2FkT3BlbkluQnJvd3NlchRVcGxvYWRUb1dpa2lQcm9qZWN0cw5E
+        ZWJ1Z1VwbG9hZGluZw5VcGxvYWRNYXhMaW5lcwlMb2dGb2xkZXINVXBsb2FkSm9iTmFtZQ5VcGxvYWRM
+        b2NhdGlvbg9Mb2dDYXRlZ29yeU5hbWUAAAAAAAAAAAABAQEBAQEBAQEBAQEIAgAAAAAAAAABAQEA6AMA
+        AAYDAAAAAAYEAAAACSRDQVRFR09SWQYFAAAACiRVU0VSL0xvZ3MGBgAAAAAL
 </value>
   </data>
   <metadata name="ShutdownTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>682, 48</value>
+    <value>669, 47</value>
   </metadata>
   <metadata name="mnuMakeFromTextBox.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>820, 48</value>
+    <value>798, 48</value>
   </metadata>
   <metadata name="NudgeTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>120, 50</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>129</value>
+    <value>73</value>
   </metadata>
 </root>
