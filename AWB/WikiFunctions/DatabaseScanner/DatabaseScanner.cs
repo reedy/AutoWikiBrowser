@@ -67,8 +67,8 @@ namespace WikiFunctions.DBScanner
         }
 
         public DatabaseScanner(ListBox l)
+            :this()
         {
-            InitializeComponent();
             AWBListbox = l;
         }
 
@@ -393,7 +393,6 @@ namespace WikiFunctions.DBScanner
                     this.Text = "Wiki Database Scanner";
             }
         }
-
 
         private void SaveConvertedList()
         {
