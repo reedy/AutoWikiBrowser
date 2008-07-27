@@ -2072,7 +2072,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void UpdateButtons(object sender, EventArgs e)
         {
-            bool enabled = listMaker1.NumberOfArticles > 0;
+            bool enabled = (listMaker1.NumberOfArticles > 0);
             SetStartButton(enabled);
 
             lbltsNumberofItems.Text = "Pages: " + listMaker1.NumberOfArticles.ToString();
@@ -2364,9 +2364,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void LaunchDumpSearcher()
         {
-            WikiFunctions.DBScanner.DatabaseScanner ds = new WikiFunctions.DBScanner.DatabaseScanner();
-            ds.Show();
-            UpdateButtons(null, null);
+            using (WikiFunctions.DBScanner.DatabaseScanner ds = listMaker1.DBScanner())
+            {
+                ds.Show();
+                UpdateButtons(null, null);
+            }
         }
 
         private void alphaSortInterwikiLinksToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
