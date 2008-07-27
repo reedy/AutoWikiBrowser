@@ -2364,11 +2364,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void LaunchDumpSearcher()
         {
-            using (WikiFunctions.DBScanner.DatabaseScanner ds = listMaker.DBScanner())
-            {
-                ds.Show();
-                UpdateButtons(null, null);
-            }
+            WikiFunctions.DBScanner.DatabaseScanner ds = listMaker.DBScanner();
+            ds.Show();
+            UpdateButtons(null, null);
         }
 
         private void alphaSortInterwikiLinksToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
