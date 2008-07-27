@@ -55,12 +55,6 @@ namespace WikiFunctions.Controls
             Tools.OpenENArticleInBrowser("WP:AWB", false);
         }
 
-        protected virtual void lnkDownload_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            lnkDownload.LinkVisited = true;
-            Tools.OpenURLInBrowser("http://download.wikimedia.org/enwiki/");
-        }
-
         #region Shared
             /// <summary>
             /// Returns a GFDL authors and copyright notice for use within AWB projects

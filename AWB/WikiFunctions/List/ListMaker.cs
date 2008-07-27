@@ -563,7 +563,7 @@ namespace WikiFunctions.Controls.Lists
                 return;
             }
 
-            lbArticles.Items.Add(new Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s))));
+            lbArticles.Items.Add(new Article(Tools.TurnFirstToUpper(Tools.RemoveSyntax(s))));
             UpdateNumberOfArticles();
             if (FilterNonMainAuto)
                 FilterNonMainArticles();

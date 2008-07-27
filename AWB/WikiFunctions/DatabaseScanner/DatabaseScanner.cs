@@ -256,7 +256,12 @@ namespace WikiFunctions.DBScanner
 
         private void MessageReceived(object msg)
         {
-            Article a = new Article(msg.ToString());
+            string article = msg.ToString();
+
+            if (string.IsNullOrEmpty(article))
+                return;
+
+            Article a = new Article(article);
             lbArticles.Items.Add(a);
 
             if (AWBListbox != null)

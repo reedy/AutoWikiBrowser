@@ -32,7 +32,6 @@ namespace AutoWikiBrowser.Plugins.Server
             lblVersion.Text = "Version " + 
                 System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             textBoxDescription.Text = GPLNotice;
-            lnkDownload.Visible = false;
             this.linkLabel1.Size = new System.Drawing.Size(92, 13);
             this.linkLabel1.Text = "Stephen Kennedy";
 

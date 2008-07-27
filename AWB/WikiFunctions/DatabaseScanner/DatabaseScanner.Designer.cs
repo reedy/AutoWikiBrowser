@@ -1323,12 +1323,10 @@ namespace WikiFunctions.DBScanner
             // lnkBase
             // 
             this.lnkBase.AutoSize = true;
-            this.lnkBase.Location = new System.Drawing.Point(89, 61);
+            this.lnkBase.Location = new System.Drawing.Point(88, 61);
             this.lnkBase.Name = "lnkBase";
-            this.lnkBase.Size = new System.Drawing.Size(27, 13);
+            this.lnkBase.Size = new System.Drawing.Size(0, 13);
             this.lnkBase.TabIndex = 6;
-            this.lnkBase.TabStop = true;
-            this.lnkBase.Text = "Link";
             this.lnkBase.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkBase_LinkClicked);
             // 
             // lblBase
