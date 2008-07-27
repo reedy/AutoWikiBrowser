@@ -755,7 +755,7 @@ namespace WikiFunctions.DBScanner
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.txtStartFrom.Location = new System.Drawing.Point(342, 48);
             this.txtStartFrom.Name = "txtStartFrom";
-            this.txtStartFrom.Size = new System.Drawing.Size(151, 20);
+            this.txtStartFrom.Size = new System.Drawing.Size(161, 20);
             this.txtStartFrom.TabIndex = 3;
             this.tooltip.SetToolTip(this.txtStartFrom, "Page to start scanning from, leave blank to start at beginning");
             // 
@@ -870,7 +870,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.lblLimitResutls.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblLimitResutls.AutoSize = true;
-            this.lblLimitResutls.Location = new System.Drawing.Point(339, 9);
+            this.lblLimitResutls.Location = new System.Drawing.Point(349, 9);
             this.lblLimitResutls.Name = "lblLimitResutls";
             this.lblLimitResutls.Size = new System.Drawing.Size(73, 13);
             this.lblLimitResutls.TabIndex = 2;
@@ -884,7 +884,7 @@ namespace WikiFunctions.DBScanner
             0,
             0,
             0});
-            this.nudLimitResults.Location = new System.Drawing.Point(418, 6);
+            this.nudLimitResults.Location = new System.Drawing.Point(428, 6);
             this.nudLimitResults.Maximum = new decimal(new int[] {
             10000000,
             0,
@@ -909,7 +909,7 @@ namespace WikiFunctions.DBScanner
             // btnStart
             // 
             this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStart.Location = new System.Drawing.Point(539, 40);
+            this.btnStart.Location = new System.Drawing.Point(549, 40);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 23);
             this.btnStart.TabIndex = 1;
@@ -983,9 +983,10 @@ namespace WikiFunctions.DBScanner
             this.lblCount,
             this.toolStripStatusLabel1,
             this.threadPriorityButton});
-            this.statusStrip.Location = new System.Drawing.Point(0, 525);
+            this.statusStrip.Location = new System.Drawing.Point(0, 527);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(626, 22);
+            this.statusStrip.Size = new System.Drawing.Size(636, 22);
+            this.statusStrip.SizingGrip = false;
             this.statusStrip.TabIndex = 5;
             this.statusStrip.Text = "status";
             // 
@@ -999,7 +1000,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.lblCount.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblCount.Name = "lblCount";
-            this.lblCount.Size = new System.Drawing.Size(276, 17);
+            this.lblCount.Size = new System.Drawing.Size(286, 17);
             this.lblCount.Spring = true;
             this.lblCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -1192,7 +1193,7 @@ namespace WikiFunctions.DBScanner
             this.tbParameters.Location = new System.Drawing.Point(12, 12);
             this.tbParameters.Name = "tbParameters";
             this.tbParameters.SelectedIndex = 0;
-            this.tbParameters.Size = new System.Drawing.Size(521, 191);
+            this.tbParameters.Size = new System.Drawing.Size(531, 191);
             this.tbParameters.TabIndex = 0;
             // 
             // tabDump
@@ -1213,7 +1214,7 @@ namespace WikiFunctions.DBScanner
             this.tabDump.Location = new System.Drawing.Point(4, 22);
             this.tabDump.Name = "tabDump";
             this.tabDump.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDump.Size = new System.Drawing.Size(513, 165);
+            this.tabDump.Size = new System.Drawing.Size(523, 165);
             this.tabDump.TabIndex = 0;
             this.tabDump.Text = "Dump";
             this.tabDump.UseVisualStyleBackColor = true;
@@ -1274,7 +1275,7 @@ namespace WikiFunctions.DBScanner
             // btnAbout
             // 
             this.btnAbout.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAbout.Location = new System.Drawing.Point(418, 136);
+            this.btnAbout.Location = new System.Drawing.Point(428, 136);
             this.btnAbout.Name = "btnAbout";
             this.btnAbout.Size = new System.Drawing.Size(75, 23);
             this.btnAbout.TabIndex = 15;
@@ -1288,7 +1289,7 @@ namespace WikiFunctions.DBScanner
             this.txtCase.Location = new System.Drawing.Point(89, 110);
             this.txtCase.Name = "txtCase";
             this.txtCase.ReadOnly = true;
-            this.txtCase.Size = new System.Drawing.Size(404, 20);
+            this.txtCase.Size = new System.Drawing.Size(414, 20);
             this.txtCase.TabIndex = 10;
             // 
             // lblCase
@@ -1307,7 +1308,7 @@ namespace WikiFunctions.DBScanner
             this.txtGenerator.Location = new System.Drawing.Point(89, 84);
             this.txtGenerator.Name = "txtGenerator";
             this.txtGenerator.ReadOnly = true;
-            this.txtGenerator.Size = new System.Drawing.Size(404, 20);
+            this.txtGenerator.Size = new System.Drawing.Size(414, 20);
             this.txtGenerator.TabIndex = 8;
             // 
             // lblGenerator
@@ -1347,7 +1348,7 @@ namespace WikiFunctions.DBScanner
             this.txtSitename.Name = "txtSitename";
             this.txtSitename.ReadOnly = true;
             this.txtSitename.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.txtSitename.Size = new System.Drawing.Size(404, 20);
+            this.txtSitename.Size = new System.Drawing.Size(414, 20);
             this.txtSitename.TabIndex = 4;
             // 
             // lblSitename
@@ -1362,7 +1363,7 @@ namespace WikiFunctions.DBScanner
             // btnBrowse
             // 
             this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBrowse.Location = new System.Drawing.Point(418, 4);
+            this.btnBrowse.Location = new System.Drawing.Point(428, 4);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(75, 23);
             this.btnBrowse.TabIndex = 2;
@@ -1375,7 +1376,7 @@ namespace WikiFunctions.DBScanner
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDumpLocation.Location = new System.Drawing.Point(89, 6);
             this.txtDumpLocation.Name = "txtDumpLocation";
-            this.txtDumpLocation.Size = new System.Drawing.Size(323, 20);
+            this.txtDumpLocation.Size = new System.Drawing.Size(333, 20);
             this.txtDumpLocation.TabIndex = 1;
             // 
             // lblDBDump
@@ -1394,7 +1395,7 @@ namespace WikiFunctions.DBScanner
             this.tabProps.Location = new System.Drawing.Point(4, 22);
             this.tabProps.Name = "tabProps";
             this.tabProps.Padding = new System.Windows.Forms.Padding(3);
-            this.tabProps.Size = new System.Drawing.Size(513, 165);
+            this.tabProps.Size = new System.Drawing.Size(523, 165);
             this.tabProps.TabIndex = 1;
             this.tabProps.Text = "Title";
             this.tabProps.UseVisualStyleBackColor = true;
@@ -1466,7 +1467,7 @@ namespace WikiFunctions.DBScanner
             this.tabRev.Location = new System.Drawing.Point(4, 22);
             this.tabRev.Name = "tabRev";
             this.tabRev.Padding = new System.Windows.Forms.Padding(3);
-            this.tabRev.Size = new System.Drawing.Size(513, 165);
+            this.tabRev.Size = new System.Drawing.Size(523, 165);
             this.tabRev.TabIndex = 4;
             this.tabRev.Text = "Revision";
             this.tabRev.UseVisualStyleBackColor = true;
@@ -1478,7 +1479,7 @@ namespace WikiFunctions.DBScanner
             this.tabRestrict.Location = new System.Drawing.Point(4, 22);
             this.tabRestrict.Name = "tabRestrict";
             this.tabRestrict.Padding = new System.Windows.Forms.Padding(3);
-            this.tabRestrict.Size = new System.Drawing.Size(513, 165);
+            this.tabRestrict.Size = new System.Drawing.Size(523, 165);
             this.tabRestrict.TabIndex = 5;
             this.tabRestrict.Text = "Restriction";
             this.tabRestrict.UseVisualStyleBackColor = true;
@@ -1510,7 +1511,7 @@ namespace WikiFunctions.DBScanner
             this.tabText.Location = new System.Drawing.Point(4, 22);
             this.tabText.Name = "tabText";
             this.tabText.Padding = new System.Windows.Forms.Padding(3);
-            this.tabText.Size = new System.Drawing.Size(513, 165);
+            this.tabText.Size = new System.Drawing.Size(523, 165);
             this.tabText.TabIndex = 2;
             this.tabText.Text = "Text";
             this.tabText.UseVisualStyleBackColor = true;
@@ -1556,7 +1557,7 @@ namespace WikiFunctions.DBScanner
             this.tabAWB.Location = new System.Drawing.Point(4, 22);
             this.tabAWB.Name = "tabAWB";
             this.tabAWB.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAWB.Size = new System.Drawing.Size(513, 165);
+            this.tabAWB.Size = new System.Drawing.Size(523, 165);
             this.tabAWB.TabIndex = 3;
             this.tabAWB.Text = "Searching";
             this.tabAWB.UseVisualStyleBackColor = true;
@@ -1564,7 +1565,7 @@ namespace WikiFunctions.DBScanner
             // btnReset
             // 
             this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnReset.Location = new System.Drawing.Point(539, 98);
+            this.btnReset.Location = new System.Drawing.Point(549, 98);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(75, 23);
             this.btnReset.TabIndex = 3;
@@ -1654,7 +1655,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.btnPause.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPause.Enabled = false;
-            this.btnPause.Location = new System.Drawing.Point(540, 69);
+            this.btnPause.Location = new System.Drawing.Point(550, 69);
             this.btnPause.Name = "btnPause";
             this.btnPause.Size = new System.Drawing.Size(74, 23);
             this.btnPause.TabIndex = 2;
@@ -1703,15 +1704,17 @@ namespace WikiFunctions.DBScanner
             this.AcceptButton = this.btnStart;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(626, 547);
+            this.ClientSize = new System.Drawing.Size(636, 549);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.tbParameters);
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.btnReset);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(642, 583);
+            this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(642, 575);
             this.Name = "DatabaseScanner";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Wiki Database Scanner";
