@@ -310,13 +310,7 @@ namespace WikiFunctions.DBScanner
         private void wikifyToList()
         {
             StringBuilder strbList = new StringBuilder("");
-            int i = 0;
-            string s = "";
-            string l = "";
-            string sr = "";
-            string strBullet = "#";
-            int intSection = 0;
-            int intSectionNumber = 0;
+            string s = "", l = "", sr = "", strBullet;
             int intHeadingSpace = Convert.ToInt32(nudHeadingSpace.Value);
 
             if (rdoHash.Checked)
@@ -326,12 +320,13 @@ namespace WikiFunctions.DBScanner
 
             if (chkHeading.Checked)
             {
+                int intSection = 0, intSectionNumber = 0;
+
                 strbList.AppendLine("==0==");
                 intSectionNumber++;
 
-                while (i < lbArticles.Items.Count)
+                foreach(Article a in lbArticles.Items)
                 {
-                    Article a = lbArticles.Items[i] as Article;
                     s = a.ToString().Replace("&amp;", "&");
                     if (a.NameSpaceKey == 6) s = ":" + s; //images should be inlined
 
@@ -344,17 +339,13 @@ namespace WikiFunctions.DBScanner
                         intSectionNumber++;
                         intSection = 0;
                     }
-
-                    i++;
                 }
             }
             else if (chkABCHeader.Checked)
             {
-                while (i < lbArticles.Items.Count)
+                foreach (Article a in lbArticles.Items)
                 {
-                    s = lbArticles.Items[i].ToString();
-
-                    s = s.Replace("&amp;", "&");
+                    s = a.ToString().Replace("&amp;", "&");
 
                     if (s.Length > 1)
                         sr = s.Remove(1);
@@ -367,22 +358,13 @@ namespace WikiFunctions.DBScanner
                     strbList.AppendLine(strBullet + " [[" + s + "]]");
 
                     l = sr;
-
-                    i++;
                 }
             }
             else
             {
-                while (i < lbArticles.Items.Count)
+                foreach (Article a in lbArticles.Items)
                 {
-                    s = lbArticles.Items[i].ToString();
-
-                    s = s.Replace("&amp;", "&");
-
-                    strbList.AppendLine(strBullet + " [[" + s + "]]");
-
-                    intSection++;
-                    i++;
+                    strbList.AppendLine(strBullet + " [[" + a.ToString().Replace("&amp;", "&") + "]]");
                 }
             }
 
@@ -430,7 +412,6 @@ namespace WikiFunctions.DBScanner
         {
             Save();
         }
-
 
         private void chkRegex_CheckedChanged(object sender, EventArgs e)
         {
@@ -758,17 +739,17 @@ namespace WikiFunctions.DBScanner
                                 txtSitename.Text = reader.ReadString();
                                 dataFound++;
                             }
-                            if (reader.Name.Equals("base"))
+                            else if (reader.Name.Equals("base"))
                             {
                                 lnkBase.Text = reader.ReadString();
                                 dataFound++;
                             }
-                            if (reader.Name.Equals("generator"))
+                            else if (reader.Name.Equals("generator"))
                             {
                                 txtGenerator.Text = reader.ReadString();
                                 dataFound++;
                             }
-                            if (reader.Name.Equals("case"))
+                            else if (reader.Name.Equals("case"))
                             {
                                 txtCase.Text = reader.ReadString();
                                 dataFound++;

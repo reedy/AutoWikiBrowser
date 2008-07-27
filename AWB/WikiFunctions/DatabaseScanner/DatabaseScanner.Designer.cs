@@ -950,7 +950,7 @@ namespace WikiFunctions.DBScanner
             // lblListType
             // 
             this.lblListType.AutoSize = true;
-            this.lblListType.Location = new System.Drawing.Point(160, 45);
+            this.lblListType.Location = new System.Drawing.Point(151, 45);
             this.lblListType.Name = "lblListType";
             this.lblListType.Size = new System.Drawing.Size(46, 13);
             this.lblListType.TabIndex = 3;
@@ -959,7 +959,7 @@ namespace WikiFunctions.DBScanner
             // rdoBullet
             // 
             this.rdoBullet.AutoSize = true;
-            this.rdoBullet.Location = new System.Drawing.Point(250, 43);
+            this.rdoBullet.Location = new System.Drawing.Point(241, 43);
             this.rdoBullet.Name = "rdoBullet";
             this.rdoBullet.Size = new System.Drawing.Size(29, 17);
             this.rdoBullet.TabIndex = 5;
@@ -969,7 +969,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.rdoHash.AutoSize = true;
             this.rdoHash.Checked = true;
-            this.rdoHash.Location = new System.Drawing.Point(212, 43);
+            this.rdoHash.Location = new System.Drawing.Point(203, 43);
             this.rdoHash.Name = "rdoHash";
             this.rdoHash.Size = new System.Drawing.Size(32, 17);
             this.rdoHash.TabIndex = 4;
