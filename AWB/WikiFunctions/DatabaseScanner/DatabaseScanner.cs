@@ -288,13 +288,10 @@ namespace WikiFunctions.DBScanner
 
                 timerProgessUpdate.Enabled = false;
 
-                lblCount.Text = lbArticles.Items.Count.ToString() + " results";
+                UpdateDBScannerArticleCount();
 
                 TimeSpan endTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
                 endTime = endTime.Subtract(StartTime);
-
-                if (AWBListbox != null && AWBListbox.Parent is ListMaker)
-                    (AWBListbox.Parent as ListMaker).UpdateNumberOfArticles();
 
                 if (Main != null && Main.Message)
                     MessageBox.Show(lbArticles.Items.Count.ToString() + " matches in " + endTime.ToString().TrimEnd('0'));
@@ -308,6 +305,21 @@ namespace WikiFunctions.DBScanner
             finally
             {
                 UpdateControls(false);
+            }
+        }
+
+        private void UpdateAWBListBoxCount()
+        {
+            if (AWBListbox != null && AWBListbox.Parent is ListMaker)
+                (AWBListbox.Parent as ListMaker).UpdateNumberOfArticles();
+        }
+
+        private void RemoveDBScannerListItemsFromAWBListbox()
+        {
+            if (AWBListbox != null)
+            {
+                foreach (Article a in lbArticles)
+                    AWBListbox.Items.Remove(a);
             }
         }
 
@@ -429,7 +441,6 @@ namespace WikiFunctions.DBScanner
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            lblCount.Text = "";
             txtList.Clear();
         }
 
@@ -462,17 +473,17 @@ namespace WikiFunctions.DBScanner
 
         private void cmboLength_SelectedIndexChanged(object sender, EventArgs e)
         {
-            nudLength.Enabled = !(cmboLength.SelectedIndex == 0);
+            nudLength.Enabled = (cmboLength.SelectedIndex != 0);
         }
 
         private void cmboWords_SelectedIndexChanged(object sender, EventArgs e)
         {
-            nudWords.Enabled = !(cmboWords.SelectedIndex == 0);
+            nudWords.Enabled = (cmboWords.SelectedIndex != 0);
         }
 
         private void cmboLinks_SelectedIndexChanged(object sender, EventArgs e)
         {
-            nudLinks.Enabled = !(cmboLinks.SelectedIndex == 0);
+            nudLinks.Enabled = (cmboLinks.SelectedIndex != 0);
         }
 
         private void chkHeading_CheckedChanged(object sender, EventArgs e)
@@ -489,19 +500,34 @@ namespace WikiFunctions.DBScanner
                 chkHeading.Checked = false;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnTransfer_Click(object sender, EventArgs e)
         {
             wikifyToList();
         }
 
         private void btnFilter_Click(object sender, EventArgs e)
         {
+            if (AWBListbox != null)
+            {
+                AWBListbox.BeginUpdate();
+                RemoveDBScannerListItemsFromAWBListbox();
+            }
+
             SpecialFilter.ShowDialog(this);
-            lblCount.Text = lbArticles.Items.Count.ToString();
+
+            if (AWBListbox != null)
+            {
+                AWBListbox.Items.AddRange(lbArticles.Items);
+                AWBListbox.EndUpdate();
+            }
+
+            UpdateDBScannerArticleCount();
+            UpdateAWBListBoxCount();
         }
 
         private void lbClear_Click(object sender, EventArgs e)
         {
+            lblCount.Text = "";
             lbArticles.Items.Clear();
         }
 
@@ -541,7 +567,13 @@ namespace WikiFunctions.DBScanner
 
             lbArticles.EndUpdate();
 
-            lblCount.Text = lbArticles.Items.Count.ToString();
+            UpdateDBScannerArticleCount();
+            UpdateAWBListBoxCount();
+        }
+
+        private void UpdateDBScannerArticleCount()
+        {
+            lblCount.Text = lbArticles.Items.Count.ToString() + " results";
         }
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)

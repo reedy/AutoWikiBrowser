@@ -675,7 +675,7 @@ namespace WikiFunctions.DBScanner
             this.btnTransfer.TabIndex = 6;
             this.btnTransfer.Text = "Make";
             this.tooltip.SetToolTip(this.btnTransfer, "Turn list into wiki formatted text, which can be saved or copied.");
-            this.btnTransfer.Click += new System.EventHandler(this.button1_Click);
+            this.btnTransfer.Click += new System.EventHandler(this.btnTransfer_Click);
             // 
             // btnClearList
             // 
