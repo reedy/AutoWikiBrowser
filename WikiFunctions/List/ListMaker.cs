@@ -1223,7 +1223,14 @@ namespace WikiFunctions.Controls.Lists
             return plugins;
         }
 
-
+        /// <summary>
+        /// Returns a new DatabaseScanner tied to an instance of the current Articles List Box
+        /// </summary>
+        /// <returns></returns>
+        public WikiFunctions.DBScanner.DatabaseScanner DBScanner()
+        {
+            return new WikiFunctions.DBScanner.DatabaseScanner(lbArticles);
+        }
     }
 }
 
