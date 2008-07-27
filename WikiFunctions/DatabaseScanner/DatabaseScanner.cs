@@ -521,7 +521,10 @@ namespace WikiFunctions.DBScanner
             int i = lbArticles.SelectedIndex;
 
             while (lbArticles.SelectedItems.Count > 0)
+            {
+                AWBListbox.Items.Remove(lbArticles.SelectedItem);
                 lbArticles.Items.Remove(lbArticles.SelectedItem);
+            }
 
             if (lbArticles.Items.Count > i)
                 lbArticles.SelectedIndex = i;
