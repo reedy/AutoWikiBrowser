@@ -168,11 +168,11 @@ namespace AutoWikiBrowser
                 webBrowserEdit.None += CaseWasNull;
                 webBrowserEdit.Fault += StartDelayedRestartTimer;
                 webBrowserEdit.StatusChanged += UpdateWebBrowserStatus;
-                listMaker1.UserInputTextBox.ContextMenuStrip = mnuMakeFromTextBox;
-                listMaker1.BusyStateChanged += SetProgressBar;
-                listMaker1.NoOfArticlesChanged += UpdateButtons;
-                listMaker1.StatusTextChanged += UpdateListStatus;
-                listMaker1.cmboSourceSelect.SelectedIndexChanged += new EventHandler(ListMakerSourceSelectHandler);
+                listMaker.UserInputTextBox.ContextMenuStrip = mnuMakeFromTextBox;
+                listMaker.BusyStateChanged += SetProgressBar;
+                listMaker.NoOfArticlesChanged += UpdateButtons;
+                listMaker.StatusTextChanged += UpdateListStatus;
+                listMaker.cmboSourceSelect.SelectedIndexChanged += new EventHandler(ListMakerSourceSelectHandler);
 
                 profiles = new WikiFunctions.Profiles.AWBProfilesForm(webBrowserEdit);
                 profiles.LoadProfile += LoadProfileSettings;
@@ -236,7 +236,7 @@ namespace AutoWikiBrowser
                     SetStartButton(false);
                 }
                 else
-                    listMaker1.MakeListEnabled = true;
+                    listMaker.MakeListEnabled = true;
 
                 webBrowserDiff.Navigate("about:blank");
                 webBrowserDiff.ObjectForScripting = this;
@@ -245,7 +245,7 @@ namespace AutoWikiBrowser
                 if (Properties.Settings.Default.LogInOnStart)
                     CheckStatus(false);
 
-                LogControl1.Initialise(listMaker1);
+                LogControl1.Initialise(listMaker);
 
                 if (Properties.Settings.Default.WindowLocation != null)
                     this.Location = Properties.Settings.Default.WindowLocation;
@@ -528,7 +528,7 @@ namespace AutoWikiBrowser
 
                 ArticleInfo(true);
 
-                if (listMaker1.NumberOfArticles < 1)
+                if (listMaker.NumberOfArticles < 1)
                 {
                     webBrowserEdit.Busy = false;
                     StopSaveInterval(null, null);
@@ -536,13 +536,13 @@ namespace AutoWikiBrowser
                     StatusLabelText = "No articles in list, you need to use the Make list";
                     this.Text = Program.Name;
                     webBrowserEdit.Document.Write("");
-                    listMaker1.MakeListEnabled = true;
+                    listMaker.MakeListEnabled = true;
                     return;
                 }
                 else
                     webBrowserEdit.Busy = true;
 
-                TheArticle = new ArticleEX(listMaker1.SelectedArticle().Name);
+                TheArticle = new ArticleEX(listMaker.SelectedArticle().Name);
 
                 NewHistory();
 
@@ -579,7 +579,7 @@ namespace AutoWikiBrowser
 
         private void CaseWasDelete(object sender, EventArgs e)
         {
-            listMaker1.Remove(TheArticle);
+            listMaker.Remove(TheArticle);
             Start();
         }
 
@@ -607,7 +607,7 @@ namespace AutoWikiBrowser
 
                 if (filterOutNonMainSpaceToolStripMenuItem.Checked && (redirect.NameSpaceKey != 0))
                 {
-                    listMaker1.Remove(TheArticle); // or we get stuck in a loop
+                    listMaker.Remove(TheArticle); // or we get stuck in a loop
                     TheArticle = redirect; // if we didn't do this, we were writing the SkipPage info to the AWBLogListener belonging to the object redirect and resident in the MyTrace collection, but then attempting to add TheArticle's log listener to the logging tab
                     SkipPage("Page is not in mainspace");
                     return;
@@ -620,7 +620,7 @@ namespace AutoWikiBrowser
                     return;
                 }
 
-                listMaker1.ReplaceArticle(TheArticle, redirect);
+                listMaker.ReplaceArticle(TheArticle, redirect);
                 TheArticle = new ArticleEX(redirect.Name);
 
                 webBrowserEdit.LoadEditPage(redirect.Name);
@@ -988,14 +988,14 @@ namespace AutoWikiBrowser
             NumberOfEdits++;
 
             LastArticle = "";
-            listMaker1.Remove(TheArticle);
+            listMaker.Remove(TheArticle);
             NudgeTimer.Stop();
             sameArticleNudges = 0;
             if (EditBoxTab.SelectedTab == tpHistory)
                 EditBoxTab.SelectedTab = tpEdit;
             LogControl1.AddLog(false, TheArticle.LogListener);
 
-            if (listMaker1.Count == 0 && AutoSaveEditBoxEnabled)
+            if (listMaker.Count == 0 && AutoSaveEditBoxEnabled)
                 EditBoxSaveTimer.Enabled = false;
             retries = 0;
             Start();
@@ -1020,7 +1020,7 @@ namespace AutoWikiBrowser
                 NumberOfIgnoredEdits++;
                 StopDelayedAutoSaveTimer();
                 NudgeTimer.Stop();
-                listMaker1.Remove(TheArticle);
+                listMaker.Remove(TheArticle);
                 sameArticleNudges = 0;
                 LogControl1.AddLog(true, TheArticle.LogListener);
                 retries = 0;
@@ -1446,7 +1446,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void UpdateListStatus(object sender, EventArgs e)
         {
-            StatusLabelText = listMaker1.Status;
+            StatusLabelText = listMaker.Status;
         }
 
         private void MainFormClosing(object sender, FormClosingEventArgs e)
@@ -1941,7 +1941,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         public void Debug()
         {
             Tools.WriteDebugEnabled = true;
-            listMaker1.Add("Project:AutoWikiBrowser/Sandbox");
+            listMaker.Add("Project:AutoWikiBrowser/Sandbox");
             lblOnlyBots.Visible = false;
             dumpHTMLToolStripMenuItem.Visible = true;
             logOutDebugToolStripMenuItem.Visible = true;
@@ -2072,10 +2072,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void UpdateButtons(object sender, EventArgs e)
         {
-            bool enabled = (listMaker1.NumberOfArticles > 0);
+            bool enabled = (listMaker.NumberOfArticles > 0);
             SetStartButton(enabled);
 
-            lbltsNumberofItems.Text = "Pages: " + listMaker1.NumberOfArticles.ToString();
+            lbltsNumberofItems.Text = "Pages: " + listMaker.NumberOfArticles.ToString();
             bypassAllRedirectsToolStripMenuItem.Enabled = Variables.User.IsAdmin;
         }
 
@@ -2092,7 +2092,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             SetStartButton(false);
             SetButtons(false);
 
-            if (listMaker1.NumberOfArticles == 0)
+            if (listMaker.NumberOfArticles == 0)
                 btnIgnore.Enabled = false;
 
             if (cmboEditSummary.Focused) txtEdit.Focus();
@@ -2107,7 +2107,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void SetButtons(bool enabled)
         {
             btnSave.Enabled = btnIgnore.Enabled = btnPreview.Enabled = btnDiff.Enabled =
-            btntsPreview.Enabled = btntsChanges.Enabled = listMaker1.MakeListEnabled =
+            btntsPreview.Enabled = btntsChanges.Enabled = listMaker.MakeListEnabled =
             btntsSave.Enabled = btntsIgnore.Enabled = /*btnWatch.Enabled = */ findGroup.Enabled = enabled;
 
             btnDelete.Enabled = btntsDelete.Enabled = btnMove.Enabled = btnProtect.Enabled = (enabled && Variables.User.IsAdmin && (TheArticle != null));
@@ -2293,52 +2293,52 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void filterOutNonMainSpaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            listMaker1.FilterNonMainAuto = filterOutNonMainSpaceToolStripMenuItem.Checked;
+            listMaker.FilterNonMainAuto = filterOutNonMainSpaceToolStripMenuItem.Checked;
 
             if (filterOutNonMainSpaceToolStripMenuItem.Checked)
-                listMaker1.FilterNonMainArticles();
+                listMaker.FilterNonMainArticles();
         }
 
         private void removeDuplicatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            listMaker1.FilterDuplicates = removeDuplicatesToolStripMenuItem.Checked;
+            listMaker.FilterDuplicates = removeDuplicatesToolStripMenuItem.Checked;
 
             if (removeDuplicatesToolStripMenuItem.Checked)
-                listMaker1.removeListDuplicates();
+                listMaker.removeListDuplicates();
         }
 
         private void specialFilterToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            listMaker1.Filter();
+            listMaker.Filter();
         }
 
         private void convertToTalkPagesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            listMaker1.ConvertToTalkPages();
+            listMaker.ConvertToTalkPages();
         }
 
         private void convertFromTalkPagesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            listMaker1.ConvertFromTalkPages();
+            listMaker.ConvertFromTalkPages();
         }
 
         private void sortAlphabeticallyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            listMaker1.AutoAlpha = sortAlphabeticallyToolStripMenuItem.Checked;
+            listMaker.AutoAlpha = sortAlphabeticallyToolStripMenuItem.Checked;
 
             if (sortAlphabeticallyToolStripMenuItem.Checked)
-                listMaker1.AlphaSortList();
+                listMaker.AlphaSortList();
         }
 
         private void saveListToTextFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            listMaker1.SaveList();
+            listMaker.SaveList();
         }
 
         private void launchListComparerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (listMaker1.Count > 0 && MessageBox.Show("Would you like to copy your current Article List to the ListComparer?", "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                lc = new ListComparer(listMaker1.GetArticleList());
+            if (listMaker.Count > 0 && MessageBox.Show("Would you like to copy your current Article List to the ListComparer?", "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                lc = new ListComparer(listMaker.GetArticleList());
             else
                 lc = new ListComparer();
 
@@ -2349,8 +2349,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             WikiFunctions.AWBSettings.UserPrefs p = MakePrefs();
 
-            if (listMaker1.Count > 0 && MessageBox.Show("Would you like to copy your current Article List to the ListSplitter?", "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                splitter = new ListSplitter(p, WikiFunctions.AWBSettings.UserPrefs.SavePluginSettings(p), listMaker1.GetArticleList());
+            if (listMaker.Count > 0 && MessageBox.Show("Would you like to copy your current Article List to the ListSplitter?", "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                splitter = new ListSplitter(p, WikiFunctions.AWBSettings.UserPrefs.SavePluginSettings(p), listMaker.GetArticleList());
             else
                 splitter = new ListSplitter(p, WikiFunctions.AWBSettings.UserPrefs.SavePluginSettings(p));
 
@@ -2364,7 +2364,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void LaunchDumpSearcher()
         {
-            using (WikiFunctions.DBScanner.DatabaseScanner ds = listMaker1.DBScanner())
+            using (WikiFunctions.DBScanner.DatabaseScanner ds = listMaker.DBScanner())
             {
                 ds.Show();
                 UpdateButtons(null, null);
@@ -2667,7 +2667,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             if (Variables.User.webBrowserLogin.IsBusy)
                 Variables.User.webBrowserLogin.Stop();
 
-            listMaker1.Stop();
+            listMaker.Stop();
 
             if (AutoSaveEditBoxEnabled)
                 EditBoxSaveTimer.Enabled = false;
@@ -3051,7 +3051,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void SetProgressBar(object sender, EventArgs e)
         {
-            if (listMaker1.BusyStatus)
+            if (listMaker.BusyStatus)
             {
                 toolStripProgressBar1.MarqueeAnimationSpeed = 100;
                 toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
@@ -3181,7 +3181,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void txtDabLink_Enter(object sender, EventArgs e)
         {
-            if (txtDabLink.Text.Length == 0) txtDabLink.Text = listMaker1.SourceText;
+            if (txtDabLink.Text.Length == 0) txtDabLink.Text = listMaker.SourceText;
         }
 
         private void chkEnableDab_CheckedChanged(object sender, EventArgs e)
@@ -3595,7 +3595,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void CanShutdown()
         {
-            if (chkShutdown.Checked && listMaker1.Count == 0)
+            if (chkShutdown.Checked && listMaker.Count == 0)
             {
                 ShutdownTimer.Enabled = true;
                 ShutdownNotification shut = new ShutdownNotification();
@@ -3880,36 +3880,36 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void menuitemMakeFromTextBoxUndo_Click(object sender, EventArgs e)
         {
-            listMaker1.UserInputTextBox.Undo();
+            listMaker.UserInputTextBox.Undo();
         }
 
         private void menuitemMakeFromTextBoxCut_Click(object sender, EventArgs e)
         {
-            listMaker1.UserInputTextBox.Cut();
+            listMaker.UserInputTextBox.Cut();
         }
 
         private void menuitemMakeFromTextBoxCopy_Click(object sender, EventArgs e)
         {
-            listMaker1.UserInputTextBox.Copy();
+            listMaker.UserInputTextBox.Copy();
         }
 
         private void menuitemMakeFromTextBoxPaste_Click(object sender, EventArgs e)
         {
-            listMaker1.UserInputTextBox.Paste();
+            listMaker.UserInputTextBox.Paste();
         }
 
         private void mnuCopyToCategoryLog_Click(object sender, EventArgs e)
         {
-            if (listMaker1.UserInputTextBox.SelectionLength > 0)
-                loggingSettings1.LoggingCategoryTextBox.Text = listMaker1.UserInputTextBox.SelectedText;
+            if (listMaker.UserInputTextBox.SelectionLength > 0)
+                loggingSettings1.LoggingCategoryTextBox.Text = listMaker.UserInputTextBox.SelectedText;
             else
-                loggingSettings1.LoggingCategoryTextBox.Text = listMaker1.UserInputTextBox.Text;
+                loggingSettings1.LoggingCategoryTextBox.Text = listMaker.UserInputTextBox.Text;
         }
 
         private void ListMakerSourceSelectHandler(object sender, EventArgs e)
         {
             toolStripSeparatorMakeFromTextBox.Visible = mnuCopyToCategoryLog.Visible =
-                listMaker1.cmboSourceSelect.Text.Contains("Category");
+                listMaker.cmboSourceSelect.Text.Contains("Category");
         }
 
         private void externalProcessingToolStripMenuItem_Click(object sender, EventArgs e)

@@ -38,7 +38,9 @@ namespace WikiFunctions.Controls.Lists
 
     public partial class ListMaker : UserControl, IEnumerable<Article>, ICollection<Article>, IList<Article>
     {
+        private static SaveFileDialog saveListDialog;
         private static BindingList<IListProvider> listItems = new BindingList<IListProvider>();
+        ListFilterForm SpecialFilter;
 
         //used to keep easy track of providers for add/remove/use in code
         #region ListProviders
@@ -63,7 +65,13 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public event ListMakerEventHandler ListFinished;
 
-        ListFilterForm SpecialFilter;
+        static ListMaker()
+        {
+            saveListDialog = new SaveFileDialog();
+            saveListDialog.DefaultExt = "txt";
+            saveListDialog.Filter = "Text file with wiki markup|*.txt|Plaintext list|*.txt|CSV (Comma Seperated Values)|*.txt";
+            saveListDialog.Title = "Save article list";
+        }
 
         public ListMaker()
         {

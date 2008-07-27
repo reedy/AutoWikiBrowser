@@ -273,7 +273,7 @@ namespace AutoWikiBrowser
             this.strListFile = new System.Windows.Forms.SaveFileDialog();
             this.EditBoxSaveTimer = new System.Windows.Forms.Timer(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.listMaker1 = new WikiFunctions.Controls.Lists.ListMaker();
+            this.listMaker = new WikiFunctions.Controls.Lists.ListMaker();
             this.MainTab = new System.Windows.Forms.TabControl();
             this.tpOptions = new System.Windows.Forms.TabPage();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
@@ -2462,7 +2462,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.listMaker1);
+            this.groupBox2.Controls.Add(this.listMaker);
             this.groupBox2.Location = new System.Drawing.Point(2, 7);
             this.groupBox2.MaximumSize = new System.Drawing.Size(210, 372);
             this.groupBox2.MinimumSize = new System.Drawing.Size(210, 372);
@@ -2472,15 +2472,16 @@ namespace AutoWikiBrowser
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Make list";
             // 
-            // listMaker1
+            // listMaker
             // 
-            this.listMaker1.Location = new System.Drawing.Point(1, 16);
-            this.listMaker1.Margin = new System.Windows.Forms.Padding(4);
-            this.listMaker1.Name = "listMaker1";
-            this.listMaker1.SelectedSource = 0;
-            this.listMaker1.Size = new System.Drawing.Size(205, 349);
-            this.listMaker1.SourceText = "";
-            this.listMaker1.TabIndex = 0;
+            this.listMaker.Location = new System.Drawing.Point(1, 16);
+            this.listMaker.Margin = new System.Windows.Forms.Padding(4);
+            this.listMaker.Name = "listMaker";
+            this.listMaker.SelectedSource = 0;
+            this.listMaker.Size = new System.Drawing.Size(205, 349);
+            this.listMaker.SourceText = "";
+            this.listMaker.SpecialFilterSettings = ((WikiFunctions.AWBSettings.SpecialFilterPrefs)(resources.GetObject("listMaker.SpecialFilterSettings")));
+            this.listMaker.TabIndex = 0;
             // 
             // MainTab
             // 
@@ -3532,6 +3533,7 @@ namespace AutoWikiBrowser
             this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
             this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
             this.loggingSettings1.Name = "loggingSettings1";
+            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
             this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
             this.loggingSettings1.TabIndex = 0;
             // 
@@ -3897,7 +3899,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator22;
         private System.Windows.Forms.ToolStripMenuItem saveTextToFileToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox2;
-        private WikiFunctions.Controls.Lists.ListMaker listMaker1;
+        private WikiFunctions.Controls.Lists.ListMaker listMaker;
         private System.Windows.Forms.TabControl MainTab;
         private System.Windows.Forms.TabPage tpOptions;
         private System.Windows.Forms.GroupBox groupBox13;

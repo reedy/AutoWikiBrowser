@@ -135,7 +135,7 @@ namespace AutoWikiBrowser
             LoadPrefs(openXML.FileName);
             SettingsFile = openXML.FileName;
 
-            listMaker1.removeListDuplicates();
+            listMaker.removeListDuplicates();
         }
 
         private void LoadRecentSettingsList()
@@ -206,7 +206,7 @@ namespace AutoWikiBrowser
             ToolStripItem item = sender as ToolStripItem;
             LoadPrefs(item.Text);
             SettingsFile = item.Text;
-            listMaker1.removeListDuplicates();
+            listMaker.removeListDuplicates();
         }
 
         /// <summary>
@@ -253,7 +253,7 @@ namespace AutoWikiBrowser
                txtNewCategory2.Text, cmboImages.SelectedIndex, txtImageReplace.Text, txtImageWith.Text,
                chkSkipNoCatChange.Checked, chkSkipNoImgChange.Checked, chkAppend.Checked, !rdoPrepend.Checked,
                txtAppendMessage.Text, (int)udNewlineChars.Value, (int)nudBotSpeed.Value, chkSuppressTag.Checked,
-               chkRegExTypo.Checked), new ListPrefs(listMaker1, SaveArticleList),
+               chkRegExTypo.Checked), new ListPrefs(listMaker, SaveArticleList),
                new SkipPrefs(radSkipNonExistent.Checked, radSkipExistent.Checked, chkSkipNoChanges.Checked, chkSkipSpamFilter.Checked,
                chkSkipIfInuse.Checked, chkSkipIfContains.Checked, chkSkipIfNotContains.Checked, txtSkipIfContains.Text,
                txtSkipIfNotContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked,
@@ -274,7 +274,7 @@ namespace AutoWikiBrowser
                alphaSortInterwikiLinksToolStripMenuItem.Checked, replaceReferenceTagsToolStripMenuItem.Checked,
                focusAtEndOfEditTextBoxToolStripMenuItem.Checked), new DabPrefs(chkEnableDab.Checked,
                txtDabLink.Text, txtDabVariants.Lines, (int)udContextChars.Value), new ModulePrefs(
-               cModule.ModuleEnabled, cModule.Language, cModule.Code), externalProgram.Settings, loggingSettings1.SerialisableSettings, listMaker1.SpecialFilterSettings,
+               cModule.ModuleEnabled, cModule.Language, cModule.Code), externalProgram.Settings, loggingSettings1.SerialisableSettings, listMaker.SpecialFilterSettings,
                Plugin.Items);
         }
 
@@ -343,14 +343,14 @@ namespace AutoWikiBrowser
 
             findAndReplace.MakeList();
 
-            listMaker1.SourceText = p.List.ListSource;
-            listMaker1.SelectedSource = p.List.SourceIndex;
+            listMaker.SourceText = p.List.ListSource;
+            listMaker.SelectedSource = p.List.SourceIndex;
 
             SaveArticleList = p.General.SaveArticleList;
 
             IgnoreNoBots = p.General.IgnoreNoBots;
 
-            listMaker1.Add(p.List.ArticleList);
+            listMaker.Add(p.List.ArticleList);
 
             chkGeneralFixes.Checked = p.Editprefs.GeneralFixes;
             chkAutoTagger.Checked = p.Editprefs.Tagger;
@@ -475,7 +475,7 @@ namespace AutoWikiBrowser
             txtDabVariants.Lines = p.Disambiguation.Variants;
             udContextChars.Value = p.Disambiguation.ContextChars;
 
-            listMaker1.SpecialFilterSettings = p.Special;
+            listMaker.SpecialFilterSettings = p.Special;
 
             loggingSettings1.SerialisableSettings = p.Logging;
 
