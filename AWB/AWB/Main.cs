@@ -2364,7 +2364,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void LaunchDumpSearcher()
         {
-            WikiFunctions.DBScanner.DatabaseScanner ds = listMaker.DBScanner();
+            WikiFunctions.DBScanner.DatabaseScanner ds;
+            
+            if(MessageBox.Show("Would you like the results to be added to the ListMaker Article List?", "Add to ListMaker?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                ds = listMaker.DBScanner();
+            else
+                ds = new WikiFunctions.DBScanner.DatabaseScanner();
             ds.Show();
             UpdateButtons(null, null);
         }
