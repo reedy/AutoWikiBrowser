@@ -518,13 +518,21 @@ namespace WikiFunctions.DBScanner
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             lbArticles.BeginUpdate();
+
+            if (AWBListbox != null)
+            {
+                AWBListbox.BeginUpdate();
+
+                foreach(Article a in lbArticles.SelectedItems)
+                    AWBListbox.Items.Remove(a);
+
+                AWBListbox.EndUpdate();
+            }
+
             int i = lbArticles.SelectedIndex;
 
             while (lbArticles.SelectedItems.Count > 0)
-            {
-                AWBListbox.Items.Remove(lbArticles.SelectedItem);
                 lbArticles.Items.Remove(lbArticles.SelectedItem);
-            }
 
             if (lbArticles.Items.Count > i)
                 lbArticles.SelectedIndex = i;
