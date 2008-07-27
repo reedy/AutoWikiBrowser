@@ -34,7 +34,6 @@ namespace WikiFunctions.Controls
             this.okButton = new System.Windows.Forms.Button();
             this.textBoxDescription = new System.Windows.Forms.TextBox();
             this.lblVersion = new System.Windows.Forms.Label();
-            this.lnkDownload = new System.Windows.Forms.LinkLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
@@ -64,7 +63,7 @@ namespace WikiFunctions.Controls
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.okButton.Location = new System.Drawing.Point(170, 173);
+            this.okButton.Location = new System.Drawing.Point(170, 155);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 22);
             this.okButton.TabIndex = 31;
@@ -73,7 +72,7 @@ namespace WikiFunctions.Controls
             // 
             // textBoxDescription
             // 
-            this.textBoxDescription.Location = new System.Drawing.Point(15, 89);
+            this.textBoxDescription.Location = new System.Drawing.Point(15, 67);
             this.textBoxDescription.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
             this.textBoxDescription.Multiline = true;
             this.textBoxDescription.Name = "textBoxDescription";
@@ -92,23 +91,11 @@ namespace WikiFunctions.Controls
             this.lblVersion.TabIndex = 32;
             this.lblVersion.Text = "Version: ";
             // 
-            // lnkDownload
-            // 
-            this.lnkDownload.AutoSize = true;
-            this.lnkDownload.Location = new System.Drawing.Point(16, 60);
-            this.lnkDownload.Name = "lnkDownload";
-            this.lnkDownload.Size = new System.Drawing.Size(207, 13);
-            this.lnkDownload.TabIndex = 33;
-            this.lnkDownload.TabStop = true;
-            this.lnkDownload.Text = "Download the newest \"Pages\" XML dump";
-            this.lnkDownload.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkDownload_LinkClicked);
-            // 
             // AboutBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(262, 207);
-            this.Controls.Add(this.lnkDownload);
+            this.ClientSize = new System.Drawing.Size(262, 189);
             this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.textBoxDescription);
@@ -136,7 +123,6 @@ namespace WikiFunctions.Controls
         protected System.Windows.Forms.Button okButton;
         protected System.Windows.Forms.TextBox textBoxDescription;
         protected System.Windows.Forms.Label lblVersion;
-        protected System.Windows.Forms.LinkLabel lnkDownload;
         protected System.Windows.Forms.ToolTip toolTip1;
 
 
