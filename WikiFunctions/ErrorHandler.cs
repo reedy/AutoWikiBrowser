@@ -126,15 +126,36 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="ex">Exception to process</param>
         /// <returns>List of fully qualified function names</returns>
-        private static string[] MethodNames(Exception ex)
+        public static string[] MethodNames(Exception ex)
         {
-            MatchCollection mc = Regex.Matches(ex.StackTrace, @"([a-zA-Z_0-9.]+)(?=\()");
+            return MethodNames(ex.StackTrace);
+        }
+
+        /// <summary>
+        /// Returns names of functions in stack trace of an exception
+        /// </summary>
+        /// <param name="stackTrace">Exception's StackTrace</param>
+        /// <returns>List of fully qualified function names</returns>
+        public static string[] MethodNames(string stackTrace)
+        {
+            MatchCollection mc = Regex.Matches(stackTrace, @"([a-zA-Z_0-9.`]+)(?=\()");
 
             string[] res = new string[mc.Count];
 
             for (int i = 0; i < res.Length; i++) res[i] = mc[i].Groups[1].Value;
 
             return res;
+        }
+
+        /// <summary>
+        /// Returns the name of our function where supposedly error resides;
+        /// it's the last non-framework function in the stack
+        /// </summary>
+        /// <param name="ex">Exception to process</param>
+        /// <returns>Function names without namespace</returns>
+        public static string Thrower(Exception ex)
+        {
+            return Thrower(ex.StackTrace);
         }
 
         static readonly string[] PresetNamespaces =
@@ -144,11 +165,11 @@ namespace WikiFunctions
         /// Returns the name of our function where supposedly error resides;
         /// it's the last non-framework function in the stack
         /// </summary>
-        /// <param name="ex">Exception to process</param>
+        /// <param name="stackTrace"></param>
         /// <returns>Function names without namespace</returns>
-        private static string Thrower(Exception ex)
+        public static string Thrower(string stackTrace)
         {
-            string[] trace = MethodNames(ex);
+            string[] trace = MethodNames(stackTrace);
 
             if (trace.Length == 0) return "unknown function";
 
@@ -174,6 +195,7 @@ namespace WikiFunctions
 
             return res;
         }
+
 
         #endregion
 
