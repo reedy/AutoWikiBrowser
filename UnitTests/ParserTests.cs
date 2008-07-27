@@ -619,6 +619,25 @@ http://example.com }}");
             // ExtToInt2
             Assert.AreEqual("[[:ru:Яипу|Foo]]", Parsers.ExternalURLToInternalLink("[http://ru.wikipedia.org/wiki/Яипу Foo]"));
         }
+
+        [Test]
+        public void TestEmptyCommentRemoval()
+        {
+            Assert.AreEqual("", Parsers.RemoveEmptyComments("<!---->"));
+            Assert.AreEqual("", Parsers.RemoveEmptyComments("<!-- -->"));
+            Assert.AreEqual("", Parsers.RemoveEmptyComments("<!--\r\n\r\n-->"));
+
+            Assert.AreEqual("", Parsers.RemoveEmptyComments("<!--\r\n\r\n--><!--\r\n\r\n-->"));
+            Assert.AreEqual("", Parsers.RemoveEmptyComments("<!----><!---->"));
+            Assert.AreEqual("", Parsers.RemoveEmptyComments("<!--\r\n\r\n--><!---->"));
+            Assert.AreEqual("<!--Test-->", Parsers.RemoveEmptyComments("<!----><!--Test-->"));
+            Assert.AreEqual(" <!--Test-->", Parsers.RemoveEmptyComments("<!----> <!--Test-->"));
+            Assert.AreEqual("<!--Test--> <!--Test-->", Parsers.RemoveEmptyComments("<!--Test--> <!--Test-->"));
+
+            Assert.AreEqual("<!--Test-->", Parsers.RemoveEmptyComments("<!--Test-->"));
+
+            Assert.AreEqual("test", Parsers.RemoveEmptyComments("test"));
+        }
     }
 
     [TestFixture]

@@ -806,6 +806,9 @@ namespace WikiFunctions
             BulletExternalLinks(parsers, skip.SkipNoBulletedLink);
             Variables.Profiler.Profile("BulletExternalLinks");
 
+            AWBChangeArticleText("Remove empty comments", Parsers.RemoveEmptyComments(ArticleText), false);
+            Variables.Profiler.Profile("RemoveEmptyComments");
+
             //if (Variables.IsWikimediaProject)
             //{
             //    AWBChangeArticleText("External to internal links", Parsers.ExternalURLToInternalLink(ArticleText), true);
