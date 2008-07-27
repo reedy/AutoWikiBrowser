@@ -296,6 +296,9 @@ namespace WikiFunctions.DBScanner
                 if (Main != null && Main.Message)
                     MessageBox.Show(lbArticles.Items.Count.ToString() + " matches in " + endTime.ToString().TrimEnd('0'));
 
+                if (AWBListbox != null)
+                    (AWBListbox.Parent).UpdateNumberOfArticles();
+
                 Main = null;
             }
             catch (Exception ex)
