@@ -395,7 +395,7 @@ namespace WikiFunctions.DBScanner
         }
 
 
-        private void Save()
+        private void SaveConvertedList()
         {
             try
             {
@@ -415,7 +415,7 @@ namespace WikiFunctions.DBScanner
 
         private void btnSaveTxtList_Click(object sender, EventArgs e)
         {
-            Save();
+            SaveConvertedList();
         }
 
         private void chkRegex_CheckedChanged(object sender, EventArgs e)
