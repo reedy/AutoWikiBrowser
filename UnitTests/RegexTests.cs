@@ -15,7 +15,7 @@ namespace UnitTests
         public RegexTestsBase()
         {
             Globals.UnitTestMode = true;
-            WikiRegexes.MakeLangSpecificRegexes();
+            if (WikiRegexes.Category == null) WikiRegexes.MakeLangSpecificRegexes();
         }
 
         /// <summary>

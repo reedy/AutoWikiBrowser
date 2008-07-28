@@ -14,7 +14,7 @@ namespace UnitTests
         public HideTextTests()
         {
             Globals.UnitTestMode = true;
-            WikiRegexes.MakeLangSpecificRegexes();
+            if (WikiRegexes.Category == null) WikiRegexes.MakeLangSpecificRegexes();
         }
 
         string hidden = @"⌊⌊⌊⌊M?\d+⌋⌋⌋⌋";
@@ -99,6 +99,30 @@ Image:quux[http://example.com]
             AssertAllHidden("[http://foo]");
             AssertAllHidden("[http://foo bar]");
             AssertAllHidden("[http://foo [bar]");
+        }
+    }
+
+    [TestFixture]
+    public class ArticleTests
+    {
+        public ArticleTests()
+        {
+            Globals.UnitTestMode = true;
+            if (WikiRegexes.Category == null) WikiRegexes.MakeLangSpecificRegexes();
+        }
+
+        [Test]
+        public void NamespacelessName()
+        {
+            Assert.AreEqual("Foo", new Article("Foo").NamespacelessName);
+            Assert.AreEqual("Foo", new Article("Category:Foo").NamespacelessName);
+            Assert.AreEqual("Category:Foo", new Article("Category:Category:Foo").NamespacelessName);
+
+            // uncomment when Tools.CalculateNS() will support non-normalised names
+            //Assert.AreEqual("Foo", new Article("Category : Foo").NamespacelessName);
+
+            Assert.AreEqual("", new Article("Category:").NamespacelessName);
+            Assert.AreEqual("", new Article("Category: ").NamespacelessName);
         }
     }
 }

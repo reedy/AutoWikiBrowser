@@ -14,7 +14,7 @@ namespace UnitTests
         {
             Globals.UnitTestMode = true;
             Variables.SetToEnglish();
-            WikiRegexes.MakeLangSpecificRegexes();
+            if (WikiRegexes.Category == null) WikiRegexes.MakeLangSpecificRegexes();
         }
 
         [Test]

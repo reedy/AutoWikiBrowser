@@ -95,6 +95,19 @@ namespace WikiFunctions
         public string Name
         { get { return mName; } set { mName = value; } }
 
+        [XmlIgnore]
+        public string NamespacelessName
+        {
+            get
+            {
+                if (mNameSpaceKey == 0) return mName;
+
+                int pos = mName.IndexOf(':');
+                if (pos < 0) return mName;
+                return mName.Substring(pos + 1).Trim();
+            }
+        }
+
         /// <summary>
         /// The namespace of the article
         /// </summary>
