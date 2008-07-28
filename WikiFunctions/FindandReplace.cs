@@ -214,6 +214,12 @@ namespace WikiFunctions.Parse
             Tools.OpenENArticleInBrowser("Regular_expression", false);
         }
 
+        private void lblMsdn_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            lblMsdn.LinkVisited = true;
+            Tools.OpenURLInBrowser("http://msdn.microsoft.com/en-us/library/hs600312.aspx");
+        }
+
         private void btnClear_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Do you really want to clear the whole table?", "Really clear?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
