@@ -38,14 +38,14 @@ namespace AutoWikiBrowser
             MatchObj = null;
         }
 
-        public static void Find1(string strRegex, bool isRegex, bool caseSensive,
+        public static void Find1(string strRegex, bool isRegex, bool caseSensitive,
             System.Windows.Forms.TextBox txtEdit, string ArticleName)
         {
             string ArticleText = txtEdit.Text;
 
             RegexOptions regOptions;
 
-            if (caseSensive)
+            if (caseSensitive)
                 regOptions = RegexOptions.None;
             else
                 regOptions = RegexOptions.IgnoreCase;
@@ -63,9 +63,6 @@ namespace AutoWikiBrowser
                 MatchObj = RegexObj.Match(ArticleText, findStart);
                 txtEdit.SelectionStart = MatchObj.Index;
                 txtEdit.SelectionLength = MatchObj.Length;
-                txtEdit.Focus();
-                txtEdit.ScrollToCaret();
-                return;
             }
             else
             {
@@ -74,18 +71,16 @@ namespace AutoWikiBrowser
                     MatchObj = MatchObj.NextMatch();
                     txtEdit.SelectionStart = MatchObj.Index;
                     txtEdit.SelectionLength = MatchObj.Length;
-                    txtEdit.Focus();
-                    txtEdit.ScrollToCaret();
                 }
                 else
                 {
                     txtEdit.SelectionStart = 0;
                     txtEdit.SelectionLength = 0;
-                    txtEdit.Focus();
-                    txtEdit.ScrollToCaret();
                     ResetFind();
                 }
             }
+            txtEdit.Focus();
+            txtEdit.ScrollToCaret();
         }
     }
 }
