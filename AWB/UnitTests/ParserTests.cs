@@ -356,7 +356,7 @@ http://example.com }}");
         public BoldTitleTests()
         {
             Globals.UnitTestMode = true;
-            WikiRegexes.MakeLangSpecificRegexes();
+            if (WikiRegexes.Category == null) WikiRegexes.MakeLangSpecificRegexes();
         }
 
         [Test]

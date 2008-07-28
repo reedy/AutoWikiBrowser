@@ -32,7 +32,7 @@ namespace UnitTests
         public GenfixesTestsBase()
         {
             Globals.UnitTestMode = true;
-            WikiRegexes.MakeLangSpecificRegexes();
+            if (WikiRegexes.Category == null) WikiRegexes.MakeLangSpecificRegexes();
             a.InitialiseLogListener();
         }
 
