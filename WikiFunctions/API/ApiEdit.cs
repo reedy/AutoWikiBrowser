@@ -491,12 +491,20 @@ namespace WikiFunctions.API
                 string result = xr.GetAttribute("result");
                 if (result != null && result != "Success")
                 {
-                    if (xr.ReadToFollowing("captcha"))
+                    if (action == "edit")
                     {
-                        throw new ApiCaptchaException(this);
+                        string assert = xr.GetAttribute("assert");
+                        if (!string.IsNullOrEmpty(assert))
+                        {
+                            throw new ApiAssertionException(this, assert);
+                        }
+                        if (xr.ReadToFollowing("captcha"))
+                        {
+                            throw new ApiCaptchaException(this);
+                        }
                     }
                     else
-                        throw new ApiErrorException(this, result, result);
+                        throw new ApiErrorException(this, result, result); //HACK: we need error message
                 }
             }
         }
