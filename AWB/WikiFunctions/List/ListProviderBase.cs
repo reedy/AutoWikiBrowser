@@ -28,7 +28,7 @@ namespace WikiFunctions.Lists
         protected abstract ICollection<string> Actions { get; }
 
         /// <summary>
-        /// Upper limit for number of pages returned, could be a bit exceeded by number of pages the last request
+        /// Upper limit for number of pages returned, could be a bit exceeded by number of pages in the last request
         /// </summary>
         public int Limit
         {
@@ -200,11 +200,36 @@ namespace WikiFunctions.Lists
             return GetListing(category, 0);
         }
 
-        protected List<Article> Visited;
+        protected List<string> Visited = new List<string>();
 
-        public List<Article> RecurseCategory(string category, int levels)
+        public List<Article> RecurseCategory(string category, int haveSoFar, int depth)
         {
-            List<Article> lst = new List<Article>();
+            if (haveSoFar > Limit || depth < 0) return new List<Article>();
+
+            // normalise category name
+            category = Tools.TurnFirstToUpper(Tools.WikiDecode(category));
+            if (!Visited.Contains(category))
+                Visited.Add(category);
+            else
+                return new List<Article>();
+
+            List<Article> lst = GetListing(category, haveSoFar);
+
+            List<Article> fromSubcats = null;
+            if (depth > 0 && haveSoFar + lst.Count < Limit)
+            {
+                foreach (Article pg in lst)
+                {
+                    if (haveSoFar + lst.Count > Limit) break;
+
+                    if (pg.NameSpaceKey == 14 /*Category*/ && !Visited.Contains(pg.Name))
+                    {
+                        if (fromSubcats == null) fromSubcats = new List<Article>();
+                        fromSubcats.AddRange(RecurseCategory(pg.NamespacelessName, haveSoFar + lst.Count, depth - 1));
+                    }
+                }
+            }
+            if (fromSubcats != null && fromSubcats.Count > 0) lst.AddRange(fromSubcats);
 
             return lst;
         }
@@ -216,10 +241,12 @@ namespace WikiFunctions.Lists
         public override List<Article> MakeList(params string[] searchCriteria)
         {
             List<Article> lst = new List<Article>();
+            Visited.Clear();
             foreach (string cat in searchCriteria)
             {
-                lst.AddRange(GetListing(cat, lst.Count));
+                lst.AddRange(RecurseCategory(cat, lst.Count, 3));
             }
+            Visited.Clear();
 
             return lst;
         }
