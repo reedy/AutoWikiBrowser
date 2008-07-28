@@ -149,6 +149,25 @@ namespace WikiFunctions.API
         }
     }
 
+    /// <summary>
+    /// Thrown when assertion in API call fails
+    /// </summary>
+    public class ApiAssertionException : ApiException
+    {
+        public ApiAssertionException(ApiEdit editor, string assertion)
+            : base(editor, "Assertion '" + assertion + "' failed")
+        {
+        }
+    }
+
+    public class ApiLoggedOffException : ApiException
+    {
+        public ApiLoggedOffException(ApiEdit editor)
+            : base(editor, "You are currently logged off")
+        {
+        }
+    }
+
     public class ApiCaptchaException : ApiException
     {
         public ApiCaptchaException(ApiEdit editor)
