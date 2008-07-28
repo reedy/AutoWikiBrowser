@@ -1054,9 +1054,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// If fromsetting is true, get template name from a setting, i.e. strip formatting/template: call *if any*. If false, passes through to GetTemplateName(string call)
         /// </summary>
         /// <param name="setting"></param>
-        public static string GetTemplateName(string setting, bool fromsetting)
+        public static string GetTemplateName(string setting, bool fromSetting)
         {
-            if (fromsetting)
+            if (fromSetting)
             {
                 setting = setting.Trim();
                 if (string.IsNullOrEmpty(setting)) return "";
@@ -1071,7 +1071,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 return GetTemplateName(setting);
         }
 
-        private static Regex EmptyComments = new Regex(@"<!--\s*-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static Regex EmptyComments = new Regex(@"<!--[^\S\r\n]*-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         /// <summary>
         /// Removes comments with nothing/only whitespace between tags
         /// </summary>
@@ -1079,10 +1079,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text (removed empty comments).</returns>
         public static string RemoveEmptyComments(string ArticleText)
         {
-            if (EmptyComments.Match(ArticleText).Success)
-                return EmptyComments.Replace(ArticleText, "");
-            else
-                return ArticleText;
+            return EmptyComments.Replace(ArticleText, "");
         }
         #endregion
 
