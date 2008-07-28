@@ -49,7 +49,7 @@ namespace WikiFunctions.Parse
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.find = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.replace = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -64,8 +64,11 @@ namespace WikiFunctions.Parse
             this.deleteRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.testRegexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.moveToTopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.moveUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.moveDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveToBottomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.allCaseSensitiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkAllRegularExpressionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -89,9 +92,8 @@ namespace WikiFunctions.Parse
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.btnSearch = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.moveToTopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.moveToBottomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lblMsdn = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.FindAndReplaceContextMenu.SuspendLayout();
             this.SuspendLayout();
@@ -135,8 +137,8 @@ namespace WikiFunctions.Parse
             // replace
             // 
             this.replace.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle3.NullValue = null;
-            this.replace.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.NullValue = null;
+            this.replace.DefaultCellStyle = dataGridViewCellStyle1;
             this.replace.FillWeight = 87.66718F;
             this.replace.HeaderText = "Replace with";
             this.replace.MinimumWidth = 45;
@@ -230,126 +232,145 @@ namespace WikiFunctions.Parse
             this.uncheckAllSinglelineToolStripMenuItem,
             this.disableAllToolStripMenuItem});
             this.FindAndReplaceContextMenu.Name = "FindAndReplaceContextMenu";
-            this.FindAndReplaceContextMenu.Size = new System.Drawing.Size(239, 424);
+            this.FindAndReplaceContextMenu.Size = new System.Drawing.Size(236, 402);
             this.FindAndReplaceContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.FindAndReplaceContextMenu_Opening);
             // 
             // addRowToolStripMenuItem
             // 
             this.addRowToolStripMenuItem.Name = "addRowToolStripMenuItem";
-            this.addRowToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.addRowToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.addRowToolStripMenuItem.Text = "Insert row";
             this.addRowToolStripMenuItem.Click += new System.EventHandler(this.addRowToolStripMenuItem_Click);
             // 
             // deleteRowToolStripMenuItem
             // 
             this.deleteRowToolStripMenuItem.Name = "deleteRowToolStripMenuItem";
-            this.deleteRowToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.deleteRowToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.deleteRowToolStripMenuItem.Text = "Delete row";
             this.deleteRowToolStripMenuItem.Click += new System.EventHandler(this.deleteRowToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(235, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(232, 6);
             // 
             // testRegexToolStripMenuItem
             // 
             this.testRegexToolStripMenuItem.Name = "testRegexToolStripMenuItem";
-            this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.testRegexToolStripMenuItem.Text = "Test regex...";
             this.testRegexToolStripMenuItem.Click += new System.EventHandler(this.testRegexToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(232, 6);
+            // 
+            // moveToTopToolStripMenuItem
+            // 
+            this.moveToTopToolStripMenuItem.Name = "moveToTopToolStripMenuItem";
+            this.moveToTopToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.moveToTopToolStripMenuItem.Text = "Move to top";
+            this.moveToTopToolStripMenuItem.Click += new System.EventHandler(this.moveToTopToolStripMenuItem_Click);
             // 
             // moveUpToolStripMenuItem
             // 
             this.moveUpToolStripMenuItem.Name = "moveUpToolStripMenuItem";
-            this.moveUpToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.moveUpToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.moveUpToolStripMenuItem.Text = "Move up";
             this.moveUpToolStripMenuItem.Click += new System.EventHandler(this.moveUpToolStripMenuItem_Click);
             // 
             // moveDownToolStripMenuItem
             // 
             this.moveDownToolStripMenuItem.Name = "moveDownToolStripMenuItem";
-            this.moveDownToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.moveDownToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.moveDownToolStripMenuItem.Text = "Move down";
             this.moveDownToolStripMenuItem.Click += new System.EventHandler(this.moveDownToolStripMenuItem_Click);
+            // 
+            // moveToBottomToolStripMenuItem
+            // 
+            this.moveToBottomToolStripMenuItem.Name = "moveToBottomToolStripMenuItem";
+            this.moveToBottomToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.moveToBottomToolStripMenuItem.Text = "Move to bottom";
+            this.moveToBottomToolStripMenuItem.Click += new System.EventHandler(this.moveToBottomToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(235, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(232, 6);
             // 
             // allCaseSensitiveToolStripMenuItem
             // 
             this.allCaseSensitiveToolStripMenuItem.Name = "allCaseSensitiveToolStripMenuItem";
-            this.allCaseSensitiveToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.allCaseSensitiveToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.allCaseSensitiveToolStripMenuItem.Text = "Check all case sensitive";
             this.allCaseSensitiveToolStripMenuItem.Click += new System.EventHandler(this.allCaseSensitiveToolStripMenuItem_Click);
             // 
             // checkAllRegularExpressionsToolStripMenuItem
             // 
             this.checkAllRegularExpressionsToolStripMenuItem.Name = "checkAllRegularExpressionsToolStripMenuItem";
-            this.checkAllRegularExpressionsToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.checkAllRegularExpressionsToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.checkAllRegularExpressionsToolStripMenuItem.Text = "Check all regular expressions";
             this.checkAllRegularExpressionsToolStripMenuItem.Click += new System.EventHandler(this.checkAllRegularExpressionsToolStripMenuItem_Click);
             // 
             // checkAllMultlineToolStripMenuItem
             // 
             this.checkAllMultlineToolStripMenuItem.Name = "checkAllMultlineToolStripMenuItem";
-            this.checkAllMultlineToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.checkAllMultlineToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.checkAllMultlineToolStripMenuItem.Text = "Check all multline";
             this.checkAllMultlineToolStripMenuItem.Click += new System.EventHandler(this.checkAllMultlineToolStripMenuItem_Click);
             // 
             // checkAllSinglelineToolStripMenuItem
             // 
             this.checkAllSinglelineToolStripMenuItem.Name = "checkAllSinglelineToolStripMenuItem";
-            this.checkAllSinglelineToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.checkAllSinglelineToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.checkAllSinglelineToolStripMenuItem.Text = "Check all singleline";
             this.checkAllSinglelineToolStripMenuItem.Click += new System.EventHandler(this.checkAllSinglelineToolStripMenuItem_Click);
             // 
             // enableAllToolStripMenuItem
             // 
             this.enableAllToolStripMenuItem.Name = "enableAllToolStripMenuItem";
-            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.enableAllToolStripMenuItem.Text = "Enable all";
             this.enableAllToolStripMenuItem.Click += new System.EventHandler(this.enableAllToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(235, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(232, 6);
             // 
             // uncheckAllCaseSensitiveToolStripMenuItem
             // 
             this.uncheckAllCaseSensitiveToolStripMenuItem.Name = "uncheckAllCaseSensitiveToolStripMenuItem";
-            this.uncheckAllCaseSensitiveToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.uncheckAllCaseSensitiveToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.uncheckAllCaseSensitiveToolStripMenuItem.Text = "Uncheck all case sensitive";
             this.uncheckAllCaseSensitiveToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllCaseSensitiveToolStripMenuItem_Click);
             // 
             // uncheckAllRegularExpressionsToolStripMenuItem
             // 
             this.uncheckAllRegularExpressionsToolStripMenuItem.Name = "uncheckAllRegularExpressionsToolStripMenuItem";
-            this.uncheckAllRegularExpressionsToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.uncheckAllRegularExpressionsToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.uncheckAllRegularExpressionsToolStripMenuItem.Text = "Uncheck all regular expressions";
             this.uncheckAllRegularExpressionsToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllRegularExpressionsToolStripMenuItem_Click);
             // 
             // uncheckAllMultilineToolStripMenuItem
             // 
             this.uncheckAllMultilineToolStripMenuItem.Name = "uncheckAllMultilineToolStripMenuItem";
-            this.uncheckAllMultilineToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.uncheckAllMultilineToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.uncheckAllMultilineToolStripMenuItem.Text = "Uncheck all multiline";
             this.uncheckAllMultilineToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllMultilineToolStripMenuItem_Click);
             // 
             // uncheckAllSinglelineToolStripMenuItem
             // 
             this.uncheckAllSinglelineToolStripMenuItem.Name = "uncheckAllSinglelineToolStripMenuItem";
-            this.uncheckAllSinglelineToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.uncheckAllSinglelineToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.uncheckAllSinglelineToolStripMenuItem.Text = "Uncheck all singleline";
             this.uncheckAllSinglelineToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllSinglelineToolStripMenuItem_Click);
             // 
             // disableAllToolStripMenuItem
             // 
             this.disableAllToolStripMenuItem.Name = "disableAllToolStripMenuItem";
-            this.disableAllToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.disableAllToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.disableAllToolStripMenuItem.Text = "Disable all";
             this.disableAllToolStripMenuItem.Click += new System.EventHandler(this.disableAllToolStripMenuItem_Click);
             // 
@@ -469,24 +490,25 @@ namespace WikiFunctions.Parse
             this.label1.Text = "Search:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // toolStripSeparator4
+            // label2
             // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(235, 6);
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(203, 59);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(23, 13);
+            this.label2.TabIndex = 22;
+            this.label2.Text = "/ in";
             // 
-            // moveToTopToolStripMenuItem
+            // lblMsdn
             // 
-            this.moveToTopToolStripMenuItem.Name = "moveToTopToolStripMenuItem";
-            this.moveToTopToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.moveToTopToolStripMenuItem.Text = "Move to top";
-            this.moveToTopToolStripMenuItem.Click += new System.EventHandler(this.moveToTopToolStripMenuItem_Click);
-            // 
-            // moveToBottomToolStripMenuItem
-            // 
-            this.moveToBottomToolStripMenuItem.Name = "moveToBottomToolStripMenuItem";
-            this.moveToBottomToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.moveToBottomToolStripMenuItem.Text = "Move to bottom";
-            this.moveToBottomToolStripMenuItem.Click += new System.EventHandler(this.moveToBottomToolStripMenuItem_Click);
+            this.lblMsdn.AutoSize = true;
+            this.lblMsdn.Location = new System.Drawing.Point(223, 59);
+            this.lblMsdn.Name = "lblMsdn";
+            this.lblMsdn.Size = new System.Drawing.Size(39, 13);
+            this.lblMsdn.TabIndex = 23;
+            this.lblMsdn.TabStop = true;
+            this.lblMsdn.Text = "MSDN";
+            this.lblMsdn.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblMsdn_LinkClicked);
             // 
             // FindandReplace
             // 
@@ -494,6 +516,8 @@ namespace WikiFunctions.Parse
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnDone;
             this.ClientSize = new System.Drawing.Size(730, 382);
+            this.Controls.Add(this.lblMsdn);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.txtSearch);
@@ -565,5 +589,7 @@ namespace WikiFunctions.Parse
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem moveToTopToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem moveToBottomToolStripMenuItem;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.LinkLabel lblMsdn;
     }
 }
