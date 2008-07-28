@@ -599,10 +599,16 @@ namespace WikiFunctions.DBScanner
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            //btnPause.Enabled = (btnStart.Text == "Start");
+
             if (btnStart.Text == "Start")
                 StartButton();
             else
                 StopButton();
+        }
+
+        private void btnPause_Click(object sender, EventArgs e)
+        {
         }
 
         private void StopButton()

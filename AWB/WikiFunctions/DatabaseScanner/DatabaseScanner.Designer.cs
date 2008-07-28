@@ -1674,7 +1674,7 @@ namespace WikiFunctions.DBScanner
             this.btnPause.Size = new System.Drawing.Size(74, 23);
             this.btnPause.TabIndex = 2;
             this.btnPause.Text = "&Pause";
-            this.btnPause.Click += new System.EventHandler(this.btnStart_Click);
+            this.btnPause.Click += new System.EventHandler(this.btnPause_Click);
             // 
             // splitContainer1
             // 
