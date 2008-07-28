@@ -605,7 +605,7 @@ http://example.com }}");
             Assert.IsTrue(noChange);
         }
 
-        [Test, Category("Incomplete")]
+        [Test, Ignore("Unused"), Category("Incomplete")]
         public void ExternalURLToInternalLink()
         {
             //TODO:MOAR
@@ -621,21 +621,24 @@ http://example.com }}");
         }
 
         [Test]
-        public void TestEmptyCommentRemoval()
+        public void RemoveEmptyComments()
         {
             Assert.AreEqual("", Parsers.RemoveEmptyComments("<!---->"));
             Assert.AreEqual("", Parsers.RemoveEmptyComments("<!-- -->"));
-            Assert.AreEqual("", Parsers.RemoveEmptyComments("<!--\r\n\r\n-->"));
 
-            Assert.AreEqual("", Parsers.RemoveEmptyComments("<!--\r\n\r\n--><!--\r\n\r\n-->"));
+            // newline comments are used to split wikitext to lines w/o breaking formatting,
+            // they should not be removed
+            Assert.AreEqual("<!--\r\n\r\n-->", Parsers.RemoveEmptyComments("<!--\r\n\r\n-->"));
+
             Assert.AreEqual("", Parsers.RemoveEmptyComments("<!----><!---->"));
-            Assert.AreEqual("", Parsers.RemoveEmptyComments("<!--\r\n\r\n--><!---->"));
+            Assert.AreEqual("<!--\r\n\r\n-->", Parsers.RemoveEmptyComments("<!--\r\n\r\n--><!---->"));
             Assert.AreEqual("<!--Test-->", Parsers.RemoveEmptyComments("<!----><!--Test-->"));
             Assert.AreEqual(" <!--Test-->", Parsers.RemoveEmptyComments("<!----> <!--Test-->"));
-            Assert.AreEqual("<!--Test--> <!--Test-->", Parsers.RemoveEmptyComments("<!--Test--> <!--Test-->"));
+            Assert.AreEqual("<!--Test\r\nfoo--> <!--Test-->", Parsers.RemoveEmptyComments("<!--Test\r\nfoo--> <!--Test-->"));
 
             Assert.AreEqual("<!--Test-->", Parsers.RemoveEmptyComments("<!--Test-->"));
 
+            Assert.AreEqual("", Parsers.RemoveEmptyComments(""));
             Assert.AreEqual("test", Parsers.RemoveEmptyComments("test"));
         }
     }
