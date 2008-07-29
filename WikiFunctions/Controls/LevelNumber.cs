@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using WikiFunctions.Lists;
 
 namespace WikiFunctions.Controls
 {
@@ -13,6 +14,7 @@ namespace WikiFunctions.Controls
         public LevelNumber()
         {
             InitializeComponent();
+            numLevels.Maximum = CategoryRecursiveListProvider.MaxDepth;
         }
 
         public int Levels

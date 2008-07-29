@@ -35,136 +35,67 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages in Named Categories for the ListMaker (Non-Recursive)
     /// </summary>
-    public class CategoryListProvider : IListProvider
+    public class CategoryListProvider : CategoryProviderBase
     {
-        protected bool quietMode;
-        protected bool subCategories;
-        protected List<string> vistedCategories;
-
-        public CategoryListProvider()
-        { }
-
-        /// <param name="QuietMode">Whether errors should be supressed</param>
-        public CategoryListProvider(bool QuietMode)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
-            this.quietMode = QuietMode;
+            List<Article> lst = new List<Article>();
+
+            foreach (string cat in PrepareCategories(searchCriteria))
+            {
+                lst.AddRange(GetListing(cat, lst.Count));
+            }
+
+            return lst;
         }
 
-        public virtual List<Article> MakeList(params string[] searchCriteria)
-        {
-            List<string> searchCriteriaList = new List<string>(Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria));
-
-            List<Article> list = new List<Article>();
-            List<string> badcategories = new List<string>();
-            vistedCategories = new List<string>();
-
-            for (int i = 0; i < searchCriteriaList.Count; i++)
-            {
-                if (!vistedCategories.Contains(searchCriteriaList[i]))
-                {
-                    vistedCategories.Add(searchCriteriaList[i]);
-
-                    if (string.IsNullOrEmpty(searchCriteriaList[i]))
-                        continue;
-
-                    string cmtitle = Tools.WikiEncode(Regex.Replace(searchCriteriaList[i], Variables.NamespacesCaseInsensitive[14], ""));
-
-                    string url = Variables.URLLong + "api.php?action=query&list=categorymembers&cmtitle=Category:" + cmtitle + "&cmcategory=" + cmtitle + "&format=xml&cmlimit=500";
-                    int ns = 0;
-
-                    while (true)
-                    {
-                        string title = "";
-                        string html = Tools.GetHTML(url);
-                        if (html.Contains("categorymembers /"))
-                        {
-                            badcategories.Add(searchCriteriaList[i]);
-                            break;
-                        }
-                        bool more = false;
-
-                        using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
-                        {
-                            while (reader.Read())
-                            {
-                                if (reader.Name.Equals("cm"))
-                                {
-                                    if (reader.MoveToAttribute("ns"))
-                                        ns = int.Parse(reader.Value);
-                                    else
-                                        ns = 0;
-
-                                    if (reader.MoveToAttribute("title"))
-                                    {
-                                        title = reader.Value.ToString();
-                                        list.Add(new WikiFunctions.Article(title, ns));
-                                    }
-
-                                    if (subCategories && (ns == 14))
-                                    {
-                                        searchCriteriaList.Add(title.Replace(Variables.Namespaces[14], ""));
-                                    }
-                                }
-                                else if (reader.Name.Equals("categorymembers"))
-                                {
-                                    reader.MoveToAttribute("cmcontinue");
-                                    if (reader.Value.Length > 0)
-                                    {
-                                        string continueFrom = Tools.WikiEncode(reader.Value.ToString());
-                                        url = Variables.URLLong + "api.php?action=query&list=categorymembers&cmtitle=Category:" + cmtitle + "&cmcategory=" + cmtitle + "&format=xml&cmlimit=500&cmcontinue=" + continueFrom;
-                                        more = true;
-                                    }
-                                }
-                            }
-                        }
-                        if (!more)
-                            break;
-                    }
-                }
-            }
-            if (badcategories.Count != 0 && !this.quietMode)
-            {
-                StringBuilder errorMessage = new StringBuilder("The following Categories are empty or do not exist:");
-
-                foreach (string badcat in badcategories)
-                    errorMessage.AppendLine(" ● " + badcat);
-
-                MessageBox.Show(errorMessage.ToString());
-            }
-            return list;
-        }
-
-        #region ListMaker properties
-        public virtual string DisplayText
+        public override string DisplayText
         { get { return "Category"; } }
-
-        public string UserInputTextBoxText
-        { get { return Variables.Namespaces[14]; } }
-
-        public bool UserInputTextBoxEnabled
-        { get { return true; } }
-
-        public void Selected() { }
-
-        public bool RunOnSeparateThread
-        { get { return true; } }
-        #endregion
     }
 
     /// <summary>
     /// Gets a list of pages in Named Categories for the ListMaker (Recursive - Will visit ALL subcategories)
     /// </summary>
-    public class CategoryRecursiveListProvider : CategoryListProvider
+    public class CategoryRecursiveListProvider : CategoryProviderBase
     {
-        public CategoryRecursiveListProvider()
+        public const int MaxDepth = 5;
+
+        int m_Depth = MaxDepth;
+        /// <summary>
+        /// Maximum recursion depth during category scan
+        /// </summary>
+        public int Depth
         {
-            this.subCategories = true;
-            this.quietMode = true;
+            get { return m_Depth; }
+            set { m_Depth = Math.Min(value, MaxDepth); }
         }
+
+        public CategoryRecursiveListProvider()
+            :this(MaxDepth)
+        {
+        }
+
+        public CategoryRecursiveListProvider(int depth)
+            :base()
+        {
+            Depth = depth;
+        }
+
         public override List<Article> MakeList(params string[] searchCriteria)
         {
-            List<Article> ret = base.MakeList(searchCriteria);
-            return ret;
+            List<Article> lst = new List<Article>();
+
+            lock (Visited)
+            {
+                Visited.Clear();
+                foreach (string cat in PrepareCategories(searchCriteria))
+                {
+                    lst.AddRange(RecurseCategory(cat, lst.Count, Depth));
+                }
+                Visited.Clear();
+            }
+
+            return lst;
         }
 
         public override string DisplayText
@@ -174,16 +105,11 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages in Named Categories for the ListMaker (Recursive - Will visit 1 level of subcategories)
     /// </summary>
-    public class CategoryRecursiveOneLevelListProvider : CategoryRecursiveUserDefinedLevelListProvider
+    public class CategoryRecursiveOneLevelListProvider : CategoryRecursiveListProvider
     {
         public CategoryRecursiveOneLevelListProvider()
             : base(1)
         { }
-
-        public override List<Article> MakeList(params string[] searchCriteria)
-        {
-            return base.MakeList(true, searchCriteria);
-        }
 
         public override string DisplayText
         {
@@ -194,88 +120,34 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages in Named Categories for the ListMaker (Recursive - Will visit the specified number of levels of subcategories)
     /// </summary>
-    public class CategoryRecursiveUserDefinedLevelListProvider : CategoryListProvider
+    public class CategoryRecursiveUserDefinedLevelListProvider : CategoryRecursiveListProvider
     {
-        private int level;
-        protected List<string> allVistedCategories;
 
         /// <param name="Level">Levels of Subcategories to visit</param>
-        protected CategoryRecursiveUserDefinedLevelListProvider(int Level)
-        {
-            this.level = Level;
-            this.subCategories = false;
-            this.quietMode = true;
-        }
+        protected CategoryRecursiveUserDefinedLevelListProvider(int depth)
+            : base(depth)
+        { }
 
         public CategoryRecursiveUserDefinedLevelListProvider()
-            : this(0)
+            : base(0)
         { }
 
         public override List<Article> MakeList(params string[] searchCriteria)
         {
-            return MakeList(false, searchCriteria);
+            int userDepth = GetDepthFromUser();
+            if (userDepth < 0) return new List<Article>();
+            else
+                Depth = userDepth;
+
+            return base.MakeList(searchCriteria);
         }
 
-        /// <param name="levelSet">Whether the level has already been set by the code</param>
-        protected List<Article> MakeList(bool levelSet, params string[] searchCriteria)
+        public int GetDepthFromUser()
         {
-            if (!levelSet)
+            using (WikiFunctions.Controls.LevelNumber num = new WikiFunctions.Controls.LevelNumber())
             {
-                using (WikiFunctions.Controls.LevelNumber num = new WikiFunctions.Controls.LevelNumber())
-                {
-                    if (num.ShowDialog() != DialogResult.OK) return new List<Article>();
-                    level = num.Levels;
-                }
-            }
-            List<Article> articlesToReturn = new List<Article>();
-            List<Article> articles = base.MakeList(searchCriteria);
-
-            allVistedCategories = new List<string>(vistedCategories);
-
-            for (int i = 0; i < level; i++)
-            {
-                articlesToReturn.AddRange(articles);
-
-                List<string> moreCats = new List<string>();
-
-                foreach (Article a in articles)
-                {
-                    if (a.NameSpaceKey == 14 && !allVistedCategories.Contains(a.ToString()))
-                        moreCats.Add(a.ToString());
-                }
-
-                articles.Clear();
-
-                if (moreCats.Count == 0)
-                    break;
-
-                articles.AddRange(base.MakeList(moreCats.ToArray()));
-                allVistedCategories.AddRange(vistedCategories);
-            }
-
-            articlesToReturn.AddRange(articles);
-
-            return articlesToReturn;
-        }
-
-        public List<Article> MakeList(int Level, params string[] searchCriteria)
-        {
-            this.Level = Level;
-            return MakeList(true, searchCriteria);
-        }
-
-        /// <summary>
-        /// Get/Set Level
-        /// </summary>
-        public int Level
-        {
-            get { return this.level; }
-            set
-            {
-                if (value < 0)
-                    throw new ArgumentOutOfRangeException("value", "Value is less than 0");
-
-                this.level = value;
+                if (num.ShowDialog() != DialogResult.OK) return -1;
+                return num.Levels;
             }
         }
 
@@ -297,7 +169,7 @@ namespace WikiFunctions.Lists
         public TextFileListProvider()
         {
             openListDialog = new OpenFileDialog();
-            openListDialog.Filter = "text files|*.txt|All files|*.*";
+            openListDialog.Filter = "Text files|*.txt|All files|*.*";
             openListDialog.Multiselect = true;
         }
 
