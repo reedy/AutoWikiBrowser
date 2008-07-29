@@ -58,7 +58,7 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class CategoryRecursiveListProvider : CategoryProviderBase
     {
-        public const int MaxDepth = 5;
+        public const int MaxDepth = 30;
 
         int m_Depth = MaxDepth;
         /// <summary>
