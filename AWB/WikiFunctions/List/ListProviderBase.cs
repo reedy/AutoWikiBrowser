@@ -157,7 +157,7 @@ namespace WikiFunctions.Lists
 
     public abstract class CategoryProviderBase : ApiListProviderBase
     {
-        #region Overrides
+        #region Overrides: <categorymembers>/<cm>
         List<string> pe = new List<string>(new string[] { "cm" });
         protected override ICollection<string> PageElements
         {
@@ -180,12 +180,21 @@ namespace WikiFunctions.Lists
             get { return true; }
         }
 
+        public override void Selected() { }
+
+        public override bool UserInputTextBoxEnabled
+        { get { return true; } }
+
         #endregion
 
+        /// <summary>
+        /// Gets the content of the given categor(y/ies)
+        /// </summary>
+        /// <param name="category">Category name. Must be WITHOUT the Category: prefix</param>
+        /// <param name="haveSoFar">Number of pages already retrieved, for upper limit control</param>
+        /// <returns>List of pages</returns>
         public List<Article> GetListing(string category, int haveSoFar)
         {
-            //List<Article> lst = new List<Article>();
-
             string title = HttpUtility.UrlEncode(category);
 
             string url = Variables.URLLong + 
@@ -233,6 +242,25 @@ namespace WikiFunctions.Lists
 
             return lst;
         }
+
+        /// <summary>
+        /// Normalises category names, removes Category: prefix
+        /// </summary>
+        /// <param name="source">List of category names</param>
+        public static IEnumerable<string> PrepareCategories(IEnumerable<string> source)
+        {
+            List<string> cats = new List<string>();
+
+            foreach (string cat in source)
+            {
+                cats.Add(Regex.Replace(Tools.RemoveHashFromPageTitle(Tools.WikiDecode(cat)).Trim(),
+                    "^" + Variables.NamespacesCaseInsensitive[14], "").Trim());
+                    
+            }
+
+            return cats;
+        }
+
     }
 
     public class TestCategoryProvider : CategoryProviderBase
