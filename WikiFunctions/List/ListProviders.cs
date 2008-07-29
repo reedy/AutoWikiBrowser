@@ -79,6 +79,7 @@ namespace WikiFunctions.Lists
             :base()
         {
             Depth = depth;
+            Limit = 200000;
         }
 
         public override List<Article> MakeList(params string[] searchCriteria)
