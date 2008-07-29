@@ -263,36 +263,6 @@ namespace WikiFunctions.Lists
 
     }
 
-    public class TestCategoryProvider : CategoryProviderBase
-    {
-
-        public override List<Article> MakeList(params string[] searchCriteria)
-        {
-            List<Article> lst = new List<Article>();
-            Visited.Clear();
-            foreach (string cat in searchCriteria)
-            {
-                lst.AddRange(RecurseCategory(cat, lst.Count, 3));
-            }
-            Visited.Clear();
-
-            return lst;
-        }
-
-        public override string DisplayText
-        {
-            get { return "[Test]Category"; }
-        }
-
-        public override bool UserInputTextBoxEnabled
-        {
-            get { return true; }
-        }
-
-        public override void Selected()
-        { }
-    }
-
     public class ListProviderException : Exception
     {
         public ListProviderException(string message)
