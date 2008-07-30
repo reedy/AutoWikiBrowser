@@ -120,11 +120,11 @@ namespace WikiFunctions
         /// <summary>
         /// Gets the target of the redirect
         /// </summary>
-        /// <param name="Text">The title.</param>
+        /// <param name="Text">Title of redirect target</param>
         public static string RedirectTarget(string Text)
         {
             Match m = WikiRegexes.Redirect.Match(Text);
-            return m.Groups[1].Value;
+            return WikiDecode(m.Groups[1].Value).Trim();
         }
 
         /// <summary>
