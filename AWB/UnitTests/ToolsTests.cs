@@ -309,7 +309,7 @@ bar"));
             CollectionAssert.AreEqual(test, Tools.SplitLines("\nfoo\n\nbar"));
         }
 
-        [Test]
+        [Test, Category("Unarchived bugs")]
         public void TestRedirectTarget()
         {
             Assert.AreEqual("Foo", Tools.RedirectTarget("#redirect [[Foo]]"));
@@ -320,6 +320,11 @@ bar"));
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#AWB_follows_piped_redirects_to_an_invalid_page_title
             Assert.AreEqual("Foo", Tools.RedirectTarget("#REDIRECT [[Foo|bar]]"));
+
+            // URL-decode targets
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Problem_with_redirects
+            Assert.AreEqual("Foo, bar", Tools.RedirectTarget("#REDIRECT[[Foo%2C_bar]]"));
+            Assert.AreEqual("Хуй", Tools.RedirectTarget("#REDIRECT[[%D0%A5%D1%83%D0%B9]]"));
         }
     }
 
