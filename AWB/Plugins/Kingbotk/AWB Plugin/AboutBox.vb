@@ -60,7 +60,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
                 'toolTip1.SetToolTip(linkLabel1, "")
                 linkLabel1.Visible = False
                 lblMadeBy.Text = "Made by Stephen Kennedy with Sam Reed"
-                lnkDownload.Visible = False
                 lblVersion.Text = "Version " & AboutBox.Version
                 textBoxDescription.Text = _
                    AssemblyDescription(System.Reflection.Assembly.GetExecutingAssembly) & _
