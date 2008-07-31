@@ -92,11 +92,10 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
 
                             if (reader.Name.Equals("DisplayUrl"))
                             {
-                                title = "http://" + reader.ReadString();
+                                title = Tools.GetTitleFromURL("http://" + reader.ReadString());
 
-                                if (!title.StartsWith(Variables.URL + "/wiki/")) continue;
-
-                                articles.Add(new WikiFunctions.Article(Tools.GetPageFromURL(title)));
+                                if (!string.IsNullOrEmpty(title))
+                                    articles.Add(new WikiFunctions.Article(title));
                             }
                         }
                     }
