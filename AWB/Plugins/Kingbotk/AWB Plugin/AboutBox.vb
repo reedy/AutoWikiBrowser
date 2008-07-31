@@ -44,7 +44,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Private Sub linkReedy_LinkClicked(ByVal sender As System.Object, _
         ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles linkReedy.LinkClicked
             linkReedy.LinkVisited = True
-            Tools.OpenENArticleInBrowser("Reedy Boy", True)
+            Tools.OpenENArticleInBrowser("Reedy", True)
         End Sub
 
         Private Sub LicencingButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LicencingButton.Click
@@ -57,7 +57,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 
             Protected Overrides Sub Initialise()
                 Text = conAWBPluginName
-                'toolTip1.SetToolTip(linkLabel1, "")
                 linkLabel1.Visible = False
                 lblMadeBy.Text = "Made by Stephen Kennedy with Sam Reed"
                 lblVersion.Text = "Version " & AboutBox.Version
