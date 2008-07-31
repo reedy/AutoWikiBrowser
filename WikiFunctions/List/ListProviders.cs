@@ -596,9 +596,7 @@ namespace WikiFunctions.Lists
                     //Find each match to the pattern
                     foreach (Match m in regexGoogle.Matches(googleText))
                     {
-                        title = m.Groups[1].Value;
-
-                        title = Tools.GetTitleFromURL(title);
+                        title = Tools.GetTitleFromURL(m.Groups[1].Value);
 
                         if (!string.IsNullOrEmpty(title))
                         {

@@ -1204,7 +1204,7 @@ Message: {2}
         }
 
         /// <summary>
-        /// Returs index of first character different between strings
+        /// Returns index of first character different between strings
         /// </summary>
         /// <param name="a">First string</param>
         /// <param name="b">Second string</param>
