@@ -1096,15 +1096,17 @@ Message: {2}
         }
 
         /// <summary>
-        /// 
+        /// Extracts page title from URL
         /// </summary>
-        /// <param name="link"></param>
-        /// <returns></returns>
-        public static string GetPageFromURL(string link)
+        /// <param name="link">Link to process</param>
+        /// <returns>Page title or null if failed</returns>
+        public static string GetTitleFromURL(string link)
         {
-            link = link.Remove(0, (Variables.URL + "/wiki/").Length);
+            link = WikiRegexes.ExtractTitle.Match(link).Groups[1].Value;
 
-            return System.Web.HttpUtility.UrlDecode(link).Replace('_', ' ');
+            if (link == "") return null;
+            else
+                return Tools.WikiDecode(link);
         }
 
         /// <summary>
@@ -1199,6 +1201,21 @@ Message: {2}
             }
 
             return res.ToArray();
+        }
+
+        /// <summary>
+        /// Returs index of first character different between strings
+        /// </summary>
+        /// <param name="a">First string</param>
+        /// <param name="b">Second string</param>
+        public static int FirstDifference(string a, string b)
+        {
+            for (int i = 0; i < Math.Min(a.Length, b.Length); i++)
+            {
+                if (a[i] != b[i]) return i;
+            }
+
+            return Math.Min(a.Length, b.Length);
         }
 
         /// <summary>

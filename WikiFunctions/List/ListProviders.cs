@@ -584,7 +584,7 @@ namespace WikiFunctions.Lists
             foreach (string g in searchCriteria)
             {
                 int intStart = 0;
-                string google = Tools.WikiEncode(g);
+                string google = HttpUtility.UrlEncode(g);
                 google = google.Replace("_", " ");
                 string url = "http://www.google.com/search?q=" + google + "+site:" + Variables.URL + "&num=100&hl=en&lr=&start=0&sa=N&filter=0";
                 string title = "";
@@ -597,9 +597,13 @@ namespace WikiFunctions.Lists
                     foreach (Match m in regexGoogle.Matches(googleText))
                     {
                         title = m.Groups[1].Value;
-                        if (!title.StartsWith(Variables.URL + "/wiki/")) continue;
 
-                        list.Add(new WikiFunctions.Article(Tools.GetPageFromURL(title)));
+                        title = Tools.GetTitleFromURL(title);
+
+                        if (!string.IsNullOrEmpty(title))
+                        {
+                            list.Add(new WikiFunctions.Article(title));
+                        }
                     }
 
                     if (googleText.Contains("img src=\"nav_next.gif\""))
@@ -942,36 +946,6 @@ namespace WikiFunctions.Lists
             }
 
             return list;
-
-            //TODO:API way to get watchlist.. Doesnt seem to show as logged in
-            //List<Article> list = new List<Article>();
-
-            //string url = Variables.URLLong + "api.php?action=query&list=watchlist&wllimit=500&wlprop=title&format=xml";
-            //string html = Tools.GetHTML(url);
-            //string title;
-            //int ns;
-
-            //using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
-            //{
-            //    while (reader.Read())
-            //    {
-            //        if (reader.Name.Equals("item"))
-            //        {
-            //            if (reader.MoveToAttribute("ns"))
-            //                ns = int.Parse(reader.Value);
-            //            else
-            //                ns = 0;
-
-            //            if (reader.MoveToAttribute("title"))
-            //            {
-            //                title = reader.Value.ToString();
-            //                list.Add(new WikiFunctions.Article(title, ns));
-            //            }
-            //        }
-            //    }
-            //}
-
-            //return list;
         }
 
         #region ListMaker properties
