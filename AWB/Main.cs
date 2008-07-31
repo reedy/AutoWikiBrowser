@@ -620,7 +620,7 @@ namespace AutoWikiBrowser
                     return;
                 }
 
-                listMaker.ReplaceArticle(TheArticle, redirect);
+                listMaker.ReplaceArticle(TheArticle, new Article(redirect.Name));
                 TheArticle = new ArticleEX(redirect.Name);
 
                 webBrowserEdit.LoadEditPage(redirect.Name);
