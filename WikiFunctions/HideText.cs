@@ -139,9 +139,9 @@ namespace WikiFunctions.Parse
 
             ReplaceMore(WikiRegexes.Headings.Matches(ArticleText), ref ArticleText);
 
-            ReplaceMore(WikiRegexes.IndentedText.Matches(ArticleText), ref ArticleText);
-
             ReplaceMore(WikiRegexes.UnFormattedText.Matches(ArticleText), ref ArticleText);
+
+            ReplaceMore(WikiRegexes.IndentedText.Matches(ArticleText), ref ArticleText);
 
             ReplaceMore(WikiRegexes.WikiLinksOnly.Matches(ArticleText), ref ArticleText);
             
