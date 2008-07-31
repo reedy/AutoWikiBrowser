@@ -326,6 +326,43 @@ bar"));
             Assert.AreEqual("Foo, bar", Tools.RedirectTarget("#REDIRECT[[Foo%2C_bar]]"));
             Assert.AreEqual("Хуй", Tools.RedirectTarget("#REDIRECT[[%D0%A5%D1%83%D0%B9]]"));
         }
+
+        [Test, Category("Unarchived bugs")]
+        public void TestGetTitleFromURL()
+        {
+            Assert.AreEqual("foo bar", Tools.GetTitleFromURL("http://en.wikipedia.org/wiki/foo_bar"));
+            Assert.AreEqual("Хуй", Tools.GetTitleFromURL("http://en.wikipedia.org/wiki/%D0%A5%D1%83%D0%B9"));
+            Assert.AreEqual("foo", Tools.GetTitleFromURL("http://en.wikipedia.org/w/index.php?title=foo"));
+            Assert.AreEqual("foo", Tools.GetTitleFromURL("http://en.wikipedia.org/w/index.php/foo"));
+
+            // return null if there is something wrong
+            Assert.IsNull(Tools.GetTitleFromURL(""));
+            Assert.IsNull(Tools.GetTitleFromURL("foo"));
+            Assert.IsNull(Tools.GetTitleFromURL("http://en.wikipedia.org"));
+            Assert.IsNull(Tools.GetTitleFromURL("http://en.wikipedia.org/wiki/"));
+            Assert.IsNull(Tools.GetTitleFromURL("http://en.wikipedia.org/w/index.php?title=foo&action=delete"));
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#list_entries_like:_Index.html.3Fcurid.3D16235168
+            Assert.IsNull(Tools.GetTitleFromURL("http://en.wikipedia.org/wiki/index.html?curid=666"));
+            Assert.IsNull(Tools.GetTitleFromURL("http://en.wikipedia.org/wiki/foo?action=delete"));
+            Assert.IsNull(Tools.GetTitleFromURL("http://en.wikipedia.org/w/index.php?title=foo&action=delete"));
+            Assert.IsNull(Tools.GetTitleFromURL("http://en.wikipedia.org/w/index.php/foo?action=bar"));
+        }
+
+        [Test]
+        public void TestFirstDifference()
+        {
+            Assert.AreEqual(0, Tools.FirstDifference("a", "b"));
+            Assert.AreEqual(0, Tools.FirstDifference("", "a"));
+            Assert.AreEqual(0, Tools.FirstDifference("a", ""));
+
+            Assert.AreEqual(1, Tools.FirstDifference("aa", "ab"));
+            Assert.AreEqual(1, Tools.FirstDifference("ab", "aa"));
+            Assert.AreEqual(3, Tools.FirstDifference("foo", "foobar"));
+
+            // beyond the end
+            Assert.AreEqual(3, Tools.FirstDifference("foo", "foo"));
+        }
     }
 
     [TestFixture]

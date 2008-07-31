@@ -90,6 +90,17 @@ namespace WikiFunctions
 
             Defaultsort = new Regex(TemplateStart + s + @"\s*[:|](?<key>[^\}]*)}}",
                 RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+
+            //if (Variables.URL == Variables.URLLong)
+            //    s = Regex.Escape(Variables.URL);
+            //else
+            {
+                int pos = Tools.FirstDifference(Variables.URL, Variables.URLLong);
+                s = Regex.Escape(Variables.URLLong.Substring(0, pos));
+                s += "(?:" + Regex.Escape(Variables.URLLong.Substring(pos)) + @"index\.php(?:\?title=|/)|"
+                    + Regex.Escape(Variables.URL.Substring(pos)) + "/wiki/" + ")";
+            }
+            ExtractTitle = new Regex("^" + s + "([^?&]*)$", RegexOptions.Compiled);
         }
 
         /// <summary>
@@ -317,6 +328,11 @@ namespace WikiFunctions
         /// for checkpage parsing
         /// </summary>
         public static Regex NoGeneralFixes = new Regex("<!--No general fixes:.*?-->", RegexOptions.Singleline | RegexOptions.Compiled);
+
+        /// <summary>
+        /// For extraction of page title from URLs
+        /// </summary>
+        public static Regex ExtractTitle;
  
     }
 }
