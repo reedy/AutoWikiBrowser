@@ -535,7 +535,7 @@ namespace AutoWikiBrowser
                     lblTimer.Text = "";
                     StatusLabelText = "No articles in list, you need to use the Make list";
                     this.Text = Program.Name;
-                    webBrowserEdit.Document.Write("");
+                    if (webBrowserEdit.Document != null) webBrowserEdit.Document.Write("");
                     listMaker.MakeListEnabled = true;
                     return;
                 }
@@ -864,6 +864,12 @@ namespace AutoWikiBrowser
                 }
 
                 mErrorGettingLogInStatus = false;
+
+                if (!webBrowserEdit.Url.ToString().StartsWith(Variables.URLLong))
+                {
+                    SkipPage("Interwiki in page title");
+                    return false;
+                }
 
                 if (webBrowserEdit.NewMessage)
                 {//check if we have any messages
