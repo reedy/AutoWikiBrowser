@@ -9,7 +9,7 @@ namespace WikiFunctions.Parse
     /// <summary>
     /// DOCUMENT ME PLEASE! What do I do?!
     /// </summary>
-    public class HideText
+    public sealed class HideText
     {
         public HideText() { }
 

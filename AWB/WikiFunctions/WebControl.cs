@@ -255,7 +255,7 @@ namespace WikiFunctions.Browser
             return new UserInfo(s);
         }
 
-        static readonly Regex NewMessagesRegex = new Regex("(?<!<!-- start content -->.*)(<div class=['\"]usermessage['\"])", 
+        static readonly Regex NewMessagesRegex = new Regex("\\<div id=\"contentSub\"\\>[^<>]*?\\</div\\>\\s*\\<div class=\"usermessage\"", 
             RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
