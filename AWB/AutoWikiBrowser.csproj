@@ -331,6 +331,10 @@
       <Project>{9AF2D0F6-4ADA-4029-B2B4-28480E56EF0C}</Project>
       <Name>Server Plugin</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Plugins\TypoScan\TypoScan.csproj">
+      <Project>{996E563D-0501-4908-BC22-D098940F414E}</Project>
+      <Name>TypoScan</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Plugins\YahooSearch\YahooSearch.csproj">
       <Project>{D8371B08-85CF-4DFF-85B8-71EBF4661D71}</Project>
       <Name>YahooSearch</Name>
