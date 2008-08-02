@@ -34,13 +34,25 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         private void pluginUploadMenuItem_Click(object sender, EventArgs e)
         {
-            UploadFinishedToServer();
+            UploadFinishedArticlesToServer();
         }
 
         private void LogControl_LogAdded(bool Skipped, WikiFunctions.Logging.AWBLogListener LogListener)
         {
             if (PageList.ContainsKey(LogListener.Text))
             {
+                if (Skipped)
+                {
+                    switch (LogListener.SkipReason)
+                    {
+                        case "No typo fixes":
+                        case "Clicked ignore":
+                        case "No change":
+                            break;
+                        default:
+                            return;
+                    }
+                }
                 int articleID;
                 PageList.TryGetValue(LogListener.Text, out articleID);
                 FinishedPages.Add(articleID.ToString());
@@ -85,7 +97,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         public void Nudged(int Nudges)
         { }
 
-        private void UploadFinishedToServer()
+        private void UploadFinishedArticlesToServer()
         {
             if (FinishedPages.Count == 0)
                 return;
