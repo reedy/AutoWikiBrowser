@@ -1719,8 +1719,8 @@ namespace WikiFunctions.DBScanner
             this.Name = "DatabaseScanner";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Wiki Database Scanner";
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.Load += new System.EventHandler(this.DatabaseScanner_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DatabaseScanner_FormClosing);
             this.gbText.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
