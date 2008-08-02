@@ -22,7 +22,7 @@
 	{
 		$array[] = $row['articleid'];
 		$therow = $row['title'];
-		$xml_output .= "\t<article>";
+		$xml_output .= "\t<article id='{$row['articleid']}'>";
 		// Escaping illegal characters
 		$therow = str_replace("&", "&amp;", $therow);
 		$therow = str_replace("<", "&lt;", $therow);
@@ -38,5 +38,5 @@
 
 	echo $xml_output; 
 	
-	mysql_close($conn);	
+	mysql_close($conn);
 ?>

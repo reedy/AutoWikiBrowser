@@ -48,6 +48,8 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                 {
                     if (reader.Name.Equals("article"))
                     {
+                        reader.MoveToAttribute("id");
+                        int id = int.Parse(reader.Value);
                         articles.Add(new WikiFunctions.Article(reader.ReadString()));
                     }
                 }
