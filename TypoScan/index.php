@@ -13,7 +13,7 @@
 	
 	$result=mysql_query($query) or die ('Error: '.mysql_error());
 	
-	$xml_output  = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+	$xml_output  = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
 	$xml_output .= "<articles>\n";
 
 	$array = array();
@@ -28,7 +28,7 @@
 		$therow = str_replace("<", "&lt;", $therow);
 		$therow = str_replace(">", "&gt;", $therow);
 		$therow = str_replace("\"", "&quot;", $therow);
-		$xml_output .= $therow . "</article>\n";
+		$xml_output .= utf8_encode($therow) . "</article>\n";
 	}
 	
 	$query = 'UPDATE articles SET checkedout = NOW() WHERE articleid IN (' . implode(",", $array) . ')';
