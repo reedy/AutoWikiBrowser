@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
+using System.Collections.Specialized;
 using System.Windows.Forms;
 using WikiFunctions;
 using WikiFunctions.Plugin;
@@ -11,6 +12,8 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
     class TypoScanAWBPlugin : IAWBPlugin
     {
         #region IAWBPlugin Members
+
+        internal static readonly string URL = "http://typoscan.reedyboy.net/index.php?finished=true";
 
         internal static IAutoWikiBrowser AWB;
         internal static Dictionary<string, int> PageList = new Dictionary<string, int>();
@@ -40,7 +43,6 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             {
                 int articleID;
                 PageList.TryGetValue(LogListener.Text, out articleID);
-
                 FinishedPages.Add(articleID.ToString());
             }
         }
@@ -86,6 +88,13 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         private void UploadFinishedToServer()
         {
             string pages = string.Join(",", FinishedPages.ToArray());
+
+            NameValueCollection postVars = new NameValueCollection();
+
+            postVars.Add("articles", pages);
+
+            Tools.PostData(postVars, URL);
+
             FinishedPages.Clear();
         }
         #endregion
