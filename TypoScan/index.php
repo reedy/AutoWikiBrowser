@@ -65,9 +65,109 @@
 		
 		case 'stats':
 		default:
+		header("Content-type: text/html; charset=utf-8");
 		
+			echo'<html>
+			<head>
+			<title>TypoScan Stats</title>
+			<style type="text/css">
+		BODY, .default  {
+			font-size : 12pt;
+			font-family : Arial, Courier, Helvetica;
+			color : Black;
+		}
+		
+		a:link  {
+			color : blue;
+			text-decoration : none;
+		}
+		
+		A:visited {
+			color : purple;
+			text-decoration : none;
+		}
+		
+		a:hover  {
+			color : #D79C02;
+			text-decoration : underline;
+		}
+		
+		table, caption {
+			width : 700px;
+		}
+		
+		table, caption, th, td {
+			border-width : 1px;
+			border-style : solid;		
+		}
+		
+		caption {
+			border-bottom-width : 0px;
+			font-weight : bold;
+		}
+		
+		TH.sortable {
+			cursor : pointer;
+		}
+	</style>
+	</head>
+				<table>
+				<caption>Overview</caption>';
+			//Number of articles in Database
+			$query = "SELECT COUNT(articleid) AS noarticles FROM articles";
+			$result=mysql_fetch_array(mysql_query($query));
+			PrintTableRow("Number of Articles", $result['noarticles']);
+			
+			//Number of currently checked out articles
+			$query = "SELECT COUNT(articleid) AS nocheckedout FROM articles WHERE (checkedout >= DATE_SUB(NOW(), INTERVAL 2 HOUR)) AND (finished = 0)";
+			$result=mysql_fetch_array(mysql_query($query));
+			PrintTableRow("Number of Checked Out Articles", $result['nocheckedout']);
+			
+			//Number of finished articles
+			$query = "SELECT COUNT(articleid) AS nofinished FROM articles WHERE (finished = 1)";
+			$result=mysql_fetch_array(mysql_query($query));
+			PrintTableRow("Number of Finished Articles", $result['nofinished']);
+			
+			//Number of users
+			$query = "SELECT COUNT(*)-1 AS nousers FROM (SELECT DISTINCT user FROM articles GROUP BY user) AS usercount"; //-1 as it seems to +1 on usercount
+			$result=mysql_fetch_array(mysql_query($query));
+			PrintTableRow("Number of Users", $result['nousers']);
+
+			echo '</table>
+			<p/>';
+			
+			//Number of finished by user
+			$query = "SELECT COUNT(user) AS edits, user FROM articles WHERE (finished = 1) GROUP BY user ORDER BY edits DESC";
+		
+			echo '<table>
+	<caption>Edits by User</caption>
+<thead>
+	<tr>
+		<th scope="col">User</th>
+		<th scope="col">Number of Finished Articles</th>
+	</tr>
+</thead>';
+	
+			$result=mysql_query($query);
+			
+			while($row = mysql_fetch_assoc($result))
+			{
+				PrintTableRow($row['user'], $row['edits']);
+			}
+			
+			echo '</table>
+			</html>';
 			break;
 	}
 	
 	mysql_close($conn);
+	
+	function PrintTableRow($header, $data) {
+	echo '
+	
+	<tr>
+		<th align="left" scope="row">'.$header.'</th><td>'.$data.'</td>
+	</tr>
+';
+}
 ?>
