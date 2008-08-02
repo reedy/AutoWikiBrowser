@@ -117,7 +117,8 @@
 			//Number of articles in Database
 			$query = "SELECT COUNT(articleid) AS noarticles FROM articles";
 			$result=mysql_fetch_array(mysql_query($query));
-			PrintTableRow("Number of Articles", $result['noarticles']);
+			$totalArticles = $result['noarticles'];
+			PrintTableRow("Number of Articles", $totalArticles);
 			
 			//Number of currently checked out articles
 			$query = "SELECT COUNT(articleid) AS nocheckedout FROM articles WHERE (checkedout >= DATE_SUB(NOW(), INTERVAL 2 HOUR)) AND (finished = 0)";
@@ -127,7 +128,11 @@
 			//Number of finished articles
 			$query = "SELECT COUNT(articleid) AS nofinished FROM articles WHERE (finished = 1)";
 			$result=mysql_fetch_array(mysql_query($query));
-			PrintTableRow("Number of Finished Articles", $result['nofinished']);
+			$unfinishedArticles = $result['nofinished'];
+			PrintTableRow("Number of Finished Articles", $unfinishedArticles);
+			
+			//Number of unfinished articles
+			PrintTableRow("Number of Unfinished Articles", ($totalArticles - $unfinishedArticles));
 			
 			//Number of users
 			$query = "SELECT COUNT(*)-1 AS nousers FROM (SELECT DISTINCT user FROM articles GROUP BY user) AS usercount"; //-1 as it seems to +1 on usercount

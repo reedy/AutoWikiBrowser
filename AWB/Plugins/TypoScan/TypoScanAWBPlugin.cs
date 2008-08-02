@@ -7,6 +7,8 @@ using System.Windows.Forms;
 using WikiFunctions;
 using WikiFunctions.Plugin;
 
+using WikiFunctions.AWBSettings;
+
 namespace WikiFunctions.Plugins.ListMaker.TypoScan
 {
     class TypoScanAWBPlugin : IAWBPlugin
@@ -84,10 +86,29 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         }
 
         public void LoadSettings(object[] prefs)
-        { }
+        {
+            //if (prefs == null) return;
+
+            //foreach (object o in prefs)
+            //{
+            //    PrefsKeyPair p = o as PrefsKeyPair;
+            //    if (p == null) continue;
+
+            //    switch (p.Name.ToLower())
+            //    {
+            //        case "pagelist":
+            //            PageList = (Dictionary<string, int>)p.Setting;
+            //            break;
+            //    }
+            //}
+        }
 
         public object[] SaveSettings()
         {
+            //PrefsKeyPair[] prefs = new PrefsKeyPair[1];
+            //prefs[0] = new PrefsKeyPair("PageList", PageList);
+
+            //return prefs;
             return new object[0];
         }
 
