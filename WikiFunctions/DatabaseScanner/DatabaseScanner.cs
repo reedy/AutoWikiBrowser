@@ -72,7 +72,7 @@ namespace WikiFunctions.DBScanner
             AWBListbox = l;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void DatabaseScanner_Load(object sender, EventArgs e)
         {
             cmboLength.SelectedIndex = 0;
             cmboLinks.SelectedIndex = 0;
@@ -623,9 +623,13 @@ namespace WikiFunctions.DBScanner
             MessageBox.Show(lbArticles.Items.Count.ToString() + " matches in " + endTime.ToString().TrimEnd('0'));
         }
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        private void DatabaseScanner_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (Main != null)
+            if (MessageBox.Show("Are you sure you want to close the Database Scanner?", "Close Scanner?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            {
+                e.Cancel = true;
+            }
+            else if (Main != null)
             {
                 Main.Message = false;
                 Main.Stop();
