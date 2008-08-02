@@ -13,7 +13,9 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         internal static IAutoWikiBrowser AWB;
 
-        internal static Dictionary<int, string> PageList = new Dictionary<int, string>();
+        internal static Dictionary<string, int> PageList = new Dictionary<string, int>();
+
+        static List<int> FinishedPages = new List<int>();
 
         public void Initialise(IAutoWikiBrowser sender)
         {
@@ -24,6 +26,13 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         void LogControl_LogAdded(bool Skipped, WikiFunctions.Logging.AWBLogListener LogListener)
         {
             //DoSomething
+            if (PageList.ContainsKey(LogListener.Text))
+            {
+                int articleID;
+                PageList.TryGetValue(LogListener.Text, out articleID);
+
+                FinishedPages.Add(articleID);
+            }
         }
 
         public string Name
