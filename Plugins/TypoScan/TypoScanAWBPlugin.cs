@@ -57,6 +57,9 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                 int articleID;
                 PageList.TryGetValue(LogListener.Text, out articleID);
                 FinishedPages.Add(articleID.ToString());
+
+                if (FinishedPages.Count == 25)
+                    UploadFinishedArticlesToServer(false);
             }
         }
 
