@@ -1,5 +1,4 @@
 <?php
-
 	//prevent caching
 	header('Cache-Control: no-cache, no-store, must-revalidate'); //HTTP/1.1
 	header('Expires: Sun, 01 Jul 2005 00:00:00 GMT');
@@ -18,11 +17,14 @@
 		case 'finished':
 			header("Content-type: text/html; charset=utf-8"); 
 			$articles = $_POST['articles'];
+			$user = $_POST['user'];
 			
 			if (!empty($articles))
 			{
-				$query = 'UPDATE articles SET finished = 1 WHERE articleid IN (' . $articles . ')';
+				$query = 'UPDATE articles SET finished = 1 AND checkedin = NOW() AND user = "' . $user . '" WHERE articleid IN (' . $articles . ')';
 				$result=mysql_query($query) or die ('Error: '.mysql_error());
+				
+				echo "<html><body>Articles Updated</body></html>";
 			}
 			else
 				echo "<html><body>Articles have to be posted to the script</body></html>";

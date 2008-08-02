@@ -93,11 +93,13 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             NameValueCollection postVars = new NameValueCollection();
 
             postVars.Add("articles", string.Join(",", FinishedPages.ToArray()));
+            postVars.Add("user", Variables.User.Name);
 
             try
             {
-                Tools.PostData(postVars, URL);
-                FinishedPages.Clear();
+                string result = Tools.PostData(postVars, URL);
+                if (result.Contains("Articles Updated"))
+                    FinishedPages.Clear();
             }
             catch (System.Net.WebException) { }
         }
