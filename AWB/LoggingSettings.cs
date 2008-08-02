@@ -111,6 +111,7 @@ namespace AutoWikiBrowser
             }
             set
             {
+                if (DesignMode) return;
                 if (value == null) return;
                 LoggingPrefs prefs = value;
 
