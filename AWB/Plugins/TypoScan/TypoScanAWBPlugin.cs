@@ -49,6 +49,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                         case "No typo fixes":
                         case "Clicked ignore":
                         case "No change":
+                        case "Non-existent page":
                             break;
                         default:
                             return;

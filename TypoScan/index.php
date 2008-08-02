@@ -21,7 +21,7 @@
 			
 			if (!empty($articles))
 			{
-				$query = 'UPDATE articles SET finished = 1 AND checkedin = NOW() AND user = "' . $user . '" WHERE articleid IN (' . $articles . ')';
+				$query = 'UPDATE articles SET finished = 1, checkedin = NOW(), user = "' . $user . '" WHERE articleid IN (' . $articles . ')';
 				$result=mysql_query($query) or die ('Error: '.mysql_error());
 				
 				echo "<html><body>Articles Updated</body></html>";
