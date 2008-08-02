@@ -126,6 +126,8 @@ namespace WikiFunctions.Plugin
         /// <param name="Message"></param>
         /// <param name="Icon"></param>
         void NotifyBalloon(string Message, ToolTipIcon Icon);
+
+        string StatusLabelText { get; set; }
     }
 
     /// <summary>
@@ -226,7 +228,6 @@ namespace WikiFunctions.Plugin
      * since plugins use but don't implement the interface. Removing members is to be avoided if at all possible. */
     public interface IAutoWikiBrowser : IAutoWikiBrowserForm, IAutoWikiBrowserCommands, IAutoWikiBrowserInfo
     {
-
         /// <summary>
         /// Returns a reference to a WikiFunctions.Logging.TraceManager class which handles AWB's logging. This object also implements the IMyTraceListener interface. Plugin authors can use this reference to write to all active loggers, including the AWB Log tab and logfiles.
         /// </summary>

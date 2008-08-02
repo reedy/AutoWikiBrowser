@@ -269,9 +269,7 @@ namespace AutoWikiBrowser
 #endregion
 
 #region Helper routines
-        private static string StatusLabelText {
-            set { ((MainForm)Program.AWB).StatusLabelText = value; }
-        }
+        private static string StatusLabelText { set { Program.AWB.StatusLabelText = value; } }
 
         private static void EnumeratePlugins(NameValueCollection postvars, ICollection<IAWBPlugin> awbPlugins, ICollection<IListMakerPlugin> listLakerPlugins)
         {
