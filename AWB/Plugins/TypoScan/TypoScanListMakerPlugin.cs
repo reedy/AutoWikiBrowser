@@ -33,7 +33,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
     {
         public string Name
         {
-            get { return "TypoScan Plugin"; }
+            get { return "TypoScan ListMaker Plugin"; }
         }
 
         public List<Article> MakeList(params string[] searchCriteria)

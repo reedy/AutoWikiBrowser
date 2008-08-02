@@ -7,55 +7,55 @@ using WikiFunctions.Plugin;
 
 namespace WikiFunctions.Plugins.ListMaker.TypoScan
 {
-    //class TypoScanAWBPlugin : IAWBPlugin
-    //{
-    //    #region IAWBPlugin Members
+    class TypoScanAWBPlugin : IAWBPlugin
+    {
+        #region IAWBPlugin Members
 
-    //    public void Initialise(IAutoWikiBrowser sender)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
+        internal static IAutoWikiBrowser AWB;
 
-    //    public string Name
-    //    {
-    //        get { throw new NotImplementedException(); }
-    //    }
+        public void Initialise(IAutoWikiBrowser sender)
+        {
+            AWB = sender;
+        }
 
-    //    public string WikiName
-    //    {
-    //        get { throw new NotImplementedException(); }
-    //    }
+        public string Name
+        {
+            get { return "TypoScan AWB Plugin]]"; }
+        }
 
-    //    public string ProcessArticle(IAutoWikiBrowser sender, ProcessArticleEventArgs eventargs)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
+        public string WikiName
+        {
+            get
+            {
+                return "[[Wikipedia:TypoScan|TypoScan AWB Plugin]], Plugin version " +
+                    System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            }
+        }
 
-    //    public void LoadSettings(object[] prefs)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
+        public string ProcessArticle(IAutoWikiBrowser sender, ProcessArticleEventArgs eventargs)
+        {
+            return eventargs.ArticleText;
+        }
 
-    //    public object[] SaveSettings()
-    //    {
-    //        throw new NotImplementedException();
-    //    }
+        public void LoadSettings(object[] prefs)
+        { }
 
-    //    public void Reset()
-    //    {
-    //        throw new NotImplementedException();
-    //    }
+        public object[] SaveSettings()
+        {
+            return new object[0];
+        }
 
-    //    public void Nudge(out bool Cancel)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
+        public void Reset()
+        { }
 
-    //    public void Nudged(int Nudges)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
+        public void Nudge(out bool Cancel)
+        {
+            Cancel = false;
+        }
 
-    //    #endregion
-    //}
+        public void Nudged(int Nudges)
+        { }
+
+        #endregion
+    }
 }
