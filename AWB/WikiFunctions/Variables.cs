@@ -206,8 +206,12 @@ namespace WikiFunctions
         /// </summary>
         public static bool IsWikimediaMonolingualProject
         {
-            get { return (Project == ProjectEnum.commons || Project == ProjectEnum.meta
-                    || Project == ProjectEnum.species || Project == ProjectEnum.mediawiki); } }
+            get
+            {
+                return (Project == ProjectEnum.commons || Project == ProjectEnum.meta
+                  || Project == ProjectEnum.species || Project == ProjectEnum.mediawiki);
+            }
+        }
 
         /// <summary>
         /// Returns true if we are currently editing a "custom" wiki
@@ -1087,31 +1091,31 @@ namespace WikiFunctions
                         mSummaryTag = " з допомогою ";
                         strWPAWB = "[[Вікіпедія:AutoWikiBrowser|AWB]]";
                         break;
-						
-					// case LangCodeEnum.xx:
-                        // Namespaces[-2] = ":";
-                        // Namespaces[-1] = ":";
-                        // Namespaces[1] = ":";
-                        // Namespaces[2] = ":";
-                        // Namespaces[3] = ":";
-                        // Namespaces[4] = ":";
-                        // Namespaces[5] = ":";
-                        // Namespaces[6] = ":";
-                        // Namespaces[7] = ":";
-                        // Namespaces[8] = ":";
-                        // Namespaces[9] = ":";
-                        // Namespaces[10] = ":";
-                        // Namespaces[11] = ":";
-                        // Namespaces[12] = ":";
-                        // Namespaces[13] = ":";
-                        // Namespaces[14] = ":";
-                        // Namespaces[15] = ":";
-                        // Namespaces[100] = ":";
-                        // Namespaces[101] = ":";
-						
-						// strsummarytag = " ";
-                        // strWPAWB = "";
-                        // break;
+
+                    // case LangCodeEnum.xx:
+                    // Namespaces[-2] = ":";
+                    // Namespaces[-1] = ":";
+                    // Namespaces[1] = ":";
+                    // Namespaces[2] = ":";
+                    // Namespaces[3] = ":";
+                    // Namespaces[4] = ":";
+                    // Namespaces[5] = ":";
+                    // Namespaces[6] = ":";
+                    // Namespaces[7] = ":";
+                    // Namespaces[8] = ":";
+                    // Namespaces[9] = ":";
+                    // Namespaces[10] = ":";
+                    // Namespaces[11] = ":";
+                    // Namespaces[12] = ":";
+                    // Namespaces[13] = ":";
+                    // Namespaces[14] = ":";
+                    // Namespaces[15] = ":";
+                    // Namespaces[100] = ":";
+                    // Namespaces[101] = ":";
+
+                    // strsummarytag = " ";
+                    // strWPAWB = "";
+                    // break;
 
                     default:
                         LoadProjectOptions();
@@ -1200,7 +1204,7 @@ namespace WikiFunctions
 
             RETFPath = Namespaces[4] + "AutoWikiBrowser/Typos";
 
-            foreach(string s in Namespaces.Values)
+            foreach (string s in Namespaces.Values)
             {
                 System.Diagnostics.Trace.Assert(s.EndsWith(":"), "Internal error: namespace does not end with ':'.",
                     "Please contact a developer.");
@@ -1433,7 +1437,8 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 if (strName != value)
                 {
                     strName = value;
-                    UserNameChanged(null, null);
+                    if (UserNameChanged != null)
+                        UserNameChanged(null, null);
                 }
             }
         }
@@ -1449,7 +1454,8 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 if (bWikiStatus != value)
                 {
                     bWikiStatus = value;
-                    WikiStatusChanged(null, null);
+                    if (WikiStatusChanged != null)
+                        WikiStatusChanged(null, null);
                 }
             }
         }
@@ -1465,7 +1471,8 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 if (bIsAdmin != value)
                 {
                     bIsAdmin = value;
-                    AdminStatusChanged(null, null);
+                    if (AdminStatusChanged != null)
+                        AdminStatusChanged(null, null);
                 }
             }
         }
@@ -1481,7 +1488,8 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
                 if (bIsBot != value)
                 {
                     bIsBot = value;
-                    BotStatusChanged(null, null);
+                    if (BotStatusChanged != null)
+                        BotStatusChanged(null, null);
                 }
             }
         }
