@@ -249,48 +249,28 @@ namespace AutoWikiBrowser
         /// <returns></returns>
         private static string PostData(NameValueCollection postvars)
         {
-            // echo scripts which just print out the POST vars, handy for early stages of testing:
-            //const string url = "http://www.cs.tut.fi/cgi-bin/run/~jkorpela/echo.cgi";
-            //const string url = "http://www.tipjar.com/cgi-bin/test";
+            try
+            {
+                StatusLabelText = "Contacting stats server...";
+                Program.AWB.Form.Cursor = System.Windows.Forms.Cursors.WaitCursor;
 
-            StatusLabelText = "Contacting stats server...";
-            Program.AWB.Form.Cursor = System.Windows.Forms.Cursors.WaitCursor;
-            HttpWebRequest rq = Variables.PrepareWebRequest(StatsURL, Program.UserAgentString);
-            rq.Method = "POST";
-            rq.ContentType = "application/x-www-form-urlencoded";
-
-            Stream RequestStream = rq.GetRequestStream();
-            byte[] data = Encoding.UTF8.GetBytes(BuildPostDataString(postvars));
-            RequestStream.Write(data, 0, data.Length);
-            RequestStream.Close();
-
-            HttpWebResponse rs = (HttpWebResponse)rq.GetResponse();
-            StatusLabelText = "";
-            Program.AWB.Form.Cursor = System.Windows.Forms.Cursors.Default;
-            if (rs.StatusCode == HttpStatusCode.OK)
-                return new StreamReader(rs.GetResponseStream()).ReadToEnd();
-            else
-                throw new WebException(rs.StatusDescription, WebExceptionStatus.UnknownError);
+                return Tools.PostData(postvars, StatsURL);
+            }
+            catch (WebException)
+            {
+                throw;
+            }
+            finally
+            {
+                StatusLabelText = "";
+                Program.AWB.Form.Cursor = System.Windows.Forms.Cursors.Default;
+            }
         }
 #endregion
 
 #region Helper routines
         private static string StatusLabelText {
             set { ((MainForm)Program.AWB).StatusLabelText = value; }
-        }
-
-        private static string BuildPostDataString(NameValueCollection postvars)
-        {
-            StringBuilder ret = new StringBuilder();
-            for (int i = 0; i < postvars.Keys.Count; i++)
-            {
-                if (i > 0)
-                    ret.Append("&");
-
-                ret.Append(postvars.Keys[i] + "=" + postvars[postvars.Keys[i]]);
-            }
-
-            return ret.ToString();
         }
 
         private static void EnumeratePlugins(NameValueCollection postvars, ICollection<IAWBPlugin> awbPlugins, ICollection<IListMakerPlugin> listLakerPlugins)

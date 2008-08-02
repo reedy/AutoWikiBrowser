@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
+using System.Collections.Specialized;
 using System.Collections.Generic;
 using System.Text;
 using System.Net;
@@ -1387,6 +1388,42 @@ Message: {2}
                 }
             }
             return items;
+        }
+
+        public static string PostData(NameValueCollection postvars, string url)
+        {
+            //echo scripts which just print out the POST vars, handy for early stages of testing:
+            //const string url = "http://www.cs.tut.fi/cgi-bin/run/~jkorpela/echo.cgi";
+            //const string url = "http://www.tipjar.com/cgi-bin/test";
+
+            HttpWebRequest rq = Variables.PrepareWebRequest(url);
+            rq.Method = "POST";
+            rq.ContentType = "application/x-www-form-urlencoded";
+
+            Stream RequestStream = rq.GetRequestStream();
+            byte[] data = Encoding.UTF8.GetBytes(BuildPostDataString(postvars));
+            RequestStream.Write(data, 0, data.Length);
+            RequestStream.Close();
+
+            HttpWebResponse rs = (HttpWebResponse)rq.GetResponse();
+            if (rs.StatusCode == HttpStatusCode.OK)
+                return new StreamReader(rs.GetResponseStream()).ReadToEnd();
+            else
+                throw new WebException(rs.StatusDescription, WebExceptionStatus.UnknownError);
+        }
+
+        public static string BuildPostDataString(NameValueCollection postvars)
+        {
+            StringBuilder ret = new StringBuilder();
+            for (int i = 0; i < postvars.Keys.Count; i++)
+            {
+                if (i > 0)
+                    ret.Append("&");
+
+                ret.Append(postvars.Keys[i] + "=" + postvars[postvars.Keys[i]]);
+            }
+
+            return ret.ToString();
         }
     }
 }
