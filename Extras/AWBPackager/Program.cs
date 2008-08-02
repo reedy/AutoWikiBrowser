@@ -100,7 +100,6 @@ Is this SVN (1) or a release (2)? ");
 
                 File.Copy(currFolder + "Kingbotk AWB Plugin.dll", Tmp + "Plugins\\Kingbotk\\Kingbotk AWB Plugin.dll", true);
 
-
                 Console.WriteLine("Files copied to temporary directory");
 
                 FastZip zip = new FastZip();
