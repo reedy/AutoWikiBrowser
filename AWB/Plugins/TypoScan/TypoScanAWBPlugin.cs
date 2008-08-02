@@ -20,12 +20,13 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         internal static List<string> FinishedPages = new List<string>();
 
         private ToolStripMenuItem pluginMenuItem = new ToolStripMenuItem("TypoScan plugin");
-        private ToolStripMenuItem pluginUploadMenuItem = new ToolStripMenuItem("Upload finished to server now");
+        private ToolStripMenuItem pluginUploadMenuItem = new ToolStripMenuItem("Upload finished articles to server now");
 
         public void Initialise(IAutoWikiBrowser sender)
         {
             AWB = sender;
             AWB.LogControl.LogAdded += new WikiFunctions.Logging.LogControl.LogAddedToControl(LogControl_LogAdded);
+            AWB.AddMainFormClosingEventHandler(new FormClosingEventHandler(UploadFinishedArticlesToServer));
 
             pluginMenuItem.DropDownItems.Add(pluginUploadMenuItem);
             pluginUploadMenuItem.Click += new EventHandler(pluginUploadMenuItem_Click);
@@ -34,7 +35,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         private void pluginUploadMenuItem_Click(object sender, EventArgs e)
         {
-            UploadFinishedArticlesToServer();
+            UploadFinishedArticlesToServer(false);
         }
 
         private void LogControl_LogAdded(bool Skipped, WikiFunctions.Logging.AWBLogListener LogListener)
@@ -97,7 +98,12 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         public void Nudged(int Nudges)
         { }
 
-        private void UploadFinishedArticlesToServer()
+        private void UploadFinishedArticlesToServer(object sender, FormClosingEventArgs e)
+        {
+            UploadFinishedArticlesToServer(true);
+        }
+
+        private void UploadFinishedArticlesToServer(bool appExit)
         {
             if (FinishedPages.Count == 0)
                 return;
@@ -113,7 +119,10 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                 if (result.Contains("Articles Updated"))
                     FinishedPages.Clear();
             }
-            catch (System.Net.WebException) { }
+            catch (System.Net.WebException we) 
+            {
+                if (appExit) ErrorHandler.Handle(we);
+            }
         }
         #endregion
     }

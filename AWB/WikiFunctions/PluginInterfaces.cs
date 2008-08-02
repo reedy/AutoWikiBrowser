@@ -213,6 +213,13 @@ namespace WikiFunctions.Plugin
         void GetDiff(string sender);
         void GetPreview(IAWBPlugin sender);
         void GetPreview(string sender);
+
+        /// <summary>
+        /// To add another FormClosingEventHandler onto that of the Main form Closing event.
+        /// Pass an reference to the handler, and it will be +='d onto the FormClosingEvent
+        /// </summary>
+        /// <param name="handler">FormClosingEventHandler to add onto Main Form FormClosing Event</param>
+        void AddMainFormClosingEventHandler(FormClosingEventHandler handler);
     }
 
     /* This interface allows plugins to manipulate AWB UI elements. Members can be added without breaking plugins,
