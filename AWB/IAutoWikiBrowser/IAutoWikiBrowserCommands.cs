@@ -45,5 +45,7 @@ namespace AutoWikiBrowser
         void IAutoWikiBrowserCommands.TurnOffLogging() { Program.MyTrace.TurnOffLogging(); }
         void IAutoWikiBrowserCommands.ShowHelp(string URL) { helpForm.ShowHelp(helpForm, URL); }
         void IAutoWikiBrowserCommands.ShowHelpEnWiki(string Article) { helpForm.ShowHelpEN(helpForm, Article); }
+
+        void IAutoWikiBrowserCommands.AddMainFormClosingEventHandler(FormClosingEventHandler handler) { this.FormClosing += handler; }
     }
 }
