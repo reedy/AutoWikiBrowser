@@ -118,6 +118,7 @@ namespace WikiFunctions.Plugin
         WikiFunctions.Controls.Lists.ListMaker ListMaker { get; }
         WikiFunctions.Browser.WebControl WebControl { get; }
         ContextMenuStrip EditBoxContextMenu { get; }
+        LogControl LogControl { get; }
 
         /// <summary>
         /// Display a message balloon above AWB's system tray icon
