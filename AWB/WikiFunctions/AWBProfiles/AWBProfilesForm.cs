@@ -30,7 +30,7 @@ namespace WikiFunctions.Profiles
     public partial class AWBProfilesForm : WikiFunctions.Profiles.AWBLogUploadProfilesForm
     {
         private WikiFunctions.Browser.WebControl webBrowser;
-        public event ProfileLoaded LoadProfile;
+        public event EventHandler LoadProfile;
 
         public AWBProfilesForm(WikiFunctions.Browser.WebControl Browser)
         {
@@ -49,7 +49,8 @@ namespace WikiFunctions.Profiles
         {
             webBrowser.Login(Username, Password);
             System.Threading.Thread.Sleep(1000); // HACK: fix this mess
-            LoadProfile(null, null);
+            if (LoadProfile != null)
+                LoadProfile(null, null);
             Variables.User.UpdateWikiStatus();
         }
         

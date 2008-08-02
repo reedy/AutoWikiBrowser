@@ -51,6 +51,9 @@ namespace WikiFunctions.Logging
             resizeListView(lvSaved);
         }
 
+        public delegate void LogAddedToControl(bool Skipped, AWBLogListener LogListener);
+        public event LogAddedToControl LogAdded;
+
         public void AddLog(bool Skipped, AWBLogListener LogListener)
         {
             if (Skipped)
@@ -63,6 +66,9 @@ namespace WikiFunctions.Logging
                 LogListener.AddAndDateStamp(lvSaved);
                 resizeListView(lvSaved);
             }
+
+            if (LogAdded != null)
+                LogAdded(Skipped, LogListener);
         }
         #endregion
 

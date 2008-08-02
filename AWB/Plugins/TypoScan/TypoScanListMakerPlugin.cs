@@ -50,7 +50,9 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                     {
                         reader.MoveToAttribute("id");
                         int id = int.Parse(reader.Value);
-                        articles.Add(new WikiFunctions.Article(reader.ReadString()));
+                        string title = reader.ReadString();
+                        articles.Add(new WikiFunctions.Article(title));
+                        TypoScanAWBPlugin.PageList.Add(id, title);
                     }
                 }
             }

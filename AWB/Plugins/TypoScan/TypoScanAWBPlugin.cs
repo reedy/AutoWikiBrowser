@@ -13,9 +13,17 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         internal static IAutoWikiBrowser AWB;
 
+        internal static Dictionary<int, string> PageList = new Dictionary<int, string>();
+
         public void Initialise(IAutoWikiBrowser sender)
         {
             AWB = sender;
+            AWB.LogControl.LogAdded += new WikiFunctions.Logging.LogControl.LogAddedToControl(LogControl_LogAdded);
+        }
+
+        void LogControl_LogAdded(bool Skipped, WikiFunctions.Logging.AWBLogListener LogListener)
+        {
+            //DoSomething
         }
 
         public string Name
