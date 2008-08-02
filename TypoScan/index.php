@@ -16,8 +16,15 @@
 	if ($_GET['finished'] == 'true')
 	{
 		header("Content-type: text/html; charset=utf-8"); 
-		$query = 'UPDATE articles SET finished = 1 WHERE articleid IN (' . $_POST['articles'] . ')';
-		$result=mysql_query($query) or die ('Error: '.mysql_error());
+		$articles = $_POST['articles'];
+		
+		if (!empty($articles))
+		{
+			$query = 'UPDATE articles SET finished = 1 WHERE articleid IN (' . $articles . ')';
+			$result=mysql_query($query) or die ('Error: '.mysql_error());
+		}
+		else
+			echo "Articles have to be posted";
 	}
 	else
 	{
