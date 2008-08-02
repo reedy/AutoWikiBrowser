@@ -87,15 +87,16 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         private void UploadFinishedToServer()
         {
-            string pages = string.Join(",", FinishedPages.ToArray());
-
             NameValueCollection postVars = new NameValueCollection();
 
-            postVars.Add("articles", pages);
+            postVars.Add("articles", string.Join(",", FinishedPages.ToArray()));
 
-            Tools.PostData(postVars, URL);
-
-            FinishedPages.Clear();
+            try
+            {
+                Tools.PostData(postVars, URL);
+                FinishedPages.Clear();
+            }
+            catch (System.Net.WebException) { }
         }
         #endregion
     }
