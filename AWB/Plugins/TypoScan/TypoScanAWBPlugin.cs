@@ -87,6 +87,9 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         private void UploadFinishedToServer()
         {
+            if (FinishedPages.Count == 0)
+                return;
+
             NameValueCollection postVars = new NameValueCollection();
 
             postVars.Add("articles", string.Join(",", FinishedPages.ToArray()));
