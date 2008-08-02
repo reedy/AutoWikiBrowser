@@ -47,5 +47,8 @@ namespace AutoWikiBrowser
         void IAutoWikiBrowserCommands.ShowHelpEnWiki(string Article) { helpForm.ShowHelpEN(helpForm, Article); }
 
         void IAutoWikiBrowserCommands.AddMainFormClosingEventHandler(FormClosingEventHandler handler) { this.FormClosing += handler; }
+
+        void IAutoWikiBrowserCommands.StartProgressBar() { StartProgressBar(); }
+        void IAutoWikiBrowserCommands.StopProgressBar() { StopProgressBar(); }
     }
 }

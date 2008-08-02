@@ -222,6 +222,9 @@ namespace WikiFunctions.Plugin
         /// </summary>
         /// <param name="handler">FormClosingEventHandler to add onto Main Form FormClosing Event</param>
         void AddMainFormClosingEventHandler(FormClosingEventHandler handler);
+
+        void StartProgressBar();
+        void StopProgressBar();
     }
 
     /* This interface allows plugins to manipulate AWB UI elements. Members can be added without breaking plugins,

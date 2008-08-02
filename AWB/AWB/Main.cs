@@ -588,8 +588,7 @@ namespace AutoWikiBrowser
 
         private void CaseWasLoad(object sender, EventArgs e)
         {
-            if (!LoadSuccess())
-                return;
+            if (!LoadSuccess()) return;
 
             if (!CheckLoginStatus()) return;
 
@@ -1572,14 +1571,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void web4Completed(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            toolStripProgressBar1.MarqueeAnimationSpeed = 0;
-            toolStripProgressBar1.Style = ProgressBarStyle.Continuous;
+            StopProgressBar();
         }
 
         private void web4Starting(object sender, WebBrowserNavigatingEventArgs e)
         {
-            toolStripProgressBar1.MarqueeAnimationSpeed = 100;
-            toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
+            StartProgressBar();
         }
 
         private void UpdateBotStatus(object sender, EventArgs e)
@@ -2872,15 +2869,13 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void webBrowserEdit_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            toolStripProgressBar1.MarqueeAnimationSpeed = 0;
-            toolStripProgressBar1.Style = ProgressBarStyle.Continuous;
+            StopProgressBar();
         }
 
         private void webBrowserEdit_Navigating(object sender, WebBrowserNavigatingEventArgs e)
         {
             webBrowserEdit.BringToFront();
-            toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
-            toolStripProgressBar1.MarqueeAnimationSpeed = 100;
+            StartProgressBar();
         }
 
         private void dumpHTMLToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3072,13 +3067,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         {
             if (listMaker.BusyStatus)
             {
-                toolStripProgressBar1.MarqueeAnimationSpeed = 100;
-                toolStripProgressBar1.Style = ProgressBarStyle.Marquee;
+                StartProgressBar();
             }
             else
             {
-                toolStripProgressBar1.MarqueeAnimationSpeed = 0;
-                toolStripProgressBar1.Style = ProgressBarStyle.Continuous;
+                StopProgressBar();
             }
         }
 
@@ -3951,6 +3944,18 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void UsageStatsMenuItem_Click(object sender, EventArgs e)
         { UsageStats.OpenUsageStatsURL(); }
+
+        void StartProgressBar()
+        {
+            MainFormProgressBar.MarqueeAnimationSpeed = 100;
+            MainFormProgressBar.Style = ProgressBarStyle.Marquee;
+        }
+
+        void StopProgressBar()
+        {
+            MainFormProgressBar.MarqueeAnimationSpeed = 0;
+            MainFormProgressBar.Style = ProgressBarStyle.Continuous;
+        }
     }
         #endregion
 }

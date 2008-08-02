@@ -251,6 +251,7 @@ namespace AutoWikiBrowser
         {
             try
             {
+                Program.AWB.StartProgressBar();
                 StatusLabelText = "Contacting stats server...";
                 Program.AWB.Form.Cursor = System.Windows.Forms.Cursors.WaitCursor;
 
@@ -262,6 +263,7 @@ namespace AutoWikiBrowser
             }
             finally
             {
+                Program.AWB.StopProgressBar();
                 StatusLabelText = "";
                 Program.AWB.Form.Cursor = System.Windows.Forms.Cursors.Default;
             }

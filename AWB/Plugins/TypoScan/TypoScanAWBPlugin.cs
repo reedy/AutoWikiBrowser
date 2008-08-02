@@ -110,6 +110,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         {
             if (FinishedPages.Count == 0)
                 return;
+            AWB.StartProgressBar();
             AWB.StatusLabelText = "Uploading " + FinishedPages.Count + " finished TypoScan articles to server...";
 
             NameValueCollection postVars = new NameValueCollection();
@@ -127,6 +128,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             {
                 if (appExit) ErrorHandler.Handle(we);
             }
+            AWB.StopProgressBar();
             AWB.StatusLabelText = "";
         }
         #endregion
