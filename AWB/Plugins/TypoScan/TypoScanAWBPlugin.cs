@@ -13,7 +13,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
     {
         #region IAWBPlugin Members
 
-        internal static readonly string URL = "http://typoscan.reedyboy.net/index.php?finished=true";
+        internal static readonly string URL = "http://typoscan.reedyboy.net/index.php?action=finished";
 
         internal static IAutoWikiBrowser AWB;
         internal static Dictionary<string, int> PageList = new Dictionary<string, int>();
