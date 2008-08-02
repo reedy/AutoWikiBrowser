@@ -66,7 +66,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         public string Name
         {
-            get { return "TypoScan AWB Plugin]]"; }
+            get { return "TypoScan AWB Plugin"; }
         }
 
         public string WikiName
