@@ -28,13 +28,12 @@
 			{
 				if (!$articlesempty)
 				{
-					$query = 'UPDATE articles SET finished = 1, checkedin = NOW(), user = "' . $user . '" WHERE articleid IN (' . $articles . ')';
+					$query = 'UPDATE articles SET finished = 1, checkedin = NOW(), userid = "' . GetOrAddUser($user) . '" WHERE articleid IN (' . $articles . ')';
 					$result=mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);
 				}
 				
 				if (!$skippedempty)
 				{
-				
 					//echo $skippedarticles;
 					//echo $skippedreason;
 					//Deal with Ignored
@@ -177,7 +176,7 @@
 			PrintTableRow("Number of Unfinished Articles", ($totalArticles - $unfinishedArticles));
 			
 			//Number of users
-			$query = "SELECT COUNT(*)-1 AS nousers FROM (SELECT DISTINCT user FROM articles GROUP BY user) AS usercount"; //-1 as it seems to +1 on usercount
+			$query = "SELECT COUNT(userid) AS nousers FROM users";
 			$result=mysql_fetch_array(mysql_query($query));
 			PrintTableRow("Number of Users", $result['nousers']);
 
@@ -185,7 +184,7 @@
 			<p/>';
 			
 			//Number of finished by user
-			$query = "SELECT SUM(finished) AS edits, SUM(skipid > 0) AS skips, user FROM articles WHERE (finished = 1) OR (skipid > 0) GROUP BY user ORDER BY edits DESC, skips DESC";
+			$query = "SELECT SUM(finished) AS edits, SUM(skipid > 0) AS skips, username FROM articles a, users u WHERE (a.userid = u.userid) AND (finished = 1) OR (skipid > 0) GROUP BY a.userid ORDER BY edits DESC, skips DESC";
 		
 			echo '<table class="sortable">
 	<caption>Edits by User</caption>
@@ -201,7 +200,7 @@
 			
 			while($row = mysql_fetch_assoc($result))
 			{
-				echo '<tr><td>'. $row['user'] . '</td><td>' . $row['edits'] . '</td><td>' . $row['skips'] . '</td></tr>';
+				echo '<tr><td>'. $row['username'] . '</td><td>' . $row['edits'] . '</td><td>' . $row['skips'] . '</td></tr>';
 			}
 			
 			echo '</table>
@@ -257,6 +256,28 @@
 		else
 		{
 			$query = 'INSERT INTO skippedreason(skipreason) VALUES("' . $reason .'")';
+			$result = mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);;
+			
+			//echo 'Inserted: ' . mysql_result($result, 0);
+			return mysql_result($result, 0);
+		}
+	}
+	
+	function GetOrAddUser($user)
+	{
+		$query = 'SELECT userid FROM users WHERE (username= "' . $user .'")';
+		$result = mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);
+		
+		//echo $query;
+			
+		if( mysql_num_rows($result) == 1)
+		{
+			//echo 'Exists:' . mysql_result($result, 0);
+			return mysql_result($result, 0);
+		}
+		else
+		{
+			$query = 'INSERT INTO users(username) VALUES("' . $user .'")';
 			$result = mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);;
 			
 			//echo 'Inserted: ' . mysql_result($result, 0);

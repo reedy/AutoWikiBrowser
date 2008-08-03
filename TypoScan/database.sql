@@ -5,8 +5,8 @@ CREATE TABLE  `typoscan`.`articles` (
   `checkedout` datetime NOT NULL default '0000-00-00 00:00:00',
   `finished` tinyint(1) NOT NULL default '0',
   `skipid` int(10) NOT NULL default '0',
-  `user` varchar(50) default NULL,
-   `checkedin` datetime NOT NULL default '0000-00-00 00:00:00',
+  `userid` int(10) unsigned NOT NULL,
+  `checkedin` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`articleid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -18,3 +18,10 @@ CREATE TABLE `typoscan`.`skippedreason` (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `typoscan`.`skippedreason`(`skipreason`) VALUES ('Clicked ignore'), ('No change'), ('Non-existent page'), ('No typo fixes');
+
+DROP TABLE IF EXITS `typoscan`.`users`;
+CREATE TABLE `typoscan`.`users` (
+  `userid` int(10) unsigned NOT NULL auto_increment,
+  `username` varchar(50) default NULL,
+  PRIMARY KEY (`userid`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
