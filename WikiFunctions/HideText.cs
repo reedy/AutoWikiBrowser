@@ -7,41 +7,41 @@ using System.Collections;
 namespace WikiFunctions.Parse
 {
     /// <summary>
-    /// DOCUMENT ME PLEASE! What do I do?!
+    /// This class fpovides functions for 'hiding' certain syntax by replacing it with unique tokens
+    /// and then adding it back after an operation was performed on text
     /// </summary>
     public sealed class HideText
     {
         public HideText() { }
 
-        public HideText(bool HideExternalLinks, bool LeaveMetaHeadings, bool HideImages)
+        public HideText(bool hideExternalLinks, bool leaveMetaHeadings, bool hideImages)
         {
-            this.HideExternal = HideExternalLinks;
-            this.bHideImages = HideImages;
-            this.LeaveMetaHeadings = LeaveMetaHeadings;
+            HideExternalLinks = hideExternalLinks;
+            LeaveMetaHeadings = leaveMetaHeadings;
+            HideImages = hideImages;
         }
 
         bool LeaveMetaHeadings;
-        bool bHideImages;
-        bool HideExternal;
+        bool HideImages;
+        bool HideExternalLinks;
 
-        List<HideObject> NoEditList = new List<HideObject>();
-        List<HideObject> NoUnformatted = new List<HideObject>();
-        readonly Regex NoWikiIgnoreRegex = new Regex("<!-- ?(cat(egories)?|\\{\\{.*?stub\\}\\}.*?|other languages?|language links?|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wikis?|The below are interlanguage links\\.?) ?-->", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        List<HideObject> HiddenTokens = new List<HideObject>();
+        static readonly Regex NoWikiIgnoreRegex = new Regex("<!-- ?(cat(egories)?|\\{\\{.*?stub\\}\\}.*?|other languages?|language links?|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wikis?|The below are interlanguage links\\.?) ?-->", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         void Replace(IEnumerable matches, ref string ArticleText)
         {
             string s;
             foreach (Match m in matches)
             {
-                s = "⌊⌊⌊⌊" + NoEditList.Count.ToString() + "⌋⌋⌋⌋";
+                s = "⌊⌊⌊⌊" + HiddenTokens.Count.ToString() + "⌋⌋⌋⌋";
                 ArticleText = ArticleText.Replace(m.Value, s);
-                NoEditList.Add(new HideObject(s, m.Value));
+                HiddenTokens.Add(new HideObject(s, m.Value));
             }
         }
 
         public string Hide(string ArticleText)
         {
-            NoEditList.Clear();
+            HiddenTokens.Clear();
             string s = "";
 
             Replace(WikiRegexes.Source.Matches(ArticleText), ref ArticleText);
@@ -51,18 +51,18 @@ namespace WikiFunctions.Parse
                 if (LeaveMetaHeadings && NoWikiIgnoreRegex.IsMatch(m.Value))
                     continue;
 
-                s = "⌊⌊⌊⌊" + NoEditList.Count.ToString() + "⌋⌋⌋⌋";
+                s = "⌊⌊⌊⌊" + HiddenTokens.Count.ToString() + "⌋⌋⌋⌋";
 
                 ArticleText = ArticleText.Replace(m.Value, s);
-                NoEditList.Add(new HideObject(s, m.Value));
+                HiddenTokens.Add(new HideObject(s, m.Value));
             }
 
-            if (bHideImages)
+            if (HideImages)
             {
                 Replace(WikiRegexes.Images.Matches(ArticleText), ref ArticleText);
             }
 
-            if (HideExternal)
+            if (HideExternalLinks)
             {
                 Replace(WikiRegexes.ExternalLinks.Matches(ArticleText), ref ArticleText);
                 List<Match> matches = new List<Match>();
@@ -79,16 +79,49 @@ namespace WikiFunctions.Parse
 
         public string AddBack(string ArticleText)
         {
-            NoEditList.Reverse();
+            HiddenTokens.Reverse();
 
-            foreach (HideObject k in NoEditList)
+            foreach (HideObject k in HiddenTokens)
                 ArticleText = ArticleText.Replace(k.code, k.text);
 
-            NoEditList.Clear();
+            HiddenTokens.Clear();
             return ArticleText;
         }
 
+        #region Separate hiding of unformatted text
+        List<HideObject> HiddenUnformattedText = new List<HideObject>();
 
+        public string HideUnformatted(string ArticleText)
+        {
+            HiddenUnformattedText.Clear();
+            string s = "";
+
+            int i = 0;
+            foreach (Match m in WikiRegexes.UnFormattedText.Matches(ArticleText))
+            {
+                s = "⌊⌊⌊⌊" + i.ToString() + "⌋⌋⌋⌋";
+
+                ArticleText = ArticleText.Replace(m.Value, s);
+                HiddenUnformattedText.Add(new HideObject(s, m.Value));
+                i++;
+            }
+
+            return ArticleText;
+        }
+
+        public string AddBackUnformatted(string ArticleText)
+        {
+            HiddenUnformattedText.Reverse();
+
+            foreach (HideObject k in HiddenUnformattedText)
+                ArticleText = ArticleText.Replace(k.code, k.text);
+
+            HiddenUnformattedText.Clear();
+            return ArticleText;
+        }
+        #endregion
+
+        #region More thorough hiding
         List<HideObject> MoreHide = new List<HideObject>(32);
 
         void ReplaceMore(ICollection matches, ref string ArticleText)
@@ -135,7 +168,7 @@ namespace WikiFunctions.Parse
 
             ReplaceMore(WikiRegexes.Source.Matches(ArticleText), ref ArticleText);
 
-            if (HideExternal) ReplaceMore(WikiRegexes.ExternalLinks.Matches(ArticleText), ref ArticleText);
+            if (HideExternalLinks) ReplaceMore(WikiRegexes.ExternalLinks.Matches(ArticleText), ref ArticleText);
 
             ReplaceMore(WikiRegexes.Headings.Matches(ArticleText), ref ArticleText);
 
@@ -144,7 +177,7 @@ namespace WikiFunctions.Parse
             ReplaceMore(WikiRegexes.IndentedText.Matches(ArticleText), ref ArticleText);
 
             ReplaceMore(WikiRegexes.WikiLinksOnly.Matches(ArticleText), ref ArticleText);
-            
+
             ReplaceMore(WikiRegexes.SimpleWikiLink.Matches(ArticleText), ref ArticleText);
 
             ReplaceMore(WikiRegexes.Cites.Matches(ArticleText), ref ArticleText);
@@ -158,7 +191,7 @@ namespace WikiFunctions.Parse
 
             return ArticleText;
         }
-        
+
         /// <summary>
         /// Adds back hidden stuff from HideMore
         /// </summary>
@@ -188,35 +221,8 @@ namespace WikiFunctions.Parse
             MoreHide.Clear();
             return ArticleText;
         }
+        #endregion
 
-        public string HideUnformatted(string ArticleText)
-        {
-            NoUnformatted.Clear();
-            string s = "";
-
-            int i = 0;
-            foreach (Match m in WikiRegexes.UnFormattedText.Matches(ArticleText))
-            {
-                s = "⌊⌊⌊⌊" + i.ToString() + "⌋⌋⌋⌋";
-
-                ArticleText = ArticleText.Replace(m.Value, s);
-                NoUnformatted.Add(new HideObject(s, m.Value));
-                i++;
-            }
-
-            return ArticleText;
-        }
-
-        public string AddBackUnformatted(string ArticleText)
-        {
-            NoUnformatted.Reverse();
-
-            foreach (HideObject k in NoUnformatted)
-                ArticleText = ArticleText.Replace(k.code, k.text);
-
-            NoUnformatted.Clear();
-            return ArticleText;
-        }
     }
     struct HideObject
     {
