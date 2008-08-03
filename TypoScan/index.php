@@ -17,12 +17,25 @@
 		case 'finished':
 			header("Content-type: text/html; charset=utf-8"); 
 			$articles = $_POST['articles'];
+			$skippedarticles = $_POST['skipped'];
+			$skippedreason = $_POST['skippedreason'];
 			$user = $_POST['user'];
 			
 			if (!empty($articles))
 			{
 				$query = 'UPDATE articles SET finished = 1, checkedin = NOW(), user = "' . $user . '" WHERE articleid IN (' . $articles . ')';
 				$result=mysql_query($query) or die ('Error: '.mysql_error());
+				
+				//Deal with Ignored
+				
+				$skippedarticles[] = explode(",", $skippedarticles);
+				$skippedreason[] = explode(",", $skippedreason);
+				
+				for ($i=0; $i < count($skippedarticles); $i++)
+				{
+					$query = 'UPDATE articles SET skipid = "' . GetOrAddIgnoreReason($skippedreason[$i]) . '", checkedin = NOW(), user = "' . $user . '" WHERE (articleid = "' . $skippedarticles[i] . '")';
+				    $result=mysql_query($query) or die ('Error: '.mysql_error());
+				}
 				
 				echo "<html><body>Articles Updated</body></html>";
 			}
@@ -123,7 +136,12 @@
 			//Number of currently checked out articles
 			$query = "SELECT COUNT(articleid) AS nocheckedout FROM articles WHERE (checkedout >= DATE_SUB(NOW(), INTERVAL 2 HOUR)) AND (finished = 0)";
 			$result=mysql_fetch_array(mysql_query($query));
-			PrintTableRow("Number of Checked Out Articles", $result['nocheckedout']);
+			PrintTableRow("Number of Currently Checked Out Articles", $result['nocheckedout']);
+			
+			//Number of ever checked out articles
+			$query = "SELECT COUNT(articleid) AS noevercheckedout FROM articles WHERE (checkedout = '0000-00-00 00:00:00') AND (finished = 0)";
+			$result=mysql_fetch_array(mysql_query($query));
+			PrintTableRow("Number of Ever Checked Out Articles", $result['noevercheckedout']);
 			
 			//Number of finished articles
 			$query = "SELECT COUNT(articleid) AS nofinished FROM articles WHERE (finished = 1)";
@@ -176,4 +194,21 @@
 	</tr>
 ';
 }
+
+	function GetOrAddIgnoreReason($reason)
+	{
+		$query = 'SELECT skipid FROM skippedreason WHERE (skipreason = "' . $reason .'")';
+		$result = mysql_query($query);
+			
+		if( mysql_num_rows($result) == 1)
+		{
+			return mysql_result($result, 0);
+		}
+		else
+		{
+			$query = 'INSERT INTO skippedreason(skipreason) VALUES("' . $reason .'")';
+			$result = mysql_query($query);
+			return mysql_result($result, 0);
+		}
+	}
 ?>

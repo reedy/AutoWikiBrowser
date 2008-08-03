@@ -41,10 +41,20 @@ CREATE TABLE  `typoscan`.`articles` (
   `title` blob NOT NULL,
   `checkedout` datetime NOT NULL default '0000-00-00 00:00:00',
   `finished` tinyint(1) NOT NULL default '0',
-  `checkedin` datetime NOT NULL default '0000-00-00 00:00:00',
+  `skipid` int(10) NOT NULL default '0',
   `user` varchar(50) default NULL,
+   `checkedin` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`articleid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;"; //probably should be read from file
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `typoscan`.`skippedreason`;
+CREATE TABLE `typoscan`.`skippedreason` (
+  `skipid` int(10) unsigned NOT NULL auto_increment,
+  `skipreason` varchar(50) default NULL,
+  PRIMARY KEY  (`skipid`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `typoscan`.`skippedreason`(`skipreason`) VALUES ('Clicked ignore'), ('No change'), ('Non-existent page'), ('No typo fixes');"; //probably should be read from file
                 command.ExecuteNonQuery();
 
                 foreach (WikiFunctions.Article a in articles)
