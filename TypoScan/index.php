@@ -139,6 +139,7 @@
 	</style>
 		<script src="sorttable.js" type="text/javascript"></script>
 	</head>
+	<h2><a href="http://en.wikipedia.org/wiki/Wikipedia:TypoScan">TypoScan</a> Stats</h2>
 				<table>
 				<caption>Overview</caption>';
 			//Number of articles in Database
