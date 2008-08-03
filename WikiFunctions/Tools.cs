@@ -1122,7 +1122,7 @@ Message: {2}
 
             for (int i = 0; i < input.Length; i++)
             {
-                input[i] = Tools.TurnFirstToUpper(Tools.RemoveHashFromPageTitle(input[i].Trim('[', ']')));
+                input[i] = Tools.TurnFirstToUpper(Tools.RemoveHashFromPageTitle(input[i].Trim('[', ']', ' ', '\t')));
             }
             return input;
         }

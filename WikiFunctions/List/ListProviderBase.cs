@@ -120,11 +120,15 @@ namespace WikiFunctions.Lists
                             postfix += "&" + r.Name + "=" + HttpUtility.UrlEncode(r.Value);
                         }
                     }
-                    else if (PageElements.Contains(xml.Name))
+                    else if (PageElements.Contains(xml.Name) && xml.IsStartElement())
                     {
                         int ns = -1;
                         int.TryParse(xml.GetAttribute("ns"), out ns);
                         string name = xml.GetAttribute("title");
+
+                        if (string.IsNullOrEmpty(name)) System.Windows.Forms.MessageBox.Show(xml.ReadInnerXml());
+
+                        if (string.IsNullOrEmpty(name)) break;
 
                         if (ns >= 0) lst.Add(new Article(name, ns));
                         else
@@ -150,7 +154,8 @@ namespace WikiFunctions.Lists
 
         public abstract void Selected();
 
-        public abstract bool RunOnSeparateThread { get; }
+        public virtual bool RunOnSeparateThread
+        { get { return true; } }
 
         #endregion
     }
@@ -173,11 +178,6 @@ namespace WikiFunctions.Lists
         public override string UserInputTextBoxText
         {
             get { return Variables.Namespaces[14]; }
-        }
-
-        public override bool RunOnSeparateThread
-        {
-            get { return true; }
         }
 
         public override void Selected() { }
