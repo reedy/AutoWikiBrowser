@@ -1005,6 +1005,7 @@ namespace AutoWikiBrowser
             if (EditBoxTab.SelectedTab == tpHistory)
                 EditBoxTab.SelectedTab = tpEdit;
             LogControl1.AddLog(false, TheArticle.LogListener);
+            OverallTypoStats.AddStats(typoStats);
 
             if (listMaker.Count == 0 && AutoSaveEditBoxEnabled)
                 EditBoxSaveTimer.Enabled = false;
@@ -1459,18 +1460,13 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void UpdateCurrentTypoStats()
         {
-            CurrentTypoStats.Items.Clear();
-            if (typoStats == null) return;
+            CurrentTypoStats.AddStats(typoStats);
+        }
 
-            foreach (TypoStat st in typoStats)
-            {
-                ListViewItem lvi = new ListViewItem(new string[]
-                {
-                    st.Find, st.Replace, st.Total.ToString(), st.SelfMatches.ToString()
-                });
-
-                CurrentTypoStats.Items.Add(lvi);
-            }
+        private void ResetTypoStats()
+        {
+            CurrentTypoStats.Clear();
+            OverallTypoStats.Clear();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -2081,6 +2077,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                     lblProject.Text = Variables.Project.ToString();
                 else
                     lblProject.Text = Variables.URL;
+
+                ResetTypoStats();
             }
             catch (ArgumentNullException)
             {
@@ -2879,6 +2877,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                         RegexTypos = null;
                     }
                 }
+
+                ResetTypoStats();
             }
         }
 

@@ -3602,7 +3602,6 @@ namespace AutoWikiBrowser
             this.CurrentTypoStats.Size = new System.Drawing.Size(382, 111);
             this.CurrentTypoStats.TabIndex = 0;
             this.CurrentTypoStats.UseCompatibleStateImageBehavior = false;
-            this.CurrentTypoStats.UserCanClear = false;
             this.CurrentTypoStats.View = System.Windows.Forms.View.Details;
             // 
             // groupBox10
@@ -3619,7 +3618,9 @@ namespace AutoWikiBrowser
             // OverallTypoStats
             // 
             this.OverallTypoStats.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.OverallTypoStats.IsOverallStats = true;
             this.OverallTypoStats.Location = new System.Drawing.Point(3, 16);
+            this.OverallTypoStats.MultiSelect = false;
             this.OverallTypoStats.Name = "OverallTypoStats";
             this.OverallTypoStats.Size = new System.Drawing.Size(382, 169);
             this.OverallTypoStats.TabIndex = 1;
