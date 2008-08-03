@@ -9,7 +9,7 @@ namespace TypoScanDBInsert
 {
     class Program
     {
-        static readonly string insertString = "INSERT INTO typoscan(title) VALUES";
+        static readonly string insertString = "INSERT INTO articles(title) VALUES";
         static readonly string connStr = "server=mysql.reedyboy.net;user id=;password=;port=3306;database=typoscan";
 
         static System.Diagnostics.Stopwatch watch;
