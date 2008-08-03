@@ -33,6 +33,8 @@
             this.linkMboverload = new System.Windows.Forms.LinkLabel();
             this.linkTypoScanPage = new System.Windows.Forms.LinkLabel();
             this.linkStats = new System.Windows.Forms.LinkLabel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // okButton
@@ -48,7 +50,7 @@
             // linkReedy
             // 
             this.linkReedy.AutoSize = true;
-            this.linkReedy.Location = new System.Drawing.Point(13, 52);
+            this.linkReedy.Location = new System.Drawing.Point(80, 71);
             this.linkReedy.Name = "linkReedy";
             this.linkReedy.Size = new System.Drawing.Size(63, 13);
             this.linkReedy.TabIndex = 33;
@@ -59,7 +61,7 @@
             // linkMboverload
             // 
             this.linkMboverload.AutoSize = true;
-            this.linkMboverload.Location = new System.Drawing.Point(13, 78);
+            this.linkMboverload.Location = new System.Drawing.Point(79, 45);
             this.linkMboverload.Name = "linkMboverload";
             this.linkMboverload.Size = new System.Drawing.Size(87, 13);
             this.linkMboverload.TabIndex = 34;
@@ -72,22 +74,40 @@
             this.linkTypoScanPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.linkTypoScanPage.Location = new System.Drawing.Point(12, 9);
             this.linkTypoScanPage.Name = "linkTypoScanPage";
-            this.linkTypoScanPage.Size = new System.Drawing.Size(102, 27);
+            this.linkTypoScanPage.Size = new System.Drawing.Size(154, 27);
             this.linkTypoScanPage.TabIndex = 35;
             this.linkTypoScanPage.TabStop = true;
-            this.linkTypoScanPage.Text = "TypoScan";
+            this.linkTypoScanPage.Text = "TypoScan Plugin";
             this.linkTypoScanPage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkTypoScanPage_LinkClicked);
             // 
             // linkStats
             // 
             this.linkStats.AutoSize = true;
-            this.linkStats.Location = new System.Drawing.Point(160, 52);
+            this.linkStats.Location = new System.Drawing.Point(13, 123);
             this.linkStats.Name = "linkStats";
-            this.linkStats.Size = new System.Drawing.Size(49, 13);
+            this.linkStats.Size = new System.Drawing.Size(101, 13);
             this.linkStats.TabIndex = 36;
             this.linkStats.TabStop = true;
-            this.linkStats.Text = "Statistics";
+            this.linkStats.Text = "TypoScan Statistics";
             this.linkStats.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkStats_LinkClicked);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 71);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(62, 13);
+            this.label1.TabIndex = 37;
+            this.label1.Text = "Developer: ";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 45);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(52, 13);
+            this.label2.TabIndex = 38;
+            this.label2.Text = "Founder: ";
             // 
             // About
             // 
@@ -95,6 +115,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(280, 152);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.linkStats);
             this.Controls.Add(this.linkTypoScanPage);
             this.Controls.Add(this.linkMboverload);
@@ -118,5 +140,7 @@
         private System.Windows.Forms.LinkLabel linkMboverload;
         private System.Windows.Forms.LinkLabel linkTypoScanPage;
         private System.Windows.Forms.LinkLabel linkStats;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
