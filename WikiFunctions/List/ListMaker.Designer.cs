@@ -540,9 +540,9 @@ namespace WikiFunctions.Controls.Lists
             this.Controls.Add(this.UserInputTextBox);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnFilter);
-            this.Controls.Add(this.lblUserInput);
             this.Controls.Add(this.cmboSourceSelect);
             this.Controls.Add(this.lblSourceSelect);
+            this.Controls.Add(this.lblUserInput);
             this.Name = "ListMaker";
             this.Size = new System.Drawing.Size(205, 349);
             this.mnuListBox.ResumeLayout(false);
