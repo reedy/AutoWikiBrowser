@@ -19,10 +19,14 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         internal static IAutoWikiBrowser AWB;
         internal static Dictionary<string, int> PageList = new Dictionary<string, int>();
-        internal static List<string> FinishedPages = new List<string>();
+        internal static List<string> EditedPages = new List<string>();
+
+        internal static List<string> SkippedPages = new List<string>();
+        internal static List<string> SkippedReasons = new List<string>();
 
         private ToolStripMenuItem pluginMenuItem = new ToolStripMenuItem("TypoScan plugin");
         private ToolStripMenuItem pluginUploadMenuItem = new ToolStripMenuItem("Upload finished articles to server now");
+        private ToolStripMenuItem aboutMenuItem = new ToolStripMenuItem("About the TypoScan plugin");
 
         public void Initialise(IAutoWikiBrowser sender)
         {
@@ -33,6 +37,14 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             pluginMenuItem.DropDownItems.Add(pluginUploadMenuItem);
             pluginUploadMenuItem.Click += new EventHandler(pluginUploadMenuItem_Click);
             sender.PluginsToolStripMenuItem.DropDownItems.Add(pluginMenuItem);
+
+            aboutMenuItem.Click += new EventHandler(aboutMenuItem_Click);
+            sender.HelpToolStripMenuItem.DropDownItems.Add(aboutMenuItem);
+        }
+
+        private void aboutMenuItem_Click(object sender, EventArgs e)
+        {
+            new About().Show();
         }
 
         private void pluginUploadMenuItem_Click(object sender, EventArgs e)
@@ -44,24 +56,17 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         {
             if (PageList.ContainsKey(LogListener.Text))
             {
-                if (Skipped)
-                {
-                    switch (LogListener.SkipReason)
-                    {
-                        case "No typo fixes":
-                        case "Clicked ignore":
-                        case "No change":
-                        case "Non-existent page":
-                            break;
-                        default:
-                            return;
-                    }
-                }
                 int articleID;
                 PageList.TryGetValue(LogListener.Text, out articleID);
-                FinishedPages.Add(articleID.ToString());
+                if (Skipped)
+                {
+                    SkippedPages.Add(articleID.ToString());
+                    SkippedReasons.Add(LogListener.SkipReason);
+                }
+                else
+                    EditedPages.Add(articleID.ToString());
 
-                if (FinishedPages.Count >= 25)
+                if (EditAndIgnoredPages() >= 25)
                     UploadFinishedArticlesToServer(false);
             }
         }
@@ -130,21 +135,28 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         private void UploadFinishedArticlesToServer(bool appExit)
         {
-            if (FinishedPages.Count == 0)
+            if (EditAndIgnoredPages() == 0)
                 return;
+
             AWB.StartProgressBar();
-            AWB.StatusLabelText = "Uploading " + FinishedPages.Count + " finished TypoScan articles to server...";
+            AWB.StatusLabelText = "Uploading " + EditAndIgnoredPages() + " TypoScan articles to server...";
 
             NameValueCollection postVars = new NameValueCollection();
 
-            postVars.Add("articles", string.Join(",", FinishedPages.ToArray()));
+            postVars.Add("articles", string.Join(",", EditedPages.ToArray()));
+            postVars.Add("skipped", string.Join(",", SkippedPages.ToArray()));
+            postVars.Add("skipreason", string.Join(",", SkippedReasons.ToArray()));
             postVars.Add("user", Variables.User.Name);
 
             try
             {
                 string result = Tools.PostData(postVars, URL);
                 if (result.Contains("Articles Updated"))
-                    FinishedPages.Clear();
+                {
+                    EditedPages.Clear();
+                    SkippedPages.Clear();
+                    SkippedReasons.Clear();
+                }
             }
             catch (System.Net.WebException we) 
             {
@@ -154,5 +166,10 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             AWB.StatusLabelText = "";
         }
         #endregion
+
+        private int EditAndIgnoredPages()
+        {
+            return (EditedPages.Count + SkippedPages.Count);
+        }
     }
 }
