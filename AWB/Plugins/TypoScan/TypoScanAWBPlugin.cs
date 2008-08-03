@@ -24,6 +24,9 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         internal static List<string> SkippedPages = new List<string>();
         internal static List<string> SkippedReasons = new List<string>();
 
+        internal static int SavedThisSession = 0;
+        internal static int SkippedThisSession = 0;
+
         private ToolStripMenuItem pluginMenuItem = new ToolStripMenuItem("TypoScan plugin");
         private ToolStripMenuItem pluginUploadMenuItem = new ToolStripMenuItem("Upload finished articles to server now");
         private ToolStripMenuItem aboutMenuItem = new ToolStripMenuItem("About the TypoScan plugin");
@@ -62,9 +65,13 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                 {
                     SkippedPages.Add(articleID.ToString());
                     SkippedReasons.Add(LogListener.SkipReason);
+                    SavedThisSession++;
                 }
                 else
+                {
                     EditedPages.Add(articleID.ToString());
+                    SavedThisSession++;
+                }
 
                 if (EditAndIgnoredPages() >= 25)
                     UploadFinishedArticlesToServer(false);

@@ -13,6 +13,9 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         public About()
         {
             InitializeComponent();
+            lblSaved.Text = TypoScanAWBPlugin.SavedThisSession.ToString();
+            lblSkipped.Text = TypoScanAWBPlugin.SkippedThisSession.ToString();
+            lblLoaded.Text = TypoScanAWBPlugin.PageList.Count.ToString();
         }
 
         private void linkReedy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -37,6 +40,11 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         {
             linkStats.LinkVisited = true;
             Tools.OpenURLInBrowser("http://typoscan.reedyboy.net");
+        }
+
+        private void okButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
