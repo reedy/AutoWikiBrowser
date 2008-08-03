@@ -26,9 +26,11 @@
 			
 			if (!$articlesempty || !$skippedempty)
 			{
+				$userid = GetOrAddUser($user);
+			
 				if (!$articlesempty)
 				{
-					$query = 'UPDATE articles SET finished = 1, checkedin = NOW(), userid = "' . GetOrAddUser($user) . '" WHERE articleid IN (' . $articles . ')';
+					$query = 'UPDATE articles SET finished = 1, checkedin = NOW(), userid = "' . $userid . '" WHERE articleid IN (' . $articles . ')';
 					$result=mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);
 				}
 				
@@ -43,7 +45,7 @@
 					
 					for ($i=0; $i < count($skippedarticles); $i++)
 					{
-						$query = 'UPDATE articles SET skipid = "' . GetOrAddIgnoreReason($skippedreason[$i]) . '", checkedin = NOW(), user = "' . $user . '" WHERE (articleid = "' . $skippedarticles[$i] . '")';
+						$query = 'UPDATE articles SET skipid = "' . GetOrAddIgnoreReason($skippedreason[$i]) . '", checkedin = NOW(), userid = "' . $userid . '" WHERE (articleid = "' . $skippedarticles[$i] . '")';
 						//echo $query;
 					    $result=mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);
 					}
@@ -253,7 +255,7 @@
 	
 	function GetOrAdd($data, $selectcol, $wherecol, $table)
 	{
-		$query = 'SELECT "' . $selectcol .'"FROM "' . $table .'"WHERE ("' . $wherecolcol.'" = "' . $data .'")';
+		$query = 'SELECT ' . $selectcol . ' FROM ' . $table .' WHERE (' . $wherecol . ' = "' . $data .'")';
 		$result = mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);
 		
 		//echo $query;
@@ -265,11 +267,11 @@
 		}
 		else
 		{
-			$query = 'INSERT INTO "' . $table. '"("' . $wherecol.'") VALUES("' . $data .'")';
+			$query = 'INSERT INTO ' . $table. '(' . $wherecol. ') VALUES("' . $data .'")';
 			$result = mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);;
 			
 			//echo 'Inserted: ' . mysql_result($result, 0);
-			return mysql_result($result, 0);
+			return GetOrAdd($data, $selectcol, $wherecol, $table);
 		}
 	}
 ?>
