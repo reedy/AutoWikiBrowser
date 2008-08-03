@@ -26,6 +26,7 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using System.IO;
 using System.Windows.Forms;
+using WikiFunctions.Controls;
 
 namespace WikiFunctions.Parse
 {
@@ -391,6 +392,8 @@ namespace WikiFunctions.Parse
         public int Total;
         public int SelfMatches;
         public int FalsePositives;
+
+        public TypoStatsListViewItem ListViewItem;
 
         public TypoStat(KeyValuePair<Regex, string> typo)
             : this(typo.Key.ToString(), typo.Value)
