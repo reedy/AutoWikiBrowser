@@ -151,8 +151,13 @@
 			$result=mysql_fetch_array(mysql_query($query));
 			PrintTableRow("Number of Currently Checked Out Articles", $result['nocheckedout']);
 			
+			//Number of never checked out articles
+			$query = "SELECT COUNT(articleid) AS nonevercheckedout FROM articles WHERE (checkedout = '0000-00-00 00:00:00') AND (finished = 0) AND (skipid = 0)";
+			$result=mysql_fetch_array(mysql_query($query));
+			PrintTableRow("Number of Never Checked Out Articles", $result['nonevercheckedout']);
+			
 			//Number of ever checked out articles
-			$query = "SELECT COUNT(articleid) AS noevercheckedout FROM articles WHERE (checkedout = '0000-00-00 00:00:00') AND (finished = 0) AND (skipid = 0)";
+			$query = "SELECT COUNT(articleid) AS noevercheckedout FROM articles WHERE (checkedout > '0000-00-00 00:00:00') AND (finished = 0) AND (skipid = 0)";
 			$result=mysql_fetch_array(mysql_query($query));
 			PrintTableRow("Number of Ever Checked Out Articles", $result['noevercheckedout']);
 			
