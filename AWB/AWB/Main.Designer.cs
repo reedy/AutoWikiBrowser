@@ -365,17 +365,9 @@ namespace AutoWikiBrowser
             this.tpTypos = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.CurrentTypoStats = new System.Windows.Forms.ListView();
-            this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
+            this.CurrentTypoStats = new WikiFunctions.Controls.TypoStatsControl();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.TotalTypoStats = new System.Windows.Forms.ListView();
-            this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader8 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader9 = new System.Windows.Forms.ColumnHeader();
+            this.OverallTypoStats = new WikiFunctions.Controls.TypoStatsControl();
             this.webBrowserDiff = new System.Windows.Forms.WebBrowser();
             this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
             this.ShutdownTimer = new System.Windows.Forms.Timer(this.components);
@@ -3603,42 +3595,19 @@ namespace AutoWikiBrowser
             // 
             // CurrentTypoStats
             // 
-            this.CurrentTypoStats.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3,
-            this.columnHeader4});
             this.CurrentTypoStats.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CurrentTypoStats.Location = new System.Drawing.Point(3, 16);
+            this.CurrentTypoStats.MultiSelect = false;
             this.CurrentTypoStats.Name = "CurrentTypoStats";
             this.CurrentTypoStats.Size = new System.Drawing.Size(382, 111);
             this.CurrentTypoStats.TabIndex = 0;
             this.CurrentTypoStats.UseCompatibleStateImageBehavior = false;
+            this.CurrentTypoStats.UserCanClear = false;
             this.CurrentTypoStats.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Find";
-            this.columnHeader1.Width = 100;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Replace";
-            this.columnHeader2.Width = 100;
-            // 
-            // columnHeader3
-            // 
-            this.columnHeader3.Text = "Hits";
-            this.columnHeader3.Width = 50;
-            // 
-            // columnHeader4
-            // 
-            this.columnHeader4.Text = "Self matches";
-            this.columnHeader4.Width = 50;
             // 
             // groupBox10
             // 
-            this.groupBox10.Controls.Add(this.TotalTypoStats);
+            this.groupBox10.Controls.Add(this.OverallTypoStats);
             this.groupBox10.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox10.Location = new System.Drawing.Point(0, 0);
             this.groupBox10.Name = "groupBox10";
@@ -3647,40 +3616,15 @@ namespace AutoWikiBrowser
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Overall statistics";
             // 
-            // TotalTypoStats
+            // OverallTypoStats
             // 
-            this.TotalTypoStats.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader6,
-            this.columnHeader7,
-            this.columnHeader8,
-            this.columnHeader9});
-            this.TotalTypoStats.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TotalTypoStats.Location = new System.Drawing.Point(3, 16);
-            this.TotalTypoStats.Name = "TotalTypoStats";
-            this.TotalTypoStats.Size = new System.Drawing.Size(382, 169);
-            this.TotalTypoStats.TabIndex = 1;
-            this.TotalTypoStats.UseCompatibleStateImageBehavior = false;
-            this.TotalTypoStats.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader6
-            // 
-            this.columnHeader6.Text = "Find";
-            this.columnHeader6.Width = 100;
-            // 
-            // columnHeader7
-            // 
-            this.columnHeader7.Text = "Replace";
-            this.columnHeader7.Width = 100;
-            // 
-            // columnHeader8
-            // 
-            this.columnHeader8.Text = "Hits";
-            this.columnHeader8.Width = 50;
-            // 
-            // columnHeader9
-            // 
-            this.columnHeader9.Text = "Self matches";
-            this.columnHeader9.Width = 50;
+            this.OverallTypoStats.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.OverallTypoStats.Location = new System.Drawing.Point(3, 16);
+            this.OverallTypoStats.Name = "OverallTypoStats";
+            this.OverallTypoStats.Size = new System.Drawing.Size(382, 169);
+            this.OverallTypoStats.TabIndex = 1;
+            this.OverallTypoStats.UseCompatibleStateImageBehavior = false;
+            this.OverallTypoStats.View = System.Windows.Forms.View.Details;
             // 
             // webBrowserDiff
             // 
@@ -4246,15 +4190,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.GroupBox groupBox10;
-        private System.Windows.Forms.ListView CurrentTypoStats;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.ListView TotalTypoStats;
-        private System.Windows.Forms.ColumnHeader columnHeader6;
-        private System.Windows.Forms.ColumnHeader columnHeader7;
-        private System.Windows.Forms.ColumnHeader columnHeader8;
-        private System.Windows.Forms.ColumnHeader columnHeader9;
+        private WikiFunctions.Controls.TypoStatsControl CurrentTypoStats;
+        private WikiFunctions.Controls.TypoStatsControl OverallTypoStats;
     }
 }
