@@ -81,14 +81,14 @@ namespace WikiFunctions.Lists
         /// <returns>List of pages</returns>
         public List<Article> ApiMakeList(string url, int haveSoFar)
         {// TODO: error handling
-            List<Article> lst = new List<Article>();
+            List<Article> list = new List<Article>();
             string postfix = "";
 
             string newUrl = url.Replace("{limit}", PageSize.ToString());
 
             if (Hack1_12) newUrl = RemoveCmcategory.Replace(newUrl, "");
 
-            while (lst.Count + haveSoFar < Limit)
+            while (list.Count + haveSoFar < Limit)
             {
                 string text = Tools.GetHTML(newUrl + postfix);
                 if (text.Contains("code=\"cmtitleandcategory\""))
@@ -130,16 +130,16 @@ namespace WikiFunctions.Lists
 
                         if (string.IsNullOrEmpty(name)) break;
 
-                        if (ns >= 0) lst.Add(new Article(name, ns));
+                        if (ns >= 0) list.Add(new Article(name, ns));
                         else
-                            lst.Add(new Article(name));
+                            list.Add(new Article(name));
 
                     }
                 }
                 if (string.IsNullOrEmpty(postfix)) break;
             }
 
-            return lst;
+            return list;
         }
 
         #region To be overridden
@@ -222,25 +222,25 @@ namespace WikiFunctions.Lists
             else
                 return new List<Article>();
 
-            List<Article> lst = GetListing(category, haveSoFar);
+            List<Article> list = GetListing(category, haveSoFar);
 
             List<Article> fromSubcats = null;
-            if (depth > 0 && haveSoFar + lst.Count < Limit)
+            if (depth > 0 && haveSoFar + list.Count < Limit)
             {
-                foreach (Article pg in lst)
+                foreach (Article pg in list)
                 {
-                    if (haveSoFar + lst.Count > Limit) break;
+                    if (haveSoFar + list.Count > Limit) break;
 
                     if (pg.NameSpaceKey == 14 /*Category*/ && !Visited.Contains(pg.Name))
                     {
                         if (fromSubcats == null) fromSubcats = new List<Article>();
-                        fromSubcats.AddRange(RecurseCategory(pg.NamespacelessName, haveSoFar + lst.Count, depth - 1));
+                        fromSubcats.AddRange(RecurseCategory(pg.NamespacelessName, haveSoFar + list.Count, depth - 1));
                     }
                 }
             }
-            if (fromSubcats != null && fromSubcats.Count > 0) lst.AddRange(fromSubcats);
+            if (fromSubcats != null && fromSubcats.Count > 0) list.AddRange(fromSubcats);
 
-            return lst;
+            return list;
         }
 
         /// <summary>
