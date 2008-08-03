@@ -47,10 +47,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\AWB\WikiFunctions\WikiFunctions.csproj">
+    <ProjectReference Include="..\..\AWB\WikiFunctions\WikiFunctions.csproj">
       <Project>{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}</Project>
       <Name>WikiFunctions</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="database.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

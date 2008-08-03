@@ -193,7 +193,7 @@ namespace WikiFunctions.Lists
                     string pageText = "";
                     string title = "";
 
-                    using (StreamReader sr = new StreamReader(fileName, Encoding.Default))
+                    using (StreamReader sr = new StreamReader(fileName, Encoding.UTF8))
                     {
                         pageText = sr.ReadToEnd();
                         sr.Close();
