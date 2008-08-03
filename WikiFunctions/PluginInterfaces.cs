@@ -163,6 +163,7 @@ namespace WikiFunctions.Plugin
         ProjectEnum Project { get; }
         LangCodeEnum LangCode { get; }
         bool CheckStatus(bool Login);
+        bool Privacy { get; }
     }
 
     /// <summary>
