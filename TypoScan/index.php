@@ -12,6 +12,9 @@
 	$conn=mysql_connect($dbserver, $dbuser, $dbpass); 
 	mysql_select_db($database, $conn);
 	
+	$query = "SET NAMES 'utf8'";
+	$result=mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);
+	
 	switch($_GET['action'])
 	{
 		case 'finished':
@@ -79,7 +82,7 @@
 				$therow = str_replace("<", "&lt;", $therow);
 				$therow = str_replace(">", "&gt;", $therow);
 				$therow = str_replace("\"", "&quot;", $therow);
-				$xml_output .= utf8_encode($therow) . "</article>\n";
+				$xml_output .= $therow . "</article>\n";
 			}
 			
 			$query = 'UPDATE articles SET checkedout = NOW() WHERE articleid IN (' . implode(",", $array) . ')';
