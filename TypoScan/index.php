@@ -177,14 +177,15 @@
 			<p/>';
 			
 			//Number of finished by user
-			$query = "SELECT COUNT(user) AS edits, user FROM articles WHERE (finished = 1) GROUP BY user ORDER BY edits DESC";
+			$query = "SELECT SUM(finished) AS edits, SUM(skipid > 0) AS skips, user FROM articles WHERE (finished = 1) OR (skipid > 0) GROUP BY user ORDER BY edits, skips DESC";
 		
 			echo '<table class="sortable">
 	<caption>Edits by User</caption>
 <thead>
 	<tr>
 		<th scope="col" class="sortable">User</th>
-		<th scope="col" class="sortable">Number of Finished Articles</th>
+		<th scope="col" class="sortable">Number of Saved Articles</th>
+		<th scope="col" class="sortable">Number of Skipped Articles</th>
 	</tr>
 </thead>';
 	
@@ -192,11 +193,14 @@
 			
 			while($row = mysql_fetch_assoc($result))
 			{
-				echo '<tr><td>'. $row['user'] . '</td><td>' . $row['edits'] . '</td></tr>';
+				echo '<tr><td>'. $row['user'] . '</td><td>' . $row['edits'] . '</td><td>' . $row[skips] . '</td></tr>';
 			}
 			
 			echo '</table>
 			</html>';
+			
+			//No of Ignores per reason
+			
 			break;
 	}
 	
