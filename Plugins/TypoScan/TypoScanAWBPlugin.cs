@@ -150,7 +150,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             if (!AWB.Privacy)
                 postVars.Add("user", Variables.User.Name);
             else
-                postVars.Add("user", "<Withheld>");
+                postVars.Add("user", "Withheld");
 
             try
             {
