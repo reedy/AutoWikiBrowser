@@ -52,7 +52,8 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                         int id = int.Parse(reader.Value);
                         string title = reader.ReadString();
                         articles.Add(new WikiFunctions.Article(title));
-                        TypoScanAWBPlugin.PageList.Add(title, id);
+                        if (!TypoScanAWBPlugin.PageList.ContainsKey(title))
+                            TypoScanAWBPlugin.PageList.Add(title, id);
                     }
                 }
             }
