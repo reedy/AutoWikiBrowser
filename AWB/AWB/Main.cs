@@ -94,8 +94,10 @@ namespace AutoWikiBrowser
         private static bool skippable = true;
         private static FormWindowState LastState = FormWindowState.Normal; // doesn't look like we can use RestoreBounds for this - any other built in way?
 
-        private ListComparer lc;
+        private ListComparer listComparer;
         private ListSplitter splitter;
+
+        List<TypoStat> typoStats;
 
         private static Help helpForm = new Help();
 
@@ -689,11 +691,12 @@ namespace AutoWikiBrowser
                 //at least we don't get bogus reports of unrelated pages
                 ErrorHandler.CurrentPage = TheArticle.Name;
 
-                ProcessPage();
+                ProcessPage(TheArticle);
 
                 ErrorHandler.CurrentPage = "";
 
                 UpdateWebBrowserStatus(null, null);
+                UpdateCurrentTypoStats();
 
                 if (!Abort)
                 {
@@ -1061,14 +1064,10 @@ namespace AutoWikiBrowser
             SkipPageReasonAlreadyProvided();
         }
 
-        private void ProcessPage()
-        {
-            ProcessPage(TheArticle);
-        }
-
         private void ProcessPage(ArticleEX theArticle)
         {
             bool process = true;
+            typoStats = null;
 
 #if DEBUG
             Variables.Profiler.Start("ProcessPage(\"" + theArticle.Name + "\")");
@@ -1142,6 +1141,7 @@ namespace AutoWikiBrowser
                 {
                     theArticle.PerformTypoFixes(RegexTypos, chkSkipIfNoRegexTypo.Checked);
                     Variables.Profiler.Profile("Typos");
+                    typoStats = RegexTypos.GetStatistics();
                     if (theArticle.SkipArticle) return;
                 }
 
@@ -1455,6 +1455,22 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void UpdateListStatus(object sender, EventArgs e)
         {
             StatusLabelText = listMaker.Status;
+        }
+
+        private void UpdateCurrentTypoStats()
+        {
+            CurrentTypoStats.Items.Clear();
+            if (typoStats == null) return;
+
+            foreach (TypoStat st in typoStats)
+            {
+                ListViewItem lvi = new ListViewItem(new string[]
+                {
+                    st.Find, st.Replace, st.Total.ToString(), st.SelfMatches.ToString()
+                });
+
+                CurrentTypoStats.Items.Add(lvi);
+            }
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -2344,11 +2360,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
         private void launchListComparerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (listMaker.Count > 0 && MessageBox.Show("Would you like to copy your current Article List to the ListComparer?", "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                lc = new ListComparer(listMaker.GetArticleList());
+                listComparer = new ListComparer(listMaker.GetArticleList());
             else
-                lc = new ListComparer();
+                listComparer = new ListComparer();
 
-            lc.Show(this);
+            listComparer.Show(this);
         }
 
         private void launchListSplitterToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2703,6 +2719,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             ErrorHandler.CurrentPage = TheArticle.Name;
             ProcessPage(a);
             ErrorHandler.CurrentPage = "";
+            UpdateCurrentTypoStats();
             txtEdit.Text = a.ArticleText;
             GetDiff();
         }
@@ -2819,7 +2836,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             LoadTypos(false);
             chkSkipIfNoRegexTypo.Enabled = chkRegExTypo.Checked;
 
-#if DEBUG
+            //HACK: disabled
+#if DEBUG_
             if (chkRegExTypo.Checked)
                 if (!EditBoxTab.TabPages.Contains(tpTypos)) EditBoxTab.TabPages.Add(tpTypos);
             else
@@ -2837,6 +2855,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
                 if (!s.StartsWith("http:")) s = Variables.URL + "/wiki/" + s;
 
+#if !DEBUG
                 string message = @"1. Check each edit before you make it. Although this has been built to be very accurate there will be errors.
 
 2. Optional: Select [[WP:AWB/T|Typo fixing]] as the edit summary. This lets everyone know where to bring issues with the typo correction.";
@@ -2845,6 +2864,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                     message += "\r\n\r\nThe newest typos will now be downloaded from " + s + " when you press OK.";
 
                 MessageBox.Show(message, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+#endif
 
                 if (RegexTypos == null || Reload)
                 {

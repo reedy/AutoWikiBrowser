@@ -57,8 +57,11 @@ namespace WikiFunctions.Parse
         string Prefix;
         string Postfix;
 
-        public List<KeyValuePair<Regex, string>> Typos = new List<KeyValuePair<Regex, string>>(20);
         List<Regex> Groups;
+
+        public List<KeyValuePair<Regex, string>> Typos = new List<KeyValuePair<Regex, string>>(20);
+
+        public List<TypoStat> Statistics = new List<TypoStat>();
 
         public bool SuitableTypo(string typo)
         {
@@ -89,7 +92,6 @@ namespace WikiFunctions.Parse
             }
 
             Typos.Add(new KeyValuePair<Regex, string>(r, replacement));
-
         }
 
         /// <summary>
@@ -116,13 +118,16 @@ namespace WikiFunctions.Parse
             }
         }
 
-        public static void FixTypo(ref string ArticleText, ref string summary, KeyValuePair<Regex, string> typo)
+        private void FixTypo(ref string ArticleText, ref string summary, KeyValuePair<Regex, string> typo)
         {
             MatchCollection matches = typo.Key.Matches(ArticleText);
             if (matches.Count > 0)
             {
+                TypoStat stats = new TypoStat(typo);
+                stats.Total = matches.Count;
                 ArticleText = typo.Key.Replace(ArticleText, typo.Value);
                 int count = 0;
+
                 foreach (Match m in matches)
                 {
                     string res = typo.Key.Replace(m.Value, typo.Value);
@@ -133,6 +138,8 @@ namespace WikiFunctions.Parse
                     }
                 }
                 if (count > 1) summary += " (" + count.ToString() + ")";
+                stats.SelfMatches = stats.Total - count;
+                Statistics.Add(stats);
             }
         }
 
@@ -141,6 +148,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         public void FixTypos(ref string ArticleText, ref string summary)
         {
+            Statistics.Clear();
             if (Groups != null)
                 for (int i = 0; i < Groups.Count; i++)
                 {
@@ -173,7 +181,7 @@ namespace WikiFunctions.Parse
         Regex IgnoreRegex = new Regex("133t|-ology|\\(sic\\)|\\[sic\\]|\\[''sic''\\]|\\{\\{sic\\}\\}|spellfixno", RegexOptions.Compiled);
         HideText RemoveText = new HideText(true, false, true);
 
-        List<TypoGroup> Typos = new List<TypoGroup>();
+        List<TypoGroup> Groups = new List<TypoGroup>();
 
         static readonly Regex RemoveTail = new Regex(@"(\s|\n|\r|\*|#|:|⌊⌊⌊⌊M?\d*⌋⌋⌋⌋)*$", RegexOptions.Compiled);
 
@@ -188,15 +196,15 @@ namespace WikiFunctions.Parse
         {
             try
             {
-                Typos.Clear();
+                Groups.Clear();
                 TyposCount = 0;
                 TypoGroup bounded = new TypoGroup(20, @"^\\b(.*)\\b$", @"[^\\]\\\d", @"\b", @"\b");
                 TypoGroup other = new TypoGroup(5, null, @"[^\\]\\\d", "", "");
                 TypoGroup withBackreferences = new TypoGroup(1, null, null, "", "");
 
-                Typos.Add(bounded);
-                Typos.Add(other);
-                Typos.Add(withBackreferences);
+                Groups.Add(bounded);
+                Groups.Add(other);
+                Groups.Add(withBackreferences);
 
                 Dictionary<string, string> typoStrings = LoadTypos();
 
@@ -213,12 +221,12 @@ namespace WikiFunctions.Parse
                         TyposCount++;
                     }
 
-                    foreach (TypoGroup grp in Typos) grp.MakeGroups();
+                    foreach (TypoGroup grp in Groups) grp.MakeGroups();
                 }
             }
             catch (TypoException)
             {
-                Typos.Clear();
+                Groups.Clear();
                 TyposCount = 0;
                 TyposLoaded = false;
             }
@@ -255,7 +263,7 @@ namespace WikiFunctions.Parse
             string originalText = ArticleText;
             string strSummary = "";
 
-            foreach (TypoGroup grp in Typos)
+            foreach (TypoGroup grp in Groups)
             {
                 grp.FixTypos(ref ArticleText, ref strSummary);
             }
@@ -281,6 +289,21 @@ namespace WikiFunctions.Parse
             PerformTypoFixes(ArticleText, out noChange, out summary);
 
             return !noChange;
+        }
+
+        /// <summary>
+        /// Returns statistics of typos corrected in the past article
+        /// </summary>
+        public List<TypoStat> GetStatistics()
+        {
+            List<TypoStat> res = new List<TypoStat>();
+
+            foreach (TypoGroup g in Groups)
+            {
+                res.AddRange(g.Statistics);
+            }
+
+            return res;
         }
 
         private Dictionary<string, string> LoadTypos()
@@ -349,13 +372,52 @@ namespace WikiFunctions.Parse
         {
             List<KeyValuePair<Regex, string>> lst = new List<KeyValuePair<Regex, string>>();
 
-            foreach (TypoGroup grp in Typos)
+            foreach (TypoGroup grp in Groups)
             {
                 lst.AddRange(grp.Typos);
             }
 
             return lst;
         }
+    }
+
+    /// <summary>
+    /// Represents statistics for one typo rule
+    /// </summary>
+    public class TypoStat
+    {
+        public string Find;
+        public string Replace;
+        public int Total;
+        public int SelfMatches;
+        public int FalsePositives;
+
+        public TypoStat(KeyValuePair<Regex, string> typo)
+            : this(typo.Key.ToString(), typo.Value)
+        { }
+
+        public TypoStat(string find, string replace)
+        {
+            Find = find;
+            Replace = replace;
+        }
+
+        #region Inherited from Object
+        public override string ToString()
+        {
+            return Find + " → " + Replace;
+        }
+
+        public override int GetHashCode()
+        {
+            return Find.GetHashCode() + Replace.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is TypoStat && ((TypoStat)obj).Find == Find && ((TypoStat)obj).Replace == Replace;
+        }
+        #endregion
     }
 
     [Serializable]
