@@ -18,7 +18,7 @@
 			header("Content-type: text/html; charset=utf-8"); 
 			$articles = $_POST['articles'];
 			$skippedarticles = $_POST['skipped'];
-			$skippedreason = $_POST['skippedreason'];
+			$skippedreason = $_POST['skipreason'];
 			$user = $_POST['user'];
 			
 			$articlesempty = empty($articles);
@@ -34,6 +34,9 @@
 				
 				if (!$skippedempty)
 				{
+				
+					//echo $skippedarticles;
+					//echo $skippedreason;
 					//Deal with Ignored
 					
 					$skippedarticles = explode(",", $skippedarticles);
@@ -177,7 +180,7 @@
 			<p/>';
 			
 			//Number of finished by user
-			$query = "SELECT SUM(finished) AS edits, SUM(skipid > 0) AS skips, user FROM articles WHERE (finished = 1) OR (skipid > 0) GROUP BY user ORDER BY edits, skips DESC";
+			$query = "SELECT SUM(finished) AS edits, SUM(skipid > 0) AS skips, user FROM articles WHERE (finished = 1) OR (skipid > 0) GROUP BY user ORDER BY edits DESC, skips DESC";
 		
 			echo '<table class="sortable">
 	<caption>Edits by User</caption>
@@ -193,14 +196,33 @@
 			
 			while($row = mysql_fetch_assoc($result))
 			{
-				echo '<tr><td>'. $row['user'] . '</td><td>' . $row['edits'] . '</td><td>' . $row[skips] . '</td></tr>';
+				echo '<tr><td>'. $row['user'] . '</td><td>' . $row['edits'] . '</td><td>' . $row['skips'] . '</td></tr>';
 			}
 			
 			echo '</table>
-			</html>';
+			</p>';
 			
 			//No of Ignores per reason
+			$query="SELECT COUNT(a.skipid) AS noskips, s.skipreason FROM articles a, skippedreason s WHERE (a.skipid = s.skipid) AND (a.skipid > 0) GROUP BY a.skipid ORDER BY noskips DESC";
 			
+						echo '<table class="sortable">
+	<caption>Ignores per Reason</caption>
+<thead>
+	<tr>
+		<th scope="col" class="sortable">Reason</th>
+		<th scope="col" class="sortable">Number of Ignores</th>
+	</tr>
+</thead>';
+
+						$result=mysql_query($query);
+			
+			while($row = mysql_fetch_assoc($result))
+			{
+				echo '<tr><td>'. $row['skipreason'] . '</td><td>' . $row['noskips'] . '</td></tr>';
+			}
+
+			echo '</table>
+			</html>';			
 			break;
 	}
 	
@@ -218,16 +240,21 @@
 	function GetOrAddIgnoreReason($reason)
 	{
 		$query = 'SELECT skipid FROM skippedreason WHERE (skipreason = "' . $reason .'")';
-		$result = mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);;
+		$result = mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);
+		
+		//echo $query;
 			
 		if( mysql_num_rows($result) == 1)
 		{
+			//echo 'Exists:' . mysql_result($result, 0);
 			return mysql_result($result, 0);
 		}
 		else
 		{
 			$query = 'INSERT INTO skippedreason(skipreason) VALUES("' . $reason .'")';
 			$result = mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);;
+			
+			//echo 'Inserted: ' . mysql_result($result, 0);
 			return mysql_result($result, 0);
 		}
 	}
