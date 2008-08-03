@@ -146,7 +146,11 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             postVars.Add("articles", string.Join(",", EditedPages.ToArray()));
             postVars.Add("skipped", string.Join(",", SkippedPages.ToArray()));
             postVars.Add("skipreason", string.Join(",", SkippedReasons.ToArray()));
-            postVars.Add("user", Variables.User.Name);
+
+            if (!AWB.Privacy)
+                postVars.Add("user", Variables.User.Name);
+            else
+                postVars.Add("user", "<Withheld>");
 
             try
             {
