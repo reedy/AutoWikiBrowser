@@ -106,6 +106,11 @@ namespace WikiFunctions.Logging
             }
         }
 
+        public string ArticleTitle
+        {
+            get { return mArticle; }
+        }
+
         public string SkipReason
         {
             get { return GetSubItemText(SubItem.SkippedReason); }
