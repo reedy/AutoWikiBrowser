@@ -361,11 +361,7 @@ namespace WikiFunctions.Parse
                         ArticleText += strStub + strCategories + strPersonData;
                         break;
                     case LangCodeEnum.pl:
-                        ArticleText += strPersonData + strStub + strCategories;
-                        break;
                     case LangCodeEnum.ru:
-                        ArticleText += strPersonData + strStub + strCategories;
-                        break;
                     case LangCodeEnum.simple:
                         ArticleText += strPersonData + strStub + strCategories;
                         break;
