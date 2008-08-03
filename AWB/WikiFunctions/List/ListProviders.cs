@@ -41,14 +41,14 @@ namespace WikiFunctions.Lists
     {
         public override List<Article> MakeList(params string[] searchCriteria)
         {
-            List<Article> lst = new List<Article>();
+            List<Article> list = new List<Article>();
 
             foreach (string cat in PrepareCategories(searchCriteria))
             {
-                lst.AddRange(GetListing(cat, lst.Count));
+                list.AddRange(GetListing(cat, list.Count));
             }
 
-            return lst;
+            return list;
         }
 
         public override string DisplayText
@@ -86,19 +86,19 @@ namespace WikiFunctions.Lists
 
         public override List<Article> MakeList(params string[] searchCriteria)
         {
-            List<Article> lst = new List<Article>();
+            List<Article> list = new List<Article>();
 
             lock (Visited)
             {
                 Visited.Clear();
                 foreach (string cat in PrepareCategories(searchCriteria))
                 {
-                    lst.AddRange(RecurseCategory(cat, lst.Count, Depth));
+                    list.AddRange(RecurseCategory(cat, list.Count, Depth));
                 }
                 Visited.Clear();
             }
 
-            return lst;
+            return list;
         }
 
         public override string DisplayText
@@ -264,7 +264,7 @@ namespace WikiFunctions.Lists
         }
         #endregion
         
-        protected bool includeRedirects;
+        protected bool IncludeRedirects;
 
         public override List<Article> MakeList(params string[] searchCriteria)
         { 
@@ -277,7 +277,7 @@ namespace WikiFunctions.Lists
                 string url = Variables.URLLong + "api.php?action=query&list=backlinks&bltitle=" 
                     + HttpUtility.UrlEncode(page) + "&format=xml&bllimit={limit}";
 
-                if (includeRedirects)
+                if (IncludeRedirects)
                     url += "&blredirect";
 
                 list.AddRange(ApiMakeList(url, list.Count));
@@ -307,7 +307,7 @@ namespace WikiFunctions.Lists
         public WhatLinksHereIncludingRedirectsListProvider()
             :base()
         {
-            this.includeRedirects = true;
+            this.IncludeRedirects = true;
         }
 
         public override string DisplayText
@@ -920,10 +920,23 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets 100 random articles from the 0 namespace
     /// </summary>
-    public class RandomPagesListProvider : IListProvider
+    public class RandomPagesListProvider : ApiListProviderBase
     {
+        #region Tags: <random>/<page>
+        static readonly List<string> pe = new List<string>(new string[] { "page" });
+        protected override ICollection<string> PageElements
+        {
+            get { return pe; }
+        }
 
-        public List<Article> MakeList(params string[] searchCriteria)
+        static readonly List<string> ac = new List<string>(new string[] { "random" });
+        protected override ICollection<string> Actions
+        {
+            get { return ac; }
+        }
+        #endregion
+
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             List<Article> list = new List<Article>();
 
@@ -931,47 +944,28 @@ namespace WikiFunctions.Lists
 
             for (int i = 0; i < 10; i++)
             {
-                string html = Tools.GetHTML(url);
-
-                using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
-                {
-                    while (reader.Read())
-                    {
-                        if (reader.Name.Equals("page"))
-                        {
-                            if (reader.MoveToAttribute("title"))
-                            {
-                                list.Add(new WikiFunctions.Article(reader.Value.ToString(), 0));
-                            }
-                        }
-                    }
-                }
+                list.AddRange(ApiMakeList(url, 0));
             }
             return list;
         }
 
         #region ListMaker properties
-        public string DisplayText
+        public override string DisplayText
         {
             get { return "Random Pages"; }
         }
 
-        public string UserInputTextBoxText
+        public override string UserInputTextBoxText
         {
             get { return ""; }
         }
 
-        public bool UserInputTextBoxEnabled
+        public override bool UserInputTextBoxEnabled
         {
             get { return false; }
         }
 
-        public void Selected() { }
-
-        public bool RunOnSeparateThread
-        {
-            get { return true; }
-        }
+        public override void Selected() { }
         #endregion
     }
 }
