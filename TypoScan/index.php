@@ -21,20 +21,30 @@
 			$skippedreason = $_POST['skippedreason'];
 			$user = $_POST['user'];
 			
-			if (!empty($articles))
+			$articlesempty = empty($articles);
+			$skippedempty = empty($skippedarticles);
+			
+			if (!$articlesempty || !$skippedempty)
 			{
-				$query = 'UPDATE articles SET finished = 1, checkedin = NOW(), user = "' . $user . '" WHERE articleid IN (' . $articles . ')';
-				$result=mysql_query($query) or die ('Error: '.mysql_error());
-				
-				//Deal with Ignored
-				
-				$skippedarticles[] = explode(",", $skippedarticles);
-				$skippedreason[] = explode(",", $skippedreason);
-				
-				for ($i=0; $i < count($skippedarticles); $i++)
+				if (!$articlesempty)
 				{
-					$query = 'UPDATE articles SET skipid = "' . GetOrAddIgnoreReason($skippedreason[$i]) . '", checkedin = NOW(), user = "' . $user . '" WHERE (articleid = "' . $skippedarticles[i] . '")';
-				    $result=mysql_query($query) or die ('Error: '.mysql_error());
+					$query = 'UPDATE articles SET finished = 1, checkedin = NOW(), user = "' . $user . '" WHERE articleid IN (' . $articles . ')';
+					$result=mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);
+				}
+				
+				if (!$skippedempty)
+				{
+					//Deal with Ignored
+					
+					$skippedarticles = explode(",", $skippedarticles);
+					$skippedreason = explode(",", $skippedreason);
+					
+					for ($i=0; $i < count($skippedarticles); $i++)
+					{
+						$query = 'UPDATE articles SET skipid = "' . GetOrAddIgnoreReason($skippedreason[$i]) . '", checkedin = NOW(), user = "' . $user . '" WHERE (articleid = "' . $skippedarticles[$i] . '")';
+						//echo $query;
+					    $result=mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);
+					}
 				}
 				
 				echo "<html><body>Articles Updated</body></html>";
@@ -139,7 +149,7 @@
 			PrintTableRow("Number of Currently Checked Out Articles", $result['nocheckedout']);
 			
 			//Number of ever checked out articles
-			$query = "SELECT COUNT(articleid) AS noevercheckedout FROM articles WHERE (checkedout = '0000-00-00 00:00:00') AND (finished = 0)";
+			$query = "SELECT COUNT(articleid) AS noevercheckedout FROM articles WHERE (checkedout = '0000-00-00 00:00:00') AND (finished = 0) AND (skipid = 0)";
 			$result=mysql_fetch_array(mysql_query($query));
 			PrintTableRow("Number of Ever Checked Out Articles", $result['noevercheckedout']);
 			
@@ -148,6 +158,12 @@
 			$result=mysql_fetch_array(mysql_query($query));
 			$unfinishedArticles = $result['nofinished'];
 			PrintTableRow("Number of Finished Articles", $unfinishedArticles);
+			
+			//Number of ignored articles
+			$query = "SELECT COUNT(articleid) as noignored FROM articles WHERE (skipid > 0)";
+			$result=mysql_fetch_array(mysql_query($query));
+			$unfinishedArticles = $result['noignored'];
+			PrintTableRow("Number of Ignored Articles", $unfinishedArticles);
 			
 			//Number of unfinished articles
 			PrintTableRow("Number of Unfinished Articles", ($totalArticles - $unfinishedArticles));
@@ -198,7 +214,7 @@
 	function GetOrAddIgnoreReason($reason)
 	{
 		$query = 'SELECT skipid FROM skippedreason WHERE (skipreason = "' . $reason .'")';
-		$result = mysql_query($query);
+		$result = mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);;
 			
 		if( mysql_num_rows($result) == 1)
 		{
@@ -207,7 +223,7 @@
 		else
 		{
 			$query = 'INSERT INTO skippedreason(skipreason) VALUES("' . $reason .'")';
-			$result = mysql_query($query);
+			$result = mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);;
 			return mysql_result($result, 0);
 		}
 	}
