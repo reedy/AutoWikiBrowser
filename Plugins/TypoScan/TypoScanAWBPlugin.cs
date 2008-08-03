@@ -54,7 +54,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         private void LogControl_LogAdded(bool Skipped, WikiFunctions.Logging.AWBLogListener LogListener)
         {
-            if (PageList.ContainsKey(LogListener.Text))
+            if (PageList.ContainsKey(LogListener.ArticleTitle))
             {
                 int articleID;
                 PageList.TryGetValue(LogListener.Text, out articleID);
