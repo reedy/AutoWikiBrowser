@@ -36,6 +36,9 @@ namespace TypoScanDBInsert
                 command = new MySqlCommand();
                 command.Connection = conn;
 
+                command.CommandText = "SET NAMES 'utf8'";
+                command.ExecuteNonQuery();
+
                 using (System.IO.StreamReader sr = new System.IO.StreamReader("database.sql", Encoding.UTF8))
                 {
                     command.CommandText = sr.ReadToEnd();
@@ -43,12 +46,12 @@ namespace TypoScanDBInsert
                 }
 
                 command.ExecuteNonQuery();
-
+                
                 foreach (WikiFunctions.Article a in articles)
                 {
                     count++;
                     totalArticles++;
-
+                    
                     builder.Append("('" + a.Name.Replace("'", "''").Replace("‘", "‘‘").Replace("’", "’’") + "')");
 
                     if (count == 10 || totalArticles == articles.Count)

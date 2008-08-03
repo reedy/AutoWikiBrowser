@@ -57,7 +57,7 @@
 		
 		case 'displayarticles':
 			header("Content-type: text/xml; charset=utf-8"); 
-
+		
 			$query = 'SELECT articleid, title FROM articles WHERE (checkedout < DATE_SUB(NOW(), INTERVAL 2 HOUR)) AND (finished = 0) LIMIT 100';
 			
 			$result=mysql_query($query) or die ('Error: '.mysql_error());
@@ -151,20 +151,20 @@
 			PrintTableRow("Number of Currently Checked Out Articles", $result['nocheckedout']);
 			
 			//Number of never checked out articles
-			$query = "SELECT COUNT(articleid) AS nonevercheckedout FROM articles WHERE (checkedout = '0000-00-00 00:00:00') AND (finished = 0) AND (skipid = 0)";
+			$query = "SELECT COUNT(articleid) AS nonevercheckedout FROM articles WHERE (checkedout = '0000-00-00 00:00:00')";
 			$result=mysql_fetch_array(mysql_query($query));
 			PrintTableRow("Number of Never Checked Out Articles", $result['nonevercheckedout']);
 			
 			//Number of ever checked out articles
-			$query = "SELECT COUNT(articleid) AS noevercheckedout FROM articles WHERE (checkedout > '0000-00-00 00:00:00') AND (finished = 0) AND (skipid = 0)";
+			$query = "SELECT COUNT(articleid) AS noevercheckedout FROM articles WHERE (checkedout > '0000-00-00 00:00:00')";
 			$result=mysql_fetch_array(mysql_query($query));
 			PrintTableRow("Number of Ever Checked Out Articles", $result['noevercheckedout']);
 			
 			//Number of finished articles
 			$query = "SELECT COUNT(articleid) AS nofinished FROM articles WHERE (finished = 1)";
 			$result=mysql_fetch_array(mysql_query($query));
-			$unfinishedArticles = $result['nofinished'];
-			PrintTableRow("Number of Finished Articles", $unfinishedArticles);
+			$finishedArticles = $result['nofinished'];
+			PrintTableRow("Number of Finished Articles", $finishedArticles);
 			
 			//Number of ignored articles
 			$query = "SELECT COUNT(articleid) as noignored FROM articles WHERE (skipid > 0)";
@@ -173,7 +173,7 @@
 			PrintTableRow("Number of Ignored Articles", $unfinishedArticles);
 			
 			//Number of unfinished articles
-			PrintTableRow("Number of Unfinished Articles", ($totalArticles - $unfinishedArticles));
+			PrintTableRow("Number of Unfinished Articles", ($totalArticles - $finishedArticles));
 			
 			//Number of users
 			$query = "SELECT COUNT(userid) AS nousers FROM users";
@@ -183,8 +183,8 @@
 			echo '</table>
 			<p/>';
 			
-			//Number of finished by user
-			$query = "SELECT SUM(finished) AS edits, SUM(skipid > 0) AS skips, username FROM articles a, users u WHERE (a.userid = u.userid) AND (finished = 1) OR (skipid > 0) GROUP BY a.userid ORDER BY edits DESC, skips DESC";
+			//Number of finished/ignored by user
+			$query = "SELECT SUM(finished) AS edits, SUM(skipid > 0) AS skips, username FROM articles a, users u WHERE (a.userid = u.userid) AND (a.userid > 0) GROUP BY a.userid ORDER BY edits DESC, skips DESC";
 		
 			echo '<table class="sortable">
 	<caption>Edits by User</caption>
@@ -207,14 +207,14 @@
 			</p>';
 			
 			//No of Ignores per reason
-			$query="SELECT COUNT(a.skipid) AS noskips, s.skipreason FROM articles a, skippedreason s WHERE (a.skipid = s.skipid) AND (a.skipid > 0) GROUP BY a.skipid ORDER BY noskips DESC";
+			$query = "SELECT COUNT(a.skipid) AS noskips, s.skipreason FROM articles a, skippedreason s WHERE (a.skipid = s.skipid) AND (a.skipid > 0) GROUP BY a.skipid ORDER BY noskips DESC";
 			
 						echo '<table class="sortable">
-	<caption>Ignores per Reason</caption>
+	<caption>Skipped per Reason</caption>
 <thead>
 	<tr>
 		<th scope="col" class="sortable">Reason</th>
-		<th scope="col" class="sortable">Number of Ignores</th>
+		<th scope="col" class="sortable">Number of Skipped</th>
 	</tr>
 </thead>';
 
@@ -243,29 +243,17 @@
 
 	function GetOrAddIgnoreReason($reason)
 	{
-		$query = 'SELECT skipid FROM skippedreason WHERE (skipreason = "' . $reason .'")';
-		$result = mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);
-		
-		//echo $query;
-			
-		if( mysql_num_rows($result) == 1)
-		{
-			//echo 'Exists:' . mysql_result($result, 0);
-			return mysql_result($result, 0);
-		}
-		else
-		{
-			$query = 'INSERT INTO skippedreason(skipreason) VALUES("' . $reason .'")';
-			$result = mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);;
-			
-			//echo 'Inserted: ' . mysql_result($result, 0);
-			return mysql_result($result, 0);
-		}
+		return GetOrAdd($reason, 'skipid', 'skipreason', 'skippedreason');
 	}
 	
 	function GetOrAddUser($user)
 	{
-		$query = 'SELECT userid FROM users WHERE (username= "' . $user .'")';
+		return GetOrAdd($user, 'userid', 'username', 'users');
+	}
+	
+	function GetOrAdd($data, $selectcol, $wherecol, $table)
+	{
+		$query = 'SELECT "' . $selectcol .'"FROM "' . $table .'"WHERE ("' . $wherecolcol.'" = "' . $data .'")';
 		$result = mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);
 		
 		//echo $query;
@@ -277,7 +265,7 @@
 		}
 		else
 		{
-			$query = 'INSERT INTO users(username) VALUES("' . $user .'")';
+			$query = 'INSERT INTO "' . $table. '"("' . $wherecol.'") VALUES("' . $data .'")';
 			$result = mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);;
 			
 			//echo 'Inserted: ' . mysql_result($result, 0);
