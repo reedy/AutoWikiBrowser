@@ -44,6 +44,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.lblUploaded = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lblToUpload = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,7 +53,7 @@
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.okButton.Location = new System.Drawing.Point(189, 194);
+            this.okButton.Location = new System.Drawing.Point(189, 217);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 22);
             this.okButton.TabIndex = 32;
@@ -95,7 +97,7 @@
             // 
             this.linkStats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.linkStats.AutoSize = true;
-            this.linkStats.Location = new System.Drawing.Point(13, 199);
+            this.linkStats.Location = new System.Drawing.Point(13, 222);
             this.linkStats.Name = "linkStats";
             this.linkStats.Size = new System.Drawing.Size(101, 13);
             this.linkStats.TabIndex = 36;
@@ -194,6 +196,7 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 51.5873F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 48.4127F));
+            this.tableLayoutPanel1.Controls.Add(this.label7, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this.linkMboverload, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.lblLoaded, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.lblUploaded, 1, 5);
@@ -206,9 +209,10 @@
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.label4, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.lblToUpload, 1, 6);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(16, 41);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 6;
+            this.tableLayoutPanel1.RowCount = 7;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66666F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
@@ -216,15 +220,33 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(252, 145);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(252, 169);
             this.tableLayoutPanel1.TabIndex = 47;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(3, 144);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(106, 13);
+            this.label7.TabIndex = 47;
+            this.label7.Text = "No. to be Uploaded: ";
+            // 
+            // lblToUpload
+            // 
+            this.lblToUpload.AutoSize = true;
+            this.lblToUpload.Location = new System.Drawing.Point(132, 144);
+            this.lblToUpload.Name = "lblToUpload";
+            this.lblToUpload.Size = new System.Drawing.Size(0, 13);
+            this.lblToUpload.TabIndex = 48;
             // 
             // About
             // 
             this.AcceptButton = this.okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(276, 228);
+            this.ClientSize = new System.Drawing.Size(276, 251);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.linkStats);
             this.Controls.Add(this.linkTypoScanPage);
@@ -261,5 +283,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label lblUploaded;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblToUpload;
     }
 }
