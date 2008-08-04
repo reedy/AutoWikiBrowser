@@ -17,7 +17,13 @@ namespace TypoScanDBInsert
         static MySqlConnection conn = null;
         static MySqlCommand command;
 
+        static int count = 0;
+        static int totalArticles = 0;
+
         static List<WikiFunctions.Article> articles;
+
+        static StringBuilder builder;
+
         static void Main(string[] args)
         {
             try
@@ -39,6 +45,8 @@ namespace TypoScanDBInsert
 
                 //Import();
                 ReImport();
+
+                Console.WriteLine("Time elapsed (s): " + (watch.ElapsedMilliseconds / 1000));
             }
             catch (Exception ex)
             {
@@ -56,9 +64,7 @@ namespace TypoScanDBInsert
 
         static void Import(bool reimport)
         {
-            StringBuilder builder = new StringBuilder(insertString);
-            int count = 0;
-            int totalArticles = 0;
+            builder = new StringBuilder(insertString);
 
             using (System.IO.StreamReader sr = new System.IO.StreamReader("database.sql", Encoding.UTF8))
             {
@@ -88,16 +94,30 @@ namespace TypoScanDBInsert
                 else
                     builder.Append(", ");
             }
-
-            Console.WriteLine("Time elapsed (s): " + (watch.ElapsedMilliseconds / 1000));
-
         }
 
         static void ReImport()
         {
+            builder = new StringBuilder();
+
             for (int i = 0; i < articles.Count; i++)
             {
-                command.CommandText = "UPDATE articles SET title = '" + articles[i].Name.Replace("'", "''").Replace("‘", "‘‘").Replace("’", "’’") + "' WHERE (articleid = '" + (i + 1) + "')";
+                count++;
+                totalArticles++;
+
+                builder.AppendLine("UPDATE articles SET title = '" + articles[i].Name.Replace("'", "''").Replace("‘", "‘‘").Replace("’", "’’") + "' WHERE (articleid = '" + (i + 1) + "');");
+
+                if (count == 10 || totalArticles == articles.Count)
+                {
+                    count = 0;
+
+                    command.CommandText = builder.ToString();
+                    command.ExecuteNonQuery();
+
+                    builder = new StringBuilder();
+                    Console.WriteLine(totalArticles);
+                }
+
                 command.ExecuteNonQuery();
             }
             Console.WriteLine("Done");
