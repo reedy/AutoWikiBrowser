@@ -36,7 +36,6 @@
 			if (!$articlesempty || !$skippedempty)
 			{
 				$userid = GetOrAddUser($user);
-				$articles = implode(',', RemoveNonInts(explode(",", $articles)));
 			
 				if (!$articlesempty)
 				{
@@ -46,17 +45,19 @@
 				
 				if (!$skippedempty)
 				{
-					//echo $skippedarticles;
-					//echo $skippedreason;
+					//echo 'sa: ' . $skippedarticles;
+					//echo 'sr: ' . $skippedreason;
 					//Deal with Ignored
 					
-					$skippedarticles = RemoveNonInts(explode(",", $skippedarticles));
-					$skippedreason = RemoveNonInts(explode(",", $skippedreason));
+					$skippedarticles = explode(",", $skippedarticles);
+					$skippedreason = explode(",", $skippedreason);
 					
+					//echo 'sa size: ' . count($skippedarticles);
+									
 					for ($i=0; $i < count($skippedarticles); $i++)
 					{
 						$query = 'UPDATE articles SET skipid = "' . GetOrAddIgnoreReason($skippedreason[$i]) . '", checkedin = NOW(), userid = "' . $userid . '" WHERE (articleid = "' . $skippedarticles[$i] . '")';
-						//echo $query;
+						echo $query;
 					    $result=mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);
 					}
 				}
@@ -73,7 +74,7 @@
 		case 'displayarticles':
 			header("Content-type: text/xml; charset=utf-8"); 
 		
-			$query = 'SELECT articleid, title FROM articles WHERE (checkedout < DATE_SUB(NOW(), INTERVAL 2 HOUR)) AND (finished = 0) LIMIT 100';
+			$query = 'SELECT articleid, title FROM articles WHERE (checkedout > DATE_SUB(NOW(), INTERVAL 2 HOUR)) AND (finished = 0) LIMIT 100';
 			
 			$result=mysql_query($query) or die ('Error: '.mysql_error());
 			
