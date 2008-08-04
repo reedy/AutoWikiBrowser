@@ -5,12 +5,12 @@
 	header('Pragma: no-cache'); //HTTP/1.0
 
 	/* Manually create file 'typo-db.php' using the following boilerplate:
-	<?
-	$dbserver = ';
+	<?php
+	$dbserver = '';
 	$dbuser = '';
 	$dbpass = '';
-	$database = '';
-	*/
+	$database = ''; 
+	?>*/
 	require_once('typo-db.php');
 	
 	$conn=mysql_connect($dbserver, $dbuser, $dbpass); 
@@ -290,3 +290,4 @@
 	{
 		return array_filter($arr, 'is_int');
 	}
+?>
