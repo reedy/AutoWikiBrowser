@@ -5,19 +5,21 @@
 	header('Pragma: no-cache'); //HTTP/1.0
 
 	/* Manually create file 'typo-db.php' using the following boilerplate:
-	<?php
+<?php
 	$dbserver = '';
 	$dbuser = '';
 	$dbpass = '';
-	$database = ''; 
-	?>*/
+	$database = '';
+	*/
 	require_once('typo-db.php');
 	
 	$conn=mysql_connect($dbserver, $dbuser, $dbpass); 
 	mysql_select_db($database, $conn);
 	
 	$query = "SET NAMES 'utf8'";
-	$result=mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);
+	$result=mysql_query($query) or die ('Error: ' . htmlspecialchars(mysql_error()) . '\nQuery: ' . $query);
+	
+	if (!isset($_GET['action'])) $_GET['action'] = '';
 	
 	switch($_GET['action'])
 	{
@@ -57,12 +59,14 @@
 					    $result=mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);
 					}
 				}
-				
-				echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><body>Articles Updated</body></html>';
+				Head('TypoScan - Update');
+				echo 'Articles Updated</body></html>';
 			}
 			else
-				echo "<html><body>Articles have to be posted to the script</body></html>";
+			{
+				Head('TypoScan - Update failed');
+				echo 'Articles have to be posted to the script</body></html>';
+			}
 		break;
 		
 		case 'displayarticles':
@@ -96,55 +100,10 @@
 		default:
 		header("Content-type: text/html; charset=utf-8");
 		
-			echo'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-			<head>
-			<title>TypoScan Stats</title>
-			<style type="text/css">
-		BODY, .default  {
-			font-size : 12pt;
-			font-family : Arial, Courier, Helvetica;
-			color : Black;
-		}
-		
-		a:link  {
-			color : blue;
-			text-decoration : none;
-		}
-		
-		A:visited {
-			color : purple;
-			text-decoration : none;
-		}
-		
-		a:hover  {
-			color : #D79C02;
-			text-decoration : underline;
-		}
-		
-		table, caption {
-			width : 700px;
-		}
-		
-		table, caption, th, td {
-			border-width : 1px;
-			border-style : solid;		
-		}
-		
-		caption {
-			border-bottom-width : 0px;
-			font-weight : bold;
-		}
-		
-		TH.sortable {
-			cursor : pointer;
-		}
-	</style>
-		<script src="sorttable.js" type="text/javascript"></script>
-	</head>
-	<h2><a href="http://en.wikipedia.org/wiki/Wikipedia:TypoScan">TypoScan</a> Stats</h2>
-				<table>
-				<caption>Overview</caption>';
+			Head('TypoScan - Stats');
+			echo'<h2><a href="http://en.wikipedia.org/wiki/Wikipedia:TypoScan">TypoScan</a> Stats</h2>
+		<table>
+		<caption>Overview</caption>';
 			//Number of articles in Database
 			$query = "SELECT COUNT(articleid) AS noarticles FROM articles";
 			$result=mysql_fetch_array(mysql_query($query));
@@ -170,7 +129,8 @@
 			PrintTableRow("Number of Untouched Articles", ($totalArticles - $finishedArticles - $ignoredArticles));
 			
 			//Percentage Completion
-			PrintTableRow("Percentage Completion", round( ((($finishedArticles + $ignoredArticles)/$totalArticles) * 100),2) .'%');
+			PrintTableRow("Percentage Completion", 
+				($totalArticles ? round( ((($finishedArticles + $ignoredArticles)/$totalArticles) * 100),2) : '0') .'%');
 			
 			//Number of currently checked out articles
 			$query = "SELECT COUNT(articleid) AS nocheckedout FROM articles WHERE (checkedout >= DATE_SUB(NOW(), INTERVAL 2 HOUR)) AND (userid = 0)";
@@ -290,4 +250,54 @@
 	{
 		return array_filter($arr, 'is_int');
 	}
-?>
+	
+	function Head($title="TypoScan")
+	{
+		?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+	<title><? echo $title; ?></title>
+	<style type="text/css">
+		BODY, .default  {
+			font-size : 12pt;
+			font-family : Arial, Courier, Helvetica;
+			color : Black;
+		}
+		
+		a:link  {
+			color : blue;
+			text-decoration : none;
+		}
+		
+		A:visited {
+			color : purple;
+			text-decoration : none;
+		}
+		
+		a:hover  {
+			color : #D79C02;
+			text-decoration : underline;
+		}
+		
+		table, caption {
+			width : 700px;
+		}
+		
+		table, caption, th, td {
+			border-width : 1px;
+			border-style : solid;		
+		}
+		
+		caption {
+			border-bottom-width : 0px;
+			font-weight : bold;
+		}
+		
+		TH.sortable {
+			cursor : pointer;
+		}
+	</style>
+	<script src="sorttable.js" type="text/javascript"/>
+	</head>
+	<body><?
+	}
