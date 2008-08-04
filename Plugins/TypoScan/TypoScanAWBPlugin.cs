@@ -26,6 +26,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         internal static int SavedThisSession = 0;
         internal static int SkippedThisSession = 0;
+        internal static int UploadedThisSession = 0;
 
         private ToolStripMenuItem pluginMenuItem = new ToolStripMenuItem("TypoScan plugin");
         private ToolStripMenuItem pluginUploadMenuItem = new ToolStripMenuItem("Upload finished articles to server now");
@@ -41,6 +42,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             pluginMenuItem.DropDownItems.Add(pluginUploadMenuItem);
             pluginMenuItem.DropDownItems.Add(pluginReAddArticlesMenuItem);
             pluginUploadMenuItem.Click += new EventHandler(pluginUploadMenuItem_Click);
+            pluginReAddArticlesMenuItem.Enabled = false;
             pluginReAddArticlesMenuItem.Click += new EventHandler(pluginReAddArticlesMenuItem_Click);
             sender.PluginsToolStripMenuItem.DropDownItems.Add(pluginMenuItem);
 
@@ -50,6 +52,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         private void pluginReAddArticlesMenuItem_Click(object sender, EventArgs e)
         {
+            //TODO: What if its already been saved/skipped in that session...?
             foreach (string a in PageList.Keys)
             {
                 AWB.ListMaker.Add(new Article(a));
@@ -153,17 +156,20 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         private void UploadFinishedArticlesToServer(bool appExit)
         {
-            if (EditAndIgnoredPages() == 0)
+            int editsAndIgnored = EditAndIgnoredPages();
+            if (editsAndIgnored == 0)
                 return;
 
             AWB.StartProgressBar();
-            AWB.StatusLabelText = "Uploading " + EditAndIgnoredPages() + " TypoScan articles to server...";
+            AWB.StatusLabelText = "Uploading " + editsAndIgnored + " TypoScan articles to server...";
 
             NameValueCollection postVars = new NameValueCollection();
 
             postVars.Add("articles", string.Join(",", EditedPages.ToArray()));
             postVars.Add("skipped", string.Join(",", SkippedPages.ToArray()));
             postVars.Add("skipreason", string.Join(",", SkippedReasons.ToArray()));
+
+            
 
             if (!AWB.Privacy)
                 postVars.Add("user", Variables.User.Name);
@@ -175,6 +181,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                 string result = Tools.PostData(postVars, URL);
                 if (result.Contains("Articles Updated"))
                 {
+                    UploadedThisSession += editsAndIgnored;
                     EditedPages.Clear();
                     SkippedPages.Clear();
                     SkippedReasons.Clear();

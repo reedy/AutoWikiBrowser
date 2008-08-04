@@ -16,6 +16,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             lblSaved.Text = TypoScanAWBPlugin.SavedThisSession.ToString();
             lblSkipped.Text = TypoScanAWBPlugin.SkippedThisSession.ToString();
             lblLoaded.Text = TypoScanAWBPlugin.PageList.Count.ToString();
+            lblUploaded.Text = TypoScanAWBPlugin.UploadedThisSession.ToString();
         }
 
         private void linkReedy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
