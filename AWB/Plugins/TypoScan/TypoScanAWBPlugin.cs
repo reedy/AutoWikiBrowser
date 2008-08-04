@@ -84,7 +84,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                     SavedThisSession++;
                 }
 
-                if (EditAndIgnoredPages() >= 25)
+                if (EditAndIgnoredPages >= 25)
                     UploadFinishedArticlesToServer(false);
             }
         }
@@ -153,7 +153,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         private static void UploadFinishedArticlesToServer(bool appExit)
         {
-            int editsAndIgnored = EditAndIgnoredPages();
+            int editsAndIgnored = EditAndIgnoredPages;
             if (editsAndIgnored == 0)
                 return;
 
@@ -191,9 +191,9 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         }
         #endregion
 
-        private static int EditAndIgnoredPages()
+        internal static int EditAndIgnoredPages
         {
-            return (EditedPages.Count + SkippedPages.Count);
+            get { return (EditedPages.Count + SkippedPages.Count); }
         }
     }
 }
