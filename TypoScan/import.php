@@ -16,7 +16,7 @@ echo "Init complete, importing...\n";
 
 while(!feof($f))
 {
-	$name = fgets($f);
+	$name = trim(fgets($f));
 	$q = "INSERT INTO articles (title) VALUES ('" . mysql_escape_string($name) . "')";
 	mysql_query($q) or die;
 	//echo $name . "\n";
