@@ -29,6 +29,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         private ToolStripMenuItem pluginMenuItem = new ToolStripMenuItem("TypoScan plugin");
         private ToolStripMenuItem pluginUploadMenuItem = new ToolStripMenuItem("Upload finished articles to server now");
+        private ToolStripMenuItem pluginReAddArticlesMenuItem = new ToolStripMenuItem("Re-add TypoScan articles to ListMaker");
         private ToolStripMenuItem aboutMenuItem = new ToolStripMenuItem("About the TypoScan plugin");
 
         public void Initialise(IAutoWikiBrowser sender)
@@ -38,11 +39,21 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             AWB.AddMainFormClosingEventHandler(new FormClosingEventHandler(UploadFinishedArticlesToServer));
 
             pluginMenuItem.DropDownItems.Add(pluginUploadMenuItem);
+            pluginMenuItem.DropDownItems.Add(pluginReAddArticlesMenuItem);
             pluginUploadMenuItem.Click += new EventHandler(pluginUploadMenuItem_Click);
+            pluginReAddArticlesMenuItem.Click += new EventHandler(pluginReAddArticlesMenuItem_Click);
             sender.PluginsToolStripMenuItem.DropDownItems.Add(pluginMenuItem);
 
             aboutMenuItem.Click += new EventHandler(aboutMenuItem_Click);
             sender.HelpToolStripMenuItem.DropDownItems.Add(aboutMenuItem);
+        }
+
+        private void pluginReAddArticlesMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (string a in PageList.Keys)
+            {
+                AWB.ListMaker.Add(new Article(a));
+            }
         }
 
         private void aboutMenuItem_Click(object sender, EventArgs e)
