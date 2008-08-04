@@ -245,7 +245,7 @@
 
         #endregion
 
-        protected System.Windows.Forms.Button okButton;
+        private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.LinkLabel linkReedy;
         private System.Windows.Forms.LinkLabel linkMboverload;
         private System.Windows.Forms.LinkLabel linkTypoScanPage;

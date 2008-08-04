@@ -91,7 +91,7 @@ namespace WikiFunctions.Controls
             // 
             // columnHeader4
             // 
-            this.columnHeader4.Text = "No change";
+            this.columnHeader4.Text = "No. changes";
             this.columnHeader4.Width = 75;
             // 
             // miTestRegex

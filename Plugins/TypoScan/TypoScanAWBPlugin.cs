@@ -14,9 +14,6 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
     class TypoScanAWBPlugin : IAWBPlugin
     {
         #region IAWBPlugin Members
-
-        internal static readonly string URL = "http://typoscan.reedyboy.net/index.php?action=finished";
-
         internal static IAutoWikiBrowser AWB;
         internal static Dictionary<string, int> PageList = new Dictionary<string, int>();
         internal static List<string> EditedPages = new List<string>();
@@ -24,9 +21,9 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         internal static List<string> SkippedPages = new List<string>();
         internal static List<string> SkippedReasons = new List<string>();
 
-        internal static int SavedThisSession = 0;
-        internal static int SkippedThisSession = 0;
-        internal static int UploadedThisSession = 0;
+        internal static int SavedThisSession;
+        internal static int SkippedThisSession;
+        internal static int UploadedThisSession;
 
         private ToolStripMenuItem pluginMenuItem = new ToolStripMenuItem("TypoScan plugin");
         private ToolStripMenuItem pluginUploadMenuItem = new ToolStripMenuItem("Upload finished articles to server now");
@@ -154,7 +151,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             UploadFinishedArticlesToServer(true);
         }
 
-        private void UploadFinishedArticlesToServer(bool appExit)
+        private static void UploadFinishedArticlesToServer(bool appExit)
         {
             int editsAndIgnored = EditAndIgnoredPages();
             if (editsAndIgnored == 0)
@@ -169,8 +166,6 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             postVars.Add("skipped", string.Join(",", SkippedPages.ToArray()));
             postVars.Add("skipreason", string.Join(",", SkippedReasons.ToArray()));
 
-            
-
             if (!AWB.Privacy)
                 postVars.Add("user", Variables.User.Name);
             else
@@ -178,7 +173,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
             try
             {
-                string result = Tools.PostData(postVars, URL);
+                string result = Tools.PostData(postVars, Common.Url + "finished");
                 if (result.Contains("Articles Updated"))
                 {
                     UploadedThisSession += editsAndIgnored;
@@ -196,7 +191,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         }
         #endregion
 
-        private int EditAndIgnoredPages()
+        private static int EditAndIgnoredPages()
         {
             return (EditedPages.Count + SkippedPages.Count);
         }

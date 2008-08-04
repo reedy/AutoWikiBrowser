@@ -40,7 +40,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         {
             List<Article> articles = new List<Article>();
 
-            string html = Tools.GetHTML("http://typoscan.reedyboy.net/index.php?action=displayarticles");
+            string html = Tools.GetHTML(Common.Url + "displayarticles");
 
             using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
             {
