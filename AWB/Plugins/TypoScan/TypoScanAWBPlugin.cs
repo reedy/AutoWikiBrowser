@@ -65,7 +65,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                 {
                     SkippedPages.Add(articleID.ToString());
                     SkippedReasons.Add(LogListener.SkipReason);
-                    SavedThisSession++;
+                    SkippedThisSession++;
                 }
                 else
                 {

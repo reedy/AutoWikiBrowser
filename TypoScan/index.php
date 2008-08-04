@@ -151,6 +151,27 @@
 			$totalArticles = $result['noarticles'];
 			PrintTableRow("Number of Articles", $totalArticles);
 			
+			//Number of finished articles
+			$query = "SELECT COUNT(articleid) AS nofinished FROM articles WHERE (finished = 1)";
+			$result=mysql_fetch_array(mysql_query($query));
+			$finishedArticles = $result['nofinished'];
+			PrintTableRow("Number of Finished Articles", $finishedArticles);
+			
+			//Number of ignored articles
+			$query = "SELECT COUNT(articleid) as noignored FROM articles WHERE (skipid > 0)";
+			$result=mysql_fetch_array(mysql_query($query));
+			$ignoredArticles = $result['noignored'];
+			PrintTableRow("Number of Ignored Articles", $ignoredArticles);
+			
+			//Number of touched articles
+			PrintTableRow("Number of Touched Articles", ($finishedArticles + $ignoredArticles));
+			
+			//Number of untouched articles
+			PrintTableRow("Number of Untouched Articles", ($totalArticles - $finishedArticles - $ignoredArticles));
+			
+			//Percentage Completion
+			PrintTableRow("Percentage Completion", ((($finishedArticles + $ignoredArticles)/$totalArticles) * 100) .'%');
+			
 			//Number of currently checked out articles
 			$query = "SELECT COUNT(articleid) AS nocheckedout FROM articles WHERE (checkedout >= DATE_SUB(NOW(), INTERVAL 2 HOUR)) AND (finished = 0)";
 			$result=mysql_fetch_array(mysql_query($query));
@@ -165,22 +186,7 @@
 			$query = "SELECT COUNT(articleid) AS noevercheckedout FROM articles WHERE (checkedout > '0000-00-00 00:00:00')";
 			$result=mysql_fetch_array(mysql_query($query));
 			PrintTableRow("Number of Ever Checked Out Articles", $result['noevercheckedout']);
-			
-			//Number of finished articles
-			$query = "SELECT COUNT(articleid) AS nofinished FROM articles WHERE (finished = 1)";
-			$result=mysql_fetch_array(mysql_query($query));
-			$finishedArticles = $result['nofinished'];
-			PrintTableRow("Number of Finished Articles", $finishedArticles);
-			
-			//Number of ignored articles
-			$query = "SELECT COUNT(articleid) as noignored FROM articles WHERE (skipid > 0)";
-			$result=mysql_fetch_array(mysql_query($query));
-			$unfinishedArticles = $result['noignored'];
-			PrintTableRow("Number of Ignored Articles", $unfinishedArticles);
-			
-			//Number of unfinished articles
-			PrintTableRow("Number of Unfinished Articles", ($totalArticles - $finishedArticles));
-			
+				
 			//Number of users
 			$query = "SELECT COUNT(userid) AS nousers FROM users";
 			$result=mysql_fetch_array(mysql_query($query));
