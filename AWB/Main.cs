@@ -220,9 +220,8 @@ namespace AutoWikiBrowser
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-#if !DEBUG
             EditBoxTab.TabPages.Remove(tpTypos);
-#endif
+
             StatusLabelText = "Initialising...";
             splash.SetProgress(20);
             Variables.MainForm = this;
@@ -1005,7 +1004,7 @@ namespace AutoWikiBrowser
             if (EditBoxTab.SelectedTab == tpHistory)
                 EditBoxTab.SelectedTab = tpEdit;
             LogControl1.AddLog(false, TheArticle.LogListener);
-            OverallTypoStats.AddStats(typoStats);
+            UpdateOverallTypoStats();
 
             if (listMaker.Count == 0 && AutoSaveEditBoxEnabled)
                 EditBoxSaveTimer.Enabled = false;
@@ -1463,10 +1462,33 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             CurrentTypoStats.AddStats(typoStats);
         }
 
+        private void UpdateOverallTypoStats()
+        {
+            if (chkRegExTypo.Checked) OverallTypoStats.AddStats(typoStats);
+            UpdateTypoCount();
+        }
+
+        private void UpdateTypoCount()
+        {
+            //work around CS1690 warning
+            int total = OverallTypoStats.TotalTypos;
+            lblOverallTypos.Text = total.ToString();
+
+            int selfMatches = OverallTypoStats.SelfMatches;
+            lblNoChange.Text = selfMatches.ToString();
+
+            if (OverallTypoStats.Saves > 0)
+                lblTypoRatio.Text = string.Format("{0:F1}",
+                    (total - selfMatches) / OverallTypoStats.Saves);
+            else
+                lblTypoRatio.Text = "0";
+        }
+
         private void ResetTypoStats()
         {
-            CurrentTypoStats.Clear();
-            OverallTypoStats.Clear();
+            CurrentTypoStats.ClearStats();
+            OverallTypoStats.ClearStats();
+            UpdateTypoCount();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -2834,13 +2856,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
             LoadTypos(false);
             chkSkipIfNoRegexTypo.Enabled = chkRegExTypo.Checked;
 
-            //HACK: disabled
-#if DEBUG_
             if (chkRegExTypo.Checked)
+            {
                 if (!EditBoxTab.TabPages.Contains(tpTypos)) EditBoxTab.TabPages.Add(tpTypos);
+            }
             else
                 if (EditBoxTab.TabPages.Contains(tpTypos)) EditBoxTab.TabPages.Remove(tpTypos);
-#endif
         }
 
         private void LoadTypos(bool Reload)

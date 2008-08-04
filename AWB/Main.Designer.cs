@@ -363,6 +363,12 @@ namespace AutoWikiBrowser
             this.tpLoggingOptions = new System.Windows.Forms.TabPage();
             this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
             this.tpTypos = new System.Windows.Forms.TabPage();
+            this.lblTypoRatio = new System.Windows.Forms.Label();
+            this.lblNoChange = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lblOverallTypos = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.CurrentTypoStats = new WikiFunctions.Controls.TypoStatsControl();
@@ -3561,12 +3567,72 @@ namespace AutoWikiBrowser
             this.tpTypos.Text = "Typos";
             this.tpTypos.UseVisualStyleBackColor = true;
             // 
+            // lblTypoRatio
+            // 
+            this.lblTypoRatio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblTypoRatio.AutoSize = true;
+            this.lblTypoRatio.Location = new System.Drawing.Point(338, 172);
+            this.lblTypoRatio.Name = "lblTypoRatio";
+            this.lblTypoRatio.Size = new System.Drawing.Size(13, 13);
+            this.lblTypoRatio.TabIndex = 1;
+            this.lblTypoRatio.Text = "0";
+            // 
+            // lblNoChange
+            // 
+            this.lblNoChange.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblNoChange.AutoSize = true;
+            this.lblNoChange.Location = new System.Drawing.Point(221, 172);
+            this.lblNoChange.Name = "lblNoChange";
+            this.lblNoChange.Size = new System.Drawing.Size(13, 13);
+            this.lblNoChange.TabIndex = 672;
+            this.lblNoChange.Text = "0";
+            // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(135, 172);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(63, 13);
+            this.label6.TabIndex = 671;
+            this.label6.Text = "No change:";
+            // 
+            // label7
+            // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(252, 172);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(67, 13);
+            this.label7.TabIndex = 673;
+            this.label7.Text = "Typos/save:";
+            // 
+            // lblOverallTypos
+            // 
+            this.lblOverallTypos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblOverallTypos.AutoSize = true;
+            this.lblOverallTypos.Location = new System.Drawing.Point(92, 172);
+            this.lblOverallTypos.Name = "lblOverallTypos";
+            this.lblOverallTypos.Size = new System.Drawing.Size(13, 13);
+            this.lblOverallTypos.TabIndex = 2;
+            this.lblOverallTypos.Text = "0";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 172);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(34, 13);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Total:";
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.Location = new System.Drawing.Point(3, 25);
+            this.splitContainer1.Location = new System.Drawing.Point(3, 3);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -3577,8 +3643,8 @@ namespace AutoWikiBrowser
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox10);
-            this.splitContainer1.Size = new System.Drawing.Size(388, 323);
-            this.splitContainer1.SplitterDistance = 130;
+            this.splitContainer1.Size = new System.Drawing.Size(388, 345);
+            this.splitContainer1.SplitterDistance = 152;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -3588,7 +3654,7 @@ namespace AutoWikiBrowser
             this.groupBox9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox9.Location = new System.Drawing.Point(0, 0);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(388, 130);
+            this.groupBox9.Size = new System.Drawing.Size(388, 152);
             this.groupBox9.TabIndex = 0;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "On this page";
@@ -3599,14 +3665,20 @@ namespace AutoWikiBrowser
             this.CurrentTypoStats.Location = new System.Drawing.Point(3, 16);
             this.CurrentTypoStats.MultiSelect = false;
             this.CurrentTypoStats.Name = "CurrentTypoStats";
-            this.CurrentTypoStats.Size = new System.Drawing.Size(382, 111);
+            this.CurrentTypoStats.Size = new System.Drawing.Size(382, 133);
             this.CurrentTypoStats.TabIndex = 0;
             this.CurrentTypoStats.UseCompatibleStateImageBehavior = false;
             this.CurrentTypoStats.View = System.Windows.Forms.View.Details;
             // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.lblTypoRatio);
             this.groupBox10.Controls.Add(this.OverallTypoStats);
+            this.groupBox10.Controls.Add(this.lblNoChange);
+            this.groupBox10.Controls.Add(this.label3);
+            this.groupBox10.Controls.Add(this.label6);
+            this.groupBox10.Controls.Add(this.lblOverallTypos);
+            this.groupBox10.Controls.Add(this.label7);
             this.groupBox10.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox10.Location = new System.Drawing.Point(0, 0);
             this.groupBox10.Name = "groupBox10";
@@ -3617,12 +3689,14 @@ namespace AutoWikiBrowser
             // 
             // OverallTypoStats
             // 
-            this.OverallTypoStats.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.OverallTypoStats.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.OverallTypoStats.IsOverallStats = true;
             this.OverallTypoStats.Location = new System.Drawing.Point(3, 16);
             this.OverallTypoStats.MultiSelect = false;
             this.OverallTypoStats.Name = "OverallTypoStats";
-            this.OverallTypoStats.Size = new System.Drawing.Size(382, 169);
+            this.OverallTypoStats.Size = new System.Drawing.Size(382, 153);
             this.OverallTypoStats.TabIndex = 1;
             this.OverallTypoStats.UseCompatibleStateImageBehavior = false;
             this.OverallTypoStats.View = System.Windows.Forms.View.Details;
@@ -3851,6 +3925,7 @@ namespace AutoWikiBrowser
             this.splitContainer1.ResumeLayout(false);
             this.groupBox9.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);
+            this.groupBox10.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.mnuMakeFromTextBox.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -4193,5 +4268,11 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.GroupBox groupBox10;
         private WikiFunctions.Controls.TypoStatsControl CurrentTypoStats;
         private WikiFunctions.Controls.TypoStatsControl OverallTypoStats;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblOverallTypos;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblTypoRatio;
+        private System.Windows.Forms.Label lblNoChange;
+        private System.Windows.Forms.Label label7;
     }
 }

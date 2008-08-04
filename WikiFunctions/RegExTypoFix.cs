@@ -30,6 +30,8 @@ using WikiFunctions.Controls;
 
 namespace WikiFunctions.Parse
 {
+    //TODO: make it ignore typos where RETF changes part of page title, like [[Adam Commens]]
+
     /// <summary>
     /// Represents a group of similar typo regexes
     /// </summary>
