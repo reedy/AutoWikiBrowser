@@ -171,11 +171,6 @@ namespace WikiFunctions.Controls
             Saves++;
         }
 
-        private void Add(TypoStat stat)
-        {
-        }
-
-        // TODO: switch to Add()
         public void AddStats(IEnumerable<TypoStat> stats)
         {
             if (stats == null) return;
@@ -195,8 +190,7 @@ namespace WikiFunctions.Controls
                     else
                     {
                         Data.Add(typo.Find, typo);
-                        typo.ListViewItem = new TypoStatsListViewItem(typo);
-                        Items.Add(typo.ListViewItem);
+                        Items.Add(new TypoStatsListViewItem(typo));
                     }
                 }
                 CountStats();
@@ -266,6 +260,7 @@ namespace WikiFunctions.Controls
             : base(new string[] { stat.Find, stat.Replace, "", "" })
         {
             Typo = stat;
+            Typo.ListViewItem = this;
             Refresh();
         }
 

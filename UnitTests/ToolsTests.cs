@@ -309,7 +309,7 @@ bar"));
             CollectionAssert.AreEqual(test, Tools.SplitLines("\nfoo\n\nbar"));
         }
 
-        [Test, Category("Unarchived bugs")]
+        [Test]
         public void TestRedirectTarget()
         {
             Assert.AreEqual("Foo", Tools.RedirectTarget("#redirect [[Foo]]"));
@@ -322,12 +322,12 @@ bar"));
             Assert.AreEqual("Foo", Tools.RedirectTarget("#REDIRECT [[Foo|bar]]"));
 
             // URL-decode targets
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Problem_with_redirects
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Problem_with_redirects
             Assert.AreEqual("Foo, bar", Tools.RedirectTarget("#REDIRECT[[Foo%2C_bar]]"));
             Assert.AreEqual("Хуй", Tools.RedirectTarget("#REDIRECT[[%D0%A5%D1%83%D0%B9]]"));
         }
 
-        [Test, Category("Unarchived bugs")]
+        [Test]
         public void TestGetTitleFromURL()
         {
             Assert.AreEqual("foo bar", Tools.GetTitleFromURL("http://en.wikipedia.org/wiki/foo_bar"));
@@ -342,7 +342,7 @@ bar"));
             Assert.IsNull(Tools.GetTitleFromURL("http://en.wikipedia.org/wiki/"));
             Assert.IsNull(Tools.GetTitleFromURL("http://en.wikipedia.org/w/index.php?title=foo&action=delete"));
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#list_entries_like:_Index.html.3Fcurid.3D16235168
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#list_entries_like:_Index.html.3Fcurid.3D16235168
             Assert.IsNull(Tools.GetTitleFromURL("http://en.wikipedia.org/wiki/index.html?curid=666"));
             Assert.IsNull(Tools.GetTitleFromURL("http://en.wikipedia.org/wiki/foo?action=delete"));
             Assert.IsNull(Tools.GetTitleFromURL("http://en.wikipedia.org/w/index.php?title=foo&action=delete"));

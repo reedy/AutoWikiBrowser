@@ -42,6 +42,7 @@ namespace WikiFunctions
 
         /// <summary>
         /// Calculates the namespace index.
+        /// TODO: doesn't recognise acceptable deviations such as "template:foo" or "Category : bar"
         /// </summary>
         public static int CalculateNS(string ArticleTitle)
         {

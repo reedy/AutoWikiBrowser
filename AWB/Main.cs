@@ -1479,7 +1479,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
             if (OverallTypoStats.Saves > 0)
                 lblTypoRatio.Text = string.Format("{0:F1}",
-                    (total - selfMatches) / OverallTypoStats.Saves);
+                    (total - selfMatches - OverallTypoStats.FalsePositives) / OverallTypoStats.Saves);
             else
                 lblTypoRatio.Text = "0";
         }
