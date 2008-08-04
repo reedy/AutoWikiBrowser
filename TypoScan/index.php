@@ -4,10 +4,14 @@
 	header('Expires: Sun, 01 Jul 2005 00:00:00 GMT');
 	header('Pragma: no-cache'); //HTTP/1.0
 
-	$dbserver = 'mysql.reedyboy.net';
-	$dbuser = 'typoscan';
-	$dbpass = '256iumD3';
-	$database = 'typoscan';
+	/* Manually create file 'typo-db.php' using the following boilerplate:
+	<?
+	$dbserver = ';
+	$dbuser = '';
+	$dbpass = '';
+	$database = '';
+	*/
+	require_once('typo-db.php');
 	
 	$conn=mysql_connect($dbserver, $dbuser, $dbpass); 
 	mysql_select_db($database, $conn);
@@ -19,7 +23,7 @@
 	{
 		case 'finished':
 			header("Content-type: text/html; charset=utf-8"); 
-			$articles = $_POST['articles'];
+			$articles = (int)$_POST['articles'];
 			$skippedarticles = $_POST['skipped'];
 			$skippedreason = $_POST['skipreason'];
 			$user = $_POST['user'];
@@ -43,8 +47,8 @@
 					//echo $skippedreason;
 					//Deal with Ignored
 					
-					$skippedarticles = explode(",", $skippedarticles);
-					$skippedreason = explode(",", $skippedreason);
+					$skippedarticles = RemoveNonInts(explode(",", $skippedarticles));
+					$skippedreason = RemoveNonInts(explode(",", $skippedreason));
 					
 					for ($i=0; $i < count($skippedarticles); $i++)
 					{
@@ -54,7 +58,8 @@
 					}
 				}
 				
-				echo "<html><body>Articles Updated</body></html>";
+				echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><body>Articles Updated</body></html>';
 			}
 			else
 				echo "<html><body>Articles have to be posted to the script</body></html>";
@@ -76,13 +81,7 @@
 			{
 				$array[] = $row['articleid'];
 				$therow = $row['title'];
-				$xml_output .= "\t<article id='{$row['articleid']}'>";
-				// Escaping illegal characters
-				$therow = str_replace("&", "&amp;", $therow);
-				$therow = str_replace("<", "&lt;", $therow);
-				$therow = str_replace(">", "&gt;", $therow);
-				$therow = str_replace("\"", "&quot;", $therow);
-				$xml_output .= $therow . "</article>\n";
+				$xml_output .= "\t<article id='{$row['articleid']}'>" . htmlspecialchars($therow) . "</article>\n";
 			}
 			
 			$query = 'UPDATE articles SET checkedout = NOW() WHERE articleid IN (' . implode(",", $array) . ')';
@@ -97,7 +96,8 @@
 		default:
 		header("Content-type: text/html; charset=utf-8");
 		
-			echo'<html>
+			echo'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 			<head>
 			<title>TypoScan Stats</title>
 			<style type="text/css">
@@ -212,7 +212,7 @@
 			
 			while($row = mysql_fetch_assoc($result))
 			{
-				echo '<tr><td>'. $row['username'] . '</td><td>' . $row['edits'] . '</td><td>' . $row['skips'] . '</td></tr>';
+				echo '<tr><td>'. htmlspecialchars($row['username']) . '</td><td>' . $row['edits'] . '</td><td>' . $row['skips'] . '</td></tr>';
 			}
 			
 			echo '</table>
@@ -234,11 +234,12 @@
 			
 			while($row = mysql_fetch_assoc($result))
 			{
-				echo '<tr><td>'. $row['skipreason'] . '</td><td>' . $row['noskips'] . '</td></tr>';
+				echo '<tr><td>'. htmlspecialchars($row['skipreason']) . '</td><td>' . $row['noskips'] . '</td></tr>';
 			}
 
 			echo '</table>
-			</html>';			
+</body>
+</html>';			
 			break;
 	}
 	
@@ -265,7 +266,7 @@
 	
 	function GetOrAdd($data, $selectcol, $wherecol, $table)
 	{
-		$query = 'SELECT ' . $selectcol . ' FROM ' . $table .' WHERE (' . $wherecol . ' = "' . $data .'")';
+		$query = 'SELECT ' . $selectcol . ' FROM `' . $table .'` WHERE (' . $wherecol . ' = "' . mysql_escape_string($data) .'")';
 		$result = mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);
 		
 		//echo $query;
@@ -277,11 +278,15 @@
 		}
 		else
 		{
-			$query = 'INSERT INTO ' . $table. '(' . $wherecol. ') VALUES("' . $data .'")';
+			$query = 'INSERT INTO ' . $table. '(' . $wherecol. ') VALUES("' . mysql_escape_string($data) .'")';
 			$result = mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);;
 			
 			//echo 'Inserted: ' . mysql_result($result, 0);
 			return GetOrAdd($data, $selectcol, $wherecol, $table);
 		}
 	}
-?>
+	
+	function RemoveNonInts($arr)
+	{
+		return array_filter($arr, 'is_int');
+	}
