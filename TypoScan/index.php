@@ -170,7 +170,7 @@
 			PrintTableRow("Number of Untouched Articles", ($totalArticles - $finishedArticles - $ignoredArticles));
 			
 			//Percentage Completion
-			PrintTableRow("Percentage Completion", ((($finishedArticles + $ignoredArticles)/$totalArticles) * 100) .'%');
+			PrintTableRow("Percentage Completion", round( ((($finishedArticles + $ignoredArticles)/$totalArticles) * 100),2) .'%');
 			
 			//Number of currently checked out articles
 			$query = "SELECT COUNT(articleid) AS nocheckedout FROM articles WHERE (checkedout >= DATE_SUB(NOW(), INTERVAL 2 HOUR)) AND (userid = 0)";
