@@ -1,5 +1,7 @@
 <?php
 
+if (isset($_SERVER) && array_key_exists('REQUEST_METHOD', $_SERVER)) die ('This is a command-line script');
+
 require_once('typo-db.php');
 
 $conn = mysql_connect($dbserver, $dbuser, $dbpass); 
