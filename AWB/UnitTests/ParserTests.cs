@@ -239,10 +239,10 @@ http://example.com }}");
             Assert.AreEqual("[[Category:Foo bar|boz]]", Parsers.FixCategories("[[ categOry : Foo_bar|boz]]"));
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Archive_18#.2Fdoc_pages_and_includeonly_sections
-            Assert.AreEqual("[[Category:foo bar|boz_quux]]", Parsers.FixCategories("[[Category: foo_bar|boz_quux]]"));
-            Assert.AreEqual("[[Category:foo bar|{{boz_quux}}]]", Parsers.FixCategories("[[Category: foo_bar|{{boz_quux}}]]"));
+            Assert.AreEqual("[[Category:Foo bar|boz_quux]]", Parsers.FixCategories("[[Category: foo_bar |boz_quux]]"));
+            Assert.AreEqual("[[Category:Foo bar|{{boz_quux}}]]", Parsers.FixCategories("[[Category: foo_bar|{{boz_quux}}]]"));
             StringAssert.Contains("{{{boz_quux}}}", Parsers.FixCategories("[[CategorY : foo_bar{{{boz_quux}}}]]"));
-            Assert.AreEqual("[[Category:foo bar|{{{boz_quux}}}]]", Parsers.FixCategories("[[CategorY : foo_bar|{{{boz_quux}}}]]"));
+            Assert.AreEqual("[[Category:Foo bar|{{{boz_quux}}}]]", Parsers.FixCategories("[[CategorY : foo_bar|{{{boz_quux}}}]]"));
         }
     }
 
@@ -521,7 +521,7 @@ http://example.com }}");
             Assert.IsFalse(Parsers.IsCorrectEditSummary("[[test]] [["));
         }
 
-        [Test, Category("Unarchived bugs")]
+        [Test]
         public void ChangeToDefaultSort()
         {
             bool noChange;
@@ -595,7 +595,7 @@ http://example.com }}");
                 "Bar", out noChange);
             Assert.IsTrue(noChange);
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#AWB_needs_to_handle_lifetime_template_correctly
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#AWB_needs_to_handle_lifetime_template_correctly
             // pages with multiple sort specifiers shouldn't be changed
             p.ChangeToDefaultSort("{{DEFAULTSORT:Foo}}{{lifetime|Bar}}",
                 "Foo", out noChange);
@@ -644,7 +644,6 @@ http://example.com }}");
     }
 
     [TestFixture]
-    //TODO: write tests for category addition
     public class RecategorizerTests
     {
         Parsers p = new Parsers();
@@ -652,6 +651,33 @@ http://example.com }}");
         public RecategorizerTests()
         {
             Globals.UnitTestMode = true;
+        }
+
+        [Test]
+        public void Addition()
+        {
+            bool noChange;
+
+            Assert.AreEqual("\r\n[[Category:Foo]]", p.AddCategory("Foo", "", "bar", out noChange));
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual("bar\r\n[[Category:Foo]]", p.AddCategory("Foo", "bar", "bar", out noChange));
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual("test[[Category:Foo|bar]]\r\n[[Category:Bar]]",
+                p.AddCategory("Bar", "test[[Category:Foo|bar]]", "foo", out noChange));
+            Assert.IsFalse(noChange);
+
+            // shouldn't add if category already exists
+            Assert.AreEqual("[[Category:Foo]]", p.AddCategory("Foo", "[[Category:Foo]]", "bar", out noChange));
+            Assert.IsTrue(noChange);
+
+            Assert.AreEqual("[[Category:Foo bar|quux]]", p.AddCategory("Foo bar", "[[category : foo_bar%20|quux]]", "bar", out noChange));
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual("test<noinclude>\r\n[[Category:Foo]]\r\n</noinclude>", 
+                p.AddCategory("Foo", "test", "Template:foo", out noChange));
+            Assert.IsFalse(noChange);
         }
 
         [Test]

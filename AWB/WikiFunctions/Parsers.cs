@@ -901,7 +901,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             foreach (Match m in catregex.Matches(ArticleText))
             {
                 if (!Tools.IsValidTitle(m.Groups[1].Value)) continue;
-                x = cat + CanonicalizeTitleRaw(m.Groups[1].Value, false) + m.Groups[2].Value + "]]";
+                x = cat + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim()) + m.Groups[2].Value + "]]";
                 if (x != m.Value) ArticleText = ArticleText.Replace(m.Value, x);
             }
 
@@ -1359,13 +1359,17 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The article text.</returns>
         public static string AddCategory(string NewCategory, string ArticleText, string ArticleTitle)
         {
+            string oldText = ArticleText;
+
+            ArticleText = FixCategories(ArticleText);
+
             if (Regex.IsMatch(ArticleText, "\\[\\[ ?[Cc]ategory ?: ?" + Regex.Escape(NewCategory) + @"\s*[\|\]]"))
-                return ArticleText;
+                return oldText;
 
             string cat = "\r\n[[" + Variables.Namespaces[14] + NewCategory + "]]";
             cat = Tools.ApplyKeyWords(ArticleTitle, cat);
 
-            if (ArticleTitle.StartsWith(Variables.Namespaces[10]))
+            if (Tools.CalculateNS(ArticleTitle) == 10 /*template*/)
                 ArticleText += "<noinclude>" + cat + "\r\n</noinclude>";
             else
                 ArticleText += cat;
