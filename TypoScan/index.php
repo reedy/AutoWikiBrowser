@@ -295,7 +295,7 @@
 			cursor : pointer;
 		}
 	</style>
-	<script src="sorttable.js" type="text/javascript"/>
+	<script src="sorttable.js" type="text/javascript"></script>
 	</head>
 	<body><?
 	}
