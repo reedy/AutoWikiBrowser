@@ -176,12 +176,12 @@
 			}
 			
 			echo '</table>
-			</p>';
+			<p/>';
 			
 			//No of Ignores per reason
 			$query = "SELECT COUNT(a.skipid) AS noskips, s.skipreason FROM articles a, skippedreason s WHERE (a.skipid = s.skipid) AND (a.skipid > 0) GROUP BY a.skipid ORDER BY noskips DESC";
 			
-						echo '<table class="sortable">
+			echo '<table class="sortable">
 	<caption>Skipped per Reason</caption>
 <thead>
 	<tr>
@@ -190,7 +190,7 @@
 	</tr>
 </thead>';
 
-						$result=mysql_query($query);
+			$result=mysql_query($query);
 			
 			while($row = mysql_fetch_assoc($result))
 			{
@@ -206,9 +206,7 @@
 	mysql_close($conn);
 	
 	function PrintTableRow($header, $data) {
-	echo '
-	
-	<tr>
+	echo '	<tr>
 		<th align="left" scope="row">'.$header.'</th><td>'.$data.'</td>
 	</tr>
 ';
