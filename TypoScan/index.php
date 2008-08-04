@@ -25,7 +25,7 @@
 	{
 		case 'finished':
 			header("Content-type: text/html; charset=utf-8"); 
-			$articles = (int)$_POST['articles'];
+			$articles = $_POST['articles'];
 			$skippedarticles = $_POST['skipped'];
 			$skippedreason = $_POST['skipreason'];
 			$user = $_POST['user'];
@@ -36,6 +36,7 @@
 			if (!$articlesempty || !$skippedempty)
 			{
 				$userid = GetOrAddUser($user);
+				$articles = implode(',', RemoveNonInts(explode(",", $articles)));
 			
 				if (!$articlesempty)
 				{

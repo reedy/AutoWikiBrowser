@@ -4,14 +4,16 @@ if (isset($_SERVER) && array_key_exists('REQUEST_METHOD', $_SERVER)) die ('This 
 
 require_once('typo-db.php');
 
-$conn = mysql_connect($dbserver, $dbuser, $dbpass); 
+echo "Connecting to MySQL...\n";
+$conn = mysql_connect($dbserver, $dbuser, $dbpass);
 mysql_select_db($database, $conn) or die;
 
 if (isset($argv[1])) 
 	$filename = $argv[1];
 else
 	$filename = 'import.txt';
-	
+
+echo "Reading file {$filename}...\n";	
 $f = fopen($filename, 'r') or die;
 
 echo "Init complete, importing...\n";
