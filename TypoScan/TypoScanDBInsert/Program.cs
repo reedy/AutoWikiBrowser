@@ -117,8 +117,6 @@ namespace TypoScanDBInsert
                     builder = new StringBuilder();
                     Console.WriteLine(totalArticles);
                 }
-
-                command.ExecuteNonQuery();
             }
             Console.WriteLine("Done");
         }
