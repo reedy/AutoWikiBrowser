@@ -101,7 +101,7 @@
 		case 'displayarticles':
 			header("Content-type: text/xml; charset=utf-8"); 
 		
-			$query = 'SELECT articleid, title FROM articles WHERE (checkedout < DATE_SUB(NOW(), INTERVAL 2 HOUR)) AND (finished = 0) LIMIT 100';
+			$query = 'SELECT articleid, title FROM articles WHERE (checkedout < DATE_SUB(NOW(), INTERVAL 2 HOUR)) AND (userid = 0) LIMIT 100';
 			
 			$result=mysql_query($query) or die ('Error: '.mysql_error());
 			
