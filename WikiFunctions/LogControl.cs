@@ -35,7 +35,6 @@ namespace WikiFunctions.Logging
     public partial class LogControl : UserControl
     {
         protected ListMaker listMaker;
-        protected int sortColumn = -1;
         protected List<AWBLogListener> mFilteredItems = new List<AWBLogListener>();
 
         #region Public
