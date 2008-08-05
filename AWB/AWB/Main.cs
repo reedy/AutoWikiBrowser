@@ -690,7 +690,7 @@ namespace AutoWikiBrowser
                 //at least we don't get bogus reports of unrelated pages
                 ErrorHandler.CurrentPage = TheArticle.Name;
 
-                ProcessPage(TheArticle);
+                ProcessPage(TheArticle, true);
 
                 ErrorHandler.CurrentPage = "";
 
@@ -1064,7 +1064,13 @@ namespace AutoWikiBrowser
             SkipPageReasonAlreadyProvided();
         }
 
-        private void ProcessPage(ArticleEX theArticle)
+        /// <summary>
+        /// Fully processes a page, applying all needed changes
+        /// </summary>
+        /// <param name="theArticle">Page to process</param>
+        /// <param name="mainProcess">True if the page is being processed for save as usual,
+        /// otherwise (Re-parse in context menu, prefetch, etc) false</param>
+        private void ProcessPage(ArticleEX theArticle, bool mainProcess)
         {
             bool process = true;
             typoStats = null;
@@ -1142,7 +1148,15 @@ namespace AutoWikiBrowser
                     theArticle.PerformTypoFixes(RegexTypos, chkSkipIfNoRegexTypo.Checked);
                     Variables.Profiler.Profile("Typos");
                     typoStats = RegexTypos.GetStatistics();
-                    if (theArticle.SkipArticle) return;
+                    if (theArticle.SkipArticle)
+                    {
+                        if (mainProcess)
+                        {   // update stats only if not called from e.g. 'Re-parse' than could be clicked repeatedly
+                            OverallTypoStats.UpdateStats(typoStats, true);
+                            UpdateTypoCount();
+                        }
+                        return;
+                    }
                 }
 
                 // replace/add/remove categories
@@ -1459,12 +1473,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void UpdateCurrentTypoStats()
         {
-            CurrentTypoStats.AddStats(typoStats);
+            CurrentTypoStats.UpdateStats(typoStats, false);
         }
 
         private void UpdateOverallTypoStats()
         {
-            if (chkRegExTypo.Checked) OverallTypoStats.AddStats(typoStats);
+            if (chkRegExTypo.Checked) OverallTypoStats.UpdateStats(typoStats, false);
             UpdateTypoCount();
         }
 
@@ -2737,7 +2751,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
             a.OriginalArticleText = txtEdit.Text;
             ErrorHandler.CurrentPage = TheArticle.Name;
-            ProcessPage(a);
+            ProcessPage(a, false);
             ErrorHandler.CurrentPage = "";
             UpdateCurrentTypoStats();
             txtEdit.Text = a.ArticleText;

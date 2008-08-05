@@ -4,10 +4,11 @@ using System.Text;
 using System.Windows.Forms;
 using System.ComponentModel;
 using WikiFunctions.Parse;
+using System.Collections;
 
 namespace WikiFunctions.Controls
 {
-    public class TypoStatsControl : ListView
+    public class TypoStatsControl : NoFlickerExtendedListView
     {
         private ContextMenuStrip contextMenu;
         private ColumnHeader columnHeader1;
@@ -34,11 +35,11 @@ namespace WikiFunctions.Controls
             this.miCopyFind = new System.Windows.Forms.ToolStripMenuItem();
             this.miCopyReplace = new System.Windows.Forms.ToolStripMenuItem();
             this.miClear = new System.Windows.Forms.ToolStripMenuItem();
+            this.miTestRegex = new System.Windows.Forms.ToolStripMenuItem();
             this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
-            this.miTestRegex = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -74,6 +75,13 @@ namespace WikiFunctions.Controls
             this.miClear.Text = "&Clear statistics";
             this.miClear.Click += new System.EventHandler(this.miClear_Click);
             // 
+            // miTestRegex
+            // 
+            this.miTestRegex.Name = "miTestRegex";
+            this.miTestRegex.Size = new System.Drawing.Size(174, 22);
+            this.miTestRegex.Text = "&Test regex...";
+            this.miTestRegex.Click += new System.EventHandler(this.TestRegex);
+            // 
             // columnHeader1
             // 
             this.columnHeader1.Text = "Find";
@@ -91,15 +99,8 @@ namespace WikiFunctions.Controls
             // 
             // columnHeader4
             // 
-            this.columnHeader4.Text = "No. changes";
+            this.columnHeader4.Text = "No changes";
             this.columnHeader4.Width = 75;
-            // 
-            // miTestRegex
-            // 
-            this.miTestRegex.Name = "miTestRegex";
-            this.miTestRegex.Size = new System.Drawing.Size(174, 22);
-            this.miTestRegex.Text = "&Test regex...";
-            this.miTestRegex.Click += new EventHandler(TestRegex);
             // 
             // TypoStatsControl
             // 
@@ -151,12 +152,13 @@ namespace WikiFunctions.Controls
         public int SelfMatches = 0;
         public int FalsePositives = 0;
         public int Saves = 0;
+        public int Pages = 0;
 
         public void ClearStats()
         {
             if (Data != null) Data.Clear();
             Items.Clear();
-            TotalTypos = SelfMatches = FalsePositives = Saves = 0;
+            TotalTypos = SelfMatches = FalsePositives = Saves = Pages = 0;
         }
 
         private void CountStats()
@@ -168,10 +170,14 @@ namespace WikiFunctions.Controls
                 SelfMatches += st.SelfMatches;
                 FalsePositives += st.FalsePositives;
             }
-            Saves++;
         }
 
-        public void AddStats(IEnumerable<TypoStat> stats)
+        /// <summary>
+        /// Updates statistics
+        /// </summary>
+        /// <param name="stats">Results of typo processing on one page</param>
+        /// <param name="skipped">If true, the page was skipped, otherwise skipped</param>
+        public void UpdateStats(IEnumerable<TypoStat> stats, bool skipped)
         {
             if (stats == null) return;
             BeginUpdate();
@@ -185,6 +191,10 @@ namespace WikiFunctions.Controls
                         old.Total += typo.Total;
                         old.SelfMatches += typo.SelfMatches;
                         old.FalsePositives += typo.FalsePositives;
+
+                        // if skipped, all changes considered false positives
+                        if (skipped) old.FalsePositives += typo.Total - typo.SelfMatches; 
+
                         old.ListViewItem.Refresh();
                     }
                     else
@@ -193,6 +203,8 @@ namespace WikiFunctions.Controls
                         Items.Add(new TypoStatsListViewItem(typo));
                     }
                 }
+                Pages++;
+                if (!skipped) Saves++;
                 CountStats();
             }
             else
