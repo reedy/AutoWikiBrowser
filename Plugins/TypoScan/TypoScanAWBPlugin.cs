@@ -11,18 +11,19 @@ using WikiFunctions.AWBSettings;
 
 namespace WikiFunctions.Plugins.ListMaker.TypoScan
 {
+    //TODO:Track all uploaded/skipped in session (SavedThisSession and SkippedThisSession to lists), then check if ignored and such later on
     class TypoScanAWBPlugin : IAWBPlugin
     {
         #region IAWBPlugin Members
         internal static IAutoWikiBrowser AWB;
         internal static Dictionary<string, int> PageList = new Dictionary<string, int>();
-        internal static List<string> EditedPages = new List<string>();
+        internal static List<string> SavedPages = new List<string>();
 
         internal static List<string> SkippedPages = new List<string>();
         internal static List<string> SkippedReasons = new List<string>();
 
-        internal static int SavedThisSession;
-        internal static int SkippedThisSession;
+        internal static List<string> SavedPagesThisSession = new List<string>();
+        internal static List<string> SkippedPagesThisSession = new List<string>();
         internal static int UploadedThisSession;
 
         private ToolStripMenuItem pluginMenuItem = new ToolStripMenuItem("TypoScan plugin");
@@ -39,7 +40,9 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             pluginMenuItem.DropDownItems.Add(pluginUploadMenuItem);
             pluginMenuItem.DropDownItems.Add(pluginReAddArticlesMenuItem);
             pluginUploadMenuItem.Click += new EventHandler(pluginUploadMenuItem_Click);
-            pluginReAddArticlesMenuItem.Enabled = false;
+#if !DEBUG
+                        pluginReAddArticlesMenuItem.Enabled = false;
+#endif
             pluginReAddArticlesMenuItem.Click += new EventHandler(pluginReAddArticlesMenuItem_Click);
             sender.PluginsToolStripMenuItem.DropDownItems.Add(pluginMenuItem);
 
@@ -76,12 +79,12 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                 {
                     SkippedPages.Add(articleID.ToString());
                     SkippedReasons.Add(LogListener.SkipReason);
-                    SkippedThisSession++;
+                    SkippedPagesThisSession.Add(articleID.ToString());
                 }
                 else
                 {
-                    EditedPages.Add(articleID.ToString());
-                    SavedThisSession++;
+                    SavedPages.Add(articleID.ToString());
+                    SavedPagesThisSession.Add(articleID.ToString());
                 }
 
                 if (EditAndIgnoredPages >= 25)
@@ -162,7 +165,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
             NameValueCollection postVars = new NameValueCollection();
 
-            postVars.Add("articles", string.Join(",", EditedPages.ToArray()));
+            postVars.Add("articles", string.Join(",", SavedPages.ToArray()));
             postVars.Add("skipped", string.Join(",", SkippedPages.ToArray()));
             postVars.Add("skipreason", string.Join(",", SkippedReasons.ToArray()));
 
@@ -177,7 +180,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                 if (result.Contains("Articles Updated"))
                 {
                     UploadedThisSession += editsAndIgnored;
-                    EditedPages.Clear();
+                    SavedPages.Clear();
                     SkippedPages.Clear();
                     SkippedReasons.Clear();
                 }
@@ -193,7 +196,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         internal static int EditAndIgnoredPages
         {
-            get { return (EditedPages.Count + SkippedPages.Count); }
+            get { return (SavedPages.Count + SkippedPages.Count); }
         }
     }
 }

@@ -13,8 +13,8 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         public About()
         {
             InitializeComponent();
-            lblSaved.Text = TypoScanAWBPlugin.SavedThisSession.ToString();
-            lblSkipped.Text = TypoScanAWBPlugin.SkippedThisSession.ToString();
+            lblSaved.Text = TypoScanAWBPlugin.SavedPagesThisSession.Count.ToString();
+            lblSkipped.Text = TypoScanAWBPlugin.SkippedPagesThisSession.Count.ToString();
             lblLoaded.Text = TypoScanAWBPlugin.PageList.Count.ToString();
             lblUploaded.Text = TypoScanAWBPlugin.UploadedThisSession.ToString();
             lblToUpload.Text = TypoScanAWBPlugin.EditAndIgnoredPages.ToString();
