@@ -1,4 +1,29 @@
 <?php
+/*
+* Copyright (C) 2008 Sam Reid & Max Semenik
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License along
+* with this program; if not, write to the Free Software Foundation, Inc.,
+* 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+* http://www.gnu.org/copyleft/gpl.html
+*/
+	if($_SERVER['QUERY_STRING'] == 'source')
+	{
+		header("Content-Type:text/html; charset=utf-8");
+		highlight_file('index.php');
+		die;
+	}
+
 	//prevent caching
 	header('Cache-Control: no-cache, no-store, must-revalidate'); //HTTP/1.1
 	header('Expires: Sun, 01 Jul 2005 00:00:00 GMT');
@@ -63,11 +88,13 @@
 				}
 				Head('TypoScan - Update');
 				echo 'Articles Updated</body></html>';
+				Tail();
 			}
 			else
 			{
 				Head('TypoScan - Update failed');
-				echo 'Articles have to be posted to the script</body></html>';
+				echo 'Articles have to be posted to the script';
+				Tail();
 			}
 		break;
 		
@@ -200,8 +227,8 @@
 			}
 
 			echo '</table>
-</body>
-</html>';			
+';
+			Tail();
 			break;
 	}
 	
@@ -300,4 +327,15 @@
 	<script src="sorttable.js" type="text/javascript"></script>
 	</head>
 	<body><?
+	}
+	
+	function Tail()
+	{ ?>	<p>
+	<span style="float:right;"><a href="?source">View source</a></span>
+	<a href="http://validator.w3.org/check?uri=referer"><img
+		src="http://www.w3.org/Icons/valid-xhtml10-blue"
+		alt="Valid XHTML 1.0 Transitional" height="31" width="88" /></a>
+	</p>
+</body>
+</html><?php
 	}
