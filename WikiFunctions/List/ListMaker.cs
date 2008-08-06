@@ -69,7 +69,7 @@ namespace WikiFunctions.Controls.Lists
         {
             saveListDialog = new SaveFileDialog();
             saveListDialog.DefaultExt = "txt";
-            saveListDialog.Filter = "Text file with wiki markup|*.txt|Plaintext list|*.txt|CSV (Comma Seperated Values)|*.txt";
+            saveListDialog.Filter = "Text file with wiki markup|*.txt|Plaintext list|*.txt|CSV (Comma Seperated Values)|*.txt|CSV with Wikitext|*.txt";
             saveListDialog.Title = "Save article list";
         }
 
@@ -813,7 +813,11 @@ namespace WikiFunctions.Controls.Lists
                         case 3: //CSV
                             foreach (Article a in ArticlesListBox)
                                 strList.Append(a.Name + ", ");
-
+                            strList = strList.Remove(strList.Length - 2, 2);
+                            break;
+                        case 4: //CSV with wikitext
+                            foreach (Article a in ArticlesListBox)
+                                strList.Append("[[:" + a.Name + "]], ");
                             strList = strList.Remove(strList.Length - 2, 2);
                             break;
                     }
