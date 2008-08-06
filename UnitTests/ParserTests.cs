@@ -460,6 +460,14 @@ http://example.com }}");
             Assert.AreEqual(":Main article: [[Foo]] and [[Bar]]", Parsers.FixMainArticle(":Main article: [[Foo]] and [[Bar]]"));
             Assert.AreEqual(":Main article: [[Foo|f00]] and [[Bar]]", Parsers.FixMainArticle(":Main article: [[Foo|f00]] and [[Bar]]"));
         }
+
+        [Test, Category("Unarchived bugs")]
+        // http://en.wikipedia.org/wiki/Wikipedia:AWB/B#Problem_with_.22Main_article.22_fixup
+        public void Newlines()
+        {
+            Assert.AreEqual("test\r\n{{main|Foo}}\r\ntest", Parsers.FixMainArticle("test\r\nMain article: [[Foo]]\r\ntest"));
+            Assert.AreEqual("test\r\n\r\n{{main|Foo}}\r\n\r\ntest", Parsers.FixMainArticle("test\r\n\r\nMain article: [[Foo]]\r\n\r\ntest"));
+        }
     }
 
     [TestFixture]
