@@ -1426,5 +1426,16 @@ Message: {2}
 
             return ret.ToString();
         }
+
+        public static void CopyToClipboard(string text)
+        {
+            try
+            {
+                Clipboard.Clear();
+                System.Threading.Thread.Sleep(50); // give it some time to clear
+                Clipboard.SetText(text);
+            }
+            catch { }
+        }
     }
 }

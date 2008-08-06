@@ -452,7 +452,8 @@ namespace WikiFunctions.Parse
         private void FindAndReplaceContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             deleteRowToolStripMenuItem.Enabled = (dataGridView1.SelectedRows.Count > 0);
-            testRegexToolStripMenuItem.Enabled = ((dataGridView1.CurrentRow != null)
+            testRegexToolStripMenuItem.Enabled = createRetfRuleToolStripMenuItem.Enabled = 
+                ((dataGridView1.CurrentRow != null)
                 && ((bool)dataGridView1.CurrentRow.Cells["regex"].FormattedValue));
             dataGridView1.EndEdit();
         }
@@ -590,6 +591,22 @@ namespace WikiFunctions.Parse
                     dataGridView1.Rows.Add(tmp);
                 }
             }
+        }
+
+        private void createRetfRuleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataGridViewRow row = dataGridView1.CurrentRow;
+
+            string typoName = (string)row.Cells["Comment"].Value;
+            if(string.IsNullOrEmpty(typoName)) typoName = "<enter a name>";
+
+            if (row == null) return;
+
+            Tools.CopyToClipboard(
+                RegExTypoFix.CreateRule((string)row.Cells["find"].Value, 
+                    (string)row.Cells["replace"].Value,
+                    typoName));
+
         }
     }
 

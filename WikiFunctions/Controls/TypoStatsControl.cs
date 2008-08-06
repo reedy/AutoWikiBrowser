@@ -234,8 +234,7 @@ namespace WikiFunctions.Controls
             TypoStatsListViewItem typo = SelectedItem;
             if (typo == null) return;
 
-            Clipboard.Clear();
-            Clipboard.SetText(typo.Typo.Replace);
+            Tools.CopyToClipboard(typo.Typo.Replace);
         }
 
         void miCopyFind_Click(object sender, EventArgs e)
@@ -243,8 +242,7 @@ namespace WikiFunctions.Controls
             TypoStatsListViewItem typo = SelectedItem;
             if (typo == null) return;
 
-            Clipboard.Clear();
-            Clipboard.SetText(typo.Typo.Find);
+            Tools.CopyToClipboard(typo.Typo.Find);
         }
 
         void TestRegex(object sender, EventArgs e)

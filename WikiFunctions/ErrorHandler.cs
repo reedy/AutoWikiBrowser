@@ -211,13 +211,7 @@ namespace WikiFunctions
 
         private void btnCopy_Click(object sender, EventArgs e)
         {
-            try
-            {
-                Clipboard.Clear();
-                System.Threading.Thread.Sleep(1000);
-                Clipboard.SetText(txtDetails.Text);
-            }
-            catch { }
+            Tools.CopyToClipboard(txtDetails.Text);
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
