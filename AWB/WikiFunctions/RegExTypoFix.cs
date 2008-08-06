@@ -177,6 +177,22 @@ namespace WikiFunctions.Parse
             MakeRegexes();
         }
 
+        /// <summary>
+        /// Creates a RETF rule
+        /// </summary>
+        public static string CreateRule(string find, string replace, string name)
+        {
+            return "<Typo word=\"" + name + "\" find=\"" + find + "\" replace=\"" + replace + "\" />";
+        }
+
+        /// <summary>
+        /// Creates a RETF rule
+        /// </summary>
+        public static string CreateRule(string find, string replace)
+        {
+            return CreateRule(find, replace, "<enter a name>");
+        }
+
         public int TyposCount;
 
         public bool TyposLoaded;

@@ -64,6 +64,7 @@ namespace WikiFunctions.Parse
             this.deleteRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.testRegexToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createRetfRuleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.moveToTopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.moveUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -214,6 +215,7 @@ namespace WikiFunctions.Parse
             this.deleteRowToolStripMenuItem,
             this.toolStripSeparator1,
             this.testRegexToolStripMenuItem,
+            this.createRetfRuleToolStripMenuItem,
             this.toolStripSeparator4,
             this.moveToTopToolStripMenuItem,
             this.moveUpToolStripMenuItem,
@@ -232,7 +234,7 @@ namespace WikiFunctions.Parse
             this.uncheckAllSinglelineToolStripMenuItem,
             this.disableAllToolStripMenuItem});
             this.FindAndReplaceContextMenu.Name = "FindAndReplaceContextMenu";
-            this.FindAndReplaceContextMenu.Size = new System.Drawing.Size(236, 402);
+            this.FindAndReplaceContextMenu.Size = new System.Drawing.Size(236, 446);
             this.FindAndReplaceContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.FindAndReplaceContextMenu_Opening);
             // 
             // addRowToolStripMenuItem
@@ -260,6 +262,13 @@ namespace WikiFunctions.Parse
             this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.testRegexToolStripMenuItem.Text = "Test regex...";
             this.testRegexToolStripMenuItem.Click += new System.EventHandler(this.testRegexToolStripMenuItem_Click);
+            // 
+            // createRetfRuleToolStripMenuItem
+            // 
+            this.createRetfRuleToolStripMenuItem.Name = "createRetfRuleToolStripMenuItem";
+            this.createRetfRuleToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.createRetfRuleToolStripMenuItem.Text = "Copy as RETF rule";
+            this.createRetfRuleToolStripMenuItem.Click += new System.EventHandler(this.createRetfRuleToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
@@ -591,5 +600,6 @@ namespace WikiFunctions.Parse
         private System.Windows.Forms.ToolStripMenuItem moveToBottomToolStripMenuItem;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.LinkLabel lblMsdn;
+        private System.Windows.Forms.ToolStripMenuItem createRetfRuleToolStripMenuItem;
     }
 }
