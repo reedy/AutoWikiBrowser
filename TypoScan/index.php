@@ -188,7 +188,7 @@
 			$query = "SELECT SUM(finished) AS edits, SUM(skipid > 0) AS skips, username FROM articles a, users u WHERE (a.userid = u.userid) AND (a.userid > 0) GROUP BY a.userid ORDER BY edits DESC, skips DESC";
 		
 			echo '<table class="sortable">
-	<caption>Edits by User</caption>
+	<caption>User Stats</caption>
 <thead>
 	<tr>
 		<th scope="col" class="sortable">User</th>
