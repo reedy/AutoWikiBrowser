@@ -237,6 +237,8 @@ http://example.com }}");
         {
             Assert.AreEqual("[[Category:Foo bar]]", Parsers.FixCategories("[[ categOry : Foo_bar]]"));
             Assert.AreEqual("[[Category:Foo bar|boz]]", Parsers.FixCategories("[[ categOry : Foo_bar|boz]]"));
+            Assert.AreEqual("[[Category:Foo bar|quux]]", Parsers.FixCategories("[[category : foo_bar%20|quux]]"));
+
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Archive_18#.2Fdoc_pages_and_includeonly_sections
             Assert.AreEqual("[[Category:Foo bar|boz_quux]]", Parsers.FixCategories("[[Category: foo_bar |boz_quux]]"));
@@ -672,8 +674,8 @@ http://example.com }}");
             Assert.AreEqual("[[Category:Foo]]", p.AddCategory("Foo", "[[Category:Foo]]", "bar", out noChange));
             Assert.IsTrue(noChange);
 
-            Assert.AreEqual("[[Category:Foo bar|quux]]", p.AddCategory("Foo bar", "[[category : foo_bar%20|quux]]", "bar", out noChange));
-            Assert.IsFalse(noChange);
+            Assert.AreEqual("[[category : foo_bar%20|quux]]", p.AddCategory("Foo bar", "[[category : foo_bar%20|quux]]", "bar", out noChange));
+            Assert.IsTrue(noChange);
 
             Assert.AreEqual("test<noinclude>\r\n[[Category:Foo]]\r\n</noinclude>", 
                 p.AddCategory("Foo", "test", "Template:foo", out noChange));
