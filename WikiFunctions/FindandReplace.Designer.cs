@@ -267,7 +267,7 @@ namespace WikiFunctions.Parse
             // 
             this.createRetfRuleToolStripMenuItem.Name = "createRetfRuleToolStripMenuItem";
             this.createRetfRuleToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
-            this.createRetfRuleToolStripMenuItem.Text = "Copy as RETF rule";
+            this.createRetfRuleToolStripMenuItem.Text = "Copy as a RETF rule";
             this.createRetfRuleToolStripMenuItem.Click += new System.EventHandler(this.createRetfRuleToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
