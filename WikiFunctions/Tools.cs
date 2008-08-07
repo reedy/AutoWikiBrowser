@@ -359,7 +359,13 @@ namespace WikiFunctions
         /// Flashes the given form in the taskbar
         /// </summary>
         public static void FlashWindow(System.Windows.Forms.Control window)
-        { FlashWindow(window.Handle, true); }
+        {
+            try
+            {
+                FlashWindow(window.Handle, true);
+            }
+            catch { }
+        }
 
         /// <summary>
         /// Returns a regex case insensitive version of a string for the first letter only e.g. "Category" returns "[Cc]ategory"
