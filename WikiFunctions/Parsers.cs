@@ -139,6 +139,7 @@ namespace WikiFunctions.Parse
 
         #region General Parse
 
+        // NOT covered
         /// <summary>
         /// Re-organises the Person Data, stub/disambig templates, categories and interwikis
         /// </summary>
@@ -188,6 +189,7 @@ namespace WikiFunctions.Parse
             return ArticleText.Trim();
         }
 
+        // NOT covered
         /// <summary>
         /// Fix ==See also== and similar section common errors. Removes unecessary introductary headings.
         /// </summary>
@@ -216,6 +218,7 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
+        // Covered by: LinkTests.FixDates()
         /// <summary>
         /// Fix date and decade formatting errors.
         /// </summary>
@@ -239,6 +242,7 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
+        // Covered by: LinkTests.FixDates()
         /// <summary>
         /// Fixes date and decade formatting errors.
         /// Unlike FixDates(), requires wikitext processed with HideMore()
@@ -252,6 +256,7 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
+        // NOT covered, unused
         /// <summary>
         /// Footnote formatting errors per [[WP:FN]].
         /// currently too buggy to be included into production builds
@@ -312,6 +317,7 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
+        // Covered by: FootnotesTests.TestFixReferenceListTags()
         private string ReflistMatchEvaluator(Match m)
         {
             // don't change anything if div tags mismatch
@@ -336,6 +342,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex DivStart = new Regex(@"<div\b.*?>", RegexOptions.Compiled);
         private static readonly Regex DivEnd = new Regex(@"< ?/ ?div\b.*?>", RegexOptions.Compiled);
 
+        // Covered by: FootnotesTests.TestFixReferenceListTags()
         /// <summary>
         /// Replaces various old reference tag formats, with the new {{reflist}}
         /// </summary>
@@ -348,6 +355,7 @@ namespace WikiFunctions.Parse
 
         private static Regex EmptyReferences = new Regex(@"<ref\s+name=[""]?([^<>""]*)[""]?\s*>[\s]*< ?/ ?ref ?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
+        // Covered by: FootnotesTests.TestSimplifyReferenceTags()
         /// <summary>
         /// Replaces reference tags in the form <ref name="blah"></ref> with <ref name="blah" />
         /// Removes some of the MW errors that occur from the prior
@@ -362,6 +370,7 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
+        // Covered by: FormattingTests.TestFixWhitespace(), incomplete
         /// <summary>
         /// Applies/removes some excess whitespace from the article
         /// </summary>
@@ -386,6 +395,7 @@ namespace WikiFunctions.Parse
             return ArticleText.Trim();
         }
 
+        // NOT covered
         /// <summary>
         /// Applies removes all excess whitespace from the article
         /// </summary>
@@ -457,6 +467,7 @@ namespace WikiFunctions.Parse
 
         //private static readonly Regex InOpenBrackets = new Regex(@"\[\[[^\]]{,100}", RegexOptions.RightToLeft | RegexOptions.Compiled);
 
+        // Covered by: LinkTests.TestLinkRepairs(), incomplete
         /// <summary>
         /// Fixes and improves syntax (such as html markup)
         /// </summary>
@@ -513,6 +524,7 @@ namespace WikiFunctions.Parse
             return ArticleText.Trim();
         }
 
+        // Covered by: LinkTests.TestCanonicalizeTitle(), incomplete
         /// <summary>
         /// returns URL-decoded link target
         /// </summary>
@@ -545,6 +557,9 @@ namespace WikiFunctions.Parse
             return byte.Parse(s, System.Globalization.NumberStyles.HexNumber);
         }
 
+        /// <summary>
+        /// Decodes anchor-encoded links. Don't use unless rewrittten not to screw stuff like [[Windows#3.11]]
+        /// </summary>
         public static void AnchorDecode(ref string link)
         {
             Match m = WikiRegexes.AnchorEncodedLink.Match(link);
@@ -583,6 +598,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex DateLinkWhitespace1 = new Regex(@"\b(\[\[\d\d? (?:January|February|March|April|May|June|July|August|September|October|November|December)\]\]),? {0,2}(\[\[\d{1,4}\]\])\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex DateLinkWhitespace2 = new Regex(@"\b(\[\[(?:January|February|March|April|May|June|July|August|September|October|November|December) \d\d?\]\]),? {0,2}(\[\[\d{1,4}\]\])\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
+        // Covered by LinkTests.TestFixLinkWhitespace()
         /// <summary>
         /// Fix leading, trailing and middle spaces in Wikilinks
         /// </summary>
@@ -621,6 +637,7 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
+        // NOT covered
         /// <summary>
         /// Fixes link syntax
         /// </summary>
@@ -649,7 +666,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// performs URL-decoding of a page title, trimming all whitespace
+        /// Performs URL-decoding of a page title, trimming all whitespace
         /// </summary>
         public static string CanonicalizeTitleRaw(string title)
         {
@@ -671,6 +688,7 @@ namespace WikiFunctions.Parse
             else return title;
         }
 
+        // Covered by: UtilityFunctionTests.IsCorrectEditSummary()
         /// <summary>
         /// returns true if given string has matching double square brackets
         /// </summary>
@@ -709,6 +727,7 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
+        // Covered by: LinkTests.TestSimplifyLinks()
         /// <summary>
         /// Simplifies some links in article wiki text such as changing [[Dog|Dogs]] to [[Dog]]s
         /// </summary>
@@ -759,6 +778,7 @@ a='" + a + "',  b='" + b + "'", "SimplifyLinks error");
             return ArticleText;
         }
 
+        // Covered by: LinkTests.TestStickyLinks()
         /// <summary>
         /// Joins nearby words with links
         ///   e.g. "[[Russian literature|Russian]] literature" to "[[Russian literature]]"
@@ -800,6 +820,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         private static Regex regexMainArticle = new Regex(@"^:?'{0,5}Main article:\s?'{0,5}\[\[([^\|\[\]]*?)(\|([^\[\]]*?))?\]\]\.?'{0,5}\.?\s*?(?=($|[\r\n]))", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
+
+        // Covered by: FixMainArticleTests
         /// <summary>
         /// Fixes instances of ''Main Article: xxx'' to use {{main|xxx}}
         /// </summary>
@@ -813,6 +835,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 return regexMainArticle.Replace(ArticleText, "{{main|$1|l1=$3}}");
         }
 
+        // NOT covered
         /// <summary>
         /// Removes Empty Links and Template Links
         /// Will Cater for [[]], [[Image:]], [[:Category:]], [[Category:]] and {{}}
@@ -859,6 +882,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
+        // Covered by: LinkTests.TestBulletExternalLinks()
         /// <summary>
         /// Adds bullet points to external links after "external links" header
         /// </summary>
@@ -887,6 +911,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
+        // Covered by: LinkTests.TestFixCategories()
         /// <summary>
         /// Fix common spacing/capitalisation errors in categories
         /// </summary>
@@ -908,6 +933,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
+        // Covered by: ImageTests.BasicImprovements(), incomplete
         /// <summary>
         /// Fix common spacing/capitalisation errors in images
         /// </summary>
@@ -930,6 +956,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
         private static Regex Temperature = new Regex(@"([º°](&nbsp;|)|(&deg;|&ordm;)(&nbsp;|))\s*([CcFf])([^A-Za-z])", RegexOptions.Compiled);
 
+        // NOT covered
         /// <summary>
         /// Fix bad Temperatures
         /// </summary>
@@ -947,6 +974,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         public static string EveryTemplate = @"[^\|\{\}]+";
 
+        // NOT covered
         /// <summary>
         /// extracts template using the given match
         /// </summary>
@@ -978,6 +1006,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return "";
         }
 
+        // NOT covered
         /// <summary>
         /// finds first occurence of a given template in article text
         /// handles nested templates correctly
@@ -999,6 +1028,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ExtractTemplate(ArticleText, m);
         }
 
+        // NOT covered
         /// <summary>
         /// finds every occurence of a given template in article text
         /// handles nested templates correctly
@@ -1050,8 +1080,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return WikiRegexes.TemplateCall.Match(call).Groups[1].Value;
         }
 
+        // NOT covered
         /// <summary>
-        /// If fromsetting is true, get template name from a setting, i.e. strip formatting/template: call *if any*. If false, passes through to GetTemplateName(string call)
+        /// If fromSetting is true, get template name from a setting, i.e. strip formatting/template: call *if any*. If false, passes through to GetTemplateName(string call)
         /// </summary>
         /// <param name="setting"></param>
         public static string GetTemplateName(string setting, bool fromSetting)
@@ -1072,6 +1103,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         private static Regex EmptyComments = new Regex(@"<!--[^\S\r\n]*-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        //Covered by: UtilityFunctionTests.RemoveEmptyComments()
         /// <summary>
         /// Removes comments with nothing/only whitespace between tags
         /// </summary>
@@ -1101,6 +1134,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
+        // Covered by: UnicodifyTests
         /// <summary>
         /// Converts HTML entities to unicode, with some deliberate exceptions
         /// </summary>
@@ -1134,6 +1168,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
+        // Covered by: BoldTitleTests, incomplete
         /// <summary>
         /// '''Emboldens''' the first occurence of the article title, if not already bold
         /// </summary>
@@ -1225,6 +1260,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
+        // NOT covered
         /// <summary>
         /// Replaces an iamge in the article.
         /// </summary>
@@ -1248,6 +1284,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
+        // NOT covered
         /// <summary>
         /// Removes an image from the article.
         /// </summary>
@@ -1351,6 +1388,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
+        // Covered by: RecategorizerTests.Addition()
         /// <summary>
         /// Adds the category to the article.
         /// </summary>
@@ -1377,6 +1415,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
+        // Covered by: RecategorizerTests.Replacement()
         /// <summary>
         /// Re-categorises the article.
         /// </summary>
@@ -1417,6 +1456,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
+        // Covered by: RecategorizerTests.Removal()
         /// <summary>
         /// Removes a category from an article.
         /// </summary>
@@ -1442,6 +1482,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
+        // Covered by: UtilityFunctionTests.ChangeToDefaultSort()
         /// <summary>
         /// Changes an article to use defaultsort when all categories use the same sort field.
         /// </summary>
@@ -1538,6 +1579,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
+        // NOT covered
         /// <summary>
         /// 
         /// </summary>
@@ -1589,6 +1631,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
+        // NOT covered
         /// <summary>
         /// Converts/subst'd some deprecated templates
         /// </summary>
@@ -1613,6 +1656,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
+        // NOT covered
         /// <summary>
         /// Substitutes some user talk templates
         /// </summary>
@@ -1784,6 +1828,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         private static Regex Allow = new Regex(@"\|\s*allow\s*=\s*([^\|\}]*)", RegexOptions.Compiled | RegexOptions.Singleline);
         private static Regex Deny = new Regex(@"\|\s*deny\s*=\s*([^\|\}]*)", RegexOptions.Compiled | RegexOptions.Singleline);
 
+        // NOT covered
         /// <summary>
         /// checks if a user is allowed to edit this article
         /// using {{bots}} and {{nobots}} tags
@@ -1891,6 +1936,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return false;
         }
 
+        // NOT covered
         /// <summary>
         /// Check if article has an 'inusetag'
         /// </summary>
