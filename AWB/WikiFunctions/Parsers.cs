@@ -457,8 +457,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegexTemplate = new Regex("(\\{\\{[\\s]*)[Tt]emplate:(.*?\\}\\})", RegexOptions.Singleline | RegexOptions.Compiled);
         private static readonly Regex SyntaxRegex11 = new Regex(@"^([#\*:;]+.*?) *<[/\\]?br ?[/\\]?> *\r\n", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private static readonly Regex SyntaxRegexItalic = new Regex("<i>(.*?)</i>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegexBold = new Regex("<b>(.*?)</b>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexItalic = new Regex("< ?i ?>(.*?)< ?/ ?i ?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexBold = new Regex("< ?b ?>(.*?)< ?/ ?b ?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         // Matches <p> tags only if current line does not start from ! or | (indicator of table cells)
         private static readonly Regex SyntaxRemoveParagraphs = new Regex(@"(?<!^[!\|].*)</? ?[Pp]>", RegexOptions.Multiline | RegexOptions.Compiled);
@@ -467,7 +467,7 @@ namespace WikiFunctions.Parse
 
         //private static readonly Regex InOpenBrackets = new Regex(@"\[\[[^\]]{,100}", RegexOptions.RightToLeft | RegexOptions.Compiled);
 
-        // Covered by: LinkTests.TestLinkRepairs(), incomplete
+        // Covered by: LinkTests.TestFixSyntax(), incomplete
         /// <summary>
         /// Fixes and improves syntax (such as html markup)
         /// </summary>
@@ -517,7 +517,7 @@ namespace WikiFunctions.Parse
             ArticleText = SyntaxRegex7.Replace(ArticleText, "[[$1]]");
             ArticleText = SyntaxRegex8.Replace(ArticleText, "[[$1]]");
             ArticleText = SyntaxRegex9.Replace(ArticleText, "[[$1#$2]]");
-            ArticleText = ArticleText.Replace("[[|", "[[");
+            //ArticleText = ArticleText.Replace("[[|", "[[");
 
             ArticleText = Regex.Replace(ArticleText, "ISBN: ?([0-9])", "ISBN $1");
 
