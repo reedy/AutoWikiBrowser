@@ -153,16 +153,15 @@ namespace UnitTests
             Assert.AreEqual("{{the later 1990's}}", parser.FixDates("{{the later 1990's}}"));
         }
 
-        [Test, Category("Incomplete")]
-        public void TestLinkRepairs()
+        [Test, Category("Unarchived bugs"), Category("Incomplete")]
+        public void TestFixSyntax()
         {
+            bool noChange;
+
             Assert.AreEqual("[http://example.com]", parser.FixSyntax("[http://example.com]"));
             Assert.AreEqual("[http://example.com]", parser.FixSyntax("[[http://example.com]"));
             Assert.AreEqual("[http://example.com]", parser.FixSyntax("[http://example.com]]"));
             Assert.AreEqual("[http://example.com]", parser.FixSyntax("[[http://example.com]]"));
-
-            Assert.AreEqual("[[Image:foo.jpg|Some [http://some_crap.com]]]",
-                parser.FixSyntax("[[Image:foo.jpg|Some [[http://some_crap.com]]]]"));
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#NEsted_square_brackets_again.
             Assert.AreEqual("[[Image:foo.jpg|Some [http://some_crap.com]]]",
@@ -184,9 +183,20 @@ namespace UnitTests
             Assert.AreEqual("''foo'' bar", parser.FixSyntax("<i>foo< /i > bar"));
             Assert.AreEqual("<i>foo<i> bar", parser.FixSyntax("<i>foo<i> bar"));
 
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Erroneously_removing_pipe
+            Assert.AreEqual("[[|foo]]", parser.FixSyntax("[[|foo]]"));
+
+            //TODO: move it to parts testing specific functions, when they're covered
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_4#Bug_encountered_when_perusing_Sonorous_Susurrus
-            Assert.AreEqual("[[foo]]", parser.FixSyntax("[[|foo]]"));
             Parsers.CanonicalizeTitle("[[|foo]]"); // shouldn't throw exceptions
+            Assert.AreEqual("[[|foo]]", Parsers.FixLinks("[[|foo]]", out noChange));
+        }
+
+        [Test]
+        public void FailingLinkRepair()
+        {
+            Assert.AreEqual("[[Image:foo.jpg|Some [http://some_crap.com]]]",
+                parser.FixSyntax("[[Image:foo.jpg|Some [[http://some_crap.com]]]]"));
         }
 
         [Test]
