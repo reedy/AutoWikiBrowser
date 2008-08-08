@@ -148,7 +148,7 @@ namespace WikiFunctions.Logging
 
         private static void resizeListView(NoFlickerExtendedListView lstView)
         {
-            lstView.ResizeColumns();
+            lstView.ResizeColumns(true);
         }
 
         private void SaveListView(ListView listview)
