@@ -54,17 +54,9 @@ namespace WikiFunctions.Controls
         public NoFlickerExtendedListView(bool sortColumnOnClick, bool resizeColumnsOnControlResize)
             : base()
         {
-            if (sortColumnOnClick)
-            {
-                this.sortColumnsOnClick = sortColumnOnClick;
-                this.ColumnClick += new ColumnClickEventHandler(ExtendedListView_ColumnClick);
-            }
+            this.SortColumnsOnClick = sortColumnOnClick;
 
-            if (resizeColumnsOnControlResize)
-            {
-                this.resizeColumnsOnControlResize = resizeColumnsOnControlResize;
-                this.Resize += new EventHandler(NoFlickerExtendedListView_Resize);
-            }
+            this.ResizeColumsOnControlResize = resizeColumnsOnControlResize;
 
             this.sortColumnsOnClick = sortColumnOnClick;
 
