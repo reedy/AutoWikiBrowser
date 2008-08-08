@@ -29,7 +29,7 @@ namespace WikiFunctions.Profiles
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.lvAccounts = new WikiFunctions.Controls.NoFlickerExtendedListView(true);
+            this.lvAccounts = new WikiFunctions.Controls.NoFlickerExtendedListView(true, true);
             this.colID = new System.Windows.Forms.ColumnHeader();
             this.colAccountName = new System.Windows.Forms.ColumnHeader();
             this.colPasswordSaved = new System.Windows.Forms.ColumnHeader();
