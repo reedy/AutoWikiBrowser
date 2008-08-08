@@ -44,22 +44,52 @@ namespace WikiFunctions.Controls
         /// 
         /// </summary>
         public NoFlickerExtendedListView()
-            : this(false)
+            : this(false, false)
         { }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="sortColumnOnClick"></param>
-        public NoFlickerExtendedListView(bool sortColumnOnClick)
+        public NoFlickerExtendedListView(bool sortColumnOnClick, bool resizeColumnsOnControlResize)
             : base()
         {
             if (sortColumnOnClick)
+            {
+                this.sortColumnsOnClick = sortColumnOnClick;
                 this.ColumnClick += new ColumnClickEventHandler(ExtendedListView_ColumnClick);
+            }
+
+            if (resizeColumnsOnControlResize)
+            {
+                this.resizeColumnsOnControlResize = resizeColumnsOnControlResize;
+                this.Resize += new EventHandler(NoFlickerExtendedListView_Resize);
+            }
 
             this.sortColumnsOnClick = sortColumnOnClick;
 
             this.DoubleBuffered = true;
+        }
+
+        private void NoFlickerExtendedListView_Resize(object sender, EventArgs e)
+        {
+            ResizeColumns(true);
+        }
+
+        bool resizeColumnsOnControlResize;
+        [DefaultValue(false)]
+        public bool ResizeColumsOnControlResize
+        {
+            set
+            {
+                if (value && !resizeColumnsOnControlResize)
+                    this.Resize += new EventHandler(NoFlickerExtendedListView_Resize);
+                else if (!value && resizeColumnsOnControlResize)
+                    this.Resize -= new EventHandler(NoFlickerExtendedListView_Resize);
+
+                this.resizeColumnsOnControlResize = value;
+            }
+            get { return this.resizeColumnsOnControlResize; }
         }
 
         bool sortColumnsOnClick;
