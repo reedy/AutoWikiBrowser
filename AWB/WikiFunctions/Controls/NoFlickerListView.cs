@@ -34,11 +34,13 @@ namespace WikiFunctions.Controls
     /// </summary>
     public interface IListViewItemComparerFactory
     {
-        IComparer Create(int column, SortOrder order);
+        IComparer CreateComparer(int column, SortOrder order);
     }
 
-    //TODO: make column sorter customizable by using IListViewItemComparerFactory
-    public partial class NoFlickerExtendedListView : ListView
+    /// <summary>
+    /// Advanced ListView
+    /// </summary>
+    public partial class NoFlickerExtendedListView : ListView, IListViewItemComparerFactory
     {
         /// <summary>
         /// 
@@ -54,10 +56,11 @@ namespace WikiFunctions.Controls
         public NoFlickerExtendedListView(bool sortColumnOnClick, bool resizeColumnsOnControlResize)
             : base()
         {
-            this.SortColumnsOnClick = sortColumnOnClick;
-            this.ResizeColumsOnControlResize = resizeColumnsOnControlResize;
+            SortColumnsOnClick = sortColumnOnClick;
+            ResizeColumsOnControlResize = resizeColumnsOnControlResize;
             this.sortColumnsOnClick = sortColumnOnClick;
-            this.DoubleBuffered = true;
+            DoubleBuffered = true;
+            comparerFactory = this;
         }
 
         private void NoFlickerExtendedListView_Resize(object sender, EventArgs e)
@@ -102,9 +105,6 @@ namespace WikiFunctions.Controls
 
         private int sortColumn = -1;
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <remarks>From http://msdn2.microsoft.com/en-us/library/ms996467.aspx </remarks>
         void ExtendedListView_ColumnClick(object sender, ColumnClickEventArgs e)
         {
@@ -132,7 +132,7 @@ namespace WikiFunctions.Controls
                 this.Sort();
                 // Set the lstAccountsItemSorter property to a new lstAccountsItemComparer
                 // object.
-                this.ListViewItemSorter = new ListViewItemComparer(e.Column, this.Sorting);
+                this.ListViewItemSorter = comparerFactory.CreateComparer(e.Column, this.Sorting);
                 this.EndUpdate();
             }
             catch { }
@@ -156,6 +156,28 @@ namespace WikiFunctions.Controls
                 if (width2 < width)
                     head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
             }
+        }
+
+        private IListViewItemComparerFactory comparerFactory;
+
+        /// <summary>
+        /// Allows to override default column sorting behaviour by providing a factory for custom sorters
+        /// </summary>
+        [Browsable(false)]
+        [Localizable(false)]
+        public IListViewItemComparerFactory ComparerFactory
+        {
+            get { return comparerFactory; }
+            set
+            {
+                comparerFactory = value;
+                ListViewItemSorter = comparerFactory.CreateComparer(sortColumn, Sorting);
+            }
+        }
+
+        public IComparer CreateComparer(int column, SortOrder order)
+        {
+            return new ListViewItemComparer(column, order);
         }
 
         /// <summary>
@@ -182,7 +204,6 @@ namespace WikiFunctions.Controls
             set { base.DoubleBuffered = value; }
         }
 
-        /// <remarks>From http://msdn2.microsoft.com/en-us/library/ms996467.aspx </remarks>
         sealed class ListViewItemComparer : IComparer
         {
             private int col;
@@ -207,12 +228,12 @@ namespace WikiFunctions.Controls
                 string sy = ((ListViewItem)y).SubItems[col].Text;
 
                 System.DateTime firstDate, secondDate;
-                int intX, intY;
+                double dblX, dblY;
 
                 // first try to parse as ints
-                if (int.TryParse(sx, out intX) && int.TryParse(sy, out intY))
+                if (double.TryParse(sx, out dblX) && double.TryParse(sy, out dblY))
                 {
-                    returnVal = intX.CompareTo(intY);
+                    returnVal = dblX.CompareTo(dblY);
                 }
                 else
                 // Determine whether the type being compared is a DateTime type
