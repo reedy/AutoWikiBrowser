@@ -55,11 +55,8 @@ namespace WikiFunctions.Controls
             : base()
         {
             this.SortColumnsOnClick = sortColumnOnClick;
-
             this.ResizeColumsOnControlResize = resizeColumnsOnControlResize;
-
             this.sortColumnsOnClick = sortColumnOnClick;
-
             this.DoubleBuffered = true;
         }
 
