@@ -1177,6 +1177,7 @@ namespace WikiFunctions.Controls.Lists
         /// Get/Set the Special Filter settings
         /// </summary>
         [Browsable(false)]
+        [Localizable(false)]
         public AWBSettings.SpecialFilterPrefs SpecialFilterSettings
         {
             get { return SpecialFilter.Settings; }

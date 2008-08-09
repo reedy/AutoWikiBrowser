@@ -89,6 +89,7 @@ namespace AutoWikiBrowser
 
         #region Settings
         [Browsable(false)]
+        [Localizable(false)]
         public LoggingPrefs SerialisableSettings
         {
             get
