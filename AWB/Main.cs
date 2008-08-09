@@ -2945,28 +2945,29 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
         private void summariesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SummaryEditor se = new SummaryEditor();
-
-            string[] summaries = new string[cmboEditSummary.Items.Count];
-            cmboEditSummary.Items.CopyTo(summaries, 0);
-            se.Summaries.Lines = summaries;
-            se.Summaries.Select(0, 0);
-
-            string prevSummary = cmboEditSummary.SelectedText;
-
-            if (se.ShowDialog() == DialogResult.OK)
+            using (SummaryEditor se = new SummaryEditor())
             {
-                cmboEditSummary.Items.Clear();
+                string[] summaries = new string[cmboEditSummary.Items.Count];
+                cmboEditSummary.Items.CopyTo(summaries, 0);
+                se.Summaries.Lines = summaries;
+                se.Summaries.Select(0, 0);
 
-                foreach (string s in se.Summaries.Lines)
+                string prevSummary = cmboEditSummary.SelectedText;
+
+                if (se.ShowDialog(this) == DialogResult.OK)
                 {
-                    if (string.IsNullOrEmpty(s.Trim())) continue;
-                    cmboEditSummary.Items.Add(s.Trim());
-                }
+                    cmboEditSummary.Items.Clear();
 
-                if (cmboEditSummary.Items.Contains(prevSummary))
-                    cmboEditSummary.SelectedText = prevSummary;
-                else cmboEditSummary.SelectedItem = 0;
+                    foreach (string s in se.Summaries.Lines)
+                    {
+                        if (string.IsNullOrEmpty(s.Trim())) continue;
+                        cmboEditSummary.Items.Add(s.Trim());
+                    }
+
+                    if (cmboEditSummary.Items.Contains(prevSummary))
+                        cmboEditSummary.SelectedText = prevSummary;
+                    else cmboEditSummary.SelectedItem = 0;
+                }
             }
         }
 
