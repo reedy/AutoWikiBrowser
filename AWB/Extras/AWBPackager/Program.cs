@@ -81,7 +81,7 @@ Is this SVN (1) or a release (2)? ");
                 File.Copy(currFolder + "YahooSearchPlugin.dll", Tmp + "Plugins\\Yahoo Search Plugin\\YahooSearchPlugin.dll", true);
 				
 				Directory.CreateDirectory(Tmp + "Plugins\\TypoScan Plugin\\");
-                File.Copy(currFolder + "YahooSearchPlugin.dll", Tmp + "Plugins\\TypoScan Plugin\\TypoScan.dll", true);
+                File.Copy(currFolder + "TypoScan.dll", Tmp + "Plugins\\TypoScan Plugin\\TypoScan.dll", true);
 
                 Directory.CreateDirectory(Tmp + "Plugins\\Delinker\\");
                 File.Copy(currFolder + "DelinkerPlugin.dll", Tmp + "Plugins\\Delinker\\DelinkerPlugin.dll", true);
