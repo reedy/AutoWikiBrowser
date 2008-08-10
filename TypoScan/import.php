@@ -1,12 +1,13 @@
 <?php
 
-if (isset($_SERVER) && array_key_exists('REQUEST_METHOD', $_SERVER)) die ('This is a command-line script');
-
-require_once('typo-db.php');
+if (isset($_SERVER) && array_key_exists('REQUEST_METHOD', $_SERVER))
+{
+	require_once('common.php');
+	die ('This is a command-line script');
+}
 
 echo "Connecting to MySQL...\n";
-$conn = mysql_connect($dbserver, $dbuser, $dbpass);
-mysql_select_db($database, $conn) or die;
+require_once('typo-db.php');
 
 if (isset($argv[1])) 
 	$filename = $argv[1];

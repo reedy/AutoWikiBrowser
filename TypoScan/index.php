@@ -17,29 +17,23 @@
 * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 * http://www.gnu.org/copyleft/gpl.html
 */
-	if($_SERVER['QUERY_STRING'] == 'source')
-	{
-		header("Content-Type:text/html; charset=utf-8");
-		highlight_file('index.php');
-		die;
-	}
-
+	
+	require_once('common.php');
+	
 	//prevent caching
-	header('Cache-Control: no-cache, no-store, must-revalidate'); //HTTP/1.1
-	header('Expires: Sun, 01 Jul 2005 00:00:00 GMT');
-	header('Pragma: no-cache'); //HTTP/1.0
-
+	DisableCaching();
+	
 	/* Manually create file 'typo-db.php' using the following boilerplate:
 <?php
 	$dbserver = '';
 	$dbuser = '';
 	$dbpass = '';
 	$database = '';
-	*/
-	require_once('typo-db.php');
 	
 	$conn=mysql_connect($dbserver, $dbuser, $dbpass); 
-	mysql_select_db($database, $conn);
+	mysql_select_db($database, $conn);	
+	**/
+	require_once('typo-db.php');
 	
 	$query = "SET NAMES 'utf8'";
 	$result=mysql_query($query) or die ('Error: ' . htmlspecialchars(mysql_error()) . '\nQuery: ' . $query);
@@ -277,65 +271,4 @@
 	{
 		return array_filter($arr, 'is_int');
 	}
-	
-	function Head($title="TypoScan")
-	{
-		?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-	<title><? echo $title; ?></title>
-	<style type="text/css">
-		BODY, .default  {
-			font-size : 12pt;
-			font-family : Arial, Courier, Helvetica;
-			color : Black;
-		}
-		
-		a:link  {
-			color : blue;
-			text-decoration : none;
-		}
-		
-		A:visited {
-			color : purple;
-			text-decoration : none;
-		}
-		
-		a:hover  {
-			color : #D79C02;
-			text-decoration : underline;
-		}
-		
-		table, caption {
-			width : 700px;
-		}
-		
-		table, caption, th, td {
-			border-width : 1px;
-			border-style : solid;		
-		}
-		
-		caption {
-			border-bottom-width : 0px;
-			font-weight : bold;
-		}
-		
-		TH.sortable {
-			cursor : pointer;
-		}
-	</style>
-	<script src="sorttable.js" type="text/javascript"></script>
-	</head>
-	<body><?
-	}
-	
-	function Tail()
-	{ ?>	<p>
-	<span style="float:right;"><a href="?source">View source</a></span>
-	<a href="http://validator.w3.org/check?uri=referer"><img
-		src="http://www.w3.org/Icons/valid-xhtml10-blue"
-		alt="Valid XHTML 1.0 Transitional" height="31" width="88" /></a>
-	</p>
-</body>
-</html><?php
-	}
+
