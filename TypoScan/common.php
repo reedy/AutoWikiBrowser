@@ -10,6 +10,8 @@
 		die;
 	}
 	
+	require_once('Xml.php');
+	
 	function DisableCaching()
 	{
 		header('Cache-Control: no-cache, no-store, must-revalidate'); //HTTP/1.1

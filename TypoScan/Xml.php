@@ -48,7 +48,7 @@ class Xml {
 			return null;
 		} elseif( is_array( $attribs ) ) {
 			foreach( $attribs as $name => $val )
-				$out .= " {$name}=\"" . Sanitizer::encodeAttribute( $val ) . '"';
+				$out .= " {$name}=\"" . self::encodeAttribute( $val ) . '"';
 			return $out;
 		} else {
 			throw new MWException( 'Expected attribute array, got something else in ' . __METHOD__ );
@@ -552,6 +552,31 @@ class Xml {
 	
 		return $form;
 	}
+	
+	public static function XmlHeader() {
+		return '<?xml version="1.0" encoding="utf-8"?>';
+	}
+	
+	/**
+	 * Encode an attribute value for HTML output.
+	 * @param $text
+	 * @return HTML-encoded text fragment
+	 */
+	static function encodeAttribute( $text ) {
+		$encValue = htmlspecialchars( $text, ENT_QUOTES );
+
+		// Whitespace is normalized during attribute decoding,
+		// so if we've been passed non-spaces we must encode them
+		// ahead of time or they won't be preserved.
+		$encValue = strtr( $encValue, array(
+			"\n" => '&#10;',
+			"\r" => '&#13;',
+			"\t" => '&#9;',
+		) );
+
+		return $encValue;
+	}
+
 }
 
 class XmlSelect {

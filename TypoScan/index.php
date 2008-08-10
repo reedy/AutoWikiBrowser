@@ -43,19 +43,23 @@
 	switch($_GET['action'])
 	{
 		case 'finished':
-			header("Content-type: text/html; charset=utf-8"); 
-			$articles = $_POST['articles'];
-			$skippedarticles = $_POST['skipped'];
-			$skippedreason = $_POST['skipreason'];
-			$user = $_POST['user'];
+			header("Content-type: text/xml; charset=utf-8");
+			PostRequired();
+			$articles = @$_POST['articles'];
+			$skippedarticles = @$_POST['skipped'];
+			$skippedreason = @$_POST['skipreason'];
+			$user = @$_POST['user'];
+			$wiki = @$_GET['wiki'];
 			
 			$articlesempty = empty($articles);
 			$skippedempty = empty($skippedarticles);
 			
-			if (!$articlesempty || !$skippedempty)
+			if ((!$articlesempty || !$skippedempty) && $user && $wiki)
 			{
 				$userid = GetOrAddUser($user);
-			
+				
+				if ($wiki != 'en.wikipedia.org') ReturnError('This project is not supported', 'project');
+
 				if (!$articlesempty)
 				{
 					$query = 'UPDATE articles SET finished = 1, checkedin = NOW(), userid = "' . $userid . '" WHERE articleid IN (' . $articles . ')';
@@ -80,42 +84,43 @@
 					    $result=mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);
 					}
 				}
-				Head('TypoScan - Update');
-				echo 'Articles Updated</body></html>';
-				Tail();
+				echo Xml::XmlHeader() . Xml::element('operation', array('status' => 'success'), 'Articles marked as processed');
 			}
 			else
 			{
-				Head('TypoScan - Update failed');
-				echo 'Articles have to be posted to the script';
-				Tail();
+				echo Xml::XmlHeader() . 
+					Xml::element('operation', 
+						array('status' => 'failed', 'error' => 'request' ), 
+						'Request misses essential data');
 			}
 		break;
 		
 		case 'displayarticles':
 			header("Content-type: text/xml; charset=utf-8"); 
 		
+			$wiki = @$_GET['wiki'];
+			if ($wiki != 'en.wikipedia.org') ReturnError('This project is not supported', 'project');
+
 			$query = 'SELECT articleid, title FROM articles WHERE (checkedout < DATE_SUB(NOW(), INTERVAL 2 HOUR)) AND (userid = 0) LIMIT 100';
 			
 			$result=mysql_query($query) or die ('Error: '.mysql_error());
 			
-			$xml_output  = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
-			$xml_output .= "<articles>\n";
+			$xml_output  = Xml::XmlHeader() . "\n";
 
 			$array = array();
 
+			$xml_output .= Xml::openElement('articles');
 			while($row = mysql_fetch_assoc($result))
 			{
 				$array[] = $row['articleid'];
 				$therow = $row['title'];
-				$xml_output .= "\t<article id='{$row['articleid']}'>" . htmlspecialchars($therow) . "</article>\n";
+				$xml_output .= "\t" . Xml::element('article', array('id' => $row['articleid']), $therow);
 			}
+			$xml_output .= Xml::closeElement('articles');
 			
 			$query = 'UPDATE articles SET checkedout = NOW() WHERE articleid IN (' . implode(",", $array) . ')';
 			$result=mysql_query($query) or die ('Error: '.mysql_error());
 			
-			$xml_output .= "</articles>";
-
 			echo $xml_output; 
 			break;
 		
@@ -265,6 +270,21 @@
 			//echo 'Inserted: ' . mysql_result($result, 0);
 			return GetOrAdd($data, $selectcol, $wherecol, $table);
 		}
+	}
+	
+	function PostRequired()
+	{
+		if ($_SERVER['REQUEST_METHOD'] != 'POST') ReturnError('method', 'This operation requires data to be posted');
+	}
+	
+	function ReturnError(string $message, $error = false)
+	{
+		$attribs = array(array('status' => 'failed');
+		if ($error)
+			$attribs['error'] = $error;
+
+		echo Xml::XmlHeader() . Xml::element('operation', $attribs,  $message);
+		die;
 	}
 	
 	function RemoveNonInts($arr)
