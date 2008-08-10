@@ -71,7 +71,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         private void LogControl_LogAdded(bool Skipped, WikiFunctions.Logging.AWBLogListener LogListener)
         {
-            if (PageList.ContainsKey(LogListener.ArticleTitle))
+            if ((PageList.Count > 0) && (PageList.ContainsKey(LogListener.ArticleTitle)))
             {
                 int articleID;
                 PageList.TryGetValue(LogListener.Text, out articleID);
