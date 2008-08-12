@@ -27,7 +27,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         ' Regexes:
         ' These could probably be simplified significantly (and extra logic doing things like removing linebreaks) if I learnt more of the magic characters
         Private Shared ReadOnly WikiProjectBannerShellRegex As New Regex(conRegexpLeft & WikiProjectBannerShell & _
-           ")\b\s*(?<start>\|[^1]*=.*)*\s*\|\s*1\s*=\s*(?<body>.*}}[^{]*?)\s*(?<end>\|[^{]*)?\s*}}", _
+           ")\b\s*(?<start>\|[^1]*=.*?)*\s*\|\s*1\s*=\s*(?<body>.*}}[^{]*?)\s*(?<end>\|[^{]*)?\s*}}", _
            RegexOptions.Compiled Or RegexOptions.IgnoreCase Or RegexOptions.Singleline Or RegexOptions.ExplicitCapture)
         ' last known reasonably good version (no catching blp= etc at the start of regex): '")\b\s*\|\s*1\s*=\s*(?<body>.*}}[^{]*?)(?<end>\|[^{]*)?}}"
         Private Shared ReadOnly WikiProjectBannersRegex As New Regex(conRegexpLeft & WikiProjectBanners & _
