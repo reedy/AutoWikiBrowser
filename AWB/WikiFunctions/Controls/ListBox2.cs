@@ -31,11 +31,6 @@ namespace WikiFunctions.Controls.Lists
 {
     public partial class ListBox2 : ListBox, IEnumerable<Article>
     {
-        public ListBox2()
-        {
-            InitializeComponent();
-        }
-
         public IEnumerator<Article> GetEnumerator()
         {
             int i = 0;
