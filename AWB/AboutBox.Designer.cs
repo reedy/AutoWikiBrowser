@@ -48,14 +48,9 @@ namespace AutoWikiBrowser
         {
             this.txtWarning = new System.Windows.Forms.TextBox();
             this.okButton = new System.Windows.Forms.Button();
-            this.linkBluemoose = new System.Windows.Forms.LinkLabel();
             this.linkAWBPage = new System.Windows.Forms.LinkLabel();
-            this.linkLigulem = new System.Windows.Forms.LinkLabel();
-            this.linkMaxSem = new System.Windows.Forms.LinkLabel();
             this.linkBugs = new System.Windows.Forms.LinkLabel();
             this.linkFeatureRequests = new System.Windows.Forms.LinkLabel();
-            this.linkReedy = new System.Windows.Forms.LinkLabel();
-            this.linkKingboy = new System.Windows.Forms.LinkLabel();
             this.lblDevs = new System.Windows.Forms.Label();
             this.lblTimeAndEdits = new System.Windows.Forms.Label();
             this.lblNETVersion = new System.Windows.Forms.Label();
@@ -71,6 +66,11 @@ namespace AutoWikiBrowser
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.flwOSVersion = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.BluemooseLink = new WikiFunctions.Controls.DeveloperLinkLabel();
+            this.LigulemLink = new WikiFunctions.Controls.DeveloperLinkLabel();
+            this.MaxSemLabel = new WikiFunctions.Controls.DeveloperLinkLabel();
+            this.ReedyLabel = new WikiFunctions.Controls.DeveloperLinkLabel();
+            this.KingboykLabel = new WikiFunctions.Controls.DeveloperLinkLabel();
             this.flwDevs.SuspendLayout();
             this.flwOriginalDevs.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
@@ -103,17 +103,6 @@ namespace AutoWikiBrowser
             this.okButton.UseVisualStyleBackColor = false;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
-            // linkBluemoose
-            // 
-            this.linkBluemoose.AutoSize = true;
-            this.linkBluemoose.Location = new System.Drawing.Point(3, 0);
-            this.linkBluemoose.Name = "linkBluemoose";
-            this.linkBluemoose.Size = new System.Drawing.Size(84, 13);
-            this.linkBluemoose.TabIndex = 0;
-            this.linkBluemoose.TabStop = true;
-            this.linkBluemoose.Text = "User:Bluemoose";
-            this.linkBluemoose.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkBluemoose_LinkClicked);
-            // 
             // linkAWBPage
             // 
             this.linkAWBPage.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -124,28 +113,6 @@ namespace AutoWikiBrowser
             this.linkAWBPage.TabStop = true;
             this.linkAWBPage.Text = "AutoWikiBrowser";
             this.linkAWBPage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkAWBPage_LinkClicked);
-            // 
-            // linkLigulem
-            // 
-            this.linkLigulem.AutoSize = true;
-            this.linkLigulem.Location = new System.Drawing.Point(93, 0);
-            this.linkLigulem.Name = "linkLigulem";
-            this.linkLigulem.Size = new System.Drawing.Size(68, 13);
-            this.linkLigulem.TabIndex = 1;
-            this.linkLigulem.TabStop = true;
-            this.linkLigulem.Text = "User:Ligulem";
-            this.linkLigulem.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLigulem_LinkClicked);
-            // 
-            // linkMaxSem
-            // 
-            this.linkMaxSem.AutoSize = true;
-            this.linkMaxSem.Location = new System.Drawing.Point(3, 13);
-            this.linkMaxSem.Name = "linkMaxSem";
-            this.linkMaxSem.Size = new System.Drawing.Size(73, 13);
-            this.linkMaxSem.TabIndex = 3;
-            this.linkMaxSem.TabStop = true;
-            this.linkMaxSem.Text = "User:MaxSem";
-            this.linkMaxSem.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkMaxSem_LinkClicked);
             // 
             // linkBugs
             // 
@@ -168,28 +135,6 @@ namespace AutoWikiBrowser
             this.linkFeatureRequests.TabStop = true;
             this.linkFeatureRequests.Text = "Feature requests";
             this.linkFeatureRequests.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkFeatureRequests_LinkClicked);
-            // 
-            // linkReedy
-            // 
-            this.linkReedy.AutoSize = true;
-            this.linkReedy.Location = new System.Drawing.Point(3, 26);
-            this.linkReedy.Name = "linkReedy";
-            this.linkReedy.Size = new System.Drawing.Size(63, 13);
-            this.linkReedy.TabIndex = 5;
-            this.linkReedy.TabStop = true;
-            this.linkReedy.Text = "User:Reedy";
-            this.linkReedy.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkReedy_LinkClicked);
-            // 
-            // linkKingboy
-            // 
-            this.linkKingboy.AutoSize = true;
-            this.linkKingboy.Location = new System.Drawing.Point(3, 0);
-            this.linkKingboy.Name = "linkKingboy";
-            this.linkKingboy.Size = new System.Drawing.Size(76, 13);
-            this.linkKingboy.TabIndex = 1;
-            this.linkKingboy.TabStop = true;
-            this.linkKingboy.Text = "User:Kingboyk";
-            this.linkKingboy.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkKingboy_LinkClicked);
             // 
             // lblDevs
             // 
@@ -284,9 +229,9 @@ namespace AutoWikiBrowser
             // 
             // flwDevs
             // 
-            this.flwDevs.Controls.Add(this.linkKingboy);
-            this.flwDevs.Controls.Add(this.linkMaxSem);
-            this.flwDevs.Controls.Add(this.linkReedy);
+            this.flwDevs.Controls.Add(this.KingboykLabel);
+            this.flwDevs.Controls.Add(this.MaxSemLabel);
+            this.flwDevs.Controls.Add(this.ReedyLabel);
             this.flwDevs.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flwDevs.Location = new System.Drawing.Point(28, 142);
             this.flwDevs.Name = "flwDevs";
@@ -295,8 +240,8 @@ namespace AutoWikiBrowser
             // 
             // flwOriginalDevs
             // 
-            this.flwOriginalDevs.Controls.Add(this.linkBluemoose);
-            this.flwOriginalDevs.Controls.Add(this.linkLigulem);
+            this.flwOriginalDevs.Controls.Add(this.BluemooseLink);
+            this.flwOriginalDevs.Controls.Add(this.LigulemLink);
             this.flwOriginalDevs.Location = new System.Drawing.Point(28, 97);
             this.flwOriginalDevs.Name = "flwOriginalDevs";
             this.flwOriginalDevs.Size = new System.Drawing.Size(200, 22);
@@ -334,6 +279,60 @@ namespace AutoWikiBrowser
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(216, 37);
             this.flowLayoutPanel1.TabIndex = 2;
+            // 
+            // BluemooseLink
+            // 
+            this.BluemooseLink.AutoSize = true;
+            this.BluemooseLink.Location = new System.Drawing.Point(3, 0);
+            this.BluemooseLink.Name = "BluemooseLink";
+            this.BluemooseLink.Size = new System.Drawing.Size(59, 13);
+            this.BluemooseLink.TabIndex = 3;
+            this.BluemooseLink.TabStop = true;
+            this.BluemooseLink.Text = "Bluemoose";
+            // 
+            // LigulemLink
+            // 
+            this.LigulemLink.AutoSize = true;
+            this.LigulemLink.Location = new System.Drawing.Point(68, 0);
+            this.LigulemLink.Name = "LigulemLink";
+            this.LigulemLink.Size = new System.Drawing.Size(43, 13);
+            this.LigulemLink.TabIndex = 4;
+            this.LigulemLink.TabStop = true;
+            this.LigulemLink.Text = "Ligulem";
+            this.LigulemLink.WhichDeveloper = WikiFunctions.Controls.Developers.Ligulem;
+            // 
+            // MaxSemLabel
+            // 
+            this.MaxSemLabel.AutoSize = true;
+            this.MaxSemLabel.Location = new System.Drawing.Point(3, 13);
+            this.MaxSemLabel.Name = "MaxSemLabel";
+            this.MaxSemLabel.Size = new System.Drawing.Size(48, 13);
+            this.MaxSemLabel.TabIndex = 38;
+            this.MaxSemLabel.TabStop = true;
+            this.MaxSemLabel.Text = "MaxSem";
+            this.MaxSemLabel.WhichDeveloper = WikiFunctions.Controls.Developers.MaxSem;
+            // 
+            // ReedyLabel
+            // 
+            this.ReedyLabel.AutoSize = true;
+            this.ReedyLabel.Location = new System.Drawing.Point(3, 26);
+            this.ReedyLabel.Name = "ReedyLabel";
+            this.ReedyLabel.Size = new System.Drawing.Size(38, 13);
+            this.ReedyLabel.TabIndex = 37;
+            this.ReedyLabel.TabStop = true;
+            this.ReedyLabel.Text = "Reedy";
+            this.ReedyLabel.WhichDeveloper = WikiFunctions.Controls.Developers.Reedy;
+            // 
+            // KingboykLabel
+            // 
+            this.KingboykLabel.AutoSize = true;
+            this.KingboykLabel.Location = new System.Drawing.Point(3, 0);
+            this.KingboykLabel.Name = "KingboykLabel";
+            this.KingboykLabel.Size = new System.Drawing.Size(51, 13);
+            this.KingboykLabel.TabIndex = 39;
+            this.KingboykLabel.TabStop = true;
+            this.KingboykLabel.Text = "Kingboyk";
+            this.KingboykLabel.WhichDeveloper = WikiFunctions.Controls.Developers.Kingboyk;
             // 
             // AboutBox
             // 
@@ -385,21 +384,16 @@ namespace AutoWikiBrowser
 
         private System.Windows.Forms.TextBox txtWarning;
         private System.Windows.Forms.Button okButton;
-        private System.Windows.Forms.LinkLabel linkBluemoose;
         private System.Windows.Forms.LinkLabel linkAWBPage;
         private System.Windows.Forms.Label lblDetails;
         private System.Windows.Forms.Label lblAWBVersion;
         private System.Windows.Forms.Label lblOSVersion;
         private System.Windows.Forms.Label lblIEVersion;
         private System.Windows.Forms.Label lblNETVersion;
-        private System.Windows.Forms.LinkLabel linkLigulem;
         private System.Windows.Forms.Label lblTimeAndEdits;
         private System.Windows.Forms.Label lblDevs;
-        private System.Windows.Forms.LinkLabel linkMaxSem;
         private System.Windows.Forms.LinkLabel linkBugs;
         private System.Windows.Forms.LinkLabel linkFeatureRequests;
-        private System.Windows.Forms.LinkLabel linkReedy;
-        private System.Windows.Forms.LinkLabel linkKingboy;
         private System.Windows.Forms.Label lblOriginalDevs;
         private System.Windows.Forms.LinkLabel UsageStatsLabel;
         private System.Windows.Forms.Label lblRevision;
@@ -408,5 +402,10 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
         private System.Windows.Forms.FlowLayoutPanel flwOSVersion;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private WikiFunctions.Controls.DeveloperLinkLabel BluemooseLink;
+        private WikiFunctions.Controls.DeveloperLinkLabel LigulemLink;
+        private WikiFunctions.Controls.DeveloperLinkLabel KingboykLabel;
+        private WikiFunctions.Controls.DeveloperLinkLabel MaxSemLabel;
+        private WikiFunctions.Controls.DeveloperLinkLabel ReedyLabel;
     }
 }
