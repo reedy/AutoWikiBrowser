@@ -88,10 +88,7 @@
 			}
 			else
 			{
-				echo Xml::XmlHeader() . 
-					Xml::element('operation', 
-						array('status' => 'failed', 'error' => 'request' ), 
-						'Request misses essential data');
+				ReturnError('Request misses essential data', 'request');
 			}
 		break;
 		
