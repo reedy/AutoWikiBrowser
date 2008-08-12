@@ -1,4 +1,7 @@
 ﻿using System.Text;
+using System.Text.RegularExpressions;
+using System.Xml;
+using System.IO;
 
 namespace WikiFunctions.Plugins.ListMaker.TypoScan
 {
@@ -7,6 +10,30 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         /// <summary>
         /// The URL, script and action=
         /// </summary>
-        internal const string Url = "http://typoscan.reedyboy.net/index.php?action=";
+        private const string Url = "http://typoscan.reedyboy.net/index.php?action=";
+
+        internal static string GetUrlFor(string action)
+        {
+            string wiki = Regex.Replace(Variables.URLLong, @"^https?://([-a-z0-9\.]+).*$", "$1", RegexOptions.IgnoreCase);
+
+            return Url + action + "&wiki=" + wiki;
+        }
+
+        public static string CheckOperation(string xml)
+        {
+            XmlTextReader r = new XmlTextReader(new StringReader(xml));
+
+            if (!r.ReadToFollowing("operation"))
+                return "xml";
+
+            if (r.GetAttribute("status") == "success")
+                return null;
+
+            string s = r.GetAttribute("error");
+            if (!string.IsNullOrEmpty(s))
+                return s;
+            else
+                return r.ReadString();
+        }
     }
 }

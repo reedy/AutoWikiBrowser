@@ -26,6 +26,7 @@ using System.IO;
 
 using WikiFunctions;
 using WikiFunctions.Plugin;
+using System.Windows.Forms;
 
 namespace WikiFunctions.Plugins.ListMaker.TypoScan
 {
@@ -40,7 +41,15 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         {
             List<Article> articles = new List<Article>();
 
-            string html = Tools.GetHTML(Common.Url + "displayarticles");
+            // TODO: must support other wikis
+            if (Variables.Project != ProjectEnum.wikipedia || Variables.LangCode != LangCodeEnum.en)
+            {
+                MessageBox.Show("This plugin currently supports only English Wikipedia",
+                    "TypoScan", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                return articles;
+            }
+
+            string html = Tools.GetHTML(Common.GetUrlFor("displayarticles"));
 
             using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
             {
