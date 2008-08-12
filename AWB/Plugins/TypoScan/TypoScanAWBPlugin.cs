@@ -172,12 +172,12 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             if (!AWB.Privacy)
                 postVars.Add("user", Variables.User.Name);
             else
-                postVars.Add("user", "Withheld");
+                postVars.Add("user", "[withheld]");
 
             try
             {
-                string result = Tools.PostData(postVars, Common.Url + "finished");
-                if (result.Contains("Articles Updated"))
+                string result = Tools.PostData(postVars, Common.GetUrlFor("finished"));
+                if (!string.IsNullOrEmpty(Common.CheckOperation(result)))
                 {
                     UploadedThisSession += editsAndIgnored;
                     SavedPages.Clear();

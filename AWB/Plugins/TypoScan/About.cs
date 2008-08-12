@@ -41,7 +41,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         private void linkStats_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkStats.LinkVisited = true;
-            Tools.OpenURLInBrowser(Common.Url + "stats");
+            Tools.OpenURLInBrowser(Common.GetUrlFor("stats"));
         }
 
         private void okButton_Click(object sender, EventArgs e)
