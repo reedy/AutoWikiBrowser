@@ -35,13 +35,14 @@ namespace WikiFunctions.Controls
             this.txtFind = new System.Windows.Forms.TextBox();
             this.txtReplace = new System.Windows.Forms.TextBox();
             this.ReplaceBtn = new System.Windows.Forms.Button();
-            this.Source = new System.Windows.Forms.TextBox();
+            this.txtInput = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.ResultText = new System.Windows.Forms.TextBox();
             this.Captures = new System.Windows.Forms.TreeView();
             this.FindBtn = new System.Windows.Forms.Button();
             this.Status = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.progressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.label4 = new System.Windows.Forms.Label();
             this.chkSingleline = new System.Windows.Forms.CheckBox();
@@ -77,27 +78,27 @@ namespace WikiFunctions.Controls
             this.txtFind.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.txtFind.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtFind.Location = new System.Drawing.Point(75, 6);
+            this.txtFind.Location = new System.Drawing.Point(72, 6);
             this.txtFind.Multiline = true;
             this.txtFind.Name = "txtFind";
-            this.txtFind.Size = new System.Drawing.Size(401, 78);
+            this.txtFind.Size = new System.Drawing.Size(404, 78);
             this.txtFind.TabIndex = 2;
             this.toolTip1.SetToolTip(this.txtFind, "The regular expression to find");
-            this.txtFind.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.KeyPressHandler);
             this.txtFind.TextChanged += new System.EventHandler(this.ConditionsChanged);
+            this.txtFind.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.KeyPressHandler);
             // 
             // txtReplace
             // 
             this.txtReplace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.txtReplace.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtReplace.Location = new System.Drawing.Point(75, 90);
+            this.txtReplace.Location = new System.Drawing.Point(72, 90);
             this.txtReplace.Name = "txtReplace";
-            this.txtReplace.Size = new System.Drawing.Size(401, 22);
+            this.txtReplace.Size = new System.Drawing.Size(404, 22);
             this.txtReplace.TabIndex = 3;
             this.toolTip1.SetToolTip(this.txtReplace, "The expression for doing replacements");
-            this.txtReplace.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.KeyPressHandler);
             this.txtReplace.TextChanged += new System.EventHandler(this.ConditionsChanged);
+            this.txtReplace.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.KeyPressHandler);
             // 
             // ReplaceBtn
             // 
@@ -111,21 +112,21 @@ namespace WikiFunctions.Controls
             this.ReplaceBtn.UseVisualStyleBackColor = true;
             this.ReplaceBtn.Click += new System.EventHandler(this.Replace_Click);
             // 
-            // Source
+            // txtInput
             // 
-            this.Source.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.txtInput.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.Source.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Source.Location = new System.Drawing.Point(72, 120);
-            this.Source.Multiline = true;
-            this.Source.Name = "Source";
-            this.Source.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Source.Size = new System.Drawing.Size(596, 160);
-            this.Source.TabIndex = 5;
-            this.toolTip1.SetToolTip(this.Source, "Enter or paste in the text to be searched here");
-            this.Source.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.KeyPressHandler);
-            this.Source.TextChanged += new System.EventHandler(this.ConditionsChanged);
+            this.txtInput.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtInput.Location = new System.Drawing.Point(72, 120);
+            this.txtInput.Multiline = true;
+            this.txtInput.Name = "txtInput";
+            this.txtInput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtInput.Size = new System.Drawing.Size(596, 160);
+            this.txtInput.TabIndex = 5;
+            this.toolTip1.SetToolTip(this.txtInput, "Enter or paste in the text to be searched here");
+            this.txtInput.TextChanged += new System.EventHandler(this.ConditionsChanged);
+            this.txtInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.KeyPressHandler);
             // 
             // label3
             // 
@@ -182,12 +183,19 @@ namespace WikiFunctions.Controls
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.progressBar,
             this.Status});
             this.statusStrip1.Location = new System.Drawing.Point(0, 465);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(691, 22);
             this.statusStrip1.TabIndex = 9;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // progressBar
+            // 
+            this.progressBar.MarqueeAnimationSpeed = 0;
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(100, 16);
             // 
             // label4
             // 
@@ -199,12 +207,12 @@ namespace WikiFunctions.Controls
             this.label4.Text = "Text to\r\nsearch :";
             this.toolTip1.SetToolTip(this.label4, "Enter or paste in the text to be searched here");
             // 
-            // Singleline
+            // chkSingleline
             // 
             this.chkSingleline.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkSingleline.AutoSize = true;
             this.chkSingleline.Location = new System.Drawing.Point(90, 20);
-            this.chkSingleline.Name = "Singleline";
+            this.chkSingleline.Name = "chkSingleline";
             this.chkSingleline.Size = new System.Drawing.Size(75, 17);
             this.chkSingleline.TabIndex = 22;
             this.chkSingleline.Text = "SingleLine";
@@ -212,36 +220,36 @@ namespace WikiFunctions.Controls
                     "y character (instead of every character except \\n)");
             this.chkSingleline.UseVisualStyleBackColor = true;
             // 
-            // explicitcapture
+            // chkExplicitCapture
             // 
             this.chkExplicitCapture.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkExplicitCapture.AutoSize = true;
             this.chkExplicitCapture.Location = new System.Drawing.Point(90, 43);
-            this.chkExplicitCapture.Name = "explicitcapture";
+            this.chkExplicitCapture.Name = "chkExplicitCapture";
             this.chkExplicitCapture.Size = new System.Drawing.Size(96, 17);
             this.chkExplicitCapture.TabIndex = 21;
             this.chkExplicitCapture.Text = "ExplicitCapture";
-            this.toolTip1.SetToolTip(this.chkExplicitCapture, resources.GetString("explicitcapture.ToolTip"));
+            this.toolTip1.SetToolTip(this.chkExplicitCapture, resources.GetString("chkExplicitCapture.ToolTip"));
             this.chkExplicitCapture.UseVisualStyleBackColor = true;
             // 
-            // Ignorecase
+            // chkIgnoreCase
             // 
             this.chkIgnoreCase.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkIgnoreCase.AutoSize = true;
             this.chkIgnoreCase.Location = new System.Drawing.Point(6, 43);
-            this.chkIgnoreCase.Name = "Ignorecase";
+            this.chkIgnoreCase.Name = "chkIgnoreCase";
             this.chkIgnoreCase.Size = new System.Drawing.Size(80, 17);
             this.chkIgnoreCase.TabIndex = 20;
             this.chkIgnoreCase.Text = "IgnoreCase";
             this.toolTip1.SetToolTip(this.chkIgnoreCase, "Specifies case-insensitive matching");
             this.chkIgnoreCase.UseVisualStyleBackColor = true;
             // 
-            // Multiline
+            // chkMultiline
             // 
             this.chkMultiline.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chkMultiline.AutoSize = true;
             this.chkMultiline.Location = new System.Drawing.Point(6, 20);
-            this.chkMultiline.Name = "Multiline";
+            this.chkMultiline.Name = "chkMultiline";
             this.chkMultiline.Size = new System.Drawing.Size(68, 17);
             this.chkMultiline.TabIndex = 19;
             this.chkMultiline.Text = "MultiLine";
@@ -275,7 +283,7 @@ namespace WikiFunctions.Controls
             this.Controls.Add(this.Captures);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.Source);
+            this.Controls.Add(this.txtInput);
             this.Controls.Add(this.ReplaceBtn);
             this.Controls.Add(this.txtReplace);
             this.Controls.Add(this.txtFind);
@@ -295,7 +303,6 @@ namespace WikiFunctions.Controls
             this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.RegexTester_HelpButtonClicked);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RegexTester_KeyPress);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RegexTester_FormClosing);
-            this.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.RegexTester_HelpRequested);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -312,7 +319,7 @@ namespace WikiFunctions.Controls
         private System.Windows.Forms.TextBox txtFind;
         private System.Windows.Forms.TextBox txtReplace;
         private System.Windows.Forms.Button ReplaceBtn;
-        private System.Windows.Forms.TextBox Source;
+        private System.Windows.Forms.TextBox txtInput;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox ResultText;
         private System.Windows.Forms.TreeView Captures;
@@ -326,6 +333,7 @@ namespace WikiFunctions.Controls
         private System.Windows.Forms.CheckBox chkExplicitCapture;
         private System.Windows.Forms.CheckBox chkIgnoreCase;
         private System.Windows.Forms.CheckBox chkMultiline;
+        private System.Windows.Forms.ToolStripProgressBar progressBar;
     }
 }
 

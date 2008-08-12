@@ -26,12 +26,15 @@ using System.Text;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using WikiFunctions;
+using System.Threading;
 
 namespace WikiFunctions.Controls
 {
     public sealed partial class RegexTester : Form
     {
         private Regex NewLineRegex = new Regex("\n");
+
+        RegexRunner Runner;
 
         public RegexTester()
         {
@@ -70,11 +73,11 @@ namespace WikiFunctions.Controls
         }
 
 
-        #region Properties
+        #region Properties for external access
 
         public string ArticleText
         {
-            set { Source.Text = value; }
+            set { txtInput.Text = value; }
         }
 
         public string Find
@@ -138,17 +141,51 @@ namespace WikiFunctions.Controls
         public bool AskToApply = false;
         #endregion
 
+        bool Busy
+        {
+            get
+            {
+                return progressBar.Style == ProgressBarStyle.Marquee;
+            }
+            set
+            {
+                if (value)
+                {
+                    progressBar.Style = ProgressBarStyle.Marquee;
+                    progressBar.MarqueeAnimationSpeed = 100;
+                    Status.Text = "Processing (ESC to cancel)";
+                    FindBtn.Enabled = ReplaceBtn.Enabled = false;
+                }
+                else
+                {
+                    progressBar.Style = ProgressBarStyle.Blocks;
+                    progressBar.MarqueeAnimationSpeed = 0;
+                    Status.Text = "";
+                    ConditionsChanged(null, null); // update buttons
+                }
+            }
+        }
+
         private void ConditionsChanged(object sender, EventArgs e)
         {
-            bool enabled = (!string.IsNullOrEmpty(txtFind.Text) && !string.IsNullOrEmpty(Source.Text));
+            bool enabled = (!string.IsNullOrEmpty(txtFind.Text) && !string.IsNullOrEmpty(txtInput.Text));
             ReplaceBtn.Enabled = (!string.IsNullOrEmpty(txtReplace.Text) && enabled);
             FindBtn.Enabled = enabled;
         }
         
         private void KeyPressHandler(object sender, KeyPressEventArgs e)
-        { // all this to to "select all" <rolls eyes>
-            if (e.KeyChar == (char)1) // 1 = CTRL+A
-                ((TextBox)sender).SelectAll();
+        {
+            switch (e.KeyChar)
+            {
+                case (char)1: // CTRL+A
+                    // all this to to "select all" <rolls eyes>
+                    if (sender is TextBox)
+                        ((TextBox)sender).SelectAll();
+                    break;
+                case (char)27:
+                    AbortProcessing();
+                    break;
+            }
         }
 
         private RegexOptions Options
@@ -167,31 +204,23 @@ namespace WikiFunctions.Controls
 
         private void Replace_Click(object sender, EventArgs e)
         {
-            Captures.Nodes.Clear();
-            ResultText.Text = "";
-            Status.Text = "";
-            Source.Text = Source.Text.Replace("\r\n", "\n");
-
             try
             {
+                Captures.Nodes.Clear();
+                ResultText.Text = "";
+                Status.Text = "";
+                txtInput.Text = txtInput.Text.Replace("\r\n", "\n");
+                Busy = true;
+
                 Regex r = new Regex(txtFind.Text, Options);
 
-                ResultText.Text = r.Replace(Source.Text, txtReplace.Text.Replace("\\n", "\r\n"));
-                if (r.Matches(Source.Text).Count != 1)
-                    Status.Text = r.Matches(Source.Text).Count.ToString() + " replacements performed";
-                else
-                    Status.Text = "1 replacement performed";
-                Captures.Visible = false;
-                ResultText.Visible = true;
+                Runner = new RegexRunner(this, txtInput.Text, txtReplace.Text.Replace("\\n", "\r\n"), r);
             }
             catch (Exception ex)
             {
                 ErrorHandler(ex);
+                Busy = false;
             }
-
-            Source.Text = Source.Text.Replace("\n", "\r\n");
-            ResultText.Text = ResultText.Text.Replace("\r\n", "\n");
-            ResultText.Text = ResultText.Text.Replace("\n", "\r\n");
         }
 
         private void RegexTester_KeyPress(object sender, KeyPressEventArgs e)
@@ -199,7 +228,9 @@ namespace WikiFunctions.Controls
             if (e.KeyChar == 27) // Escape key
             {
                 e.Handled = true;
-                Close();
+
+                if (Busy) AbortProcessing();
+                else Close();
             }
         }
 
@@ -212,37 +243,19 @@ namespace WikiFunctions.Controls
                 ResultText.Text = "";
                 ResultText.Visible = false;
                 Status.Text = "";
+                Busy = true;
 
                 Regex r = new Regex(txtFind.Text, Options);
-                MatchCollection matches = r.Matches(Source.Text.Replace("\r\n", "\n"));
-                foreach (Match m in matches)
-                {
-                    TreeNode n = Captures.Nodes.Add("{" + ReplaceNewLines(m.Value) + "}");
-                    foreach (Group g in m.Groups)
-                    { // TODO: Is there any way to get the name of the group when explicit capture is on?
-                        if (g.Captures.Count > 1)
-                        {
-                            TreeNode nn = n.Nodes.Add("...");
-                            foreach (Capture c in g.Captures)
-                                nn.Nodes.Add("{" + ReplaceNewLines(c.Value) + "}");
-                        }
-                        else if (g.Captures.Count == 1)
-                            n.Nodes.Add(ReplaceNewLines("{" + g.Captures[0].Value) + "}");
-                    }
-                }
-                if (matches.Count == 0)
-                    Status.Text = "No matches";
-                else if (matches.Count == 1)
-                    Status.Text = "1 match found";
-                else
-                    Status.Text = matches.Count.ToString() + " matches found";
 
-
-                Captures.ExpandAll();
+                Runner = new RegexRunner(this, txtInput.Text, r);
             }
             catch (Exception ex)
             {
                 ErrorHandler(ex);
+                Busy = false;
+            }
+            finally
+            {
             }
         }
 
@@ -269,6 +282,7 @@ namespace WikiFunctions.Controls
 
         private void RegexTester_FormClosing(object sender, FormClosingEventArgs e)
         {
+            AbortProcessing();
             if(e.CloseReason != CloseReason.UserClosing || !AskToApply) return;
 
             switch (MessageBox.Show(this, "Do you want to apply your changes?", Text, MessageBoxButtons.YesNoCancel,
@@ -285,5 +299,167 @@ namespace WikiFunctions.Controls
                     break;
             }
         }
+
+        internal void RegexRunnerFinished(RegexRunner sender)
+        {
+            Busy = false;
+            Runner = null;
+
+            if (sender.Error != null)
+            {
+                Status.Text = "Error encountered durin processing";
+                MessageBox.Show(this, sender.Error.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(sender.Replace)) // find
+            {
+                foreach (Match m in sender.Matches)
+                {
+                    TreeNode n = Captures.Nodes.Add("{" + ReplaceNewLines(m.Value) + "}");
+                    foreach (Group g in m.Groups)
+                    { // TODO: Is there any way to get the name of the group when explicit capture is on?
+                        if (g.Captures.Count > 1)
+                        {
+                            TreeNode nn = n.Nodes.Add("...");
+                            foreach (Capture c in g.Captures)
+                                nn.Nodes.Add("{" + ReplaceNewLines(c.Value) + "}");
+                        }
+                        else if (g.Captures.Count == 1)
+                            n.Nodes.Add(ReplaceNewLines("{" + g.Captures[0].Value) + "}");
+                    }
+                }
+                if (sender.Matches.Count == 0)
+                    Status.Text = "No matches";
+                else if (sender.Matches.Count == 1)
+                    Status.Text = "1 match found";
+                else
+                    Status.Text = sender.Matches.Count.ToString() + " matches found";
+
+
+                Captures.ExpandAll();
+            }
+            else // replace
+            {
+                ResultText.Text = sender.Result;
+                if (sender.Matches.Count != 1)
+                    Status.Text = sender.Matches.Count.ToString() + " replacements performed";
+                else
+                    Status.Text = "1 replacement performed";
+
+                Captures.Visible = false;
+                ResultText.Visible = true;
+
+                txtInput.Text = txtInput.Text.Replace("\n", "\r\n");
+                ResultText.Text = ResultText.Text.Replace("\r\n", "\n");
+                ResultText.Text = ResultText.Text.Replace("\n", "\r\n");
+            }
+        }
+
+        void AbortProcessing()
+        {
+            Busy = false;
+            if (Runner == null) return;
+
+            Runner.Abort();
+            Runner = null;
+            Status.Text = "Processing aborted";
+        }
+    }
+
+
+    internal delegate void RegexRunnerFinishedDelegate(RegexRunner sender);
+
+    internal class RegexRunner
+    {
+        // in
+        public string Input;
+        public string Replace;
+        public Regex _Regex;
+
+        // out
+        public string Result;
+        public MatchCollection Matches;
+        public Exception Error;
+
+        // private
+        Thread Thr;
+        RegexTester Parent;
+
+        public RegexRunner(RegexTester parent, string input, Regex regex)
+            : this(parent, input, null, regex)
+        { }
+
+        public RegexRunner(RegexTester parent, string input, string replace, Regex regex)
+        {
+            Parent = parent;
+            Input = input;
+            Replace = replace;
+            _Regex = regex;
+
+            Thr = new Thread(new ThreadStart(ThreadFunc));
+            Thr.Priority = ThreadPriority.BelowNormal;
+            Thr.Name = "RegexRunner";
+            Thr.Start();
+        }
+
+        public void Abort()
+        {
+            if (Thr != null)
+                Thr.Abort();
+        }
+
+        void ThreadFunc()
+        {
+            try
+            {
+                Matches = _Regex.Matches(Input);
+
+                foreach (Match m in Matches) ; // force matches to actually run
+
+                if (!string.IsNullOrEmpty(Replace))
+                    Result = _Regex.Replace(Input, Replace);
+            }
+            catch (Exception ex)
+            {
+                Error = ex;
+            }
+            finally
+            {
+                if (Error == null || !(Error is ThreadAbortException))
+                    Parent.Invoke(new RegexRunnerFinishedDelegate(Parent.RegexRunnerFinished), this);
+            }
+        }
     }
 }
+
+/*
+ * To test regex hangup:
+
+ * Check IgnoreCase, Singleline and ExplicitCapture
+
+ * Find:
+
+\{\{\s*(?<tl>template *:)?\s*(?<tlname>WikiProject ?Banner ?Shell|WPBS)\b\s*(?<start>\|[^1]*=.*)*\s*\|\s*1\s*=\s*(?<body>.*}}[^{]*?)\s*(?<end>\|[^{]*)?\s*}}
+
+ * Input:
+
+{{WikiProjectBannerShell |blp=yes |1=
+{{WikiProject Illinois |class=Start |nested=yes |importance=Low}}
+{{ChicagoWikiProject |class=Start |importance=Low |nested=yes}}
+{{Baseball-WikiProject |class=start |nested=yes}}
+{{WikiProject Boston Red Sox
+ |class=Start
+ |importance=Low
+ |needs-infobox=No
+ |needs-photo=Yes
+ |attention=
+ |auto=
+ |nested=yes
+}}
+{{WPBiography|living=no|class=Start|priority=|sports-work-group=yes|listas=Magadan, Dave|nested=yes|activepol=yes|non-bio=yes|politician-work-group=yes}}
+{{WikiProject Texas |class=Start |importance=Low |nested=yes}}
+}}
+
+
+**/
