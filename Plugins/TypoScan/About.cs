@@ -20,12 +20,6 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             lblToUpload.Text = TypoScanAWBPlugin.EditAndIgnoredPages.ToString();
         }
 
-        private void linkReedy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            linkReedy.LinkVisited = true;
-            Tools.OpenENArticleInBrowser("Reedy", true);
-        }
-
         private void linkMboverload_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkMboverload.LinkVisited = true;
@@ -47,12 +41,6 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         private void okButton_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void linkMaxSem_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            linkMaxSem.LinkClicked = true;
-            Tools.OpenENArticleInBrowser("Reedy", true);
         }
     }
 }
