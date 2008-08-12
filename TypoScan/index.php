@@ -276,7 +276,7 @@
 	
 	function ReturnError(string $message, $error = false)
 	{
-		$attribs = array(array('status' => 'failed');
+		$attribs = array(array('status' => 'failed'));
 		if ($error)
 			$attribs['error'] = $error;
 
