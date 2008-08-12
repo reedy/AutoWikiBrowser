@@ -46,7 +46,10 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label7 = new System.Windows.Forms.Label();
             this.lblToUpload = new System.Windows.Forms.Label();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.linkMaxSem = new System.Windows.Forms.LinkLabel();
             this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // okButton
@@ -63,7 +66,7 @@
             // linkReedy
             // 
             this.linkReedy.AutoSize = true;
-            this.linkReedy.Location = new System.Drawing.Point(132, 24);
+            this.linkReedy.Location = new System.Drawing.Point(3, 0);
             this.linkReedy.Name = "linkReedy";
             this.linkReedy.Size = new System.Drawing.Size(38, 13);
             this.linkReedy.TabIndex = 33;
@@ -110,9 +113,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(3, 24);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(62, 13);
+            this.label1.Size = new System.Drawing.Size(67, 13);
             this.label1.TabIndex = 37;
-            this.label1.Text = "Developer: ";
+            this.label1.Text = "Developers: ";
             // 
             // label2
             // 
@@ -196,13 +199,13 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 51.5873F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 48.4127F));
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.label7, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this.linkMboverload, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.lblLoaded, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.lblUploaded, 1, 5);
             this.tableLayoutPanel1.Controls.Add(this.lblSaved, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.lblSkipped, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.linkReedy, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.label6, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 1);
@@ -241,6 +244,31 @@
             this.lblToUpload.Size = new System.Drawing.Size(0, 13);
             this.lblToUpload.TabIndex = 48;
             // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.linkMaxSem, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.linkReedy, 0, 0);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(132, 27);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(113, 17);
+            this.tableLayoutPanel2.TabIndex = 48;
+            // 
+            // linkMaxSem
+            // 
+            this.linkMaxSem.AutoSize = true;
+            this.linkMaxSem.Location = new System.Drawing.Point(59, 0);
+            this.linkMaxSem.Name = "linkMaxSem";
+            this.linkMaxSem.Size = new System.Drawing.Size(48, 13);
+            this.linkMaxSem.TabIndex = 34;
+            this.linkMaxSem.TabStop = true;
+            this.linkMaxSem.Text = "MaxSem";
+            this.linkMaxSem.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkMaxSem_LinkClicked);
+            // 
             // About
             // 
             this.AcceptButton = this.okButton;
@@ -260,6 +288,8 @@
             this.Text = "About";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -285,5 +315,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label lblToUpload;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.LinkLabel linkMaxSem;
     }
 }

@@ -48,5 +48,11 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         {
             this.Close();
         }
+
+        private void linkMaxSem_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            linkMaxSem.LinkClicked = true;
+            Tools.OpenENArticleInBrowser("Reedy", true);
+        }
     }
 }
