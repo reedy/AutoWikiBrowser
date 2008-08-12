@@ -40,7 +40,7 @@ namespace WikiFunctions.Controls
         void DeveloperLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             this.LinkVisited = true;
-            Tools.OpenENArticleInBrowser("Reedy", true);
+            Tools.OpenENArticleInBrowser(this.Text, true);
         }
 
         Developers dev = Developers.Bluemoose;
