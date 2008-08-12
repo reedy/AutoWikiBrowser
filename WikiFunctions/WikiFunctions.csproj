@@ -108,9 +108,6 @@
     <Compile Include="Controls\ListBox2.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\ListBox2.designer.cs">
-      <DependentUpon>ListBox2.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\MoveDeleteDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -205,9 +202,6 @@
     </Compile>
     <Compile Include="Controls\NoFlickerListView.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\NoFlickerListView.Designer.cs">
-      <DependentUpon>NoFlickerListView.cs</DependentUpon>
     </Compile>
     <Compile Include="Options.cs" />
     <Compile Include="Parsers.cs" />
