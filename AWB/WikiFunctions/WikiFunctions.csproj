@@ -87,6 +87,9 @@
     <Compile Include="Controls\ArticleTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\DeveloperLinkLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Help.cs">
       <SubType>Form</SubType>
     </Compile>

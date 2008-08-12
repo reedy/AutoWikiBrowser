@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.okButton = new System.Windows.Forms.Button();
-            this.linkReedy = new System.Windows.Forms.LinkLabel();
             this.linkMboverload = new System.Windows.Forms.LinkLabel();
             this.linkTypoScanPage = new System.Windows.Forms.LinkLabel();
             this.linkStats = new System.Windows.Forms.LinkLabel();
@@ -44,10 +43,11 @@
             this.label6 = new System.Windows.Forms.Label();
             this.lblUploaded = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label7 = new System.Windows.Forms.Label();
             this.lblToUpload = new System.Windows.Forms.Label();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.linkMaxSem = new System.Windows.Forms.LinkLabel();
+            this.ReedyLabel = new WikiFunctions.Controls.DeveloperLinkLabel();
+            this.MaxSemLabel = new WikiFunctions.Controls.DeveloperLinkLabel();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -62,17 +62,6 @@
             this.okButton.TabIndex = 32;
             this.okButton.Text = "&OK";
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
-            // 
-            // linkReedy
-            // 
-            this.linkReedy.AutoSize = true;
-            this.linkReedy.Location = new System.Drawing.Point(3, 0);
-            this.linkReedy.Name = "linkReedy";
-            this.linkReedy.Size = new System.Drawing.Size(38, 13);
-            this.linkReedy.TabIndex = 33;
-            this.linkReedy.TabStop = true;
-            this.linkReedy.Text = "Reedy";
-            this.linkReedy.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkReedy_LinkClicked);
             // 
             // linkMboverload
             // 
@@ -227,6 +216,20 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(252, 169);
             this.tableLayoutPanel1.TabIndex = 47;
             // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.MaxSemLabel, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.ReedyLabel, 0, 0);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(132, 27);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(113, 17);
+            this.tableLayoutPanel2.TabIndex = 48;
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -244,30 +247,27 @@
             this.lblToUpload.Size = new System.Drawing.Size(0, 13);
             this.lblToUpload.TabIndex = 48;
             // 
-            // tableLayoutPanel2
+            // ReedyLabel
             // 
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.linkMaxSem, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.linkReedy, 0, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(132, 27);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(113, 17);
-            this.tableLayoutPanel2.TabIndex = 48;
+            this.ReedyLabel.AutoSize = true;
+            this.ReedyLabel.Location = new System.Drawing.Point(3, 0);
+            this.ReedyLabel.Name = "ReedyLabel";
+            this.ReedyLabel.Size = new System.Drawing.Size(38, 13);
+            this.ReedyLabel.TabIndex = 35;
+            this.ReedyLabel.TabStop = true;
+            this.ReedyLabel.Text = "Reedy";
+            this.ReedyLabel.WhichDeveloper = WikiFunctions.Controls.Developers.Reedy;
             // 
-            // linkMaxSem
+            // MaxSemLabel
             // 
-            this.linkMaxSem.AutoSize = true;
-            this.linkMaxSem.Location = new System.Drawing.Point(59, 0);
-            this.linkMaxSem.Name = "linkMaxSem";
-            this.linkMaxSem.Size = new System.Drawing.Size(48, 13);
-            this.linkMaxSem.TabIndex = 34;
-            this.linkMaxSem.TabStop = true;
-            this.linkMaxSem.Text = "MaxSem";
-            this.linkMaxSem.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkMaxSem_LinkClicked);
+            this.MaxSemLabel.AutoSize = true;
+            this.MaxSemLabel.Location = new System.Drawing.Point(59, 0);
+            this.MaxSemLabel.Name = "MaxSemLabel";
+            this.MaxSemLabel.Size = new System.Drawing.Size(48, 13);
+            this.MaxSemLabel.TabIndex = 36;
+            this.MaxSemLabel.TabStop = true;
+            this.MaxSemLabel.Text = "MaxSem";
+            this.MaxSemLabel.WhichDeveloper = WikiFunctions.Controls.Developers.MaxSem;
             // 
             // About
             // 
@@ -298,7 +298,6 @@
         #endregion
 
         private System.Windows.Forms.Button okButton;
-        private System.Windows.Forms.LinkLabel linkReedy;
         private System.Windows.Forms.LinkLabel linkMboverload;
         private System.Windows.Forms.LinkLabel linkTypoScanPage;
         private System.Windows.Forms.LinkLabel linkStats;
@@ -316,6 +315,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label lblToUpload;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.LinkLabel linkMaxSem;
+        private WikiFunctions.Controls.DeveloperLinkLabel MaxSemLabel;
+        private WikiFunctions.Controls.DeveloperLinkLabel ReedyLabel;
     }
 }
