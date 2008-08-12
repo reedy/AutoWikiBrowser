@@ -55,36 +55,6 @@ namespace AutoWikiBrowser
             this.Close();
         }
 
-        private void linkBluemoose_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            linkBluemoose.LinkVisited = true;
-            Tools.OpenENArticleInBrowser("Bluemoose", true);
-        }
-
-        private void linkLigulem_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            linkLigulem.LinkVisited = true;
-            Tools.OpenENArticleInBrowser("Ligulem", true);
-        }
-
-        private void linkMaxSem_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            linkMaxSem.LinkVisited = true;
-            Tools.OpenENArticleInBrowser("MaxSem", true);
-        }
-
-        private void linkReedy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            linkReedy.LinkVisited = true;
-            Tools.OpenENArticleInBrowser("Reedy", true);
-        }
-
-        private void linkKingboy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            linkKingboy.LinkVisited = true;
-            Tools.OpenENArticleInBrowser("Kingboyk", true);
-        }
-
         private void linkAWBPage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             linkAWBPage.LinkVisited = true;

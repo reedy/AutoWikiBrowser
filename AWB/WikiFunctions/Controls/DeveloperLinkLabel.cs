@@ -27,7 +27,7 @@ using System.Windows.Forms;
 
 namespace WikiFunctions.Controls
 {
-    public enum Developers { Kingboyk, Reedy, MaxSem }
+    public enum Developers { Bluemoose, Kingboyk, Ligulem, Reedy, MaxSem }
     public partial class DeveloperLinkLabel : LinkLabel
     {
         public DeveloperLinkLabel()
@@ -43,9 +43,9 @@ namespace WikiFunctions.Controls
             Tools.OpenENArticleInBrowser("Reedy", true);
         }
 
-        Developers dev = Developers.Kingboyk;
+        Developers dev = Developers.Bluemoose;
 
-        [DefaultValue(Developers.Kingboyk), Category("Appearance")]
+        [DefaultValue(Developers.Bluemoose), Category("Appearance")]
         [Browsable(true)]
         public Developers WhichDeveloper
         {
