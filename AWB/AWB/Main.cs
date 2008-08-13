@@ -1137,10 +1137,11 @@ namespace AutoWikiBrowser
                 {
                     theArticle.PerformFindAndReplace(findAndReplace, substTemplates, replaceSpecial,
                         chkSkipWhenNoFAR.Checked);
+
+                    Variables.Profiler.Profile("F&R");
+
                     if (theArticle.SkipArticle) return;
                 }
-
-                Variables.Profiler.Profile("F&R");
 
                 // RegexTypoFix
                 if (chkRegExTypo.Checked && RegexTypos != null && !BotMode && !Tools.IsTalkPage(theArticle.NameSpaceKey))
@@ -1268,7 +1269,6 @@ namespace AutoWikiBrowser
             {
                 webBrowserDiff.BringToFront();
                 webBrowserDiff.Document.OpenNew(false);
-
                 if (TheArticle.OriginalArticleText == txtEdit.Text)
                 {
                     webBrowserDiff.Document.Write(@"<h2 style='padding-top: .5em;
