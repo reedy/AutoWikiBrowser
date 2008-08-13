@@ -7,6 +7,7 @@ using System.IO;
 
 namespace UnitTests
 {
+    /*
     [TestFixture]
     public class SiteInfoTests
     {
@@ -49,4 +50,5 @@ namespace UnitTests
             c.SaveCache();
         }
     }
+     * */
 }
