@@ -25,49 +25,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 	<title><?php echo $title; ?></title>
-	<style type="text/css">
-		BODY, .default  {
-			font-size : 12pt;
-			font-family : Arial, Courier, Helvetica;
-			color : Black;
-		}
-		
-		a:link  {
-			color : blue;
-			text-decoration : none;
-		}
-		
-		A:visited {
-			color : purple;
-			text-decoration : none;
-		}
-		
-		a:hover  {
-			color : #D79C02;
-			text-decoration : underline;
-		}
-		
-		table, caption {
-			width : 700px;
-		}
-		
-		table, caption, th, td {
-			border-width : 1px;
-			border-style : solid;		
-		}
-		
-		caption {
-			border-bottom-width : 0px;
-			font-weight : bold;
-		}
-		
-		TH.sortable {
-			cursor : pointer;
-		}
-	</style>
+	<style type="text/css" media="all">@import "main.css";</style>
 	<script src="sorttable.js" type="text/javascript"></script>
-	</head>
-	<body><?php
+</head>
+<body><?php
 	}
 	
 	function Tail()

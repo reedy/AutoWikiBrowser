@@ -11,7 +11,7 @@ CREATE TABLE  `articles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `skippedreason`;
-CREATE TABLE `typoscan`.`skippedreason` (
+CREATE TABLE `skippedreason` (
   `skipid` int(10) unsigned NOT NULL auto_increment,
   `skipreason` varchar(50) default NULL,
   PRIMARY KEY  (`skipid`)
@@ -20,7 +20,7 @@ CREATE TABLE `typoscan`.`skippedreason` (
 INSERT INTO `skippedreason`(`skipreason`) VALUES ('Clicked ignore'), ('No change'), ('Non-existent page'), ('No typo fixes');
 
 DROP TABLE IF EXISTS `users`;
-CREATE TABLE `typoscan`.`users` (
+CREATE TABLE `users` (
   `userid` int(10) unsigned NOT NULL auto_increment,
   `username` varchar(50) default NULL,
   PRIMARY KEY (`userid`)
