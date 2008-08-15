@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS `typoscan`.`articles`;
-CREATE TABLE  `typoscan`.`articles` (
+DROP TABLE IF EXISTS `articles`;
+CREATE TABLE  `articles` (
   `articleid` int(10) unsigned NOT NULL auto_increment,
   `title` blob NOT NULL,
   `checkedout` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -10,16 +10,16 @@ CREATE TABLE  `typoscan`.`articles` (
   PRIMARY KEY  (`articleid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `typoscan`.`skippedreason`;
+DROP TABLE IF EXISTS `skippedreason`;
 CREATE TABLE `typoscan`.`skippedreason` (
   `skipid` int(10) unsigned NOT NULL auto_increment,
   `skipreason` varchar(50) default NULL,
   PRIMARY KEY  (`skipid`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `typoscan`.`skippedreason`(`skipreason`) VALUES ('Clicked ignore'), ('No change'), ('Non-existent page'), ('No typo fixes');
+INSERT INTO `skippedreason`(`skipreason`) VALUES ('Clicked ignore'), ('No change'), ('Non-existent page'), ('No typo fixes');
 
-DROP TABLE IF EXISTS `typoscan`.`users`;
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `typoscan`.`users` (
   `userid` int(10) unsigned NOT NULL auto_increment,
   `username` varchar(50) default NULL,
