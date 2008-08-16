@@ -327,10 +327,6 @@
       <Project>{3843A310-3E53-40E1-8276-5ADF988CBA6C}</Project>
       <Name>IFD</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Plugins\Kingbotk\AWB Plugin\Kingbotk Plugin.vbproj">
-      <Project>{70AF6097-1ED6-475C-878E-A0BAEDB705F6}</Project>
-      <Name>Kingbotk Plugin</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Plugins\Server\Server Plugin.csproj">
       <Project>{9AF2D0F6-4ADA-4029-B2B4-28480E56EF0C}</Project>
       <Name>Server Plugin</Name>
