@@ -282,6 +282,7 @@ namespace WikiFunctions.DBScanner
             this.tableLayoutPanel3.SetColumnSpan(this.txtArticleDoesContain, 2);
             this.txtArticleDoesContain.Enabled = false;
             this.txtArticleDoesContain.Location = new System.Drawing.Point(98, 3);
+            this.txtArticleDoesContain.MaxLength = 0;
             this.txtArticleDoesContain.Name = "txtArticleDoesContain";
             this.txtArticleDoesContain.Size = new System.Drawing.Size(171, 20);
             this.txtArticleDoesContain.TabIndex = 1;
@@ -303,6 +304,7 @@ namespace WikiFunctions.DBScanner
             this.tableLayoutPanel3.SetColumnSpan(this.txtArticleDoesNotContain, 2);
             this.txtArticleDoesNotContain.Enabled = false;
             this.txtArticleDoesNotContain.Location = new System.Drawing.Point(98, 29);
+            this.txtArticleDoesNotContain.MaxLength = 0;
             this.txtArticleDoesNotContain.Name = "txtArticleDoesNotContain";
             this.txtArticleDoesNotContain.Size = new System.Drawing.Size(171, 20);
             this.txtArticleDoesNotContain.TabIndex = 3;
