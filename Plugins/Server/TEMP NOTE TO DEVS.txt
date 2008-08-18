@@ -1,8 +1,6 @@
-I'm doing this as preparation for starting a new programming job soon, so please don't try and be
-kind and finish it for me - or at least certainly not the Windows Mobile client as it's that I
-really want to get grips with.
+I don't have time to work on this at the moment so feel free to work on it if you want to.
 
-Cheers,
+I *do* intend to come back to AWB development once I've cleared my personal todo list.
 
 Steve
-(will be away from AWB for a week or so)
+kingboyk
