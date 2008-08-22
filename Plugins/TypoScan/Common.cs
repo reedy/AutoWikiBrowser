@@ -21,19 +21,20 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         public static string CheckOperation(string xml)
         {
-            XmlTextReader r = new XmlTextReader(new StringReader(xml));
+            using (XmlTextReader r = new XmlTextReader(new StringReader(xml)))
+            {
+                if (!r.ReadToFollowing("operation"))
+                    return "xml";
 
-            if (!r.ReadToFollowing("operation"))
-                return "xml";
+                if (r.GetAttribute("status") == "success")
+                    return null;
 
-            if (r.GetAttribute("status") == "success")
-                return null;
-
-            string s = r.GetAttribute("error");
-            if (!string.IsNullOrEmpty(s))
-                return s;
-            else
-                return r.ReadString();
+                string s = r.GetAttribute("error");
+                if (!string.IsNullOrEmpty(s))
+                    return s;
+                else
+                    return r.ReadString();
+            }
         }
     }
 }
