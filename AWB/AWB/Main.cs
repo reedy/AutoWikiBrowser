@@ -94,6 +94,8 @@ namespace AutoWikiBrowser
         private static bool skippable = true;
         private static FormWindowState LastState = FormWindowState.Normal; // doesn't look like we can use RestoreBounds for this - any other built in way?
 
+        private ArticleRedirected ArticleWasRedirected;
+
         private ListComparer listComparer;
         private ListSplitter splitter;
 
@@ -622,6 +624,8 @@ namespace AutoWikiBrowser
                     SkipPage("Recursive redirect");
                     return;
                 }
+                if (ArticleWasRedirected != null)
+                    ArticleWasRedirected(TheArticle.Name, redirect.Name);
 
                 listMaker.ReplaceArticle(TheArticle, new Article(redirect.Name));
                 TheArticle = new ArticleEX(redirect.Name);

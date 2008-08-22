@@ -31,6 +31,8 @@ using System.Globalization;
 
 namespace WikiFunctions
 {
+                        public delegate void ArticleRedirected(string oldTitle, string newTitle);
+
     /// <summary>
     /// A class which represents a wiki article
     /// </summary>

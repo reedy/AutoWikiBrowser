@@ -55,6 +55,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             AWB = sender;
             AWB.LogControl.LogAdded += new WikiFunctions.Logging.LogControl.LogAddedToControl(LogControl_LogAdded);
             AWB.AddMainFormClosingEventHandler(new FormClosingEventHandler(UploadFinishedArticlesToServer));
+            AWB.AddArticleRedirectedEventHandler(new ArticleRedirected(ArticleRedirected));
 
             pluginMenuItem.DropDownItems.Add(pluginUploadMenuItem);
             pluginMenuItem.DropDownItems.Add(pluginReAddArticlesMenuItem);
@@ -67,6 +68,16 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
             aboutMenuItem.Click += new EventHandler(aboutMenuItem_Click);
             sender.HelpToolStripMenuItem.DropDownItems.Add(aboutMenuItem);
+        }
+
+        private void ArticleRedirected(string oldTitle, string newTitle)
+        {
+            int id;
+            if (PageList.TryGetValue(oldTitle, out id))
+            {
+                PageList.Remove(oldTitle);
+                PageList.Add(newTitle, id);
+            }
         }
 
         private void pluginReAddArticlesMenuItem_Click(object sender, EventArgs e)
@@ -90,10 +101,9 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         private void LogControl_LogAdded(bool Skipped, WikiFunctions.Logging.AWBLogListener LogListener)
         {
-            if ((PageList.Count > 0) && (PageList.ContainsKey(LogListener.ArticleTitle)))
+            int articleID;
+            if ((PageList.Count > 0) && (PageList.TryGetValue(LogListener.Text, out articleID)))
             {
-                int articleID;
-                PageList.TryGetValue(LogListener.Text, out articleID);
                 if (Skipped)
                 {
                     SkippedPages.Add(articleID.ToString());
@@ -196,7 +206,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             try
             {
                 string result = Tools.PostData(postVars, Common.GetUrlFor("finished"));
-                if (!string.IsNullOrEmpty(Common.CheckOperation(result)))
+                if (string.IsNullOrEmpty(Common.CheckOperation(result)))
                 {
                     UploadedThisSession += editsAndIgnored;
                     SavedPages.Clear();
