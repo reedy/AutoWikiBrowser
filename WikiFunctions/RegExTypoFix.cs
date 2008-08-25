@@ -207,7 +207,7 @@ namespace WikiFunctions.Parse
         internal static void TypoError(string error)
         {
             MessageBox.Show(error + "\r\n\r\nPlease visit the typo page at " + Variables.RETFPath +
-                " and fix this error, then click 'Advanced --> Refresh status/typos' menu item to reload typos.",
+                " and fix this error, then click 'File → Refresh status/typos' menu item to reload typos.",
                 "RegexTypoFix error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
