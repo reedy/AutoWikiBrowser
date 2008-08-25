@@ -835,6 +835,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 return regexMainArticle.Replace(ArticleText, "{{main|$1|l1=$3}}");
         }
 
+        static Regex emptyTemplate = new Regex(@"{{[|\s]*}}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
         // NOT covered
         /// <summary>
         /// Removes Empty Links and Template Links
@@ -848,7 +850,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string img = Variables.Namespaces[6];
 
             Regex emptyLink = new Regex("\\[\\[(:?" + cat + "|" + img + "|)(|" + img + "|" + cat + "|.*?)\\]\\]", RegexOptions.IgnoreCase);
-            Regex emptyTemplate = new Regex(@"{{[|\s]*}}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
             string trim;
 
