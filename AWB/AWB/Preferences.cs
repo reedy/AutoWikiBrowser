@@ -135,6 +135,8 @@ namespace AutoWikiBrowser
                 lblLang.Text = "http://";
                 if (prj == ProjectEnum.wikia) lblPostfix.Text = ".wikia.com";
                 cmboCustomProjectChanged(null, null);
+
+                chkSupressAWB.Enabled = true;
             }
             else
             {
@@ -142,9 +144,8 @@ namespace AutoWikiBrowser
                 cmboLang.Visible = true;
                 lblLang.Text = "Language:";
                 btnOK.Enabled = true;
+                chkSupressAWB.Enabled = false;
             }
-
-            chkSupressAWB.Enabled = (prj == ProjectEnum.custom || prj == ProjectEnum.wikia);
         }
 
         private void cmboCustomProjectChanged(object sender, EventArgs e)
