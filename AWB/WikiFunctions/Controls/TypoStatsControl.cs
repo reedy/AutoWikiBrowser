@@ -265,6 +265,7 @@ namespace WikiFunctions.Controls
     public class TypoStatsListViewItem : ListViewItem
     {
         public TypoStat Typo;
+        bool isYellow;
 
         public TypoStatsListViewItem(TypoStat stat)
             : base(new string[] { stat.Find, stat.Replace, "", "" })
@@ -278,6 +279,17 @@ namespace WikiFunctions.Controls
         {
             SubItems[2].Text = Typo.Total.ToString();
             SubItems[3].Text = Typo.SelfMatches.ToString();
+
+            if ((Typo.Total == Typo.SelfMatches) && !isYellow)
+            {
+                this.BackColor = System.Drawing.Color.Yellow;
+                isYellow = true;
+            }
+            else if (isYellow)
+            {
+                this.BackColor = System.Drawing.Color.White;
+                isYellow = false;
+            }
         }
     }
 }
