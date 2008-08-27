@@ -98,7 +98,7 @@
 			$wiki = @$_GET['wiki'];
 			if ($wiki != 'en.wikipedia.org') ReturnError('This project is not supported', 'project');
 
-			$query = 'SELECT articleid, title FROM articles WHERE (checkedout < DATE_SUB(NOW(), INTERVAL 2 HOUR)) AND (userid = 0) LIMIT 100';
+			$query = 'SELECT articleid, title FROM articles WHERE (checkedout < DATE_SUB(NOW(), INTERVAL 3 HOUR)) AND (userid = 0) LIMIT 100';
 			
 			$result=mysql_query($query) or die ('Error: '.mysql_error());
 			
@@ -158,7 +158,7 @@
 				($totalArticles ? round( ((($finishedArticles + $ignoredArticles)/$totalArticles) * 100),2) : '0') .'%');
 			
 			//Number of currently checked out articles
-			$query = "SELECT COUNT(articleid) AS nocheckedout FROM articles WHERE (checkedout >= DATE_SUB(NOW(), INTERVAL 2 HOUR)) AND (userid = 0)";
+			$query = "SELECT COUNT(articleid) AS nocheckedout FROM articles WHERE (checkedout >= DATE_SUB(NOW(), INTERVAL 3 HOUR)) AND (userid = 0)";
 			$result=mysql_fetch_array(mysql_query($query));
 			PrintTableRow("Number of Currently Checked Out Articles", $result['nocheckedout']);
 			
