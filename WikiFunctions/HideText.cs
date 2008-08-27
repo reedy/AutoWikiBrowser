@@ -124,7 +124,7 @@ namespace WikiFunctions.Parse
         #region More thorough hiding
         List<HideObject> MoreHide = new List<HideObject>(32);
 
-        void ReplaceMore(ICollection matches, ref string ArticleText)
+        private void ReplaceMore(ICollection matches, ref string ArticleText)
         {
             string s = "";
 
@@ -167,6 +167,8 @@ namespace WikiFunctions.Parse
             ReplaceMore(WikiRegexes.Blockquote.Matches(ArticleText), ref ArticleText);
 
             ReplaceMore(WikiRegexes.Source.Matches(ArticleText), ref ArticleText);
+
+            ReplaceMore(WikiRegexes.Code.Matches(ArticleText), ref ArticleText);
 
             if (HideExternalLinks) ReplaceMore(WikiRegexes.ExternalLinks.Matches(ArticleText), ref ArticleText);
 
