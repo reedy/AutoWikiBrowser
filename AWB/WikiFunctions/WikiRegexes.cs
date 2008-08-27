@@ -216,7 +216,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches <blockquote> tags
         /// </summary>
-        public static readonly Regex Blockquote = new Regex(@"< ?blockquote ?>(.*?)< ?/ ?blockquote ?>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+        public static readonly Regex Blockquote = new Regex(@"<\s*blockquote\s*>(.*?)<\s*/\s*lockquote\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
         /// Matches redirects
@@ -238,6 +238,11 @@ namespace WikiFunctions
         /// Matches <source></source> tags
         /// </summary>
         public static readonly Regex Source = new Regex(@"<\s*source(?:\s.*?|)>(.*?)<\s*/\s*source\s*>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+        /// <summary>
+        /// Matches <code></code> tags
+        /// </summary>
+        public static readonly Regex Code = new Regex(@"<\s*code\s*>(.*?)<\s*/\s*code\s*>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
         /// Matches Dates like 21 January
