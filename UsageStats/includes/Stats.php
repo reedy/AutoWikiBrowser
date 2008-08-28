@@ -96,32 +96,32 @@ function htmlstats(){
 	
 	//Number of sessions, Number of saves,
 	$row = $db->no_of_sessions_and_saves();
-	PrintTableRow('Number of Sessions', $row['nosessions']);
-	PrintTableRow('Total Number of Saves', $row['totalsaves']);
+	PrintTableRow('Number of Sessions', FormatNumber($row['nosessions']));
+	PrintTableRow('Total Number of Saves', FormatNumber($row['totalsaves']));
 
 	// Number of wikis
 	$row = $db->wiki_count();
-	PrintTableRow('Number of Wiki Sites', $row['Wikis']);
+	PrintTableRow('Number of Wiki Sites', FormatNumber($row['Wikis']));
 
 	// Username count
 	$row = $db->username_count();
-	PrintTableRow('Number of Usernames Known', $row['usercount']);
+	PrintTableRow('Number of Usernames Known', FormatNumber($row['usercount']));
 
 	//Unique users count (username/wiki)
 	$row = $db->unique_username_count();
-	PrintTableRow('Number of Unique Users<sup><a href="#1">1</a></sup>', $row['UniqueUsersCount']);
+	PrintTableRow('Number of Unique Users<sup><a href="#1">1</a></sup>', FormatNumber($row['UniqueUsersCount']));
 	
 	//Number of plugins known
 	$row = $db->plugin_count();
-	PrintTableRow('Number of Plugins Known', $row['Plugins']);
+	PrintTableRow('Number of Plugins Known', FormatNumber($row['Plugins']));
 
 	// Number of log entries
 	$row = $db->db_mysql_query_single_row('SELECT COUNT(DISTINCT LogID) as LogIDCount FROM log', 'htmlstats', 'Stats'); // note: we'll only display this on this web page, hence doing it here
-	PrintTableRow('Number of Log Entries', $row['LogIDCount']);
+	PrintTableRow('Number of Log Entries', FormatNumber($row['LogIDCount']));
 
 	// Record count
 	$row = $db->record_count();
-	PrintTableRow('Total Number of Records in Database', $row['RecordCount']);
+	PrintTableRow('Total Number of Records in Database', FormatNumber($row['RecordCount']));
 
 	//Sessions & Saves per sites
 	echo '
@@ -148,8 +148,8 @@ function htmlstats(){
 
 	<tr>
 		<td>'.$site.'</td>
-		<td>'.$row['CountOfSessionID'].'</td>
-		<td>'.$row['SumOfSaves'].'</td>
+		<td>'.FormatNumber($row['CountOfSessionID']).'</td>
+		<td>'.FormatNumber($row['SumOfSaves']).'</td>
 	</tr>
 ';
 	}
@@ -183,7 +183,7 @@ function htmlstats(){
 	<tr>
 		<td>'.$row['Language'].'</td>
 		<td>'.$row['Country'].'</td>
-		<td>'.$row['SumOfSaves'].'</td>
+		<td>'.FormatNumber($row['SumOfSaves']).'</td>
 	</tr>
 ';
 	}
@@ -208,8 +208,8 @@ function htmlstats(){
 </thead>
 	<tr>
 		<td>'.$site.'</td>
-		<td>'.$row['LangCode'].'</td>
-		<td>'.$row['SumOfSaves'].'</td>
+		<td>'.FormatNumber($row['LangCode']).'</td>
+		<td>'.FormatNumber($row['SumOfSaves']).'</td>
 	</tr>
 ';
 
@@ -309,8 +309,8 @@ function OS_XHTML($result, $headersuffix) {
 
 	<tr>
 		<td>'.$row['OS'].'</td>
-		<td>'.$row['CountOfSessionID'].'</td>
-		<td>'.$row['SumOfSaves'].'</td>
+		<td>'.FormatNumber($row['CountOfSessionID']).'</td>
+		<td>'.FormatNumber($row['SumOfSaves']).'</td>
 	</tr>
 ';
 	}
@@ -355,6 +355,11 @@ function PluginType($plugintype)
 		default:
 			return "unknown";
 	}
+}
+
+function FormatNumber($num)
+{
+	return number_format($num, 0, '.', ',');
 }
 
 function PrintTableRow($header, $data) {
