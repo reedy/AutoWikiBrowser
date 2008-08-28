@@ -133,25 +133,25 @@
 			$query = "SELECT COUNT(articleid) AS noarticles FROM articles";
 			$result=mysql_fetch_array(mysql_query($query));
 			$totalArticles = $result['noarticles'];
-			PrintTableRow("Number of Articles", $totalArticles);
+			PrintTableRow("Number of Articles", FormatNumber($totalArticles));
 			
 			//Number of finished articles
 			$query = "SELECT COUNT(articleid) AS nofinished FROM articles WHERE (finished = 1)";
 			$result=mysql_fetch_array(mysql_query($query));
 			$finishedArticles = $result['nofinished'];
-			PrintTableRow("Number of Finished Articles", $finishedArticles);
+			PrintTableRow("Number of Finished Articles", FormatNumber($finishedArticles));
 			
 			//Number of ignored articles
 			$query = "SELECT COUNT(articleid) as noignored FROM articles WHERE (skipid > 0)";
 			$result=mysql_fetch_array(mysql_query($query));
 			$ignoredArticles = $result['noignored'];
-			PrintTableRow("Number of Ignored Articles", $ignoredArticles);
+			PrintTableRow("Number of Ignored Articles", FormatNumber($ignoredArticles));
 			
 			//Number of touched articles
-			PrintTableRow("Number of Touched Articles", ($finishedArticles + $ignoredArticles));
+			PrintTableRow("Number of Touched Articles", FormatNumber($finishedArticles + $ignoredArticles));
 			
 			//Number of untouched articles
-			PrintTableRow("Number of Untouched Articles", ($totalArticles - $finishedArticles - $ignoredArticles));
+			PrintTableRow("Number of Untouched Articles", FormatNumber($totalArticles - $finishedArticles - $ignoredArticles));
 			
 			//Percentage Completion
 			PrintTableRow("Percentage Completion", 
@@ -160,22 +160,22 @@
 			//Number of currently checked out articles
 			$query = "SELECT COUNT(articleid) AS nocheckedout FROM articles WHERE (checkedout >= DATE_SUB(NOW(), INTERVAL 3 HOUR)) AND (userid = 0)";
 			$result=mysql_fetch_array(mysql_query($query));
-			PrintTableRow("Number of Currently Checked Out Articles", $result['nocheckedout']);
+			PrintTableRow("Number of Currently Checked Out Articles", FormatNumber($result['nocheckedout']));
 			
 			//Number of never checked out articles
 			$query = "SELECT COUNT(articleid) AS nonevercheckedout FROM articles WHERE (checkedout = '0000-00-00 00:00:00')";
 			$result=mysql_fetch_array(mysql_query($query));
-			PrintTableRow("Number of Never Checked Out Articles", $result['nonevercheckedout']);
+			PrintTableRow("Number of Never Checked Out Articles", FormatNumber($result['nonevercheckedout']));
 			
 			//Number of ever checked out articles
 			$query = "SELECT COUNT(articleid) AS noevercheckedout FROM articles WHERE (checkedout > '0000-00-00 00:00:00')";
 			$result=mysql_fetch_array(mysql_query($query));
-			PrintTableRow("Number of Ever Checked Out Articles", $result['noevercheckedout']);
+			PrintTableRow("Number of Ever Checked Out Articles", FormatNumber($result['noevercheckedout']));
 				
 			//Number of users
 			$query = "SELECT COUNT(userid) AS nousers FROM users";
 			$result=mysql_fetch_array(mysql_query($query));
-			PrintTableRow("Number of Users", $result['nousers']);
+			PrintTableRow("Number of Users", FormatNumber($result['nousers']));
 
 			echo '</table>
 			<p/>';
@@ -197,7 +197,7 @@
 			
 			while($row = mysql_fetch_assoc($result))
 			{
-				echo '<tr><td>'. htmlspecialchars($row['username']) . '</td><td>' . $row['edits'] . '</td><td>' . $row['skips'] . '</td></tr>';
+				echo '<tr><td>'. htmlspecialchars($row['username']) . '</td><td>' . FormatNumber($row['edits']) . '</td><td>' . FormatNumber($row['skips']) . '</td></tr>';
 			}
 			
 			echo '</table>
@@ -219,7 +219,7 @@
 			
 			while($row = mysql_fetch_assoc($result))
 			{
-				echo '<tr><td>'. htmlspecialchars($row['skipreason']) . '</td><td>' . $row['noskips'] . '</td></tr>';
+				echo '<tr><td>'. htmlspecialchars($row['skipreason']) . '</td><td>' . FormatNumber($row['noskips']) . '</td></tr>';
 			}
 
 			echo '</table>
@@ -287,5 +287,10 @@
 	function RemoveNonInts($arr)
 	{
 		return array_filter($arr, 'is_int');
+	}
+	
+	function FormatNumber($num)
+	{
+		return number_format($num, 0, '.', ',');
 	}
 
