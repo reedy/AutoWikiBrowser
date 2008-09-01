@@ -45,6 +45,8 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         internal static List<string> SkippedPagesThisSession = new List<string>();
         internal static int UploadedThisSession;
 
+        internal static DateTime CheckoutTime;
+
         private ToolStripMenuItem pluginMenuItem = new ToolStripMenuItem("TypoScan plugin");
         private ToolStripMenuItem pluginUploadMenuItem = new ToolStripMenuItem("Upload finished articles to server now");
         private ToolStripMenuItem pluginReAddArticlesMenuItem = new ToolStripMenuItem("Re-add TypoScan articles to ListMaker");

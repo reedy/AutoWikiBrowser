@@ -66,7 +66,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                     }
                 }
             }
-
+            TypoScanAWBPlugin.CheckoutTime = DateTime.Now;
             return articles;
         }
 
