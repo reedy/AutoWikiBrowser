@@ -147,6 +147,12 @@ namespace WikiFunctions.API
         /// </summary>
         public CookieContainer Cookies
         { get { return m_Cookies; } }
+
+        bool m_Abortable = false;
+        /// <summary>
+        /// If true, all operations involving network access can be aborted using Abort()
+        /// </summary>
+        public bool Abortable;
         #endregion
 
         /// <summary>
@@ -445,6 +451,62 @@ namespace WikiFunctions.API
             CheckForError(result);
 
             Reset();
+        }
+        #endregion
+
+
+        #region Wikitext operations
+        public string Preview(string pageTitle, string text)
+        {
+            string result = HttpPost(
+                new string[,]
+                {
+                    { "action", "parse" },
+                    { "prop", "text" }
+                },
+                new string[,]
+                {
+                    { "title", pageTitle },
+                    { "text", text }
+                });
+
+            CheckForError(result, "parse");
+            try
+            {
+                XmlReader xr = XmlReader.Create(new StringReader(result));
+                if (!xr.ReadToFollowing("text")) throw new Exception("Cannot find <text> element");
+                return xr.ReadString();
+            }
+            catch (Exception ex)
+            {
+                throw new ApiBrokenXmlException(this, ex);
+            }
+        }
+
+        public string ExpandTemplates(string pageTitle, string text)
+        {
+            string result = HttpPost(
+                new string[,]
+                {
+                    { "action", "expandtemplates" }
+                },
+                new string[,]
+                {
+                    { "title", pageTitle },
+                    { "text", text }
+                });
+
+            CheckForError(result, "expandtemplates");
+            try
+            {
+                XmlReader xr = XmlReader.Create(new StringReader(result));
+                if (!xr.ReadToFollowing("expandtemplates")) throw new Exception("Cannot find <expandtemplates> element");
+                return xr.ReadString();
+            }
+            catch (Exception ex)
+            {
+                throw new ApiBrokenXmlException(this, ex);
+            }
         }
         #endregion
 
