@@ -1526,7 +1526,7 @@ Do you want to use default settings?", "Error loading namespaces", MessageBoxBut
             set
             {
                 bLoggedIn = value;
-                WikiStatus = !(bLoggedIn == false);
+                WikiStatus = (bLoggedIn != false);
             }
         }
 

@@ -750,8 +750,6 @@ namespace WikiFunctions.Lists
 
             foreach (string s in searchCriteria)
             {
-                string search = HttpUtility.UrlEncode(s);
-
                 string url = Variables.URLLong + "api.php?action=query&list=search&srwhat=text&srsearch="
                     + s + "&srlimit={limit}&format=xml" + ns;
 

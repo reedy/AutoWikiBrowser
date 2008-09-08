@@ -739,7 +739,6 @@ namespace WikiFunctions.MWB
         {
             System.Xml.Serialization.XmlSerializer xs = new System.Xml.Serialization.XmlSerializer(typeof(IRule));
             System.IO.MemoryStream memoryStream = new System.IO.MemoryStream(StringToUTF8ByteArray(pXmlizedString));
-            XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
 
             return (IRule)xs.Deserialize(memoryStream);
         }

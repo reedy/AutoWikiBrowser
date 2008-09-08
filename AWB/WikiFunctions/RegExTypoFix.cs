@@ -436,7 +436,12 @@ namespace WikiFunctions.Parse
 
         public override bool Equals(object obj)
         {
-            return obj is TypoStat && ((TypoStat)obj).Find == Find && ((TypoStat)obj).Replace == Replace;
+            TypoStat item = (obj as TypoStat);
+
+            if (item == null)
+                return false;
+
+            return ((item.Find == Find) && (item.Replace == Replace));
         }
         #endregion
     }
