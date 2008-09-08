@@ -14,6 +14,6 @@ namespace WikiFunctions
 {
     public static partial class Variables
     {
-        private static readonly string m_Revision = "$WCREV$ ($WCDATE$)";
+        private const string m_Revision = "$WCREV$ ($WCDATE$)";
     }
 }

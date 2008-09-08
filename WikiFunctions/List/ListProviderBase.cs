@@ -263,11 +263,11 @@ namespace WikiFunctions.Lists
 
     }
 
+    [Serializable]
     public class ListProviderException : Exception
     {
         public ListProviderException(string message)
             : base(message)
-        {
-        }
+        { }
     }
 }

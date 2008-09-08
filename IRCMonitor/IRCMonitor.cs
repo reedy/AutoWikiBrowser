@@ -1935,7 +1935,7 @@ Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=15
             webBrowser.SetSummary(Project.WarningSummary.Replace("%t", template) + Project.Using);
             VandalName = user;
             NextTask = NextTaskType.Blacklist;
-            webBrowser.ProcessStage = WikiFunctions.Browser.enumProcessStage.save;
+            webBrowser.ProcessStage = WikiFunctions.Browser.ProcessingStage.Save;
         }
 
         private void revertAndReportToolStripMenuItem_Click(object sender, EventArgs e)
