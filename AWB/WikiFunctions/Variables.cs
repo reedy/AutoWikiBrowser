@@ -38,7 +38,7 @@ using System.Net;
 
 namespace WikiFunctions
 {
-    public enum LangCodeEnum { en, ar, be, bg, ca, da, de, dsb, eo, es, fi, fr, he, hi, hu, Is, it, ja, ku, nah, nl, no, mi, pl, pt, ro, ru, simple, sk, sl, sq, sr, sv, ta, te, tj, uk, ur, zh }
+    public enum LangCodeEnum { en, ar, be, bg, ca, da, de, dsb, eo, es, fi, fr, he, hi, hu, Is, it, ja, ku, nah, nl, no, mi, pl, pt, ro, ru, si, simple, sk, sl, sq, sr, sv, ta, te, tj, uk, ur, zh }
     public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, species, commons, meta, mediawiki, wikia, custom }
 
     /// <summary>
@@ -950,6 +950,28 @@ namespace WikiFunctions
                             "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"};
                         break;
 
+                    case LangCodeEnum.si:
+                        Namespaces[-2] = "මාධ්‍යය:";
+                        Namespaces[-1] = "විශේෂ:";
+                        Namespaces[1] = "සාකච්ඡාව:";
+                        Namespaces[2] = "පරිශීලක:";
+                        Namespaces[3] = "පරිශීලක සාකච්ඡාව:";
+                        Namespaces[4] = "Wikipedia:";
+                        Namespaces[5] = "Wikipedia සාකච්ඡාව:";
+                        Namespaces[6] = "රූපය:";
+                        Namespaces[7] = "රූපය සාකච්ඡාව:";
+                        Namespaces[8] = "විකිමාධ්‍ය:";
+                        Namespaces[9] = "විකිමාධ්‍ය සාකච්ඡාව:";
+                        Namespaces[10] = "සැකිල්ල:";
+                        Namespaces[11] = "සැකිල සාකච්ඡාව:";
+                        Namespaces[12] = "උදවු:";
+                        Namespaces[13] = "උදව සාකච්ඡාව:";
+                        Namespaces[14] = "ප්‍රවර්ගය:";
+                        Namespaces[15] = "ප්‍රවර්ග සාකච්ඡාව:";
+                        Namespaces[100] = "Portal:";
+                        Namespaces[101] = "Portal talk:";
+                        break;
+
                     case LangCodeEnum.simple:
                         SetToEnglish("Wikipedia:", "Wikipedia talk:");
                         FullProjectName = "Simple English Wikipedia";
@@ -1092,6 +1114,7 @@ namespace WikiFunctions
                         strWPAWB = "[[Вікіпедія:AutoWikiBrowser|AWB]]";
                         break;
 
+                    //http://xx.project.org/wiki/api.php?action=query&meta=siteinfo&siprop=namespaces
                     // case LangCodeEnum.xx:
                     // Namespaces[-2] = ":";
                     // Namespaces[-1] = ":";
