@@ -3810,7 +3810,7 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.Location = new System.Drawing.Point(0, 25);
             this.webBrowserEdit.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowserEdit.Name = "webBrowserEdit";
-            this.webBrowserEdit.ProcessStage = WikiFunctions.Browser.enumProcessStage.none;
+            this.webBrowserEdit.ProcessStage = WikiFunctions.Browser.ProcessingStage.None;
             this.webBrowserEdit.ScriptErrorsSuppressed = true;
             this.webBrowserEdit.Size = new System.Drawing.Size(907, 237);
             this.webBrowserEdit.TabIndex = 670;

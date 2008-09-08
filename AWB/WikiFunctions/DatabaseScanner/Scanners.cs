@@ -113,7 +113,7 @@ namespace WikiFunctions.DBScanner
         }
     }
 
-    public enum MoreLessThan : byte { LessThan, MoreThan, EqualTo }
+    public enum MoreLessThan : int { LessThan, MoreThan, EqualTo }
 
     public class CountCharacters : Scan
     {

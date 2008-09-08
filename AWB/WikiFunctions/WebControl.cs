@@ -31,7 +31,7 @@ namespace WikiFunctions.Browser
 {
     public delegate void WebControlDel(object sender, EventArgs e);
 
-    public enum enumProcessStage : byte { load, diff, save, delete, protect, none }
+    public enum ProcessingStage : int { Load, Diff, Save, Delete, Protect, None }
 
     /// <summary>
     /// Provides a WebBrowser component adapted and extended for use with Wikis.
@@ -47,7 +47,7 @@ namespace WikiFunctions.Browser
             timer1.Enabled = true;
 
             this.ScriptErrorsSuppressed = true;
-            ProcessStage = enumProcessStage.none;
+            ProcessStage = ProcessingStage.None;
         }
 
         Timer timer1 = new Timer();
@@ -90,16 +90,13 @@ namespace WikiFunctions.Browser
         /// Controls watchlisting, to allow AWB setting to over-ride MW user settings
         /// </summary>
         private bool Watch;
-
-        //private bool CanOverride;
-
         #endregion
 
         #region Properties
 
-        enumProcessStage pStage = enumProcessStage.none;
+        ProcessingStage pStage = ProcessingStage.None;
         [Browsable(false)]
-        public enumProcessStage ProcessStage
+        public ProcessingStage ProcessStage
         {
             get { return pStage; }
             set { pStage = value; }
@@ -382,7 +379,7 @@ namespace WikiFunctions.Browser
         public void Stop2()
         {
             StopTimer();
-            ProcessStage = enumProcessStage.none;
+            ProcessStage = ProcessingStage.None;
             Busy = false;
             this.Stop();
         }
@@ -589,7 +586,7 @@ namespace WikiFunctions.Browser
             if (CanSave)
             {
                 this.AllowNavigation = true;
-                ProcessStage = enumProcessStage.save;
+                ProcessStage = ProcessingStage.Save;
                 Status = "Saving";
                 this.Document.GetElementById("wpSave").InvokeMember("click");
             }
@@ -603,7 +600,7 @@ namespace WikiFunctions.Browser
             if (CanPreview)
             {
                 AllowNavigation = true;
-                ProcessStage = enumProcessStage.diff;
+                ProcessStage = ProcessingStage.Diff;
                 Status = "Loading preview";
                 Document.GetElementById("wpPreview").InvokeMember("click");
 
@@ -619,7 +616,7 @@ namespace WikiFunctions.Browser
             if (CanDelete)
             {
                 this.AllowNavigation = true;
-                ProcessStage = enumProcessStage.delete;
+                ProcessStage = ProcessingStage.Delete;
                 Status = "Deleting page";
                 this.Document.GetElementById("wpConfirmB").InvokeMember("click");
 
@@ -635,7 +632,7 @@ namespace WikiFunctions.Browser
             try
             {
                 this.AllowNavigation = true;
-                ProcessStage = enumProcessStage.delete;
+                ProcessStage = ProcessingStage.Delete;
                 Status = "Loading delete page";
                 Navigate(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(Article) + "&action=delete");
             }
@@ -653,7 +650,7 @@ namespace WikiFunctions.Browser
             if (CanProtect)
             {
                 this.AllowNavigation = true;
-                ProcessStage = enumProcessStage.protect;
+                ProcessStage = ProcessingStage.Protect;
                 Status = "Protecting page";
 
                 SetListBoxValues(this.Document.GetElementById("mwProtect-level-edit"), EditProtectionLevel);
@@ -703,7 +700,7 @@ namespace WikiFunctions.Browser
             try
             {
                 this.AllowNavigation = true;
-                ProcessStage = enumProcessStage.protect;
+                ProcessStage = ProcessingStage.Protect;
                 Status = "Loading protect page";
                 Navigate(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(Article) + "&action=protect");
             }
@@ -721,7 +718,7 @@ namespace WikiFunctions.Browser
             try
             {
                 this.AllowNavigation = true;
-                ProcessStage = enumProcessStage.load;
+                ProcessStage = ProcessingStage.Load;
                 Status = "Loading page";
                 this.Navigate(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(Article) + "&action=edit&useskin=myskin");
             }
@@ -751,7 +748,7 @@ namespace WikiFunctions.Browser
             try
             {
                 this.AllowNavigation = true;
-                ProcessStage = enumProcessStage.load;
+                ProcessStage = ProcessingStage.Load;
                 Status = "Loading page";
                 this.Navigate(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(Article) + "&action=edit&oldid="
                     + Revision);
@@ -772,7 +769,7 @@ namespace WikiFunctions.Browser
             try
             {
                 this.AllowNavigation = true;
-                ProcessStage = enumProcessStage.load;
+                ProcessStage = ProcessingStage.Load;
                 Status = "Loading page";
                 string url = Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(Article) + "&action=edit&section=" + Section;
                 this.Navigate(url);
@@ -789,7 +786,7 @@ namespace WikiFunctions.Browser
         public void LoadLogInPage()
         {
             this.AllowNavigation = true;
-            ProcessStage = enumProcessStage.none;
+            ProcessStage = ProcessingStage.None;
             Status = "Loading log in page";
             this.Navigate(Variables.URLLong + "index.php?title=Special:Userlogin&returnto=Main_Page");
             Busy = false;
@@ -801,7 +798,7 @@ namespace WikiFunctions.Browser
         public void LoadLogOut()
         {
             this.AllowNavigation = true;
-            ProcessStage = enumProcessStage.none;
+            ProcessStage = ProcessingStage.None;
             Status = "Logging Out";
             this.Navigate(Variables.URLLong + "api.php?action=logout");
             Busy = false;
@@ -817,7 +814,7 @@ namespace WikiFunctions.Browser
 
             if (!this.Document.Body.InnerHtml.Contains("id=siteSub"))
             {
-                ProcessStage = enumProcessStage.none;
+                ProcessStage = ProcessingStage.None;
                 if (Fault != null)
                     this.Fault(null, null);
                 return;
@@ -825,14 +822,14 @@ namespace WikiFunctions.Browser
 
             if (this.Url.AbsolutePath.Contains("api.php?action=logout"))
                 this.AllowNavigation = false;
-            else if (ProcessStage == enumProcessStage.load)
+            else if (ProcessStage == ProcessingStage.Load)
             {
                 TalkPageExists = !RegexArticleTalkExists.IsMatch(this.Document.Body.InnerHtml);
 
                 ArticlePageExists = !RegexArticleExists.IsMatch(this.Document.Body.InnerHtml);
 
                 this.AllowNavigation = false;
-                ProcessStage = enumProcessStage.none;
+                ProcessStage = ProcessingStage.None;
 
                 Status = "Ready to save";
 
@@ -841,13 +838,13 @@ namespace WikiFunctions.Browser
 
                 this.Document.GetElementById("wpTextbox1").Enabled = false;
             }
-            else if (ProcessStage == enumProcessStage.diff)
+            else if (ProcessStage == ProcessingStage.Diff)
             {
                 this.AllowNavigation = false;
-                ProcessStage = enumProcessStage.none;
+                ProcessStage = ProcessingStage.None;
                 Status = "Ready to save";
             }
-            else if (ProcessStage == enumProcessStage.none)
+            else if (ProcessStage == ProcessingStage.None)
             {
                 if (None != null)
                     this.None(null, null);
@@ -856,12 +853,12 @@ namespace WikiFunctions.Browser
 
         protected override void OnProgressChanged(WebBrowserProgressChangedEventArgs e)
         {
-            if (this.ReadyState == WebBrowserReadyState.Interactive && ProcessStage == enumProcessStage.save)
+            if (this.ReadyState == WebBrowserReadyState.Interactive && ProcessStage == ProcessingStage.Save)
             {
                 StopTimer();
                 this.OnDocumentCompleted(null);
                 this.AllowNavigation = false;
-                ProcessStage = enumProcessStage.none;
+                ProcessStage = ProcessingStage.None;
                 this.Stop();
                 if (this.Saved != null)
                     this.Saved(null, null);

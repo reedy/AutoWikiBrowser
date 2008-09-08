@@ -1684,7 +1684,7 @@ namespace IRCM
             this.webBrowser.Location = new System.Drawing.Point(0, 31);
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser.Name = "webBrowser";
-            this.webBrowser.ProcessStage = WikiFunctions.Browser.enumProcessStage.none;
+            this.webBrowser.ProcessStage = WikiFunctions.Browser.ProcessingStage.None;
             this.webBrowser.ScriptErrorsSuppressed = true;
             this.webBrowser.Size = new System.Drawing.Size(884, 552);
             this.webBrowser.TabIndex = 3;

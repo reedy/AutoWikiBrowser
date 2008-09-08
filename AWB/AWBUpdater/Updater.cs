@@ -219,9 +219,9 @@ namespace AwbUpdater
                 throw new AbortException();
             }
 
-            int awbCurrentVersion = 
+            int awbCurrentVersion =
                 StringToVersion(Regex.Match(text, @"<!-- Current version: (.*?) -->").Groups[1].Value);
-            int awbNewestVersion = 
+            int awbNewestVersion =
                 StringToVersion(Regex.Match(text, @"<!-- Newest version: (.*?) -->").Groups[1].Value);
             int updaterVersion = StringToVersion(Regex.Match(text, @"<!-- Updater version: (.*?) -->").Groups[1].Value);
 
@@ -287,7 +287,7 @@ namespace AwbUpdater
                 Extract(tempDirectory + AWBZipName);
 
             if (!string.IsNullOrEmpty(UpdaterZipName) && File.Exists(tempDirectory + UpdaterZipName))
-                Extract(tempDirectory + UpdaterZipName);              
+                Extract(tempDirectory + UpdaterZipName);
 
             progressUpdate.Value = 70;
         }
@@ -492,19 +492,32 @@ namespace AwbUpdater
         private void btnCancel_Click(object sender, EventArgs e)
         {
             if (updateSucessful) StartAwb();
-            
+
             Close();
         }
     }
 
+
     /// <summary>
     /// This exception stops processing and prepared the updater for exit
     /// </summary>
-    internal class AbortException : Exception
+    [Serializable]
+    public class AbortException : Exception
     {
         public AbortException()
-            : base()
-        {
-        }
+            : base() { }
+
+        public AbortException(string message)
+            : base(message)
+        { }
+
+        public AbortException(string message, Exception innerException) :
+            base(message, innerException)
+        { }
+
+        protected AbortException(System.Runtime.Serialization.SerializationInfo info,
+           System.Runtime.Serialization.StreamingContext context)
+            : base(info, context)
+        { }
     }
 }

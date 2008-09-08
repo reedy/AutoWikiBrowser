@@ -206,7 +206,7 @@ namespace WikiFunctions.Parse
         }
     }
 
-    public enum InterWikiOrderEnum : byte { LocalLanguageAlpha, LocalLanguageFirstWord, Alphabetical, AlphabeticalEnFirst }
+    public enum InterWikiOrderEnum : int { LocalLanguageAlpha, LocalLanguageFirstWord, Alphabetical, AlphabeticalEnFirst }
     
     public class MetaDataSorter
     {

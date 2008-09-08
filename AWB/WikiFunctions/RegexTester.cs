@@ -178,10 +178,13 @@ namespace WikiFunctions.Controls
             switch (e.KeyChar)
             {
                 case (char)1: // CTRL+A
-                    // all this to to "select all" <rolls eyes>
-                    if (sender is TextBox)
-                        ((TextBox)sender).SelectAll();
-                    break;
+                    {
+                        TextBox text = (sender as TextBox);
+
+                        if (text != null)
+                            text.SelectAll();
+                        break;
+                    }
                 case (char)27:
                     AbortProcessing();
                     break;
