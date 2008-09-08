@@ -383,7 +383,6 @@ namespace AwbUpdater
 
         private void CopyFile(string source, string destination)
         {
-            string actualFile = source.Replace(tempDirectory, "");
             CreatePath(destination);
             UpdateUI("     " + destination, true);
 
