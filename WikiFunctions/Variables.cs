@@ -150,16 +150,6 @@ namespace WikiFunctions
         public static string[] ENLangMonthNames = new string[12]{"January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"};
 
-        private static string strProjectName;
-        /// <summary>
-        /// Full project name, e.g. "Wikimedia Commons"
-        /// </summary>
-        public static string FullProjectName
-        {
-            get { return strProjectName; }
-            private set { strProjectName = value; }
-        }
-
         private static string URLEnd = "/w/";
 
         static string strURL = "http://en.wikipedia.org";
@@ -370,7 +360,6 @@ namespace WikiFunctions
 
             RefreshProxy();
 
-            FullProjectName = "";
             URLEnd = "/w/";
 
             AWBDefaultSummaryTag();
@@ -974,7 +963,6 @@ namespace WikiFunctions
 
                     case LangCodeEnum.simple:
                         SetToEnglish("Wikipedia:", "Wikipedia talk:");
-                        FullProjectName = "Simple English Wikipedia";
                         break;
 
                     case LangCodeEnum.sk:
@@ -1153,7 +1141,6 @@ namespace WikiFunctions
                 Namespaces[100] = "Creator:";
                 Namespaces[101] = "Creator talk:";
                 URL = "http://commons.wikimedia.org";
-                FullProjectName = "Wikimedia Commons";
                 mLangCode = LangCodeEnum.en;
             }
             else if (projectName == ProjectEnum.meta)
@@ -1234,8 +1221,6 @@ namespace WikiFunctions
             }
             System.Diagnostics.Trace.Assert(!Namespaces.ContainsKey(0), "Internal error: key exists for namespace 0.",
                     "Please contact a developer.");
-
-            if (string.IsNullOrEmpty(FullProjectName)) FullProjectName = Namespaces[4].TrimEnd(':');
         }
 
         private static void RegenerateRegexes()
