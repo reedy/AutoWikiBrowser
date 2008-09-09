@@ -156,6 +156,7 @@
     <Compile Include="ErrorHandler.Designer.cs">
       <DependentUpon>ErrorHandler.cs</DependentUpon>
     </Compile>
+    <Compile Include="ExpirableCache.cs" />
     <Compile Include="FindandReplace.cs">
       <SubType>Form</SubType>
     </Compile>

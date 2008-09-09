@@ -7,7 +7,7 @@ using System.Collections;
 namespace WikiFunctions.Parse
 {
     /// <summary>
-    /// This class fpovides functions for 'hiding' certain syntax by replacing it with unique tokens
+    /// This class provides functions for 'hiding' certain syntax by replacing it with unique tokens
     /// and then adding it back after an operation was performed on text
     /// </summary>
     public sealed class HideText
