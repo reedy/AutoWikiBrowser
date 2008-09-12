@@ -60,7 +60,7 @@
 				
 				if ($wiki != 'en.wikipedia.org') ReturnError('This project is not supported', 'project');
 
-				if (!$articlesempty)
+				if (!$articlesempty && preg_match("/^\d+(,\s*\d+)*$/", $articlesempty))
 				{
 					$query = 'UPDATE articles SET finished = 1, checkedin = NOW(), userid = "' . $userid . '" WHERE articleid IN (' . $articles . ')';
 					$result=mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);
