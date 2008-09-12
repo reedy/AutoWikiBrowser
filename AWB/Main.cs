@@ -1028,7 +1028,7 @@ namespace AutoWikiBrowser
 
         private bool IsReadOnlyDB(string html)
         {//Read-Only DB - http://en.wikipedia.org/wiki/MediaWiki:Readonlytext
-            return (html.Contains("<div class=\"mw-readonly-error\">");
+            return (html.Contains("<div class=\"mw-readonly-error\">"));
         }
 
         private void SkipPageReasonAlreadyProvided()
