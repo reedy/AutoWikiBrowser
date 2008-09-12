@@ -79,6 +79,7 @@
 									
 					for ($i=0; $i < count($skippedarticles); $i++)
 					{
+						if (!is_int($skippedarticles[$i])) continue;
 						$query = 'UPDATE articles SET skipid = "' . GetOrAddIgnoreReason($skippedreason[$i]) . '", checkedin = NOW(), userid = "' . $userid . '" WHERE (articleid = "' . $skippedarticles[$i] . '")';
 						//echo $query;
 					    $result=mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);
