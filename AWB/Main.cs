@@ -813,7 +813,7 @@ namespace AutoWikiBrowser
                 if (webBrowserEdit.Document != null && webBrowserEdit.Document.Body != null)
                     HTML = webBrowserEdit.Document.Body.InnerHtml;
 
-                if (string.IsNullOrEmpty(HTML) || HTML.Contains("The Wikipedia database is temporarily in read-only mode for the following reason"))
+                if (string.IsNullOrEmpty(HTML) || HTML.Contains("<div class=\"readonly-error\">"))
                 {//http://en.wikipedia.org/wiki/MediaWiki:Readonlytext
 
                     if (retries < 10)
