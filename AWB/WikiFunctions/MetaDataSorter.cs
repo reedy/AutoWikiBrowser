@@ -358,6 +358,7 @@ namespace WikiFunctions.Parse
                 switch (Variables.LangCode)
                 {
                     case LangCodeEnum.de:
+                    case LangCodeEnum.sl:
                         ArticleText += strStub + strCategories + strPersonData;
                         break;
                     case LangCodeEnum.pl:
@@ -369,7 +370,7 @@ namespace WikiFunctions.Parse
                         ArticleText += strPersonData + strCategories + strStub;
                         break;
                 }
-                return ArticleText + strInterwikis;
+                return (ArticleText + strInterwikis);
             }
             catch(Exception ex)
             {
