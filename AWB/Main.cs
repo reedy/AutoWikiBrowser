@@ -813,9 +813,8 @@ namespace AutoWikiBrowser
                 if (webBrowserEdit.Document != null && webBrowserEdit.Document.Body != null)
                     HTML = webBrowserEdit.Document.Body.InnerHtml;
 
-                if (string.IsNullOrEmpty(HTML) || HTML.Contains("<div class=\"mw-readonly-error\">"))
-                {//http://en.wikipedia.org/wiki/MediaWiki:Readonlytext
-
+                if (string.IsNullOrEmpty(HTML) || IsReadOnlyDB(HTML))
+                {
                     if (retries < 10)
                     {
                         StartDelayedRestartTimer(null, null);
@@ -989,11 +988,11 @@ namespace AutoWikiBrowser
                 StartDelayedRestartTimer(null, null);
                 return;
             }
-            //else if (webBrowserEdit.Document.Body.InnerHtml.Contains("<DIV CLASS="))
-            //{//Read-Only DB
-            //    StartDelayedRestartTimer(null, null);
-            //    return;
-            //}
+            else if (IsReadOnlyDB(webBrowserEdit.Document.Body.InnerHtml))
+            {
+                StartDelayedRestartTimer(null, null);
+                return;
+            }
 
             //lower restart delay
             if (intRestartDelay > 5)
@@ -1025,6 +1024,11 @@ namespace AutoWikiBrowser
                 if (!Variables.User.WikiStatus)
                     CheckStatus(false);
             }
+        }
+
+        private bool IsReadOnlyDB(string html)
+        {//Read-Only DB - http://en.wikipedia.org/wiki/MediaWiki:Readonlytext
+            return (html.Contains("<div class=\"mw-readonly-error\">");
         }
 
         private void SkipPageReasonAlreadyProvided()
