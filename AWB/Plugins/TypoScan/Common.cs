@@ -10,7 +10,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         /// <summary>
         /// The URL, script and action=
         /// </summary>
-        private const string Url = "http://typoscan.reedyboy.net/index.php?action=";
+        private const string Url = "http://toolserver.org/~maxsem/typoscan/index.php?action=";
 
         internal static string GetUrlFor(string action)
         {

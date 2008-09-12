@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.okButton = new System.Windows.Forms.Button();
             this.linkMboverload = new System.Windows.Forms.LinkLabel();
             this.linkTypoScanPage = new System.Windows.Forms.LinkLabel();
@@ -46,8 +47,11 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label7 = new System.Windows.Forms.Label();
             this.lblToUpload = new System.Windows.Forms.Label();
-            this.ReedyLabel = new WikiFunctions.Controls.DeveloperLinkLabel();
+            this.lblTimeLeft = new System.Windows.Forms.Label();
             this.MaxSemLabel = new WikiFunctions.Controls.DeveloperLinkLabel();
+            this.ReedyLabel = new WikiFunctions.Controls.DeveloperLinkLabel();
+            this.label8 = new System.Windows.Forms.Label();
+            this.UpdateTimer = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -56,7 +60,7 @@
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.okButton.Location = new System.Drawing.Point(189, 217);
+            this.okButton.Location = new System.Drawing.Point(189, 240);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 22);
             this.okButton.TabIndex = 32;
@@ -89,7 +93,7 @@
             // 
             this.linkStats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.linkStats.AutoSize = true;
-            this.linkStats.Location = new System.Drawing.Point(13, 222);
+            this.linkStats.Location = new System.Drawing.Point(13, 245);
             this.linkStats.Name = "linkStats";
             this.linkStats.Size = new System.Drawing.Size(101, 13);
             this.linkStats.TabIndex = 36;
@@ -100,7 +104,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 24);
+            this.label1.Location = new System.Drawing.Point(3, 25);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(67, 13);
             this.label1.TabIndex = 37;
@@ -118,7 +122,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 72);
+            this.label3.Location = new System.Drawing.Point(3, 75);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(103, 13);
             this.label3.TabIndex = 39;
@@ -127,7 +131,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 96);
+            this.label4.Location = new System.Drawing.Point(3, 100);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(111, 13);
             this.label4.TabIndex = 40;
@@ -136,7 +140,7 @@
             // lblSaved
             // 
             this.lblSaved.AutoSize = true;
-            this.lblSaved.Location = new System.Drawing.Point(132, 72);
+            this.lblSaved.Location = new System.Drawing.Point(132, 75);
             this.lblSaved.Name = "lblSaved";
             this.lblSaved.Size = new System.Drawing.Size(0, 13);
             this.lblSaved.TabIndex = 41;
@@ -144,7 +148,7 @@
             // lblSkipped
             // 
             this.lblSkipped.AutoSize = true;
-            this.lblSkipped.Location = new System.Drawing.Point(132, 96);
+            this.lblSkipped.Location = new System.Drawing.Point(132, 100);
             this.lblSkipped.Name = "lblSkipped";
             this.lblSkipped.Size = new System.Drawing.Size(0, 13);
             this.lblSkipped.TabIndex = 42;
@@ -152,7 +156,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 48);
+            this.label5.Location = new System.Drawing.Point(3, 50);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(83, 13);
             this.label5.TabIndex = 43;
@@ -161,7 +165,7 @@
             // lblLoaded
             // 
             this.lblLoaded.AutoSize = true;
-            this.lblLoaded.Location = new System.Drawing.Point(132, 48);
+            this.lblLoaded.Location = new System.Drawing.Point(132, 50);
             this.lblLoaded.Name = "lblLoaded";
             this.lblLoaded.Size = new System.Drawing.Size(0, 13);
             this.lblLoaded.TabIndex = 44;
@@ -169,7 +173,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 120);
+            this.label6.Location = new System.Drawing.Point(3, 125);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(118, 13);
             this.label6.TabIndex = 45;
@@ -178,7 +182,7 @@
             // lblUploaded
             // 
             this.lblUploaded.AutoSize = true;
-            this.lblUploaded.Location = new System.Drawing.Point(132, 120);
+            this.lblUploaded.Location = new System.Drawing.Point(132, 125);
             this.lblUploaded.Name = "lblUploaded";
             this.lblUploaded.Size = new System.Drawing.Size(0, 13);
             this.lblUploaded.TabIndex = 46;
@@ -188,6 +192,7 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 51.5873F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 48.4127F));
+            this.tableLayoutPanel1.Controls.Add(this.label8, 0, 7);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.label7, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this.linkMboverload, 1, 0);
@@ -202,9 +207,10 @@
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.label4, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.lblToUpload, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.lblTimeLeft, 1, 7);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(16, 41);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 7;
+            this.tableLayoutPanel1.RowCount = 8;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66666F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
@@ -213,7 +219,8 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(252, 169);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(252, 193);
             this.tableLayoutPanel1.TabIndex = 47;
             // 
             // tableLayoutPanel2
@@ -223,7 +230,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Controls.Add(this.MaxSemLabel, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.ReedyLabel, 0, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(132, 27);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(132, 28);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -233,7 +240,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 144);
+            this.label7.Location = new System.Drawing.Point(3, 150);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(106, 13);
             this.label7.TabIndex = 47;
@@ -242,21 +249,18 @@
             // lblToUpload
             // 
             this.lblToUpload.AutoSize = true;
-            this.lblToUpload.Location = new System.Drawing.Point(132, 144);
+            this.lblToUpload.Location = new System.Drawing.Point(132, 150);
             this.lblToUpload.Name = "lblToUpload";
             this.lblToUpload.Size = new System.Drawing.Size(0, 13);
             this.lblToUpload.TabIndex = 48;
             // 
-            // ReedyLabel
+            // lblTimeLeft
             // 
-            this.ReedyLabel.AutoSize = true;
-            this.ReedyLabel.Location = new System.Drawing.Point(3, 0);
-            this.ReedyLabel.Name = "ReedyLabel";
-            this.ReedyLabel.Size = new System.Drawing.Size(38, 13);
-            this.ReedyLabel.TabIndex = 35;
-            this.ReedyLabel.TabStop = true;
-            this.ReedyLabel.Text = "Reedy";
-            this.ReedyLabel.WhichDeveloper = WikiFunctions.Controls.Developers.Reedy;
+            this.lblTimeLeft.AutoSize = true;
+            this.lblTimeLeft.Location = new System.Drawing.Point(132, 170);
+            this.lblTimeLeft.Name = "lblTimeLeft";
+            this.lblTimeLeft.Size = new System.Drawing.Size(0, 13);
+            this.lblTimeLeft.TabIndex = 49;
             // 
             // MaxSemLabel
             // 
@@ -269,12 +273,38 @@
             this.MaxSemLabel.Text = "MaxSem";
             this.MaxSemLabel.WhichDeveloper = WikiFunctions.Controls.Developers.MaxSem;
             // 
+            // ReedyLabel
+            // 
+            this.ReedyLabel.AutoSize = true;
+            this.ReedyLabel.Location = new System.Drawing.Point(3, 0);
+            this.ReedyLabel.Name = "ReedyLabel";
+            this.ReedyLabel.Size = new System.Drawing.Size(38, 13);
+            this.ReedyLabel.TabIndex = 35;
+            this.ReedyLabel.TabStop = true;
+            this.ReedyLabel.Text = "Reedy";
+            this.ReedyLabel.WhichDeveloper = WikiFunctions.Controls.Developers.Reedy;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(3, 170);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(106, 13);
+            this.label8.TabIndex = 50;
+            this.label8.Text = "Checkout expires in: ";
+            // 
+            // UpdateTimer
+            // 
+            this.UpdateTimer.Enabled = true;
+            this.UpdateTimer.Interval = 1000;
+            this.UpdateTimer.Tick += new System.EventHandler(this.UpdateTimer_Tick);
+            // 
             // About
             // 
             this.AcceptButton = this.okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(276, 251);
+            this.ClientSize = new System.Drawing.Size(276, 274);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.linkStats);
             this.Controls.Add(this.linkTypoScanPage);
@@ -317,5 +347,8 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private WikiFunctions.Controls.DeveloperLinkLabel MaxSemLabel;
         private WikiFunctions.Controls.DeveloperLinkLabel ReedyLabel;
+        private System.Windows.Forms.Label lblTimeLeft;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Timer UpdateTimer;
     }
 }
