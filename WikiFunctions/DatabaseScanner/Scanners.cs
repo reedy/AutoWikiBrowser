@@ -25,6 +25,9 @@ using WikiFunctions.Parse;
 
 namespace WikiFunctions.DBScanner
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public abstract class Scan
     {
         public virtual bool Check(ref string ArticleText, ref string ArticleTitle, ref string ArticleTimestamp)
@@ -33,6 +36,9 @@ namespace WikiFunctions.DBScanner
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class IsNotRedirect : Scan
     {
         public override bool Check(ref string ArticleText, ref string ArticleTitle, ref string ArticleTimestamp)
@@ -41,6 +47,9 @@ namespace WikiFunctions.DBScanner
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class TextDoesContain : Scan
     {
         public TextDoesContain(params Regex[] containsR)
@@ -62,6 +71,9 @@ namespace WikiFunctions.DBScanner
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class TextDoesNotContain : Scan
     {
         public TextDoesNotContain(params Regex[] notContainsR)
@@ -83,6 +95,9 @@ namespace WikiFunctions.DBScanner
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class TitleDoesContain : Scan
     {
         public TitleDoesContain(Regex ContainsR)
@@ -98,6 +113,9 @@ namespace WikiFunctions.DBScanner
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class TitleDoesNotContain : Scan
     {
         public TitleDoesNotContain(Regex NotContainsR)
@@ -115,6 +133,9 @@ namespace WikiFunctions.DBScanner
 
     public enum MoreLessThan : int { LessThan, MoreThan, EqualTo }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class CountCharacters : Scan
     {
         public CountCharacters(MoreLessThan Value, int Characters)
@@ -140,6 +161,9 @@ namespace WikiFunctions.DBScanner
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class CountLinks : Scan
     {
         public CountLinks(MoreLessThan Value, int Links)
@@ -165,6 +189,9 @@ namespace WikiFunctions.DBScanner
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class CountWords : Scan
     {
         public CountWords(MoreLessThan Value, int Words)
@@ -190,6 +217,9 @@ namespace WikiFunctions.DBScanner
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class CheckNamespace : Scan
     {
         public CheckNamespace(List<int> NameSpaces)
@@ -213,6 +243,9 @@ namespace WikiFunctions.DBScanner
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class HasBadLinks : Scan
     {
         public HasBadLinks() { }
@@ -240,6 +273,9 @@ namespace WikiFunctions.DBScanner
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class HasNoBoldTitle : Scan
     {
         public HasNoBoldTitle(Parsers p)
@@ -257,6 +293,9 @@ namespace WikiFunctions.DBScanner
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class HasHTMLEntities : Scan
     {
         public HasHTMLEntities(Parsers p)
@@ -274,6 +313,9 @@ namespace WikiFunctions.DBScanner
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class HasSimpleLinks : Scan
     {
         public HasSimpleLinks() { }
@@ -297,6 +339,9 @@ namespace WikiFunctions.DBScanner
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class HasSectionError : Scan
     {
         public HasSectionError(Parsers p)
@@ -314,6 +359,9 @@ namespace WikiFunctions.DBScanner
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class HasUnbulletedLinks : Scan
     {
         public HasUnbulletedLinks() { }
@@ -327,6 +375,9 @@ namespace WikiFunctions.DBScanner
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class LivingPerson : Scan
     {
         public LivingPerson(Parsers p)
@@ -344,6 +395,9 @@ namespace WikiFunctions.DBScanner
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class MissingDefaultsort : Scan
     {
         public MissingDefaultsort(Parsers p)
@@ -362,6 +416,9 @@ namespace WikiFunctions.DBScanner
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class Typo : Scan
     {
         public Typo() { }
@@ -374,6 +431,9 @@ namespace WikiFunctions.DBScanner
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class UnCategorised : Scan
     {
         public UnCategorised() { }
@@ -393,6 +453,9 @@ namespace WikiFunctions.DBScanner
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class DateRange : Scan
     {
         DateTime from, to;
@@ -409,6 +472,24 @@ namespace WikiFunctions.DBScanner
                 return ((DateTime.Compare(timestamp, from) >= 0) && (DateTime.Compare(timestamp, to) <= 0));
             else
                 return false;
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class Protection : Scan
+    {
+        int edit, move;
+        public Protection(int EditLevel, int MoveLevel)
+        {
+            edit = EditLevel;
+            move = MoveLevel;
+        }
+
+        public override bool Check(ref string ArticleText, ref string ArticleTitle, ref string ArticleTimestamp)
+        {
+            return base.Check(ref ArticleText, ref ArticleTitle, ref ArticleTimestamp);
         }
     }
 }

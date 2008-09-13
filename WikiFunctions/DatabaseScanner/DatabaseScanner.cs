@@ -247,6 +247,9 @@ namespace WikiFunctions.DBScanner
             if (chkSearchDates.Checked)
                 s.Add(new DateRange(dtpFrom.Value, dtpTo.Value));
 
+            if (chkProtection.Checked)
+                s.Add(new Protection(MoveDelete.EditProtectionLevel, MoveDelete.MoveProtectionLevel));
+
             Main = new MainProcess(s, fileName, Priority, chkIgnoreComments.Checked, txtStartFrom.Text);
             progressBar.Maximum = (int)(Main.stream.Length / 1024);
             Main.FoundArticle += MessageReceived;
@@ -857,6 +860,11 @@ namespace WikiFunctions.DBScanner
         private void btnSaveArticleList_Click(object sender, EventArgs e)
         {
             ListMaker.SaveList(lbArticles);
+        }
+
+        private void chkProtection_CheckedChanged(object sender, EventArgs e)
+        {
+            MoveDelete.Enabled = chkProtection.Checked;
         }
     }
 }

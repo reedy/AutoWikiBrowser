@@ -34,15 +34,11 @@ namespace WikiFunctions.Controls
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.cmboSummary = new System.Windows.Forms.ComboBox();
-            this.lbEdit = new System.Windows.Forms.ListBox();
-            this.lbMove = new System.Windows.Forms.ListBox();
-            this.lblEdit = new System.Windows.Forms.Label();
-            this.lblMove = new System.Windows.Forms.Label();
             this.lblExpiry = new System.Windows.Forms.Label();
             this.txtExpiry = new System.Windows.Forms.TextBox();
-            this.chkUnlock = new System.Windows.Forms.CheckBox();
             this.chkAutoProtect = new System.Windows.Forms.CheckBox();
             this.chkCascadingProtection = new System.Windows.Forms.CheckBox();
+            this.MoveDelete = new WikiFunctions.Controls.MoveDeleteControl();
             this.SuspendLayout();
             // 
             // txtNewTitle
@@ -103,51 +99,6 @@ namespace WikiFunctions.Controls
             this.cmboSummary.Size = new System.Drawing.Size(339, 21);
             this.cmboSummary.TabIndex = 5;
             // 
-            // lbEdit
-            // 
-            this.lbEdit.FormattingEnabled = true;
-            this.lbEdit.Items.AddRange(new object[] {
-            "Unprotected",
-            "Semi-protected",
-            "Fully protected"});
-            this.lbEdit.Location = new System.Drawing.Point(62, 81);
-            this.lbEdit.Name = "lbEdit";
-            this.lbEdit.Size = new System.Drawing.Size(145, 43);
-            this.lbEdit.TabIndex = 7;
-            this.lbEdit.SelectedIndexChanged += new System.EventHandler(this.lbEdit_SelectedIndexChanged);
-            // 
-            // lbMove
-            // 
-            this.lbMove.Enabled = false;
-            this.lbMove.FormattingEnabled = true;
-            this.lbMove.Items.AddRange(new object[] {
-            "Unprotected",
-            "Semi-protected",
-            "Fully protected"});
-            this.lbMove.Location = new System.Drawing.Point(213, 81);
-            this.lbMove.Name = "lbMove";
-            this.lbMove.Size = new System.Drawing.Size(145, 43);
-            this.lbMove.TabIndex = 10;
-            this.lbMove.SelectedIndexChanged += new System.EventHandler(this.lbMove_SelectedIndexChanged);
-            // 
-            // lblEdit
-            // 
-            this.lblEdit.AutoSize = true;
-            this.lblEdit.Location = new System.Drawing.Point(59, 65);
-            this.lblEdit.Name = "lblEdit";
-            this.lblEdit.Size = new System.Drawing.Size(25, 13);
-            this.lblEdit.TabIndex = 6;
-            this.lblEdit.Text = "Edit";
-            // 
-            // lblMove
-            // 
-            this.lblMove.AutoSize = true;
-            this.lblMove.Location = new System.Drawing.Point(210, 65);
-            this.lblMove.Name = "lblMove";
-            this.lblMove.Size = new System.Drawing.Size(34, 13);
-            this.lblMove.TabIndex = 9;
-            this.lblMove.Text = "Move";
-            // 
             // lblExpiry
             // 
             this.lblExpiry.AutoSize = true;
@@ -166,21 +117,10 @@ namespace WikiFunctions.Controls
             this.txtExpiry.Size = new System.Drawing.Size(339, 20);
             this.txtExpiry.TabIndex = 3;
             // 
-            // chkUnlock
-            // 
-            this.chkUnlock.AutoSize = true;
-            this.chkUnlock.Location = new System.Drawing.Point(212, 130);
-            this.chkUnlock.Name = "chkUnlock";
-            this.chkUnlock.Size = new System.Drawing.Size(146, 17);
-            this.chkUnlock.TabIndex = 11;
-            this.chkUnlock.Text = "Unlock move permissions";
-            this.chkUnlock.UseVisualStyleBackColor = true;
-            this.chkUnlock.CheckedChanged += new System.EventHandler(this.chkUnlock_CheckedChanged);
-            // 
             // chkAutoProtect
             // 
             this.chkAutoProtect.AutoSize = true;
-            this.chkAutoProtect.Location = new System.Drawing.Point(62, 130);
+            this.chkAutoProtect.Location = new System.Drawing.Point(69, 128);
             this.chkAutoProtect.Name = "chkAutoProtect";
             this.chkAutoProtect.Size = new System.Drawing.Size(99, 17);
             this.chkAutoProtect.TabIndex = 8;
@@ -200,6 +140,13 @@ namespace WikiFunctions.Controls
             this.chkCascadingProtection.Text = "Cascading protection (automatically protect any pages transcluded in this page)";
             this.chkCascadingProtection.UseVisualStyleBackColor = true;
             // 
+            // MoveDelete
+            // 
+            this.MoveDelete.Location = new System.Drawing.Point(62, 64);
+            this.MoveDelete.Name = "MoveDelete";
+            this.MoveDelete.Size = new System.Drawing.Size(313, 84);
+            this.MoveDelete.TabIndex = 15;
+            // 
             // ArticleActionDialog
             // 
             this.AcceptButton = this.btnOk;
@@ -208,15 +155,11 @@ namespace WikiFunctions.Controls
             this.AutoSize = true;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(413, 209);
+            this.Controls.Add(this.chkAutoProtect);
+            this.Controls.Add(this.MoveDelete);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.chkCascadingProtection);
-            this.Controls.Add(this.chkUnlock);
-            this.Controls.Add(this.lbMove);
-            this.Controls.Add(this.lblMove);
-            this.Controls.Add(this.chkAutoProtect);
-            this.Controls.Add(this.lbEdit);
-            this.Controls.Add(this.lblEdit);
             this.Controls.Add(this.txtExpiry);
             this.Controls.Add(this.lblExpiry);
             this.Controls.Add(this.cmboSummary);
@@ -240,14 +183,10 @@ namespace WikiFunctions.Controls
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.ComboBox cmboSummary;
-        private System.Windows.Forms.ListBox lbEdit;
-        private System.Windows.Forms.ListBox lbMove;
-        private System.Windows.Forms.Label lblEdit;
-        private System.Windows.Forms.Label lblMove;
         private System.Windows.Forms.Label lblExpiry;
         private System.Windows.Forms.TextBox txtExpiry;
-        private System.Windows.Forms.CheckBox chkUnlock;
         private System.Windows.Forms.CheckBox chkAutoProtect;
         private System.Windows.Forms.CheckBox chkCascadingProtection;
+        private MoveDeleteControl MoveDelete;
     }
 }
