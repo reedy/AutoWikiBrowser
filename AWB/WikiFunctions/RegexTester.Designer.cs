@@ -30,8 +30,8 @@ namespace WikiFunctions.Controls
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegexTester));
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblFind = new System.Windows.Forms.Label();
+            this.lblReplace = new System.Windows.Forms.Label();
             this.txtFind = new System.Windows.Forms.TextBox();
             this.txtReplace = new System.Windows.Forms.TextBox();
             this.ReplaceBtn = new System.Windows.Forms.Button();
@@ -49,29 +49,29 @@ namespace WikiFunctions.Controls
             this.chkExplicitCapture = new System.Windows.Forms.CheckBox();
             this.chkIgnoreCase = new System.Windows.Forms.CheckBox();
             this.chkMultiline = new System.Windows.Forms.CheckBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gbRegexOptions = new System.Windows.Forms.GroupBox();
             this.statusStrip1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.gbRegexOptions.SuspendLayout();
             this.SuspendLayout();
             // 
-            // label1
+            // lblFind
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(30, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Find:";
-            this.toolTip1.SetToolTip(this.label1, "The regular expression to find");
+            this.lblFind.AutoSize = true;
+            this.lblFind.Location = new System.Drawing.Point(12, 9);
+            this.lblFind.Name = "lblFind";
+            this.lblFind.Size = new System.Drawing.Size(30, 13);
+            this.lblFind.TabIndex = 0;
+            this.lblFind.Text = "Fi&nd:";
+            this.toolTip1.SetToolTip(this.lblFind, "The regular expression to find");
             // 
-            // label2
+            // lblReplace
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 90);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(50, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Replace:";
+            this.lblReplace.AutoSize = true;
+            this.lblReplace.Location = new System.Drawing.Point(12, 90);
+            this.lblReplace.Name = "lblReplace";
+            this.lblReplace.Size = new System.Drawing.Size(50, 13);
+            this.lblReplace.TabIndex = 2;
+            this.lblReplace.Text = "Replace:";
             // 
             // txtFind
             // 
@@ -82,7 +82,7 @@ namespace WikiFunctions.Controls
             this.txtFind.Multiline = true;
             this.txtFind.Name = "txtFind";
             this.txtFind.Size = new System.Drawing.Size(404, 78);
-            this.txtFind.TabIndex = 2;
+            this.txtFind.TabIndex = 1;
             this.toolTip1.SetToolTip(this.txtFind, "The regular expression to find");
             this.txtFind.TextChanged += new System.EventHandler(this.ConditionsChanged);
             this.txtFind.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.KeyPressHandler);
@@ -107,8 +107,8 @@ namespace WikiFunctions.Controls
             this.ReplaceBtn.Location = new System.Drawing.Point(577, 90);
             this.ReplaceBtn.Name = "ReplaceBtn";
             this.ReplaceBtn.Size = new System.Drawing.Size(75, 23);
-            this.ReplaceBtn.TabIndex = 4;
-            this.ReplaceBtn.Text = "Replace";
+            this.ReplaceBtn.TabIndex = 5;
+            this.ReplaceBtn.Text = "&Replace";
             this.ReplaceBtn.UseVisualStyleBackColor = true;
             this.ReplaceBtn.Click += new System.EventHandler(this.Replace_Click);
             // 
@@ -123,7 +123,7 @@ namespace WikiFunctions.Controls
             this.txtInput.Name = "txtInput";
             this.txtInput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtInput.Size = new System.Drawing.Size(596, 160);
-            this.txtInput.TabIndex = 5;
+            this.txtInput.TabIndex = 8;
             this.toolTip1.SetToolTip(this.txtInput, "Enter or paste in the text to be searched here");
             this.txtInput.TextChanged += new System.EventHandler(this.ConditionsChanged);
             this.txtInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.KeyPressHandler);
@@ -135,7 +135,7 @@ namespace WikiFunctions.Controls
             this.label3.Location = new System.Drawing.Point(12, 290);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(40, 13);
-            this.label3.TabIndex = 7;
+            this.label3.TabIndex = 9;
             this.label3.Text = "Result:";
             this.toolTip1.SetToolTip(this.label3, "Displays the result");
             // 
@@ -160,7 +160,7 @@ namespace WikiFunctions.Controls
             this.Captures.Location = new System.Drawing.Point(72, 286);
             this.Captures.Name = "Captures";
             this.Captures.Size = new System.Drawing.Size(596, 164);
-            this.Captures.TabIndex = 13;
+            this.Captures.TabIndex = 11;
             this.toolTip1.SetToolTip(this.Captures, "Displays the result");
             // 
             // FindBtn
@@ -170,7 +170,7 @@ namespace WikiFunctions.Controls
             this.FindBtn.Location = new System.Drawing.Point(496, 90);
             this.FindBtn.Name = "FindBtn";
             this.FindBtn.Size = new System.Drawing.Size(75, 23);
-            this.FindBtn.TabIndex = 14;
+            this.FindBtn.TabIndex = 4;
             this.FindBtn.Text = "Find";
             this.FindBtn.UseVisualStyleBackColor = true;
             this.FindBtn.Click += new System.EventHandler(this.FindBtn_Click);
@@ -188,7 +188,7 @@ namespace WikiFunctions.Controls
             this.statusStrip1.Location = new System.Drawing.Point(0, 465);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(691, 22);
-            this.statusStrip1.TabIndex = 9;
+            this.statusStrip1.TabIndex = 12;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // progressBar
@@ -203,7 +203,7 @@ namespace WikiFunctions.Controls
             this.label4.Location = new System.Drawing.Point(12, 129);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(45, 26);
-            this.label4.TabIndex = 15;
+            this.label4.TabIndex = 7;
             this.label4.Text = "Text to\r\nsearch :";
             this.toolTip1.SetToolTip(this.label4, "Enter or paste in the text to be searched here");
             // 
@@ -214,8 +214,8 @@ namespace WikiFunctions.Controls
             this.chkSingleline.Location = new System.Drawing.Point(90, 20);
             this.chkSingleline.Name = "chkSingleline";
             this.chkSingleline.Size = new System.Drawing.Size(75, 17);
-            this.chkSingleline.TabIndex = 22;
-            this.chkSingleline.Text = "SingleLine";
+            this.chkSingleline.TabIndex = 2;
+            this.chkSingleline.Text = "&SingleLine";
             this.toolTip1.SetToolTip(this.chkSingleline, "Specifies single-line mode. Changes the meaning of the dot (.) so it matches ever" +
                     "y character (instead of every character except \\n)");
             this.chkSingleline.UseVisualStyleBackColor = true;
@@ -227,8 +227,8 @@ namespace WikiFunctions.Controls
             this.chkExplicitCapture.Location = new System.Drawing.Point(90, 43);
             this.chkExplicitCapture.Name = "chkExplicitCapture";
             this.chkExplicitCapture.Size = new System.Drawing.Size(96, 17);
-            this.chkExplicitCapture.TabIndex = 21;
-            this.chkExplicitCapture.Text = "ExplicitCapture";
+            this.chkExplicitCapture.TabIndex = 3;
+            this.chkExplicitCapture.Text = "Explicit&Capture";
             this.toolTip1.SetToolTip(this.chkExplicitCapture, resources.GetString("chkExplicitCapture.ToolTip"));
             this.chkExplicitCapture.UseVisualStyleBackColor = true;
             // 
@@ -239,8 +239,8 @@ namespace WikiFunctions.Controls
             this.chkIgnoreCase.Location = new System.Drawing.Point(6, 43);
             this.chkIgnoreCase.Name = "chkIgnoreCase";
             this.chkIgnoreCase.Size = new System.Drawing.Size(80, 17);
-            this.chkIgnoreCase.TabIndex = 20;
-            this.chkIgnoreCase.Text = "IgnoreCase";
+            this.chkIgnoreCase.TabIndex = 1;
+            this.chkIgnoreCase.Text = "&IgnoreCase";
             this.toolTip1.SetToolTip(this.chkIgnoreCase, "Specifies case-insensitive matching");
             this.chkIgnoreCase.UseVisualStyleBackColor = true;
             // 
@@ -251,33 +251,34 @@ namespace WikiFunctions.Controls
             this.chkMultiline.Location = new System.Drawing.Point(6, 20);
             this.chkMultiline.Name = "chkMultiline";
             this.chkMultiline.Size = new System.Drawing.Size(68, 17);
-            this.chkMultiline.TabIndex = 19;
-            this.chkMultiline.Text = "MultiLine";
+            this.chkMultiline.TabIndex = 0;
+            this.chkMultiline.Text = "&MultiLine";
             this.toolTip1.SetToolTip(this.chkMultiline, "Multiline mode. Changes the meaning of ^ and $ so they match at the beginning and" +
                     " end, respectively, of any line, and not just the beginning and end of the entir" +
                     "e string");
             this.chkMultiline.UseVisualStyleBackColor = true;
             // 
-            // groupBox1
+            // gbRegexOptions
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.chkSingleline);
-            this.groupBox1.Controls.Add(this.chkExplicitCapture);
-            this.groupBox1.Controls.Add(this.chkIgnoreCase);
-            this.groupBox1.Controls.Add(this.chkMultiline);
-            this.groupBox1.Location = new System.Drawing.Point(482, 6);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(189, 69);
-            this.groupBox1.TabIndex = 19;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "RegexOptions";
+            this.gbRegexOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbRegexOptions.Controls.Add(this.chkSingleline);
+            this.gbRegexOptions.Controls.Add(this.chkExplicitCapture);
+            this.gbRegexOptions.Controls.Add(this.chkIgnoreCase);
+            this.gbRegexOptions.Controls.Add(this.chkMultiline);
+            this.gbRegexOptions.Location = new System.Drawing.Point(482, 6);
+            this.gbRegexOptions.Name = "gbRegexOptions";
+            this.gbRegexOptions.Size = new System.Drawing.Size(189, 69);
+            this.gbRegexOptions.TabIndex = 6;
+            this.gbRegexOptions.TabStop = false;
+            this.gbRegexOptions.Text = "RegexOptions";
             // 
             // RegexTester
             // 
+            this.AcceptButton = this.FindBtn;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(691, 487);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.gbRegexOptions);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.FindBtn);
             this.Controls.Add(this.Captures);
@@ -287,8 +288,8 @@ namespace WikiFunctions.Controls
             this.Controls.Add(this.ReplaceBtn);
             this.Controls.Add(this.txtReplace);
             this.Controls.Add(this.txtFind);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblReplace);
+            this.Controls.Add(this.lblFind);
             this.Controls.Add(this.ResultText);
             this.HelpButton = true;
             this.KeyPreview = true;
@@ -305,8 +306,8 @@ namespace WikiFunctions.Controls
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RegexTester_FormClosing);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.gbRegexOptions.ResumeLayout(false);
+            this.gbRegexOptions.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -314,8 +315,8 @@ namespace WikiFunctions.Controls
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblFind;
+        private System.Windows.Forms.Label lblReplace;
         private System.Windows.Forms.TextBox txtFind;
         private System.Windows.Forms.TextBox txtReplace;
         private System.Windows.Forms.Button ReplaceBtn;
@@ -328,7 +329,7 @@ namespace WikiFunctions.Controls
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox gbRegexOptions;
         private System.Windows.Forms.CheckBox chkSingleline;
         private System.Windows.Forms.CheckBox chkExplicitCapture;
         private System.Windows.Forms.CheckBox chkIgnoreCase;

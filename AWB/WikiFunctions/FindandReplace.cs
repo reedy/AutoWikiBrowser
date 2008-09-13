@@ -210,7 +210,7 @@ namespace WikiFunctions.Parse
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            linkLabel2.LinkVisited = true;
+            lnkWpRE.LinkVisited = true;
             Tools.OpenENArticleInBrowser("Regular_expression", false);
         }
 

@@ -63,7 +63,7 @@ namespace AutoWikiBrowser
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 2;
-            this.buttonCancel.Text = "Cancel";
+            this.buttonCancel.Text = "Go back";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
             // chkDontAskAgain
