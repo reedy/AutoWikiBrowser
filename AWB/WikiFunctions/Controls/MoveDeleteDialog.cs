@@ -32,14 +32,12 @@ namespace WikiFunctions.Controls
         public ArticleActionDialog(int MoveDeleteProtect)
         {
             InitializeComponent();
+            MoveDelete.TextBoxIndexChanged += new EventHandler(MoveDelete_TextBoxIndexChanged);
 
             if (MoveDeleteProtect == 1)
             {
-                lblEdit.Visible = false;
-                lblMove.Visible = false;
+                MoveDelete.Visibility = false;
                 lblExpiry.Visible = false;
-                lbEdit.Visible = false;
-                lbMove.Visible = false;
                 txtExpiry.Visible = false;
                 this.Text = "Move";
                 btnOk.Text = "Move";
@@ -51,11 +49,8 @@ namespace WikiFunctions.Controls
             }
             else if (MoveDeleteProtect == 2)
             {
-                lblEdit.Visible = false;
-                lblMove.Visible = false;
+                MoveDelete.Visibility = false;
                 lblExpiry.Visible = false;
-                lbEdit.Visible = false;
-                lbMove.Visible = false;
                 txtExpiry.Visible = false;
                 this.Text = "Delete";
                 btnOk.Text = "Delete";
@@ -107,6 +102,11 @@ namespace WikiFunctions.Controls
             }
         }
 
+        private void MoveDelete_TextBoxIndexChanged(object sender, EventArgs e)
+        {
+            chkCascadingProtection.Enabled = MoveDelete.CascadingEnabled;
+        }
+
         public bool AutoProtectAll
         {
             get { return chkAutoProtect.Checked; }
@@ -126,12 +126,12 @@ namespace WikiFunctions.Controls
 
         public int EditProtectionLevel
         {
-            get { return lbEdit.SelectedIndex; }
+            get { return MoveDelete.EditProtectionLevel; }
         }
 
         public int MoveProtectionLevel
         {
-            get { return lbMove.SelectedIndex; }
+            get { return MoveDelete.MoveProtectionLevel; }
         }
 
         public string ProtectExpiry
@@ -142,24 +142,6 @@ namespace WikiFunctions.Controls
         public bool CascadingProtection
         {
             get { return (chkCascadingProtection.Enabled && chkCascadingProtection.Checked); }
-        }
-
-        private void chkUnlock_CheckedChanged(object sender, EventArgs e)
-        {
-            lbMove.Enabled = chkUnlock.Checked;
-        }
-
-        private void lbEdit_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (!chkUnlock.Checked)
-                lbMove.SelectedIndex = lbEdit.SelectedIndex;
-
-            chkCascadingProtection.Enabled = ((lbEdit.SelectedIndex == 2) && (lbMove.SelectedIndex == 2));
-        }
-
-        private void lbMove_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            chkCascadingProtection.Enabled = ((lbEdit.SelectedIndex == 2) && (lbMove.SelectedIndex == 2));
         }
     }
 }

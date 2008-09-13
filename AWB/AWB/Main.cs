@@ -240,9 +240,8 @@ namespace AutoWikiBrowser
                 {
                     MessageBox.Show("You appear to be using an older operating system, this software may have trouble with some unicode fonts on operating systems older than Windows 2000, the start button has been disabled.", "Operating system", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     SetStartButton(false);
+                    listMaker.MakeListEnabled = false;
                 }
-                else
-                    listMaker.MakeListEnabled = true;
 
                 webBrowserDiff.Navigate("about:blank");
                 webBrowserDiff.ObjectForScripting = this;
@@ -541,7 +540,6 @@ namespace AutoWikiBrowser
                     lblTimer.Text = "";
                     StatusLabelText = "No articles in list, you need to use the Make list";
                     this.Text = Program.Name;
-                    if (webBrowserEdit.Document != null) webBrowserEdit.Document.Write("");
                     listMaker.MakeListEnabled = true;
                     return;
                 }
