@@ -103,7 +103,7 @@ namespace WikiFunctions.Controls
             get { return this.sortColumnsOnClick; }
         }
 
-        private int sortColumn = -1;
+        private int sortColumn = 0;
 
         /// <remarks>From http://msdn2.microsoft.com/en-us/library/ms996467.aspx </remarks>
         void ExtendedListView_ColumnClick(object sender, ColumnClickEventArgs e)
