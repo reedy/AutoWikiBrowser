@@ -52,6 +52,7 @@
     <Compile Include="RegexTests.cs" />
     <Compile Include="SiteInfoTests.cs" />
     <Compile Include="SorterTests.cs" />
+    <Compile Include="TemplateTests.cs" />
     <Compile Include="ToolsTests.cs" />
   </ItemGroup>
   <ItemGroup>
