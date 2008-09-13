@@ -683,7 +683,7 @@ namespace AutoWikiBrowser
                 else if (!BotMode)
                     MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
 
-            if (!doNotAutomaticallyDoAnythingToolStripMenuItem.Checked)
+            if (automaticallyDoAnythingToolStripMenuItem.Checked)
             {
                 StatusLabelText = "Processing page";
                 Application.DoEvents();

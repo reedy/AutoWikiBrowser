@@ -264,7 +264,7 @@ namespace AutoWikiBrowser
                 PasteMore4.Text, PasteMore5.Text, PasteMore6.Text, PasteMore7.Text, PasteMore8.Text,
                 PasteMore9.Text, PasteMore10.Text}, txtFind.Text, chkFindRegex.Checked,
                chkFindCaseSensitive.Checked, wordWrapToolStripMenuItem1.Checked, EnableToolBar,
-               bypassRedirectsToolStripMenuItem.Checked, doNotAutomaticallyDoAnythingToolStripMenuItem.Checked,
+               bypassRedirectsToolStripMenuItem.Checked, !automaticallyDoAnythingToolStripMenuItem.Checked,
                toolStripComboOnLoad.SelectedIndex, chkMinor.Checked, addAllToWatchlistToolStripMenuItem.Checked,
                ShowMovingAverageTimer, sortAlphabeticallyToolStripMenuItem.Checked,
                AddIgnoredToLogFile, (int)txtEdit.Font.Size, txtEdit.Font.Name,
@@ -437,7 +437,7 @@ namespace AutoWikiBrowser
             wordWrapToolStripMenuItem1.Checked = p.General.WordWrap;
             EnableToolBar = p.General.ToolBarEnabled;
             bypassRedirectsToolStripMenuItem.Checked = p.General.BypassRedirect;
-            doNotAutomaticallyDoAnythingToolStripMenuItem.Checked = p.General.NoAutoChanges;
+            automaticallyDoAnythingToolStripMenuItem.Checked = !p.General.NoAutoChanges;
             toolStripComboOnLoad.SelectedIndex = p.General.OnLoadAction;
             chkMinor.Checked = p.General.Minor;
             addAllToWatchlistToolStripMenuItem.Checked = p.General.Watch;
