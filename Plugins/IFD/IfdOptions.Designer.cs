@@ -114,7 +114,7 @@ namespace AutoWikiBrowser.Plugins.IFD
             this.groupBox3.Location = new System.Drawing.Point(12, 210);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(547, 179);
-            this.groupBox3.TabIndex = 1;
+            this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Images";
             // 
@@ -152,7 +152,7 @@ namespace AutoWikiBrowser.Plugins.IFD
             this.btnCancel.Location = new System.Drawing.Point(484, 395);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 2;
+            this.btnCancel.TabIndex = 4;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
