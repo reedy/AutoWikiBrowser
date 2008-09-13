@@ -146,14 +146,14 @@ namespace WikiFunctions.DBScanner
             this.chkCategoryNamespace = new System.Windows.Forms.CheckBox();
             this.chkImageNamespace = new System.Windows.Forms.CheckBox();
             this.tabRev = new System.Windows.Forms.TabPage();
-            this.tabRestrict = new System.Windows.Forms.TabPage();
-            this.grpEditMove = new System.Windows.Forms.GroupBox();
-            this.chkProtection = new System.Windows.Forms.CheckBox();
-            this.MoveDelete = new WikiFunctions.Controls.MoveDeleteControl();
             this.tabText = new System.Windows.Forms.TabPage();
             this.gbProperties = new System.Windows.Forms.GroupBox();
             this.chkIgnoreRedirects = new System.Windows.Forms.CheckBox();
             this.tabAWB = new System.Windows.Forms.TabPage();
+            this.tabRestrict = new System.Windows.Forms.TabPage();
+            this.grpEditMove = new System.Windows.Forms.GroupBox();
+            this.chkProtection = new System.Windows.Forms.CheckBox();
+            this.MoveDelete = new WikiFunctions.Controls.MoveDeleteControl();
             this.btnReset = new System.Windows.Forms.Button();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
@@ -188,11 +188,11 @@ namespace WikiFunctions.DBScanner
             this.gbNamespace.SuspendLayout();
             this.flwNamespace.SuspendLayout();
             this.tabRev.SuspendLayout();
-            this.tabRestrict.SuspendLayout();
-            this.grpEditMove.SuspendLayout();
             this.tabText.SuspendLayout();
             this.gbProperties.SuspendLayout();
             this.tabAWB.SuspendLayout();
+            this.tabRestrict.SuspendLayout();
+            this.grpEditMove.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tbConvert.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -1204,7 +1204,6 @@ namespace WikiFunctions.DBScanner
             this.tbParameters.Controls.Add(this.tabDump);
             this.tbParameters.Controls.Add(this.tabProps);
             this.tbParameters.Controls.Add(this.tabRev);
-            //this.tbParameters.Controls.Add(this.tabRestrict); //TODO:Re-add for release
             this.tbParameters.Controls.Add(this.tabText);
             this.tbParameters.Controls.Add(this.tabAWB);
             this.tbParameters.Location = new System.Drawing.Point(12, 12);
@@ -1487,46 +1486,6 @@ namespace WikiFunctions.DBScanner
             this.tabRev.Text = "Revision";
             this.tabRev.UseVisualStyleBackColor = true;
             // 
-            // tabRestrict
-            // 
-            this.tabRestrict.Controls.Add(this.grpEditMove);
-            this.tabRestrict.Location = new System.Drawing.Point(4, 22);
-            this.tabRestrict.Name = "tabRestrict";
-            this.tabRestrict.Padding = new System.Windows.Forms.Padding(3);
-            this.tabRestrict.Size = new System.Drawing.Size(523, 165);
-            this.tabRestrict.TabIndex = 5;
-            this.tabRestrict.Text = "Restriction";
-            this.tabRestrict.UseVisualStyleBackColor = true;
-            // 
-            // grpEditMove
-            // 
-            this.grpEditMove.Controls.Add(this.chkProtection);
-            this.grpEditMove.Controls.Add(this.MoveDelete);
-            this.grpEditMove.Location = new System.Drawing.Point(6, 6);
-            this.grpEditMove.Name = "grpEditMove";
-            this.grpEditMove.Size = new System.Drawing.Size(330, 127);
-            this.grpEditMove.TabIndex = 2;
-            this.grpEditMove.TabStop = false;
-            // 
-            // chkProtection
-            // 
-            this.chkProtection.AutoSize = true;
-            this.chkProtection.Location = new System.Drawing.Point(6, 16);
-            this.chkProtection.Name = "chkProtection";
-            this.chkProtection.Size = new System.Drawing.Size(108, 17);
-            this.chkProtection.TabIndex = 1;
-            this.chkProtection.Text = "Check Protection";
-            this.chkProtection.UseVisualStyleBackColor = true;
-            this.chkProtection.CheckedChanged += new System.EventHandler(this.chkProtection_CheckedChanged);
-            // 
-            // MoveDelete
-            // 
-            this.MoveDelete.Enabled = false;
-            this.MoveDelete.Location = new System.Drawing.Point(6, 39);
-            this.MoveDelete.Name = "MoveDelete";
-            this.MoveDelete.Size = new System.Drawing.Size(311, 88);
-            this.MoveDelete.TabIndex = 0;
-            // 
             // tabText
             // 
             this.tabText.Controls.Add(this.gbProperties);
@@ -1584,6 +1543,46 @@ namespace WikiFunctions.DBScanner
             this.tabAWB.TabIndex = 3;
             this.tabAWB.Text = "Searching";
             this.tabAWB.UseVisualStyleBackColor = true;
+            // 
+            // tabRestrict
+            // 
+            this.tabRestrict.Controls.Add(this.grpEditMove);
+            this.tabRestrict.Location = new System.Drawing.Point(4, 22);
+            this.tabRestrict.Name = "tabRestrict";
+            this.tabRestrict.Padding = new System.Windows.Forms.Padding(3);
+            this.tabRestrict.Size = new System.Drawing.Size(523, 165);
+            this.tabRestrict.TabIndex = 5;
+            this.tabRestrict.Text = "Restriction";
+            this.tabRestrict.UseVisualStyleBackColor = true;
+            // 
+            // grpEditMove
+            // 
+            this.grpEditMove.Controls.Add(this.chkProtection);
+            this.grpEditMove.Controls.Add(this.MoveDelete);
+            this.grpEditMove.Location = new System.Drawing.Point(6, 6);
+            this.grpEditMove.Name = "grpEditMove";
+            this.grpEditMove.Size = new System.Drawing.Size(330, 127);
+            this.grpEditMove.TabIndex = 2;
+            this.grpEditMove.TabStop = false;
+            // 
+            // chkProtection
+            // 
+            this.chkProtection.AutoSize = true;
+            this.chkProtection.Location = new System.Drawing.Point(6, 16);
+            this.chkProtection.Name = "chkProtection";
+            this.chkProtection.Size = new System.Drawing.Size(108, 17);
+            this.chkProtection.TabIndex = 1;
+            this.chkProtection.Text = "Check Protection";
+            this.chkProtection.UseVisualStyleBackColor = true;
+            this.chkProtection.CheckedChanged += new System.EventHandler(this.chkProtection_CheckedChanged);
+            // 
+            // MoveDelete
+            // 
+            this.MoveDelete.Enabled = false;
+            this.MoveDelete.Location = new System.Drawing.Point(6, 39);
+            this.MoveDelete.Name = "MoveDelete";
+            this.MoveDelete.Size = new System.Drawing.Size(311, 88);
+            this.MoveDelete.TabIndex = 0;
             // 
             // btnReset
             // 
@@ -1736,14 +1735,14 @@ namespace WikiFunctions.DBScanner
             this.flwNamespace.ResumeLayout(false);
             this.flwNamespace.PerformLayout();
             this.tabRev.ResumeLayout(false);
-            this.tabRestrict.ResumeLayout(false);
-            this.grpEditMove.ResumeLayout(false);
-            this.grpEditMove.PerformLayout();
             this.tabText.ResumeLayout(false);
             this.gbProperties.ResumeLayout(false);
             this.gbProperties.PerformLayout();
             this.tabAWB.ResumeLayout(false);
             this.tabAWB.PerformLayout();
+            this.tabRestrict.ResumeLayout(false);
+            this.grpEditMove.ResumeLayout(false);
+            this.grpEditMove.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tbConvert.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
