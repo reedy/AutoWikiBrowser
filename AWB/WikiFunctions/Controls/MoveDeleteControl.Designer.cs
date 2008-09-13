@@ -81,6 +81,7 @@
             this.lbEdit.Size = new System.Drawing.Size(145, 43);
             this.lbEdit.TabIndex = 13;
             this.lbEdit.SelectedIndexChanged += new System.EventHandler(this.BothListBox_SelectedIndexChanged);
+            this.lbEdit.SelectedIndexChanged += new System.EventHandler(this.lbEdit_SelectedIndexChanged);
             // 
             // lblEdit
             // 
