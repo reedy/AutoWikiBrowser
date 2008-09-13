@@ -83,7 +83,7 @@ namespace AutoWikiBrowser
 
             cmboProject_SelectedIndexChanged(null, null);
 
-            chkAlwaysConfirmExit.Checked = Properties.Settings.Default.DontAskForTerminate;
+            chkAlwaysConfirmExit.Checked = Properties.Settings.Default.AskForTerminate;
             chkPrivacy.Checked = !Properties.Settings.Default.Privacy;
         }
 
@@ -315,9 +315,9 @@ namespace AutoWikiBrowser
             if (Properties.Settings.Default.CustomWikis.Length > 0)
                 save = true;
 
-            if (Properties.Settings.Default.DontAskForTerminate != chkAlwaysConfirmExit.Checked)
+            if (Properties.Settings.Default.AskForTerminate != chkAlwaysConfirmExit.Checked)
             {
-                Properties.Settings.Default.DontAskForTerminate = chkAlwaysConfirmExit.Checked;
+                Properties.Settings.Default.AskForTerminate = chkAlwaysConfirmExit.Checked;
                 save = true;
             }
             if (Properties.Settings.Default.Privacy != chkPrivacy.Checked)

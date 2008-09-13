@@ -1531,16 +1531,16 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
 
             Properties.Settings.Default.Save();
 
-            if (!AutoWikiBrowser.Properties.Settings.Default.DontAskForTerminate)
+            if (AutoWikiBrowser.Properties.Settings.Default.AskForTerminate)
             {
                 TimeSpan time = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
                 time = time.Subtract(StartTime);
                 dlg = new ExitQuestion(time, NumberOfEdits, "");
                 dlg.ShowDialog();
-                AutoWikiBrowser.Properties.Settings.Default.DontAskForTerminate = dlg.CheckBoxDontAskAgain;
+                AutoWikiBrowser.Properties.Settings.Default.AskForTerminate = !dlg.CheckBoxDontAskAgain;
             }
 
-            if (AutoWikiBrowser.Properties.Settings.Default.DontAskForTerminate || dlg.DialogResult == DialogResult.OK)
+            if (!AutoWikiBrowser.Properties.Settings.Default.AskForTerminate || dlg.DialogResult == DialogResult.OK)
             {
                 // save user persistent settings
                 AutoWikiBrowser.Properties.Settings.Default.Save();
