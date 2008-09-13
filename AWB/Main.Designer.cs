@@ -2993,9 +2993,9 @@ namespace AutoWikiBrowser
             this.chkSkipNoPageLinks.AutoSize = true;
             this.chkSkipNoPageLinks.Location = new System.Drawing.Point(6, 42);
             this.chkSkipNoPageLinks.Name = "chkSkipNoPageLinks";
-            this.chkSkipNoPageLinks.Size = new System.Drawing.Size(138, 17);
+            this.chkSkipNoPageLinks.Size = new System.Drawing.Size(134, 17);
             this.chkSkipNoPageLinks.TabIndex = 1;
-            this.chkSkipNoPageLinks.Text = "Page Contains no Links";
+            this.chkSkipNoPageLinks.Text = "Page Contains no links";
             this.chkSkipNoPageLinks.UseVisualStyleBackColor = true;
             // 
             // gbPageExisting
@@ -3036,16 +3036,16 @@ namespace AutoWikiBrowser
             this.radSkipNonExistent.Checked = true;
             this.radSkipNonExistent.Location = new System.Drawing.Point(61, 3);
             this.radSkipNonExistent.Name = "radSkipNonExistent";
-            this.radSkipNonExistent.Size = new System.Drawing.Size(100, 17);
+            this.radSkipNonExistent.Size = new System.Drawing.Size(85, 17);
             this.radSkipNonExistent.TabIndex = 1;
             this.radSkipNonExistent.TabStop = true;
-            this.radSkipNonExistent.Text = "Doesn\'t e&xistent";
+            this.radSkipNonExistent.Text = "Doesn\'t e&xist";
             this.radSkipNonExistent.UseVisualStyleBackColor = true;
             // 
             // radSkipNone
             // 
             this.radSkipNone.AutoSize = true;
-            this.radSkipNone.Location = new System.Drawing.Point(167, 3);
+            this.radSkipNone.Location = new System.Drawing.Point(152, 3);
             this.radSkipNone.Name = "radSkipNone";
             this.radSkipNone.Size = new System.Drawing.Size(74, 17);
             this.radSkipNone.TabIndex = 2;
