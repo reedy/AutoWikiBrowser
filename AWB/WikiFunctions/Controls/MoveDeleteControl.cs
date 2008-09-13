@@ -15,6 +15,8 @@ namespace WikiFunctions.Controls
         public MoveDeleteControl()
         {
             InitializeComponent();
+            lbMove.SelectedIndex = 0;
+            lbEdit.SelectedIndex = 0;
         }
 
         private void chkUnlock_CheckedChanged(object sender, EventArgs e)
@@ -52,6 +54,13 @@ namespace WikiFunctions.Controls
         public bool Visibility
         {
             set { lbEdit.Visible = lbMove.Visible = lblEdit.Visible = lblMove.Visible = value; }
+        }
+
+        public void Reset()
+        {
+            lbEdit.SelectedIndex = 0;
+            lbMove.SelectedIndex = 0;
+            chkUnlock.Checked = false;
         }
     }
 }
