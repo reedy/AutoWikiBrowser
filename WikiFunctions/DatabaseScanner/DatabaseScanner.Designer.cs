@@ -1204,7 +1204,7 @@ namespace WikiFunctions.DBScanner
             this.tbParameters.Controls.Add(this.tabDump);
             this.tbParameters.Controls.Add(this.tabProps);
             this.tbParameters.Controls.Add(this.tabRev);
-            this.tbParameters.Controls.Add(this.tabRestrict);
+            //this.tbParameters.Controls.Add(this.tabRestrict); //TODO:Re-add for release
             this.tbParameters.Controls.Add(this.tabText);
             this.tbParameters.Controls.Add(this.tabAWB);
             this.tbParameters.Location = new System.Drawing.Point(12, 12);
@@ -1502,7 +1502,6 @@ namespace WikiFunctions.DBScanner
             // 
             this.grpEditMove.Controls.Add(this.chkProtection);
             this.grpEditMove.Controls.Add(this.MoveDelete);
-            this.grpEditMove.Enabled = false;
             this.grpEditMove.Location = new System.Drawing.Point(6, 6);
             this.grpEditMove.Name = "grpEditMove";
             this.grpEditMove.Size = new System.Drawing.Size(330, 127);
@@ -1522,6 +1521,7 @@ namespace WikiFunctions.DBScanner
             // 
             // MoveDelete
             // 
+            this.MoveDelete.Enabled = false;
             this.MoveDelete.Location = new System.Drawing.Point(6, 39);
             this.MoveDelete.Name = "MoveDelete";
             this.MoveDelete.Size = new System.Drawing.Size(311, 88);
@@ -1565,9 +1565,9 @@ namespace WikiFunctions.DBScanner
             this.chkIgnoreRedirects.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkIgnoreRedirects.Location = new System.Drawing.Point(69, 97);
             this.chkIgnoreRedirects.Name = "chkIgnoreRedirects";
-            this.chkIgnoreRedirects.Size = new System.Drawing.Size(104, 17);
+            this.chkIgnoreRedirects.Size = new System.Drawing.Size(99, 17);
             this.chkIgnoreRedirects.TabIndex = 17;
-            this.chkIgnoreRedirects.Text = "Ignore Redirects";
+            this.chkIgnoreRedirects.Text = "Ignore redirects";
             this.chkIgnoreRedirects.UseVisualStyleBackColor = true;
             // 
             // tabAWB

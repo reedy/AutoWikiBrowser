@@ -210,6 +210,12 @@ namespace WikiFunctions.DBScanner
             if (chkTitleDoesNotContain.Checked)
                 s.Add(new TitleDoesNotContain(TitleDoesNotRegex));
 
+            if (chkSearchDates.Checked)
+                s.Add(new DateRange(dtpFrom.Value, dtpTo.Value));
+
+            if (chkProtection.Checked)
+                s.Add(new Restriction(MoveDelete.EditProtectionLevel, MoveDelete.MoveProtectionLevel));
+
             if (cmboLength.SelectedIndex == 1)
                 s.Add(new CountCharacters(MoreLessThan.LessThan, (int)nudLength.Value));
             else if (cmboLength.SelectedIndex == 2)
@@ -243,12 +249,6 @@ namespace WikiFunctions.DBScanner
                 s.Add(new Typo());
             if (chkDefaultSort.Checked)
                 s.Add(new MissingDefaultsort(parsers));
-
-            if (chkSearchDates.Checked)
-                s.Add(new DateRange(dtpFrom.Value, dtpTo.Value));
-
-            if (chkProtection.Checked)
-                s.Add(new Protection(MoveDelete.EditProtectionLevel, MoveDelete.MoveProtectionLevel));
 
             Main = new MainProcess(s, fileName, Priority, chkIgnoreComments.Checked, txtStartFrom.Text);
             progressBar.Maximum = (int)(Main.stream.Length / 1024);
@@ -740,6 +740,10 @@ namespace WikiFunctions.DBScanner
             nudLength.Value = 1000;
             nudLinks.Value = 5;
 
+            //Restriction
+            chkProtection.Checked = false;
+            MoveDelete.Reset();
+
             //extra
             foreach (CheckBox c in flwAWB.Controls)
                 c.Checked = false;
@@ -865,6 +869,11 @@ namespace WikiFunctions.DBScanner
         private void chkProtection_CheckedChanged(object sender, EventArgs e)
         {
             MoveDelete.Enabled = chkProtection.Checked;
+        }
+
+        private void MoveDelete_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
