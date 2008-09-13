@@ -144,7 +144,6 @@ namespace WikiFunctions.Controls.Lists
             // 
             // btnGenerate
             // 
-            this.btnGenerate.Enabled = false;
             this.btnGenerate.Location = new System.Drawing.Point(75, 51);
             this.btnGenerate.Name = "btnGenerate";
             this.btnGenerate.Size = new System.Drawing.Size(74, 25);
