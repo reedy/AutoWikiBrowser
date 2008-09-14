@@ -67,6 +67,7 @@ namespace AutoWikiBrowser
             groupBox1.Enabled = chkSkip.Enabled = chkEnabled.Checked;
         }
 
+        //Look at User:Pseudomonas/AWBPerlWrapperPlugin
         public string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, out string Summary, out bool Skip)
         {
             string OrigText = ArticleText;
@@ -150,15 +151,15 @@ namespace AutoWikiBrowser
 
         private void btnSelect_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(openFileDialog1.InitialDirectory))
-                openFileDialog1.InitialDirectory = Application.StartupPath;
+            if (string.IsNullOrEmpty(openFileDialog.InitialDirectory))
+                openFileDialog.InitialDirectory = Application.StartupPath;
 
-            openFileDialog1.ShowDialog();
+            openFileDialog.ShowDialog();
 
-            if (!string.IsNullOrEmpty(openFileDialog1.FileName))
+            if (!string.IsNullOrEmpty(openFileDialog.FileName))
             {
-                txtProgram.Text = openFileDialog1.FileName.Remove(0, openFileDialog1.FileName.LastIndexOf("\\")).Replace("\\", "");
-                txtWorkingDir.Text = openFileDialog1.FileName.Remove(openFileDialog1.FileName.LastIndexOf("\\"));
+                txtProgram.Text = openFileDialog.FileName.Remove(0, openFileDialog.FileName.LastIndexOf("\\")).Replace("\\", "");
+                txtWorkingDir.Text = openFileDialog.FileName.Remove(openFileDialog.FileName.LastIndexOf("\\"));
             }
         }
     }
