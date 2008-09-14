@@ -198,35 +198,35 @@ namespace WikiFunctions.Lists
                         sr.Close();
                     }
 
-                    if (LoadWikiLink.IsMatch(pageText))
+                    switch (openListDialog.FilterIndex)
                     {
-                        foreach (Match m in LoadWikiLink.Matches(pageText))
-                        {
-                            title = m.Groups[1].Value;
-                            if (!RegexFromFile.IsMatch(title) && (!(title.StartsWith("#"))))
+                        case 2:
+                            foreach (string s in pageText.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
                             {
-                                list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(title))));
+                                list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim()))));
                             }
-                        }
-                    }
-                    else
-                    {
-                        switch (openListDialog.FilterIndex)
-                        {
-                            case 2:
-                                foreach (string s in pageText.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
+                            break;
+                        default:
+                            if (LoadWikiLink.IsMatch(pageText))
+                            {
+                                foreach (Match m in LoadWikiLink.Matches(pageText))
                                 {
-                                    list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim()))));
+                                    title = m.Groups[1].Value;
+                                    if (!RegexFromFile.IsMatch(title) && (!(title.StartsWith("#"))))
+                                    {
+                                        list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(title))));
+                                    }
                                 }
-                                break;
-                            default:
+                            }
+                            else
+                            {
                                 foreach (string s in pageText.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
                                 {
                                     if (s.Trim().Length == 0 || !Tools.IsValidTitle(s)) continue;
                                     list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim()))));
                                 }
-                                break;
-                        }
+                            }
+                            break;
                     }
                 }
                 return list;
