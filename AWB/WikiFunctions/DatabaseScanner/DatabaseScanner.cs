@@ -65,6 +65,10 @@ namespace WikiFunctions.DBScanner
         {
             InitializeComponent();
             SpecialFilter = new ListFilterForm(lbArticles);
+
+#if !DEBUG
+            tbParameters.TabPages.Remove(tabRestrict);
+#endif
         }
 
         public DatabaseScanner(ListBox l)
