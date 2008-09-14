@@ -1207,7 +1207,7 @@ namespace WikiFunctions.DBScanner
             this.tbParameters.Controls.Add(this.tabText);
             this.tbParameters.Controls.Add(this.tabAWB);
             this.tbParameters.Controls.Add(this.tabRestrict);
-            this.tbParameters.Location = new System.Drawing.Point(12, 12);
+            this.tbParameters.Location = new System.Drawing.Point(13, 12);
             this.tbParameters.Name = "tbParameters";
             this.tbParameters.SelectedIndex = 0;
             this.tbParameters.Size = new System.Drawing.Size(531, 191);
@@ -1593,7 +1593,7 @@ namespace WikiFunctions.DBScanner
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(75, 23);
             this.btnReset.TabIndex = 3;
-            this.btnReset.Text = "Clear";
+            this.btnReset.Text = "Reset";
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // toolStripMenuItem2
@@ -1691,8 +1691,8 @@ namespace WikiFunctions.DBScanner
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(636, 549);
             this.Controls.Add(this.statusStrip);
-            this.Controls.Add(this.tbParameters);
             this.Controls.Add(this.btnPause);
+            this.Controls.Add(this.tbParameters);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.btnReset);
