@@ -1446,7 +1446,7 @@ Message: {2}
                 if (i > 0)
                     ret.Append("&");
 
-                ret.Append(postvars.Keys[i] + "=" + postvars[postvars.Keys[i]]);
+                ret.Append(postvars.Keys[i] + "=" + HttpUtility.UrlEncode(postvars[postvars.Keys[i]]));
             }
 
             return ret.ToString();
