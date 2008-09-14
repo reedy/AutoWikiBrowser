@@ -1226,6 +1226,7 @@ Message: {2}
             return Math.Min(a.Length, b.Length);
         }
 
+        // TODO: remove in 4.5 or 5.0, whichever will be released next
         /// <summary>
         /// 
         /// </summary>
@@ -1278,37 +1279,6 @@ Message: {2}
         }
 
         /// <summary>
-        /// Turns a list of articles into an list of the associated talk pages.
-        /// </summary>
-        /// <param name="list">The list of articles.</param>
-        /// <returns>The list of the talk pages.</returns>
-        public static List<Article> ConvertToTalk(List<Article> list)
-        {
-            List<Article> newList = new List<Article>();
-
-            foreach (Article a in list)
-            {
-                if (Tools.IsTalkPage(a.NameSpaceKey))
-                {
-                    newList.Add(a);
-                    continue;
-                }
-                else if (a.NameSpaceKey == 0)
-                {
-                    newList.Add(new WikiFunctions.Article(Variables.Namespaces[1] + a.Name));
-                    continue;
-                }
-                else
-                {
-                    string s = Regex.Replace(a.Name, "^" + Variables.Namespaces[a.NameSpaceKey], Variables.Namespaces[a.NameSpaceKey + 1]);
-                    newList.Add(new WikiFunctions.Article(s));
-                    continue;
-                }
-            }
-            return newList;
-        }
-
-        /// <summary>
         /// Turns an article into its associated talk page
         /// </summary>
         /// <param name="a">The Article</param>
@@ -1317,7 +1287,7 @@ Message: {2}
         {
             if (Tools.IsTalkPage(a.NameSpaceKey))
             {
-                return a.URLEncodedName;
+                return a.Name;
             }
             else if (a.NameSpaceKey == 0)
             {
@@ -1325,36 +1295,26 @@ Message: {2}
             }
             else
             {
-                return Regex.Replace(a.Name, "^" + Variables.Namespaces[a.NameSpaceKey], Variables.Namespaces[a.NameSpaceKey + 1]);
+                return Variables.Namespaces[a.NameSpaceKey + 1] + a.NamespacelessName;
             }
         }
 
         /// <summary>
-        /// Turns a list of talk pages into a list of the associated articles.
+        /// Turns a list of articles into an list of the associated talk pages.
         /// </summary>
-        /// <param name="list">The list of talk pages.</param>
-        /// <returns>The list of articles.</returns>
-        public static List<Article> ConvertFromTalk(List<Article> list)
+        /// <param name="list">The list of articles.</param>
+        /// <returns>The list of the talk pages.</returns>
+        public static List<Article> ConvertToTalk(List<Article> list)
         {
-            List<Article> newList = new List<Article>();
+            List<Article> newList = new List<Article>(list.Count);
 
             foreach (Article a in list)
             {
-                if (Tools.IsTalkPage(a.NameSpaceKey))
-                {
-                    if (a.NameSpaceKey == 1)
-                    {
-                        string s = Regex.Replace(a.Name, "^" + Variables.Namespaces[a.NameSpaceKey], "");
-                        newList.Add(new WikiFunctions.Article(s));
-                    }
-                    else
-                    {
-                        string s = Regex.Replace(a.Name, "^" + Variables.Namespaces[a.NameSpaceKey], Variables.Namespaces[a.NameSpaceKey - 1]);
-                        newList.Add(new WikiFunctions.Article(s));
-                    }
-                }
-                else
+                string s = ConvertToTalk(a);
+                if (a.Equals(s))
                     newList.Add(a);
+                else
+                    newList.Add(new Article(s));
             }
             return newList;
         }
@@ -1369,16 +1329,34 @@ Message: {2}
             if (Tools.IsTalkPage(a.NameSpaceKey))
             {
                 if (a.NameSpaceKey == 1)
-                {
-                    return Regex.Replace(a.Name, "^" + Variables.Namespaces[a.NameSpaceKey], "");
-                }
+                    return a.NamespacelessName;
                 else
-                {
-                    return Regex.Replace(a.Name, "^" + Variables.Namespaces[a.NameSpaceKey], Variables.Namespaces[a.NameSpaceKey - 1]);
-                }
+                    return Variables.Namespaces[a.NameSpaceKey - 1] + a.NamespacelessName;
             }
             else
-                return a.URLEncodedName;
+            {
+                return a.Name;
+            }
+        }
+
+        /// <summary>
+        /// Turns a list of talk pages into a list of the associated articles.
+        /// </summary>
+        /// <param name="list">The list of talk pages.</param>
+        /// <returns>The list of articles.</returns>
+        public static List<Article> ConvertFromTalk(List<Article> list)
+        {
+            List<Article> newList = new List<Article>(list.Count);
+
+            foreach (Article a in list)
+            {
+                string s = ConvertFromTalk(a);
+                if (a.Equals(s))
+                    newList.Add(a);
+                else
+                    newList.Add(new Article(s));
+            }
+            return newList;
         }
 
         public static List<Article> FilterSomeArticles(List<Article> UnfilteredArticles)

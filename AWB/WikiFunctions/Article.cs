@@ -723,7 +723,12 @@ namespace WikiFunctions
         {
             Article a = obj as Article;
             if (a == null)
-                return false;
+            {
+                if (obj is string)
+                    return mName == obj as string;
+                else 
+                    return false;
+            }
             return (mName == a.mName);
         }
 
