@@ -17,7 +17,7 @@ namespace UnitTests
         }
 
         [Test]
-        public void TestInvalidChars()
+        public void InvalidChars()
         {
             Assert.IsTrue(Tools.IsValidTitle("test"));
             Assert.IsTrue(Tools.IsValidTitle("This is a_test"));
@@ -54,7 +54,7 @@ namespace UnitTests
         }
 
         [Test]
-        public void TestRomanNumbers()
+        public void RomanNumbers()
         {
             Assert.IsTrue(Tools.IsRomanNumber("XVII"));
             Assert.IsTrue(Tools.IsRomanNumber("I"));
@@ -70,7 +70,7 @@ namespace UnitTests
 
         [Test, Category("Incomplete")]
         //TODO: address the need of escaped string as argument
-        public void TestCaseInsensitive()
+        public void CaseInsensitive()
         {
             Assert.AreEqual("", Tools.CaseInsensitive(""));
             Assert.AreEqual("123", Tools.CaseInsensitive("123"));
@@ -94,7 +94,7 @@ namespace UnitTests
         }
 
         [Test]
-        public void TestAllCaseInsensitive()
+        public void AllCaseInsensitive()
         {
             Assert.AreEqual("", Tools.AllCaseInsensitive(""));
             Assert.AreEqual("123", Tools.AllCaseInsensitive("123"));
@@ -112,7 +112,7 @@ namespace UnitTests
         }
 
         [Test, Ignore("Too slow")]
-        public void TestTurnFirstToUpper()
+        public void TurnFirstToUpper()
         {
             Assert.AreEqual("", Tools.TurnFirstToUpper(""));
             Assert.AreEqual("ASDA", Tools.TurnFirstToUpper("ASDA"));
@@ -126,7 +126,7 @@ namespace UnitTests
         }
 
         [Test]
-        public void TestTurnFirstToLower()
+        public void TurnFirstToLower()
         {
             Assert.AreEqual("", Tools.TurnFirstToLower(""));
             Assert.AreEqual("test", Tools.TurnFirstToLower("test"));
@@ -138,7 +138,7 @@ namespace UnitTests
         }
 
         [Test]
-        public void TestWordCount()
+        public void WordCount()
         {
             Assert.AreEqual(0, Tools.WordCount(""));
             Assert.AreEqual(0, Tools.WordCount("    "));
@@ -187,7 +187,7 @@ bar"));
         }
 
         [Test]
-        public void TestReplacePartOfString()
+        public void ReplacePartOfString()
         {
             Assert.AreEqual("abc123ef", Tools.ReplacePartOfString("abcdef", 3, 1, "123"));
             Assert.AreEqual("123abc", Tools.ReplacePartOfString("abc", 0, 0, "123"));
@@ -200,7 +200,7 @@ bar"));
         }
 
         [Test]
-        public void TestWikiEncode()
+        public void WikiEncode()
         {
             Assert.AreEqual("foo", Tools.WikiEncode("foo"));
             Assert.AreEqual("Foo", Tools.WikiEncode("Foo"));
@@ -213,7 +213,7 @@ bar"));
         }
 
         [Test]
-        public void TestSplitToSections()
+        public void SplitToSections()
         {
             string[] sections = Tools.SplitToSections("foo\r\n==bar=\r\nboo\r\n\r\n= boz =\r\n==quux==");
             CollectionAssert.AreEqual(new string[]
@@ -249,7 +249,7 @@ bar"));
         }
 
         [Test]
-        public void TestRemoveMatches()
+        public void RemoveMatches()
         {
             MatchCollection matches = Regex.Matches("abc bce cde def", "[ce]");
             Assert.AreEqual("ab b d df", Tools.RemoveMatches("abc bce cde def", matches));
@@ -267,7 +267,7 @@ bar"));
         }
 
         [Test]
-        public void TestRemoveHashFromPageTitle()
+        public void RemoveHashFromPageTitle()
         {
             Assert.AreEqual("ab c", Tools.RemoveHashFromPageTitle("ab c"));
             Assert.AreEqual("foo", Tools.RemoveHashFromPageTitle("foo#bar"));
@@ -278,7 +278,7 @@ bar"));
         }
 
         [Test]
-        public void TestSplitLines()
+        public void SplitLines()
         {
             CollectionAssert.IsEmpty(Tools.SplitLines(""));
 
@@ -310,7 +310,29 @@ bar"));
         }
 
         [Test]
-        public void TestRedirectTarget()
+        public void FirstChars()
+        {
+            Assert.AreEqual("", Tools.FirstChars("", 0));
+            Assert.AreEqual("", Tools.FirstChars("", 3));
+            Assert.AreEqual("", Tools.FirstChars("123", 0));
+            Assert.AreEqual("12", Tools.FirstChars("12", 2));
+            Assert.AreEqual("12", Tools.FirstChars("12", 3));
+            Assert.AreEqual("12", Tools.FirstChars("123", 2));
+        }
+
+        [Test]
+        public void IsRedirect()
+        {
+            Assert.IsTrue(Tools.IsRedirect("#REDIRECT  [[Foo]]"));
+            Assert.IsTrue(Tools.IsRedirect("#redirecT[[:Foo]]"));
+            Assert.IsTrue(Tools.IsRedirect("should work!\r\n#REDIRECT [[Foo]]"));
+
+            Assert.IsFalse(Tools.IsRedirect("#REDIRECT you to [[Hell]]"));
+            Assert.IsFalse(Tools.IsRedirect("REDIRECT [[Foo]]"));
+        }
+
+        [Test]
+        public void RedirectTarget()
         {
             Assert.AreEqual("Foo", Tools.RedirectTarget("#redirect [[Foo]]"));
             Assert.AreEqual("Foo", Tools.RedirectTarget("#REDIRECT[[Foo]]"));
@@ -328,7 +350,7 @@ bar"));
         }
 
         [Test]
-        public void TestGetTitleFromURL()
+        public void GetTitleFromURL()
         {
             Assert.AreEqual("foo bar", Tools.GetTitleFromURL("http://en.wikipedia.org/wiki/foo_bar"));
             Assert.AreEqual("Хуй", Tools.GetTitleFromURL("http://en.wikipedia.org/wiki/%D0%A5%D1%83%D0%B9"));
@@ -350,7 +372,7 @@ bar"));
         }
 
         [Test]
-        public void TestFirstDifference()
+        public void FirstDifference()
         {
             Assert.AreEqual(0, Tools.FirstDifference("a", "b"));
             Assert.AreEqual(0, Tools.FirstDifference("", "a"));
