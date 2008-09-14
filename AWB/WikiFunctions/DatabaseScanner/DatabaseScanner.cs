@@ -116,29 +116,42 @@ namespace WikiFunctions.DBScanner
         Regex TitleDoesNotRegex;
         Regex ArticleDoesRegex;
         Regex ArticleDoesNotRegex;
+        string ArticleContains;
+        string ArticleDoesNotContain;
         List<int> namespaces = new List<int>();
-        private void makePatterns()
+        bool ArticleCaseSensitive;
+        
+        private void MakePatterns()
         {
             string strTitleNot = "";
             string strTitle = "";
             RegexOptions titleRegOptions;
 
-            string strArticleDoes = "";
-            string strArticleDoesNot = "";
             RegexOptions articleRegOptions;
 
             strTitle = convert(txtTitleContains.Text);
             strTitleNot = convert(txtTitleNotContains.Text);
-            strArticleDoes = convert(txtArticleDoesContain.Text);
-            strArticleDoesNot = convert(txtArticleDoesNotContain.Text);
+            ArticleContains = convert(txtArticleDoesContain.Text);
+            ArticleDoesNotContain = convert(txtArticleDoesNotContain.Text);
 
             articleRegOptions = RegexOptions.Compiled;
             titleRegOptions = RegexOptions.Compiled;
 
-            if (!chkRegex.Checked)
+            if (!chkCaseSensitive.Checked)
+                articleRegOptions |= RegexOptions.IgnoreCase;
+            if (chkMulti.Checked)
+                articleRegOptions |= RegexOptions.Multiline;
+            if (chkSingle.Checked)
+                articleRegOptions |= RegexOptions.Singleline;
+
+            ArticleCaseSensitive = chkCaseSensitive.Checked;
+
+            if (chkRegex.Checked)
             {
-                strArticleDoes = Regex.Escape(strArticleDoes);
-                strArticleDoesNot = Regex.Escape(strArticleDoesNot);
+                ArticleDoesRegex = new Regex(ArticleContains, articleRegOptions);
+                ArticleDoesNotRegex = new Regex(ArticleDoesNotContain, articleRegOptions);
+                ArticleContains = null;
+                ArticleDoesNotContain = null;
             }
 
             if (!chkTitleRegex.Checked)
@@ -147,18 +160,8 @@ namespace WikiFunctions.DBScanner
                 strTitleNot = Regex.Escape(strTitleNot);
             }
 
-            if (!chkCaseSensitive.Checked)
-                articleRegOptions = articleRegOptions | RegexOptions.IgnoreCase;
-            if (chkMulti.Checked)
-                articleRegOptions = articleRegOptions | RegexOptions.Multiline;
-            if (chkSingle.Checked)
-                articleRegOptions = articleRegOptions | RegexOptions.Singleline;
-
             if (!chkTitleCase.Checked)
                 titleRegOptions = titleRegOptions | RegexOptions.IgnoreCase;
-
-            ArticleDoesRegex = new Regex(strArticleDoes, articleRegOptions);
-            ArticleDoesNotRegex = new Regex(strArticleDoesNot, articleRegOptions);
 
             TitleDoesRegex = new Regex(strTitle, titleRegOptions);
             TitleDoesNotRegex = new Regex(strTitleNot, titleRegOptions);
@@ -184,9 +187,17 @@ namespace WikiFunctions.DBScanner
                 namespaces.Add(0);
         }
 
+        private Dictionary<string, bool> MakeReplacementDictionary(string rule, bool caseSensitive)
+        {
+            Dictionary<string, bool> dict = new Dictionary<string, bool>(1);
+            dict.Add(rule, caseSensitive);
+
+            return dict;
+        }
+
         private void Start()
         {
-            makePatterns();
+            MakePatterns();
 
             StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
             intLimit = (int)nudLimitResults.Value;
@@ -199,13 +210,23 @@ namespace WikiFunctions.DBScanner
                 s.Add(new IsNotRedirect());
 
             if (chkArticleDoesContain.Checked)
-                s.Add(new TextDoesContain(ArticleDoesRegex));
+            {
+                if (ArticleContains != null) // simple search
+                    s.Add(new TextContains(MakeReplacementDictionary(ArticleContains, ArticleCaseSensitive)));
+                else // regex
+                    s.Add(new TextContainsRegex(ArticleDoesRegex));
+            }
 
             if (chkArticleDoesNotContain.Checked)
-                s.Add(new TextDoesNotContain(ArticleDoesNotRegex));
+            {
+                if (ArticleDoesNotContain != null)
+                    s.Add(new TextDoesNotContain(MakeReplacementDictionary(ArticleDoesNotContain, ArticleCaseSensitive)));
+                else
+                    s.Add(new TextDoesNotContainRegex(ArticleDoesNotRegex));
+            }
 
             if (chkTitleContains.Checked)
-                s.Add(new TitleDoesContain(TitleDoesRegex));
+                s.Add(new TitleContains(TitleDoesRegex));
 
             if (chkTitleDoesNotContain.Checked)
                 s.Add(new TitleDoesNotContain(TitleDoesNotRegex));

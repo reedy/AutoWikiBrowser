@@ -47,12 +47,60 @@ namespace WikiFunctions.DBScanner
         }
     }
 
+    public class TextContains : Scan
+    {
+        Dictionary<string, bool> Conditions;
+
+        public TextContains(Dictionary<string, bool> conditions)
+        {
+            Conditions = conditions;
+        }
+
+        public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
+        {
+            foreach(KeyValuePair<string, bool> p in Conditions)
+            {
+                if (ArticleText.IndexOf(
+                    p.Key, p.Value ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase) < 0)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
+
+    public class TextDoesNotContain : Scan
+    {
+        Dictionary<string, bool> Conditions;
+
+        public TextDoesNotContain(Dictionary<string, bool> conditions)
+        {
+            Conditions = conditions;
+        }
+
+        public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
+        {
+            foreach (KeyValuePair<string, bool> p in Conditions)
+            {
+                if (ArticleText.IndexOf(
+                    p.Key, p.Value ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
+
     /// <summary>
     /// Returns whether the article matches the provided regexes
     /// </summary>
-    public class TextDoesContain : Scan
+    public class TextContainsRegex : Scan
     {
-        public TextDoesContain(params Regex[] containsR)
+        public TextContainsRegex(params Regex[] containsR)
         {
             Contains = containsR;
         }
@@ -74,9 +122,9 @@ namespace WikiFunctions.DBScanner
     /// <summary>
     /// Returns whether the article doesn't match the provided regexes
     /// </summary>
-    public class TextDoesNotContain : Scan
+    public class TextDoesNotContainRegex : Scan
     {
-        public TextDoesNotContain(params Regex[] notContainsR)
+        public TextDoesNotContainRegex(params Regex[] notContainsR)
         {
             NotContains = notContainsR;
         }
@@ -98,9 +146,9 @@ namespace WikiFunctions.DBScanner
     /// <summary>
     /// Returns whether the article title matches the provided regexes
     /// </summary>
-    public class TitleDoesContain : Scan
+    public class TitleContains : Scan
     {
-        public TitleDoesContain(Regex ContainsR)
+        public TitleContains(Regex ContainsR)
         {
             Contains = ContainsR;
         }
