@@ -1717,12 +1717,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             string commentsStripped = WikiRegexes.Comments.Replace(ArticleText, "");
             Sorter.interwikis(ref commentsStripped);
-            int words = Tools.WordCount(commentsStripped);
 
             // bulleted or indented text should weigh less than simple text.
             // for example, actor stubs may contain large filmographies
             string crapStripped = WikiRegexes.BulletedText.Replace(commentsStripped, "");
-            words = (words + Tools.WordCount(crapStripped)) / 2;
+            int words = (Tools.WordCount(commentsStripped) + Tools.WordCount(crapStripped)) / 2;
 
             // update by-date tags
             foreach (KeyValuePair<Regex, string> k in RegexTagger)
@@ -1758,35 +1757,32 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (words > 6 && (catHTML.IndexOf("<div id=\"catlinks\">") == -1) && !Regex.IsMatch(ArticleText, @"\{\{[Uu]ncategori[zs]ed"))
             {
                 if (WikiRegexes.Stub.IsMatch(commentsStripped))
-                {
-                    // add uncategorized stub tag
+                { // add uncategorized stub tag
                     ArticleText += "\r\n\r\n{{Uncategorizedstub|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
                     Summary += ", added [[:Category:Uncategorized stubs|uncategorised]] tag";
                 }
                 else
-                {
-                    // add uncategorized tag
+                { // add uncategorized tag
                     ArticleText += "\r\n\r\n{{Uncategorized|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
                     Summary += ", added [[:Category:Category needed|uncategorised]] tag";
                 }
             }
-            // add wikify tag
-            else if (linkCount < 3 && (ratio < 0.0025))
-            {
-                ArticleText = "{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
-                Summary += ", added [[:Category:Articles that need to be wikified|wikify]] tag";
-            }
-            // add stub tag
             else if (commentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped))
-            {
+            { // add stub tag
                 ArticleText = ArticleText + "\r\n\r\n\r\n{{stub}}";
                 Summary += ", added stub tag";
             }
-            // add dead-end tag
+
             if (linkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(ArticleText))
-            {
+            { // add dead-end tag
                 ArticleText = "{{deadend|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
                 Summary += ", added [[:Category:Dead-end pages|deadend]] tag";
+            }
+
+            if (linkCount < 3 && (ratio < 0.0025))
+            { // add wikify tag
+                ArticleText = "{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
+                Summary += ", added [[:Category:Articles that need to be wikified|wikify]] tag";
             }
 
             // check if not orphaned
