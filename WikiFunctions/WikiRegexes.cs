@@ -75,7 +75,7 @@ namespace WikiFunctions
                     s = "REDIRECT";
                     break;
             }
-            Redirect = new Regex(@"^#" + s + @".*?\[\[\s*:?\s*([^\|]*?)\s*(|\|.*?)]\]", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Multiline);
+            Redirect = new Regex(@"#" + s + @"\s*\[\[\s*:?\s*([^\|]*?)\s*(|\|.*?)]\]", RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
             if (Variables.LangCode == LangCodeEnum.ru)
             {

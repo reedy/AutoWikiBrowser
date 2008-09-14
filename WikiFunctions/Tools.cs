@@ -116,7 +116,7 @@ namespace WikiFunctions
         /// <param name="Text">The title.</param>
         public static bool IsRedirect(string Text)
         {
-            return WikiRegexes.Redirect.IsMatch(Text);
+            return WikiRegexes.Redirect.IsMatch(FirstChars(Text, 512));
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace WikiFunctions
         /// <param name="Text">Title of redirect target</param>
         public static string RedirectTarget(string Text)
         {
-            Match m = WikiRegexes.Redirect.Match(Text);
+            Match m = WikiRegexes.Redirect.Match(FirstChars(Text, 512));
             return WikiDecode(m.Groups[1].Value).Trim();
         }
 
@@ -936,6 +936,20 @@ Message: {2}
         public static string ReplacePartOfString(string source, int position, int length, string replace)
         {
             return source.Substring(0, position) + replace + source.Substring(position + length);
+        }
+
+        /// <summary>
+        /// Returns substring at the start of a given string
+        /// </summary>
+        /// <param name="str">String to process</param>
+        /// <param name="count">Number of chars at the beginning of str to process</param>
+        /// <returns>String of maximum count chars from the beginning of str</returns>
+        public static string FirstChars(string str, int count)
+        {
+            if (str.Length <= count)
+                return str;
+            else
+                return str.Substring(0, count);
         }
 
         /// <summary>
