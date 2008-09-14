@@ -257,6 +257,11 @@ namespace WikiFunctions.Lists
 
     public class CategoriesOnPage : ApiListProviderBase
     {
+        public CategoriesOnPage()
+        {
+            PageSize = 500; //500 is max for query, no article will have more than this
+        }
+
         #region Tags: <categories>/<cl>
         static readonly List<string> pe = new List<string>(new string[] { "cl" });
         protected override ICollection<string> PageElements
