@@ -250,7 +250,7 @@ namespace AutoWikiBrowser
                 if (Properties.Settings.Default.LogInOnStart)
                     CheckStatus(false);
 
-                LogControl1.Initialise(listMaker);
+                logControl.Initialise(listMaker);
 
                 if (Properties.Settings.Default.WindowLocation != null)
                     this.Location = Properties.Settings.Default.WindowLocation;
@@ -1004,7 +1004,7 @@ namespace AutoWikiBrowser
             sameArticleNudges = 0;
             if (EditBoxTab.SelectedTab == tpHistory)
                 EditBoxTab.SelectedTab = tpEdit;
-            LogControl1.AddLog(false, TheArticle.LogListener);
+            logControl.AddLog(false, TheArticle.LogListener);
             UpdateOverallTypoStats();
 
             if (listMaker.Count == 0 && AutoSaveEditBoxEnabled)
@@ -1039,7 +1039,7 @@ namespace AutoWikiBrowser
                 NudgeTimer.Stop();
                 listMaker.Remove(TheArticle);
                 sameArticleNudges = 0;
-                LogControl1.AddLog(true, TheArticle.LogListener);
+                logControl.AddLog(true, TheArticle.LogListener);
                 retries = 0;
                 Start();
             }

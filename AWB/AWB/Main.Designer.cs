@@ -361,7 +361,7 @@ namespace AutoWikiBrowser
             this.tpHistory = new System.Windows.Forms.TabPage();
             this.webBrowserHistory = new System.Windows.Forms.WebBrowser();
             this.tpLogs = new System.Windows.Forms.TabPage();
-            this.LogControl1 = new WikiFunctions.Logging.LogControl();
+            this.logControl = new WikiFunctions.Logging.LogControl();
             this.tpLoggingOptions = new System.Windows.Forms.TabPage();
             this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
             this.tpTypos = new System.Windows.Forms.TabPage();
@@ -3530,7 +3530,7 @@ namespace AutoWikiBrowser
             // 
             // tpLogs
             // 
-            this.tpLogs.Controls.Add(this.LogControl1);
+            this.tpLogs.Controls.Add(this.logControl);
             this.tpLogs.Location = new System.Drawing.Point(4, 22);
             this.tpLogs.Name = "tpLogs";
             this.tpLogs.Padding = new System.Windows.Forms.Padding(3);
@@ -3541,12 +3541,12 @@ namespace AutoWikiBrowser
             // 
             // LogControl1
             // 
-            this.LogControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LogControl1.Location = new System.Drawing.Point(3, 3);
-            this.LogControl1.Margin = new System.Windows.Forms.Padding(4);
-            this.LogControl1.Name = "LogControl1";
-            this.LogControl1.Size = new System.Drawing.Size(388, 345);
-            this.LogControl1.TabIndex = 0;
+            this.logControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.logControl.Location = new System.Drawing.Point(3, 3);
+            this.logControl.Margin = new System.Windows.Forms.Padding(4);
+            this.logControl.Name = "LogControl1";
+            this.logControl.Size = new System.Drawing.Size(388, 345);
+            this.logControl.TabIndex = 0;
             // 
             // tpLoggingOptions
             // 
@@ -4185,7 +4185,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.TabPage tpLogs;
         private System.Windows.Forms.ToolStripButton btntsShowHideParameters;
         private System.Windows.Forms.ToolStripMenuItem enlargeEditAreaToolStripMenuItem;
-        private WikiFunctions.Logging.LogControl LogControl1;
+        private WikiFunctions.Logging.LogControl logControl;
         private System.Windows.Forms.WebBrowser webBrowserDiff;
         private System.Windows.Forms.ToolStripMenuItem undoAllChangesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reloadEditPageToolStripMenuItem;
