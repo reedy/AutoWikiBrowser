@@ -73,12 +73,11 @@ namespace WikiFunctions.Lists
         }
 
         public CategoryRecursiveListProvider()
-            :this(MaxDepth)
-        {
-        }
+            : this(MaxDepth)
+        { }
 
         public CategoryRecursiveListProvider(int depth)
-            :base()
+            : base()
         {
             Depth = depth;
             Limit = 200000;
@@ -166,7 +165,7 @@ namespace WikiFunctions.Lists
         public TextFileListProvider()
         {
             openListDialog = new OpenFileDialog();
-            openListDialog.Filter = "Text files|*.txt|All files|*.*";
+            openListDialog.Filter = "Text files|*.txt|Text files (no validation)|*.txt|All files|*.*";
             openListDialog.Multiselect = true;
         }
 
@@ -212,10 +211,21 @@ namespace WikiFunctions.Lists
                     }
                     else
                     {
-                        foreach (string s in pageText.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
+                        switch (openListDialog.FilterIndex)
                         {
-                            if (s.Trim().Length == 0 || !Tools.IsValidTitle(s)) continue;
-                            list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim()))));
+                            case 2:
+                                foreach (string s in pageText.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
+                                {
+                                    list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim()))));
+                                }
+                                break;
+                            default:
+                                foreach (string s in pageText.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
+                                {
+                                    if (s.Trim().Length == 0 || !Tools.IsValidTitle(s)) continue;
+                                    list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim()))));
+                                }
+                                break;
                         }
                     }
                 }
@@ -263,18 +273,18 @@ namespace WikiFunctions.Lists
             get { throw new NotImplementedException(); }
         }
         #endregion
-        
+
         protected bool IncludeRedirects;
 
         public override List<Article> MakeList(params string[] searchCriteria)
-        { 
+        {
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
             List<Article> list = new List<Article>();
 
             foreach (string page in searchCriteria)
             {
-                string url = Variables.URLLong + "api.php?action=query&list=backlinks&bltitle=" 
+                string url = Variables.URLLong + "api.php?action=query&list=backlinks&bltitle="
                     + HttpUtility.UrlEncode(page) + "&format=xml&bllimit={limit}";
 
                 if (IncludeRedirects)
@@ -305,7 +315,7 @@ namespace WikiFunctions.Lists
     public class WhatLinksHereIncludingRedirectsListProvider : WhatLinksHereListProvider
     {
         public WhatLinksHereIncludingRedirectsListProvider()
-            :base()
+            : base()
         {
             this.IncludeRedirects = true;
         }
@@ -383,14 +393,14 @@ namespace WikiFunctions.Lists
         #endregion
 
         public override List<Article> MakeList(params string[] searchCriteria)
-        { 
+        {
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
             List<Article> list = new List<Article>();
 
             foreach (string article in searchCriteria)
             {
-                string url = Variables.URLLong + "api.php?action=query&prop=links&titles=" 
+                string url = Variables.URLLong + "api.php?action=query&prop=links&titles="
                     + HttpUtility.UrlEncode(article) + "&pllimit={limit}&format=xml";
 
                 list.AddRange(ApiMakeList(url, list.Count));
@@ -433,14 +443,14 @@ namespace WikiFunctions.Lists
         #endregion
 
         public override List<Article> MakeList(params string[] searchCriteria)
-        { 
+        {
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
             List<Article> list = new List<Article>();
 
             foreach (string article in searchCriteria)
             {
-                string url = Variables.URLLong + "api.php?action=query&prop=images&titles=" 
+                string url = Variables.URLLong + "api.php?action=query&prop=images&titles="
                     + HttpUtility.UrlEncode(article) + "&imlimit={limit}&format=xml";
 
                 list.AddRange(ApiMakeList(url, list.Count));
@@ -482,14 +492,14 @@ namespace WikiFunctions.Lists
         #endregion
 
         public override List<Article> MakeList(params string[] searchCriteria)
-        { 
+        {
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
             List<Article> list = new List<Article>();
 
             foreach (string article in searchCriteria)
             {
-                string url = Variables.URLLong + "api.php?action=query&prop=templates&titles=" 
+                string url = Variables.URLLong + "api.php?action=query&prop=templates&titles="
                     + HttpUtility.UrlEncode(article) + "&tllimit={limit}&format=xml";
 
                 list.AddRange(ApiMakeList(url, list.Count));
@@ -520,7 +530,7 @@ namespace WikiFunctions.Lists
     RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public List<Article> MakeList(params string[] searchCriteria)
-        { 
+        {
             List<Article> list = new List<Article>();
 
             foreach (string g in searchCriteria)
@@ -686,7 +696,7 @@ namespace WikiFunctions.Lists
                 string image = Regex.Replace(i, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
                 image = HttpUtility.UrlEncode(image);
 
-                string url = Variables.URLLong + "api.php?action=query&list=imageusage&iutitle=Image:" 
+                string url = Variables.URLLong + "api.php?action=query&list=imageusage&iutitle=Image:"
                     + image + "&iulimit={limit}&format=xml";
 
                 list.AddRange(ApiMakeList(url, list.Count));
