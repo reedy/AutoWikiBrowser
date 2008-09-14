@@ -98,22 +98,6 @@ namespace AutoWikiBrowser
             this.Hide();
         }
 
-        [Obsolete("Replaced with Selected Items")]
-        public string SelectedItem
-        {
-            set
-            {
-                foreach (CheckBox chk in gbOptions.Controls)
-                {
-                    if (chk.Tag.ToString() == value)
-                    {
-                        chk.Checked = true;
-                        return;
-                    }
-                }
-            }
-        }
-
         public List<int> SelectedItems
         {
             get 
