@@ -517,7 +517,6 @@ namespace WikiFunctions.Parse
             ArticleText = SyntaxRegex7.Replace(ArticleText, "[[$1]]");
             ArticleText = SyntaxRegex8.Replace(ArticleText, "[[$1]]");
             ArticleText = SyntaxRegex9.Replace(ArticleText, "[[$1#$2]]");
-            //ArticleText = ArticleText.Replace("[[|", "[[");
 
             ArticleText = Regex.Replace(ArticleText, "ISBN: ?([0-9])", "ISBN $1");
 
