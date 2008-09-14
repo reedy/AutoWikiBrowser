@@ -475,43 +475,43 @@ namespace WikiFunctions.DBScanner
         }
     }
 
-    ///// <summary>
-    ///// 
-    ///// </summary>
-    //public class Restriction : Scan
-    //{
-    //    string[] Restrictions = new string[] { "autoconfirmed", "sysop" };
+    /// <summary>
+    /// 
+    /// </summary>
+    public class Restriction : Scan
+    {
+        string[] Restrictions = new string[] { "autoconfirmed", "sysop" };
 
-    //    string editRest = "edit=";
-    //    string moveRest = "move=";
+        string editRest = "edit=";
+        string moveRest = "move=";
 
-    //    int edit, move;
-    //    public Restriction(int EditLevel, int MoveLevel)
-    //    {
-    //        edit = (EditLevel - 1);
-    //        move = (MoveLevel - 1);
-    //    }
+        int edit, move;
+        public Restriction(int EditLevel, int MoveLevel)
+        {
+            edit = (EditLevel - 1);
+            move = (MoveLevel - 1);
+        }
 
-    //    public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
-    //    {
-    //        bool restrictionStringEmpty = (string.IsNullOrEmpty(ArticleRestrictions));
-    //        bool noEditRestriction = (edit == -1);
-    //        bool noMoveRestriction = (move == -1);
+        public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
+        {
+            bool restrictionStringEmpty = (string.IsNullOrEmpty(ArticleRestrictions));
+            bool noEditRestriction = (edit == -1);
+            bool noMoveRestriction = (move == -1);
 
-    //        if (restrictionStringEmpty)
-    //        {
-    //            return (noEditRestriction && noMoveRestriction);
-    //        }
-    //        else
-    //        {
-    //            if (!noEditRestriction && !ArticleRestrictions.Contains(editRest + Restrictions[edit]))
-    //                return false;
+            if (restrictionStringEmpty)
+            {
+                return (noEditRestriction && noMoveRestriction);
+            }
+            else
+            {
+                if (!noEditRestriction && !ArticleRestrictions.Contains(editRest + Restrictions[edit]))
+                    return false;
 
-    //            if (!noMoveRestriction && !ArticleRestrictions.Contains(moveRest + Restrictions[move]))
-    //                return false;
+                if (!noMoveRestriction && !ArticleRestrictions.Contains(moveRest + Restrictions[move]))
+                    return false;
 
-    //            return true;
-    //        }
-    //    }
-    //}
+                return true;
+            }
+        }
+    }
 }

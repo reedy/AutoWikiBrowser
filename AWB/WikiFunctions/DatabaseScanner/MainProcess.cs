@@ -115,7 +115,7 @@ namespace WikiFunctions.DBScanner
             string page = "page";
             string title = "title";
             string text = "text";
-            //string restriction = "restrictions";
+            string restriction = "restrictions";
  
             bool test = true;        
 
@@ -151,10 +151,10 @@ namespace WikiFunctions.DBScanner
 
                             //reader.ReadToFollowing(restriction); //TODO:This is wrong. Only want to read the restriction if in that <page></page>
 
-                            //if (reader.Name == restriction)
-                            //    articleRestriction = reader.ReadString();
-                            //else
-                            //    articleRestriction = "";
+                            if (reader.Name == restriction)
+                                articleRestriction = reader.ReadString();
+                            else
+                                articleRestriction = "";
 
                             reader.ReadToFollowing(timestamp);
                             articleTimestamp = reader.ReadString();
