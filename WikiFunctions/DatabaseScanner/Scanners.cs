@@ -84,8 +84,9 @@ namespace WikiFunctions.DBScanner
         {
             foreach (KeyValuePair<string, bool> p in Conditions)
             {
+                // TODO: other types of comparison may be more appropriate
                 if (ArticleText.IndexOf(
-                    p.Key, p.Value ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase) >= 0)
+                    p.Key, p.Value ? StringComparison.InvariantCulture : StringComparison.InvariantCultureIgnoreCase) >= 0)
                 {
                     return false;
                 }

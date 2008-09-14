@@ -24,6 +24,7 @@ using System.Xml;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
+using WikiFunctions.Background;
 
 namespace WikiFunctions.DBScanner
 {
@@ -32,8 +33,9 @@ namespace WikiFunctions.DBScanner
 
     class MainProcess
     {
-        public event FoundDel FoundArticle;
+        public event FoundDel FoundArticle; // TODO: remove it completely
         public event StopDel StoppedEvent;
+        public CrossThreadQueue<string> Queue;
 
         string FileName = "";
         string From = "";
@@ -174,7 +176,10 @@ namespace WikiFunctions.DBScanner
                             }
 
                             if (test)
-                                context.Post(SOPC, articleTitle);
+                            {
+                                //context.Post(SOPC, articleTitle);
+                                Queue.Add(articleTitle);
+                            }
                         }
                     }
                 }
