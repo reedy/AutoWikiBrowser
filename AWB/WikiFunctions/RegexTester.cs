@@ -310,7 +310,7 @@ namespace WikiFunctions.Controls
 
             if (sender.Error != null)
             {
-                Status.Text = "Error encountered durin processing";
+                Status.Text = "Error encountered during processing";
                 MessageBox.Show(this, sender.Error.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
