@@ -1446,5 +1446,19 @@ Message: {2}
             }
             catch { }
         }
+
+        /// <summary>
+        /// Wrapper for VisualBasic's Inputbox, so other projects don't have to reference Microsoft.VisualBasic
+        /// </summary>
+        /// <param name="Prompt"></param>
+        /// <param name="Title"></param>
+        /// <param name="DefaultResponse"></param>
+        /// <param name="XPos"></param>
+        /// <param name="YPos"></param>
+        /// <returns></returns>
+        public static string VBInputBox(string Prompt, string Title, string DefaultResponse, int XPos, int YPos)
+        {
+            return Microsoft.VisualBasic.Interaction.InputBox(Prompt, Title, DefaultResponse, XPos, YPos);
+        }
     }
 }
