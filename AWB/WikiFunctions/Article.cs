@@ -31,7 +31,7 @@ using System.Globalization;
 
 namespace WikiFunctions
 {
-                        public delegate void ArticleRedirected(string oldTitle, string newTitle);
+    public delegate void ArticleRedirected(string oldTitle, string newTitle);
 
     /// <summary>
     /// A class which represents a wiki article
@@ -726,7 +726,7 @@ namespace WikiFunctions
             {
                 if (obj is string)
                     return mName == obj as string;
-                else 
+                else
                     return false;
             }
             return (mName == a.mName);
