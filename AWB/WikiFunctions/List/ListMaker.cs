@@ -52,6 +52,7 @@ namespace WikiFunctions.Controls.Lists
         private static IListProvider linksOnPageLProvider = new LinksOnPageListProvider();
         private static IListProvider imageFileLinksLProvider = new ImageFileLinksListProvider();
         private static IListProvider imagesOnPageLProvider = new ImagesOnPageListProvider();
+        private static IListProvider categoriesOnPageLProvider = new CategoriesOnPage();
         #endregion
 
         public event ListMakerEventHandler StatusTextChanged;
@@ -83,6 +84,7 @@ namespace WikiFunctions.Controls.Lists
                 listItems.Add(categoryRecursiveLProvider);
                 listItems.Add(new CategoryRecursiveOneLevelListProvider());
                 listItems.Add(new CategoryRecursiveUserDefinedLevelListProvider());
+                listItems.Add(categoriesOnPageLProvider);
                 listItems.Add(whatLinksLProvider);
                 listItems.Add(new WhatLinksHereIncludingRedirectsListProvider());
                 listItems.Add(whatTranscludesLProvider);
@@ -1035,6 +1037,11 @@ namespace WikiFunctions.Controls.Lists
                 lbArticles.SetSelected(i, false);
 
             lbArticles.EndUpdate();
+        }
+
+        private void categoriesOnPageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddFromSelectedList(categoriesOnPageLProvider);
         }
 
         private void fromCategoryToolStripMenuItem_Click(object sender, EventArgs e)
