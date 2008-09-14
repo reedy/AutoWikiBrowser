@@ -287,7 +287,7 @@ bar"));
             CollectionAssert.AreEqual(test, Tools.SplitLines("foo\r"));
             CollectionAssert.AreEqual(test, Tools.SplitLines("foo\n"));
             CollectionAssert.AreEqual(test, Tools.SplitLines("foo\r\n"));
-                
+
             test = new string[] { "foo", "bar" };
             CollectionAssert.AreEqual(test, Tools.SplitLines("foo\r\nbar"));
             CollectionAssert.AreEqual(test, Tools.SplitLines("foo\rbar"));
@@ -386,9 +386,115 @@ bar"));
             Assert.AreEqual(3, Tools.FirstDifference("foo", "foo"));
         }
 
-        [Test, Category("Incomplete")]
+        [Test]
         public void ApplyKeyWords()
         {
+            //Test majority of Key Words except %%key%%
+            Assert.AreEqual(@"AutoWikiBrowser/Sandbox
+AutoWikiBrowser/Sandbox
+
+AutoWikiBrowser
+AutoWikiBrowser
+
+Wikipedia talk
+Wikipedia_talk
+
+Sandbox
+Sandbox
+
+Wikipedia talk:AutoWikiBrowser/Sandbox
+Wikipedia_talk:AutoWikiBrowser/Sandbox
+
+14
+Sep
+2008
+
+http://en.wikipedia.org
+/w
+en.wikipedia.org
+
+Wikipedia talk:AutoWikiBrowser/Sandbox
+Wikipedia talk
+AutoWikiBrowser/Sandbox", Tools.ApplyKeyWords("Wikipedia talk:AutoWikiBrowser/Sandbox", @"{{PAGENAME}}
+{{PAGENAMEE}}
+
+{{BASEPAGENAME}}
+{{BASEPAGENAMEE}}
+
+{{NAMESPACE}}
+{{NAMESPACEE}}
+
+{{SUBPAGENAME}}
+{{SUBPAGENAMEE}}
+
+{{FULLPAGENAME}}
+{{FULLPAGENAMEE}}
+
+{{CURRENTDAY}}
+{{CURRENTMONTHNAME}}
+{{CURRENTYEAR}}
+
+{{SERVER}}
+{{SCRIPTPATH}}
+{{SERVERNAME}}
+
+%%title%%
+%%namespace%%
+%%titlename%%"));
+
+            Assert.AreEqual(@"AutoWikiBrowser/Sandbox/test
+AutoWikiBrowser/Sandbox/test
+
+AutoWikiBrowser/Sandbox
+AutoWikiBrowser/Sandbox
+
+Wikipedia talk
+Wikipedia_talk
+
+test
+test
+
+Wikipedia talk:AutoWikiBrowser/Sandbox/test
+Wikipedia_talk:AutoWikiBrowser/Sandbox/test
+
+14
+Sep
+2008
+
+http://en.wikipedia.org
+/w
+en.wikipedia.org
+
+Wikipedia talk:AutoWikiBrowser/Sandbox/test
+Wikipedia talk
+AutoWikiBrowser/Sandbox/test", Tools.ApplyKeyWords("Wikipedia talk:AutoWikiBrowser/Sandbox/test", @"{{PAGENAME}}
+{{PAGENAMEE}}
+
+{{BASEPAGENAME}}
+{{BASEPAGENAMEE}}
+
+{{NAMESPACE}}
+{{NAMESPACEE}}
+
+{{SUBPAGENAME}}
+{{SUBPAGENAMEE}}
+
+{{FULLPAGENAME}}
+{{FULLPAGENAMEE}}
+
+{{CURRENTDAY}}
+{{CURRENTMONTHNAME}}
+{{CURRENTYEAR}}
+
+{{SERVER}}
+{{SCRIPTPATH}}
+{{SERVERNAME}}
+
+%%title%%
+%%namespace%%
+%%titlename%%"));
+
+            //%%key%%, Tools.MakeHumanCatKey() - Covered by HumanCatKeyTests
         }
     }
 
