@@ -316,4 +316,40 @@ namespace WikiFunctions.Background
             }
         }
     }
+
+    /// <summary>
+    /// Thread-safe Queue-style container. Supports multiple writers and single reader.
+    /// </summary>
+    /// <typeparam name="T">Type to store</typeparam>
+    public class CrossThreadQueue<T>
+    {
+        private Queue<T> queue = new Queue<T>();
+
+        public void Add(T value)
+        {
+            lock (queue)
+            {
+                queue.Enqueue(value);
+            }
+        }
+
+        public T Remove()
+        {
+            lock (queue)
+            {
+                return queue.Dequeue();
+            }
+        }
+
+        public int Count
+        {
+            get
+            {
+                lock (queue)
+                {
+                    return queue.Count;
+                }
+            }
+        }
+    }
 }

@@ -31,6 +31,7 @@ using System.Threading;
 using WikiFunctions.Parse;
 using WikiFunctions.Lists;
 using WikiFunctions.Controls.Lists;
+using WikiFunctions.Background;
 
 namespace WikiFunctions.DBScanner
 {
@@ -120,6 +121,8 @@ namespace WikiFunctions.DBScanner
         string ArticleDoesNotContain;
         List<int> namespaces = new List<int>();
         bool ArticleCaseSensitive;
+
+        CrossThreadQueue<string> Queue = new CrossThreadQueue<string>();
         
         private void MakePatterns()
         {
@@ -275,6 +278,7 @@ namespace WikiFunctions.DBScanner
             progressBar.Maximum = (int)(Main.stream.Length / 1024);
             Main.FoundArticle += MessageReceived;
             Main.StoppedEvent += Stopped;
+            Main.Queue = Queue;
             Main.Start();
         }
 
@@ -311,6 +315,8 @@ namespace WikiFunctions.DBScanner
                 progressBar.Value = 0;
 
                 timerProgessUpdate.Enabled = false;
+
+                UpdateList();
 
                 UpdateDBScannerArticleCount();
 
@@ -791,10 +797,19 @@ namespace WikiFunctions.DBScanner
 
         private void timerProgessUpdate_Tick(object sender, EventArgs e)
         {
-            updateProgressBar();
+            UpdateProgressBar();
+            UpdateList();
         }
 
-        private void updateProgressBar()
+        private void UpdateList()
+        {
+            while (Queue.Count > 0)
+            {
+                MessageReceived(Queue.Remove());
+            }
+        }
+
+        private void UpdateProgressBar()
         {
             // update progress bar
             if (Main.stream.CanRead)
