@@ -43,7 +43,7 @@ namespace AutoWikiBrowser
             this.txtWorkingDir = new System.Windows.Forms.TextBox();
             this.chkSkip = new System.Windows.Forms.CheckBox();
             this.btnOk = new System.Windows.Forms.Button();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -193,10 +193,6 @@ namespace AutoWikiBrowser
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
             // ExternalProgram
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -234,7 +230,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.RadioButton radParameter;
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnSelect;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.TextBox txtFile;
         private System.Windows.Forms.Label label4;
     }
