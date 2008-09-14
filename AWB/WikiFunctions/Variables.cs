@@ -162,6 +162,22 @@ namespace WikiFunctions
             private set { strURL = value; }
         }
 
+        /// <summary>
+        /// Gets the server of the site, e.g. en.wikipedia.org
+        /// </summary>
+        public static string ServerName
+        {
+            get { return strURL.Replace("http://", ""); }
+        }
+
+        /// <summary>
+        /// Returns the script path of the site, e.g. /w
+        /// </summary>
+        public static string ScriptPath
+        {
+            get {return URLEnd.Substring(0, URLEnd.LastIndexOf('/')); }
+        }
+
         private static ProjectEnum mProject = ProjectEnum.wikipedia;
         /// <summary>
         /// Gets a name of the project, e.g. "wikipedia".
