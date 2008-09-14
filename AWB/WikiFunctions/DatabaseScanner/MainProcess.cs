@@ -116,15 +116,15 @@ namespace WikiFunctions.DBScanner
             string title = "title";
             string text = "text";
             string restriction = "restrictions";
- 
-            bool test = true;        
+
+            bool test = true;
 
             try
             {
                 using (XmlTextReader reader = new XmlTextReader(stream))
                 {
                     reader.WhitespaceHandling = WhitespaceHandling.None;
-                    
+
                     if (From.Length > 0)
                     {//move to start from article
                         while (reader.Read() && boolRun)
@@ -161,7 +161,7 @@ namespace WikiFunctions.DBScanner
                             reader.ReadToFollowing(text);
                             articleText = reader.ReadString();
 
-                            if(ignore)
+                            if (ignore)
                                 articleText = WikiRegexes.Comments.Replace(articleText, "");
 
                             foreach (Scan z in s)
@@ -170,13 +170,11 @@ namespace WikiFunctions.DBScanner
                                 {
                                     test = false;
                                     break;
-                                }                                    
-                            }                           
-                         
-                            if (test)
-                            {
-                                context.Post(SOPC, articleTitle);
+                                }
                             }
+
+                            if (test)
+                                context.Post(SOPC, articleTitle);
                         }
                     }
                 }

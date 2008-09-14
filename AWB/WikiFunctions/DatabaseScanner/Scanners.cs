@@ -26,7 +26,7 @@ using WikiFunctions.Parse;
 namespace WikiFunctions.DBScanner
 {
     /// <summary>
-    /// 
+    /// Abstract base class for Scan objects
     /// </summary>
     public abstract class Scan
     {
@@ -37,18 +37,18 @@ namespace WikiFunctions.DBScanner
     }
 
     /// <summary>
-    /// 
+    /// Returns whether the article is not a redirect
     /// </summary>
     public class IsNotRedirect : Scan
     {
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
-           return (!Tools.IsRedirect(ArticleText));
+            return (!Tools.IsRedirect(ArticleText));
         }
     }
 
     /// <summary>
-    /// 
+    /// Returns whether the article matches the provided regexes
     /// </summary>
     public class TextDoesContain : Scan
     {
@@ -72,7 +72,7 @@ namespace WikiFunctions.DBScanner
     }
 
     /// <summary>
-    /// 
+    /// Returns whether the article doesn't match the provided regexes
     /// </summary>
     public class TextDoesNotContain : Scan
     {
@@ -96,7 +96,7 @@ namespace WikiFunctions.DBScanner
     }
 
     /// <summary>
-    /// 
+    /// Returns whether the article title matches the provided regexes
     /// </summary>
     public class TitleDoesContain : Scan
     {
@@ -114,7 +114,7 @@ namespace WikiFunctions.DBScanner
     }
 
     /// <summary>
-    /// 
+    /// Returns whether the article title doesn't match the provided regexes
     /// </summary>
     public class TitleDoesNotContain : Scan
     {
@@ -127,14 +127,14 @@ namespace WikiFunctions.DBScanner
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
-                return (!NotContains.IsMatch(ArticleTitle));
+            return (!NotContains.IsMatch(ArticleTitle));
         }
     }
 
     public enum MoreLessThan : int { LessThan, MoreThan, EqualTo }
 
     /// <summary>
-    /// 
+    /// Returns whether the article matches the specified boundaries for number of characters
     /// </summary>
     public class CountCharacters : Scan
     {
@@ -162,7 +162,7 @@ namespace WikiFunctions.DBScanner
     }
 
     /// <summary>
-    /// 
+    /// Returns whether the article matches the specified boundaries for number of links
     /// </summary>
     public class CountLinks : Scan
     {
@@ -190,7 +190,7 @@ namespace WikiFunctions.DBScanner
     }
 
     /// <summary>
-    /// 
+    /// Returns whether the article matches the specified boundaries for number of words
     /// </summary>
     public class CountWords : Scan
     {
@@ -218,7 +218,7 @@ namespace WikiFunctions.DBScanner
     }
 
     /// <summary>
-    /// 
+    /// Returns whether the article is in one of the specified namespaces
     /// </summary>
     public class CheckNamespace : Scan
     {
@@ -244,7 +244,7 @@ namespace WikiFunctions.DBScanner
     }
 
     /// <summary>
-    /// 
+    /// Returns whether the article has links that awb would improve/simplify
     /// </summary>
     public class HasBadLinks : Scan
     {
@@ -274,7 +274,7 @@ namespace WikiFunctions.DBScanner
     }
 
     /// <summary>
-    /// 
+    /// Returns whether the article has not got its title emboldened in the article
     /// </summary>
     public class HasNoBoldTitle : Scan
     {
@@ -294,7 +294,7 @@ namespace WikiFunctions.DBScanner
     }
 
     /// <summary>
-    /// 
+    /// Returns whether the article has html entities
     /// </summary>
     public class HasHTMLEntities : Scan
     {
@@ -360,7 +360,7 @@ namespace WikiFunctions.DBScanner
     }
 
     /// <summary>
-    /// 
+    /// Returns whether the article has unbulleted link sections
     /// </summary>
     public class HasUnbulletedLinks : Scan
     {
@@ -376,7 +376,7 @@ namespace WikiFunctions.DBScanner
     }
 
     /// <summary>
-    /// 
+    /// Returns whether the article is of a living person
     /// </summary>
     public class LivingPerson : Scan
     {
@@ -396,7 +396,7 @@ namespace WikiFunctions.DBScanner
     }
 
     /// <summary>
-    /// 
+    /// Returns whether the article is missing a default sort (ie criteria match so that default sort would be added)
     /// </summary>
     public class MissingDefaultsort : Scan
     {
@@ -417,7 +417,7 @@ namespace WikiFunctions.DBScanner
     }
 
     /// <summary>
-    /// 
+    /// Returns whether the article has typo's that AWB would fix
     /// </summary>
     public class Typo : Scan
     {
@@ -432,7 +432,7 @@ namespace WikiFunctions.DBScanner
     }
 
     /// <summary>
-    /// 
+    /// Returns whether the article is uncategorised
     /// </summary>
     public class UnCategorised : Scan
     {
@@ -454,7 +454,7 @@ namespace WikiFunctions.DBScanner
     }
 
     /// <summary>
-    /// 
+    /// Returns if the article was last edited between the specified dates
     /// </summary>
     public class DateRange : Scan
     {
@@ -476,7 +476,7 @@ namespace WikiFunctions.DBScanner
     }
 
     /// <summary>
-    /// 
+    /// Returns whether the article matches the specified move and edit restrictions
     /// </summary>
     public class Restriction : Scan
     {
