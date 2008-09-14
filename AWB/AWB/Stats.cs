@@ -256,10 +256,15 @@ namespace AutoWikiBrowser
                 Program.AWB.Form.Cursor = System.Windows.Forms.Cursors.WaitCursor;
 
                 return Tools.PostData(postvars, StatsURL);
+                // should be transparent to end-user
             }
-            catch (WebException)
+            catch (WebException ex)
             {
-                throw;
+                Tools.WriteDebug("UsageStats", ex.Message);
+            }
+            catch (IOException ex)
+            {
+                Tools.WriteDebug("UsageStats", ex.Message);
             }
             finally
             {
@@ -267,6 +272,7 @@ namespace AutoWikiBrowser
                 StatusLabelText = "";
                 Program.AWB.Form.Cursor = System.Windows.Forms.Cursors.Default;
             }
+            return null;
         }
 #endregion
 
@@ -302,6 +308,8 @@ namespace AutoWikiBrowser
         {
             try
             {
+                if (xml == null) return; // handle network errors
+
                 // we don't *need* these IDs if we're exiting, but I think it does no harm to check we received a valid response
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(xml);
