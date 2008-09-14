@@ -884,6 +884,8 @@ namespace WikiFunctions
                         Namespaces[15] = "Categoria Discussão:";
                         Namespaces[100] = "Portal:";
                         Namespaces[101] = "Discussão Portal:";
+                        Namespaces[102] = "Anexo:";
+                        Namespaces[103] = "Anexo Discussão:";
 
                         mSummaryTag = " utilizando ";
                         strWPAWB = "[[Wikipedia:AutoWikiBrowser|AWB]]";
