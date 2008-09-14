@@ -388,7 +388,6 @@ namespace AutoWikiBrowser
             chkSkipWhenNoFAR.Checked = p.SkipOptions.SkipNoFindAndReplace;
             chkSkipIfNoRegexTypo.Checked = p.SkipOptions.SkipNoRegexTypoFix;
             Skip.SelectedItems = p.SkipOptions.GeneralSkipList;
-            Skip.SelectedItem = p.SkipOptions.GeneralSkip; //deprecated, to be removed at a later date
             chkSkipNoDab.Checked = p.SkipOptions.SkipNoDisambiguation;
             chkSkipNoPageLinks.Checked = p.SkipOptions.SkipNoLinksOnPage;
 
