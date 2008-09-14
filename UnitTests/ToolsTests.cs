@@ -368,11 +368,10 @@ bar"));
     [TestFixture]
     public class HumanCatKeyTests
     {
-        [SetUp]
-        public void SetUp()
+        public HumanCatKeyTests()
         {
             Globals.UnitTestMode = true;
-            Variables.SetToEnglish();
+            if (WikiRegexes.Category == null) WikiRegexes.MakeLangSpecificRegexes();
         }
 
         [Test]
@@ -444,6 +443,77 @@ bar"));
                 Assert.IsFalse(name.StartsWith(" "), "Sorting key shouldn't start with spaces");
                 Assert.IsFalse(name.EndsWith(" "), "Sorting key shouldn't cend with spaces");
             }
+        }
+    }
+
+    [TestFixture]
+    public class NamespaceSwitches
+    {
+        #region Constructor and helpers
+        public NamespaceSwitches()
+        {
+            Globals.UnitTestMode = true;
+            if (WikiRegexes.Category == null) WikiRegexes.MakeLangSpecificRegexes();
+        }
+
+        string ToTalk(string title)
+        {
+            Article a = new Article(title);
+            return Tools.ConvertToTalk(a);
+        }
+
+        string FromTalk(string title)
+        {
+            Article a = new Article(title);
+            return Tools.ConvertFromTalk(a);
+        }
+        #endregion
+
+        [Test]
+        public void ConvertToTalk()
+        {
+            Assert.AreEqual("Talk:Foo", ToTalk("Foo"));
+            Assert.AreEqual("Talk:Foo bar", ToTalk("Foo bar"));
+            Assert.AreEqual("Talk:Foo:Bar", ToTalk("Foo:Bar"));
+            Assert.AreEqual("Image talk:Foo bar", ToTalk("Image:Foo bar"));
+            Assert.AreEqual("Image talk:Foo bar", ToTalk("Image talk:Foo bar"));
+            Assert.AreEqual("Wikipedia talk:Foo", ToTalk("Wikipedia:Foo"));
+
+            // current namespace detection sucks, must be tested elsewhere
+            //Assert.AreEqual("Wikipedia talk:Foo", ToTalk("Project:Foo"));
+        }
+
+        [Test]
+        public void ToTalkOnList()
+        {
+            List<Article> l = new List<Article>();
+            l.Add(new Article("Foo"));
+            l.Add(new Article("Talk:Foo bar"));
+            l.Add(new Article("Image:Foo"));
+            CollectionAssert.AreEquivalent(Tools.ConvertToTalk(l), 
+                new string[] { "Talk:Foo", "Talk:Foo bar", "Image talk:Foo" });
+        }
+
+        [Test]
+        public void ConvertFromTalk()
+        {
+            Assert.AreEqual("Foo", FromTalk("Talk:Foo"));
+            Assert.AreEqual("Foo", FromTalk("Foo"));
+            Assert.AreEqual("Foo:Bar", FromTalk("Foo:Bar"));
+            Assert.AreEqual("Foo:Bar", FromTalk("Talk:Foo:Bar"));
+            Assert.AreEqual("Image:Foo bar", FromTalk("Image:Foo bar"));
+            Assert.AreEqual("Image:Foo bar", FromTalk("Image talk:Foo bar"));
+        }
+
+        [Test]
+        public void FromTalkOnList()
+        {
+            List<Article> l = new List<Article>();
+            l.Add(new Article("Foo"));
+            l.Add(new Article("Talk:Foo bar"));
+            l.Add(new Article("Image talk:Foo"));
+            CollectionAssert.AreEquivalent(Tools.ConvertFromTalk(l),
+                new string[] { "Foo", "Foo bar", "Image:Foo" });
         }
     }
 
