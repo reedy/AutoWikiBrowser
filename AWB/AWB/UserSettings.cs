@@ -34,8 +34,6 @@ namespace AutoWikiBrowser
 {
     partial class MainForm
     {
-        readonly string regKey = "Software\\AutoWikiBrowser";
-
         private void saveAsDefaultToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to save these settings as the default settings?", "Save as default?", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -140,20 +138,16 @@ namespace AutoWikiBrowser
 
         private void LoadRecentSettingsList()
         {
-            string s;
-
             splash.SetProgress(89);
             try
             {
-                //TODO:Use Utils
-                Microsoft.Win32.RegistryKey reg
-                    = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(regKey);
-
-                s = reg.GetValue("RecentList", "").ToString();
+                UpdateRecentList(RegistryUtils.GetValue("\\RecentList", "").Split('|'));
             }
             catch { return; }
-            UpdateRecentList(s.Split('|'));
-            splash.SetProgress(94);
+            finally
+            {
+                splash.SetProgress(94);
+            }
         }
 
         public void UpdateRecentList(string[] list)
@@ -188,17 +182,12 @@ namespace AutoWikiBrowser
                 item.Click += RecentSettingsClick;
             }
 
-            recentToolStripMenuItem.Visible = RecentList.Count > 0;
+            recentToolStripMenuItem.Visible = (RecentList.Count > 0);
         }
 
         public void SaveRecentSettingsList()
         {
-            //TODO:Use Utils
-            Microsoft.Win32.RegistryKey reg = 
-                Microsoft.Win32.Registry.CurrentUser.CreateSubKey(regKey);
-
-            string s = string.Join("|", RecentList.ToArray());
-            reg.SetValue("RecentList", s);
+            RegistryUtils.SetValue("", "RecentList", string.Join("|", RecentList.ToArray()));
         }
 
         private void RecentSettingsClick(object sender, EventArgs e)

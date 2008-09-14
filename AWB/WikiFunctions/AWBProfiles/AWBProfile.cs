@@ -89,7 +89,6 @@ namespace WikiFunctions.Profiles
         public static AWBProfile GetProfile(int id)
         {
             AWBProfile prof = new AWBProfile();
-            //Computer myComputer = new Computer();
 
             prof.id = id;
             try { prof.Username = RegistryGetAndDecryptValue(id + "\\User", ""); }
