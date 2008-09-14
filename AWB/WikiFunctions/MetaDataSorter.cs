@@ -501,8 +501,7 @@ namespace WikiFunctions.Parse
 
         public string interwikis(ref string ArticleText)
         {
-            string interwikis = ListToString(removeLinkFAs(ref ArticleText)) + ListToString(removeInterWikis(ref ArticleText));
-            return interwikis;
+            return ListToString(removeLinkFAs(ref ArticleText)) + ListToString(removeInterWikis(ref ArticleText));
         }
 
         static readonly Regex FastIW = new Regex(@"\[\[\s*([-a-zA-Z]*?)\s*:\s*([^\]]*?)\s*\]\]", RegexOptions.Compiled);
