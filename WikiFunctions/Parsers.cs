@@ -1710,11 +1710,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (!Tools.IsMainSpace(ArticleTitle))
                 return ArticleText;
 
-            double length = ArticleText.Length + 1;
-
-            double linkCount = 1;
-            double ratio = 0;
-
             string commentsStripped = WikiRegexes.Comments.Replace(ArticleText, "");
             Sorter.interwikis(ref commentsStripped);
 
@@ -1730,12 +1725,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             }
 
             // remove stub tags from long articles
-            if (words > StubMaxWordCount && WikiRegexes.Stub.IsMatch(commentsStripped))
+            if ((words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped))
             {
                 MatchEvaluator stubEvaluator = new MatchEvaluator(stubChecker);
-                ArticleText = WikiRegexes.Stub.Replace(ArticleText, stubEvaluator);
-
-                ArticleText = ArticleText.Trim();
+                ArticleText = WikiRegexes.Stub.Replace(ArticleText, stubEvaluator).Trim();
             }
 
             // skip article if contains any template except for stub templates
@@ -1745,8 +1738,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     return ArticleText;
             }
 
-            linkCount = Tools.LinkCount(commentsStripped);
-            ratio = linkCount / length;
+            double length = ArticleText.Length + 1;
+            double linkCount = Tools.LinkCount(commentsStripped);
+            double ratio = linkCount / length;
 
             string catHTML = "<div id=\"catlinks\"></div>";
             if (!WikiRegexes.Category.IsMatch(commentsStripped))
@@ -1842,7 +1836,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             ArticleText = RemoveComments.Replace(ArticleText, "");
             ArticleText = RemoveNowiki.Replace(ArticleText, "");
             Match m = Bots.Match(ArticleText);
-            if (m.Groups[1].Value == "Nobots" || m.Groups[1].Value == "nobots") return false;
+            if (Tools.CaseInsensitiveStringCompare(m.Groups[1].Value, "Nobots")) return false;
 
             string s = Allow.Match(m.Groups[2].Value).Groups[1].Value.Trim();
             if (s.Length > 0)

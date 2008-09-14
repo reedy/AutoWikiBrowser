@@ -368,6 +368,17 @@ namespace WikiFunctions
         }
 
         /// <summary>
+        /// Case-Insensitive String Comparison
+        /// </summary>
+        /// <param name="one">First String</param>
+        /// <param name="two">Second String</param>
+        /// <returns>If the strings are equal</returns>
+        public static bool CaseInsensitiveStringCompare(string one, string two)
+        {
+            return (string.Compare(one, two, true) == 0);
+        }
+
+        /// <summary>
         /// Returns a regex case insensitive version of a string for the first letter only e.g. "Category" returns "[Cc]ategory"
         /// </summary>
         public static string CaseInsensitive(string input)
