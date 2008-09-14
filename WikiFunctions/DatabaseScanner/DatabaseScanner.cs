@@ -213,8 +213,8 @@ namespace WikiFunctions.DBScanner
             if (chkSearchDates.Checked)
                 s.Add(new DateRange(dtpFrom.Value, dtpTo.Value));
 
-            //if (chkProtection.Checked)
-            //    s.Add(new Restriction(MoveDelete.EditProtectionLevel, MoveDelete.MoveProtectionLevel));
+            if (chkProtection.Checked)
+                s.Add(new Restriction(MoveDelete.EditProtectionLevel, MoveDelete.MoveProtectionLevel));
 
             if (cmboLength.SelectedIndex == 1)
                 s.Add(new CountCharacters(MoreLessThan.MoreThan, (int)nudLength.Value));

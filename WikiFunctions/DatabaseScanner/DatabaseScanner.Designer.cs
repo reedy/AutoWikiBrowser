@@ -1206,6 +1206,7 @@ namespace WikiFunctions.DBScanner
             this.tbParameters.Controls.Add(this.tabRev);
             this.tbParameters.Controls.Add(this.tabText);
             this.tbParameters.Controls.Add(this.tabAWB);
+            this.tbParameters.Controls.Add(this.tabRestrict);
             this.tbParameters.Location = new System.Drawing.Point(12, 12);
             this.tbParameters.Name = "tbParameters";
             this.tbParameters.SelectedIndex = 0;
