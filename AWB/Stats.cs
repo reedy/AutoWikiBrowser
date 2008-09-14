@@ -95,7 +95,7 @@ namespace AutoWikiBrowser
         private static List<IAWBPlugin> newAWBPlugins = new List<IAWBPlugin>();
         private static List<IListMakerPlugin> newListMakerPlugins = new List<IListMakerPlugin>();
 
- #region Public
+        #region Public
         internal static void Initialise()
         {
             // static constructor only gets called when an member of the class is first accessed, not at startup (surprised me!)
@@ -143,16 +143,15 @@ namespace AutoWikiBrowser
         {
             if (EstablishedContact) newListMakerPlugins.Add(plugin);
         }
-#endregion
+        #endregion
 
-#region Server Contact
+        #region Server Contact
         /// <summary>
         /// Send usage stats to server
         /// </summary>
         private static void FirstContact()
         {
-#if DEBUG && INSTASTATS
-#else
+#if !DEBUG && !INSTASTATS
             if (Program.AWB.NumberOfEdits == 0) return;
 #endif
             try
@@ -171,7 +170,8 @@ namespace AutoWikiBrowser
                     postvars.Add("Wiki", Variables.Project.ToString()); // This returns a short string such as "wikipedia"; may want to convert to int and then to string so we store less in the db
 
                 // Language code:
-                if (Variables.IsWikia) {
+                if (Variables.IsWikia)
+                {
                     postvars.Add("Language", "WIK");
                 }
                 else if (Variables.IsCustomProject || Variables.IsWikimediaMonolingualProject)
@@ -188,7 +188,7 @@ namespace AutoWikiBrowser
 
                 // Username:
                 ProcessUsername(postvars);
-                
+
                 // Other details:
                 postvars.Add("Saves", Program.AWB.NumberOfEdits.ToString());
                 postvars.Add("OS", Environment.OSVersion.VersionString);
@@ -256,7 +256,6 @@ namespace AutoWikiBrowser
                 Program.AWB.Form.Cursor = System.Windows.Forms.Cursors.WaitCursor;
 
                 return Tools.PostData(postvars, StatsURL);
-                // should be transparent to end-user
             }
             catch (WebException ex)
             {
@@ -274,9 +273,9 @@ namespace AutoWikiBrowser
             }
             return null;
         }
-#endregion
+        #endregion
 
-#region Helper routines
+        #region Helper routines
         private static string StatusLabelText { set { Program.AWB.StatusLabelText = value; } }
 
         private static void EnumeratePlugins(NameValueCollection postvars, ICollection<IAWBPlugin> awbPlugins, ICollection<IListMakerPlugin> listLakerPlugins)
@@ -352,15 +351,20 @@ namespace AutoWikiBrowser
         }
 
         private static bool HaveUserNameToSend
-        { get { return (!SentUserName &&
-            (Properties.Settings.Default.Privacy || !string.IsNullOrEmpty(mUserName))); } }
+        {
+            get
+            {
+                return (!SentUserName &&
+                    (Properties.Settings.Default.Privacy || !string.IsNullOrEmpty(mUserName)));
+            }
+        }
 
         private static void UserNameChanged(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(Variables.User.Name))
                 mUserName = Variables.User.Name;
         }
-#endregion
+        #endregion
 
         internal static void OpenUsageStatsURL()
         { Tools.OpenURLInBrowser(StatsURL); }

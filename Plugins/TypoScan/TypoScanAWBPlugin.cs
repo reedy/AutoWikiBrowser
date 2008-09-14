@@ -98,7 +98,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         private void pluginUploadMenuItem_Click(object sender, EventArgs e)
         {
-            UploadFinishedArticlesToServer(false);
+            UploadFinishedArticlesToServer();
         }
 
         private void LogControl_LogAdded(bool Skipped, WikiFunctions.Logging.AWBLogListener LogListener)
@@ -119,7 +119,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                 }
 
                 if (EditAndIgnoredPages >= 25)
-                    UploadFinishedArticlesToServer(false);
+                    UploadFinishedArticlesToServer();
             }
         }
 
@@ -182,10 +182,10 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         private void UploadFinishedArticlesToServer(object sender, FormClosingEventArgs e)
         {
-            UploadFinishedArticlesToServer(true);
+            UploadFinishedArticlesToServer();
         }
 
-        private static void UploadFinishedArticlesToServer(bool appExit)
+        private static void UploadFinishedArticlesToServer()
         {
             int editsAndIgnored = EditAndIgnoredPages;
             if (editsAndIgnored == 0)
@@ -216,9 +216,13 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                     SkippedReasons.Clear();
                 }
             }
-            catch (System.Net.WebException we) 
+            catch (System.IO.IOException ex)
             {
-                if (appExit) ErrorHandler.Handle(we);
+                Tools.WriteDebug("TypoScanAWBPlugin", ex.Message);
+            }
+            catch (System.Net.WebException we)
+            {
+                Tools.WriteDebug("TypoScanAWBPlugin", we.Message);
             }
             AWB.StopProgressBar();
             AWB.StatusLabelText = "";
