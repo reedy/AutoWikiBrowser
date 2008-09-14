@@ -1226,10 +1226,10 @@ namespace AutoWikiBrowser
 
                     if (rdoAppend.Checked)
                         theArticle.AWBChangeArticleText("Appended your message",
-                            theArticle.ArticleText + newlines + txtAppendMessage.Text, false);
+                            theArticle.ArticleText + newlines + Tools.ApplyKeyWords(theArticle.Name, txtAppendMessage.Text), false);
                     else
                         theArticle.AWBChangeArticleText("Prepended your message",
-                            txtAppendMessage.Text + newlines + theArticle.ArticleText, false);
+                            Tools.ApplyKeyWords(theArticle.Name, txtAppendMessage.Text) + newlines + theArticle.ArticleText, false);
                 }
 
                 // replace/remove/comment out images
