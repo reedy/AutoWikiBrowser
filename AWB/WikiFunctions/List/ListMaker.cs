@@ -52,7 +52,7 @@ namespace WikiFunctions.Controls.Lists
         private static IListProvider linksOnPageLProvider = new LinksOnPageListProvider();
         private static IListProvider imageFileLinksLProvider = new ImageFileLinksListProvider();
         private static IListProvider imagesOnPageLProvider = new ImagesOnPageListProvider();
-        private static IListProvider categoriesOnPageLProvider = new CategoriesOnPage();
+        private static IListProvider categoriesOnPageLProvider = new CategoriesOnPageListProvider();
         #endregion
 
         public event ListMakerEventHandler StatusTextChanged;

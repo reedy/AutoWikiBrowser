@@ -255,9 +255,12 @@ namespace WikiFunctions.Lists
         #endregion
     }
 
-    public class CategoriesOnPage : ApiListProviderBase
+    /// <summary>
+    /// Gets a list of Categories on the specified pages
+    /// </summary>
+    public class CategoriesOnPageListProvider : ApiListProviderBase
     {
-        public CategoriesOnPage()
+        public CategoriesOnPageListProvider()
         {
             PageSize = 500; //500 is max for query, no article will have more than this
         }
