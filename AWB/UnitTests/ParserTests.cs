@@ -153,7 +153,7 @@ namespace UnitTests
             Assert.AreEqual("{{the later 1990's}}", parser.FixDates("{{the later 1990's}}"));
         }
 
-        [Test, Category("Unarchived bugs"), Category("Incomplete")]
+        [Test, Category("Incomplete")]
         public void TestFixSyntax()
         {
             bool noChange;
@@ -183,7 +183,7 @@ namespace UnitTests
             Assert.AreEqual("''foo'' bar", parser.FixSyntax("<i>foo< /i > bar"));
             Assert.AreEqual("<i>foo<i> bar", parser.FixSyntax("<i>foo<i> bar"));
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Erroneously_removing_pipe
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Erroneously_removing_pipe
             Assert.AreEqual("[[|foo]]", parser.FixSyntax("[[|foo]]"));
 
             //TODO: move it to parts testing specific functions, when they're covered
@@ -471,8 +471,8 @@ http://example.com }}");
             Assert.AreEqual(":Main article: [[Foo|f00]] and [[Bar]]", Parsers.FixMainArticle(":Main article: [[Foo|f00]] and [[Bar]]"));
         }
 
-        [Test, Category("Unarchived bugs")]
-        // http://en.wikipedia.org/wiki/Wikipedia:AWB/B#Problem_with_.22Main_article.22_fixup
+        [Test]
+        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Problem_with_.22Main_article.22_fixup
         public void Newlines()
         {
             Assert.AreEqual("test\r\n{{main|Foo}}\r\ntest", Parsers.FixMainArticle("test\r\nMain article: [[Foo]]\r\ntest"));
