@@ -255,6 +255,53 @@ namespace WikiFunctions.Lists
         #endregion
     }
 
+    public class CategoriesOnPage : ApiListProviderBase
+    {
+        #region Tags: <categories>/<cl>
+        static readonly List<string> pe = new List<string>(new string[] { "cl" });
+        protected override ICollection<string> PageElements
+        {
+            get { return pe; }
+        }
+
+        static readonly List<string> ac = new List<string>(new string[] { "categories" });
+        protected override ICollection<string> Actions
+        {
+            get { throw new NotImplementedException(); }
+        }
+        #endregion
+
+        public override List<Article> MakeList(params string[] searchCriteria)
+        {
+            searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
+
+            List<Article> list = new List<Article>();
+
+            foreach (string page in searchCriteria)
+            {
+                string url = Variables.URLLong + "api.php?action=query&prop=categories&cllimit={limit}&titles="
+                    + HttpUtility.UrlEncode(page) + "&format=xml";
+
+                list.AddRange(ApiMakeList(url, list.Count));
+            }
+
+            return list;
+        }
+
+        #region ListMaker properties
+        public override string DisplayText
+        { get { return "Categories on page"; } }
+
+        public override string UserInputTextBoxText
+        { get { return "Pages"; } }
+
+        public override bool UserInputTextBoxEnabled
+        { get { return true; } }
+
+        public override void Selected() { }
+        #endregion
+    }
+
     /// <summary>
     /// Gets a list of pages which link to the Named Pages
     /// </summary>

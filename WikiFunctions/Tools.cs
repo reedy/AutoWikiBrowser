@@ -1384,6 +1384,11 @@ Message: {2}
             return newList;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="UnfilteredArticles"></param>
+        /// <returns></returns>
         public static List<Article> FilterSomeArticles(List<Article> UnfilteredArticles)
         {
             //Filter out articles which we definately do not want to edit and remove duplicates.
@@ -1400,6 +1405,12 @@ Message: {2}
             return items;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="postvars"></param>
+        /// <param name="url"></param>
+        /// <returns></returns>
         public static string PostData(NameValueCollection postvars, string url)
         {
             //echo scripts which just print out the POST vars, handy for early stages of testing:
@@ -1422,6 +1433,11 @@ Message: {2}
                 throw new WebException(rs.StatusDescription, WebExceptionStatus.UnknownError);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="postvars"></param>
+        /// <returns></returns>
         public static string BuildPostDataString(NameValueCollection postvars)
         {
             StringBuilder ret = new StringBuilder();
@@ -1436,6 +1452,10 @@ Message: {2}
             return ret.ToString();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
         public static void CopyToClipboard(string text)
         {
             try
