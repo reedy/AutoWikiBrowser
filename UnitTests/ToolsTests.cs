@@ -200,6 +200,37 @@ bar"));
         }
 
         [Test]
+        public void BasePageName()
+        {
+            Assert.AreEqual("", Tools.BasePageName(""));
+            Assert.AreEqual("Foo", Tools.BasePageName("Foo"));
+            Assert.AreEqual("Foo", Tools.BasePageName("Project:Foo"));
+            Assert.AreEqual("Foo", Tools.BasePageName("Foo/Bar"));
+            Assert.AreEqual("Foo", Tools.BasePageName("Foo/Bar/Boz"));
+            Assert.AreEqual("Foo", Tools.BasePageName("Project:Foo/Bar/Boz"));
+        }
+
+        [Test]
+        public void SubPageName()
+        {
+            Assert.AreEqual("", Tools.SubPageName(""));
+            Assert.AreEqual("Foo", Tools.SubPageName("Foo"));
+            Assert.AreEqual("Bar", Tools.SubPageName("Foo/Bar"));
+            Assert.AreEqual("Boz", Tools.SubPageName("Foo/Bar/Boz"));
+            Assert.AreEqual("Foo", Tools.SubPageName("Project:Foo"));
+            Assert.AreEqual("Bar", Tools.SubPageName("Image:Foo/Bar"));
+        }
+
+        [Test]
+        public void ServerName()
+        {
+            Assert.AreEqual("", Tools.ServerName(""));
+            Assert.AreEqual("foo", Tools.ServerName("http://foo"));
+            Assert.AreEqual("foo", Tools.ServerName("http://foo/"));
+            Assert.AreEqual("foo.bar.com", Tools.ServerName("http://foo.bar.com/path/script?a=foo/bar"));
+        }
+
+        [Test]
         public void WikiEncode()
         {
             Assert.AreEqual("foo", Tools.WikiEncode("foo"));
@@ -389,10 +420,7 @@ bar"));
         [Test]
         public void ApplyKeyWords()
         {
-            //TODO:Breakup tests
-
             //Test majority of Key Words except %%key%%
-            //One subpage level, talk
             Assert.AreEqual(@"AutoWikiBrowser/Sandbox
 AutoWikiBrowser/Sandbox
 
@@ -409,148 +437,37 @@ Wikipedia talk:AutoWikiBrowser/Sandbox
 Wikipedia_talk:AutoWikiBrowser/Sandbox
 
 Wikipedia talk:AutoWikiBrowser/Sandbox
-Wikipedia talk
-AutoWikiBrowser/Sandbox", Tools.ApplyKeyWords("Wikipedia talk:AutoWikiBrowser/Sandbox", @"{{PAGENAME}}
-{{PAGENAMEE}}
+Wikipedia talk",
 
-{{BASEPAGENAME}}
-{{BASEPAGENAMEE}}
+            Tools.ApplyKeyWords("Wikipedia talk:AutoWikiBrowser/Sandbox", @"%%pagename%%
+%%pagenamee%%
 
-{{NAMESPACE}}
-{{NAMESPACEE}}
+%%basepagename%%
+%%basepagenamee%%
 
-{{SUBPAGENAME}}
-{{SUBPAGENAMEE}}
+%%namespace%%
+%%namespacee%%
 
-{{FULLPAGENAME}}
-{{FULLPAGENAMEE}}
+%%subpagename%%
+%%subpagenamee%%
+
+%%fullpagename%%
+%%fullpagenamee%%
 
 %%title%%
-%%namespace%%
-%%titlename%%"));
+%%namespace%%"));
 
-            //Two subpage levels, talk
-            Assert.AreEqual(@"AutoWikiBrowser/Sandbox/test
-AutoWikiBrowser/Sandbox/test
-
-AutoWikiBrowser/Sandbox
-AutoWikiBrowser/Sandbox
-
-Wikipedia talk
-Wikipedia_talk
-
-test
-test
-
-Wikipedia talk:AutoWikiBrowser/Sandbox/test
-Wikipedia_talk:AutoWikiBrowser/Sandbox/test
-
-Wikipedia talk:AutoWikiBrowser/Sandbox/test
-Wikipedia talk
-AutoWikiBrowser/Sandbox/test", Tools.ApplyKeyWords("Wikipedia talk:AutoWikiBrowser/Sandbox/test", @"{{PAGENAME}}
-{{PAGENAMEE}}
-
-{{BASEPAGENAME}}
-{{BASEPAGENAMEE}}
-
-{{NAMESPACE}}
-{{NAMESPACEE}}
-
-{{SUBPAGENAME}}
-{{SUBPAGENAMEE}}
-
-{{FULLPAGENAME}}
-{{FULLPAGENAMEE}}
-
-%%title%%
-%%namespace%%
-%%titlename%%"));
-
-            //2 subpage levels, non talk
-            Assert.AreEqual(@"AutoWikiBrowser/Sandbox/test
-AutoWikiBrowser/Sandbox/test
-
-AutoWikiBrowser/Sandbox
-AutoWikiBrowser/Sandbox
-
-Wikipedia
-Wikipedia
-
-test
-test
-
-Wikipedia:AutoWikiBrowser/Sandbox/test
-Wikipedia:AutoWikiBrowser/Sandbox/test
-
-Wikipedia:AutoWikiBrowser/Sandbox/test
-Wikipedia
-AutoWikiBrowser/Sandbox/test", Tools.ApplyKeyWords("Wikipedia:AutoWikiBrowser/Sandbox/test", @"{{PAGENAME}}
-{{PAGENAMEE}}
-
-{{BASEPAGENAME}}
-{{BASEPAGENAMEE}}
-
-{{NAMESPACE}}
-{{NAMESPACEE}}
-
-{{SUBPAGENAME}}
-{{SUBPAGENAMEE}}
-
-{{FULLPAGENAME}}
-{{FULLPAGENAMEE}}
-
-%%title%%
-%%namespace%%
-%%titlename%%"));
-
-            //No subpages, non talk
-            Assert.AreEqual(@"AutoWikiBrowser
-AutoWikiBrowser
-
-AutoWikiBrowser
-AutoWikiBrowser
-
-Wikipedia
-Wikipedia
-
-AutoWikiBrowser
-AutoWikiBrowser
-
-Wikipedia:AutoWikiBrowser
-Wikipedia:AutoWikiBrowser
-
-Wikipedia:AutoWikiBrowser
-Wikipedia
-AutoWikiBrowser", Tools.ApplyKeyWords("Wikipedia:AutoWikiBrowser", @"{{PAGENAME}}
-{{PAGENAMEE}}
-
-{{BASEPAGENAME}}
-{{BASEPAGENAMEE}}
-
-{{NAMESPACE}}
-{{NAMESPACEE}}
-
-{{SUBPAGENAME}}
-{{SUBPAGENAMEE}}
-
-{{FULLPAGENAME}}
-{{FULLPAGENAMEE}}
-
-%%title%%
-%%namespace%%
-%%titlename%%"));
-
-            //Date Stuff
-            Assert.AreEqual(DateTime.Now.Day.ToString() + "\r\n" +DateTime.Now.ToString("MMM") + "\r\n" +DateTime.Now.Year.ToString(), Tools.ApplyKeyWords("n/a", @"{{CURRENTDAY}}
-{{CURRENTMONTHNAME}}
-{{CURRENTYEAR}}"));
+            //Date Stuff - disabled for now
+//            Assert.AreEqual(DateTime.Now.Day.ToString() + "\r\n" +DateTime.Now.ToString("MMM") + "\r\n" +DateTime.Now.Year.ToString(), Tools.ApplyKeyWords("n/a", @"{{CURRENTDAY}}
+//{{CURRENTMONTHNAME}}
+//{{CURRENTYEAR}}"));
 
             //Server Stuff
             Assert.AreEqual(@"http://en.wikipedia.org
 /w
-en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"{{SERVER}}
-{{SCRIPTPATH}}
-{{SERVERNAME}}"));
+en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
+%%scriptpath%%
+%%servername%%"));
 
             //%%key%%, Tools.MakeHumanCatKey() - Covered by HumanCatKeyTests
         }
