@@ -389,7 +389,10 @@ bar"));
         [Test]
         public void ApplyKeyWords()
         {
+            //TODO:Breakup tests
+
             //Test majority of Key Words except %%key%%
+            //One subpage level, talk
             Assert.AreEqual(@"AutoWikiBrowser/Sandbox
 AutoWikiBrowser/Sandbox
 
@@ -426,6 +429,7 @@ AutoWikiBrowser/Sandbox", Tools.ApplyKeyWords("Wikipedia talk:AutoWikiBrowser/Sa
 %%namespace%%
 %%titlename%%"));
 
+            //Two subpage levels, talk
             Assert.AreEqual(@"AutoWikiBrowser/Sandbox/test
 AutoWikiBrowser/Sandbox/test
 
@@ -444,6 +448,80 @@ Wikipedia_talk:AutoWikiBrowser/Sandbox/test
 Wikipedia talk:AutoWikiBrowser/Sandbox/test
 Wikipedia talk
 AutoWikiBrowser/Sandbox/test", Tools.ApplyKeyWords("Wikipedia talk:AutoWikiBrowser/Sandbox/test", @"{{PAGENAME}}
+{{PAGENAMEE}}
+
+{{BASEPAGENAME}}
+{{BASEPAGENAMEE}}
+
+{{NAMESPACE}}
+{{NAMESPACEE}}
+
+{{SUBPAGENAME}}
+{{SUBPAGENAMEE}}
+
+{{FULLPAGENAME}}
+{{FULLPAGENAMEE}}
+
+%%title%%
+%%namespace%%
+%%titlename%%"));
+
+            //2 subpage levels, non talk
+            Assert.AreEqual(@"AutoWikiBrowser/Sandbox/test
+AutoWikiBrowser/Sandbox/test
+
+AutoWikiBrowser/Sandbox
+AutoWikiBrowser/Sandbox
+
+Wikipedia
+Wikipedia
+
+test
+test
+
+Wikipedia:AutoWikiBrowser/Sandbox/test
+Wikipedia:AutoWikiBrowser/Sandbox/test
+
+Wikipedia:AutoWikiBrowser/Sandbox/test
+Wikipedia
+AutoWikiBrowser/Sandbox/test", Tools.ApplyKeyWords("Wikipedia:AutoWikiBrowser/Sandbox/test", @"{{PAGENAME}}
+{{PAGENAMEE}}
+
+{{BASEPAGENAME}}
+{{BASEPAGENAMEE}}
+
+{{NAMESPACE}}
+{{NAMESPACEE}}
+
+{{SUBPAGENAME}}
+{{SUBPAGENAMEE}}
+
+{{FULLPAGENAME}}
+{{FULLPAGENAMEE}}
+
+%%title%%
+%%namespace%%
+%%titlename%%"));
+
+            //No subpages, non talk
+            Assert.AreEqual(@"AutoWikiBrowser
+AutoWikiBrowser
+
+AutoWikiBrowser
+AutoWikiBrowser
+
+Wikipedia
+Wikipedia
+
+AutoWikiBrowser
+AutoWikiBrowser
+
+Wikipedia:AutoWikiBrowser
+Wikipedia:AutoWikiBrowser
+
+Wikipedia:AutoWikiBrowser
+Wikipedia
+AutoWikiBrowser", Tools.ApplyKeyWords("Wikipedia:AutoWikiBrowser", @"{{PAGENAME}}
 {{PAGENAMEE}}
 
 {{BASEPAGENAME}}
