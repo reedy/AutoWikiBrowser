@@ -425,35 +425,38 @@ namespace WikiFunctions
         /// http://meta.wikimedia.org/wiki/Help:Magic_words
         public static string ApplyKeyWords(string Title, string Text)
         {
-            Text = Text.Replace("%%key%%", MakeHumanCatKey(Title));
+            if (Text.Contains("%%") || Text.Contains("{{"))
+            {
+                Text = Text.Replace("%%key%%", MakeHumanCatKey(Title));
 
-            string titleNoNamespace = RemoveNamespaceString(Title);
+                string titleNoNamespace = RemoveNamespaceString(Title);
 
-            Text = pageNameKeyWord.Replace(Text, titleNoNamespace);
-            Text = Text.Replace("{{PAGENAMEE}}", WikiEncode(titleNoNamespace));
+                Text = pageNameKeyWord.Replace(Text, titleNoNamespace);
+                Text = Text.Replace("{{PAGENAMEE}}", WikiEncode(titleNoNamespace));
 
-            string pageTitle = titleNoNamespace.Substring(0, titleNoNamespace.LastIndexOf('/'));
-            Text = Text.Replace("{{BASEPAGENAME}}", pageTitle);
-            Text = Text.Replace("{{BASEPAGENAMEE}}", WikiEncode(pageTitle));
+                string pageTitle = titleNoNamespace.Substring(0, titleNoNamespace.LastIndexOf('/'));
+                Text = Text.Replace("{{BASEPAGENAME}}", pageTitle);
+                Text = Text.Replace("{{BASEPAGENAMEE}}", WikiEncode(pageTitle));
 
-            pageTitle = GetNamespaceString(Title);
-            Text = namespaceKeyWord.Replace(Text, pageTitle);
-            Text = Text.Replace("{{NAMESPACEE}}", WikiEncode(pageTitle));
+                pageTitle = GetNamespaceString(Title);
+                Text = namespaceKeyWord.Replace(Text, pageTitle);
+                Text = Text.Replace("{{NAMESPACEE}}", WikiEncode(pageTitle));
 
-            pageTitle = titleNoNamespace.Substring(titleNoNamespace.LastIndexOf('/') + 1);
-            Text = Text.Replace("{{SUBPAGENAME}}", pageTitle);
-            Text = Text.Replace("{{SUBPAGENAMEE}}", WikiEncode(pageTitle));
+                pageTitle = titleNoNamespace.Substring(titleNoNamespace.LastIndexOf('/') + 1);
+                Text = Text.Replace("{{SUBPAGENAME}}", pageTitle);
+                Text = Text.Replace("{{SUBPAGENAMEE}}", WikiEncode(pageTitle));
 
-            Text = fullPageNameKeyWord.Replace(Text, Title);
-            Text = Text.Replace("{{FULLPAGENAMEE}}", WikiEncode(Title));
+                Text = fullPageNameKeyWord.Replace(Text, Title);
+                Text = Text.Replace("{{FULLPAGENAMEE}}", WikiEncode(Title));
 
-            Text = Text.Replace("{{CURRENTDAY}}", DateTime.Now.Day.ToString());
-            Text = Text.Replace("{{CURRENTMONTHNAME}}", DateTime.Now.ToString("MMM"));
-            Text = Text.Replace("{{CURRENTYEAR}}", DateTime.Now.Year.ToString());
+                Text = Text.Replace("{{CURRENTDAY}}", DateTime.Now.Day.ToString());
+                Text = Text.Replace("{{CURRENTMONTHNAME}}", DateTime.Now.ToString("MMM"));
+                Text = Text.Replace("{{CURRENTYEAR}}", DateTime.Now.Year.ToString());
 
-            Text = Text.Replace("{{SERVER}}", Variables.URL);
-            Text = Text.Replace("{{SCRIPTPATH}}", Variables.ScriptPath);
-            Text = Text.Replace("{{SERVERNAME}}", Variables.ServerName);
+                Text = Text.Replace("{{SERVER}}", Variables.URL);
+                Text = Text.Replace("{{SCRIPTPATH}}", Variables.ScriptPath);
+                Text = Text.Replace("{{SERVERNAME}}", Variables.ServerName);
+            }
 
             return Text;
         }
