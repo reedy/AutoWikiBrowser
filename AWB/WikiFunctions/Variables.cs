@@ -163,14 +163,6 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Gets the server of the site, e.g. en.wikipedia.org
-        /// </summary>
-        public static string ServerName
-        {
-            get { return strURL.Replace("http://", ""); }
-        }
-
-        /// <summary>
         /// Returns the script path of the site, e.g. /w
         /// </summary>
         public static string ScriptPath

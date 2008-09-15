@@ -248,32 +248,48 @@ namespace WikiFunctions
         /// Returns a string with the namespace removed
         /// </summary>
         /// <returns></returns>
-        public static string RemoveNamespaceString(string Name)
+        public static string RemoveNamespaceString(string title)
         {
-            foreach (KeyValuePair<int, string> namespace1 in Variables.Namespaces)
-            {
-                if (Name.Contains(namespace1.Value))
-                    Name = Name.Replace(namespace1.Value, "");
-            }
-            return Name;
+            return new Article(title).NamespacelessName;
         }
 
         /// <summary>
         /// Returns a string just including the namespace of the article
         /// </summary>
         /// <returns></returns>
-        public static string GetNamespaceString(string Name)
+        public static string GetNamespaceString(string title)
         {
-            string ret = "";
-            foreach (KeyValuePair<int, string> namespace1 in Variables.Namespaces)
-            {
-                if (Name.Contains(namespace1.Value))
-                {
-                    ret = namespace1.Value;
-                    break;
-                }
-            }
-            return ret.Replace(":", "");
+            int ns = new Article(title).NameSpaceKey;
+            if (ns == 0)
+                return "";
+            else
+                return Variables.Namespaces[ns].Replace(":", "");
+        }
+
+        /// <summary>
+        /// Works like MediaWiki's {{BASEPAGENAME}} by retrieving page's parent name
+        /// </summary>
+        /// <param name="title">Title to process</param>
+        /// <returns>For input like "Namespace:Foo/Bar/Boz", returns "Foo"</returns>
+        public static string BasePageName(string title)
+        {
+            title = RemoveNamespaceString(title);
+            int i = title.IndexOf('/');
+            if (i < 0)
+                return title;
+            else
+                return title.Substring(0, i);
+        }
+
+        public static string SubPageName(string title)
+        {
+            title = RemoveNamespaceString(title);
+
+            int i = title.LastIndexOf('/');
+            if (i < 0)
+                return title;
+            else
+                return title.Substring(i + 1);
         }
 
         /// <summary>
@@ -414,57 +430,46 @@ namespace WikiFunctions
                 return input;
         }
 
-        static Regex pageNameKeyWord = new Regex(@"(\{\{|%%)(titlename|PAGENAME)(}}|%%)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        static Regex fullPageNameKeyWord = new Regex(@"(\{\{|%%)(title|FULLPAGENAME)(}}|%%)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        static Regex namespaceKeyWord = new Regex(@"(\{\{|%%)NAMESPACE(}}|%%)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
-        //Needs Tests
         /// <summary>
         /// Applies the key words "%%title%%" etc.
         /// </summary>
         /// http://meta.wikimedia.org/wiki/Help:Magic_words
         public static string ApplyKeyWords(string Title, string Text)
         {
-            if (Text.Contains("%%") || Text.Contains("{{"))
+            if (Text.Contains("%%"))
             {
+                string titleEncoded = WikiEncode(Title);
+                Text = Text.Replace("%%title%%", Title);
+                Text = Text.Replace("%%titlee%%", titleEncoded);
+                Text = Text.Replace("%%fullpagename%%", Title);
+                Text = Text.Replace("%%fullpagenamee%%", titleEncoded);
                 Text = Text.Replace("%%key%%", MakeHumanCatKey(Title));
 
                 string titleNoNamespace = RemoveNamespaceString(Title);
+                string basePageName = BasePageName(Title);
+                string subPageName = SubPageName(Title);
+                string Namespace = GetNamespaceString(Title);
 
-                Text = pageNameKeyWord.Replace(Text, titleNoNamespace);
-                Text = Text.Replace("{{PAGENAMEE}}", WikiEncode(titleNoNamespace));
+                Text = Text.Replace("%%pagename%%", titleNoNamespace);
+                Text = Text.Replace("%%pagenamee%%", WikiEncode(titleNoNamespace));
 
-                string pageTitle;
+                Text = Text.Replace("%%basepagename%%", basePageName);
+                Text = Text.Replace("%%basepagenamee%%", WikiEncode(basePageName));
 
-                if (titleNoNamespace.Contains("/"))
-                    pageTitle = titleNoNamespace.Substring(0, titleNoNamespace.LastIndexOf('/'));
-                else
-                    pageTitle = titleNoNamespace;
+                Text = Text.Replace("%%namespace%%", Namespace);
+                Text = Text.Replace("%%namespacee%%", WikiEncode(Namespace));
 
-                Text = Text.Replace("{{BASEPAGENAME}}", pageTitle);
-                Text = Text.Replace("{{BASEPAGENAMEE}}", WikiEncode(pageTitle));
+                Text = Text.Replace("%%subpagename%%", subPageName);
+                Text = Text.Replace("%%subpagenamee%%", WikiEncode(subPageName));
 
-                pageTitle = GetNamespaceString(Title);
-                Text = namespaceKeyWord.Replace(Text, pageTitle);
-                Text = Text.Replace("{{NAMESPACEE}}", WikiEncode(pageTitle));
+                // we need to use project's names, not user's
+                //Text = Text.Replace("{{CURRENTDAY}}", DateTime.Now.Day.ToString());
+                //Text = Text.Replace("{{CURRENTMONTHNAME}}", DateTime.Now.ToString("MMM"));
+                //Text = Text.Replace("{{CURRENTYEAR}}", DateTime.Now.Year.ToString());
 
-                if (titleNoNamespace.Contains("/"))
-                    pageTitle = titleNoNamespace.Substring(titleNoNamespace.LastIndexOf('/') + 1);
-                else
-                    pageTitle = titleNoNamespace;
-                Text = Text.Replace("{{SUBPAGENAME}}", pageTitle);
-                Text = Text.Replace("{{SUBPAGENAMEE}}", WikiEncode(pageTitle));
-
-                Text = fullPageNameKeyWord.Replace(Text, Title);
-                Text = Text.Replace("{{FULLPAGENAMEE}}", WikiEncode(Title));
-
-                Text = Text.Replace("{{CURRENTDAY}}", DateTime.Now.Day.ToString());
-                Text = Text.Replace("{{CURRENTMONTHNAME}}", DateTime.Now.ToString("MMM"));
-                Text = Text.Replace("{{CURRENTYEAR}}", DateTime.Now.Year.ToString());
-
-                Text = Text.Replace("{{SERVER}}", Variables.URL);
-                Text = Text.Replace("{{SCRIPTPATH}}", Variables.ScriptPath);
-                Text = Text.Replace("{{SERVERNAME}}", Variables.ServerName);
+                Text = Text.Replace("%%server%%", Variables.URL);
+                Text = Text.Replace("%%scriptpath%%", Variables.ScriptPath);
+                Text = Text.Replace("%%servername%%", ServerName(Variables.URL));
             }
 
             return Text;
@@ -1120,6 +1125,23 @@ Message: {2}
                 return title;
 
             return (title.Substring(0, title.IndexOf('#')));
+        }
+
+        /// <summary>
+        /// Returns URL stripped of protocol and subdirectories, e.g. http://en.wikipedia.org/wiki/ --> en.wikipedia.org
+        /// </summary>
+        /// <param name="url">URL to process</param>
+        public static string ServerName(string url)
+        {
+            int pos = url.IndexOf("://");
+            if (pos >= 0)
+                url = url.Substring(pos + 3);
+
+            pos = url.IndexOf('/');
+            if (pos >= 0)
+                url = url.Substring(0, pos);
+
+            return url;
         }
 
         static readonly Regex ExpandTemplatesRegex = new Regex("<expandtemplates>(.*?)</expandtemplates>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
