@@ -405,14 +405,6 @@ Sandbox
 Wikipedia talk:AutoWikiBrowser/Sandbox
 Wikipedia_talk:AutoWikiBrowser/Sandbox
 
-14
-Sep
-2008
-
-http://en.wikipedia.org
-/w
-en.wikipedia.org
-
 Wikipedia talk:AutoWikiBrowser/Sandbox
 Wikipedia talk
 AutoWikiBrowser/Sandbox", Tools.ApplyKeyWords("Wikipedia talk:AutoWikiBrowser/Sandbox", @"{{PAGENAME}}
@@ -429,14 +421,6 @@ AutoWikiBrowser/Sandbox", Tools.ApplyKeyWords("Wikipedia talk:AutoWikiBrowser/Sa
 
 {{FULLPAGENAME}}
 {{FULLPAGENAMEE}}
-
-{{CURRENTDAY}}
-{{CURRENTMONTHNAME}}
-{{CURRENTYEAR}}
-
-{{SERVER}}
-{{SCRIPTPATH}}
-{{SERVERNAME}}
 
 %%title%%
 %%namespace%%
@@ -457,14 +441,6 @@ test
 Wikipedia talk:AutoWikiBrowser/Sandbox/test
 Wikipedia_talk:AutoWikiBrowser/Sandbox/test
 
-14
-Sep
-2008
-
-http://en.wikipedia.org
-/w
-en.wikipedia.org
-
 Wikipedia talk:AutoWikiBrowser/Sandbox/test
 Wikipedia talk
 AutoWikiBrowser/Sandbox/test", Tools.ApplyKeyWords("Wikipedia talk:AutoWikiBrowser/Sandbox/test", @"{{PAGENAME}}
@@ -482,17 +458,21 @@ AutoWikiBrowser/Sandbox/test", Tools.ApplyKeyWords("Wikipedia talk:AutoWikiBrows
 {{FULLPAGENAME}}
 {{FULLPAGENAMEE}}
 
-{{CURRENTDAY}}
-{{CURRENTMONTHNAME}}
-{{CURRENTYEAR}}
-
-{{SERVER}}
-{{SCRIPTPATH}}
-{{SERVERNAME}}
-
 %%title%%
 %%namespace%%
 %%titlename%%"));
+
+            //Date Stuff
+            Assert.AreEqual(DateTime.Now.Day.ToString() + "\r\n" +DateTime.Now.ToString("MMM") + "\r\n" +DateTime.Now.Year.ToString(), Tools.ApplyKeyWords("n/a", @"{{CURRENTDAY}}
+{{CURRENTMONTHNAME}}
+{{CURRENTYEAR}}"));
+
+            //Server Stuff
+            Assert.AreEqual(@"http://en.wikipedia.org
+/w
+en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"{{SERVER}}
+{{SCRIPTPATH}}
+{{SERVERNAME}}"));
 
             //%%key%%, Tools.MakeHumanCatKey() - Covered by HumanCatKeyTests
         }
