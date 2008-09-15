@@ -793,7 +793,7 @@ namespace WikiFunctions.DBScanner
         {
             gbText.Enabled = gbTitle.Enabled = groupBox4.Enabled = gbAWBSpecific.Enabled = gbNamespace.Enabled =
                 gbDate.Enabled = gbProperties.Enabled = btnFilter.Enabled = nudLimitResults.Enabled = txtStartFrom.Enabled = 
-                btnReset.Enabled = !busy;
+                btnReset.Enabled = btnBrowse.Enabled = !busy;
             if (busy) { btnStart.Text = "Stop"; } else { btnStart.Text = "Start"; }
         }
         #endregion
