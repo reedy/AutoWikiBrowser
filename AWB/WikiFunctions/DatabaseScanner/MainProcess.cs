@@ -273,6 +273,7 @@ namespace WikiFunctions.DBScanner
             catch (Exception ex)
             {
                 //TODO:
+                ErrorHandler.Handle(ex);
             }
         }
 
