@@ -271,6 +271,8 @@ namespace WikiFunctions.DBScanner
                 }
                 //System.Windows.Forms.MessageBox.Show(sleeps.ToString());
             }
+            catch (ThreadAbortException)
+            { }
             catch (Exception ex)
             {
                 //TODO:
