@@ -908,10 +908,5 @@ namespace WikiFunctions.DBScanner
         {
             MoveDelete.Enabled = chkProtection.Checked;
         }
-
-        private void MoveDelete_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }
