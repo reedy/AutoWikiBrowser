@@ -434,7 +434,13 @@ namespace WikiFunctions
                 Text = pageNameKeyWord.Replace(Text, titleNoNamespace);
                 Text = Text.Replace("{{PAGENAMEE}}", WikiEncode(titleNoNamespace));
 
-                string pageTitle = titleNoNamespace.Substring(0, titleNoNamespace.LastIndexOf('/'));
+                string pageTitle;
+
+                if (titleNoNamespace.Contains("/"))
+                    pageTitle = titleNoNamespace.Substring(0, titleNoNamespace.LastIndexOf('/'));
+                else
+                    pageTitle = titleNoNamespace;
+
                 Text = Text.Replace("{{BASEPAGENAME}}", pageTitle);
                 Text = Text.Replace("{{BASEPAGENAMEE}}", WikiEncode(pageTitle));
 
@@ -442,7 +448,10 @@ namespace WikiFunctions
                 Text = namespaceKeyWord.Replace(Text, pageTitle);
                 Text = Text.Replace("{{NAMESPACEE}}", WikiEncode(pageTitle));
 
-                pageTitle = titleNoNamespace.Substring(titleNoNamespace.LastIndexOf('/') + 1);
+                if (titleNoNamespace.Contains("/"))
+                    pageTitle = titleNoNamespace.Substring(titleNoNamespace.LastIndexOf('/') + 1);
+                else
+                    pageTitle = titleNoNamespace;
                 Text = Text.Replace("{{SUBPAGENAME}}", pageTitle);
                 Text = Text.Replace("{{SUBPAGENAMEE}}", WikiEncode(pageTitle));
 
