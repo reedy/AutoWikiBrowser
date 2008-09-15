@@ -197,12 +197,11 @@ namespace WikiFunctions.Parse
 
         public bool TyposLoaded;
 
-        Regex IgnoreRegex = new Regex("133t|-ology|\\(sic\\)|\\[sic\\]|\\[''sic''\\]|\\{\\{sic\\}\\}|spellfixno", RegexOptions.Compiled);
-        HideText RemoveText = new HideText(true, false, true);
+        static readonly Regex IgnoreRegex = new Regex("133t|-ology|\\(sic\\)|\\[sic\\]|\\[''sic''\\]|\\{\\{sic\\}\\}|spellfixno", RegexOptions.Compiled);
+        static readonly Regex RemoveTail = new Regex(@"(\s|\n|\r|\*|#|:|⌊⌊⌊⌊M?\d*⌋⌋⌋⌋)*$", RegexOptions.Compiled);
 
         List<TypoGroup> Groups = new List<TypoGroup>();
 
-        static readonly Regex RemoveTail = new Regex(@"(\s|\n|\r|\*|#|:|⌊⌊⌊⌊M?\d*⌋⌋⌋⌋)*$", RegexOptions.Compiled);
 
         internal static void TypoError(string error)
         {
@@ -270,6 +269,8 @@ namespace WikiFunctions.Parse
                 NoChange = true;
                 return ArticleText;
             }
+
+            HideText RemoveText = new HideText(true, false, true);
 
             ArticleText = RemoveText.HideMore(ArticleText);
 
