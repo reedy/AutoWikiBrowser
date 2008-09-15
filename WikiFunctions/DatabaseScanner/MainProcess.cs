@@ -31,9 +31,16 @@ namespace WikiFunctions.DBScanner
     public delegate void FoundDel(object article);
     public delegate void StopDel();
 
+    internal class ArticleInfo
+    {
+        public string Title;
+        public string Text;
+        public string Timestamp;
+        public string Restrictions;
+    }
+
     class MainProcess
     {
-        public event FoundDel FoundArticle; // TODO: remove it completely
         public event StopDel StoppedEvent;
         public CrossThreadQueue<string> Queue;
 
@@ -41,13 +48,12 @@ namespace WikiFunctions.DBScanner
         string From = "";
         internal Stream stream;
 
-        SendOrPostCallback SOPC;
         SendOrPostCallback SOPCstopped;
         private SynchronizationContext context;
         Thread ScanThread;
 
-        List<Scan> s;
-        bool ignore = false;
+        List<Scan> Scanners;
+        bool IgnoreComments = false;
 
         public MainProcess(List<Scan> z, string filename, ThreadPriority tp, bool ignoreComments, string StartFrom)
             : this(z, filename, tp, ignoreComments)
@@ -58,12 +64,11 @@ namespace WikiFunctions.DBScanner
         public MainProcess(List<Scan> z, string filename, ThreadPriority tp, bool ignoreComments)
         {
             FileName = filename;
-            SOPC = new SendOrPostCallback(NewArticle);
             SOPCstopped = new SendOrPostCallback(Stopped);
             Priority = tp;
-            ignore = ignoreComments;
+            IgnoreComments = ignoreComments;
 
-            s = z;
+            Scanners = z;
 
             try
             {
@@ -73,11 +78,6 @@ namespace WikiFunctions.DBScanner
             {
                 throw new Exception(ex.Message);
             }
-        }
-
-        private void NewArticle(object o)
-        {
-            this.FoundArticle(o);
         }
 
         private void Stopped(object o)
@@ -106,20 +106,28 @@ namespace WikiFunctions.DBScanner
             ScanThread.Start();
         }
 
+        private void ScanArticle(ArticleInfo ai)
+        {
+            foreach (Scan z in Scanners)
+            {
+                if (!z.Check(ref ai.Text, ref ai.Title, ai.Timestamp, ai.Restrictions))
+                {
+                    return;
+                }
+            }
+
+            Queue.Add(ai.Title);
+        }
+
         private void Process()
         {
-            string articleText = "";
-            string articleTitle = "";
-            string articleTimestamp = "";
-            string articleRestriction = "";
-
             string timestamp = "timestamp";
             string page = "page";
             string title = "title";
             string text = "text";
             string restriction = "restrictions";
 
-            bool test = true;
+            string articleTitle = "";
 
             try
             {
@@ -128,7 +136,8 @@ namespace WikiFunctions.DBScanner
                     reader.WhitespaceHandling = WhitespaceHandling.None;
 
                     if (From.Length > 0)
-                    {//move to start from article
+                    {
+                        //move to start from article
                         while (reader.Read() && boolRun)
                         {
                             if (reader.Name == page)
@@ -144,42 +153,29 @@ namespace WikiFunctions.DBScanner
 
                     while (reader.Read() && boolRun)
                     {
-                        test = true;
-
                         if (reader.Name == page)
                         {
+                            ArticleInfo ai = new ArticleInfo();
+
                             reader.ReadToFollowing(title);
-                            articleTitle = reader.ReadString();
+                            ai.Title = articleTitle = reader.ReadString();
 
                             //reader.ReadToFollowing(restriction); //TODO:This is wrong. Only want to read the restriction if in that <page></page>
 
                             if (reader.Name == restriction)
-                                articleRestriction = reader.ReadString();
+                                ai.Restrictions = reader.ReadString();
                             else
-                                articleRestriction = "";
+                                ai.Restrictions = "";
 
                             reader.ReadToFollowing(timestamp);
-                            articleTimestamp = reader.ReadString();
+                            ai.Timestamp = reader.ReadString();
                             reader.ReadToFollowing(text);
-                            articleText = reader.ReadString();
+                            ai.Text = reader.ReadString();
 
-                            if (ignore)
-                                articleText = WikiRegexes.Comments.Replace(articleText, "");
+                            if (IgnoreComments)
+                                ai.Text = WikiRegexes.Comments.Replace(ai.Text, "");
 
-                            foreach (Scan z in s)
-                            {
-                                if (!z.Check(ref articleText, ref articleTitle, articleTimestamp, articleRestriction))
-                                {
-                                    test = false;
-                                    break;
-                                }
-                            }
-
-                            if (test)
-                            {
-                                //context.Post(SOPC, articleTitle);
-                                Queue.Add(articleTitle);
-                            }
+                            ScanArticle(ai);
                         }
                     }
                 }
