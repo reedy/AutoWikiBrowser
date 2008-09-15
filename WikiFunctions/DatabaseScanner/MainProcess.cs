@@ -42,7 +42,7 @@ namespace WikiFunctions.DBScanner
     class MainProcess
     {
         public event StopDel StoppedEvent;
-        public CrossThreadQueue<string> Queue;
+        public CrossThreadQueue<string> OutputQueue;
 
         string FileName = "";
         string From = "";
@@ -50,7 +50,11 @@ namespace WikiFunctions.DBScanner
 
         SendOrPostCallback SOPCstopped;
         private SynchronizationContext context;
+
         Thread ScanThread;
+        List<Thread> SecondaryThreads = new List<Thread>();
+        public bool MultiThreaded = false;
+        CrossThreadQueue<ArticleInfo> PendingArticles = new CrossThreadQueue<ArticleInfo>();
 
         List<Scan> Scanners;
         bool IgnoreComments = false;
@@ -67,6 +71,7 @@ namespace WikiFunctions.DBScanner
             SOPCstopped = new SendOrPostCallback(Stopped);
             Priority = tp;
             IgnoreComments = ignoreComments;
+            MultiThreaded = Environment.ProcessorCount > 1;
 
             Scanners = z;
 
@@ -91,7 +96,18 @@ namespace WikiFunctions.DBScanner
             if (ScanThread != null)
             {
                 ScanThread.Abort();
+                foreach (Thread thr in SecondaryThreads)
+                {
+                    thr.Abort();
+                }
                 ScanThread.Join();
+
+                foreach (Thread thr in SecondaryThreads)
+                {
+                    // avoid deadlocks when calling from secondary thread
+                    if (thr.ManagedThreadId != Thread.CurrentThread.ManagedThreadId)
+                        thr.Join();
+                }
             }
         }
 
@@ -101,9 +117,21 @@ namespace WikiFunctions.DBScanner
 
             ThreadStart thr_Process = new ThreadStart(Process);
             ScanThread = new Thread(thr_Process);
+            ScanThread.Name = "DB Scanner thread";
             ScanThread.IsBackground = true;
-            ScanThread.Priority = tpriority;
+            ScanThread.Priority = mPriority;
             ScanThread.Start();
+
+            for (int i = 0; i < Environment.ProcessorCount - 1; i++)
+            {
+                ThreadStart ts = new ThreadStart(SecondaryThread);
+                Thread thr = new Thread(ts);
+                thr.Name = "DB Scanner thread #" + (i + 2);
+                thr.IsBackground = true;
+                thr.Priority = mPriority;
+                SecondaryThreads.Add(thr);
+                thr.Start();
+            }
         }
 
         private void ScanArticle(ArticleInfo ai)
@@ -116,17 +144,11 @@ namespace WikiFunctions.DBScanner
                 }
             }
 
-            Queue.Add(ai.Title);
+            OutputQueue.Add(ai.Title);
         }
 
         private void Process()
         {
-            string timestamp = "timestamp";
-            string page = "page";
-            string title = "title";
-            string text = "text";
-            string restriction = "restrictions";
-
             string articleTitle = "";
 
             try
@@ -138,11 +160,11 @@ namespace WikiFunctions.DBScanner
                     if (From.Length > 0)
                     {
                         //move to start from article
-                        while (reader.Read() && boolRun)
+                        while (reader.Read() && mRun)
                         {
-                            if (reader.Name == page)
+                            if (reader.Name == "page")
                             {
-                                reader.ReadToFollowing(title);
+                                reader.ReadToFollowing("title");
                                 articleTitle = reader.ReadString();
 
                                 if (From == articleTitle)
@@ -151,32 +173,57 @@ namespace WikiFunctions.DBScanner
                         }
                     }
 
-                    while (reader.Read() && boolRun)
+                    while (reader.Read() && mRun)
                     {
-                        if (reader.Name == page)
+                        if (reader.Name == "page")
                         {
                             ArticleInfo ai = new ArticleInfo();
 
-                            reader.ReadToFollowing(title);
+                            reader.ReadToFollowing("title");
                             ai.Title = articleTitle = reader.ReadString();
 
                             //reader.ReadToFollowing(restriction); //TODO:This is wrong. Only want to read the restriction if in that <page></page>
 
-                            if (reader.Name == restriction)
+                            if (reader.Name == "restrictions")
                                 ai.Restrictions = reader.ReadString();
                             else
                                 ai.Restrictions = "";
 
-                            reader.ReadToFollowing(timestamp);
+                            reader.ReadToFollowing("timestamp");
                             ai.Timestamp = reader.ReadString();
-                            reader.ReadToFollowing(text);
+                            reader.ReadToFollowing("text");
                             ai.Text = reader.ReadString();
 
                             if (IgnoreComments)
                                 ai.Text = WikiRegexes.Comments.Replace(ai.Text, "");
 
-                            ScanArticle(ai);
+                            if (MultiThreaded)
+                            {
+                                if (PendingArticles.Count < Environment.ProcessorCount * 4 + 5)
+                                {
+                                    PendingArticles.Add(ai);
+                                }
+                                else
+                                {
+                                    ScanArticle(ai);
+                                }
+                            }
+                            else
+                            {
+                                ScanArticle(ai);
+                            }
                         }
+                    }
+
+                    if (MultiThreaded)
+                    {
+                        while (PendingArticles.Count > 0)
+                            Thread.Sleep(10);
+
+                        mRun = false;
+
+                        foreach (Thread thr in SecondaryThreads)
+                            thr.Join();
                     }
                 }
             }
@@ -193,11 +240,48 @@ namespace WikiFunctions.DBScanner
             }
         }
 
-        bool boolRun = true;
+        private void SecondaryThread()
+        {
+            try
+            {
+                bool sleep = false;
+                int sleeps = 0;
+                while (Run)
+                {
+                    if (PendingArticles.Count > 0) lock (PendingArticles)
+                        {
+                            if (PendingArticles.Count > 0)
+                            {
+                                ArticleInfo ai = PendingArticles.Remove();
+                                ScanArticle(ai);
+                                sleep = false;
+                            }
+                            else
+                                sleep = true;
+                        }
+                    else
+                        sleep = true;
+
+                    if (sleep)
+                    {
+                        Thread.Sleep(1);
+                        sleeps++;
+                    }
+                }
+                //System.Windows.Forms.MessageBox.Show(sleeps.ToString());
+            }
+            catch (Exception ex)
+            {
+                //TODO:
+            }
+        }
+
+        #region Properties
+        bool mRun = true;
         public bool Run
         {
-            get { return boolRun; }
-            set { boolRun = value; }
+            get { return mRun; }
+            set { mRun = value; }
         }
 
         bool boolMessage = true;
@@ -207,16 +291,22 @@ namespace WikiFunctions.DBScanner
             set { boolMessage = value; }
         }
 
-        ThreadPriority tpriority = ThreadPriority.BelowNormal;
+        ThreadPriority mPriority = ThreadPriority.BelowNormal;
         public ThreadPriority Priority
         {
-            get { return tpriority; }
+            get { return mPriority; }
             set
             {
-                tpriority = value;
+                mPriority = value;
                 if (ScanThread != null)
                     ScanThread.Priority = value;
+
+                foreach (Thread thr in SecondaryThreads)
+                {
+                    thr.Priority = value;
+                }
             }
         }
+        #endregion
     }
 }
