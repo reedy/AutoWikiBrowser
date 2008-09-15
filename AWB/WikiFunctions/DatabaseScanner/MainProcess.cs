@@ -231,7 +231,8 @@ namespace WikiFunctions.DBScanner
             catch (Exception ex)
             {
                 if (boolMessage)
-                    System.Windows.Forms.MessageBox.Show("Problem on " + articleTitle + "\r\n\r\n" + ex.Message);
+                    //System.Windows.Forms.MessageBox.Show("Problem on " + articleTitle + "\r\n\r\n" + ex.Message);
+                    ErrorHandler.Handle(ex);
             }
             finally
             {
