@@ -468,6 +468,7 @@ namespace WikiFunctions
                 string strTemp = parsers.Conversions(mArticleText);
 
                 strTemp = parsers.FixDates(strTemp);
+                strTemp = parsers.FixLivingThingsRelatedDates(strTemp);
                 strTemp = parsers.LivingPeople(strTemp, out noChange);
                 strTemp = parsers.FixHeadings(strTemp, mName, out noChange);
 
