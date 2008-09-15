@@ -281,7 +281,7 @@ namespace WikiFunctions.DBScanner
             Main = new MainProcess(s, fileName, Priority, chkIgnoreComments.Checked, txtStartFrom.Text);
             progressBar.Maximum = (int)(Main.stream.Length / 1024);
             Main.StoppedEvent += Stopped;
-            Main.Queue = Queue;
+            Main.OutputQueue = Queue;
             Main.Start();
         }
 
