@@ -159,6 +159,7 @@ namespace UnitTests
             Assert.AreEqual("test text", parser.FixLivingThingsRelatedDates("test text"));
             Assert.AreEqual("'''John Doe''' (born [[21 February]] [[2008]])", parser.FixLivingThingsRelatedDates("'''John Doe''' (b. [[21 February]] [[2008]])"));
             Assert.AreEqual("'''John Doe''' (died [[21 February]] [[2008]])", parser.FixLivingThingsRelatedDates("'''John Doe''' (d. [[21 February]] [[2008]])"));
+            Assert.AreEqual("'''Willa Klug Baum''' ([[October 4]], [[1926]] – May 18, 2006)", parser.FixLivingThingsRelatedDates("'''Willa Klug Baum''' (born [[October 4]], [[1926]], died May 18, 2006)"));
         }
 
         [Test, Category("Incomplete")]
