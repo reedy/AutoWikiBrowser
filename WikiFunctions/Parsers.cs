@@ -467,6 +467,9 @@ namespace WikiFunctions.Parse
 
         //private static readonly Regex InOpenBrackets = new Regex(@"\[\[[^\]]{,100}", RegexOptions.RightToLeft | RegexOptions.Compiled);
 
+        public static Regex MutlipleHttpInLink = new Regex("(http:?/+)+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static Regex PipedExternalLink = new Regex(@"(\[\w+://[^][<>\""\s]*?)\|''", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
         // Covered by: LinkTests.TestFixSyntax(), incomplete
         /// <summary>
         /// Fixes and improves syntax (such as html markup)
@@ -503,6 +506,9 @@ namespace WikiFunctions.Parse
             ArticleText = SyntaxRegex2fix.Replace(ArticleText, "[http://$1]]]]");
             ArticleText = SyntaxRegex2.Replace(ArticleText, "[http://$1]");
             ArticleText = SyntaxRegex3.Replace(ArticleText, "[http://$1]");
+
+            ArticleText = MutlipleHttpInLink.Replace(ArticleText, "http://");
+            ArticleText = PipedExternalLink.Replace(ArticleText, "$1 ''");
 
             if (!Regex.IsMatch(ArticleText, "\\[\\[[Ii]mage:[^]]*http"))
             {
