@@ -280,7 +280,6 @@ namespace WikiFunctions.DBScanner
 
             Main = new MainProcess(s, fileName, Priority, chkIgnoreComments.Checked, txtStartFrom.Text);
             progressBar.Maximum = (int)(Main.stream.Length / 1024);
-            Main.FoundArticle += MessageReceived;
             Main.StoppedEvent += Stopped;
             Main.Queue = Queue;
             Main.Start();
@@ -312,7 +311,6 @@ namespace WikiFunctions.DBScanner
             {
                 if (Main != null)
                 {
-                    Main.FoundArticle -= MessageReceived;
                     Main.StoppedEvent -= Stopped;
                 }
 
