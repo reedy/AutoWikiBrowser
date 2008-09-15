@@ -242,11 +242,29 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
+        static Regex DiedDateRegex = new Regex(@"('''[^']+'''\s*\()d.(\s+\[*(?:(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+0?([1-3]?[0-9])|0?([1-3]?[0-9])\s*(?:January|February|March|April|May|June|July|August|September|October|November|December))?\]*\s*\[*[1-2]?[0-9][0-9][0-9]\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        static Regex DOBRegex = new Regex(@"('''[^']+'''\s*\()b.(\s+\[*(?:(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+0?([1-3]?[0-9])|0?([1-3]?[0-9])\s*(?:January|February|March|April|May|June|July|August|September|October|November|December))?\]*\s*\[*[1-2]?[0-9][0-9][0-9]\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        static Regex BornDeathRegex = new Regex(@"('''[^']+'''\s*\()(?:[Bb]orn|b\.)\s+(\[*(?:(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+0?(?:[1-3]?[0-9])|0?(?:[1-3]?[0-9])\s*(?:January|February|March|April|May|June|July|August|September|October|November|December))?\]*,?\s*\[*[1-2]?[0-9][0-9][0-9]\]*)\s*(.|&amp;.dash;)\s*(?:[Dd]ied|d\.)\s+(\[*(?:(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+0?(?:[1-3]?[0-9])|0?(?:[1-3]?[0-9])\s*(?:January|February|March|April|May|June|July|August|September|October|November|December))\]*,?\s*\[*[1-2]?[0-9][0-9][0-9]\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        /// <summary>
+        /// Replace b. and d. for born/died
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <returns>The modified article text.</returns>
+        public string FixLivingThingsRelatedDates(string ArticleText)
+        {
+            ArticleText = DiedDateRegex.Replace(ArticleText, "$1died$2"); //date of death
+            ArticleText = DOBRegex.Replace(ArticleText, "$1born$2"); //date of birth
+            return BornDeathRegex.Replace(ArticleText, "$1$2 – $4"); //birth and death, with +? lazy regex match
+        }
+
         // Covered by: LinkTests.FixDates()
         /// <summary>
         /// Fixes date and decade formatting errors.
         /// Unlike FixDates(), requires wikitext processed with HideMore()
         /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <returns>The modified article text.</returns>
         public string FixDatesRaw(string ArticleText)
         {
             ArticleText = regexFixDates0.Replace(ArticleText, "$1$2s$3");
@@ -1562,6 +1580,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 if (s != ds[0].Groups[1].Value && s.Length > 0)
                     ArticleText = ArticleText.Replace(ds[0].Value, "{{DEFAULTSORT:" + s + "}}");
             }
+
+            ////defaultsort category cleaner
+            //Regex defaultSortCategoryCleaner = new Regex(@"{{DEFAULTSORT\:([^{}]+)}}(.*?\[\[" + Variables.Namespaces[14] + @"\:[^{}]+)\|\1\]\]", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            //ArticleText = defaultSortCategoryCleaner.Replace(ArticleText, "{{DEFAULTSORT:$1}}$2]]");
 
             NoChange = (testText == ArticleText);
             return ArticleText;
