@@ -645,6 +645,7 @@ namespace WikiFunctions.DBScanner
 
         private void StopButton()
         {
+            timerProgessUpdate.Enabled = false;
             if (Main != null)
             {
                 Main.Stop();
