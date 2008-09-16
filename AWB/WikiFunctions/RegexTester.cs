@@ -257,9 +257,6 @@ namespace WikiFunctions.Controls
                 ErrorHandler(ex);
                 Busy = false;
             }
-            finally
-            {
-            }
         }
 
         private string ReplaceNewLines(string str)
