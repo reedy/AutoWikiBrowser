@@ -485,8 +485,8 @@ namespace WikiFunctions.Parse
 
         //private static readonly Regex InOpenBrackets = new Regex(@"\[\[[^\]]{,100}", RegexOptions.RightToLeft | RegexOptions.Compiled);
 
-        public static Regex MutlipleHttpInLink = new Regex("(http:?/+)+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        public static Regex PipedExternalLink = new Regex(@"(\[\w+://[^][<>\""\s]*?)\|''", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex MutlipleHttpInLink = new Regex("(http:?/+)+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex PipedExternalLink = new Regex(@"(\[\w+://[^][<>\""\s]*?)\|''", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         // Covered by: LinkTests.TestFixSyntax(), incomplete
         /// <summary>
