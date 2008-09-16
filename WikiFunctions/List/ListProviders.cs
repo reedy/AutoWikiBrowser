@@ -1031,4 +1031,50 @@ namespace WikiFunctions.Lists
         public override void Selected() { }
         #endregion
     }
+
+    /// <summary>
+    /// Returns a list of new pages
+    /// </summary>
+    public class NewPagesListProvider : ApiListProviderBase
+    {
+        #region Tags: <recentchanges>/<rc>
+        static readonly List<string> pe = new List<string>(new string[] { "rc" });
+        protected override ICollection<string> PageElements
+        {
+            get { return pe; }
+        }
+
+        static readonly List<string> ac = new List<string>(new string[] { "recentchanges" });
+        protected override ICollection<string> Actions
+        {
+            get { return ac; }
+        }
+        #endregion
+
+        public override List<Article> MakeList(params string[] searchCriteria)
+        {
+            List<Article> list = new List<Article>();
+
+            string url = Variables.URLLong + "api.php?action=query&list=recentchanges"
+                + "&rclimit={limit}&rctype=new&rcshow=!redirects&rcnamespace=0&format=xml";
+
+            list.AddRange(ApiMakeList(url, list.Count));
+
+            return list;
+        }
+
+        #region ListMaker properties
+        public override string DisplayText
+        { get { return "New articles"; } }
+
+        public override string UserInputTextBoxText
+        { get { return ""; } }
+
+        public override bool UserInputTextBoxEnabled
+        { get { return false; } }
+
+        public override void Selected() { }
+        #endregion
+    }
+
 }
