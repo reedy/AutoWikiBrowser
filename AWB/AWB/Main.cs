@@ -632,14 +632,11 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            if (webBrowserEdit.Document.Body.InnerHtml.Contains("readOnly"))
+            if (webBrowserEdit.Document.Body.InnerHtml.Contains("readOnly") && !Variables.User.IsAdmin)
             {
-                if (!Variables.User.IsAdmin)
-                {
-                    NudgeTimer.Stop();
-                    SkipPage("Page is protected");
-                    return;
-                }
+                NudgeTimer.Stop();
+                SkipPage("Page is protected");
+                return;
             }
 
             TheArticle.OriginalArticleText = strTemp;
