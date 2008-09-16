@@ -1076,5 +1076,4 @@ namespace WikiFunctions.Lists
         public override void Selected() { }
         #endregion
     }
-
 }

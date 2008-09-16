@@ -94,9 +94,8 @@ namespace WikiFunctions
             foreach (string s in TemplateList)
             {
                 if (string.IsNullOrEmpty(s.Trim())) continue;
-                Regexes.Add(new Regex(@"\{\{\s*" + templ + Tools.CaseInsensitive(s) + @"\s*(\|[^\}]*|)\}\}", 
-                    RegexOptions.Singleline | RegexOptions.Compiled), 
-                    @"{{subst:"+s+"$1}}");
+                Regexes.Add(new Regex(@"\{\{\s*" + templ + Tools.CaseInsensitive(s) + @"\s*(\|[^\}]*|)\}\}",
+                    RegexOptions.Singleline | RegexOptions.Compiled), @"{{subst:" + s + "$1}}");
             }
         }
 
@@ -134,7 +133,7 @@ namespace WikiFunctions
 
             if (chkIgnoreUnformatted.Checked)
                 ArticleText = RemoveUnformatted.AddBackUnformatted(ArticleText);
-            
+
             return ArticleText;
         }
 
