@@ -632,11 +632,15 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            if (webBrowserEdit.Document.Body.InnerHtml.Contains("readOnly") && !Variables.User.IsAdmin)
+            if (webBrowserEdit.EditBoxTag.Contains("readonly=\"readonly\""))
             {
-                NudgeTimer.Stop();
-                SkipPage("Page is protected");
-                return;
+                if (!webBrowserEdit.UserAllowedToEdit())
+                {
+                    NudgeTimer.Stop();
+                    SkipPage("Page is protected");
+                    return;
+                }
+                //TODO: are every other cases related to DB lock?
             }
 
             TheArticle.OriginalArticleText = strTemp;
