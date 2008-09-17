@@ -267,7 +267,7 @@ namespace WikiFunctions.Browser
             }
         }
 
-        static readonly Regex wpTextbox1 = new Regex(@"<textarea [^>]*?name=[""']wpTextbox1[""']", RegexOptions.Compiled);
+        static readonly Regex wpTextbox1 = new Regex(@"<textarea [^>]*?name=[""']wpTextbox1[""'].*?>", RegexOptions.Compiled);
 
         /// <summary>
         /// Gets a value indicating whether the textbox is present
@@ -275,7 +275,47 @@ namespace WikiFunctions.Browser
         [Browsable(false)]
         public bool HasArticleTextBox
         {
-            get { return wpTextbox1.IsMatch(DocumentText); }
+            get { return EditBoxTag.Length > 0; }
+        }
+
+        private string cachedEditBox = null;
+
+        /// <summary>
+        /// Gets the opening tag for textarea that holds main edit box or empty string
+        /// </summary>
+        public string EditBoxTag
+        {
+            get
+            {
+                if (cachedEditBox != null)
+                    return cachedEditBox;
+                else
+                {
+                    cachedEditBox = wpTextbox1.Match(DocumentText).Value;
+                    return cachedEditBox;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns true if the current user is allowed to edit the current page
+        /// </summary>
+        /// <returns></returns>
+        public bool UserAllowedToEdit()
+        {
+            string restrictions = GetScriptingVar("wgRestrictionEdit");
+
+            bool allowed = true;
+            foreach (Match m in Regex.Matches(restrictions, "\"(.*?)\""))
+            {
+                if (!Variables.User.Groups.Contains(m.Groups[1].Value))
+                {
+                    allowed = false;
+                    break;
+                }
+            }
+
+            return allowed;
         }
 
         string strStatus = "";
@@ -810,6 +850,10 @@ namespace WikiFunctions.Browser
         protected override void OnDocumentCompleted(WebBrowserDocumentCompletedEventArgs e)
         {
             base.OnDocumentCompleted(e);
+
+            // reset cached variables
+            cachedEditBox = null;
+
             StopTimer();
 
             if (!this.Document.Body.InnerHtml.Contains("id=siteSub"))
