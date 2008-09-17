@@ -130,8 +130,10 @@ namespace WikiFunctions.Lists
 
                         if (string.IsNullOrEmpty(name)) break;
 
-                        if (ns >= 0) list.Add(new Article(name, ns));
-                        else
+                        // HACK: commented out until we make AWB always load namespaces from the wiki,
+                        // to avoid problems with unknown namespace
+                        //if (ns >= 0) list.Add(new Article(name, ns));
+                        //else
                             list.Add(new Article(name));
 
                     }
