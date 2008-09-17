@@ -1250,6 +1250,7 @@ namespace AutoWikiBrowser
                     }
                     else
                     {
+                        Abort = true;
                         Stop();
                         return;
                     }
