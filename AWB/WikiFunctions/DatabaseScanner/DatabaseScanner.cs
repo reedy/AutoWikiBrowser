@@ -285,10 +285,8 @@ namespace WikiFunctions.DBScanner
             Main.Start();
         }
 
-        private void MessageReceived(object msg)
+        private void AddArticle(string article)
         {
-            string article = msg.ToString();
-
             if (string.IsNullOrEmpty(article))
                 return;
 
@@ -302,7 +300,6 @@ namespace WikiFunctions.DBScanner
 
             if (intMatches >= intLimit)
                 Main.Run = false;
-            lblCount.Text = intMatches.ToString();
         }
 
         private void Stopped()
@@ -807,10 +804,29 @@ namespace WikiFunctions.DBScanner
 
         private void UpdateList()
         {
+            if (Queue.Count == 0) return;
+            bool locked = false;
+
+            if (Queue.Count > 1)
+            {
+                locked = true;
+                lbArticles.BeginUpdate();
+                if (AWBListbox != null)
+                    AWBListbox.BeginUpdate();
+            }
+
             while (Queue.Count > 0)
             {
-                MessageReceived(Queue.Remove());
+                AddArticle(Queue.Remove());
             }
+
+            if (locked)
+            {
+                lbArticles.EndUpdate();
+                if (AWBListbox != null)
+                    AWBListbox.EndUpdate();
+            }
+            lblCount.Text = intMatches.ToString();
         }
 
         private void UpdateProgressBar()
