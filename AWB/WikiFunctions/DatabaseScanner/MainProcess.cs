@@ -28,7 +28,6 @@ using WikiFunctions.Background;
 
 namespace WikiFunctions.DBScanner
 {
-    public delegate void FoundDel(object article);
     public delegate void StopDel();
 
     internal class ArticleInfo
@@ -46,7 +45,7 @@ namespace WikiFunctions.DBScanner
 
         string FileName = "";
         string From = "";
-        internal Stream stream;
+        Stream stream;
 
         SendOrPostCallback SOPCstopped;
         private SynchronizationContext context;
@@ -82,6 +81,33 @@ namespace WikiFunctions.DBScanner
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Gets the percentage of scan complete, ranging from 0 to 1
+        /// </summary>
+        public double PercentageComplete
+        {
+            get
+            {
+                try
+                {
+                    lock (ScanThread)
+                    {
+                        if (stream == null)
+                            return 1; // scan complete
+
+                        if (stream.Length == 0)
+                            return 0;
+
+                        return (double)stream.Position / stream.Length;
+                    }
+                }
+                // ObjectDisposedException is still possible if we exited the main loop in Process() due to exception
+                catch (ObjectDisposedException) { } // ignore
+
+                return 1; // scan ended, probably in fire
             }
         }
 
@@ -213,6 +239,11 @@ namespace WikiFunctions.DBScanner
                                 ScanArticle(ai);
                             }
                         }
+                    }
+
+                    lock (ScanThread)
+                    {
+                        stream = null;
                     }
 
                     if (MultiThreaded)
