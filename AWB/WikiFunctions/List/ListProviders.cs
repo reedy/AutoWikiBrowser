@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml;
 using System.Threading;
+using WikiFunctions.Controls.Lists;
 
 namespace WikiFunctions.Lists
 {
@@ -945,20 +946,20 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class DatabaseScannerListProvider : IListProvider
     {
-        private ListBox listMakerListbox;
+        private ListMaker listMaker;
 
         /// <summary>
         /// Default constructor
         /// </summary>
         /// <param name="lb">List box for DBScanner to add articles to</param>
-        public DatabaseScannerListProvider(ListBox lb)
+        public DatabaseScannerListProvider(ListMaker lm)
         {
-            this.listMakerListbox = lb;
+            listMaker = lm;
         }
 
         public List<Article> MakeList(params string[] searchCriteria)
         {
-            WikiFunctions.DBScanner.DatabaseScanner ds = new WikiFunctions.DBScanner.DatabaseScanner(listMakerListbox);
+            WikiFunctions.DBScanner.DatabaseScanner ds = new WikiFunctions.DBScanner.DatabaseScanner(listMaker);
             ds.Show();
             return null;
         }

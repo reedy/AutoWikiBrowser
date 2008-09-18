@@ -43,6 +43,7 @@ namespace WikiFunctions.DBScanner
         MainProcess Main;
         TimeSpan StartTime;
         ListBox AWBListbox;
+        ListMaker listMaker;
 
         ListFilterForm SpecialFilter;
 
@@ -71,10 +72,12 @@ namespace WikiFunctions.DBScanner
 #endif
         }
 
-        public DatabaseScanner(ListBox l)
+        public DatabaseScanner(ListMaker lm)
             :this()
         {
-            AWBListbox = l;
+            listMaker = lm;
+            if (lm != null)
+                AWBListbox = lm.Items;
         }
 
         private void DatabaseScanner_Load(object sender, EventArgs e)
@@ -337,10 +340,9 @@ namespace WikiFunctions.DBScanner
             }
         }
 
-        private void UpdateAWBListBoxCount()
+        private void UpdateListMakerCount()
         {
-            if (AWBListbox != null && AWBListbox.Parent is ListMaker)
-                (AWBListbox.Parent as ListMaker).UpdateNumberOfArticles();
+            if (listMaker != null) listMaker.UpdateNumberOfArticles();
         }
 
         private void RemoveDBScannerListItemsFromAWBListbox()
@@ -551,7 +553,7 @@ namespace WikiFunctions.DBScanner
             }
 
             UpdateDBScannerArticleCount();
-            UpdateAWBListBoxCount();
+            UpdateListMakerCount();
         }
 
         private void lbClear_Click(object sender, EventArgs e)
@@ -597,7 +599,7 @@ namespace WikiFunctions.DBScanner
             lbArticles.EndUpdate();
 
             UpdateDBScannerArticleCount();
-            UpdateAWBListBoxCount();
+            UpdateListMakerCount();
         }
 
         private void UpdateDBScannerArticleCount()
@@ -826,7 +828,9 @@ namespace WikiFunctions.DBScanner
                 if (AWBListbox != null)
                     AWBListbox.EndUpdate();
             }
+
             lblCount.Text = intMatches.ToString();
+            UpdateListMakerCount();
         }
 
         private void UpdateProgressBar()

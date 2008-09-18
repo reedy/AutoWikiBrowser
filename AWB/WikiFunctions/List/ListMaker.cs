@@ -96,7 +96,7 @@ namespace WikiFunctions.Controls.Lists
                 listItems.Add(new UserContribsListProvider());
                 listItems.Add(new SpecialPageListProvider());
                 listItems.Add(imageFileLinksLProvider);
-                listItems.Add(new DatabaseScannerListProvider(lbArticles));
+                listItems.Add(new DatabaseScannerListProvider(this));
                 listItems.Add(new MyWatchlistListProvider());
                 listItems.Add(new WikiSearchListProvider());
                 listItems.Add(new RandomPagesListProvider());
@@ -423,6 +423,12 @@ namespace WikiFunctions.Controls.Lists
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the ListBox that holds the list of articles
+        /// </summary>
+        public ListBox Items
+        { get { return lbArticles; } }
 
         /// <summary>
         /// Sets whether the buttons are enabled or not
@@ -1251,7 +1257,7 @@ namespace WikiFunctions.Controls.Lists
         /// <returns></returns>
         public WikiFunctions.DBScanner.DatabaseScanner DBScanner()
         {
-            return new WikiFunctions.DBScanner.DatabaseScanner(lbArticles);
+            return new WikiFunctions.DBScanner.DatabaseScanner(this);
         }
     }
 }
