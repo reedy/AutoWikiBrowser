@@ -279,7 +279,7 @@ namespace WikiFunctions.DBScanner
                 s.Add(new MissingDefaultsort(parsers));
 
             Main = new MainProcess(s, fileName, Priority, chkIgnoreComments.Checked, txtStartFrom.Text);
-            progressBar.Maximum = (int)(Main.stream.Length / 1024);
+            progressBar.Value = 0;
             Main.StoppedEvent += Stopped;
             Main.OutputQueue = Queue;
             Main.Start();
@@ -815,15 +815,13 @@ namespace WikiFunctions.DBScanner
 
         private void UpdateProgressBar()
         {
-            // update progress bar
-            if (Main.stream.CanRead)
-            {
-                double matchesByLimit = (double)intMatches / intLimit;
-                if (matchesByLimit > (double)Main.stream.Position / Main.stream.Length)
-                    progressBar.Value = (int)(matchesByLimit * (Main.stream.Length / 1024));
-                else
-                    progressBar.Value = (int)(Main.stream.Position / 1024);
-            }
+            double matchesByLimit = (double)intMatches / intLimit;
+            double completion = Main.PercentageComplete;
+
+            if (matchesByLimit > completion)
+                progressBar.Value = (int)(matchesByLimit * progressBar.Maximum);
+            else
+                progressBar.Value = (int)(completion * progressBar.Maximum);
         }
 
         private void btnOpen(object sender, EventArgs e)
