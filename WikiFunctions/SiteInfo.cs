@@ -42,9 +42,10 @@ namespace WikiFunctions
         public SiteInfo(string scriptPath)
         {
             ScriptPath = scriptPath;
-
-            LoadNamespaces();
             m_Time = DateTime.Now;
+
+            if (!LoadNamespaces())
+                throw new WikiUrlException();
         }
 
         public SiteInfo(string scriptPath, Dictionary<int, string> namespaces)
@@ -66,12 +67,15 @@ namespace WikiFunctions
             else return url;
         }
 
-        public void LoadNamespaces()
+        public bool LoadNamespaces()
         {
             string output = Tools.GetHTML(m_ScriptPath + "api.php?action=query&meta=siteinfo&siprop=general|namespaces|statistics&format=xml");
 
             XmlDocument xd = new XmlDocument();
             xd.LoadXml(output);
+
+            if (xd.GetElementsByTagName("api").Count != 1 || xd.GetElementsByTagName("namespaces").Count != 1)
+                return false;
 
             foreach (XmlNode xn in xd.GetElementsByTagName("ns"))
             {
@@ -79,6 +83,8 @@ namespace WikiFunctions
 
                 if (id != 0) m_Namespaces[id] = xn.InnerText + ":";
             }
+
+            return true;
         }
 
         [XmlAttribute(AttributeName = "url")]
@@ -162,7 +168,13 @@ namespace WikiFunctions
             }
             //writer.WriteEndElement();
         }
-
         #endregion
+    }
+
+    public class WikiUrlException : Exception
+    {
+        public WikiUrlException()
+            : base("Can't connect to given wiki site.")
+        { }
     }
 }
