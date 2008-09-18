@@ -1276,23 +1276,11 @@ namespace WikiFunctions
             }
             catch
             {
-                if (MessageBox.Show(@"An error occured while loading project information from the server.
-Do you want to use default settings?", "Error loading namespaces", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    Namespaces = CanonicalNamespaces;
-                    MonthNames = (string[])ENLangMonthNames.Clone();
-                    return;
-                }
-                else if (!string.IsNullOrEmpty(CustomProject))
-                {
-                    MessageBox.Show("An error occured while loading project information from the server. " +
+                MessageBox.Show("An error occured while connecting to the server or loading project information from it. " +
                         "Please make sure that your internet connection works and such combination of project/language exist." +
-                        "\r\nEnter the URL of the index.php file in the format \"en.wikipedia.org/w/\"",
-                        "Error loading namespaces", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        "\r\nEnter the URL in the format \"en.wikipedia.org/w/\"",
+                        "Error connecting to wiki", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     SetDefaults();
-                }
-                MessageBox.Show("Defaulting to the English Wikipedia settings.", "Project options",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
         }
