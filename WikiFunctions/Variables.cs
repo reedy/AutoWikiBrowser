@@ -45,7 +45,7 @@ namespace WikiFunctions
         ca, /*cbk-zam,*/ cdo, ce, ceb, ch, chr, chy, co, cr, crh, cs, csb, cu, cv, cy,
         da, de, diq, dsb, dv, dz,
         ee, el, eml, eo, es, et, eu, ext,
-        fa, ff, fi, /*fiu-vro,*/ fj, fo, fr, fr, frp, fur, fy,
+        fa, ff, fi, /*fiu-vro,*/ fj, fo, fr, frp, fur, fy,
         ga, gan, gd, gl, glk, gn, got, gu, gv,
         ha, hak, haw, he, hi, hif, hr, hsb, ht, hu, hy,
         ia, id, ie, ig, ik, ilo, io, Is, it, iu,
