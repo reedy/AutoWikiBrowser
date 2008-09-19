@@ -187,11 +187,11 @@ namespace WikiFunctions
         {
             string html = HttpUtility.HtmlEncode(RightLines[line]);
             Result.AppendFormat(@"<tr onclick='window.external.GoTo({0});'>
-  <td> </td>
+  <td class='diff-marker'> </td>
   <td class='diff-context'>", line);
             Result.Append(html);
             Result.Append(@"</td>
-  <td> </td>
+  <td class='diff-marker'> </td>
   <td class='diff-context'>");
             Result.Append(html);
             Result.Append(@"</td>
@@ -226,8 +226,8 @@ namespace WikiFunctions
         void ContextHeader(int left, int right)
         {
             Result.AppendFormat(@"<tr onclick='window.external.GoTo({2})'>
-  <td colspan='2' align='left'><strong>Line {0}</strong></td>
-  <td colspan='2' align='left'><strong>Line {1}</strong></td>
+  <td colspan='2' class='diff-lineno'>Line {0}:</td>
+  <td colspan='2' class='diff-lineno'>Line {1}:</td>
 </tr>", left + 1, right + 1, right);
         }
         #endregion
@@ -287,18 +287,18 @@ namespace WikiFunctions
         {
             get
             {
-                return @"<p style='font-family: arial; size:75%;'>Double-click on a line to undo all changes on that line, or single click to focus the edit box to that line.</p>
-<table border='0' width='98%' cellpadding='0' cellspacing='4' class='diff'>
-	<tr>
-		<td colspan='2' width='50%' align='center' class='diff-otitle'><strong>Current revision</strong></td>
-		<td colspan='2' width='50%' align='center' class='diff-ntitle'><strong>Your text</strong></td>
-	</tr>
-	<tr height='0px'>
-		<td width='1'></td>
-		<td width='50%'></td>
-		<td width='1'></td>
-		<td width='50%'></td>
-	</tr>
+                return @"<p style='margin: 0px;'>Double click on a line to undo all changes on that line, or single click to focus the edit box to that line.</p>
+<table id='wikiDiff' class='diff'>
+<col class='diff-marker' />
+<col class='diff-content' />
+<col class='diff-marker' />
+<col class='diff-content' />
+<thead>
+  <tr valign='top'>
+    <td colspan='2' width='50%' class='diff-otitle'>Current revision</td>
+	<td colspan='2' width='50%' class='diff-ntitle'>Your text</td>
+  </tr>
+</thead>
 ";
             }
         }
@@ -308,14 +308,36 @@ namespace WikiFunctions
             get
             {
                 return @"
-td{
-    border: 1px solid white;
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:95%;
+    margin-left:2px;
+    margin-right:2px;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
-table.diff, td.diff-otitle, td.diff-ntitle {
-	background-color: white;
-    border: 1px solid gray;
+p {
+    font-family:arial;
+    size:75%;
 }
+
+table.diff {
+	background:white;
+    border:1px solid gray;
+    width:100%;
+}
+table.diff td {
+}
+td.diff-otitle, td.diff-ntitle {
+    border: 1px solid gray;
+    text-align:center;
+    font-weight:bold;
+}
+td.diff-lineno {
+	font: bold 80%;
+}
+/* line display */
 td.diff-addedline {
 	background: #cfc;
 	font-size: smaller;
@@ -342,7 +364,7 @@ td.diff-addedline span.diffchange {
     background-color: #73E5A1; color:black;
 }
 
-.d{
+.d {
     overflow: auto;
 }
 ";
