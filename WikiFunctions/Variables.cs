@@ -38,7 +38,35 @@ using System.Net;
 
 namespace WikiFunctions
 {
-    public enum LangCodeEnum { en, ar, be, bg, ca, da, de, dsb, eo, es, fi, fr, he, hi, hu, Is, it, ja, ku, nah, nl, no, mi, pl, pt, ro, ru, si, simple, sk, sl, sq, sr, sv, ta, te, tj, uk, ur, zh }
+    public enum LangCodeEnum
+    {
+        en, aa, ab, af, ak, als, am, an, ang, ar, arc, As, ast, av, ay, az,
+        ba, bar, /*bat-smg,*/ bcl, be, bg, bh, bi, bn, bm, bo, bpy, br, bs, bug, bxr,
+        ca, /*cbk-zam,*/ cdo, ce, ceb, ch, chr, chy, co, cr, crh, cs, csb, cu, cv, cy,
+        da, de, diq, dsb, dv, dz,
+        ee, el, eml, eo, es, et, eu, ext,
+        fa, ff, fi, /*fiu-vro,*/ fj, fo, fr, fr, frp, fur, fy,
+        ga, gan, gd, gl, glk, gn, got, gu, gv,
+        ha, hak, haw, he, hi, hif, hr, hsb, ht, hu, hy,
+        ia, id, ie, ig, ik, ilo, io, Is, it, iu,
+        ja, jbo, jv,
+        ka, kaa, kab, kg, ki, kk, kl, km, kn, ko, ks, ksh, ku, kv, kw, ky,
+        la, lad, lb, lbe, lg, li, lij, lmo, lm, lo, lt, lv,
+        /*map-bms,*/ mdf, mg, mh, mi, mk, ml, mn, mr, ms, mt, my, myv, mzn,
+        na, nah, nap, nds, /*nds-nl,*/ ne, New, ng, nl, nn, no, nov, nrm, nv, ny,
+        oc, om, or, os,
+        pa, pag, pam, pap, pdc, pl, pms, ps, pt,
+        qu,
+        rm, rmy, ro, /*roa-rup,*/ /*roa-tara,*/ ru, rw,
+        sa, sah, sc, scn, sco, sd, se, sg, sh, si, simple, sk, sl, sm, sn, so, sq, sr, srn, ss, st, stq, su, sv, sw, szl,
+        ta, te, tet, tg, th, ti, tk, tl, tn, to, tpi, tr, ts, tt, tum, tw, ty,
+        ug, uk, ur, uz,
+        ve, vec, vi, vls, vo,
+        wa, war, wo, wuu,
+        xal, xh,
+        yi, yo,
+        za, zae, zh, /*zh-classical,*/ /*zh-min-nan,*/ /*zh-yue,*/ zu
+    }
     public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, species, commons, meta, mediawiki, wikia, custom }
 
     /// <summary>
@@ -1335,6 +1363,8 @@ namespace WikiFunctions
         public static LangCodeEnum ParseLanguage(string lang)
         {
             if (string.Compare(lang, "is", true) == 0) return LangCodeEnum.Is;
+            if (string.Compare(lang, "as", true) == 0) return LangCodeEnum.As;
+            if (string.Compare(lang, "new", true) == 0) return LangCodeEnum.New;
             return (LangCodeEnum)Enum.Parse(typeof(LangCodeEnum), lang);
         }
 
