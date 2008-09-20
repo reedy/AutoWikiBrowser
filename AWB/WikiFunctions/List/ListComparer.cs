@@ -91,17 +91,7 @@ namespace WikiFunctions.Controls.Lists
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            int i = 0;
-            string s = "";
-            StringBuilder strList = new StringBuilder("");
-
-            while (i < lbBoth.Items.Count)
-            {
-                s = lbBoth.Items[i].ToString();
-                strList.AppendLine("# [[" + s + "]]");
-                i++;
-            }
-            SaveList(strList);
+            SaveList(lbBoth);
         }
         
         private void btnClear_Click(object sender, EventArgs e)
@@ -126,28 +116,23 @@ namespace WikiFunctions.Controls.Lists
 
         private void btnSaveOnly1_Click(object sender, EventArgs e)
         {
-            int i = 0;
-            string s = "";
-            StringBuilder strList = new StringBuilder("");
-
-            while (i < lbNo1.Items.Count)
-            {
-                s = lbNo1.Items[i].ToString();
-                strList.AppendLine("# [[" + s + "]]");
-                i++;
-            }
-            SaveList(strList);
+            SaveList(lbNo1);
         }
 
         private void btnSaveOnly2_Click(object sender, EventArgs e)
+        {
+            SaveList(lbNo2);
+        }
+
+        private void SaveList(ListBox lb)
         {
             int i = 0;
             string s = "";
             StringBuilder strList = new StringBuilder("");
 
-            while (i < lbNo2.Items.Count)
+            while (i < lb.Items.Count)
             {
-                s = lbNo2.Items[i].ToString();
+                s = lb.Items[i].ToString();
                 strList.AppendLine("# [[" + s + "]]");
                 i++;
             }
