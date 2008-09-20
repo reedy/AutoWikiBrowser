@@ -24,6 +24,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace AutoWikiBrowser
 {
@@ -139,8 +140,7 @@ namespace AutoWikiBrowser
             if (!chkEnabled.Checked || !string.IsNullOrEmpty(txtWorkingDir.Text) && !string.IsNullOrEmpty(txtProgram.Text) && !string.IsNullOrEmpty(txtFile.Text) || (radParameter.Checked && !string.IsNullOrEmpty(txtParameters.Text)))
                 this.Close();
             else
-                MessageBox.Show("Please make sure all relevant fields are completed");
-                
+                MessageBox.Show("Please make sure all relevant fields are completed"); 
         }
 
         private void ExternalProgram_FormClosing(object sender, FormClosingEventArgs e)
@@ -154,12 +154,10 @@ namespace AutoWikiBrowser
             if (string.IsNullOrEmpty(openFileDialog.InitialDirectory))
                 openFileDialog.InitialDirectory = Application.StartupPath;
 
-            openFileDialog.ShowDialog();
-
-            if (!string.IsNullOrEmpty(openFileDialog.FileName))
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                txtProgram.Text = openFileDialog.FileName.Remove(0, openFileDialog.FileName.LastIndexOf("\\")).Replace("\\", "");
-                txtWorkingDir.Text = openFileDialog.FileName.Remove(openFileDialog.FileName.LastIndexOf("\\"));
+                txtProgram.Text = Path.GetFileName(openFileDialog.FileName);
+                txtWorkingDir.Text = Path.GetDirectoryName(openFileDialog.FileName);
             }
         }
     }
