@@ -89,9 +89,9 @@ namespace AutoWikiBrowser
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(6, 129);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(90, 13);
+            this.label4.Size = new System.Drawing.Size(87, 13);
             this.label4.TabIndex = 11;
-            this.label4.Text = "Input/Output File:";
+            this.label4.Text = "Input/Output file:";
             // 
             // btnSelect
             // 
@@ -99,7 +99,7 @@ namespace AutoWikiBrowser
             this.btnSelect.Name = "btnSelect";
             this.btnSelect.Size = new System.Drawing.Size(140, 23);
             this.btnSelect.TabIndex = 10;
-            this.btnSelect.Text = "Select Program/Script";
+            this.btnSelect.Text = "Select program/script";
             this.btnSelect.UseVisualStyleBackColor = true;
             this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
             // 
@@ -109,10 +109,10 @@ namespace AutoWikiBrowser
             this.radFile.Checked = true;
             this.radFile.Location = new System.Drawing.Point(9, 160);
             this.radFile.Name = "radFile";
-            this.radFile.Size = new System.Drawing.Size(132, 17);
+            this.radFile.Size = new System.Drawing.Size(129, 17);
             this.radFile.TabIndex = 8;
             this.radFile.TabStop = true;
-            this.radFile.Text = "Pass article text as File";
+            this.radFile.Text = "Pass article text as file";
             this.radFile.UseVisualStyleBackColor = true;
             // 
             // radParameter
@@ -120,9 +120,9 @@ namespace AutoWikiBrowser
             this.radParameter.AutoSize = true;
             this.radParameter.Location = new System.Drawing.Point(147, 160);
             this.radParameter.Name = "radParameter";
-            this.radParameter.Size = new System.Drawing.Size(164, 17);
+            this.radParameter.Size = new System.Drawing.Size(163, 17);
             this.radParameter.TabIndex = 7;
-            this.radParameter.Text = "Pass article text as Parameter";
+            this.radParameter.Text = "Pass article text as parameter";
             this.radParameter.UseVisualStyleBackColor = true;
             // 
             // label3
@@ -139,18 +139,18 @@ namespace AutoWikiBrowser
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(6, 77);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(91, 13);
+            this.label2.Size = new System.Drawing.Size(89, 13);
             this.label2.TabIndex = 5;
-            this.label2.Text = "Program or Script:";
+            this.label2.Text = "Program or script:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 51);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(95, 13);
+            this.label1.Size = new System.Drawing.Size(93, 13);
             this.label1.TabIndex = 4;
-            this.label1.Text = "Working Directory:";
+            this.label1.Text = "Working directory:";
             // 
             // txtParameters
             // 
@@ -178,13 +178,14 @@ namespace AutoWikiBrowser
             this.chkSkip.AutoSize = true;
             this.chkSkip.Location = new System.Drawing.Point(83, 18);
             this.chkSkip.Name = "chkSkip";
-            this.chkSkip.Size = new System.Drawing.Size(110, 17);
+            this.chkSkip.Size = new System.Drawing.Size(109, 17);
             this.chkSkip.TabIndex = 0;
-            this.chkSkip.Text = "Skip if no Change";
+            this.chkSkip.Text = "Skip if no change";
             this.chkSkip.UseVisualStyleBackColor = true;
             // 
             // btnOk
             // 
+            this.btnOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnOk.Location = new System.Drawing.Point(259, 12);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
@@ -193,10 +194,18 @@ namespace AutoWikiBrowser
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
+            // openFileDialog
+            // 
+            this.openFileDialog.DefaultExt = "exe";
+            this.openFileDialog.Filter = "Executable files (*.exe)|*.exe|Scripts (*.bat; *.pl; *py; *.vbs; *.php)|*.bat;*.p" +
+                "l;*py;*.vbs;*.php";
+            // 
             // ExternalProgram
             // 
+            this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnOk;
             this.ClientSize = new System.Drawing.Size(346, 242);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.groupBox1);
