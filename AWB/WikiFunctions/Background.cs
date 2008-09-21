@@ -97,6 +97,7 @@ namespace WikiFunctions.Background
         private void InitThread(ThreadStart start)
         {
             BgThread = new Thread(start);
+            BgThread.Name = "BackgroundThread";
             BgThread.IsBackground = true;
             BgThread.Name = string.Format("BackgroundRequest (strParam = {0}, objParam1 = {1}, objParam2 = {2}, objParam3 = {3})",
                 strParam, objParam1, objParam2, objParam3);
@@ -131,6 +132,7 @@ namespace WikiFunctions.Background
         public void Execute(ExecuteFunctionDelegate d)
         {
             BgThread = new Thread(new ParameterizedThreadStart(ExecuteFunc));
+            BgThread.Name = "BackgroundThread";
             BgThread.IsBackground = true;
             BgThread.Start(d);
         }
