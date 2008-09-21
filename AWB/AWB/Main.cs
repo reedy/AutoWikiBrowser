@@ -2877,29 +2877,27 @@ window.scrollTo(0, diffTopY);
             UpdateButtons(null, null);
         }
 
+        bool loadingTypos;
         private void chkRegExTypo_CheckedChanged(object sender, EventArgs e)
         {
-            if (BotMode && chkRegExTypo.Checked)
+            if (loadingTypos)
+                return;
+
+            if (chkRegExTypo.Checked && BotMode)
             {
                 MessageBox.Show("RegExTypoFix cannot be used with bot mode on.\r\nBot mode will now be turned off, and Typos loaded.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 BotMode = false;
-                //return;
             }
             LoadTypos(false);
-            chkSkipIfNoRegexTypo.Enabled = chkRegExTypo.Checked;
-
-            if (chkRegExTypo.Checked)
-            {
-                if (!EditBoxTab.TabPages.Contains(tpTypos)) EditBoxTab.TabPages.Add(tpTypos);
-            }
-            else
-                if (EditBoxTab.TabPages.Contains(tpTypos)) EditBoxTab.TabPages.Remove(tpTypos);
         }
 
         private void LoadTypos(bool Reload)
         {
-            if (chkRegExTypo.Checked)
+            if (chkRegExTypo.Checked && (RegexTypos == null || Reload))
             {
+                loadingTypos = true;
+                chkRegExTypo.Checked = false;
+
                 StatusLabelText = "Loading typos";
 
                 string s = Variables.RETFPath;
@@ -2917,24 +2915,38 @@ window.scrollTo(0, diffTopY);
                 MessageBox.Show(message, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 #endif
 
-                if (RegexTypos == null || Reload)
-                {
-                    RegexTypos = new RegExTypoFix();
-                    if (RegexTypos.TyposLoaded)
-                    {
-                        StatusLabelText = RegexTypos.TyposCount.ToString() + " typos loaded";
-                    }
-                    else
-                    {
-                        chkRegExTypo.Checked = chkSkipIfNoRegexTypo.Enabled = false;
-                        RegexTypos = null;
-                    }
-                }
-
-                ResetTypoStats();
+                RegexTypos = new RegExTypoFix();
+                RegexTypos.Complete += new RegExTypoFix.TypoThreadComplete(RegexTypos_Complete);
             }
         }
 
+        private delegate void RegexTypoDone();
+
+        private void RegexTypos_Complete()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new RegexTypoDone(RegexTypos_Complete));
+                return;
+            }
+
+            chkRegExTypo.Checked = chkSkipIfNoRegexTypo.Enabled = RegexTypos.TyposLoaded;
+
+            if (RegexTypos.TyposLoaded)
+            {
+                StatusLabelText = RegexTypos.TyposCount.ToString() + " typos loaded";
+                if (!EditBoxTab.TabPages.Contains(tpTypos)) EditBoxTab.TabPages.Add(tpTypos);
+                ResetTypoStats();
+            }
+            else
+            {
+                RegexTypos = null;
+                if (EditBoxTab.TabPages.Contains(tpTypos)) EditBoxTab.TabPages.Remove(tpTypos);
+            }
+
+            loadingTypos = false;
+        }
+       
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Tools.OpenURLInBrowser("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/Typos");

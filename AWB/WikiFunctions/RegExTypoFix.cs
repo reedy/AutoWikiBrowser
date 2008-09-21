@@ -28,6 +28,8 @@ using System.IO;
 using System.Windows.Forms;
 using WikiFunctions.Controls;
 
+using System.Threading;
+
 namespace WikiFunctions.Parse
 {
     //TODO: make it ignore typos where RETF changes part of page title, like [[Adam Commens]]
@@ -88,7 +90,7 @@ namespace WikiFunctions.Parse
             {
                 r = new Regex(typo, RegexOptions.Compiled);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 RegExTypoFix.TypoError("Error in typo '" + typo + "': " + ex.Message);
                 throw new TypoException();
@@ -172,9 +174,17 @@ namespace WikiFunctions.Parse
 
     public class RegExTypoFix
     {
+        Thread typoThread;
+        public delegate void TypoThreadComplete();
+        public event TypoThreadComplete Complete;
+
         public RegExTypoFix()
         {
-            MakeRegexes();
+            typoThread = new Thread(new ThreadStart(MakeRegexes));
+            typoThread.Name = "TypoThread";
+            typoThread.SetApartmentState(ApartmentState.STA);
+            typoThread.IsBackground = true;
+            typoThread.Start();
         }
 
         /// <summary>
@@ -201,7 +211,6 @@ namespace WikiFunctions.Parse
         static readonly Regex RemoveTail = new Regex(@"(\s|\n|\r|\*|#|:|⌊⌊⌊⌊M?\d*⌋⌋⌋⌋)*$", RegexOptions.Compiled);
 
         List<TypoGroup> Groups = new List<TypoGroup>();
-
 
         internal static void TypoError(string error)
         {
@@ -231,9 +240,8 @@ namespace WikiFunctions.Parse
                     foreach (KeyValuePair<string, string> k in typoStrings)
                     {
                         if (bounded.SuitableTypo(k.Key)) bounded.Add(k.Key, k.Value);
-                        else 
-                            if (other.SuitableTypo(k.Key)) other.Add(k.Key, k.Value);
-                        else 
+                        else if (other.SuitableTypo(k.Key)) other.Add(k.Key, k.Value);
+                        else
                             withBackreferences.Add(k.Key, k.Value);
 
                         TyposCount++;
@@ -252,6 +260,10 @@ namespace WikiFunctions.Parse
             {
                 TyposLoaded = false;
                 ErrorHandler.Handle(ex);
+            }
+            finally
+            {
+                if (Complete != null) Complete();
             }
         }
 
@@ -458,7 +470,7 @@ namespace WikiFunctions.Parse
 
         public TypoException(string message, Exception inner)
             : base(message, inner) { }
-        
+
         protected TypoException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context) { }
     }
