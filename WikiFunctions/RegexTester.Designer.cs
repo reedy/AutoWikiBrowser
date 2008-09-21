@@ -171,7 +171,7 @@ namespace WikiFunctions.Controls
             this.FindBtn.Name = "FindBtn";
             this.FindBtn.Size = new System.Drawing.Size(75, 23);
             this.FindBtn.TabIndex = 4;
-            this.FindBtn.Text = "Find";
+            this.FindBtn.Text = "&Find";
             this.FindBtn.UseVisualStyleBackColor = true;
             this.FindBtn.Click += new System.EventHandler(this.FindBtn_Click);
             // 
@@ -274,7 +274,6 @@ namespace WikiFunctions.Controls
             // 
             // RegexTester
             // 
-            this.AcceptButton = this.FindBtn;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(691, 487);
