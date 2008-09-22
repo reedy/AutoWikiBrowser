@@ -101,7 +101,7 @@ namespace AutoWikiBrowser
                 }
 
                 cModule.ModuleEnabled = false;
-                this.Text = Program.Name;
+                this.Text = Program.NAME;
                 StatusLabelText = "Default settings loaded.";
             }
             catch (Exception ex)

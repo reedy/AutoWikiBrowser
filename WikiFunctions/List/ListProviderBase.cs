@@ -126,9 +126,11 @@ namespace WikiFunctions.Lists
                         int.TryParse(xml.GetAttribute("ns"), out ns);
                         string name = xml.GetAttribute("title");
 
-                        if (string.IsNullOrEmpty(name)) System.Windows.Forms.MessageBox.Show(xml.ReadInnerXml());
-
-                        if (string.IsNullOrEmpty(name)) break;
+                        if (string.IsNullOrEmpty(name))
+                        {
+                            System.Windows.Forms.MessageBox.Show(xml.ReadInnerXml());
+                            break;
+                        }
 
                         // HACK: commented out until we make AWB always load namespaces from the wiki,
                         // to avoid problems with unknown namespace
