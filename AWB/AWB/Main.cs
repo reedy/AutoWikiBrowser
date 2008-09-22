@@ -196,7 +196,7 @@ namespace AutoWikiBrowser
             set
             {
                 mSettingsFile = value;
-                mSettingsFileDisplay = Program.Name;
+                mSettingsFileDisplay = Program.NAME;
                 if (!string.IsNullOrEmpty(value))
                     mSettingsFileDisplay += " - " + value.Remove(0, value.LastIndexOf("\\") + 1);
                 this.Text = SettingsFileDisplay;
@@ -432,7 +432,7 @@ namespace AutoWikiBrowser
             set
             {
                 if (string.IsNullOrEmpty(value))
-                    lblStatusText.Text = Program.Name + " " + Program.VersionString;
+                    lblStatusText.Text = Program.NAME + " " + Program.VersionString;
                 else
                     lblStatusText.Text = value;
                 Application.DoEvents();
@@ -539,7 +539,7 @@ namespace AutoWikiBrowser
                     StopSaveInterval(null, null);
                     lblTimer.Text = "";
                     StatusLabelText = "No articles in list, you need to use the Make list";
-                    this.Text = Program.Name;
+                    this.Text = Program.NAME;
                     listMaker.MakeListEnabled = true;
                     return;
                 }
@@ -1287,7 +1287,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 else
                 {
                     webBrowserDiff.Document.Write("<!DOCTYPE HTML PUBLIC \" -//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
-                        +"<html><head>" +
+                        + "<html><head>" +
                         WikiDiff.DiffHead() + @"</head><body>" + WikiDiff.TableHeader +
                         diff.GetDiff(TheArticle.OriginalArticleText, txtEdit.Text, 2) +
                         @"</table><!--<script language='Javascript'>
@@ -1653,7 +1653,7 @@ window.scrollTo(0, diffTopY);
             lblOnlyBots.Visible = !Variables.User.IsBot;
         }
 
-        private void UpdateAdminStatus(object sender, EventArgs e) 
+        private void UpdateAdminStatus(object sender, EventArgs e)
         {
             btnProtect.Enabled = btnMove.Enabled = btnDelete.Enabled = btntsDelete.Enabled = (Variables.User.IsAdmin && btnSave.Enabled && (TheArticle != null));
         }
@@ -2439,8 +2439,8 @@ window.scrollTo(0, diffTopY);
         private void LaunchDumpSearcher()
         {
             WikiFunctions.DBScanner.DatabaseScanner ds;
-            
-            if(MessageBox.Show("Would you like the results to be added to the ListMaker Article List?", "Add to ListMaker?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+
+            if (MessageBox.Show("Would you like the results to be added to the ListMaker Article List?", "Add to ListMaker?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 ds = listMaker.DBScanner();
             else
                 ds = new WikiFunctions.DBScanner.DatabaseScanner();
@@ -2946,10 +2946,10 @@ window.scrollTo(0, diffTopY);
 
             loadingTypos = false;
         }
-       
+
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Tools.OpenURLInBrowser("http://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/Typos");
+            Tools.OpenENArticleInBrowser("Wikipedia:AutoWikiBrowser/Typos", false);
         }
 
         private void webBrowserEdit_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -3753,27 +3753,27 @@ window.scrollTo(0, diffTopY);
         #region EditToolbar
         private void imgBold_Click(object sender, EventArgs e)
         {
-            EditToolBarAction("'''Bold text'''",12,9,"'''");
+            EditToolBarAction("'''Bold text'''", 12, 9, "'''");
         }
 
         private void imgItalics_Click(object sender, EventArgs e)
         {
-            EditToolBarAction("''Italic text''",13,11,"''");
+            EditToolBarAction("''Italic text''", 13, 11, "''");
         }
 
         private void imgLink_Click(object sender, EventArgs e)
         {
-            EditToolBarAction("[[Link title]]",12,10,"[[","]]");
+            EditToolBarAction("[[Link title]]", 12, 10, "[[", "]]");
         }
 
         private void imgExtlink_Click(object sender, EventArgs e)
         {
-            EditToolBarAction("[http://www.example.com link title]",34,33,"[","]");
+            EditToolBarAction("[http://www.example.com link title]", 34, 33, "[", "]");
         }
 
         private void imgMath_Click(object sender, EventArgs e)
         {
-            EditToolBarAction("<math>Insert formula here</math>",26,19,"<math>","</math>");
+            EditToolBarAction("<math>Insert formula here</math>", 26, 19, "<math>", "</math>");
         }
 
         private void imgNowiki_Click(object sender, EventArgs e)
@@ -3788,22 +3788,22 @@ window.scrollTo(0, diffTopY);
 
         private void imgRedirect_Click(object sender, EventArgs e)
         {
-            EditToolBarAction("#REDIRECT [[Insert text]]",13,11,"#REDIRECT [[","]]");
+            EditToolBarAction("#REDIRECT [[Insert text]]", 13, 11, "#REDIRECT [[", "]]");
         }
 
         private void imgStrike_Click(object sender, EventArgs e)
         {
-            EditToolBarAction("<s>Strike-through text</s>",23,19,"<s>","</s>");
+            EditToolBarAction("<s>Strike-through text</s>", 23, 19, "<s>", "</s>");
         }
 
         private void imgSup_Click(object sender, EventArgs e)
         {
-            EditToolBarAction("<sup>Superscript text</sup>",22,16,"<sup>","</sup");
+            EditToolBarAction("<sup>Superscript text</sup>", 22, 16, "<sup>", "</sup");
         }
 
         private void imgSub_Click(object sender, EventArgs e)
         {
-            EditToolBarAction("<sub>Subscript text</sub>",20,14,"<sub>","</sub");
+            EditToolBarAction("<sub>Subscript text</sub>", 20, 14, "<sub>", "</sub");
         }
 
         private void imgComment_Click(object sender, EventArgs e)
@@ -3851,7 +3851,7 @@ window.scrollTo(0, diffTopY);
         {
             imgBold.Enabled = imgExtlink.Enabled = imgHr.Enabled = imgItalics.Enabled = imgLink.Enabled =
             imgMath.Enabled = imgNowiki.Enabled = imgRedirect.Enabled = imgStrike.Enabled = imgSub.Enabled =
-            imgSup.Enabled = imgComment.Enabled =  enabled;
+            imgSup.Enabled = imgComment.Enabled = enabled;
         }
 
         private bool EditToolBarVisible
@@ -4032,13 +4032,13 @@ window.scrollTo(0, diffTopY);
         private void UsageStatsMenuItem_Click(object sender, EventArgs e)
         { UsageStats.OpenUsageStatsURL(); }
 
-        void StartProgressBar()
+        private void StartProgressBar()
         {
             MainFormProgressBar.MarqueeAnimationSpeed = 100;
             MainFormProgressBar.Style = ProgressBarStyle.Marquee;
         }
 
-        void StopProgressBar()
+        private void StopProgressBar()
         {
             MainFormProgressBar.MarqueeAnimationSpeed = 0;
             MainFormProgressBar.Style = ProgressBarStyle.Continuous;
