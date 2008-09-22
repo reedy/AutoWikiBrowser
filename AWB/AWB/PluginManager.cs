@@ -201,6 +201,8 @@ namespace AutoWikiBrowser
             /// </summary>
             internal static Dictionary<string, IAWBPlugin> Items = new Dictionary<string, IAWBPlugin>();
 
+            public static List<string> FailedPlugins = new List<string>();
+
             /// <summary>
             /// String of plugins formatted like
             /// * [[WP:AWB/Plugin]]
@@ -256,6 +258,20 @@ namespace AutoWikiBrowser
                 splash.SetProgress(89);
             }
 
+            static void PluginObsolete(IAWBPlugin plugin)
+            {
+                PluginObsolete(plugin.GetType().Assembly.Location);
+            }
+
+            static void PluginObsolete(string name)
+            {
+                if (!FailedPlugins.Contains(name))
+                    FailedPlugins.Add(name);
+
+                MessageBox.Show("The plugin '" + name + "' is out-of date and needs to be updated.",
+                    "Plugin error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
             /// <summary>
             /// Loads all the plugins from the directory where AWB resides
             /// </summary>
@@ -283,24 +299,29 @@ namespace AutoWikiBrowser
                         {
                             Type[] types = asm.GetTypes();
 
-                            foreach (Type t in types)
+                            try
                             {
-                                if (t.GetInterface("IAWBPlugin") != null)
+                                foreach (Type t in types)
                                 {
-                                    IAWBPlugin plugin = (IAWBPlugin)Activator.CreateInstance(t);
-                                    Items.Add(plugin.Name, plugin);
-                                    InitialisePlugin(plugin, awb);
+                                    if (t.GetInterface("IAWBPlugin") != null)
+                                    {
+                                        IAWBPlugin plugin = (IAWBPlugin)Activator.CreateInstance(t);
+                                        Items.Add(plugin.Name, plugin);
+                                        InitialisePlugin(plugin, awb);
 
-                                    if (afterStartup) UsageStats.AddedPlugin(plugin);
-                                }
-                                else if (t.GetInterface("IListMakerPlugin") != null)
-                                {
-                                    IListMakerPlugin plugin = (IListMakerPlugin)Activator.CreateInstance(t);
-                                    WikiFunctions.Controls.Lists.ListMaker.AddProvider(plugin);
+                                        if (afterStartup) UsageStats.AddedPlugin(plugin);
+                                    }
+                                    else if (t.GetInterface("IListMakerPlugin") != null)
+                                    {
+                                        IListMakerPlugin plugin = (IListMakerPlugin)Activator.CreateInstance(t);
+                                        WikiFunctions.Controls.Lists.ListMaker.AddProvider(plugin);
 
-                                    if (afterStartup) UsageStats.AddedPlugin(plugin);
+                                        if (afterStartup) UsageStats.AddedPlugin(plugin);
+                                    }
                                 }
                             }
+                            catch (MissingFieldException) { PluginObsolete(Plugin); }
+                            catch (MissingMemberException) { PluginObsolete(Plugin); }
                         }
                     }
                 }
@@ -325,6 +346,8 @@ namespace AutoWikiBrowser
                 {
                     plugin.Initialise(awb);
                 }
+                catch (MissingFieldException) { PluginObsolete(plugin); }
+                catch (MissingMemberException) { PluginObsolete(plugin); }
                 catch (Exception ex)
                 {
                     ErrorHandler.Handle(ex);
