@@ -201,7 +201,7 @@ namespace AutoWikiBrowser
             /// </summary>
             internal static Dictionary<string, IAWBPlugin> Items = new Dictionary<string, IAWBPlugin>();
 
-            public static List<string> FailedPlugins = new List<string>();
+            public static List<IAWBPlugin> FailedPlugins = new List<IAWBPlugin>();
 
             /// <summary>
             /// String of plugins formatted like
@@ -258,18 +258,36 @@ namespace AutoWikiBrowser
                 splash.SetProgress(89);
             }
 
-            static void PluginObsolete(IAWBPlugin plugin)
+            public static void PluginObsolete(IAWBPlugin plugin)
             {
+                if (!FailedPlugins.Contains(plugin))
+                    FailedPlugins.Add(plugin);
+
                 PluginObsolete(plugin.GetType().Assembly.Location);
             }
 
             static void PluginObsolete(string name)
             {
-                if (!FailedPlugins.Contains(name))
-                    FailedPlugins.Add(name);
-
                 MessageBox.Show("The plugin '" + name + "' is out-of date and needs to be updated.",
                     "Plugin error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            public static void PurgeFailedPlugins()
+            {
+                if (FailedPlugins.Count == 0) return;
+
+                foreach (IAWBPlugin p in FailedPlugins)
+                {
+                    foreach (string s in Items.Keys)
+                    {
+                        if (Items[s] == p)
+                        {
+                            Items.Remove(s);
+                            break;
+                        }
+                    }
+                }
+                FailedPlugins.Clear();
             }
 
             /// <summary>
@@ -306,8 +324,8 @@ namespace AutoWikiBrowser
                                     if (t.GetInterface("IAWBPlugin") != null)
                                     {
                                         IAWBPlugin plugin = (IAWBPlugin)Activator.CreateInstance(t);
-                                        Items.Add(plugin.Name, plugin);
                                         InitialisePlugin(plugin, awb);
+                                        Items.Add(plugin.Name, plugin);
 
                                         if (afterStartup) UsageStats.AddedPlugin(plugin);
                                     }
@@ -322,6 +340,7 @@ namespace AutoWikiBrowser
                             }
                             catch (MissingFieldException) { PluginObsolete(Plugin); }
                             catch (MissingMemberException) { PluginObsolete(Plugin); }
+                            catch (Exception ex) { ErrorHandler.Handle(ex); }
                         }
                     }
                 }
@@ -333,6 +352,7 @@ namespace AutoWikiBrowser
                     MessageBox.Show(ex.Message, "Problem loading plugins");
 #endif
                 }
+
             }
 
             /// <summary>
@@ -342,16 +362,7 @@ namespace AutoWikiBrowser
             /// <param name="awb">IAutoWikiBrowser instance of AWB</param>
             private static void InitialisePlugin(IAWBPlugin plugin, IAutoWikiBrowser awb)
             {
-                try
-                {
-                    plugin.Initialise(awb);
-                }
-                catch (MissingFieldException) { PluginObsolete(plugin); }
-                catch (MissingMemberException) { PluginObsolete(plugin); }
-                catch (Exception ex)
-                {
-                    ErrorHandler.Handle(ex);
-                }
+                plugin.Initialise(awb);
             }
 
             /// <summary>
