@@ -96,7 +96,7 @@ namespace WikiFunctions.Controls
             this.cmboSummary.FormattingEnabled = true;
             this.cmboSummary.Location = new System.Drawing.Point(62, 38);
             this.cmboSummary.Name = "cmboSummary";
-            this.cmboSummary.Size = new System.Drawing.Size(339, 21);
+            this.cmboSummary.Size = new System.Drawing.Size(349, 21);
             this.cmboSummary.TabIndex = 5;
             // 
             // lblExpiry
