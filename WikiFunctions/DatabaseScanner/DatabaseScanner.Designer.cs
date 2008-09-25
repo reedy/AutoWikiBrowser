@@ -153,7 +153,7 @@ namespace WikiFunctions.DBScanner
             this.tabRestrict = new System.Windows.Forms.TabPage();
             this.grpEditMove = new System.Windows.Forms.GroupBox();
             this.chkProtection = new System.Windows.Forms.CheckBox();
-            this.MoveDelete = new WikiFunctions.Controls.MoveDeleteControl();
+            this.MoveDelete = new WikiFunctions.Controls.EditProtectControl();
             this.btnReset = new System.Windows.Forms.Button();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
@@ -1889,7 +1889,7 @@ namespace WikiFunctions.DBScanner
         private Button btnSaveTxtList;
         private Button btnSaveArticleList;
         private SaveFileDialog saveListDialog;
-        private WikiFunctions.Controls.MoveDeleteControl MoveDelete;
+        private WikiFunctions.Controls.EditProtectControl MoveDelete;
         private CheckBox chkProtection;
     }
 }

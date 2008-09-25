@@ -1,6 +1,6 @@
 ﻿namespace WikiFunctions.Controls
 {
-    partial class MoveDeleteControl
+    partial class EditProtectControl
     {
         /// <summary> 
         /// Required designer variable.
