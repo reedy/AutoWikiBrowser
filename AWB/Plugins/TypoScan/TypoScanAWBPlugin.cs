@@ -30,7 +30,6 @@ using WikiFunctions.AWBSettings;
 
 namespace WikiFunctions.Plugins.ListMaker.TypoScan
 {
-    //TODO:Track all uploaded/skipped in session (SavedThisSession and SkippedThisSession to lists), then check if ignored and such later on
     class TypoScanAWBPlugin : IAWBPlugin
     {
         #region IAWBPlugin Members
@@ -49,7 +48,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         private ToolStripMenuItem pluginMenuItem = new ToolStripMenuItem("TypoScan plugin");
         private ToolStripMenuItem pluginUploadMenuItem = new ToolStripMenuItem("Upload finished articles to server now");
-        private ToolStripMenuItem pluginReAddArticlesMenuItem = new ToolStripMenuItem("Re-add TypoScan articles to ListMaker");
+        private ToolStripMenuItem pluginReAddArticlesMenuItem = new ToolStripMenuItem("Re-add Unprocessed TypoScan articles to ListMaker");
         private ToolStripMenuItem aboutMenuItem = new ToolStripMenuItem("About the TypoScan plugin");
 
         public void Initialise(IAutoWikiBrowser sender)
@@ -62,9 +61,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             pluginMenuItem.DropDownItems.Add(pluginUploadMenuItem);
             pluginMenuItem.DropDownItems.Add(pluginReAddArticlesMenuItem);
             pluginUploadMenuItem.Click += new EventHandler(pluginUploadMenuItem_Click);
-#if !DEBUG
-                        pluginReAddArticlesMenuItem.Enabled = false;
-#endif
+
             pluginReAddArticlesMenuItem.Click += new EventHandler(pluginReAddArticlesMenuItem_Click);
             sender.PluginsToolStripMenuItem.DropDownItems.Add(pluginMenuItem);
 
@@ -84,9 +81,11 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         private void pluginReAddArticlesMenuItem_Click(object sender, EventArgs e)
         {
-            //TODO: What if its already been saved/skipped in that session...?
             foreach (string a in PageList.Keys)
             {
+                if (SkippedPagesThisSession.Contains(a) || SavedPagesThisSession.Contains(a))
+                    continue;
+
                 AWB.ListMaker.Add(new Article(a));
             }
         }
@@ -214,6 +213,9 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                     SavedPages.Clear();
                     SkippedPages.Clear();
                     SkippedReasons.Clear();
+
+                    if ((UploadedThisSession % 100) == 0)
+                        CheckoutTime = new DateTime();
                 }
             }
             catch (System.IO.IOException ex)
