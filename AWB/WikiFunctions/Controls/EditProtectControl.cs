@@ -8,11 +8,11 @@ using System.Windows.Forms;
 
 namespace WikiFunctions.Controls
 {
-    public partial class MoveDeleteControl : UserControl
+    public partial class EditProtectControl : UserControl
     {
         public event EventHandler TextBoxIndexChanged;
 
-        public MoveDeleteControl()
+        public EditProtectControl()
         {
             InitializeComponent();
             lbMove.SelectedIndex = 0;

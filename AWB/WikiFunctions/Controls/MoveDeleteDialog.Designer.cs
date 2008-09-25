@@ -38,7 +38,7 @@ namespace WikiFunctions.Controls
             this.txtExpiry = new System.Windows.Forms.TextBox();
             this.chkAutoProtect = new System.Windows.Forms.CheckBox();
             this.chkCascadingProtection = new System.Windows.Forms.CheckBox();
-            this.MoveDelete = new WikiFunctions.Controls.MoveDeleteControl();
+            this.MoveDelete = new WikiFunctions.Controls.EditProtectControl();
             this.SuspendLayout();
             // 
             // txtNewTitle
@@ -47,7 +47,7 @@ namespace WikiFunctions.Controls
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.txtNewTitle.Location = new System.Drawing.Point(62, 12);
             this.txtNewTitle.Name = "txtNewTitle";
-            this.txtNewTitle.Size = new System.Drawing.Size(339, 20);
+            this.txtNewTitle.Size = new System.Drawing.Size(349, 20);
             this.txtNewTitle.TabIndex = 1;
             // 
             // lblNewTitle
@@ -63,7 +63,7 @@ namespace WikiFunctions.Controls
             // 
             this.lblSummary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblSummary.AutoSize = true;
-            this.lblSummary.Location = new System.Drawing.Point(8, 41);
+            this.lblSummary.Location = new System.Drawing.Point(9, 41);
             this.lblSummary.Name = "lblSummary";
             this.lblSummary.Size = new System.Drawing.Size(50, 13);
             this.lblSummary.TabIndex = 4;
@@ -73,7 +73,7 @@ namespace WikiFunctions.Controls
             // 
             this.btnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(132, 174);
+            this.btnOk.Location = new System.Drawing.Point(137, 171);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 13;
@@ -84,7 +84,7 @@ namespace WikiFunctions.Controls
             // 
             this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(213, 174);
+            this.btnCancel.Location = new System.Drawing.Point(218, 171);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 14;
@@ -114,7 +114,7 @@ namespace WikiFunctions.Controls
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.txtExpiry.Location = new System.Drawing.Point(62, 38);
             this.txtExpiry.Name = "txtExpiry";
-            this.txtExpiry.Size = new System.Drawing.Size(339, 20);
+            this.txtExpiry.Size = new System.Drawing.Size(349, 20);
             this.txtExpiry.TabIndex = 3;
             // 
             // chkAutoProtect
@@ -133,7 +133,7 @@ namespace WikiFunctions.Controls
             this.chkCascadingProtection.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.chkCascadingProtection.AutoSize = true;
             this.chkCascadingProtection.Enabled = false;
-            this.chkCascadingProtection.Location = new System.Drawing.Point(7, 154);
+            this.chkCascadingProtection.Location = new System.Drawing.Point(12, 151);
             this.chkCascadingProtection.Name = "chkCascadingProtection";
             this.chkCascadingProtection.Size = new System.Drawing.Size(399, 17);
             this.chkCascadingProtection.TabIndex = 12;
@@ -152,11 +152,9 @@ namespace WikiFunctions.Controls
             this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.AutoSize = true;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(413, 209);
+            this.ClientSize = new System.Drawing.Size(423, 208);
             this.Controls.Add(this.chkAutoProtect);
-            this.Controls.Add(this.MoveDelete);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.chkCascadingProtection);
@@ -166,7 +164,10 @@ namespace WikiFunctions.Controls
             this.Controls.Add(this.lblSummary);
             this.Controls.Add(this.txtNewTitle);
             this.Controls.Add(this.lblNewTitle);
+            this.Controls.Add(this.MoveDelete);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MaximumSize = new System.Drawing.Size(429, 243);
+            this.MinimumSize = new System.Drawing.Size(429, 100);
             this.Name = "ArticleActionDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Enter details";
@@ -187,6 +188,6 @@ namespace WikiFunctions.Controls
         private System.Windows.Forms.TextBox txtExpiry;
         private System.Windows.Forms.CheckBox chkAutoProtect;
         private System.Windows.Forms.CheckBox chkCascadingProtection;
-        private MoveDeleteControl MoveDelete;
+        private EditProtectControl MoveDelete;
     }
 }

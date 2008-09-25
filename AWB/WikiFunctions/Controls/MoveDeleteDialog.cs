@@ -33,62 +33,9 @@ namespace WikiFunctions.Controls
         {
             InitializeComponent();
             MoveDelete.TextBoxIndexChanged += new EventHandler(MoveDelete_TextBoxIndexChanged);
+            string[] messages;
 
-            if (MoveDeleteProtect == 1)
-            {
-                MoveDelete.Visibility = false;
-                lblExpiry.Visible = false;
-                txtExpiry.Visible = false;
-                this.Text = "Move";
-                btnOk.Text = "Move";
-                string[] movemessages = new string[2];
-                movemessages[0] = "Typo in page title";
-                movemessages[1] = "Reverting vandalism page move";
-                cmboSummary.Items.AddRange(movemessages);
-                this.Size = new Size(this.Width, 123);
-            }
-            else if (MoveDeleteProtect == 2)
-            {
-                MoveDelete.Visibility = false;
-                lblExpiry.Visible = false;
-                txtExpiry.Visible = false;
-                this.Text = "Delete";
-                btnOk.Text = "Delete";
-                this.Size = new Size(this.Width, 115);
-                lblSummary.Location = new System.Drawing.Point(8, 15);
-                cmboSummary.Location = new System.Drawing.Point(62, 12);
-
-                lblNewTitle.Visible = false;
-                txtNewTitle.Visible = false;
-
-                string[] deletemessages = new string[23];
-
-                deletemessages[0] = "tagged for [[WP:PROD|proposed deletion]] for 5 days";
-                deletemessages[1] = "[[WP:CSD#G1|Patent nonsense]]";
-                deletemessages[2] = "[[WP:CSD#G2|Test page]]";
-                deletemessages[3] = "[[WP:CSD#G3|Pure vandalism]]";
-                deletemessages[4] = "[[WP:CSD#G4|Recreation of deleted material]]";
-                deletemessages[5] = "[[WP:CSD#G5|Banned user]]";
-                deletemessages[6] = "[[WP:CSD#G6|Housekeeping]]";
-                deletemessages[7] = "[[WP:CSD#G7|Author requests deletion]]";
-                deletemessages[8] = "[[WP:CSD#G8|Talk page of page that does not exist]]";
-                deletemessages[9] = "[[WP:CSD#G10|Attack page]]";
-                deletemessages[10] = "[[WP:CSD#G11|Blatant advertising]]";
-                deletemessages[11] = "[[WP:CSD#G12|Blatant copyright infringement]]";
-                deletemessages[12] = "[[WP:CSD#A1|Little or no context]]";
-                deletemessages[13] = "[[WP:CSD#A2|Foreign language article]]";
-                deletemessages[14] = "[[WP:CSD#A3|No content whatsoever]]";
-                deletemessages[15] = "[[WP:CSD#A7|Non-notable person, group, company, or web content]]";
-                deletemessages[16] = "[[WP:CSD#R1|Redirect to non-existent page]]";
-                deletemessages[17] = "[[WP:CSD#R2|Redirect to the User: or User talk: space]]";
-                deletemessages[18] = "[[WP:CSD#R3|Redirect as a result of an implausible typo]]";
-                deletemessages[19] = "[[WP:CSD#C1|Empty category]]";
-                deletemessages[20] = "[[WP:CSD#C2|Speedy renaming]]";
-                deletemessages[21] = "[[WP:CSD#U1|User request]]";
-                deletemessages[22] = "[[WP:CSD#U2|Nonexistent user]]";
-                cmboSummary.Items.AddRange(deletemessages);
-            }
-            else
+            if (MoveDeleteProtect == 3)
             {
                 lblSummary.Location = new System.Drawing.Point(8, 15);
                 cmboSummary.Location = new System.Drawing.Point(62, 12);
@@ -96,9 +43,64 @@ namespace WikiFunctions.Controls
                 txtNewTitle.Visible = false;
                 this.Text = "Protect";
                 btnOk.Text = "Protect";
-                string[] protectmessages = new string[1];
-                protectmessages[0] = "Heavy vandalism";
-                cmboSummary.Items.AddRange(protectmessages);
+                messages = new string[1];
+                messages[0] = "Heavy vandalism";
+            }
+            else
+            {
+                MoveDelete.Visibility = false;
+                lblExpiry.Visible = false;
+                txtExpiry.Visible = false;
+                chkCascadingProtection.Visible = false;
+
+                if (MoveDeleteProtect == 1)
+                {
+                    this.Text = "Move";
+                    btnOk.Text = "Move";
+                    this.Size = new Size(this.Width, 120);
+
+                    messages = new string[2];
+                    messages[0] = "Typo in page title";
+                    messages[1] = "Reverting vandalism page move";
+                }
+                else
+                {
+                    this.Text = "Delete";
+                    btnOk.Text = "Delete";
+                    this.Size = new Size(this.Width, 100);
+                    lblSummary.Location = new System.Drawing.Point(8, 15);
+                    cmboSummary.Location = new System.Drawing.Point(62, 12);
+
+                    lblNewTitle.Visible = false;
+                    txtNewTitle.Visible = false;
+
+                    messages = new string[23];
+
+                    messages[0] = "tagged for [[WP:PROD|proposed deletion]] for 5 days";
+                    messages[1] = "[[WP:CSD#G1|Patent nonsense]]";
+                    messages[2] = "[[WP:CSD#G2|Test page]]";
+                    messages[3] = "[[WP:CSD#G3|Pure vandalism]]";
+                    messages[4] = "[[WP:CSD#G4|Recreation of deleted material]]";
+                    messages[5] = "[[WP:CSD#G5|Banned user]]";
+                    messages[6] = "[[WP:CSD#G6|Housekeeping]]";
+                    messages[7] = "[[WP:CSD#G7|Author requests deletion]]";
+                    messages[8] = "[[WP:CSD#G8|Talk page of page that does not exist]]";
+                    messages[9] = "[[WP:CSD#G10|Attack page]]";
+                    messages[10] = "[[WP:CSD#G11|Blatant advertising]]";
+                    messages[11] = "[[WP:CSD#G12|Blatant copyright infringement]]";
+                    messages[12] = "[[WP:CSD#A1|Little or no context]]";
+                    messages[13] = "[[WP:CSD#A2|Foreign language article]]";
+                    messages[14] = "[[WP:CSD#A3|No content whatsoever]]";
+                    messages[15] = "[[WP:CSD#A7|Non-notable person, group, company, or web content]]";
+                    messages[16] = "[[WP:CSD#R1|Redirect to non-existent page]]";
+                    messages[17] = "[[WP:CSD#R2|Redirect to the User: or User talk: space]]";
+                    messages[18] = "[[WP:CSD#R3|Redirect as a result of an implausible typo]]";
+                    messages[19] = "[[WP:CSD#C1|Empty category]]";
+                    messages[20] = "[[WP:CSD#C2|Speedy renaming]]";
+                    messages[21] = "[[WP:CSD#U1|User request]]";
+                    messages[22] = "[[WP:CSD#U2|Nonexistent user]]";
+                }
+                cmboSummary.Items.AddRange(messages);
             }
         }
 
