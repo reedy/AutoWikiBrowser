@@ -203,8 +203,7 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public bool Remove(string Title)
         {
-            Article a = new Article(Title);
-            return Remove(a);
+            return Remove(new Article(Title));
         }
 
         /// <summary>
