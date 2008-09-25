@@ -53,7 +53,7 @@ namespace WikiFunctions.Controls
 
         public bool Visibility
         {
-            set { lbEdit.Visible = lbMove.Visible = lblEdit.Visible = lblMove.Visible = value; }
+            set { lbEdit.Visible = lbMove.Visible = lblEdit.Visible = lblMove.Visible = chkUnlock.Visible = value; }
         }
 
         public void Reset()
