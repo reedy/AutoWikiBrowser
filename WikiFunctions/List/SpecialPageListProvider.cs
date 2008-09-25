@@ -47,6 +47,7 @@ namespace WikiFunctions.Lists
             {
                 listItems.Add(new PrefixIndexSpecialPageProvider());
                 listItems.Add(new AllPagesSpecialPageProvider());
+                listItems.Add(new RecentChangesSpecialPageProvider());
             }
 
             cmboSourceSelect.DataSource = listItems;
@@ -66,8 +67,12 @@ namespace WikiFunctions.Lists
 
                 ISpecialPageProvider item = (ISpecialPageProvider)cmboSourceSelect.SelectedItem;
 
-                if (item.PagesNeeded && !string.IsNullOrEmpty(txtPages.Text))
+                if (!string.IsNullOrEmpty(txtPages.Text))
                     list = item.MakeList(Tools.CalculateNS(cboNamespace.Text), searchCriteria);
+                else if (item.PagesNeeded)
+                    MessageBox.Show("Pages needed!");
+                else
+                    list = item.MakeList(Tools.CalculateNS(cboNamespace.Text), new string[] { "" });
             }
             
             return Tools.FilterSomeArticles(list);
@@ -89,11 +94,13 @@ namespace WikiFunctions.Lists
 
         private void SpecialPageListMakerProvider_Load(object sender, EventArgs e)
         {
+            int currentSelected = cboNamespace.SelectedIndex;
             cboNamespace.Items.Clear();
             foreach (string name in Variables.Namespaces.Values)
             {
                 cboNamespace.Items.Add(name);
             }
+            cboNamespace.SelectedIndex = currentSelected;
         }
 
         private void cmboSourceSelect_SelectedIndexChanged(object sender, EventArgs e)
@@ -205,5 +212,60 @@ namespace WikiFunctions.Lists
         {
             get { return true; }
         }
+    }
+
+    public class RecentChangesSpecialPageProvider : ISpecialPageProvider
+    {
+        #region ISpecialPageProvider Members
+
+        public List<Article> MakeList(int Namespace, params string[] searchCriteria)
+        {
+            List<Article> list = new List<Article>();
+
+            foreach (string s in searchCriteria)
+            {
+                string url = Variables.URLLong + "api.php?action=query&list=recentchanges&rctitles=" + s + "&rcnamespace=" + Namespace + "&rclimit=500&format=xml";
+                while (true)
+                {
+                    string html = Tools.GetHTML(url);
+
+                    bool more = false;
+
+                    using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
+                    {
+                        while (reader.Read())
+                        {
+                            if (reader.Name.Equals("rc"))
+                            {
+                                if (reader.MoveToAttribute("title"))
+                                {
+                                    list.Add(new WikiFunctions.Article(reader.Value.ToString(), 0));
+                                }
+                            }
+                        }
+                    }
+
+                    if (!more)
+                        break;
+                }
+            }
+            return list;
+        }
+
+        public string DisplayText
+        {
+            get { return "Recent Changes"; }
+        }
+
+        public bool PagesTextBoxEnabled
+        {
+            get { return true; }
+        }
+
+        public bool PagesNeeded
+        {
+            get { return false; }
+        }
+        #endregion
     }
 }
