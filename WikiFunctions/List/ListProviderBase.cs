@@ -16,7 +16,16 @@ namespace WikiFunctions.Lists
     {
         #region Internals
         int m_Limit = 5000;
-        int m_PageSize = 500;
+
+        /// <summary>
+        /// Maximum number of pages returned per API query, if the user is NOT an admin or bot
+        /// </summary>
+        protected int m_HighLimit = 5000;
+
+        /// <summary>
+        /// Maximum number of pages returned per API query, if the user is NOT an admin or bot
+        /// </summary>
+        protected int m_LowLimit = 500;
         #endregion
 
         /// <summary>
@@ -36,10 +45,22 @@ namespace WikiFunctions.Lists
             set { m_Limit = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the limit of pages returned perone API request.
+        /// If set to -1 (default), gets the automatically calculated number.
+        /// </summary>
         public int PageSize
         {
-            get { return m_PageSize; }
-            set { m_PageSize = value; }
+            get
+            {
+                return m_LowLimit; // so far we send requests w/o user cookies
+
+                //Variables.User.EnsureLoaded();
+                //if (Variables.User.ApiHighLimits)
+                //    return m_HighLimit;
+                //else
+                //    return m_LowLimit;
+            }
         }
 
         #region Dirty hack for 1.12's inability to accept cmtitle and cmcategory at the same time

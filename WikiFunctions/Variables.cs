@@ -1456,6 +1456,7 @@ namespace WikiFunctions
         private bool bIsAdmin;
         private bool bIsBot;
         private bool bLoggedIn;
+        private bool bLoaded;
 
         public List<string> Groups = new List<string>();
 
@@ -1543,6 +1544,27 @@ namespace WikiFunctions
             }
         }
 
+        /// <summary>
+        /// Gets whether the user is allowed to request for more pages to be returned by API queries
+        /// </summary>
+        public bool ApiHighLimits
+        {
+            get
+            {
+                // TODO: we know WMF uses the default settings, but can't be sure for other sites
+                // This part should be rwritten upon migration to API, when we'll have a list of user permissions
+                if (Variables.IsWikimediaProject
+                    && (IsAdmin || IsBot))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
         static Regex Message = new Regex("<!--[Mm]essage:(.*?)-->", RegexOptions.Compiled);
         static Regex VersionMessage = new Regex("<!--VersionMessage:(.*?)\\|\\|\\|\\|(.*?)-->", RegexOptions.Compiled);
         //static Regex Underscores = new Regex("<!--[Uu]nderscores:(.*?)-->", RegexOptions.Compiled);
@@ -1620,6 +1642,8 @@ namespace WikiFunctions
                 }
                 else
                     userGroups = webBrowserLogin.GetScriptingVar("wgUserGroups");
+
+                bLoaded = true;
 
                 if (Variables.IsCustomProject)
                 {
@@ -1781,6 +1805,12 @@ namespace WikiFunctions
                 return WikiStatusResult.Error;
             }
         }
+
+        public void EnsureLoaded()
+        {
+            if (!bLoaded) UpdateWikiStatus();
+        }
+
 
         /// <summary>
         /// Checks if the current version of AWB is enabled
