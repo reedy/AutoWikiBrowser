@@ -283,7 +283,7 @@ namespace WikiFunctions.Lists
 
             foreach (string page in searchCriteria)
             {
-                string url = Variables.URLLong + "api.php?action=query&prop=categories&cllimit={limit}&titles="
+                string url = Variables.URLLong + "api.php?action=query&prop=categories&cllimit=max&titles="
                     + HttpUtility.UrlEncode(page) + "&format=xml";
 
                 list.AddRange(ApiMakeList(url, list.Count));
@@ -336,7 +336,7 @@ namespace WikiFunctions.Lists
             foreach (string page in searchCriteria)
             {
                 string url = Variables.URLLong + "api.php?action=query&list=backlinks&bltitle="
-                    + HttpUtility.UrlEncode(page) + "&format=xml&bllimit={limit}";
+                    + HttpUtility.UrlEncode(page) + "&format=xml&bllimit=max";
 
                 if (IncludeRedirects)
                     url += "&blredirect";
@@ -401,7 +401,7 @@ namespace WikiFunctions.Lists
             foreach (string page in searchCriteria)
             {
                 string url = Variables.URLLong + "api.php?action=query&list=embeddedin&eititle="
-                    + HttpUtility.UrlEncode(page) + "&eilimit={limit}&format=xml";
+                    + HttpUtility.UrlEncode(page) + "&eilimit=max&format=xml";
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
@@ -452,7 +452,7 @@ namespace WikiFunctions.Lists
             foreach (string article in searchCriteria)
             {
                 string url = Variables.URLLong + "api.php?action=query&prop=links&titles="
-                    + HttpUtility.UrlEncode(article) + "&pllimit={limit}&format=xml";
+                    + HttpUtility.UrlEncode(article) + "&pllimit=max&format=xml";
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
@@ -502,7 +502,7 @@ namespace WikiFunctions.Lists
             foreach (string article in searchCriteria)
             {
                 string url = Variables.URLLong + "api.php?action=query&prop=images&titles="
-                    + HttpUtility.UrlEncode(article) + "&imlimit={limit}&format=xml";
+                    + HttpUtility.UrlEncode(article) + "&imlimit=max&format=xml";
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
@@ -551,7 +551,7 @@ namespace WikiFunctions.Lists
             foreach (string article in searchCriteria)
             {
                 string url = Variables.URLLong + "api.php?action=query&prop=templates&titles="
-                    + HttpUtility.UrlEncode(article) + "&tllimit={limit}&format=xml";
+                    + HttpUtility.UrlEncode(article) + "&tllimit=max&format=xml";
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
@@ -748,7 +748,7 @@ namespace WikiFunctions.Lists
                 image = HttpUtility.UrlEncode(image);
 
                 string url = Variables.URLLong + "api.php?action=query&list=imageusage&iutitle=Image:"
-                    + image + "&iulimit={limit}&format=xml";
+                    + image + "&iulimit=max&format=xml";
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
@@ -812,7 +812,7 @@ namespace WikiFunctions.Lists
             foreach (string s in searchCriteria)
             {
                 string url = Variables.URLLong + "api.php?action=query&list=search&srwhat=text&srsearch="
-                    + s + "&srlimit={limit}&format=xml" + ns;
+                    + s + "&srlimit=max&format=xml" + ns;
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
@@ -863,7 +863,7 @@ namespace WikiFunctions.Lists
 
                 string page = HttpUtility.UrlEncode(onePage);
                 string url = Variables.URLLong + "api.php?action=query&list=backlinks&bltitle="
-                    + page + "&bllimit={limit}&blfilterredir=redirects&format=xml";
+                    + page + "&bllimit=max&blfilterredir=redirects&format=xml";
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
@@ -1001,7 +1001,7 @@ namespace WikiFunctions.Lists
 
             string url = Variables.URLLong + "api.php?action=query&list=random&rnnamespace=0&rnlimit=10&format=xml";
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 10 && list.Count < Limit; i++)
             {
                 list.AddRange(ApiMakeList(url, 0));
             }
@@ -1052,7 +1052,7 @@ namespace WikiFunctions.Lists
             List<Article> list = new List<Article>();
 
             string url = Variables.URLLong + "api.php?action=query&list=recentchanges"
-                + "&rclimit={limit}&rctype=new&rcshow=!redirects&rcnamespace=0&format=xml";
+                + "&rclimit=max&rctype=new&rcshow=!redirects&rcnamespace=0&format=xml";
 
             list.AddRange(ApiMakeList(url, list.Count));
 
