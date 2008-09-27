@@ -1544,27 +1544,6 @@ namespace WikiFunctions
             }
         }
 
-        /// <summary>
-        /// Gets whether the user is allowed to request for more pages to be returned by API queries
-        /// </summary>
-        public bool ApiHighLimits
-        {
-            get
-            {
-                // TODO: we know WMF uses the default settings, but can't be sure for other sites
-                // This part should be rwritten upon migration to API, when we'll have a list of user permissions
-                if (Variables.IsWikimediaProject
-                    && (IsAdmin || IsBot))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
-
         static Regex Message = new Regex("<!--[Mm]essage:(.*?)-->", RegexOptions.Compiled);
         static Regex VersionMessage = new Regex("<!--VersionMessage:(.*?)\\|\\|\\|\\|(.*?)-->", RegexOptions.Compiled);
         //static Regex Underscores = new Regex("<!--[Uu]nderscores:(.*?)-->", RegexOptions.Compiled);
