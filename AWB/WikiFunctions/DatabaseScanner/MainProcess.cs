@@ -53,6 +53,7 @@ namespace WikiFunctions.DBScanner
         Thread ScanThread;
         List<Thread> SecondaryThreads = new List<Thread>();
         public bool MultiThreaded = false;
+        int ProcessorCount;
         CrossThreadQueue<ArticleInfo> PendingArticles = new CrossThreadQueue<ArticleInfo>();
 
         List<Scan> Scanners;
@@ -66,11 +67,12 @@ namespace WikiFunctions.DBScanner
 
         public MainProcess(List<Scan> z, string filename, ThreadPriority tp, bool ignoreComments)
         {
+            ProcessorCount = Environment.ProcessorCount; // caching
             FileName = filename;
             SOPCstopped = new SendOrPostCallback(Stopped);
             Priority = tp;
             IgnoreComments = ignoreComments;
-            MultiThreaded = Environment.ProcessorCount > 1;
+            MultiThreaded = ProcessorCount > 1;
 
             Scanners = z;
 
@@ -148,7 +150,7 @@ namespace WikiFunctions.DBScanner
             ScanThread.Priority = mPriority;
             ScanThread.Start();
 
-            for (int i = 0; i < Environment.ProcessorCount - 1; i++)
+            for (int i = 0; i < ProcessorCount - 1; i++)
             {
                 ThreadStart ts = new ThreadStart(SecondaryThread);
                 Thread thr = new Thread(ts);
@@ -225,7 +227,7 @@ namespace WikiFunctions.DBScanner
 
                             if (MultiThreaded)
                             {
-                                if (PendingArticles.Count < Environment.ProcessorCount * 4 + 5)
+                                if (PendingArticles.Count < ProcessorCount * 4 + 5)
                                 {
                                     PendingArticles.Add(ai);
                                 }
