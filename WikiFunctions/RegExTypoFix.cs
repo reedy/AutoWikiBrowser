@@ -269,13 +269,13 @@ namespace WikiFunctions.Parse
 
         public string PerformTypoFixes(string ArticleText, out bool NoChange, out string Summary)
         {
+            Summary = "";
             if (TyposCount == 0)
             {
                 NoChange = true;
-                Summary = "";
                 return ArticleText;
             }
-            Summary = "";
+
             if (IgnoreRegex.IsMatch(ArticleText))
             {
                 NoChange = true;
