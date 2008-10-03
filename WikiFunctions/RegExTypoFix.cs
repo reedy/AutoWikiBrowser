@@ -49,8 +49,8 @@ namespace WikiFunctions.Parse
         {
             GroupSize = groupSize;
 
-            if (match != null) Allow = new Regex(match, RegexOptions.Compiled);
-            if (dontMatch != null) Disallow = new Regex(dontMatch, RegexOptions.Compiled);
+            if (!string.IsNullOrEmpty(match)) Allow = new Regex(match, RegexOptions.Compiled);
+            if (!string.IsNullOrEmpty(dontMatch)) Disallow = new Regex(dontMatch, RegexOptions.Compiled);
 
             Prefix = prefix;
             Postfix = postfix;
