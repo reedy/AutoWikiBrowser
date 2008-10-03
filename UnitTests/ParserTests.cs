@@ -533,6 +533,11 @@ http://example.com }}");
         [Test]
         public void IsCorrectEditSummary()
         {
+            // too long
+            StringBuilder sb = new StringBuilder(300);
+            for (int i=0;i<300;i++) sb.Append('x');
+            Assert.IsFalse(Parsers.IsCorrectEditSummary(sb.ToString()));
+
             // no wikilinks
             Assert.IsTrue(Parsers.IsCorrectEditSummary(""));
             Assert.IsTrue(Parsers.IsCorrectEditSummary("test"));

@@ -1,6 +1,0 @@
-* Add user-related functions (block, see contribs etc.) - partially done
-* Move a lot of hardcoded things to settings - mostly done. AIV is the issue.
-* Add support of other projects.
-* Make code to guess new section name if needed when issuing warnings.
-* Track user's other contribs when loading diffs.
-* Handle edit conflicts
