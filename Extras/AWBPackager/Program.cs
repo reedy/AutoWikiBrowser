@@ -86,9 +86,6 @@ Is this SVN (1) or a release (2)? ");
                 Directory.CreateDirectory(Tmp + "Plugins\\Delinker\\");
                 File.Copy(currFolder + "DelinkerPlugin.dll", Tmp + "Plugins\\Delinker\\DelinkerPlugin.dll", true);
 
-                currFolder = AWBDir + "IRCMonitor\\bin\\Release\\";
-                File.Copy(currFolder + "IRCMonitor.exe", Tmp + "IRCMonitor.exe", true);
-
                 Directory.CreateDirectory(Tmp + "Plugins\\Kingbotk\\");
                 currFolder = AWBDir + "Plugins\\Kingbotk\\";
 
