@@ -1030,24 +1030,6 @@ namespace WikiFunctions.Browser
 
         #endregion
 
-        #region IRCMonitor-related
-        [Browsable(false)]
-        public string AdminRollbackUrl
-        {
-            get
-            {
-                string url = "";
-                foreach (HtmlElement h in Document.Links)
-                {
-                    string s = h.GetAttribute("href").ToString();
-                    if (s.Contains("action=rollback")) url = s;
-                }
-                return url;
-            }
-        }
-
-        #endregion
-
         protected override void OnNavigating(WebBrowserNavigatingEventArgs e)
         {
             base.OnNavigating(e);
