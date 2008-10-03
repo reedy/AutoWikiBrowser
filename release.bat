@@ -28,9 +28,6 @@ if errorlevel 1 goto ERROR
 copy AWB\bin\Release\Diff.dll "%dest%"
 if errorlevel 1 goto ERROR
 
-copy IRCMonitor\bin\Release\IRCMonitor.exe "%dest%"
-if errorlevel 1 goto ERROR
-
 md "%dest%\Plugins"
 
 md "%dest%\Plugins\CFD"
