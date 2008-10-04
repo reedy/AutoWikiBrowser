@@ -305,6 +305,31 @@ namespace WikiFunctions
             return true;
         }
 
+        private static int MaxEditSummaryLength = 250; // in bytes
+
+        //static Regex 
+
+        /// <summary>
+        /// UNFINISHED
+        /// </summary>
+        /// <param name="summary"></param>
+        /// <param name="awbAd"></param>
+        /// <returns></returns>
+        public static string TrimEditSummary(string summary, string awbAd)
+        {
+            byte[] buf = Encoding.UTF8.GetBytes(summary);
+            byte[] adBuf = Encoding.UTF8.GetBytes(awbAd);
+
+            if (buf.Length + adBuf.Length <= MaxEditSummaryLength)
+                return summary + awbAd;
+
+
+
+            return summary + awbAd;
+        }
+
+
+
         /// <summary>
         /// Gets the HTML from the given web address.
         /// </summary>
