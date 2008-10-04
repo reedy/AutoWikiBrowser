@@ -338,11 +338,12 @@ namespace WikiFunctions.Parse
             return res;
         }
 
+        static readonly Regex TypoRegex = new Regex("<(?:Typo)?\\s+(?:word=\"(.*?)\"\\s+)?find=\"(.*?)\"\\s+replace=\"(.*?)\"\\s*/?>", RegexOptions.Compiled);
+
         private Dictionary<string, string> LoadTypos()
         {
             Dictionary<string, string> typoStrings = new Dictionary<string, string>();
 
-            Regex typoRegex = new Regex("<(?:Typo )?word=\"(.*?)\"[ \\t]find=\"(.*?)\"[ \\t]replace=\"(.*?)\" ?/?>", RegexOptions.Compiled);
             try
             {
                 string text = "";
@@ -376,7 +377,7 @@ namespace WikiFunctions.Parse
                             TyposLoaded = false;
                     }
                 }
-                foreach (Match m in typoRegex.Matches(text))
+                foreach (Match m in TypoRegex.Matches(text))
                 {
                     try
                     {
