@@ -324,6 +324,8 @@ namespace WikiFunctions
             else
                 r.UserAgent = UserAgent;
 
+            r.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
+
             r.Proxy.Credentials = CredentialCache.DefaultCredentials;
 
             return r;
