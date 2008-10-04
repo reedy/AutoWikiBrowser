@@ -5,6 +5,7 @@ using NUnit.Framework;
 using WikiFunctions;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+using WikiFunctions.Parse;
 
 namespace UnitTests
 {
@@ -415,6 +416,18 @@ bar"));
 
             // beyond the end
             Assert.AreEqual(3, Tools.FirstDifference("foo", "foo"));
+        }
+
+        string _100 = "123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 1234567890";
+
+        [Test]
+        public void TrimEditSummary()
+        {
+            Assert.AreEqual("test using [[WP:AWB]]", Tools.TrimEditSummary("test", " using [[WP:AWB]]"));
+            Assert.AreEqual("test", Tools.TrimEditSummary("test", ""));
+
+            Assert.That(Parsers.IsCorrectEditSummary(
+                Tools.TrimEditSummary("[[" + _100 + "|" + _100 + "]] [[" + _100 + "]]", "[[WP:AWB]]")));
         }
 
         [Test]

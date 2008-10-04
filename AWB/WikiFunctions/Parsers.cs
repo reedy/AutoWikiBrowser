@@ -719,6 +719,7 @@ namespace WikiFunctions.Parse
         {
             bool res = true;
 
+            if (s.Length > 255) return false;
             int pos = s.IndexOf("[[");
             while (pos >= 0)
             {
