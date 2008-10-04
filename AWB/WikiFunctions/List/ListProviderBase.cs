@@ -15,7 +15,7 @@ namespace WikiFunctions.Lists
     public abstract class ApiListProviderBase : IListProvider
     {
         #region Internals
-        int m_Limit = 5000;
+        int m_Limit = 25000;
 
         #endregion
 
