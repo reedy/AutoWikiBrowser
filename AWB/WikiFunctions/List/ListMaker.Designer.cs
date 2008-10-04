@@ -158,9 +158,9 @@ namespace WikiFunctions.Controls.Lists
             this.lblSourceSelect.AutoSize = true;
             this.lblSourceSelect.Location = new System.Drawing.Point(3, 6);
             this.lblSourceSelect.Name = "lblSourceSelect";
-            this.lblSourceSelect.Size = new System.Drawing.Size(60, 13);
+            this.lblSourceSelect.Size = new System.Drawing.Size(44, 13);
             this.lblSourceSelect.TabIndex = 0;
-            this.lblSourceSelect.Text = "Make from:";
+            this.lblSourceSelect.Text = "Source:";
             // 
             // cmboSourceSelect
             // 
@@ -171,9 +171,9 @@ namespace WikiFunctions.Controls.Lists
             this.cmboSourceSelect.DropDownWidth = 200;
             this.cmboSourceSelect.FormattingEnabled = true;
             this.cmboSourceSelect.IntegralHeight = false;
-            this.cmboSourceSelect.Location = new System.Drawing.Point(67, 3);
+            this.cmboSourceSelect.Location = new System.Drawing.Point(46, 3);
             this.cmboSourceSelect.Name = "cmboSourceSelect";
-            this.cmboSourceSelect.Size = new System.Drawing.Size(138, 21);
+            this.cmboSourceSelect.Size = new System.Drawing.Size(159, 21);
             this.cmboSourceSelect.Sorted = true;
             this.cmboSourceSelect.TabIndex = 1;
             this.cmboSourceSelect.SelectedIndexChanged += new System.EventHandler(this.cmboSourceSelect_SelectedIndexChanged);
@@ -203,7 +203,7 @@ namespace WikiFunctions.Controls.Lists
             this.saveListToFileToolStripMenuItem,
             this.sortAlphaMenuItem});
             this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(213, 392);
+            this.mnuListBox.Size = new System.Drawing.Size(213, 370);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // openInBrowserToolStripMenuItem
@@ -489,7 +489,7 @@ namespace WikiFunctions.Controls.Lists
             // 
             this.btnStop.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnStop.Image = ((System.Drawing.Image)(resources.GetObject("btnStop.Image")));
-            this.btnStop.Location = new System.Drawing.Point(158, 51);
+            this.btnStop.Location = new System.Drawing.Point(155, 51);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(24, 25);
             this.btnStop.TabIndex = 6;
@@ -546,8 +546,8 @@ namespace WikiFunctions.Controls.Lists
             this.Controls.Add(this.lblNumOfPages);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.UserInputTextBox);
-            this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnFilter);
+            this.Controls.Add(this.btnStop);
             this.Controls.Add(this.cmboSourceSelect);
             this.Controls.Add(this.lblSourceSelect);
             this.Controls.Add(this.lblUserInput);
