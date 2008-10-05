@@ -748,7 +748,7 @@ namespace AutoWikiBrowser
 
             if (chkSkipNoPageLinks.Checked && (lblLinks.Text == "Links: 0"))
             {
-                SkipPage("Page contains no Links");
+                SkipPage("Page contains no links");
                 return;
             }
 

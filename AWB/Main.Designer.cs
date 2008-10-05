@@ -2994,7 +2994,7 @@ namespace AutoWikiBrowser
             this.chkSkipNoPageLinks.Name = "chkSkipNoPageLinks";
             this.chkSkipNoPageLinks.Size = new System.Drawing.Size(134, 17);
             this.chkSkipNoPageLinks.TabIndex = 1;
-            this.chkSkipNoPageLinks.Text = "Page Contains no links";
+            this.chkSkipNoPageLinks.Text = "Page contains no links";
             this.chkSkipNoPageLinks.UseVisualStyleBackColor = true;
             // 
             // gbPageExisting
