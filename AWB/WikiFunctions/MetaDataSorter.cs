@@ -335,7 +335,17 @@ namespace WikiFunctions.Parse
 
         private static string Newline(string s)
         {
-            return s.Length == 0 ? s : "\r\n" + s;
+            return Newline(s, 1);
+        }
+
+        private static string Newline(string s, int n)
+        {
+            if (s.Length == 0)
+                return s;
+
+            for (int i = 0; i < n; i++)
+                s = "\r\n" + s;
+            return s;
         }
                                
         internal string Sort(string ArticleText, string ArticleTitle)
@@ -349,7 +359,9 @@ namespace WikiFunctions.Parse
                 string strDisambig = Newline(removeDisambig(ref ArticleText));
                 string strCategories = Newline(removeCats(ref ArticleText, ArticleTitle));
                 string strInterwikis = Newline(interwikis(ref ArticleText));
-                string strStub = Newline(removeStubs(ref ArticleText));
+
+                // two newlines here per http://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser&oldid=243224092#Blank_lines_before_stubs
+                string strStub = Newline(removeStubs(ref ArticleText), 2);
 
                 //filter out excess white space and remove "----" from end of article
                 ArticleText = Parsers.RemoveWhiteSpace(ArticleText) + "\r\n";
