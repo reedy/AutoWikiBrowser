@@ -145,8 +145,7 @@ namespace AutoWikiBrowser
             this.lblNonEnNotice.Name = "lblNonEnNotice";
             this.lblNonEnNotice.Size = new System.Drawing.Size(370, 26);
             this.lblNonEnNotice.TabIndex = 6;
-            this.lblNonEnNotice.Text = "Languages and projects other than the English Wikipedia may not function properly" +
-                ".";
+            this.lblNonEnNotice.Text = "Wikis not related to Wikimedia are not guaranteed to function properly.";
             // 
             // btnTextBoxFont
             // 

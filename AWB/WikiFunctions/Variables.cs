@@ -1308,7 +1308,7 @@ namespace WikiFunctions
             {
                 MessageBox.Show("An error occured while connecting to the server or loading project information from it. " +
                         "Please make sure that your internet connection works and such combination of project/language exist." +
-                        "\r\nEnter the URL in the format \"en.wikipedia.org/w/\"",
+                        "\r\nEnter the URL in the format \"en.wikipedia.org/w/\" (including path where index.php and api.php reside).",
                         "Error connecting to wiki", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     SetDefaults();
                 return;
