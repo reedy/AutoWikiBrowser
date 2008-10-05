@@ -17,9 +17,34 @@ namespace UnitTests
             if (WikiRegexes.Category == null) WikiRegexes.MakeLangSpecificRegexes();
         }
 
+        #region Helpers
         string hidden = @"⌊⌊⌊⌊M?\d+⌋⌋⌋⌋";
         string allHidden = @"^(⌊⌊⌊⌊M?\d+⌋⌋⌋⌋)*$";
         HideText hider;
+
+        private string HideMore(string text)
+        {
+            return HideMore(text, true, false, true);
+        }
+
+        private string HideMore(string text, bool HideExternalLinks, bool LeaveMetaHeadings, bool HideImages)
+        {
+            hider = new HideText(HideExternalLinks, LeaveMetaHeadings, HideImages);
+            return hider.HideMore(text);
+        }
+
+        private void AssertHiddenMore(string text)
+        {
+            RegexAssert.IsMatch(hidden, HideMore(text));
+        }
+
+        private void AssertAllHiddenMore(string text)
+        {
+            string s = HideMore(text);
+            RegexAssert.IsMatch(allHidden, s);
+            s = hider.AddBackMore(s);
+            Assert.AreEqual(text, s);
+        }
 
         private string Hide(string text)
         {
@@ -29,7 +54,7 @@ namespace UnitTests
         private string Hide(string text, bool HideExternalLinks, bool LeaveMetaHeadings, bool HideImages)
         {
             hider = new HideText(HideExternalLinks, LeaveMetaHeadings, HideImages);
-            return hider.HideMore(text);
+            return hider.Hide(text);
         }
 
         private void AssertHidden(string text)
@@ -41,29 +66,42 @@ namespace UnitTests
         {
             string s = Hide(text);
             RegexAssert.IsMatch(allHidden, s);
-            s = hider.AddBackMore(s);
+            s = hider.AddBack(s);
             Assert.AreEqual(text, s);
         }
+        private void AssertBothHidden(string text)
+        {
+            AssertBothHidden(text, true, false, true);
+        }
+
+        private void AssertBothHidden(string text, bool HideExternalLinks, bool LeaveMetaHeadings, bool HideImages)
+        {
+            AssertAllHidden(text);
+            AssertAllHiddenMore(text);
+        }
+
+        #endregion
 
         [Test]
         public void AcceptEmptyStrings()
         {
             Assert.AreEqual("", Hide(""));
+            Assert.AreEqual("", HideMore(""));
         }
 
         [Test]
         public void HideTemplates()
         {
-            AssertAllHidden("{{foo}}");
-            AssertAllHidden("{{foo|}}");
-            AssertAllHidden("{{foo|bar}}");
-            RegexAssert.IsMatch("123" + hidden + "123", Hide("123{{foo}}123"));
-            AssertAllHidden("{{foo|{{bar}}}}");
-            AssertAllHidden("{{foo|{{bar|{{{1|}}}}}}}");
-            AssertAllHidden("{{foo|\r\nbar= {blah} blah}}");
-            AssertAllHidden("{{foo|\r\nbar= {blah} {{{1|{{blah}}}}}}}");
+            AssertAllHiddenMore("{{foo}}");
+            AssertAllHiddenMore("{{foo|}}");
+            AssertAllHiddenMore("{{foo|bar}}");
+            RegexAssert.IsMatch("123" + hidden + "123", HideMore("123{{foo}}123"));
+            AssertAllHiddenMore("{{foo|{{bar}}}}");
+            AssertAllHiddenMore("{{foo|{{bar|{{{1|}}}}}}}");
+            AssertAllHiddenMore("{{foo|\r\nbar= {blah} blah}}");
+            AssertAllHiddenMore("{{foo|\r\nbar= {blah} {{{1|{{blah}}}}}}}");
 
-            RegexAssert.IsMatch(@"\{"+hidden+@"\}", Hide("{{{foo}}}"));
+            RegexAssert.IsMatch(@"\{"+hidden+@"\}", HideMore("{{{foo}}}"));
         }
 
         [Test]
@@ -77,17 +115,31 @@ namespace UnitTests
             AssertAllHidden("[[Image:foo|A [[bar|quux]].]]");
             AssertAllHidden("[[Image:foo|A [[bar]][http://fubar].]]");
             AssertAllHidden("[[Image:foo|A [[bar]][http://fubar].{{quux}}]]");
-            AssertAllHidden("[[Image:foo|test [[Image:bar|thumb]]]]");
+            AssertAllHidden("[[Image:foo|test [[Image:bar|thumb|[[boz]]]]]]");
+        }
+
+        [Test]
+        public void HideImagesMore()
+        {
+            AssertAllHiddenMore("[[Image:foo]]");
+            AssertAllHiddenMore("[[Image:foo|100px|bar]]");
+            AssertAllHiddenMore("[[Image:foo|A [[bar]] [http://boz.com gee].]]");
+            AssertAllHiddenMore("[[Image:foo|A [[bar]] [[test]].]]");
+            AssertAllHiddenMore("[[Image:foo|A [[bar]]]]");
+            AssertAllHiddenMore("[[Image:foo|A [[bar|quux]].]]");
+            AssertAllHiddenMore("[[Image:foo|A [[bar]][http://fubar].]]");
+            AssertAllHiddenMore("[[Image:foo|A [[bar]][http://fubar].{{quux}}]]");
+            AssertAllHiddenMore("[[Image:foo|test [[Image:bar|thumb|[[boz]]]]]]");
         }
 
         [Test]
         public void HideGalleries()
         {
-            AssertAllHidden(@"<gallery>
+            AssertAllHiddenMore(@"<gallery>
 Image:foo|a [[bar]]
 Image:quux[http://example.com]
 </gallery>");
-            AssertAllHidden(@"<gallery name=""test"">
+            AssertAllHiddenMore(@"<gallery name=""test"">
 Image:foo|a [[bar]]
 Image:quux[http://example.com]
 </gallery>");
@@ -96,9 +148,9 @@ Image:quux[http://example.com]
         [Test]
         public void HideExternalLinks()
         {
-            AssertAllHidden("[http://foo]");
-            AssertAllHidden("[http://foo bar]");
-            AssertAllHidden("[http://foo [bar]");
+            AssertAllHiddenMore("[http://foo]");
+            AssertAllHiddenMore("[http://foo bar]");
+            AssertAllHiddenMore("[http://foo [bar]");
         }
     }
 
