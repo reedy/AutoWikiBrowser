@@ -28,7 +28,7 @@ namespace WikiFunctions.Parse
         List<HideObject> HiddenTokens = new List<HideObject>();
         static readonly Regex NoWikiIgnoreRegex = new Regex("<!-- ?(cat(egories)?|\\{\\{.*?stub\\}\\}.*?|other languages?|language links?|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wikis?|The below are interlanguage links\\.?) ?-->", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        void Replace(IEnumerable matches, ref string ArticleText)
+        private void Replace(IEnumerable matches, ref string ArticleText)
         {
             string s;
             foreach (Match m in matches)

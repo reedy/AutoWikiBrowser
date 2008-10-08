@@ -4043,6 +4043,11 @@ window.scrollTo(0, diffTopY);
             MainFormProgressBar.MarqueeAnimationSpeed = 0;
             MainFormProgressBar.Style = ProgressBarStyle.Continuous;
         }
+
+        private void commentSelectedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            imgComment_Click(null, null);
+        }
     }
         #endregion
 }

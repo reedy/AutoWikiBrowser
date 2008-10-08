@@ -390,6 +390,7 @@ namespace AutoWikiBrowser
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
+            this.commentSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTextBox.SuspendLayout();
             this.MnuMain.SuspendLayout();
             this.StatusMain.SuspendLayout();
@@ -477,6 +478,7 @@ namespace AutoWikiBrowser
             this.bypassAllRedirectsToolStripMenuItem,
             this.removeAllExcessWhitespaceToolStripMenuItem,
             this.reparseToolStripMenuItem,
+            this.commentSelectedToolStripMenuItem,
             this.toolStripSeparator4,
             this.openPageInBrowserToolStripMenuItem,
             this.openTalkPageInBrowserToolStripMenuItem,
@@ -488,7 +490,7 @@ namespace AutoWikiBrowser
             this.undoAllChangesToolStripMenuItem,
             this.reloadEditPageToolStripMenuItem});
             this.mnuTextBox.Name = "contextMenuStrip1";
-            this.mnuTextBox.Size = new System.Drawing.Size(234, 552);
+            this.mnuTextBox.Size = new System.Drawing.Size(234, 596);
             this.mnuTextBox.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // wordWrapToolStripMenuItem1
@@ -2992,7 +2994,7 @@ namespace AutoWikiBrowser
             this.chkSkipNoPageLinks.AutoSize = true;
             this.chkSkipNoPageLinks.Location = new System.Drawing.Point(6, 42);
             this.chkSkipNoPageLinks.Name = "chkSkipNoPageLinks";
-            this.chkSkipNoPageLinks.Size = new System.Drawing.Size(134, 17);
+            this.chkSkipNoPageLinks.Size = new System.Drawing.Size(133, 17);
             this.chkSkipNoPageLinks.TabIndex = 1;
             this.chkSkipNoPageLinks.Text = "Page contains no links";
             this.chkSkipNoPageLinks.UseVisualStyleBackColor = true;
@@ -3839,6 +3841,13 @@ namespace AutoWikiBrowser
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
             // 
+            // commentSelectedToolStripMenuItem
+            // 
+            this.commentSelectedToolStripMenuItem.Name = "commentSelectedToolStripMenuItem";
+            this.commentSelectedToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
+            this.commentSelectedToolStripMenuItem.Text = "Comment selected";
+            this.commentSelectedToolStripMenuItem.Click += new System.EventHandler(this.commentSelectedToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -4295,5 +4304,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.GroupBox gbRegexSkip;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator30;
+        private System.Windows.Forms.ToolStripMenuItem commentSelectedToolStripMenuItem;
     }
 }
