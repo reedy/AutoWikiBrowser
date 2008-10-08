@@ -73,7 +73,7 @@ namespace UnitTests
 
             AssertNotChanged("[http://some_link]");
 
-            AssertChange("[[http://some_link]]", "[http://some_link]");
+            AssertChange("[[http://some_link]] test", "[http://some_link] test");
         }
 
         [Test]
@@ -148,6 +148,25 @@ namespace UnitTests
 
             AssertNotChanged("{{cquote|a<p>b}}");
             AssertNotChanged("{{cquote|foo\r\na<p>b}}");
+        }
+
+        [Test]
+        public void ExtraBracketInExternalLink()
+        {
+            AssertNotChanged("now [http://www.site.com a [[a]] site] was");  // valid syntax
+            AssertNotChanged("now [http://www.site.com a site [cool] here] was");         // valid syntax
+            AssertChange("now [http://www.site.com a b site]] was", "now [http://www.site.com a b site] was");
+            AssertChange("now [http://www.site.com a [[b]] site]] was", "now [http://www.site.com a [[b]] site] was");
+            AssertChange("now [[http://www.site.com a c site] was", "now [http://www.site.com a c site] was");
+            AssertChange("now [[http://www.site.com a [[c]] site] was", "now [http://www.site.com a [[c]] site] was");
+            AssertChange("now [[http://www.site.com a [[d]] or [[d2]] site]] was", "now [http://www.site.com a [[d]] or [[d2]] site] was");
+            AssertChange("now [[http://www.site.com a d3 site]] was", "now [http://www.site.com a d3 site] was");                                      
+            AssertNotChanged("now [[Image:Fred1211212.JPG| here [http://www.site.com a [[e]] site]]] was");   // valid wiki syntax
+            AssertChange("now [[Image:Fred12.JPG| here [http://www.site.com a [[f]] site]]]] was", "now [[Image:Fred12.JPG| here [http://www.site.com a [[f]] site]]] was");
+            AssertChange("now [[Image:Fred12.JPG| here [http://www.site.com a g site]]]] was", "now [[Image:Fred12.JPG| here [http://www.site.com a g site]]] was");
+            AssertChange("now [[Image:Fred12.JPG| here [[http://www.site.com a g site]]] was", "now [[Image:Fred12.JPG| here [http://www.site.com a g site]]] was");
+            AssertChange("now [[Image:Fred12.JPG| here [[http://www.site.com a g site]]]] was", "now [[Image:Fred12.JPG| here [http://www.site.com a g site]]] was");    
+
         }
     }
 }

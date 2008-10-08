@@ -167,10 +167,10 @@ namespace UnitTests
         {
             bool noChange;
 
-            Assert.AreEqual("[http://example.com]", parser.FixSyntax("[http://example.com]"));
-            Assert.AreEqual("[http://example.com]", parser.FixSyntax("[[http://example.com]"));
-            Assert.AreEqual("[http://example.com]", parser.FixSyntax("[http://example.com]]"));
-            Assert.AreEqual("[http://example.com]", parser.FixSyntax("[[http://example.com]]"));
+            Assert.AreEqual("[http://example.com] site", parser.FixSyntax("[http://example.com] site"));
+            Assert.AreEqual("[http://example.com] site", parser.FixSyntax("[[http://example.com] site"));
+            Assert.AreEqual("[http://example.com] site", parser.FixSyntax("[http://example.com]] site"));
+            Assert.AreEqual("[http://example.com] site", parser.FixSyntax("[[http://example.com]] site"));
 
             Assert.AreEqual("http://test.com", parser.FixSyntax("http://test.com"));
             Assert.AreEqual("http://test.com", parser.FixSyntax("http://http://test.com"));
