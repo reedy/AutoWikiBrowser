@@ -267,7 +267,7 @@ namespace WikiFunctions.Browser
             }
         }
 
-        static readonly Regex wpTextbox1 = new Regex(@"<textarea [^>]*?name=[""']wpTextbox1[""'].*?>", RegexOptions.Compiled);
+        static readonly Regex wpTextbox1 = new Regex(@"<textarea [^>]*?name=[""']wpTextbox1[""'].*?>", RegexOptions.Compiled | RegexOptions.Singleline);
 
         /// <summary>
         /// Gets a value indicating whether the textbox is present
@@ -275,7 +275,7 @@ namespace WikiFunctions.Browser
         [Browsable(false)]
         public bool HasArticleTextBox
         {
-            get { return EditBoxTag.Length > 0; }
+            get { return (EditBoxTag.Length > 0); }
         }
 
         private string cachedEditBox = null;
