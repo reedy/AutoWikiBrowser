@@ -97,6 +97,7 @@ namespace AutoWikiBrowser
             this.bypassAllRedirectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeAllExcessWhitespaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reparseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.commentSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.openPageInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openTalkPageInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -390,7 +391,6 @@ namespace AutoWikiBrowser
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
-            this.commentSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTextBox.SuspendLayout();
             this.MnuMain.SuspendLayout();
             this.StatusMain.SuspendLayout();
@@ -490,7 +490,7 @@ namespace AutoWikiBrowser
             this.undoAllChangesToolStripMenuItem,
             this.reloadEditPageToolStripMenuItem});
             this.mnuTextBox.Name = "contextMenuStrip1";
-            this.mnuTextBox.Size = new System.Drawing.Size(234, 596);
+            this.mnuTextBox.Size = new System.Drawing.Size(234, 574);
             this.mnuTextBox.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // wordWrapToolStripMenuItem1
@@ -840,6 +840,13 @@ namespace AutoWikiBrowser
             this.reparseToolStripMenuItem.Text = "&Re-parse";
             this.reparseToolStripMenuItem.Click += new System.EventHandler(this.reparseToolStripMenuItem_Click);
             // 
+            // commentSelectedToolStripMenuItem
+            // 
+            this.commentSelectedToolStripMenuItem.Name = "commentSelectedToolStripMenuItem";
+            this.commentSelectedToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
+            this.commentSelectedToolStripMenuItem.Text = "Comment selected";
+            this.commentSelectedToolStripMenuItem.Click += new System.EventHandler(this.commentSelectedToolStripMenuItem_Click);
+            // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
@@ -1067,7 +1074,7 @@ namespace AutoWikiBrowser
             this.sortAlphabeticallyToolStripMenuItem.CheckOnClick = true;
             this.sortAlphabeticallyToolStripMenuItem.Name = "sortAlphabeticallyToolStripMenuItem";
             this.sortAlphabeticallyToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
-            this.sortAlphabeticallyToolStripMenuItem.Text = "Keep alpha&betize";
+            this.sortAlphabeticallyToolStripMenuItem.Text = "Keep alpha&betized";
             this.sortAlphabeticallyToolStripMenuItem.CheckedChanged += new System.EventHandler(this.sortAlphabeticallyToolStripMenuItem_Click);
             this.sortAlphabeticallyToolStripMenuItem.Click += new System.EventHandler(this.sortAlphabeticallyToolStripMenuItem_Click);
             // 
@@ -3840,13 +3847,6 @@ namespace AutoWikiBrowser
             // 
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
-            // 
-            // commentSelectedToolStripMenuItem
-            // 
-            this.commentSelectedToolStripMenuItem.Name = "commentSelectedToolStripMenuItem";
-            this.commentSelectedToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
-            this.commentSelectedToolStripMenuItem.Text = "Comment selected";
-            this.commentSelectedToolStripMenuItem.Click += new System.EventHandler(this.commentSelectedToolStripMenuItem_Click);
             // 
             // MainForm
             // 
