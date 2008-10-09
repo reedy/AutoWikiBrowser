@@ -71,35 +71,33 @@ namespace WikiFunctions
                 case LangCodeEnum.uk:
                     s = "(?:REDIRECT|ПЕРЕНАПРАВЛЕННЯ|ПЕРЕНАПР)";
                     break;
-                default: 
+                default:
                     s = "REDIRECT";
                     break;
             }
             Redirect = new Regex(@"#" + s + @"\s*\[\[\s*:?\s*([^\|]*?)\s*(|\|.*?)]\]", RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
             if (Variables.LangCode == LangCodeEnum.ru)
-            {
                 Disambigs = new Regex(TemplateStart + @"([Dd]isambiguation|[Dd]isambig|[Нн]еоднозначность)}}", RegexOptions.Compiled);
-            }
             else
                 Disambigs = new Regex(@"{{([234]CC|[Dd]isambig|[Gg]eodis|[Hh]ndis|[Ss]urname|[Nn]umberdis|[Rr]oaddis|[Ll]etter-disambig)}}", RegexOptions.Compiled);
 
-            s = "(?i:defaultsort)";
             if (Variables.LangCode == LangCodeEnum.en)
                 s = "(?:(?i:defaultsort|lifetime|BIRTH-DEATH-SORT)|BD)";
+            else
+                s = "(?i:defaultsort)";
 
-            Defaultsort = new Regex(TemplateStart + s + @"\s*[:|](?<key>[^\}]*)}}",
-                RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+            Defaultsort = new Regex(TemplateStart + s + @"\s*[:|](?<key>[^\}]*)}}", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 
             //if (Variables.URL == Variables.URLLong)
             //    s = Regex.Escape(Variables.URL);
             //else
-            {
-                int pos = Tools.FirstDifference(Variables.URL, Variables.URLLong);
-                s = Regex.Escape(Variables.URLLong.Substring(0, pos));
-                s += "(?:" + Regex.Escape(Variables.URLLong.Substring(pos)) + @"index\.php(?:\?title=|/)|"
-                    + Regex.Escape(Variables.URL.Substring(pos)) + "/wiki/" + ")";
-            }
+            //{
+            int pos = Tools.FirstDifference(Variables.URL, Variables.URLLong);
+            s = Regex.Escape(Variables.URLLong.Substring(0, pos));
+            s += "(?:" + Regex.Escape(Variables.URLLong.Substring(pos)) + @"index\.php(?:\?title=|/)|"
+                + Regex.Escape(Variables.URL.Substring(pos)) + "/wiki/" + ")";
+            //}
             ExtractTitle = new Regex("^" + s + "([^?&]*)$", RegexOptions.Compiled);
         }
 
@@ -187,12 +185,12 @@ namespace WikiFunctions
         /// Matches indented, bulleted or numbered text
         /// </summary>
         public static readonly Regex BulletedText = new Regex(@"^[\*#: ]+.*?$", RegexOptions.Multiline | RegexOptions.Compiled);
-        
+
         /// <summary>
         /// Matches single line templates
         /// </summary>
         public static readonly Regex Template = new Regex(@"{{[^{\n]*?}}", RegexOptions.Compiled);
-        
+
         /// <summary>
         /// Matches single and multiline templates
         /// </summary>
@@ -207,7 +205,7 @@ namespace WikiFunctions
         /// Matches links that may be interwikis, i.e. containing colon
         /// </summary>
         public static readonly Regex PossibleInterwikis = new Regex(@"\[\[\s*([-a-z]+)\s*:\s*([^\]]*?)\s*\]\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        
+
         /// <summary>
         /// Matches unformatted text regions: nowiki, pre, math, html comments, timelines
         /// </summary>
@@ -281,7 +279,6 @@ namespace WikiFunctions
         public static Regex PossiblyCommentedStub;
 
         #region en only
-
         /// <summary>
         /// Matches persondata (en only)
         /// </summary>
@@ -321,7 +318,7 @@ namespace WikiFunctions
         /// matches user groups
         /// </summary>
         public static readonly Regex wgUserGroups = new Regex(@"^var\s*wgUserGroups\s*=\s*\[(.*\])", RegexOptions.Compiled);
-        
+
         #endregion
 
         /// <summary>
@@ -338,6 +335,5 @@ namespace WikiFunctions
         /// For extraction of page title from URLs
         /// </summary>
         public static Regex ExtractTitle;
- 
     }
 }
