@@ -1542,9 +1542,9 @@ Message: {2}
         }
 
         /// <summary>
-        /// 
+        /// Wrapper function for setting text to clipboard. Clears clipboard and waits before continuing
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="text">Text to copy to clipboard</param>
         public static void CopyToClipboard(string text)
         {
             try
@@ -1552,6 +1552,22 @@ Message: {2}
                 Clipboard.Clear();
                 System.Threading.Thread.Sleep(50); // give it some time to clear
                 Clipboard.SetText(text);
+            }
+            catch { }
+        }
+
+        /// <summary>
+        /// Wrapper function for setting text to clipboard. Clears clipboard and waits before continuing
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="copy"></param>
+        public static void CopyToClipboard(object data, bool copy)
+        {
+            try
+            {
+                Clipboard.Clear();
+                System.Threading.Thread.Sleep(50); // give it some time to clear
+                Clipboard.SetDataObject(data, copy);
             }
             catch { }
         }

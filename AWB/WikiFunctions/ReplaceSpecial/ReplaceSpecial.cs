@@ -365,7 +365,7 @@ namespace WikiFunctions.MWB
             SaveCurrentRule();
             history_.Save();
 
-            Clipboard.SetDataObject(Serialize((IRule)GetSelectedRule()), true);
+            Tools.CopyToClipboard(Serialize((IRule)GetSelectedRule()), true);
             UpdateEnabledStates();
         }
 
@@ -745,14 +745,12 @@ namespace WikiFunctions.MWB
 
         private string UTF8ByteArrayToString(byte[] characters)
         {
-            UTF8Encoding encoding = new UTF8Encoding();
-            return (encoding.GetString(characters));
+            return (new UTF8Encoding().GetString(characters));
         }
 
         private byte[] StringToUTF8ByteArray(string pXmlString)
         {
-            UTF8Encoding encoding = new UTF8Encoding();
-            return encoding.GetBytes(pXmlString);
+            return (new UTF8Encoding().GetBytes(pXmlString));
         }
         #endregion
     }
