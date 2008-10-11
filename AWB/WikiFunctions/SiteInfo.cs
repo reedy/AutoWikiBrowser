@@ -32,6 +32,7 @@ namespace WikiFunctions
     {
         private string m_ScriptPath;
         private Dictionary<int, string> m_Namespaces = new Dictionary<int, string>();
+        private Dictionary<int, List<string>> m_NamespaceAliases = new Dictionary<int, List<string>>();
         private Dictionary<string, string> m_MessageCache = new Dictionary<string, string>();
         private DateTime m_Time;
 
@@ -44,8 +45,16 @@ namespace WikiFunctions
             ScriptPath = scriptPath;
             m_Time = DateTime.Now;
 
-            if (!LoadNamespaces())
-                throw new WikiUrlException();
+            try
+            {
+                if (!LoadNamespaces())
+                    throw new WikiUrlException();
+            }
+            catch (Exception ex)
+            {
+                throw new WikiUrlException(ex);
+            }
+
         }
 
         public SiteInfo(string scriptPath, Dictionary<int, string> namespaces)
@@ -69,19 +78,32 @@ namespace WikiFunctions
 
         public bool LoadNamespaces()
         {
-            string output = Tools.GetHTML(m_ScriptPath + "api.php?action=query&meta=siteinfo&siprop=general|namespaces|statistics&format=xml");
+            string output = Tools.GetHTML(m_ScriptPath + "api.php?action=query&meta=siteinfo&siprop=general|namespaces|namespacealiases|statistics&format=xml");
 
             XmlDocument xd = new XmlDocument();
             xd.LoadXml(output);
 
-            if (xd.GetElementsByTagName("api").Count != 1 || xd.GetElementsByTagName("namespaces").Count != 1)
+            if (xd.GetElementsByTagName("api").Count != 1)
                 return false;
 
-            foreach (XmlNode xn in xd.GetElementsByTagName("ns"))
+            foreach (XmlNode xn in xd["api"]["query"]["namespaces"].GetElementsByTagName("ns"))
             {
                 int id = int.Parse(xn.Attributes["id"].Value);
 
                 if (id != 0) m_Namespaces[id] = xn.InnerText + ":";
+            }
+
+            // fill aliases with empty lists, to avoid 
+            foreach (int n in m_Namespaces.Keys)
+            {
+                m_NamespaceAliases[n] = new List<string>();
+            }
+
+            foreach (XmlNode xn in xd["api"]["query"]["namespacealiases"].GetElementsByTagName("ns"))
+            {
+                int id = int.Parse(xn.Attributes["id"].Value);
+
+                if (id != 0) m_NamespaceAliases[id].Add(xn.InnerText);
             }
 
             return true;
@@ -105,12 +127,11 @@ namespace WikiFunctions
 
         [XmlIgnore]
         public Dictionary<int, string> Namespaces
-        {
-            get
-            {
-                return m_Namespaces;
-            }
-        }
+        { get { return m_Namespaces; } }
+
+        [XmlIgnore]
+        public Dictionary<int, List<string>> NamespaceAliases
+        { get { return m_NamespaceAliases; } }
 
         public Dictionary<string, string> GetMessages(params string[] names)
         {
@@ -175,6 +196,10 @@ namespace WikiFunctions
     {
         public WikiUrlException()
             : base("Can't connect to given wiki site.")
+        { }
+
+        public WikiUrlException(Exception innerException)
+            : base("Can't connect to given wiki site.", innerException)
         { }
     }
 }
