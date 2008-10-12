@@ -354,21 +354,29 @@ http://example.com }}");
             Globals.UnitTestMode = true;
         }
 
-        [Test, Category("Incomplete")]
+        [Test, Category("Incomplete")/*, Ignore("Waiting for resolution of the Image: -> File: rename")*/]
         public void BasicImprovements()
         {
             Parsers parser = new Parsers();
+
+            Assert.AreEqual("[[File:foo.jpg|thumb|200px|Bar]]",
+                Parsers.FixImages("[[ file : foo.jpg|thumb|200px|Bar]]"));
 
             Assert.AreEqual("[[Image:foo.jpg|thumb|200px|Bar]]",
                 Parsers.FixImages("[[ image : foo.jpg|thumb|200px|Bar]]"));
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#URL_underscore_regression
+            Assert.AreEqual("[[File:foo|thumb]] # [http://a_b c] [[link]]",
+                Parsers.FixImages("[[File:foo|thumb]] # [http://a_b c] [[link]]"));
+
             Assert.AreEqual("[[Image:foo|thumb]] # [http://a_b c] [[link]]",
-            Parsers.FixImages("[[Image:foo|thumb]] # [http://a_b c] [[link]]"));
+                Parsers.FixImages("[[Image:foo|thumb]] # [http://a_b c] [[link]]"));
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Removing_underscore_in_URL_in_Ref_in_Description_in_Image....
             //Assert.AreEqual("[[Image:foo_bar|[http://some_link]]]",
             //    parser.FixImages("[[image:foo_bar|http://some_link]]"));
+
+
         }
     }
 
