@@ -30,10 +30,7 @@ namespace WikiFunctions
     {
         public static void MakeLangSpecificRegexes()
         {
-            TemplateStart = Variables.NamespacesCaseInsensitive[10];
-            if (TemplateStart[0] == '(') TemplateStart = TemplateStart.Insert(TemplateStart.Length - 1, "|");
-            else TemplateStart = "(?:" + TemplateStart + "|)";
-            TemplateStart = @"\{\{\s*" + TemplateStart;
+            TemplateStart = @"\{\{\s*(:?" + Variables.NamespacesCaseInsensitive[10] + ")?";
 
             Category = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[14] + @"(.*?)\]\]", RegexOptions.Compiled);
             Images = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[6] + @"(.*?)\]\]|<[Gg]allery\b([^>]*?)>[\s\S]*?</ ?[Gg]allery>", RegexOptions.Compiled);

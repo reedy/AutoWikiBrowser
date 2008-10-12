@@ -93,11 +93,7 @@ namespace WikiFunctions
                 if (id != 0) m_Namespaces[id] = xn.InnerText + ":";
             }
 
-            // fill aliases with empty lists, to avoid 
-            foreach (int n in m_Namespaces.Keys)
-            {
-                m_NamespaceAliases[n] = new List<string>();
-            }
+            m_NamespaceAliases = Variables.PrepareAliases(m_Namespaces);
 
             foreach (XmlNode xn in xd["api"]["query"]["namespacealiases"].GetElementsByTagName("ns"))
             {

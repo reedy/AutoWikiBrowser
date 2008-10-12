@@ -197,6 +197,15 @@ namespace WikiFunctions
         }
 
         /// <summary>
+        /// Strips trailing colon from a namespace name, e.g. "User:" -> "User"
+        /// </summary>
+        /// <param name="ns">Namespace string to process</param>
+        public static string StripNamespaceColon(string ns)
+        {
+            return ns.TrimEnd(':');
+        }
+
+        /// <summary>
         /// Returns Category key from article name e.g. "David Smith" returns "Smith, David".
         /// special case: "John Doe, Jr." turns into "Doe, Jonn Jr."
         /// http://en.wikipedia.org/wiki/Wikipedia:Categorization_of_people

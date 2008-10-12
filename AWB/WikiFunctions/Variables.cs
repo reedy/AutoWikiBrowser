@@ -96,8 +96,8 @@ namespace WikiFunctions
             CanonicalNamespaces[3] = "User talk:";
             CanonicalNamespaces[4] = "Project:";
             CanonicalNamespaces[5] = "Project talk:";
-            CanonicalNamespaces[6] = "Image:";
-            CanonicalNamespaces[7] = "Image talk:";
+            CanonicalNamespaces[6] = "Image:"; // "File:";
+            CanonicalNamespaces[7] = "Image talk:"; // "File talk:";
             CanonicalNamespaces[8] = "MediaWiki:";
             CanonicalNamespaces[9] = "MediaWiki talk:";
             CanonicalNamespaces[10] = "Template:";
@@ -106,6 +106,11 @@ namespace WikiFunctions
             CanonicalNamespaces[13] = "Help talk:";
             CanonicalNamespaces[14] = "Category:";
             CanonicalNamespaces[15] = "Category talk:";
+
+            CanonicalNamespaceAliases = PrepareAliases(CanonicalNamespaces);
+            // uncomment when Brion renames Image: to File:
+            //CanonicalNamespaceAliases[6] = "Image:";
+            //CanonicalNamespaceAliases[7] = "Image talk:";
 
             if (!Globals.UnitTestMode)
             {
@@ -150,9 +155,19 @@ namespace WikiFunctions
         public static Dictionary<int, string> CanonicalNamespaces = new Dictionary<int, string>(20);
 
         /// <summary>
+        /// Canonical namespace aliases
+        /// </summary>
+        public static Dictionary<int, List<string>> CanonicalNamespaceAliases;
+
+        /// <summary>
         /// Provides access to the namespace keys
         /// </summary>
-        public static Dictionary<int, string> Namespaces = new Dictionary<int, string>(24);
+        public static Dictionary<int, string> Namespaces = new Dictionary<int, string>(40);
+
+        /// <summary>
+        /// Aliases for current namspaces
+        /// </summary>
+        public static Dictionary<int, List<string>> NamespaceAliases;
 
         /// <summary>
         /// Provides access to the namespace keys in a form so the first letter is case insensitive e.g. [Ww]ikipedia:
@@ -274,6 +289,19 @@ namespace WikiFunctions
 
         public static string WPAWB
         { get { return strWPAWB; } }
+
+        internal static Dictionary<int, List<string>> PrepareAliases(Dictionary<int, string> namespaces)
+        {
+            Dictionary<int, List<string>> ret = new Dictionary<int, List<string>>(namespaces.Count);
+
+            // fill aliases with empty lists, to avoid KeyNotFoundException
+            foreach (int n in namespaces.Keys)
+            {
+                ret[n] = new List<string>();
+            }
+
+            return ret;
+        }
 
         private static void AWBDefaultSummaryTag()
         {
@@ -434,742 +462,83 @@ namespace WikiFunctions
                         break;
 
                     case LangCodeEnum.ar:
-                        Namespaces[-2] = "Media:";
-                        Namespaces[-1] = "خاص:";
-                        Namespaces[1] = "نقاش:";
-                        Namespaces[2] = "مستخدم:";
-                        Namespaces[3] = "نقاش المستخدم:";
-                        Namespaces[4] = "ويكيبيديا:";
-                        Namespaces[5] = "نقاش ويكيبيديا:";
-                        Namespaces[6] = "صورة:";
-                        Namespaces[7] = "نقاش الصورة:";
-                        Namespaces[8] = "ميدياويكي:";
-                        Namespaces[9] = "نقاش ميدياويكي:";
-                        Namespaces[10] = "قالب:";
-                        Namespaces[11] = "نقاش القالب:";
-                        Namespaces[12] = "مساعدة:";
-                        Namespaces[13] = "نقاش المساعدة:";
-                        Namespaces[14] = "تصنيف:";
-                        Namespaces[15] = "نقاش التصنيف:";
-                        Namespaces[100] = "بوابة:";
-                        Namespaces[101] = "نقاش البوابة:";
-
                         mSummaryTag = " ";
                         strWPAWB = "باستخدام [[ويكيبيديا:أوب|الأوتوويكي براوزر]]";
                         strTypoSummaryTag = ".الأخطاء المصححة: ";
                         break;
 
                     case LangCodeEnum.bg:
-                        Namespaces[-2] = "Медия:";
-                        Namespaces[-1] = "Специални:";
-                        Namespaces[1] = "Беседа:";
-                        Namespaces[2] = "Потребител:";
-                        Namespaces[3] = "Потребител беседа:";
-                        Namespaces[4] = "Уикипедия:";
-                        Namespaces[5] = "Уикипедия беседа:";
-                        Namespaces[6] = "Картинка:";
-                        Namespaces[7] = "Картинка беседа:";
-                        Namespaces[8] = "МедияУики:";
-                        Namespaces[9] = "МедияУики беседа:";
-                        Namespaces[10] = "Шаблон:";
-                        Namespaces[11] = "Шаблон беседа:";
-                        Namespaces[12] = "Помощ:";
-                        Namespaces[13] = "Помощ беседа:";
-                        Namespaces[14] = "Категория:";
-                        Namespaces[15] = "Категория беседа:";
-                        Namespaces[100] = "Портал:";
-                        Namespaces[101] = "Портал беседа:";
-
                         mSummaryTag = " редактирано с ";
                         strWPAWB = "AWB";
                         break;
 
                     case LangCodeEnum.ca:
-                        Namespaces[-2] = "Media:";
-                        Namespaces[-1] = "Especial:";
-                        Namespaces[1] = "Discussió:";
-                        Namespaces[2] = "Usuari:";
-                        Namespaces[3] = "Usuari Discussió:";
-                        Namespaces[4] = "Viquipèdia:";
-                        Namespaces[5] = "Viquipèdia Discussió:";
-                        Namespaces[6] = "Imatge:";
-                        Namespaces[7] = "Imatge Discussió:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "MediaWiki Discussió:";
-                        Namespaces[10] = "Plantilla:";
-                        Namespaces[11] = "Plantilla Discussió:";
-                        Namespaces[12] = "Ajuda:";
-                        Namespaces[13] = "Ajuda Discussió:";
-                        Namespaces[14] = "Categoria:";
-                        Namespaces[15] = "Categoria Discussió:";
-                        Namespaces[100] = "Portal:";
-                        Namespaces[101] = "Portal Discussió:";
-                        Namespaces[102] = "Viquiprojecte:";
-                        Namespaces[103] = "Viquiprojecte Discussió:";
-
                         mSummaryTag = " ";
                         strWPAWB = "[[Viquipèdia:AutoWikiBrowser|AWB]]";
                         break;
 
                     case LangCodeEnum.da:
-                        Namespaces[-2] = "Media:";
-                        Namespaces[-1] = "Speciel:";
-                        Namespaces[1] = "Diskussion:";
-                        Namespaces[2] = "Bruger:";
-                        Namespaces[3] = "Brugerdiskussion:";
-                        Namespaces[4] = "Wikipedia:";
-                        Namespaces[5] = "Wikipedia-diskussion:";
-                        Namespaces[6] = "Billede:";
-                        Namespaces[7] = "Billeddiskussion:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "MediaWiki-diskussion:";
-                        Namespaces[10] = "Skabelon:";
-                        Namespaces[11] = "Skabelon-diskussion:";
-                        Namespaces[12] = "Hjælp:";
-                        Namespaces[13] = "Hjælp-diskussion:";
-                        Namespaces[14] = "Kategori:";
-                        Namespaces[15] = "Kategoridiskussion:";
-                        Namespaces[100] = "Portal:";
-                        Namespaces[101] = "Portaldiskussion:";
-
                         mSummaryTag = " ved brug af ";
                         strWPAWB = "[[en:Wikipedia:AutoWikiBrowser|AWB]]";
                         break;
-
-                    case LangCodeEnum.de:
-                        Namespaces[-2] = "Media:";
-                        Namespaces[-1] = "Spezial:";
-                        Namespaces[1] = "Diskussion:";
-                        Namespaces[2] = "Benutzer:";
-                        Namespaces[3] = "Benutzer Diskussion:";
-                        Namespaces[4] = "Wikipedia:";
-                        Namespaces[5] = "Wikipedia Diskussion:";
-                        Namespaces[6] = "Bild:";
-                        Namespaces[7] = "Bild Diskussion:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "MediaWiki Diskussion:";
-                        Namespaces[10] = "Vorlage:";
-                        Namespaces[11] = "Vorlage Diskussion:";
-                        Namespaces[12] = "Hilfe:";
-                        Namespaces[13] = "Hilfe Diskussion:";
-                        Namespaces[14] = "Kategorie:";
-                        Namespaces[15] = "Kategorie Diskussion:";
-                        Namespaces[100] = "Portal:";
-                        Namespaces[101] = "Portal Diskussion:";
-                        break;
-
-                    case LangCodeEnum.dsb:
-                        Namespaces[-2] = "Medija:";
-                        Namespaces[-1] = "Specialne:";
-                        Namespaces[1] = "Diskusija:";
-                        Namespaces[2] = "Wužywaŕ:";
-                        Namespaces[3] = "Diskusija wužywarja:";
-                        Namespaces[4] = "Wikipedija:";
-                        Namespaces[5] = "Wikipedija diskusija:";
-                        Namespaces[6] = "Wobraz:";
-                        Namespaces[7] = "Diskusija wó wobrazu:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "MediaWiki diskusija:";
-                        Namespaces[10] = "Pśedłoga:";
-                        Namespaces[11] = "Diskusija wó pśedłoze:";
-                        Namespaces[12] = "Pomoc:";
-                        Namespaces[13] = "Diskusija wó pomocy:";
-                        Namespaces[14] = "Kategorija:";
-                        Namespaces[15] = "Diskusija wó kategoriji:";
-                        break;
-
-                    case LangCodeEnum.es:
-                        Namespaces[-2] = "Media:";
-                        Namespaces[-1] = "Especial:";
-                        Namespaces[1] = "Discusión:";
-                        Namespaces[2] = "Usuario:";
-                        Namespaces[3] = "Usuario Discusión:";
-                        Namespaces[4] = "Wikipedia:";
-                        Namespaces[5] = "Wikipedia Discusión:";
-                        Namespaces[6] = "Imagen:";
-                        Namespaces[7] = "Imagen Discusión:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "MediaWiki Discusión:";
-                        Namespaces[10] = "Plantilla:";
-                        Namespaces[11] = "Plantilla Discusión:";
-                        Namespaces[12] = "Ayuda:";
-                        Namespaces[13] = "Ayuda Discusión:";
-                        Namespaces[14] = "Categoría:";
-                        Namespaces[15] = "Categoría Discusión:";
-                        Namespaces[100] = "Portal:";
-                        Namespaces[101] = "Portal Discusión:";
-                        Namespaces[102] = "Wikiproyecto:";
-                        Namespaces[103] = "Wikiproyecto Discusión:";
-                        break;
-
                     case LangCodeEnum.eo:
-                        Namespaces[-2] = "Media:";
-                        Namespaces[-1] = "Speciala:";
-                        Namespaces[1] = "Diskuto:";
-                        Namespaces[2] = "Vikipediisto:";
-                        Namespaces[3] = "Vikipediista diskuto:";
-                        Namespaces[4] = "Vikipedio:";
-                        Namespaces[5] = "Vikipedia diskuto:";
-                        Namespaces[6] = "Dosiero:";
-                        Namespaces[7] = "Dosiera diskuto:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "MediaWiki diskuto:";
-                        Namespaces[10] = "Ŝablono:";
-                        Namespaces[11] = "Ŝablona diskuto:";
-                        Namespaces[12] = "Helpo:";
-                        Namespaces[13] = "Helpa diskuto:";
-                        Namespaces[14] = "Kategorio:";
-                        Namespaces[15] = "Kategoria diskuto:";
-                        Namespaces[100] = "Portalo:";
-                        Namespaces[101] = "Portala diskuto:";
-
                         mSummaryTag = " ";
                         strWPAWB = "[[Vikipedio:AutoWikiBrowser|AWB]]";
                         break;
 
-                    case LangCodeEnum.fi:
-                        Namespaces[-2] = "Media:";
-                        Namespaces[-1] = "Toiminnot:";
-                        Namespaces[1] = "Keskustelu:";
-                        Namespaces[2] = "Käyttäjä:";
-                        Namespaces[3] = "Keskustelu käyttäjästä:";
-                        Namespaces[4] = "Wikipedia:";
-                        Namespaces[5] = "Keskustelu Wikipediasta:";
-                        Namespaces[6] = "Kuva:";
-                        Namespaces[7] = "Keskustelu kuvasta:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "MediaWiki talk:";
-                        Namespaces[10] = "Malline:";
-                        Namespaces[11] = "Keskustelu mallineesta:";
-                        Namespaces[12] = "Ohje:";
-                        Namespaces[13] = "Keskustelu ohjeesta:";
-                        Namespaces[14] = "Luokka:";
-                        Namespaces[15] = "Keskustelu luokasta:";
-                        Namespaces[100] = "Teemasivu:";
-                        Namespaces[101] = "Keskustelu teemasivusta:";
-                        break;
-
-                    case LangCodeEnum.fr:
-                        Namespaces[-2] = "Media:";
-                        Namespaces[-1] = "Special:";
-                        Namespaces[1] = "Discuter:";
-                        Namespaces[2] = "Utilisateur:";
-                        Namespaces[3] = "Discussion Utilisateur:";
-                        Namespaces[4] = "Wikipédia:";
-                        Namespaces[5] = "Discussion Wikipédia:";
-                        Namespaces[6] = "Image:";
-                        Namespaces[7] = "Discussion Image:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "Discussion MediaWiki:";
-                        Namespaces[10] = "Modèle:";
-                        Namespaces[11] = "Discussion Modèle:";
-                        Namespaces[12] = "Aide:";
-                        Namespaces[13] = "Discussion Aide:";
-                        Namespaces[14] = "Catégorie:";
-                        Namespaces[15] = "Discussion Catégorie:";
-                        Namespaces[100] = "Portail:";
-                        Namespaces[101] = "Discussion Portail:";
-                        Namespaces[102] = "Projet:";
-                        Namespaces[103] = "Discussion Projet:";
-                        Namespaces[104] = "Référence:";
-                        Namespaces[105] = "Discussion Référence:";
-                        break;
-
-                    case LangCodeEnum.hi:
-                        Namespaces[-2] = "Media:";
-                        Namespaces[-1] = "विशेष:";
-                        Namespaces[1] = "वार्ता:";
-                        Namespaces[2] = "सदस्य:";
-                        Namespaces[3] = "सदस्य वार्ता:";
-                        Namespaces[4] = "विकिपीडिया:";
-                        Namespaces[5] = "विकिपीडिया वार्ता:";
-                        Namespaces[6] = "चित्र:";
-                        Namespaces[7] = "चित्र वार्ता:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "MediaWiki talk:";
-                        Namespaces[10] = "साँचा:";
-                        Namespaces[11] = "साँचा वार्ता:";
-                        Namespaces[12] = "Help:";
-                        Namespaces[13] = "Help talk:";
-                        Namespaces[14] = "श्रेणी:";
-                        Namespaces[15] = "श्रेणी वार्ता:";
-                        Namespaces[100] = "प्रवेशद्वार:";
-                        Namespaces[101] = "प्रवेशद्वार वार्ता:";
-                        break;
-
                     case LangCodeEnum.hu:
-                        Namespaces[-2] = "Média:";
-                        Namespaces[-1] = "Speciális:";
-                        Namespaces[1] = "Vita:";
-                        Namespaces[2] = "Szerkesztő:";
-                        Namespaces[3] = "Szerkesztővita:";
-                        Namespaces[4] = "Wikipédia:";
-                        Namespaces[5] = "Wikipédia-vita:";
-                        Namespaces[6] = "Kép:";
-                        Namespaces[7] = "Képvita:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "MediaWiki-vita:";
-                        Namespaces[10] = "Sablon:";
-                        Namespaces[11] = "Sablonvita:";
-                        Namespaces[12] = "Segítség:";
-                        Namespaces[13] = "Segítségvita:";
-                        Namespaces[14] = "Kategória:";
-                        Namespaces[15] = "Kategóriavita:";
-                        Namespaces[100] = "Portál:";
-                        Namespaces[101] = "Portálvita:";
-
                         mSummaryTag = " ";
                         strWPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
                         break;
 
-                    case LangCodeEnum.Is:
-                        Namespaces[-2] = "Miðill:";
-                        Namespaces[-1] = "Kerfissíða:";
-                        Namespaces[1] = "Spjall:";
-                        Namespaces[2] = "Notandi:";
-                        Namespaces[3] = "Notandaspjall:";
-                        Namespaces[4] = "Wikipedia:";
-                        Namespaces[5] = "Wikipediaspjall:";
-                        Namespaces[6] = "Mynd:";
-                        Namespaces[7] = "Myndaspjall:";
-                        Namespaces[8] = "Melding:";
-                        Namespaces[9] = "Meldingarspjall:";
-                        Namespaces[10] = "Snið:";
-                        Namespaces[11] = "Sniðaspjall:";
-                        Namespaces[12] = "Hjálp:";
-                        Namespaces[13] = "Hjálparspjall:";
-                        Namespaces[14] = "Flokkur:";
-                        Namespaces[15] = "Flokkaspjall:";
-                        Namespaces[100] = "Gátt:";
-                        Namespaces[101] = "Gáttaspjall:";
-                        break;
-
-                    case LangCodeEnum.it:
-                        Namespaces[-2] = "Media:";
-                        Namespaces[-1] = "Speciale:";
-                        Namespaces[1] = "Discussione:";
-                        Namespaces[2] = "Utente:";
-                        Namespaces[3] = "Discussioni utente:";
-                        Namespaces[4] = "Wikipedia:";
-                        Namespaces[5] = "Discussioni Wikipedia:";
-                        Namespaces[6] = "Immagine:";
-                        Namespaces[7] = "Discussioni immagine:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "Discussioni MediaWiki:";
-                        Namespaces[10] = "Template:";
-                        Namespaces[11] = "Discussioni template:";
-                        Namespaces[12] = "Aiuto:";
-                        Namespaces[13] = "Discussioni aiuto:";
-                        Namespaces[14] = "Categoria:";
-                        Namespaces[15] = "Discussioni categoria:";
-                        Namespaces[100] = "Portale:";
-                        Namespaces[101] = "Discussioni portale:";
-                        break;
-
-                    case LangCodeEnum.ja:
-                        Namespaces[-2] = "Media:";
-                        Namespaces[-1] = "特別:";
-                        Namespaces[1] = "ノート:";
-                        Namespaces[2] = "利用者:";
-                        Namespaces[3] = "利用者‐会話:";
-                        Namespaces[4] = "Wikipedia:";
-                        Namespaces[5] = "Wikipedia‐ノート:";
-                        Namespaces[6] = "画像:";
-                        Namespaces[7] = "画像‐ノート:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "MediaWiki‐ノート:";
-                        Namespaces[10] = "Template:";
-                        Namespaces[11] = "Template‐ノート:";
-                        Namespaces[12] = "Help:";
-                        Namespaces[13] = "Help‐ノート:";
-                        Namespaces[14] = "Category:";
-                        Namespaces[15] = "Category‐ノート:";
-                        Namespaces[100] = "Portal:";
-                        Namespaces[101] = "Portal‐ノート:";
-                        break;
-
                     case LangCodeEnum.ku:
-                        Namespaces[-2] = "Medya:";
-                        Namespaces[-1] = "Taybet:";
-                        Namespaces[1] = "Nîqaş:";
-                        Namespaces[2] = "Bikarhêner:";
-                        Namespaces[3] = "Bikarhêner nîqaş:";
-                        Namespaces[4] = "Wîkîpediya:";
-                        Namespaces[5] = "Wîkîpediya nîqaş:";
-                        Namespaces[6] = "Wêne:";
-                        Namespaces[7] = "Wêne nîqaş:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "MediaWiki nîqaş:";
-                        Namespaces[10] = "Şablon:";
-                        Namespaces[11] = "Şablon nîqaş:";
-                        Namespaces[12] = "Alîkarî:";
-                        Namespaces[13] = "Alîkarî nîqaş:";
-                        Namespaces[14] = "Kategorî:";
-                        Namespaces[15] = "Kategorî nîqaş:";
-
                         mSummaryTag = " ";
                         strWPAWB = "[[Wîkîpediya:AutoWikiBrowser|AWB]]";
                         break;
 
-                    case LangCodeEnum.mi:
-                        Namespaces[-2] = "Media:";
-                        Namespaces[-1] = "Special:";
-                        Namespaces[1] = "Talk:";
-                        Namespaces[2] = "User:";
-                        Namespaces[3] = "User talk:";
-                        Namespaces[4] = "Wikipedia:";
-                        Namespaces[5] = "Wikipedia talk:";
-                        Namespaces[6] = "Image:";
-                        Namespaces[7] = "Image talk:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "MediaWiki talk:";
-                        Namespaces[10] = "Template:";
-                        Namespaces[11] = "Template talk:";
-                        Namespaces[12] = "Help:";
-                        Namespaces[13] = "Help talk:";
-                        Namespaces[14] = "Category:";
-                        Namespaces[15] = "Category talk:";
-                        break;
-
                     case LangCodeEnum.nl:
-                        Namespaces[-2] = "Media:";
-                        Namespaces[-1] = "Speciaal:";
-                        Namespaces[1] = "Overleg:";
-                        Namespaces[2] = "Gebruiker:";
-                        Namespaces[3] = "Overleg gebruiker:";
-                        Namespaces[4] = "Wikipedia:";
-                        Namespaces[5] = "Overleg Wikipedia:";
-                        Namespaces[6] = "Afbeelding:";
-                        Namespaces[7] = "Overleg afbeelding:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "Overleg MediaWiki:";
-                        Namespaces[10] = "Sjabloon:";
-                        Namespaces[11] = "Overleg sjabloon:";
-                        Namespaces[12] = "Help:";
-                        Namespaces[13] = "Overleg help:";
-                        Namespaces[14] = "Categorie:";
-                        Namespaces[15] = "Overleg categorie:";
-                        Namespaces[100] = "Portaal:";
-                        Namespaces[101] = "Overleg portaal:";
-
                         mSummaryTag = " met ";
                         strWPAWB = "[[Wikipedia:AutoWikiBrowser|AWB]]";
                         break;
 
-                    case LangCodeEnum.no:
-                        Namespaces[-2] = "Medium:";
-                        Namespaces[-1] = "Spesial:";
-                        Namespaces[1] = "Diskusjon:";
-                        Namespaces[2] = "Bruker:";
-                        Namespaces[3] = "Brukerdiskusjon:";
-                        Namespaces[4] = "Wikipedia:";
-                        Namespaces[5] = "Wikipedia-diskusjon:";
-                        Namespaces[6] = "Bilde:";
-                        Namespaces[7] = "Bildediskusjon:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "MediaWiki-diskusjon:";
-                        Namespaces[10] = "Mal:";
-                        Namespaces[11] = "Maldiskusjon:";
-                        Namespaces[12] = "Hjelp:";
-                        Namespaces[13] = "Hjelpdiskusjon:";
-                        Namespaces[14] = "Kategori:";
-                        Namespaces[15] = "Kategoridiskusjon:";
-                        Namespaces[100] = "Portal:";
-                        Namespaces[101] = "Portaldiskusjon:";
-                        break;
-
                     case LangCodeEnum.pl:
-                        Namespaces[-2] = "Media:";
-                        Namespaces[-1] = "Specjalna:";
-                        Namespaces[1] = "Dyskusja:";
-                        Namespaces[2] = "Wikipedysta:";
-                        Namespaces[3] = "Dyskusja Wikipedysty:";
-                        Namespaces[4] = "Wikipedia:";
-                        Namespaces[5] = "Dyskusja Wikipedii:";
-                        Namespaces[6] = "Grafika:";
-                        Namespaces[7] = "Dyskusja grafiki:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "Dyskusja MediaWiki:";
-                        Namespaces[10] = "Szablon:";
-                        Namespaces[11] = "Dyskusja szablonu:";
-                        Namespaces[12] = "Pomoc:";
-                        Namespaces[13] = "Dyskusja pomocy:";
-                        Namespaces[14] = "Kategoria:";
-                        Namespaces[15] = "Dyskusja kategorii:";
-                        Namespaces[100] = "Portal:";
-                        Namespaces[101] = "Dyskusja portalu:";
-
                         SectStub = @"\{\{[Ss]ek";
                         break;
 
                     case LangCodeEnum.pt:
-                        Namespaces[-2] = "Media:";
-                        Namespaces[-1] = "Especial:";
-                        Namespaces[1] = "Discussão:";
-                        Namespaces[2] = "Usuário:";
-                        Namespaces[3] = "Usuário Discussão:";
-                        Namespaces[4] = "Wikipedia:";
-                        Namespaces[5] = "Wikipedia Discussão:";
-                        Namespaces[6] = "Imagem:";
-                        Namespaces[7] = "Imagem Discussão:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "MediaWiki Discussão:";
-                        Namespaces[10] = "Predefinição:";
-                        Namespaces[11] = "Predefinição Discussão:";
-                        Namespaces[12] = "Ajuda:";
-                        Namespaces[13] = "Ajuda Discussão:";
-                        Namespaces[14] = "Categoria:";
-                        Namespaces[15] = "Categoria Discussão:";
-                        Namespaces[100] = "Portal:";
-                        Namespaces[101] = "Discussão Portal:";
-                        Namespaces[102] = "Anexo:";
-                        Namespaces[103] = "Anexo Discussão:";
-
                         mSummaryTag = " utilizando ";
                         strWPAWB = "[[Wikipedia:AutoWikiBrowser|AWB]]";
                         break;
 
-                    case LangCodeEnum.ro:
-                        Namespaces[-2] = "Media:";
-                        Namespaces[-1] = "Special:";
-                        Namespaces[1] = "Discuţie:";
-                        Namespaces[2] = "Utilizator:";
-                        Namespaces[3] = "Discuţie Utilizator:";
-                        Namespaces[4] = "Wikipedia:";
-                        Namespaces[5] = "Discuţie Wikipedia:";
-                        Namespaces[6] = "Imagine:";
-                        Namespaces[7] = "Discuţie Imagine:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "Discuţie MediaWiki:";
-                        Namespaces[10] = "Format:";
-                        Namespaces[11] = "Discuţie Format:";
-                        Namespaces[12] = "Ajutor:";
-                        Namespaces[13] = "Discuţie Ajutor:";
-                        Namespaces[14] = "Categorie:";
-                        Namespaces[15] = "Discuţie Categorie:";
-                        Namespaces[100] = "Portal:";
-                        Namespaces[101] = "Discuţie Portal:";
-                        break;
-
                     case LangCodeEnum.ru:
-                        Namespaces[-2] = "Медиа:";
-                        Namespaces[-1] = "Служебная:";
-                        Namespaces[1] = "Обсуждение:";
-                        Namespaces[2] = "Участник:";
-                        Namespaces[3] = "Обсуждение участника:";
-                        Namespaces[4] = "Википедия:";
-                        Namespaces[5] = "Обсуждение Википедии:";
-                        Namespaces[6] = "Изображение:";
-                        Namespaces[7] = "Обсуждение изображения:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "Обсуждение MediaWiki:";
-                        Namespaces[10] = "Шаблон:";
-                        Namespaces[11] = "Обсуждение шаблона:";
-                        Namespaces[12] = "Справка:";
-                        Namespaces[13] = "Обсуждение справки:";
-                        Namespaces[14] = "Категория:";
-                        Namespaces[15] = "Обсуждение категории:";
-                        Namespaces[100] = "Портал:";
-                        Namespaces[101] = "Обсуждение портала:";
-
                         mSummaryTag = " с помощью ";
                         strWPAWB = "[[WP:AWB|AWB]]";
                         Stub = "(?:[Ss]tub|[Зз]аготовка)";
-                        MonthNames = new string[12] { "января", "февраля", "марта", "апреля",
-                            "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"};
-                        break;
-
-                    case LangCodeEnum.si:
-                        Namespaces[-2] = "මාධ්‍යය:";
-                        Namespaces[-1] = "විශේෂ:";
-                        Namespaces[1] = "සාකච්ඡාව:";
-                        Namespaces[2] = "පරිශීලක:";
-                        Namespaces[3] = "පරිශීලක සාකච්ඡාව:";
-                        Namespaces[4] = "Wikipedia:";
-                        Namespaces[5] = "Wikipedia සාකච්ඡාව:";
-                        Namespaces[6] = "රූපය:";
-                        Namespaces[7] = "රූපය සාකච්ඡාව:";
-                        Namespaces[8] = "විකිමාධ්‍ය:";
-                        Namespaces[9] = "විකිමාධ්‍ය සාකච්ඡාව:";
-                        Namespaces[10] = "සැකිල්ල:";
-                        Namespaces[11] = "සැකිල සාකච්ඡාව:";
-                        Namespaces[12] = "උදවු:";
-                        Namespaces[13] = "උදව සාකච්ඡාව:";
-                        Namespaces[14] = "ප්‍රවර්ගය:";
-                        Namespaces[15] = "ප්‍රවර්ග සාකච්ඡාව:";
-                        Namespaces[100] = "Portal:";
-                        Namespaces[101] = "Portal talk:";
-                        break;
-
-                    case LangCodeEnum.simple:
-                        SetToEnglish("Wikipedia:", "Wikipedia talk:");
                         break;
 
                     case LangCodeEnum.sk:
-                        Namespaces[-2] = "Médiá:";
-                        Namespaces[-1] = "Špeciálne:";
-                        Namespaces[1] = "Diskusia:";
-                        Namespaces[2] = "Redaktor:";
-                        Namespaces[3] = "Diskusia s redaktorom:";
-                        Namespaces[4] = "Wikipédia:";
-                        Namespaces[5] = "Diskusia k Wikipédii:";
-                        Namespaces[6] = "Obrázok:";
-                        Namespaces[7] = "Diskusia k obrázku:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "Diskusia k MediaWiki:";
-                        Namespaces[10] = "Šablóna:";
-                        Namespaces[11] = "Diskusia k šablóne:";
-                        Namespaces[12] = "Pomoc:";
-                        Namespaces[13] = "Diskusia k pomoci:";
-                        Namespaces[14] = "Kategória:";
-                        Namespaces[15] = "Diskusia ku kategórii:";
-                        Namespaces[100] = "Portál:";
-                        Namespaces[101] = "Diskusia k portálu:";
-
                         mSummaryTag = " ";
                         strWPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
                         break;
 
                     case LangCodeEnum.sl:
-                        Namespaces[-2] = "Media:";
-                        Namespaces[-1] = "Posebno:";
-                        Namespaces[1] = "Pogovor:";
-                        Namespaces[2] = "Uporabnik:";
-                        Namespaces[3] = "Uporabniški pogovor:";
-                        Namespaces[4] = "Wikipedija:";
-                        Namespaces[5] = "Pogovor o Wikipediji:";
-                        Namespaces[6] = "Slika:";
-                        Namespaces[7] = "Pogovor o sliki:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "Pogovor o MediaWiki:";
-                        Namespaces[10] = "Predloga:";
-                        Namespaces[11] = "Pogovor o predlogi:";
-                        Namespaces[12] = "Pomoč:";
-                        Namespaces[13] = "Pogovor o pomoči:";
-                        Namespaces[14] = "Kategorija:";
-                        Namespaces[15] = "Pogovor o kategoriji:";
-
                         mSummaryTag = " ";
                         strWPAWB = "[[Wikipedija:AutoWikiBrowser|AWB]]";
                         Stub = "(?:[Ss]tub|[Šš]krbina)";
                         break;
 
-                    case LangCodeEnum.sr:
-                        Namespaces[-2] = "Медија:";
-                        Namespaces[-1] = "Посебно:";
-                        Namespaces[1] = "Разговор:";
-                        Namespaces[2] = "Корисник:";
-                        Namespaces[3] = "Разговор са корисником:";
-                        Namespaces[4] = "Википедија:";
-                        Namespaces[5] = "Разговор о Википедији:";
-                        Namespaces[6] = "Слика:";
-                        Namespaces[7] = "Разговор о слици:";
-                        Namespaces[8] = "МедијаВики:";
-                        Namespaces[9] = "Разговор о МедијаВикију:";
-                        Namespaces[10] = "Шаблон:";
-                        Namespaces[11] = "Разговор о шаблону:";
-                        Namespaces[12] = "Помоћ:";
-                        Namespaces[13] = "Разговор о помоћи:";
-                        Namespaces[14] = "Категорија:";
-                        Namespaces[15] = "Разговор о категорији:";
-                        Namespaces[100] = "Портал:";
-                        Namespaces[101] = "Разговор о порталу:";
-                        break;
-
-                    case LangCodeEnum.sv:
-                        Namespaces[-2] = "Media:";
-                        Namespaces[-1] = "Special:";
-                        Namespaces[1] = "Diskussion:";
-                        Namespaces[2] = "Användare:";
-                        Namespaces[3] = "Användardiskussion:";
-                        Namespaces[4] = "Wikipedia:";
-                        Namespaces[5] = "Wikipediadiskussion:";
-                        Namespaces[6] = "Bild:";
-                        Namespaces[7] = "Bilddiskussion:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "MediaWiki diskussion:";
-                        Namespaces[10] = "Mall:";
-                        Namespaces[11] = "Malldiskussion:";
-                        Namespaces[12] = "Hjälp:";
-                        Namespaces[13] = "Hjälp diskussion:";
-                        Namespaces[14] = "Kategori:";
-                        Namespaces[15] = "Kategoridiskussion:";
-                        Namespaces[100] = "Portal:";
-                        Namespaces[101] = "Portaldiskussion:";
-                        break;
-
-                    case LangCodeEnum.te:
-                        Namespaces[-2] = "మీడియా:";
-                        Namespaces[-1] = "ప్రత్యేక:";
-                        Namespaces[1] = "చర్చ:";
-                        Namespaces[2] = "సభ్యుడు:";
-                        Namespaces[3] = "సభ్యులపై చర్చ:";
-                        Namespaces[4] = "వికీపీడియా:";
-                        Namespaces[5] = "వికీపీడియా చర్చ:";
-                        Namespaces[6] = "బొమ్మ:";
-                        Namespaces[7] = "బొమ్మపై చర్చ:";
-                        Namespaces[8] = "మీడియావికీ:";
-                        Namespaces[9] = "మీడియావికీ చర్చ:";
-                        Namespaces[10] = "మూస:";
-                        Namespaces[11] = "మూస చర్చ:";
-                        Namespaces[12] = "సహాయము:";
-                        Namespaces[13] = "సహాయము చర్చ:";
-                        Namespaces[14] = "వర్గం:";
-                        Namespaces[15] = "వర్గం చర్చ:";
-                        break;
-
                     case LangCodeEnum.uk:
-                        Namespaces[-2] = "Медіа:";
-                        Namespaces[-1] = "Спеціальні:";
-                        Namespaces[1] = "Обговорення:";
-                        Namespaces[2] = "Користувач:";
-                        Namespaces[3] = "Обговорення користувача:";
-                        Namespaces[4] = "Вікіпедія:";
-                        Namespaces[5] = "Обговорення Вікіпедії:";
-                        Namespaces[6] = "Зображення:";
-                        Namespaces[7] = "Обговорення зображення:";
-                        Namespaces[8] = "MediaWiki:";
-                        Namespaces[9] = "Обговорення MediaWiki:";
-                        Namespaces[10] = "Шаблон:";
-                        Namespaces[11] = "Обговорення шаблону:";
-                        Namespaces[12] = "Довідка:";
-                        Namespaces[13] = "Обговорення довідки:";
-                        Namespaces[14] = "Категорія:";
-                        Namespaces[15] = "Обговорення категорії:";
-
                         Stub = "(?:[Ss]tub|[Дд]оробити)";
                         mSummaryTag = " з допомогою ";
                         strWPAWB = "[[Вікіпедія:AutoWikiBrowser|AWB]]";
                         break;
 
-                    //http://xx.project.org/wiki/api.php?action=query&meta=siteinfo&siprop=namespaces
                     // case LangCodeEnum.xx:
-                    // Namespaces[-2] = ":";
-                    // Namespaces[-1] = ":";
-                    // Namespaces[1] = ":";
-                    // Namespaces[2] = ":";
-                    // Namespaces[3] = ":";
-                    // Namespaces[4] = ":";
-                    // Namespaces[5] = ":";
-                    // Namespaces[6] = ":";
-                    // Namespaces[7] = ":";
-                    // Namespaces[8] = ":";
-                    // Namespaces[9] = ":";
-                    // Namespaces[10] = ":";
-                    // Namespaces[11] = ":";
-                    // Namespaces[12] = ":";
-                    // Namespaces[13] = ":";
-                    // Namespaces[14] = ":";
-                    // Namespaces[15] = ":";
-                    // Namespaces[100] = ":";
-                    // Namespaces[101] = ":";
-
                     // strsummarytag = " ";
                     // strWPAWB = "";
                     // break;
 
                     default:
-                        LoadProjectOptions();
                         break;
                 }
 
@@ -1177,59 +546,21 @@ namespace WikiFunctions
             }
             else if (projectName == ProjectEnum.commons)
             {
-                SetToEnglish("Commons:", "Commons talk:");
-                Namespaces[100] = "Creator:";
-                Namespaces[101] = "Creator talk:";
                 URL = "http://commons.wikimedia.org";
                 mLangCode = LangCodeEnum.en;
             }
             else if (projectName == ProjectEnum.meta)
             {
-                SetToEnglish("Meta:", "Meta talk:");
-                Namespaces[100] = "Hilfe:";
-                Namespaces[101] = "Hilfe Diskussion:";
-                Namespaces[102] = "Aide:";
-                Namespaces[103] = "Discussion Aide:";
-                Namespaces[104] = "Hjælp:";
-                Namespaces[105] = "Hjælp diskussion:";
-                Namespaces[106] = "Helpo:";
-                Namespaces[107] = "Helpa diskuto:";
-                Namespaces[108] = "Hjälp:";
-                Namespaces[109] = "Hjälp diskussion:";
-                Namespaces[110] = "Ayuda:";
-                Namespaces[111] = "Ayuda Discusión:";
-                Namespaces[112] = "Aiuto:";
-                Namespaces[113] = "Discussioni aiuto:";
-                Namespaces[114] = "ヘルプ:";
-                Namespaces[115] = "ヘルプ‐ノート:";
-                Namespaces[116] = "NL Help:";
-                Namespaces[117] = "Overleg help:";
-                Namespaces[118] = "Pomoc:";
-                Namespaces[119] = "Dyskusja pomocy:";
-                Namespaces[120] = "Ajuda:";
-                Namespaces[121] = "Ajuda Discussão:";
-                Namespaces[122] = "CA Ajuda:";
-                Namespaces[123] = "CA Ajuda Discussió:";
-                Namespaces[124] = "Hjelp:";
-                Namespaces[125] = "Hjelp diskusjon:";
-                Namespaces[126] = "帮助:";
-                Namespaces[127] = "帮助 对话:";
-                Namespaces[128] = "Помощь:";
-                Namespaces[129] = "Помощь Дискуссия:";
-                Namespaces[130] = "Pomoč:";
-                Namespaces[131] = "Pogovor o pomoči:";
                 URL = "http://meta.wikimedia.org";
                 mLangCode = LangCodeEnum.en;
             }
             else if (projectName == ProjectEnum.mediawiki)
             {
-                SetToEnglish("Project:", "Project talk:");
                 URL = "http://www.mediawiki.org";
                 mLangCode = LangCodeEnum.en;
             }
             else if (projectName == ProjectEnum.species)
             {
-                SetToEnglish("Wikispecies:", "Wikispecies talk:");
                 URL = "http://species.wikimedia.org";
                 mLangCode = LangCodeEnum.en;
             }
@@ -1237,12 +568,15 @@ namespace WikiFunctions
             {
                 URL = "http://" + customProject + ".wikia.com";
                 URLEnd = "/";
-                LoadProjectOptions();
             }
             else
             {
                 if (projectName == ProjectEnum.custom)
                     URLEnd = "";
+            }
+
+            if (projectName != ProjectEnum.wikipedia || langCode != LangCodeEnum.en)
+            {
                 LoadProjectOptions();
             }
 
@@ -1269,11 +603,25 @@ namespace WikiFunctions
             bool LangNotEnglish = (LangCode != LangCodeEnum.en);
             foreach (KeyValuePair<int, string> k in Namespaces)
             {
-                //other languages can use the english syntax
-                if (LangNotEnglish && CanonicalNamespaces.ContainsKey(k.Key))
-                    NamespacesCaseInsensitive.Add(k.Key, "(?:" + Tools.AllCaseInsensitive(k.Value) + "|" + Tools.AllCaseInsensitive(CanonicalNamespaces[k.Key]).Replace(":", " ?:") + ")");
-                else
-                    NamespacesCaseInsensitive.Add(k.Key, Tools.AllCaseInsensitive(k.Value).Replace(":", " ?:"));
+                StringBuilder sb = new StringBuilder("(?i:", 200);
+                sb.Append(Tools.StripNamespaceColon(k.Value));
+                if (CanonicalNamespaces.ContainsKey(k.Key) && CanonicalNamespaces[k.Key] != k.Value)
+                {
+                    sb.Append('|');
+                    sb.Append(Tools.StripNamespaceColon(CanonicalNamespaces[k.Key]));
+                }
+
+                if (NamespaceAliases.ContainsKey(k.Key))
+                    foreach (string ns in NamespaceAliases[k.Key])
+                    {
+                        sb.Append('|');
+                        sb.Append(ns);
+                    }
+                // no need to add CanonicalNamespaceAliases here, or...
+
+                sb.Append(@")\s*:");
+
+                NamespacesCaseInsensitive.Add(k.Key, sb.ToString());
             }
 
             WikiRegexes.MakeLangSpecificRegexes();
@@ -1303,6 +651,7 @@ namespace WikiFunctions
                 }
 
                 Namespaces = si.Namespaces;
+                NamespaceAliases = si.NamespaceAliases;
             }
             catch
             {
@@ -1354,6 +703,8 @@ namespace WikiFunctions
             Namespaces[15] = "Category talk:";
 
             mSummaryTag = " using ";
+
+            NamespaceAliases = CanonicalNamespaceAliases;
 
             MonthNames = ENLangMonthNames;
             SectStub = @"\{\{[Ss]ect";
