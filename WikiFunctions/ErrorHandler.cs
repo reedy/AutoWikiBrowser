@@ -79,7 +79,18 @@ namespace WikiFunctions
                     FormatException(ex, errorMessage, true);
                     errorMessage.Append("</table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
 
-                    if (!Variables.Revision.Contains("?")) errorMessage.Append(", revision " + Variables.Revision);
+                    // suppress unhandled exception if Variables constructor says 'ouch'
+                    string revision;
+                    try
+                    {
+                        revision = Variables.Revision;
+                    }
+                    catch
+                    {
+                        revision = "?";
+                    }
+
+                    if (!revision.Contains("?")) errorMessage.Append(", revision " + revision);
 
                     if (!string.IsNullOrEmpty(CurrentPage))
                     {
