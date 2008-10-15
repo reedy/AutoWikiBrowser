@@ -94,6 +94,7 @@ namespace WikiFunctions.Controls.Lists
                 listItems.Add(new TextFileListProvider());
                 listItems.Add(new GoogleSearchListProvider());
                 listItems.Add(new UserContribsListProvider());
+                listItems.Add(new UserContribUserDefinedNumberListProvider());
                 listItems.Add(new SpecialPageListProvider());
                 listItems.Add(imageFileLinksLProvider);
                 listItems.Add(new DatabaseScannerListProvider(this));
