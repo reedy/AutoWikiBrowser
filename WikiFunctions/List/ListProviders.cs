@@ -836,7 +836,7 @@ namespace WikiFunctions.Lists
             foreach (string page in searchCriteria)
             {
                 string url = Variables.URLLong + "api.php?action=query&list=backlinks&bltitle="
-                    + HttpUtility.UrlEncode(onePage) + "&bllimit=max&blfilterredir=redirects&format=xml";
+                    + HttpUtility.UrlEncode(page) + "&bllimit=max&blfilterredir=redirects&format=xml";
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
