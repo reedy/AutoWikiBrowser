@@ -11,10 +11,18 @@ namespace WikiFunctions.Controls
 {
     public partial class LevelNumber : Form
     {
-        public LevelNumber()
+        public LevelNumber(bool edits)
         {
             InitializeComponent();
-            numLevels.Maximum = CategoryRecursiveListProvider.MaxDepth;
+
+            if (edits)
+            {
+                label1.Text = "Enter number of user contribs:";
+                numLevels.Minimum = 500;
+                numLevels.Maximum = 25000;
+            }
+            else
+                numLevels.Maximum = CategoryRecursiveListProvider.MaxDepth;
         }
 
         public int Levels

@@ -1594,5 +1594,18 @@ Message: {2}
         {
             return Microsoft.VisualBasic.Interaction.InputBox(Prompt, Title, DefaultResponse, XPos, YPos);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static int GetNumberFromUser(bool edits)
+        {
+            using (WikiFunctions.Controls.LevelNumber num = new WikiFunctions.Controls.LevelNumber(edits))
+            {
+                if (num.ShowDialog() != DialogResult.OK) return -1;
+                return num.Levels;
+            }
+        }
     }
 }

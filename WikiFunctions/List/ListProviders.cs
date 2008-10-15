@@ -132,21 +132,12 @@ namespace WikiFunctions.Lists
 
         public override List<Article> MakeList(params string[] searchCriteria)
         {
-            int userDepth = GetDepthFromUser();
+            int userDepth = Tools.GetNumberFromUser(false);
             if (userDepth < 0) return new List<Article>();
             else
                 Depth = userDepth;
 
             return base.MakeList(searchCriteria);
-        }
-
-        public int GetDepthFromUser()
-        {
-            using (WikiFunctions.Controls.LevelNumber num = new WikiFunctions.Controls.LevelNumber())
-            {
-                if (num.ShowDialog() != DialogResult.OK) return -1;
-                return num.Levels;
-            }
         }
 
         public override string DisplayText
@@ -689,6 +680,23 @@ namespace WikiFunctions.Lists
 
         public override bool RunOnSeparateThread
         { get { return true; } }
+        #endregion
+    }
+
+    /// <summary>
+    /// Gets the specified number of user contribs for the Named Users
+    /// </summary>
+    public class UserContribUserDefinedNumberListProvider : UserContribsListProvider
+    {
+        public override List<Article> MakeList(params string[] searchCriteria)
+        {
+            Limit = Tools.GetNumberFromUser(true);
+            return base.MakeList(searchCriteria);
+        }
+
+        #region ListMaker properties
+        public override string DisplayText
+        { get { return "User contribs (user defined number)"; } }
         #endregion
     }
 
