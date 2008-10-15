@@ -640,11 +640,23 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets the user contribs of the Named Users
     /// </summary>
-    public class UserContribsListProvider : IListProvider
+    public class UserContribsListProvider : ApiListProviderBase
     {
-        protected bool all;
+        #region Tags: <usercontribs>/<item>
+        static readonly List<string> pe = new List<string>(new string[] { "item" });
+        protected override ICollection<string> PageElements
+        {
+            get { return pe; }
+        }
 
-        public virtual List<Article> MakeList(params string[] searchCriteria)
+        static readonly List<string> ac = new List<string>(new string[] { "usercontribs" });
+        protected override ICollection<string> Actions
+        {
+            get { return ac; }
+        }
+        #endregion
+
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
@@ -652,67 +664,28 @@ namespace WikiFunctions.Lists
 
             foreach (string u in searchCriteria)
             {
-                string title = "";
-                int ns = 0;
                 string page = Tools.WikiEncode(Regex.Replace(u, Variables.NamespacesCaseInsensitive[14], ""));
+                string url = Variables.URLLong + "api.php?action=query&list=usercontribs&ucuser=" + page + "&uclimit=max&format=xml";
 
-                string url = Variables.URLLong + "api.php?action=query&list=usercontribs&ucuser=" + page + "&uclimit=500&format=xml";
-
-                while (true)
-                {
-                    bool more = false;
-                    string html = Tools.GetHTML(url);
-
-                    using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
-                    {
-                        while (reader.Read())
-                        {
-                            if (reader.Name.Equals("item"))
-                            {
-                                if (reader.MoveToAttribute("ns"))
-                                    ns = int.Parse(reader.Value);
-                                else
-                                    ns = 0;
-
-                                if (reader.MoveToAttribute("title"))
-                                {
-                                    title = reader.Value.ToString();
-                                    list.Add(new WikiFunctions.Article(title, ns));
-                                }
-                            }
-                            else if (reader.Name.Equals("usercontribs"))
-                            {
-                                reader.MoveToAttribute("ucstart");
-                                if (reader.Value.Length != 0 && (all || list.Count < 2000))
-                                {
-                                    string continueFrom = reader.Value;
-                                    url = Variables.URLLong + "api.php?action=query&list=usercontribs&ucuser=" + page + "&uclimit=500&format=xml&ucstart=" + continueFrom;
-                                    more = true;
-                                }
-                            }
-                        }
-                        if (!more)
-                            break;
-                    }
-                }
+                list.AddRange(ApiMakeList(url, list.Count));
             }
 
             return list;
         }
 
         #region ListMaker properties
-        public virtual string DisplayText
+        public override string DisplayText
         { get { return "User contribs"; } }
 
-        public string UserInputTextBoxText
+        public override string UserInputTextBoxText
         { get { return Variables.Namespaces[2]; } }
 
-        public bool UserInputTextBoxEnabled
+        public override bool UserInputTextBoxEnabled
         { get { return true; } }
 
-        public void Selected() { }
+        public override void Selected() { }
 
-        public bool RunOnSeparateThread
+        public override bool RunOnSeparateThread
         { get { return true; } }
         #endregion
     }
