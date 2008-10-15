@@ -34,7 +34,6 @@ namespace WikiFunctions.Lists
 {
     //TODO: normalise usage of FirstToUpperAndRemoveHashOnArray() and alikes
 
-
     /// <summary>
     /// Gets a list of pages in Named Categories for the ListMaker (Non-Recursive)
     /// </summary>
@@ -44,9 +43,9 @@ namespace WikiFunctions.Lists
         {
             List<Article> list = new List<Article>();
 
-            foreach (string cat in PrepareCategories(searchCriteria))
+            foreach (string page in PrepareCategories(searchCriteria))
             {
-                list.AddRange(GetListing(cat, list.Count));
+                list.AddRange(GetListing(page, list.Count));
             }
 
             return list;
@@ -61,6 +60,7 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class CategoryRecursiveListProvider : CategoryProviderBase
     {
+        #region Internals
         public const int MaxDepth = 30;
 
         int m_Depth = MaxDepth;
@@ -72,6 +72,7 @@ namespace WikiFunctions.Lists
             get { return m_Depth; }
             set { m_Depth = Math.Min(value, MaxDepth); }
         }
+        #endregion
 
         public CategoryRecursiveListProvider()
             : this(MaxDepth)
@@ -91,9 +92,9 @@ namespace WikiFunctions.Lists
             lock (Visited)
             {
                 Visited.Clear();
-                foreach (string cat in PrepareCategories(searchCriteria))
+                foreach (string page in PrepareCategories(searchCriteria))
                 {
-                    list.AddRange(RecurseCategory(cat, list.Count, Depth));
+                    list.AddRange(RecurseCategory(page, list.Count, Depth));
                 }
                 Visited.Clear();
             }
@@ -449,10 +450,10 @@ namespace WikiFunctions.Lists
 
             List<Article> list = new List<Article>();
 
-            foreach (string article in searchCriteria)
+            foreach (string page in searchCriteria)
             {
                 string url = Variables.URLLong + "api.php?action=query&prop=links&titles="
-                    + HttpUtility.UrlEncode(article) + "&pllimit=max&format=xml";
+                    + HttpUtility.UrlEncode(page) + "&pllimit=max&format=xml";
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
@@ -499,10 +500,10 @@ namespace WikiFunctions.Lists
 
             List<Article> list = new List<Article>();
 
-            foreach (string article in searchCriteria)
+            foreach (string page in searchCriteria)
             {
                 string url = Variables.URLLong + "api.php?action=query&prop=images&titles="
-                    + HttpUtility.UrlEncode(article) + "&imlimit=max&format=xml";
+                    + HttpUtility.UrlEncode(page) + "&imlimit=max&format=xml";
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
@@ -548,10 +549,10 @@ namespace WikiFunctions.Lists
 
             List<Article> list = new List<Article>();
 
-            foreach (string article in searchCriteria)
+            foreach (string page in searchCriteria)
             {
                 string url = Variables.URLLong + "api.php?action=query&prop=templates&titles="
-                    + HttpUtility.UrlEncode(article) + "&tllimit=max&format=xml";
+                    + HttpUtility.UrlEncode(page) + "&tllimit=max&format=xml";
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
@@ -662,10 +663,11 @@ namespace WikiFunctions.Lists
 
             List<Article> list = new List<Article>();
 
-            foreach (string u in searchCriteria)
+            foreach (string page in searchCriteria)
             {
-                string page = Tools.WikiEncode(Regex.Replace(u, Variables.NamespacesCaseInsensitive[14], ""));
-                string url = Variables.URLLong + "api.php?action=query&list=usercontribs&ucuser=" + page + "&uclimit=max&format=xml";
+                string url = Variables.URLLong + "api.php?action=query&list=usercontribs&ucuser=" +
+                    Tools.WikiEncode(Regex.Replace(page, Variables.NamespacesCaseInsensitive[14], ""))
+                    + "&uclimit=max&format=xml";
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
@@ -715,9 +717,9 @@ namespace WikiFunctions.Lists
 
             List<Article> list = new List<Article>();
 
-            foreach (string i in searchCriteria)
+            foreach (string page in searchCriteria)
             {
-                string image = Regex.Replace(i, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
+                string image = Regex.Replace(page, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
                 image = HttpUtility.UrlEncode(image);
 
                 string url = Variables.URLLong + "api.php?action=query&list=imageusage&iutitle=Image:"
@@ -782,10 +784,10 @@ namespace WikiFunctions.Lists
             string ns = nsStringBuilder.ToString();
             ns = ns.Remove(ns.LastIndexOf('|'));
 
-            foreach (string s in searchCriteria)
+            foreach (string page in searchCriteria)
             {
                 string url = Variables.URLLong + "api.php?action=query&list=search&srwhat=text&srsearch="
-                    + s + "&srlimit=max&format=xml" + ns;
+                    + page + "&srlimit=max&format=xml" + ns;
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
@@ -831,12 +833,10 @@ namespace WikiFunctions.Lists
 
             List<Article> list = new List<Article>();
 
-            foreach (string onePage in searchCriteria)
+            foreach (string page in searchCriteria)
             {
-
-                string page = HttpUtility.UrlEncode(onePage);
                 string url = Variables.URLLong + "api.php?action=query&list=backlinks&bltitle="
-                    + page + "&bllimit=max&blfilterredir=redirects&format=xml";
+                    + HttpUtility.UrlEncode(onePage) + "&bllimit=max&blfilterredir=redirects&format=xml";
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
@@ -860,6 +860,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets all the pages from the current user's watchlist
     /// </summary>
+    /// TODO:Change for list=watchlistraw when available
     public class MyWatchlistListProvider : IListProvider
     {
         public List<Article> MakeList(params string[] searchCriteria)
