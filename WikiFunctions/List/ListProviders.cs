@@ -972,7 +972,7 @@ namespace WikiFunctions.Lists
         {
             List<Article> list = new List<Article>();
 
-            string url = Variables.URLLong + "api.php?action=query&list=random&rnnamespace=0&rnlimit=10&format=xml";
+            string url = Variables.URLLong + "api.php?action=query&list=random&rnnamespace=0&rnlimit=max&format=xml";
 
             for (int i = 0; i < 10 && list.Count < Limit; i++)
             {
