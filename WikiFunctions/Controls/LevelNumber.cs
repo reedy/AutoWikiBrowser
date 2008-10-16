@@ -18,7 +18,7 @@ namespace WikiFunctions.Controls
             if (edits)
             {
                 label1.Text = "Enter number of user contribs:";
-                numLevels.Minimum = 500;
+                numLevels.Minimum = 1;
                 numLevels.Maximum = 25000;
             }
             else
