@@ -424,7 +424,7 @@ namespace AwbUpdater
         /// Creates all subdirectories in the path, if needed
         /// </summary>
         /// <param name="path">Path to process, assumed to start from </param>
-        void CreatePath(string path)
+        private void CreatePath(string path)
         {
             path = Path.GetDirectoryName(path); // strip filename
             if (!Directory.Exists(path))
@@ -470,7 +470,8 @@ namespace AwbUpdater
         /// </summary>
         private void KillTempDir()
         {
-            Directory.Delete(tempDirectory, true);
+            if (Directory.Exists(tempDirectory))
+                Directory.Delete(tempDirectory, true);
             progressUpdate.Value = 100;
         }
 
