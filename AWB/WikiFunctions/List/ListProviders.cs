@@ -648,6 +648,8 @@ namespace WikiFunctions.Lists
         }
         #endregion
 
+        protected string uclimit = "max";
+
         public override List<Article> MakeList(params string[] searchCriteria)
         {
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
@@ -658,7 +660,7 @@ namespace WikiFunctions.Lists
             {
                 string url = Variables.URLLong + "api.php?action=query&list=usercontribs&ucuser=" +
                     Tools.WikiEncode(Regex.Replace(page, Variables.NamespacesCaseInsensitive[14], ""))
-                    + "&uclimit=max&format=xml";
+                    + "&uclimit=" + uclimit + "&format=xml";
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
@@ -691,6 +693,9 @@ namespace WikiFunctions.Lists
         public override List<Article> MakeList(params string[] searchCriteria)
         {
             Limit = Tools.GetNumberFromUser(true);
+            if (Limit < 500)
+                uclimit = Limit.ToString();
+
             return base.MakeList(searchCriteria);
         }
 
