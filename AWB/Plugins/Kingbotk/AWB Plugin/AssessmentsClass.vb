@@ -164,7 +164,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                         If TheArticle.PluginManagerGetSkipResults = SkipResults.SkipBadTag Then
                             MessageBox.Show("Bad tag(s), please fix manually.", "Bad tag", MessageBoxButtons.OK, _
                                MessageBoxIcon.Exclamation)
-                            GoTo exitme
+                            Exit For
                         End If
                     Next
                 Else
@@ -174,7 +174,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                 End If
             End If
 
-ExitMe:
             If ProcessTalkPage Then
                 Select Case State.Classification
                     Case Classification.Code, Classification.Unassessed
