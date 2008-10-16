@@ -37,9 +37,10 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.WPNovelsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.NovelsWikiProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.TaskForcesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.ShortStoriesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
             Me.ThCenturyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator
+            Me.ShortStoriesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator
             Me.AustralianToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.CrimeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.FantasyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -58,7 +59,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator
             Me.AutotaggedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.ClassListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.ToolStripSeparator5 = New System.Windows.Forms.ToolStripSeparator
+            Me.NarniaCheckBox = New System.Windows.Forms.CheckBox
+            Me.LemonyCheckBox = New System.Windows.Forms.CheckBox
+            Me.ShannaraCheckBox = New System.Windows.Forms.CheckBox
+            Me.TwilightCheckBox = New System.Windows.Forms.CheckBox
+            Me.SwordCheckBox = New System.Windows.Forms.CheckBox
             Me.WorkgroupsGroupBox.SuspendLayout()
             Me.ParametersGroup.SuspendLayout()
             Me.TextInsertContextMenuStrip.SuspendLayout()
@@ -66,6 +71,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             '
             'WorkgroupsGroupBox
             '
+            Me.WorkgroupsGroupBox.Controls.Add(Me.SwordCheckBox)
+            Me.WorkgroupsGroupBox.Controls.Add(Me.TwilightCheckBox)
+            Me.WorkgroupsGroupBox.Controls.Add(Me.ShannaraCheckBox)
+            Me.WorkgroupsGroupBox.Controls.Add(Me.LemonyCheckBox)
+            Me.WorkgroupsGroupBox.Controls.Add(Me.NarniaCheckBox)
             Me.WorkgroupsGroupBox.Controls.Add(Me.NineteenthCheckBox)
             Me.WorkgroupsGroupBox.Controls.Add(Me.FantasyCheckBox)
             Me.WorkgroupsGroupBox.Controls.Add(Me.AustralianCheckBox)
@@ -74,7 +84,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.WorkgroupsGroupBox.Controls.Add(Me.CrimeCheckBox)
             Me.WorkgroupsGroupBox.Location = New System.Drawing.Point(141, 6)
             Me.WorkgroupsGroupBox.Name = "WorkgroupsGroupBox"
-            Me.WorkgroupsGroupBox.Size = New System.Drawing.Size(123, 156)
+            Me.WorkgroupsGroupBox.Size = New System.Drawing.Size(123, 286)
             Me.WorkgroupsGroupBox.TabIndex = 2
             Me.WorkgroupsGroupBox.TabStop = False
             Me.WorkgroupsGroupBox.Text = "Workgroups"
@@ -94,7 +104,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'FantasyCheckBox
             '
             Me.FantasyCheckBox.AutoSize = True
-            Me.FantasyCheckBox.Location = New System.Drawing.Point(6, 88)
+            Me.FantasyCheckBox.Location = New System.Drawing.Point(6, 111)
             Me.FantasyCheckBox.Name = "FantasyCheckBox"
             Me.FantasyCheckBox.Size = New System.Drawing.Size(63, 17)
             Me.FantasyCheckBox.TabIndex = 10
@@ -116,18 +126,18 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'SFCheckBox
             '
             Me.SFCheckBox.AutoSize = True
-            Me.SFCheckBox.Location = New System.Drawing.Point(6, 133)
+            Me.SFCheckBox.Location = New System.Drawing.Point(6, 157)
             Me.SFCheckBox.Name = "SFCheckBox"
-            Me.SFCheckBox.Size = New System.Drawing.Size(39, 17)
+            Me.SFCheckBox.Size = New System.Drawing.Size(52, 17)
             Me.SFCheckBox.TabIndex = 8
-            Me.SFCheckBox.Text = "SF"
+            Me.SFCheckBox.Text = "Sci-Fi"
             Me.ToolTip1.SetToolTip(Me.SFCheckBox, "musician-work-group=yes")
             Me.SFCheckBox.UseVisualStyleBackColor = True
             '
             'ShortStoryCheckBox
             '
             Me.ShortStoryCheckBox.AutoSize = True
-            Me.ShortStoryCheckBox.Location = New System.Drawing.Point(6, 111)
+            Me.ShortStoryCheckBox.Location = New System.Drawing.Point(6, 203)
             Me.ShortStoryCheckBox.Name = "ShortStoryCheckBox"
             Me.ShortStoryCheckBox.Size = New System.Drawing.Size(78, 17)
             Me.ShortStoryCheckBox.TabIndex = 3
@@ -138,7 +148,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'CrimeCheckBox
             '
             Me.CrimeCheckBox.AutoSize = True
-            Me.CrimeCheckBox.Location = New System.Drawing.Point(6, 65)
+            Me.CrimeCheckBox.Location = New System.Drawing.Point(6, 88)
             Me.CrimeCheckBox.Name = "CrimeCheckBox"
             Me.CrimeCheckBox.Size = New System.Drawing.Size(52, 17)
             Me.CrimeCheckBox.TabIndex = 3
@@ -193,13 +203,13 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             '
             Me.TextInsertContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WPNovelsToolStripMenuItem})
             Me.TextInsertContextMenuStrip.Name = "TextInsertContextMenuStrip"
-            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(153, 48)
+            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(129, 26)
             '
             'WPNovelsToolStripMenuItem
             '
             Me.WPNovelsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NovelsWikiProjectToolStripMenuItem, Me.TaskForcesToolStripMenuItem, Me.ToolStripSeparator2, Me.NeedsAttentionToolStripMenuItem, Me.NovelinfoboxneededToolStripMenuItem, Me.NovelinfoboxincompToolStripMenuItem, Me.CoverNeededToolStripMenuItem, Me.StCoverNeededToolStripMenuItem, Me.ToolStripSeparator4, Me.CollaborationCandidateToolStripMenuItem, Me.PastCollaborationToolStripMenuItem, Me.PeerReviewToolStripMenuItem, Me.OldPeerReviewToolStripMenuItem, Me.ToolStripSeparator3, Me.AutotaggedToolStripMenuItem, Me.ClassListToolStripMenuItem})
             Me.WPNovelsToolStripMenuItem.Name = "WPNovelsToolStripMenuItem"
-            Me.WPNovelsToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.WPNovelsToolStripMenuItem.Size = New System.Drawing.Size(128, 22)
             Me.WPNovelsToolStripMenuItem.Text = "WPNovels"
             '
             'NovelsWikiProjectToolStripMenuItem
@@ -215,22 +225,27 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.TaskForcesToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
             Me.TaskForcesToolStripMenuItem.Text = "Task Forces"
             '
-            'ShortStoriesToolStripMenuItem
+            'ThCenturyToolStripMenuItem
             '
-            Me.ShortStoriesToolStripMenuItem.Name = "ShortStoriesToolStripMenuItem"
-            Me.ShortStoriesToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
-            Me.ShortStoriesToolStripMenuItem.Text = "Short Stories"
+            Me.ThCenturyToolStripMenuItem.Name = "ThCenturyToolStripMenuItem"
+            Me.ThCenturyToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+            Me.ThCenturyToolStripMenuItem.Text = "19th Century"
             '
             'ToolStripSeparator1
             '
             Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
             Me.ToolStripSeparator1.Size = New System.Drawing.Size(150, 6)
             '
-            'ThCenturyToolStripMenuItem
+            'ShortStoriesToolStripMenuItem
             '
-            Me.ThCenturyToolStripMenuItem.Name = "ThCenturyToolStripMenuItem"
-            Me.ThCenturyToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
-            Me.ThCenturyToolStripMenuItem.Text = "19th Century"
+            Me.ShortStoriesToolStripMenuItem.Name = "ShortStoriesToolStripMenuItem"
+            Me.ShortStoriesToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
+            Me.ShortStoriesToolStripMenuItem.Text = "Short Stories"
+            '
+            'ToolStripSeparator5
+            '
+            Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
+            Me.ToolStripSeparator5.Size = New System.Drawing.Size(150, 6)
             '
             'AustralianToolStripMenuItem
             '
@@ -337,10 +352,60 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.ClassListToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
             Me.ClassListToolStripMenuItem.Text = "class=List"
             '
-            'ToolStripSeparator5
+            'NarniaCheckBox
             '
-            Me.ToolStripSeparator5.Name = "ToolStripSeparator5"
-            Me.ToolStripSeparator5.Size = New System.Drawing.Size(150, 6)
+            Me.NarniaCheckBox.AutoSize = True
+            Me.NarniaCheckBox.Location = New System.Drawing.Point(6, 65)
+            Me.NarniaCheckBox.Name = "NarniaCheckBox"
+            Me.NarniaCheckBox.Size = New System.Drawing.Size(103, 17)
+            Me.NarniaCheckBox.TabIndex = 12
+            Me.NarniaCheckBox.Text = "Chron. of Narnia"
+            Me.ToolTip1.SetToolTip(Me.NarniaCheckBox, "a&e-work-group=yes")
+            Me.NarniaCheckBox.UseVisualStyleBackColor = True
+            '
+            'LemonyCheckBox
+            '
+            Me.LemonyCheckBox.AutoSize = True
+            Me.LemonyCheckBox.Location = New System.Drawing.Point(6, 134)
+            Me.LemonyCheckBox.Name = "LemonyCheckBox"
+            Me.LemonyCheckBox.Size = New System.Drawing.Size(102, 17)
+            Me.LemonyCheckBox.TabIndex = 13
+            Me.LemonyCheckBox.Text = "Lemony Snicket"
+            Me.ToolTip1.SetToolTip(Me.LemonyCheckBox, "a&e-work-group=yes")
+            Me.LemonyCheckBox.UseVisualStyleBackColor = True
+            '
+            'ShannaraCheckBox
+            '
+            Me.ShannaraCheckBox.AutoSize = True
+            Me.ShannaraCheckBox.Location = New System.Drawing.Point(6, 180)
+            Me.ShannaraCheckBox.Name = "ShannaraCheckBox"
+            Me.ShannaraCheckBox.Size = New System.Drawing.Size(72, 17)
+            Me.ShannaraCheckBox.TabIndex = 14
+            Me.ShannaraCheckBox.Text = "Shannara"
+            Me.ToolTip1.SetToolTip(Me.ShannaraCheckBox, "military-work-group=yes")
+            Me.ShannaraCheckBox.UseVisualStyleBackColor = True
+            '
+            'TwilightCheckBox
+            '
+            Me.TwilightCheckBox.AutoSize = True
+            Me.TwilightCheckBox.Location = New System.Drawing.Point(6, 249)
+            Me.TwilightCheckBox.Name = "TwilightCheckBox"
+            Me.TwilightCheckBox.Size = New System.Drawing.Size(62, 17)
+            Me.TwilightCheckBox.TabIndex = 15
+            Me.TwilightCheckBox.Text = "Twilight"
+            Me.ToolTip1.SetToolTip(Me.TwilightCheckBox, "military-work-group=yes")
+            Me.TwilightCheckBox.UseVisualStyleBackColor = True
+            '
+            'SwordCheckBox
+            '
+            Me.SwordCheckBox.AutoSize = True
+            Me.SwordCheckBox.Location = New System.Drawing.Point(6, 226)
+            Me.SwordCheckBox.Name = "SwordCheckBox"
+            Me.SwordCheckBox.Size = New System.Drawing.Size(96, 17)
+            Me.SwordCheckBox.TabIndex = 16
+            Me.SwordCheckBox.Text = "Sword of Truth"
+            Me.ToolTip1.SetToolTip(Me.SwordCheckBox, "military-work-group=yes")
+            Me.SwordCheckBox.UseVisualStyleBackColor = True
             '
             'WPNovelSettings
             '
@@ -400,6 +465,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Private WithEvents NineteenthCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents ThCenturyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents ToolStripSeparator5 As System.Windows.Forms.ToolStripSeparator
+        Private WithEvents SwordCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents TwilightCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents ShannaraCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents LemonyCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents NarniaCheckBox As System.Windows.Forms.CheckBox
 
     End Class
 End Namespace
