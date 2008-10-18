@@ -1079,7 +1079,7 @@ Message: {2}
         public static string GetENLinkWithSimpleSkinAndLocalLanguage(string Article)
         {
             return "http://en.wikipedia.org/w/index.php?title=" + Tools.WikiEncode(Article) + "&useskin=simple&uselang=" +
-              WikiFunctions.Variables.LangCode.ToString();
+              WikiFunctions.Variables.LangCodeEnumString();
         }
 
         /// <summary>

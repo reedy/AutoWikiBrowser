@@ -2126,7 +2126,7 @@ window.scrollTo(0, diffTopY);
                 userTalkWarningsLoaded = false; // force reload
 
                 if (!Variables.IsCustomProject && !Variables.IsWikia && !Variables.IsWikimediaMonolingualProject)
-                    lblProject.Text = Variables.LangCode.ToString().ToLower() + "." + Variables.Project;
+                    lblProject.Text = Variables.LangCodeEnumString() + "." + Variables.Project;
                 else if (Variables.IsWikimediaMonolingualProject)
                     lblProject.Text = Variables.Project.ToString();
                 else
