@@ -740,8 +740,7 @@ namespace WikiFunctions
             if (string.Compare(lang, "is", true) == 0) return LangCodeEnum.Is;
             if (string.Compare(lang, "as", true) == 0) return LangCodeEnum.As;
             if (string.Compare(lang, "new", true) == 0) return LangCodeEnum.New;
-            if (lang.Contains("-")) lang = lang.Replace('-', '_');
-            return (LangCodeEnum)Enum.Parse(typeof(LangCodeEnum), lang);
+            return (LangCodeEnum)Enum.Parse(typeof(LangCodeEnum), lang.Replace('-', '_'));
         }
 
         #endregion
