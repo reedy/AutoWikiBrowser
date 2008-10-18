@@ -361,6 +361,10 @@ bar"));
 
             Assert.IsFalse(Tools.IsRedirect("#REDIRECT you to [[Hell]]"));
             Assert.IsFalse(Tools.IsRedirect("REDIRECT [[Foo]]"));
+
+            // http://en.wikipedia.org/w/index.php?title=Middleton_Lake&diff=246079011&oldid=240299146
+            Assert.IsTrue(Tools.IsRedirect("#REDIRECT:[[Foo]]"));
+            Assert.IsTrue(Tools.IsRedirect("#REDIRECT : [[Foo]]"));
         }
 
         [Test]
@@ -379,6 +383,11 @@ bar"));
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Problem_with_redirects
             Assert.AreEqual("Foo, bar", Tools.RedirectTarget("#REDIRECT[[Foo%2C_bar]]"));
             Assert.AreEqual("Хуй", Tools.RedirectTarget("#REDIRECT[[%D0%A5%D1%83%D0%B9]]"));
+
+            // http://en.wikipedia.org/w/index.php?title=Middleton_Lake&diff=246079011&oldid=240299146
+            Assert.AreEqual("Foo", Tools.RedirectTarget("#REDIRECT:[[Foo]]"));
+            Assert.AreEqual("Foo", Tools.RedirectTarget("#REDIRECT : [[Foo]]"));
+
         }
 
         [Test]

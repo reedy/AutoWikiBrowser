@@ -72,7 +72,7 @@ namespace WikiFunctions
                     s = "REDIRECT";
                     break;
             }
-            Redirect = new Regex(@"#" + s + @"\s*\[\[\s*:?\s*([^\|]*?)\s*(|\|.*?)]\]", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            Redirect = new Regex(@"#" + s + @"\s*:?\s*\[\[\s*:?\s*([^\|]*?)\s*(|\|.*?)]\]", RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
             if (Variables.LangCode == LangCodeEnum.ru)
                 Disambigs = new Regex(TemplateStart + @"([Dd]isambiguation|[Dd]isambig|[Нн]еоднозначность)}}", RegexOptions.Compiled);
