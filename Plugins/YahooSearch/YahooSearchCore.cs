@@ -17,10 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-using System;
 using System.Collections.Generic;
-using System.Text;
-
 using System.Xml;
 using System.IO;
 
@@ -69,7 +66,7 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
                             {
                                 if (string.Compare(reader.ToString(), "limit exceeded", true) == 0)
                                 {
-                                    System.Windows.Forms.MessageBox.Show("Query limit for Yahoo Exceeded. Please try again later");
+                                    Tools.MessageBox("Query limit for Yahoo Exceeded. Please try again later");
                                     return articles;
                                 }
                             }
