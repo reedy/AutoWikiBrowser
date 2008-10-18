@@ -263,7 +263,7 @@ namespace WikiFunctions.Lists
         static readonly List<string> ac = new List<string>(new string[] { "categories" });
         protected override ICollection<string> Actions
         {
-            get { throw new NotImplementedException(); }
+            get { return ac; }
         }
         #endregion
 
@@ -313,7 +313,7 @@ namespace WikiFunctions.Lists
         static readonly List<string> ac = new List<string>(new string[] { "backlinks" });
         protected override ICollection<string> Actions
         {
-            get { throw new NotImplementedException(); }
+            get { return ac; }
         }
         #endregion
 
@@ -382,7 +382,7 @@ namespace WikiFunctions.Lists
         static readonly List<string> ac = new List<string>(new string[] { "embeddedin" });
         protected override ICollection<string> Actions
         {
-            get { throw new NotImplementedException(); }
+            get { return ac; }
         }
         #endregion
 
@@ -431,7 +431,7 @@ namespace WikiFunctions.Lists
         static readonly List<string> ac = new List<string>(new string[] { "links" });
         protected override ICollection<string> Actions
         {
-            get { throw new NotImplementedException(); }
+            get { return ac; }
         }
         #endregion
 
