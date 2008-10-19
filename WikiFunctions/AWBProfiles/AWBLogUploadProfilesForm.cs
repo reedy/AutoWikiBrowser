@@ -57,7 +57,7 @@ namespace WikiFunctions.Profiles
             }
         }
 
-        void UpdateUI()
+        private void UpdateUI()
         {
             btnLogin.Enabled = btnDelete.Enabled = BtnEdit.Enabled = loginAsThisAccountToolStripMenuItem.Enabled =
                 editThisAccountToolStripMenuItem.Enabled = changePasswordToolStripMenuItem.Enabled =
