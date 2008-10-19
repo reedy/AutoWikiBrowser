@@ -114,13 +114,10 @@ namespace WikiFunctions
             //CanonicalNamespaceAliases[7] = "Image talk:";
 
             if (!Globals.UnitTestMode)
-            {
                 SetProject(LangCodeEnum.en, ProjectEnum.wikipedia);
-            }
             else
             {
                 SetToEnglish("Wikipedia:", "Wikipedia talk:");
-                Stub = "[Ss]tub";
                 RegenerateRegexes();
             }
         }
