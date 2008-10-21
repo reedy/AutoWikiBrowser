@@ -155,7 +155,7 @@ namespace WikiFunctions.Lists
                                 if (reader.Value.Length > 0)
                                 {
                                     string continueFrom = Tools.WikiEncode(reader.Value.ToString());
-                                    url = Variables.URLLong + "api.php?action=query&list=allpages&" + from + "=" + s + "&apnamespace=" + Namespace + "&aplimit=50&format=xml&apfrom=" + continueFrom;
+                                    url = Variables.URLLong + "api.php?action=query&list=allpages&" + from + "=" + s + "&apnamespace=" + Namespace + "&aplimit=max&format=xml&apfrom=" + continueFrom;
                                     more = true;
                                 }
                             }
