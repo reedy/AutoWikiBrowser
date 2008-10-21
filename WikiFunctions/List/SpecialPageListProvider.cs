@@ -37,7 +37,7 @@ namespace WikiFunctions.Lists
     /// </summary>
     public partial class SpecialPageListProvider : Form, IListProvider
     {
-        private static BindingList<ISpecialPageProvider> listItems = new BindingList<ISpecialPageProvider>();
+        private static BindingList<IListProvider> listItems = new BindingList<IListProvider>();
 
         public SpecialPageListProvider()
         {
@@ -107,76 +107,59 @@ namespace WikiFunctions.Lists
         {
             if (DesignMode) return;
 
-            txtPages.Enabled = cboNamespace.Enabled = ((ISpecialPageProvider)cmboSourceSelect.SelectedItem).PagesTextBoxEnabled;
+            txtPages.Enabled = cboNamespace.Enabled = ((ISpecialPageProvider)cmboSourceSelect.SelectedItem).UserInputTextBoxEnabled;
         }
     }
 
     interface ISpecialPageProvider
     {
         List<Article> MakeList(int Namespace, params string[] searchCriteria);
-        string DisplayText { get; }
-        bool PagesTextBoxEnabled { get; }
+        string UserInputTextBoxText { get; }
+        bool UserInputTextBoxEnabled { get; }
         bool PagesNeeded { get; }
     }
 
-    public class AllPagesSpecialPageProvider : ISpecialPageProvider
+    public class AllPagesSpecialPageProvider : ApiListProviderBase, ISpecialPageProvider
     {
+        #region Tags: <allpages>/<p>
+        static readonly List<string> pe = new List<string>(new string[] { "p" });
+        protected override ICollection<string> PageElements
+        {
+            get { return pe; }
+        }
+
+        static readonly List<string> ac = new List<string>(new string[] { "allpages" });
+        protected override ICollection<string> Actions
+        {
+            get { return ac; }
+        }
+        #endregion
+
         protected string from = "apfrom";
 
         #region ISpecialPageProvider Members
+
+        public override List<Article> MakeList(params string[] searchCriteria)
+        {
+            return MakeList(0, searchCriteria);
+        }
 
         public virtual List<Article> MakeList(int Namespace, params string[] searchCriteria)
         {
             List<Article> list = new List<Article>();
 
-            foreach (string s in searchCriteria)
+            foreach (string page in searchCriteria)
             {
-                string url = Variables.URLLong + "api.php?action=query&list=allpages&" + from + "=" + s + "&apnamespace=" + Namespace + "&aplimit=max&format=xml";
-                while (true)
-                {
-                    string html = Tools.GetHTML(url);
+                string url = Variables.URLLong + "api.php?action=query&list=allpages&" + from + "=" + HttpUtility.UrlEncode(page) + "&apnamespace=" + Namespace + "&aplimit=max&format=xml";
 
-                    bool more = false;
-
-                    using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
-                    {
-                        while (reader.Read())
-                        {
-                            if (reader.Name.Equals("p"))
-                            {
-                                if (reader.MoveToAttribute("title"))
-                                {
-                                    list.Add(new WikiFunctions.Article(reader.Value.ToString(), 0));
-                                }
-                            }
-                            else if (reader.Name.Equals("allpages") && from != "apfrom") //dont want all pages loading EVERYTHING
-                            {
-                                reader.MoveToAttribute("apfrom");
-                                if (reader.Value.Length > 0)
-                                {
-                                    string continueFrom = Tools.WikiEncode(reader.Value.ToString());
-                                    url = Variables.URLLong + "api.php?action=query&list=allpages&" + from + "=" + s + "&apnamespace=" + Namespace + "&aplimit=max&format=xml&apfrom=" + continueFrom;
-                                    more = true;
-                                }
-                            }
-                        }
-                    }
-
-                    if (!more)
-                        break;
-                }
+                list.AddRange(ApiMakeList(url, list.Count));
             }
             return list;
         }
 
-        public virtual string DisplayText
+        public override string UserInputTextBoxText
         {
             get { return "All Pages"; }
-        }
-
-        public virtual bool PagesTextBoxEnabled
-        {
-            get { return true; }
         }
 
         public virtual bool PagesNeeded
@@ -184,6 +167,19 @@ namespace WikiFunctions.Lists
             get { return false; }
         }
         #endregion
+
+        public override bool UserInputTextBoxEnabled
+        {
+            get { return true; }
+        }
+
+        public override void Selected()
+        { }
+
+        public override string DisplayText
+        {
+            get { return UserInputTextBoxText; }
+        }
     }
 
     public class PrefixIndexSpecialPageProvider : AllPagesSpecialPageProvider
@@ -203,63 +199,50 @@ namespace WikiFunctions.Lists
             get { return "All pages with prefix (Prefixindex)"; }
         }
 
-        public override bool PagesTextBoxEnabled
-        {
-            get { return true; }
-        }
-
         public override bool PagesNeeded
         {
             get { return true; }
         }
     }
 
-    public class RecentChangesSpecialPageProvider : ISpecialPageProvider
+    public class RecentChangesSpecialPageProvider : ApiListProviderBase, ISpecialPageProvider
     {
+        #region Tags: <recentchanges>/<rc>
+        static readonly List<string> pe = new List<string>(new string[] { "rc" });
+        protected override ICollection<string> PageElements
+        {
+            get { return pe; }
+        }
+
+        static readonly List<string> ac = new List<string>(new string[] { "recentchanges" });
+        protected override ICollection<string> Actions
+        {
+            get { return ac; }
+        }
+        #endregion
+
         #region ISpecialPageProvider Members
+        public override List<Article> MakeList(params string[] searchCriteria)
+        {
+            return MakeList(0, searchCriteria);
+        }
 
         public List<Article> MakeList(int Namespace, params string[] searchCriteria)
         {
             List<Article> list = new List<Article>();
 
-            foreach (string s in searchCriteria)
+            foreach (string page in searchCriteria)
             {
-                string url = Variables.URLLong + "api.php?action=query&list=recentchanges&rctitles=" + s + "&rcnamespace=" + Namespace + "&rclimit=max&format=xml";
-                while (true)
-                {
-                    string html = Tools.GetHTML(url);
+                string url = Variables.URLLong + "api.php?action=query&list=recentchanges&rctitles=" + HttpUtility.UrlEncode(page) + "&rcnamespace=" + Namespace + "&rclimit=max&format=xml";
 
-                    bool more = false;
-
-                    using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
-                    {
-                        while (reader.Read())
-                        {
-                            if (reader.Name.Equals("rc"))
-                            {
-                                if (reader.MoveToAttribute("title"))
-                                {
-                                    list.Add(new WikiFunctions.Article(reader.Value.ToString(), 0));
-                                }
-                            }
-                        }
-                    }
-
-                    if (!more)
-                        break;
-                }
+                list.AddRange(ApiMakeList(url, list.Count));
             }
             return list;
         }
 
-        public string DisplayText
+        public override string DisplayText
         {
             get { return "Recent Changes"; }
-        }
-
-        public bool PagesTextBoxEnabled
-        {
-            get { return true; }
         }
 
         public bool PagesNeeded
@@ -267,5 +250,18 @@ namespace WikiFunctions.Lists
             get { return false; }
         }
         #endregion
+
+        public override string UserInputTextBoxText
+        {
+            get { return DisplayText; }
+        }
+
+        public override bool UserInputTextBoxEnabled
+        {
+            get { return false; }
+        }
+
+        public override void Selected()
+        { }
     }
 }
