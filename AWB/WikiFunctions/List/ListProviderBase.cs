@@ -252,7 +252,6 @@ namespace WikiFunctions.Lists
             {
                 cats.Add(Regex.Replace(Tools.RemoveHashFromPageTitle(Tools.WikiDecode(cat)).Trim(),
                     "^" + Variables.NamespacesCaseInsensitive[14], "").Trim());
-                    
             }
 
             return cats;
