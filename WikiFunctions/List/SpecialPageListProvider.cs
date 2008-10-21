@@ -48,6 +48,7 @@ namespace WikiFunctions.Lists
                 listItems.Add(new PrefixIndexSpecialPageProvider());
                 listItems.Add(new AllPagesSpecialPageProvider());
                 listItems.Add(new RecentChangesSpecialPageProvider());
+                listItems.Add(new NewPagesListProvider());
             }
 
             cmboSourceSelect.DataSource = listItems;
@@ -107,7 +108,10 @@ namespace WikiFunctions.Lists
         {
             if (DesignMode) return;
 
-            txtPages.Enabled = cboNamespace.Enabled = ((ISpecialPageProvider)cmboSourceSelect.SelectedItem).UserInputTextBoxEnabled;
+            ISpecialPageProvider prov = (ISpecialPageProvider)cmboSourceSelect.SelectedItem;
+
+            txtPages.Enabled = prov.UserInputTextBoxEnabled;
+            cboNamespace.Enabled = prov.NamespacesEnabled;
         }
     }
 
@@ -120,6 +124,7 @@ namespace WikiFunctions.Lists
         string UserInputTextBoxText { get; }
         bool UserInputTextBoxEnabled { get; }
         bool PagesNeeded { get; }
+        bool NamespacesEnabled { get; }
     }
 
     /// <summary>
@@ -185,6 +190,11 @@ namespace WikiFunctions.Lists
         public override string DisplayText
         {
             get { return UserInputTextBoxText; }
+        }
+
+        public bool NamespacesEnabled
+        { 
+            get { return true; } 
         }
     }
 
@@ -275,12 +285,17 @@ namespace WikiFunctions.Lists
 
         public override void Selected()
         { }
+
+        public bool NamespacesEnabled
+        {
+            get { return true; }
+        }
     }
 
     /// <summary>
     /// Returns a list of new pages
     /// </summary>
-    public class NewPagesListProvider : ApiListProviderBase
+    public class NewPagesListProvider : ApiListProviderBase, ISpecialPageProvider
     {
         #region Tags: <recentchanges>/<rc>
         static readonly List<string> pe = new List<string>(new string[] { "rc" });
@@ -298,10 +313,15 @@ namespace WikiFunctions.Lists
 
         public override List<Article> MakeList(params string[] searchCriteria)
         {
+            return MakeList(0, searchCriteria);
+        }
+
+        public List<Article> MakeList(int Namespace, params string[] searchCriteria)
+        {
             List<Article> list = new List<Article>();
 
             string url = Variables.URLLong + "api.php?action=query&list=recentchanges"
-                + "&rclimit=max&rctype=new&rcshow=!redirects&rcnamespace=0&format=xml";
+                + "&rclimit=max&rctype=new&rcshow=!redirects&rcnamespace=" + Namespace + "&format=xml";
 
             list.AddRange(ApiMakeList(url, list.Count));
 
@@ -320,5 +340,15 @@ namespace WikiFunctions.Lists
 
         public override void Selected() { }
         #endregion
+
+        public bool PagesNeeded
+        {
+            get { return false; }
+        }
+
+        public bool NamespacesEnabled
+        {
+            get { return true; }
+        }
     }
 }
