@@ -1162,7 +1162,6 @@ namespace WikiFunctions
             if (!bLoaded) UpdateWikiStatus();
         }
 
-
         /// <summary>
         /// Checks if the current version of AWB is enabled
         /// </summary>
