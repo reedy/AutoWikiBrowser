@@ -968,6 +968,11 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class RandomPagesListProvider : ApiListProviderBase
     {
+        public RandomPagesListProvider()
+        {
+            Limit = 100;
+        }
+
         #region Tags: <random>/<page>
         static readonly List<string> pe = new List<string>(new string[] { "page" });
         protected override ICollection<string> PageElements
@@ -988,10 +993,7 @@ namespace WikiFunctions.Lists
 
             string url = Variables.URLLong + "api.php?action=query&list=random&rnnamespace=0&rnlimit=max&format=xml";
 
-            for (int i = 0; i < 10 && list.Count < Limit; i++)
-            {
-                list.AddRange(ApiMakeList(url, 0));
-            }
+            list.AddRange(ApiMakeList(url, list.Count));
             return list;
         }
 
