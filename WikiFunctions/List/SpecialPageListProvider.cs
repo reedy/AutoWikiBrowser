@@ -131,7 +131,7 @@ namespace WikiFunctions.Lists
 
             foreach (string s in searchCriteria)
             {
-                string url = Variables.URLLong + "api.php?action=query&list=allpages&" + from + "=" + s + "&apnamespace=" + Namespace + "&aplimit=500&format=xml";
+                string url = Variables.URLLong + "api.php?action=query&list=allpages&" + from + "=" + s + "&apnamespace=" + Namespace + "&aplimit=max&format=xml";
                 while (true)
                 {
                     string html = Tools.GetHTML(url);
@@ -224,7 +224,7 @@ namespace WikiFunctions.Lists
 
             foreach (string s in searchCriteria)
             {
-                string url = Variables.URLLong + "api.php?action=query&list=recentchanges&rctitles=" + s + "&rcnamespace=" + Namespace + "&rclimit=500&format=xml";
+                string url = Variables.URLLong + "api.php?action=query&list=recentchanges&rctitles=" + s + "&rcnamespace=" + Namespace + "&rclimit=max&format=xml";
                 while (true)
                 {
                     string html = Tools.GetHTML(url);
