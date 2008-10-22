@@ -33,15 +33,14 @@ using WikiFunctions.Lists;
 namespace WikiFunctions.Lists
 {
     /// <summary>
-    /// An interface implemented by objects which attach to the WikiFunctions' ListMaker combo box and return lists of articles
+    /// An interface implemented by objects which attach to the WikiFunctions' ListMaker combo box and return lists of pages
     /// </summary>
     public interface IListProvider
     {
         /// <summary>
-        /// Process the user input (if any) and return a list of articles
+        /// Process the user input (if any) and return a list of pages
         /// </summary>
-        /// <param name="userInput"></param>
-        /// <returns></returns>
+        /// <param name="searchCriteria">User Input/Pages</param>
         List<Article> MakeList(params string[] searchCriteria);
 
         /// <summary>
@@ -71,12 +70,25 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Extension of IListProvider to provide some extra functionality needed for options on Special Pages
     /// </summary>
     interface ISpecialPageProvider : IListProvider
     {
+        /// <summary>
+        /// Process the user input (if any) and return a list of pages
+        /// </summary>
+        /// <param name="Namespace">Namespace to enumerate</param>
+        /// <param name="searchCriteria">User Input/Pages</param>
         List<Article> MakeList(int Namespace, params string[] searchCriteria);
+
+        /// <summary>
+        /// Whether something must be entered in the text box
+        /// </summary>
         bool PagesNeeded { get; }
+
+        /// <summary>
+        /// Whether Namespace box should be enabled, therefore whether namespace can be used to filter results
+        /// </summary>
         bool NamespacesEnabled { get; }
     }
 }
