@@ -69,4 +69,16 @@ namespace WikiFunctions.Lists
         /// </summary>
         bool RunOnSeparateThread { get; }
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    interface ISpecialPageProvider
+    {
+        List<Article> MakeList(int Namespace, params string[] searchCriteria);
+        string UserInputTextBoxText { get; }
+        bool UserInputTextBoxEnabled { get; }
+        bool PagesNeeded { get; }
+        bool NamespacesEnabled { get; }
+    }
 }
