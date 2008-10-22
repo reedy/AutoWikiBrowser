@@ -247,7 +247,7 @@ namespace AutoWikiBrowser
                chkSkipIfInuse.Checked, chkSkipIfContains.Checked, chkSkipIfNotContains.Checked, txtSkipIfContains.Text,
                txtSkipIfNotContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked,
                chkSkipWhenNoFAR.Checked, chkSkipIfNoRegexTypo.Checked, chkSkipNoDab.Checked, chkSkipWhitespace.Checked, chkSkipCasing.Checked,
-               chkSkipGeneralFixes.Checked, chkSkipNoPageLinks.Checked, Skip.SelectedItems),
+               chkSkipGeneralFixes.Checked, chkSkipNoPageLinks.Checked, Skip.SelectedItems, chkSkipIfRedirect.Checked),
                new GeneralPrefs(SaveArticleList, IgnoreNoBots, cmboEditSummary.Items,
                cmboEditSummary.Text, new string[10] {PasteMore1.Text, PasteMore2.Text, PasteMore3.Text, 
                 PasteMore4.Text, PasteMore5.Text, PasteMore6.Text, PasteMore7.Text, PasteMore8.Text,
