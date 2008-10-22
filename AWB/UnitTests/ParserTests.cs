@@ -140,7 +140,7 @@ namespace UnitTests
             Assert.AreEqual("[[FOO|FOOBAR]]", Parsers.SimplifyLinks("[[FOO|FOOBAR]]"));
             Assert.AreEqual("[[foo|fooBAR]]", Parsers.SimplifyLinks("[[foo|fooBAR]]"));
 
-            Assert.AreEqual("[[Marathon Triology]]", Parsers.SimplifyLinks("[[Marathon_Trilogy|Marathon Triology]]"));
+            Assert.AreEqual("[[Elizabeth Gunn]]", Parsers.SimplifyLinks("[[Elizabeth Gunn | Elizabeth Gunn]]"));
         }
 
         [Test]
