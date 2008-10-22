@@ -200,11 +200,6 @@ namespace WikiFunctions
         public static readonly Regex RegexWordCount = new Regex(@"\w+", RegexOptions.Compiled);
 
         /// <summary>
-        /// Matches IP addresses
-        /// </summary>
-        public static readonly Regex IPAddress = new Regex(@"[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}", RegexOptions.Compiled);
-
-        /// <summary>
         /// Matches <source></source> tags
         /// </summary>
         public static readonly Regex Source = new Regex(@"<\s*source(?:\s.*?|)>(.*?)<\s*/\s*source\s*>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
@@ -265,6 +260,7 @@ namespace WikiFunctions
         /// Matches {{Deadend|xxx}} (en only)
         /// </summary>
         public static readonly Regex DeadEnd = new Regex(@"{{[Dd]eadend\|.*?}}", RegexOptions.Compiled);
+        #endregion
 
         /// <summary>
         /// matches <!-- comments -->
@@ -290,8 +286,6 @@ namespace WikiFunctions
         /// matches user groups
         /// </summary>
         public static readonly Regex wgUserGroups = new Regex(@"^var\s*wgUserGroups\s*=\s*\[(.*\])", RegexOptions.Compiled);
-
-        #endregion
 
         /// <summary>
         /// matches template
