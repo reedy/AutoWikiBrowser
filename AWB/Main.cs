@@ -654,6 +654,12 @@ namespace AutoWikiBrowser
                 return;
             }
 
+            if (chkSkipIfRedirect.Checked)
+            {
+                SkipPage("Page is a redirect");
+                return;
+            }
+
             if (chkSkipIfContains.Checked && TheArticle.SkipIfContains(txtSkipIfContains.Text,
                 chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, true))
             {

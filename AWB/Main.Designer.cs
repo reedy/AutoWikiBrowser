@@ -364,6 +364,7 @@ namespace AutoWikiBrowser
             this.tpLogs = new System.Windows.Forms.TabPage();
             this.logControl = new WikiFunctions.Logging.LogControl();
             this.tpLoggingOptions = new System.Windows.Forms.TabPage();
+            this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
             this.tpTypos = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
@@ -389,8 +390,8 @@ namespace AutoWikiBrowser
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
-            this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
+            this.chkSkipIfRedirect = new System.Windows.Forms.CheckBox();
             this.mnuTextBox.SuspendLayout();
             this.MnuMain.SuspendLayout();
             this.StatusMain.SuspendLayout();
@@ -2982,6 +2983,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.chkSkipIfRedirect);
             this.groupBox8.Controls.Add(this.chkSkipCasing);
             this.groupBox8.Controls.Add(this.chkSkipGeneralFixes);
             this.groupBox8.Controls.Add(this.chkSkipNoPageLinks);
@@ -2991,7 +2993,7 @@ namespace AutoWikiBrowser
             this.groupBox8.Controls.Add(this.chkSkipNoChanges);
             this.groupBox8.Location = new System.Drawing.Point(6, 101);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(266, 163);
+            this.groupBox8.Size = new System.Drawing.Size(266, 190);
             this.groupBox8.TabIndex = 1;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "General skip options";
@@ -3009,7 +3011,7 @@ namespace AutoWikiBrowser
             // gbPageExisting
             // 
             this.gbPageExisting.Controls.Add(this.flowLayoutPanel1);
-            this.gbPageExisting.Location = new System.Drawing.Point(6, 270);
+            this.gbPageExisting.Location = new System.Drawing.Point(6, 297);
             this.gbPageExisting.Name = "gbPageExisting";
             this.gbPageExisting.Size = new System.Drawing.Size(260, 48);
             this.gbPageExisting.TabIndex = 2;
@@ -3568,6 +3570,15 @@ namespace AutoWikiBrowser
             this.tpLoggingOptions.Text = "Logging to file";
             this.tpLoggingOptions.UseVisualStyleBackColor = true;
             // 
+            // loggingSettings1
+            // 
+            this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
+            this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
+            this.loggingSettings1.Name = "loggingSettings1";
+            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
+            this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
+            this.loggingSettings1.TabIndex = 0;
+            // 
             // tpTypos
             // 
             this.tpTypos.Controls.Add(this.splitContainer1);
@@ -3834,19 +3845,20 @@ namespace AutoWikiBrowser
             this.webBrowserEdit.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.webBrowserEdit_Navigating);
             this.webBrowserEdit.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserEdit_DocumentCompleted);
             // 
-            // loggingSettings1
-            // 
-            this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
-            this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
-            this.loggingSettings1.Name = "loggingSettings1";
-            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
-            this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
-            this.loggingSettings1.TabIndex = 0;
-            // 
             // NudgeTimer
             // 
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
+            // 
+            // chkSkipIfRedirect
+            // 
+            this.chkSkipIfRedirect.AutoSize = true;
+            this.chkSkipIfRedirect.Location = new System.Drawing.Point(3, 157);
+            this.chkSkipIfRedirect.Name = "chkSkipIfRedirect";
+            this.chkSkipIfRedirect.Size = new System.Drawing.Size(99, 17);
+            this.chkSkipIfRedirect.TabIndex = 7;
+            this.chkSkipIfRedirect.Text = "Page is redirect";
+            this.chkSkipIfRedirect.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -4305,5 +4317,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator30;
         private System.Windows.Forms.ToolStripMenuItem commentSelectedToolStripMenuItem;
+        private System.Windows.Forms.CheckBox chkSkipIfRedirect;
     }
 }
