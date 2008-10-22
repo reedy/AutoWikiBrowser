@@ -602,8 +602,16 @@ namespace AutoWikiBrowser
 
             this.Text = SettingsFileDisplay + " - " + TheArticle.Name;
 
+            bool articleIsRedirect = Tools.IsRedirect(strTemp);
+
+            if (chkSkipIfRedirect.Checked && articleIsRedirect)
+            {
+                SkipPage("Page is a redirect");
+                return;
+            }
+
             //check for redirect
-            if (bypassRedirectsToolStripMenuItem.Checked && Tools.IsRedirect(strTemp) && !PageReload)
+            if (bypassRedirectsToolStripMenuItem.Checked && articleIsRedirect && !PageReload)
             {
                 // Warning: Creating an ArticleEX causes a new AWBLogListener to be created and it becomes the active listener in MyTrace; be careful we're writing to the correct log listener
                 ArticleEX redirect = new ArticleEX(Tools.RedirectTarget(strTemp));
@@ -651,12 +659,6 @@ namespace AutoWikiBrowser
             {
                 PageReload = false;
                 GetDiff();
-                return;
-            }
-
-            if (chkSkipIfRedirect.Checked && TheArticle.IsRedirect)
-            {
-                SkipPage("Page is a redirect");
                 return;
             }
 
