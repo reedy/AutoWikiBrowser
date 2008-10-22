@@ -48,12 +48,21 @@ namespace WikiFunctions.Lists
                 listItems.Add(new PrefixIndexSpecialPageProvider());
                 listItems.Add(new AllPagesSpecialPageProvider());
                 listItems.Add(new RecentChangesSpecialPageProvider());
-                listItems.Add(new NewPagesListProvider());
             }
 
             cmboSourceSelect.DataSource = listItems;
             cmboSourceSelect.DisplayMember = "DisplayText";
             cmboSourceSelect.ValueMember = "DisplayText";
+        }
+
+        public SpecialPageListProvider(params IListProvider[] providers)
+            :this()
+        {
+            foreach (IListProvider prov in providers)
+            {
+                if (prov is ISpecialPageProvider)
+                    listItems.Add(prov);
+            }
         }
 
         public List<Article> MakeList(params string[] searchCriteria)
@@ -93,7 +102,7 @@ namespace WikiFunctions.Lists
         public bool RunOnSeparateThread
         { get { return true; } }
 
-        private void SpecialPageListMakerProvider_Load(object sender, EventArgs e)
+        private void SpecialPageListProvider_Load(object sender, EventArgs e)
         {
             int currentSelected = cboNamespace.SelectedIndex;
             cboNamespace.Items.Clear();

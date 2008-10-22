@@ -72,16 +72,14 @@ namespace WikiFunctions
                         }
 
                         if (Update)
-                        {
-                            System.Diagnostics.Process.Start(AWBDirectory + "AWBUpdater.exe");
-                        }
+                            Process.Start(AWBDirectory + "AWBUpdater.exe");
                     }
                 }
             }
             catch { }
         }
 
-        static int StringToVersion(string version)
+        private static int StringToVersion(string version)
         {
             int res;
             if (!int.TryParse(version.Replace(".", ""), out res))
@@ -90,7 +88,7 @@ namespace WikiFunctions
             return res;
         }
 
-        static BackgroundRequest request;
+        private static BackgroundRequest request;
 
         /// <summary>
         /// Checks to see if AWBUpdater.exe.new exists, if it does, replace it.

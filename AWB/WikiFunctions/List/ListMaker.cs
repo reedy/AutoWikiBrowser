@@ -42,17 +42,18 @@ namespace WikiFunctions.Controls.Lists
         private static BindingList<IListProvider> listItems = new BindingList<IListProvider>();
         ListFilterForm SpecialFilter;
 
-        //used to keep easy track of providers for add/remove/use in code
+        //used to keep easy track of providers for add/remove/(re)use in code
         #region ListProviders
         private static IListProvider redirectLProvider = new RedirectsListProvider();
         private static IListProvider categoryLProvider = new CategoryListProvider();
         private static IListProvider categoryRecursiveLProvider = new CategoryRecursiveListProvider();
-        private static IListProvider whatLinksLProvider = new WhatLinksHereListProvider();
-        private static IListProvider whatTranscludesLProvider = new WhatTranscludesPageListMakerProvider();
+        private static IListProvider whatLinksHereLProvider = new WhatLinksHereListProvider();
+        private static IListProvider whatTranscludesLProvider = new WhatTranscludesPageListProvider();
         private static IListProvider linksOnPageLProvider = new LinksOnPageListProvider();
         private static IListProvider imageFileLinksLProvider = new ImageFileLinksListProvider();
         private static IListProvider imagesOnPageLProvider = new ImagesOnPageListProvider();
         private static IListProvider categoriesOnPageLProvider = new CategoriesOnPageListProvider();
+        private static IListProvider newPagesLProvider = new NewPagesListProvider();
         #endregion
 
         public event ListMakerEventHandler StatusTextChanged;
@@ -85,7 +86,7 @@ namespace WikiFunctions.Controls.Lists
                 listItems.Add(new CategoryRecursiveOneLevelListProvider());
                 listItems.Add(new CategoryRecursiveUserDefinedLevelListProvider());
                 listItems.Add(categoriesOnPageLProvider);
-                listItems.Add(whatLinksLProvider);
+                listItems.Add(whatLinksHereLProvider);
                 listItems.Add(new WhatLinksHereIncludingRedirectsListProvider());
                 listItems.Add(whatTranscludesLProvider);
                 listItems.Add(linksOnPageLProvider);
@@ -95,21 +96,21 @@ namespace WikiFunctions.Controls.Lists
                 listItems.Add(new GoogleSearchListProvider());
                 listItems.Add(new UserContribsListProvider());
                 listItems.Add(new UserContribUserDefinedNumberListProvider());
-                listItems.Add(new SpecialPageListProvider());
+                listItems.Add(new SpecialPageListProvider(whatLinksHereLProvider, newPagesLProvider, categoriesOnPageLProvider));
                 listItems.Add(imageFileLinksLProvider);
                 listItems.Add(new DatabaseScannerListProvider(this));
                 listItems.Add(new MyWatchlistListProvider());
                 listItems.Add(new WikiSearchListProvider());
                 listItems.Add(new RandomPagesListProvider());
                 listItems.Add(redirectLProvider);
-                listItems.Add(new NewPagesListProvider());
+                listItems.Add(newPagesLProvider);
             }
 
             SpecialFilter = new ListFilterForm(lbArticles);
 
             // We'll manage our own collection of list items:
             cmboSourceSelect.DataSource = listItems;
-            // Bind IListMakerProvider.DisplayText to be the displayed text:
+            // Bind IListProvider.DisplayText to be the displayed text:
             cmboSourceSelect.DisplayMember = "DisplayText";
             cmboSourceSelect.ValueMember = "DisplayText";
         }
@@ -1063,7 +1064,7 @@ namespace WikiFunctions.Controls.Lists
 
         private void fromWhatlinkshereToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddFromSelectedList(whatLinksLProvider);
+            AddFromSelectedList(whatLinksHereLProvider);
         }
 
         private void fromTranscludesHereToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1199,9 +1200,9 @@ namespace WikiFunctions.Controls.Lists
         }
 
         /// <summary>
-        /// Add a IListMakerProvider or a IListMakerPlugin to all ListMakers
+        /// Add a IListProvider or a IListMakerPlugin to all ListMakers
         /// </summary>
-        /// <param name="provider">IListMakerProvider/IListMakerPlugin to add</param>
+        /// <param name="provider">IListProvider/IListMakerPlugin to add</param>
         public static void AddProvider(IListProvider provider)
         {
             listItems.Add(provider);
@@ -1233,7 +1234,7 @@ namespace WikiFunctions.Controls.Lists
         }
 
         /// <summary>
-        /// Gets all the IListMakerPlugins from the list of IListMakerProviders
+        /// Gets all the IListMakerPlugins from the list of IListProviders
         /// </summary>
         /// <returns>List of IListMakerPlugins currently loaded</returns>
         public static List<WikiFunctions.Plugin.IListMakerPlugin> GetListMakerPlugins()

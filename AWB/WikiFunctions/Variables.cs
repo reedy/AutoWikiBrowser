@@ -343,7 +343,7 @@ namespace WikiFunctions
             BackgroundRequest r = new BackgroundRequest(new BackgroundRequestComplete(UnderscoresLoaded));
             r.HasUI = false;
             DelayedRequests.Add(r);
-            r.GetList(new WikiFunctions.Lists.WhatTranscludesPageListMakerProvider(), templates);
+            r.GetList(new WikiFunctions.Lists.WhatTranscludesPageListProvider(), templates);
         }
 
         static void UnderscoresLoaded(BackgroundRequest req)

@@ -40,8 +40,9 @@
             // 
             // btnOk
             // 
+            this.btnOk.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(98, 94);
+            this.btnOk.Location = new System.Drawing.Point(108, 94);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 0;
@@ -50,8 +51,9 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(179, 94);
+            this.btnCancel.Location = new System.Drawing.Point(189, 94);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 1;
@@ -60,11 +62,13 @@
             // 
             // cboNamespace
             // 
+            this.cboNamespace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.cboNamespace.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboNamespace.FormattingEnabled = true;
             this.cboNamespace.Location = new System.Drawing.Point(98, 65);
             this.cboNamespace.Name = "cboNamespace";
-            this.cboNamespace.Size = new System.Drawing.Size(156, 21);
+            this.cboNamespace.Size = new System.Drawing.Size(166, 21);
             this.cboNamespace.TabIndex = 9;
             // 
             // lblNamespace
@@ -87,9 +91,11 @@
             // 
             // txtPages
             // 
+            this.txtPages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPages.Location = new System.Drawing.Point(98, 39);
             this.txtPages.Name = "txtPages";
-            this.txtPages.Size = new System.Drawing.Size(156, 20);
+            this.txtPages.Size = new System.Drawing.Size(166, 20);
             this.txtPages.TabIndex = 12;
             // 
             // cmboSourceSelect
@@ -102,7 +108,7 @@
             this.cmboSourceSelect.IntegralHeight = false;
             this.cmboSourceSelect.Location = new System.Drawing.Point(98, 12);
             this.cmboSourceSelect.Name = "cmboSourceSelect";
-            this.cmboSourceSelect.Size = new System.Drawing.Size(156, 21);
+            this.cmboSourceSelect.Size = new System.Drawing.Size(166, 21);
             this.cmboSourceSelect.Sorted = true;
             this.cmboSourceSelect.TabIndex = 14;
             this.cmboSourceSelect.SelectedIndexChanged += new System.EventHandler(this.cmboSourceSelect_SelectedIndexChanged);
@@ -122,7 +128,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(266, 129);
+            this.ClientSize = new System.Drawing.Size(276, 129);
             this.Controls.Add(this.lblPages);
             this.Controls.Add(this.cmboSourceSelect);
             this.Controls.Add(this.btnCancel);
@@ -134,7 +140,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "SpecialPageListProvider";
             this.Text = "Special Pages";
-            this.Load += new System.EventHandler(this.SpecialPageListMakerProvider_Load);
+            this.Load += new System.EventHandler(this.SpecialPageListProvider_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
