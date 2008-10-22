@@ -73,11 +73,9 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// 
     /// </summary>
-    interface ISpecialPageProvider
+    interface ISpecialPageProvider : IListProvider
     {
         List<Article> MakeList(int Namespace, params string[] searchCriteria);
-        string UserInputTextBoxText { get; }
-        bool UserInputTextBoxEnabled { get; }
         bool PagesNeeded { get; }
         bool NamespacesEnabled { get; }
     }
