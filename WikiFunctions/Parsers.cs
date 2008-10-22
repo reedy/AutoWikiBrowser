@@ -514,11 +514,6 @@ namespace WikiFunctions.Parse
             //remove <br> from lists
             ArticleText = SyntaxRegex11.Replace(ArticleText, "$1\r\n");
 
-            //can cause problems
-            //ArticleText = Regex.Replace(ArticleText, "^<[Hh]2>(.*?)</[Hh]2>", "==$1==", RegexOptions.Multiline);
-            //ArticleText = Regex.Replace(ArticleText, "^<[Hh]3>(.*?)</[Hh]3>", "===$1===", RegexOptions.Multiline);
-            //ArticleText = Regex.Replace(ArticleText, "^<[Hh]4>(.*?)</[Hh]4>", "====$1====", RegexOptions.Multiline);
-
             //fix uneven bracketing on links
             ArticleText = SyntaxRegex1.Replace(ArticleText, "[http://$1]");
             ArticleText = SyntaxRegex2fix.Replace(ArticleText, "[http://$1]]]]");
@@ -733,22 +728,6 @@ namespace WikiFunctions.Parse
                 res = !res;
             }
             return res;
-        }
-
-        /// <summary>
-        /// Simplifies some links in article wiki text such as changing [[Dog|Dogs]] to [[Dog]]s
-        /// </summary>
-        /// <param name="ArticleText">The wiki text of the article.</param>
-        /// <param name="NoChange">Value that indicated whether no change was made.</param>
-        /// <returns>The simplified article text.</returns>
-        public string LinkSimplifier(string ArticleText, out bool NoChange)
-        {
-            testText = ArticleText;
-            ArticleText = SimplifyLinks(ArticleText);
-
-            NoChange = (testText == ArticleText);
-
-            return ArticleText;
         }
 
         // Covered by: LinkTests.TestSimplifyLinks()
