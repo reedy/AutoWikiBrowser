@@ -140,7 +140,9 @@ namespace UnitTests
             Assert.AreEqual("[[FOO|FOOBAR]]", Parsers.SimplifyLinks("[[FOO|FOOBAR]]"));
             Assert.AreEqual("[[foo|fooBAR]]", Parsers.SimplifyLinks("[[foo|fooBAR]]"));
 
+            //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Only_one_spurious_space_removed_from_link
             Assert.AreEqual("[[Elizabeth Gunn]]", Parsers.SimplifyLinks("[[Elizabeth Gunn | Elizabeth Gunn]]"));
+            Assert.AreEqual("[[Big Bend, Texas|Big Bend]]", Parsers.SimplifyLinks("[[Big Bend, Texas | Big Bend]]"));
         }
 
         [Test]
