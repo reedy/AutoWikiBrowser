@@ -910,6 +910,14 @@ namespace WikiFunctions
                 Trace.AWBSkipped("No user talk templates subst'd");
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool IsRedirect
+        {
+            get { return Tools.IsRedirect(ArticleText); }
+        }
     }
 
     /// <summary>
