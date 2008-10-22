@@ -769,6 +769,13 @@ namespace WikiFunctions.Parse
                         k = "[[" + b.Substring(0, a.Length) + "]]" + b.Substring(a.Length);
                         ArticleText = ArticleText.Replace(n, k);
                     }
+                    else
+                    {
+                        string newlink = "[[" + a + "|" + b + "]]";
+
+                        if (newlink != n)
+                            ArticleText = ArticleText.Replace(n, newlink);
+                    }
                 }
             }
             catch (Exception ex)
