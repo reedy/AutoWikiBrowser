@@ -745,15 +745,14 @@ namespace WikiFunctions.Parse
                 foreach (Match m in WikiRegexes.PipedWikiLink.Matches(ArticleText))
                 {
                     n = m.Value;
-                    a = m.Groups[1].Value;
-                    b = m.Groups[2].Value;
+                    a = m.Groups[1].Value.Trim();
+                    b = m.Groups[2].Value.Trim();
 
-                    if (b.Trim().Length == 0) continue;
+                    if (b.Length == 0) continue;
 
                     if (a == b || Tools.TurnFirstToLower(a) == b)
                     {
-                        k = WikiRegexes.PipedWikiLink.Replace(n, "[[$2]]");
-                        ArticleText = ArticleText.Replace(n, k);
+                        ArticleText = ArticleText.Replace(n, "[[" + a + "]]");
                     }
                     else if (Tools.TurnFirstToLower(b).StartsWith(Tools.TurnFirstToLower(a), StringComparison.Ordinal))
                     {
