@@ -144,31 +144,6 @@ namespace WikiFunctions
         public static readonly Regex Heading = new Regex(@"^(=+)(.*?)(=+)", RegexOptions.Compiled | RegexOptions.Multiline);
 
         /// <summary>
-        /// Matches = headings =
-        /// </summary>
-        public static readonly Regex Heading1 = new Regex(@"^(=)(.*?)(=)", RegexOptions.Compiled | RegexOptions.Multiline);
-
-        /// <summary>
-        /// Matches == headings ==
-        /// </summary>
-        public static readonly Regex Heading2 = new Regex(@"^(==)(.*?)(==)", RegexOptions.Compiled | RegexOptions.Multiline);
-
-        /// <summary>
-        /// Matches === headings ===
-        /// </summary>
-        public static readonly Regex Heading3 = new Regex(@"^(===)(.*?)(===)", RegexOptions.Compiled | RegexOptions.Multiline);
-
-        /// <summary>
-        /// Matches ==== headings ====
-        /// </summary>
-        public static readonly Regex Heading4 = new Regex(@"^(====)(.*?)(====)", RegexOptions.Compiled | RegexOptions.Multiline);
-
-        /// <summary>
-        /// Matches ===== headings =====
-        /// </summary>
-        public static readonly Regex Heading5 = new Regex(@"^(=====)(.*?)(=====)", RegexOptions.Compiled | RegexOptions.Multiline);
-
-        /// <summary>
         /// Matches headings of all levels
         /// </summary>
         public static readonly Regex Headings = new Regex(@"^={1,6}.*={1,6}\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
