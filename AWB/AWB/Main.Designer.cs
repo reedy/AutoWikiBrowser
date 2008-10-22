@@ -316,6 +316,7 @@ namespace AutoWikiBrowser
             this.gbRegexSkip = new System.Windows.Forms.GroupBox();
             this.chkSkipCaseSensitive = new System.Windows.Forms.CheckBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.chkSkipIfRedirect = new System.Windows.Forms.CheckBox();
             this.chkSkipNoPageLinks = new System.Windows.Forms.CheckBox();
             this.gbPageExisting = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -391,7 +392,6 @@ namespace AutoWikiBrowser
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.webBrowserEdit = new WikiFunctions.Browser.WebControl();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
-            this.chkSkipIfRedirect = new System.Windows.Forms.CheckBox();
             this.mnuTextBox.SuspendLayout();
             this.MnuMain.SuspendLayout();
             this.StatusMain.SuspendLayout();
@@ -1147,21 +1147,21 @@ namespace AutoWikiBrowser
             // loadPluginToolStripMenuItem
             // 
             this.loadPluginToolStripMenuItem.Name = "loadPluginToolStripMenuItem";
-            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.loadPluginToolStripMenuItem.Text = "&Load...";
             this.loadPluginToolStripMenuItem.Click += new System.EventHandler(this.loadPluginToolStripMenuItem_Click);
             // 
             // managePluginsToolStripMenuItem
             // 
             this.managePluginsToolStripMenuItem.Name = "managePluginsToolStripMenuItem";
-            this.managePluginsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.managePluginsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.managePluginsToolStripMenuItem.Text = "&Manager...";
             this.managePluginsToolStripMenuItem.Click += new System.EventHandler(this.managePluginsToolStripMenuItem_Click);
             // 
             // toolStripSeparator26
             // 
             this.toolStripSeparator26.Name = "toolStripSeparator26";
-            this.toolStripSeparator26.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator26.Size = new System.Drawing.Size(127, 6);
             // 
             // ToolStripMenuGeneral
             // 
@@ -2993,10 +2993,20 @@ namespace AutoWikiBrowser
             this.groupBox8.Controls.Add(this.chkSkipNoChanges);
             this.groupBox8.Location = new System.Drawing.Point(6, 101);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(266, 190);
+            this.groupBox8.Size = new System.Drawing.Size(266, 180);
             this.groupBox8.TabIndex = 1;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "General skip options";
+            // 
+            // chkSkipIfRedirect
+            // 
+            this.chkSkipIfRedirect.AutoSize = true;
+            this.chkSkipIfRedirect.Location = new System.Drawing.Point(3, 157);
+            this.chkSkipIfRedirect.Name = "chkSkipIfRedirect";
+            this.chkSkipIfRedirect.Size = new System.Drawing.Size(99, 17);
+            this.chkSkipIfRedirect.TabIndex = 7;
+            this.chkSkipIfRedirect.Text = "Page is redirect";
+            this.chkSkipIfRedirect.UseVisualStyleBackColor = true;
             // 
             // chkSkipNoPageLinks
             // 
@@ -3011,7 +3021,7 @@ namespace AutoWikiBrowser
             // gbPageExisting
             // 
             this.gbPageExisting.Controls.Add(this.flowLayoutPanel1);
-            this.gbPageExisting.Location = new System.Drawing.Point(6, 297);
+            this.gbPageExisting.Location = new System.Drawing.Point(6, 287);
             this.gbPageExisting.Name = "gbPageExisting";
             this.gbPageExisting.Size = new System.Drawing.Size(260, 48);
             this.gbPageExisting.TabIndex = 2;
@@ -3849,16 +3859,6 @@ namespace AutoWikiBrowser
             // 
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
-            // 
-            // chkSkipIfRedirect
-            // 
-            this.chkSkipIfRedirect.AutoSize = true;
-            this.chkSkipIfRedirect.Location = new System.Drawing.Point(3, 157);
-            this.chkSkipIfRedirect.Name = "chkSkipIfRedirect";
-            this.chkSkipIfRedirect.Size = new System.Drawing.Size(99, 17);
-            this.chkSkipIfRedirect.TabIndex = 7;
-            this.chkSkipIfRedirect.Text = "Page is redirect";
-            this.chkSkipIfRedirect.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
