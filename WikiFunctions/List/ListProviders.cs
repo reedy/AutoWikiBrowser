@@ -301,7 +301,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages which link to the Named Pages
     /// </summary>
-    public class WhatLinksHereListProvider : ApiListProviderBase
+    public class WhatLinksHereListProvider : ApiListProviderBase, ISpecialPageProvider
     {
         #region Tags: <backlinks>/<bl>
         static readonly List<string> pe = new List<string>(new string[] { "bl" });
@@ -321,6 +321,11 @@ namespace WikiFunctions.Lists
 
         public override List<Article> MakeList(params string[] searchCriteria)
         {
+            return MakeList(0, searchCriteria);
+        }
+
+        public List<Article> MakeList(int Namespace, params string[] searchCriteria)
+        {
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
             List<Article> list = new List<Article>();
@@ -328,7 +333,7 @@ namespace WikiFunctions.Lists
             foreach (string page in searchCriteria)
             {
                 string url = Variables.URLLong + "api.php?action=query&list=backlinks&bltitle="
-                    + HttpUtility.UrlEncode(page) + "&format=xml&bllimit=max";
+                    + HttpUtility.UrlEncode(page) + "&format=xml&bllimit=max&blnamespace=" + Namespace;
 
                 if (IncludeRedirects)
                     url += "&blredirect";
@@ -350,6 +355,20 @@ namespace WikiFunctions.Lists
 
         public override void Selected() { }
         #endregion
+
+        #region ISpecialPageProvider Members
+
+        public bool PagesNeeded
+        {
+            get { return false; }
+        }
+
+        public bool NamespacesEnabled
+        {
+            get { return true; }
+        }
+
+        #endregion
     }
 
     /// <summary>
@@ -370,7 +389,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages which transclude the Named Pages
     /// </summary>
-    public class WhatTranscludesPageListMakerProvider : ApiListProviderBase
+    public class WhatTranscludesPageListProvider : ApiListProviderBase
     {
         #region Tags: <embeddedin>/<ei>
         static readonly List<string> pe = new List<string>(new string[] { "ei" });
