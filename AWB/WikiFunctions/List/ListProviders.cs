@@ -1018,7 +1018,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Returns a list of "all pages"
     /// </summary>
     public class AllPagesSpecialPageProvider : ApiListProviderBase, ISpecialPageProvider
     {
@@ -1089,7 +1089,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Returns a list of subpages for the specified page
     /// </summary>
     public class PrefixIndexSpecialPageProvider : AllPagesSpecialPageProvider
     {
@@ -1115,7 +1115,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Returns a list of recent changes, by default in the 0 namespace
     /// </summary>
     public class RecentChangesSpecialPageProvider : ApiListProviderBase, ISpecialPageProvider
     {
@@ -1183,7 +1183,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// Returns a list of new pages
+    /// Returns a list of new pages, by default in the 0 namespace
     /// </summary>
     public class NewPagesListProvider : ApiListProviderBase, ISpecialPageProvider
     {
