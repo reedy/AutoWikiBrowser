@@ -375,6 +375,7 @@ namespace AutoWikiBrowser
             chkSkipWhitespace.Checked = p.SkipOptions.SkipWhenOnlyWhitespaceChanged;
             chkSkipCasing.Checked = p.SkipOptions.SkipOnlyCasingChanged;
             chkSkipGeneralFixes.Checked = p.SkipOptions.SkipOnlyGeneralFixChanges;
+            chkSkipIfRedirect.Checked = p.SkipOptions.SkipIfRedirect;
 
             chkSkipIfContains.Checked = p.SkipOptions.SkipDoes;
             chkSkipIfNotContains.Checked = p.SkipOptions.SkipDoesNot;
