@@ -135,7 +135,7 @@ namespace UnitTests
             //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Inappropriate_link_compression
             Assert.AreEqual("[[foo|foo3]]", Parsers.SimplifyLinks("[[foo|foo3]]"));
 
-            // don't touch suffices with caps to avoid funky results like
+            // don't touch suffixes with caps to avoid funky results like
             // http://en.wikipedia.org/w/index.php?diff=195760456
             Assert.AreEqual("[[FOO|FOOBAR]]", Parsers.SimplifyLinks("[[FOO|FOOBAR]]"));
             Assert.AreEqual("[[foo|fooBAR]]", Parsers.SimplifyLinks("[[foo|fooBAR]]"));
