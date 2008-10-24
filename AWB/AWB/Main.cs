@@ -1585,8 +1585,13 @@ window.scrollTo(0, diffTopY);
             if (webBrowserEdit.Document != null && webBrowserEdit.Document.Body.InnerHtml.Contains("wpMinoredit"))
             {
                 // Warning: Plugins can call SetMinor and SetWatch, so only turn these *on* not off
-                if (markAllAsMinorToolStripMenuItem.Checked) webBrowserEdit.SetMinor(true);
-                if (addAllToWatchlistToolStripMenuItem.Checked) webBrowserEdit.SetWatch(true);
+                if (markAllAsMinorToolStripMenuItem.Checked)
+                    webBrowserEdit.SetMinor(true);
+                if (addAllToWatchlistToolStripMenuItem.Checked)
+                    webBrowserEdit.SetWatch(true);
+                if (dontAddToWatchlistToolStripMenuItem.Checked)
+                    webBrowserEdit.SetWatch(false);
+
                 webBrowserEdit.SetSummary(MakeSummary());
             }
         }
@@ -4055,6 +4060,18 @@ window.scrollTo(0, diffTopY);
         private void commentSelectedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             imgComment_Click(null, null);
+        }
+
+        private void addAllToWatchlistToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dontAddToWatchlistToolStripMenuItem.Checked)
+                dontAddToWatchlistToolStripMenuItem.Checked = false;
+        }
+
+        private void dontAddToWatchlistToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (addAllToWatchlistToolStripMenuItem.Checked)
+                addAllToWatchlistToolStripMenuItem.Checked = false;
         }
     }
         #endregion

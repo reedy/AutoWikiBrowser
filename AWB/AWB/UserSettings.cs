@@ -254,8 +254,8 @@ namespace AutoWikiBrowser
                 PasteMore9.Text, PasteMore10.Text}, txtFind.Text, chkFindRegex.Checked,
                chkFindCaseSensitive.Checked, wordWrapToolStripMenuItem1.Checked, EnableToolBar,
                bypassRedirectsToolStripMenuItem.Checked, !automaticallyDoAnythingToolStripMenuItem.Checked,
-               toolStripComboOnLoad.SelectedIndex, chkMinor.Checked, addAllToWatchlistToolStripMenuItem.Checked,
-               ShowMovingAverageTimer, sortAlphabeticallyToolStripMenuItem.Checked,
+               toolStripComboOnLoad.SelectedIndex, chkMinor.Checked, addAllToWatchlistToolStripMenuItem.Checked, 
+               dontAddToWatchlistToolStripMenuItem.Checked, ShowMovingAverageTimer, sortAlphabeticallyToolStripMenuItem.Checked,
                AddIgnoredToLogFile, (int)txtEdit.Font.Size, txtEdit.Font.Name,
                LowThreadPriority, Beep, Flash, Minimize, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxPeriod,
                AutoSaveEditBoxFile, chkLock.Checked, EditToolBarVisible, SuppressUsingAWB, AddUsingAWBOnArticleAction,
@@ -430,6 +430,7 @@ namespace AutoWikiBrowser
             toolStripComboOnLoad.SelectedIndex = p.General.OnLoadAction;
             chkMinor.Checked = p.General.Minor;
             addAllToWatchlistToolStripMenuItem.Checked = p.General.Watch;
+            dontAddToWatchlistToolStripMenuItem.Checked = p.General.DoNotWatch;
             ShowMovingAverageTimer = p.General.TimerEnabled;
 
             sortAlphabeticallyToolStripMenuItem.Checked = p.General.SortListAlphabetically;

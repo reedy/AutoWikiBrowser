@@ -156,6 +156,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.markAllAsMinorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addAllToWatchlistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dontAddToWatchlistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.alphaSortInterwikiLinksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.replaceReferenceTagsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1181,6 +1182,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator6,
             this.markAllAsMinorToolStripMenuItem,
             this.addAllToWatchlistToolStripMenuItem,
+            this.dontAddToWatchlistToolStripMenuItem,
             this.toolStripSeparator7,
             this.alphaSortInterwikiLinksToolStripMenuItem,
             this.replaceReferenceTagsToolStripMenuItem});
@@ -1302,6 +1304,15 @@ namespace AutoWikiBrowser
             this.addAllToWatchlistToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
             this.addAllToWatchlistToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
             this.addAllToWatchlistToolStripMenuItem.Text = "Add all to &watchlist";
+            this.addAllToWatchlistToolStripMenuItem.Click += new System.EventHandler(this.addAllToWatchlistToolStripMenuItem_Click);
+            // 
+            // dontAddToWatchlistToolStripMenuItem
+            // 
+            this.dontAddToWatchlistToolStripMenuItem.CheckOnClick = true;
+            this.dontAddToWatchlistToolStripMenuItem.Name = "dontAddToWatchlistToolStripMenuItem";
+            this.dontAddToWatchlistToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.dontAddToWatchlistToolStripMenuItem.Text = "Don\'t auto add to watchlist";
+            this.dontAddToWatchlistToolStripMenuItem.Click += new System.EventHandler(this.dontAddToWatchlistToolStripMenuItem_Click);
             // 
             // toolStripSeparator7
             // 
@@ -3585,6 +3596,7 @@ namespace AutoWikiBrowser
             this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
             this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
             this.loggingSettings1.Name = "loggingSettings1";
+            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
             this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
             this.loggingSettings1.TabIndex = 0;
             // 
@@ -4317,5 +4329,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator30;
         private System.Windows.Forms.ToolStripMenuItem commentSelectedToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkSkipIfRedirect;
+        private System.Windows.Forms.ToolStripMenuItem dontAddToWatchlistToolStripMenuItem;
     }
 }
