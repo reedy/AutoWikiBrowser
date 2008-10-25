@@ -1748,7 +1748,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             // skip article if contains any template except for stub templates
             foreach (Match m in WikiRegexes.Template.Matches(ArticleText))
             {
-                if (!m.Value.Contains("stub"))
+                if (!WikiRegexes.Stub.IsMatch(m.Value))
                     return ArticleText;
             }
 
@@ -1797,9 +1797,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             bool orphaned = true;
             try
             {
-                List<Article> links = new WikiFunctions.Lists.WhatLinksHereListProvider().MakeList(ArticleTitle);
+                WhatLinksHereListProvider prov = new WhatLinksHereListProvider();
+                prov.Limit = 1;
+                List<Article> links = prov.MakeList(0, ArticleTitle);
                 foreach (Article a in links)
-                    if (Tools.IsMainSpace(a.Name) && !Tools.IsRedirect(a.Name))
+                    if (Tools.IsMainSpace(a.Name))
                     {
                         orphaned = false;
                         break;
