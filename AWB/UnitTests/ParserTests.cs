@@ -212,6 +212,24 @@ namespace UnitTests
         }
 
         [Test]
+        public void ExtraBracketInExternalLink()
+        {
+            Assert.AreEqual("now [http://www.site.com a [[a]] site] was", parser.FixSyntax("now [http://www.site.com a [[a]] site] was"));  // valid syntax
+            Assert.AreEqual("now [http://www.site.com a site [cool] here] was", parser.FixSyntax("now [http://www.site.com a site [cool] here] was"));         // valid syntax
+            Assert.AreEqual("now [http://www.site.com a b site]] was", parser.FixSyntax("now [http://www.site.com a b site] was"));
+            Assert.AreEqual("now [http://www.site.com a [[b]] site]] was", parser.FixSyntax("now [http://www.site.com a [[b]] site] was"));
+            Assert.AreEqual("now [[http://www.site.com a c site] was", parser.FixSyntax("now [http://www.site.com a c site] was"));
+            Assert.AreEqual("now [[http://www.site.com a [[c]] site] was", parser.FixSyntax("now [http://www.site.com a [[c]] site] was"));
+            Assert.AreEqual("now [[http://www.site.com a [[d]] or [[d2]] site]] was", parser.FixSyntax("now [http://www.site.com a [[d]] or [[d2]] site] was"));
+            Assert.AreEqual("now [[http://www.site.com a d3 site]] was", parser.FixSyntax("now [http://www.site.com a d3 site] was"));
+            Assert.AreEqual("now [[Image:Fred1211212.JPG| here [http://www.site.com a [[e]] site]]] was", parser.FixSyntax("now [[Image:Fred1211212.JPG| here [http://www.site.com a [[e]] site]]] was"));   // valid wiki syntax
+            Assert.AreEqual("now [[Image:Fred12.JPG| here [http://www.site.com a [[f]] site]]]] was", parser.FixSyntax("now [[Image:Fred12.JPG| here [http://www.site.com a [[f]] site]]] was"));
+            Assert.AreEqual("now [[Image:Fred12.JPG| here [http://www.site.com a g site]]]] was", parser.FixSyntax("now [[Image:Fred12.JPG| here [http://www.site.com a g site]]] was"));
+            Assert.AreEqual("now [[Image:Fred12.JPG| here [[http://www.site.com a g site]]] was", parser.FixSyntax("now [[Image:Fred12.JPG| here [http://www.site.com a g site]]] was"));
+            Assert.AreEqual("now [[Image:Fred12.JPG| here [[http://www.site.com a g site]]]] was", parser.FixSyntax("now [[Image:Fred12.JPG| here [http://www.site.com a g site]]] was"));
+        }
+
+        [Test]
         public void FailingLinkRepair()
         {
             Assert.AreEqual("[[Image:foo.jpg|Some [http://some_crap.com]]]",
