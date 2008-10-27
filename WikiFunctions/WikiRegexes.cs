@@ -33,7 +33,7 @@ namespace WikiFunctions
             TemplateStart = @"\{\{\s*(:?" + Variables.NamespacesCaseInsensitive[10] + ")?";
 
             Category = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[14] + @"(.*?)\]\]", RegexOptions.Compiled);
-            Images = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[6] + @"(.*?)\]\]|<[Gg]allery\b([^>]*?)>[\s\S]*?</ ?[Gg]allery>", RegexOptions.Compiled);
+            Images = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[6] + @"([^\]]*?(?:\[\[?.*?(?:\[\[.*?\]\].*?)?\]\]?[^\]]*?)*)\]\]|<[Gg]allery\b([^>]*?)>[\s\S]*?</ ?[Gg]allery>", RegexOptions.Compiled);
             Stub = new Regex(@"{{.*?" + Variables.Stub + @"}}", RegexOptions.Compiled);
             PossiblyCommentedStub = new Regex(@"(<!-- ?\{\{[^}]*?" + Variables.Stub + @"\b\}\}.*?-->|\{\{[^}]*?" + Variables.Stub + @"\}\})", RegexOptions.Compiled);
             TemplateCall = new Regex(TemplateStart + @"\s*([^\]\|]*)\s*(.*)}}", RegexOptions.Compiled | RegexOptions.Singleline);
