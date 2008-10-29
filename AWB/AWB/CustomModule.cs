@@ -45,7 +45,7 @@ namespace AutoWikiBrowser
         public string Code
         {
             get { return txtCode.Text; }
-            set { txtCode.Text = value; }
+            set { txtCode.Text = value.Replace("\r\n\r\n", "\r\n"); }
         }
 
         public int Language
