@@ -112,6 +112,7 @@ namespace WikiFunctions.Plugin
         RadioButton SkipNonExistentPages { get;  }
         CheckBox ApplyGeneralFixesCheckBox { get; }
         CheckBox AutoTagCheckBox { get; }
+        CheckBox RegexTypoFix { get; }
         ToolStripMenuItem PluginsToolStripMenuItem { get; }
         ToolStripMenuItem InsertTagToolStripMenuItem { get; }
         ToolStripMenuItem ToolStripMenuGeneral { get; }

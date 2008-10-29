@@ -39,6 +39,7 @@ namespace AutoWikiBrowser
         RadioButton IAutoWikiBrowserForm.SkipNonExistentPages { get { return radSkipNonExistent; } }
         CheckBox IAutoWikiBrowserForm.ApplyGeneralFixesCheckBox { get { return chkGeneralFixes; } }
         CheckBox IAutoWikiBrowserForm.AutoTagCheckBox { get { return chkAutoTagger; } }
+        CheckBox IAutoWikiBrowserForm.RegexTypoFix { get { return chkRegExTypo; } }
         TextBox IAutoWikiBrowserForm.EditBox { get { return txtEdit; } }
         TextBox IAutoWikiBrowserForm.CategoryTextBox { get { return loggingSettings1.LoggingCategoryTextBox; } }
         Form IAutoWikiBrowserForm.Form { get { return this; } }
