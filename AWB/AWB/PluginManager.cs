@@ -315,11 +315,9 @@ namespace AutoWikiBrowser
 
                         if (asm != null)
                         {
-                            Type[] types = asm.GetTypes();
-
                             try
                             {
-                                foreach (Type t in types)
+                                foreach (Type t in asm.GetTypes())
                                 {
                                     if (t.GetInterface("IAWBPlugin") != null)
                                     {

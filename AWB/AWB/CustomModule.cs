@@ -107,10 +107,11 @@ namespace AutoWikiBrowser
 
                 CompilerResults results;
                 CodeDomProvider codeProvider;
+
                 if (cmboLang.SelectedIndex == 0)
                     codeProvider = new Microsoft.CSharp.CSharpCodeProvider();
                 else
-                     codeProvider = new Microsoft.VisualBasic.VBCodeProvider();
+                    codeProvider = new Microsoft.VisualBasic.VBCodeProvider();
 
                 results = codeProvider.CompileAssemblyFromSource(cp, code);
 
@@ -130,9 +131,7 @@ namespace AutoWikiBrowser
 
                 foreach (Type t in results.CompiledAssembly.GetTypes())
                 {
-                    Type g = t.GetInterface("IModule");
-
-                    if (g != null)
+                    if (t.GetInterface("IModule") != null)
                         Module = (IModule)Activator.CreateInstance(t, Program.AWB);
                 }
             }
