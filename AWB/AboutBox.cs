@@ -42,7 +42,7 @@ namespace AutoWikiBrowser
             lblOSVersion.Text = "Windows version: " + Environment.OSVersion.Version.Major.ToString() + "." + Environment.OSVersion.Version.Minor.ToString();
             lblNETVersion.Text = ".NET version: " + Environment.Version.ToString();
 
-            if (Edits == 0)
+            if (Edits > 0)
             {
                 lblTimeAndEdits.Visible = true;
 
