@@ -106,16 +106,14 @@ namespace AutoWikiBrowser
                 string code = codestart + Regex.Replace(txtCode.Text, "VbCrLf", "\"/r/n\"", RegexOptions.IgnoreCase) + "\r\n" + codeend;
 
                 CompilerResults results;
+                CodeDomProvider codeProvider;
                 if (cmboLang.SelectedIndex == 0)
-                {
-                    Microsoft.CSharp.CSharpCodeProvider codeProvider = new Microsoft.CSharp.CSharpCodeProvider();
-                    results = codeProvider.CompileAssemblyFromSource(cp, code);
-                }
+                    codeProvider = new Microsoft.CSharp.CSharpCodeProvider();
                 else
-                {
-                    Microsoft.VisualBasic.VBCodeProvider codeProvider = new Microsoft.VisualBasic.VBCodeProvider();
-                    results = codeProvider.CompileAssemblyFromSource(cp, code);
-                }
+                     codeProvider = new Microsoft.VisualBasic.VBCodeProvider();
+
+                results = codeProvider.CompileAssemblyFromSource(cp, code);
+
                 if (results.Errors.Count > 0)
                 {
                     StringBuilder builder = new StringBuilder("Compilation failed:\r\n");
