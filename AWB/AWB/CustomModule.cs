@@ -209,7 +209,9 @@ Namespace AutoWikiBrowser.CustomModules
     Class CustomModule
         Implements WikiFunctions.Plugin.IModule
 
-        Public Sub New(mAWB As WikiFunctions.Plugin.IAutoWikiBrowser)
+        Dim awb As WikiFunctions.Plugin.IAutoWikiBrowser
+
+        Public Sub New(ByRef mAWB As WikiFunctions.Plugin.IAutoWikiBrowser)
             awb = mAWB
         End Sub
 ";
