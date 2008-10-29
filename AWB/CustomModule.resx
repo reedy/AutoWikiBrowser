@@ -120,30 +120,10 @@
   <metadata name="mnuTextBox.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>129, 14</value>
   </metadata>
-  <data name="txtCode.Text" xml:space="preserve">
-    <value>        public string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, out string Summary, out bool Skip)
-        {
-            Skip = false;
-            Summary = ""test"";
-
-            ArticleText = ""test\r\n\r\n"" + ArticleText;
-
-            return ArticleText;
-        }</value>
-  </data>
-  <data name="lblStart.Text" xml:space="preserve">
-    <value>using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
-using WikiFunctions;
-
-namespace AutoWikiBrowser
-{
-    class Module1 : WikiFunctions.Plugin.IModule
-    {</value>
-  </data>
   <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>47</value>
   </metadata>
 </root>

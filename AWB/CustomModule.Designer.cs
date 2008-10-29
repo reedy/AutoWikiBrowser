@@ -29,7 +29,6 @@ namespace AutoWikiBrowser
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CustomModule));
             this.txtCode = new System.Windows.Forms.TextBox();
             this.mnuTextBox = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuitemMakeFromTextBoxUndo = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,15 +62,14 @@ namespace AutoWikiBrowser
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCode.ContextMenuStrip = this.mnuTextBox;
             this.txtCode.Font = new System.Drawing.Font("Courier New", 9F);
-            this.txtCode.Location = new System.Drawing.Point(12, 231);
+            this.txtCode.Location = new System.Drawing.Point(11, 332);
             this.txtCode.MaxLength = 0;
             this.txtCode.Multiline = true;
             this.txtCode.Name = "txtCode";
             this.txtCode.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtCode.Size = new System.Drawing.Size(640, 184);
+            this.txtCode.Size = new System.Drawing.Size(640, 160);
             this.txtCode.TabIndex = 0;
             this.txtCode.TabStop = false;
-            this.txtCode.Text = resources.GetString("txtCode.Text");
             this.txtCode.WordWrap = false;
             // 
             // mnuTextBox
@@ -85,7 +83,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator1,
             this.selectAllToolStripMenuItem});
             this.mnuTextBox.Name = "mnuMakeFromTextBox";
-            this.mnuTextBox.Size = new System.Drawing.Size(165, 148);
+            this.mnuTextBox.Size = new System.Drawing.Size(165, 126);
             // 
             // menuitemMakeFromTextBoxUndo
             // 
@@ -187,9 +185,8 @@ namespace AutoWikiBrowser
             this.lblStart.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStart.Location = new System.Drawing.Point(12, 76);
             this.lblStart.Name = "lblStart";
-            this.lblStart.Size = new System.Drawing.Size(643, 152);
+            this.lblStart.Size = new System.Drawing.Size(643, 253);
             this.lblStart.TabIndex = 5;
-            this.lblStart.Text = resources.GetString("lblStart.Text");
             this.lblStart.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // lblEnd
@@ -197,11 +194,10 @@ namespace AutoWikiBrowser
             this.lblEnd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEnd.Font = new System.Drawing.Font("Courier New", 9F);
-            this.lblEnd.Location = new System.Drawing.Point(9, 418);
+            this.lblEnd.Location = new System.Drawing.Point(9, 495);
             this.lblEnd.Name = "lblEnd";
             this.lblEnd.Size = new System.Drawing.Size(643, 39);
             this.lblEnd.TabIndex = 6;
-            this.lblEnd.Text = "    }\r\n}";
             // 
             // lblStatus
             // 
@@ -275,19 +271,19 @@ namespace AutoWikiBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(664, 466);
+            this.ClientSize = new System.Drawing.Size(664, 543);
             this.Controls.Add(this.lblBuilt);
             this.Controls.Add(this.chkFixedwidth);
             this.Controls.Add(this.chkModuleEnabled);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.lblEnd);
-            this.Controls.Add(this.lblStart);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cmboLang);
+            this.Controls.Add(this.lblStart);
             this.Controls.Add(this.btnMake);
             this.Controls.Add(this.btnClose);
-            this.Controls.Add(this.txtCode);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.txtCode);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "CustomModule";
             this.ShowIcon = false;

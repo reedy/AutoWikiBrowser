@@ -118,7 +118,7 @@ namespace AutoWikiBrowser
                 }
                 if (results.Errors.Count > 0)
                 {
-                    StringBuilder builder = new StringBuilder("Compilation failed:");
+                    StringBuilder builder = new StringBuilder("Compilation failed:\r\n");
                     foreach (CompilerError err in results.Errors)
                     {
                         builder.AppendLine(String.Format("Error: {0}\r\nLine: {1}\r\nNumber: {2}\r\n", err.ErrorText, err.Line, err.ErrorNumber));
@@ -130,14 +130,12 @@ namespace AutoWikiBrowser
                     return;
                 }
 
-                Type[] types = results.CompiledAssembly.GetTypes();
-
-                foreach (Type t in types)
+                foreach (Type t in results.CompiledAssembly.GetTypes())
                 {
                     Type g = t.GetInterface("IModule");
 
                     if (g != null)
-                        Module = (IModule)Activator.CreateInstance(t);
+                        Module = (IModule)Activator.CreateInstance(t, Program.AWB);
                 }
             }
             catch (Exception ex)
@@ -178,10 +176,16 @@ using System.Text;
 using System.Text.RegularExpressions;
 using WikiFunctions;
 
-namespace AutoWikiBrowser
+namespace AutoWikiBrowser.CustomModules
 {
-    class Module1 : WikiFunctions.Plugin.IModule
+    class CustomModule : WikiFunctions.Plugin.IModule
     {
+        WikiFunctions.Plugin.IAutoWikiBrowser awb;
+
+        public CustomModule(WikiFunctions.Plugin.IAutoWikiBrowser mAWB)
+        {
+           awb =  mAWB;
+        }
 ";
                 codeexample = @"        public string ProcessArticle(string ArticleText, string ArticleTitle, int wikiNamespace, out string Summary, out bool Skip)
         {
@@ -197,14 +201,19 @@ namespace AutoWikiBrowser
             }
             else
             {
-                codestart = @"Imports System.Collections.Generic
+                codestart = @"Imports System
+Imports System.Collections.Generic
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports WikiFunctions
 
-Namespace AutoWikiBrowser
-    Class Module1
+Namespace AutoWikiBrowser.CustomModules
+    Class CustomModule
         Implements WikiFunctions.Plugin.IModule
+
+        Public Sub New(mAWB As WikiFunctions.Plugin.IAutoWikiBrowser)
+            awb = mAWB
+        End Sub
 ";
 
                 codeexample = @"        Public Function ProcessArticle(ByVal ArticleText As String, ByVal ArticleTitle As String, ByVal wikiNamespace As Integer, ByRef Summary As String, ByRef Skip As Boolean) As String Implements WikiFunctions.Plugin.IModule.ProcessArticle
