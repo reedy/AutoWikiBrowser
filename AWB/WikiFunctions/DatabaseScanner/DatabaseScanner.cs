@@ -835,13 +835,20 @@ namespace WikiFunctions.DBScanner
 
         private void UpdateProgressBar()
         {
-            double matchesByLimit = (double)intMatches / intLimit;
+            double matchesByLimit = (double)(intMatches / intLimit);
             double completion = Main.PercentageComplete;
 
+            int newValue;
+
             if (matchesByLimit > completion)
-                progressBar.Value = (int)(matchesByLimit * progressBar.Maximum);
+                newValue = (int)(matchesByLimit * progressBar.Maximum);
             else
-                progressBar.Value = (int)(completion * progressBar.Maximum);
+                newValue = (int)(completion * progressBar.Maximum);
+
+            if (newValue < progressBar.Maximum)
+                progressBar.Value = newValue;
+            else
+                progressBar.Value = progressBar.Maximum;
         }
 
         private void btnOpen(object sender, EventArgs e)
