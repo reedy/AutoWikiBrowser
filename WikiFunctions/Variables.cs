@@ -166,6 +166,16 @@ namespace WikiFunctions
         }
         public static Profiler Profiler = new Profiler();
 
+        private static bool mono;
+        public static bool UsingMono
+        {
+            get { return mono; }
+        }
+
+        public static void DetectMono()
+        {
+            mono = (Type.GetType("Mono.Runtime") != null);
+        }
         #region project and language settings
 
         /// <summary>
