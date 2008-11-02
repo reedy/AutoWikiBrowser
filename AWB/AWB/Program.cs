@@ -60,6 +60,10 @@ namespace AutoWikiBrowser
                             break;
                     }
                 }
+                WikiFunctions.Variables.DetectMono();
+
+                if (WikiFunctions.Variables.UsingMono)
+                    throw new NotSupportedException("AWB is not currently supported by mono");
 
                 Program.AWB = awb;
                 Application.Run(awb);
