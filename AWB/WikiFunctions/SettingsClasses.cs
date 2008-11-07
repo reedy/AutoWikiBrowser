@@ -579,7 +579,7 @@ namespace WikiFunctions.AWBSettings
             remove = Remove;
         }
 
-        public List<int> namespaceValues = new List<int>();
+        public List<int> namespaceValues;
 
         public bool remDupes = true;
         public bool sortAZ = true;

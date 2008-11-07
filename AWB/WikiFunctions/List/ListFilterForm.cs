@@ -449,6 +449,7 @@ namespace WikiFunctions.Lists
             {
                 prefs = new WikiFunctions.AWBSettings.SpecialFilterPrefs();
 
+                prefs.namespaceValues = new List<int>();
                 GetListTags(gbNamespaces.Controls);
 
                 prefs.filterTitlesThatContain = chkContains.Checked;
@@ -469,12 +470,16 @@ namespace WikiFunctions.Lists
             }
             set
             {
+                if (value == null)
+                    return;
+
                 prefs = value;
 
-                if ((prefs != null) && (prefs.namespaceValues.Count > 0))
-                {
+                if (prefs.namespaceValues == null)
+                    prefs.namespaceValues = new List<int>(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 14, 15 });
+
+                if (prefs.namespaceValues.Count > 0)
                     SetListTags(gbNamespaces.Controls);
-                }
 
                 chkContains.Checked = prefs.filterTitlesThatContain;
                 txtContains.Text = prefs.filterTitlesThatContainText;
