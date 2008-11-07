@@ -103,8 +103,6 @@ namespace WikiFunctions.Lists
             // chkCategory
             // 
             this.chkCategory.AutoSize = true;
-            this.chkCategory.Checked = true;
-            this.chkCategory.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkCategory.Location = new System.Drawing.Point(3, 164);
             this.chkCategory.Name = "chkCategory";
             this.chkCategory.Size = new System.Drawing.Size(68, 17);
@@ -116,8 +114,6 @@ namespace WikiFunctions.Lists
             // chkTemplate
             // 
             this.chkTemplate.AutoSize = true;
-            this.chkTemplate.Checked = true;
-            this.chkTemplate.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkTemplate.Location = new System.Drawing.Point(3, 118);
             this.chkTemplate.Name = "chkTemplate";
             this.chkTemplate.Size = new System.Drawing.Size(70, 17);
@@ -129,8 +125,6 @@ namespace WikiFunctions.Lists
             // chkWikipedia
             // 
             this.chkWikipedia.AutoSize = true;
-            this.chkWikipedia.Checked = true;
-            this.chkWikipedia.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkWikipedia.Location = new System.Drawing.Point(3, 49);
             this.chkWikipedia.Name = "chkWikipedia";
             this.chkWikipedia.Size = new System.Drawing.Size(94, 17);
@@ -142,8 +136,6 @@ namespace WikiFunctions.Lists
             // chkUser
             // 
             this.chkUser.AutoSize = true;
-            this.chkUser.Checked = true;
-            this.chkUser.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkUser.Location = new System.Drawing.Point(3, 26);
             this.chkUser.Name = "chkUser";
             this.chkUser.Size = new System.Drawing.Size(48, 17);
@@ -155,8 +147,6 @@ namespace WikiFunctions.Lists
             // chkImage
             // 
             this.chkImage.AutoSize = true;
-            this.chkImage.Checked = true;
-            this.chkImage.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkImage.Location = new System.Drawing.Point(3, 72);
             this.chkImage.Name = "chkImage";
             this.chkImage.Size = new System.Drawing.Size(58, 17);
@@ -223,8 +213,6 @@ namespace WikiFunctions.Lists
             // chkArticle
             // 
             this.chkArticle.AutoSize = true;
-            this.chkArticle.Checked = true;
-            this.chkArticle.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkArticle.Location = new System.Drawing.Point(3, 3);
             this.chkArticle.Name = "chkArticle";
             this.chkArticle.Size = new System.Drawing.Size(54, 17);
@@ -236,8 +224,6 @@ namespace WikiFunctions.Lists
             // chkArticleTalk
             // 
             this.chkArticleTalk.AutoSize = true;
-            this.chkArticleTalk.Checked = true;
-            this.chkArticleTalk.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkArticleTalk.Location = new System.Drawing.Point(3, 3);
             this.chkArticleTalk.Name = "chkArticleTalk";
             this.chkArticleTalk.Size = new System.Drawing.Size(47, 17);
@@ -249,8 +235,6 @@ namespace WikiFunctions.Lists
             // chkUserTalk
             // 
             this.chkUserTalk.AutoSize = true;
-            this.chkUserTalk.Checked = true;
-            this.chkUserTalk.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkUserTalk.Location = new System.Drawing.Point(3, 26);
             this.chkUserTalk.Name = "chkUserTalk";
             this.chkUserTalk.Size = new System.Drawing.Size(68, 17);
@@ -262,8 +246,6 @@ namespace WikiFunctions.Lists
             // chkWikipediaTalk
             // 
             this.chkWikipediaTalk.AutoSize = true;
-            this.chkWikipediaTalk.Checked = true;
-            this.chkWikipediaTalk.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkWikipediaTalk.Location = new System.Drawing.Point(3, 49);
             this.chkWikipediaTalk.Name = "chkWikipediaTalk";
             this.chkWikipediaTalk.Size = new System.Drawing.Size(79, 17);
@@ -275,8 +257,6 @@ namespace WikiFunctions.Lists
             // chkImageTalk
             // 
             this.chkImageTalk.AutoSize = true;
-            this.chkImageTalk.Checked = true;
-            this.chkImageTalk.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkImageTalk.Location = new System.Drawing.Point(3, 72);
             this.chkImageTalk.Name = "chkImageTalk";
             this.chkImageTalk.Size = new System.Drawing.Size(75, 17);
@@ -310,8 +290,6 @@ namespace WikiFunctions.Lists
             // chkTemplateTalk
             // 
             this.chkTemplateTalk.AutoSize = true;
-            this.chkTemplateTalk.Checked = true;
-            this.chkTemplateTalk.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkTemplateTalk.Location = new System.Drawing.Point(3, 118);
             this.chkTemplateTalk.Name = "chkTemplateTalk";
             this.chkTemplateTalk.Size = new System.Drawing.Size(90, 17);
@@ -345,8 +323,6 @@ namespace WikiFunctions.Lists
             // chkCategoryTalk
             // 
             this.chkCategoryTalk.AutoSize = true;
-            this.chkCategoryTalk.Checked = true;
-            this.chkCategoryTalk.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkCategoryTalk.Location = new System.Drawing.Point(3, 164);
             this.chkCategoryTalk.Name = "chkCategoryTalk";
             this.chkCategoryTalk.Size = new System.Drawing.Size(88, 17);
@@ -410,8 +386,6 @@ namespace WikiFunctions.Lists
             // chkTalk
             // 
             this.chkTalk.AutoSize = true;
-            this.chkTalk.Checked = true;
-            this.chkTalk.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.chkTalk.Location = new System.Drawing.Point(110, 19);
             this.chkTalk.Name = "chkTalk";
             this.chkTalk.Size = new System.Drawing.Size(47, 17);
@@ -440,8 +414,6 @@ namespace WikiFunctions.Lists
             // chkContents
             // 
             this.chkContents.AutoSize = true;
-            this.chkContents.Checked = true;
-            this.chkContents.CheckState = System.Windows.Forms.CheckState.Indeterminate;
             this.chkContents.Location = new System.Drawing.Point(6, 19);
             this.chkContents.Name = "chkContents";
             this.chkContents.Size = new System.Drawing.Size(63, 17);
