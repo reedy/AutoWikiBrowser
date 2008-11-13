@@ -567,7 +567,7 @@ namespace WikiFunctions
 
                     case LangCodeEnum.uk:
                         Stub = "(?:[Ss]tub|[Дд]оробити)";
-                        mSummaryTag = " з допомогою ";
+                        mSummaryTag = " за допомогою ";
                         strWPAWB = "[[Вікіпедія:AutoWikiBrowser|AWB]]";
                         break;
 
