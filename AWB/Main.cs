@@ -770,7 +770,7 @@ namespace AutoWikiBrowser
                     case 1:
                         GetPreview();
                         break;
-                    case 3:
+                    case 2:
                         {
                             if (BotMode)
                             {
