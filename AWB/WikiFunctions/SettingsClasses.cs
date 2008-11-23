@@ -100,6 +100,11 @@ namespace WikiFunctions.AWBSettings
 
         public List<PluginPrefs> Plugin = new List<PluginPrefs>();
 
+        /// <summary>
+        /// Loads the UserPrefs from the specified file
+        /// </summary>
+        /// <param name="file">File to load from</param>
+        /// <returns>Loaded UserPrefs</returns>
         public static UserPrefs LoadPrefs(string file)
         {
             try
@@ -120,6 +125,11 @@ namespace WikiFunctions.AWBSettings
             catch { throw; }
         }
 
+        /// <summary>
+        /// Saves the UserPrefs to the specified file
+        /// </summary>
+        /// <param name="prefs">UserPrefs object to save</param>
+        /// <param name="file">File to save to</param>
         public static void SavePrefs(UserPrefs prefs, string file)
         {
             try
@@ -135,6 +145,11 @@ namespace WikiFunctions.AWBSettings
             catch (Exception ex) { ErrorHandler.Handle(ex); }
         }
 
+        /// <summary>
+        /// Saves the plugin Settings
+        /// </summary>
+        /// <param name="Prefs">UserPrefs object</param>
+        /// <returns>A list of the plugin types</returns>
         public static List<System.Type> SavePluginSettings(UserPrefs Prefs)
         {
             List<System.Type> types = new List<Type>();
