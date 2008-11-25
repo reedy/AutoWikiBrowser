@@ -2037,7 +2037,7 @@ namespace AutoWikiBrowser
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(125, 22);
             this.btnRemove.TabIndex = 2;
-            this.btnRemove.Text = "Remove the second duplicate link";
+            this.btnRemove.Text = "Delink selection";
             this.ToolTip.SetToolTip(this.btnRemove, "Remove the second occurrence of the selected wiki-link");
             this.btnRemove.Visible = false;
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
@@ -2512,7 +2512,7 @@ namespace AutoWikiBrowser
             this.listMaker.SelectedSource = 0;
             this.listMaker.Size = new System.Drawing.Size(205, 349);
             this.listMaker.SourceText = "";
-            //this.listMaker.SpecialFilterSettings = ((WikiFunctions.AWBSettings.SpecialFilterPrefs)(resources.GetObject("listMaker.SpecialFilterSettings")));
+            this.listMaker.SpecialFilterSettings = ((WikiFunctions.AWBSettings.SpecialFilterPrefs)(resources.GetObject("listMaker.SpecialFilterSettings")));
             this.listMaker.TabIndex = 0;
             // 
             // MainTab
@@ -3596,7 +3596,6 @@ namespace AutoWikiBrowser
             this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
             this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
             this.loggingSettings1.Name = "loggingSettings1";
-            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
             this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
             this.loggingSettings1.TabIndex = 0;
             // 
