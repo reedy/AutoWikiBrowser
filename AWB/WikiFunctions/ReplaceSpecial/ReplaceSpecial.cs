@@ -59,8 +59,6 @@ namespace WikiFunctions.MWB
 
         #endregion
 
-        public const string XmlName = "replacerules";
-
         IRule currentRule_;
         Control ruleControl_;
         RuleTreeHistory history_;
