@@ -34,6 +34,9 @@ namespace AutoWikiBrowser
         {
             try
             {
+				if (WikiFunctions.Variables.DetectMono())
+					throw new NotSupportedException("AWB is not currently supported by mono");
+				
                 System.Threading.Thread.CurrentThread.Name = "Main thread";
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
@@ -60,9 +63,6 @@ namespace AutoWikiBrowser
                             break;
                     }
                 }
-
-                if (WikiFunctions.Variables.DetectMono())
-                    throw new NotSupportedException("AWB is not currently supported by mono");
 
                 Program.AWB = awb;
                 Application.Run(awb);
