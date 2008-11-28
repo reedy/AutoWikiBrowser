@@ -212,7 +212,8 @@ namespace AutoWikiBrowser.Logging
             string str = GetFileNameFromActiveListener(key);
             RemoveListener(key);
             NewWikiTraceListener();
-            Listeners[key].WriteCommentAndNewLine("logging continued from " + str);
+            if (Listeners.ContainsKey(key))
+                Listeners[key].WriteCommentAndNewLine("logging continued from " + str);
         }
         private void Busy()
         {
