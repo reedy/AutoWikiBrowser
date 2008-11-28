@@ -446,6 +446,9 @@ namespace WikiFunctions.MWB
 
         private void AddNewRule(IRule r)
         {
+            if (r == null)
+                return;
+
             SaveCurrentRule();
             history_.Save();
 
@@ -737,6 +740,9 @@ namespace WikiFunctions.MWB
 
         public IRule Deserialize(string pXmlizedString)
         {
+            if (!pXmlizedString.Contains("<?xml"))
+                return null;
+
             System.Xml.Serialization.XmlSerializer xs = new System.Xml.Serialization.XmlSerializer(typeof(IRule));
             System.IO.MemoryStream memoryStream = new System.IO.MemoryStream(StringToUTF8ByteArray(pXmlizedString));
 
