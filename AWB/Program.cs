@@ -33,14 +33,14 @@ namespace AutoWikiBrowser
         static void Main(string[] args)
         {
             try
-            {
-				if (WikiFunctions.Variables.DetectMono())
-					throw new NotSupportedException("AWB is not currently supported by mono");
-				
+            {		
                 System.Threading.Thread.CurrentThread.Name = "Main thread";
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
+
+                if (WikiFunctions.Variables.DetectMono())
+                    throw new NotSupportedException("AWB is not currently supported by mono");
 
                 MainForm awb = new MainForm();
 
