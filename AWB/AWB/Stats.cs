@@ -320,16 +320,15 @@ namespace AutoWikiBrowser
                 }
                 else
                 {
-                    throw new System.Data.ConstraintException();
+                    throw new XmlException("Error parsing XML returned from UsageStats server");
                 }
-            }
-            catch (System.Data.ConstraintException)
-            {
-                throw new XmlException("Error parsing XML returned from UsageStats server");
             }
             catch (Exception ex)
             {
-                throw new XmlException("Error parsing XML returned from UsageStats server", ex);
+                if (ex is XmlException)
+                    throw;
+                else
+                    throw new XmlException("Error parsing XML returned from UsageStats server", ex);
             }
         }
 
