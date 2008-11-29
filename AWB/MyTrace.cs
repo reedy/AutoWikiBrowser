@@ -179,7 +179,7 @@ namespace AutoWikiBrowser.Logging
             catch (Exception ex)
             {
                 mIsGettingPassword = false;
-                if (!(ex.Message == "Log upload profile: User cancelled"))
+                if (ex.Message != "Log upload profile: User cancelled")
                 {
                     ErrorHandler.Handle(ex);
                 }
