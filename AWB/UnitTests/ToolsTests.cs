@@ -388,6 +388,8 @@ bar"));
             Assert.AreEqual("Foo", Tools.RedirectTarget("#REDIRECT:[[Foo]]"));
             Assert.AreEqual("Foo", Tools.RedirectTarget("#REDIRECT : [[Foo]]"));
 
+            Assert.AreEqual("Foo#bar", Tools.RedirectTarget("#REDIRECT [[Foo#bar]]"));
+
         }
 
         [Test]
