@@ -615,28 +615,31 @@ namespace AutoWikiBrowser
                 // Warning: Creating an ArticleEX causes a new AWBLogListener to be created and it becomes the active listener in MyTrace; be careful we're writing to the correct log listener
                 ArticleEX redirect = new ArticleEX(Tools.RedirectTarget(strTemp));
 
-                if (filterOutNonMainSpaceToolStripMenuItem.Checked && (redirect.NameSpaceKey != 0))
+                if (redirect.Name.Trim() != "" && Tools.IsValidTitle(redirect.Name))
                 {
-                    listMaker.Remove(TheArticle); // or we get stuck in a loop
-                    TheArticle = redirect; // if we didn't do this, we were writing the SkipPage info to the AWBLogListener belonging to the object redirect and resident in the MyTrace collection, but then attempting to add TheArticle's log listener to the logging tab
-                    SkipPage("Page is not in mainspace");
+                    if (filterOutNonMainSpaceToolStripMenuItem.Checked && (redirect.NameSpaceKey != 0))
+                    {
+                        listMaker.Remove(TheArticle); // or we get stuck in a loop
+                        TheArticle = redirect; // if we didn't do this, we were writing the SkipPage info to the AWBLogListener belonging to the object redirect and resident in the MyTrace collection, but then attempting to add TheArticle's log listener to the logging tab
+                        SkipPage("Page is not in mainspace");
+                        return;
+                    }
+
+                    if (redirect.Name == TheArticle.Name)
+                    {//ignore recursive redirects
+                        TheArticle = redirect;
+                        SkipPage("Recursive redirect");
+                        return;
+                    }
+                    if (ArticleWasRedirected != null)
+                        ArticleWasRedirected(TheArticle.Name, redirect.Name);
+
+                    listMaker.ReplaceArticle(TheArticle, new Article(redirect.Name));
+                    TheArticle = new ArticleEX(redirect.Name);
+
+                    webBrowserEdit.LoadEditPage(redirect.Name);
                     return;
                 }
-
-                if (redirect.Name == TheArticle.Name)
-                {//ignore recursive redirects
-                    TheArticle = redirect;
-                    SkipPage("Recursive redirect");
-                    return;
-                }
-                if (ArticleWasRedirected != null)
-                    ArticleWasRedirected(TheArticle.Name, redirect.Name);
-
-                listMaker.ReplaceArticle(TheArticle, new Article(redirect.Name));
-                TheArticle = new ArticleEX(redirect.Name);
-
-                webBrowserEdit.LoadEditPage(redirect.Name);
-                return;
             }
 
             if (webBrowserEdit.EditBoxTag.Contains("readonly=\"readonly\""))
