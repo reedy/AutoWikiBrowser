@@ -1521,7 +1521,7 @@ window.scrollTo(0, diffTopY);
 
             if (OverallTypoStats.Saves > 0)
                 lblTypoRatio.Text = string.Format("{0:F1}",
-                    (total - selfMatches - OverallTypoStats.FalsePositives) / OverallTypoStats.Saves);
+                    ((double)(total - selfMatches - OverallTypoStats.FalsePositives) / (double)OverallTypoStats.Saves));
             else
                 lblTypoRatio.Text = "0";
         }
