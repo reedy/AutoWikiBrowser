@@ -152,31 +152,16 @@ namespace WikiFunctions.Logging
 
         private void SaveListView(ListView listview)
         {
-            try
+            LogFileType logFileType = GetFilePrefs();
+            if (logFileType != 0)
             {
-                LogFileType logFileType = GetFilePrefs();
-                if (logFileType != 0)
+                StringBuilder strList = new StringBuilder();
+
+                foreach (AWBLogListener a in listview.Items)
                 {
-                    StringBuilder strList = new StringBuilder("");
-                    StreamWriter sw;
-                    string strListFile;
-                    foreach (AWBLogListener a in listview.Items)
-                    {
-                        strList.AppendLine(a.Output(logFileType));
-                    }
-                    strListFile = saveListDialog.FileName;
-                    sw = new StreamWriter(strListFile, false, Encoding.UTF8);
-                    sw.Write(strList);
-                    sw.Close();
+                    strList.AppendLine(a.Output(logFileType));
                 }
-            }
-            catch (IOException ex)
-            {
-                MessageBox.Show(ex.Message, "File error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (Exception ex)
-            {
-                ErrorHandler.Handle(ex);
+                Tools.WriteTextFile(strList.ToString(), saveListDialog.FileName, false);
             }
         }
 
