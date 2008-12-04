@@ -161,7 +161,7 @@ namespace WikiFunctions.Logging
                 {
                     strList.AppendLine(a.Output(logFileType));
                 }
-                Tools.WriteTextFile(strList.ToString(), saveListDialog.FileName, false);
+                Tools.WriteTextFileAbsolutePath(strList.ToString(), saveListDialog.FileName, false);
             }
         }
 

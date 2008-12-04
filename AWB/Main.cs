@@ -1536,6 +1536,25 @@ window.scrollTo(0, diffTopY);
             UpdateTypoCount();
         }
 
+        private void SaveTypoStats()
+        {
+            if (OverallTypoStats.Saves > 0)
+            {
+                StringBuilder strList = new StringBuilder();
+
+                strList.AppendLine("Total: " + lblOverallTypos.Text);
+                strList.AppendLine("No change: " + lblNoChange.Text);
+                strList.AppendLine("Typo/save: " + lblTypoRatio.Text);
+
+                foreach (TypoStatsListViewItem item in OverallTypoStats.Items)
+                {
+                    strList.AppendLine(item.SubItems[0].Text + item.SubItems[1].Text + item.SubItems[2].Text + item.SubItems[3].Text);
+                }
+
+                Tools.WriteTextFileAbsolutePath(strListFile.ToString(), "file", false);
+            }
+        }
+
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             ExitQuestion dlg = null;
@@ -3513,7 +3532,7 @@ window.scrollTo(0, diffTopY);
 
                 foreach (String a in listbox.Items)
                     strList.AppendLine(a);
-                Tools.WriteTextFile(strList.ToString(), saveListDialog.FileName, false);
+                Tools.WriteTextFileAbsolutePath(strList.ToString(), saveListDialog.FileName, false);
             }
         }
 

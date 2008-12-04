@@ -224,12 +224,12 @@ namespace WikiFunctions.Controls
             miClear.Visible = IsOverallStats;
         }
 
-        void miClear_Click(object sender, EventArgs e)
+        private void miClear_Click(object sender, EventArgs e)
         {
             ClearStats();
         }
 
-        void miCopyReplace_Click(object sender, EventArgs e)
+        private void miCopyReplace_Click(object sender, EventArgs e)
         {
             TypoStatsListViewItem typo = SelectedItem;
             if (typo == null) return;
@@ -237,7 +237,7 @@ namespace WikiFunctions.Controls
             Tools.CopyToClipboard(typo.Typo.Replace);
         }
 
-        void miCopyFind_Click(object sender, EventArgs e)
+        private void miCopyFind_Click(object sender, EventArgs e)
         {
             TypoStatsListViewItem typo = SelectedItem;
             if (typo == null) return;
@@ -245,7 +245,7 @@ namespace WikiFunctions.Controls
             Tools.CopyToClipboard(typo.Typo.Find);
         }
 
-        void TestRegex(object sender, EventArgs e)
+        private void TestRegex(object sender, EventArgs e)
         {
             TypoStatsListViewItem typo = SelectedItem;
             if (typo == null) return;
