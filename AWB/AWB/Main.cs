@@ -1538,7 +1538,7 @@ window.scrollTo(0, diffTopY);
 
         private void SaveTypoStats()
         {
-            if (OverallTypoStats.Saves > 0)
+            if ((OverallTypoStats.Saves > 0) && (saveListDialog.ShowDialog() == DialogResult.OK))
             {
                 StringBuilder strList = new StringBuilder();
 
@@ -1548,10 +1548,10 @@ window.scrollTo(0, diffTopY);
 
                 foreach (TypoStatsListViewItem item in OverallTypoStats.Items)
                 {
-                    strList.AppendLine(item.SubItems[0].Text + item.SubItems[1].Text + item.SubItems[2].Text + item.SubItems[3].Text);
+                    strList.AppendLine(item.SubItems[0].Text + ", " + item.SubItems[1].Text + ", " + item.SubItems[2].Text + ", " + item.SubItems[3].Text);
                 }
 
-                Tools.WriteTextFileAbsolutePath(strList.ToString(), "file", false);
+                Tools.WriteTextFileAbsolutePath(strList.ToString(), saveListDialog.FileName, false);
             }
         }
 
@@ -3520,22 +3520,6 @@ window.scrollTo(0, diffTopY);
         }
         #endregion
 
-        /// <summary>
-        /// Save List Box to a text file
-        /// </summary>
-        /// <param name="listbox"></param>
-        public void SaveList(ListBox listbox)
-        {
-            if (saveListDialog.ShowDialog() == DialogResult.OK)
-            {
-                StringBuilder strList = new StringBuilder();
-
-                foreach (String a in listbox.Items)
-                    strList.AppendLine(a);
-                Tools.WriteTextFileAbsolutePath(strList.ToString(), saveListDialog.FileName, false);
-            }
-        }
-
         #region Edit Box Saver
         private void EditBoxSaveTimer_Tick(object sender, EventArgs e)
         {
@@ -3544,20 +3528,7 @@ window.scrollTo(0, diffTopY);
 
         private void SaveEditBoxText(string path)
         {
-            try
-            {
-                StreamWriter sw = new StreamWriter(path, false, Encoding.UTF8);
-                sw.Write(txtEdit.Text);
-                sw.Close();
-            }
-            catch (IOException ex)
-            {
-                MessageBox.Show(ex.Message, "File error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (Exception ex)
-            {
-                ErrorHandler.Handle(ex);
-            }
+            Tools.WriteTextFileAbsolutePath(txtEdit.Text, path, false);
         }
         #endregion
 
