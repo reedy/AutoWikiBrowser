@@ -3504,28 +3504,13 @@ window.scrollTo(0, diffTopY);
         /// <param name="listbox"></param>
         public void SaveList(ListBox listbox)
         {
-            try
+            if (saveListDialog.ShowDialog() == DialogResult.OK)
             {
-                StringBuilder strList = new StringBuilder("");
-                StreamWriter sw;
-                string strListFile;
-                if (saveListDialog.ShowDialog() == DialogResult.OK)
-                {
-                    foreach (String a in listbox.Items)
-                        strList.AppendLine(a);
-                    strListFile = saveListDialog.FileName;
-                    sw = new StreamWriter(strListFile, false, Encoding.UTF8);
-                    sw.Write(strList);
-                    sw.Close();
-                }
-            }
-            catch (IOException ex)
-            {
-                MessageBox.Show(ex.Message, "File error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (Exception ex)
-            {
-                ErrorHandler.Handle(ex);
+                StringBuilder strList = new StringBuilder();
+
+                foreach (String a in listbox.Items)
+                    strList.AppendLine(a);
+                Tools.WriteTextFile(strList.ToString(), saveListDialog.FileName, false);
             }
         }
 
