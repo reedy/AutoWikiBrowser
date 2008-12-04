@@ -768,7 +768,7 @@ namespace AutoWikiBrowser
             if (!this.ContainsFocus)
             {
                 if (Flash) Tools.FlashWindow(this);
-                if (Beep) Tools.Beep1();
+                if (Beep) Tools.Beep();
             }
         }
 

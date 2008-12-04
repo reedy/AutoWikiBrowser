@@ -957,18 +957,9 @@ namespace WikiFunctions
         /// <summary>
         /// Beeps
         /// </summary>
-        public static void Beep1()
+        public static void Beep()
         {//public domain sounds from http://www.partnersinrhyme.com/soundfx/PDsoundfx/beep.shtml
             sound.Stream = Properties.Resources.beep1;
-            sound.Play();
-        }
-
-        /// <summary>
-        /// Beeps
-        /// </summary>
-        public static void Beep2()
-        {
-            sound.Stream = Properties.Resources.beep2;
             sound.Play();
         }
 
