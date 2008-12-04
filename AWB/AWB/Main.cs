@@ -1551,7 +1551,7 @@ window.scrollTo(0, diffTopY);
                     strList.AppendLine(item.SubItems[0].Text + item.SubItems[1].Text + item.SubItems[2].Text + item.SubItems[3].Text);
                 }
 
-                Tools.WriteTextFileAbsolutePath(strListFile.ToString(), "file", false);
+                Tools.WriteTextFileAbsolutePath(strList.ToString(), "file", false);
             }
         }
 

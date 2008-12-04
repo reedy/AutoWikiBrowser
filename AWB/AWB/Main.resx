@@ -533,9 +533,6 @@
         AACAAAAAgAAAAIAAAACAAAAAgAAAAIAAAACAAAAAwAEAAOADAADwB3jG//8Z/w==
 </value>
   </data>
-  <metadata name="strListFile.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 14</value>
-  </metadata>
   <metadata name="EditBoxSaveTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>224, 50</value>
   </metadata>
