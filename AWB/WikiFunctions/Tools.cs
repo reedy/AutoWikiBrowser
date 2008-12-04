@@ -907,15 +907,15 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Writes a message to the given file in the directory of the application.
+        /// Writes a message to the given file in the specified location.
         /// </summary>
         /// <param name="Message">The message to write.</param>
         /// <param name="File">The name of the file, e.g. "Log.txt".</param>
-        public static void WriteTextFile(string Message, string File, bool append)
+        public static void WriteTextFileAbsolutePath(string Message, string File, bool append)
         {
             try
             {
-                using (StreamWriter writer = new StreamWriter(Application.StartupPath + "\\" + File, append, Encoding.UTF8))
+                using (StreamWriter writer = new StreamWriter(File, append, Encoding.UTF8))
                 {
                     writer.Write(Message);
                     writer.Close();
@@ -925,6 +925,16 @@ namespace WikiFunctions
             {
                 ErrorHandler.Handle(ex);
             }
+        }
+
+        /// <summary>
+        /// Writes a message to the given file in the directory of the application.
+        /// </summary>
+        /// <param name="Message">The message to write.</param>
+        /// <param name="File">The name of the file, e.g. "Log.txt".</param>
+        public static void WriteTextFile(string Message, string File, bool append)
+        {
+            WriteTextFileAbsolutePath(Message, Application.StartupPath + "\\" + File, append);
         }
 
         /// <summary>
