@@ -1606,27 +1606,17 @@ window.scrollTo(0, diffTopY);
 
         private void cmboCategorise_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmboCategorise.SelectedIndex > 0)
+            txtNewCategory.Enabled = chkSkipNoCatChange.Enabled = (cmboCategorise.SelectedIndex > 0);
+
+            if (cmboCategorise.SelectedIndex == 1)
             {
-                txtNewCategory.Enabled = true;
-                if (cmboCategorise.SelectedIndex == 1)
-                {
-                    label1.Text = "with Category:";
-                    txtNewCategory2.Enabled = true;
-                }
-                else
-                {
-                    label1.Text = "";
-                    txtNewCategory2.Enabled = false;
-                }
-                chkSkipNoCatChange.Enabled = true;
+                label1.Text = "with Category:";
+                txtNewCategory2.Enabled = true;
             }
             else
             {
-                chkSkipNoCatChange.Enabled = false;
                 label1.Text = "";
                 txtNewCategory2.Enabled = false;
-                txtNewCategory.Enabled = false;
             }
         }
 
@@ -2674,9 +2664,9 @@ window.scrollTo(0, diffTopY);
 
                 undoToolStripMenuItem.Enabled = txtEdit.CanUndo;
 
-                openPageInBrowserToolStripMenuItem.Enabled = TheArticle.Name.Length > 0;
-                openTalkPageInBrowserToolStripMenuItem.Enabled = TheArticle.Name.Length > 0;
-                openHistoryMenuItem.Enabled = TheArticle.Name.Length > 0;
+                openPageInBrowserToolStripMenuItem.Enabled = openHistoryMenuItem.Enabled = 
+                    openTalkPageInBrowserToolStripMenuItem.Enabled = TheArticle.Name.Length > 0;
+
                 replaceTextWithLastEditToolStripMenuItem.Enabled = LastArticle.Length > 0;
             }
             catch { }
@@ -2856,12 +2846,7 @@ window.scrollTo(0, diffTopY);
 
         private void cmboEditSummary_MouseMove(object sender, MouseEventArgs e)
         {
-            string editSummary = "";
-
-            if (TheArticle != null)
-                editSummary = TheArticle.EditSummary;
-
-            if (string.IsNullOrEmpty(editSummary))
+            if ((TheArticle != null) && string.IsNullOrEmpty(TheArticle.EditSummary))
                 ToolTip.SetToolTip(cmboEditSummary, "");
             else
                 ToolTip.SetToolTip(cmboEditSummary, MakeSummary());
