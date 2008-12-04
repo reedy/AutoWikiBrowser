@@ -846,7 +846,7 @@ namespace AutoWikiBrowser
             this.commentSelectedToolStripMenuItem.Name = "commentSelectedToolStripMenuItem";
             this.commentSelectedToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
             this.commentSelectedToolStripMenuItem.Text = "Comment selected";
-            this.commentSelectedToolStripMenuItem.Click += new System.EventHandler(this.commentSelectedToolStripMenuItem_Click);
+            this.commentSelectedToolStripMenuItem.Click += new System.EventHandler(this.imgComment_Click);
             // 
             // toolStripSeparator4
             // 

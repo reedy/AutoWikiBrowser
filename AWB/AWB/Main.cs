@@ -1464,7 +1464,7 @@ window.scrollTo(0, diffTopY);
 
         private void UpdateOverallTypoStats()
         {
-            if (chkRegExTypo.Checked) 
+            if (chkRegExTypo.Checked)
                 OverallTypoStats.UpdateStats(typoStats, false);
             UpdateTypoCount();
         }
@@ -2664,7 +2664,7 @@ window.scrollTo(0, diffTopY);
 
                 undoToolStripMenuItem.Enabled = txtEdit.CanUndo;
 
-                openPageInBrowserToolStripMenuItem.Enabled = openHistoryMenuItem.Enabled = 
+                openPageInBrowserToolStripMenuItem.Enabled = openHistoryMenuItem.Enabled =
                     openTalkPageInBrowserToolStripMenuItem.Enabled = TheArticle.Name.Length > 0;
 
                 replaceTextWithLastEditToolStripMenuItem.Enabled = LastArticle.Length > 0;
@@ -3978,11 +3978,6 @@ window.scrollTo(0, diffTopY);
         {
             MainFormProgressBar.MarqueeAnimationSpeed = 0;
             MainFormProgressBar.Style = ProgressBarStyle.Continuous;
-        }
-
-        private void commentSelectedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            imgComment_Click(null, null);
         }
 
         private void addAllToWatchlistToolStripMenuItem_Click(object sender, EventArgs e)
