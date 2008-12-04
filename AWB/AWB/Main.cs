@@ -345,29 +345,13 @@ namespace AutoWikiBrowser
             }
         }
 
-        private bool bFlash;
-        private bool Flash
-        {
-            get { return bFlash; }
-            set { bFlash = value; }
-        }
+        private bool Flash;
+        private bool Beep;
 
-        private bool bBeep;
-        private bool Beep
-        {
-            get { return bBeep; }
-            set { bBeep = value; }
-        }
-
-        private bool bMinimize;
         /// <summary>
-        /// Returns True if AWB should be minimised to the system tray; False if it should minimise to the taskbar
+        /// True if AWB should be minimised to the system tray; False if it should minimise to the taskbar
         /// </summary>
-        private bool Minimize
-        {
-            get { return bMinimize; }
-            set { bMinimize = value; }
-        }
+        private bool Minimize;
 
         private decimal dTimeOut = 30;
         private decimal TimeOut
@@ -380,33 +364,12 @@ namespace AutoWikiBrowser
             }
         }
 
-        private bool bSaveArticleList = true;
-        private bool SaveArticleList
-        {
-            get { return bSaveArticleList; }
-            set { bSaveArticleList = value; }
-        }
+        private bool SaveArticleList = true;
+        private bool AutoSaveEditBoxEnabled;
 
-        private bool bAutoSaveEdit;
-        private bool AutoSaveEditBoxEnabled
-        {
-            get { return bAutoSaveEdit; }
-            set { bAutoSaveEdit = value; }
-        }
+        private string AutoSaveEditBoxFile = Application.StartupPath + "\\Edit Box.txt";
 
-        private string sAutoSaveEditFile = Application.StartupPath + "\\Edit Box.txt";
-        private string AutoSaveEditBoxFile
-        {
-            get { return sAutoSaveEditFile; }
-            set { sAutoSaveEditFile = value; }
-        }
-
-        private bool bSuppressUsingAWB;
-        private bool SuppressUsingAWB
-        {
-            get { return bSuppressUsingAWB; }
-            set { bSuppressUsingAWB = value; }
-        }
+        private bool SuppressUsingAWB;
 
         /// <summary>
         /// Setting: Add "Using AWB" to the summary when deleting or protecting an article?
