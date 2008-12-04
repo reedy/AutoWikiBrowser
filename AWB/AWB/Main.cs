@@ -1506,22 +1506,25 @@ window.scrollTo(0, diffTopY);
 
         private void UpdateOverallTypoStats()
         {
-            if (chkRegExTypo.Checked) OverallTypoStats.UpdateStats(typoStats, false);
+            if (chkRegExTypo.Checked) 
+                OverallTypoStats.UpdateStats(typoStats, false);
             UpdateTypoCount();
         }
 
         private void UpdateTypoCount()
         {
-            //work around CS1690 warning
-            int total = OverallTypoStats.TotalTypos;
-            lblOverallTypos.Text = total.ToString();
-
-            int selfMatches = OverallTypoStats.SelfMatches;
-            lblNoChange.Text = selfMatches.ToString();
-
             if (OverallTypoStats.Saves > 0)
+            {
+                //work around CS1690 warning
+                int total = OverallTypoStats.TotalTypos;
+                lblOverallTypos.Text = total.ToString();
+
+                int selfMatches = OverallTypoStats.SelfMatches;
+                lblNoChange.Text = selfMatches.ToString();
+
                 lblTypoRatio.Text = string.Format("{0:F1}",
                     ((double)(total - selfMatches - OverallTypoStats.FalsePositives) / (double)OverallTypoStats.Saves));
+            }
             else
                 lblTypoRatio.Text = "0";
         }
