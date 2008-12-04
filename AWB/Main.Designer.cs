@@ -272,7 +272,6 @@ namespace AutoWikiBrowser
             this.hideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.strListFile = new System.Windows.Forms.SaveFileDialog();
             this.EditBoxSaveTimer = new System.Windows.Forms.Timer(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.listMaker = new WikiFunctions.Controls.Lists.ListMaker();
@@ -2481,12 +2480,6 @@ namespace AutoWikiBrowser
             this.exitToolStripMenuItem1.Text = "E&xit";
             this.exitToolStripMenuItem1.Click += new System.EventHandler(this.exitToolStripMenuItem1_Click);
             // 
-            // strListFile
-            // 
-            this.strListFile.DefaultExt = "txt";
-            this.strListFile.Filter = "Text file with wiki markup|*.txt|Plaintext list|*.txt";
-            this.strListFile.Title = "Save log";
-            // 
             // EditBoxSaveTimer
             // 
             this.EditBoxSaveTimer.Interval = 1000;
@@ -4114,7 +4107,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator20;
         private System.Windows.Forms.ToolStripMenuItem openSelectionInBrowserToolStripMenuItem;
         private NudgeTimer NudgeTimer;
-        private System.Windows.Forms.SaveFileDialog strListFile;
         private System.Windows.Forms.Timer EditBoxSaveTimer;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator22;
         private System.Windows.Forms.ToolStripMenuItem saveTextToFileToolStripMenuItem;
