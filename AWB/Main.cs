@@ -374,12 +374,7 @@ namespace AutoWikiBrowser
         /// <summary>
         /// Setting: Add "Using AWB" to the summary when deleting or protecting an article?
         /// </summary>
-        private bool mAddUsingAWBOnArticleAction;
-        private bool AddUsingAWBOnArticleAction
-        {
-            get { return mAddUsingAWBOnArticleAction; }
-            set { mAddUsingAWBOnArticleAction = value; }
-        }
+        private bool AddUsingAWBOnArticleAction;
 
         private decimal dAutoSaveEditPeriod = 60;
         private decimal AutoSaveEditBoxPeriod
