@@ -446,7 +446,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\beep11.wav" />
-    <None Include="Resources\beep21.wav" />
     <Content Include="Diff\Diff.dll" />
     <Content Include="Resources\Bot Image.png" />
     <None Include="Resources\globe.ico" />
