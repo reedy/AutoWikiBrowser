@@ -19,8 +19,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -104,7 +102,6 @@ namespace AutoWikiBrowser
 
                 string code = codestart + Regex.Replace(txtCode.Text, "VbCrLf", "\"/r/n\"", RegexOptions.IgnoreCase) + "\r\n" + codeend;
 
-                CompilerResults results;
                 CodeDomProvider codeProvider;
 
                 if (cmboLang.SelectedIndex == 0)
@@ -112,7 +109,7 @@ namespace AutoWikiBrowser
                 else
                     codeProvider = new Microsoft.VisualBasic.VBCodeProvider();
 
-                results = codeProvider.CompileAssemblyFromSource(cp, code);
+                CompilerResults results = codeProvider.CompileAssemblyFromSource(cp, code);
 
                 if (results.Errors.Count > 0)
                 {
@@ -148,13 +145,13 @@ namespace AutoWikiBrowser
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void CustomModule_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
-            this.Hide();
+            Hide();
         }
 
         private void btnMake_Click(object sender, EventArgs e)
@@ -250,13 +247,7 @@ The int value ""Namespace"" gives you the key of the namespace, e.g. mainspace i
 
         private void chkFixedwidth_CheckedChanged(object sender, EventArgs e)
         {
-            Font a;
-            if (chkFixedwidth.Checked)
-                a = new Font("Courier New", 9);
-            else
-                a = new Font("Microsoft Sans Serif", 8);
-
-            txtCode.Font = lblStart.Font = lblEnd.Font = a;
+            txtCode.Font = lblStart.Font = lblEnd.Font = chkFixedwidth.Checked ? new Font("Courier New", 9) : new Font("Microsoft Sans Serif", 8);
         }
 
         #region txtCode Context Menu

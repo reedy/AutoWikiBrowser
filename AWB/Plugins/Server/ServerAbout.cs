@@ -16,10 +16,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace AutoWikiBrowser.Plugins.Server
 {
     /// <summary>
@@ -32,14 +28,14 @@ namespace AutoWikiBrowser.Plugins.Server
             lblVersion.Text = "Version " + 
                 System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             textBoxDescription.Text = GPLNotice;
-            this.linkLabel1.Size = new System.Drawing.Size(92, 13);
-            this.linkLabel1.Text = "Stephen Kennedy";
+            linkLabel1.Size = new System.Drawing.Size(92, 13);
+            linkLabel1.Text = "Stephen Kennedy";
 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.ClientSize = new System.Drawing.Size(262, 207);
-            this.Text = "AWB Server Plugin";
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            ClientSize = new System.Drawing.Size(262, 207);
+            Text = "AWB Server Plugin";
+            ResumeLayout(false);
+            PerformLayout();
         }
     }
 }

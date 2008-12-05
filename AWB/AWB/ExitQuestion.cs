@@ -18,10 +18,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace AutoWikiBrowser
@@ -34,7 +30,7 @@ namespace AutoWikiBrowser
 
             lblPrompt.Text = msg + "Are you sure you want to exit?";
 
-            lblTimeAndEdits.Text = "You made " + Edits.ToString() + " edits in " + time.ToString();
+            lblTimeAndEdits.Text = "You made " + Edits + " edits in " + time;
         }
 
         public bool CheckBoxDontAskAgain

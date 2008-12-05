@@ -19,14 +19,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 using System.Collections.Specialized;
 using System.Windows.Forms;
-using WikiFunctions;
 using WikiFunctions.Plugin;
-
-using WikiFunctions.AWBSettings;
 
 namespace WikiFunctions.Plugins.ListMaker.TypoScan
 {
@@ -132,7 +128,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             get
             {
                 return "[[Wikipedia:TypoScan|TypoScan AWB Plugin]], Plugin version " +
-                    System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                    System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             }
         }
 

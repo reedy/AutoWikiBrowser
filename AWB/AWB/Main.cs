@@ -31,19 +31,13 @@ using System.Threading;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Collections;
-using System.Web;
-using System.Xml;
-using System.Reflection;
 using System.Diagnostics;
 using WikiFunctions;
 using WikiFunctions.Plugin;
 using WikiFunctions.Parse;
-using WikiFunctions.Lists;
-using WikiFunctions.Logging;
 using WikiFunctions.Properties;
 using WikiFunctions.Browser;
 using WikiFunctions.Controls;
-using System.Collections.Specialized;
 using WikiFunctions.Background;
 using System.Security.Permissions;
 using WikiFunctions.Controls.Lists;
@@ -117,7 +111,7 @@ namespace AutoWikiBrowser
             splash.SetProgress(5);
             try
             {
-                Icon = WikiFunctions.Properties.Resources.AWBIcon;
+                Icon = Resources.AWBIcon;
                 lblUserName.Alignment = ToolStripItemAlignment.Right;
                 lblProject.Alignment = ToolStripItemAlignment.Right;
                 lblTimer.Alignment = ToolStripItemAlignment.Right;
@@ -137,12 +131,13 @@ namespace AutoWikiBrowser
                 btntsDelete.Image = Resources.Vista_trashcan_empty;
 
                 splash.SetProgress(10);
-                int stubcount = 500;
-                bool catkey = false;
                 try
                 {
-                    stubcount = AutoWikiBrowser.Properties.Settings.Default.StubMaxWordCount;
-                    catkey = AutoWikiBrowser.Properties.Settings.Default.AddHummanKeyToCats;
+                    int stubcount = 500;
+                    bool catkey = false;
+
+                    stubcount = Properties.Settings.Default.StubMaxWordCount;
+                    catkey = Properties.Settings.Default.AddHummanKeyToCats;
                     parsers = new Parsers(stubcount, catkey);
                 }
                 catch (Exception ex)
@@ -175,7 +170,7 @@ namespace AutoWikiBrowser
                 listMaker.BusyStateChanged += SetProgressBar;
                 listMaker.NoOfArticlesChanged += UpdateButtons;
                 listMaker.StatusTextChanged += UpdateListStatus;
-                listMaker.cmboSourceSelect.SelectedIndexChanged += new EventHandler(ListMakerSourceSelectHandler);
+                listMaker.cmboSourceSelect.SelectedIndexChanged += ListMakerSourceSelectHandler;
 
                 profiles = new WikiFunctions.Profiles.AWBProfilesForm(webBrowserEdit);
                 profiles.LoadProfile += LoadProfileSettings;
@@ -198,12 +193,9 @@ namespace AutoWikiBrowser
                 mSettingsFileDisplay = Program.NAME;
                 if (!string.IsNullOrEmpty(value))
                     mSettingsFileDisplay += " - " + value.Remove(0, value.LastIndexOf("\\") + 1);
-                this.Text = SettingsFileDisplay;
+                Text = SettingsFileDisplay;
 
-                if (SettingsFileDisplay.Length > 64)
-                    ntfyTray.Text = SettingsFileDisplay.Substring(0, 63); // 64 char limit
-                else
-                    ntfyTray.Text = SettingsFileDisplay;
+                ntfyTray.Text = (SettingsFileDisplay.Length > 64) ? SettingsFileDisplay.Substring(0, 63) : SettingsFileDisplay;
             }
             get { return mSettingsFile; }
         }
@@ -237,7 +229,9 @@ namespace AutoWikiBrowser
                 //check that we are not using an old OS. 98 seems to mangled some unicode
                 if (Environment.OSVersion.Version.Major < 5)
                 {
-                    MessageBox.Show("You appear to be using an older operating system, this software may have trouble with some unicode fonts on operating systems older than Windows 2000, the start button has been disabled.", "Operating system", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(
+                        "You appear to be using an older operating system, this software may have trouble with some unicode fonts on operating systems older than Windows 2000, the start button has been disabled.",
+                        "Operating system", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     SetStartButton(false);
                     listMaker.MakeListEnabled = false;
                 }
@@ -251,13 +245,11 @@ namespace AutoWikiBrowser
 
                 logControl.Initialise(listMaker);
 
-                if (Properties.Settings.Default.WindowLocation != null)
-                    this.Location = Properties.Settings.Default.WindowLocation;
+                Location = Properties.Settings.Default.WindowLocation;
 
-                if (Properties.Settings.Default.WindowSize != null)
-                    this.Size = Properties.Settings.Default.WindowSize;
+                Size = Properties.Settings.Default.WindowSize;
 
-                this.WindowState = Properties.Settings.Default.WindowState;
+                WindowState = Properties.Settings.Default.WindowState;
 
                 Debug();
                 Plugin.LoadPluginsStartup(this, splash); // progress 65-79 in LoadPlugins()
@@ -277,8 +269,8 @@ namespace AutoWikiBrowser
                 {
                     lblUserName.BackColor = Color.Red;
                     MessageBox.Show(this, "Cannot load version check page from Wikipedia. "
-                        + "Please verify that you're connected to Internet.", "Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                          + "Please verify that you're connected to Internet.", "Error",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
                 if (userProfileToLoad != -1)
@@ -396,9 +388,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        private bool IgnoreNoBots = false;
-
-        private bool addIgnoredToLogFile = false;
+        private bool IgnoreNoBots, addIgnoredToLogFile;
         private bool AddIgnoredToLogFile
         {
             set
@@ -407,14 +397,14 @@ namespace AutoWikiBrowser
                 if (addIgnoredToLogFile)
                 {
                     btnFalsePositive.Visible = btntsFalsePositive.Visible = true;
-                    btnStop.Location = new System.Drawing.Point(220, 62);
-                    btnStop.Size = new System.Drawing.Size(51, 23);
+                    btnStop.Location = new Point(220, 62);
+                    btnStop.Size = new Size(51, 23);
                 }
                 else
                 {
                     btnFalsePositive.Visible = btntsFalsePositive.Visible = false;
-                    btnStop.Location = new System.Drawing.Point(156, 62);
-                    btnStop.Size = new System.Drawing.Size(117, 23);
+                    btnStop.Location = new Point(156, 62);
+                    btnStop.Size = new Size(117, 23);
                 }
             }
             get { return addIgnoredToLogFile; }
@@ -496,12 +486,12 @@ namespace AutoWikiBrowser
                     StopSaveInterval(null, null);
                     lblTimer.Text = "";
                     StatusLabelText = "No articles in list, you need to use the Make list";
-                    this.Text = Program.NAME;
+                    Text = Program.NAME;
                     listMaker.MakeListEnabled = true;
                     return;
                 }
-                else
-                    webBrowserEdit.Busy = true;
+
+                webBrowserEdit.Busy = true;
 
                 TheArticle = new ArticleEX(listMaker.SelectedArticle().Name);
 
@@ -525,7 +515,7 @@ namespace AutoWikiBrowser
             }
             catch (Exception ex)
             {
-                Tools.WriteDebug(this.Name, "Start() error: " + ex.Message);
+                Tools.WriteDebug(Name, "Start() error: " + ex.Message);
                 StartDelayedRestartTimer(null, null);
             }
 
@@ -789,19 +779,20 @@ namespace AutoWikiBrowser
                         Start();
                         return false;
                     }
+
+                    retries = 0;
+                    if (!string.IsNullOrEmpty(HTML))
+						SkipPage("Database is locked, tried 10 times");
                     else
                     {
-                        retries = 0;
-                        if (!string.IsNullOrEmpty(HTML)) SkipPage("Database is locked, tried 10 times");
-                        else
-                        {
-                            MessageBox.Show("Loading edit page failed after 10 retries. Processing stopped.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            Stop();
-                        }
-                        return false;
+                        MessageBox.Show("Loading edit page failed after 10 retries. Processing stopped.", "Error",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Stop();
                     }
+                    return false;
                 }
-                else if (HTML.Contains("Sorry! We could not process your edit due to a loss of session data. Please try again. If it still doesn't work, try logging out and logging back in."))
+
+                if (HTML.Contains("Sorry! We could not process your edit due to a loss of session data. Please try again. If it still doesn't work, try logging out and logging back in."))
                 {
                     Save();
                     return false;
@@ -1580,6 +1571,9 @@ window.scrollTo(0, diffTopY);
 
         private string MakeSummary()
         {
+            if (TheArticle == null)
+                return "";
+
             string tag = cmboEditSummary.Text + TheArticle.EditSummary;
 
             if ((Variables.User.IsBot && chkSuppressTag.Checked)
@@ -1869,11 +1863,11 @@ window.scrollTo(0, diffTopY);
 
                 //Find multiple links                
                 ArrayList arrayLinks = new ArrayList();
-                string x = "";
+
                 //get all the links
                 foreach (Match m in WikiRegexes.WikiLink.Matches(articleText))
                 {
-                    x = m.Groups[1].Value;
+                    string x = m.Groups[1].Value;
                     if (!WikiRegexes.Dates.IsMatch(x) && !WikiRegexes.Dates2.IsMatch(x))
                         arrayLinks.Add(x);
                 }
@@ -2238,7 +2232,7 @@ window.scrollTo(0, diffTopY);
                 SaveArticle();
             }
 
-            lblBotTimer.Text = "Bot timer: " + intTimer.ToString();
+            lblBotTimer.Text = "Bot timer: " + intTimer;
         }
 
         private void ShowTimer()
@@ -2251,7 +2245,7 @@ window.scrollTo(0, diffTopY);
         private void SaveInterval(object sender, EventArgs e)
         {
             intStartTimer++;
-            lblTimer.Text = "Timer: " + intStartTimer.ToString();
+            lblTimer.Text = "Timer: " + intStartTimer;
         }
         private void StopSaveInterval(object sender, EventArgs e)
         {
@@ -3346,10 +3340,10 @@ window.scrollTo(0, diffTopY);
             hideToolStripMenuItem.Enabled = visible;
         }
 
-        public void NotifyBalloon(string Message, ToolTipIcon Icon)
+        public void NotifyBalloon(string message, ToolTipIcon icon)
         {
-            ntfyTray.BalloonTipText = Message;
-            ntfyTray.BalloonTipIcon = Icon;
+            ntfyTray.BalloonTipText = message;
+            ntfyTray.BalloonTipIcon = icon;
             ntfyTray.ShowBalloonTip(10000);
         }
         #endregion
@@ -3658,13 +3652,13 @@ window.scrollTo(0, diffTopY);
         {
             if (radShutdown.Checked)
                 return "Shutdown";
-            else if (radStandby.Checked)
+            if (radStandby.Checked)
                 return "Standby";
-            else if (radRestart.Checked)
+            if (radRestart.Checked)
                 return "Restart";
-            else if (radHibernate.Checked)
+            if (radHibernate.Checked)
                 return "Hibernate";
-            else
+
                 return "";
         }
 
@@ -3871,10 +3865,10 @@ window.scrollTo(0, diffTopY);
             }
 
             if (MessageBox.Show("Test typo rules for performance (this may take considerable time)?",
-                "Test typos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                                "Test typos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 return;
 
-            int iterations = 1000000 / text.Length;
+            int iterations = 1000000/text.Length;
             if (iterations > 500) iterations = 500;
 
             List<KeyValuePair<int, string>> times = new List<KeyValuePair<int, string>>();
@@ -3887,8 +3881,7 @@ window.scrollTo(0, diffTopY);
                 {
                     p.Key.IsMatch(text);
                 }
-                times.Add(new KeyValuePair<int, string>((int)watch.ElapsedMilliseconds,
-                    p.Key.ToString() + " > " + p.Value));
+                times.Add(new KeyValuePair<int, string>((int) watch.ElapsedMilliseconds, p.Key + " > " + p.Value));
             }
 
             times.Sort(new Comparison<KeyValuePair<int, string>>(CompareRegexPairs));
@@ -3899,7 +3892,7 @@ window.scrollTo(0, diffTopY);
             }
 
             MessageBox.Show("Results are saved in the file 'typos.txt'", "Profiling complete",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void loadPluginToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3909,8 +3902,7 @@ window.scrollTo(0, diffTopY);
 
         private void managePluginsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PluginManager manager = new PluginManager(this);
-            manager.ShowDialog(this);
+            new PluginManager(this).ShowDialog(this);
         }
 
         private void menuitemMakeFromTextBoxUndo_Click(object sender, EventArgs e)
@@ -3935,10 +3927,7 @@ window.scrollTo(0, diffTopY);
 
         private void mnuCopyToCategoryLog_Click(object sender, EventArgs e)
         {
-            if (listMaker.UserInputTextBox.SelectionLength > 0)
-                loggingSettings1.LoggingCategoryTextBox.Text = listMaker.UserInputTextBox.SelectedText;
-            else
-                loggingSettings1.LoggingCategoryTextBox.Text = listMaker.UserInputTextBox.Text;
+            loggingSettings1.LoggingCategoryTextBox.Text = (listMaker.UserInputTextBox.SelectionLength > 0) ? listMaker.UserInputTextBox.SelectedText : listMaker.UserInputTextBox.Text;
         }
 
         private void ListMakerSourceSelectHandler(object sender, EventArgs e)
@@ -3958,11 +3947,10 @@ window.scrollTo(0, diffTopY);
         {
             CatName.ShowDialog();
 
-            if (!string.IsNullOrEmpty(CatName.CategoryName))
-            {
-                txtEdit.Text += "\r\n\r\n[[" + CatName.CategoryName + "]]";
-                reparseEditBox();
-            }
+            if (string.IsNullOrEmpty(CatName.CategoryName)) return;
+
+            txtEdit.Text += "\r\n\r\n[[" + CatName.CategoryName + "]]";
+            reparseEditBox();
         }
 
         private void UsageStatsMenuItem_Click(object sender, EventArgs e)

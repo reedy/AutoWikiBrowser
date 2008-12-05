@@ -21,11 +21,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Text.RegularExpressions;
 
 namespace AutoWikiBrowser.Plugins.Server
 {
@@ -89,7 +86,7 @@ namespace AutoWikiBrowser.Plugins.Server
             }
 
             private void AcceptConnections()
-            { mMainSocket.BeginAccept(new AsyncCallback(this.AcceptConnectionDelegate), mMainSocket); }
+            { mMainSocket.BeginAccept(new AsyncCallback(AcceptConnectionDelegate), mMainSocket); }
 
             /// <summary>
             /// Stop the server

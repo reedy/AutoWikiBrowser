@@ -18,8 +18,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using WikiFunctions.Plugin;
 
@@ -49,7 +47,6 @@ namespace AutoWikiBrowser.Plugins.Server
         /// <summary>
         /// Constructor/initialisation, called from IAWBPlugin.Initialise
         /// </summary>
-        /// <param name="AWBForm"></param>
         internal ServerControl(IAutoWikiBrowser sender)
         {
             InitializeComponent();

@@ -19,12 +19,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 using System.Xml;
 using System.IO;
 
-using WikiFunctions;
 using WikiFunctions.Plugin;
 using System.Windows.Forms;
 
@@ -60,7 +58,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                         reader.MoveToAttribute("id");
                         int id = int.Parse(reader.Value);
                         string title = reader.ReadString();
-                        articles.Add(new WikiFunctions.Article(title));
+                        articles.Add(new Article(title));
                         if (!TypoScanAWBPlugin.PageList.ContainsKey(title))
                             TypoScanAWBPlugin.PageList.Add(title, id);
                     }

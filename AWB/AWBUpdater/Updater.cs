@@ -18,9 +18,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
@@ -190,7 +187,7 @@ namespace AwbUpdater
         /// </summary>
         private void AWBversion()
         {
-            string text = "";
+            string text;
 
             UpdateUI("   Retrieving current version...", true);
             try
@@ -199,7 +196,7 @@ namespace AwbUpdater
 
                 rq.Proxy = proxy;
 
-                rq.UserAgent = "AWBUpdater " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                rq.UserAgent = "AWBUpdater " + Assembly.GetExecutingAssembly().GetName().Version;
 
                 HttpWebResponse response = (HttpWebResponse)rq.GetResponse();
 
@@ -241,13 +238,13 @@ namespace AwbUpdater
 
                     if (awbUpdate)
                     {
-                        AWBZipName = "AutoWikiBrowser" + awbNewestVersion.ToString() + ".zip";
+                        AWBZipName = "AutoWikiBrowser" + awbNewestVersion + ".zip";
                         AWBWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + AWBZipName;
                     }
                     else if ((updaterVersion > 1400) &&
                         (updaterVersion > AssemblyVersion))
                     {
-                        UpdaterZipName = "AWBUpdater" + updaterVersion.ToString() + ".zip";
+                        UpdaterZipName = "AWBUpdater" + updaterVersion + ".zip";
                         UpdaterWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + UpdaterZipName;
                         updaterUpdate = true;
                     }
@@ -264,7 +261,7 @@ namespace AwbUpdater
         /// </summary>
         private void GetAwbFromInternet()
         {
-            System.Net.WebClient client = new System.Net.WebClient();
+            WebClient client = new WebClient();
             client.Proxy = proxy;
 
             if (!string.IsNullOrEmpty(AWBWebAddress))
@@ -395,24 +392,23 @@ namespace AwbUpdater
                 catch (Exception ex)
                 {
                     if (MessageBox.Show(
-                        this,
-                        "Problem replacing file:\r\n   " + ex.Message + "\r\n\r\n" +
+                            this,
+                            "Problem replacing file:\r\n   " + ex.Message + "\r\n\r\n" +
                             "Please close all applications that may use it and press 'Retry' to try again " +
                             "or 'Cancel' to cancel the upgrade.",
-                        "Error",
-                        MessageBoxButtons.RetryCancel,
-                        MessageBoxIcon.Error) == DialogResult.Retry)
+                            "Error",
+                            MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) == DialogResult.Retry)
                     {
                         continue;
                     }
-                    else
-                    {
-                        AppendLine("... FAILED");
-                        UpdateUI("Update aborted. AutoWikiBrowser may be unfunctional", true);
-                        KillTempDir();
-                        ReadyToExit();
-                        throw new AbortException();
-                    }
+
+
+                    AppendLine("... FAILED");
+                    UpdateUI("Update aborted. AutoWikiBrowser may be unfunctional", true);
+                    KillTempDir();
+                    ReadyToExit();
+                    throw new AbortException();
+
                 }
 
                 break;
@@ -455,10 +451,10 @@ namespace AwbUpdater
                     break;
             }
 
-            if (!awbOpen && System.IO.File.Exists(AWBdirectory + "AutoWikiBrowser.exe")
+            if (!awbOpen && File.Exists(AWBdirectory + "AutoWikiBrowser.exe")
                 && MessageBox.Show("Would you like to start AWB?", "Start AWB?", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                System.Diagnostics.Process.Start(AWBdirectory + "AutoWikiBrowser.exe");
+                Process.Start(AWBdirectory + "AutoWikiBrowser.exe");
             }
 
             progressUpdate.Value = 99;
@@ -505,7 +501,7 @@ namespace AwbUpdater
     public class AbortException : Exception
     {
         public AbortException()
-            : base() { }
+        { }
 
         public AbortException(string message)
             : base(message)

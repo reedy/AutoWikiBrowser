@@ -17,10 +17,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
-using WikiFunctions;
 using WikiFunctions.Plugin;
 using WikiFunctions.AWBSettings;
 
@@ -67,8 +64,8 @@ namespace AutoWikiBrowser.Plugins.Server
         {
             if (prefs != null && prefs[0] is PrefsKeyPair)
             {
-                PrefsKeyPair pref = prefs[0] as PrefsKeyPair;
-                if (pref.Name == "Enabled")
+                PrefsKeyPair pref = (prefs[0] as PrefsKeyPair);
+                if ((pref != null) && pref.Name == "Enabled")
                     ServerUserControl.PluginEnabled = (bool)pref.Setting;
             }
         }

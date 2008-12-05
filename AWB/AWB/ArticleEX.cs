@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using WikiFunctions.Logging;
 
 namespace AutoWikiBrowser
@@ -27,14 +24,13 @@ namespace AutoWikiBrowser
         // An alternative approach would be to call Close() from the other Log tab, where the AWBLogListener
         // gets added to either the saved or skipped list. We can be fairly sure it will always get called
         // at the right time then.
-        internal void Close()
+        internal static void Close()
         { Program.MyTrace.RemoveListener("AWB"); }
 
-        internal static ArticleEX SwitchToNewArticleObject(ArticleEX Old,
-            ArticleEX New)
+        internal static ArticleEX SwitchToNewArticleObject(ArticleEX Old, ArticleEX New)
         {
             if(Old != null && Old.LogListener != null)
-                Old.Close(); // remove old AWBLogListener from MyTrace collection
+                Close(); // remove old AWBLogListener from MyTrace collection
             New.InitialiseLogListener(); // create new listener and add to collection
             return New;
         }

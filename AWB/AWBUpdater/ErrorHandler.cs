@@ -1,14 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
 using System.Text.RegularExpressions;
-using System.Web;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 /// Don't use anything WikiFunctions-specific here, for source-compatibility with Updater  ///
@@ -58,7 +53,7 @@ namespace AwbUpdater
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 // out of memory error
-                else if (ex is System.OutOfMemoryException)
+                else if (ex is OutOfMemoryException)
                 {
                     MessageBox.Show(ex.Message, "Out of Memory error",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -76,7 +71,7 @@ namespace AwbUpdater
 
                     errorMessage.Append("<table>");
                     FormatException(ex, errorMessage, true);
-                    errorMessage.Append("</table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
+                    errorMessage.Append("</table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
 
                     //if (!Variables.Revision.Contains("?")) errorMessage.Append(", revision " + Variables.Revision);
 
@@ -192,7 +187,7 @@ namespace AwbUpdater
             try
             {
                 Clipboard.Clear();
-                System.Threading.Thread.Sleep(1000);
+                Thread.Sleep(1000);
                 Clipboard.SetText(txtDetails.Text);
             }
             catch { }

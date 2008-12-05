@@ -19,11 +19,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
-using System.Text;
 using System.Windows.Forms;
 using System.IO;
-using System.Xml;
-using System.Xml.Serialization;
 using System.Collections.Generic;
 using WikiFunctions;
 using WikiFunctions.Plugin;
@@ -44,7 +41,7 @@ namespace AutoWikiBrowser
         {
             if (!string.IsNullOrEmpty(SettingsFile))
             {
-                if ((!System.IO.File.Exists(SettingsFile)) || MessageBox.Show("Replace existing file?", "File exists - " + SettingsFile,
+                if ((!File.Exists(SettingsFile)) || MessageBox.Show("Replace existing file?", "File exists - " + SettingsFile,
             MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
                     //Make an "old"/backup copy of a file. Old settings are still there if something goes wrong
@@ -101,7 +98,7 @@ namespace AutoWikiBrowser
                 }
 
                 cModule.ModuleEnabled = false;
-                this.Text = Program.NAME;
+                Text = Program.NAME;
                 StatusLabelText = "Default settings loaded.";
             }
             catch (Exception ex)
@@ -192,9 +189,14 @@ namespace AutoWikiBrowser
 
         private void RecentSettingsClick(object sender, EventArgs e)
         {
-            ToolStripItem item = sender as ToolStripItem;
-            LoadPrefs(item.Text);
-            SettingsFile = item.Text;
+            ToolStripItem item = (sender as ToolStripItem);
+
+            if (item != null)
+            {
+                LoadPrefs(item.Text);
+                SettingsFile = item.Text;
+            }
+
             listMaker.removeListDuplicates();
         }
 
@@ -249,7 +251,7 @@ namespace AutoWikiBrowser
                chkSkipWhenNoFAR.Checked, chkSkipIfNoRegexTypo.Checked, chkSkipNoDab.Checked, chkSkipWhitespace.Checked, chkSkipCasing.Checked,
                chkSkipGeneralFixes.Checked, chkSkipNoPageLinks.Checked, Skip.SelectedItems, chkSkipIfRedirect.Checked),
                new GeneralPrefs(SaveArticleList, IgnoreNoBots, cmboEditSummary.Items,
-               cmboEditSummary.Text, new string[10] {PasteMore1.Text, PasteMore2.Text, PasteMore3.Text, 
+               cmboEditSummary.Text, new string[] {PasteMore1.Text, PasteMore2.Text, PasteMore3.Text, 
                 PasteMore4.Text, PasteMore5.Text, PasteMore6.Text, PasteMore7.Text, PasteMore8.Text,
                 PasteMore9.Text, PasteMore10.Text}, txtFind.Text, chkFindRegex.Checked,
                chkFindCaseSensitive.Checked, wordWrapToolStripMenuItem1.Checked, EnableToolBar,

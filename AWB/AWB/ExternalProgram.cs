@@ -16,12 +16,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using System.IO;
 
@@ -99,9 +94,9 @@ namespace AutoWikiBrowser
                 System.Diagnostics.Process p = System.Diagnostics.Process.Start(psi);
                 p.WaitForExit();
 
-                if (System.IO.File.Exists(IOFile))
+                if (File.Exists(IOFile))
                 {
-                    using (System.IO.StreamReader reader = System.IO.File.OpenText(IOFile))
+                    using (StreamReader reader = File.OpenText(IOFile))
                     {
                         ArticleText = reader.ReadToEnd();
                         reader.Close();
@@ -109,7 +104,7 @@ namespace AutoWikiBrowser
 
                     Skip = (chkSkip.Checked && (ArticleText == OrigText));
 
-                    System.IO.File.Delete(IOFile);
+                    File.Delete(IOFile);
                 }
                 return ArticleText;
             }
@@ -137,7 +132,7 @@ namespace AutoWikiBrowser
         private void btnOk_Click(object sender, EventArgs e)
         {
             if (!chkEnabled.Checked || !string.IsNullOrEmpty(txtWorkingDir.Text) && !string.IsNullOrEmpty(txtProgram.Text) && !string.IsNullOrEmpty(txtFile.Text) || (radParameter.Checked && !string.IsNullOrEmpty(txtParameters.Text)))
-                this.Close();
+                Close();
             else
                 MessageBox.Show("Please make sure all relevant fields are completed"); 
         }

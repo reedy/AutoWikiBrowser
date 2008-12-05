@@ -19,8 +19,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Windows.Forms;
 using System.Reflection;
 using WikiFunctions;
@@ -40,17 +38,16 @@ namespace AutoWikiBrowser
             lblOSVersion.Text = "Windows version: " + Environment.OSVersion.Version.Major.ToString() + "." + Environment.OSVersion.Version.Minor.ToString();
             lblNETVersion.Text = ".NET version: " + Environment.Version.ToString();
 
-            if (Edits > 0)
-            {
-                lblTimeAndEdits.Visible = true;
+            if (Edits < 1) return;
 
-                lblTimeAndEdits.Text = "You have made " + Edits.ToString() + " edits in " + time.ToString();
-            }
+            lblTimeAndEdits.Visible = true;
+
+            lblTimeAndEdits.Text = "You have made " + Edits.ToString() + " edits in " + time.ToString();
         }
 
         private void okButton_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void linkAWBPage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
