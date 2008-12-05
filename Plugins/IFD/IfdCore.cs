@@ -18,14 +18,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using WikiFunctions.Plugin;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using WikiFunctions;
-using WikiFunctions.Logging;
 using WikiFunctions.Parse;
-using WikiFunctions.Lists;
 using WikiFunctions.AWBSettings;
 
 namespace AutoWikiBrowser.Plugins.IFD
@@ -66,7 +63,7 @@ namespace AutoWikiBrowser.Plugins.IFD
             get
             {
                 return "[[WP:IFD|IFD]] Plugin version " +
-            System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             }
         }
 
@@ -86,7 +83,7 @@ namespace AutoWikiBrowser.Plugins.IFD
 
             foreach (KeyValuePair<string, string> p in Settings.Images)
             {
-                bool noChange = true;
+                bool noChange;
 
                 if (p.Value.Length == 0)
                 {

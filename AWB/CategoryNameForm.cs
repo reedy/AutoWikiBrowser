@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace AutoWikiBrowser
@@ -20,8 +16,8 @@ namespace AutoWikiBrowser
             {
                 if (!string.IsNullOrEmpty(txtCategory.Text.Trim()))
                     return lblCategory.Text + txtCategory.Text;
-                else
-                    return "";
+
+                return "";
             }
         }
 
@@ -35,7 +31,7 @@ namespace AutoWikiBrowser
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
 }

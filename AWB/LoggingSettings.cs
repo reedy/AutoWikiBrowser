@@ -21,14 +21,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using WikiFunctions.Logging.Uploader;
-using AutoWikiBrowser.Logging;
 using WikiFunctions;
 using WikiFunctions.AWBSettings;
-using WikiFunctions.Plugin;
 
 namespace AutoWikiBrowser
 {
@@ -42,7 +38,7 @@ namespace AutoWikiBrowser
         private bool mInitialised;
         internal Props Settings = new Props();
 
-        public LoggingSettings() : base()
+        public LoggingSettings()
         {
             mStartingUp = true;
             InitializeComponent();
@@ -157,7 +153,7 @@ namespace AutoWikiBrowser
             UploadWatchlistCheckBox.Checked = settingsObject.UploadAddToWatchlist;
             UploadJobNameTextBox.Text = settingsObject.UploadJobName;
             UploadLocationTextBox.Text = settingsObject.UploadLocation;
-            UploadMaxLinesControl.Value = System.Convert.ToDecimal(settingsObject.UploadMaxLines);
+            UploadMaxLinesControl.Value = Convert.ToDecimal(settingsObject.UploadMaxLines);
             UploadOpenInBrowserCheckBox.Checked = settingsObject.UploadOpenInBrowser;
             UploadWikiProjectCheckBox.Checked = settingsObject.UploadToWikiProjects;
             DebugUploadingCheckBox.Checked = settingsObject.DebugUploading;
@@ -187,7 +183,7 @@ namespace AutoWikiBrowser
             Settings.UploadAddToWatchlist = UploadWatchlistCheckBox.Checked;
             Settings.UploadJobName = UploadJobNameTextBox.Text;
             Settings.UploadLocation = UploadLocationTextBox.Text;
-            Settings.UploadMaxLines = System.Convert.ToInt32(UploadMaxLinesControl.Value);
+            Settings.UploadMaxLines = Convert.ToInt32(UploadMaxLinesControl.Value);
             Settings.Category = LoggingCategoryTextBox.Text;
             Settings.UploadOpenInBrowser = UploadOpenInBrowserCheckBox.Checked;
             Settings.UploadToWikiProjects = UploadWikiProjectCheckBox.Checked;
@@ -284,7 +280,7 @@ namespace AutoWikiBrowser
 		}
 		private void FolderButton_Click(object sender, EventArgs e)
 		{
-			if (FolderBrowserDialog1.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+			if (FolderBrowserDialog1.ShowDialog(this) == DialogResult.OK)
 			{
 				FolderTextBox.Text = FolderBrowserDialog1.SelectedPath;
 				WEHaveUnappliedChanges();
@@ -334,7 +330,6 @@ namespace AutoWikiBrowser
             internal const string ConUploadCategoryIsJobName = "$CATEGORY";
 
             internal Props()
-                : base()
             {
                 mUploadLocation = ConUploadToUserSlashLogsToken;
                 mUploadJobName = ConUploadCategoryIsJobName;
@@ -392,13 +387,9 @@ namespace AutoWikiBrowser
                 get
                 {
                     if (string.IsNullOrEmpty(mCategory))
-                    {
                         return "";
-                    }
-                    else
-                    {
-                        return "[[:Category:" + mCategory + "|" + mCategory + "]]";
-                    }
+
+                    return "[[:" + Variables.Namespaces[14] + mCategory + "|" + mCategory + "]]";
                 }
             }
             internal string LogTitle

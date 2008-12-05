@@ -20,10 +20,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using WikiFunctions;
 using WikiFunctions.Logging;
-using WikiFunctions.Plugin;
 using System.Windows.Forms;
 using WikiFunctions.Logging.Uploader;
 
@@ -93,7 +91,7 @@ namespace AutoWikiBrowser.Logging
         private void TraceUploadEventHandler(TraceListenerUploadableBase sender, ref bool success)
         {
             ValidateUploadProfile();
-            UploadHandlerReturnVal retval = base.UploadHandler(sender, LoggingSettings.Settings.LogTitle, 
+            UploadHandlerReturnVal retval = UploadHandler(sender, LoggingSettings.Settings.LogTitle, 
                 LoggingSettings.Settings.WikifiedCategory, LoggingSettings.Settings.GlobbedUploadLocation + "/" + 
                 sender.PageName.Replace(LoggingSettings.Props.ConUploadCategoryIsJobName, 
                 LoggingSettings.Settings.Category), LoggingSettings.Settings.LinksToLog(), 
@@ -108,7 +106,7 @@ namespace AutoWikiBrowser.Logging
                 ((TraceStatus)sender.TraceStatus).UploadsCount += 1;
 
             if (LoggingSettings.Settings.DebugUploading)
-                base.WriteUploadLog(retval.PageRetVals, LogFolder);
+                WriteUploadLog(retval.PageRetVals, LogFolder);
         }
 
         protected override bool StartingUpload(TraceListenerUploadableBase sender)
@@ -164,7 +162,7 @@ namespace AutoWikiBrowser.Logging
         {
             try
             {
-                if (LoggingSettings.Upload && this.Uploadable)
+                if (LoggingSettings.Upload && Uploadable)
                 {
                     mIsGettingPassword = true;
                     LoggingSettings.LoginDetails.AWBProfile =
@@ -191,7 +189,7 @@ namespace AutoWikiBrowser.Logging
         // Private:
         private static string GetFilePrefix(string logFolder)
         {
-            return string.Format("{1}\\{0:MMM-d yyyy HHmm-ss.FF}", System.DateTime.Now, logFolder);
+            return string.Format("{1}\\{0:MMM-d yyyy HHmm-ss.FF}", DateTime.Now, logFolder);
         }
         private void NewXhtmlTraceListener()
         {
@@ -245,7 +243,7 @@ namespace AutoWikiBrowser.Logging
         // Overrides:
         public override void AddListener(string key, IMyTraceListener listener)
         {
-            if (base.ContainsKey(key))
+            if (ContainsKey(key))
             {
                 base.RemoveListener(key);
             }
@@ -267,7 +265,7 @@ namespace AutoWikiBrowser.Logging
             {
                 ((TraceListenerUploadableBase)listener).Upload -= 
                     new WikiFunctions.Logging.TraceListenerUploadableBase.UploadEventHandler(
-                    this.TraceUploadEventHandler);
+                    TraceUploadEventHandler);
             }
 
             base.RemoveListener(key);
@@ -331,7 +329,7 @@ namespace AutoWikiBrowser.Logging
                 ((IAWBTraceListener)listener.Value).UserSkipped();
             }
         }
-        public override void ProcessingArticle(string fullArticleTitle, WikiFunctions.Namespaces ns)
+        public override void ProcessingArticle(string fullArticleTitle, Namespaces ns)
         {
             Busy();
             base.ProcessingArticle(fullArticleTitle, ns);
@@ -343,13 +341,13 @@ namespace AutoWikiBrowser.Logging
             base.SkippedArticle(skippedBy, reason);
             NotBusy();
         }
-        public override void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, WikiFunctions.Namespaces ns)
+        public override void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, Namespaces ns)
         {
             Busy();
             base.SkippedArticleBadTag(skippedBy, fullArticleTitle, ns);
             NotBusy();
         }
-        public override void SkippedArticleRedlink(string skippedBy, string fullArticleTitle, WikiFunctions.Namespaces ns)
+        public override void SkippedArticleRedlink(string skippedBy, string fullArticleTitle, Namespaces ns)
         {
             Busy();
             base.SkippedArticleRedlink(skippedBy, fullArticleTitle, ns);
@@ -526,9 +524,9 @@ namespace AutoWikiBrowser.Logging
                 this.SkippedArticle("AWB", Reason);
             }
             public void UserSkipped()
-            { this.SkippedArticle(Variables.StringUser, Variables.StringUserSkipped); }
+            { SkippedArticle(Variables.StringUser, Variables.StringUserSkipped); }
             public void PluginSkipped()
-            { this.SkippedArticle(Variables.StringPlugin, Variables.StringPluginSkipped); }
+            { SkippedArticle(Variables.StringPlugin, Variables.StringPluginSkipped); }
         }
 
         /// <summary>
@@ -543,12 +541,12 @@ namespace AutoWikiBrowser.Logging
 
             public void AWBSkipped(string reason)
             {
-                this.SkippedArticle("AWB", reason);
+                SkippedArticle("AWB", reason);
             }
             public void UserSkipped()
-            { this.SkippedArticle(Variables.StringUser, Variables.StringUserSkipped); }
+            { SkippedArticle(Variables.StringUser, Variables.StringUserSkipped); }
             public void PluginSkipped()
-            { this.SkippedArticle(Variables.StringPlugin, Variables.StringPluginSkipped); }
+            { SkippedArticle(Variables.StringPlugin, Variables.StringPluginSkipped); }
         }
 
         internal LoggingSettings LS

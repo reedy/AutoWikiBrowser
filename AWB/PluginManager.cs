@@ -23,7 +23,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
@@ -67,10 +66,9 @@ namespace AutoWikiBrowser
 
             pluginOpen.ShowDialog();
             
-            string newPath = "";
             if (!string.IsNullOrEmpty(pluginOpen.FileName))
             {
-                newPath = Path.GetDirectoryName(pluginOpen.FileName);
+                string newPath = Path.GetDirectoryName(pluginOpen.FileName);
                 if (LastPluginLoadedLocation != newPath)
                 {
                     LastPluginLoadedLocation = newPath;
@@ -368,7 +366,7 @@ namespace AutoWikiBrowser
             /// <param name="plugin">IAWBPlugin to get Version of</param>
             /// <returns>Version String</returns>
             internal static string GetPluginVersionString(IAWBPlugin plugin)
-            { return System.Reflection.Assembly.GetAssembly(plugin.GetType()).GetName().Version.ToString(); }
+            { return Assembly.GetAssembly(plugin.GetType()).GetName().Version.ToString(); }
 
             /// <summary>
             /// Gets the Version string of a IListMakerPlugin
@@ -376,7 +374,7 @@ namespace AutoWikiBrowser
             /// <param name="plugin">IListMakerPlugin to get Version of</param>
             /// <returns>Version String</returns>
             internal static string GetPluginVersionString(IListMakerPlugin plugin)
-            { return System.Reflection.Assembly.GetAssembly(plugin.GetType()).GetName().Version.ToString(); }
+            { return Assembly.GetAssembly(plugin.GetType()).GetName().Version.ToString(); }
         }
     }
 }

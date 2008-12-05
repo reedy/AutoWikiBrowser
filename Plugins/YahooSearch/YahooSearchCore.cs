@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using System.Xml;
 using System.IO;
 
-using WikiFunctions;
 using WikiFunctions.Plugin;
 
 namespace WikiFunctions.Plugins.ListMaker.YahooSearch
@@ -49,7 +48,7 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
 
             foreach (string s in searchCriteria)
             {
-                string url = string.Format(baseUrl, s, noResults, start.ToString());
+                string url = string.Format(baseUrl, s, noResults, start);
                 string html, title;
                 int resultsReturned = 0, totalResults = 0;
 
@@ -92,7 +91,7 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
                                 title = Tools.GetTitleFromURL("http://" + reader.ReadString());
 
                                 if (!string.IsNullOrEmpty(title))
-                                    articles.Add(new WikiFunctions.Article(title));
+                                    articles.Add(new Article(title));
                             }
                         }
                     }
@@ -105,7 +104,7 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
                     else
                         break;
 
-                    url = string.Format(baseUrl, s, noResults, start.ToString());
+                    url = string.Format(baseUrl, s, noResults, start);
                 } while (true);
             }
 

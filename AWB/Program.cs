@@ -19,7 +19,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace AutoWikiBrowser
@@ -51,7 +50,7 @@ namespace AutoWikiBrowser
                         case "/s":
                             try
                             {
-                                string tmp = args[i + 1].ToString();
+                                string tmp = args[i + 1];
                                 if (tmp.Contains(".xml") && System.IO.File.Exists(tmp))
                                     awb.SettingsFile = tmp;
                             }
@@ -78,7 +77,7 @@ namespace AutoWikiBrowser
             WikiFunctions.ErrorHandler.Handle(e.Exception);
         }
 
-        internal static System.Version Version { get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; } }
+        internal static Version Version { get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; } }
         internal static string VersionString { get { return Version.ToString(); } }
         internal const string NAME = "AutoWikiBrowser";
         static internal string UserAgentString { get { return NAME + "/" + VersionString; } }

@@ -18,14 +18,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using WikiFunctions;
-using WikiFunctions.Lists;
 using System.Text.RegularExpressions;
-using WikiFunctions.AWBSettings;
 using WikiFunctions.Background;
 
 namespace AutoWikiBrowser.Plugins.IFD
@@ -49,7 +44,7 @@ namespace AutoWikiBrowser.Plugins.IFD
             Grid.Rows.Clear();
             foreach (KeyValuePair<string, string> p in IfdAWBPlugin.Settings.Images)
             {
-                Grid.Rows.Add(new string[2] { p.Key, p.Value });
+                Grid.Rows.Add(new string[] { p.Key, p.Value });
             }
 
             txtBacklog.Text = prevContent;
@@ -78,12 +73,12 @@ namespace AutoWikiBrowser.Plugins.IFD
                 Match m = imgReplace.Match(s.Replace("‎", ""));
                 if (m.Success)
                 {
-                    Grid.Rows.Add(new string[2] { m.Groups[1].Value.Trim().Replace("_", " "), m.Groups[2].Value.Trim().Replace("_", "") });
+                    Grid.Rows.Add(new string[] { m.Groups[1].Value.Trim().Replace("_", " "), m.Groups[2].Value.Trim().Replace("_", "") });
                     continue;
                 }
                 m = imgRemove.Match(s.Replace("‎", ""));
                 if (m.Success)
-                    Grid.Rows.Add(new string[2] { m.Groups[1].Value.Trim().Replace("_", " "), "" });
+                    Grid.Rows.Add(new string[] { m.Groups[1].Value.Trim().Replace("_", " "), "" });
             }
         }
 

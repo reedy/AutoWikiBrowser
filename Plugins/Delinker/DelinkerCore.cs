@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using WikiFunctions;
 using WikiFunctions.Plugin;
 using System.Text.RegularExpressions;
@@ -14,9 +13,8 @@ namespace AutoWikiBrowser.Plugins.Delinker
     {
         private ToolStripMenuItem pluginenabledMenuItem = new ToolStripMenuItem("Delinker plugin");
         private ToolStripMenuItem pluginconfigMenuItem = new ToolStripMenuItem("Configuration");
-        private ToolStripMenuItem aboutMenuItem = new ToolStripMenuItem("About the Delinker plugin");
+        //private ToolStripMenuItem aboutMenuItem = new ToolStripMenuItem("About the Delinker plugin");
         internal static IAutoWikiBrowser AWB;
-        
         
         internal static bool Enabled;
         internal static bool Skip;
@@ -89,12 +87,11 @@ namespace AutoWikiBrowser.Plugins.Delinker
 
             string[] sections = Tools.SplitToSections(ArticleText);
 
-            bool lastSection = false;
             for (int i = 0; i < sections.Length; i++)
             {
                 if (ExternalLinksSectionRegex.IsMatch(sections[i]))
                 {
-                    lastSection = i == sections.Length - 1;
+                    bool lastSection = (i == (sections.Length - 1));
                     if (WikiRegexes.ExternalLinks.IsMatch(sections[i])) return ArticleText;
 
                     string el = ExternalLinksSectionRegex.Replace(sections[i], "").Trim();
@@ -109,8 +106,10 @@ namespace AutoWikiBrowser.Plugins.Delinker
                     }
                     el = Parsers.RemoveAllWhiteSpace(ArticleText).Trim();
 
-                    if (el.Length == 0) return ExternalLinksSectionRegex.Replace(ArticleText, "");
-                    else break;
+                    if (el.Length == 0)
+                        return ExternalLinksSectionRegex.Replace(ArticleText, "");
+                    
+                    break;
                 }
             }
 
@@ -128,7 +127,8 @@ namespace AutoWikiBrowser.Plugins.Delinker
 
                 return "";
             }
-            else return match.Value;
+            
+            return match.Value;
         }
 
         public string ProcessArticle(IAutoWikiBrowser sender, ProcessArticleEventArgs eventargs)

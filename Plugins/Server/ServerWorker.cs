@@ -17,9 +17,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -50,7 +47,6 @@ namespace AutoWikiBrowser.Plugins.Server
             /// Format data for sending to client and assign an event handler for the Completed event
             /// </summary>
             /// <param name="ResponseCode"></param>
-            /// <param name="Data"></param>
             internal void SendData(ServerResponseCode ResponseCode)
             { SendData(ResponseCode, ""); }
 
@@ -82,11 +78,11 @@ namespace AutoWikiBrowser.Plugins.Server
 
                     case ServerResponseCode.DISCON:
                     case ServerResponseCode.SERVICE_NOT_AVAILABLE:
-                        e.Completed += this.rejectConnectionDelegate;
+                        e.Completed += rejectConnectionDelegate;
                         break;
 
                     default:
-                        e.Completed += this.DataSentDelegate;
+                        e.Completed += DataSentDelegate;
                         break;
                 }
 
@@ -104,7 +100,7 @@ namespace AutoWikiBrowser.Plugins.Server
             {
                 if (Data != "") Data = " " + Data; // this will be ok for null too won't it?
                 return Encoding.UTF8.GetBytes(
-                    (int)ResponseCode + " " + ResponseCode.ToString() + Data + "\r\n");
+                    (int)ResponseCode + " " + ResponseCode + Data + "\r\n");
             }
 
             internal bool Connected
@@ -165,7 +161,7 @@ namespace AutoWikiBrowser.Plugins.Server
                             case ServerResponseCode.UNAUTHORISED:
                             case ServerResponseCode.PROTOCOL:
                                 e.Completed += new EventHandler<SocketAsyncEventArgs>
-                                    (this.WaitingForClientResponseDelegate);
+                                    (WaitingForClientResponseDelegate);
                                 break;
                         }
 

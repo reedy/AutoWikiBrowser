@@ -18,12 +18,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 using WikiFunctions;
-using System.Windows.Forms;
 
 namespace AutoWikiBrowser
 {
@@ -45,10 +41,7 @@ namespace AutoWikiBrowser
 
             RegexOptions regOptions;
 
-            if (caseSensitive)
-                regOptions = RegexOptions.None;
-            else
-                regOptions = RegexOptions.IgnoreCase;
+            regOptions = caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase;
 
             strRegex = Tools.ApplyKeyWords(ArticleName, strRegex);
 

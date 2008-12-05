@@ -17,12 +17,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 using WikiFunctions;
 
 namespace AutoWikiBrowser
@@ -30,9 +24,8 @@ namespace AutoWikiBrowser
     internal sealed partial class Help : WikiFunctions.Controls.Help
     {
         public Help()
-            : base()
         {
-            this.Text = "AWB Help";
+            Text = "AWB Help";
         }
 
         // TODO: convert hyperlinks in the page to use the simple skin too.
@@ -48,7 +41,7 @@ namespace AutoWikiBrowser
 
         public void ShowHelp(Help h, string url)
         {
-            this.Show();
+            Show();
             if (string.IsNullOrEmpty(url))
                 h.Navigate();
             else

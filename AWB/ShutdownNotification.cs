@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace AutoWikiBrowser
@@ -28,17 +24,17 @@ namespace AutoWikiBrowser
 
         private void SetShutdownLabel(int time)
         {
-            lblTimer.Text = "Time until " + sShutdownType + ": " + time.ToString();
+            lblTimer.Text = "Time until " + sShutdownType + ": " + time;
         }
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Yes;
+            DialogResult = DialogResult.Yes;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
+            DialogResult = DialogResult.Cancel;
         }
 
         private void CountdownTimer_Tick(object sender, EventArgs e)
@@ -50,7 +46,7 @@ namespace AutoWikiBrowser
                 Application.DoEvents();
             }
             else
-                this.Close();
+                Close();
         }
     }
 }

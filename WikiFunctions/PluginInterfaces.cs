@@ -124,9 +124,9 @@ namespace WikiFunctions.Plugin
         /// <summary>
         /// Display a message balloon above AWB's system tray icon
         /// </summary>
-        /// <param name="Message"></param>
-        /// <param name="Icon"></param>
-        void NotifyBalloon(string Message, ToolTipIcon Icon);
+        /// <param name="message"></param>
+        /// <param name="icon"></param>
+        void NotifyBalloon(string message, ToolTipIcon icon);
 
         string StatusLabelText { get; set; }
     }

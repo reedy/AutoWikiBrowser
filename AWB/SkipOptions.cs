@@ -19,12 +19,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using System.Text.RegularExpressions;
-using WikiFunctions;
+
 using WikiFunctions.Plugin;
 
 namespace AutoWikiBrowser
@@ -89,12 +85,12 @@ namespace AutoWikiBrowser
         private void SkipOptions_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
-            this.Hide();
+            Hide();
         }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            Hide();
         }
 
         public List<int> SelectedItems

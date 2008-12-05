@@ -185,6 +185,7 @@ namespace AutoWikiBrowser
             this.cmboCustomProject.Size = new System.Drawing.Size(121, 21);
             this.cmboCustomProject.TabIndex = 5;
             this.cmboCustomProject.SelectedIndexChanged += new System.EventHandler(this.cmboCustomProjectChanged);
+            this.cmboCustomProject.Leave += new System.EventHandler(this.txtCustomProject_Leave);
             this.cmboCustomProject.TextChanged += new System.EventHandler(this.cmboCustomProjectChanged);
             // 
             // chkAddUsingAWBToActionSummaries

@@ -19,9 +19,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.ComponentModel;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 
 namespace AutoWikiBrowser
 {
@@ -43,13 +40,12 @@ namespace AutoWikiBrowser
 
         public void StartMe()
         {
-            //base.Interval = 120000;
-            base.Start();
+            Start();
         }
 
         public void Reset()
         {
-            base.Interval = 120000;
+            Interval = 120000;
         }
 
         private void NudgeTimer_Tick(object sender, EventArgs eventArgs)
@@ -61,15 +57,15 @@ namespace AutoWikiBrowser
                 switch (base.Interval)
                 {
                     case 120000:
-                        base.Interval = 240000;
+                        Interval = 240000;
                         break;
 
                     case 240000:
-                        base.Interval = 360000;
+                        Interval = 360000;
                         break;
 
                     case 360000:
-                        base.Interval = 600000;
+                        Interval = 600000;
                         break;
                 }
             }
@@ -82,7 +78,7 @@ namespace AutoWikiBrowser
             set
             {
                 base.Enabled = value;
-                base.Interval = 120000;
+                Interval = 120000;
             }
         }
 
@@ -95,8 +91,8 @@ namespace AutoWikiBrowser
             // Properties
             public bool Cancel
             {
-                get { return this.mCancel; }
-                set { this.mCancel = value; }
+                get { return mCancel; }
+                set { mCancel = value; }
             }
         }
     }
