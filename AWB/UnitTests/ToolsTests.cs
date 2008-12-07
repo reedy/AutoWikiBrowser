@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
 using WikiFunctions;
 using System.Text.RegularExpressions;
-using System.Diagnostics;
 using WikiFunctions.Parse;
 
 namespace UnitTests

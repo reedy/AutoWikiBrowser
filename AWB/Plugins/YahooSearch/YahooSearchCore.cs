@@ -39,22 +39,22 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
         internal const string appID = "3mG9u3PV34GC4rnRXJlID0_3aUb0.XVxGZYrbFcYClzQYUqtlkn0u6iXVwYVv9sW1Q--";
         #region IListMakerPlugin Members
 
-        string baseUrl = "http://search.yahooapis.com/WebSearchService/V1/webSearch?appid=" + appID + "&query={0}&results={1}&site=" + WikiFunctions.Variables.URL + "&start={2}";
+        readonly string baseUrl = "http://search.yahooapis.com/WebSearchService/V1/webSearch?appid=" + appID + "&query={0}&results={1}&site=" + Variables.URL + "&start={2}";
+        private const int noResults = 100;
 
         public List<Article> MakeList(string[] searchCriteria)
         {
             List<Article> articles = new List<Article>();
-            int start = 1, noResults = 100;
+            int start = 1;
 
             foreach (string s in searchCriteria)
             {
                 string url = string.Format(baseUrl, s, noResults, start);
-                string html, title;
                 int resultsReturned = 0, totalResults = 0;
 
                 do
                 {
-                    html = Tools.GetHTML(url);
+                    string html = Tools.GetHTML(url);
                     //Console.WriteLine(url);
 
                     using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
@@ -72,9 +72,8 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
 
                             if (reader.Name.Equals("ResultSet"))
                             {
-                                string val;
                                 reader.MoveToAttribute("totalResultsAvailable");
-                                val = reader.Value;
+                                string val = reader.Value;
 
                                 if (!string.IsNullOrEmpty(val))
                                     totalResults = int.Parse(val);
@@ -88,7 +87,7 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
 
                             if (reader.Name.Equals("DisplayUrl"))
                             {
-                                title = Tools.GetTitleFromURL("http://" + reader.ReadString());
+                                string title = Tools.GetTitleFromURL("http://" + reader.ReadString());
 
                                 if (!string.IsNullOrEmpty(title))
                                     articles.Add(new Article(title));

@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using WikiFunctions;
 using NUnit.Framework;
 
@@ -20,11 +17,9 @@ namespace UnitTests
         [Test]
         public void WordTests()
         {
-            Word w1;
-            Word w2;
+            Word w1 = new Word("", "");
+            Word w2 = new Word("", " ");
 
-            w1 = new Word("", "");
-            w2 = new Word("", " ");
             Assert.AreEqual("", w1.TheWord);
             Assert.AreEqual("", w1.Whitespace);
             Assert.AreEqual("", w1.ToString());
@@ -50,14 +45,12 @@ namespace UnitTests
         [Test]
         public void SplitString()
         {
-            List<Word> lst;
-
             CollectionAssert.IsEmpty(Word.SplitString(""));
 
             AssertWords(Word.SplitString(" "), " ");
             AssertWords(Word.SplitString("   "), "   ");
 
-            lst = Word.SplitString("foo");
+            List<Word> lst = Word.SplitString("foo");
             Assert.AreEqual(1, lst.Count);
             CollectionAssert.AreEqual(Word.SplitString("foo "), lst);
 
