@@ -16,9 +16,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace WikiFunctions
@@ -79,10 +76,7 @@ namespace WikiFunctions
             else
                 Disambigs = new Regex(@"{{([234]CC|[Dd]isambig|[Gg]eodis|[Hh]ndis|[Ss]urname|[Nn]umberdis|[Rr]oaddis|[Ll]etter-disambig)}}", RegexOptions.Compiled);
 
-            if (Variables.LangCode == LangCodeEnum.en)
-                s = "(?:(?i:defaultsort|lifetime|BIRTH-DEATH-SORT)|BD)";
-            else
-                s = "(?i:defaultsort)";
+            s = (Variables.LangCode == LangCodeEnum.en) ? "(?:(?i:defaultsort|lifetime|BIRTH-DEATH-SORT)|BD)" : "(?i:defaultsort)";
 
             Defaultsort = new Regex(TemplateStart + s + @"\s*[:|](?<key>[^\}]*)}}", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 

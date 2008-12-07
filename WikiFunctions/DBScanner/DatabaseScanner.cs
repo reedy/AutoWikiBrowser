@@ -20,7 +20,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
@@ -325,7 +324,7 @@ namespace WikiFunctions.DBScanner
                 endTime = endTime.Subtract(StartTime);
 
                 if (Main != null && Main.Message)
-                    MessageBox.Show(lbArticles.Items.Count.ToString() + " matches in " + endTime.ToString().TrimEnd('0'));
+                    MessageBox.Show(lbArticles.Items.Count + " matches in " + endTime.ToString().TrimEnd('0'));
 
                 Main = null;
             }
@@ -360,7 +359,7 @@ namespace WikiFunctions.DBScanner
         private void wikifyToList()
         {
             StringBuilder strbList = new StringBuilder("");
-            string s = "", l = "", sr = "", strBullet;
+            string s, l = "", strBullet;
             int intHeadingSpace = Convert.ToInt32(nudHeadingSpace.Value);
 
             if (rdoHash.Checked)
@@ -395,12 +394,11 @@ namespace WikiFunctions.DBScanner
             {
                 foreach (Article a in lbArticles.Items)
                 {
+                    string sr;
+
                     s = a.ToString().Replace("&amp;", "&");
 
-                    if (s.Length > 1)
-                        sr = s.Remove(1);
-                    else
-                        sr = s;
+                    sr = (s.Length > 1) ? s.Remove(1) : s;
 
                     if (sr != l)
                         strbList.AppendLine("\r\n== " + sr + " ==");
@@ -432,10 +430,10 @@ namespace WikiFunctions.DBScanner
                 if (value.Length > 0)
                 {
                     string shortened = value.Substring(fileName.LastIndexOf("\\") + 1);
-                    this.Text = "Wiki Database Scanner - " + shortened;
+                    Text = "Wiki Database Scanner - " + shortened;
                 }
                 else
-                    this.Text = "Wiki Database Scanner";
+                    Text = "Wiki Database Scanner";
             }
         }
 
@@ -603,7 +601,7 @@ namespace WikiFunctions.DBScanner
 
         private void UpdateDBScannerArticleCount()
         {
-            lblCount.Text = lbArticles.Items.Count.ToString() + " results";
+            lblCount.Text = lbArticles.Items.Count + " results";
         }
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
@@ -651,7 +649,7 @@ namespace WikiFunctions.DBScanner
             }
             TimeSpan endTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
             endTime = endTime.Subtract(StartTime);
-            MessageBox.Show(lbArticles.Items.Count.ToString() + " matches in " + endTime.ToString().TrimEnd('0'));
+            MessageBox.Show(lbArticles.Items.Count + " matches in " + endTime.ToString().TrimEnd('0'));
         }
 
         private void DatabaseScanner_FormClosing(object sender, FormClosingEventArgs e)

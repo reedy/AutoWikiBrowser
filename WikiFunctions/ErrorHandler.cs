@@ -1,10 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
 using System.Text.RegularExpressions;
@@ -58,7 +54,7 @@ namespace WikiFunctions
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 // out of memory error
-                else if (ex is System.OutOfMemoryException)
+                else if (ex is OutOfMemoryException)
                 {
                     MessageBox.Show(ex.Message, "Out of Memory error",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -76,7 +72,7 @@ namespace WikiFunctions
 
                     errorMessage.Append("<table>");
                     FormatException(ex, errorMessage, true);
-                    errorMessage.Append("</table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion.ToString() + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
+                    errorMessage.Append("</table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version);
 
                     // suppress unhandled exception if Variables constructor says 'ouch'
                     string revision;
@@ -95,7 +91,7 @@ namespace WikiFunctions
                     {
                         // don't use Tools.WikiEncode here, to keep code portable to updater
                         // as it's not a pretty URL, we don't need to follow the MediaWiki encoding rules
-                        string link = "[" + Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(CurrentPage) + "&oldid=" + CurrentRevision.ToString() + "]";
+                        string link = "[" + Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(CurrentPage) + "&oldid=" + CurrentRevision + "]";
 
                         errorMessage.Append("\r\n | duplicate = [encountered while processing page ''" + link + "'']");
                     } else if (!string.IsNullOrEmpty(ListMakerText))

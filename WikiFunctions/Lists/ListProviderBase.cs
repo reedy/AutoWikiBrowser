@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml;
@@ -115,8 +114,8 @@ namespace WikiFunctions.Lists
                     }
                     else if (PageElements.Contains(xml.Name) && xml.IsStartElement())
                     {
-                        int ns = -1;
-                        int.TryParse(xml.GetAttribute("ns"), out ns);
+                        //int ns = -1;
+                        //int.TryParse(xml.GetAttribute("ns"), out ns);
                         string name = xml.GetAttribute("title");
 
                         if (string.IsNullOrEmpty(name))

@@ -78,9 +78,9 @@ namespace WikiFunctions.Logging
 			WriteArticleActionLine(Line, PluginName);
 		}
 		public abstract bool Uploadable {get;}
-		public override void Write(string value)
+		public override void Write(string text)
 		{
-			base.Write(value);
+			base.Write(text);
 		}
 		public override void WriteLine(string value)
 		{

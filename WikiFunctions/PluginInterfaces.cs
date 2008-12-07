@@ -20,9 +20,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
-using System.Xml;
 using WikiFunctions.Logging;
 
 namespace WikiFunctions.Plugin
@@ -61,7 +59,7 @@ namespace WikiFunctions.Plugin
         /// <summary>
         /// Called by AWB when it loads a setting file
         /// </summary>
-        /// <param name="Prefs">An array of deserialised setting objects belonging to your plugin</param>
+        /// <param name="prefs">An array of deserialised setting objects belonging to your plugin</param>
         void LoadSettings(object[] prefs);
 
         /// <summary>
@@ -116,8 +114,8 @@ namespace WikiFunctions.Plugin
         ToolStripMenuItem PluginsToolStripMenuItem { get; }
         ToolStripMenuItem InsertTagToolStripMenuItem { get; }
         ToolStripMenuItem ToolStripMenuGeneral { get; }
-        WikiFunctions.Controls.Lists.ListMaker ListMaker { get; }
-        WikiFunctions.Browser.WebControl WebControl { get; }
+        Controls.Lists.ListMaker ListMaker { get; }
+        Browser.WebControl WebControl { get; }
         ContextMenuStrip EditBoxContextMenu { get; }
         LogControl LogControl { get; }
 
@@ -152,8 +150,8 @@ namespace WikiFunctions.Plugin
 
     public interface IAutoWikiBrowserInfo
     {
-        System.Version AWBVersion { get; }
-        System.Version WikiFunctionsVersion { get; }
+        Version AWBVersion { get; }
+        Version WikiFunctionsVersion { get; }
         string AWBVersionString { get; }
         string WikiFunctionsVersionString { get; }
         string WikiDiffVersionString { get; }
@@ -239,10 +237,10 @@ namespace WikiFunctions.Plugin
         /// Returns a reference to a WikiFunctions.Logging.TraceManager class which handles AWB's logging. This object also implements the IMyTraceListener interface. Plugin authors can use this reference to write to all active loggers, including the AWB Log tab and logfiles.
         /// </summary>
         TraceManager TraceManager { get; } // implements IMyTraceListener
-        WikiFunctions.Logging.Uploader.UploadableLogSettings2 LoggingSettings { get; }
+        Logging.Uploader.UploadableLogSettings2 LoggingSettings { get; }
         bool SkipNoChanges { get; set; }
-        WikiFunctions.Parse.FindandReplace FindandReplace { get; }
-        WikiFunctions.SubstTemplates SubstTemplates { get; }
+        Parse.FindandReplace FindandReplace { get; }
+        SubstTemplates SubstTemplates { get; }
         string CustomModule { get; }
 
         event GetLogUploadLocationsEvent GetLogUploadLocations;
@@ -251,7 +249,7 @@ namespace WikiFunctions.Plugin
         TabControl Tab { get; }
     }
 
-    public delegate void GetLogUploadLocationsEvent(IAutoWikiBrowser sender, List<WikiFunctions.Logging.Uploader.LogEntry> locations);
+    public delegate void GetLogUploadLocationsEvent(IAutoWikiBrowser sender, List<Logging.Uploader.LogEntry> locations);
 
     /* Members may be added to this interface, but not removed unless absolutely necessary. */
     /// <summary>
@@ -325,7 +323,7 @@ namespace WikiFunctions.Plugin
     /// </summary>
     /// <remarks>Ideally we would pass an IAutoWikiBrowser at init() time, but that might not be thread-safe
     /// and also the Listmaker control is not AWB specific.</remarks>
-    public interface IListMakerPlugin : WikiFunctions.Lists.IListProvider
+    public interface IListMakerPlugin : Lists.IListProvider
     {
         /// <summary>
         /// The name of the plugin

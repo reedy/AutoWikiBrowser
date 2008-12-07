@@ -19,12 +19,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 /* From WikiFunctions2.dll. Converted from VB to C# in Reflector.
    Some of this is currently only suitable for enwiki. */
 
+using System.Text.RegularExpressions;
+using WikiFunctions.Logging;
+
 namespace WikiFunctions.TalkPages
 {
-    using System;
-    using System.Text.RegularExpressions;
-    using WikiFunctions.Logging;
-
     public enum DEFAULTSORT
     {
         NoChange,
@@ -67,8 +66,8 @@ namespace WikiFunctions.TalkPages
         DEFAULTSORT MoveDEFAULTSORT, string PluginName)
         {
             FoundTalkheader = false; FoundSkipTOC = false; FoundDefaultSort = false;
-            ArticleText = TalkheaderTemplateRegex.Replace(ArticleText, new MatchEvaluator(TalkPageHeaders.TalkheaderMatchEvaluator), 1);
-            ArticleText = SkipTOCTemplateRegex.Replace(ArticleText, new MatchEvaluator(TalkPageHeaders.SkipTOCMatchEvaluator), 1);
+            ArticleText = TalkheaderTemplateRegex.Replace(ArticleText, new MatchEvaluator(TalkheaderMatchEvaluator), 1);
+            ArticleText = SkipTOCTemplateRegex.Replace(ArticleText, new MatchEvaluator(SkipTOCMatchEvaluator), 1);
             if (FoundTalkheader)
                 WriteHeaderTemplate("talkheader", ref ArticleText, Trace, PluginName);
             if (FoundSkipTOC)
@@ -76,7 +75,7 @@ namespace WikiFunctions.TalkPages
             if (MoveDEFAULTSORT != DEFAULTSORT.NoChange)
             {
                 ArticleText = WikiRegexes.Defaultsort.Replace(ArticleText, 
-                    new MatchEvaluator(TalkPageHeaders.DefaultSortMatchEvaluator), 1);
+                    new MatchEvaluator(DefaultSortMatchEvaluator), 1);
                 if (FoundDefaultSort)
                 {
                     if (string.IsNullOrEmpty(DefaultSortKey))

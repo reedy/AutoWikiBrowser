@@ -19,15 +19,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Text;
-using System.Net;
 using System.Web;
 using System.IO;
 using System.Text.RegularExpressions;
-using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Xml;
-using System.Threading;
 using WikiFunctions.Controls.Lists;
 
 namespace WikiFunctions.Lists
@@ -79,7 +75,6 @@ namespace WikiFunctions.Lists
         { }
 
         public CategoryRecursiveListProvider(int depth)
-            : base()
         {
             Depth = depth;
             Limit = 200000;
@@ -133,9 +128,10 @@ namespace WikiFunctions.Lists
         public override List<Article> MakeList(params string[] searchCriteria)
         {
             int userDepth = Tools.GetNumberFromUser(false);
-            if (userDepth < 0) return new List<Article>();
-            else
-                Depth = userDepth;
+            if (userDepth < 0) 
+                return new List<Article>();
+
+            Depth = userDepth;
 
             return base.MakeList(searchCriteria);
         }
@@ -196,7 +192,7 @@ namespace WikiFunctions.Lists
                         case 2:
                             foreach (string s in pageText.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
                             {
-                                list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim()))));
+                                list.Add(new Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim()))));
                             }
                             break;
                         default:
@@ -207,7 +203,7 @@ namespace WikiFunctions.Lists
                                     title = m.Groups[1].Value;
                                     if (!RegexFromFile.IsMatch(title) && (!(title.StartsWith("#"))))
                                     {
-                                        list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(title))));
+                                        list.Add(new Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(title))));
                                     }
                                 }
                             }
@@ -216,7 +212,7 @@ namespace WikiFunctions.Lists
                                 foreach (string s in pageText.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
                                 {
                                     if (s.Trim().Length == 0 || !Tools.IsValidTitle(s)) continue;
-                                    list.Add(new WikiFunctions.Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim()))));
+                                    list.Add(new Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim()))));
                                 }
                             }
                             break;
@@ -377,9 +373,8 @@ namespace WikiFunctions.Lists
     public class WhatLinksHereIncludingRedirectsListProvider : WhatLinksHereListProvider
     {
         public WhatLinksHereIncludingRedirectsListProvider()
-            : base()
         {
-            this.IncludeRedirects = true;
+            IncludeRedirects = true;
         }
 
         public override string DisplayText
@@ -598,10 +593,8 @@ namespace WikiFunctions.Lists
             foreach (string g in searchCriteria)
             {
                 int intStart = 0;
-                string google = HttpUtility.UrlEncode(g);
-                google = google.Replace("_", " ");
+                string google = HttpUtility.UrlEncode(g).Replace("_", " ");
                 string url = "http://www.google.com/search?q=" + google + "+site:" + Variables.URL + "&num=100&hl=en&lr=&start=0&sa=N&filter=0";
-                string title = "";
 
                 do
                 {
@@ -610,18 +603,18 @@ namespace WikiFunctions.Lists
                     //Find each match to the pattern
                     foreach (Match m in regexGoogle.Matches(googleText))
                     {
-                        title = Tools.GetTitleFromURL(m.Groups[1].Value);
+                        string title = Tools.GetTitleFromURL(m.Groups[1].Value);
 
                         if (!string.IsNullOrEmpty(title))
                         {
-                            list.Add(new WikiFunctions.Article(title));
+                            list.Add(new Article(title));
                         }
                     }
 
                     if (googleText.Contains("img src=\"nav_next.gif\""))
                     {
                         intStart += 100;
-                        url = "http://www.google.com/search?q=" + google + "+site:" + Variables.URL + "&num=100&hl=en&lr=&start=" + intStart.ToString() + "&sa=N&filter=0";
+                        url = "http://www.google.com/search?q=" + google + "+site:" + Variables.URL + "&num=100&hl=en&lr=&start=" + intStart + "&sa=N&filter=0";
                     }
                     else
                         break;
@@ -897,7 +890,7 @@ namespace WikiFunctions.Lists
     {
         public List<Article> MakeList(params string[] searchCriteria)
         {
-            WikiFunctions.Browser.WebControl webbrowser = new WikiFunctions.Browser.WebControl();
+            Browser.WebControl webbrowser = new Browser.WebControl();
             webbrowser.ScriptErrorsSuppressed = true;
             webbrowser.Navigate(Variables.URLLong + "index.php?title=Special:Watchlist&action=raw");
             webbrowser.Wait();
@@ -952,7 +945,7 @@ namespace WikiFunctions.Lists
         /// <summary>
         /// Default constructor
         /// </summary>
-        /// <param name="lb">List box for DBScanner to add articles to</param>
+        /// <param name="lm">ListMaker for DBScanner to add articles to</param>
         public DatabaseScannerListProvider(ListMaker lm)
         {
             listMaker = lm;
@@ -1115,11 +1108,6 @@ namespace WikiFunctions.Lists
         public PrefixIndexSpecialPageProvider()
         {
             from = "apprefix";
-        }
-
-        public override List<Article> MakeList(int Namespace, params string[] searchCriteria)
-        {
-            return base.MakeList(Namespace, searchCriteria);
         }
 
         public override string DisplayText

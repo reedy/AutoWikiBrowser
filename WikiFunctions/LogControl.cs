@@ -19,15 +19,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Text;
-using System.IO;
 using System.Windows.Forms;
 
-using WikiFunctions;
 using WikiFunctions.Controls;
 using WikiFunctions.Controls.Lists;
-using WikiFunctions.Logging;
 
 namespace WikiFunctions.Logging
 {
@@ -84,14 +80,11 @@ namespace WikiFunctions.Logging
              * I've no idea why, but in the meantime this version of the function handles both. */
             try
             {
-                return ((ListView)((ContextMenuStrip)sender).SourceControl);
+                return ((ListView) ((ContextMenuStrip) sender).SourceControl);
             }
             catch
             {
-                try
-                { return (ListView)(((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl); }
-                catch
-                { throw; }
+                return (ListView) (((ContextMenuStrip) ((ToolStripMenuItem) sender).Owner).SourceControl);
             }
         }
 

@@ -18,8 +18,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Text;
 
 namespace WikiFunctions.Logging
 {
@@ -74,13 +72,13 @@ namespace WikiFunctions.Logging
             Tools.OpenArticleHistoryInBrowser(mArticle);
         }
 
-        public void AddAndDateStamp(ListView ListView)
+        public void AddAndDateStamp(ListView listView)
         {
             ListViewSubItem dateStamp = new ListViewSubItem();
             dateStamp.Text = DateTime.Now.ToString();
 
             base.SubItems.Insert(1, dateStamp);
-            ListView.Items.Insert(0, this);
+            listView.Items.Insert(0, this);
             Datestamped = true;
         }
 
@@ -136,19 +134,19 @@ namespace WikiFunctions.Logging
         void IMyTraceListener.WriteComment(string Line) { }
         void IMyTraceListener.WriteCommentAndNewLine(string Line) { }
 
-        void IMyTraceListener.SkippedArticle(string SkippedBy, string Reason)
+        void IMyTraceListener.SkippedArticle(string skippedBy, string Reason)
         {
-            Skip(SkippedBy, Reason);
+            Skip(skippedBy, Reason);
         }
 
-        void IMyTraceListener.SkippedArticleBadTag(string SkippedBy, string FullArticleTitle, Namespaces NS)
+        void IMyTraceListener.SkippedArticleBadTag(string skippedBy, string FullArticleTitle, Namespaces NS)
         {
-            Skip(SkippedBy, "Bad tag");
+            Skip(skippedBy, "Bad tag");
         }
 
-        void IMyTraceListener.SkippedArticleRedlink(string SkippedBy, string FullArticleTitle, Namespaces NS)
+        void IMyTraceListener.SkippedArticleRedlink(string skippedBy, string FullArticleTitle, Namespaces NS)
         {
-            Skip(SkippedBy, "Red link (article deleted)");
+            Skip(skippedBy, "Red link (article deleted)");
         }
 
         bool IMyTraceListener.Uploadable
@@ -186,17 +184,17 @@ namespace WikiFunctions.Logging
             WriteLine("{{" + Template + "}} added", PluginName);
         }
 
-        public void Write(string Text)
+        public void Write(string text)
         {
             if (string.IsNullOrEmpty(ToolTipText.Trim()))
-            { ToolTipText = Text; }
+            { ToolTipText = text; }
             else
-            { ToolTipText = Text + System.Environment.NewLine + ToolTipText; }
+            { ToolTipText = text + Environment.NewLine + ToolTipText; }
         }
 
-        public void WriteLine(string Text, string Sender)
+        public void WriteLine(string text, string Sender)
         {
-            if (!string.IsNullOrEmpty(Text.Trim())) Write(Sender + ": " + Text);
+            if (!string.IsNullOrEmpty(text.Trim())) Write(Sender + ": " + text);
         }
         #endregion
 
@@ -219,20 +217,20 @@ namespace WikiFunctions.Logging
                 case SubItem.SkippedBy:
                     if (Datestamped)
                         return 2;
-                    else
-                        return 1;
+
+                    return 1;
 
                 case SubItem.SkippedReason:
                     if (Datestamped)
                         return 3;
-                    else
-                        return 2;
+
+                    return 2;
 
                 case SubItem.TimeStamp:
                     if (Datestamped)
                         return 1;
-                    else
-                        return -1;
+
+                    return -1;
 
                 default:
                     throw new ArgumentOutOfRangeException("SubItem");

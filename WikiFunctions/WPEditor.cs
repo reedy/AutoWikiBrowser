@@ -42,16 +42,10 @@ namespace WikiFunctions
     /// </summary>
     public class Editor
     {
-        /// <summary>
-        /// Instantiates the Editor class.
-        /// </summary>
-        public Editor()
-        { }
-
         protected CookieCollection logincookies;
         protected bool LoggedIn;
         protected string m_indexpath = Variables.URLLong;
-        private static string mUserAgent = "WPAutoEdit/1.02";
+        const string mUserAgent = "WPAutoEdit/1.02";
 
         protected virtual string UserAgent
         { get { return mUserAgent; } }
@@ -80,17 +74,12 @@ namespace WikiFunctions
                     targetUrl += "&oldid=" + oldid;
 
                 HttpWebRequest wr = Variables.PrepareWebRequest(targetUrl, mUserAgent);
-                HttpWebResponse resps;
-                Stream stream;
-                StreamReader sr;
+                HttpWebResponse resps = (HttpWebResponse)wr.GetResponse();
+                Stream stream = resps.GetResponseStream();
+                StreamReader sr = new StreamReader(stream);
                 string wikitext = "";
 
                 //wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
-
-                resps = (HttpWebResponse)wr.GetResponse();
-
-                stream = resps.GetResponseStream();
-                sr = new StreamReader(stream);
 
                 wikitext = sr.ReadToEnd();
 
@@ -104,8 +93,8 @@ namespace WikiFunctions
             {
                 if (ex.ToString().Contains("404"))
                     return "";
-                else
-                    throw;
+
+                throw;
             }
         }
 
@@ -277,10 +266,8 @@ namespace WikiFunctions
         {
             HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath + "index.php?title=Special:Userlogin&action=submitlogin&type=login", UserAgent);
             HttpWebResponse resps;
-            String poststring;
-
             //Create poststring
-            poststring = string.Format("wpName=+{0}&wpPassword={1}&wpRemember=1&wpLoginattempt=Log+in",
+            string poststring = string.Format("wpName=+{0}&wpPassword={1}&wpRemember=1&wpLoginattempt=Log+in",
                 new string[] { HttpUtility.UrlEncode(Username), HttpUtility.UrlEncode(password) });
 
             wr.Method = "POST";
@@ -327,10 +314,7 @@ namespace WikiFunctions
         /// <returns>An EditPageRetvals object</returns>
         public EditPageRetvals EditPageAppendEx(string Article, string AppendText, string Summary, bool Minor)
         {
-            string pagetext;
-
-            pagetext = GetWikiText(Article, m_indexpath, 0);
-            pagetext += AppendText;
+            string pagetext = GetWikiText(Article, m_indexpath, 0) + AppendText;
 
             return EditPageEx(Article, pagetext, Summary, Minor);
         }
@@ -345,11 +329,7 @@ namespace WikiFunctions
         /// <returns>A link to the diff page for the changes made.</returns>
         public string EditPagePrepend(string Article, string PrependText, string Summary, bool Minor)
         {
-            string pagetext;
-
-            pagetext = GetWikiText(Article, m_indexpath, 0);
-
-            pagetext = PrependText + pagetext;
+            string pagetext = PrependText + GetWikiText(Article, m_indexpath, 0);
 
             return EditPage(Article, pagetext, Summary, Minor);
         }
@@ -360,17 +340,16 @@ namespace WikiFunctions
         /// Each of these can be recalled in the replacing expression using $N, where N is the 1-based index of the stored expression.
         /// </summary>
         /// <param name="Article">The article to edit.</param>
-        /// <param name="FindRegEx">The Regular Expression to find.</param>
-        /// <param name="ReplaceRegEx">The expression to replace all found instances with.</param>
+        /// <param name="findregex">The Regular Expression to find.</param>
+        /// <param name="replaceregex">The expression to replace all found instances with.</param>
         /// <param name="Summary">The edit summary for this edit.</param>
         /// <param name="Minor">Whether or not to flag this edit as minor.</param>
         /// <returns>A link to the diff page for the changes made.</returns>
         public string EditPageReplace(string Article, string findregex, string replaceregex, string Summary, bool Minor)
         {
-            string pagetext = "";
             Regex rgex = new Regex(findregex, RegexOptions.IgnoreCase);
 
-            pagetext = GetWikiText(Article, m_indexpath, 0);
+            string pagetext = GetWikiText(Article, m_indexpath, 0);
             pagetext = rgex.Replace(pagetext, replaceregex);
 
             return EditPage(Article, pagetext, Summary, Minor);
@@ -580,20 +559,16 @@ namespace WikiFunctions
 
                 HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath +
                     "index.php?title=Special:Watchlist/clear", UserAgent);
-                WebResponse resps;
 
                 wr.CookieContainer = new CookieContainer();
 
                 foreach (Cookie cook in logincookies)
                     wr.CookieContainer.Add(cook);
 
-                resps = wr.GetResponse();
+                WebResponse resps = wr.GetResponse();
 
-                Stream stream;
-                StreamReader sr;
-
-                stream = resps.GetResponseStream();
-                sr = new StreamReader(stream);
+                Stream stream = resps.GetResponseStream();
+                StreamReader sr = new StreamReader(stream);
 
                 string html = sr.ReadToEnd();
                 resps.Close();
@@ -628,7 +603,7 @@ namespace WikiFunctions
                 stream = resps.GetResponseStream();
                 sr = new StreamReader(stream);
 
-                html = sr.ReadToEnd();
+                sr.ReadToEnd();
             }
             catch { return false; }
             return true;
@@ -650,11 +625,8 @@ namespace WikiFunctions
 
             resps = wr.GetResponse();
 
-            Stream stream;
-            StreamReader sr;
-
-            stream = resps.GetResponseStream();
-            sr = new StreamReader(stream);
+            Stream stream = resps.GetResponseStream();
+            StreamReader sr = new StreamReader(stream);
 
             string html = sr.ReadToEnd();
             resps.Close();

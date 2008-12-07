@@ -19,15 +19,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using System.Collections;
 using System.Text.RegularExpressions;
 using System.Globalization;
-using System.Threading;
-using WikiFunctions;
 using WikiFunctions.Controls.Lists;
 
 namespace WikiFunctions.Lists
@@ -46,11 +40,11 @@ namespace WikiFunctions.Lists
             destListBox = lb;
 
             if (prefs != null)
-                Settings = ListFilterForm.prefs;
+                Settings = prefs;
         }      
 
         List<Article> list = new List<Article>();
-        static WikiFunctions.AWBSettings.SpecialFilterPrefs prefs;
+        static AWBSettings.SpecialFilterPrefs prefs;
 
         private void btnApply_Click(object sender, EventArgs e)
         {
@@ -331,15 +325,14 @@ namespace WikiFunctions.Lists
 
             if (compare > 0)
                 return BinarySearch(list, article, left, mid - 1);
-            else if (compare < 0)
+            if (compare < 0)
                 return BinarySearch(list, article, mid + 1, right);
-            else
-                return mid;
+            return mid;
         }
 
         private void btnGetList_Click(object sender, EventArgs e)
         {
-            foreach (Article a in new WikiFunctions.Lists.TextFileListProvider().MakeList())
+            foreach (Article a in new TextFileListProvider().MakeList())
                 lbRemove.Items.Add(a);
         }
 
@@ -442,11 +435,11 @@ namespace WikiFunctions.Lists
         }
 
         CheckBox tmp;
-        public WikiFunctions.AWBSettings.SpecialFilterPrefs Settings
+        public AWBSettings.SpecialFilterPrefs Settings
         {
             get
             {
-                prefs = new WikiFunctions.AWBSettings.SpecialFilterPrefs();
+                prefs = new AWBSettings.SpecialFilterPrefs();
 
                 prefs.namespaceValues = new List<int>();
                 GetListTags(gbNamespaces.Controls);

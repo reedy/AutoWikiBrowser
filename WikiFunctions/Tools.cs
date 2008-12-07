@@ -28,8 +28,6 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using System.Collections;
-using System.Globalization;
 
 namespace WikiFunctions
 {
@@ -67,7 +65,7 @@ namespace WikiFunctions
         /// <summary>
         /// Returns the version of WikiFunctions
         /// </summary>
-        public static System.Version Version
+        public static Version Version
         { get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; } }
 
         /// <summary>
@@ -161,7 +159,7 @@ namespace WikiFunctions
         /// <returns>Article Title with no invalid characters</returns>
         public static string RemoveInvalidChars(string Title)
         {
-            int pos = 0;
+            int pos;
             while ((pos = Title.IndexOfAny(InvalidChars)) >= 0)
                 Title = Title.Remove(pos, 1);
 
@@ -246,7 +244,7 @@ namespace WikiFunctions
                     return origName;
                 }
             }
-            lastName = Tools.TurnFirstToUpper(lastName.ToLower());
+            lastName = TurnFirstToUpper(lastName.ToLower());
 
             Name = (lastName + ", " + Name + ", " + suffix).Trim(" ,".ToCharArray());
 
@@ -271,8 +269,8 @@ namespace WikiFunctions
             int ns = new Article(title).NameSpaceKey;
             if (ns == 0)
                 return "";
-            else
-                return Variables.Namespaces[ns].Replace(":", "");
+            
+            return Variables.Namespaces[ns].Replace(":", "");
         }
 
         /// <summary>
@@ -286,8 +284,8 @@ namespace WikiFunctions
             int i = title.IndexOf('/');
             if (i < 0)
                 return title;
-            else
-                return title.Substring(0, i);
+            
+            return title.Substring(0, i);
         }
 
         public static string SubPageName(string title)
@@ -297,8 +295,8 @@ namespace WikiFunctions
             int i = title.LastIndexOf('/');
             if (i < 0)
                 return title;
-            else
-                return title.Substring(i + 1);
+            
+            return title.Substring(i + 1);
         }
 
         /// <summary>
@@ -314,9 +312,8 @@ namespace WikiFunctions
             return true;
         }
 
-        private static int MaxEditSummaryLength = 250; // in bytes
+        const int MaxEditSummaryLength = 250; // in bytes
 
-        //static Regex 
 
         /// <summary>
         /// UNFINISHED
@@ -408,7 +405,7 @@ namespace WikiFunctions
         /// <summary>
         /// Flashes the given form in the taskbar
         /// </summary>
-        public static void FlashWindow(System.Windows.Forms.Control window)
+        public static void FlashWindow(Control window)
         {
             try
             {
@@ -439,8 +436,8 @@ namespace WikiFunctions
                 // escaping breaks many places that alredy escape their data
                 return "[" + char.ToUpper(input[0]) + char.ToLower(input[0]) + "]" + input.Remove(0, 1);
             }
-            else
-                return input;
+            
+            return input;
         }
 
         /// <summary>
@@ -460,8 +457,8 @@ namespace WikiFunctions
                 }
                 return builder.ToString();
             }
-            else
-                return input;
+            
+            return input;
         }
 
         /// <summary>
@@ -553,7 +550,7 @@ namespace WikiFunctions
             int count = 0;
             foreach (Match m in WikiRegexes.PossibleInterwikis.Matches(text))
             {
-                if (WikiFunctions.Parse.SiteMatrix.Languages.Contains(m.Groups[1].Value.ToLower())) count++;
+                if (Parse.SiteMatrix.Languages.Contains(m.Groups[1].Value.ToLower())) count++;
             }
             return count;
         }
@@ -928,10 +925,21 @@ namespace WikiFunctions
         }
 
         /// <summary>
+        /// Writes a message to the given file in the specified location.
+        /// </summary>
+        /// <param name="Message">The message to write.</param>
+        /// <param name="File">The name of the file, e.g. "Log.txt".</param>
+        public static void WriteTextFileAbsolutePath(StringBuilder Message, string File, bool append)
+        {
+            WriteTextFileAbsolutePath(Message.ToString(), File, append);
+        }
+
+        /// <summary>
         /// Writes a message to the given file in the directory of the application.
         /// </summary>
         /// <param name="Message">The message to write.</param>
         /// <param name="File">The name of the file, e.g. "Log.txt".</param>
+        /// <param name="append"></param>
         public static void WriteTextFile(string Message, string File, bool append)
         {
             WriteTextFileAbsolutePath(Message, Application.StartupPath + "\\" + File, append);
@@ -1072,15 +1080,15 @@ Message: {2}
         public static void OpenENArticleInBrowser(string title, bool userspace)
         {
             if (userspace)
-                OpenURLInBrowser("http://en.wikipedia.org/wiki/User:" + Tools.WikiEncode(title));
+                OpenURLInBrowser("http://en.wikipedia.org/wiki/User:" + WikiEncode(title));
             else
-                OpenURLInBrowser("http://en.wikipedia.org/wiki/" + Tools.WikiEncode(title));
+                OpenURLInBrowser("http://en.wikipedia.org/wiki/" + WikiEncode(title));
         }
 
         public static string GetENLinkWithSimpleSkinAndLocalLanguage(string Article)
         {
-            return "http://en.wikipedia.org/w/index.php?title=" + Tools.WikiEncode(Article) + "&useskin=simple&uselang=" +
-              WikiFunctions.Variables.LangCodeEnumString();
+            return "http://en.wikipedia.org/w/index.php?title=" + WikiEncode(Article) + "&useskin=simple&uselang=" +
+              Variables.LangCodeEnumString();
         }
 
         /// <summary>
@@ -1191,7 +1199,7 @@ Message: {2}
         /// <returns></returns>
         public static string ExpandTemplate(string ArticleText, string ArticleTitle, Dictionary<Regex, string> Regexes, bool includeComment)
         {
-            WikiFunctions.Parse.Parsers parsers = new WikiFunctions.Parse.Parsers();
+            Parse.Parsers parsers = new Parse.Parsers();
 
             foreach (KeyValuePair<Regex, string> p in Regexes)
             {
@@ -1410,17 +1418,12 @@ Message: {2}
         public static string ConvertToTalk(Article a)
         {
             if (Tools.IsTalkPage(a.NameSpaceKey))
-            {
                 return a.Name;
-            }
-            else if (a.NameSpaceKey == 0)
-            {
+
+            if (a.NameSpaceKey == 0)
                 return (Variables.Namespaces[1] + a.Name);
-            }
-            else
-            {
-                return Variables.Namespaces[a.NameSpaceKey + 1] + a.NamespacelessName;
-            }
+
+            return Variables.Namespaces[a.NameSpaceKey + 1] + a.NamespacelessName;
         }
 
         /// <summary>
@@ -1528,8 +1531,8 @@ Message: {2}
             HttpWebResponse rs = (HttpWebResponse)rq.GetResponse();
             if (rs.StatusCode == HttpStatusCode.OK)
                 return new StreamReader(rs.GetResponseStream()).ReadToEnd();
-            else
-                throw new WebException(rs.StatusDescription, WebExceptionStatus.UnknownError);
+            
+            throw new WebException(rs.StatusDescription, WebExceptionStatus.UnknownError);
         }
 
         /// <summary>
@@ -1611,7 +1614,7 @@ Message: {2}
         /// <returns></returns>
         public static int GetNumberFromUser(bool edits)
         {
-            using (WikiFunctions.Controls.LevelNumber num = new WikiFunctions.Controls.LevelNumber(edits))
+            using (Controls.LevelNumber num = new Controls.LevelNumber(edits))
             {
                 if (num.ShowDialog() != DialogResult.OK) return -1;
                 return num.Levels;

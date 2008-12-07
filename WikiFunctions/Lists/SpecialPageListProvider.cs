@@ -20,14 +20,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-
-using System.Text.RegularExpressions;
-using System.Xml;
-using System.IO;
-using System.Web;
 
 namespace WikiFunctions.Lists
 {
@@ -70,7 +63,7 @@ namespace WikiFunctions.Lists
 
             List<Article> list = new List<Article>();
 
-            if (this.ShowDialog() == DialogResult.OK)
+            if (ShowDialog() == DialogResult.OK)
             {
                 searchCriteria = txtPages.Text.Split(new char[] { '|' });
 

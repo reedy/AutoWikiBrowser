@@ -19,14 +19,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
+
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
-using System.Web;
-using System.Net;
-using System.IO;
 
 namespace WikiFunctions
 {
@@ -41,7 +36,7 @@ namespace WikiFunctions
 
         public Dictionary<Regex, string> Regexes = new Dictionary<Regex, string>();
 
-        WikiFunctions.Parse.HideText RemoveUnformatted = new WikiFunctions.Parse.HideText(true, false, true);
+        Parse.HideText RemoveUnformatted = new Parse.HideText(true, false, true);
 
         public string[] TemplateList
         {

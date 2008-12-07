@@ -19,10 +19,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Text;
-using System.Xml;
 using System.Xml.Serialization;
 using System.Windows.Forms;
 using System.IO;
@@ -34,17 +31,17 @@ namespace WikiFunctions.Controls.Lists
     public partial class ListSplitter : Form
     {
         UserPrefs P;
-        List<System.Type> Types;
+        List<Type> Types;
 
-        public ListSplitter(UserPrefs Prefs, List<System.Type> Type)
+        public ListSplitter(UserPrefs Prefs, List<Type> type)
         {
             InitializeComponent();
             P = Prefs;
-            Types = Type;
+            Types = type;
         }
 
-        public ListSplitter(UserPrefs Prefs, List<System.Type> Type, List<Article> list)
-            : this(Prefs, Type)
+        public ListSplitter(UserPrefs Prefs, List<Type> type, List<Article> list)
+            : this(Prefs, type)
         {
             listMaker1.Add(list);
         }
@@ -75,12 +72,13 @@ namespace WikiFunctions.Controls.Lists
                 listMaker1.AlphaSortList();
                 int noA = listMaker1.Count;
 
-                int roundlimit = Convert.ToInt32(numSplitAmount.Value / 2);
+                int roundlimit = Convert.ToInt32(numSplitAmount.Value/2);
 
-                if ((noA % numSplitAmount.Value) <= roundlimit)
+                if ((noA%numSplitAmount.Value) <= roundlimit)
                     noA += roundlimit;
 
-                int noGroups = Convert.ToInt32((Math.Round(noA / numSplitAmount.Value) * numSplitAmount.Value) / numSplitAmount.Value);
+                int noGroups =
+                    Convert.ToInt32((Math.Round(noA/numSplitAmount.Value)*numSplitAmount.Value)/numSplitAmount.Value);
 
                 if (XML)
                 {
@@ -95,9 +93,11 @@ namespace WikiFunctions.Controls.Lists
 
                         P.List.ArticleList = listart;
 
-                        using (FileStream fStream = new FileStream(path.Replace(".xml", " " + (i + 1) + ".xml"), FileMode.Create))
+                        using (
+                            FileStream fStream = new FileStream(path.Replace(".xml", " " + (i + 1) + ".xml"),
+                                                                FileMode.Create))
                         {
-                            XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), Types.ToArray());
+                            XmlSerializer xs = new XmlSerializer(typeof (UserPrefs), Types.ToArray());
                             xs.Serialize(fStream, P);
                         }
                     }
@@ -105,8 +105,6 @@ namespace WikiFunctions.Controls.Lists
                 }
                 else
                 {
-                    System.IO.StreamWriter sw;
-
                     for (int i = 0; i < noGroups; i++)
                     {
                         StringBuilder strList = new StringBuilder("");
@@ -116,14 +114,12 @@ namespace WikiFunctions.Controls.Lists
                             strList.AppendLine(listMaker1.SelectedArticle().ToString());
                             listMaker1.Remove(listMaker1.SelectedArticle());
                         }
-                        sw = new System.IO.StreamWriter(path.Replace(".txt", " " + (i + 1) + ".txt"), false, Encoding.UTF8);
-                        sw.Write(strList);
-                        sw.Close();
+                        Tools.WriteTextFileAbsolutePath(strList.ToString(), path.Replace(".txt", " " + (i + 1) + ".txt"), false);
                     }
-                    MessageBox.Show("Lists saved to text files");
                 }
+                MessageBox.Show("Lists saved to text files");
             }
-            catch (System.IO.IOException ex)
+            catch (IOException ex)
             {
                 MessageBox.Show(ex.Message, "Save error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

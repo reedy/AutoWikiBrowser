@@ -18,10 +18,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -959,7 +956,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public void WatchUnwatch()
         {
-            if (this.Document == null)
+            if (Document == null)
                 return;
 
             if (IsWatched())
@@ -979,7 +976,7 @@ namespace WikiFunctions.Browser
             LoadDeletePage(Article);
             Wait();
 
-            if (this.Document == null)
+            if (Document == null)
             {
                 AllowNavigation = false;
                 return false;
@@ -1007,7 +1004,7 @@ namespace WikiFunctions.Browser
             LoadProtectPage(Article);
             Wait();
 
-            if (this.Document == null)
+            if (Document == null)
             {
                 AllowNavigation = false;
                 return false;
@@ -1057,8 +1054,8 @@ namespace WikiFunctions.Browser
                 StopTimer();
                 Stop2();
                 Status = "Timed out";
-                if (this.Fault != null)
-                    this.Fault(null, null);
+                if (Fault != null)
+                    Fault(null, null);
             }
         }
 

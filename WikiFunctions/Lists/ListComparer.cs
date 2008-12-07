@@ -19,12 +19,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using System.IO;
-using System.Text.RegularExpressions;
 
 namespace WikiFunctions.Controls.Lists
 {
@@ -36,8 +32,8 @@ namespace WikiFunctions.Controls.Lists
         public ListComparer()
         {
             InitializeComponent();
-            this.listMaker1.MakeListEnabled = true;
-            this.listMaker2.MakeListEnabled = true;
+            listMaker1.MakeListEnabled = true;
+            listMaker2.MakeListEnabled = true;
         }
 
         public ListComparer(List<Article> list)
@@ -67,16 +63,10 @@ namespace WikiFunctions.Controls.Lists
 
         private void SaveList(StringBuilder strList)
         {
-            try
+            if (saveListDialog.ShowDialog() == DialogResult.OK)
             {
-                if (saveListDialog.ShowDialog() == DialogResult.OK)
-                {
-                    StreamWriter sw = new StreamWriter(saveListDialog.FileName, false, Encoding.UTF8);
-                    sw.Write(strList);
-                    sw.Close();
-                }
+                Tools.WriteTextFileAbsolutePath(strList, saveListDialog.FileName, false);
             }
-            catch { }
         }
 
         //Regex reg = new Regex(" ?\\(.*?\\)$", RegexOptions.Compiled);

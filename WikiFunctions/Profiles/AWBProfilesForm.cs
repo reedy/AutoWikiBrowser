@@ -18,25 +18,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace WikiFunctions.Profiles
 {
-    public partial class AWBProfilesForm : WikiFunctions.Profiles.AWBLogUploadProfilesForm
+    public partial class AWBProfilesForm : AWBLogUploadProfilesForm
     {
         private WikiFunctions.Browser.WebControl webBrowser;
         public event EventHandler LoadProfile;
 
-        public AWBProfilesForm(WikiFunctions.Browser.WebControl Browser)
+        public AWBProfilesForm(Browser.WebControl Browser)
         {
             InitializeComponent();
             loginAsThisAccountToolStripMenuItem.Visible = true;
             loginAsThisAccountToolStripMenuItem.Click += new System.EventHandler(this.lvAccounts_DoubleClick);
-            this.webBrowser = Browser;
+            webBrowser = Browser;
         }
 
         private void browserLogin(string Password)
@@ -53,11 +49,6 @@ namespace WikiFunctions.Profiles
             Variables.User.UpdateWikiStatus();
         }
         
-        private void loginAsThisAccountToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            login();
-        }
-
         private void btnLogin_Click(object sender, EventArgs e)
         {
             login();
