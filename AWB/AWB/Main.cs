@@ -766,6 +766,12 @@ namespace AutoWikiBrowser
         {
             try
             {
+                if (!webBrowserEdit.Url.ToString().StartsWith(Variables.URLLong))
+                {
+                    SkipPage("Interwiki in page title");
+                    return false;
+                }
+
                 string HTML = null;
                 if (webBrowserEdit.Document != null && webBrowserEdit.Document.Body != null)
                     HTML = webBrowserEdit.Document.Body.InnerHtml;
@@ -829,12 +835,6 @@ namespace AutoWikiBrowser
                 }
 
                 mErrorGettingLogInStatus = false;
-
-                if (!webBrowserEdit.Url.ToString().StartsWith(Variables.URLLong))
-                {
-                    SkipPage("Interwiki in page title");
-                    return false;
-                }
 
                 if (webBrowserEdit.NewMessage)
                 {//check if we have any messages
