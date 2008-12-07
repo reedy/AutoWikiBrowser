@@ -1,14 +1,9 @@
 // This file is only for tests that require more than one transformation functions at the same time, so
 //don't add tests for separate functions here
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using WikiFunctions;
 using NUnit.Framework;
 using WikiFunctions.Parse;
-using WikiFunctions.Plugin;
-using WikiFunctions.Logging;
 
 namespace UnitTests
 {

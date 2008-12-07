@@ -22,8 +22,6 @@ Copyright © 2000-2002 Philip A. Craig
 
 */
 
-using System;
-using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
 using WikiFunctions;
