@@ -16,10 +16,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace WikiFunctions
 {
     /// <summary>
@@ -117,8 +113,8 @@ namespace WikiFunctions
                 {
                     if (!string.IsNullOrEmpty(text))
                         return RijndaelSimple.Encrypt(text, PassPhrase, Salt, "SHA1", 2, IV16Chars, 256);
-                    else
-                        return text;
+
+                    return text;
                 }
                 catch { return text; }
             }
@@ -133,13 +129,19 @@ namespace WikiFunctions
                 try
                 {
                     if (!string.IsNullOrEmpty(text))
-                        return Encryption.RijndaelSimple.Decrypt(text, PassPhrase, Salt, "SHA1", 2, IV16Chars, 256);
-                    else
-                        return text;
+                        return RijndaelSimple.Decrypt(text, PassPhrase, Salt, "SHA1", 2, IV16Chars, 256);
+
+                    return text;
                 }
                 catch { return text; }
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="keyNameSuffix"></param>
+            /// <param name="defaultValue"></param>
+            /// <returns></returns>
             public string RegistryGetValueAndDecrypt(string keyNameSuffix, object defaultValue)
             { return Decrypt(RegistryUtils.GetValue(keyNameSuffix, defaultValue)); }
         }

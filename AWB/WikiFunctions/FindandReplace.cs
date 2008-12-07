@@ -18,12 +18,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
-using System.Text;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
-using System.Collections;
 using System.Collections.Generic;
-using System.Xml;
 using System.Drawing;
 using WikiFunctions.Controls;
 
@@ -70,8 +67,7 @@ namespace WikiFunctions.Parse
         private static Replacement RowToReplacement(DataGridViewRow dataGridRow)
         {
             Replacement rep = new Replacement();
-            string f = "";
-            string r = "";
+            string f, r;
 
             rep.Enabled = ((bool)dataGridRow.Cells["enabled"].FormattedValue);
 
@@ -143,7 +139,8 @@ namespace WikiFunctions.Parse
         /// Applies a series of defined find and replacements to the supplied article text.
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
-        /// <param name="ArticleTitle">The title of the article.</param>
+        /// <param name="EditSummary"></param>
+        /// <param name="strTitle"></param>
         /// <returns>The modified article text.</returns>
         public string MultipleFindAndReplace(string ArticleText, string strTitle, ref string EditSummary)
         {
@@ -194,7 +191,7 @@ namespace WikiFunctions.Parse
                     summary = Matches[0].Value + Arrow + Matches[0].Result(Replace);
 
                     if (Matches.Count > 1)
-                        summary += " (" + Matches.Count.ToString() + ")";
+                        summary += " (" + Matches.Count + ")";
 
                     streditsummary += summary + ", ";
                 }
@@ -252,6 +249,11 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="Find">The string to find.</param>
         /// <param name="ReplaceWith">The replacement string.</param>
+        /// <param name="CaseSensitive"></param>
+        /// <param name="IsRegex"></param>
+        /// <param name="Multiline"></param>
+        /// <param name="Singleline"></param>
+        /// <param name="enabled"></param>
         public void AddNew(string Find, string ReplaceWith, bool CaseSensitive, bool IsRegex, bool Multiline, bool Singleline, bool enabled, string comment)
         {
             dataGridView1.Rows.Add(Find, ReplaceWith, CaseSensitive, IsRegex, Multiline, Singleline, enabled, comment);
@@ -378,7 +380,7 @@ namespace WikiFunctions.Parse
         {
             ApplyDefaultFormatting = false;
             MakeList();
-            this.Hide();
+            Hide();
         }
 
         #endregion
@@ -597,16 +599,13 @@ namespace WikiFunctions.Parse
         {
             DataGridViewRow row = dataGridView1.CurrentRow;
 
+            if (row == null)
+                return;
+
             string typoName = (string)row.Cells["Comment"].Value;
             if(string.IsNullOrEmpty(typoName)) typoName = "<enter a name>";
 
-            if (row == null) return;
-
-            Tools.CopyToClipboard(
-                RegExTypoFix.CreateRule((string)row.Cells["find"].Value, 
-                    (string)row.Cells["replace"].Value,
-                    typoName));
-
+            Tools.CopyToClipboard(RegExTypoFix.CreateRule((string)row.Cells["find"].Value, (string)row.Cells["replace"].Value, typoName));
         }
     }
 

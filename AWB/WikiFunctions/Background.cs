@@ -18,12 +18,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 using System;
 using System.Threading;
-using WikiFunctions;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Web;
-using WikiFunctions.Lists;
 
 namespace WikiFunctions.Background
 {
@@ -164,9 +162,6 @@ namespace WikiFunctions.Background
 
         private void BypassRedirectsFunc()
         {//checks links to make them bypass redirects and (TODO) disambigs
-            string link = "";
-            string article = "";
-
             Regex wikiLinksOnly = new Regex("\\[\\[([^:|]*?)\\]\\]", RegexOptions.Compiled);
 
             Dictionary<string, string> knownLinks = new Dictionary<string, string>();
@@ -187,6 +182,7 @@ namespace WikiFunctions.Background
                     ui.SetProgress(0, simple.Count + piped.Count);
                 }
                 int n = 0;
+                string link, article;
                 foreach (Match m in simple)
                 {
                     //make link
@@ -196,7 +192,7 @@ namespace WikiFunctions.Background
                     if(!knownLinks.ContainsKey(Tools.TurnFirstToUpper(article)))
                     {
                         //get text
-                        string text = "";
+                        string text;
                         try
                         {
                             text = Tools.GetArticleText(article);
@@ -238,7 +234,7 @@ namespace WikiFunctions.Background
                     if(!knownLinks.ContainsKey(Tools.TurnFirstToUpper(article)))
                     {
                         //get text
-                        string text = "";
+                        string text;
                         try
                         {
                             text = Tools.GetArticleText(article);
@@ -287,7 +283,7 @@ namespace WikiFunctions.Background
         /// </summary>
         /// <param name="What">Which source to use</param>
         /// <param name="Params">Optional parameters, depend on source</param>
-        public void GetList(WikiFunctions.Lists.IListProvider what, params string[] params1)
+        public void GetList(Lists.IListProvider what, params string[] params1)
         {
             objParam1 = what;
             objParam2 = params1;
@@ -308,7 +304,7 @@ namespace WikiFunctions.Background
 
             try
             {
-                Result = ((WikiFunctions.Lists.IListProvider)objParam1).MakeList((string[])objParam2);
+                Result = ((Lists.IListProvider)objParam1).MakeList((string[])objParam2);
                 InvokeOnComplete();
             }
             catch (Exception e)

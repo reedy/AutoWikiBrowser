@@ -22,13 +22,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.ComponentModel;
-using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 using System.Text.RegularExpressions;
 using System.IO;
-using System.Diagnostics;
 using WikiFunctions.Lists;
 
 namespace WikiFunctions.Controls.Lists
@@ -232,8 +230,8 @@ namespace WikiFunctions.Controls.Lists
                 UpdateNumberOfArticles();
                 return true;
             }
-            else
-                return false;
+
+            return false;
         }
 
         #endregion
@@ -493,7 +491,7 @@ namespace WikiFunctions.Controls.Lists
             {
                 strStatus = value;
                 if (StatusTextChanged != null)
-                    this.StatusTextChanged(null, null);
+                    StatusTextChanged(null, null);
             }
         }
 
@@ -508,7 +506,7 @@ namespace WikiFunctions.Controls.Lists
             {
                 bBusyStatus = value;
                 if (BusyStateChanged != null)
-                    this.BusyStateChanged(null, null);
+                    BusyStateChanged(null, null);
             }
         }
 
@@ -634,15 +632,15 @@ namespace WikiFunctions.Controls.Lists
         private delegate void StartProgBarDelegate();
         private void StartProgressBar()
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.BeginInvoke(new StartProgBarDelegate(StartProgressBar));
+                BeginInvoke(new StartProgBarDelegate(StartProgressBar));
                 return;
             }
 
             BusyStatus = true;
 
-            this.Cursor = Cursors.WaitCursor;
+            Cursor = Cursors.WaitCursor;
             Status = "Getting list";
             btnGenerate.Enabled = false;
         }
@@ -650,13 +648,13 @@ namespace WikiFunctions.Controls.Lists
         private delegate void SetProgBarDelegate();
         private void StopProgressBar()
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.BeginInvoke(new SetProgBarDelegate(StopProgressBar));
+                BeginInvoke(new SetProgBarDelegate(StopProgressBar));
                 return;
             }
 
-            this.Cursor = Cursors.Default;
+            Cursor = Cursors.Default;
             btnGenerate.Enabled = true;
             Status = "List complete!";
             BusyStatus = false;
@@ -710,7 +708,7 @@ namespace WikiFunctions.Controls.Lists
         }
 
         string[] strSource;
-        WikiFunctions.Lists.IListProvider providerToRun;
+        IListProvider providerToRun;
 
         private void MakeListPlugin()
         {
@@ -888,8 +886,7 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public void ReplaceArticle(Article OldArticle, Article NewArticle)
         {
-            int intPos = 0;
-            intPos = lbArticles.Items.IndexOf(OldArticle);
+            int intPos = lbArticles.Items.IndexOf(OldArticle);
 
             Remove(OldArticle);
             lbArticles.Items.Insert(intPos, NewArticle);
@@ -914,11 +911,11 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public void UpdateNumberOfArticles()
         {
-            lblNumOfPages.Text = lbArticles.Items.Count.ToString() + " page";
+            lblNumOfPages.Text = lbArticles.Items.Count + " page";
             if (lbArticles.Items.Count != 1)
                 lblNumOfPages.Text += "s";
             if (NoOfArticlesChanged != null)
-                this.NoOfArticlesChanged(null, null);
+                NoOfArticlesChanged(null, null);
 
             if (AutoAlpha)
                 AlphaSortList();
@@ -1152,7 +1149,7 @@ namespace WikiFunctions.Controls.Lists
                 Tools.OpenArticleHistoryInBrowser(item.Name);
         }
 
-        private void lbArticles_DoubleClick(object sender, System.EventArgs e)
+        private void lbArticles_DoubleClick(object sender, EventArgs e)
         {
             loadArticlesInBrowser();
         }
@@ -1238,11 +1235,11 @@ namespace WikiFunctions.Controls.Lists
         /// <returns>List of IListMakerPlugins currently loaded</returns>
         public static List<WikiFunctions.Plugin.IListMakerPlugin> GetListMakerPlugins()
         {
-            List<WikiFunctions.Plugin.IListMakerPlugin> plugins = new List<WikiFunctions.Plugin.IListMakerPlugin>();
+            List<Plugin.IListMakerPlugin> plugins = new List<Plugin.IListMakerPlugin>();
 
             foreach (IListProvider p in listItems)
             {
-                WikiFunctions.Plugin.IListMakerPlugin plugin = (p as WikiFunctions.Plugin.IListMakerPlugin);
+                Plugin.IListMakerPlugin plugin = (p as Plugin.IListMakerPlugin);
 
                 if (plugin != null)
                     plugins.Add(plugin);
@@ -1255,9 +1252,9 @@ namespace WikiFunctions.Controls.Lists
         /// Returns a new DatabaseScanner tied to an instance of the current Articles List Box
         /// </summary>
         /// <returns></returns>
-        public WikiFunctions.DBScanner.DatabaseScanner DBScanner()
+        public DBScanner.DatabaseScanner DBScanner()
         {
-            return new WikiFunctions.DBScanner.DatabaseScanner(this);
+            return new DBScanner.DatabaseScanner(this);
         }
     }
 }

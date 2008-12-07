@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Web;
 using Algorithm.Diff;
-using System.Text.RegularExpressions;
 using System.Collections;
 
 namespace WikiFunctions
@@ -428,10 +427,10 @@ td.diff-addedline span.diffchange {
             m_HashCode = (word/* + white*/).GetHashCode();
         }
 
-        /// <summary>
-        /// Too slow, don't use
-        /// </summary>
-        /// <param name="all">Word with whitespace</param>
+        ///// <summary>
+        ///// Too slow, don't use
+        ///// </summary>
+        ///// <param name="all">Word with whitespace</param>
         //public Word(string all)
         //    : this(Regex.Match(all, @"\S*").Value, Regex.Match(all, @"\s*").Value)
         //{

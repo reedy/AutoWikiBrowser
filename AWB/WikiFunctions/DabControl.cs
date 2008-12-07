@@ -18,9 +18,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
-using System.ComponentModel;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 
@@ -224,8 +222,8 @@ namespace WikiFunctions.Disambiguation
                         CurrentLink += LinkTrail + "]]";
                     else
                         CurrentLink += "]]" + LinkTrail;
-                    CurrentLink = WikiFunctions.Parse.Parsers.SimplifyLinks(CurrentLink);
-                    txtCorrection.Text = WikiFunctions.Parse.Parsers.StickyLinks(Surroundings.Replace(Match.Value, CurrentLink));
+                    CurrentLink = Parse.Parsers.SimplifyLinks(CurrentLink);
+                    txtCorrection.Text = Parse.Parsers.StickyLinks(Surroundings.Replace(Match.Value, CurrentLink));
                 }
 
                 btnUnpipe.Enabled = btnFlip.Enabled = CurrentLink.Contains("|");

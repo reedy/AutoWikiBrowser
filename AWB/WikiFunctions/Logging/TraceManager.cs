@@ -158,11 +158,11 @@ namespace WikiFunctions.Logging
                 return false;
             }
         }
-        public virtual void Write(string Text)
+        public virtual void Write(string text)
         {
             foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
             {
-                t.Value.Write(Text);
+                t.Value.Write(text);
             }
         }
         public virtual void WriteComment(string Line)

@@ -21,8 +21,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Collections;
-using System.Web;
 using System.Xml;
 using WikiFunctions.TalkPages;
 
@@ -201,12 +199,12 @@ namespace WikiFunctions.Parse
             int ix = Order[RawCode(x)], iy = Order[RawCode(y)];
 
             if (ix < iy) return -1;
-            else if (ix == iy) return 0;
-            else return 1;
+            if (ix == iy) return 0;
+            return 1;
         }
     }
 
-    public enum InterWikiOrderEnum : int { LocalLanguageAlpha, LocalLanguageFirstWord, Alphabetical, AlphabeticalEnFirst }
+    public enum InterWikiOrderEnum { LocalLanguageAlpha, LocalLanguageFirstWord, Alphabetical, AlphabeticalEnFirst }
     
     public class MetaDataSorter
     {
@@ -222,8 +220,8 @@ namespace WikiFunctions.Parse
             if (InterwikiLocalAlpha == null)
                 throw new NullReferenceException("InterwikiLocalAlpha is null");
 
-            string s = string.Join("|", SiteMatrix.WikipediaLanguages.ToArray());
-            s = @"\[\[\s?(" + s + @")\s?:\s?([^\]]*)\s?\]\]";
+            //string s = string.Join("|", SiteMatrix.WikipediaLanguages.ToArray());
+            //s = @"\[\[\s?(" + s + @")\s?:\s?([^\]]*)\s?\]\]";
 
             //create a comparer
             InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
@@ -266,7 +264,7 @@ namespace WikiFunctions.Parse
                         break;
                     default:
                         throw new ArgumentOutOfRangeException("MetaDataSorter.InterWikiOrder",
-                            (System.Exception)null);
+                            (Exception)null);
                 }
                 PossibleInterwikis = SiteMatrix.GetProjectLanguages(Variables.Project);
                 Comparer = new InterWikiComparer(new List<string>(seq), PossibleInterwikis);
@@ -394,7 +392,7 @@ namespace WikiFunctions.Parse
         public string removeCats(ref string ArticleText, string ArticleTitle)
         {
             List<string> categoryList = new List<string>();
-            string x = "";
+            string x;
 
             Regex r = new Regex("<!-- ? ?\\[\\[" + Variables.NamespacesCaseInsensitive[14] + ".*?(\\]\\]|\\|.*?\\]\\]).*?-->|\\[\\[" + Variables.NamespacesCaseInsensitive[14] + ".*?(\\]\\]|\\|.*?\\]\\])( {0,4}⌊⌊⌊⌊[0-9]{1,4}⌋⌋⌋⌋)?");
 
@@ -477,8 +475,8 @@ namespace WikiFunctions.Parse
             stubList.Reverse();
             if (stubList.Count != 0)
                 return ListToString(stubList);
-            else
-                return "";
+            
+            return "";
         }
 
         public static string removeDisambig(ref string ArticleText)
@@ -499,7 +497,7 @@ namespace WikiFunctions.Parse
         private static List<string> removeLinkFAs(ref string ArticleText)
         {
             List<string> linkFAList = new List<string>();
-            string x = "";
+            string x;
             foreach (Match m in WikiRegexes.LinkFAs.Matches(ArticleText))
             {
                 x = m.Value;

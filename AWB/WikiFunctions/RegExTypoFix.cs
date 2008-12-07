@@ -18,13 +18,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
-using System.Collections.Specialized;
 using System.Collections.Generic;
-using System.Collections;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Xml;
-using System.IO;
 using System.Windows.Forms;
 using WikiFunctions.Controls;
 
@@ -142,7 +138,7 @@ namespace WikiFunctions.Parse
                         if (1 == count) summary += (summary.Length > 0 ? ", " : "") + m.Value + FindandReplace.Arrow + res;
                     }
                 }
-                if (count > 1) summary += " (" + count.ToString() + ")";
+                if (count > 1) summary += " (" + count + ")";
                 stats.SelfMatches = stats.Total - count;
                 Statistics.Add(stats);
             }

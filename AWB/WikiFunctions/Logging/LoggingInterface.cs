@@ -43,7 +43,7 @@ namespace WikiFunctions.Logging
         void SkippedArticle(string SkippedBy, string Reason);
         void SkippedArticleBadTag(string SkippedBy, string FullArticleTitle, Namespaces NS);
         void SkippedArticleRedlink(string SkippedBy, string FullArticleTitle, Namespaces NS);
-        void Write(string Text);
+        void Write(string text);
         void WriteArticleActionLine(string Line, string PluginName);
         void WriteArticleActionLine(string Line, string PluginName, bool VerboseOnly);
         void WriteBulletedLine(string Line, bool Bold, bool VerboseOnly);

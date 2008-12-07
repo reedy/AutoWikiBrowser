@@ -17,9 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using WikiFunctions.Encryption;
 
@@ -30,12 +28,12 @@ namespace WikiFunctions.Profiles
         public AWBProfile(int pID, string pUsername, string pPassword, string pDefaultSettings, string pNotes,
             bool pUseForUpload)
         {
-            this.id = pID;
-            this.mUsername = pUsername;
-            this.mPassword = pPassword;
-            this.defaultsettings = pDefaultSettings;
-            this.notes = pNotes;
-            this.useforupload = pUseForUpload;
+            id = pID;
+            mUsername = pUsername;
+            mPassword = pPassword;
+            defaultsettings = pDefaultSettings;
+            notes = pNotes;
+            useforupload = pUseForUpload;
         }
 
         public AWBProfile() { }
@@ -140,7 +138,7 @@ namespace WikiFunctions.Profiles
 
             if (string.IsNullOrEmpty(retval.Password) && string.IsNullOrEmpty(TempPassword))
             {
-                WikiFunctions.Profiles.UserPassword password = new WikiFunctions.Profiles.UserPassword();
+                UserPassword password = new UserPassword();
                 password.SetText = "Enter password for " + retval.Username;
                 if (password.ShowDialog() == DialogResult.OK)
                 {
@@ -171,7 +169,7 @@ namespace WikiFunctions.Profiles
         {
             try
             {
-                AWBProfiles.ResetTempPassword();
+                ResetTempPassword();
                 foreach (int id in GetProfileIDs())
                 { RegistrySetValue(id, "UseForUpload", false.ToString()); }
             }
@@ -217,7 +215,6 @@ namespace WikiFunctions.Profiles
         /// Writes a new or modified Profile to the registry
         /// </summary>
         /// <param name="profile">Profile Object of User</param>
-        /// <param name="Key">Registry Key for Adding/Editing</param>
         internal static void AddEditProfile(AWBProfile profile)
         {
             if (profile.id == -1)

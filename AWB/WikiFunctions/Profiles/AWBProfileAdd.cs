@@ -18,13 +18,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
-using System.IO;
 
 namespace WikiFunctions.Profiles
 {
@@ -38,7 +33,7 @@ namespace WikiFunctions.Profiles
             InitializeComponent();
             editid = -1;
 
-            this.Text = "Add new Profile";
+            Text = "Add new Profile";
         }
 
         /// <summary>
@@ -63,7 +58,7 @@ namespace WikiFunctions.Profiles
             if (!string.IsNullOrEmpty(txtPassword.Text))
                 chkSavePassword.Checked = true;
 
-            this.Text = "Edit Profile";
+            Text = "Edit Profile";
             justLoading = false;
         }
 
@@ -74,7 +69,7 @@ namespace WikiFunctions.Profiles
 
         private void AWBProfileAdd_Load(object sender, EventArgs e)
         {
-            openDefaultFile.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            openDefaultFile.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         }
 
         private void chkDefaultSettings_CheckedChanged(object sender, EventArgs e)
@@ -110,7 +105,7 @@ namespace WikiFunctions.Profiles
                 profile.id = editid;
                 AWBProfiles.AddEditProfile(profile);
 
-                this.DialogResult = DialogResult.Yes;
+                DialogResult = DialogResult.Yes;
             }
         }
     }

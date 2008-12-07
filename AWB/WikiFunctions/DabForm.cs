@@ -18,14 +18,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using WikiFunctions;
 using System.Text.RegularExpressions;
-using WikiFunctions.Disambiguation;
-using System.Web;
 
 namespace WikiFunctions.Disambiguation
 {
@@ -60,13 +55,13 @@ namespace WikiFunctions.Disambiguation
         /// displays form that promts user for disambiguation
         /// if no disambihuation needed, immediately returns
         /// </summary>
-        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle"></param>
         /// <param name="dabLink">link to be disambiguated</param>
         /// <param name="dabVariants">variants of disambiguation</param>
         /// <param name="contextChars">number of chars each side from link in the context box</param>
         /// <param name="botMode">whether AWB saves pages automatically</param>
-        /// <param name="Skip">returns true when no disambiguation made</param>
+        /// <param name="skip">returns true when no disambiguation made</param>
         /// <returns></returns>
         public string Disambiguate(string articleText, string articleTitle, string dabLink,
             string[] dabVariants, int contextChars, bool botMode, out bool skip)
@@ -233,12 +228,8 @@ namespace WikiFunctions.Disambiguation
 
         private void btnArticle_Click(object sender, EventArgs e)
         {
-            try
-            {
-                contextMenuStripOther.Show(this, new Point(btnArticle.Left, btnArticle.Top + btnArticle.Height), 
-                    ToolStripDropDownDirection.BelowRight);
-            }
-            finally            {            }
+            contextMenuStripOther.Show(this, new Point(btnArticle.Left, btnArticle.Top + btnArticle.Height),
+                                       ToolStripDropDownDirection.BelowRight);
         }
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
@@ -270,7 +261,7 @@ namespace WikiFunctions.Disambiguation
         {
             try
             {
-                WikiFunctions.Browser.WebControl browser = new WikiFunctions.Browser.WebControl();
+                Browser.WebControl browser = new Browser.WebControl();
                 browser.Navigate(Variables.URLLong + "index.php?title=" + Tools.WikiEncode(ArticleTitle) + "&action=unwatch");
                 browser.Wait();
                 MessageBox.Show("Page successfully removed from your watchlist");

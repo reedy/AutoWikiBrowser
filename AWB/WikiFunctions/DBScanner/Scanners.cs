@@ -19,7 +19,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 using WikiFunctions.Parse;
 
@@ -180,7 +179,7 @@ namespace WikiFunctions.DBScanner
         }
     }
 
-    public enum MoreLessThan : int { LessThan, MoreThan, EqualTo }
+    public enum MoreLessThan { LessThan, MoreThan, EqualTo }
 
     /// <summary>
     /// Returns whether the article matches the specified boundaries for number of characters
@@ -203,10 +202,10 @@ namespace WikiFunctions.DBScanner
 
             if (M == MoreLessThan.MoreThan)
                 return (actual > test);
-            else if (M == MoreLessThan.LessThan)
+            if (M == MoreLessThan.LessThan)
                 return (actual < test);
-            else
-                return (actual == test);
+            
+            return (actual == test);
         }
     }
 
@@ -231,10 +230,9 @@ namespace WikiFunctions.DBScanner
 
             if (M == MoreLessThan.MoreThan)
                 return (actual > test);
-            else if (M == MoreLessThan.LessThan)
+            if (M == MoreLessThan.LessThan)
                 return (actual < test);
-            else
-                return (actual == test);
+            return (actual == test);
         }
     }
 
@@ -259,10 +257,9 @@ namespace WikiFunctions.DBScanner
 
             if (M == MoreLessThan.MoreThan)
                 return (actual > test);
-            else if (M == MoreLessThan.LessThan)
+            if (M == MoreLessThan.LessThan)
                 return (actual < test);
-            else
-                return (actual == test);
+            return (actual == test);
         }
     }
 
@@ -297,16 +294,11 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public class HasBadLinks : Scan
     {
-        public HasBadLinks() { }
-
         public static bool FixLinks(string ArticleText)
         {
-            string y = "";
-
             foreach (Match m in WikiRegexes.SimpleWikiLink.Matches(ArticleText))
             {
-                y = m.Value;
-                y = y.Replace("+", "%2B");
+                string y = m.Value.Replace("+", "%2B");
                 y = System.Web.HttpUtility.UrlDecode(y);
 
                 if (m.Value != y)
@@ -367,21 +359,16 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public class HasSimpleLinks : Scan
     {
-        public HasSimpleLinks() { }
-
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
-            string a = "";
-            string b = "";
-
             foreach (Match m in WikiRegexes.PipedWikiLink.Matches(ArticleText))
             {
-                a = m.Groups[1].Value;
-                b = m.Groups[2].Value;
+                string a = m.Groups[1].Value;
+                string b = m.Groups[2].Value;
 
                 if (a == b || Tools.TurnFirstToLower(a) == b)
                     return true;
-                else if (a + "s" == b || Tools.TurnFirstToLower(a) + "s" == b)
+                if (a + "s" == b || Tools.TurnFirstToLower(a) + "s" == b)
                     return true;
             }
             return false;
@@ -413,8 +400,6 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public class HasUnbulletedLinks : Scan
     {
-        public HasUnbulletedLinks() { }
-
         Regex bulletRegex = new Regex(@"External [Ll]inks? ? ?={1,4} ? ?(
 ){0,3}\[?http", RegexOptions.Compiled);
 
@@ -470,8 +455,6 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public class Typo : Scan
     {
-        public Typo() { }
-
         RegExTypoFix retf = new RegExTypoFix();
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
@@ -485,8 +468,6 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public class UnCategorised : Scan
     {
-        public UnCategorised() { }
-
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
             if (WikiRegexes.Category.IsMatch(ArticleText))
@@ -519,8 +500,7 @@ namespace WikiFunctions.DBScanner
             DateTime timestamp;
             if (DateTime.TryParse(ArticleTimestamp, out timestamp))
                 return ((DateTime.Compare(timestamp, from) >= 0) && (DateTime.Compare(timestamp, to) <= 0));
-            else
-                return false;
+            return false;
         }
     }
 
@@ -551,16 +531,14 @@ namespace WikiFunctions.DBScanner
             {
                 return (noEditRestriction && noMoveRestriction);
             }
-            else
-            {
-                if (!noEditRestriction && !ArticleRestrictions.Contains(editRest + Restrictions[edit]))
-                    return false;
 
-                if (!noMoveRestriction && !ArticleRestrictions.Contains(moveRest + Restrictions[move]))
-                    return false;
+            if (!noEditRestriction && !ArticleRestrictions.Contains(editRest + Restrictions[edit]))
+                return false;
 
-                return true;
-            }
+            if (!noMoveRestriction && !ArticleRestrictions.Contains(moveRest + Restrictions[move]))
+                return false;
+
+            return true;
         }
     }
 }
