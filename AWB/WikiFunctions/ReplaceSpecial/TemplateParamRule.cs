@@ -17,10 +17,7 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
-using System.Xml;
 using System.Text.RegularExpressions;
 
 namespace WikiFunctions.MWB
@@ -56,11 +53,7 @@ namespace WikiFunctions.MWB
             ruleControl_ = null;
         }
 
-        public override Control CreateControl(
-          IRuleControlOwner owner,
-          Control.ControlCollection collection,
-          System.Drawing.Point pos
-        )
+        public override Control CreateControl(IRuleControlOwner owner, Control.ControlCollection collection, System.Drawing.Point pos)
         {
             TemplateParamRuleControl rc = new TemplateParamRuleControl(owner);
             rc.Location = pos;
@@ -92,7 +85,6 @@ namespace WikiFunctions.MWB
             ruleControl_.SelectName();
         }
 
-
         public override string Apply(TreeNode tn, string text, string title)
         {
             if (string.IsNullOrEmpty(text))
@@ -101,8 +93,7 @@ namespace WikiFunctions.MWB
             if (!enabled_)
                 return text;
 
-            string pattern =
-              "(\\|[\\s]*)" + ParamName_ + "([\\s]*=)";
+            string pattern = "(\\|[\\s]*)" + ParamName_ + "([\\s]*=)";
 
             text = Regex.Replace(text, pattern, "$1" + NewParamName_ + "$2");
 
@@ -115,5 +106,4 @@ namespace WikiFunctions.MWB
             return text;
         }
     }
-
 }

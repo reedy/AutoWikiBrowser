@@ -16,11 +16,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace WikiFunctions.Controls
@@ -40,7 +36,7 @@ namespace WikiFunctions.Controls
             InitializeComponent();
         }
 
-        protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
             e.Graphics.FillEllipse(br, 2, 2, this.Size.Width - 2, this.Size.Height - 2);

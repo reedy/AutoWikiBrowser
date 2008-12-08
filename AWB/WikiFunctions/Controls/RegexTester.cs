@@ -67,7 +67,6 @@ namespace WikiFunctions.Controls
             }
         }
 
-
         #region Properties for external access
 
         public string ArticleText
@@ -329,7 +328,7 @@ namespace WikiFunctions.Controls
                 else if (sender.Matches.Count == 1)
                     Status.Text = "1 match found";
                 else
-                    Status.Text = sender.Matches.Count.ToString() + " matches found";
+                    Status.Text = sender.Matches.Count + " matches found";
 
 
                 Captures.ExpandAll();
@@ -338,7 +337,7 @@ namespace WikiFunctions.Controls
             {
                 ResultText.Text = sender.Result;
                 if (sender.Matches.Count != 1)
-                    Status.Text = sender.Matches.Count.ToString() + " replacements performed";
+                    Status.Text = sender.Matches.Count + " replacements performed";
                 else
                     Status.Text = "1 replacement performed";
 
@@ -361,7 +360,6 @@ namespace WikiFunctions.Controls
             Status.Text = "Processing aborted";
         }
     }
-
 
     internal delegate void RegexRunnerFinishedDelegate(RegexRunner sender);
 
@@ -410,7 +408,8 @@ namespace WikiFunctions.Controls
             {
                 Matches = _Regex.Matches(Input);
 
-                foreach (Match m in Matches) ; // force matches to actually run
+                foreach (Match m in Matches)
+                { }// force matches to actually run
 
                 if (!string.IsNullOrEmpty(Replace))
                     Result = _Regex.Replace(Input, Replace);

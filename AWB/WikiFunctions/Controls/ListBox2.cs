@@ -18,12 +18,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-using System;
 using System.Collections.Generic;
 using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace WikiFunctions.Controls.Lists
@@ -33,9 +29,9 @@ namespace WikiFunctions.Controls.Lists
         public IEnumerator<Article> GetEnumerator()
         {
             int i = 0;
-            while (i < this.Items.Count)
+            while (i < Items.Count)
             {
-                yield return (Article)this.Items[i];
+                yield return (Article)Items[i];
                 i++;
             }
         }
@@ -45,15 +41,15 @@ namespace WikiFunctions.Controls.Lists
             int i = 0;
             while (i < this.Items.Count)
             {
-                yield return (Article)this.Items[i];
+                yield return (Article)Items[i];
                 i++;
             }
         }
 
         public new void Sort()
         {
-            this.Sorted = true;
-            this.Sorted = false;
+            Sorted = true;
+            Sorted = false;
         }
     }
 }

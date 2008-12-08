@@ -18,10 +18,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace WikiFunctions.Controls
@@ -36,11 +33,11 @@ namespace WikiFunctions.Controls
 
             if (MoveDeleteProtect == 3)
             {
-                lblSummary.Location = new System.Drawing.Point(8, 15);
-                cmboSummary.Location = new System.Drawing.Point(62, 12);
+                lblSummary.Location = new Point(8, 15);
+                cmboSummary.Location = new Point(62, 12);
                 lblNewTitle.Visible = false;
                 txtNewTitle.Visible = false;
-                this.Text = "Protect";
+                Text = "Protect";
                 btnOk.Text = "Protect";
                 messages = new string[1];
                 messages[0] = "Heavy vandalism";
@@ -54,9 +51,9 @@ namespace WikiFunctions.Controls
 
                 if (MoveDeleteProtect == 1)
                 {
-                    this.Text = "Move";
+                    Text = "Move";
                     btnOk.Text = "Move";
-                    this.Size = new Size(this.Width, 120);
+                    Size = new Size(Width, 120);
 
                     messages = new string[2];
                     messages[0] = "Typo in page title";
@@ -64,11 +61,11 @@ namespace WikiFunctions.Controls
                 }
                 else
                 {
-                    this.Text = "Delete";
+                    Text = "Delete";
                     btnOk.Text = "Delete";
-                    this.Size = new Size(this.Width, 100);
-                    lblSummary.Location = new System.Drawing.Point(8, 15);
-                    cmboSummary.Location = new System.Drawing.Point(62, 12);
+                    Size = new Size(Width, 100);
+                    lblSummary.Location = new Point(8, 15);
+                    cmboSummary.Location = new Point(62, 12);
 
                     lblNewTitle.Visible = false;
                     txtNewTitle.Visible = false;

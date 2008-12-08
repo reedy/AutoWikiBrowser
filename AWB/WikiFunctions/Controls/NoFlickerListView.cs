@@ -19,10 +19,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using System.Collections;
 
@@ -39,7 +36,7 @@ namespace WikiFunctions.Controls
     /// <summary>
     /// Advanced ListView
     /// </summary>
-    public partial class NoFlickerExtendedListView : ListView, IListViewItemComparerFactory
+    public class NoFlickerExtendedListView : ListView, IListViewItemComparerFactory
     {
         /// <summary>
         /// 
@@ -52,12 +49,12 @@ namespace WikiFunctions.Controls
         /// 
         /// </summary>
         /// <param name="sortColumnOnClick"></param>
+        /// <param name="resizeColumnsOnControlResize"></param>
         public NoFlickerExtendedListView(bool sortColumnOnClick, bool resizeColumnsOnControlResize)
-            : base()
         {
             SortColumnsOnClick = sortColumnOnClick;
             ResizeColumsOnControlResize = resizeColumnsOnControlResize;
-            this.sortColumnsOnClick = sortColumnOnClick;
+            sortColumnsOnClick = sortColumnOnClick;
             DoubleBuffered = true;
             comparerFactory = this;
         }
@@ -226,7 +223,7 @@ namespace WikiFunctions.Controls
                 string sx = ((ListViewItem)x).SubItems[col].Text;
                 string sy = ((ListViewItem)y).SubItems[col].Text;
 
-                System.DateTime firstDate, secondDate;
+                DateTime firstDate, secondDate;
                 double dblX, dblY;
 
                 // first try to parse as ints

@@ -20,9 +20,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using WikiFunctions;
-using WikiFunctions.Logging;
 using WikiFunctions.Logging.Uploader;
 using System.Windows.Forms;
 
@@ -199,7 +196,7 @@ namespace WikiFunctions.Logging
         protected virtual UploadHandlerReturnVal UploadHandler(TraceListenerUploadableBase Sender, string LogTitle, 
             string LogDetails, string UploadToWithoutPageNumber, List<LogEntry> LinksToLog, bool OpenInBrowser,
             bool AddToWatchlist, string Username, string LogHeader, string EditSummary,
-            string LogSummaryEditSummary, WikiFunctions.Plugin.IAutoWikiBrowser AWB, 
+            string LogSummaryEditSummary, Plugin.IAutoWikiBrowser AWB, 
             UsernamePassword LoginDetails)
         {
             UploadHandlerReturnVal retval = new UploadHandlerReturnVal();
@@ -207,7 +204,7 @@ namespace WikiFunctions.Logging
 
             if (StartingUpload(Sender))
             {
-                string pageName = UploadToWithoutPageNumber + " " + Sender.TraceStatus.PageNumber.ToString();
+                string pageName = UploadToWithoutPageNumber + " " + Sender.TraceStatus.PageNumber;
                 UploadingPleaseWaitForm waitForm = new UploadingPleaseWaitForm();
                 LogUploader uploader = new LogUploader();
 
@@ -221,7 +218,7 @@ namespace WikiFunctions.Logging
                     retval.PageRetVals = uploader.LogIt(Sender.TraceStatus.LogUpload, LogTitle, LogDetails, pageName, LinksToLog,
                         Sender.TraceStatus.PageNumber, Sender.TraceStatus.StartDate, OpenInBrowser,
                         AddToWatchlist, Username, "{{log|name=" + UploadToWithoutPageNumber + "|page=" +
-                        Sender.TraceStatus.PageNumber.ToString() + "}}" + System.Environment.NewLine + LogHeader,
+                        Sender.TraceStatus.PageNumber + "}}" + Environment.NewLine + LogHeader,
                         false, EditSummary, LogSummaryEditSummary, ApplicationName, true, AWB);
 
                     retval.Success = true;
@@ -253,7 +250,7 @@ namespace WikiFunctions.Logging
             {
                 System.IO.StreamWriter io =
                     new System.IO.StreamWriter(LogFolder + "\\Log uploading " +
-                    DateTime.Now.Ticks.ToString() + ".txt");
+                    DateTime.Now.Ticks + ".txt");
 
                 foreach (Editor.EditPageRetvals editPageRetval in PageRetVals)
                 {

@@ -55,8 +55,7 @@ namespace WikiFunctions
 
                         if (awbFileVersion < awbCurrentVersion)
                             Update = true;
-                        else if ((awbFileVersion >= awbCurrentVersion) &&
-                            (awbFileVersion < awbNewestVersion) &&
+                        else if ((awbFileVersion >= awbCurrentVersion) && (awbFileVersion < awbNewestVersion) &&
                             MessageBox.Show("There is an optional update to AutoWikiBrowser. Would you like to upgrade?", "Optional update", MessageBoxButtons.YesNo) == DialogResult.Yes)
                             Update = true;
 
@@ -103,7 +102,7 @@ namespace WikiFunctions
         public static void Update()
         {
             request = new BackgroundRequest();
-            request.Execute(new ExecuteFunctionDelegate(UpdateFunc));
+            request.Execute(UpdateFunc);
         }
 
         /// <summary>

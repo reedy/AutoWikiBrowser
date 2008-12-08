@@ -19,9 +19,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
 using System.Reflection;
 
@@ -46,7 +43,7 @@ namespace WikiFunctions.Controls
 
         protected virtual void okButton_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         protected virtual void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -89,7 +86,7 @@ namespace WikiFunctions.Controls
             }
 
             public static string GetDetailedMessage(Assembly Ass)
-            { return AssemblyDescription(Ass) + System.Environment.NewLine + System.Environment.NewLine + GPLNotice; }
+            { return AssemblyDescription(Ass) + Environment.NewLine + Environment.NewLine + GPLNotice; }
         #endregion
     }
 }

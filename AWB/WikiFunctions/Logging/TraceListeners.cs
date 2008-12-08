@@ -18,11 +18,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 // From WikiFunctions2.dll. Converted from VB to C#
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using WikiFunctions;
-using WikiFunctions.Logging;
 using WikiFunctions.Logging.Uploader;
 
 namespace WikiFunctions.Logging
@@ -49,8 +44,8 @@ namespace WikiFunctions.Logging
         {
             if (Variables.IsWikipediaEN)
                 return WikiDateStamp();
-            else
-                return NonWikiDateStamp();
+            
+            return NonWikiDateStamp();
         }
 
         /// <summary>
@@ -113,14 +108,11 @@ namespace WikiFunctions.Logging
             WriteLine(Line, true);
         }
 
-        public override void WriteLine(string Line, bool CheckCounter)
-        {
-            base.WriteLine(Line, CheckCounter);
-        }
         public override void WriteComment(string Line)
         {
             base.Write("<!-- " + Line + " -->");
         }
+
         public override void WriteCommentAndNewLine(string Line)
         {
             base.WriteLine("<!-- " + Line + " -->", false);
@@ -176,7 +168,7 @@ namespace WikiFunctions.Logging
         }
         public override void ProcessingArticle(string FullArticleTitle, Namespaces NS)
         {
-            base.WriteLine("<br/>" + mArticleCount.ToString() + ". <a href=\"" + WikiFunctions.Variables.NonPrettifiedURL(FullArticleTitle) + "\">[[" + FullArticleTitle + "]]</a>");
+            base.WriteLine("<br/>" + mArticleCount + ". <a href=\"" + Variables.NonPrettifiedURL(FullArticleTitle) + "\">[[" + FullArticleTitle + "]]</a>");
             mArticleCount += 1;
         }
         public override void SkippedArticle(string SkippedBy, string Reason)
@@ -185,30 +177,32 @@ namespace WikiFunctions.Logging
                 Reason = ": " + Reason;
             base.WriteLine("<li><i>" + SkippedBy + ": Skipped" + Reason + "</i></li>");
         }
+
         public override void SkippedArticleBadTag(string SkippedBy, string FullArticleTitle, Namespaces NS)
         {
             SkippedArticle(SkippedBy, "Bad tag");
         }
+
         public override void WriteArticleActionLine(string Line, string PluginName)
         {
             base.WriteLine("<li><i>" + PluginName + ": " + Line + "</i></li>");
         }
+
         public override void WriteTemplateAdded(string Template, string PluginName)
         {
             base.WriteLine("<br/><li><i>" + PluginName + ": " + Template + "</i></li>");
         }
-        public override void WriteLine(string value)
-        {
-            base.WriteLine(value);
-        }
+
         public override void WriteComment(string Line)
         {
             base.Write("<!-- " + Line + " -->");
         }
+
         public override void WriteCommentAndNewLine(string Line)
         {
             base.WriteLine("<!-- " + Line + " -->");
         }
+
         public override bool Uploadable
         {
             get { return false; }

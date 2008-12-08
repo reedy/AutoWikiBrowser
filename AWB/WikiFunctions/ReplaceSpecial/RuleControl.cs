@@ -17,14 +17,9 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using WikiFunctions.Controls;
-
 
 namespace WikiFunctions.MWB
 {
