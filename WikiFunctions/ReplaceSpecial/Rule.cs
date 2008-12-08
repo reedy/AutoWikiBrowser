@@ -18,13 +18,9 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using WikiFunctions.Parse;
-
 
 namespace WikiFunctions.MWB
 {
@@ -45,7 +41,6 @@ namespace WikiFunctions.MWB
         public string ifNotContains_ = "";
         public bool ifIsRegex_;
         public RegexOptions ifRegexOptions_ = RegexOptions.None;
-
 
         RuleControl ruleControl_;
 
@@ -71,11 +66,7 @@ namespace WikiFunctions.MWB
             ruleControl_ = null;
         }
 
-        public override Control CreateControl(
-          IRuleControlOwner owner,
-          Control.ControlCollection collection,
-          System.Drawing.Point pos
-        )
+        public override Control CreateControl(IRuleControlOwner owner, Control.ControlCollection collection, System.Drawing.Point pos)
         {
             RuleControl rc = new RuleControl(owner);
             rc.Location = pos;
@@ -107,7 +98,6 @@ namespace WikiFunctions.MWB
             ruleControl_.SelectName();
         }
 
-
         public override string Apply(TreeNode tn, string text, string title)
         {
             if (string.IsNullOrEmpty(text))
@@ -135,12 +125,11 @@ namespace WikiFunctions.MWB
 
             if (r.ruletype_ == T.OnWholePage)
                 return ApplyOn(tn, text, title);
-            else if (r.ruletype_ == T.InsideTemplate)
+            if (r.ruletype_ == T.InsideTemplate)
                 return ApplyInsideTemplate(tn, text, title);
-            else
-                return text;
-        }
 
+            return text;
+        }
 
         class ParseTemplate
         {
@@ -249,7 +238,7 @@ namespace WikiFunctions.MWB
             }*/
         }
 
-        static string ApplyInsideTemplate(TreeNode tn, string text, string title)
+        private static string ApplyInsideTemplate(TreeNode tn, string text, string title)
         {
             ParseTemplate p = new ParseTemplate(text, title);
 
@@ -258,9 +247,7 @@ namespace WikiFunctions.MWB
             return p.Result;
         }
 
-
-
-        static bool CheckIf(TreeNode tn, string text)
+        private static bool CheckIf(TreeNode tn, string text)
         {
             Rule r = (Rule)tn.Tag;
 
@@ -282,8 +269,7 @@ namespace WikiFunctions.MWB
             return true;
         }
 
-
-        static string ReplaceOn(TreeNode tn, string text, string title)
+        private static string ReplaceOn(TreeNode tn, string text, string title)
         {
             Rule r = (Rule)tn.Tag;
 
@@ -311,15 +297,12 @@ namespace WikiFunctions.MWB
             return text;
         }
 
-
-        static string ApplyOn(TreeNode tn, string text, string title)
+        private static string ApplyOn(TreeNode tn, string text, string title)
         {
             if (!CheckIf(tn, text))
                 return text;
 
             return ReplaceOn(tn, text, title);
         }
-
     }
-
 }

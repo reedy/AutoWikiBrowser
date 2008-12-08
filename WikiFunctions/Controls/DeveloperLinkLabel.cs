@@ -17,11 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Text;
 
 using System.Windows.Forms;
 
@@ -31,10 +27,9 @@ namespace WikiFunctions.Controls
     public partial class DeveloperLinkLabel : LinkLabel
     {
         public DeveloperLinkLabel()
-            : base()
         {
-            this.LinkClicked += new LinkLabelLinkClickedEventHandler(DeveloperLinkLabel_LinkClicked);
-            this.Text = dev.ToString();
+            LinkClicked += DeveloperLinkLabel_LinkClicked;
+            Text = dev.ToString();
         }
 
         void DeveloperLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -53,7 +48,7 @@ namespace WikiFunctions.Controls
             set
             {
                 dev = value;
-                this.Text = dev.ToString();
+                Text = dev.ToString();
             }
         }
 

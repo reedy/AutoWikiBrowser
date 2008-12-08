@@ -18,13 +18,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Xml;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace WikiFunctions.MWB
-{    
+{
     public class InTemplateRule : IRule
     {
         public const string XmlName = "InTemplateRule";
@@ -57,11 +55,7 @@ namespace WikiFunctions.MWB
             ruleControl_ = null;
         }
 
-        public override Control CreateControl(
-          IRuleControlOwner owner,
-          Control.ControlCollection collection,
-          System.Drawing.Point pos
-        )
+        public override Control CreateControl(IRuleControlOwner owner, Control.ControlCollection collection, System.Drawing.Point pos)
         {
             InTemplateRuleControl rc = new InTemplateRuleControl(owner);
             rc.Location = pos;
@@ -93,7 +87,6 @@ namespace WikiFunctions.MWB
             ruleControl_.SelectName();
         }
 
-
         public override string Apply(TreeNode tn, string text, string title)
         {
             if (string.IsNullOrEmpty(text))
@@ -110,11 +103,10 @@ namespace WikiFunctions.MWB
             return text;
         }
 
-        static string ApplyOnce(string template, TreeNode tn, string text, string title)
+        private static string ApplyOnce(string template, TreeNode tn, string text, string title)
         {
             return ApplyInsideTemplate(template, tn, text, title);
         }
-
 
         class ParseTemplate
         {
@@ -151,7 +143,7 @@ namespace WikiFunctions.MWB
                 }
             }
 
-            void Inside(TreeNode tn)
+            private void Inside(TreeNode tn)
             {
                 bool check_done = false;
                 bool check = true;
@@ -212,7 +204,7 @@ namespace WikiFunctions.MWB
             }
         }
 
-        static string ApplyInsideTemplate(string template, TreeNode tn, string text, string title)
+        private static string ApplyInsideTemplate(string template, TreeNode tn, string text, string title)
         {
             ParseTemplate p = new ParseTemplate(template, text, title);
 
@@ -220,8 +212,8 @@ namespace WikiFunctions.MWB
 
             return p.Result;
         }
-        
-        static bool CheckIf(string template, TreeNode tn, string text)
+
+        private static bool CheckIf(string template, TreeNode tn, string text)
         {
             if (string.IsNullOrEmpty(template))
                 return true;
@@ -238,8 +230,8 @@ namespace WikiFunctions.MWB
 
             return true;
         }
-        
-        static string ReplaceOn(string template, TreeNode tn, string text, string title)
+
+        private static string ReplaceOn(string template, TreeNode tn, string text, string title)
         {
             InTemplateRule r = (InTemplateRule)tn.Tag;
 
@@ -265,8 +257,7 @@ namespace WikiFunctions.MWB
             return text;
         }
 
-
-        static string ApplyOn(string template, TreeNode tn, string text, string title)
+        private static string ApplyOn(string template, TreeNode tn, string text, string title)
         {
             if (!CheckIf(template, tn, text))
                 return text;
@@ -274,5 +265,4 @@ namespace WikiFunctions.MWB
             return ReplaceOn(template, tn, text, title);
         }
     }
-
 }

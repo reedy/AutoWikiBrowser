@@ -395,12 +395,12 @@ namespace WikiFunctions.Parse
             this.btnDone.UseVisualStyleBackColor = true;
             this.btnDone.Click += new System.EventHandler(this.btnDone_Click);
             // 
-            // linkLabel2
+            // lnkWpRE
             // 
             this.lnkWpRE.AutoSize = true;
             this.lnkWpRE.LinkArea = new System.Windows.Forms.LinkArea(4, 32);
             this.lnkWpRE.Location = new System.Drawing.Point(12, 59);
-            this.lnkWpRE.Name = "linkLabel2";
+            this.lnkWpRE.Name = "lnkWpRE";
             this.lnkWpRE.Size = new System.Drawing.Size(194, 17);
             this.lnkWpRE.TabIndex = 9;
             this.lnkWpRE.TabStop = true;

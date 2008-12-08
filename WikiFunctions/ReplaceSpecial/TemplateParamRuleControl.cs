@@ -17,15 +17,10 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace WikiFunctions.MWB
 {
-
     public partial class TemplateParamRuleControl : UserControl
     {
         IRuleControlOwner owner_ = null;
@@ -75,7 +70,5 @@ namespace WikiFunctions.MWB
         {
             owner_.NameChanged(this, NameTextbox.Text.Trim());
         }
-
     }
-
 }

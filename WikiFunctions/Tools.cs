@@ -354,25 +354,20 @@ namespace WikiFunctions
         /// <returns>The HTML.</returns>
         public static string GetHTML(string URL, Encoding Enc)
         {
-            string text = "";
-            try
-            {
-                HttpWebRequest rq = Variables.PrepareWebRequest(URL); // Uses WikiFunctions' default UserAgent string
+            HttpWebRequest rq = Variables.PrepareWebRequest(URL); // Uses WikiFunctions' default UserAgent string
 
-                HttpWebResponse response = (HttpWebResponse)rq.GetResponse();
+            HttpWebResponse response = (HttpWebResponse) rq.GetResponse();
 
-                Stream stream = response.GetResponseStream();
-                StreamReader sr = new StreamReader(stream, Enc);
+            Stream stream = response.GetResponseStream();
+            StreamReader sr = new StreamReader(stream, Enc);
 
-                text = sr.ReadToEnd();
+            string text = sr.ReadToEnd();
 
-                sr.Close();
-                stream.Close();
-                response.Close();
+            sr.Close();
+            stream.Close();
+            response.Close();
 
-                return text;
-            }
-            catch { throw; }
+            return text;
         }
 
         /// <summary>
@@ -646,8 +641,8 @@ namespace WikiFunctions
         }
 
         #region boring chars
-        static readonly KeyValuePair<string, string>[] Diacritics = new KeyValuePair<string, string>[]
-            {
+        static readonly KeyValuePair<string, string>[] Diacritics = 
+        {
                 //Latin
                 new KeyValuePair<string, string>("Á", "A"),
                 new KeyValuePair<string, string>("á", "a"),
@@ -929,6 +924,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="Message">The message to write.</param>
         /// <param name="File">The name of the file, e.g. "Log.txt".</param>
+        /// <param name="append"></param>
         public static void WriteTextFileAbsolutePath(StringBuilder Message, string File, bool append)
         {
             WriteTextFileAbsolutePath(Message.ToString(), File, append);
@@ -1023,7 +1019,8 @@ Message: {2}
 
             if (startPos >= 0 && endPos >= 0 && startPos <= endPos)
                 return source.Substring(startPos, endPos - startPos);
-            else return "";
+
+            return "";
         }
 
         /// <summary>
@@ -1049,8 +1046,8 @@ Message: {2}
         {
             if (str.Length <= count)
                 return str;
-            else
-                return str.Substring(0, count);
+            
+            return str.Substring(0, count);
         }
 
         /// <summary>
@@ -1244,9 +1241,10 @@ Message: {2}
         {
             link = WikiRegexes.ExtractTitle.Match(link).Groups[1].Value;
 
-            if (link == "") return null;
-            else
-                return Tools.WikiDecode(link);
+            if (string.IsNullOrEmpty(link))
+                return null;
+
+            return WikiDecode(link);
         }
 
         /// <summary>
@@ -1261,7 +1259,7 @@ Message: {2}
 
             for (int i = 0; i < input.Length; i++)
             {
-                input[i] = Tools.TurnFirstToUpper(Tools.RemoveHashFromPageTitle(input[i].Trim('[', ']', ' ', '\t')));
+                input[i] = TurnFirstToUpper(RemoveHashFromPageTitle(input[i].Trim('[', ']', ' ', '\t')));
             }
             return input;
         }
@@ -1313,14 +1311,14 @@ Message: {2}
         {
             char[] separators = new char[] { '\r', '\n' };
             List<string> res = new List<string>();
-            //StringBuilder sb = new StringBuilder(Math.Max(Math.Min(4096, source.Length), source.Length / 10));
-            string s;
+            
             int pos = 0;
             int sourceLength = source.Length;
 
             while (pos < sourceLength)
             {
                 int eol = source.IndexOfAny(separators, pos);
+                string s;
                 if (eol < 0)
                 {
                     s = source.Substring(pos);
@@ -1453,17 +1451,14 @@ Message: {2}
         /// <returns>Article Title</returns>
         public static string ConvertFromTalk(Article a)
         {
-            if (Tools.IsTalkPage(a.NameSpaceKey))
+            if (IsTalkPage(a.NameSpaceKey))
             {
                 if (a.NameSpaceKey == 1)
                     return a.NamespacelessName;
-                else
-                    return Variables.Namespaces[a.NameSpaceKey - 1] + a.NamespacelessName;
+
+                return Variables.Namespaces[a.NameSpaceKey - 1] + a.NamespacelessName;
             }
-            else
-            {
-                return a.Name;
-            }
+            return a.Name;
         }
 
         /// <summary>

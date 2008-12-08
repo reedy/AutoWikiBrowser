@@ -23,10 +23,8 @@ To retain it's ability for easy reuse, it might be best if the classes in WikiFu
 and the classes in AWB override those values and call .Variables? */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using System.Xml;
 using System.IO;
 using System.Windows.Forms;
 using WikiFunctions.Browser;
@@ -150,8 +148,7 @@ namespace WikiFunctions
         {
             get // see SvnInfo.template.cs for details
             {
-                if (!m_Revision.Contains("$")) return m_Revision.Replace("/", "-");
-                else return "?"; //fallback in case of failed revision extraction
+                return (!m_Revision.Contains("$")) ? m_Revision.Replace("/", "-") : "?"; //fallback in case of failed revision extraction
             }
         }
 
@@ -161,8 +158,8 @@ namespace WikiFunctions
         private static IAutoWikiBrowser mMainForm;
         public static IAutoWikiBrowser MainForm
         {
-            get { return Variables.mMainForm; }
-            set { Variables.mMainForm = value; }
+            get { return mMainForm; }
+            set { mMainForm = value; }
         }
         public static Profiler Profiler = new Profiler();
 
@@ -228,7 +225,7 @@ namespace WikiFunctions
         /// </summary>
         public static string[] MonthNames;
 
-        public static string[] ENLangMonthNames = new string[12]{"January", "February", "March", "April", "May", "June",
+        public static string[] ENLangMonthNames = new string[]{"January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"};
 
         private static string URLEnd = "/w/";
@@ -413,7 +410,7 @@ namespace WikiFunctions
         // for logging, these will probably need internationalising
         public static string AWBVersionString(string Version)
         {
-            return "*" + WPAWB + " version " + Version + System.Environment.NewLine;
+            return "*" + WPAWB + " version " + Version + Environment.NewLine;
         }
         public static string AWBLoggingEditSummary
         { get { return "(" + WPAWB + " Logging) "; } }
@@ -720,15 +717,15 @@ namespace WikiFunctions
             Namespaces[101] = "Portal talk:";
         }
 
-        private static void SetToEnglish(string Project, string ProjectTalk)
+        private static void SetToEnglish(string project, string projectTalk)
         {
             Namespaces[-2] = "Media:";
             Namespaces[-1] = "Special:";
             Namespaces[1] = "Talk:";
             Namespaces[2] = "User:";
             Namespaces[3] = "User talk:";
-            Namespaces[4] = Project;
-            Namespaces[5] = ProjectTalk;
+            Namespaces[4] = project;
+            Namespaces[5] = projectTalk;
             Namespaces[6] = "Image:";
             Namespaces[7] = "Image talk:";
             Namespaces[8] = "MediaWiki:";
@@ -966,20 +963,25 @@ namespace WikiFunctions
                 if (Variables.IsWikia)
                 {
                     webBrowserWikia = new WebControl();
-                    webBrowserWikia.Navigate(Variables.URLLong + "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
+                    webBrowserWikia.Navigate(Variables.URLLong +
+                                             "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
                 }
 
                 //load version check page
                 BackgroundRequest br = new BackgroundRequest();
-                br.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
+                br.GetHTML(
+                    "http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
 
                 //load check page
                 if (Variables.IsWikia)
-                    webBrowserLogin.Navigate("http://www.wikia.com/wiki/index.php?title=Wikia:AutoWikiBrowser/CheckPage&action=edit");
+                    webBrowserLogin.Navigate(
+                        "http://www.wikia.com/wiki/index.php?title=Wikia:AutoWikiBrowser/CheckPage&action=edit");
                 else if ((Variables.Project == ProjectEnum.wikipedia) && (Variables.LangCode == LangCodeEnum.ar))
-                    webBrowserLogin.Navigate("http://ar.wikipedia.org/w/index.php?title=%D9%88%D9%8A%D9%83%D9%8A%D8%A8%D9%8A%D8%AF%D9%8A%D8%A7:%D9%82%D8%A7%D8%A6%D9%85%D8%A9_%D8%A7%D9%84%D9%88%D9%8A%D9%83%D9%8A%D8%A8%D9%8A%D8%AF%D9%8A%D9%88%D9%86_%D8%A7%D9%84%D9%85%D8%B3%D9%85%D9%88%D8%AD_%D9%84%D9%87%D9%85_%D8%A8%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85_%D8%A7%D9%84%D8%A3%D9%88%D8%AA%D9%88_%D9%88%D9%8A%D9%83%D9%8A_%D8%A8%D8%B1%D8%A7%D9%88%D8%B2%D8%B1&action=edit");
+                    webBrowserLogin.Navigate(
+                        "http://ar.wikipedia.org/w/index.php?title=%D9%88%D9%8A%D9%83%D9%8A%D8%A8%D9%8A%D8%AF%D9%8A%D8%A7:%D9%82%D8%A7%D8%A6%D9%85%D8%A9_%D8%A7%D9%84%D9%88%D9%8A%D9%83%D9%8A%D8%A8%D9%8A%D8%AF%D9%8A%D9%88%D9%86_%D8%A7%D9%84%D9%85%D8%B3%D9%85%D9%88%D8%AD_%D9%84%D9%87%D9%85_%D8%A8%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85_%D8%A7%D9%84%D8%A3%D9%88%D8%AA%D9%88_%D9%88%D9%8A%D9%83%D9%8A_%D8%A8%D8%B1%D8%A7%D9%88%D8%B2%D8%B1&action=edit");
                 else
-                    webBrowserLogin.Navigate(Variables.URLLong + "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
+                    webBrowserLogin.Navigate(Variables.URLLong +
+                                             "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
 
                 //wait for both pages to load
                 webBrowserLogin.Wait();
@@ -993,7 +995,8 @@ namespace WikiFunctions
                     webBrowserWikia.Wait();
                     try
                     {
-                        Variables.LangCode = Variables.ParseLanguage(webBrowserWikia.GetScriptingVar("wgContentLanguage"));
+                        Variables.LangCode =
+                            Variables.ParseLanguage(webBrowserWikia.GetScriptingVar("wgContentLanguage"));
                     }
                     catch
                     {
@@ -1005,8 +1008,8 @@ namespace WikiFunctions
 
                     // selectively add content of the local checkpage to the global one
                     strText += Message.Match(s).Value
-                        /*+ Underscores.Match(s).Value*/
-                        + WikiRegexes.NoGeneralFixes.Match(s);
+                               /*+ Underscores.Match(s).Value*/
+                               + WikiRegexes.NoGeneralFixes.Match(s);
 
                     userGroups = webBrowserWikia.GetScriptingVar("wgUserGroups");
                 }
@@ -1019,7 +1022,8 @@ namespace WikiFunctions
                 {
                     try
                     {
-                        Variables.LangCode = Variables.ParseLanguage(webBrowserLogin.GetScriptingVar("wgContentLanguage"));
+                        Variables.LangCode =
+                            Variables.ParseLanguage(webBrowserLogin.GetScriptingVar("wgContentLanguage"));
                     }
                     catch
                     {
@@ -1028,7 +1032,7 @@ namespace WikiFunctions
                     }
                 }
 
-                strVersionPage = (string)br.Result;
+                strVersionPage = (string) br.Result;
 
                 //see if this version is enabled
                 if (!strVersionPage.Contains(AWBVersion + " enabled"))
@@ -1041,18 +1045,23 @@ namespace WikiFunctions
                 if (!WeAskedAboutUpdate && strVersionPage.Contains(AWBVersion + " enabled (old)"))
                 {
                     WeAskedAboutUpdate = true;
-                    if (MessageBox.Show("This version has been superceeded by a new version.  You may continue to use this version or update to the newest version.\r\n\r\nWould you like to automatically upgrade to the newest version?", "Upgrade?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    if (
+                        MessageBox.Show(
+                            "This version has been superceeded by a new version.  You may continue to use this version or update to the newest version.\r\n\r\nWould you like to automatically upgrade to the newest version?",
+                            "Upgrade?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         Match m_version = Regex.Match(strVersionPage, @"<!-- Current version: (.*?) -->");
                         if (m_version.Success && m_version.Groups[1].Value.Length == 4)
                         {
-                            System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) + "\\AWBUpdater.exe");
+                            System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) +
+                                                             "\\AWBUpdater.exe");
                         }
-                        else
-                            if (MessageBox.Show("Error automatically updating AWB.  Load the download page instead?", "Load download page?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                            {
-                                Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=158332");
-                            }
+                        else if (
+                            MessageBox.Show("Error automatically updating AWB.  Load the download page instead?",
+                                            "Load download page?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=158332");
+                        }
                     }
                 }
 
@@ -1063,14 +1072,15 @@ namespace WikiFunctions
                 if (skin == "cologneblue")
                 {
                     MessageBox.Show("This software does not support the Cologne Blue skin." +
-                        "\r\nPlease choose another skin in your preferences and relogin.", "Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                                    "\r\nPlease choose another skin in your preferences and relogin.", "Error",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Stop);
                     return WikiStatusResult.Null;
                 }
 
                 //see if we are logged in
                 this.Name = webBrowserLogin.UserName;
-                if (string.IsNullOrEmpty(Name)) // don't run GetInLogInStatus if we don't have the username, we sometimes get 2 error message boxes otherwise
+                if (string.IsNullOrEmpty(Name))
+                    // don't run GetInLogInStatus if we don't have the username, we sometimes get 2 error message boxes otherwise
                     LoggedIn = false;
                 else
                     LoggedIn = webBrowserLogin.GetLogInStatus();
@@ -1082,21 +1092,26 @@ namespace WikiFunctions
                 }
 
                 // check if username is globally blacklisted
-                foreach (Match m3 in Regex.Matches(strVersionPage, @"badname:\s*(.*)\s*(:?|#.*)$", RegexOptions.IgnoreCase))
+                foreach (
+                    Match m3 in Regex.Matches(strVersionPage, @"badname:\s*(.*)\s*(:?|#.*)$", RegexOptions.IgnoreCase))
                 {
-                    if (!string.IsNullOrEmpty(m3.Groups[1].Value.Trim()) && Regex.IsMatch(this.Name, m3.Groups[1].Value.Trim(), RegexOptions.IgnoreCase | RegexOptions.Multiline))
+                    if (!string.IsNullOrEmpty(m3.Groups[1].Value.Trim()) &&
+                        Regex.IsMatch(Name, m3.Groups[1].Value.Trim(),
+                                      RegexOptions.IgnoreCase | RegexOptions.Multiline))
                         return WikiStatusResult.NotRegistered;
                 }
 
                 //see if there is a message
                 Match m = Message.Match(strText);
                 if (m.Success && m.Groups[1].Value.Trim().Length > 0)
-                    MessageBox.Show(m.Groups[1].Value, "Automated message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(m.Groups[1].Value, "Automated message", MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
 
                 //see if there is a version-specific message
                 m = VersionMessage.Match(strText);
                 if (m.Success && m.Groups[1].Value.Trim().Length > 0 && m.Groups[1].Value == AWBVersion)
-                    MessageBox.Show(m.Groups[2].Value, "Automated message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(m.Groups[2].Value, "Automated message", MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
 
                 m = Regex.Match(strText, "<!--[Tt]ypos" + typoPostfix + ":(.*?)-->");
                 if (m.Success && m.Groups[1].Value.Trim().Length > 0)
@@ -1124,53 +1139,51 @@ namespace WikiFunctions
                     IsBot = true;
                     return WikiStatusResult.Registered;
                 }
-                else if (strText.Contains("<!--All users enabled-->"))
-                {//see if all users enabled
+
+                if (strText.Contains("<!--All users enabled-->"))
+                {
+//see if all users enabled
                     WikiStatus = true;
                     IsBot = true;
                     IsAdmin = Groups.Contains("sysop");
                     return WikiStatusResult.Registered;
                 }
-                else
+
+                //see if we are allowed to use this softare
+                strText = Tools.StringBetween(strText, "<!--enabledusersbegins-->", "<!--enabledusersends-->");
+
+                string strBotUsers = Tools.StringBetween(strText, "<!--enabledbots-->", "<!--enabledbotsends-->");
+                string strAdmins = Tools.StringBetween(strText, "<!--adminsbegins-->", "<!--adminsends-->");
+                Regex username = new Regex(@"^\*\s*" + Tools.CaseInsensitive(Variables.User.Name)
+                                           + @"\s*$", RegexOptions.Multiline);
+
+                if (Groups.Contains("sysop") || Groups.Contains("staff"))
                 {
-                    //see if we are allowed to use this softare
-                    strText = Tools.StringBetween(strText, "<!--enabledusersbegins-->", "<!--enabledusersends-->");
-
-                    string strBotUsers = Tools.StringBetween(strText, "<!--enabledbots-->", "<!--enabledbotsends-->");
-                    string strAdmins = Tools.StringBetween(strText, "<!--adminsbegins-->", "<!--adminsends-->");
-                    Regex username = new Regex(@"^\*\s*" + Tools.CaseInsensitive(Variables.User.Name)
-                        + @"\s*$", RegexOptions.Multiline);
-
-                    if (Groups.Contains("sysop") || Groups.Contains("staff"))
-                    {
-                        WikiStatus = IsAdmin = true;
-                        IsBot = username.IsMatch(strBotUsers);
-                        return WikiStatusResult.Registered;
-                    }
-
-                    if (this.Name.Length > 0 && username.IsMatch(strText))
-                    {
-                        //enable botmode
-                        IsBot = username.IsMatch(strBotUsers);
-
-                        //enable admin features
-                        IsAdmin = username.IsMatch(strAdmins);
-
-                        WikiStatus = true;
-
-                        return WikiStatusResult.Registered;
-                    }
-                    else
-                    {
-                        IsBot = IsAdmin = WikiStatus = false;
-                        return WikiStatusResult.NotRegistered;
-                    }
+                    WikiStatus = IsAdmin = true;
+                    IsBot = username.IsMatch(strBotUsers);
+                    return WikiStatusResult.Registered;
                 }
+
+                if (Name.Length > 0 && username.IsMatch(strText))
+                {
+                    //enable botmode
+                    IsBot = username.IsMatch(strBotUsers);
+
+                    //enable admin features
+                    IsAdmin = username.IsMatch(strAdmins);
+
+                    WikiStatus = true;
+
+                    return WikiStatusResult.Registered;
+                }
+
+                IsBot = IsAdmin = WikiStatus = false;
+                return WikiStatusResult.NotRegistered;
             }
             catch (Exception ex)
             {
-                Tools.WriteDebug(this.ToString(), ex.Message);
-                Tools.WriteDebug(this.ToString(), ex.StackTrace);
+                Tools.WriteDebug(ToString(), ex.Message);
+                Tools.WriteDebug(ToString(), ex.StackTrace);
                 IsBot = IsAdmin = WikiStatus = false;
                 return WikiStatusResult.Error;
             }
@@ -1190,21 +1203,21 @@ namespace WikiFunctions
             {
                 string strText = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
 
-                if (strText.Length == 0)
+                if (string.IsNullOrEmpty(strText))
                 {
-                    Tools.WriteDebug(this.ToString(), "Empty version checkpage");
+                    Tools.WriteDebug(ToString(), "Empty version checkpage");
                     return WikiStatusResult.Error;
                 }
 
                 if (!strText.Contains(AWBVersion + " enabled"))
                     return WikiStatusResult.OldVersion;
-                else
-                    return WikiStatusResult.Null;
+
+                return WikiStatusResult.Null;
             }
             catch (Exception ex)
             {
-                Tools.WriteDebug(this.ToString(), ex.Message);
-                Tools.WriteDebug(this.ToString(), ex.StackTrace);
+                Tools.WriteDebug(ToString(), ex.Message);
+                Tools.WriteDebug(ToString(), ex.StackTrace);
                 return WikiStatusResult.Error;
             }
         }

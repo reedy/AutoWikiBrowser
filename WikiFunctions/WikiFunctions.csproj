@@ -239,7 +239,6 @@
     </Compile>
     <Compile Include="ReplaceSpecial\IRule.cs" />
     <Compile Include="ReplaceSpecial\IRuleControlOwner.cs" />
-    <Compile Include="ReplaceSpecial\RegexXml.cs" />
     <Compile Include="ReplaceSpecial\ReplaceSpecial.cs">
       <SubType>Form</SubType>
     </Compile>

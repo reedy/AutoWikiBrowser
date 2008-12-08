@@ -15,9 +15,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 
 namespace WikiFunctions.MWB
@@ -28,7 +26,6 @@ namespace WikiFunctions.MWB
         int index_ = -1;
 
         TreeView treeView_ = null;
-
 
         public RuleTreeHistory(TreeView tv)
         {
@@ -51,7 +48,7 @@ namespace WikiFunctions.MWB
             InternalSave();
         }
 
-        void InternalSave()
+        private void InternalSave()
         {
             List<TreeNode> cp = Copy(treeView_.Nodes);
             history_.Insert(0, cp);
@@ -93,7 +90,7 @@ namespace WikiFunctions.MWB
             Restore();
         }
 
-        void Restore()
+        private void Restore()
         {
             treeView_.Nodes.Clear();
 
@@ -107,7 +104,7 @@ namespace WikiFunctions.MWB
             }
         }
 
-        static void UpdateNames(TreeNode t)
+        private static void UpdateNames(TreeNode t)
         {
             if (t == null)
                 return;
@@ -117,7 +114,7 @@ namespace WikiFunctions.MWB
                 UpdateNames(sub_t);
         }
 
-        static List<TreeNode> Copy(TreeNodeCollection col)
+        private static List<TreeNode> Copy(TreeNodeCollection col)
         {
             List<TreeNode> new_col = new List<TreeNode>();
             foreach (TreeNode t in col)

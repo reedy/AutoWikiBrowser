@@ -18,12 +18,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 // From WikiFunctions2.dll. Converted from VB to C#
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
-using WikiFunctions;
-using WikiFunctions.Logging;
 using WikiFunctions.Logging.Uploader;
 
 namespace WikiFunctions.Logging
@@ -36,19 +31,12 @@ namespace WikiFunctions.Logging
 		// Initialisation
         private static Regex GetArticleTemplateRegex = new Regex("( talk)?:", RegexOptions.Compiled);
 
-		protected TraceListenerBase(string filename) : base(filename, false, System.Text.Encoding.UTF8)
-		{
-		}
+        protected TraceListenerBase(string filename)
+            : base(filename, false, System.Text.Encoding.UTF8)
+        {
+        }
 
-#region IMyTraceListener interface
-		public override void Close()
-		{
-			base.Close();
-		}
-		public override void Flush()
-		{
-			base.Flush();
-		}
+        #region IMyTraceListener interface
 		public abstract void ProcessingArticle(string FullArticleTitle, Namespaces NS);
 		public abstract void WriteBulletedLine(string Line, bool Bold, bool VerboseOnly, bool DateStamp);
 		public void WriteBulletedLine(string Line, bool Bold, bool VerboseOnly)
@@ -78,14 +66,6 @@ namespace WikiFunctions.Logging
 			WriteArticleActionLine(Line, PluginName);
 		}
 		public abstract bool Uploadable {get;}
-		public override void Write(string text)
-		{
-			base.Write(text);
-		}
-		public override void WriteLine(string value)
-		{
-			base.WriteLine(value);
-		}
 #endregion
 
 		// Protected and public members:
@@ -101,7 +81,7 @@ namespace WikiFunctions.Logging
 					return "#{{subst:la|" + ArticleFullTitle + "}}";
 
                 case Namespaces.Talk:
-					return "#{{subst:lat|" + WikiFunctions.Tools.RemoveNamespaceString(ArticleFullTitle).Trim() + "}}";
+					return "#{{subst:lat|" + Tools.RemoveNamespaceString(ArticleFullTitle).Trim() + "}}";
 
                 default:
 					namesp = (int)NS;
@@ -117,7 +97,7 @@ namespace WikiFunctions.Logging
 					}
 
 					return "#{{subst:" + templ + "|" + strnamespace + "|" + 
-                        WikiFunctions.Tools.RemoveNamespaceString(ArticleFullTitle).Trim() + "}}";
+                        Tools.RemoveNamespaceString(ArticleFullTitle).Trim() + "}}";
 			}
 		}
 		public abstract bool Verbose {get;}
@@ -221,7 +201,7 @@ namespace WikiFunctions.Logging
 		}
 
 		// Properties:
-		public Uploader.TraceStatus TraceStatus
+		public TraceStatus TraceStatus
 		{
             get { return mTraceStatus; }
 		}

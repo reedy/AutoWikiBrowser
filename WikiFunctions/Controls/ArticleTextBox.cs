@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 
 namespace WikiFunctions.Controls
@@ -10,10 +8,6 @@ namespace WikiFunctions.Controls
     /// </summary>
     public class ArticleTextBox : TextBox
     {
-        public ArticleTextBox() : base()
-        {
-        }
-
         bool Locked = false;
 
         public override string Text

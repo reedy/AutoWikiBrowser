@@ -16,16 +16,10 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace WikiFunctions.MWB
 {
-    sealed class Utility
+    static class Utility
     {
-        private Utility() { }
-
         // returns true if testnode is the same or a subnode of refnode
         public static bool IsSubnodeOf(System.Windows.Forms.TreeNode refnode, System.Windows.Forms.TreeNode testnode)
         {

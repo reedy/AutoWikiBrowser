@@ -18,9 +18,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
-using System.Xml;
 
 namespace WikiFunctions.MWB
 {
@@ -48,11 +46,7 @@ namespace WikiFunctions.MWB
         public abstract void Save();
         public abstract void Restore();
 
-        public abstract Control CreateControl(
-          IRuleControlOwner owner,
-          Control.ControlCollection collection,
-          System.Drawing.Point pos
-        );
+        public abstract Control CreateControl(IRuleControlOwner owner, Control.ControlCollection collection, System.Drawing.Point pos);
 
         public void DisposeControl()
         {
@@ -79,7 +73,7 @@ namespace WikiFunctions.MWB
             return res;
         }
 
-        static void CloneTags(TreeNode tn)
+        private static void CloneTags(TreeNode tn)
         {
             IRule r = (IRule)tn.Tag;
             tn.Tag = r.Clone();
@@ -88,8 +82,5 @@ namespace WikiFunctions.MWB
                 CloneTags(t);
             }
         }
-
     }
-
-
 }

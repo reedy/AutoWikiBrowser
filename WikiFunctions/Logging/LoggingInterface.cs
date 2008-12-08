@@ -16,17 +16,12 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-using System;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Text;
-
 namespace WikiFunctions.Logging
 {
-        public enum LogFileType
-        {
-            PlainText=1, WikiText, AnnotatedWikiText
-        }
+    public enum LogFileType
+    {
+        PlainText = 1, WikiText, AnnotatedWikiText
+    }
 
     /// <summary>
     /// This interface is implemented by all TraceListener objects
