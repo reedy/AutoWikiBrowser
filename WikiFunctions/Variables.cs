@@ -95,8 +95,8 @@ namespace WikiFunctions
             CanonicalNamespaces[3] = "User talk:";
             CanonicalNamespaces[4] = "Project:";
             CanonicalNamespaces[5] = "Project talk:";
-            CanonicalNamespaces[6] = "Image:"; // "File:";
-            CanonicalNamespaces[7] = "Image talk:"; // "File talk:";
+            CanonicalNamespaces[6] = "File:";
+            CanonicalNamespaces[7] =  "File talk:";
             CanonicalNamespaces[8] = "MediaWiki:";
             CanonicalNamespaces[9] = "MediaWiki talk:";
             CanonicalNamespaces[10] = "Template:";
@@ -107,9 +107,9 @@ namespace WikiFunctions
             CanonicalNamespaces[15] = "Category talk:";
 
             CanonicalNamespaceAliases = PrepareAliases(CanonicalNamespaces);
-            // uncomment when Brion renames Image: to File:
-            //CanonicalNamespaceAliases[6] = "Image:";
-            //CanonicalNamespaceAliases[7] = "Image talk:";
+
+            CanonicalNamespaceAliases[6].Add("Image:");
+            CanonicalNamespaceAliases[7].Add("Image talk:");
 
             if (!Globals.UnitTestMode)
                 SetProject(LangCodeEnum.en, ProjectEnum.wikipedia);
@@ -726,8 +726,8 @@ namespace WikiFunctions
             Namespaces[3] = "User talk:";
             Namespaces[4] = project;
             Namespaces[5] = projectTalk;
-            Namespaces[6] = "Image:";
-            Namespaces[7] = "Image talk:";
+            Namespaces[6] = "File:";
+            Namespaces[7] = "File talk:";
             Namespaces[8] = "MediaWiki:";
             Namespaces[9] = "MediaWiki talk:";
             Namespaces[10] = "Template:";
