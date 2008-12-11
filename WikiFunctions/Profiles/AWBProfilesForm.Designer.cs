@@ -33,7 +33,6 @@ namespace WikiFunctions.Profiles
             // lvAccounts
             // 
             this.lvAccounts.Size = new System.Drawing.Size(494, 170);
-            this.lvAccounts.DoubleClick += new System.EventHandler(this.lvAccounts_DoubleClick);
             // 
             // colAccountName
             // 

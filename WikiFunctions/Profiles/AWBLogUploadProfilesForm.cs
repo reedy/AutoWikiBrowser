@@ -182,7 +182,7 @@ namespace WikiFunctions.Profiles
 
         protected virtual void lvAccounts_DoubleClick(object sender, EventArgs e)
         {
-            editThisAccountToolStripMenuItem_Click(sender, e);
+            edit();
         }
 
         private void BtnEdit_Click(object sender, EventArgs e)
