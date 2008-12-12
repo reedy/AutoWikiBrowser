@@ -650,7 +650,7 @@ namespace WikiFunctions
                     foreach (string ns in NamespaceAliases[k.Key])
                     {
                         sb.Append('|');
-                        sb.Append(ns);
+                        sb.Append(Tools.StripNamespaceColon(ns));
                     }
                 // no need to add CanonicalNamespaceAliases here, or...
 

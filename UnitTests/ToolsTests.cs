@@ -605,12 +605,14 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
             Assert.AreEqual("Talk:Foo", ToTalk("Foo"));
             Assert.AreEqual("Talk:Foo bar", ToTalk("Foo bar"));
             Assert.AreEqual("Talk:Foo:Bar", ToTalk("Foo:Bar"));
-            Assert.AreEqual("Image talk:Foo bar", ToTalk("Image:Foo bar"));
-            Assert.AreEqual("Image talk:Foo bar", ToTalk("Image talk:Foo bar"));
             Assert.AreEqual("Wikipedia talk:Foo", ToTalk("Wikipedia:Foo"));
+            Assert.AreEqual("File talk:Foo bar", ToTalk("File:Foo bar"));
+            Assert.AreEqual("File talk:Foo bar", ToTalk("File talk:Foo bar"));
 
             // current namespace detection sucks, must be tested elsewhere
             //Assert.AreEqual("Wikipedia talk:Foo", ToTalk("Project:Foo"));
+            //Assert.AreEqual("Image talk:Foo bar", ToTalk("Image:Foo bar"));
+            //Assert.AreEqual("Image talk:Foo bar", ToTalk("Image talk:Foo bar"));
         }
 
         [Test]
@@ -619,9 +621,9 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
             List<Article> l = new List<Article>();
             l.Add(new Article("Foo"));
             l.Add(new Article("Talk:Foo bar"));
-            l.Add(new Article("Image:Foo"));
+            l.Add(new Article("File:Foo"));
             CollectionAssert.AreEquivalent(Tools.ConvertToTalk(l), 
-                new string[] { "Talk:Foo", "Talk:Foo bar", "Image talk:Foo" });
+                new string[] { "Talk:Foo", "Talk:Foo bar", "File talk:Foo" });
         }
 
         [Test]
@@ -631,8 +633,8 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
             Assert.AreEqual("Foo", FromTalk("Foo"));
             Assert.AreEqual("Foo:Bar", FromTalk("Foo:Bar"));
             Assert.AreEqual("Foo:Bar", FromTalk("Talk:Foo:Bar"));
-            Assert.AreEqual("Image:Foo bar", FromTalk("Image:Foo bar"));
-            Assert.AreEqual("Image:Foo bar", FromTalk("Image talk:Foo bar"));
+            Assert.AreEqual("User:Foo bar", FromTalk("User:Foo bar"));
+            Assert.AreEqual("Category:Foo bar", FromTalk("Category talk:Foo bar"));
         }
 
         [Test]
@@ -641,9 +643,9 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
             List<Article> l = new List<Article>();
             l.Add(new Article("Foo"));
             l.Add(new Article("Talk:Foo bar"));
-            l.Add(new Article("Image talk:Foo"));
+            l.Add(new Article("User talk:Foo"));
             CollectionAssert.AreEquivalent(Tools.ConvertFromTalk(l),
-                new string[] { "Foo", "Foo bar", "Image:Foo" });
+                new string[] { "Foo", "Foo bar", "User:Foo" });
         }
     }
 
