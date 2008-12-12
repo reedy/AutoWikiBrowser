@@ -144,5 +144,13 @@ namespace UnitTests
             AssertNotChanged("{{cquote|a<p>b}}");
             AssertNotChanged("{{cquote|foo\r\na<p>b}}");
         }
+
+        [Test]
+        public void DontRenameImageToFile()
+        {
+            // Makes sure that Parsers.FixImages() is not readded to fixes unless it's fixed
+            AssertNotChanged("[[Image:foo]]");
+            AssertNotChanged("[[File:foo]]");
+        }
     }
 }
