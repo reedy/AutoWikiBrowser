@@ -107,25 +107,25 @@ namespace UnitTests
             AssertAllHidden("[[Image:foo|100px|bar]]");
             AssertAllHidden("[[Image:foo|A [[bar]] [http://boz.com gee].]]");
             AssertAllHidden("[[Image:foo|A [[bar]] [[test]].]]");
-            AssertAllHidden("[[Image:foo|A [[bar]]]]");
+            AssertAllHidden("[[File:foo|A [[bar]]]]");
             AssertAllHidden("[[Image:foo|A [[bar|quux]].]]");
             AssertAllHidden("[[Image:foo|A [[bar]][http://fubar].]]");
-            AssertAllHidden("[[Image:foo|A [[bar]][http://fubar].{{quux}}]]");
+            AssertAllHidden("[[FILE:foo|A [[bar]][http://fubar].{{quux}}]]");
             AssertAllHidden("[[Image:foo|test [[Image:bar|thumb|[[boz]]]]]]");
         }
 
         [Test]
         public void HideImagesMore()
         {
-            AssertAllHiddenMore("[[Image:foo]]");
+            AssertAllHiddenMore("[[File:foo]]");
             AssertAllHiddenMore("[[Image:foo|100px|bar]]");
             AssertAllHiddenMore("[[Image:foo|A [[bar]] [http://boz.com gee].]]");
             AssertAllHiddenMore("[[Image:foo|A [[bar]] [[test]].]]");
             AssertAllHiddenMore("[[Image:foo|A [[bar]]]]");
-            AssertAllHiddenMore("[[Image:foo|A [[bar|quux]].]]");
+            AssertAllHiddenMore("[[FILE:foo|A [[bar|quux]].]]");
             AssertAllHiddenMore("[[Image:foo|A [[bar]][http://fubar].]]");
             AssertAllHiddenMore("[[Image:foo|A [[bar]][http://fubar].{{quux}}]]");
-            AssertAllHiddenMore("[[Image:foo|test [[Image:bar|thumb|[[boz]]]]]]");
+            AssertAllHiddenMore("[[Image:foo|test [[File:bar|thumb|[[boz]]]]]]");
         }
 
         [Test]
