@@ -638,7 +638,7 @@ namespace WikiFunctions
             bool LangNotEnglish = (LangCode != LangCodeEnum.en);
             foreach (KeyValuePair<int, string> k in Namespaces)
             {
-                StringBuilder sb = new StringBuilder("(?i:(", 200);
+                StringBuilder sb = new StringBuilder("(?i:", 200);
                 sb.Append(Tools.StripNamespaceColon(k.Value));
                 if (CanonicalNamespaces.ContainsKey(k.Key) && CanonicalNamespaces[k.Key] != k.Value)
                 {
@@ -654,7 +654,7 @@ namespace WikiFunctions
                     }
                 // no need to add CanonicalNamespaceAliases here, or...
 
-                sb.Append(@"))\s*:");
+                sb.Append(@")\s*:");
 
                 NamespacesCaseInsensitive.Add(k.Key, sb.ToString());
             }

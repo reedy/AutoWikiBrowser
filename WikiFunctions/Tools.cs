@@ -203,6 +203,27 @@ namespace WikiFunctions
             return ns.TrimEnd(':');
         }
 
+        private static readonly Regex NormalizeColon = new Regex(@"\s*:$", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Normalizes a namespace string, but does not changes it to default namespace name
+        /// </summary>
+        public static string NormalizeNamespace(string ns, int nsId)
+        {
+            ns = WikiDecode(NormalizeColon.Replace(ns, ":"));
+            if (Variables.Namespaces[nsId].Equals(ns, StringComparison.InvariantCultureIgnoreCase))
+                return Variables.Namespaces[nsId];
+
+            foreach (string s in Variables.NamespaceAliases[nsId])
+            {
+                if (s.Equals(ns, StringComparison.InvariantCultureIgnoreCase))
+                    return s;
+            }
+
+            // fail
+            return ns;
+        }
+
         /// <summary>
         /// Returns Category key from article name e.g. "David Smith" returns "Smith, David".
         /// special case: "John Doe, Jr." turns into "Doe, Jonn Jr."

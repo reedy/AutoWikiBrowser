@@ -791,9 +791,8 @@ namespace WikiFunctions
             AWBChangeArticleText("Fix categories", Parsers.FixCategories(ArticleText), true);
             Variables.Profiler.Profile("FixCategories");
 
-            //FIXME: disabled until it passes ImageTests.BasicImprovements
-            //AWBChangeArticleText("Fix images", Parsers.FixImages(ArticleText), true);
-            //Variables.Profiler.Profile("FixImages");
+            AWBChangeArticleText("Fix images", Parsers.FixImages(ArticleText), true);
+            Variables.Profiler.Profile("FixImages");
 
             AWBChangeArticleText("Fix whitespace in links", Parsers.FixLinkWhitespace(ArticleText), true);
             Variables.Profiler.Profile("FixLinkWhitespace");

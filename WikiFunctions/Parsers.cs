@@ -928,15 +928,14 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text.</returns>
         public static string FixCategories(string ArticleText)
         {
-            //TODO:Improve as per FixImages
             Regex catregex = new Regex(@"\[\[[\s_]*" + Variables.NamespacesCaseInsensitive[14] + @"[\s_]*([^\|]*?)(|\|.*?)\]\]");
             string cat = "[[" + Variables.Namespaces[14];
             string x = "";
 
             foreach (Match m in catregex.Matches(ArticleText))
             {
-                if (!Tools.IsValidTitle(m.Groups[2].Value)) continue;
-                x = cat + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[2].Value, false).Trim()) + m.Groups[3].Value + "]]";
+                if (!Tools.IsValidTitle(m.Groups[1].Value)) continue;
+                x = cat + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim()) + m.Groups[2].Value + "]]";
                 if (x != m.Value) ArticleText = ArticleText.Replace(m.Value, x);
             }
 
@@ -951,11 +950,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text.</returns>
         public static string FixImages(string ArticleText)
         {
-            Regex imgregex = new Regex(@"\[\[\s*?" + Variables.NamespacesCaseInsensitive[6] + @"\s*([^\|\]]*?)(.*?)\]\]");
+            //TODO: needs a rewrite, see ImageTests
+            Regex imgregex = new Regex(@"\[\[\s*?(" + Variables.NamespacesCaseInsensitive[6] + @")\s*([^\|\]]*?)(.*?)\]\]");
 
             foreach (Match m in imgregex.Matches(ArticleText))
             {
-                string x = "[[" + Tools.TurnFirstToUpper(m.Groups[1].Value) + ":" + CanonicalizeTitle(m.Groups[2].Value).Trim() + m.Groups[3].Value.Trim() + "]]";
+                string x = "[[" + Tools.NormalizeNamespace(m.Groups[1].Value, 6) + CanonicalizeTitle(m.Groups[2].Value).Trim() + m.Groups[3].Value.Trim() + "]]";
                 ArticleText = ArticleText.Replace(m.Value, x);
             }
 
@@ -1530,7 +1530,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
                 foreach (Match m in cats)
                 {
-                    string explicitKey = m.Groups[3].Value;
+                    string explicitKey = m.Groups[2].Value;
                     if (explicitKey.Length == 0) explicitKey = ArticleTitle;
 
                     if (string.IsNullOrEmpty(sort))
@@ -1551,7 +1551,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     {
                         foreach (Match m in cats)
                         {
-                            ArticleText = Regex.Replace(ArticleText, s, "[[" + Variables.Namespaces[14] + m.Groups[2].Value + "]]");
+                            ArticleText = Regex.Replace(ArticleText, s, "[[" + Variables.Namespaces[14] + "$1]]");
                         }
                         if (sort != ArticleTitle)
                             ArticleText = ArticleText + "\r\n{{DEFAULTSORT:" + Tools.RemoveDiacritics(sort) + "}}";

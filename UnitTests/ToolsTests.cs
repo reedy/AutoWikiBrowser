@@ -577,10 +577,10 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
     }
 
     [TestFixture]
-    public class NamespaceSwitches
+    public class NamespaceFunctions
     {
         #region Constructor and helpers
-        public NamespaceSwitches()
+        public NamespaceFunctions()
         {
             Globals.UnitTestMode = true;
             if (WikiRegexes.Category == null) WikiRegexes.MakeLangSpecificRegexes();
@@ -599,6 +599,7 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
         }
         #endregion
 
+        #region NS switching
         [Test]
         public void ConvertToTalk()
         {
@@ -646,6 +647,19 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
             l.Add(new Article("User talk:Foo"));
             CollectionAssert.AreEquivalent(Tools.ConvertFromTalk(l),
                 new string[] { "Foo", "Foo bar", "User:Foo" });
+        }
+        #endregion
+
+        [Test]
+        public void NormalizeNamespace()
+        {
+            Assert.AreEqual("User:", Tools.NormalizeNamespace("User:", 2));
+            Assert.AreEqual("User:", Tools.NormalizeNamespace("user :", 2));
+            Assert.AreEqual("User talk:", Tools.NormalizeNamespace("User_talk:", 3));
+
+            Assert.AreEqual("Image:", Tools.NormalizeNamespace("image:", 6));
+            Assert.AreEqual("File:", Tools.NormalizeNamespace("file:", 6));
+            Assert.AreEqual("Image talk:", Tools.NormalizeNamespace("image talk:", 7));
         }
     }
 
