@@ -399,8 +399,6 @@ http://example.com }}");
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Removing_underscore_in_URL_in_Ref_in_Description_in_Image....
             //Assert.AreEqual("[[Image:foo_bar|[http://some_link]]]",
             //    parser.FixImages("[[image:foo_bar|http://some_link]]"));
-
-
         }
     }
 
