@@ -1407,7 +1407,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             ArticleText = FixCategories(ArticleText);
 
-            if (Regex.IsMatch(ArticleText, "\\[\\[ ?[Cc]ategory ?: ?" + Regex.Escape(NewCategory) + @"\s*[\|\]]"))
+            if (Regex.IsMatch(ArticleText, @"\[\[" + Variables.NamespacesCaseInsensitive[14] + Regex.Escape(NewCategory) + @"[\|\]]"))
                 return oldText;
 
             string cat = "\r\n[[" + Variables.Namespaces[14] + NewCategory + "]]";
