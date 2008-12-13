@@ -118,7 +118,7 @@ namespace UnitTests
                 Parsers.StickyLinks("[[Sacramento, California|Sacramento]], California's [[capital city]]"));
         }
 
-        [Test]
+        [Test, Category("Unarchived bugs")]
         public void TestSimplifyLinks()
         {
             Assert.AreEqual("[[dog]]s", Parsers.SimplifyLinks("[[dog|dogs]]"));
@@ -138,9 +138,13 @@ namespace UnitTests
             Assert.AreEqual("[[FOO|FOOBAR]]", Parsers.SimplifyLinks("[[FOO|FOOBAR]]"));
             Assert.AreEqual("[[foo|fooBAR]]", Parsers.SimplifyLinks("[[foo|fooBAR]]"));
 
-            //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Only_one_spurious_space_removed_from_link
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Only_one_spurious_space_removed_from_link
             Assert.AreEqual("[[Elizabeth Gunn]]", Parsers.SimplifyLinks("[[Elizabeth Gunn | Elizabeth Gunn]]"));
             Assert.AreEqual("[[Big Bend, Texas|Big Bend]]", Parsers.SimplifyLinks("[[Big Bend, Texas | Big Bend]]"));
+
+            // http://en.wikipedia.org/wiki/Wikipedia:AWB/B#SVN:_general_fixes_removes_whitespace_around_pipes_within_citation_templates
+            Assert.AreEqual("{{foo|[[bar]] | boz}}]]", Parsers.SimplifyLinks("{{foo|[[bar]] | boz}}]]"));
+            Assert.AreEqual("{{foo|[[bar]]\r\n| boz}}]]", Parsers.SimplifyLinks("{{foo|[[bar]]\r\n| boz}}]]"));
         }
 
         [Test]
