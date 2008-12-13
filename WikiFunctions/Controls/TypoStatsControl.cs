@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using System.ComponentModel;
 using WikiFunctions.Parse;
-using System.Collections;
 
 namespace WikiFunctions.Controls
 {
@@ -19,10 +17,11 @@ namespace WikiFunctions.Controls
         private ToolStripMenuItem miCopyReplace;
         private ToolStripMenuItem miClear;
         private ToolStripMenuItem miTestRegex;
-        private System.ComponentModel.IContainer components;
+        private ToolStripMenuItem miSaveLog;
+        private SaveFileDialog saveListDialog;
+        private IContainer components;
 
         public TypoStatsControl()
-            : base()
         {
             InitializeComponent();
         }
@@ -36,10 +35,12 @@ namespace WikiFunctions.Controls
             this.miCopyReplace = new System.Windows.Forms.ToolStripMenuItem();
             this.miClear = new System.Windows.Forms.ToolStripMenuItem();
             this.miTestRegex = new System.Windows.Forms.ToolStripMenuItem();
+            this.miSaveLog = new System.Windows.Forms.ToolStripMenuItem();
             this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
+            this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
             this.contextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,38 +50,46 @@ namespace WikiFunctions.Controls
             this.miCopyFind,
             this.miCopyReplace,
             this.miClear,
-            this.miTestRegex});
+            this.miTestRegex,
+            this.miSaveLog});
             this.contextMenu.Name = "contextMenu";
-            this.contextMenu.Size = new System.Drawing.Size(175, 92);
+            this.contextMenu.Size = new System.Drawing.Size(171, 114);
             this.contextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenu_Opening);
             // 
             // miCopyFind
             // 
             this.miCopyFind.Name = "miCopyFind";
-            this.miCopyFind.Size = new System.Drawing.Size(174, 22);
+            this.miCopyFind.Size = new System.Drawing.Size(170, 22);
             this.miCopyFind.Text = "Copy &Find part";
             this.miCopyFind.Click += new System.EventHandler(this.miCopyFind_Click);
             // 
             // miCopyReplace
             // 
             this.miCopyReplace.Name = "miCopyReplace";
-            this.miCopyReplace.Size = new System.Drawing.Size(174, 22);
+            this.miCopyReplace.Size = new System.Drawing.Size(170, 22);
             this.miCopyReplace.Text = "Copy &Replace part";
             this.miCopyReplace.Click += new System.EventHandler(this.miCopyReplace_Click);
             // 
             // miClear
             // 
             this.miClear.Name = "miClear";
-            this.miClear.Size = new System.Drawing.Size(174, 22);
+            this.miClear.Size = new System.Drawing.Size(170, 22);
             this.miClear.Text = "&Clear statistics";
             this.miClear.Click += new System.EventHandler(this.miClear_Click);
             // 
             // miTestRegex
             // 
             this.miTestRegex.Name = "miTestRegex";
-            this.miTestRegex.Size = new System.Drawing.Size(174, 22);
+            this.miTestRegex.Size = new System.Drawing.Size(170, 22);
             this.miTestRegex.Text = "&Test regex...";
             this.miTestRegex.Click += new System.EventHandler(this.TestRegex);
+            // 
+            // miSaveLog
+            // 
+            this.miSaveLog.Name = "miSaveLog";
+            this.miSaveLog.Size = new System.Drawing.Size(170, 22);
+            this.miSaveLog.Text = "Save log";
+            this.miSaveLog.Click += new System.EventHandler(this.miSaveLog_Click);
             // 
             // columnHeader1
             // 
@@ -102,6 +111,12 @@ namespace WikiFunctions.Controls
             this.columnHeader4.Text = "No changes";
             this.columnHeader4.Width = 75;
             // 
+            // saveListDialog
+            // 
+            this.saveListDialog.DefaultExt = "txt";
+            this.saveListDialog.Filter = "Text file|*.txt";
+            this.saveListDialog.Title = "Save article list";
+            // 
             // TypoStatsControl
             // 
             this.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -117,7 +132,6 @@ namespace WikiFunctions.Controls
 
         }
         #endregion
-
 
         Dictionary<string, TypoStat> Data;
         /// <summary>
@@ -153,6 +167,15 @@ namespace WikiFunctions.Controls
         public int FalsePositives = 0;
         public int Saves = 0;
         public int Pages = 0;
+
+        public string TyposPerSave
+        {
+            get
+            {
+                return string.Format("{0:F1}",
+                              ((double) (TotalTypos - SelfMatches - FalsePositives)/(double) Saves));
+            }   
+        }
 
         public void ClearStats()
         {
@@ -218,10 +241,10 @@ namespace WikiFunctions.Controls
             EndUpdate();
         }
 
-        private void contextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        private void contextMenu_Opening(object sender, CancelEventArgs e)
         {
             miCopyFind.Enabled = miCopyReplace.Enabled = miTestRegex.Enabled = SelectedItems.Count > 0;
-            miClear.Visible = IsOverallStats;
+            miClear.Visible = miSaveLog.Visible = IsOverallStats;
         }
 
         private void miClear_Click(object sender, EventArgs e)
@@ -258,6 +281,25 @@ namespace WikiFunctions.Controls
                     t.ArticleText = Variables.MainForm.EditBox.Text;
 
                 t.ShowDialog(FindForm());
+            }
+        }
+
+        private void miSaveLog_Click(object sender, EventArgs e)
+        {
+            if ((Saves > 0) && (saveListDialog.ShowDialog() == DialogResult.OK))
+            {
+                System.Text.StringBuilder strList = new System.Text.StringBuilder();
+
+                strList.AppendLine("Total: " + TotalTypos);
+                strList.AppendLine("No change: " + SelfMatches);
+                strList.AppendLine("Typo/save: " + TyposPerSave);
+
+                foreach (TypoStatsListViewItem item in Items)
+                {
+                    strList.AppendLine(item.SubItems[0].Text + ", " + item.SubItems[1].Text + ", " + item.SubItems[2].Text + ", " + item.SubItems[3].Text);
+                }
+
+                Tools.WriteTextFileAbsolutePath(strList.ToString(), saveListDialog.FileName, false);
             }
         }
     }
