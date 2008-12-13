@@ -952,12 +952,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             //TODO: needs a rewrite, see ImageTests
             Regex imgregex = new Regex(@"\[\[\s*?" + Variables.NamespacesCaseInsensitive[6] + @"\s*([^\|\]]*?)(.*?)\]\]");
-            string img = "[[" + Variables.Namespaces[6];
-            string x = "";
 
             foreach (Match m in imgregex.Matches(ArticleText))
             {
-                x = img + CanonicalizeTitle(m.Groups[1].Value).Trim() + m.Groups[2].Value.Trim() + "]]";
+                string x = "[[" + m.Groups[1].Value + CanonicalizeTitle(m.Groups[2].Value).Trim() + m.Groups[3].Value.Trim() + "]]";
                 ArticleText = ArticleText.Replace(m.Value, x);
             }
 
