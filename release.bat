@@ -38,9 +38,8 @@ md "%dest%\Plugins\IFD"
 copy Plugins\IFD\bin\Release\IFD.dll "%dest%\Plugins\IFD"
 if errorlevel 1 goto ERROR
 
-
 md "%dest%\Plugins\Kingbotk"
-copy "Plugins\Kingbotk\Kingbotk AWB Plugin.dll" "%dest%\Plugins\Kingbotk"
+copy "Plugins\Kingbotk\AWB Plugin\bin\Release\Kingbotk AWB Plugin.dll" "%dest%\Plugins\Kingbotk"
 if errorlevel 1 goto ERROR
 
 copy "Plugins\Kingbotk\Physics generic template.xml" "%dest%\Plugins\Kingbotk"
@@ -49,6 +48,7 @@ if errorlevel 1 goto ERROR
 copy "Plugins\Kingbotk\Film generic template.xml" "%dest%\Plugins\Kingbotk"
 if errorlevel 1 goto ERROR
 
+echo Kingbotk readme
 copy "Plugins\Kingbotk\Readme.txt" "%dest%\Plugins\Kingbotk"
 if errorlevel 1 goto ERROR
 
