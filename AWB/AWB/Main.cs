@@ -1471,8 +1471,7 @@ window.scrollTo(0, diffTopY);
                 int selfMatches = OverallTypoStats.SelfMatches;
                 lblNoChange.Text = selfMatches.ToString();
 
-                lblTypoRatio.Text = string.Format("{0:F1}",
-                    ((double)(total - selfMatches - OverallTypoStats.FalsePositives) / (double)OverallTypoStats.Saves));
+                lblTypoRatio.Text = OverallTypoStats.TyposPerSave;
             }
             else
                 lblTypoRatio.Text = "0";
@@ -1483,25 +1482,6 @@ window.scrollTo(0, diffTopY);
             CurrentTypoStats.ClearStats();
             OverallTypoStats.ClearStats();
             UpdateTypoCount();
-        }
-
-        private void SaveTypoStats()
-        {
-            if ((OverallTypoStats.Saves > 0) && (saveListDialog.ShowDialog() == DialogResult.OK))
-            {
-                StringBuilder strList = new StringBuilder();
-
-                strList.AppendLine("Total: " + lblOverallTypos.Text);
-                strList.AppendLine("No change: " + lblNoChange.Text);
-                strList.AppendLine("Typo/save: " + lblTypoRatio.Text);
-
-                foreach (TypoStatsListViewItem item in OverallTypoStats.Items)
-                {
-                    strList.AppendLine(item.SubItems[0].Text + ", " + item.SubItems[1].Text + ", " + item.SubItems[2].Text + ", " + item.SubItems[3].Text);
-                }
-
-                Tools.WriteTextFileAbsolutePath(strList.ToString(), saveListDialog.FileName, false);
-            }
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
