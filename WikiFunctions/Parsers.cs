@@ -150,8 +150,8 @@ namespace WikiFunctions.Parse
         {
             if (Variables.Project <= ProjectEnum.species)
                 return Sorter.Sort(ArticleText, ArticleTitle);
-            else
-                return ArticleText;
+            
+            return ArticleText;
         }
 
         private readonly Regex regexFixDates0 = new Regex(@"(the |later? |early |mid-)(\[?\[?[12][0-9][0-9]0\]?\]?)'s(\]\])?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -241,9 +241,9 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
-        static Regex DiedDateRegex = new Regex(@"('''[^']+'''\s*\()d.(\s+\[*(?:(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+0?([1-3]?[0-9])|0?([1-3]?[0-9])\s*(?:January|February|March|April|May|June|July|August|September|October|November|December))?\]*\s*\[*[1-2]?[0-9][0-9][0-9]\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        static Regex DOBRegex = new Regex(@"('''[^']+'''\s*\()b.(\s+\[*(?:(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+0?([1-3]?[0-9])|0?([1-3]?[0-9])\s*(?:January|February|March|April|May|June|July|August|September|October|November|December))?\]*\s*\[*[1-2]?[0-9][0-9][0-9]\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        static Regex BornDeathRegex = new Regex(@"('''[^']+'''\s*\()(?:[Bb]orn|b\.)\s+(\[*(?:(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+0?(?:[1-3]?[0-9])|0?(?:[1-3]?[0-9])\s*(?:January|February|March|April|May|June|July|August|September|October|November|December))?\]*,?\s*\[*[1-2]?[0-9][0-9][0-9]\]*)\s*(.|&.dash;)\s*(?:[Dd]ied|d\.)\s+(\[*(?:(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+0?(?:[1-3]?[0-9])|0?(?:[1-3]?[0-9])\s*(?:January|February|March|April|May|June|July|August|September|October|November|December))\]*,?\s*\[*[1-2]?[0-9][0-9][0-9]\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex DiedDateRegex = new Regex(@"('''[^']+'''\s*\()d.(\s+\[*(?:(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+0?([1-3]?[0-9])|0?([1-3]?[0-9])\s*(?:January|February|March|April|May|June|July|August|September|October|November|December))?\]*\s*\[*[1-2]?[0-9][0-9][0-9]\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex DOBRegex = new Regex(@"('''[^']+'''\s*\()b.(\s+\[*(?:(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+0?([1-3]?[0-9])|0?([1-3]?[0-9])\s*(?:January|February|March|April|May|June|July|August|September|October|November|December))?\]*\s*\[*[1-2]?[0-9][0-9][0-9]\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex BornDeathRegex = new Regex(@"('''[^']+'''\s*\()(?:[Bb]orn|b\.)\s+(\[*(?:(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+0?(?:[1-3]?[0-9])|0?(?:[1-3]?[0-9])\s*(?:January|February|March|April|May|June|July|August|September|October|November|December))?\]*,?\s*\[*[1-2]?[0-9][0-9][0-9]\]*)\s*(.|&.dash;)\s*(?:[Dd]ied|d\.)\s+(\[*(?:(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+0?(?:[1-3]?[0-9])|0?(?:[1-3]?[0-9])\s*(?:January|February|March|April|May|June|July|August|September|October|November|December))\]*,?\s*\[*[1-2]?[0-9][0-9][0-9]\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
         /// Replace b. and d. for born/died
@@ -556,10 +556,10 @@ namespace WikiFunctions.Parse
             string s = CanonicalizeTitleRaw(title);
             if (Variables.UnderscoredTitles.Contains(Tools.TurnFirstToUpper(s)))
             {
-                return System.Web.HttpUtility.UrlDecode(title.Replace("+", "%2B"))
+                return HttpUtility.UrlDecode(title.Replace("+", "%2B"))
                     .Trim(new char[] { '_' });
             }
-            else return s;
+            return s;
         }
 
         private static bool IsHex(byte b)
@@ -737,7 +737,7 @@ namespace WikiFunctions.Parse
         /// <returns>The simplified article text.</returns>
         public static string SimplifyLinks(string ArticleText)
         {
-            string n = "", a = "", b = "", k = "";
+            string n, a = "", b = "", k;
 
             try
             {
@@ -827,7 +827,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
-        private static Regex regexMainArticle = new Regex(@"^:?'{0,5}Main article:\s?'{0,5}\[\[([^\|\[\]]*?)(\|([^\[\]]*?))?\]\]\.?'{0,5}\.?\s*?(?=($|[\r\n]))", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex regexMainArticle = new Regex(@"^:?'{0,5}Main article:\s?'{0,5}\[\[([^\|\[\]]*?)(\|([^\[\]]*?))?\]\]\.?'{0,5}\.?\s*?(?=($|[\r\n]))", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
 
         // Covered by: FixMainArticleTests
         /// <summary>
@@ -928,14 +928,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text.</returns>
         public static string FixCategories(string ArticleText)
         {
-            Regex catregex = new Regex(@"\[\[[\s_]*" + Variables.NamespacesCaseInsensitive[14] + @"[\s_]*([^\|]*?)(|\|.*?)\]\]");
             string cat = "[[" + Variables.Namespaces[14];
-            string x = "";
 
-            foreach (Match m in catregex.Matches(ArticleText))
+            foreach (Match m in WikiRegexes.LooseCategory.Matches(ArticleText))
             {
                 if (!Tools.IsValidTitle(m.Groups[1].Value)) continue;
-                x = cat + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim()) + m.Groups[2].Value + "]]";
+                string x = cat + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim()) + m.Groups[2].Value + "]]";
                 if (x != m.Value) ArticleText = ArticleText.Replace(m.Value, x);
             }
 
@@ -950,9 +948,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text.</returns>
         public static string FixImages(string ArticleText)
         {
-            Regex imgregex = new Regex(@"\[\[\s*?(" + Variables.NamespacesCaseInsensitive[6] + @")\s*([^\|\]]*?)(.*?)\]\]");
-
-            foreach (Match m in imgregex.Matches(ArticleText))
+            foreach (Match m in WikiRegexes.LooseImage.Matches(ArticleText))
             {
                 string x = "[[" + Tools.NormalizeNamespace(m.Groups[1].Value, 6) + CanonicalizeTitle(m.Groups[2].Value).Trim() + m.Groups[3].Value.Trim() + "]]";
                 ArticleText = ArticleText.Replace(m.Value, x);
@@ -1102,14 +1098,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 string gtn = GetTemplateName(setting).Trim();
                 if (string.IsNullOrEmpty(gtn))
                     return setting;
-                else
-                    return gtn;
+               
+                return gtn;
             }
-            else
-                return GetTemplateName(setting);
-        }
 
-        private static Regex EmptyComments = new Regex(@"<!--[^\S\r\n]*-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            return GetTemplateName(setting);
+        }
 
         //Covered by: UtilityFunctionTests.RemoveEmptyComments()
         /// <summary>
@@ -1119,7 +1113,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text (removed empty comments).</returns>
         public static string RemoveEmptyComments(string ArticleText)
         {
-            return EmptyComments.Replace(ArticleText, "");
+            return WikiRegexes.EmptyComments.Replace(ArticleText, "");
         }
         #endregion
 
@@ -1365,9 +1359,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// Removes an iamge in the article.
         /// </summary>
+        /// <param name="Image">The image to remove.</param>
         /// <param name="ArticleText">The wiki text of the article.</param>
-        /// <param name="OldImage">The image to remove.</param>
+        /// <param name="Comment"></param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
+        /// <param name="CommentOut"></param>
         /// <returns>The new article text.</returns>
         public string RemoveImage(string Image, string ArticleText, bool CommentOut, string Comment, out bool NoChange)
         {
@@ -1384,6 +1380,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="NewCategory">The new category.</param>
+        /// <param name="ArticleTitle"></param>
+        /// <param name="NoChange"></param>
         /// <returns>The article text.</returns>
         public string AddCategory(string NewCategory, string ArticleText, string ArticleTitle, out bool NoChange)
         {
@@ -1401,6 +1399,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="NewCategory">The new category.</param>
+        /// <param name="ArticleTitle"></param>
         /// <returns>The article text.</returns>
         public static string AddCategory(string NewCategory, string ArticleText, string ArticleTitle)
         {
@@ -1580,7 +1579,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public string LivingPeople(string ArticleText, out bool NoChange)
         {
-            NoChange = true;
             testText = ArticleText;
 
             ArticleText = LivingPeople(ArticleText);
@@ -1590,9 +1588,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
-        private static Regex LivingPeopleRegex1 = new Regex("\\[\\[ ?Category ?:[ _]?([0-9]{1,2}[ _]century[ _]deaths|[0-9s]{4,5}[ _]deaths|Disappeared[ _]people|Living[ _]people|Year[ _]of[ _]death[ _]missing|Possibly[ _]living[ _]people)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static Regex LivingPeopleRegex2 = new Regex(@"\{\{(Template:)?(Recent ?death|Recentlydeceased)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static Regex LivingPeopleRegex3 = new Regex("\\[\\[ ?Category ?:[ _]?([0-9]{4})[ _]births(\\|.*?)?\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex LivingPeopleRegex1 = new Regex("\\[\\[ ?Category ?:[ _]?([0-9]{1,2}[ _]century[ _]deaths|[0-9s]{4,5}[ _]deaths|Disappeared[ _]people|Living[ _]people|Year[ _]of[ _]death[ _]missing|Possibly[ _]living[ _]people)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex LivingPeopleRegex2 = new Regex(@"\{\{(Template:)?(Recent ?death|Recentlydeceased)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex LivingPeopleRegex3 = new Regex("\\[\\[ ?Category ?:[ _]?([0-9]{4})[ _]births(\\|.*?)?\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         // NOT covered
         /// <summary>
@@ -1820,7 +1818,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
-        private string stubChecker(Match m)
+        private static string stubChecker(Match m)
         {
             // Replace each Regex cc match with the number of the occurrence.
             if (Regex.IsMatch(m.Value, Variables.SectStub))
@@ -1829,11 +1827,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return "";
         }
 
-        private static Regex RemoveNowiki = new Regex("<nowiki>.*?</nowiki>", RegexOptions.Compiled | RegexOptions.Singleline);
-        private static Regex RemoveComments = new Regex(@"<!--.*?-->", RegexOptions.Compiled | RegexOptions.Singleline);
-        private static Regex Bots = new Regex(@"\{\{\s*([Bb]ots|[Nn]obots)\s*(|\|[^\}]*)\}\}", RegexOptions.Compiled);
-        private static Regex Allow = new Regex(@"\|\s*allow\s*=\s*([^\|\}]*)", RegexOptions.Compiled | RegexOptions.Singleline);
-        private static Regex Deny = new Regex(@"\|\s*deny\s*=\s*([^\|\}]*)", RegexOptions.Compiled | RegexOptions.Singleline);
+        private static readonly Regex RemoveNowiki = new Regex("<nowiki>.*?</nowiki>", RegexOptions.Compiled | RegexOptions.Singleline);
+        private static readonly Regex Bots = new Regex(@"\{\{\s*([Bb]ots|[Nn]obots)\s*(|\|[^\}]*)\}\}", RegexOptions.Compiled);
+        private static readonly Regex Allow = new Regex(@"\|\s*allow\s*=\s*([^\|\}]*)", RegexOptions.Compiled | RegexOptions.Singleline);
+        private static readonly Regex Deny = new Regex(@"\|\s*deny\s*=\s*([^\|\}]*)", RegexOptions.Compiled | RegexOptions.Singleline);
 
         // NOT covered
         /// <summary>
@@ -1846,7 +1843,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static bool CheckNoBots(string ArticleText, string Username)
         {
             bool awbAllowed = false;
-            ArticleText = RemoveComments.Replace(ArticleText, "");
+            ArticleText = WikiRegexes.Comments.Replace(ArticleText, "");
             ArticleText = RemoveNowiki.Replace(ArticleText, "");
             Match m = Bots.Match(ArticleText);
             if (Tools.CaseInsensitiveStringCompare(m.Groups[1].Value, "Nobots")) return false;
@@ -1876,8 +1873,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return true;
         }
 
-        private static Regex dupeLinks1 = new Regex("\\[\\[([^\\]\\|]+)\\|([^\\]]*)\\]\\](.*[.\n]*)\\[\\[\\1\\|\\2\\]\\]", RegexOptions.Compiled);
-        private static Regex dupeLinks2 = new Regex("\\[\\[([^\\]]+)\\]\\](.*[.\n]*)\\[\\[\\1\\]\\]", RegexOptions.Compiled);
+        private static readonly Regex dupeLinks1 = new Regex("\\[\\[([^\\]\\|]+)\\|([^\\]]*)\\]\\](.*[.\n]*)\\[\\[\\1\\|\\2\\]\\]", RegexOptions.Compiled);
+        private static readonly Regex dupeLinks2 = new Regex("\\[\\[([^\\]]+)\\]\\](.*[.\n]*)\\[\\[\\1\\]\\]", RegexOptions.Compiled);
 
         /// <summary>
         /// Remove some of the duplicated wikilinks from the article text
@@ -1902,7 +1899,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static string ExternalURLToInternalLink(string ArticleText)
         {
             // Convert from the escaped UTF-8 byte code into Unicode
-            ArticleText = System.Web.HttpUtility.UrlDecode(ArticleText);
+            ArticleText = HttpUtility.UrlDecode(ArticleText);
             // Convert secure URLs into non-secure equivalents (note the secure system is considered a 'hack')
             ArticleText = ExtToInt1.Replace(ArticleText, "http://$2.$1.org/");
             // Convert http://lang.domain.org/wiki/ into interwiki format
@@ -1949,8 +1946,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         public static bool IsInUse(string ArticleText)
         {
-            if (Variables.LangCode != LangCodeEnum.en) return false;
-            else return Variables.InUse.IsMatch(ArticleText);
+            return (Variables.LangCode != LangCodeEnum.en) ? false : Variables.InUse.IsMatch(ArticleText);
         }
         #endregion
     }

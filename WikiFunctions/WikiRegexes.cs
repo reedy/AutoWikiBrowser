@@ -35,6 +35,9 @@ namespace WikiFunctions
             PossiblyCommentedStub = new Regex(@"(<!-- ?\{\{[^}]*?" + Variables.Stub + @"\b\}\}.*?-->|\{\{[^}]*?" + Variables.Stub + @"\}\})", RegexOptions.Compiled);
             TemplateCall = new Regex(TemplateStart + @"\s*([^\]\|]*)\s*(.*)}}", RegexOptions.Compiled | RegexOptions.Singleline);
 
+            LooseCategory = new Regex(@"\[\[[\s_]*" + Variables.NamespacesCaseInsensitive[14] + @"[\s_]*([^\|]*?)(|\|.*?)\]\]", RegexOptions.Compiled);
+            LooseImage = new Regex(@"\[\[\s*?(" + Variables.NamespacesCaseInsensitive[6] + @")\s*([^\|\]]*?)(.*?)\]\]", RegexOptions.Compiled);
+
             string s;
             switch (Variables.LangCode)
             {
@@ -239,6 +242,16 @@ namespace WikiFunctions
         /// </summary>
         public static Regex PossiblyCommentedStub;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public static Regex LooseCategory;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static Regex LooseImage;
+
         #region en only
         /// <summary>
         /// Matches persondata (en only)
@@ -260,6 +273,11 @@ namespace WikiFunctions
         /// matches <!-- comments -->
         /// </summary>
         public static readonly Regex Comments = new Regex(@"<!--.*?-->", RegexOptions.Compiled | RegexOptions.Singleline);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly Regex EmptyComments = new Regex(@"<!--[^\S\r\n]*-->", RegexOptions.Compiled);
 
         /// <summary>
         /// matches <ref> tags
