@@ -115,7 +115,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches piped wikilinks, group 1 is target, group 2 the text
         /// </summary>
-        public static readonly Regex PipedWikiLink = new Regex(@"\[\[([^[]*?)\|([^[]*?)\]\]", RegexOptions.Compiled);
+        public static readonly Regex PipedWikiLink = new Regex(@"\[\[([^[\]\n]*?)\|([^[\]\n]*?)\]\]", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches unpiped wikilinks, group 1 is text

@@ -103,6 +103,23 @@ namespace UnitTests
         }
 
         [Test]
+        public void PipedWikiLink()
+        {
+            TestMatch(WikiRegexes.PipedWikiLink, "[[foo|bar]]");
+            TestMatch(WikiRegexes.PipedWikiLink, "a [[foo boo | bar bar ]] !one", "[[foo boo | bar bar ]]");
+            TestMatch(WikiRegexes.PipedWikiLink, "[[foo]]", false);
+
+            // shouldn't eat too much
+            TestMatch(WikiRegexes.PipedWikiLink, "[[foo]] [[foo|bar]]", "[[foo|bar]]");
+            TestMatch(WikiRegexes.PipedWikiLink, "[[foo|bar]] [[foo]]", "[[foo|bar]]");
+            
+            TestMatch(WikiRegexes.PipedWikiLink, "[[foo|\r\nbar]]", false);
+            TestMatch(WikiRegexes.PipedWikiLink, "[[foo\r\n|bar]]", false);
+            TestMatch(WikiRegexes.PipedWikiLink, "[[foo]] | bar]]", false);
+            TestMatch(WikiRegexes.PipedWikiLink, "[[foo | [[bar]]", false);
+        }
+
+        [Test]
         public void Blockquote()
         {
             // one line
