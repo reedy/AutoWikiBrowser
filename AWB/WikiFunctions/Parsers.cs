@@ -950,7 +950,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text.</returns>
         public static string FixImages(string ArticleText)
         {
-            //TODO: needs a rewrite, see ImageTests
             Regex imgregex = new Regex(@"\[\[\s*?(" + Variables.NamespacesCaseInsensitive[6] + @")\s*([^\|\]]*?)(.*?)\]\]");
 
             foreach (Match m in imgregex.Matches(ArticleText))
