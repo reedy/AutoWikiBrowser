@@ -96,19 +96,6 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Tests title to make sure it is an editable namespace
-        /// </summary>
-        /// <param name="ArticleTitle">The title.</param>
-        public static bool IsEditableSpace(string ArticleTitle)
-        {
-            if (ArticleTitle.StartsWith("Commons:"))
-                return false;
-
-            int i = CalculateNS(ArticleTitle);
-            return !(i < 0 || i > 99 || i == 7 || i == 8);
-        }
-
-        /// <summary>
         /// Tests article to see if it is a redirect
         /// </summary>
         /// <param name="Text">The title.</param>
@@ -143,7 +130,7 @@ namespace WikiFunctions
         /// <summary>
         /// Tests article title to see if it is valid
         /// </summary>
-        /// <param name="Text">The title.</param>
+        /// <param name="ArticleText">The title.</param>
         public static bool IsValidTitle(string ArticleTitle)
         {
             ArticleTitle = WikiDecode(ArticleTitle).Trim();
@@ -153,17 +140,17 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Removes Invalid Characters from an Article Title
+        /// Removes Invalid Characters from an Article ArticleTitle
         /// </summary>
-        /// <param name="Title">Article Title</param>
-        /// <returns>Article Title with no invalid characters</returns>
-        public static string RemoveInvalidChars(string Title)
+        /// <param name="ArticleTitle">Article Title</param>
+        /// <returns>Article ArticleTitle with no invalid characters</returns>
+        public static string RemoveInvalidChars(string ArticleTitle)
         {
             int pos;
-            while ((pos = Title.IndexOfAny(InvalidChars)) >= 0)
-                Title = Title.Remove(pos, 1);
+            while ((pos = ArticleTitle.IndexOfAny(InvalidChars)) >= 0)
+                ArticleTitle = ArticleTitle.Remove(pos, 1);
 
-            return Title;
+            return ArticleTitle;
         }
 
         /// <summary>
@@ -309,6 +296,11 @@ namespace WikiFunctions
             return title.Substring(0, i);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
         public static string SubPageName(string title)
         {
             title = RemoveNamespaceString(title);
@@ -335,7 +327,6 @@ namespace WikiFunctions
 
         const int MaxEditSummaryLength = 250; // in bytes
 
-
         /// <summary>
         /// UNFINISHED
         /// </summary>
@@ -354,8 +345,6 @@ namespace WikiFunctions
 
             return summary + awbAd;
         }
-
-
 
         /// <summary>
         /// Gets the HTML from the given web address.
