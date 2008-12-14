@@ -54,6 +54,15 @@ namespace WikiFunctions
                     return k.Key;
             }
 
+            foreach(KeyValuePair<int, List<string>> k in Variables.NamespaceAliases)
+            {
+                foreach (string s in k.Value)
+                {
+                    if (ArticleTitle.StartsWith(s))
+                        return k.Key;
+                }
+            }
+
             foreach (KeyValuePair<int, string> k in Variables.CanonicalNamespaces)
             {
                 if (ArticleTitle.StartsWith(k.Value))
