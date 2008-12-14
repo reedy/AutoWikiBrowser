@@ -373,12 +373,14 @@ http://example.com }}");
     [TestFixture]
     public class ImageTests
     {
+        Parsers p = new Parsers();
+
         public ImageTests()
         {
             Globals.UnitTestMode = true;
         }
 
-        [Test, Category("Incomplete")/*, Ignore("Waiting for resolution of the Image: -> File: rename")*/]
+        [Test, Category("Incomplete")]
         public void BasicImprovements()
         {
             Parsers parser = new Parsers();
@@ -399,6 +401,26 @@ http://example.com }}");
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Removing_underscore_in_URL_in_Ref_in_Description_in_Image....
             //Assert.AreEqual("[[Image:foo_bar|[http://some_link]]]",
             //    parser.FixImages("[[image:foo_bar|http://some_link]]"));
+        }
+
+        [Test]
+        public void Removal()
+        {
+            bool noChange;
+
+            Assert.AreEqual("", p.RemoveImage("Foo.jpg", "[[Image:Foo.jpg]]", false, "", out noChange));
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual("", p.RemoveImage("foo.jpg", "[[Image: foo.jpg]]", false, "", out noChange));
+            Assert.IsFalse(noChange);
+        }
+
+        [Test]
+        public void Removal2()
+        {
+            bool noChange;
+            Assert.AreEqual("", p.RemoveImage("foo.jpg", "[[Media:foo.jpg]]", false, "", out noChange));
+            Assert.IsFalse(noChange);
         }
     }
 
