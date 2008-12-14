@@ -1267,6 +1267,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The new article text.</returns>
         public static string ReplaceImage(string OldImage, string NewImage, string ArticleText)
         {
+            ArticleText = FixImages(ArticleText);
+
             //remove image prefix
             OldImage = Regex.Replace(OldImage, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase).Replace("_", " ");
             NewImage = Regex.Replace(NewImage, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase).Replace("_", " ");
