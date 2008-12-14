@@ -721,10 +721,6 @@ namespace WikiFunctions.Controls.Lists
                 Add(providerToRun.MakeList(strSource));
             }
             catch (ThreadAbortException) { }
-            //catch (PageDoesNotExistException ex)
-            //{
-            //    MessageBox.Show(ex.Message, "Page does not exist", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
             catch (Exception ex)
             {
                 ErrorHandler.ListMakerText = UserInputTextBox.Text;
@@ -1258,19 +1254,3 @@ namespace WikiFunctions.Controls.Lists
         }
     }
 }
-
-//namespace WikiFunctions.Lists
-//{
-//    // TODO: Document what I do
-//    [Serializable]
-//    public sealed class PageDoesNotExistException : ApplicationException
-//    {
-//        public PageDoesNotExistException() { }
-//        public PageDoesNotExistException(string message)
-//            : base(message) { }
-//        public PageDoesNotExistException(string message, System.Exception inner)
-//            : base(message, inner) { }
-//        private PageDoesNotExistException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
-//            : base(info, context) { }
-//    }
-//}
