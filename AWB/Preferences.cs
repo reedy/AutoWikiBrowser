@@ -101,9 +101,8 @@ namespace AutoWikiBrowser
         {
             get
             {
-                string s = cmboCustomProject.Text.Trim();
-                if (Project == ProjectEnum.wikia) return s;
-                return s.EndsWith("/") ? s : s + "/";
+                FixCustomProject();
+                return cmboCustomProject.Text;
             }
         }
 
@@ -114,9 +113,13 @@ namespace AutoWikiBrowser
 
         private void FixCustomProject()
         {
-            cmboCustomProject.Text = Regex.Replace(cmboCustomProject.Text, "^http://", "", RegexOptions.IgnoreCase);
+            cmboCustomProject.Text = Regex.Replace(cmboCustomProject.Text.Trim(), "^http://", "", RegexOptions.IgnoreCase);
+
             cmboCustomProject.Text = cmboCustomProject.Text.TrimEnd('/');
-            cmboCustomProject.Text = cmboCustomProject.Text + "/";
+            if (Project == ProjectEnum.custom) // we shouldn't screw up Wikia
+            {
+                cmboCustomProject.Text = cmboCustomProject.Text + "/";
+            }
         }
 
         private void cmboProject_SelectedIndexChanged(object sender, EventArgs e)
