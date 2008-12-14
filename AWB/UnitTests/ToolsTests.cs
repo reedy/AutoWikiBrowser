@@ -480,9 +480,9 @@ Wikipedia talk",
 %%namespace%%"));
 
             //Date Stuff - disabled for now
-//            Assert.AreEqual(DateTime.Now.Day.ToString() + "\r\n" +DateTime.Now.ToString("MMM") + "\r\n" +DateTime.Now.Year.ToString(), Tools.ApplyKeyWords("n/a", @"{{CURRENTDAY}}
-//{{CURRENTMONTHNAME}}
-//{{CURRENTYEAR}}"));
+            //            Assert.AreEqual(DateTime.Now.Day.ToString() + "\r\n" +DateTime.Now.ToString("MMM") + "\r\n" +DateTime.Now.Year.ToString(), Tools.ApplyKeyWords("n/a", @"{{CURRENTDAY}}
+            //{{CURRENTMONTHNAME}}
+            //{{CURRENTYEAR}}"));
 
             //Server Stuff
             Assert.AreEqual(@"http://en.wikipedia.org
@@ -492,6 +492,85 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
 %%servername%%"));
 
             //%%key%%, Tools.MakeHumanCatKey() - Covered by HumanCatKeyTests
+        }
+
+        [Test]
+        public void IsTalkPage()
+        {
+            Assert.IsTrue(Tools.IsTalkPage(1));
+            Assert.IsTrue(Tools.IsTalkPage(3));
+
+            Assert.IsFalse(Tools.IsTalkPage(2));
+            Assert.IsFalse(Tools.IsTalkPage(4));
+
+            Assert.IsTrue(Tools.IsTalkPage("Talk:Test"));
+            Assert.IsTrue(Tools.IsTalkPage("User talk:Test"));
+
+            Assert.IsFalse(Tools.IsTalkPage("Test"));
+            Assert.IsFalse(Tools.IsTalkPage("User:Test"));
+        }
+
+        [Test]
+        public void IsMainSpace()
+        {
+            Assert.IsTrue(Tools.IsMainSpace("Test"));
+
+            Assert.IsFalse(Tools.IsMainSpace("Talk:Test"));
+            Assert.IsFalse(Tools.IsMainSpace("User:Test"));
+            Assert.IsFalse(Tools.IsMainSpace("User talk:Test"));
+        }
+
+        [Test]
+        public void IsWikimediaProject()
+        {
+            Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikipedia));
+            Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.commons));
+            Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.meta));
+            Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.species));
+            Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikibooks));
+            Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikinews));
+            Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikiquote));
+            Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikisource));
+            Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikiversity));
+            Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wiktionary));
+
+            Assert.IsFalse(Tools.IsWikimediaProject(ProjectEnum.custom));
+            Assert.IsFalse(Tools.IsWikimediaProject(ProjectEnum.wikia));
+            Assert.IsFalse(Tools.IsWikimediaProject(ProjectEnum.mediawiki));
+        }
+
+        [Test]
+        public void IsImportantNamespace()
+        {
+            Assert.IsTrue(Tools.IsImportantNamespace("Test"));
+            Assert.IsTrue(Tools.IsImportantNamespace("File:Test.jpg"));
+            Assert.IsTrue(Tools.IsImportantNamespace("Template:Test"));
+            Assert.IsTrue(Tools.IsImportantNamespace("Category:Test"));
+
+            Assert.IsFalse(Tools.IsImportantNamespace("Talk:Test"));
+            Assert.IsFalse(Tools.IsImportantNamespace("File talk:Test"));
+            Assert.IsFalse(Tools.IsImportantNamespace("Template talk:Test"));
+            Assert.IsFalse(Tools.IsImportantNamespace("Category talk:Test"));
+            Assert.IsFalse(Tools.IsImportantNamespace("User:Test"));
+        }
+
+        [Test]
+        public void RemoveNamespaceString()
+        {
+            Assert.AreEqual("Test", Tools.RemoveNamespaceString("Test"));
+            Assert.AreEqual("Test", Tools.RemoveNamespaceString("User:Test"));
+            Assert.AreEqual("Test", Tools.RemoveNamespaceString("User talk:Test"));
+            Assert.AreEqual("Test", Tools.RemoveNamespaceString("Category:Test"));
+        }
+
+        [Test]
+        public void GetNamespaceString()
+        {
+            Assert.AreEqual("", Tools.GetNamespaceString("Test"));
+            Assert.AreEqual("User", Tools.GetNamespaceString("User:Test"));
+            Assert.AreEqual("User talk", Tools.GetNamespaceString("User talk:Test"));
+            Assert.AreEqual("Category", Tools.GetNamespaceString("Category:Test"));
+            Assert.AreEqual("Help", Tools.GetNamespaceString("Help:Test"));
         }
     }
 
