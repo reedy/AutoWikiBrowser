@@ -1293,9 +1293,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static string RemoveImage(string Image, string ArticleText, bool CommentOut, string Comment)
         {
             //remove image prefix
-            Image = Regex.Replace(Image, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase).Replace("_", " ");
+            Image = Regex.Replace(Image, "^" + Variables.NamespacesCaseInsensitive[6], "", RegexOptions.IgnoreCase).Replace("_", " ");
             Image = Regex.Escape(Image).Replace("\\ ", "[ _]");
             Image = Tools.CaseInsensitive(Image);
+
+            ArticleText = FixImages(ArticleText);
 
             Regex r = new Regex("\\[\\[" + Variables.NamespacesCaseInsensitive[6] + Image + ".*\\]\\]");
             MatchCollection n = r.Matches(ArticleText);
