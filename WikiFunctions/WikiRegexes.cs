@@ -16,6 +16,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace WikiFunctions
@@ -30,13 +31,35 @@ namespace WikiFunctions
             TemplateStart = @"\{\{\s*(:?" + Variables.NamespacesCaseInsensitive[10] + ")?";
 
             Category = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[14] + @"(.*?)\]\]", RegexOptions.Compiled);
-            Images = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[6] + @"([^\]]*?(?:\[\[?.*?(?:\[\[.*?\]\].*?)?\]\]?[^\]]*?)*)\]\]|<[Gg]allery\b([^>]*?)>[\s\S]*?</ ?[Gg]allery>", RegexOptions.Compiled);
+            Images =
+                new Regex(
+                    @"\[\[" + Variables.NamespacesCaseInsensitive[6] +
+                    @"([^\]]*?(?:\[\[?.*?(?:\[\[.*?\]\].*?)?\]\]?[^\]]*?)*)\]\]|<[Gg]allery\b([^>]*?)>[\s\S]*?</ ?[Gg]allery>",
+                    RegexOptions.Compiled);
             Stub = new Regex(@"{{.*?" + Variables.Stub + @"}}", RegexOptions.Compiled);
-            PossiblyCommentedStub = new Regex(@"(<!-- ?\{\{[^}]*?" + Variables.Stub + @"\b\}\}.*?-->|\{\{[^}]*?" + Variables.Stub + @"\}\})", RegexOptions.Compiled);
-            TemplateCall = new Regex(TemplateStart + @"\s*([^\]\|]*)\s*(.*)}}", RegexOptions.Compiled | RegexOptions.Singleline);
+            PossiblyCommentedStub =
+                new Regex(
+                    @"(<!-- ?\{\{[^}]*?" + Variables.Stub + @"\b\}\}.*?-->|\{\{[^}]*?" + Variables.Stub + @"\}\})",
+                    RegexOptions.Compiled);
+            TemplateCall = new Regex(TemplateStart + @"\s*([^\]\|]*)\s*(.*)}}",
+                                     RegexOptions.Compiled | RegexOptions.Singleline);
 
-            LooseCategory = new Regex(@"\[\[[\s_]*" + Variables.NamespacesCaseInsensitive[14] + @"[\s_]*([^\|]*?)(|\|.*?)\]\]", RegexOptions.Compiled);
-            LooseImage = new Regex(@"\[\[\s*?(" + Variables.NamespacesCaseInsensitive[6] + @")\s*([^\|\]]*?)(.*?)\]\]", RegexOptions.Compiled);
+            LooseCategory =
+                new Regex(@"\[\[[\s_]*" + Variables.NamespacesCaseInsensitive[14] + @"[\s_]*([^\|]*?)(|\|.*?)\]\]",
+                          RegexOptions.Compiled);
+            LooseImage = new Regex(@"\[\[\s*?(" + Variables.NamespacesCaseInsensitive[6] + @")\s*([^\|\]]*?)(.*?)\]\]",
+                                   RegexOptions.Compiled);
+
+            StringBuilder builder = new StringBuilder("(" + Variables.MonthNames[0]);
+            for (int i = 1; i < 12; i++)
+            {
+                builder.Append("|" + Variables.MonthNames[i]);
+            }
+
+            string months = builder + ")";
+
+            Dates = new Regex("^(0?[1-9]|[12][0-9]|3[01]) " + months + "$", RegexOptions.Compiled);
+            Dates2 = new Regex("^" + months + " (0?[1-9]|[12][0-9]|3[01])$", RegexOptions.Compiled);
 
             string s;
             switch (Variables.LangCode)
@@ -72,16 +95,24 @@ namespace WikiFunctions
                     s = "REDIRECT";
                     break;
             }
-            Redirect = new Regex(@"#" + s + @"\s*:?\s*\[\[\s*:?\s*([^\|]*?)\s*(|\|.*?)]\]", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            Redirect = new Regex(@"#" + s + @"\s*:?\s*\[\[\s*:?\s*([^\|]*?)\s*(|\|.*?)]\]",
+                                 RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
             if (Variables.LangCode == LangCodeEnum.ru)
-                Disambigs = new Regex(TemplateStart + @"([Dd]isambiguation|[Dd]isambig|[Нн]еоднозначность)}}", RegexOptions.Compiled);
+                Disambigs = new Regex(TemplateStart + @"([Dd]isambiguation|[Dd]isambig|[Нн]еоднозначность)}}",
+                                      RegexOptions.Compiled);
             else
-                Disambigs = new Regex(@"{{([234]CC|[Dd]isambig|[Gg]eodis|[Hh]ndis|[Ss]urname|[Nn]umberdis|[Rr]oaddis|[Ll]etter-disambig)}}", RegexOptions.Compiled);
+                Disambigs =
+                    new Regex(
+                        @"{{([234]CC|[Dd]isambig|[Gg]eodis|[Hh]ndis|[Ss]urname|[Nn]umberdis|[Rr]oaddis|[Ll]etter-disambig)}}",
+                        RegexOptions.Compiled);
 
-            s = (Variables.LangCode == LangCodeEnum.en) ? "(?:(?i:defaultsort|lifetime|BIRTH-DEATH-SORT)|BD)" : "(?i:defaultsort)";
+            s = (Variables.LangCode == LangCodeEnum.en)
+                    ? "(?:(?i:defaultsort|lifetime|BIRTH-DEATH-SORT)|BD)"
+                    : "(?i:defaultsort)";
 
-            Defaultsort = new Regex(TemplateStart + s + @"\s*[:|](?<key>[^\}]*)}}", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+            Defaultsort = new Regex(TemplateStart + s + @"\s*[:|](?<key>[^\}]*)}}",
+                                    RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 
             //if (Variables.URL == Variables.URLLong)
             //    s = Regex.Escape(Variables.URL);
@@ -90,7 +121,7 @@ namespace WikiFunctions
             int pos = Tools.FirstDifference(Variables.URL, Variables.URLLong);
             s = Regex.Escape(Variables.URLLong.Substring(0, pos));
             s += "(?:" + Regex.Escape(Variables.URLLong.Substring(pos)) + @"index\.php(?:\?title=|/)|"
-                + Regex.Escape(Variables.URL.Substring(pos)) + "/wiki/" + ")";
+                 + Regex.Escape(Variables.URL.Substring(pos)) + "/wiki/" + ")";
             //}
             ExtractTitle = new Regex("^" + s + "([^?&]*)$", RegexOptions.Compiled);
         }
@@ -209,13 +240,13 @@ namespace WikiFunctions
         /// <summary>
         /// Matches Dates like 21 January
         /// </summary>
-        public static readonly Regex Dates = new Regex("^[0-9]{1,2} (January|February|March|April|May|June|July|August|September|October|November|December)$", RegexOptions.Compiled);
+        public static Regex Dates;
 
         /// <summary>
         /// Matches Dates like January 21
         /// TODO: internationalise
         /// </summary>
-        public static readonly Regex Dates2 = new Regex("^(January|February|March|April|May|June|July|August|September|October|November|December) [0-9]{1,2}$", RegexOptions.Compiled);
+        public static Regex Dates2;
 
         /// <summary>
         /// Matches categories
