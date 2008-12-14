@@ -378,13 +378,13 @@ http://example.com }}");
         public ImageTests()
         {
             Globals.UnitTestMode = true;
+            if (WikiRegexes.LooseImage == null)
+                WikiRegexes.MakeLangSpecificRegexes();
         }
 
         [Test, Category("Incomplete")]
         public void BasicImprovements()
         {
-            Parsers parser = new Parsers();
-
             Assert.AreEqual("[[File:foo.jpg|thumb|200px|Bar]]",
                 Parsers.FixImages("[[ file : foo.jpg|thumb|200px|Bar]]"));
 
@@ -400,7 +400,7 @@ http://example.com }}");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Removing_underscore_in_URL_in_Ref_in_Description_in_Image....
             //Assert.AreEqual("[[Image:foo_bar|[http://some_link]]]",
-            //    parser.FixImages("[[image:foo_bar|http://some_link]]"));
+            //    p.FixImages("[[image:foo_bar|http://some_link]]"));
         }
 
         [Test]
