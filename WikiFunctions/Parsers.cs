@@ -1139,9 +1139,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text.</returns>
         public string Unicodify(string ArticleText)
         {
-            if (Regex.IsMatch(ArticleText, "<[Mm]ath>"))
-                return ArticleText;
-
             ArticleText = Regex.Replace(ArticleText, "&#150;|&#8211;|&#x2013;", "&ndash;");
             ArticleText = Regex.Replace(ArticleText, "&#151;|&#8212;|&#x2014;", "&mdash;");
             ArticleText = ArticleText.Replace(" &amp; ", " & ");
