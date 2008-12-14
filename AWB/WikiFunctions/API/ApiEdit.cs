@@ -305,8 +305,6 @@ namespace WikiFunctions.API
             string result = HttpPost(new string[,] { { "action", "login" } },
                 new string[,] { { "lgname", username }, { "lgpassword", password } }, false);
 
-            CheckForError(result, "login");
-
             XmlReader xr = XmlReader.Create(new StringReader(result));
             xr.ReadToFollowing("login");
             string status = xr.GetAttribute("result");
@@ -314,6 +312,8 @@ namespace WikiFunctions.API
             {
                 throw new ApiLoginException(this, status);
             }
+
+            CheckForError(result, "login");
         }
 
         public void Logout()
@@ -554,21 +554,20 @@ namespace WikiFunctions.API
                 string result = xr.GetAttribute("result");
                 if (result != null && result != "Success")
                 {
-                    result = xr.GetAttribute("assert");
-                    if (!string.IsNullOrEmpty(result))
+                    string s = xr.GetAttribute("assert");
+                    if (!string.IsNullOrEmpty(s))
                     {
-                        throw new ApiAssertionException(this, result);
+                        throw new ApiAssertionException(this, s);
                     }
 
-                    result = xr.GetAttribute("spamblacklist");
-                    if (!string.IsNullOrEmpty(result))
+                    s = xr.GetAttribute("spamblacklist");
+                    if (!string.IsNullOrEmpty(s))
                     {
-                        throw new ApiSpamlistException(this, result);
+                        throw new ApiSpamlistException(this, s);
                     }
-                    
-                    // else
-                    throw new ApiErrorException(this, result, result); //HACK: we need error message
                 }
+                else
+                    throw new ApiErrorException(this, result, result); //HACK: we need error message
             }
 
             if (xr.ReadToFollowing("captcha"))
