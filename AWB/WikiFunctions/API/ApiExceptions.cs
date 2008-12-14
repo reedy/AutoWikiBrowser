@@ -95,7 +95,7 @@ namespace WikiFunctions.API
     //}
 
     /// <summary>
-    /// Thrown when an API call returned zero-size reply. Most likely, this indicates a server internal error.
+    /// Thrown when an API call returns a zero-size reply. Most likely, this indicates a server internal error.
     /// </summary>
     public class ApiBlankException : ApiException
     {
@@ -157,6 +157,23 @@ namespace WikiFunctions.API
         public ApiAssertionException(ApiEdit editor, string assertion)
             : base(editor, "Assertion '" + assertion + "' failed")
         {
+        }
+    }
+
+    /// <summary>
+    /// Thrown when edit is blocked by SpamBlacklist extension
+    /// </summary>
+    public class ApiSpamlistException : ApiException
+    {
+        /// <summary>
+        /// URL which triggered the blacklist
+        /// </summary>
+        public readonly string URL;
+
+        public ApiSpamlistException(ApiEdit editor, string url)
+            : base(editor, "The link '" + url + "' is blocked by spam blacklist")
+        {
+            URL = url;
         }
     }
 
