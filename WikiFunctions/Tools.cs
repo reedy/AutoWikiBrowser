@@ -119,10 +119,7 @@ namespace WikiFunctions
         /// </summary>
         public static bool IsWikimediaProject(ProjectEnum p)
         {
-            return (p == ProjectEnum.commons || p == ProjectEnum.meta || p == ProjectEnum.species
-                || p == ProjectEnum.wikibooks || p == ProjectEnum.wikinews || p == ProjectEnum.wikipedia
-                || p == ProjectEnum.wikiquote || p == ProjectEnum.wikisource || p == ProjectEnum.wikiversity
-                || p == ProjectEnum.wiktionary);
+            return (p != ProjectEnum.custom && p != ProjectEnum.wikia);
         }
 
         static char[] InvalidChars = new char[] { '[', ']', '{', '}', '|', '<', '>', '#' };
