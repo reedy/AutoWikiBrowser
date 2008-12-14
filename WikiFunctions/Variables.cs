@@ -635,7 +635,7 @@ namespace WikiFunctions
         private static void RegenerateRegexes()
         {
             NamespacesCaseInsensitive.Clear();
-            bool LangNotEnglish = (LangCode != LangCodeEnum.en);
+            //bool LangNotEnglish = (LangCode != LangCodeEnum.en);
             foreach (KeyValuePair<int, string> k in Namespaces)
             {
                 StringBuilder sb = new StringBuilder("(?i:", 200);

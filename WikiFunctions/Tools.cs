@@ -54,7 +54,7 @@ namespace WikiFunctions
                     return k.Key;
             }
 
-            foreach(KeyValuePair<int, List<string>> k in Variables.NamespaceAliases)
+            foreach (KeyValuePair<int, List<string>> k in Variables.NamespaceAliases)
             {
                 foreach (string s in k.Value)
                 {
@@ -62,6 +62,12 @@ namespace WikiFunctions
                         return k.Key;
                 }
             }
+
+            //foreach(KeyValuePair<int, string> k in Variables.NamespacesCaseInsensitive)
+            //{
+            //    if (Regex.Match(ArticleTitle, k.Value).Success)
+            //        return k.Key;
+            //}
 
             foreach (KeyValuePair<int, string> k in Variables.CanonicalNamespaces)
             {
