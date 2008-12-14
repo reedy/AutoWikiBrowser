@@ -401,18 +401,15 @@ namespace WikiFunctions
             if (!IsValidTitle(ArticleTitle))
                 return "";
 
-            string text = "";
             string url = Variables.GetPlainTextURL(ArticleTitle);
             try
             {
-                text = GetHTML(url, Encoding.UTF8);
+                return GetHTML(url, Encoding.UTF8);
             }
             catch
             {
                 throw new Exception("There was a problem loading " + url + ", please make sure the page exists");
             }
-
-            return text;
         }
 
         [DllImport("user32.dll")]
@@ -544,7 +541,7 @@ namespace WikiFunctions
             return (char.ToLower(input[0]) + input.Remove(0, 1));
         }
 
-        static readonly Regex RegexWordCountTable = new Regex("\\{\\|.*?\\|\\}", RegexOptions.Compiled | RegexOptions.Singleline);
+        private static readonly Regex RegexWordCountTable = new Regex("\\{\\|.*?\\|\\}", RegexOptions.Compiled | RegexOptions.Singleline);
 
         /// <summary>
         /// Returns word count of the string
@@ -908,15 +905,6 @@ namespace WikiFunctions
                 s = s.Replace(p.Key, p.Value);
             }
             return s;
-
-            //StringBuilder sb = new StringBuilder(s.Length);
-            //foreach (char c in s.Normalize(NormalizationForm.FormKD))
-            //{
-            //    UnicodeCategory category = char.GetUnicodeCategory(c);
-            //    if (category != UnicodeCategory.Surrogate && category != UnicodeCategory.NonSpacingMark)
-            //        sb.Append(c);
-            //}
-            //return sb.ToString().Normalize(NormalizationForm.FormC);
         }
 
         /// <summary>
@@ -972,12 +960,10 @@ namespace WikiFunctions
             text = Regex.Replace(text, "</?(ol|ul|li)>", "", RegexOptions.Multiline | RegexOptions.IgnoreCase);
             text = Regex.Replace(text, "^</?(ol|ul|li)>\r\n", "", RegexOptions.Multiline | RegexOptions.IgnoreCase);
             text = Regex.Replace(text, "^(<li>|\\:|\\*|#|\\(? ?[0-9]{1,3} ?\\)|[0-9]{1,3}\\.?)", "", RegexOptions.Multiline);
-            text = Regex.Replace(text, "^", bullet, RegexOptions.Multiline);
-
-            return text;
+            return Regex.Replace(text, "^", bullet, RegexOptions.Multiline);
         }
 
-        static System.Media.SoundPlayer sound = new System.Media.SoundPlayer();
+        private static readonly System.Media.SoundPlayer sound = new System.Media.SoundPlayer();
 
         /// <summary>
         /// Beeps
@@ -1436,7 +1422,7 @@ Message: {2}
         /// <returns>Article Title</returns>
         public static string ConvertToTalk(Article a)
         {
-            if (Tools.IsTalkPage(a.NameSpaceKey))
+            if (IsTalkPage(a.NameSpaceKey))
                 return a.Name;
 
             if (a.NameSpaceKey == 0)
@@ -1616,7 +1602,7 @@ Message: {2}
         }
 
         /// <summary>
-        /// Wrapper for System.Windows.Forms.MessageBox.Show() - So things dont have to reference the Forms library\
+        /// Wrapper for System.Windows.Forms.MessageBox.Show() - So things dont have to reference the Forms library
         /// </summary>
         /// <param name="message"></param>
         public static void MessageBox(string message)

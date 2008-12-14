@@ -144,7 +144,6 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="ArticleTitle">The article title.</param>
-        /// <param name="sortWikis">True, sort interwiki order per pywiki bots, false keep current order.</param>
         /// <returns>The re-organised text.</returns>
         public string SortMetaData(string ArticleText, string ArticleTitle)
         {
@@ -176,6 +175,7 @@ namespace WikiFunctions.Parse
         /// Fix ==See also== and similar section common errors.
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <param name="ArticleTitle"></param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The modified article text.</returns>
         public string FixHeadings(string ArticleText, string ArticleTitle, out bool NoChange)
@@ -193,6 +193,7 @@ namespace WikiFunctions.Parse
         /// Fix ==See also== and similar section common errors. Removes unecessary introductary headings.
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <param name="ArticleTitle"></param>
         /// <returns>The modified article text.</returns>
         public string FixHeadings(string ArticleText, string ArticleTitle)
         {
@@ -370,7 +371,7 @@ namespace WikiFunctions.Parse
             return ReferenceListTags.Replace(ArticleText, new MatchEvaluator(ReflistMatchEvaluator));
         }
 
-        private static Regex EmptyReferences = new Regex(@"<ref\s+name=[""]?([^<>""]*)[""]?\s*>[\s]*< ?/ ?ref ?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex EmptyReferences = new Regex(@"<ref\s+name=[""]?([^<>""]*)[""]?\s*>[\s]*< ?/ ?ref ?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         // Covered by: FootnotesTests.TestSimplifyReferenceTags()
         /// <summary>
@@ -665,9 +666,7 @@ namespace WikiFunctions.Parse
         {
             StringBuilder sb = new StringBuilder(ArticleText, (ArticleText.Length * 11) / 10);
 
-            string y = "";
-
-            //string cat = "[[" + Variables.Namespaces[14];
+            string y;
 
             foreach (Match m in WikiRegexes.WikiLink.Matches(ArticleText))
             {
@@ -702,7 +701,8 @@ namespace WikiFunctions.Parse
             sb.Replace('_', ' ');
             title = HttpUtility.UrlDecode(sb.ToString());
             if (trim) return title.Trim();
-            else return title;
+            
+            return title;
         }
 
         // Covered by: UtilityFunctionTests.IsCorrectEditSummary()
@@ -737,13 +737,13 @@ namespace WikiFunctions.Parse
         /// <returns>The simplified article text.</returns>
         public static string SimplifyLinks(string ArticleText)
         {
-            string n, a = "", b = "", k;
+            string a = "", b = "";
 
             try
             {
                 foreach (Match m in WikiRegexes.PipedWikiLink.Matches(ArticleText))
                 {
-                    n = m.Value;
+                    string n = m.Value;
                     a = m.Groups[1].Value.Trim();
                     b = m.Groups[2].Value.Trim();
 
@@ -765,8 +765,7 @@ namespace WikiFunctions.Parse
                             }
                         }
                         if (doBreak) continue;
-                        k = "[[" + b.Substring(0, a.Length) + "]]" + b.Substring(a.Length);
-                        ArticleText = ArticleText.Replace(n, k);
+                        ArticleText = ArticleText.Replace(n, "[[" + b.Substring(0, a.Length) + "]]" + b.Substring(a.Length));
                     }
                     else
                     {
@@ -839,11 +838,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             if (regexMainArticle.Match(ArticleText).Groups[2].Value.Length == 0)
                 return regexMainArticle.Replace(ArticleText, "{{main|$1}}");
-            else
-                return regexMainArticle.Replace(ArticleText, "{{main|$1|l1=$3}}");
+            
+            return regexMainArticle.Replace(ArticleText, "{{main|$1|l1=$3}}");
         }
 
-        static Regex emptyTemplate = new Regex(@"{{[|\s]*}}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex emptyTemplate = new Regex(@"{{[|\s]*}}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         // NOT covered
         /// <summary>
@@ -899,17 +898,14 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text.</returns>
         public static string BulletExternalLinks(string ArticleText)
         {
-            int intStart = 0;
-            string articleTextSubstring = "";
-
             Match m = Regex.Match(ArticleText, @"=\s*(?:external)?\s*links\s*=", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
 
             if (!m.Success)
                 return ArticleText;
 
-            intStart = m.Index;
+            int intStart = m.Index;
 
-            articleTextSubstring = ArticleText.Substring(intStart);
+            string articleTextSubstring  = ArticleText.Substring(intStart);
             ArticleText = ArticleText.Substring(0, intStart);
             HideText ht = new HideText(false, true, false);
             articleTextSubstring = ht.HideMore(articleTextSubstring);
@@ -957,7 +953,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
-        private static Regex Temperature = new Regex(@"([º°](&nbsp;|)|(&deg;|&ordm;)(&nbsp;|))\s*([CcFf])([^A-Za-z])", RegexOptions.Compiled);
+        private static readonly Regex Temperature = new Regex(@"([º°](&nbsp;|)|(&deg;|&ordm;)(&nbsp;|))\s*([CcFf])([^A-Za-z])", RegexOptions.Compiled);
 
         // NOT covered
         /// <summary>
@@ -1021,8 +1017,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             ArticleText = WikiRegexes.Nowiki.Replace(ArticleText, "");
             ArticleText = WikiRegexes.Comments.Replace(ArticleText, "");
-            Regex search = new Regex(@"(\{\{\s*" + Template + @"\s*)(?:\||\})",
-                RegexOptions.Singleline);
+            Regex search = new Regex(@"(\{\{\s*" + Template + @"\s*)(?:\||\})", RegexOptions.Singleline);
 
             Match m = search.Match(ArticleText);
 
@@ -1088,6 +1083,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// If fromSetting is true, get template name from a setting, i.e. strip formatting/template: call *if any*. If false, passes through to GetTemplateName(string call)
         /// </summary>
         /// <param name="setting"></param>
+        /// <param name="fromSetting"></param>
         public static string GetTemplateName(string setting, bool fromSetting)
         {
             if (fromSetting)
@@ -1291,6 +1287,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="Image">The image to remove.</param>
+        /// <param name="CommentOut"></param>
+        /// <param name="Comment"></param>
         /// <returns>The new article text.</returns>
         public static string RemoveImage(string Image, string ArticleText, bool CommentOut, string Comment)
         {
@@ -1673,7 +1671,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// Substitutes some user talk templates
         /// </summary>
-        /// <param name="TalPageText">The wiki text of the talk page.</param>
+        /// <param name="TalkPageText">The wiki text of the talk page.</param>
+        /// <param name="TalkPageTitle"></param>
+        /// <param name="userTalkTemplatesRegex"></param>
         /// <returns>The new text.</returns>
         public static string SubstUserTemplates(string TalkPageText, string TalkPageTitle, Regex userTalkTemplatesRegex)
         {
@@ -1889,12 +1889,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
-        public static Regex ExtToInt1 = new Regex(@"/\w+:\/\/secure\.wikimedia\.org\/(\w+)\/(\w+)\//", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        public static Regex ExtToInt2 = new Regex(@"/http:\/\/(\w+)\.(\w+)\.org\/wiki\/([^#{|}\[\]]*).*REMOVEME/i", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        public static Regex ExtToInt3 = new Regex(@"/http:\/\/(\w+)\.(\w+)\.org\/.*?title=([^#&{|}\[\]]*).*REMOVEME/i", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        public static Regex ExtToInt4 = new Regex(@"/[^\n]*?\[\[([^[\]{|}]+)[^\n]*REMOVEME/g", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        public static Regex ExtToInt5 = new Regex(@"/^ *(w:|wikipedia:|)(en:|([a-z\-]+:)) *REMOVEME/i", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        public static Regex ExtToInt6 = new Regex(@"/^ *(?:wikimedia:(m)eta|wikimedia:(commons)|(wikt)ionary|wiki(?:(n)ews|(b)ooks|(q)uote|(s)ource|(v)ersity))(:[a-z\-]+:)/i", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex ExtToInt1 = new Regex(@"/\w+:\/\/secure\.wikimedia\.org\/(\w+)\/(\w+)\//", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex ExtToInt2 = new Regex(@"/http:\/\/(\w+)\.(\w+)\.org\/wiki\/([^#{|}\[\]]*).*REMOVEME/i", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex ExtToInt3 = new Regex(@"/http:\/\/(\w+)\.(\w+)\.org\/.*?title=([^#&{|}\[\]]*).*REMOVEME/i", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex ExtToInt4 = new Regex(@"/[^\n]*?\[\[([^[\]{|}]+)[^\n]*REMOVEME/g", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex ExtToInt5 = new Regex(@"/^ *(w:|wikipedia:|)(en:|([a-z\-]+:)) *REMOVEME/i", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex ExtToInt6 = new Regex(@"/^ *(?:wikimedia:(m)eta|wikimedia:(commons)|(wikt)ionary|wiki(?:(n)ews|(b)ooks|(q)uote|(s)ource|(v)ersity))(:[a-z\-]+:)/i", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public static string ExternalURLToInternalLink(string ArticleText)
         {
