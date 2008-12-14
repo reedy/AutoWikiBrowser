@@ -518,6 +518,9 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
             Assert.IsFalse(Tools.IsMainSpace("Talk:Test"));
             Assert.IsFalse(Tools.IsMainSpace("User:Test"));
             Assert.IsFalse(Tools.IsMainSpace("User talk:Test"));
+
+            Assert.IsFalse(Tools.IsMainSpace("File:Test"));
+            Assert.IsFalse(Tools.IsMainSpace("Image:Test"));
         }
 
         [Test]
