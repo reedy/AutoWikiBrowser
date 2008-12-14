@@ -86,6 +86,7 @@ namespace WikiFunctions
             catch { }
         }
 
+        // Covered by ToolsTests.IsMainSpace()
         /// <summary>
         /// Tests title to make sure it is main space
         /// </summary>
@@ -95,6 +96,7 @@ namespace WikiFunctions
             return (CalculateNS(ArticleTitle) == 0);
         }
 
+        // Covered by ToolsTests.IsRedirect()
         /// <summary>
         /// Tests article to see if it is a redirect
         /// </summary>
@@ -104,6 +106,7 @@ namespace WikiFunctions
             return WikiRegexes.Redirect.IsMatch(FirstChars(Text, 512));
         }
 
+        // Covered by ToolsTests.RedirectTarget()
         /// <summary>
         /// Gets the target of the redirect
         /// </summary>
@@ -114,6 +117,7 @@ namespace WikiFunctions
             return WikiDecode(m.Groups[1].Value).Trim();
         }
 
+        // Covered by ToolsTests.IsWikimediaProject()
         /// <summary>
         /// Returns true if given project belongs to Wikimedia
         /// </summary>
@@ -124,10 +128,11 @@ namespace WikiFunctions
 
         static char[] InvalidChars = new char[] { '[', ']', '{', '}', '|', '<', '>', '#' };
 
+        // Covered by ToolsTests.InvalidChars()
         /// <summary>
         /// Tests article title to see if it is valid
         /// </summary>
-        /// <param name="ArticleText">The title.</param>
+        /// <param name="ArticleTitle">The title.</param>
         public static bool IsValidTitle(string ArticleTitle)
         {
             ArticleTitle = WikiDecode(ArticleTitle).Trim();
@@ -136,6 +141,7 @@ namespace WikiFunctions
             return (ArticleTitle.IndexOfAny(InvalidChars) < 0);
         }
 
+        // Covered by ToolsTests.RemoveInvalidChars()
         /// <summary>
         /// Removes Invalid Characters from an Article ArticleTitle
         /// </summary>
@@ -150,6 +156,7 @@ namespace WikiFunctions
             return ArticleTitle;
         }
 
+        // Covered by ToolsTests.IsImportantNamespace()
         /// <summary>
         /// Tests title to make sure it is either main, image, category or template namespace.
         /// </summary>
@@ -169,6 +176,7 @@ namespace WikiFunctions
             return (CalculateNS(ArticleTitle) % 2 == 1);
         }
 
+        // Covered by ToolsTests.IsTalkPage
         /// <summary>
         /// Tests title to make sure it is a talk page.
         /// </summary>
@@ -256,6 +264,7 @@ namespace WikiFunctions
             return Name;
         }
 
+        // Covered by ToolsTests.RemoveNamespaceString()
         /// <summary>
         /// Returns a string with the namespace removed
         /// </summary>
@@ -265,6 +274,7 @@ namespace WikiFunctions
             return new Article(title).NamespacelessName;
         }
 
+        // Covered by ToolsTests.GetNamespaceString()
         /// <summary>
         /// Returns a string just including the namespace of the article
         /// </summary>
@@ -278,6 +288,7 @@ namespace WikiFunctions
             return Variables.Namespaces[ns].Replace(":", "");
         }
 
+        // Covered by ToolsTests.BasePageName()
         /// <summary>
         /// Works like MediaWiki's {{BASEPAGENAME}} by retrieving page's parent name
         /// </summary>
@@ -293,6 +304,7 @@ namespace WikiFunctions
             return title.Substring(0, i);
         }
 
+        // Covered by ToolsTests.SubPageName()
         /// <summary>
         /// 
         /// </summary>
@@ -309,6 +321,7 @@ namespace WikiFunctions
             return title.Substring(i + 1);
         }
 
+        // Covered by ToolsTests.RomanNumbers()
         /// <summary>
         /// checks if given string represents a small Roman number
         /// </summary>
@@ -324,6 +337,7 @@ namespace WikiFunctions
 
         const int MaxEditSummaryLength = 250; // in bytes
 
+        // Covered by ToolsTests.TrimEditSummary()
         /// <summary>
         /// UNFINISHED
         /// </summary>
@@ -424,6 +438,7 @@ namespace WikiFunctions
             return (string.Compare(one, two, true) == 0);
         }
 
+        // Partially Covered by ToolsTests.CaseInsensitive()
         /// <summary>
         /// Returns a regex case insensitive version of a string for the first letter only e.g. "Category" returns "[Cc]ategory"
         /// </summary>
@@ -439,6 +454,7 @@ namespace WikiFunctions
             return input;
         }
 
+        // Covered by ToolsTests.AllCaseInsensitive()
         /// <summary>
         /// Returns a regex case insensitive version of an entire string e.g. "Category" returns "[Cc][Aa][Tt][Ee][Gg][Oo][Rr][Yy]"
         /// </summary>
@@ -460,6 +476,7 @@ namespace WikiFunctions
             return input;
         }
 
+        // Covered by ToolsTests.ApplyKeyWords()
         /// <summary>
         /// Applies the key words "%%title%%" etc.
         /// </summary>
@@ -505,6 +522,7 @@ namespace WikiFunctions
             return Text;
         }
 
+        // Covered by ToolsTests.TurnFirstToUpper()
         /// <summary>
         /// Returns uppercase version of the string
         /// </summary>
@@ -516,6 +534,7 @@ namespace WikiFunctions
             return (char.ToUpper(input[0]) + input.Remove(0, 1));
         }
 
+        // Covered by ToolsTests.TurnFirstToLower()
         /// <summary>
         /// Returns lowercase version of the string
         /// </summary>
@@ -529,6 +548,7 @@ namespace WikiFunctions
 
         private static readonly Regex RegexWordCountTable = new Regex("\\{\\|.*?\\|\\}", RegexOptions.Compiled | RegexOptions.Singleline);
 
+        // Covered by ToolsTests.WordCount()
         /// <summary>
         /// Returns word count of the string
         /// </summary>
@@ -574,6 +594,7 @@ namespace WikiFunctions
             return Text;
         }
 
+        // Covered by ToolsTests.SplitToSections()
         /// <summary>
         /// Splits wikitext to sections
         /// </summary>
@@ -604,6 +625,7 @@ namespace WikiFunctions
             return sections.ToArray();
         }
 
+        // Covered by ToolsTests.RemoveMatches()
         /// <summary>
         /// Removes every matched pattern. To be used only if MatchCollection is needed for something else,
         /// otherwise Regex.Replace(foo, "") will be faster
@@ -1016,6 +1038,7 @@ Message: {2}
             return "";
         }
 
+        // Covered by ToolsTests.ReplacePartOfString()
         /// <summary>
         /// For disambiguation - replaces part of a string with another string
         /// </summary>
@@ -1029,6 +1052,7 @@ Message: {2}
             return source.Substring(0, position) + replace + source.Substring(position + length);
         }
 
+        // Covered by ToolsTests.FirstChars()
         /// <summary>
         /// Returns substring at the start of a given string
         /// </summary>
@@ -1129,6 +1153,7 @@ Message: {2}
             OpenURLInBrowser(Variables.GetRemoveFromWatchlistURL(title));
         }
 
+        // Covered by ToolsTests.WikiEncode()
         /// <summary>
         /// Replaces spaces with underscores for article title names
         /// </summary>
@@ -1147,6 +1172,7 @@ Message: {2}
             return HttpUtility.UrlDecode(title).Replace('_', ' ');
         }
 
+        // Covered by ToolsTests.RemoveHashFromPageTitle()
         /// <summary>
         /// Removes the # and text after from a page title. Some redirects redirect to sections, the API doesnt like this
         /// </summary>
@@ -1160,6 +1186,7 @@ Message: {2}
             return (title.Substring(0, title.IndexOf('#')));
         }
 
+        // Covered by ToolsTests.ServerName()
         /// <summary>
         /// Returns URL stripped of protocol and subdirectories, e.g. http://en.wikipedia.org/wiki/ --> en.wikipedia.org
         /// </summary>
@@ -1225,6 +1252,7 @@ Message: {2}
             return ArticleText;
         }
 
+        // Covered by ToolsTests.GetTitleFromURL()
         /// <summary>
         /// Extracts page title from URL
         /// </summary>
@@ -1295,6 +1323,7 @@ Message: {2}
         }
         #endregion
 
+        // Covered by ToolsTests.SplitLines()
         /// <summary>
         /// Splits a string of text to separate lines. Supports every line ending possible - CRLF, CR, LF
         /// </summary>
@@ -1334,6 +1363,7 @@ Message: {2}
             return res.ToArray();
         }
 
+        // Covered by ToolsTests.FindDifference()
         /// <summary>
         /// Returns index of first character different between strings
         /// </summary>
