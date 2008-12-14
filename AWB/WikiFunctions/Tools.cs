@@ -271,7 +271,17 @@ namespace WikiFunctions
         /// <returns></returns>
         public static string RemoveNamespaceString(string title)
         {
-            return new Article(title).NamespacelessName;
+            return RemoveNamespaceString(new Article(title));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        public static string RemoveNamespaceString(Article a)
+        {
+            return a.NamespacelessName;
         }
 
         // Covered by ToolsTests.GetNamespaceString()
@@ -281,10 +291,20 @@ namespace WikiFunctions
         /// <returns></returns>
         public static string GetNamespaceString(string title)
         {
-            int ns = new Article(title).NameSpaceKey;
+            return GetNamespaceString(new Article(title));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        public static string GetNamespaceString(Article a)
+        {
+            int ns = a.NameSpaceKey;
             if (ns == 0)
                 return "";
-            
+
             return Variables.Namespaces[ns].Replace(":", "");
         }
 
