@@ -550,24 +550,30 @@ namespace WikiFunctions.API
 
             if (!string.IsNullOrEmpty(action) && xr.ReadToFollowing(action))
             {
+
                 string result = xr.GetAttribute("result");
                 if (result != null && result != "Success")
                 {
-                    if (action == "edit")
+                    result = xr.GetAttribute("assert");
+                    if (!string.IsNullOrEmpty(result))
                     {
-                        string assert = xr.GetAttribute("assert");
-                        if (!string.IsNullOrEmpty(assert))
-                        {
-                            throw new ApiAssertionException(this, assert);
-                        }
-                        if (xr.ReadToFollowing("captcha"))
-                        {
-                            throw new ApiCaptchaException(this);
-                        }
+                        throw new ApiAssertionException(this, result);
                     }
-                    else
-                        throw new ApiErrorException(this, result, result); //HACK: we need error message
+
+                    result = xr.GetAttribute("spamblacklist");
+                    if (!string.IsNullOrEmpty(result))
+                    {
+                        throw new ApiSpamlistException(this, result);
+                    }
+                    
+                    // else
+                    throw new ApiErrorException(this, result, result); //HACK: we need error message
                 }
+            }
+
+            if (xr.ReadToFollowing("captcha"))
+            {
+                throw new ApiCaptchaException(this);
             }
         }
 
