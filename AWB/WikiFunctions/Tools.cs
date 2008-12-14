@@ -38,6 +38,7 @@ namespace WikiFunctions
     {
         public delegate void SetProgress(int percent);
 
+        // Not Covered
         /// <summary>
         /// Calculates the namespace index.
         /// TODO: doesn't recognise acceptable deviations such as "template:foo" or "Category : bar"
@@ -167,6 +168,7 @@ namespace WikiFunctions
             return (i == 0 || i == 6 || i == 10 || i == 14);
         }
 
+        // Covered by ToolsTest.IsTalkPage()
         /// <summary>
         /// Tests title to make sure it is a talk page.
         /// </summary>
@@ -197,6 +199,7 @@ namespace WikiFunctions
 
         private static readonly Regex NormalizeColon = new Regex(@"\s*:$", RegexOptions.Compiled);
 
+        // Covered by NamespaceFunctions.NormalizeNamespace()
         /// <summary>
         /// Normalizes a namespace string, but does not changes it to default namespace name
         /// </summary>
@@ -216,6 +219,7 @@ namespace WikiFunctions
             return ns;
         }
 
+        // Covered by HumanCatKeyTests
         /// <summary>
         /// Returns Category key from article name e.g. "David Smith" returns "Smith, David".
         /// special case: "John Doe, Jr." turns into "Doe, Jonn Jr."
@@ -447,6 +451,7 @@ namespace WikiFunctions
             catch { }
         }
 
+        // Not Covered
         /// <summary>
         /// Case-Insensitive String Comparison
         /// </summary>
@@ -581,6 +586,7 @@ namespace WikiFunctions
             return WikiRegexes.RegexWordCount.Matches(Text).Count;
         }
 
+        // Not Covered
         /// <summary>
         /// Returns number of interwiki links in the text
         /// </summary>
@@ -594,12 +600,14 @@ namespace WikiFunctions
             return count;
         }
 
+        // Not Covered
         /// <summary>
         /// Returns the number of [[links]] in the string
         /// </summary>
         public static int LinkCount(string Text)
         { return WikiRegexes.WikiLinksOnly.Matches(Text).Count; }
 
+        // Not Covered
         /// <summary>
         /// Removes underscores and wiki syntax from links
         /// </summary>
@@ -666,6 +674,7 @@ namespace WikiFunctions
             return sb.ToString();
         }
 
+        // Not Covered
         /// <summary>
         /// Removes every matched pattern. To be used only if MatchCollection is needed for something else,
         /// otherwise Regex.Replace(foo, "") will be faster
@@ -923,6 +932,7 @@ namespace WikiFunctions
             };
         #endregion
 
+        // Not Covered
         /// <summary>
         /// substitutes characters with diacritics with their simple equivalents
         /// </summary>
@@ -978,6 +988,7 @@ namespace WikiFunctions
             WriteTextFileAbsolutePath(Message, Application.StartupPath + "\\" + File, append);
         }
 
+        // Not Covered
         /// <summary>
         /// Turns an HTML list into a wiki style list
         /// </summary>
@@ -1044,6 +1055,7 @@ Message: {2}
             return IPAddress.TryParse(s, out dummy);
         }
 
+        // Not Covered
         /// <summary>
         /// returns content of a given string that lies between two other strings
         /// </summary>
@@ -1183,6 +1195,7 @@ Message: {2}
             return HttpUtility.UrlEncode(title.Replace(' ', '_')).Replace("%2f", "/").Replace("%3a", ":");
         }
 
+        // Not Covered
         /// <summary>
         /// Decodes URL-encoded page titles into a normal string
         /// </summary>
@@ -1288,6 +1301,7 @@ Message: {2}
             return WikiDecode(link);
         }
 
+        // Not Covered
         /// <summary>
         /// 
         /// </summary>
@@ -1451,6 +1465,7 @@ Message: {2}
             { }
         }
 
+        // Covered by NamespaceFunctions.ConvertToTalk()
         /// <summary>
         /// Turns an article into its associated talk page
         /// </summary>
@@ -1467,6 +1482,7 @@ Message: {2}
             return Variables.Namespaces[a.NameSpaceKey + 1] + a.NamespacelessName;
         }
 
+        // Covered by NamespaceFunctions.ToTalkOnList()
         /// <summary>
         /// Turns a list of articles into an list of the associated talk pages.
         /// </summary>
@@ -1487,6 +1503,7 @@ Message: {2}
             return newList;
         }
 
+        // Covered by NamespaceFunctions.ConvertFromTalk()
         /// <summary>
         /// Turns a talk page into its associated article
         /// </summary>
@@ -1504,6 +1521,7 @@ Message: {2}
             return a.Name;
         }
 
+        // Covered by NamespaceFunctions.FromTalkOnList
         /// <summary>
         /// Turns a list of talk pages into a list of the associated articles.
         /// </summary>
@@ -1524,6 +1542,7 @@ Message: {2}
             return newList;
         }
 
+        // Not Covered
         /// <summary>
         /// 
         /// </summary>
