@@ -413,15 +413,14 @@ http://example.com }}");
 
             Assert.AreEqual("", p.RemoveImage("foo.jpg", "[[Image: foo.jpg]]", false, "", out noChange));
             Assert.IsFalse(noChange);
-        }
 
-        [Test]
-        public void Removal2()
-        {
-            bool noChange;
+            Assert.AreEqual("", p.RemoveImage("Foo, bar", "[[File:foo%2C_bar|quux]]", false, "", out noChange));
+            Assert.IsFalse(noChange);
+
             Assert.AreEqual("", p.RemoveImage("foo.jpg", "[[Media:foo.jpg]]", false, "", out noChange));
             Assert.IsFalse(noChange);
         }
+
     }
 
     [TestFixture, Category("Incomplete")]
