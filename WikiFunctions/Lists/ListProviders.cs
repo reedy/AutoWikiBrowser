@@ -315,12 +315,17 @@ namespace WikiFunctions.Lists
 
         protected bool IncludeRedirects;
 
-        public override List<Article> MakeList(params string[] searchCriteria)
+        public List<Article> MakeList(int Namespace, params string[] searchCriteria)
         {
-            return MakeList(0, searchCriteria);
+            return MakeList(Namespace, searchCriteria);
         }
 
-        public List<Article> MakeList(int Namespace, params string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
+        {
+            return MakeList("0", searchCriteria);
+        }
+
+        public List<Article> MakeList(string Namespace, params string[] searchCriteria)
         {
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
@@ -365,6 +370,40 @@ namespace WikiFunctions.Lists
         }
 
         #endregion
+    }
+
+    /// <summary>
+    /// Gets a list of pages (all ns's) from which link to the Named Pages
+    /// </summary>
+    public class WhatLinksHereAllNSListProvider : WhatLinksHereListProvider
+    {
+        public override List<Article> MakeList(params string[] searchCriteria)
+        {
+            return MakeList("", searchCriteria);
+        }
+
+        #region ListMaker properties
+        public override string DisplayText
+        { get { return "What links here (All NS)"; } }
+
+        public override string UserInputTextBoxText
+        { get { return "What links to:"; } }
+
+        #endregion
+    }
+
+    /// <summary>
+    /// Gets a list of pages (all ns's) from which link to the Named Pages
+    /// </summary>
+    public class WhatLinksHereAllNSIncludingRedirectsListProvider : WhatLinksHereAllNSListProvider
+    {
+        public WhatLinksHereAllNSIncludingRedirectsListProvider()
+        {
+            IncludeRedirects = true;
+        }
+
+        public override string DisplayText
+        { get { return base.DisplayText + " (inc. Redirects)"; } }
     }
 
     /// <summary>

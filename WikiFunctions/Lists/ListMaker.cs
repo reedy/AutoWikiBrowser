@@ -84,7 +84,9 @@ namespace WikiFunctions.Controls.Lists
                 listItems.Add(new CategoryRecursiveUserDefinedLevelListProvider());
                 listItems.Add(categoriesOnPageLProvider);
                 listItems.Add(whatLinksHereLProvider);
+                listItems.Add(new WhatLinksHereAllNSListProvider());
                 listItems.Add(new WhatLinksHereIncludingRedirectsListProvider());
+                listItems.Add(new WhatLinksHereAllNSIncludingRedirectsListProvider());
                 listItems.Add(whatTranscludesLProvider);
                 listItems.Add(linksOnPageLProvider);
                 listItems.Add(imagesOnPageLProvider);
@@ -553,8 +555,8 @@ namespace WikiFunctions.Controls.Lists
             string url = Variables.URL + "/wiki/";
             if (Regex.Match(s, url).Success)
                 return s.Replace(url, "");
-            else
-                return s;
+            
+            return s;
         }
 
         private delegate void AddToListDel(string s);
@@ -563,9 +565,9 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public void Add(string s)
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.Invoke(new AddToListDel(Add), s);
+                Invoke(new AddToListDel(Add), s);
                 return;
             }
 
@@ -586,9 +588,9 @@ namespace WikiFunctions.Controls.Lists
             if (l == null)
                 return;
 
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.Invoke(new AddDel(Add), l);
+                Invoke(new AddDel(Add), l);
                 return;
             }
 
@@ -675,8 +677,8 @@ namespace WikiFunctions.Controls.Lists
         /// <summary>
         /// Makes a list of pages
         /// </summary>
-        /// <param name="ST">The type of list to create</param>
-        /// <param name="SourceValues">An array of string values to create the list with, e.g. an array of categories. Use null if not appropriate</param>
+        /// <param name="provider">The IListProvider to make the list</param>
+        /// <param name="sourceValues">An array of string values to create the list with, e.g. an array of categories. Use null if not appropriate</param>
         public void MakeList(IListProvider provider, string[] sourceValues)
         {
             btnStop.Visible = true;
@@ -845,15 +847,14 @@ namespace WikiFunctions.Controls.Lists
         public void FilterNonMainArticles()
         {
             //filter out non-mainspace articles
-
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.Invoke(new FilterNM(FilterNonMainArticles));
+                Invoke(new FilterNM(FilterNonMainArticles));
                 return;
             }
 
             int i = 0;
-            string s = "";
+            string s;
 
             lbArticles.BeginUpdate();
             while (i < lbArticles.Items.Count)
@@ -1119,8 +1120,7 @@ namespace WikiFunctions.Controls.Lists
             {
                 foreach (Article item in lbArticles.SelectedItems)
                 {
-                    try { Tools.OpenArticleInBrowser(item.Name); }
-                    catch { }
+                    Tools.OpenArticleInBrowser(item.Name);
                 }
             }
             catch { }
