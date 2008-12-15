@@ -108,7 +108,6 @@ namespace WikiFunctions
 
             CanonicalNamespaceAliases = PrepareAliases(CanonicalNamespaces);
 
-            CanonicalNamespaceAliases[6].Add(CanonicalNamespaces[-2]);
             CanonicalNamespaceAliases[6].Add("Image:");
             CanonicalNamespaceAliases[7].Add("Image talk:");
 
@@ -688,7 +687,6 @@ namespace WikiFunctions
 
                 Namespaces = si.Namespaces;
                 NamespaceAliases = si.NamespaceAliases;
-                NamespaceAliases[6].Add(Namespaces[-2]);
             }
             catch
             {
