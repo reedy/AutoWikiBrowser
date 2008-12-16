@@ -31,21 +31,27 @@ namespace WikiFunctions.Parse
     /// </summary>
     public class Parsers
     {
+        private WhatLinksHereListProvider wlhProv;
+
         #region constructor etc.
         public Parsers()
         {//default constructor
             MakeRegexes();
+
+            wlhProv = new WhatLinksHereListProvider();
+            wlhProv.Limit = 1;
         }
 
         /// <summary>
         /// Re-organises the Person Data, stub/disambig templates, categories and interwikis
         /// </summary>
         /// <param name="StubWordCount">The number of maximum number of words for a stub.</param>
+        /// <param name="AddHumanKey"></param>
         public Parsers(int StubWordCount, bool AddHumanKey)
+            :this()
         {
             StubMaxWordCount = StubWordCount;
             addCatKey = AddHumanKey;
-            MakeRegexes();
         }
 
         private void MakeRegexes()
@@ -1712,6 +1718,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="ArticleTitle">The article title.</param>
+        /// <param name="Summary"></param>
         /// <returns>The tagged article.</returns>
         public string Tagger(string ArticleText, string ArticleTitle, ref string Summary)
         {
@@ -1795,9 +1802,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             bool orphaned = true;
             try
             {
-                WhatLinksHereListProvider prov = new WhatLinksHereListProvider();
-                prov.Limit = 1;
-                List<Article> links = prov.MakeList(0, ArticleTitle);
+                List<Article> links = wlhProv.MakeList(0, ArticleTitle);
                 foreach (Article a in links)
                     if (Tools.IsMainSpace(a.Name))
                     {
@@ -1888,9 +1893,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static string RemoveDuplicateWikiLinks(string ArticleText)
         {
             ArticleText = dupeLinks1.Replace(ArticleText, "[[$1|$2]]$3$2");
-            ArticleText = dupeLinks2.Replace(ArticleText, "[[$1]]$2$1");
-
-            return ArticleText;
+            return dupeLinks2.Replace(ArticleText, "[[$1]]$2$1");
         }
 
         public static readonly Regex ExtToInt1 = new Regex(@"/\w+:\/\/secure\.wikimedia\.org\/(\w+)\/(\w+)\//", RegexOptions.IgnoreCase | RegexOptions.Compiled);
