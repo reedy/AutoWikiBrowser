@@ -317,7 +317,7 @@ namespace WikiFunctions.Lists
 
         public List<Article> MakeList(int Namespace, params string[] searchCriteria)
         {
-            return MakeList(Namespace, searchCriteria);
+            return MakeList(Namespace.ToString(), searchCriteria);
         }
 
         public override List<Article> MakeList(params string[] searchCriteria)
