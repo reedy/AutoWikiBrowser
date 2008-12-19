@@ -299,6 +299,14 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class WhatLinksHereListProvider : ApiListProviderBase, ISpecialPageProvider
     {
+        public WhatLinksHereListProvider()
+        {}
+
+        public WhatLinksHereListProvider(int limit)
+        {
+            Limit = limit;
+        }
+
         #region Tags: <backlinks>/<bl>
         static readonly List<string> pe = new List<string>(new string[] { "bl" });
         protected override ICollection<string> PageElements
