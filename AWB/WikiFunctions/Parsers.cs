@@ -31,15 +31,12 @@ namespace WikiFunctions.Parse
     /// </summary>
     public class Parsers
     {
-        private WhatLinksHereListProvider wlhProv;
+        private WhatLinksHereListProvider wlhProv = new WhatLinksHereListProvider(1);
 
         #region constructor etc.
         public Parsers()
         {//default constructor
             MakeRegexes();
-
-            wlhProv = new WhatLinksHereListProvider();
-            wlhProv.Limit = 1;
         }
 
         /// <summary>
