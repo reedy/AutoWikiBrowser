@@ -23,7 +23,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Collections.Specialized;
 using System.Collections.Generic;
-using System.Text;
 using WikiFunctions;
 using System.Net;
 using System.IO;
@@ -44,7 +43,7 @@ namespace AutoWikiBrowser
             private set
             {
                 intEdits = value;
-                lblEditCount.Text = "Edits: " + value.ToString();
+                lblEditCount.Text = "Edits: " + value;
                 //UpdateNotifyIconTooltip();
                 if (value == 100 || (value > 0 && value % 1000 == 0)) // we'll first report to remote db when we have 100 saves or app is exiting, whichever comes first; we'll also update db at 1000 and each 1000 thereafter
                     UsageStats.Do(false);
@@ -58,7 +57,7 @@ namespace AutoWikiBrowser
             private set
             {
                 intIgnoredEdits = value;
-                lblIgnoredArticles.Text = "Ignored: " + value.ToString();
+                lblIgnoredArticles.Text = "Ignored: " + value;
                 //UpdateNotifyIconTooltip();
             }
         }
@@ -70,7 +69,7 @@ namespace AutoWikiBrowser
             private set
             {
                 intEditsPerMin = value;
-                lblEditsPerMin.Text = "Edits/min: " + value.ToString();
+                lblEditsPerMin.Text = "Edits/min: " + value;
                 //UpdateNotifyIconTooltip();
             }
         }
@@ -154,57 +153,52 @@ namespace AutoWikiBrowser
 #if !DEBUG && !INSTASTATS
             if (Program.AWB.NumberOfEdits == 0) return;
 #endif
-            try
+            NameValueCollection postvars = new NameValueCollection();
+
+            // Greetings and AWB version:
+            postvars.Add("Action", "Hello");
+            postvars.Add("Version", Program.VersionString);
+
+            // Site/project name:
+            // TODO: Here or in PHP: tl.wikipedia.org  	CUS: Translate to site name/lang code any Wikimedia site set up as custom
+            if (Variables.IsCustomProject || Variables.IsWikia)
+                postvars.Add("Wiki", new Uri(Variables.URL).Host);
+            else
+                postvars.Add("Wiki", Variables.Project.ToString());
+                    // This returns a short string such as "wikipedia"; may want to convert to int and then to string so we store less in the db
+
+            // Language code:
+            if (Variables.IsWikia)
             {
-                NameValueCollection postvars = new NameValueCollection();
+                postvars.Add("Language", "WIK");
+            }
+            else if (Variables.IsCustomProject || Variables.IsWikimediaMonolingualProject)
+            {
+                postvars.Add("Language", "CUS");
+            }
+            else
+            {
+                postvars.Add("Language", Variables.LangCodeEnumString());
+            }
 
-                // Greetings and AWB version:
-                postvars.Add("Action", "Hello");
-                postvars.Add("Version", Program.VersionString);
+            // UI culture:
+            postvars.Add("Culture", System.Threading.Thread.CurrentThread.CurrentCulture.ToString());
 
-                // Site/project name:
-                // TODO: Here or in PHP: tl.wikipedia.org  	CUS: Translate to site name/lang code any Wikimedia site set up as custom
-                if (Variables.IsCustomProject || Variables.IsWikia)
-                    postvars.Add("Wiki", new Uri(Variables.URL).Host);
-                else
-                    postvars.Add("Wiki", Variables.Project.ToString()); // This returns a short string such as "wikipedia"; may want to convert to int and then to string so we store less in the db
+            // Username:
+            ProcessUsername(postvars);
 
-                // Language code:
-                if (Variables.IsWikia)
-                {
-                    postvars.Add("Language", "WIK");
-                }
-                else if (Variables.IsCustomProject || Variables.IsWikimediaMonolingualProject)
-                {
-                    postvars.Add("Language", "CUS");
-                }
-                else
-                {
-                    postvars.Add("Language", Variables.LangCodeEnumString());
-                }
-
-                // UI culture:
-                postvars.Add("Culture", System.Threading.Thread.CurrentThread.CurrentCulture.ToString());
-
-                // Username:
-                ProcessUsername(postvars);
-
-                // Other details:
-                postvars.Add("Saves", Program.AWB.NumberOfEdits.ToString());
-                postvars.Add("OS", Environment.OSVersion.VersionString);
+            // Other details:
+            postvars.Add("Saves", Program.AWB.NumberOfEdits.ToString());
+            postvars.Add("OS", Environment.OSVersion.VersionString);
 #if DEBUG
                 postvars.Add("Debug", "Y");
 #else
             postvars.Add("Debug", "N");
 #endif
-                EnumeratePlugins(postvars, Plugins.Plugin.Items.Values, WikiFunctions.Controls.Lists.ListMaker.GetListMakerPlugins());
+            EnumeratePlugins(postvars, Plugins.Plugin.Items.Values,
+                             WikiFunctions.Controls.Lists.ListMaker.GetListMakerPlugins());
 
-                ReadXML(PostData(postvars));
-            }
-            catch
-            {
-                throw;
-            }
+            ReadXML(PostData(postvars));
         }
 
         /// <summary>
@@ -212,28 +206,21 @@ namespace AutoWikiBrowser
         /// </summary>
         private static void SubsequentContact()
         {
-            try
-            {
-                NameValueCollection postvars = new NameValueCollection();
+            NameValueCollection postvars = new NameValueCollection();
 
-                postvars.Add("Action", "Update");
-                postvars.Add("RecordID", RecordId.ToString());
-                postvars.Add("Verify", SecretNumber.ToString());
+            postvars.Add("Action", "Update");
+            postvars.Add("RecordID", RecordId.ToString());
+            postvars.Add("Verify", SecretNumber.ToString());
 
-                EnumeratePlugins(postvars, newAWBPlugins, newListMakerPlugins);
-                ProcessUsername(postvars);
+            EnumeratePlugins(postvars, newAWBPlugins, newListMakerPlugins);
+            ProcessUsername(postvars);
 
-                if (Program.AWB.NumberOfEdits > LastEditCount)
-                    postvars.Add("Saves", Program.AWB.NumberOfEdits.ToString());
+            if (Program.AWB.NumberOfEdits > LastEditCount)
+                postvars.Add("Saves", Program.AWB.NumberOfEdits.ToString());
 
-                PostData(postvars);
-                newAWBPlugins.Clear();
-                newListMakerPlugins.Clear();
-            }
-            catch
-            {
-                throw;
-            }
+            PostData(postvars);
+            newAWBPlugins.Clear();
+            newListMakerPlugins.Clear();
         }
 
         /// <summary>
@@ -287,7 +274,7 @@ namespace AutoWikiBrowser
             foreach (IAWBPlugin plugin in awbPlugins)
             {
                 i++;
-                string P = "P" + i.ToString();
+                string P = "P" + i;
                 postvars.Add(P + "N", plugin.Name);
                 postvars.Add(P + "V", Plugins.Plugin.GetPluginVersionString(plugin));
                 postvars.Add(P + "T", "0");
@@ -296,7 +283,7 @@ namespace AutoWikiBrowser
             foreach (IListMakerPlugin plugin in listLakerPlugins)
             {
                 i++;
-                string P = "P" + i.ToString();
+                string P = "P" + i;
                 postvars.Add(P + "N", plugin.Name);
                 postvars.Add(P + "V", Plugins.Plugin.GetPluginVersionString(plugin));
                 postvars.Add(P + "T", "1");
@@ -307,7 +294,7 @@ namespace AutoWikiBrowser
         {
             try
             {
-                if (xml == null) return; // handle network errors
+                if (string.IsNullOrEmpty(xml)) return; // handle network errors
 
                 // we don't *need* these IDs if we're exiting, but I think it does no harm to check we received a valid response
                 XmlDocument doc = new XmlDocument();
@@ -327,8 +314,8 @@ namespace AutoWikiBrowser
             {
                 if (ex is XmlException)
                     throw;
-                else
-                    throw new XmlException("Error parsing XML returned from UsageStats server", ex);
+                
+                throw new XmlException("Error parsing XML returned from UsageStats server", ex);
             }
         }
 

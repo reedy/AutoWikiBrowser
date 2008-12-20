@@ -39,9 +39,7 @@ namespace AutoWikiBrowser
         {
             string ArticleText = txtEdit.Text;
 
-            RegexOptions regOptions;
-
-            regOptions = caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase;
+            RegexOptions regOptions = caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase;
 
             strRegex = Tools.ApplyKeyWords(ArticleName, strRegex);
 
