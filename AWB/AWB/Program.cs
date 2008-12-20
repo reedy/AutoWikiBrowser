@@ -36,7 +36,7 @@ namespace AutoWikiBrowser
                 System.Threading.Thread.CurrentThread.Name = "Main thread";
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
+                Application.ThreadException += Application_ThreadException;
 
                 if (WikiFunctions.Variables.DetectMono())
                     throw new NotSupportedException("AWB is not currently supported by mono");
@@ -48,17 +48,20 @@ namespace AutoWikiBrowser
                     switch (args[i])
                     {
                         case "/s":
-                            try
+                            if ((i + 1) < args.Length)
                             {
                                 string tmp = args[i + 1];
                                 if (tmp.Contains(".xml") && System.IO.File.Exists(tmp))
                                     awb.SettingsFile = tmp;
+                                else if (!tmp.Contains(".xml") && System.IO.File.Exists(tmp + ".xml"))
+                                    awb.SettingsFile = tmp + ".xml";
                             }
-                            catch { }
                             break;
                         case "/u":
-                            try { awb.ProfileToLoad = int.Parse(args[i + 1]); }
-                            catch { }
+                            if ((i + 1) < args.Length)
+                            {
+                                awb.ProfileToLoad = int.Parse(args[i + 1]);
+                            }
                             break;
                     }
                 }
@@ -72,7 +75,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
             WikiFunctions.ErrorHandler.Handle(e.Exception);
         }
