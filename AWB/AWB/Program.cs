@@ -63,7 +63,7 @@ namespace AutoWikiBrowser
                     }
                 }
 
-                Program.AWB = awb;
+                AWB = awb;
                 Application.Run(awb);
             }
             catch (Exception ex)
@@ -82,6 +82,6 @@ namespace AutoWikiBrowser
         internal const string NAME = "AutoWikiBrowser";
         static internal string UserAgentString { get { return NAME + "/" + VersionString; } }
         static internal WikiFunctions.Plugin.IAutoWikiBrowser AWB;
-        static internal Logging.MyTrace MyTrace = new AutoWikiBrowser.Logging.MyTrace();
+        static internal Logging.MyTrace MyTrace = new Logging.MyTrace();
     }
 }

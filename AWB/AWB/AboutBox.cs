@@ -35,14 +35,14 @@ namespace AutoWikiBrowser
             lblRevision.Text = "SVN " + Variables.Revision;
             lblIEVersion.Text = "Internet Explorer version: " + ieVersion;
             txtWarning.Text = WikiFunctions.Controls.AboutBox.GetDetailedMessage(Assembly.GetExecutingAssembly());
-            lblOSVersion.Text = "Windows version: " + Environment.OSVersion.Version.Major.ToString() + "." + Environment.OSVersion.Version.Minor.ToString();
-            lblNETVersion.Text = ".NET version: " + Environment.Version.ToString();
+            lblOSVersion.Text = "Windows version: " + Environment.OSVersion.Version.Major + "." + Environment.OSVersion.Version.Minor;
+            lblNETVersion.Text = ".NET version: " + Environment.Version;
 
             if (Edits < 1) return;
 
             lblTimeAndEdits.Visible = true;
 
-            lblTimeAndEdits.Text = "You have made " + Edits.ToString() + " edits in " + time.ToString();
+            lblTimeAndEdits.Text = "You have made " + Edits + " edits in " + time;
         }
 
         private void okButton_Click(object sender, EventArgs e)
@@ -69,6 +69,8 @@ namespace AutoWikiBrowser
         }
 
         private void UsageStatsLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        { UsageStats.OpenUsageStatsURL(); }
+        {
+            UsageStats.OpenUsageStatsURL();
+        }
     }
 }

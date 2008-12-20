@@ -133,12 +133,8 @@ namespace AutoWikiBrowser
                 splash.SetProgress(10);
                 try
                 {
-                    int stubcount = 500;
-                    bool catkey = false;
-
-                    stubcount = Properties.Settings.Default.StubMaxWordCount;
-                    catkey = Properties.Settings.Default.AddHummanKeyToCats;
-                    parsers = new Parsers(stubcount, catkey);
+                    parsers = new Parsers(Properties.Settings.Default.StubMaxWordCount, 
+                        Properties.Settings.Default.AddHummanKeyToCats);
                 }
                 catch (Exception ex)
                 {
@@ -547,7 +543,7 @@ namespace AutoWikiBrowser
 
             string strTemp = webBrowserEdit.GetArticleText();
 
-            this.Text = SettingsFileDisplay + " - " + TheArticle.Name;
+            Text = SettingsFileDisplay + " - " + TheArticle.Name;
 
             bool articleIsRedirect = Tools.IsRedirect(strTemp);
 
@@ -730,7 +726,7 @@ namespace AutoWikiBrowser
 
                             Bleepflash();
 
-                            this.Focus();
+                            Focus();
                             txtEdit.Focus();
                             txtEdit.SelectionLength = 0;
 
@@ -755,7 +751,7 @@ namespace AutoWikiBrowser
 
         private void Bleepflash()
         {
-            if (!this.ContainsFocus)
+            if (!ContainsFocus)
             {
                 if (Flash) Tools.FlashWindow(this);
                 if (Beep) Tools.Beep();
@@ -842,7 +838,7 @@ namespace AutoWikiBrowser
                     Variables.User.WikiStatus = false;
                     UpdateButtons(null, null);
                     webBrowserEdit.Document.Write("");
-                    this.Focus();
+                    Focus();
 
                     using (TalkMessage DlgTalk = new TalkMessage())
                     {
@@ -1489,34 +1485,34 @@ window.scrollTo(0, diffTopY);
             ExitQuestion dlg = null;
             WebControl.Shutdown = true;
 
-            Properties.Settings.Default.WindowState = this.WindowState;
+            Properties.Settings.Default.WindowState = WindowState;
 
-            if (this.WindowState == FormWindowState.Normal)
+            if (WindowState == FormWindowState.Normal)
             {
-                Properties.Settings.Default.WindowSize = this.Size;
-                Properties.Settings.Default.WindowLocation = this.Location;
+                Properties.Settings.Default.WindowSize = Size;
+                Properties.Settings.Default.WindowLocation = Location;
             }
             else
             {
-                Properties.Settings.Default.WindowSize = this.RestoreBounds.Size;
-                Properties.Settings.Default.WindowLocation = this.RestoreBounds.Location;
+                Properties.Settings.Default.WindowSize = RestoreBounds.Size;
+                Properties.Settings.Default.WindowLocation = RestoreBounds.Location;
             }
 
             Properties.Settings.Default.Save();
 
-            if (AutoWikiBrowser.Properties.Settings.Default.AskForTerminate)
+            if (Properties.Settings.Default.AskForTerminate)
             {
                 TimeSpan time = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
                 time = time.Subtract(StartTime);
                 dlg = new ExitQuestion(time, NumberOfEdits, "");
                 dlg.ShowDialog();
-                AutoWikiBrowser.Properties.Settings.Default.AskForTerminate = !dlg.CheckBoxDontAskAgain;
+                Properties.Settings.Default.AskForTerminate = !dlg.CheckBoxDontAskAgain;
             }
 
-            if (!AutoWikiBrowser.Properties.Settings.Default.AskForTerminate || dlg.DialogResult == DialogResult.OK)
+            if (!Properties.Settings.Default.AskForTerminate || dlg.DialogResult == DialogResult.OK)
             {
                 // save user persistent settings
-                AutoWikiBrowser.Properties.Settings.Default.Save();
+                Properties.Settings.Default.Save();
 
                 if (webBrowserEdit.IsBusy)
                     webBrowserEdit.Stop2();
@@ -1791,11 +1787,11 @@ window.scrollTo(0, diffTopY);
         private void ArticleInfo(bool reset)
         {
             string articleText = txtEdit.Text;
-            int intWords = 0;
-            int intCats = 0;
-            int intImages = 0;
-            int intLinks = 0;
-            int intInterLinks = 0;
+            int intWords;
+            int intCats;
+            int intImages;
+            int intLinks;
+            int intInterLinks;
             lblWarn.Text = "";
             lbDuplicateWikilinks.Items.Clear();
 
@@ -1816,9 +1812,9 @@ window.scrollTo(0, diffTopY);
             {
                 intWords = Tools.WordCount(articleText);
 
-                intCats = Regex.Matches(articleText, "\\[\\[" + Variables.Namespaces[14], RegexOptions.IgnoreCase).Count;
+                intCats = WikiRegexes.Category.Matches(articleText).Count;
 
-                intImages = Regex.Matches(articleText, "\\[\\[" + Variables.Namespaces[6], RegexOptions.IgnoreCase).Count;
+                intImages = WikiRegexes.Images.Matches(articleText).Count;
 
                 intInterLinks = Tools.InterwikiCount(articleText);
 
@@ -1835,11 +1831,11 @@ window.scrollTo(0, diffTopY);
                 if (articleText.StartsWith("=="))
                     lblWarn.Text += "Starts with heading.";
 
-                lblWords.Text = "Words: " + intWords.ToString();
-                lblCats.Text = "Categories: " + intCats.ToString();
-                lblImages.Text = "Images: " + intImages.ToString();
-                lblLinks.Text = "Links: " + intLinks.ToString();
-                lblInterLinks.Text = "Interwiki links: " + intInterLinks.ToString();
+                lblWords.Text = "Words: " + intWords;
+                lblCats.Text = "Categories: " + intCats;
+                lblImages.Text = "Images: " + intImages;
+                lblLinks.Text = "Links: " + intLinks;
+                lblInterLinks.Text = "Interwiki links: " + intInterLinks;
 
                 //Find multiple links                
                 ArrayList arrayLinks = new ArrayList();
@@ -1860,7 +1856,6 @@ window.scrollTo(0, diffTopY);
                     if ((arrayLinks.IndexOf(z) < arrayLinks.LastIndexOf(z)) && (!lbDuplicateWikilinks.Items.Contains(z)))
                         lbDuplicateWikilinks.Items.Add(z);
                 }
-                arrayLinks = null;
 
                 if (lbDuplicateWikilinks.Items.Count > 0)
                 {
@@ -1913,12 +1908,10 @@ window.scrollTo(0, diffTopY);
         private void txtEdit_TextChanged(object sender, EventArgs e)
         {
             Find.ResetFind();
-            try
-            {
-                // After manual changes, automatic edit summary may be inaccurate, removing it altogether
+
+            // After manual changes, automatic edit summary may be inaccurate, removing it altogether
+            if (TheArticle != null)
                 TheArticle.EditSummary = "";
-            }
-            catch { }
         }
 
         private void btnFind_Click(object sender, EventArgs e)
@@ -2172,11 +2165,7 @@ window.scrollTo(0, diffTopY);
             //increase the restart delay each time, this is decreased by 1 on each successfull save
             intRestartDelay += 5;
         }
-        private void StartDelayedRestartTimer(object sender, EventArgs e, int delay)
-        {
-            intStartInSeconds = delay;
-            Ticker += DelayedRestart;
-        }
+
         private void StopDelayedRestartTimer()
         {
             Ticker -= DelayedRestart;
@@ -2187,7 +2176,7 @@ window.scrollTo(0, diffTopY);
         {
             Ticker -= DelayedAutoSave;
             intTimer = 0;
-            lblBotTimer.Text = "Bot timer: " + intTimer.ToString();
+            lblBotTimer.Text = "Bot timer: " + intTimer;
         }
 
         private void StartDelayedAutoSaveTimer()
@@ -2878,9 +2867,9 @@ window.scrollTo(0, diffTopY);
 
         private void RegexTypos_Complete()
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.Invoke(new RegexTypoDone(RegexTypos_Complete));
+                Invoke(new RegexTypoDone(RegexTypos_Complete));
                 return;
             }
 
@@ -2888,7 +2877,7 @@ window.scrollTo(0, diffTopY);
 
             if (RegexTypos.TyposLoaded)
             {
-                StatusLabelText = RegexTypos.TyposCount.ToString() + " typos loaded";
+                StatusLabelText = RegexTypos.TyposCount + " typos loaded";
                 if (!EditBoxTab.TabPages.Contains(tpTypos)) EditBoxTab.TabPages.Add(tpTypos);
                 ResetTypoStats();
             }
@@ -3197,8 +3186,7 @@ window.scrollTo(0, diffTopY);
             {
                 if (AddUsingAWBOnArticleAction)
                     return dlgArticleAction.Summary + " (" + Variables.SummaryTag.Trim() + ")";
-                else
-                    return dlgArticleAction.Summary;
+                return dlgArticleAction.Summary;
             }
         }
 
@@ -3294,18 +3282,18 @@ window.scrollTo(0, diffTopY);
         #region Notify Tray
         private void showToolStripMenuItem_Click(object sender, EventArgs e)
         { // also handles double click of the tray icon
-            this.Visible = true;
-            this.WindowState = LastState;
+            Visible = true;
+            WindowState = LastState;
         }
 
         private void hideToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Visible = false;
+            Visible = false;
         }
 
         private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
             Application.Exit();
         }
 
@@ -3368,10 +3356,10 @@ window.scrollTo(0, diffTopY);
                 Updater.WaitForCompletion();
                 try
                 {
-                    System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) + "\\AWBUpdater.exe");
+                    Process.Start(Path.GetDirectoryName(Application.ExecutablePath) + "\\AWBUpdater.exe");
                 }
                 catch { }
-                this.Close();
+                Close();
                 Application.Exit();
             }
         }
@@ -3647,9 +3635,9 @@ window.scrollTo(0, diffTopY);
             if (radHibernate.Checked)
                 Application.SetSuspendState(PowerState.Hibernate, true, true);
             else if (radRestart.Checked)
-                System.Diagnostics.Process.Start("shutdown", "-r");
+                Process.Start("shutdown", "-r");
             else if (radShutdown.Checked)
-                System.Diagnostics.Process.Start("shutdown", "-s");
+                Process.Start("shutdown", "-s");
             else if (radStandby.Checked)
                 Application.SetSuspendState(PowerState.Suspend, true, true);
         }
