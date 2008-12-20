@@ -346,7 +346,7 @@ namespace WikiFunctions
 
                 case CategorisationOptions.AddCat:
                     if (CategoryText.Length < 1) return;
-                    strTemp = Parsers.AddCategory(CategoryText, mArticleText, mName);
+                    strTemp = parsers.AddCategory(CategoryText, mArticleText, mName);
                     action = "Added " + CategoryText;
                     break;
 

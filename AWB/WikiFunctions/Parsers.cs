@@ -1406,7 +1406,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="NewCategory">The new category.</param>
         /// <param name="ArticleTitle"></param>
         /// <returns>The article text.</returns>
-        public static string AddCategory(string NewCategory, string ArticleText, string ArticleTitle)
+        public string AddCategory(string NewCategory, string ArticleText, string ArticleTitle)
         {
             string oldText = ArticleText;
 
@@ -1423,7 +1423,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             else
                 ArticleText += cat;
 
-            return ArticleText;
+            return SortMetaData(ArticleText, ArticleTitle); //Sort metadata ordering so general fixes dont need to be enabled
         }
 
         // Covered by: RecategorizerTests.Replacement()
