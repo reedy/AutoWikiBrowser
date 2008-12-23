@@ -133,7 +133,7 @@ namespace AutoWikiBrowser
                 splash.SetProgress(10);
                 try
                 {
-                    parsers = new Parsers(Properties.Settings.Default.StubMaxWordCount, 
+                    parsers = new Parsers(Properties.Settings.Default.StubMaxWordCount,
                         Properties.Settings.Default.AddHummanKeyToCats);
                 }
                 catch (Exception ex)
@@ -215,7 +215,7 @@ namespace AutoWikiBrowser
             splash.SetProgress(20);
             Variables.MainForm = this;
             lblOnlyBots.BringToFront();
-            Updater.UpdateAWB(new Tools.SetProgress(splash.SetProgress)); // progress 22-29 in UpdateAWB()
+            Updater.UpdateAWB(splash.SetProgress); // progress 22-29 in UpdateAWB()
             splash.SetProgress(30);
 
             Program.MyTrace.LS = loggingSettings1;
@@ -464,7 +464,7 @@ namespace AutoWikiBrowser
                     return;
                 }
 
-                if (!cmboEditSummary.Items.Contains(cmboEditSummary.Text))
+                if (!string.IsNullOrEmpty(cmboEditSummary.Text) && !cmboEditSummary.Items.Contains(cmboEditSummary.Text))
                     cmboEditSummary.Items.Add(cmboEditSummary.Text);
 
                 txtReviewEditSummary.Text = "";
@@ -490,7 +490,7 @@ namespace AutoWikiBrowser
                 if (listMaker.NumberOfArticles < 1)
                 {
                     webBrowserEdit.Busy = false;
-                    StopSaveInterval(null, null);
+                    StopSaveInterval();
                     lblTimer.Text = "";
                     StatusLabelText = "No articles in list, you need to use the Make list";
                     Text = Program.NAME;
@@ -797,7 +797,7 @@ namespace AutoWikiBrowser
 
                     retries = 0;
                     if (!string.IsNullOrEmpty(HTML))
-						SkipPage("Database is locked, tried 10 times");
+                        SkipPage("Database is locked, tried 10 times");
                     else
                     {
                         MessageBox.Show("Loading edit page failed after 10 retries. Processing stopped.", "Error",
@@ -906,7 +906,7 @@ namespace AutoWikiBrowser
 
             Bleepflash();
 
-            this.Focus();
+            Focus();
             txtEdit.Focus();
             txtEdit.SelectionLength = 0;
 
@@ -935,7 +935,7 @@ namespace AutoWikiBrowser
                     if (m.Success)
                         messageBoxText += "Spam URL: " + m.Groups[1].Value.Trim() + "\r\n";
 
-                    if (MessageBox.Show(messageBoxText += "Try and edit again?", "Spam blacklist", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                    if (MessageBox.Show(messageBoxText + "Try and edit again?", "Spam blacklist", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                         Start();
                     else
                         SkipPage("Edit blocked by spam protection filter");
@@ -1244,10 +1244,14 @@ namespace AutoWikiBrowser
             try
             {
                 webBrowserDiff.BringToFront();
+                if (webBrowserDiff.Document == null)
+                    return;
+
                 webBrowserDiff.Document.OpenNew(false);
                 if (TheArticle.OriginalArticleText == txtEdit.Text)
                 {
-                    webBrowserDiff.Document.Write(@"<h2 style='padding-top: .5em;
+                    webBrowserDiff.Document.Write(
+                        @"<h2 style='padding-top: .5em;
 padding-bottom: .17em;
 border-bottom: 1px solid #aaa;
 font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to the next page.</p>");
@@ -1255,10 +1259,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 else
                 {
                     webBrowserDiff.Document.Write("<!DOCTYPE HTML PUBLIC \" -//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
-                        + "<html><head>" +
-                        WikiDiff.DiffHead() + @"</head><body>" + WikiDiff.TableHeader +
-                        diff.GetDiff(TheArticle.OriginalArticleText, txtEdit.Text, 2) +
-                        @"</table><!--<script language='Javascript'>
+                                                  + "<html><head>" +
+                                                  WikiDiff.DiffHead() + @"</head><body>" + WikiDiff.TableHeader +
+                                                  diff.GetDiff(TheArticle.OriginalArticleText, txtEdit.Text, 2) +
+                                                  @"</table><!--<script language='Javascript'>
 // Scroll part of the way into the table, disabled due to other interface problems
 diffNode=document.getElementById('wikiDiff');
 var diffTopY = 0;
@@ -1313,7 +1317,7 @@ window.scrollTo(0, diffTopY);
 
             if (ShowMovingAverageTimer)
             {
-                StopSaveInterval(null, null);
+                StopSaveInterval();
                 Ticker += SaveInterval;
             }
 
@@ -1417,7 +1421,7 @@ window.scrollTo(0, diffTopY);
             {
                 btntsShowHideParameters.Image = Resources.Showhideparameters2;
 
-                oldPosition = EditBoxTab.Location; ;
+                oldPosition = EditBoxTab.Location;
                 EditBoxTab.Location = new Point(groupBox2.Location.X, groupBox2.Location.Y - 5);
 
                 oldSize = EditBoxTab.Size;
@@ -1771,7 +1775,7 @@ window.scrollTo(0, diffTopY);
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
             Application.Exit();
         }
 
@@ -2045,8 +2049,6 @@ window.scrollTo(0, diffTopY);
                     Variables.User.IsAdmin = false;
                 }
             }
-            myPrefs = null;
-
             ListMaker.AddRemoveRedirects();
         }
 
@@ -2127,7 +2129,7 @@ window.scrollTo(0, diffTopY);
             bool enabled = (listMaker.NumberOfArticles > 0);
             SetStartButton(enabled);
 
-            lbltsNumberofItems.Text = "Pages: " + listMaker.NumberOfArticles.ToString();
+            lbltsNumberofItems.Text = "Pages: " + listMaker.NumberOfArticles;
             bypassAllRedirectsToolStripMenuItem.Enabled = Variables.User.IsAdmin;
         }
 
@@ -2174,7 +2176,7 @@ window.scrollTo(0, diffTopY);
         private void DelayedRestart(object sender, EventArgs e)
         {
             StopDelayedAutoSaveTimer();
-            StatusLabelText = "Restarting in " + intStartInSeconds.ToString();
+            StatusLabelText = "Restarting in " + intStartInSeconds;
 
             if (intStartInSeconds == 0)
             {
@@ -2216,10 +2218,7 @@ window.scrollTo(0, diffTopY);
             if (intTimer < nudBotSpeed.Value)
             {
                 intTimer++;
-                if (intTimer == 1)
-                    lblBotTimer.BackColor = Color.Red;
-                else
-                    lblBotTimer.BackColor = DefaultBackColor;
+                lblBotTimer.BackColor = (intTimer == 1) ? Color.Red : DefaultBackColor;
             }
             else
             {
@@ -2233,7 +2232,7 @@ window.scrollTo(0, diffTopY);
         private void ShowTimer()
         {
             lblTimer.Visible = ShowMovingAverageTimer;
-            StopSaveInterval(null, null);
+            StopSaveInterval();
         }
 
         int intStartTimer;
@@ -2242,7 +2241,8 @@ window.scrollTo(0, diffTopY);
             intStartTimer++;
             lblTimer.Text = "Timer: " + intStartTimer;
         }
-        private void StopSaveInterval(object sender, EventArgs e)
+
+        private void StopSaveInterval()
         {
             intStartTimer = 0;
             lblTimer.Text = "Timer: 0";
@@ -2622,7 +2622,7 @@ window.scrollTo(0, diffTopY);
                 //make name, surname, firstname
                 string strName = Tools.MakeHumanCatKey(TheArticle.Name);
 
-                string categories = "";
+                string categories;
 
                 if (strDeath.Length == 0 || int.Parse(strDeath) < int.Parse(strBirth) + 20)
                     categories = "[[Category:" + strBirth + " births|" + strName + "]]";
@@ -2711,7 +2711,7 @@ window.scrollTo(0, diffTopY);
                 return;
             }
 
-            StopSaveInterval(null, null);
+            StopSaveInterval();
             StopDelayedRestartTimer();
             if (webBrowserEdit.IsBusy)
                 webBrowserEdit.Stop2();
@@ -2869,10 +2869,6 @@ window.scrollTo(0, diffTopY);
 
                 StatusLabelText = "Loading typos";
 
-                string s = Variables.RETFPath;
-
-                if (!s.StartsWith("http:")) s = Variables.URL + "/wiki/" + s;
-
 #if !DEBUG
                 string message = @"1. Check each edit before you make it. Although this has been built to be very accurate there will be errors.
 
@@ -2885,7 +2881,7 @@ window.scrollTo(0, diffTopY);
 #endif
 
                 RegexTypos = new RegExTypoFix();
-                RegexTypos.Complete += new RegExTypoFix.TypoThreadComplete(RegexTypos_Complete);
+                RegexTypos.Complete += RegexTypos_Complete;
             }
         }
 
@@ -3380,11 +3376,17 @@ window.scrollTo(0, diffTopY);
             if (MessageBox.Show("AWB needs to be closed. To do this now, click 'yes'. If you need to save your settings, do this now, the updater will not complete until AWB is closed.", "Close AWB?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 Updater.WaitForCompletion();
-                try
+
+                string file = Path.GetDirectoryName(Application.ExecutablePath) + "\\AWBUpdater.exe";
+
+                if (!File.Exists(file))
                 {
-                    Process.Start(Path.GetDirectoryName(Application.ExecutablePath) + "\\AWBUpdater.exe");
+                    MessageBox.Show("Updater doesn't exist, therefore cannot be run");
+                    return;
                 }
-                catch { }
+
+                Process.Start(file);
+
                 Close();
                 Application.Exit();
             }
@@ -3543,8 +3545,8 @@ window.scrollTo(0, diffTopY);
         private void webBrowserHistory_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             string histHtml = webBrowserHistory.Document.Body.InnerHtml;
-            string startMark = "<!-- start content -->";
-            string endMark = "<!-- end content -->";
+            const string startMark = "<!-- start content -->";
+            const string endMark = "<!-- end content -->";
             if (histHtml.Contains(startMark) && histHtml.Contains(endMark))
                 histHtml = histHtml.Substring(histHtml.IndexOf(startMark), histHtml.IndexOf(endMark) - histHtml.IndexOf(startMark));
             histHtml = histHtml.Replace("<A ", "<a target=\"blank\" ");
@@ -3577,11 +3579,6 @@ window.scrollTo(0, diffTopY);
             openInBrowserToolStripMenuItem.Enabled = refreshHistoryToolStripMenuItem.Enabled = (TheArticle != null);
         }
         #endregion
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            Tools.OpenURLInBrowser("http://commons.wikimedia.org/wiki/Image:Crystal_Clear_action_run.png");
-        }
 
         private void profilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -3653,7 +3650,7 @@ window.scrollTo(0, diffTopY);
             if (radHibernate.Checked)
                 return "Hibernate";
 
-                return "";
+            return "";
         }
 
         private void ShutdownComputer()
@@ -3862,7 +3859,7 @@ window.scrollTo(0, diffTopY);
                                 "Test typos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 return;
 
-            int iterations = 1000000/text.Length;
+            int iterations = 1000000 / text.Length;
             if (iterations > 500) iterations = 500;
 
             List<KeyValuePair<int, string>> times = new List<KeyValuePair<int, string>>();
@@ -3875,7 +3872,7 @@ window.scrollTo(0, diffTopY);
                 {
                     p.Key.IsMatch(text);
                 }
-                times.Add(new KeyValuePair<int, string>((int) watch.ElapsedMilliseconds, p.Key + " > " + p.Value));
+                times.Add(new KeyValuePair<int, string>((int)watch.ElapsedMilliseconds, p.Key + " > " + p.Value));
             }
 
             times.Sort(new Comparison<KeyValuePair<int, string>>(CompareRegexPairs));
@@ -3972,6 +3969,11 @@ window.scrollTo(0, diffTopY);
         {
             if (addAllToWatchlistToolStripMenuItem.Checked)
                 addAllToWatchlistToolStripMenuItem.Checked = false;
+        }
+
+        private void BotImage_Click(object sender, EventArgs e)
+        {
+            Tools.OpenURLInBrowser("http://commons.wikimedia.org/wiki/Image:Crystal_Clear_action_run.png");
         }
     }
         #endregion
