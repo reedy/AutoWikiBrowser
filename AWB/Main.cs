@@ -984,7 +984,7 @@ namespace AutoWikiBrowser
 
         private void CaseWasNull(object sender, EventArgs e)
         {
-            if (webBrowserEdit.Document.Body.InnerHtml.Contains("<B>You have successfully signed in to Wikipedia as"))
+            if (webBrowserEdit.DocumentText.Contains("var wgAction = \"submitlogin\";"))
             {
                 StatusLabelText = "Signed in, now re-starting";
 
