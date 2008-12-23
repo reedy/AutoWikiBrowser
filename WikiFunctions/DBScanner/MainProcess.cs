@@ -113,7 +113,7 @@ namespace WikiFunctions.DBScanner
 
         private void Stopped(object o)
         {
-            this.StoppedEvent();
+            StoppedEvent();
         }
 
         public void Stop()
