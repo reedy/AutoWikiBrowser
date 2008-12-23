@@ -917,18 +917,18 @@ namespace AutoWikiBrowser
 
         private void CaseWasSaved(object sender, EventArgs e)
         {
-            if (webBrowserEdit.Document.Body.InnerHtml.Contains("<H1 class=firstHeading>Edit conflict: "))
+            if (webBrowserEdit.DocumentText.Contains("<H1 class=firstHeading>Edit conflict: "))
             {//if session data is lost, if data is lost then save after delay with tmrAutoSaveDelay
                 MessageBox.Show("There has been an Edit Conflict. AWB will now re-apply its changes on the updated page. \n\r Please re-review the changes before saving. Any Custom edits will be lost, and have to be re-added manually.", "Edit Conflict");
                 NudgeTimer.Stop();
                 Start();
                 return;
             }
-            if (!BotMode && webBrowserEdit.Document.Body.InnerHtml.Contains("<DIV id=spamprotected>"))
+            if (!BotMode && webBrowserEdit.DocumentText.Contains("<DIV id=spamprotected>"))
             {//check edit wasn't blocked due to spam filter
                 if (!chkSkipSpamFilter.Checked)
                 {
-                    Match m = spamUrlRegex.Match(webBrowserEdit.Document.Body.InnerHtml);
+                    Match m = spamUrlRegex.Match(webBrowserEdit.DocumentText);
 
                     string messageBoxText = "Edit has been blocked by spam blacklist.\r\n";
 
@@ -945,17 +945,17 @@ namespace AutoWikiBrowser
 
                 return;
             }
-            if (webBrowserEdit.Document.Body.InnerHtml.Contains("<DIV CLASS=PREVIEWNOTE"))
+            if (webBrowserEdit.DocumentText.Contains("<DIV CLASS=PREVIEWNOTE"))
             {//if session data is lost, if data is lost then save after delay with tmrAutoSaveDelay
                 StartDelayedRestartTimer(null, null);
                 return;
             }
-            if (webBrowserEdit.Document.Body.InnerHtml.Contains("<h1 id=\"FoundationName\">Wikimedia Foundation</h1>"))
+            if (webBrowserEdit.DocumentText.Contains("<h1 id=\"FoundationName\">Wikimedia Foundation</h1>"))
             {//WMF Error
                 StartDelayedRestartTimer(null, null);
                 return;
             }
-            if (IsReadOnlyDB(webBrowserEdit.Document.Body.InnerHtml))
+            if (IsReadOnlyDB(webBrowserEdit.DocumentText))
             {
                 StartDelayedRestartTimer(null, null);
                 return;
@@ -1548,7 +1548,7 @@ window.scrollTo(0, diffTopY);
 
         private void SetCheckBoxes()
         {
-            if (webBrowserEdit.Document != null && webBrowserEdit.Document.Body.InnerHtml.Contains("wpMinoredit"))
+            if (webBrowserEdit.Document != null && webBrowserEdit.DocumentText.Contains("wpMinoredit"))
             {
                 // Warning: Plugins can call SetMinor and SetWatch, so only turn these *on* not off
                 if (markAllAsMinorToolStripMenuItem.Checked)
@@ -3544,7 +3544,7 @@ window.scrollTo(0, diffTopY);
 
         private void webBrowserHistory_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            string histHtml = webBrowserHistory.Document.Body.InnerHtml;
+            string histHtml = webBrowserHistory.DocumentText;
             const string startMark = "<!-- start content -->";
             const string endMark = "<!-- end content -->";
             if (histHtml.Contains(startMark) && histHtml.Contains(endMark))

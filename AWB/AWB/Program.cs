@@ -59,9 +59,7 @@ namespace AutoWikiBrowser
                             break;
                         case "/u":
                             if ((i + 1) < args.Length)
-                            {
                                 awb.ProfileToLoad = int.Parse(args[i + 1]);
-                            }
                             break;
                     }
                 }
