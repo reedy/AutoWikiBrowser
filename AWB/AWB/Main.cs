@@ -462,6 +462,8 @@ namespace AutoWikiBrowser
                 if (!cmboEditSummary.Items.Contains(cmboEditSummary.Text))
                     cmboEditSummary.Items.Add(cmboEditSummary.Text);
 
+                txtReviewEditSummary.Text = "";
+
                 StopDelayedRestartTimer();
                 DisableButtons();
 
@@ -739,6 +741,8 @@ namespace AutoWikiBrowser
                         }
                 }
                 SetWatchButton(webBrowserEdit.IsWatched());
+
+                txtReviewEditSummary.Text = MakeSummary();
 
                 if (focusAtEndOfEditTextBoxToolStripMenuItem.Checked)
                 {
@@ -1565,7 +1569,7 @@ window.scrollTo(0, diffTopY);
             if (tag.Length >= maxSummaryLength)
                 tag = tag.Substring(0, maxSummaryLength);
 
-            tag += " " + Variables.SummaryTag;
+            tag += Variables.SummaryTag;
 
             return tag;
         }

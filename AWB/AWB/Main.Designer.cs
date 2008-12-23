@@ -378,6 +378,8 @@ namespace AutoWikiBrowser
             this.label6 = new System.Windows.Forms.Label();
             this.lblOverallTypos = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.tpEditSummary = new System.Windows.Forms.TabPage();
+            this.txtReviewEditSummary = new System.Windows.Forms.TextBox();
             this.webBrowserDiff = new System.Windows.Forms.WebBrowser();
             this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
             this.ShutdownTimer = new System.Windows.Forms.Timer(this.components);
@@ -452,6 +454,7 @@ namespace AutoWikiBrowser
             this.splitContainer1.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox10.SuspendLayout();
+            this.tpEditSummary.SuspendLayout();
             this.panel1.SuspendLayout();
             this.mnuMakeFromTextBox.SuspendLayout();
             this.SuspendLayout();
@@ -2505,6 +2508,7 @@ namespace AutoWikiBrowser
             this.listMaker.SelectedSource = 0;
             this.listMaker.Size = new System.Drawing.Size(205, 349);
             this.listMaker.SourceText = "";
+            this.listMaker.SpecialFilterSettings = ((WikiFunctions.AWBSettings.SpecialFilterPrefs)(resources.GetObject("listMaker.SpecialFilterSettings")));
             this.listMaker.TabIndex = 0;
             // 
             // MainTab
@@ -3495,6 +3499,7 @@ namespace AutoWikiBrowser
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.EditBoxTab.Controls.Add(this.tpEdit);
             this.EditBoxTab.Controls.Add(this.tpHistory);
+			this.EditBoxTab.Controls.Add(this.tpEditSummary);
             this.EditBoxTab.Controls.Add(this.tpLogs);
             this.EditBoxTab.Controls.Add(this.tpLoggingOptions);
             this.EditBoxTab.Controls.Add(this.tpTypos);
@@ -3740,6 +3745,28 @@ namespace AutoWikiBrowser
             this.label7.TabIndex = 673;
             this.label7.Text = "Typos/save:";
             // 
+            // tpEditSummary
+            // 
+            this.tpEditSummary.Controls.Add(this.txtReviewEditSummary);
+            this.tpEditSummary.Location = new System.Drawing.Point(4, 22);
+            this.tpEditSummary.Name = "tpEditSummary";
+            this.tpEditSummary.Padding = new System.Windows.Forms.Padding(3);
+            this.tpEditSummary.Size = new System.Drawing.Size(394, 351);
+            this.tpEditSummary.TabIndex = 5;
+            this.tpEditSummary.Text = "Edit Summary";
+            this.tpEditSummary.UseVisualStyleBackColor = true;
+            // 
+            // txtReviewEditSummary
+            // 
+            this.txtReviewEditSummary.BackColor = System.Drawing.SystemColors.Window;
+            this.txtReviewEditSummary.Dock = System.Windows.Forms.DockStyle.Top;
+            this.txtReviewEditSummary.Location = new System.Drawing.Point(3, 3);
+            this.txtReviewEditSummary.Multiline = true;
+            this.txtReviewEditSummary.Name = "txtReviewEditSummary";
+            this.txtReviewEditSummary.ReadOnly = true;
+            this.txtReviewEditSummary.Size = new System.Drawing.Size(388, 88);
+            this.txtReviewEditSummary.TabIndex = 0;
+            // 
             // webBrowserDiff
             // 
             this.webBrowserDiff.AllowWebBrowserDrop = false;
@@ -3968,6 +3995,8 @@ namespace AutoWikiBrowser
             this.groupBox9.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
+            this.tpEditSummary.ResumeLayout(false);
+            this.tpEditSummary.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.mnuMakeFromTextBox.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -4320,5 +4349,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem commentSelectedToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkSkipIfRedirect;
         private System.Windows.Forms.ToolStripMenuItem dontAddToWatchlistToolStripMenuItem;
+        private System.Windows.Forms.TabPage tpEditSummary;
+        private System.Windows.Forms.TextBox txtReviewEditSummary;
     }
 }
