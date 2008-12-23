@@ -248,6 +248,11 @@ namespace AutoWikiBrowser
                 WindowState = Properties.Settings.Default.WindowState;
 
                 Debug();
+
+#if !DEBUG
+                if (MainTab.Contains(tpBots))
+                    MainTab.Controls.Remove(tpBots);
+#endif
                 Plugin.LoadPluginsStartup(this, splash); // progress 65-79 in LoadPlugins()
 
                 LoadPrefs(); // progress 80-85 in LoadPrefs()
@@ -292,12 +297,12 @@ namespace AutoWikiBrowser
 
         private void MainForm_Resize(object sender, EventArgs e)
         {
-            if (this.WindowState == FormWindowState.Minimized)
+            if (WindowState == FormWindowState.Minimized)
             {
-                if (Minimize) this.Visible = false;
+                if (Minimize) Visible = false;
             }
             else
-                LastState = this.WindowState; // remember if maximised or normal so can restore same when dbl click tray icon
+                LastState = WindowState; // remember if maximised or normal so can restore same when dbl click tray icon
         }
         #endregion
 
@@ -442,7 +447,7 @@ namespace AutoWikiBrowser
         {
             try
             {
-                Tools.WriteDebug(this.Name, "Starting");
+                Tools.WriteDebug(Name, "Starting");
 
                 CanShutdown();
 
@@ -1403,8 +1408,8 @@ window.scrollTo(0, diffTopY);
             SetBrowserSize();
         }
 
-        Point oldPosition = new Point();
-        Size oldSize = new Size();
+        Point oldPosition;
+        Size oldSize;
         private void ParametersShowHide()
         {
             enlargeEditAreaToolStripMenuItem.Checked = !enlargeEditAreaToolStripMenuItem.Checked;
@@ -1611,9 +1616,22 @@ window.scrollTo(0, diffTopY);
         private void UpdateBotStatus(object sender, EventArgs e)
         {
             chkAutoMode.Enabled = chkSuppressTag.Enabled = Variables.User.IsBot;
-            if (BotMode)
-                BotMode = Variables.User.IsBot;
+
             lblOnlyBots.Visible = !Variables.User.IsBot;
+
+            if (Variables.User.IsBot)
+            {
+                if (!MainTab.TabPages.Contains(tpBots))
+                    MainTab.Controls.Add(tpBots);
+            }
+            else
+            {
+                if (MainTab.TabPages.Contains(tpBots))
+                    MainTab.Controls.Remove(tpBots);
+
+                if (BotMode)
+                    BotMode = false;
+            }
         }
 
         private void UpdateAdminStatus(object sender, EventArgs e)
