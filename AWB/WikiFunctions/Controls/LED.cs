@@ -39,7 +39,7 @@ namespace WikiFunctions.Controls
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            e.Graphics.FillEllipse(br, 2, 2, this.Size.Width - 2, this.Size.Height - 2);
+            e.Graphics.FillEllipse(br, 2, 2, Size.Width - 2, Size.Height - 2);
         }
 
         public Colour Colour

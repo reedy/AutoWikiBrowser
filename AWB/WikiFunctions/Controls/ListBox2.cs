@@ -24,7 +24,7 @@ using System.Windows.Forms;
 
 namespace WikiFunctions.Controls.Lists
 {
-    public partial class ListBox2 : ListBox, IEnumerable<Article>
+    public class ListBox2 : ListBox, IEnumerable<Article>
     {
         public IEnumerator<Article> GetEnumerator()
         {
@@ -39,7 +39,7 @@ namespace WikiFunctions.Controls.Lists
         IEnumerator IEnumerable.GetEnumerator()
         {
             int i = 0;
-            while (i < this.Items.Count)
+            while (i < Items.Count)
             {
                 yield return (Article)Items[i];
                 i++;

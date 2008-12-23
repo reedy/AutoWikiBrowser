@@ -24,18 +24,18 @@ using System.Windows.Forms;
 namespace WikiFunctions.Controls
 {
     public enum Developers { Bluemoose, Kingboyk, Ligulem, Reedy, MaxSem }
-    public partial class DeveloperLinkLabel : LinkLabel
+    public class DeveloperLinkLabel : LinkLabel
     {
         public DeveloperLinkLabel()
         {
             LinkClicked += DeveloperLinkLabel_LinkClicked;
-            Text = dev.ToString();
+            WhichDeveloper = dev;
         }
 
-        void DeveloperLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void DeveloperLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            this.LinkVisited = true;
-            Tools.OpenENArticleInBrowser(this.Text, true);
+            LinkVisited = true;
+            Tools.OpenENArticleInBrowser(Text, true);
         }
 
         Developers dev = Developers.Bluemoose;

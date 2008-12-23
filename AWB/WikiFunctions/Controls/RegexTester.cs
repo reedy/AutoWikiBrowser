@@ -266,10 +266,10 @@ namespace WikiFunctions.Controls
         private void RegexTester_HelpButtonClicked(object sender, CancelEventArgs e)
         {
             e.Cancel = true;
-            RegexTester_HelpRequested(sender, null);
+            RegexTester_HelpRequested();
         }
 
-        private void RegexTester_HelpRequested(object sender, object hlpevent)
+        private static void RegexTester_HelpRequested()
         {
             Tools.OpenURLInBrowser("http://msdn2.microsoft.com/en-us/library/az24scfc.aspx");
         }
@@ -350,7 +350,7 @@ namespace WikiFunctions.Controls
             }
         }
 
-        void AbortProcessing()
+        private void AbortProcessing()
         {
             Busy = false;
             if (Runner == null) return;
@@ -402,7 +402,7 @@ namespace WikiFunctions.Controls
                 Thr.Abort();
         }
 
-        void ThreadFunc()
+        private void ThreadFunc()
         {
             try
             {

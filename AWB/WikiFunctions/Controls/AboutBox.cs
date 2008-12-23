@@ -38,7 +38,7 @@ namespace WikiFunctions.Controls
         protected virtual void Initialise()
         {
             lblVersion.Text = "Version " + Tools.VersionString;
-            textBoxDescription.Text = GPLNotice;  
+            textBoxDescription.Text = GPLNotice;
         }
 
         protected virtual void okButton_Click(object sender, EventArgs e)
@@ -53,40 +53,40 @@ namespace WikiFunctions.Controls
         }
 
         #region Shared
-            /// <summary>
-            /// Returns a GFDL authors and copyright notice for use within AWB projects
-            /// </summary>
-            public static string GPLNotice
-            { get { return Properties.Resources.GPL; } }
+        /// <summary>
+        /// Returns a GFDL authors and copyright notice for use within AWB projects
+        /// </summary>
+        public static string GPLNotice
+        { get { return Properties.Resources.GPL; } }
 
-            /// <summary>
-            /// Extracts an assembly description (usually created by Visual Studio?)
-            /// </summary>
-            /// <returns></returns>
-            public static string AssemblyDescription(Assembly Ass)
-            {
-                // Get all Description attributes on this assembly
-                object[] attributes = Ass.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
-                // If there aren't any Description attributes, return an empty string
-                if (attributes.Length == 0)
-                    return "";
-                // If there is a Description attribute, return its value
-                return ((AssemblyDescriptionAttribute)attributes[0]).Description;
-            }
+        /// <summary>
+        /// Extracts an assembly description (usually created by Visual Studio?)
+        /// </summary>
+        /// <returns></returns>
+        public static string AssemblyDescription(Assembly Ass)
+        {
+            // Get all Description attributes on this assembly
+            object[] attributes = Ass.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
+            // If there aren't any Description attributes, return an empty string
+            if (attributes.Length == 0)
+                return "";
+            // If there is a Description attribute, return its value
+            return ((AssemblyDescriptionAttribute)attributes[0]).Description;
+        }
 
-            public static string AssemblyCopyright(Assembly Ass)
-            {
-                // Get all Copyright attributes on this assembly
-                object[] attributes = Ass.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
-                // If there aren't any Copyright attributes, return an empty string
-                if (attributes.Length == 0)
-                    return "";
-                // If there is a Copyright attribute, return its value
-                return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
-            }
+        public static string AssemblyCopyright(Assembly Ass)
+        {
+            // Get all Copyright attributes on this assembly
+            object[] attributes = Ass.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
+            // If there aren't any Copyright attributes, return an empty string
+            if (attributes.Length == 0)
+                return "";
+            // If there is a Copyright attribute, return its value
+            return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
+        }
 
-            public static string GetDetailedMessage(Assembly Ass)
-            { return AssemblyDescription(Ass) + Environment.NewLine + Environment.NewLine + GPLNotice; }
+        public static string GetDetailedMessage(Assembly Ass)
+        { return AssemblyDescription(Ass) + Environment.NewLine + Environment.NewLine + GPLNotice; }
         #endregion
     }
 }
