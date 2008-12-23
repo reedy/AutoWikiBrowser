@@ -2875,7 +2875,14 @@ window.scrollTo(0, diffTopY);
 2. Optional: Select [[WP:AWB/T|Typo fixing]] as the edit summary. This lets everyone know where to bring issues with the typo correction.";
 
                 if (RegexTypos == null)
+                {
+                    string s = Variables.RETFPath;
+
+                    if (!s.StartsWith("http:"))
+                        s = Variables.URL + "/wiki/" + s;
+
                     message += "\r\n\r\nThe newest typos will now be downloaded from " + s + " when you press OK.";
+                }
 
                 MessageBox.Show(message, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 #endif
