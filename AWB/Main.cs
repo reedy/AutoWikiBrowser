@@ -452,8 +452,12 @@ namespace AutoWikiBrowser
                 txtEdit.Text = "";
                 webBrowserEdit.BringToFront();
                 if (string.IsNullOrEmpty(cmboEditSummary.Text) && Plugin.Items.Count == 0)
+                {
                     MessageBox.Show("Please enter an edit summary.", "Edit summary", MessageBoxButtons.OK,
-                        MessageBoxIcon.Exclamation);
+                                    MessageBoxIcon.Exclamation);
+                    Stop();
+                    return;
+                }
 
                 if (!cmboEditSummary.Items.Contains(cmboEditSummary.Text))
                     cmboEditSummary.Items.Add(cmboEditSummary.Text);
@@ -911,7 +915,7 @@ namespace AutoWikiBrowser
                 Start();
                 return;
             }
-            else if (!BotMode && webBrowserEdit.Document.Body.InnerHtml.Contains("<DIV id=spamprotected>"))
+            if (!BotMode && webBrowserEdit.Document.Body.InnerHtml.Contains("<DIV id=spamprotected>"))
             {//check edit wasn't blocked due to spam filter
                 if (!chkSkipSpamFilter.Checked)
                 {
@@ -932,17 +936,17 @@ namespace AutoWikiBrowser
 
                 return;
             }
-            else if (webBrowserEdit.Document.Body.InnerHtml.Contains("<DIV CLASS=PREVIEWNOTE"))
+            if (webBrowserEdit.Document.Body.InnerHtml.Contains("<DIV CLASS=PREVIEWNOTE"))
             {//if session data is lost, if data is lost then save after delay with tmrAutoSaveDelay
                 StartDelayedRestartTimer(null, null);
                 return;
             }
-            else if (webBrowserEdit.Document.Body.InnerHtml.Contains("<h1 id=\"FoundationName\">Wikimedia Foundation</h1>"))
+            if (webBrowserEdit.Document.Body.InnerHtml.Contains("<h1 id=\"FoundationName\">Wikimedia Foundation</h1>"))
             {//WMF Error
                 StartDelayedRestartTimer(null, null);
                 return;
             }
-            else if (IsReadOnlyDB(webBrowserEdit.Document.Body.InnerHtml))
+            if (IsReadOnlyDB(webBrowserEdit.Document.Body.InnerHtml))
             {
                 StartDelayedRestartTimer(null, null);
                 return;
