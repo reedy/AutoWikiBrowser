@@ -41,6 +41,8 @@ namespace WikiFunctions.Parse
         /// <param name="groupSize">Typos in a batch</param>
         /// <param name="match">Regex each typo should match, its first group will be used for extraction</param>
         /// <param name="dontMatch">Regex each typo shouldn't match</param>
+        /// <param name="prefix"></param>
+        /// <param name="postfix"></param>
         public TypoGroup(int groupSize, string match, string dontMatch, string prefix, string postfix)
         {
             GroupSize = groupSize;
@@ -176,7 +178,7 @@ namespace WikiFunctions.Parse
 
         public RegExTypoFix()
         {
-            typoThread = new Thread(new ThreadStart(MakeRegexes));
+            typoThread = new Thread(MakeRegexes);
             typoThread.Name = "TypoThread";
             typoThread.SetApartmentState(ApartmentState.STA);
             typoThread.IsBackground = true;
@@ -312,7 +314,7 @@ namespace WikiFunctions.Parse
         public bool DetectTypo(string ArticleText)
         {
             bool noChange;
-            string summary = "";
+            string summary;
 
             PerformTypoFixes(ArticleText, out noChange, out summary);
 
@@ -351,18 +353,16 @@ namespace WikiFunctions.Parse
                         typolistURL = Variables.GetPlainTextURL(typolistURL);
 
                     text = Tools.GetHTML(typolistURL, Encoding.UTF8);
-                    TyposLoaded = true;
                 }
                 catch
                 {
                     if (string.IsNullOrEmpty(text))
                     {
-                        if (MessageBox.Show("No list of typos was found.  Would you like to use the list of typos from the English Wikipedia?\r\nOnly choose 'Yes' if this is an English wiki.", "Load from English Wikipedia?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        if (MessageBox.Show("No list of typos was found. Would you like to use the list of typos from the English Wikipedia?\r\nOnly choose 'Yes' if this is an English wiki.", "Load from English Wikipedia?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
                             try
                             {
                                 text = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/Typos&action=raw", Encoding.UTF8);
-                                TyposLoaded = true;
                             }
                             catch
                             {
@@ -370,9 +370,13 @@ namespace WikiFunctions.Parse
                             }
                         }
                         else
-                            TyposLoaded = false;
+                            text = "";
                     }
                 }
+
+                if (string.IsNullOrEmpty(text))
+                    return typoStrings; //Currently a new dictionary
+
                 foreach (Match m in TypoRegex.Matches(text))
                 {
                     try
@@ -382,18 +386,20 @@ namespace WikiFunctions.Parse
                     catch (ArgumentException)
                     {
                         TypoError("Duplicate typo rule '" + m.Groups[2].Value + "' found.");
+                        TyposLoaded = false;
                         return new Dictionary<string, string>();
                     }
                 }
             }
-
             catch (Exception ex)
             {
                 ErrorHandler.Handle(ex);
                 // refuse to accept malformed typo lists to encourage people to correct errors
+                TyposLoaded = false;
                 return new Dictionary<string, string>();
             }
 
+            TyposLoaded = true;
             return typoStrings;
         }
 
@@ -459,8 +465,7 @@ namespace WikiFunctions.Parse
     [Serializable]
     public class TypoException : ApplicationException
     {
-        public TypoException()
-            : base() { }
+        public TypoException() { }
 
         public TypoException(string message)
             : base(message) { }
