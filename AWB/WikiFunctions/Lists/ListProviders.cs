@@ -178,8 +178,8 @@ namespace WikiFunctions.Lists
 
                 foreach (string fileName in searchCriteria)
                 {
-                    string pageText = "";
-                    string title = "";
+                    string pageText;
+                    string title;
 
                     using (StreamReader sr = new StreamReader(fileName, Encoding.UTF8))
                     {
@@ -229,7 +229,7 @@ namespace WikiFunctions.Lists
 
         #region ListMaker properties
         public string DisplayText
-        { get { return "Text File"; } }
+        { get { return "Text file"; } }
 
         public string UserInputTextBoxText
         { get { return ""; } }
@@ -392,7 +392,7 @@ namespace WikiFunctions.Lists
 
         #region ListMaker properties
         public override string DisplayText
-        { get { return "What links here (All NS)"; } }
+        { get { return "What links here (all NS)"; } }
 
         public override string UserInputTextBoxText
         { get { return "What links to:"; } }
