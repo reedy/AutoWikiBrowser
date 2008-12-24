@@ -307,11 +307,9 @@ namespace AutoWikiBrowser
                 if (!string.IsNullOrEmpty(s.Trim()))
                     customs.Append(s + "|");
             }
+
             string tmp = customs.ToString();
-            if (tmp.Length == 0)
-                Properties.Settings.Default.CustomWikis = "";
-            else
-                Properties.Settings.Default.CustomWikis = tmp.Substring(0, tmp.LastIndexOf('|'));
+            Properties.Settings.Default.CustomWikis = (tmp.Length == 0) ? "" : tmp.Substring(0, tmp.LastIndexOf('|'));
 
             if (Properties.Settings.Default.CustomWikis.Length > 0)
                 save = true;

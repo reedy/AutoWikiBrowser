@@ -359,7 +359,7 @@ namespace WikiFunctions
             BackgroundRequest r = new BackgroundRequest(new BackgroundRequestComplete(UnderscoresLoaded));
             r.HasUI = false;
             DelayedRequests.Add(r);
-            r.GetList(new WikiFunctions.Lists.WhatTranscludesPageListProvider(), templates);
+            r.GetList(new Lists.WhatTranscludesPageListProvider(), templates);
         }
 
         static void UnderscoresLoaded(BackgroundRequest req)
@@ -948,9 +948,6 @@ namespace WikiFunctions
         {
             try
             {
-                string strText = String.Empty;
-                string strVersionPage;
-
                 //this object loads a local checkpage on Wikia
                 //it cannot be used to approve users, but it could be used to set some settings
                 //such as underscores and pages to ignore
@@ -985,7 +982,7 @@ namespace WikiFunctions
 
                 //wait for both pages to load
                 webBrowserLogin.Wait();
-                strText = webBrowserLogin.GetArticleText();
+                string strText = webBrowserLogin.GetArticleText();
                 br.Wait();
 
                 Variables.RTL = HeadRTL.IsMatch(webBrowserLogin.ToString());
@@ -1032,7 +1029,7 @@ namespace WikiFunctions
                     }
                 }
 
-                strVersionPage = (string) br.Result;
+                string strVersionPage = (string)br.Result;
 
                 //see if this version is enabled
                 if (!strVersionPage.Contains(AWBVersion + " enabled"))

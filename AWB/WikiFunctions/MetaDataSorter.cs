@@ -428,7 +428,7 @@ namespace WikiFunctions.Parse
             if (!string.IsNullOrEmpty(defaultSort))
                 ArticleText = ArticleText.Replace(defaultSort, "");
 
-            if (defaultSort.ToUpper().Contains("DEFAULTSORT"))
+            if (!string.IsNullOrEmpty(defaultSort) && defaultSort.ToUpper().Contains("DEFAULTSORT"))
             {
                 defaultSort = TalkPageHeaders.FormatDefaultSort(defaultSort);
             }
