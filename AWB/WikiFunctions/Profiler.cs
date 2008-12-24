@@ -61,7 +61,7 @@ namespace WikiFunctions
             /// <param name="message">description of the time interval</param>
             public void Profile(string message)
             {
-                AddLog("   " + message + ": " + Watch.ElapsedMilliseconds.ToString());
+                AddLog("   " + message + ": " + Watch.ElapsedMilliseconds);
                 Watch = Stopwatch.StartNew();
             }
 
