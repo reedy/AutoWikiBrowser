@@ -110,7 +110,7 @@ namespace WikiFunctions.Background
         {
             strParam = url;
 
-            InitThread(new ThreadStart(GetHTMLFunc));
+            InitThread(GetHTMLFunc);
         }
 
         private void GetHTMLFunc()
@@ -128,7 +128,7 @@ namespace WikiFunctions.Background
 
         public void Execute(ExecuteFunctionDelegate d)
         {
-            BgThread = new Thread(new ParameterizedThreadStart(ExecuteFunc));
+            BgThread = new Thread(ExecuteFunc);
             BgThread.Name = "BackgroundThread";
             BgThread.IsBackground = true;
             BgThread.Start(d);
@@ -157,7 +157,7 @@ namespace WikiFunctions.Background
             if (HasUI) ui = new PleaseWait();
 
             if (HasUI) ui.Show(Variables.MainForm as Form);
-            InitThread(new ThreadStart(BypassRedirectsFunc));
+            InitThread(BypassRedirectsFunc);
         }
 
         private void BypassRedirectsFunc()
@@ -189,7 +189,7 @@ namespace WikiFunctions.Background
                     link = m.Value;
                     article = m.Groups[1].Value;
 
-                    if(!knownLinks.ContainsKey(Tools.TurnFirstToUpper(article)))
+                    if (!knownLinks.ContainsKey(Tools.TurnFirstToUpper(article)))
                     {
                         //get text
                         string text;
@@ -231,7 +231,7 @@ namespace WikiFunctions.Background
                     article = m.Groups[1].Value;
                     string linkText = m.Groups[2].Value;
 
-                    if(!knownLinks.ContainsKey(Tools.TurnFirstToUpper(article)))
+                    if (!knownLinks.ContainsKey(Tools.TurnFirstToUpper(article)))
                     {
                         //get text
                         string text;
@@ -266,12 +266,12 @@ namespace WikiFunctions.Background
                     if (HasUI) ui.SetProgress(n, simple.Count + piped.Count);
                 }
 
-                
+
                 Result = strParam;
                 InvokeOnComplete();
                 //ui.Close();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 //ui.Close();
                 Error = e;
@@ -281,8 +281,8 @@ namespace WikiFunctions.Background
         /// <summary>
         /// Returns a list of articles using GetLists.FromVariant
         /// </summary>
-        /// <param name="What">Which source to use</param>
-        /// <param name="Params">Optional parameters, depend on source</param>
+        /// <param name="what">Which source to use</param>
+        /// <param name="params1">Optional parameters, depend on source</param>
         public void GetList(Lists.IListProvider what, params string[] params1)
         {
             objParam1 = what;
@@ -290,7 +290,7 @@ namespace WikiFunctions.Background
 
             if (HasUI) ui = new PleaseWait();
             if (HasUI) ui.Show(Variables.MainForm as Form);
-            InitThread(new ThreadStart(GetListFunc));
+            InitThread(GetListFunc);
         }
 
         private void GetListFunc()

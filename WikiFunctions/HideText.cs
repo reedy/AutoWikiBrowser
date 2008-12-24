@@ -32,7 +32,7 @@ namespace WikiFunctions.Parse
             string s;
             foreach (Match m in matches)
             {
-                s = "⌊⌊⌊⌊" + HiddenTokens.Count.ToString() + "⌋⌋⌋⌋";
+                s = "⌊⌊⌊⌊" + HiddenTokens.Count + "⌋⌋⌋⌋";
                 ArticleText = ArticleText.Replace(m.Value, s);
                 HiddenTokens.Add(new HideObject(s, m.Value));
             }
@@ -41,7 +41,6 @@ namespace WikiFunctions.Parse
         public string Hide(string ArticleText)
         {
             HiddenTokens.Clear();
-            string s = "";
 
             Replace(WikiRegexes.Source.Matches(ArticleText), ref ArticleText);
 
@@ -50,7 +49,7 @@ namespace WikiFunctions.Parse
                 if (LeaveMetaHeadings && NoWikiIgnoreRegex.IsMatch(m.Value))
                     continue;
 
-                s = "⌊⌊⌊⌊" + HiddenTokens.Count.ToString() + "⌋⌋⌋⌋";
+                string s = "⌊⌊⌊⌊" + HiddenTokens.Count + "⌋⌋⌋⌋";
 
                 ArticleText = ArticleText.Replace(m.Value, s);
                 HiddenTokens.Add(new HideObject(s, m.Value));
@@ -93,12 +92,11 @@ namespace WikiFunctions.Parse
         public string HideUnformatted(string ArticleText)
         {
             HiddenUnformattedText.Clear();
-            string s = "";
 
             int i = 0;
             foreach (Match m in WikiRegexes.UnFormattedText.Matches(ArticleText))
             {
-                s = "⌊⌊⌊⌊" + i.ToString() + "⌋⌋⌋⌋";
+                string s = "⌊⌊⌊⌊" + i + "⌋⌋⌋⌋";
 
                 ArticleText = ArticleText.Replace(m.Value, s);
                 HiddenUnformattedText.Add(new HideObject(s, m.Value));
@@ -125,15 +123,13 @@ namespace WikiFunctions.Parse
 
         private void ReplaceMore(ICollection matches, ref string ArticleText)
         {
-            string s = "";
-
             StringBuilder sb = new StringBuilder((int)(ArticleText.Length * 1.1));
             int pos = 0;
 
             foreach (Match m in matches)
             {
                 sb.Append(ArticleText, pos, m.Index - pos);
-                s = "⌊⌊⌊⌊M" + MoreHide.Count.ToString() + "⌋⌋⌋⌋";
+                string s = "⌊⌊⌊⌊M" + MoreHide.Count + "⌋⌋⌋⌋";
                 sb.Append(s);
                 pos = m.Index + m.Value.Length;
                 MoreHide.Add(new HideObject(s, m.Value));
