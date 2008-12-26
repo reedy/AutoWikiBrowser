@@ -41,15 +41,22 @@ namespace AutoWikiBrowser
         {
             if (!string.IsNullOrEmpty(SettingsFile))
             {
-                if ((!File.Exists(SettingsFile)) || MessageBox.Show("Replace existing file?", "File exists - " + SettingsFile,
-            MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                if (File.Exists(SettingsFile))
                 {
+                    if (MessageBox.Show("Replace existing file?", "File exists - " + SettingsFile,
+                                        MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+                                        MessageBoxDefaultButton.Button1) == DialogResult.No)
+                        return;
+
                     //Make an "old"/backup copy of a file. Old settings are still there if something goes wrong
                     File.Copy(SettingsFile, SettingsFile + ".old", true);
-                    SavePrefs(SettingsFile);
                 }
+
+                SavePrefs(SettingsFile);
             }
-            else if (MessageBox.Show("No settings file currently loaded. Save as Default?", "Save current settings as Default?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            else if (
+                MessageBox.Show("No settings file currently loaded. Save as Default?",
+                                "Save current settings as Default?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 SavePrefs();
             else
             {
@@ -256,7 +263,7 @@ namespace AutoWikiBrowser
                 PasteMore9.Text, PasteMore10.Text}, txtFind.Text, chkFindRegex.Checked,
                chkFindCaseSensitive.Checked, wordWrapToolStripMenuItem1.Checked, EnableToolBar,
                bypassRedirectsToolStripMenuItem.Checked, !automaticallyDoAnythingToolStripMenuItem.Checked,
-               toolStripComboOnLoad.SelectedIndex, chkMinor.Checked, addAllToWatchlistToolStripMenuItem.Checked, 
+               toolStripComboOnLoad.SelectedIndex, chkMinor.Checked, addAllToWatchlistToolStripMenuItem.Checked,
                dontAddToWatchlistToolStripMenuItem.Checked, ShowMovingAverageTimer, sortAlphabeticallyToolStripMenuItem.Checked,
                AddIgnoredToLogFile, (int)txtEdit.Font.Size, txtEdit.Font.Name,
                LowThreadPriority, Beep, Flash, Minimize, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxPeriod,
@@ -281,7 +288,7 @@ namespace AutoWikiBrowser
             else if (File.Exists("Default.xml"))
                 LoadPrefs("Default.xml");
             else
-                LoadPrefs(new UserPrefs());              
+                LoadPrefs(new UserPrefs());
 
             splash.SetProgress(85);
         }
@@ -474,7 +481,7 @@ namespace AutoWikiBrowser
             cModule.ModuleEnabled = p.Module.Enabled;
             cModule.Language = p.Module.Language;
             cModule.Code = p.Module.Code.Replace("\n", "\r\n");
-            if (cModule.ModuleEnabled) 
+            if (cModule.ModuleEnabled)
                 cModule.MakeModule();
             else
                 cModule.SetModuleNotBuilt();
