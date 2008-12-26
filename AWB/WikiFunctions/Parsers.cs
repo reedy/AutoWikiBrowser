@@ -754,7 +754,7 @@ namespace WikiFunctions.Parse
 
                     if (a == b || Tools.TurnFirstToLower(a) == b)
                     {
-                        ArticleText = ArticleText.Replace(n, "[[" + a + "]]");
+                        ArticleText = ArticleText.Replace(n, "[[" + b + "]]");
                     }
                     else if (Tools.TurnFirstToLower(b).StartsWith(Tools.TurnFirstToLower(a), StringComparison.Ordinal))
                     {
