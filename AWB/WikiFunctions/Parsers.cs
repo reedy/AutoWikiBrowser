@@ -31,7 +31,7 @@ namespace WikiFunctions.Parse
     /// </summary>
     public class Parsers
     {
-        private WhatLinksHereListProvider wlhProv = new WhatLinksHereListProvider(1);
+        private static WhatLinksHereListProvider wlhProv = new WhatLinksHereListProvider(1);
 
         #region constructor etc.
         public Parsers()
