@@ -429,7 +429,6 @@ http://example.com }}");
             Assert.AreEqual("", p.RemoveImage("foo.jpg", "[[Media:foo.jpg]]", false, "", out noChange));
             Assert.IsFalse(noChange);
         }
-
     }
 
     [TestFixture, Category("Incomplete")]
