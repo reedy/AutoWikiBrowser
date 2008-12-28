@@ -456,7 +456,7 @@ namespace AutoWikiBrowser
                 SetEditToolBarEnabled(true);
                 txtEdit.Text = "";
                 webBrowserEdit.BringToFront();
-                if (string.IsNullOrEmpty(cmboEditSummary.Text) && Plugin.Items.Count == 0)
+                if (Variables.Project != ProjectEnum.custom && string.IsNullOrEmpty(cmboEditSummary.Text) && Plugin.Items.Count == 0)
                 {
                     MessageBox.Show("Please enter an edit summary.", "Edit summary", MessageBoxButtons.OK,
                                     MessageBoxIcon.Exclamation);
