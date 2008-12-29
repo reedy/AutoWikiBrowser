@@ -38,7 +38,7 @@ namespace WikiFunctions
 {
     public enum LangCodeEnum
     {
-        en, aa, ab, af, ak, als, am, an, ang, ar, arc, As, ast, av, ay, az,
+        en, aa, ab, af, ak, als, am, an, ang, ar, arc, arz, As, ast, av, ay, az,
         ba, bar, bat_smg, bcl, be, bg, bh, bi, bn, bm, bo, bpy, br, bs, bug, bxr,
         ca, cbk_zam, cdo, ce, ceb, ch, chr, chy, co, cr, crh, cs, csb, cu, cv, cy,
         da, de, diq, dsb, dv, dz,
