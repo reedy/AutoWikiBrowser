@@ -39,7 +39,7 @@ namespace WikiFunctions.Parse
         public static Dictionary<string, string> LanguageNames = new Dictionary<string, string>();
 
         static SiteMatrix()
-        {
+        {          
             if (Globals.UnitTestMode) // or unit tests gonna run like a turtle
             {
                 Languages.AddRange(new string[] { "en", "ru", "sq" });
@@ -53,18 +53,31 @@ namespace WikiFunctions.Parse
             }
             else
             {
+#if DEBUG
+                StringBuilder builder = new StringBuilder();
+#endif
+
                 string strMatrix = Tools.GetHTML("http://en.wikipedia.org/w/api.php?action=sitematrix&format=xml");
 
                 XmlDocument matrix = new XmlDocument();
                 matrix.LoadXml(strMatrix);
 
-                string langCode;
-                string langName;
-
                 foreach (XmlNode lang in matrix.GetElementsByTagName("language"))
                 {
-                    langCode = lang.Attributes["code"].Value;
-                    langName = lang.Attributes["name"].Value;
+                    string langCode = lang.Attributes["code"].Value;
+                    string langName = lang.Attributes["name"].Value;
+
+#if DEBUG
+                    try
+                    {
+                        Variables.ParseLanguage(langCode);
+                    }
+                    catch (ArgumentException)
+                    {
+                        if (!langCode.Contains("-old") && !langCode.Contains("closed") && langCode != "nomcom") //closed/old aren't used. nomcom isnt general access
+                            builder.AppendLine(langCode);
+                    }
+#endif
                     Languages.Add(langCode);
                     LanguageNames[langCode] = langName;
 
@@ -108,6 +121,11 @@ namespace WikiFunctions.Parse
                 WikisourceLanguages.Sort();
                 WikiquoteLanguages.Sort();
                 WikiversityLanguages.Sort();
+
+#if DEBUG
+                if (builder.Length > 0)
+                    Tools.WriteDebug("SiteMatrix - Missing Languages", builder.ToString());
+#endif
             }
         }
 

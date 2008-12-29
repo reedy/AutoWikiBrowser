@@ -24,7 +24,9 @@ using System.Drawing;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+
 using WikiFunctions;
+using WikiFunctions.Parse;
 
 namespace AutoWikiBrowser
 {
@@ -34,13 +36,10 @@ namespace AutoWikiBrowser
             Font textFont, bool lowPriority, bool flash, bool beep, bool minimize,
             bool saveArticleList, decimal timeOut, bool autoSaveEditBox,
             string autoSaveEditBoxFile, decimal autoSaveEditBoxPeriod, bool suppressUsingAWB,
-            bool addUsingAWBOnArticleAction, bool ignoreNoBots, bool falsePositives, 
+            bool addUsingAWBOnArticleAction, bool ignoreNoBots, bool falsePositives,
             bool showTimer)
         {
             InitializeComponent();
-
-            foreach (LangCodeEnum l in Enum.GetValues(typeof(LangCodeEnum)))
-                cmboLang.Items.Add(l.ToString().ToLower());
 
             foreach (ProjectEnum l in Enum.GetValues(typeof(ProjectEnum)))
                 cmboProject.Items.Add(l);
@@ -125,9 +124,8 @@ namespace AutoWikiBrowser
         private void cmboProject_SelectedIndexChanged(object sender, EventArgs e)
         {
             //disable language selection for single language projects
-            cmboLang.Enabled = ((ProjectEnum)cmboProject.SelectedItem <= ProjectEnum.species);
+            cmboLang.Enabled = ((ProjectEnum)cmboProject.SelectedItem < ProjectEnum.species);
 
-            lblPostfix.Text = "";
             ProjectEnum prj = (ProjectEnum)Enum.Parse(typeof(ProjectEnum), cmboProject.SelectedItem.ToString());
             if (prj == ProjectEnum.custom || prj == ProjectEnum.wikia)
             {
@@ -138,15 +136,58 @@ namespace AutoWikiBrowser
                 cmboCustomProjectChanged(null, null);
 
                 chkSupressAWB.Enabled = true;
+
+                return;
             }
-            else
+            
+            if (cmboLang.Enabled)
             {
-                cmboCustomProject.Visible = false;
-                cmboLang.Visible = true;
-                lblLang.Text = "Language:";
-                btnOK.Enabled = true;
-                chkSupressAWB.Enabled = false;
+                cmboLang.Items.Clear();
+                List<string> langs;
+
+                switch (prj)
+                {
+                    case ProjectEnum.wikipedia:
+                        langs = SiteMatrix.WikipediaLanguages;
+                        break;
+
+                    case ProjectEnum.wiktionary:
+                        langs = SiteMatrix.WiktionaryLanguages;
+                        break;
+
+                    case ProjectEnum.wikibooks:
+                        langs = SiteMatrix.WikibooksLanguages;
+                        break;
+
+                    case ProjectEnum.wikinews:
+                        langs = SiteMatrix.WikinewsLanguages;
+                        break;
+
+                    case ProjectEnum.wikiquote:
+                        langs = SiteMatrix.WikiquoteLanguages;
+                        break;
+
+                    case ProjectEnum.wikisource:
+                        langs = SiteMatrix.WikisourceLanguages;
+                        break;
+
+                    case ProjectEnum.wikiversity:
+                        langs = SiteMatrix.WikiversityLanguages;
+                        break;
+
+                    default:
+                        langs = SiteMatrix.Languages;
+                        break;
+                }
+                cmboLang.Items.AddRange(langs.ToArray());
             }
+
+            lblPostfix.Text = "";
+            cmboCustomProject.Visible = false;
+            cmboLang.Visible = true;
+            lblLang.Text = "Language:";
+            btnOK.Enabled = true;
+            chkSupressAWB.Enabled = false;
         }
 
         private void cmboCustomProjectChanged(object sender, EventArgs e)
@@ -294,7 +335,7 @@ namespace AutoWikiBrowser
 
             if (chkAutoSaveEdit.Checked && string.IsNullOrEmpty(txtAutosave.Text))
                 chkAutoSaveEdit.Checked = false;
- 
+
             if (cmboProject.Text == "custom" && !string.IsNullOrEmpty(cmboCustomProject.Text))
             {
                 FixCustomProject();
