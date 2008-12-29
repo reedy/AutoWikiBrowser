@@ -295,53 +295,54 @@ namespace WikiFunctions.Parse
 
         private void LoadInterWiki()
         {
-            try
+            string text =
+                Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/IW&action=raw");
+
+            string interwikiLocalAlphaRaw =
+                remExtra(Tools.StringBetween(text, "<!--InterwikiLocalAlphaBegins-->", "<!--InterwikiLocalAlphaEnds-->"));
+            string interwikiLocalFirstRaw =
+                remExtra(Tools.StringBetween(text, "<!--InterwikiLocalFirstBegins-->", "<!--InterwikiLocalFirstEnds-->"));
+
+            int no = 0;
+            int size = IWSplit.Matches(interwikiLocalFirstRaw).Count + 1;
+
+            InterwikiLocalAlpha = new string[IWSplit.Matches(interwikiLocalAlphaRaw).Count + 1];
+
+            foreach (string s in interwikiLocalAlphaRaw.Split(new string[] {","}, StringSplitOptions.RemoveEmptyEntries)
+                )
             {
-                string text = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/IW&action=raw");
+                InterwikiLocalAlpha[no] = s.Trim().ToLower();
+                no++;
+            }
 
-                string interwikiLocalAlphaRaw = remExtra(Tools.StringBetween(text, "<!--InterwikiLocalAlphaBegins-->", "<!--InterwikiLocalAlphaEnds-->"));
-                string interwikiLocalFirstRaw = remExtra(Tools.StringBetween(text, "<!--InterwikiLocalFirstBegins-->", "<!--InterwikiLocalFirstEnds-->"));
+            InterwikiLocalFirst = new string[size];
+            no = 0;
 
-                int no = 0;
-                int size = IWSplit.Matches(interwikiLocalFirstRaw).Count + 1;
-                
-                InterwikiLocalAlpha = new string[IWSplit.Matches(interwikiLocalAlphaRaw).Count + 1];
+            foreach (string s in interwikiLocalFirstRaw.Split(new string[] {","}, StringSplitOptions.RemoveEmptyEntries)
+                )
+            {
+                InterwikiLocalFirst[no] = s.Trim().ToLower();
+                no++;
+            }
 
-                foreach (string s in interwikiLocalAlphaRaw.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries))
+            InterwikiAlpha = (string[]) InterwikiLocalFirst.Clone();
+            Array.Sort(InterwikiAlpha, StringComparer.Create(new System.Globalization.CultureInfo("en-US", true), true));
+
+            string[] temp = (string[]) InterwikiAlpha.Clone();
+            temp[Array.IndexOf(temp, "en")] = "";
+
+            InterwikiAlphaEnFirst = new string[size];
+            InterwikiAlphaEnFirst[0] = "en";
+            no = 1;
+
+            foreach (string s in temp)
+            {
+                if (s.Trim().Length > 0)
                 {
-                    InterwikiLocalAlpha[no] = s.Trim().ToLower();
+                    InterwikiAlphaEnFirst[no] = s;
                     no++;
-                }
-
-                InterwikiLocalFirst = new string[size];
-                no = 0;
-
-                foreach (string s in interwikiLocalFirstRaw.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries))
-                {
-                    InterwikiLocalFirst[no] = s.Trim().ToLower();
-                    no++;
-                }
-
-                InterwikiAlpha = (string[])InterwikiLocalFirst.Clone();
-                Array.Sort(InterwikiAlpha, StringComparer.Create(new System.Globalization.CultureInfo("en-US", true), true));
-
-                string[] temp = (string[])InterwikiAlpha.Clone();
-                temp[Array.IndexOf(temp, "en")] = "";
-
-                InterwikiAlphaEnFirst = new string[size];
-                InterwikiAlphaEnFirst[0] = "en";
-                no = 1;
-
-                foreach (string s in temp)
-                {
-                    if (s.Trim().Length > 0)
-                    {
-                        InterwikiAlphaEnFirst[no] = s;
-                        no++;
-                    }
                 }
             }
-            catch { }
         }
 
         private static string remExtra(string Input)
