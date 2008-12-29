@@ -67,7 +67,7 @@ namespace WikiFunctions
     }
 
     public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, species, commons, meta, mediawiki, wikia, custom }
-    
+
     /// <summary>
     /// Holds some deepest-level things to be initialised prior to most other static classes,
     /// including Variables
@@ -78,7 +78,7 @@ namespace WikiFunctions
         /// Set this to true in unit tests, to disable checkpage loading and other slow stuff.
         /// This disables some functions, however.
         /// </summary>
-        public static bool UnitTestMode = false;
+        public static bool UnitTestMode;
     }
 
     /// <summary>
@@ -96,7 +96,7 @@ namespace WikiFunctions
             CanonicalNamespaces[4] = "Project:";
             CanonicalNamespaces[5] = "Project talk:";
             CanonicalNamespaces[6] = "File:";
-            CanonicalNamespaces[7] =  "File talk:";
+            CanonicalNamespaces[7] = "File talk:";
             CanonicalNamespaces[8] = "MediaWiki:";
             CanonicalNamespaces[9] = "MediaWiki talk:";
             CanonicalNamespaces[10] = "Template:";
@@ -245,7 +245,7 @@ namespace WikiFunctions
         /// </summary>
         public static string ScriptPath
         {
-            get {return URLEnd.Substring(0, URLEnd.LastIndexOf('/')); }
+            get { return URLEnd.Substring(0, URLEnd.LastIndexOf('/')); }
         }
 
         private static ProjectEnum mProject = ProjectEnum.wikipedia;
@@ -356,7 +356,7 @@ namespace WikiFunctions
 
         public static void LoadUnderscores(params string[] templates)
         {
-            BackgroundRequest r = new BackgroundRequest(new BackgroundRequestComplete(UnderscoresLoaded));
+            BackgroundRequest r = new BackgroundRequest(UnderscoresLoaded);
             r.HasUI = false;
             DelayedRequests.Add(r);
             r.GetList(new Lists.WhatTranscludesPageListProvider(), templates);
@@ -694,7 +694,7 @@ namespace WikiFunctions
                         "Please make sure that your internet connection works and such combination of project/language exist." +
                         "\r\nEnter the URL in the format \"en.wikipedia.org/w/\" (including path where index.php and api.php reside).",
                         "Error connecting to wiki", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    SetDefaults();
+                SetDefaults();
                 return;
             }
         }
@@ -948,21 +948,10 @@ namespace WikiFunctions
         {
             try
             {
-                //this object loads a local checkpage on Wikia
-                //it cannot be used to approve users, but it could be used to set some settings
-                //such as underscores and pages to ignore
-                WebControl webBrowserWikia = null;
                 string typoPostfix = "";
                 string userGroups;
 
                 Groups.Clear();
-
-                if (Variables.IsWikia)
-                {
-                    webBrowserWikia = new WebControl();
-                    webBrowserWikia.Navigate(Variables.URLLong +
-                                             "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
-                }
 
                 //load version check page
                 BackgroundRequest br = new BackgroundRequest();
@@ -989,11 +978,16 @@ namespace WikiFunctions
 
                 if (Variables.IsWikia)
                 {
+                    //this object loads a local checkpage on Wikia
+                    //it cannot be used to approve users, but it could be used to set some settings
+                    //such as underscores and pages to ignore
+                    WebControl webBrowserWikia = new WebControl();
+                    webBrowserWikia.Navigate(Variables.URLLong +
+                                             "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
                     webBrowserWikia.Wait();
                     try
                     {
-                        Variables.LangCode =
-                            Variables.ParseLanguage(webBrowserWikia.GetScriptingVar("wgContentLanguage"));
+                        Variables.LangCode = Variables.ParseLanguage(webBrowserWikia.GetScriptingVar("wgContentLanguage"));
                     }
                     catch
                     {
@@ -1005,7 +999,7 @@ namespace WikiFunctions
 
                     // selectively add content of the local checkpage to the global one
                     strText += Message.Match(s).Value
-                               /*+ Underscores.Match(s).Value*/
+                        /*+ Underscores.Match(s).Value*/
                                + WikiRegexes.NoGeneralFixes.Match(s);
 
                     userGroups = webBrowserWikia.GetScriptingVar("wgUserGroups");
@@ -1075,7 +1069,8 @@ namespace WikiFunctions
                 }
 
                 //see if we are logged in
-                this.Name = webBrowserLogin.UserName;
+                Name = webBrowserLogin.UserName;
+
                 if (string.IsNullOrEmpty(Name))
                     // don't run GetInLogInStatus if we don't have the username, we sometimes get 2 error message boxes otherwise
                     LoggedIn = false;
@@ -1139,7 +1134,7 @@ namespace WikiFunctions
 
                 if (strText.Contains("<!--All users enabled-->"))
                 {
-//see if all users enabled
+                    //see if all users enabled
                     WikiStatus = true;
                     IsBot = true;
                     IsAdmin = Groups.Contains("sysop");
@@ -1161,7 +1156,7 @@ namespace WikiFunctions
                     return WikiStatusResult.Registered;
                 }
 
-                if (Name.Length > 0 && username.IsMatch(strText))
+                if (!string.IsNullOrEmpty(Name) && username.IsMatch(strText))
                 {
                     //enable botmode
                     IsBot = username.IsMatch(strBotUsers);
