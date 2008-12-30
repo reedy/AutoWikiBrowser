@@ -44,8 +44,11 @@ namespace AutoWikiBrowser
             foreach (ProjectEnum l in Enum.GetValues(typeof(ProjectEnum)))
                 cmboProject.Items.Add(l);
 
-            cmboLang.SelectedItem = lang.ToString().ToLower();
             cmboProject.SelectedItem = proj;
+
+            cmboProject_SelectedIndexChanged(null, null);
+
+            cmboLang.SelectedItem = lang.ToString().ToLower();
 
             cmboCustomProject.Items.Clear();
             foreach (string s in Properties.Settings.Default.CustomWikis.Split('|'))
@@ -73,12 +76,8 @@ namespace AutoWikiBrowser
             PrefAddUsingAWBOnArticleAction = addUsingAWBOnArticleAction;
 
             chkSupressAWB.Enabled = (cmboProject.Text == "custom" || cmboProject.Text == "wikia");
-            if (chkSupressAWB.Enabled)
-                PrefSuppressUsingAWB = suppressUsingAWB;
-            else
-                PrefSuppressUsingAWB = false;
-
-            cmboProject_SelectedIndexChanged(null, null);
+            
+            PrefSuppressUsingAWB = chkSupressAWB.Enabled && suppressUsingAWB;
 
             chkAlwaysConfirmExit.Checked = Properties.Settings.Default.AskForTerminate;
             chkPrivacy.Checked = !Properties.Settings.Default.Privacy;
@@ -123,10 +122,11 @@ namespace AutoWikiBrowser
 
         private void cmboProject_SelectedIndexChanged(object sender, EventArgs e)
         {
+            ProjectEnum prj = (ProjectEnum)Enum.Parse(typeof(ProjectEnum), cmboProject.SelectedItem.ToString());
+
             //disable language selection for single language projects
             cmboLang.Enabled = ((ProjectEnum)cmboProject.SelectedItem < ProjectEnum.species);
 
-            ProjectEnum prj = (ProjectEnum)Enum.Parse(typeof(ProjectEnum), cmboProject.SelectedItem.ToString());
             if (prj == ProjectEnum.custom || prj == ProjectEnum.wikia)
             {
                 cmboCustomProject.Visible = true;
@@ -139,7 +139,7 @@ namespace AutoWikiBrowser
 
                 return;
             }
-            
+           
             if (cmboLang.Enabled)
             {
                 cmboLang.Items.Clear();
@@ -180,6 +180,7 @@ namespace AutoWikiBrowser
                         break;
                 }
                 cmboLang.Items.AddRange(langs.ToArray());
+                cmboLang.SelectedIndex = 0;
             }
 
             lblPostfix.Text = "";
