@@ -393,10 +393,6 @@ namespace WikiFunctions.Lists
         #region ListMaker properties
         public override string DisplayText
         { get { return "What links here (all NS)"; } }
-
-        public override string UserInputTextBoxText
-        { get { return "What links to:"; } }
-
         #endregion
     }
 
