@@ -3262,9 +3262,12 @@ window.scrollTo(0, diffTopY);
                 string name = txtDabLink.Text.Trim();
                 if (name.Contains("|")) name = name.Substring(0, name.IndexOf('|') - 1);
                 Article link = new Article(name);
-                List<Article> l = new WikiFunctions.Lists.LinksOnPageListProvider().MakeList(txtDabLink.Text.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
+
                 txtDabVariants.Text = "";
-                foreach (Article a in l)
+                foreach (
+                    Article a in
+                        new WikiFunctions.Lists.LinksOnPageListProvider().MakeList(
+                            txtDabLink.Text.Split(new char[] {'|'}, StringSplitOptions.RemoveEmptyEntries)))
                 {
                     uint i;
                     // exclude years
@@ -3487,7 +3490,7 @@ window.scrollTo(0, diffTopY);
             userTalkWarningsLoaded = true; // or it will retry on each page load
             try
             {
-                string text = "";
+                string text;
                 try
                 {
                     text = Tools.GetArticleText("Project:AutoWikiBrowser/User talk templates");
@@ -3538,14 +3541,16 @@ window.scrollTo(0, diffTopY);
             {
                 if (EditBoxTab.SelectedTab == tpHistory)
                 {
-                    if (webBrowserHistory.Url != new System.Uri(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin") && !string.IsNullOrEmpty(TheArticle.URLEncodedName))
+                    if (webBrowserHistory.Url != new Uri(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin") && !string.IsNullOrEmpty(TheArticle.URLEncodedName))
                         webBrowserHistory.Navigate(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin");
                 }
             }
             catch
             {
                 webBrowserHistory.Navigate("about:blank");
-                webBrowserHistory.Document.Write("<html><body><p>Unable to load history</p></body></html>");
+
+                if (webBrowserHistory.Document != null)
+                    webBrowserHistory.Document.Write("<html><body><p>Unable to load history</p></body></html>");
             }
         }
 
@@ -3555,12 +3560,15 @@ window.scrollTo(0, diffTopY);
             const string startMark = "<!-- start content -->";
             const string endMark = "<!-- end content -->";
             if (histHtml.Contains(startMark) && histHtml.Contains(endMark))
-                histHtml = histHtml.Substring(histHtml.IndexOf(startMark), histHtml.IndexOf(endMark) - histHtml.IndexOf(startMark));
+                histHtml = histHtml.Substring(histHtml.IndexOf(startMark),
+                                              histHtml.IndexOf(endMark) - histHtml.IndexOf(startMark));
             histHtml = histHtml.Replace("<A ", "<a target=\"blank\" ");
             histHtml = histHtml.Replace("<FORM ", "<form target=\"blank\" ");
             histHtml = histHtml.Replace("<DIV id=histlegend", "<div id=histlegend style=\"display:none;\"");
             histHtml = "<h3>" + TheArticle.Name + "</h3>" + histHtml;
-            webBrowserHistory.Document.Body.InnerHtml = histHtml;
+
+            if (webBrowserHistory.Document != null)
+                webBrowserHistory.Document.Body.InnerHtml = histHtml;
         }
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3577,7 +3585,8 @@ window.scrollTo(0, diffTopY);
             catch
             {
                 webBrowserHistory.Navigate("about:blank");
-                webBrowserHistory.Document.Write("<html><body><p>Unable to load history</p></body></html>");
+                if (webBrowserHistory.Document != null)
+                    webBrowserHistory.Document.Write("<html><body><p>Unable to load history</p></body></html>");
             }
         }
 
