@@ -495,7 +495,7 @@ namespace AutoWikiBrowser
             this.reloadEditPageToolStripMenuItem});
             this.mnuTextBox.Name = "contextMenuStrip1";
             this.mnuTextBox.Size = new System.Drawing.Size(234, 574);
-            this.mnuTextBox.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            this.mnuTextBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuTextBox_Opening);
             // 
             // wordWrapToolStripMenuItem1
             // 
