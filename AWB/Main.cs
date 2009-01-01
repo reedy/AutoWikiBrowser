@@ -2641,23 +2641,21 @@ window.scrollTo(0, diffTopY);
             txtEdit.SelectedText = toolStripTextBox1.Text;
         }
 
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        private void mnuTextBox_Opening(object sender, CancelEventArgs e)
         {
-            try
-            {
-                txtEdit.Focus();
+            txtEdit.Focus();
 
-                cutToolStripMenuItem.Enabled = copyToolStripMenuItem.Enabled =
-                    openSelectionInBrowserToolStripMenuItem.Enabled = (txtEdit.SelectedText.Length > 0);
+            cutToolStripMenuItem.Enabled = copyToolStripMenuItem.Enabled =
+                                           openSelectionInBrowserToolStripMenuItem.Enabled =
+                                           (!string.IsNullOrEmpty(txtEdit.SelectedText));
 
-                undoToolStripMenuItem.Enabled = txtEdit.CanUndo;
+            undoToolStripMenuItem.Enabled = txtEdit.CanUndo;
 
-                openPageInBrowserToolStripMenuItem.Enabled = openHistoryMenuItem.Enabled =
-                    openTalkPageInBrowserToolStripMenuItem.Enabled = TheArticle.Name.Length > 0;
+            openPageInBrowserToolStripMenuItem.Enabled = openHistoryMenuItem.Enabled =
+                                                         openTalkPageInBrowserToolStripMenuItem.Enabled =
+                                                         (TheArticle != null && !string.IsNullOrEmpty(TheArticle.Name));
 
-                replaceTextWithLastEditToolStripMenuItem.Enabled = LastArticle.Length > 0;
-            }
-            catch { }
+            replaceTextWithLastEditToolStripMenuItem.Enabled = (!string.IsNullOrEmpty(LastArticle));
         }
 
         private void openPageInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2936,7 +2934,7 @@ window.scrollTo(0, diffTopY);
 
         private void dumpHTMLToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.Text = webBrowserEdit.Document.Body.InnerHtml;
+            txtEdit.Text = webBrowserEdit.DocumentText;
         }
 
         private void logOutDebugToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3263,7 +3261,7 @@ window.scrollTo(0, diffTopY);
             {
                 string name = txtDabLink.Text.Trim();
                 if (name.Contains("|")) name = name.Substring(0, name.IndexOf('|') - 1);
-                Article link = new WikiFunctions.Article(name);
+                Article link = new Article(name);
                 List<Article> l = new WikiFunctions.Lists.LinksOnPageListProvider().MakeList(txtDabLink.Text.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
                 txtDabVariants.Text = "";
                 foreach (Article a in l)
@@ -3327,12 +3325,12 @@ window.scrollTo(0, diffTopY);
 
         private void mnuNotify_Opening(object sender, CancelEventArgs e)
         {
-            SetMenuVisibility(this.Visible);
+            SetMenuVisibility(Visible);
         }
 
         private void SetMenuVisibility(bool visible)
         {
-            showToolStripMenuItem.Enabled = !visible || this.WindowState == FormWindowState.Minimized;
+            showToolStripMenuItem.Enabled = !visible || WindowState == FormWindowState.Minimized;
             hideToolStripMenuItem.Enabled = visible;
         }
 
@@ -3477,6 +3475,9 @@ window.scrollTo(0, diffTopY);
                 SaveEditBoxText(saveListDialog.FileName);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private static void LoadUserTalkWarnings()
         {
             Regex userTalkTemplate = new Regex(@"# \[\[" + Variables.NamespacesCaseInsensitive[10] + @"(.*?)\]\]");
