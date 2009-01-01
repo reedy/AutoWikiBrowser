@@ -1623,10 +1623,9 @@ window.scrollTo(0, diffTopY);
 
             lblOnlyBots.Visible = !Variables.User.IsBot;
 
-            if (Variables.User.IsBot)
+            if (Variables.User.IsBot && !MainTab.TabPages.Contains(tpBots))
             {
-                if (!MainTab.TabPages.Contains(tpBots))
-                    MainTab.Controls.Add(tpBots);
+                MainTab.TabPages.Insert(MainTab.TabPages.IndexOf(tpStart), tpBots);
             }
             else
             {
