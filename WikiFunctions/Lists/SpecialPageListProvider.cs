@@ -41,6 +41,7 @@ namespace WikiFunctions.Lists
                 listItems.Add(new AllPagesSpecialPageProvider());
                 listItems.Add(new RecentChangesSpecialPageProvider());
                 listItems.Add(new LinkSearchListProvider());
+                listItems.Add(new RandomPagesListProvider());
             }
 
             cmboSourceSelect.DataSource = listItems;

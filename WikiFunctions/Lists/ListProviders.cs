@@ -1021,7 +1021,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets 100 random articles from the 0 namespace
     /// </summary>
-    public class RandomPagesListProvider : ApiListProviderBase
+    public class RandomPagesListProvider : ApiListProviderBase, ISpecialPageProvider
     {
         public RandomPagesListProvider()
         {
@@ -1044,9 +1044,15 @@ namespace WikiFunctions.Lists
 
         public override List<Article> MakeList(string[] searchCriteria)
         {
+            return MakeList(0, searchCriteria);
+        }
+
+        public List<Article> MakeList(int Namespace, string[] searchCriteria)
+        {
             List<Article> list = new List<Article>();
 
-            string url = Variables.URLLong + "api.php?action=query&list=random&rnnamespace=0&rnlimit=max&format=xml";
+            string url = Variables.URLLong + "api.php?action=query&list=random&rnnamespace=" + Namespace +
+                         "&rnlimit=max&format=xml";
 
             list.AddRange(ApiMakeList(url, list.Count));
             return list;
@@ -1054,22 +1060,22 @@ namespace WikiFunctions.Lists
 
         #region ListMaker properties
         public override string DisplayText
-        {
-            get { return "Random Pages"; }
-        }
+        { get { return "Random Pages"; } }
 
         public override string UserInputTextBoxText
-        {
-            get { return ""; }
-        }
+        { get { return ""; } }
 
         public override bool UserInputTextBoxEnabled
-        {
-            get { return false; }
-        }
+        { get { return false; } }
 
         public override void Selected() { }
         #endregion
+
+        public bool PagesNeeded
+        { get { return false; } }
+
+        public bool NamespacesEnabled
+        { get { return true; } }
     }
 
     /// <summary>
@@ -1114,14 +1120,10 @@ namespace WikiFunctions.Lists
         }
 
         public override string UserInputTextBoxText
-        {
-            get { return "All Pages"; }
-        }
+        { get { return "All Pages"; } }
 
         public virtual bool PagesNeeded
-        {
-            get { return false; }
-        }
+        { get { return false; } }
         #endregion
 
         public override bool UserInputTextBoxEnabled
