@@ -942,13 +942,13 @@ namespace AutoWikiBrowser
                         messageBoxText += "Spam URL: " + m.Groups[1].Value.Trim() + "\r\n";
 
                     if (MessageBox.Show(messageBoxText + "Try and edit again?", "Spam blacklist", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                    {
                         Start();
-                    else
-                        SkipPage("Edit blocked by spam protection filter");
+                        return;
+                    }
                 }
-                else
-                    SkipPage("Edit blocked by spam protection filter");
-
+                
+                SkipPage("Edit blocked by spam protection filter");
                 return;
             }
 
