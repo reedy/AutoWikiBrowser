@@ -40,6 +40,7 @@ namespace WikiFunctions.Lists
                 listItems.Add(new PrefixIndexSpecialPageProvider());
                 listItems.Add(new AllPagesSpecialPageProvider());
                 listItems.Add(new RecentChangesSpecialPageProvider());
+                listItems.Add(new LinkSearchListProvider());
             }
 
             cmboSourceSelect.DataSource = listItems;
