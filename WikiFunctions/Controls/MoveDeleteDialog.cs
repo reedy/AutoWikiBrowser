@@ -28,7 +28,7 @@ namespace WikiFunctions.Controls
         public ArticleActionDialog(int MoveDeleteProtect)
         {
             InitializeComponent();
-            MoveDelete.TextBoxIndexChanged += new EventHandler(MoveDelete_TextBoxIndexChanged);
+            MoveDelete.TextBoxIndexChanged += MoveDelete_TextBoxIndexChanged;
             string[] messages;
 
             if (MoveDeleteProtect == 3)

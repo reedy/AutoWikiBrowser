@@ -3838,10 +3838,7 @@ window.scrollTo(0, diffTopY);
 
         private void SetWatchButton(bool watch)
         {
-            if (watch)
-                btnWatch.Text = "Unwatch";
-            else
-                btnWatch.Text = "Watch";
+            btnWatch.Text = watch ? "Unwatch" : "Watch";
         }
 
         private static int CompareRegexPairs(KeyValuePair<int, string> x, KeyValuePair<int, string> y)
