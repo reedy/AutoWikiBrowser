@@ -2658,16 +2658,16 @@ namespace AutoWikiBrowser
             this.ImageGroupBox.Size = new System.Drawing.Size(266, 93);
             this.ImageGroupBox.TabIndex = 27;
             this.ImageGroupBox.TabStop = false;
-            this.ImageGroupBox.Text = "&Images/Files";
+            this.ImageGroupBox.Text = "&Files";
             // 
             // lblImageWith
             // 
             this.lblImageWith.AutoSize = true;
             this.lblImageWith.Location = new System.Drawing.Point(81, 45);
             this.lblImageWith.Name = "lblImageWith";
-            this.lblImageWith.Size = new System.Drawing.Size(63, 13);
+            this.lblImageWith.Size = new System.Drawing.Size(48, 13);
             this.lblImageWith.TabIndex = 2;
-            this.lblImageWith.Text = "With image:";
+            this.lblImageWith.Text = "With file:";
             this.lblImageWith.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // chkSkipNoImgChange
@@ -2676,9 +2676,9 @@ namespace AutoWikiBrowser
             this.chkSkipNoImgChange.Enabled = false;
             this.chkSkipNoImgChange.Location = new System.Drawing.Point(7, 68);
             this.chkSkipNoImgChange.Name = "chkSkipNoImgChange";
-            this.chkSkipNoImgChange.Size = new System.Drawing.Size(194, 17);
+            this.chkSkipNoImgChange.Size = new System.Drawing.Size(179, 17);
             this.chkSkipNoImgChange.TabIndex = 4;
-            this.chkSkipNoImgChange.Text = "Skip page when no image changed";
+            this.chkSkipNoImgChange.Text = "Skip page when no file changed";
             this.chkSkipNoImgChange.UseVisualStyleBackColor = true;
             // 
             // txtImageWith
@@ -2704,9 +2704,9 @@ namespace AutoWikiBrowser
             this.cmboImages.FormattingEnabled = true;
             this.cmboImages.Items.AddRange(new object[] {
             "Choose a task...",
-            "Replace image:",
-            "Remove image:",
-            "Comment out image:"});
+            "Replace file:",
+            "Remove file:",
+            "Comment out file:"});
             this.cmboImages.Location = new System.Drawing.Point(6, 16);
             this.cmboImages.Name = "cmboImages";
             this.cmboImages.Size = new System.Drawing.Size(138, 21);

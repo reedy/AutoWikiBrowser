@@ -320,9 +320,9 @@ namespace WikiFunctions
                 }
 
             if (noChange && SkipIfNoChange)
-                Trace.AWBSkipped("No Image Changed");
+                Trace.AWBSkipped("No File Changed");
             else if (!noChange)
-                AWBChangeArticleText("Image replacement applied", strTemp, false);
+                AWBChangeArticleText("File replacement applied", strTemp, false);
         }
 
         /// <summary>
