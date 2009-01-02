@@ -2658,7 +2658,7 @@ namespace AutoWikiBrowser
             this.ImageGroupBox.Size = new System.Drawing.Size(266, 93);
             this.ImageGroupBox.TabIndex = 27;
             this.ImageGroupBox.TabStop = false;
-            this.ImageGroupBox.Text = "&Images";
+            this.ImageGroupBox.Text = "&Images/Files";
             // 
             // lblImageWith
             // 
