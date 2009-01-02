@@ -128,7 +128,7 @@ namespace WikiFunctions.Lists
         public override List<Article> MakeList(string[] searchCriteria)
         {
             int userDepth = Tools.GetNumberFromUser(false);
-            if (userDepth < 0) 
+            if (userDepth < 0)
                 return new List<Article>();
 
             Depth = userDepth;
@@ -300,7 +300,7 @@ namespace WikiFunctions.Lists
     public class WhatLinksHereListProvider : ApiListProviderBase, ISpecialPageProvider
     {
         public WhatLinksHereListProvider()
-        {}
+        { }
 
         public WhatLinksHereListProvider(int limit)
         {
@@ -1133,14 +1133,10 @@ namespace WikiFunctions.Lists
         { }
 
         public override string DisplayText
-        {
-            get { return UserInputTextBoxText; }
-        }
+        { get { return UserInputTextBoxText; } }
 
         public bool NamespacesEnabled
-        {
-            get { return true; }
-        }
+        { get { return true; } }
     }
 
     /// <summary>
@@ -1154,14 +1150,10 @@ namespace WikiFunctions.Lists
         }
 
         public override string DisplayText
-        {
-            get { return "All pages with prefix (Prefixindex)"; }
-        }
+        { get { return "All pages with prefix (Prefixindex)"; } }
 
         public override bool PagesNeeded
-        {
-            get { return true; }
-        }
+        { get { return true; } }
     }
 
     /// <summary>
@@ -1203,33 +1195,23 @@ namespace WikiFunctions.Lists
         }
 
         public override string DisplayText
-        {
-            get { return "Recent Changes"; }
-        }
+        { get { return "Recent Changes"; } }
 
         public bool PagesNeeded
-        {
-            get { return false; }
-        }
+        { get { return false; } }
         #endregion
 
         public override string UserInputTextBoxText
-        {
-            get { return DisplayText; }
-        }
+        { get { return DisplayText; } }
 
         public override bool UserInputTextBoxEnabled
-        {
-            get { return false; }
-        }
+        { get { return false; } }
 
         public override void Selected()
         { }
 
         public bool NamespacesEnabled
-        {
-            get { return true; }
-        }
+        { get { return true; } }
     }
 
     /// <summary>
@@ -1282,13 +1264,66 @@ namespace WikiFunctions.Lists
         #endregion
 
         public bool PagesNeeded
-        {
-            get { return false; }
-        }
+        { get { return false; } }
 
         public bool NamespacesEnabled
+        { get { return true; } }
+    }
+
+    public class LinkSearchListProvider : ApiListProviderBase, ISpecialPageProvider
+    {
+        #region Tags: <exturlusage>/<eu>
+        static readonly List<string> pe = new List<string>(new string[] { "eu" });
+        protected override ICollection<string> PageElements
         {
-            get { return true; }
+            get { return pe; }
         }
+
+        static readonly List<string> ac = new List<string>(new string[] { "exturlusage" });
+        protected override ICollection<string> Actions
+        {
+            get { return ac; }
+        }
+        #endregion
+
+        public override List<Article> MakeList(string[] searchCriteria)
+        {
+            return MakeList(0, searchCriteria);
+        }
+
+        public List<Article> MakeList(int Namespace, params string[] searchCriteria)
+        {
+            List<Article> list = new List<Article>();
+
+            foreach (string page in searchCriteria)
+            {
+                string url = Variables.URLLong + "api.php?action=query&list=exturlusage&euquery=" +
+                             HttpUtility.UrlEncode(page.Replace("http://", "")) + "&eunamespace=" + Namespace +
+                             "&eulimit=max&format=xml";
+
+                list.AddRange(ApiMakeList(url, list.Count));
+            }
+
+            return list;
+        }
+
+        #region ListMaker properties
+        public override string DisplayText
+        { get { return "Link search"; } }
+
+        public override string UserInputTextBoxText
+        { get { return "URL"; } }
+
+        public override bool UserInputTextBoxEnabled
+        { get { return true; } }
+
+        public override void Selected() { }
+        #endregion
+
+        public bool PagesNeeded
+        { get { return true; } }
+
+        public bool NamespacesEnabled
+        { get { return true; } }
     }
 }
