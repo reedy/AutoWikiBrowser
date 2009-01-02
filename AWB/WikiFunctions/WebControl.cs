@@ -27,7 +27,7 @@ namespace WikiFunctions.Browser
 {
     public delegate void WebControlDel(object sender, EventArgs e);
 
-    public enum ProcessingStage { Load, Diff, Save, Delete, Protect, None }
+    public enum ProcessingStage : int { Load, Diff, Save, Delete, Protect, None }
 
     /// <summary>
     /// Provides a WebBrowser component adapted and extended for use with Wikis.
@@ -118,7 +118,7 @@ namespace WikiFunctions.Browser
         /// <returns>HTML text</returns>
         public override string ToString()
         {
-            return DocumentText;
+            return DocumentText ?? "";
         }
 
         /// <summary>
@@ -234,7 +234,7 @@ namespace WikiFunctions.Browser
             Navigate(Variables.URLLong + "api.php?action=query&meta=userinfo&uiprop=groups|rights");
             Wait();
 
-            string s = DocumentText;
+            string s = Document.Body.InnerText;
             s = s.Remove(0, s.IndexOf("<api>"));
             s = s.Remove(s.IndexOf("</api>") + 6, s.Length - s.IndexOf("</api>") - 6);
             return new UserInfo(s);
@@ -248,12 +248,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         [Browsable(false)]
         public bool NewMessage
-        {
-            get
-            {
-                return NewMessagesRegex.IsMatch(DocumentText);
-            }
-        }
+        { get { return NewMessagesRegex.IsMatch(DocumentText); } }
 
         static readonly Regex wpTextbox1 = new Regex(@"<textarea [^>]*?name=[""']wpTextbox1[""'].*?>", RegexOptions.Compiled | RegexOptions.Singleline);
 
@@ -479,7 +474,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public void SetMinor(bool IsMinor)
         {
-            if (Document == null || !DocumentText.Contains("wpMinoredit"))
+            if (Document == null || !Document.Body.InnerHtml.Contains("wpMinoredit"))
                 return;
 
             if (IsMinor)
@@ -493,7 +488,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public void SetWatch(bool watch1)
         {
-            if (Document == null || !DocumentText.Contains("wpWatchthis"))
+            if (Document == null || !Document.Body.InnerHtml.Contains("wpWatchthis"))
                 return;
 
             if (watch1)
@@ -508,7 +503,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public void SetSummary(string Summary)
         {
-            if (Document == null || !DocumentText.Contains("wpSummary"))
+            if (Document == null || !Document.Body.InnerHtml.Contains("wpSummary"))
                 return;
 
             Document.GetElementById("wpSummary").InnerText = Summary;
@@ -519,7 +514,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public bool SetReason(string Reason)
         {
-            if (Document == null || !DocumentText.Contains("wpReason"))
+            if (Document == null || !Document.Body.InnerHtml.Contains("wpReason"))
                 return false;
 
             Document.GetElementById("wpReason").InnerText = Reason;
@@ -531,7 +526,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public bool SetReasonAndExpiry(string Reason, string Expiry)
         {
-            if (Document == null || !DocumentText.Contains("mwProtect-reason") || !DocumentText.Contains("mwProtect-expiry"))
+            if (Document == null || !Document.Body.InnerHtml.Contains("mwProtect-reason") || !Document.Body.InnerHtml.Contains("mwProtect-expiry"))
                 return false;
 
             Document.GetElementById("mwProtect-reason").InnerText = Reason;
@@ -560,7 +555,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public string GetSummary()
         {
-            if (Document == null || !DocumentText.Contains("wpSummary"))
+            if (Document == null || !this.Document.Body.InnerHtml.Contains("wpSummary"))
                 return "";
 
             return Document.GetElementById("wpSummary").InnerText;
@@ -574,7 +569,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public string PageHTMLSubstring(string text)
         {
-            if (DocumentText.Contains(startMark) && DocumentText.Contains(endMark))
+            if (Document.Body.InnerHtml.Contains(startMark) && Document.Body.InnerHtml.Contains(endMark))
                 return text.Substring(text.IndexOf(startMark), text.IndexOf(endMark) - text.IndexOf(startMark));
             return text;
         }
@@ -686,7 +681,7 @@ namespace WikiFunctions.Browser
             }
         }
 
-        private static void SetListBoxValues(HtmlElement element, int Level)
+        private void SetListBoxValues(HtmlElement element, int Level)
         {
             if (Level != 0)
             {
@@ -700,8 +695,6 @@ namespace WikiFunctions.Browser
                     case 2:
                         element.Children[1].SetAttribute("selected", "");
                         element.Children[2].SetAttribute("selected", "selected");
-                        break;
-                    default:
                         break;
                 }
             }
@@ -837,7 +830,7 @@ namespace WikiFunctions.Browser
 
             StopTimer();
 
-            if (!DocumentText.Contains("id=siteSub"))
+            if (!Document.Body.InnerHtml.Contains("id=siteSub"))
             {
                 ProcessStage = ProcessingStage.None;
                 if (Fault != null)
@@ -849,9 +842,9 @@ namespace WikiFunctions.Browser
                 AllowNavigation = false;
             else if (ProcessStage == ProcessingStage.Load)
             {
-                TalkPageExists = !RegexArticleTalkExists.IsMatch(DocumentText);
+                TalkPageExists = !RegexArticleTalkExists.IsMatch(Document.Body.InnerHtml);
 
-                ArticlePageExists = !RegexArticleExists.IsMatch(DocumentText);
+                ArticlePageExists = !RegexArticleExists.IsMatch(Document.Body.InnerHtml);
 
                 AllowNavigation = false;
                 ProcessStage = ProcessingStage.None;
@@ -902,7 +895,7 @@ namespace WikiFunctions.Browser
             Status = "Loading move page";
             Wait();
 
-            if (Document == null || !DocumentText.Contains("wpNewTitle"))
+            if (Document == null || !Document.Body.InnerHtml.Contains("wpNewTitle"))
             {
                 AllowNavigation = false;
                 return false;
