@@ -781,6 +781,12 @@ namespace AutoWikiBrowser
                     return false;
                 }
 
+                if (webBrowserEdit.DocumentText.Contains("<div class=\"permissions-errors\">"))
+                {
+                    SkipPage("User doesn't have permissions to edit this page.");
+                    return false;
+                }
+
                 string HTML = null;
                 if (webBrowserEdit.Document != null && webBrowserEdit.Document.Body != null)
                     HTML = webBrowserEdit.Document.Body.InnerHtml;
@@ -945,16 +951,19 @@ namespace AutoWikiBrowser
 
                 return;
             }
+
             if (webBrowserEdit.DocumentText.Contains("<DIV CLASS=PREVIEWNOTE"))
             {//if session data is lost, if data is lost then save after delay with tmrAutoSaveDelay
                 StartDelayedRestartTimer(null, null);
                 return;
             }
+
             if (webBrowserEdit.DocumentText.Contains("<h1 id=\"FoundationName\">Wikimedia Foundation</h1>"))
             {//WMF Error
                 StartDelayedRestartTimer(null, null);
                 return;
             }
+
             if (IsReadOnlyDB(webBrowserEdit.DocumentText))
             {
                 StartDelayedRestartTimer(null, null);
