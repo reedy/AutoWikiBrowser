@@ -51,6 +51,8 @@ namespace WikiFunctions.Disambiguation
         static int SavedTop;
         bool NoSave = true;
 
+        readonly Browser.WebControl browser = new Browser.WebControl();
+
         /// <summary>
         /// displays form that promts user for disambiguation
         /// if no disambihuation needed, immediately returns
@@ -237,8 +239,7 @@ namespace WikiFunctions.Disambiguation
             //TODO:Shouldnt have to create a new browser just for this
             try
             {
-                WikiFunctions.Browser.WebControl browser = new Browser.WebControl();
-                browser.Navigate(Variables.URLLong + "index.php?title=" + Tools.WikiEncode(ArticleTitle) + "&action=watch");
+                browser.Navigate(Variables.GetRemoveFromWatchlistURL(Tools.WikiEncode(ArticleTitle)));
                 browser.Wait();
                 MessageBox.Show("Page successfully added to your watchlist");
             }
@@ -253,8 +254,7 @@ namespace WikiFunctions.Disambiguation
             //TODO:Shouldnt have to create a new browser just for this
             try
             {
-                Browser.WebControl browser = new Browser.WebControl();
-                browser.Navigate(Variables.URLLong + "index.php?title=" + Tools.WikiEncode(ArticleTitle) + "&action=unwatch");
+                browser.Navigate(Variables.GetAddToWatchlistURL(Tools.WikiEncode(ArticleTitle)));
                 browser.Wait();
                 MessageBox.Show("Page successfully removed from your watchlist");
             }
