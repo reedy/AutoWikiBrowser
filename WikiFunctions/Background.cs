@@ -88,9 +88,7 @@ namespace WikiFunctions.Background
         }
 
         protected string strParam;
-        protected object objParam1;
-        protected object objParam2;
-        protected object objParam3;
+        protected object objParam1, objParam2, objParam3;
 
         private void InitThread(ThreadStart start)
         {

@@ -104,36 +104,30 @@ namespace WikiFunctions.Disambiguation
             foreach (Match m in Matches)
             {
                 DabControl c = new DabControl(articleText, dabLink, m, Variants, contextChars);
-                c.Changed += new EventHandler(OnUserInput);
+                c.Changed += OnUserInput;
                 tableLayout.Controls.Add(c);
                 Dabs.Add(c);
             }
 
-            DialogResult r = ShowDialog(Variables.MainForm as Form);
-
-            switch (r)
+            switch (ShowDialog(Variables.MainForm as Form))
             {
                 case DialogResult.OK:
                     break; // proceed further
                 case DialogResult.Abort:
                     Abort = true;
-                    return articleText;
-                case DialogResult.Cancel:
-                    skip = true;
-                    return articleText; 
-                    //break;
-                default:
+                    goto default;
+                default: //DialogResult.Cancel
                     return articleText;
             }
 
             int adjust = 0;
             foreach (DabControl d in Dabs)
             {
-                int start, end1, end2;
+                int start;
                 for (start = 0; (start < Math.Min(d.Surroundings.Length, d.Result.Length)) && (d.Result[start] == d.Surroundings[start]); start++);
 
-                end1 = d.Surroundings.Length - 1;
-                end2 = d.Result.Length - 1;
+                int end1 = d.Surroundings.Length - 1;
+                int end2 = d.Result.Length - 1;
 
                 while ((end1 > start) && (end2 > start) && (d.Result[end2] == d.Surroundings[end1]))
                 {
@@ -144,10 +138,6 @@ namespace WikiFunctions.Disambiguation
                 ArticleText = Tools.ReplacePartOfString(ArticleText, d.SurroundingsStart + start + adjust,
                     end1 - start + 1, d.Result.Substring(start, end2 - start + 1));
                 adjust += d.Result.Length - d.Surroundings.Length;
-
-                //ArticleText = Tools.ReplacePartOfString(ArticleText, d.SurroundingsStart + adjust, 
-                //    d.Surroundings.Length, d.Result);
-                //adjust += d.Result.Length - d.Surroundings.Length;
             }
 
             if (ArticleText != articleText) skip = false;
@@ -244,9 +234,10 @@ namespace WikiFunctions.Disambiguation
 
         private void watchToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //TODO:Shouldnt have to create a new browser just for this
             try
             {
-                WikiFunctions.Browser.WebControl browser = new WikiFunctions.Browser.WebControl();
+                WikiFunctions.Browser.WebControl browser = new Browser.WebControl();
                 browser.Navigate(Variables.URLLong + "index.php?title=" + Tools.WikiEncode(ArticleTitle) + "&action=watch");
                 browser.Wait();
                 MessageBox.Show("Page successfully added to your watchlist");
@@ -259,6 +250,7 @@ namespace WikiFunctions.Disambiguation
 
         private void unwatchToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //TODO:Shouldnt have to create a new browser just for this
             try
             {
                 Browser.WebControl browser = new Browser.WebControl();
