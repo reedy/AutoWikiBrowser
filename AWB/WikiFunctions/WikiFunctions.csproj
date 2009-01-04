@@ -54,7 +54,7 @@
     <Compile Include="Article.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AWBLogListener.cs" />
+    <Compile Include="Logging\AWBLogListener.cs" />
     <Compile Include="Profiles\AWBProfilesForm.cs">
       <SubType>Form</SubType>
     </Compile>
