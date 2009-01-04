@@ -965,6 +965,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="Message">The message to write.</param>
         /// <param name="File">The name of the file, e.g. "Log.txt".</param>
+        /// <param name="append"></param>
         public static void WriteTextFileAbsolutePath(string Message, string File, bool append)
         {
             try
@@ -1273,12 +1274,12 @@ Message: {2}
                 {
                     string call = m.Value;
 
-                    string expandUri = Variables.URLLong + "api.php?action=expandtemplates&format=xml&title=" + Tools.WikiEncode(ArticleTitle) + "&text=" + HttpUtility.UrlEncode(call);
+                    string expandUri = Variables.URLLong + "api.php?action=expandtemplates&format=xml&title=" + WikiEncode(ArticleTitle) + "&text=" + HttpUtility.UrlEncode(call);
                     string result;
 
                     try
                     {
-                        string respStr = Tools.GetHTML(expandUri);
+                        string respStr = GetHTML(expandUri);
                         Match m1 = ExpandTemplatesRegex.Match(respStr);
                         if (!m.Success) continue;
                         result = HttpUtility.HtmlDecode(m1.Groups[1].Value);

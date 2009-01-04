@@ -236,7 +236,7 @@ namespace WikiFunctions.Disambiguation
 
         private void watchToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //TODO:Shouldnt have to create a new browser just for this
+            //TODO:Must be a better way. Background request?
             try
             {
                 browser.Navigate(Variables.GetRemoveFromWatchlistURL(Tools.WikiEncode(ArticleTitle)));
@@ -251,7 +251,7 @@ namespace WikiFunctions.Disambiguation
 
         private void unwatchToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //TODO:Shouldnt have to create a new browser just for this
+            //TODO:Must be a better way. Background request?
             try
             {
                 browser.Navigate(Variables.GetAddToWatchlistURL(Tools.WikiEncode(ArticleTitle)));
