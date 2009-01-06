@@ -64,6 +64,7 @@ namespace WikiFunctions
         /// <param name="Article">The article to return the wikitext for.</param>
         /// <param name="indexpath">The path to the index page of the wiki to edit.</param>
         /// <returns>The wikitext of the specified article.</returns>
+        /// <param name="oldid"
         public static String GetWikiText(String Article, string indexpath, int oldid)
         {
             try
@@ -77,11 +78,10 @@ namespace WikiFunctions
                 HttpWebResponse resps = (HttpWebResponse)wr.GetResponse();
                 Stream stream = resps.GetResponseStream();
                 StreamReader sr = new StreamReader(stream);
-                string wikitext = "";
-
+    
                 //wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
 
-                wikitext = sr.ReadToEnd();
+                 string wikitext = sr.ReadToEnd();
 
                 sr.Close();
                 stream.Close();
@@ -142,7 +142,7 @@ namespace WikiFunctions
             string wpEdittime = m.Groups[1].Value;
 
             m = EditToken.Match(editpagestr);
-            string wpEditkey = System.Web.HttpUtility.UrlEncode(m.Groups[1].Value);
+            string wpEditkey = HttpUtility.UrlEncode(m.Groups[1].Value);
 
             wr.CookieContainer = new CookieContainer();
 
@@ -231,24 +231,18 @@ namespace WikiFunctions
         {
             HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath + "index.php?title=" + 
                 HttpUtility.UrlEncode(Article) + "&action=edit", UserAgent);
-            HttpWebResponse resps;
-            Stream stream;
-            StreamReader sr;
-            string wikitext = "";
 
             wr.CookieContainer = new CookieContainer();
 
             foreach (Cookie cook in logincookies)
                 wr.CookieContainer.Add(cook);
 
-            Article = HttpUtility.UrlEncode(Article);
+            HttpWebResponse resps = (HttpWebResponse)wr.GetResponse();
 
-            resps = (HttpWebResponse) wr.GetResponse();
+            Stream stream = resps.GetResponseStream();
+            StreamReader sr = new StreamReader(stream);
 
-            stream = resps.GetResponseStream();
-            sr = new StreamReader(stream);
-
-            wikitext = sr.ReadToEnd();
+            string wikitext = sr.ReadToEnd();
 
             sr.Close();
             stream.Close();
@@ -265,7 +259,7 @@ namespace WikiFunctions
         public void LogIn(string Username, string password)
         {
             HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath + "index.php?title=Special:Userlogin&action=submitlogin&type=login", UserAgent);
-            HttpWebResponse resps;
+
             //Create poststring
             string poststring = string.Format("wpName=+{0}&wpPassword={1}&wpRemember=1&wpLoginattempt=Log+in",
                 new string[] { HttpUtility.UrlEncode(Username), HttpUtility.UrlEncode(password) });
@@ -286,7 +280,7 @@ namespace WikiFunctions
             rs.Write(bytedata, 0, bytedata.Length);
             rs.Close();
 
-            resps = (HttpWebResponse)wr.GetResponse();
+            HttpWebResponse resps = (HttpWebResponse)wr.GetResponse();
 
             logincookies = resps.Cookies;
         }
