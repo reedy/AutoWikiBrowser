@@ -32,10 +32,9 @@ namespace WikiFunctions.Parse
         /// <param name="ArticleText"></param>
         private void Replace(IEnumerable matches, ref string ArticleText)
         {
-            string s;
             foreach (Match m in matches)
             {
-                s = "⌊⌊⌊⌊" + HiddenTokens.Count + "⌋⌋⌋⌋";
+                string s = "⌊⌊⌊⌊" + HiddenTokens.Count + "⌋⌋⌋⌋";
                 ArticleText = ArticleText.Replace(m.Value, s);
                 HiddenTokens.Add(new HideObject(s, m.Value));
             }

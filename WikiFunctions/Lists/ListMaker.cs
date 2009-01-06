@@ -33,7 +33,7 @@ namespace WikiFunctions.Controls.Lists
 {
     public delegate void ListMakerEventHandler(object sender, EventArgs e);
 
-    public partial class ListMaker : UserControl, IEnumerable<Article>, ICollection<Article>, IList<Article>
+    public partial class ListMaker : UserControl, IList<Article>
     {
         private static SaveFileDialog saveListDialog;
         private static BindingList<IListProvider> listItems = new BindingList<IListProvider>();
@@ -135,7 +135,7 @@ namespace WikiFunctions.Controls.Lists
             int i = 0;
             while (i < lbArticles.Items.Count)
             {
-                yield return (Article)lbArticles.Items[i];
+                yield return lbArticles.Items[i];
                 i++;
             }
         }
@@ -1130,7 +1130,7 @@ namespace WikiFunctions.Controls.Lists
         private void btnStop_Click(object sender, EventArgs e)
         {
             btnStop.Visible = false;
-            this.Stop();
+            Stop();
         }
 
         private void openHistoryInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1229,7 +1229,7 @@ namespace WikiFunctions.Controls.Lists
         /// Gets all the IListMakerPlugins from the list of IListProviders
         /// </summary>
         /// <returns>List of IListMakerPlugins currently loaded</returns>
-        public static List<WikiFunctions.Plugin.IListMakerPlugin> GetListMakerPlugins()
+        public static List<Plugin.IListMakerPlugin> GetListMakerPlugins()
         {
             List<Plugin.IListMakerPlugin> plugins = new List<Plugin.IListMakerPlugin>();
 
