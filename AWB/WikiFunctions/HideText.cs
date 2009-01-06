@@ -20,13 +20,16 @@ namespace WikiFunctions.Parse
             HideImages = hideImages;
         }
 
-        bool LeaveMetaHeadings;
-        bool HideImages;
-        bool HideExternalLinks;
+        readonly bool LeaveMetaHeadings, HideImages, HideExternalLinks;
 
         List<HideObject> HiddenTokens = new List<HideObject>();
         static readonly Regex NoWikiIgnoreRegex = new Regex("<!-- ?(cat(egories)?|\\{\\{.*?stub\\}\\}.*?|other languages?|language links?|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wikis?|The below are interlanguage links\\.?) ?-->", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="matches"></param>
+        /// <param name="ArticleText"></param>
         private void Replace(IEnumerable matches, ref string ArticleText)
         {
             string s;
@@ -38,6 +41,11 @@ namespace WikiFunctions.Parse
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ArticleText"></param>
+        /// <returns></returns>
         public string Hide(string ArticleText)
         {
             HiddenTokens.Clear();
@@ -75,6 +83,11 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ArticleText"></param>
+        /// <returns></returns>
         public string AddBack(string ArticleText)
         {
             HiddenTokens.Reverse();
@@ -89,6 +102,11 @@ namespace WikiFunctions.Parse
         #region Separate hiding of unformatted text
         List<HideObject> HiddenUnformattedText = new List<HideObject>();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ArticleText"></param>
+        /// <returns></returns>
         public string HideUnformatted(string ArticleText)
         {
             HiddenUnformattedText.Clear();
@@ -106,6 +124,11 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ArticleText"></param>
+        /// <returns></returns>
         public string AddBackUnformatted(string ArticleText)
         {
             HiddenUnformattedText.Reverse();
@@ -121,6 +144,11 @@ namespace WikiFunctions.Parse
         #region More thorough hiding
         List<HideObject> MoreHide = new List<HideObject>(32);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="matches"></param>
+        /// <param name="ArticleText"></param>
         private void ReplaceMore(ICollection matches, ref string ArticleText)
         {
             StringBuilder sb = new StringBuilder((int)(ArticleText.Length * 1.1));
@@ -221,6 +249,7 @@ namespace WikiFunctions.Parse
         #endregion
 
     }
+
     struct HideObject
     {
         public HideObject(string code, string text)
@@ -237,5 +266,4 @@ namespace WikiFunctions.Parse
             return code + " --> " + text;
         }
     }
-
 }
