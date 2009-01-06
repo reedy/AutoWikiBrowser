@@ -66,6 +66,11 @@ namespace WikiFunctions.Parse
 
         public List<TypoStat> Statistics = new List<TypoStat>();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="typo"></param>
+        /// <returns></returns>
         public bool SuitableTypo(string typo)
         {
             if (Allow != null && !Allow.IsMatch(typo)) return false;
@@ -121,6 +126,12 @@ namespace WikiFunctions.Parse
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ArticleText"></param>
+        /// <param name="summary"></param>
+        /// <param name="typo"></param>
         private void FixTypo(ref string ArticleText, ref string summary, KeyValuePair<Regex, string> typo)
         {
             MatchCollection matches = typo.Key.Matches(ArticleText);
@@ -164,15 +175,18 @@ namespace WikiFunctions.Parse
                         }
                     }
                 }
-            else foreach (KeyValuePair<Regex, string> typo in Typos)
+            else
+                foreach (KeyValuePair<Regex, string> typo in Typos)
                     FixTypo(ref ArticleText, ref summary, typo);
         }
     }
 
-
+    /// <summary>
+    /// 
+    /// </summary>
     public class RegExTypoFix
     {
-        Thread typoThread;
+        readonly Thread typoThread;
         public delegate void TypoThreadComplete();
         public event TypoThreadComplete Complete;
 
@@ -210,6 +224,10 @@ namespace WikiFunctions.Parse
 
         List<TypoGroup> Groups = new List<TypoGroup>();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="error"></param>
         internal static void TypoError(string error)
         {
             MessageBox.Show(error + "\r\n\r\nPlease visit the typo page at " + Variables.RETFPath +
@@ -217,6 +235,9 @@ namespace WikiFunctions.Parse
                 "RegexTypoFix error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void MakeRegexes()
         {
             try
@@ -265,6 +286,15 @@ namespace WikiFunctions.Parse
             }
         }
 
+        readonly HideText RemoveText = new HideText(true, false, true);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ArticleText"></param>
+        /// <param name="NoChange"></param>
+        /// <param name="Summary"></param>
+        /// <returns></returns>
         public string PerformTypoFixes(string ArticleText, out bool NoChange, out string Summary)
         {
             Summary = "";
@@ -279,8 +309,6 @@ namespace WikiFunctions.Parse
                 NoChange = true;
                 return ArticleText;
             }
-
-            HideText RemoveText = new HideText(true, false, true);
 
             ArticleText = RemoveText.HideMore(ArticleText);
 
@@ -311,6 +339,11 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ArticleText"></param>
+        /// <returns></returns>
         public bool DetectTypo(string ArticleText)
         {
             bool noChange;
@@ -338,6 +371,10 @@ namespace WikiFunctions.Parse
 
         static readonly Regex TypoRegex = new Regex("<(?:Typo)?\\s+(?:word=\"(.*?)\"\\s+)?find=\"(.*?)\"\\s+replace=\"(.*?)\"\\s*/?>", RegexOptions.Compiled);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         private Dictionary<string, string> LoadTypos()
         {
             Dictionary<string, string> typoStrings = new Dictionary<string, string>();
@@ -403,6 +440,10 @@ namespace WikiFunctions.Parse
             return typoStrings;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<KeyValuePair<Regex, string>> GetTypos()
         {
             List<KeyValuePair<Regex, string>> lst = new List<KeyValuePair<Regex, string>>();
