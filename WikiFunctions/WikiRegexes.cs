@@ -36,17 +36,21 @@ namespace WikiFunctions
                     @"\[\[" + Variables.NamespacesCaseInsensitive[6] +
                     @"([^\]]*?(?:\[\[?.*?(?:\[\[.*?\]\].*?)?\]\]?[^\]]*?)*)\]\]|<[Gg]allery\b([^>]*?)>[\s\S]*?</ ?[Gg]allery>",
                     RegexOptions.Compiled);
+
             Stub = new Regex(@"{{.*?" + Variables.Stub + @"}}", RegexOptions.Compiled);
+
             PossiblyCommentedStub =
                 new Regex(
                     @"(<!-- ?\{\{[^}]*?" + Variables.Stub + @"\b\}\}.*?-->|\{\{[^}]*?" + Variables.Stub + @"\}\})",
                     RegexOptions.Compiled);
+
             TemplateCall = new Regex(TemplateStart + @"\s*([^\]\|]*)\s*(.*)}}",
                                      RegexOptions.Compiled | RegexOptions.Singleline);
 
             LooseCategory =
                 new Regex(@"\[\[[\s_]*" + Variables.NamespacesCaseInsensitive[14] + @"[\s_]*([^\|]*?)(|\|.*?)\]\]",
                           RegexOptions.Compiled);
+
             LooseImage = new Regex(@"\[\[\s*?(" + Variables.NamespacesCaseInsensitive[6] + @")\s*([^\|\]]*?)(.*?)\]\]",
                                    RegexOptions.Compiled);
 
@@ -98,14 +102,16 @@ namespace WikiFunctions
             Redirect = new Regex(@"#" + s + @"\s*:?\s*\[\[\s*:?\s*([^\|]*?)\s*(|\|.*?)]\]",
                                  RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
-            if (Variables.LangCode == LangCodeEnum.ru)
-                Disambigs = new Regex(TemplateStart + @"([Dd]isambiguation|[Dd]isambig|[Нн]еоднозначность)}}",
-                                      RegexOptions.Compiled);
-            else
-                Disambigs =
-                    new Regex(
-                        @"{{([234]CC|[Dd]isambig|[Gg]eodis|[Hh]ndis|[Ss]urname|[Nn]umberdis|[Rr]oaddis|[Ll]etter-disambig)}}",
-                        RegexOptions.Compiled);
+            switch (Variables.LangCode)
+            {
+                case LangCodeEnum.ru:
+                    s = "([Dd]isambiguation|[Dd]isambig|[Нн]еоднозначность)";
+                    break;
+                default:
+                    s = "([234]CC|[Dd]isambig|[Gg]eodis|[Hh]ndis|[Ss]urname|[Nn]umberdis|[Rr]oaddis|[Ll]etter-disambig)";
+                    break;
+            }
+            Disambigs = new Regex(TemplateStart + s + "}}", RegexOptions.Compiled);
 
             s = (Variables.LangCode == LangCodeEnum.en)
                     ? "(?:(?i:defaultsort|lifetime|BIRTH-DEATH-SORT)|BD)"
