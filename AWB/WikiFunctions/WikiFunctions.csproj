@@ -178,7 +178,7 @@
     <Compile Include="Lists\ListSplitter.Designer.cs">
       <DependentUpon>ListSplitter.cs</DependentUpon>
     </Compile>
-    <Compile Include="HideText.cs" />
+    <Compile Include="Parse\HideText.cs" />
     <Compile Include="Lists\ListComparer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -202,7 +202,7 @@
     <Compile Include="Logging\UploadingPleaseWaitForm.designer.cs">
       <DependentUpon>UploadingPleaseWaitForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MetaDataSorter.cs" />
+    <Compile Include="Parse\MetaDataSorter.cs" />
     <Compile Include="Controls\LoginDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -213,7 +213,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Options.cs" />
-    <Compile Include="Parsers.cs" />
+    <Compile Include="Parse\Parsers.cs" />
     <Compile Include="PleaseWait.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -229,7 +229,7 @@
     <Compile Include="Controls\RegexTester.Designer.cs">
       <DependentUpon>RegexTester.cs</DependentUpon>
     </Compile>
-    <Compile Include="RegExTypoFix.cs" />
+    <Compile Include="Parse\RegExTypoFix.cs" />
     <Compile Include="ReplaceSpecial\InTemplateRule.cs" />
     <Compile Include="ReplaceSpecial\InTemplateRuleControl.cs">
       <SubType>UserControl</SubType>
@@ -462,9 +462,6 @@
     <None Include="Resources\GoRtl2.bmp" />
     <None Include="Resources\filesave2.gif" />
     <None Include="Resources\changes2.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Parse\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
