@@ -251,9 +251,7 @@ namespace AutoWikiBrowser.Logging
             base.AddListener(key, listener);
             if (listener.Uploadable)
             {
-                ((TraceListenerUploadableBase)listener).Upload += 
-                    new WikiFunctions.Logging.TraceListenerUploadableBase.UploadEventHandler(
-                    this.TraceUploadEventHandler);
+                ((TraceListenerUploadableBase)listener).Upload += TraceUploadEventHandler;
             }
         }
         public override void RemoveListener(string key)
@@ -263,9 +261,7 @@ namespace AutoWikiBrowser.Logging
 
             if (listener.Uploadable)
             {
-                ((TraceListenerUploadableBase)listener).Upload -= 
-                    new WikiFunctions.Logging.TraceListenerUploadableBase.UploadEventHandler(
-                    TraceUploadEventHandler);
+                ((TraceListenerUploadableBase)listener).Upload -= TraceUploadEventHandler;
             }
 
             base.RemoveListener(key);
@@ -505,8 +501,8 @@ namespace AutoWikiBrowser.Logging
         /// Logs in XHTML
         /// </summary>
         /// <remarks></remarks>
-        private sealed class XhtmlTraceListener : WikiFunctions.Logging.XHTMLTraceListener,
-            WikiFunctions.Logging.Uploader.ITraceStatusProvider, IAWBTraceListener
+        private sealed class XhtmlTraceListener : XHTMLTraceListener,
+            ITraceStatusProvider, IAWBTraceListener
         {
             private TraceStatus mTraceStatus;
 
@@ -521,7 +517,7 @@ namespace AutoWikiBrowser.Logging
             }
             public void AWBSkipped(string Reason)
             {
-                this.SkippedArticle("AWB", Reason);
+                SkippedArticle("AWB", Reason);
             }
             public void UserSkipped()
             { SkippedArticle(Variables.StringUser, Variables.StringUserSkipped); }

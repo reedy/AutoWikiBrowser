@@ -25,7 +25,7 @@ namespace WikiFunctions.MWB
         List<List<TreeNode>> history_ = new List<List<TreeNode>>();
         int index_ = -1;
 
-        TreeView treeView_ = null;
+        TreeView treeView_;
 
         public RuleTreeHistory(TreeView tv)
         {
