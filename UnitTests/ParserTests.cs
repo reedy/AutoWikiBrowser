@@ -625,56 +625,61 @@ http://example.com }}");
 
             // don't change sorting for single categories
             Assert.AreEqual("[[Category:Test1|Foooo]]",
-                p.ChangeToDefaultSort("[[Category:Test1|Foooo]]", "Foo", out noChange));
+                            p.ChangeToDefaultSort("[[Category:Test1|Foooo]]", "Foo", out noChange));
             Assert.IsTrue(noChange);
 
             // should work
             Assert.AreEqual("[[Category:Test1]][[Category:Test2]]\r\n{{DEFAULTSORT:Foooo}}",
-                p.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Foooo]]", "Bar", out noChange));
+                            p.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Foooo]]", "Bar",
+                                                  out noChange));
             Assert.IsFalse(noChange);
 
             // ...but don't add DEFAULTSORT if the key equals page title
             Assert.AreEqual("[[Category:Test1]][[Category:Test2]]",
-                p.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Foooo]]", "Foooo", out noChange));
+                            p.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Foooo]]", "Foooo",
+                                                  out noChange));
             Assert.IsFalse(noChange, "Should detect a change even if it hasn't added a DEFAULTSORT");
 
             // don't change if key is 3 chars or less
             Assert.AreEqual("[[Category:Test1|Foo]][[Category:Test2|Foo]]",
-                p.ChangeToDefaultSort("[[Category:Test1|Foo]][[Category:Test2|Foo]]", "Bar", out noChange));
+                            p.ChangeToDefaultSort("[[Category:Test1|Foo]][[Category:Test2|Foo]]", "Bar", out noChange));
             Assert.IsTrue(noChange);
 
             // Remove explicit keys equal to page title
             Assert.AreEqual("[[Category:Test1]][[Category:Test2]]",
-                p.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2]]", "Foooo", out noChange));
+                            p.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2]]", "Foooo", out noChange));
             Assert.IsFalse(noChange);
             // swap
             Assert.AreEqual("[[Category:Test1]][[Category:Test2]]",
-                p.ChangeToDefaultSort("[[Category:Test1]][[Category:Test2|Foooo]]", "Foooo", out noChange));
+                            p.ChangeToDefaultSort("[[Category:Test1]][[Category:Test2|Foooo]]", "Foooo", out noChange));
             Assert.IsFalse(noChange);
 
             // Borderline condition
             Assert.AreEqual("[[Category:Test1|Fooooo]][[Category:Test2]]",
-                p.ChangeToDefaultSort("[[Category:Test1|Fooooo]][[Category:Test2]]", "Foooo", out noChange));
+                            p.ChangeToDefaultSort("[[Category:Test1|Fooooo]][[Category:Test2]]", "Foooo", out noChange));
             Assert.IsTrue(noChange);
 
             // Don't change anything if there's ambiguity
             Assert.AreEqual("[[Category:Test1|Foooo]][[Category:Test2|Baaar]]",
-                p.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Baaar]]", "Teeest", out noChange));
+                            p.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Baaar]]", "Teeest",
+                                                  out noChange));
             Assert.IsTrue(noChange);
             // same thing
             Assert.AreEqual("[[Category:Test1|Foooo]][[Category:Test2|Baaar]]",
-                p.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Baaar]]", "Foooo", out noChange));
+                            p.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Baaar]]", "Foooo",
+                                                  out noChange));
             Assert.IsTrue(noChange);
 
             // remove diacritics when generating a key
             Assert.AreEqual("[[Category:Test1]][[Category:Test2]]\r\n{{DEFAULTSORT:Foooo}}",
-                p.ChangeToDefaultSort("[[Category:Test1|Foooô]][[Category:Test2|Foooô]]", "Bar", out noChange));
+                            p.ChangeToDefaultSort("[[Category:Test1|Foooô]][[Category:Test2|Foooô]]", "Bar",
+                                                  out noChange));
             Assert.IsFalse(noChange);
 
             // should also fix diacritics in existing defaultsort's and remove leading spaces
             // also support mimicking templates
             Assert.AreEqual("{{DEFAULTSORT:Test}}",
-                p.ChangeToDefaultSort("{{defaultsort| Tést}}", "Foo", out noChange));
+                            p.ChangeToDefaultSort("{{defaultsort| Tést}}", "Foo", out noChange));
             Assert.IsFalse(noChange);
 
             // shouldn't change whitespace-only sortkeys
@@ -684,22 +689,53 @@ http://example.com }}");
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#DEFAULTSORT_with_spaces
             // DEFAULTSORT doesn't treat leading spaces the same way as categories do
             Assert.AreEqual("[[Category:Test1| Foooo]][[Category:Test2| Foooo]]",
-                p.ChangeToDefaultSort("[[Category:Test1| Foooo]][[Category:Test2| Foooo]]", "Bar", out noChange));
+                            p.ChangeToDefaultSort("[[Category:Test1| Foooo]][[Category:Test2| Foooo]]", "Bar",
+                                                  out noChange));
             Assert.IsTrue(noChange);
 
             // {{lifetime}} and crap like that is not supported
             p.ChangeToDefaultSort("{{lifetime|shite}}[[Category:Test1|Foooo]][[Category:Test2|Foooo]]",
-                "Bar", out noChange);
+                                  "Bar", out noChange);
             Assert.IsTrue(noChange);
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#AWB_needs_to_handle_lifetime_template_correctly
             // pages with multiple sort specifiers shouldn't be changed
             p.ChangeToDefaultSort("{{DEFAULTSORT:Foo}}{{lifetime|Bar}}",
-                "Foo", out noChange);
+                                  "Foo", out noChange);
             Assert.IsTrue(noChange);
             // continued...
             p.ChangeToDefaultSort("{{defaultsort| Tést}}{{DEFAULTSORT: Tést}}", "Foo", out noChange);
             Assert.IsTrue(noChange);
+
+            //Remove explicitally defined sort keys from categories when the page has defaultsort
+            Assert.AreEqual("{{DEFAULTSORT:Test}}[[Category:Test]]",
+                            p.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|Test]]", "Foo", out noChange));
+            Assert.IsFalse(noChange);
+
+            //Case difference of above
+            Assert.AreEqual("{{DEFAULTSORT:Test}}[[Category:Test]]",
+                p.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]]", "Foo", out noChange));
+            Assert.IsFalse(noChange);
+
+            //No change due to different key
+            Assert.AreEqual("{{DEFAULTSORT:Test}}[[Category:Test|Not a Test]]",
+    p.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|Not a Test]]", "Foo", out noChange));
+            Assert.IsTrue(noChange);
+
+            //Multiple to be removed
+            Assert.AreEqual("{{DEFAULTSORT:Test}}[[Category:Test]][[Category:Foo]][[Category:Bar]]",
+    p.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo|Test]][[Category:Bar|test]]", "Foo", out noChange));
+            Assert.IsFalse(noChange);
+
+            //Multiple with 1 no key
+            Assert.AreEqual("{{DEFAULTSORT:Test}}[[Category:Test]][[Category:Foo]][[Category:Bar]]",
+p.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo]][[Category:Bar|test]]", "Foo", out noChange));
+            Assert.IsFalse(noChange);
+
+            //Multiple with 1 different key
+            Assert.AreEqual("{{DEFAULTSORT:Test}}[[Category:Test]][[Category:Foo|Bar]][[Category:Bar]]",
+p.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo|Bar]][[Category:Bar|test]]", "Foo", out noChange));
+            Assert.IsFalse(noChange);
         }
 
         [Test, Ignore("Unused"), Category("Incomplete")]
