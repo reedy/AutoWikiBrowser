@@ -893,6 +893,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
+        static readonly HideText BulletExternalHider = new HideText(false, true, false);
+
         // Covered by: LinkTests.TestBulletExternalLinks()
         /// <summary>
         /// Adds bullet points to external links after "external links" header
@@ -910,10 +912,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             string articleTextSubstring  = ArticleText.Substring(intStart);
             ArticleText = ArticleText.Substring(0, intStart);
-            HideText ht = new HideText(false, true, false);
-            articleTextSubstring = ht.HideMore(articleTextSubstring);
+            articleTextSubstring = BulletExternalHider.HideMore(articleTextSubstring);
             articleTextSubstring = Regex.Replace(articleTextSubstring, "(\r\n|\n)?(\r\n|\n)(\\[?http)", "$2* $3");
-            articleTextSubstring = ht.AddBackMore(articleTextSubstring);
+            articleTextSubstring = BulletExternalHider.AddBackMore(articleTextSubstring);
             ArticleText += articleTextSubstring;
 
             return ArticleText;
@@ -1549,13 +1550,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 if (allsame && matches > 1 && !string.IsNullOrEmpty(sort))
                 {
                     if (sort.Length > 4 && // So that this doesn't get confused by sort keys of "*", " ", etc.
-                        !sort.StartsWith(" ")) // MW bug: DEFAULTSORT doesn't treat leading spaces the same way 
-                    //as categories do
+                        !sort.StartsWith(" ")) // MW bug: DEFAULTSORT doesn't treat leading spaces the same way as categories do
                     {
-                        foreach (Match m in cats)
-                        {
-                            ArticleText = Regex.Replace(ArticleText, s, "[[" + Variables.Namespaces[14] + "$1]]");
-                        }
+                        ArticleText = Regex.Replace(ArticleText, s, "[[" + Variables.Namespaces[14] + "$1]]");
+
                         if (sort != ArticleTitle)
                             ArticleText = ArticleText + "\r\n{{DEFAULTSORT:" + Tools.RemoveDiacritics(sort) + "}}";
                     }

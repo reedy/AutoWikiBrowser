@@ -755,13 +755,13 @@ http://example.com }}");
         {
             bool noChange;
 
-            Assert.AreEqual("\r\n[[Category:Foo]]", p.AddCategory("Foo", "", "bar", out noChange));
+            Assert.AreEqual("\r\n\r\n[[Category:Foo]]\r\n", p.AddCategory("Foo", "", "bar", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("bar\r\n[[Category:Foo]]", p.AddCategory("Foo", "bar", "bar", out noChange));
+            Assert.AreEqual("bar\r\n\r\n[[Category:Foo]]\r\n", p.AddCategory("Foo", "bar", "bar", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("test[[Category:Foo|bar]]\r\n[[Category:Bar]]",
+            Assert.AreEqual("test\r\n\r\n[[Category:Foo|bar]]\r\n[[Category:Bar]]\r\n",
                 p.AddCategory("Bar", "test[[Category:Foo|bar]]", "foo", out noChange));
             Assert.IsFalse(noChange);
 
