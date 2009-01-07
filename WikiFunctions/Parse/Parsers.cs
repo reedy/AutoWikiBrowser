@@ -1518,6 +1518,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (ds.Count > 1)
                 return testText;
 
+            string catregex = @"\[\[\s*" + Variables.NamespacesCaseInsensitive[14] +
+                              @"\s*(.*?)\s*(?:|\|([^\|\]]*))\s*\]\]";
+
             if (ds.Count == 0)
             {
                 string sort = null;
@@ -1528,11 +1531,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 ArticleText = FixCategories(ArticleText);
                 testText = ArticleText;
 
-                string s = @"\[\[\s*" + Variables.NamespacesCaseInsensitive[14] + @"\s*(.*?)\s*(?:|\|([^\|\]]*))\s*\]\]";
-
-                MatchCollection cats = Regex.Matches(ArticleText, s);
-
-                foreach (Match m in cats)
+                foreach (Match m in Regex.Matches(ArticleText, catregex))
                 {
                     string explicitKey = m.Groups[2].Value;
                     if (explicitKey.Length == 0) explicitKey = ArticleTitle;
@@ -1547,12 +1546,14 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     }
                     matches++;
                 }
+
                 if (allsame && matches > 1 && !string.IsNullOrEmpty(sort))
                 {
                     if (sort.Length > 4 && // So that this doesn't get confused by sort keys of "*", " ", etc.
-                        !sort.StartsWith(" ")) // MW bug: DEFAULTSORT doesn't treat leading spaces the same way as categories do
+                        !sort.StartsWith(" "))
+                        // MW bug: DEFAULTSORT doesn't treat leading spaces the same way as categories do
                     {
-                        ArticleText = Regex.Replace(ArticleText, s, "[[" + Variables.Namespaces[14] + "$1]]");
+                        ArticleText = Regex.Replace(ArticleText, catregex, "[[" + Variables.Namespaces[14] + "$1]]");
 
                         if (sort != ArticleTitle)
                             ArticleText = ArticleText + "\r\n{{DEFAULTSORT:" + Tools.RemoveDiacritics(sort) + "}}";
@@ -1566,9 +1567,21 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     ArticleText = ArticleText.Replace(ds[0].Value, "{{DEFAULTSORT:" + s + "}}");
             }
 
-            ////defaultsort category cleaner
-            //Regex defaultSortCategoryCleaner = new Regex(@"{{DEFAULTSORT\:([^{}]+)}}(.*?\[\[" + Variables.Namespaces[14] + @"\:[^{}]+)\|\1\]\]", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            //ArticleText = defaultSortCategoryCleaner.Replace(ArticleText, "{{DEFAULTSORT:$1}}$2]]");
+            if (ds.Count == 1)
+            {
+                //Removes any explicit keys that are case insensitively the same as the default sort (To help tidy up on pages that already have defaultsort)
+                foreach (Match m in Regex.Matches(ArticleText, catregex))
+                {
+                    string explicitKey = m.Groups[2].Value;
+                    if (explicitKey.Length == 0)
+                        continue;
+
+                    if (string.Compare(explicitKey, ds[0].Groups["key"].Value, StringComparison.OrdinalIgnoreCase) == 0)
+                        ArticleText = ArticleText.Replace(m.Value,
+                                                          "[[" + Variables.Namespaces[14] + m.Groups[1].Value +
+                                                          "]]");
+                }
+            }
 
             NoChange = (testText == ArticleText);
             return ArticleText;
