@@ -167,7 +167,7 @@
             // 
             this.chkTalk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkTalk.AutoSize = true;
-            this.chkTalk.Location = new System.Drawing.Point(112, 3);
+            this.chkTalk.Location = new System.Drawing.Point(109, 3);
             this.chkTalk.Name = "chkTalk";
             this.chkTalk.Size = new System.Drawing.Size(47, 17);
             this.chkTalk.TabIndex = 6;
@@ -303,8 +303,8 @@
             this.Controls.Add(this.chkTalk);
             this.Controls.Add(this.flwContent);
             this.Controls.Add(this.chkContents);
-            this.MaximumSize = new System.Drawing.Size(420, 245);
-            this.MinimumSize = new System.Drawing.Size(220, 245);
+            this.MaximumSize = new System.Drawing.Size(420, 247);
+            this.MinimumSize = new System.Drawing.Size(220, 152);
             this.Name = "Namespaces";
             this.Size = new System.Drawing.Size(220, 245);
             this.flwTalk.ResumeLayout(false);

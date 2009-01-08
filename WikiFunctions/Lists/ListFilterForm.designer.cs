@@ -45,8 +45,8 @@ namespace WikiFunctions.Lists
             this.flwOther = new System.Windows.Forms.FlowLayoutPanel();
             this.chkSortAZ = new System.Windows.Forms.CheckBox();
             this.chkRemoveDups = new System.Windows.Forms.CheckBox();
-            this.lbRemove = new WikiFunctions.Controls.Lists.ListBox2();
             this.pageNamespaces = new WikiFunctions.Controls.Namespaces();
+            this.lbRemove = new WikiFunctions.Controls.Lists.ListBox2();
             this.gbNamespaces.SuspendLayout();
             this.gbSearch.SuspendLayout();
             this.gbSets.SuspendLayout();
@@ -252,6 +252,15 @@ namespace WikiFunctions.Lists
             this.chkRemoveDups.Text = "Remove &duplicates";
             this.chkRemoveDups.UseVisualStyleBackColor = true;
             // 
+            // pageNamespaces
+            // 
+            this.pageNamespaces.Location = new System.Drawing.Point(6, 15);
+            this.pageNamespaces.MaximumSize = new System.Drawing.Size(420, 245);
+            this.pageNamespaces.MinimumSize = new System.Drawing.Size(220, 145);
+            this.pageNamespaces.Name = "pageNamespaces";
+            this.pageNamespaces.Size = new System.Drawing.Size(220, 245);
+            this.pageNamespaces.TabIndex = 0;
+            // 
             // lbRemove
             // 
             this.lbRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -262,13 +271,6 @@ namespace WikiFunctions.Lists
             this.lbRemove.Name = "lbRemove";
             this.lbRemove.Size = new System.Drawing.Size(179, 186);
             this.lbRemove.TabIndex = 1;
-            // 
-            // pageNamespaces
-            // 
-            this.pageNamespaces.Location = new System.Drawing.Point(6, 15);
-            this.pageNamespaces.Name = "pageNamespaces";
-            this.pageNamespaces.Size = new System.Drawing.Size(231, 245);
-            this.pageNamespaces.TabIndex = 0;
             // 
             // ListFilterForm
             // 
