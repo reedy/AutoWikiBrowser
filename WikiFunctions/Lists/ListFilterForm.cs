@@ -107,141 +107,14 @@ namespace WikiFunctions.Lists
 
         private void FilterNamespace()
         {
+            List<int> selectedNS = pageNamespaces.GetSelectedNamespaces();
+
             int i = 0;
 
             while (i < list.Count)
             {
-                if (list[i].NameSpaceKey == 0)
-                {
-                    if (chkArticle.Checked)
-                        i++;
-                    else
-                        list.RemoveAt(i);
-                }
-                else if (list[i].NameSpaceKey == 1)
-                {
-                    if (chkArticleTalk.Checked)
-                        i++;
-                    else
-                        list.RemoveAt(i);
-                }
-                else if (list[i].NameSpaceKey == 2)
-                {
-                    if (chkUser.Checked)
-                        i++;
-                    else
-                        list.RemoveAt(i);
-                }
-                else if (list[i].NameSpaceKey == 3)
-                {
-                    if (chkUserTalk.Checked)
-                        i++;
-                    else
-                        list.RemoveAt(i);
-                }
-                else if (list[i].NameSpaceKey == 4)
-                {
-                    if (chkWikipedia.Checked)
-                        i++;
-                    else
-                        list.RemoveAt(i);
-                }
-                else if (list[i].NameSpaceKey == 5)
-                {
-                    if (chkWikipediaTalk.Checked)
-                        i++;
-                    else
-                        list.RemoveAt(i);
-                }
-                else if (list[i].NameSpaceKey == 6)
-                {
-                    if (chkImage.Checked)
-                        i++;
-                    else
-                        list.RemoveAt(i);
-                }
-                else if (list[i].NameSpaceKey == 7)
-                {
-                    if (chkImageTalk.Checked)
-                        i++;
-                    else
-                        list.RemoveAt(i);
-                }
-                else if (list[i].NameSpaceKey == 8)
-                {
-                    if (chkMediaWiki.Checked)
-                        i++;
-                    else
-                        list.RemoveAt(i);
-                }
-                else if (list[i].NameSpaceKey == 9)
-                {
-                    if (chkMediaWikiTalk.Checked)
-                        i++;
-                    else
-                        list.RemoveAt(i);
-                }
-                else if (list[i].NameSpaceKey == 10)
-                {
-                    if (chkTemplate.Checked)
-                        i++;
-                    else
-                        list.RemoveAt(i);
-                }
-                else if (list[i].NameSpaceKey == 11)
-                {
-                    if (chkTemplateTalk.Checked)
-                        i++;
-                    else
-                        list.RemoveAt(i);
-                }
-                else if (list[i].NameSpaceKey == 12)
-                {
-                    if (chkHelp.Checked)
-                        i++;
-                    else
-                        list.RemoveAt(i);
-                }
-                else if (list[i].NameSpaceKey == 13)
-                {
-                    if (chkHelpTalk.Checked)
-                        i++;
-                    else
-                        list.RemoveAt(i);
-                }
-                else if (list[i].NameSpaceKey == 14)
-                {
-                    if (chkCategory.Checked)
-                        i++;
-                    else
-                        list.RemoveAt(i);
-                }
-                else if (list[i].NameSpaceKey == 15)
-                {
-                    if (chkCategoryTalk.Checked)
-                        i++;
-                    else
-                        list.RemoveAt(i);
-                }
-                else if (list[i].NameSpaceKey == 100)
-                {
-                    if (chkPortal.Checked)
-                        i++;
-                    else
-                        list.RemoveAt(i);
-                }
-                else if (list[i].NameSpaceKey == 101)
-                {
-                    if (chkPortalTalk.Checked)
-                        i++;
-                    else
-                        list.RemoveAt(i);
-                }
-                else if (list[i].NameSpaceKey > 101)
-                {
-                    // Filter out all obscure namespaces
+                if (!selectedNS.Contains(list[i].NameSpaceKey))
                     list.RemoveAt(i);
-                }
                 else
                     i++;
             }
@@ -358,34 +231,6 @@ namespace WikiFunctions.Lists
             chkIsRegex.Enabled = (chkContains.Checked || chkNotContains.Checked);
         }
 
-        public void UpdateText()
-        {
-            chkArticleTalk.Text = Variables.Namespaces[1];
-            chkUser.Text = Variables.Namespaces[2];
-            chkUserTalk.Text = Variables.Namespaces[3];
-            chkWikipedia.Text = Variables.Namespaces[4];
-            chkWikipediaTalk.Text = Variables.Namespaces[5];
-            chkImage.Text = Variables.Namespaces[6];
-            chkImageTalk.Text = Variables.Namespaces[7];
-            chkMediaWiki.Text = Variables.Namespaces[8];
-            chkMediaWikiTalk.Text = Variables.Namespaces[9];
-            chkTemplate.Text = Variables.Namespaces[10];
-            chkTemplateTalk.Text = Variables.Namespaces[11];
-            chkHelp.Text = Variables.Namespaces[12];
-            chkHelpTalk.Text = Variables.Namespaces[13];
-            chkCategory.Text = Variables.Namespaces[14];
-            chkCategoryTalk.Text = Variables.Namespaces[15];
-            if (Variables.Namespaces.ContainsKey(100))
-            {
-                chkPortal.Text = Variables.Namespaces[100];
-                chkPortalTalk.Text = Variables.Namespaces[101];
-
-                chkPortal.Visible = chkPortalTalk.Visible = true;
-            }
-            else
-                chkPortal.Visible = chkPortalTalk.Visible = false;
-        }
-
         private void specialFilter_Load(object sender, EventArgs e)
         {
             cbOpType.SelectedIndex = 0;
@@ -397,41 +242,7 @@ namespace WikiFunctions.Lists
 
         private void SpecialFilter_VisibleChanged(object sender, EventArgs e)
         {
-            if (Visible) UpdateText();
-        }
-
-        private void GetListTags(Control.ControlCollection controls)
-        {
-            foreach (Control cntrl in controls)
-            {
-                if (cntrl is FlowLayoutPanel)
-                {
-                    GetListTags(cntrl.Controls);
-                    continue;
-                }
-
-                tmp = (cntrl as CheckBox);
-
-                if (tmp != null && tmp.Checked && tmp.Tag != null)
-                    prefs.namespaceValues.Add(int.Parse(tmp.Tag.ToString()));
-            }
-        }
-
-        private void SetListTags(Control.ControlCollection controls)
-        {
-            foreach (Control cntrl in controls)
-            {
-                if (cntrl is FlowLayoutPanel)
-                {
-                    SetListTags(cntrl.Controls);
-                    continue;
-                }
-
-                tmp = (cntrl as CheckBox);
-
-                if (tmp != null && tmp.Tag != null)
-                    tmp.Checked = prefs.namespaceValues.Contains(int.Parse(tmp.Tag.ToString()));
-            }
+            if (Visible) pageNamespaces.UpdateText();
         }
 
         CheckBox tmp;
@@ -441,8 +252,7 @@ namespace WikiFunctions.Lists
             {
                 prefs = new AWBSettings.SpecialFilterPrefs();
 
-                prefs.namespaceValues = new List<int>();
-                GetListTags(gbNamespaces.Controls);
+                prefs.namespaceValues = pageNamespaces.GetSelectedNamespaces();
 
                 prefs.filterTitlesThatContain = chkContains.Checked;
                 prefs.filterTitlesThatContainText = txtContains.Text;
@@ -471,7 +281,7 @@ namespace WikiFunctions.Lists
                     prefs.namespaceValues = new List<int>(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 14, 15 });
 
                 if (prefs.namespaceValues.Count > 0)
-                    SetListTags(gbNamespaces.Controls);
+                    pageNamespaces.SetSelectedNamespaces(prefs.namespaceValues);
 
                 chkContains.Checked = prefs.filterTitlesThatContain;
                 txtContains.Text = prefs.filterTitlesThatContainText;
@@ -487,35 +297,6 @@ namespace WikiFunctions.Lists
                 foreach (string s in prefs.remove)
                     lbRemove.Items.Add(s);
             }
-        }
-
-        private void chkContents_CheckedChanged(object sender, EventArgs e)
-        {
-            foreach (CheckBox chk in flwContent.Controls)
-            {
-                chk.Checked = chkContents.Checked;
-            }
-        }
-
-        private void chkTalk_CheckedChanged(object sender, EventArgs e)
-        {
-            foreach (CheckBox chk in flwTalk.Controls)
-            {
-                chk.Checked = chkTalk.Checked;
-            }
-        }
-        private void Content_CheckedChanged(object sender, EventArgs e)
-        {
-            // Should check the main checkbox when all sub checkboxes are checked
-            // and "Indeterminate" when some of them are checked
-            // and unchecked when all the checkboxes are unchecked
-            // Doesn't work
-
-            // chkContents.CheckState = CheckState.Indeterminate;
-        }
-        private void Talk_CheckedChanged(object sender, EventArgs e)
-        {
-            // chkTalk.CheckState = CheckState.Indeterminate;
         }
     }
 }

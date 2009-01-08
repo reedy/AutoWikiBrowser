@@ -94,7 +94,8 @@ namespace WikiFunctions
                         string link = "[" + Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(CurrentPage) + "&oldid=" + CurrentRevision + "]";
 
                         errorMessage.Append("\r\n | duplicate = [encountered while processing page ''" + link + "'']");
-                    } else if (!string.IsNullOrEmpty(ListMakerText))
+                    }
+                    else if (!string.IsNullOrEmpty(ListMakerText))
                         errorMessage.Append("\r\n | duplicate = '''ListMaker Text:''' " + ListMakerText);
 
                     errorMessage.Append("\r\n}}");
@@ -117,7 +118,7 @@ namespace WikiFunctions
         /// <param name="topLevel">false if exception is nested, true otherwise</param>
         private static void FormatException(Exception ex, StringBuilder sb, bool topLevel)
         {
-            sb.Append("<tr><td>" + (topLevel ? "Exception" : "Inner exception") + ":<td><code>" 
+            sb.Append("<tr><td>" + (topLevel ? "Exception" : "Inner exception") + ":<td><code>"
                 + ex.GetType().Name + "</code><tr><td>Message:<td><code>"
                 + ex.Message + "</code><tr><td>Call stack:<td><pre>" + ex.StackTrace + "</pre></tr>\r\n");
 
@@ -217,7 +218,13 @@ namespace WikiFunctions
 
         private void btnCopy_Click(object sender, EventArgs e)
         {
-            Tools.CopyToClipboard(txtDetails.Text);
+            try
+            {
+                Clipboard.Clear();
+                System.Threading.Thread.Sleep(50); // give it some time to clear
+                Clipboard.SetText(txtDetails.Text);
+            }
+            catch { }
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

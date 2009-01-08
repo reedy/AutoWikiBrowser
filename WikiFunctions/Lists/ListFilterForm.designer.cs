@@ -30,47 +30,24 @@ namespace WikiFunctions.Lists
         {
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.chkCategory = new System.Windows.Forms.CheckBox();
-            this.chkTemplate = new System.Windows.Forms.CheckBox();
-            this.chkWikipedia = new System.Windows.Forms.CheckBox();
-            this.chkUser = new System.Windows.Forms.CheckBox();
-            this.chkImage = new System.Windows.Forms.CheckBox();
             this.txtContains = new System.Windows.Forms.TextBox();
             this.chkContains = new System.Windows.Forms.CheckBox();
             this.chkIsRegex = new System.Windows.Forms.CheckBox();
             this.chkNotContains = new System.Windows.Forms.CheckBox();
             this.txtDoesNotContain = new System.Windows.Forms.TextBox();
-            this.chkArticle = new System.Windows.Forms.CheckBox();
-            this.chkArticleTalk = new System.Windows.Forms.CheckBox();
-            this.chkUserTalk = new System.Windows.Forms.CheckBox();
-            this.chkWikipediaTalk = new System.Windows.Forms.CheckBox();
-            this.chkImageTalk = new System.Windows.Forms.CheckBox();
-            this.chkMediaWiki = new System.Windows.Forms.CheckBox();
-            this.chkMediaWikiTalk = new System.Windows.Forms.CheckBox();
-            this.chkTemplateTalk = new System.Windows.Forms.CheckBox();
-            this.chkHelp = new System.Windows.Forms.CheckBox();
-            this.chkHelpTalk = new System.Windows.Forms.CheckBox();
-            this.chkCategoryTalk = new System.Windows.Forms.CheckBox();
-            this.chkPortal = new System.Windows.Forms.CheckBox();
-            this.chkPortalTalk = new System.Windows.Forms.CheckBox();
             this.gbNamespaces = new System.Windows.Forms.GroupBox();
-            this.flwTalk = new System.Windows.Forms.FlowLayoutPanel();
-            this.chkTalk = new System.Windows.Forms.CheckBox();
-            this.flwContent = new System.Windows.Forms.FlowLayoutPanel();
-            this.chkContents = new System.Windows.Forms.CheckBox();
             this.gbSearch = new System.Windows.Forms.GroupBox();
             this.gbSets = new System.Windows.Forms.GroupBox();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnGetList = new System.Windows.Forms.Button();
-            this.lbRemove = new WikiFunctions.Controls.Lists.ListBox2();
             this.cbOpType = new System.Windows.Forms.ComboBox();
             this.gbMisc = new System.Windows.Forms.GroupBox();
             this.flwOther = new System.Windows.Forms.FlowLayoutPanel();
             this.chkSortAZ = new System.Windows.Forms.CheckBox();
             this.chkRemoveDups = new System.Windows.Forms.CheckBox();
+            this.lbRemove = new WikiFunctions.Controls.Lists.ListBox2();
+            this.pageNamespaces = new WikiFunctions.Controls.Namespaces();
             this.gbNamespaces.SuspendLayout();
-            this.flwTalk.SuspendLayout();
-            this.flwContent.SuspendLayout();
             this.gbSearch.SuspendLayout();
             this.gbSets.SuspendLayout();
             this.gbMisc.SuspendLayout();
@@ -99,61 +76,6 @@ namespace WikiFunctions.Lists
             this.btnCancel.Text = "Close";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
-            // chkCategory
-            // 
-            this.chkCategory.AutoSize = true;
-            this.chkCategory.Location = new System.Drawing.Point(3, 164);
-            this.chkCategory.Name = "chkCategory";
-            this.chkCategory.Size = new System.Drawing.Size(68, 17);
-            this.chkCategory.TabIndex = 14;
-            this.chkCategory.Tag = "14";
-            this.chkCategory.Text = "Category";
-            this.chkCategory.Click += new System.EventHandler(this.Content_CheckedChanged);
-            // 
-            // chkTemplate
-            // 
-            this.chkTemplate.AutoSize = true;
-            this.chkTemplate.Location = new System.Drawing.Point(3, 118);
-            this.chkTemplate.Name = "chkTemplate";
-            this.chkTemplate.Size = new System.Drawing.Size(70, 17);
-            this.chkTemplate.TabIndex = 10;
-            this.chkTemplate.Tag = "10";
-            this.chkTemplate.Text = "Template";
-            this.chkTemplate.Click += new System.EventHandler(this.Content_CheckedChanged);
-            // 
-            // chkWikipedia
-            // 
-            this.chkWikipedia.AutoSize = true;
-            this.chkWikipedia.Location = new System.Drawing.Point(3, 49);
-            this.chkWikipedia.Name = "chkWikipedia";
-            this.chkWikipedia.Size = new System.Drawing.Size(94, 17);
-            this.chkWikipedia.TabIndex = 4;
-            this.chkWikipedia.Tag = "4";
-            this.chkWikipedia.Text = "(Project name)";
-            this.chkWikipedia.Click += new System.EventHandler(this.Content_CheckedChanged);
-            // 
-            // chkUser
-            // 
-            this.chkUser.AutoSize = true;
-            this.chkUser.Location = new System.Drawing.Point(3, 26);
-            this.chkUser.Name = "chkUser";
-            this.chkUser.Size = new System.Drawing.Size(48, 17);
-            this.chkUser.TabIndex = 2;
-            this.chkUser.Tag = "2";
-            this.chkUser.Text = "User";
-            this.chkUser.Click += new System.EventHandler(this.Content_CheckedChanged);
-            // 
-            // chkImage
-            // 
-            this.chkImage.AutoSize = true;
-            this.chkImage.Location = new System.Drawing.Point(3, 72);
-            this.chkImage.Name = "chkImage";
-            this.chkImage.Size = new System.Drawing.Size(58, 17);
-            this.chkImage.TabIndex = 6;
-            this.chkImage.Tag = "6";
-            this.chkImage.Text = "Image:";
-            this.chkImage.Click += new System.EventHandler(this.Content_CheckedChanged);
             // 
             // txtContains
             // 
@@ -210,217 +132,15 @@ namespace WikiFunctions.Lists
             this.txtDoesNotContain.Size = new System.Drawing.Size(180, 20);
             this.txtDoesNotContain.TabIndex = 3;
             // 
-            // chkArticle
-            // 
-            this.chkArticle.AutoSize = true;
-            this.chkArticle.Location = new System.Drawing.Point(3, 3);
-            this.chkArticle.Name = "chkArticle";
-            this.chkArticle.Size = new System.Drawing.Size(54, 17);
-            this.chkArticle.TabIndex = 0;
-            this.chkArticle.Tag = "0";
-            this.chkArticle.Text = "(main)";
-            this.chkArticle.Click += new System.EventHandler(this.Content_CheckedChanged);
-            // 
-            // chkArticleTalk
-            // 
-            this.chkArticleTalk.AutoSize = true;
-            this.chkArticleTalk.Location = new System.Drawing.Point(3, 3);
-            this.chkArticleTalk.Name = "chkArticleTalk";
-            this.chkArticleTalk.Size = new System.Drawing.Size(47, 17);
-            this.chkArticleTalk.TabIndex = 1;
-            this.chkArticleTalk.Tag = "1";
-            this.chkArticleTalk.Text = "Talk";
-            this.chkArticleTalk.Click += new System.EventHandler(this.Talk_CheckedChanged);
-            // 
-            // chkUserTalk
-            // 
-            this.chkUserTalk.AutoSize = true;
-            this.chkUserTalk.Location = new System.Drawing.Point(3, 26);
-            this.chkUserTalk.Name = "chkUserTalk";
-            this.chkUserTalk.Size = new System.Drawing.Size(68, 17);
-            this.chkUserTalk.TabIndex = 3;
-            this.chkUserTalk.Tag = "3";
-            this.chkUserTalk.Text = "User talk";
-            this.chkUserTalk.Click += new System.EventHandler(this.Talk_CheckedChanged);
-            // 
-            // chkWikipediaTalk
-            // 
-            this.chkWikipediaTalk.AutoSize = true;
-            this.chkWikipediaTalk.Location = new System.Drawing.Point(3, 49);
-            this.chkWikipediaTalk.Name = "chkWikipediaTalk";
-            this.chkWikipediaTalk.Size = new System.Drawing.Size(79, 17);
-            this.chkWikipediaTalk.TabIndex = 5;
-            this.chkWikipediaTalk.Tag = "5";
-            this.chkWikipediaTalk.Text = "Project talk";
-            this.chkWikipediaTalk.Click += new System.EventHandler(this.Talk_CheckedChanged);
-            // 
-            // chkImageTalk
-            // 
-            this.chkImageTalk.AutoSize = true;
-            this.chkImageTalk.Location = new System.Drawing.Point(3, 72);
-            this.chkImageTalk.Name = "chkImageTalk";
-            this.chkImageTalk.Size = new System.Drawing.Size(75, 17);
-            this.chkImageTalk.TabIndex = 7;
-            this.chkImageTalk.Tag = "7";
-            this.chkImageTalk.Text = "Image talk";
-            this.chkImageTalk.Click += new System.EventHandler(this.Talk_CheckedChanged);
-            // 
-            // chkMediaWiki
-            // 
-            this.chkMediaWiki.AutoSize = true;
-            this.chkMediaWiki.Location = new System.Drawing.Point(3, 95);
-            this.chkMediaWiki.Name = "chkMediaWiki";
-            this.chkMediaWiki.Size = new System.Drawing.Size(76, 17);
-            this.chkMediaWiki.TabIndex = 8;
-            this.chkMediaWiki.Tag = "8";
-            this.chkMediaWiki.Text = "MediaWiki";
-            this.chkMediaWiki.Click += new System.EventHandler(this.Content_CheckedChanged);
-            // 
-            // chkMediaWikiTalk
-            // 
-            this.chkMediaWikiTalk.AutoSize = true;
-            this.chkMediaWikiTalk.Location = new System.Drawing.Point(3, 95);
-            this.chkMediaWikiTalk.Name = "chkMediaWikiTalk";
-            this.chkMediaWikiTalk.Size = new System.Drawing.Size(96, 17);
-            this.chkMediaWikiTalk.TabIndex = 9;
-            this.chkMediaWikiTalk.Tag = "9";
-            this.chkMediaWikiTalk.Text = "MediaWiki talk";
-            this.chkMediaWikiTalk.Click += new System.EventHandler(this.Talk_CheckedChanged);
-            // 
-            // chkTemplateTalk
-            // 
-            this.chkTemplateTalk.AutoSize = true;
-            this.chkTemplateTalk.Location = new System.Drawing.Point(3, 118);
-            this.chkTemplateTalk.Name = "chkTemplateTalk";
-            this.chkTemplateTalk.Size = new System.Drawing.Size(90, 17);
-            this.chkTemplateTalk.TabIndex = 11;
-            this.chkTemplateTalk.Tag = "11";
-            this.chkTemplateTalk.Text = "Template talk";
-            this.chkTemplateTalk.Click += new System.EventHandler(this.Talk_CheckedChanged);
-            // 
-            // chkHelp
-            // 
-            this.chkHelp.AutoSize = true;
-            this.chkHelp.Location = new System.Drawing.Point(3, 141);
-            this.chkHelp.Name = "chkHelp";
-            this.chkHelp.Size = new System.Drawing.Size(48, 17);
-            this.chkHelp.TabIndex = 12;
-            this.chkHelp.Tag = "12";
-            this.chkHelp.Text = "Help";
-            this.chkHelp.Click += new System.EventHandler(this.Content_CheckedChanged);
-            // 
-            // chkHelpTalk
-            // 
-            this.chkHelpTalk.AutoSize = true;
-            this.chkHelpTalk.Location = new System.Drawing.Point(3, 141);
-            this.chkHelpTalk.Name = "chkHelpTalk";
-            this.chkHelpTalk.Size = new System.Drawing.Size(68, 17);
-            this.chkHelpTalk.TabIndex = 13;
-            this.chkHelpTalk.Tag = "13";
-            this.chkHelpTalk.Text = "Help talk";
-            this.chkHelpTalk.Click += new System.EventHandler(this.Talk_CheckedChanged);
-            // 
-            // chkCategoryTalk
-            // 
-            this.chkCategoryTalk.AutoSize = true;
-            this.chkCategoryTalk.Location = new System.Drawing.Point(3, 164);
-            this.chkCategoryTalk.Name = "chkCategoryTalk";
-            this.chkCategoryTalk.Size = new System.Drawing.Size(88, 17);
-            this.chkCategoryTalk.TabIndex = 15;
-            this.chkCategoryTalk.Tag = "15";
-            this.chkCategoryTalk.Text = "Category talk";
-            this.chkCategoryTalk.Click += new System.EventHandler(this.Talk_CheckedChanged);
-            // 
-            // chkPortal
-            // 
-            this.chkPortal.AutoSize = true;
-            this.chkPortal.Location = new System.Drawing.Point(3, 187);
-            this.chkPortal.Name = "chkPortal";
-            this.chkPortal.Size = new System.Drawing.Size(53, 17);
-            this.chkPortal.TabIndex = 100;
-            this.chkPortal.Tag = "16";
-            this.chkPortal.Text = "Portal";
-            this.chkPortal.Click += new System.EventHandler(this.Content_CheckedChanged);
-            // 
-            // chkPortalTalk
-            // 
-            this.chkPortalTalk.AutoSize = true;
-            this.chkPortalTalk.Location = new System.Drawing.Point(3, 187);
-            this.chkPortalTalk.Name = "chkPortalTalk";
-            this.chkPortalTalk.Size = new System.Drawing.Size(73, 17);
-            this.chkPortalTalk.TabIndex = 101;
-            this.chkPortalTalk.Tag = "17";
-            this.chkPortalTalk.Text = "Portal talk";
-            this.chkPortalTalk.Click += new System.EventHandler(this.Talk_CheckedChanged);
-            // 
             // gbNamespaces
             // 
-            this.gbNamespaces.Controls.Add(this.flwTalk);
-            this.gbNamespaces.Controls.Add(this.chkTalk);
-            this.gbNamespaces.Controls.Add(this.flwContent);
-            this.gbNamespaces.Controls.Add(this.chkContents);
+            this.gbNamespaces.Controls.Add(this.pageNamespaces);
             this.gbNamespaces.Location = new System.Drawing.Point(12, 12);
             this.gbNamespaces.Name = "gbNamespaces";
             this.gbNamespaces.Size = new System.Drawing.Size(242, 260);
             this.gbNamespaces.TabIndex = 0;
             this.gbNamespaces.TabStop = false;
             this.gbNamespaces.Text = "Namespaces to keep";
-            // 
-            // flwTalk
-            // 
-            this.flwTalk.Controls.Add(this.chkArticleTalk);
-            this.flwTalk.Controls.Add(this.chkUserTalk);
-            this.flwTalk.Controls.Add(this.chkWikipediaTalk);
-            this.flwTalk.Controls.Add(this.chkImageTalk);
-            this.flwTalk.Controls.Add(this.chkMediaWikiTalk);
-            this.flwTalk.Controls.Add(this.chkTemplateTalk);
-            this.flwTalk.Controls.Add(this.chkHelpTalk);
-            this.flwTalk.Controls.Add(this.chkCategoryTalk);
-            this.flwTalk.Controls.Add(this.chkPortalTalk);
-            this.flwTalk.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flwTalk.Location = new System.Drawing.Point(123, 42);
-            this.flwTalk.Name = "flwTalk";
-            this.flwTalk.Size = new System.Drawing.Size(100, 209);
-            this.flwTalk.TabIndex = 3;
-            // 
-            // chkTalk
-            // 
-            this.chkTalk.AutoSize = true;
-            this.chkTalk.Location = new System.Drawing.Point(110, 19);
-            this.chkTalk.Name = "chkTalk";
-            this.chkTalk.Size = new System.Drawing.Size(47, 17);
-            this.chkTalk.TabIndex = 2;
-            this.chkTalk.Tag = "1001";
-            this.chkTalk.Text = "&Talk";
-            this.chkTalk.CheckedChanged += new System.EventHandler(this.chkTalk_CheckedChanged);
-            // 
-            // flwContent
-            // 
-            this.flwContent.Controls.Add(this.chkArticle);
-            this.flwContent.Controls.Add(this.chkUser);
-            this.flwContent.Controls.Add(this.chkWikipedia);
-            this.flwContent.Controls.Add(this.chkImage);
-            this.flwContent.Controls.Add(this.chkMediaWiki);
-            this.flwContent.Controls.Add(this.chkTemplate);
-            this.flwContent.Controls.Add(this.chkHelp);
-            this.flwContent.Controls.Add(this.chkCategory);
-            this.flwContent.Controls.Add(this.chkPortal);
-            this.flwContent.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flwContent.Location = new System.Drawing.Point(17, 42);
-            this.flwContent.Name = "flwContent";
-            this.flwContent.Size = new System.Drawing.Size(100, 209);
-            this.flwContent.TabIndex = 1;
-            // 
-            // chkContents
-            // 
-            this.chkContents.AutoSize = true;
-            this.chkContents.Location = new System.Drawing.Point(6, 19);
-            this.chkContents.Name = "chkContents";
-            this.chkContents.Size = new System.Drawing.Size(63, 17);
-            this.chkContents.TabIndex = 0;
-            this.chkContents.Tag = "1000";
-            this.chkContents.Text = "&Content";
-            this.chkContents.CheckedChanged += new System.EventHandler(this.chkContents_CheckedChanged);
             // 
             // gbSearch
             // 
@@ -473,17 +193,6 @@ namespace WikiFunctions.Lists
             this.btnGetList.Text = "&Open file";
             this.btnGetList.UseVisualStyleBackColor = true;
             this.btnGetList.Click += new System.EventHandler(this.btnGetList_Click);
-            // 
-            // lbRemove
-            // 
-            this.lbRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbRemove.FormattingEnabled = true;
-            this.lbRemove.Location = new System.Drawing.Point(6, 44);
-            this.lbRemove.Name = "lbRemove";
-            this.lbRemove.Size = new System.Drawing.Size(179, 186);
-            this.lbRemove.TabIndex = 1;
             // 
             // cbOpType
             // 
@@ -543,6 +252,24 @@ namespace WikiFunctions.Lists
             this.chkRemoveDups.Text = "Remove &duplicates";
             this.chkRemoveDups.UseVisualStyleBackColor = true;
             // 
+            // lbRemove
+            // 
+            this.lbRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbRemove.FormattingEnabled = true;
+            this.lbRemove.Location = new System.Drawing.Point(6, 44);
+            this.lbRemove.Name = "lbRemove";
+            this.lbRemove.Size = new System.Drawing.Size(179, 186);
+            this.lbRemove.TabIndex = 1;
+            // 
+            // pageNamespaces
+            // 
+            this.pageNamespaces.Location = new System.Drawing.Point(6, 15);
+            this.pageNamespaces.Name = "pageNamespaces";
+            this.pageNamespaces.Size = new System.Drawing.Size(231, 245);
+            this.pageNamespaces.TabIndex = 0;
+            // 
             // ListFilterForm
             // 
             this.AcceptButton = this.btnOk;
@@ -566,11 +293,6 @@ namespace WikiFunctions.Lists
             this.Load += new System.EventHandler(this.specialFilter_Load);
             this.VisibleChanged += new System.EventHandler(this.SpecialFilter_VisibleChanged);
             this.gbNamespaces.ResumeLayout(false);
-            this.gbNamespaces.PerformLayout();
-            this.flwTalk.ResumeLayout(false);
-            this.flwTalk.PerformLayout();
-            this.flwContent.ResumeLayout(false);
-            this.flwContent.PerformLayout();
             this.gbSearch.ResumeLayout(false);
             this.gbSearch.PerformLayout();
             this.gbSets.ResumeLayout(false);
@@ -585,29 +307,11 @@ namespace WikiFunctions.Lists
 
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.CheckBox chkCategory;
-        private System.Windows.Forms.CheckBox chkTemplate;
-        private System.Windows.Forms.CheckBox chkWikipedia;
-        private System.Windows.Forms.CheckBox chkUser;
-        private System.Windows.Forms.CheckBox chkImage;
         private System.Windows.Forms.TextBox txtContains;
         private System.Windows.Forms.CheckBox chkContains;
         private System.Windows.Forms.CheckBox chkIsRegex;
         private System.Windows.Forms.CheckBox chkNotContains;
         private System.Windows.Forms.TextBox txtDoesNotContain;
-        private System.Windows.Forms.CheckBox chkArticle;
-        private System.Windows.Forms.CheckBox chkArticleTalk;
-        private System.Windows.Forms.CheckBox chkUserTalk;
-        private System.Windows.Forms.CheckBox chkWikipediaTalk;
-        private System.Windows.Forms.CheckBox chkImageTalk;
-        private System.Windows.Forms.CheckBox chkMediaWiki;
-        private System.Windows.Forms.CheckBox chkMediaWikiTalk;
-        private System.Windows.Forms.CheckBox chkTemplateTalk;
-        private System.Windows.Forms.CheckBox chkHelp;
-        private System.Windows.Forms.CheckBox chkHelpTalk;
-        private System.Windows.Forms.CheckBox chkCategoryTalk;
-        private System.Windows.Forms.CheckBox chkPortal;
-        private System.Windows.Forms.CheckBox chkPortalTalk;
         private System.Windows.Forms.GroupBox gbNamespaces;
         private System.Windows.Forms.GroupBox gbSearch;
         private System.Windows.Forms.GroupBox gbSets;
@@ -618,10 +322,7 @@ namespace WikiFunctions.Lists
         private WikiFunctions.Controls.Lists.ListBox2 lbRemove;
         private System.Windows.Forms.ComboBox cbOpType;
         private System.Windows.Forms.CheckBox chkSortAZ;
-        private System.Windows.Forms.FlowLayoutPanel flwTalk;
-        private System.Windows.Forms.FlowLayoutPanel flwContent;
-        private System.Windows.Forms.CheckBox chkContents;
-        private System.Windows.Forms.CheckBox chkTalk;
         private System.Windows.Forms.FlowLayoutPanel flwOther;
+        private WikiFunctions.Controls.Namespaces pageNamespaces;
     }
 }

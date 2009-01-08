@@ -41,7 +41,7 @@ namespace WikiFunctions.Controls.Lists
             int i = 0;
             while (i < Items.Count)
             {
-                yield return (Article)Items[i];
+                yield return Items[i];
                 i++;
             }
         }
