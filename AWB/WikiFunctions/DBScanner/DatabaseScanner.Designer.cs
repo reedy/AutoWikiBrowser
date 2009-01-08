@@ -157,9 +157,9 @@ namespace WikiFunctions.DBScanner
             this.btnPause = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
+            this.pageNamespaces = new WikiFunctions.Controls.Namespaces();
             this.MoveDelete = new WikiFunctions.Controls.EditProtectControl();
             this.lbArticles = new WikiFunctions.Controls.Lists.ListBox2();
-            this.pageNamespaces = new WikiFunctions.Controls.Namespaces();
             this.gbText.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLength)).BeginInit();
@@ -1598,6 +1598,13 @@ namespace WikiFunctions.DBScanner
                 ")|*.txt";
             this.saveListDialog.Title = "Save article list";
             // 
+            // pageNamespaces
+            // 
+            this.pageNamespaces.Location = new System.Drawing.Point(0, 9);
+            this.pageNamespaces.Name = "pageNamespaces";
+            this.pageNamespaces.Size = new System.Drawing.Size(231, 245);
+            this.pageNamespaces.TabIndex = 0;
+            // 
             // MoveDelete
             // 
             this.MoveDelete.Enabled = false;
@@ -1618,13 +1625,6 @@ namespace WikiFunctions.DBScanner
             this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lbArticles.Size = new System.Drawing.Size(296, 251);
             this.lbArticles.TabIndex = 5;
-            // 
-            // pageNamespaces
-            // 
-            this.pageNamespaces.Location = new System.Drawing.Point(0, 9);
-            this.pageNamespaces.Name = "pageNamespaces";
-            this.pageNamespaces.Size = new System.Drawing.Size(231, 245);
-            this.pageNamespaces.TabIndex = 0;
             // 
             // DatabaseScanner
             // 
