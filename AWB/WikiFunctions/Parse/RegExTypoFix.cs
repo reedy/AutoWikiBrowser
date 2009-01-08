@@ -313,17 +313,12 @@ namespace WikiFunctions.Parse
         public string PerformTypoFixes(string ArticleText, out bool NoChange, out string Summary)
         {
             Summary = "";
-            if (TyposCount == 0)
+            if ((TyposCount == 0) || IgnoreRegex.IsMatch(ArticleText))
             {
                 NoChange = true;
                 return ArticleText;
             }
 
-            if (IgnoreRegex.IsMatch(ArticleText))
-            {
-                NoChange = true;
-                return ArticleText;
-            }
             HideText RemoveText = new HideText(true, false, true);
 
             ArticleText = RemoveText.HideMore(ArticleText);
