@@ -40,10 +40,10 @@ namespace WikiFunctions.DBScanner
     {
         MainProcess Main;
         TimeSpan StartTime;
-        ListBox AWBListbox;
-        ListMaker listMaker;
+        readonly ListBox AWBListbox;
+        readonly ListMaker listMaker;
 
-        ListFilterForm SpecialFilter;
+        readonly ListFilterForm SpecialFilter;
 
         ThreadPriority priority = ThreadPriority.Normal;
         ThreadPriority Priority
@@ -71,7 +71,7 @@ namespace WikiFunctions.DBScanner
         }
 
         public DatabaseScanner(ListMaker lm)
-            :this()
+            : this()
         {
             listMaker = lm;
             if (lm != null)
@@ -118,16 +118,13 @@ namespace WikiFunctions.DBScanner
             }
         }
 
-        Regex TitleDoesRegex;
-        Regex TitleDoesNotRegex;
-        Regex ArticleDoesRegex;
-        Regex ArticleDoesNotRegex;
-        string ArticleContains;
-        string ArticleDoesNotContain;
-        List<int> namespaces = new List<int>();
+        Regex TitleDoesRegex, TitleDoesNotRegex;
+        Regex ArticleDoesRegex, ArticleDoesNotRegex;
+        string ArticleContains, ArticleDoesNotContain;
+        readonly List<int> namespaces = new List<int>();
         bool ArticleCaseSensitive;
 
-        CrossThreadQueue<string> Queue = new CrossThreadQueue<string>();
+        readonly CrossThreadQueue<string> Queue = new CrossThreadQueue<string>();
 
         private void MakePatterns()
         {
@@ -298,7 +295,8 @@ namespace WikiFunctions.DBScanner
 
                 UpdateDBScannerArticleCount();
 
-                TimeSpan endTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
+                TimeSpan endTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute,
+                                                DateTime.Now.Second, DateTime.Now.Millisecond);
                 endTime = endTime.Subtract(StartTime);
 
                 if (Main != null && Main.Message)
@@ -337,13 +335,10 @@ namespace WikiFunctions.DBScanner
         private void wikifyToList()
         {
             StringBuilder strbList = new StringBuilder("");
-            string s, l = "", strBullet;
+            string s, l = "";
             int intHeadingSpace = Convert.ToInt32(nudHeadingSpace.Value);
 
-            if (rdoHash.Checked)
-                strBullet = "#";
-            else
-                strBullet = "*";
+            string strBullet = rdoHash.Checked ? "#" : "*";
 
             if (chkHeading.Checked)
             {
@@ -352,7 +347,7 @@ namespace WikiFunctions.DBScanner
                 strbList.AppendLine("==0==");
                 intSectionNumber++;
 
-                foreach(Article a in lbArticles.Items)
+                foreach (Article a in lbArticles.Items)
                 {
                     s = a.ToString().Replace("&amp;", "&");
                     if (a.NameSpaceKey == 6) s = ":" + s; //images should be inlined
@@ -372,11 +367,9 @@ namespace WikiFunctions.DBScanner
             {
                 foreach (Article a in lbArticles.Items)
                 {
-                    string sr;
-
                     s = a.ToString().Replace("&amp;", "&");
 
-                    sr = (s.Length > 1) ? s.Remove(1) : s;
+                    string sr = (s.Length > 1) ? s.Remove(1) : s;
 
                     if (sr != l)
                         strbList.AppendLine("\r\n== " + sr + " ==");
@@ -545,7 +538,7 @@ namespace WikiFunctions.DBScanner
             {
                 AWBListbox.BeginUpdate();
 
-                foreach(Article a in lbArticles.SelectedItems)
+                foreach (Article a in lbArticles.SelectedItems)
                     AWBListbox.Items.Remove(a);
 
                 AWBListbox.EndUpdate();
@@ -642,7 +635,7 @@ namespace WikiFunctions.DBScanner
             Priority = ThreadPriority.Highest;
             threadPriorityButton.Text = highestToolStripMenuItem.Text;
         }
-        
+
         private void aboveNormalToolStripMenuItem_Click(object sender, EventArgs e)
         {
             highestToolStripMenuItem.Checked = normalToolStripMenuItem.Checked =
@@ -753,7 +746,7 @@ namespace WikiFunctions.DBScanner
         private void UpdateControls(bool busy)
         {
             gbText.Enabled = gbTitle.Enabled = groupBox4.Enabled = gbAWBSpecific.Enabled = gbNamespace.Enabled =
-                gbDate.Enabled = gbProperties.Enabled = btnFilter.Enabled = nudLimitResults.Enabled = txtStartFrom.Enabled = 
+                gbDate.Enabled = gbProperties.Enabled = btnFilter.Enabled = nudLimitResults.Enabled = txtStartFrom.Enabled =
                 btnReset.Enabled = btnBrowse.Enabled = !busy;
             if (busy) { btnStart.Text = "Stop"; } else { btnStart.Text = "Start"; }
         }
@@ -796,7 +789,7 @@ namespace WikiFunctions.DBScanner
 
         private void UpdateProgressBar()
         {
-            double matchesByLimit = (double)(intMatches / intLimit);
+            double matchesByLimit = (intMatches / intLimit);
             double completion = Main.PercentageComplete;
 
             int newValue;

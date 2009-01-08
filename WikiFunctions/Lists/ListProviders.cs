@@ -149,7 +149,7 @@ namespace WikiFunctions.Lists
     {
         private readonly static Regex RegexFromFile = new Regex("(^[a-z]{2,3}:)|(simple:)", RegexOptions.Compiled);
         private readonly static Regex LoadWikiLink = new Regex(@"\[\[:?(.*?)(?:\]\]|\|)", RegexOptions.Compiled);
-        private OpenFileDialog openListDialog;
+        private readonly OpenFileDialog openListDialog;
 
         public TextFileListProvider()
         {

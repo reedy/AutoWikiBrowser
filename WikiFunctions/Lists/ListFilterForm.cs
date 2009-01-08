@@ -160,10 +160,11 @@ namespace WikiFunctions.Lists
             remove.AddRange(lbRemove);
             remove.Sort();
 
+            List<Article> list2 = new List<Article>();
+
             if (cbOpType.SelectedIndex == 0)
             {
-                // find difference
-                // Doesn't seem to work
+                // find difference Doesn't seem to work
                 //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Can.27t_find_difference_in_list_filter
                 // loaded in:
                 // a, b, c
@@ -172,34 +173,31 @@ namespace WikiFunctions.Lists
                 // a, b,    d, e
                 // got:
                 // (none)
-                List<Article> list2 = new List<Article>();
                 foreach (Article a in list)
                     if (BinarySearch(remove, a, 0, remove.Count - 1) == -1)
                         list2.Add(a);
-                list = list2;
             }
             else
             {
                 // find intersection
-                List<Article> list2 = new List<Article>();
                 foreach (Article a in list)
                     if (BinarySearch(remove, a, 0, remove.Count - 1) != -1)
                         list2.Add(a);
-                list = list2;
             }
+            list = list2;
         }
 
-        private int BinarySearch(IList<Article> list, Article article, int left, int right)
+        private static int BinarySearch(IList<Article> articleList, Article article, int left, int right)
         {
             if (right < left)
                 return -1;
             int mid = (left + right) / 2;
-            int compare = String.Compare(list[mid].ToString(), article.ToString(), false, CultureInfo.InvariantCulture);
+            int compare = String.Compare(articleList[mid].ToString(), article.ToString(), false, CultureInfo.InvariantCulture);
 
             if (compare > 0)
-                return BinarySearch(list, article, left, mid - 1);
+                return BinarySearch(articleList, article, left, mid - 1);
             if (compare < 0)
-                return BinarySearch(list, article, mid + 1, right);
+                return BinarySearch(articleList, article, mid + 1, right);
             return mid;
         }
 
@@ -245,7 +243,6 @@ namespace WikiFunctions.Lists
             if (Visible) pageNamespaces.UpdateText();
         }
 
-        CheckBox tmp;
         public AWBSettings.SpecialFilterPrefs Settings
         {
             get
