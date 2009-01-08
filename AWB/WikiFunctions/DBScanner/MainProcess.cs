@@ -67,7 +67,7 @@ namespace WikiFunctions.DBScanner
         {
             ProcessorCount = Environment.ProcessorCount; // caching
             FileName = filename;
-            SOPCstopped = new SendOrPostCallback(Stopped);
+            SOPCstopped = Stopped;
             Priority = tp;
             IgnoreComments = ignoreComments;
             MultiThreaded = ProcessorCount > 1;
@@ -141,8 +141,7 @@ namespace WikiFunctions.DBScanner
         {
             context = SynchronizationContext.Current;
 
-            ThreadStart thr_Process = new ThreadStart(Process);
-            ScanThread = new Thread(thr_Process);
+            ScanThread = new Thread(Process);
             ScanThread.Name = "DB Scanner thread";
             ScanThread.IsBackground = true;
             ScanThread.Priority = mPriority;
@@ -150,8 +149,7 @@ namespace WikiFunctions.DBScanner
 
             for (int i = 0; i < ProcessorCount - 1; i++)
             {
-                ThreadStart ts = new ThreadStart(SecondaryThread);
-                Thread thr = new Thread(ts);
+                Thread thr = new Thread(SecondaryThread);
                 thr.Name = "DB Scanner thread #" + (i + 2);
                 thr.IsBackground = true;
                 thr.Priority = mPriority;
@@ -276,7 +274,7 @@ namespace WikiFunctions.DBScanner
         {
             try
             {
-                bool sleep = false;
+                bool sleep;
                 int sleeps = 0;
                 while (Run)
                 {

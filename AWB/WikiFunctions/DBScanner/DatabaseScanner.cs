@@ -128,22 +128,17 @@ namespace WikiFunctions.DBScanner
         bool ArticleCaseSensitive;
 
         CrossThreadQueue<string> Queue = new CrossThreadQueue<string>();
-        
+
         private void MakePatterns()
         {
-            string strTitleNot = "";
-            string strTitle = "";
-            RegexOptions titleRegOptions;
+            string strTitleNot = convert(txtTitleNotContains.Text);
+            string strTitle = convert(txtTitleContains.Text);
 
-            RegexOptions articleRegOptions;
-
-            strTitle = convert(txtTitleContains.Text);
-            strTitleNot = convert(txtTitleNotContains.Text);
             ArticleContains = convert(txtArticleDoesContain.Text);
             ArticleDoesNotContain = convert(txtArticleDoesNotContain.Text);
 
-            articleRegOptions = RegexOptions.Compiled;
-            titleRegOptions = RegexOptions.Compiled;
+            RegexOptions articleRegOptions = RegexOptions.Compiled;
+            RegexOptions titleRegOptions = RegexOptions.Compiled;
 
             if (!chkCaseSensitive.Checked)
                 articleRegOptions |= RegexOptions.IgnoreCase;
@@ -176,26 +171,29 @@ namespace WikiFunctions.DBScanner
 
             namespaces.Clear();
 
-            namespaces.Add(8);
-            namespaces.Add(100);
+            if (chkMediaWikiNamespace.Checked)
+                namespaces.Add(8);
 
-            if (!chkCategoryNamespace.Checked)
+            if (chkPortalNamespace.Checked)
+                namespaces.Add(100);
+
+            if (chkCategoryNamespace.Checked)
                 namespaces.Add(14);
 
-            if (!chkImageNamespace.Checked)
+            if (chkImageNamespace.Checked)
                 namespaces.Add(6);
 
-            if (!chkTemplateNamespace.Checked)
+            if (chkTemplateNamespace.Checked)
                 namespaces.Add(10);
 
-            if (!chkProjectNamespace.Checked)
+            if (chkProjectNamespace.Checked)
                 namespaces.Add(4);
 
-            if (!chkMainNamespace.Checked)
+            if (chkMainNamespace.Checked)
                 namespaces.Add(0);
         }
 
-        private Dictionary<string, bool> MakeReplacementDictionary(string rule, bool caseSensitive)
+        private static Dictionary<string, bool> MakeReplacementDictionary(string rule, bool caseSensitive)
         {
             Dictionary<string, bool> dict = new Dictionary<string, bool>(1);
             dict.Add(rule, caseSensitive);
@@ -439,20 +437,10 @@ namespace WikiFunctions.DBScanner
 
         private void SaveConvertedList()
         {
-            try
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                string strList = txtList.Text;
-
-                if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    using (StreamWriter sw = new StreamWriter(saveFileDialog.FileName, false, Encoding.UTF8))
-                    {
-                        sw.Write(strList);
-                        sw.Close();
-                    }
-                }
+                Tools.WriteTextFileAbsolutePath(txtList.Text, saveFileDialog.FileName, false);
             }
-            catch (Exception ex) { ErrorHandler.Handle(ex); }
         }
 
         private void btnSaveTxtList_Click(object sender, EventArgs e)
@@ -666,12 +654,6 @@ namespace WikiFunctions.DBScanner
             }
         }
 
-        private void listComparerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ListComparer lc = new ListComparer();
-            lc.Show();
-        }
-
         private void highestToolStripMenuItem_Click(object sender, EventArgs e)
         {
             aboveNormalToolStripMenuItem.Checked = normalToolStripMenuItem.Checked =
@@ -784,6 +766,11 @@ namespace WikiFunctions.DBScanner
             rdoHash.Checked = true;
 
             fileName = "";
+            txtDumpLocation.Text = "";
+            txtSitename.Text = "";
+            lnkBase.Text = "";
+            txtGenerator.Text = "";
+            txtCase.Text = "";
         }
 
         private void UpdateControls(bool busy)
