@@ -28,7 +28,7 @@ namespace WikiFunctions.Lists
 {
     public partial class ListFilterForm : Form
     {
-        private ListBox2 destListBox;
+        private readonly ListBox2 destListBox;
 
         public ListFilterForm(ListBox2 lb)
         {
