@@ -67,7 +67,7 @@ namespace WikiFunctions.Logging
         #endregion
 
         #region Private/Protected
-        private AWBLogListener SelectedItem(object sender)
+        private static AWBLogListener SelectedItem(object sender)
         { return ((AWBLogListener)MenuItemOwner(sender).SelectedItems[0]); }
 
         /// <summary>
@@ -188,7 +188,7 @@ namespace WikiFunctions.Logging
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Tools.Copy(MenuItemOwner(sender));
-            removeselected(sender);
+            RemoveSelected(sender);
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -196,7 +196,7 @@ namespace WikiFunctions.Logging
             Tools.Copy(MenuItemOwner(sender));
         }
 
-        private void removeselected(object sender)
+        private static void RemoveSelected(object sender)
         {
             foreach (ListViewItem a in MenuItemOwner(sender).SelectedItems)
             {
@@ -228,7 +228,7 @@ namespace WikiFunctions.Logging
 
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            removeselected(sender);
+            RemoveSelected(sender);
         }
 
         private void filterShowOnlySelectedToolStripMenuItem_Click_1(object sender, EventArgs e)

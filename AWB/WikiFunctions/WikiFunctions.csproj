@@ -296,10 +296,10 @@
     <Compile Include="Tools.cs" />
     <Compile Include="ReplaceSpecial\Utility.cs" />
     <Compile Include="Updater.cs" />
-    <Compile Include="LogControl.cs">
+    <Compile Include="Logging\LogControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="LogControl.Designer.cs">
+    <Compile Include="Logging\LogControl.Designer.cs">
       <DependentUpon>LogControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils.cs" />
@@ -402,7 +402,7 @@
       <SubType>Designer</SubType>
       <DependentUpon>LoginDlg.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LogControl.resx">
+    <EmbeddedResource Include="Logging\LogControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>LogControl.cs</DependentUpon>
     </EmbeddedResource>
