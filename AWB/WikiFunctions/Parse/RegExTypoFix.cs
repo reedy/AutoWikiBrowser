@@ -303,8 +303,6 @@ namespace WikiFunctions.Parse
             }
         }
 
-        readonly HideText RemoveText = new HideText(true, false, true);
-
         /// <summary>
         /// 
         /// </summary>
@@ -326,6 +324,7 @@ namespace WikiFunctions.Parse
                 NoChange = true;
                 return ArticleText;
             }
+            HideText RemoveText = new HideText(true, false, true);
 
             ArticleText = RemoveText.HideMore(ArticleText);
 
