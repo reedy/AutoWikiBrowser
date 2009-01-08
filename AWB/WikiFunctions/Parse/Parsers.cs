@@ -746,10 +746,10 @@ namespace WikiFunctions.Parse
                 {
                     string n = m.Value;
                     a = m.Groups[1].Value.Trim();
-                    b = m.Groups[2].Value;
 
-                    if (Tools.CalculateNS(a) != 14) //Dont trim whitespace from category sortkey
-                        b = b.Trim();
+                    b = (Tools.CalculateNS(a) != 14)
+                            ? m.Groups[2].Value.Trim()
+                            : m.Groups[2].Value.TrimEnd(new char[] {' '});
 
                     if (b.Length == 0) continue;
 

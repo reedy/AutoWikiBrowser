@@ -157,7 +157,9 @@ namespace UnitTests
 
             //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#General_fixes_remove_spaces_from_category_sortkeys
             Assert.AreEqual("[[foo|bar]]", Parsers.SimplifyLinks("[[foo| bar]]"));
+            Assert.AreEqual("[[foo|bar]]", Parsers.SimplifyLinks("[[foo| bar ]]"));
             Assert.AreEqual("[[Category:foo| bar]]", Parsers.SimplifyLinks("[[Category:foo| bar]]"));
+            Assert.AreEqual("[[Category:foo| bar]]", Parsers.SimplifyLinks("[[Category:foo| bar ]]"));
         }
 
         [Test]
