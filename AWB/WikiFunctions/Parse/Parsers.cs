@@ -573,9 +573,7 @@ namespace WikiFunctions.Parse
 
         private static byte DecodeHex(byte a, byte b)
         {
-            string s = new string(new char[] { (char)a, (char)b });
-
-            return byte.Parse(s, System.Globalization.NumberStyles.HexNumber);
+            return byte.Parse(new string(new char[] { (char)a, (char)b }), System.Globalization.NumberStyles.HexNumber);
         }
 
         /// <summary>

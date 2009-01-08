@@ -77,7 +77,7 @@ namespace WikiFunctions.DBScanner
             this.chkUnbulletedLinks = new System.Windows.Forms.CheckBox();
             this.chkABCHeader = new System.Windows.Forms.CheckBox();
             this.txtStartFrom = new System.Windows.Forms.TextBox();
-            this.chkProjectNamespace = new System.Windows.Forms.CheckBox();
+            this.gbNamespace = new System.Windows.Forms.GroupBox();
             this.chkSimpleLinks = new System.Windows.Forms.CheckBox();
             this.ArticlesListBoxContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -87,7 +87,6 @@ namespace WikiFunctions.DBScanner
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gbOutput = new System.Windows.Forms.GroupBox();
             this.btnSaveArticleList = new System.Windows.Forms.Button();
-            this.lbArticles = new WikiFunctions.Controls.Lists.ListBox2();
             this.btnFilter = new System.Windows.Forms.Button();
             this.lblStartFrom = new System.Windows.Forms.Label();
             this.lblLimitResutls = new System.Windows.Forms.Label();
@@ -139,12 +138,6 @@ namespace WikiFunctions.DBScanner
             this.txtDumpLocation = new System.Windows.Forms.TextBox();
             this.lblDBDump = new System.Windows.Forms.Label();
             this.tabProps = new System.Windows.Forms.TabPage();
-            this.gbNamespace = new System.Windows.Forms.GroupBox();
-            this.flwNamespace = new System.Windows.Forms.FlowLayoutPanel();
-            this.chkMainNamespace = new System.Windows.Forms.CheckBox();
-            this.chkTemplateNamespace = new System.Windows.Forms.CheckBox();
-            this.chkCategoryNamespace = new System.Windows.Forms.CheckBox();
-            this.chkImageNamespace = new System.Windows.Forms.CheckBox();
             this.tabRev = new System.Windows.Forms.TabPage();
             this.tabText = new System.Windows.Forms.TabPage();
             this.gbProperties = new System.Windows.Forms.GroupBox();
@@ -153,7 +146,6 @@ namespace WikiFunctions.DBScanner
             this.tabRestrict = new System.Windows.Forms.TabPage();
             this.grpEditMove = new System.Windows.Forms.GroupBox();
             this.chkProtection = new System.Windows.Forms.CheckBox();
-            this.MoveDelete = new WikiFunctions.Controls.EditProtectControl();
             this.btnReset = new System.Windows.Forms.Button();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
@@ -165,8 +157,9 @@ namespace WikiFunctions.DBScanner
             this.btnPause = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
-            this.chkPortalNamespace = new System.Windows.Forms.CheckBox();
-            this.chkMediaWikiNamespace = new System.Windows.Forms.CheckBox();
+            this.MoveDelete = new WikiFunctions.Controls.EditProtectControl();
+            this.lbArticles = new WikiFunctions.Controls.Lists.ListBox2();
+            this.pageNamespaces = new WikiFunctions.Controls.Namespaces();
             this.gbText.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLength)).BeginInit();
@@ -175,6 +168,7 @@ namespace WikiFunctions.DBScanner
             this.gbTitle.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudHeadingSpace)).BeginInit();
+            this.gbNamespace.SuspendLayout();
             this.ArticlesListBoxContextMenu.SuspendLayout();
             this.gbOutput.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLimitResults)).BeginInit();
@@ -187,8 +181,6 @@ namespace WikiFunctions.DBScanner
             this.tabDump.SuspendLayout();
             this.flwHelpLinks.SuspendLayout();
             this.tabProps.SuspendLayout();
-            this.gbNamespace.SuspendLayout();
-            this.flwNamespace.SuspendLayout();
             this.tabRev.SuspendLayout();
             this.tabText.SuspendLayout();
             this.gbProperties.SuspendLayout();
@@ -762,15 +754,16 @@ namespace WikiFunctions.DBScanner
             this.txtStartFrom.TabIndex = 3;
             this.tooltip.SetToolTip(this.txtStartFrom, "Page to start scanning from, leave blank to start at beginning");
             // 
-            // chkProjectNamespace
+            // gbNamespace
             // 
-            this.chkProjectNamespace.AutoSize = true;
-            this.chkProjectNamespace.Location = new System.Drawing.Point(3, 72);
-            this.chkProjectNamespace.Name = "chkProjectNamespace";
-            this.chkProjectNamespace.Size = new System.Drawing.Size(59, 17);
-            this.chkProjectNamespace.TabIndex = 4;
-            this.chkProjectNamespace.Text = "Project";
-            this.tooltip.SetToolTip(this.chkProjectNamespace, "Typically the name of the wiki, so Wikipedia, Wikibooks, etc...");
+            this.gbNamespace.Controls.Add(this.pageNamespaces);
+            this.gbNamespace.Location = new System.Drawing.Point(6, 6);
+            this.gbNamespace.Name = "gbNamespace";
+            this.gbNamespace.Size = new System.Drawing.Size(168, 153);
+            this.gbNamespace.TabIndex = 3;
+            this.gbNamespace.TabStop = false;
+            this.gbNamespace.Text = "Namespaces";
+            this.tooltip.SetToolTip(this.gbNamespace, "To keep");
             // 
             // chkSimpleLinks
             // 
@@ -851,19 +844,6 @@ namespace WikiFunctions.DBScanner
             this.btnSaveArticleList.TabIndex = 12;
             this.btnSaveArticleList.Text = "Save";
             this.btnSaveArticleList.Click += new System.EventHandler(this.btnSaveArticleList_Click);
-            // 
-            // lbArticles
-            // 
-            this.lbArticles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbArticles.ContextMenuStrip = this.ArticlesListBoxContextMenu;
-            this.lbArticles.FormattingEnabled = true;
-            this.lbArticles.Location = new System.Drawing.Point(6, 19);
-            this.lbArticles.Name = "lbArticles";
-            this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbArticles.Size = new System.Drawing.Size(296, 251);
-            this.lbArticles.TabIndex = 5;
             // 
             // btnFilter
             // 
@@ -1418,71 +1398,6 @@ namespace WikiFunctions.DBScanner
             this.tabProps.Text = "Title";
             this.tabProps.UseVisualStyleBackColor = true;
             // 
-            // gbNamespace
-            // 
-            this.gbNamespace.Controls.Add(this.flwNamespace);
-            this.gbNamespace.Location = new System.Drawing.Point(6, 6);
-            this.gbNamespace.Name = "gbNamespace";
-            this.gbNamespace.Size = new System.Drawing.Size(168, 153);
-            this.gbNamespace.TabIndex = 3;
-            this.gbNamespace.TabStop = false;
-            this.gbNamespace.Text = "Namespaces";
-            this.tooltip.SetToolTip(this.gbNamespace, "To keep");
-            // 
-            // flwNamespace
-            // 
-            this.flwNamespace.Controls.Add(this.chkMainNamespace);
-            this.flwNamespace.Controls.Add(this.chkCategoryNamespace);
-            this.flwNamespace.Controls.Add(this.chkImageNamespace);
-            this.flwNamespace.Controls.Add(this.chkProjectNamespace);
-            this.flwNamespace.Controls.Add(this.chkTemplateNamespace);
-            this.flwNamespace.Controls.Add(this.chkPortalNamespace);
-            this.flwNamespace.Controls.Add(this.chkMediaWikiNamespace);
-            this.flwNamespace.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flwNamespace.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flwNamespace.Location = new System.Drawing.Point(3, 16);
-            this.flwNamespace.Name = "flwNamespace";
-            this.flwNamespace.Size = new System.Drawing.Size(162, 134);
-            this.flwNamespace.TabIndex = 4;
-            // 
-            // chkMainNamespace
-            // 
-            this.chkMainNamespace.AutoSize = true;
-            this.chkMainNamespace.Checked = true;
-            this.chkMainNamespace.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkMainNamespace.Location = new System.Drawing.Point(3, 3);
-            this.chkMainNamespace.Name = "chkMainNamespace";
-            this.chkMainNamespace.Size = new System.Drawing.Size(54, 17);
-            this.chkMainNamespace.TabIndex = 0;
-            this.chkMainNamespace.Text = "(m&ain)";
-            // 
-            // chkTemplateNamespace
-            // 
-            this.chkTemplateNamespace.AutoSize = true;
-            this.chkTemplateNamespace.Location = new System.Drawing.Point(3, 95);
-            this.chkTemplateNamespace.Name = "chkTemplateNamespace";
-            this.chkTemplateNamespace.Size = new System.Drawing.Size(70, 17);
-            this.chkTemplateNamespace.TabIndex = 1;
-            this.chkTemplateNamespace.Text = "&Template";
-            // 
-            // chkCategoryNamespace
-            // 
-            this.chkCategoryNamespace.AutoSize = true;
-            this.chkCategoryNamespace.Location = new System.Drawing.Point(3, 26);
-            this.chkCategoryNamespace.Name = "chkCategoryNamespace";
-            this.chkCategoryNamespace.Size = new System.Drawing.Size(68, 17);
-            this.chkCategoryNamespace.TabIndex = 3;
-            this.chkCategoryNamespace.Text = "&Category";
-            // 
-            // chkImageNamespace
-            // 
-            this.chkImageNamespace.AutoSize = true;
-            this.chkImageNamespace.Location = new System.Drawing.Point(3, 49);
-            this.chkImageNamespace.Name = "chkImageNamespace";
-            this.chkImageNamespace.Size = new System.Drawing.Size(55, 17);
-            this.chkImageNamespace.TabIndex = 2;
-            this.chkImageNamespace.Text = "&Image";
-            // 
             // tabRev
             // 
             this.tabRev.Controls.Add(this.gbDate);
@@ -1585,14 +1500,6 @@ namespace WikiFunctions.DBScanner
             this.chkProtection.UseVisualStyleBackColor = true;
             this.chkProtection.CheckedChanged += new System.EventHandler(this.chkProtection_CheckedChanged);
             // 
-            // MoveDelete
-            // 
-            this.MoveDelete.Enabled = false;
-            this.MoveDelete.Location = new System.Drawing.Point(6, 39);
-            this.MoveDelete.Name = "MoveDelete";
-            this.MoveDelete.Size = new System.Drawing.Size(311, 88);
-            this.MoveDelete.TabIndex = 0;
-            // 
             // btnReset
             // 
             this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -1691,25 +1598,33 @@ namespace WikiFunctions.DBScanner
                 ")|*.txt";
             this.saveListDialog.Title = "Save article list";
             // 
-            // chkPortalNamespace
+            // MoveDelete
             // 
-            this.chkPortalNamespace.AutoSize = true;
-            this.chkPortalNamespace.Location = new System.Drawing.Point(79, 3);
-            this.chkPortalNamespace.Name = "chkPortalNamespace";
-            this.chkPortalNamespace.Size = new System.Drawing.Size(53, 17);
-            this.chkPortalNamespace.TabIndex = 5;
-            this.chkPortalNamespace.Text = "Portal";
-            this.tooltip.SetToolTip(this.chkPortalNamespace, "Typically the name of the wiki, so Wikipedia, Wikibooks, etc...");
+            this.MoveDelete.Enabled = false;
+            this.MoveDelete.Location = new System.Drawing.Point(6, 39);
+            this.MoveDelete.Name = "MoveDelete";
+            this.MoveDelete.Size = new System.Drawing.Size(311, 88);
+            this.MoveDelete.TabIndex = 0;
             // 
-            // chkMediaWikiNamespace
+            // lbArticles
             // 
-            this.chkMediaWikiNamespace.AutoSize = true;
-            this.chkMediaWikiNamespace.Location = new System.Drawing.Point(79, 26);
-            this.chkMediaWikiNamespace.Name = "chkMediaWikiNamespace";
-            this.chkMediaWikiNamespace.Size = new System.Drawing.Size(76, 17);
-            this.chkMediaWikiNamespace.TabIndex = 6;
-            this.chkMediaWikiNamespace.Text = "MediaWiki";
-            this.tooltip.SetToolTip(this.chkMediaWikiNamespace, "Typically the name of the wiki, so Wikipedia, Wikibooks, etc...");
+            this.lbArticles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbArticles.ContextMenuStrip = this.ArticlesListBoxContextMenu;
+            this.lbArticles.FormattingEnabled = true;
+            this.lbArticles.Location = new System.Drawing.Point(6, 19);
+            this.lbArticles.Name = "lbArticles";
+            this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lbArticles.Size = new System.Drawing.Size(296, 251);
+            this.lbArticles.TabIndex = 5;
+            // 
+            // pageNamespaces
+            // 
+            this.pageNamespaces.Location = new System.Drawing.Point(0, 9);
+            this.pageNamespaces.Name = "pageNamespaces";
+            this.pageNamespaces.Size = new System.Drawing.Size(231, 245);
+            this.pageNamespaces.TabIndex = 0;
             // 
             // DatabaseScanner
             // 
@@ -1742,6 +1657,7 @@ namespace WikiFunctions.DBScanner
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudHeadingSpace)).EndInit();
+            this.gbNamespace.ResumeLayout(false);
             this.ArticlesListBoxContextMenu.ResumeLayout(false);
             this.gbOutput.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nudLimitResults)).EndInit();
@@ -1760,9 +1676,6 @@ namespace WikiFunctions.DBScanner
             this.flwHelpLinks.ResumeLayout(false);
             this.flwHelpLinks.PerformLayout();
             this.tabProps.ResumeLayout(false);
-            this.gbNamespace.ResumeLayout(false);
-            this.flwNamespace.ResumeLayout(false);
-            this.flwNamespace.PerformLayout();
             this.tabRev.ResumeLayout(false);
             this.tabText.ResumeLayout(false);
             this.gbProperties.ResumeLayout(false);
@@ -1862,11 +1775,6 @@ namespace WikiFunctions.DBScanner
         private Label lblSitename;
         private CheckBox chkIgnoreComments;
         private CheckBox chkIgnoreRedirects;
-        private CheckBox chkImageNamespace;
-        private CheckBox chkCategoryNamespace;
-        private CheckBox chkMainNamespace;
-        private CheckBox chkProjectNamespace;
-        private CheckBox chkTemplateNamespace;
         private GroupBox grpEditMove;
         private LinkLabel lnkBase;
         private ToolStripMenuItem openRevisionInBowserToolStripMenuItem;
@@ -1904,7 +1812,6 @@ namespace WikiFunctions.DBScanner
         private TabControl tabControl1;
         private TabPage tbConvert;
         private FlowLayoutPanel flwAWB;
-        private FlowLayoutPanel flwNamespace;
         private TableLayoutPanel tableLayoutPanel2;
         private TableLayoutPanel tableLayoutPanel3;
         private ToolStripDropDownButton threadPriorityButton;
@@ -1917,7 +1824,6 @@ namespace WikiFunctions.DBScanner
         private SaveFileDialog saveListDialog;
         private WikiFunctions.Controls.EditProtectControl MoveDelete;
         private CheckBox chkProtection;
-        private CheckBox chkPortalNamespace;
-        private CheckBox chkMediaWikiNamespace;
+        private WikiFunctions.Controls.Namespaces pageNamespaces;
     }
 }

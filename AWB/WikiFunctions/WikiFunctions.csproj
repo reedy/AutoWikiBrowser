@@ -41,6 +41,7 @@
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
@@ -53,6 +54,12 @@
     <Compile Include="API\IApiEdit.cs" />
     <Compile Include="Article.cs">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controls\Namespaces.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Namespaces.Designer.cs">
+      <DependentUpon>Namespaces.cs</DependentUpon>
     </Compile>
     <Compile Include="Logging\AWBLogListener.cs" />
     <Compile Include="Profiles\AWBProfilesForm.cs">
@@ -312,6 +319,9 @@
     <Compile Include="WPEditor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\Namespaces.resx">
+      <DependentUpon>Namespaces.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Profiles\AWBProfilesForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AWBProfilesForm.cs</DependentUpon>

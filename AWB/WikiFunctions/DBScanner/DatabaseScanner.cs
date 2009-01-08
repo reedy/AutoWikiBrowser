@@ -170,27 +170,7 @@ namespace WikiFunctions.DBScanner
             TitleDoesNotRegex = new Regex(strTitleNot, titleRegOptions);
 
             namespaces.Clear();
-
-            if (chkMediaWikiNamespace.Checked)
-                namespaces.Add(8);
-
-            if (chkPortalNamespace.Checked)
-                namespaces.Add(100);
-
-            if (chkCategoryNamespace.Checked)
-                namespaces.Add(14);
-
-            if (chkImageNamespace.Checked)
-                namespaces.Add(6);
-
-            if (chkTemplateNamespace.Checked)
-                namespaces.Add(10);
-
-            if (chkProjectNamespace.Checked)
-                namespaces.Add(4);
-
-            if (chkMainNamespace.Checked)
-                namespaces.Add(0);
+            namespaces.AddRange(pageNamespaces.GetSelectedNamespaces());
         }
 
         private static Dictionary<string, bool> MakeReplacementDictionary(string rule, bool caseSensitive)
@@ -718,11 +698,8 @@ namespace WikiFunctions.DBScanner
             //menu
             chkIgnoreRedirects.Checked = true;
             chkIgnoreComments.Checked = false;
-            chkImageNamespace.Checked = false;
-            chkTemplateNamespace.Checked = false;
-            chkProjectNamespace.Checked = false;
-            chkCategoryNamespace.Checked = false;
-            chkMainNamespace.Checked = true;
+
+            pageNamespaces.Reset();
 
             //contains
             txtArticleDoesContain.Text = "";
