@@ -55,7 +55,7 @@ namespace WikiFunctions.AWBSettings
         // the public constructors are used to create an object with settings from the UI
         public UserPrefs(FaRPrefs mFaRPrefs, EditPrefs mEditprefs, ListPrefs mList, SkipPrefs mSkipOptions,
             GeneralPrefs mGeneral, DabPrefs mDisambiguation, ModulePrefs mModule, ExternalProgramPrefs mExternalProgram, LoggingPrefs mLogging, SpecialFilterPrefs mSpecial,
-            Dictionary<string, WikiFunctions.Plugin.IAWBPlugin> Plugins)
+            Dictionary<string, Plugin.IAWBPlugin> Plugins)
         {
             LanguageCode = Variables.LangCode;
             Project = Variables.Project;
@@ -107,22 +107,18 @@ namespace WikiFunctions.AWBSettings
         /// <returns>Loaded UserPrefs</returns>
         public static UserPrefs LoadPrefs(string file)
         {
-            try
+            string settings;
+            using (StreamReader f = new StreamReader(file, Encoding.UTF8))
             {
-                string settings;
-                using (StreamReader f = new StreamReader(file, Encoding.UTF8))
-                {
-                    settings = f.ReadToEnd();
-                }
-
-                //test to see if it is an old AWB file
-                if (settings.Contains("<projectlang proj="))
-                    throw new Exception("This file uses old settings format unsupported by this version of AWB.");
-
-                XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), new Type[] { typeof(PrefsKeyPair) });
-                return (UserPrefs)xs.Deserialize(new StringReader(settings));
+                settings = f.ReadToEnd();
             }
-            catch { throw; }
+
+            //test to see if it is an old AWB file
+            if (settings.Contains("<projectlang proj="))
+                throw new Exception("This file uses old settings format unsupported by this version of AWB.");
+
+            XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), new Type[] { typeof(PrefsKeyPair) });
+            return (UserPrefs)xs.Deserialize(new StringReader(settings));
         }
 
         /// <summary>
@@ -180,8 +176,8 @@ namespace WikiFunctions.AWBSettings
         /// <summary>
         /// Fill the object with settings from UI
         /// </summary>
-        public FaRPrefs(bool mEnabled, WikiFunctions.Parse.FindandReplace findAndReplace,
-            WikiFunctions.MWB.ReplaceSpecial replaceSpecial, string[] mSubstTemplates,
+        public FaRPrefs(bool mEnabled, Parse.FindandReplace findAndReplace,
+            MWB.ReplaceSpecial replaceSpecial, string[] mSubstTemplates,
             bool mIncludeComments, bool mExpandRecursively, bool mIgnoreUnformatted)
         {
             Enabled = mEnabled;
@@ -203,9 +199,9 @@ namespace WikiFunctions.AWBSettings
         public bool IgnoreMoreText = false;
         public bool AppendSummary = true;
         public bool AfterOtherFixes = false;
-        public List<WikiFunctions.Parse.Replacement> Replacements = new List<WikiFunctions.Parse.Replacement>();
+        public List<Parse.Replacement> Replacements = new List<Parse.Replacement>();
 
-        public List<WikiFunctions.MWB.IRule> AdvancedReps = new List<WikiFunctions.MWB.IRule>();
+        public List<MWB.IRule> AdvancedReps = new List<MWB.IRule>();
 
         public string[] SubstTemplates = new string[0];
         public bool IncludeComments = false;
@@ -304,7 +300,7 @@ namespace WikiFunctions.AWBSettings
         public SkipPrefs(bool mSkipNonexistent, bool mSkipexistent, bool mSkipWhenNoChanges, bool mSkipWhenSpamFilterBlocked, bool mSkipInuse, bool mSkipDoes,
             bool mSkipDoesNot, string mSkipDoesText, string mSkipDoesNotText, bool mRegex, bool mCaseSensitive,
             bool mSkipNoFindAndReplace, bool mSkipNoRegexTypoFix, bool mSkipNoDisambiguation,
-            bool mSkipWhitespaceOnly, bool mSkipCasingOnly, bool mSkipOnlyGeneralFixChanges, bool mSkipNoLinksOnPage, 
+            bool mSkipWhitespaceOnly, bool mSkipCasingOnly, bool mSkipOnlyGeneralFixChanges, bool mSkipNoLinksOnPage,
             List<int> mGeneralSkipList, bool mSkipIfRedirect)
         {
             SkipNonexistent = mSkipNonexistent;
