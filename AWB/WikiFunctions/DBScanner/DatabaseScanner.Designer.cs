@@ -137,7 +137,7 @@ namespace WikiFunctions.DBScanner
             this.btnBrowse = new System.Windows.Forms.Button();
             this.txtDumpLocation = new System.Windows.Forms.TextBox();
             this.lblDBDump = new System.Windows.Forms.Label();
-            this.tabProps = new System.Windows.Forms.TabPage();
+            this.tabNamespace = new System.Windows.Forms.TabPage();
             this.tabRev = new System.Windows.Forms.TabPage();
             this.tabText = new System.Windows.Forms.TabPage();
             this.gbProperties = new System.Windows.Forms.GroupBox();
@@ -146,7 +146,7 @@ namespace WikiFunctions.DBScanner
             this.tabRestrict = new System.Windows.Forms.TabPage();
             this.grpEditMove = new System.Windows.Forms.GroupBox();
             this.chkProtection = new System.Windows.Forms.CheckBox();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabTitle = new System.Windows.Forms.TabPage();
             this.btnReset = new System.Windows.Forms.Button();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
@@ -181,14 +181,14 @@ namespace WikiFunctions.DBScanner
             this.tbParameters.SuspendLayout();
             this.tabDump.SuspendLayout();
             this.flwHelpLinks.SuspendLayout();
-            this.tabProps.SuspendLayout();
+            this.tabNamespace.SuspendLayout();
             this.tabRev.SuspendLayout();
             this.tabText.SuspendLayout();
             this.gbProperties.SuspendLayout();
             this.tabAWB.SuspendLayout();
             this.tabRestrict.SuspendLayout();
             this.grpEditMove.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.tabTitle.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tbConvert.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -558,7 +558,7 @@ namespace WikiFunctions.DBScanner
             // gbTitle
             // 
             this.gbTitle.Controls.Add(this.tableLayoutPanel2);
-            this.gbTitle.Location = new System.Drawing.Point(17, 21);
+            this.gbTitle.Location = new System.Drawing.Point(6, 6);
             this.gbTitle.Name = "gbTitle";
             this.gbTitle.Size = new System.Drawing.Size(340, 106);
             this.gbTitle.TabIndex = 0;
@@ -1187,12 +1187,12 @@ namespace WikiFunctions.DBScanner
             this.tbParameters.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.tbParameters.Controls.Add(this.tabDump);
-            this.tbParameters.Controls.Add(this.tabProps);
+            this.tbParameters.Controls.Add(this.tabNamespace);
+            this.tbParameters.Controls.Add(this.tabTitle);
             this.tbParameters.Controls.Add(this.tabRev);
             this.tbParameters.Controls.Add(this.tabText);
             this.tbParameters.Controls.Add(this.tabAWB);
             this.tbParameters.Controls.Add(this.tabRestrict);
-            this.tbParameters.Controls.Add(this.tabPage1);
             this.tbParameters.Location = new System.Drawing.Point(13, 12);
             this.tbParameters.Name = "tbParameters";
             this.tbParameters.SelectedIndex = 0;
@@ -1389,16 +1389,16 @@ namespace WikiFunctions.DBScanner
             this.lblDBDump.TabIndex = 0;
             this.lblDBDump.Text = "Datebase dump:";
             // 
-            // tabProps
+            // tabNamespace
             // 
-            this.tabProps.Controls.Add(this.gbNamespace);
-            this.tabProps.Location = new System.Drawing.Point(4, 22);
-            this.tabProps.Name = "tabProps";
-            this.tabProps.Padding = new System.Windows.Forms.Padding(3);
-            this.tabProps.Size = new System.Drawing.Size(523, 165);
-            this.tabProps.TabIndex = 1;
-            this.tabProps.Text = "Title";
-            this.tabProps.UseVisualStyleBackColor = true;
+            this.tabNamespace.Controls.Add(this.gbNamespace);
+            this.tabNamespace.Location = new System.Drawing.Point(4, 22);
+            this.tabNamespace.Name = "tabNamespace";
+            this.tabNamespace.Padding = new System.Windows.Forms.Padding(3);
+            this.tabNamespace.Size = new System.Drawing.Size(523, 165);
+            this.tabNamespace.TabIndex = 1;
+            this.tabNamespace.Text = "Title - Namespace";
+            this.tabNamespace.UseVisualStyleBackColor = true;
             // 
             // tabRev
             // 
@@ -1502,16 +1502,16 @@ namespace WikiFunctions.DBScanner
             this.chkProtection.UseVisualStyleBackColor = true;
             this.chkProtection.CheckedChanged += new System.EventHandler(this.chkProtection_CheckedChanged);
             // 
-            // tabPage1
+            // tabTitle
             // 
-            this.tabPage1.Controls.Add(this.gbTitle);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(523, 165);
-            this.tabPage1.TabIndex = 6;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tabTitle.Controls.Add(this.gbTitle);
+            this.tabTitle.Location = new System.Drawing.Point(4, 22);
+            this.tabTitle.Name = "tabTitle";
+            this.tabTitle.Padding = new System.Windows.Forms.Padding(3);
+            this.tabTitle.Size = new System.Drawing.Size(523, 165);
+            this.tabTitle.TabIndex = 6;
+            this.tabTitle.Text = "Title - Other";
+            this.tabTitle.UseVisualStyleBackColor = true;
             // 
             // btnReset
             // 
@@ -1691,7 +1691,7 @@ namespace WikiFunctions.DBScanner
             this.tabDump.PerformLayout();
             this.flwHelpLinks.ResumeLayout(false);
             this.flwHelpLinks.PerformLayout();
-            this.tabProps.ResumeLayout(false);
+            this.tabNamespace.ResumeLayout(false);
             this.tabRev.ResumeLayout(false);
             this.tabText.ResumeLayout(false);
             this.gbProperties.ResumeLayout(false);
@@ -1701,7 +1701,7 @@ namespace WikiFunctions.DBScanner
             this.tabRestrict.ResumeLayout(false);
             this.grpEditMove.ResumeLayout(false);
             this.grpEditMove.PerformLayout();
-            this.tabPage1.ResumeLayout(false);
+            this.tabTitle.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tbConvert.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -1781,7 +1781,7 @@ namespace WikiFunctions.DBScanner
         private GroupBox gbDate;
         private TabControl tbParameters;
         private TabPage tabDump;
-        private TabPage tabProps;
+        private TabPage tabNamespace;
         private TabPage tabText;
         private TabPage tabAWB;
         private Button btnBrowse;
@@ -1841,7 +1841,7 @@ namespace WikiFunctions.DBScanner
         private SaveFileDialog saveListDialog;
         private WikiFunctions.Controls.EditProtectControl MoveDelete;
         private CheckBox chkProtection;
-        private TabPage tabPage1;
+        private TabPage tabTitle;
         private WikiFunctions.Controls.Namespaces pageNamespaces;
     }
 }
