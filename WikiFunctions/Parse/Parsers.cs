@@ -748,7 +748,10 @@ namespace WikiFunctions.Parse
                 {
                     string n = m.Value;
                     a = m.Groups[1].Value.Trim();
-                    b = m.Groups[2].Value.Trim();
+                    b = m.Groups[2].Value;
+
+                    if (Tools.CalculateNS(a) != 14)
+                        b = b.Trim();
 
                     if (b.Length == 0) continue;
 
