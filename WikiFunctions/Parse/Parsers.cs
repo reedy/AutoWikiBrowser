@@ -1769,13 +1769,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             double linkCount = Tools.LinkCount(commentsStripped);
             double ratio = linkCount / length;
 
-            string catHTML = "<div id=\"catlinks\"></div>";
+            string catHTML = "";
             if (!WikiRegexes.Category.IsMatch(commentsStripped))
             {
                 catHTML = Tools.GetHTML(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(ArticleTitle));
             }
 
-            if (words > 6 && (catHTML.IndexOf("<div id=\"catlinks\">") == -1) && !Regex.IsMatch(ArticleText, @"\{\{[Uu]ncategori[zs]ed"))
+            if (words > 6 && !string.IsNullOrEmpty(catHTML) && !Regex.IsMatch(ArticleText, @"\{\{[Uu]ncategori[zs]ed"))
             {
                 if (WikiRegexes.Stub.IsMatch(commentsStripped))
                 { // add uncategorized stub tag

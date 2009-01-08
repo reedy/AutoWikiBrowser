@@ -48,7 +48,7 @@ namespace WikiFunctions.DBScanner
 
     public class TextContains : Scan
     {
-        Dictionary<string, bool> Conditions;
+        readonly Dictionary<string, bool> Conditions;
 
         public TextContains(Dictionary<string, bool> conditions)
         {
@@ -72,7 +72,7 @@ namespace WikiFunctions.DBScanner
 
     public class TextDoesNotContain : Scan
     {
-        Dictionary<string, bool> Conditions;
+        readonly Dictionary<string, bool> Conditions;
 
         public TextDoesNotContain(Dictionary<string, bool> conditions)
         {
@@ -105,7 +105,7 @@ namespace WikiFunctions.DBScanner
             Contains = containsR;
         }
 
-        Regex[] Contains;
+        readonly Regex[] Contains;
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
@@ -129,7 +129,7 @@ namespace WikiFunctions.DBScanner
             NotContains = notContainsR;
         }
 
-        Regex[] NotContains;
+        readonly Regex[] NotContains;
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
@@ -153,7 +153,7 @@ namespace WikiFunctions.DBScanner
             Contains = ContainsR;
         }
 
-        Regex Contains;
+        readonly Regex Contains;
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
@@ -171,7 +171,7 @@ namespace WikiFunctions.DBScanner
             NotContains = NotContainsR;
         }
 
-        Regex NotContains;
+        readonly Regex NotContains;
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
@@ -192,8 +192,8 @@ namespace WikiFunctions.DBScanner
             test = Characters;
         }
 
-        MoreLessThan M;
-        int test;
+        readonly MoreLessThan M;
+        readonly int test;
         int actual;
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
@@ -220,8 +220,8 @@ namespace WikiFunctions.DBScanner
             test = Links;
         }
 
-        MoreLessThan M;
-        int test;
+        readonly MoreLessThan M;
+        readonly int test;
         int actual;
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
@@ -247,8 +247,8 @@ namespace WikiFunctions.DBScanner
             test = Words;
         }
 
-        MoreLessThan M;
-        int test;
+        readonly MoreLessThan M;
+        readonly int test;
         int actual;
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
@@ -273,19 +273,11 @@ namespace WikiFunctions.DBScanner
             namespaces = NameSpaces;
         }
 
-        List<int> namespaces = new List<int>();
-        int NamespaceIndex;
+        readonly List<int> namespaces;
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
-            NamespaceIndex = Tools.CalculateNS(ArticleTitle);
-            for (int i = 0; i < namespaces.Count; i++)
-            {
-                if (NamespaceIndex == namespaces[i])
-                    return false;
-            }
-
-            return true;
+            return (namespaces.Contains(Tools.CalculateNS(ArticleTitle)));
         }
     }
 
@@ -325,7 +317,8 @@ namespace WikiFunctions.DBScanner
         }
 
         bool skip = true;
-        Parsers parsers;
+        readonly Parsers parsers;
+
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
             parsers.BoldTitle(ArticleText, ArticleTitle, out skip);
@@ -345,7 +338,8 @@ namespace WikiFunctions.DBScanner
         }
 
         bool skip = true;
-        Parsers parsers;
+        readonly Parsers parsers;
+
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
             parsers.Unicodify(ArticleText, out skip);
@@ -386,7 +380,8 @@ namespace WikiFunctions.DBScanner
         }
 
         bool skip = true;
-        Parsers parsers;
+        readonly Parsers parsers;
+
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
             parsers.FixHeadings(ArticleText, ArticleTitle, out skip);
@@ -400,7 +395,7 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public class HasUnbulletedLinks : Scan
     {
-        Regex bulletRegex = new Regex(@"External [Ll]inks? ? ?={1,4} ? ?(
+        readonly Regex bulletRegex = new Regex(@"External [Ll]inks? ? ?={1,4} ? ?(
 ){0,3}\[?http", RegexOptions.Compiled);
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
@@ -420,7 +415,8 @@ namespace WikiFunctions.DBScanner
         }
 
         bool skip = true;
-        Parsers parsers;
+        readonly Parsers parsers;
+
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
             parsers.LivingPeople(ArticleText, out skip);
@@ -440,7 +436,7 @@ namespace WikiFunctions.DBScanner
         }
 
         bool skip = true;
-        Parsers parsers;
+        readonly Parsers parsers;
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
@@ -455,7 +451,7 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public class Typo : Scan
     {
-        RegExTypoFix retf = new RegExTypoFix();
+        readonly RegExTypoFix retf = new RegExTypoFix();
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
@@ -488,7 +484,8 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public class DateRange : Scan
     {
-        DateTime from, to;
+        readonly DateTime from, to;
+
         public DateRange(DateTime from, DateTime to)
         {
             this.from = from;
@@ -509,12 +506,12 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public class Restriction : Scan
     {
-        string[] Restrictions = new string[] { "autoconfirmed", "sysop" };
+        readonly string[] Restrictions = new string[] { "autoconfirmed", "sysop" };
 
-        string editRest = "edit=";
-        string moveRest = "move=";
+        const string editRest = "edit=", moveRest = "move=";
 
-        int edit, move;
+        readonly int edit, move;
+
         public Restriction(int EditLevel, int MoveLevel)
         {
             edit = (EditLevel - 1);
