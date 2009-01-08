@@ -154,6 +154,10 @@ namespace UnitTests
             // http://en.wikipedia.org/wiki/Wikipedia:AWB/B#SVN:_general_fixes_removes_whitespace_around_pipes_within_citation_templates
             Assert.AreEqual("{{foo|[[bar]] | boz}}]]", Parsers.SimplifyLinks("{{foo|[[bar]] | boz}}]]"));
             Assert.AreEqual("{{foo|[[bar]]\r\n| boz}}]]", Parsers.SimplifyLinks("{{foo|[[bar]]\r\n| boz}}]]"));
+
+            //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#General_fixes_remove_spaces_from_category_sortkeys
+            Assert.AreEqual("[[foo|bar]]", Parsers.SimplifyLinks("[[foo| bar]]"));
+            Assert.AreEqual("[[Category:foo| bar]]", Parsers.SimplifyLinks("[[Category:foo| bar]]"));
         }
 
         [Test]
