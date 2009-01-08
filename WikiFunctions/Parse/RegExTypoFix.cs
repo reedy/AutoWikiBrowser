@@ -232,9 +232,9 @@ namespace WikiFunctions.Parse
             return CreateRule(find, replace, "<enter a name>");
         }
 
-        public int TyposCount;
+        public int TyposCount { get; private set; }
 
-        public bool TyposLoaded;
+        public bool TyposLoaded { get; private set; }
 
         static readonly Regex IgnoreRegex = new Regex("133t|-ology|\\(sic\\)|\\[sic\\]|\\[''sic''\\]|\\{\\{sic\\}\\}|spellfixno", RegexOptions.Compiled);
         static readonly Regex RemoveTail = new Regex(@"(\s|\n|\r|\*|#|:|⌊⌊⌊⌊M?\d*⌋⌋⌋⌋)*$", RegexOptions.Compiled);
