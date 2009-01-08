@@ -116,5 +116,64 @@ namespace WikiFunctions.Controls
                     tmp.Checked = tags.Contains(int.Parse(tmp.Tag.ToString()));
             }
         }
+
+        private bool doublecol;
+        [DefaultValue(false), Category("Layout")]
+        [Browsable(true)]
+        public bool DoubleColumnFlowLayouts
+        {
+            get { return doublecol; }
+            set
+            {
+                if (doublecol == value)
+                    return;
+
+                doublecol = value;
+
+                if (doublecol)
+                {
+                    flwContent.Size = new Size(flwContent.Size.Width * 2, flwContent.Size.Height);
+                    flwTalk.Size = new Size(flwTalk.Size.Width * 2, flwTalk.Size.Height);
+
+                    Size = new Size(MaximumSize.Width, MinimumSize.Height);
+                }
+                else
+                {
+                    flwContent.Size = new Size(flwContent.Size.Width / 2, flwContent.Size.Height);
+                    flwTalk.Size = new Size(flwTalk.Size.Width / 2, flwTalk.Size.Height);
+
+                    Size = new Size(MinimumSize.Height, MaximumSize.Width);
+                }
+
+                flwTalk.Location = new Point(flwContent.Location.X + flwContent.Size.Width + 6, flwTalk.Location.Y);
+                chkTalk.Location = new Point(flwTalk.Location.X, chkTalk.Location.Y);
+            }
+        }
+
+        [Browsable(false)]
+        public override Size MaximumSize
+        {
+            get
+            {
+                return base.MaximumSize;
+            }
+            set
+            {
+                base.MaximumSize = value;
+            }
+        }
+
+        [Browsable(false)]
+        public override Size MinimumSize
+        {
+            get
+            {
+                return base.MinimumSize;
+            }
+            set
+            {
+                base.MinimumSize = value;
+            }
+        }
     }
 }
