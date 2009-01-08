@@ -98,8 +98,7 @@ namespace WikiFunctions
         /// </summary>
         public static void About()
         {
-            try { new Controls.AboutBox().Show(); }
-            catch { }
+            new Controls.AboutBox().Show();
         }
 
         // Covered by ToolsTests.IsMainSpace()

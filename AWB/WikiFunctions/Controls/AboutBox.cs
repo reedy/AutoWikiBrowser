@@ -29,7 +29,6 @@ namespace WikiFunctions.Controls
         public AboutBox()
         {
             InitializeComponent();
-            Initialise();
         }
 
         /// <summary>
@@ -88,5 +87,10 @@ namespace WikiFunctions.Controls
         public static string GetDetailedMessage(Assembly Ass)
         { return AssemblyDescription(Ass) + Environment.NewLine + Environment.NewLine + GPLNotice; }
         #endregion
+
+        private void AboutBox_Load(object sender, EventArgs e)
+        {
+            Initialise();
+        }
     }
 }

@@ -54,11 +54,9 @@ namespace WikiFunctions.Parse
             Postfix = postfix;
         }
 
-        int GroupSize;
-        Regex Allow;
-        Regex Disallow;
-        string Prefix;
-        string Postfix;
+        readonly int GroupSize;
+        readonly Regex Allow, Disallow;
+        readonly string Prefix, Postfix;
 
         List<Regex> Groups;
 
@@ -239,7 +237,7 @@ namespace WikiFunctions.Parse
         static readonly Regex IgnoreRegex = new Regex("133t|-ology|\\(sic\\)|\\[sic\\]|\\[''sic''\\]|\\{\\{sic\\}\\}|spellfixno", RegexOptions.Compiled);
         static readonly Regex RemoveTail = new Regex(@"(\s|\n|\r|\*|#|:|⌊⌊⌊⌊M?\d*⌋⌋⌋⌋)*$", RegexOptions.Compiled);
 
-        List<TypoGroup> Groups = new List<TypoGroup>();
+        readonly List<TypoGroup> Groups = new List<TypoGroup>();
 
         /// <summary>
         /// 
