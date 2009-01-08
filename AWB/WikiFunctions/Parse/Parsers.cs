@@ -750,7 +750,7 @@ namespace WikiFunctions.Parse
                     a = m.Groups[1].Value.Trim();
                     b = m.Groups[2].Value;
 
-                    if (Tools.CalculateNS(a) != 14)
+                    if (Tools.CalculateNS(a) != 14) //Dont trim whitespace from category sortkey
                         b = b.Trim();
 
                     if (b.Length == 0) continue;
