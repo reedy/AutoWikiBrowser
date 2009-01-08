@@ -97,7 +97,7 @@ namespace WikiFunctions
 
             public EncryptionUtils(string InitVector, string PassPhrase, string Salt)
             {
-                this.IV16Chars = InitVector;
+                IV16Chars = InitVector;
                 this.PassPhrase = PassPhrase;
                 this.Salt = Salt;
             }
@@ -128,12 +128,14 @@ namespace WikiFunctions
             {
                 try
                 {
-                    if (!string.IsNullOrEmpty(text))
-                        return RijndaelSimple.Decrypt(text, PassPhrase, Salt, "SHA1", 2, IV16Chars, 256);
-
+                    return !string.IsNullOrEmpty(text)
+                               ? RijndaelSimple.Decrypt(text, PassPhrase, Salt, "SHA1", 2, IV16Chars, 256)
+                               : text;
+                }
+                catch
+                {
                     return text;
                 }
-                catch { return text; }
             }
 
             /// <summary>

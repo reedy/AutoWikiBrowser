@@ -667,7 +667,7 @@ namespace WikiFunctions.Controls.Lists
                 ListFinished(null, null);
         }
 
-        Thread ListerThread = null;
+        Thread ListerThread;
 
         public void MakeList()
         {
@@ -688,8 +688,7 @@ namespace WikiFunctions.Controls.Lists
             if (providerToRun.RunOnSeparateThread)
             {
                 strSource = sourceValues;
-                ThreadStart thr_Process = new ThreadStart(MakeListPlugin);
-                ListerThread = new Thread(thr_Process);
+                ListerThread = new Thread(MakeListPlugin);
                 ListerThread.SetApartmentState(ApartmentState.STA);
                 ListerThread.IsBackground = true;
                 ListerThread.Start();
@@ -743,22 +742,18 @@ namespace WikiFunctions.Controls.Lists
         {
             lbArticles.BeginUpdate();
 
-            try
-            {
-                int i = lbArticles.SelectedIndex;
+            if (lbArticles.SelectedItems.Count > 0)
+                txtPage.Text = lbArticles.SelectedItem.ToString();
 
-                if (lbArticles.SelectedItems.Count > 0)
-                    txtPage.Text = lbArticles.SelectedItem.ToString();
+            while (lbArticles.SelectedItems.Count > 0)
+                lbArticles.Items.Remove(lbArticles.SelectedItem);
 
-                while (lbArticles.SelectedItems.Count > 0)
-                    lbArticles.Items.Remove(lbArticles.SelectedItem);
+            int i = lbArticles.SelectedIndex;
 
-                if (lbArticles.Items.Count > i)
-                    lbArticles.SelectedIndex = i;
-                else
-                    lbArticles.SelectedIndex = i - 1;
-            }
-            catch { }
+            if (lbArticles.Items.Count > i)
+                lbArticles.SelectedIndex = i;
+            else
+                lbArticles.SelectedIndex = i - 1;
 
             lbArticles.EndUpdate();
 
@@ -1116,15 +1111,12 @@ namespace WikiFunctions.Controls.Lists
 
         private void loadArticlesInBrowser()
         {
-            try
+            foreach (Article item in lbArticles.SelectedItems)
             {
-                foreach (Article item in lbArticles.SelectedItems)
-                {
-                    Tools.OpenArticleInBrowser(item.Name);
-                }
+                Tools.OpenArticleInBrowser(item.Name);
             }
-            catch { }
         }
+
         #endregion
 
         private void btnStop_Click(object sender, EventArgs e)
