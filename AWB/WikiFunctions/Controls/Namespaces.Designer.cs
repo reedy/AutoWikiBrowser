@@ -56,6 +56,8 @@
             // 
             // flwTalk
             // 
+            this.flwTalk.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.flwTalk.Controls.Add(this.chkArticleTalk);
             this.flwTalk.Controls.Add(this.chkUserTalk);
             this.flwTalk.Controls.Add(this.chkWikipediaTalk);
@@ -66,7 +68,7 @@
             this.flwTalk.Controls.Add(this.chkCategoryTalk);
             this.flwTalk.Controls.Add(this.chkPortalTalk);
             this.flwTalk.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flwTalk.Location = new System.Drawing.Point(120, 26);
+            this.flwTalk.Location = new System.Drawing.Point(109, 26);
             this.flwTalk.Name = "flwTalk";
             this.flwTalk.Size = new System.Drawing.Size(100, 209);
             this.flwTalk.TabIndex = 7;
@@ -163,8 +165,9 @@
             // 
             // chkTalk
             // 
+            this.chkTalk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkTalk.AutoSize = true;
-            this.chkTalk.Location = new System.Drawing.Point(107, 3);
+            this.chkTalk.Location = new System.Drawing.Point(112, 3);
             this.chkTalk.Name = "chkTalk";
             this.chkTalk.Size = new System.Drawing.Size(47, 17);
             this.chkTalk.TabIndex = 6;
@@ -174,6 +177,8 @@
             // 
             // flwContent
             // 
+            this.flwContent.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)));
             this.flwContent.Controls.Add(this.chkArticle);
             this.flwContent.Controls.Add(this.chkUser);
             this.flwContent.Controls.Add(this.chkWikipedia);
@@ -184,7 +189,7 @@
             this.flwContent.Controls.Add(this.chkCategory);
             this.flwContent.Controls.Add(this.chkPortal);
             this.flwContent.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flwContent.Location = new System.Drawing.Point(14, 26);
+            this.flwContent.Location = new System.Drawing.Point(3, 26);
             this.flwContent.Name = "flwContent";
             this.flwContent.Size = new System.Drawing.Size(100, 209);
             this.flwContent.TabIndex = 5;
@@ -298,8 +303,10 @@
             this.Controls.Add(this.chkTalk);
             this.Controls.Add(this.flwContent);
             this.Controls.Add(this.chkContents);
+            this.MaximumSize = new System.Drawing.Size(420, 245);
+            this.MinimumSize = new System.Drawing.Size(220, 245);
             this.Name = "Namespaces";
-            this.Size = new System.Drawing.Size(231, 245);
+            this.Size = new System.Drawing.Size(220, 245);
             this.flwTalk.ResumeLayout(false);
             this.flwTalk.PerformLayout();
             this.flwContent.ResumeLayout(false);
