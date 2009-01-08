@@ -171,7 +171,6 @@ namespace WikiFunctions.Parse
                         for (int j = 0; j < Math.Min(GroupSize, Typos.Count - i * GroupSize); j++)
                         {
                             FixTypo(ref ArticleText, ref summary, Typos[i * GroupSize + j]);
-
                         }
                     }
                 }
@@ -190,8 +189,26 @@ namespace WikiFunctions.Parse
         public delegate void TypoThreadComplete();
         public event TypoThreadComplete Complete;
 
+        /// <summary>
+        /// Default constructor, typos will be loaded on a new thread
+        /// </summary>
         public RegExTypoFix()
+            : this(true)
         {
+        }
+
+        /// <summary>
+        /// Default constructor, typos being loaded on seperate thread is optional
+        /// </summary>
+        /// <param name="loadThreaded">Whether to load typos on a new thread</param>
+        public RegExTypoFix(bool loadThreaded)
+        {
+            if (!loadThreaded)
+            {
+                MakeRegexes();
+                return;
+            }
+
             typoThread = new Thread(MakeRegexes);
             typoThread.Name = "TypoThread";
             typoThread.SetApartmentState(ApartmentState.STA);

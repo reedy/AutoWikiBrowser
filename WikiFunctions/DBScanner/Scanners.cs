@@ -290,8 +290,7 @@ namespace WikiFunctions.DBScanner
         {
             foreach (Match m in WikiRegexes.SimpleWikiLink.Matches(ArticleText))
             {
-                string y = m.Value.Replace("+", "%2B");
-                y = System.Web.HttpUtility.UrlDecode(y);
+                string y = System.Web.HttpUtility.UrlDecode(m.Value.Replace("+", "%2B"));
 
                 if (m.Value != y)
                     return false;
@@ -451,7 +450,7 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public class Typo : Scan
     {
-        readonly RegExTypoFix retf = new RegExTypoFix();
+        readonly RegExTypoFix retf = new RegExTypoFix(false);
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
