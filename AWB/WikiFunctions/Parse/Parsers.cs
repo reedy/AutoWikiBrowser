@@ -45,7 +45,7 @@ namespace WikiFunctions.Parse
         /// <param name="StubWordCount">The number of maximum number of words for a stub.</param>
         /// <param name="AddHumanKey"></param>
         public Parsers(int StubWordCount, bool AddHumanKey)
-            :this()
+            : this()
         {
             StubMaxWordCount = StubWordCount;
             addCatKey = AddHumanKey;
@@ -152,7 +152,7 @@ namespace WikiFunctions.Parse
         {
             if (Variables.Project <= ProjectEnum.species)
                 return Sorter.Sort(ArticleText, ArticleTitle);
-            
+
             return ArticleText;
         }
 
@@ -172,7 +172,7 @@ namespace WikiFunctions.Parse
         private readonly Regex regexHeadings10 = new Regex("(== ?)Life and Career( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private readonly Regex regexHeadingsCareer = new Regex("(== ?)([a-zA-Z]+) Career( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private readonly Regex regexLinkedHeader = new Regex(@"(=+)(\s*)(.*?)(\w*)\[\[((.*)\|)?([a-z0-9\s-]+)\]\](\w*)(.*?)(\s*)(=+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private readonly Regex regexLinkedHeader = new Regex(@"^(=+.*?)\[\[([^[\]{|}\n]+\|)?([^[\]{|}\n]+)\]\](.*?=+\s*)$", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
 
         private readonly Regex RegexBadHeader = new Regex("^(={1,4} ?(about|description|overview|definition|profile|(?:general )?information|background|intro(?:duction)?|summary|bio(?:graphy)?) ?={1,4})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
@@ -205,7 +205,7 @@ namespace WikiFunctions.Parse
             ArticleText = Regex.Replace(ArticleText, "^={1,4} ?" + Regex.Escape(ArticleTitle) + " ?={1,4}", "", RegexOptions.IgnoreCase);
             ArticleText = RegexBadHeader.Replace(ArticleText, "");
 
-            ArticleText = regexLinkedHeader.Replace(ArticleText, "$1$2$3$4$7$8$9$10$11");
+            ArticleText = regexLinkedHeader.Replace(ArticleText, "$1$2$3$4");
 
             if (!Regex.IsMatch(ArticleText, "= ?See also ?="))
                 ArticleText = regexHeadings0.Replace(ArticleText, "$1See also$3");
@@ -707,7 +707,7 @@ namespace WikiFunctions.Parse
             sb.Replace('_', ' ');
             title = HttpUtility.UrlDecode(sb.ToString());
             if (trim) return title.Trim();
-            
+
             return title;
         }
 
@@ -754,7 +754,7 @@ namespace WikiFunctions.Parse
 
                     b = (Tools.CalculateNS(a) != 14)
                             ? m.Groups[2].Value.Trim()
-                            : m.Groups[2].Value.TrimEnd(new char[] {' '});
+                            : m.Groups[2].Value.TrimEnd(new char[] { ' ' });
 
                     if (b.Length == 0) continue;
 
@@ -847,7 +847,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             if (regexMainArticle.Match(ArticleText).Groups[2].Value.Length == 0)
                 return regexMainArticle.Replace(ArticleText, "{{main|$1}}");
-            
+
             return regexMainArticle.Replace(ArticleText, "{{main|$1|l1=$3}}");
         }
 
@@ -916,7 +916,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             int intStart = m.Index;
 
-            string articleTextSubstring  = ArticleText.Substring(intStart);
+            string articleTextSubstring = ArticleText.Substring(intStart);
             ArticleText = ArticleText.Substring(0, intStart);
             articleTextSubstring = BulletExternalHider.HideMore(articleTextSubstring);
             articleTextSubstring = Regex.Replace(articleTextSubstring, "(\r\n|\n)?(\r\n|\n)(\\[?http)", "$2* $3");
@@ -1104,7 +1104,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 string gtn = GetTemplateName(setting).Trim();
                 if (string.IsNullOrEmpty(gtn))
                     return setting;
-               
+
                 return gtn;
             }
 
@@ -1557,7 +1557,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 {
                     if (sort.Length > 4 && // So that this doesn't get confused by sort keys of "*", " ", etc.
                         !sort.StartsWith(" "))
-                        // MW bug: DEFAULTSORT doesn't treat leading spaces the same way as categories do
+                    // MW bug: DEFAULTSORT doesn't treat leading spaces the same way as categories do
                     {
                         ArticleText = Regex.Replace(ArticleText, catregex, "[[" + Variables.Namespaces[14] + "$1]]");
 
