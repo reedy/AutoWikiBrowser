@@ -86,11 +86,11 @@ namespace WikiFunctions.Parse
             RegexConversion.Add(new Regex("\\{\\{(?:[Tt]emplate:)?(PAGENAMEE?\\}\\}|[Ll]ived\\||[Bb]io-cats\\|)", RegexOptions.Compiled), "{{subst:$1");
         }
 
-        private Dictionary<Regex, string> RegexUnicode = new Dictionary<Regex, string>();
-        private Dictionary<Regex, string> RegexConversion = new Dictionary<Regex, string>();
-        private Dictionary<Regex, string> RegexTagger = new Dictionary<Regex, string>();
+        private readonly Dictionary<Regex, string> RegexUnicode = new Dictionary<Regex, string>();
+        private readonly Dictionary<Regex, string> RegexConversion = new Dictionary<Regex, string>();
+        private readonly Dictionary<Regex, string> RegexTagger = new Dictionary<Regex, string>();
 
-        private HideText hider = new HideText();
+        private readonly HideText hider = new HideText();
         private string testText = "";
         public static int StubMaxWordCount = 500;
 
@@ -172,6 +172,8 @@ namespace WikiFunctions.Parse
         private readonly Regex regexHeadings10 = new Regex("(== ?)Life and Career( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private readonly Regex regexHeadingsCareer = new Regex("(== ?)([a-zA-Z]+) Career( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
+        private readonly Regex regexLinkedHeader = new Regex(@"(=+)(\s*)(.*?)(\w*)\[\[((.*)\|)?([a-z0-9\s-]+)\]\](\w*)(.*?)(\s*)(=+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
         private readonly Regex RegexBadHeader = new Regex("^(={1,4} ?(about|description|overview|definition|profile|(?:general )?information|background|intro(?:duction)?|summary|bio(?:graphy)?) ?={1,4})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
@@ -203,6 +205,8 @@ namespace WikiFunctions.Parse
             ArticleText = Regex.Replace(ArticleText, "^={1,4} ?" + Regex.Escape(ArticleTitle) + " ?={1,4}", "", RegexOptions.IgnoreCase);
             ArticleText = RegexBadHeader.Replace(ArticleText, "");
 
+            ArticleText = regexLinkedHeader.Replace(ArticleText, "$1$2$3$4$7$8$9$10$11");
+
             if (!Regex.IsMatch(ArticleText, "= ?See also ?="))
                 ArticleText = regexHeadings0.Replace(ArticleText, "$1See also$3");
 
@@ -221,6 +225,8 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
+        readonly HideText fixDatesHideText = new HideText();
+
         // Covered by: LinkTests.FixDates()
         /// <summary>
         /// Fix date and decade formatting errors.
@@ -229,8 +235,7 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string FixDates(string ArticleText)
         {
-            HideText hidetext = new HideText();
-            ArticleText = hidetext.HideMore(ArticleText);
+            ArticleText = fixDatesHideText.HideMore(ArticleText);
             {
                 ArticleText = FixDatesRaw(ArticleText);
 
@@ -241,7 +246,7 @@ namespace WikiFunctions.Parse
                 ArticleText = SyntaxRemoveParagraphs.Replace(ArticleText, "\r\n\r\n");
 
             }
-            ArticleText = hidetext.AddBackMore(ArticleText);
+            ArticleText = fixDatesHideText.AddBackMore(ArticleText);
             return ArticleText;
         }
 
