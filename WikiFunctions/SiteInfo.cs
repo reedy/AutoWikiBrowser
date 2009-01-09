@@ -112,6 +112,10 @@ namespace WikiFunctions
         {
             string output = Tools.GetHTML(m_ScriptPath + "api.php?action=query&meta=siteinfo&siprop=magicwords&format=xml");
 
+            //TODO:Remove post 1.14
+            if (output.Contains("'siprop': magicwords"))
+                return true;
+
             XmlDocument xd = new XmlDocument();
             xd.LoadXml(output);
 
