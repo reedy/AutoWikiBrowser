@@ -602,7 +602,7 @@ namespace AutoWikiBrowser
                 if (!webBrowserEdit.UserAllowedToEdit())
                 {
                     NudgeTimer.Stop();
-                    SkipPage("Page is protected");
+                    SkipPage("Database is locked");
                     return;
                 }
                 //TODO: are every other cases related to DB lock?
@@ -1002,7 +1002,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        private bool IsReadOnlyDB(string html)
+        private static bool IsReadOnlyDB(string html)
         {//Read-Only DB - http://en.wikipedia.org/wiki/MediaWiki:Readonlytext
             return (html.Contains("<div class=\"mw-readonly-error\">"));
         }
