@@ -356,6 +356,10 @@ http://example.com }}");
             StringAssert.StartsWith("==foo==", p.FixHeadings("=='''foo'''==\r\n", "test"));
             Assert.AreEqual("quux\r\n==foo==\r\nbar", p.FixHeadings("quux\r\n=='''foo'''==\r\nbar", "test"));
             Assert.AreEqual("quux\r\n==foo==\r\n\r\nbar", p.FixHeadings("quux\r\n=='''foo'''==\r\n\r\nbar", "test"));
+
+            Assert.AreEqual("==foo==", p.FixHeadings("==foo==", "test"));
+            Assert.AreEqual("==foo==", p.FixHeadings("==[[foo]]==", "test"));
+            Assert.AreEqual("== foo ==", p.FixHeadings("== [[foo]] ==", "test"));
         }
 
         [Test, Category("Incomplete")]
