@@ -450,16 +450,6 @@ namespace WikiFunctions.DBScanner
             txtArticleDoesNotContain.Enabled = chkArticleDoesNotContain.Checked;
         }
 
-        private void chkCheckTitle_CheckedChanged(object sender, EventArgs e)
-        {
-            txtTitleContains.Enabled = chkTitleContains.Checked;
-        }
-
-        private void chkCheckNotInTitle_CheckedChanged(object sender, EventArgs e)
-        {
-            txtTitleNotContains.Enabled = chkTitleDoesNotContain.Checked;
-        }
-
         private void cmboLength_SelectedIndexChanged(object sender, EventArgs e)
         {
             nudLength.Enabled = (cmboLength.SelectedIndex != 0);
@@ -745,11 +735,13 @@ namespace WikiFunctions.DBScanner
 
         private void UpdateControls(bool busy)
         {
-            gbText.Enabled = gbTitle.Enabled = groupBox4.Enabled = gbAWBSpecific.Enabled = gbNamespace.Enabled =
-                gbDate.Enabled = gbProperties.Enabled = btnFilter.Enabled = nudLimitResults.Enabled = txtStartFrom.Enabled =
+            gbText.Enabled = tabTitle.Enabled = groupBox4.Enabled = gbAWBSpecific.Enabled = tabNamespace.Enabled =
+                tabRev.Enabled = gbProperties.Enabled = btnFilter.Enabled = nudLimitResults.Enabled = txtStartFrom.Enabled =
                 btnReset.Enabled = btnBrowse.Enabled = !busy;
-            if (busy) { btnStart.Text = "Stop"; } else { btnStart.Text = "Start"; }
+
+            btnStart.Text = busy ? "Stop" : "Start";
         }
+
         #endregion
 
         private void timerProgessUpdate_Tick(object sender, EventArgs e)
@@ -888,6 +880,16 @@ namespace WikiFunctions.DBScanner
         private void chkProtection_CheckedChanged(object sender, EventArgs e)
         {
             MoveDelete.Enabled = chkProtection.Checked;
+        }
+
+        private void chkTitleContains_CheckedChanged(object sender, EventArgs e)
+        {
+            txtTitleContains.Enabled = chkTitleContains.Checked;
+        }
+
+        private void chkTitleDoesNotContain_CheckedChanged(object sender, EventArgs e)
+        {
+            txtTitleNotContains.Enabled = chkTitleContains.Checked;
         }
     }
 }
