@@ -32,6 +32,7 @@ namespace WikiFunctions
         private Dictionary<int, string> m_Namespaces = new Dictionary<int, string>();
         private Dictionary<int, List<string>> m_NamespaceAliases = new Dictionary<int, List<string>>();
         private Dictionary<string, string> m_MessageCache = new Dictionary<string, string>();
+        private Dictionary<string, List<string>> m_MagicWords = new Dictionary<string, List<string>>();
         private DateTime m_Time;
 
         /// <summary>
@@ -46,6 +47,9 @@ namespace WikiFunctions
             try
             {
                 if (!LoadNamespaces())
+                    throw new WikiUrlException();
+
+                if (!LoadLocalisedMagicWordAlias())
                     throw new WikiUrlException();
             }
             catch (Exception ex)
@@ -71,7 +75,8 @@ namespace WikiFunctions
         public static string NormalizeURL(string url)
         {
             if (!url.EndsWith("/")) return url + "/";
-            else return url;
+            
+            return url;
         }
 
         public bool LoadNamespaces()
@@ -98,6 +103,31 @@ namespace WikiFunctions
                 int id = int.Parse(xn.Attributes["id"].Value);
 
                 if (id != 0) m_NamespaceAliases[id].Add(xn.InnerText);
+            }
+
+            return true;
+        }
+
+        public bool LoadLocalisedMagicWordAlias()
+        {
+            string output = Tools.GetHTML(m_ScriptPath + "api.php?action=query&meta=siteinfo&siprop=magicwords&format=xml");
+
+            XmlDocument xd = new XmlDocument();
+            xd.LoadXml(output);
+
+            if (xd.GetElementsByTagName("api").Count != 1)
+                return false;
+
+            foreach (XmlNode xn in xd["api"]["query"]["magicwords"].GetElementsByTagName("magicword"))
+            {
+                List<string> alias = new List<string>();
+
+                foreach (XmlNode xin in xn["aliases"].GetElementsByTagName("alias"))
+                {
+                    alias.Add(xin.InnerText);
+                }
+
+                m_MagicWords.Add(xn.Attributes["name"].Value, alias);
             }
 
             return true;
