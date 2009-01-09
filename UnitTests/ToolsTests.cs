@@ -13,6 +13,7 @@ namespace UnitTests
         public ToolsTests()
         {
             Globals.UnitTestMode = true;
+            if (WikiRegexes.Redirect == null) WikiRegexes.MakeLangSpecificRegexes();
         }
 
         [Test]

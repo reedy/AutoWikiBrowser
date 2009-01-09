@@ -80,7 +80,7 @@ namespace WikiFunctions
                 s = "REDIRECT";
             }
 
-            Redirect = new Regex(@"#(:?" + s + @")\s*:?\s*\[\[\s*:?\s*([^\|]*?)\s*(|\|.*?)]\]",
+            Redirect = new Regex(@"#(?:" + s + @")\s*:?\s*\[\[\s*:?\s*([^\|]*?)\s*(|\|.*?)]\]",
                                  RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
             switch (Variables.LangCode)
@@ -94,8 +94,18 @@ namespace WikiFunctions
             }
             Disambigs = new Regex(TemplateStart + s + "}}", RegexOptions.Compiled);
 
-            s = (Variables.LangCode == LangCodeEnum.en)
-                    ? "(?:(?i:defaultsort|lifetime|BIRTH-DEATH-SORT)|BD)"
+            if (Variables.MagicWords.ContainsKey("defaultsort"))
+            {
+                s = "(?i:";
+                foreach(string d in Variables.MagicWords["defaultsort"])
+                {
+                    s += d.Replace(":", "") + "|";
+                }
+                s = s.Substring(0, s.Length - 1) + ")";
+            }
+            else
+                s = (Variables.LangCode == LangCodeEnum.en)
+                    ? "(?:(?i:defaultsort(key|CATEGORYSORT)?|lifetime|BIRTH-DEATH-SORT)|BD)"
                     : "(?i:defaultsort)";
 
             Defaultsort = new Regex(TemplateStart + s + @"\s*[:|](?<key>[^\}]*)}}",
