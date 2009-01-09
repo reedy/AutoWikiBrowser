@@ -65,41 +65,22 @@ namespace WikiFunctions
             Dates = new Regex("^(0?[1-9]|[12][0-9]|3[01]) " + months + "$", RegexOptions.Compiled);
             Dates2 = new Regex("^" + months + " (0?[1-9]|[12][0-9]|3[01])$", RegexOptions.Compiled);
 
-            string s;
-            switch (Variables.LangCode)
+            string s = "";
+
+            if (Variables.MagicWords.ContainsKey("redirect"))
             {
-                case LangCodeEnum.ar:
-                    s = "(?:تحويل|REDIRECT)";
-                    break;
-                case LangCodeEnum.bg:
-                    s = "(?:redirect|пренасочване|виж)";
-                    break;
-                case LangCodeEnum.fi:
-                    s = "(?:OHJAUS|UUDELLEENOHJAUS|REDIRECT)";
-                    break;
-                case LangCodeEnum.he:
-                    s = "(?:הפניה|REDIRECT)";
-                    break;
-                case LangCodeEnum.Is:
-                    s = "(?:tilvísun|TILVÍSUN|REDIRECT)";
-                    break;
-                case LangCodeEnum.nl:
-                    s = "(?:REDIRECT|DOORVERWIJZING)";
-                    break;
-                case LangCodeEnum.ru:
-                    s = "(?:REDIRECT|ПЕРЕНАПРАВЛЕНИЕ|ПЕРЕНАПР)";
-                    break;
-                case LangCodeEnum.sk:
-                    s = "(?:redirect|presmeruj)";
-                    break;
-                case LangCodeEnum.uk:
-                    s = "(?:REDIRECT|ПЕРЕНАПРАВЛЕННЯ|ПЕРЕНАПР)";
-                    break;
-                default:
-                    s = "REDIRECT";
-                    break;
+                foreach (string r in Variables.MagicWords["redirect"])
+                {
+                    s += r.Replace("#", "") + "|";
+                }
+                s = s.Substring(0, s.Length - 1);
             }
-            Redirect = new Regex(@"#" + s + @"\s*:?\s*\[\[\s*:?\s*([^\|]*?)\s*(|\|.*?)]\]",
+            else
+            {
+                s = "REDIRECT";
+            }
+
+            Redirect = new Regex(@"#(:?" + s + @")\s*:?\s*\[\[\s*:?\s*([^\|]*?)\s*(|\|.*?)]\]",
                                  RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
             switch (Variables.LangCode)

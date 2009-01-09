@@ -112,7 +112,7 @@ namespace WikiFunctions
             CanonicalNamespaceAliases[7].Add("Image talk:");
 
             if (!Globals.UnitTestMode)
-                SetProject(LangCodeEnum.en, ProjectEnum.wikipedia);
+                SetProject(LangCodeEnum.en, ProjectEnum.wikipedia); //Shouldn't have to load en defaults...
             else
             {
                 SetToEnglish("Wikipedia:", "Wikipedia talk:");
@@ -208,6 +208,11 @@ namespace WikiFunctions
         /// Provides access to the namespace keys in a form so the first letter is case insensitive e.g. [Ww]ikipedia:
         /// </summary>
         public static Dictionary<int, string> NamespacesCaseInsensitive = new Dictionary<int, string>(24);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static Dictionary<string, List<string>> MagicWords = new Dictionary<string, List<string>>();
 
         /// <summary>
         /// Gets a URL of the site, e.g. "http://en.wikipedia.org/w/".
