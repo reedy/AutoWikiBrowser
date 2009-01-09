@@ -118,6 +118,8 @@ namespace WikiFunctions
             if (xd.GetElementsByTagName("api").Count != 1)
                 return false;
 
+            Variables.MagicWords.Clear();
+
             foreach (XmlNode xn in xd["api"]["query"]["magicwords"].GetElementsByTagName("magicword"))
             {
                 List<string> alias = new List<string>();
@@ -127,7 +129,7 @@ namespace WikiFunctions
                     alias.Add(xin.InnerText);
                 }
 
-                m_MagicWords.Add(xn.Attributes["name"].Value, alias);
+                Variables.MagicWords.Add(xn.Attributes["name"].Value, alias);
             }
 
             return true;
