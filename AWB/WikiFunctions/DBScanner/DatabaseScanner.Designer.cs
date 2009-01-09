@@ -77,7 +77,7 @@ namespace WikiFunctions.DBScanner
             this.chkUnbulletedLinks = new System.Windows.Forms.CheckBox();
             this.chkABCHeader = new System.Windows.Forms.CheckBox();
             this.txtStartFrom = new System.Windows.Forms.TextBox();
-            this.gbNamespace = new System.Windows.Forms.GroupBox();
+            this.pageNamespaces = new WikiFunctions.Controls.Namespaces();
             this.chkSimpleLinks = new System.Windows.Forms.CheckBox();
             this.ArticlesListBoxContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -87,6 +87,7 @@ namespace WikiFunctions.DBScanner
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gbOutput = new System.Windows.Forms.GroupBox();
             this.btnSaveArticleList = new System.Windows.Forms.Button();
+            this.lbArticles = new WikiFunctions.Controls.Lists.ListBox2();
             this.btnFilter = new System.Windows.Forms.Button();
             this.lblStartFrom = new System.Windows.Forms.Label();
             this.lblLimitResutls = new System.Windows.Forms.Label();
@@ -138,6 +139,7 @@ namespace WikiFunctions.DBScanner
             this.txtDumpLocation = new System.Windows.Forms.TextBox();
             this.lblDBDump = new System.Windows.Forms.Label();
             this.tabNamespace = new System.Windows.Forms.TabPage();
+            this.tabTitle = new System.Windows.Forms.TabPage();
             this.tabRev = new System.Windows.Forms.TabPage();
             this.tabText = new System.Windows.Forms.TabPage();
             this.gbProperties = new System.Windows.Forms.GroupBox();
@@ -146,7 +148,7 @@ namespace WikiFunctions.DBScanner
             this.tabRestrict = new System.Windows.Forms.TabPage();
             this.grpEditMove = new System.Windows.Forms.GroupBox();
             this.chkProtection = new System.Windows.Forms.CheckBox();
-            this.tabTitle = new System.Windows.Forms.TabPage();
+            this.MoveDelete = new WikiFunctions.Controls.EditProtectControl();
             this.btnReset = new System.Windows.Forms.Button();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
@@ -158,9 +160,6 @@ namespace WikiFunctions.DBScanner
             this.btnPause = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
-            this.pageNamespaces = new WikiFunctions.Controls.Namespaces();
-            this.MoveDelete = new WikiFunctions.Controls.EditProtectControl();
-            this.lbArticles = new WikiFunctions.Controls.Lists.ListBox2();
             this.gbText.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLength)).BeginInit();
@@ -169,7 +168,6 @@ namespace WikiFunctions.DBScanner
             this.gbTitle.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudHeadingSpace)).BeginInit();
-            this.gbNamespace.SuspendLayout();
             this.ArticlesListBoxContextMenu.SuspendLayout();
             this.gbOutput.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLimitResults)).BeginInit();
@@ -182,13 +180,13 @@ namespace WikiFunctions.DBScanner
             this.tabDump.SuspendLayout();
             this.flwHelpLinks.SuspendLayout();
             this.tabNamespace.SuspendLayout();
+            this.tabTitle.SuspendLayout();
             this.tabRev.SuspendLayout();
             this.tabText.SuspendLayout();
             this.gbProperties.SuspendLayout();
             this.tabAWB.SuspendLayout();
             this.tabRestrict.SuspendLayout();
             this.grpEditMove.SuspendLayout();
-            this.tabTitle.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tbConvert.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -756,16 +754,15 @@ namespace WikiFunctions.DBScanner
             this.txtStartFrom.TabIndex = 3;
             this.tooltip.SetToolTip(this.txtStartFrom, "Page to start scanning from, leave blank to start at beginning");
             // 
-            // gbNamespace
+            // pageNamespaces
             // 
-            this.gbNamespace.Controls.Add(this.pageNamespaces);
-            this.gbNamespace.Location = new System.Drawing.Point(6, 6);
-            this.gbNamespace.Name = "gbNamespace";
-            this.gbNamespace.Size = new System.Drawing.Size(426, 153);
-            this.gbNamespace.TabIndex = 3;
-            this.gbNamespace.TabStop = false;
-            this.gbNamespace.Text = "Namespaces";
-            this.tooltip.SetToolTip(this.gbNamespace, "To keep");
+            this.pageNamespaces.DoubleColumnFlowLayouts = true;
+            this.pageNamespaces.Location = new System.Drawing.Point(6, 7);
+            this.pageNamespaces.MaximumSize = new System.Drawing.Size(420, 247);
+            this.pageNamespaces.MinimumSize = new System.Drawing.Size(220, 152);
+            this.pageNamespaces.Name = "pageNamespaces";
+            this.pageNamespaces.Size = new System.Drawing.Size(420, 152);
+            this.pageNamespaces.TabIndex = 0;
             // 
             // chkSimpleLinks
             // 
@@ -846,6 +843,19 @@ namespace WikiFunctions.DBScanner
             this.btnSaveArticleList.TabIndex = 12;
             this.btnSaveArticleList.Text = "Save";
             this.btnSaveArticleList.Click += new System.EventHandler(this.btnSaveArticleList_Click);
+            // 
+            // lbArticles
+            // 
+            this.lbArticles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbArticles.ContextMenuStrip = this.ArticlesListBoxContextMenu;
+            this.lbArticles.FormattingEnabled = true;
+            this.lbArticles.Location = new System.Drawing.Point(6, 19);
+            this.lbArticles.Name = "lbArticles";
+            this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.lbArticles.Size = new System.Drawing.Size(296, 251);
+            this.lbArticles.TabIndex = 5;
             // 
             // btnFilter
             // 
@@ -1138,7 +1148,7 @@ namespace WikiFunctions.DBScanner
             this.gbDate.Controls.Add(this.dtpTo);
             this.gbDate.Location = new System.Drawing.Point(6, 6);
             this.gbDate.Name = "gbDate";
-            this.gbDate.Size = new System.Drawing.Size(286, 116);
+            this.gbDate.Size = new System.Drawing.Size(169, 116);
             this.gbDate.TabIndex = 1;
             this.gbDate.TabStop = false;
             this.gbDate.Text = "Last edited date";
@@ -1148,24 +1158,24 @@ namespace WikiFunctions.DBScanner
             this.chkSearchDates.AutoSize = true;
             this.chkSearchDates.Location = new System.Drawing.Point(9, 19);
             this.chkSearchDates.Name = "chkSearchDates";
-            this.chkSearchDates.Size = new System.Drawing.Size(86, 17);
+            this.chkSearchDates.Size = new System.Drawing.Size(84, 17);
             this.chkSearchDates.TabIndex = 4;
-            this.chkSearchDates.Text = "Search Date";
+            this.chkSearchDates.Text = "Search date";
             this.chkSearchDates.CheckedChanged += new System.EventHandler(this.chkSearchDates_CheckedChanged);
             // 
             // lblDate
             // 
             this.lblDate.AutoSize = true;
-            this.lblDate.Location = new System.Drawing.Point(6, 52);
+            this.lblDate.Location = new System.Drawing.Point(25, 54);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(49, 13);
+            this.lblDate.Size = new System.Drawing.Size(30, 13);
             this.lblDate.TabIndex = 1;
-            this.lblDate.Text = "Between";
+            this.lblDate.Text = "From";
             // 
             // lblEndDate
             // 
             this.lblEndDate.AutoSize = true;
-            this.lblEndDate.Location = new System.Drawing.Point(39, 78);
+            this.lblEndDate.Location = new System.Drawing.Point(39, 80);
             this.lblEndDate.Name = "lblEndDate";
             this.lblEndDate.Size = new System.Drawing.Size(16, 13);
             this.lblEndDate.TabIndex = 3;
@@ -1391,14 +1401,25 @@ namespace WikiFunctions.DBScanner
             // 
             // tabNamespace
             // 
-            this.tabNamespace.Controls.Add(this.gbNamespace);
+            this.tabNamespace.Controls.Add(this.pageNamespaces);
             this.tabNamespace.Location = new System.Drawing.Point(4, 22);
             this.tabNamespace.Name = "tabNamespace";
             this.tabNamespace.Padding = new System.Windows.Forms.Padding(3);
             this.tabNamespace.Size = new System.Drawing.Size(523, 165);
             this.tabNamespace.TabIndex = 1;
-            this.tabNamespace.Text = "Title - Namespace";
+            this.tabNamespace.Text = "Namespace";
             this.tabNamespace.UseVisualStyleBackColor = true;
+            // 
+            // tabTitle
+            // 
+            this.tabTitle.Controls.Add(this.gbTitle);
+            this.tabTitle.Location = new System.Drawing.Point(4, 22);
+            this.tabTitle.Name = "tabTitle";
+            this.tabTitle.Padding = new System.Windows.Forms.Padding(3);
+            this.tabTitle.Size = new System.Drawing.Size(523, 165);
+            this.tabTitle.TabIndex = 6;
+            this.tabTitle.Text = "Title";
+            this.tabTitle.UseVisualStyleBackColor = true;
             // 
             // tabRev
             // 
@@ -1502,16 +1523,13 @@ namespace WikiFunctions.DBScanner
             this.chkProtection.UseVisualStyleBackColor = true;
             this.chkProtection.CheckedChanged += new System.EventHandler(this.chkProtection_CheckedChanged);
             // 
-            // tabTitle
+            // MoveDelete
             // 
-            this.tabTitle.Controls.Add(this.gbTitle);
-            this.tabTitle.Location = new System.Drawing.Point(4, 22);
-            this.tabTitle.Name = "tabTitle";
-            this.tabTitle.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTitle.Size = new System.Drawing.Size(523, 165);
-            this.tabTitle.TabIndex = 6;
-            this.tabTitle.Text = "Title - Other";
-            this.tabTitle.UseVisualStyleBackColor = true;
+            this.MoveDelete.Enabled = false;
+            this.MoveDelete.Location = new System.Drawing.Point(6, 39);
+            this.MoveDelete.Name = "MoveDelete";
+            this.MoveDelete.Size = new System.Drawing.Size(311, 88);
+            this.MoveDelete.TabIndex = 0;
             // 
             // btnReset
             // 
@@ -1611,37 +1629,6 @@ namespace WikiFunctions.DBScanner
                 ")|*.txt";
             this.saveListDialog.Title = "Save article list";
             // 
-            // pageNamespaces
-            // 
-            this.pageNamespaces.DoubleColumnFlowLayouts = true;
-            this.pageNamespaces.Location = new System.Drawing.Point(0, 11);
-            this.pageNamespaces.MaximumSize = new System.Drawing.Size(420, 247);
-            this.pageNamespaces.MinimumSize = new System.Drawing.Size(220, 152);
-            this.pageNamespaces.Name = "pageNamespaces";
-            this.pageNamespaces.Size = new System.Drawing.Size(420, 152);
-            this.pageNamespaces.TabIndex = 0;
-            // 
-            // MoveDelete
-            // 
-            this.MoveDelete.Enabled = false;
-            this.MoveDelete.Location = new System.Drawing.Point(6, 39);
-            this.MoveDelete.Name = "MoveDelete";
-            this.MoveDelete.Size = new System.Drawing.Size(311, 88);
-            this.MoveDelete.TabIndex = 0;
-            // 
-            // lbArticles
-            // 
-            this.lbArticles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbArticles.ContextMenuStrip = this.ArticlesListBoxContextMenu;
-            this.lbArticles.FormattingEnabled = true;
-            this.lbArticles.Location = new System.Drawing.Point(6, 19);
-            this.lbArticles.Name = "lbArticles";
-            this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbArticles.Size = new System.Drawing.Size(296, 251);
-            this.lbArticles.TabIndex = 5;
-            // 
             // DatabaseScanner
             // 
             this.AcceptButton = this.btnStart;
@@ -1650,8 +1637,8 @@ namespace WikiFunctions.DBScanner
             this.ClientSize = new System.Drawing.Size(636, 549);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.btnPause);
-            this.Controls.Add(this.tbParameters);
             this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.tbParameters);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.btnReset);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -1673,7 +1660,6 @@ namespace WikiFunctions.DBScanner
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudHeadingSpace)).EndInit();
-            this.gbNamespace.ResumeLayout(false);
             this.ArticlesListBoxContextMenu.ResumeLayout(false);
             this.gbOutput.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nudLimitResults)).EndInit();
@@ -1692,6 +1678,7 @@ namespace WikiFunctions.DBScanner
             this.flwHelpLinks.ResumeLayout(false);
             this.flwHelpLinks.PerformLayout();
             this.tabNamespace.ResumeLayout(false);
+            this.tabTitle.ResumeLayout(false);
             this.tabRev.ResumeLayout(false);
             this.tabText.ResumeLayout(false);
             this.gbProperties.ResumeLayout(false);
@@ -1701,7 +1688,6 @@ namespace WikiFunctions.DBScanner
             this.tabRestrict.ResumeLayout(false);
             this.grpEditMove.ResumeLayout(false);
             this.grpEditMove.PerformLayout();
-            this.tabTitle.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tbConvert.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -1795,7 +1781,6 @@ namespace WikiFunctions.DBScanner
         private GroupBox grpEditMove;
         private LinkLabel lnkBase;
         private ToolStripMenuItem openRevisionInBowserToolStripMenuItem;
-        private GroupBox gbNamespace;
         private ToolStripMenuItem highestToolStripMenuItem;
         private ToolStripMenuItem aboveNormalToolStripMenuItem;
         private ToolStripMenuItem normalToolStripMenuItem;
