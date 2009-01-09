@@ -84,7 +84,6 @@ namespace WikiFunctions.DBScanner
             this.lblLimitResutls = new System.Windows.Forms.Label();
             this.nudLimitResults = new System.Windows.Forms.NumericUpDown();
             this.btnStart = new System.Windows.Forms.Button();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btnSaveTxtList = new System.Windows.Forms.Button();
             this.lblListType = new System.Windows.Forms.Label();
             this.rdoBullet = new System.Windows.Forms.RadioButton();
@@ -153,7 +152,7 @@ namespace WikiFunctions.DBScanner
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tbConvert = new System.Windows.Forms.TabPage();
+            this.tabConvert = new System.Windows.Forms.TabPage();
             this.btnPause = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
@@ -166,7 +165,6 @@ namespace WikiFunctions.DBScanner
             this.ArticlesListBoxContextMenu.SuspendLayout();
             this.gbOutput.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLimitResults)).BeginInit();
-            this.groupBox4.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.gbAWBSpecific.SuspendLayout();
             this.flwAWB.SuspendLayout();
@@ -182,7 +180,7 @@ namespace WikiFunctions.DBScanner
             this.tabAWB.SuspendLayout();
             this.tabRestrict.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.tbConvert.SuspendLayout();
+            this.tabConvert.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -193,12 +191,12 @@ namespace WikiFunctions.DBScanner
             this.txtList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtList.Location = new System.Drawing.Point(6, 68);
+            this.txtList.Location = new System.Drawing.Point(3, 51);
             this.txtList.MaxLength = 0;
             this.txtList.Multiline = true;
             this.txtList.Name = "txtList";
             this.txtList.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtList.Size = new System.Drawing.Size(264, 172);
+            this.txtList.Size = new System.Drawing.Size(276, 189);
             this.txtList.TabIndex = 7;
             this.txtList.WordWrap = false;
             // 
@@ -504,7 +502,7 @@ namespace WikiFunctions.DBScanner
             // nudHeadingSpace
             // 
             this.nudHeadingSpace.Enabled = false;
-            this.nudHeadingSpace.Location = new System.Drawing.Point(124, 18);
+            this.nudHeadingSpace.Location = new System.Drawing.Point(127, 5);
             this.nudHeadingSpace.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -527,7 +525,7 @@ namespace WikiFunctions.DBScanner
             // chkHeading
             // 
             this.chkHeading.AutoSize = true;
-            this.chkHeading.Location = new System.Drawing.Point(3, 19);
+            this.chkHeading.Location = new System.Drawing.Point(6, 6);
             this.chkHeading.Name = "chkHeading";
             this.chkHeading.Size = new System.Drawing.Size(115, 17);
             this.chkHeading.TabIndex = 0;
@@ -538,7 +536,7 @@ namespace WikiFunctions.DBScanner
             // btnClear
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.Location = new System.Drawing.Point(195, 246);
+            this.btnClear.Location = new System.Drawing.Point(201, 246);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 23);
             this.btnClear.TabIndex = 10;
@@ -549,7 +547,7 @@ namespace WikiFunctions.DBScanner
             // btnCopy
             // 
             this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnCopy.Location = new System.Drawing.Point(3, 246);
+            this.btnCopy.Location = new System.Drawing.Point(6, 246);
             this.btnCopy.Name = "btnCopy";
             this.btnCopy.Size = new System.Drawing.Size(75, 23);
             this.btnCopy.TabIndex = 8;
@@ -560,7 +558,7 @@ namespace WikiFunctions.DBScanner
             // btnTransfer
             // 
             this.btnTransfer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTransfer.Location = new System.Drawing.Point(195, 15);
+            this.btnTransfer.Location = new System.Drawing.Point(201, 3);
             this.btnTransfer.Name = "btnTransfer";
             this.btnTransfer.Size = new System.Drawing.Size(75, 23);
             this.btnTransfer.TabIndex = 6;
@@ -632,7 +630,7 @@ namespace WikiFunctions.DBScanner
             // chkABCHeader
             // 
             this.chkABCHeader.AutoSize = true;
-            this.chkABCHeader.Location = new System.Drawing.Point(3, 43);
+            this.chkABCHeader.Location = new System.Drawing.Point(3, 29);
             this.chkABCHeader.Name = "chkABCHeader";
             this.chkABCHeader.Size = new System.Drawing.Size(133, 17);
             this.chkABCHeader.TabIndex = 2;
@@ -812,32 +810,10 @@ namespace WikiFunctions.DBScanner
             this.btnStart.Text = "Start";
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.btnSaveTxtList);
-            this.groupBox4.Controls.Add(this.lblListType);
-            this.groupBox4.Controls.Add(this.chkABCHeader);
-            this.groupBox4.Controls.Add(this.rdoBullet);
-            this.groupBox4.Controls.Add(this.rdoHash);
-            this.groupBox4.Controls.Add(this.txtList);
-            this.groupBox4.Controls.Add(this.chkHeading);
-            this.groupBox4.Controls.Add(this.nudHeadingSpace);
-            this.groupBox4.Controls.Add(this.btnClear);
-            this.groupBox4.Controls.Add(this.btnTransfer);
-            this.groupBox4.Controls.Add(this.btnCopy);
-            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox4.Enabled = false;
-            this.groupBox4.Location = new System.Drawing.Point(3, 3);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(276, 275);
-            this.groupBox4.TabIndex = 2;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Convert results into &list";
-            // 
             // btnSaveTxtList
             // 
             this.btnSaveTxtList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSaveTxtList.Location = new System.Drawing.Point(114, 246);
+            this.btnSaveTxtList.Location = new System.Drawing.Point(120, 246);
             this.btnSaveTxtList.Name = "btnSaveTxtList";
             this.btnSaveTxtList.Size = new System.Drawing.Size(75, 23);
             this.btnSaveTxtList.TabIndex = 11;
@@ -847,7 +823,7 @@ namespace WikiFunctions.DBScanner
             // lblListType
             // 
             this.lblListType.AutoSize = true;
-            this.lblListType.Location = new System.Drawing.Point(151, 45);
+            this.lblListType.Location = new System.Drawing.Point(157, 30);
             this.lblListType.Name = "lblListType";
             this.lblListType.Size = new System.Drawing.Size(46, 13);
             this.lblListType.TabIndex = 3;
@@ -856,7 +832,7 @@ namespace WikiFunctions.DBScanner
             // rdoBullet
             // 
             this.rdoBullet.AutoSize = true;
-            this.rdoBullet.Location = new System.Drawing.Point(241, 43);
+            this.rdoBullet.Location = new System.Drawing.Point(247, 28);
             this.rdoBullet.Name = "rdoBullet";
             this.rdoBullet.Size = new System.Drawing.Size(29, 17);
             this.rdoBullet.TabIndex = 5;
@@ -866,7 +842,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.rdoHash.AutoSize = true;
             this.rdoHash.Checked = true;
-            this.rdoHash.Location = new System.Drawing.Point(203, 43);
+            this.rdoHash.Location = new System.Drawing.Point(209, 28);
             this.rdoHash.Name = "rdoHash";
             this.rdoHash.Size = new System.Drawing.Size(32, 17);
             this.rdoHash.TabIndex = 4;
@@ -1539,7 +1515,7 @@ namespace WikiFunctions.DBScanner
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tbConvert);
+            this.tabControl1.Controls.Add(this.tabConvert);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -1547,16 +1523,26 @@ namespace WikiFunctions.DBScanner
             this.tabControl1.Size = new System.Drawing.Size(290, 307);
             this.tabControl1.TabIndex = 5;
             // 
-            // tbConvert
+            // tabConvert
             // 
-            this.tbConvert.Controls.Add(this.groupBox4);
-            this.tbConvert.Location = new System.Drawing.Point(4, 22);
-            this.tbConvert.Name = "tbConvert";
-            this.tbConvert.Padding = new System.Windows.Forms.Padding(3);
-            this.tbConvert.Size = new System.Drawing.Size(282, 281);
-            this.tbConvert.TabIndex = 1;
-            this.tbConvert.Text = "Convert";
-            this.tbConvert.UseVisualStyleBackColor = true;
+            this.tabConvert.Controls.Add(this.btnSaveTxtList);
+            this.tabConvert.Controls.Add(this.lblListType);
+            this.tabConvert.Controls.Add(this.chkABCHeader);
+            this.tabConvert.Controls.Add(this.rdoBullet);
+            this.tabConvert.Controls.Add(this.rdoHash);
+            this.tabConvert.Controls.Add(this.txtList);
+            this.tabConvert.Controls.Add(this.chkHeading);
+            this.tabConvert.Controls.Add(this.nudHeadingSpace);
+            this.tabConvert.Controls.Add(this.btnClear);
+            this.tabConvert.Controls.Add(this.btnTransfer);
+            this.tabConvert.Controls.Add(this.btnCopy);
+            this.tabConvert.Location = new System.Drawing.Point(4, 22);
+            this.tabConvert.Name = "tabConvert";
+            this.tabConvert.Padding = new System.Windows.Forms.Padding(3);
+            this.tabConvert.Size = new System.Drawing.Size(282, 281);
+            this.tabConvert.TabIndex = 1;
+            this.tabConvert.Text = "Convert";
+            this.tabConvert.UseVisualStyleBackColor = true;
             // 
             // btnPause
             // 
@@ -1624,8 +1610,6 @@ namespace WikiFunctions.DBScanner
             this.ArticlesListBoxContextMenu.ResumeLayout(false);
             this.gbOutput.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nudLimitResults)).EndInit();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.gbAWBSpecific.ResumeLayout(false);
@@ -1650,7 +1634,8 @@ namespace WikiFunctions.DBScanner
             this.tabRestrict.ResumeLayout(false);
             this.tabRestrict.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.tbConvert.ResumeLayout(false);
+            this.tabConvert.ResumeLayout(false);
+            this.tabConvert.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
@@ -1675,7 +1660,6 @@ namespace WikiFunctions.DBScanner
         private ContextMenuStrip ArticlesListBoxContextMenu;
         private ToolStripMenuItem copyToolStripMenuItem;
         private GroupBox gbOutput;
-        private GroupBox groupBox4;
         private RadioButton rdoBullet;
         private RadioButton rdoHash;
         private ToolStripProgressBar progressBar;
@@ -1759,7 +1743,7 @@ namespace WikiFunctions.DBScanner
         private Label lblAlso;
         private TextBox txtCase;
         private TabControl tabControl1;
-        private TabPage tbConvert;
+        private TabPage tabConvert;
         private FlowLayoutPanel flwAWB;
         private TableLayoutPanel tableLayoutPanel3;
         private ToolStripDropDownButton threadPriorityButton;

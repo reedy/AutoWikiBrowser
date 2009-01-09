@@ -735,7 +735,7 @@ namespace WikiFunctions.DBScanner
 
         private void UpdateControls(bool busy)
         {
-            gbText.Enabled = tabTitle.Enabled = groupBox4.Enabled = gbAWBSpecific.Enabled = tabNamespace.Enabled =
+            gbText.Enabled = tabTitle.Enabled = tabConvert.Enabled = gbAWBSpecific.Enabled = tabNamespace.Enabled =
                 tabRev.Enabled = gbProperties.Enabled = btnFilter.Enabled = nudLimitResults.Enabled = txtStartFrom.Enabled =
                 btnReset.Enabled = btnBrowse.Enabled = !busy;
 
