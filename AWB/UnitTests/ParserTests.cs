@@ -197,11 +197,12 @@ namespace UnitTests
             Assert.AreEqual("http://test.com", parser.FixSyntax("http://http://test.com"));
             Assert.AreEqual("http://test.com", parser.FixSyntax("http://http://http://test.com"));
 
-            Assert.AreEqual("[http://www.site.com ''my cool site'']", parser.FixSyntax("[http://www.site.com|''my cool site'']"));
+            Assert.AreEqual("[http://www.site.com ''my cool site'']",
+                            parser.FixSyntax("[http://www.site.com|''my cool site'']"));
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#NEsted_square_brackets_again.
             Assert.AreEqual("[[Image:foo.jpg|Some [http://some_crap.com]]]",
-                parser.FixSyntax("[[Image:foo.jpg|Some [http://some_crap.com]]]"));
+                            parser.FixSyntax("[[Image:foo.jpg|Some [http://some_crap.com]]]"));
 
             Assert.AreEqual("Image:foo.jpg|{{{some_crap}}}]]", parser.FixSyntax("Image:foo.jpg|{{{some_crap}}}]]"));
 
@@ -232,6 +233,27 @@ namespace UnitTests
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_4#Bug_encountered_when_perusing_Sonorous_Susurrus
             Parsers.CanonicalizeTitle("[[|foo]]"); // shouldn't throw exceptions
             Assert.AreEqual("[[|foo]]", Parsers.FixLinks("[[|foo]]", out noChange));
+
+            // string before and after
+            Assert.AreEqual("<ref>http//www.site.com</ref>", parser.FixSyntax(@"<ref>http://www.site.com</ref>"));
+            Assert.AreEqual("at http//www.site.com", parser.FixSyntax(@"at http://www.site.com"));
+            Assert.AreEqual("<ref>[http:/www.site.com a website]</ref>",
+                            parser.FixSyntax(@"<ref>[http://www.site.com a website]</ref>"));
+            Assert.AreEqual("*[http//www.site.com a website]", parser.FixSyntax(@"*[http://www.site.com a website]"));
+            Assert.AreEqual("|url=http//www.site.com", parser.FixSyntax(@"|url=http://www.site.com"));
+            Assert.AreEqual("|url = http:/www.site.com", parser.FixSyntax(@"|url = http://www.site.com"));
+
+
+            // these strings should not change
+            Assert.AreEqual("http://members.bib-arch.org/nph-proxy.pl/000000A/http/www.basarchive.org/bswbSearch",
+                            parser.FixSyntax(
+                                "http://members.bib-arch.org/nph-proxy.pl/000000A/http/www.basarchive.org/bswbSearch"));
+            Assert.AreEqual("http://sunsite.utk.edu/math_archives/.http/contests/",
+                            parser.FixSyntax("http://sunsite.utk.edu/math_archives/.http/contests/"));
+            Assert.AreEqual("HTTP/0.9", parser.FixSyntax("HTTP/0.9"));
+            Assert.AreEqual("HTTP/1.0", parser.FixSyntax("HTTP/1.0"));
+            Assert.AreEqual("HTTP/1.1", parser.FixSyntax("HTTP/1.1"));
+            Assert.AreEqual("HTTP/1.2", parser.FixSyntax("HTTP/1.2"));
         }
 
         [Test]
