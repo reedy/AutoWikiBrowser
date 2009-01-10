@@ -222,6 +222,12 @@ namespace UnitTests
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Erroneously_removing_pipe
             Assert.AreEqual("[[|foo]]", parser.FixSyntax("[[|foo]]"));
 
+            //Double Spaces
+            Assert.AreEqual("[[Foo]]", parser.FixSyntax("[[Foo]]"));
+            Assert.AreEqual("[[Foo Bar]]", parser.FixSyntax("[[Foo Bar]]"));
+            Assert.AreEqual("[[Foo Bar]]", parser.FixSyntax("[[Foo  Bar]]"));
+            Assert.AreEqual("[[Foo Bar|Bar]]", parser.FixSyntax("[[Foo  Bar|Bar]]"));
+
             //TODO: move it to parts testing specific functions, when they're covered
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_4#Bug_encountered_when_perusing_Sonorous_Susurrus
             Parsers.CanonicalizeTitle("[[|foo]]"); // shouldn't throw exceptions
