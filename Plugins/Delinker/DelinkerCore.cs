@@ -11,8 +11,8 @@ namespace AutoWikiBrowser.Plugins.Delinker
 {
     public class DelinkerAWBPlugin : IAWBPlugin
     {
-        private ToolStripMenuItem pluginenabledMenuItem = new ToolStripMenuItem("Delinker plugin");
-        private ToolStripMenuItem pluginconfigMenuItem = new ToolStripMenuItem("Configuration");
+        private readonly ToolStripMenuItem pluginenabledMenuItem = new ToolStripMenuItem("Delinker plugin");
+        private readonly ToolStripMenuItem pluginconfigMenuItem = new ToolStripMenuItem("Configuration");
         //private ToolStripMenuItem aboutMenuItem = new ToolStripMenuItem("About the Delinker plugin");
         internal static IAutoWikiBrowser AWB;
         
@@ -21,23 +21,19 @@ namespace AutoWikiBrowser.Plugins.Delinker
         internal static string Link;
         internal static bool RemoveEmptiedSections = true;
 
-        Regex r1;
-        Regex r2;
-        Regex r3;
-        Regex r4;
+        Regex r1, r2, r3, r4;
 
         readonly Regex RefStartRegex = new Regex(@"< ?ref(|[^>]*?[^/> ])\s*>", RegexOptions.Compiled);
         readonly Regex RefNameRegex = new Regex(@"name ?= ?""?(\S*)""?", RegexOptions.Compiled);
 
         readonly Regex ExternalLinksSectionRegex = new Regex(@"^={2,3}\s*((external )?links?|web ?links?|(внешн(€€|ие) )?ссылк[аи])\s*={2,3}\s*\r?\n",
             RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
-        readonly Regex SectionsRegex = new Regex("asdf");
 
         string LinkRegexed;
 
-        List<string> RefNames = new List<string>();
+        readonly List<string> RefNames = new List<string>();
 
-        Parsers parser = new Parsers();
+        readonly Parsers parser = new Parsers();
 
         public void Initialise(IAutoWikiBrowser sender)
         {
