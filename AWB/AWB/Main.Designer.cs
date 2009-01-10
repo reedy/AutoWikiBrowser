@@ -126,6 +126,11 @@ namespace AutoWikiBrowser
             this.profileTyposToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.enableTheToolbarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showHidePanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.enlargeEditAreaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showHideEditToolbarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sortAlphabeticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeDuplicatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -144,11 +149,6 @@ namespace AutoWikiBrowser
             this.PreferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.summariesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
-            this.enableTheToolbarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showHidePanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.enlargeEditAreaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showHideEditToolbarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
             this.bypassRedirectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.automaticallyDoAnythingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripComboOnLoad = new System.Windows.Forms.ToolStripComboBox();
@@ -919,6 +919,7 @@ namespace AutoWikiBrowser
             // 
             this.MnuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.viewToolStripMenuItem,
             this.generalToolStripMenuItem,
             this.pluginsToolStripMenuItem,
             this.ToolStripMenuGeneral,
@@ -1057,6 +1058,53 @@ namespace AutoWikiBrowser
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.enableTheToolbarToolStripMenuItem,
+            this.showHidePanelToolStripMenuItem,
+            this.enlargeEditAreaToolStripMenuItem,
+            this.showHideEditToolbarToolStripMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem.Text = "View";
+            // 
+            // enableTheToolbarToolStripMenuItem
+            // 
+            this.enableTheToolbarToolStripMenuItem.CheckOnClick = true;
+            this.enableTheToolbarToolStripMenuItem.Name = "enableTheToolbarToolStripMenuItem";
+            this.enableTheToolbarToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.enableTheToolbarToolStripMenuItem.Text = "Show &toolbar";
+            this.enableTheToolbarToolStripMenuItem.Click += new System.EventHandler(this.enableTheToolbarToolStripMenuItem_Click);
+            // 
+            // showHidePanelToolStripMenuItem
+            // 
+            this.showHidePanelToolStripMenuItem.Checked = true;
+            this.showHidePanelToolStripMenuItem.CheckOnClick = true;
+            this.showHidePanelToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.showHidePanelToolStripMenuItem.Name = "showHidePanelToolStripMenuItem";
+            this.showHidePanelToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F11;
+            this.showHidePanelToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.showHidePanelToolStripMenuItem.Text = "Show control &panel";
+            this.showHidePanelToolStripMenuItem.Click += new System.EventHandler(this.showHidePanelToolStripMenuItem_Click);
+            // 
+            // enlargeEditAreaToolStripMenuItem
+            // 
+            this.enlargeEditAreaToolStripMenuItem.Name = "enlargeEditAreaToolStripMenuItem";
+            this.enlargeEditAreaToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F10;
+            this.enlargeEditAreaToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.enlargeEditAreaToolStripMenuItem.Text = "&Enlarge edit box";
+            this.enlargeEditAreaToolStripMenuItem.Click += new System.EventHandler(this.enlargeEditAreaToolStripMenuItem_Click);
+            // 
+            // showHideEditToolbarToolStripMenuItem
+            // 
+            this.showHideEditToolbarToolStripMenuItem.Checked = true;
+            this.showHideEditToolbarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.showHideEditToolbarToolStripMenuItem.Name = "showHideEditToolbarToolStripMenuItem";
+            this.showHideEditToolbarToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.showHideEditToolbarToolStripMenuItem.Text = "Show edit box toolbar";
+            this.showHideEditToolbarToolStripMenuItem.Click += new System.EventHandler(this.showHideEditToolbarToolStripMenuItem_Click);
+            // 
             // generalToolStripMenuItem
             // 
             this.generalToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1150,21 +1198,21 @@ namespace AutoWikiBrowser
             // loadPluginToolStripMenuItem
             // 
             this.loadPluginToolStripMenuItem.Name = "loadPluginToolStripMenuItem";
-            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.loadPluginToolStripMenuItem.Text = "&Load...";
             this.loadPluginToolStripMenuItem.Click += new System.EventHandler(this.loadPluginToolStripMenuItem_Click);
             // 
             // managePluginsToolStripMenuItem
             // 
             this.managePluginsToolStripMenuItem.Name = "managePluginsToolStripMenuItem";
-            this.managePluginsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.managePluginsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.managePluginsToolStripMenuItem.Text = "&Manager...";
             this.managePluginsToolStripMenuItem.Click += new System.EventHandler(this.managePluginsToolStripMenuItem_Click);
             // 
             // toolStripSeparator26
             // 
             this.toolStripSeparator26.Name = "toolStripSeparator26";
-            this.toolStripSeparator26.Size = new System.Drawing.Size(127, 6);
+            this.toolStripSeparator26.Size = new System.Drawing.Size(149, 6);
             // 
             // ToolStripMenuGeneral
             // 
@@ -1172,11 +1220,6 @@ namespace AutoWikiBrowser
             this.PreferencesToolStripMenuItem,
             this.summariesToolStripMenuItem,
             this.toolStripSeparator14,
-            this.enableTheToolbarToolStripMenuItem,
-            this.showHidePanelToolStripMenuItem,
-            this.enlargeEditAreaToolStripMenuItem,
-            this.showHideEditToolbarToolStripMenuItem,
-            this.toolStripSeparator19,
             this.bypassRedirectsToolStripMenuItem,
             this.automaticallyDoAnythingToolStripMenuItem,
             this.toolStripComboOnLoad,
@@ -1211,47 +1254,6 @@ namespace AutoWikiBrowser
             // 
             this.toolStripSeparator14.Name = "toolStripSeparator14";
             this.toolStripSeparator14.Size = new System.Drawing.Size(231, 6);
-            // 
-            // enableTheToolbarToolStripMenuItem
-            // 
-            this.enableTheToolbarToolStripMenuItem.CheckOnClick = true;
-            this.enableTheToolbarToolStripMenuItem.Name = "enableTheToolbarToolStripMenuItem";
-            this.enableTheToolbarToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            this.enableTheToolbarToolStripMenuItem.Text = "Show &toolbar";
-            this.enableTheToolbarToolStripMenuItem.Click += new System.EventHandler(this.enableTheToolbarToolStripMenuItem_Click);
-            // 
-            // showHidePanelToolStripMenuItem
-            // 
-            this.showHidePanelToolStripMenuItem.Checked = true;
-            this.showHidePanelToolStripMenuItem.CheckOnClick = true;
-            this.showHidePanelToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.showHidePanelToolStripMenuItem.Name = "showHidePanelToolStripMenuItem";
-            this.showHidePanelToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F11;
-            this.showHidePanelToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            this.showHidePanelToolStripMenuItem.Text = "Show control &panel";
-            this.showHidePanelToolStripMenuItem.Click += new System.EventHandler(this.showHidePanelToolStripMenuItem_Click);
-            // 
-            // enlargeEditAreaToolStripMenuItem
-            // 
-            this.enlargeEditAreaToolStripMenuItem.Name = "enlargeEditAreaToolStripMenuItem";
-            this.enlargeEditAreaToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F10;
-            this.enlargeEditAreaToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            this.enlargeEditAreaToolStripMenuItem.Text = "&Enlarge edit box";
-            this.enlargeEditAreaToolStripMenuItem.Click += new System.EventHandler(this.enlargeEditAreaToolStripMenuItem_Click);
-            // 
-            // showHideEditToolbarToolStripMenuItem
-            // 
-            this.showHideEditToolbarToolStripMenuItem.Checked = true;
-            this.showHideEditToolbarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.showHideEditToolbarToolStripMenuItem.Name = "showHideEditToolbarToolStripMenuItem";
-            this.showHideEditToolbarToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
-            this.showHideEditToolbarToolStripMenuItem.Text = "Show edit box toolbar";
-            this.showHideEditToolbarToolStripMenuItem.Click += new System.EventHandler(this.showHideEditToolbarToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator19
-            // 
-            this.toolStripSeparator19.Name = "toolStripSeparator19";
-            this.toolStripSeparator19.Size = new System.Drawing.Size(231, 6);
             // 
             // bypassRedirectsToolStripMenuItem
             // 
@@ -4088,7 +4090,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripButton btntsSave;
         private System.Windows.Forms.ToolStripButton btntsIgnore;
         private System.Windows.Forms.ToolStripButton btntsStop;
-        private System.Windows.Forms.ToolStripMenuItem enableTheToolbarToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
         private System.Windows.Forms.ToolStripButton btntsPreview;
         private System.Windows.Forms.ToolStripButton btntsChanges;
@@ -4125,14 +4126,12 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem hideToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem showHidePanelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logOutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem humanNameCategoryKeyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveCurrentSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem PreferencesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator19;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator20;
         private System.Windows.Forms.ToolStripMenuItem openSelectionInBrowserToolStripMenuItem;
         private NudgeTimer NudgeTimer;
@@ -4236,7 +4235,6 @@ namespace AutoWikiBrowser
         private WikiFunctions.Controls.ArticleTextBox txtEdit;
         private System.Windows.Forms.TabPage tpLogs;
         private System.Windows.Forms.ToolStripButton btntsShowHideParameters;
-        private System.Windows.Forms.ToolStripMenuItem enlargeEditAreaToolStripMenuItem;
         private WikiFunctions.Logging.LogControl logControl;
         private System.Windows.Forms.WebBrowser webBrowserDiff;
         private System.Windows.Forms.ToolStripMenuItem undoAllChangesToolStripMenuItem;
@@ -4273,7 +4271,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.PictureBox imgSup;
         private System.Windows.Forms.PictureBox imgStrike;
         private System.Windows.Forms.PictureBox imgRedirect;
-        private System.Windows.Forms.ToolStripMenuItem showHideEditToolbarToolStripMenuItem;
         private System.Windows.Forms.Label lblUse;
         private System.Windows.Forms.NumericUpDown udNewlineChars;
         private System.Windows.Forms.Label lblNewlineCharacters;
@@ -4352,5 +4349,10 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem dontAddToWatchlistToolStripMenuItem;
         private System.Windows.Forms.TabPage tpEditSummary;
         private System.Windows.Forms.TextBox txtReviewEditSummary;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem enableTheToolbarToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showHidePanelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem enlargeEditAreaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showHideEditToolbarToolStripMenuItem;
     }
 }
