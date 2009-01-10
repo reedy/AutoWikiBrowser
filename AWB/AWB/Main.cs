@@ -754,6 +754,8 @@ namespace AutoWikiBrowser
                     txtEdit.Select(txtEdit.Text.Length, 0);
                     txtEdit.ScrollToCaret();
                 }
+                else
+                    btnSave.Focus();
             }
             else
             {
