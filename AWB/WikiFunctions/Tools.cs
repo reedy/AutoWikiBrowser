@@ -90,6 +90,9 @@ namespace WikiFunctions
         public static string VersionString
         { get { return Version.ToString(); } }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static string DefaultUserAgentString
         { get { return "WikiFunctions/" + VersionString; } }
 

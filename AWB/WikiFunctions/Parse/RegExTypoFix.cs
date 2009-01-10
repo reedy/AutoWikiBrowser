@@ -230,8 +230,14 @@ namespace WikiFunctions.Parse
             return CreateRule(find, replace, "<enter a name>");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public int TyposCount { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool TyposLoaded { get; private set; }
 
         static readonly Regex IgnoreRegex = new Regex("133t|-ology|\\(sic\\)|\\[sic\\]|\\[''sic''\\]|\\{\\{sic\\}\\}|spellfixno", RegexOptions.Compiled);
