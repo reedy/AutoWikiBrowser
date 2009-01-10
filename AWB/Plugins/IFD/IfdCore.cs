@@ -29,9 +29,9 @@ namespace AutoWikiBrowser.Plugins.IFD
 {
     public sealed class IfdAWBPlugin : IAWBPlugin
     {
-        private ToolStripMenuItem pluginenabledMenuItem = new ToolStripMenuItem("Images For Deletion plugin");
-        private ToolStripMenuItem pluginconfigMenuItem = new ToolStripMenuItem("Configuration");
-        private ToolStripMenuItem aboutMenuItem = new ToolStripMenuItem("About the IFD plugin");
+        private readonly ToolStripMenuItem pluginenabledMenuItem = new ToolStripMenuItem("Images For Deletion plugin");
+        private readonly ToolStripMenuItem pluginconfigMenuItem = new ToolStripMenuItem("Configuration");
+        private readonly ToolStripMenuItem aboutMenuItem = new ToolStripMenuItem("About the IFD plugin");
         internal static IAutoWikiBrowser AWB;
         internal static IfdSettings Settings = new IfdSettings();
 
@@ -67,6 +67,8 @@ namespace AutoWikiBrowser.Plugins.IFD
             }
         }
 
+        readonly Parsers parse = new Parsers();
+
         public string ProcessArticle(IAutoWikiBrowser sender, ProcessArticleEventArgs eventargs)
         {
             //If menu item is not checked, then return
@@ -78,8 +80,6 @@ namespace AutoWikiBrowser.Plugins.IFD
 
             eventargs.EditSummary = "";
             string text = eventargs.ArticleText;
-
-            Parsers parse = new Parsers();
 
             foreach (KeyValuePair<string, string> p in Settings.Images)
             {
