@@ -131,6 +131,8 @@ namespace AutoWikiBrowser
             this.showHidePanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enlargeEditAreaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showHideEditToolbarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
+            this.displayfalsePositivesButtonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sortAlphabeticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeDuplicatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1064,7 +1066,9 @@ namespace AutoWikiBrowser
             this.enableTheToolbarToolStripMenuItem,
             this.showHidePanelToolStripMenuItem,
             this.enlargeEditAreaToolStripMenuItem,
-            this.showHideEditToolbarToolStripMenuItem});
+            this.showHideEditToolbarToolStripMenuItem,
+            this.toolStripSeparator11,
+            this.displayfalsePositivesButtonToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "View";
@@ -1073,7 +1077,7 @@ namespace AutoWikiBrowser
             // 
             this.enableTheToolbarToolStripMenuItem.CheckOnClick = true;
             this.enableTheToolbarToolStripMenuItem.Name = "enableTheToolbarToolStripMenuItem";
-            this.enableTheToolbarToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.enableTheToolbarToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.enableTheToolbarToolStripMenuItem.Text = "Show &toolbar";
             this.enableTheToolbarToolStripMenuItem.Click += new System.EventHandler(this.enableTheToolbarToolStripMenuItem_Click);
             // 
@@ -1084,7 +1088,7 @@ namespace AutoWikiBrowser
             this.showHidePanelToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.showHidePanelToolStripMenuItem.Name = "showHidePanelToolStripMenuItem";
             this.showHidePanelToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F11;
-            this.showHidePanelToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.showHidePanelToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.showHidePanelToolStripMenuItem.Text = "Show control &panel";
             this.showHidePanelToolStripMenuItem.Click += new System.EventHandler(this.showHidePanelToolStripMenuItem_Click);
             // 
@@ -1092,7 +1096,7 @@ namespace AutoWikiBrowser
             // 
             this.enlargeEditAreaToolStripMenuItem.Name = "enlargeEditAreaToolStripMenuItem";
             this.enlargeEditAreaToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F10;
-            this.enlargeEditAreaToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.enlargeEditAreaToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.enlargeEditAreaToolStripMenuItem.Text = "&Enlarge edit box";
             this.enlargeEditAreaToolStripMenuItem.Click += new System.EventHandler(this.enlargeEditAreaToolStripMenuItem_Click);
             // 
@@ -1101,9 +1105,22 @@ namespace AutoWikiBrowser
             this.showHideEditToolbarToolStripMenuItem.Checked = true;
             this.showHideEditToolbarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.showHideEditToolbarToolStripMenuItem.Name = "showHideEditToolbarToolStripMenuItem";
-            this.showHideEditToolbarToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.showHideEditToolbarToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
             this.showHideEditToolbarToolStripMenuItem.Text = "Show edit box toolbar";
             this.showHideEditToolbarToolStripMenuItem.Click += new System.EventHandler(this.showHideEditToolbarToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator11
+            // 
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            this.toolStripSeparator11.Size = new System.Drawing.Size(224, 6);
+            // 
+            // displayfalsePositivesButtonToolStripMenuItem
+            // 
+            this.displayfalsePositivesButtonToolStripMenuItem.CheckOnClick = true;
+            this.displayfalsePositivesButtonToolStripMenuItem.Name = "displayfalsePositivesButtonToolStripMenuItem";
+            this.displayfalsePositivesButtonToolStripMenuItem.Size = new System.Drawing.Size(227, 22);
+            this.displayfalsePositivesButtonToolStripMenuItem.Text = "Display &false positives button";
+            this.displayfalsePositivesButtonToolStripMenuItem.Click += new System.EventHandler(this.displayfalsePositivesButtonToolStripMenuItem_Click);
             // 
             // generalToolStripMenuItem
             // 
@@ -1198,21 +1215,21 @@ namespace AutoWikiBrowser
             // loadPluginToolStripMenuItem
             // 
             this.loadPluginToolStripMenuItem.Name = "loadPluginToolStripMenuItem";
-            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.loadPluginToolStripMenuItem.Text = "&Load...";
             this.loadPluginToolStripMenuItem.Click += new System.EventHandler(this.loadPluginToolStripMenuItem_Click);
             // 
             // managePluginsToolStripMenuItem
             // 
             this.managePluginsToolStripMenuItem.Name = "managePluginsToolStripMenuItem";
-            this.managePluginsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.managePluginsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.managePluginsToolStripMenuItem.Text = "&Manager...";
             this.managePluginsToolStripMenuItem.Click += new System.EventHandler(this.managePluginsToolStripMenuItem_Click);
             // 
             // toolStripSeparator26
             // 
             this.toolStripSeparator26.Name = "toolStripSeparator26";
-            this.toolStripSeparator26.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator26.Size = new System.Drawing.Size(127, 6);
             // 
             // ToolStripMenuGeneral
             // 
@@ -4354,5 +4371,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem showHidePanelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem enlargeEditAreaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showHideEditToolbarToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
+        private System.Windows.Forms.ToolStripMenuItem displayfalsePositivesButtonToolStripMenuItem;
     }
 }

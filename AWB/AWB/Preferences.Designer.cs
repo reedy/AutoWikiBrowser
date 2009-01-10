@@ -68,7 +68,6 @@ namespace AutoWikiBrowser
             this.lblPrivacy = new System.Windows.Forms.Label();
             this.tbPrefs = new System.Windows.Forms.TabControl();
             this.tabGeneral = new System.Windows.Forms.TabPage();
-            this.chkAddIgnoredToLogFile = new System.Windows.Forms.CheckBox();
             this.tabSite = new System.Windows.Forms.TabPage();
             this.chkIgnoreNoBots = new System.Windows.Forms.CheckBox();
             this.tabEditing = new System.Windows.Forms.TabPage();
@@ -456,7 +455,6 @@ namespace AutoWikiBrowser
             // 
             // tabGeneral
             // 
-            this.tabGeneral.Controls.Add(this.chkAddIgnoredToLogFile);
             this.tabGeneral.Controls.Add(this.chkMinimize);
             this.tabGeneral.Controls.Add(this.chkLowPriority);
             this.tabGeneral.Controls.Add(this.chkSaveArticleList);
@@ -468,16 +466,6 @@ namespace AutoWikiBrowser
             this.tabGeneral.TabIndex = 4;
             this.tabGeneral.Text = "General";
             this.tabGeneral.UseVisualStyleBackColor = true;
-            // 
-            // chkAddIgnoredToLogFile
-            // 
-            this.chkAddIgnoredToLogFile.AutoSize = true;
-            this.chkAddIgnoredToLogFile.Location = new System.Drawing.Point(6, 98);
-            this.chkAddIgnoredToLogFile.Name = "chkAddIgnoredToLogFile";
-            this.chkAddIgnoredToLogFile.Size = new System.Drawing.Size(162, 17);
-            this.chkAddIgnoredToLogFile.TabIndex = 5;
-            this.chkAddIgnoredToLogFile.Text = "Display &false positives button";
-            this.chkAddIgnoredToLogFile.UseVisualStyleBackColor = true;
             // 
             // tabSite
             // 
@@ -639,6 +627,5 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkIgnoreNoBots;
         private System.Windows.Forms.CheckBox chkShowTimer;
         private System.Windows.Forms.Label lblSaveAsDefaultFile;
-        private System.Windows.Forms.CheckBox chkAddIgnoredToLogFile;
     }
 }

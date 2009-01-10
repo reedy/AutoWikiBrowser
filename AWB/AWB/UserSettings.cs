@@ -265,7 +265,7 @@ namespace AutoWikiBrowser
                bypassRedirectsToolStripMenuItem.Checked, !automaticallyDoAnythingToolStripMenuItem.Checked,
                toolStripComboOnLoad.SelectedIndex, chkMinor.Checked, addAllToWatchlistToolStripMenuItem.Checked,
                dontAddToWatchlistToolStripMenuItem.Checked, ShowMovingAverageTimer, sortAlphabeticallyToolStripMenuItem.Checked,
-               AddIgnoredToLogFile, (int)txtEdit.Font.Size, txtEdit.Font.Name,
+               displayfalsePositivesButtonToolStripMenuItem.Checked, (int)txtEdit.Font.Size, txtEdit.Font.Name,
                LowThreadPriority, Beep, Flash, Minimize, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxPeriod,
                AutoSaveEditBoxFile, chkLock.Checked, EditToolBarVisible, SuppressUsingAWB, AddUsingAWBOnArticleAction,
                filterOutNonMainSpaceToolStripMenuItem.Checked, removeDuplicatesToolStripMenuItem.Checked,
@@ -443,7 +443,7 @@ namespace AutoWikiBrowser
             ShowMovingAverageTimer = p.General.TimerEnabled;
 
             sortAlphabeticallyToolStripMenuItem.Checked = p.General.SortListAlphabetically;
-            AddIgnoredToLogFile = p.General.AddIgnoredToLog;
+            displayfalsePositivesButtonToolStripMenuItem.Checked = p.General.AddIgnoredToLog;
 
             AutoSaveEditBoxEnabled = p.General.AutoSaveEdit.Enabled;
             AutoSaveEditBoxPeriod = p.General.AutoSaveEdit.SavePeriod;
