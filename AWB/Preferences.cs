@@ -36,8 +36,7 @@ namespace AutoWikiBrowser
             Font textFont, bool lowPriority, bool flash, bool beep, bool minimize,
             bool saveArticleList, decimal timeOut, bool autoSaveEditBox,
             string autoSaveEditBoxFile, decimal autoSaveEditBoxPeriod, bool suppressUsingAWB,
-            bool addUsingAWBOnArticleAction, bool ignoreNoBots, bool falsePositives,
-            bool showTimer)
+            bool addUsingAWBOnArticleAction, bool ignoreNoBots, bool showTimer)
         {
             InitializeComponent();
 
@@ -71,7 +70,6 @@ namespace AutoWikiBrowser
             PrefAutoSaveEditBoxFile = autoSaveEditBoxFile;
             PrefAutoSaveEditBoxPeriod = autoSaveEditBoxPeriod;
             PrefIgnoreNoBots = ignoreNoBots;
-            PrefFalsePositives = falsePositives;
             PrefShowTimer = showTimer;
             PrefAddUsingAWBOnArticleAction = addUsingAWBOnArticleAction;
 
@@ -302,12 +300,6 @@ namespace AutoWikiBrowser
         {
             get { return chkIgnoreNoBots.Checked; }
             set { chkIgnoreNoBots.Checked = value; }
-        }
-
-        public bool PrefFalsePositives
-        {
-            get { return chkAddIgnoredToLogFile.Checked; }
-            set { chkAddIgnoredToLogFile.Checked = value; }
         }
 
         public bool PrefShowTimer

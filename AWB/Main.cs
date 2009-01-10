@@ -2028,7 +2028,7 @@ window.scrollTo(0, diffTopY);
                 Variables.CustomProject, txtEdit.Font, LowThreadPriority, Flash, Beep,
                 Minimize, SaveArticleList, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxFile,
                 AutoSaveEditBoxPeriod, SuppressUsingAWB, AddUsingAWBOnArticleAction, IgnoreNoBots,
-                AddIgnoredToLogFile, ShowMovingAverageTimer);
+                ShowMovingAverageTimer);
 
             if (myPrefs.ShowDialog(this) == DialogResult.OK)
             {
@@ -2045,7 +2045,6 @@ window.scrollTo(0, diffTopY);
                 SuppressUsingAWB = myPrefs.PrefSuppressUsingAWB;
                 AddUsingAWBOnArticleAction = myPrefs.PrefAddUsingAWBOnArticleAction;
                 IgnoreNoBots = myPrefs.PrefIgnoreNoBots;
-                AddIgnoredToLogFile = myPrefs.PrefFalsePositives;
                 ShowMovingAverageTimer = myPrefs.PrefShowTimer;
 
                 if (myPrefs.Language != Variables.LangCode || myPrefs.Project != Variables.Project || myPrefs.CustomProject != Variables.CustomProject)
@@ -3998,6 +3997,11 @@ window.scrollTo(0, diffTopY);
         private void BotImage_Click(object sender, EventArgs e)
         {
             Tools.OpenURLInBrowser("http://commons.wikimedia.org/wiki/Image:Crystal_Clear_action_run.png");
+        }
+
+        private void displayfalsePositivesButtonToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddIgnoredToLogFile = displayfalsePositivesButtonToolStripMenuItem.Checked;
         }
     }
         #endregion
