@@ -776,6 +776,7 @@ namespace WikiFunctions
 
             AWBChangeArticleText("Fix whitespace in links", Parsers.FixLinkWhitespace(ArticleText), true);
             Variables.Profiler.Profile("FixLinkWhitespace");
+            
             AWBChangeArticleText("Fix syntax", parsers.FixSyntax(ArticleText), true);
             Variables.Profiler.Profile("FixSyntax");
 
