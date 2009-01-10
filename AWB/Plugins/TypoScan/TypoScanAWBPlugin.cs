@@ -42,26 +42,26 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         internal static DateTime CheckoutTime;
 
-        private ToolStripMenuItem pluginMenuItem = new ToolStripMenuItem("TypoScan plugin");
-        private ToolStripMenuItem pluginUploadMenuItem = new ToolStripMenuItem("Upload finished articles to server now");
-        private ToolStripMenuItem pluginReAddArticlesMenuItem = new ToolStripMenuItem("Re-add Unprocessed TypoScan articles to ListMaker");
-        private ToolStripMenuItem aboutMenuItem = new ToolStripMenuItem("About the TypoScan plugin");
+        private readonly ToolStripMenuItem pluginMenuItem = new ToolStripMenuItem("TypoScan plugin");
+        private readonly ToolStripMenuItem pluginUploadMenuItem = new ToolStripMenuItem("Upload finished articles to server now");
+        private readonly ToolStripMenuItem pluginReAddArticlesMenuItem = new ToolStripMenuItem("Re-add Unprocessed TypoScan articles to ListMaker");
+        private readonly ToolStripMenuItem aboutMenuItem = new ToolStripMenuItem("About the TypoScan plugin");
 
         public void Initialise(IAutoWikiBrowser sender)
         {
             AWB = sender;
-            AWB.LogControl.LogAdded += new WikiFunctions.Logging.LogControl.LogAddedToControl(LogControl_LogAdded);
-            AWB.AddMainFormClosingEventHandler(new FormClosingEventHandler(UploadFinishedArticlesToServer));
-            AWB.AddArticleRedirectedEventHandler(new ArticleRedirected(ArticleRedirected));
+            AWB.LogControl.LogAdded += LogControl_LogAdded;
+            AWB.AddMainFormClosingEventHandler(UploadFinishedArticlesToServer);
+            AWB.AddArticleRedirectedEventHandler(ArticleRedirected);
 
             pluginMenuItem.DropDownItems.Add(pluginUploadMenuItem);
             pluginMenuItem.DropDownItems.Add(pluginReAddArticlesMenuItem);
-            pluginUploadMenuItem.Click += new EventHandler(pluginUploadMenuItem_Click);
+            pluginUploadMenuItem.Click += pluginUploadMenuItem_Click;
 
-            pluginReAddArticlesMenuItem.Click += new EventHandler(pluginReAddArticlesMenuItem_Click);
+            pluginReAddArticlesMenuItem.Click += pluginReAddArticlesMenuItem_Click;
             sender.PluginsToolStripMenuItem.DropDownItems.Add(pluginMenuItem);
 
-            aboutMenuItem.Click += new EventHandler(aboutMenuItem_Click);
+            aboutMenuItem.Click += aboutMenuItem_Click;
             sender.HelpToolStripMenuItem.DropDownItems.Add(aboutMenuItem);
         }
 
