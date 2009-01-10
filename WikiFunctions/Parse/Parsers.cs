@@ -51,6 +51,9 @@ namespace WikiFunctions.Parse
             addCatKey = AddHumanKey;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void MakeRegexes()
         {
             //look bad if changed
@@ -117,13 +120,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// When set to true, adds key to categories (for people only) when parsed
         /// </summary>
-        public bool addCatKey
-        {
-            get { return boolAddCatKey; }
-            set { boolAddCatKey = value; }
-        }
-
-        private bool boolAddCatKey;
+        public bool addCatKey { get; set; }
 
         // should NOT be accessed directly, use Sorter
         private MetaDataSorter metaDataSorter;
@@ -344,7 +341,7 @@ namespace WikiFunctions.Parse
         }
 
         // Covered by: FootnotesTests.TestFixReferenceListTags()
-        private string ReflistMatchEvaluator(Match m)
+        private static string ReflistMatchEvaluator(Match m)
         {
             // don't change anything if div tags mismatch
             if (DivStart.Matches(m.Value).Count != DivEnd.Matches(m.Value).Count) return m.Value;
@@ -575,11 +572,22 @@ namespace WikiFunctions.Parse
             return s;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="b"></param>
+        /// <returns></returns>
         private static bool IsHex(byte b)
         {
             return ((b >= '0' && b <= '9') || (b >= 'A' && b <= 'F'));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         private static byte DecodeHex(byte a, byte b)
         {
             return byte.Parse(new string(new char[] { (char)a, (char)b }), System.Globalization.NumberStyles.HexNumber);
@@ -871,11 +879,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             Regex emptyLink = new Regex("\\[\\[(:?" + cat + "|" + img + "|)(|" + img + "|" + cat + "|.*?)\\]\\]", RegexOptions.IgnoreCase);
 
-            string trim;
-
             foreach (Match link in emptyLink.Matches(ArticleText))
             {
-                trim = link.Groups[2].Value.Trim();
+                string trim = link.Groups[2].Value.Trim();
                 if (string.IsNullOrEmpty(trim) || trim == "|" + img || trim == "|" + cat || trim == "|")
                     ArticleText = ArticleText.Replace("[[" + link.Groups[1].Value + link.Groups[2].Value + "]]", "");
             }
