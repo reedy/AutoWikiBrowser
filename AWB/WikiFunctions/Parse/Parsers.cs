@@ -1362,10 +1362,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 {
                     Regex t = new Regex(Regex.Escape(m.Value));
 
-                    if (CommentOut)
-                        ArticleText = t.Replace(ArticleText, "<!-- " + Comment + " $0 -->", 1, m.Index);
-                    else
-                        ArticleText = t.Replace(ArticleText, "", 1, m.Index);
+                    ArticleText = CommentOut ? t.Replace(ArticleText, "<!-- " + Comment + " $0 -->", 1, m.Index) : t.Replace(ArticleText, "", 1, m.Index);
                 }
             }
 
