@@ -202,7 +202,7 @@ namespace WikiFunctions.Parse
             ArticleText = Regex.Replace(ArticleText, "^={1,4} ?" + Regex.Escape(ArticleTitle) + " ?={1,4}", "", RegexOptions.IgnoreCase);
             ArticleText = RegexBadHeader.Replace(ArticleText, "");
 
-            ArticleText = regexLinkedHeader.Replace(ArticleText, "$1$2$3$4");
+            //ArticleText = regexLinkedHeader.Replace(ArticleText, "$1$2$3$4");
 
             if (!Regex.IsMatch(ArticleText, "= ?See also ?="))
                 ArticleText = regexHeadings0.Replace(ArticleText, "$1See also$3");
