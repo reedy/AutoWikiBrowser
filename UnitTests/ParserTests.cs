@@ -366,6 +366,8 @@ http://example.com }}");
             Assert.AreEqual("==foo==", p.FixHeadings("==foo==", "test"));
             Assert.AreEqual("==foo==", p.FixHeadings("==[[foo]]==", "test"));
             Assert.AreEqual("== foo ==", p.FixHeadings("== [[foo]] ==", "test"));
+
+            Assert.AreEqual("==bar==", p.FixHeadings("==[[foo|bar]]==", "test"));
         }
 
         [Test, Category("Incomplete")]
