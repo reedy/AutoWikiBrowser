@@ -646,8 +646,16 @@ namespace WikiFunctions
     /// </summary>
     public class UserInfo
     {
-        StringCollection Groups = new StringCollection();
-        StringCollection Rights = new StringCollection();
+        readonly StringCollection Groups = new StringCollection(), Rights = new StringCollection();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static UserInfo GetUserInfo()
+        {
+            return new UserInfo(Tools.GetHTML(Variables.URLLong + "api.php?action=query&meta=userinfo&uiprop=groups|rights&format=xml"));
+        }
 
         /// <summary>
         /// 
@@ -655,8 +663,7 @@ namespace WikiFunctions
         /// <param name="xml"></param>
         public UserInfo(string xml)
         {
-            StringReader sr = new StringReader(xml);
-            XmlTextReader xr = new XmlTextReader(sr);
+            XmlTextReader xr = new XmlTextReader(new StringReader(xml));
 
             xr.MoveToContent();
 
@@ -666,7 +673,7 @@ namespace WikiFunctions
                 {
                     Groups.Add(xr.ReadString());
                 }
-                if (xr.Name == "r")
+                else if (xr.Name == "r")
                 {
                     Rights.Add(xr.ReadString());
                 }

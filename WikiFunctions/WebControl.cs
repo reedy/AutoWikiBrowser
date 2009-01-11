@@ -27,7 +27,7 @@ namespace WikiFunctions.Browser
 {
     public delegate void WebControlDel(object sender, EventArgs e);
 
-    public enum ProcessingStage : int { Load, Diff, Save, Delete, Protect, None }
+    public enum ProcessingStage { Load, Diff, Save, Delete, Protect, None }
 
     /// <summary>
     /// Provides a WebBrowser component adapted and extended for use with Wikis.
@@ -221,23 +221,13 @@ namespace WikiFunctions.Browser
             LoadLogInPage();
 
             Wait();
+
             Document.GetElementById("wpName1").InnerText = username;
             Document.GetElementById("wpPassword1").InnerText = password;
             Document.GetElementById("wpRemember").SetAttribute("value", "1");
             Document.GetElementById("wpLoginattempt").InvokeMember("click");
 
             Wait();
-        }
-
-        public UserInfo GetUserInfo()
-        {
-            Navigate(Variables.URLLong + "api.php?action=query&meta=userinfo&uiprop=groups|rights");
-            Wait();
-
-            string s = Document.Body.InnerText;
-            s = s.Remove(0, s.IndexOf("<api>"));
-            s = s.Remove(s.IndexOf("</api>") + 6, s.Length - s.IndexOf("</api>") - 6);
-            return new UserInfo(s);
         }
 
         static readonly Regex NewMessagesRegex = new Regex("\\<div id=\"contentSub\"\\>[^<>]*?\\</div\\>\\s*\\<div class=\"usermessage\"", 
@@ -340,7 +330,7 @@ namespace WikiFunctions.Browser
         [Browsable(false)]
         public bool IsDiff
         {
-            get { return (Document.Body.InnerHtml.Contains("<DIV id=wikiDiff>")); }
+            get { return (Document != null && Document.Body != null && Document.Body.InnerHtml.Contains("<DIV id=wikiDiff>")); }
         }
 
         [Browsable(false)]
@@ -409,13 +399,10 @@ namespace WikiFunctions.Browser
         /// </summary>
         public string GetArticleText()
         {
-            if (HasArticleTextBox)
-            {
-                string txt = HttpUtility.HtmlDecode(Document.GetElementById("wpTextbox1").InnerHtml);
-                return txt ?? "";
-            }
-            
-            return "";
+            if (!HasArticleTextBox || Document == null || Document.Body == null)
+                return "";
+
+            return HttpUtility.HtmlDecode(Document.GetElementById("wpTextbox1").InnerHtml) ?? "";
         }
 
         /// <summary>
@@ -462,7 +449,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public void SetArticleText(string ArticleText)
         {
-            if (HasArticleTextBox)
+            if (HasArticleTextBox && Document != null)
             {
                 Document.GetElementById("wpTextbox1").Enabled = true;
                 Document.GetElementById("wpTextbox1").InnerText = ArticleText.Trim();
@@ -555,7 +542,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public string GetSummary()
         {
-            if (Document == null || Document.Body == null || !this.Document.Body.InnerHtml.Contains("wpSummary"))
+            if (Document == null || Document.Body == null || !Document.Body.InnerHtml.Contains("wpSummary"))
                 return "";
 
             return Document.GetElementById("wpSummary").InnerText;
@@ -568,7 +555,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public string PageHTMLSubstring(string text)
         {
-            if (Document.Body.InnerHtml.Contains(startMark) && Document.Body.InnerHtml.Contains(endMark))
+            if (Document != null && Document.Body != null && Document.Body.InnerHtml.Contains(startMark) && Document.Body.InnerHtml.Contains(endMark))
                 return text.Substring(text.IndexOf(startMark), text.IndexOf(endMark) - text.IndexOf(startMark));
             return text;
         }
@@ -628,7 +615,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public void Delete()
         {
-            if (CanDelete)
+            if (CanDelete && Document != null)
             {
                 AllowNavigation = true;
                 ProcessStage = ProcessingStage.Delete;
@@ -662,7 +649,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public void Protect(int EditProtectionLevel, int MoveProtectionLevel, bool CascadingProtection)
         {
-            if (CanProtect)
+            if (CanProtect && Document != null)
             {
                 AllowNavigation = true;
                 ProcessStage = ProcessingStage.Protect;
@@ -829,7 +816,7 @@ namespace WikiFunctions.Browser
 
             StopTimer();
 
-            if (!Document.Body.InnerHtml.Contains("id=siteSub"))
+            if (Document == null || Document.Body == null || !Document.Body.InnerHtml.Contains("id=siteSub"))
             {
                 ProcessStage = ProcessingStage.None;
                 if (Fault != null)
@@ -853,7 +840,7 @@ namespace WikiFunctions.Browser
                 if (Loaded != null)
                     Loaded(null, null);
 
-                this.Document.GetElementById("wpTextbox1").Enabled = false;
+                Document.GetElementById("wpTextbox1").Enabled = false;
             }
             else if (ProcessStage == ProcessingStage.Diff)
             {
