@@ -1820,7 +1820,7 @@ window.scrollTo(0, diffTopY);
             CategoryLeave(txtNewCategory2);
         }
 
-        private void CategoryLeave(TextBox catTextBox)
+        private static void CategoryLeave(TextBox catTextBox)
         {
             catTextBox.Text = catTextBox.Text.Trim('[', ']');
             catTextBox.Text = Regex.Replace(catTextBox.Text, "^" + Variables.NamespacesCaseInsensitive[14], "");
@@ -3255,7 +3255,6 @@ window.scrollTo(0, diffTopY);
             {
                 string name = txtDabLink.Text.Trim();
                 if (name.Contains("|")) name = name.Substring(0, name.IndexOf('|') - 1);
-                Article link = new Article(name);
 
                 txtDabVariants.Text = "";
                 foreach (
@@ -3268,7 +3267,7 @@ window.scrollTo(0, diffTopY);
                     if (uint.TryParse(a.Name, out i) && (i < 2100)) continue;
 
                     // disambigs typically link to pages in the same namespace only
-                    if (link.NameSpaceKey != a.NameSpaceKey) continue;
+                    if (new Article(name).NameSpaceKey != a.NameSpaceKey) continue;
 
                     txtDabVariants.Text += a.Name + "\r\n";
                 }
@@ -3561,7 +3560,7 @@ window.scrollTo(0, diffTopY);
             histHtml = histHtml.Replace("<DIV id=histlegend", "<div id=histlegend style=\"display:none;\"");
             histHtml = "<h3>" + TheArticle.Name + "</h3>" + histHtml;
 
-            if (webBrowserHistory.Document != null)
+            if (webBrowserHistory.Document != null && webBrowserHistory.Document.Body != null)
                 webBrowserHistory.Document.Body.InnerHtml = histHtml;
         }
 
@@ -3866,7 +3865,7 @@ window.scrollTo(0, diffTopY);
                                 "Test typos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 return;
 
-            int iterations = 1000000 / text.Length;
+            int iterations = 1000000/text.Length;
             if (iterations > 500) iterations = 500;
 
             List<KeyValuePair<int, string>> times = new List<KeyValuePair<int, string>>();
@@ -3879,15 +3878,16 @@ window.scrollTo(0, diffTopY);
                 {
                     p.Key.IsMatch(text);
                 }
-                times.Add(new KeyValuePair<int, string>((int)watch.ElapsedMilliseconds, p.Key + " > " + p.Value));
+                times.Add(new KeyValuePair<int, string>((int) watch.ElapsedMilliseconds, p.Key + " > " + p.Value));
             }
 
             times.Sort(new Comparison<KeyValuePair<int, string>>(CompareRegexPairs));
 
-            using (StreamWriter sw = new StreamWriter("typos.txt", false, Encoding.UTF8))
-            {
-                foreach (KeyValuePair<int, string> p in times) sw.WriteLine(p);
-            }
+            StringBuilder builder = new StringBuilder();
+
+            foreach (KeyValuePair<int, string> p in times) builder.AppendLine(p.ToString());
+
+            Tools.WriteTextFile(builder, "typos.txt", false);
 
             MessageBox.Show("Results are saved in the file 'typos.txt'", "Profiling complete",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -3939,7 +3939,7 @@ window.scrollTo(0, diffTopY);
             externalProgram.Show();
         }
 
-        CategoryNameForm CatName = new CategoryNameForm();
+        readonly CategoryNameForm CatName = new CategoryNameForm();
 
         private void categoryToolStripMenuItem_Click(object sender, EventArgs e)
         {

@@ -1006,6 +1006,17 @@ namespace WikiFunctions
             WriteTextFileAbsolutePath(Message, Application.StartupPath + "\\" + File, append);
         }
 
+        /// <summary>
+        /// Writes a message to the given file in the directory of the application.
+        /// </summary>
+        /// <param name="Message">The message to write.</param>
+        /// <param name="File">The name of the file, e.g. "Log.txt".</param>
+        /// <param name="append"></param>
+        public static void WriteTextFile(StringBuilder Message, string File, bool append)
+        {
+            WriteTextFileAbsolutePath(Message.ToString(), Application.StartupPath + "\\" + File, append);
+        }
+
         // Not Covered
         /// <summary>
         /// Turns an HTML list into a wiki style list
