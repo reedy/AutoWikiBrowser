@@ -193,9 +193,9 @@ namespace UnitTests
             Assert.AreEqual("[http://example.com] site", parser.FixSyntax("[http://example.com]] site"));
             Assert.AreEqual("[http://example.com] site", parser.FixSyntax("[[http://example.com]] site"));
 
-            Assert.AreEqual("http://test.com", parser.FixSyntax("http://test.com"));
-            Assert.AreEqual("http://test.com", parser.FixSyntax("http://http://test.com"));
-            Assert.AreEqual("http://test.com", parser.FixSyntax("http://http://http://test.com"));
+            Assert.AreEqual("[http://test.com]", parser.FixSyntax("[http://test.com]"));
+            Assert.AreEqual("[http://test.com]", parser.FixSyntax("[http://http://test.com]"));
+            Assert.AreEqual("[http://test.com]", parser.FixSyntax("[http://http://http://test.com]"));
 
             Assert.AreEqual("[http://www.site.com ''my cool site'']",
                             parser.FixSyntax("[http://www.site.com|''my cool site'']"));
@@ -235,14 +235,13 @@ namespace UnitTests
             Assert.AreEqual("[[|foo]]", Parsers.FixLinks("[[|foo]]", out noChange));
 
             // string before and after
-            Assert.AreEqual("<ref>http//www.site.com</ref>", parser.FixSyntax(@"<ref>http://www.site.com</ref>"));
-            Assert.AreEqual("at http//www.site.com", parser.FixSyntax(@"at http://www.site.com"));
-            Assert.AreEqual("<ref>[http:/www.site.com a website]</ref>",
-                            parser.FixSyntax(@"<ref>[http://www.site.com a website]</ref>"));
-            Assert.AreEqual("*[http//www.site.com a website]", parser.FixSyntax(@"*[http://www.site.com a website]"));
-            Assert.AreEqual("|url=http//www.site.com", parser.FixSyntax(@"|url=http://www.site.com"));
-            Assert.AreEqual("|url = http:/www.site.com", parser.FixSyntax(@"|url = http://www.site.com"));
-
+            Assert.AreEqual("<ref>http://www.site.com</ref>", parser.FixSyntax(@"<ref>http//www.site.com</ref>"));
+            Assert.AreEqual("at http://www.site.com", parser.FixSyntax(@"at http//www.site.com"));
+            Assert.AreEqual("<ref>[http://www.site.com a website]</ref>",
+                            parser.FixSyntax(@"<ref>[http:/www.site.com a website]</ref>"));
+            Assert.AreEqual("*[http://www.site.com a website]", parser.FixSyntax(@"*[http//www.site.com a website]"));
+            Assert.AreEqual("|url=http://www.site.com", parser.FixSyntax(@"|url=http//www.site.com"));
+            Assert.AreEqual("|url = http://www.site.com", parser.FixSyntax(@"|url = http:/www.site.com"));
 
             // these strings should not change
             Assert.AreEqual("http://members.bib-arch.org/nph-proxy.pl/000000A/http/www.basarchive.org/bswbSearch",
