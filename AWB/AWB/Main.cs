@@ -1812,16 +1812,19 @@ window.scrollTo(0, diffTopY);
 
         private void txtNewCategory_Leave(object sender, EventArgs e)
         {
-            txtNewCategory.Text = txtNewCategory.Text.Trim('[', ']');
-            txtNewCategory.Text = Regex.Replace(txtNewCategory.Text, "^" + Variables.NamespacesCaseInsensitive[14], "");
-            txtNewCategory.Text = Tools.TurnFirstToUpper(txtNewCategory.Text);
+            CategoryLeave(txtNewCategory);
         }
 
         private void txtNewCategory2_Leave(object sender, EventArgs e)
         {
-            txtNewCategory2.Text = txtNewCategory2.Text.Trim('[', ']');
-            txtNewCategory2.Text = Regex.Replace(txtNewCategory2.Text, "^" + Variables.NamespacesCaseInsensitive[14], "");
-            txtNewCategory2.Text = Tools.TurnFirstToUpper(txtNewCategory2.Text);
+            CategoryLeave(txtNewCategory2);
+        }
+
+        private void CategoryLeave(TextBox catTextBox)
+        {
+            catTextBox.Text = catTextBox.Text.Trim('[', ']');
+            catTextBox.Text = Regex.Replace(catTextBox.Text, "^" + Variables.NamespacesCaseInsensitive[14], "");
+            catTextBox.Text = Tools.TurnFirstToUpper(catTextBox.Text);
         }
 
         private void ArticleInfo(bool reset)
@@ -1837,10 +1840,6 @@ window.scrollTo(0, diffTopY);
                 lblImages.Text = "Images: ";
                 lblLinks.Text = "Links: ";
                 lblInterLinks.Text = "Interwiki links: ";
-
-                lblDuplicateWikilinks.Visible = false;
-                lbDuplicateWikilinks.Visible = false;
-                btnRemove.Visible = false;
             }
             else
             {
@@ -1888,14 +1887,8 @@ window.scrollTo(0, diffTopY);
                     if ((arrayLinks.IndexOf(z) < arrayLinks.LastIndexOf(z)) && (!lbDuplicateWikilinks.Items.Contains(z)))
                         lbDuplicateWikilinks.Items.Add(z);
                 }
-
-                if (lbDuplicateWikilinks.Items.Count > 0)
-                {
-                    lblDuplicateWikilinks.Visible = true;
-                    lbDuplicateWikilinks.Visible = true;
-                    btnRemove.Visible = true;
-                }
             }
+            lblDuplicateWikilinks.Visible = lbDuplicateWikilinks.Visible = btnRemove.Visible = (lbDuplicateWikilinks.Items.Count > 0);
         }
 
         private void lbDuplicateWikilinks_Click(object sender, EventArgs e)
