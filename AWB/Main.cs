@@ -1826,12 +1826,6 @@ window.scrollTo(0, diffTopY);
 
         private void ArticleInfo(bool reset)
         {
-            string articleText = txtEdit.Text;
-            int intWords;
-            int intCats;
-            int intImages;
-            int intLinks;
-            int intInterLinks;
             lblWarn.Text = "";
             lbDuplicateWikilinks.Items.Clear();
 
@@ -1850,15 +1844,13 @@ window.scrollTo(0, diffTopY);
             }
             else
             {
-                intWords = Tools.WordCount(articleText);
+                string articleText = txtEdit.Text;
 
-                intCats = WikiRegexes.Category.Matches(articleText).Count;
-
-                intImages = WikiRegexes.Images.Matches(articleText).Count;
-
-                intInterLinks = Tools.InterwikiCount(articleText);
-
-                intLinks = WikiRegexes.WikiLinksOnly.Matches(articleText).Count;
+                int intWords = Tools.WordCount(articleText);
+                int intCats = WikiRegexes.Category.Matches(articleText).Count;
+                int intImages = WikiRegexes.Images.Matches(articleText).Count;
+                int intInterLinks = Tools.InterwikiCount(articleText);
+                int intLinks = WikiRegexes.WikiLinksOnly.Matches(articleText).Count;
 
                 intLinks = intLinks - intInterLinks - intImages - intCats;
 
@@ -2273,8 +2265,7 @@ window.scrollTo(0, diffTopY);
             }
         }
 
-        int seconds;
-        int lastTotal;
+        int seconds, lastTotal;
         private void EditsPerMin()
         {
             int editsInLastMin = NumberOfEdits - lastTotal;
