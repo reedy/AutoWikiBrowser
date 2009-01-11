@@ -39,14 +39,14 @@ namespace WikiFunctions.Browser
         public WebControl()
         {
             InitializeComponent();
-            timer1.Interval = 1000;
-            timer1.Enabled = true;
+            timer.Interval = 1000;
+            timer.Enabled = true;
 
             ScriptErrorsSuppressed = true;
             ProcessStage = ProcessingStage.None;
         }
 
-        Timer timer1 = new Timer();
+        readonly Timer timer = new Timer();
 
         public static bool Shutdown;
 
@@ -474,7 +474,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public void SetMinor(bool IsMinor)
         {
-            if (Document == null || !Document.Body.InnerHtml.Contains("wpMinoredit"))
+            if (Document == null || Document.Body == null || !Document.Body.InnerHtml.Contains("wpMinoredit"))
                 return;
 
             if (IsMinor)
@@ -488,7 +488,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public void SetWatch(bool watch1)
         {
-            if (Document == null || !Document.Body.InnerHtml.Contains("wpWatchthis"))
+            if (Document == null || Document.Body == null || !Document.Body.InnerHtml.Contains("wpWatchthis"))
                 return;
 
             if (watch1)
@@ -503,7 +503,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public void SetSummary(string Summary)
         {
-            if (Document == null || !Document.Body.InnerHtml.Contains("wpSummary"))
+            if (Document == null || Document.Body == null || !Document.Body.InnerHtml.Contains("wpSummary"))
                 return;
 
             Document.GetElementById("wpSummary").InnerText = Summary;
@@ -514,7 +514,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public bool SetReason(string Reason)
         {
-            if (Document == null || !Document.Body.InnerHtml.Contains("wpReason"))
+            if (Document == null || Document.Body == null || !Document.Body.InnerHtml.Contains("wpReason"))
                 return false;
 
             Document.GetElementById("wpReason").InnerText = Reason;
@@ -526,7 +526,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public bool SetReasonAndExpiry(string Reason, string Expiry)
         {
-            if (Document == null || !Document.Body.InnerHtml.Contains("mwProtect-reason") || !Document.Body.InnerHtml.Contains("mwProtect-expiry"))
+            if (Document == null || Document.Body == null || !Document.Body.InnerHtml.Contains("mwProtect-reason") || !Document.Body.InnerHtml.Contains("mwProtect-expiry"))
                 return false;
 
             Document.GetElementById("mwProtect-reason").InnerText = Reason;
@@ -555,14 +555,13 @@ namespace WikiFunctions.Browser
         /// </summary>
         public string GetSummary()
         {
-            if (Document == null || !this.Document.Body.InnerHtml.Contains("wpSummary"))
+            if (Document == null || Document.Body == null || !this.Document.Body.InnerHtml.Contains("wpSummary"))
                 return "";
 
             return Document.GetElementById("wpSummary").InnerText;
         }
 
-        const string startMark = "<!-- start content -->";
-        const string endMark = "<!-- end content -->";
+        const string startMark = "<!-- start content -->", endMark = "<!-- end content -->";
 
         /// <summary>
         /// Gets the HTML within the <!-- start content --> and <!-- end content --> tags
@@ -681,7 +680,7 @@ namespace WikiFunctions.Browser
             }
         }
 
-        private void SetListBoxValues(HtmlElement element, int Level)
+        private static void SetListBoxValues(HtmlElement element, int Level)
         {
             if (Level != 0)
             {
@@ -895,7 +894,7 @@ namespace WikiFunctions.Browser
             Status = "Loading move page";
             Wait();
 
-            if (Document == null || !Document.Body.InnerHtml.Contains("wpNewTitle"))
+            if (Document == null || Document.Body == null || !Document.Body.InnerHtml.Contains("wpNewTitle"))
             {
                 AllowNavigation = false;
                 return false;
@@ -1014,12 +1013,12 @@ namespace WikiFunctions.Browser
         private void StartTimer()
         {
             StopTimer();
-            timer1.Tick += IncrementTime;
+            timer.Tick += IncrementTime;
         }
 
         private void StopTimer()
         {
-            timer1.Tick -= IncrementTime;
+            timer.Tick -= IncrementTime;
             LoadTime = 0;
         }
 
