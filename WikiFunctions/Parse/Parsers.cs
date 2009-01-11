@@ -491,9 +491,8 @@ namespace WikiFunctions.Parse
         // same shit for <br>
         private static readonly Regex SyntaxRemoveBr = new Regex(@"(?<!^[!\|].*)(<br[\s/]*> *){2,}", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
 
-        //private static readonly Regex InOpenBrackets = new Regex(@"\[\[[^\]]{,100}", RegexOptions.RightToLeft | RegexOptions.Compiled);
+        private static readonly Regex MultipleHttpInLink = new Regex(@"([\s\[>=])((?:ht|f)tp:?/+)(\2)+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private static readonly Regex MutlipleHttpInLink = new Regex("(http:?/+)+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex PipedExternalLink = new Regex(@"(\[\w+://[^][<>\""\s]*?)\|''", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         // Covered by: LinkTests.TestFixSyntax(), incomplete
@@ -528,7 +527,8 @@ namespace WikiFunctions.Parse
             ArticleText = SyntaxRegex2.Replace(ArticleText, "[http://$1]");
             ArticleText = SyntaxRegex3.Replace(ArticleText, "[http://$1]");
 
-            ArticleText = MutlipleHttpInLink.Replace(ArticleText, "http://");
+            ArticleText = MultipleHttpInLink.Replace(ArticleText, "$1$2");
+
             ArticleText = PipedExternalLink.Replace(ArticleText, "$1 ''");
 
             if (!Regex.IsMatch(ArticleText, "\\[\\[[Ii]mage:[^]]*http"))
