@@ -35,22 +35,22 @@ namespace WikiFunctions.Controls.Lists
 
     public partial class ListMaker : UserControl, IList<Article>
     {
-        private static SaveFileDialog saveListDialog;
-        private static BindingList<IListProvider> listItems = new BindingList<IListProvider>();
-        ListFilterForm SpecialFilter;
+        private readonly static SaveFileDialog saveListDialog;
+        private readonly static BindingList<IListProvider> listItems = new BindingList<IListProvider>();
+        readonly ListFilterForm SpecialFilter;
 
         //used to keep easy track of providers for add/remove/(re)use in code
         #region ListProviders
-        private static IListProvider redirectLProvider = new RedirectsListProvider();
-        private static IListProvider categoryLProvider = new CategoryListProvider();
-        private static IListProvider categoryRecursiveLProvider = new CategoryRecursiveListProvider();
-        private static IListProvider whatLinksHereLProvider = new WhatLinksHereListProvider();
-        private static IListProvider whatTranscludesLProvider = new WhatTranscludesPageListProvider();
-        private static IListProvider linksOnPageLProvider = new LinksOnPageListProvider();
-        private static IListProvider imageFileLinksLProvider = new ImageFileLinksListProvider();
-        private static IListProvider imagesOnPageLProvider = new ImagesOnPageListProvider();
-        private static IListProvider categoriesOnPageLProvider = new CategoriesOnPageListProvider();
-        private static IListProvider newPagesLProvider = new NewPagesListProvider();
+        private readonly static IListProvider redirectLProvider = new RedirectsListProvider();
+        private readonly static IListProvider categoryLProvider = new CategoryListProvider();
+        private readonly static IListProvider categoryRecursiveLProvider = new CategoryRecursiveListProvider();
+        private readonly static IListProvider whatLinksHereLProvider = new WhatLinksHereListProvider();
+        private readonly static IListProvider whatTranscludesLProvider = new WhatTranscludesPageListProvider();
+        private readonly static IListProvider linksOnPageLProvider = new LinksOnPageListProvider();
+        private readonly static IListProvider imageFileLinksLProvider = new ImageFileLinksListProvider();
+        private readonly static IListProvider imagesOnPageLProvider = new ImagesOnPageListProvider();
+        private readonly static IListProvider categoriesOnPageLProvider = new CategoriesOnPageListProvider();
+        private readonly static IListProvider newPagesLProvider = new NewPagesListProvider();
         #endregion
 
         public event ListMakerEventHandler StatusTextChanged;
@@ -167,7 +167,7 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public static void AddRemoveRedirects()
         {
-            if (Variables.LangCode != LangCodeEnum.en)
+            if (Variables.LangCode != LangCodeEnum.en && listItems.Contains(redirectLProvider))
                 listItems.Remove(redirectLProvider);
             else if (!listItems.Contains(redirectLProvider))
                 listItems.Add(redirectLProvider);
