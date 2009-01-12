@@ -60,10 +60,10 @@ namespace WikiFunctions
                 builder.Append("|" + Variables.MonthNames[i]);
             }
 
-            string months = builder + ")";
+            builder.Append(")");
 
-            Dates = new Regex("^(0?[1-9]|[12][0-9]|3[01]) " + months + "$", RegexOptions.Compiled);
-            Dates2 = new Regex("^" + months + " (0?[1-9]|[12][0-9]|3[01])$", RegexOptions.Compiled);
+            Dates = new Regex("^(0?[1-9]|[12][0-9]|3[01]) " + builder + "$", RegexOptions.Compiled);
+            Dates2 = new Regex("^" + builder + " (0?[1-9]|[12][0-9]|3[01])$", RegexOptions.Compiled);
 
             builder = new StringBuilder();
 
@@ -243,7 +243,6 @@ namespace WikiFunctions
 
         /// <summary>
         /// Matches Dates like January 21
-        /// TODO: internationalise
         /// </summary>
         public static Regex Dates2;
 
