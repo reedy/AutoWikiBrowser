@@ -863,6 +863,8 @@ namespace AutoWikiBrowser
             this.openPageInBrowserToolStripMenuItem.Name = "openPageInBrowserToolStripMenuItem";
             this.openPageInBrowserToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
             this.openPageInBrowserToolStripMenuItem.Text = "&Open page in browser";
+            this.openPageInBrowserToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Alt+P";
+            this.openPageInBrowserToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.P)));
             this.openPageInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openPageInBrowserToolStripMenuItem_Click);
             // 
             // openTalkPageInBrowserToolStripMenuItem
@@ -877,6 +879,8 @@ namespace AutoWikiBrowser
             this.openHistoryMenuItem.Name = "openHistoryMenuItem";
             this.openHistoryMenuItem.Size = new System.Drawing.Size(233, 22);
             this.openHistoryMenuItem.Text = "Open page &history in browser";
+            this.openHistoryMenuItem.ShortcutKeyDisplayString = "Ctrl+Alt+H";
+            this.openHistoryMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.H)));
             this.openHistoryMenuItem.Click += new System.EventHandler(this.openHistoryMenuItem_Click);
             // 
             // toolStripSeparator20
@@ -1010,21 +1014,21 @@ namespace AutoWikiBrowser
             // 
             this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
             this.loginToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
-            this.loginToolStripMenuItem.Text = "Log In";
+            this.loginToolStripMenuItem.Text = "Log &In";
             this.loginToolStripMenuItem.Click += new System.EventHandler(this.loginToolStripMenuItem_Click);
             // 
             // logOutToolStripMenuItem
             // 
             this.logOutToolStripMenuItem.Name = "logOutToolStripMenuItem";
             this.logOutToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
-            this.logOutToolStripMenuItem.Text = "Log Out";
+            this.logOutToolStripMenuItem.Text = "Log &Out";
             this.logOutToolStripMenuItem.Click += new System.EventHandler(this.logOutToolStripMenuItem_Click);
             // 
             // profilesToolStripMenuItem
             // 
             this.profilesToolStripMenuItem.Name = "profilesToolStripMenuItem";
             this.profilesToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
-            this.profilesToolStripMenuItem.Text = "Profiles...";
+            this.profilesToolStripMenuItem.Text = "&Profiles...";
             this.profilesToolStripMenuItem.Click += new System.EventHandler(this.profilesToolStripMenuItem_Click);
             // 
             // toolStripSeparator21
@@ -1036,7 +1040,9 @@ namespace AutoWikiBrowser
             // 
             this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
             this.reloadToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
-            this.reloadToolStripMenuItem.Text = "Refresh status/typos";
+            this.reloadToolStripMenuItem.Text = "Re&fresh status/typos";
+            this.reloadToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+R";
+            this.reloadToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
             this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
             // 
             // profileTyposToolStripMenuItem
