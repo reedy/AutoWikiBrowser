@@ -851,6 +851,8 @@ namespace AutoWikiBrowser
             this.commentSelectedToolStripMenuItem.Name = "commentSelectedToolStripMenuItem";
             this.commentSelectedToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
             this.commentSelectedToolStripMenuItem.Text = "Comment selected";
+            this.commentSelectedToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+K";
+            this.commentSelectedToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.K)));
             this.commentSelectedToolStripMenuItem.Click += new System.EventHandler(this.imgComment_Click);
             // 
             // toolStripSeparator4
@@ -919,6 +921,8 @@ namespace AutoWikiBrowser
             this.reloadEditPageToolStripMenuItem.Name = "reloadEditPageToolStripMenuItem";
             this.reloadEditPageToolStripMenuItem.Size = new System.Drawing.Size(233, 22);
             this.reloadEditPageToolStripMenuItem.Text = "Reload edit page";
+            this.reloadEditPageToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.F5)));
+            this.reloadEditPageToolStripMenuItem.ShortcutKeyDisplayString = "F5";
             this.reloadEditPageToolStripMenuItem.Click += new System.EventHandler(this.reloadEditPageToolStripMenuItem_Click);
             // 
             // MnuMain
