@@ -389,26 +389,17 @@ namespace AutoWikiBrowser
             }
         }
 
-        private bool IgnoreNoBots, addIgnoredToLogFile;
+        private bool IgnoreNoBots;
+
         private bool AddIgnoredToLogFile
         {
             set
             {
-                addIgnoredToLogFile = value;
-                if (addIgnoredToLogFile)
-                {
-                    btnFalsePositive.Visible = btntsFalsePositive.Visible = true;
-                    btnStop.Location = new Point(220, 62);
-                    btnStop.Size = new Size(51, 23);
-                }
-                else
-                {
-                    btnFalsePositive.Visible = btntsFalsePositive.Visible = false;
-                    btnStop.Location = new Point(156, 62);
-                    btnStop.Size = new Size(117, 23);
-                }
+                btnStop.Location = (value) ? new Point(220, 62) : new Point(156, 62);
+                btnStop.Size = (value) ? new Size(51, 23) : new Size(117, 23);
+
+                btnFalsePositive.Visible = btntsFalsePositive.Visible = value;
             }
-            get { return addIgnoredToLogFile; }
         }
 
         bool showTimer = true;
@@ -883,7 +874,8 @@ namespace AutoWikiBrowser
                     return false;
                 }
 
-                bool wpTextbox1IsNull = (webBrowserEdit.Document.GetElementById("wpTextbox1").InnerText == null);
+                HtmlElement wpt = webBrowserEdit.Document.GetElementById("wpTextbox1");
+                bool wpTextbox1IsNull = (wpt != null && wpt.InnerText == null);
 
                 if (wpTextbox1IsNull && radSkipNonExistent.Checked)
                 {//check if it is a non-existent page, if so then skip it automatically.
@@ -1537,7 +1529,7 @@ window.scrollTo(0, diffTopY);
                 Properties.Settings.Default.AskForTerminate = !dlg.CheckBoxDontAskAgain;
             }
 
-            if (!Properties.Settings.Default.AskForTerminate || dlg.DialogResult == DialogResult.OK)
+            if (!Properties.Settings.Default.AskForTerminate || (dlg != null && dlg.DialogResult == DialogResult.OK))
             {
                 // save user persistent settings
                 Properties.Settings.Default.Save();
