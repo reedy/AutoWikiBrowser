@@ -37,9 +37,10 @@ namespace WikiFunctions.Parse
         }
         string streditsummary = "";
 
-        HideText Remove = new HideText(true, false, true);
+        readonly HideText Remove = new HideText(true, false, true);
 
-        List<Replacement> ReplacementList = new List<Replacement>();
+        readonly List<Replacement> ReplacementList = new List<Replacement>();
+
         bool applydefault;
         private bool ApplyDefaultFormatting
         {
@@ -67,18 +68,14 @@ namespace WikiFunctions.Parse
         private static Replacement RowToReplacement(DataGridViewRow dataGridRow)
         {
             Replacement rep = new Replacement();
-            string f, r;
 
             rep.Enabled = ((bool)dataGridRow.Cells["enabled"].FormattedValue);
 
             if (dataGridRow.Cells["replace"].Value == null)
                 dataGridRow.Cells["replace"].Value = "";
 
-            f = dataGridRow.Cells["find"].Value.ToString();
-            r = dataGridRow.Cells["replace"].Value.ToString();
-
-            f = Encode(f);
-            r = Encode(r);
+            string f = Encode(dataGridRow.Cells["find"].Value.ToString());
+            string r = Encode(dataGridRow.Cells["replace"].Value.ToString());
 
             if (!(bool)dataGridRow.Cells["regex"].FormattedValue)
             {
@@ -103,7 +100,7 @@ namespace WikiFunctions.Parse
             if (dataGridRow.Cells["comment"].Value == null)
                 dataGridRow.Cells["comment"].Value = "";
 
-            rep.Comment = (string)dataGridRow.Cells["comment"].Value.ToString();
+            rep.Comment = dataGridRow.Cells["comment"].Value.ToString();
 
             return rep;
         }
@@ -253,11 +250,12 @@ namespace WikiFunctions.Parse
         /// <param name="IsRegex"></param>
         /// <param name="Multiline"></param>
         /// <param name="Singleline"></param>
-        /// <param name="enabled"></param>
-        public void AddNew(string Find, string ReplaceWith, bool CaseSensitive, bool IsRegex, bool Multiline, bool Singleline, bool enabled, string comment)
+        /// <param name="LineEnabled"></param>
+        /// <param name="LineComment"></param>
+        public void AddNew(string Find, string ReplaceWith, bool CaseSensitive, bool IsRegex, bool Multiline, bool Singleline, bool LineEnabled, string LineComment)
         {
-            dataGridView1.Rows.Add(Find, ReplaceWith, CaseSensitive, IsRegex, Multiline, Singleline, enabled, comment);
-            if (!enabled)
+            dataGridView1.Rows.Add(Find, ReplaceWith, CaseSensitive, IsRegex, Multiline, Singleline, LineEnabled, LineComment);
+            if (!LineEnabled)
                 dataGridView1.Rows[dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGray;
 
             MakeList();
