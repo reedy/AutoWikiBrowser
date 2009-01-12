@@ -116,8 +116,8 @@ namespace WikiFunctions.Controls.Lists
         private void SaveList(ListBox lb)
         {
             int i = 0;
-            string s = "";
-            StringBuilder strList = new StringBuilder("");
+            string s;
+            StringBuilder strList = new StringBuilder();
 
             while (i < lb.Items.Count)
             {

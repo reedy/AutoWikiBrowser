@@ -3497,8 +3497,10 @@ window.scrollTo(0, diffTopY);
             if (builder.Length > 1)
             {
                 builder.Remove((builder.Length - 1), 1);
-                builder.Append(") ?(\\|.*?)?) ?\\}\\}");
-                userTalkTemplatesRegex = new Regex(@"\{\{ ?(" + Variables.NamespacesCaseInsensitive[10] + ")? ?((" + builder.ToString(), RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                userTalkTemplatesRegex =
+                    new Regex(
+                        @"\{\{ ?(" + Variables.NamespacesCaseInsensitive[10] + ")? ?((" + builder +
+                        ") ?(\\|.*?)?) ?\\}\\}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             }
         }
 

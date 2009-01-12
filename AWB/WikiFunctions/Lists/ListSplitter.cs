@@ -107,7 +107,7 @@ namespace WikiFunctions.Controls.Lists
                 {
                     for (int i = 0; i < noGroups; i++)
                     {
-                        StringBuilder strList = new StringBuilder("");
+                        StringBuilder strList = new StringBuilder();
 
                         for (int j = 0; j < numSplitAmount.Value && listMaker1.Count != 0; j++)
                         {

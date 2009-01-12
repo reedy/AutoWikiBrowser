@@ -849,8 +849,8 @@ namespace WikiFunctions.Lists
                 nsStringBuilder.Append(k + "|");
             }
 
+            nsStringBuilder.Remove((nsStringBuilder.Length - 1), 1);
             string ns = nsStringBuilder.ToString();
-            ns = ns.Remove(ns.LastIndexOf('|'));
 
             foreach (string page in searchCriteria)
             {
