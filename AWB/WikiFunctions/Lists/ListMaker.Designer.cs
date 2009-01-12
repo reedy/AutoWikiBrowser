@@ -211,6 +211,8 @@ namespace WikiFunctions.Controls.Lists
             this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
             this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.openInBrowserToolStripMenuItem.Text = "&Open page in browser";
+            this.openInBrowserToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+P";
+            this.openInBrowserToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.P)));
             this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
             // 
             // openHistoryInBrowserToolStripMenuItem
@@ -218,6 +220,8 @@ namespace WikiFunctions.Controls.Lists
             this.openHistoryInBrowserToolStripMenuItem.Name = "openHistoryInBrowserToolStripMenuItem";
             this.openHistoryInBrowserToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.openHistoryInBrowserToolStripMenuItem.Text = "Open &history in browser";
+            this.openHistoryInBrowserToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+H";
+            this.openHistoryInBrowserToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.H)));
             this.openHistoryInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openHistoryInBrowserToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
