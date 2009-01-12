@@ -3468,8 +3468,8 @@ window.scrollTo(0, diffTopY);
         /// </summary>
         private static void LoadUserTalkWarnings()
         {
-            Regex userTalkTemplate = new Regex(@"# \[\[" + Variables.NamespacesCaseInsensitive[10] + @"(.*?)\]\]");
-            StringBuilder builder = new StringBuilder(@"\{\{ ?(" + Variables.NamespacesCaseInsensitive[10] + ")? ?((");
+            Regex userTalkTemplate = new Regex(@"# ?\[\[" + Variables.NamespacesCaseInsensitive[10] + @"(.*?)\]\]");
+            StringBuilder builder = new StringBuilder();
 
             userTalkTemplatesRegex = null;
             userTalkWarningsLoaded = true; // or it will retry on each page load
@@ -3492,12 +3492,13 @@ window.scrollTo(0, diffTopY);
             catch (Exception ex)
             {
                 ErrorHandler.Handle(ex);
+                userTalkWarningsLoaded = false;
             }
             if (builder.Length > 1)
             {
                 builder.Remove((builder.Length - 1), 1);
                 builder.Append(") ?(\\|.*?)?) ?\\}\\}");
-                userTalkTemplatesRegex = new Regex(builder.ToString(), RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                userTalkTemplatesRegex = new Regex(@"\{\{ ?(" + Variables.NamespacesCaseInsensitive[10] + ")? ?((" + builder.ToString(), RegexOptions.Compiled | RegexOptions.IgnoreCase);
             }
         }
 
