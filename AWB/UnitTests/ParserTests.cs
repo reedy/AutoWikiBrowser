@@ -259,6 +259,7 @@ namespace UnitTests
         [Test, Ignore]
         public void ExtraBracketInExternalLink()
         {
+            //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_9#Bug_in_regex_to_correct_double_bracketed_external_links
             Assert.AreEqual("now [http://www.site.com a [[a]] site] was", parser.FixSyntax("now [http://www.site.com a [[a]] site] was"));  // valid syntax
             Assert.AreEqual("now [http://www.site.com a site [cool] here] was", parser.FixSyntax("now [http://www.site.com a site [cool] here] was"));         // valid syntax
             Assert.AreEqual("now [http://www.site.com a b site]] was", parser.FixSyntax("now [http://www.site.com a b site] was"));
