@@ -242,7 +242,7 @@ namespace UnitTests
             Assert.AreEqual("*[http://www.site.com a website]", parser.FixSyntax(@"*[http//www.site.com a website]"));
             Assert.AreEqual("|url=http://www.site.com", parser.FixSyntax(@"|url=http//www.site.com"));
             Assert.AreEqual("|url = http://www.site.com", parser.FixSyntax(@"|url = http:/www.site.com"));
-            //Assert.AreEqual("http://www.site.com", parser.FixSyntax(@"http/www.site.com"));
+            Assert.AreEqual("[http://www.site.com]", parser.FixSyntax(@"[http/www.site.com]"));
 
             // these strings should not change
             Assert.AreEqual("http://members.bib-arch.org/nph-proxy.pl/000000A/http/www.basarchive.org/bswbSearch",

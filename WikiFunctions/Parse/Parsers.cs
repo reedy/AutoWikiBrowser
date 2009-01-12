@@ -495,7 +495,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex PipedExternalLink = new Regex(@"(\[\w+://[^][<>\""\s]*?)\|''", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private static readonly Regex MissingColonInHttpLink = new Regex(@"([\s\[>=]ht|f)tp//:?(\w+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex MissingColonInHttpLink = new Regex(@"([\s\[>=]ht|f)tp//?:?(\w+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private static readonly Regex SingleTripleSlashInHttpLink = new Regex(@"([\s\[>=]ht|f)tp:(?:/|///)(\w+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
