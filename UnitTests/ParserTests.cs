@@ -256,7 +256,7 @@ namespace UnitTests
             Assert.AreEqual("HTTP/1.2", parser.FixSyntax("HTTP/1.2"));
         }
 
-        [Test]
+        [Test, Ignore]
         public void ExtraBracketInExternalLink()
         {
             Assert.AreEqual("now [http://www.site.com a [[a]] site] was", parser.FixSyntax("now [http://www.site.com a [[a]] site] was"));  // valid syntax
