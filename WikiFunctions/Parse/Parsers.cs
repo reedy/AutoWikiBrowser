@@ -173,7 +173,7 @@ namespace WikiFunctions.Parse
         private readonly Regex regexHeadings10 = new Regex("(== ?)Life and Career( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private readonly Regex regexHeadingsCareer = new Regex("(== ?)([a-zA-Z]+) Career( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private readonly Regex regexLinkedHeader = new Regex(@"^(=+.*?)\[\[([^[\]{|}\n]+\|)?([^[\]{|}\n]+)\]\](.*?=+\s*)$", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
+        //private readonly Regex regexLinkedHeader = new Regex(@"^(=+.*?)\[\[([^[\]{|}\n]+\|)?([^[\]{|}\n]+)\]\](.*?=+\s*)$", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
 
         private readonly Regex RegexBadHeader = new Regex("^(={1,4} ?(about|description|overview|definition|profile|(?:general )?information|background|intro(?:duction)?|summary|bio(?:graphy)?) ?={1,4})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
@@ -1893,7 +1893,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string s = Allow.Match(m.Groups[2].Value).Groups[1].Value.Trim();
             if (s.Length > 0)
             {
-                foreach (string u in s.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            foreach (string u in s.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     if (u == Username) return true;
 
