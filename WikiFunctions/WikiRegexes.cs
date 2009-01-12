@@ -34,8 +34,8 @@ namespace WikiFunctions
             Images =
                 new Regex(
                     @"\[\[" + Variables.NamespacesCaseInsensitive[6] +
-                    @"([^\]]*?(?:\[\[?.*?(?:\[\[.*?\]\].*?)?\]\]?[^\]]*?)*)\]\]|<[Gg]allery\b([^>]*?)>[\s\S]*?</ ?[Gg]allery>",
-                    RegexOptions.Compiled);
+                    @"([^\]]*?(?:\[\[?.*?(?:\[\[.*?\]\].*?)?\]\]?[^\]]*?)*)\]\]|<[Gg]allery\b([^>]*?)>[\s\S]*?</ ?[Gg]allery>|\|\s*[Pp]hoto\s*=.+?(?:\||}})",
+                    RegexOptions.Compiled | RegexOptions.Singleline);
 
             Stub = new Regex(@"{{.*?" + Variables.Stub + @"}}", RegexOptions.Compiled);
 

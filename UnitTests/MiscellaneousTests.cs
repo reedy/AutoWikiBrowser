@@ -125,6 +125,11 @@ namespace UnitTests
             AssertAllHiddenMore("[[FILE:foo|A [[bar|quux]].]]");
             AssertAllHiddenMore("[[Image:foo|A [[bar]][http://fubar].]]");
             AssertAllHiddenMore("[[Image:foo|A [[bar]][http://fubar].{{quux}}]]");
+            AssertAllHiddenMore(@"| Photo =Arlberg passstrasse.jpg |");
+            AssertAllHiddenMore(@"| Photo =Arlberg passstrasse.jpg}}");
+            AssertAllHiddenMore(@"|photo=Arlberg passstrasse.jpg|");
+            AssertAllHiddenMore(@"| Photo =Arlberg passstrasse.jpg
+|");
             AssertAllHiddenMore("[[Image:foo|test [[File:bar|thumb|[[boz]]]]]]");
         }
 
