@@ -65,23 +65,24 @@ namespace WikiFunctions
             Dates = new Regex("^(0?[1-9]|[12][0-9]|3[01]) " + months + "$", RegexOptions.Compiled);
             Dates2 = new Regex("^" + months + " (0?[1-9]|[12][0-9]|3[01])$", RegexOptions.Compiled);
 
-            string s = "";
+            builder = new StringBuilder();
 
             if (Variables.MagicWords.ContainsKey("redirect"))
             {
                 foreach (string r in Variables.MagicWords["redirect"])
                 {
-                    s += r.Replace("#", "") + "|";
+                    builder.Append(r.Replace("#", "") + "|");
                 }
-                s = s.Substring(0, s.Length - 1);
+                builder.Remove((builder.Length - 1), 1);
             }
             else
             {
-                s = "REDIRECT";
+                builder.Append("REDIRECT");
             }
 
-            Redirect = new Regex(@"#(?:" + s + @")\s*:?\s*\[\[\s*:?\s*([^\|]*?)\s*(|\|.*?)]\]",
+            Redirect = new Regex(@"#(?:" + builder + @")\s*:?\s*\[\[\s*:?\s*([^\|]*?)\s*(|\|.*?)]\]",
                                  RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            string s;
 
             switch (Variables.LangCode)
             {
@@ -96,12 +97,13 @@ namespace WikiFunctions
 
             if (Variables.MagicWords.ContainsKey("defaultsort"))
             {
-                s = "(?i:";
+                builder = new StringBuilder("(?i:");
                 foreach(string d in Variables.MagicWords["defaultsort"])
                 {
-                    s += d.Replace(":", "") + "|";
+                    builder.Append(d.Replace(":", "") + "|");
                 }
-                s = s.Substring(0, s.Length - 1) + ")";
+                builder.Remove((builder.Length - 1), 1);
+                s = builder + ")";
             }
             else
                 s = (Variables.LangCode == LangCodeEnum.en)

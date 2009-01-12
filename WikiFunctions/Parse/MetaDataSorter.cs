@@ -129,6 +129,11 @@ namespace WikiFunctions.Parse
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
         public static List<string> GetProjectLanguages(ProjectEnum project)
         {
             switch (project)
@@ -226,7 +231,7 @@ namespace WikiFunctions.Parse
     
     public class MetaDataSorter
     {
-        Parsers parser;
+        readonly Parsers parser;
 
         public List<string> PossibleInterwikis;
         public MetaDataSorter(Parsers p)
@@ -247,8 +252,8 @@ namespace WikiFunctions.Parse
 
         // now will be generated dynamically using Variables.Stub
         //Regex StubsRegex = new Regex("<!-- ?\\{\\{.*?stub\\}\\}.*?-->|:?\\{\\{.*?stub\\}\\}");
-        Regex InterLangRegex = new Regex("<!-- ?(other languages?|language links?|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wikis?|The below are interlanguage links\\.?) ?-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        Regex CatCommentRegex = new Regex("<!-- ?cat(egories)? ?-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex InterLangRegex = new Regex("<!-- ?(other languages?|language links?|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wikis?|The below are interlanguage links\\.?) ?-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        readonly Regex CatCommentRegex = new Regex("<!-- ?cat(egories)? ?-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private string[] InterwikiLocalAlpha;
         private string[] InterwikiLocalFirst;
@@ -293,6 +298,9 @@ namespace WikiFunctions.Parse
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void LoadInterWiki()
         {
             string text =
@@ -345,16 +353,32 @@ namespace WikiFunctions.Parse
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Input"></param>
+        /// <returns></returns>
         private static string remExtra(string Input)
         {
             return Input.Replace("\r\n", "").Replace(">", "").Replace("\n", "");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         private static string Newline(string s)
         {
             return Newline(s, 1);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="n"></param>
+        /// <returns></returns>
         private static string Newline(string s, int n)
         {
             if (s.Length == 0)
@@ -364,7 +388,13 @@ namespace WikiFunctions.Parse
                 s = "\r\n" + s;
             return s;
         }
-                               
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ArticleText"></param>
+        /// <param name="ArticleTitle"></param>
+        /// <returns></returns>
         internal string Sort(string ArticleText, string ArticleTitle)
         {
             if (Tools.CalculateNS(ArticleTitle) == 10) //Dont really want to be fooling around with templates
@@ -411,6 +441,12 @@ namespace WikiFunctions.Parse
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ArticleText"></param>
+        /// <param name="ArticleTitle"></param>
+        /// <returns></returns>
         public string removeCats(ref string ArticleText, string ArticleTitle)
         {
             List<string> categoryList = new List<string>();
@@ -459,6 +495,11 @@ namespace WikiFunctions.Parse
             return defaultSort + ListToString(categoryList);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ArticleText"></param>
+        /// <returns></returns>
         public static string removePersonData(ref string ArticleText)
         {
             string strPersonData;
@@ -473,6 +514,11 @@ namespace WikiFunctions.Parse
             return strPersonData;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ArticleText"></param>
+        /// <returns></returns>
         public static string removeStubs(ref string ArticleText)
         {
             List<string> stubList = new List<string>();
@@ -501,6 +547,11 @@ namespace WikiFunctions.Parse
             return "";
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ArticleText"></param>
+        /// <returns></returns>
         public static string removeDisambig(ref string ArticleText)
         {
             if (Variables.LangCode != LangCodeEnum.en)
@@ -516,6 +567,11 @@ namespace WikiFunctions.Parse
             return strDisambig;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ArticleText"></param>
+        /// <returns></returns>
         private static List<string> removeLinkFAs(ref string ArticleText)
         {
             List<string> linkFAList = new List<string>();
@@ -531,6 +587,11 @@ namespace WikiFunctions.Parse
             return linkFAList;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ArticleText"></param>
+        /// <returns></returns>
         public string interwikis(ref string ArticleText)
         {
             return ListToString(removeLinkFAs(ref ArticleText)) + ListToString(removeInterWikis(ref ArticleText));
@@ -538,6 +599,11 @@ namespace WikiFunctions.Parse
 
         static readonly Regex FastIW = new Regex(@"\[\[\s*([-a-zA-Z]*?)\s*:\s*([^\]]*?)\s*\]\]", RegexOptions.Compiled);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ArticleText"></param>
+        /// <returns></returns>
         private List<string> removeInterWikis(ref string ArticleText)
         {
             List<string> interWikiList = new List<string>();
@@ -576,12 +642,22 @@ namespace WikiFunctions.Parse
             return interWikiList;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="match"></param>
+        /// <returns></returns>
         public static string IWMatchEval(Match match)
         {
             string[] textArray = new string[] { "[[", match.Groups["site"].ToString().ToLower(), ":", match.Groups["text"].ToString(), "]]" };
             return string.Concat(textArray);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="items"></param>
+        /// <returns></returns>
         private static string ListToString(List<string> items)
         {//remove duplicates, and return List as string.
 
@@ -607,6 +683,12 @@ namespace WikiFunctions.Parse
             return list;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="List"></param>
+        /// <param name="strName"></param>
+        /// <returns></returns>
         private static List<string> catKeyer(List<string> List, string strName)
         {
             // make key

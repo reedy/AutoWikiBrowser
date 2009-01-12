@@ -334,7 +334,7 @@ namespace WikiFunctions.DBScanner
 
         private void wikifyToList()
         {
-            StringBuilder strbList = new StringBuilder("");
+            StringBuilder strbList = new StringBuilder();
             string s, l = "";
             int intHeadingSpace = Convert.ToInt32(nudHeadingSpace.Value);
 

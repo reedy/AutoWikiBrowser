@@ -794,7 +794,7 @@ namespace WikiFunctions.Controls.Lists
         {
             try
             {
-                StringBuilder strList = new StringBuilder("");
+                StringBuilder strList = new StringBuilder();
                 StreamWriter sw;
 
                 if (strListFile.Length > 0) saveListDialog.FileName = strListFile;
