@@ -150,6 +150,7 @@ namespace AutoWikiBrowser
             this.ToolStripMenuGeneral = new System.Windows.Forms.ToolStripMenuItem();
             this.PreferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.summariesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.autoSaveSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
             this.bypassRedirectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.automaticallyDoAnythingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1246,6 +1247,7 @@ namespace AutoWikiBrowser
             this.ToolStripMenuGeneral.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.PreferencesToolStripMenuItem,
             this.summariesToolStripMenuItem,
+            this.autoSaveSettingsToolStripMenuItem,
             this.toolStripSeparator14,
             this.bypassRedirectsToolStripMenuItem,
             this.automaticallyDoAnythingToolStripMenuItem,
@@ -1276,6 +1278,13 @@ namespace AutoWikiBrowser
             this.summariesToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
             this.summariesToolStripMenuItem.Text = "&Summaries...";
             this.summariesToolStripMenuItem.Click += new System.EventHandler(this.summariesToolStripMenuItem_Click);
+            // 
+            // AutoSaveSettingsToolStripMenuItem
+            // 
+            this.autoSaveSettingsToolStripMenuItem.Name = "autoSaveSettingsToolStripMenuItem";
+            this.autoSaveSettingsToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.autoSaveSettingsToolStripMenuItem.Text = "A&uto save settings file every 10 edits";
+            this.autoSaveSettingsToolStripMenuItem.CheckOnClick = true;
             // 
             // toolStripSeparator14
             // 
@@ -4066,6 +4075,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.SaveFileDialog saveListDialog;
         private System.Windows.Forms.ToolStripMenuItem generalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bypassRedirectsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem autoSaveSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveListToTextFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sortAlphabeticallyToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
