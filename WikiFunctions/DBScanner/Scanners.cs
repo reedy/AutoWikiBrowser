@@ -454,7 +454,7 @@ namespace WikiFunctions.DBScanner
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
-            return retf.DetectTypo(ArticleText);
+            return retf.DetectTypo(ArticleText, ArticleTitle);
         }
     }
 
