@@ -982,6 +982,11 @@ namespace AutoWikiBrowser
             if (listMaker.Count == 0 && AutoSaveEditBoxEnabled)
                 EditBoxSaveTimer.Enabled = false;
             retries = 0;
+
+            // if user has loaded a settings file, save it every 10 edits if autosavesettings is set
+            if (autoSaveSettingsToolStripMenuItem.Checked && !string.IsNullOrEmpty(SettingsFile) && (NumberOfEdits > 5) && (NumberOfEdits % 10 == 0))
+                SavePrefs(SettingsFile);
+
             Start();
         }
 
