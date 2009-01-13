@@ -418,10 +418,10 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="RegexTypos">A RegExTypoFix object</param>
         /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
-        public void PerformTypoFixes(RegExTypoFix RegexTypos, bool SkipIfNoChange)
+        public void PerformTypoFixes(RegExTypoFix RegexTypos, bool SkipIfNoChange, string ArticleTitle)
         {
             bool noChange;
-            string strTemp = RegexTypos.PerformTypoFixes(mArticleText, out noChange, out mPluginEditSummary);
+            string strTemp = RegexTypos.PerformTypoFixes(mArticleText, out noChange, out mPluginEditSummary, ArticleTitle);
 
             if (noChange && SkipIfNoChange)
                 Trace.AWBSkipped("No typo fixes");

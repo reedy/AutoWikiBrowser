@@ -130,14 +130,18 @@ namespace WikiFunctions.Parse
         /// <param name="ArticleText"></param>
         /// <param name="summary"></param>
         /// <param name="typo"></param>
-        private void FixTypo(ref string ArticleText, ref string summary, KeyValuePair<Regex, string> typo)
+        private void FixTypo(ref string ArticleText, ref string summary, KeyValuePair<Regex, string> typo, string ArticleTitle)
         {
             MatchCollection matches = typo.Key.Matches(ArticleText);
-            if (matches.Count > 0)
+            
+            // don't apply the typo if it matches the Article's title
+            if (matches.Count > 0 && !typo.Key.IsMatch(ArticleTitle))
             {
                 TypoStat stats = new TypoStat(typo);
                 stats.Total = matches.Count;
+
                 ArticleText = typo.Key.Replace(ArticleText, typo.Value);
+
                 int count = 0;
 
                 foreach (Match m in matches)
@@ -158,7 +162,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Fixes typos
         /// </summary>
-        public void FixTypos(ref string ArticleText, ref string summary)
+        public void FixTypos(ref string ArticleText, ref string summary, string ArticleTitle)
         {
             Statistics.Clear();
             if (Groups != null)
@@ -168,13 +172,13 @@ namespace WikiFunctions.Parse
                     {
                         for (int j = 0; j < Math.Min(GroupSize, Typos.Count - i * GroupSize); j++)
                         {
-                            FixTypo(ref ArticleText, ref summary, Typos[i * GroupSize + j]);
+                            FixTypo(ref ArticleText, ref summary, Typos[i * GroupSize + j], ArticleTitle);
                         }
                     }
                 }
             else
                 foreach (KeyValuePair<Regex, string> typo in Typos)
-                    FixTypo(ref ArticleText, ref summary, typo);
+                    FixTypo(ref ArticleText, ref summary, typo, ArticleTitle);
         }
     }
 
@@ -314,7 +318,7 @@ namespace WikiFunctions.Parse
         /// <param name="NoChange"></param>
         /// <param name="Summary"></param>
         /// <returns></returns>
-        public string PerformTypoFixes(string ArticleText, out bool NoChange, out string Summary)
+        public string PerformTypoFixes(string ArticleText, out bool NoChange, out string Summary, string ArticleTitle)
         {
             Summary = "";
             if ((TyposCount == 0) || IgnoreRegex.IsMatch(ArticleText))
@@ -338,7 +342,7 @@ namespace WikiFunctions.Parse
 
             foreach (TypoGroup grp in Groups)
             {
-                grp.FixTypos(ref ArticleText, ref strSummary);
+                grp.FixTypos(ref ArticleText, ref strSummary, ArticleTitle);
             }
 
             NoChange = (originalText == ArticleText);
@@ -359,12 +363,12 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="ArticleText"></param>
         /// <returns></returns>
-        public bool DetectTypo(string ArticleText)
+        public bool DetectTypo(string ArticleText, string ArticleTitle)
         {
             bool noChange;
             string summary;
 
-            PerformTypoFixes(ArticleText, out noChange, out summary);
+            PerformTypoFixes(ArticleText, out noChange, out summary, ArticleTitle);
 
             return !noChange;
         }

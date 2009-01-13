@@ -1124,7 +1124,7 @@ namespace AutoWikiBrowser
                 // RegexTypoFix
                 if (chkRegExTypo.Checked && RegexTypos != null && !BotMode && !Tools.IsTalkPage(theArticle.NameSpaceKey))
                 {
-                    theArticle.PerformTypoFixes(RegexTypos, chkSkipIfNoRegexTypo.Checked);
+                    theArticle.PerformTypoFixes(RegexTypos, chkSkipIfNoRegexTypo.Checked, theArticle.Name);
                     Variables.Profiler.Profile("Typos");
                     typoStats = RegexTypos.GetStatistics();
                     if (theArticle.SkipArticle)
