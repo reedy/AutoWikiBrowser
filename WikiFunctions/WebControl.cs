@@ -82,10 +82,6 @@ namespace WikiFunctions.Browser
         /// Occurs when the Busy state changes
         /// </summary>
         public event WebControlDel BusyChanged;
-        /// <summary>
-        /// Controls watchlisting, to allow AWB setting to over-ride MW user settings
-        /// </summary>
-        private bool Watch;
         #endregion
 
         #region Properties
@@ -222,10 +218,28 @@ namespace WikiFunctions.Browser
 
             Wait();
 
-            Document.GetElementById("wpName1").InnerText = username;
-            Document.GetElementById("wpPassword1").InnerText = password;
-            Document.GetElementById("wpRemember").SetAttribute("value", "1");
-            Document.GetElementById("wpLoginattempt").InvokeMember("click");
+            if (Document == null) //Maybe retry?
+                return;
+
+            HtmlElement wpName1 = Document.GetElementById("wpName1");
+
+            if (wpName1 != null)
+                wpName1.InnerText = username;
+
+            HtmlElement wpPassword1 = Document.GetElementById("wpPassword1");
+
+            if (wpPassword1 != null)
+                wpPassword1.InnerText = password;
+
+            HtmlElement wpRemember = Document.GetElementById("wpRemember");
+
+            if (wpRemember != null)
+                wpRemember.SetAttribute("value" , "1");
+
+            HtmlElement wpLoginattempt = Document.GetElementById("wpLoginattempt");
+
+            if (wpLoginattempt != null)
+                wpLoginattempt.InvokeMember("click");
 
             Wait();
         }
@@ -240,7 +254,7 @@ namespace WikiFunctions.Browser
         public bool NewMessage
         { get { return NewMessagesRegex.IsMatch(DocumentText); } }
 
-        static readonly Regex wpTextbox1 = new Regex(@"<textarea [^>]*?name=[""']wpTextbox1[""'].*?>", RegexOptions.Compiled | RegexOptions.Singleline);
+        static readonly Regex wpTextbox1Regex = new Regex(@"<textarea [^>]*?name=[""']wpTextbox1Regex[""'].*?>", RegexOptions.Compiled | RegexOptions.Singleline);
 
         /// <summary>
         /// Gets a value indicating whether the textbox is present
@@ -261,7 +275,7 @@ namespace WikiFunctions.Browser
             get
             {
                 if (string.IsNullOrEmpty(cachedEditBox))
-                    cachedEditBox = wpTextbox1.Match(DocumentText).Value;
+                    cachedEditBox = wpTextbox1Regex.Match(DocumentText).Value;
 
                 return cachedEditBox;
             }
@@ -399,10 +413,15 @@ namespace WikiFunctions.Browser
         /// </summary>
         public string GetArticleText()
         {
-            if (!HasArticleTextBox || Document == null || Document.Body == null)
+            if (!HasArticleTextBox || Document == null)
                 return "";
 
-            return HttpUtility.HtmlDecode(Document.GetElementById("wpTextbox1").InnerHtml) ?? "";
+            HtmlElement wpTextbox1 = Document.GetElementById("wpTextbox1");
+
+            if (wpTextbox1 == null)
+                return "";
+
+            return HttpUtility.HtmlDecode(wpTextbox1.InnerHtml) ?? "";
         }
 
         /// <summary>
@@ -451,8 +470,13 @@ namespace WikiFunctions.Browser
         {
             if (HasArticleTextBox && Document != null)
             {
-                Document.GetElementById("wpTextbox1").Enabled = true;
-                Document.GetElementById("wpTextbox1").InnerText = ArticleText.Trim();
+                HtmlElement wpTextbox1 = Document.GetElementById("wpTextbox1");
+
+                if (wpTextbox1 == null)
+                    return;
+
+                wpTextbox1.Enabled = true;
+                wpTextbox1.InnerText = ArticleText.Trim();
             }
         }
 
@@ -461,7 +485,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public void SetMinor(bool IsMinor)
         {
-            if (Document == null || Document.Body == null)
+            if (Document == null)
                 return;
 
             HtmlElement wpMinorEdit = Document.GetElementById("wpMinoredit");
@@ -475,7 +499,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public void SetWatch(bool watch1)
         {
-            if (Document == null || Document.Body == null)
+            if (Document == null)
                 return;
 
             HtmlElement wpWatchthis = Document.GetElementById("wpWatchthis");
@@ -485,8 +509,6 @@ namespace WikiFunctions.Browser
 
             if (watch1)
                 wpWatchthis.SetAttribute("checked", "checked");
-
-            Watch = watch1;
         }
 
 
@@ -495,7 +517,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public void SetSummary(string Summary)
         {
-            if (Document == null || Document.Body == null)
+            if (Document == null)
                 return;
 
             HtmlElement wpSummary = Document.GetElementById("wpSummary");
@@ -511,7 +533,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public bool SetReason(string Reason)
         {
-            if (Document == null || Document.Body == null)
+            if (Document == null)
                 return false;
 
             HtmlElement wpReason = Document.GetElementById("wpReason");
@@ -529,11 +551,22 @@ namespace WikiFunctions.Browser
         /// </summary>
         public bool SetReasonAndExpiry(string Reason, string Expiry)
         {
-            if (Document == null || Document.Body == null || !Document.Body.InnerHtml.Contains("mwProtect-reason") || !Document.Body.InnerHtml.Contains("mwProtect-expiry"))
+            if (Document == null)
                 return false;
 
-            Document.GetElementById("mwProtect-reason").InnerText = Reason;
-            Document.GetElementById("mwProtect-expiry").InnerText = Expiry;
+            HtmlElement mwProtectreason = Document.GetElementById("mwProtect-reason");
+
+            if (mwProtectreason == null)
+                return false;
+
+            mwProtectreason.InnerText = Reason;
+
+            HtmlElement mwProtectexpiry= Document.GetElementById("mwProtect-expiry");
+
+            if (mwProtectexpiry == null)
+                return false;
+            
+            mwProtectexpiry.InnerText = Expiry;
             return true;
         }
 
@@ -542,7 +575,15 @@ namespace WikiFunctions.Browser
         /// </summary>
         public bool IsMinor()
         {
-            return (!(Document == null || Document.GetElementById("wpMinoredit").GetAttribute("checked") != "True"));
+            if (Document == null)
+                return false;
+
+            HtmlElement wpMinoredit = Document.GetElementById("wpMinoredit");
+
+            if (wpMinoredit == null)
+                return false;
+
+            return (wpMinoredit.GetAttribute("checked") == "True");
         }
 
         /// <summary>
@@ -550,7 +591,15 @@ namespace WikiFunctions.Browser
         /// </summary>
         public bool IsWatched()
         {
-            return (!(Document == null || Document.GetElementById("wpWatchthis").GetAttribute("checked") != "True"));
+            if (Document == null)
+                return false;
+
+            HtmlElement wpWatchthis = Document.GetElementById("wpWatchthis");
+
+            if (wpWatchthis == null)
+                return false;
+
+            return (wpWatchthis.GetAttribute("checked") == "True");
         }
 
         /// <summary>
@@ -558,7 +607,7 @@ namespace WikiFunctions.Browser
         /// </summary>
         public string GetSummary()
         {
-            if (Document == null || Document.Body == null || !Document.Body.InnerHtml.Contains("wpSummary"))
+            if (Document == null)
                 return "";
 
             HtmlElement wpSummary = Document.GetElementById("wpSummary");
@@ -603,13 +652,19 @@ namespace WikiFunctions.Browser
         /// </summary>
         public void Save()
         {
-            if (CanSave)
-            {
-                AllowNavigation = true;
-                ProcessStage = ProcessingStage.Save;
-                Status = "Saving";
-                Document.GetElementById("wpSave").InvokeMember("click");
-            }
+            if (Document == null)
+                return;
+
+            AllowNavigation = true;
+            ProcessStage = ProcessingStage.Save;
+            Status = "Saving";
+
+            HtmlElement wpSave = Document.GetElementById("wpSave");
+
+            if (wpSave == null)
+                return;
+
+            wpSave.InvokeMember("click");
         }
 
         /// <summary>
@@ -617,15 +672,21 @@ namespace WikiFunctions.Browser
         /// </summary>
         public void ShowPreview()
         {
-            if (CanPreview)
-            {
-                AllowNavigation = true;
-                ProcessStage = ProcessingStage.Diff;
-                Status = "Loading preview";
-                Document.GetElementById("wpPreview").InvokeMember("click");
+            if (Document == null)
+                return;
 
-                Wait();
-            }
+            AllowNavigation = true;
+            ProcessStage = ProcessingStage.Diff;
+            Status = "Loading preview";
+
+            HtmlElement wpPreview = Document.GetElementById("wpPreview");
+
+            if (wpPreview == null)
+                return;
+
+            wpPreview.InvokeMember("click");
+
+            Wait();
         }
 
         /// <summary>
@@ -633,15 +694,21 @@ namespace WikiFunctions.Browser
         /// </summary>
         public void Delete()
         {
-            if (CanDelete && Document != null)
-            {
-                AllowNavigation = true;
-                ProcessStage = ProcessingStage.Delete;
-                Status = "Deleting page";
-                Document.GetElementById("wpConfirmB").InvokeMember("click");
+            if (Document == null)
+                return;
 
-                Deleted(null, null);
-            }
+            AllowNavigation = true;
+            ProcessStage = ProcessingStage.Delete;
+            Status = "Deleting page";
+
+            HtmlElement wpConfirmB = Document.GetElementById("wpConfirmB");
+
+            if (wpConfirmB == null)
+                return;
+
+            wpConfirmB.InvokeMember("click");
+
+            Deleted(null, null);
         }
 
         /// <summary>
@@ -667,26 +734,37 @@ namespace WikiFunctions.Browser
         /// </summary>
         public void Protect(int EditProtectionLevel, int MoveProtectionLevel, bool CascadingProtection)
         {
-            if (CanProtect && Document != null)
-            {
-                AllowNavigation = true;
-                ProcessStage = ProcessingStage.Protect;
-                Status = "Protecting page";
+            if (Document == null)
+                return;
 
-                SetListBoxValues(Document.GetElementById("mwProtect-level-edit"), EditProtectionLevel);
-                SetListBoxValues(Document.GetElementById("mwProtect-level-move"), MoveProtectionLevel);
+            AllowNavigation = true;
+            ProcessStage = ProcessingStage.Protect;
+            Status = "Protecting page";
 
-                if (CascadingProtection)
-                    Document.GetElementById("mwProtect-cascade").SetAttribute("checked", "checked");
-                else
-                    Document.GetElementById("mwProtect-cascade").SetAttribute("checked", "");
+            SetListBoxValues(Document.GetElementById("mwProtect-level-edit"), EditProtectionLevel);
+            SetListBoxValues(Document.GetElementById("mwProtect-level-move"), MoveProtectionLevel);
 
-                Document.GetElementById("mw-Protect-submit").InvokeMember("click");
-            }
+            HtmlElement mwProtectcascade = Document.GetElementById("mwProtect-cascade");
+
+            if (mwProtectcascade == null)
+                return;
+
+            mwProtectcascade.SetAttribute("checked", CascadingProtection ? "checked" : "");
+
+            HtmlElement mwProtectsubmit = Document.GetElementById("mw-Protect-submit");
+
+            if (mwProtectsubmit == null)
+                return;
+
+            mwProtectsubmit.InvokeMember("click");
+
         }
 
         private static void SetListBoxValues(HtmlElement element, int Level)
         {
+            if (element == null)
+                return;
+
             if (Level != 0)
             {
                 element.Children[0].SetAttribute("selected", "");
@@ -858,7 +936,10 @@ namespace WikiFunctions.Browser
                 if (Loaded != null)
                     Loaded(null, null);
 
-                Document.GetElementById("wpTextbox1").Enabled = false;
+                HtmlElement wpTextbox1 = Document.GetElementById("wpTextbox1");
+
+                if (wpTextbox1 != null)
+                    wpTextbox1.Enabled = false;
             }
             else if (ProcessStage == ProcessingStage.Diff)
             {
@@ -905,7 +986,10 @@ namespace WikiFunctions.Browser
                 return false;
             }
 
-            Document.GetElementById("wpNewTitle").InnerText = NewTitle;
+            HtmlElement wpNewTitle = Document.GetElementById("wpNewTitle");
+
+            if (wpNewTitle != null)
+                wpNewTitle.InnerText = NewTitle;
 
             if (!SetReason(Summary))
             {
@@ -913,7 +997,12 @@ namespace WikiFunctions.Browser
                 return false;
             }
 
-            foreach (HtmlElement e in Document.GetElementById("movepage").GetElementsByTagName("input"))
+            HtmlElement movepage = Document.GetElementById("movepage");
+
+            if (movepage == null)
+                return false;
+
+            foreach (HtmlElement e in movepage.GetElementsByTagName("input"))
             {
                 if (e.GetAttribute("name") == "wpMove")
                 {
@@ -922,7 +1011,7 @@ namespace WikiFunctions.Browser
                     Wait();
 
                     AllowNavigation = false;
-                    if (e.Document.GetElementById("movepage") != null) return false;
+                    if (e.Document != null && e.Document.GetElementById("movepage") != null) return false;
 
                     Status = "Moved";
                     return true;
@@ -941,10 +1030,17 @@ namespace WikiFunctions.Browser
             if (Document == null)
                 return;
 
+            HtmlElement ca;
+
             if (IsWatched())
-                Document.GetElementById("ca-watch").InvokeMember("click");
+                ca = Document.GetElementById("ca-watch");
             else
-                Document.GetElementById("ca-un").InvokeMember("click");
+                ca = Document.GetElementById("ca-un");
+
+            if (ca == null)
+                return;
+
+            ca.InvokeMember("click");
 
             Wait();
             AllowNavigation = false;
