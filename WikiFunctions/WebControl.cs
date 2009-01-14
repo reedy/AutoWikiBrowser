@@ -151,7 +151,7 @@ namespace WikiFunctions.Browser
         [Browsable(false)]
         public bool CanSave
         {
-            get { return (Document != null && Document.GetElementById("wpSave") != null); }
+            get { return (Document != null && Document.GetElementById("wpSave") != null && !Status.Equals("Saving")); }
         }
 
         /// <summary>
