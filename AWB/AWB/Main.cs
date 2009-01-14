@@ -610,28 +610,8 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            if (!preParseModeToolStripMenuItem.Checked) // normal mode
-            {
-                if (chkSkipIfContains.Checked && TheArticle.SkipIfContains(txtSkipIfContains.Text,
-                    chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, true))
-                {
-                    SkipPage("Page contains: " + txtSkipIfContains.Text);
-                    return;
-                }
-
-                if (chkSkipIfNotContains.Checked && TheArticle.SkipIfContains(txtSkipIfNotContains.Text,
-                    chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, false))
-                {
-                    SkipPage("Page does not contain: " + txtSkipIfNotContains.Text);
-                    return;
-                }
-
-                if (!Skip.SkipIf(TheArticle.OriginalArticleText))
-                {
-                    SkipPage("skipIf custom code");
-                    return;
-                }
-            }
+            if (!preParseModeToolStripMenuItem.Checked && SkipChecks()) // normal mode
+                return;
 
             //check not in use
             if (TheArticle.IsInUse)
@@ -701,25 +681,8 @@ namespace AutoWikiBrowser
 
             if (!preParseModeToolStripMenuItem.Checked)
             {
-                if (chkSkipIfContains.Checked && TheArticle.SkipIfContains(txtSkipIfContains.Text,
-    chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, true))
-                {
-                    SkipPage("Page contains: " + txtSkipIfContains.Text);
+                if (SkipChecks())
                     return;
-                }
-
-                if (chkSkipIfNotContains.Checked && TheArticle.SkipIfContains(txtSkipIfNotContains.Text,
-                    chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, false))
-                {
-                    SkipPage("Page does not contain: " + txtSkipIfNotContains.Text);
-                    return;
-                }
-
-                if (!Skip.SkipIf(TheArticle.OriginalArticleText))
-                {
-                    SkipPage("skipIf custom code");
-                    return;
-                }
 
                 // if we reach here the article has valid changes, so move on to next article
 
@@ -791,6 +754,35 @@ namespace AutoWikiBrowser
                 EnableButtons();
                 Abort = false;
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>Whether the page has been skipped</returns>
+        private bool SkipChecks()
+        {
+            if (chkSkipIfContains.Checked && TheArticle.SkipIfContains(txtSkipIfContains.Text,
+                chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, true))
+            {
+                SkipPage("Page contains: " + txtSkipIfContains.Text);
+                return true;
+            }
+
+            if (chkSkipIfNotContains.Checked && TheArticle.SkipIfContains(txtSkipIfNotContains.Text,
+                chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, false))
+            {
+                SkipPage("Page does not contain: " + txtSkipIfNotContains.Text);
+                return true;
+            }
+
+            if (!Skip.SkipIf(TheArticle.OriginalArticleText))
+            {
+                SkipPage("skipIf custom code");
+                return true;
+            }
+
+            return false;
         }
 
         private void Bleepflash()
