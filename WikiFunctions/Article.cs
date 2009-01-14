@@ -48,6 +48,8 @@ namespace WikiFunctions
         public virtual IAWBTraceListener Trace
         { get { return mAWBLogListener; } }
 
+        public bool PreProcessed;
+
         #region Constructors
         public Article()
         {

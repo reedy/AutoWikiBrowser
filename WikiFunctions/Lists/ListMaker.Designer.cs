@@ -203,37 +203,39 @@ namespace WikiFunctions.Controls.Lists
             this.saveListToFileToolStripMenuItem,
             this.sortAlphaMenuItem});
             this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(213, 370);
+            this.mnuListBox.Size = new System.Drawing.Size(276, 370);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // openInBrowserToolStripMenuItem
             // 
             this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
-            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.openInBrowserToolStripMenuItem.Text = "&Open page in browser";
             this.openInBrowserToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+P";
-            this.openInBrowserToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.P)));
+            this.openInBrowserToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.P)));
+            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
+            this.openInBrowserToolStripMenuItem.Text = "&Open page in browser";
             this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
             // 
             // openHistoryInBrowserToolStripMenuItem
             // 
             this.openHistoryInBrowserToolStripMenuItem.Name = "openHistoryInBrowserToolStripMenuItem";
-            this.openHistoryInBrowserToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.openHistoryInBrowserToolStripMenuItem.Text = "Open &history in browser";
             this.openHistoryInBrowserToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+H";
-            this.openHistoryInBrowserToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.H)));
+            this.openHistoryInBrowserToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.H)));
+            this.openHistoryInBrowserToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
+            this.openHistoryInBrowserToolStripMenuItem.Text = "Open &history in browser";
             this.openHistoryInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openHistoryInBrowserToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(209, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(272, 6);
             // 
             // cutToolStripMenuItem
             // 
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
             this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
             this.cutToolStripMenuItem.Text = "Cu&t";
             this.cutToolStripMenuItem.Click += new System.EventHandler(this.cutToolStripMenuItem_Click);
             // 
@@ -241,7 +243,7 @@ namespace WikiFunctions.Controls.Lists
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
             this.copyToolStripMenuItem.Text = "&Copy";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
@@ -249,14 +251,14 @@ namespace WikiFunctions.Controls.Lists
             // 
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
             this.pasteToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
             this.pasteToolStripMenuItem.Text = "&Paste";
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(209, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(272, 6);
             // 
             // selectMnu
             // 
@@ -265,7 +267,7 @@ namespace WikiFunctions.Controls.Lists
             this.selectNoneToolStripMenuItem,
             this.invertSelectionToolStripMenuItem});
             this.selectMnu.Name = "selectMnu";
-            this.selectMnu.Size = new System.Drawing.Size(212, 22);
+            this.selectMnu.Size = new System.Drawing.Size(275, 22);
             this.selectMnu.Text = "&Select";
             // 
             // selectAllToolStripMenuItem
@@ -301,7 +303,7 @@ namespace WikiFunctions.Controls.Lists
             this.duplicatesToolStripMenuItem,
             this.filterOutNonMainSpaceArticlesToolStripMenuItem});
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
             this.removeToolStripMenuItem.Text = "&Remove";
             // 
             // selectedToolStripMenuItem
@@ -339,7 +341,7 @@ namespace WikiFunctions.Controls.Lists
             // toolStripSeparator14
             // 
             this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size = new System.Drawing.Size(209, 6);
+            this.toolStripSeparator14.Size = new System.Drawing.Size(272, 6);
             // 
             // addSelectedToListToolStripMenuItem
             // 
@@ -354,7 +356,7 @@ namespace WikiFunctions.Controls.Lists
             this.fromRedirectsToolStripMenuItem,
             this.fromWhatlinkshereToolStripMenuItem});
             this.addSelectedToListToolStripMenuItem.Name = "addSelectedToListToolStripMenuItem";
-            this.addSelectedToListToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.addSelectedToListToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
             this.addSelectedToListToolStripMenuItem.Text = "Add selected to list from...";
             // 
             // categoriesOnPageToolStripMenuItem
@@ -423,31 +425,31 @@ namespace WikiFunctions.Controls.Lists
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(209, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(272, 6);
             // 
             // moveToTopToolStripMenuItem
             // 
             this.moveToTopToolStripMenuItem.Name = "moveToTopToolStripMenuItem";
-            this.moveToTopToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.moveToTopToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
             this.moveToTopToolStripMenuItem.Text = "Move to top";
             this.moveToTopToolStripMenuItem.Click += new System.EventHandler(this.moveToTopToolStripMenuItem_Click);
             // 
             // moveToBottomToolStripMenuItem
             // 
             this.moveToBottomToolStripMenuItem.Name = "moveToBottomToolStripMenuItem";
-            this.moveToBottomToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.moveToBottomToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
             this.moveToBottomToolStripMenuItem.Text = "Move to bottom";
             this.moveToBottomToolStripMenuItem.Click += new System.EventHandler(this.moveToBottomToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(209, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(272, 6);
             // 
             // convertToTalkPagesToolStripMenuItem
             // 
             this.convertToTalkPagesToolStripMenuItem.Name = "convertToTalkPagesToolStripMenuItem";
-            this.convertToTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.convertToTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
             this.convertToTalkPagesToolStripMenuItem.Text = "Con&vert to talk pages";
             this.convertToTalkPagesToolStripMenuItem.ToolTipText = "Convert namespace to talk";
             this.convertToTalkPagesToolStripMenuItem.Click += new System.EventHandler(this.convertToTalkPagesToolStripMenuItem_Click);
@@ -455,7 +457,7 @@ namespace WikiFunctions.Controls.Lists
             // convertFromTalkPagesToolStripMenuItem
             // 
             this.convertFromTalkPagesToolStripMenuItem.Name = "convertFromTalkPagesToolStripMenuItem";
-            this.convertFromTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.convertFromTalkPagesToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
             this.convertFromTalkPagesToolStripMenuItem.Text = "Convert &from talk pages";
             this.convertFromTalkPagesToolStripMenuItem.ToolTipText = "Convert namespace of talk pages to associated article";
             this.convertFromTalkPagesToolStripMenuItem.Click += new System.EventHandler(this.convertFromTalkPagesToolStripMenuItem_Click);
@@ -463,12 +465,12 @@ namespace WikiFunctions.Controls.Lists
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(209, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(272, 6);
             // 
             // specialFilterToolStripMenuItem
             // 
             this.specialFilterToolStripMenuItem.Name = "specialFilterToolStripMenuItem";
-            this.specialFilterToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.specialFilterToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
             this.specialFilterToolStripMenuItem.Text = "Fi&lter";
             this.specialFilterToolStripMenuItem.ToolTipText = "Filter articles by namespace";
             this.specialFilterToolStripMenuItem.Click += new System.EventHandler(this.specialFilterToolStripMenuItem_Click);
@@ -476,7 +478,7 @@ namespace WikiFunctions.Controls.Lists
             // saveListToFileToolStripMenuItem
             // 
             this.saveListToFileToolStripMenuItem.Name = "saveListToFileToolStripMenuItem";
-            this.saveListToFileToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.saveListToFileToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
             this.saveListToFileToolStripMenuItem.Text = "Save list";
             this.saveListToFileToolStripMenuItem.ToolTipText = "Saves list to a text file";
             this.saveListToFileToolStripMenuItem.Click += new System.EventHandler(this.saveListToTextFileToolStripMenuItem1_Click);
@@ -484,7 +486,7 @@ namespace WikiFunctions.Controls.Lists
             // sortAlphaMenuItem
             // 
             this.sortAlphaMenuItem.Name = "sortAlphaMenuItem";
-            this.sortAlphaMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.sortAlphaMenuItem.Size = new System.Drawing.Size(275, 22);
             this.sortAlphaMenuItem.Text = "Sort alpha&betically";
             this.sortAlphaMenuItem.ToolTipText = "Sorts the list alphabetically";
             this.sortAlphaMenuItem.Click += new System.EventHandler(this.sortAlphebeticallyMenuItem_Click);
@@ -529,12 +531,14 @@ namespace WikiFunctions.Controls.Lists
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.lbArticles.ContextMenuStrip = this.mnuListBox;
+            this.lbArticles.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.lbArticles.FormattingEnabled = true;
             this.lbArticles.Location = new System.Drawing.Point(3, 105);
             this.lbArticles.Name = "lbArticles";
             this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lbArticles.Size = new System.Drawing.Size(202, 212);
             this.lbArticles.TabIndex = 9;
+            this.lbArticles.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lbArticles_DrawItem);
             this.lbArticles.DoubleClick += new System.EventHandler(this.lbArticles_DoubleClick);
             this.lbArticles.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbArticles_MouseMove);
             this.lbArticles.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbArticles_KeyDown);

@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.ComponentModel;
+using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
@@ -537,14 +538,14 @@ namespace WikiFunctions.Controls.Lists
         public bool NextArticle()
         {
             if (lbArticles.Items.Count == lbArticles.SelectedIndex - 1)
-                return (false);
+                return false;
+
+            ((Article) lbArticles.SelectedItem).PreProcessed = true;
 
             lbArticles.SelectedIndex++;
             lbArticles.SetSelected(lbArticles.SelectedIndex, false);
 
-            //TODO: set the colour of the previously selected item to green to show it's been pre-parsed
-
-            return (true);
+            return true;
         }
 
         /// <summary>
@@ -1260,5 +1261,22 @@ namespace WikiFunctions.Controls.Lists
         {
             return new DBScanner.DatabaseScanner(this);
         }
+
+        private void lbArticles_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            Article a = (Article) lbArticles.Items[e.Index];
+
+            if (!lbArticles.SelectedIndices.Contains(e.Index))
+                e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index,
+                                         e.State,
+                                         e.ForeColor, (a.PreProcessed) ? Color.GreenYellow : e.BackColor);
+            e.DrawBackground();
+
+            e.Graphics.DrawString(((ListBox) sender).Items[e.Index].ToString(),
+                                  e.Font, Brushes.Black, e.Bounds, StringFormat.GenericDefault);
+
+            e.DrawFocusRectangle();
+        }
+
     }
 }
