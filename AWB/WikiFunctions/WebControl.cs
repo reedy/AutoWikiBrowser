@@ -461,13 +461,13 @@ namespace WikiFunctions.Browser
         /// </summary>
         public void SetMinor(bool IsMinor)
         {
-            if (Document == null || Document.Body == null || !Document.Body.InnerHtml.Contains("wpMinoredit"))
+            if (Document == null || Document.Body == null)
                 return;
 
-            if (IsMinor)
-                Document.GetElementById("wpMinoredit").SetAttribute("checked", "checked");
-            else
-                Document.GetElementById("wpMinoredit").SetAttribute("checked", "");
+            HtmlElement wpMinorEdit = Document.GetElementById("wpMinoredit");
+
+            if (wpMinorEdit != null)
+                wpMinorEdit.SetAttribute("checked", IsMinor ? "checked" : "");
         }
 
         /// <summary>
@@ -475,11 +475,16 @@ namespace WikiFunctions.Browser
         /// </summary>
         public void SetWatch(bool watch1)
         {
-            if (Document == null || Document.Body == null || !Document.Body.InnerHtml.Contains("wpWatchthis"))
+            if (Document == null || Document.Body == null)
+                return;
+
+            HtmlElement wpWatchthis = Document.GetElementById("wpWatchthis");
+
+            if (wpWatchthis == null)
                 return;
 
             if (watch1)
-                Document.GetElementById("wpWatchthis").SetAttribute("checked", "checked");
+                wpWatchthis.SetAttribute("checked", "checked");
 
             Watch = watch1;
         }
@@ -490,10 +495,15 @@ namespace WikiFunctions.Browser
         /// </summary>
         public void SetSummary(string Summary)
         {
-            if (Document == null || Document.Body == null || !Document.Body.InnerHtml.Contains("wpSummary"))
+            if (Document == null || Document.Body == null)
                 return;
 
-            Document.GetElementById("wpSummary").InnerText = Summary;
+            HtmlElement wpSummary = Document.GetElementById("wpSummary");
+
+            if (wpSummary == null)
+                return;
+
+            wpSummary.InnerText = Summary;
         }
 
         /// <summary>
@@ -501,10 +511,16 @@ namespace WikiFunctions.Browser
         /// </summary>
         public bool SetReason(string Reason)
         {
-            if (Document == null || Document.Body == null || !Document.Body.InnerHtml.Contains("wpReason"))
+            if (Document == null || Document.Body == null)
                 return false;
 
-            Document.GetElementById("wpReason").InnerText = Reason;
+            HtmlElement wpReason = Document.GetElementById("wpReason");
+
+            if (wpReason == null)
+                return false;
+
+            wpReason.InnerText = Reason;
+
             return true;
         }
 
@@ -545,7 +561,9 @@ namespace WikiFunctions.Browser
             if (Document == null || Document.Body == null || !Document.Body.InnerHtml.Contains("wpSummary"))
                 return "";
 
-            return Document.GetElementById("wpSummary").InnerText;
+            HtmlElement wpSummary = Document.GetElementById("wpSummary");
+
+            return (wpSummary != null) ? wpSummary.InnerText : "";
         }
 
         const string startMark = "<!-- start content -->", endMark = "<!-- end content -->";

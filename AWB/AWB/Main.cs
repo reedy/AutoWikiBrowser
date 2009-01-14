@@ -331,10 +331,7 @@ namespace AutoWikiBrowser
             set
             {
                 bLowThreadPriority = value;
-                if (value)
-                    Thread.CurrentThread.Priority = ThreadPriority.Lowest;
-                else
-                    Thread.CurrentThread.Priority = ThreadPriority.Normal;
+                Thread.CurrentThread.Priority = value ? ThreadPriority.Lowest : ThreadPriority.Normal;
             }
         }
 
