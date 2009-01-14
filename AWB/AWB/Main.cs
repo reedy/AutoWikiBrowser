@@ -676,7 +676,7 @@ namespace AutoWikiBrowser
                 }
             }
 
-            if (!preParseModeToolStripMenuItem.Checked)
+            if (preParseModeToolStripMenuItem.Checked)
             {
                 if (SkipChecks())
                     return;
