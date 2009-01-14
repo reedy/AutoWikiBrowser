@@ -1262,14 +1262,18 @@ namespace WikiFunctions.Controls.Lists
             return new DBScanner.DatabaseScanner(this);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void lbArticles_DrawItem(object sender, DrawItemEventArgs e)
         {
             Article a = (Article) lbArticles.Items[e.Index];
 
-            if (!lbArticles.SelectedIndices.Contains(e.Index))
-                e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index,
-                                         e.State,
-                                         e.ForeColor, (a.PreProcessed) ? Color.GreenYellow : e.BackColor);
+            if ((e.State & DrawItemState.Selected) != DrawItemState.Selected)
+                    e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index,
+                                            e.State,
+                                            e.ForeColor, (a.PreProcessed) ? Color.GreenYellow : e.BackColor);
+
             e.DrawBackground();
 
             e.Graphics.DrawString(((ListBox) sender).Items[e.Index].ToString(),

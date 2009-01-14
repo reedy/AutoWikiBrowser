@@ -446,7 +446,6 @@ namespace AwbUpdater
             foreach (Process p in Process.GetProcesses())
             {
                 awbOpen = (p.ProcessName == "AutoWikiBrowser");
-
                 if (awbOpen)
                     break;
             }
