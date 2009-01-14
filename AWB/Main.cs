@@ -2143,8 +2143,7 @@ window.scrollTo(0, diffTopY);
 
         private void UpdateButtons(object sender, EventArgs e)
         {
-            bool enabled = (listMaker.NumberOfArticles > 0);
-            SetStartButton(enabled);
+            SetStartButton(listMaker.NumberOfArticles > 0);
 
             lbltsNumberofItems.Text = "Pages: " + listMaker.NumberOfArticles;
             bypassAllRedirectsToolStripMenuItem.Enabled = Variables.User.IsAdmin;

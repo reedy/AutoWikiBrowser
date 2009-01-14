@@ -1267,6 +1267,9 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         private void lbArticles_DrawItem(object sender, DrawItemEventArgs e)
         {
+            if (e.Index < 0)
+                return;
+
             Article a = (Article) lbArticles.Items[e.Index];
 
             if ((e.State & DrawItemState.Selected) != DrawItemState.Selected)
