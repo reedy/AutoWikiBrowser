@@ -151,6 +151,7 @@ namespace AutoWikiBrowser
             this.PreferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.summariesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoSaveSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.preParseModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
             this.bypassRedirectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.automaticallyDoAnythingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1248,6 +1249,7 @@ namespace AutoWikiBrowser
             this.PreferencesToolStripMenuItem,
             this.summariesToolStripMenuItem,
             this.autoSaveSettingsToolStripMenuItem,
+            this.preParseModeToolStripMenuItem,
             this.toolStripSeparator14,
             this.bypassRedirectsToolStripMenuItem,
             this.automaticallyDoAnythingToolStripMenuItem,
@@ -1285,6 +1287,13 @@ namespace AutoWikiBrowser
             this.autoSaveSettingsToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
             this.autoSaveSettingsToolStripMenuItem.Text = "A&uto save settings file every 10 edits";
             this.autoSaveSettingsToolStripMenuItem.CheckOnClick = true;
+            // 
+            // preParseModeToolStripMenuItem
+            // 
+            this.preParseModeToolStripMenuItem.Name = "preParseModeToolStripMenuItem";
+            this.preParseModeToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.preParseModeToolStripMenuItem.Text = "Use pre-parse mode";
+            this.preParseModeToolStripMenuItem.CheckOnClick = true;
             // 
             // toolStripSeparator14
             // 
@@ -4076,6 +4085,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem generalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bypassRedirectsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem autoSaveSettingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem preParseModeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveListToTextFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sortAlphabeticallyToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;

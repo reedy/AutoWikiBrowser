@@ -532,6 +532,22 @@ namespace WikiFunctions.Controls.Lists
 
         #region Methods
         /// <summary>
+        /// When using pre-parse mode, selects next article in list, if there is one
+        /// </summary>
+        public bool NextArticle()
+        {
+            if (lbArticles.Items.Count == lbArticles.SelectedIndex - 1)
+                return (false);
+
+            lbArticles.SelectedIndex++;
+            lbArticles.SetSelected(lbArticles.SelectedIndex, false);
+
+            //TODO: set the colour of the previously selected item to green to show it's been pre-parsed
+
+            return (true);
+        }
+
+        /// <summary>
         /// Removes URL and such if applicable
         /// </summary>
         public string NormalizeTitle(string s)
