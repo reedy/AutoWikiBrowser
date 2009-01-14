@@ -177,6 +177,9 @@ namespace WikiFunctions.Parse
 
         private readonly Regex RegexBadHeader = new Regex("^(={1,4} ?(about|description|overview|definition|profile|(?:general )?information|background|intro(?:duction)?|summary|bio(?:graphy)?) ?={1,4})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
+        private readonly Regex regexHeadingWhitespaceBefore = new Regex(@"^ *(==+)(\s*.+?\s*)\1 +(\r|\n)", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
+        private readonly Regex regexHeadingWhitespaceAfter = new Regex(@"^ +(==+)(\s*.+?\s*)\1 *(\r|\n)", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
+
         /// <summary>
         /// Fix ==See also== and similar section common errors.
         /// </summary>
@@ -196,7 +199,7 @@ namespace WikiFunctions.Parse
 
         // NOT covered
         /// <summary>
-        /// Fix ==See also== and similar section common errors. Removes unecessary introductary headings.
+        /// Fix ==See also== and similar section common errors. Removes unecessary introductory headings and cleans excess whitespace.
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="ArticleTitle"></param>
@@ -222,6 +225,9 @@ namespace WikiFunctions.Parse
             ArticleText = regexHeadings9.Replace(ArticleText, "$1Track listing$2");
             ArticleText = regexHeadings10.Replace(ArticleText, "$1Life and career$2");
             ArticleText = regexHeadingsCareer.Replace(ArticleText, "$1$2 career$3");
+
+            ArticleText = regexHeadingWhitespaceBefore.Replace(ArticleText, "$1$2$1$3");
+            ArticleText = regexHeadingWhitespaceAfter.Replace(ArticleText, "$1$2$1$3");
 
             return ArticleText;
         }

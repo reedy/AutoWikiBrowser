@@ -388,9 +388,32 @@ http://example.com }}");
             Assert.AreEqual("quux\r\n==foo==\r\n\r\nbar", p.FixHeadings("quux\r\n=='''foo'''==\r\n\r\nbar", "test"));
 
             Assert.AreEqual("==foo==", p.FixHeadings("==foo==", "test"));
+
+            // following unit tests appear messy due to need to include whitespace and newlines
+            Assert.AreEqual(@"hi.
+===News===
+Some news here.", p.FixHeadings(@"hi.
+ ===News===
+Some news here.", "test"));
+            Assert.AreEqual(@"hi.
+==News place==
+Some news here.", p.FixHeadings(@"hi.
+ ==News place==
+Some news here.", "test"));
+            Assert.AreEqual(@"hi.
+==News place==
+Some news here.", p.FixHeadings(@"hi.
+    ==News place==  
+Some news here.", "test"));
+            Assert.AreEqual(@"hi.
+==News place==
+Some news here.", p.FixHeadings(@"hi.
+==News place==  
+Some news here.", "test"));
+
+            // will fail while regexLinkedHeader is disabled
             Assert.AreEqual("==foo==", p.FixHeadings("==[[foo]]==", "test"));
             Assert.AreEqual("== foo ==", p.FixHeadings("== [[foo]] ==", "test"));
-
             Assert.AreEqual("==bar==", p.FixHeadings("==[[foo|bar]]==", "test"));
         }
 
