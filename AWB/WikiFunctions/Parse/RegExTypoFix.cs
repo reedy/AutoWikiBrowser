@@ -130,12 +130,16 @@ namespace WikiFunctions.Parse
         /// <param name="ArticleText"></param>
         /// <param name="summary"></param>
         /// <param name="typo"></param>
+        /// <param name="ArticleTitle"></param>
         private void FixTypo(ref string ArticleText, ref string summary, KeyValuePair<Regex, string> typo, string ArticleTitle)
         {
+            if (typo.Key.IsMatch(ArticleTitle))
+                return;
+
             MatchCollection matches = typo.Key.Matches(ArticleText);
             
             // don't apply the typo if it matches the Article's title
-            if (matches.Count > 0 && !typo.Key.IsMatch(ArticleTitle))
+            if (matches.Count > 0)
             {
                 TypoStat stats = new TypoStat(typo);
                 stats.Total = matches.Count;
