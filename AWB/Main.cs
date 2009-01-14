@@ -691,9 +691,10 @@ namespace AutoWikiBrowser
                     SavePrefs(SettingsFile);
 
                 // request list maker to focus next article in list; if there is a next article process it, otherwise pre-parsing has finished, save settings
+                // but don't save when settings have just been saved by logic above
                 if (listMaker.NextArticle())
                     Start();
-                else if (!string.IsNullOrEmpty(SettingsFile))
+                else if (!string.IsNullOrEmpty(SettingsFile) && !(NumberOfIgnoredEdits % 10 == 0))
                     SavePrefs(SettingsFile);
             }
 
