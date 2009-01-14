@@ -631,140 +631,76 @@ namespace AutoWikiBrowser
                     SkipPage("skipIf custom code");
                     return;
                 }
+            }
 
-                //check not in use
-                if (TheArticle.IsInUse)
-                    if (chkSkipIfInuse.Checked)
+            //check not in use
+            if (TheArticle.IsInUse)
+                if (chkSkipIfInuse.Checked)
+                {
+                    SkipPage("Page contains {{inuse}}");
+                    return;
+                }
+                else if (!BotMode)
+                    MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
+
+            if (automaticallyDoAnythingToolStripMenuItem.Checked)
+            {
+                StatusLabelText = "Processing page";
+                Application.DoEvents();
+
+                //FIXME: this position is imprefect, since above there is code that can explode, but this way
+                //at least we don't get bogus reports of unrelated pages
+                ErrorHandler.CurrentPage = TheArticle.Name;
+
+                ProcessPage(TheArticle, true);
+
+                ErrorHandler.CurrentPage = "";
+
+                UpdateWebBrowserStatus(null, null);
+                UpdateCurrentTypoStats();
+
+                if (!Abort)
+                {
+                    if (TheArticle.SkipArticle)
                     {
-                        SkipPage("Page contains {{inuse}}");
+                        SkipPageReasonAlreadyProvided(); // Don't send a reason; ProcessPage() should already have logged one
                         return;
                     }
-                    else if (!BotMode)
-                        MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
 
-                if (automaticallyDoAnythingToolStripMenuItem.Checked)
-                {
-                    StatusLabelText = "Processing page";
-                    Application.DoEvents();
-
-                    //FIXME: this position is imprefect, since above there is code that can explode, but this way
-                    //at least we don't get bogus reports of unrelated pages
-                    ErrorHandler.CurrentPage = TheArticle.Name;
-
-                    ProcessPage(TheArticle, true);
-
-                    ErrorHandler.CurrentPage = "";
-
-                    UpdateWebBrowserStatus(null, null);
-                    UpdateCurrentTypoStats();
-
-                    if (!Abort)
+                    if (skippable && chkSkipNoChanges.Checked && TheArticle.NoArticleTextChanged)
                     {
-                        if (TheArticle.SkipArticle)
-                        {
-                            SkipPageReasonAlreadyProvided(); // Don't send a reason; ProcessPage() should already have logged one
-                            return;
-                        }
+                        SkipPage("No change");
+                        return;
+                    }
 
-                        if (skippable && chkSkipNoChanges.Checked && TheArticle.NoArticleTextChanged)
-                        {
-                            SkipPage("No change");
-                            return;
-                        }
+                    if (chkSkipWhitespace.Checked && chkSkipCasing.Checked && TheArticle.OnlyWhiteSpaceAndCasingChanged)
+                    {
+                        SkipPage("Only whitespace/casing changed");
+                        return;
+                    }
 
-                        if (chkSkipWhitespace.Checked && chkSkipCasing.Checked && TheArticle.OnlyWhiteSpaceAndCasingChanged)
-                        {
-                            SkipPage("Only whitespace/casing changed");
-                            return;
-                        }
+                    if (chkSkipWhitespace.Checked && TheArticle.OnlyWhiteSpaceChanged)
+                    {
+                        SkipPage("Only whitespace changed");
+                        return;
+                    }
 
-                        if (chkSkipWhitespace.Checked && TheArticle.OnlyWhiteSpaceChanged)
-                        {
-                            SkipPage("Only whitespace changed");
-                            return;
-                        }
+                    if (chkSkipCasing.Checked && TheArticle.OnlyCasingChanged)
+                    {
+                        SkipPage("Only casing changed");
+                        return;
+                    }
 
-                        if (chkSkipCasing.Checked && TheArticle.OnlyCasingChanged)
-                        {
-                            SkipPage("Only casing changed");
-                            return;
-                        }
-
-                        if (chkSkipGeneralFixes.Checked && chkGeneralFixes.Checked && TheArticle.OnlyGeneralFixesChanged)
-                        {
-                            SkipPage("Only general fix changes");
-                            return;
-                        }
+                    if (chkSkipGeneralFixes.Checked && chkGeneralFixes.Checked && TheArticle.OnlyGeneralFixesChanged)
+                    {
+                        SkipPage("Only general fix changes");
+                        return;
                     }
                 }
             }
-            else // we are in pre-parse mode
+
+            if (!preParseModeToolStripMenuItem.Checked)
             {
-                if (TheArticle.IsInUse)
-                    if (chkSkipIfInuse.Checked)
-                    {
-                        SkipPage("Page contains {{inuse}}");
-                        return;
-                    }
-                    else if (!BotMode)
-                        MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
-
-                if (automaticallyDoAnythingToolStripMenuItem.Checked)
-                {
-                    StatusLabelText = "Processing page";
-                    Application.DoEvents();
-
-                    //FIXME: this position is imprefect, since above there is code that can explode, but this way
-                    //at least we don't get bogus reports of unrelated pages
-                    ErrorHandler.CurrentPage = TheArticle.Name;
-
-                    ProcessPage(TheArticle, true);
-
-                    ErrorHandler.CurrentPage = "";
-
-                    UpdateWebBrowserStatus(null, null);
-                    UpdateCurrentTypoStats();
-
-                    if (!Abort)
-                    {
-                        if (TheArticle.SkipArticle)
-                        {
-                            SkipPageReasonAlreadyProvided(); // Don't send a reason; ProcessPage() should already have logged one
-                            return;
-                        }
-
-                        if (skippable && chkSkipNoChanges.Checked && TheArticle.NoArticleTextChanged)
-                        {
-                            SkipPage("No change");
-                            return;
-                        }
-
-                        if (chkSkipWhitespace.Checked && chkSkipCasing.Checked && TheArticle.OnlyWhiteSpaceAndCasingChanged)
-                        {
-                            SkipPage("Only whitespace/casing changed");
-                            return;
-                        }
-
-                        if (chkSkipWhitespace.Checked && TheArticle.OnlyWhiteSpaceChanged)
-                        {
-                            SkipPage("Only whitespace changed");
-                            return;
-                        }
-
-                        if (chkSkipCasing.Checked && TheArticle.OnlyCasingChanged)
-                        {
-                            SkipPage("Only casing changed");
-                            return;
-                        }
-
-                        if (chkSkipGeneralFixes.Checked && chkGeneralFixes.Checked && TheArticle.OnlyGeneralFixesChanged)
-                        {
-                            SkipPage("Only general fix changes");
-                            return;
-                        }
-                    }
-                }
-
                 if (chkSkipIfContains.Checked && TheArticle.SkipIfContains(txtSkipIfContains.Text,
     chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, true))
                 {
@@ -788,13 +724,13 @@ namespace AutoWikiBrowser
                 // if we reach here the article has valid changes, so move on to next article
 
                 // if user has loaded a settings file, save it every 10 ignored edits
-               if (!string.IsNullOrEmpty(SettingsFile) && (NumberOfIgnoredEdits > 5) && (NumberOfIgnoredEdits % 10 == 0))
+                if (!string.IsNullOrEmpty(SettingsFile) && (NumberOfIgnoredEdits > 5) && (NumberOfIgnoredEdits % 10 == 0))
                     SavePrefs(SettingsFile);
- 
+
                 // request list maker to focus next article in list; if there is a next article process it, otherwise pre-parsing has finished, save settings
-                if(listMaker.NextArticle())
+                if (listMaker.NextArticle())
                     Start();
-                else if(!string.IsNullOrEmpty(SettingsFile))
+                else if (!string.IsNullOrEmpty(SettingsFile))
                     SavePrefs(SettingsFile);
             }
 
@@ -859,11 +795,9 @@ namespace AutoWikiBrowser
 
         private void Bleepflash()
         {
-            if (!ContainsFocus)
-            {
-                if (Flash) Tools.FlashWindow(this);
-                if (Beep) Tools.Beep();
-            }
+            if (ContainsFocus) return;
+            if (Flash) Tools.FlashWindow(this);
+            if (Beep) Tools.Beep();
         }
 
         private bool LoadSuccess()
