@@ -103,6 +103,29 @@ namespace UnitTests
         [Test]
         public void HideImages()
         {
+            AssertAllHidden(@"[[File:foo.jpg]]");
+            AssertAllHidden(@"[[File:foo with space and 0004.jpg]]");
+            AssertAllHidden(@"[[File:foo.jpeg]]");
+            AssertAllHidden(@"[[Image:foo with space and 0004.jpeg]]");
+            AssertAllHidden(@"[[Image:foo.jpeg]]");
+            AssertAllHidden(@"[[Image:foo with space and 0004.jpg]]");
+            AssertAllHidden(@"[[File:foo.jpg|");
+            AssertAllHidden(@"[[File:foo with space and 0004.jpg|");
+            AssertAllHidden(@"[[File:foo.jpeg|");
+            AssertAllHidden(@"[[Image:foo with space and 0004.jpeg|");
+            AssertAllHidden(@"[[Image:foo.jpeg|");
+            AssertAllHidden(@"[[Image:foo with SPACE() and 0004.jpg|");
+            AssertAllHidden(@"[[File:foo.gif|");
+            AssertAllHidden(@"[[Image:foo with space and 0004.gif|");
+            AssertAllHidden(@"[[Image:foo.gif|");
+            AssertAllHidden(@"[[Image:foo with SPACE() and 0004.gif|");
+            AssertAllHidden(@"[[File:foo.png|");
+            AssertAllHidden(@"[[Image:foo with space and 0004.png|");
+            AssertAllHidden(@"[[Image:foo_here.png|");
+            AssertAllHidden(@"[[Image:foo with SPACE() and 0004.png|");
+
+            //following changes to not mask image descriptions, the following old tests are now invalid
+            /*
             AssertAllHidden("[[Image:foo]]");
             AssertAllHidden("[[Image:foo|100px|bar]]");
             AssertAllHidden("[[Image:foo|A [[bar]] [http://boz.com gee].]]");
@@ -111,26 +134,48 @@ namespace UnitTests
             AssertAllHidden("[[Image:foo|A [[bar|quux]].]]");
             AssertAllHidden("[[Image:foo|A [[bar]][http://fubar].]]");
             AssertAllHidden("[[FILE:foo|A [[bar]][http://fubar].{{quux}}]]");
-            AssertAllHidden("[[Image:foo|test [[Image:bar|thumb|[[boz]]]]]]");
+            AssertAllHidden("[[Image:foo|test [[Image:bar|thumb|[[boz]]]]]]"); */
         }
 
         [Test]
         public void HideImagesMore()
         {
-            AssertAllHiddenMore("[[File:foo]]");
+            AssertAllHiddenMore(@"[[File:foo.jpg]]");
+            AssertAllHiddenMore(@"[[File:foo with space and 0004.jpg]]");
+            AssertAllHiddenMore(@"[[File:foo.jpeg]]");
+            AssertAllHiddenMore(@"[[Image:foo with space and 0004.jpeg]]");
+            AssertAllHiddenMore(@"[[Image:foo.jpeg]]");
+            AssertAllHiddenMore(@"[[Image:foo with space and 0004.jpg]]");
+            AssertAllHiddenMore(@"[[File:foo.jpg|");
+            AssertAllHiddenMore(@"[[File:foo with space and 0004.jpg|");
+            AssertAllHiddenMore(@"[[File:foo.jpeg|");
+            AssertAllHiddenMore(@"[[Image:foo with space and 0004.jpeg|");
+            AssertAllHiddenMore(@"[[Image:foo.jpeg|");
+            AssertAllHiddenMore(@"[[Image:foo with SPACE() and 0004.jpg|");
+            AssertAllHiddenMore(@"[[File:foo.gif|");
+            AssertAllHiddenMore(@"[[Image:foo with space and 0004.gif|");
+            AssertAllHiddenMore(@"[[Image:foo.gif|");
+            AssertAllHiddenMore(@"[[Image:foo with SPACE() and 0004.gif|");
+            AssertAllHiddenMore(@"[[File:foo.png|");
+            AssertAllHiddenMore(@"[[Image:foo with space and 0004.png|");
+            AssertAllHiddenMore(@"[[Image:foo_here.png|");
+            AssertAllHiddenMore(@"[[Image:foo with SPACE() and 0004.png|");
+
+            //following changes to not mask image descriptions, the following old tests are now invalid
+        /*  AssertAllHiddenMore("[[File:foo]]");
             AssertAllHiddenMore("[[Image:foo|100px|bar]]");
             AssertAllHiddenMore("[[Image:foo|A [[bar]] [http://boz.com gee].]]");
             AssertAllHiddenMore("[[Image:foo|A [[bar]] [[test]].]]");
             AssertAllHiddenMore("[[Image:foo|A [[bar]]]]");
             AssertAllHiddenMore("[[FILE:foo|A [[bar|quux]].]]");
             AssertAllHiddenMore("[[Image:foo|A [[bar]][http://fubar].]]");
-            AssertAllHiddenMore("[[Image:foo|A [[bar]][http://fubar].{{quux}}]]");
+            AssertAllHiddenMore("[[Image:foo|A [[bar]][http://fubar].{{quux}}]]"); */
             AssertAllHiddenMore(@"| Photo =Arlberg passstrasse.jpg |");
             AssertAllHiddenMore(@"| Photo =Arlberg passstrasse.jpg}}");
             AssertAllHiddenMore(@"|photo=Arlberg passstrasse.jpg|");
             AssertAllHiddenMore(@"| Photo =Arlberg passstrasse.jpg
 |");
-            AssertAllHiddenMore("[[Image:foo|test [[File:bar|thumb|[[boz]]]]]]");
+            // AssertAllHiddenMore("[[Image:foo|test [[File:bar|thumb|[[boz]]]]]]");
         }
 
         [Test]
