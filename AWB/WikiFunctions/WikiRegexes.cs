@@ -31,10 +31,15 @@ namespace WikiFunctions
             TemplateStart = @"\{\{\s*(:?" + Variables.NamespacesCaseInsensitive[10] + ")?";
 
             Category = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[14] + @"(.*?)\]\]", RegexOptions.Compiled);
+
+            // images mask was [^\]]*?(?:\[\[?.*?(?:\[\[.*?\]\].*?)?\]\]?[^\]]*?)*)\]\]
+            // now instead use allowed character list, then a file extension (these are mandatory on mediawiki), then optional closing ]]
+            // this allows typo fixing and find&replace to operate on image descriptions
+            // TODO: replace these two with direct returns from API, when available
             Images =
                 new Regex(
                     @"\[\[" + Variables.NamespacesCaseInsensitive[6] +
-                    @"([^\]]*?(?:\[\[?.*?(?:\[\[.*?\]\].*?)?\]\]?[^\]]*?)*)\]\]|<[Gg]allery\b([^>]*?)>[\s\S]*?</ ?[Gg]allery>|\|\s*[Pp]hoto\s*=.+?(?:\||}})",
+                    @"[ \%\!""$&'\(\)\*,\-.\/0-9:;=\?@A-Z\\\^_`a-z~\x80-\xFF\+]+\.[a-z]{3,4}\b(?:\s*(?:\]\]|\|))?|<[Gg]allery\b([^>]*?)>[\s\S]*?</ ?[Gg]allery>|\|\s*[Pp]hoto\s*=.+?(?:\||}})",
                     RegexOptions.Compiled | RegexOptions.Singleline);
 
             Stub = new Regex(@"{{.*?" + Variables.Stub + @"}}", RegexOptions.Compiled);
