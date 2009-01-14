@@ -610,90 +610,192 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            if (chkSkipIfContains.Checked && TheArticle.SkipIfContains(txtSkipIfContains.Text,
-                chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, true))
+            if (!preParseModeToolStripMenuItem.Checked) // normal mode
             {
-                SkipPage("Page contains: " + txtSkipIfContains.Text);
-                return;
-            }
-
-            if (chkSkipIfNotContains.Checked && TheArticle.SkipIfContains(txtSkipIfNotContains.Text,
-                chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, false))
-            {
-                SkipPage("Page does not contain: " + txtSkipIfNotContains.Text);
-                return;
-            }
-
-            if (!Skip.SkipIf(TheArticle.OriginalArticleText))
-            {
-                SkipPage("skipIf custom code");
-                return;
-            }
-
-            //check not in use
-            if (TheArticle.IsInUse)
-                if (chkSkipIfInuse.Checked)
+                if (chkSkipIfContains.Checked && TheArticle.SkipIfContains(txtSkipIfContains.Text,
+                    chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, true))
                 {
-                    SkipPage("Page contains {{inuse}}");
+                    SkipPage("Page contains: " + txtSkipIfContains.Text);
                     return;
                 }
-                else if (!BotMode)
-                    MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
 
-            if (automaticallyDoAnythingToolStripMenuItem.Checked)
-            {
-                StatusLabelText = "Processing page";
-                Application.DoEvents();
-
-                //FIXME: this position is imprefect, since above there is code that can explode, but this way
-                //at least we don't get bogus reports of unrelated pages
-                ErrorHandler.CurrentPage = TheArticle.Name;
-
-                ProcessPage(TheArticle, true);
-
-                ErrorHandler.CurrentPage = "";
-
-                UpdateWebBrowserStatus(null, null);
-                UpdateCurrentTypoStats();
-
-                if (!Abort)
+                if (chkSkipIfNotContains.Checked && TheArticle.SkipIfContains(txtSkipIfNotContains.Text,
+                    chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, false))
                 {
-                    if (TheArticle.SkipArticle)
+                    SkipPage("Page does not contain: " + txtSkipIfNotContains.Text);
+                    return;
+                }
+
+                if (!Skip.SkipIf(TheArticle.OriginalArticleText))
+                {
+                    SkipPage("skipIf custom code");
+                    return;
+                }
+
+                //check not in use
+                if (TheArticle.IsInUse)
+                    if (chkSkipIfInuse.Checked)
                     {
-                        SkipPageReasonAlreadyProvided(); // Don't send a reason; ProcessPage() should already have logged one
+                        SkipPage("Page contains {{inuse}}");
                         return;
                     }
+                    else if (!BotMode)
+                        MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
 
-                    if (skippable && chkSkipNoChanges.Checked && TheArticle.NoArticleTextChanged)
-                    {
-                        SkipPage("No change");
-                        return;
-                    }
+                if (automaticallyDoAnythingToolStripMenuItem.Checked)
+                {
+                    StatusLabelText = "Processing page";
+                    Application.DoEvents();
 
-                    if (chkSkipWhitespace.Checked && chkSkipCasing.Checked && TheArticle.OnlyWhiteSpaceAndCasingChanged)
-                    {
-                        SkipPage("Only whitespace/casing changed");
-                        return;
-                    }
+                    //FIXME: this position is imprefect, since above there is code that can explode, but this way
+                    //at least we don't get bogus reports of unrelated pages
+                    ErrorHandler.CurrentPage = TheArticle.Name;
 
-                    if (chkSkipWhitespace.Checked && TheArticle.OnlyWhiteSpaceChanged)
-                    {
-                        SkipPage("Only whitespace changed");
-                        return;
-                    }
+                    ProcessPage(TheArticle, true);
 
-                    if (chkSkipCasing.Checked && TheArticle.OnlyCasingChanged)
-                    {
-                        SkipPage("Only casing changed");
-                        return;
-                    }
+                    ErrorHandler.CurrentPage = "";
 
-                    if (chkSkipGeneralFixes.Checked && chkGeneralFixes.Checked && TheArticle.OnlyGeneralFixesChanged)
+                    UpdateWebBrowserStatus(null, null);
+                    UpdateCurrentTypoStats();
+
+                    if (!Abort)
                     {
-                        SkipPage("Only general fix changes");
-                        return;
+                        if (TheArticle.SkipArticle)
+                        {
+                            SkipPageReasonAlreadyProvided(); // Don't send a reason; ProcessPage() should already have logged one
+                            return;
+                        }
+
+                        if (skippable && chkSkipNoChanges.Checked && TheArticle.NoArticleTextChanged)
+                        {
+                            SkipPage("No change");
+                            return;
+                        }
+
+                        if (chkSkipWhitespace.Checked && chkSkipCasing.Checked && TheArticle.OnlyWhiteSpaceAndCasingChanged)
+                        {
+                            SkipPage("Only whitespace/casing changed");
+                            return;
+                        }
+
+                        if (chkSkipWhitespace.Checked && TheArticle.OnlyWhiteSpaceChanged)
+                        {
+                            SkipPage("Only whitespace changed");
+                            return;
+                        }
+
+                        if (chkSkipCasing.Checked && TheArticle.OnlyCasingChanged)
+                        {
+                            SkipPage("Only casing changed");
+                            return;
+                        }
+
+                        if (chkSkipGeneralFixes.Checked && chkGeneralFixes.Checked && TheArticle.OnlyGeneralFixesChanged)
+                        {
+                            SkipPage("Only general fix changes");
+                            return;
+                        }
                     }
                 }
+            }
+            else // we are in pre-parse mode
+            {
+                if (TheArticle.IsInUse)
+                    if (chkSkipIfInuse.Checked)
+                    {
+                        SkipPage("Page contains {{inuse}}");
+                        return;
+                    }
+                    else if (!BotMode)
+                        MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
+
+                if (automaticallyDoAnythingToolStripMenuItem.Checked)
+                {
+                    StatusLabelText = "Processing page";
+                    Application.DoEvents();
+
+                    //FIXME: this position is imprefect, since above there is code that can explode, but this way
+                    //at least we don't get bogus reports of unrelated pages
+                    ErrorHandler.CurrentPage = TheArticle.Name;
+
+                    ProcessPage(TheArticle, true);
+
+                    ErrorHandler.CurrentPage = "";
+
+                    UpdateWebBrowserStatus(null, null);
+                    UpdateCurrentTypoStats();
+
+                    if (!Abort)
+                    {
+                        if (TheArticle.SkipArticle)
+                        {
+                            SkipPageReasonAlreadyProvided(); // Don't send a reason; ProcessPage() should already have logged one
+                            return;
+                        }
+
+                        if (skippable && chkSkipNoChanges.Checked && TheArticle.NoArticleTextChanged)
+                        {
+                            SkipPage("No change");
+                            return;
+                        }
+
+                        if (chkSkipWhitespace.Checked && chkSkipCasing.Checked && TheArticle.OnlyWhiteSpaceAndCasingChanged)
+                        {
+                            SkipPage("Only whitespace/casing changed");
+                            return;
+                        }
+
+                        if (chkSkipWhitespace.Checked && TheArticle.OnlyWhiteSpaceChanged)
+                        {
+                            SkipPage("Only whitespace changed");
+                            return;
+                        }
+
+                        if (chkSkipCasing.Checked && TheArticle.OnlyCasingChanged)
+                        {
+                            SkipPage("Only casing changed");
+                            return;
+                        }
+
+                        if (chkSkipGeneralFixes.Checked && chkGeneralFixes.Checked && TheArticle.OnlyGeneralFixesChanged)
+                        {
+                            SkipPage("Only general fix changes");
+                            return;
+                        }
+                    }
+                }
+
+                if (chkSkipIfContains.Checked && TheArticle.SkipIfContains(txtSkipIfContains.Text,
+    chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, true))
+                {
+                    SkipPage("Page contains: " + txtSkipIfContains.Text);
+                    return;
+                }
+
+                if (chkSkipIfNotContains.Checked && TheArticle.SkipIfContains(txtSkipIfNotContains.Text,
+                    chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, false))
+                {
+                    SkipPage("Page does not contain: " + txtSkipIfNotContains.Text);
+                    return;
+                }
+
+                if (!Skip.SkipIf(TheArticle.OriginalArticleText))
+                {
+                    SkipPage("skipIf custom code");
+                    return;
+                }
+
+                // if we reach here the article has valid changes, so move on to next article
+
+                // if user has loaded a settings file, save it every 10 ignored edits
+               if (!string.IsNullOrEmpty(SettingsFile) && (NumberOfIgnoredEdits > 5) && (NumberOfIgnoredEdits % 10 == 0))
+                    SavePrefs(SettingsFile);
+ 
+                // request list maker to focus next article in list; if there is a next article process it, otherwise pre-parsing has finished, save settings
+                if(listMaker.NextArticle())
+                    Start();
+                else if(!string.IsNullOrEmpty(SettingsFile))
+                    SavePrefs(SettingsFile);
             }
 
             webBrowserEdit.SetArticleText(TheArticle.ArticleText);
