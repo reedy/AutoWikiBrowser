@@ -197,7 +197,7 @@ namespace WikiFunctions.Parse
             return ArticleText.Trim();
         }
 
-        // NOT covered
+        // Covered by: FormattingTests.TestFixHeadings(), incomplete
         /// <summary>
         /// Fix ==See also== and similar section common errors. Removes unecessary introductory headings and cleans excess whitespace.
         /// </summary>
@@ -261,6 +261,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex DOBRegex = new Regex(@"('''[^']+'''\s*\()b.(\s+\[*(?:(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+0?([1-3]?[0-9])|0?([1-3]?[0-9])\s*(?:January|February|March|April|May|June|July|August|September|October|November|December))?\]*\s*\[*[1-2]?[0-9][0-9][0-9]\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex BornDeathRegex = new Regex(@"('''[^']+'''\s*\()(?:[Bb]orn|b\.)\s+(\[*(?:(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+0?(?:[1-3]?[0-9])|0?(?:[1-3]?[0-9])\s*(?:January|February|March|April|May|June|July|August|September|October|November|December))?\]*,?\s*\[*[1-2]?[0-9][0-9][0-9]\]*)\s*(.|&.dash;)\s*(?:[Dd]ied|d\.)\s+(\[*(?:(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+0?(?:[1-3]?[0-9])|0?(?:[1-3]?[0-9])\s*(?:January|February|March|April|May|June|July|August|September|October|November|December))\]*,?\s*\[*[1-2]?[0-9][0-9][0-9]\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
+        //Covered by: LinkTests.FixLivingThingsRelatedDates()
         /// <summary>
         /// Replace b. and d. for born/died
         /// </summary>
@@ -757,10 +758,7 @@ namespace WikiFunctions.Parse
             {
                 s = s.Remove(0, pos);
 
-                if (res)
-                    pos = s.IndexOf("]]");
-                else
-                    pos = s.IndexOf("[[");
+                pos = res ? s.IndexOf("]]") : s.IndexOf("[[");
 
                 res = !res;
             }
@@ -1754,6 +1752,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
+        //TODO:Needs re-write
         /// <summary>
         /// If necessary, adds/removes wikify or stub tag
         /// </summary>
@@ -1944,6 +1943,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static readonly Regex ExtToInt5 = new Regex(@"/^ *(w:|wikipedia:|)(en:|([a-z\-]+:)) *REMOVEME/i", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         public static readonly Regex ExtToInt6 = new Regex(@"/^ *(?:wikimedia:(m)eta|wikimedia:(commons)|(wikt)ionary|wiki(?:(n)ews|(b)ooks|(q)uote|(s)ource|(v)ersity))(:[a-z\-]+:)/i", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
+        //Co
         /// <summary>
         /// 
         /// </summary>
