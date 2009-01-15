@@ -173,7 +173,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Hides images, external links, templates, headings
         /// </summary>
-        public string HideMore(string ArticleText)
+        public string HideMore(string ArticleText, bool HideOnlyTargetOfWikilink)
         {
             MoreHide.Clear();
 
@@ -201,15 +201,23 @@ namespace WikiFunctions.Parse
 
             ReplaceMore(WikiRegexes.IndentedText.Matches(ArticleText), ref ArticleText);
 
-            ReplaceMore(WikiRegexes.WikiLinksOnly.Matches(ArticleText), ref ArticleText);
+            if (!HideOnlyTargetOfWikilink)
+            {
+                ReplaceMore(WikiRegexes.WikiLinksOnly.Matches(ArticleText), ref ArticleText);
 
-            ReplaceMore(WikiRegexes.SimpleWikiLink.Matches(ArticleText), ref ArticleText);
+                ReplaceMore(WikiRegexes.SimpleWikiLink.Matches(ArticleText), ref ArticleText);
+            }
 
             ReplaceMore(WikiRegexes.Cites.Matches(ArticleText), ref ArticleText);
 
             ReplaceMore(WikiRegexes.Refs.Matches(ArticleText), ref ArticleText);
 
-            ReplaceMore(WikiRegexes.WikiLink.Matches(ArticleText), ref ArticleText);
+            if (!HideOnlyTargetOfWikilink)
+                ReplaceMore(WikiRegexes.WikiLink.Matches(ArticleText), ref ArticleText);
+
+            // if set, no wikilinks will be hidden thus far, so now hide the target of a link, leaving the pipe part exposed [[target|pipe]]
+            if (HideOnlyTargetOfWikilink)
+                ReplaceMore(WikiRegexes.WikiLinkTarget.Matches(ArticleText), ref ArticleText);
 
             //TODO: replace with gallery-only regex, all normal images should be hidden by now as simple wikilinks
             ReplaceMore(WikiRegexes.Images.Matches(ArticleText), ref ArticleText);
@@ -217,6 +225,13 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
+        /// <summary>
+        /// Hides images, external links, templates, headings
+        /// </summary>
+        public string HideMore(string ArticleText)
+        {
+            return(HideMore(ArticleText, false));
+        }
         /// <summary>
         /// Adds back hidden stuff from HideMore
         /// </summary>
