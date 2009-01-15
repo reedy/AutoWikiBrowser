@@ -127,6 +127,10 @@ namespace UnitTests
             AssertAllHidden(@"|image_skyline=442px_-_London_Lead_Image.jpg|");
             AssertAllHidden(@"|image_map=London (European Parliament constituency).svg   |");
             AssertAllHidden(@"[[Image:westminster.tube.station.jubilee.arp.jpg|");
+            AssertAllHidden(@"|image_map=westminster.tube.station.jubilee.arp.jpg|");
+
+            // TODO: test below needs to NOT hide the text
+            //<This is not hidden>(@"|image_caption=London is a European Parliament constituency. It has water. |");
 
             //following changes to not mask image descriptions, the following old tests are now invalid
             /*
@@ -168,6 +172,7 @@ namespace UnitTests
             AssertAllHiddenMore(@"|image_skyline=442px_-_London_Lead_Image.jpg|");
             AssertAllHiddenMore(@"|image_map=London (European Parliament constituency).svg   |");
             AssertAllHiddenMore(@"[[Image:westminster.tube.station.jubilee.arp.jpg|");
+            AssertAllHiddenMore(@"|image_map=westminster.tube.station.jubilee.arp.jpg|");
 
             //following changes to not mask image descriptions, the following old tests are now invalid
         /*  AssertAllHiddenMore("[[File:foo]]");
