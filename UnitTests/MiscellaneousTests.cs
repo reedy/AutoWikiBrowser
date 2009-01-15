@@ -134,6 +134,8 @@ namespace UnitTests
 image = AmorMexicanaThalia.jpg |");
             AssertAllHidden(@"|Img = BBC_logo1.jpg 
 |");
+            AssertAllHidden(@"| image name = Fred Astaire.jpg |");
+            AssertAllHidden(@"|image2 = AmorMexicanaThalia.jpg |");
 
             // in tests below no text is hidden
             string Caption1 = @"|image_caption=London is a European Parliament constituency. It has water. |";
@@ -210,6 +212,8 @@ image = AmorMexicanaThalia.jpg |");
 image = AmorMexicanaThalia.jpg |");
             AssertAllHiddenMore(@"|Img = BBC_logo1.jpg 
 |");
+            AssertAllHiddenMore(@"| image name = Fred Astaire.jpg |");
+            AssertAllHiddenMore(@"|image2 = AmorMexicanaThalia.jpg |");
             
             // in tests below no text is hidden
             string Caption1 = @"|image_caption=London is a European Parliament constituency. It has water. |";
