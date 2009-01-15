@@ -269,6 +269,13 @@ Image:quux[http://example.com]
             AssertAllHiddenMore("[http://foo bar]");
             AssertAllHiddenMore("[http://foo [bar]");
         }
+
+        [Test]
+        public void HideWikiLinksOnlyPlusWord()
+        {
+            AssertAllHiddenMore("[[Foo]]bar");
+            AssertAllHiddenMore("[[Foo|test]]bar");
+        }
     }
 
     [TestFixture]
