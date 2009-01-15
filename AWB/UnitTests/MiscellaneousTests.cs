@@ -124,6 +124,9 @@ namespace UnitTests
             AssertAllHidden(@"[[Image:foo with space and 0004.png|");
             AssertAllHidden(@"[[Image:foo_here.png|");
             AssertAllHidden(@"[[Image:foo with SPACE() and 0004.png|");
+            AssertAllHidden(@"|image_skyline=442px_-_London_Lead_Image.jpg|");
+            AssertAllHidden(@"|image_map=London (European Parliament constituency).svg   |");
+            AssertAllHidden(@"[[Image:westminster.tube.station.jubilee.arp.jpg|");
 
             //following changes to not mask image descriptions, the following old tests are now invalid
             /*
@@ -162,6 +165,9 @@ namespace UnitTests
             AssertAllHiddenMore(@"[[Image:foo with space and 0004.png|");
             AssertAllHiddenMore(@"[[Image:foo_here.png|");
             AssertAllHiddenMore(@"[[Image:foo with SPACE() and 0004.png|");
+            AssertAllHiddenMore(@"|image_skyline=442px_-_London_Lead_Image.jpg|");
+            AssertAllHiddenMore(@"|image_map=London (European Parliament constituency).svg   |");
+            AssertAllHiddenMore(@"[[Image:westminster.tube.station.jubilee.arp.jpg|");
 
             //following changes to not mask image descriptions, the following old tests are now invalid
         /*  AssertAllHiddenMore("[[File:foo]]");
