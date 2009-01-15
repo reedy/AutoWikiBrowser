@@ -129,8 +129,33 @@ namespace UnitTests
             AssertAllHidden(@"[[Image:westminster.tube.station.jubilee.arp.jpg|");
             AssertAllHidden(@"|image_map=westminster.tube.station.jubilee.arp.jpg|");
 
-            // TODO: test below needs to NOT hide the text
-            //<This is not hidden>(@"|image_caption=London is a European Parliament constituency. It has water. |");
+            // in tests below no text is hidden
+            string Caption1 = @"|image_caption=London is a European Parliament constituency. It has water. |";
+            string Caption2 = @"|image_caption= some load of text here. Some more there.}}";
+            string Caption3 = @"|image_caption=some load of text here. Some more there.   }}";
+            string Caption4 = @"|image_caption= some load of text here. Some more there.|";
+            string Caption5 = @"|image_caption
+            = some load of text here. Some more there.
+            |";
+            string Field1 = @"field = value |";
+            
+            Assert.AreEqual(Caption1, Hide(Caption1));
+            Assert.AreEqual(Caption2, Hide(Caption2));
+            Assert.AreEqual(Caption3, Hide(Caption3));
+            Assert.AreEqual(Caption4, Hide(Caption4));
+            Assert.AreEqual(Caption5, Hide(Caption5));
+            
+            // in tests below part of string is hidden
+            Assert.IsTrue(Hide(@"[[Image:some image name.JPG|thumb|words with typos]]").EndsWith(@"thumb|words with typos]]"));
+            Assert.IsTrue(Hide(@"[[Image:some image name.JPEG|words with typos]]").EndsWith(@"words with typos]]"));
+            Assert.IsTrue(Hide(@"[[Image:some image name.jpg|thumb|words with typos ]]").EndsWith(@"thumb|words with typos ]]"));
+            Assert.IsTrue(Hide(@"[[Image:some image name.png|20px|words with typos and [[links]] here]]").EndsWith(@"20px|words with typos and [[links]] here]]"));
+            Assert.IsTrue(Hide(@"[[Image:some image name.svg|thumb|words with typos ]]").EndsWith(@"thumb|words with typos ]]"));
+            Assert.IsTrue(Hide(@"[[Image:some_image_name.further words.tiff|thumb|words with typos<ref name=a/>]]").EndsWith(@"thumb|words with typos<ref name=a/>]]"));
+            Assert.IsTrue(Hide(@"[[Image:some_image_name.for a word.png|thumb|words with typo]]").EndsWith(@"thumb|words with typo]]"));
+            Assert.IsTrue(Hide(@"[[Image:some_image_name.png|thumb|words with typo]] Normal words in text").EndsWith(@"thumb|words with typo]] Normal words in text"));
+            Assert.IsTrue(Hide(@"[[Image:some_image_name.png]] Normal words in text").EndsWith(@" Normal words in text"));
+            Assert.IsTrue(Hide(Caption4 + Field1).EndsWith(Field1));
 
             //following changes to not mask image descriptions, the following old tests are now invalid
             /*
@@ -173,6 +198,26 @@ namespace UnitTests
             AssertAllHiddenMore(@"|image_map=London (European Parliament constituency).svg   |");
             AssertAllHiddenMore(@"[[Image:westminster.tube.station.jubilee.arp.jpg|");
             AssertAllHiddenMore(@"|image_map=westminster.tube.station.jubilee.arp.jpg|");
+            
+            // in tests below no text is hidden
+            string Caption1 = @"|image_caption=London is a European Parliament constituency. It has water. |";
+            string Caption2 = @"|image_caption= some load of text here. Some more there.}}";
+            string Caption3 = @"|image_caption=some load of text here. Some more there.   }}";
+            string Caption4 = @"|image_caption= some load of text here. Some more there.|";
+            string Caption5 = @"|image_caption
+            = some load of text here. Some more there.
+            |";
+            string Field1 = @"field = value |";
+
+            Assert.AreEqual(Caption1, HideMore(Caption1));
+            Assert.AreEqual(Caption2, HideMore(Caption2));
+            Assert.AreEqual(Caption3, HideMore(Caption3));
+            Assert.AreEqual(Caption4, HideMore(Caption4));
+            Assert.AreEqual(Caption5, HideMore(Caption5));
+            
+            // in tests below part of string is hidden
+            Assert.IsTrue(HideMore(@"[[Image:some_image_name.png]] Normal words in text").EndsWith(@" Normal words in text"));
+            Assert.IsTrue(HideMore(Caption4 + Field1).EndsWith(Field1));
 
             //following changes to not mask image descriptions, the following old tests are now invalid
         /*  AssertAllHiddenMore("[[File:foo]]");
