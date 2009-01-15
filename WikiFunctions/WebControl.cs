@@ -254,7 +254,7 @@ namespace WikiFunctions.Browser
         public bool NewMessage
         { get { return NewMessagesRegex.IsMatch(DocumentText); } }
 
-        static readonly Regex wpTextbox1Regex = new Regex(@"<textarea [^>]*?name=[""']wpTextbox1Regex[""'].*?>", RegexOptions.Compiled | RegexOptions.Singleline);
+        static readonly Regex wpTextbox1Regex = new Regex(@"<textarea [^>]*?name=[""']wpTextbox1[""'].*?>", RegexOptions.Compiled | RegexOptions.Singleline);
 
         /// <summary>
         /// Gets a value indicating whether the textbox is present

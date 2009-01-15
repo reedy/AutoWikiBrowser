@@ -25,7 +25,7 @@ namespace WikiFunctions
     public static class RegistryUtils
     {
         private const string KeyPrefix = "Software\\AutoWikiBrowser\\";
-        private static Microsoft.Win32.RegistryKey registryKey = new Microsoft.VisualBasic.Devices.Computer().Registry.CurrentUser;
+        private readonly static Microsoft.Win32.RegistryKey registryKey = new Microsoft.VisualBasic.Devices.Computer().Registry.CurrentUser;
 
         /// <summary>
         /// Gets a string value from an AWB registry subkey

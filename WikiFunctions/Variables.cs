@@ -937,9 +937,9 @@ namespace WikiFunctions
             }
         }
 
-        static Regex Message = new Regex("<!--[Mm]essage:(.*?)-->", RegexOptions.Compiled);
-        static Regex VersionMessage = new Regex("<!--VersionMessage:(.*?)\\|\\|\\|\\|(.*?)-->", RegexOptions.Compiled);
-        //static Regex Underscores = new Regex("<!--[Uu]nderscores:(.*?)-->", RegexOptions.Compiled);
+        readonly static Regex Message = new Regex("<!--[Mm]essage:(.*?)-->", RegexOptions.Compiled);
+        readonly static Regex VersionMessage = new Regex("<!--VersionMessage:(.*?)\\|\\|\\|\\|(.*?)-->", RegexOptions.Compiled);
+        //readonly static Regex Underscores = new Regex("<!--[Uu]nderscores:(.*?)-->", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches <head> on right-to-left wikis
@@ -1076,11 +1076,8 @@ namespace WikiFunctions
                 //see if we are logged in
                 Name = webBrowserLogin.UserName;
 
-                if (string.IsNullOrEmpty(Name))
-                    // don't run GetInLogInStatus if we don't have the username, we sometimes get 2 error message boxes otherwise
-                    LoggedIn = false;
-                else
-                    LoggedIn = webBrowserLogin.GetLogInStatus();
+                // don't run GetInLogInStatus if we don't have the username, we sometimes get 2 error message boxes otherwise
+                LoggedIn = !string.IsNullOrEmpty(Name) && webBrowserLogin.GetLogInStatus();
 
                 if (!LoggedIn)
                 {
@@ -1206,10 +1203,7 @@ namespace WikiFunctions
                     return WikiStatusResult.Error;
                 }
 
-                if (!strText.Contains(AWBVersion + " enabled"))
-                    return WikiStatusResult.OldVersion;
-
-                return WikiStatusResult.Null;
+                return !strText.Contains(AWBVersion + " enabled") ? WikiStatusResult.OldVersion : WikiStatusResult.Null;
             }
             catch (Exception ex)
             {
