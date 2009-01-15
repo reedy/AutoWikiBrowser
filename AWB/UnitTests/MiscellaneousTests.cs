@@ -106,6 +106,7 @@ namespace UnitTests
             AssertAllHidden(@"[[File:foo.jpg]]");
             AssertAllHidden(@"[[File:foo with space and 0004.jpg]]");
             AssertAllHidden(@"[[File:foo.jpeg]]");
+            AssertAllHidden(@"[[File:foo.JPEG]]");
             AssertAllHidden(@"[[Image:foo with space and 0004.jpeg]]");
             AssertAllHidden(@"[[Image:foo.jpeg]]");
             AssertAllHidden(@"[[Image:foo with space and 0004.jpg]]");
@@ -143,6 +144,7 @@ namespace UnitTests
             AssertAllHiddenMore(@"[[File:foo.jpg]]");
             AssertAllHiddenMore(@"[[File:foo with space and 0004.jpg]]");
             AssertAllHiddenMore(@"[[File:foo.jpeg]]");
+            AssertAllHiddenMore(@"[[File:foo.JPEG]]");
             AssertAllHiddenMore(@"[[Image:foo with space and 0004.jpeg]]");
             AssertAllHiddenMore(@"[[Image:foo.jpeg]]");
             AssertAllHiddenMore(@"[[Image:foo with space and 0004.jpg]]");
