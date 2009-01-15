@@ -128,6 +128,12 @@ namespace UnitTests
             AssertAllHidden(@"|image_map=London (European Parliament constituency).svg   |");
             AssertAllHidden(@"[[Image:westminster.tube.station.jubilee.arp.jpg|");
             AssertAllHidden(@"|image_map=westminster.tube.station.jubilee.arp.jpg|");
+            AssertAllHidden(@"|Cover  = AmorMexicanaThalia.jpg |");
+            AssertAllHidden(@"|image = AmorMexicanaThalia.jpg |");
+            AssertAllHidden(@"|
+image = AmorMexicanaThalia.jpg |");
+            AssertAllHidden(@"|Img = BBC_logo1.jpg 
+|");
 
             // in tests below no text is hidden
             string Caption1 = @"|image_caption=London is a European Parliament constituency. It has water. |";
@@ -198,6 +204,12 @@ namespace UnitTests
             AssertAllHiddenMore(@"|image_map=London (European Parliament constituency).svg   |");
             AssertAllHiddenMore(@"[[Image:westminster.tube.station.jubilee.arp.jpg|");
             AssertAllHiddenMore(@"|image_map=westminster.tube.station.jubilee.arp.jpg|");
+            AssertAllHiddenMore(@"|Cover  = AmorMexicanaThalia.jpg |");
+            AssertAllHiddenMore(@"|image = AmorMexicanaThalia.jpg |");
+            AssertAllHiddenMore(@"|
+image = AmorMexicanaThalia.jpg |");
+            AssertAllHiddenMore(@"|Img = BBC_logo1.jpg 
+|");
             
             // in tests below no text is hidden
             string Caption1 = @"|image_caption=London is a European Parliament constituency. It has water. |";
