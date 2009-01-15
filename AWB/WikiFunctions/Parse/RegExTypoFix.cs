@@ -333,7 +333,7 @@ namespace WikiFunctions.Parse
 
             HideText RemoveText = new HideText(true, false, true);
 
-            ArticleText = RemoveText.HideMore(ArticleText);
+            ArticleText = RemoveText.HideMore(ArticleText, true);
 
             //remove newlines, whitespace and hide tokens from bottom
             //to avoid running 2K regexps on them
