@@ -33,7 +33,7 @@ namespace UnitTests
     [TestFixture]
     public class FootnotesTests
     {
-        Parsers parser = new Parsers();
+        readonly Parsers parser = new Parsers();
 
         public FootnotesTests()
         {
@@ -99,7 +99,7 @@ namespace UnitTests
             Globals.UnitTestMode = true;
         }
 
-        Parsers parser = new Parsers();
+        readonly Parsers parser = new Parsers();
 
         [Test]
         public void TestStickyLinks()
@@ -343,7 +343,7 @@ http://example.com }}");
     [TestFixture]
     public class FormattingTests
     {
-        Parsers p = new Parsers();
+        readonly Parsers p = new Parsers();
 
         public FormattingTests()
         {
@@ -470,7 +470,7 @@ Some news here.", "test"));
     [TestFixture]
     public class ImageTests
     {
-        Parsers p = new Parsers();
+        readonly Parsers p = new Parsers();
 
         public ImageTests()
         {
@@ -522,7 +522,7 @@ Some news here.", "test"));
     [TestFixture, Category("Incomplete")]
     public class BoldTitleTests
     {
-        Parsers p = new Parsers();
+        readonly Parsers p = new Parsers();
         bool dummy;
 
         public BoldTitleTests()
@@ -643,7 +643,7 @@ Some news here.", "test"));
     [TestFixture]
     public class UnicodifyTests
     {
-        Parsers parser = new Parsers();
+        readonly Parsers parser = new Parsers();
 
         [Test]
         public void PreserveTM()
@@ -669,7 +669,7 @@ Some news here.", "test"));
     [TestFixture]
     public class UtilityFunctionTests
     {
-        Parsers p = new Parsers();
+        readonly Parsers p = new Parsers();
 
         public UtilityFunctionTests()
         {
@@ -867,7 +867,7 @@ p.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo|
     [TestFixture]
     public class RecategorizerTests
     {
-        Parsers p = new Parsers();
+        readonly Parsers p = new Parsers();
 
         public RecategorizerTests()
         {

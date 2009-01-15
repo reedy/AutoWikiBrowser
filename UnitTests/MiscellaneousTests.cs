@@ -14,8 +14,8 @@ namespace UnitTests
         }
 
         #region Helpers
-        string hidden = @"⌊⌊⌊⌊M?\d+⌋⌋⌋⌋";
-        string allHidden = @"^(⌊⌊⌊⌊M?\d+⌋⌋⌋⌋)*$";
+        const string hidden = @"⌊⌊⌊⌊M?\d+⌋⌋⌋⌋",
+            allHidden = @"^(⌊⌊⌊⌊M?\d+⌋⌋⌋⌋)*$";
         HideText hider;
 
         private string HideMore(string text)
@@ -72,6 +72,7 @@ namespace UnitTests
 
         private void AssertBothHidden(string text, bool HideExternalLinks, bool LeaveMetaHeadings, bool HideImages)
         {
+            hider = new HideText(HideExternalLinks, LeaveMetaHeadings, HideImages);
             AssertAllHidden(text);
             AssertAllHiddenMore(text);
         }
@@ -97,18 +98,17 @@ namespace UnitTests
             AssertAllHiddenMore("{{foo|\r\nbar= {blah} blah}}");
             AssertAllHiddenMore("{{foo|\r\nbar= {blah} {{{1|{{blah}}}}}}}");
 
-            RegexAssert.IsMatch(@"\{"+hidden+@"\}", HideMore("{{{foo}}}"));
+            RegexAssert.IsMatch(@"\{" + hidden + @"\}", HideMore("{{{foo}}}"));
         }
 
-        // in tests below no text is hidden
-        const string Caption1 = @"|image_caption=London is a European Parliament constituency. It has water. |";
-        const string Caption2 = @"|image_caption= some load of text here. Some more there.}}";
-        const string Caption3 = @"|image_caption=some load of text here. Some more there.   }}";
-        const string Caption4 = @"|image_caption= some load of text here. Some more there.|";
-        const string Caption5 = @"|image_caption
+        const string Caption1 = @"|image_caption=London is a European Parliament constituency. It has water. |",
+            Caption2 = @"|image_caption= some load of text here. Some more there.}}",
+            Caption3 = @"|image_caption=some load of text here. Some more there.   }}",
+            Caption4 = @"|image_caption= some load of text here. Some more there.|",
+            Caption5 = @"|image_caption
             = some load of text here. Some more there.
-            |";
-        const string Field1 = @"field = value |";
+            |",
+              Field1 = @"field = value |";
 
         [Test]
         public void HideImages()
@@ -147,13 +147,13 @@ image = AmorMexicanaThalia.jpg |");
             AssertAllHidden(@"| image name = Fred Astaire.jpg |");
             AssertAllHidden(@"|image2 = AmorMexicanaThalia.jpg |");
             // in tests below no text is hidden
-            
+
             Assert.AreEqual(Caption1, Hide(Caption1));
             Assert.AreEqual(Caption2, Hide(Caption2));
             Assert.AreEqual(Caption3, Hide(Caption3));
             Assert.AreEqual(Caption4, Hide(Caption4));
             Assert.AreEqual(Caption5, Hide(Caption5));
-            
+
             // in tests below part of string is hidden
             Assert.IsTrue(Hide(@"[[Image:some image name.JPG|thumb|words with typos]]").EndsWith(@"thumb|words with typos]]"));
             Assert.IsTrue(Hide(@"[[Image:some image name.JPEG|words with typos]]").EndsWith(@"words with typos]]"));
@@ -215,7 +215,7 @@ image = AmorMexicanaThalia.jpg |");
 |");
             AssertAllHiddenMore(@"| image name = Fred Astaire.jpg |");
             AssertAllHiddenMore(@"|image2 = AmorMexicanaThalia.jpg |");
-            
+
             // in tests below no text is hidden
 
             Assert.AreEqual(Caption1, HideMore(Caption1));
@@ -223,20 +223,20 @@ image = AmorMexicanaThalia.jpg |");
             Assert.AreEqual(Caption3, HideMore(Caption3));
             Assert.AreEqual(Caption4, HideMore(Caption4));
             Assert.AreEqual(Caption5, HideMore(Caption5));
-            
+
             // in tests below part of string is hidden
             Assert.IsTrue(HideMore(@"[[Image:some_image_name.png]] Normal words in text").EndsWith(@" Normal words in text"));
             Assert.IsTrue(HideMore(Caption4 + Field1).EndsWith(Field1));
 
             //following changes to not mask image descriptions, the following old tests are now invalid
-        /*  AssertAllHiddenMore("[[File:foo]]");
-            AssertAllHiddenMore("[[Image:foo|100px|bar]]");
-            AssertAllHiddenMore("[[Image:foo|A [[bar]] [http://boz.com gee].]]");
-            AssertAllHiddenMore("[[Image:foo|A [[bar]] [[test]].]]");
-            AssertAllHiddenMore("[[Image:foo|A [[bar]]]]");
-            AssertAllHiddenMore("[[FILE:foo|A [[bar|quux]].]]");
-            AssertAllHiddenMore("[[Image:foo|A [[bar]][http://fubar].]]");
-            AssertAllHiddenMore("[[Image:foo|A [[bar]][http://fubar].{{quux}}]]"); */
+            /*  AssertAllHiddenMore("[[File:foo]]");
+                AssertAllHiddenMore("[[Image:foo|100px|bar]]");
+                AssertAllHiddenMore("[[Image:foo|A [[bar]] [http://boz.com gee].]]");
+                AssertAllHiddenMore("[[Image:foo|A [[bar]] [[test]].]]");
+                AssertAllHiddenMore("[[Image:foo|A [[bar]]]]");
+                AssertAllHiddenMore("[[FILE:foo|A [[bar|quux]].]]");
+                AssertAllHiddenMore("[[Image:foo|A [[bar]][http://fubar].]]");
+                AssertAllHiddenMore("[[Image:foo|A [[bar]][http://fubar].{{quux}}]]"); */
             AssertAllHiddenMore(@"| Photo =Arlberg passstrasse.jpg |");
             AssertAllHiddenMore(@"| Photo =Arlberg passstrasse.jpg}}");
             AssertAllHiddenMore(@"|photo=Arlberg passstrasse.jpg|");

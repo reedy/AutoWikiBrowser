@@ -21,7 +21,7 @@ namespace UnitTests
         /// <param name="r">Regex to test</param>
         /// <param name="text">Text to match</param>
         /// <param name="isMatch">If the regex should match the text</param>
-        protected void TestMatch(Regex r, string text, bool isMatch)
+        protected static void TestMatch(Regex r, string text, bool isMatch)
         {
             Assert.AreEqual(isMatch, r.IsMatch(text));
         }
@@ -31,7 +31,7 @@ namespace UnitTests
         /// </summary>
         /// <param name="r">Regex to test</param>
         /// <param name="text">Text to match</param>
-        protected void TestMatch(Regex r, string text)
+        protected static void TestMatch(Regex r, string text)
         {
             TestMatch(r, text, true);
         }
@@ -42,12 +42,12 @@ namespace UnitTests
         /// <param name="r"></param>
         /// <param name="text"></param>
         /// <param name="expectedMatches"></param>
-        protected void TestMatches(Regex r, string text, int expectedMatches)
+        protected static void TestMatches(Regex r, string text, int expectedMatches)
         {
             Assert.AreEqual(expectedMatches, r.Matches(text).Count);
         }
 
-        protected void TestMatch(Match m, params string[] groups)
+        protected static void TestMatch(Match m, params string[] groups)
         {
             Assert.GreaterOrEqual(m.Groups.Count, groups.Length, "Too few groups matched");
 
@@ -58,7 +58,7 @@ namespace UnitTests
             }
         }
 
-        protected void TestMatch(Regex r, string text, params string[] groups)
+        protected static void TestMatch(Regex r, string text, params string[] groups)
         {
             TestMatch(r.Match(text), groups);
         }
