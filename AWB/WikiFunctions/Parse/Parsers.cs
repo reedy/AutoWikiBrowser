@@ -1943,7 +1943,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static readonly Regex ExtToInt5 = new Regex(@"/^ *(w:|wikipedia:|)(en:|([a-z\-]+:)) *REMOVEME/i", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         public static readonly Regex ExtToInt6 = new Regex(@"/^ *(?:wikimedia:(m)eta|wikimedia:(commons)|(wikt)ionary|wiki(?:(n)ews|(b)ooks|(q)uote|(s)ource|(v)ersity))(:[a-z\-]+:)/i", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        //Co
+        // Covered by UtilityFunctionTests.ExternalURLToInternalLink(), incomplete
         /// <summary>
         /// 
         /// </summary>
