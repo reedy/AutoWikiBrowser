@@ -173,7 +173,7 @@ namespace WikiFunctions.Parse
         private readonly Regex regexHeadings10 = new Regex("(== ?)Life and Career( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private readonly Regex regexHeadingsCareer = new Regex("(== ?)([a-zA-Z]+) Career( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        //private readonly Regex regexLinkedHeader = new Regex(@"^(=+.*?)\[\[([^[\]{|}\n]+\|)?([^[\]{|}\n]+)\]\](.*?=+\s*)$", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
+        private readonly Regex regexRemoveHeadingsInLinks = new Regex(@"^ *((={1,4})[^\[\]\{\}\|=]*)\[{2}(?:[^\[\]\{\}\|=]+\|)?([^\[\]\{\}\|]+)\]\]([^\{\}=]*\2) *$", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
 
         private readonly Regex RegexBadHeader = new Regex("^(={1,4} ?(about|description|overview|definition|profile|(?:general )?information|background|intro(?:duction)?|summary|bio(?:graphy)?) ?={1,4})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
@@ -209,7 +209,11 @@ namespace WikiFunctions.Parse
             ArticleText = Regex.Replace(ArticleText, "^={1,4} ?" + Regex.Escape(ArticleTitle) + " ?={1,4}", "", RegexOptions.IgnoreCase);
             ArticleText = RegexBadHeader.Replace(ArticleText, "");
 
-            //ArticleText = regexLinkedHeader.Replace(ArticleText, "$1$2$3$4");
+            // loop through in case a heading has mulitple wikilinks in it
+            while (regexRemoveHeadingsInLinks.IsMatch(ArticleText))
+            {
+                ArticleText = regexRemoveHeadingsInLinks.Replace(ArticleText, "$1$3$4");
+            }
 
             if (!Regex.IsMatch(ArticleText, "= ?See also ?="))
                 ArticleText = regexHeadings0.Replace(ArticleText, "$1See also$3");

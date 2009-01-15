@@ -411,10 +411,33 @@ Some news here.", p.FixHeadings(@"hi.
 ==News place==  
 Some news here.", "test"));
 
-            // will fail while regexLinkedHeader is disabled
+            // tests for regexRemoveHeadingsInLinks
             Assert.AreEqual("==foo==", p.FixHeadings("==[[foo]]==", "test"));
             Assert.AreEqual("== foo ==", p.FixHeadings("== [[foo]] ==", "test"));
             Assert.AreEqual("==bar==", p.FixHeadings("==[[foo|bar]]==", "test"));
+
+            // match
+            Assert.AreEqual("==hello world ==", p.FixHeadings("==hello [[world]] ==", "a"));
+            Assert.AreEqual("==Hello world==", p.FixHeadings("==[[Hello world]]==", "a"));
+            Assert.AreEqual("==world==", p.FixHeadings("==[[hello|world]]==", "a"));
+            Assert.AreEqual("== world ==", p.FixHeadings("== [[hello|world]] ==", "a"));
+            Assert.AreEqual("===world===", p.FixHeadings("===[[hello now|world]]===", "a"));
+            Assert.AreEqual("==world now==", p.FixHeadings("==[[hello|world now]]==", "a"));
+            Assert.AreEqual("==now world==", p.FixHeadings("==now [[hello|world]]==", "a"));
+            Assert.AreEqual("==now world here==", p.FixHeadings("==now [[hello|world]] here==", "a"));
+            Assert.AreEqual("==now world def here==", p.FixHeadings("==now [[hello abc|world def]] here==", "a"));
+            Assert.AreEqual("==now world here==", p.FixHeadings("==now [[ hello |world]] here==", "a"));
+            Assert.AreEqual("==now world==", p.FixHeadings("==now [[hello#world|world]]==", "a"));
+            Assert.AreEqual("==now world and moon==", p.FixHeadings("==now [[hello|world]] and [[bye|moon]]==", "a"));
+            // no match
+            Assert.AreEqual("===hello [[world]] ==", p.FixHeadings("===hello [[world]] ==", "a"));
+            Assert.AreEqual("==hello [[world]] ===", p.FixHeadings("==hello [[world]] ===", "a"));
+            Assert.AreEqual("== hello world ==", p.FixHeadings("== hello world ==", "a"));
+            Assert.AreEqual("==hello==", p.FixHeadings("==hello==", "a"));
+            Assert.AreEqual("==now [[hello|world] ] here==", p.FixHeadings("==now [[hello|world] ] here==", "a"));
+            Assert.AreEqual("==hello[http://example.net]==", p.FixHeadings("==hello[http://example.net]==", "a"));
+            Assert.AreEqual("hello [[world]]", p.FixHeadings("hello [[world]]", "a"));
+            Assert.AreEqual("now == hello [[world]] == here", p.FixHeadings("now == hello [[world]] == here", "a"));
         }
 
         [Test, Category("Incomplete")]
