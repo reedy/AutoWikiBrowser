@@ -201,6 +201,11 @@ namespace WikiFunctions.Parse
 
             ReplaceMore(WikiRegexes.IndentedText.Matches(ArticleText), ref ArticleText);
 
+            // This hides unpiped wiki links with extra word character(s) e.g. [[link]]age, which need hiding even if hiding for typo fixing 
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Improve_HideText.HideMore.28.29
+            // place this as first wikilink rule as otherwise WikiLinksOnly will grab link without extra word character(s)
+            ReplaceMore(WikiRegexes.WikiLinksOnlyPlusWord.Matches(ArticleText), ref ArticleText);
+
             // if HideOnlyTargetOfWikilink is not set, pipes of links e.g.  [[target|pipe]] will be hidden
             // if set then don't mask the pipe of a link so that typo fixing can be done on it
             if (!HideOnlyTargetOfWikilink)
