@@ -153,11 +153,6 @@ namespace WikiFunctions
         public static readonly Regex WikiLink = new Regex(@"\[\[(.*?)(?:\]\]|\|)", RegexOptions.Compiled);
 
         /// <summary>
-        /// Matches only the target of a piped wikilink, including opening [[ and middle |
-        /// </summary>
-        public static readonly Regex WikiLinkTarget = new Regex(@"\[\[[^\[\]\n]+?\|", RegexOptions.Compiled);
-
-        /// <summary>
         /// Matches piped wikilinks, group 1 is target, group 2 the text
         /// </summary>
         public static readonly Regex PipedWikiLink = new Regex(@"\[\[([^[\]\n]*?)\|([^[\]\n]*?)\]\]", RegexOptions.Compiled);
