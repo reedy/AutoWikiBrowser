@@ -514,6 +514,9 @@ Some news here.", "test"));
             Assert.AreEqual("", p.RemoveImage("Foo, bar", "[[File:foo%2C_bar|quux]]", false, "", out noChange));
             Assert.IsFalse(noChange);
 
+            Assert.AreEqual("", p.RemoveImage("Foo%2C_bar", "[[File:foo, bar|quux]]", false, "", out noChange));
+            Assert.IsFalse(noChange);
+
             Assert.AreEqual("", p.RemoveImage("foo.jpg", "[[Media:foo.jpg]]", false, "", out noChange));
             Assert.IsFalse(noChange);
         }
