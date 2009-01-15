@@ -201,6 +201,8 @@ namespace WikiFunctions.Parse
 
             ReplaceMore(WikiRegexes.IndentedText.Matches(ArticleText), ref ArticleText);
 
+            // if HideOnlyTargetOfWikilink is not set, pipes of links e.g.  [[target|pipe]] will be hidden
+            // if set then don't mask the pipe of a link so that typo fixing can be done on it
             if (!HideOnlyTargetOfWikilink)
             {
                 ReplaceMore(WikiRegexes.WikiLinksOnly.Matches(ArticleText), ref ArticleText);
@@ -212,12 +214,8 @@ namespace WikiFunctions.Parse
 
             ReplaceMore(WikiRegexes.Refs.Matches(ArticleText), ref ArticleText);
 
-            if (!HideOnlyTargetOfWikilink)
-                ReplaceMore(WikiRegexes.WikiLink.Matches(ArticleText), ref ArticleText);
-
-            // if set, no wikilinks will be hidden thus far, so now hide the target of a link, leaving the pipe part exposed [[target|pipe]]
-            if (HideOnlyTargetOfWikilink)
-                ReplaceMore(WikiRegexes.WikiLinkTarget.Matches(ArticleText), ref ArticleText);
+            // this hides only the target of a link, leaving the pipe exposed
+            ReplaceMore(WikiRegexes.WikiLink.Matches(ArticleText), ref ArticleText);
 
             //TODO: replace with gallery-only regex, all normal images should be hidden by now as simple wikilinks
             ReplaceMore(WikiRegexes.Images.Matches(ArticleText), ref ArticleText);
