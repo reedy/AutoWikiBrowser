@@ -100,6 +100,16 @@ namespace UnitTests
             RegexAssert.IsMatch(@"\{"+hidden+@"\}", HideMore("{{{foo}}}"));
         }
 
+        // in tests below no text is hidden
+        const string Caption1 = @"|image_caption=London is a European Parliament constituency. It has water. |";
+        const string Caption2 = @"|image_caption= some load of text here. Some more there.}}";
+        const string Caption3 = @"|image_caption=some load of text here. Some more there.   }}";
+        const string Caption4 = @"|image_caption= some load of text here. Some more there.|";
+        const string Caption5 = @"|image_caption
+            = some load of text here. Some more there.
+            |";
+        const string Field1 = @"field = value |";
+
         [Test]
         public void HideImages()
         {
@@ -136,16 +146,7 @@ image = AmorMexicanaThalia.jpg |");
 |");
             AssertAllHidden(@"| image name = Fred Astaire.jpg |");
             AssertAllHidden(@"|image2 = AmorMexicanaThalia.jpg |");
-
             // in tests below no text is hidden
-            string Caption1 = @"|image_caption=London is a European Parliament constituency. It has water. |";
-            string Caption2 = @"|image_caption= some load of text here. Some more there.}}";
-            string Caption3 = @"|image_caption=some load of text here. Some more there.   }}";
-            string Caption4 = @"|image_caption= some load of text here. Some more there.|";
-            string Caption5 = @"|image_caption
-            = some load of text here. Some more there.
-            |";
-            string Field1 = @"field = value |";
             
             Assert.AreEqual(Caption1, Hide(Caption1));
             Assert.AreEqual(Caption2, Hide(Caption2));
@@ -216,14 +217,6 @@ image = AmorMexicanaThalia.jpg |");
             AssertAllHiddenMore(@"|image2 = AmorMexicanaThalia.jpg |");
             
             // in tests below no text is hidden
-            string Caption1 = @"|image_caption=London is a European Parliament constituency. It has water. |";
-            string Caption2 = @"|image_caption= some load of text here. Some more there.}}";
-            string Caption3 = @"|image_caption=some load of text here. Some more there.   }}";
-            string Caption4 = @"|image_caption= some load of text here. Some more there.|";
-            string Caption5 = @"|image_caption
-            = some load of text here. Some more there.
-            |";
-            string Field1 = @"field = value |";
 
             Assert.AreEqual(Caption1, HideMore(Caption1));
             Assert.AreEqual(Caption2, HideMore(Caption2));
