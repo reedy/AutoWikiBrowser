@@ -428,7 +428,7 @@ bar"));
             Assert.AreEqual(3, Tools.FirstDifference("foo", "foo"));
         }
 
-        string _100 = "123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 1234567890";
+        const string _100 = "123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 1234567890";
 
         [Test]
         public void TrimEditSummary()
@@ -638,7 +638,7 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
         [Test]
         public void FuzzTest()
         {
-            string allowedChars = "abcdefghijklmnopqrstuvwxyzйцукенфывапролдж              ,,,,,";
+            const string allowedChars = "abcdefghijklmnopqrstuvwxyzйцукенфывапролдж              ,,,,,";
 
             Random rnd = new Random();
 
@@ -669,16 +669,14 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
             if (WikiRegexes.Category == null) WikiRegexes.MakeLangSpecificRegexes();
         }
 
-        string ToTalk(string title)
+        static string ToTalk(string title)
         {
-            Article a = new Article(title);
-            return Tools.ConvertToTalk(a);
+            return Tools.ConvertToTalk(new Article(title));
         }
 
-        string FromTalk(string title)
+        static string FromTalk(string title)
         {
-            Article a = new Article(title);
-            return Tools.ConvertFromTalk(a);
+            return Tools.ConvertFromTalk(new Article(title));
         }
         #endregion
 

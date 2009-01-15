@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -100,7 +99,7 @@ namespace WikiFunctions.Parse
         }
 
         #region Separate hiding of unformatted text
-        List<HideObject> HiddenUnformattedText = new List<HideObject>();
+        readonly List<HideObject> HiddenUnformattedText = new List<HideObject>();
 
         /// <summary>
         /// 
@@ -142,7 +141,7 @@ namespace WikiFunctions.Parse
         #endregion
 
         #region More thorough hiding
-        List<HideObject> MoreHide = new List<HideObject>(32);
+        readonly List<HideObject> MoreHide = new List<HideObject>(32);
 
         /// <summary>
         /// 
@@ -185,7 +184,6 @@ namespace WikiFunctions.Parse
                 ReplaceMore(matches, ref ArticleText);
             }
             while (!ArticleTextBefore.Equals(ArticleText));
-
 
             ReplaceMore(WikiRegexes.Blockquote.Matches(ArticleText), ref ArticleText);
 
@@ -233,7 +231,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         public string HideMore(string ArticleText)
         {
-            return(HideMore(ArticleText, false));
+            return HideMore(ArticleText, false);
         }
         /// <summary>
         /// Adds back hidden stuff from HideMore

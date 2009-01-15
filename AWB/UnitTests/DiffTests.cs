@@ -7,7 +7,7 @@ namespace UnitTests
     [TestFixture]
     public class DiffTests
     {
-        void AssertWords(List<Word> words, params string[] expected)
+        private static void AssertWords(IList<Word> words, params string[] expected)
         {
             Assert.AreEqual(expected.Length, words.Count);
             for (int i = 0; i < expected.Length; i++)

@@ -9,10 +9,10 @@ namespace UnitTests
 {
     public class GenfixesTestsBase
     {
-        Article a = new Article("Test");
-        Parsers p = new Parsers();
-        HideText h = new HideText();
-        MockSkipOptions s = new MockSkipOptions();
+        readonly Article a = new Article("Test");
+        readonly Parsers p = new Parsers();
+        readonly HideText h = new HideText();
+        readonly MockSkipOptions s = new MockSkipOptions();
 
         public void GenFixes(bool replaceReferenceTags)
         {
