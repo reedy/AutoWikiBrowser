@@ -989,7 +989,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             foreach (Match m in WikiRegexes.LooseImage.Matches(ArticleText))
             {
                 string x = "[[" + Tools.NormalizeNamespace(m.Groups[1].Value, 6) + CanonicalizeTitle(m.Groups[2].Value).Trim() + m.Groups[3].Value.Trim() + "]]";
-                ArticleText = ArticleText.Replace(m.Value, x);
+                ArticleText = ArticleText.Replace(m.Value, HttpUtility.UrlDecode(x));
             }
 
             return ArticleText;
@@ -1338,8 +1338,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             //remove image prefix
             Image = Regex.Replace(Image, "^" + Variables.NamespacesCaseInsensitive[6], "", RegexOptions.IgnoreCase).Replace("_", " ");
-            Image = Regex.Escape(Image).Replace("\\ ", "[ _]");
-            Image = Tools.CaseInsensitive(Image);
+            Image = Tools.CaseInsensitive(HttpUtility.UrlDecode(Regex.Escape(Image).Replace("\\ ", "[ _]")));
 
             ArticleText = FixImages(ArticleText);
 
@@ -1371,10 +1370,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
                             Regex t = new Regex(Regex.Escape(match));
 
-                            if (CommentOut)
-                                ArticleText = t.Replace(ArticleText, "<!-- " + Comment + " " + match + " -->", 1, m.Index);
-                            else
-                                ArticleText = t.Replace(ArticleText, "", 1);
+                            ArticleText = CommentOut
+                                              ? t.Replace(ArticleText, "<!-- " + Comment + " " + match + " -->", 1, m.Index)
+                                              : t.Replace(ArticleText, "", 1);
 
                             break;
                         }
@@ -1390,7 +1388,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 {
                     Regex t = new Regex(Regex.Escape(m.Value));
 
-                    ArticleText = CommentOut ? t.Replace(ArticleText, "<!-- " + Comment + " $0 -->", 1, m.Index) : t.Replace(ArticleText, "", 1, m.Index);
+                    ArticleText = CommentOut
+                                      ? t.Replace(ArticleText, "<!-- " + Comment + " $0 -->", 1, m.Index)
+                                      : t.Replace(ArticleText, "", 1, m.Index);
                 }
             }
 
