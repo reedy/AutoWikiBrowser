@@ -177,6 +177,10 @@ namespace UnitTests
             AssertAllHiddenMore(@"|photo=Arlberg passstrasse.jpg|");
             AssertAllHiddenMore(@"| Photo =Arlberg passstrasse.jpg
 |");
+            AssertAllHiddenMore(@"| Image =Arlberg passstrasse.jpg |");
+            AssertAllHiddenMore(@"| image =Arlberg passstrasse.jpg |");
+            AssertAllHiddenMore(@"| Img =Arlberg passstrasse.jpg |");
+            AssertAllHiddenMore(@"| img =Arlberg passstrasse.jpg }}");
             // AssertAllHiddenMore("[[Image:foo|test [[File:bar|thumb|[[boz]]]]]]");
         }
 
