@@ -166,6 +166,7 @@ image = AmorMexicanaThalia.jpg |");
             Assert.IsTrue(Hide(@"[[Image:some_image_name.png]] Normal words in text").EndsWith(@" Normal words in text"));
             Assert.IsTrue(Hide(Caption4 + Field1).EndsWith(Field1));
 
+            // TODO, resolve issue below
             // this test fails at the moment due to two image files in an infobox/template in consecutive fields
             Assert.IsFalse(Hide(@"{{Drugbox|
 |IUPAC_name = 6-chloro-1,1-dioxo-2''H''-1,2,4-benzothiadiazine-7-sulfonamide
