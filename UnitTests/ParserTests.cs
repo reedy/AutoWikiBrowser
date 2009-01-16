@@ -625,6 +625,34 @@ Foo is a bar", "Foo", out boolBack));
             Assert.AreEqual("'''Foo''' is a bar, now [[Foo]] here", p.BoldTitle("'''Foo''' is a bar, now [[Foo]] here", "Foo", out boolBack));
             Assert.IsTrue(boolBack);
         }
+
+        [Test]
+        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Bold_letters
+        public void ExamplesFromBugReport()
+        {
+            Assert.AreEqual(@"'''Michael Bavaro''' is a [[filmmaker]] based in [[Manhattan]].", p.BoldTitle(@"[[Michael Bavaro]] is a [[filmmaker]] based in [[Manhattan]].", "Michael Bavaro", out boolBack));
+            Assert.IsFalse(boolBack);
+
+            Assert.AreEqual(@"{{Coronation Street character|
+| name = Phyllis Pearce
+| image = [[Image:Phyliscorrie.jpg|220px]]
+| caption = 
+}}
+
+'''Phyllis Pearce''' (née '''Grimes''') is a [[fictional character]] in ", p.BoldTitle(@"{{Coronation Street character|
+| name = Phyllis Pearce
+| image = [[Image:Phyliscorrie.jpg|220px]]
+| caption = 
+}}
+
+[[Phyllis Pearce]] (née '''Grimes''') is a [[fictional character]] in ", "Phyllis Pearce", out boolBack));
+            Assert.IsFalse(boolBack);
+
+            Assert.AreEqual(@"{{Unreferenced|date=October 2007}}
+'''Steve Cook''' is a songwriter for Sovereign Grace", p.BoldTitle(@"{{Unreferenced|date=October 2007}}
+Steve Cook is a songwriter for Sovereign Grace", "Steve Cook", out boolBack));
+            Assert.IsFalse(boolBack);
+        }
     }
 
     [TestFixture]
