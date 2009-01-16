@@ -16,6 +16,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+using Microsoft.Win32;
+
 namespace WikiFunctions
 {
     /// <summary>
@@ -25,7 +27,7 @@ namespace WikiFunctions
     public static class RegistryUtils
     {
         private const string KeyPrefix = "Software\\AutoWikiBrowser\\";
-        private readonly static Microsoft.Win32.RegistryKey registryKey = new Microsoft.VisualBasic.Devices.Computer().Registry.CurrentUser;
+        private readonly static RegistryKey registryKey = new Microsoft.VisualBasic.Devices.Computer().Registry.CurrentUser;
 
         /// <summary>
         /// Gets a string value from an AWB registry subkey
@@ -36,8 +38,8 @@ namespace WikiFunctions
         public static string GetValue(string keyNameSuffix, object defaultValue)
         {
             string wantedKey = keyNameSuffix.Substring(keyNameSuffix.LastIndexOf("\\"));
-            Microsoft.Win32.RegistryKey regKey = registryKey.OpenSubKey(BuildKeyName(keyNameSuffix.Replace(wantedKey, "")));
-            return regKey.GetValue(wantedKey.Replace("\\", ""), defaultValue).ToString(); 
+            RegistryKey regKey = registryKey.OpenSubKey(BuildKeyName(keyNameSuffix.Replace(wantedKey, "")));
+            return (regKey != null) ? regKey.GetValue(wantedKey.Replace("\\", ""), defaultValue).ToString() : "";
         }
 
         /// <summary>
@@ -54,9 +56,9 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="keyNameSuffix"></param>
         /// <returns></returns>
-        public static Microsoft.Win32.RegistryKey GetWritableKey(string keyNameSuffix)
+        public static RegistryKey GetWritableKey(string keyNameSuffix)
         {
-            // Note that CreateSubKey() creates a new subkey *or opens an existing key for write access*
+            // CreateSubKey() creates a new subkey *or opens an existing key for write access*
             return registryKey.CreateSubKey(BuildKeyName(keyNameSuffix));
         }
 
@@ -65,7 +67,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="keyNameSuffix"></param>
         /// <returns></returns>
-        public static Microsoft.Win32.RegistryKey OpenSubKey(string keyNameSuffix)
+        public static RegistryKey OpenSubKey(string keyNameSuffix)
         { return registryKey.OpenSubKey(BuildKeyName(keyNameSuffix)); }
 
         /// <summary>
@@ -111,12 +113,14 @@ namespace WikiFunctions
             {
                 try
                 {
-                    if (!string.IsNullOrEmpty(text))
-                        return RijndaelSimple.Encrypt(text, PassPhrase, Salt, "SHA1", 2, IV16Chars, 256);
-
+                    return (!string.IsNullOrEmpty(text))
+                               ? RijndaelSimple.Encrypt(text, PassPhrase, Salt, "SHA1", 2, IV16Chars, 256)
+                               : text;
+                }
+                catch
+                {
                     return text;
                 }
-                catch { return text; }
             }
 
             /// <summary>
@@ -128,7 +132,7 @@ namespace WikiFunctions
             {
                 try
                 {
-                    return !string.IsNullOrEmpty(text)
+                    return (!string.IsNullOrEmpty(text))
                                ? RijndaelSimple.Decrypt(text, PassPhrase, Salt, "SHA1", 2, IV16Chars, 256)
                                : text;
                 }
