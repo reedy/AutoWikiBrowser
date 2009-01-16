@@ -64,11 +64,11 @@ namespace UnitTests
         public void UndersoreRemovalInExternalLink()
         {
             // just in case...
-            AssertNotChanged("test http://some_link test");
+            AssertNotChanged("testing http://some_link testing");
 
             AssertNotChanged("[http://some_link]");
 
-            AssertChange("[[http://some_link]] test", "[http://some_link] test");
+            AssertChange("[[http://some_link]] testing", "[http://some_link] testing");
         }
 
         [Test]
