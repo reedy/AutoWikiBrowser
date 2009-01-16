@@ -89,7 +89,7 @@
     <Compile Include="Profiles\UserPassword.Designer.cs">
       <DependentUpon>UserPassword.cs</DependentUpon>
     </Compile>
-    <Compile Include="Background.cs" />
+    <Compile Include="Background\Background.cs" />
     <Compile Include="Controls\ArticleTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -114,7 +114,7 @@
     <Compile Include="Controls\LevelNumber.Designer.cs">
       <DependentUpon>LevelNumber.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ListBox2.cs">
+    <Compile Include="Controls\Lists\ListBox2.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\EditProtectControl.cs">
@@ -132,16 +132,16 @@
     <Compile Include="Controls\TypoStatsControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="DabControl.cs">
+    <Compile Include="Disambiguation\DabControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="DabControl.Designer.cs">
+    <Compile Include="Disambiguation\DabControl.Designer.cs">
       <DependentUpon>DabControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="DabForm.cs">
+    <Compile Include="Disambiguation\DabForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DabForm.designer.cs">
+    <Compile Include="Disambiguation\DabForm.designer.cs">
       <DependentUpon>DabForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\AboutBox.cs">
@@ -169,10 +169,10 @@
       <DependentUpon>ErrorHandler.cs</DependentUpon>
     </Compile>
     <Compile Include="ExpirableCache.cs" />
-    <Compile Include="FindandReplace.cs">
+    <Compile Include="Parse\FindandReplace.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FindandReplace.Designer.cs">
+    <Compile Include="Parse\FindandReplace.Designer.cs">
       <DependentUpon>FindandReplace.cs</DependentUpon>
     </Compile>
     <Compile Include="Lists\IListProvider.cs" />
@@ -221,10 +221,10 @@
     </Compile>
     <Compile Include="Options.cs" />
     <Compile Include="Parse\Parsers.cs" />
-    <Compile Include="PleaseWait.cs">
+    <Compile Include="Background\PleaseWait.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PleaseWait.Designer.cs">
+    <Compile Include="Background\PleaseWait.Designer.cs">
       <DependentUpon>PleaseWait.cs</DependentUpon>
     </Compile>
     <Compile Include="PluginInterfaces.cs" />
@@ -362,11 +362,11 @@
       <DependentUpon>TypoStatsControl.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="DabControl.resx">
+    <EmbeddedResource Include="Disambiguation\DabControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>DabControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DabForm.resx">
+    <EmbeddedResource Include="Disambiguation\DabForm.resx">
       <DependentUpon>DabForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -382,7 +382,7 @@
       <SubType>Designer</SubType>
       <DependentUpon>ErrorHandler.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FindandReplace.resx">
+    <EmbeddedResource Include="Parse\FindandReplace.resx">
       <DependentUpon>FindandReplace.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -410,7 +410,7 @@
       <DependentUpon>UploadingPleaseWaitForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="PleaseWait.resx">
+    <EmbeddedResource Include="Background\PleaseWait.resx">
       <SubType>Designer</SubType>
       <DependentUpon>PleaseWait.cs</DependentUpon>
     </EmbeddedResource>

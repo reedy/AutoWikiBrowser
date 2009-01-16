@@ -71,7 +71,7 @@ namespace AwbUpdater
 
                     errorMessage.Append("<table>");
                     FormatException(ex, errorMessage, true);
-                    errorMessage.Append("</table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
+                    errorMessage.Append("</table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version);
 
                     //if (!Variables.Revision.Contains("?")) errorMessage.Append(", revision " + Variables.Revision);
 
@@ -133,7 +133,7 @@ namespace AwbUpdater
         }
 
         static readonly string[] PresetNamespaces =
-            new string[] { "System.", "Microsoft.", "Mono." };
+            new [] { "System.", "Microsoft.", "Mono." };
 
         /// <summary>
         /// Returns the name of our function where supposedly error resides;

@@ -16,10 +16,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using WikiFunctions;
 using System.Net;
 using System.Reflection;
 using System.Web;
@@ -194,14 +192,15 @@ namespace WikiFunctions.API
         {
             for (int i = 0; i < titles.Length; i++) titles[i] = Tools.WikiEncode(titles[i]);
             if (titles.Length > 0) return "&titles=" + string.Join("|", titles);
-            else return "";
+            
+            return "";
         }
 
         protected static string NamedTitles(string paramName, params string[] titles)
         {
             for (int i = 0; i < titles.Length; i++) titles[i] = Tools.WikiEncode(titles[i]);
             if (titles.Length > 0) return "&" + paramName+ "=" + string.Join("|", titles);
-            else return "";
+            return "";
         }
 
         protected string BuildUrl(string[,] request, bool autoParams)
@@ -297,8 +296,8 @@ namespace WikiFunctions.API
         {
             Reset();
 
-            string result = HttpPost(new string[,] { { "action", "login" } },
-                new string[,] { { "lgname", username }, { "lgpassword", password } }, false);
+            string result = HttpPost(new [,] { { "action", "login" } },
+                new [,] { { "lgname", username }, { "lgpassword", password } }, false);
 
             XmlReader xr = XmlReader.Create(new StringReader(result));
             xr.ReadToFollowing("login");
@@ -314,7 +313,7 @@ namespace WikiFunctions.API
         public void Logout()
         {
             Reset();
-            string result = HttpGet(new string[,] { { "action", "logout" } }, false);
+            string result = HttpGet(new [,] { { "action", "logout" } }, false);
             CheckForError(result, "logout");
         }
         #endregion
@@ -333,7 +332,7 @@ namespace WikiFunctions.API
             Reset();
 
             // action=query&prop=info|revisions&intoken=edit&titles=Main%20Page&rvprop=timestamp|user|comment|content
-            string result = HttpGet(new string[,] { 
+            string result = HttpGet(new [,] { 
                 { "action", "query" },
                 { "prop", "info|revisions" },
                 { "intoken","edit" },
@@ -380,14 +379,14 @@ namespace WikiFunctions.API
             if (string.IsNullOrEmpty(m_EditToken)) throw new ApiException(this, "Edit token is needed to edit pages");
 
             string result = HttpPost(
-                new string[,]
+                new [,]
                 {
                     { "action", "edit" },
                     { "title", m_PageTitle },
                     { minor ? "minor" : null, null },
                     { watch ? "watch" : null, null }
                 },
-                new string[,]
+                new [,]
                 {// order matters here - https://bugzilla.wikimedia.org/show_bug.cgi?id=14210#c4
                     { "md5", MD5(pageText) },
                     { "summary", summary },
@@ -409,7 +408,7 @@ namespace WikiFunctions.API
             m_Action = "delete";
 
             string result = HttpGet(
-                new string[,]
+                new [,]
                 {
                     { "action", "query" },
                     { "prop", "info" },
@@ -432,11 +431,11 @@ namespace WikiFunctions.API
             }
 
             result = HttpPost(
-                new string[,]
+                new [,]
                 {
                     { "action", "delete" }
                 },
-                new string[,]
+                new [,]
                 {
                     { "title", title },
                     { "token", m_EditToken },
@@ -454,12 +453,12 @@ namespace WikiFunctions.API
         public string Preview(string pageTitle, string text)
         {
             string result = HttpPost(
-                new string[,]
+                new [,]
                 {
                     { "action", "parse" },
                     { "prop", "text" }
                 },
-                new string[,]
+                new [,]
                 {
                     { "title", pageTitle },
                     { "text", text }
@@ -481,11 +480,11 @@ namespace WikiFunctions.API
         public string ExpandTemplates(string pageTitle, string text)
         {
             string result = HttpPost(
-                new string[,]
+                new [,]
                 {
                     { "action", "expandtemplates" }
                 },
-                new string[,]
+                new [,]
                 {
                     { "title", pageTitle },
                     { "text", text }

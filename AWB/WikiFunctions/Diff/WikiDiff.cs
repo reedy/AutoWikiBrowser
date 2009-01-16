@@ -28,8 +28,8 @@ namespace WikiFunctions
         public string GetDiff(string leftText, string rightText, int contextLines)
         {
             Result = new StringBuilder(500000);
-            LeftLines = leftText.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-            RightLines = rightText.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+            LeftLines = leftText.Split(new [] { "\r\n" }, StringSplitOptions.None);
+            RightLines = rightText.Split(new [] { "\r\n" }, StringSplitOptions.None);
             ContextLines = contextLines;
 
             diff = new Diff(LeftLines, RightLines, true, true);
@@ -43,7 +43,7 @@ namespace WikiFunctions
         }
 
         #region High-level diff stuff
-        void RenderDifference(Diff.Hunk hunk)
+        private void RenderDifference(Diff.Hunk hunk)
         {
             Range left = hunk.Left;
             Range right = hunk.Right;
@@ -62,7 +62,7 @@ namespace WikiFunctions
                     LineAdded(right.Start + i);
         }
 
-        void RenderContext(Diff.Hunk hunk)
+        private void RenderContext(Diff.Hunk hunk)
         {
             Range left = hunk.Left;
             Range right = hunk.Right;
@@ -83,7 +83,7 @@ namespace WikiFunctions
             }
         }
 
-        void LineChanged(int leftLine, int rightLine)
+        private void LineChanged(int leftLine, int rightLine)
         {
             // some kind of glitch with the diff engine
             if (LeftLines[leftLine] == RightLines[rightLine])
@@ -98,7 +98,7 @@ namespace WikiFunctions
             List<Word> leftList = Word.SplitString(LeftLines[leftLine]);
             List<Word> rightList = Word.SplitString(RightLines[rightLine]);
 
-            Diff diff = new Diff(leftList, rightList, Word.Comparer, Word.Comparer);
+            diff = new Diff(leftList, rightList, Word.Comparer, Word.Comparer);
 
             foreach (Diff.Hunk h in diff)
             {
@@ -130,7 +130,7 @@ namespace WikiFunctions
 		</tr>");
         }
 
-        static void WordDiff(StringBuilder res, Range range, Range otherRange, IList<Word> words, IList<Word> otherWords)
+        private static void WordDiff(StringBuilder res, Range range, Range otherRange, IList<Word> words, IList<Word> otherWords)
         {
             bool open = false;
 
@@ -152,7 +152,7 @@ namespace WikiFunctions
             if (open) res.Append("</span>");
         }
 
-        static void WhitespaceDiff(StringBuilder res, Word left, Word right)
+        private static void WhitespaceDiff(StringBuilder res, Word left, Word right)
         {
             if (left.Whitespace == right.Whitespace) res.Append(HttpUtility.HtmlEncode(right.ToString()));
             else
@@ -404,10 +404,8 @@ td.diff-addedline span.diffchange {
 
     public sealed class Word
     {
-        private string m_Word;
-        private string m_Whitespace;
-        private string m_ToString;
-        private int m_HashCode;
+        private readonly string m_Word, m_Whitespace, m_ToString;
+        private  readonly int m_HashCode;
 
         public string TheWord
         {

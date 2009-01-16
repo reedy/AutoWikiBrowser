@@ -133,7 +133,7 @@
     <Compile Include="LoggingSettings.Designer.cs">
       <DependentUpon>LoggingSettings.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyTrace.cs" />
+    <Compile Include="Logging\MyTrace.cs" />
     <Compile Include="PluginManager.cs">
       <SubType>Form</SubType>
     </Compile>

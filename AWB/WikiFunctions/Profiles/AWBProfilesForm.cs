@@ -24,14 +24,14 @@ namespace WikiFunctions.Profiles
 {
     public partial class AWBProfilesForm : AWBLogUploadProfilesForm
     {
-        private WikiFunctions.Browser.WebControl webBrowser;
+        private readonly Browser.WebControl webBrowser;
         public event EventHandler LoadProfile;
 
         public AWBProfilesForm(Browser.WebControl Browser)
         {
             InitializeComponent();
             loginAsThisAccountToolStripMenuItem.Visible = true;
-            loginAsThisAccountToolStripMenuItem.Click += new System.EventHandler(this.lvAccounts_DoubleClick);
+            loginAsThisAccountToolStripMenuItem.Click += lvAccounts_DoubleClick;
             webBrowser = Browser;
         }
 
@@ -69,10 +69,10 @@ namespace WikiFunctions.Profiles
                 if (SelectedItem < 0) return;
 
                 Cursor = Cursors.WaitCursor;
-                if (!string.IsNullOrEmpty(lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text))
-                    CurrentSettingsProfile = lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text;
-                else
-                    CurrentSettingsProfile = "";
+                CurrentSettingsProfile =
+                    string.IsNullOrEmpty(lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text)
+                        ? ""
+                        : lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text;
 
                 if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[2].Text == "Yes")
                 {//Get 'Saved' Password

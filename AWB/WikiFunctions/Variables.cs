@@ -16,12 +16,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-// TODO: Please clean me!
-
-/* TODO: Template names and other constant strings used in Logging will need to be moved to Variables and internationalised.
-To retain it's ability for easy reuse, it might be best if the classes in WikiFunctions use constants,
-and the classes in AWB override those values and call .Variables? */
-
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -230,7 +224,7 @@ namespace WikiFunctions
         /// </summary>
         public static string[] MonthNames;
 
-        public static string[] ENLangMonthNames = new string[]{"January", "February", "March", "April", "May", "June",
+        public static string[] ENLangMonthNames = new []{"January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"};
 
         private static string URLEnd = "/w/";
@@ -930,11 +924,7 @@ namespace WikiFunctions
         public bool LoggedIn
         {
             get { return bLoggedIn; }
-            set
-            {
-                bLoggedIn = value;
-                WikiStatus = (bLoggedIn != false);
-            }
+            set { bLoggedIn = WikiStatus = value; }
         }
 
         readonly static Regex Message = new Regex("<!--[Mm]essage:(.*?)-->", RegexOptions.Compiled);

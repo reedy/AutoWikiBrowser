@@ -177,7 +177,7 @@ namespace WikiFunctions.AWBSettings
         /// Fill the object with settings from UI
         /// </summary>
         public FaRPrefs(bool mEnabled, Parse.FindandReplace findAndReplace,
-            MWB.ReplaceSpecial replaceSpecial, string[] mSubstTemplates,
+            ReplaceSpecial.ReplaceSpecial replaceSpecial, string[] mSubstTemplates,
             bool mIncludeComments, bool mExpandRecursively, bool mIgnoreUnformatted)
         {
             Enabled = mEnabled;
@@ -201,7 +201,7 @@ namespace WikiFunctions.AWBSettings
         public bool AfterOtherFixes = false;
         public List<Parse.Replacement> Replacements = new List<Parse.Replacement>();
 
-        public List<MWB.IRule> AdvancedReps = new List<MWB.IRule>();
+        public List<ReplaceSpecial.IRule> AdvancedReps = new List<ReplaceSpecial.IRule>();
 
         public string[] SubstTemplates = new string[0];
         public bool IncludeComments = false;

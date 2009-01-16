@@ -75,7 +75,7 @@ namespace WikiFunctions.Disambiguation
             if (dabLink.Contains("|"))
             {
                 string sum = "";
-                foreach (string s in dabLink.Split(new char[] { '|' }))
+                foreach (string s in dabLink.Split(new [] { '|' }))
                 {
                     if (s.Trim().Length == 0) continue;
                     sum += "|" + Tools.CaseInsensitive(Regex.Escape(s.Trim()));
@@ -126,7 +126,9 @@ namespace WikiFunctions.Disambiguation
             foreach (DabControl d in Dabs)
             {
                 int start;
-                for (start = 0; (start < Math.Min(d.Surroundings.Length, d.Result.Length)) && (d.Result[start] == d.Surroundings[start]); start++);
+                for (start = 0; (start < Math.Min(d.Surroundings.Length, d.Result.Length)) && (d.Result[start] == d.Surroundings[start]); start++)
+                {
+                }
 
                 int end1 = d.Surroundings.Length - 1;
                 int end2 = d.Result.Length - 1;

@@ -65,7 +65,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             sender.HelpToolStripMenuItem.DropDownItems.Add(aboutMenuItem);
         }
 
-        private void ArticleRedirected(string oldTitle, string newTitle)
+        private static void ArticleRedirected(string oldTitle, string newTitle)
         {
             int id;
             if (PageList.TryGetValue(oldTitle, out id))
@@ -75,7 +75,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             }
         }
 
-        private void pluginReAddArticlesMenuItem_Click(object sender, EventArgs e)
+        private static void pluginReAddArticlesMenuItem_Click(object sender, EventArgs e)
         {
             foreach (string a in PageList.Keys)
             {
@@ -86,17 +86,17 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             }
         }
 
-        private void aboutMenuItem_Click(object sender, EventArgs e)
+        private static void aboutMenuItem_Click(object sender, EventArgs e)
         {
             new About().Show();
         }
 
-        private void pluginUploadMenuItem_Click(object sender, EventArgs e)
+        private static void pluginUploadMenuItem_Click(object sender, EventArgs e)
         {
             UploadFinishedArticlesToServer();
         }
 
-        private void LogControl_LogAdded(bool Skipped, WikiFunctions.Logging.AWBLogListener LogListener)
+        private static void LogControl_LogAdded(bool Skipped, Logging.AWBLogListener LogListener)
         {
             int articleID;
             if ((PageList.Count > 0) && (PageList.TryGetValue(LogListener.Text, out articleID)))
@@ -175,7 +175,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         public void Nudged(int Nudges)
         { }
 
-        private void UploadFinishedArticlesToServer(object sender, FormClosingEventArgs e)
+        private static void UploadFinishedArticlesToServer(object sender, FormClosingEventArgs e)
         {
             UploadFinishedArticlesToServer();
         }

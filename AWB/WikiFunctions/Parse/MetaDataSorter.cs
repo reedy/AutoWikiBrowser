@@ -42,7 +42,7 @@ namespace WikiFunctions.Parse
         {          
             if (Globals.UnitTestMode) // or unit tests gonna run like a turtle
             {
-                Languages.AddRange(new string[] { "en", "ru", "sq" });
+                Languages.AddRange(new [] { "en", "ru", "sq" });
                 WikipediaLanguages.AddRange(Languages);
                 WiktionaryLanguages.AddRange(Languages);
                 WikibooksLanguages.AddRange(Languages);
@@ -53,9 +53,9 @@ namespace WikiFunctions.Parse
             }
             else
             {
-#if DEBUG
-                StringBuilder builder = new StringBuilder();
-#endif
+//#if DEBUG
+//                StringBuilder builder = new StringBuilder();
+//#endif
 
                 string strMatrix = Tools.GetHTML("http://en.wikipedia.org/w/api.php?action=sitematrix&format=xml");
 
@@ -67,17 +67,18 @@ namespace WikiFunctions.Parse
                     string langCode = lang.Attributes["code"].Value;
                     string langName = lang.Attributes["name"].Value;
 
-#if DEBUG
-                    try
-                    {
-                        Variables.ParseLanguage(langCode);
-                    }
-                    catch (ArgumentException)
-                    {
-                        if (!langCode.Contains("-old") && !langCode.Contains("closed") && langCode != "nomcom") //closed/old aren't used. nomcom isnt general access
-                            builder.AppendLine(langCode);
-                    }
-#endif
+//#if DEBUG
+//                    try
+//                    {
+//                        Variables.ParseLanguage(langCode);
+//                    }
+//                    catch (ArgumentException)
+//                    {
+//                        if (!langCode.Contains("-old") && !langCode.Contains("closed") && langCode != "nomcom") //closed/old aren't used. nomcom isnt general access
+//                            builder.AppendLine(langCode);
+//                    }
+//#endif
+
                     Languages.Add(langCode);
                     LanguageNames[langCode] = langName;
 
@@ -122,10 +123,10 @@ namespace WikiFunctions.Parse
                 WikiquoteLanguages.Sort();
                 WikiversityLanguages.Sort();
 
-#if DEBUG
-                if (builder.Length > 0)
-                    Tools.WriteDebug("SiteMatrix - Missing Languages", builder.ToString());
-#endif
+//#if DEBUG
+//                if (builder.Length > 0)
+//                    Tools.WriteDebug("SiteMatrix - Missing Languages", builder.ToString());
+//#endif
             }
         }
 
@@ -316,7 +317,7 @@ namespace WikiFunctions.Parse
 
             InterwikiLocalAlpha = new string[IWSplit.Matches(interwikiLocalAlphaRaw).Count + 1];
 
-            foreach (string s in interwikiLocalAlphaRaw.Split(new string[] {","}, StringSplitOptions.RemoveEmptyEntries)
+            foreach (string s in interwikiLocalAlphaRaw.Split(new [] {","}, StringSplitOptions.RemoveEmptyEntries)
                 )
             {
                 InterwikiLocalAlpha[no] = s.Trim().ToLower();
@@ -326,7 +327,7 @@ namespace WikiFunctions.Parse
             InterwikiLocalFirst = new string[size];
             no = 0;
 
-            foreach (string s in interwikiLocalFirstRaw.Split(new string[] {","}, StringSplitOptions.RemoveEmptyEntries)
+            foreach (string s in interwikiLocalFirstRaw.Split(new [] {","}, StringSplitOptions.RemoveEmptyEntries)
                 )
             {
                 InterwikiLocalFirst[no] = s.Trim().ToLower();
@@ -649,7 +650,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string IWMatchEval(Match match)
         {
-            string[] textArray = new string[] { "[[", match.Groups["site"].ToString().ToLower(), ":", match.Groups["text"].ToString(), "]]" };
+            string[] textArray = new [] { "[[", match.Groups["site"].ToString().ToLower(), ":", match.Groups["text"].ToString(), "]]" };
             return string.Concat(textArray);
         }
 

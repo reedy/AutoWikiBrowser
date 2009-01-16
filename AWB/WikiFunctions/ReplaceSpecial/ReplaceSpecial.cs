@@ -24,7 +24,7 @@ using System.Text;
 using System.Xml;
 using System.Windows.Forms;
 
-namespace WikiFunctions.MWB
+namespace WikiFunctions.ReplaceSpecial
 {
     public partial class ReplaceSpecial : Form, IRuleControlOwner
     {
@@ -80,14 +80,14 @@ namespace WikiFunctions.MWB
         private void OkButton_Click(object sender, EventArgs e)
         {
             SaveCurrentRule();
-            this.Hide();
+            Hide();
         }
 
         private void ReplaceSpecial_FormClosing(object sender, FormClosingEventArgs e)
         {
             SaveCurrentRule();
             e.Cancel = true;
-            this.Hide();
+            Hide();
         }
 
         private void RulesTreeView_AfterSelect(object sender, TreeViewEventArgs e)
@@ -129,12 +129,12 @@ namespace WikiFunctions.MWB
 
                 currentRule_ = (IRule)RulesTreeView.SelectedNode.Tag;
 
-                this.SuspendLayout();
+                SuspendLayout();
 
                 Point pos = new Point();
                 ruleControl_ = null;
-                ruleControl_ = currentRule_.CreateControl(this, this.RuleControlSpace.Controls, pos);
-                ruleControl_.Size = this.RuleControlSpace.Size;
+                ruleControl_ = currentRule_.CreateControl(this, RuleControlSpace.Controls, pos);
+                ruleControl_.Size = RuleControlSpace.Size;
 
                 currentRule_.Name = RulesTreeView.SelectedNode.Text;
 
@@ -148,7 +148,7 @@ namespace WikiFunctions.MWB
 
                 ruleControl_.Visible = true;
 
-                this.ResumeLayout();
+                ResumeLayout();
             }
             UpdateEnabledStates();
             setTreeViewColours();
@@ -360,7 +360,7 @@ namespace WikiFunctions.MWB
             SaveCurrentRule();
             history_.Save();
 
-            Tools.CopyToClipboard(Serialize((IRule)GetSelectedRule()), true);
+            Tools.CopyToClipboard(Serialize(GetSelectedRule()), true);
             UpdateEnabledStates();
         }
 
@@ -391,7 +391,7 @@ namespace WikiFunctions.MWB
             AddNewRule(RuleFactory.CreateTemplateParamRule());
         }
 
-        private void RecurseNode(TreeNode n, ref IRule r)
+        private static void RecurseNode(TreeNode n, IRule r)
         {
             if (n.Nodes.Count == 0) return;
 
@@ -399,7 +399,7 @@ namespace WikiFunctions.MWB
             foreach (TreeNode n1 in n.Nodes)
             {
                 IRule r1 = (IRule)n1.Tag;
-                if (n1.Nodes.Count > 0) RecurseNode(n1, ref r1);
+                if (n1.Nodes.Count > 0) RecurseNode(n1, r1);
                 r.Children.Add(r1);
             }
         }
@@ -411,7 +411,7 @@ namespace WikiFunctions.MWB
             foreach (TreeNode tn in RulesTreeView.Nodes)
             {
                 IRule r = (IRule)tn.Tag;
-                if (tn.Nodes.Count > 0) RecurseNode(tn, ref r);
+                if (tn.Nodes.Count > 0) RecurseNode(tn, r);
                 l.Add(r);
             }
 
@@ -422,7 +422,7 @@ namespace WikiFunctions.MWB
         {
             TreeNode tn = RulesTreeView.SelectedNode;
             IRule r = (IRule)tn.Tag;
-            if (tn.Nodes.Count > 0) RecurseNode(tn, ref r);
+            if (tn.Nodes.Count > 0) RecurseNode(tn, r);
 
             return r;
         }
@@ -472,7 +472,7 @@ namespace WikiFunctions.MWB
             }
 
             RestoreSelectedRule();
-            this.currentRule_.SelectName();
+            currentRule_.SelectName();
         }
 
         private void AddNewRule(IRule r, TreeNode tn)
@@ -528,7 +528,7 @@ namespace WikiFunctions.MWB
             RulesTreeView.Select();
 
             RestoreSelectedRule();
-            this.currentRule_.SelectName();
+            currentRule_.SelectName();
         }
 
         private void NewSubruleInTemplateCallMenuItem_Click(object sender, EventArgs e)

@@ -162,18 +162,14 @@ namespace WikiFunctions.Controls
             }
         }
 
-        public int TotalTypos = 0;
-        public int SelfMatches = 0;
-        public int FalsePositives = 0;
-        public int Saves = 0;
-        public int Pages = 0;
+        public int TotalTypos, SelfMatches, FalsePositives, Saves, Pages;
 
         public string TyposPerSave
         {
             get
             {
                 return string.Format("{0:F1}",
-                              ((double) (TotalTypos - SelfMatches - FalsePositives)/(double) Saves));
+                                     ((TotalTypos - SelfMatches - FalsePositives)/Saves));
             }   
         }
 
@@ -310,7 +306,7 @@ namespace WikiFunctions.Controls
         bool isYellow;
 
         public TypoStatsListViewItem(TypoStat stat)
-            : base(new string[] { stat.Find, stat.Replace, "", "" })
+            : base(new [] { stat.Find, stat.Replace, "", "" })
         {
             Typo = stat;
             Typo.ListViewItem = this;
@@ -324,12 +320,12 @@ namespace WikiFunctions.Controls
 
             if ((Typo.Total == Typo.SelfMatches) && !isYellow)
             {
-                this.BackColor = System.Drawing.Color.Yellow;
+                BackColor = System.Drawing.Color.Yellow;
                 isYellow = true;
             }
             else if (isYellow)
             {
-                this.BackColor = System.Drawing.Color.White;
+                BackColor = System.Drawing.Color.White;
                 isYellow = false;
             }
         }

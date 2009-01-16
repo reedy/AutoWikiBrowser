@@ -29,11 +29,11 @@ namespace WikiFunctions
     public class SiteInfo : IXmlSerializable
     {
         private string m_ScriptPath;
-        private Dictionary<int, string> m_Namespaces = new Dictionary<int, string>();
+        private readonly Dictionary<int, string> m_Namespaces = new Dictionary<int, string>();
         private Dictionary<int, List<string>> m_NamespaceAliases = new Dictionary<int, List<string>>();
-        private Dictionary<string, string> m_MessageCache = new Dictionary<string, string>();
-        private Dictionary<string, List<string>> m_MagicWords = new Dictionary<string, List<string>>();
-        private DateTime m_Time;
+        //private Dictionary<string, string> m_MessageCache = new Dictionary<string, string>();
+        //private Dictionary<string, List<string>> m_MagicWords = new Dictionary<string, List<string>>();
+        private readonly DateTime m_Time = DateTime.Now;
 
         /// <summary>
         /// Creates an instance of the class
@@ -42,7 +42,6 @@ namespace WikiFunctions
         public SiteInfo(string scriptPath)
         {
             ScriptPath = scriptPath;
-            m_Time = DateTime.Now;
 
             try
             {
@@ -69,8 +68,8 @@ namespace WikiFunctions
         internal SiteInfo()
         { }
 
-        private static void VerifyIntegrity()
-        { }
+        //private static void VerifyIntegrity()
+        //{ }
 
         public static string NormalizeURL(string url)
         {

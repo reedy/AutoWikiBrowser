@@ -8,7 +8,7 @@ namespace WikiFunctions.Controls
     /// </summary>
     public class ArticleTextBox : TextBox
     {
-        bool Locked = false;
+        bool Locked;
 
         public override string Text
         {

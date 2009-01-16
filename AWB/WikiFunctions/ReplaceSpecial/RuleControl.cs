@@ -21,7 +21,7 @@ using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using WikiFunctions.Controls;
 
-namespace WikiFunctions.MWB
+namespace WikiFunctions.ReplaceSpecial
 {
     public partial class RuleControl : UserControl
     {
@@ -32,7 +32,7 @@ namespace WikiFunctions.MWB
             InitializeComponent();
 
             owner_ = owner;
-            this.Anchor =
+            Anchor =
               AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
         }
 

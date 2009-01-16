@@ -396,14 +396,14 @@ namespace WikiFunctions
         /// <param name="replaceSpecial">An MWB ReplaceSpecial object</param>
         /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
         public void PerformFindAndReplace(FindandReplace findAndReplace, SubstTemplates substTemplates,
-            MWB.ReplaceSpecial replaceSpecial, bool SkipIfNoChange)
+            ReplaceSpecial.ReplaceSpecial replaceSpecial, bool SkipIfNoChange)
         {
             string strTemp = mArticleText.Replace("\r\n", "\n"),
                 testText = strTemp, tmpEditSummary = "";
 
             strTemp = findAndReplace.MultipleFindAndReplace(strTemp, mName, ref tmpEditSummary);
             strTemp = replaceSpecial.ApplyRules(strTemp, mName);
-            strTemp = substTemplates.SubstituteTemplates(strTemp, mName); // TODO: Possible bug, this was "articleTitle" not "Name"
+            strTemp = substTemplates.SubstituteTemplates(strTemp, mName);
 
             if (SkipIfNoChange && (testText == strTemp)) // NoChange
                 Trace.AWBSkipped("No Find And Replace Changes");
@@ -420,10 +420,10 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="RegexTypos">A RegExTypoFix object</param>
         /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
-        public void PerformTypoFixes(RegExTypoFix RegexTypos, bool SkipIfNoChange, string ArticleTitle)
+        public void PerformTypoFixes(RegExTypoFix RegexTypos, bool SkipIfNoChange)
         {
             bool noChange;
-            string strTemp = RegexTypos.PerformTypoFixes(mArticleText, out noChange, out mPluginEditSummary, ArticleTitle);
+            string strTemp = RegexTypos.PerformTypoFixes(mArticleText, out noChange, out mPluginEditSummary, mName);
 
             if (noChange && SkipIfNoChange)
                 Trace.AWBSkipped("No typo fixes");

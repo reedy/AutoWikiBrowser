@@ -321,6 +321,7 @@ namespace WikiFunctions.Parse
         /// <param name="ArticleText"></param>
         /// <param name="NoChange"></param>
         /// <param name="Summary"></param>
+        /// <param name="ArticleTitle"></param>
         /// <returns></returns>
         public string PerformTypoFixes(string ArticleText, out bool NoChange, out string Summary, string ArticleTitle)
         {
@@ -366,6 +367,7 @@ namespace WikiFunctions.Parse
         /// 
         /// </summary>
         /// <param name="ArticleText"></param>
+        /// <param name="ArticleTitle"></param>
         /// <returns></returns>
         public bool DetectTypo(string ArticleText, string ArticleTitle)
         {

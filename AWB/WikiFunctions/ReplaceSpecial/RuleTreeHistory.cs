@@ -18,14 +18,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace WikiFunctions.MWB
+namespace WikiFunctions.ReplaceSpecial
 {
     public class RuleTreeHistory
     {
-        List<List<TreeNode>> history_ = new List<List<TreeNode>>();
+        readonly List<List<TreeNode>> history_ = new List<List<TreeNode>>();
         int index_ = -1;
 
-        TreeView treeView_;
+        readonly TreeView treeView_;
 
         public RuleTreeHistory(TreeView tv)
         {

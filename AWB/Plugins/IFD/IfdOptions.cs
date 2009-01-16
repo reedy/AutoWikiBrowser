@@ -44,7 +44,7 @@ namespace AutoWikiBrowser.Plugins.IFD
             Grid.Rows.Clear();
             foreach (KeyValuePair<string, string> p in IfdAWBPlugin.Settings.Images)
             {
-                Grid.Rows.Add(new string[] { p.Key, p.Value });
+                Grid.Rows.Add(new [] { p.Key, p.Value });
             }
 
             txtBacklog.Text = prevContent;
@@ -73,12 +73,12 @@ namespace AutoWikiBrowser.Plugins.IFD
                 Match m = imgReplace.Match(s.Replace("‎", ""));
                 if (m.Success)
                 {
-                    Grid.Rows.Add(new string[] { m.Groups[1].Value.Trim().Replace("_", " "), m.Groups[2].Value.Trim().Replace("_", "") });
+                    Grid.Rows.Add(new [] { m.Groups[1].Value.Trim().Replace("_", " "), m.Groups[2].Value.Trim().Replace("_", "") });
                     continue;
                 }
                 m = imgRemove.Match(s.Replace("‎", ""));
                 if (m.Success)
-                    Grid.Rows.Add(new string[] { m.Groups[1].Value.Trim().Replace("_", " "), "" });
+                    Grid.Rows.Add(new [] { m.Groups[1].Value.Trim().Replace("_", " "), "" });
             }
         }
 

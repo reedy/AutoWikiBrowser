@@ -592,7 +592,7 @@ namespace WikiFunctions.Parse
             if (Variables.UnderscoredTitles.Contains(Tools.TurnFirstToUpper(s)))
             {
                 return HttpUtility.UrlDecode(title.Replace("+", "%2B"))
-                    .Trim(new char[] { '_' });
+                    .Trim(new [] { '_' });
             }
             return s;
         }
@@ -615,7 +615,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private static byte DecodeHex(byte a, byte b)
         {
-            return byte.Parse(new string(new char[] { (char)a, (char)b }), System.Globalization.NumberStyles.HexNumber);
+            return byte.Parse(new string(new [] { (char)a, (char)b }), System.Globalization.NumberStyles.HexNumber);
         }
 
         /// <summary>
@@ -788,7 +788,7 @@ namespace WikiFunctions.Parse
 
                     b = (Tools.CalculateNS(a) != 14)
                             ? m.Groups[2].Value.Trim()
-                            : m.Groups[2].Value.TrimEnd(new char[] { ' ' });
+                            : m.Groups[2].Value.TrimEnd(new [] { ' ' });
 
                     if (b.Length == 0) continue;
 
@@ -1904,7 +1904,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string s = Allow.Match(m.Groups[2].Value).Groups[1].Value.Trim();
             if (s.Length > 0)
             {
-            foreach (string u in s.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            foreach (string u in s.Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     if (u == Username) return true;
 
@@ -1916,7 +1916,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             s = Deny.Match(m.Groups[2].Value).Groups[1].Value.Trim();
             if (s.Length > 0)
             {
-                foreach (string u in s.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                foreach (string u in s.Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     if (u == Username) return false;
                     if ((u == "all" || u == "AWB") && !awbAllowed) return false;

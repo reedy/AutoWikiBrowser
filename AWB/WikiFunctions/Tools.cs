@@ -1450,7 +1450,7 @@ Message: {2}
         {
             try
             {
-                string regKey = "Software\\Wikipedia";
+                const string regKey = "Software\\Wikipedia";
 
                 Microsoft.Win32.RegistryKey wpReg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(regKey);
 

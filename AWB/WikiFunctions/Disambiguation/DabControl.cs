@@ -121,7 +121,7 @@ namespace WikiFunctions.Disambiguation
                     VisibleLink = Match.Groups[2].Value.Trim();
                     RealLink = Match.Groups[1].Value.Trim();
                 }
-                VisibleLink = VisibleLink.TrimStart(new char[] { '|' });
+                VisibleLink = VisibleLink.TrimStart(new [] { '|' });
 
                 LinkTrail = Match.Groups[3].Value;
 

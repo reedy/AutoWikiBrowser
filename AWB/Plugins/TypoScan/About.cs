@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace WikiFunctions.Plugins.ListMaker.TypoScan
@@ -58,7 +54,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         private void okButton_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void UpdateTimer_Tick(object sender, EventArgs e)

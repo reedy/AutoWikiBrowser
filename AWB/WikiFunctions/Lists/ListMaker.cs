@@ -688,7 +688,8 @@ namespace WikiFunctions.Controls.Lists
 
         public void MakeList()
         {
-            MakeList((IListProvider)cmboSourceSelect.SelectedItem, UserInputTextBox.Text.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
+            MakeList((IListProvider) cmboSourceSelect.SelectedItem,
+                     UserInputTextBox.Text.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries));
         }
 
         /// <summary>
@@ -1010,7 +1011,7 @@ namespace WikiFunctions.Controls.Lists
             {
                 string textTba = Clipboard.GetDataObject().GetData(DataFormats.UnicodeText).ToString();
 
-                string[] splitTextTBA = textTba.Split(new string[] { "\r\n", "|" }, StringSplitOptions.RemoveEmptyEntries);
+                string[] splitTextTBA = textTba.Split(new [] { "\r\n", "|" }, StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (string entry in splitTextTBA)
                 {

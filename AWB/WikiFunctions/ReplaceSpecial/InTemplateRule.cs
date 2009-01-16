@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-namespace WikiFunctions.MWB
+namespace WikiFunctions.ReplaceSpecial
 {
     public class InTemplateRule : IRule
     {
@@ -110,9 +110,9 @@ namespace WikiFunctions.MWB
 
         class ParseTemplate
         {
-            string template_ = "";
-            string text_ = "";
-            string title_ = "";
+            readonly string template_;
+            string text_;
+            readonly string title_;
             string result_ = "";
 
             public ParseTemplate(string template, string text, string title)
@@ -145,9 +145,7 @@ namespace WikiFunctions.MWB
 
             private void Inside(TreeNode tn)
             {
-                bool check_done = false;
-                bool check = true;
-                string t = "";
+                bool check_done = false, check = true;
 
                 for (; ; )
                 {
@@ -157,6 +155,8 @@ namespace WikiFunctions.MWB
 
                     int j = text_.IndexOf("{{");
 
+                    string t;
+
                     if (j != -1 && j < i)
                     {
                         t = text_.Substring(0, j);
@@ -165,7 +165,7 @@ namespace WikiFunctions.MWB
 
                         if (!check_done)
                         {
-                            check = CheckIf(template_, tn, t);
+                            check = CheckIf(template_, t);
                             check_done = true;
                         }
 
@@ -213,7 +213,7 @@ namespace WikiFunctions.MWB
             return p.Result;
         }
 
-        private static bool CheckIf(string template, TreeNode tn, string text)
+        private static bool CheckIf(string template, string text)
         {
             if (string.IsNullOrEmpty(template))
                 return true;
@@ -259,10 +259,7 @@ namespace WikiFunctions.MWB
 
         private static string ApplyOn(string template, TreeNode tn, string text, string title)
         {
-            if (!CheckIf(template, tn, text))
-                return text;
-
-            return ReplaceOn(template, tn, text, title);
+            return !CheckIf(template, text) ? text : ReplaceOn(template, tn, text, title);
         }
     }
 }
