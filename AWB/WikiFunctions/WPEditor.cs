@@ -52,9 +52,9 @@ namespace WikiFunctions
 
         #region Regexes
         static readonly Regex Edittime = new Regex("<input type='hidden' value=\"([^\"]*)\" name=\"wpEdittime\" />", RegexOptions.Compiled);
-        static readonly Regex EditToken = new 
+        static readonly Regex EditToken = new
             Regex("<input type='hidden' value=\"([^\"]*)\" name=\"wpEditToken\" />", RegexOptions.Compiled);
-        
+
         #endregion
 
         #region Editing
@@ -78,10 +78,10 @@ namespace WikiFunctions
                 HttpWebResponse resps = (HttpWebResponse)wr.GetResponse();
                 Stream stream = resps.GetResponseStream();
                 StreamReader sr = new StreamReader(stream);
-    
+
                 //wr.Proxy.Credentials = CredentialCache.DefaultCredentials;
 
-                 string wikitext = sr.ReadToEnd();
+                string wikitext = sr.ReadToEnd();
 
                 sr.Close();
                 stream.Close();
@@ -119,6 +119,8 @@ namespace WikiFunctions
             return EditPageEx(Article, NewText, Summary, Minor, Watch).responsetext;
         }
 
+        readonly Regex permalinkrx = new Regex("<li id=\"t-permalink\"><a href=\"([^\"]*)\">", RegexOptions.Compiled);
+
         /// <summary>
         /// Edits the specified page.
         /// </summary>
@@ -130,13 +132,10 @@ namespace WikiFunctions
         /// <returns>An EditPageRetvals object</returns>
         public EditPageRetvals EditPageEx(String Article, String NewText, String Summary, bool Minor, bool Watch)
         {
-            HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath + "index.php?title=" + 
+            HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath + "index.php?title=" +
                 Tools.WikiEncode(Article) + "&action=submit", UserAgent);
-            WebResponse resps;
-            String poststring;
-            String editpagestr;
 
-            editpagestr = GetEditPage(Article);
+            string editpagestr = GetEditPage(Article);
 
             Match m = Edittime.Match(editpagestr);
             string wpEdittime = m.Groups[1].Value;
@@ -150,13 +149,19 @@ namespace WikiFunctions
                 wr.CookieContainer.Add(cook);
 
             //Create poststring
-            poststring = string.Format("wpSection=&wpStarttime={0}&wpEdittime={1}&wpScrolltop=&wpTextbox1={2}&wpSummary={3}&wpSave=Save%20Page&wpEditToken={4}",
-                new string[] { DateTime.Now.ToUniversalTime().ToString("yyyyMMddHHmmss"), wpEdittime, HttpUtility.UrlEncode(NewText), HttpUtility.UrlEncode(Summary), wpEditkey });
+            string poststring =
+                string.Format(
+                    "wpSection=&wpStarttime={0}&wpEdittime={1}&wpScrolltop=&wpTextbox1={2}&wpSummary={3}&wpSave=Save%20Page&wpEditToken={4}",
+                    new[]
+                        {
+                            DateTime.Now.ToUniversalTime().ToString("yyyyMMddHHmmss"), wpEdittime,
+                            HttpUtility.UrlEncode(NewText), HttpUtility.UrlEncode(Summary), wpEditkey
+                        });
 
             if (Minor)
                 poststring = poststring.Insert(poststring.IndexOf("wpSummary"), "wpMinoredit=1&");
 
-            if (Watch || editpagestr.Contains("type='checkbox' name='wpWatchthis' checked='checked' accesskey=\"w\" id='wpWatchthis'  />")) 
+            if (Watch || editpagestr.Contains("type='checkbox' name='wpWatchthis' checked='checked' accesskey=\"w\" id='wpWatchthis'  />"))
                 poststring += "&wpWatchthis=1";
 
             wr.Method = "POST";
@@ -173,10 +178,7 @@ namespace WikiFunctions
             rs.Write(bytedata, 0, bytedata.Length);
             rs.Close();
 
-            resps = wr.GetResponse();
-
-            Regex permalinkrx = new Regex("<li id=\"t-permalink\"><a href=\"([^\"]*)\">");
-            Match permalinkmatch;
+            WebResponse resps = wr.GetResponse();
 
             StreamReader sr = new StreamReader(resps.GetResponseStream());
             EditPageRetvals retval = new EditPageRetvals();
@@ -184,10 +186,10 @@ namespace WikiFunctions
 
             retval.responsetext = sr.ReadToEnd();
 
-            permalinkmatch = permalinkrx.Match(retval.responsetext);
-            
+            Match permalinkmatch = permalinkrx.Match(retval.responsetext);
+
             //From the root directory.
-            retval.difflink = m_indexpath.Substring(0, m_indexpath.IndexOf("/",9)) + 
+            retval.difflink = m_indexpath.Substring(0, m_indexpath.IndexOf("/", 9)) +
                 permalinkmatch.Groups[1].Value + "&diff=prev";
 
             retval.difflink = retval.difflink.Replace("&amp;", "&");
@@ -229,7 +231,7 @@ namespace WikiFunctions
         /// <returns>The full HTML source of the edit page for the specified article.</returns>
         public string GetEditPage(String Article)
         {
-            HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath + "index.php?title=" + 
+            HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath + "index.php?title=" +
                 HttpUtility.UrlEncode(Article) + "&action=edit", UserAgent);
 
             wr.CookieContainer = new CookieContainer();
@@ -262,7 +264,7 @@ namespace WikiFunctions
 
             //Create poststring
             string poststring = string.Format("wpName=+{0}&wpPassword={1}&wpRemember=1&wpLoginattempt=Log+in",
-                new string[] { HttpUtility.UrlEncode(Username), HttpUtility.UrlEncode(password) });
+                                              new[] { HttpUtility.UrlEncode(Username), HttpUtility.UrlEncode(password) });
 
             wr.Method = "POST";
             wr.ContentType = "application/x-www-form-urlencoded";
@@ -392,9 +394,7 @@ namespace WikiFunctions
         /// <param name="Minor">Whether or not to mark this edit as minor.</param>
         public void Revert(string Article, string Summary, bool Minor)
         {
-            List<Revision> history;
-
-            history = GetHistory(Article, 2);
+            List<Revision> history = GetHistory(Article, 2);
             Summary = Summary.Replace("%u", history[0].User);
 
             RevertToRevision(Article, history[1].RevisionID, Summary, Minor);
@@ -410,9 +410,7 @@ namespace WikiFunctions
         /// <param name="Minor">Whether or not to mark this edit as minor.</param>
         public void Rollback(string Article, string User, string Summary, bool Minor)
         {
-            List<Revision> history;
-
-            history = GetHistory(Article, 250);
+            List<Revision> history = GetHistory(Article, 250);
 
             int i;
             string historyUser = history[0].User;
@@ -445,17 +443,14 @@ namespace WikiFunctions
                 "&rvlimit=" + Limit;
 
             HttpWebRequest wr = Variables.PrepareWebRequest(targetUrl, UserAgent);
-            HttpWebResponse resps;
-            Stream stream;
-            StreamReader sr;
-            string pagetext = "";
+
             List<Revision> history = new List<Revision>();
 
-            resps = (HttpWebResponse)wr.GetResponse();
-            stream = resps.GetResponseStream();
-            sr = new StreamReader(stream);
+            HttpWebResponse resps = (HttpWebResponse)wr.GetResponse();
+            Stream stream = resps.GetResponseStream();
+            StreamReader sr = new StreamReader(stream);
 
-            pagetext = sr.ReadToEnd();
+            string pagetext = sr.ReadToEnd();
 
             XmlDocument doc = new XmlDocument();
 
@@ -506,14 +501,13 @@ namespace WikiFunctions
             {
                 HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath + "index.php?title=" +
                     HttpUtility.UrlEncode(Page) + "&action=" + (Watch ? "watch" : "unwatch"), UserAgent);
-                WebResponse resps;
 
                 wr.CookieContainer = new CookieContainer();
 
                 foreach (Cookie cook in logincookies)
                     wr.CookieContainer.Add(cook);
 
-                resps = wr.GetResponse();
+                WebResponse resps = wr.GetResponse();
                 resps.Close();
             }
             catch { return false; }
@@ -549,7 +543,6 @@ namespace WikiFunctions
             try
             {
                 Regex rx = new Regex("<input name=\"token\" type=\"hidden\" value=\"([^\"]*)\" />");
-                Match m;
 
                 HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath +
                     "index.php?title=Special:Watchlist/clear", UserAgent);
@@ -568,7 +561,7 @@ namespace WikiFunctions
                 resps.Close();
                 sr.Close();
 
-                m = rx.Match(html);
+                Match m = rx.Match(html);
 
                 int index = m.Value.IndexOf("value=\"") + 7;
                 string token = m.Value.Substring(index, m.Value.Substring(index).IndexOf("\""));
@@ -611,13 +604,12 @@ namespace WikiFunctions
         {
             HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath +
                "index.php?title=Special:Watchlist/edit", UserAgent);
-            WebResponse resps;
-     
+
             wr.CookieContainer = new CookieContainer();
             foreach (Cookie cook in logincookies)
                 wr.CookieContainer.Add(cook);
 
-            resps = wr.GetResponse();
+            WebResponse resps = wr.GetResponse();
 
             Stream stream = resps.GetResponseStream();
             StreamReader sr = new StreamReader(stream);
