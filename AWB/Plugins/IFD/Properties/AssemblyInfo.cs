@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("IFD")]
 [assembly: AssemblyDescription("AutoWikiBrowser Plugin for Image Removal and Replacement")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany(".")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("IFD")]
-[assembly: AssemblyCopyright("Copyright © . 2008")]
+[assembly: AssemblyCopyright("Copyright © 2009 AutoWikiBrowser Team")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
