@@ -526,7 +526,7 @@ Some news here.", "test"));
     public class BoldTitleTests
     {
         readonly Parsers p = new Parsers();
-        bool dummy;
+        bool boolBack;
 
         public BoldTitleTests()
         {
@@ -538,33 +538,93 @@ Some news here.", "test"));
         //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Title_bolding
         public void DontEmboldenImagesAndTemplates()
         {
-            Assert.That(p.BoldTitle("[[Image:Foo.jpg]]", "Foo", out dummy), Is.Not.Contains("'''Foo'''"));
-            Assert.That(p.BoldTitle("{{Foo}}", "Foo", out dummy), Is.Not.Contains("'''Foo'''"));
-            Assert.That(p.BoldTitle("{{template| Foo is a bar}}", "Foo", out dummy), Is.Not.Contains("'''Foo'''"));
+            Assert.That(p.BoldTitle("[[Image:Foo.jpg]]", "Foo", out boolBack), Is.Not.Contains("'''Foo'''"));
+            Assert.That(p.BoldTitle("{{Foo}}", "Foo", out boolBack), Is.Not.Contains("'''Foo'''"));
+            Assert.That(p.BoldTitle("{{template| Foo is a bar}}", "Foo", out boolBack), Is.Not.Contains("'''Foo'''"));
         }
 
         [Test]
-        public void SimpleCases()
+        public void DatesNotChanged()
         {
-            Assert.AreEqual("'''Foo''' is a bar", p.BoldTitle("Foo is a bar", "Foo", out dummy));
-            Assert.AreEqual("Fooo is a bar", p.BoldTitle("Fooo is a bar", "Foo", out dummy));
-            Assert.AreEqual("'''Foo''' is a bar, Foo moar", p.BoldTitle("Foo is a bar, Foo moar", "Foo", out dummy));
-            Assert.AreEqual("Foo is a bar, '''Foo''' moar", p.BoldTitle("Foo is a bar, '''Foo''' moar", "Foo", out dummy));
+            Assert.AreEqual(@"May 31 is a great day", p.BoldTitle(@"May 31 is a great day", "May 31", out boolBack));
+            Assert.IsTrue(boolBack);
+            Assert.AreEqual(@"March 1 is a great day", p.BoldTitle(@"March 1 is a great day", "March 1", out boolBack));
+            Assert.IsTrue(boolBack);
+            Assert.AreEqual(@"31 May is a great day", p.BoldTitle(@"31 May is a great day", "31 May", out boolBack));
+            Assert.IsTrue(boolBack);
         }
 
         [Test]
-        public void LinkToBold()
+        public void SimilarLinksWithDifferentCaseNotChanged()
         {
-            Assert.AreEqual("'''Foo''' is a bar, Foo moar", p.BoldTitle("[[Foo]] is a bar, Foo moar", "Foo", out dummy));
-            //Assert.AreEqual("'''Foo''' is a bar, '''Foo''' moar", p.BoldTitle("[[Foo]] is a bar, '''Foo''' moar", "Foo", out dummy));
+            Assert.AreEqual("'''Foo''' is this one, now [[FOO]] is another", p.BoldTitle("Foo is this one, now [[FOO]] is another", "Foo", out boolBack));
+            Assert.IsFalse(boolBack);
+            Assert.AreEqual("'''Foo''' is this one, now [[FOO]] is another", p.BoldTitle("'''Foo''' is this one, now [[FOO]] is another", "Foo", out boolBack));
+            Assert.IsTrue(boolBack);
         }
 
-        //Needs more investigation
-        //[Test]
-        //public void CaseInsensitivity()
-        //{
-        //    Assert.AreEqual("'''foo''' is a bar", p.BoldTitle("foo is a bar", "Foo", out dummy));
-        //}
+        [Test]
+        public void DontChangeIfAlreadyBold()
+        {
+            Assert.AreEqual("'''Foo''' is this one", p.BoldTitle("'''Foo''' is this one", "Foo", out boolBack));
+            Assert.IsTrue(boolBack);
+            Assert.AreEqual("Foo is a bar, '''Foo''' moar", p.BoldTitle("Foo is a bar, '''Foo''' moar", "Foo", out boolBack));
+            Assert.IsTrue(boolBack);
+            Assert.AreEqual(@"{{Infobox | name = Foo | age=11}} '''Foo''' is a bar", p.BoldTitle(@"{{Infobox | name = Foo | age=11}} '''Foo''' is a bar", "Foo", out boolBack));
+            Assert.IsTrue(boolBack);
+
+            // won't change if italics either
+            Assert.AreEqual("''Foo'' is this one", p.BoldTitle("''Foo'' is this one", "Foo", out boolBack));
+            Assert.IsTrue(boolBack);
+        }
+
+        [Test]
+        public void StandardCases()
+        {
+            Assert.AreEqual("'''Foo''' is a bar", p.BoldTitle("Foo is a bar", "Foo", out boolBack));
+            Assert.IsFalse(boolBack);
+            Assert.AreEqual("'''Foo in the wild''' is a bar", p.BoldTitle("Foo in the wild is a bar", "Foo in the wild", out boolBack));
+            Assert.IsFalse(boolBack);
+            Assert.AreEqual("'''Foo''' is a bar, Foo moar", p.BoldTitle("Foo is a bar, Foo moar", "Foo", out boolBack));
+            Assert.IsFalse(boolBack);
+            Assert.AreEqual("'''Hello''' there, please say '''bye''' too", p.BoldTitle("Hello there, please say '''bye''' too", "Hello", out boolBack));
+            Assert.IsFalse(boolBack);
+            Assert.AreEqual("'''F^o^o''' is a bar", p.BoldTitle("F^o^o is a bar", "F^o^o", out boolBack));
+            Assert.IsFalse(boolBack);
+            Assert.AreEqual(@"{{Infobox | name = Foo | age=11}}
+'''Foo''' is a bar", p.BoldTitle(@"{{Infobox | name = Foo | age=11}}
+Foo is a bar", "Foo", out boolBack));
+            Assert.IsFalse(boolBack);
+
+            // brackets excluded from bolding
+            Assert.AreEqual("'''Foo''' (Band album) is a CD", p.BoldTitle("Foo (Band album) is a CD", "Foo (Band album)", out boolBack));
+            Assert.IsFalse(boolBack);
+            
+            // non-changes
+            Assert.AreEqual("Fooo is a bar", p.BoldTitle("Fooo is a bar", "Foo", out boolBack));
+            Assert.IsTrue(boolBack);           
+        }
+
+        [Test]
+        public void WithDelinking()
+        {
+            Assert.AreEqual("'''Foo''' is a bar", p.BoldTitle("[[Foo]] is a bar", "Foo", out boolBack));
+            Assert.IsFalse(boolBack);
+            Assert.AreEqual("'''Foo''' is a bar, Foo moar", p.BoldTitle("[[Foo]] is a bar, Foo moar", "Foo", out boolBack));
+            Assert.IsFalse(boolBack);
+            Assert.AreEqual("'''Foo''' is a bar, now Foo here", p.BoldTitle("Foo is a bar, now [[Foo]] here", "Foo", out boolBack));
+            Assert.IsFalse(boolBack);
+            Assert.AreEqual("'''Foo''' is a bar, now foo here", p.BoldTitle("Foo is a bar, now [[foo]] here", "Foo", out boolBack));
+            Assert.IsFalse(boolBack);
+            Assert.AreEqual("'''Foo''' is a [[bar]]", p.BoldTitle("[[Foo]] is a [[bar]]", "Foo", out boolBack));
+            Assert.IsFalse(boolBack);
+            Assert.AreEqual("'''Hello''' there, please say '''bye''' too", p.BoldTitle("[[Hello]] there, please say '''bye''' too", "Hello", out boolBack));
+            Assert.IsFalse(boolBack);
+
+            // removal of self links in iteslf are not a 'change'
+            Assert.AreEqual("'''Foo''' is a bar, now [[Foo]] here", p.BoldTitle("'''Foo''' is a bar, now [[Foo]] here", "Foo", out boolBack));
+            Assert.IsTrue(boolBack);
+        }
     }
 
     [TestFixture]

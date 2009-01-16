@@ -1217,68 +1217,53 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text.</returns>
         public string BoldTitle(string ArticleText, string ArticleTitle, out bool NoChange)
         {
-            //ignore date articles
-            if (WikiRegexes.Dates2.IsMatch(ArticleTitle))
-            {
-                NoChange = true;
-                return ArticleText;
-            }
+            string ArticleTextAtStart = ArticleText;
+            string escTitle = Regex.Escape(ArticleTitle);
+            string escTitleNoBrackets = Regex.Escape(Regex.Replace(ArticleTitle, @" \(.*?\)$", ""));
 
-            string escTitle = Regex.Escape(ArticleTitle).Replace(@"\ ", "[ _]");
+            NoChange = true;
 
-            //remove self links first
-            Regex tregex = new Regex("\\[\\[(" + Tools.CaseInsensitive(escTitle) + ")\\]\\]");
-            if (!ArticleText.Contains("'''"))
-            {
-                ArticleText = tregex.Replace(ArticleText, "'''$1'''", 1);
-            }
-            else
-            {
-                ArticleText = ArticleText.Replace("[[" + ArticleTitle + "]]", ArticleTitle);
-                ArticleText = ArticleText.Replace("[[" + Tools.TurnFirstToLower(ArticleTitle) + "]]", Tools.TurnFirstToLower(ArticleTitle));
-            }
+            // ignore date articles (date in American or international format)
+            if (WikiRegexes.Dates2.IsMatch(ArticleTitle) || WikiRegexes.Dates.IsMatch(ArticleTitle))
+                return ArticleTextAtStart;
 
-            if (Regex.IsMatch(ArticleText, "^(\\[\\[|\\*|:)") || Regex.IsMatch(ArticleText, "''' ?" + escTitle + " ?'''", RegexOptions.IgnoreCase))
-            {
-                NoChange = true;
-                return ArticleText;
-            }
+            // remove any self-links, but not other links with different capitaliastion e.g. [[Foo]] vs [[FOO]]
+            // note, removal of self links in iteslf will not cause this method to return a 'change'
+            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + escTitle + @"\s*(?:\]\]|\|)", ArticleTitle);
+            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*(?:\]\]|\|)", Tools.TurnFirstToLower(ArticleTitle));
 
+            // we don't want to change any other links/images/templates so hide them all, also ensures if article title in infobox the first use in article will be looked at
             ArticleText = hider.HideMore(ArticleText);
 
-            escTitle = Regex.Replace(ArticleTitle, " \\(.*?\\)$", "");
-            escTitle = Regex.Escape(escTitle);
+            Regex BoldTitleAlready1 = new Regex(@"'''\s*" + escTitle + @"\s*'''");
+            Regex BoldTitleAlready2 = new Regex(@"'''" + Tools.TurnFirstToLower(escTitle) + @"'''");
 
-            Regex regexBold = new Regex("([^\\[]|^)(" + escTitle + ")([ ,.:;])", RegexOptions.IgnoreCase);
+            Regex BoldTitleAlready3 = new Regex(@"'''\s*" + escTitleNoBrackets + @"\s*'''");
+            Regex BoldTitleAlready4 = new Regex(@"'''" + Tools.TurnFirstToLower(escTitleNoBrackets) + @"'''");
 
-            string strSecondHalf = "";
-            if (ArticleText.Length > 80)
+            //if title in bold already exists in article, don't change anything
+            if (BoldTitleAlready1.IsMatch(ArticleText) || BoldTitleAlready2.IsMatch(ArticleText) 
+                || BoldTitleAlready3.IsMatch(ArticleText) || BoldTitleAlready4.IsMatch(ArticleText))
+                return ArticleTextAtStart;
+
+            Regex regexBold = new Regex(@"([^\[]|^)(" + escTitle + ")([ ,.:;])", RegexOptions.IgnoreCase);
+            Regex regexBoldNoBrackets = new Regex(@"([^\[]|^)(" + escTitleNoBrackets + ")([ ,.:;])", RegexOptions.IgnoreCase);
+
+            // first try title with brackets removed
+            if(regexBoldNoBrackets.IsMatch(ArticleText))
             {
-                strSecondHalf = ArticleText.Substring(80);
-                ArticleText = ArticleText.Substring(0, 80);
-            }
-
-            if (ArticleText.Contains("'''"))
-            {
-                ArticleText = ArticleText + strSecondHalf;
-                ArticleText = hider.AddBackMore(ArticleText);
-                NoChange = true;
-                return ArticleText;
+                NoChange = false;
+                ArticleText = regexBoldNoBrackets.Replace(ArticleText, "$1'''$2'''$3", 1);
+                return hider.AddBackMore(ArticleText);
             }
 
             if (regexBold.IsMatch(ArticleText))
             {
                 NoChange = false;
-                if (ArticleText.IndexOf(ArticleTitle) == 0)
-                    ArticleText = regexBold.Replace(ArticleText, "$1'''$2'''$3", 1);
+                ArticleText = regexBold.Replace(ArticleText, "$1'''$2'''$3", 1);
+                return hider.AddBackMore(ArticleText);
             }
-            else
-                NoChange = true;
-
-            ArticleText = ArticleText + strSecondHalf;
-            ArticleText = hider.AddBackMore(ArticleText);
-
-            return ArticleText;
+            return ArticleTextAtStart;
         }
 
         /// <summary>
