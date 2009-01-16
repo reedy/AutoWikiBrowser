@@ -31,18 +31,16 @@ namespace WikiFunctions.TalkPages
         MoveToBottom
     }
 
-    public sealed class TalkPageHeaders
+    public static class TalkPageHeaders
     {
-        private TalkPageHeaders() { }
-
         private static string DefaultSortKey;
         private static bool FoundDefaultSort;
         private static bool FoundSkipTOC;
         private static bool FoundTalkheader;
-        private static Regex SkipTOCTemplateRegex = new Regex(
+        private static readonly Regex SkipTOCTemplateRegex = new Regex(
            @"\{\{\s*(template *:)?\s*(skiptotoctalk|Skiptotoc|Skiptotoc-talk)\s*\}\}\s*",
            RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
-        private static Regex TalkheaderTemplateRegex = new Regex(
+        private static readonly Regex TalkheaderTemplateRegex = new Regex(
            @"\{\{\s*(template *:)?\s*(talkheader|Talkheaderlong|Comment Guidelines|Categorytalkheader|Newtalk|Templatetalkheader|Talkheader2|Talkheader3|Talkpagelong|Talk box|Talkpageheader|TalkHeader|User Talkheader)\s*\}\}\s*", 
            RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
 

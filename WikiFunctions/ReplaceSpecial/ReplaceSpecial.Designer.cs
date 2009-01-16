@@ -1,4 +1,4 @@
-namespace WikiFunctions.MWB
+namespace WikiFunctions.ReplaceSpecial
 {
   partial class ReplaceSpecial
   {

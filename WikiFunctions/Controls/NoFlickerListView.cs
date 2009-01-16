@@ -71,13 +71,13 @@ namespace WikiFunctions.Controls
             set
             {
                 if (value && !resizeColumnsOnControlResize)
-                    this.Resize += new EventHandler(NoFlickerExtendedListView_Resize);
+                    Resize += NoFlickerExtendedListView_Resize;
                 else if (!value && resizeColumnsOnControlResize)
-                    this.Resize -= new EventHandler(NoFlickerExtendedListView_Resize);
+                    Resize -= NoFlickerExtendedListView_Resize;
 
-                this.resizeColumnsOnControlResize = value;
+                resizeColumnsOnControlResize = value;
             }
-            get { return this.resizeColumnsOnControlResize; }
+            get { return resizeColumnsOnControlResize; }
         }
 
         bool sortColumnsOnClick;
@@ -90,46 +90,43 @@ namespace WikiFunctions.Controls
             set
             {
                 if (value && !sortColumnsOnClick)
-                    this.ColumnClick += new ColumnClickEventHandler(ExtendedListView_ColumnClick);
+                    ColumnClick += ExtendedListView_ColumnClick;
                 else if (!value && sortColumnsOnClick)
-                    this.ColumnClick -= new ColumnClickEventHandler(ExtendedListView_ColumnClick);
+                    ColumnClick -= ExtendedListView_ColumnClick;
 
-                this.sortColumnsOnClick = value;
+                sortColumnsOnClick = value;
             }
-            get { return this.sortColumnsOnClick; }
+            get { return sortColumnsOnClick; }
         }
 
-        private int sortColumn = 0;
+        private int sortColumn;
 
         /// <remarks>From http://msdn2.microsoft.com/en-us/library/ms996467.aspx </remarks>
         void ExtendedListView_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             try
             {
-                this.BeginUpdate();
+                BeginUpdate();
                 // Determine whether the column is the same as the last column clicked.
                 if (e.Column != sortColumn)
                 {
                     // Set the sort column to the new column.
                     sortColumn = e.Column;
                     // Set the sort order to ascending by default.
-                    this.Sorting = SortOrder.Ascending;
+                    Sorting = SortOrder.Ascending;
                 }
                 else
                 {
                     // Determine what the last sort order was and change it.
-                    if (this.Sorting == SortOrder.Ascending)
-                        this.Sorting = SortOrder.Descending;
-                    else
-                        this.Sorting = SortOrder.Ascending;
+                    Sorting = Sorting == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
                 }
 
                 // Call the sort method to manually sort.
-                this.Sort();
+                Sort();
                 // Set the lstAccountsItemSorter property to a new lstAccountsItemComparer
                 // object.
-                this.ListViewItemSorter = comparerFactory.CreateComparer(e.Column, this.Sorting);
-                this.EndUpdate();
+                ListViewItemSorter = comparerFactory.CreateComparer(e.Column, Sorting);
+                EndUpdate();
             }
             catch { }
         }
@@ -140,14 +137,13 @@ namespace WikiFunctions.Controls
         /// </summary>
         public void ResizeColumns()
         {
-            int width, width2;
-            foreach (ColumnHeader head in this.Columns)
+            foreach (ColumnHeader head in Columns)
             {
                 head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
-                width = head.Width;
+                int width = head.Width;
 
                 head.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
-                width2 = head.Width;
+                int width2 = head.Width;
 
                 if (width2 < width)
                     head.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
@@ -183,27 +179,18 @@ namespace WikiFunctions.Controls
         public void ResizeColumns(bool useUpdateMethods)
         {
             if (useUpdateMethods)
-                this.BeginUpdate();
+                BeginUpdate();
 
             ResizeColumns();
 
             if (useUpdateMethods)
-                this.EndUpdate();
-        }
-
-        /// <summary>
-        /// Get/Set if the Control is Double Buffered
-        /// </summary>
-        protected override bool DoubleBuffered
-        {
-            get { return base.DoubleBuffered; }
-            set { base.DoubleBuffered = value; }
+                EndUpdate();
         }
 
         sealed class ListViewItemComparer : IComparer
         {
-            private int col;
-            private SortOrder order;
+            private readonly int col;
+            private readonly SortOrder order;
 
             public ListViewItemComparer()
             {

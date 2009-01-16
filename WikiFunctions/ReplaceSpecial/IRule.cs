@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace WikiFunctions.MWB
+namespace WikiFunctions.ReplaceSpecial
 {
     [System.Xml.Serialization.XmlInclude(typeof(Rule))]
     [System.Xml.Serialization.XmlInclude(typeof(TemplateParamRule))]

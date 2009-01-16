@@ -19,17 +19,17 @@
 using System;
 using System.Windows.Forms;
 
-namespace WikiFunctions.MWB
+namespace WikiFunctions.ReplaceSpecial
 {
     public partial class TemplateParamRuleControl : UserControl
     {
-        IRuleControlOwner owner_ = null;
+        readonly IRuleControlOwner owner_;
 
         public TemplateParamRuleControl(IRuleControlOwner owner)
         {
             InitializeComponent();
             owner_ = owner;
-            this.Anchor =
+            Anchor =
               AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
         }
 

@@ -22,7 +22,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using WikiFunctions.Parse;
 
-namespace WikiFunctions.MWB
+namespace WikiFunctions.ReplaceSpecial
 {
     public class Rule : IRule
     {

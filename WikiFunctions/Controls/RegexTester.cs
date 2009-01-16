@@ -132,7 +132,7 @@ namespace WikiFunctions.Controls
             set { chkExplicitCapture.Checked = value; }
         }
 
-        public bool AskToApply = false;
+        public bool AskToApply;
         #endregion
 
         bool Busy
@@ -390,7 +390,7 @@ namespace WikiFunctions.Controls
             Replace = replace;
             _Regex = regex;
 
-            Thr = new Thread(new ThreadStart(ThreadFunc));
+            Thr = new Thread(ThreadFunc);
             Thr.Priority = ThreadPriority.BelowNormal;
             Thr.Name = "RegexRunner";
             Thr.Start();

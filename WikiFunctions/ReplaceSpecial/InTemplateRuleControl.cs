@@ -20,18 +20,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Windows.Forms;
 
-namespace WikiFunctions.MWB
+namespace WikiFunctions.ReplaceSpecial
 {
     public partial class InTemplateRuleControl : UserControl
     {
-        IRuleControlOwner owner_ = null;
+        readonly IRuleControlOwner owner_;
 
         public InTemplateRuleControl(IRuleControlOwner owner)
         {
             InitializeComponent();
 
             owner_ = owner;
-            this.Anchor =
+            Anchor =
               AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
 
             UpdateEndabledStates();

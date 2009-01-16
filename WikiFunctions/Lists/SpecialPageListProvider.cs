@@ -29,7 +29,7 @@ namespace WikiFunctions.Lists
     /// </summary>
     public partial class SpecialPageListProvider : Form, IListProvider
     {
-        private static BindingList<IListProvider> listItems = new BindingList<IListProvider>();
+        private static readonly BindingList<IListProvider> listItems = new BindingList<IListProvider>();
 
         public SpecialPageListProvider()
         {
@@ -67,7 +67,7 @@ namespace WikiFunctions.Lists
 
             if (ShowDialog() == DialogResult.OK)
             {
-                searchCriteria = txtPages.Text.Split(new char[] { '|' });
+                searchCriteria = txtPages.Text.Split(new [] { '|' });
 
                 ISpecialPageProvider item = (ISpecialPageProvider)cmboSourceSelect.SelectedItem;
 
@@ -76,7 +76,7 @@ namespace WikiFunctions.Lists
                 else if (item.PagesNeeded)
                     MessageBox.Show("Pages needed!");
                 else
-                    list = item.MakeList(Tools.CalculateNS(cboNamespace.Text), new string[] { "" });
+                    list = item.MakeList(Tools.CalculateNS(cboNamespace.Text), new [] { "" });
             }
             
             return Tools.FilterSomeArticles(list);

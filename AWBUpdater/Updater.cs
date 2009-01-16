@@ -32,7 +32,7 @@ namespace AwbUpdater
 {
     internal sealed partial class Updater : Form
     {
-        string AWBdirectory = "", tempDirectory = "";
+        readonly string AWBdirectory = "", tempDirectory = "";
         string AWBZipName = "", AWBWebAddress = "";
         string UpdaterZipName = "", UpdaterWebAddress = "";
 
@@ -47,7 +47,7 @@ namespace AwbUpdater
             InitializeComponent();
 
             AWBdirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\";
-            tempDirectory = Environment.GetEnvironmentVariable("TEMP");
+            tempDirectory = Environment.GetEnvironmentVariable("TEMP") ?? "C:\\Windows\\Temp";
             if (!tempDirectory.EndsWith("\\")) tempDirectory += "\\";
             tempDirectory += "$AWB$Updater$Temp$\\";
         }

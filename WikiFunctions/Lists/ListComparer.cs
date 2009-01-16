@@ -98,9 +98,9 @@ namespace WikiFunctions.Controls.Lists
 
         private void updateCounts()
         {
-            lblNo1.Text = lbNo1.Items.Count.ToString() + " pages";
-            lblNo2.Text = lbNo2.Items.Count.ToString() + " pages";
-            lblNoBoth.Text = lbBoth.Items.Count.ToString() + " pages";
+            lblNo1.Text = lbNo1.Items.Count + " pages";
+            lblNo2.Text = lbNo2.Items.Count + " pages";
+            lblNoBoth.Text = lbBoth.Items.Count + " pages";
         }
 
         private void btnSaveOnly1_Click(object sender, EventArgs e)
@@ -163,12 +163,8 @@ namespace WikiFunctions.Controls.Lists
             try { return ((ListBox)((ContextMenuStrip)sender).SourceControl); }
             catch
             {
-                try
-                { return (ListBox)(((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl); }
-                catch
-                { throw; }
+                return (ListBox)(((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl);
             }
         }
-
     }
 }

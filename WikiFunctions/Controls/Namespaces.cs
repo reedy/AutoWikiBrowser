@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
 
 namespace WikiFunctions.Controls
@@ -65,7 +63,7 @@ namespace WikiFunctions.Controls
         CheckBox tmp;
         public void Reset()
         {
-            SetSelectedNamespaces(new List<int>(new int[] {0}));
+            SetSelectedNamespaces(new List<int>(new [] {0}));
         }
 
         public List<int> GetSelectedNamespaces()

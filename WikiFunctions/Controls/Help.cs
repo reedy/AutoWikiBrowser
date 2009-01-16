@@ -39,9 +39,9 @@ namespace WikiFunctions.Controls
             Navigate(URL);
         }
 
-        public virtual void Navigate(string URL)
+        public virtual void Navigate(string url)
         {
-            webBrowserHelp.Navigate(URL);
+            webBrowserHelp.Navigate(url);
         }
 
         public virtual void NavigateEn(string Article)

@@ -1030,12 +1030,7 @@ namespace WikiFunctions.Browser
             if (Document == null)
                 return;
 
-            HtmlElement ca;
-
-            if (IsWatched())
-                ca = Document.GetElementById("ca-watch");
-            else
-                ca = Document.GetElementById("ca-un");
+            HtmlElement ca = IsWatched() ? Document.GetElementById("ca-watch") : Document.GetElementById("ca-un");
 
             if (ca == null)
                 return;

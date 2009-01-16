@@ -44,7 +44,7 @@ namespace WikiFunctions.Background
         {
             if (lblStatus.InvokeRequired)
             {
-                SetTextCallback d = new SetTextCallback(SetStatus);
+                SetTextCallback d = SetStatus;
                 Invoke(d, new object[] { status });
             }
             else
@@ -61,7 +61,7 @@ namespace WikiFunctions.Background
         {
             if (Progress.InvokeRequired)
             {
-                SetProgressCallback d = new SetProgressCallback(SetProgress);
+                SetProgressCallback d = SetProgress;
                 Invoke(d, new object[] { Completed, Total });
             }
             else

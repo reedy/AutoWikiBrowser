@@ -18,7 +18,7 @@
 
 using System.Windows.Forms;
 
-namespace WikiFunctions.MWB
+namespace WikiFunctions.ReplaceSpecial
 {
     public interface IRuleControlOwner
     {

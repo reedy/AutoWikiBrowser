@@ -505,7 +505,7 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public class Restriction : Scan
     {
-        readonly string[] Restrictions = new string[] { "autoconfirmed", "sysop" };
+        readonly string[] Restrictions = new [] { "autoconfirmed", "sysop" };
 
         const string editRest = "edit=", moveRest = "move=";
 

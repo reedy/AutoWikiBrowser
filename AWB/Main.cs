@@ -50,7 +50,7 @@ namespace AutoWikiBrowser
     public sealed partial class MainForm : Form, IAutoWikiBrowser
     { // this class needs to be public, otherwise we get an exception which recommends setting ComVisibleAttribute to true (which we've already done)
         #region Fields
-        private static Splash splash = new Splash();
+        private static readonly Splash splash = new Splash();
         private static WikiFunctions.Profiles.AWBProfilesForm profiles;
 
         private static bool Abort;
@@ -66,20 +66,20 @@ namespace AutoWikiBrowser
         private static int mnudges;
         private static int sameArticleNudges;
 
-        private static HideText RemoveText = new HideText(false, true, false);
-        private static List<string> noParse = new List<string>();
-        private static FindandReplace findAndReplace = new FindandReplace();
-        private static SubstTemplates substTemplates = new SubstTemplates();
+        private static readonly HideText RemoveText = new HideText(false, true, false);
+        private static readonly List<string> noParse = new List<string>();
+        private static readonly FindandReplace findAndReplace = new FindandReplace();
+        private static readonly SubstTemplates substTemplates = new SubstTemplates();
         private static RegExTypoFix RegexTypos;
-        private static SkipOptions Skip = new SkipOptions();
-        private static WikiFunctions.MWB.ReplaceSpecial replaceSpecial =
-            new WikiFunctions.MWB.ReplaceSpecial();
+        private static readonly SkipOptions Skip = new SkipOptions();
+        private static readonly WikiFunctions.ReplaceSpecial.ReplaceSpecial replaceSpecial =
+            new WikiFunctions.ReplaceSpecial.ReplaceSpecial();
         private static Parsers parsers;
-        private static TimeSpan StartTime =
+        private static readonly TimeSpan StartTime =
             new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-        private static List<string> RecentList = new List<string>();
-        private static CustomModule cModule = new CustomModule();
-        private static ExternalProgram externalProgram = new ExternalProgram();
+        private static readonly List<string> RecentList = new List<string>();
+        private static readonly CustomModule cModule = new CustomModule();
+        private static readonly ExternalProgram externalProgram = new ExternalProgram();
         internal static RegexTester regexTester = new RegexTester();
         private static bool userTalkWarningsLoaded;
         private static Regex userTalkTemplatesRegex;
@@ -94,9 +94,9 @@ namespace AutoWikiBrowser
 
         List<TypoStat> typoStats;
 
-        private static Help helpForm = new Help();
+        private static readonly Help helpForm = new Help();
 
-        private WikiDiff diff = new WikiDiff();
+        private readonly WikiDiff diff = new WikiDiff();
 
         #endregion
 
@@ -308,12 +308,7 @@ namespace AutoWikiBrowser
 
         #region Properties
 
-        private ArticleEX stredittingarticle;
-        internal ArticleEX TheArticle
-        {
-            get { return stredittingarticle; }
-            private set { stredittingarticle = value; }
-        }
+        internal ArticleEX TheArticle { get; private set; }
 
         /// <summary>
         /// Is AWB running in Bot Mode
@@ -593,7 +588,6 @@ namespace AutoWikiBrowser
                     SkipPage("Database is locked");
                     return;
                 }
-                //TODO: are every other cases related to DB lock?
             }
 
             TheArticle.OriginalArticleText = strTemp;
@@ -1155,7 +1149,7 @@ namespace AutoWikiBrowser
                 // RegexTypoFix
                 if (chkRegExTypo.Checked && RegexTypos != null && !BotMode && !Tools.IsTalkPage(theArticle.NameSpaceKey))
                 {
-                    theArticle.PerformTypoFixes(RegexTypos, chkSkipIfNoRegexTypo.Checked, theArticle.Name);
+                    theArticle.PerformTypoFixes(RegexTypos, chkSkipIfNoRegexTypo.Checked);
                     Variables.Profiler.Profile("Typos");
                     typoStats = RegexTypos.GetStatistics();
                     if (theArticle.SkipArticle)
@@ -1781,8 +1775,7 @@ window.scrollTo(0, diffTopY);
             }
 
             // detect writing system
-            if (Variables.RTL) RightToLeft = RightToLeft.Yes;
-            else RightToLeft = RightToLeft.No;
+            RightToLeft = Variables.RTL ? RightToLeft.Yes : RightToLeft.No;
 
             StatusLabelText = label;
             UpdateButtons(null, null);
@@ -2124,10 +2117,7 @@ window.scrollTo(0, diffTopY);
 
                 if (!Variables.IsCustomProject && !Variables.IsWikia && !Variables.IsWikimediaMonolingualProject)
                     lblProject.Text = Variables.LangCodeEnumString() + "." + Variables.Project;
-                else if (Variables.IsWikimediaMonolingualProject)
-                    lblProject.Text = Variables.Project.ToString();
-                else
-                    lblProject.Text = Variables.URL;
+                else lblProject.Text = Variables.IsWikimediaMonolingualProject ? Variables.Project.ToString() : Variables.URL;
 
                 ResetTypoStats();
             }
@@ -2427,12 +2417,12 @@ window.scrollTo(0, diffTopY);
 
         private void LaunchDumpSearcher()
         {
-            WikiFunctions.DBScanner.DatabaseScanner ds;
-
-            if (MessageBox.Show("Would you like the results to be added to the ListMaker Article List?", "Add to ListMaker?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                ds = listMaker.DBScanner();
-            else
-                ds = new WikiFunctions.DBScanner.DatabaseScanner();
+            WikiFunctions.DBScanner.DatabaseScanner ds =
+                MessageBox.Show("Would you like the results to be added to the ListMaker Article List?",
+                                "Add to ListMaker?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
+                DialogResult.Yes
+                    ? listMaker.DBScanner()
+                    : new WikiFunctions.DBScanner.DatabaseScanner();
             ds.Show();
             UpdateButtons(null, null);
         }
@@ -3282,7 +3272,7 @@ window.scrollTo(0, diffTopY);
                 foreach (
                     Article a in
                         new WikiFunctions.Lists.LinksOnPageListProvider().MakeList(
-                            txtDabLink.Text.Split(new char[] {'|'}, StringSplitOptions.RemoveEmptyEntries)))
+                            txtDabLink.Text.Split(new [] {'|'}, StringSplitOptions.RemoveEmptyEntries)))
                 {
                     uint i;
                     // exclude years

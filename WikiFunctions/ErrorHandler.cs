@@ -166,7 +166,7 @@ namespace WikiFunctions
         }
 
         static readonly string[] PresetNamespaces =
-            new string[] { "System.", "Microsoft.", "Mono." };
+            new [] { "System.", "Microsoft.", "Mono." };
 
         /// <summary>
         /// Returns the name of our function where supposedly error resides;
@@ -221,7 +221,7 @@ namespace WikiFunctions
             try
             {
                 Clipboard.Clear();
-                System.Threading.Thread.Sleep(50); // give it some time to clear
+                Thread.Sleep(50); // give it some time to clear
                 Clipboard.SetText(txtDetails.Text);
             }
             catch { }

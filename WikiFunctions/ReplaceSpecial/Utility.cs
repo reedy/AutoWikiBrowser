@@ -16,14 +16,16 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-namespace WikiFunctions.MWB
+using System.Windows.Forms;
+
+namespace WikiFunctions.ReplaceSpecial
 {
     static class Utility
     {
         // returns true if testnode is the same or a subnode of refnode
-        public static bool IsSubnodeOf(System.Windows.Forms.TreeNode refnode, System.Windows.Forms.TreeNode testnode)
+        public static bool IsSubnodeOf(TreeNode refnode, TreeNode testnode)
         {
-            for (System.Windows.Forms.TreeNode t = testnode; t != null; t = t.Parent)
+            for (TreeNode t = testnode; t != null; t = t.Parent)
             {
                 if (ReferenceEquals(refnode, t))
                     return true;

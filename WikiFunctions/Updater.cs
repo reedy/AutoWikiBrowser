@@ -74,6 +74,11 @@ namespace WikiFunctions
             catch { }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="version"></param>
+        /// <returns></returns>
         private static int StringToVersion(string version)
         {
             int res;
@@ -110,11 +115,9 @@ namespace WikiFunctions
         /// </summary>
         public static void WaitForCompletion()
         {
-            if (request != null)
-            {
-                request.Wait();
-                request = null;
-            }
+            if (request == null) return;
+            request.Wait();
+            request = null;
         }
     }
 }

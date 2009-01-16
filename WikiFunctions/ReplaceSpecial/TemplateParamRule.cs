@@ -20,7 +20,7 @@ using System;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 
-namespace WikiFunctions.MWB
+namespace WikiFunctions.ReplaceSpecial
 {
     public class TemplateParamRule : IRule
     {

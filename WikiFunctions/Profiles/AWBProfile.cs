@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System.Collections.Generic;
 using System.Windows.Forms;
 using WikiFunctions.Encryption;
+using Microsoft.Win32;
 
 namespace WikiFunctions.Profiles
 {
@@ -61,7 +62,7 @@ namespace WikiFunctions.Profiles
 
     public static class AWBProfiles
     {
-        private static EncryptionUtils EncryptionUtils = new EncryptionUtils("tnf47bgfdwlp9,.q",
+        private static readonly EncryptionUtils EncryptionUtils = new EncryptionUtils("tnf47bgfdwlp9,.q",
             "oi frjweopi 4r390%^($%%^$HJKJNMHJGY 2`';'[#", "SH1ew yuhn gxe$£$%^y HNKLHWEQ JEW`b");
         private const string ProfileRegistryString = "Profiles\\";
 
@@ -220,7 +221,7 @@ namespace WikiFunctions.Profiles
             if (profile.id == -1)
                 profile.id = GetFirstFreeID();
 
-            Microsoft.Win32.RegistryKey Key = RegistryGetWritableKey(profile.id);
+            RegistryKey Key = RegistryGetWritableKey(profile.id);
 
             try
             {
@@ -248,7 +249,7 @@ namespace WikiFunctions.Profiles
             {
                 try
                 {
-                    Microsoft.Win32.RegistryKey key = RegistryUtils.GetWritableKey(ProfileRegistryString);
+                    RegistryKey key = RegistryUtils.GetWritableKey(ProfileRegistryString);
                     if (key != null) key.SetValue("TempPassword", EncryptionUtils.Encrypt(value));
                 }
                 catch { }
@@ -326,7 +327,7 @@ namespace WikiFunctions.Profiles
 
         public static void MigrateProfiles()
         {
-            string RegKey = "Software\\Wikipedia\\AutoWikiBrowser\\Profiles";
+            const string RegKey = "Software\\Wikipedia\\AutoWikiBrowser\\Profiles";
             try
             {
                 foreach (string id in new Microsoft.VisualBasic.Devices.Computer().Registry.CurrentUser.OpenSubKey(RegKey).GetSubKeyNames())

@@ -36,7 +36,7 @@ namespace WikiFunctions
 
         public Dictionary<Regex, string> Regexes = new Dictionary<Regex, string>();
 
-        Parse.HideText RemoveUnformatted = new Parse.HideText(true, false, true);
+        readonly Parse.HideText RemoveUnformatted = new Parse.HideText(true, false, true);
 
         public string[] TemplateList
         {

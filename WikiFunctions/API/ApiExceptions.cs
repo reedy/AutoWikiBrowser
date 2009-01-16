@@ -16,8 +16,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace WikiFunctions.API
 {
@@ -26,7 +24,7 @@ namespace WikiFunctions.API
     /// </summary>
     public class ApiException : Exception
     {
-        ApiEdit m_Editor;
+        readonly ApiEdit m_Editor;
 
         /// <summary>
         /// The ApiEdit object that threw the exception
@@ -53,7 +51,7 @@ namespace WikiFunctions.API
     /// </summary>
     public class ApiErrorException : ApiException
     {
-        string m_ErrorCode;
+        readonly string m_ErrorCode;
 
         /// <summary>
         /// Short error code
@@ -61,7 +59,7 @@ namespace WikiFunctions.API
         public string ErrorCode
         { get { return m_ErrorCode; } }
 
-        string m_ApiErrorMessage;
+        private readonly string m_ApiErrorMessage;
 
         /// <summary>
         /// Error message returned by API
@@ -124,14 +122,12 @@ namespace WikiFunctions.API
 
     public class ApiLoginException : ApiException
     {
-        string m_StatusCode;
-        public string StatusCode
-        { get { return m_StatusCode; } }
+        public string StatusCode { get; private set; }
 
         public ApiLoginException(ApiEdit editor, string status)
             :base(editor, GetErrorMessage(status))
         {
-            m_StatusCode = status;
+            StatusCode = status;
         }
 
         //TODO:

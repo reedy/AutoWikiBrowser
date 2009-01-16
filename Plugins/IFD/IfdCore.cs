@@ -152,7 +152,7 @@ namespace AutoWikiBrowser.Plugins.IFD
         public void Nudge(out bool Cancel) { Cancel = false; }
         public void Nudged(int Nudges) { }
 
-        private void ShowSettings(Object sender, EventArgs e)
+        private static void ShowSettings(Object sender, EventArgs e)
         { new IfdOptions().Show(); }
 
         private bool PluginEnabled
@@ -170,7 +170,7 @@ namespace AutoWikiBrowser.Plugins.IFD
                 AWB.NotifyBalloon("IFD plugin disabled", ToolTipIcon.Info);
         }
 
-        private void AboutMenuItemClicked(object sender, EventArgs e)
+        private static void AboutMenuItemClicked(object sender, EventArgs e)
         {
             new AboutBox().Show();
         }
