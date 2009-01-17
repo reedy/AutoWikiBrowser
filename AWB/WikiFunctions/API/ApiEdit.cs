@@ -161,12 +161,20 @@ namespace WikiFunctions.API
             m_Timestamp = null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Abort()
         {
             throw new NotImplementedException();
         }
 
         #region URL stuff
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         protected static string BuildQuery(string[,] request)
         {
             StringBuilder sb = new StringBuilder();
@@ -188,21 +196,38 @@ namespace WikiFunctions.API
             return sb.ToString();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="titles"></param>
+        /// <returns></returns>
         protected static string Titles(params string[] titles)
         {
             for (int i = 0; i < titles.Length; i++) titles[i] = Tools.WikiEncode(titles[i]);
             if (titles.Length > 0) return "&titles=" + string.Join("|", titles);
-            
+
             return "";
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="paramName"></param>
+        /// <param name="titles"></param>
+        /// <returns></returns>
         protected static string NamedTitles(string paramName, params string[] titles)
         {
             for (int i = 0; i < titles.Length; i++) titles[i] = Tools.WikiEncode(titles[i]);
-            if (titles.Length > 0) return "&" + paramName+ "=" + string.Join("|", titles);
+            if (titles.Length > 0) return "&" + paramName + "=" + string.Join("|", titles);
             return "";
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="autoParams"></param>
+        /// <returns></returns>
         protected string BuildUrl(string[,] request, bool autoParams)
         {
             string url = URL + "api.php?format=xml" + BuildQuery(request);
@@ -211,6 +236,11 @@ namespace WikiFunctions.API
             return url;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         protected string BuildUrl(string[,] request)
         {
             return BuildUrl(request, true);
@@ -281,7 +311,7 @@ namespace WikiFunctions.API
             HttpWebRequest req = CreateRequest(url);
 
             // SECURITY: don't send cookies to third-party sites
-            if (!url.StartsWith(URL)) req.CookieContainer = null; 
+            if (!url.StartsWith(URL)) req.CookieContainer = null;
 
             HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
             using (StreamReader sr = new StreamReader(resp.GetResponseStream()))
@@ -292,12 +322,17 @@ namespace WikiFunctions.API
         #endregion
 
         #region Login
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
         public void Login(string username, string password)
         {
             Reset();
 
-            string result = HttpPost(new [,] { { "action", "login" } },
-                new [,] { { "lgname", username }, { "lgpassword", password } }, false);
+            string result = HttpPost(new[,] { { "action", "login" } },
+                new[,] { { "lgname", username }, { "lgpassword", password } }, false);
 
             XmlReader xr = XmlReader.Create(new StringReader(result));
             xr.ReadToFollowing("login");
@@ -310,10 +345,13 @@ namespace WikiFunctions.API
             CheckForError(result, "login");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Logout()
         {
             Reset();
-            string result = HttpGet(new [,] { { "action", "logout" } }, false);
+            string result = HttpGet(new[,] { { "action", "logout" } }, false);
             CheckForError(result, "logout");
         }
         #endregion
@@ -332,7 +370,7 @@ namespace WikiFunctions.API
             Reset();
 
             // action=query&prop=info|revisions&intoken=edit&titles=Main%20Page&rvprop=timestamp|user|comment|content
-            string result = HttpGet(new [,] { 
+            string result = HttpGet(new[,] { 
                 { "action", "query" },
                 { "prop", "info|revisions" },
                 { "intoken","edit" },
@@ -379,14 +417,14 @@ namespace WikiFunctions.API
             if (string.IsNullOrEmpty(m_EditToken)) throw new ApiException(this, "Edit token is needed to edit pages");
 
             string result = HttpPost(
-                new [,]
+                new[,]
                 {
                     { "action", "edit" },
                     { "title", m_PageTitle },
                     { minor ? "minor" : null, null },
                     { watch ? "watch" : null, null }
                 },
-                new [,]
+                new[,]
                 {// order matters here - https://bugzilla.wikimedia.org/show_bug.cgi?id=14210#c4
                     { "md5", MD5(pageText) },
                     { "summary", summary },
@@ -399,6 +437,11 @@ namespace WikiFunctions.API
             Reset();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="reason"></param>
         public void Delete(string title, string reason)
         {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
@@ -408,7 +451,7 @@ namespace WikiFunctions.API
             m_Action = "delete";
 
             string result = HttpGet(
-                new [,]
+                new[,]
                 {
                     { "action", "query" },
                     { "prop", "info" },
@@ -431,11 +474,11 @@ namespace WikiFunctions.API
             }
 
             result = HttpPost(
-                new [,]
+                new[,]
                 {
                     { "action", "delete" }
                 },
-                new [,]
+                new[,]
                 {
                     { "title", title },
                     { "token", m_EditToken },
@@ -448,17 +491,22 @@ namespace WikiFunctions.API
         }
         #endregion
 
-
         #region Wikitext operations
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pageTitle"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public string Preview(string pageTitle, string text)
         {
             string result = HttpPost(
-                new [,]
+                new[,]
                 {
                     { "action", "parse" },
                     { "prop", "text" }
                 },
-                new [,]
+                new[,]
                 {
                     { "title", pageTitle },
                     { "text", text }
@@ -477,14 +525,20 @@ namespace WikiFunctions.API
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pageTitle"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public string ExpandTemplates(string pageTitle, string text)
         {
             string result = HttpPost(
-                new [,]
+                new[,]
                 {
                     { "action", "expandtemplates" }
                 },
-                new [,]
+                new[,]
                 {
                     { "title", pageTitle },
                     { "text", text }
@@ -504,14 +558,13 @@ namespace WikiFunctions.API
         }
         #endregion
 
-
         #region Error handling
 
         /// <summary>
         /// Checks the XML returned by the server for error codes and throws an appropriate exception
         /// </summary>
         /// <param name="xml">Server output</param>
-        void CheckForError(string xml)
+        private void CheckForError(string xml)
         {
             CheckForError(xml, null);
         }
@@ -521,11 +574,11 @@ namespace WikiFunctions.API
         /// </summary>
         /// <param name="xml">Server output</param>
         /// <param name="action">The action performed, null if don't check</param>
-        void CheckForError(string xml, string action)
+        private void CheckForError(string xml, string action)
         {
             if (string.IsNullOrEmpty(xml)) throw new ApiBlankException(this);
 
-            if (!xml.Contains("<error") && string.IsNullOrEmpty(action)) return; 
+            if (!xml.Contains("<error") && string.IsNullOrEmpty(action)) return;
 
             XmlReader xr = XmlReader.Create(new StringReader(xml));
             if (xml.Contains("<error") && xr.ReadToFollowing("error"))
@@ -574,23 +627,36 @@ namespace WikiFunctions.API
 
         #region Helpers
 
-        protected string BoolToParam(bool value)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        protected static string BoolToParam(bool value)
         {
-            if (value) return "1";
-
-            return "0";
+            return value ? "1" : "0";
         }
 
         /// <summary>
         /// For private use, static to avoid unneeded reinitialisation
         /// </summary>
-        private static System.Security.Cryptography.MD5 m_MD5 = System.Security.Cryptography.MD5.Create();
+        private static readonly System.Security.Cryptography.MD5 m_MD5 = System.Security.Cryptography.MD5.Create();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         protected static string MD5(string input)
         {
             return MD5(Encoding.UTF8.GetBytes(input));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         protected static string MD5(byte[] input)
         {
             byte[] hash = m_MD5.ComputeHash(input);

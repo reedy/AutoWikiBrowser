@@ -28,8 +28,13 @@ using System.Windows.Forms;
 
 namespace WikiFunctions.Plugins.ListMaker.TypoScan
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class TypoScanListMakerPlugin : IListMakerPlugin
     {
+        protected int iterations = 1;
+
         public string Name
         {
             get { return "TypoScan ListMaker Plugin"; }
@@ -47,20 +52,23 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                 return articles;
             }
 
-            string html = Tools.GetHTML(Common.GetUrlFor("displayarticles"));
-
-            using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
+            for (int i = 0; i < iterations; i++)
             {
-                while (reader.Read())
+                using (
+                    XmlTextReader reader =
+                        new XmlTextReader(new StringReader(Tools.GetHTML(Common.GetUrlFor("displayarticles")))))
                 {
-                    if (reader.Name.Equals("article"))
+                    while (reader.Read())
                     {
-                        reader.MoveToAttribute("id");
-                        int id = int.Parse(reader.Value);
-                        string title = reader.ReadString();
-                        articles.Add(new Article(title));
-                        if (!TypoScanAWBPlugin.PageList.ContainsKey(title))
-                            TypoScanAWBPlugin.PageList.Add(title, id);
+                        if (reader.Name.Equals("article"))
+                        {
+                            reader.MoveToAttribute("id");
+                            int id = int.Parse(reader.Value);
+                            string title = reader.ReadString();
+                            articles.Add(new Article(title));
+                            if (!TypoScanAWBPlugin.PageList.ContainsKey(title))
+                                TypoScanAWBPlugin.PageList.Add(title, id);
+                        }
                     }
                 }
             }
@@ -68,7 +76,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             return articles;
         }
 
-        public string DisplayText
+        public virtual string DisplayText
         {
             get { return "TypoScan"; }
         }
@@ -89,6 +97,22 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         public bool RunOnSeparateThread
         {
             get { return true; }
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class TypoScanListMakerPlugin500 : TypoScanListMakerPlugin
+    {
+        public TypoScanListMakerPlugin500()
+        {
+            iterations = 5;
+        }
+
+        public override string DisplayText
+        {
+            get { return base.DisplayText + " (500 pages)"; }
         }
     }
 }
