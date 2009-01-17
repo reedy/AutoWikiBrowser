@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using WikiFunctions.Background;
 using WikiFunctions.Controls;
 
 using System.Threading;
@@ -191,9 +192,8 @@ namespace WikiFunctions.Parse
     /// </summary>
     public class RegExTypoFix
     {
-        readonly Thread typoThread;
-        public delegate void TypoThreadComplete();
-        public event TypoThreadComplete Complete;
+        readonly BackgroundRequest typoThread;
+        public event BackgroundRequestComplete Complete;
 
         /// <summary>
         /// Default constructor, typos will be loaded on a new thread
@@ -215,12 +215,8 @@ namespace WikiFunctions.Parse
                 return;
             }
 
-            //TODO: ExecuteFunctionDelegate ?
-            typoThread = new Thread(MakeRegexes);
-            typoThread.Name = "TypoThread";
-            typoThread.SetApartmentState(ApartmentState.STA);
-            typoThread.IsBackground = true;
-            typoThread.Start();
+            typoThread = new BackgroundRequest(Complete);
+            typoThread.Execute(MakeRegexes);
         }
 
         /// <summary>
@@ -312,7 +308,7 @@ namespace WikiFunctions.Parse
             }
             finally
             {
-                if (Complete != null) Complete();
+                if (Complete != null) Complete(typoThread);
             }
         }
 
