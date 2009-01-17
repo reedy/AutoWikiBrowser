@@ -486,6 +486,79 @@ namespace WikiFunctions.API
 
             Reset();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="reason"></param>
+        /// <param name="protections"></param>
+        /// <param name="expiry"></param>
+        public void Protect(string title, string reason, string protections, string expiry)
+        {
+            Protect(title, reason, protections, expiry, false);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="reason"></param>
+        /// <param name="protections"></param>
+        /// <param name="expiry"></param>
+        /// <param name="cascade"></param>
+        public void Protect(string title, string reason, string protections, string expiry, bool cascade)
+        {
+            if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
+            if (string.IsNullOrEmpty(reason)) throw new ArgumentException("Deletion reason required", "reason");
+            if (string.IsNullOrEmpty(protections)) throw new ArgumentException("List of protections required", "protections");
+
+            Reset();
+            Action = "protect";
+
+            string result = HttpGet(
+                new[,]
+                    {
+                        {"action", "query"},
+                        {"prop", "info"},
+                        {"intoken", "protect"},
+                        {"titles", title},
+
+                    });
+
+            CheckForError(result);
+
+            try
+            {
+                XmlReader xr = XmlReader.Create(new StringReader(result));
+                if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
+                EditToken = xr.GetAttribute("protecttoken");
+            }
+            catch (Exception ex)
+            {
+                throw new ApiBrokenXmlException(this, ex);
+            }
+
+            result = HttpPost(
+                new[,]
+                    {
+                        {"action", "protect"}
+                    },
+                new[,]
+                    {
+                        {"title", title},
+                        {"token", EditToken},
+                        {"reason", reason},
+                        {"protections", protections},
+                        {"expiry", expiry},
+                        {cascade ? "cascade" : null, null},
+                    });
+
+            CheckForError(result);
+
+            Reset();
+        }
+
         #endregion
 
         #region Wikitext operations
