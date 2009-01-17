@@ -1253,57 +1253,57 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             Regex regexBoldNoBrackets = new Regex(@"([^\[]|^)(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + ")([ ,.:;])", RegexOptions.Compiled);
 
             // first try title with brackets removed
-            if(regexBoldNoBrackets.IsMatch(ArticleText))
+            if (regexBoldNoBrackets.IsMatch(hider.HideMore(ArticleText)))
             {
                 ArticleText = hider.HideMore(ArticleText);
                 ArticleText = regexBoldNoBrackets.Replace(ArticleText, "$1'''$2'''$3", 1);
                 ArticleText = hider.AddBackMore(ArticleText);
                 
                 // check that the bold added is the first bit in bold in the main body of the article
-                if (AddedBoldIsFirstBold(ArticleText, escTitleNoBrackets))
+                if (AddedBoldIsValid(ArticleText, escTitleNoBrackets))
                 {
                     NoChange = false;
                     return (ArticleText);
                 }
             }
 
-            if (regexBold.IsMatch(ArticleText))
+            if (regexBold.IsMatch(hider.HideMore(ArticleText)))
             {
                 ArticleText = hider.HideMore(ArticleText);
                 ArticleText = regexBold.Replace(ArticleText, "$1'''$2'''$3", 1);
                 ArticleText = hider.AddBackMore(ArticleText);
 
                 // check that the bold added is the first bit in bold in the main body of the article
-                if (AddedBoldIsFirstBold(ArticleText, escTitle))
+                if (AddedBoldIsValid(ArticleText, escTitle))
                 {
                     NoChange = false;
-                   
+                    return (ArticleText);
                 }
             }
             return ArticleTextAtStart;
         }
 
-        private bool AddedBoldIsFirstBold(string ArticleText, string escapedTitle)
+        /// <summary>
+        /// Checks that the bold just added to the article is the first bold in the article, and that it's within the first 5% of the HideMore article
+        /// </summary>
+        private bool AddedBoldIsValid(string ArticleText, string escapedTitle)
         {
             Regex regexFirstBold = new Regex(@"^(.*?)'''", RegexOptions.Singleline | RegexOptions.Compiled);
             Regex regexBoldAdded = new Regex(@"^(.*?)'''" + escapedTitle, RegexOptions.Singleline | RegexOptions.Compiled);
             int FirstBoldPos = 0;
             int BoldAddedPos = 0;
 
-            string rba = regexBoldAdded.Match(ArticleText).Value; // DEBUG
-
-            string rfb = regexFirstBold.Match(ArticleText).Value; // DEBUG
-
-            int rbal = rba.Length;
-
-            int rbfl = rfb.Length;
-
             BoldAddedPos = regexBoldAdded.Match(ArticleText).Length - Regex.Unescape(escapedTitle).Length;
 
             FirstBoldPos = regexFirstBold.Match(ArticleText).Length;
 
-            // check that the bold added is the first bit in bold in the main body of the article
-            if (BoldAddedPos <= FirstBoldPos)
+            ArticleText = hider.HideMore(ArticleText);
+
+            // was bold added in first 5% of article?
+            bool inFirst5Percent = ArticleText.Substring(0, (int)ArticleText.Length / 20).Contains("'''");
+
+            // check that the bold added is the first bit in bold in the main body of the article, and in first 5% of HideMore article
+            if (inFirst5Percent && BoldAddedPos <= FirstBoldPos)
                 return (true);
             return (false);
         }
