@@ -27,6 +27,7 @@ using System.Web;
 namespace WikiFunctions.Background
 {
     public delegate void BackgroundRequestComplete(BackgroundRequest req);
+    public delegate void BackgroundRequestErrored(BackgroundRequest req);
     public delegate void ExecuteFunctionDelegate();
 
     public class BackgroundRequest
@@ -52,12 +53,13 @@ namespace WikiFunctions.Background
 
         public bool HasUI = true;
 
-        public Exception Error;
+        public Exception ErrorException { get; private set; }
         PleaseWait ui;
 
         Thread BgThread;
 
         public event BackgroundRequestComplete Complete;
+        public event BackgroundRequestErrored Errored;
 
         public BackgroundRequest()
         { }
@@ -105,6 +107,11 @@ namespace WikiFunctions.Background
             if (Complete != null) Complete(this);
         }
 
+        private void InvokeOnError()
+        {
+            if (Errored != null) Errored(this);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -125,7 +132,8 @@ namespace WikiFunctions.Background
             }
             catch (Exception e)
             {
-                Error = e;
+                ErrorException = e;
+                InvokeOnError();
             }
         }
 
@@ -151,7 +159,8 @@ namespace WikiFunctions.Background
             }
             catch (Exception e)
             {
-                Error = e;
+                ErrorException = e;
+                InvokeOnError();
             }
         }
 
@@ -172,7 +181,8 @@ namespace WikiFunctions.Background
             }
             catch (Exception e)
             {
-                Error = e;
+                ErrorException = e;
+                InvokeOnError();
             }
         }
 
@@ -303,7 +313,8 @@ namespace WikiFunctions.Background
             catch (Exception e)
             {
                 //ui.Close();
-                Error = e;
+                ErrorException = e;
+                InvokeOnError();
             }
         }
 
@@ -338,7 +349,8 @@ namespace WikiFunctions.Background
             }
             catch (Exception e)
             {
-                Error = e;
+                ErrorException = e;
+                InvokeOnError();
             }
         }
     }
@@ -349,7 +361,7 @@ namespace WikiFunctions.Background
     /// <typeparam name="T">Type to store</typeparam>
     public class CrossThreadQueue<T>
     {
-        private Queue<T> queue = new Queue<T>();
+        private readonly Queue<T> queue = new Queue<T>();
 
         public void Add(T value)
         {
