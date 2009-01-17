@@ -960,7 +960,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
         // Covered by: LinkTests.TestFixCategories()
         /// <summary>
-        /// Fix common spacing/capitalisation errors in categories, and remove diacritics
+        /// Fix common spacing/capitalisation errors in categories; remove diacritics and trailing whitespace from sortkeys (not leading whitespace)
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
@@ -971,7 +971,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             foreach (Match m in WikiRegexes.LooseCategory.Matches(ArticleText))
             {
                 if (!Tools.IsValidTitle(m.Groups[1].Value)) continue;
-                string x = cat + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim()) + Tools.RemoveDiacritics(m.Groups[2].Value.TrimEnd()) + "]]";
+                string x = cat + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim()) + Regex.Replace(Tools.RemoveDiacritics(m.Groups[2].Value), @"(\w+)\s+$", "$1") + "]]";
                 if (x != m.Value) ArticleText = ArticleText.Replace(m.Value, x);
             }
 
