@@ -7,7 +7,7 @@ namespace APITest
 {
     public partial class Form1 : Form
     {
-        RegistryKey Config = Registry.CurrentUser.CreateSubKey("Wikipedia\\AutoWikiBrowser\\ApiTest");
+        readonly RegistryKey Config = Registry.CurrentUser.CreateSubKey("Wikipedia\\AutoWikiBrowser\\ApiTest");
 
         public Form1()
         {

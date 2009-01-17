@@ -180,8 +180,12 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             UploadFinishedArticlesToServer();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private static void UploadFinishedArticlesToServer()
         {
+            //TODO:Background
             int editsAndIgnored = EditAndIgnoredPages;
             if (editsAndIgnored == 0)
                 return;
@@ -202,15 +206,14 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
             try
             {
-                string result = Tools.PostData(postVars, Common.GetUrlFor("finished"));
-                if (string.IsNullOrEmpty(Common.CheckOperation(result)))
+                if (string.IsNullOrEmpty(Common.CheckOperation(Tools.PostData(postVars, Common.GetUrlFor("finished")))))
                 {
                     UploadedThisSession += editsAndIgnored;
                     SavedPages.Clear();
                     SkippedPages.Clear();
                     SkippedReasons.Clear();
 
-                    if ((UploadedThisSession % 100) == 0)
+                    if ((UploadedThisSession%100) == 0)
                         CheckoutTime = new DateTime();
                 }
             }
