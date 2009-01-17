@@ -153,6 +153,7 @@ namespace WikiFunctions.API
             PageText = null;
             PageTitle = null;
             Timestamp = null;
+            Exists = false;
         }
 
         /// <summary>
@@ -379,7 +380,7 @@ namespace WikiFunctions.API
                 XmlReader xr = XmlReader.Create(new StringReader(result));
                 if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
 
-                Exists = (xr.GetAttribute("missing") == "");
+                Exists = (xr.GetAttribute("missing") != "");
                 EditToken = xr.GetAttribute("edittoken");
                 PageTitle = xr.GetAttribute("title");
 
