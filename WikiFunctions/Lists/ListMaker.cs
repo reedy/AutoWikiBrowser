@@ -1268,6 +1268,7 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         private void lbArticles_DrawItem(object sender, DrawItemEventArgs e)
         {
+            //TODO:Can we have the same font as before?
             if (e.Index < 0)
                 return;
 
