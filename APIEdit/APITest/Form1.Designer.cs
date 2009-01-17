@@ -210,6 +210,7 @@ namespace APITest
             this.txtEdit.Location = new System.Drawing.Point(6, 74);
             this.txtEdit.Multiline = true;
             this.txtEdit.Name = "txtEdit";
+            this.txtEdit.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtEdit.Size = new System.Drawing.Size(642, 218);
             this.txtEdit.TabIndex = 4;
             // 

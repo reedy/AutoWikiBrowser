@@ -597,10 +597,9 @@ namespace WikiFunctions.API
 
             if (!string.IsNullOrEmpty(action) && xr.ReadToFollowing(action))
             {
-
-                string result = xr.GetAttribute("result");
-                if (result != null && result == "Success")
-                {
+                //string result = xr.GetAttribute("result");
+                //if (result != null && result == "Success")
+                //{
                     string s = xr.GetAttribute("assert");
                     if (!string.IsNullOrEmpty(s))
                     {
@@ -612,9 +611,9 @@ namespace WikiFunctions.API
                     {
                         throw new ApiSpamlistException(this, s);
                     }
-                }
-                else
-                    throw new ApiErrorException(this, result, result); //HACK: we need error message
+                //}
+                //else
+                    //throw new ApiErrorException(this, result, result); //HACK: we need error message
             }
 
             if (xr.ReadToFollowing("captcha"))
