@@ -1848,7 +1848,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string catHTML = "";
             if (!WikiRegexes.Category.IsMatch(commentsStripped))
             {
-                catHTML = Tools.GetHTML(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(ArticleTitle));
+                try
+                {
+                    catHTML = Tools.GetHTML(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(ArticleTitle));
+                }
+                catch (System.Net.WebException)
+                {
+                }
             }
 
             if (words > 6 && !string.IsNullOrEmpty(catHTML) && !Regex.IsMatch(ArticleText, @"\{\{[Uu]ncategori[zs]ed"))
