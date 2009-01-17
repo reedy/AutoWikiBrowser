@@ -22,6 +22,7 @@ using System.Collections.Generic;
 
 using System.Collections.Specialized;
 using System.Windows.Forms;
+using WikiFunctions.Background;
 using WikiFunctions.Plugin;
 
 namespace WikiFunctions.Plugins.ListMaker.TypoScan
@@ -175,20 +176,29 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         public void Nudged(int Nudges)
         { }
 
+        #endregion
+
         private static void UploadFinishedArticlesToServer(object sender, FormClosingEventArgs e)
         {
             UploadFinishedArticlesToServer();
         }
+
+        private static int editsAndIgnored;
+        private static bool isUploading;
 
         /// <summary>
         /// 
         /// </summary>
         private static void UploadFinishedArticlesToServer()
         {
-            //TODO:Background
-            int editsAndIgnored = EditAndIgnoredPages;
-            if (editsAndIgnored == 0)
+            //TODO:Fixup for when AWB closing
+
+            if (isUploading || EditAndIgnoredPages == 0)
                 return;
+
+            isUploading = true;
+
+            editsAndIgnored = EditAndIgnoredPages;
 
             AWB.StartProgressBar();
             AWB.StatusLabelText = "Uploading " + editsAndIgnored + " TypoScan articles to server...";
@@ -204,31 +214,45 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             else
                 postVars.Add("user", "[withheld]");
 
-            try
-            {
-                if (string.IsNullOrEmpty(Common.CheckOperation(Tools.PostData(postVars, Common.GetUrlFor("finished")))))
-                {
-                    UploadedThisSession += editsAndIgnored;
-                    SavedPages.Clear();
-                    SkippedPages.Clear();
-                    SkippedReasons.Clear();
+            Background.BackgroundRequest thread = new BackgroundRequest(UploadFinishedArticlesToServerFinished, UploadFinishedArticlesToServerErrored);
+            thread.PostData(Common.GetUrlFor("finished"), postVars);
+        }
 
-                    if ((UploadedThisSession%100) == 0)
-                        CheckoutTime = new DateTime();
-                }
-            }
-            catch (System.IO.IOException ex)
+        private static void UploadFinishedArticlesToServerFinished(BackgroundRequest req)
+        {
+            if (string.IsNullOrEmpty(Common.CheckOperation(req.Result.ToString())))
             {
-                Tools.WriteDebug("TypoScanAWBPlugin", ex.Message);
+                UploadedThisSession += editsAndIgnored;
+                SavedPages.Clear();
+                SkippedPages.Clear();
+                SkippedReasons.Clear();
+
+                if ((UploadedThisSession % 100) == 0)
+                  CheckoutTime = new DateTime();
             }
-            catch (System.Net.WebException we)
-            {
-                Tools.WriteDebug("TypoScanAWBPlugin", we.Message);
-            }
+
             AWB.StopProgressBar();
             AWB.StatusLabelText = "";
+            isUploading = false;
         }
-        #endregion
+
+        private static void UploadFinishedArticlesToServerErrored(BackgroundRequest req)
+        {
+            AWB.StopProgressBar();
+            AWB.StatusLabelText = "TypoScan reporting failed";
+            isUploading = false;
+
+            if (req.ErrorException is System.IO.IOException)
+            {
+                Tools.WriteDebug("TypoScanAWBPlugin", req.ErrorException.Message);
+                return;
+            }
+            if (req.ErrorException is System.Net.WebException)
+            {
+                Tools.WriteDebug("TypoScanAWBPlugin", req.ErrorException.Message);
+                return;
+            }
+        }
 
         internal static int EditAndIgnoredPages
         {
