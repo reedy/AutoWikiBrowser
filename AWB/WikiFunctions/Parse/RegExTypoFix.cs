@@ -215,6 +215,7 @@ namespace WikiFunctions.Parse
                 return;
             }
 
+            //TODO: ExecuteFunctionDelegate ?
             typoThread = new Thread(MakeRegexes);
             typoThread.Name = "TypoThread";
             typoThread.SetApartmentState(ApartmentState.STA);

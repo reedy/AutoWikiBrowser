@@ -17,6 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 using System;
+using System.Collections.Specialized;
 using System.Threading;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -104,6 +105,10 @@ namespace WikiFunctions.Background
             if (Complete != null) Complete(this);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
         public void GetHTML(string url)
         {
             strParam = url;
@@ -116,6 +121,32 @@ namespace WikiFunctions.Background
             try
             {
                 Result = Tools.GetHTML(strParam);
+                InvokeOnComplete();
+            }
+            catch (Exception e)
+            {
+                Error = e;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="postvars"></param>
+        public void PostData(string url, NameValueCollection postvars)
+        {
+            strParam = url;
+            objParam1 = postvars;
+
+            InitThread(PostDataFunc);
+        }
+
+        private void PostDataFunc()
+        {
+            try
+            {
+                Result = Tools.PostData((NameValueCollection)objParam1, strParam);
                 InvokeOnComplete();
             }
             catch (Exception e)
