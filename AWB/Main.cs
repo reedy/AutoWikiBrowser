@@ -368,11 +368,22 @@ namespace AutoWikiBrowser
             set { dAutoSaveEditPeriod = value; EditBoxSaveTimer.Interval = int.Parse((value * 1000).ToString()); }
         }
 
+        internal void SetStatusLabelText(string text)
+        {
+            StatusLabelText = text;
+        }
+
         internal string StatusLabelText
         {
             get { return lblStatusText.Text; }
             set
             {
+                if (InvokeRequired)
+                {
+                    Invoke(new GenericDelegate1Parm(SetStatusLabelText), new object[] { value });
+                    return;
+                }
+
                 if (string.IsNullOrEmpty(value))
                     lblStatusText.Text = Program.NAME + " " + Program.VersionString;
                 else
@@ -2895,13 +2906,14 @@ window.scrollTo(0, diffTopY);
             }
         }
 
-        private delegate void RegexTypoDone();
+        private delegate void GenericDelegate();
+        private delegate void GenericDelegate1Parm(string parm);
 
         private void RegexTypos_Complete()
         {
             if (InvokeRequired)
             {
-                Invoke(new RegexTypoDone(RegexTypos_Complete));
+                Invoke(new GenericDelegate(RegexTypos_Complete));
                 return;
             }
 
@@ -3979,6 +3991,12 @@ window.scrollTo(0, diffTopY);
 
         private void StopProgressBar()
         {
+            if (InvokeRequired)
+            {
+                Invoke(new GenericDelegate(StopProgressBar));
+                return;
+            }
+
             MainFormProgressBar.MarqueeAnimationSpeed = 0;
             MainFormProgressBar.Style = ProgressBarStyle.Continuous;
         }
