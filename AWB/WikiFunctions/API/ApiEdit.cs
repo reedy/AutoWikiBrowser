@@ -132,6 +132,16 @@ namespace WikiFunctions.API
         /// </summary>
         public bool Exists { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public Protection Edit { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Protection Move { get; private set; }
+
         CookieContainer m_Cookies = new CookieContainer();
         /// <summary>
         /// Cookies stored between requests
@@ -380,6 +390,8 @@ namespace WikiFunctions.API
                 Timestamp = xr.GetAttribute("timestamp");
                 PageText = xr.ReadString();
 
+                //TODO:Get Protection
+
                 Action = "edit";
             }
             catch (Exception ex)
@@ -522,7 +534,7 @@ namespace WikiFunctions.API
                         {"title", title},
                         {"token", EditToken},
                         {"reason", reason},
-                        {"protections", ""}, //TODO:Code
+                        {"protections", "edit" + edit + "|move=" + move},
                         {"expiry", expiry},
                         {cascade ? "cascade" : null, null},
                     });
