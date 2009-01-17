@@ -864,7 +864,7 @@ namespace AutoWikiBrowser
 
                 mErrorGettingLogInStatus = false;
 
-                if (webBrowserEdit.NewMessage)
+                if (!preParseModeToolStripMenuItem.Checked && webBrowserEdit.NewMessage)
                 {//check if we have any messages
                     NudgeTimer.Stop();
                     Variables.User.WikiStatus = false;
