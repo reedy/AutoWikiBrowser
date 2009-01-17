@@ -32,6 +32,40 @@ using System.Windows.Forms;
 namespace WikiFunctions
 {
     /// <summary>
+    /// Contains constants for canonical namespace numbers
+    /// </summary>
+    public static class Namespace
+    {
+        public static readonly int Media = -2;
+        public static readonly int Special = -1;
+        public static readonly int Article = 0;
+        public static readonly int Talk = 1;
+        public static readonly int User = 2;
+        public static readonly int UserTalk = 3;
+        public static readonly int Project = 4;
+        public static readonly int ProjectTalk = 5;
+        public static readonly int File = 6;
+        public static readonly int FileTalk = 7;
+        public static readonly int MediaWiki = 8;
+        public static readonly int MediaWikiTalk = 9;
+        public static readonly int Template = 10;
+        public static readonly int TemplateTalk = 11;
+        public static readonly int Help = 12;
+        public static readonly int HelpTalk = 13;
+        public static readonly int Category = 14;
+        public static readonly int CategoryTalk = 15;
+
+        public static readonly int FirstCustom = 100;
+
+        // Aliases
+
+        public static readonly int Mainspace = Article;
+        public static readonly int Image = File;
+        public static readonly int ImageTalk = FileTalk;
+    };
+
+
+    /// <summary>
     /// Provides various tools as static methods, such as getting the html of a page
     /// </summary>
     public static class Tools
@@ -182,7 +216,8 @@ namespace WikiFunctions
         public static bool IsImportantNamespace(string ArticleTitle)
         {
             int i = CalculateNS(ArticleTitle);
-            return (i == 0 || i == 6 || i == 10 || i == 14);
+            return (i == Namespace.Article || i == Namespace.File
+                || i == Namespace.Template || i == Namespace.Category);
         }
 
         // Covered by ToolsTest.IsTalkPage()
@@ -192,7 +227,7 @@ namespace WikiFunctions
         /// <param name="ArticleTitle">The title.</param>
         public static bool IsTalkPage(string ArticleTitle)
         {
-            return (CalculateNS(ArticleTitle) % 2 == 1);
+            return IsTalkPage(CalculateNS(ArticleTitle));
         }
 
         // Covered by ToolsTests.IsTalkPage
@@ -1505,8 +1540,8 @@ Message: {2}
             if (IsTalkPage(a.NameSpaceKey))
                 return a.Name;
 
-            if (a.NameSpaceKey == 0)
-                return (Variables.Namespaces[1] + a.Name);
+            if (a.NameSpaceKey == Namespace.Article)
+                return (Variables.Namespaces[Namespace.Talk] + a.Name);
 
             return Variables.Namespaces[a.NameSpaceKey + 1] + a.NamespacelessName;
         }

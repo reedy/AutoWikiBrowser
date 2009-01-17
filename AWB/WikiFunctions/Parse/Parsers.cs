@@ -786,7 +786,7 @@ namespace WikiFunctions.Parse
                     string n = m.Value;
                     a = m.Groups[1].Value.Trim();
 
-                    b = (Tools.CalculateNS(a) != 14)
+                    b = (Tools.CalculateNS(a) != Namespace.Category)
                             ? m.Groups[2].Value.Trim()
                             : m.Groups[2].Value.TrimEnd(new [] { ' ' });
 
@@ -896,8 +896,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public static string FixEmptyLinksAndTemplates(string ArticleText)
         {
-            string cat = Variables.Namespaces[14];
-            string img = Variables.Namespaces[6];
+            string cat = Variables.Namespaces[Namespace.Category];
+            string img = Variables.Namespaces[Namespace.Image];
 
             Regex emptyLink = new Regex("\\[\\[(:?" + cat + "|" + img + "|)(|" + img + "|" + cat + "|.*?)\\]\\]", RegexOptions.IgnoreCase);
 
@@ -966,7 +966,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text.</returns>
         public static string FixCategories(string ArticleText)
         {
-            string cat = "[[" + Variables.Namespaces[14];
+            string cat = "[[" + Variables.Namespaces[Namespace.Category];
 
             foreach (Match m in WikiRegexes.LooseCategory.Matches(ArticleText))
             {
@@ -1339,13 +1339,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             ArticleText = FixImages(ArticleText);
 
             //remove image prefix
-            OldImage = Regex.Replace(OldImage, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase).Replace("_", " ");
-            NewImage = Regex.Replace(NewImage, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase).Replace("_", " ");
+            OldImage = Regex.Replace(OldImage, "^" + Variables.Namespaces[Namespace.File], "", RegexOptions.IgnoreCase).Replace("_", " ");
+            NewImage = Regex.Replace(NewImage, "^" + Variables.Namespaces[Namespace.File], "", RegexOptions.IgnoreCase).Replace("_", " ");
 
             OldImage = Regex.Escape(OldImage).Replace("\\ ", "[ _]");
 
-            OldImage = Variables.NamespacesCaseInsensitive[6] + Tools.CaseInsensitive(OldImage);
-            NewImage = Variables.Namespaces[6] + NewImage;
+            OldImage = Variables.NamespacesCaseInsensitive[Namespace.File] + Tools.CaseInsensitive(OldImage);
+            NewImage = Variables.Namespaces[Namespace.File] + NewImage;
 
             ArticleText = Regex.Replace(ArticleText, OldImage, NewImage);
 
@@ -1364,12 +1364,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static string RemoveImage(string Image, string ArticleText, bool CommentOut, string Comment)
         {
             //remove image prefix
-            Image = Regex.Replace(Image, "^" + Variables.NamespacesCaseInsensitive[6], "", RegexOptions.IgnoreCase).Replace("_", " ");
+            Image = Regex.Replace(Image, "^" + Variables.NamespacesCaseInsensitive[Namespace.File], "", RegexOptions.IgnoreCase).Replace("_", " ");
             Image = Tools.CaseInsensitive(HttpUtility.UrlDecode(Regex.Escape(Image).Replace("\\ ", "[ _]")));
 
             ArticleText = FixImages(ArticleText);
 
-            Regex r = new Regex("\\[\\[" + Variables.NamespacesCaseInsensitive[6] + Image + ".*\\]\\]");
+            Regex r = new Regex("\\[\\[" + Variables.NamespacesCaseInsensitive[Namespace.File] + Image + ".*\\]\\]");
             MatchCollection n = r.Matches(ArticleText);
 
             if (n.Count > 0)
@@ -1408,7 +1408,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             }
             else
             {
-                r = new Regex("(" + Variables.NamespacesCaseInsensitive[6] + ")?" + Image);
+                r = new Regex("(" + Variables.NamespacesCaseInsensitive[Namespace.File] + ")?" + Image);
                 n = r.Matches(ArticleText);
 
                 foreach (Match m in n)
@@ -1475,13 +1475,17 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             ArticleText = FixCategories(ArticleText);
 
-            if (Regex.IsMatch(ArticleText, @"\[\[" + Variables.NamespacesCaseInsensitive[14] + Regex.Escape(NewCategory) + @"[\|\]]"))
+            if (Regex.IsMatch(ArticleText, @"\[\["
+                + Variables.NamespacesCaseInsensitive[Namespace.Category]
+                + Regex.Escape(NewCategory) + @"[\|\]]"))
+            {
                 return oldText;
+            }
 
-            string cat = "\r\n[[" + Variables.Namespaces[14] + NewCategory + "]]";
+            string cat = "\r\n[[" + Variables.Namespaces[Namespace.Category] + NewCategory + "]]";
             cat = Tools.ApplyKeyWords(ArticleTitle, cat);
 
-            if (Tools.CalculateNS(ArticleTitle) == 10 /*template*/)
+            if (Tools.CalculateNS(ArticleTitle) == Namespace.Template)
                 ArticleText += "<noinclude>" + cat + "\r\n</noinclude>";
             else
                 ArticleText += cat;
@@ -1501,15 +1505,19 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public string ReCategoriser(string OldCategory, string NewCategory, string ArticleText, out bool NoChange)
         {
             //remove category prefix
-            OldCategory = Regex.Replace(OldCategory, "^" + Variables.NamespacesCaseInsensitive[14], "", RegexOptions.IgnoreCase);
-            NewCategory = Regex.Replace(NewCategory, "^" + Variables.NamespacesCaseInsensitive[14], "", RegexOptions.IgnoreCase);
+            OldCategory = Regex.Replace(OldCategory, "^" 
+                + Variables.NamespacesCaseInsensitive[Namespace.Category], "", RegexOptions.IgnoreCase);
+            NewCategory = Regex.Replace(NewCategory, "^"
+                + Variables.NamespacesCaseInsensitive[Namespace.Category], "", RegexOptions.IgnoreCase);
 
             //format categories properly
             ArticleText = FixCategories(ArticleText);
 
             testText = ArticleText;
 
-            if (Regex.IsMatch(ArticleText, "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + Tools.CaseInsensitive(Regex.Escape(NewCategory)) + @"\s*(\||\]\])"))
+            if (Regex.IsMatch(ArticleText, "\\[\\[" 
+                + Variables.NamespacesCaseInsensitive[Namespace.Category] 
+                + Tools.CaseInsensitive(Regex.Escape(NewCategory)) + @"\s*(\||\]\])"))
             {
                 bool tmp;
                 ArticleText = RemoveCategory(OldCategory, ArticleText, out tmp);
@@ -1519,8 +1527,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 OldCategory = Regex.Escape(OldCategory);
                 OldCategory = Tools.CaseInsensitive(OldCategory);
 
-                OldCategory = Variables.Namespaces[14] + OldCategory + @"\s*(\||\]\])";
-                NewCategory = Variables.Namespaces[14] + NewCategory + "$1";
+                OldCategory = Variables.Namespaces[Namespace.Category] + OldCategory + @"\s*(\||\]\])";
+                NewCategory = Variables.Namespaces[Namespace.Category] + NewCategory + "$1";
 
                 ArticleText = Regex.Replace(ArticleText, OldCategory, NewCategory);
             }
@@ -1547,9 +1555,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             strOldCat = Tools.CaseInsensitive(strOldCat);
 
             if (!ArticleText.Contains("<includeonly>"))
-                ArticleText = Regex.Replace(ArticleText, "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + " ?" + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])\r\n", "");
+                ArticleText = Regex.Replace(ArticleText, "\\[\\["
+                    + Variables.NamespacesCaseInsensitive[Namespace.Category] + " ?" 
+                    + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])\r\n", "");
 
-            ArticleText = Regex.Replace(ArticleText, "\\[\\[" + Variables.NamespacesCaseInsensitive[14] + " ?" + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])", "");
+            ArticleText = Regex.Replace(ArticleText, "\\[\\[" 
+                + Variables.NamespacesCaseInsensitive[Namespace.Category] + " ?" 
+                + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])", "");
 
             NoChange = (testText == ArticleText);
 
@@ -1580,7 +1592,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (ds.Count > 1)
                 return testText;
 
-            string catregex = @"\[\[\s*" + Variables.NamespacesCaseInsensitive[14] +
+            string catregex = @"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category] +
                               @"\s*(.*?)\s*(?:|\|([^\|\]]*))\s*\]\]";
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#AWB_didn.27t_fix_special_characters_in_a_pipe – always fix category sortkeys
@@ -1614,7 +1626,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                         !sort.StartsWith(" "))
                     // MW bug: DEFAULTSORT doesn't treat leading spaces the same way as categories do
                     {
-                        ArticleText = Regex.Replace(ArticleText, catregex, "[[" + Variables.Namespaces[14] + "$1]]");
+                        ArticleText = Regex.Replace(ArticleText, catregex, "[["
+                            + Variables.Namespaces[Namespace.Category] + "$1]]");
 
                         if (sort != ArticleTitle)
                             ArticleText = ArticleText + "\r\n{{DEFAULTSORT:" + Tools.RemoveDiacritics(sort) + "}}";
@@ -1638,9 +1651,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                         continue;
 
                     if (string.Compare(explicitKey, ds[0].Groups["key"].Value, StringComparison.OrdinalIgnoreCase) == 0)
+                    {
                         ArticleText = ArticleText.Replace(m.Value,
-                                                          "[[" + Variables.Namespaces[14] + m.Groups[1].Value +
-                                                          "]]");
+                            "[[" + Variables.Namespaces[Namespace.Category] + m.Groups[1].Value + "]]");
+                    }
                 }
             }
 

@@ -33,23 +33,23 @@ namespace WikiFunctions.Controls
 
         public void UpdateText()
         {
-            chkArticleTalk.Text = Variables.Namespaces[1];
-            chkUser.Text = Variables.Namespaces[2];
-            chkUserTalk.Text = Variables.Namespaces[3];
-            chkWikipedia.Text = Variables.Namespaces[4];
-            chkWikipediaTalk.Text = Variables.Namespaces[5];
-            chkImage.Text = Variables.Namespaces[6];
-            chkImageTalk.Text = Variables.Namespaces[7];
-            chkMediaWiki.Text = Variables.Namespaces[8];
-            chkMediaWikiTalk.Text = Variables.Namespaces[9];
-            chkTemplate.Text = Variables.Namespaces[10];
-            chkTemplateTalk.Text = Variables.Namespaces[11];
-            chkHelp.Text = Variables.Namespaces[12];
-            chkHelpTalk.Text = Variables.Namespaces[13];
-            chkCategory.Text = Variables.Namespaces[14];
-            chkCategoryTalk.Text = Variables.Namespaces[15];
+            chkArticleTalk.Text = Variables.Namespaces[Namespace.Talk];
+            chkUser.Text = Variables.Namespaces[Namespace.User];
+            chkUserTalk.Text = Variables.Namespaces[Namespace.UserTalk];
+            chkWikipedia.Text = Variables.Namespaces[Namespace.Project];
+            chkWikipediaTalk.Text = Variables.Namespaces[Namespace.ProjectTalk];
+            chkImage.Text = Variables.Namespaces[Namespace.File];
+            chkImageTalk.Text = Variables.Namespaces[Namespace.FileTalk];
+            chkMediaWiki.Text = Variables.Namespaces[Namespace.MediaWiki];
+            chkMediaWikiTalk.Text = Variables.Namespaces[Namespace.MediaWikiTalk];
+            chkTemplate.Text = Variables.Namespaces[Namespace.Template];
+            chkTemplateTalk.Text = Variables.Namespaces[Namespace.TemplateTalk];
+            chkHelp.Text = Variables.Namespaces[Namespace.Help];
+            chkHelpTalk.Text = Variables.Namespaces[Namespace.HelpTalk];
+            chkCategory.Text = Variables.Namespaces[Namespace.Category];
+            chkCategoryTalk.Text = Variables.Namespaces[Namespace.CategoryTalk];
 
-            if (Variables.Namespaces.ContainsKey(100))
+            if (Variables.Namespaces.ContainsKey(Namespace.FirstCustom))
             {
                 chkPortal.Text = Variables.Namespaces[100];
                 chkPortalTalk.Text = Variables.Namespaces[101];

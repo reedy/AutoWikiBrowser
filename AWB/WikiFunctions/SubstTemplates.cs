@@ -79,7 +79,7 @@ namespace WikiFunctions
         private void RefreshRegexes()
         {
             Regexes.Clear();
-            string templ = Variables.NamespacesCaseInsensitive[10];
+            string templ = Variables.NamespacesCaseInsensitive[Namespace.Template];
             if (templ[0] == '(')
                 templ = templ.Insert(templ.Length - 1, "|[Mm]sg:|");
             else

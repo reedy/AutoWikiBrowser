@@ -350,7 +350,7 @@ namespace WikiFunctions.Browser
         [Browsable(false)]
         public bool IsUserPage
         {
-            get { return ArticleTitle.StartsWith(Variables.Namespaces[2]); }
+            get { return ArticleTitle.StartsWith(Variables.Namespaces[Namespace.User]); }
         }
 
         /// <summary>
@@ -360,7 +360,7 @@ namespace WikiFunctions.Browser
         public bool IsUserTalk
         {
             get
-            { return ArticleTitle.StartsWith(Variables.Namespaces[3]); }
+            { return ArticleTitle.StartsWith(Variables.Namespaces[Namespace.UserTalk]); }
         }
 
         [Browsable(false)]
@@ -369,7 +369,8 @@ namespace WikiFunctions.Browser
             get
             {
                 string s = ArticleTitle;
-                return s.StartsWith(Variables.Namespaces[2]) || s.StartsWith(Variables.Namespaces[3]);
+                return s.StartsWith(Variables.Namespaces[Namespace.User])
+                    || s.StartsWith(Variables.Namespaces[Namespace.UserTalk]);
             }
         }
 

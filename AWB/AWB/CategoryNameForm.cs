@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using WikiFunctions;
 
 namespace AutoWikiBrowser
 {
@@ -23,7 +24,7 @@ namespace AutoWikiBrowser
 
         private void frmCategoryName_Load(object sender, EventArgs e)
         {
-            lblCategory.Text = WikiFunctions.Variables.Namespaces[14];
+            lblCategory.Text = Variables.Namespaces[Namespace.Category];
 
             if (!string.IsNullOrEmpty(txtCategory.Text))
                 txtCategory.SelectAll();
