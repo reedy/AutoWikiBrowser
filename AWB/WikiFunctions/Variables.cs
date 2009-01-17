@@ -381,10 +381,7 @@ namespace WikiFunctions
 
             if (SystemProxy != null) r.Proxy = SystemProxy;
 
-            if (string.IsNullOrEmpty(UserAgent))
-                r.UserAgent = Tools.DefaultUserAgentString;
-            else
-                r.UserAgent = UserAgent;
+            r.UserAgent = string.IsNullOrEmpty(UserAgent) ? Tools.DefaultUserAgentString : UserAgent;
 
             r.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
 
