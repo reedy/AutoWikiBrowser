@@ -85,6 +85,38 @@ namespace APITest
             }
         }
 
+        private void btnMove_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Editor.MovePage(txtTitle.Text,
+                                WikiFunctions.Tools.VBInputBox("New article title?", "New Title", "", 100, 100),
+                                WikiFunctions.Tools.VBInputBox("Move Reason?", "Move Reason", "", 100, 100), 
+                                true, false);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().Name);
+            }
+        }
+
+        private void btnProtect_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Editor.Protect(txtTitle.Text,
+                               WikiFunctions.Tools.VBInputBox("Protect Reason?", "Protect Reason", "", 100, 100), 
+                               "",
+                               Protection.Sysop,
+                               Protection.Sysop,
+                               false);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().Name);
+            }
+        }
+
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             Config.SetValue("Wiki", txtURL.Text);

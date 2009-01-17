@@ -48,6 +48,8 @@ namespace APITest
             this.btnOpen = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
+            this.btnMove = new System.Windows.Forms.Button();
+            this.btnProtect = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -140,6 +142,8 @@ namespace APITest
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btnProtect);
+            this.groupBox2.Controls.Add(this.btnMove);
             this.groupBox2.Controls.Add(this.btnDelete);
             this.groupBox2.Controls.Add(this.chkWatch);
             this.groupBox2.Controls.Add(this.chkMinor);
@@ -251,6 +255,26 @@ namespace APITest
             this.label4.TabIndex = 0;
             this.label4.Text = "Page title";
             // 
+            // btnMove
+            // 
+            this.btnMove.Location = new System.Drawing.Point(87, 298);
+            this.btnMove.Name = "btnMove";
+            this.btnMove.Size = new System.Drawing.Size(75, 23);
+            this.btnMove.TabIndex = 10;
+            this.btnMove.Text = "Move";
+            this.btnMove.UseVisualStyleBackColor = true;
+            this.btnMove.Click += new System.EventHandler(this.btnMove_Click);
+            // 
+            // btnProtect
+            // 
+            this.btnProtect.Location = new System.Drawing.Point(168, 298);
+            this.btnProtect.Name = "btnProtect";
+            this.btnProtect.Size = new System.Drawing.Size(75, 23);
+            this.btnProtect.TabIndex = 11;
+            this.btnProtect.Text = "Protect";
+            this.btnProtect.UseVisualStyleBackColor = true;
+            this.btnProtect.Click += new System.EventHandler(this.btnProtect_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -292,6 +316,8 @@ namespace APITest
         private System.Windows.Forms.TextBox txtSummary;
         private System.Windows.Forms.Button btnLogout;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnProtect;
+        private System.Windows.Forms.Button btnMove;
     }
 }
 
