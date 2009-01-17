@@ -960,7 +960,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
         // Covered by: LinkTests.TestFixCategories()
         /// <summary>
-        /// Fix common spacing/capitalisation errors in categories
+        /// Fix common spacing/capitalisation errors in categories, and remove diacritics
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
@@ -971,7 +971,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             foreach (Match m in WikiRegexes.LooseCategory.Matches(ArticleText))
             {
                 if (!Tools.IsValidTitle(m.Groups[1].Value)) continue;
-                string x = cat + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim()) + m.Groups[2].Value + "]]";
+                string x = cat + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim()) + Tools.RemoveDiacritics(m.Groups[2].Value) + "]]";
                 if (x != m.Value) ArticleText = ArticleText.Replace(m.Value, x);
             }
 
@@ -1558,7 +1558,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
         // Covered by: UtilityFunctionTests.ChangeToDefaultSort()
         /// <summary>
-        /// Changes an article to use defaultsort when all categories use the same sort field.
+        /// Changes an article to use defaultsort when all categories use the same sort field / cleans diacritics from defaultsort/categories
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="ArticleTitle">Title of the article</param>
@@ -1583,15 +1583,14 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string catregex = @"\[\[\s*" + Variables.NamespacesCaseInsensitive[14] +
                               @"\s*(.*?)\s*(?:|\|([^\|\]]*))\s*\]\]";
 
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#AWB_didn.27t_fix_special_characters_in_a_pipe – always fix category sortkeys
+            ArticleText = FixCategories(ArticleText);
+
             if (ds.Count == 0)
             {
                 string sort = null;
                 bool allsame = true;
                 int matches = 0;
-
-                //format categories properly
-                ArticleText = FixCategories(ArticleText);
-                testText = ArticleText;
 
                 foreach (Match m in Regex.Matches(ArticleText, catregex))
                 {
