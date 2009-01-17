@@ -3552,6 +3552,8 @@ window.scrollTo(0, diffTopY);
                     if (webBrowserHistory.Url != new Uri(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin") && !string.IsNullOrEmpty(TheArticle.URLEncodedName))
                         webBrowserHistory.Navigate(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin");
                 }
+                else
+                    webBrowserHistory.Navigate("about:blank");
             }
             catch
             {
