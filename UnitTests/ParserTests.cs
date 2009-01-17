@@ -526,7 +526,7 @@ Some news here.", "test"));
     public class BoldTitleTests
     {
         readonly Parsers p = new Parsers();
-        bool boolBack;
+        bool noChangeBack;
 
         public BoldTitleTests()
         {
@@ -538,108 +538,112 @@ Some news here.", "test"));
         //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Title_bolding
         public void DontEmboldenImagesAndTemplates()
         {
-            Assert.That(p.BoldTitle("[[Image:Foo.jpg]]", "Foo", out boolBack), Is.Not.Contains("'''Foo'''"));
-            Assert.That(p.BoldTitle("{{Foo}}", "Foo", out boolBack), Is.Not.Contains("'''Foo'''"));
-            Assert.That(p.BoldTitle("{{template| Foo is a bar}}", "Foo", out boolBack), Is.Not.Contains("'''Foo'''"));
+            Assert.That(p.BoldTitle("[[Image:Foo.jpg]]", "Foo", out noChangeBack), Is.Not.Contains("'''Foo'''"));
+            Assert.That(p.BoldTitle("{{Foo}}", "Foo", out noChangeBack), Is.Not.Contains("'''Foo'''"));
+            Assert.That(p.BoldTitle("{{template| Foo is a bar}}", "Foo", out noChangeBack), Is.Not.Contains("'''Foo'''"));
         }
 
         [Test]
         public void DatesNotChanged()
         {
-            Assert.AreEqual(@"May 31 is a great day", p.BoldTitle(@"May 31 is a great day", "May 31", out boolBack));
-            Assert.IsTrue(boolBack);
-            Assert.AreEqual(@"March 1 is a great day", p.BoldTitle(@"March 1 is a great day", "March 1", out boolBack));
-            Assert.IsTrue(boolBack);
-            Assert.AreEqual(@"31 May is a great day", p.BoldTitle(@"31 May is a great day", "31 May", out boolBack));
-            Assert.IsTrue(boolBack);
+            Assert.AreEqual(@"May 31 is a great day", p.BoldTitle(@"May 31 is a great day", "May 31", out noChangeBack));
+            Assert.IsTrue(noChangeBack);
+            Assert.AreEqual(@"March 1 is a great day", p.BoldTitle(@"March 1 is a great day", "March 1", out noChangeBack));
+            Assert.IsTrue(noChangeBack);
+            Assert.AreEqual(@"31 May is a great day", p.BoldTitle(@"31 May is a great day", "31 May", out noChangeBack));
+            Assert.IsTrue(noChangeBack);
         }
 
         [Test]
         public void SimilarLinksWithDifferentCaseNotChanged()
         {
-            Assert.AreEqual("'''Foo''' is this one, now [[FOO]] is another", p.BoldTitle("Foo is this one, now [[FOO]] is another", "Foo", out boolBack));
-            Assert.IsFalse(boolBack);
-            Assert.AreEqual("'''Foo''' is this one, now [[FOO]] is another", p.BoldTitle("'''Foo''' is this one, now [[FOO]] is another", "Foo", out boolBack));
-            Assert.IsTrue(boolBack);
+            Assert.AreEqual("'''Foo''' is this one, now [[FOO]] is another", p.BoldTitle("Foo is this one, now [[FOO]] is another", "Foo", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
+            Assert.AreEqual("'''Foo''' is this one, now [[FOO]] is another", p.BoldTitle("'''Foo''' is this one, now [[FOO]] is another", "Foo", out noChangeBack));
+            Assert.IsTrue(noChangeBack);
         }
 
         [Test]
         public void DontChangeIfAlreadyBold()
         {
-            Assert.AreEqual("'''Foo''' is this one", p.BoldTitle("'''Foo''' is this one", "Foo", out boolBack));
-            Assert.IsTrue(boolBack);
-            Assert.AreEqual("Foo is a bar, '''Foo''' moar", p.BoldTitle("Foo is a bar, '''Foo''' moar", "Foo", out boolBack));
-            Assert.IsTrue(boolBack);
-            Assert.AreEqual(@"{{Infobox | name = Foo | age=11}} '''Foo''' is a bar", p.BoldTitle(@"{{Infobox | name = Foo | age=11}} '''Foo''' is a bar", "Foo", out boolBack));
-            Assert.IsTrue(boolBack);
+            Assert.AreEqual("'''Foo''' is this one", p.BoldTitle("'''Foo''' is this one", "Foo", out noChangeBack));
+            Assert.IsTrue(noChangeBack);
+            Assert.AreEqual("Foo is a bar, '''Foo''' moar", p.BoldTitle("Foo is a bar, '''Foo''' moar", "Foo", out noChangeBack));
+            Assert.IsTrue(noChangeBack);
+            Assert.AreEqual(@"{{Infobox | name = Foo | age=11}} '''Foo''' is a bar", p.BoldTitle(@"{{Infobox | name = Foo | age=11}} '''Foo''' is a bar", "Foo", out noChangeBack));
+            Assert.IsTrue(noChangeBack);
             Assert.AreEqual(@"{{Infobox
 | age=11}} '''John David Smith''' is a bar", p.BoldTitle(@"{{Infobox
-| age=11}} '''John David Smith''' is a bar", "John Smith", out boolBack));
-            Assert.IsTrue(boolBack);
+| age=11}} '''John David Smith''' is a bar", "John Smith", out noChangeBack));
+            Assert.IsTrue(noChangeBack);
+
+            // bold earlier in body of article
+            Assert.AreEqual(@"{{Infobox| age=11}} '''John David Smith''' is a bar, John Smith", p.BoldTitle(@"{{Infobox| age=11}} '''John David Smith''' is a bar, John Smith", "John Smith", out noChangeBack));
+            Assert.IsTrue(noChangeBack);
             Assert.AreEqual(@"{{Infobox
 | age=11}}{{box2}}} '''John David Smith''' is a bar", p.BoldTitle(@"{{Infobox
-| age=11}}{{box2}}} '''John David Smith''' is a bar", "John Smith", out boolBack));
-            Assert.IsTrue(boolBack);
+| age=11}}{{box2}}} '''John David Smith''' is a bar", "John Smith", out noChangeBack));
+            Assert.IsTrue(noChangeBack);
 
             // won't change if italics either
-            Assert.AreEqual("''Foo'' is this one", p.BoldTitle("''Foo'' is this one", "Foo", out boolBack));
-            Assert.IsTrue(boolBack);
+            Assert.AreEqual("''Foo'' is this one", p.BoldTitle("''Foo'' is this one", "Foo", out noChangeBack));
+            Assert.IsTrue(noChangeBack);
         }
 
         [Test]
         public void StandardCases()
         {
-            Assert.AreEqual("'''Foo''' is a bar", p.BoldTitle("Foo is a bar", "Foo", out boolBack));
-            Assert.IsFalse(boolBack);
-            Assert.AreEqual("'''Foo in the wild''' is a bar", p.BoldTitle("Foo in the wild is a bar", "Foo in the wild", out boolBack));
-            Assert.IsFalse(boolBack);
-            Assert.AreEqual("'''Foo''' is a bar, Foo moar", p.BoldTitle("Foo is a bar, Foo moar", "Foo", out boolBack));
-            Assert.IsFalse(boolBack);
-            Assert.AreEqual("'''Hello''' there, please say '''bye''' too", p.BoldTitle("Hello there, please say '''bye''' too", "Hello", out boolBack));
-            Assert.IsFalse(boolBack);
-            Assert.AreEqual("'''F^o^o''' is a bar", p.BoldTitle("F^o^o is a bar", "F^o^o", out boolBack));
-            Assert.IsFalse(boolBack);
+            Assert.AreEqual("'''Foo''' is a bar", p.BoldTitle("Foo is a bar", "Foo", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
+            Assert.AreEqual("'''Foo in the wild''' is a bar", p.BoldTitle("Foo in the wild is a bar", "Foo in the wild", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
+            Assert.AreEqual("'''Foo''' is a bar, Foo moar", p.BoldTitle("Foo is a bar, Foo moar", "Foo", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
+            Assert.AreEqual("'''Hello''' there, please say '''bye''' too", p.BoldTitle("Hello there, please say '''bye''' too", "Hello", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
+            Assert.AreEqual("'''F^o^o''' is a bar", p.BoldTitle("F^o^o is a bar", "F^o^o", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
             Assert.AreEqual(@"{{Infobox | name = Foo | age=11}}
 '''Foo''' is a bar", p.BoldTitle(@"{{Infobox | name = Foo | age=11}}
-Foo is a bar", "Foo", out boolBack));
-            Assert.IsFalse(boolBack);
+Foo is a bar", "Foo", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
 
             // brackets excluded from bolding
-            Assert.AreEqual("'''Foo''' (Band album) is a CD", p.BoldTitle("Foo (Band album) is a CD", "Foo (Band album)", out boolBack));
-            Assert.IsFalse(boolBack);
+            Assert.AreEqual("'''Foo''' (Band album) is a CD", p.BoldTitle("Foo (Band album) is a CD", "Foo (Band album)", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
             
             // non-changes
-            Assert.AreEqual("Fooo is a bar", p.BoldTitle("Fooo is a bar", "Foo", out boolBack));
-            Assert.IsTrue(boolBack);           
+            Assert.AreEqual("Fooo is a bar", p.BoldTitle("Fooo is a bar", "Foo", out noChangeBack));
+            Assert.IsTrue(noChangeBack);           
         }
 
         [Test]
         public void WithDelinking()
         {
-            Assert.AreEqual("'''Foo''' is a bar", p.BoldTitle("[[Foo]] is a bar", "Foo", out boolBack));
-            Assert.IsFalse(boolBack);
-            Assert.AreEqual("'''Foo''' is a bar, Foo moar", p.BoldTitle("[[Foo]] is a bar, Foo moar", "Foo", out boolBack));
-            Assert.IsFalse(boolBack);
-            Assert.AreEqual("'''Foo''' is a bar, now Foo here", p.BoldTitle("Foo is a bar, now [[Foo]] here", "Foo", out boolBack));
-            Assert.IsFalse(boolBack);
-            Assert.AreEqual("'''Foo''' is a bar, now foo here", p.BoldTitle("Foo is a bar, now [[foo]] here", "Foo", out boolBack));
-            Assert.IsFalse(boolBack);
-            Assert.AreEqual("'''Foo''' is a [[bar]]", p.BoldTitle("[[Foo]] is a [[bar]]", "Foo", out boolBack));
-            Assert.IsFalse(boolBack);
-            Assert.AreEqual("'''Hello''' there, please say '''bye''' too", p.BoldTitle("[[Hello]] there, please say '''bye''' too", "Hello", out boolBack));
-            Assert.IsFalse(boolBack);
+            Assert.AreEqual("'''Foo''' is a bar", p.BoldTitle("[[Foo]] is a bar", "Foo", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
+            Assert.AreEqual("'''Foo''' is a bar, Foo moar", p.BoldTitle("[[Foo]] is a bar, Foo moar", "Foo", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
+            Assert.AreEqual("'''Foo''' is a bar, now Foo here", p.BoldTitle("Foo is a bar, now [[Foo]] here", "Foo", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
+            Assert.AreEqual("'''Foo''' is a bar, now foo here", p.BoldTitle("Foo is a bar, now [[foo]] here", "Foo", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
+            Assert.AreEqual("'''Foo''' is a [[bar]]", p.BoldTitle("[[Foo]] is a [[bar]]", "Foo", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
+            Assert.AreEqual("'''Hello''' there, please say '''bye''' too", p.BoldTitle("[[Hello]] there, please say '''bye''' too", "Hello", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
 
             // removal of self links in iteslf are not a 'change'
-            Assert.AreEqual("'''Foo''' is a bar, now [[Foo]] here", p.BoldTitle("'''Foo''' is a bar, now [[Foo]] here", "Foo", out boolBack));
-            Assert.IsTrue(boolBack);
+            Assert.AreEqual("'''Foo''' is a bar, now [[Foo]] here", p.BoldTitle("'''Foo''' is a bar, now [[Foo]] here", "Foo", out noChangeBack));
+            Assert.IsTrue(noChangeBack);
         }
 
         [Test]
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Bold_letters
         public void ExamplesFromBugReport()
         {
-            Assert.AreEqual(@"'''Michael Bavaro''' is a [[filmmaker]] based in [[Manhattan]].", p.BoldTitle(@"[[Michael Bavaro]] is a [[filmmaker]] based in [[Manhattan]].", "Michael Bavaro", out boolBack));
-            Assert.IsFalse(boolBack);
+            Assert.AreEqual(@"'''Michael Bavaro''' is a [[filmmaker]] based in [[Manhattan]].", p.BoldTitle(@"[[Michael Bavaro]] is a [[filmmaker]] based in [[Manhattan]].", "Michael Bavaro", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
 
             Assert.AreEqual(@"{{Coronation Street character|
 | name = Phyllis Pearce
@@ -653,13 +657,13 @@ Foo is a bar", "Foo", out boolBack));
 | caption = 
 }}
 
-[[Phyllis Pearce]] (née '''Grimes''') is a [[fictional character]] in ", "Phyllis Pearce", out boolBack));
-            Assert.IsFalse(boolBack);
+[[Phyllis Pearce]] (née '''Grimes''') is a [[fictional character]] in ", "Phyllis Pearce", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
 
             Assert.AreEqual(@"{{Unreferenced|date=October 2007}}
 '''Steve Cook''' is a songwriter for Sovereign Grace", p.BoldTitle(@"{{Unreferenced|date=October 2007}}
-Steve Cook is a songwriter for Sovereign Grace", "Steve Cook", out boolBack));
-            Assert.IsFalse(boolBack);
+Steve Cook is a songwriter for Sovereign Grace", "Steve Cook", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
         }
     }
 
