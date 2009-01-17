@@ -163,6 +163,7 @@ namespace WikiFunctions.Plugin
         LangCodeEnum LangCode { get; }
         bool CheckStatus(bool Login);
         bool Privacy { get; }
+        bool Shutdown { get; }
     }
 
     /// <summary>

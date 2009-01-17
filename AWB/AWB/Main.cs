@@ -98,6 +98,11 @@ namespace AutoWikiBrowser
 
         private readonly WikiDiff diff = new WikiDiff();
 
+        /// <summary>
+        /// Whether AWB is currently shutting down
+        /// </summary>
+        public bool Shutdown { get; private set; }
+
         #endregion
 
         #region Constructor and MainForm load/resize
@@ -1567,6 +1572,7 @@ window.scrollTo(0, diffTopY);
 
             if (!Properties.Settings.Default.AskForTerminate || (dlg != null && dlg.DialogResult == DialogResult.OK))
             {
+                Shutdown = true;
                 // save user persistent settings
                 Properties.Settings.Default.Save();
 

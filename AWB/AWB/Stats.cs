@@ -91,8 +91,8 @@ namespace AutoWikiBrowser
         private static int LastEditCount;
         private static string mUserName = "";
         private static bool SentUserName;
-        private static List<IAWBPlugin> newAWBPlugins = new List<IAWBPlugin>();
-        private static List<IListMakerPlugin> newListMakerPlugins = new List<IListMakerPlugin>();
+        private static readonly List<IAWBPlugin> newAWBPlugins = new List<IAWBPlugin>();
+        private static readonly List<IListMakerPlugin> newListMakerPlugins = new List<IListMakerPlugin>();
 
         #region Public
         internal static void Initialise()

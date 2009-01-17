@@ -17,9 +17,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
 using WikiFunctions;
 using WikiFunctions.Plugin;
 
@@ -27,8 +24,8 @@ namespace AutoWikiBrowser
 {
     partial class MainForm
     {
-        System.Version IAutoWikiBrowserInfo.AWBVersion { get { return Program.Version; } }
-        System.Version IAutoWikiBrowserInfo.WikiFunctionsVersion { get { return Tools.Version; } }
+        Version IAutoWikiBrowserInfo.AWBVersion { get { return Program.Version; } }
+        Version IAutoWikiBrowserInfo.WikiFunctionsVersion { get { return Tools.Version; } }
         string IAutoWikiBrowserInfo.AWBVersionString { get { return Program.VersionString; } }
         string IAutoWikiBrowserInfo.WikiFunctionsVersionString { get { return Tools.VersionString; } }
         string IAutoWikiBrowserInfo.WikiDiffVersionString { get { return "(internal)"; } }
@@ -36,5 +33,6 @@ namespace AutoWikiBrowser
         ProjectEnum IAutoWikiBrowserInfo.Project { get { return Variables.Project; } }
 
         bool IAutoWikiBrowserInfo.Privacy { get { return Properties.Settings.Default.Privacy; } }
+        bool IAutoWikiBrowserInfo.Shutdown { get { return Shutdown; } }
     }
 }
