@@ -86,10 +86,34 @@ namespace WikiFunctions.API
         /// <param name="reason">Reason for deletion. Must not be empty.</param>
         void Delete(string title, string reason);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="reason"></param>
+        /// <param name="expiry"></param>
+        /// <param name="edit"></param>
+        /// <param name="move"></param>
         void Protect(string title, string reason, string expiry, Protection edit, Protection move);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="reason"></param>
+        /// <param name="expiry"></param>
+        /// <param name="edit"></param>
+        /// <param name="move"></param>
         void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="newTitle"></param>
+        /// <param name="reason"></param>
+        /// <param name="moveTalk"></param>
+        /// <param name="noRedirect"></param>
         void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect);
 
         /// <summary>

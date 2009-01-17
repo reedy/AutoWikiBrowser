@@ -54,10 +54,7 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
 
                 do
                 {
-                    string html = Tools.GetHTML(url);
-                    //Console.WriteLine(url);
-
-                    using (XmlTextReader reader = new XmlTextReader(new StringReader(html)))
+                    using (XmlTextReader reader = new XmlTextReader(new StringReader(Tools.GetHTML(url))))
                     {
                         while (reader.Read())
                         {
