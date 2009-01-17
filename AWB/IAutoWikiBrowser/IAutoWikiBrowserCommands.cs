@@ -16,9 +16,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
 using WikiFunctions.Logging;
 using WikiFunctions.Plugin;
@@ -46,11 +43,11 @@ namespace AutoWikiBrowser
         void IAutoWikiBrowserCommands.ShowHelp(string URL) { helpForm.ShowHelp(helpForm, URL); }
         void IAutoWikiBrowserCommands.ShowHelpEnWiki(string Article) { helpForm.ShowHelpEN(helpForm, Article); }
 
-        void IAutoWikiBrowserCommands.AddMainFormClosingEventHandler(FormClosingEventHandler handler) { this.FormClosing += handler; }
+        void IAutoWikiBrowserCommands.AddMainFormClosingEventHandler(FormClosingEventHandler handler) { FormClosing += handler; }
 
         void IAutoWikiBrowserCommands.StartProgressBar() { StartProgressBar(); }
         void IAutoWikiBrowserCommands.StopProgressBar() { StopProgressBar(); }
 
-        void IAutoWikiBrowserCommands.AddArticleRedirectedEventHandler(WikiFunctions.ArticleRedirected handler) { this.ArticleWasRedirected += handler; }
+        void IAutoWikiBrowserCommands.AddArticleRedirectedEventHandler(WikiFunctions.ArticleRedirected handler) { ArticleWasRedirected += handler; }
     }
 }
