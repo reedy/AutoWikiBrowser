@@ -33,6 +33,7 @@ using System.IO;
 using System.Collections;
 using System.Diagnostics;
 using WikiFunctions;
+using WikiFunctions.API;
 using WikiFunctions.Plugin;
 using WikiFunctions.Parse;
 using WikiFunctions.Properties;
@@ -398,7 +399,6 @@ namespace AutoWikiBrowser
         }
 
         private bool IgnoreNoBots;
-
         private bool AddIgnoredToLogFile
         {
             set
@@ -442,8 +442,24 @@ namespace AutoWikiBrowser
             return true;
         }
 
+        private ApiEdit apiEdit = new ApiEdit(Variables.URLLong);
+        private void StartAPITextLoad(string title)
+        {
+            string pageText = apiEdit.Open(title);
+
+            if (!LoadSuccessAPI())
+                return;
+
+            CaseWasLoad(pageText);
+        }
+
+        private bool stopProcessing;
+
         private void Start()
         {
+            if (stopProcessing)
+                return;
+
             try
             {
                 Tools.WriteDebug(Name, "Starting");
@@ -472,18 +488,6 @@ namespace AutoWikiBrowser
 
                 skippable = true;
                 txtEdit.Clear();
-
-                if (webBrowserEdit.IsBusy)
-                    webBrowserEdit.Stop();
-
-                if (webBrowserEdit.Document != null)
-                    webBrowserEdit.Document.Write("");
-
-                //check we are logged in
-                if (!Variables.User.WikiStatus && !CheckStatus(false))
-                    return;
-
-                webBrowserEdit.BringToFront();
 
                 ArticleInfo(true);
 
@@ -519,7 +523,27 @@ namespace AutoWikiBrowser
                 //    webBrowserEdit.ProtectPage(TheArticle.Name, dlg.Summary, dlg.EditProtectionLevel, dlg.MoveProtectionLevel, dlg.ProtectExpiry);
 
                 //Navigate to edit page
-                webBrowserEdit.LoadEditPage(TheArticle.Name);
+                if (preParseModeToolStripMenuItem.Checked)
+                    StartAPITextLoad(TheArticle.Name);
+                else
+                {
+                    webBrowserEdit.BringToFront();
+
+                    if (webBrowserEdit.IsBusy)
+                        webBrowserEdit.Stop();
+
+                    if (webBrowserEdit.Document != null)
+                        webBrowserEdit.Document.Write("");
+
+                    //check we are logged in
+                    if (!Variables.User.WikiStatus && !CheckStatus(false))
+                        return;
+
+                    webBrowserEdit.Busy = true;
+
+                    //Navigate to edit page
+                    webBrowserEdit.LoadEditPage(TheArticle.Name);
+                }
             }
             catch (Exception ex)
             {
@@ -546,6 +570,14 @@ namespace AutoWikiBrowser
         {
             if (!LoadSuccess()) return;
 
+            CaseWasLoad(webBrowserEdit.GetArticleText());
+        }
+
+        private void CaseWasLoad(string articleText)
+        {
+            if (stopProcessing)
+                return;
+
             if (!CheckLoginStatus()) return;
 
             if (Program.MyTrace.HaveOpenFile)
@@ -553,11 +585,9 @@ namespace AutoWikiBrowser
             else
                 Program.MyTrace.Initialise();
 
-            string strTemp = webBrowserEdit.GetArticleText();
-
             Text = SettingsFileDisplay + " - " + TheArticle.Name;
 
-            bool articleIsRedirect = Tools.IsRedirect(strTemp);
+            bool articleIsRedirect = Tools.IsRedirect(articleText);
 
             if (chkSkipIfRedirect.Checked && articleIsRedirect)
             {
@@ -569,7 +599,7 @@ namespace AutoWikiBrowser
             if (bypassRedirectsToolStripMenuItem.Checked && articleIsRedirect && !PageReload)
             {
                 // Warning: Creating an ArticleEX causes a new AWBLogListener to be created and it becomes the active listener in MyTrace; be careful we're writing to the correct log listener
-                ArticleEX redirect = new ArticleEX(Tools.RedirectTarget(strTemp));
+                ArticleEX redirect = new ArticleEX(Tools.RedirectTarget(articleText));
 
                 if (redirect.Name.Trim() != "" && Tools.IsValidTitle(redirect.Name))
                 {
@@ -593,12 +623,16 @@ namespace AutoWikiBrowser
                     listMaker.ReplaceArticle(TheArticle, new Article(redirect.Name));
                     TheArticle = new ArticleEX(redirect.Name);
 
-                    webBrowserEdit.LoadEditPage(redirect.Name);
+                    if (preParseModeToolStripMenuItem.Checked)
+                        StartAPITextLoad(redirect.Name);
+                    else
+                        webBrowserEdit.LoadEditPage(redirect.Name);
+
                     return;
                 }
             }
 
-            if (webBrowserEdit.EditBoxTag.Contains("readonly=\"readonly\""))
+            if (!preParseModeToolStripMenuItem.Checked && webBrowserEdit.EditBoxTag.Contains("readonly=\"readonly\""))
             {
                 if (!webBrowserEdit.UserAllowedToEdit())
                 {
@@ -608,7 +642,7 @@ namespace AutoWikiBrowser
                 }
             }
 
-            TheArticle.OriginalArticleText = strTemp;
+            TheArticle.OriginalArticleText = articleText;
 
             int.TryParse(webBrowserEdit.GetScriptingVar("wgCurRevisionId"), out ErrorHandler.CurrentRevision);
 
@@ -808,6 +842,8 @@ namespace AutoWikiBrowser
             if (Beep) Tools.Beep();
         }
 
+        private readonly TalkMessage DlgTalk = new TalkMessage();
+
         private bool LoadSuccess()
         {
             try
@@ -889,20 +925,17 @@ namespace AutoWikiBrowser
                 mErrorGettingLogInStatus = false;
 
                 if (!preParseModeToolStripMenuItem.Checked && webBrowserEdit.NewMessage)
-                {//check if we have any messages
+                { //check if we have any messages
                     NudgeTimer.Stop();
                     Variables.User.WikiStatus = false;
                     UpdateButtons(null, null);
                     webBrowserEdit.Document.Write("");
                     Focus();
 
-                    using (TalkMessage DlgTalk = new TalkMessage())
-                    {
-                        if (DlgTalk.ShowDialog() == DialogResult.Yes)
-                            Tools.OpenUserTalkInBrowser();
-                        else
-                            Process.Start("iexplore", Variables.GetUserTalkURL());
-                    }
+                    if (DlgTalk.ShowDialog() == DialogResult.Yes)
+                        Tools.OpenUserTalkInBrowser();
+                    else
+                        Process.Start("iexplore", Variables.GetUserTalkURL());
                     return false;
                 }
                 if (!webBrowserEdit.HasArticleTextBox)
@@ -927,6 +960,35 @@ namespace AutoWikiBrowser
                     return false;
                 }
                 if (!wpTextbox1IsNull && radSkipExistent.Checked)
+                {
+                    SkipPage("Existing page");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.Handle(ex);
+            }
+            NudgeTimer.Reset();
+            return true;
+        }
+
+        private bool LoadSuccessAPI()
+        {
+            try
+            {
+                //if (webBrowserEdit.DocumentText.Contains("<div class=\"permissions-errors\">"))
+                //{
+                //    SkipPage("User doesn't have permissions to edit this page.");
+                //    return false;
+                //}
+
+                if (!apiEdit.Exists && radSkipNonExistent.Checked)
+                {//check if it is a non-existent page, if so then skip it automatically.
+                    SkipPage("Non-existent page");
+                    return false;
+                }
+                if (apiEdit.Exists && radSkipExistent.Checked)
                 {
                     SkipPage("Existing page");
                     return false;
@@ -2339,6 +2401,7 @@ window.scrollTo(0, diffTopY);
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            stopProcessing = false;
             Start();
         }
 
@@ -2733,6 +2796,7 @@ window.scrollTo(0, diffTopY);
 
         private void Stop()
         {
+            stopProcessing = true;
             PageReload = false;
             NudgeTimer.Stop();
             UpdateButtons(null, null);
@@ -3032,6 +3096,7 @@ window.scrollTo(0, diffTopY);
 
         private void btntsStart_Click(object sender, EventArgs e)
         {
+            stopProcessing = false;
             Start();
         }
 
