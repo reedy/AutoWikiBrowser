@@ -1223,6 +1223,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             NoChange = true;
 
+            // TODO make title bolding work sensibly, then remove the line below
+            if (ArticleText.Contains(@"'''"))
+                return ArticleTextAtStart;
+
             // ignore date articles (date in American or international format)
             if (WikiRegexes.Dates2.IsMatch(ArticleTitle) || WikiRegexes.Dates.IsMatch(ArticleTitle))
                 return ArticleTextAtStart;
