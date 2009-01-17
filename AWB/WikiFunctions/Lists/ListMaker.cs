@@ -537,7 +537,7 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public bool NextArticle()
         {
-            if (lbArticles.Items.Count == lbArticles.SelectedIndex - 1)
+            if (lbArticles.Items.Count == lbArticles.SelectedIndex + 1 || (lbArticles.Items.Count == 1 && lbArticles.SelectedIndex == 0))
                 return false;
 
             ((Article) lbArticles.SelectedItem).PreProcessed = true;
