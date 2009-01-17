@@ -1013,6 +1013,25 @@ p.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo|
             Assert.AreEqual("", Parsers.RemoveEmptyComments(""));
             Assert.AreEqual("test", Parsers.RemoveEmptyComments("test"));
         }
+
+        [Test]
+        public void HasSicTagTests()
+        {
+            Assert.IsTrue(Parsers.HasSicTag("now helo [sic] there"));
+            Assert.IsTrue(Parsers.HasSicTag("now helo[sic] there"));
+            Assert.IsTrue(Parsers.HasSicTag("now helo (sic) there"));
+            Assert.IsTrue(Parsers.HasSicTag("now helo {sic} there"));
+            Assert.IsTrue(Parsers.HasSicTag("now helo [Sic] there"));
+            Assert.IsTrue(Parsers.HasSicTag("now helo [ Sic ] there"));
+            Assert.IsTrue(Parsers.HasSicTag("now {{sic|helo}} there"));
+            Assert.IsTrue(Parsers.HasSicTag("now {{sic|hel|o}} there"));
+            Assert.IsTrue(Parsers.HasSicTag("now {{typo|helo}} there"));
+            Assert.IsTrue(Parsers.HasSicTag("now helo <!--[sic]-->there"));
+
+            Assert.IsFalse(Parsers.HasSicTag("now sickened by"));
+            Assert.IsFalse(Parsers.HasSicTag("now helo sic there"));
+            Assert.IsFalse(Parsers.HasSicTag("The Sound Information Company (SIC) is"));
+        }
     }
 
     [TestFixture]

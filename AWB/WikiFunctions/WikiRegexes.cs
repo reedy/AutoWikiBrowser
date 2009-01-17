@@ -306,6 +306,11 @@ namespace WikiFunctions
 
         #region en only
         /// <summary>
+        /// Matches sic either in template or as bracketed text, also related {{typo}} template
+        /// </summary>
+        public static readonly Regex SicTag = new Regex(@"({{(?:[Ss]ic|[Tt]ypo)(?:\||}})|([\(\[{]\s*[Ss]ic\s*[\)\]}]))", RegexOptions.Compiled);
+
+        /// <summary>
         /// Matches persondata (en only)
         /// </summary>
         public static readonly Regex Persondata = new Regex(@"{{ ?[Pp]ersondata.*?}}", RegexOptions.Singleline | RegexOptions.Compiled);

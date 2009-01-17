@@ -2045,6 +2045,14 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             return (Variables.LangCode != LangCodeEnum.en) ? false : Variables.InUse.IsMatch(ArticleText);
         }
+
+        /// <summary>
+        /// Check if the article contains a sic template or bracketed wording, indicating the presence of a deliberate typo
+        /// </summary>
+        public static bool HasSicTag(string ArticleText)
+        {
+            return WikiRegexes.SicTag.IsMatch(ArticleText);
+        }
         #endregion
     }
 }
