@@ -28,9 +28,10 @@ namespace WikiFunctions
     {
         public static void MakeLangSpecificRegexes()
         {
-            TemplateStart = @"\{\{\s*(:?" + Variables.NamespacesCaseInsensitive[10] + ")?";
+            TemplateStart = @"\{\{\s*(:?" + Variables.NamespacesCaseInsensitive[Namespace.Template] + ")?";
 
-            Category = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[14] + @"(.*?)\]\]", RegexOptions.Compiled);
+            Category = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[Namespace.Category] 
+                + @"(.*?)\]\]", RegexOptions.Compiled);
 
             // images mask was [^\]]*?(?:\[\[?.*?(?:\[\[.*?\]\].*?)?\]\]?[^\]]*?)*)\]\]
             // now instead use allowed character list, then a file extension (these are mandatory on mediawiki), then optional closing ]]
@@ -40,7 +41,7 @@ namespace WikiFunctions
             // @"[^\[\]\|\{\}]+\.[a-zA-Z]{3,4}\b(?:\s*(?:\]\]|\|))
             Images =
                 new Regex(
-                    @"\[\[" + Variables.NamespacesCaseInsensitive[6] +
+                    @"\[\[" + Variables.NamespacesCaseInsensitive[Namespace.File] +
                     @"[ \%\!""$&'\(\)\*,\-.\/0-9:;=\?@A-Z\\\^_`a-z~\x80-\xFF\+]+\.[a-zA-Z]{3,4}\b(?:\s*(?:\]\]|\|))?|<[Gg]allery\b([^>]*?)>[\s\S]*?</ ?[Gg]allery>|\|\s*(?:[Pp]hoto|[Ii]mg|[Ii]mage\d*|[Cc]over)(?:[_ ]\w+)?\s*=.+?\.[a-zA-Z]{3,4}\s*(?:\||}})",
                     RegexOptions.Compiled | RegexOptions.Singleline);
 
@@ -55,11 +56,13 @@ namespace WikiFunctions
                                      RegexOptions.Compiled | RegexOptions.Singleline);
 
             LooseCategory =
-                new Regex(@"\[\[[\s_]*" + Variables.NamespacesCaseInsensitive[14] + @"[\s_]*([^\|]*?)(|\|.*?)\]\]",
-                          RegexOptions.Compiled);
+                new Regex(@"\[\[[\s_]*" + Variables.NamespacesCaseInsensitive[Namespace.Category] 
+                    + @"[\s_]*([^\|]*?)(|\|.*?)\]\]",
+                    RegexOptions.Compiled);
 
-            LooseImage = new Regex(@"\[\[\s*?(" + Variables.NamespacesCaseInsensitive[6] + @")\s*([^\|\]]*?)(.*?)\]\]",
-                                   RegexOptions.Compiled);
+            LooseImage = new Regex(@"\[\[\s*?(" + Variables.NamespacesCaseInsensitive[Namespace.File] 
+                + @")\s*([^\|\]]*?)(.*?)\]\]",
+                RegexOptions.Compiled);
 
             StringBuilder builder = new StringBuilder("(" + Variables.MonthNames[0]);
             for (int i = 1; i < 12; i++)

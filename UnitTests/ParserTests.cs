@@ -527,6 +527,10 @@ Some news here.", "test"));
 
             Assert.AreEqual("", p.RemoveImage("foo.jpg", "[[Media:foo.jpg]]", false, "", out noChange));
             Assert.IsFalse(noChange);
+
+            Assert.AreEqual("{{infobox|image=}}",
+                p.RemoveImage("foo", "{{infobox|image=foo}}", false, "", out noChange));
+            Assert.IsFalse(noChange);
         }
 
         [Test]

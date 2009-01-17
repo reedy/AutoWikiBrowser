@@ -617,7 +617,7 @@ namespace WikiFunctions
 
             RegenerateRegexes();
 
-            RETFPath = Namespaces[4] + "AutoWikiBrowser/Typos";
+            RETFPath = Namespaces[Namespace.Project] + "AutoWikiBrowser/Typos";
 
             foreach (string s in Namespaces.Values)
             {

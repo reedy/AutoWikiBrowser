@@ -389,7 +389,8 @@ namespace AutoWikiBrowser
                     if (string.IsNullOrEmpty(mCategory))
                         return "";
 
-                    return "[[:" + Variables.Namespaces[14] + mCategory + "|" + mCategory + "]]";
+                    return "[[:" + Variables.Namespaces[Namespace.Category] + mCategory 
+                        + "|" + mCategory + "]]";
                 }
             }
             internal string LogTitle

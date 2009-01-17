@@ -1860,7 +1860,8 @@ window.scrollTo(0, diffTopY);
         private static void CategoryLeave(TextBox catTextBox)
         {
             catTextBox.Text = catTextBox.Text.Trim('[', ']');
-            catTextBox.Text = Regex.Replace(catTextBox.Text, "^" + Variables.NamespacesCaseInsensitive[14], "");
+            catTextBox.Text = Regex.Replace(catTextBox.Text, "^" +
+                Variables.NamespacesCaseInsensitive[Namespace.Category], "");
             catTextBox.Text = Tools.TurnFirstToUpper(catTextBox.Text);
         }
 
@@ -1893,8 +1894,11 @@ window.scrollTo(0, diffTopY);
                 if (TheArticle.NameSpaceKey == 0 && (WikiRegexes.Stub.IsMatch(articleText)) && (intWords > 500))
                     lblWarn.Text = "Long article with a stub tag.\r\n";
 
-                if (!(Regex.IsMatch(articleText, "\\[\\[" + Variables.Namespaces[14], RegexOptions.IgnoreCase)))
+                if (!(Regex.IsMatch(articleText, "\\[\\[" + Variables.Namespaces[Namespace.Category],
+                    RegexOptions.IgnoreCase)))
+                {
                     lblWarn.Text += "No category (although one may be in a template)\r\n";
+                }
 
                 if (articleText.StartsWith("=="))
                     lblWarn.Text += "Starts with heading.";
@@ -3138,12 +3142,14 @@ window.scrollTo(0, diffTopY);
 
         private void txtImageReplace_Leave(object sender, EventArgs e)
         {
-            txtImageReplace.Text = Regex.Replace(txtImageReplace.Text, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
+            txtImageReplace.Text = Regex.Replace(txtImageReplace.Text, "^" 
+                + Variables.Namespaces[Namespace.File], "", RegexOptions.IgnoreCase);
         }
 
         private void txtImageWith_Leave(object sender, EventArgs e)
         {
-            txtImageWith.Text = Regex.Replace(txtImageWith.Text, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
+            txtImageWith.Text = Regex.Replace(txtImageWith.Text, "^" 
+                + Variables.Namespaces[Namespace.File], "", RegexOptions.IgnoreCase);
         }
 
         private void SetProgressBar(object sender, EventArgs e)
@@ -3510,7 +3516,8 @@ window.scrollTo(0, diffTopY);
         /// </summary>
         private static void LoadUserTalkWarnings()
         {
-            Regex userTalkTemplate = new Regex(@"# ?\[\[" + Variables.NamespacesCaseInsensitive[10] + @"(.*?)\]\]");
+            Regex userTalkTemplate = new Regex(@"# ?\[\["
+                + Variables.NamespacesCaseInsensitive[Namespace.Template] + @"(.*?)\]\]");
             StringBuilder builder = new StringBuilder();
 
             userTalkTemplatesRegex = null;
@@ -3541,7 +3548,7 @@ window.scrollTo(0, diffTopY);
                 builder.Remove((builder.Length - 1), 1);
                 userTalkTemplatesRegex =
                     new Regex(
-                        @"\{\{ ?(" + Variables.NamespacesCaseInsensitive[10] + ")? ?((" + builder +
+                        @"\{\{ ?(" + Variables.NamespacesCaseInsensitive[Namespace.Template] + ")? ?((" + builder +
                         ") ?(\\|.*?)?) ?\\}\\}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             }
         }

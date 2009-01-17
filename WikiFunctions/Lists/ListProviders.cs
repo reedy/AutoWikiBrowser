@@ -714,7 +714,8 @@ namespace WikiFunctions.Lists
             foreach (string page in searchCriteria)
             {
                 string url = Variables.URLLong + "api.php?action=query&list=usercontribs&ucuser=" +
-                    Tools.WikiEncode(Regex.Replace(page, Variables.NamespacesCaseInsensitive[14], ""))
+                    Tools.WikiEncode(
+                    Regex.Replace(page, Variables.NamespacesCaseInsensitive[Namespace.Category], ""))
                     + "&uclimit=" + uclimit + "&format=xml";
 
                 list.AddRange(ApiMakeList(url, list.Count));
@@ -728,7 +729,7 @@ namespace WikiFunctions.Lists
         { get { return "User contribs"; } }
 
         public override string UserInputTextBoxText
-        { get { return Variables.Namespaces[2]; } }
+        { get { return Variables.Namespaces[Namespace.User]; } }
 
         public override bool UserInputTextBoxEnabled
         { get { return true; } }
@@ -787,7 +788,8 @@ namespace WikiFunctions.Lists
 
             foreach (string page in searchCriteria)
             {
-                string image = Regex.Replace(page, "^" + Variables.Namespaces[6], "", RegexOptions.IgnoreCase);
+                string image = Regex.Replace(page, "^" + Variables.Namespaces[Namespace.File], 
+                    "", RegexOptions.IgnoreCase);
                 image = HttpUtility.UrlEncode(image);
 
                 string url = Variables.URLLong + "api.php?action=query&list=imageusage&iutitle=Image:"
@@ -803,7 +805,7 @@ namespace WikiFunctions.Lists
         { get { return "Image file links"; } }
 
         public override string UserInputTextBoxText
-        { get { return Variables.Namespaces[6]; } }
+        { get { return Variables.Namespaces[Namespace.File]; } }
 
         public override bool UserInputTextBoxEnabled
         { get { return true; } }

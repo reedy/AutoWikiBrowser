@@ -453,7 +453,10 @@ namespace WikiFunctions.Parse
             List<string> categoryList = new List<string>();
             string x;
 
-            Regex r = new Regex("<!-- ? ?\\[\\[" + Variables.NamespacesCaseInsensitive[14] + ".*?(\\]\\]|\\|.*?\\]\\]).*?-->|\\[\\[" + Variables.NamespacesCaseInsensitive[14] + ".*?(\\]\\]|\\|.*?\\]\\])( {0,4}⌊⌊⌊⌊[0-9]{1,4}⌋⌋⌋⌋)?");
+            Regex r = new Regex("<!-- ? ?\\[\\[" + Variables.NamespacesCaseInsensitive[Namespace.Category]
+                + ".*?(\\]\\]|\\|.*?\\]\\]).*?-->|\\[\\[" 
+                + Variables.NamespacesCaseInsensitive[Namespace.Category] 
+                + ".*?(\\]\\]|\\|.*?\\]\\])( {0,4}⌊⌊⌊⌊[0-9]{1,4}⌋⌋⌋⌋)?");
 
             MatchCollection matches = r.Matches(ArticleText);
             foreach (Match m in matches)

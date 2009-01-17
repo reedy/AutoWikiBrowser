@@ -191,7 +191,7 @@ namespace WikiFunctions.Lists
 
         public override string UserInputTextBoxText
         {
-            get { return Variables.Namespaces[14]; }
+            get { return Variables.Namespaces[Namespace.Category]; }
         }
 
         public override void Selected() { }
@@ -245,7 +245,7 @@ namespace WikiFunctions.Lists
                 {
                     if (haveSoFar + list.Count > Limit) break;
 
-                    if (pg.NameSpaceKey == 14 /*Category*/ && !Visited.Contains(pg.Name))
+                    if (pg.NameSpaceKey == Namespace.Category && !Visited.Contains(pg.Name))
                     {
                         if (fromSubcats == null) fromSubcats = new List<Article>();
                         fromSubcats.AddRange(RecurseCategory(pg.NamespacelessName, haveSoFar + list.Count, depth - 1));
@@ -268,7 +268,7 @@ namespace WikiFunctions.Lists
             foreach (string cat in source)
             {
                 cats.Add(Regex.Replace(Tools.RemoveHashFromPageTitle(Tools.WikiDecode(cat)).Trim(),
-                    "^" + Variables.NamespacesCaseInsensitive[14], "").Trim());
+                    "^" + Variables.NamespacesCaseInsensitive[Namespace.Category], "").Trim());
             }
 
             return cats;
