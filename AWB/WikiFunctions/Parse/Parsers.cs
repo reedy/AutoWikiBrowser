@@ -1229,23 +1229,23 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             // remove any self-links, but not other links with different capitaliastion e.g. [[Foo]] vs [[FOO]]
             // note, removal of self links in iteslf will not cause this method to return a 'change'
-            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + escTitle + @"\s*(?:\]\]|\|)", ArticleTitle);
-            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*(?:\]\]|\|)", Tools.TurnFirstToLower(ArticleTitle));
+            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + escTitle + @"\s*(?:\]\]|\|)", ArticleTitle, RegexOptions.Compiled);
+            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*(?:\]\]|\|)", Tools.TurnFirstToLower(ArticleTitle), RegexOptions.Compiled);
 
             // we don't want to change any other links/images/templates so hide them all, also ensures if article title in infobox the first use in article will be looked at
             ArticleText = hider.HideMore(ArticleText);
 
-            Regex BoldTitleAlready1 = new Regex(@"'''\s*(" + escTitle + "|" + Tools.TurnFirstToLower(escTitle) + @")\s*'''");
-            Regex BoldTitleAlready2 = new Regex(@"'''\s*(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + @")\s*'''");
-            Regex BoldTitleAlready3 = new Regex(@"^\s*({{[^\{\}]+}}\s*)*'''('')?\s*\w");
+            Regex BoldTitleAlready1 = new Regex(@"'''\s*(" + escTitle + "|" + Tools.TurnFirstToLower(escTitle) + @")\s*'''", RegexOptions.Compiled);
+            Regex BoldTitleAlready2 = new Regex(@"'''\s*(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + @")\s*'''", RegexOptions.Compiled);
+            Regex BoldTitleAlready3 = new Regex(@"^\s*({{[^\{\}]+}}\s*)*'''('')?\s*\w", RegexOptions.Compiled);
 
             //if title in bold already exists in article, or page starts with something in bold, don't change anything
             if (BoldTitleAlready1.IsMatch(ArticleText) || BoldTitleAlready2.IsMatch(ArticleText) 
                 || BoldTitleAlready3.IsMatch(ArticleText))
                 return ArticleTextAtStart;
 
-            Regex regexBold = new Regex(@"([^\[]|^)(" + escTitle + ")([ ,.:;])", RegexOptions.IgnoreCase);
-            Regex regexBoldNoBrackets = new Regex(@"([^\[]|^)(" + escTitleNoBrackets + ")([ ,.:;])", RegexOptions.IgnoreCase);
+            Regex regexBold = new Regex(@"([^\[]|^)(" + escTitle + ")([ ,.:;])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            Regex regexBoldNoBrackets = new Regex(@"([^\[]|^)(" + escTitleNoBrackets + ")([ ,.:;])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
             // first try title with brackets removed
             if(regexBoldNoBrackets.IsMatch(ArticleText))
@@ -1253,7 +1253,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 ArticleText = regexBoldNoBrackets.Replace(ArticleText, "$1'''$2'''$3", 1);
                 
                 // check that the bold added is the first bit in bold in the main body of the article
-                if (Regex.Replace(ArticleText, @"(?s)(.*?)'''" + escTitleNoBrackets + ".*", "$1").Length <= Regex.Replace(ArticleText, @"(?s)(.*?)'''.*", "$1").Length)
+                if (AddedBoldIsFirstBold(ArticleText, escTitleNoBrackets))
                 {
                     NoChange = false;
                     return hider.AddBackMore(ArticleText);
@@ -1265,13 +1265,30 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 ArticleText = regexBold.Replace(ArticleText, "$1'''$2'''$3", 1);
 
                 // check that the bold added is the first bit in bold in the main body of the article
-                if (Regex.Replace(ArticleText, @"(?s)(.*?)'''" + escTitle + ".*", "$1").Length <= Regex.Replace(ArticleText, @"(?s)(.*?)'''.*", "$1").Length)
+                if (AddedBoldIsFirstBold(ArticleText, escTitle))
                 {
                     NoChange = false;
                     return hider.AddBackMore(ArticleText);
                 }
             }
             return ArticleTextAtStart;
+        }
+
+        private bool AddedBoldIsFirstBold(string ArticleText, string escapedTitle)
+        {
+            Regex regexFirstBold = new Regex(@"^(.*?)'''", RegexOptions.Singleline | RegexOptions.Compiled);
+            Regex regexBoldAdded = new Regex(@"^(.*?)'''" + escapedTitle, RegexOptions.Singleline | RegexOptions.Compiled);
+            int FirstBoldPos = 0;
+            int BoldAddedPos = 0;
+
+            BoldAddedPos = regexBoldAdded.Match(ArticleText).Length - Regex.Unescape(escapedTitle).Length;
+
+            FirstBoldPos = regexFirstBold.Match(ArticleText).Length;
+
+            // check that the bold added is the first bit in bold in the main body of the article
+            if (BoldAddedPos <= FirstBoldPos)
+                return (true);
+            return (false);
         }
 
         /// <summary>
