@@ -599,7 +599,7 @@ namespace WikiFunctions.API
             {
 
                 string result = xr.GetAttribute("result");
-                if (result != null && result != "Success")
+                if (result != null && result == "Success")
                 {
                     string s = xr.GetAttribute("assert");
                     if (!string.IsNullOrEmpty(s))
