@@ -297,6 +297,13 @@ namespace WikiFunctions
         /// </summary>
         public static Regex LooseImage;
 
+        /// <summary>
+        /// Matches quotations outside of templates but within a pair of quotation marks, notably exlcuding straight single quotes
+        /// </summary>
+        /// see http://en.wikipedia.org/wiki/Quotation_mark_glyphs
+        /// http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Ignoring_spelling_errors_within_quotation_marks.3F
+        public static readonly Regex UntemplatedQuotes = new Regex(@"\s[""«»‘’“”‛‟‹›“”„‘’`’“‘”].{1,500}?[""«»‘’“”‛‟‹›“”„‘’`’“‘”]", RegexOptions.Compiled);
+
         #region en only
         /// <summary>
         /// Matches persondata (en only)
