@@ -453,8 +453,7 @@ namespace AutoWikiBrowser
                 //check edit summary
                 txtEdit.Enabled = true;
                 SetEditToolBarEnabled(true);
-                txtEdit.Text = "";
-                webBrowserEdit.BringToFront();
+
                 if (Variables.Project != ProjectEnum.custom && string.IsNullOrEmpty(cmboEditSummary.Text) && Plugin.Items.Count == 0)
                 {
                     MessageBox.Show("Please enter an edit summary.", "Edit summary", MessageBoxButtons.OK,
@@ -484,6 +483,8 @@ namespace AutoWikiBrowser
                 if (!Variables.User.WikiStatus && !CheckStatus(false))
                     return;
 
+                webBrowserEdit.BringToFront();
+
                 ArticleInfo(true);
 
                 if (listMaker.NumberOfArticles < 1)
@@ -499,17 +500,18 @@ namespace AutoWikiBrowser
 
                 webBrowserEdit.Busy = true;
 
-                TheArticle = new ArticleEX(listMaker.SelectedArticle().Name);
-
-                NewHistory();
-
-                if (!Tools.IsValidTitle(TheArticle.Name))
+                if (!Tools.IsValidTitle(listMaker.SelectedArticle().Name))
                 {
                     SkipPage("Invalid page title");
                     return;
                 }
+
                 if (BotMode)
                     NudgeTimer.StartMe();
+
+                TheArticle = new ArticleEX(listMaker.SelectedArticle().Name);
+
+                NewHistory();
 
                 EditBoxSaveTimer.Enabled = AutoSaveEditBoxEnabled;
 
