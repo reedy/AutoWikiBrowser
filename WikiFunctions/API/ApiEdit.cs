@@ -36,7 +36,7 @@ namespace WikiFunctions.API
     /// <summary>
     /// This class edits MediaWiki sites using api.php
     /// </summary>
-    public class ApiEdit
+    public class ApiEdit : IApiEdit
     {
         private ApiEdit()
         {
@@ -127,6 +127,9 @@ namespace WikiFunctions.API
         /// </summary>
         public string PageText { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool Exists { get; private set; }
 
         CookieContainer m_Cookies = new CookieContainer();
@@ -317,11 +320,6 @@ namespace WikiFunctions.API
         #endregion
 
         #region Login
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
         public void Login(string username, string password)
         {
             Reset();
@@ -340,9 +338,6 @@ namespace WikiFunctions.API
             CheckForError(result, "login");
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public void Logout()
         {
             Reset();
@@ -353,11 +348,6 @@ namespace WikiFunctions.API
 
         #region Page modification
 
-        /// <summary>
-        /// Opens a page for editing
-        /// </summary>
-        /// <param name="title">Title of the page to edit</param>
-        /// <returns>Page content</returns>
         public string Open(string title)
         {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
@@ -400,13 +390,6 @@ namespace WikiFunctions.API
             return PageText;
         }
 
-        /// <summary>
-        /// Saves the previously opened page
-        /// </summary>
-        /// <param name="pageText">New page content. Must not be empty.</param>
-        /// <param name="summary">Edit summary. Must not be empty.</param>
-        /// <param name="minor">Whether the edit should be marked as minor</param>
-        /// <param name="watch">Whether the page should be watchlisted</param>
         public void Save(string pageText, string summary, bool minor, bool watch)
         {
             if (string.IsNullOrEmpty(pageText)) throw new ArgumentException("Can't save empty pages", "pageText");
@@ -435,11 +418,6 @@ namespace WikiFunctions.API
             Reset();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="title"></param>
-        /// <param name="reason"></param>
         public void Delete(string title, string reason)
         {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
@@ -488,31 +466,25 @@ namespace WikiFunctions.API
             Reset();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="title"></param>
-        /// <param name="reason"></param>
-        /// <param name="protections"></param>
-        /// <param name="expiry"></param>
-        public void Protect(string title, string reason, string protections, string expiry)
+        public void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move)
         {
-            Protect(title, reason, protections, expiry, false);
+            Protect(title, reason, expiry.ToString(), edit, move, false);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="title"></param>
-        /// <param name="reason"></param>
-        /// <param name="protections"></param>
-        /// <param name="expiry"></param>
-        /// <param name="cascade"></param>
-        public void Protect(string title, string reason, string protections, string expiry, bool cascade)
+        public void Protect(string title, string reason, string expiry, Protection edit, Protection move)
+        {
+            Protect(title, reason, expiry, edit, move, false);
+        }
+
+        public void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move, bool cascade)
+        {
+            Protect(title, reason, expiry.ToString(), edit, move, cascade);
+        }
+
+        public void Protect(string title, string reason, string expiry, Protection edit, Protection move, bool cascade)
         {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
             if (string.IsNullOrEmpty(reason)) throw new ArgumentException("Deletion reason required", "reason");
-            if (string.IsNullOrEmpty(protections)) throw new ArgumentException("List of protections required", "protections");
 
             Reset();
             Action = "protect";
@@ -550,9 +522,61 @@ namespace WikiFunctions.API
                         {"title", title},
                         {"token", EditToken},
                         {"reason", reason},
-                        {"protections", protections},
+                        {"protections", ""}, //TODO:Code
                         {"expiry", expiry},
                         {cascade ? "cascade" : null, null},
+                    });
+
+            CheckForError(result);
+
+            Reset();
+        }
+
+        public void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect)
+        {
+            if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
+            if (string.IsNullOrEmpty(newTitle)) throw new ArgumentException("Target Page name required", "newTitle");
+
+            Reset();
+            Action = "move";
+
+            string result = HttpGet(
+                new[,]
+                    {
+                        {"action", "query"},
+                        {"prop", "info"},
+                        {"intoken", "move"},
+                        {"titles", title + "|" + newTitle},
+
+                    });
+
+            CheckForError(result);
+
+            try
+            {
+                XmlReader xr = XmlReader.Create(new StringReader(result));
+                if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
+                EditToken = xr.GetAttribute("movetoken");
+            }
+            catch (Exception ex)
+            {
+                throw new ApiBrokenXmlException(this, ex);
+            }
+
+            result = HttpPost(
+                new[,]
+                    {
+                        {"action", "move"}
+                    },
+                new[,]
+                    {
+                        {"from", title},
+                        {"to", newTitle},
+                        {"token", EditToken},
+                        {"reason", reason},
+                        {"protections", ""},
+                        {moveTalk ? "movetalk" : null, null},
+                        {noRedirect ? "noredirect" : null, null},
                     });
 
             CheckForError(result);

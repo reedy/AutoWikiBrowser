@@ -59,8 +59,16 @@ namespace WikiFunctions.API
         /// <returns>Text received</returns>
         string HttpGet(string url);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
         void Login(string username, string password);
 
+        /// <summary>
+        /// 
+        /// </summary>
         void Logout();
 
         /// <summary>
@@ -105,6 +113,28 @@ namespace WikiFunctions.API
         /// <param name="edit"></param>
         /// <param name="move"></param>
         void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="reason"></param>
+        /// <param name="expiry"></param>
+        /// <param name="edit"></param>
+        /// <param name="move"></param>
+        /// <param name="cascade"></param>
+        void Protect(string title, string reason, string expiry, Protection edit, Protection move, bool cascade);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="reason"></param>
+        /// <param name="expiry"></param>
+        /// <param name="edit"></param>
+        /// <param name="move"></param>
+        /// <param name="cascade"></param>
+        void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move, bool cascade);
 
         /// <summary>
         /// 
