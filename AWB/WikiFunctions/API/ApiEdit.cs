@@ -370,6 +370,7 @@ namespace WikiFunctions.API
                 { "prop", "info|revisions" },
                 { "intoken","edit" },
                 { "titles", title },
+                { "inprop", "protection" },
                 { "rvprop", "content|timestamp" } // timestamp|user|comment|
             });
 
