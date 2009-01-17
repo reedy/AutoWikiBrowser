@@ -703,6 +703,8 @@ namespace AutoWikiBrowser
                     Start();
                 else if (!string.IsNullOrEmpty(SettingsFile) && !(NumberOfIgnoredEdits % 10 == 0))
                     SavePrefs(SettingsFile);
+
+                return;
             }
 
             webBrowserEdit.SetArticleText(TheArticle.ArticleText);
@@ -2194,8 +2196,7 @@ window.scrollTo(0, diffTopY);
 
         #region Timers
 
-        int intRestartDelay = 5;
-        int intStartInSeconds = 5;
+        int intRestartDelay = 5, intStartInSeconds = 5;
         private void DelayedRestart(object sender, EventArgs e)
         {
             StopDelayedAutoSaveTimer();
@@ -2209,6 +2210,7 @@ window.scrollTo(0, diffTopY);
             else
                 intStartInSeconds--;
         }
+
         private void StartDelayedRestartTimer(object sender, EventArgs e)
         {
             intStartInSeconds = intRestartDelay;
