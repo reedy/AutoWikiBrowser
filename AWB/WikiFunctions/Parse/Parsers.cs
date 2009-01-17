@@ -1223,6 +1223,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             NoChange = true;
 
+            // first quick check: ignore articles with some bold in first 5% of hidemore article
+            string ArticleText5 = hider.HideMore(ArticleText);
+            int fivepc = (int) ArticleText5.Length/20;
+            //ArticleText5.Length
+            if(ArticleText5.Substring(0, fivepc).Contains("'''"))
+                return ArticleTextAtStart;
+
             // ignore date articles (date in American or international format)
             if (WikiRegexes.Dates2.IsMatch(ArticleTitle) || WikiRegexes.Dates.IsMatch(ArticleTitle))
                 return ArticleTextAtStart;
@@ -1232,43 +1239,45 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + escTitle + @"\s*(?:\]\]|\|)", ArticleTitle, RegexOptions.Compiled);
             ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*(?:\]\]|\|)", Tools.TurnFirstToLower(ArticleTitle), RegexOptions.Compiled);
 
-            // we don't want to change any other links/images/templates so hide them all, also ensures if article title in infobox the first use in article will be looked at
-            ArticleText = hider.HideMore(ArticleText);
-
             Regex BoldTitleAlready1 = new Regex(@"'''\s*(" + escTitle + "|" + Tools.TurnFirstToLower(escTitle) + @")\s*'''", RegexOptions.Compiled);
             Regex BoldTitleAlready2 = new Regex(@"'''\s*(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + @")\s*'''", RegexOptions.Compiled);
             Regex BoldTitleAlready3 = new Regex(@"^\s*({{[^\{\}]+}}\s*)*'''('')?\s*\w", RegexOptions.Compiled);
+
 
             //if title in bold already exists in article, or page starts with something in bold, don't change anything
             if (BoldTitleAlready1.IsMatch(ArticleText) || BoldTitleAlready2.IsMatch(ArticleText) 
                 || BoldTitleAlready3.IsMatch(ArticleText))
                 return ArticleTextAtStart;
 
-            Regex regexBold = new Regex(@"([^\[]|^)(" + escTitle + ")([ ,.:;])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-            Regex regexBoldNoBrackets = new Regex(@"([^\[]|^)(" + escTitleNoBrackets + ")([ ,.:;])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            Regex regexBold = new Regex(@"([^\[]|^)(" + escTitle + "|" + Tools.TurnFirstToLower(escTitle) + ")([ ,.:;])", RegexOptions.Compiled);
+            Regex regexBoldNoBrackets = new Regex(@"([^\[]|^)(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + ")([ ,.:;])", RegexOptions.Compiled);
 
             // first try title with brackets removed
             if(regexBoldNoBrackets.IsMatch(ArticleText))
             {
+                ArticleText = hider.HideMore(ArticleText);
                 ArticleText = regexBoldNoBrackets.Replace(ArticleText, "$1'''$2'''$3", 1);
+                ArticleText = hider.AddBackMore(ArticleText);
                 
                 // check that the bold added is the first bit in bold in the main body of the article
                 if (AddedBoldIsFirstBold(ArticleText, escTitleNoBrackets))
                 {
                     NoChange = false;
-                    return hider.AddBackMore(ArticleText);
+                    return (ArticleText);
                 }
             }
 
             if (regexBold.IsMatch(ArticleText))
             {
+                ArticleText = hider.HideMore(ArticleText);
                 ArticleText = regexBold.Replace(ArticleText, "$1'''$2'''$3", 1);
+                ArticleText = hider.AddBackMore(ArticleText);
 
                 // check that the bold added is the first bit in bold in the main body of the article
                 if (AddedBoldIsFirstBold(ArticleText, escTitle))
                 {
                     NoChange = false;
-                    return hider.AddBackMore(ArticleText);
+                   
                 }
             }
             return ArticleTextAtStart;
@@ -1280,6 +1289,14 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             Regex regexBoldAdded = new Regex(@"^(.*?)'''" + escapedTitle, RegexOptions.Singleline | RegexOptions.Compiled);
             int FirstBoldPos = 0;
             int BoldAddedPos = 0;
+
+            string rba = regexBoldAdded.Match(ArticleText).Value; // DEBUG
+
+            string rfb = regexFirstBold.Match(ArticleText).Value; // DEBUG
+
+            int rbal = rba.Length;
+
+            int rbfl = rfb.Length;
 
             BoldAddedPos = regexBoldAdded.Match(ArticleText).Length - Regex.Unescape(escapedTitle).Length;
 

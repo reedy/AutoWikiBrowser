@@ -588,6 +588,11 @@ Some news here.", "test"));
             // won't change if italics either
             Assert.AreEqual("''Foo'' is this one", p.BoldTitle("''Foo'' is this one", "Foo", out noChangeBack));
             Assert.IsTrue(noChangeBack);
+
+            Assert.AreEqual(@"{{Infobox_martial_art| website      = }}
+{{Nihongo|'''Aikido'''|合気道|aikidō}} is a. Aikido was", p.BoldTitle(@"{{Infobox_martial_art| website      = }}
+{{Nihongo|'''Aikido'''|合気道|aikidō}} is a. Aikido was", "Aikido", out noChangeBack));
+            Assert.IsTrue(noChangeBack);
         }
 
         [Test]
