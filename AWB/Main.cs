@@ -632,6 +632,10 @@ namespace AutoWikiBrowser
                 else if (!BotMode)
                     MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
 
+            // check for {{sic}} tags etc. when doing typo fixes and not in pre-parse mode
+            if(chkRegExTypo.Checked && !preParseModeToolStripMenuItem.Checked && TheArticle.HasSicTag)
+                MessageBox.Show(@"This page contains a 'sic' tag or template, please take extra care when correcting typos.", "'sic' tag in page", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
             if (automaticallyDoAnythingToolStripMenuItem.Checked)
             {
                 StatusLabelText = "Processing page";

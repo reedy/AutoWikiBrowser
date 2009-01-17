@@ -183,6 +183,13 @@ namespace WikiFunctions
         { get { return Parsers.IsInUse(mArticleText); } }
 
         /// <summary>
+        /// Returns true if the article contains a sic template or bracketed wording, indicating the presence of a deliberate typo
+        /// </summary>
+        [XmlIgnore]
+        public bool HasSicTag
+        { get { return Parsers.HasSicTag(mArticleText); } }
+
+        /// <summary>
         /// Returns true if the article should be skipped; check after each call to a worker member. See AWB main.cs.
         /// </summary>
         [XmlIgnore]
