@@ -1207,7 +1207,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
-        // Covered by: BoldTitleTests, incomplete
+        // Covered by: BoldTitleTests
         /// <summary>
         /// '''Emboldens''' the first occurence of the article title, if not already bold
         /// </summary>
@@ -1235,15 +1235,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             // we don't want to change any other links/images/templates so hide them all, also ensures if article title in infobox the first use in article will be looked at
             ArticleText = hider.HideMore(ArticleText);
 
-            Regex BoldTitleAlready1 = new Regex(@"'''\s*" + escTitle + @"\s*'''");
-            Regex BoldTitleAlready2 = new Regex(@"'''" + Tools.TurnFirstToLower(escTitle) + @"'''");
+            Regex BoldTitleAlready1 = new Regex(@"'''\s*(" + escTitle + "|" + Tools.TurnFirstToLower(escTitle) + @")\s*'''");
+            Regex BoldTitleAlready2 = new Regex(@"'''\s*(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + @")\s*'''");
+            Regex BoldTitleAlready3 = new Regex(@"^\s*({{[^\{\}]+}}\s*)*'''('')?\s*\w");
 
-            Regex BoldTitleAlready3 = new Regex(@"'''\s*" + escTitleNoBrackets + @"\s*'''");
-            Regex BoldTitleAlready4 = new Regex(@"'''" + Tools.TurnFirstToLower(escTitleNoBrackets) + @"'''");
-
-            //if title in bold already exists in article, don't change anything
+            //if title in bold already exists in article, or title starts with something in bold don't change anything
             if (BoldTitleAlready1.IsMatch(ArticleText) || BoldTitleAlready2.IsMatch(ArticleText) 
-                || BoldTitleAlready3.IsMatch(ArticleText) || BoldTitleAlready4.IsMatch(ArticleText))
+                || BoldTitleAlready3.IsMatch(ArticleText))
                 return ArticleTextAtStart;
 
             Regex regexBold = new Regex(@"([^\[]|^)(" + escTitle + ")([ ,.:;])", RegexOptions.IgnoreCase);

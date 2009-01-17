@@ -522,7 +522,7 @@ Some news here.", "test"));
         }
     }
 
-    [TestFixture, Category("Incomplete")]
+    [TestFixture]
     public class BoldTitleTests
     {
         readonly Parsers p = new Parsers();
@@ -571,6 +571,14 @@ Some news here.", "test"));
             Assert.AreEqual("Foo is a bar, '''Foo''' moar", p.BoldTitle("Foo is a bar, '''Foo''' moar", "Foo", out boolBack));
             Assert.IsTrue(boolBack);
             Assert.AreEqual(@"{{Infobox | name = Foo | age=11}} '''Foo''' is a bar", p.BoldTitle(@"{{Infobox | name = Foo | age=11}} '''Foo''' is a bar", "Foo", out boolBack));
+            Assert.IsTrue(boolBack);
+            Assert.AreEqual(@"{{Infobox
+| age=11}} '''John David Smith''' is a bar", p.BoldTitle(@"{{Infobox
+| age=11}} '''John David Smith''' is a bar", "John Smith", out boolBack));
+            Assert.IsTrue(boolBack);
+            Assert.AreEqual(@"{{Infobox
+| age=11}}{{box2}}} '''John David Smith''' is a bar", p.BoldTitle(@"{{Infobox
+| age=11}}{{box2}}} '''John David Smith''' is a bar", "John Smith", out boolBack));
             Assert.IsTrue(boolBack);
 
             // won't change if italics either
