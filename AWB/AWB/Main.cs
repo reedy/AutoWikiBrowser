@@ -2909,11 +2909,11 @@ window.scrollTo(0, diffTopY);
         private delegate void GenericDelegate();
         private delegate void GenericDelegate1Parm(string parm);
 
-        private void RegexTypos_Complete()
+        private void RegexTypos_Complete(BackgroundRequest req)
         {
             if (InvokeRequired)
             {
-                Invoke(new GenericDelegate(RegexTypos_Complete));
+                Invoke(new BackgroundRequestComplete(RegexTypos_Complete), new object[] {req});
                 return;
             }
 
