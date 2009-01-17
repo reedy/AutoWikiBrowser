@@ -69,6 +69,12 @@ namespace WikiFunctions.Background
             Complete += handler;
         }
 
+        public BackgroundRequest(BackgroundRequestComplete completeHandler, BackgroundRequestErrored errorHandler)
+            : this (completeHandler)
+        {
+            Errored += errorHandler;
+        }
+
         /// <summary>
         /// Waits for request to complete
         /// </summary>
