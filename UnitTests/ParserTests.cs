@@ -560,6 +560,7 @@ Some news here.", "test"));
     }
 
     [TestFixture]
+    // tests have to have long strings due to logic in BoldTitle looking at bolding in first 5% of article only
     public class BoldTitleTests
     {
         readonly Parsers p = new Parsers();
@@ -594,9 +595,9 @@ Some news here.", "test"));
         [Test]
         public void SimilarLinksWithDifferentCaseNotChanged()
         {
-            Assert.AreEqual("'''Foo''' is this one, now [[FOO]] is another", p.BoldTitle("Foo is this one, now [[FOO]] is another", "Foo", out noChangeBack));
+            Assert.AreEqual("'''Foo''' is this one, now [[FOO]] is another While remaining upright may be the primary goal of beginning riders", p.BoldTitle("Foo is this one, now [[FOO]] is another While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsFalse(noChangeBack);
-            Assert.AreEqual("'''Foo''' is this one, now [[FOO]] is another", p.BoldTitle("'''Foo''' is this one, now [[FOO]] is another", "Foo", out noChangeBack));
+            Assert.AreEqual("'''Foo''' is this one, now [[FOO]] is another While remaining upright may be the primary goal of beginning riders", p.BoldTitle("'''Foo''' is this one, now [[FOO]] is another While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsTrue(noChangeBack);
         }
 
@@ -635,48 +636,57 @@ Some news here.", "test"));
         [Test]
         public void StandardCases()
         {
-            Assert.AreEqual("'''Foo''' is a bar", p.BoldTitle("Foo is a bar", "Foo", out noChangeBack));
+            Assert.AreEqual("'''Foo''' is a bar While remaining upright may be the primary goal of beginning riders", p.BoldTitle("Foo is a bar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsFalse(noChangeBack);
-            Assert.AreEqual("'''Foo in the wild''' is a bar", p.BoldTitle("Foo in the wild is a bar", "Foo in the wild", out noChangeBack));
+            Assert.AreEqual("'''Foo in the wild''' is a bar While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders", p.BoldTitle("Foo in the wild is a bar While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders", "Foo in the wild", out noChangeBack));
             Assert.IsFalse(noChangeBack);
-            Assert.AreEqual("'''Foo''' is a bar, Foo moar", p.BoldTitle("Foo is a bar, Foo moar", "Foo", out noChangeBack));
+            Assert.AreEqual("'''Foo''' is a bar, Foo moar While remaining upright may be the primary goal of beginning riders", p.BoldTitle("Foo is a bar, Foo moar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsFalse(noChangeBack);
-            Assert.AreEqual("'''Hello''' there, please say '''bye''' too", p.BoldTitle("Hello there, please say '''bye''' too", "Hello", out noChangeBack));
-            Assert.IsFalse(noChangeBack);
-            Assert.AreEqual("'''F^o^o''' is a bar", p.BoldTitle("F^o^o is a bar", "F^o^o", out noChangeBack));
+            Assert.AreEqual("'''F^o^o''' is a bar While remaining upright may be the primary goal of beginning riders", p.BoldTitle("F^o^o is a bar While remaining upright may be the primary goal of beginning riders", "F^o^o", out noChangeBack));
             Assert.IsFalse(noChangeBack);
             Assert.AreEqual(@"{{Infobox | name = Foo | age=11}}
-'''Foo''' is a bar", p.BoldTitle(@"{{Infobox | name = Foo | age=11}}
-Foo is a bar", "Foo", out noChangeBack));
+'''Foo''' is a bar While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders
+While remaining upright may be the primary goal of beginning riders
+While remaining upright may be the primary goal of beginning riders", p.BoldTitle(@"{{Infobox | name = Foo | age=11}}
+Foo is a bar While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders
+While remaining upright may be the primary goal of beginning riders
+While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsFalse(noChangeBack);
 
             // brackets excluded from bolding
-            Assert.AreEqual("'''Foo''' (Band album) is a CD", p.BoldTitle("Foo (Band album) is a CD", "Foo (Band album)", out noChangeBack));
+            Assert.AreEqual("'''Foo''' (Band album) is a CD While remaining upright may be the primary goal of beginning riders", p.BoldTitle("Foo (Band album) is a CD While remaining upright may be the primary goal of beginning riders", "Foo (Band album)", out noChangeBack));
             Assert.IsFalse(noChangeBack);
             
             // non-changes
             Assert.AreEqual("Fooo is a bar", p.BoldTitle("Fooo is a bar", "Foo", out noChangeBack));
-            Assert.IsTrue(noChangeBack);           
+            Assert.IsTrue(noChangeBack);
+
+            Assert.AreEqual(@"Foo is a '''bar''' While remaining upright may be the primary goal of beginning riders
+While remaining upright may be the primary goal of beginning riders
+While remaining upright may be the primary goal of beginning riders
+While remaining upright may be the primary goal of beginning riders", p.BoldTitle(@"Foo is a '''bar''' While remaining upright may be the primary goal of beginning riders
+While remaining upright may be the primary goal of beginning riders
+While remaining upright may be the primary goal of beginning riders
+While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack)); // bold within first 5% of article
+            Assert.IsTrue(noChangeBack);        
         }
 
         [Test]
         public void WithDelinking()
         {
-            Assert.AreEqual("'''Foo''' is a bar", p.BoldTitle("[[Foo]] is a bar", "Foo", out noChangeBack));
+            Assert.AreEqual("'''Foo''' is a bar While remaining upright may be the primary goal of beginning riders", p.BoldTitle("[[Foo]] is a bar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsFalse(noChangeBack);
-            Assert.AreEqual("'''Foo''' is a bar, Foo moar", p.BoldTitle("[[Foo]] is a bar, Foo moar", "Foo", out noChangeBack));
+            Assert.AreEqual("'''Foo''' is a bar, Foo moar While remaining upright may be the primary goal of beginning riders", p.BoldTitle("[[Foo]] is a bar, Foo moar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsFalse(noChangeBack);
-            Assert.AreEqual("'''Foo''' is a bar, now Foo here", p.BoldTitle("Foo is a bar, now [[Foo]] here", "Foo", out noChangeBack));
+            Assert.AreEqual("'''Foo''' is a bar, now Foo here While remaining upright may be the primary goal of beginning riders", p.BoldTitle("Foo is a bar, now [[Foo]] here While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsFalse(noChangeBack);
-            Assert.AreEqual("'''Foo''' is a bar, now foo here", p.BoldTitle("Foo is a bar, now [[foo]] here", "Foo", out noChangeBack));
+            Assert.AreEqual("'''Foo''' is a bar, now foo here While remaining upright may be the primary goal of beginning riders", p.BoldTitle("Foo is a bar, now [[foo]] here While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsFalse(noChangeBack);
-            Assert.AreEqual("'''Foo''' is a [[bar]]", p.BoldTitle("[[Foo]] is a [[bar]]", "Foo", out noChangeBack));
-            Assert.IsFalse(noChangeBack);
-            Assert.AreEqual("'''Hello''' there, please say '''bye''' too", p.BoldTitle("[[Hello]] there, please say '''bye''' too", "Hello", out noChangeBack));
+            Assert.AreEqual("'''Foo''' is a [[bar]] While remaining upright may be the primary goal of beginning riders", p.BoldTitle("[[Foo]] is a [[bar]] While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsFalse(noChangeBack);
 
             // removal of self links in iteslf are not a 'change'
-            Assert.AreEqual("'''Foo''' is a bar, now [[Foo]] here", p.BoldTitle("'''Foo''' is a bar, now [[Foo]] here", "Foo", out noChangeBack));
+            Assert.AreEqual("'''Foo''' is a bar, now [[Foo]] here While remaining upright may be the primary goal of beginning riders", p.BoldTitle("'''Foo''' is a bar, now [[Foo]] here While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsTrue(noChangeBack);
         }
 
@@ -684,27 +694,16 @@ Foo is a bar", "Foo", out noChangeBack));
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Bold_letters
         public void ExamplesFromBugReport()
         {
-            Assert.AreEqual(@"'''Michael Bavaro''' is a [[filmmaker]] based in [[Manhattan]].", p.BoldTitle(@"[[Michael Bavaro]] is a [[filmmaker]] based in [[Manhattan]].", "Michael Bavaro", out noChangeBack));
-            Assert.IsFalse(noChangeBack);
-
-            Assert.AreEqual(@"{{Coronation Street character|
-| name = Phyllis Pearce
-| image = [[Image:Phyliscorrie.jpg|220px]]
-| caption = 
-}}
-
-'''Phyllis Pearce''' (née '''Grimes''') is a [[fictional character]] in ", p.BoldTitle(@"{{Coronation Street character|
-| name = Phyllis Pearce
-| image = [[Image:Phyliscorrie.jpg|220px]]
-| caption = 
-}}
-
-[[Phyllis Pearce]] (née '''Grimes''') is a [[fictional character]] in ", "Phyllis Pearce", out noChangeBack));
+            Assert.AreEqual(@"'''Michael Bavaro''' is a [[filmmaker]] based in [[Manhattan]]. While remaining upright may be the primary goal of beginning riders, a bike must lean in order to maintain balance", p.BoldTitle(@"[[Michael Bavaro]] is a [[filmmaker]] based in [[Manhattan]]. While remaining upright may be the primary goal of beginning riders, a bike must lean in order to maintain balance", "Michael Bavaro", out noChangeBack));
             Assert.IsFalse(noChangeBack);
 
             Assert.AreEqual(@"{{Unreferenced|date=October 2007}}
-'''Steve Cook''' is a songwriter for Sovereign Grace", p.BoldTitle(@"{{Unreferenced|date=October 2007}}
-Steve Cook is a songwriter for Sovereign Grace", "Steve Cook", out noChangeBack));
+'''Steve Cook''' is a songwriter for Sovereign Grace. While remaining upright may be the primary goal of beginning riders. While remaining upright may be the primary goal of beginning riders
+While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders
+While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders", p.BoldTitle(@"{{Unreferenced|date=October 2007}}
+Steve Cook is a songwriter for Sovereign Grace. While remaining upright may be the primary goal of beginning riders. While remaining upright may be the primary goal of beginning riders
+While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders
+While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders", "Steve Cook", out noChangeBack));
             Assert.IsFalse(noChangeBack);
         }
     }
@@ -976,8 +975,6 @@ p.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo|
 
             Assert.AreEqual(@"[[Category:Bronze Wolf awardees|Laine, Juan]]", p.ChangeToDefaultSort(@"[[Category:Bronze Wolf awardees|Laine, Juan]]", "Hi", out noChange));
             Assert.IsTrue(noChange);
-
-            Assert.AreEqual("é", "e"); // TODO, how to properly test diacritics changes if this test passes?
         }
 
         [Test, Ignore("Unused"), Category("Incomplete")]
