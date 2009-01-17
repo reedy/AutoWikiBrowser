@@ -223,6 +223,9 @@ namespace WikiFunctions.Parse
             //TODO: replace with gallery-only regex, all normal images should be hidden by now as simple wikilinks
             ReplaceMore(WikiRegexes.Images.Matches(ArticleText), ref ArticleText);
 
+            // hide untemplated quotes between some form of quotation masks (most particularly for typo fixing)
+            ReplaceMore(WikiRegexes.UntemplatedQuotes.Matches(ArticleText), ref ArticleText);
+
             return ArticleText;
         }
 
