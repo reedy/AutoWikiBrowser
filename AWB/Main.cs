@@ -3985,6 +3985,12 @@ window.scrollTo(0, diffTopY);
 
         private void StartProgressBar()
         {
+            if (InvokeRequired)
+            {
+                Invoke(new GenericDelegate(StartProgressBar));
+                return;
+            }
+
             MainFormProgressBar.MarqueeAnimationSpeed = 100;
             MainFormProgressBar.Style = ProgressBarStyle.Marquee;
         }
