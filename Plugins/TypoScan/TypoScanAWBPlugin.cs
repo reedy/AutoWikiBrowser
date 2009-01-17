@@ -191,8 +191,6 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         /// </summary>
         private static void UploadFinishedArticlesToServer()
         {
-            //TODO:Fixup for when AWB closing
-
             if (isUploading || EditAndIgnoredPages == 0)
                 return;
 
@@ -214,13 +212,25 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             else
                 postVars.Add("user", "[withheld]");
 
-            Background.BackgroundRequest thread = new BackgroundRequest(UploadFinishedArticlesToServerFinished, UploadFinishedArticlesToServerErrored);
-            thread.PostData(Common.GetUrlFor("finished"), postVars);
+            if (!AWB.Shutdown)
+            {
+                //TODO:Can we reuse this thread object?
+                BackgroundRequest thread = new BackgroundRequest(UploadFinishedArticlesToServerFinished,
+                                                                            UploadFinishedArticlesToServerErrored);
+                thread.PostData(Common.GetUrlFor("finished"), postVars);
+            }
+            else
+                UploadResult(Tools.PostData(postVars, Common.GetUrlFor("finished")));
         }
 
         private static void UploadFinishedArticlesToServerFinished(BackgroundRequest req)
         {
-            if (string.IsNullOrEmpty(Common.CheckOperation(req.Result.ToString())))
+            UploadResult(req.Result.ToString());
+        }
+
+        private static void UploadResult(string result)
+        {
+            if (string.IsNullOrEmpty(Common.CheckOperation(result)))
             {
                 UploadedThisSession += editsAndIgnored;
                 SavedPages.Clear();
@@ -228,7 +238,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                 SkippedReasons.Clear();
 
                 if ((UploadedThisSession % 100) == 0)
-                  CheckoutTime = new DateTime();
+                    CheckoutTime = new DateTime();
             }
 
             AWB.StopProgressBar();
@@ -245,12 +255,10 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             if (req.ErrorException is System.IO.IOException)
             {
                 Tools.WriteDebug("TypoScanAWBPlugin", req.ErrorException.Message);
-                return;
             }
-            if (req.ErrorException is System.Net.WebException)
+            else if (req.ErrorException is System.Net.WebException)
             {
                 Tools.WriteDebug("TypoScanAWBPlugin", req.ErrorException.Message);
-                return;
             }
         }
 
