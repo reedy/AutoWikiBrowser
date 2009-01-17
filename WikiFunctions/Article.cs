@@ -492,7 +492,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Sets Default Sort on Article if Necessary
+        /// Sets Default Sort on Article if Necessary / clean diacritics
         /// </summary>
         /// <param name="parsers">An initialised Parsers object</param>
         /// <param name="LangCode">The wiki's language code</param>
@@ -507,7 +507,7 @@ namespace WikiFunctions
                 if (SkipIfNoChange && noChange)
                     Trace.AWBSkipped("No DefaultSort Added");
                 else if (!noChange)
-                    AWBChangeArticleText("DefaultSort Added", strTemp, true);
+                    AWBChangeArticleText("DefaultSort Added/Diacritics cleaned", strTemp, true);
             }
         }
 
