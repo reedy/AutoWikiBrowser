@@ -1223,10 +1223,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             NoChange = true;
 
-            // TODO make title bolding work sensibly, then remove the line below
-            if (ArticleText.Contains(@"'''"))
-                return ArticleTextAtStart;
-
             // ignore date articles (date in American or international format)
             if (WikiRegexes.Dates2.IsMatch(ArticleTitle) || WikiRegexes.Dates.IsMatch(ArticleTitle))
                 return ArticleTextAtStart;
@@ -1243,7 +1239,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             Regex BoldTitleAlready2 = new Regex(@"'''\s*(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + @")\s*'''");
             Regex BoldTitleAlready3 = new Regex(@"^\s*({{[^\{\}]+}}\s*)*'''('')?\s*\w");
 
-            //if title in bold already exists in article, or title starts with something in bold don't change anything
+            //if title in bold already exists in article, or page starts with something in bold, don't change anything
             if (BoldTitleAlready1.IsMatch(ArticleText) || BoldTitleAlready2.IsMatch(ArticleText) 
                 || BoldTitleAlready3.IsMatch(ArticleText))
                 return ArticleTextAtStart;
@@ -1254,16 +1250,26 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             // first try title with brackets removed
             if(regexBoldNoBrackets.IsMatch(ArticleText))
             {
-                NoChange = false;
                 ArticleText = regexBoldNoBrackets.Replace(ArticleText, "$1'''$2'''$3", 1);
-                return hider.AddBackMore(ArticleText);
+                
+                // check that the bold added is the first bit in bold in the main body of the article
+                if (Regex.Replace(ArticleText, @"(?s)(.*?)'''" + escTitleNoBrackets + ".*", "$1").Length <= Regex.Replace(ArticleText, @"(?s)(.*?)'''.*", "$1").Length)
+                {
+                    NoChange = false;
+                    return hider.AddBackMore(ArticleText);
+                }
             }
 
             if (regexBold.IsMatch(ArticleText))
             {
-                NoChange = false;
                 ArticleText = regexBold.Replace(ArticleText, "$1'''$2'''$3", 1);
-                return hider.AddBackMore(ArticleText);
+
+                // check that the bold added is the first bit in bold in the main body of the article
+                if (Regex.Replace(ArticleText, @"(?s)(.*?)'''" + escTitle + ".*", "$1").Length <= Regex.Replace(ArticleText, @"(?s)(.*?)'''.*", "$1").Length)
+                {
+                    NoChange = false;
+                    return hider.AddBackMore(ArticleText);
+                }
             }
             return ArticleTextAtStart;
         }
