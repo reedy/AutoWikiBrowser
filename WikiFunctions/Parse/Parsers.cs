@@ -971,7 +971,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             foreach (Match m in WikiRegexes.LooseCategory.Matches(ArticleText))
             {
                 if (!Tools.IsValidTitle(m.Groups[1].Value)) continue;
-                string x = cat + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim()) + Tools.RemoveDiacritics(m.Groups[2].Value) + "]]";
+                string x = cat + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim()) + Tools.RemoveDiacritics(m.Groups[2].Value.TrimEnd()) + "]]";
                 if (x != m.Value) ArticleText = ArticleText.Replace(m.Value, x);
             }
 
