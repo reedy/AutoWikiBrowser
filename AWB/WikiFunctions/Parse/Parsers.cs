@@ -1326,7 +1326,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
-        // NOT covered
         /// <summary>
         /// Replaces an iamge in the article.
         /// </summary>
@@ -1339,8 +1338,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             ArticleText = FixImages(ArticleText);
 
             //remove image prefix
-            OldImage = Regex.Replace(OldImage, "^" + Variables.Namespaces[Namespace.File], "", RegexOptions.IgnoreCase).Replace("_", " ");
-            NewImage = Regex.Replace(NewImage, "^" + Variables.Namespaces[Namespace.File], "", RegexOptions.IgnoreCase).Replace("_", " ");
+            OldImage = Tools.WikiDecode(Regex.Replace(OldImage, "^" + Variables.Namespaces[Namespace.File], "", RegexOptions.IgnoreCase));
+            NewImage = Tools.WikiDecode(Regex.Replace(NewImage, "^" + Variables.Namespaces[Namespace.File], "", RegexOptions.IgnoreCase));
 
             OldImage = Regex.Escape(OldImage).Replace("\\ ", "[ _]");
 
@@ -1352,7 +1351,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
-        // NOT covered
         /// <summary>
         /// Removes an image from the article.
         /// </summary>
@@ -1364,14 +1362,17 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static string RemoveImage(string Image, string ArticleText, bool CommentOut, string Comment)
         {
             //remove image prefix
-            Image = Regex.Replace(Image, "^" + Variables.NamespacesCaseInsensitive[Namespace.File], "", RegexOptions.IgnoreCase).Replace("_", " ");
+            Image = Tools.WikiDecode(Regex.Replace(Image, "^" 
+                + Variables.NamespacesCaseInsensitive[Namespace.File], "", RegexOptions.IgnoreCase));
             Image = Tools.CaseInsensitive(HttpUtility.UrlDecode(Regex.Escape(Image).Replace("\\ ", "[ _]")));
 
             ArticleText = FixImages(ArticleText);
 
-            Regex r = new Regex("\\[\\[" + Variables.NamespacesCaseInsensitive[Namespace.File] + Image + ".*\\]\\]");
-            MatchCollection n = r.Matches(ArticleText);
+            Regex r = new Regex(@"\[\[:?(?i:" 
+                + WikiRegexes.GenerateNamespaceRegex(Namespace.File, Namespace.Media)
+                + @")\s*:" + Image + @".*\]\]");
 
+            MatchCollection n = r.Matches(ArticleText);
             if (n.Count > 0)
             {
                 foreach (Match m in n)
