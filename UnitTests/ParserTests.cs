@@ -544,19 +544,19 @@ Some news here.", "test"));
             Assert.IsTrue(noChange);
 
             Assert.AreEqual("[[File:bar]]", p.ReplaceImage("foo", "bar", "[[File:Foo]]", out noChange));
-            Assert.IsTrue(noChange);
+            Assert.IsFalse(noChange);
 
             // preserve namespace
             Assert.AreEqual("[[Image:bar]]", p.ReplaceImage("foo", "bar", "[[image:Foo]]", out noChange));
-            Assert.IsTrue(noChange);
+            Assert.IsFalse(noChange);
 
             // pipes, non-canonical NS casing
             Assert.AreEqual("[[File:bar]]", 
                 p.ReplaceImage("Foo%2C_bar", "bar", "[[FIle:foo, bar|boz!|666px]]", out noChange));
-            Assert.IsTrue(noChange);
+            Assert.IsFalse(noChange);
 
             Assert.AreEqual("[[Media:bar]]", p.ReplaceImage("foo", "bar", "[[Media:foo]]", out noChange));
-            Assert.IsTrue(noChange);
+            Assert.IsFalse(noChange);
         }
     }
 
