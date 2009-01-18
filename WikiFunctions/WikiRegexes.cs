@@ -135,6 +135,42 @@ namespace WikiFunctions
             ExtractTitle = new Regex("^" + s + "([^?&]*)$", RegexOptions.Compiled);
         }
 
+        // Covered by RegexTests.GenerateNamespaceRegex()
+        /// <summary>
+        /// Generates a regex template for all variants of one or more namespace,
+        /// e.g. "File|Image"
+        /// </summary>
+        /// <param name="namespaces">One or more namespaces to process</param>
+        public static string GenerateNamespaceRegex(params int[] namespaces)
+        {
+            StringBuilder sb = new StringBuilder(100 * namespaces.Length);
+            foreach (int ns in namespaces)
+            {
+                if (ns == Namespace.Article) continue;
+
+                if (sb.Length > 0) sb.Append('|');
+
+                string nsName = Variables.Namespaces[ns];
+                sb.Append(Tools.StripNamespaceColon(nsName));
+                if (Variables.CanonicalNamespaces.ContainsKey(ns) 
+                    && Variables.CanonicalNamespaces[ns] != nsName)
+                {
+                    sb.Append('|');
+                    sb.Append(Tools.StripNamespaceColon(Variables.CanonicalNamespaces[ns]));
+                }
+
+                if (Variables.NamespaceAliases.ContainsKey(ns))
+                    foreach (string s in Variables.NamespaceAliases[ns])
+                    {
+                        sb.Append('|');
+                        sb.Append(Tools.StripNamespaceColon(s));
+                    }
+            }
+
+            sb.Replace(" ", "[ _]");
+            return sb.ToString();
+        }
+
         /// <summary>
         /// Piece of template call, including curly brace and possible namespace
         /// </summary>

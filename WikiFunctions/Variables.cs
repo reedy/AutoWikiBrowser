@@ -631,28 +631,11 @@ namespace WikiFunctions
         private static void RegenerateRegexes()
         {
             NamespacesCaseInsensitive.Clear();
-            //bool LangNotEnglish = (LangCode != LangCodeEnum.en);
-            foreach (KeyValuePair<int, string> k in Namespaces)
+
+            foreach (int ns in Namespaces.Keys)
             {
-                StringBuilder sb = new StringBuilder("(?i:", 200);
-                sb.Append(Tools.StripNamespaceColon(k.Value));
-                if (CanonicalNamespaces.ContainsKey(k.Key) && CanonicalNamespaces[k.Key] != k.Value)
-                {
-                    sb.Append('|');
-                    sb.Append(Tools.StripNamespaceColon(CanonicalNamespaces[k.Key]));
-                }
-
-                if (NamespaceAliases.ContainsKey(k.Key))
-                    foreach (string ns in NamespaceAliases[k.Key])
-                    {
-                        sb.Append('|');
-                        sb.Append(Tools.StripNamespaceColon(ns));
-                    }
-                // no need to add CanonicalNamespaceAliases here, or...
-
-                sb.Append(@")\s*:");
-
-                NamespacesCaseInsensitive.Add(k.Key, sb.ToString());
+                NamespacesCaseInsensitive.Add(ns, "(?i:" 
+                    + WikiRegexes.GenerateNamespaceRegex(ns) + @")\s*:");
             }
 
             WikiRegexes.MakeLangSpecificRegexes();
