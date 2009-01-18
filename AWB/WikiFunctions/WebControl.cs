@@ -454,9 +454,7 @@ namespace WikiFunctions.Browser
                     return "";
 
                 string s = m.Groups[1].Value.Trim('"');
-                s = s.Replace("\\\"", "\"").Replace("\\'", "'");
-
-                return s;
+                return s.Replace("\\\"", "\"").Replace("\\'", "'");
             }
             catch
             {

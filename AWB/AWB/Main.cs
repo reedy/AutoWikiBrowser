@@ -2450,7 +2450,7 @@ window.scrollTo(0, diffTopY);
             listMaker.FilterDuplicates = removeDuplicatesToolStripMenuItem.Checked;
 
             if (removeDuplicatesToolStripMenuItem.Checked)
-                listMaker.removeListDuplicates();
+                listMaker.RemoveListDuplicates();
         }
 
         private void specialFilterToolStripMenuItem1_Click(object sender, EventArgs e)
