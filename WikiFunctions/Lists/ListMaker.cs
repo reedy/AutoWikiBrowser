@@ -593,7 +593,7 @@ namespace WikiFunctions.Controls.Lists
             if (FilterNonMainAuto)
                 FilterNonMainArticles();
             if (FilterDuplicates)
-                removeListDuplicates();
+                RemoveListDuplicates();
         }
 
         private delegate void AddDel(List<Article> l);
@@ -751,7 +751,7 @@ namespace WikiFunctions.Controls.Lists
                 if (FilterNonMainAuto)
                     FilterNonMainArticles();
                 if (FilterDuplicates)
-                    removeListDuplicates();
+                    RemoveListDuplicates();
                 StopProgressBar();
             }
         }
@@ -789,8 +789,14 @@ namespace WikiFunctions.Controls.Lists
         /// <summary>
         /// Automatically removes all duplicates from the list
         /// </summary>
-        public void removeListDuplicates()
+        public void RemoveListDuplicates()
         {
+            if (InvokeRequired)
+            {
+                Invoke(new GenericDelegate(RemoveListDuplicates));
+                return;
+            }
+
             SpecialFilter.Clear();
             SpecialFilter.RemoveDuplicates();
 
@@ -852,7 +858,7 @@ namespace WikiFunctions.Controls.Lists
             }
         }
 
-        private delegate void FilterNM();
+        private delegate void GenericDelegate();
 
         /// <summary>
         /// Filters out articles that are not in the main namespace
@@ -862,7 +868,7 @@ namespace WikiFunctions.Controls.Lists
             //filter out non-mainspace articles
             if (InvokeRequired)
             {
-                Invoke(new FilterNM(FilterNonMainArticles));
+                Invoke(new GenericDelegate(FilterNonMainArticles));
                 return;
             }
 
@@ -980,7 +986,7 @@ namespace WikiFunctions.Controls.Lists
 
         private void duplicatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            removeListDuplicates();
+            RemoveListDuplicates();
         }
 
         private void convertToTalkPagesToolStripMenuItem_Click(object sender, EventArgs e)
