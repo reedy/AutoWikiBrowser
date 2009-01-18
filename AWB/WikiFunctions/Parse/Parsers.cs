@@ -884,7 +884,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return regexMainArticle.Replace(ArticleText, "{{main|$1|l1=$3}}");
         }
 
-        // Covered by LinkTests.TestFixEmptyLinksAndTemplates(), incomplete
+        // Covered by LinkTests.TestFixEmptyLinksAndTemplates()
         /// <summary>
         /// Removes Empty Links and Template Links
         /// Will Cater for [[]], [[Image:]], [[:Category:]], [[Category:]] and {{}}

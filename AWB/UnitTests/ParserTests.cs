@@ -348,12 +348,14 @@ http://example.com }}");
             Assert.AreEqual(@"[[Category:World Scout Committee members|Laine, Juan]]", Parsers.FixCategories(@"[[Category:World Scout Committee members|Lainé, Juan]]"));
         }
 
-        [Test, Category("Incomplete")]
+        [Test]
         public void TestFixEmptyLinksAndTemplates()
         {
             Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates(""));
 
             Assert.AreEqual("Test", Parsers.FixEmptyLinksAndTemplates("Test"));
+
+            Assert.AreEqual("{{Test}}", Parsers.FixEmptyLinksAndTemplates("{{Test}}"));
 
             Assert.AreEqual("Test\r\n{{Test}}", Parsers.FixEmptyLinksAndTemplates("Test\r\n{{Test}}"));
 
@@ -366,7 +368,7 @@ http://example.com }}");
             Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("{{Template:}}"));
             Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("{{Template:     |||}}"));
 
-            Assert.AreEqual("{{Test}}", Parsers.FixEmptyLinksAndTemplates("{{Test}}"));
+            Assert.AreEqual("{{Test}}", Parsers.FixEmptyLinksAndTemplates("{{  }}{{Test}}{{Template: ||}}"));
 
             Assert.AreEqual("[[Test]]", Parsers.FixEmptyLinksAndTemplates("[[Test]]"));
             Assert.AreEqual("[[Test|Bar]]", Parsers.FixEmptyLinksAndTemplates("[[Test|Bar]]"));
@@ -394,6 +396,9 @@ http://example.com }}");
             Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[File:]]"));
             Assert.AreEqual("Text ", Parsers.FixEmptyLinksAndTemplates("Text [[File:]]"));
             Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[File:  ]]"));
+
+            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[File:]][[Image:]]"));
+            Assert.AreEqual("[[File:Test]]", Parsers.FixEmptyLinksAndTemplates("[[File:Test]][[Image:]]"));
         }
     }
 
