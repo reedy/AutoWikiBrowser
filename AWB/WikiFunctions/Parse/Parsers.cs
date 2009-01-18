@@ -884,8 +884,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return regexMainArticle.Replace(ArticleText, "{{main|$1|l1=$3}}");
         }
 
-        private static readonly Regex emptyTemplate = new Regex(@"{{[|\s]*}}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
         // Covered by LinkTests.TestFixEmptyLinksAndTemplates(), incomplete
         /// <summary>
         /// Removes Empty Links and Template Links
@@ -895,6 +893,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public static string FixEmptyLinksAndTemplates(string ArticleText)
         {
+            //TODO:Reuseable regexes?
             string cat = Variables.NamespacesCaseInsensitive[Namespace.Category];
             string img = Variables.NamespacesCaseInsensitive[Namespace.Image];
 
@@ -906,6 +905,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 if (string.IsNullOrEmpty(trim) || trim == "|" + img || trim == "|" + cat || trim == "|")
                     ArticleText = ArticleText.Replace("[[" + link.Groups[1].Value + link.Groups[2].Value + "]]", "");
             }
+
+            Regex emptyTemplate = new Regex(@"{{(" + Variables.NamespacesCaseInsensitive[Namespace.Template] + @")?[|\s]*}}", RegexOptions.IgnoreCase);
 
             if (emptyTemplate.Match(ArticleText).Success)
             {
