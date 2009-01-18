@@ -2148,6 +2148,7 @@ window.scrollTo(0, diffTopY);
                     lblOnlyBots.Visible = true;
                     Variables.User.IsBot = false;
                     Variables.User.IsAdmin = false;
+                    apiEdit = new ApiEdit(Variables.URLLong);
                 }
             }
             ListMaker.AddRemoveRedirects();
