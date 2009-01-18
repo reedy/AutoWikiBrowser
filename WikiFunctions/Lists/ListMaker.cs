@@ -819,7 +819,6 @@ namespace WikiFunctions.Controls.Lists
             try
             {
                 StringBuilder strList = new StringBuilder();
-                StreamWriter sw;
 
                 if (strListFile.Length > 0) saveListDialog.FileName = strListFile;
 
@@ -847,9 +846,8 @@ namespace WikiFunctions.Controls.Lists
                             break;
                     }
                     strListFile = saveListDialog.FileName;
-                    sw = new StreamWriter(strListFile, false, Encoding.UTF8);
-                    sw.Write(strList);
-                    sw.Close();
+
+                    Tools.WriteTextFileAbsolutePath(strList, strListFile, false);
                 }
             }
             catch (Exception ex)

@@ -1854,8 +1854,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 {
                     catHTML = Tools.GetHTML(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(ArticleTitle));
                 }
-                catch (System.Net.WebException)
+                catch (System.Net.WebException we)
                 {
+                    Tools.WriteDebug("Parsers.Tagger", we.Message);
                 }
             }
 
