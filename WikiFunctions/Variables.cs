@@ -1101,6 +1101,7 @@ namespace WikiFunctions
                 {
                     WikiStatus = true;
                     IsBot = true;
+                    IsAdmin = Groups.Contains("sysop") || Groups.Contains("staff");
                     return WikiStatusResult.Registered;
                 }
 
