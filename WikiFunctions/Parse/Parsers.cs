@@ -707,14 +707,14 @@ namespace WikiFunctions.Parse
         {
             StringBuilder sb = new StringBuilder(ArticleText, (ArticleText.Length * 11) / 10);
 
-            string y;
-
             foreach (Match m in WikiRegexes.WikiLink.Matches(ArticleText))
             {
-                if (m.Groups[1].Value.Length > 0) y = m.Value.Replace(m.Groups[1].Value, CanonicalizeTitle(m.Groups[1].Value));
-                else continue;
+                if (m.Groups[1].Value.Length > 0)
+                {
+                    string y = m.Value.Replace(m.Groups[1].Value, CanonicalizeTitle(m.Groups[1].Value));
 
-                if (y != m.Value) sb = sb.Replace(m.Value, y);
+                    if (y != m.Value) sb = sb.Replace(m.Value, y);
+                }
             }
 
             NoChange = (sb.ToString() == ArticleText);
@@ -1063,9 +1063,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             Match m = search.Match(ArticleText);
 
-            if (!m.Success) return "";
-
-            return ExtractTemplate(ArticleText, m);
+            return !m.Success ? "" : ExtractTemplate(ArticleText, m);
         }
 
         // NOT covered
@@ -1225,7 +1223,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             // first quick check: ignore articles with some bold in first 5% of hidemore article
             string ArticleText5 = hider.HideMore(ArticleText);
-            int fivepc = (int) ArticleText5.Length/20;
+            int fivepc = ArticleText5.Length/20;
             //ArticleText5.Length
             if(ArticleText5.Substring(0, fivepc).Contains("'''"))
                 return ArticleTextAtStart;
@@ -1242,7 +1240,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             Regex BoldTitleAlready1 = new Regex(@"'''\s*(" + escTitle + "|" + Tools.TurnFirstToLower(escTitle) + @")\s*'''", RegexOptions.Compiled);
             Regex BoldTitleAlready2 = new Regex(@"'''\s*(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + @")\s*'''", RegexOptions.Compiled);
             Regex BoldTitleAlready3 = new Regex(@"^\s*({{[^\{\}]+}}\s*)*'''('')?\s*\w", RegexOptions.Compiled);
-
 
             //if title in bold already exists in article, or page starts with something in bold, don't change anything
             if (BoldTitleAlready1.IsMatch(ArticleText) || BoldTitleAlready2.IsMatch(ArticleText) 
@@ -1290,17 +1287,15 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             Regex regexFirstBold = new Regex(@"^(.*?)'''", RegexOptions.Singleline | RegexOptions.Compiled);
             Regex regexBoldAdded = new Regex(@"^(.*?)'''" + escapedTitle, RegexOptions.Singleline | RegexOptions.Compiled);
-            int FirstBoldPos = 0;
-            int BoldAddedPos = 0;
 
-            BoldAddedPos = regexBoldAdded.Match(ArticleText).Length - Regex.Unescape(escapedTitle).Length;
+            int BoldAddedPos = regexBoldAdded.Match(ArticleText).Length - Regex.Unescape(escapedTitle).Length;
 
-            FirstBoldPos = regexFirstBold.Match(ArticleText).Length;
+            int FirstBoldPos = regexFirstBold.Match(ArticleText).Length;
 
             ArticleText = hider.HideMore(ArticleText);
 
             // was bold added in first 5% of article?
-            bool inFirst5Percent = ArticleText.Substring(0, (int)ArticleText.Length / 20).Contains("'''");
+            bool inFirst5Percent = ArticleText.Substring(0, ArticleText.Length / 20).Contains("'''");
 
             // check that the bold added is the first bit in bold in the main body of the article, and in first 5% of HideMore article
             if (inFirst5Percent && BoldAddedPos <= FirstBoldPos)
@@ -1706,15 +1701,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             string birthCat = m.Value;
             int birthYear = int.Parse(m.Groups[1].Value);
-            string catKey = "";
 
             if (birthYear < 1910)
                 return ArticleText;
 
-            if (birthCat.Contains("|"))
-                catKey = Regex.Match(birthCat, "\\|.*?\\]\\]").Value;
-            else
-                catKey = "]]";
+            string catKey = birthCat.Contains("|") ? Regex.Match(birthCat, "\\|.*?\\]\\]").Value : "]]";
 
             ArticleText += "[[Category:Living people" + catKey;
 
@@ -2035,7 +2026,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         public static bool IsStub(string ArticleText)
         {
-            return (HasStubTemplate(ArticleText) || ArticleText.Length < Parsers.StubMaxWordCount);
+            return (HasStubTemplate(ArticleText) || ArticleText.Length < StubMaxWordCount);
         }
 
         public static bool HasInfobox(string ArticleText)
