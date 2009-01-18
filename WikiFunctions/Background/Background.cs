@@ -26,13 +26,36 @@ using System.Web;
 
 namespace WikiFunctions.Background
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="req"></param>
     public delegate void BackgroundRequestComplete(BackgroundRequest req);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="req"></param>
     public delegate void BackgroundRequestErrored(BackgroundRequest req);
+
+    /// <summary>
+    /// 
+    /// </summary>
     public delegate void ExecuteFunctionDelegate();
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class BackgroundRequest
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public object Result;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public bool Done
         {
             get
@@ -51,24 +74,50 @@ namespace WikiFunctions.Background
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool HasUI = true;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public Exception ErrorException { get; private set; }
+
         PleaseWait ui;
 
         Thread BgThread;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public event BackgroundRequestComplete Complete;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public event BackgroundRequestErrored Errored;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public BackgroundRequest()
         { }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="handler"></param>
         public BackgroundRequest(BackgroundRequestComplete handler)
         {
             Complete += handler;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="completeHandler"></param>
+        /// <param name="errorHandler"></param>
         public BackgroundRequest(BackgroundRequestComplete completeHandler, BackgroundRequestErrored errorHandler)
             : this (completeHandler)
         {
@@ -99,6 +148,10 @@ namespace WikiFunctions.Background
         protected string strParam;
         protected object objParam1, objParam2, objParam3;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="start"></param>
         private void InitThread(ThreadStart start)
         {
             BgThread = new Thread(start);
@@ -108,11 +161,17 @@ namespace WikiFunctions.Background
             BgThread.Start();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void InvokeOnComplete()
         {
             if (Complete != null) Complete(this);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void InvokeOnError()
         {
             if (Errored != null) Errored(this);
@@ -129,6 +188,9 @@ namespace WikiFunctions.Background
             InitThread(GetHTMLFunc);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void GetHTMLFunc()
         {
             try
@@ -156,6 +218,9 @@ namespace WikiFunctions.Background
             InitThread(PostDataFunc);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void PostDataFunc()
         {
             try
@@ -170,6 +235,10 @@ namespace WikiFunctions.Background
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="d"></param>
         public void Execute(ExecuteFunctionDelegate d)
         {
             BgThread = new Thread(ExecuteFunc);
@@ -178,6 +247,10 @@ namespace WikiFunctions.Background
             BgThread.Start(d);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="d"></param>
         private void ExecuteFunc(object d)
         {
             try
@@ -205,6 +278,9 @@ namespace WikiFunctions.Background
             InitThread(BypassRedirectsFunc);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void BypassRedirectsFunc()
         {//checks links to make them bypass redirects and (TODO) disambigs
             Regex wikiLinksOnly = new Regex("\\[\\[([^:|]*?)\\]\\]", RegexOptions.Compiled);
@@ -339,6 +415,9 @@ namespace WikiFunctions.Background
             InitThread(GetListFunc);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void GetListFunc()
         {
             if (HasUI)
