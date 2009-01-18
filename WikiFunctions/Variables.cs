@@ -420,7 +420,7 @@ namespace WikiFunctions
 
         public static string Stub;
         public static string SectStub;
-        public static Regex InUse = new Regex("(?!.*?<!--.*?{{inuse.*?}}.*?-->)(^.*?{{inuse.*)", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
+        public static Regex InUse = new Regex(@"{{\s*[Ii]nuse\s*[\}\|]", RegexOptions.Compiled);
 
         /// <summary>
         /// Sets different language variables, such as namespaces. Default is english Wikipedia

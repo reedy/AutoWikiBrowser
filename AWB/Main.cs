@@ -663,7 +663,7 @@ namespace AutoWikiBrowser
                     SkipPage("Page contains {{inuse}}");
                     return;
                 }
-                else if (!BotMode)
+                else if (!BotMode && !preParseModeToolStripMenuItem.Checked)
                     MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
 
             // check for {{sic}} tags etc. when doing typo fixes and not in pre-parse mode
