@@ -2043,7 +2043,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return false;
         }
 
-        // NOT covered
         /// <summary>
         /// Check if article has an 'inusetag'
         /// </summary>
