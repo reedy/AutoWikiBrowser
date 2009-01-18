@@ -347,6 +347,51 @@ http://example.com }}");
             // diacritics removed from sortkeys
             Assert.AreEqual(@"[[Category:World Scout Committee members|Laine, Juan]]", Parsers.FixCategories(@"[[Category:World Scout Committee members|Lainé, Juan]]"));
         }
+
+        [Test, Category("Incomplete")]
+        public void TestFixEmptyLinksAndTemplates()
+        {
+            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates(""));
+
+            Assert.AreEqual("Test", Parsers.FixEmptyLinksAndTemplates("Test"));
+
+            Assert.AreEqual("Test\r\n{{Test}}", Parsers.FixEmptyLinksAndTemplates("Test\r\n{{Test}}"));
+
+            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("{{}}"));
+            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("{{ }}"));
+            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("{{|}}"));
+            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("{{||||||||||||||||}}"));
+            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("{{|||| |||||||                      ||  |||}}"));
+
+            Assert.AreEqual("{{Test}}", Parsers.FixEmptyLinksAndTemplates("{{Test}}"));
+
+            Assert.AreEqual("[[Test]]", Parsers.FixEmptyLinksAndTemplates("[[Test]]"));
+            Assert.AreEqual("[[Test|Bar]]", Parsers.FixEmptyLinksAndTemplates("[[Test|Bar]]"));
+            Assert.AreEqual("[[|Bar]]", Parsers.FixEmptyLinksAndTemplates("[[|Bar]]"));
+
+            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[]]"));
+            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[  ]]"));
+
+            Assert.AreEqual("[[Category:Test]]", Parsers.FixEmptyLinksAndTemplates("[[Category:Test]]"));
+            Assert.AreEqual("Text [[Category:Test]]", Parsers.FixEmptyLinksAndTemplates("Text [[Category:Test]]"));
+
+            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[Category:]]"));
+            Assert.AreEqual("Text ", Parsers.FixEmptyLinksAndTemplates("Text [[Category:]]"));
+            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[Category:  ]]"));
+
+            Assert.AreEqual("[[Image:Test]]", Parsers.FixEmptyLinksAndTemplates("[[Image:Test]]"));
+            Assert.AreEqual("Text [[Image:Test]]", Parsers.FixEmptyLinksAndTemplates("Text [[Image:Test]]"));
+            Assert.AreEqual("[[File:Test]]", Parsers.FixEmptyLinksAndTemplates("[[File:Test]]"));
+            Assert.AreEqual("Text [[File:Test]]", Parsers.FixEmptyLinksAndTemplates("Text [[File:Test]]"));
+
+            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[Image:]]"));
+            Assert.AreEqual("Text ", Parsers.FixEmptyLinksAndTemplates("Text [[Image:]]"));
+            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[Image:  ]]"));
+
+            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[File:]]"));
+            Assert.AreEqual("Text ", Parsers.FixEmptyLinksAndTemplates("Text [[File:]]"));
+            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[File:  ]]"));
+        }
     }
 
     [TestFixture]

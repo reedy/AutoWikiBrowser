@@ -151,10 +151,7 @@ namespace WikiFunctions.Parse
         /// <returns>The re-organised text.</returns>
         public string SortMetaData(string ArticleText, string ArticleTitle)
         {
-            if (Variables.Project <= ProjectEnum.species)
-                return Sorter.Sort(ArticleText, ArticleTitle);
-
-            return ArticleText;
+            return (Variables.Project <= ProjectEnum.species) ? Sorter.Sort(ArticleText, ArticleTitle) : ArticleText;
         }
 
         private readonly Regex regexFixDates0 = new Regex(@"(the |later? |early |mid-)(\[?\[?[12][0-9][0-9]0\]?\]?)'s(\]\])?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -618,6 +615,7 @@ namespace WikiFunctions.Parse
             return byte.Parse(new string(new [] { (char)a, (char)b }), System.Globalization.NumberStyles.HexNumber);
         }
 
+        // NOT covered, unused
         /// <summary>
         /// Decodes anchor-encoded links. Don't use unless rewrittten not to screw stuff like [[Windows#3.11]]
         /// </summary>
@@ -732,6 +730,7 @@ namespace WikiFunctions.Parse
             return CanonicalizeTitleRaw(title, true);
         }
 
+        //NOT covered
         /// <summary>
         /// performs URL-decoding of a page title
         /// </summary>
@@ -887,7 +886,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
         private static readonly Regex emptyTemplate = new Regex(@"{{[|\s]*}}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        // NOT covered
+        // Covered by LinkTests.TestFixEmptyLinksAndTemplates(), incomplete
         /// <summary>
         /// Removes Empty Links and Template Links
         /// Will Cater for [[]], [[Image:]], [[:Category:]], [[Category:]] and {{}}
@@ -896,8 +895,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public static string FixEmptyLinksAndTemplates(string ArticleText)
         {
-            string cat = Variables.Namespaces[Namespace.Category];
-            string img = Variables.Namespaces[Namespace.Image];
+            string cat = Variables.NamespacesCaseInsensitive[Namespace.Category];
+            string img = Variables.NamespacesCaseInsensitive[Namespace.Image];
 
             Regex emptyLink = new Regex("\\[\\[(:?" + cat + "|" + img + "|)(|" + img + "|" + cat + "|.*?)\\]\\]", RegexOptions.IgnoreCase);
 
