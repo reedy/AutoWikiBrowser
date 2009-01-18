@@ -497,6 +497,13 @@ Some news here.", "test"));
             Assert.AreEqual("[[Image:foo.jpg|thumb|200px|Bar]]",
                 Parsers.FixImages("[[ image : foo.jpg|thumb|200px|Bar]]"));
 
+            //TODO: decide if such improvements really belong here
+            //Assert.AreEqual("[[Media:foo]]",
+            //    Parsers.FixImages("[[ media : foo]]"));
+
+            //Assert.AreEqual("[[:Media:foo]]",
+            //    Parsers.FixImages("[[ : media : foo]]"));
+
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#URL_underscore_regression
             Assert.AreEqual("[[File:foo|thumb]] # [http://a_b c] [[link]]",
                 Parsers.FixImages("[[File:foo|thumb]] # [http://a_b c] [[link]]"));
@@ -517,6 +524,9 @@ Some news here.", "test"));
             Assert.AreEqual("", p.RemoveImage("Foo.jpg", "[[Image:Foo.jpg]]", false, "", out noChange));
             Assert.IsFalse(noChange);
 
+            Assert.AreEqual("", p.RemoveImage("Foo.jpg", "[[:Image:Foo.jpg]]", false, "", out noChange));
+            Assert.IsFalse(noChange);
+
             Assert.AreEqual("", p.RemoveImage("foo.jpg", "[[Image: foo.jpg]]", false, "", out noChange));
             Assert.IsFalse(noChange);
 
@@ -527,6 +537,9 @@ Some news here.", "test"));
             Assert.IsFalse(noChange);
 
             Assert.AreEqual("", p.RemoveImage("foo.jpg", "[[Media:foo.jpg]]", false, "", out noChange));
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual("", p.RemoveImage("foo.jpg", "[[:media : foo.jpg]]", false, "", out noChange));
             Assert.IsFalse(noChange);
 
             Assert.AreEqual("{{infobox|image=}}",
@@ -551,11 +564,15 @@ Some news here.", "test"));
             Assert.IsFalse(noChange);
 
             // pipes, non-canonical NS casing
-            Assert.AreEqual("[[File:bar]]", 
+            Assert.AreEqual("[[File:bar|boz!|666px]]", 
                 p.ReplaceImage("Foo%2C_bar", "bar", "[[FIle:foo, bar|boz!|666px]]", out noChange));
             Assert.IsFalse(noChange);
 
             Assert.AreEqual("[[Media:bar]]", p.ReplaceImage("foo", "bar", "[[Media:foo]]", out noChange));
+            Assert.IsFalse(noChange);
+
+            // normalising Media: is not yet supported, see TODO in BasicImprovements()
+            Assert.AreEqual("[[:media:bar]]", p.ReplaceImage("foo", "bar", "[[:media : foo]]", out noChange));
             Assert.IsFalse(noChange);
         }
     }

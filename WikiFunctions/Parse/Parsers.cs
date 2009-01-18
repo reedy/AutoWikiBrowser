@@ -1343,8 +1343,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             OldImage = Regex.Escape(OldImage).Replace("\\ ", "[ _]");
 
-            OldImage = Variables.NamespacesCaseInsensitive[Namespace.File] + Tools.CaseInsensitive(OldImage);
-            NewImage = Variables.Namespaces[Namespace.File] + NewImage;
+            OldImage = "((?i:" + WikiRegexes.GenerateNamespaceRegex(Namespace.File, Namespace.Media)
+                + @"))\s*:\s*" + Tools.CaseInsensitive(OldImage);
+            NewImage = "$1:" + NewImage;
 
             ArticleText = Regex.Replace(ArticleText, OldImage, NewImage);
 
@@ -1368,9 +1369,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             ArticleText = FixImages(ArticleText);
 
-            Regex r = new Regex(@"\[\[:?(?i:" 
+            Regex r = new Regex(@"\[\[\s*:?\s*(?i:" 
                 + WikiRegexes.GenerateNamespaceRegex(Namespace.File, Namespace.Media)
-                + @")\s*:" + Image + @".*\]\]");
+                + @")\s*:\s*" + Image + @".*\]\]");
 
             MatchCollection n = r.Matches(ArticleText);
             if (n.Count > 0)
