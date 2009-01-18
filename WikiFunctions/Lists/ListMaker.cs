@@ -906,7 +906,10 @@ namespace WikiFunctions.Controls.Lists
             lbArticles.Items.Insert(intPos, NewArticle);
 
             lbArticles.ClearSelected();
-            lbArticles.SelectedItem = NewArticle;
+
+            // set current position by index of new article rather than name in case new entry already exists earlier in list
+            //lbArticles.SelectedItem = NewArticle;
+            lbArticles.SetSelected(intPos, true);
         }
 
         /// <summary>
