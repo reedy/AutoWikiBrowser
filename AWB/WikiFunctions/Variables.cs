@@ -947,7 +947,6 @@ namespace WikiFunctions
                 //wait for both pages to load
                 webBrowserLogin.Wait();
                 string strText = webBrowserLogin.GetArticleText();
-                br.Wait();
 
                 Variables.RTL = HeadRTL.IsMatch(webBrowserLogin.ToString());
 
@@ -998,6 +997,7 @@ namespace WikiFunctions
                     }
                 }
 
+                br.Wait();
                 string strVersionPage = (string)br.Result;
 
                 //see if this version is enabled
@@ -1034,8 +1034,7 @@ namespace WikiFunctions
                 CheckPageText = strText;
 
                 //AWB does not support any skin other than Monobook
-                string skin = webBrowserLogin.GetScriptingVar("skin");
-                if (skin == "cologneblue")
+                if (webBrowserLogin.GetScriptingVar("skin") == "cologneblue")
                 {
                     MessageBox.Show("This software does not support the Cologne Blue skin." +
                                     "\r\nPlease choose another skin in your preferences and relogin.", "Error",
