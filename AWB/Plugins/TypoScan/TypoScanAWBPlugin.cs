@@ -186,6 +186,9 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         private static int editsAndIgnored;
         private static bool isUploading;
 
+        static readonly BackgroundRequest thread = new BackgroundRequest(UploadFinishedArticlesToServerFinished,
+                                                            UploadFinishedArticlesToServerErrored);
+
         /// <summary>
         /// 
         /// </summary>
@@ -213,12 +216,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                 postVars.Add("user", "[withheld]");
 
             if (!AWB.Shutdown)
-            {
-                //TODO:Can we reuse this thread object?
-                BackgroundRequest thread = new BackgroundRequest(UploadFinishedArticlesToServerFinished,
-                                                                            UploadFinishedArticlesToServerErrored);
                 thread.PostData(Common.GetUrlFor("finished"), postVars);
-            }
             else
                 UploadResult(Tools.PostData(postVars, Common.GetUrlFor("finished")));
         }
@@ -238,7 +236,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                 SkippedReasons.Clear();
 
                 if ((UploadedThisSession % 100) == 0)
-                    CheckoutTime = new DateTime();
+                    CheckoutTime = DateTime.Now;
             }
 
             AWB.StopProgressBar();
