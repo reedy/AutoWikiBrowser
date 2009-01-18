@@ -1033,6 +1033,22 @@ p.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo|
             Assert.IsFalse(Parsers.HasSicTag("now helo sic there"));
             Assert.IsFalse(Parsers.HasSicTag("The Sound Information Company (SIC) is"));
         }
+
+        [Test]
+        public void HasInUseTagTests()
+        {
+            Assert.IsTrue(Parsers.IsInUse("{{inuse}} Hello world"));
+            Assert.IsTrue(Parsers.IsInUse("{{ inuse  }} Hello world"));
+            Assert.IsTrue(Parsers.IsInUse("{{Inuse}} Hello world"));
+            Assert.IsTrue(Parsers.IsInUse("Hello {{inuse}} Hello world"));
+            Assert.IsTrue(Parsers.IsInUse("{{inuse|5 minutes}} Hello world"));
+
+            // ignore commented inuse
+            Assert.IsFalse(Parsers.IsInUse("<!--{{inuse}}--> Hello world"));
+            Assert.IsTrue(Parsers.IsInUse("<!--{{inuse}}--> {{inuse|5 minutes}} Hello world"));
+
+            Assert.IsFalse(Parsers.IsInUse("{{INUSE}} Hello world")); // no such template
+        }
     }
 
     [TestFixture]

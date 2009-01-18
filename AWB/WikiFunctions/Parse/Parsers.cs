@@ -2049,7 +2049,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         public static bool IsInUse(string ArticleText)
         {
-            return (Variables.LangCode != LangCodeEnum.en) ? false : Variables.InUse.IsMatch(ArticleText);
+            return (Variables.LangCode != LangCodeEnum.en) ? false : Variables.InUse.IsMatch(WikiRegexes.Comments.Replace(ArticleText, ""));
         }
 
         /// <summary>
