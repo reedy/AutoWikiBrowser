@@ -59,6 +59,12 @@ namespace WikiFunctions
                     MessageBox.Show(ex.Message, "Out of Memory error",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                // disk writer error / full
+                else if (ex is System.IO.IOException)
+                {
+                    MessageBox.Show(ex.Message, "Disk write error - is disk full?",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 else // suggest a bug report for other exceptions
                 {
                     ErrorHandler handler = new ErrorHandler();

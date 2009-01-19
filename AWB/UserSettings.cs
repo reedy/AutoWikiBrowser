@@ -234,7 +234,9 @@ namespace AutoWikiBrowser
             catch (Exception ex)
             {
                 ErrorHandler.Handle(ex);
-                if (File.Exists(SettingsFile + ".old"))
+
+                // don't attempt to write to disk if the error was IOException (disk full etc.)
+                if (!(ex is System.IO.IOException) && File.Exists(SettingsFile + ".old"))
                     File.Copy(SettingsFile + ".old", SettingsFile, true);
             }
         }
