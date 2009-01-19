@@ -346,10 +346,6 @@ namespace AutoWikiBrowser
                                 }
                             }
                         }
-                        catch (MissingFieldException)
-                        {
-                            PluginObsolete(Plugin);
-                        }
                         catch (MissingMemberException)
                         {
                             PluginObsolete(Plugin);
