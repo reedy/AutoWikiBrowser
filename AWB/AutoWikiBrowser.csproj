@@ -308,10 +308,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AWBUpdater\AWBUpdater.csproj">
-      <Project>{938C0EAD-3528-4F28-9069-3F90463033AC}</Project>
-      <Name>AWBUpdater</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WikiFunctions\WikiFunctions.csproj">
       <Project>{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}</Project>
       <Name>WikiFunctions</Name>
