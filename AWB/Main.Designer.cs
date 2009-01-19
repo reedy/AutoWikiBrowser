@@ -1407,6 +1407,8 @@ namespace AutoWikiBrowser
             this.makeModuleToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.makeModuleToolStripMenuItem.Text = "Make &module";
             this.makeModuleToolStripMenuItem.Click += new System.EventHandler(this.makeModuleToolStripMenuItem_Click);
+            this.makeModuleToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
+            this.makeModuleToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+M";
             // 
             // externalProcessingToolStripMenuItem
             // 
@@ -1414,6 +1416,8 @@ namespace AutoWikiBrowser
             this.externalProcessingToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.externalProcessingToolStripMenuItem.Text = "&External processing";
             this.externalProcessingToolStripMenuItem.Click += new System.EventHandler(this.externalProcessingToolStripMenuItem_Click);
+            this.externalProcessingToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+            this.externalProcessingToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+E";
             // 
             // toolStripSeparator13
             // 
@@ -1426,6 +1430,8 @@ namespace AutoWikiBrowser
             this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
             this.testRegexToolStripMenuItem.Text = "Regex &tester";
             this.testRegexToolStripMenuItem.Click += new System.EventHandler(this.launchRegexTester);
+            this.testRegexToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
+            this.testRegexToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+T";
             // 
             // launchDumpSearcherToolStripMenuItem
             // 
