@@ -86,7 +86,8 @@ namespace AutoWikiBrowser
                 Microsoft.Win32.RegistryKey reg = Microsoft.Win32.Registry.CurrentUser.
                     OpenSubKey("Software\\AutoWikiBrowser");
 
-                LastPluginLoadedLocation = reg.GetValue("RecentPluginLoadedLocation", "").ToString();
+                if (reg != null)
+                    LastPluginLoadedLocation = reg.GetValue("RecentPluginLoadedLocation", "").ToString();
             }
             catch { }
         }
@@ -98,7 +99,8 @@ namespace AutoWikiBrowser
                 Microsoft.Win32.RegistryKey reg = Microsoft.Win32.Registry.CurrentUser.
             CreateSubKey("Software\\AutoWikiBrowser");
 
-                reg.SetValue("RecentPluginLoadedLocation", LastPluginLoadedLocation);
+                if (reg != null)
+                    reg.SetValue("RecentPluginLoadedLocation", LastPluginLoadedLocation);
             }
             catch { }
         }
@@ -308,34 +310,53 @@ namespace AutoWikiBrowser
                         {
                             asm = Assembly.LoadFile(Plugin);
                         }
-                        catch { }
-
-                        if (asm != null)
+                        catch
                         {
-                            try
+                        }
+
+                        if (asm == null)
+                            continue;
+
+                        try
+                        {
+                            foreach (Type t in asm.GetTypes())
                             {
-                                foreach (Type t in asm.GetTypes())
+                                if (t.GetInterface("IAWBPlugin") != null)
                                 {
-                                    if (t.GetInterface("IAWBPlugin") != null)
-                                    {
-                                        IAWBPlugin plugin = (IAWBPlugin)Activator.CreateInstance(t);
-                                        InitialisePlugin(plugin, awb);
-                                        Items.Add(plugin.Name, plugin);
+                                    IAWBPlugin plugin = (IAWBPlugin) Activator.CreateInstance(t);
 
-                                        if (afterStartup) UsageStats.AddedPlugin(plugin);
-                                    }
-                                    else if (t.GetInterface("IListMakerPlugin") != null)
+                                    if (Items.ContainsKey(plugin.Name))
                                     {
-                                        IListMakerPlugin plugin = (IListMakerPlugin)Activator.CreateInstance(t);
-                                        WikiFunctions.Controls.Lists.ListMaker.AddProvider(plugin);
-
-                                        if (afterStartup) UsageStats.AddedPlugin(plugin);
+                                        MessageBox.Show("A plugin with the name: " + plugin.Name + ", has already been added.\r\nPlease remove old duplicates from your AutoWikiBrowser Directory, and restart AWB.", "Duplicate AWB Plugin");
+                                        continue;
                                     }
+
+                                    InitialisePlugin(plugin, awb);
+
+                                    Items.Add(plugin.Name, plugin);
+
+                                    if (afterStartup) UsageStats.AddedPlugin(plugin);
+                                }
+                                else if (t.GetInterface("IListMakerPlugin") != null)
+                                {
+                                    IListMakerPlugin plugin = (IListMakerPlugin) Activator.CreateInstance(t);
+                                    WikiFunctions.Controls.Lists.ListMaker.AddProvider(plugin);
+
+                                    if (afterStartup) UsageStats.AddedPlugin(plugin);
                                 }
                             }
-                            catch (MissingFieldException) { PluginObsolete(Plugin); }
-                            catch (MissingMemberException) { PluginObsolete(Plugin); }
-                            catch (Exception ex) { ErrorHandler.Handle(ex); }
+                        }
+                        catch (MissingFieldException)
+                        {
+                            PluginObsolete(Plugin);
+                        }
+                        catch (MissingMemberException)
+                        {
+                            PluginObsolete(Plugin);
+                        }
+                        catch (Exception ex)
+                        {
+                            ErrorHandler.Handle(ex);
                         }
                     }
                 }
