@@ -741,8 +741,12 @@ namespace AutoWikiBrowser
                 // but don't save when settings have just been saved by logic above
                 if (listMaker.NextArticle())
                     Start();
-                else if (!string.IsNullOrEmpty(SettingsFile) && !(NumberOfIgnoredEdits % 10 == 0))
-                    SavePrefs(SettingsFile);
+                else
+                {
+                    Stop();
+                    if (!string.IsNullOrEmpty(SettingsFile) && !(NumberOfIgnoredEdits % 10 == 0))
+                        SavePrefs(SettingsFile);
+                }
 
                 return;
             }

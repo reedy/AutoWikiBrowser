@@ -537,10 +537,10 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public bool NextArticle()
         {
+            ((Article)lbArticles.SelectedItem).PreProcessed = true;
+
             if (lbArticles.Items.Count == lbArticles.SelectedIndex + 1 || (lbArticles.Items.Count == 1 && lbArticles.SelectedIndex == 0))
                 return false;
-
-            ((Article) lbArticles.SelectedItem).PreProcessed = true;
 
             lbArticles.SelectedIndex++;
             lbArticles.SetSelected(lbArticles.SelectedIndex, false);
