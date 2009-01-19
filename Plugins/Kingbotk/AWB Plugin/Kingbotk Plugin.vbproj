@@ -286,6 +286,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>if exist "Kingbotk AWB Plugin.dll" copy "Kingbotk AWB Plugin.dll" ..\..\..\..\..\AWB\bin\$(ConfigurationName)\</PostBuildEvent>
+    <PostBuildEvent>if exist "$(TargetFileName)" copy "$(TargetFileName)" ..\..\..\..\..\AWB\bin\$(ConfigurationName)\</PostBuildEvent>
   </PropertyGroup>
 </Project>
