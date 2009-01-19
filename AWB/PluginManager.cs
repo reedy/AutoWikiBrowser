@@ -327,7 +327,7 @@ namespace AutoWikiBrowser
 
                                     if (Items.ContainsKey(plugin.Name))
                                     {
-                                        MessageBox.Show("A plugin with the name: " + plugin.Name + ", has already been added.\r\nPlease remove old duplicates from your AutoWikiBrowser Directory, and restart AWB.", "Duplicate AWB Plugin");
+                                        MessageBox.Show("A plugin with the name \"" + plugin.Name + "\", has already been added.\r\nPlease remove old duplicates from your AutoWikiBrowser Directory, and restart AWB.", "Duplicate AWB Plugin");
                                         continue;
                                     }
 
