@@ -69,7 +69,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>$(SolutionDir)Copy.exe "$(TargetDir)$(TargetFileName)" "$(SolutionDir)AWB\$(OutDir)$(TargetFileName)"</PostBuildEvent>
   </PropertyGroup>
 </Project>

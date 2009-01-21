@@ -286,6 +286,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>if exist "$(TargetFileName)" copy "$(TargetFileName)" ..\..\..\..\..\AWB\bin\$(ConfigurationName)\</PostBuildEvent>
+    <PostBuildEvent>$(SolutionDir)Copy.exe "$(TargetDir)$(TargetFileName)" "$(SolutionDir)AWB\$(OutDir)$(TargetFileName)"</PostBuildEvent>
   </PropertyGroup>
 </Project>
