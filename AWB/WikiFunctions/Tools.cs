@@ -451,6 +451,8 @@ namespace WikiFunctions
         /// <returns>The HTML.</returns>
         public static string GetHTML(string URL, Encoding Enc)
         {
+            if (Globals.UnitTestMode) throw new Exception("You shouldn't access Wikipedia from unit tests");
+
             HttpWebRequest rq = Variables.PrepareWebRequest(URL); // Uses WikiFunctions' default UserAgent string
 
             HttpWebResponse response = (HttpWebResponse) rq.GetResponse();
