@@ -304,8 +304,20 @@ namespace WikiFunctions.Parse
         /// </summary>
         private void LoadInterWiki()
         {
-            string text =
-                Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/IW&action=raw");
+            string text;
+            if (!Globals.UnitTestMode)
+            {
+                text = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/IW&action=raw");
+            }
+            else
+            {
+                text = @"<!--InterwikiLocalAlphaBegins-->
+ru, sq, en
+<!--InterwikiLocalAlphaEnds-->
+<!--InterwikiLocalFirstBegins-->
+en, sq, ru
+<!--InterwikiLocalFirstEnds-->";
+            }
 
             string interwikiLocalAlphaRaw =
                 remExtra(Tools.StringBetween(text, "<!--InterwikiLocalAlphaBegins-->", "<!--InterwikiLocalAlphaEnds-->"));

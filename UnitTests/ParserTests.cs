@@ -1149,6 +1149,9 @@ p.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo|
             // shouldn't add if category already exists
             Assert.AreEqual("[[Category:Foo]]", p.AddCategory("Foo", "[[Category:Foo]]", "bar", out noChange));
             Assert.IsTrue(noChange);
+            Assert.That(p.AddCategory("Foo bar", "[[Category:Foo_bar]]", "bar", out noChange),
+                Text.Matches(@"\[\[Category:Foo[ _]bar\]\]"));
+            Assert.IsTrue(noChange);
 
             Assert.AreEqual("[[category : foo_bar%20|quux]]", p.AddCategory("Foo bar", "[[category : foo_bar%20|quux]]", "bar", out noChange));
             Assert.IsTrue(noChange);
