@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using WikiFunctions;
 using WikiFunctions.Parse;
 using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
 
 namespace UnitTests
 {
@@ -127,6 +128,16 @@ namespace UnitTests
 
             // matches from other rules must not pollute backreferences
             AssertFix("that the", "taht the the");
+        }
+
+        [Test]
+        public void SummaryTests()
+        {
+            typos["f[oO0]{2}"] = "foo";
+
+            AssertFix("foo foo", "foo fO0");
+            Assert.That(!Summary.Contains("foo → foo"));
+            Assert.That(!Summary.Contains("2"));
         }
     }
 }
