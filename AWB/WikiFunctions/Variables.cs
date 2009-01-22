@@ -147,7 +147,7 @@ namespace WikiFunctions
         }
 
         public static UserProperties User = new UserProperties();
-        public static string RETFPath;
+        public static string RetfPath;
 
         private static IAutoWikiBrowser mMainForm;
         public static IAutoWikiBrowser MainForm
@@ -617,7 +617,7 @@ namespace WikiFunctions
 
             RegenerateRegexes();
 
-            RETFPath = Namespaces[Namespace.Project] + "AutoWikiBrowser/Typos";
+            RetfPath = Namespaces[Namespace.Project] + "AutoWikiBrowser/Typos";
 
             foreach (string s in Namespaces.Values)
             {
@@ -1078,7 +1078,7 @@ namespace WikiFunctions
 
                 m = Regex.Match(strText, "<!--[Tt]ypos" + typoPostfix + ":(.*?)-->");
                 if (m.Success && m.Groups[1].Value.Trim().Length > 0)
-                    Variables.RETFPath = m.Groups[1].Value.Trim();
+                    Variables.RetfPath = m.Groups[1].Value.Trim();
 
                 //List<string> us = new List<string>();
                 //foreach (Match m1 in Underscores.Matches(strText))

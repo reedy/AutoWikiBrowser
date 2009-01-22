@@ -32,6 +32,89 @@ namespace WikiFunctions.Parse
     //TODO: make it ignore typos where RETF changes part of page title, like [[Adam Commens]]
 
     /// <summary>
+    /// Interface for loading typo list
+    /// </summary>
+    public interface ITyposProvider
+    {
+        /// <summary>
+        /// Returns a list of RegExTypoFix rules
+        /// </summary>
+        /// <returns>Key is the find part, value is replace</returns>
+        Dictionary<string, string> LoadTypos();
+    }
+
+    /// <summary>
+    /// This is a default ITyposProvider implementation that downloads typos from
+    /// location specified in Variables.RetfPath
+    /// </summary>
+    public class TyposDownloader : ITyposProvider
+    {
+        static readonly Regex TypoRegex = new Regex("<(?:Typo)?\\s+(?:word=\"(.*?)\"\\s+)?find=\"(.*?)\"\\s+replace=\"(.*?)\"\\s*/?>", RegexOptions.Compiled);
+
+        public Dictionary<string, string> LoadTypos()
+        {
+            Dictionary<string, string> typoStrings = new Dictionary<string, string>();
+
+            try
+            {
+                string text = "";
+                try
+                {
+                    string typolistURL = Variables.RetfPath;
+
+                    if (!typolistURL.StartsWith("http:"))
+                        typolistURL = Variables.GetPlainTextURL(typolistURL);
+
+                    text = Tools.GetHTML(typolistURL, Encoding.UTF8);
+                }
+                catch
+                {
+                    if (string.IsNullOrEmpty(text))
+                    {
+                        if (MessageBox.Show("No list of typos was found. Would you like to use the list of typos from the English Wikipedia?\r\nOnly choose 'Yes' if this is an English wiki.", "Load from English Wikipedia?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            try
+                            {
+                                text = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/Typos&action=raw", Encoding.UTF8);
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("There was a problem loading the list of typos: " + ex.Message);
+                            }
+                        }
+                        else
+                            text = "";
+                    }
+                }
+
+                if (string.IsNullOrEmpty(text))
+                    return typoStrings; // Currently an empty dictionary
+
+                foreach (Match m in TypoRegex.Matches(text))
+                {
+                    try
+                    {
+                        typoStrings.Add(m.Groups[2].Value, m.Groups[3].Value);
+                    }
+                    catch (ArgumentException)
+                    {
+                        RegExTypoFix.TypoError("Duplicate typo rule '" + m.Groups[2].Value + "' found.");
+                        return new Dictionary<string, string>();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.Handle(ex);
+                // refuse to accept malformed typo lists to encourage people to correct errors
+                return new Dictionary<string, string>();
+            }
+
+            return typoStrings;
+        }
+    }
+
+    /// <summary>
     /// Represents a group of similar typo regexes
     /// </summary>
     class TypoGroup
@@ -195,20 +278,42 @@ namespace WikiFunctions.Parse
         readonly BackgroundRequest typoThread;
         public event BackgroundRequestComplete Complete;
 
+        private readonly ITyposProvider Source;
+
         /// <summary>
-        /// Default constructor, typos will be loaded on a new thread
+        /// Default constructor, typos will be loaded on a new thread from the default location
         /// </summary>
         public RegExTypoFix()
-            : this(true)
+            : this(true, new TyposDownloader())
         {
         }
 
         /// <summary>
-        /// Default constructor, typos being loaded on seperate thread is optional
+        /// Constructs an object that will load typos from the specified source in a separate thread
+        /// </summary>
+        /// <param name="provider">Typos provider to use</param>
+        public RegExTypoFix(ITyposProvider provider)
+            : this(true, provider)
+        {
+        }
+
+        /// <summary>
+        /// Constructs an object that 
+        /// </summary>
+        /// <param name="loadThreaded"></param>
+        public RegExTypoFix(bool loadThreaded)
+            : this(loadThreaded, new TyposDownloader())
+        {
+        }
+
+        /// <summary>
+        /// Default constructor, typos being loaded on separate thread is optional
         /// </summary>
         /// <param name="loadThreaded">Whether to load typos on a new thread</param>
-        public RegExTypoFix(bool loadThreaded)
+        /// <param name="provider">Typos provider to use</param>
+        public RegExTypoFix(bool loadThreaded, ITyposProvider provider)
         {
+            Source = provider;
             if (!loadThreaded)
             {
                 MakeRegexes();
@@ -256,7 +361,7 @@ namespace WikiFunctions.Parse
         /// <param name="error"></param>
         internal static void TypoError(string error)
         {
-            MessageBox.Show(error + "\r\n\r\nPlease visit the typo page at " + Variables.RETFPath +
+            MessageBox.Show(error + "\r\n\r\nPlease visit the typo page at " + Variables.RetfPath +
                 " and fix this error, then click 'File → Refresh status/typos' menu item to reload typos.",
                 "RegexTypoFix error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
@@ -278,16 +383,27 @@ namespace WikiFunctions.Parse
                 Groups.Add(other);
                 Groups.Add(withBackreferences);
 
-                Dictionary<string, string> typoStrings = LoadTypos();
+                Dictionary<string, string> typoStrings = Source.LoadTypos();
+
+                TyposLoaded = typoStrings.Count > 0;
 
                 if (TyposLoaded)
                 {
                     foreach (KeyValuePair<string, string> k in typoStrings)
                     {
-                        if (bounded.SuitableTypo(k.Key)) bounded.Add(k.Key, k.Value);
-                        else if (other.SuitableTypo(k.Key)) other.Add(k.Key, k.Value);
+                        if (bounded.SuitableTypo(k.Key))
+                        {
+                            bounded.Add(k.Key, k.Value);
+                        }
                         else
+                        if (other.SuitableTypo(k.Key))
+                        {
+                            other.Add(k.Key, k.Value);
+                        }
+                        else
+                        {
                             withBackreferences.Add(k.Key, k.Value);
+                        }
 
                         TyposCount++;
                     }
@@ -389,77 +505,6 @@ namespace WikiFunctions.Parse
             }
 
             return res;
-        }
-
-        static readonly Regex TypoRegex = new Regex("<(?:Typo)?\\s+(?:word=\"(.*?)\"\\s+)?find=\"(.*?)\"\\s+replace=\"(.*?)\"\\s*/?>", RegexOptions.Compiled);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        private Dictionary<string, string> LoadTypos()
-        {
-            Dictionary<string, string> typoStrings = new Dictionary<string, string>();
-
-            try
-            {
-                string text = "";
-                try
-                {
-                    string typolistURL = Variables.RETFPath;
-
-                    if (!typolistURL.StartsWith("http:"))
-                        typolistURL = Variables.GetPlainTextURL(typolistURL);
-
-                    text = Tools.GetHTML(typolistURL, Encoding.UTF8);
-                }
-                catch
-                {
-                    if (string.IsNullOrEmpty(text))
-                    {
-                        if (MessageBox.Show("No list of typos was found. Would you like to use the list of typos from the English Wikipedia?\r\nOnly choose 'Yes' if this is an English wiki.", "Load from English Wikipedia?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        {
-                            try
-                            {
-                                text = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/Typos&action=raw", Encoding.UTF8);
-                            }
-                            catch
-                            {
-                                MessageBox.Show("There was a problem loading the list of typos.");
-                            }
-                        }
-                        else
-                            text = "";
-                    }
-                }
-
-                if (string.IsNullOrEmpty(text))
-                    return typoStrings; //Currently a new dictionary
-
-                foreach (Match m in TypoRegex.Matches(text))
-                {
-                    try
-                    {
-                        typoStrings.Add(m.Groups[2].Value, m.Groups[3].Value);
-                    }
-                    catch (ArgumentException)
-                    {
-                        TypoError("Duplicate typo rule '" + m.Groups[2].Value + "' found.");
-                        TyposLoaded = false;
-                        return new Dictionary<string, string>();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ErrorHandler.Handle(ex);
-                // refuse to accept malformed typo lists to encourage people to correct errors
-                TyposLoaded = false;
-                return new Dictionary<string, string>();
-            }
-
-            TyposLoaded = true;
-            return typoStrings;
         }
 
         /// <summary>
