@@ -139,5 +139,13 @@ namespace UnitTests
             Assert.That(!Summary.Contains("foo → foo"));
             Assert.That(!Summary.Contains("2"));
         }
+
+        [Test]
+        public void DontFixCertainStuff()
+        {
+            typos["(T|t)eh"] = "the";
+
+            AssertNoFix(@"{{teh}} http://tehcrappe.org/TehCrappe [[teh]] [http://tehcrappe.org/TehCrappe]");
+        }
     }
 }
