@@ -435,12 +435,12 @@ namespace WikiFunctions.Parse
                         ArticleText += "\r\n==References==\r\n{{Reflist}}<!--added above categories/infobox footers by script-assisted edit-->";
                         ArticleText = Regex.Replace(ArticleText, @"(?sim)((?:^\{\{[^{}]+?\}\}\s*)*)(^\s*\[\[\s*Category\s*:.*?)(\r\n==+References==+\r\n{{Reflist}}<!--added above categories/infobox footers by script-assisted edit-->)", "$3\r\n$1$2");
                     }
-                    else
-                    {
+                    //else
+                    //{
                         // TODO: relist is missing, but not sure where references should go – at end of article might not be correct
                         //ArticleText += "\r\n==References==\r\n{{Reflist}}<!--added to end of article by script-assisted edit-->";
                         //ArticleText = Regex.Replace(ArticleText, @"(?sim)(^==.*?)(^\{\{[^{}]+?\}\}.*?)(\r\n==+References==+\r\n{{Reflist}}<!--added to end of article by script-assisted edit-->)", "$1\r\n$3\r\n$2");
-                    }
+                    //}
                 }
             }
             // remove reflist comment
