@@ -2102,14 +2102,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         public static bool IsMissingReferencesDisplay(string ArticleText)
         {
-            if(Variables.LangCode != LangCodeEnum.en)
+            if (Variables.LangCode != LangCodeEnum.en)
                 return false;
 
-            if (!WikiRegexes.ReferencesTemplate.IsMatch(ArticleText) && Regex.IsMatch(ArticleText, @"</ref>"))
-                return true;
-            else
-                return false;
+            return !WikiRegexes.ReferencesTemplate.IsMatch(ArticleText) && Regex.IsMatch(ArticleText, @"</ref>");
         }
+
         #endregion
     }
 }
