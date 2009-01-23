@@ -707,7 +707,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article</param>
         /// <returns>The modified article text.</returns>
-        public static string FixLinkWhitespace(string ArticleText)
+        public static string FixLinkWhitespace(string ArticleText, string ArticleTitle)
         {
             //remove undesirable space from beginning of wikilink (space before wikilink) - parse this line first
             if (LinkWhitespace1.Match(ArticleText).Success)
@@ -737,7 +737,18 @@ namespace WikiFunctions.Parse
             if (DateLinkWhitespace2.Match(ArticleText).Success)
                 ArticleText = DateLinkWhitespace2.Replace(ArticleText, "$1 $2");
 
+            // correct [[page# section]] to [[page#section]]
+            Regex SectionLinkWhitespace = new Regex(@"(\[\[" + Regex.Escape(ArticleTitle) + @"\#)\s+([^\[\]]+\]\])");
+
+            if (SectionLinkWhitespace.IsMatch(ArticleText))
+                ArticleText = SectionLinkWhitespace.Replace(ArticleText, "$1$2");
+
             return ArticleText;
+        }
+
+        public static string FixLinkWhitespace(string ArticleText)
+        {
+            return FixLinkWhitespace(ArticleText, "test");
         }
 
         // NOT covered
