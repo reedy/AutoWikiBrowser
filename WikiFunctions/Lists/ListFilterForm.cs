@@ -262,8 +262,10 @@ namespace WikiFunctions.Lists
 
                 prefs.opType = cbOpType.SelectedIndex;
 
-                foreach (string s in lbRemove.Items)
-                    prefs.remove.Add(s);
+                foreach (Article a in lbRemove.Items)
+                {
+                    prefs.remove.Add(a.Name);
+                }
 
                 return prefs;
             }
@@ -292,7 +294,7 @@ namespace WikiFunctions.Lists
                 cbOpType.SelectedIndex = prefs.opType;
 
                 foreach (string s in prefs.remove)
-                    lbRemove.Items.Add(s);
+                    lbRemove.Items.Add(new Article(s));
             }
         }
     }
