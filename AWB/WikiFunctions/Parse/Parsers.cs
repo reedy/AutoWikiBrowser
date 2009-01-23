@@ -405,6 +405,50 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
+        // Covered by: 
+        /// <summary>
+        /// if the article uses cite references but has no recognised template to display the references, add {{reflist}} in the appropriate place
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article</param>
+        /// <returns></returns>
+        public static string AddMissingReflist(string ArticleText)
+        {
+            // AddMissingReflist is only called if references template is missing
+
+            // Rename ==Links== to ==External links==
+            ArticleText = Regex.Replace(ArticleText, @"(?sim)(==+\s*)Links(\s*==+\s*(?:^(?:\*|\d\.?)?\s*\[?\s*http://))", "$1External links$2");
+
+            if (Regex.IsMatch(ArticleText, @"(?i)==\s*'*\s*References?\s*'*\s*=="))
+                ArticleText = Regex.Replace(ArticleText, @"(?i)(==+\s*'*\s*References?\s*'*\s*==+)", "$1\r\n{{Reflist}}<!--added under references heading by script-assisted edit-->");
+            else
+            {
+                //now try to move just above external links
+                if (Regex.IsMatch(ArticleText, @"(?im)(^\s*=+\s*(?:External\s+link|Source|Web\s*link)s?\s*=)"))
+                {
+                    ArticleText += "\r\n==References==\r\n{{Reflist}}<!--added above External links/Sources by script-assisted edit-->";
+                    ArticleText = Regex.Replace(ArticleText, @"(?sim)(^\s*=+\s*(?:External\s+link|Source|Web\s*link)s?\s*=+.*?)(\r\n==+References==+\r\n{{Reflist}}<!--added above External links/Sources by script-assisted edit-->)", "$2\r\n$1");
+                }
+                else
+                { // now try to move just above categories
+                    if (Regex.IsMatch(ArticleText, @"(?im)(^\s*\[\[\s*Category\s*:)"))
+                    {
+                        ArticleText += "\r\n==References==\r\n{{Reflist}}<!--added above categories/infobox footers by script-assisted edit-->";
+                        ArticleText = Regex.Replace(ArticleText, @"(?sim)((?:^\{\{[^{}]+?\}\}\s*)*)(^\s*\[\[\s*Category\s*:.*?)(\r\n==+References==+\r\n{{Reflist}}<!--added above categories/infobox footers by script-assisted edit-->)", "$3\r\n$1$2");
+                    }
+                    else
+                    {
+                        // TODO: relist is missing, but not sure where references should go – at end of article might not be correct
+                        //ArticleText += "\r\n==References==\r\n{{Reflist}}<!--added to end of article by script-assisted edit-->";
+                        //ArticleText = Regex.Replace(ArticleText, @"(?sim)(^==.*?)(^\{\{[^{}]+?\}\}.*?)(\r\n==+References==+\r\n{{Reflist}}<!--added to end of article by script-assisted edit-->)", "$1\r\n$3\r\n$2");
+                    }
+                }
+            }
+            // remove reflist comment
+            ArticleText = Regex.Replace(ArticleText, @"(\{\{Reflist\}\})<!--added[^<>]+by script-assisted edit-->", "$1");
+
+            return ArticleText;
+        }
+
         // Covered by: FormattingTests.TestFixWhitespace(), incomplete
         /// <summary>
         /// Applies/removes some excess whitespace from the article
@@ -2051,6 +2095,20 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static bool HasSicTag(string ArticleText)
         {
             return WikiRegexes.SicTag.IsMatch(ArticleText);
+        }
+
+        /// <summary>
+        /// Check if the article uses cite references but has no recognised template to display the references; only for en-wiki
+        /// </summary>
+        public static bool IsMissingReferencesDisplay(string ArticleText)
+        {
+            if(Variables.LangCode != LangCodeEnum.en)
+                return false;
+
+            if (!WikiRegexes.ReferencesTemplate.IsMatch(ArticleText) && Regex.IsMatch(ArticleText, @"</ref>"))
+                return true;
+            else
+                return false;
         }
         #endregion
     }

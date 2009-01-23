@@ -206,6 +206,12 @@ namespace WikiFunctions
                     || Name.Contains("Sandbox") ) || Name.Contains("/doc");
             } 
         }
+
+        /// <summary>
+        /// Returns true if the article uses cite references but has no recognised template to display the references
+        /// </summary>
+        public bool IsMissingReferencesDisplay
+        { get { return Parsers.IsMissingReferencesDisplay(mArticleText); } }
         #endregion
 
         #region AWB worker subroutines
@@ -813,6 +819,12 @@ namespace WikiFunctions
 
             AWBChangeArticleText("Fix empty references", Parsers.SimplifyReferenceTags(ArticleText), true);
             Variables.Profiler.Profile("FixEmptyReferences");
+
+            if(IsMissingReferencesDisplay)
+            {
+                AWBChangeArticleText("Add missing {{reflist}}", Parsers.AddMissingReflist(ArticleText), true);
+                Variables.Profiler.Profile("AddMissingReflist");
+            }
 
             //Just a bit broken/Some unwanted fixes (moving of <ref> tags around)
             //AWBChangeArticleText("Fix Footnotes", parsers.FixFootnotes(ArticleText), true);

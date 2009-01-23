@@ -347,6 +347,11 @@ namespace WikiFunctions
         public static readonly Regex SicTag = new Regex(@"({{(?:[Ss]ic|[Tt]ypo)(?:\||}})|([\(\[{]\s*[Ss]ic\s*[\)\]}]))", RegexOptions.Compiled);
 
         /// <summary>
+        /// Matches any of the recognised templates for displaying cite references
+        /// </summary>
+        public static readonly Regex ReferencesTemplate = new Regex(@"(\{\{\s*ref(?:-?li(?:st|nk)|erence)[^{}]*\}\}|<references\s*/>|\{\{refs)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+        /// <summary>
         /// Matches persondata (en only)
         /// </summary>
         public static readonly Regex Persondata = new Regex(@"{{ ?[Pp]ersondata.*?}}", RegexOptions.Singleline | RegexOptions.Compiled);
