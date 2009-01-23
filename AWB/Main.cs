@@ -2977,7 +2977,7 @@ window.scrollTo(0, diffTopY);
 
                 if (RegexTypos == null)
                 {
-                    string s = Variables.RETFPath;
+                    string s = Variables.RetfPath;
 
                     if (!s.StartsWith("http:"))
                         s = Variables.URL + "/wiki/" + s;
