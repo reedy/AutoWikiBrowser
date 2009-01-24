@@ -2294,6 +2294,9 @@ window.scrollTo(0, diffTopY);
             Ticker += DelayedRestart;
             //increase the restart delay each time, this is decreased by 1 on each successfull save
             intRestartDelay += 5;
+
+            if (intRestartDelay > 60)
+                intRestartDelay = 60;
         }
 
         private void StopDelayedRestartTimer()
