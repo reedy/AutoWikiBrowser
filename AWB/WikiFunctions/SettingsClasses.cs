@@ -60,6 +60,7 @@ namespace WikiFunctions.AWBSettings
             LanguageCode = Variables.LangCode;
             Project = Variables.Project;
             CustomProject = Variables.CustomProject;
+            PHP5 = Variables.PHP5;
 
             FindAndReplace = mFaRPrefs;
             Editprefs = mEditprefs;
@@ -86,6 +87,7 @@ namespace WikiFunctions.AWBSettings
         public ProjectEnum Project = ProjectEnum.wikipedia;
         public LangCodeEnum LanguageCode = LangCodeEnum.en;
         public string CustomProject = "";
+        public bool PHP5;
 
         public ListPrefs List;
         public FaRPrefs FindAndReplace;

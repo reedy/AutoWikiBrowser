@@ -112,6 +112,8 @@ namespace WikiFunctions
                 SetToEnglish("Wikipedia:", "Wikipedia talk:");
                 RegenerateRegexes();
             }
+
+            PHP5 = false;
         }
 
         /// <summary>
@@ -209,10 +211,22 @@ namespace WikiFunctions
         public static Dictionary<string, List<string>> MagicWords = new Dictionary<string, List<string>>();
 
         /// <summary>
-        /// Gets a URL of the site, e.g. "http://en.wikipedia.org/w/".
+        /// Gets a URL of the site, e.g. "http://en.wikipedia.org/w/"
         /// </summary>
         public static string URLLong
         { get { return URL + URLEnd; } }
+
+        /// <summary>
+        /// Gets a Index URL of the site, e.g. "http://en.wikipedia.org/w/index.php"
+        /// </summary>
+        public static string URLIndex
+        { get { return URLLong + IndexPHP; } }
+
+        /// <summary>
+        /// Gets a Index URL of the site, e.g. "http://en.wikipedia.org/w/api.php"
+        /// </summary>
+        public static string URLApi
+        { get { return URLLong + ApiPHP; } }
 
         /// <summary>
         /// true if current wiki uses right-to-left writing system
@@ -306,6 +320,30 @@ namespace WikiFunctions
         /// </summary>
         public static string CustomProject
         { get { return strcustomproject; } }
+        /// <summary>
+        /// index.php appended with "5" if appropriate for the wiki
+        /// </summary>
+        public static string IndexPHP { get; private set; }
+
+        /// <summary>
+        /// api.php appended with "5" if appropriate for the wiki
+        /// </summary>
+        public static string ApiPHP { get; private set; }
+
+        private static bool usePHP5;
+        /// <summary>
+        /// Whether the current wiki uses the .php5 extension
+        /// </summary>
+        public static bool PHP5
+        {
+            get { return usePHP5; }
+            set 
+            { 
+                usePHP5 = value;
+                IndexPHP = value ? "index.php5" : "index.php";
+                ApiPHP = value ? "index.php5" : "index.php";
+            }
+        }
 
         private static string mSummaryTag = " using ";
         private static string strWPAWB = "[[Project:AWB|AWB]]";
@@ -743,7 +781,7 @@ namespace WikiFunctions
         /// </summary>
         public static string NonPrettifiedURL(string title)
         {
-            return URLLong + "index.php?title=" + Tools.WikiEncode(title);
+            return URLIndex + "?title=" + Tools.WikiEncode(title);
         }
 
         public static string GetArticleHistoryURL(string title)
@@ -768,12 +806,12 @@ namespace WikiFunctions
 
         public static string GetUserTalkURL(string username)
         {
-            return URLLong + "index.php?title=User_talk:" + Tools.WikiEncode(username) + "&action=purge";
+            return URLIndex + "?title=User_talk:" + Tools.WikiEncode(username) + "&action=purge";
         }
 
         public static string GetUserTalkURL()
         {
-            return URLLong + "index.php?title=User_talk:" + Tools.WikiEncode(User.Name) + "&action=purge";
+            return URLIndex + "?title=User_talk:" + Tools.WikiEncode(User.Name) + "&action=purge";
         }
 
         public static string GetPlainTextURL(string title)
@@ -941,8 +979,7 @@ namespace WikiFunctions
                     webBrowserLogin.Navigate(
                         "http://ar.wikipedia.org/w/index.php?title=%D9%88%D9%8A%D9%83%D9%8A%D8%A8%D9%8A%D8%AF%D9%8A%D8%A7:%D9%82%D8%A7%D8%A6%D9%85%D8%A9_%D8%A7%D9%84%D9%88%D9%8A%D9%83%D9%8A%D8%A8%D9%8A%D8%AF%D9%8A%D9%88%D9%86_%D8%A7%D9%84%D9%85%D8%B3%D9%85%D9%88%D8%AD_%D9%84%D9%87%D9%85_%D8%A8%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85_%D8%A7%D9%84%D8%A3%D9%88%D8%AA%D9%88_%D9%88%D9%8A%D9%83%D9%8A_%D8%A8%D8%B1%D8%A7%D9%88%D8%B2%D8%B1&action=edit");
                 else
-                    webBrowserLogin.Navigate(Variables.URLLong +
-                                             "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
+                    webBrowserLogin.Navigate(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=edit");
 
                 //wait for both pages to load
                 webBrowserLogin.Wait();
@@ -956,8 +993,7 @@ namespace WikiFunctions
                     //it cannot be used to approve users, but it could be used to set some settings
                     //such as underscores and pages to ignore
                     WebControl webBrowserWikia = new WebControl();
-                    webBrowserWikia.Navigate(Variables.URLLong +
-                                             "index.php?title=Project:AutoWikiBrowser/CheckPage&action=edit");
+                    webBrowserWikia.Navigate(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=edit");
                     webBrowserWikia.Wait();
                     try
                     {

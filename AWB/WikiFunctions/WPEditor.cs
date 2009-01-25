@@ -646,7 +646,7 @@ namespace WikiFunctions
         /// <returns></returns>
         public static UserInfo GetUserInfo()
         {
-            return new UserInfo(Tools.GetHTML(Variables.URLLong + "api.php?action=query&meta=userinfo&uiprop=groups|rights&format=xml"));
+            return new UserInfo(Tools.GetHTML(Variables.URLApi + "?action=query&meta=userinfo&uiprop=groups|rights&format=xml"));
         }
 
         /// <summary>

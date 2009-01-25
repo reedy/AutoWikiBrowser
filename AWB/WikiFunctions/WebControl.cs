@@ -720,7 +720,7 @@ namespace WikiFunctions.Browser
                 AllowNavigation = true;
                 ProcessStage = ProcessingStage.Delete;
                 Status = "Loading delete page";
-                Navigate(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(Article) + "&action=delete");
+                Navigate(Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(Article) + "&action=delete");
             }
             catch (Exception ex)
             {
@@ -797,7 +797,7 @@ namespace WikiFunctions.Browser
                 AllowNavigation = true;
                 ProcessStage = ProcessingStage.Protect;
                 Status = "Loading protect page";
-                Navigate(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(Article) + "&action=protect");
+                Navigate(Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(Article) + "&action=protect");
             }
             catch (Exception ex)
             {
@@ -815,7 +815,7 @@ namespace WikiFunctions.Browser
                 AllowNavigation = true;
                 ProcessStage = ProcessingStage.Load;
                 Status = "Loading page";
-                Navigate(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(Article) + "&action=edit&useskin=myskin");
+                Navigate(Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(Article) + "&action=edit&useskin=myskin");
             }
             catch (Exception ex)
             {
@@ -845,7 +845,7 @@ namespace WikiFunctions.Browser
                 AllowNavigation = true;
                 ProcessStage = ProcessingStage.Load;
                 Status = "Loading page";
-                Navigate(Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(Article) + "&action=edit&oldid="
+                Navigate(Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(Article) + "&action=edit&oldid="
                     + Revision);
             }
             catch (Exception ex)
@@ -866,7 +866,7 @@ namespace WikiFunctions.Browser
                 AllowNavigation = true;
                 ProcessStage = ProcessingStage.Load;
                 Status = "Loading page";
-                string url = Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(Article) + "&action=edit&section=" + Section;
+                string url = Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(Article) + "&action=edit&section=" + Section;
                 Navigate(url);
             }
             catch (Exception ex)
@@ -883,7 +883,7 @@ namespace WikiFunctions.Browser
             AllowNavigation = true;
             ProcessStage = ProcessingStage.None;
             Status = "Loading log in page";
-            Navigate(Variables.URLLong + "index.php?title=Special:Userlogin&returnto=Main_Page");
+            Navigate(Variables.URLIndex + "?title=Special:Userlogin&returnto=Main_Page");
             Busy = false;
         }
 
@@ -895,7 +895,7 @@ namespace WikiFunctions.Browser
             AllowNavigation = true;
             ProcessStage = ProcessingStage.None;
             Status = "Logging Out";
-            Navigate(Variables.URLLong + "api.php?action=logout");
+            Navigate(Variables.URLApi + "?action=logout");
             Busy = false;
         }
 

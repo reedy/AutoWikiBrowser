@@ -211,8 +211,8 @@ namespace WikiFunctions.Lists
         {
             string title = HttpUtility.UrlEncode(category);
 
-            string url = Variables.URLLong + 
-                "api.php?action=query&list=categorymembers&cmtitle=Category:" + title + "&cmcategory=" + title 
+            string url = Variables.URLApi + 
+                "?action=query&list=categorymembers&cmtitle=Category:" + title + "&cmcategory=" + title 
                 + "&format=xml&cmlimit=max";
 
             return ApiMakeList(url, 0);
