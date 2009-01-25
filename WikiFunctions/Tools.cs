@@ -1324,7 +1324,7 @@ Message: {2}
                 {
                     string call = m.Value;
 
-                    string expandUri = Variables.URLLong + "api.php?action=expandtemplates&format=xml&title=" + WikiEncode(ArticleTitle) + "&text=" + HttpUtility.UrlEncode(call);
+                    string expandUri = Variables.URLApi + "?action=expandtemplates&format=xml&title=" + WikiEncode(ArticleTitle) + "&text=" + HttpUtility.UrlEncode(call);
                     string result;
 
                     try

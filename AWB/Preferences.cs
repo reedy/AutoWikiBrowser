@@ -36,7 +36,7 @@ namespace AutoWikiBrowser
             Font textFont, bool lowPriority, bool flash, bool beep, bool minimize,
             bool saveArticleList, decimal timeOut, bool autoSaveEditBox,
             string autoSaveEditBoxFile, decimal autoSaveEditBoxPeriod, bool suppressUsingAWB,
-            bool addUsingAWBOnArticleAction, bool ignoreNoBots, bool showTimer)
+            bool addUsingAWBOnArticleAction, bool ignoreNoBots, bool showTimer, bool usePHP5)
         {
             InitializeComponent();
 
@@ -57,6 +57,8 @@ namespace AutoWikiBrowser
             }
 
             cmboCustomProject.Text = customproj;
+
+            chkPHP5Ext.Checked = usePHP5;
 
             TextBoxFont = textFont;
             LowThreadPriority = lowPriority;
@@ -123,7 +125,7 @@ namespace AutoWikiBrowser
             ProjectEnum prj = (ProjectEnum)Enum.Parse(typeof(ProjectEnum), cmboProject.SelectedItem.ToString());
 
             //disable language selection for single language projects
-            cmboLang.Enabled = ((ProjectEnum)cmboProject.SelectedItem < ProjectEnum.species);
+            cmboLang.Enabled = (prj < ProjectEnum.species);
 
             if (prj == ProjectEnum.custom || prj == ProjectEnum.wikia)
             {
@@ -134,6 +136,8 @@ namespace AutoWikiBrowser
                 cmboCustomProjectChanged(null, null);
 
                 chkSupressAWB.Enabled = true;
+
+                chkPHP5Ext.Enabled = (prj == ProjectEnum.custom);
 
                 return;
             }
@@ -294,6 +298,12 @@ namespace AutoWikiBrowser
                 foreach (string Temp in value)
                     cmboCustomProject.Items.Add(Temp);
             }
+        }
+
+        public bool PrefPHP5
+        {
+            get { return chkPHP5Ext.Checked; }
+            set { chkPHP5Ext.Checked = value; }
         }
 
         public bool PrefIgnoreNoBots

@@ -2124,7 +2124,7 @@ window.scrollTo(0, diffTopY);
                 Variables.CustomProject, txtEdit.Font, LowThreadPriority, Flash, Beep,
                 Minimize, SaveArticleList, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxFile,
                 AutoSaveEditBoxPeriod, SuppressUsingAWB, AddUsingAWBOnArticleAction, IgnoreNoBots,
-                ShowMovingAverageTimer);
+                ShowMovingAverageTimer, Variables.PHP5);
 
             if (myPrefs.ShowDialog(this) == DialogResult.OK)
             {
@@ -2143,8 +2143,9 @@ window.scrollTo(0, diffTopY);
                 IgnoreNoBots = myPrefs.PrefIgnoreNoBots;
                 ShowMovingAverageTimer = myPrefs.PrefShowTimer;
 
-                if (myPrefs.Language != Variables.LangCode || myPrefs.Project != Variables.Project || myPrefs.CustomProject != Variables.CustomProject)
+                if (myPrefs.Language != Variables.LangCode || myPrefs.Project != Variables.Project)
                 {
+                    Variables.PHP5 = myPrefs.PrefPHP5;
                     SetProject(myPrefs.Language, myPrefs.Project, myPrefs.CustomProject);
 
                     Variables.User.WikiStatus = false;
@@ -2766,22 +2767,22 @@ window.scrollTo(0, diffTopY);
 
         private void openPageInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Tools.OpenURLInBrowser(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName);
+            Tools.OpenURLInBrowser(Variables.URLIndex + "?title=" + TheArticle.URLEncodedName);
         }
 
         private void openTalkPageInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Tools.OpenURLInBrowser(Variables.URLLong + "index.php?title=" + Tools.ConvertToTalk(TheArticle));
+            Tools.OpenURLInBrowser(Variables.URLIndex + "?title=" + Tools.ConvertToTalk(TheArticle));
         }
 
         private void openHistoryMenuItem_Click(object sender, EventArgs e)
         {
-            Tools.OpenURLInBrowser(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history");
+            Tools.OpenURLInBrowser(Variables.URLIndex + "?title=" + TheArticle.URLEncodedName + "&action=history");
         }
 
         private void openSelectionInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Tools.OpenURLInBrowser(Variables.URLLong + "index.php?title=" + txtEdit.SelectedText);
+            Tools.OpenURLInBrowser(Variables.URLIndex + "?title=" + txtEdit.SelectedText);
         }
 
         private void chkGeneralParse_CheckedChanged(object sender, EventArgs e)
@@ -3655,8 +3656,8 @@ window.scrollTo(0, diffTopY);
             {
                 if (EditBoxTab.SelectedTab == tpHistory)
                 {
-                    if (webBrowserHistory.Url != new Uri(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin") && !string.IsNullOrEmpty(TheArticle.URLEncodedName))
-                        webBrowserHistory.Navigate(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin");
+                    if (webBrowserHistory.Url != new Uri(Variables.URLIndex + "?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin") && !string.IsNullOrEmpty(TheArticle.URLEncodedName))
+                        webBrowserHistory.Navigate(Variables.URLIndex + "?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin");
                 }
                 else
                     webBrowserHistory.Navigate("about:blank");
@@ -3696,7 +3697,7 @@ window.scrollTo(0, diffTopY);
         {
             try
             {
-                webBrowserHistory.Navigate(Variables.URLLong + "index.php?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin");
+                webBrowserHistory.Navigate(Variables.URLIndex + "?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin");
             }
             catch
             {

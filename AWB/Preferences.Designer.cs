@@ -69,6 +69,7 @@ namespace AutoWikiBrowser
             this.tbPrefs = new System.Windows.Forms.TabControl();
             this.tabGeneral = new System.Windows.Forms.TabPage();
             this.tabSite = new System.Windows.Forms.TabPage();
+            this.chkPHP5Ext = new System.Windows.Forms.CheckBox();
             this.chkIgnoreNoBots = new System.Windows.Forms.CheckBox();
             this.tabEditing = new System.Windows.Forms.TabPage();
             this.chkShowTimer = new System.Windows.Forms.CheckBox();
@@ -469,6 +470,7 @@ namespace AutoWikiBrowser
             // 
             // tabSite
             // 
+            this.tabSite.Controls.Add(this.chkPHP5Ext);
             this.tabSite.Controls.Add(this.chkSupressAWB);
             this.tabSite.Controls.Add(this.chkIgnoreNoBots);
             this.tabSite.Controls.Add(this.lblTimeoutPost);
@@ -488,6 +490,17 @@ namespace AutoWikiBrowser
             this.tabSite.TabIndex = 0;
             this.tabSite.Text = "Site";
             this.tabSite.UseVisualStyleBackColor = true;
+            // 
+            // chkPHP5Ext
+            // 
+            this.chkPHP5Ext.AutoSize = true;
+            this.chkPHP5Ext.Enabled = false;
+            this.chkPHP5Ext.Location = new System.Drawing.Point(214, 60);
+            this.chkPHP5Ext.Name = "chkPHP5Ext";
+            this.chkPHP5Ext.Size = new System.Drawing.Size(123, 17);
+            this.chkPHP5Ext.TabIndex = 11;
+            this.chkPHP5Ext.Text = "Use .php5 extension";
+            this.chkPHP5Ext.UseVisualStyleBackColor = true;
             // 
             // chkIgnoreNoBots
             // 
@@ -627,5 +640,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkIgnoreNoBots;
         private System.Windows.Forms.CheckBox chkShowTimer;
         private System.Windows.Forms.Label lblSaveAsDefaultFile;
+        private System.Windows.Forms.CheckBox chkPHP5Ext;
     }
 }

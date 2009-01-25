@@ -79,7 +79,7 @@ namespace AwbUpdater
                     //{
                     //    // don't use Tools.WikiEncode here, to keep code portable to updater
                     //    // as it's not a pretty URL, we don't need to follow the MediaWiki encoding rules
-                    //    string link = "[" + Variables.URLLong + "index.php?title=" + HttpUtility.UrlEncode(CurrentPage) + "&oldid=" + CurrentRevision.ToString() + "]";
+                    //    string link = "[" + Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(CurrentPage) + "&oldid=" + CurrentRevision.ToString() + "]";
 
                     //    errorMessage.Append("\r\n | duplicate = [encountered while processing page ''" + link + "'']");
                     //}
