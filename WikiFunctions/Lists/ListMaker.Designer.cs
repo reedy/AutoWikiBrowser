@@ -203,7 +203,7 @@ namespace WikiFunctions.Controls.Lists
             this.saveListToFileToolStripMenuItem,
             this.sortAlphaMenuItem});
             this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(276, 370);
+            this.mnuListBox.Size = new System.Drawing.Size(276, 392);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // openInBrowserToolStripMenuItem
@@ -362,64 +362,64 @@ namespace WikiFunctions.Controls.Lists
             // categoriesOnPageToolStripMenuItem
             // 
             this.categoriesOnPageToolStripMenuItem.Name = "categoriesOnPageToolStripMenuItem";
-            this.categoriesOnPageToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.categoriesOnPageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.categoriesOnPageToolStripMenuItem.Text = "Categories on page";
             this.categoriesOnPageToolStripMenuItem.Click += new System.EventHandler(this.categoriesOnPageToolStripMenuItem_Click);
             // 
             // fromCategoryToolStripMenuItem
             // 
             this.fromCategoryToolStripMenuItem.Name = "fromCategoryToolStripMenuItem";
-            this.fromCategoryToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.fromCategoryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.fromCategoryToolStripMenuItem.Text = "&Category";
             this.fromCategoryToolStripMenuItem.Click += new System.EventHandler(this.fromCategoryToolStripMenuItem_Click);
             // 
             // fromCategoryrecursiveToolStripMenuItem
             // 
             this.fromCategoryrecursiveToolStripMenuItem.Name = "fromCategoryrecursiveToolStripMenuItem";
-            this.fromCategoryrecursiveToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.fromCategoryrecursiveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.fromCategoryrecursiveToolStripMenuItem.Text = "C&ategory (recursive)";
             this.fromCategoryrecursiveToolStripMenuItem.Click += new System.EventHandler(this.fromCategoryrecursiveToolStripMenuItem_Click);
             // 
             // fromImageLinksToolStripMenuItem
             // 
             this.fromImageLinksToolStripMenuItem.Name = "fromImageLinksToolStripMenuItem";
-            this.fromImageLinksToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.fromImageLinksToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.fromImageLinksToolStripMenuItem.Text = "Image &file links";
             this.fromImageLinksToolStripMenuItem.Click += new System.EventHandler(this.fromImageLinksToolStripMenuItem_Click);
             // 
             // imagesOnPageToolStripMenuItem
             // 
             this.imagesOnPageToolStripMenuItem.Name = "imagesOnPageToolStripMenuItem";
-            this.imagesOnPageToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.imagesOnPageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.imagesOnPageToolStripMenuItem.Text = "Images on page";
             this.imagesOnPageToolStripMenuItem.Click += new System.EventHandler(this.imagesOnPageToolStripMenuItem_Click);
             // 
             // fromLinksOnPageToolStripMenuItem
             // 
             this.fromLinksOnPageToolStripMenuItem.Name = "fromLinksOnPageToolStripMenuItem";
-            this.fromLinksOnPageToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.fromLinksOnPageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.fromLinksOnPageToolStripMenuItem.Text = "&Links on page";
             this.fromLinksOnPageToolStripMenuItem.Click += new System.EventHandler(this.fromLinksOnPageToolStripMenuItem_Click);
             // 
             // fromTranscludesHereToolStripMenuItem
             // 
             this.fromTranscludesHereToolStripMenuItem.Name = "fromTranscludesHereToolStripMenuItem";
-            this.fromTranscludesHereToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.fromTranscludesHereToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.fromTranscludesHereToolStripMenuItem.Text = "&Transclusions";
             this.fromTranscludesHereToolStripMenuItem.Click += new System.EventHandler(this.fromTranscludesHereToolStripMenuItem_Click);
             // 
             // fromRedirectsToolStripMenuItem
             // 
             this.fromRedirectsToolStripMenuItem.Name = "fromRedirectsToolStripMenuItem";
-            this.fromRedirectsToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.fromRedirectsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.fromRedirectsToolStripMenuItem.Text = "&Redirects";
             this.fromRedirectsToolStripMenuItem.Click += new System.EventHandler(this.fromRedirectsToolStripMenuItem_Click);
             // 
             // fromWhatlinkshereToolStripMenuItem
             // 
             this.fromWhatlinkshereToolStripMenuItem.Name = "fromWhatlinkshereToolStripMenuItem";
-            this.fromWhatlinkshereToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.fromWhatlinkshereToolStripMenuItem.Text = "&What links here page";
+            this.fromWhatlinkshereToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.fromWhatlinkshereToolStripMenuItem.Text = "&What links here";
             this.fromWhatlinkshereToolStripMenuItem.Click += new System.EventHandler(this.fromWhatlinkshereToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
