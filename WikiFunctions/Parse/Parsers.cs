@@ -706,6 +706,7 @@ namespace WikiFunctions.Parse
         /// Fix leading, trailing and middle spaces in Wikilinks
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article</param>
+        /// <param name="ArticleTitle">The article title.</param>
         /// <returns>The modified article text.</returns>
         public static string FixLinkWhitespace(string ArticleText, string ArticleTitle)
         {
@@ -746,6 +747,11 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ArticleText"></param>
+        /// <returns></returns>
         public static string FixLinkWhitespace(string ArticleText)
         {
             return FixLinkWhitespace(ArticleText, "test");
@@ -1844,6 +1850,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
+        private static readonly CategoriesOnPageListProvider categoryLP = new CategoriesOnPageListProvider();
+
         //TODO:Needs re-write
         /// <summary>
         /// If necessary, adds/removes wikify or stub tag
@@ -1893,20 +1901,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             double linkCount = Tools.LinkCount(commentsStripped);
             double ratio = linkCount / length;
 
-            string catHTML = "";
-            if (!WikiRegexes.Category.IsMatch(commentsStripped))
-            {
-                try
-                {
-                    catHTML = Tools.GetHTML(Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(ArticleTitle));
-                }
-                catch (System.Net.WebException we)
-                {
-                    Tools.WriteDebug("Parsers.Tagger", we.Message);
-                }
-            }
+            List<Article> categories = new List<Article>();
 
-            if (words > 6 && !string.IsNullOrEmpty(catHTML) && !Regex.IsMatch(ArticleText, @"\{\{[Uu]ncategori[zs]ed"))
+            if (!WikiRegexes.Category.IsMatch(commentsStripped))
+                categories.AddRange(categoryLP.MakeList(new[] { ArticleTitle }));
+
+            if (words > 6 && categories.Count == 0 && !Regex.IsMatch(ArticleText, @"\{\{[Uu]ncategori[zs]ed"))
             {
                 if (WikiRegexes.Stub.IsMatch(commentsStripped))
                 { // add uncategorized stub tag
@@ -1969,10 +1969,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         private static string stubChecker(Match m)
         {
             // Replace each Regex cc match with the number of the occurrence.
-            if (Regex.IsMatch(m.Value, Variables.SectStub))
-                return m.Value;
-
-            return "";
+            return Regex.IsMatch(m.Value, Variables.SectStub) ? m.Value : "";
         }
 
         private static readonly Regex RemoveNowiki = new Regex("<nowiki>.*?</nowiki>", RegexOptions.Compiled | RegexOptions.Singleline);
