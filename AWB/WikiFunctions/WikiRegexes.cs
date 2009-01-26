@@ -184,7 +184,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches only internal wiki links
         /// </summary>
-        public static readonly Regex WikiLinksOnly = new Regex(@"\[\[[^[\]]*?\]\]", RegexOptions.Compiled);
+        public static readonly Regex WikiLinksOnly = new Regex(@"\[\[[^[\]\n]*?\]\]", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches only internal wikilinks (with or without pipe) with extra word character(s) e.g. [[link]]age or [[here|link]]age
@@ -238,12 +238,12 @@ namespace WikiFunctions
         public static readonly Regex BulletedText = new Regex(@"^[\*#: ]+.*?$", RegexOptions.Multiline | RegexOptions.Compiled);
 
         /// <summary>
-        /// Matches single line templates
+        /// Matches single line templates, NOT nested templates
         /// </summary>
         public static readonly Regex Template = new Regex(@"{{[^{\n]*?}}", RegexOptions.Compiled);
 
         /// <summary>
-        /// Matches single and multiline templates
+        /// Matches single and multiline templates, NOT nested templates
         /// </summary>
         public static readonly Regex TemplateMultiLine = new Regex(@"{{[^{]*?}}", RegexOptions.Compiled);
 
