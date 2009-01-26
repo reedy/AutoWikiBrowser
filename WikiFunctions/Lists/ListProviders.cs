@@ -626,7 +626,7 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class GoogleSearchListProvider : IListProvider
     {
-        private static Regex regexGoogle = new Regex("href\\s*=\\s*(?:\"(?<1>[^\"]*)\"|(?<1>\\S+) class=l)",
+        private readonly static Regex regexGoogle = new Regex("href\\s*=\\s*(?:\"(?<1>[^\"]*)\"|(?<1>\\S+) class=l)",
     RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public List<Article> MakeList(params string[] searchCriteria)
@@ -669,10 +669,10 @@ namespace WikiFunctions.Lists
 
         #region ListMaker properties
         public string DisplayText
-        { get { return "Google Search"; } }
+        { get { return "Google search"; } }
 
         public string UserInputTextBoxText
-        { get { return "Google Search:"; } }
+        { get { return "Google search:"; } }
 
         public bool UserInputTextBoxEnabled
         { get { return true; } }
