@@ -57,7 +57,7 @@ namespace AutoWikiBrowser
         private static bool Abort;
 
         private static string LastArticle = "";
-        private static string mSettingsFile = "", mSettingsFileDisplay = "";
+        private static string mSettingsFile = "";
         private static string LastMove = "", LastDelete = "", LastProtect = "";
 
         private static int oldselection;
@@ -187,24 +187,20 @@ namespace AutoWikiBrowser
             }
         }
 
+        private static string SettingsFileDisplay;
         internal string SettingsFile
         {
             set
             {
                 mSettingsFile = value;
-                mSettingsFileDisplay = Program.NAME;
+                SettingsFileDisplay = Program.NAME;
                 if (!string.IsNullOrEmpty(value))
-                    mSettingsFileDisplay += " - " + value.Remove(0, value.LastIndexOf("\\") + 1);
+                    SettingsFileDisplay += " - " + value.Remove(0, value.LastIndexOf("\\") + 1);
                 Text = SettingsFileDisplay;
 
                 ntfyTray.Text = (SettingsFileDisplay.Length > 64) ? SettingsFileDisplay.Substring(0, 63) : SettingsFileDisplay;
             }
             get { return mSettingsFile; }
-        }
-
-        private static string SettingsFileDisplay
-        {
-            get { return mSettingsFileDisplay; }
         }
 
         int userProfileToLoad = -1;
