@@ -51,7 +51,7 @@ namespace WikiFunctions.API
             if (string.IsNullOrEmpty(url)) throw new ArgumentException("Invalid URL specified", "url");
             if (!url.StartsWith("http://")) throw new NotSupportedException("Only editing via HTTP is currently supported");
 
-            m_URL = url;
+            URL = url;
 
             if (ProxyCache.ContainsKey(url))
             {
@@ -76,7 +76,7 @@ namespace WikiFunctions.API
         public ApiEdit Clone()
         {
             ApiEdit clone = new ApiEdit();
-            clone.m_URL = m_URL;
+            clone.URL = URL;
             clone.m_Maxlag = m_Maxlag;
             clone.m_Cookies = m_Cookies;
             clone.ProxySettings = ProxySettings;
@@ -85,12 +85,11 @@ namespace WikiFunctions.API
         }
 
         #region Properties
-        string m_URL;
+
         /// <summary>
         /// Path to scripts on server
         /// </summary>
-        public string URL
-        { get { return m_URL; } }
+        public string URL { get; private set; }
 
         int m_Maxlag = 5;
         /// <summary>
