@@ -340,7 +340,7 @@ namespace WikiFunctions
             { 
                 usePHP5 = value;
                 IndexPHP = value ? "index.php5" : "index.php";
-                ApiPHP = value ? "index.php5" : "index.php";
+                ApiPHP = value ? "api.php5" : "api.php";
             }
         }
 
