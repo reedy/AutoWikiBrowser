@@ -365,6 +365,11 @@ namespace WikiFunctions
         /// Matches {{Deadend|xxx}} (en only)
         /// </summary>
         public static readonly Regex DeadEnd = new Regex(@"{{[Dd]eadend\|.*?}}", RegexOptions.Compiled);
+        
+        /// <summary>
+        /// Checks for presence of infobox in article
+        /// </summary>
+        public static readonly Regex Infobox = new Regex(@"{{\s*[Ii]nfobox\s.*?}}", RegexOptions.Compiled | RegexOptions.Singleline);
         #endregion
 
         /// <summary>

@@ -2084,12 +2084,18 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return (HasStubTemplate(ArticleText) || ArticleText.Length < StubMaxWordCount);
         }
 
+        /// <summary>
+        /// Checks if the article has an Infobox (en wiki)
+        /// </summary>
         public static bool HasInfobox(string ArticleText)
         {
-            /* TODO: Code to check if an article has an infobox; code to get an article in the background 
-             * and return an Article or simpler object so that kingbotk can tag as stub/infobox needed 
-             * based on article contents (as promised by Martinp23 :P, please) */
-            return false;
+            if (Variables.LangCode != LangCodeEnum.en)
+              return false;
+
+            ArticleText = WikiRegexes.Nowiki.Replace(ArticleText, "");
+            ArticleText = WikiRegexes.Comments.Replace(ArticleText, "");
+
+            return WikiRegexes.Infobox.IsMatch(ArticleText);
         }
 
         /// <summary>
