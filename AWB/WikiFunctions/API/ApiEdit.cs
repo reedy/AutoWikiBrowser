@@ -390,7 +390,9 @@ namespace WikiFunctions.API
                 Timestamp = xr.GetAttribute("timestamp");
                 PageText = xr.ReadString();
 
-                //TODO:Get Protection
+                //TODO:Get Protection (code is just placeholders below)
+                Edit = Protection.None;
+                Move = Protection.None;
 
                 Action = "edit";
             }
