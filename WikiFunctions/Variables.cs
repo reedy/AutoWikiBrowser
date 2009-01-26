@@ -687,7 +687,7 @@ namespace WikiFunctions
 
             try
             {
-                SiteInfo si = new SiteInfo(URLLong);
+                SiteInfo si = new SiteInfo(URLLong, PHP5);
 
                 for (int i = 0; i < months.Length; i++) months[i] += "-gen";
                 Dictionary<string, string> messages = si.GetMessages(months);
