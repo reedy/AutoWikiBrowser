@@ -29,8 +29,6 @@ using System.Threading;
 
 namespace WikiFunctions.Parse
 {
-    //TODO: make it ignore typos where RETF changes part of page title, like [[Adam Commens]]
-
     /// <summary>
     /// Interface for loading typo list
     /// </summary>
@@ -209,7 +207,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// 
+        /// Applies a given typo fix to the article provided the typo does not also match the article title
         /// </summary>
         /// <param name="ArticleText"></param>
         /// <param name="summary"></param>
@@ -217,12 +215,12 @@ namespace WikiFunctions.Parse
         /// <param name="ArticleTitle"></param>
         private void FixTypo(ref string ArticleText, ref string summary, KeyValuePair<Regex, string> typo, string ArticleTitle)
         {
+            // don't apply the typo if it matches on the Article's title
             if (typo.Key.IsMatch(ArticleTitle))
                 return;
 
             MatchCollection matches = typo.Key.Matches(ArticleText);
-            
-            // don't apply the typo if it matches the Article's title
+
             if (matches.Count > 0)
             {
                 TypoStat stats = new TypoStat(typo);
