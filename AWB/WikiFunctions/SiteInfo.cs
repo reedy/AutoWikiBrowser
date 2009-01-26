@@ -28,6 +28,7 @@ namespace WikiFunctions
     [Serializable]
     public class SiteInfo : IXmlSerializable
     {
+        private readonly bool php5;
         private string m_ScriptPath;
         private readonly Dictionary<int, string> m_Namespaces = new Dictionary<int, string>();
         private Dictionary<int, List<string>> m_NamespaceAliases = new Dictionary<int, List<string>>();
@@ -40,8 +41,19 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="scriptPath">URL where index.php and api.php reside</param>
         public SiteInfo(string scriptPath)
+            : this(scriptPath, false)
+        {
+        }
+
+        /// <summary>
+        /// Creates an instance of the class
+        /// </summary>
+        /// <param name="scriptPath">URL where index.php and api.php reside</param>
+        /// <param name="php5Ext"></param>
+        public SiteInfo(string scriptPath, bool php5Ext)
         {
             ScriptPath = scriptPath;
+            php5 = php5Ext;
 
             try
             {
@@ -58,6 +70,11 @@ namespace WikiFunctions
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="scriptPath"></param>
+        /// <param name="namespaces"></param>
         public SiteInfo(string scriptPath, Dictionary<int, string> namespaces)
         {
             ScriptPath = scriptPath;
@@ -71,6 +88,11 @@ namespace WikiFunctions
         //private static void VerifyIntegrity()
         //{ }
 
+        private string ApiPath
+        {
+            get { return m_ScriptPath + "api.php" + ((php5) ? "5" : ""); }
+        }
+
         public static string NormalizeURL(string url)
         {
             if (!url.EndsWith("/")) return url + "/";
@@ -80,7 +102,7 @@ namespace WikiFunctions
 
         public bool LoadNamespaces()
         {
-            string output = Tools.GetHTML(m_ScriptPath + "api.php?action=query&meta=siteinfo&siprop=general|namespaces|namespacealiases|statistics&format=xml");
+            string output = Tools.GetHTML(ApiPath + "?action=query&meta=siteinfo&siprop=general|namespaces|namespacealiases|statistics&format=xml");
 
             XmlDocument xd = new XmlDocument();
             xd.LoadXml(output);
@@ -109,7 +131,7 @@ namespace WikiFunctions
 
         public bool LoadLocalisedMagicWordAlias()
         {
-            string output = Tools.GetHTML(m_ScriptPath + "api.php?action=query&meta=siteinfo&siprop=magicwords&format=xml");
+            string output = Tools.GetHTML(ApiPath + "?action=query&meta=siteinfo&siprop=magicwords&format=xml");
 
             //TODO:Remove post 1.14
             if (output.Contains("'siprop': magicwords"))
@@ -162,13 +184,14 @@ namespace WikiFunctions
         public Dictionary<int, List<string>> NamespaceAliases
         { get { return m_NamespaceAliases; } }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="names"></param>
+        /// <returns></returns>
         public Dictionary<string, string> GetMessages(params string[] names)
         {
-            string joined = string.Join("|", names);
-
-            string url = m_ScriptPath + "api.php?format=xml&action=query&meta=allmessages&ammessages=" + joined;
-
-            string output = Tools.GetHTML(url);
+            string output = Tools.GetHTML(ApiPath + "?format=xml&action=query&meta=allmessages&ammessages=" + string.Join("|", names));
 
             XmlDocument xd = new XmlDocument();
             xd.LoadXml(output);
