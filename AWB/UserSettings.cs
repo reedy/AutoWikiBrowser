@@ -290,7 +290,10 @@ namespace AutoWikiBrowser
             else if (File.Exists("Default.xml"))
                 LoadPrefs("Default.xml");
             else
+            {
                 LoadPrefs(new UserPrefs());
+                SettingsFile = "";
+            }
 
             splash.SetProgress(85);
         }
