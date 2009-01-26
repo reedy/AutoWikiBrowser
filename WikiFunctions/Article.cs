@@ -581,7 +581,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="Module"></param>
         public void SendPageToCustomModule(IModule Module)
-        { // TODO: Check this Skips properly if module tells us to. If not, we'll have to set the Skip property directly
+        {
             ProcessArticleEventArgs processArticleEventArgs = this;
             string strEditSummary;
             bool skipArticle;
