@@ -1264,9 +1264,9 @@ namespace AutoWikiBrowser
                 if (theArticle.CanDoGeneralFixes)
                 {
                     // auto tag
-                    if (process && chkAutoTagger.Checked)
+                    if (process)
                     {
-                        theArticle.AutoTag(parsers, Skip.SkipNoTag);
+                        theArticle.AutoTag(parsers, Skip.SkipNoTag, chkAutoTagger.Checked, chkGeneralFixes.Checked);
                         if (theArticle.SkipArticle) return;
                     }
 
