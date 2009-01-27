@@ -806,6 +806,9 @@ namespace WikiFunctions
 
             AWBChangeArticleText("Fix temperatures", parsers.FixTemperatures(ArticleText), true);
             Variables.Profiler.Profile("FixTemperatures");
+            
+            AWBChangeArticleText("Fix non-breaking spaces", parsers.FixNonBreakingSpaces(ArticleText), true);
+            Variables.Profiler.Profile("FixNonBreakingSpaces");
 
             AWBChangeArticleText("Fix main article", Parsers.FixMainArticle(ArticleText), true);
             Variables.Profiler.Profile("FixMainArticle");
