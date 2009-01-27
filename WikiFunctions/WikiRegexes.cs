@@ -339,6 +339,13 @@ namespace WikiFunctions
         /// see http://en.wikipedia.org/wiki/Quotation_mark_glyphs
         /// http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Ignoring_spelling_errors_within_quotation_marks.3F
         public static readonly Regex UntemplatedQuotes = new Regex(@"\s[""«»‘’“”‛‟‹›“”„‘’`’“‘”].{1,500}?[""«»‘’“”‛‟‹›“”„‘’`’“‘”]", RegexOptions.Compiled);
+        
+        // covered by TestFixNonBreakingSpaces
+        /// <summary>
+        /// Matches abbreviated SI units without a non-breaking space
+        /// </summary>
+        /// http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Non_breaking_spaces
+        public static readonly Regex SiUnitsWithoutNonBreakingSpaces = new Regex(@"\b(\d?\.?\d+)\s*((?:c|m|k|n)(?:m|g)|m?mol|cd)\b", RegexOptions.Compiled);
 
         #region en only
         /// <summary>

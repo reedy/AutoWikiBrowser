@@ -409,6 +409,36 @@ http://example.com }}");
             Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[File:]][[Image:]]"));
             Assert.AreEqual("[[File:Test]]", Parsers.FixEmptyLinksAndTemplates("[[File:Test]][[Image:]]"));
         }
+        
+        [Test]
+        public void TestFixNonBreakingSpaces()
+        {
+            Assert.AreEqual(@"a 50&nbsp;km road", parser.FixNonBreakingSpaces(@"a 50 km road"));
+            Assert.AreEqual(@"a 50&nbsp;km road", parser.FixNonBreakingSpaces(@"a 50km road"));
+            Assert.AreEqual(@"a 50&nbsp;kg dog", parser.FixNonBreakingSpaces(@"a 50 kg dog"));
+            Assert.AreEqual(@"a 50&nbsp;kg dog", parser.FixNonBreakingSpaces(@"a 50kg dog"));
+            Assert.AreEqual(@"a 50&nbsp;cm road", parser.FixNonBreakingSpaces(@"a 50 cm road"));
+            Assert.AreEqual(@"a 50&nbsp;cm road", parser.FixNonBreakingSpaces(@"a 50cm road"));
+            Assert.AreEqual(@"a 50.247&nbsp;cm road", parser.FixNonBreakingSpaces(@"a 50.247cm road"));
+            Assert.AreEqual(@"a 50.247&nbsp;nm laser", parser.FixNonBreakingSpaces(@"a 50.247nm laser"));
+            Assert.AreEqual(@"a 50.247&nbsp;nm laser", parser.FixNonBreakingSpaces(@"a 50.247  nm laser"));
+            Assert.AreEqual(@"a 50.247&nbsp;cd light", parser.FixNonBreakingSpaces(@"a 50.247 cd light"));
+            Assert.AreEqual(@"a 50.247&nbsp;cd light", parser.FixNonBreakingSpaces(@"a 50.247cd light"));
+            Assert.AreEqual(@"a 50.247&nbsp;mmol solution", parser.FixNonBreakingSpaces(@"a 50.247mmol solution"));
+            Assert.AreEqual(@"a 0.3&nbsp;mol solution", parser.FixNonBreakingSpaces(@"a 0.3mol solution"));
+
+            // no changes for these
+            Assert.AreEqual(@"nearly 5m people", parser.FixNonBreakingSpaces(@"nearly 5m people"));
+            Assert.AreEqual(@"a 3CD set", parser.FixNonBreakingSpaces(@"a 3CD set"));
+            Assert.AreEqual(@"http://site.com/View/3356 A show", parser.FixNonBreakingSpaces(@"http://site.com/View/3356 A show"));
+            Assert.AreEqual(@"a 50&nbsp;km road", parser.FixNonBreakingSpaces(@"a 50&nbsp;km road"));
+            Assert.AreEqual(@"over $200K in cash", parser.FixNonBreakingSpaces(@"over $200K in cash"));
+            Assert.AreEqual(@"now {{a 50kg dog}} was", parser.FixNonBreakingSpaces(@"now {{a 50kg dog}} was"));
+            Assert.AreEqual(@"now a [[50kg dog]] was", parser.FixNonBreakingSpaces(@"now a [[50kg dog]] was"));
+            Assert.AreEqual(@"now “a 50kg dog” was", parser.FixNonBreakingSpaces(@"now “a 50kg dog” was"));
+            Assert.AreEqual(@"now <!--a 50kg dog--> was", parser.FixNonBreakingSpaces(@"now <!--a 50kg dog--> was"));
+            Assert.AreEqual(@"now <nowiki>a 50kg dog</nowiki> was", parser.FixNonBreakingSpaces(@"now <nowiki>a 50kg dog</nowiki> was"));
+        }
     }
 
     [TestFixture]

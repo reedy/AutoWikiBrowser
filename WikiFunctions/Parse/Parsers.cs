@@ -1070,6 +1070,21 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         /// <summary>
+        /// Apply non-breaking spaces for abbreviated SI units
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <returns>The modified article text.</returns>
+        public string FixNonBreakingSpaces(string ArticleText)
+        {
+            // hide items in quotes etc., though this may also hide items within infoboxes etc.
+            ArticleText = hider.HideMore(ArticleText);
+            
+            ArticleText = WikiRegexes.SiUnitsWithoutNonBreakingSpaces.Replace(ArticleText, "$1&nbsp;$2");
+        
+            return hider.AddBackMore(ArticleText);
+        }
+
+        /// <summary>
         /// regex that matches every template, for GetTemplate
         /// </summary>
         public static string EveryTemplate = @"[^\|\{\}]+";
