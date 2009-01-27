@@ -43,7 +43,12 @@ namespace WikiFunctions.API
         public string URL
         {
             get { return m_Editor.URL; }
-            set { m_Editor = new ApiEdit(value); }
+            set { m_Editor = new ApiEdit(value, PHP5); }
+        }
+
+        public bool PHP5
+        {
+            get { return m_Editor.PHP5; }
         }
 
         public string Action

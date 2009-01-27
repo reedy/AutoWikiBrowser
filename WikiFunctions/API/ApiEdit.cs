@@ -42,16 +42,28 @@ namespace WikiFunctions.API
         {
         }
 
-        /// <summary>
+                /// <summary>
         /// Creates a new instance of the ApiEdit class
         /// </summary>
         /// <param name="url">Path to scripts on server</param>
         public ApiEdit(string url)
+            : this(url, false)
+        {
+
+        }
+
+        /// <summary>
+        /// Creates a new instance of the ApiEdit class
+        /// </summary>
+        /// <param name="url">Path to scripts on server</param>
+        /// <param name="usePHP5"></param>
+        public ApiEdit(string url, bool usePHP5)
         {
             if (string.IsNullOrEmpty(url)) throw new ArgumentException("Invalid URL specified", "url");
             if (!url.StartsWith("http://")) throw new NotSupportedException("Only editing via HTTP is currently supported");
 
             URL = url;
+            PHP5 = usePHP5;
 
             if (ProxyCache.ContainsKey(url))
             {
@@ -90,6 +102,8 @@ namespace WikiFunctions.API
         /// Path to scripts on server
         /// </summary>
         public string URL { get; private set; }
+
+        public bool PHP5 { get; private set; }
 
         int m_Maxlag = 5;
         /// <summary>
@@ -237,7 +251,7 @@ namespace WikiFunctions.API
         /// <returns></returns>
         protected string BuildUrl(string[,] request, bool autoParams)
         {
-            string url = URL + "api.php?format=xml" + BuildQuery(request);
+            string url = URL + "api.php" + (PHP5 ? "5" : "") + "?format=xml" + BuildQuery(request);
             if (autoParams) url += "&assert=user&maxlag=" + Maxlag;
 
             return url;

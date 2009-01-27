@@ -438,7 +438,7 @@ namespace AutoWikiBrowser
             return true;
         }
 
-        private ApiEdit apiEdit = new ApiEdit(Variables.URLLong);
+        private ApiEdit apiEdit = new ApiEdit(Variables.URLLong, Variables.PHP5);
         private void StartAPITextLoad(string title)
         {
             string pageText = apiEdit.Open(title);
@@ -2149,7 +2149,7 @@ window.scrollTo(0, diffTopY);
                     lblOnlyBots.Visible = true;
                     Variables.User.IsBot = false;
                     Variables.User.IsAdmin = false;
-                    apiEdit = new ApiEdit(Variables.URLLong);
+                    apiEdit = new ApiEdit(Variables.URLLong, Variables.PHP5);
                 }
             }
             ListMaker.AddRemoveRedirects();
