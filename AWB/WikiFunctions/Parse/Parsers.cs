@@ -31,8 +31,6 @@ namespace WikiFunctions.Parse
     /// </summary>
     public class Parsers
     {
-        private static readonly WhatLinksHereListProvider wlhProv = new WhatLinksHereListProvider(1);
-
         #region constructor etc.
         public Parsers()
         {//default constructor
@@ -1840,17 +1838,18 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// If necessary, adds/removes wikify or stub tag
         /// </summary>
-        public string Tagger(string ArticleText, string ArticleTitle, out bool NoChange, ref string Summary)
+        public string Tagger(string ArticleText, string ArticleTitle, out bool NoChange, ref string Summary, bool addTags, bool removeTags)
         {
             testText = ArticleText;
-            ArticleText = Tagger(ArticleText, ArticleTitle, ref Summary);
+            ArticleText = Tagger(ArticleText, ArticleTitle, ref Summary, addTags, removeTags);
 
             NoChange = (testText == ArticleText);
 
             return ArticleText;
         }
 
-        private static readonly CategoriesOnPageListProvider categoryLP = new CategoriesOnPageListProvider();
+        private static readonly CategoriesOnPageListProvider categoryProv = new CategoriesOnPageListProvider();
+        private static readonly WhatLinksHereListProvider wlhProv = new WhatLinksHereListProvider(1);
 
         //TODO:Needs re-write
         /// <summary>
@@ -1859,11 +1858,14 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="ArticleTitle">The article title.</param>
         /// <param name="Summary"></param>
+        /// <param name="addTags"></param>
+        /// <param name="removeTags"></param>
         /// <returns>The tagged article.</returns>
-        public string Tagger(string ArticleText, string ArticleTitle, ref string Summary)
+        public string Tagger(string ArticleText, string ArticleTitle, ref string Summary, bool addTags, bool removeTags)
         {
-            // don't tag redirects/outside article namespace
-            if (Tools.IsRedirect(ArticleText) || !Tools.IsMainSpace(ArticleTitle))
+            // don't tag redirects/outside article namespace/no tagging changes
+            if (Tools.IsRedirect(ArticleText) || !Tools.IsMainSpace(ArticleTitle)
+                || (!addTags && !removeTags))
                 return ArticleText;
 
             string commentsStripped = WikiRegexes.Comments.Replace(ArticleText, "");
@@ -1872,7 +1874,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             // bulleted or indented text should weigh less than simple text.
             // for example, actor stubs may contain large filmographies
             string crapStripped = WikiRegexes.BulletedText.Replace(commentsStripped, "");
-            int words = (Tools.WordCount(commentsStripped) + Tools.WordCount(crapStripped)) / 2;
+            int words = (Tools.WordCount(commentsStripped) + Tools.WordCount(crapStripped))/2;
 
             // update by-date tags
             foreach (KeyValuePair<Regex, string> k in RegexTagger)
@@ -1881,9 +1883,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             }
 
             // remove stub tags from long articles
-            if ((words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped))
+            if (removeTags && (words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped))
             {
                 ArticleText = WikiRegexes.Stub.Replace(ArticleText, stubChecker).Trim();
+                Summary += ", removed Stub tag";
             }
 
             // skip article if contains any template except for stub templates
@@ -1893,12 +1896,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     return ArticleText;
             }
 
-            double length = ArticleText.Length + 1;
-            double linkCount = Tools.LinkCount(commentsStripped);
-            double ratio = linkCount / length;
+            double length = ArticleText.Length + 1,
+                   linkCount = Tools.LinkCount(commentsStripped);
 
-            if (!WikiRegexes.Category.IsMatch(commentsStripped) && words > 6
-                && categoryLP.MakeList(new[] { ArticleTitle }).Count == 0 && !Regex.IsMatch(ArticleText, @"\{\{[Uu]ncategori[zs]ed"))
+            int totalCategories = categoryProv.MakeList(new[] {ArticleTitle}).Count;
+
+            if (addTags && words > 6 && totalCategories == 0 
+                && !Regex.IsMatch(ArticleText, @"\{\{[Uu]ncategori[zs]ed"))
             {
                 if (WikiRegexes.Stub.IsMatch(commentsStripped))
                 {
@@ -1914,31 +1918,48 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     Summary += ", added [[:Category:Category needed|uncategorised]] tag";
                 }
             }
+            else if (removeTags && totalCategories > 0
+                && Regex.IsMatch(ArticleText, @"\{\{[Uu]ncategori[zs]ed"))
+            {
+                //TODO:Remove Tags
+            }
 
-            if (commentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped))
-            { // add stub tag
+            if (addTags && commentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped))
+            {
+                // add stub tag
                 ArticleText = ArticleText + "\r\n\r\n\r\n{{stub}}";
                 Summary += ", added stub tag";
             }
 
-            if (linkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(ArticleText))
-            { // add dead-end tag
+            if (addTags && linkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(ArticleText))
+            {
+                // add dead-end tag
                 ArticleText = "{{deadend|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
                 Summary += ", added [[:Category:Dead-end pages|deadend]] tag";
             }
+            else if (removeTags && linkCount > 0 && WikiRegexes.DeadEnd.IsMatch(ArticleText))
+            {
+                ArticleText = WikiRegexes.DeadEnd.Replace(ArticleText, "");
+                Summary += ", removed deadend tag";
+            }
 
-            if (linkCount < 3 && (ratio < 0.0025))
-            { // add wikify tag
+            if (addTags && linkCount < 3 && ((linkCount / length) < 0.0025) && !WikiRegexes.Wikify.IsMatch(ArticleText))
+            {
+                // add wikify tag
                 ArticleText = "{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
                 Summary += ", added [[:Category:Articles that need to be wikified|wikify]] tag";
+            }
+            else if (removeTags && linkCount > 3 && ((linkCount / length) > 0.0025) && WikiRegexes.Wikify.IsMatch(ArticleText))
+            {
+                ArticleText = WikiRegexes.Wikify.Replace(ArticleText, "");
+                Summary += ", removed wikify tag";
             }
 
             // check if not orphaned
             bool orphaned = true;
             try
             {
-                List<Article> links = wlhProv.MakeList(0, ArticleTitle);
-                foreach (Article a in links)
+                foreach (Article a in wlhProv.MakeList(0, ArticleTitle))
                     if (Tools.IsMainSpace(a.Name))
                     {
                         orphaned = false;
@@ -1952,11 +1973,17 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 ErrorHandler.CurrentPage = ArticleTitle;
                 ErrorHandler.Handle(ex);
             }
+
             // add orphan tag if applicable
-            if (orphaned)
+            if (addTags && orphaned && !WikiRegexes.Orphan.IsMatch(ArticleText))
             {
                 ArticleText = "{{orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
                 Summary += ", added [[:Category:Orphaned articles|orphan]] tag";
+            }
+            else if (removeTags && !orphaned && WikiRegexes.Orphan.IsMatch(ArticleText))
+            {
+                ArticleText = WikiRegexes.Orphan.Replace(ArticleText, "");
+                Summary += ", removed orphan tag";
             }
 
             return ArticleText;
