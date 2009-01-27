@@ -1837,45 +1837,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return TalkPageText;
         }
 
-        //TODO:Still needs a re-write
         /// <summary>
         /// If necessary, adds/removes wikify or stub tag
         /// </summary>
         public string Tagger(string ArticleText, string ArticleTitle, out bool NoChange, ref string Summary)
         {
-            // don't tag redirects/outside article namespace
-            if (Tools.IsRedirect(ArticleText) || !Tools.IsMainSpace(ArticleTitle))
-            {
-                NoChange = true;
-                return ArticleText;
-            }
-
             testText = ArticleText;
-
-            // update by-date tags
-            foreach (KeyValuePair<Regex, string> k in RegexTagger)
-            {
-                ArticleText = k.Key.Replace(ArticleText, k.Value);
-            }
-
-            // skip article if contains any template except for stub templates
-            foreach (Match m in WikiRegexes.Template.Matches(ArticleText))
-            {
-                if (!WikiRegexes.Stub.IsMatch(m.Value))
-                {
-                    NoChange = true;
-                    return ArticleText;
-                }
-            }
-
-            string commentsStripped = WikiRegexes.Comments.Replace(ArticleText, "");
-            Sorter.interwikis(ref commentsStripped);
-
-            // bulleted or indented text should weigh less than simple text. for example, actor stubs may contain large filmographies
-            int words = (Tools.WordCount(commentsStripped + WikiRegexes.BulletedText.Replace(commentsStripped, "")))/2;
-
-            ArticleText = AddTags(ArticleText, ArticleTitle, ref Summary, words, commentsStripped);
-            ArticleText = RemoveTags(ArticleText, words, commentsStripped);
+            ArticleText = Tagger(ArticleText, ArticleTitle, ref Summary);
 
             NoChange = (testText == ArticleText);
 
@@ -1884,20 +1852,50 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
         private static readonly CategoriesOnPageListProvider categoryLP = new CategoriesOnPageListProvider();
 
+        //TODO:Needs re-write
         /// <summary>
-        /// 
+        /// If necessary, adds/removes wikify or stub tag
         /// </summary>
-        /// <param name="ArticleText"></param>
-        /// <param name="ArticleTitle"></param>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <param name="ArticleTitle">The article title.</param>
         /// <param name="Summary"></param>
-        /// <param name="words"></param>
-        /// <param name="commentsStripped"></param>
-        /// <returns></returns>
-        private static string AddTags(string ArticleText, string ArticleTitle, ref string Summary, int words, string commentsStripped)
+        /// <returns>The tagged article.</returns>
+        public string Tagger(string ArticleText, string ArticleTitle, ref string Summary)
         {
-            double length = ArticleText.Length + 1,
-                linkCount = Tools.LinkCount(commentsStripped),
-                ratio = linkCount / length;
+            // don't tag redirects/outside article namespace
+            if (Tools.IsRedirect(ArticleText) || !Tools.IsMainSpace(ArticleTitle))
+                return ArticleText;
+
+            string commentsStripped = WikiRegexes.Comments.Replace(ArticleText, "");
+            Sorter.interwikis(ref commentsStripped);
+
+            // bulleted or indented text should weigh less than simple text.
+            // for example, actor stubs may contain large filmographies
+            string crapStripped = WikiRegexes.BulletedText.Replace(commentsStripped, "");
+            int words = (Tools.WordCount(commentsStripped) + Tools.WordCount(crapStripped)) / 2;
+
+            // update by-date tags
+            foreach (KeyValuePair<Regex, string> k in RegexTagger)
+            {
+                ArticleText = k.Key.Replace(ArticleText, k.Value);
+            }
+
+            // remove stub tags from long articles
+            if ((words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped))
+            {
+                ArticleText = WikiRegexes.Stub.Replace(ArticleText, stubChecker).Trim();
+            }
+
+            // skip article if contains any template except for stub templates
+            foreach (Match m in WikiRegexes.Template.Matches(ArticleText))
+            {
+                if (!WikiRegexes.Stub.IsMatch(m.Value))
+                    return ArticleText;
+            }
+
+            double length = ArticleText.Length + 1;
+            double linkCount = Tools.LinkCount(commentsStripped);
+            double ratio = linkCount / length;
 
             if (!WikiRegexes.Category.IsMatch(commentsStripped) && words > 6
                 && categoryLP.MakeList(new[] { ArticleTitle }).Count == 0 && !Regex.IsMatch(ArticleText, @"\{\{[Uu]ncategori[zs]ed"))
@@ -1959,24 +1957,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             {
                 ArticleText = "{{orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
                 Summary += ", added [[:Category:Orphaned articles|orphan]] tag";
-            }
-
-            return ArticleText;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ArticleText"></param>
-        /// <param name="words"></param>
-        /// <param name="commentsStripped"></param>
-        /// <returns></returns>
-        private static string RemoveTags(string ArticleText, int words, string commentsStripped)
-        {
-            // remove stub tags from long articles
-            if ((words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped))
-            {
-                ArticleText = WikiRegexes.Stub.Replace(ArticleText, stubChecker).Trim();
             }
 
             return ArticleText;
