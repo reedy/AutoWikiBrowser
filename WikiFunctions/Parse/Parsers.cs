@@ -1047,8 +1047,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             foreach (Match m in WikiRegexes.LooseImage.Matches(ArticleText))
             {
+                // only apply underscore/URL encoding fixes to image name (group 2)
                 string x = "[[" + Tools.NormalizeNamespace(m.Groups[1].Value, 6) + CanonicalizeTitle(m.Groups[2].Value).Trim() + m.Groups[3].Value.Trim() + "]]";
-                ArticleText = ArticleText.Replace(m.Value, HttpUtility.UrlDecode(x));
+                ArticleText = ArticleText.Replace(m.Value, x);
             }
 
             return ArticleText;
