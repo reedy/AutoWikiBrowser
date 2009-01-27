@@ -1901,25 +1901,25 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             double linkCount = Tools.LinkCount(commentsStripped);
             double ratio = linkCount / length;
 
-            List<Article> categories = new List<Article>();
-
-            if (!WikiRegexes.Category.IsMatch(commentsStripped))
-                categories.AddRange(categoryLP.MakeList(new[] { ArticleTitle }));
-
-            if (words > 6 && categories.Count == 0 && !Regex.IsMatch(ArticleText, @"\{\{[Uu]ncategori[zs]ed"))
+            if (!WikiRegexes.Category.IsMatch(commentsStripped) && words > 6
+                && categoryLP.MakeList(new[] { ArticleTitle }).Count == 0 && !Regex.IsMatch(ArticleText, @"\{\{[Uu]ncategori[zs]ed"))
             {
                 if (WikiRegexes.Stub.IsMatch(commentsStripped))
-                { // add uncategorized stub tag
-                    ArticleText += "\r\n\r\n{{Uncategorizedstub|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
+                {
+                    // add uncategorized stub tag
+                    ArticleText +=
+                        "\r\n\r\n{{Uncategorizedstub|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
                     Summary += ", added [[:Category:Uncategorized stubs|uncategorised]] tag";
                 }
                 else
-                { // add uncategorized tag
+                {
+                    // add uncategorized tag
                     ArticleText += "\r\n\r\n{{Uncategorized|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
                     Summary += ", added [[:Category:Category needed|uncategorised]] tag";
                 }
             }
-            else if (commentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped))
+
+            if (commentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped))
             { // add stub tag
                 ArticleText = ArticleText + "\r\n\r\n\r\n{{stub}}";
                 Summary += ", added stub tag";
