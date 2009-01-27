@@ -255,6 +255,7 @@ namespace UnitTests
             Assert.AreEqual("HTTP/1.1", parser.FixSyntax("HTTP/1.1"));
             Assert.AreEqual("HTTP/1.2", parser.FixSyntax("HTTP/1.2"));
             Assert.AreEqual("the HTTP/1.2 protocol", parser.FixSyntax("the HTTP/1.2 protocol"));
+            Assert.AreEqual(@"<ref>[http://cdiac.esd.ornl.gov/ftp/cdiac74/a.pdf chapter 5]</ref>", parser.FixSyntax(@"<ref>[http://cdiac.esd.ornl.gov/ftp/cdiac74/a.pdf chapter 5]</ref>"));
         }
 
         [Test, Ignore]
