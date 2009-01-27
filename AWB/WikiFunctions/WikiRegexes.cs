@@ -61,7 +61,7 @@ namespace WikiFunctions
                     RegexOptions.Compiled);
 
             LooseImage = new Regex(@"\[\[\s*?(" + Variables.NamespacesCaseInsensitive[Namespace.File] 
-                + @")\s*([^\|\]]*?)(.*?)\]\]",
+                + @")\s*([^\|\]]+)(.*?)\]\]",
                 RegexOptions.Compiled);
 
             StringBuilder builder = new StringBuilder("(" + Variables.MonthNames[0]);
