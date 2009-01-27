@@ -1862,12 +1862,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The tagged article.</returns>
         public string Tagger(string ArticleText, string ArticleTitle, ref string Summary)
         {
-            // don't tag redirects
-            if (Tools.IsRedirect(ArticleText))
-                return ArticleText;
-
-            // don't tag outside article namespace
-            if (!Tools.IsMainSpace(ArticleTitle))
+            // don't tag redirects/outside article namespace
+            if (Tools.IsRedirect(ArticleText) || !Tools.IsMainSpace(ArticleTitle))
                 return ArticleText;
 
             string commentsStripped = WikiRegexes.Comments.Replace(ArticleText, "");
