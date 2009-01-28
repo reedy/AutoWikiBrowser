@@ -159,7 +159,7 @@ namespace WikiFunctions.Lists
 
         public List<Article> MakeList(string searchCriteria)
         {
-            return MakeList(searchCriteria.Split(new [] { '|' }, StringSplitOptions.RemoveEmptyEntries));
+            return MakeList(searchCriteria.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
         }
 
         public List<Article> MakeList()
@@ -188,7 +188,7 @@ namespace WikiFunctions.Lists
                     switch (openListDialog.FilterIndex)
                     {
                         case 2:
-                            foreach (string s in pageText.Split(new [] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
+                            foreach (string s in pageText.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
                             {
                                 list.Add(new Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim()))));
                             }
@@ -207,7 +207,7 @@ namespace WikiFunctions.Lists
                             }
                             else
                             {
-                                foreach (string s in pageText.Split(new [] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
+                                foreach (string s in pageText.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
                                 {
                                     if (s.Trim().Length == 0 || !Tools.IsValidTitle(s)) continue;
                                     list.Add(new Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim()))));
@@ -248,13 +248,13 @@ namespace WikiFunctions.Lists
     public class CategoriesOnPageListProvider : ApiListProviderBase
     {
         #region Tags: <categories>/<cl>
-        static readonly List<string> pe = new List<string>(new [] { "cl" });
+        static readonly List<string> pe = new List<string>(new[] { "cl" });
         protected override ICollection<string> PageElements
         {
             get { return pe; }
         }
 
-        static readonly List<string> ac = new List<string>(new [] { "categories" });
+        static readonly List<string> ac = new List<string>(new[] { "categories" });
         protected override ICollection<string> Actions
         {
             get { return ac; }
@@ -306,13 +306,13 @@ namespace WikiFunctions.Lists
         }
 
         #region Tags: <backlinks>/<bl>
-        static readonly List<string> pe = new List<string>(new [] { "bl" });
+        static readonly List<string> pe = new List<string>(new[] { "bl" });
         protected override ICollection<string> PageElements
         {
             get { return pe; }
         }
 
-        static readonly List<string> ac = new List<string>(new [] { "backlinks" });
+        static readonly List<string> ac = new List<string>(new[] { "backlinks" });
         protected override ICollection<string> Actions
         {
             get { return ac; }
@@ -428,13 +428,13 @@ namespace WikiFunctions.Lists
     public class WhatTranscludesPageListProvider : ApiListProviderBase
     {
         #region Tags: <embeddedin>/<ei>
-        static readonly List<string> pe = new List<string>(new [] { "ei" });
+        static readonly List<string> pe = new List<string>(new[] { "ei" });
         protected override ICollection<string> PageElements
         {
             get { return pe; }
         }
 
-        static readonly List<string> ac = new List<string>(new [] { "embeddedin" });
+        static readonly List<string> ac = new List<string>(new[] { "embeddedin" });
         protected override ICollection<string> Actions
         {
             get { return ac; }
@@ -477,13 +477,13 @@ namespace WikiFunctions.Lists
     public class LinksOnPageListProvider : ApiListProviderBase
     {
         #region Tags: <links>/<pl>
-        static readonly List<string> pe = new List<string>(new [] { "pl" });
+        static readonly List<string> pe = new List<string>(new[] { "pl" });
         protected override ICollection<string> PageElements
         {
             get { return pe; }
         }
 
-        static readonly List<string> ac = new List<string>(new [] { "links" });
+        static readonly List<string> ac = new List<string>(new[] { "links" });
         protected override ICollection<string> Actions
         {
             get { return ac; }
@@ -527,13 +527,13 @@ namespace WikiFunctions.Lists
     public class ImagesOnPageListProvider : ApiListProviderBase
     {
         #region Tags: <images>/<im>
-        static readonly List<string> pe = new List<string>(new [] { "im" });
+        static readonly List<string> pe = new List<string>(new[] { "im" });
         protected override ICollection<string> PageElements
         {
             get { return pe; }
         }
 
-        static readonly List<string> ac = new List<string>(new [] { "images" });
+        static readonly List<string> ac = new List<string>(new[] { "images" });
         protected override ICollection<string> Actions
         {
             get { return ac; }
@@ -576,13 +576,13 @@ namespace WikiFunctions.Lists
     public class TransclusionsOnPageListProvider : ApiListProviderBase
     {
         #region Tags: <templates>/<tl>
-        static readonly List<string> pe = new List<string>(new [] { "tl" });
+        static readonly List<string> pe = new List<string>(new[] { "tl" });
         protected override ICollection<string> PageElements
         {
             get { return pe; }
         }
 
-        static readonly List<string> ac = new List<string>(new [] { "templates" });
+        static readonly List<string> ac = new List<string>(new[] { "templates" });
         protected override ICollection<string> Actions
         {
             get { return ac; }
@@ -624,8 +624,8 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class GoogleSearchListProvider : IListProvider
     {
-        private readonly static Regex regexGoogle = new Regex("href\\s*=\\s*(?:\"(?<1>[^\"]*)\"|(?<1>\\S+) class=l)",
-    RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex regexGoogle = new Regex("href\\s*=\\s*(?:\"(?<1>[^\"]*)\"|(?<1>\\S+) class=l)",
+                                                              RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public List<Article> MakeList(params string[] searchCriteria)
         {
@@ -634,7 +634,7 @@ namespace WikiFunctions.Lists
             foreach (string g in searchCriteria)
             {
                 int intStart = 0;
-                string google = HttpUtility.UrlEncode(g).Replace("_", " ");
+                string google = Tools.WikiEncode(g);
                 string url = "http://www.google.com/search?q=" + google + "+site:" + Variables.URL + "&num=100&hl=en&lr=&start=0&sa=N&filter=0";
 
                 do
@@ -685,13 +685,13 @@ namespace WikiFunctions.Lists
     public class UserContribsListProvider : ApiListProviderBase
     {
         #region Tags: <usercontribs>/<item>
-        static readonly List<string> pe = new List<string>(new [] { "item" });
+        static readonly List<string> pe = new List<string>(new[] { "item" });
         protected override ICollection<string> PageElements
         {
             get { return pe; }
         }
 
-        static readonly List<string> ac = new List<string>(new [] { "usercontribs" });
+        static readonly List<string> ac = new List<string>(new[] { "usercontribs" });
         protected override ICollection<string> Actions
         {
             get { return ac; }
@@ -762,13 +762,13 @@ namespace WikiFunctions.Lists
     public class ImageFileLinksListProvider : ApiListProviderBase
     {
         #region Tags: <imageusage>/<iu>
-        static readonly List<string> pe = new List<string>(new [] { "iu" });
+        static readonly List<string> pe = new List<string>(new[] { "iu" });
         protected override ICollection<string> PageElements
         {
             get { return pe; }
         }
 
-        static readonly List<string> ac = new List<string>(new [] { "imageusage" });
+        static readonly List<string> ac = new List<string>(new[] { "imageusage" });
         protected override ICollection<string> Actions
         {
             get { return ac; }
@@ -783,7 +783,7 @@ namespace WikiFunctions.Lists
 
             foreach (string page in searchCriteria)
             {
-                string image = Regex.Replace(page, "^" + Variables.Namespaces[Namespace.File], 
+                string image = Regex.Replace(page, "^" + Variables.Namespaces[Namespace.File],
                     "", RegexOptions.IgnoreCase);
                 image = HttpUtility.UrlEncode(image);
 
@@ -815,13 +815,13 @@ namespace WikiFunctions.Lists
     public class WikiSearchListProvider : ApiListProviderBase
     {
         #region Tags: <search>/<p>
-        static readonly List<string> pe = new List<string>(new [] { "p" });
+        static readonly List<string> pe = new List<string>(new[] { "p" });
         protected override ICollection<string> PageElements
         {
             get { return pe; }
         }
 
-        static readonly List<string> ac = new List<string>(new [] { "search" });
+        static readonly List<string> ac = new List<string>(new[] { "search" });
         protected override ICollection<string> Actions
         {
             get { return ac; }
@@ -879,13 +879,13 @@ namespace WikiFunctions.Lists
     public class RedirectsListProvider : ApiListProviderBase
     {
         #region Tags: <backlinks>/<bl>
-        static readonly List<string> pe = new List<string>(new [] { "bl" });
+        static readonly List<string> pe = new List<string>(new[] { "bl" });
         protected override ICollection<string> PageElements
         {
             get { return pe; }
         }
 
-        static readonly List<string> ac = new List<string>(new [] { "backlinks" });
+        static readonly List<string> ac = new List<string>(new[] { "backlinks" });
         protected override ICollection<string> Actions
         {
             get { return ac; }
@@ -1028,13 +1028,13 @@ namespace WikiFunctions.Lists
         }
 
         #region Tags: <random>/<page>
-        static readonly List<string> pe = new List<string>(new [] { "page" });
+        static readonly List<string> pe = new List<string>(new[] { "page" });
         protected override ICollection<string> PageElements
         {
             get { return pe; }
         }
 
-        static readonly List<string> ac = new List<string>(new [] { "random" });
+        static readonly List<string> ac = new List<string>(new[] { "random" });
         protected override ICollection<string> Actions
         {
             get { return ac; }
@@ -1083,13 +1083,13 @@ namespace WikiFunctions.Lists
     public class AllPagesSpecialPageProvider : ApiListProviderBase, ISpecialPageProvider
     {
         #region Tags: <allpages>/<p>
-        static readonly List<string> pe = new List<string>(new [] { "p" });
+        static readonly List<string> pe = new List<string>(new[] { "p" });
         protected override ICollection<string> PageElements
         {
             get { return pe; }
         }
 
-        static readonly List<string> ac = new List<string>(new [] { "allpages" });
+        static readonly List<string> ac = new List<string>(new[] { "allpages" });
         protected override ICollection<string> Actions
         {
             get { return ac; }
@@ -1163,13 +1163,13 @@ namespace WikiFunctions.Lists
     public class RecentChangesSpecialPageProvider : ApiListProviderBase, ISpecialPageProvider
     {
         #region Tags: <recentchanges>/<rc>
-        static readonly List<string> pe = new List<string>(new [] { "rc" });
+        static readonly List<string> pe = new List<string>(new[] { "rc" });
         protected override ICollection<string> PageElements
         {
             get { return pe; }
         }
 
-        static readonly List<string> ac = new List<string>(new [] { "recentchanges" });
+        static readonly List<string> ac = new List<string>(new[] { "recentchanges" });
         protected override ICollection<string> Actions
         {
             get { return ac; }
@@ -1221,13 +1221,13 @@ namespace WikiFunctions.Lists
     public class NewPagesListProvider : ApiListProviderBase, ISpecialPageProvider
     {
         #region Tags: <recentchanges>/<rc>
-        static readonly List<string> pe = new List<string>(new [] { "rc" });
+        static readonly List<string> pe = new List<string>(new[] { "rc" });
         protected override ICollection<string> PageElements
         {
             get { return pe; }
         }
 
-        static readonly List<string> ac = new List<string>(new [] { "recentchanges" });
+        static readonly List<string> ac = new List<string>(new[] { "recentchanges" });
         protected override ICollection<string> Actions
         {
             get { return ac; }
@@ -1274,13 +1274,13 @@ namespace WikiFunctions.Lists
     public class LinkSearchListProvider : ApiListProviderBase, ISpecialPageProvider
     {
         #region Tags: <exturlusage>/<eu>
-        static readonly List<string> pe = new List<string>(new [] { "eu" });
+        static readonly List<string> pe = new List<string>(new[] { "eu" });
         protected override ICollection<string> PageElements
         {
             get { return pe; }
         }
 
-        static readonly List<string> ac = new List<string>(new [] { "exturlusage" });
+        static readonly List<string> ac = new List<string>(new[] { "exturlusage" });
         protected override ICollection<string> Actions
         {
             get { return ac; }
