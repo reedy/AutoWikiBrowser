@@ -97,10 +97,7 @@ namespace WikiFunctions.Parse
             if ((bool)dataGridRow.Cells["single"].FormattedValue)
                 rep.RegularExpressionOptions = rep.RegularExpressionOptions | RegexOptions.Singleline;
 
-            if (dataGridRow.Cells["comment"].Value == null)
-                dataGridRow.Cells["comment"].Value = "";
-
-            rep.Comment = dataGridRow.Cells["comment"].Value.ToString();
+            rep.Comment = (string)dataGridRow.Cells["comment"].FormattedValue ?? "";
 
             return rep;
         }
@@ -475,14 +472,12 @@ namespace WikiFunctions.Parse
                 if (Variables.MainForm != null && Variables.MainForm.EditBox.Enabled)
                     t.ArticleText = Variables.MainForm.EditBox.Text;
 
-                if (t.ShowDialog(this) == DialogResult.OK)
-                {
-                    row.Cells["find"].Value = t.Find;
-                    row.Cells["replace"].Value = t.Replace;
-                    row.Cells["multi"].Value = t.Multiline;
-                    row.Cells["single"].Value = t.Singleline;
-                    row.Cells["casesensitive"].Value = !t.IgnoreCase;
-                }
+                if (t.ShowDialog(this) != DialogResult.OK) return;
+                row.Cells["find"].Value = t.Find;
+                row.Cells["replace"].Value = t.Replace;
+                row.Cells["multi"].Value = t.Multiline;
+                row.Cells["single"].Value = t.Singleline;
+                row.Cells["casesensitive"].Value = !t.IgnoreCase;
             }
         }
         #endregion
@@ -611,22 +606,21 @@ namespace WikiFunctions.Parse
     {
         public Replacement() { }
 
-        public Replacement(string Find, string Replace, bool IsRegex, bool Enabled, RegexOptions RegularExpressionOptions, string Comment)
+        public Replacement(string find, string replace, bool isRegex, bool enabled, RegexOptions regularExpressionOptions, string comment)
         {
-            this.Find = Find;
-            this.Replace = Replace;
-            this.IsRegex = IsRegex;
-            this.Enabled = Enabled;
-            this.RegularExpressionOptions = RegularExpressionOptions;
-            this.Comment = Comment;
+            Find = find;
+            Replace = replace;
+            IsRegex = isRegex;
+            Enabled = enabled;
+            RegularExpressionOptions = regularExpressionOptions;
+            Comment = comment;
         }
 
-        public string Find;
-        public string Replace;
-        public string Comment;
+        public string Find, 
+            Replace, Comment;
 
-        public bool IsRegex;
-        public bool Enabled;
+        public bool IsRegex,
+            Enabled;
 
         public RegexOptions RegularExpressionOptions;
     }
