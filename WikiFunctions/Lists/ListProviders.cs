@@ -80,7 +80,7 @@ namespace WikiFunctions.Lists
             Limit = 200000;
         }
 
-        public override List<Article> MakeList(params string[] searchCriteria)
+        public override List<Article> MakeList(string[] searchCriteria)
         {
             List<Article> list = new List<Article>();
 
@@ -149,11 +149,10 @@ namespace WikiFunctions.Lists
     {
         private readonly static Regex RegexFromFile = new Regex("(^[a-z]{2,3}:)|(simple:)", RegexOptions.Compiled);
         private readonly static Regex LoadWikiLink = new Regex(@"\[\[:?(.*?)(?:\]\]|\|)", RegexOptions.Compiled);
-        private readonly OpenFileDialog openListDialog;
+        private readonly OpenFileDialog openListDialog = new OpenFileDialog();
 
         public TextFileListProvider()
         {
-            openListDialog = new OpenFileDialog();
             openListDialog.Filter = "Text files|*.txt|Text files (no validation)|*.txt|All files|*.*";
             openListDialog.Multiselect = true;
         }
@@ -178,8 +177,7 @@ namespace WikiFunctions.Lists
 
                 foreach (string fileName in searchCriteria)
                 {
-                    string pageText;
-                    string title;
+                    string pageText, title;
 
                     using (StreamReader sr = new StreamReader(fileName, Encoding.UTF8))
                     {
@@ -649,18 +647,15 @@ namespace WikiFunctions.Lists
                         string title = Tools.GetTitleFromURL(m.Groups[1].Value);
 
                         if (!string.IsNullOrEmpty(title))
-                        {
                             list.Add(new Article(title));
-                        }
                     }
 
-                    if (googleText.Contains("img src=\"nav_next.gif\""))
-                    {
-                        intStart += 100;
-                        url = "http://www.google.com/search?q=" + google + "+site:" + Variables.URL + "&num=100&hl=en&lr=&start=" + intStart + "&sa=N&filter=0";
-                    }
-                    else
+                    if (!googleText.Contains("img src=\"nav_next.gif\""))
                         break;
+
+                    intStart += 100;
+                    url = "http://www.google.com/search?q=" + google + "+site:" + Variables.URL +
+                          "&num=100&hl=en&lr=&start=" + intStart + "&sa=N&filter=0";
 
                 } while (true);
             }
@@ -988,7 +983,7 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class DatabaseScannerListProvider : IListProvider
     {
-        private ListMaker listMaker;
+        private readonly ListMaker listMaker;
 
         /// <summary>
         /// Default constructor
@@ -1001,8 +996,7 @@ namespace WikiFunctions.Lists
 
         public List<Article> MakeList(params string[] searchCriteria)
         {
-            DBScanner.DatabaseScanner ds = new DBScanner.DatabaseScanner(listMaker);
-            ds.Show();
+            new DBScanner.DatabaseScanner(listMaker).Show();
             return null;
         }
 
