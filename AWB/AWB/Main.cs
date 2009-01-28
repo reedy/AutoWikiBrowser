@@ -690,7 +690,7 @@ namespace AutoWikiBrowser
                         return;
                     }
 
-                    if (skippable && chkSkipNoChanges.Checked && TheArticle.NoArticleTextChanged)
+                    if (skippable && (chkSkipNoChanges.Checked || BotMode) && TheArticle.NoArticleTextChanged)
                     {
                         SkipPage("No change");
                         return;
@@ -767,6 +767,12 @@ namespace AutoWikiBrowser
 
             if (!Abort)
             {
+                if (BotMode)
+                {
+                    StartDelayedAutoSaveTimer();
+                    return;
+                }
+
                 switch (toolStripComboOnLoad.SelectedIndex)
                 {
                     case 0:
@@ -776,23 +782,13 @@ namespace AutoWikiBrowser
                         GetPreview();
                         break;
                     case 2:
-                        {
-                            if (BotMode)
-                            {
-                                StartDelayedAutoSaveTimer();
-                                return;
-                            }
+                        GuiUpdateAfterProcessing();
 
-                            Bleepflash();
-
-                            Focus();
-                            txtEdit.Focus();
-                            txtEdit.SelectionLength = 0;
-
-                            EnableButtons();
-                            break;
-                        }
+                        txtEdit.Focus();
+                        txtEdit.SelectionLength = 0;
+                        break;
                 }
+
                 SetWatchButton(webBrowserEdit.IsWatched());
 
                 txtReviewEditSummary.Text = MakeSummary();
@@ -1010,19 +1006,10 @@ namespace AutoWikiBrowser
 
         private void CaseWasDiff()
         {
-            if (BotMode)
-            {
-                StartDelayedAutoSaveTimer();
-                return;
-            }
-
-            Bleepflash();
-
-            Focus();
             txtEdit.Focus();
             txtEdit.SelectionLength = 0;
 
-            EnableButtons();
+            GuiUpdateAfterProcessing();
         }
 
         static readonly Regex spamUrlRegex = new Regex("<p>The following link has triggered our spam protection filter:<strong>(.*?)</strong><br/?>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -1412,8 +1399,15 @@ window.scrollTo(0, diffTopY);
 
             skippable = false;
             webBrowserEdit.ShowPreview();
-            EnableButtons();
+
+            GuiUpdateAfterProcessing();
+        }
+
+        private void GuiUpdateAfterProcessing()
+        {
             Bleepflash();
+            Focus();
+            EnableButtons();
         }
 
         private void Save()
