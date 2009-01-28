@@ -713,6 +713,12 @@ namespace AutoWikiBrowser
                         SkipPage("Only casing changed");
                         return;
                     }
+                    
+                    if(chkSkipMinorGeneralFixes.Checked && chkGeneralFixes.Checked && TheArticle.OnlyMinorGeneralFixesChanged)
+                    {
+                        SkipPage("Only minor general fix changes");
+                        return;
+                    }
 
                     if (chkSkipGeneralFixes.Checked && chkGeneralFixes.Checked && TheArticle.OnlyGeneralFixesChanged)
                     {
@@ -1704,6 +1710,14 @@ window.scrollTo(0, diffTopY);
             btnFindAndReplaceAdvanced.Enabled = chkFindandReplace.Checked;
             chkSkipWhenNoFAR.Enabled = chkFindandReplace.Checked;
             btnSubst.Enabled = chkFindandReplace.Checked;
+        }
+        
+        private void chkSkipGeneralFixes_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkSkipGeneralFixes.Checked)
+                chkSkipMinorGeneralFixes.Enabled = chkSkipMinorGeneralFixes.Checked = false;
+            else
+                chkSkipMinorGeneralFixes.Enabled = true;
         }
 
         private void cmboCategorise_SelectedIndexChanged(object sender, EventArgs e)
@@ -2783,7 +2797,10 @@ window.scrollTo(0, diffTopY);
 
         private void chkGeneralParse_CheckedChanged(object sender, EventArgs e)
         {
-            alphaSortInterwikiLinksToolStripMenuItem.Enabled = chkSkipGeneralFixes.Enabled = chkGeneralFixes.Checked;
+            alphaSortInterwikiLinksToolStripMenuItem.Enabled = chkSkipGeneralFixes.Enabled = chkSkipMinorGeneralFixes.Enabled = chkGeneralFixes.Checked;
+            
+            if (chkSkipGeneralFixes.Checked)
+              chkSkipMinorGeneralFixes.Enabled = false;
         }
 
         private void btnFindAndReplaceAdvanced_Click(object sender, EventArgs e)

@@ -258,7 +258,7 @@ namespace AutoWikiBrowser
                chkSkipIfInuse.Checked, chkSkipIfContains.Checked, chkSkipIfNotContains.Checked, txtSkipIfContains.Text,
                txtSkipIfNotContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked,
                chkSkipWhenNoFAR.Checked, chkSkipIfNoRegexTypo.Checked, chkSkipNoDab.Checked, chkSkipWhitespace.Checked, chkSkipCasing.Checked,
-               chkSkipGeneralFixes.Checked, chkSkipNoPageLinks.Checked, Skip.SelectedItems, chkSkipIfRedirect.Checked),
+               chkSkipGeneralFixes.Checked, chkSkipMinorGeneralFixes.Checked, chkSkipNoPageLinks.Checked, Skip.SelectedItems, chkSkipIfRedirect.Checked),
                new GeneralPrefs(SaveArticleList, IgnoreNoBots, cmboEditSummary.Items,
                cmboEditSummary.Text, new string[] {PasteMore1.Text, PasteMore2.Text, PasteMore3.Text, 
                 PasteMore4.Text, PasteMore5.Text, PasteMore6.Text, PasteMore7.Text, PasteMore8.Text,
@@ -389,6 +389,7 @@ namespace AutoWikiBrowser
             chkSkipWhitespace.Checked = p.SkipOptions.SkipWhenOnlyWhitespaceChanged;
             chkSkipCasing.Checked = p.SkipOptions.SkipOnlyCasingChanged;
             chkSkipGeneralFixes.Checked = p.SkipOptions.SkipOnlyGeneralFixChanges;
+            chkSkipMinorGeneralFixes.Checked = p.SkipOptions.SkipOnlyMinorGeneralFixChanges;
             chkSkipIfRedirect.Checked = p.SkipOptions.SkipIfRedirect;
 
             chkSkipIfContains.Checked = p.SkipOptions.SkipDoes;
