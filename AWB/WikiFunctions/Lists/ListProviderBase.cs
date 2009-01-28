@@ -177,13 +177,13 @@ namespace WikiFunctions.Lists
     public abstract class CategoryProviderBase : ApiListProviderBase
     {
         #region Overrides: <categorymembers>/<cm>
-        List<string> pe = new List<string>(new string[] { "cm" });
+        readonly List<string> pe = new List<string>(new [] { "cm" });
         protected override ICollection<string> PageElements
         {
             get { return pe; }
         }
 
-        List<string> ac = new List<string>(new string[] { "categorymembers" });
+        readonly List<string> ac = new List<string>(new[] { "categorymembers" });
         protected override ICollection<string> Actions
         {
             get { return ac; }
