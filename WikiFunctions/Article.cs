@@ -253,6 +253,14 @@ namespace WikiFunctions
         {
             get { return (generalFixesCausedChange && (ArticleText == afterGeneralFixesArticleText)); }
         }
+        
+        /// <summary>
+        /// Returns whether the only general fix changes are minor ones
+        /// </summary>
+        public bool OnlyMinorGeneralFixesChanged
+        {
+            get { return (OnlyGeneralFixesChanged && !generalFixesSignificantChange); }
+        }
 
         /// <summary>
         /// Returns whether the current article text is the same as the original article text
@@ -677,6 +685,21 @@ namespace WikiFunctions
         {
             ChangeArticleText("AWB", reason, newText, checkIfChanged);
         }
+        
+        /// <summary>
+        /// A subroutine allowing AWB to modify the article text. Passes through to ChangeArticleText()
+        /// </summary>
+        /// <param name="reason">Why the text was changed</param>
+        /// <param name="newText">The new text</param>
+        /// <param name="checkIfChanged">Check if the new text does differ from the existing text before logging it; exits silently if this param is true and there was no change</param>
+        /// <param name="performsSignificantChanges">indicates whether the general fix function makes 'significant' changes</param>
+        public void AWBChangeArticleText(string reason, string newText, bool checkIfChanged, bool performsSignificantChanges)
+        {
+            if(performsSignificantChanges && !(newText == mArticleText))
+                generalFixesSignificantChange = true;
+          
+            AWBChangeArticleText(reason, newText, checkIfChanged);
+        }
 
         /// <summary>
         /// Allows plugins to modify the article text. Plugins should set their own log entry using the object passed in ProcessArticle()
@@ -770,6 +793,7 @@ namespace WikiFunctions
         #region General fixes
         bool generalFixesCausedChange, textAlreadyChanged;
         string afterGeneralFixesArticleText;
+        bool generalFixesSignificantChange = false;
 
         /// <summary>
         /// Performs numerous minor improvements to the page text
@@ -780,7 +804,7 @@ namespace WikiFunctions
         /// <param name="replaceReferenceTags">If true, <div class="references-small"><references/></div> and so on
         /// will be replaced with {{reflist}}</param>
         public void PerformGeneralFixes(Parsers parsers, HideText removeText, ISkipOptions skip, bool replaceReferenceTags)
-        {
+        { //TODO: 2009-01-28 review which of the genfixes below should be labelled 'significant'
             BeforeGeneralFixesTextChanged();
 
             HideText(removeText);
@@ -801,7 +825,8 @@ namespace WikiFunctions
             AWBChangeArticleText("Fix whitespace in links", Parsers.FixLinkWhitespace(ArticleText, Name), true);
             Variables.Profiler.Profile("FixLinkWhitespace");
             
-            AWBChangeArticleText("Fix syntax", parsers.FixSyntax(ArticleText), true);
+            // does significant fixes
+            AWBChangeArticleText("Fix syntax", parsers.FixSyntax(ArticleText), true, true);
             Variables.Profiler.Profile("FixSyntax");
 
             AWBChangeArticleText("Fix temperatures", parsers.FixTemperatures(ArticleText), true);
@@ -825,9 +850,10 @@ namespace WikiFunctions
             AWBChangeArticleText("Fix empty references", Parsers.SimplifyReferenceTags(ArticleText), true);
             Variables.Profiler.Profile("FixEmptyReferences");
 
+            // does significant fixes
             if(IsMissingReferencesDisplay)
             {
-                AWBChangeArticleText("Add missing {{reflist}}", Parsers.AddMissingReflist(ArticleText), true);
+                AWBChangeArticleText("Add missing {{reflist}}", Parsers.AddMissingReflist(ArticleText), true, true);
                 Variables.Profiler.Profile("AddMissingReflist");
             }
 

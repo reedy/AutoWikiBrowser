@@ -302,7 +302,7 @@ namespace WikiFunctions.AWBSettings
         public SkipPrefs(bool mSkipNonexistent, bool mSkipexistent, bool mSkipWhenNoChanges, bool mSkipWhenSpamFilterBlocked, bool mSkipInuse, bool mSkipDoes,
             bool mSkipDoesNot, string mSkipDoesText, string mSkipDoesNotText, bool mRegex, bool mCaseSensitive,
             bool mSkipNoFindAndReplace, bool mSkipNoRegexTypoFix, bool mSkipNoDisambiguation,
-            bool mSkipWhitespaceOnly, bool mSkipCasingOnly, bool mSkipOnlyGeneralFixChanges, bool mSkipNoLinksOnPage,
+            bool mSkipWhitespaceOnly, bool mSkipCasingOnly, bool mSkipOnlyGeneralFixChanges, bool mSkipOnlyMinorGeneralFixChanges, bool mSkipNoLinksOnPage,
             List<int> mGeneralSkipList, bool mSkipIfRedirect)
         {
             SkipNonexistent = mSkipNonexistent;
@@ -323,6 +323,7 @@ namespace WikiFunctions.AWBSettings
             SkipWhenOnlyWhitespaceChanged = mSkipWhitespaceOnly;
             SkipOnlyCasingChanged = mSkipCasingOnly;
             SkipOnlyGeneralFixChanges = mSkipOnlyGeneralFixChanges;
+            SkipOnlyMinorGeneralFixChanges = mSkipOnlyMinorGeneralFixChanges;
             SkipNoLinksOnPage = mSkipNoLinksOnPage;
             SkipIfRedirect = mSkipIfRedirect;
         }
@@ -334,6 +335,7 @@ namespace WikiFunctions.AWBSettings
         public bool SkipInuse = false;
         public bool SkipWhenOnlyWhitespaceChanged = false;
         public bool SkipOnlyGeneralFixChanges = true;
+        public bool SkipOnlyMinorGeneralFixChanges = false;
         public bool SkipOnlyCasingChanged = false;
         public bool SkipIfRedirect = false;
 
