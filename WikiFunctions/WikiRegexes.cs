@@ -345,7 +345,7 @@ namespace WikiFunctions
         /// Matches abbreviated SI units without a non-breaking space
         /// </summary>
         /// http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Non_breaking_spaces
-        public static readonly Regex SiUnitsWithoutNonBreakingSpaces = new Regex(@"\b(\d?\.?\d+)\s*((?:c|m|k|n)(?:m|g)|m?mol|cd)\b", RegexOptions.Compiled);
+        public static readonly Regex SiUnitsWithoutNonBreakingSpaces = new Regex(@"\b(\d?\.?\d+)\s*((?:[cmknuµ])(?:m|g)|m?mol|cd)\b", RegexOptions.Compiled);
 
         #region en only
         /// <summary>
