@@ -17,8 +17,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+#if DEBUG
 using System.Text;
 using System.IO;
+#endif
 using System.Diagnostics;
 
 namespace WikiFunctions
@@ -30,7 +32,7 @@ namespace WikiFunctions
     {
         #if DEBUG
             Stopwatch Watch = new Stopwatch(); // fail-safe in case Start() wasn't called for some reason
-            TextWriter log;
+            readonly TextWriter log;
 
             /// <summary>
             /// Creates a profiler object
