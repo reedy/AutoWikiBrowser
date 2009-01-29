@@ -1180,6 +1180,28 @@ fish | name = Bert }} ''Bert'' is a good fish."));
             Assert.IsFalse(Parsers.HasInfobox(@"<!--{{infobox fish | name = Bert }}--> ''Bert'' is a good fish."));
             Assert.IsFalse(Parsers.HasInfobox(@"<nowiki>{{infobox fish | name = Bert }}</nowiki> ''Bert'' is a good fish."));
         }
+
+        [Test]
+        public void NoBotsTests()
+        {
+            Assert.IsTrue(Parsers.CheckNoBots("", ""));
+            Assert.IsTrue(Parsers.CheckNoBots("{{test}}", ""));
+            Assert.IsTrue(Parsers.CheckNoBots("lol, test", ""));
+
+            Assert.IsTrue(Parsers.CheckNoBots("{{bots}}", ""));
+            Assert.IsTrue(Parsers.CheckNoBots("{{bots|allow=awb}}", ""));
+            Assert.IsTrue(Parsers.CheckNoBots("{{bots|allow=test}}", "test"));
+            Assert.IsTrue(Parsers.CheckNoBots("{{bots|allow=user,test}}", "test"));
+            Assert.IsTrue(Parsers.CheckNoBots("{{bots|deny=none}}", ""));
+
+            Assert.IsFalse(Parsers.CheckNoBots("{{nobots}}", ""));
+            Assert.IsFalse(Parsers.CheckNoBots("{{bots|deny=all}}", ""));
+            Assert.IsFalse(Parsers.CheckNoBots("{{bots|deny=awb}}", ""));
+            Assert.IsFalse(Parsers.CheckNoBots("{{bots|deny=awb,test}}", ""));
+            Assert.IsFalse(Parsers.CheckNoBots("{{bots|deny=awb,test}}", "test"));
+            Assert.IsFalse(Parsers.CheckNoBots("{{bots|deny=test}}", "test"));
+            Assert.IsFalse(Parsers.CheckNoBots("{{bots|allow=none}}", ""));
+        }
     }
 
     [TestFixture]
