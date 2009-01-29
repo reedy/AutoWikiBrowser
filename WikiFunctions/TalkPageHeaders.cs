@@ -34,9 +34,8 @@ namespace WikiFunctions.TalkPages
     public static class TalkPageHeaders
     {
         private static string DefaultSortKey;
-        private static bool FoundDefaultSort;
-        private static bool FoundSkipTOC;
-        private static bool FoundTalkheader;
+        private static bool FoundDefaultSort,
+            FoundSkipTOC, FoundTalkheader;
         private static readonly Regex SkipTOCTemplateRegex = new Regex(
            @"\{\{\s*(template *:)?\s*(skiptotoctalk|Skiptotoc|Skiptotoc-talk)\s*\}\}\s*",
            RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
@@ -88,11 +87,7 @@ namespace WikiFunctions.TalkPages
                 }
                 DefaultSortKey = "";
             }
-            if ((!FoundTalkheader && !FoundSkipTOC) && !FoundDefaultSort)
-            {
-                return false;
-            }
-            return true;
+            return (FoundTalkheader || FoundSkipTOC) || FoundDefaultSort;
         }
 
         public static string FormatDefaultSort(string ArticleText)

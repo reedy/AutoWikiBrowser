@@ -303,7 +303,7 @@ namespace WikiFunctions
         public void Unicodify(bool SkipIfNoChange, Parsers parsers)
         {
             bool noChange;
-            string strTemp = parsers.Unicodify(mArticleText, out noChange);
+            string strTemp = Parsers.Unicodify(mArticleText, out noChange);
 
             if (SkipIfNoChange && noChange)
                 Trace.AWBSkipped("No Unicodification");
@@ -334,15 +334,15 @@ namespace WikiFunctions
                         return;
 
                     case ImageReplaceOptions.Replace:
-                        if (ImageWithText.Length > 0) strTemp = parsers.ReplaceImage(ImageReplaceText, ImageWithText, mArticleText, out noChange);
+                        if (ImageWithText.Length > 0) strTemp = Parsers.ReplaceImage(ImageReplaceText, ImageWithText, mArticleText, out noChange);
                         break;
 
                     case ImageReplaceOptions.Remove:
-                        strTemp = parsers.RemoveImage(ImageReplaceText, mArticleText, false, ImageWithText, out noChange);
+                        strTemp = Parsers.RemoveImage(ImageReplaceText, mArticleText, false, ImageWithText, out noChange);
                         break;
 
                     case ImageReplaceOptions.Comment:
-                        strTemp = parsers.RemoveImage(ImageReplaceText, mArticleText, true, ImageWithText, out noChange);
+                        strTemp = Parsers.RemoveImage(ImageReplaceText, mArticleText, true, ImageWithText, out noChange);
                         break;
 
                     default:
@@ -382,12 +382,12 @@ namespace WikiFunctions
 
                 case CategorisationOptions.ReCat:
                     if (CategoryText.Length < 1 || CategoryText2.Length < 1) return;
-                    strTemp = parsers.ReCategoriser(CategoryText, CategoryText2, mArticleText, out noChange);
+                    strTemp = Parsers.ReCategoriser(CategoryText, CategoryText2, mArticleText, out noChange);
                     break;
 
                 case CategorisationOptions.RemoveCat:
                     if (CategoryText.Length < 1) return;
-                    strTemp = parsers.RemoveCategory(CategoryText, mArticleText, out noChange);
+                    strTemp = Parsers.RemoveCategory(CategoryText, mArticleText, out noChange);
                     action = "Removed " + CategoryText;
                     break;
 

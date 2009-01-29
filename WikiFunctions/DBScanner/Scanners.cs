@@ -331,17 +331,10 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public class HasHTMLEntities : Scan
     {
-        public HasHTMLEntities(Parsers p)
-        {
-            parsers = p;
-        }
-
         bool skip = true;
-        readonly Parsers parsers;
-
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
-            parsers.Unicodify(ArticleText, out skip);
+            Parsers.Unicodify(ArticleText, out skip);
 
             return !skip;
         }

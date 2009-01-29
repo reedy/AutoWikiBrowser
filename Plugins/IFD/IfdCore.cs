@@ -67,8 +67,6 @@ namespace AutoWikiBrowser.Plugins.IFD
             }
         }
 
-        readonly Parsers parse = new Parsers();
-
         public string ProcessArticle(IAutoWikiBrowser sender, ProcessArticleEventArgs eventargs)
         {
             //If menu item is not checked, then return
@@ -87,12 +85,12 @@ namespace AutoWikiBrowser.Plugins.IFD
 
                 if (p.Value.Length == 0)
                 {
-                    text = parse.RemoveImage(p.Key, text, Settings.Comment, "", out noChange);
+                    text = Parsers.RemoveImage(p.Key, text, Settings.Comment, "", out noChange);
                     if (!noChange) eventargs.EditSummary += ", removed " + Variables.Namespaces[6] + p.Key;
                 }
                 else
                 {
-                    text = parse.ReplaceImage(p.Key, p.Value, text, out noChange);
+                    text = Parsers.ReplaceImage(p.Key, p.Value, text, out noChange);
                     if (!noChange) eventargs.EditSummary += ", replaced: " + Variables.Namespaces[6]
                          + p.Key + FindandReplace.Arrow + Variables.Namespaces[6] + p.Value;
                 }

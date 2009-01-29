@@ -28,6 +28,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using WikiFunctions.Parse;
 
 namespace WikiFunctions
 {
@@ -178,7 +179,7 @@ namespace WikiFunctions
             return (p != ProjectEnum.custom && p != ProjectEnum.wikia);
         }
 
-        static char[] InvalidChars = new char[] { '[', ']', '{', '}', '|', '<', '>', '#' };
+        private static char[] InvalidChars = new[] {'[', ']', '{', '}', '|', '<', '>', '#'};
 
         // Covered by ToolsTests.InvalidChars()
         /// <summary>
@@ -649,7 +650,7 @@ namespace WikiFunctions
             int count = 0;
             foreach (Match m in WikiRegexes.PossibleInterwikis.Matches(text))
             {
-                if (Parse.SiteMatrix.Languages.Contains(m.Groups[1].Value.ToLower())) count++;
+                if (SiteMatrix.Languages.Contains(m.Groups[1].Value.ToLower())) count++;
             }
             return count;
         }
@@ -684,7 +685,7 @@ namespace WikiFunctions
         /// <returns>Array of strings, each represents a section with its heading (if any)</returns>
         public static string[] SplitToSections(string ArticleText)
         {
-            string[] lines = ArticleText.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+            string[] lines = ArticleText.Split(new [] { "\r\n" }, StringSplitOptions.None);
 
             List<string> sections = new List<string>();
             StringBuilder section = new StringBuilder();
@@ -1315,8 +1316,6 @@ Message: {2}
         /// <returns></returns>
         public static string ExpandTemplate(string ArticleText, string ArticleTitle, Dictionary<Regex, string> Regexes, bool includeComment)
         {
-            Parse.Parsers parsers = new Parse.Parsers();
-
             foreach (KeyValuePair<Regex, string> p in Regexes)
             {
                 MatchCollection uses = p.Key.Matches(ArticleText);
@@ -1340,7 +1339,7 @@ Message: {2}
                     }
 
                     bool skipArticle;
-                    result = parsers.Unicodify(result, out skipArticle);
+                    result = Parsers.Unicodify(result, out skipArticle);
                     if (includeComment)
                         result = result + "<!-- " + call + " -->";
 
@@ -1431,7 +1430,7 @@ Message: {2}
         /// <returns>Array of lines</returns>
         public static string[] SplitLines(string source)
         {
-            char[] separators = new char[] { '\r', '\n' };
+            char[] separators = new [] { '\r', '\n' };
             List<string> res = new List<string>();
             
             int pos = 0;
