@@ -1999,11 +1999,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return Regex.IsMatch(m.Value, Variables.SectStub) ? m.Value : "";
         }
 
-        private static readonly Regex RemoveNowiki = new Regex("<nowiki>.*?</nowiki>", RegexOptions.Compiled | RegexOptions.Singleline);
-        private static readonly Regex Bots = new Regex(@"\{\{\s*([Bb]ots|[Nn]obots)\s*(|\|[^\}]*)\}\}", RegexOptions.Compiled);
-        private static readonly Regex Allow = new Regex(@"\|\s*allow\s*=\s*([^\|\}]*)", RegexOptions.Compiled | RegexOptions.Singleline);
-        private static readonly Regex Deny = new Regex(@"\|\s*deny\s*=\s*([^\|\}]*)", RegexOptions.Compiled | RegexOptions.Singleline);
-
         // Covered by UtilityFunctionTests.NoBotsTests()
         /// <summary>
         /// checks if a user is allowed to edit this article
