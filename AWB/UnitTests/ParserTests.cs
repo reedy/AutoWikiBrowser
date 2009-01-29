@@ -572,8 +572,6 @@ Some news here.", "test"));
     [TestFixture]
     public class ImageTests
     {
-        readonly Parsers p = new Parsers();
-
         public ImageTests()
         {
             Globals.UnitTestMode = true;
@@ -618,29 +616,29 @@ Some news here.", "test"));
         {
             bool noChange;
 
-            Assert.AreEqual("", p.RemoveImage("Foo.jpg", "[[Image:Foo.jpg]]", false, "", out noChange));
+            Assert.AreEqual("", Parsers.RemoveImage("Foo.jpg", "[[Image:Foo.jpg]]", false, "", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("", p.RemoveImage("Foo.jpg", "[[:Image:Foo.jpg]]", false, "", out noChange));
+            Assert.AreEqual("", Parsers.RemoveImage("Foo.jpg", "[[:Image:Foo.jpg]]", false, "", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("", p.RemoveImage("foo.jpg", "[[Image: foo.jpg]]", false, "", out noChange));
+            Assert.AreEqual("", Parsers.RemoveImage("foo.jpg", "[[Image: foo.jpg]]", false, "", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("", p.RemoveImage("Foo, bar", "[[File:foo%2C_bar|quux]]", false, "", out noChange));
+            Assert.AreEqual("", Parsers.RemoveImage("Foo, bar", "[[File:foo%2C_bar|quux]]", false, "", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("", p.RemoveImage("Foo%2C_bar", "[[File:foo, bar|quux]]", false, "", out noChange));
+            Assert.AreEqual("", Parsers.RemoveImage("Foo%2C_bar", "[[File:foo, bar|quux]]", false, "", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("", p.RemoveImage("foo.jpg", "[[Media:foo.jpg]]", false, "", out noChange));
+            Assert.AreEqual("", Parsers.RemoveImage("foo.jpg", "[[Media:foo.jpg]]", false, "", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("", p.RemoveImage("foo.jpg", "[[:media : foo.jpg]]", false, "", out noChange));
+            Assert.AreEqual("", Parsers.RemoveImage("foo.jpg", "[[:media : foo.jpg]]", false, "", out noChange));
             Assert.IsFalse(noChange);
 
             Assert.AreEqual("{{infobox|image=}}",
-                p.RemoveImage("foo", "{{infobox|image=foo}}", false, "", out noChange));
+                Parsers.RemoveImage("foo", "{{infobox|image=foo}}", false, "", out noChange));
             Assert.IsFalse(noChange);
         }
 
@@ -650,26 +648,26 @@ Some news here.", "test"));
             bool noChange;
 
             // just in case...
-            Assert.AreEqual("", p.ReplaceImage("", "", "", out noChange));
+            Assert.AreEqual("", Parsers.ReplaceImage("", "", "", out noChange));
             Assert.IsTrue(noChange);
 
-            Assert.AreEqual("[[File:bar]]", p.ReplaceImage("foo", "bar", "[[File:Foo]]", out noChange));
+            Assert.AreEqual("[[File:bar]]", Parsers.ReplaceImage("foo", "bar", "[[File:Foo]]", out noChange));
             Assert.IsFalse(noChange);
 
             // preserve namespace
-            Assert.AreEqual("[[Image:bar]]", p.ReplaceImage("foo", "bar", "[[image:Foo]]", out noChange));
+            Assert.AreEqual("[[Image:bar]]", Parsers.ReplaceImage("foo", "bar", "[[image:Foo]]", out noChange));
             Assert.IsFalse(noChange);
 
             // pipes, non-canonical NS casing
-            Assert.AreEqual("[[File:bar|boz!|666px]]", 
-                p.ReplaceImage("Foo%2C_bar", "bar", "[[FIle:foo, bar|boz!|666px]]", out noChange));
+            Assert.AreEqual("[[File:bar|boz!|666px]]",
+                Parsers.ReplaceImage("Foo%2C_bar", "bar", "[[FIle:foo, bar|boz!|666px]]", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("[[Media:bar]]", p.ReplaceImage("foo", "bar", "[[Media:foo]]", out noChange));
+            Assert.AreEqual("[[Media:bar]]", Parsers.ReplaceImage("foo", "bar", "[[Media:foo]]", out noChange));
             Assert.IsFalse(noChange);
 
             // normalising Media: is not yet supported, see TODO in BasicImprovements()
-            Assert.AreEqual("[[:media:bar]]", p.ReplaceImage("foo", "bar", "[[:media : foo]]", out noChange));
+            Assert.AreEqual("[[:media:bar]]", Parsers.ReplaceImage("foo", "bar", "[[:media : foo]]", out noChange));
             Assert.IsFalse(noChange);
         }
     }
@@ -902,26 +900,24 @@ While remaining upright may be the primary goal of beginning riders While remain
     [TestFixture]
     public class UnicodifyTests
     {
-        readonly Parsers parser = new Parsers();
-
         [Test]
         public void PreserveTM()
         {
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#AWB_corrupts_the_trademark_.28TM.29_special_character_.
-            Assert.AreEqual("test™", parser.Unicodify("test™"));
+            Assert.AreEqual("test™", Parsers.Unicodify("test™"));
         }
 
         [Test]
         public void DontChangeCertainEntities()
         {
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#.26emsp.3B
-            Assert.AreEqual("&emsp;&#013;", parser.Unicodify("&emsp;&#013;"));
+            Assert.AreEqual("&emsp;&#013;", Parsers.Unicodify("&emsp;&#013;"));
         }
 
         [Test]
         public void IgnoreMath()
         {
-            Assert.AreEqual("<math>&laquo;</math>", parser.Unicodify("<math>&laquo;</math>"));
+            Assert.AreEqual("<math>&laquo;</math>", Parsers.Unicodify("<math>&laquo;</math>"));
         }
     }
 
@@ -1240,40 +1236,40 @@ fish | name = Bert }} ''Bert'' is a good fish."));
         {
             bool noChange;
 
-            Assert.AreEqual("[[Category:Bar]]", p.ReCategoriser("Foo", "Bar", "[[Category:Foo]]", out noChange));
+            Assert.AreEqual("[[Category:Bar]]", Parsers.ReCategoriser("Foo", "Bar", "[[Category:Foo]]", out noChange));
             Assert.IsFalse(noChange);
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Replacing_Arabic_categories
             // addresses special case in Tools.CaseInsensitive
-            Assert.AreEqual("[[Category:Bar]]", p.ReCategoriser("-Foo bar-", "Bar", "[[Category:-Foo bar-]]", out noChange));
+            Assert.AreEqual("[[Category:Bar]]", Parsers.ReCategoriser("-Foo bar-", "Bar", "[[Category:-Foo bar-]]", out noChange));
             Assert.IsFalse(noChange);
-            Assert.AreEqual("[[Category:-Bar II-]]", p.ReCategoriser("Foo", "-Bar II-", "[[Category:Foo]]", out noChange));
-            Assert.IsFalse(noChange);
-
-
-            Assert.AreEqual("[[Category:Bar]]", p.ReCategoriser("Foo", "Bar", "[[ catEgory: Foo]]", out noChange));
+            Assert.AreEqual("[[Category:-Bar II-]]", Parsers.ReCategoriser("Foo", "-Bar II-", "[[Category:Foo]]", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("[[Category:Bar]]", p.ReCategoriser("Foo", "Bar", "[[Category:foo]]", out noChange));
+
+            Assert.AreEqual("[[Category:Bar]]", Parsers.ReCategoriser("Foo", "Bar", "[[ catEgory: Foo]]", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("[[Category:Bar|boz]]", p.ReCategoriser("Foo", "Bar", "[[Category:Foo|boz]]", out noChange));
+            Assert.AreEqual("[[Category:Bar]]", Parsers.ReCategoriser("Foo", "Bar", "[[Category:foo]]", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("[[Category:Bar| boz]]", p.ReCategoriser("foo? Bar!", "Bar", "[[ category:Foo?_Bar! | boz]]", out noChange));
+            Assert.AreEqual("[[Category:Bar|boz]]", Parsers.ReCategoriser("Foo", "Bar", "[[Category:Foo|boz]]", out noChange));
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual("[[Category:Bar| boz]]", Parsers.ReCategoriser("foo? Bar!", "Bar", "[[ category:Foo?_Bar! | boz]]", out noChange));
             Assert.IsFalse(noChange);
 
             Assert.AreEqual(@"[[Category:Boz]]
 [[Category:Bar]]
-[[Category:Quux]]", p.ReCategoriser("Foo", "Bar", @"[[Category:Boz]]
+[[Category:Quux]]", Parsers.ReCategoriser("Foo", "Bar", @"[[Category:Boz]]
 [[Category:foo]]
 [[Category:Quux]]", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("test[[Category:Bar]]test", p.ReCategoriser("Foo", "Bar", "test[[Category:Foo]]test", out noChange));
+            Assert.AreEqual("test[[Category:Bar]]test", Parsers.ReCategoriser("Foo", "Bar", "test[[Category:Foo]]test", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("[[Category:Fooo]]", p.ReCategoriser("Foo", "Bar", "[[Category:Fooo]]", out noChange));
+            Assert.AreEqual("[[Category:Fooo]]", Parsers.ReCategoriser("Foo", "Bar", "[[Category:Fooo]]", out noChange));
             Assert.IsTrue(noChange);
         }
 
@@ -1282,33 +1278,33 @@ fish | name = Bert }} ''Bert'' is a good fish."));
         {
             bool noChange;
 
-            Assert.AreEqual("", p.RemoveCategory("Foo", "[[Category:Foo]]", out noChange));
+            Assert.AreEqual("", Parsers.RemoveCategory("Foo", "[[Category:Foo]]", out noChange));
             Assert.IsFalse(noChange);
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Replacing_Arabic_categories
             // addresses special case in Tools.CaseInsensitive
-            Assert.AreEqual("", p.RemoveCategory("-Foo bar-", "[[Category:-Foo bar-]]", out noChange));
+            Assert.AreEqual("", Parsers.RemoveCategory("-Foo bar-", "[[Category:-Foo bar-]]", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("", p.RemoveCategory("Foo", "[[ category: foo | bar]]", out noChange));
+            Assert.AreEqual("", Parsers.RemoveCategory("Foo", "[[ category: foo | bar]]", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("", p.RemoveCategory("Foo", "[[Category:Foo|]]", out noChange));
+            Assert.AreEqual("", Parsers.RemoveCategory("Foo", "[[Category:Foo|]]", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("  ", p.RemoveCategory("Foo", " [[Category:Foo]] ", out noChange));
+            Assert.AreEqual("  ", Parsers.RemoveCategory("Foo", " [[Category:Foo]] ", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("", p.RemoveCategory("Foo", "[[Category:Foo]]\r\n", out noChange));
+            Assert.AreEqual("", Parsers.RemoveCategory("Foo", "[[Category:Foo]]\r\n", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("\r\n", p.RemoveCategory("Foo", "[[Category:Foo]]\r\n\r\n", out noChange));
+            Assert.AreEqual("\r\n", Parsers.RemoveCategory("Foo", "[[Category:Foo]]\r\n\r\n", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("", p.RemoveCategory("Foo? Bar!", "[[Category:Foo?_Bar!|boz]]", out noChange));
+            Assert.AreEqual("", Parsers.RemoveCategory("Foo? Bar!", "[[Category:Foo?_Bar!|boz]]", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual("[[Category:Fooo]]", p.RemoveCategory("Foo", "[[Category:Fooo]]", out noChange));
+            Assert.AreEqual("[[Category:Fooo]]", Parsers.RemoveCategory("Foo", "[[Category:Fooo]]", out noChange));
             Assert.IsTrue(noChange);
         }
     }

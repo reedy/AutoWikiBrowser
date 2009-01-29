@@ -33,8 +33,7 @@ namespace WikiFunctions.Parse
     {
         #region constructor etc.
         public Parsers()
-        {//default constructor
-            MakeRegexes();
+        {
         }
 
         /// <summary>
@@ -43,7 +42,6 @@ namespace WikiFunctions.Parse
         /// <param name="StubWordCount">The number of maximum number of words for a stub.</param>
         /// <param name="AddHumanKey"></param>
         public Parsers(int StubWordCount, bool AddHumanKey)
-            : this()
         {
             StubMaxWordCount = StubWordCount;
             addCatKey = AddHumanKey;
@@ -52,7 +50,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// 
         /// </summary>
-        private void MakeRegexes()
+        static Parsers()
         {
             //look bad if changed
             RegexUnicode.Add(new Regex("&(ndash|mdash|minus|times|lt|gt|nbsp|thinsp|shy|lrm|rlm|[Pp]rime|ensp|emsp);", RegexOptions.Compiled), "&amp;$1;");
@@ -91,12 +89,12 @@ namespace WikiFunctions.Parse
             RegexConversion.Add(new Regex(@"\{\{(?:[Tt]emplate:)?(PAGENAMEE?\}\}|[Ll]ived\||[Bb]io-cats\|)", RegexOptions.Compiled), "{{subst:$1");
         }
 
-        private readonly Dictionary<Regex, string> RegexUnicode = new Dictionary<Regex, string>();
-        private readonly Dictionary<Regex, string> RegexConversion = new Dictionary<Regex, string>();
-        private readonly Dictionary<Regex, string> RegexTagger = new Dictionary<Regex, string>();
+        private static readonly Dictionary<Regex, string> RegexUnicode = new Dictionary<Regex, string>();
+        private static readonly Dictionary<Regex, string> RegexConversion = new Dictionary<Regex, string>();
+        private static readonly Dictionary<Regex, string> RegexTagger = new Dictionary<Regex, string>();
 
         private readonly HideText hider = new HideText();
-        private string testText = "";
+        private static string testText = "";
         public static int StubMaxWordCount = 500;
 
         /// <summary>
@@ -1234,7 +1232,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The modified article text.</returns>
-        public string Unicodify(string ArticleText, out bool NoChange)
+        public static string Unicodify(string ArticleText, out bool NoChange)
         {
             testText = ArticleText;
             ArticleText = Unicodify(ArticleText);
@@ -1250,7 +1248,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public string Unicodify(string ArticleText)
+        public static string Unicodify(string ArticleText)
         {
             if (Regex.IsMatch(ArticleText, "<[Mm]ath>"))
                 return ArticleText;
@@ -1385,7 +1383,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="NewImage">The new image.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The new article text.</returns>
-        public string ReplaceImage(string OldImage, string NewImage, string ArticleText, out bool NoChange)
+        public static string ReplaceImage(string OldImage, string NewImage, string ArticleText, out bool NoChange)
         {
             testText = ArticleText;
             ArticleText = ReplaceImage(OldImage, NewImage, ArticleText);
@@ -1504,7 +1502,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <param name="CommentOut"></param>
         /// <returns>The new article text.</returns>
-        public string RemoveImage(string Image, string ArticleText, bool CommentOut, string Comment, out bool NoChange)
+        public static string RemoveImage(string Image, string ArticleText, bool CommentOut, string Comment, out bool NoChange)
         {
             testText = ArticleText;
             ArticleText = RemoveImage(Image, ArticleText, CommentOut, Comment);
@@ -1573,7 +1571,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="NewCategory">The new category.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The re-categorised article text.</returns>
-        public string ReCategoriser(string OldCategory, string NewCategory, string ArticleText, out bool NoChange)
+        public static string ReCategoriser(string OldCategory, string NewCategory, string ArticleText, out bool NoChange)
         {
             //remove category prefix
             OldCategory = Regex.Replace(OldCategory, "^" 
@@ -1617,7 +1615,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="strOldCat">The old category to remove.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The article text without the old category.</returns>
-        public string RemoveCategory(string strOldCat, string ArticleText, out bool NoChange)
+        public static string RemoveCategory(string strOldCat, string ArticleText, out bool NoChange)
         {
             ArticleText = FixCategories(ArticleText);
             testText = ArticleText;
