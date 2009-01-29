@@ -310,17 +310,11 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public class HasNoBoldTitle : Scan
     {
-        public HasNoBoldTitle(Parsers p)
-        {
-            parsers = p;
-        }
-
         bool skip = true;
-        readonly Parsers parsers;
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
-            parsers.BoldTitle(ArticleText, ArticleTitle, out skip);
+            Parsers.BoldTitle(ArticleText, ArticleTitle, out skip);
 
             return !skip;
         }
@@ -395,17 +389,11 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public class LivingPerson : Scan
     {
-        public LivingPerson(Parsers p)
-        {
-            parsers = p;
-        }
-
         bool skip = true;
-        readonly Parsers parsers;
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
-            parsers.LivingPeople(ArticleText, out skip);
+            Parsers.LivingPeople(ArticleText, out skip);
 
             return !skip;
         }
@@ -416,17 +404,11 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public class MissingDefaultsort : Scan
     {
-        public MissingDefaultsort(Parsers p)
-        {
-            parsers = p;
-        }
-
         bool skip = true;
-        readonly Parsers parsers;
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
-            parsers.ChangeToDefaultSort(ArticleText, ArticleTitle, out skip);
+            Parsers.ChangeToDefaultSort(ArticleText, ArticleTitle, out skip);
 
             return !skip;
         }
