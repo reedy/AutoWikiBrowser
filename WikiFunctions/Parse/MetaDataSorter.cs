@@ -171,12 +171,12 @@ namespace WikiFunctions.Parse
     
     internal sealed class InterWikiComparer : IComparer<string>
     {
-        Dictionary<string, int> Order = new Dictionary<string, int>();
+        readonly Dictionary<string, int> Order = new Dictionary<string, int>();
         public InterWikiComparer(List<string> order, List<string> languages)
         {
             languages = new List<string>(languages); // make a copy
-            List<string> unordered = new List<string>();
-            List<string> output = new List<string>();
+            List<string> unordered = new List<string>(),
+                output = new List<string>();
 
             // remove unneeded languages from order
             for (int i = 0; i < order.Count; )
@@ -261,7 +261,7 @@ namespace WikiFunctions.Parse
         private string[] InterwikiAlpha;
         private string[] InterwikiAlphaEnFirst; 
         //List<Regex> InterWikisList = new List<Regex>();
-        Regex IWSplit = new Regex(",", RegexOptions.Compiled);
+        readonly Regex IWSplit = new Regex(",", RegexOptions.Compiled);
 
         private InterWikiComparer Comparer;
         private InterWikiOrderEnum order = InterWikiOrderEnum.LocalLanguageAlpha;
@@ -304,20 +304,14 @@ namespace WikiFunctions.Parse
         /// </summary>
         private void LoadInterWiki()
         {
-            string text;
-            if (!Globals.UnitTestMode)
-            {
-                text = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/IW&action=raw");
-            }
-            else
-            {
-                text = @"<!--InterwikiLocalAlphaBegins-->
+            string text = !Globals.UnitTestMode
+                       ? Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/IW&action=raw")
+                       : @"<!--InterwikiLocalAlphaBegins-->
 ru, sq, en
 <!--InterwikiLocalAlphaEnds-->
 <!--InterwikiLocalFirstBegins-->
 en, sq, ru
 <!--InterwikiLocalFirstEnds-->";
-            }
 
             string interwikiLocalAlphaRaw =
                 remExtra(Tools.StringBetween(text, "<!--InterwikiLocalAlphaBegins-->", "<!--InterwikiLocalAlphaEnds-->"));
@@ -463,8 +457,7 @@ en, sq, ru
         public string removeCats(ref string ArticleText, string ArticleTitle)
         {
             List<string> categoryList = new List<string>();
-            string x;
-
+ 
             Regex r = new Regex("<!-- ? ?\\[\\[" + Variables.NamespacesCaseInsensitive[Namespace.Category]
                 + ".*?(\\]\\]|\\|.*?\\]\\]).*?-->|\\[\\[" 
                 + Variables.NamespacesCaseInsensitive[Namespace.Category] 
@@ -473,7 +466,7 @@ en, sq, ru
             MatchCollection matches = r.Matches(ArticleText);
             foreach (Match m in matches)
             {
-                x = m.Value;
+                string x = m.Value;
                 //add to array, replace underscores with spaces, ignore=
                 if (!Regex.IsMatch(x, "\\[\\[Category:(Pages|Categories|Articles) for deletion\\]\\]"))
                 {
@@ -518,11 +511,9 @@ en, sq, ru
         /// <returns></returns>
         public static string removePersonData(ref string ArticleText)
         {
-            string strPersonData;
-            if (Variables.LangCode == LangCodeEnum.de)
-                strPersonData = Parsers.GetTemplate(ArticleText, "[Pp]ersonendaten");
-            else
-                strPersonData = Parsers.GetTemplate(ArticleText, "[Pp]ersondata");
+            string strPersonData = (Variables.LangCode == LangCodeEnum.de)
+                                ? Parsers.GetTemplate(ArticleText, "[Pp]ersonendaten")
+                                : Parsers.GetTemplate(ArticleText, "[Pp]ersondata");
 
             if (!string.IsNullOrEmpty(strPersonData))
                 ArticleText = ArticleText.Replace(strPersonData, "");
@@ -541,7 +532,7 @@ en, sq, ru
             MatchCollection matches = WikiRegexes.PossiblyCommentedStub.Matches(ArticleText);
             if (matches.Count == 0) return "";
 
-            string x = "";
+            string x;
             StringBuilder sb = new StringBuilder(ArticleText);
 
             for (int i = matches.Count - 1; i >= 0; i--)
@@ -591,10 +582,9 @@ en, sq, ru
         private static List<string> removeLinkFAs(ref string ArticleText)
         {
             List<string> linkFAList = new List<string>();
-            string x;
             foreach (Match m in WikiRegexes.LinkFAs.Matches(ArticleText))
             {
-                x = m.Value;
+                string x = m.Value;
                 linkFAList.Add(x);
                 //remove old LinkFA
                 ArticleText = ArticleText.Replace(x, "");
@@ -628,11 +618,9 @@ en, sq, ru
 
             List<Match> goodMatches = new List<Match>(matches.Count);
 
-            string site;
-
             foreach (Match m in matches)
             {
-                site = m.Groups[1].Value.Trim().ToLower();
+                string site = m.Groups[1].Value.Trim().ToLower();
                 if (!PossibleInterwikis.Contains(site)) continue;
                 goodMatches.Add(m);
                 interWikiList.Add("[[" + site + ":" + m.Groups[2].Value.Trim() + "]]");
@@ -680,7 +668,6 @@ en, sq, ru
             if (items.Count == 0)
                 return "";
 
-            string list = "";
             List<string> uniqueItems = new List<string>();
 
             //remove duplicates
@@ -690,13 +677,14 @@ en, sq, ru
                     uniqueItems.Add(s);
             }
 
+            StringBuilder list = new StringBuilder();
             //add to string
             foreach (string s in uniqueItems)
             {
-                list += s + "\r\n";
+                list.AppendLine(s);
             }
 
-            return list;
+            return list.ToString();
         }
 
         /// <summary>
@@ -707,8 +695,7 @@ en, sq, ru
         /// <returns></returns>
         private static List<string> catKeyer(List<string> List, string strName)
         {
-            // make key
-            strName = Tools.MakeHumanCatKey(strName);
+            strName = Tools.MakeHumanCatKey(strName); // make key
 
             //add key to cats that need it
             List<string> newCats = new List<string>();
