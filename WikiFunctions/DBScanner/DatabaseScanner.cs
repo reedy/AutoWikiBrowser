@@ -235,12 +235,10 @@ namespace WikiFunctions.DBScanner
             else if (cmboWords.SelectedIndex == 2)
                 s.Add(new CountWords(MoreLessThan.LessThan, (int)nudWords.Value));
 
-            Parsers parsers = new Parsers();
-
             if (chkBadLinks.Checked)
                 s.Add(new HasBadLinks());
             if (chkNoBold.Checked)
-                s.Add(new HasNoBoldTitle(parsers));
+                s.Add(new HasNoBoldTitle());
             if (chkSimpleLinks.Checked)
                 s.Add(new HasSimpleLinks());
             if (chkHasHTML.Checked)
@@ -252,7 +250,7 @@ namespace WikiFunctions.DBScanner
             if (chkTypo.Checked)
                 s.Add(new Typo());
             if (chkDefaultSort.Checked)
-                s.Add(new MissingDefaultsort(parsers));
+                s.Add(new MissingDefaultsort());
 
             Main = new MainProcess(s, fileName, Priority, chkIgnoreComments.Checked, txtStartFrom.Text);
             progressBar.Value = 0;

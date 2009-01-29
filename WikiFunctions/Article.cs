@@ -495,11 +495,11 @@ namespace WikiFunctions
             {
                 bool noChange;
 
-                string strTemp = parsers.Conversions(mArticleText);
+                string strTemp = Parsers.Conversions(mArticleText);
 
                 strTemp = Parsers.FixDates(strTemp);
                 strTemp = Parsers.FixLivingThingsRelatedDates(strTemp);
-                strTemp = parsers.LivingPeople(strTemp, out noChange);
+                strTemp = Parsers.LivingPeople(strTemp, out noChange);
                 strTemp = Parsers.FixHeadings(strTemp, mName, out noChange);
 
                 if (mArticleText == strTemp)
@@ -532,7 +532,7 @@ namespace WikiFunctions
             if (LangCode == LangCodeEnum.en)
             {
                 bool noChange;
-                string strTemp = parsers.ChangeToDefaultSort(mArticleText, mName, out noChange);
+                string strTemp = Parsers.ChangeToDefaultSort(mArticleText, mName, out noChange);
 
                 if (SkipIfNoChange && noChange)
                     Trace.AWBSkipped("No DefaultSort Added");
@@ -579,7 +579,7 @@ namespace WikiFunctions
         public void EmboldenTitles(Parsers parsers, bool SkipIfNoChange)
         {
             bool noChange;
-            string strTemp = parsers.BoldTitle(mArticleText, mName, out noChange);
+            string strTemp = Parsers.BoldTitle(mArticleText, mName, out noChange);
             if (SkipIfNoChange && noChange)
                 Trace.AWBSkipped("No Titles to embolden");
             else if (!noChange)
@@ -828,10 +828,10 @@ namespace WikiFunctions
             AWBChangeArticleText("Fix syntax", Parsers.FixSyntax(ArticleText), true, true);
             Variables.Profiler.Profile("FixSyntax");
 
-            AWBChangeArticleText("Fix temperatures", parsers.FixTemperatures(ArticleText), true);
+            AWBChangeArticleText("Fix temperatures", Parsers.FixTemperatures(ArticleText), true);
             Variables.Profiler.Profile("FixTemperatures");
             
-            AWBChangeArticleText("Fix non-breaking spaces", parsers.FixNonBreakingSpaces(ArticleText), true);
+            AWBChangeArticleText("Fix non-breaking spaces", Parsers.FixNonBreakingSpaces(ArticleText), true);
             Variables.Profiler.Profile("FixNonBreakingSpaces");
 
             AWBChangeArticleText("Fix main article", Parsers.FixMainArticle(ArticleText), true);

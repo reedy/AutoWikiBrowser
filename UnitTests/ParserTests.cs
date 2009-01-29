@@ -97,8 +97,6 @@ namespace UnitTests
             Globals.UnitTestMode = true;
         }
 
-        readonly Parsers parser = new Parsers();
-
         [Test]
         public void TestStickyLinks()
         {
@@ -412,31 +410,31 @@ http://example.com }}");
         [Test]
         public void TestFixNonBreakingSpaces()
         {
-            Assert.AreEqual(@"a 50&nbsp;km road", parser.FixNonBreakingSpaces(@"a 50 km road"));
-            Assert.AreEqual(@"a 50&nbsp;km road", parser.FixNonBreakingSpaces(@"a 50km road"));
-            Assert.AreEqual(@"a 50&nbsp;kg dog", parser.FixNonBreakingSpaces(@"a 50 kg dog"));
-            Assert.AreEqual(@"a 50&nbsp;kg dog", parser.FixNonBreakingSpaces(@"a 50kg dog"));
-            Assert.AreEqual(@"a 50&nbsp;cm road", parser.FixNonBreakingSpaces(@"a 50 cm road"));
-            Assert.AreEqual(@"a 50&nbsp;cm road", parser.FixNonBreakingSpaces(@"a 50cm road"));
-            Assert.AreEqual(@"a 50.247&nbsp;cm road", parser.FixNonBreakingSpaces(@"a 50.247cm road"));
-            Assert.AreEqual(@"a 50.247&nbsp;nm laser", parser.FixNonBreakingSpaces(@"a 50.247nm laser"));
-            Assert.AreEqual(@"a 50.247&nbsp;nm laser", parser.FixNonBreakingSpaces(@"a 50.247  nm laser"));
-            Assert.AreEqual(@"a 50.247&nbsp;cd light", parser.FixNonBreakingSpaces(@"a 50.247 cd light"));
-            Assert.AreEqual(@"a 50.247&nbsp;cd light", parser.FixNonBreakingSpaces(@"a 50.247cd light"));
-            Assert.AreEqual(@"a 50.247&nbsp;mmol solution", parser.FixNonBreakingSpaces(@"a 50.247mmol solution"));
-            Assert.AreEqual(@"a 0.3&nbsp;mol solution", parser.FixNonBreakingSpaces(@"a 0.3mol solution"));
+            Assert.AreEqual(@"a 50&nbsp;km road", Parsers.FixNonBreakingSpaces(@"a 50 km road"));
+            Assert.AreEqual(@"a 50&nbsp;km road", Parsers.FixNonBreakingSpaces(@"a 50km road"));
+            Assert.AreEqual(@"a 50&nbsp;kg dog", Parsers.FixNonBreakingSpaces(@"a 50 kg dog"));
+            Assert.AreEqual(@"a 50&nbsp;kg dog", Parsers.FixNonBreakingSpaces(@"a 50kg dog"));
+            Assert.AreEqual(@"a 50&nbsp;cm road", Parsers.FixNonBreakingSpaces(@"a 50 cm road"));
+            Assert.AreEqual(@"a 50&nbsp;cm road", Parsers.FixNonBreakingSpaces(@"a 50cm road"));
+            Assert.AreEqual(@"a 50.247&nbsp;cm road", Parsers.FixNonBreakingSpaces(@"a 50.247cm road"));
+            Assert.AreEqual(@"a 50.247&nbsp;nm laser", Parsers.FixNonBreakingSpaces(@"a 50.247nm laser"));
+            Assert.AreEqual(@"a 50.247&nbsp;nm laser", Parsers.FixNonBreakingSpaces(@"a 50.247  nm laser"));
+            Assert.AreEqual(@"a 50.247&nbsp;cd light", Parsers.FixNonBreakingSpaces(@"a 50.247 cd light"));
+            Assert.AreEqual(@"a 50.247&nbsp;cd light", Parsers.FixNonBreakingSpaces(@"a 50.247cd light"));
+            Assert.AreEqual(@"a 50.247&nbsp;mmol solution", Parsers.FixNonBreakingSpaces(@"a 50.247mmol solution"));
+            Assert.AreEqual(@"a 0.3&nbsp;mol solution", Parsers.FixNonBreakingSpaces(@"a 0.3mol solution"));
 
             // no changes for these
-            Assert.AreEqual(@"nearly 5m people", parser.FixNonBreakingSpaces(@"nearly 5m people"));
-            Assert.AreEqual(@"a 3CD set", parser.FixNonBreakingSpaces(@"a 3CD set"));
-            Assert.AreEqual(@"http://site.com/View/3356 A show", parser.FixNonBreakingSpaces(@"http://site.com/View/3356 A show"));
-            Assert.AreEqual(@"a 50&nbsp;km road", parser.FixNonBreakingSpaces(@"a 50&nbsp;km road"));
-            Assert.AreEqual(@"over $200K in cash", parser.FixNonBreakingSpaces(@"over $200K in cash"));
-            Assert.AreEqual(@"now {{a 50kg dog}} was", parser.FixNonBreakingSpaces(@"now {{a 50kg dog}} was"));
-            Assert.AreEqual(@"now a [[50kg dog]] was", parser.FixNonBreakingSpaces(@"now a [[50kg dog]] was"));
-            Assert.AreEqual(@"now “a 50kg dog” was", parser.FixNonBreakingSpaces(@"now “a 50kg dog” was"));
-            Assert.AreEqual(@"now <!--a 50kg dog--> was", parser.FixNonBreakingSpaces(@"now <!--a 50kg dog--> was"));
-            Assert.AreEqual(@"now <nowiki>a 50kg dog</nowiki> was", parser.FixNonBreakingSpaces(@"now <nowiki>a 50kg dog</nowiki> was"));
+            Assert.AreEqual(@"nearly 5m people", Parsers.FixNonBreakingSpaces(@"nearly 5m people"));
+            Assert.AreEqual(@"a 3CD set", Parsers.FixNonBreakingSpaces(@"a 3CD set"));
+            Assert.AreEqual(@"http://site.com/View/3356 A show", Parsers.FixNonBreakingSpaces(@"http://site.com/View/3356 A show"));
+            Assert.AreEqual(@"a 50&nbsp;km road", Parsers.FixNonBreakingSpaces(@"a 50&nbsp;km road"));
+            Assert.AreEqual(@"over $200K in cash", Parsers.FixNonBreakingSpaces(@"over $200K in cash"));
+            Assert.AreEqual(@"now {{a 50kg dog}} was", Parsers.FixNonBreakingSpaces(@"now {{a 50kg dog}} was"));
+            Assert.AreEqual(@"now a [[50kg dog]] was", Parsers.FixNonBreakingSpaces(@"now a [[50kg dog]] was"));
+            Assert.AreEqual(@"now “a 50kg dog” was", Parsers.FixNonBreakingSpaces(@"now “a 50kg dog” was"));
+            Assert.AreEqual(@"now <!--a 50kg dog--> was", Parsers.FixNonBreakingSpaces(@"now <!--a 50kg dog--> was"));
+            Assert.AreEqual(@"now <nowiki>a 50kg dog</nowiki> was", Parsers.FixNonBreakingSpaces(@"now <nowiki>a 50kg dog</nowiki> was"));
         }
     }
 
@@ -672,7 +670,6 @@ Some news here.", "test"));
     // tests have to have long strings due to logic in BoldTitle looking at bolding in first 5% of article only
     public class BoldTitleTests
     {
-        readonly Parsers p = new Parsers();
         bool noChangeBack;
 
         public BoldTitleTests()
@@ -685,59 +682,59 @@ Some news here.", "test"));
         //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Title_bolding
         public void DontEmboldenImagesAndTemplates()
         {
-            Assert.That(p.BoldTitle("[[Image:Foo.jpg]]", "Foo", out noChangeBack), Is.Not.Contains("'''Foo'''"));
-            Assert.That(p.BoldTitle("{{Foo}}", "Foo", out noChangeBack), Is.Not.Contains("'''Foo'''"));
-            Assert.That(p.BoldTitle("{{template| Foo is a bar}}", "Foo", out noChangeBack), Is.Not.Contains("'''Foo'''"));
+            Assert.That(Parsers.BoldTitle("[[Image:Foo.jpg]]", "Foo", out noChangeBack), Is.Not.Contains("'''Foo'''"));
+            Assert.That(Parsers.BoldTitle("{{Foo}}", "Foo", out noChangeBack), Is.Not.Contains("'''Foo'''"));
+            Assert.That(Parsers.BoldTitle("{{template| Foo is a bar}}", "Foo", out noChangeBack), Is.Not.Contains("'''Foo'''"));
         }
 
         [Test]
         public void DatesNotChanged()
         {
-            Assert.AreEqual(@"May 31 is a great day", p.BoldTitle(@"May 31 is a great day", "May 31", out noChangeBack));
+            Assert.AreEqual(@"May 31 is a great day", Parsers.BoldTitle(@"May 31 is a great day", "May 31", out noChangeBack));
             Assert.IsTrue(noChangeBack);
-            Assert.AreEqual(@"March 1 is a great day", p.BoldTitle(@"March 1 is a great day", "March 1", out noChangeBack));
+            Assert.AreEqual(@"March 1 is a great day", Parsers.BoldTitle(@"March 1 is a great day", "March 1", out noChangeBack));
             Assert.IsTrue(noChangeBack);
-            Assert.AreEqual(@"31 May is a great day", p.BoldTitle(@"31 May is a great day", "31 May", out noChangeBack));
+            Assert.AreEqual(@"31 May is a great day", Parsers.BoldTitle(@"31 May is a great day", "31 May", out noChangeBack));
             Assert.IsTrue(noChangeBack);
         }
 
         [Test]
         public void SimilarLinksWithDifferentCaseNotChanged()
         {
-            Assert.AreEqual("'''Foo''' is this one, now [[FOO]] is another While remaining upright may be the primary goal of beginning riders", p.BoldTitle("Foo is this one, now [[FOO]] is another While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
+            Assert.AreEqual("'''Foo''' is this one, now [[FOO]] is another While remaining upright may be the primary goal of beginning riders", Parsers.BoldTitle("Foo is this one, now [[FOO]] is another While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsFalse(noChangeBack);
-            Assert.AreEqual("'''Foo''' is this one, now [[FOO]] is another While remaining upright may be the primary goal of beginning riders", p.BoldTitle("'''Foo''' is this one, now [[FOO]] is another While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
+            Assert.AreEqual("'''Foo''' is this one, now [[FOO]] is another While remaining upright may be the primary goal of beginning riders", Parsers.BoldTitle("'''Foo''' is this one, now [[FOO]] is another While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsTrue(noChangeBack);
         }
 
         [Test]
         public void DontChangeIfAlreadyBold()
         {
-            Assert.AreEqual("'''Foo''' is this one", p.BoldTitle("'''Foo''' is this one", "Foo", out noChangeBack));
+            Assert.AreEqual("'''Foo''' is this one", Parsers.BoldTitle("'''Foo''' is this one", "Foo", out noChangeBack));
             Assert.IsTrue(noChangeBack);
-            Assert.AreEqual("Foo is a bar, '''Foo''' moar", p.BoldTitle("Foo is a bar, '''Foo''' moar", "Foo", out noChangeBack));
+            Assert.AreEqual("Foo is a bar, '''Foo''' moar", Parsers.BoldTitle("Foo is a bar, '''Foo''' moar", "Foo", out noChangeBack));
             Assert.IsTrue(noChangeBack);
-            Assert.AreEqual(@"{{Infobox | name = Foo | age=11}} '''Foo''' is a bar", p.BoldTitle(@"{{Infobox | name = Foo | age=11}} '''Foo''' is a bar", "Foo", out noChangeBack));
+            Assert.AreEqual(@"{{Infobox | name = Foo | age=11}} '''Foo''' is a bar", Parsers.BoldTitle(@"{{Infobox | name = Foo | age=11}} '''Foo''' is a bar", "Foo", out noChangeBack));
             Assert.IsTrue(noChangeBack);
             Assert.AreEqual(@"{{Infobox
-| age=11}} '''John David Smith''' is a bar", p.BoldTitle(@"{{Infobox
+| age=11}} '''John David Smith''' is a bar", Parsers.BoldTitle(@"{{Infobox
 | age=11}} '''John David Smith''' is a bar", "John Smith", out noChangeBack));
             Assert.IsTrue(noChangeBack);
 
             // bold earlier in body of article
-            Assert.AreEqual(@"{{Infobox| age=11}} '''John David Smith''' is a bar, John Smith", p.BoldTitle(@"{{Infobox| age=11}} '''John David Smith''' is a bar, John Smith", "John Smith", out noChangeBack));
+            Assert.AreEqual(@"{{Infobox| age=11}} '''John David Smith''' is a bar, John Smith", Parsers.BoldTitle(@"{{Infobox| age=11}} '''John David Smith''' is a bar, John Smith", "John Smith", out noChangeBack));
             Assert.IsTrue(noChangeBack);
             Assert.AreEqual(@"{{Infobox
-| age=11}}{{box2}}} '''John David Smith''' is a bar", p.BoldTitle(@"{{Infobox
+| age=11}}{{box2}}} '''John David Smith''' is a bar", Parsers.BoldTitle(@"{{Infobox
 | age=11}}{{box2}}} '''John David Smith''' is a bar", "John Smith", out noChangeBack));
             Assert.IsTrue(noChangeBack);
 
             // won't change if italics either
-            Assert.AreEqual("''Foo'' is this one", p.BoldTitle("''Foo'' is this one", "Foo", out noChangeBack));
+            Assert.AreEqual("''Foo'' is this one", Parsers.BoldTitle("''Foo'' is this one", "Foo", out noChangeBack));
             Assert.IsTrue(noChangeBack);
 
             Assert.AreEqual(@"{{Infobox_martial_art| website      = }}
-{{Nihongo|'''Aikido'''|合気道|aikidō}} is a. Aikido was", p.BoldTitle(@"{{Infobox_martial_art| website      = }}
+{{Nihongo|'''Aikido'''|合気道|aikidō}} is a. Aikido was", Parsers.BoldTitle(@"{{Infobox_martial_art| website      = }}
 {{Nihongo|'''Aikido'''|合気道|aikidō}} is a. Aikido was", "Aikido", out noChangeBack));
             Assert.IsTrue(noChangeBack);
         }
@@ -745,35 +742,35 @@ Some news here.", "test"));
         [Test]
         public void StandardCases()
         {
-            Assert.AreEqual("'''Foo''' is a bar While remaining upright may be the primary goal of beginning riders", p.BoldTitle("Foo is a bar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
+            Assert.AreEqual("'''Foo''' is a bar While remaining upright may be the primary goal of beginning riders", Parsers.BoldTitle("Foo is a bar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsFalse(noChangeBack);
-            Assert.AreEqual("'''Foo in the wild''' is a bar While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders", p.BoldTitle("Foo in the wild is a bar While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders", "Foo in the wild", out noChangeBack));
+            Assert.AreEqual("'''Foo in the wild''' is a bar While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders", Parsers.BoldTitle("Foo in the wild is a bar While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders", "Foo in the wild", out noChangeBack));
             Assert.IsFalse(noChangeBack);
-            Assert.AreEqual("'''Foo''' is a bar, Foo moar While remaining upright may be the primary goal of beginning riders", p.BoldTitle("Foo is a bar, Foo moar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
+            Assert.AreEqual("'''Foo''' is a bar, Foo moar While remaining upright may be the primary goal of beginning riders", Parsers.BoldTitle("Foo is a bar, Foo moar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsFalse(noChangeBack);
-            Assert.AreEqual("'''F^o^o''' is a bar While remaining upright may be the primary goal of beginning riders", p.BoldTitle("F^o^o is a bar While remaining upright may be the primary goal of beginning riders", "F^o^o", out noChangeBack));
+            Assert.AreEqual("'''F^o^o''' is a bar While remaining upright may be the primary goal of beginning riders", Parsers.BoldTitle("F^o^o is a bar While remaining upright may be the primary goal of beginning riders", "F^o^o", out noChangeBack));
             Assert.IsFalse(noChangeBack);
             Assert.AreEqual(@"{{Infobox | name = Foo | age=11}}
 '''Foo''' is a bar While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders
-While remaining upright may be the primary goal of beginning riders", p.BoldTitle(@"{{Infobox | name = Foo | age=11}}
+While remaining upright may be the primary goal of beginning riders", Parsers.BoldTitle(@"{{Infobox | name = Foo | age=11}}
 Foo is a bar While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsFalse(noChangeBack);
 
             // brackets excluded from bolding
-            Assert.AreEqual("'''Foo''' (Band album) is a CD While remaining upright may be the primary goal of beginning riders", p.BoldTitle("Foo (Band album) is a CD While remaining upright may be the primary goal of beginning riders", "Foo (Band album)", out noChangeBack));
+            Assert.AreEqual("'''Foo''' (Band album) is a CD While remaining upright may be the primary goal of beginning riders", Parsers.BoldTitle("Foo (Band album) is a CD While remaining upright may be the primary goal of beginning riders", "Foo (Band album)", out noChangeBack));
             Assert.IsFalse(noChangeBack);
             
             // non-changes
-            Assert.AreEqual("Fooo is a bar", p.BoldTitle("Fooo is a bar", "Foo", out noChangeBack));
+            Assert.AreEqual("Fooo is a bar", Parsers.BoldTitle("Fooo is a bar", "Foo", out noChangeBack));
             Assert.IsTrue(noChangeBack);
 
             Assert.AreEqual(@"Foo is a '''bar''' While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders
-While remaining upright may be the primary goal of beginning riders", p.BoldTitle(@"Foo is a '''bar''' While remaining upright may be the primary goal of beginning riders
+While remaining upright may be the primary goal of beginning riders", Parsers.BoldTitle(@"Foo is a '''bar''' While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack)); // bold within first 5% of article
@@ -783,19 +780,19 @@ While remaining upright may be the primary goal of beginning riders", "Foo", out
         [Test]
         public void WithDelinking()
         {
-            Assert.AreEqual("'''Foo''' is a bar While remaining upright may be the primary goal of beginning riders", p.BoldTitle("[[Foo]] is a bar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
+            Assert.AreEqual("'''Foo''' is a bar While remaining upright may be the primary goal of beginning riders", Parsers.BoldTitle("[[Foo]] is a bar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsFalse(noChangeBack);
-            Assert.AreEqual("'''Foo''' is a bar, Foo moar While remaining upright may be the primary goal of beginning riders", p.BoldTitle("[[Foo]] is a bar, Foo moar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
+            Assert.AreEqual("'''Foo''' is a bar, Foo moar While remaining upright may be the primary goal of beginning riders", Parsers.BoldTitle("[[Foo]] is a bar, Foo moar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsFalse(noChangeBack);
-            Assert.AreEqual("'''Foo''' is a bar, now Foo here While remaining upright may be the primary goal of beginning riders", p.BoldTitle("Foo is a bar, now [[Foo]] here While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
+            Assert.AreEqual("'''Foo''' is a bar, now Foo here While remaining upright may be the primary goal of beginning riders", Parsers.BoldTitle("Foo is a bar, now [[Foo]] here While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsFalse(noChangeBack);
-            Assert.AreEqual("'''Foo''' is a bar, now foo here While remaining upright may be the primary goal of beginning riders", p.BoldTitle("Foo is a bar, now [[foo]] here While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
+            Assert.AreEqual("'''Foo''' is a bar, now foo here While remaining upright may be the primary goal of beginning riders", Parsers.BoldTitle("Foo is a bar, now [[foo]] here While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsFalse(noChangeBack);
-            Assert.AreEqual("'''Foo''' is a [[bar]] While remaining upright may be the primary goal of beginning riders", p.BoldTitle("[[Foo]] is a [[bar]] While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
+            Assert.AreEqual("'''Foo''' is a [[bar]] While remaining upright may be the primary goal of beginning riders", Parsers.BoldTitle("[[Foo]] is a [[bar]] While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsFalse(noChangeBack);
 
             // removal of self links in iteslf are not a 'change'
-            Assert.AreEqual("'''Foo''' is a bar, now [[Foo]] here While remaining upright may be the primary goal of beginning riders", p.BoldTitle("'''Foo''' is a bar, now [[Foo]] here While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
+            Assert.AreEqual("'''Foo''' is a bar, now [[Foo]] here While remaining upright may be the primary goal of beginning riders", Parsers.BoldTitle("'''Foo''' is a bar, now [[Foo]] here While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsTrue(noChangeBack);
         }
 
@@ -803,13 +800,13 @@ While remaining upright may be the primary goal of beginning riders", "Foo", out
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_9#Bold_letters
         public void ExamplesFromBugReport()
         {
-            Assert.AreEqual(@"'''Michael Bavaro''' is a [[filmmaker]] based in [[Manhattan]]. While remaining upright may be the primary goal of beginning riders, a bike must lean in order to maintain balance", p.BoldTitle(@"[[Michael Bavaro]] is a [[filmmaker]] based in [[Manhattan]]. While remaining upright may be the primary goal of beginning riders, a bike must lean in order to maintain balance", "Michael Bavaro", out noChangeBack));
+            Assert.AreEqual(@"'''Michael Bavaro''' is a [[filmmaker]] based in [[Manhattan]]. While remaining upright may be the primary goal of beginning riders, a bike must lean in order to maintain balance", Parsers.BoldTitle(@"[[Michael Bavaro]] is a [[filmmaker]] based in [[Manhattan]]. While remaining upright may be the primary goal of beginning riders, a bike must lean in order to maintain balance", "Michael Bavaro", out noChangeBack));
             Assert.IsFalse(noChangeBack);
 
             Assert.AreEqual(@"{{Unreferenced|date=October 2007}}
 '''Steve Cook''' is a songwriter for Sovereign Grace. While remaining upright may be the primary goal of beginning riders. While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders
-While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders", p.BoldTitle(@"{{Unreferenced|date=October 2007}}
+While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders", Parsers.BoldTitle(@"{{Unreferenced|date=October 2007}}
 Steve Cook is a songwriter for Sovereign Grace. While remaining upright may be the primary goal of beginning riders. While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders", "Steve Cook", out noChangeBack));
@@ -920,8 +917,6 @@ While remaining upright may be the primary goal of beginning riders While remain
     [TestFixture]
     public class UtilityFunctionTests
     {
-        readonly Parsers p = new Parsers();
-
         public UtilityFunctionTests()
         {
             Globals.UnitTestMode = true;
@@ -933,7 +928,7 @@ While remaining upright may be the primary goal of beginning riders While remain
         {
             // too long
             StringBuilder sb = new StringBuilder(300);
-            for (int i=0;i<300;i++) sb.Append('x');
+            for (int i = 0; i < 300; i++) sb.Append('x');
             Assert.IsFalse(Parsers.IsCorrectEditSummary(sb.ToString()));
 
             // no wikilinks
@@ -964,123 +959,123 @@ While remaining upright may be the primary goal of beginning riders While remain
 
             // don't change sorting for single categories
             Assert.AreEqual("[[Category:Test1|Foooo]]",
-                            p.ChangeToDefaultSort("[[Category:Test1|Foooo]]", "Foo", out noChange));
+                            Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]]", "Foo", out noChange));
             Assert.IsTrue(noChange);
 
             // should work
             Assert.AreEqual("[[Category:Test1]][[Category:Test2]]\r\n{{DEFAULTSORT:Foooo}}",
-                            p.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Foooo]]", "Bar",
+                            Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Foooo]]", "Bar",
                                                   out noChange));
             Assert.IsFalse(noChange);
 
             // ...but don't add DEFAULTSORT if the key equals page title
             Assert.AreEqual("[[Category:Test1]][[Category:Test2]]",
-                            p.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Foooo]]", "Foooo",
+                            Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Foooo]]", "Foooo",
                                                   out noChange));
             Assert.IsFalse(noChange, "Should detect a change even if it hasn't added a DEFAULTSORT");
 
             // don't change if key is 3 chars or less
             Assert.AreEqual("[[Category:Test1|Foo]][[Category:Test2|Foo]]",
-                            p.ChangeToDefaultSort("[[Category:Test1|Foo]][[Category:Test2|Foo]]", "Bar", out noChange));
+                            Parsers.ChangeToDefaultSort("[[Category:Test1|Foo]][[Category:Test2|Foo]]", "Bar", out noChange));
             Assert.IsTrue(noChange);
 
             // Remove explicit keys equal to page title
             Assert.AreEqual("[[Category:Test1]][[Category:Test2]]",
-                            p.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2]]", "Foooo", out noChange));
+                            Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2]]", "Foooo", out noChange));
             Assert.IsFalse(noChange);
             // swap
             Assert.AreEqual("[[Category:Test1]][[Category:Test2]]",
-                            p.ChangeToDefaultSort("[[Category:Test1]][[Category:Test2|Foooo]]", "Foooo", out noChange));
+                            Parsers.ChangeToDefaultSort("[[Category:Test1]][[Category:Test2|Foooo]]", "Foooo", out noChange));
             Assert.IsFalse(noChange);
 
             // Borderline condition
             Assert.AreEqual("[[Category:Test1|Fooooo]][[Category:Test2]]",
-                            p.ChangeToDefaultSort("[[Category:Test1|Fooooo]][[Category:Test2]]", "Foooo", out noChange));
+                            Parsers.ChangeToDefaultSort("[[Category:Test1|Fooooo]][[Category:Test2]]", "Foooo", out noChange));
             Assert.IsTrue(noChange);
 
             // Don't change anything if there's ambiguity
             Assert.AreEqual("[[Category:Test1|Foooo]][[Category:Test2|Baaar]]",
-                            p.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Baaar]]", "Teeest",
+                            Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Baaar]]", "Teeest",
                                                   out noChange));
             Assert.IsTrue(noChange);
             // same thing
             Assert.AreEqual("[[Category:Test1|Foooo]][[Category:Test2|Baaar]]",
-                            p.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Baaar]]", "Foooo",
+                            Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2|Baaar]]", "Foooo",
                                                   out noChange));
             Assert.IsTrue(noChange);
 
             // remove diacritics when generating a key
             Assert.AreEqual("[[Category:Test1]][[Category:Test2]]\r\n{{DEFAULTSORT:Foooo}}",
-                            p.ChangeToDefaultSort("[[Category:Test1|Foooô]][[Category:Test2|Foooô]]", "Bar",
+                            Parsers.ChangeToDefaultSort("[[Category:Test1|Foooô]][[Category:Test2|Foooô]]", "Bar",
                                                   out noChange));
             Assert.IsFalse(noChange);
 
             // should also fix diacritics in existing defaultsort's and remove leading spaces
             // also support mimicking templates
             Assert.AreEqual("{{DEFAULTSORT:Test}}",
-                            p.ChangeToDefaultSort("{{defaultsort| Tést}}", "Foo", out noChange));
+                            Parsers.ChangeToDefaultSort("{{defaultsort| Tést}}", "Foo", out noChange));
             Assert.IsFalse(noChange);
 
             // shouldn't change whitespace-only sortkeys
-            Assert.AreEqual("{{DEFAULTSORT: \t}}", p.ChangeToDefaultSort("{{DEFAULTSORT: \t}}", "Foo", out noChange));
+            Assert.AreEqual("{{DEFAULTSORT: \t}}", Parsers.ChangeToDefaultSort("{{DEFAULTSORT: \t}}", "Foo", out noChange));
             Assert.IsTrue(noChange);
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#DEFAULTSORT_with_spaces
             // DEFAULTSORT doesn't treat leading spaces the same way as categories do
             Assert.AreEqual("[[Category:Test1| Foooo]][[Category:Test2| Foooo]]",
-                            p.ChangeToDefaultSort("[[Category:Test1| Foooo]][[Category:Test2| Foooo]]", "Bar",
+                            Parsers.ChangeToDefaultSort("[[Category:Test1| Foooo]][[Category:Test2| Foooo]]", "Bar",
                                                   out noChange));
             Assert.IsTrue(noChange);
 
             // {{lifetime}} and crap like that is not supported
-            p.ChangeToDefaultSort("{{lifetime|shite}}[[Category:Test1|Foooo]][[Category:Test2|Foooo]]",
+            Parsers.ChangeToDefaultSort("{{lifetime|shite}}[[Category:Test1|Foooo]][[Category:Test2|Foooo]]",
                                   "Bar", out noChange);
             Assert.IsTrue(noChange);
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#AWB_needs_to_handle_lifetime_template_correctly
             // pages with multiple sort specifiers shouldn't be changed
-            p.ChangeToDefaultSort("{{DEFAULTSORT:Foo}}{{lifetime|Bar}}",
+            Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Foo}}{{lifetime|Bar}}",
                                   "Foo", out noChange);
             Assert.IsTrue(noChange);
             // continued...
-            p.ChangeToDefaultSort("{{defaultsort| Tést}}{{DEFAULTSORT: Tést}}", "Foo", out noChange);
+            Parsers.ChangeToDefaultSort("{{defaultsort| Tést}}{{DEFAULTSORT: Tést}}", "Foo", out noChange);
             Assert.IsTrue(noChange);
 
             //Remove explicitally defined sort keys from categories when the page has defaultsort
             Assert.AreEqual("{{DEFAULTSORT:Test}}[[Category:Test]]",
-                            p.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|Test]]", "Foo", out noChange));
+                            Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|Test]]", "Foo", out noChange));
             Assert.IsFalse(noChange);
 
             //Case difference of above
             Assert.AreEqual("{{DEFAULTSORT:Test}}[[Category:Test]]",
-                p.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]]", "Foo", out noChange));
+                Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]]", "Foo", out noChange));
             Assert.IsFalse(noChange);
 
             //No change due to different key
             Assert.AreEqual("{{DEFAULTSORT:Test}}[[Category:Test|Not a Test]]",
-    p.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|Not a Test]]", "Foo", out noChange));
+    Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|Not a Test]]", "Foo", out noChange));
             Assert.IsTrue(noChange);
 
             //Multiple to be removed
             Assert.AreEqual("{{DEFAULTSORT:Test}}[[Category:Test]][[Category:Foo]][[Category:Bar]]",
-    p.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo|Test]][[Category:Bar|test]]", "Foo", out noChange));
+    Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo|Test]][[Category:Bar|test]]", "Foo", out noChange));
             Assert.IsFalse(noChange);
 
             //Multiple with 1 no key
             Assert.AreEqual("{{DEFAULTSORT:Test}}[[Category:Test]][[Category:Foo]][[Category:Bar]]",
-p.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo]][[Category:Bar|test]]", "Foo", out noChange));
+Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo]][[Category:Bar|test]]", "Foo", out noChange));
             Assert.IsFalse(noChange);
 
             //Multiple with 1 different key
             Assert.AreEqual("{{DEFAULTSORT:Test}}[[Category:Test]][[Category:Foo|Bar]][[Category:Bar]]",
-p.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo|Bar]][[Category:Bar|test]]", "Foo", out noChange));
+Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Category:Foo|Bar]][[Category:Bar|test]]", "Foo", out noChange));
             Assert.IsFalse(noChange);
 
             // just removing diacritics in categories is useful
-            Assert.AreEqual(@"[[Category:Bronze Wolf awardees|Laine, Juan]]", p.ChangeToDefaultSort(@"[[Category:Bronze Wolf awardees|Lainé, Juan]]", "Hi", out noChange));
+            Assert.AreEqual(@"[[Category:Bronze Wolf awardees|Laine, Juan]]", Parsers.ChangeToDefaultSort(@"[[Category:Bronze Wolf awardees|Lainé, Juan]]", "Hi", out noChange));
             Assert.IsFalse(noChange);
 
-            Assert.AreEqual(@"[[Category:Bronze Wolf awardees|Laine, Juan]]", p.ChangeToDefaultSort(@"[[Category:Bronze Wolf awardees|Laine, Juan]]", "Hi", out noChange));
+            Assert.AreEqual(@"[[Category:Bronze Wolf awardees|Laine, Juan]]", Parsers.ChangeToDefaultSort(@"[[Category:Bronze Wolf awardees|Laine, Juan]]", "Hi", out noChange));
             Assert.IsTrue(noChange);
         }
 
