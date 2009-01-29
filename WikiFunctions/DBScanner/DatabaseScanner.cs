@@ -246,7 +246,7 @@ namespace WikiFunctions.DBScanner
             if (chkHasHTML.Checked)
                 s.Add(new HasHTMLEntities());
             if (chkHeaderError.Checked)
-                s.Add(new HasSectionError(parsers));
+                s.Add(new HasSectionError());
             if (chkUnbulletedLinks.Checked)
                 s.Add(new HasUnbulletedLinks());
             if (chkTypo.Checked)

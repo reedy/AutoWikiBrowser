@@ -33,8 +33,6 @@ namespace UnitTests
     [TestFixture]
     public class FootnotesTests
     {
-        readonly Parsers parser = new Parsers();
-
         public FootnotesTests()
         {
             Globals.UnitTestMode = true;
@@ -70,22 +68,22 @@ namespace UnitTests
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#References-2column_not_replaced_with_2_argument_to_reflist
         public void TestFixReferenceListTags()
         {
-            Assert.AreEqual("<references/>", parser.FixReferenceListTags("<references/>"));
-            Assert.AreEqual("<div><references/></div>", parser.FixReferenceListTags("<div><references/></div>"));
+            Assert.AreEqual("<references/>", Parsers.FixReferenceListTags("<references/>"));
+            Assert.AreEqual("<div><references/></div>", Parsers.FixReferenceListTags("<div><references/></div>"));
 
-            Assert.AreEqual("{{reflist}}", parser.FixReferenceListTags("<div class=\"references-small\"><references/>\r\n</div>"));
-            Assert.AreEqual("{{reflist|2}}", parser.FixReferenceListTags("<div class=\"references-2column\"><references/></div>"));
+            Assert.AreEqual("{{reflist}}", Parsers.FixReferenceListTags("<div class=\"references-small\"><references/>\r\n</div>"));
+            Assert.AreEqual("{{reflist|2}}", Parsers.FixReferenceListTags("<div class=\"references-2column\"><references/></div>"));
             Assert.AreEqual("{{reflist|2}}",
-                parser.FixReferenceListTags(@"<div class=""references-2column""><div class=""references-small"">
+                Parsers.FixReferenceListTags(@"<div class=""references-2column""><div class=""references-small"">
 <references/></div></div>"));
             Assert.AreEqual("{{reflist|2}}",
-                parser.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column""> <references/>
+                Parsers.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column""> <references/>
 </div></div>"));
 
             // evil don't do's
-            Assert.That(parser.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column"">
+            Assert.That(Parsers.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column"">
 <references/></div>* some other ref</div>"), Is.Not.Contains("{{reflist"));
-            Assert.That(parser.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column"">
+            Assert.That(Parsers.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column"">
 <references/></div>"), Is.Not.Contains("{{reflist"));
         }
     }
@@ -165,22 +163,22 @@ namespace UnitTests
         [Test]
         public void FixDates()
         {
-            Assert.AreEqual("the later 1990s", parser.FixDates("the later 1990's"));
+            Assert.AreEqual("the later 1990s", Parsers.FixDates("the later 1990's"));
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Title_bolding
-            Assert.AreEqual("the later A1990's", parser.FixDates("the later A1990's"));
+            Assert.AreEqual("the later A1990's", Parsers.FixDates("the later A1990's"));
 
             //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Breaking_a_template
-            Assert.AreEqual("{{the later 1990's}}", parser.FixDates("{{the later 1990's}}"));
+            Assert.AreEqual("{{the later 1990's}}", Parsers.FixDates("{{the later 1990's}}"));
         }
 
         [Test]
         public void FixLivingThingsRelatedDates()
         {
-            Assert.AreEqual("test text", parser.FixLivingThingsRelatedDates("test text"));
-            Assert.AreEqual("'''John Doe''' (born [[21 February]] [[2008]])", parser.FixLivingThingsRelatedDates("'''John Doe''' (b. [[21 February]] [[2008]])"));
-            Assert.AreEqual("'''John Doe''' (died [[21 February]] [[2008]])", parser.FixLivingThingsRelatedDates("'''John Doe''' (d. [[21 February]] [[2008]])"));
-            Assert.AreEqual("'''Willa Klug Baum''' ([[October 4]], [[1926]] – May 18, 2006)", parser.FixLivingThingsRelatedDates("'''Willa Klug Baum''' (born [[October 4]], [[1926]], died May 18, 2006)"));
+            Assert.AreEqual("test text", Parsers.FixLivingThingsRelatedDates("test text"));
+            Assert.AreEqual("'''John Doe''' (born [[21 February]] [[2008]])", Parsers.FixLivingThingsRelatedDates("'''John Doe''' (b. [[21 February]] [[2008]])"));
+            Assert.AreEqual("'''John Doe''' (died [[21 February]] [[2008]])", Parsers.FixLivingThingsRelatedDates("'''John Doe''' (d. [[21 February]] [[2008]])"));
+            Assert.AreEqual("'''Willa Klug Baum''' ([[October 4]], [[1926]] – May 18, 2006)", Parsers.FixLivingThingsRelatedDates("'''Willa Klug Baum''' (born [[October 4]], [[1926]], died May 18, 2006)"));
         }
 
         [Test, Category("Incomplete")]
@@ -188,46 +186,46 @@ namespace UnitTests
         {
             bool noChange;
 
-            Assert.AreEqual("[http://example.com] site", parser.FixSyntax("[http://example.com] site"));
-            Assert.AreEqual("[http://example.com] site", parser.FixSyntax("[[http://example.com] site"));
-            Assert.AreEqual("[http://example.com] site", parser.FixSyntax("[http://example.com]] site"));
-            Assert.AreEqual("[http://example.com] site", parser.FixSyntax("[[http://example.com]] site"));
+            Assert.AreEqual("[http://example.com] site", Parsers.FixSyntax("[http://example.com] site"));
+            Assert.AreEqual("[http://example.com] site", Parsers.FixSyntax("[[http://example.com] site"));
+            Assert.AreEqual("[http://example.com] site", Parsers.FixSyntax("[http://example.com]] site"));
+            Assert.AreEqual("[http://example.com] site", Parsers.FixSyntax("[[http://example.com]] site"));
 
-            Assert.AreEqual("[http://test.com]", parser.FixSyntax("[http://test.com]"));
-            Assert.AreEqual("[http://test.com]", parser.FixSyntax("[http://http://test.com]"));
-            Assert.AreEqual("[http://test.com]", parser.FixSyntax("[http://http://http://test.com]"));
+            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://test.com]"));
+            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://http://test.com]"));
+            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://http://http://test.com]"));
 
             Assert.AreEqual("[http://www.site.com ''my cool site'']",
-                            parser.FixSyntax("[http://www.site.com|''my cool site'']"));
+                            Parsers.FixSyntax("[http://www.site.com|''my cool site'']"));
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#NEsted_square_brackets_again.
             Assert.AreEqual("[[Image:foo.jpg|Some [http://some_crap.com]]]",
-                            parser.FixSyntax("[[Image:foo.jpg|Some [http://some_crap.com]]]"));
+                            Parsers.FixSyntax("[[Image:foo.jpg|Some [http://some_crap.com]]]"));
 
-            Assert.AreEqual("Image:foo.jpg|{{{some_crap}}}]]", parser.FixSyntax("Image:foo.jpg|{{{some_crap}}}]]"));
+            Assert.AreEqual("Image:foo.jpg|{{{some_crap}}}]]", Parsers.FixSyntax("Image:foo.jpg|{{{some_crap}}}]]"));
 
-            Assert.AreEqual("[[somelink]]", parser.FixSyntax("[somelink]]"));
-            Assert.AreEqual("[[somelink]]", parser.FixSyntax("[[somelink]"));
-            Assert.AreNotEqual("[[somelink]]", parser.FixSyntax("[somelink]"));
+            Assert.AreEqual("[[somelink]]", Parsers.FixSyntax("[somelink]]"));
+            Assert.AreEqual("[[somelink]]", Parsers.FixSyntax("[[somelink]"));
+            Assert.AreNotEqual("[[somelink]]", Parsers.FixSyntax("[somelink]"));
 
-            Assert.AreEqual("'''foo''' bar", parser.FixSyntax("<b>foo</b> bar"));
-            Assert.AreEqual("'''foo''' bar", parser.FixSyntax("< b >foo</b> bar"));
-            Assert.AreEqual("'''foo''' bar", parser.FixSyntax("<b>foo< /b > bar"));
-            Assert.AreEqual("<b>foo<b> bar", parser.FixSyntax("<b>foo<b> bar"));
+            Assert.AreEqual("'''foo''' bar", Parsers.FixSyntax("<b>foo</b> bar"));
+            Assert.AreEqual("'''foo''' bar", Parsers.FixSyntax("< b >foo</b> bar"));
+            Assert.AreEqual("'''foo''' bar", Parsers.FixSyntax("<b>foo< /b > bar"));
+            Assert.AreEqual("<b>foo<b> bar", Parsers.FixSyntax("<b>foo<b> bar"));
 
-            Assert.AreEqual("''foo'' bar", parser.FixSyntax("<i>foo</i> bar"));
-            Assert.AreEqual("''foo'' bar", parser.FixSyntax("< i >foo</i> bar"));
-            Assert.AreEqual("''foo'' bar", parser.FixSyntax("<i>foo< /i > bar"));
-            Assert.AreEqual("<i>foo<i> bar", parser.FixSyntax("<i>foo<i> bar"));
+            Assert.AreEqual("''foo'' bar", Parsers.FixSyntax("<i>foo</i> bar"));
+            Assert.AreEqual("''foo'' bar", Parsers.FixSyntax("< i >foo</i> bar"));
+            Assert.AreEqual("''foo'' bar", Parsers.FixSyntax("<i>foo< /i > bar"));
+            Assert.AreEqual("<i>foo<i> bar", Parsers.FixSyntax("<i>foo<i> bar"));
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Erroneously_removing_pipe
-            Assert.AreEqual("[[|foo]]", parser.FixSyntax("[[|foo]]"));
+            Assert.AreEqual("[[|foo]]", Parsers.FixSyntax("[[|foo]]"));
 
             //Double Spaces
-            Assert.AreEqual("[[Foo]]", parser.FixSyntax("[[Foo]]"));
-            Assert.AreEqual("[[Foo Bar]]", parser.FixSyntax("[[Foo Bar]]"));
-            Assert.AreEqual("[[Foo Bar]]", parser.FixSyntax("[[Foo  Bar]]"));
-            Assert.AreEqual("[[Foo Bar|Bar]]", parser.FixSyntax("[[Foo  Bar|Bar]]"));
+            Assert.AreEqual("[[Foo]]", Parsers.FixSyntax("[[Foo]]"));
+            Assert.AreEqual("[[Foo Bar]]", Parsers.FixSyntax("[[Foo Bar]]"));
+            Assert.AreEqual("[[Foo Bar]]", Parsers.FixSyntax("[[Foo  Bar]]"));
+            Assert.AreEqual("[[Foo Bar|Bar]]", Parsers.FixSyntax("[[Foo  Bar|Bar]]"));
 
             //TODO: move it to parts testing specific functions, when they're covered
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_4#Bug_encountered_when_perusing_Sonorous_Susurrus
@@ -235,53 +233,53 @@ namespace UnitTests
             Assert.AreEqual("[[|foo]]", Parsers.FixLinks("[[|foo]]", out noChange));
 
             // string before and after
-            Assert.AreEqual("<ref>http://www.site.com</ref>", parser.FixSyntax(@"<ref>http//www.site.com</ref>"));
-            Assert.AreEqual("at http://www.site.com", parser.FixSyntax(@"at http//www.site.com"));
+            Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http//www.site.com</ref>"));
+            Assert.AreEqual("at http://www.site.com", Parsers.FixSyntax(@"at http//www.site.com"));
             Assert.AreEqual("<ref>[http://www.site.com a website]</ref>",
-                            parser.FixSyntax(@"<ref>[http:/www.site.com a website]</ref>"));
-            Assert.AreEqual("*[http://www.site.com a website]", parser.FixSyntax(@"*[http//www.site.com a website]"));
-            Assert.AreEqual("|url=http://www.site.com", parser.FixSyntax(@"|url=http//www.site.com"));
-            Assert.AreEqual("|url = http://www.site.com", parser.FixSyntax(@"|url = http:/www.site.com"));
-            Assert.AreEqual("[http://www.site.com]", parser.FixSyntax(@"[http/www.site.com]"));
+                            Parsers.FixSyntax(@"<ref>[http:/www.site.com a website]</ref>"));
+            Assert.AreEqual("*[http://www.site.com a website]", Parsers.FixSyntax(@"*[http//www.site.com a website]"));
+            Assert.AreEqual("|url=http://www.site.com", Parsers.FixSyntax(@"|url=http//www.site.com"));
+            Assert.AreEqual("|url = http://www.site.com", Parsers.FixSyntax(@"|url = http:/www.site.com"));
+            Assert.AreEqual("[http://www.site.com]", Parsers.FixSyntax(@"[http/www.site.com]"));
 
             // these strings should not change
             Assert.AreEqual("http://members.bib-arch.org/nph-proxy.pl/000000A/http/www.basarchive.org/bswbSearch",
-                            parser.FixSyntax(
+                            Parsers.FixSyntax(
                                 "http://members.bib-arch.org/nph-proxy.pl/000000A/http/www.basarchive.org/bswbSearch"));
             Assert.AreEqual("http://sunsite.utk.edu/math_archives/.http/contests/",
-                            parser.FixSyntax("http://sunsite.utk.edu/math_archives/.http/contests/"));
-            Assert.AreEqual("HTTP/0.9", parser.FixSyntax("HTTP/0.9"));
-            Assert.AreEqual("HTTP/1.0", parser.FixSyntax("HTTP/1.0"));
-            Assert.AreEqual("HTTP/1.1", parser.FixSyntax("HTTP/1.1"));
-            Assert.AreEqual("HTTP/1.2", parser.FixSyntax("HTTP/1.2"));
-            Assert.AreEqual("the HTTP/1.2 protocol", parser.FixSyntax("the HTTP/1.2 protocol"));
-            Assert.AreEqual(@"<ref>[http://cdiac.esd.ornl.gov/ftp/cdiac74/a.pdf chapter 5]</ref>", parser.FixSyntax(@"<ref>[http://cdiac.esd.ornl.gov/ftp/cdiac74/a.pdf chapter 5]</ref>"));
+                            Parsers.FixSyntax("http://sunsite.utk.edu/math_archives/.http/contests/"));
+            Assert.AreEqual("HTTP/0.9", Parsers.FixSyntax("HTTP/0.9"));
+            Assert.AreEqual("HTTP/1.0", Parsers.FixSyntax("HTTP/1.0"));
+            Assert.AreEqual("HTTP/1.1", Parsers.FixSyntax("HTTP/1.1"));
+            Assert.AreEqual("HTTP/1.2", Parsers.FixSyntax("HTTP/1.2"));
+            Assert.AreEqual("the HTTP/1.2 protocol", Parsers.FixSyntax("the HTTP/1.2 protocol"));
+            Assert.AreEqual(@"<ref>[http://cdiac.esd.ornl.gov/ftp/cdiac74/a.pdf chapter 5]</ref>", Parsers.FixSyntax(@"<ref>[http://cdiac.esd.ornl.gov/ftp/cdiac74/a.pdf chapter 5]</ref>"));
         }
 
         [Test, Ignore]
         public void ExtraBracketInExternalLink()
         {
             //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_9#Bug_in_regex_to_correct_double_bracketed_external_links
-            Assert.AreEqual("now [http://www.site.com a [[a]] site] was", parser.FixSyntax("now [http://www.site.com a [[a]] site] was"));  // valid syntax
-            Assert.AreEqual("now [http://www.site.com a site [cool] here] was", parser.FixSyntax("now [http://www.site.com a site [cool] here] was"));         // valid syntax
-            Assert.AreEqual("now [http://www.site.com a b site]] was", parser.FixSyntax("now [http://www.site.com a b site] was"));
-            Assert.AreEqual("now [http://www.site.com a [[b]] site]] was", parser.FixSyntax("now [http://www.site.com a [[b]] site] was"));
-            Assert.AreEqual("now [[http://www.site.com a c site] was", parser.FixSyntax("now [http://www.site.com a c site] was"));
-            Assert.AreEqual("now [[http://www.site.com a [[c]] site] was", parser.FixSyntax("now [http://www.site.com a [[c]] site] was"));
-            Assert.AreEqual("now [[http://www.site.com a [[d]] or [[d2]] site]] was", parser.FixSyntax("now [http://www.site.com a [[d]] or [[d2]] site] was"));
-            Assert.AreEqual("now [[http://www.site.com a d3 site]] was", parser.FixSyntax("now [http://www.site.com a d3 site] was"));
-            Assert.AreEqual("now [[Image:Fred1211212.JPG| here [http://www.site.com a [[e]] site]]] was", parser.FixSyntax("now [[Image:Fred1211212.JPG| here [http://www.site.com a [[e]] site]]] was"));   // valid wiki syntax
-            Assert.AreEqual("now [[Image:Fred12.JPG| here [http://www.site.com a [[f]] site]]]] was", parser.FixSyntax("now [[Image:Fred12.JPG| here [http://www.site.com a [[f]] site]]] was"));
-            Assert.AreEqual("now [[Image:Fred12.JPG| here [http://www.site.com a g site]]]] was", parser.FixSyntax("now [[Image:Fred12.JPG| here [http://www.site.com a g site]]] was"));
-            Assert.AreEqual("now [[Image:Fred12.JPG| here [[http://www.site.com a g site]]] was", parser.FixSyntax("now [[Image:Fred12.JPG| here [http://www.site.com a g site]]] was"));
-            Assert.AreEqual("now [[Image:Fred12.JPG| here [[http://www.site.com a g site]]]] was", parser.FixSyntax("now [[Image:Fred12.JPG| here [http://www.site.com a g site]]] was"));
+            Assert.AreEqual("now [http://www.site.com a [[a]] site] was", Parsers.FixSyntax("now [http://www.site.com a [[a]] site] was"));  // valid syntax
+            Assert.AreEqual("now [http://www.site.com a site [cool] here] was", Parsers.FixSyntax("now [http://www.site.com a site [cool] here] was"));         // valid syntax
+            Assert.AreEqual("now [http://www.site.com a b site]] was", Parsers.FixSyntax("now [http://www.site.com a b site] was"));
+            Assert.AreEqual("now [http://www.site.com a [[b]] site]] was", Parsers.FixSyntax("now [http://www.site.com a [[b]] site] was"));
+            Assert.AreEqual("now [[http://www.site.com a c site] was", Parsers.FixSyntax("now [http://www.site.com a c site] was"));
+            Assert.AreEqual("now [[http://www.site.com a [[c]] site] was", Parsers.FixSyntax("now [http://www.site.com a [[c]] site] was"));
+            Assert.AreEqual("now [[http://www.site.com a [[d]] or [[d2]] site]] was", Parsers.FixSyntax("now [http://www.site.com a [[d]] or [[d2]] site] was"));
+            Assert.AreEqual("now [[http://www.site.com a d3 site]] was", Parsers.FixSyntax("now [http://www.site.com a d3 site] was"));
+            Assert.AreEqual("now [[Image:Fred1211212.JPG| here [http://www.site.com a [[e]] site]]] was", Parsers.FixSyntax("now [[Image:Fred1211212.JPG| here [http://www.site.com a [[e]] site]]] was"));   // valid wiki syntax
+            Assert.AreEqual("now [[Image:Fred12.JPG| here [http://www.site.com a [[f]] site]]]] was", Parsers.FixSyntax("now [[Image:Fred12.JPG| here [http://www.site.com a [[f]] site]]] was"));
+            Assert.AreEqual("now [[Image:Fred12.JPG| here [http://www.site.com a g site]]]] was", Parsers.FixSyntax("now [[Image:Fred12.JPG| here [http://www.site.com a g site]]] was"));
+            Assert.AreEqual("now [[Image:Fred12.JPG| here [[http://www.site.com a g site]]] was", Parsers.FixSyntax("now [[Image:Fred12.JPG| here [http://www.site.com a g site]]] was"));
+            Assert.AreEqual("now [[Image:Fred12.JPG| here [[http://www.site.com a g site]]]] was", Parsers.FixSyntax("now [[Image:Fred12.JPG| here [http://www.site.com a g site]]] was"));
         }
 
         [Test, Ignore] // TODO, fix this failing unit test
         public void FailingLinkRepair()
         {
             Assert.AreEqual("[[Image:foo.jpg|Some [http://some_crap.com]]]",
-                parser.FixSyntax("[[Image:foo.jpg|Some [[http://some_crap.com]]]]"));
+                Parsers.FixSyntax("[[Image:foo.jpg|Some [[http://some_crap.com]]]]"));
         }
 
         [Test]
@@ -445,8 +443,6 @@ http://example.com }}");
     [TestFixture]
     public class FormattingTests
     {
-        readonly Parsers p = new Parsers();
-
         public FormattingTests()
         {
             Globals.UnitTestMode = true;
@@ -455,91 +451,91 @@ http://example.com }}");
         [Test]
         public void TestBrConverter()
         {
-            Assert.AreEqual("*a\r\nb", p.FixSyntax("*a<br>\r\nb"));
-            Assert.AreEqual("*a\r\nb", p.FixSyntax("\r\n*a<br>\r\nb"));
-            Assert.AreEqual("foo\r\n*a\r\nb", p.FixSyntax("foo\r\n*a<br>\r\nb"));
+            Assert.AreEqual("*a\r\nb", Parsers.FixSyntax("*a<br>\r\nb"));
+            Assert.AreEqual("*a\r\nb", Parsers.FixSyntax("\r\n*a<br>\r\nb"));
+            Assert.AreEqual("foo\r\n*a\r\nb", Parsers.FixSyntax("foo\r\n*a<br>\r\nb"));
         
-            Assert.AreEqual("*a", p.FixSyntax("*a<br>\r\n")); // \r\n\ trimmed
+            Assert.AreEqual("*a", Parsers.FixSyntax("*a<br>\r\n")); // \r\n\ trimmed
 
-            Assert.AreEqual("*a", p.FixSyntax("*a<br\\>\r\n"));
-            Assert.AreEqual("*a", p.FixSyntax("*a<br/>\r\n"));
-            Assert.AreEqual("*a", p.FixSyntax("*a <br\\> \r\n"));
+            Assert.AreEqual("*a", Parsers.FixSyntax("*a<br\\>\r\n"));
+            Assert.AreEqual("*a", Parsers.FixSyntax("*a<br/>\r\n"));
+            Assert.AreEqual("*a", Parsers.FixSyntax("*a <br\\> \r\n"));
 
             // leading (back)slash is hack for incorrectly formatted breaks per
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#br_tags_are_not_always_removed
-            Assert.AreEqual("*a", p.FixSyntax("*a </br/> \r\n"));
-            Assert.AreEqual("*a", p.FixSyntax("*a<br\\> \r\n"));
-            Assert.AreEqual("*a", p.FixSyntax("*a <\\br\\>\r\n"));
-            Assert.AreEqual("*a", p.FixSyntax("*a     <br\\>    \r\n"));
+            Assert.AreEqual("*a", Parsers.FixSyntax("*a </br/> \r\n"));
+            Assert.AreEqual("*a", Parsers.FixSyntax("*a<br\\> \r\n"));
+            Assert.AreEqual("*a", Parsers.FixSyntax("*a <\\br\\>\r\n"));
+            Assert.AreEqual("*a", Parsers.FixSyntax("*a     <br\\>    \r\n"));
 
-            Assert.AreEqual("*:#;a\r\n*b", p.FixSyntax("*:#;a<br>\r\n*b"));
-            Assert.AreEqual("###;;;:::***a\r\nb", p.FixSyntax("###;;;:::***a<br />\r\nb"));
-            Assert.AreEqual("*&a\r\nb", p.FixSyntax("*&a<br/>\r\nb"));
+            Assert.AreEqual("*:#;a\r\n*b", Parsers.FixSyntax("*:#;a<br>\r\n*b"));
+            Assert.AreEqual("###;;;:::***a\r\nb", Parsers.FixSyntax("###;;;:::***a<br />\r\nb"));
+            Assert.AreEqual("*&a\r\nb", Parsers.FixSyntax("*&a<br/>\r\nb"));
 
-            Assert.AreEqual("&*a<br>\r\nb", p.FixSyntax("&*a<br>\r\nb"));
-            Assert.AreEqual("*a\r\n<br>\r\nb", p.FixSyntax("*a\r\n<br>\r\nb"));
+            Assert.AreEqual("&*a<br>\r\nb", Parsers.FixSyntax("&*a<br>\r\nb"));
+            Assert.AreEqual("*a\r\n<br>\r\nb", Parsers.FixSyntax("*a\r\n<br>\r\nb"));
         }
 
         [Test]
         public void TestFixHeadings()
         {
             // breaks if article title is empty
-            Assert.AreEqual("==foo==", p.FixHeadings("=='''foo'''==", "test"));
-            StringAssert.StartsWith("==foo==", p.FixHeadings("=='''foo'''==\r\n", "test"));
-            Assert.AreEqual("quux\r\n==foo==\r\nbar", p.FixHeadings("quux\r\n=='''foo'''==\r\nbar", "test"));
-            Assert.AreEqual("quux\r\n==foo==\r\n\r\nbar", p.FixHeadings("quux\r\n=='''foo'''==\r\n\r\nbar", "test"));
+            Assert.AreEqual("==foo==", Parsers.FixHeadings("=='''foo'''==", "test"));
+            StringAssert.StartsWith("==foo==", Parsers.FixHeadings("=='''foo'''==\r\n", "test"));
+            Assert.AreEqual("quux\r\n==foo==\r\nbar", Parsers.FixHeadings("quux\r\n=='''foo'''==\r\nbar", "test"));
+            Assert.AreEqual("quux\r\n==foo==\r\n\r\nbar", Parsers.FixHeadings("quux\r\n=='''foo'''==\r\n\r\nbar", "test"));
 
-            Assert.AreEqual("==foo==", p.FixHeadings("==foo==", "test"));
+            Assert.AreEqual("==foo==", Parsers.FixHeadings("==foo==", "test"));
 
             // following unit tests appear messy due to need to include whitespace and newlines
             Assert.AreEqual(@"hi.
 ===News===
-Some news here.", p.FixHeadings(@"hi.
+Some news here.", Parsers.FixHeadings(@"hi.
  ===News===
 Some news here.", "test"));
             Assert.AreEqual(@"hi.
 ==News place==
-Some news here.", p.FixHeadings(@"hi.
+Some news here.", Parsers.FixHeadings(@"hi.
  ==News place==
 Some news here.", "test"));
             Assert.AreEqual(@"hi.
 ==News place==
-Some news here.", p.FixHeadings(@"hi.
+Some news here.", Parsers.FixHeadings(@"hi.
     ==News place==  
 Some news here.", "test"));
             Assert.AreEqual(@"hi.
 ==News place==
-Some news here.", p.FixHeadings(@"hi.
+Some news here.", Parsers.FixHeadings(@"hi.
 ==News place==  
 Some news here.", "test"));
 
             // tests for regexRemoveHeadingsInLinks
-            Assert.AreEqual("==foo==", p.FixHeadings("==[[foo]]==", "test"));
-            Assert.AreEqual("== foo ==", p.FixHeadings("== [[foo]] ==", "test"));
-            Assert.AreEqual("==bar==", p.FixHeadings("==[[foo|bar]]==", "test"));
+            Assert.AreEqual("==foo==", Parsers.FixHeadings("==[[foo]]==", "test"));
+            Assert.AreEqual("== foo ==", Parsers.FixHeadings("== [[foo]] ==", "test"));
+            Assert.AreEqual("==bar==", Parsers.FixHeadings("==[[foo|bar]]==", "test"));
 
             // match
-            Assert.AreEqual("==hello world ==", p.FixHeadings("==hello [[world]] ==", "a"));
-            Assert.AreEqual("==Hello world==", p.FixHeadings("==[[Hello world]]==", "a"));
-            Assert.AreEqual("==world==", p.FixHeadings("==[[hello|world]]==", "a"));
-            Assert.AreEqual("== world ==", p.FixHeadings("== [[hello|world]] ==", "a"));
-            Assert.AreEqual("===world===", p.FixHeadings("===[[hello now|world]]===", "a"));
-            Assert.AreEqual("==world now==", p.FixHeadings("==[[hello|world now]]==", "a"));
-            Assert.AreEqual("==now world==", p.FixHeadings("==now [[hello|world]]==", "a"));
-            Assert.AreEqual("==now world here==", p.FixHeadings("==now [[hello|world]] here==", "a"));
-            Assert.AreEqual("==now world def here==", p.FixHeadings("==now [[hello abc|world def]] here==", "a"));
-            Assert.AreEqual("==now world here==", p.FixHeadings("==now [[ hello |world]] here==", "a"));
-            Assert.AreEqual("==now world==", p.FixHeadings("==now [[hello#world|world]]==", "a"));
-            Assert.AreEqual("==now world and moon==", p.FixHeadings("==now [[hello|world]] and [[bye|moon]]==", "a"));
+            Assert.AreEqual("==hello world ==", Parsers.FixHeadings("==hello [[world]] ==", "a"));
+            Assert.AreEqual("==Hello world==", Parsers.FixHeadings("==[[Hello world]]==", "a"));
+            Assert.AreEqual("==world==", Parsers.FixHeadings("==[[hello|world]]==", "a"));
+            Assert.AreEqual("== world ==", Parsers.FixHeadings("== [[hello|world]] ==", "a"));
+            Assert.AreEqual("===world===", Parsers.FixHeadings("===[[hello now|world]]===", "a"));
+            Assert.AreEqual("==world now==", Parsers.FixHeadings("==[[hello|world now]]==", "a"));
+            Assert.AreEqual("==now world==", Parsers.FixHeadings("==now [[hello|world]]==", "a"));
+            Assert.AreEqual("==now world here==", Parsers.FixHeadings("==now [[hello|world]] here==", "a"));
+            Assert.AreEqual("==now world def here==", Parsers.FixHeadings("==now [[hello abc|world def]] here==", "a"));
+            Assert.AreEqual("==now world here==", Parsers.FixHeadings("==now [[ hello |world]] here==", "a"));
+            Assert.AreEqual("==now world==", Parsers.FixHeadings("==now [[hello#world|world]]==", "a"));
+            Assert.AreEqual("==now world and moon==", Parsers.FixHeadings("==now [[hello|world]] and [[bye|moon]]==", "a"));
             // no match
-            Assert.AreEqual("===hello [[world]] ==", p.FixHeadings("===hello [[world]] ==", "a"));
-            Assert.AreEqual("==hello [[world]] ===", p.FixHeadings("==hello [[world]] ===", "a"));
-            Assert.AreEqual("== hello world ==", p.FixHeadings("== hello world ==", "a"));
-            Assert.AreEqual("==hello==", p.FixHeadings("==hello==", "a"));
-            Assert.AreEqual("==now [[hello|world] ] here==", p.FixHeadings("==now [[hello|world] ] here==", "a"));
-            Assert.AreEqual("==hello[http://example.net]==", p.FixHeadings("==hello[http://example.net]==", "a"));
-            Assert.AreEqual("hello [[world]]", p.FixHeadings("hello [[world]]", "a"));
-            Assert.AreEqual("now == hello [[world]] == here", p.FixHeadings("now == hello [[world]] == here", "a"));
+            Assert.AreEqual("===hello [[world]] ==", Parsers.FixHeadings("===hello [[world]] ==", "a"));
+            Assert.AreEqual("==hello [[world]] ===", Parsers.FixHeadings("==hello [[world]] ===", "a"));
+            Assert.AreEqual("== hello world ==", Parsers.FixHeadings("== hello world ==", "a"));
+            Assert.AreEqual("==hello==", Parsers.FixHeadings("==hello==", "a"));
+            Assert.AreEqual("==now [[hello|world] ] here==", Parsers.FixHeadings("==now [[hello|world] ] here==", "a"));
+            Assert.AreEqual("==hello[http://example.net]==", Parsers.FixHeadings("==hello[http://example.net]==", "a"));
+            Assert.AreEqual("hello [[world]]", Parsers.FixHeadings("hello [[world]]", "a"));
+            Assert.AreEqual("now == hello [[world]] == here", Parsers.FixHeadings("now == hello [[world]] == here", "a"));
         }
 
         [Test, Category("Incomplete")]
@@ -604,7 +600,7 @@ Some news here.", "test"));
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Removing_underscore_in_URL_in_Ref_in_Description_in_Image....
             //Assert.AreEqual("[[Image:foo_bar|[http://some_link]]]",
-            //    p.FixImages("[[image:foo_bar|http://some_link]]"));
+            //    Parsers.FixImages("[[image:foo_bar|http://some_link]]"));
 
             // no changes should be made to this one
             Assert.AreEqual(@"[[Image:Diamminesilver(I)-3D-balls.png|thumb|right|200px|Ball-and-stick model of the diamminesilver(I) cation, [Ag(NH<sub>3</sub>)<sub>2</sub>]<sup>+</sup>]]", 

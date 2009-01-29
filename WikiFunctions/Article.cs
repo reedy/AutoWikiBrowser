@@ -497,10 +497,10 @@ namespace WikiFunctions
 
                 string strTemp = parsers.Conversions(mArticleText);
 
-                strTemp = parsers.FixDates(strTemp);
-                strTemp = parsers.FixLivingThingsRelatedDates(strTemp);
+                strTemp = Parsers.FixDates(strTemp);
+                strTemp = Parsers.FixLivingThingsRelatedDates(strTemp);
                 strTemp = parsers.LivingPeople(strTemp, out noChange);
-                strTemp = parsers.FixHeadings(strTemp, mName, out noChange);
+                strTemp = Parsers.FixHeadings(strTemp, mName, out noChange);
 
                 if (mArticleText == strTemp)
                 {
@@ -564,7 +564,7 @@ namespace WikiFunctions
         public void BulletExternalLinks(Parsers parsers, bool SkipIfNoChange)
         {
             bool noChange;
-            string strTemp = parsers.BulletExternalLinks(mArticleText, out noChange);
+            string strTemp = Parsers.BulletExternalLinks(mArticleText, out noChange);
             if (SkipIfNoChange && noChange)
                 Trace.AWBSkipped("No missing bulleted links");
             else if (!noChange)
@@ -825,7 +825,7 @@ namespace WikiFunctions
             Variables.Profiler.Profile("FixLinkWhitespace");
             
             // does significant fixes
-            AWBChangeArticleText("Fix syntax", parsers.FixSyntax(ArticleText), true, true);
+            AWBChangeArticleText("Fix syntax", Parsers.FixSyntax(ArticleText), true, true);
             Variables.Profiler.Profile("FixSyntax");
 
             AWBChangeArticleText("Fix temperatures", parsers.FixTemperatures(ArticleText), true);
@@ -839,7 +839,7 @@ namespace WikiFunctions
 
             if (replaceReferenceTags)
             {
-                AWBChangeArticleText("Fix reference tags", parsers.FixReferenceListTags(ArticleText), true);
+                AWBChangeArticleText("Fix reference tags", Parsers.FixReferenceListTags(ArticleText), true);
                 Variables.Profiler.Profile("FixReferenceTags");
             }
 
