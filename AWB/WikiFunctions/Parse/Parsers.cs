@@ -801,9 +801,7 @@ namespace WikiFunctions.Parse
             sb.Replace("+", "%2B");
             sb.Replace('_', ' ');
             title = HttpUtility.UrlDecode(sb.ToString());
-            if (trim) return title.Trim();
-
-            return title;
+            return trim ? title.Trim() : title;
         }
 
         // Covered by: UtilityFunctionTests.IsCorrectEditSummary()
@@ -1138,7 +1136,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             Match m = search.Match(ArticleText);
 
-            return !m.Success ? "" : ExtractTemplate(ArticleText, m);
+            return m.Success ? ExtractTemplate(ArticleText, m) : "";
         }
 
         // NOT covered
@@ -1355,13 +1353,14 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleTextAtStart;
         }
 
+        readonly Regex regexFirstBold = new Regex(@"^(.*?)'''", RegexOptions.Singleline | RegexOptions.Compiled);
+
         /// <summary>
         /// Checks that the bold just added to the article is the first bold in the article, and that it's within the first 5% of the HideMore article
         /// </summary>
         private bool AddedBoldIsValid(string ArticleText, string escapedTitle)
         {
-            Regex regexFirstBold = new Regex(@"^(.*?)'''", RegexOptions.Singleline | RegexOptions.Compiled);
-            Regex regexBoldAdded = new Regex(@"^(.*?)'''" + escapedTitle, RegexOptions.Singleline | RegexOptions.Compiled);
+            Regex regexBoldAdded = new Regex(@"^(.*?)'''" + escapedTitle, RegexOptions.Singleline);
 
             int BoldAddedPos = regexBoldAdded.Match(ArticleText).Length - Regex.Unescape(escapedTitle).Length;
 
