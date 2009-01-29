@@ -250,11 +250,8 @@ namespace AutoWikiBrowser
                 WindowState = Properties.Settings.Default.WindowState;
 
                 Debug();
+                Release();
 
-#if !DEBUG
-                if (MainTab.Contains(tpBots))
-                    MainTab.Controls.Remove(tpBots);
-#endif
                 Plugin.LoadPluginsStartup(this, splash); // progress 65-79 in LoadPlugins()
 
                 LoadPrefs(); // progress 80-85 in LoadPrefs()
@@ -265,15 +262,17 @@ namespace AutoWikiBrowser
                 LoadRecentSettingsList(); // progress 89-94 in LoadRecentSettingsList()
                 splash.SetProgress(95);
 
-                WikiStatusResult res = Variables.User.CheckEnabled();
-                if (res == WikiStatusResult.OldVersion)
-                    OldVersion();
-                else if (res == WikiStatusResult.Error)
+                switch (Variables.User.CheckEnabled())
                 {
-                    lblUserName.BackColor = Color.Red;
-                    MessageBox.Show(this, "Cannot load version check page from Wikipedia. "
-                                          + "Please verify that you're connected to Internet.", "Error",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    case WikiStatusResult.OldVersion:
+                        OldVersion();
+                        break;
+                    case WikiStatusResult.Error:
+                        lblUserName.BackColor = Color.Red;
+                        MessageBox.Show(this, "Cannot load version check page from Wikipedia. "
+                                              + "Please verify that you're connected to Internet.", "Error",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
                 }
 
                 if (userProfileToLoad != -1)
@@ -2116,6 +2115,13 @@ window.scrollTo(0, diffTopY);
 #if DEBUG
             Variables.Profiler = new Profiler("profiling.txt", true);
 #endif
+        }
+
+        [Conditional("RELEASE")]
+        public void Release()
+        {
+            if (MainTab.Contains(tpBots))
+                MainTab.Controls.Remove(tpBots);
         }
 
         #endregion

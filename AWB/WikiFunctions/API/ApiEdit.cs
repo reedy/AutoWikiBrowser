@@ -42,14 +42,13 @@ namespace WikiFunctions.API
         {
         }
 
-                /// <summary>
+        /// <summary>
         /// Creates a new instance of the ApiEdit class
         /// </summary>
         /// <param name="url">Path to scripts on server</param>
         public ApiEdit(string url)
             : this(url, false)
         {
-
         }
 
         /// <summary>
@@ -722,20 +721,20 @@ namespace WikiFunctions.API
                 //string result = xr.GetAttribute("result");
                 //if (result != null && result == "Success")
                 //{
-                    string s = xr.GetAttribute("assert");
-                    if (!string.IsNullOrEmpty(s))
-                    {
-                        throw new ApiAssertionException(this, s);
-                    }
+                string s = xr.GetAttribute("assert");
+                if (!string.IsNullOrEmpty(s))
+                {
+                    throw new ApiAssertionException(this, s);
+                }
 
-                    s = xr.GetAttribute("spamblacklist");
-                    if (!string.IsNullOrEmpty(s))
-                    {
-                        throw new ApiSpamlistException(this, s);
-                    }
+                s = xr.GetAttribute("spamblacklist");
+                if (!string.IsNullOrEmpty(s))
+                {
+                    throw new ApiSpamlistException(this, s);
+                }
                 //}
                 //else
-                    //throw new ApiErrorException(this, result, result); //HACK: we need error message
+                //throw new ApiErrorException(this, result, result); //HACK: we need error message
             }
 
             if (xr.ReadToFollowing("captcha"))
