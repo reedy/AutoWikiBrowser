@@ -45,6 +45,8 @@ namespace WikiFunctions
         protected string mPluginEditSummary = "";
         protected bool mPluginSkip;
 
+        private bool noChange;
+
         public virtual IAWBTraceListener Trace
         { get { return mAWBLogListener; } }
 
@@ -63,10 +65,7 @@ namespace WikiFunctions
         public Article(string mName, int mNameSpaceKey)
             : this()
         {
-            if (mName.Contains("#"))
-                this.mName = mName.Substring(0, mName.IndexOf('#'));
-            else
-                this.mName = mName;
+            this.mName = mName.Contains("#") ? mName.Substring(0, mName.IndexOf('#')) : mName;
 
             this.mNameSpaceKey = mNameSpaceKey;
         }
@@ -302,7 +301,6 @@ namespace WikiFunctions
         /// <param name="parsers">An initialised Parsers object</param>
         public void Unicodify(bool SkipIfNoChange, Parsers parsers)
         {
-            bool noChange;
             string strTemp = Parsers.Unicodify(mArticleText, out noChange);
 
             if (SkipIfNoChange && noChange)
@@ -322,7 +320,7 @@ namespace WikiFunctions
         public void UpdateImages(ImageReplaceOptions option, Parsers parsers,
             string ImageReplaceText, string ImageWithText, bool SkipIfNoChange)
         {
-            bool noChange = true; string strTemp = "";
+            string strTemp = "";
 
             ImageReplaceText = ImageReplaceText.Trim();
             ImageWithText = ImageWithText.Trim();
@@ -366,7 +364,6 @@ namespace WikiFunctions
         public void Categorisation(CategorisationOptions option, Parsers parsers,
             bool SkipIfNoChange, string CategoryText, string CategoryText2)
         {
-            bool noChange = false; 
             string strTemp, action = "";
 
             switch (option)
@@ -450,7 +447,6 @@ namespace WikiFunctions
         /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
         public void PerformTypoFixes(RegExTypoFix RegexTypos, bool SkipIfNoChange)
         {
-            bool noChange;
             string strTemp = RegexTypos.PerformTypoFixes(mArticleText, out noChange, out mPluginEditSummary, mName);
 
             if (noChange && SkipIfNoChange)
@@ -471,7 +467,7 @@ namespace WikiFunctions
         /// <param name="removeTags"></param>
         public void AutoTag(Parsers parsers, bool SkipIfNoChange, bool addTags, bool removeTags)
         {
-            bool noChange; string tmpEditSummary = "";
+            string tmpEditSummary = "";
             string strTemp = parsers.Tagger(mArticleText, mName, out noChange, ref tmpEditSummary, addTags, removeTags);
 
             if (SkipIfNoChange && noChange)
@@ -492,8 +488,6 @@ namespace WikiFunctions
         {
             if (LangCode == LangCodeEnum.en)
             {
-                bool noChange;
-
                 string strTemp = Parsers.Conversions(mArticleText);
 
                 strTemp = Parsers.FixDates(strTemp);
@@ -529,7 +523,6 @@ namespace WikiFunctions
         {
             if (LangCode == LangCodeEnum.en)
             {
-                bool noChange;
                 string strTemp = Parsers.ChangeToDefaultSort(mArticleText, mName, out noChange);
 
                 if (SkipIfNoChange && noChange)
@@ -545,7 +538,6 @@ namespace WikiFunctions
        /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
         public void FixLinks(bool SkipIfNoChange)
         {
-            bool noChange;
             string strTemp = Parsers.FixLinks(mArticleText, out noChange);
             if (noChange && SkipIfNoChange)
                 Trace.AWBSkipped("No bad links");
@@ -559,7 +551,6 @@ namespace WikiFunctions
         /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
         public void BulletExternalLinks(bool SkipIfNoChange)
         {
-            bool noChange;
             string strTemp = Parsers.BulletExternalLinks(mArticleText, out noChange);
             if (SkipIfNoChange && noChange)
                 Trace.AWBSkipped("No missing bulleted links");
@@ -573,7 +564,6 @@ namespace WikiFunctions
         /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
         public void EmboldenTitles(bool SkipIfNoChange)
         {
-            bool noChange;
             string strTemp = Parsers.BoldTitle(mArticleText, mName, out noChange);
             if (SkipIfNoChange && noChange)
                 Trace.AWBSkipped("No Titles to embolden");
@@ -641,7 +631,6 @@ namespace WikiFunctions
         public bool Disambiguate(string dabLinkText, string[] dabVariantsLines, bool botMode, int Context,
             bool skipIfNoChange)
         {
-            bool noChange;
             Disambiguation.DabForm df = new Disambiguation.DabForm();
             string strTemp = df.Disambiguate(mArticleText, mName, dabLinkText,
                 dabVariantsLines, Context, botMode, out noChange);
