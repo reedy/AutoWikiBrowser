@@ -150,28 +150,28 @@ namespace WikiFunctions.Parse
             return (Variables.Project <= ProjectEnum.species) ? Sorter.Sort(ArticleText, ArticleTitle) : ArticleText;
         }
 
-        private readonly Regex regexFixDates0 = new Regex(@"(the |later? |early |mid-)(\[?\[?[12][0-9][0-9]0\]?\]?)'s(\]\])?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        //private readonly Regex regexFixDates1 = new Regex("(January|February|March|April|May|June|July|August|September|October|November|December) ([1-9][0-9]?)(?:st|nd|rd|th)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        //private readonly Regex regexFixDates2 = new Regex("([1-9][0-9]?)(?:st|nd|rd|th) (January|February|March|April|May|June|July|August|September|October|November|December)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private readonly Regex regexHeadings0 = new Regex("(== ?)(see also:?|related topics:?|related articles:?|internal links:?|also see:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private readonly Regex regexHeadings1 = new Regex("(== ?)(external link[s]?|external site[s]?|outside link[s]?|web ?link[s]?|exterior link[s]?):?( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex regexFixDates0 = new Regex(@"(the |later? |early |mid-)(\[?\[?[12][0-9][0-9]0\]?\]?)'s(\]\])?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        //private static readonly Regex regexFixDates1 = new Regex("(January|February|March|April|May|June|July|August|September|October|November|December) ([1-9][0-9]?)(?:st|nd|rd|th)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        //private static readonly Regex regexFixDates2 = new Regex("([1-9][0-9]?)(?:st|nd|rd|th) (January|February|March|April|May|June|July|August|September|October|November|December)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex regexHeadings0 = new Regex("(== ?)(see also:?|related topics:?|related articles:?|internal links:?|also see:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex regexHeadings1 = new Regex("(== ?)(external link[s]?|external site[s]?|outside link[s]?|web ?link[s]?|exterior link[s]?):?( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         //private readonly Regex regexHeadings2 = new Regex("(== ?)(external link:?|external site:?|web ?link:?|exterior link:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private readonly Regex regexHeadings3 = new Regex("(== ?)(referen[sc]e:?)(s? ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private readonly Regex regexHeadings4 = new Regex("(== ?)(source:?)(s? ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private readonly Regex regexHeadings5 = new Regex("(== ?)(further readings?:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private readonly Regex regexHeadings6 = new Regex("(== ?)(Early|Personal|Adult|Later) Life( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private readonly Regex regexHeadings7 = new Regex("(== ?)(Current|Past|Prior) Members( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private readonly Regex regexHeadings8 = new Regex(@"^(=+)'''(.*?)'''(=+)\s*?(\r)?$", RegexOptions.Multiline | RegexOptions.Compiled);
-        private readonly Regex regexHeadings9 = new Regex("(== ?)track listing( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private readonly Regex regexHeadings10 = new Regex("(== ?)Life and Career( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private readonly Regex regexHeadingsCareer = new Regex("(== ?)([a-zA-Z]+) Career( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex regexHeadings3 = new Regex("(== ?)(referen[sc]e:?)(s? ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex regexHeadings4 = new Regex("(== ?)(source:?)(s? ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex regexHeadings5 = new Regex("(== ?)(further readings?:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex regexHeadings6 = new Regex("(== ?)(Early|Personal|Adult|Later) Life( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex regexHeadings7 = new Regex("(== ?)(Current|Past|Prior) Members( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex regexHeadings8 = new Regex(@"^(=+)'''(.*?)'''(=+)\s*?(\r)?$", RegexOptions.Multiline | RegexOptions.Compiled);
+        private static readonly Regex regexHeadings9 = new Regex("(== ?)track listing( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex regexHeadings10 = new Regex("(== ?)Life and Career( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex regexHeadingsCareer = new Regex("(== ?)([a-zA-Z]+) Career( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private readonly Regex regexRemoveHeadingsInLinks = new Regex(@"^ *((={1,4})[^\[\]\{\}\|=]*)\[{2}(?:[^\[\]\{\}\|=]+\|)?([^\[\]\{\}\|]+)\]\]([^\{\}=]*\2) *$", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex regexRemoveHeadingsInLinks = new Regex(@"^ *((={1,4})[^\[\]\{\}\|=]*)\[{2}(?:[^\[\]\{\}\|=]+\|)?([^\[\]\{\}\|]+)\]\]([^\{\}=]*\2) *$", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
 
-        private readonly Regex RegexBadHeader = new Regex("^(={1,4} ?(about|description|overview|definition|profile|(?:general )?information|background|intro(?:duction)?|summary|bio(?:graphy)?) ?={1,4})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex RegexBadHeader = new Regex("^(={1,4} ?(about|description|overview|definition|profile|(?:general )?information|background|intro(?:duction)?|summary|bio(?:graphy)?) ?={1,4})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private readonly Regex regexHeadingWhitespaceBefore = new Regex(@"^ *(==+)(\s*.+?\s*)\1 +(\r|\n)", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
-        private readonly Regex regexHeadingWhitespaceAfter = new Regex(@"^ +(==+)(\s*.+?\s*)\1 *(\r|\n)", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
+        private static readonly Regex regexHeadingWhitespaceBefore = new Regex(@"^ *(==+)(\s*.+?\s*)\1 +(\r|\n)", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
+        private static readonly Regex regexHeadingWhitespaceAfter = new Regex(@"^ +(==+)(\s*.+?\s*)\1 *(\r|\n)", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
 
         /// <summary>
         /// Fix ==See also== and similar section common errors.
@@ -180,7 +180,7 @@ namespace WikiFunctions.Parse
         /// <param name="ArticleTitle"></param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The modified article text.</returns>
-        public string FixHeadings(string ArticleText, string ArticleTitle, out bool NoChange)
+        public static string FixHeadings(string ArticleText, string ArticleTitle, out bool NoChange)
         {
             testText = ArticleText;
             ArticleText = FixHeadings(ArticleText, ArticleTitle);
@@ -197,7 +197,7 @@ namespace WikiFunctions.Parse
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="ArticleTitle"></param>
         /// <returns>The modified article text.</returns>
-        public string FixHeadings(string ArticleText, string ArticleTitle)
+        public static string FixHeadings(string ArticleText, string ArticleTitle)
         {
             ArticleText = Regex.Replace(ArticleText, "^={1,4} ?" + Regex.Escape(ArticleTitle) + " ?={1,4}", "", RegexOptions.IgnoreCase);
             ArticleText = RegexBadHeader.Replace(ArticleText, "");
@@ -229,7 +229,7 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
-        readonly HideText fixDatesHideText = new HideText();
+        static readonly HideText fixDatesHideText = new HideText();
 
         // Covered by: LinkTests.FixDates()
         /// <summary>
@@ -237,21 +237,19 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public string FixDates(string ArticleText)
+        public static string FixDates(string ArticleText)
         {
             ArticleText = fixDatesHideText.HideMore(ArticleText);
-            {
-                ArticleText = FixDatesRaw(ArticleText);
 
-                //Remove 2 or more <br />'s
-                //This piece's existance here is counter-intuitive, but it requires HideMore()
-                //and I don't want to call this slow function yet another time --MaxSem
-                ArticleText = SyntaxRemoveBr.Replace(ArticleText, "\r\n");
-                ArticleText = SyntaxRemoveParagraphs.Replace(ArticleText, "\r\n\r\n");
+            ArticleText = FixDatesRaw(ArticleText);
 
-            }
-            ArticleText = fixDatesHideText.AddBackMore(ArticleText);
-            return ArticleText;
+            //Remove 2 or more <br />'s
+            //This piece's existance here is counter-intuitive, but it requires HideMore()
+            //and I don't want to call this slow function yet another time --MaxSem
+            ArticleText = SyntaxRemoveBr.Replace(ArticleText, "\r\n");
+            ArticleText = SyntaxRemoveParagraphs.Replace(ArticleText, "\r\n\r\n");
+
+            return fixDatesHideText.AddBackMore(ArticleText);
         }
 
         private static readonly Regex DiedDateRegex = new Regex(@"('''[^']+'''\s*\()d.(\s+\[*(?:(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+0?([1-3]?[0-9])|0?([1-3]?[0-9])\s*(?:January|February|March|April|May|June|July|August|September|October|November|December))?\]*\s*\[*[1-2]?[0-9][0-9][0-9]\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -264,7 +262,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public string FixLivingThingsRelatedDates(string ArticleText)
+        public static string FixLivingThingsRelatedDates(string ArticleText)
         {
             ArticleText = DiedDateRegex.Replace(ArticleText, "$1died$2"); //date of death
             ArticleText = DOBRegex.Replace(ArticleText, "$1born$2"); //date of birth
@@ -278,7 +276,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public string FixDatesRaw(string ArticleText)
+        public static string FixDatesRaw(string ArticleText)
         {
             ArticleText = regexFixDates0.Replace(ArticleText, "$1$2s$3");
 
@@ -379,7 +377,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article</param>
         /// <returns></returns>
-        public string FixReferenceListTags(string ArticleText)
+        public static string FixReferenceListTags(string ArticleText)
         {
             return ReferenceListTags.Replace(ArticleText, new MatchEvaluator(ReflistMatchEvaluator));
         }
@@ -508,7 +506,7 @@ namespace WikiFunctions.Parse
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The modified article text.</returns>
-        public string FixSyntax(string ArticleText, out bool NoChange)
+        public static string FixSyntax(string ArticleText, out bool NoChange)
         {
             testText = ArticleText;
             ArticleText = FixSyntax(ArticleText);
@@ -544,11 +542,9 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRemoveBr = new Regex(@"(?<!^[!\|].*)(<br[\s/]*> *){2,}", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
 
         private static readonly Regex MultipleHttpInLink = new Regex(@"([\s\[>=])((?:ht|f)tp:?/+)(\2)+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
         private static readonly Regex PipedExternalLink = new Regex(@"(\[\w+://[^][<>\""\s]*?)\|''", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private static readonly Regex MissingColonInHttpLink = new Regex(@"([\s\[>=](?:ht|f))tp//?:?(\w+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
         private static readonly Regex SingleTripleSlashInHttpLink = new Regex(@"([\s\[>=](?:ht|f))tp:(?:/|///)(\w+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         // Covered by: LinkTests.TestFixSyntax(), incomplete
@@ -557,7 +553,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public string FixSyntax(string ArticleText)
+        public static string FixSyntax(string ArticleText)
         {
             //replace html with wiki syntax
             if (Regex.IsMatch(ArticleText, "</?i>", RegexOptions.IgnoreCase))
@@ -933,10 +929,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public static string FixMainArticle(string ArticleText)
         {
-            if (regexMainArticle.Match(ArticleText).Groups[2].Value.Length == 0)
-                return regexMainArticle.Replace(ArticleText, "{{main|$1}}");
-
-            return regexMainArticle.Replace(ArticleText, "{{main|$1|l1=$3}}");
+            return regexMainArticle.Match(ArticleText).Groups[2].Value.Length == 0
+                       ? regexMainArticle.Replace(ArticleText, "{{main|$1}}")
+                       : regexMainArticle.Replace(ArticleText, "{{main|$1|l1=$3}}");
         }
 
         // Covered by LinkTests.TestFixEmptyLinksAndTemplates()
@@ -976,7 +971,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The modified article text.</returns>
-        public string BulletExternalLinks(string ArticleText, out bool NoChange)
+        public static string BulletExternalLinks(string ArticleText, out bool NoChange)
         {
             testText = ArticleText;
             ArticleText = BulletExternalLinks(ArticleText);
@@ -1084,7 +1079,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// regex that matches every template, for GetTemplate
         /// </summary>
-        public static string EveryTemplate = @"[^\|\{\}]+";
+        public const string EveryTemplate = @"[^\|\{\}]+";
 
         // NOT covered
         /// <summary>

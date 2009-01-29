@@ -366,17 +366,11 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public class HasSectionError : Scan
     {
-        public HasSectionError(Parsers p)
-        {
-            parsers = p;
-        }
-
         bool skip = true;
-        readonly Parsers parsers;
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
-            parsers.FixHeadings(ArticleText, ArticleTitle, out skip);
+            Parsers.FixHeadings(ArticleText, ArticleTitle, out skip);
 
             return !skip;
         }
