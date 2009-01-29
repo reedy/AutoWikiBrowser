@@ -791,9 +791,8 @@ namespace WikiFunctions
         }
 
         #region General fixes
-        bool generalFixesCausedChange, textAlreadyChanged;
+        bool generalFixesCausedChange, textAlreadyChanged, generalFixesSignificantChange;
         string afterGeneralFixesArticleText;
-        bool generalFixesSignificantChange = false;
 
         /// <summary>
         /// Performs numerous minor improvements to the page text
@@ -961,7 +960,6 @@ namespace WikiFunctions
     /// <summary>
     /// A simple read-only article interface
     /// </summary>
-    // TODO: Primarily for use with IsStub() etc, by plugin
     public interface IArticleSimple
     {
         Article Article { get; }

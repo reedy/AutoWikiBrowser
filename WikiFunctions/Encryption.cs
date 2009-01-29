@@ -18,14 +18,12 @@ namespace WikiFunctions.Encryption
     /// decrypt data. As long as encryption and decryption routines use the same
     /// parameters to generate the keys, the keys are guaranteed to be the same.
     /// </summary>
-    public sealed class RijndaelSimple
+    public static class RijndaelSimple
     /// The class uses static functions with duplicate code to make it easier to
     /// demonstrate encryption and decryption logic. In a real-life application, 
     /// this may not be the most efficient way of handling encryption, so - as
     /// soon as you feel comfortable with it - you may want to redesign this class.
     {
-        private RijndaelSimple() { }
-
         /// <summary>
         /// Encrypts specified plaintext using Rijndael symmetric key algorithm
         /// and returns a base64-encoded result.
