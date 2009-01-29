@@ -29,7 +29,7 @@ namespace WikiFunctions
     public class SiteInfo : IXmlSerializable
     {
         private readonly bool php5;
-        private string _ScriptPath;
+        private string scriptPath;
         private readonly Dictionary<int, string> namespaces = new Dictionary<int, string>();
         private Dictionary<int, List<string>> namespaceAliases = new Dictionary<int, List<string>>();
         //private Dictionary<string, string> messageCache = new Dictionary<string, string>();
@@ -88,7 +88,7 @@ namespace WikiFunctions
 
         private string ApiPath
         {
-            get { return _ScriptPath + "api.php" + ((php5) ? "5" : ""); }
+            get { return scriptPath + "api.php" + ((php5) ? "5" : ""); }
         }
 
         public static string NormalizeURL(string url)
@@ -167,10 +167,10 @@ namespace WikiFunctions
         [XmlAttribute(AttributeName = "url")]
         public string ScriptPath
         {
-            get { return _ScriptPath; }
+            get { return scriptPath; }
             internal set
             {
-                _ScriptPath = NormalizeURL(value);
+                scriptPath = NormalizeURL(value);
             }
         }
 
@@ -232,7 +232,7 @@ namespace WikiFunctions
         public void WriteXml(XmlWriter writer)
         {
             //writer.WriteStartElement("site");
-            writer.WriteAttributeString("URL", _ScriptPath);
+            writer.WriteAttributeString("URL", scriptPath);
             writer.WriteStartAttribute("Time");
             writer.WriteValue(time);
             {
