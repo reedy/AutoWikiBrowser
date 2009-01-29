@@ -29,12 +29,12 @@ namespace WikiFunctions
     public class SiteInfo : IXmlSerializable
     {
         private readonly bool php5;
-        private string m_ScriptPath;
-        private readonly Dictionary<int, string> m_Namespaces = new Dictionary<int, string>();
-        private Dictionary<int, List<string>> m_NamespaceAliases = new Dictionary<int, List<string>>();
-        //private Dictionary<string, string> m_MessageCache = new Dictionary<string, string>();
-        //private Dictionary<string, List<string>> m_MagicWords = new Dictionary<string, List<string>>();
-        private readonly DateTime m_Time = DateTime.Now;
+        private string _ScriptPath;
+        private readonly Dictionary<int, string> namespaces = new Dictionary<int, string>();
+        private Dictionary<int, List<string>> namespaceAliases = new Dictionary<int, List<string>>();
+        //private Dictionary<string, string> messageCache = new Dictionary<string, string>();
+        private readonly Dictionary<string, List<string>> magicWords = new Dictionary<string, List<string>>();
+        private readonly DateTime time  = DateTime.Now;
 
         /// <summary>
         /// Creates an instance of the class
@@ -67,7 +67,6 @@ namespace WikiFunctions
             {
                 throw new WikiUrlException(ex);
             }
-
         }
 
         /// <summary>
@@ -78,8 +77,7 @@ namespace WikiFunctions
         public SiteInfo(string scriptPath, Dictionary<int, string> namespaces)
         {
             ScriptPath = scriptPath;
-            m_Namespaces = namespaces;
-            m_Time = DateTime.Now;
+            this.namespaces = namespaces;
         }
 
         internal SiteInfo()
@@ -90,16 +88,18 @@ namespace WikiFunctions
 
         private string ApiPath
         {
-            get { return m_ScriptPath + "api.php" + ((php5) ? "5" : ""); }
+            get { return _ScriptPath + "api.php" + ((php5) ? "5" : ""); }
         }
 
         public static string NormalizeURL(string url)
         {
-            if (!url.EndsWith("/")) return url + "/";
-            
-            return url;
+            return (!url.EndsWith("/")) ? url + "/" : url;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool LoadNamespaces()
         {
             string output = Tools.GetHTML(ApiPath + "?action=query&meta=siteinfo&siprop=general|namespaces|namespacealiases|statistics&format=xml");
@@ -114,21 +114,25 @@ namespace WikiFunctions
             {
                 int id = int.Parse(xn.Attributes["id"].Value);
 
-                if (id != 0) m_Namespaces[id] = xn.InnerText + ":";
+                if (id != 0) namespaces[id] = xn.InnerText + ":";
             }
 
-            m_NamespaceAliases = Variables.PrepareAliases(m_Namespaces);
+            namespaceAliases = Variables.PrepareAliases(namespaces);
 
             foreach (XmlNode xn in xd["api"]["query"]["namespacealiases"].GetElementsByTagName("ns"))
             {
                 int id = int.Parse(xn.Attributes["id"].Value);
 
-                if (id != 0) m_NamespaceAliases[id].Add(xn.InnerText);
+                if (id != 0) namespaceAliases[id].Add(xn.InnerText);
             }
 
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public bool LoadLocalisedMagicWordAlias()
         {
             string output = Tools.GetHTML(ApiPath + "?action=query&meta=siteinfo&siprop=magicwords&format=xml");
@@ -143,7 +147,7 @@ namespace WikiFunctions
             if (xd.GetElementsByTagName("api").Count != 1)
                 return false;
 
-            Variables.MagicWords.Clear();
+            magicWords.Clear();
 
             foreach (XmlNode xn in xd["api"]["query"]["magicwords"].GetElementsByTagName("magicword"))
             {
@@ -154,7 +158,7 @@ namespace WikiFunctions
                     alias.Add(xin.InnerText);
                 }
 
-                Variables.MagicWords.Add(xn.Attributes["name"].Value, alias);
+                magicWords.Add(xn.Attributes["name"].Value, alias);
             }
 
             return true;
@@ -163,26 +167,30 @@ namespace WikiFunctions
         [XmlAttribute(AttributeName = "url")]
         public string ScriptPath
         {
-            get { return m_ScriptPath; }
+            get { return _ScriptPath; }
             internal set
             {
-                m_ScriptPath = NormalizeURL(value);
+                _ScriptPath = NormalizeURL(value);
             }
         }
 
         [XmlAttribute(AttributeName = "time")]
         public DateTime Time
         {
-            get { return m_Time; }
+            get { return time; }
         }
 
         [XmlIgnore]
         public Dictionary<int, string> Namespaces
-        { get { return m_Namespaces; } }
+        { get { return namespaces; } }
 
         [XmlIgnore]
         public Dictionary<int, List<string>> NamespaceAliases
-        { get { return m_NamespaceAliases; } }
+        { get { return namespaceAliases; } }
+
+        [XmlIgnore]
+        public Dictionary<string, List<string>> MagicWords
+        { get { return magicWords; } }
 
         /// <summary>
         /// 
@@ -224,13 +232,13 @@ namespace WikiFunctions
         public void WriteXml(XmlWriter writer)
         {
             //writer.WriteStartElement("site");
-            writer.WriteAttributeString("URL", m_ScriptPath);
+            writer.WriteAttributeString("URL", _ScriptPath);
             writer.WriteStartAttribute("Time");
-            writer.WriteValue(m_Time);
+            writer.WriteValue(time);
             {
                 writer.WriteStartElement("Namespaces");
                 {
-                    foreach (KeyValuePair<int, string> p in m_Namespaces)
+                    foreach (KeyValuePair<int, string> p in namespaces)
                     {
                         writer.WriteStartElement("Namespace");
                         writer.WriteAttributeString("id", p.Key.ToString());

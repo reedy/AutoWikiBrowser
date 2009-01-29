@@ -648,8 +648,7 @@ namespace WikiFunctions
                 LoadProjectOptions();
             }
 
-            //refresh once more in case project settings were reset due to
-            //error with loading
+            //refresh once more in case project settings were reset due to error with loading
             RefreshProxy();
 
             RegenerateRegexes();
@@ -703,6 +702,7 @@ namespace WikiFunctions
 
                 Namespaces = si.Namespaces;
                 NamespaceAliases = si.NamespaceAliases;
+                MagicWords = si.MagicWords;
             }
             catch
             {
@@ -828,11 +828,9 @@ namespace WikiFunctions
     {
         public UserProperties()
         {
-            if (!Globals.UnitTestMode)
-            {
-                webBrowserLogin = new WebControl();
-                webBrowserLogin.ScriptErrorsSuppressed = true;
-            }
+            if (Globals.UnitTestMode) return;
+            webBrowserLogin = new WebControl();
+            webBrowserLogin.ScriptErrorsSuppressed = true;
         }
 
         /// <summary>
@@ -1094,6 +1092,7 @@ namespace WikiFunctions
                     Match m3 in Regex.Matches(strVersionPage, @"badname:\s*(.*)\s*(:?|#.*)$", RegexOptions.IgnoreCase))
                 {
                     if (!string.IsNullOrEmpty(m3.Groups[1].Value.Trim()) &&
+                        !string.IsNullOrEmpty(Name) &&
                         Regex.IsMatch(Name, m3.Groups[1].Value.Trim(),
                                       RegexOptions.IgnoreCase | RegexOptions.Multiline))
                         return WikiStatusResult.NotRegistered;
