@@ -2004,45 +2004,20 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         private static readonly Regex Allow = new Regex(@"\|\s*allow\s*=\s*([^\|\}]*)", RegexOptions.Compiled | RegexOptions.Singleline);
         private static readonly Regex Deny = new Regex(@"\|\s*deny\s*=\s*([^\|\}]*)", RegexOptions.Compiled | RegexOptions.Singleline);
 
-        // NOT covered
+        // Covered by UtilityFunctionTests.NoBotsTests()
         /// <summary>
         /// checks if a user is allowed to edit this article
         /// using {{bots}} and {{nobots}} tags
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
-        /// <param name="Username">name of this user</param>
+        /// <param name="user">Name of this user</param>
         /// <returns>true if you can edit, false otherwise</returns>
-        public static bool CheckNoBots(string ArticleText, string Username)
+        public static bool CheckNoBots(string ArticleText, string user)
         {
-            bool awbAllowed = false;
-            ArticleText = WikiRegexes.Comments.Replace(ArticleText, "");
-            ArticleText = RemoveNowiki.Replace(ArticleText, "");
-            Match m = Bots.Match(ArticleText);
-            if (Tools.CaseInsensitiveStringCompare(m.Groups[1].Value, "Nobots")) return false;
-
-            string s = Allow.Match(m.Groups[2].Value).Groups[1].Value.Trim();
-            if (s.Length > 0)
-            {
-            foreach (string u in s.Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-                {
-                    if (u == Username) return true;
-
-                    //AWB bots are allowed, but this specific user may be not
-                    if (u == "AWB") awbAllowed = true;
-                }
-            }
-
-            s = Deny.Match(m.Groups[2].Value).Groups[1].Value.Trim();
-            if (s.Length > 0)
-            {
-                foreach (string u in s.Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-                {
-                    if (u == Username) return false;
-                    if ((u == "all" || u == "AWB") && !awbAllowed) return false;
-                }
-            }
-
-            return true;
+            return
+                !Regex.Match(ArticleText,
+                             @"\{\{(nobots|bots\|(allow=none|deny=(?!none).*(" + user.Normalize() +
+                             @"|awb|all).*|optout=all))\}\}", RegexOptions.IgnoreCase).Success;
         }
 
         private static readonly Regex dupeLinks1 = new Regex("\\[\\[([^\\]\\|]+)\\|([^\\]]*)\\]\\](.*[.\n]*)\\[\\[\\1\\|\\2\\]\\]", RegexOptions.Compiled);
