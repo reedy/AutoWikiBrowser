@@ -403,7 +403,7 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
-        // Covered by: 
+        // NOT covered
         /// <summary>
         /// if the article uses cite references but has no recognised template to display the references, add {{reflist}} in the appropriate place
         /// </summary>
