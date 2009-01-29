@@ -486,10 +486,9 @@ namespace WikiFunctions
         /// <summary>
         /// Fix header errors
         /// </summary>
-        /// <param name="parsers">An initialised Parsers object</param>
         /// <param name="LangCode">The wiki's language code</param>
         /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
-        public void FixHeaderErrors(Parsers parsers, LangCodeEnum LangCode, bool SkipIfNoChange)
+        public void FixHeaderErrors(LangCodeEnum LangCode, bool SkipIfNoChange)
         {
             if (LangCode == LangCodeEnum.en)
             {
@@ -524,10 +523,9 @@ namespace WikiFunctions
         /// <summary>
         /// Sets Default Sort on Article if Necessary / clean diacritics
         /// </summary>
-        /// <param name="parsers">An initialised Parsers object</param>
         /// <param name="LangCode">The wiki's language code</param>
         /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
-        public void SetDefaultSort(Parsers parsers, LangCodeEnum LangCode, bool SkipIfNoChange)
+        public void SetDefaultSort(LangCodeEnum LangCode, bool SkipIfNoChange)
         {
             if (LangCode == LangCodeEnum.en)
             {
@@ -544,9 +542,8 @@ namespace WikiFunctions
         /// <summary>
         /// Fix link syntax
         /// </summary>
-        /// <param name="parsers">An initialised Parsers object</param>
-        /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
-        public void FixLinks(Parsers parsers, bool SkipIfNoChange)
+       /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
+        public void FixLinks(bool SkipIfNoChange)
         {
             bool noChange;
             string strTemp = Parsers.FixLinks(mArticleText, out noChange);
@@ -559,9 +556,8 @@ namespace WikiFunctions
         /// <summary>
         /// Add bulletpoints to external links, if necessary
         /// </summary>
-        /// <param name="parsers">An initialised Parsers object</param>
         /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
-        public void BulletExternalLinks(Parsers parsers, bool SkipIfNoChange)
+        public void BulletExternalLinks(bool SkipIfNoChange)
         {
             bool noChange;
             string strTemp = Parsers.BulletExternalLinks(mArticleText, out noChange);
@@ -574,9 +570,8 @@ namespace WikiFunctions
         /// <summary>
         /// '''Emboldens''' the first occurence of the article title, if not already bold
         /// </summary>
-        /// <param name="parsers">An initialised Parsers object</param>
         /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
-        public void EmboldenTitles(Parsers parsers, bool SkipIfNoChange)
+        public void EmboldenTitles(bool SkipIfNoChange)
         {
             bool noChange;
             string strTemp = Parsers.BoldTitle(mArticleText, mName, out noChange);
@@ -810,9 +805,9 @@ namespace WikiFunctions
 
             Variables.Profiler.Profile("HideText");
 
-            FixHeaderErrors(parsers, Variables.LangCode, skip.SkipNoHeaderError);
+            FixHeaderErrors(Variables.LangCode, skip.SkipNoHeaderError);
             Variables.Profiler.Profile("FixHeaderErrors");
-            SetDefaultSort(parsers, Variables.LangCode, skip.SkipNoDefaultSortAdded);
+            SetDefaultSort(Variables.LangCode, skip.SkipNoDefaultSortAdded);
             Variables.Profiler.Profile("SetDefaultSort");
 
             AWBChangeArticleText("Fix categories", Parsers.FixCategories(ArticleText), true);
@@ -860,9 +855,9 @@ namespace WikiFunctions
             //AWBChangeArticleText("Fix Footnotes", parsers.FixFootnotes(ArticleText), true);
             //Variables.Profiler.Profile("FixFootnotes");
 
-            FixLinks(parsers, skip.SkipNoBadLink);
+            FixLinks(skip.SkipNoBadLink);
             Variables.Profiler.Profile("FixLinks");
-            BulletExternalLinks(parsers, skip.SkipNoBulletedLink);
+            BulletExternalLinks(skip.SkipNoBulletedLink);
             Variables.Profiler.Profile("BulletExternalLinks");
 
             AWBChangeArticleText("Remove empty comments", Parsers.RemoveEmptyComments(ArticleText), false);
@@ -884,7 +879,7 @@ namespace WikiFunctions
                 Variables.Profiler.Profile("Metadata");
             }
 
-            EmboldenTitles(parsers, skip.SkipNoBoldTitle);
+            EmboldenTitles(skip.SkipNoBoldTitle);
 
             AWBChangeArticleText("Format sticky links",
                 Parsers.StickyLinks(Parsers.SimplifyLinks(ArticleText)), true);
