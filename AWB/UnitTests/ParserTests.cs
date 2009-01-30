@@ -1471,8 +1471,6 @@ fish | name = Bert }} ''Bert'' is a good fish."));
         [Test]
         public void Add()
         {
-            //TODO:Test tags not added when they exist
-
             Globals.UnitTestIntValue = 0;
             Globals.UnitTestBoolValue = true;
 
@@ -1486,6 +1484,14 @@ fish | name = Bert }} ''Bert'' is a good fish."));
 
             Assert.IsFalse(text.Contains(uncatstub));
 
+            text = p.Tagger(shortText + stub + uncat + wikify + orphan + deadend, "Test", out noChange, ref summary, true, true);
+            //Tagged article, dupe tags shouldn't be added
+            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(stub), text));
+            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(uncat), text));
+            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(wikify), text));
+            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(orphan), text));
+            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(deadend), text));
+
             text = p.Tagger(shortText + stub, "Test", out noChange, ref summary, true, true);
             //Stub, existing stub tag
             //Assert.IsTrue(text.Contains(orphan));
@@ -1495,6 +1501,8 @@ fish | name = Bert }} ''Bert'' is a good fish."));
             Assert.IsTrue(text.Contains(stub));
 
             Assert.IsFalse(text.Contains(uncat));
+
+            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(stub), text));
 
             text = p.Tagger(shortText + shortText, "Test", out noChange, ref summary, true, true);
             //Not a stub
