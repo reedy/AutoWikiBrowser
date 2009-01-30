@@ -2001,7 +2001,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             foreach (Match m in WikiRegexes.Template.Matches(ArticleText))
             {
                 if (!(WikiRegexes.Stub.IsMatch(m.Value)
-                    || Regex.IsMatch(m.Value, @"\{\{[Uu]ncategori[zs]ed")
+                    || WikiRegexes.Uncat.IsMatch(m.Value)
                     || WikiRegexes.DeadEnd.IsMatch(m.Value)
                     || WikiRegexes.Wikify.IsMatch(m.Value)
                     || WikiRegexes.Orphan.IsMatch(m.Value)
@@ -2017,7 +2017,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                                       : Globals.UnitTestIntValue;
 
             if (addTags && words > 6 && totalCategories == 0
-                && !Regex.IsMatch(ArticleText, @"\{\{[Uu]ncategori[zs]ed"))
+                && !WikiRegexes.Uncat.IsMatch(ArticleText))
             {
                 if (WikiRegexes.Stub.IsMatch(commentsStripped))
                 {
@@ -2034,9 +2034,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 }
             }
             else if (removeTags && totalCategories > 0
-                     && Regex.IsMatch(ArticleText, @"\{\{[Uu]ncategori[zs]ed"))
+                     && WikiRegexes.Uncat.IsMatch(ArticleText))
             {
-                //TODO:Remove Tags
+                ArticleText = WikiRegexes.Uncat.Replace(ArticleText, "");
+                Summary += ", removed uncategorised tag";
             }
 
             if (addTags && commentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped))
