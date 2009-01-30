@@ -272,6 +272,31 @@ namespace WikiFunctions
             return ns;
         }
 
+        // Not Covered
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="regex"></param>
+        /// <param name="input"></param>
+        /// <param name="opts"></param>
+        /// <returns></returns>
+        public static int RegexMatchCount(string regex, string input, RegexOptions opts)
+        {
+            return RegexMatchCount(new Regex(regex, opts), input);
+        }
+
+        // Not Covered
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="regex"></param>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static int RegexMatchCount(Regex regex, string input)
+        {
+            return regex.Matches(input).Count;
+        }
+
         // Covered by HumanCatKeyTests
         /// <summary>
         /// Returns Category key from article name e.g. "David Smith" returns "Smith, David".

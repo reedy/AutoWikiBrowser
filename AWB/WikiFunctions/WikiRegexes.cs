@@ -365,17 +365,17 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{Deadend|xxx}} (en only)
         /// </summary>
-        public static readonly Regex DeadEnd = new Regex(@"{{[Dd]eadend\|.*?}}", RegexOptions.Compiled);
+        public static readonly Regex DeadEnd = new Regex(@"{{[Dd]eadend(\|.*?)?}}", RegexOptions.Compiled);
 
         /// <summary>
         /// 
         /// </summary>
-        public static readonly Regex Wikify = new Regex(@"{{[Ww]ikify\|.*?}}", RegexOptions.IgnoreCase);
+        public static readonly Regex Wikify = new Regex(@"{{[Ww]ikify(\|.*?)?}}", RegexOptions.IgnoreCase);
 
         /// <summary>
         /// 
         /// </summary>
-        public static readonly Regex Orphan = new Regex(@"{{[Oo]rphan\|.*?}}", RegexOptions.IgnoreCase);
+        public static readonly Regex Orphan = new Regex(@"{{[Oo]rphan(\|.*?)?}}", RegexOptions.IgnoreCase);
         
         /// <summary>
         /// Checks for presence of infobox in article
