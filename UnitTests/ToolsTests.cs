@@ -247,7 +247,7 @@ bar"));
         public void SplitToSections()
         {
             string[] sections = Tools.SplitToSections("foo\r\n==bar=\r\nboo\r\n\r\n= boz =\r\n==quux==");
-            CollectionAssert.AreEqual(new string[]
+            CollectionAssert.AreEqual(new[]
             {
                 "foo\r\n",
                 "==bar=\r\nboo\r\n\r\n",
@@ -256,7 +256,7 @@ bar"));
             }, sections);
 
             sections = Tools.SplitToSections("==bar=\r\nboo\r\n\r\n= boz =\r\n==quux==");
-            CollectionAssert.AreEqual(new string[]
+            CollectionAssert.AreEqual(new[]
             {
                 "==bar=\r\nboo\r\n\r\n",
                 "= boz =\r\n",
@@ -264,7 +264,7 @@ bar"));
             }, sections);
 
             sections = Tools.SplitToSections("\r\n==bar=\r\nboo\r\n\r\n= boz =\r\n==quux==");
-            CollectionAssert.AreEqual(new string[]
+            CollectionAssert.AreEqual(new[]
             {
                 "\r\n",
                 "==bar=\r\nboo\r\n\r\n",
@@ -273,10 +273,10 @@ bar"));
             }, sections);
 
             sections = Tools.SplitToSections("");
-            CollectionAssert.AreEqual(new string[] { "\r\n" }, sections);
+            CollectionAssert.AreEqual(new[] { "\r\n" }, sections);
 
             sections = Tools.SplitToSections("==foo==");
-            CollectionAssert.AreEqual(new string[] { "==foo==\r\n" }, sections);
+            CollectionAssert.AreEqual(new[] { "==foo==\r\n" }, sections);
         }
 
         [Test]
@@ -313,28 +313,28 @@ bar"));
         {
             CollectionAssert.IsEmpty(Tools.SplitLines(""));
 
-            string[] test = new string[] { "foo" };
+            string[] test = new[] { "foo" };
             CollectionAssert.AreEqual(test, Tools.SplitLines("foo"));
             CollectionAssert.AreEqual(test, Tools.SplitLines("foo\r"));
             CollectionAssert.AreEqual(test, Tools.SplitLines("foo\n"));
             CollectionAssert.AreEqual(test, Tools.SplitLines("foo\r\n"));
 
-            test = new string[] { "foo", "bar" };
+            test = new[] { "foo", "bar" };
             CollectionAssert.AreEqual(test, Tools.SplitLines("foo\r\nbar"));
             CollectionAssert.AreEqual(test, Tools.SplitLines("foo\rbar"));
             CollectionAssert.AreEqual(test, Tools.SplitLines("foo\rbar"));
 
-            test = new string[] { "" };
+            test = new[] { "" };
             CollectionAssert.AreEqual(test, Tools.SplitLines("\n"));
             CollectionAssert.AreEqual(test, Tools.SplitLines("\r\n"));
             CollectionAssert.AreEqual(test, Tools.SplitLines("\r"));
 
-            test = new string[] { "", "" };
+            test = new[] { "", "" };
             CollectionAssert.AreEqual(test, Tools.SplitLines("\n\n"));
             CollectionAssert.AreEqual(test, Tools.SplitLines("\r\n\r\n"));
             CollectionAssert.AreEqual(test, Tools.SplitLines("\r\r"));
 
-            test = new string[] { "", "foo", "", "bar" };
+            test = new[] { "", "foo", "", "bar" };
             CollectionAssert.AreEqual(test, Tools.SplitLines("\r\nfoo\r\n\r\nbar"));
             CollectionAssert.AreEqual(test, Tools.SplitLines("\rfoo\r\rbar"));
             CollectionAssert.AreEqual(test, Tools.SplitLines("\nfoo\n\nbar"));
@@ -647,7 +647,7 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
                 string name = "";
 
                 for (int j = 0; j < rnd.Next(45); j++) name += allowedChars[rnd.Next(allowedChars.Length)];
-                name = Regex.Replace(name, @"\s{2,}", " ").Trim(new char[] { ' ', ',' });
+                name = Regex.Replace(name, @"\s{2,}", " ").Trim(new[] { ' ', ',' });
 
                 //System.Diagnostics.Trace.WriteLine(name);
                 name = Tools.MakeHumanCatKey(name);
@@ -704,8 +704,8 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
             l.Add(new Article("Foo"));
             l.Add(new Article("Talk:Foo bar"));
             l.Add(new Article("File:Foo"));
-            CollectionAssert.AreEquivalent(Tools.ConvertToTalk(l), 
-                new string[] { "Talk:Foo", "Talk:Foo bar", "File talk:Foo" });
+            CollectionAssert.AreEquivalent(Tools.ConvertToTalk(l),
+                new[] { "Talk:Foo", "Talk:Foo bar", "File talk:Foo" });
         }
 
         [Test]
@@ -727,7 +727,7 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
             l.Add(new Article("Talk:Foo bar"));
             l.Add(new Article("User talk:Foo"));
             CollectionAssert.AreEquivalent(Tools.ConvertFromTalk(l),
-                new string[] { "Foo", "Foo bar", "User:Foo" });
+                new[] { "Foo", "Foo bar", "User:Foo" });
         }
         #endregion
 
@@ -742,6 +742,14 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
             Assert.AreEqual("File:", Tools.NormalizeNamespace("file:", 6));
             Assert.AreEqual("Image talk:", Tools.NormalizeNamespace("image talk:", 7));
         }
-    }
 
+        [Test]
+        public void RegexMatchCount()
+        {
+            Assert.AreEqual(1, Tools.RegexMatchCount("a", "a"));
+            Assert.AreEqual(5, Tools.RegexMatchCount("\\w", "abcde"));
+            Assert.AreEqual(4, Tools.RegexMatchCount("a", "aAAa", RegexOptions.IgnoreCase));
+            Assert.AreEqual(2, Tools.RegexMatchCount("\\w+", "test case"));
+        }
+    }
 }

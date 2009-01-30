@@ -272,26 +272,38 @@ namespace WikiFunctions
             return ns;
         }
 
-        // Not Covered
+        // Covered by ToolsTests.RegexMatchCount()
         /// <summary>
-        /// 
+        /// Get the number of times the regex matches the input string
         /// </summary>
-        /// <param name="regex"></param>
-        /// <param name="input"></param>
-        /// <param name="opts"></param>
-        /// <returns></returns>
+        /// <param name="regex">String to become a regex</param>
+        /// <param name="input">Input string to search for matches</param>
+        /// <returns>No. of Matches</returns>
+        public static int RegexMatchCount(string regex, string input)
+        {
+            return RegexMatchCount(new Regex(regex), input);
+        }
+
+        // Covered by ToolsTests.RegexMatchCount()
+        /// <summary>
+        /// Get the number of times the regex matches the input string
+        /// </summary>
+        /// <param name="regex">Regex to try and match input against</param>
+        /// <param name="input">Input string to search for matches</param>
+        /// <param name="opts">Regex Options</param>
+        /// <returns>No. of Matches</returns>
         public static int RegexMatchCount(string regex, string input, RegexOptions opts)
         {
             return RegexMatchCount(new Regex(regex, opts), input);
         }
 
-        // Not Covered
+        // Covered by ToolsTests.RegexMatchCount()
         /// <summary>
-        /// 
+        /// Get the number of times the regex matches the input string
         /// </summary>
-        /// <param name="regex"></param>
-        /// <param name="input"></param>
-        /// <returns></returns>
+        /// <param name="regex">Regex to try and match input against</param>
+        /// <param name="input">Input string to search for matches</param>
+        /// <returns>No. of Matches</returns>
         public static int RegexMatchCount(Regex regex, string input)
         {
             return regex.Matches(input).Count;
