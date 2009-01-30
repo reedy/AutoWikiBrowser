@@ -1947,6 +1947,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return TalkPageText;
         }
 
+        //Covered by TaggerTests
         /// <summary>
         /// If necessary, adds/removes wikify or stub tag
         /// </summary>
