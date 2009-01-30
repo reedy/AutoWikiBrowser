@@ -1471,6 +1471,8 @@ fish | name = Bert }} ''Bert'' is a good fish."));
         [Test]
         public void Add()
         {
+            //TODO:Test tags not added when they exist
+
             Globals.UnitTestIntValue = 0;
             Globals.UnitTestBoolValue = true;
 
@@ -1558,7 +1560,7 @@ fish | name = Bert }} ''Bert'' is a good fish."));
             //Assert.IsFalse(text.Contains(uncatstub));
             //Assert.IsFalse(text.Contains(uncat));
 
-            text = p.Tagger(Regex.Replace(shortText, @"\w+[^ ]", "[[$1]]"), "Test", out noChange, ref summary, true, true);
+            text = p.Tagger(Regex.Replace(shortText, @"(\w+)", "[[$1]]"), "Test", out noChange, ref summary, true, true);
             //very wikified stub
             //Assert.IsTrue(text.Contains(stub));
 
@@ -1572,14 +1574,49 @@ fish | name = Bert }} ''Bert'' is a good fish."));
         private const string shortText =
             @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet tortor nec neque faucibus pharetra. Fusce lorem arcu, tempus et, imperdiet a, commodo a, pede. Nulla sit amet turpis gravida elit dictum cursus. Praesent tincidunt velit eu urna.";
 
+        private const string longText =
+            @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse dictum ultrices augue. Fusce sem diam, vestibulum sit amet, vehicula id, congue a, nisl. Phasellus pulvinar posuere purus. Donec elementum justo mattis nulla. Sed a purus dictum lacus pharetra adipiscing. Nam non dui non ante viverra iaculis. Fusce euismod lacus id nulla vulputate gravida. Suspendisse lectus pede, tempus sed, tristique id, pharetra eget, urna. Integer mattis libero vel quam accumsan suscipit. Vivamus molestie dapibus est. Quisque quis metus eget nisl accumsan aliquet. Donec tempus pellentesque tellus. Aliquam lacinia gravida justo. Aliquam erat volutpat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris ultricies suscipit urna. Ut mollis tempor leo. Pellentesque fringilla mattis enim. Proin sapien enim, congue non, aliquet et, sollicitudin nec, mauris. Sed porta. 
+
+Curabitur luctus mollis massa. Nullam consectetur mollis lacus. Suspendisse turpis. Fusce velit. Morbi egestas dui. Donec commodo ornare lorem. Vestibulum sodales. Curabitur egestas libero ut metus. Sed eget orci a ligula consectetur vestibulum. Cras sapien. 
+
+Sed libero. Ut volutpat massa. Donec nulla pede, porttitor eu, sodales et, consectetur nec, quam. Pellentesque vestibulum hendrerit est. Nulla facilisi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Duis et nibh eu lacus iaculis pretium. Fusce sed turpis. In cursus. Etiam interdum augue. Morbi commodo auctor ligula. In imperdiet, neque nec hendrerit consequat, lacus purus tristique turpis, eu hendrerit ipsum ligula at libero. Duis varius nunc vel tortor. Praesent tempor. Nunc non pede at velit congue feugiat. Curabitur gravida, nisl quis mattis porttitor, purus nulla viverra dui, non suscipit augue nunc ac libero. Donec lacinia est non augue. 
+
+Nulla quam dui, tristique id, condimentum sed, sodales in, ante. Vestibulum vitae diam. Integer placerat ante non orci. Nulla gravida. Integer magna enim, iaculis ut, ornare dignissim, ultrices a, urna. Donec urna. Fusce fringilla, pede vitae pulvinar ullamcorper, est nisi eleifend ipsum, ac adipiscing odio massa vehicula neque. Sed blandit est. Morbi faucibus, nisl vel commodo vulputate, mi ipsum tincidunt sem, id ornare orci orci et velit. Morbi commodo sollicitudin ligula. Pellentesque vitae urna. Duis massa arcu, accumsan id, euismod eu, tincidunt et, odio. Phasellus purus leo, rhoncus sed, condimentum nec, vestibulum vel, lacus. In egestas, lectus vitae lacinia tristique, elit magna consequat risus, id sodales metus nulla ac pede. Suspendisse potenti. 
+
+Fusce massa. Nullam lacinia purus nec ipsum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse potenti. Proin augue. Donec mi magna, interdum a, elementum quis, bibendum sit amet, felis. Donec vel libero eget magna hendrerit ultrices. Suspendisse potenti. Sed scelerisque lacinia nisi. Quisque elementum, nunc nec luctus iaculis, ante quam aliquet orci, et ullamcorper dui ipsum at mi. Vestibulum a dolor id tortor posuere elementum. Sed mauris nisl, ultrices a, malesuada non, convallis ac, velit. Sed aliquam elit id metus. Donec malesuada, lorem ut pharetra auctor, mi risus viverra enim, vitae pulvinar urna metus at lorem. Vivamus id lorem. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla facilisi. Ut vel odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque lobortis sem. 
+
+Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus bibendum arcu nec risus. Nulla iaculis ligula in purus. Etiam vulputate nibh sit amet lectus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse potenti. Suspendisse eleifend. Donec blandit nibh hendrerit turpis. Integer accumsan posuere odio. Ut commodo augue malesuada risus. Curabitur augue. Praesent volutpat nunc a diam. Nulla lobortis interdum dolor. Nunc imperdiet, ipsum ac tempor iaculis, nunc. 
+";
+
         [Test]
         public void Remove()
         {
+            string text = p.Tagger(shortText + stub, "Test", out noChange, ref summary, true, true);
+            //Stub, tag not removed
+            Assert.IsTrue(text.Contains(stub));
+
+            text = p.Tagger(longText + stub, "Test", out noChange, ref summary, true, true);
+            //stub tag removed
+            Assert.IsFalse(text.Contains(stub));
+
+            text = p.Tagger("{{wikify}}" + Regex.Replace(longText, @"(\w+)", "[[$1]]"), "Test", out noChange, ref summary, true, true);
+            //wikify tag removed
+            Assert.IsFalse(text.Contains(wikify));
         }
 
         [Test]
         public void Update()
         {
+            //Test of updating some of the non dated tags
+            string text = p.Tagger("{{fact}}", "Test", out noChange, ref summary, true, true);
+
+            Assert.IsTrue(text.Contains("{{Fact|date={{subst:CURRENTMONTHNAME}}"));
+            Assert.IsFalse(text.Contains("{{fact}}"));
+
+            text = p.Tagger("{{template:fact}}", "Test", out noChange, ref summary, true, true);
+
+            Assert.IsTrue(text.Contains("{{Fact|date={{subst:CURRENTMONTHNAME}}"));
+            Assert.IsFalse(text.Contains("{{fact}}"));
         }
 
         [Test]
