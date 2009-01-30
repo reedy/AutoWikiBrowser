@@ -442,6 +442,83 @@ namespace WikiFunctions.Parse
 
             return ArticleText;
         }
+        
+        // whitespace cleaning
+        private static readonly Regex RefWhitespace1 = new Regex(@"<\s*(?:\s+ref\s*|\s*ref\s+)>", RegexOptions.Compiled | RegexOptions.Singleline);
+        private static readonly Regex RefWhitespace2 = new Regex(@"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>", RegexOptions.Compiled | RegexOptions.Singleline);
+
+        // <ref name="Fred" /ref> --> <ref name="Fred"/>
+        private static readonly Regex ReferenceTags1 = new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?"")\s*/\s*ref\s*>", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
+        // <ref name="Fred""> --> <ref name="Fred">
+        private static readonly Regex ReferenceTags2 = new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?"")["">]\s*(/?)>", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
+        // <ref name = ”Fred”> --> <ref name="Fred">
+        private static readonly Regex ReferenceTags3 = new Regex(@"(<\s*ref\s+name\s*=\s*)[“‘”’]*([^<>=""\/]+?)[“‘”’]+(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+        private static readonly Regex ReferenceTags4 = new Regex(@"(<\s*ref\s+name\s*=\s*)[“‘”’]+([^<>=""\/]+?)[“‘”’]*(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
+        // <ref name = ''Fred'> --> <ref name="Fred"> (two apostrophes)
+        private static readonly Regex ReferenceTags5 = new Regex(@"(<\s*ref\s+name\s*=\s*)''+([^<>=""\/]+?)'+(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
+        // <ref name = 'Fred''> --> <ref name="Fred"> (two apostrophes)
+        private static readonly Regex ReferenceTags6 = new Regex(@"(<\s*ref\s+name\s*=\s*)'+([^<>=""\/]+?)''+(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
+        // <ref name=foo bar> --> <ref name="foo bar">, match when spaces
+        private static readonly Regex ReferenceTags7 = new Regex(@"(<\s*ref\s+name\s*=\s*)([^<>=""'\/]+?\s+[^<>=""'\/]+?)(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
+        // <ref name=foo bar> --> <ref name="foo bar">, match when non-ASCII characters ([\x00-\xff]*)
+        private static readonly Regex ReferenceTags8 = new Regex(@"(<\s*ref\s+name\s*=\s*)([^<>=""'\/]*?[^\x00-\xff]+?[^<>=""'\/]*?)(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
+        // <ref name=foo bar"> --> <ref name="foo bar">
+        private static readonly Regex ReferenceTags9 = new Regex(@"(<\s*ref\s+name\s*=\s*)['`”]*([^<>=""\/]+?)""(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
+        // <ref name="foo bar> --> <ref name="foo bar">
+        private static readonly Regex ReferenceTags10 = new Regex(@"(<\s*ref\s+name\s*=\s*)""([^<>=""\/]+?)['`”]*(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
+        // <ref name "foo bar"> --> <ref name="foo bar">
+        private static readonly Regex ReferenceTags11 = new Regex(@"(<\s*ref\s+name\s*)[\+\-]?(\s*""[^<>=""\/]+?""\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
+        // <ref "foo bar"> --> <ref name="foo bar">
+        private static readonly Regex ReferenceTags12 = new Regex(@"(<\s*ref\s+)(""[^<>=""\/]+?""\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
+        // ref name typos
+        private static readonly Regex ReferenceTags13 = new Regex(@"(<\s*ref\s+n)(me\s*=)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        // <ref>...<ref/> --> <ref>...</ref>
+        private static readonly Regex ReferenceTags14 = new Regex(@"(<\s*ref(?:\s+name\s*=.*?)?\s*>[^<>""]+?)<\s*ref\s*/\s*>", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
+        // <ref>...</red> --> <ref>...</ref>
+        private static readonly Regex ReferenceTags15 = new Regex(@"(<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>[^<>""]+?)<\s*/\s*red\s*>", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
+        // Covered by TestFixReferenceTags
+        /// <summary>
+        /// Various fixes to the formatting of <ref> reference tags
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article</param>
+        /// <returns>The modified article text.</returns>
+        public static string FixReferenceTags(string ArticleText)
+        {
+            ArticleText = RefWhitespace1.Replace(ArticleText, "<ref>");
+            ArticleText = RefWhitespace2.Replace(ArticleText, "</ref>");
+
+            ArticleText = ReferenceTags1.Replace(ArticleText, "$1/>");
+            ArticleText = ReferenceTags2.Replace(ArticleText, "$1$2>");
+            ArticleText = ReferenceTags3.Replace(ArticleText, @"$1""$2""$3");
+            ArticleText = ReferenceTags4.Replace(ArticleText, @"$1""$2""$3");
+            ArticleText = ReferenceTags5.Replace(ArticleText, @"$1""$2""$3");
+            ArticleText = ReferenceTags6.Replace(ArticleText, @"$1""$2""$3");
+            ArticleText = ReferenceTags7.Replace(ArticleText, @"$1""$2""$3");
+            ArticleText = ReferenceTags8.Replace(ArticleText, @"$1""$2""$3");
+            ArticleText = ReferenceTags9.Replace(ArticleText, @"$1""$2""$3");
+            ArticleText = ReferenceTags10.Replace(ArticleText, @"$1""$2""$3");
+            ArticleText = ReferenceTags11.Replace(ArticleText, @"$1=$2");
+            ArticleText = ReferenceTags12.Replace(ArticleText, "$1name=$2");
+            ArticleText = ReferenceTags13.Replace(ArticleText, "$1a$2");
+            ArticleText = ReferenceTags14.Replace(ArticleText, "$1</ref>");
+            ArticleText = ReferenceTags15.Replace(ArticleText, "$1</ref>");
+
+            return ArticleText;
+        }
 
         // Covered by: FormattingTests.TestFixWhitespace(), incomplete
         /// <summary>
@@ -538,7 +615,7 @@ namespace WikiFunctions.Parse
 
         // Matches <p> tags only if current line does not start from ! or | (indicator of table cells)
         private static readonly Regex SyntaxRemoveParagraphs = new Regex(@"(?<!^[!\|].*)</? ?[Pp]>", RegexOptions.Multiline | RegexOptions.Compiled);
-        // same shit for <br>
+        // same for <br>
         private static readonly Regex SyntaxRemoveBr = new Regex(@"(?<!^[!\|].*)(<br[\s/]*> *){2,}", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
 
         private static readonly Regex MultipleHttpInLink = new Regex(@"([\s\[>=])((?:ht|f)tp:?/+)(\2)+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
