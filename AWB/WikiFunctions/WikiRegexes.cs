@@ -64,18 +64,12 @@ namespace WikiFunctions
                 + @")\s*([^\|\]]+)(.*?)\]\]",
                 RegexOptions.Compiled);
 
-            StringBuilder builder = new StringBuilder("(" + Variables.MonthNames[0]);
-            for (int i = 1; i < 12; i++)
-            {
-                builder.Append("|" + Variables.MonthNames[i]);
-            }
+            string months = "(" + string.Join("|", Variables.MonthNames) + ")";
 
-            builder.Append(")");
+            Dates = new Regex("^(0?[1-9]|[12][0-9]|3[01]) " + months + "$", RegexOptions.Compiled);
+            Dates2 = new Regex("^" + months + " (0?[1-9]|[12][0-9]|3[01])$", RegexOptions.Compiled);
 
-            Dates = new Regex("^(0?[1-9]|[12][0-9]|3[01]) " + builder + "$", RegexOptions.Compiled);
-            Dates2 = new Regex("^" + builder + " (0?[1-9]|[12][0-9]|3[01])$", RegexOptions.Compiled);
-
-            builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
 
             if (Variables.MagicWords.ContainsKey("redirect"))
             {
