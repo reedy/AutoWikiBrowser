@@ -1954,6 +1954,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             testText = ArticleText;
             ArticleText = Tagger(ArticleText, ArticleTitle, ref Summary, addTags, removeTags);
+            ArticleText = TagUpdater(ArticleText);
 
             NoChange = (testText == ArticleText);
 
@@ -1988,12 +1989,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string crapStripped = WikiRegexes.BulletedText.Replace(commentsStripped, "");
             int words = (Tools.WordCount(commentsStripped) + Tools.WordCount(crapStripped))/2;
 
-            // update by-date tags
-            foreach (KeyValuePair<Regex, string> k in RegexTagger)
-            {
-                ArticleText = k.Key.Replace(ArticleText, k.Value);
-            }
-
             // remove stub tags from long articles
             if (removeTags && (words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped))
             {
@@ -2004,7 +1999,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             // skip article if contains any template except for stub templates
             foreach (Match m in WikiRegexes.Template.Matches(ArticleText))
             {
-                if (!WikiRegexes.Stub.IsMatch(m.Value))
+                if (!(WikiRegexes.Stub.IsMatch(m.Value)
+                    || Regex.IsMatch(m.Value, @"\{\{[Uu]ncategori[zs]ed")
+                    || WikiRegexes.DeadEnd.IsMatch(m.Value)
+                    || WikiRegexes.Wikify.IsMatch(m.Value)
+                    || WikiRegexes.Orphan.IsMatch(m.Value)
+                    || m.Value.Contains("subst")))
                     return ArticleText;
             }
 
@@ -2108,6 +2108,21 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 Summary += ", removed orphan tag";
             }
 
+            return ArticleText;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ArticleText"></param>
+        /// <returns></returns>
+        public static string TagUpdater(string ArticleText)
+        {
+            // update by-date tags
+            foreach (KeyValuePair<Regex, string> k in RegexTagger)
+            {
+                ArticleText = k.Key.Replace(ArticleText, k.Value);
+            }
             return ArticleText;
         }
 
