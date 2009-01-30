@@ -520,8 +520,6 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
-
-            
         // Covered by TestFixDateOrdinalsAndOf
         /// <summary>
         /// Removes ordinals from dates and 'of' between a month and a year, per [[WP:MOSDATE]]; on en wiki only

@@ -195,7 +195,11 @@ namespace AutoWikiBrowser
 
         private void cmboCustomProjectChanged(object sender, EventArgs e)
         {
-            btnOK.Enabled = (!string.IsNullOrEmpty(cmboCustomProject.Text));
+            ProjectEnum prj = (ProjectEnum) Enum.Parse(typeof (ProjectEnum), cmboProject.SelectedItem.ToString());
+            if (prj == ProjectEnum.custom || prj == ProjectEnum.wikia)
+                btnOK.Enabled = (!string.IsNullOrEmpty(cmboCustomProject.Text));
+            else
+                btnOK.Enabled = true;
         }
 
         #endregion
