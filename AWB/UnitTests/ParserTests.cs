@@ -237,6 +237,21 @@ namespace UnitTests
 
             //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Breaking_a_template
             Assert.AreEqual("{{the later 1990's}}", Parsers.FixDates("{{the later 1990's}}"));
+
+            // replace <br> and <p> HTML tags tests
+            Assert.AreEqual("\r\n\r\nsome text", Parsers.FixDates("<p>some text"));
+            Assert.AreEqual("\r\nsome text", Parsers.FixDates("<br><br>some text"));
+            Assert.AreEqual("some text\r\n\r\n", Parsers.FixDates("some text<p>"));
+            Assert.AreEqual("some text\r\n", Parsers.FixDates("some text<br><br>"));
+
+            // don't match when in table or blockquote
+            Assert.AreEqual("|<p>some text", Parsers.FixDates("|<p>some text"));
+            Assert.AreEqual("|<br><br>some text", Parsers.FixDates("|<br><br>some text"));
+            Assert.AreEqual("!<p>some text", Parsers.FixDates("!<p>some text"));
+            Assert.AreEqual("!<br><br>some text", Parsers.FixDates("!<br><br>some text"));
+
+            Assert.AreEqual("<blockquote><p>some text</blockquote>", Parsers.FixDates("<blockquote><p>some text</blockquote>"));
+            Assert.AreEqual("<blockquote>|<br><br>some text</blockquote>", Parsers.FixDates("<blockquote>|<br><br>some text</blockquote>"));
         }
 
         [Test]
