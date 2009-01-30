@@ -2011,9 +2011,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             double length = ArticleText.Length + 1,
                    linkCount = Tools.LinkCount(commentsStripped);
 
-            int totalCategories = categoryProv.MakeList(new[] {ArticleTitle}).Count;
+            int totalCategories = (!Globals.UnitTestMode)
+                                      ? categoryProv.MakeList(new[] {ArticleTitle}).Count
+                                      : Globals.UnitTestIntValue;
 
-            if (addTags && words > 6 && totalCategories == 0 
+            if (addTags && words > 6 && totalCategories == 0
                 && !Regex.IsMatch(ArticleText, @"\{\{[Uu]ncategori[zs]ed"))
             {
                 if (WikiRegexes.Stub.IsMatch(commentsStripped))
@@ -2031,7 +2033,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 }
             }
             else if (removeTags && totalCategories > 0
-                && Regex.IsMatch(ArticleText, @"\{\{[Uu]ncategori[zs]ed"))
+                     && Regex.IsMatch(ArticleText, @"\{\{[Uu]ncategori[zs]ed"))
             {
                 //TODO:Remove Tags
             }
@@ -2055,13 +2057,14 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 Summary += ", removed deadend tag";
             }
 
-            if (addTags && linkCount < 3 && ((linkCount / length) < 0.0025) && !WikiRegexes.Wikify.IsMatch(ArticleText))
+            if (addTags && linkCount < 3 && ((linkCount/length) < 0.0025) && !WikiRegexes.Wikify.IsMatch(ArticleText))
             {
                 // add wikify tag
                 ArticleText = "{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
                 Summary += ", added [[:Category:Articles that need to be wikified|wikify]] tag";
             }
-            else if (removeTags && linkCount > 3 && ((linkCount / length) > 0.0025) && WikiRegexes.Wikify.IsMatch(ArticleText))
+            else if (removeTags && linkCount > 3 && ((linkCount/length) > 0.0025) &&
+                     WikiRegexes.Wikify.IsMatch(ArticleText))
             {
                 ArticleText = WikiRegexes.Wikify.Replace(ArticleText, "");
                 Summary += ", removed wikify tag";
@@ -2069,21 +2072,28 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             // check if not orphaned
             bool orphaned = true;
-            try
+            if (Globals.UnitTestMode)
             {
-                foreach (Article a in wlhProv.MakeList(0, ArticleTitle))
-                    if (Tools.IsMainSpace(a.Name))
-                    {
-                        orphaned = false;
-                        break;
-                    }
+                orphaned = Globals.UnitTestBoolValue;
             }
-            catch (Exception ex)
+            else
             {
-                // don't mark as orphan in case of exception
-                orphaned = false;
-                ErrorHandler.CurrentPage = ArticleTitle;
-                ErrorHandler.Handle(ex);
+                try
+                {
+                    foreach (Article a in wlhProv.MakeList(0, ArticleTitle))
+                        if (Tools.IsMainSpace(a.Name))
+                        {
+                            orphaned = false;
+                            break;
+                        }
+                }
+                catch (Exception ex)
+                {
+                    // don't mark as orphan in case of exception
+                    orphaned = false;
+                    ErrorHandler.CurrentPage = ArticleTitle;
+                    ErrorHandler.Handle(ex);
+                }
             }
 
             // add orphan tag if applicable

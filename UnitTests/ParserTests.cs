@@ -112,12 +112,12 @@ namespace UnitTests
             Assert.AreEqual(@"now <ref name=""foo bar""> and", Parsers.FixReferenceTags(@"now <ref name=""foo bar> and"));
             Assert.AreEqual(@"now <ref name=""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref name=""foo bar /> and"));
             Assert.AreEqual(@"now <ref name = ""foo bar"" > and", Parsers.FixReferenceTags(@"now <ref name = ""foo bar > and"));
-            
+
             // <ref name = ''Fred'> --> <ref name="Fred"> (two apostrophes)
             Assert.AreEqual(@"now <ref name=""foo bar""> and", Parsers.FixReferenceTags(@"now <ref name=''foo bar'> and"));
             Assert.AreEqual(@"now <ref name=""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref name='foo bar'' /> and"));
             Assert.AreEqual(@"now <ref name = ""foo bar"" > and", Parsers.FixReferenceTags(@"now <ref name = ''foo bar'' > and"));
-            
+
             // <ref name "foo bar"> --> <ref name="foo bar">
             Assert.AreEqual(@"now <ref name =""foo bar""> and", Parsers.FixReferenceTags(@"now <ref name ""foo bar""> and"));
             Assert.AreEqual(@"now <ref name =""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref name ""foo bar"" /> and"));
@@ -490,7 +490,7 @@ http://example.com }}");
             Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[File:]][[Image:]]"));
             Assert.AreEqual("[[File:Test]]", Parsers.FixEmptyLinksAndTemplates("[[File:Test]][[Image:]]"));
         }
-        
+
         [Test]
         public void TestFixNonBreakingSpaces()
         {
@@ -536,7 +536,7 @@ http://example.com }}");
             Assert.AreEqual("*a\r\nb", Parsers.FixSyntax("*a<br>\r\nb"));
             Assert.AreEqual("*a\r\nb", Parsers.FixSyntax("\r\n*a<br>\r\nb"));
             Assert.AreEqual("foo\r\n*a\r\nb", Parsers.FixSyntax("foo\r\n*a<br>\r\nb"));
-        
+
             Assert.AreEqual("*a", Parsers.FixSyntax("*a<br>\r\n")); // \r\n\ trimmed
 
             Assert.AreEqual("*a", Parsers.FixSyntax("*a<br\\>\r\n"));
@@ -627,7 +627,7 @@ Some news here.", "test"));
             Assert.AreEqual("", Parsers.RemoveWhiteSpace("     "));
             Assert.AreEqual("a\r\n\r\n b", Parsers.RemoveWhiteSpace("a\r\n\r\n\r\n b"));
             //Assert.AreEqual(" a", Parsers.RemoveWhiteSpace(" a")); // fails, but it doesn't seem harmful, at least for
-                                                                     // WMF projects with their design guidelines
+            // WMF projects with their design guidelines
             //Assert.AreEqual(" a", Parsers.RemoveWhiteSpace("\r\n a \r\n")); // same as above
             Assert.AreEqual("a", Parsers.RemoveWhiteSpace("\r\na \r\n")); // the above errors have effect only on the first line
             Assert.AreEqual("", Parsers.RemoveWhiteSpace("\r\n"));
@@ -726,7 +726,7 @@ Some news here.", "test"));
             //    Parsers.FixImages("[[image:foo_bar|http://some_link]]"));
 
             // no changes should be made to this one
-            Assert.AreEqual(@"[[Image:Diamminesilver(I)-3D-balls.png|thumb|right|200px|Ball-and-stick model of the diamminesilver(I) cation, [Ag(NH<sub>3</sub>)<sub>2</sub>]<sup>+</sup>]]", 
+            Assert.AreEqual(@"[[Image:Diamminesilver(I)-3D-balls.png|thumb|right|200px|Ball-and-stick model of the diamminesilver(I) cation, [Ag(NH<sub>3</sub>)<sub>2</sub>]<sup>+</sup>]]",
                 Parsers.FixImages(@"[[Image:Diamminesilver(I)-3D-balls.png|thumb|right|200px|Ball-and-stick model of the diamminesilver(I) cation, [Ag(NH<sub>3</sub>)<sub>2</sub>]<sup>+</sup>]]"));
         }
 
@@ -887,7 +887,7 @@ While remaining upright may be the primary goal of beginning riders", "Foo", out
             // brackets excluded from bolding
             Assert.AreEqual("'''Foo''' (Band album) is a CD While remaining upright may be the primary goal of beginning riders", Parsers.BoldTitle("Foo (Band album) is a CD While remaining upright may be the primary goal of beginning riders", "Foo (Band album)", out noChangeBack));
             Assert.IsFalse(noChangeBack);
-            
+
             // non-changes
             Assert.AreEqual("Fooo is a bar", Parsers.BoldTitle("Fooo is a bar", "Foo", out noChangeBack));
             Assert.IsTrue(noChangeBack);
@@ -899,7 +899,7 @@ While remaining upright may be the primary goal of beginning riders", Parsers.Bo
 While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack)); // bold within first 5% of article
-            Assert.IsTrue(noChangeBack);        
+            Assert.IsTrue(noChangeBack);
         }
 
         [Test]
@@ -1364,7 +1364,7 @@ fish | name = Bert }} ''Bert'' is a good fish."));
             Assert.AreEqual("[[category : foo_bar%20|quux]]", p.AddCategory("Foo bar", "[[category : foo_bar%20|quux]]", "bar", out noChange));
             Assert.IsTrue(noChange);
 
-            Assert.AreEqual("test<noinclude>\r\n[[Category:Foo]]\r\n</noinclude>", 
+            Assert.AreEqual("test<noinclude>\r\n[[Category:Foo]]\r\n</noinclude>",
                 p.AddCategory("Foo", "test", "Template:foo", out noChange));
             Assert.IsFalse(noChange);
         }
@@ -1443,6 +1443,87 @@ fish | name = Bert }} ''Bert'' is a good fish."));
             Assert.IsFalse(noChange);
 
             Assert.AreEqual("[[Category:Fooo]]", Parsers.RemoveCategory("Foo", "[[Category:Fooo]]", out noChange));
+            Assert.IsTrue(noChange);
+        }
+    }
+
+    [TestFixture]
+    public class TaggerTests
+    {
+        private bool noChange;
+        private string summary;
+
+        private readonly Parsers p = new Parsers(500, true);
+        public TaggerTests()
+        {
+            Globals.UnitTestMode = true;
+            WikiRegexes.MakeLangSpecificRegexes();
+        }
+
+        private const string uncat = "{{Uncategorized|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
+                       uncatstub = "{{Uncategorizedstub|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
+                       orphan = "{{orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
+                       wikify = "{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
+                       deadend = "{{deadend|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
+                       stub = "{{stub}}";
+
+        [Test]
+        public void Add()
+        {
+            Globals.UnitTestIntValue = 0;
+            Globals.UnitTestBoolValue = true;
+
+            string text = p.Tagger(shortText, "Test", out noChange, ref summary, true, true);
+
+            Assert.IsTrue(text.Contains(orphan));
+            Assert.IsTrue(text.Contains(wikify));
+            Assert.IsTrue(text.Contains(deadend));
+            Assert.IsTrue(text.Contains(uncat));
+            Assert.IsTrue(text.Contains(stub));
+
+            text = p.Tagger(shortText + stub, "Test", out noChange, ref summary, true, true);
+
+            Assert.IsTrue(text.Contains(orphan));
+            Assert.IsTrue(text.Contains(wikify));
+            Assert.IsTrue(text.Contains(deadend));
+            Assert.IsTrue(text.Contains(uncatstub));
+            Assert.IsTrue(text.Contains(stub));
+
+            Globals.UnitTestIntValue = 5;
+
+            text = p.Tagger(shortText + stub, "Test", out noChange, ref summary, true, true);
+            Assert.IsTrue(text.Contains(orphan));
+            Assert.IsTrue(text.Contains(wikify));
+            Assert.IsTrue(text.Contains(deadend));
+            Assert.IsTrue(text.Contains(stub));
+
+            Assert.IsFalse(text.Contains(uncatstub));
+            Assert.IsFalse(text.Contains(uncat));
+        }
+
+        private const string shortText =
+            @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet tortor nec neque faucibus pharetra. Fusce lorem arcu, tempus et, imperdiet a, commodo a, pede. Nulla sit amet turpis gravida elit dictum cursus. Praesent tincidunt velit eu urna.";
+
+        [Test]
+        public void Remove()
+        {
+        }
+
+        [Test]
+        public void Update()
+        {
+        }
+
+        [Test]
+        public void General()
+        {
+            Assert.AreEqual("#REDIRECT [[Test]]", p.Tagger("#REDIRECT [[Test]]", "Test", out noChange, ref summary, true, true));
+            Assert.IsTrue(noChange);
+
+            Assert.AreEqual(shortText, p.Tagger(shortText, "Talk:Test", out noChange, ref summary, true, true));
+            Assert.IsTrue(noChange);
+
+            Assert.AreEqual(shortText, p.Tagger(shortText, "Test", out noChange, ref summary, false, false));
             Assert.IsTrue(noChange);
         }
     }

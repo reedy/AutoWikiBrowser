@@ -72,6 +72,16 @@ namespace WikiFunctions
         /// This disables some functions, however.
         /// </summary>
         public static bool UnitTestMode;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static int UnitTestIntValue;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static bool UnitTestBoolValue;
     }
 
     /// <summary>
