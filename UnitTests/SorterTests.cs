@@ -35,5 +35,31 @@ namespace UnitTests
             Assert.AreEqual("{{stub}}\r\n", MetaDataSorter.removeStubs(ref s));
             Assert.AreEqual("", s);
         }
+        
+        [Test]
+        public void MoveDablinksTests()
+        {
+            string d = @"Fred is a doctor.
+Fred has a dog.
+[[Category:Dog owners]]
+{{some template}}
+";
+
+            string e = @"{{otherpeople1|Fred the dancer|Fred Smith (dancer)}}";
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.moveDablinks(d + e));
+
+            e = @"{{For|Fred the dancer|Fred Smith (dancer)}}";
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.moveDablinks(d + e));
+
+            e = @"{{redirect2|Fred the dancer|Fred Smith (dancer)}}";
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.moveDablinks(d + e));
+
+            e = @"{{redirect2|Fred the {{dancer}}|Fred Smith (dancer)}}";
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.moveDablinks(d + e));
+
+            // check no change when already in correct position
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.moveDablinks(e + "\r\n" + d)); 
+            
+        }
     }
 }

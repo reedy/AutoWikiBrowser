@@ -417,6 +417,8 @@ en, sq, ru
                 string strCategories = Newline(removeCats(ref ArticleText, ArticleTitle));
                 string strInterwikis = Newline(interwikis(ref ArticleText));
 
+                ArticleText = moveDablinks(ArticleText);
+
                 // two newlines here per http://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser&oldid=243224092#Blank_lines_before_stubs
                 string strStub = Newline(removeStubs(ref ArticleText), 2);
 
@@ -555,10 +557,10 @@ en, sq, ru
         }
 
         /// <summary>
-        /// 
+        /// Removes any disambiguation templates from the article text, to be added at bottom later
         /// </summary>
         /// <param name="ArticleText"></param>
-        /// <returns></returns>
+        /// <returns>Article text stripped of disambiguation templates</returns>
         public static string removeDisambig(ref string ArticleText)
         {
             if (Variables.LangCode != LangCodeEnum.en)
@@ -572,6 +574,31 @@ en, sq, ru
             }
 
             return strDisambig;
+        }
+        
+        /// <summary>
+        /// Moves any disambiguation links to the top of the article (en only)
+        /// </summary>
+        /// <param name="ArticleText"></param>
+        /// <returns>Article text with disambiguation links at top</returns>
+        public static string moveDablinks(string ArticleText)
+        {
+            // avoid moving commented out Dablinks
+            if (Variables.LangCode != LangCodeEnum.en || !WikiRegexes.Dablinks.IsMatch(WikiRegexes.Comments.Replace(ArticleText, "")))
+              return ArticleText;
+
+            string strDablinks = "";
+
+            foreach (Match m in WikiRegexes.Dablinks.Matches(ArticleText))
+            {
+                strDablinks = strDablinks + m.Value + "\r\n";
+                ArticleText = ArticleText.Replace(m.Value, "");
+            }
+
+            ArticleText = strDablinks + ArticleText;
+
+            // may now have two newlines between dablinks and rest of article, so cut down to one
+            return ArticleText.Replace(strDablinks + "\r\n", strDablinks);
         }
 
         /// <summary>
