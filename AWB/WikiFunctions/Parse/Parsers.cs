@@ -520,6 +520,45 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
+
+            
+        // Covered by TestFixDateOrdinalsAndOf
+        /// <summary>
+        /// Removes ordinals from dates and 'of' between a month and a year, per [[WP:MOSDATE]]; on en wiki only
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article</param>
+        /// <returns>The modified article text.</returns>
+        public static string FixDateOrdinalsAndOf(string ArticleText)
+        {
+            // make string of English months
+            StringBuilder MonthList = new StringBuilder("(" + Variables.MonthNames[0]);
+            for (int i = 1; i < 12; i++)
+            {
+                MonthList.Append("|" + Variables.MonthNames[i]);
+            }
+
+            MonthList.Append(")");
+
+            Regex OfBetweenMonthAndYear = new Regex(@"\b" + MonthList + @"\s+of\s+(200\d|1[89]\d\d)\b(?<!\b[Tt]he\s{1,5}\w{3,15}\s{1,5}of\s{1,5}(200\d|1[89]\d\d))", RegexOptions.Compiled);
+
+            Regex OrdinalsInDatesAm = new Regex(@"\b" + MonthList + @"\s+([0-3]?\d)(?:st|nd|rd|th)\b", RegexOptions.Compiled);
+            Regex OrdinalsInDatesInt = new Regex(@"\b([0-3]?\d)(?:st|nd|rd|th)\s+" + MonthList + @"\b", RegexOptions.Compiled);
+
+            if (Variables.LangCode != LangCodeEnum.en)
+              return ArticleText;
+
+            // hide items in quotes etc., though this may also hide items within infoboxes etc.
+            ArticleText = hider.HideMore(ArticleText);
+            
+            ArticleText = OfBetweenMonthAndYear.Replace(ArticleText, "$1 $2");
+            
+            ArticleText = OrdinalsInDatesAm.Replace(ArticleText, "$1 $2");
+            ArticleText = OrdinalsInDatesInt.Replace(ArticleText, "$1 $2");
+            
+            return hider.AddBackMore(ArticleText);
+        }
+
+
         // Covered by: FormattingTests.TestFixWhitespace(), incomplete
         /// <summary>
         /// Applies/removes some excess whitespace from the article
