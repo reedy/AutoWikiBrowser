@@ -1160,10 +1160,7 @@ Message: {2}
         /// <returns>String of maximum count chars from the beginning of str</returns>
         public static string FirstChars(string str, int count)
         {
-            if (str.Length <= count)
-                return str;
-            
-            return str.Substring(0, count);
+            return str.Length <= count ? str : str.Substring(0, count);
         }
 
         /// <summary>
