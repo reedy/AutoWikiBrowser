@@ -376,6 +376,11 @@ namespace WikiFunctions
         /// 
         /// </summary>
         public static readonly Regex Orphan = new Regex(@"{{[Oo]rphan(\|.*?)?}}", RegexOptions.IgnoreCase);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly Regex Uncat = new Regex(@"\{\{[Uu]ncategori[zs]ed(\|.*?)?\}\}");
         
         /// <summary>
         /// Checks for presence of infobox in article
