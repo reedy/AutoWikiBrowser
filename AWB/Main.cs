@@ -1690,7 +1690,14 @@ window.scrollTo(0, diffTopY);
             int maxSummaryLength = (200 - (Variables.SummaryTag.Length + 1));
 
             if (tag.Length >= maxSummaryLength)
+            {
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Edit_summary_issue
+                // replace last wikilink with dots as an attempt to prevent broken wikilinks in edit summary
+                if (tag.EndsWith(@"]]"))
+                    tag = Regex.Replace(tag, @"\s*\[\[.+?\]\]$", "...");
+
                 tag = tag.Substring(0, maxSummaryLength);
+            }
 
             tag += Variables.SummaryTag;
 
