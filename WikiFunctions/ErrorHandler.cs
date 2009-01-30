@@ -104,6 +104,8 @@ namespace WikiFunctions
                     else if (!string.IsNullOrEmpty(ListMakerText))
                         errorMessage.Append("\r\n | duplicate = '''ListMaker Text:''' " + ListMakerText);
 
+                    errorMessage.Append("\r\n | site = " + Variables.URL);
+
                     errorMessage.Append("\r\n}}");
 
                     handler.txtDetails.Text = errorMessage.ToString();
