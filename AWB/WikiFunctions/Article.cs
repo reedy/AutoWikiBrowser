@@ -824,11 +824,14 @@ namespace WikiFunctions
             if (replaceReferenceTags)
             {
                 AWBChangeArticleText("Fix reference tags", Parsers.FixReferenceListTags(ArticleText), true);
-                Variables.Profiler.Profile("FixReferenceTags");
+                Variables.Profiler.Profile("FixReferenceListTags");
             }
 
             AWBChangeArticleText("Fix empty links and templates", Parsers.FixEmptyLinksAndTemplates(ArticleText), true);
             Variables.Profiler.Profile("FixEmptyLinksAndTemplates");
+
+            AWBChangeArticleText("FixReferenceTags", Parsers.FixReferenceTags(ArticleText), true);
+            Variables.Profiler.Profile("FixReferenceTags");
 
             AWBChangeArticleText("Fix empty references", Parsers.SimplifyReferenceTags(ArticleText), true);
             Variables.Profiler.Profile("FixEmptyReferences");
