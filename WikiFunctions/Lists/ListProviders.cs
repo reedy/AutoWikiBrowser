@@ -247,6 +247,8 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class CategoriesOnPageListProvider : ApiListProviderBase
     {
+        protected string clshow;
+
         #region Tags: <categories>/<cl>
         static readonly List<string> pe = new List<string>(new[] { "cl" });
         protected override ICollection<string> PageElements
@@ -270,7 +272,7 @@ namespace WikiFunctions.Lists
             foreach (string page in searchCriteria)
             {
                 string url = Variables.URLApi + "?action=query&prop=categories&cllimit=max&titles="
-                    + HttpUtility.UrlEncode(page) + "&format=xml";
+                    + HttpUtility.UrlEncode(page) + "&format=xml&clshow=" + clshow;
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
@@ -290,6 +292,34 @@ namespace WikiFunctions.Lists
 
         public override void Selected() { }
         #endregion
+    }
+
+    /// <summary>
+    /// Gets a List of Categories on a page, excluding hidden categories
+    /// </summary>
+    public class CategoriesOnPageNoHiddenListProvider : CategoriesOnPageListProvider
+    {
+        public CategoriesOnPageNoHiddenListProvider()
+        {
+            clshow = "!hidden";
+        }
+
+        public override string DisplayText
+        { get { return base.DisplayText + " (no hidden cats)"; } }
+    }
+
+    /// <summary>
+    /// Gets a List of only hidden Categories on a page
+    /// </summary>
+    public class CategoriesOnPageOnlyHiddenListProvider : CategoriesOnPageListProvider
+    {
+        public CategoriesOnPageOnlyHiddenListProvider()
+        {
+            clshow = "hidden";
+        }
+
+        public override string DisplayText
+        { get { return base.DisplayText + " (only hidden cats)"; } }
     }
 
     /// <summary>
