@@ -1275,21 +1275,24 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         private void lbArticles_DrawItem(object sender, DrawItemEventArgs e)
         {
-            //TODO:Can we have the same font as before?
             if (e.Index < 0)
                 return;
 
             Article a = (Article) lbArticles.Items[e.Index];
 
             if ((e.State & DrawItemState.Selected) != DrawItemState.Selected)
-                    e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index,
-                                            e.State,
-                                            e.ForeColor, (a.PreProcessed) ? Color.GreenYellow : e.BackColor);
+                e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index,
+                                          e.State,
+                                          e.ForeColor, (a.PreProcessed) ? Color.GreenYellow : e.BackColor);
 
             e.DrawBackground();
 
-            e.Graphics.DrawString(((ListBox) sender).Items[e.Index].ToString(),
-                                  e.Font, Brushes.Black, e.Bounds, StringFormat.GenericDefault);
+            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
+                e.Graphics.DrawString(((ListBox)sender).Items[e.Index].ToString(),
+                      e.Font, Brushes.White, e.Bounds, StringFormat.GenericDefault);
+            else
+                e.Graphics.DrawString(((ListBox) sender).Items[e.Index].ToString(),
+                                      e.Font, Brushes.Black, e.Bounds, StringFormat.GenericDefault);
 
             e.DrawFocusRectangle();
         }
