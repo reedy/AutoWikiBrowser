@@ -1314,10 +1314,7 @@ Message: {2}
         /// <returns>Title without # and proceeding, if appropriate</returns>
         public static string RemoveHashFromPageTitle(string title)
         {
-            if (!title.Contains("#"))
-                return title;
-
-            return (title.Substring(0, title.IndexOf('#')));
+            return !title.Contains("#") ? title : (title.Substring(0, title.IndexOf('#')));
         }
 
         // Covered by ToolsTests.ServerName()
