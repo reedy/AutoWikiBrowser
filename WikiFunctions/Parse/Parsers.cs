@@ -538,7 +538,7 @@ namespace WikiFunctions.Parse
             Regex OfBetweenMonthAndYear = new Regex(@"\b" + months + @"\s+of\s+(200\d|1[89]\d\d)\b(?<!\b[Tt]he\s{1,5}\w{3,15}\s{1,5}of\s{1,5}(200\d|1[89]\d\d))", RegexOptions.Compiled);
 
             Regex OrdinalsInDatesAm = new Regex(@"\b" + months + @"\s+([0-3]?\d)(?:st|nd|rd|th)\b(?<!\b[Tt]he\s+\w{3,10}\s+([0-3]?\d)(?:st|nd|rd|th)\b)", RegexOptions.Compiled);
-            Regex OrdinalsInDatesInt = new Regex(@"\b([0-3]?\d)(?:st|nd|rd|th)\s+" + months + @"\b(?<!\b[Tt]he\s+(?:[0-3]?\d)(?:st|nd|rd|th)\s+\w{3,10})", RegexOptions.Compiled);
+            Regex OrdinalsInDatesInt = new Regex(@"(?:\b([0-3]?\d)(?:st|nd|rd|th)(\s*(?:to|and|.|&.dash;)\s*))?\b([0-3]?\d)(?:st|nd|rd|th)\s+" + months + @"\b(?<!\b[Tt]he\s+(?:[0-3]?\d)(?:st|nd|rd|th)\s+\w{3,10})", RegexOptions.Compiled);
 
             // hide items in quotes etc., though this may also hide items within infoboxes etc.
             ArticleText = hider.HideMore(ArticleText);
@@ -546,7 +546,7 @@ namespace WikiFunctions.Parse
             ArticleText = OfBetweenMonthAndYear.Replace(ArticleText, "$1 $2");
             
             ArticleText = OrdinalsInDatesAm.Replace(ArticleText, "$1 $2");
-            ArticleText = OrdinalsInDatesInt.Replace(ArticleText, "$1 $2");
+            ArticleText = OrdinalsInDatesInt.Replace(ArticleText, "$1$2$3 $4");
             
             return hider.AddBackMore(ArticleText);
         }

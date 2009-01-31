@@ -683,6 +683,13 @@ Some news here.", "test"));
             Assert.AreEqual(@"On March 14, 2008 elections were", Parsers.FixDateOrdinalsAndOf(@"On March 14th, 2008 elections were"));
             Assert.AreEqual(@"On June 21, 2008 elections were", Parsers.FixDateOrdinalsAndOf(@"On June   21st, 2008 elections were"));
 
+            // date ranges
+            Assert.AreEqual(@"On 14-15 June elections were", Parsers.FixDateOrdinalsAndOf(@"On 14th-15th June elections were"));
+            Assert.AreEqual(@"On 14 - 15 June elections were", Parsers.FixDateOrdinalsAndOf(@"On 14th - 15th June elections were"));
+            Assert.AreEqual(@"On 14 to 15 June elections were", Parsers.FixDateOrdinalsAndOf(@"On 14th to 15th June elections were"));
+            Assert.AreEqual(@"On 14,15 June elections were", Parsers.FixDateOrdinalsAndOf(@"On 14th,15th June elections were"));
+            Assert.AreEqual(@"On 3 and 15 June elections were", Parsers.FixDateOrdinalsAndOf(@"On 3rd and 15th June elections were"));
+
             // no matches, particularly dates with 'the' before where fixing the ordinal may leave 'on the 11 May' which wouldn't read well
             Assert.AreEqual(@"On 14th march was", Parsers.FixDateOrdinalsAndOf(@"On 14th march was"));
             Assert.AreEqual(@"On 14th of February was", Parsers.FixDateOrdinalsAndOf(@"On 14th of February was"));
