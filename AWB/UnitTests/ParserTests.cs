@@ -1488,11 +1488,11 @@ fish | name = Bert }} ''Bert'' is a good fish."));
 
             string text = p.Tagger(shortText, "Test", out noChange, ref summary, true, false); 
             //Stub, no existing stub tag. Needs all tags
-            Assert.IsTrue(text.Contains(orphan));
-            Assert.IsTrue(text.Contains(wikify));
-            Assert.IsTrue(text.Contains(deadend));
-            Assert.IsTrue(text.Contains(uncat));
-            Assert.IsTrue(text.Contains(stub));
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
 
             Assert.IsFalse(text.Contains(uncatstub));
 
@@ -1506,11 +1506,11 @@ fish | name = Bert }} ''Bert'' is a good fish."));
 
             text = p.Tagger(shortText + stub, "Test", out noChange, ref summary, true, false);
             //Stub, existing stub tag
-            Assert.IsTrue(text.Contains(orphan));
-            Assert.IsTrue(text.Contains(wikify));
-            Assert.IsTrue(text.Contains(deadend));
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(text.Contains(uncatstub));
-            Assert.IsTrue(text.Contains(stub));
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
 
             Assert.IsFalse(text.Contains(uncat));
 
@@ -1518,76 +1518,76 @@ fish | name = Bert }} ''Bert'' is a good fish."));
 
             text = p.Tagger(shortText + shortText, "Test", out noChange, ref summary, true, false);
             //Not a stub
-            Assert.IsTrue(text.Contains(orphan));
-            Assert.IsTrue(text.Contains(wikify));
-            Assert.IsTrue(text.Contains(deadend));
-            Assert.IsTrue(text.Contains(uncat));
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text));
 
             Assert.IsFalse(text.Contains(uncatstub));
-            Assert.IsFalse(text.Contains(stub));
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
 
             Globals.UnitTestIntValue = 5;
 
             text = p.Tagger(shortText, "Test", out noChange, ref summary, true, false);
             //Categorised Stub
-            Assert.IsTrue(text.Contains(orphan));
-            Assert.IsTrue(text.Contains(wikify));
-            Assert.IsTrue(text.Contains(deadend));
-            Assert.IsTrue(text.Contains(stub));
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
 
             Assert.IsFalse(text.Contains(uncatstub));
-            Assert.IsFalse(text.Contains(uncat));
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
 
             text = p.Tagger(shortText + shortText, "Test", out noChange, ref summary, true, false);
             //Categorised Page
-            Assert.IsTrue(text.Contains(orphan));
-            Assert.IsTrue(text.Contains(wikify));
-            Assert.IsTrue(text.Contains(deadend));
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
 
-            Assert.IsFalse(text.Contains(stub));
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
             Assert.IsFalse(text.Contains(uncatstub));
-            Assert.IsFalse(text.Contains(uncat));
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
 
             Globals.UnitTestBoolValue = false;
 
             text = p.Tagger(shortText, "Test", out noChange, ref summary, true, false);
             //Non orphan categorised stub
-            Assert.IsTrue(text.Contains(wikify));
-            Assert.IsTrue(text.Contains(deadend));
-            Assert.IsTrue(text.Contains(stub));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
 
-            Assert.IsFalse(text.Contains(orphan));
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
             Assert.IsFalse(text.Contains(uncatstub));
-            Assert.IsFalse(text.Contains(uncat));
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
 
             text = p.Tagger(shortText + shortText, "Test", out noChange, ref summary, true, false);
             //Non orphan categorised page
-            Assert.IsTrue(text.Contains(wikify));
-            Assert.IsTrue(text.Contains(deadend));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
 
-            Assert.IsFalse(text.Contains(stub));
-            Assert.IsFalse(text.Contains(orphan));
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
             Assert.IsFalse(text.Contains(uncatstub));
-            Assert.IsFalse(text.Contains(uncat));
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
 
             text = p.Tagger(shortText.Replace("consectetur", "[[consectetur]]"), "Test", out noChange, ref summary, true, false);
             //Non deadend stub
-            Assert.IsTrue(text.Contains(stub));
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
 
-            Assert.IsFalse(text.Contains(wikify));
-            Assert.IsFalse(text.Contains(deadend));
-            Assert.IsFalse(text.Contains(orphan));
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
             Assert.IsFalse(text.Contains(uncatstub));
-            Assert.IsFalse(text.Contains(uncat));
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
 
             text = p.Tagger(Regex.Replace(shortText, @"(\w+)", "[[$1]]"), "Test", out noChange, ref summary, true, false);
             //very wikified stub
-            Assert.IsFalse(text.Contains(stub));
-            Assert.IsFalse(text.Contains(wikify));
-            Assert.IsFalse(text.Contains(deadend));
-            Assert.IsFalse(text.Contains(orphan));
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
             Assert.IsFalse(text.Contains(uncatstub));
-            Assert.IsFalse(text.Contains(uncat));
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
         }
 
         private const string shortText =
@@ -1612,15 +1612,16 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         {
             string text = p.Tagger(shortText + stub, "Test", out noChange, ref summary, false, true);
             //Stub, tag not removed
-            Assert.IsTrue(text.Contains(stub));
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
 
             text = p.Tagger(longText + stub, "Test", out noChange, ref summary, false, true);
             //stub tag removed
-            Assert.IsFalse(text.Contains(stub));
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
 
             text = p.Tagger("{{wikify}}" + Regex.Replace(longText, @"(\w+)", "[[$1]]"), "Test", out noChange, ref summary, false, true);
             //wikify tag removed
-            Assert.IsFalse(text.Contains(wikify));
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
+
 
             Globals.UnitTestIntValue = 4;
             text = p.Tagger("{{uncategorised}}", "Test", out noChange, ref summary, false, true);
@@ -1632,6 +1633,16 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             text = p.Tagger("{{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", "Test", out noChange, ref summary, false, true);
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
             Assert.IsTrue(string.IsNullOrEmpty(text));
+
+            Globals.UnitTestBoolValue = false;
+
+            text = p.Tagger("{{orphan}}", "Test", out noChange, ref summary, false, true);
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
+
+            Globals.UnitTestBoolValue = true;
+
+            text = p.Tagger("{{orphan}}", "Test", out noChange, ref summary, false, true);
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
         }
 
         [Test]
