@@ -1031,6 +1031,8 @@ While remaining upright may be the primary goal of beginning riders While remain
         {
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#.26emsp.3B
             Assert.AreEqual("&emsp;&#013;", Parsers.Unicodify("&emsp;&#013;"));
+
+            Assert.AreEqual("The F&#x2011;22 plane", Parsers.Unicodify("The F&#x2011;22 plane"));
         }
 
         [Test]
