@@ -1271,7 +1271,7 @@ namespace WikiFunctions.Controls.Lists
         }
 
         /// <summary>
-        /// 
+        /// Overrides default Item Drawing to enable different colour if the article has been pre-processed
         /// </summary>
         private void lbArticles_DrawItem(object sender, DrawItemEventArgs e)
         {
@@ -1280,22 +1280,19 @@ namespace WikiFunctions.Controls.Lists
 
             Article a = (Article) lbArticles.Items[e.Index];
 
-            if ((e.State & DrawItemState.Selected) != DrawItemState.Selected)
+            bool selected = ((e.State & DrawItemState.Selected) == DrawItemState.Selected);
+
+            if (!selected)
                 e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index,
                                           e.State,
                                           e.ForeColor, (a.PreProcessed) ? Color.GreenYellow : e.BackColor);
 
             e.DrawBackground();
 
-            if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
-                e.Graphics.DrawString(((ListBox)sender).Items[e.Index].ToString(),
-                      e.Font, Brushes.White, e.Bounds, StringFormat.GenericDefault);
-            else
-                e.Graphics.DrawString(((ListBox) sender).Items[e.Index].ToString(),
-                                      e.Font, Brushes.Black, e.Bounds, StringFormat.GenericDefault);
+            e.Graphics.DrawString(a.Name, e.Font, (selected) ? Brushes.White : Brushes.Black, e.Bounds,
+                                  StringFormat.GenericDefault);
 
             e.DrawFocusRectangle();
         }
-
     }
 }
