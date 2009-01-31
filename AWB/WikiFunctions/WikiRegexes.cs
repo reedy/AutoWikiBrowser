@@ -345,22 +345,22 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{Deadend|xxx}} (en only)
         /// </summary>
-        public static readonly Regex DeadEnd = new Regex(@"{{Deadend(\|.*?)?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static readonly Regex DeadEnd = new Regex(@"{{Deadend\|?(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?)?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// 
         /// </summary>
-        public static readonly Regex Wikify = new Regex(@"{{Wikify(\|.*?)?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static readonly Regex Wikify = new Regex(@"{{Wikify\|?(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?)?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// 
         /// </summary>
-        public static readonly Regex Orphan = new Regex(@"{{[Oo]rphan(\|.*?)?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static readonly Regex Orphan = new Regex(@"{{[Oo]rphan\|?(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?)?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// 
         /// </summary>
-        public static readonly Regex Uncat = new Regex(@"{{Uncategori[zs]ed(\|.*?)?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static readonly Regex Uncat = new Regex(@"{{Uncategori[zs]ed\|?(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?)?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// 
