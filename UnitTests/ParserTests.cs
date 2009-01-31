@@ -1486,7 +1486,7 @@ fish | name = Bert }} ''Bert'' is a good fish."));
             Globals.UnitTestIntValue = 0;
             Globals.UnitTestBoolValue = true;
 
-            string text = p.Tagger(shortText, "Test", out noChange, ref summary, true, true); 
+            string text = p.Tagger(shortText, "Test", out noChange, ref summary, true, false); 
             //Stub, no existing stub tag. Needs all tags
             Assert.IsTrue(text.Contains(orphan));
             Assert.IsTrue(text.Contains(wikify));
@@ -1496,7 +1496,7 @@ fish | name = Bert }} ''Bert'' is a good fish."));
 
             Assert.IsFalse(text.Contains(uncatstub));
 
-            text = p.Tagger(shortText + stub + uncat + wikify + orphan + deadend, "Test", out noChange, ref summary, true, true);
+            text = p.Tagger(shortText + stub + uncat + wikify + orphan + deadend, "Test", out noChange, ref summary, true, false);
             //Tagged article, dupe tags shouldn't be added
             Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(stub), text));
             Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(uncat), text));
@@ -1504,7 +1504,7 @@ fish | name = Bert }} ''Bert'' is a good fish."));
             Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(orphan), text));
             Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(deadend), text));
 
-            text = p.Tagger(shortText + stub, "Test", out noChange, ref summary, true, true);
+            text = p.Tagger(shortText + stub, "Test", out noChange, ref summary, true, false);
             //Stub, existing stub tag
             Assert.IsTrue(text.Contains(orphan));
             Assert.IsTrue(text.Contains(wikify));
@@ -1516,7 +1516,7 @@ fish | name = Bert }} ''Bert'' is a good fish."));
 
             Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(stub), text));
 
-            text = p.Tagger(shortText + shortText, "Test", out noChange, ref summary, true, true);
+            text = p.Tagger(shortText + shortText, "Test", out noChange, ref summary, true, false);
             //Not a stub
             Assert.IsTrue(text.Contains(orphan));
             Assert.IsTrue(text.Contains(wikify));
@@ -1528,7 +1528,7 @@ fish | name = Bert }} ''Bert'' is a good fish."));
 
             Globals.UnitTestIntValue = 5;
 
-            text = p.Tagger(shortText, "Test", out noChange, ref summary, true, true);
+            text = p.Tagger(shortText, "Test", out noChange, ref summary, true, false);
             //Categorised Stub
             Assert.IsTrue(text.Contains(orphan));
             Assert.IsTrue(text.Contains(wikify));
@@ -1538,7 +1538,7 @@ fish | name = Bert }} ''Bert'' is a good fish."));
             Assert.IsFalse(text.Contains(uncatstub));
             Assert.IsFalse(text.Contains(uncat));
 
-            text = p.Tagger(shortText + shortText, "Test", out noChange, ref summary, true, true);
+            text = p.Tagger(shortText + shortText, "Test", out noChange, ref summary, true, false);
             //Categorised Page
             Assert.IsTrue(text.Contains(orphan));
             Assert.IsTrue(text.Contains(wikify));
@@ -1550,7 +1550,7 @@ fish | name = Bert }} ''Bert'' is a good fish."));
 
             Globals.UnitTestBoolValue = false;
 
-            text = p.Tagger(shortText, "Test", out noChange, ref summary, true, true);
+            text = p.Tagger(shortText, "Test", out noChange, ref summary, true, false);
             //Non orphan categorised stub
             Assert.IsTrue(text.Contains(wikify));
             Assert.IsTrue(text.Contains(deadend));
@@ -1560,7 +1560,7 @@ fish | name = Bert }} ''Bert'' is a good fish."));
             Assert.IsFalse(text.Contains(uncatstub));
             Assert.IsFalse(text.Contains(uncat));
 
-            text = p.Tagger(shortText + shortText, "Test", out noChange, ref summary, true, true);
+            text = p.Tagger(shortText + shortText, "Test", out noChange, ref summary, true, false);
             //Non orphan categorised page
             Assert.IsTrue(text.Contains(wikify));
             Assert.IsTrue(text.Contains(deadend));
@@ -1570,7 +1570,7 @@ fish | name = Bert }} ''Bert'' is a good fish."));
             Assert.IsFalse(text.Contains(uncatstub));
             Assert.IsFalse(text.Contains(uncat));
 
-            text = p.Tagger(shortText.Replace("consectetur", "[[consectetur]]"), "Test", out noChange, ref summary, true, true);
+            text = p.Tagger(shortText.Replace("consectetur", "[[consectetur]]"), "Test", out noChange, ref summary, true, false);
             //Non deadend stub
             Assert.IsTrue(text.Contains(stub));
 
@@ -1580,7 +1580,7 @@ fish | name = Bert }} ''Bert'' is a good fish."));
             Assert.IsFalse(text.Contains(uncatstub));
             Assert.IsFalse(text.Contains(uncat));
 
-            text = p.Tagger(Regex.Replace(shortText, @"(\w+)", "[[$1]]"), "Test", out noChange, ref summary, true, true);
+            text = p.Tagger(Regex.Replace(shortText, @"(\w+)", "[[$1]]"), "Test", out noChange, ref summary, true, false);
             //very wikified stub
             Assert.IsFalse(text.Contains(stub));
             Assert.IsFalse(text.Contains(wikify));
@@ -1610,29 +1610,40 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         [Test]
         public void Remove()
         {
-            string text = p.Tagger(shortText + stub, "Test", out noChange, ref summary, true, true);
+            string text = p.Tagger(shortText + stub, "Test", out noChange, ref summary, false, true);
             //Stub, tag not removed
             Assert.IsTrue(text.Contains(stub));
 
-            text = p.Tagger(longText + stub, "Test", out noChange, ref summary, true, true);
+            text = p.Tagger(longText + stub, "Test", out noChange, ref summary, false, true);
             //stub tag removed
             Assert.IsFalse(text.Contains(stub));
 
-            text = p.Tagger("{{wikify}}" + Regex.Replace(longText, @"(\w+)", "[[$1]]"), "Test", out noChange, ref summary, true, true);
+            text = p.Tagger("{{wikify}}" + Regex.Replace(longText, @"(\w+)", "[[$1]]"), "Test", out noChange, ref summary, false, true);
             //wikify tag removed
             Assert.IsFalse(text.Contains(wikify));
+
+            Globals.UnitTestIntValue = 4;
+            text = p.Tagger("{{uncategorised}}", "Test", out noChange, ref summary, false, true);
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+
+            text = p.Tagger("{{uncategorised|date=January 2009}}", "Test", out noChange, ref summary, false, true);
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+
+            //text = p.Tagger("{{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", "Test", out noChange, ref summary, false, true);
+            //Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+            //Assert.IsTrue(string.IsNullOrEmpty(text));
         }
 
         [Test]
         public void Update()
         {
             //Test of updating some of the non dated tags
-            string text = p.Tagger("{{fact}}", "Test", out noChange, ref summary, true, true);
+            string text = p.Tagger("{{fact}}", "Test", out noChange, ref summary, false, false);
 
             Assert.IsTrue(text.Contains("{{Fact|date={{subst:CURRENTMONTHNAME}}"));
             Assert.IsFalse(text.Contains("{{fact}}"));
 
-            text = p.Tagger("{{template:fact}}", "Test", out noChange, ref summary, true, true);
+            text = p.Tagger("{{template:fact}}", "Test", out noChange, ref summary, false, false);
 
             Assert.IsTrue(text.Contains("{{Fact|date={{subst:CURRENTMONTHNAME}}"));
             Assert.IsFalse(text.Contains("{{fact}}"));
@@ -1647,10 +1658,11 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(shortText, p.Tagger(shortText, "Talk:Test", out noChange, ref summary, true, true));
             Assert.IsTrue(noChange);
 
+            //No change as no add/remove
             Assert.AreEqual(shortText, p.Tagger(shortText, "Test", out noChange, ref summary, false, false));
             Assert.IsTrue(noChange);
 
-            Assert.AreEqual("{{Test Template}}", p.Tagger("{{Test Template}}", "Test", out noChange, ref summary, false, false));
+            Assert.AreEqual("{{Test Template}}", p.Tagger("{{Test Template}}", "Test", out noChange, ref summary, true, true));
             Assert.IsTrue(noChange);
         }
     }
