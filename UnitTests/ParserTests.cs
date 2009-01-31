@@ -674,18 +674,20 @@ Some news here.", "test"));
             Assert.AreEqual(@"Now the June of 2007 was", Parsers.FixDateOrdinalsAndOf(@"Now the June of 2007 was"));
 
             // no ordinals on dates
-            Assert.AreEqual(@"Now the 14 March elections were", Parsers.FixDateOrdinalsAndOf(@"Now the 14th March elections were"));
-            Assert.AreEqual(@"Now the 14 June elections were", Parsers.FixDateOrdinalsAndOf(@"Now the 14th June elections were"));
-            Assert.AreEqual(@"Now the March 14 elections were", Parsers.FixDateOrdinalsAndOf(@"Now the March 14th elections were"));
-            Assert.AreEqual(@"Now the June 21 elections were", Parsers.FixDateOrdinalsAndOf(@"Now the June 21st elections were"));
-            Assert.AreEqual(@"Now the 14 March 2008 elections were", Parsers.FixDateOrdinalsAndOf(@"Now the 14th March 2008 elections were"));
-            Assert.AreEqual(@"Now the 14 June 2008 elections were", Parsers.FixDateOrdinalsAndOf(@"Now the 14th June 2008 elections were"));
-            Assert.AreEqual(@"Now the March 14, 2008 elections were", Parsers.FixDateOrdinalsAndOf(@"Now the March 14th, 2008 elections were"));
-            Assert.AreEqual(@"Now the June 21, 2008 elections were", Parsers.FixDateOrdinalsAndOf(@"Now the June   21st, 2008 elections were"));
+            Assert.AreEqual(@"On 14 March elections were", Parsers.FixDateOrdinalsAndOf(@"On 14th March elections were"));
+            Assert.AreEqual(@"On 14 June elections were", Parsers.FixDateOrdinalsAndOf(@"On 14th June elections were"));
+            Assert.AreEqual(@"On March 14 elections were", Parsers.FixDateOrdinalsAndOf(@"On March 14th elections were"));
+            Assert.AreEqual(@"On June 21 elections were", Parsers.FixDateOrdinalsAndOf(@"On June 21st elections were"));
+            Assert.AreEqual(@"On 14 March 2008 elections were", Parsers.FixDateOrdinalsAndOf(@"On 14th March 2008 elections were"));
+            Assert.AreEqual(@"On 14 June 2008 elections were", Parsers.FixDateOrdinalsAndOf(@"On 14th June 2008 elections were"));
+            Assert.AreEqual(@"On March 14, 2008 elections were", Parsers.FixDateOrdinalsAndOf(@"On March 14th, 2008 elections were"));
+            Assert.AreEqual(@"On June 21, 2008 elections were", Parsers.FixDateOrdinalsAndOf(@"On June   21st, 2008 elections were"));
 
-            // no matches
-            Assert.AreEqual(@"Now the 14th march was", Parsers.FixDateOrdinalsAndOf(@"Now the 14th march was"));
-            Assert.AreEqual(@"Now the 14th of February was", Parsers.FixDateOrdinalsAndOf(@"Now the 14th of February was"));
+            // no matches, particularly dates with 'the' before where fixing the ordinal may leave 'on the 11 May' which wouldn't read well
+            Assert.AreEqual(@"On 14th march was", Parsers.FixDateOrdinalsAndOf(@"On 14th march was"));
+            Assert.AreEqual(@"On 14th of February was", Parsers.FixDateOrdinalsAndOf(@"On 14th of February was"));
+            Assert.AreEqual(@"Now the 14th February was", Parsers.FixDateOrdinalsAndOf(@"Now the 14th February was"));
+            Assert.AreEqual(@"Now the February 14th was", Parsers.FixDateOrdinalsAndOf(@"Now the February 14th was"));
         }
     }
 
