@@ -1968,7 +1968,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
-        private static readonly CategoriesOnPageListProvider categoryProv = new CategoriesOnPageListProvider();
+        private static readonly CategoriesOnPageNoHiddenListProvider categoryProv = new CategoriesOnPageNoHiddenListProvider();
         private static readonly WhatLinksHereListProvider wlhProv = new WhatLinksHereListProvider(1);
 
         //TODO:Needs re-write
