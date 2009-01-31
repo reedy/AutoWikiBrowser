@@ -2011,6 +2011,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     || WikiRegexes.DeadEnd.IsMatch(m.Value)
                     || WikiRegexes.Wikify.IsMatch(m.Value)
                     || WikiRegexes.Orphan.IsMatch(m.Value)
+                    || WikiRegexes.ReferenceList.IsMatch(m.Value)
                     || m.Value.Contains("subst")))
                     return ArticleText;
             }
