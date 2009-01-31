@@ -1629,9 +1629,9 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             text = p.Tagger("{{uncategorised|date=January 2009}}", "Test", out noChange, ref summary, false, true);
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
 
-            //text = p.Tagger("{{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", "Test", out noChange, ref summary, false, true);
-            //Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
-            //Assert.IsTrue(string.IsNullOrEmpty(text));
+            text = p.Tagger("{{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", "Test", out noChange, ref summary, false, true);
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+            Assert.IsTrue(string.IsNullOrEmpty(text));
         }
 
         [Test]
