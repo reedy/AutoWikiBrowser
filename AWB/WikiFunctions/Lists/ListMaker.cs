@@ -27,7 +27,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 using System.Text.RegularExpressions;
-using System.IO;
 using WikiFunctions.Lists;
 
 namespace WikiFunctions.Controls.Lists
@@ -84,6 +83,8 @@ namespace WikiFunctions.Controls.Lists
                 listItems.Add(new CategoryRecursiveOneLevelListProvider());
                 listItems.Add(new CategoryRecursiveUserDefinedLevelListProvider());
                 listItems.Add(categoriesOnPageLProvider);
+                listItems.Add(new CategoriesOnPageOnlyHiddenListProvider());
+                listItems.Add(new CategoriesOnPageNoHiddenListProvider());
                 listItems.Add(whatLinksHereLProvider);
                 listItems.Add(new WhatLinksHereAllNSListProvider());
                 listItems.Add(new WhatLinksHereIncludingRedirectsListProvider());
