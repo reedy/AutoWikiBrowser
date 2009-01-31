@@ -855,7 +855,7 @@ namespace WikiFunctions
             AWBChangeArticleText("Remove empty comments", Parsers.RemoveEmptyComments(ArticleText), false);
             Variables.Profiler.Profile("RemoveEmptyComments");
 
-            AWBChangeArticleText("Fix Date Ordinals/Of", Parsers.FixDateOrdinalsAndOf(ArticleText), true, true);
+            AWBChangeArticleText("Fix Date Ordinals/Of", Parsers.FixDateOrdinalsAndOf(ArticleText, Name), true, true);
             Variables.Profiler.Profile("FixDateOrdinalsAndOf");
 
             //if (Variables.IsWikimediaProject)

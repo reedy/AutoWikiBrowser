@@ -525,8 +525,9 @@ namespace WikiFunctions.Parse
         /// Removes ordinals from dates and 'of' between a month and a year, per [[WP:MOSDATE]]; on en wiki only
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article</param>
+        /// <param name="ArticleTitle">The article's title</param>
         /// <returns>The modified article text.</returns>
-        public static string FixDateOrdinalsAndOf(string ArticleText)
+        public static string FixDateOrdinalsAndOf(string ArticleText, string ArticleTitle)
         {
             if (Variables.LangCode != LangCodeEnum.en)
                 return ArticleText;
@@ -544,9 +545,13 @@ namespace WikiFunctions.Parse
             ArticleText = hider.HideMore(ArticleText);
             
             ArticleText = OfBetweenMonthAndYear.Replace(ArticleText, "$1 $2");
-            
-            ArticleText = OrdinalsInDatesAm.Replace(ArticleText, "$1 $2");
-            ArticleText = OrdinalsInDatesInt.Replace(ArticleText, "$1$2$3 $4");
+
+            // don't apply if article title has a month in it (e.g. [[6th of October City]])
+            if (!Regex.IsMatch(ArticleTitle, @"\b" + months + @"\b"))
+            {
+                ArticleText = OrdinalsInDatesAm.Replace(ArticleText, "$1 $2");
+                ArticleText = OrdinalsInDatesInt.Replace(ArticleText, "$1$2$3 $4");
+            }
             
             return hider.AddBackMore(ArticleText);
         }
