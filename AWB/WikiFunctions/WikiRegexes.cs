@@ -69,24 +69,12 @@ namespace WikiFunctions
             Dates = new Regex("^(0?[1-9]|[12][0-9]|3[01]) " + months + "$", RegexOptions.Compiled);
             Dates2 = new Regex("^" + months + " (0?[1-9]|[12][0-9]|3[01])$", RegexOptions.Compiled);
 
-            StringBuilder builder = new StringBuilder();
+            string s = Variables.MagicWords.ContainsKey("redirect")
+                    ? string.Join("|", Variables.MagicWords["redirect"].ToArray()).Replace("#", "")
+                    : "REDIRECT";
 
-            if (Variables.MagicWords.ContainsKey("redirect"))
-            {
-                foreach (string r in Variables.MagicWords["redirect"])
-                {
-                    builder.Append(r.Replace("#", "") + "|");
-                }
-                builder.Remove((builder.Length - 1), 1);
-            }
-            else
-            {
-                builder.Append("REDIRECT");
-            }
-
-            Redirect = new Regex(@"#(?:" + builder + @")\s*:?\s*\[\[\s*:?\s*([^\|]*?)\s*(|\|.*?)]\]",
+            Redirect = new Regex(@"#(?:" + s + @")\s*:?\s*\[\[\s*:?\s*([^\|]*?)\s*(|\|.*?)]\]",
                                  RegexOptions.IgnoreCase | RegexOptions.Multiline);
-            string s;
 
             switch (Variables.LangCode)
             {
@@ -100,15 +88,7 @@ namespace WikiFunctions
             Disambigs = new Regex(TemplateStart + s + "}}", RegexOptions.Compiled);
 
             if (Variables.MagicWords.ContainsKey("defaultsort"))
-            {
-                builder = new StringBuilder("(?i:");
-                foreach(string d in Variables.MagicWords["defaultsort"])
-                {
-                    builder.Append(d.Replace(":", "") + "|");
-                }
-                builder.Remove((builder.Length - 1), 1);
-                s = builder + ")";
-            }
+                s = "(?i:" + string.Join("|", Variables.MagicWords["defaultsort"].ToArray()).Replace(":", "") + ")";
             else
                 s = (Variables.LangCode == LangCodeEnum.en)
                     ? "(?:(?i:defaultsort(key|CATEGORYSORT)?|lifetime|BIRTH-DEATH-SORT)|BD)"
