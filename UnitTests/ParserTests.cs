@@ -1505,9 +1505,9 @@ fish | name = Bert }} ''Bert'' is a good fish."));
 
             text = p.Tagger(shortText + stub, "Test", out noChange, ref summary, true, true);
             //Stub, existing stub tag
-            //Assert.IsTrue(text.Contains(orphan));
-            //Assert.IsTrue(text.Contains(wikify));
-            //Assert.IsTrue(text.Contains(deadend));
+            Assert.IsTrue(text.Contains(orphan));
+            Assert.IsTrue(text.Contains(wikify));
+            Assert.IsTrue(text.Contains(deadend));
             Assert.IsTrue(text.Contains(uncatstub));
             Assert.IsTrue(text.Contains(stub));
 
@@ -1517,10 +1517,10 @@ fish | name = Bert }} ''Bert'' is a good fish."));
 
             text = p.Tagger(shortText + shortText, "Test", out noChange, ref summary, true, true);
             //Not a stub
-            //Assert.IsTrue(text.Contains(orphan));
-            //Assert.IsTrue(text.Contains(wikify));
-            //Assert.IsTrue(text.Contains(deadend));
-            //Assert.IsTrue(text.Contains(uncat));
+            Assert.IsTrue(text.Contains(orphan));
+            Assert.IsTrue(text.Contains(wikify));
+            Assert.IsTrue(text.Contains(deadend));
+            Assert.IsTrue(text.Contains(uncat));
 
             Assert.IsFalse(text.Contains(uncatstub));
             Assert.IsFalse(text.Contains(stub));
@@ -1529,9 +1529,9 @@ fish | name = Bert }} ''Bert'' is a good fish."));
 
             text = p.Tagger(shortText, "Test", out noChange, ref summary, true, true);
             //Categorised Stub
-            //Assert.IsTrue(text.Contains(orphan));
-            //Assert.IsTrue(text.Contains(wikify));
-            //Assert.IsTrue(text.Contains(deadend));
+            Assert.IsTrue(text.Contains(orphan));
+            Assert.IsTrue(text.Contains(wikify));
+            Assert.IsTrue(text.Contains(deadend));
             Assert.IsTrue(text.Contains(stub));
 
             Assert.IsFalse(text.Contains(uncatstub));
@@ -1539,9 +1539,9 @@ fish | name = Bert }} ''Bert'' is a good fish."));
 
             text = p.Tagger(shortText + shortText, "Test", out noChange, ref summary, true, true);
             //Categorised Page
-            //Assert.IsTrue(text.Contains(orphan));
-            //Assert.IsTrue(text.Contains(wikify));
-            //Assert.IsTrue(text.Contains(deadend));
+            Assert.IsTrue(text.Contains(orphan));
+            Assert.IsTrue(text.Contains(wikify));
+            Assert.IsTrue(text.Contains(deadend));
 
             Assert.IsFalse(text.Contains(stub));
             Assert.IsFalse(text.Contains(uncatstub));
@@ -1551,8 +1551,8 @@ fish | name = Bert }} ''Bert'' is a good fish."));
 
             text = p.Tagger(shortText, "Test", out noChange, ref summary, true, true);
             //Non orphan categorised stub
-            //Assert.IsTrue(text.Contains(wikify));
-            //Assert.IsTrue(text.Contains(deadend));
+            Assert.IsTrue(text.Contains(wikify));
+            Assert.IsTrue(text.Contains(deadend));
             Assert.IsTrue(text.Contains(stub));
 
             Assert.IsFalse(text.Contains(orphan));
@@ -1561,8 +1561,8 @@ fish | name = Bert }} ''Bert'' is a good fish."));
 
             text = p.Tagger(shortText + shortText, "Test", out noChange, ref summary, true, true);
             //Non orphan categorised page
-            //Assert.IsTrue(text.Contains(wikify));
-            //Assert.IsTrue(text.Contains(deadend));
+            Assert.IsTrue(text.Contains(wikify));
+            Assert.IsTrue(text.Contains(deadend));
 
             Assert.IsFalse(text.Contains(stub));
             Assert.IsFalse(text.Contains(orphan));
@@ -1571,18 +1571,17 @@ fish | name = Bert }} ''Bert'' is a good fish."));
 
             text = p.Tagger(shortText.Replace("consectetur", "[[consectetur]]"), "Test", out noChange, ref summary, true, true);
             //Non deadend stub
-            //Assert.IsTrue(text.Contains(wikify));
-            //Assert.IsTrue(text.Contains(stub));
+            Assert.IsTrue(text.Contains(stub));
 
+            Assert.IsFalse(text.Contains(wikify));
             Assert.IsFalse(text.Contains(deadend));
-            //Assert.IsFalse(text.Contains(orphan));
-            //Assert.IsFalse(text.Contains(uncatstub));
-            //Assert.IsFalse(text.Contains(uncat));
+            Assert.IsFalse(text.Contains(orphan));
+            Assert.IsFalse(text.Contains(uncatstub));
+            Assert.IsFalse(text.Contains(uncat));
 
             text = p.Tagger(Regex.Replace(shortText, @"(\w+)", "[[$1]]"), "Test", out noChange, ref summary, true, true);
             //very wikified stub
-            //Assert.IsTrue(text.Contains(stub));
-
+            Assert.IsFalse(text.Contains(stub));
             Assert.IsFalse(text.Contains(wikify));
             Assert.IsFalse(text.Contains(deadend));
             Assert.IsFalse(text.Contains(orphan));
