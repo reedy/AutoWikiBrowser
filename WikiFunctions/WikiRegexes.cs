@@ -365,22 +365,27 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{Deadend|xxx}} (en only)
         /// </summary>
-        public static readonly Regex DeadEnd = new Regex(@"{{[Dd]eadend(\|.*?)?}}", RegexOptions.Compiled);
+        public static readonly Regex DeadEnd = new Regex(@"{{Deadend(\|.*?)?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// 
         /// </summary>
-        public static readonly Regex Wikify = new Regex(@"{{[Ww]ikify(\|.*?)?}}", RegexOptions.IgnoreCase);
+        public static readonly Regex Wikify = new Regex(@"{{Wikify(\|.*?)?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// 
         /// </summary>
-        public static readonly Regex Orphan = new Regex(@"{{[Oo]rphan(\|.*?)?}}", RegexOptions.IgnoreCase);
+        public static readonly Regex Orphan = new Regex(@"{{[Oo]rphan(\|.*?)?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// 
         /// </summary>
-        public static readonly Regex Uncat = new Regex(@"\{\{[Uu]ncategori[zs]ed(\|.*?)?\}\}");
+        public static readonly Regex Uncat = new Regex(@"{{Uncategori[zs]ed(\|.*?)?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly Regex ReferenceList = new Regex("{{(reflist|references-small|references-2column)}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         
         /// <summary>
         /// Checks for presence of infobox in article
