@@ -759,14 +759,14 @@ namespace WikiFunctions.Controls.Lists
         private void RemoveSelectedArticle()
         {
             lbArticles.BeginUpdate();
+            
+            int i = lbArticles.SelectedIndex;
 
             if (lbArticles.SelectedItems.Count > 0)
                 txtPage.Text = lbArticles.SelectedItem.ToString();
 
             while (lbArticles.SelectedItems.Count > 0)
                 lbArticles.Items.Remove(lbArticles.SelectedItem);
-
-            int i = lbArticles.SelectedIndex;
 
             if (lbArticles.Items.Count > i)
                 lbArticles.SelectedIndex = i;
