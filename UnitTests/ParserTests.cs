@@ -504,6 +504,7 @@ http://example.com }}");
             Assert.AreEqual(@"a 50.247&nbsp;cm road", Parsers.FixNonBreakingSpaces(@"a 50.247cm road"));
             Assert.AreEqual(@"a 50.247&nbsp;nm laser", Parsers.FixNonBreakingSpaces(@"a 50.247nm laser"));
             Assert.AreEqual(@"a 50.247&nbsp;nm laser", Parsers.FixNonBreakingSpaces(@"a 50.247  nm laser"));
+            Assert.AreEqual(@"a 50.247&nbsp;µm laser", Parsers.FixNonBreakingSpaces(@"a 50.247µm laser"));
             Assert.AreEqual(@"a 50.247&nbsp;cd light", Parsers.FixNonBreakingSpaces(@"a 50.247 cd light"));
             Assert.AreEqual(@"a 50.247&nbsp;cd light", Parsers.FixNonBreakingSpaces(@"a 50.247cd light"));
             Assert.AreEqual(@"a 50.247&nbsp;mmol solution", Parsers.FixNonBreakingSpaces(@"a 50.247mmol solution"));
