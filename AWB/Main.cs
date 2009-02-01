@@ -1752,17 +1752,16 @@ window.scrollTo(0, diffTopY);
 
             lblOnlyBots.Visible = !Variables.User.IsBot;
 
-            if (Variables.User.IsBot && !MainTab.TabPages.Contains(tpBots))
+            if (Variables.User.IsBot)
             {
-                MainTab.TabPages.Insert(MainTab.TabPages.IndexOf(tpStart), tpBots);
+                if (!MainTab.TabPages.Contains(tpBots))
+                    MainTab.TabPages.Insert(MainTab.TabPages.IndexOf(tpStart), tpBots);
             }
             else
             {
+                BotMode = false;
                 if (MainTab.TabPages.Contains(tpBots))
                     MainTab.Controls.Remove(tpBots);
-
-                if (BotMode)
-                    BotMode = false;
             }
         }
 
