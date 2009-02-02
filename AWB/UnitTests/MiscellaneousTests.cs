@@ -48,6 +48,14 @@ namespace UnitTests
             Assert.AreEqual(text, s);
         }
 
+        private void AssertAllHiddenMore(string text, bool HideExternalLinks)
+        {
+            string s = HideMore(text, HideExternalLinks, false, true);
+            RegexAssert.IsMatch(allHidden, s);
+            s = hider.AddBackMore(s);
+            Assert.AreEqual(text, s);
+        }
+
         private string Hide(string text)
         {
             return Hide(text, true, false, true);
@@ -319,9 +327,9 @@ Image:quux[http://example.com]
         [Test]
         public void HideExternalLinks()
         {
-            AssertAllHiddenMore("[http://foo]");
-            AssertAllHiddenMore("[http://foo bar]");
-            AssertAllHiddenMore("[http://foo [bar]");
+            AssertAllHiddenMore("[http://foo]", true);
+            AssertAllHiddenMore("[http://foo bar]", true);
+            AssertAllHiddenMore("[http://foo [bar]", true);
         }
 
         [Test]
