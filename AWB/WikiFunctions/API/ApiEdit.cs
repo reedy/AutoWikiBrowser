@@ -501,20 +501,20 @@ namespace WikiFunctions.API
 
         public void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move)
         {
-            Protect(title, reason, expiry.ToString(), edit, move, false);
+            Protect(title, reason, expiry.ToString(), edit, move, false, false);
         }
 
         public void Protect(string title, string reason, string expiry, Protection edit, Protection move)
         {
-            Protect(title, reason, expiry, edit, move, false);
+            Protect(title, reason, expiry, edit, move, false, false);
         }
 
-        public void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move, bool cascade)
+        public void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move, bool cascade, bool watch)
         {
-            Protect(title, reason, expiry.ToString(), edit, move, cascade);
+            Protect(title, reason, expiry.ToString(), edit, move, cascade, watch);
         }
 
-        public void Protect(string title, string reason, string expiry, Protection edit, Protection move, bool cascade)
+        public void Protect(string title, string reason, string expiry, Protection edit, Protection move, bool cascade, bool watch)
         {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
             if (string.IsNullOrEmpty(reason)) throw new ArgumentException("Deletion reason required", "reason");
@@ -558,6 +558,7 @@ namespace WikiFunctions.API
                         {"protections", "edit" + edit + "|move=" + move},
                         {"expiry", expiry},
                         {cascade ? "cascade" : null, null},
+                        {watch ? "watch" : null, null},
                     });
 
             CheckForError(result);

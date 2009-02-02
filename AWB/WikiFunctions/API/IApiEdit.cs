@@ -131,7 +131,8 @@ namespace WikiFunctions.API
         /// <param name="edit"></param>
         /// <param name="move"></param>
         /// <param name="cascade"></param>
-        void Protect(string title, string reason, string expiry, Protection edit, Protection move, bool cascade);
+        /// <param name="watch"></param>
+        void Protect(string title, string reason, string expiry, Protection edit, Protection move, bool cascade, bool watch);
 
         /// <summary>
         /// 
@@ -142,7 +143,8 @@ namespace WikiFunctions.API
         /// <param name="edit"></param>
         /// <param name="move"></param>
         /// <param name="cascade"></param>
-        void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move, bool cascade);
+        /// <param name="watch"></param>
+        void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move, bool cascade, bool watch);
 
         /// <summary>
         /// 
