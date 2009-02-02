@@ -109,6 +109,7 @@ namespace APITest
                                "",
                                Protection.Sysop,
                                Protection.Sysop,
+                               false,
                                false);
             }
             catch (Exception ex)
