@@ -104,12 +104,12 @@ namespace WikiFunctions.API
             throw new NotImplementedException();
         }
 
-        public void Protect(string title, string reason, string expiry, Protection edit, Protection move, bool cascade)
+        public void Protect(string title, string reason, string expiry, Protection edit, Protection move, bool cascade, bool watch)
         {
             throw new NotImplementedException();
         }
 
-        public void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move, bool cascade)
+        public void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move, bool cascade, bool watch)
         {
             throw new NotImplementedException();
         }
