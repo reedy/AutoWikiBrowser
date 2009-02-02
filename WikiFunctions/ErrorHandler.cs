@@ -41,8 +41,7 @@ namespace WikiFunctions
             if (ex != null)
             {
                 // invalid regex - only ArgumentException, without subclasses
-                if (ex.GetType().ToString().Equals("System.ArgumentException")
-                    && ex.StackTrace.Contains("System.Text.RegularExpressions"))
+                if (ex is ArgumentException && ex.StackTrace.Contains("System.Text.RegularExpressions"))
                 {
                     MessageBox.Show(ex.Message, "Invalid regular expression",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
