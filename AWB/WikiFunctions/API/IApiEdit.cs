@@ -79,6 +79,12 @@ namespace WikiFunctions.API
         void Logout();
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        bool LogInStatus();
+
+        /// <summary>
         /// Opens a page for editing
         /// </summary>
         /// <param name="title">Title of the page to edit</param>

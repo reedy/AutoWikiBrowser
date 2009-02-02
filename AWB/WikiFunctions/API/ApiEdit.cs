@@ -347,8 +347,8 @@ namespace WikiFunctions.API
         {
             Reset();
 
-            string result = HttpPost(new[,] { { "action", "login" } },
-                new[,] { { "lgname", username }, { "lgpassword", password } }, false);
+            string result = HttpPost(new[,] {{"action", "login"}},
+                                     new[,] {{"lgname", username}, {"lgpassword", password}}, false);
 
             XmlReader xr = XmlReader.Create(new StringReader(result));
             xr.ReadToFollowing("login");
@@ -366,6 +366,20 @@ namespace WikiFunctions.API
             Reset();
             string result = HttpGet(new[,] { { "action", "logout" } }, false);
             CheckForError(result, "logout");
+        }
+
+        public bool LogInStatus()
+        {
+            string result = HttpPost(new[,] { { "action", "query" } },
+                         new[,] { { "meta", "userinfo" }, });
+
+            CheckForError(result, "userinfo");
+
+            XmlReader xr = XmlReader.Create(new StringReader(result));
+            xr.ReadToFollowing("userinfo");
+            int id = int.Parse(xr.GetAttribute("id"));
+
+            return (id != 0);
         }
         #endregion
 

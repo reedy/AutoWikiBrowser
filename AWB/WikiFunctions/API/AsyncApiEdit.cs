@@ -137,6 +137,11 @@ namespace WikiFunctions.API
             InvokeFunction("Logout");
         }
 
+        public bool LogInStatus()
+        {
+            return Editor.LogInStatus();
+        }
+
         public string Open(string title)
         {
             InvokeFunction("Open", title);
