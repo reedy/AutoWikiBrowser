@@ -1390,14 +1390,16 @@ window.scrollTo(0, diffTopY);
 
         private void GetPreview()
         {
-            if (webBrowserEdit.Loading) return;
-            webBrowserEdit.BringToFront();
-            webBrowserEdit.SetArticleText(txtEdit.Text);
-
             LastArticle = txtEdit.Text;
 
             skippable = false;
-            webBrowserEdit.ShowPreview();
+
+            if (webBrowserDiff.Document != null)
+            {
+                webBrowserDiff.Document.OpenNew(false);
+                webBrowserDiff.Document.Write(apiEdit.Preview(TheArticle.Name, txtEdit.Text));
+                webBrowserDiff.BringToFront();
+            }
 
             GuiUpdateAfterProcessing();
         }
@@ -3270,7 +3272,7 @@ window.scrollTo(0, diffTopY);
 
         private void MoveArticle()
         {
-            dlgArticleAction = new ArticleActionDialog(1);
+            dlgArticleAction = new ArticleActionDialog(ArticleAction.Move);
 
             try
             {
@@ -3295,7 +3297,7 @@ window.scrollTo(0, diffTopY);
 
         private void DeleteArticle()
         {
-            dlgArticleAction = new ArticleActionDialog(2);
+            dlgArticleAction = new ArticleActionDialog(ArticleAction.Delete);
 
             try
             {
@@ -3319,7 +3321,7 @@ window.scrollTo(0, diffTopY);
 
         private void ProtectArticle()
         {
-            dlgArticleAction = new ArticleActionDialog(3);
+            dlgArticleAction = new ArticleActionDialog(ArticleAction.Protect);
 
             try
             {
