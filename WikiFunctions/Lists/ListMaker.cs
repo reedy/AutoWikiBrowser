@@ -768,18 +768,21 @@ namespace WikiFunctions.Controls.Lists
         private void RemoveSelectedArticle()
         {
             lbArticles.BeginUpdate();
-            
+
             int i = lbArticles.SelectedIndex;
 
             if (lbArticles.SelectedItems.Count > 0)
                 txtPage.Text = lbArticles.SelectedItem.ToString();
 
-            while (lbArticles.SelectedItems.Count > 0)
+            if (lbArticles.SelectedItems.Count == 1)
                 lbArticles.Items.Remove(lbArticles.SelectedItem);
+            else
+                while (lbArticles.SelectedItems.Count > 0)
+                    lbArticles.Items.Remove(lbArticles.SelectedItem);
 
             if (lbArticles.Items.Count > i)
                 lbArticles.SelectedIndex = i;
-            else
+            else //if ((lbArticles.Items.Count - 1) > 0)
                 lbArticles.SelectedIndex = i - 1;
 
             lbArticles.EndUpdate();
