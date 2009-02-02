@@ -231,7 +231,7 @@ namespace WikiFunctions
             return IsTalkPage(CalculateNS(ArticleTitle));
         }
 
-        // Covered by ToolsTests.IsTalkPage
+        // Covered by ToolsTests.IsTalkPage()
         /// <summary>
         /// Tests title to make sure it is a talk page.
         /// </summary>
@@ -239,6 +239,35 @@ namespace WikiFunctions
         public static bool IsTalkPage(int Key)
         {
             return (Key % 2 == 1);
+        }
+
+        /// <summary>
+        /// returns true if current page is a userpage
+        /// </summary>
+        public static bool IsUserSpace(string ArticleTitle)
+        {
+            return ArticleTitle.StartsWith(Variables.Namespaces[Namespace.User])
+                   || ArticleTitle.StartsWith(Variables.Namespaces[Namespace.UserTalk]);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ArticleTitle"></param>
+        /// <returns></returns>
+        public static bool IsUserTalk(string ArticleTitle)
+        {
+            return ArticleTitle.StartsWith(Variables.Namespaces[Namespace.UserTalk]);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ArticleTitle"></param>
+        /// <returns></returns>
+        public static bool IsUserPage(string ArticleTitle)
+        {
+            return ArticleTitle.StartsWith(Variables.Namespaces[Namespace.User]);
         }
 
         /// <summary>

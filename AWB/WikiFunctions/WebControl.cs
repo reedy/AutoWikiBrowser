@@ -347,33 +347,6 @@ namespace WikiFunctions.Browser
             get { return (Document != null && Document.Body != null && Document.Body.InnerHtml.Contains("<DIV id=wikiDiff>")); }
         }
 
-        [Browsable(false)]
-        public bool IsUserPage
-        {
-            get { return ArticleTitle.StartsWith(Variables.Namespaces[Namespace.User]); }
-        }
-
-        /// <summary>
-        /// returns true if current page is a userpage
-        /// </summary>
-        [Browsable(false)]
-        public bool IsUserTalk
-        {
-            get
-            { return ArticleTitle.StartsWith(Variables.Namespaces[Namespace.UserTalk]); }
-        }
-
-        [Browsable(false)]
-        public bool IsUserSpace
-        {
-            get
-            {
-                string s = ArticleTitle;
-                return s.StartsWith(Variables.Namespaces[Namespace.User])
-                    || s.StartsWith(Variables.Namespaces[Namespace.UserTalk]);
-            }
-        }
-
         bool boolTalkExists = true;
         /// <summary>
         /// Gets a value indicating if the associated talk page exists
@@ -383,7 +356,6 @@ namespace WikiFunctions.Browser
         {
             get { return boolTalkExists; }
             private set { boolTalkExists = value; }
-
         }
 
         bool boolArticlePageExists = true;
