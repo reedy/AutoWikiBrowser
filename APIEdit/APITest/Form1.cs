@@ -23,6 +23,8 @@ namespace APITest
             {
                 Editor = new AsyncApiEdit(txtURL.Text);//ApiEdit(txtURL.Text);
                 Editor.Login(txtUsername.Text, txtPassword.Text);
+                Editor.Wait();
+                Editor.LogInStatus();
 
                 groupBox2.Enabled = true;
                 txtEdit.Text = "";
