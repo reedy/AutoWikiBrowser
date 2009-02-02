@@ -643,12 +643,7 @@ namespace WikiFunctions.API
         #endregion
 
         #region Wikitext operations
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="pageTitle"></param>
-        /// <param name="text"></param>
-        /// <returns></returns>
+
         public string Preview(string pageTitle, string text)
         {
             string result = HttpPost(
@@ -676,12 +671,6 @@ namespace WikiFunctions.API
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="pageTitle"></param>
-        /// <param name="text"></param>
-        /// <returns></returns>
         public string ExpandTemplates(string pageTitle, string text)
         {
             string result = HttpPost(
