@@ -1692,6 +1692,33 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
             Assert.AreEqual("{{Test Template}}", p.Tagger("{{Test Template}}", "Test", out noChange, ref summary, true, true));
             Assert.IsTrue(noChange);
+        }        
+        
+        [Test]
+        public void ConversionsTests()
+        {
+            Assert.AreEqual(@"{{cleanup|date=January 2008}} Article text here", Parsers.Conversions(@"{{articleissues|cleanup=January 2008}} Article text here"));
+            Assert.AreEqual(@"{{cleanup|date=January 2008}} Article text here", Parsers.Conversions(@"{{articleissues|
+            cleanup=January 2008}} Article text here"));
+            Assert.AreEqual(@"{{cleanup|date=January 2009}} Article text here", Parsers.Conversions(@"{{Articleissues|cleanup=January 2009}} Article text here"));
+            Assert.AreEqual(@"{{trivia|date= January 2008}} Article text here", Parsers.Conversions(@"{{articleissues|trivia = January 2008}} Article text here"));
+            Assert.AreEqual(@"{{trivia|date= May 2010}} Article text here", Parsers.Conversions(@"{{articleissues|trivia = May 2010}} Article text here"));
+            
+            // no changes
+            string a = @"{{articleissues|trivia=January 2008|cleanup=January 2008}} Article text here";
+            Assert.AreEqual(a, Parsers.Conversions(a));
+            
+            a = @"{{ARTICLEISSUES|cleanup=January 2008}} Article text here";
+            Assert.AreEqual(a, Parsers.Conversions(a));
+            
+            a = @"{{Articleissues|cleanup=May 30}} Article text here";
+            Assert.AreEqual(a, Parsers.Conversions(a));
+            
+            a = @"{{articleissues|trivia=January 2008|}} Article text here";
+            Assert.AreEqual(a, Parsers.Conversions(a));
+            
+            a = @"{{articleissues|trivia}} Article text here";
+            Assert.AreEqual(a, Parsers.Conversions(a));
         }
     }
 }
