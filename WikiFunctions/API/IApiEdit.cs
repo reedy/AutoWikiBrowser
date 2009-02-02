@@ -29,6 +29,12 @@ namespace WikiFunctions.API
         { get; }
 
         /// <summary>
+        /// true if the editor is asynchronous
+        /// </summary>
+        bool Asynchronous
+        { get; }
+
+        /// <summary>
         /// Action for which we have edit token
         /// </summary>
         string Action
@@ -171,6 +177,12 @@ namespace WikiFunctions.API
         /// Aborts the current operation
         /// </summary>
         void Abort();
+
+        /// <summary>
+        /// Waits for current operation to complete. If the editor is not asynchronous,
+        /// returns immediately.
+        /// </summary>
+        void Wait();
     }
 
     /// <summary>

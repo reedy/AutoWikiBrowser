@@ -14,14 +14,14 @@ namespace APITest
             InitializeComponent();
         }
 
-        ApiEdit Editor;
+        IApiEdit Editor;
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
             groupBox2.Enabled = false;
             try
             {
-                Editor = new ApiEdit(txtURL.Text);
+                Editor = new AsyncApiEdit(txtURL.Text);//ApiEdit(txtURL.Text);
                 Editor.Login(txtUsername.Text, txtPassword.Text);
 
                 groupBox2.Enabled = true;
@@ -36,11 +36,12 @@ namespace APITest
 
         private void btnOpen_Click(object sender, EventArgs e)
         {
-            Editor.Maxlag = 5;
             try
             {
                 btnSave.Enabled = false;
-                txtEdit.Text = Editor.Open(txtTitle.Text).Replace("\n", "\r\n");
+                Editor.Open(txtTitle.Text);
+                Editor.Wait();
+                txtEdit.Text = Editor.PageText.Replace("\n", "\r\n");
                 btnSave.Enabled = true;
             }
             catch (Exception ex)

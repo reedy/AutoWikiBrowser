@@ -1493,6 +1493,24 @@ Message: {2}
             return res.ToArray();
         }
 
+        /// <summary>
+        /// Returns a string containing textual representation of all given values
+        /// </summary>
+        /// <param name="separator">Separator between values</param>
+        /// <param name="list">List of values to be converted to string and joined</param>
+        public static string Join(string separator, params object[] list)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (object o in list)
+            {
+                if (sb.Length > 0) sb.Append(separator);
+                sb.Append(o.ToString());
+            }
+
+            return sb.ToString();
+        }
+
         // Covered by ToolsTests.FindDifference()
         /// <summary>
         /// Returns index of first character different between strings
