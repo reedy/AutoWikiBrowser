@@ -522,7 +522,7 @@ namespace WikiFunctions.Parse
 
         // Covered by TestFixDateOrdinalsAndOf
         /// <summary>
-        /// Removes ordinals from dates and 'of' between a month and a year, per [[WP:MOSDATE]]; on en wiki only
+        /// Removes ordinals, leading zeros from dates and 'of' between a month and a year, per [[WP:MOSDATE]]; on en wiki only
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article</param>
         /// <param name="ArticleTitle">The article's title</param>
@@ -540,6 +540,9 @@ namespace WikiFunctions.Parse
 
             Regex OrdinalsInDatesAm = new Regex(@"\b" + months + @"\s+([0-3]?\d)(?:st|nd|rd|th)\b(?<!\b[Tt]he\s+\w{3,10}\s+([0-3]?\d)(?:st|nd|rd|th)\b)", RegexOptions.Compiled);
             Regex OrdinalsInDatesInt = new Regex(@"(?:\b([0-3]?\d)(?:st|nd|rd|th)(\s*(?:to|and|.|&.dash;)\s*))?\b([0-3]?\d)(?:st|nd|rd|th)\s+" + months + @"\b(?<!\b[Tt]he\s+(?:[0-3]?\d)(?:st|nd|rd|th)\s+\w{3,10})", RegexOptions.Compiled);
+            
+            Regex DateLeadingZerosAm = new Regex(@"\b" + months + @"\s+0([1-9])" + @"\b", RegexOptions.Compiled);
+            Regex DateLeadingZerosInt = new Regex(@"\b" + @"0([1-9])\s+" + months  + @"\b", RegexOptions.Compiled);
 
             // hide items in quotes etc., though this may also hide items within infoboxes etc.
             ArticleText = hider.HideMore(ArticleText);
@@ -552,7 +555,10 @@ namespace WikiFunctions.Parse
                 ArticleText = OrdinalsInDatesAm.Replace(ArticleText, "$1 $2");
                 ArticleText = OrdinalsInDatesInt.Replace(ArticleText, "$1$2$3 $4");
             }
-            
+
+            ArticleText = DateLeadingZerosAm.Replace(ArticleText, "$1 $2");
+            ArticleText = DateLeadingZerosInt.Replace(ArticleText, "$1 $2");
+
             return hider.AddBackMore(ArticleText);
         }
 
