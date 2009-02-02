@@ -64,6 +64,7 @@ namespace WikiFunctions.API
             catch (Exception ex)
             {
                 // TODO: 
+                Tools.WriteDebug("AsyncApiEdit", ex.Message);
             }
         }
 
@@ -149,12 +150,12 @@ namespace WikiFunctions.API
 
         public void Delete(string title, string reason, bool watch)
         {
-            throw new NotImplementedException();
+            InvokeFunction("Delete", title, reason, watch);
         }
 
         public void Protect(string title, string reason, string expiry, Protection edit, Protection move, bool cascade, bool watch)
         {
-            throw new NotImplementedException();
+            InvokeFunction("Protect", title, reason, expiry, edit, move, cascade, watch);
         }
 
         public void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move, bool cascade, bool watch)
@@ -179,7 +180,7 @@ namespace WikiFunctions.API
 
         public void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect, bool watch)
         {
-            throw new NotImplementedException(); 
+            InvokeFunction("MovePage", title, newTitle, reason, moveTalk, noRedirect, watch);
         }
 
         public void Abort()
