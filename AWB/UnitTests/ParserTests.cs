@@ -1259,8 +1259,10 @@ Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Categor
         public void HasSicTagTests()
         {
             Assert.IsTrue(Parsers.HasSicTag("now helo [sic] there"));
+            Assert.IsTrue(Parsers.HasSicTag("now helo [sic!] there"));
             Assert.IsTrue(Parsers.HasSicTag("now helo[sic] there"));
             Assert.IsTrue(Parsers.HasSicTag("now helo (sic) there"));
+            Assert.IsTrue(Parsers.HasSicTag("now helo (sic!) there"));
             Assert.IsTrue(Parsers.HasSicTag("now helo {sic} there"));
             Assert.IsTrue(Parsers.HasSicTag("now helo [Sic] there"));
             Assert.IsTrue(Parsers.HasSicTag("now helo [ Sic ] there"));
@@ -1270,7 +1272,7 @@ Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Categor
             Assert.IsTrue(Parsers.HasSicTag("now helo <!--[sic]-->there"));
 
             Assert.IsFalse(Parsers.HasSicTag("now sickened by"));
-            Assert.IsFalse(Parsers.HasSicTag("now helo sic there"));
+            Assert.IsFalse(Parsers.HasSicTag("sic transit gloria mundi"));
             Assert.IsFalse(Parsers.HasSicTag("The Sound Information Company (SIC) is"));
         }
 

@@ -325,7 +325,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches sic either in template or as bracketed text, also related {{typo}} template
         /// </summary>
-        public static readonly Regex SicTag = new Regex(@"({{(?:[Ss]ic|[Tt]ypo)(?:\||}})|([\(\[{]\s*[Ss]ic\s*[\)\]}]))", RegexOptions.Compiled);
+        public static readonly Regex SicTag = new Regex(@"({{(?:[Ss]ic|[Tt]ypo)(?:\||}})|([\(\[{]\s*[Ss]ic!?\s*[\)\]}]))", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches any of the recognised templates for displaying cite references

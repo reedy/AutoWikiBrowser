@@ -18,15 +18,21 @@ namespace UnitTests
             allHidden = @"^(⌊⌊⌊⌊M?\d+⌋⌋⌋⌋)*$";
         HideText hider;
 
-        private string HideMore(string text)
-        {
-            return HideMore(text, true, false, true);
-        }
-
         private string HideMore(string text, bool HideExternalLinks, bool LeaveMetaHeadings, bool HideImages)
         {
             hider = new HideText(HideExternalLinks, LeaveMetaHeadings, HideImages);
             return hider.HideMore(text);
+        }
+
+        private string HideMore(string text)
+        {
+            return HideMore(text, false);
+        }
+
+        private string HideMore(string text, bool HideOnlyTargetOfWikilink)
+        {
+            hider = new HideText();
+            return hider.HideMore(text, HideOnlyTargetOfWikilink);
         }
 
         private void AssertHiddenMore(string text)
@@ -77,6 +83,27 @@ namespace UnitTests
             AssertAllHiddenMore(text);
         }
 
+        private void AssertPartiallyHidden(string expected, string text)
+        {
+            string s = Hide(text);
+            Assert.AreEqual(expected, s);
+            s = hider.AddBack(s);
+            Assert.AreEqual(text, s);
+        }
+
+        private void AssertPartiallyHiddenMore(string expected, string text, bool HideOnlyTargetOfWikilink)
+        {
+            string s = HideMore(text, HideOnlyTargetOfWikilink);
+            Assert.AreEqual(expected, s);
+            s = hider.AddBackMore(s);
+            Assert.AreEqual(text, s);
+        }
+
+        private void AssertPartiallyHiddenMore(string expected, string text)
+        {
+            AssertPartiallyHiddenMore(expected, text, false);
+        }
+
         #endregion
 
         [Test]
@@ -84,6 +111,21 @@ namespace UnitTests
         {
             Assert.AreEqual("", Hide(""));
             Assert.AreEqual("", HideMore(""));
+        }
+
+        [Test]
+        public void HideLinks()
+        {
+            AssertHiddenMore("[[foo]]");
+            AssertHiddenMore("[[foo|bar]]");
+        }
+
+        [Test]
+        public void LeaveLinkFace()
+        {
+            string s = HideMore("[[foo|bar]]", true);
+            StringAssert.Contains("bar", s);
+            Assert.AreEqual("[[foo|bar]]", hider.AddBackMore(s));
         }
 
         [Test]
