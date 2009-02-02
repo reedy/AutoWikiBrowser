@@ -697,6 +697,20 @@ Some news here.", "test"));
             Assert.AreEqual(@"Now the 14th February was", Parsers.FixDateOrdinalsAndOf(@"Now the 14th February was", "test"));
             Assert.AreEqual(@"Now the February 14th was", Parsers.FixDateOrdinalsAndOf(@"Now the February 14th was", "test"));
             Assert.AreEqual(@"'''6th October City''' is", Parsers.FixDateOrdinalsAndOf(@"'''6th October City''' is", "6th October City"));
+            
+            // leading zeros
+            Assert.AreEqual(@"On 3 June elections were", Parsers.FixDateOrdinalsAndOf(@"On 03 June elections were", "test"));
+            Assert.AreEqual(@"On 7 June elections were", Parsers.FixDateOrdinalsAndOf(@"On 07 June elections were", "test"));
+            Assert.AreEqual(@"On June 7, elections were", Parsers.FixDateOrdinalsAndOf(@"On June 07, elections were", "test"));
+            Assert.AreEqual(@"On June 7 2008, elections were", Parsers.FixDateOrdinalsAndOf(@"On June 07 2008, elections were", "test"));
+            Assert.AreEqual(@"On 3 June elections were", Parsers.FixDateOrdinalsAndOf(@"On 03rd June elections were", "test"));
+
+            // no matches
+            Assert.AreEqual(@"The 007 march was", Parsers.FixDateOrdinalsAndOf(@"The 007 march was", "test"));
+            Assert.AreEqual(@"In June '08 there was", Parsers.FixDateOrdinalsAndOf(@"In June '08 there was", "test"));
+            Assert.AreEqual(@"In June 2008 there was", Parsers.FixDateOrdinalsAndOf(@"In June 2008 there was", "test"));
+            Assert.AreEqual(@"On 00 June elections were", Parsers.FixDateOrdinalsAndOf(@"On 00 June elections were", "test"));
+            Assert.AreEqual(@"The 007 May was", Parsers.FixDateOrdinalsAndOf(@"The 007 May was", "test"));
         }
     }
 
