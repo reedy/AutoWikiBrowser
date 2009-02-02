@@ -95,6 +95,14 @@ namespace WikiFunctions.API
         void Delete(string title, string reason);
 
         /// <summary>
+        /// Deletes the page
+        /// </summary>
+        /// <param name="title">Title of the page to delete</param>
+        /// <param name="reason">Reason for deletion. Must not be empty.</param>
+        /// <param name="watch">Whether to add the page to your watchlist</param>
+        void Delete(string title, string reason, bool watch);
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="title"></param>
@@ -145,6 +153,17 @@ namespace WikiFunctions.API
         /// <param name="moveTalk"></param>
         /// <param name="noRedirect"></param>
         void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="newTitle"></param>
+        /// <param name="reason"></param>
+        /// <param name="moveTalk"></param>
+        /// <param name="noRedirect"></param>
+        /// <param name="watch"></param>
+        void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect, bool watch);
 
         /// <summary>
         /// Aborts the current operation

@@ -88,6 +88,7 @@ namespace WikiFunctions.API
         {
             ApiEdit clone = new ApiEdit();
             clone.URL = URL;
+            clone.PHP5 = PHP5;
             clone.m_Maxlag = m_Maxlag;
             clone.m_Cookies = m_Cookies;
             clone.ProxySettings = ProxySettings;
@@ -446,6 +447,11 @@ namespace WikiFunctions.API
 
         public void Delete(string title, string reason)
         {
+            Delete(title, reason, false);
+        }
+
+        public void Delete(string title, string reason, bool watch)
+        {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
             if (string.IsNullOrEmpty(reason)) throw new ArgumentException("Deletion reason required", "reason");
 
@@ -454,13 +460,14 @@ namespace WikiFunctions.API
 
             string result = HttpGet(
                 new[,]
-                {
-                    { "action", "query" },
-                    { "prop", "info" },
-                    { "intoken", "delete" },
-                    { "titles", title },
+                    {
+                        {"action", "query"},
+                        {"prop", "info"},
+                        {"intoken", "delete"},
+                        {"titles", title},
+                        {watch ? "watch" : null, null}
 
-                });
+                    });
 
             CheckForError(result);
 
@@ -560,6 +567,11 @@ namespace WikiFunctions.API
 
         public void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect)
         {
+            MovePage(title, newTitle, reason, moveTalk, noRedirect);
+        }
+
+        public void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect, bool watch)
+        {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
             if (string.IsNullOrEmpty(newTitle)) throw new ArgumentException("Target Page name required", "newTitle");
 
@@ -603,6 +615,7 @@ namespace WikiFunctions.API
                         {"protections", ""},
                         {moveTalk ? "movetalk" : null, null},
                         {noRedirect ? "noredirect" : null, null},
+                        {watch ? "watch" : null, null},
                     });
 
             CheckForError(result);
