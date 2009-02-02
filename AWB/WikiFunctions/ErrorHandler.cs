@@ -48,7 +48,7 @@ namespace WikiFunctions
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 // network access error
-                else if (ex is System.Net.WebException)
+                else if (ex is System.Net.WebException || ex.InnerException is System.Net.WebException)
                 {
                     MessageBox.Show(ex.Message, "Network access error",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
