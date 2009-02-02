@@ -183,6 +183,14 @@ namespace WikiFunctions.Controls.Lists
             return lbArticles.Items.Contains(item);
         }
 
+        /// <summary>
+        /// Returns a value indicating whether the given article is in the list
+        /// </summary>
+        public bool Contains(string s)
+        {
+            return Contains(new Article(s));
+        }
+
         public void CopyTo(Article[] array, int arrayIndex)
         {
             throw new Exception("The method or operation is not implemented.");
