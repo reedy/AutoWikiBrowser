@@ -405,7 +405,7 @@ namespace WikiFunctions.API
 
                     foreach (XmlNode xn in doc.GetElementsByTagName("pr"))
                     {
-                        switch(xn.Attributes["type"].Value)
+                        switch (xn.Attributes["type"].Value)
                         {
                             case "edit":
                                 Edit = StringToProtection(xn.Attributes["level"].Value);
@@ -416,8 +416,9 @@ namespace WikiFunctions.API
                         }
                     }
                 }
+                else
+                    xr.ReadToFollowing("revisions");
 
-                xr.ReadToDescendant("revisions");
                 xr.ReadToDescendant("rev");
                 Timestamp = xr.GetAttribute("timestamp");
                 PageText = xr.ReadString();
@@ -788,7 +789,7 @@ namespace WikiFunctions.API
 
         private static Protection StringToProtection(string val)
         {
-            return (Protection) Enum.Parse(typeof (Protection), Tools.TurnFirstToUpper(val));
+            return (Protection)Enum.Parse(typeof(Protection), Tools.TurnFirstToUpperNoProjectCheck(val));
         }
 
         /// <summary>
