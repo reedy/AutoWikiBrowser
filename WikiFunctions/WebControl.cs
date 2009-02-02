@@ -496,7 +496,7 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Sets the watch checkbox
         /// </summary>
-        public void SetWatch(bool watch1)
+        public void SetWatch(bool watch)
         {
             if (Document == null)
                 return;
@@ -506,8 +506,7 @@ namespace WikiFunctions.Browser
             if (wpWatchthis == null)
                 return;
 
-            if (watch1)
-                wpWatchthis.SetAttribute("checked", "checked");
+            wpWatchthis.SetAttribute("checked", watch ? "checked" : "");
         }
 
 
