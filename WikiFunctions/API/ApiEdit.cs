@@ -398,14 +398,29 @@ namespace WikiFunctions.API
                 EditToken = xr.GetAttribute("edittoken");
                 PageTitle = xr.GetAttribute("title");
 
+                if (xr.ReadToDescendant("protection") && !xr.IsEmptyElement)
+                {
+                    XmlDocument doc = new XmlDocument();
+                    doc.LoadXml(xr.ReadOuterXml());
+
+                    foreach (XmlNode xn in doc.GetElementsByTagName("pr"))
+                    {
+                        switch(xn.Attributes["type"].Value)
+                        {
+                            case "edit":
+                                Edit = StringToProtection(xn.Attributes["level"].Value);
+                                break;
+                            case "move":
+                                Move = StringToProtection(xn.Attributes["level"].Value);
+                                break;
+                        }
+                    }
+                }
+
                 xr.ReadToDescendant("revisions");
                 xr.ReadToDescendant("rev");
                 Timestamp = xr.GetAttribute("timestamp");
                 PageText = xr.ReadString();
-
-                //TODO:Get Protection (code is just placeholders below)
-                Edit = Protection.None;
-                Move = Protection.None;
 
                 Action = "edit";
             }
@@ -769,6 +784,11 @@ namespace WikiFunctions.API
         protected static string BoolToParam(bool value)
         {
             return value ? "1" : "0";
+        }
+
+        private static Protection StringToProtection(string val)
+        {
+            return (Protection) Enum.Parse(typeof (Protection), Tools.TurnFirstToUpper(val));
         }
 
         /// <summary>
