@@ -12,8 +12,13 @@ namespace WikiFunctions.API
         Thread m_Thread;
 
         public AsyncApiEdit(string url)
+            :this(url, false)
         {
-            Editor = new ApiEdit(url);
+        }
+
+        public AsyncApiEdit(string url, bool php5)
+        {
+            Editor = new ApiEdit(url, php5);
         }
 
         /// <summary>
@@ -183,9 +188,29 @@ namespace WikiFunctions.API
             InvokeFunction("MovePage", title, newTitle, reason, moveTalk, noRedirect, watch);
         }
 
+        public string Preview(string pageTitle, string text)
+        {
+            return Editor.Preview(pageTitle, text);
+            //InvokeFunction("Preview", pageTitle, text);
+        }
+
+        public string ExpandTemplates(string pageTitle, string text)
+        {
+            return Editor.ExpandTemplates(pageTitle, text);
+            //InvokeFunction("ExpandTemplates", pageTitle, text);
+        }
+
         public void Abort()
         {
-            Editor.Abort();
+            try
+            {
+                if (m_Thread != null)
+                    m_Thread.Abort();
+                Editor.Abort();
+            }
+            catch (ThreadAbortException)
+            {
+            }
         }
 
         public bool Asynchronous

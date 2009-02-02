@@ -175,6 +175,22 @@ namespace WikiFunctions.API
         void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect, bool watch);
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pageTitle"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        string Preview(string pageTitle, string text);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pageTitle"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        string ExpandTemplates(string pageTitle, string text);
+
+        /// <summary>
         /// Aborts the current operation
         /// </summary>
         void Abort();
