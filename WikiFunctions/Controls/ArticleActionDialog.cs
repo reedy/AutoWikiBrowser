@@ -23,22 +23,32 @@ using System.Windows.Forms;
 
 namespace WikiFunctions.Controls
 {
+    public enum ArticleAction
+    {
+        Move,
+        Delete,
+        Protect
+    }
+
     public partial class ArticleActionDialog : Form
     {
-        public ArticleActionDialog(int MoveDeleteProtect)
+        private readonly ArticleAction currentAction;
+
+        public ArticleActionDialog(ArticleAction MoveDeleteProtect)
         {
             InitializeComponent();
-            MoveDelete.TextBoxIndexChanged += MoveDelete_TextBoxIndexChanged;
             string[] messages;
+            currentAction = MoveDeleteProtect;
 
-            if (MoveDeleteProtect == 3)
+            if (MoveDeleteProtect == ArticleAction.Protect)
             {
                 lblSummary.Location = new Point(8, 15);
                 cmboSummary.Location = new Point(62, 12);
                 lblNewTitle.Visible = false;
                 txtNewTitle.Visible = false;
-                Text = "Protect";
-                btnOk.Text = "Protect";
+
+                toolTip.SetToolTip(chkCascadingProtection, "Automatically protect any pages transcluded in this page");
+
                 messages = new string[1];
                 messages[0] = "Heavy vandalism";
             }
@@ -49,11 +59,10 @@ namespace WikiFunctions.Controls
                 txtExpiry.Visible = false;
                 chkCascadingProtection.Visible = false;
 
-                if (MoveDeleteProtect == 1)
+                if (MoveDeleteProtect == ArticleAction.Move)
                 {
-                    Text = "Move";
-                    btnOk.Text = "Move";
                     Size = new Size(Width, 120);
+                    chkNoRedirect.Visible = true;
 
                     messages = new string[2];
                     messages[0] = "Typo in page title";
@@ -61,8 +70,6 @@ namespace WikiFunctions.Controls
                 }
                 else
                 {
-                    Text = "Delete";
-                    btnOk.Text = "Delete";
                     Size = new Size(Width, 100);
                     lblSummary.Location = new Point(8, 15);
                     cmboSummary.Location = new Point(62, 12);
@@ -106,9 +113,7 @@ namespace WikiFunctions.Controls
         }
 
         public bool AutoProtectAll
-        {
-            get { return chkAutoProtect.Checked; }
-        }
+        { get { return chkAutoProtect.Checked; } }
 
         public string NewTitle
         {
@@ -123,23 +128,47 @@ namespace WikiFunctions.Controls
         }
 
         public int EditProtectionLevel
-        {
-            get { return MoveDelete.EditProtectionLevel; }
-        }
+        { get { return MoveDelete.EditProtectionLevel; } }
 
         public int MoveProtectionLevel
-        {
-            get { return MoveDelete.MoveProtectionLevel; }
-        }
+        { get { return MoveDelete.MoveProtectionLevel; } }
+
+        //public API.Protection EditProtectionLevelApi
+        //{
+        //    get { return (API.Protection)MoveDelete.EditProtectionLevel; }
+        //}
+
+        //public API.Protection MoveProtectionLevelApi
+        //{
+        //    get { return (API.Protection)MoveDelete.MoveProtectionLevel; }
+        //}
 
         public string ProtectExpiry
-        {
-            get { return txtExpiry.Text; }
-        }
+        {get { return txtExpiry.Text; }}
 
         public bool CascadingProtection
+        { get { return chkCascadingProtection.Checked; } }
+
+        public bool NoRedirect
+        { get { return chkNoRedirect.Checked; } }
+
+        public bool Watch
+        { get { return chkWatch.Checked; } }
+
+        private void ArticleActionDialog_Load(object sender, EventArgs e)
         {
-            get { return (chkCascadingProtection.Enabled && chkCascadingProtection.Checked); }
+            switch (currentAction)
+            {
+                case ArticleAction.Delete:
+                    Text = btnOk.Text = "Delete";
+                    break;
+                case ArticleAction.Move:
+                    Text = btnOk.Text = "Move";
+                    break;
+                case ArticleAction.Protect:
+                    Text = btnOk.Text = "Protect";
+                    break;
+            }
         }
     }
 }

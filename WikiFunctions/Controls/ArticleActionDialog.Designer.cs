@@ -28,6 +28,7 @@ namespace WikiFunctions.Controls
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.txtNewTitle = new System.Windows.Forms.TextBox();
             this.lblNewTitle = new System.Windows.Forms.Label();
             this.lblSummary = new System.Windows.Forms.Label();
@@ -38,6 +39,9 @@ namespace WikiFunctions.Controls
             this.txtExpiry = new System.Windows.Forms.TextBox();
             this.chkAutoProtect = new System.Windows.Forms.CheckBox();
             this.chkCascadingProtection = new System.Windows.Forms.CheckBox();
+            this.chkNoRedirect = new System.Windows.Forms.CheckBox();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.chkWatch = new System.Windows.Forms.CheckBox();
             this.MoveDelete = new WikiFunctions.Controls.EditProtectControl();
             this.SuspendLayout();
             // 
@@ -120,7 +124,7 @@ namespace WikiFunctions.Controls
             // chkAutoProtect
             // 
             this.chkAutoProtect.AutoSize = true;
-            this.chkAutoProtect.Location = new System.Drawing.Point(69, 128);
+            this.chkAutoProtect.Location = new System.Drawing.Point(148, 151);
             this.chkAutoProtect.Name = "chkAutoProtect";
             this.chkAutoProtect.Size = new System.Drawing.Size(99, 17);
             this.chkAutoProtect.TabIndex = 8;
@@ -133,12 +137,34 @@ namespace WikiFunctions.Controls
             this.chkCascadingProtection.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.chkCascadingProtection.AutoSize = true;
             this.chkCascadingProtection.Enabled = false;
-            this.chkCascadingProtection.Location = new System.Drawing.Point(12, 151);
+            this.chkCascadingProtection.Location = new System.Drawing.Point(23, 151);
             this.chkCascadingProtection.Name = "chkCascadingProtection";
-            this.chkCascadingProtection.Size = new System.Drawing.Size(399, 17);
+            this.chkCascadingProtection.Size = new System.Drawing.Size(126, 17);
             this.chkCascadingProtection.TabIndex = 12;
-            this.chkCascadingProtection.Text = "Cascading protection (automatically protect any pages transcluded in this page)";
+            this.chkCascadingProtection.Text = "Cascading protection";
             this.chkCascadingProtection.UseVisualStyleBackColor = true;
+            // 
+            // chkNoRedirect
+            // 
+            this.chkNoRedirect.AutoSize = true;
+            this.chkNoRedirect.Location = new System.Drawing.Point(253, 151);
+            this.chkNoRedirect.Name = "chkNoRedirect";
+            this.chkNoRedirect.Size = new System.Drawing.Size(83, 17);
+            this.chkNoRedirect.TabIndex = 16;
+            this.chkNoRedirect.Text = "No Redirect";
+            this.chkNoRedirect.UseVisualStyleBackColor = true;
+            this.chkNoRedirect.Visible = false;
+            // 
+            // chkWatch
+            // 
+            this.chkWatch.AutoSize = true;
+            this.chkWatch.Location = new System.Drawing.Point(342, 151);
+            this.chkWatch.Name = "chkWatch";
+            this.chkWatch.Size = new System.Drawing.Size(58, 17);
+            this.chkWatch.TabIndex = 17;
+            this.chkWatch.Text = "Watch";
+            this.chkWatch.UseVisualStyleBackColor = true;
+            this.chkWatch.Visible = false;
             // 
             // MoveDelete
             // 
@@ -146,6 +172,7 @@ namespace WikiFunctions.Controls
             this.MoveDelete.Name = "MoveDelete";
             this.MoveDelete.Size = new System.Drawing.Size(313, 84);
             this.MoveDelete.TabIndex = 15;
+            this.MoveDelete.TextBoxIndexChanged += new System.EventHandler(this.MoveDelete_TextBoxIndexChanged);
             // 
             // ArticleActionDialog
             // 
@@ -154,6 +181,8 @@ namespace WikiFunctions.Controls
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(423, 208);
+            this.Controls.Add(this.chkWatch);
+            this.Controls.Add(this.chkNoRedirect);
             this.Controls.Add(this.chkAutoProtect);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
@@ -171,6 +200,7 @@ namespace WikiFunctions.Controls
             this.Name = "ArticleActionDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Enter details";
+            this.Load += new System.EventHandler(this.ArticleActionDialog_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -189,5 +219,8 @@ namespace WikiFunctions.Controls
         private System.Windows.Forms.CheckBox chkAutoProtect;
         private System.Windows.Forms.CheckBox chkCascadingProtection;
         private EditProtectControl MoveDelete;
+        private System.Windows.Forms.CheckBox chkNoRedirect;
+        private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.CheckBox chkWatch;
     }
 }
