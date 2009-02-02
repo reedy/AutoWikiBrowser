@@ -96,7 +96,7 @@ namespace WikiFunctions.API
 
         public void Delete(string title, string reason)
         {
-            throw new NotImplementedException();
+            Delete(title, reason, false);
         }
 
         public void Delete(string title, string reason, bool watch)
@@ -111,22 +111,22 @@ namespace WikiFunctions.API
 
         public void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move, bool cascade, bool watch)
         {
-            throw new NotImplementedException();
+            Protect(title, reason, expiry.ToString(), edit, move, cascade, watch);
         }
 
         public void Protect(string title, string reason, string expiry, Protection edit, Protection move)
         {
-            throw new NotImplementedException();
+            Protect(title, reason, expiry, edit, move, false, false);
         }
 
         public void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move)
         {
-            throw new NotImplementedException();
+            Protect(title, reason, expiry.ToString(), edit, move, false, false);
         }
 
         public void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect)
         {
-            throw new NotImplementedException();
+            MovePage(title, newTitle, reason, moveTalk, noRedirect);
         }
 
         public void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect, bool watch)
