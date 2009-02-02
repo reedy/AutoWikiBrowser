@@ -30,6 +30,7 @@ namespace WikiFunctions.API
 
         /// <summary>
         /// true if the editor is asynchronous
+        /// Whether all operations should return immediately or wait for completition
         /// </summary>
         bool Asynchronous
         { get; }

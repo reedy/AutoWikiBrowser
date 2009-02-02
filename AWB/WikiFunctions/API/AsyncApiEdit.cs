@@ -9,12 +9,11 @@ namespace WikiFunctions.API
     /// </summary>
     public class AsyncApiEdit : IApiEdit
     {
-        ApiEdit m_Editor;
         Thread m_Thread;
 
         public AsyncApiEdit(string url)
         {
-            m_Editor = new ApiEdit(url);
+            Editor = new ApiEdit(url);
         }
 
         /// <summary>
@@ -32,8 +31,8 @@ namespace WikiFunctions.API
 
         private class InvokeArgs
         {
-            public string Function;
-            public object[] Arguments;
+            public readonly string Function;
+            public readonly object[] Arguments;
 
             public InvokeArgs(string func, params object[] args)
             {
@@ -50,13 +49,13 @@ namespace WikiFunctions.API
 
                 Thread.CurrentThread.Name = string.Format("InvokerThread ({0})", args.Function);
 
-                Type t = m_Editor.GetType();
+                Type t = Editor.GetType();
 
                 object res = t.InvokeMember(
                     args.Function,                                  // name
                     System.Reflection.BindingFlags.InvokeMethod,    // invokeAttr
                     null,                                           // binder
-                    m_Editor,                                       // target
+                    Editor,                                       // target
                     args.Arguments                                  // args
                     );
 
@@ -185,7 +184,7 @@ namespace WikiFunctions.API
 
         public void Abort()
         {
-            m_Editor.Abort();
+            Editor.Abort();
         }
 
         public bool Asynchronous

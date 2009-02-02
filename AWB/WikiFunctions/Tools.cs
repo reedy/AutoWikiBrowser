@@ -651,6 +651,11 @@ namespace WikiFunctions
             return (char.ToUpper(input[0]) + input.Remove(0, 1));
         }
 
+        public static string TurnFirstToUpperNoProjectCheck(string input)
+        {   
+            return (char.ToUpper(input[0]) + input.Remove(0, 1));
+        }
+
         // Covered by ToolsTests.TurnFirstToLower()
         /// <summary>
         /// Returns lowercase version of the string
