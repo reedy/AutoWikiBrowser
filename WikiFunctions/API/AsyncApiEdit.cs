@@ -7,13 +7,10 @@ namespace WikiFunctions.API
     /// </summary>
     public class AsyncApiEdit : IApiEdit
     {
-        ApiEdit m_Editor;
-
         /// <summary>
         /// Provides access to the underlying ApiEdit
         /// </summary>
-        public ApiEdit Editor
-        { get { return m_Editor; } }
+        public ApiEdit Editor { get; private set; }
 
         bool m_AsyncMode = true;
 
@@ -42,34 +39,34 @@ namespace WikiFunctions.API
 
         public string URL
         {
-            get { return m_Editor.URL; }
-            set { m_Editor = new ApiEdit(value, PHP5); }
+            get { return Editor.URL; }
+            set { Editor = new ApiEdit(value, PHP5); }
         }
 
         public bool PHP5
         {
-            get { return m_Editor.PHP5; }
+            get { return Editor.PHP5; }
         }
 
         public string Action
         {
-            get { return m_Editor.Action; }
+            get { return Editor.Action; }
         }
 
         public string PageTitle
         {
-            get { return m_Editor.PageTitle; }
+            get { return Editor.PageTitle; }
         }
 
         public string PageText
         {
-            get { return m_Editor.PageText; }
+            get { return Editor.PageText; }
         }
 
         public void Reset()
         {
             Abort();
-            m_Editor.Reset();
+            Editor.Reset();
         }
 
         public string HttpGet(string url)
@@ -102,6 +99,11 @@ namespace WikiFunctions.API
             throw new NotImplementedException();
         }
 
+        public void Delete(string title, string reason, bool watch)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Protect(string title, string reason, string expiry, Protection edit, Protection move, bool cascade)
         {
             throw new NotImplementedException();
@@ -125,6 +127,11 @@ namespace WikiFunctions.API
         public void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect)
         {
             throw new NotImplementedException();
+        }
+
+        public void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect, bool watch)
+        {
+            throw new NotImplementedException(); 
         }
 
         public void Abort()
