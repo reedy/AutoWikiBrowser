@@ -381,6 +381,34 @@ namespace WikiFunctions.API
 
             return (id != 0);
         }
+
+        public bool UserHasMessages()
+        {
+            string result = HttpGet(new[,]
+                                        {
+                                            {"action", "query"},
+                                            {"meta", "userinfo"},
+                                            {"uiprop", "hasmsg"},
+                                        });
+
+            CheckForError(result, "query");
+
+            XmlReader xr = XmlReader.Create(new StringReader(result));
+
+            return xr.ReadToFollowing("hasmsg");
+        }
+
+        public void UserInfo()
+        {
+            string result = HttpGet(new[,]
+                                        {
+                                            {"action", "query"},
+                                            {"meta", "userinfo"},
+                                            {"uiprop", "groups"},
+                                        });
+
+            CheckForError(result, "query");
+        }
         #endregion
 
         #region Page modification
