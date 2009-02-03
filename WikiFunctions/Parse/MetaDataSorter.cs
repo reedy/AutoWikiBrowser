@@ -606,18 +606,18 @@ en, sq, ru
         /// </summary>
         /// <param name="ArticleText"></param>
         /// <returns></returns>
-        private static List<string> removeLinkFAs(ref string ArticleText)
+        private static List<string> removeLinkFGAs(ref string ArticleText)
         {
-            List<string> linkFAList = new List<string>();
-            foreach (Match m in WikiRegexes.LinkFAs.Matches(ArticleText))
+            List<string> linkFGAList = new List<string>();
+            foreach (Match m in WikiRegexes.LinkFGAs.Matches(ArticleText))
             {
                 string x = m.Value;
-                linkFAList.Add(x);
+                linkFGAList.Add(x);
                 //remove old LinkFA
                 ArticleText = ArticleText.Replace(x, "");
             }
 
-            return linkFAList;
+            return linkFGAList;
         }
 
         /// <summary>
@@ -627,7 +627,7 @@ en, sq, ru
         /// <returns></returns>
         public string interwikis(ref string ArticleText)
         {
-            return ListToString(removeLinkFAs(ref ArticleText)) + ListToString(removeInterWikis(ref ArticleText));
+            return ListToString(removeLinkFGAs(ref ArticleText)) + ListToString(removeInterWikis(ref ArticleText));
         }
 
         static readonly Regex FastIW = new Regex(@"\[\[\s*([-a-zA-Z]*?)\s*:\s*([^\]]*?)\s*\]\]", RegexOptions.Compiled);
@@ -658,7 +658,6 @@ en, sq, ru
             string interWikiComment = "";
             if (InterLangRegex.IsMatch(ArticleText))
             {
-
                 interWikiComment = InterLangRegex.Match(ArticleText).Value;
                 ArticleText = ArticleText.Replace(interWikiComment, "");
             }
