@@ -338,9 +338,9 @@ namespace WikiFunctions
         public static readonly Regex Persondata = new Regex(@"{{ ?[Pp]ersondata.*?}}", RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
-        /// Matches {{Link FA|xxx}} (en only)
+        /// Matches {{Link FA|xxx}}, {{Link GA|xxx}}
         /// </summary>
-        public static readonly Regex LinkFAs = new Regex(@"{{[Ll]ink FA\|.*?}}", RegexOptions.Compiled);
+        public static readonly Regex LinkFGAs = new Regex(@"{{[Ll]ink [FG]A\|.*?}}", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches {{Deadend|xxx}} (en only)
