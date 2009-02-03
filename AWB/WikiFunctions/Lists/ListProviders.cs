@@ -1008,6 +1008,43 @@ namespace WikiFunctions.Lists
         #endregion
     }
 
+    //public class MyWatchListApiListProvider : ApiListProviderBase
+    //{
+    //    #region Tags: <watchlistraw>/<wr>
+    //    static readonly List<string> pe = new List<string>(new[] { "wr" });
+    //    protected override ICollection<string> PageElements
+    //    {
+    //        get { return pe; }
+    //    }
+
+    //    static readonly List<string> ac = new List<string>(new[] { "watchlistraw" });
+    //    protected override ICollection<string> Actions
+    //    {
+    //        get { return ac; }
+    //    }
+    //    #endregion
+
+    //    public override List<Article> MakeList(string[] searchCriteria)
+    //    {
+    //        string url = Variables.URLApi + "?action=query&list=watchlistraw&wrlimit=max&format=xml";
+
+    //        return ApiMakeList(url, 0);
+    //    }
+
+    //    #region ListMaker properties
+    //    public override string DisplayText
+    //    { get { return "My Watchlist (Api Raw)"; } }
+
+    //    public override string UserInputTextBoxText
+    //    { get { return ""; } }
+
+    //    public override bool UserInputTextBoxEnabled
+    //    { get { return false; } }
+
+    //    public override void Selected() { }
+    //    #endregion
+    //}
+
     /// <summary>
     /// Runs the Database Scanner
     /// </summary>
