@@ -97,12 +97,13 @@ namespace WikiFunctions.Controls.Lists
                 listItems.Add(new GoogleSearchListProvider());
                 listItems.Add(new UserContribsListProvider());
                 listItems.Add(new UserContribUserDefinedNumberListProvider());
-                listItems.Add(new SpecialPageListProvider(whatLinksHereLProvider, newPagesLProvider, categoriesOnPageLProvider));
+                listItems.Add(new SpecialPageListProvider(whatLinksHereLProvider, newPagesLProvider,
+                                                          categoriesOnPageLProvider));
                 listItems.Add(imageFileLinksLProvider);
                 listItems.Add(new DatabaseScannerListProvider(this));
                 listItems.Add(new MyWatchlistListProvider());
                 listItems.Add(new WikiSearchListProvider());
-                listItems.Add(new RandomPagesListProvider());
+                listItems.Add(new RandomPagesSpecialPageProvider());
                 listItems.Add(redirectLProvider);
                 listItems.Add(newPagesLProvider);
             }

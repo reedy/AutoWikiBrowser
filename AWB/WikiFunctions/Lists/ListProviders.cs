@@ -358,7 +358,7 @@ namespace WikiFunctions.Lists
 
         public override List<Article> MakeList(string[] searchCriteria)
         {
-            return MakeList("0", searchCriteria);
+            return MakeList(Namespace.Article, searchCriteria);
         }
 
         public List<Article> MakeList(string Namespace, params string[] searchCriteria)
@@ -940,7 +940,7 @@ namespace WikiFunctions.Lists
 
         #region ListMaker properties
         public override string DisplayText
-        { get { return "Redirects"; } }
+        { get { return UserInputTextBoxText; } }
 
         public override string UserInputTextBoxText
         { get { return "Redirects to:"; } }
@@ -1007,7 +1007,7 @@ namespace WikiFunctions.Lists
         { get { return true; } }
         #endregion
     }
-    
+
     //public class MyWatchListApiListProvider : ApiListProviderBase
     //{
     //    #region Tags: <watchlistraw>/<wr>
@@ -1087,9 +1087,10 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets 100 random articles from the 0 namespace
     /// </summary>
-    public class RandomPagesListProvider : ApiListProviderBase, ISpecialPageProvider
+    public class RandomPagesSpecialPageProvider : ApiListProviderBase, ISpecialPageProvider
     {
-        public RandomPagesListProvider()
+        protected string extra;
+        public RandomPagesSpecialPageProvider()
         {
             Limit = 100;
         }
@@ -1110,7 +1111,7 @@ namespace WikiFunctions.Lists
 
         public override List<Article> MakeList(string[] searchCriteria)
         {
-            return MakeList(0, searchCriteria);
+            return MakeList(Namespace.Article, searchCriteria);
         }
 
         public List<Article> MakeList(int Namespace, string[] searchCriteria)
@@ -1118,7 +1119,7 @@ namespace WikiFunctions.Lists
             List<Article> list = new List<Article>();
 
             string url = Variables.URLApi + "?action=query&list=random&rnnamespace=" + Namespace +
-                         "&rnlimit=max&format=xml";
+                         "&rnlimit=max&format=xml" + extra;
 
             list.AddRange(ApiMakeList(url, list.Count));
             return list;
@@ -1144,6 +1145,17 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
+    public class RandomRedirectsSpecialPageProvider : RandomPagesSpecialPageProvider
+    {
+        public RandomRedirectsSpecialPageProvider()
+        {
+            extra = "&rnredirect";
+        }
+
+        public override string DisplayText
+        { get { return "Random Redirects"; } }
+    }
+
     /// <summary>
     /// Returns a list of "all pages"
     /// </summary>
@@ -1163,13 +1175,13 @@ namespace WikiFunctions.Lists
         }
         #endregion
 
-        protected string from = "apfrom";
+        protected string from = "apfrom", extra;
 
         #region ISpecialPageProvider Members
 
         public override List<Article> MakeList(string[] searchCriteria)
         {
-            return MakeList(0, searchCriteria);
+            return MakeList(Namespace.Article, searchCriteria);
         }
 
         public virtual List<Article> MakeList(int Namespace, params string[] searchCriteria)
@@ -1178,7 +1190,8 @@ namespace WikiFunctions.Lists
 
             foreach (string page in searchCriteria)
             {
-                string url = Variables.URLApi + "?action=query&list=allpages&" + from + "=" + HttpUtility.UrlEncode(page) + "&apnamespace=" + Namespace + "&aplimit=max&format=xml";
+                string url = Variables.URLApi + "?action=query&list=allpages&" + from + "=" +
+                             HttpUtility.UrlEncode(page) + "&apnamespace=" + Namespace + "&aplimit=max&format=xml" + extra;
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
@@ -1193,9 +1206,7 @@ namespace WikiFunctions.Lists
         #endregion
 
         public override bool UserInputTextBoxEnabled
-        {
-            get { return true; }
-        }
+        { get { return true; } }
 
         public override void Selected()
         { }
@@ -1203,8 +1214,99 @@ namespace WikiFunctions.Lists
         public override string DisplayText
         { get { return UserInputTextBoxText; } }
 
-        public bool NamespacesEnabled
+        public virtual bool NamespacesEnabled
         { get { return true; } }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class AllCategoriesSpecialPageProvider : AllPagesSpecialPageProvider
+    {
+        public override List<Article> MakeList(string[] searchCriteria)
+        {
+            return MakeList(Namespace.Category, searchCriteria);
+        }
+
+        public override string DisplayText
+        { get { return "All Categories"; } }
+
+        public override string UserInputTextBoxText
+        { get { return "Start Cat."; } }
+
+        public override bool NamespacesEnabled
+        { get { return false; } }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class AllFilesSpecialPageProvider : AllPagesSpecialPageProvider
+    {
+        public override List<Article> MakeList(string[] searchCriteria)
+        {
+            return MakeList(Namespace.File, searchCriteria);
+        }
+
+        public override string DisplayText
+        { get { return "All Files"; } }
+
+        public override string UserInputTextBoxText
+        { get { return "Start File"; } }
+
+        public override bool NamespacesEnabled
+        { get { return false; } }
+    }
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    public class AllRedirectsSpecialPageProvider : AllPagesSpecialPageProvider
+    {
+        public AllRedirectsSpecialPageProvider()
+        {
+            extra = "&apfilterredir=redirects";
+        }
+
+        public override string DisplayText
+        { get { return "All Redirect"; } }
+
+        public override string UserInputTextBoxText
+        { get { return "Start Redirect"; } }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ProtectedPagesSpecialPageProvider : AllPagesSpecialPageProvider
+    {
+        public ProtectedPagesSpecialPageProvider()
+        {
+            extra = "&apprtype=edit|move&apprlevel=sysop|autoconfirmed";
+        }
+
+        public override string DisplayText
+        { get { return "Protected Pages"; } }
+
+        public override string UserInputTextBoxText
+        { get { return "Pages"; } }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class PagesWithoutLanguageLinksSpecialPageProvider : AllPagesSpecialPageProvider
+    {
+        public PagesWithoutLanguageLinksSpecialPageProvider()
+        {
+            extra = "&apfilterlanglinks=withoutlanglinks";
+        }
+
+        public override string DisplayText
+        { get { return "Pages without Language Links"; } }
+
+        public override string UserInputTextBoxText
+        { get { return "Pages"; } }
     }
 
     /// <summary>
@@ -1218,7 +1320,7 @@ namespace WikiFunctions.Lists
         }
 
         public override string DisplayText
-        { get { return "All pages with prefix (Prefixindex)"; } }
+        { get { return "All Pages with prefix (Prefixindex)"; } }
 
         public override bool PagesNeeded
         { get { return true; } }
@@ -1246,7 +1348,7 @@ namespace WikiFunctions.Lists
         #region ISpecialPageProvider Members
         public override List<Article> MakeList(string[] searchCriteria)
         {
-            return MakeList(0, searchCriteria);
+            return MakeList(Namespace.Article, searchCriteria);
         }
 
         public List<Article> MakeList(int Namespace, params string[] searchCriteria)
@@ -1303,7 +1405,7 @@ namespace WikiFunctions.Lists
 
         public override List<Article> MakeList(string[] searchCriteria)
         {
-            return MakeList(0, searchCriteria);
+            return MakeList(Namespace.Article, searchCriteria);
         }
 
         public List<Article> MakeList(int Namespace, params string[] searchCriteria)
@@ -1338,7 +1440,7 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
-    public class LinkSearchListProvider : ApiListProviderBase, ISpecialPageProvider
+    public class LinkSearchSpecialPageProvider : ApiListProviderBase, ISpecialPageProvider
     {
         #region Tags: <exturlusage>/<eu>
         static readonly List<string> pe = new List<string>(new[] { "eu" });
@@ -1356,7 +1458,7 @@ namespace WikiFunctions.Lists
 
         public override List<Article> MakeList(string[] searchCriteria)
         {
-            return MakeList(0, searchCriteria);
+            return MakeList(Namespace.Article, searchCriteria);
         }
 
         public List<Article> MakeList(int Namespace, params string[] searchCriteria)
@@ -1394,4 +1496,19 @@ namespace WikiFunctions.Lists
         public bool NamespacesEnabled
         { get { return true; } }
     }
+
+    //public class DisambiguationPagesSpecialPageProvider
+    //{
+    //    //list=embeddedin&eititle=Template:Disambiguation
+    //}
+
+    //public class GalleryNewFilesSpecialPageProvider
+    //{
+    //    //list=logevents&letype=upload
+    //}
+
+    //public class LinksOnPageExcludingRedLinks
+    //{
+    //    //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Listbuilder:_links_on_pages_excluding_red_links
+    //}
 }
