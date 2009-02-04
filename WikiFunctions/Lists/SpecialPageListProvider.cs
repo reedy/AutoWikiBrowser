@@ -39,9 +39,15 @@ namespace WikiFunctions.Lists
             {
                 listItems.Add(new PrefixIndexSpecialPageProvider());
                 listItems.Add(new AllPagesSpecialPageProvider());
+                listItems.Add(new AllCategoriesSpecialPageProvider());
+                listItems.Add(new AllFilesSpecialPageProvider());
+                listItems.Add(new AllRedirectsSpecialPageProvider());
                 listItems.Add(new RecentChangesSpecialPageProvider());
-                listItems.Add(new LinkSearchListProvider());
-                listItems.Add(new RandomPagesListProvider());
+                listItems.Add(new LinkSearchSpecialPageProvider());
+                listItems.Add(new RandomPagesSpecialPageProvider());
+                listItems.Add(new RandomRedirectsSpecialPageProvider());
+                listItems.Add(new PagesWithoutLanguageLinksSpecialPageProvider());
+                listItems.Add(new ProtectedPagesSpecialPageProvider());
             }
 
             cmboSourceSelect.DataSource = listItems;
