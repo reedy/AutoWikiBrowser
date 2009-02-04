@@ -573,7 +573,7 @@ namespace AutoWikiBrowser
             if (stopProcessing)
                 return;
 
-            if (!CheckLoginStatus()) return;
+            if (!preParseModeToolStripMenuItem.Checked && !CheckLoginStatus()) return;
 
             if (Program.MyTrace.HaveOpenFile)
                 Program.MyTrace.WriteBulletedLine("AWB started processing", true, true, true);
