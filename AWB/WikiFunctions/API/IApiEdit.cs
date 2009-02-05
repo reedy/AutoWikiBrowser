@@ -36,6 +36,17 @@ namespace WikiFunctions.API
         { get; }
 
         /// <summary>
+        /// Properties of the currently logged in user
+        /// </summary>
+        UserInfo User
+        { get; }
+
+        /// <summary>
+        /// Updates the User property
+        /// </summary>
+        void RefreshUserInfo();
+
+        /// <summary>
         /// Action for which we have edit token
         /// </summary>
         string Action
@@ -77,12 +88,6 @@ namespace WikiFunctions.API
         /// 
         /// </summary>
         void Logout();
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        bool LogInStatus();
 
         /// <summary>
         /// Opens a page for editing

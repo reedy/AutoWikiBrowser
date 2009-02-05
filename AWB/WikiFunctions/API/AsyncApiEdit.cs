@@ -276,11 +276,6 @@ namespace WikiFunctions.API
             InvokeFunction("Logout");
         }
 
-        public bool LogInStatus()
-        {
-            return Editor.LogInStatus();
-        }
-
         public string Open(string title)
         {
             InvokeFunction("Open", title);
@@ -362,6 +357,20 @@ namespace WikiFunctions.API
         public bool Asynchronous
         {
             get { return true; }
+        }
+
+        #endregion
+
+        #region User info
+
+        public UserInfo User
+        {
+            get { return Editor.User; }
+        }
+
+        public void RefreshUserInfo()
+        {
+            InvokeFunction("RefreshUserInfo");
         }
 
         #endregion

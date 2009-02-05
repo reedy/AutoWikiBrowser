@@ -342,13 +342,14 @@ namespace WikiFunctions.API
         }
         #endregion
 
-        #region Login
+        #region Login / user props
         public void Login(string username, string password)
         {
             Reset();
 
-            string result = HttpPost(new[,] {{"action", "login"}},
-                                     new[,] {{"lgname", username}, {"lgpassword", password}}, false);
+            string result = HttpPost(new[,] { {"action", "login"} },
+                                     new[,] { {"lgname", username}, {"lgpassword", password} },
+                                     false);
 
             XmlReader xr = XmlReader.Create(new StringReader(result));
             xr.ReadToFollowing("login");
@@ -359,56 +360,38 @@ namespace WikiFunctions.API
             }
 
             CheckForError(result, "login");
+
+            RefreshUserInfo();
         }
 
         public void Logout()
         {
             Reset();
+            m_UserInfo = new UserInfo();
             string result = HttpGet(new[,] { { "action", "logout" } }, false);
             CheckForError(result, "logout");
         }
 
-        public bool LogInStatus()
+        private UserInfo m_UserInfo = new UserInfo();
+
+        public UserInfo User
+        {
+            get { return m_UserInfo; }
+        }
+
+        public void RefreshUserInfo()
         {
             string result = HttpPost(new[,] { { "action", "query" } },
-                         new[,] { { "meta", "userinfo" }, });
+                         new[,] {
+                            { "meta", "userinfo" },
+                            { "uiprop", "blockinfo|hasmsg|groups|rights" }
+                         });
 
             CheckForError(result, "userinfo");
 
-            XmlReader xr = XmlReader.Create(new StringReader(result));
-            xr.ReadToFollowing("userinfo");
-            int id = int.Parse(xr.GetAttribute("id"));
-
-            return (id != 0);
+            m_UserInfo = new UserInfo(result);
         }
 
-        public bool UserHasMessages()
-        {
-            string result = HttpGet(new[,]
-                                        {
-                                            {"action", "query"},
-                                            {"meta", "userinfo"},
-                                            {"uiprop", "hasmsg"},
-                                        });
-
-            CheckForError(result, "query");
-
-            XmlReader xr = XmlReader.Create(new StringReader(result));
-
-            return xr.ReadToFollowing("hasmsg");
-        }
-
-        public void UserInfo()
-        {
-            string result = HttpGet(new[,]
-                                        {
-                                            {"action", "query"},
-                                            {"meta", "userinfo"},
-                                            {"uiprop", "groups"},
-                                        });
-
-            CheckForError(result, "query");
-        }
         #endregion
 
         #region Page modification
@@ -866,5 +849,6 @@ namespace WikiFunctions.API
         public void Wait()
         {
         }
+
     }
 }
