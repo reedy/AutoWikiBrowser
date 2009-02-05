@@ -209,6 +209,11 @@ namespace WikiFunctions.API
                 CallEvent(new OperationEndedInternal(OnOperationComplete), args.Function);
                 State = EditState.Ready;
             }
+            catch (ThreadAbortException)
+            {
+                Editor.Reset();
+                //TODO: maybe, an OperationAborted event is needed?
+            }
             catch (Exception ex)
             {
                 Editor.Reset();
@@ -360,9 +365,9 @@ namespace WikiFunctions.API
         {
             try
             {
+                //Editor.Abort();
                 if (m_Thread != null)
                     m_Thread.Abort();
-                Editor.Abort();
 
                 State = EditState.Finishing;
             }

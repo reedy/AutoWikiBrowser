@@ -29,6 +29,7 @@ namespace APITest
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnAbort = new System.Windows.Forms.Button();
             this.btnLogout = new System.Windows.Forms.Button();
             this.btnLogin = new System.Windows.Forms.Button();
             this.txtPassword = new System.Windows.Forms.TextBox();
@@ -38,6 +39,8 @@ namespace APITest
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnProtect = new System.Windows.Forms.Button();
+            this.btnMove = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.chkWatch = new System.Windows.Forms.CheckBox();
             this.chkMinor = new System.Windows.Forms.CheckBox();
@@ -48,14 +51,13 @@ namespace APITest
             this.btnOpen = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.btnMove = new System.Windows.Forms.Button();
-            this.btnProtect = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnAbort);
             this.groupBox1.Controls.Add(this.btnLogout);
             this.groupBox1.Controls.Add(this.btnLogin);
             this.groupBox1.Controls.Add(this.txtPassword);
@@ -71,9 +73,19 @@ namespace APITest
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Login";
             // 
+            // btnAbort
+            // 
+            this.btnAbort.Location = new System.Drawing.Point(521, 69);
+            this.btnAbort.Name = "btnAbort";
+            this.btnAbort.Size = new System.Drawing.Size(127, 23);
+            this.btnAbort.TabIndex = 2;
+            this.btnAbort.Text = "Abort";
+            this.btnAbort.UseVisualStyleBackColor = true;
+            this.btnAbort.Click += new System.EventHandler(this.btnAbort_Click);
+            // 
             // btnLogout
             // 
-            this.btnLogout.Location = new System.Drawing.Point(521, 48);
+            this.btnLogout.Location = new System.Drawing.Point(521, 43);
             this.btnLogout.Name = "btnLogout";
             this.btnLogout.Size = new System.Drawing.Size(127, 23);
             this.btnLogout.TabIndex = 7;
@@ -83,7 +95,7 @@ namespace APITest
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(521, 19);
+            this.btnLogin.Location = new System.Drawing.Point(521, 17);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(127, 23);
             this.btnLogin.TabIndex = 6;
@@ -162,6 +174,26 @@ namespace APITest
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Edit";
             // 
+            // btnProtect
+            // 
+            this.btnProtect.Location = new System.Drawing.Point(168, 298);
+            this.btnProtect.Name = "btnProtect";
+            this.btnProtect.Size = new System.Drawing.Size(75, 23);
+            this.btnProtect.TabIndex = 11;
+            this.btnProtect.Text = "Protect";
+            this.btnProtect.UseVisualStyleBackColor = true;
+            this.btnProtect.Click += new System.EventHandler(this.btnProtect_Click);
+            // 
+            // btnMove
+            // 
+            this.btnMove.Location = new System.Drawing.Point(87, 298);
+            this.btnMove.Name = "btnMove";
+            this.btnMove.Size = new System.Drawing.Size(75, 23);
+            this.btnMove.TabIndex = 10;
+            this.btnMove.Text = "Move";
+            this.btnMove.UseVisualStyleBackColor = true;
+            this.btnMove.Click += new System.EventHandler(this.btnMove_Click);
+            // 
             // btnDelete
             // 
             this.btnDelete.Location = new System.Drawing.Point(6, 298);
@@ -224,6 +256,7 @@ namespace APITest
             this.txtTitle.Name = "txtTitle";
             this.txtTitle.Size = new System.Drawing.Size(404, 20);
             this.txtTitle.TabIndex = 3;
+            this.txtTitle.Text = "Sandbox";
             // 
             // btnOpen
             // 
@@ -255,31 +288,11 @@ namespace APITest
             this.label4.TabIndex = 0;
             this.label4.Text = "Page title";
             // 
-            // btnMove
-            // 
-            this.btnMove.Location = new System.Drawing.Point(87, 298);
-            this.btnMove.Name = "btnMove";
-            this.btnMove.Size = new System.Drawing.Size(75, 23);
-            this.btnMove.TabIndex = 10;
-            this.btnMove.Text = "Move";
-            this.btnMove.UseVisualStyleBackColor = true;
-            this.btnMove.Click += new System.EventHandler(this.btnMove_Click);
-            // 
-            // btnProtect
-            // 
-            this.btnProtect.Location = new System.Drawing.Point(168, 298);
-            this.btnProtect.Name = "btnProtect";
-            this.btnProtect.Size = new System.Drawing.Size(75, 23);
-            this.btnProtect.TabIndex = 11;
-            this.btnProtect.Text = "Protect";
-            this.btnProtect.UseVisualStyleBackColor = true;
-            this.btnProtect.Click += new System.EventHandler(this.btnProtect_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(678, 457);
+            this.ClientSize = new System.Drawing.Size(678, 458);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
@@ -318,6 +331,7 @@ namespace APITest
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnProtect;
         private System.Windows.Forms.Button btnMove;
+        private System.Windows.Forms.Button btnAbort;
     }
 }
 
