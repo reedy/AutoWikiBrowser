@@ -17,7 +17,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 using System;
 using System.Threading;
-using System.Diagnostics;
 using System.Windows.Forms;
 using System.Reflection;
 
@@ -32,7 +31,7 @@ namespace WikiFunctions.API
     public class AsyncApiEdit : IApiEdit
     {
         Thread m_Thread;
-        Control m_ParentControl;
+        readonly Control m_ParentControl;
 
         public AsyncApiEdit(string url)
             :this(url, null, false)
@@ -145,6 +144,7 @@ namespace WikiFunctions.API
 
         protected virtual void OnOperationFailed(string operation, Exception ex)
         {
+            Tools.WriteDebug("ApiEdit", ex.Message);
             // TODO: do something useful here
         }
 
@@ -197,9 +197,9 @@ namespace WikiFunctions.API
 
                 Type t = Editor.GetType();
 
-                object res = t.InvokeMember(
+                /*object res = */t.InvokeMember(
                     args.Function,                                  // name
-                    System.Reflection.BindingFlags.InvokeMethod,    // invokeAttr
+                    BindingFlags.InvokeMethod,    // invokeAttr
                     null,                                           // binder
                     Editor,                                         // target
                     args.Arguments                                  // args
