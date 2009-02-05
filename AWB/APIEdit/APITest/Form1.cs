@@ -74,6 +74,7 @@ namespace APITest
         private void btnLogout_Click(object sender, EventArgs e)
         {
             Editor.Logout();
+            groupBox2.Enabled = false;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -133,6 +134,11 @@ namespace APITest
             Config.SetValue("Wiki", txtURL.Text);
             Config.SetValue("User", txtUsername.Text);
             Config.SetValue("Password", txtPassword.Text);
+        }
+
+        private void btnAbort_Click(object sender, EventArgs e)
+        {
+            Editor.Abort();
         }
     }
 }

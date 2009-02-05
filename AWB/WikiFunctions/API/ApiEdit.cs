@@ -23,6 +23,7 @@ using System.Reflection;
 using System.Web;
 using System.IO;
 using System.Xml;
+using System.Threading;
 
 /// MediaWiki API manual: http://www.mediawiki.org/wiki/API
 /// Site prerequisites: MediaWiki 1.13+ with the following settings:
@@ -63,6 +64,7 @@ namespace WikiFunctions.API
 
             URL = url;
             PHP5 = usePHP5;
+            Maxlag = 5;
 
             if (ProxyCache.ContainsKey(url))
             {
@@ -89,9 +91,10 @@ namespace WikiFunctions.API
             ApiEdit clone = new ApiEdit();
             clone.URL = URL;
             clone.PHP5 = PHP5;
-            clone.m_Maxlag = m_Maxlag;
+            clone.Maxlag = Maxlag;
             clone.m_Cookies = m_Cookies;
             clone.ProxySettings = ProxySettings;
+            clone.m_UserInfo = m_UserInfo;
 
             return clone;
         }
@@ -105,15 +108,11 @@ namespace WikiFunctions.API
 
         public bool PHP5 { get; private set; }
 
-        int m_Maxlag = 5;
         /// <summary>
         /// Maxlag parameter of every request (http://www.mediawiki.org/wiki/Manual:Maxlag_parameter)
         /// </summary>
         public int Maxlag
-        {
-            get { return m_Maxlag; }
-            set { m_Maxlag = value; }
-        }
+        { get; set; }
 
         /// <summary>
         /// Action for which we have edit token
@@ -161,11 +160,6 @@ namespace WikiFunctions.API
         /// </summary>
         public CookieContainer Cookies
         { get { return m_Cookies; } }
-
-        /// <summary>
-        /// If true, all operations involving network access can be aborted using Abort()
-        /// </summary>
-        public bool Abortable;
         #endregion
 
         /// <summary>
@@ -180,6 +174,8 @@ namespace WikiFunctions.API
             PageTitle = null;
             Timestamp = null;
             Exists = false;
+            m_Aborting = false;
+            m_Request = null;
         }
 
         /// <summary>
@@ -187,7 +183,10 @@ namespace WikiFunctions.API
         /// </summary>
         public void Abort()
         {
-            throw new NotImplementedException();
+            m_Aborting = true;
+            m_Request.Abort();
+            Thread.Sleep(1);
+            m_Aborting = false;
         }
 
         #region URL stuff
@@ -279,10 +278,41 @@ namespace WikiFunctions.API
             HttpWebRequest res = (HttpWebRequest)WebRequest.Create(url);
             if (ProxySettings != null) res.Proxy = ProxySettings;
             res.UserAgent = UserAgent;
-            res.CookieContainer = m_Cookies;
             res.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
 
+            // SECURITY: don't send cookies to third-party sites
+            if (url.StartsWith(URL)) res.CookieContainer = m_Cookies;
+
             return res;
+        }
+
+        bool m_Aborting;
+        HttpWebRequest m_Request;
+
+        protected string GetResponseString(HttpWebRequest req)
+        {
+            m_Request = req;
+
+            try
+            {
+                using (WebResponse resp = req.GetResponse())
+                {
+                    using (StreamReader sr = new StreamReader(resp.GetResponseStream()))
+                    {
+                        return sr.ReadToEnd();
+                    }
+                }
+            }
+            catch (WebException ex)
+            {
+                // just reclassifying
+                if (ex.Status == WebExceptionStatus.RequestCanceled) throw new ApiAbortedException(this);
+                else throw;
+            }
+            finally
+            {
+                m_Request = null;
+            }
         }
 
         protected string HttpPost(string[,] get, string[,] post, bool autoParams)
@@ -301,8 +331,7 @@ namespace WikiFunctions.API
                 rs.Write(postData, 0, postData.Length);
             }
 
-            WebResponse resp = req.GetResponse();
-            return (new StreamReader(resp.GetResponseStream())).ReadToEnd();
+            return GetResponseString(req);
         }
 
         protected string HttpPost(string[,] get, string[,] post)
@@ -329,16 +358,7 @@ namespace WikiFunctions.API
         /// <returns>Text received</returns>
         public string HttpGet(string url)
         {
-            HttpWebRequest req = CreateRequest(url);
-
-            // SECURITY: don't send cookies to third-party sites
-            if (!url.StartsWith(URL)) req.CookieContainer = null;
-
-            HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
-            using (StreamReader sr = new StreamReader(resp.GetResponseStream()))
-            {
-                return sr.ReadToEnd();
-            }
+            return GetResponseString(CreateRequest(url));
         }
         #endregion
 
@@ -348,7 +368,10 @@ namespace WikiFunctions.API
             Reset();
 
             string result = HttpPost(new[,] { {"action", "login"} },
-                                     new[,] { {"lgname", username}, {"lgpassword", password} },
+                                     new[,] { 
+                                        { "lgname", username }, 
+                                        { "lgpassword", password }
+                                     },
                                      false);
 
             XmlReader xr = XmlReader.Create(new StringReader(result));
@@ -523,6 +546,8 @@ namespace WikiFunctions.API
                 throw new ApiBrokenXmlException(this, ex);
             }
 
+            if (m_Aborting) throw new ApiAbortedException(this);
+
             result = HttpPost(
                 new[,]
                 {
@@ -586,6 +611,8 @@ namespace WikiFunctions.API
                 throw new ApiBrokenXmlException(this, ex);
             }
 
+            if (m_Aborting) throw new ApiAbortedException(this);
+            
             result = HttpPost(
                 new[,]
                     {
@@ -614,8 +641,9 @@ namespace WikiFunctions.API
 
         public void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect, bool watch)
         {
-            if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
-            if (string.IsNullOrEmpty(newTitle)) throw new ArgumentException("Target Page name required", "newTitle");
+            if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page title required", "title");
+            if (string.IsNullOrEmpty(newTitle)) throw new ArgumentException("Target page title required", "newTitle");
+            if (string.IsNullOrEmpty(reason)) throw new ArgumentException("Page rename reason required");
 
             Reset();
             Action = "move";
@@ -643,6 +671,8 @@ namespace WikiFunctions.API
                 throw new ApiBrokenXmlException(this, ex);
             }
 
+            if (m_Aborting) throw new ApiAbortedException(this);
+            
             result = HttpPost(
                 new[,]
                     {

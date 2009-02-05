@@ -46,6 +46,17 @@ namespace WikiFunctions.API
     }
 
     /// <summary>
+    /// Thrown when Abort() function is called, or request is otherwise abruptly terminated
+    /// </summary>
+    public class ApiAbortedException : ApiException
+    {
+        public ApiAbortedException(ApiEdit editor)
+            : base(editor, "API operation aborted")
+        {
+        }
+    };
+
+    /// <summary>
     /// Thrown when an API call returned an <error> tag.
     /// See http://www.mediawiki.org/wiki/API:Errors for details
     /// </summary>
