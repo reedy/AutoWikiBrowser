@@ -24,10 +24,9 @@ namespace APITest
                 Editor = new AsyncApiEdit(txtURL.Text, this);//ApiEdit(txtURL.Text);
                 Editor.Login(txtUsername.Text, txtPassword.Text);
                 Editor.Wait();
-                Editor.LogInStatus();
 
-                groupBox2.Enabled = true;
                 txtEdit.Text = "";
+                groupBox2.Enabled = Editor.User.IsRegistered;
                 btnSave.Enabled = false;
             }
             catch (Exception ex)
@@ -43,8 +42,16 @@ namespace APITest
                 btnSave.Enabled = false;
                 Editor.Open(txtTitle.Text);
                 Editor.Wait();
-                txtEdit.Text = Editor.PageText.Replace("\n", "\r\n");
-                btnSave.Enabled = true;
+                if (Editor.PageText != null)
+                {
+                    txtEdit.Text = Editor.PageText.Replace("\n", "\r\n");
+                    btnSave.Enabled = true;
+                }
+                else
+                {
+                    txtEdit.Text = "";
+                    btnSave.Enabled = true;
+                }
             }
             catch (Exception ex)
             {
