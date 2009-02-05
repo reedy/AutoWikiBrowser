@@ -1,24 +1,42 @@
 ﻿using System;
 using System.Threading;
 using System.Diagnostics;
+using System.Windows.Forms;
+using System.Reflection;
 
 namespace WikiFunctions.API
 {
+    public delegate void AsyncOperationCompleteEventHandler(AsyncApiEdit sender);
+    public delegate void AsyncExceptionEventHandler(AsyncApiEdit sender, Exception ex);
+
     /// <summary>
     /// Multithreaded API editor class
     /// </summary>
     public class AsyncApiEdit : IApiEdit
     {
         Thread m_Thread;
+        Control m_ParentControl;
 
         public AsyncApiEdit(string url)
-            :this(url, false)
+            :this(url, null, false)
         {
         }
 
         public AsyncApiEdit(string url, bool php5)
+            : this(url, null, php5)
+        {
+        }
+
+        public AsyncApiEdit(string url, Control parentControl)
+            : this(url, parentControl, false)
+        {
+        }
+
+        public AsyncApiEdit(string url, Control parentControl, bool php5)
         {
             Editor = new ApiEdit(url, php5);
+            State = EditState.Ready;
+            m_ParentControl = parentControl;
         }
 
         /// <summary>
@@ -26,12 +44,115 @@ namespace WikiFunctions.API
         /// </summary>
         public ApiEdit Editor { get; private set; }
 
+        public enum EditState
+        {
+            /// <summary>
+            /// Nothing goes on, last operation completed successfully
+            /// </summary>
+            Ready,
+
+            /// <summary>
+            /// The editor is performing a background operation
+            /// </summary>
+            Working,
+
+            /// <summary>
+            /// Operation complete, notification events are being called
+            /// </summary>
+            Finishing,
+
+            /// <summary>
+            /// Last operation ended unsuccessfully
+            /// </summary>
+            Failed
+        }
+
+        /// <summary>
+        /// State of the editor
+        /// </summary>
+        public EditState State
+        { get; protected set; }
+
+        /// <summary>
+        /// True if the asynchronous
+        /// </summary>
+        public bool IsActive
+        {
+            get
+            {
+                return State == EditState.Working || State == EditState.Finishing;
+            }
+        }
+
         /// <summary>
         /// Waits for asyncronous operation to complete
         /// </summary>
         public void Wait()
         {
-            if (m_Thread != null) m_Thread.Join();
+            if (m_Thread != null)
+            {
+                if (m_ParentControl != null && !m_ParentControl.InvokeRequired)
+                {
+                    // simple Thread.Joid() from UI thread would deadlock
+                    while (IsActive) Application.DoEvents();
+                }
+                else
+                {
+                    m_Thread.Join();
+                }
+            }
+        }
+
+        #region Events
+
+        public event AsyncOperationCompleteEventHandler EditComplete;
+
+        public event AsyncExceptionEventHandler ExceptionCaught;
+
+        #endregion
+
+        #region Events internal
+        delegate void OperationEndedInternal(string operation);
+        delegate void OperationFailedInternal(string operation, Exception ex);
+        delegate void ExceptionCaughtInternal(Exception ex);
+
+        protected virtual void OnOperationComplete(string operation)
+        {
+            switch (operation)
+            {
+                case "Edit":
+                    if (EditComplete != null) EditComplete(this);
+                    break;
+            }
+        }
+
+        protected virtual void OnOperationFailed(string operation, Exception ex)
+        {
+            // TODO: do something useful here
+        }
+
+        protected virtual void OnExceptionCaught(Exception ex)
+        {
+            if (ExceptionCaught != null) ExceptionCaught(this, ex);
+        }
+        #endregion
+        #region Death magic invocations
+
+        /// <summary>
+        /// Invokes a supplied delegate. If the editor is owned by a control, the
+        /// delegate will called from the control's thread, otherwise it will be 
+        /// called from current thread.
+        /// </summary>
+        private void CallEvent(Delegate method, params object[] args)
+        {
+            if (m_ParentControl == null)
+            {
+                method.DynamicInvoke(args);
+            }
+            else
+            {
+                m_ParentControl.Invoke(method, args);
+            }
         }
 
         private class InvokeArgs
@@ -48,9 +169,12 @@ namespace WikiFunctions.API
 
         private void InvokerThread(object genericArgs)
         {
+            string operation = null;
+
             try
             {
                 InvokeArgs args = (InvokeArgs)genericArgs;
+                operation = args.Function;
 
                 Thread.CurrentThread.Name = string.Format("InvokerThread ({0})", args.Function);
 
@@ -60,16 +184,29 @@ namespace WikiFunctions.API
                     args.Function,                                  // name
                     System.Reflection.BindingFlags.InvokeMethod,    // invokeAttr
                     null,                                           // binder
-                    Editor,                                       // target
+                    Editor,                                         // target
                     args.Arguments                                  // args
                     );
 
-                Debug.WriteLine(Thread.CurrentThread.Name + " successfully completed");
+                State = EditState.Finishing;
+                CallEvent(new OperationEndedInternal(OnOperationComplete), args.Function);
+                State = EditState.Ready;
             }
             catch (Exception ex)
             {
-                // TODO: 
-                Tools.WriteDebug("AsyncApiEdit", ex.Message);
+                Editor.Reset();
+
+                if (ex is TargetInvocationException) ex = ex.InnerException;
+
+                State = EditState.Failed;
+                if (operation != null && ex is ApiException)
+                {
+                    CallEvent(new OperationFailedInternal(OnOperationFailed), operation, ex);
+                }
+                else
+                {
+                    CallEvent(new ExceptionCaughtInternal(OnExceptionCaught), ex);
+                }
             }
         }
 
@@ -78,6 +215,7 @@ namespace WikiFunctions.API
             if (m_Thread != null && m_Thread.IsAlive)
                 throw new ApiInvokeException("An asynchronous call is already being performed");
 
+            State = EditState.Working;
             m_Thread = new Thread(InvokerThread);
             m_Thread.Start(args);
         }
@@ -86,6 +224,7 @@ namespace WikiFunctions.API
         {
             InvokeFunction(new InvokeArgs(name, args));
         }
+        #endregion
 
         #region IApiEdit Members
 
@@ -195,14 +334,14 @@ namespace WikiFunctions.API
 
         public string Preview(string pageTitle, string text)
         {
-            return Editor.Preview(pageTitle, text);
-            //InvokeFunction("Preview", pageTitle, text);
+            InvokeFunction("Preview", pageTitle, text);
+            return null;
         }
 
         public string ExpandTemplates(string pageTitle, string text)
         {
-            return Editor.ExpandTemplates(pageTitle, text);
-            //InvokeFunction("ExpandTemplates", pageTitle, text);
+            InvokeFunction("ExpandTemplates", pageTitle, text);
+            return null;
         }
 
         public void Abort()
@@ -212,6 +351,8 @@ namespace WikiFunctions.API
                 if (m_Thread != null)
                     m_Thread.Abort();
                 Editor.Abort();
+
+                State = EditState.Finishing;
             }
             catch (ThreadAbortException)
             {

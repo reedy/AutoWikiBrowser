@@ -21,7 +21,7 @@ namespace APITest
             groupBox2.Enabled = false;
             try
             {
-                Editor = new AsyncApiEdit(txtURL.Text);//ApiEdit(txtURL.Text);
+                Editor = new AsyncApiEdit(txtURL.Text, this);//ApiEdit(txtURL.Text);
                 Editor.Login(txtUsername.Text, txtPassword.Text);
                 Editor.Wait();
                 Editor.LogInStatus();
