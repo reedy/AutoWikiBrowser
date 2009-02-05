@@ -404,6 +404,9 @@ namespace WikiFunctions.API
 
         public void RefreshUserInfo()
         {
+            Reset();
+            m_UserInfo = new UserInfo();
+
             string result = HttpPost(new[,] { { "action", "query" } },
                          new[,] {
                             { "meta", "userinfo" },
