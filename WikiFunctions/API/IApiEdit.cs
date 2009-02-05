@@ -212,14 +212,4 @@ namespace WikiFunctions.API
         /// </summary>
         void Wait();
     }
-
-    /// <summary>
-    /// Protection level for a page
-    /// </summary>
-    public enum Protection
-    {
-        None,
-        Autoconfirmed,
-        Sysop
-    };
 }
