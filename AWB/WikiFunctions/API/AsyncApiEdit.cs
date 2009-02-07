@@ -128,11 +128,11 @@ namespace WikiFunctions.API
         #endregion
 
         #region Events internal
-        delegate void OperationEndedInternal(string operation);
+        delegate void OperationEndedInternal(string operation, object result);
         delegate void OperationFailedInternal(string operation, Exception ex);
         delegate void ExceptionCaughtInternal(Exception ex);
 
-        protected virtual void OnOperationComplete(string operation)
+        protected virtual void OnOperationComplete(string operation, object result)
         {
             switch (operation)
             {
@@ -197,7 +197,7 @@ namespace WikiFunctions.API
 
                 Type t = Editor.GetType();
 
-                /*object res = */t.InvokeMember(
+                object result = t.InvokeMember(
                     args.Function,                                  // name
                     BindingFlags.InvokeMethod,    // invokeAttr
                     null,                                           // binder
@@ -206,7 +206,7 @@ namespace WikiFunctions.API
                     );
 
                 State = EditState.Finishing;
-                CallEvent(new OperationEndedInternal(OnOperationComplete), args.Function);
+                CallEvent(new OperationEndedInternal(OnOperationComplete), args.Function, result);
                 State = EditState.Ready;
             }
             catch (ThreadAbortException)
