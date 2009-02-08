@@ -1698,7 +1698,8 @@ window.scrollTo(0, diffTopY);
                 if (tag.EndsWith(@"]]"))
                     tag = Regex.Replace(tag, @"\s*\[\[.+?\]\]$", "...");
 
-                tag = tag.Substring(0, maxSummaryLength);
+                if (tag.Length >= maxSummaryLength)
+                    tag = tag.Substring(0, maxSummaryLength);
             }
 
             tag += Variables.SummaryTag;
