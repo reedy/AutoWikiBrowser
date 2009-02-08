@@ -187,6 +187,8 @@ namespace WikiFunctions.Parse
 
             ReplaceMore(WikiRegexes.Blockquote.Matches(ArticleText), ref ArticleText);
 
+            ReplaceMore(WikiRegexes.Poem.Matches(ArticleText), ref ArticleText);
+
             ReplaceMore(WikiRegexes.Source.Matches(ArticleText), ref ArticleText);
 
             ReplaceMore(WikiRegexes.Code.Matches(ArticleText), ref ArticleText);

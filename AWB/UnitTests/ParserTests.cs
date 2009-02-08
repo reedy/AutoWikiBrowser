@@ -697,6 +697,7 @@ Some news here.", "test"));
             Assert.AreEqual(@"Now the 14th February was", Parsers.FixDateOrdinalsAndOf(@"Now the 14th February was", "test"));
             Assert.AreEqual(@"Now the February 14th was", Parsers.FixDateOrdinalsAndOf(@"Now the February 14th was", "test"));
             Assert.AreEqual(@"'''6th October City''' is", Parsers.FixDateOrdinalsAndOf(@"'''6th October City''' is", "6th October City"));
+            Assert.AreEqual(@"<poem>On March 14th, 2008 elections were</poem>", Parsers.FixDateOrdinalsAndOf(@"<poem>On March 14th, 2008 elections were</poem>", "test"));
             
             // leading zeros
             Assert.AreEqual(@"On 3 June elections were", Parsers.FixDateOrdinalsAndOf(@"On 03 June elections were", "test"));

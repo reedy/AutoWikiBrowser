@@ -241,6 +241,11 @@ namespace WikiFunctions
         /// </summary>
         public static readonly Regex Blockquote = new Regex(@"<\s*blockquote\s*>(.*?)<\s*/\s*blockquote\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
+        /// <summary> 
+        /// Matches <poem> tags
+        /// </summary>
+        public static readonly Regex Poem = new Regex(@"<\s*poem\s*>(.*?)<\s*/\s*poem\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+
         /// <summary>
         /// Matches redirects
         /// Don't use directly, use Tools.IsRedirect() and Tools.RedirectTargetInstead
