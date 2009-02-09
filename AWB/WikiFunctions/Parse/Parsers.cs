@@ -1970,7 +1970,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             testText = ArticleText;
             ArticleText = Tagger(ArticleText, ArticleTitle, ref Summary, addTags, removeTags);
-            ArticleText = TagUpdater(ArticleText);
+
+            if (addTags || removeTags)
+                ArticleText = TagUpdater(ArticleText);
 
             NoChange = (testText == ArticleText);
 
