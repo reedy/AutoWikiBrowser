@@ -37,28 +37,27 @@ namespace WikiFunctions.Controls.Lists
     {
         private readonly static SaveFileDialog saveListDialog;
         private readonly static BindingList<IListProvider> listItems = new BindingList<IListProvider>();
-        readonly ListFilterForm SpecialFilter;
+        private readonly ListFilterForm SpecialFilter;
 
         //used to keep easy track of providers for add/remove/(re)use in code
         #region ListProviders
-        private readonly static IListProvider redirectLProvider = new RedirectsListProvider();
-        private readonly static IListProvider categoryLProvider = new CategoryListProvider();
-        private readonly static IListProvider categoryRecursiveLProvider = new CategoryRecursiveListProvider();
-        private readonly static IListProvider whatLinksHereLProvider = new WhatLinksHereListProvider();
-        private readonly static IListProvider whatTranscludesLProvider = new WhatTranscludesPageListProvider();
-        private readonly static IListProvider linksOnPageLProvider = new LinksOnPageListProvider();
-        private readonly static IListProvider imageFileLinksLProvider = new ImageFileLinksListProvider();
-        private readonly static IListProvider imagesOnPageLProvider = new ImagesOnPageListProvider();
-        private readonly static IListProvider categoriesOnPageLProvider = new CategoriesOnPageListProvider();
-        private readonly static IListProvider newPagesLProvider = new NewPagesListProvider();
+
+        private static readonly IListProvider redirectLProvider = new RedirectsListProvider(),
+                                              categoryLProvider = new CategoryListProvider(),
+                                              categoryRecursiveLProvider = new CategoryRecursiveListProvider(),
+                                              whatLinksHereLProvider = new WhatLinksHereListProvider(),
+                                              whatTranscludesLProvider = new WhatTranscludesPageListProvider(),
+                                              linksOnPageLProvider = new LinksOnPageListProvider(),
+                                              imageFileLinksLProvider = new ImageFileLinksListProvider(),
+                                              imagesOnPageLProvider = new ImagesOnPageListProvider(),
+                                              categoriesOnPageLProvider = new CategoriesOnPageListProvider(),
+                                              newPagesLProvider = new NewPagesListProvider();
         #endregion
 
-        public event ListMakerEventHandler StatusTextChanged;
-        public event ListMakerEventHandler BusyStateChanged;
-        public event ListMakerEventHandler NoOfArticlesChanged;
-        public bool FilterNonMainAuto;
-        public bool AutoAlpha;
-        public bool FilterDuplicates;
+        public event ListMakerEventHandler StatusTextChanged,
+            BusyStateChanged, NoOfArticlesChanged;
+
+        public bool FilterNonMainAuto, AutoAlpha, FilterDuplicates;
         /// <summary>
         /// Occurs when a list has been created
         /// </summary>
@@ -1045,19 +1044,14 @@ namespace WikiFunctions.Controls.Lists
 
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            lbArticles.BeginUpdate();
-
-            for (int i = 0; i != lbArticles.Items.Count; i++)
-                lbArticles.SetSelected(i, true);
-
-            lbArticles.EndUpdate();
+            SetSelected(true);
         }
 
         private void invertSelectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             lbArticles.BeginUpdate();
 
-            for (int i = 0; i != lbArticles.Items.Count; i++)
+            for (int i = 0; i < lbArticles.Items.Count; i++)
                 lbArticles.SetSelected(i, !lbArticles.GetSelected(i));
 
             lbArticles.EndUpdate();
@@ -1065,10 +1059,15 @@ namespace WikiFunctions.Controls.Lists
 
         private void selectNoneToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            SetSelected(false);
+        }
+
+        private void SetSelected(bool selected)
+        {
             lbArticles.BeginUpdate();
 
-            for (int i = 0; i != lbArticles.Items.Count; i++)
-                lbArticles.SetSelected(i, false);
+            for (int i = 0; i < lbArticles.Items.Count; i++)
+                lbArticles.SetSelected(i, selected);
 
             lbArticles.EndUpdate();
         }
@@ -1120,17 +1119,15 @@ namespace WikiFunctions.Controls.Lists
 
         private void AddFromSelectedList(IListProvider provider)
         {
-            string[] c = new string[lbArticles.SelectedItems.Count];
+            if (lbArticles.SelectedItems.Count == 0)
+                return;
 
-            int i = 0;
-            foreach (object o in lbArticles.SelectedItems)
-            {
-                c[i] = o.ToString();
-                i++;
-            }
+            List<string> articles = new List<string>();
 
-            if (i > 0)
-                MakeList(provider, c);
+            foreach (Article a in lbArticles.SelectedItems)
+                articles.Add(a.Name);
+
+            MakeList(provider, articles.ToArray());
         }
 
         private void clearToolStripMenuItem1_Click(object sender, EventArgs e)
