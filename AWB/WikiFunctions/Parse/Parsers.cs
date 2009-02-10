@@ -1968,6 +1968,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         public string Tagger(string ArticleText, string ArticleTitle, out bool NoChange, ref string Summary, bool addTags, bool removeTags)
         {
+            if (!addTags && !removeTags)
+            {
+                NoChange = false;
+                return ArticleText;
+            }
+
             testText = ArticleText;
             ArticleText = Tagger(ArticleText, ArticleTitle, ref Summary, addTags, removeTags);
             ArticleText = TagUpdater(ArticleText);
