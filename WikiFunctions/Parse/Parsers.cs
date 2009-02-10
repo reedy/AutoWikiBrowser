@@ -85,7 +85,7 @@ namespace WikiFunctions.Parse
             RegexConversion.Add(new Regex(@"\{\{(?:Template:)?(4cc|4L[AWC])\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{4CC}}");
             RegexConversion.Add(new Regex(@"\{\{(?:Template:)?(Bio-dab|Hndisambig)", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Hndis");
 
-            RegexConversion.Add(new Regex(@"\{\{(?:Template:)?(Prettytable|Prettytable100|Pt)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{subst:Prettytable}}");
+            RegexConversion.Add(new Regex(@"\{\{(?:Template:)?(Prettytable|Prettytable100)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{subst:Prettytable}}");
             RegexConversion.Add(new Regex(@"\{\{(?:[Tt]emplate:)?(PAGENAMEE?\}\}|[Ll]ived\||[Bb]io-cats\|)", RegexOptions.Compiled), "{{subst:$1");
 
             // articleissues with one issue -> single issue tag (e.g. {{articleissues|cleanup=January 2008}} to {{cleanup|date=January 2008}} etc.)
@@ -1970,9 +1970,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             testText = ArticleText;
             ArticleText = Tagger(ArticleText, ArticleTitle, ref Summary, addTags, removeTags);
-
-            if (addTags || removeTags)
-                ArticleText = TagUpdater(ArticleText);
+            ArticleText = TagUpdater(ArticleText);
 
             NoChange = (testText == ArticleText);
 
