@@ -1693,6 +1693,13 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
             Assert.AreEqual("{{Test Template}}", p.Tagger("{{Test Template}}", "Test", out noChange, ref summary, true, true));
             Assert.IsTrue(noChange);
+
+            // {{Pt}} is now {{Pt icon}}
+            Assert.AreEqual("hello {{pt}} hello", p.Tagger("hello {{pt}} hello", "Test", out noChange, ref summary, true, true));
+            Assert.IsTrue(noChange);
+
+            Assert.AreEqual("hello {{Pt}} hello", p.Tagger("hello {{Pt}} hello", "Test", out noChange, ref summary, true, true));
+            Assert.IsTrue(noChange);
         }        
         
         [Test]
