@@ -1606,6 +1606,13 @@ fish | name = Bert }} ''Bert'' is a good fish."));
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
             Assert.IsFalse(text.Contains(uncatstub));
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Autotagging_and_Articleissues
+            // do not add orphan where article already has orphan tag within {{Article issues}}
+
+            text = p.Tagger(@"{{Article issues|orphan=May 2008|cleanup=May 2008|story=May 2008}}\r\n" + shortText, "Test", out noChange, ref summary, true, false);
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(text));
         }
 
         private const string shortText =

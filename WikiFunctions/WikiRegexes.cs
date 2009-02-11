@@ -361,6 +361,11 @@ namespace WikiFunctions
         /// 
         /// </summary>
         public static readonly Regex Orphan = new Regex(@"{{[Oo]rphan\|?(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?)?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        
+        /// <summary>
+        /// matches orphan tag within {{Article issues}} template
+        /// </summary>
+        public static readonly Regex OrphanArticleIssues = new Regex(@"{{\s*article\s*issues\s*\|[^{}]*?\borphan\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// 
