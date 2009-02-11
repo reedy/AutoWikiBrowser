@@ -2121,7 +2121,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             }
 
             // add orphan tag if applicable
-            if (addTags && orphaned && !WikiRegexes.Orphan.IsMatch(ArticleText))
+            if (addTags && orphaned && !WikiRegexes.Orphan.IsMatch(ArticleText) && !WikiRegexes.OrphanArticleIssues.IsMatch(ArticleText))
             {
                 ArticleText = "{{orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
                 Summary += ", added [[:Category:Orphaned articles|orphan]] tag";
