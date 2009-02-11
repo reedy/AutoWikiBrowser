@@ -118,7 +118,6 @@ namespace WikiFunctions.Logging
             filterShowOnlySelectedToolStripMenuItem.Visible = enabled;
             filterExcludeToolStripMenuItem.Visible = enabled;
             toolStripSeparator1.Visible = enabled;
-            openHistoryInBrowserToolStripMenuItem.Enabled = enabled;
         }
 
         private void addSelectedToArticleListToolStripMenuItem_Click(object sender, EventArgs e)
