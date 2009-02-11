@@ -1674,12 +1674,12 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         public void Update()
         {
             //Test of updating some of the non dated tags
-            string text = p.Tagger("{{fact}}", "Test", out noChange, ref summary, false, false);
+            string text = p.Tagger("{{fact}}", "Test", out noChange, ref summary, false, true);
 
             Assert.IsTrue(text.Contains("{{Fact|date={{subst:CURRENTMONTHNAME}}"));
             Assert.IsFalse(text.Contains("{{fact}}"));
 
-            text = p.Tagger("{{template:fact}}", "Test", out noChange, ref summary, false, false);
+            text = p.Tagger("{{template:fact}}", "Test", out noChange, ref summary, false, true);
 
             Assert.IsTrue(text.Contains("{{Fact|date={{subst:CURRENTMONTHNAME}}"));
             Assert.IsFalse(text.Contains("{{fact}}"));
