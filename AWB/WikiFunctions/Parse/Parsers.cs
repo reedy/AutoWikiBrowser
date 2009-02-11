@@ -1970,7 +1970,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             if (!addTags && !removeTags)
             {
-                NoChange = false;
+                NoChange = true;
                 return ArticleText;
             }
 
