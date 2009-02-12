@@ -844,6 +844,8 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class WikiSearchListProvider : ApiListProviderBase
     {
+        protected string srwhat = "text";
+
         #region Tags: <search>/<p>
         static readonly List<string> pe = new List<string>(new[] { "p" });
         protected override ICollection<string> PageElements
@@ -881,7 +883,7 @@ namespace WikiFunctions.Lists
 
             foreach (string page in searchCriteria)
             {
-                string url = Variables.URLApi + "?action=query&list=search&srwhat=text&srsearch="
+                string url = Variables.URLApi + "?action=query&list=search&srwhat=" + srwhat + "&srsearch="
                     + page + "&srlimit=max&format=xml" + ns;
 
                 list.AddRange(ApiMakeList(url, list.Count));
@@ -891,7 +893,7 @@ namespace WikiFunctions.Lists
 
         #region ListMaker properties
         public override string DisplayText
-        { get { return "Wiki search"; } }
+        { get { return "Wiki search (text)"; } }
 
         public override string UserInputTextBoxText
         { get { return "Wiki search:"; } }
@@ -902,6 +904,17 @@ namespace WikiFunctions.Lists
         public override void Selected() { }
         #endregion
     }
+
+     public class WikiTitleSearchListProvider : WikiSearchListProvider
+     {
+         public WikiTitleSearchListProvider()
+         {
+             srwhat = "title";
+         }
+
+         public override string DisplayText
+         { get { return "Wiki search (title)"; } }
+     }
 
     /// <summary>
     /// Gets a list of pages which redirect to the Named Pages

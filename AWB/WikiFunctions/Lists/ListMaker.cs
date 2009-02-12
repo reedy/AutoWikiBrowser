@@ -102,6 +102,7 @@ namespace WikiFunctions.Controls.Lists
                 listItems.Add(new DatabaseScannerListProvider(this));
                 listItems.Add(new MyWatchlistListProvider());
                 listItems.Add(new WikiSearchListProvider());
+                listItems.Add(new WikiTitleSearchListProvider());
                 listItems.Add(new RandomPagesSpecialPageProvider());
                 listItems.Add(redirectLProvider);
                 listItems.Add(newPagesLProvider);
