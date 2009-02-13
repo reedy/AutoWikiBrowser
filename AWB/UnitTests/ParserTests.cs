@@ -1059,6 +1059,10 @@ While remaining upright may be the primary goal of beginning riders While remain
             Assert.AreEqual("&emsp;&#013;", Parsers.Unicodify("&emsp;&#013;"));
 
             Assert.AreEqual("The F&#x2011;22 plane", Parsers.Unicodify("The F&#x2011;22 plane"));
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#SmackBot:_conversion_of_HTML_char-codes_to_raw_Unicode:_issue_.26_consequent_suggestion
+            Assert.AreEqual(@"the exclamation mark&#8201;! was", Parsers.Unicodify(@"the exclamation mark&#8201;! was"));
+            Assert.AreEqual(@"the exclamation mark&#8239;! was", Parsers.Unicodify(@"the exclamation mark&#8239;! was"));
         }
 
         [Test]
