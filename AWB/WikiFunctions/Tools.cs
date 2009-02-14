@@ -179,7 +179,7 @@ namespace WikiFunctions
             return (p != ProjectEnum.custom && p != ProjectEnum.wikia);
         }
 
-        private readonly static char[] InvalidChars = new[] {'[', ']', '{', '}', '|', '<', '>', '#'};
+        private readonly static char[] InvalidChars = new[] { '[', ']', '{', '}', '|', '<', '>', '#' };
 
         // Covered by ToolsTests.InvalidChars()
         /// <summary>
@@ -425,10 +425,7 @@ namespace WikiFunctions
         public static string GetNamespaceString(Article a)
         {
             int ns = a.NameSpaceKey;
-            if (ns == 0)
-                return "";
-
-            return Variables.Namespaces[ns].Replace(":", "");
+            return (ns == 0) ? "" : Variables.Namespaces[ns].Replace(":", "");
         }
 
         // Covered by ToolsTests.BasePageName()
@@ -441,10 +438,7 @@ namespace WikiFunctions
         {
             title = RemoveNamespaceString(title);
             int i = title.IndexOf('/');
-            if (i < 0)
-                return title;
-            
-            return title.Substring(0, i);
+            return (i < 0) ? title : title.Substring(0, i);
         }
 
         // Covered by ToolsTests.SubPageName()
@@ -458,10 +452,7 @@ namespace WikiFunctions
             title = RemoveNamespaceString(title);
 
             int i = title.LastIndexOf('/');
-            if (i < 0)
-                return title;
-            
-            return title.Substring(i + 1);
+            return (i < 0) ? title : title.Substring(i + 1);
         }
 
         // Covered by ToolsTests.RomanNumbers()
@@ -495,8 +486,6 @@ namespace WikiFunctions
             if (buf.Length + adBuf.Length <= MaxEditSummaryLength)
                 return summary + awbAd;
 
-
-
             return summary + awbAd;
         }
 
@@ -522,7 +511,7 @@ namespace WikiFunctions
 
             HttpWebRequest rq = Variables.PrepareWebRequest(URL); // Uses WikiFunctions' default UserAgent string
 
-            HttpWebResponse response = (HttpWebResponse) rq.GetResponse();
+            HttpWebResponse response = (HttpWebResponse)rq.GetResponse();
 
             Stream stream = response.GetResponseStream();
             StreamReader sr = new StreamReader(stream, Enc);
@@ -596,7 +585,7 @@ namespace WikiFunctions
                 // escaping breaks many places that alredy escape their data
                 return "[" + char.ToUpper(input[0]) + char.ToLower(input[0]) + "]" + input.Remove(0, 1);
             }
-            
+
             return input;
         }
 
@@ -618,7 +607,7 @@ namespace WikiFunctions
                 }
                 return builder.ToString();
             }
-            
+
             return input;
         }
 
@@ -681,7 +670,7 @@ namespace WikiFunctions
         }
 
         public static string TurnFirstToUpperNoProjectCheck(string input)
-        {   
+        {
             return (char.ToUpper(input[0]) + input.Remove(0, 1));
         }
 
@@ -691,10 +680,7 @@ namespace WikiFunctions
         /// </summary>
         public static string TurnFirstToLower(string input)
         {
-            if (string.IsNullOrEmpty(input))
-                return "";
-
-            return (char.ToLower(input[0]) + input.Remove(0, 1));
+            return (string.IsNullOrEmpty(input)) ? "" : (char.ToLower(input[0]) + input.Remove(0, 1));
         }
 
         private static readonly Regex RegexWordCountTable = new Regex("\\{\\|.*?\\|\\}", RegexOptions.Compiled | RegexOptions.Singleline);
@@ -756,7 +742,7 @@ namespace WikiFunctions
         /// <returns>Array of strings, each represents a section with its heading (if any)</returns>
         public static string[] SplitToSections(string ArticleText)
         {
-            string[] lines = ArticleText.Split(new [] { "\r\n" }, StringSplitOptions.None);
+            string[] lines = ArticleText.Split(new[] { "\r\n" }, StringSplitOptions.None);
 
             List<string> sections = new List<string>();
             StringBuilder section = new StringBuilder();
@@ -1425,10 +1411,7 @@ Message: {2}
         {
             link = WikiRegexes.ExtractTitle.Match(link).Groups[1].Value;
 
-            if (string.IsNullOrEmpty(link))
-                return null;
-
-            return WikiDecode(link);
+            return string.IsNullOrEmpty(link) ? null : WikiDecode(link);
         }
 
         // Not Covered
@@ -1495,9 +1478,9 @@ Message: {2}
         /// <returns>Array of lines</returns>
         public static string[] SplitLines(string source)
         {
-            char[] separators = new [] { '\r', '\n' };
+            char[] separators = new[] { '\r', '\n' };
             List<string> res = new List<string>();
-            
+
             int pos = 0;
             int sourceLength = source.Length;
 
@@ -1736,7 +1719,7 @@ Message: {2}
             HttpWebResponse rs = (HttpWebResponse)rq.GetResponse();
             if (rs.StatusCode == HttpStatusCode.OK)
                 return new StreamReader(rs.GetResponseStream()).ReadToEnd();
-            
+
             throw new WebException(rs.StatusDescription, WebExceptionStatus.UnknownError);
         }
 
