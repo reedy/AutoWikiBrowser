@@ -33,7 +33,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Private Const conBritishWGParm As String = "MilHistBrit"
         Private Const conAviationWGParm As String = "MilHistAir"
         Private Const conAustralianWGParm As String = "MilHistAus"
-        Private Const conAncientNearEastWGParm As String = "MilHistAncNE"
         Private Const conAmericanCivilWarWGParm As String = "MilHistACW"
         Private Const conEarlyModernWGParm As String = "MilHistEarlyModern"
         Private Const conStubClassParm As String = "MilHistStubClass"
@@ -75,7 +74,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             British = PluginManager.XMLReadBoolean(Reader, conBritishWGParm, British)
             Aviation = PluginManager.XMLReadBoolean(Reader, conAviationWGParm, Aviation)
             Australian = PluginManager.XMLReadBoolean(Reader, conAustralianWGParm, Australian)
-            AncientNearEast = PluginManager.XMLReadBoolean(Reader, conAncientNearEastWGParm, AncientNearEast)
             AmericanCivilWar = PluginManager.XMLReadBoolean(Reader, conAmericanCivilWarWGParm, AmericanCivilWar)
             StubClass = PluginManager.XMLReadBoolean(Reader, conStubClassParm, StubClass)
             AutoStub = PluginManager.XMLReadBoolean(Reader, conAutoStubParm, AutoStub)
@@ -118,7 +116,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 .WriteAttributeString(conBritishWGParm, British.ToString)
                 .WriteAttributeString(conAviationWGParm, Aviation.ToString)
                 .WriteAttributeString(conAustralianWGParm, Australian.ToString)
-                .WriteAttributeString(conAncientNearEastWGParm, AncientNearEast.ToString)
                 .WriteAttributeString(conAmericanCivilWarWGParm, AmericanCivilWar.ToString)
                 .WriteAttributeString(conStubClassParm, StubClass.ToString)
                 .WriteAttributeString(conAutoStubParm, AutoStub.ToString)
@@ -323,14 +320,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 AustralianCheckBox.Checked = value
             End Set
         End Property
-        Friend Property AncientNearEast() As Boolean
-            Get
-                Return AncientNearEastCheckBox.Checked
-            End Get
-            Set(ByVal value As Boolean)
-                AncientNearEastCheckBox.Checked = value
-            End Set
-        End Property
         Friend Property AmericanCivilWar() As Boolean
             Get
                 Return AmericanCivilWarCheckBox.Checked
@@ -450,10 +439,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Property
         Friend Property AutoStub() As Boolean Implements IGenericSettings.AutoStub
             Get
-                Return AutoStubCheckBox.Checked
+                Return False
             End Get
             Set(ByVal value As Boolean)
-                AutoStubCheckBox.Checked = value
             End Set
         End Property
         Friend Property ForceImportanceRemoval() As Boolean
@@ -474,14 +462,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         ' Event handlers:
         Private Sub LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
             Tools.OpenENArticleInBrowser("Template:WPMILHIST", False)
-        End Sub
-        Private Sub AutoStubCheckBox_CheckedChanged(ByVal sender As System.Object, _
-        ByVal e As System.EventArgs) Handles AutoStubCheckBox.CheckedChanged
-            If AutoStubCheckBox.Checked Then StubClassCheckBox.Checked = False
-        End Sub
-        Private Sub StubClassCheckBox_CheckedChanged(ByVal sender As System.Object, _
-        ByVal e As System.EventArgs) Handles StubClassCheckBox.CheckedChanged
-            If StubClassCheckBox.Checked Then AutoStubCheckBox.Checked = False
         End Sub
 
         Private Sub WPMILHISTToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WPMILHISTToolStripMenuItem.Click
@@ -600,7 +580,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             PluginManager.EditBoxInsertYesParam("ACW-task-force")
         End Sub
 
-        Private Sub AncientNearEasterToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AncientNearEasterToolStripMenuItem.Click
+        Private Sub AncientNearEasterToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
             PluginManager.EditBoxInsertYesParam("Ancient-task-force")
         End Sub
 
@@ -724,7 +704,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             StubClass()
             With OurSettingsControl
                 If .AmericanCivilWar Then AddAndLogNewParamWithAYesValue("ACW-task-force")
-                If .AncientNearEast Then AddAndLogNewParamWithAYesValue("Ancient-Near-East-task-force")
                 If .Australian Then AddAndLogNewParamWithAYesValue("Australian-task-force")
                 If .Aviation Then AddAndLogNewParamWithAYesValue("Aviation-task-force")
                 If .British Then AddAndLogNewParamWithAYesValue("British-task-force")
