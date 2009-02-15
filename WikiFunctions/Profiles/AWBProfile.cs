@@ -30,8 +30,8 @@ namespace WikiFunctions.Profiles
             bool pUseForUpload)
         {
             id = pID;
-            mUsername = pUsername;
-            mPassword = pPassword;
+            Username = pUsername;
+            Password = pPassword;
             defaultsettings = pDefaultSettings;
             notes = pNotes;
             useforupload = pUseForUpload;
@@ -42,22 +42,10 @@ namespace WikiFunctions.Profiles
         public int id;
         public string defaultsettings, notes;
 
-        private string mUsername = "";
-        private string mPassword = "";
+        public string Username;
+        public string Password;
 
         public bool useforupload;
-
-        public string Username
-        {
-            get { return mUsername; }
-            set { mUsername = value; }
-        }
-
-        public string Password
-        {
-            get { return mPassword; }
-            set { mPassword = value; }
-        }
     }
 
     public static class AWBProfiles
@@ -322,7 +310,7 @@ namespace WikiFunctions.Profiles
         private static void RegistrySetValue(int keyNameSuffix, string valueName, string value)
         { RegistryUtils.SetValue(ProfileRegistryString + keyNameSuffix, valueName, value); }
 
-        private static Microsoft.Win32.RegistryKey RegistryGetWritableKey(int keyNameSuffix)
+        private static RegistryKey RegistryGetWritableKey(int keyNameSuffix)
         { return RegistryUtils.GetWritableKey(ProfileRegistryString + keyNameSuffix); }
 
         public static void MigrateProfiles()
