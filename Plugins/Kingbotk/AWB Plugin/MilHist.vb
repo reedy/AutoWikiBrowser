@@ -701,11 +701,61 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Function
         Protected Overrides Sub ProcessArticleFinish()
             StubClass()
+            With OurSettingsControl
+                If .AmericanCivilWar Then AddAndLogNewParamWithAYesValue("ACW")
+                If .Australian Then AddAndLogNewParamWithAYesValue("Australian")
+                If .Aviation Then AddAndLogNewParamWithAYesValue("Aviation")
+                If .British Then AddAndLogNewParamWithAYesValue("British")
+                If .Canadian Then AddAndLogNewParamWithAYesValue("Canadian")
+                If .Chinese Then AddAndLogNewParamWithAYesValue("Chinese")
+                If .Classical Then AddAndLogNewParamWithAYesValue("Classical")
+                If .Dutch Then AddAndLogNewParamWithAYesValue("Dutch")
+                If .EarlyModern Then AddAndLogNewParamWithAYesValue("Early-Modern")
+                If .French Then AddAndLogNewParamWithAYesValue("French")
+                If .German Then AddAndLogNewParamWithAYesValue("German")
+                If .Indian Then AddAndLogNewParamWithAYesValue("Indian")
+                If .Italian Then AddAndLogNewParamWithAYesValue("Italian")
+                If .Japanese Then AddAndLogNewParamWithAYesValue("Japanese")
+                If .Maritime Then AddAndLogNewParamWithAYesValue("Maritime")
+                If .Memorials Then AddAndLogNewParamWithAYesValue("Memorials")
+                If .Medieval Then AddAndLogNewParamWithAYesValue("Medieval")
+                If .Napoleonic Then AddAndLogNewParamWithAYesValue("Napoleonic")
+                If .Polish Then AddAndLogNewParamWithAYesValue("Polish")
+                If .US Then AddAndLogNewParamWithAYesValue("US")
+                If .Weaponry Then AddAndLogNewParamWithAYesValue("Weaponry")
+                If .WWI Then AddAndLogNewParamWithAYesValue("WWI")
+                If .WWII Then AddAndLogNewParamWithAYesValue("WWII")
 
+                If .Historiography Then AddAndLogNewParamWithAYesValue("Historiography")
+                If .Science Then AddAndLogNewParamWithAYesValue("Science")
+                If .Technology Then AddAndLogNewParamWithAYesValue("Technology")
+                If .African Then AddAndLogNewParamWithAYesValue("African")
+                If .Balkan Then AddAndLogNewParamWithAYesValue("Balkan")
+                If .Korean Then AddAndLogNewParamWithAYesValue("Korean")
+                If .NewZealand Then AddAndLogNewParamWithAYesValue("New-Zealand")
+                If .Nordic Then AddAndLogNewParamWithAYesValue("Nordic")
+                If .Ottoman Then AddAndLogNewParamWithAYesValue("Ottoman")
+                If .Russian Then AddAndLogNewParamWithAYesValue("Russian")
+                If .Spanish Then AddAndLogNewParamWithAYesValue("Spanish")
+            End With
             If Template.Parameters.ContainsKey("importance") Then
                 Template.Parameters.Remove("importance")
                 Article.ArticleHasAMajorChange()
                 PluginManager.AWBForm.TraceManager.WriteArticleActionLine("Removed importance parameter", _
+                   PluginShortName)
+            End If
+
+            If Template.Parameters.ContainsKey("AncientNE") Then
+                Template.Parameters.Remove("AncientNE")
+                Article.ArticleHasAMajorChange()
+                PluginManager.AWBForm.TraceManager.WriteArticleActionLine("Removed AncientNE parameter", _
+                   PluginShortName)
+            End If
+
+            If Template.Parameters.ContainsKey("auto") Then
+                Template.Parameters.Remove("auto")
+                Article.ArticleHasAMajorChange()
+                PluginManager.AWBForm.TraceManager.WriteArticleActionLine("Removed auto parameter", _
                    PluginShortName)
             End If
         End Sub
