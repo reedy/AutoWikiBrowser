@@ -1137,22 +1137,17 @@ namespace WikiFunctions
             sound.Play();
         }
 
-        static bool bWriteDebug;
         /// <summary>
         /// Gets or sets value whether debug is enabled
         /// </summary>
-        public static bool WriteDebugEnabled
-        {
-            get { return bWriteDebug; }
-            set { bWriteDebug = value; }
-        }
+        public static bool WriteDebugEnabled;
 
         /// <summary>
         /// Writes debug log message
         /// </summary>
         public static void WriteDebug(string Object, string Text)
         {
-            if (!bWriteDebug)
+            if (!WriteDebugEnabled)
                 return;
 
             try
@@ -1217,7 +1212,7 @@ Message: {2}
         /// <returns>String of maximum count chars from the beginning of str</returns>
         public static string FirstChars(string str, int count)
         {
-            return str.Length <= count ? str : str.Substring(0, count);
+            return (str.Length <= count) ? str : str.Substring(0, count);
         }
 
         /// <summary>
