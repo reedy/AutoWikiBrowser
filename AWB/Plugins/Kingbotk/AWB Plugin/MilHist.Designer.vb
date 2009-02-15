@@ -92,6 +92,13 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.TabControl1 = New System.Windows.Forms.TabControl
             Me.TabPage1 = New System.Windows.Forms.TabPage
             Me.NationsRegionsGroupBox = New System.Windows.Forms.GroupBox
+            Me.TaiwaneseCheckBox = New System.Windows.Forms.CheckBox
+            Me.SoutheastAsianCheckBox = New System.Windows.Forms.CheckBox
+            Me.SouthAmericanCheckBox = New System.Windows.Forms.CheckBox
+            Me.RomanianCheckBox = New System.Windows.Forms.CheckBox
+            Me.MiddleEastCheckBox = New System.Windows.Forms.CheckBox
+            Me.LebaneseCheckBox = New System.Windows.Forms.CheckBox
+            Me.BalticCheckBox = New System.Windows.Forms.CheckBox
             Me.SpanishCheckBox = New System.Windows.Forms.CheckBox
             Me.RussianCheckBox = New System.Windows.Forms.CheckBox
             Me.OttomanCheckBox = New System.Windows.Forms.CheckBox
@@ -100,9 +107,19 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.KoreanCheckBox = New System.Windows.Forms.CheckBox
             Me.BalkanCheckBox = New System.Windows.Forms.CheckBox
             Me.AfricanCheckBox = New System.Windows.Forms.CheckBox
+            Me.NoTaskForceCheckBox = New System.Windows.Forms.CheckBox
             Me.TabPage2 = New System.Windows.Forms.TabPage
             Me.PeriodsConflictsGroupBox = New System.Windows.Forms.GroupBox
+            Me.ARWCheckBox = New System.Windows.Forms.CheckBox
+            Me.CrusadesCheckBox = New System.Windows.Forms.CheckBox
+            Me.MuslimCheckBox = New System.Windows.Forms.CheckBox
             Me.GeneralGroupBox = New System.Windows.Forms.GroupBox
+            Me.BiographyCheckBox = New System.Windows.Forms.CheckBox
+            Me.NationalCheckBox = New System.Windows.Forms.CheckBox
+            Me.FilmsCheckBox = New System.Windows.Forms.CheckBox
+            Me.FortificationsCheckBox = New System.Windows.Forms.CheckBox
+            Me.IntelCheckBox = New System.Windows.Forms.CheckBox
+            Me.LandVehiclesCheckBox = New System.Windows.Forms.CheckBox
             Me.TechnologyCheckBox = New System.Windows.Forms.CheckBox
             Me.ScienceCheckBox = New System.Windows.Forms.CheckBox
             Me.HistoriographyCheckBox = New System.Windows.Forms.CheckBox
@@ -119,13 +136,13 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             '
             Me.TextInsertContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WPMilHistToolStripMenuItem1})
             Me.TextInsertContextMenuStrip.Name = "TextInsertContextMenuStrip"
-            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(153, 48)
+            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(131, 26)
             '
             'WPMilHistToolStripMenuItem1
             '
             Me.WPMilHistToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WPMILHISTToolStripMenuItem, Me.ToolStripSeparator1, Me.GeneralTaskForcesToolStripMenuItem, Me.NationsAndRegionsTaskForcesToolStripMenuItem, Me.PeriodsAndConflictsTaskForcesToolStripMenuItem})
             Me.WPMilHistToolStripMenuItem1.Name = "WPMilHistToolStripMenuItem1"
-            Me.WPMilHistToolStripMenuItem1.Size = New System.Drawing.Size(152, 22)
+            Me.WPMilHistToolStripMenuItem1.Size = New System.Drawing.Size(130, 22)
             Me.WPMilHistToolStripMenuItem1.Text = "WPMilHist"
             '
             'WPMILHISTToolStripMenuItem
@@ -198,121 +215,121 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'AfricanToolStripMenuItem
             '
             Me.AfricanToolStripMenuItem.Name = "AfricanToolStripMenuItem"
-            Me.AfricanToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.AfricanToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
             Me.AfricanToolStripMenuItem.Text = "African"
             '
             'AustralianToolStripMenuItem
             '
             Me.AustralianToolStripMenuItem.Name = "AustralianToolStripMenuItem"
-            Me.AustralianToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.AustralianToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
             Me.AustralianToolStripMenuItem.Text = "Australian"
             '
             'BalkanToolStripMenuItem
             '
             Me.BalkanToolStripMenuItem.Name = "BalkanToolStripMenuItem"
-            Me.BalkanToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.BalkanToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
             Me.BalkanToolStripMenuItem.Text = "Balkan"
             '
             'BritishToolStripMenuItem
             '
             Me.BritishToolStripMenuItem.Name = "BritishToolStripMenuItem"
-            Me.BritishToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.BritishToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
             Me.BritishToolStripMenuItem.Text = "British"
             '
             'CanadianToolStripMenuItem
             '
             Me.CanadianToolStripMenuItem.Name = "CanadianToolStripMenuItem"
-            Me.CanadianToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.CanadianToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
             Me.CanadianToolStripMenuItem.Text = "Canadian"
             '
             'ChineseToolStripMenuItem
             '
             Me.ChineseToolStripMenuItem.Name = "ChineseToolStripMenuItem"
-            Me.ChineseToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.ChineseToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
             Me.ChineseToolStripMenuItem.Text = "Chinese"
             '
             'DutchToolStripMenuItem
             '
             Me.DutchToolStripMenuItem.Name = "DutchToolStripMenuItem"
-            Me.DutchToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.DutchToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
             Me.DutchToolStripMenuItem.Text = "Dutch"
             '
             'FrenchToolStripMenuItem
             '
             Me.FrenchToolStripMenuItem.Name = "FrenchToolStripMenuItem"
-            Me.FrenchToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.FrenchToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
             Me.FrenchToolStripMenuItem.Text = "French"
             '
             'GermanToolStripMenuItem
             '
             Me.GermanToolStripMenuItem.Name = "GermanToolStripMenuItem"
-            Me.GermanToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.GermanToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
             Me.GermanToolStripMenuItem.Text = "German"
             '
             'IndianToolStripMenuItem
             '
             Me.IndianToolStripMenuItem.Name = "IndianToolStripMenuItem"
-            Me.IndianToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.IndianToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
             Me.IndianToolStripMenuItem.Text = "Indian"
             '
             'ItalianToolStripMenuItem
             '
             Me.ItalianToolStripMenuItem.Name = "ItalianToolStripMenuItem"
-            Me.ItalianToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.ItalianToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
             Me.ItalianToolStripMenuItem.Text = "Italian"
             '
             'JapaneseToolStripMenuItem
             '
             Me.JapaneseToolStripMenuItem.Name = "JapaneseToolStripMenuItem"
-            Me.JapaneseToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.JapaneseToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
             Me.JapaneseToolStripMenuItem.Text = "Japanese"
             '
             'KoreanToolStripMenuItem
             '
             Me.KoreanToolStripMenuItem.Name = "KoreanToolStripMenuItem"
-            Me.KoreanToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.KoreanToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
             Me.KoreanToolStripMenuItem.Text = "Korean"
             '
             'NewZealandToolStripMenuItem
             '
             Me.NewZealandToolStripMenuItem.Name = "NewZealandToolStripMenuItem"
-            Me.NewZealandToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.NewZealandToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
             Me.NewZealandToolStripMenuItem.Text = "New Zealand"
             '
             'NordicToolStripMenuItem
             '
             Me.NordicToolStripMenuItem.Name = "NordicToolStripMenuItem"
-            Me.NordicToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.NordicToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
             Me.NordicToolStripMenuItem.Text = "Nordic"
             '
             'OttomanToolStripMenuItem
             '
             Me.OttomanToolStripMenuItem.Name = "OttomanToolStripMenuItem"
-            Me.OttomanToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.OttomanToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
             Me.OttomanToolStripMenuItem.Text = "Ottoman"
             '
             'PolishToolStripMenuItem
             '
             Me.PolishToolStripMenuItem.Name = "PolishToolStripMenuItem"
-            Me.PolishToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.PolishToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
             Me.PolishToolStripMenuItem.Text = "Polish"
             '
             'RussianToolStripMenuItem
             '
             Me.RussianToolStripMenuItem.Name = "RussianToolStripMenuItem"
-            Me.RussianToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.RussianToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
             Me.RussianToolStripMenuItem.Text = "Russian"
             '
             'SpanishToolStripMenuItem
             '
             Me.SpanishToolStripMenuItem.Name = "SpanishToolStripMenuItem"
-            Me.SpanishToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.SpanishToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
             Me.SpanishToolStripMenuItem.Text = "Spanish"
             '
             'USToolStripMenuItem
             '
             Me.USToolStripMenuItem.Name = "USToolStripMenuItem"
-            Me.USToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.USToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
             Me.USToolStripMenuItem.Text = "US"
             '
             'PeriodsAndConflictsTaskForcesToolStripMenuItem
@@ -325,43 +342,43 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'ACWToolStripMenuItem
             '
             Me.ACWToolStripMenuItem.Name = "ACWToolStripMenuItem"
-            Me.ACWToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.ACWToolStripMenuItem.Size = New System.Drawing.Size(144, 22)
             Me.ACWToolStripMenuItem.Text = "ACW"
             '
             'ClassicalToolStripMenuItem
             '
             Me.ClassicalToolStripMenuItem.Name = "ClassicalToolStripMenuItem"
-            Me.ClassicalToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.ClassicalToolStripMenuItem.Size = New System.Drawing.Size(144, 22)
             Me.ClassicalToolStripMenuItem.Text = "Classical"
             '
             'MedievalToolStripMenuItem
             '
             Me.MedievalToolStripMenuItem.Name = "MedievalToolStripMenuItem"
-            Me.MedievalToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.MedievalToolStripMenuItem.Size = New System.Drawing.Size(144, 22)
             Me.MedievalToolStripMenuItem.Text = "Medieval"
             '
             'EarlyModernToolStripMenuItem
             '
             Me.EarlyModernToolStripMenuItem.Name = "EarlyModernToolStripMenuItem"
-            Me.EarlyModernToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.EarlyModernToolStripMenuItem.Size = New System.Drawing.Size(144, 22)
             Me.EarlyModernToolStripMenuItem.Text = "Early Modern"
             '
             'NapoleonicToolStripMenuItem
             '
             Me.NapoleonicToolStripMenuItem.Name = "NapoleonicToolStripMenuItem"
-            Me.NapoleonicToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.NapoleonicToolStripMenuItem.Size = New System.Drawing.Size(144, 22)
             Me.NapoleonicToolStripMenuItem.Text = "Napoleonic"
             '
             'WWIToolStripMenuItem
             '
             Me.WWIToolStripMenuItem.Name = "WWIToolStripMenuItem"
-            Me.WWIToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.WWIToolStripMenuItem.Size = New System.Drawing.Size(144, 22)
             Me.WWIToolStripMenuItem.Text = "WWI"
             '
             'WWIIToolStripMenuItem
             '
             Me.WWIIToolStripMenuItem.Name = "WWIIToolStripMenuItem"
-            Me.WWIIToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.WWIIToolStripMenuItem.Size = New System.Drawing.Size(144, 22)
             Me.WWIIToolStripMenuItem.Text = "WWII"
             '
             'StubClassCheckBox
@@ -378,7 +395,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'NapoleonicCheckBox
             '
             Me.NapoleonicCheckBox.AutoSize = True
-            Me.NapoleonicCheckBox.Location = New System.Drawing.Point(106, 19)
+            Me.NapoleonicCheckBox.Location = New System.Drawing.Point(98, 88)
             Me.NapoleonicCheckBox.Name = "NapoleonicCheckBox"
             Me.NapoleonicCheckBox.Size = New System.Drawing.Size(80, 17)
             Me.NapoleonicCheckBox.TabIndex = 17
@@ -411,7 +428,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'MedievalCheckBox
             '
             Me.MedievalCheckBox.AutoSize = True
-            Me.MedievalCheckBox.Location = New System.Drawing.Point(7, 88)
+            Me.MedievalCheckBox.Location = New System.Drawing.Point(98, 42)
             Me.MedievalCheckBox.Name = "MedievalCheckBox"
             Me.MedievalCheckBox.Size = New System.Drawing.Size(69, 17)
             Me.MedievalCheckBox.TabIndex = 16
@@ -422,7 +439,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'EarlyModernCheckBox
             '
             Me.EarlyModernCheckBox.AutoSize = True
-            Me.EarlyModernCheckBox.Location = New System.Drawing.Point(6, 65)
+            Me.EarlyModernCheckBox.Location = New System.Drawing.Point(98, 19)
             Me.EarlyModernCheckBox.Name = "EarlyModernCheckBox"
             Me.EarlyModernCheckBox.Size = New System.Drawing.Size(88, 17)
             Me.EarlyModernCheckBox.TabIndex = 10
@@ -432,7 +449,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'WWIICheckBox
             '
             Me.WWIICheckBox.AutoSize = True
-            Me.WWIICheckBox.Location = New System.Drawing.Point(106, 65)
+            Me.WWIICheckBox.Location = New System.Drawing.Point(192, 42)
             Me.WWIICheckBox.Name = "WWIICheckBox"
             Me.WWIICheckBox.Size = New System.Drawing.Size(54, 17)
             Me.WWIICheckBox.TabIndex = 22
@@ -442,7 +459,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'WWICheckBox
             '
             Me.WWICheckBox.AutoSize = True
-            Me.WWICheckBox.Location = New System.Drawing.Point(106, 42)
+            Me.WWICheckBox.Location = New System.Drawing.Point(192, 19)
             Me.WWICheckBox.Name = "WWICheckBox"
             Me.WWICheckBox.Size = New System.Drawing.Size(51, 17)
             Me.WWICheckBox.TabIndex = 21
@@ -452,7 +469,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'WeaponryCheckBox
             '
             Me.WeaponryCheckBox.AutoSize = True
-            Me.WeaponryCheckBox.Location = New System.Drawing.Point(107, 65)
+            Me.WeaponryCheckBox.Location = New System.Drawing.Point(175, 106)
             Me.WeaponryCheckBox.Name = "WeaponryCheckBox"
             Me.WeaponryCheckBox.Size = New System.Drawing.Size(75, 17)
             Me.WeaponryCheckBox.TabIndex = 20
@@ -462,7 +479,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'USCheckBox
             '
             Me.USCheckBox.AutoSize = True
-            Me.USCheckBox.Location = New System.Drawing.Point(95, 219)
+            Me.USCheckBox.Location = New System.Drawing.Point(171, 217)
             Me.USCheckBox.Name = "USCheckBox"
             Me.USCheckBox.Size = New System.Drawing.Size(41, 17)
             Me.USCheckBox.TabIndex = 19
@@ -472,7 +489,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'PolishCheckBox
             '
             Me.PolishCheckBox.AutoSize = True
-            Me.PolishCheckBox.Location = New System.Drawing.Point(95, 150)
+            Me.PolishCheckBox.Location = New System.Drawing.Point(169, 63)
             Me.PolishCheckBox.Name = "PolishCheckBox"
             Me.PolishCheckBox.Size = New System.Drawing.Size(54, 17)
             Me.PolishCheckBox.TabIndex = 18
@@ -482,7 +499,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'MemorialsCheckBox
             '
             Me.MemorialsCheckBox.AutoSize = True
-            Me.MemorialsCheckBox.Location = New System.Drawing.Point(3, 86)
+            Me.MemorialsCheckBox.Location = New System.Drawing.Point(95, 85)
             Me.MemorialsCheckBox.Name = "MemorialsCheckBox"
             Me.MemorialsCheckBox.Size = New System.Drawing.Size(73, 17)
             Me.MemorialsCheckBox.TabIndex = 15
@@ -492,7 +509,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'MaritimeCheckBox
             '
             Me.MaritimeCheckBox.AutoSize = True
-            Me.MaritimeCheckBox.Location = New System.Drawing.Point(3, 64)
+            Me.MaritimeCheckBox.Location = New System.Drawing.Point(95, 63)
             Me.MaritimeCheckBox.Name = "MaritimeCheckBox"
             Me.MaritimeCheckBox.Size = New System.Drawing.Size(65, 17)
             Me.MaritimeCheckBox.TabIndex = 14
@@ -502,7 +519,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'JapaneseCheckBox
             '
             Me.JapaneseCheckBox.AutoSize = True
-            Me.JapaneseCheckBox.Location = New System.Drawing.Point(95, 36)
+            Me.JapaneseCheckBox.Location = New System.Drawing.Point(76, 107)
             Me.JapaneseCheckBox.Name = "JapaneseCheckBox"
             Me.JapaneseCheckBox.Size = New System.Drawing.Size(72, 17)
             Me.JapaneseCheckBox.TabIndex = 13
@@ -512,7 +529,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'ItalianCheckBox
             '
             Me.ItalianCheckBox.AutoSize = True
-            Me.ItalianCheckBox.Location = New System.Drawing.Point(95, 16)
+            Me.ItalianCheckBox.Location = New System.Drawing.Point(76, 85)
             Me.ItalianCheckBox.Name = "ItalianCheckBox"
             Me.ItalianCheckBox.Size = New System.Drawing.Size(54, 17)
             Me.ItalianCheckBox.TabIndex = 12
@@ -522,7 +539,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'IndianCheckBox
             '
             Me.IndianCheckBox.AutoSize = True
-            Me.IndianCheckBox.Location = New System.Drawing.Point(6, 221)
+            Me.IndianCheckBox.Location = New System.Drawing.Point(76, 63)
             Me.IndianCheckBox.Name = "IndianCheckBox"
             Me.IndianCheckBox.Size = New System.Drawing.Size(55, 17)
             Me.IndianCheckBox.TabIndex = 11
@@ -532,7 +549,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'GermanCheckBox
             '
             Me.GermanCheckBox.AutoSize = True
-            Me.GermanCheckBox.Location = New System.Drawing.Point(5, 198)
+            Me.GermanCheckBox.Location = New System.Drawing.Point(76, 41)
             Me.GermanCheckBox.Name = "GermanCheckBox"
             Me.GermanCheckBox.Size = New System.Drawing.Size(63, 17)
             Me.GermanCheckBox.TabIndex = 10
@@ -542,7 +559,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'FrenchCheckBox
             '
             Me.FrenchCheckBox.AutoSize = True
-            Me.FrenchCheckBox.Location = New System.Drawing.Point(6, 175)
+            Me.FrenchCheckBox.Location = New System.Drawing.Point(6, 217)
             Me.FrenchCheckBox.Name = "FrenchCheckBox"
             Me.FrenchCheckBox.Size = New System.Drawing.Size(59, 17)
             Me.FrenchCheckBox.TabIndex = 9
@@ -552,7 +569,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'DutchCheckBox
             '
             Me.DutchCheckBox.AutoSize = True
-            Me.DutchCheckBox.Location = New System.Drawing.Point(6, 153)
+            Me.DutchCheckBox.Location = New System.Drawing.Point(6, 195)
             Me.DutchCheckBox.Name = "DutchCheckBox"
             Me.DutchCheckBox.Size = New System.Drawing.Size(55, 17)
             Me.DutchCheckBox.TabIndex = 8
@@ -562,7 +579,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'ClassicalCheckBox
             '
             Me.ClassicalCheckBox.AutoSize = True
-            Me.ClassicalCheckBox.Location = New System.Drawing.Point(6, 42)
+            Me.ClassicalCheckBox.Location = New System.Drawing.Point(6, 65)
             Me.ClassicalCheckBox.Name = "ClassicalCheckBox"
             Me.ClassicalCheckBox.Size = New System.Drawing.Size(67, 17)
             Me.ClassicalCheckBox.TabIndex = 7
@@ -572,7 +589,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'ChineseCheckBox
             '
             Me.ChineseCheckBox.AutoSize = True
-            Me.ChineseCheckBox.Location = New System.Drawing.Point(6, 130)
+            Me.ChineseCheckBox.Location = New System.Drawing.Point(6, 173)
             Me.ChineseCheckBox.Name = "ChineseCheckBox"
             Me.ChineseCheckBox.Size = New System.Drawing.Size(64, 17)
             Me.ChineseCheckBox.TabIndex = 6
@@ -582,7 +599,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'CanadianCheckBox
             '
             Me.CanadianCheckBox.AutoSize = True
-            Me.CanadianCheckBox.Location = New System.Drawing.Point(6, 108)
+            Me.CanadianCheckBox.Location = New System.Drawing.Point(6, 151)
             Me.CanadianCheckBox.Name = "CanadianCheckBox"
             Me.CanadianCheckBox.Size = New System.Drawing.Size(71, 17)
             Me.CanadianCheckBox.TabIndex = 5
@@ -592,7 +609,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'BritishCheckBox
             '
             Me.BritishCheckBox.AutoSize = True
-            Me.BritishCheckBox.Location = New System.Drawing.Point(6, 85)
+            Me.BritishCheckBox.Location = New System.Drawing.Point(6, 129)
             Me.BritishCheckBox.Name = "BritishCheckBox"
             Me.BritishCheckBox.Size = New System.Drawing.Size(54, 17)
             Me.BritishCheckBox.TabIndex = 4
@@ -612,7 +629,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'AustralianCheckBox
             '
             Me.AustralianCheckBox.AutoSize = True
-            Me.AustralianCheckBox.Location = New System.Drawing.Point(5, 42)
+            Me.AustralianCheckBox.Location = New System.Drawing.Point(5, 63)
             Me.AustralianCheckBox.Name = "AustralianCheckBox"
             Me.AustralianCheckBox.Size = New System.Drawing.Size(72, 17)
             Me.AustralianCheckBox.TabIndex = 2
@@ -652,6 +669,14 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             '
             'NationsRegionsGroupBox
             '
+            Me.NationsRegionsGroupBox.Controls.Add(Me.USCheckBox)
+            Me.NationsRegionsGroupBox.Controls.Add(Me.TaiwaneseCheckBox)
+            Me.NationsRegionsGroupBox.Controls.Add(Me.SoutheastAsianCheckBox)
+            Me.NationsRegionsGroupBox.Controls.Add(Me.SouthAmericanCheckBox)
+            Me.NationsRegionsGroupBox.Controls.Add(Me.RomanianCheckBox)
+            Me.NationsRegionsGroupBox.Controls.Add(Me.MiddleEastCheckBox)
+            Me.NationsRegionsGroupBox.Controls.Add(Me.LebaneseCheckBox)
+            Me.NationsRegionsGroupBox.Controls.Add(Me.BalticCheckBox)
             Me.NationsRegionsGroupBox.Controls.Add(Me.SpanishCheckBox)
             Me.NationsRegionsGroupBox.Controls.Add(Me.RussianCheckBox)
             Me.NationsRegionsGroupBox.Controls.Add(Me.OttomanCheckBox)
@@ -660,11 +685,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.NationsRegionsGroupBox.Controls.Add(Me.KoreanCheckBox)
             Me.NationsRegionsGroupBox.Controls.Add(Me.BalkanCheckBox)
             Me.NationsRegionsGroupBox.Controls.Add(Me.AfricanCheckBox)
-            Me.NationsRegionsGroupBox.Controls.Add(Me.AustralianCheckBox)
             Me.NationsRegionsGroupBox.Controls.Add(Me.IndianCheckBox)
             Me.NationsRegionsGroupBox.Controls.Add(Me.BritishCheckBox)
             Me.NationsRegionsGroupBox.Controls.Add(Me.ItalianCheckBox)
-            Me.NationsRegionsGroupBox.Controls.Add(Me.USCheckBox)
             Me.NationsRegionsGroupBox.Controls.Add(Me.GermanCheckBox)
             Me.NationsRegionsGroupBox.Controls.Add(Me.CanadianCheckBox)
             Me.NationsRegionsGroupBox.Controls.Add(Me.JapaneseCheckBox)
@@ -672,6 +695,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.NationsRegionsGroupBox.Controls.Add(Me.FrenchCheckBox)
             Me.NationsRegionsGroupBox.Controls.Add(Me.ChineseCheckBox)
             Me.NationsRegionsGroupBox.Controls.Add(Me.DutchCheckBox)
+            Me.NationsRegionsGroupBox.Controls.Add(Me.NoTaskForceCheckBox)
+            Me.NationsRegionsGroupBox.Controls.Add(Me.AustralianCheckBox)
             Me.NationsRegionsGroupBox.Location = New System.Drawing.Point(9, 4)
             Me.NationsRegionsGroupBox.Name = "NationsRegionsGroupBox"
             Me.NationsRegionsGroupBox.Size = New System.Drawing.Size(247, 244)
@@ -679,10 +704,80 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.NationsRegionsGroupBox.TabStop = False
             Me.NationsRegionsGroupBox.Text = "Nations and Regions"
             '
+            'TaiwaneseCheckBox
+            '
+            Me.TaiwaneseCheckBox.AutoSize = True
+            Me.TaiwaneseCheckBox.Location = New System.Drawing.Point(170, 195)
+            Me.TaiwaneseCheckBox.Name = "TaiwaneseCheckBox"
+            Me.TaiwaneseCheckBox.Size = New System.Drawing.Size(78, 17)
+            Me.TaiwaneseCheckBox.TabIndex = 35
+            Me.TaiwaneseCheckBox.Text = "Taiwanese"
+            Me.TaiwaneseCheckBox.UseVisualStyleBackColor = True
+            '
+            'SoutheastAsianCheckBox
+            '
+            Me.SoutheastAsianCheckBox.AutoSize = True
+            Me.SoutheastAsianCheckBox.Location = New System.Drawing.Point(170, 173)
+            Me.SoutheastAsianCheckBox.Name = "SoutheastAsianCheckBox"
+            Me.SoutheastAsianCheckBox.Size = New System.Drawing.Size(69, 17)
+            Me.SoutheastAsianCheckBox.TabIndex = 34
+            Me.SoutheastAsianCheckBox.Text = "SE Asian"
+            Me.SoutheastAsianCheckBox.UseVisualStyleBackColor = True
+            '
+            'SouthAmericanCheckBox
+            '
+            Me.SouthAmericanCheckBox.AutoSize = True
+            Me.SouthAmericanCheckBox.Location = New System.Drawing.Point(169, 151)
+            Me.SouthAmericanCheckBox.Name = "SouthAmericanCheckBox"
+            Me.SouthAmericanCheckBox.Size = New System.Drawing.Size(83, 17)
+            Me.SouthAmericanCheckBox.TabIndex = 33
+            Me.SouthAmericanCheckBox.Text = "S. American"
+            Me.SouthAmericanCheckBox.UseVisualStyleBackColor = True
+            '
+            'RomanianCheckBox
+            '
+            Me.RomanianCheckBox.AutoSize = True
+            Me.RomanianCheckBox.Location = New System.Drawing.Point(169, 85)
+            Me.RomanianCheckBox.Name = "RomanianCheckBox"
+            Me.RomanianCheckBox.Size = New System.Drawing.Size(74, 17)
+            Me.RomanianCheckBox.TabIndex = 32
+            Me.RomanianCheckBox.Text = "Romanian"
+            Me.RomanianCheckBox.UseVisualStyleBackColor = True
+            '
+            'MiddleEastCheckBox
+            '
+            Me.MiddleEastCheckBox.AutoSize = True
+            Me.MiddleEastCheckBox.Location = New System.Drawing.Point(76, 173)
+            Me.MiddleEastCheckBox.Name = "MiddleEastCheckBox"
+            Me.MiddleEastCheckBox.Size = New System.Drawing.Size(96, 17)
+            Me.MiddleEastCheckBox.TabIndex = 31
+            Me.MiddleEastCheckBox.Text = "Middle-Eastern"
+            Me.MiddleEastCheckBox.UseVisualStyleBackColor = True
+            '
+            'LebaneseCheckBox
+            '
+            Me.LebaneseCheckBox.AutoSize = True
+            Me.LebaneseCheckBox.Location = New System.Drawing.Point(76, 151)
+            Me.LebaneseCheckBox.Name = "LebaneseCheckBox"
+            Me.LebaneseCheckBox.Size = New System.Drawing.Size(73, 17)
+            Me.LebaneseCheckBox.TabIndex = 30
+            Me.LebaneseCheckBox.Text = "Lebanese"
+            Me.LebaneseCheckBox.UseVisualStyleBackColor = True
+            '
+            'BalticCheckBox
+            '
+            Me.BalticCheckBox.AutoSize = True
+            Me.BalticCheckBox.Location = New System.Drawing.Point(5, 107)
+            Me.BalticCheckBox.Name = "BalticCheckBox"
+            Me.BalticCheckBox.Size = New System.Drawing.Size(52, 17)
+            Me.BalticCheckBox.TabIndex = 29
+            Me.BalticCheckBox.Text = "Baltic"
+            Me.BalticCheckBox.UseVisualStyleBackColor = True
+            '
             'SpanishCheckBox
             '
             Me.SpanishCheckBox.AutoSize = True
-            Me.SpanishCheckBox.Location = New System.Drawing.Point(95, 196)
+            Me.SpanishCheckBox.Location = New System.Drawing.Point(169, 129)
             Me.SpanishCheckBox.Name = "SpanishCheckBox"
             Me.SpanishCheckBox.Size = New System.Drawing.Size(64, 17)
             Me.SpanishCheckBox.TabIndex = 27
@@ -692,7 +787,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'RussianCheckBox
             '
             Me.RussianCheckBox.AutoSize = True
-            Me.RussianCheckBox.Location = New System.Drawing.Point(95, 173)
+            Me.RussianCheckBox.Location = New System.Drawing.Point(169, 107)
             Me.RussianCheckBox.Name = "RussianCheckBox"
             Me.RussianCheckBox.Size = New System.Drawing.Size(64, 17)
             Me.RussianCheckBox.TabIndex = 26
@@ -702,7 +797,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'OttomanCheckBox
             '
             Me.OttomanCheckBox.AutoSize = True
-            Me.OttomanCheckBox.Location = New System.Drawing.Point(95, 127)
+            Me.OttomanCheckBox.Location = New System.Drawing.Point(169, 41)
             Me.OttomanCheckBox.Name = "OttomanCheckBox"
             Me.OttomanCheckBox.Size = New System.Drawing.Size(66, 17)
             Me.OttomanCheckBox.TabIndex = 25
@@ -712,7 +807,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'NordicCheckBox
             '
             Me.NordicCheckBox.AutoSize = True
-            Me.NordicCheckBox.Location = New System.Drawing.Point(95, 104)
+            Me.NordicCheckBox.Location = New System.Drawing.Point(76, 217)
             Me.NordicCheckBox.Name = "NordicCheckBox"
             Me.NordicCheckBox.Size = New System.Drawing.Size(57, 17)
             Me.NordicCheckBox.TabIndex = 24
@@ -722,7 +817,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'NewZealandCheckBox
             '
             Me.NewZealandCheckBox.AutoSize = True
-            Me.NewZealandCheckBox.Location = New System.Drawing.Point(95, 82)
+            Me.NewZealandCheckBox.Location = New System.Drawing.Point(76, 195)
             Me.NewZealandCheckBox.Name = "NewZealandCheckBox"
             Me.NewZealandCheckBox.Size = New System.Drawing.Size(90, 17)
             Me.NewZealandCheckBox.TabIndex = 23
@@ -732,7 +827,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'KoreanCheckBox
             '
             Me.KoreanCheckBox.AutoSize = True
-            Me.KoreanCheckBox.Location = New System.Drawing.Point(95, 59)
+            Me.KoreanCheckBox.Location = New System.Drawing.Point(76, 129)
             Me.KoreanCheckBox.Name = "KoreanCheckBox"
             Me.KoreanCheckBox.Size = New System.Drawing.Size(60, 17)
             Me.KoreanCheckBox.TabIndex = 22
@@ -742,7 +837,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'BalkanCheckBox
             '
             Me.BalkanCheckBox.AutoSize = True
-            Me.BalkanCheckBox.Location = New System.Drawing.Point(5, 62)
+            Me.BalkanCheckBox.Location = New System.Drawing.Point(5, 85)
             Me.BalkanCheckBox.Name = "BalkanCheckBox"
             Me.BalkanCheckBox.Size = New System.Drawing.Size(59, 17)
             Me.BalkanCheckBox.TabIndex = 21
@@ -752,12 +847,22 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'AfricanCheckBox
             '
             Me.AfricanCheckBox.AutoSize = True
-            Me.AfricanCheckBox.Location = New System.Drawing.Point(6, 19)
+            Me.AfricanCheckBox.Location = New System.Drawing.Point(5, 41)
             Me.AfricanCheckBox.Name = "AfricanCheckBox"
             Me.AfricanCheckBox.Size = New System.Drawing.Size(59, 17)
             Me.AfricanCheckBox.TabIndex = 20
             Me.AfricanCheckBox.Text = "African"
             Me.AfricanCheckBox.UseVisualStyleBackColor = True
+            '
+            'NoTaskForceCheckBox
+            '
+            Me.NoTaskForceCheckBox.AutoSize = True
+            Me.NoTaskForceCheckBox.Location = New System.Drawing.Point(5, 19)
+            Me.NoTaskForceCheckBox.Name = "NoTaskForceCheckBox"
+            Me.NoTaskForceCheckBox.Size = New System.Drawing.Size(90, 17)
+            Me.NoTaskForceCheckBox.TabIndex = 28
+            Me.NoTaskForceCheckBox.Text = "No task force"
+            Me.NoTaskForceCheckBox.UseVisualStyleBackColor = True
             '
             'TabPage2
             '
@@ -773,6 +878,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             '
             'PeriodsConflictsGroupBox
             '
+            Me.PeriodsConflictsGroupBox.Controls.Add(Me.ARWCheckBox)
+            Me.PeriodsConflictsGroupBox.Controls.Add(Me.CrusadesCheckBox)
+            Me.PeriodsConflictsGroupBox.Controls.Add(Me.MuslimCheckBox)
             Me.PeriodsConflictsGroupBox.Controls.Add(Me.WWIICheckBox)
             Me.PeriodsConflictsGroupBox.Controls.Add(Me.MedievalCheckBox)
             Me.PeriodsConflictsGroupBox.Controls.Add(Me.NapoleonicCheckBox)
@@ -780,15 +888,51 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.PeriodsConflictsGroupBox.Controls.Add(Me.AmericanCivilWarCheckBox)
             Me.PeriodsConflictsGroupBox.Controls.Add(Me.WWICheckBox)
             Me.PeriodsConflictsGroupBox.Controls.Add(Me.ClassicalCheckBox)
-            Me.PeriodsConflictsGroupBox.Location = New System.Drawing.Point(6, 120)
+            Me.PeriodsConflictsGroupBox.Location = New System.Drawing.Point(6, 133)
             Me.PeriodsConflictsGroupBox.Name = "PeriodsConflictsGroupBox"
             Me.PeriodsConflictsGroupBox.Size = New System.Drawing.Size(250, 115)
             Me.PeriodsConflictsGroupBox.TabIndex = 1
             Me.PeriodsConflictsGroupBox.TabStop = False
             Me.PeriodsConflictsGroupBox.Text = "Periods and Conflicts"
             '
+            'ARWCheckBox
+            '
+            Me.ARWCheckBox.AutoSize = True
+            Me.ARWCheckBox.Location = New System.Drawing.Point(6, 42)
+            Me.ARWCheckBox.Name = "ARWCheckBox"
+            Me.ARWCheckBox.Size = New System.Drawing.Size(52, 17)
+            Me.ARWCheckBox.TabIndex = 25
+            Me.ARWCheckBox.Text = "ARW"
+            Me.ARWCheckBox.UseVisualStyleBackColor = True
+            '
+            'CrusadesCheckBox
+            '
+            Me.CrusadesCheckBox.AutoSize = True
+            Me.CrusadesCheckBox.Location = New System.Drawing.Point(6, 88)
+            Me.CrusadesCheckBox.Name = "CrusadesCheckBox"
+            Me.CrusadesCheckBox.Size = New System.Drawing.Size(70, 17)
+            Me.CrusadesCheckBox.TabIndex = 24
+            Me.CrusadesCheckBox.Text = "Crusades"
+            Me.CrusadesCheckBox.UseVisualStyleBackColor = True
+            '
+            'MuslimCheckBox
+            '
+            Me.MuslimCheckBox.AutoSize = True
+            Me.MuslimCheckBox.Location = New System.Drawing.Point(98, 65)
+            Me.MuslimCheckBox.Name = "MuslimCheckBox"
+            Me.MuslimCheckBox.Size = New System.Drawing.Size(58, 17)
+            Me.MuslimCheckBox.TabIndex = 23
+            Me.MuslimCheckBox.Text = "Muslim"
+            Me.MuslimCheckBox.UseVisualStyleBackColor = True
+            '
             'GeneralGroupBox
             '
+            Me.GeneralGroupBox.Controls.Add(Me.BiographyCheckBox)
+            Me.GeneralGroupBox.Controls.Add(Me.NationalCheckBox)
+            Me.GeneralGroupBox.Controls.Add(Me.FilmsCheckBox)
+            Me.GeneralGroupBox.Controls.Add(Me.FortificationsCheckBox)
+            Me.GeneralGroupBox.Controls.Add(Me.IntelCheckBox)
+            Me.GeneralGroupBox.Controls.Add(Me.LandVehiclesCheckBox)
             Me.GeneralGroupBox.Controls.Add(Me.TechnologyCheckBox)
             Me.GeneralGroupBox.Controls.Add(Me.ScienceCheckBox)
             Me.GeneralGroupBox.Controls.Add(Me.HistoriographyCheckBox)
@@ -798,15 +942,75 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.GeneralGroupBox.Controls.Add(Me.MaritimeCheckBox)
             Me.GeneralGroupBox.Location = New System.Drawing.Point(3, 3)
             Me.GeneralGroupBox.Name = "GeneralGroupBox"
-            Me.GeneralGroupBox.Size = New System.Drawing.Size(253, 111)
+            Me.GeneralGroupBox.Size = New System.Drawing.Size(253, 124)
             Me.GeneralGroupBox.TabIndex = 0
             Me.GeneralGroupBox.TabStop = False
             Me.GeneralGroupBox.Text = "General Task Forces"
             '
+            'BiographyCheckBox
+            '
+            Me.BiographyCheckBox.AutoSize = True
+            Me.BiographyCheckBox.Location = New System.Drawing.Point(3, 41)
+            Me.BiographyCheckBox.Name = "BiographyCheckBox"
+            Me.BiographyCheckBox.Size = New System.Drawing.Size(73, 17)
+            Me.BiographyCheckBox.TabIndex = 24
+            Me.BiographyCheckBox.Text = "Biography"
+            Me.BiographyCheckBox.UseVisualStyleBackColor = True
+            '
+            'NationalCheckBox
+            '
+            Me.NationalCheckBox.AutoSize = True
+            Me.NationalCheckBox.Location = New System.Drawing.Point(95, 107)
+            Me.NationalCheckBox.Name = "NationalCheckBox"
+            Me.NationalCheckBox.Size = New System.Drawing.Size(65, 17)
+            Me.NationalCheckBox.TabIndex = 28
+            Me.NationalCheckBox.Text = "National"
+            Me.NationalCheckBox.UseVisualStyleBackColor = True
+            '
+            'FilmsCheckBox
+            '
+            Me.FilmsCheckBox.AutoSize = True
+            Me.FilmsCheckBox.Location = New System.Drawing.Point(3, 63)
+            Me.FilmsCheckBox.Name = "FilmsCheckBox"
+            Me.FilmsCheckBox.Size = New System.Drawing.Size(49, 17)
+            Me.FilmsCheckBox.TabIndex = 27
+            Me.FilmsCheckBox.Text = "Films"
+            Me.FilmsCheckBox.UseVisualStyleBackColor = True
+            '
+            'FortificationsCheckBox
+            '
+            Me.FortificationsCheckBox.AutoSize = True
+            Me.FortificationsCheckBox.Location = New System.Drawing.Point(3, 85)
+            Me.FortificationsCheckBox.Name = "FortificationsCheckBox"
+            Me.FortificationsCheckBox.Size = New System.Drawing.Size(85, 17)
+            Me.FortificationsCheckBox.TabIndex = 26
+            Me.FortificationsCheckBox.Text = "Fortifications"
+            Me.FortificationsCheckBox.UseVisualStyleBackColor = True
+            '
+            'IntelCheckBox
+            '
+            Me.IntelCheckBox.AutoSize = True
+            Me.IntelCheckBox.Location = New System.Drawing.Point(95, 19)
+            Me.IntelCheckBox.Name = "IntelCheckBox"
+            Me.IntelCheckBox.Size = New System.Drawing.Size(46, 17)
+            Me.IntelCheckBox.TabIndex = 25
+            Me.IntelCheckBox.Text = "Intel"
+            Me.IntelCheckBox.UseVisualStyleBackColor = True
+            '
+            'LandVehiclesCheckBox
+            '
+            Me.LandVehiclesCheckBox.AutoSize = True
+            Me.LandVehiclesCheckBox.Location = New System.Drawing.Point(95, 41)
+            Me.LandVehiclesCheckBox.Name = "LandVehiclesCheckBox"
+            Me.LandVehiclesCheckBox.Size = New System.Drawing.Size(93, 17)
+            Me.LandVehiclesCheckBox.TabIndex = 24
+            Me.LandVehiclesCheckBox.Text = "Land Vehicles"
+            Me.LandVehiclesCheckBox.UseVisualStyleBackColor = True
+            '
             'TechnologyCheckBox
             '
             Me.TechnologyCheckBox.AutoSize = True
-            Me.TechnologyCheckBox.Location = New System.Drawing.Point(107, 42)
+            Me.TechnologyCheckBox.Location = New System.Drawing.Point(175, 84)
             Me.TechnologyCheckBox.Name = "TechnologyCheckBox"
             Me.TechnologyCheckBox.Size = New System.Drawing.Size(82, 17)
             Me.TechnologyCheckBox.TabIndex = 23
@@ -816,7 +1020,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'ScienceCheckBox
             '
             Me.ScienceCheckBox.AutoSize = True
-            Me.ScienceCheckBox.Location = New System.Drawing.Point(107, 19)
+            Me.ScienceCheckBox.Location = New System.Drawing.Point(175, 62)
             Me.ScienceCheckBox.Name = "ScienceCheckBox"
             Me.ScienceCheckBox.Size = New System.Drawing.Size(65, 17)
             Me.ScienceCheckBox.TabIndex = 22
@@ -826,7 +1030,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'HistoriographyCheckBox
             '
             Me.HistoriographyCheckBox.AutoSize = True
-            Me.HistoriographyCheckBox.Location = New System.Drawing.Point(3, 42)
+            Me.HistoriographyCheckBox.Location = New System.Drawing.Point(3, 107)
             Me.HistoriographyCheckBox.Name = "HistoriographyCheckBox"
             Me.HistoriographyCheckBox.Size = New System.Drawing.Size(93, 17)
             Me.HistoriographyCheckBox.TabIndex = 21
@@ -944,6 +1148,23 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Friend WithEvents RussianToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents SpanishToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents USToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+        Friend WithEvents TaiwaneseCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents SoutheastAsianCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents SouthAmericanCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents RomanianCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents MiddleEastCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents LebaneseCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents BalticCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents NoTaskForceCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents ARWCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents CrusadesCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents MuslimCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents FilmsCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents FortificationsCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents IntelCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents LandVehiclesCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents BiographyCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents NationalCheckBox As System.Windows.Forms.CheckBox
 
     End Class
 End Namespace

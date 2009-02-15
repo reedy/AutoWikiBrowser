@@ -51,6 +51,24 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Private Const conRussianWGParm As String = "MilHistRussian"
         Private Const conSpanishWGParm As String = "MilHistSpanish"
 
+        Private Const conNoTFWGParm As String = "MilHistNTF"
+        Private Const conBalticWGParm As String = "MilHistBaltic"
+        Private Const conLebaneseWGParm As String = "MilHistLebanese"
+        Private Const conMidEastWGParm As String = "MilHistMidEast"
+        Private Const conRomanianWGParm As String = "MilHistRomanian"
+        Private Const conSAmericanWGParm As String = "MilHistSAmerican"
+        Private Const conSEAsianWGParm As String = "MilHistSEAsian"
+        Private Const conTaiwaneseWGParm As String = "MilHistTaiwanese"
+        Private Const conBiographyWGParm As String = "MilHistBiography"
+        Private Const conFilmsWGParm As String = "MilHistFilms"
+        Private Const conFortificationsWGParm As String = "MilHistFortifications"
+        Private Const conIntelWGParm As String = "MilHistIntel"
+        Private Const conLandVehWGParm As String = "MilHistLandVech"
+        Private Const conNationalWGParm As String = "MilHistNational"
+        Private Const conMuslimWGParm As String = "MilHistMuslim"
+        Private Const conCrusadesWGParm As String = "MilHistCrusades"
+        Private Const conARWWGParm As String = "MilHistARW"
+
 #Region "XML interface"
         Friend Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader) Implements IGenericSettings.ReadXML
             WWII = PluginManager.XMLReadBoolean(Reader, conWWIIWGParm, WWII)
@@ -91,6 +109,24 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Ottoman = PluginManager.XMLReadBoolean(Reader, conOttomanWGParm, Ottoman)
             Russian = PluginManager.XMLReadBoolean(Reader, conRussianWGParm, Russian)
             Spanish = PluginManager.XMLReadBoolean(Reader, conSpanishWGParm, Spanish)
+
+            NoTaskForce = PluginManager.XMLReadBoolean(Reader, conNoTFWGParm, NoTaskForce)
+            Baltic = PluginManager.XMLReadBoolean(Reader, conBalticWGParm, Baltic)
+            Lebanese = PluginManager.XMLReadBoolean(Reader, conLebaneseWGParm, Lebanese)
+            MiddleEastern = PluginManager.XMLReadBoolean(Reader, conMidEastWGParm, MiddleEastern)
+            Romanian = PluginManager.XMLReadBoolean(Reader, conRomanianWGParm, Romanian)
+            SouthAmerican = PluginManager.XMLReadBoolean(Reader, conSAmericanWGParm, SouthAmerican)
+            SoutheastAsian = PluginManager.XMLReadBoolean(Reader, conSEAsianWGParm, SoutheastAsian)
+            Taiwanese = PluginManager.XMLReadBoolean(Reader, conTaiwaneseWGParm, Taiwanese)
+            Biography = PluginManager.XMLReadBoolean(Reader, conBiographyWGParm, Biography)
+            Films = PluginManager.XMLReadBoolean(Reader, conFilmsWGParm, Films)
+            Fortifications = PluginManager.XMLReadBoolean(Reader, conFortificationsWGParm, Fortifications)
+            Intel = PluginManager.XMLReadBoolean(Reader, conIntelWGParm, Intel)
+            LandVehicles = PluginManager.XMLReadBoolean(Reader, conLandVehWGParm, LandVehicles)
+            National = PluginManager.XMLReadBoolean(Reader, conNationalWGParm, National)
+            Muslim = PluginManager.XMLReadBoolean(Reader, conMuslimWGParm, Muslim)
+            Crusades = PluginManager.XMLReadBoolean(Reader, conCrusadesWGParm, Crusades)
+            ARW = PluginManager.XMLReadBoolean(Reader, conARWWGParm, ARW)
         End Sub
         Friend Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements IGenericSettings.WriteXML
             With Writer
@@ -132,6 +168,24 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 .WriteAttributeString(conOttomanWGParm, Ottoman.ToString)
                 .WriteAttributeString(conRussianWGParm, Russian.ToString)
                 .WriteAttributeString(conSpanishWGParm, Spanish.ToString)
+
+                .WriteAttributeString(conNoTFWGParm, NoTaskForce.ToString)
+                .WriteAttributeString(conBalticWGParm, Baltic.ToString)
+                .WriteAttributeString(conLebaneseWGParm, Lebanese.ToString)
+                .WriteAttributeString(conMidEastWGParm, MiddleEastern.ToString)
+                .WriteAttributeString(conRomanianWGParm, Romanian.ToString)
+                .WriteAttributeString(conSAmericanWGParm, SouthAmerican.ToString)
+                .WriteAttributeString(conSEAsianWGParm, SoutheastAsian.ToString)
+                .WriteAttributeString(conTaiwaneseWGParm, Taiwanese.ToString)
+                .WriteAttributeString(conBiographyWGParm, Biography.ToString)
+                .WriteAttributeString(conFilmsWGParm, Films.ToString)
+                .WriteAttributeString(conFortificationsWGParm, Fortifications.ToString)
+                .WriteAttributeString(conIntelWGParm, Intel.ToString)
+                .WriteAttributeString(conLandVehWGParm, LandVehicles.ToString)
+                .WriteAttributeString(conNationalWGParm, National.ToString)
+                .WriteAttributeString(conMuslimWGParm, Muslim.ToString)
+                .WriteAttributeString(conCrusadesWGParm, Crusades.ToString)
+                .WriteAttributeString(conARWWGParm, ARW.ToString)
             End With
         End Sub
         Friend Sub Reset() Implements IGenericSettings.XMLReset
@@ -423,6 +477,142 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 SpanishCheckBox.Checked = value
             End Set
         End Property
+        Friend Property NoTaskForce() As Boolean
+            Get
+                Return NoTaskForceCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                NoTaskForceCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Baltic() As Boolean
+            Get
+                Return BalticCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                BalticCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Lebanese() As Boolean
+            Get
+                Return LebaneseCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                LebaneseCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property MiddleEastern() As Boolean
+            Get
+                Return MiddleEastCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                MiddleEastCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Romanian() As Boolean
+            Get
+                Return RomanianCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                RomanianCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property SouthAmerican() As Boolean
+            Get
+                Return SouthAmericanCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                SouthAmericanCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property SoutheastAsian() As Boolean
+            Get
+                Return SoutheastAsianCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                SoutheastAsianCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Taiwanese() As Boolean
+            Get
+                Return TaiwaneseCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                TaiwaneseCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Biography() As Boolean
+            Get
+                Return BiographyCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                BiographyCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Films() As Boolean
+            Get
+                Return FilmsCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                FilmsCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Fortifications() As Boolean
+            Get
+                Return FortificationsCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                FortificationsCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Intel() As Boolean
+            Get
+                Return IntelCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                IntelCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property LandVehicles() As Boolean
+            Get
+                Return LandVehiclesCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                LandVehiclesCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property National() As Boolean
+            Get
+                Return NationalCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                NationalCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Muslim() As Boolean
+            Get
+                Return MuslimCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                MuslimCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property Crusades() As Boolean
+            Get
+                Return CrusadesCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                CrusadesCheckBox.Checked = value
+            End Set
+        End Property
+        Friend Property ARW() As Boolean
+            Get
+                Return ARWCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                ARWCheckBox.Checked = value
+            End Set
+        End Property
         Friend Property StubClass() As Boolean Implements IGenericSettings.StubClass
             Get
                 Return StubClassCheckBox.Checked
@@ -468,143 +658,143 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Sub
 
         Private Sub AviationToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AviationToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Aviation-task-force")
+            PluginManager.EditBoxInsertYesParam("Aviation")
         End Sub
 
         Private Sub HistoriographyToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HistoriographyToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Historiography-task-force")
+            PluginManager.EditBoxInsertYesParam("Historiography")
         End Sub
 
         Private Sub MaritimeToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MaritimeToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Maritime-task-force")
+            PluginManager.EditBoxInsertYesParam("Maritime")
         End Sub
 
         Private Sub MemorialsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MemorialsToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Memorials-task-force")
+            PluginManager.EditBoxInsertYesParam("Memorials")
         End Sub
 
         Private Sub ScienceToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ScienceToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Science-task-force")
+            PluginManager.EditBoxInsertYesParam("Science")
         End Sub
 
         Private Sub TechnologyToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TechnologyToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Technology-task-force")
+            PluginManager.EditBoxInsertYesParam("Technology")
         End Sub
 
         Private Sub WeaponryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WeaponryToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Weaponry-task-force")
+            PluginManager.EditBoxInsertYesParam("Weaponry")
         End Sub
 
         Private Sub AfricanToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AfricanToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("African-task-force")
+            PluginManager.EditBoxInsertYesParam("African")
         End Sub
 
         Private Sub AustralianToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AustralianToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Australian-task-force")
+            PluginManager.EditBoxInsertYesParam("Australian")
         End Sub
 
         Private Sub BalkanToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BalkanToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Balkan-task-force")
+            PluginManager.EditBoxInsertYesParam("Balkan")
         End Sub
 
         Private Sub BritishToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BritishToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("British-task-force")
+            PluginManager.EditBoxInsertYesParam("British")
         End Sub
 
         Private Sub CanadianToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CanadianToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Canadian-task-force")
+            PluginManager.EditBoxInsertYesParam("Canadian")
         End Sub
 
         Private Sub ChineseToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ChineseToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Chinese-task-force")
+            PluginManager.EditBoxInsertYesParam("Chinese")
         End Sub
 
         Private Sub DutchToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DutchToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Dutch-task-force")
+            PluginManager.EditBoxInsertYesParam("Dutch")
         End Sub
 
         Private Sub GermanToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GermanToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("-task-force")
+            PluginManager.EditBoxInsertYesParam("German")
         End Sub
 
         Private Sub FrenchToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FrenchToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("French-task-force")
+            PluginManager.EditBoxInsertYesParam("French")
         End Sub
 
         Private Sub IndianToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles IndianToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Indian-task-force")
+            PluginManager.EditBoxInsertYesParam("Indian")
         End Sub
 
         Private Sub ItalianToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ItalianToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Italian-task-force")
+            PluginManager.EditBoxInsertYesParam("Italian")
         End Sub
 
         Private Sub JapaneseToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles JapaneseToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Japanese-task-force")
+            PluginManager.EditBoxInsertYesParam("Japanese")
         End Sub
 
         Private Sub KoreanToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles KoreanToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Korean-task-force")
+            PluginManager.EditBoxInsertYesParam("Korean")
         End Sub
 
         Private Sub NewZealandToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewZealandToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("NewZealand-task-force")
+            PluginManager.EditBoxInsertYesParam("NewZealand")
         End Sub
 
         Private Sub NordicToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NordicToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Nordic-task-force")
+            PluginManager.EditBoxInsertYesParam("Nordic")
         End Sub
 
         Private Sub OttomanToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OttomanToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Ottoman-task-force")
+            PluginManager.EditBoxInsertYesParam("Ottoman")
         End Sub
 
         Private Sub PolishToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PolishToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Polish-task-force")
+            PluginManager.EditBoxInsertYesParam("Polish")
         End Sub
 
         Private Sub RussianToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RussianToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Russian-task-force")
+            PluginManager.EditBoxInsertYesParam("Russian")
         End Sub
 
         Private Sub SpanishToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SpanishToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Spanish-task-force")
+            PluginManager.EditBoxInsertYesParam("Spanish")
         End Sub
 
         Private Sub USToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles USToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("US-task-force")
+            PluginManager.EditBoxInsertYesParam("US")
         End Sub
 
         Private Sub ACWToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ACWToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("ACW-task-force")
+            PluginManager.EditBoxInsertYesParam("ACW")
         End Sub
 
         Private Sub AncientNearEasterToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-            PluginManager.EditBoxInsertYesParam("Ancient-task-force")
+            PluginManager.EditBoxInsertYesParam("Ancient")
         End Sub
 
         Private Sub ClassicalToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClassicalToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Classical-task-force")
+            PluginManager.EditBoxInsertYesParam("Classical")
         End Sub
 
         Private Sub MedievalToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MedievalToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Medieval-task-force")
+            PluginManager.EditBoxInsertYesParam("Medieval")
         End Sub
 
         Private Sub EarlyModernToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles EarlyModernToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Early-Modern-task-force")
+            PluginManager.EditBoxInsertYesParam("Early-Modern")
         End Sub
 
         Private Sub NapoleonicToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NapoleonicToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("Napoleonic-task-force")
+            PluginManager.EditBoxInsertYesParam("Napoleonic")
         End Sub
 
         Private Sub WWIToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WWIToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("WWI-task-force")
+            PluginManager.EditBoxInsertYesParam("WWI")
         End Sub
 
         Private Sub WWIIToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WWIIToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("WWII-task-force")
+            PluginManager.EditBoxInsertYesParam("WWII")
         End Sub
     End Class
 
@@ -737,6 +927,24 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 If .Ottoman Then AddAndLogNewParamWithAYesValue("Ottoman")
                 If .Russian Then AddAndLogNewParamWithAYesValue("Russian")
                 If .Spanish Then AddAndLogNewParamWithAYesValue("Spanish")
+
+                If .NoTaskForce Then AddAndLogNewParamWithAYesValue("no-task-force")
+                If .Baltic Then AddAndLogNewParamWithAYesValue("Baltic")
+                If .Lebanese Then AddAndLogNewParamWithAYesValue("Lebanese")
+                If .MiddleEastern Then AddAndLogNewParamWithAYesValue("Middle-Eastern")
+                If .Romanian Then AddAndLogNewParamWithAYesValue("Romanian")
+                If .SouthAmerican Then AddAndLogNewParamWithAYesValue("South-American")
+                If .SoutheastAsian Then AddAndLogNewParamWithAYesValue("Southeast-Asian")
+                If .Taiwanese Then AddAndLogNewParamWithAYesValue("Taiwanese")
+                If .Biography Then AddAndLogNewParamWithAYesValue("Biography")
+                If .Films Then AddAndLogNewParamWithAYesValue("Films")
+                If .Fortifications Then AddAndLogNewParamWithAYesValue("Fortifications")
+                If .Intel Then AddAndLogNewParamWithAYesValue("Intel")
+                If .LandVehicles Then AddAndLogNewParamWithAYesValue("Land-vehicles")
+                If .National Then AddAndLogNewParamWithAYesValue("National")
+                If .Muslim Then AddAndLogNewParamWithAYesValue("Muslim")
+                If .Crusades Then AddAndLogNewParamWithAYesValue("Crusades")
+                If .ARW Then AddAndLogNewParamWithAYesValue("ARW")
             End With
             If Template.Parameters.ContainsKey("importance") Then
                 Template.Parameters.Remove("importance")
