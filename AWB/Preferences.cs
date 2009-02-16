@@ -122,7 +122,7 @@ namespace AutoWikiBrowser
 
         private void cmboProject_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ProjectEnum prj = (ProjectEnum)Enum.Parse(typeof(ProjectEnum), cmboProject.SelectedItem.ToString());
+            ProjectEnum prj = (ProjectEnum) Enum.Parse(typeof (ProjectEnum), cmboProject.SelectedItem.ToString());
 
             //disable language selection for single language projects
             cmboLang.Enabled = (prj < ProjectEnum.species);
@@ -138,52 +138,47 @@ namespace AutoWikiBrowser
                 chkSupressAWB.Enabled = true;
 
                 chkPHP5Ext.Enabled = (prj == ProjectEnum.custom);
-
-                return;
             }
-           
-            if (cmboLang.Enabled)
+
+            cmboLang.Items.Clear();
+            List<string> langs;
+
+            switch (prj)
             {
-                cmboLang.Items.Clear();
-                List<string> langs;
+                case ProjectEnum.wikipedia:
+                    langs = SiteMatrix.WikipediaLanguages;
+                    break;
 
-                switch (prj)
-                {
-                    case ProjectEnum.wikipedia:
-                        langs = SiteMatrix.WikipediaLanguages;
-                        break;
+                case ProjectEnum.wiktionary:
+                    langs = SiteMatrix.WiktionaryLanguages;
+                    break;
 
-                    case ProjectEnum.wiktionary:
-                        langs = SiteMatrix.WiktionaryLanguages;
-                        break;
+                case ProjectEnum.wikibooks:
+                    langs = SiteMatrix.WikibooksLanguages;
+                    break;
 
-                    case ProjectEnum.wikibooks:
-                        langs = SiteMatrix.WikibooksLanguages;
-                        break;
+                case ProjectEnum.wikinews:
+                    langs = SiteMatrix.WikinewsLanguages;
+                    break;
 
-                    case ProjectEnum.wikinews:
-                        langs = SiteMatrix.WikinewsLanguages;
-                        break;
+                case ProjectEnum.wikiquote:
+                    langs = SiteMatrix.WikiquoteLanguages;
+                    break;
 
-                    case ProjectEnum.wikiquote:
-                        langs = SiteMatrix.WikiquoteLanguages;
-                        break;
+                case ProjectEnum.wikisource:
+                    langs = SiteMatrix.WikisourceLanguages;
+                    break;
 
-                    case ProjectEnum.wikisource:
-                        langs = SiteMatrix.WikisourceLanguages;
-                        break;
+                case ProjectEnum.wikiversity:
+                    langs = SiteMatrix.WikiversityLanguages;
+                    break;
 
-                    case ProjectEnum.wikiversity:
-                        langs = SiteMatrix.WikiversityLanguages;
-                        break;
-
-                    default:
-                        langs = SiteMatrix.Languages;
-                        break;
-                }
-                cmboLang.Items.AddRange(langs.ToArray());
-                cmboLang.SelectedIndex = 0;
+                default:
+                    langs = SiteMatrix.Languages;
+                    break;
             }
+            cmboLang.Items.AddRange(langs.ToArray());
+            cmboLang.SelectedIndex = 0;
 
             lblPostfix.Text = "";
             cmboCustomProject.Visible = false;
