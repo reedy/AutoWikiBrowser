@@ -127,19 +127,6 @@ namespace AutoWikiBrowser
             //disable language selection for single language projects
             cmboLang.Enabled = (prj < ProjectEnum.species);
 
-            if (prj == ProjectEnum.custom || prj == ProjectEnum.wikia)
-            {
-                cmboCustomProject.Visible = true;
-                cmboLang.Visible = false;
-                lblLang.Text = "http://";
-                if (prj == ProjectEnum.wikia) lblPostfix.Text = ".wikia.com";
-                cmboCustomProjectChanged(null, null);
-
-                chkSupressAWB.Enabled = true;
-
-                chkPHP5Ext.Enabled = (prj == ProjectEnum.custom);
-            }
-
             cmboLang.Items.Clear();
             List<string> langs;
 
@@ -179,6 +166,22 @@ namespace AutoWikiBrowser
             }
             cmboLang.Items.AddRange(langs.ToArray());
             cmboLang.SelectedIndex = 0;
+
+
+            if (prj == ProjectEnum.custom || prj == ProjectEnum.wikia)
+            {
+                cmboCustomProject.Visible = true;
+                cmboLang.Visible = false;
+                lblLang.Text = "http://";
+                if (prj == ProjectEnum.wikia) lblPostfix.Text = ".wikia.com";
+                cmboCustomProjectChanged(null, null);
+
+                chkSupressAWB.Enabled = true;
+
+                chkPHP5Ext.Enabled = (prj == ProjectEnum.custom);
+
+                return;
+            }
 
             lblPostfix.Text = "";
             cmboCustomProject.Visible = false;
