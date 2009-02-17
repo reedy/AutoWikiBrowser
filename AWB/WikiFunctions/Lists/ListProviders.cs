@@ -956,7 +956,7 @@ namespace WikiFunctions.Lists
         { get { return UserInputTextBoxText; } }
 
         public override string UserInputTextBoxText
-        { get { return "Redirects to:"; } }
+        { get { return "Redirects to"; } }
 
         public override bool UserInputTextBoxEnabled
         { get { return true; } }
