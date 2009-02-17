@@ -431,6 +431,11 @@ en, sq, ru
                     case LangCodeEnum.de:
                     case LangCodeEnum.sl:
                         ArticleText += strStub + strCategories + strPersonData;
+
+                        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser#Removal_of_blank_lines
+                        // on de wiki a blank line is desired between persondata and interwikis
+                        if (Variables.LangCode == LangCodeEnum.de && strPersonData.Length > 0 && strInterwikis.Length > 0)
+                            ArticleText += "\r\n";
                         break;
                     case LangCodeEnum.pl:
                     case LangCodeEnum.ru:
