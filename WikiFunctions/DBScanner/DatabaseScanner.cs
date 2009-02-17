@@ -807,6 +807,9 @@ namespace WikiFunctions.DBScanner
                     {
                         while (reader.Read())
                         {
+                            if (reader.Name.Equals(""))
+                                continue;
+
                             if (reader.Name.Equals("sitename"))
                             {
                                 txtSitename.Text = reader.ReadString();
