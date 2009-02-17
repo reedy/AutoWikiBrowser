@@ -167,7 +167,6 @@ namespace AutoWikiBrowser
             cmboLang.Items.AddRange(langs.ToArray());
             cmboLang.SelectedIndex = 0;
 
-
             if (prj == ProjectEnum.custom || prj == ProjectEnum.wikia)
             {
                 cmboCustomProject.Visible = true;
