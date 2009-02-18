@@ -1739,6 +1739,30 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             
             a = @"{{articleissues|trivia}} Article text here";
             Assert.AreEqual(a, Parsers.Conversions(a));
+            
+            // nofootnotes --> morefootnotes
+            Assert.AreEqual(@"Article <ref>A</ref> 
+            ==References==
+            {{morefootnotes}}
+            {{reflist}}", Parsers.Conversions(@"Article <ref>A</ref> 
+            ==References==
+            {{nofootnotes}}
+            {{reflist}}"));
+            
+            Assert.AreEqual(@"Article <ref>A</ref> 
+            ==References==
+            {{morefootnotes}}
+            {{reflist}}", Parsers.Conversions(@"Article <ref>A</ref> 
+            ==References==
+            {{Nofootnotes}}
+            {{reflist}}"));
+            
+            // no change
+            Assert.AreEqual(@"Article 
+            ==References==
+            {{nofootnotes}}", Parsers.Conversions(@"Article 
+            ==References==
+            {{nofootnotes}}"));
         }
     }
 }
