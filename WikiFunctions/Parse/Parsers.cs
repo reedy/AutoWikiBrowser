@@ -94,9 +94,6 @@ namespace WikiFunctions.Parse
 
             // articleissues with one issue -> single issue tag (e.g. {{articleissues|cleanup=January 2008}} to {{cleanup|date=January 2008}} etc.)
             RegexConversion.Add(new Regex(@"\{\{[Aa]rticle ?issues\s*\|\s*([^\|{}=]{3,}?)\s*(=\s*\w{3,10}\s+20\d\d\s*\}\})", RegexOptions.Compiled), "{{$1|date$2");
-            
-            // {{nofootnotes}} --> {{morefootnotes}}, if some <ref>...</ref> references in article, uses regex from WikiRegexes.Refs
-                RegexConversion.Add(new Regex(@"(<ref\b[^>]*?>[^<]*<\s*/\s*ref\s*>|<ref\s+name\s*=\s*.*?/\s*>)(.*?){{nofootnotes}}", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline), "$1$2{{morefootnotes}}");
         }
 
         private static readonly Dictionary<Regex, string> RegexUnicode = new Dictionary<Regex, string>();
@@ -1942,6 +1939,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             {
                 ArticleText = k.Key.Replace(ArticleText, k.Value);
             }
+
+            // {{nofootnotes}} --> {{morefootnotes}}, if some <ref>...</ref> references in article, uses regex from WikiRegexes.Refs
+            if (WikiRegexes.Refs.IsMatch(ArticleText))
+                ArticleText = Regex.Replace(ArticleText, @"{{nofootnotes}}", "{{morefootnotes}}", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
             return ArticleText;
         }
