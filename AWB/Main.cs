@@ -1660,6 +1660,7 @@ window.scrollTo(0, diffTopY);
                 e.Cancel = true;
                 return;
             }
+            ntfyTray.Dispose();
         }
 
         private void SetCheckBoxes()
@@ -4148,6 +4149,11 @@ window.scrollTo(0, diffTopY);
         private void displayfalsePositivesButtonToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AddIgnoredToLogFile = displayfalsePositivesButtonToolStripMenuItem.Checked;
+        }
+
+        private void ntfyTray_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+
         }
     }
         #endregion
