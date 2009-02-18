@@ -2042,8 +2042,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                                       ? categoryProv.MakeList(new[] {ArticleTitle}).Count
                                       : Globals.UnitTestIntValue;
 
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser#AWB_problems
+            // nl wiki doesn't use {{Uncategorized}} template
             if (addTags && words > 6 && totalCategories == 0
-                && !WikiRegexes.Uncat.IsMatch(ArticleText))
+                && !WikiRegexes.Uncat.IsMatch(ArticleText) && Variables.LangCode != LangCodeEnum.nl)
             {
                 if (WikiRegexes.Stub.IsMatch(commentsStripped))
                 {
