@@ -1296,6 +1296,36 @@ Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Test}}[[Category:Test|TEST]][[Categor
         }
 
         [Test]
+        public void HasMorefootnotesAndManyReferencesTests()
+        {
+            Assert.IsTrue(Parsers.HasMorefootnotesAndManyReferences(@"Article<ref>A</ref> <ref>B</ref> <ref>C</ref> <ref>B</ref> <ref>E</ref> 
+==References== 
+{{reflist}} 
+{{nofootnotes}}"));
+
+            Assert.IsTrue(Parsers.HasMorefootnotesAndManyReferences(@"Article<ref>A</ref> <ref>B</ref> <ref>C</ref> <ref>B</ref> <ref>E</ref> 
+==References== 
+{{reflist}} 
+{{morefootnotes}}"));
+
+            Assert.IsTrue(Parsers.HasMorefootnotesAndManyReferences(@"Article<ref name=A>A</ref> <ref name=B>B</ref> <ref>C</ref> <ref>B</ref> <ref>E</ref> 
+==References== 
+{{reflist}} 
+{{Morefootnotes}}"));
+
+            // not enough references
+            Assert.IsFalse(Parsers.HasMorefootnotesAndManyReferences(@"Article<ref>A</ref> <ref>B</ref> <ref>C</ref> <ref>B</ref> 
+==References== 
+{{reflist}} 
+{{nofootnotes}}"));
+
+            // no {{nofootnotes}}
+            Assert.IsFalse(Parsers.HasMorefootnotesAndManyReferences(@"Article<ref name=A>A</ref> <ref name=B>B</ref> <ref>C</ref> <ref>B</ref> <ref>E</ref> 
+==References== 
+{{reflist}}"));
+        }
+
+        [Test]
         public void HasInUseTagTests()
         {
             Assert.IsTrue(Parsers.IsInUse("{{inuse}} Hello world"));

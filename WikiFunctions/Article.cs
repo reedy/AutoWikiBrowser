@@ -189,6 +189,13 @@ namespace WikiFunctions
         { get { return Parsers.HasSicTag(mArticleText); } }
 
         /// <summary>
+        /// Returns true if the article contains a {{nofootnotes}} or {{morefootnotes}} template but has 5+ <ref>...</ref> references
+        /// </summary>
+        [XmlIgnore]
+        public bool HasMorefootnotesAndManyReferences
+        { get { return Parsers.HasMorefootnotesAndManyReferences(mArticleText); } }
+
+        /// <summary>
         /// Returns true if the article should be skipped; check after each call to a worker member. See AWB main.cs.
         /// </summary>
         [XmlIgnore]

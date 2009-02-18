@@ -2275,6 +2275,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         /// <summary>
+        /// Check if the article contains a {{nofootnotes}} or {{morefootnotes}} template but has 5+ <ref>...</ref> references
+        /// </summary>
+        public static bool HasMorefootnotesAndManyReferences(string ArticleText)
+        {
+            return (WikiRegexes.MoreNoFootnotes.IsMatch(WikiRegexes.Comments.Replace(ArticleText, "")) && WikiRegexes.Refs.Matches(ArticleText).Count > 4);
+        }
+        /// <summary>
         /// Check if the article uses cite references but has no recognised template to display the references; only for en-wiki
         /// </summary>
         public static bool IsMissingReferencesDisplay(string ArticleText)

@@ -333,6 +333,10 @@ namespace WikiFunctions
         public static readonly Regex SicTag = new Regex(@"({{(?:[Ss]ic|[Tt]ypo)(?:\||}})|([\(\[{]\s*[Ss]ic!?\s*[\)\]}]))", RegexOptions.Compiled);
 
         /// <summary>
+        /// Matches {{nofootnotes}} OR {{morefootnotes}} templates
+        /// </summary>
+        public static readonly Regex MoreNoFootnotes = new Regex(@"{{([Mm]ore|[Nn]o)footnotes}}", RegexOptions.Compiled);
+        /// <summary>
         /// Matches any of the recognised templates for displaying cite references
         /// </summary>
         public static readonly Regex ReferencesTemplate = new Regex(@"(\{\{\s*ref(?:-?li(?:st|nk)|erence)[^{}]*\}\}|<references\s*/>|\{\{refs)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
