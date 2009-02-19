@@ -356,6 +356,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex OutofOrderRefs1 = new Regex(@"(<ref>[^<>]+</ref>)(\s*)(<ref\s+name\s*=\s*(""?[^<>""]+?""?)\s*(?:\/\s*|>[^<>]+</ref)>)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly Regex OutofOrderRefs2 = new Regex(@"(<ref\s+name\s*=\s*(""?[^<>""]+?""?)\s*(?:\/\s*|>[^<>]+</ref)>)(\s*)(<ref\s+name\s*=\s*(""?[^<>""]+?""?)\s*(?:\/\s*|>[^<>]+</ref)>)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
+        private static readonly Regex OutofOrderRefs3 = new Regex(@"(?<=\s*(?:\/\s*|>[^<>]+</ref)>)(<ref\s+name\s*=\s*(""?[^<>""]+?""?)\s*(?:\/\s*|>[^<>]+</ref)>)(\s*)(<ref\s+name\s*=\s*(""?[^<>""]+?""?)\s*(?:\/\s*|>[^<>]+</ref)>)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
         /// <summary>
         /// Reorders references so that they appear in numerical order
         /// </summary>
@@ -363,32 +365,55 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string ReorderReferences(string ArticleText)
         {
-            foreach (Match m in OutofOrderRefs1.Matches(ArticleText))
+            string ArticleTextBefore = "";
+            for (int i = 0; i < 5; i++) // allows for up to 5 consecutive references
             {
-                string Ref1 = m.Groups[1].Value;
-                int Ref1Index = Regex.Match(ArticleText, @"(?i)<ref\s+name\s*=\s*" + Regex.Escape(m.Groups[4].Value) + @"\s*(?:\/\s*|>[^<>]+</ref)>").Index;
-                int Ref2Index = ArticleText.IndexOf(Ref1);
-
-                if (Ref1Index < Ref2Index && Ref2Index > 0)
-                {
-                    string Whitespace = m.Groups[2].Value;
-                    string Ref2 = m.Groups[3].Value;
-                    ArticleText = ArticleText.Replace(Ref1 + Whitespace + Ref2, Ref2 + Whitespace + Ref1);
-                }
-            }
-
-            foreach (Match m in OutofOrderRefs2.Matches(ArticleText))
-            {
-                int Ref1Index = Regex.Match(ArticleText, @"(?i)<ref\s+name\s*=\s*" + Regex.Escape(m.Groups[2].Value) + @"\s*(?:\/\s*|>[^<>]+</ref)>").Index;
-                int Ref2Index = Regex.Match(ArticleText, @"(?i)<ref\s+name\s*=\s*" + Regex.Escape(m.Groups[5].Value) + @"\s*(?:\/\s*|>[^<>]+</ref)>").Index;
-
-                if (Ref1Index > Ref2Index && Ref1Index > 0)
+                ArticleTextBefore = ArticleText;
+                
+                foreach (Match m in OutofOrderRefs1.Matches(ArticleText))
                 {
                     string Ref1 = m.Groups[1].Value;
-                    string Ref2 = m.Groups[4].Value;
-                    string Whitespace = m.Groups[3].Value;
-                    ArticleText = ArticleText.Replace(Ref1 + Whitespace + Ref2, Ref2 + Whitespace + Ref1);
+                    int Ref1Index = Regex.Match(ArticleText, @"(?i)<ref\s+name\s*=\s*" + Regex.Escape(m.Groups[4].Value) + @"\s*(?:\/\s*|>[^<>]+</ref)>").Index;
+                    int Ref2Index = ArticleText.IndexOf(Ref1);
+
+                    if (Ref1Index < Ref2Index && Ref2Index > 0)
+                    {
+                        string Whitespace = m.Groups[2].Value;
+                        string Ref2 = m.Groups[3].Value;
+                        ArticleText = ArticleText.Replace(Ref1 + Whitespace + Ref2, Ref2 + Whitespace + Ref1);
+                    }
                 }
+
+                foreach (Match m in OutofOrderRefs2.Matches(ArticleText))
+                {
+                    int Ref1Index = Regex.Match(ArticleText, @"(?i)<ref\s+name\s*=\s*" + Regex.Escape(m.Groups[2].Value) + @"\s*(?:\/\s*|>[^<>]+</ref)>").Index;
+                    int Ref2Index = Regex.Match(ArticleText, @"(?i)<ref\s+name\s*=\s*" + Regex.Escape(m.Groups[5].Value) + @"\s*(?:\/\s*|>[^<>]+</ref)>").Index;
+
+                    if (Ref1Index > Ref2Index && Ref1Index > 0)
+                    {
+                        string Ref1 = m.Groups[1].Value;
+                        string Ref2 = m.Groups[4].Value;
+                        string Whitespace = m.Groups[3].Value;
+                        ArticleText = ArticleText.Replace(Ref1 + Whitespace + Ref2, Ref2 + Whitespace + Ref1);
+                    }
+                }
+
+                foreach (Match m in OutofOrderRefs3.Matches(ArticleText))
+                {
+                    int Ref1Index = Regex.Match(ArticleText, @"(?i)<ref\s+name\s*=\s*" + Regex.Escape(m.Groups[2].Value) + @"\s*(?:\/\s*|>[^<>]+</ref)>").Index;
+                    int Ref2Index = Regex.Match(ArticleText, @"(?i)<ref\s+name\s*=\s*" + Regex.Escape(m.Groups[5].Value) + @"\s*(?:\/\s*|>[^<>]+</ref)>").Index;
+
+                    if (Ref1Index > Ref2Index && Ref1Index > 0)
+                    {
+                        string Ref1 = m.Groups[1].Value;
+                        string Ref2 = m.Groups[4].Value;
+                        string Whitespace = m.Groups[3].Value;
+                        ArticleText = ArticleText.Replace(Ref1 + Whitespace + Ref2, Ref2 + Whitespace + Ref1);
+                    }
+                }
+                
+                if (ArticleTextBefore.Equals(ArticleText))
+                    break;
             }
 
             return (ArticleText);
