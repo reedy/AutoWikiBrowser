@@ -32,6 +32,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.WorkgroupsGroupBox = New System.Windows.Forms.GroupBox
             Me.FilmCheckBox = New System.Windows.Forms.CheckBox
             Me.PeerageCheckBox = New System.Windows.Forms.CheckBox
+            Me.BaronetsCheckBox = New System.Windows.Forms.CheckBox
             Me.SportsCheckBox = New System.Windows.Forms.CheckBox
             Me.MusiciansCheckBox = New System.Windows.Forms.CheckBox
             Me.BritishRoyaltyCheckBox = New System.Windows.Forms.CheckBox
@@ -51,7 +52,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem
             Me.ArtsEntertainmentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.BaronetsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-            Me.FilmToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.MilitaryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.MusiciansToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.PeerageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -75,6 +75,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.CoreArticleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.NonbiographyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.AutotaggedToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+            Me.FilmToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.ParametersGroup.SuspendLayout()
             Me.WorkgroupsGroupBox.SuspendLayout()
             Me.OptionsGroupBox.SuspendLayout()
@@ -166,6 +167,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             '
             Me.WorkgroupsGroupBox.Controls.Add(Me.FilmCheckBox)
             Me.WorkgroupsGroupBox.Controls.Add(Me.PeerageCheckBox)
+            Me.WorkgroupsGroupBox.Controls.Add(Me.BaronetsCheckBox)
             Me.WorkgroupsGroupBox.Controls.Add(Me.SportsCheckBox)
             Me.WorkgroupsGroupBox.Controls.Add(Me.MusiciansCheckBox)
             Me.WorkgroupsGroupBox.Controls.Add(Me.BritishRoyaltyCheckBox)
@@ -176,7 +178,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.WorkgroupsGroupBox.Controls.Add(Me.ArtsEntsCheckBox)
             Me.WorkgroupsGroupBox.Location = New System.Drawing.Point(135, 6)
             Me.WorkgroupsGroupBox.Name = "WorkgroupsGroupBox"
-            Me.WorkgroupsGroupBox.Size = New System.Drawing.Size(129, 224)
+            Me.WorkgroupsGroupBox.Size = New System.Drawing.Size(129, 244)
             Me.WorkgroupsGroupBox.TabIndex = 2
             Me.WorkgroupsGroupBox.TabStop = False
             Me.WorkgroupsGroupBox.Text = "Workgroups"
@@ -185,7 +187,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'FilmCheckBox
             '
             Me.FilmCheckBox.AutoSize = True
-            Me.FilmCheckBox.Location = New System.Drawing.Point(6, 42)
+            Me.FilmCheckBox.Location = New System.Drawing.Point(6, 59)
             Me.FilmCheckBox.Name = "FilmCheckBox"
             Me.FilmCheckBox.Size = New System.Drawing.Size(44, 17)
             Me.FilmCheckBox.TabIndex = 12
@@ -196,7 +198,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'PeerageCheckBox
             '
             Me.PeerageCheckBox.AutoSize = True
-            Me.PeerageCheckBox.Location = New System.Drawing.Point(6, 102)
+            Me.PeerageCheckBox.Location = New System.Drawing.Point(6, 119)
             Me.PeerageCheckBox.Name = "PeerageCheckBox"
             Me.PeerageCheckBox.Size = New System.Drawing.Size(66, 17)
             Me.PeerageCheckBox.TabIndex = 11
@@ -204,10 +206,21 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.ToolTip1.SetToolTip(Me.PeerageCheckBox, "peerage-work-group=yes")
             Me.PeerageCheckBox.UseVisualStyleBackColor = True
             '
+            'BaronetsCheckBox
+            '
+            Me.BaronetsCheckBox.AutoSize = True
+            Me.BaronetsCheckBox.Location = New System.Drawing.Point(6, 39)
+            Me.BaronetsCheckBox.Name = "BaronetsCheckBox"
+            Me.BaronetsCheckBox.Size = New System.Drawing.Size(68, 17)
+            Me.BaronetsCheckBox.TabIndex = 10
+            Me.BaronetsCheckBox.Text = "Baronets"
+            Me.ToolTip1.SetToolTip(Me.BaronetsCheckBox, "baronets-work-group=yes")
+            Me.BaronetsCheckBox.UseVisualStyleBackColor = True
+            '
             'SportsCheckBox
             '
             Me.SportsCheckBox.AutoSize = True
-            Me.SportsCheckBox.Location = New System.Drawing.Point(6, 202)
+            Me.SportsCheckBox.Location = New System.Drawing.Point(6, 219)
             Me.SportsCheckBox.Name = "SportsCheckBox"
             Me.SportsCheckBox.Size = New System.Drawing.Size(94, 17)
             Me.SportsCheckBox.TabIndex = 9
@@ -218,7 +231,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'MusiciansCheckBox
             '
             Me.MusiciansCheckBox.AutoSize = True
-            Me.MusiciansCheckBox.Location = New System.Drawing.Point(6, 82)
+            Me.MusiciansCheckBox.Location = New System.Drawing.Point(6, 99)
             Me.MusiciansCheckBox.Name = "MusiciansCheckBox"
             Me.MusiciansCheckBox.Size = New System.Drawing.Size(73, 17)
             Me.MusiciansCheckBox.TabIndex = 8
@@ -229,7 +242,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'BritishRoyaltyCheckBox
             '
             Me.BritishRoyaltyCheckBox.AutoSize = True
-            Me.BritishRoyaltyCheckBox.Location = New System.Drawing.Point(6, 162)
+            Me.BritishRoyaltyCheckBox.Location = New System.Drawing.Point(6, 179)
             Me.BritishRoyaltyCheckBox.Name = "BritishRoyaltyCheckBox"
             Me.BritishRoyaltyCheckBox.Size = New System.Drawing.Size(92, 17)
             Me.BritishRoyaltyCheckBox.TabIndex = 6
@@ -240,7 +253,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'PoliticianCheckBox
             '
             Me.PoliticianCheckBox.AutoSize = True
-            Me.PoliticianCheckBox.Location = New System.Drawing.Point(6, 122)
+            Me.PoliticianCheckBox.Location = New System.Drawing.Point(6, 139)
             Me.PoliticianCheckBox.Name = "PoliticianCheckBox"
             Me.PoliticianCheckBox.Size = New System.Drawing.Size(73, 17)
             Me.PoliticianCheckBox.TabIndex = 5
@@ -251,7 +264,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'RoyaltyCheckBox
             '
             Me.RoyaltyCheckBox.AutoSize = True
-            Me.RoyaltyCheckBox.Location = New System.Drawing.Point(6, 142)
+            Me.RoyaltyCheckBox.Location = New System.Drawing.Point(6, 159)
             Me.RoyaltyCheckBox.Name = "RoyaltyCheckBox"
             Me.RoyaltyCheckBox.Size = New System.Drawing.Size(61, 17)
             Me.RoyaltyCheckBox.TabIndex = 4
@@ -262,7 +275,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'ScienceAcademiaCheckBox
             '
             Me.ScienceAcademiaCheckBox.AutoSize = True
-            Me.ScienceAcademiaCheckBox.Location = New System.Drawing.Point(6, 182)
+            Me.ScienceAcademiaCheckBox.Location = New System.Drawing.Point(6, 199)
             Me.ScienceAcademiaCheckBox.Name = "ScienceAcademiaCheckBox"
             Me.ScienceAcademiaCheckBox.Size = New System.Drawing.Size(117, 17)
             Me.ScienceAcademiaCheckBox.TabIndex = 7
@@ -273,7 +286,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'MilitaryCheckBox
             '
             Me.MilitaryCheckBox.AutoSize = True
-            Me.MilitaryCheckBox.Location = New System.Drawing.Point(6, 62)
+            Me.MilitaryCheckBox.Location = New System.Drawing.Point(6, 79)
             Me.MilitaryCheckBox.Name = "MilitaryCheckBox"
             Me.MilitaryCheckBox.Size = New System.Drawing.Size(58, 17)
             Me.MilitaryCheckBox.TabIndex = 3
@@ -350,180 +363,180 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             '
             Me.TextInsertContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripMenuItem})
             Me.TextInsertContextMenuStrip.Name = "TextInsertContextMenuStrip"
-            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(147, 26)
+            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(153, 48)
             '
             'ToolStripMenuItem
             '
             Me.ToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.WPBiographyToolStripMenuItem, Me.ToolStripMenuItem3, Me.ToolStripSeparator2, Me.AttentionToolStripMenuItem, Me.InfoboxToolStripMenuItem, Me.ToolStripSeparator1, Me.CollabCandidateToolStripMenuItem, Me.PastCollabToolStripMenuItem, Me.PeerReviewToolStripMenuItem, Me.OldPeerReviewToolStripMenuItem, Me.ToolStripSeparator3, Me.LivingPersonToolStripMenuItem, Me.DeceasedPersonToolStripMenuItem, Me.ActivePoliticianToolStripMenuItem, Me.CoreArticleToolStripMenuItem, Me.NonbiographyToolStripMenuItem, Me.AutotaggedToolStripMenuItem})
             Me.ToolStripMenuItem.Name = "ToolStripMenuItem"
-            Me.ToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
+            Me.ToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
             Me.ToolStripMenuItem.Text = "WPBiography"
             '
             'WPBiographyToolStripMenuItem
             '
             Me.WPBiographyToolStripMenuItem.Name = "WPBiographyToolStripMenuItem"
-            Me.WPBiographyToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+            Me.WPBiographyToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.WPBiographyToolStripMenuItem.Text = "{{WPBiography}}"
             '
             'ToolStripMenuItem3
             '
             Me.ToolStripMenuItem3.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ArtsEntertainmentToolStripMenuItem, Me.BaronetsToolStripMenuItem, Me.FilmToolStripMenuItem, Me.MilitaryToolStripMenuItem, Me.MusiciansToolStripMenuItem, Me.PeerageToolStripMenuItem, Me.PoliticsToolStripMenuItem, Me.RoyaltyToolStripMenuItem, Me.BritishRoyaltyToolStripMenuItem, Me.ScienceAcademiaToolStripMenuItem, Me.SportsGamesToolStripMenuItem})
             Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-            Me.ToolStripMenuItem3.Size = New System.Drawing.Size(201, 22)
+            Me.ToolStripMenuItem3.Size = New System.Drawing.Size(187, 22)
             Me.ToolStripMenuItem3.Text = "Workgroups"
             '
             'ArtsEntertainmentToolStripMenuItem
             '
             Me.ArtsEntertainmentToolStripMenuItem.Name = "ArtsEntertainmentToolStripMenuItem"
-            Me.ArtsEntertainmentToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+            Me.ArtsEntertainmentToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
             Me.ArtsEntertainmentToolStripMenuItem.Text = "Arts && Entertainment"
             '
             'BaronetsToolStripMenuItem
             '
             Me.BaronetsToolStripMenuItem.Name = "BaronetsToolStripMenuItem"
-            Me.BaronetsToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+            Me.BaronetsToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
             Me.BaronetsToolStripMenuItem.Text = "Baronets"
-            '
-            'FilmToolStripMenuItem
-            '
-            Me.FilmToolStripMenuItem.Name = "FilmToolStripMenuItem"
-            Me.FilmToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
-            Me.FilmToolStripMenuItem.Text = "Film"
             '
             'MilitaryToolStripMenuItem
             '
             Me.MilitaryToolStripMenuItem.Name = "MilitaryToolStripMenuItem"
-            Me.MilitaryToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+            Me.MilitaryToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
             Me.MilitaryToolStripMenuItem.Text = "Military"
             '
             'MusiciansToolStripMenuItem
             '
             Me.MusiciansToolStripMenuItem.Name = "MusiciansToolStripMenuItem"
-            Me.MusiciansToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+            Me.MusiciansToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
             Me.MusiciansToolStripMenuItem.Text = "Musicians"
             '
             'PeerageToolStripMenuItem
             '
             Me.PeerageToolStripMenuItem.Name = "PeerageToolStripMenuItem"
-            Me.PeerageToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+            Me.PeerageToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
             Me.PeerageToolStripMenuItem.Text = "Peerage"
             '
             'PoliticsToolStripMenuItem
             '
             Me.PoliticsToolStripMenuItem.Name = "PoliticsToolStripMenuItem"
-            Me.PoliticsToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+            Me.PoliticsToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
             Me.PoliticsToolStripMenuItem.Text = "Politics"
             '
             'RoyaltyToolStripMenuItem
             '
             Me.RoyaltyToolStripMenuItem.Name = "RoyaltyToolStripMenuItem"
-            Me.RoyaltyToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+            Me.RoyaltyToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
             Me.RoyaltyToolStripMenuItem.Text = "Royalty"
             '
             'BritishRoyaltyToolStripMenuItem
             '
             Me.BritishRoyaltyToolStripMenuItem.Name = "BritishRoyaltyToolStripMenuItem"
-            Me.BritishRoyaltyToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+            Me.BritishRoyaltyToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
             Me.BritishRoyaltyToolStripMenuItem.Text = "British Royalty"
             '
             'ScienceAcademiaToolStripMenuItem
             '
             Me.ScienceAcademiaToolStripMenuItem.Name = "ScienceAcademiaToolStripMenuItem"
-            Me.ScienceAcademiaToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+            Me.ScienceAcademiaToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
             Me.ScienceAcademiaToolStripMenuItem.Text = "Science/Academia"
             '
             'SportsGamesToolStripMenuItem
             '
             Me.SportsGamesToolStripMenuItem.Name = "SportsGamesToolStripMenuItem"
-            Me.SportsGamesToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+            Me.SportsGamesToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
             Me.SportsGamesToolStripMenuItem.Text = "Sports/Games"
             '
             'ToolStripSeparator2
             '
             Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-            Me.ToolStripSeparator2.Size = New System.Drawing.Size(198, 6)
+            Me.ToolStripSeparator2.Size = New System.Drawing.Size(184, 6)
             '
             'AttentionToolStripMenuItem
             '
             Me.AttentionToolStripMenuItem.Name = "AttentionToolStripMenuItem"
-            Me.AttentionToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+            Me.AttentionToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.AttentionToolStripMenuItem.Text = "Needs attention"
             '
             'InfoboxToolStripMenuItem
             '
             Me.InfoboxToolStripMenuItem.Name = "InfoboxToolStripMenuItem"
-            Me.InfoboxToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+            Me.InfoboxToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.InfoboxToolStripMenuItem.Text = "Needs infobox"
             '
             'ToolStripSeparator1
             '
             Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-            Me.ToolStripSeparator1.Size = New System.Drawing.Size(198, 6)
+            Me.ToolStripSeparator1.Size = New System.Drawing.Size(184, 6)
             '
             'CollabCandidateToolStripMenuItem
             '
             Me.CollabCandidateToolStripMenuItem.Name = "CollabCandidateToolStripMenuItem"
-            Me.CollabCandidateToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+            Me.CollabCandidateToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.CollabCandidateToolStripMenuItem.Text = "Collaboration candidate"
             '
             'PastCollabToolStripMenuItem
             '
             Me.PastCollabToolStripMenuItem.Name = "PastCollabToolStripMenuItem"
-            Me.PastCollabToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+            Me.PastCollabToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.PastCollabToolStripMenuItem.Text = "Past collaboration"
             '
             'PeerReviewToolStripMenuItem
             '
             Me.PeerReviewToolStripMenuItem.Name = "PeerReviewToolStripMenuItem"
-            Me.PeerReviewToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+            Me.PeerReviewToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.PeerReviewToolStripMenuItem.Text = "Peer review"
             '
             'OldPeerReviewToolStripMenuItem
             '
             Me.OldPeerReviewToolStripMenuItem.Name = "OldPeerReviewToolStripMenuItem"
-            Me.OldPeerReviewToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+            Me.OldPeerReviewToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.OldPeerReviewToolStripMenuItem.Text = "Old peer review"
             '
             'ToolStripSeparator3
             '
             Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-            Me.ToolStripSeparator3.Size = New System.Drawing.Size(198, 6)
+            Me.ToolStripSeparator3.Size = New System.Drawing.Size(184, 6)
             '
             'LivingPersonToolStripMenuItem
             '
             Me.LivingPersonToolStripMenuItem.Name = "LivingPersonToolStripMenuItem"
-            Me.LivingPersonToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+            Me.LivingPersonToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.LivingPersonToolStripMenuItem.Text = "Living person"
             '
             'DeceasedPersonToolStripMenuItem
             '
             Me.DeceasedPersonToolStripMenuItem.Name = "DeceasedPersonToolStripMenuItem"
-            Me.DeceasedPersonToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+            Me.DeceasedPersonToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.DeceasedPersonToolStripMenuItem.Text = "Deceased person"
             '
             'ActivePoliticianToolStripMenuItem
             '
             Me.ActivePoliticianToolStripMenuItem.Name = "ActivePoliticianToolStripMenuItem"
-            Me.ActivePoliticianToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+            Me.ActivePoliticianToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.ActivePoliticianToolStripMenuItem.Text = "Active politician"
             '
             'CoreArticleToolStripMenuItem
             '
             Me.CoreArticleToolStripMenuItem.Name = "CoreArticleToolStripMenuItem"
-            Me.CoreArticleToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+            Me.CoreArticleToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.CoreArticleToolStripMenuItem.Text = "Core article"
             '
             'NonbiographyToolStripMenuItem
             '
             Me.NonbiographyToolStripMenuItem.Name = "NonbiographyToolStripMenuItem"
-            Me.NonbiographyToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+            Me.NonbiographyToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.NonbiographyToolStripMenuItem.Text = "Non-biography"
             '
             'AutotaggedToolStripMenuItem
             '
             Me.AutotaggedToolStripMenuItem.Name = "AutotaggedToolStripMenuItem"
-            Me.AutotaggedToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+            Me.AutotaggedToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
             Me.AutotaggedToolStripMenuItem.Text = "Auto-tagged"
+            '
+            'FilmToolStripMenuItem
+            '
+            Me.FilmToolStripMenuItem.Name = "FilmToolStripMenuItem"
+            Me.FilmToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+            Me.FilmToolStripMenuItem.Text = "Film"
             '
             'WPBiographySettings
             '
@@ -597,6 +610,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Private WithEvents SportsGamesToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Private WithEvents ForceListasCheckbox As System.Windows.Forms.CheckBox
         Private WithEvents PeerageCheckBox As System.Windows.Forms.CheckBox
+        Private WithEvents BaronetsCheckBox As System.Windows.Forms.CheckBox
         Private WithEvents BaronetsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Private WithEvents PeerageToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Private WithEvents DeadPersonCheckBox As System.Windows.Forms.CheckBox
