@@ -840,6 +840,9 @@ namespace WikiFunctions
             AWBChangeArticleText("FixReferenceTags", Parsers.FixReferenceTags(ArticleText), true);
             Variables.Profiler.Profile("FixReferenceTags");
 
+            AWBChangeArticleText("ReorderReferences", Parsers.ReorderReferences(ArticleText), true);
+            Variables.Profiler.Profile("ReorderReferences");
+
             AWBChangeArticleText("Fix empty references", Parsers.SimplifyReferenceTags(ArticleText), true);
             Variables.Profiler.Profile("FixEmptyReferences");
 

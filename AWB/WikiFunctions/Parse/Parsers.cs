@@ -69,7 +69,7 @@ namespace WikiFunctions.Parse
             RegexTagger.Add(new Regex(@"\{\{(template:)?(Clean( ?up)?|CU|Tidy)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Cleanup|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
             RegexTagger.Add(new Regex(@"\{\{(template:)?(Linkless|Orphan)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
             RegexTagger.Add(new Regex(@"\{\{(template:)?(Uncategori[sz]ed|Uncat|Classify|Category needed|Catneeded|categori[zs]e|nocats?)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Uncategorized|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-            
+
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser#AWB_problems
             // on en wiki {{references}} is a cleanup tag meaning 'this article needs more references' (etc.) whereas on nl wiki (Sjabloon:References) {{references}} acts like <references/>
             if (Variables.LangCode != LangCodeEnum.nl)
@@ -353,6 +353,47 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
+        private static readonly Regex OutofOrderRefs1 = new Regex(@"(<ref>[^<>]+</ref>)(\s*)(<ref\s+name\s*=\s*(""?[^<>""]+?""?)\s*(?:\/\s*|>[^<>]+</ref)>)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        private static readonly Regex OutofOrderRefs2 = new Regex(@"(<ref\s+name\s*=\s*(""?[^<>""]+?""?)\s*(?:\/\s*|>[^<>]+</ref)>)(\s*)(<ref\s+name\s*=\s*(""?[^<>""]+?""?)\s*(?:\/\s*|>[^<>]+</ref)>)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+        /// <summary>
+        /// Reorders references so that they appear in numerical order
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <returns>The modified article text.</returns>
+        public static string ReorderReferences(string ArticleText)
+        {
+            foreach (Match m in OutofOrderRefs1.Matches(ArticleText))
+            {
+                string Ref1 = m.Groups[1].Value;
+                int Ref1Index = Regex.Match(ArticleText, @"(?i)<ref\s+name\s*=\s*" + Regex.Escape(m.Groups[4].Value) + @"\s*(?:\/\s*|>[^<>]+</ref)>").Index;
+                int Ref2Index = ArticleText.IndexOf(Ref1);
+
+                if (Ref1Index < Ref2Index && Ref2Index > 0)
+                {
+                    string Whitespace = m.Groups[2].Value;
+                    string Ref2 = m.Groups[3].Value;
+                    ArticleText = ArticleText.Replace(Ref1 + Whitespace + Ref2, Ref2 + Whitespace + Ref1);
+                }
+            }
+
+            foreach (Match m in OutofOrderRefs2.Matches(ArticleText))
+            {
+                int Ref1Index = Regex.Match(ArticleText, @"(?i)<ref\s+name\s*=\s*" + Regex.Escape(m.Groups[2].Value) + @"\s*(?:\/\s*|>[^<>]+</ref)>").Index;
+                int Ref2Index = Regex.Match(ArticleText, @"(?i)<ref\s+name\s*=\s*" + Regex.Escape(m.Groups[5].Value) + @"\s*(?:\/\s*|>[^<>]+</ref)>").Index;
+
+                if (Ref1Index > Ref2Index && Ref1Index > 0)
+                {
+                    string Ref1 = m.Groups[1].Value;
+                    string Ref2 = m.Groups[4].Value;
+                    string Whitespace = m.Groups[3].Value;
+                    ArticleText = ArticleText.Replace(Ref1 + Whitespace + Ref2, Ref2 + Whitespace + Ref1);
+                }
+            }
+
+            return (ArticleText);
+        }
+
         // Covered by: FootnotesTests.TestFixReferenceListTags()
         private static string ReflistMatchEvaluator(Match m)
         {
@@ -438,9 +479,9 @@ namespace WikiFunctions.Parse
                     }
                     //else
                     //{
-                        // TODO: relist is missing, but not sure where references should go – at end of article might not be correct
-                        //ArticleText += "\r\n==References==\r\n{{Reflist}}<!--added to end of article by script-assisted edit-->";
-                        //ArticleText = Regex.Replace(ArticleText, @"(?sim)(^==.*?)(^\{\{[^{}]+?\}\}.*?)(\r\n==+References==+\r\n{{Reflist}}<!--added to end of article by script-assisted edit-->)", "$1\r\n$3\r\n$2");
+                    // TODO: relist is missing, but not sure where references should go – at end of article might not be correct
+                    //ArticleText += "\r\n==References==\r\n{{Reflist}}<!--added to end of article by script-assisted edit-->";
+                    //ArticleText = Regex.Replace(ArticleText, @"(?sim)(^==.*?)(^\{\{[^{}]+?\}\}.*?)(\r\n==+References==+\r\n{{Reflist}}<!--added to end of article by script-assisted edit-->)", "$1\r\n$3\r\n$2");
                     //}
                 }
             }
@@ -449,7 +490,7 @@ namespace WikiFunctions.Parse
 
             return ArticleText;
         }
-        
+
         // whitespace cleaning
         private static readonly Regex RefWhitespace1 = new Regex(@"<\s*(?:\s+ref\s*|\s*ref\s+)>", RegexOptions.Compiled | RegexOptions.Singleline);
         private static readonly Regex RefWhitespace2 = new Regex(@"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>", RegexOptions.Compiled | RegexOptions.Singleline);
@@ -547,13 +588,13 @@ namespace WikiFunctions.Parse
 
             Regex OrdinalsInDatesAm = new Regex(@"\b" + months + @"\s+([0-3]?\d)(?:st|nd|rd|th)\b(?<!\b[Tt]he\s+\w{3,10}\s+([0-3]?\d)(?:st|nd|rd|th)\b)", RegexOptions.Compiled);
             Regex OrdinalsInDatesInt = new Regex(@"(?:\b([0-3]?\d)(?:st|nd|rd|th)(\s*(?:to|and|.|&.dash;)\s*))?\b([0-3]?\d)(?:st|nd|rd|th)\s+" + months + @"\b(?<!\b[Tt]he\s+(?:[0-3]?\d)(?:st|nd|rd|th)\s+\w{3,10})", RegexOptions.Compiled);
-            
+
             Regex DateLeadingZerosAm = new Regex(@"\b" + months + @"\s+0([1-9])" + @"\b", RegexOptions.Compiled);
-            Regex DateLeadingZerosInt = new Regex(@"\b" + @"0([1-9])\s+" + months  + @"\b", RegexOptions.Compiled);
+            Regex DateLeadingZerosInt = new Regex(@"\b" + @"0([1-9])\s+" + months + @"\b", RegexOptions.Compiled);
 
             // hide items in quotes etc., though this may also hide items within infoboxes etc.
             ArticleText = hider.HideMore(ArticleText);
-            
+
             ArticleText = OfBetweenMonthAndYear.Replace(ArticleText, "$1 $2");
 
             // don't apply if article title has a month in it (e.g. [[6th of October City]])
@@ -752,7 +793,7 @@ namespace WikiFunctions.Parse
             if (Variables.UnderscoredTitles.Contains(Tools.TurnFirstToUpper(s)))
             {
                 return HttpUtility.UrlDecode(title.Replace("+", "%2B"))
-                    .Trim(new [] { '_' });
+                    .Trim(new[] { '_' });
             }
             return s;
         }
@@ -775,7 +816,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private static byte DecodeHex(byte a, byte b)
         {
-            return byte.Parse(new string(new [] { (char)a, (char)b }), System.Globalization.NumberStyles.HexNumber);
+            return byte.Parse(new string(new[] { (char)a, (char)b }), System.Globalization.NumberStyles.HexNumber);
         }
 
         // NOT covered, unused
@@ -965,7 +1006,7 @@ namespace WikiFunctions.Parse
 
                     b = (Tools.CalculateNS(a) != Namespace.Category)
                             ? m.Groups[2].Value.Trim()
-                            : m.Groups[2].Value.TrimEnd(new [] { ' ' });
+                            : m.Groups[2].Value.TrimEnd(new[] { ' ' });
 
                     if (b.Length == 0) continue;
 
@@ -1197,9 +1238,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             // hide items in quotes etc., though this may also hide items within infoboxes etc.
             ArticleText = hider.HideMore(ArticleText);
-            
+
             ArticleText = WikiRegexes.SiUnitsWithoutNonBreakingSpaces.Replace(ArticleText, "$1&nbsp;$2");
-        
+
             return hider.AddBackMore(ArticleText);
         }
 
@@ -1416,9 +1457,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             // first quick check: ignore articles with some bold in first 5% of hidemore article
             string ArticleText5 = hider.HideMore(ArticleText);
-            int fivepc = ArticleText5.Length/20;
+            int fivepc = ArticleText5.Length / 20;
             //ArticleText5.Length
-            if(ArticleText5.Substring(0, fivepc).Contains("'''"))
+            if (ArticleText5.Substring(0, fivepc).Contains("'''"))
                 return ArticleTextAtStart;
 
             // ignore date articles (date in American or international format)
@@ -1435,7 +1476,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             Regex BoldTitleAlready3 = new Regex(@"^\s*({{[^\{\}]+}}\s*)*'''('')?\s*\w", RegexOptions.Compiled);
 
             //if title in bold already exists in article, or page starts with something in bold, don't change anything
-            if (BoldTitleAlready1.IsMatch(ArticleText) || BoldTitleAlready2.IsMatch(ArticleText) 
+            if (BoldTitleAlready1.IsMatch(ArticleText) || BoldTitleAlready2.IsMatch(ArticleText)
                 || BoldTitleAlready3.IsMatch(ArticleText))
                 return ArticleTextAtStart;
 
@@ -1448,7 +1489,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 ArticleText = hider.HideMore(ArticleText);
                 ArticleText = regexBoldNoBrackets.Replace(ArticleText, "$1'''$2'''$3", 1);
                 ArticleText = hider.AddBackMore(ArticleText);
-                
+
                 // check that the bold added is the first bit in bold in the main body of the article
                 if (AddedBoldIsValid(ArticleText, escTitleNoBrackets))
                 {
@@ -1550,13 +1591,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static string RemoveImage(string Image, string ArticleText, bool CommentOut, string Comment)
         {
             //remove image prefix
-            Image = Tools.WikiDecode(Regex.Replace(Image, "^" 
+            Image = Tools.WikiDecode(Regex.Replace(Image, "^"
                 + Variables.NamespacesCaseInsensitive[Namespace.File], "", RegexOptions.IgnoreCase));
             Image = Tools.CaseInsensitive(HttpUtility.UrlDecode(Regex.Escape(Image).Replace("\\ ", "[ _]")));
 
             ArticleText = FixImages(ArticleText);
 
-            Regex r = new Regex(@"\[\[\s*:?\s*(?i:" 
+            Regex r = new Regex(@"\[\[\s*:?\s*(?i:"
                 + WikiRegexes.GenerateNamespaceRegex(Namespace.File, Namespace.Media)
                 + @")\s*:\s*" + Image + @".*\]\]");
 
@@ -1694,7 +1735,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static string ReCategoriser(string OldCategory, string NewCategory, string ArticleText, out bool NoChange)
         {
             //remove category prefix
-            OldCategory = Regex.Replace(OldCategory, "^" 
+            OldCategory = Regex.Replace(OldCategory, "^"
                 + Variables.NamespacesCaseInsensitive[Namespace.Category], "", RegexOptions.IgnoreCase);
             NewCategory = Regex.Replace(NewCategory, "^"
                 + Variables.NamespacesCaseInsensitive[Namespace.Category], "", RegexOptions.IgnoreCase);
@@ -1704,8 +1745,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             testText = ArticleText;
 
-            if (Regex.IsMatch(ArticleText, "\\[\\[" 
-                + Variables.NamespacesCaseInsensitive[Namespace.Category] 
+            if (Regex.IsMatch(ArticleText, "\\[\\["
+                + Variables.NamespacesCaseInsensitive[Namespace.Category]
                 + Tools.CaseInsensitive(Regex.Escape(NewCategory)) + @"\s*(\||\]\])"))
             {
                 bool tmp;
@@ -1745,11 +1786,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             if (!ArticleText.Contains("<includeonly>"))
                 ArticleText = Regex.Replace(ArticleText, "\\[\\["
-                    + Variables.NamespacesCaseInsensitive[Namespace.Category] + " ?" 
+                    + Variables.NamespacesCaseInsensitive[Namespace.Category] + " ?"
                     + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])\r\n", "");
 
-            ArticleText = Regex.Replace(ArticleText, "\\[\\[" 
-                + Variables.NamespacesCaseInsensitive[Namespace.Category] + " ?" 
+            ArticleText = Regex.Replace(ArticleText, "\\[\\["
+                + Variables.NamespacesCaseInsensitive[Namespace.Category] + " ?"
                 + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])", "");
 
             NoChange = (testText == ArticleText);
@@ -2017,7 +2058,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             // bulleted or indented text should weigh less than simple text.
             // for example, actor stubs may contain large filmographies
             string crapStripped = WikiRegexes.BulletedText.Replace(commentsStripped, "");
-            int words = (Tools.WordCount(commentsStripped) + Tools.WordCount(crapStripped))/2;
+            int words = (Tools.WordCount(commentsStripped) + Tools.WordCount(crapStripped)) / 2;
 
             // remove stub tags from long articles
             if (removeTags && (words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped))
@@ -2043,7 +2084,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                    linkCount = Tools.LinkCount(commentsStripped);
 
             int totalCategories = (!Globals.UnitTestMode)
-                                      ? categoryProv.MakeList(new[] {ArticleTitle}).Count
+                                      ? categoryProv.MakeList(new[] { ArticleTitle }).Count
                                       : Globals.UnitTestIntValue;
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser#AWB_problems
@@ -2091,13 +2132,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 Summary += ", removed deadend tag";
             }
 
-            if (addTags && linkCount < 3 && ((linkCount/length) < 0.0025) && !WikiRegexes.Wikify.IsMatch(ArticleText))
+            if (addTags && linkCount < 3 && ((linkCount / length) < 0.0025) && !WikiRegexes.Wikify.IsMatch(ArticleText))
             {
                 // add wikify tag
                 ArticleText = "{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
                 Summary += ", added [[:Category:Articles that need to be wikified|wikify]] tag";
             }
-            else if (removeTags && linkCount > 3 && ((linkCount/length) > 0.0025) &&
+            else if (removeTags && linkCount > 3 && ((linkCount / length) > 0.0025) &&
                      WikiRegexes.Wikify.IsMatch(ArticleText))
             {
                 ArticleText = WikiRegexes.Wikify.Replace(ArticleText, "");
@@ -2251,7 +2292,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static bool HasInfobox(string ArticleText)
         {
             if (Variables.LangCode != LangCodeEnum.en)
-              return false;
+                return false;
 
             ArticleText = WikiRegexes.Nowiki.Replace(ArticleText, "");
             ArticleText = WikiRegexes.Comments.Replace(ArticleText, "");

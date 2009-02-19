@@ -156,6 +156,47 @@ namespace UnitTests
             Assert.AreEqual(@"now <ref name = ""foo bar"" > and", Parsers.FixReferenceTags(@"now <ref name = ""foo bar"" > and"));
             Assert.AreEqual(@"now <ref name = 'foo bar' > and", Parsers.FixReferenceTags(@"now <ref name = 'foo bar' > and"));
         }
+
+        [Test]
+        public void ReorderReferencesTests()
+        {
+            // [1]...[2][1]
+            Assert.AreEqual(@"'''Article''' is great.<ref name = ""Fred1"">So says Fred</ref>
+Article started off pretty good, <ref name = ""Fred1"" /> <ref>So says John</ref> and finished well.
+End of.", Parsers.ReorderReferences(@"'''Article''' is great.<ref name = ""Fred1"">So says Fred</ref>
+Article started off pretty good, <ref>So says John</ref> <ref name = ""Fred1"" /> and finished well.
+End of."));
+
+            // [1]...[2][1]
+            Assert.AreEqual(@"'''Article''' is great.<ref name = ""Fred2"">So says Fred</ref>
+Article started off pretty good, <ref name = ""Fred2"" /> <ref name = ""John1"" >So says John</ref> and finished well.
+End of.", Parsers.ReorderReferences(@"'''Article''' is great.<ref name = ""Fred2"">So says Fred</ref>
+Article started off pretty good, <ref name = ""John1"" >So says John</ref> <ref name = ""Fred2"" /> and finished well.
+End of."));
+
+            // no changes
+            string A = @"'''Article''' is great.<ref name = ""Fred3"">So says Fred</ref>
+Article started off pretty good, <ref name = ""Fred3"" /> <ref name = ""John2"" >So says John</ref> and finished well.
+End of.";
+            string B = @"'''Article''' is great.<ref name = ""Fred4"">So says Fred</ref>
+Article started off pretty good, <ref>So says Tim</ref> <ref>So says John</ref> and finished well.
+End of.";
+            string C = @"'''Article''' is great.<ref name = ""Fred5"">So says Fred</ref>
+Article started off pretty good,<ref name = ""Fred5"" /> <ref>So says John</ref> and finished well.
+End of.";
+            string D = @"'''Article''' is great.<ref name = ""Fred6"">So says Fred</ref>
+Article started off pretty good, <ref>So says John</ref> <ref name = ""A"">So says A</ref> and finished well.
+End of.";
+            string E = @"'''Article''' is great.<ref name = ""John2"" />
+Article is new.<ref name = ""Fred7"">So says Fred</ref>
+Article started off pretty good, <ref name = ""John2"" >So says John</ref> <ref name = ""Fred7"" /> and finished well.
+End of.";
+            Assert.AreEqual(A, Parsers.ReorderReferences(A));
+            Assert.AreEqual(B, Parsers.ReorderReferences(B));
+            Assert.AreEqual(C, Parsers.ReorderReferences(C));
+            Assert.AreEqual(D, Parsers.ReorderReferences(D));
+            Assert.AreEqual(E, Parsers.ReorderReferences(E));
+        }
     }
 
     [TestFixture]
