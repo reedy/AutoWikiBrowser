@@ -1,6 +1,7 @@
 ﻿using WikiFunctions;
 using WikiFunctions.Parse;
 using NUnit.Framework;
+using System.Text.RegularExpressions;
 
 namespace UnitTests
 {
@@ -184,18 +185,20 @@ namespace UnitTests
             AssertAllHidden(@"[[Image:foo with space and 0004.png|");
             AssertAllHidden(@"[[Image:foo_here.png|");
             AssertAllHidden(@"[[Image:foo with SPACE() and 0004.png|");
-            AssertAllHidden(@"|image_skyline=442px_-_London_Lead_Image.jpg|");
-            AssertAllHidden(@"|image_map=London (European Parliament constituency).svg   |");
             AssertAllHidden(@"[[Image:westminster.tube.station.jubilee.arp.jpg|");
-            AssertAllHidden(@"|image_map=westminster.tube.station.jubilee.arp.jpg|");
-            AssertAllHidden(@"|Cover  = AmorMexicanaThalia.jpg |");
-            AssertAllHidden(@"|image = AmorMexicanaThalia.jpg |");
-            AssertAllHidden(@"|
-image = AmorMexicanaThalia.jpg |");
-            AssertAllHidden(@"|Img = BBC_logo1.jpg 
-|");
-            AssertAllHidden(@"| image name = Fred Astaire.jpg |");
-            AssertAllHidden(@"|image2 = AmorMexicanaThalia.jpg |");
+
+            // in these ones all but the last | is hidden
+            Assert.IsTrue(Regex.IsMatch(Hide(@"|image_skyline=442px_-_London_Lead_Image.jpg|"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(Hide(@"|image_map=London (European Parliament constituency).svg   |"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(Hide(@"|image_map=westminster.tube.station.jubilee.arp.jpg|"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(Hide(@"|Cover  = AmorMexicanaThalia.jpg |"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(Hide(@"|image = AmorMexicanaThalia.jpg |"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(Hide(@"|
+image = AmorMexicanaThalia.jpg |"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(Hide(@"|Img = BBC_logo1.jpg 
+|"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(Hide(@"| image name = Fred Astaire.jpg |"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(Hide(@"|image2 = AmorMexicanaThalia.jpg |"), hidden + @"\|"));
             // in tests below no text is hidden
 
             Assert.AreEqual(Caption1, Hide(Caption1));
@@ -253,18 +256,20 @@ image = AmorMexicanaThalia.jpg |");
             AssertAllHiddenMore(@"[[Image:foo with space and 0004.png|");
             AssertAllHiddenMore(@"[[Image:foo_here.png|");
             AssertAllHiddenMore(@"[[Image:foo with SPACE() and 0004.png|");
-            AssertAllHiddenMore(@"|image_skyline=442px_-_London_Lead_Image.jpg|");
-            AssertAllHiddenMore(@"|image_map=London (European Parliament constituency).svg   |");
             AssertAllHiddenMore(@"[[Image:westminster.tube.station.jubilee.arp.jpg|");
-            AssertAllHiddenMore(@"|image_map=westminster.tube.station.jubilee.arp.jpg|");
-            AssertAllHiddenMore(@"|Cover  = AmorMexicanaThalia.jpg |");
-            AssertAllHiddenMore(@"|image = AmorMexicanaThalia.jpg |");
-            AssertAllHiddenMore(@"|
-image = AmorMexicanaThalia.jpg |");
-            AssertAllHiddenMore(@"|Img = BBC_logo1.jpg 
-|");
-            AssertAllHiddenMore(@"| image name = Fred Astaire.jpg |");
-            AssertAllHiddenMore(@"|image2 = AmorMexicanaThalia.jpg |");
+
+            // in these ones all but the last | is hidden
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"|image_skyline=442px_-_London_Lead_Image.jpg|"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"|image_map=London (European Parliament constituency).svg   |"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"|image_map=westminster.tube.station.jubilee.arp.jpg|"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"|Cover  = AmorMexicanaThalia.jpg |"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"|image = AmorMexicanaThalia.jpg |"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"|
+image = AmorMexicanaThalia.jpg |"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"|Img = BBC_logo1.jpg 
+|"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"| image name = Fred Astaire.jpg |"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"|image2 = AmorMexicanaThalia.jpg |"), hidden + @"\|"));
 
             // in tests below no text is hidden
 
@@ -287,15 +292,17 @@ image = AmorMexicanaThalia.jpg |");
                 AssertAllHiddenMore("[[FILE:foo|A [[bar|quux]].]]");
                 AssertAllHiddenMore("[[Image:foo|A [[bar]][http://fubar].]]");
                 AssertAllHiddenMore("[[Image:foo|A [[bar]][http://fubar].{{quux}}]]"); */
-            AssertAllHiddenMore(@"| Photo =Arlberg passstrasse.jpg |");
-            AssertAllHiddenMore(@"| Photo =Arlberg passstrasse.jpg}}");
-            AssertAllHiddenMore(@"|photo=Arlberg passstrasse.jpg|");
-            AssertAllHiddenMore(@"| Photo =Arlberg passstrasse.jpg
-|");
-            AssertAllHiddenMore(@"| Image =Arlberg passstrasse.jpg |");
-            AssertAllHiddenMore(@"| image =Arlberg passstrasse.jpg |");
-            AssertAllHiddenMore(@"| Img =Arlberg passstrasse.jpg |");
-            AssertAllHiddenMore(@"| img =Arlberg passstrasse.jpg }}");
+
+            // in these ones all but the last | or }} is hidden
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"| Photo =Arlberg passstrasse.jpg |"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"| Photo =Arlberg passstrasse.jpg}}"), hidden + @"}}"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"|photo=Arlberg passstrasse.jpg|"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"| Photo =Arlberg passstrasse.jpg
+|"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"| Image =Arlberg passstrasse.jpg |"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"| image =Arlberg passstrasse.jpg |"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"| Img =Arlberg passstrasse.jpg |"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"| img =Arlberg passstrasse.jpg }}"), hidden + @"}}"));
             // AssertAllHiddenMore("[[Image:foo|test [[File:bar|thumb|[[boz]]]]]]");
         }
 
