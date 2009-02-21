@@ -90,6 +90,7 @@ namespace WikiFunctions.Controls.Lists
                 listItems.Add(new WhatLinksHereAllNSIncludingRedirectsListProvider());
                 listItems.Add(whatTranscludesLProvider);
                 listItems.Add(linksOnPageLProvider);
+                listItems.Add(new LinksOnPageExcludingRedLinksListProvider());
                 listItems.Add(imagesOnPageLProvider);
                 listItems.Add(new TransclusionsOnPageListProvider());
                 listItems.Add(new TextFileListProvider());
