@@ -285,7 +285,7 @@ namespace AutoWikiBrowser
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.chkSkipIfNoRegexTypo = new System.Windows.Forms.CheckBox();
             this.chkRegExTypo = new System.Windows.Forms.CheckBox();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.EnableRegexTypoFixLinkLabel = new System.Windows.Forms.LinkLabel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chkSkipWhenNoFAR = new System.Windows.Forms.CheckBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
@@ -2615,7 +2615,7 @@ namespace AutoWikiBrowser
             // 
             this.groupBox13.Controls.Add(this.chkSkipIfNoRegexTypo);
             this.groupBox13.Controls.Add(this.chkRegExTypo);
-            this.groupBox13.Controls.Add(this.linkLabel1);
+            this.groupBox13.Controls.Add(this.EnableRegexTypoFixLinkLabel);
             this.groupBox13.Location = new System.Drawing.Point(6, 258);
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Size = new System.Drawing.Size(266, 63);
@@ -2644,14 +2644,14 @@ namespace AutoWikiBrowser
             // 
             // linkLabel1
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(22, 20);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(111, 13);
-            this.linkLabel1.TabIndex = 1;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Enable RegexTypoFix";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            this.EnableRegexTypoFixLinkLabel.AutoSize = true;
+            this.EnableRegexTypoFixLinkLabel.Location = new System.Drawing.Point(22, 20);
+            this.EnableRegexTypoFixLinkLabel.Name = "EnableRegexTypoFixLinkLabel";
+            this.EnableRegexTypoFixLinkLabel.Size = new System.Drawing.Size(111, 13);
+            this.EnableRegexTypoFixLinkLabel.TabIndex = 1;
+            this.EnableRegexTypoFixLinkLabel.TabStop = true;
+            this.EnableRegexTypoFixLinkLabel.Text = "Enable RegexTypoFix";
+            this.EnableRegexTypoFixLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ProfileToLoad_LinkClicked);
             // 
             // groupBox1
             // 
@@ -4215,7 +4215,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.TabPage tpOptions;
         private System.Windows.Forms.GroupBox groupBox13;
         private System.Windows.Forms.CheckBox chkSkipIfNoRegexTypo;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel EnableRegexTypoFixLinkLabel;
         private System.Windows.Forms.CheckBox chkRegExTypo;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnSubst;

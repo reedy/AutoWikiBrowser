@@ -202,11 +202,7 @@ namespace AutoWikiBrowser
             get { return mSettingsFile; }
         }
 
-        int userProfileToLoad = -1;
-        public int ProfileToLoad
-        {
-            set { userProfileToLoad = value; }
-        }
+        public int ProfileToLoad = -1;
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -274,9 +270,9 @@ namespace AutoWikiBrowser
                         break;
                 }
 
-                if (userProfileToLoad != -1)
+                if (ProfileToLoad != -1)
                 {
-                    profiles.login(userProfileToLoad);
+                    profiles.login(ProfileToLoad);
                 }
             }
             catch (Exception ex)
@@ -977,12 +973,6 @@ namespace AutoWikiBrowser
         {
             try
             {
-                //if (webBrowserEdit.DocumentText.Contains("<div class=\"permissions-errors\">"))
-                //{
-                //    SkipPage("User doesn't have permissions to edit this page.");
-                //    return false;
-                //}
-
                 if (!apiEdit.Exists && radSkipNonExistent.Checked)
                 {//check if it is a non-existent page, if so then skip it automatically.
                     SkipPage("Non-existent page");
@@ -1010,7 +1000,7 @@ namespace AutoWikiBrowser
             GuiUpdateAfterProcessing();
         }
 
-        static readonly Regex spamUrlRegex = new Regex("<p>The following link has triggered our spam protection filter:<strong>(.*?)</strong><br/?>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex spamUrlRegex = new Regex("<p>The following link has triggered our spam protection filter:<strong>(.*?)</strong><br/?>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         private void CaseWasSaved(object sender, EventArgs e)
         {
@@ -2465,7 +2455,6 @@ window.scrollTo(0, diffTopY);
         private void btnProtect_Click(object sender, EventArgs e)
         {
             ProtectArticle();
-            //Start();
         }
 
         private void filterOutNonMainSpaceToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3051,7 +3040,7 @@ window.scrollTo(0, diffTopY);
             loadingTypos = false;
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void ProfileToLoad_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Tools.OpenENArticleInBrowser("Wikipedia:AutoWikiBrowser/Typos", false);
         }
@@ -4138,8 +4127,6 @@ window.scrollTo(0, diffTopY);
         {
             AddIgnoredToLogFile = displayfalsePositivesButtonToolStripMenuItem.Checked;
         }
-
-
     }
         #endregion
 }
