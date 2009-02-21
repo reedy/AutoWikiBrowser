@@ -811,7 +811,7 @@ namespace WikiFunctions
         }
 
         #region boring chars
-        static readonly KeyValuePair<string, string>[] Diacritics = 
+        public static readonly KeyValuePair<string, string>[] Diacritics = 
         {
                 //Latin
                 new KeyValuePair<string, string>("Á", "A"),
@@ -1047,7 +1047,7 @@ namespace WikiFunctions
             };
         #endregion
 
-        // Not Covered
+        // Covered by HumanCatKeyTests.RemoveDiacritics()
         /// <summary>
         /// substitutes characters with diacritics with their simple equivalents
         /// </summary>
