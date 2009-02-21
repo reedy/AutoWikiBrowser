@@ -673,13 +673,22 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
         }
 
         [Test]
-        public void RemoveDiacritics()
+        public void MakeHumanCatKey()
         {
             Assert.AreEqual("Doe", Tools.MakeHumanCatKey("Ďöê"));
             Assert.AreEqual("Doe, John", Tools.MakeHumanCatKey("Ĵǒħń Ďöê"));
 
             // Ё should be changed, but not Й
             Assert.AreEqual("Епрстий", Tools.MakeHumanCatKey("Ёпрстий"));
+        }
+
+        [Test]
+        public void RemoveDiacritics()
+        {
+            foreach (KeyValuePair<string, string> kvp in Tools.Diacritics)
+            {
+                Assert.AreEqual(kvp.Value, Tools.RemoveDiacritics(kvp.Key));
+            }
         }
 
         [Test]
