@@ -64,7 +64,6 @@ namespace AutoWikiBrowser
         private static int retries;
 
         private static bool PageReload;
-        private static int mnudges;
         private static int sameArticleNudges;
 
         private static readonly HideText RemoveText = new HideText(false, true, false);
@@ -3458,12 +3457,6 @@ window.scrollTo(0, diffTopY);
             Visible = false;
         }
 
-        private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            Close();
-            Application.Exit();
-        }
-
         private void mnuNotify_Opening(object sender, CancelEventArgs e)
         {
             SetMenuVisibility(Visible);
@@ -3590,12 +3583,7 @@ window.scrollTo(0, diffTopY);
                 { a.Value.Nudged(Nudges); }
             }
         }
-
-        public int Nudges
-        {
-            get { return mnudges; }
-            private set { mnudges = value; }
-        }
+        public int Nudges { get; private set; }
         #endregion
 
         #region Edit Box Saver
@@ -4151,10 +4139,7 @@ window.scrollTo(0, diffTopY);
             AddIgnoredToLogFile = displayfalsePositivesButtonToolStripMenuItem.Checked;
         }
 
-        private void ntfyTray_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
 
-        }
     }
         #endregion
 }
