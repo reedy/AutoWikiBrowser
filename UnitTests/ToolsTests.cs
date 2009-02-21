@@ -8,13 +8,8 @@ using WikiFunctions.Parse;
 namespace UnitTests
 {
     [TestFixture]
-    public class ToolsTests
+    public class ToolsTests : RequiresInitialization
     {
-        public ToolsTests()
-        {
-            Globals.UnitTestMode = true;
-            if (WikiRegexes.Redirect == null) WikiRegexes.MakeLangSpecificRegexes();
-        }
 
         [Test]
         public void InvalidChars()
@@ -632,13 +627,8 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
     }
 
     [TestFixture]
-    public class HumanCatKeyTests
+    public class HumanCatKeyTests : RequiresInitialization
     {
-        public HumanCatKeyTests()
-        {
-            Globals.UnitTestMode = true;
-            if (WikiRegexes.Category == null) WikiRegexes.MakeLangSpecificRegexes();
-        }
 
         [Test]
         public void OneWordNames()
@@ -722,14 +712,9 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
     }
 
     [TestFixture]
-    public class NamespaceFunctions
+    public class NamespaceFunctions : RequiresInitialization
     {
-        #region Constructor and helpers
-        public NamespaceFunctions()
-        {
-            Globals.UnitTestMode = true;
-            if (WikiRegexes.Category == null) WikiRegexes.MakeLangSpecificRegexes();
-        }
+        #region Helpers
 
         static string ToTalk(string title)
         {

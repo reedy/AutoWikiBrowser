@@ -6,14 +6,8 @@ using System.Text.RegularExpressions;
 namespace UnitTests
 {
     [TestFixture]
-    public class HideTextTests
+    public class HideTextTests : RequiresInitialization
     {
-        public HideTextTests()
-        {
-            Globals.UnitTestMode = true;
-            if (WikiRegexes.Category == null) WikiRegexes.MakeLangSpecificRegexes();
-        }
-
         #region Helpers
         const string hidden = @"⌊⌊⌊⌊M?\d+⌋⌋⌋⌋",
             allHidden = @"^(⌊⌊⌊⌊M?\d+⌋⌋⌋⌋)*$";
@@ -348,14 +342,8 @@ Image:quux[http://example.com]
     }
 
     [TestFixture]
-    public class ArticleTests
+    public class ArticleTests : RequiresInitialization
     {
-        public ArticleTests()
-        {
-            Globals.UnitTestMode = true;
-            if (WikiRegexes.Category == null) WikiRegexes.MakeLangSpecificRegexes();
-        }
-
         [Test]
         public void NamespacelessName()
         {
@@ -368,6 +356,27 @@ Image:quux[http://example.com]
 
             Assert.AreEqual("", new Article("Category:").NamespacelessName);
             Assert.AreEqual("", new Article("Category: ").NamespacelessName);
+        }
+    }
+
+    [TestFixture]
+    public class ConcurrencyTests
+    {
+        [Test, Category("Unarchived bugs")]
+        public void Parser()
+        {
+            Parsers p1 = new Parsers(1337, true);
+            Parsers p2 = new Parsers();
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#NullReferenceException_2
+            string s1 = p1.HideText("<pre>foo bar</pre>");
+            string s2 = p2.HideText("<source>quux</source>");
+            Assert.AreEqual("<pre>foo bar</pre>", p1.AddBackText(s1));
+            Assert.AreEqual("<source>quux</source>", p2.AddBackText(s2));
+
+            // in the future, we may use parser objects for
+            //Assert.AreNotEqual(p1.StubMaxWordCount, p2.StubMaxWordCount);
+
         }
     }
 }

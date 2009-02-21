@@ -1388,7 +1388,7 @@ Message: {2}
                     }
 
                     bool skipArticle;
-                    result = Parsers.Unicodify(result, out skipArticle);
+                    result = new Parsers().Unicodify(result, out skipArticle);
                     if (includeComment)
                         result = result + "<!-- " + call + " -->";
 

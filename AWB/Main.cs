@@ -2719,7 +2719,7 @@ window.scrollTo(0, diffTopY);
         private void unicodifyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string text = txtEdit.SelectedText;
-            text = Parsers.Unicodify(text);
+            text = parsers.Unicodify(text);
             txtEdit.SelectedText = text;
         }
 

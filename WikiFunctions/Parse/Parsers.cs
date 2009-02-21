@@ -100,8 +100,8 @@ namespace WikiFunctions.Parse
         private static readonly Dictionary<Regex, string> RegexConversion = new Dictionary<Regex, string>();
         private static readonly Dictionary<Regex, string> RegexTagger = new Dictionary<Regex, string>();
 
-        private static readonly HideText hider = new HideText();
-        private static string testText = "";
+        private readonly HideText hider = new HideText();
+        private string testText = "";
         public static int StubMaxWordCount = 500;
 
         /// <summary>
@@ -144,6 +144,31 @@ namespace WikiFunctions.Parse
         #endregion
 
         #region General Parse
+
+        public string HideText(string ArticleText)
+        {
+            return hider.Hide(ArticleText);
+        }
+
+        public string AddBackText(string ArticleText)
+        {
+            return hider.AddBack(ArticleText);
+        }
+
+        public string HideMoreText(string ArticleText, bool HideOnlyTargetOfWikilink)
+        {
+            return hider.HideMore(ArticleText, HideOnlyTargetOfWikilink);
+        }
+
+        public string HideMoreText(string ArticleText)
+        {
+            return hider.HideMore(ArticleText);
+        }
+
+        public string AddBackMoreText(string ArticleText)
+        {
+            return hider.AddBackMore(ArticleText);
+        }
 
         // NOT covered
         /// <summary>
@@ -189,7 +214,7 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixHeadings(string ArticleText, string ArticleTitle, out bool NoChange)
         {
-            testText = ArticleText;
+            string testText = ArticleText;
             ArticleText = FixHeadings(ArticleText, ArticleTitle);
 
             NoChange = (testText == ArticleText);
@@ -600,7 +625,7 @@ namespace WikiFunctions.Parse
         /// <param name="ArticleText">The wiki text of the article</param>
         /// <param name="ArticleTitle">The article's title</param>
         /// <returns>The modified article text.</returns>
-        public static string FixDateOrdinalsAndOf(string ArticleText, string ArticleTitle)
+        public string FixDateOrdinalsAndOf(string ArticleText, string ArticleTitle)
         {
             if (Variables.LangCode != LangCodeEnum.en)
                 return ArticleText;
@@ -618,7 +643,7 @@ namespace WikiFunctions.Parse
             Regex DateLeadingZerosInt = new Regex(@"\b" + @"0([1-9])\s+" + months + @"\b", RegexOptions.Compiled);
 
             // hide items in quotes etc., though this may also hide items within infoboxes etc.
-            ArticleText = hider.HideMore(ArticleText);
+            ArticleText = HideMoreText(ArticleText);
 
             ArticleText = OfBetweenMonthAndYear.Replace(ArticleText, "$1 $2");
 
@@ -632,7 +657,7 @@ namespace WikiFunctions.Parse
             ArticleText = DateLeadingZerosAm.Replace(ArticleText, "$1 $2");
             ArticleText = DateLeadingZerosInt.Replace(ArticleText, "$1 $2");
 
-            return hider.AddBackMore(ArticleText);
+            return AddBackMoreText(ArticleText);
         }
 
 
@@ -701,7 +726,7 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixSyntax(string ArticleText, out bool NoChange)
         {
-            testText = ArticleText;
+            string testText = ArticleText;
             ArticleText = FixSyntax(ArticleText);
 
             NoChange = (testText == ArticleText);
@@ -1166,7 +1191,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text.</returns>
         public static string BulletExternalLinks(string ArticleText, out bool NoChange)
         {
-            testText = ArticleText;
+            string testText = ArticleText;
             ArticleText = BulletExternalLinks(ArticleText);
 
             NoChange = (testText == ArticleText);
@@ -1259,14 +1284,14 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public static string FixNonBreakingSpaces(string ArticleText)
+        public string FixNonBreakingSpaces(string ArticleText)
         {
             // hide items in quotes etc., though this may also hide items within infoboxes etc.
-            ArticleText = hider.HideMore(ArticleText);
+            ArticleText = HideMoreText(ArticleText);
 
             ArticleText = WikiRegexes.SiUnitsWithoutNonBreakingSpaces.Replace(ArticleText, "$1&nbsp;$2");
 
-            return hider.AddBackMore(ArticleText);
+            return AddBackMoreText(ArticleText);
         }
 
         /// <summary>
@@ -1420,7 +1445,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The modified article text.</returns>
-        public static string Unicodify(string ArticleText, out bool NoChange)
+        public string Unicodify(string ArticleText, out bool NoChange)
         {
             testText = ArticleText;
             ArticleText = Unicodify(ArticleText);
@@ -1436,7 +1461,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public static string Unicodify(string ArticleText)
+        public string Unicodify(string ArticleText)
         {
             if (Regex.IsMatch(ArticleText, "<[Mm]ath>"))
                 return ArticleText;
@@ -1472,7 +1497,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="ArticleTitle">The title of the article.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The modified article text.</returns>
-        public static string BoldTitle(string ArticleText, string ArticleTitle, out bool NoChange)
+        public string BoldTitle(string ArticleText, string ArticleTitle, out bool NoChange)
         {
             string ArticleTextAtStart = ArticleText;
             string escTitle = Regex.Escape(ArticleTitle);
@@ -1481,7 +1506,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             NoChange = true;
 
             // first quick check: ignore articles with some bold in first 5% of hidemore article
-            string ArticleText5 = hider.HideMore(ArticleText);
+            string ArticleText5 = HideMoreText(ArticleText);
             int fivepc = ArticleText5.Length / 20;
             //ArticleText5.Length
             if (ArticleText5.Substring(0, fivepc).Contains("'''"))
@@ -1509,11 +1534,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             Regex regexBoldNoBrackets = new Regex(@"([^\[]|^)(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + ")([ ,.:;])", RegexOptions.Compiled);
 
             // first try title with brackets removed
-            if (regexBoldNoBrackets.IsMatch(hider.HideMore(ArticleText)))
+            if (regexBoldNoBrackets.IsMatch(HideMoreText(ArticleText)))
             {
-                ArticleText = hider.HideMore(ArticleText);
+                ArticleText = HideMoreText(ArticleText);
                 ArticleText = regexBoldNoBrackets.Replace(ArticleText, "$1'''$2'''$3", 1);
-                ArticleText = hider.AddBackMore(ArticleText);
+                ArticleText = AddBackMoreText(ArticleText);
 
                 // check that the bold added is the first bit in bold in the main body of the article
                 if (AddedBoldIsValid(ArticleText, escTitleNoBrackets))
@@ -1544,7 +1569,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// Checks that the bold just added to the article is the first bold in the article, and that it's within the first 5% of the HideMore article
         /// </summary>
-        private static bool AddedBoldIsValid(string ArticleText, string escapedTitle)
+        private bool AddedBoldIsValid(string ArticleText, string escapedTitle)
         {
             Regex regexBoldAdded = new Regex(@"^(.*?)'''" + escapedTitle, RegexOptions.Singleline);
 
@@ -1552,7 +1577,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             int FirstBoldPos = regexFirstBold.Match(ArticleText).Length;
 
-            ArticleText = hider.HideMore(ArticleText);
+            ArticleText = HideMoreText(ArticleText);
 
             // was bold added in first 5% of article?
             bool inFirst5Percent = ArticleText.Substring(0, ArticleText.Length / 20).Contains("'''");
@@ -1571,7 +1596,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The new article text.</returns>
         public static string ReplaceImage(string OldImage, string NewImage, string ArticleText, out bool NoChange)
         {
-            testText = ArticleText;
+            string testText = ArticleText;
             ArticleText = ReplaceImage(OldImage, NewImage, ArticleText);
 
             NoChange = (testText == ArticleText);
@@ -1690,7 +1715,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The new article text.</returns>
         public static string RemoveImage(string Image, string ArticleText, bool CommentOut, string Comment, out bool NoChange)
         {
-            testText = ArticleText;
+            string testText = ArticleText;
             ArticleText = RemoveImage(Image, ArticleText, CommentOut, Comment);
 
             NoChange = (testText == ArticleText);
@@ -1768,7 +1793,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             //format categories properly
             ArticleText = FixCategories(ArticleText);
 
-            testText = ArticleText;
+            string testText = ArticleText;
 
             if (Regex.IsMatch(ArticleText, "\\[\\["
                 + Variables.NamespacesCaseInsensitive[Namespace.Category]
@@ -1804,7 +1829,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static string RemoveCategory(string strOldCat, string ArticleText, out bool NoChange)
         {
             ArticleText = FixCategories(ArticleText);
-            testText = ArticleText;
+            string testText = ArticleText;
 
             strOldCat = Regex.Escape(strOldCat);
             strOldCat = Tools.CaseInsensitive(strOldCat);
@@ -1833,7 +1858,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The article text possibly using defaultsort.</returns>
         public static string ChangeToDefaultSort(string ArticleText, string ArticleTitle, out bool NoChange)
         {
-            testText = ArticleText;
+            string testText = ArticleText;
             NoChange = true;
 
             // we don't need to process that {{lifetime}} crap
@@ -1925,7 +1950,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public static string LivingPeople(string ArticleText, out bool NoChange)
         {
-            testText = ArticleText;
+            string testText = ArticleText;
 
             ArticleText = LivingPeople(ArticleText);
 
@@ -1976,7 +2001,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The new article text.</returns>
         public static string Conversions(string ArticleText, out bool NoChange)
         {
-            testText = ArticleText;
+            string testText = ArticleText;
             ArticleText = Conversions(ArticleText);
 
             NoChange = (testText == ArticleText);

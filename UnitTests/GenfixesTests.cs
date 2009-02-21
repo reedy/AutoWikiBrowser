@@ -7,7 +7,7 @@ using WikiFunctions.Parse;
 
 namespace UnitTests
 {
-    public class GenfixesTestsBase
+    public class GenfixesTestsBase : RequiresInitialization
     {
         readonly Article a = new Article("Test");
         readonly Parsers p = new Parsers();
@@ -26,8 +26,6 @@ namespace UnitTests
 
         public GenfixesTestsBase()
         {
-            Globals.UnitTestMode = true;
-            if (WikiRegexes.Category == null) WikiRegexes.MakeLangSpecificRegexes();
             a.InitialiseLogListener();
         }
 

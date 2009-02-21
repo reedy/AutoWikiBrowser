@@ -310,11 +310,12 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public class HasNoBoldTitle : Scan
     {
-        bool skip = true;
+        Parsers p = new Parsers();
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
-            Parsers.BoldTitle(ArticleText, ArticleTitle, out skip);
+            bool skip = true;
+            p.BoldTitle(ArticleText, ArticleTitle, out skip);
 
             return !skip;
         }
@@ -325,10 +326,12 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public class HasHTMLEntities : Scan
     {
-        bool skip = true;
+        Parsers p = new Parsers();
+
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
-            Parsers.Unicodify(ArticleText, out skip);
+            bool skip = true;
+            p.Unicodify(ArticleText, out skip);
 
             return !skip;
         }
