@@ -168,7 +168,7 @@ namespace WikiFunctions
         }
         public static Profiler Profiler = new Profiler();
 
-        private static bool mono;
+        private static bool mono = Type.GetType("Mono.Runtime") != null;
         /// <summary>
         /// Returns whether we are using the Mono Runtime
         /// </summary>
@@ -177,16 +177,6 @@ namespace WikiFunctions
             get { return mono; }
         }
 
-        /// <summary>
-        /// Detects whether AWB has the Mono Runtime library loaded
-        /// (Only use once during startup, then use "UsingMono")
-        /// </summary>
-        /// <returns>Whether the library is being used</returns>
-        public static bool DetectMono()
-        {
-            mono = (Type.GetType("Mono.Runtime") != null);
-            return mono;
-        }
         #region project and language settings
 
         /// <summary>
