@@ -261,17 +261,15 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
-        static readonly HideText fixDatesHideText = new HideText();
-
         // Covered by: LinkTests.FixDates()
         /// <summary>
         /// Fix date and decade formatting errors, and replace <br> and <p> HTML tags
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public static string FixDates(string ArticleText)
+        public string FixDates(string ArticleText)
         {
-            ArticleText = fixDatesHideText.HideMore(ArticleText);
+            ArticleText = HideMoreText(ArticleText);
 
             ArticleText = FixDatesRaw(ArticleText);
 
@@ -281,7 +279,7 @@ namespace WikiFunctions.Parse
             ArticleText = SyntaxRemoveBr.Replace(ArticleText, "\r\n");
             ArticleText = SyntaxRemoveParagraphs.Replace(ArticleText, "\r\n\r\n");
 
-            return fixDatesHideText.AddBackMore(ArticleText);
+            return AddBackMoreText(ArticleText);
         }
 
         private static readonly Regex DiedDateRegex = new Regex(@"('''[^']+'''\s*\()d.(\s+\[*(?:(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+0?([1-3]?[0-9])|0?([1-3]?[0-9])\s*(?:January|February|March|April|May|June|July|August|September|October|November|December))?\]*\s*\[*[1-2]?[0-9][0-9][0-9]\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
