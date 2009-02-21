@@ -41,10 +41,10 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="StubWordCount">The number of maximum number of words for a stub.</param>
         /// <param name="AddHumanKey"></param>
-        public Parsers(int StubWordCount, bool AddHumanKey)
+        public Parsers(int stubWordCount, bool addHumanKey)
         {
-            StubMaxWordCount = StubWordCount;
-            addCatKey = AddHumanKey;
+            StubMaxWordCount = stubWordCount;
+            Sorter.AddCatKey = addHumanKey;
         }
 
         /// <summary>
@@ -101,19 +101,16 @@ namespace WikiFunctions.Parse
         private static readonly Dictionary<Regex, string> RegexTagger = new Dictionary<Regex, string>();
 
         private readonly HideText hider = new HideText();
-        private string testText = "";
         public static int StubMaxWordCount = 500;
 
         /// <summary>
         /// Sort interwiki link order
         /// </summary>
-        public bool sortInterwikiOrder
+        public bool SortInterwikis
         {
-            get { return boolInterwikiOrder; }
-            set { boolInterwikiOrder = value; }
+            get { return Sorter.SortInterwikis; }
+            set { Sorter.SortInterwikis = value; }
         }
-
-        private bool boolInterwikiOrder = true;
 
         /// <summary>
         /// The interwiki link order to use
@@ -127,7 +124,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// When set to true, adds key to categories (for people only) when parsed
         /// </summary>
-        public bool addCatKey { get; set; }
+        //public bool AddCatKey { get; set; }
 
         // should NOT be accessed directly, use Sorter
         private MetaDataSorter metaDataSorter;
@@ -1445,7 +1442,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text.</returns>
         public string Unicodify(string ArticleText, out bool NoChange)
         {
-            testText = ArticleText;
+            string testText = ArticleText;
             ArticleText = Unicodify(ArticleText);
 
             NoChange = (testText == ArticleText);
@@ -1503,11 +1500,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             NoChange = true;
 
+            string ArticleTextHidden = HideMoreText(ArticleText);
+            
             // first quick check: ignore articles with some bold in first 5% of hidemore article
-            string ArticleText5 = HideMoreText(ArticleText);
-            int fivepc = ArticleText5.Length / 20;
+            int fivepc = ArticleTextHidden.Length / 20;
             //ArticleText5.Length
-            if (ArticleText5.Substring(0, fivepc).Contains("'''"))
+            if (ArticleTextHidden.Substring(0, fivepc).Contains("'''"))
                 return ArticleTextAtStart;
 
             // ignore date articles (date in American or international format)
@@ -1531,32 +1529,32 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             Regex regexBold = new Regex(@"([^\[]|^)(" + escTitle + "|" + Tools.TurnFirstToLower(escTitle) + ")([ ,.:;])", RegexOptions.Compiled);
             Regex regexBoldNoBrackets = new Regex(@"([^\[]|^)(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + ")([ ,.:;])", RegexOptions.Compiled);
 
+            ArticleTextHidden = HideMoreText(ArticleText);
+
             // first try title with brackets removed
-            if (regexBoldNoBrackets.IsMatch(HideMoreText(ArticleText)))
+            if (regexBoldNoBrackets.IsMatch(ArticleTextHidden))
             {
-                ArticleText = HideMoreText(ArticleText);
-                ArticleText = regexBoldNoBrackets.Replace(ArticleText, "$1'''$2'''$3", 1);
+                ArticleText = regexBoldNoBrackets.Replace(ArticleTextHidden, "$1'''$2'''$3", 1);
                 ArticleText = AddBackMoreText(ArticleText);
 
                 // check that the bold added is the first bit in bold in the main body of the article
                 if (AddedBoldIsValid(ArticleText, escTitleNoBrackets))
                 {
                     NoChange = false;
-                    return (ArticleText);
+                    return ArticleText;
                 }
             }
 
-            if (regexBold.IsMatch(hider.HideMore(ArticleText)))
+            if (regexBold.IsMatch(ArticleTextHidden))
             {
-                ArticleText = hider.HideMore(ArticleText);
-                ArticleText = regexBold.Replace(ArticleText, "$1'''$2'''$3", 1);
-                ArticleText = hider.AddBackMore(ArticleText);
+                ArticleText = regexBold.Replace(ArticleTextHidden, "$1'''$2'''$3", 1);
+                ArticleText = AddBackMoreText(ArticleText);
 
                 // check that the bold added is the first bit in bold in the main body of the article
                 if (AddedBoldIsValid(ArticleText, escTitle))
                 {
                     NoChange = false;
-                    return (ArticleText);
+                    return ArticleText;
                 }
             }
             return ArticleTextAtStart;
@@ -1731,7 +1729,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The article text.</returns>
         public string AddCategory(string NewCategory, string ArticleText, string ArticleTitle, out bool NoChange)
         {
-            testText = ArticleText;
+            string testText = ArticleText;
             ArticleText = AddCategory(NewCategory, ArticleText, ArticleTitle);
 
             NoChange = (testText == ArticleText);
@@ -2071,7 +2069,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 return ArticleText;
             }
 
-            testText = ArticleText;
+            string testText = ArticleText;
             ArticleText = Tagger(ArticleText, ArticleTitle, ref Summary, addTags, removeTags);
             ArticleText = TagUpdater(ArticleText);
 

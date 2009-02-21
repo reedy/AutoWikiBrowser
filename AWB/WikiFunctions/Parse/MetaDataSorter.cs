@@ -232,27 +232,32 @@ namespace WikiFunctions.Parse
     
     public class MetaDataSorter
     {
-        readonly Parsers parser;
+        //readonly Parsers parser;
 
         public List<string> PossibleInterwikis;
+
+        public bool SortInterwikis
+        { get; set; }
+
+        public bool AddCatKey
+        { get; set; }
+
         public MetaDataSorter(Parsers p)
         {
-            parser = p;
+            //parser = p;
+
+            SortInterwikis = true;
 
             LoadInterWiki();
 
             if (InterwikiLocalAlpha == null)
                 throw new NullReferenceException("InterwikiLocalAlpha is null");
 
-            //string s = string.Join("|", SiteMatrix.WikipediaLanguages.ToArray());
-            //s = @"\[\[\s?(" + s + @")\s?:\s?([^\]]*)\s?\]\]";
-
             //create a comparer
             InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
         }
 
         // now will be generated dynamically using Variables.Stub
-        //Regex StubsRegex = new Regex("<!-- ?\\{\\{.*?stub\\}\\}.*?-->|:?\\{\\{.*?stub\\}\\}");
         readonly Regex InterLangRegex = new Regex("<!-- ?(other languages?|language links?|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wikis?|The below are interlanguage links\\.?) ?-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex CatCommentRegex = new Regex("<!-- ?cat(egories)? ?-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
@@ -483,7 +488,7 @@ en, sq, ru
 
             ArticleText = Tools.RemoveMatches(ArticleText, matches);
 
-            if (parser.addCatKey)
+            if (AddCatKey)
                 categoryList = catKeyer(categoryList, ArticleTitle);
 
             if (CatCommentRegex.IsMatch(ArticleText))
@@ -667,7 +672,7 @@ en, sq, ru
                 ArticleText = ArticleText.Replace(interWikiComment, "");
             }
 
-            if (parser.sortInterwikiOrder)
+            if (SortInterwikis)
             {
                 interWikiList.Sort(Comparer);
             }
