@@ -2542,7 +2542,7 @@ window.scrollTo(0, diffTopY);
 
         private void alphaSortInterwikiLinksToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
         {
-            parsers.sortInterwikiOrder = alphaSortInterwikiLinksToolStripMenuItem.Checked;
+            parsers.SortInterwikis = alphaSortInterwikiLinksToolStripMenuItem.Checked;
         }
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
