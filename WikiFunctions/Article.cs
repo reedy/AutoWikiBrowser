@@ -35,7 +35,6 @@ namespace WikiFunctions
     /// </summary>
     public class Article : ProcessArticleEventArgs, IArticleSimple, IComparable<Article>
     {
-        protected int mNameSpaceKey;
         protected string mName = "";
         protected string mEditSummary = "";
         protected string mSavedSummary = "";
@@ -58,16 +57,16 @@ namespace WikiFunctions
             EditSummary = "";
         }
 
-        public Article(string mName)
-            : this(mName, Tools.CalculateNS(mName))
+        public Article(string name)
+            : this(name, Tools.CalculateNS(name))
         { }
 
-        public Article(string mName, int mNameSpaceKey)
+        public Article(string name, int nameSpaceKey)
             : this()
         {
-            this.mName = mName.Contains("#") ? mName.Substring(0, mName.IndexOf('#')) : mName;
+            this.mName = name.Contains("#") ? name.Substring(0, name.IndexOf('#')) : name;
 
-            this.mNameSpaceKey = mNameSpaceKey;
+            this.NameSpaceKey = nameSpaceKey;
         }
 
         public virtual AWBLogListener InitialiseLogListener()
@@ -100,7 +99,7 @@ namespace WikiFunctions
         {
             get
             {
-                if (mNameSpaceKey == 0) return mName;
+                if (NameSpaceKey == 0) return mName;
 
                 int pos = mName.IndexOf(':');
                 if (pos < 0) return mName;
@@ -113,7 +112,7 @@ namespace WikiFunctions
         /// </summary>
         [XmlAttribute]
         public int NameSpaceKey
-        { get { return mNameSpaceKey; } set { mNameSpaceKey = value; } }
+        { get; set; }
         #endregion
 
         #region Non-serialisable properties
