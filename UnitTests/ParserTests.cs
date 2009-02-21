@@ -30,6 +30,11 @@ using NUnit.Framework.SyntaxHelpers;
 
 namespace UnitTests
 {
+    /// <summary>
+    /// This class must be inhertited by test fixtures that use most parts of WikiFunctions.
+    /// It ensures that WikiFunctions is aware that it's being called from unit tests, and
+    /// that global data is initialised.
+    /// </summary>
     public class RequiresInitialization
     {
         public RequiresInitialization()
@@ -928,15 +933,8 @@ While remaining upright may be the primary goal of beginning riders While remain
     }
 
     [TestFixture]
-    public class UtilityFunctionTests
+    public class UtilityFunctionTests : RequiresParser
     {
-        readonly Parsers p = new Parsers();
-
-        public UtilityFunctionTests()
-        {
-            Globals.UnitTestMode = true;
-            Variables.SetToEnglish();
-        }
 
         [Test]
         public void IsCorrectEditSummary()

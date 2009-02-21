@@ -275,6 +275,8 @@ namespace WikiFunctions.API
 
         protected HttpWebRequest CreateRequest(string url)
         {
+            if (Globals.UnitTestMode) throw new Exception("You shouldn't access Wikipedia from unit tests");
+
             HttpWebRequest res = (HttpWebRequest)WebRequest.Create(url);
             if (ProxySettings != null) res.Proxy = ProxySettings;
             res.UserAgent = UserAgent;
