@@ -203,12 +203,7 @@ namespace AutoWikiBrowser
 
         #region Other
 
-        Font f;
-        public Font TextBoxFont
-        {
-            get { return f; }
-            set { f = value; }
-        }
+        public Font TextBoxFont;
 
         private void btnTextBoxFont_Click(object sender, EventArgs e)
         {

@@ -577,13 +577,13 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             '
             Me.MenuAbout.Name = "MenuAbout"
             Me.MenuAbout.Size = New System.Drawing.Size(159, 20)
-            Me.MenuAbout.Text = "About the kingbotk plugin"
+            Me.MenuAbout.Text = "About the Kingbotk plugin"
             '
             'MenuHelp
             '
             Me.MenuHelp.Name = "MenuHelp"
             Me.MenuHelp.Size = New System.Drawing.Size(169, 20)
-            Me.MenuHelp.Text = "Help for the kingbotk plugin"
+            Me.MenuHelp.Text = "Help for the Kingbotk plugin"
             '
             'MenuHelpReleaseNotes
             '
