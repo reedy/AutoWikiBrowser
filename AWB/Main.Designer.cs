@@ -2514,7 +2514,6 @@ namespace AutoWikiBrowser
             this.ntfyTray.Text = "AutoWikiBrowser";
             this.ntfyTray.Visible = true;
             this.ntfyTray.DoubleClick += new System.EventHandler(this.showToolStripMenuItem_Click);
-            this.ntfyTray.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ntfyTray_MouseDoubleClick);
             // 
             // mnuNotify
             // 
@@ -2551,7 +2550,7 @@ namespace AutoWikiBrowser
             this.exitToolStripMenuItem1.Name = "exitToolStripMenuItem1";
             this.exitToolStripMenuItem1.Size = new System.Drawing.Size(103, 22);
             this.exitToolStripMenuItem1.Text = "E&xit";
-            this.exitToolStripMenuItem1.Click += new System.EventHandler(this.exitToolStripMenuItem1_Click);
+            this.exitToolStripMenuItem1.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // EditBoxSaveTimer
             // 
