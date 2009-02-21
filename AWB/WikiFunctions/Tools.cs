@@ -1706,6 +1706,8 @@ Message: {2}
             //const string url = "http://www.cs.tut.fi/cgi-bin/run/~jkorpela/echo.cgi";
             //const string url = "http://www.tipjar.com/cgi-bin/test";
 
+            if (Globals.UnitTestMode) throw new Exception("You shouldn't access Wikipedia from unit tests");
+
             HttpWebRequest rq = Variables.PrepareWebRequest(url);
             rq.Method = "POST";
             rq.ContentType = "application/x-www-form-urlencoded";
