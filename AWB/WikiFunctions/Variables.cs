@@ -160,12 +160,9 @@ namespace WikiFunctions
         public static UserProperties User = new UserProperties();
         public static string RetfPath;
 
-        private static IAutoWikiBrowser mMainForm;
         public static IAutoWikiBrowser MainForm
-        {
-            get { return mMainForm; }
-            set { mMainForm = value; }
-        }
+        { get; set; }
+
         public static Profiler Profiler = new Profiler();
 
         private static bool mono = Type.GetType("Mono.Runtime") != null;
@@ -230,7 +227,8 @@ namespace WikiFunctions
         /// <summary>
         /// true if current wiki uses right-to-left writing system
         /// </summary>
-        public static bool RTL;
+        public static bool RTL
+        { get; set; }
 
         /// <summary>
         /// localized names of months
@@ -313,12 +311,12 @@ namespace WikiFunctions
         public static bool IsWikia
         { get { return Project == ProjectEnum.wikia; } }
 
-        private static string strcustomproject = "";
         /// <summary>
         /// Gets script path of a custom project or empty string if standard project
         /// </summary>
         public static string CustomProject
-        { get { return strcustomproject; } }
+        { get; private set; }
+
         /// <summary>
         /// index.php appended with "5" if appropriate for the wiki
         /// </summary>
@@ -490,7 +488,7 @@ namespace WikiFunctions
 
             mProject = projectName;
             mLangCode = langCode;
-            strcustomproject = customProject;
+            CustomProject = customProject;
 
             RefreshProxy();
 

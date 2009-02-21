@@ -24,24 +24,22 @@ namespace WikiFunctions.API
     /// </summary>
     public class ApiException : Exception
     {
-        readonly ApiEdit m_Editor;
-
         /// <summary>
         /// The ApiEdit object that threw the exception
         /// </summary>
         public ApiEdit Editor
-        { get { return m_Editor; } }
+        { get; private set; }
 
         public ApiException(ApiEdit editor, string message)
             : base(message)
         {
-            m_Editor = editor;
+            Editor = editor;
         }
 
         public ApiException(ApiEdit editor, string message, Exception innerException)
             : base(message, innerException)
         {
-            m_Editor = editor;
+            Editor = editor;
         }
     }
 
@@ -62,27 +60,23 @@ namespace WikiFunctions.API
     /// </summary>
     public class ApiErrorException : ApiException
     {
-        readonly string m_ErrorCode;
-
         /// <summary>
         /// Short error code
         /// </summary>
         public string ErrorCode
-        { get { return m_ErrorCode; } }
-
-        private readonly string m_ApiErrorMessage;
+        { get; private set; }
 
         /// <summary>
         /// Error message returned by API
         /// </summary>
         public string ApiErrorMessage
-        { get { return m_ApiErrorMessage; } }
+        { get; private set; }
 
         public ApiErrorException(ApiEdit editor, string errorCode, string errorMessage)
             : base(editor, "Bot API returned the following error: '" + errorMessage + "'")
         {
-            m_ErrorCode = errorCode;
-            m_ApiErrorMessage = errorMessage;
+            ErrorCode = errorCode;
+            ApiErrorMessage = errorMessage;
         }
     }
 
@@ -136,7 +130,7 @@ namespace WikiFunctions.API
         public string StatusCode { get; private set; }
 
         public ApiLoginException(ApiEdit editor, string status)
-            :base(editor, GetErrorMessage(status))
+            : base(editor, GetErrorMessage(status))
         {
             StatusCode = status;
         }
@@ -175,7 +169,8 @@ namespace WikiFunctions.API
         /// <summary>
         /// URL which triggered the blacklist
         /// </summary>
-        public readonly string URL;
+        public string URL
+        { get; private set; }
 
         public ApiSpamlistException(ApiEdit editor, string url)
             : base(editor, "The link '" + url + "' is blocked by spam blacklist")

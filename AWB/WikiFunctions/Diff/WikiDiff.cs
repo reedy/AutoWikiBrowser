@@ -250,8 +250,6 @@ namespace WikiFunctions
                         s.Append(RightLines[i]);
                 }
 
-            //s.Remove("
-
             return s.ToString();
         }
 
@@ -425,19 +423,7 @@ td.diff-addedline span.diffchange {
             m_HashCode = (word/* + white*/).GetHashCode();
         }
 
-        ///// <summary>
-        ///// Too slow, don't use
-        ///// </summary>
-        ///// <param name="all">Word with whitespace</param>
-        //public Word(string all)
-        //    : this(Regex.Match(all, @"\S*").Value, Regex.Match(all, @"\s*").Value)
-        //{
-        //}
-
         public static WordComparer Comparer = new WordComparer();
-
-        //static readonly Regex Splitter = new Regex(//@"([\p{Sm}\p{P}]+|[^\s\p{P}\p{Sm}]*)(\s*)",
-        //    @"([\p{Sm}\p{P}]|[^\s\p{P}\p{Sm}]*)(\s*)", RegexOptions.Compiled);
 
         /// borrowed from wikidiff2 for consistency
         private static bool IsText(char ch)
@@ -508,14 +494,6 @@ td.diff-addedline span.diffchange {
 
             return lst;
         }
-        //{
-        //    List<Word> lst = new List<Word>();
-
-        //    foreach (Match m in Splitter.Matches(s))
-        //        if (m.Value.Length > 0) lst.Add(new Word(m.Groups[1].Value, m.Groups[2].Value));
-
-        //    return lst;
-        //}
 
         #region Overrides
         public override string ToString()
