@@ -81,8 +81,8 @@ namespace AutoWikiBrowser
         internal static Version Version { get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; } }
         internal static string VersionString { get { return Version.ToString(); } }
         internal const string NAME = "AutoWikiBrowser";
-        static internal string UserAgentString { get { return NAME + "/" + VersionString; } }
-        static internal WikiFunctions.Plugin.IAutoWikiBrowser AWB;
-        static internal Logging.MyTrace MyTrace = new Logging.MyTrace();
+        internal static string UserAgentString { get { return NAME + "/" + VersionString; } }
+        internal static WikiFunctions.Plugin.IAutoWikiBrowser AWB;
+        internal static Logging.MyTrace MyTrace = new Logging.MyTrace();
     }
 }
