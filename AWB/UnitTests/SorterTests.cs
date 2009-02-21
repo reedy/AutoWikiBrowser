@@ -5,13 +5,11 @@ using NUnit.Framework;
 namespace UnitTests
 {
     [TestFixture]
-    public class SorterTests
+    public class SorterTests : RequiresInitialization
     {
         public SorterTests()
         {
-            Globals.UnitTestMode = true;
-            Variables.SetToEnglish();
-            if (WikiRegexes.Category == null) WikiRegexes.MakeLangSpecificRegexes();
+            //Variables.SetToEnglish();
         }
 
         [Test]

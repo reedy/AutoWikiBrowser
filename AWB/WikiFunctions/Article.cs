@@ -308,7 +308,7 @@ namespace WikiFunctions
         /// <param name="parsers">An initialised Parsers object</param>
         public void Unicodify(bool SkipIfNoChange, Parsers parsers)
         {
-            string strTemp = Parsers.Unicodify(mArticleText, out noChange);
+            string strTemp = parsers.Unicodify(mArticleText, out noChange);
 
             if (SkipIfNoChange && noChange)
                 Trace.AWBSkipped("No Unicodification");
@@ -491,7 +491,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="LangCode">The wiki's language code</param>
         /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
-        public void FixHeaderErrors(LangCodeEnum LangCode, bool SkipIfNoChange)
+        protected void FixHeaderErrors(Parsers parsers, LangCodeEnum LangCode, bool SkipIfNoChange)
         {
             if (LangCode == LangCodeEnum.en)
             {
@@ -569,9 +569,9 @@ namespace WikiFunctions
         /// '''Emboldens''' the first occurence of the article title, if not already bold
         /// </summary>
         /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
-        public void EmboldenTitles(bool SkipIfNoChange)
+        public void EmboldenTitles(Parsers parsers, bool SkipIfNoChange)
         {
-            string strTemp = Parsers.BoldTitle(mArticleText, mName, out noChange);
+            string strTemp = parsers.BoldTitle(mArticleText, mName, out noChange);
             if (SkipIfNoChange && noChange)
                 Trace.AWBSkipped("No Titles to embolden");
             else if (!noChange)
@@ -801,7 +801,7 @@ namespace WikiFunctions
 
             Variables.Profiler.Profile("HideText");
 
-            FixHeaderErrors(Variables.LangCode, skip.SkipNoHeaderError);
+            FixHeaderErrors(parsers, Variables.LangCode, skip.SkipNoHeaderError);
             Variables.Profiler.Profile("FixHeaderErrors");
             SetDefaultSort(Variables.LangCode, skip.SkipNoDefaultSortAdded);
             Variables.Profiler.Profile("SetDefaultSort");
@@ -822,7 +822,7 @@ namespace WikiFunctions
             AWBChangeArticleText("Fix temperatures", Parsers.FixTemperatures(ArticleText), true);
             Variables.Profiler.Profile("FixTemperatures");
             
-            AWBChangeArticleText("Fix non-breaking spaces", Parsers.FixNonBreakingSpaces(ArticleText), true);
+            AWBChangeArticleText("Fix non-breaking spaces", parsers.FixNonBreakingSpaces(ArticleText), true);
             Variables.Profiler.Profile("FixNonBreakingSpaces");
 
             AWBChangeArticleText("Fix main article", Parsers.FixMainArticle(ArticleText), true);
@@ -865,7 +865,7 @@ namespace WikiFunctions
             AWBChangeArticleText("Remove empty comments", Parsers.RemoveEmptyComments(ArticleText), false);
             Variables.Profiler.Profile("RemoveEmptyComments");
 
-            AWBChangeArticleText("Fix Date Ordinals/Of", Parsers.FixDateOrdinalsAndOf(ArticleText, Name), true, true);
+            AWBChangeArticleText("Fix Date Ordinals/Of", parsers.FixDateOrdinalsAndOf(ArticleText, Name), true, true);
             Variables.Profiler.Profile("FixDateOrdinalsAndOf");
 
             //if (Variables.IsWikimediaProject)
@@ -884,7 +884,7 @@ namespace WikiFunctions
                 Variables.Profiler.Profile("Metadata");
             }
 
-            EmboldenTitles(skip.SkipNoBoldTitle);
+            EmboldenTitles(parsers, skip.SkipNoBoldTitle);
 
             AWBChangeArticleText("Format sticky links",
                 Parsers.StickyLinks(Parsers.SimplifyLinks(ArticleText)), true);
