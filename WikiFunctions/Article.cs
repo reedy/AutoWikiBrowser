@@ -64,9 +64,9 @@ namespace WikiFunctions
         public Article(string name, int nameSpaceKey)
             : this()
         {
-            this.mName = name.Contains("#") ? name.Substring(0, name.IndexOf('#')) : name;
+            mName = name.Contains("#") ? name.Substring(0, name.IndexOf('#')) : name;
 
-            this.NameSpaceKey = nameSpaceKey;
+            NameSpaceKey = nameSpaceKey;
         }
 
         public virtual AWBLogListener InitialiseLogListener()
@@ -240,7 +240,7 @@ namespace WikiFunctions
         /// </summary>
         public bool OnlyCasingChanged
         {
-            get { return (string.Compare(mOriginalArticleText, mArticleText, true) == 0); }
+            get { return Tools.CaseInsensitiveStringCompare(mOriginalArticleText, mArticleText); }
         }
 
         /// <summary>
@@ -248,7 +248,7 @@ namespace WikiFunctions
         /// </summary>
         public bool OnlyWhiteSpaceAndCasingChanged
         {
-            get { return (string.Compare(Regex.Replace(mOriginalArticleText, @"\s+", ""), Regex.Replace(mArticleText, @"\s+", ""), true) == 0); }
+            get { return Tools.CaseInsensitiveStringCompare(Regex.Replace(mOriginalArticleText, @"\s+", ""), Regex.Replace(mArticleText, @"\s+", "")); }
         }
 
         /// <summary>
@@ -488,6 +488,7 @@ namespace WikiFunctions
         /// <summary>
         /// Fix header errors
         /// </summary>
+        /// <param name="parsers"></param>
         /// <param name="LangCode">The wiki's language code</param>
         /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
         protected void FixHeaderErrors(Parsers parsers, LangCodeEnum LangCode, bool SkipIfNoChange)
@@ -567,6 +568,7 @@ namespace WikiFunctions
         /// <summary>
         /// '''Emboldens''' the first occurence of the article title, if not already bold
         /// </summary>
+        /// <param name="parsers"></param>
         /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
         public void EmboldenTitles(Parsers parsers, bool SkipIfNoChange)
         {
