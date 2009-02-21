@@ -23,6 +23,7 @@ Copyright © 2000-2002 Philip A. Craig
 */
 
 using System.Text;
+using System.Text.RegularExpressions;
 using NUnit.Framework;
 using WikiFunctions;
 using WikiFunctions.Parse;
@@ -101,6 +102,130 @@ namespace UnitTests
             Assert.That(Parsers.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column"">
 <references/></div>"), Is.Not.Contains("{{reflist"));
         }
+
+        [Test]
+        public void TestFixReferenceTags()
+        {
+            // whitespace cleaning
+            Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now < ref>[http://www.site.com a site]</ref> was"));
+            Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now < ref   >[http://www.site.com a site]</ref> was"));
+            Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now <ref >[http://www.site.com a site]</ref> was"));
+            Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now < ref>[http://www.site.com a site]< /ref> was"));
+            Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now <ref>[http://www.site.com a site]</ ref> was"));
+            Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now <ref>[http://www.site.com a site]</ref > was"));
+
+            // <ref name=foo bar> --> <ref name="foo bar">
+            Assert.AreEqual(@"now <ref name=""foo bar""> and", Parsers.FixReferenceTags(@"now <ref name=foo bar> and"));
+            Assert.AreEqual(@"now <ref name=""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref name=foo bar /> and"));
+            Assert.AreEqual(@"now <ref name = ""foo bar"" > and", Parsers.FixReferenceTags(@"now <ref name = foo bar > and"));
+
+            // <ref name=foo bar"> --> <ref name="foo bar">
+            Assert.AreEqual(@"now <ref name=""foo bar""> and", Parsers.FixReferenceTags(@"now <ref name=foo bar""> and"));
+            Assert.AreEqual(@"now <ref name=""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref name=foo bar"" /> and"));
+            Assert.AreEqual(@"now <ref name = ""foo bar"" > and", Parsers.FixReferenceTags(@"now <ref name = foo bar"" > and"));
+
+            // <ref name="foo bar> --> <ref name="foo bar">
+            Assert.AreEqual(@"now <ref name=""foo bar""> and", Parsers.FixReferenceTags(@"now <ref name=""foo bar> and"));
+            Assert.AreEqual(@"now <ref name=""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref name=""foo bar /> and"));
+            Assert.AreEqual(@"now <ref name = ""foo bar"" > and", Parsers.FixReferenceTags(@"now <ref name = ""foo bar > and"));
+
+            // <ref name = ''Fred'> --> <ref name="Fred"> (two apostrophes)
+            Assert.AreEqual(@"now <ref name=""foo bar""> and", Parsers.FixReferenceTags(@"now <ref name=''foo bar'> and"));
+            Assert.AreEqual(@"now <ref name=""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref name='foo bar'' /> and"));
+            Assert.AreEqual(@"now <ref name = ""foo bar"" > and", Parsers.FixReferenceTags(@"now <ref name = ''foo bar'' > and"));
+
+            // <ref name "foo bar"> --> <ref name="foo bar">
+            Assert.AreEqual(@"now <ref name =""foo bar""> and", Parsers.FixReferenceTags(@"now <ref name ""foo bar""> and"));
+            Assert.AreEqual(@"now <ref name =""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref name ""foo bar"" /> and"));
+
+            Assert.AreEqual(@"now <ref name =""foo bar""> and", Parsers.FixReferenceTags(@"now <ref name -""foo bar""> and"));
+            Assert.AreEqual(@"now <ref name =""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref name -""foo bar"" /> and"));
+            Assert.AreEqual(@"now <ref name =  ""foo bar"" > and", Parsers.FixReferenceTags(@"now <ref name -  ""foo bar"" > and"));
+            Assert.AreEqual(@"now <ref name =""foo bar""> and", Parsers.FixReferenceTags(@"now <ref name +""foo bar""> and"));
+            Assert.AreEqual(@"now <ref name =""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref name +""foo bar"" /> and"));
+            Assert.AreEqual(@"now <ref name =  ""foo bar"" > and", Parsers.FixReferenceTags(@"now <ref name +  ""foo bar"" > and"));
+
+            // <ref "foo bar"> --> <ref name="foo bar">
+            Assert.AreEqual(@"now <ref name=""foo bar""> and", Parsers.FixReferenceTags(@"now <ref ""foo bar""> and"));
+            Assert.AreEqual(@"now <ref name=""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref ""foo bar"" /> and"));
+
+            // <ref name="Fred" /ref> --> <ref name="Fred"/>
+            Assert.AreEqual(@"now <ref name=""Fred""/> was", Parsers.FixReferenceTags(@"now <ref name=""Fred"" /ref> was"));
+            Assert.AreEqual(@"now <ref name=""Fred A""/> was", Parsers.FixReferenceTags(@"now <ref name=""Fred A"" /ref> was"));
+
+            // <ref name="Fred".> --> <ref name="Fred"/>
+            Assert.AreEqual(@"now <ref name=""Fred"".> was", Parsers.FixReferenceTags(@"now <ref name=""Fred"".> was"));
+            Assert.AreEqual(@"now <ref name=""Fred""?> was", Parsers.FixReferenceTags(@"now <ref name=""Fred""?> was"));
+
+            // <ref>...<ref/> --> <ref>...</ref>
+            Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now <ref>[http://www.site.com a site]<ref/> was"));
+            Assert.AreEqual(@"now <ref> [http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now <ref> [http://www.site.com a site]<ref/> was"));
+
+            // <ref>...</red> --> <ref>...</ref>
+            Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now <ref>[http://www.site.com a site]</red> was"));
+            Assert.AreEqual(@"now <ref> [http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now <ref> [http://www.site.com a site]</red> was"));
+
+            // no matches
+            Assert.AreEqual(@"now <ref name=""foo bar""> and", Parsers.FixReferenceTags(@"now <ref name=""foo bar""> and"));
+            Assert.AreEqual(@"now <ref name=""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref name=""foo bar"" /> and"));
+            Assert.AreEqual(@"now <ref name = ""foo bar"" > and", Parsers.FixReferenceTags(@"now <ref name = ""foo bar"" > and"));
+            Assert.AreEqual(@"now <ref name = 'foo bar' > and", Parsers.FixReferenceTags(@"now <ref name = 'foo bar' > and"));
+        }
+
+        [Test]
+        public void ReorderReferencesTests()
+        {
+            // [1]...[2][1]
+            Assert.AreEqual(@"'''Article''' is great.<ref name = ""Fred1"">So says Fred</ref>
+Article started off pretty good, <ref name = ""Fred1"" /> <ref>So says John</ref> and finished well.
+End of.", Parsers.ReorderReferences(@"'''Article''' is great.<ref name = ""Fred1"">So says Fred</ref>
+Article started off pretty good, <ref>So says John</ref> <ref name = ""Fred1"" /> and finished well.
+End of."));
+
+            // [1]...[2][1]
+            Assert.AreEqual(@"'''Article''' is great.<ref name = ""Fred2"">So says Fred</ref>
+Article started off pretty good, <ref name = ""Fred2"" /> <ref name = ""John1"" >So says John</ref> and finished well.
+End of.", Parsers.ReorderReferences(@"'''Article''' is great.<ref name = ""Fred2"">So says Fred</ref>
+Article started off pretty good, <ref name = ""John1"" >So says John</ref> <ref name = ""Fred2"" /> and finished well.
+End of."));
+
+            // [1][2]...[3][2][1]
+            Assert.AreEqual(@"'''Article''' is great.<ref name = ""Fred8"">So says Fred</ref><ref name = ""John3"" />
+Article started off pretty good, <ref name = ""Fred8"" /><ref name = ""John3"" >So says John</ref> <ref>Third</ref> and finished well.
+End of.", Parsers.ReorderReferences(@"'''Article''' is great.<ref name = ""Fred8"">So says Fred</ref><ref name = ""John3"" />
+Article started off pretty good, <ref>Third</ref><ref name = ""John3"" >So says John</ref> <ref name = ""Fred8"" /> and finished well.
+End of."));
+
+            // [1][2][3]...[3][2][1]
+            Assert.AreEqual(@"'''Article''' is great.<ref name = ""Fred9"">So says Fred</ref><ref name = ""John3"" /><ref name = ""Tim1"">ABC</ref>
+Article started off pretty good, <ref name = ""Fred9"" /><ref name = ""John3"" >So says John</ref> <ref name = ""Tim1""/> and finished well.
+End of.", Parsers.ReorderReferences(@"'''Article''' is great.<ref name = ""Fred9"">So says Fred</ref><ref name = ""John3"" /><ref name = ""Tim1"">ABC</ref>
+Article started off pretty good, <ref name = ""Tim1""/><ref name = ""John3"" >So says John</ref> <ref name = ""Fred9"" /> and finished well.
+End of."));
+
+            // no changes
+            string A = @"'''Article''' is great.<ref name = ""Fred3"">So says Fred</ref>
+Article started off pretty good, <ref name = ""Fred3"" /> <ref name = ""John2"" >So says John</ref> and finished well.
+End of.";
+            string B = @"'''Article''' is great.<ref name = ""Fred4"">So says Fred</ref>
+Article started off pretty good, <ref>So says Tim</ref> <ref>So says John</ref> and finished well.
+End of.";
+            string C = @"'''Article''' is great.<ref name = ""Fred5"">So says Fred</ref>
+Article started off pretty good,<ref name = ""Fred5"" /> <ref>So says John</ref> and finished well.
+End of.";
+            string D = @"'''Article''' is great.<ref name = ""Fred6"">So says Fred</ref>
+Article started off pretty good, <ref>So says John</ref> <ref name = ""A"">So says A</ref> and finished well.
+End of.";
+            string E = @"'''Article''' is great.<ref name = ""John2"" />
+Article is new.<ref name = ""Fred7"">So says Fred</ref>
+Article started off pretty good, <ref name = ""John2"" >So says John</ref> <ref name = ""Fred7"" /> and finished well.
+End of.";
+            Assert.AreEqual(A, Parsers.ReorderReferences(A));
+            Assert.AreEqual(B, Parsers.ReorderReferences(B));
+            Assert.AreEqual(C, Parsers.ReorderReferences(C));
+            Assert.AreEqual(D, Parsers.ReorderReferences(D));
+            Assert.AreEqual(E, Parsers.ReorderReferences(E));
+        }
     }
 
     [TestFixture]
@@ -177,6 +302,21 @@ namespace UnitTests
 
             //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Breaking_a_template
             Assert.AreEqual("{{the later 1990's}}", parser.FixDates("{{the later 1990's}}"));
+
+            // replace <br> and <p> HTML tags tests
+            Assert.AreEqual("\r\n\r\nsome text", Parsers.FixDates("<p>some text"));
+            Assert.AreEqual("\r\nsome text", Parsers.FixDates("<br><br>some text"));
+            Assert.AreEqual("some text\r\n\r\n", Parsers.FixDates("some text<p>"));
+            Assert.AreEqual("some text\r\n", Parsers.FixDates("some text<br><br>"));
+
+            // don't match when in table or blockquote
+            Assert.AreEqual("|<p>some text", Parsers.FixDates("|<p>some text"));
+            Assert.AreEqual("|<br><br>some text", Parsers.FixDates("|<br><br>some text"));
+            Assert.AreEqual("!<p>some text", Parsers.FixDates("!<p>some text"));
+            Assert.AreEqual("!<br><br>some text", Parsers.FixDates("!<br><br>some text"));
+
+            Assert.AreEqual("<blockquote><p>some text</blockquote>", Parsers.FixDates("<blockquote><p>some text</blockquote>"));
+            Assert.AreEqual("<blockquote>|<br><br>some text</blockquote>", Parsers.FixDates("<blockquote>|<br><br>some text</blockquote>"));
         }
 
         [Test]
@@ -428,6 +568,7 @@ http://example.com }}");
             Assert.AreEqual(@"a 50.247&nbsp;cm road", parser.FixNonBreakingSpaces(@"a 50.247cm road"));
             Assert.AreEqual(@"a 50.247&nbsp;nm laser", parser.FixNonBreakingSpaces(@"a 50.247nm laser"));
             Assert.AreEqual(@"a 50.247&nbsp;nm laser", parser.FixNonBreakingSpaces(@"a 50.247  nm laser"));
+            Assert.AreEqual(@"a 50.247&nbsp;µm laser", parser.FixNonBreakingSpaces(@"a 50.247µm laser"));
             Assert.AreEqual(@"a 50.247&nbsp;cd light", parser.FixNonBreakingSpaces(@"a 50.247 cd light"));
             Assert.AreEqual(@"a 50.247&nbsp;cd light", parser.FixNonBreakingSpaces(@"a 50.247cd light"));
             Assert.AreEqual(@"a 50.247&nbsp;mmol solution", parser.FixNonBreakingSpaces(@"a 50.247mmol solution"));
@@ -564,6 +705,67 @@ Some news here.", "test"));
 
             // eh? should we fix such tables too?
             //Assert.AreEqual("{|\r\n! foo\r\n!\r\nbar\r\n|}", Parsers.RemoveWhiteSpace("{|\r\n! foo\r\n\r\n!\r\n\r\nbar\r\n|}"));
+        }
+    }
+
+    [TestFixture]
+    public class MOSTests : RequiresParser
+    {
+        [Test]
+        public void TestFixDateOrdinalsAndOf()
+        {
+            // 'of' between month and year
+            Assert.AreEqual(@"Now in July 2007 a new", parser.FixDateOrdinalsAndOf(@"Now in July of 2007 a new", "test"));
+            Assert.AreEqual(@"Now ''Plaice'' in July 2007 a new", parser.FixDateOrdinalsAndOf(@"Now ''Plaice'' in July of 2007 a new", "test"));
+            Assert.AreEqual(@"Now in January 1907 a new", parser.FixDateOrdinalsAndOf(@"Now in January of 1907 a new", "test"));
+            Assert.AreEqual(@"Now in January 1807 a new", parser.FixDateOrdinalsAndOf(@"Now in January of 1807 a new", "test"));
+            Assert.AreEqual(@"Now in January 1807 and May 1804 a new", parser.FixDateOrdinalsAndOf(@"Now in January of 1807 and May of 1804 a new", "test"));
+
+            // no matches
+            Assert.AreEqual(@"Now ""in July of 2007"" a new", parser.FixDateOrdinalsAndOf(@"Now ""in July of 2007"" a new", "test"));
+            Assert.AreEqual(@"Now {{quote|in July of 2007}} a new", parser.FixDateOrdinalsAndOf(@"Now {{quote|in July of 2007}} a new", "test"));
+            Assert.AreEqual(@"Now ""in July of 1707"" a new", parser.FixDateOrdinalsAndOf(@"Now ""in July of 1707"" a new", "test"));
+            Assert.AreEqual(@"Now a march of 2007 resulted", parser.FixDateOrdinalsAndOf(@"Now a march of 2007 resulted", "test"));
+            Assert.AreEqual(@"Now the June of 2007 was", parser.FixDateOrdinalsAndOf(@"Now the June of 2007 was", "test"));
+
+            // no ordinals on dates
+            Assert.AreEqual(@"On 14 March elections were", parser.FixDateOrdinalsAndOf(@"On 14th March elections were", "test"));
+            Assert.AreEqual(@"On 14 June elections were", parser.FixDateOrdinalsAndOf(@"On 14th June elections were", "test"));
+            Assert.AreEqual(@"On March 14 elections were", parser.FixDateOrdinalsAndOf(@"On March 14th elections were", "test"));
+            Assert.AreEqual(@"On June 21 elections were", parser.FixDateOrdinalsAndOf(@"On June 21st elections were", "test"));
+            Assert.AreEqual(@"On 14 March 2008 elections were", parser.FixDateOrdinalsAndOf(@"On 14th March 2008 elections were", "test"));
+            Assert.AreEqual(@"On 14 June 2008 elections were", parser.FixDateOrdinalsAndOf(@"On 14th June 2008 elections were", "test"));
+            Assert.AreEqual(@"On March 14, 2008 elections were", parser.FixDateOrdinalsAndOf(@"On March 14th, 2008 elections were", "test"));
+            Assert.AreEqual(@"On June 21, 2008 elections were", parser.FixDateOrdinalsAndOf(@"On June   21st, 2008 elections were", "test"));
+
+            // date ranges
+            Assert.AreEqual(@"On 14-15 June elections were", parser.FixDateOrdinalsAndOf(@"On 14th-15th June elections were", "test"));
+            Assert.AreEqual(@"On 14 - 15 June elections were", parser.FixDateOrdinalsAndOf(@"On 14th - 15th June elections were", "test"));
+            Assert.AreEqual(@"On 14 to 15 June elections were", parser.FixDateOrdinalsAndOf(@"On 14th to 15th June elections were", "test"));
+            Assert.AreEqual(@"On 14,15 June elections were", parser.FixDateOrdinalsAndOf(@"On 14th,15th June elections were", "test"));
+            Assert.AreEqual(@"On 3 and 15 June elections were", parser.FixDateOrdinalsAndOf(@"On 3rd and 15th June elections were", "test"));
+
+            // no matches, particularly dates with 'the' before where fixing the ordinal may leave 'on the 11 May' which wouldn't read well
+            Assert.AreEqual(@"On 14th march was", parser.FixDateOrdinalsAndOf(@"On 14th march was", "test"));
+            Assert.AreEqual(@"On 14th of February was", parser.FixDateOrdinalsAndOf(@"On 14th of February was", "test"));
+            Assert.AreEqual(@"Now the 14th February was", parser.FixDateOrdinalsAndOf(@"Now the 14th February was", "test"));
+            Assert.AreEqual(@"Now the February 14th was", parser.FixDateOrdinalsAndOf(@"Now the February 14th was", "test"));
+            Assert.AreEqual(@"'''6th October City''' is", parser.FixDateOrdinalsAndOf(@"'''6th October City''' is", "6th October City"));
+            Assert.AreEqual(@"<poem>On March 14th, 2008 elections were</poem>", parser.FixDateOrdinalsAndOf(@"<poem>On March 14th, 2008 elections were</poem>", "test"));
+
+            // leading zeros
+            Assert.AreEqual(@"On 3 June elections were", parser.FixDateOrdinalsAndOf(@"On 03 June elections were", "test"));
+            Assert.AreEqual(@"On 7 June elections were", parser.FixDateOrdinalsAndOf(@"On 07 June elections were", "test"));
+            Assert.AreEqual(@"On June 7, elections were", parser.FixDateOrdinalsAndOf(@"On June 07, elections were", "test"));
+            Assert.AreEqual(@"On June 7 2008, elections were", parser.FixDateOrdinalsAndOf(@"On June 07 2008, elections were", "test"));
+            Assert.AreEqual(@"On 3 June elections were", parser.FixDateOrdinalsAndOf(@"On 03rd June elections were", "test"));
+
+            // no matches
+            Assert.AreEqual(@"The 007 march was", parser.FixDateOrdinalsAndOf(@"The 007 march was", "test"));
+            Assert.AreEqual(@"In June '08 there was", parser.FixDateOrdinalsAndOf(@"In June '08 there was", "test"));
+            Assert.AreEqual(@"In June 2008 there was", parser.FixDateOrdinalsAndOf(@"In June 2008 there was", "test"));
+            Assert.AreEqual(@"On 00 June elections were", parser.FixDateOrdinalsAndOf(@"On 00 June elections were", "test"));
+            Assert.AreEqual(@"The 007 May was", parser.FixDateOrdinalsAndOf(@"The 007 May was", "test"));
         }
     }
 
@@ -730,8 +932,8 @@ Some news here.", "test"));
             Assert.IsTrue(noChangeBack);
 
             Assert.AreEqual(@"{{Infobox_martial_art| website      = }}
-{{Nihongo|'''Aikido'''|合気道|aikidō}} is a. Aikido was", parser.BoldTitle(@"{{Infobox_martial_art| website      = }}
-{{Nihongo|'''Aikido'''|合気道|aikidō}} is a. Aikido was", "Aikido", out noChangeBack));
+{{Nihongo|'''Aikido'''|???|aikido}} is a. Aikido was", parser.BoldTitle(@"{{Infobox_martial_art| website      = }}
+{{Nihongo|'''Aikido'''|???|aikido}} is a. Aikido was", "Aikido", out noChangeBack));
             Assert.IsTrue(noChangeBack);
         }
 
@@ -923,6 +1125,12 @@ While remaining upright may be the primary goal of beginning riders While remain
         {
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#.26emsp.3B
             Assert.AreEqual("&emsp;&#013;", parser.Unicodify("&emsp;&#013;"));
+
+            Assert.AreEqual("The F&#x2011;22 plane", parser.Unicodify("The F&#x2011;22 plane"));
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#SmackBot:_conversion_of_HTML_char-codes_to_raw_Unicode:_issue_.26_consequent_suggestion
+            Assert.AreEqual(@"the exclamation mark&#8201;! was", parser.Unicodify(@"the exclamation mark&#8201;! was"));
+            Assert.AreEqual(@"the exclamation mark&#8239;! was", parser.Unicodify(@"the exclamation mark&#8239;! was"));
         }
 
         [Test]
@@ -933,7 +1141,7 @@ While remaining upright may be the primary goal of beginning riders While remain
     }
 
     [TestFixture]
-    public class UtilityFunctionTests : RequiresParser
+    public class UtilityFunctionTests
     {
 
         [Test]
@@ -1106,7 +1314,7 @@ While remaining upright may be the primary goal of beginning riders While remain
                 Parsers.ExternalURLToInternalLink("https://secure.wikimedia.org/otrs/index.pl?Action=AgentTicketQueue"));
 
             // ExtToInt2
-            Assert.AreEqual("[[:ru:Яипу|Foo]]", Parsers.ExternalURLToInternalLink("[http://ru.wikipedia.org/wiki/Яипу Foo]"));
+            Assert.AreEqual("[[:ru:????|Foo]]", Parsers.ExternalURLToInternalLink("[http://ru.wikipedia.org/wiki/???? Foo]"));
         }
 
         [Test]
@@ -1135,8 +1343,10 @@ While remaining upright may be the primary goal of beginning riders While remain
         public void HasSicTagTests()
         {
             Assert.IsTrue(Parsers.HasSicTag("now helo [sic] there"));
+            Assert.IsTrue(Parsers.HasSicTag("now helo [sic!] there"));
             Assert.IsTrue(Parsers.HasSicTag("now helo[sic] there"));
             Assert.IsTrue(Parsers.HasSicTag("now helo (sic) there"));
+            Assert.IsTrue(Parsers.HasSicTag("now helo (sic!) there"));
             Assert.IsTrue(Parsers.HasSicTag("now helo {sic} there"));
             Assert.IsTrue(Parsers.HasSicTag("now helo [Sic] there"));
             Assert.IsTrue(Parsers.HasSicTag("now helo [ Sic ] there"));
@@ -1146,8 +1356,38 @@ While remaining upright may be the primary goal of beginning riders While remain
             Assert.IsTrue(Parsers.HasSicTag("now helo <!--[sic]-->there"));
 
             Assert.IsFalse(Parsers.HasSicTag("now sickened by"));
-            Assert.IsFalse(Parsers.HasSicTag("now helo sic there"));
+            Assert.IsFalse(Parsers.HasSicTag("sic transit gloria mundi"));
             Assert.IsFalse(Parsers.HasSicTag("The Sound Information Company (SIC) is"));
+        }
+
+        [Test]
+        public void HasMorefootnotesAndManyReferencesTests()
+        {
+            Assert.IsTrue(Parsers.HasMorefootnotesAndManyReferences(@"Article<ref>A</ref> <ref>B</ref> <ref>C</ref> <ref>B</ref> <ref>E</ref> 
+==References== 
+{{reflist}} 
+{{nofootnotes}}"));
+
+            Assert.IsTrue(Parsers.HasMorefootnotesAndManyReferences(@"Article<ref>A</ref> <ref>B</ref> <ref>C</ref> <ref>B</ref> <ref>E</ref> 
+==References== 
+{{reflist}} 
+{{morefootnotes}}"));
+
+            Assert.IsTrue(Parsers.HasMorefootnotesAndManyReferences(@"Article<ref name=A>A</ref> <ref name=B>B</ref> <ref>C</ref> <ref>B</ref> <ref>E</ref> 
+==References== 
+{{reflist}} 
+{{Morefootnotes}}"));
+
+            // not enough references
+            Assert.IsFalse(Parsers.HasMorefootnotesAndManyReferences(@"Article<ref>A</ref> <ref>B</ref> <ref>C</ref> <ref>B</ref> 
+==References== 
+{{reflist}} 
+{{nofootnotes}}"));
+
+            // no {{nofootnotes}}
+            Assert.IsFalse(Parsers.HasMorefootnotesAndManyReferences(@"Article<ref name=A>A</ref> <ref name=B>B</ref> <ref>C</ref> <ref>B</ref> <ref>E</ref> 
+==References== 
+{{reflist}}"));
         }
 
         [Test]
@@ -1194,6 +1434,28 @@ fish | name = Bert }} ''Bert'' is a good fish."));
             Assert.IsFalse(Parsers.HasInfobox(@"{{infoboxfish | name = Bert }} ''Bert'' is a good fish."));
             Assert.IsFalse(Parsers.HasInfobox(@"<!--{{infobox fish | name = Bert }}--> ''Bert'' is a good fish."));
             Assert.IsFalse(Parsers.HasInfobox(@"<nowiki>{{infobox fish | name = Bert }}</nowiki> ''Bert'' is a good fish."));
+        }
+
+        [Test]
+        public void NoBotsTests()
+        {
+            Assert.IsTrue(Parsers.CheckNoBots("", ""));
+            Assert.IsTrue(Parsers.CheckNoBots("{{test}}", ""));
+            Assert.IsTrue(Parsers.CheckNoBots("lol, test", ""));
+
+            Assert.IsTrue(Parsers.CheckNoBots("{{bots}}", ""));
+            Assert.IsTrue(Parsers.CheckNoBots("{{bots|allow=awb}}", ""));
+            Assert.IsTrue(Parsers.CheckNoBots("{{bots|allow=test}}", "test"));
+            Assert.IsTrue(Parsers.CheckNoBots("{{bots|allow=user,test}}", "test"));
+            Assert.IsTrue(Parsers.CheckNoBots("{{bots|deny=none}}", ""));
+
+            Assert.IsFalse(Parsers.CheckNoBots("{{nobots}}", ""));
+            Assert.IsFalse(Parsers.CheckNoBots("{{bots|deny=all}}", ""));
+            Assert.IsFalse(Parsers.CheckNoBots("{{bots|deny=awb}}", ""));
+            Assert.IsFalse(Parsers.CheckNoBots("{{bots|deny=awb,test}}", ""));
+            Assert.IsFalse(Parsers.CheckNoBots("{{bots|deny=awb,test}}", "test"));
+            Assert.IsFalse(Parsers.CheckNoBots("{{bots|deny=test}}", "test"));
+            Assert.IsFalse(Parsers.CheckNoBots("{{bots|allow=none}}", ""));
         }
     }
 
@@ -1305,6 +1567,290 @@ fish | name = Bert }} ''Bert'' is a good fish."));
 
             Assert.AreEqual("[[Category:Fooo]]", Parsers.RemoveCategory("Foo", "[[Category:Fooo]]", out noChange));
             Assert.IsTrue(noChange);
+        }
+    }
+
+    [TestFixture]
+    public class TaggerTests
+    {
+        private bool noChange;
+        private string summary;
+
+        private readonly Parsers p = new Parsers(500, true);
+        public TaggerTests()
+        {
+            Globals.UnitTestMode = true;
+            WikiRegexes.MakeLangSpecificRegexes();
+        }
+
+        private const string uncat = "{{Uncategorized|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
+                       uncatstub = "{{Uncategorizedstub|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
+                       orphan = "{{orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
+                       wikify = "{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
+                       deadend = "{{deadend|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
+                       stub = "{{stub}}";
+
+        [Test]
+        public void Add()
+        {
+            Globals.UnitTestIntValue = 0;
+            Globals.UnitTestBoolValue = true;
+
+            string text = p.Tagger(shortText, "Test", out noChange, ref summary, true, false);
+            //Stub, no existing stub tag. Needs all tags
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
+
+            Assert.IsFalse(text.Contains(uncatstub));
+
+            text = p.Tagger(shortText + stub + uncat + wikify + orphan + deadend, "Test", out noChange, ref summary, true, false);
+            //Tagged article, dupe tags shouldn't be added
+            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(stub), text));
+            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(uncat), text));
+            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(wikify), text));
+            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(orphan), text));
+            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(deadend), text));
+
+            text = p.Tagger(shortText + stub, "Test", out noChange, ref summary, true, false);
+            //Stub, existing stub tag
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsTrue(text.Contains(uncatstub));
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
+
+            Assert.IsFalse(text.Contains(uncat));
+
+            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(stub), text));
+
+            text = p.Tagger(shortText + shortText, "Test", out noChange, ref summary, true, false);
+            //Not a stub
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text));
+
+            Assert.IsFalse(text.Contains(uncatstub));
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
+
+            Globals.UnitTestIntValue = 5;
+
+            text = p.Tagger(shortText, "Test", out noChange, ref summary, true, false);
+            //Categorised Stub
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
+
+            Assert.IsFalse(text.Contains(uncatstub));
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+
+            text = p.Tagger(shortText + shortText, "Test", out noChange, ref summary, true, false);
+            //Categorised Page
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
+            Assert.IsFalse(text.Contains(uncatstub));
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+
+            Globals.UnitTestBoolValue = false;
+
+            text = p.Tagger(shortText, "Test", out noChange, ref summary, true, false);
+            //Non orphan categorised stub
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
+
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsFalse(text.Contains(uncatstub));
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+
+            text = p.Tagger(shortText + shortText, "Test", out noChange, ref summary, true, false);
+            //Non orphan categorised page
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsFalse(text.Contains(uncatstub));
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+
+            text = p.Tagger(shortText.Replace("consectetur", "[[consectetur]]"), "Test", out noChange, ref summary, true, false);
+            //Non deadend stub
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
+
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsFalse(text.Contains(uncatstub));
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+
+            text = p.Tagger(Regex.Replace(shortText, @"(\w+)", "[[$1]]"), "Test", out noChange, ref summary, true, false);
+            //very wikified stub
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsFalse(text.Contains(uncatstub));
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Autotagging_and_Articleissues
+            // do not add orphan where article already has orphan tag within {{Article issues}}
+
+            text = p.Tagger(@"{{Article issues|orphan=May 2008|cleanup=May 2008|story=May 2008}}\r\n" + shortText, "Test", out noChange, ref summary, true, false);
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(text));
+        }
+
+        private const string shortText =
+            @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet tortor nec neque faucibus pharetra. Fusce lorem arcu, tempus et, imperdiet a, commodo a, pede. Nulla sit amet turpis gravida elit dictum cursus. Praesent tincidunt velit eu urna.";
+
+        private const string longText =
+            @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse dictum ultrices augue. Fusce sem diam, vestibulum sit amet, vehicula id, congue a, nisl. Phasellus pulvinar posuere purus. Donec elementum justo mattis nulla. Sed a purus dictum lacus pharetra adipiscing. Nam non dui non ante viverra iaculis. Fusce euismod lacus id nulla vulputate gravida. Suspendisse lectus pede, tempus sed, tristique id, pharetra eget, urna. Integer mattis libero vel quam accumsan suscipit. Vivamus molestie dapibus est. Quisque quis metus eget nisl accumsan aliquet. Donec tempus pellentesque tellus. Aliquam lacinia gravida justo. Aliquam erat volutpat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris ultricies suscipit urna. Ut mollis tempor leo. Pellentesque fringilla mattis enim. Proin sapien enim, congue non, aliquet et, sollicitudin nec, mauris. Sed porta. 
+
+Curabitur luctus mollis massa. Nullam consectetur mollis lacus. Suspendisse turpis. Fusce velit. Morbi egestas dui. Donec commodo ornare lorem. Vestibulum sodales. Curabitur egestas libero ut metus. Sed eget orci a ligula consectetur vestibulum. Cras sapien. 
+
+Sed libero. Ut volutpat massa. Donec nulla pede, porttitor eu, sodales et, consectetur nec, quam. Pellentesque vestibulum hendrerit est. Nulla facilisi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Duis et nibh eu lacus iaculis pretium. Fusce sed turpis. In cursus. Etiam interdum augue. Morbi commodo auctor ligula. In imperdiet, neque nec hendrerit consequat, lacus purus tristique turpis, eu hendrerit ipsum ligula at libero. Duis varius nunc vel tortor. Praesent tempor. Nunc non pede at velit congue feugiat. Curabitur gravida, nisl quis mattis porttitor, purus nulla viverra dui, non suscipit augue nunc ac libero. Donec lacinia est non augue. 
+
+Nulla quam dui, tristique id, condimentum sed, sodales in, ante. Vestibulum vitae diam. Integer placerat ante non orci. Nulla gravida. Integer magna enim, iaculis ut, ornare dignissim, ultrices a, urna. Donec urna. Fusce fringilla, pede vitae pulvinar ullamcorper, est nisi eleifend ipsum, ac adipiscing odio massa vehicula neque. Sed blandit est. Morbi faucibus, nisl vel commodo vulputate, mi ipsum tincidunt sem, id ornare orci orci et velit. Morbi commodo sollicitudin ligula. Pellentesque vitae urna. Duis massa arcu, accumsan id, euismod eu, tincidunt et, odio. Phasellus purus leo, rhoncus sed, condimentum nec, vestibulum vel, lacus. In egestas, lectus vitae lacinia tristique, elit magna consequat risus, id sodales metus nulla ac pede. Suspendisse potenti. 
+
+Fusce massa. Nullam lacinia purus nec ipsum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Suspendisse potenti. Proin augue. Donec mi magna, interdum a, elementum quis, bibendum sit amet, felis. Donec vel libero eget magna hendrerit ultrices. Suspendisse potenti. Sed scelerisque lacinia nisi. Quisque elementum, nunc nec luctus iaculis, ante quam aliquet orci, et ullamcorper dui ipsum at mi. Vestibulum a dolor id tortor posuere elementum. Sed mauris nisl, ultrices a, malesuada non, convallis ac, velit. Sed aliquam elit id metus. Donec malesuada, lorem ut pharetra auctor, mi risus viverra enim, vitae pulvinar urna metus at lorem. Vivamus id lorem. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nulla facilisi. Ut vel odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque lobortis sem. 
+
+Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus bibendum arcu nec risus. Nulla iaculis ligula in purus. Etiam vulputate nibh sit amet lectus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse potenti. Suspendisse eleifend. Donec blandit nibh hendrerit turpis. Integer accumsan posuere odio. Ut commodo augue malesuada risus. Curabitur augue. Praesent volutpat nunc a diam. Nulla lobortis interdum dolor. Nunc imperdiet, ipsum ac tempor iaculis, nunc. 
+";
+
+        [Test]
+        public void Remove()
+        {
+            string text = p.Tagger(shortText + stub, "Test", out noChange, ref summary, false, true);
+            //Stub, tag not removed
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
+
+            text = p.Tagger(longText + stub, "Test", out noChange, ref summary, false, true);
+            //stub tag removed
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
+
+            text = p.Tagger("{{wikify}}" + Regex.Replace(longText, @"(\w+)", "[[$1]]"), "Test", out noChange, ref summary, false, true);
+            //wikify tag removed
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
+
+
+            Globals.UnitTestIntValue = 4;
+            text = p.Tagger("{{uncategorised}}", "Test", out noChange, ref summary, false, true);
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+
+            text = p.Tagger("{{uncategorised|date=January 2009}}", "Test", out noChange, ref summary, false, true);
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+
+            text = p.Tagger("{{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", "Test", out noChange, ref summary, false, true);
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+            Assert.IsTrue(string.IsNullOrEmpty(text));
+
+            Globals.UnitTestBoolValue = false;
+
+            text = p.Tagger("{{orphan}}", "Test", out noChange, ref summary, false, true);
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
+
+            Globals.UnitTestBoolValue = true;
+
+            text = p.Tagger("{{orphan}}", "Test", out noChange, ref summary, false, true);
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+        }
+
+        [Test]
+        public void Update()
+        {
+            //Test of updating some of the non dated tags
+            string text = p.Tagger("{{fact}}", "Test", out noChange, ref summary, false, true);
+
+            Assert.IsTrue(text.Contains("{{Fact|date={{subst:CURRENTMONTHNAME}}"));
+            Assert.IsFalse(text.Contains("{{fact}}"));
+
+            text = p.Tagger("{{template:fact}}", "Test", out noChange, ref summary, false, true);
+
+            Assert.IsTrue(text.Contains("{{Fact|date={{subst:CURRENTMONTHNAME}}"));
+            Assert.IsFalse(text.Contains("{{fact}}"));
+        }
+
+        [Test]
+        public void General()
+        {
+            Assert.AreEqual("#REDIRECT [[Test]]", p.Tagger("#REDIRECT [[Test]]", "Test", out noChange, ref summary, true, true));
+            Assert.IsTrue(noChange);
+
+            Assert.AreEqual(shortText, p.Tagger(shortText, "Talk:Test", out noChange, ref summary, true, true));
+            Assert.IsTrue(noChange);
+
+            //No change as no add/remove
+            Assert.AreEqual(shortText, p.Tagger(shortText, "Test", out noChange, ref summary, false, false));
+            Assert.IsTrue(noChange);
+
+            Assert.AreEqual("{{Test Template}}", p.Tagger("{{Test Template}}", "Test", out noChange, ref summary, true, true));
+            Assert.IsTrue(noChange);
+
+            // {{Pt}} is now {{Pt icon}}
+            Assert.AreEqual("hello {{pt}} hello", p.Tagger("hello {{pt}} hello", "Test", out noChange, ref summary, true, true));
+            Assert.IsTrue(noChange);
+
+            Assert.AreEqual("hello {{Pt}} hello", p.Tagger("hello {{Pt}} hello", "Test", out noChange, ref summary, true, true));
+            Assert.IsTrue(noChange);
+        }
+
+        [Test]
+        public void ConversionsTests()
+        {
+            Assert.AreEqual(@"{{cleanup|date=January 2008}} Article text here", Parsers.Conversions(@"{{articleissues|cleanup=January 2008}} Article text here"));
+            Assert.AreEqual(@"{{cleanup|date=January 2008}} Article text here", Parsers.Conversions(@"{{article issues|cleanup=January 2008}} Article text here"));
+            Assert.AreEqual(@"{{cleanup|date=January 2008}} Article text here", Parsers.Conversions(@"{{articleissues|
+            cleanup=January 2008}} Article text here"));
+            Assert.AreEqual(@"{{cleanup|date=January 2009}} Article text here", Parsers.Conversions(@"{{Articleissues|cleanup=January 2009}} Article text here"));
+            Assert.AreEqual(@"{{trivia|date= January 2008}} Article text here", Parsers.Conversions(@"{{articleissues|trivia = January 2008}} Article text here"));
+            Assert.AreEqual(@"{{trivia|date= May 2010}} Article text here", Parsers.Conversions(@"{{articleissues|trivia = May 2010}} Article text here"));
+
+            // no changes
+            string a = @"{{articleissues|trivia=January 2008|cleanup=January 2008}} Article text here";
+            Assert.AreEqual(a, Parsers.Conversions(a));
+
+            a = @"{{ARTICLEISSUES|cleanup=January 2008}} Article text here";
+            Assert.AreEqual(a, Parsers.Conversions(a));
+
+            a = @"{{Articleissues|cleanup=May 30}} Article text here";
+            Assert.AreEqual(a, Parsers.Conversions(a));
+
+            a = @"{{articleissues|trivia=January 2008|}} Article text here";
+            Assert.AreEqual(a, Parsers.Conversions(a));
+
+            a = @"{{articleissues|trivia}} Article text here";
+            Assert.AreEqual(a, Parsers.Conversions(a));
+
+            // nofootnotes --> morefootnotes
+            Assert.AreEqual(@"Article <ref>A</ref> 
+            ==References==
+            {{morefootnotes}}
+            {{reflist}}", Parsers.Conversions(@"Article <ref>A</ref> 
+            ==References==
+            {{nofootnotes}}
+            {{reflist}}"));
+
+            Assert.AreEqual(@"Article <ref>A</ref> 
+            ==References==
+            {{morefootnotes}}
+            {{reflist}}", Parsers.Conversions(@"Article <ref>A</ref> 
+            ==References==
+            {{Nofootnotes}}
+            {{reflist}}"));
+
+            // no change
+            Assert.AreEqual(@"Article 
+            ==References==
+            {{nofootnotes}}", Parsers.Conversions(@"Article 
+            ==References==
+            {{nofootnotes}}"));
         }
     }
 }
