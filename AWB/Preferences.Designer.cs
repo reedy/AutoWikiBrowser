@@ -18,7 +18,7 @@ namespace AutoWikiBrowser
             if (disposing && (components != null))
             {
                 components.Dispose();
-                if (f != null) f.Dispose();
+                if (TextBoxFont != null) TextBoxFont.Dispose();
 
             }
             base.Dispose(disposing);
