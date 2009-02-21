@@ -110,6 +110,18 @@ namespace UnitTests
             Assert.IsTrue(r.IsMatch("[tEsT}"));
             Assert.IsFalse(r.IsMatch("test"));
         }
+        [Test]
+        public void CaseInsensitiveStringCompare()
+        {
+            Assert.IsTrue(Tools.CaseInsensitiveStringCompare("test", "test"));
+            Assert.IsTrue(Tools.CaseInsensitiveStringCompare("test", "TEST"));
+            Assert.IsTrue(Tools.CaseInsensitiveStringCompare("TEST", "TEST"));
+            Assert.IsTrue(Tools.CaseInsensitiveStringCompare("testDING", "TESTding"));
+            Assert.IsTrue(Tools.CaseInsensitiveStringCompare("sCr1pTkIdDy", "sCr1pTkIdDy"));
+
+            Assert.IsFalse(Tools.CaseInsensitiveStringCompare("test", "not a test"));
+            Assert.IsFalse(Tools.CaseInsensitiveStringCompare("test ", " test"));
+        }
 
         [Test, Ignore("Too slow")]
         public void TurnFirstToUpper()
@@ -556,6 +568,47 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
             Assert.IsFalse(Tools.IsImportantNamespace("Template talk:Test"));
             Assert.IsFalse(Tools.IsImportantNamespace("Category talk:Test"));
             Assert.IsFalse(Tools.IsImportantNamespace("User:Test"));
+        }
+
+        [Test]
+        public void IsUserSpace()
+        {
+            Assert.IsTrue(Tools.IsUserSpace("User:Test"));
+            Assert.IsTrue(Tools.IsUserSpace("User talk:Test"));
+
+            Assert.IsFalse(Tools.IsUserSpace("User"));
+            Assert.IsFalse(Tools.IsUserSpace("Test"));
+            Assert.IsFalse(Tools.IsUserSpace("Project:User"));
+        }
+
+        [Test]
+        public void IsUserTalk()
+        {
+            Assert.IsTrue(Tools.IsUserTalk("User talk:Test"));
+
+            Assert.IsFalse(Tools.IsUserTalk("User:Test"));
+            Assert.IsFalse(Tools.IsUserTalk("Test"));
+            Assert.IsFalse(Tools.IsUserTalk("Project:User"));
+        }
+
+        [Test]
+        public void IsUserPage()
+        {
+            Assert.IsTrue(Tools.IsUserPage("User:Test"));
+
+            Assert.IsFalse(Tools.IsUserPage("User talk:Test"));
+            Assert.IsFalse(Tools.IsUserPage("Test"));
+            Assert.IsFalse(Tools.IsUserPage("Project:User"));
+        }
+
+        [Test]
+        public void StripNamespaceColon()
+        {
+            string s = Tools.StripNamespaceColon("User:");
+            Assert.IsFalse(s.Contains(":"));
+
+            s = Tools.StripNamespaceColon("Project:");
+            Assert.IsFalse(s.Contains(":"));
         }
 
         [Test]

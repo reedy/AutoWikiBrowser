@@ -98,12 +98,6 @@ namespace WikiFunctions
                 }
             }
 
-            //foreach(KeyValuePair<int, string> k in Variables.NamespacesCaseInsensitive)
-            //{
-            //    if (Regex.Match(ArticleTitle, k.Value).Success)
-            //        return k.Key;
-            //}
-
             foreach (KeyValuePair<int, string> k in Variables.CanonicalNamespaces)
             {
                 if (ArticleTitle.StartsWith(k.Value))
@@ -241,15 +235,16 @@ namespace WikiFunctions
             return (Key % 2 == 1);
         }
 
+        // Covered by ToolsTests.IsUserSpace()
         /// <summary>
         /// returns true if current page is a userpage
         /// </summary>
         public static bool IsUserSpace(string ArticleTitle)
         {
-            return ArticleTitle.StartsWith(Variables.Namespaces[Namespace.User])
-                   || ArticleTitle.StartsWith(Variables.Namespaces[Namespace.UserTalk]);
+            return IsUserTalk(ArticleTitle) || IsUserPage(ArticleTitle);
         }
 
+        // Covered by ToolsTests.IsUserTalk()
         /// <summary>
         /// 
         /// </summary>
@@ -260,6 +255,7 @@ namespace WikiFunctions
             return ArticleTitle.StartsWith(Variables.Namespaces[Namespace.UserTalk]);
         }
 
+        // Covered by ToolsTests.IsUserPage()
         /// <summary>
         /// 
         /// </summary>
@@ -270,6 +266,7 @@ namespace WikiFunctions
             return ArticleTitle.StartsWith(Variables.Namespaces[Namespace.User]);
         }
 
+        // Covered by ToolsTests.StripNamespaceColon()
         /// <summary>
         /// Strips trailing colon from a namespace name, e.g. "User:" -> "User"
         /// </summary>
@@ -397,6 +394,7 @@ namespace WikiFunctions
             return RemoveNamespaceString(new Article(title));
         }
 
+        // Covered by ToolsTests.RemoveNamespaceString()
         /// <summary>
         /// 
         /// </summary>
@@ -417,6 +415,7 @@ namespace WikiFunctions
             return GetNamespaceString(new Article(title));
         }
 
+        // Covered by ToolsTests.GetNamespaceString()
         /// <summary>
         /// 
         /// </summary>
@@ -561,7 +560,7 @@ namespace WikiFunctions
             catch { }
         }
 
-        // Not Covered
+        // Covered by ToolsTests.CaseInsensitiveStringCompare()
         /// <summary>
         /// Case-Insensitive String Comparison
         /// </summary>
@@ -666,9 +665,13 @@ namespace WikiFunctions
             if (Variables.Project == ProjectEnum.wiktionary || string.IsNullOrEmpty(input))
                 return input;
 
-            return (char.ToUpper(input[0]) + input.Remove(0, 1));
+            return TurnFirstToUpperNoProjectCheck(input);
         }
 
+        // Covered by ToolsTests.TurnFirstToUpper()
+        /// <summary>
+        /// Returns uppercase version of the string
+        /// </summary>
         public static string TurnFirstToUpperNoProjectCheck(string input)
         {
             return (char.ToUpper(input[0]) + input.Remove(0, 1));
@@ -1505,6 +1508,7 @@ Message: {2}
             return res.ToArray();
         }
 
+        //Not covered
         /// <summary>
         /// Returns a string containing textual representation of all given values
         /// </summary>
