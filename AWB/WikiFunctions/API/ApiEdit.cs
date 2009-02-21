@@ -691,7 +691,8 @@ namespace WikiFunctions.API
                         {moveTalk ? "movetalk" : null, null},
                         {noRedirect ? "noredirect" : null, null},
                         {watch ? "watch" : null, null},
-                    });
+                    },
+                true);
 
             CheckForError(result);
 
