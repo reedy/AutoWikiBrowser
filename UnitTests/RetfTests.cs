@@ -166,5 +166,15 @@ namespace UnitTests
 
             AssertNoFix(@"{{teh}} http://tehcrappe.org/TehCrappe [[teh]] [http://tehcrappe.org/TehCrappe]");
         }
+
+        [Test]
+        public void DontChangeTitle()
+        {
+            typos["teh"] = "the";
+            typos["foo"] = "bar";
+
+            AssertFix("teh bar", "teh foo", "teh");
+            AssertFix("teh bar", "teh foo", "teh crap");
+        }
     }
 }
