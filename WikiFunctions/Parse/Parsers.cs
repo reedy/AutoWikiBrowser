@@ -629,13 +629,13 @@ namespace WikiFunctions.Parse
             string months = "(" + string.Join("|", Variables.MonthNames) + ")";
 
             // don't match on 'in the June of 2007', 'on the 11th May 2008' etc. as these won't read well if changed
-            Regex OfBetweenMonthAndYear = new Regex(@"\b" + months + @"\s+of\s+(200\d|1[89]\d\d)\b(?<!\b[Tt]he\s{1,5}\w{3,15}\s{1,5}of\s{1,5}(200\d|1[89]\d\d))", RegexOptions.Compiled);
+            Regex OfBetweenMonthAndYear = new Regex(@"\b" + months + @"\s+of\s+(200\d|1[89]\d\d)\b(?<!\b[Tt]he\s{1,5}\w{3,15}\s{1,5}of\s{1,5}(200\d|1[89]\d\d))");
 
-            Regex OrdinalsInDatesAm = new Regex(@"\b" + months + @"\s+([0-3]?\d)(?:st|nd|rd|th)\b(?<!\b[Tt]he\s+\w{3,10}\s+([0-3]?\d)(?:st|nd|rd|th)\b)", RegexOptions.Compiled);
-            Regex OrdinalsInDatesInt = new Regex(@"(?:\b([0-3]?\d)(?:st|nd|rd|th)(\s*(?:to|and|.|&.dash;)\s*))?\b([0-3]?\d)(?:st|nd|rd|th)\s+" + months + @"\b(?<!\b[Tt]he\s+(?:[0-3]?\d)(?:st|nd|rd|th)\s+\w{3,10})", RegexOptions.Compiled);
+            Regex OrdinalsInDatesAm = new Regex(@"\b" + months + @"\s+([0-3]?\d)(?:st|nd|rd|th)\b(?<!\b[Tt]he\s+\w{3,10}\s+([0-3]?\d)(?:st|nd|rd|th)\b)");
+            Regex OrdinalsInDatesInt = new Regex(@"(?:\b([0-3]?\d)(?:st|nd|rd|th)(\s*(?:to|and|.|&.dash;)\s*))?\b([0-3]?\d)(?:st|nd|rd|th)\s+" + months + @"\b(?<!\b[Tt]he\s+(?:[0-3]?\d)(?:st|nd|rd|th)\s+\w{3,10})");
 
-            Regex DateLeadingZerosAm = new Regex(@"\b" + months + @"\s+0([1-9])" + @"\b", RegexOptions.Compiled);
-            Regex DateLeadingZerosInt = new Regex(@"\b" + @"0([1-9])\s+" + months + @"\b", RegexOptions.Compiled);
+            Regex DateLeadingZerosAm = new Regex(@"\b" + months + @"\s+0([1-9])" + @"\b");
+            Regex DateLeadingZerosInt = new Regex(@"\b" + @"0([1-9])\s+" + months + @"\b");
 
             // hide items in quotes etc., though this may also hide items within infoboxes etc.
             ArticleText = HideMoreText(ArticleText);
@@ -1514,20 +1514,20 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             // remove any self-links, but not other links with different capitaliastion e.g. [[Foo]] vs [[FOO]]
             // note, removal of self links in iteslf will not cause this method to return a 'change'
-            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + escTitle + @"\s*(?:\]\]|\|)", ArticleTitle, RegexOptions.Compiled);
-            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*(?:\]\]|\|)", Tools.TurnFirstToLower(ArticleTitle), RegexOptions.Compiled);
+            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + escTitle + @"\s*(?:\]\]|\|)", ArticleTitle);
+            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*(?:\]\]|\|)", Tools.TurnFirstToLower(ArticleTitle));
 
-            Regex BoldTitleAlready1 = new Regex(@"'''\s*(" + escTitle + "|" + Tools.TurnFirstToLower(escTitle) + @")\s*'''", RegexOptions.Compiled);
-            Regex BoldTitleAlready2 = new Regex(@"'''\s*(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + @")\s*'''", RegexOptions.Compiled);
-            Regex BoldTitleAlready3 = new Regex(@"^\s*({{[^\{\}]+}}\s*)*'''('')?\s*\w", RegexOptions.Compiled);
+            Regex BoldTitleAlready1 = new Regex(@"'''\s*(" + escTitle + "|" + Tools.TurnFirstToLower(escTitle) + @")\s*'''");
+            Regex BoldTitleAlready2 = new Regex(@"'''\s*(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + @")\s*'''");
+            Regex BoldTitleAlready3 = new Regex(@"^\s*({{[^\{\}]+}}\s*)*'''('')?\s*\w");
 
             //if title in bold already exists in article, or page starts with something in bold, don't change anything
             if (BoldTitleAlready1.IsMatch(ArticleText) || BoldTitleAlready2.IsMatch(ArticleText)
                 || BoldTitleAlready3.IsMatch(ArticleText))
                 return ArticleTextAtStart;
 
-            Regex regexBold = new Regex(@"([^\[]|^)(" + escTitle + "|" + Tools.TurnFirstToLower(escTitle) + ")([ ,.:;])", RegexOptions.Compiled);
-            Regex regexBoldNoBrackets = new Regex(@"([^\[]|^)(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + ")([ ,.:;])", RegexOptions.Compiled);
+            Regex regexBold = new Regex(@"([^\[]|^)(" + escTitle + "|" + Tools.TurnFirstToLower(escTitle) + ")([ ,.:;])");
+            Regex regexBoldNoBrackets = new Regex(@"([^\[]|^)(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + ")([ ,.:;])");
 
             ArticleTextHidden = HideMoreText(ArticleText);
 
@@ -2030,7 +2030,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             // {{nofootnotes}} --> {{morefootnotes}}, if some <ref>...</ref> references in article, uses regex from WikiRegexes.Refs
             if (WikiRegexes.Refs.IsMatch(ArticleText))
-                ArticleText = Regex.Replace(ArticleText, @"{{nofootnotes}}", "{{morefootnotes}}", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                ArticleText = Regex.Replace(ArticleText, @"{{nofootnotes}}", "{{morefootnotes}}", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
             return ArticleText;
         }
