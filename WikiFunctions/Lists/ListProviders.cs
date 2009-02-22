@@ -555,9 +555,28 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of all non-redlink links on the Named Pages
     /// </summary>
-    public class LinksOnPageExcludingRedLinksListProvider : IListProvider
+    public class LinksOnPageExcludingRedLinksListProvider : ApiListProviderBase
     {
-        public List<Article> MakeList(params string[] searchCriteria)
+        public LinksOnPageExcludingRedLinksListProvider()
+        {
+            Limit = 5000; //Cant imagine a page having more than 5000 links...
+        }
+
+        #region Tags: <pages>/<page>
+        static readonly List<string> pe = new List<string>(new[] { "page" });
+        protected override ICollection<string> PageElements
+        {
+            get { return pe; }
+        }
+
+        static readonly List<string> ac = new List<string>(new[] { "pages" });
+        protected override ICollection<string> Actions
+        {
+            get { return ac; }
+        }
+        #endregion
+
+        public override List<Article> MakeList(string[] searchCriteria)
         {
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
@@ -565,68 +584,32 @@ namespace WikiFunctions.Lists
 
             foreach (string page in searchCriteria)
             {
-                string postfix = "";
+                string url = Variables.URLApi + "?action=query&generator=links&titles="
+                             + HttpUtility.UrlEncode(page) + "&gpllimit=max&format=xml";
 
-                while (list.Count < 5000) //Cant imagine a page having more than 5000 links...
-                {
-                    string text = Tools.GetHTML(Variables.URLApi + "?action=query&generator=links&titles="
-                                                + HttpUtility.UrlEncode(page) + "&gpllimit=max&format=xml" + postfix);
-
-                    postfix = "";
-
-                    XmlTextReader xml = new XmlTextReader(new StringReader(text));
-                    xml.MoveToContent();
-
-                    while (xml.Read())
-                    {
-                        if (xml.Name == "query-continue")
-                        {
-                            XmlReader r = xml.ReadSubtree();
-
-                            r.Read();
-
-                            while (r.Read())
-                            {
-                                if (!r.IsStartElement()) continue;
-                                if (!r.MoveToFirstAttribute())
-                                    throw new FormatException("Malformed element '" + r.Name + "' in <query-continue>");
-
-                                postfix += "&" + r.Name + "=" + HttpUtility.UrlEncode(r.Value);
-                            }
-                        }
-                        else if (xml.IsStartElement())
-                        {
-                            if (xml.MoveToAttribute("missing"))
-                                continue;
-
-                            string name = xml.GetAttribute("title");
-
-                            if (!string.IsNullOrEmpty(name))
-                                list.Add(new Article(name));
-                        }
-                    }
-
-                    if (string.IsNullOrEmpty(postfix)) break;
-                }
+                list.AddRange(ApiMakeList(url, list.Count));
             }
+
             return list;
         }
 
-        public string DisplayText
-        { get { return "Links on page (no redlinks)"; } }
-
-        public string UserInputTextBoxText
-        { get { return "Links on"; } }
-
-        public bool UserInputTextBoxEnabled
-        { get { return true; } }
-
-        public void Selected()
+        protected override bool EvaluateXmlElement(XmlTextReader xml)
         {
+            return !xml.MoveToAttribute("missing");
         }
 
-        public bool RunOnSeparateThread
+        public override string DisplayText
+        { get { return "Links on page (no redlinks)"; } }
+
+        public override string UserInputTextBoxText
+        { get { return "Links on"; } }
+
+        public override bool UserInputTextBoxEnabled
         { get { return true; } }
+
+        public override void Selected()
+        {
+        }
     }
 
     /// <summary>
