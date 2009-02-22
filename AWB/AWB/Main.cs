@@ -3027,7 +3027,7 @@ window.scrollTo(0, diffTopY);
 
             if (RegexTypos.TyposLoaded)
             {
-                StatusLabelText = RegexTypos.TyposCount + " typos loaded";
+                StatusLabelText = RegexTypos.TypoCount + " typos loaded";
                 if (!EditBoxTab.TabPages.Contains(tpTypos)) EditBoxTab.TabPages.Add(tpTypos);
                 ResetTypoStats();
             }

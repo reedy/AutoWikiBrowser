@@ -38,7 +38,7 @@ namespace WikiFunctions.Parse
         /// Returns a list of RegExTypoFix rules
         /// </summary>
         /// <returns>Key is the find part, value is replace</returns>
-        Dictionary<string, string> LoadTypos();
+        Dictionary<string, string> GetTypos();
     }
 
     /// <summary>
@@ -49,7 +49,20 @@ namespace WikiFunctions.Parse
     {
         static readonly Regex TypoRegex = new Regex("<(?:Typo)?\\s+(?:word=\"(.*?)\"\\s+)?find=\"(.*?)\"\\s+replace=\"(.*?)\"\\s*/?>", RegexOptions.Compiled);
 
-        public Dictionary<string, string> LoadTypos()
+        public static string Url
+        {
+            get
+            {
+                string typolistUrl = Variables.RetfPath;
+
+                if (!typolistUrl.StartsWith("http:"))
+                    typolistUrl = Variables.GetPlainTextURL(typolistUrl);
+
+                return typolistUrl;
+            }
+        }
+
+        public Dictionary<string, string> GetTypos()
         {
             Dictionary<string, string> typoStrings = new Dictionary<string, string>();
 
@@ -58,12 +71,7 @@ namespace WikiFunctions.Parse
                 string text = "";
                 try
                 {
-                    string typolistURL = Variables.RetfPath;
-
-                    if (!typolistURL.StartsWith("http:"))
-                        typolistURL = Variables.GetPlainTextURL(typolistURL);
-
-                    text = Tools.GetHTML(typolistURL, Encoding.UTF8);
+                    text = Tools.GetHTML(Url, Encoding.UTF8);
                 }
                 catch
                 {
@@ -151,7 +159,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="typo"></param>
         /// <returns></returns>
-        public bool SuitableTypo(string typo)
+        public bool IsSuitableTypo(string typo)
         {
             if (Allow != null && !Allow.IsMatch(typo)) return false;
             if (Disallow != null && Disallow.IsMatch(typo)) return false;
@@ -164,7 +172,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         public void Add(string typo, string replacement)
         {
-            if (!SuitableTypo(typo))
+            if (!IsSuitableTypo(typo))
             {
                 throw new ArgumentException("Typo \"" + typo + "\" is not suitable for this group.");
             }
@@ -339,9 +347,9 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// 
+        /// Number of typos loaded
         /// </summary>
-        public int TyposCount { get; private set; }
+        public int TypoCount { get; private set; }
 
         /// <summary>
         /// 
@@ -372,38 +380,29 @@ namespace WikiFunctions.Parse
             try
             {
                 Groups.Clear();
-                TyposCount = 0;
-                TypoGroup bounded = new TypoGroup(20, @"^\\b(.*)\\b$", @"[^\\]\\\d", @"\b", @"\b");
-                TypoGroup other = new TypoGroup(5, null, @"[^\\]\\\d", "", "");
-                TypoGroup withBackreferences = new TypoGroup(1, null, null, "", "");
+                TypoCount = 0;
 
-                Groups.Add(bounded);
-                Groups.Add(other);
-                Groups.Add(withBackreferences);
+                Groups.Add(new TypoGroup(20, @"^\\b(.*)\\b$", @"[^\\]\\\d", @"\b", @"\b")); // 
+                Groups.Add(new TypoGroup(5, null, @"[^\\]\\\d", "", ""));
+                Groups.Add(new TypoGroup(1, null, null, "", ""));
 
-                Dictionary<string, string> typoStrings = Source.LoadTypos();
+                Dictionary<string, string> typoStrings = Source.GetTypos();
 
                 TyposLoaded = typoStrings.Count > 0;
 
                 if (TyposLoaded)
                 {
-                    foreach (KeyValuePair<string, string> k in typoStrings)
+                    foreach (KeyValuePair<string, string> rule in typoStrings)
                     {
-                        if (bounded.SuitableTypo(k.Key))
+                        foreach (TypoGroup grp in Groups)
                         {
-                            bounded.Add(k.Key, k.Value);
+                            if (grp.IsSuitableTypo(rule.Key))
+                            {
+                                grp.Add(rule.Key, rule.Value);
+                                TypoCount++;
+                                break;
+                            }
                         }
-                        else
-                        if (other.SuitableTypo(k.Key))
-                        {
-                            other.Add(k.Key, k.Value);
-                        }
-                        else
-                        {
-                            withBackreferences.Add(k.Key, k.Value);
-                        }
-
-                        TyposCount++;
                     }
 
                     foreach (TypoGroup grp in Groups) grp.MakeGroups();
@@ -412,7 +411,7 @@ namespace WikiFunctions.Parse
             catch (TypoException)
             {
                 Groups.Clear();
-                TyposCount = 0;
+                TypoCount = 0;
                 TyposLoaded = false;
             }
             catch (Exception ex)
@@ -437,7 +436,7 @@ namespace WikiFunctions.Parse
         public string PerformTypoFixes(string ArticleText, out bool NoChange, out string Summary, string ArticleTitle)
         {
             Summary = "";
-            if ((TyposCount == 0) || IgnoreRegex.IsMatch(ArticleText))
+            if ((TypoCount == 0) || IgnoreRegex.IsMatch(ArticleText))
             {
                 NoChange = true;
                 return ArticleText;

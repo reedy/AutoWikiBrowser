@@ -25,7 +25,7 @@ namespace UnitTests
             }
         }
 
-        public Dictionary<string, string> LoadTypos()
+        public Dictionary<string, string> GetTypos()
         {
             return typos;
         }
@@ -138,6 +138,25 @@ namespace UnitTests
             AssertFix("foo foo", "foo fO0");
             Assert.That(!Summary.Contains("foo → foo"));
             Assert.That(!Summary.Contains("2"));
+        }
+
+        [Test]
+        public void FixLinkFaces()
+        {
+            typos["foo"] = "bar";
+
+            AssertNoFix("[[foo]]");
+            AssertFix("[[foo|bar]]", "[[foo|foo]]");
+        }
+
+        [Test]
+        public void AllThreeGroups()
+        {
+            typos[@"\booze\b"] = "booze!";
+            typos[@"foo(\w*)\b"] = "bar$1";
+            typos[@"\b(a|the)\b\s+\1\b"] = "$1";
+
+            AssertFix("barwards viva the booze!", "foowards viva the the ooze");
         }
 
         [Test]
