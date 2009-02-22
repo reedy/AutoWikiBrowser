@@ -91,7 +91,8 @@ namespace WikiFunctions.Lists
         /// <param name="haveSoFar">Number of pages already retrieved, for upper limit control</param>
         /// <returns>List of pages</returns>
         public List<Article> ApiMakeList(string url, int haveSoFar)
-        {// TODO: error handling
+        {
+            // TODO: error handling
             List<Article> list = new List<Article>();
             string postfix = "";
 
@@ -125,13 +126,16 @@ namespace WikiFunctions.Lists
                         while (r.Read())
                         {
                             if (!r.IsStartElement()) continue;
-                            if (!r.MoveToFirstAttribute()) 
+                            if (!r.MoveToFirstAttribute())
                                 throw new FormatException("Malformed element '" + r.Name + "' in <query-continue>");
                             postfix += "&" + r.Name + "=" + HttpUtility.UrlEncode(r.Value);
                         }
                     }
                     else if (PageElements.Contains(xml.Name) && xml.IsStartElement())
                     {
+                        if (!EvaluateXmlElement(xml))
+                            continue;
+
                         //int ns = -1;
                         //int.TryParse(xml.GetAttribute("ns"), out ns);
                         string name = xml.GetAttribute("title");
@@ -146,14 +150,24 @@ namespace WikiFunctions.Lists
                         // to avoid problems with unknown namespace
                         //if (ns >= 0) list.Add(new Article(name, ns));
                         //else
-                            list.Add(new Article(name));
-
+                        list.Add(new Article(name));
                     }
+
                 }
                 if (string.IsNullOrEmpty(postfix)) break;
             }
 
             return list;
+        }
+
+        /// <summary>
+        /// Allows for customised evaluation of the Xml element, as it is ok to add this element to the article list
+        /// </summary>
+        /// <param name="xml">XmlTextReader at which the current element is to be evaluated</param>
+        /// <returns>Whether this element can be added</returns>
+        protected virtual bool EvaluateXmlElement(XmlTextReader xml)
+        {
+            return true;
         }
 
         #region To be overridden
