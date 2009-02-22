@@ -1543,6 +1543,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     NoChange = false;
                     return ArticleText;
                 }
+                else return ArticleTextAtStart;
             }
 
             if (regexBold.IsMatch(ArticleTextHidden))
