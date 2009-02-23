@@ -58,7 +58,7 @@ namespace WikiFunctions.ReplaceSpecial
 
         IRule currentRule_;
         Control ruleControl_;
-        RuleTreeHistory history_;
+        readonly RuleTreeHistory history_;
 
         public void Clear()
         {
@@ -687,10 +687,7 @@ namespace WikiFunctions.ReplaceSpecial
 
         private static void setNodeColour(TreeNode node, IRule rule)
         {
-            if (rule.enabled_)
-                node.BackColor = Color.White;
-            else
-                node.BackColor = Color.Red;
+            node.BackColor = rule.enabled_ ? Color.White : Color.Red;
         }
 
         private void ReplaceSpecial_Load(object sender, EventArgs e)
@@ -744,12 +741,12 @@ namespace WikiFunctions.ReplaceSpecial
             return (IRule)xs.Deserialize(memoryStream);
         }
 
-        private string UTF8ByteArrayToString(byte[] characters)
+        private static string UTF8ByteArrayToString(byte[] characters)
         {
             return (new UTF8Encoding().GetString(characters));
         }
 
-        private byte[] StringToUTF8ByteArray(string pXmlString)
+        private static byte[] StringToUTF8ByteArray(string pXmlString)
         {
             return (new UTF8Encoding().GetBytes(pXmlString));
         }

@@ -37,13 +37,13 @@ namespace WikiFunctions.Disambiguation
         public bool Abort;
         bool BotMode;
 
-        List<string> Variants = new List<string>();
+        readonly List<string> Variants = new List<string>();
         string ArticleText;
         string ArticleTitle;
         Regex Search;
         MatchCollection Matches;
 
-        List<DabControl> Dabs = new List<DabControl>();
+        readonly List<DabControl> Dabs = new List<DabControl>();
 
         static int SavedWidth;
         static int SavedHeight;

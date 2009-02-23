@@ -39,8 +39,8 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Re-organises the Person Data, stub/disambig templates, categories and interwikis
         /// </summary>
-        /// <param name="StubWordCount">The number of maximum number of words for a stub.</param>
-        /// <param name="AddHumanKey"></param>
+        /// <param name="stubWordCount">The number of maximum number of words for a stub.</param>
+        /// <param name="addHumanKey"></param>
         public Parsers(int stubWordCount, bool addHumanKey)
         {
             StubMaxWordCount = stubWordCount;
@@ -385,7 +385,7 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string ReorderReferences(string ArticleText)
         {
-            string ArticleTextBefore = "";
+            string ArticleTextBefore;
             for (int i = 0; i < 5; i++) // allows for up to 5 consecutive references
             {
                 ArticleTextBefore = ArticleText;
@@ -1543,7 +1543,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     NoChange = false;
                     return ArticleText;
                 }
-                else return ArticleTextAtStart;
+                return ArticleTextAtStart;
             }
 
             if (regexBold.IsMatch(ArticleTextHidden))

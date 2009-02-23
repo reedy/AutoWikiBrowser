@@ -76,7 +76,7 @@ namespace WikiFunctions.Disambiguation
         string LinkTrail;
         int PosInSurroundings;
 
-        static Regex UnpipeRegex = new Regex(@"\[\[\s*([^\|\]]*)\s*\|\s*[^\]]*\s*\]\](.*)", RegexOptions.Compiled);
+        static readonly Regex UnpipeRegex = new Regex(@"\[\[\s*([^\|\]]*)\s*\|\s*[^\]]*\s*\]\](.*)", RegexOptions.Compiled);
 
         public bool CanSave
         {

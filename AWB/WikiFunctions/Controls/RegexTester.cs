@@ -376,8 +376,8 @@ namespace WikiFunctions.Controls
         public Exception Error;
 
         // private
-        Thread Thr;
-        RegexTester Parent;
+        readonly Thread Thr;
+        readonly RegexTester Parent;
 
         public RegexRunner(RegexTester parent, string input, Regex regex)
             : this(parent, input, null, regex)
