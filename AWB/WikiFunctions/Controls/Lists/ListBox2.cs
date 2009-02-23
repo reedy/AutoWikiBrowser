@@ -51,5 +51,25 @@ namespace WikiFunctions.Controls.Lists
             Sorted = true;
             Sorted = false;
         }
+
+        public void RemoveSelected()
+        {
+            BeginUpdate();
+
+            int i = SelectedIndex;
+
+            if (SelectedItems.Count == 1)
+                Items.Remove(SelectedItem);
+            else
+                while (SelectedItems.Count > 0)
+                    Items.Remove(SelectedItem);
+
+            if (Items.Count > i)
+                SelectedIndex = i;
+            else
+                SelectedIndex = i - 1;
+
+            EndUpdate();
+        }
     }
 }

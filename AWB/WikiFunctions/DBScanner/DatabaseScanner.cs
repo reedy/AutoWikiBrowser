@@ -26,7 +26,6 @@ using System.IO;
 using System.Xml;
 using System.Text.RegularExpressions;
 using System.Threading;
-using WikiFunctions.Parse;
 using WikiFunctions.Lists;
 using WikiFunctions.Controls.Lists;
 using WikiFunctions.Background;
@@ -104,6 +103,7 @@ namespace WikiFunctions.DBScanner
                 lblCount.Text = "";
 
                 intMatches = 0;
+                lblPercentageComplete.Text = "0%";
 
                 UpdateControls(true);
 
@@ -286,6 +286,7 @@ namespace WikiFunctions.DBScanner
                 }
 
                 progressBar.Value = 0;
+                lblPercentageComplete.Text = "100%";
 
                 timerProgessUpdate.Enabled = false;
 
@@ -520,8 +521,6 @@ namespace WikiFunctions.DBScanner
 
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            lbArticles.BeginUpdate();
-
             if (AWBListbox != null)
             {
                 AWBListbox.BeginUpdate();
@@ -532,17 +531,7 @@ namespace WikiFunctions.DBScanner
                 AWBListbox.EndUpdate();
             }
 
-            int i = lbArticles.SelectedIndex;
-
-            while (lbArticles.SelectedItems.Count > 0)
-                lbArticles.Items.Remove(lbArticles.SelectedItem);
-
-            if (lbArticles.Items.Count > i)
-                lbArticles.SelectedIndex = i;
-            else
-                lbArticles.SelectedIndex = i - 1;
-
-            lbArticles.EndUpdate();
+            lbArticles.RemoveSelected();
 
             UpdateDBScannerArticleCount();
             UpdateListMakerCount();
@@ -635,7 +624,7 @@ namespace WikiFunctions.DBScanner
 
         private void normalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            highestToolStripMenuItem.Checked = normalToolStripMenuItem.Checked =
+            highestToolStripMenuItem.Checked = aboveNormalToolStripMenuItem.Checked =
             belowNormalToolStripMenuItem.Checked = lowestToolStripMenuItem.Checked = false;
 
             Priority = ThreadPriority.Normal;
@@ -790,6 +779,7 @@ namespace WikiFunctions.DBScanner
                 newValue = (int)(completion * progressBar.Maximum);
 
             progressBar.Value = (newValue < progressBar.Maximum) ? newValue : progressBar.Maximum;
+            lblPercentageComplete.Text = progressBar.Value / 2 + "%";
         }
 
         private void btnOpen(object sender, EventArgs e)
