@@ -73,7 +73,7 @@ namespace WikiFunctions.AWBSettings
             Logging = mLogging;
             Special = mSpecial;
 
-            foreach (KeyValuePair<string, WikiFunctions.Plugin.IAWBPlugin> a in Plugins)
+            foreach (KeyValuePair<string, Plugin.IAWBPlugin> a in Plugins)
             {
                 Plugin.Add(new PluginPrefs(a.Key, a.Value.SaveSettings()));
             }
@@ -119,7 +119,7 @@ namespace WikiFunctions.AWBSettings
             if (settings.Contains("<projectlang proj="))
                 throw new Exception("This file uses old settings format unsupported by this version of AWB.");
 
-            XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), new Type[] { typeof(PrefsKeyPair) });
+            XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), new [] { typeof(PrefsKeyPair) });
             return (UserPrefs)xs.Deserialize(new StringReader(settings));
         }
 
@@ -134,7 +134,7 @@ namespace WikiFunctions.AWBSettings
             {
                 using (FileStream fStream = new FileStream(file, FileMode.Create))
                 {
-                    List<System.Type> types = SavePluginSettings(prefs);
+                    List<Type> types = SavePluginSettings(prefs);
 
                     XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), types.ToArray());
                     xs.Serialize(fStream, prefs);
@@ -148,9 +148,9 @@ namespace WikiFunctions.AWBSettings
         /// </summary>
         /// <param name="Prefs">UserPrefs object</param>
         /// <returns>A list of the plugin types</returns>
-        public static List<System.Type> SavePluginSettings(UserPrefs Prefs)
+        public static List<Type> SavePluginSettings(UserPrefs Prefs)
         {
-            List<System.Type> types = new List<Type>();
+            List<Type> types = new List<Type>();
             /* Find out what types the plugins are using for their settings so we can 
                add them to the Serializer. The plugin author must ensure s(he) is using
                serializable types.*/
