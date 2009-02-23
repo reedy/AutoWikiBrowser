@@ -16,9 +16,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Xml;
 using System.IO;
 
@@ -58,7 +56,6 @@ namespace WikiFunctions.API
         /// </summary>
         public bool IsBot
         { get { return Groups.Contains("bot"); } }
-
 
         /// <summary>
         /// Whether the current user is blocked from editing
@@ -110,7 +107,7 @@ namespace WikiFunctions.API
         {
         }
 
-        private List<string> Groups = new List<string>();
-        private List<string> Rights = new List<string>();
+        private readonly List<string> Groups = new List<string>();
+        private readonly List<string> Rights = new List<string>();
     }
 }
