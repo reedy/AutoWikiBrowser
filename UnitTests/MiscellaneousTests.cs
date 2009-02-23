@@ -360,12 +360,12 @@ Image:quux[http://example.com]
     }
 
     [TestFixture]
-    public class ConcurrencyTests
+    public class ConcurrencyTests : RequiresInitialization
     {
         [Test, Category("Unarchived bugs")]
         public void Parser()
         {
-            Parsers p1 = new Parsers(1337, true);
+            Parsers p1 = new Parsers();
             Parsers p2 = new Parsers();
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#NullReferenceException_2
@@ -374,7 +374,7 @@ Image:quux[http://example.com]
             Assert.AreEqual("<pre>foo bar</pre>", p1.AddBackText(s1));
             Assert.AreEqual("<source>quux</source>", p2.AddBackText(s2));
 
-            // in the future, we may use parser objects for
+            // in the future, we may use parser objects for processing several wikis at once
             //Assert.AreNotEqual(p1.StubMaxWordCount, p2.StubMaxWordCount);
 
         }

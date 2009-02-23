@@ -32,7 +32,7 @@ namespace UnitTests
     }
 
     [TestFixture]
-    public class RetfTests
+    public class RetfTests : RequiresInitialization
     {
         #region Preparations
         RegExTypoFix retf;

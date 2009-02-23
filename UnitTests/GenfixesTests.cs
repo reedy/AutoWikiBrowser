@@ -7,16 +7,15 @@ using WikiFunctions.Parse;
 
 namespace UnitTests
 {
-    public class GenfixesTestsBase : RequiresInitialization
+    public class GenfixesTestsBase : RequiresParser
     {
         readonly Article a = new Article("Test");
-        readonly Parsers p = new Parsers();
         readonly HideText h = new HideText();
         readonly MockSkipOptions s = new MockSkipOptions();
 
         public void GenFixes(bool replaceReferenceTags)
         {
-            a.PerformGeneralFixes(p, h, s, replaceReferenceTags);
+            a.PerformGeneralFixes(parser, h, s, replaceReferenceTags);
         }
 
         public void GenFixes()
