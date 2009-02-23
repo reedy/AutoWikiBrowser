@@ -69,9 +69,6 @@ namespace WikiFunctions.Controls.Lists
             }
         }
 
-        //Regex reg = new Regex(" ?\\(.*?\\)$", RegexOptions.Compiled);
-        //Regex reg3 = new Regex("^[A-Za-z]* [A-Za-z]*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
         private void btnGo_Click(object sender, EventArgs e)
         {
             clear();
@@ -116,13 +113,11 @@ namespace WikiFunctions.Controls.Lists
         private void SaveList(ListBox lb)
         {
             int i = 0;
-            string s;
             StringBuilder strList = new StringBuilder();
 
             while (i < lb.Items.Count)
             {
-                s = lb.Items[i].ToString();
-                strList.AppendLine("# [[" + s + "]]");
+                strList.AppendLine("# [[" + lb.Items[i] + "]]");
                 i++;
             }
             SaveList(strList);
