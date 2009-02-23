@@ -550,7 +550,8 @@ namespace WikiFunctions.Controls.Lists
         {
             ((Article)lbArticles.SelectedItem).PreProcessed = true;
 
-            if (lbArticles.Items.Count == lbArticles.SelectedIndex + 1 || (lbArticles.Items.Count == 1 && lbArticles.SelectedIndex == 0))
+            if (lbArticles.Items.Count == lbArticles.SelectedIndex + 1 ||
+                (lbArticles.Items.Count == 1 && lbArticles.SelectedIndex == 0))
                 return false;
 
             lbArticles.SelectedIndex++;
@@ -583,7 +584,7 @@ namespace WikiFunctions.Controls.Lists
             string url = Variables.URL + "/wiki/";
             if (Regex.Match(s, url).Success)
                 return s.Replace(url, "");
-            
+
             return s;
         }
 
@@ -699,8 +700,8 @@ namespace WikiFunctions.Controls.Lists
 
         public void MakeList()
         {
-            MakeList((IListProvider) cmboSourceSelect.SelectedItem,
-                     UserInputTextBox.Text.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries));
+            MakeList((IListProvider)cmboSourceSelect.SelectedItem,
+                     UserInputTextBox.Text.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
         }
 
         /// <summary>
@@ -1011,9 +1012,13 @@ namespace WikiFunctions.Controls.Lists
             lbArticles.BeginUpdate();
             try
             {
-                string textTba = Clipboard.GetDataObject().GetData(DataFormats.UnicodeText).ToString();
+                object obj = Clipboard.GetDataObject();
+                if (obj == null)
+                    return;
 
-                string[] splitTextTBA = textTba.Split(new [] { "\r\n", "|" }, StringSplitOptions.RemoveEmptyEntries);
+                string textTba = ((IDataObject)obj).GetData(DataFormats.UnicodeText).ToString();
+
+                string[] splitTextTBA = textTba.Split(new[] { "\r\n", "|" }, StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (string entry in splitTextTBA)
                 {
@@ -1271,7 +1276,7 @@ namespace WikiFunctions.Controls.Lists
             if (e.Index < 0)
                 return;
 
-            Article a = (Article) lbArticles.Items[e.Index];
+            Article a = (Article)lbArticles.Items[e.Index];
 
             bool selected = ((e.State & DrawItemState.Selected) == DrawItemState.Selected);
 
