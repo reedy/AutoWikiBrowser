@@ -107,13 +107,6 @@ namespace WikiFunctions.Properties {
             }
         }
         
-        public static System.Drawing.Bitmap NewWindow {
-            get {
-                object obj = ResourceManager.GetObject("NewWindow", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         public static System.Drawing.Bitmap preview {
             get {
                 object obj = ResourceManager.GetObject("preview", resourceCulture);

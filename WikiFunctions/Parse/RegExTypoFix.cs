@@ -25,8 +25,6 @@ using System.Windows.Forms;
 using WikiFunctions.Background;
 using WikiFunctions.Controls;
 
-using System.Threading;
-
 namespace WikiFunctions.Parse
 {
     /// <summary>

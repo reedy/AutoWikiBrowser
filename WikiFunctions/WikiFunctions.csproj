@@ -472,7 +472,6 @@
     <None Include="Resources\RolledBack2.bmp" />
     <None Include="Resources\GoLtr2.bmp" />
     <None Include="Resources\preview2.bmp" />
-    <None Include="Resources\NewWindow2.bmp" />
     <None Include="Resources\GoRtl2.bmp" />
     <None Include="Resources\filesave2.gif" />
     <None Include="Resources\changes2.bmp" />
