@@ -66,11 +66,11 @@ namespace AutoWikiBrowser
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.flwOSVersion = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.BluemooseLink = new WikiFunctions.Controls.DeveloperLinkLabel();
-            this.LigulemLink = new WikiFunctions.Controls.DeveloperLinkLabel();
             this.MaxSemLabel = new WikiFunctions.Controls.DeveloperLinkLabel();
             this.ReedyLabel = new WikiFunctions.Controls.DeveloperLinkLabel();
-            this.KingboykLabel = new WikiFunctions.Controls.DeveloperLinkLabel();
+            this.RjLabel = new WikiFunctions.Controls.DeveloperLinkLabel();
+            this.BluemooseLink = new WikiFunctions.Controls.DeveloperLinkLabel();
+            this.LigulemLink = new WikiFunctions.Controls.DeveloperLinkLabel();
             this.flwDevs.SuspendLayout();
             this.flwOriginalDevs.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
@@ -229,9 +229,9 @@ namespace AutoWikiBrowser
             // 
             // flwDevs
             // 
-            this.flwDevs.Controls.Add(this.KingboykLabel);
             this.flwDevs.Controls.Add(this.MaxSemLabel);
             this.flwDevs.Controls.Add(this.ReedyLabel);
+            this.flwDevs.Controls.Add(this.RjLabel);
             this.flwDevs.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flwDevs.Location = new System.Drawing.Point(28, 142);
             this.flwDevs.Name = "flwDevs";
@@ -280,6 +280,39 @@ namespace AutoWikiBrowser
             this.flowLayoutPanel1.Size = new System.Drawing.Size(216, 37);
             this.flowLayoutPanel1.TabIndex = 2;
             // 
+            // MaxSemLabel
+            // 
+            this.MaxSemLabel.AutoSize = true;
+            this.MaxSemLabel.Location = new System.Drawing.Point(3, 0);
+            this.MaxSemLabel.Name = "MaxSemLabel";
+            this.MaxSemLabel.Size = new System.Drawing.Size(48, 13);
+            this.MaxSemLabel.TabIndex = 38;
+            this.MaxSemLabel.TabStop = true;
+            this.MaxSemLabel.Text = "MaxSem";
+            this.MaxSemLabel.WhichDeveloper = WikiFunctions.Controls.Developers.MaxSem;
+            // 
+            // ReedyLabel
+            // 
+            this.ReedyLabel.AutoSize = true;
+            this.ReedyLabel.Location = new System.Drawing.Point(3, 13);
+            this.ReedyLabel.Name = "ReedyLabel";
+            this.ReedyLabel.Size = new System.Drawing.Size(38, 13);
+            this.ReedyLabel.TabIndex = 37;
+            this.ReedyLabel.TabStop = true;
+            this.ReedyLabel.Text = "Reedy";
+            this.ReedyLabel.WhichDeveloper = WikiFunctions.Controls.Developers.Reedy;
+            // 
+            // RjLabel
+            // 
+            this.RjLabel.AutoSize = true;
+            this.RjLabel.Location = new System.Drawing.Point(3, 26);
+            this.RjLabel.Name = "RjLabel";
+            this.RjLabel.Size = new System.Drawing.Size(44, 13);
+            this.RjLabel.TabIndex = 39;
+            this.RjLabel.TabStop = true;
+            this.RjLabel.Text = "Rjwilmsi";
+            this.RjLabel.WhichDeveloper = WikiFunctions.Controls.Developers.Rjwilmsi;
+            // 
             // BluemooseLink
             // 
             this.BluemooseLink.AutoSize = true;
@@ -300,39 +333,6 @@ namespace AutoWikiBrowser
             this.LigulemLink.TabStop = true;
             this.LigulemLink.Text = "Ligulem";
             this.LigulemLink.WhichDeveloper = WikiFunctions.Controls.Developers.Ligulem;
-            // 
-            // MaxSemLabel
-            // 
-            this.MaxSemLabel.AutoSize = true;
-            this.MaxSemLabel.Location = new System.Drawing.Point(3, 13);
-            this.MaxSemLabel.Name = "MaxSemLabel";
-            this.MaxSemLabel.Size = new System.Drawing.Size(48, 13);
-            this.MaxSemLabel.TabIndex = 38;
-            this.MaxSemLabel.TabStop = true;
-            this.MaxSemLabel.Text = "MaxSem";
-            this.MaxSemLabel.WhichDeveloper = WikiFunctions.Controls.Developers.MaxSem;
-            // 
-            // ReedyLabel
-            // 
-            this.ReedyLabel.AutoSize = true;
-            this.ReedyLabel.Location = new System.Drawing.Point(3, 26);
-            this.ReedyLabel.Name = "ReedyLabel";
-            this.ReedyLabel.Size = new System.Drawing.Size(38, 13);
-            this.ReedyLabel.TabIndex = 37;
-            this.ReedyLabel.TabStop = true;
-            this.ReedyLabel.Text = "Reedy";
-            this.ReedyLabel.WhichDeveloper = WikiFunctions.Controls.Developers.Reedy;
-            // 
-            // KingboykLabel
-            // 
-            this.KingboykLabel.AutoSize = true;
-            this.KingboykLabel.Location = new System.Drawing.Point(3, 0);
-            this.KingboykLabel.Name = "KingboykLabel";
-            this.KingboykLabel.Size = new System.Drawing.Size(51, 13);
-            this.KingboykLabel.TabIndex = 39;
-            this.KingboykLabel.TabStop = true;
-            this.KingboykLabel.Text = "Kingboyk";
-            this.KingboykLabel.WhichDeveloper = WikiFunctions.Controls.Developers.Kingboyk;
             // 
             // AboutBox
             // 
@@ -404,8 +404,8 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private WikiFunctions.Controls.DeveloperLinkLabel BluemooseLink;
         private WikiFunctions.Controls.DeveloperLinkLabel LigulemLink;
-        private WikiFunctions.Controls.DeveloperLinkLabel KingboykLabel;
         private WikiFunctions.Controls.DeveloperLinkLabel MaxSemLabel;
         private WikiFunctions.Controls.DeveloperLinkLabel ReedyLabel;
+        private WikiFunctions.Controls.DeveloperLinkLabel RjLabel;
     }
 }
