@@ -156,6 +156,7 @@ namespace WikiFunctions.DBScanner
             this.btnPause = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
+            this.lblPercentageComplete = new System.Windows.Forms.ToolStripStatusLabel();
             this.gbText.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLength)).BeginInit();
@@ -853,6 +854,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.progressBar,
+            this.lblPercentageComplete,
             this.lblCount,
             this.toolStripStatusLabel1,
             this.threadPriorityButton});
@@ -874,7 +876,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.lblCount.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblCount.Name = "lblCount";
-            this.lblCount.Size = new System.Drawing.Size(286, 17);
+            this.lblCount.Size = new System.Drawing.Size(232, 17);
             this.lblCount.Spring = true;
             this.lblCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -1579,6 +1581,12 @@ namespace WikiFunctions.DBScanner
                 ")|*.txt";
             this.saveListDialog.Title = "Save article list";
             // 
+            // lblPercentageComplete
+            // 
+            this.lblPercentageComplete.Name = "lblPercentageComplete";
+            this.lblPercentageComplete.Size = new System.Drawing.Size(23, 17);
+            this.lblPercentageComplete.Text = "0%";
+            // 
             // DatabaseScanner
             // 
             this.AcceptButton = this.btnStart;
@@ -1770,5 +1778,6 @@ namespace WikiFunctions.DBScanner
         private DateTimePicker dtpFrom;
         private Label lblEndDate;
         private DateTimePicker dtpTo;
+        private ToolStripStatusLabel lblPercentageComplete;
     }
 }

@@ -769,26 +769,7 @@ namespace WikiFunctions.Controls.Lists
 
         private void RemoveSelectedArticle()
         {
-            lbArticles.BeginUpdate();
-
-            int i = lbArticles.SelectedIndex;
-
-            if (lbArticles.SelectedItems.Count > 0)
-                txtPage.Text = lbArticles.SelectedItem.ToString();
-
-            if (lbArticles.SelectedItems.Count == 1)
-                lbArticles.Items.Remove(lbArticles.SelectedItem);
-            else
-                while (lbArticles.SelectedItems.Count > 0)
-                    lbArticles.Items.Remove(lbArticles.SelectedItem);
-
-            if (lbArticles.Items.Count > i)
-                lbArticles.SelectedIndex = i;
-            else //if ((lbArticles.Items.Count - 1) > 0)
-                lbArticles.SelectedIndex = i - 1;
-
-            lbArticles.EndUpdate();
-
+            lbArticles.RemoveSelected();
             UpdateNumberOfArticles();
         }
 
@@ -1246,7 +1227,7 @@ namespace WikiFunctions.Controls.Lists
         {
             List<string> ret = new List<string>();
 
-            foreach (WikiFunctions.Plugin.IListMakerPlugin p in GetListMakerPlugins())
+            foreach (Plugin.IListMakerPlugin p in GetListMakerPlugins())
             {
                 ret.Add(p.Name);
             }
