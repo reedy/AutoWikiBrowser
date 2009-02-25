@@ -1257,8 +1257,8 @@ While remaining upright may be the primary goal of beginning riders While remain
                                                   out noChange));
             Assert.IsTrue(noChange);
 
-            // {{lifetime}} and crap like that is not supported
-            Parsers.ChangeToDefaultSort("{{lifetime|shite}}[[Category:Test1|Foooo]][[Category:Test2|Foooo]]",
+            // {{Lifetime}} is not fully supported
+            Parsers.ChangeToDefaultSort("{{lifetime|blah}}[[Category:Test1|Foooo]][[Category:Test2|Foooo]]",
                                   "Bar", out noChange);
             Assert.IsTrue(noChange);
 

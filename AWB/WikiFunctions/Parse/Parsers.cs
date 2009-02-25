@@ -1858,9 +1858,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string testText = ArticleText;
             NoChange = true;
 
-            // we don't need to process that {{lifetime}} crap
+            // we don't need to process that {{Lifetime}} crap
             MatchCollection ds = WikiRegexes.Defaultsort.Matches(ArticleText);
             if (ds.Count > 1 || (ds.Count == 1 && !ds[0].Value.ToUpper().Contains("DEFAULTSORT"))) return ArticleText;
+
+            if (WikiRegexes.Lifetime.IsMatch(ArticleText))
+                return ArticleText;
 
             ArticleText = TalkPages.TalkPageHeaders.FormatDefaultSort(ArticleText);
 

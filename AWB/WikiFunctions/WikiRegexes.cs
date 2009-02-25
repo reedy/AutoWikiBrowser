@@ -91,7 +91,7 @@ namespace WikiFunctions
                 s = "(?i:" + string.Join("|", Variables.MagicWords["defaultsort"].ToArray()).Replace(":", "") + ")";
             else
                 s = (Variables.LangCode == LangCodeEnum.en)
-                    ? "(?:(?i:defaultsort(key|CATEGORYSORT)?|lifetime|BIRTH-DEATH-SORT)|BD)"
+                    ? "(?:(?i:defaultsort(key|CATEGORYSORT)?))"
                     : "(?i:defaultsort)";
 
             Defaultsort = new Regex(TemplateStart + s + @"\s*[:|](?<key>[^\}]*)}}",
@@ -340,6 +340,11 @@ namespace WikiFunctions
         /// Matches any of the recognised templates for displaying cite references
         /// </summary>
         public static readonly Regex ReferencesTemplate = new Regex(@"(\{\{\s*ref(?:-?li(?:st|nk)|erence)[^{}]*\}\}|<references\s*/>|\{\{refs)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+        /// <summary>
+        /// Matches {{lifetime}} and its aliases
+        /// </summary>
+        public static Regex Lifetime = new Regex(@"{{(?:[Ll]ifetime|BIRTH-DEATH-SORT|BD)\s*\|[^\}]*}}", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches persondata (en only)

@@ -513,7 +513,17 @@ en, sq, ru
             }
             if (!string.IsNullOrEmpty(defaultSort)) defaultSort += "\r\n";
 
-            return defaultSort + ListToString(categoryList);
+            // on en-wiki find any {{Lifetime}} template and move directly after categories
+            string Lifetime = "";
+            if(Variables.LangCode == LangCodeEnum.en)
+            {
+                Lifetime = WikiRegexes.Lifetime.Match(ArticleText).Value;
+
+                if (!string.IsNullOrEmpty(Lifetime))
+                    ArticleText = ArticleText.Replace(Lifetime, "");
+            }
+
+            return defaultSort + ListToString(categoryList) + Lifetime;
         }
 
         /// <summary>
