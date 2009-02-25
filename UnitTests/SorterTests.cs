@@ -4,8 +4,18 @@ using NUnit.Framework;
 
 namespace UnitTests
 {
+    public class RequiresParser2 : RequiresInitialization
+    {
+        protected Parsers parser2;
+
+        public RequiresParser2()
+        {
+            parser2 = new Parsers();
+        }
+    }
+
     [TestFixture]
-    public class SorterTests : RequiresInitialization
+    public class SorterTests : RequiresParser2
     {
         public SorterTests()
         {
@@ -58,6 +68,43 @@ Fred has a dog.
             // check no change when already in correct position
             Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.moveDablinks(e + "\r\n" + d)); 
             
+        }
+
+        // {{Lifetime}} template lives after categories on en-wiki
+        [Test]
+        public void LifetimeTests()
+        {
+            string a = @"Fred is a doctor. Fred has a dog.
+{{Lifetime|1922|1987|Smith, Fred}}
+[[Category:Dog owners]]";
+            string b = @"[[Category:Dog owners]]
+{{Lifetime|1922|1987|Smith, Fred}}";
+
+            Assert.AreEqual(b, parser2.Sorter.removeCats(ref a, "test"));
+
+            string c = @"Fred is a doctor. Fred has a dog.
+{{lifetime|1922|1987|Smith, Fred}}
+[[Category:Dog owners]]
+[[Category:Foo]]
+[[Category:Bar]]";
+            string d = @"[[Category:Dog owners]]
+[[Category:Foo]]
+[[Category:Bar]]
+{{lifetime|1922|1987|Smith, Fred}}";
+
+            Assert.AreEqual(d, parser2.Sorter.removeCats(ref c, "test"));
+
+            string e = @"Fred is a doctor. Fred has a dog.
+{{BIRTH-DEATH-SORT|1922|1987|Smith, Fred}}
+[[Category:Dog owners]]
+[[Category:Foo]]
+[[Category:Bar]]";
+            string f = @"[[Category:Dog owners]]
+[[Category:Foo]]
+[[Category:Bar]]
+{{BIRTH-DEATH-SORT|1922|1987|Smith, Fred}}";
+
+            Assert.AreEqual(f, parser2.Sorter.removeCats(ref e, "test"));
         }
     }
 }
