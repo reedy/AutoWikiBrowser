@@ -1203,7 +1203,12 @@ namespace WikiFunctions.Controls.Lists
         public AWBSettings.SpecialFilterPrefs SpecialFilterSettings
         {
             get { return SpecialFilter.Settings; }
-            set { SpecialFilter.Settings = value; }
+            set
+            {
+                if (DesignMode)
+                    return;
+                SpecialFilter.Settings = value;
+            }
         }
 
         /// <summary>

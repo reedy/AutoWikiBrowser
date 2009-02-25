@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Globalization;
@@ -243,6 +244,8 @@ namespace WikiFunctions.Lists
             if (Visible) pageNamespaces.UpdateText();
         }
 
+        [Browsable(false)]
+        [Localizable(false)]
         public AWBSettings.SpecialFilterPrefs Settings
         {
             get
@@ -271,13 +274,13 @@ namespace WikiFunctions.Lists
             }
             set
             {
-                if (value == null)
+                if (value == null || DesignMode)
                     return;
 
                 prefs = value;
 
                 if (prefs.namespaceValues == null)
-                    prefs.namespaceValues = new List<int>(new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 14, 15 });
+                    prefs.namespaceValues = new List<int>(new [] { 0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 14, 15 });
 
                 if (prefs.namespaceValues.Count > 0)
                     pageNamespaces.SetSelectedNamespaces(prefs.namespaceValues);
