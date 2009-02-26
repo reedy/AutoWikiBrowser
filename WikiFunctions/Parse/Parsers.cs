@@ -442,6 +442,32 @@ namespace WikiFunctions.Parse
             return (ArticleText);
         }
 
+        /// <summary>
+        /// Replaces hyphens and em-dashes with en-dashes, per [[WP:DASH]]
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <returns>The modified article text.</returns>
+        public string Mdashes(string ArticleText)
+        {
+            ArticleText = HideMoreText(ArticleText);
+
+            //string months = "(" + string.Join("|", Variables.MonthNames) + ")";
+
+            ArticleText = Regex.Replace(ArticleText, @"(pages\s*=\s*|pp\.?\s*)(\d+\s*)(?:-|—|&mdash;|&#8212;)(\s*\d+)", @"$1$2–$3", RegexOptions.IgnoreCase);
+
+            ArticleText = Regex.Replace(ArticleText, @"([1-9]?\d\s*)(?:-|—|&mdash;|&#8212;)(\s*[1-9]?\d)(\s+|&nbsp;)(years|months|weeks|days|hours|minutes|seconds|kg|mg|kb|km|[Gk]?Hz|miles|mi\.|%)\b", @"$1–$2$3$4");
+
+            //ArticleText = Regex.Replace(ArticleText, @"(\[?\[?" + months + @"\ [1-3]?\d\]?\]?,\ \[?\[?[1-2]\d{3}\]?\]?)\s*(?:-|—|&mdash;|&#8212;)\s*(\[?\[?" + months + @"\ [1-3]?\d\]?\]?,\ \[?\[?[1-2]\d{3}\]?\]?)", @"$1–$3");
+
+            ArticleText = Regex.Replace(ArticleText, @"(\$[1-9]?\d{1,3}\s*)(?:-|—|&mdash;|&#8212;)(\s*\$?[1-9]?\d{1,3})", @"$1–$2");
+
+            ArticleText = Regex.Replace(ArticleText, @"([01]?\d:[0-5]\d\s*([AP]M)\s*)(?:-|—|&mdash;|&#8212;)(\s*[01]?\d:[0-5]\d\s*([AP]M))", @"$1–$3", RegexOptions.IgnoreCase);
+
+            ArticleText = Regex.Replace(ArticleText, @"([Aa]ge[sd])\s([1-9]?\d\s*)(?:-|—|&mdash;|&#8212;)(\s*[1-9]?\d)", @"$1 $2–$3)");
+
+            return AddBackMoreText(ArticleText);
+        }
+
         // Covered by: FootnotesTests.TestFixReferenceListTags()
         private static string ReflistMatchEvaluator(Match m)
         {
