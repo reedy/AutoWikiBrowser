@@ -1865,6 +1865,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"{{commons cat|XXX}}", Parsers.Conversions(@"{{commons|Category:XXX}}"));
             Assert.AreEqual(@"{{commons cat|XXX}}", Parsers.Conversions(@"{{Commons|category:XXX}}"));
             Assert.AreEqual(@"{{commons cat|XXX}}", Parsers.Conversions(@"{{Commons| category:XXX }}"));
+            Assert.AreEqual(@"{{commons cat|Backgammon|Backgammon}}", Parsers.Conversions(@"{{commons|Category:Backgammon|Backgammon}}"));
         }
     }
 }
