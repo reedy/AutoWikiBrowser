@@ -564,7 +564,7 @@ http://example.com }}");
             Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[File:]][[Image:]]"));
             Assert.AreEqual("[[File:Test]]", Parsers.FixEmptyLinksAndTemplates("[[File:Test]][[Image:]]"));
         }
-        
+
         [Test]
         public void TestFixNonBreakingSpaces()
         {
@@ -606,7 +606,7 @@ http://example.com }}");
             Assert.AreEqual("*a\r\nb", Parsers.FixSyntax("*a<br>\r\nb"));
             Assert.AreEqual("*a\r\nb", Parsers.FixSyntax("\r\n*a<br>\r\nb"));
             Assert.AreEqual("foo\r\n*a\r\nb", Parsers.FixSyntax("foo\r\n*a<br>\r\nb"));
-        
+
             Assert.AreEqual("*a", Parsers.FixSyntax("*a<br>\r\n")); // \r\n\ trimmed
 
             Assert.AreEqual("*a", Parsers.FixSyntax("*a<br\\>\r\n"));
@@ -697,7 +697,7 @@ Some news here.", "test"));
             Assert.AreEqual("", Parsers.RemoveWhiteSpace("     "));
             Assert.AreEqual("a\r\n\r\n b", Parsers.RemoveWhiteSpace("a\r\n\r\n\r\n b"));
             //Assert.AreEqual(" a", Parsers.RemoveWhiteSpace(" a")); // fails, but it doesn't seem harmful, at least for
-                                                                     // WMF projects with their design guidelines
+            // WMF projects with their design guidelines
             //Assert.AreEqual(" a", Parsers.RemoveWhiteSpace("\r\n a \r\n")); // same as above
             Assert.AreEqual("a", Parsers.RemoveWhiteSpace("\r\na \r\n")); // the above errors have effect only on the first line
             Assert.AreEqual("", Parsers.RemoveWhiteSpace("\r\n"));
@@ -809,7 +809,7 @@ Some news here.", "test"));
             //    Parsers.FixImages("[[image:foo_bar|http://some_link]]"));
 
             // no changes should be made to this one
-            Assert.AreEqual(@"[[Image:Diamminesilver(I)-3D-balls.png|thumb|right|200px|Ball-and-stick model of the diamminesilver(I) cation, [Ag(NH<sub>3</sub>)<sub>2</sub>]<sup>+</sup>]]", 
+            Assert.AreEqual(@"[[Image:Diamminesilver(I)-3D-balls.png|thumb|right|200px|Ball-and-stick model of the diamminesilver(I) cation, [Ag(NH<sub>3</sub>)<sub>2</sub>]<sup>+</sup>]]",
                 Parsers.FixImages(@"[[Image:Diamminesilver(I)-3D-balls.png|thumb|right|200px|Ball-and-stick model of the diamminesilver(I) cation, [Ag(NH<sub>3</sub>)<sub>2</sub>]<sup>+</sup>]]"));
         }
 
@@ -949,7 +949,7 @@ Some news here.", "test"));
         [Test]
         public void StandardCases()
         {
-            Assert.AreEqual("'''Foo''' is a bar While remaining upright may be the primary goal of beginning riders", 
+            Assert.AreEqual("'''Foo''' is a bar While remaining upright may be the primary goal of beginning riders",
                 parser.BoldTitle("Foo is a bar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsFalse(noChangeBack);
 
@@ -968,7 +968,7 @@ Some news here.", "test"));
             Assert.AreEqual(@"{{Infobox | name = Foo | age=11}}
 '''Foo''' is a bar While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders
-While remaining upright may be the primary goal of beginning riders", 
+While remaining upright may be the primary goal of beginning riders",
                 parser.BoldTitle(@"{{Infobox | name = Foo | age=11}}
 Foo is a bar While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders
@@ -979,7 +979,7 @@ While remaining upright may be the primary goal of beginning riders", "Foo", out
             Assert.AreEqual("'''Foo''' (Band album) is a CD While remaining upright may be the primary goal of beginning riders",
                 parser.BoldTitle("Foo (Band album) is a CD While remaining upright may be the primary goal of beginning riders", "Foo (Band album)", out noChangeBack));
             Assert.IsFalse(noChangeBack);
-            
+
             // non-changes
             Assert.AreEqual("Fooo is a bar", parser.BoldTitle("Fooo is a bar", "Foo", out noChangeBack));
             Assert.IsTrue(noChangeBack);
@@ -992,13 +992,13 @@ While remaining upright may be the primary goal of beginning riders",
 While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack)); // bold within first 5% of article
-            Assert.IsTrue(noChangeBack);        
+            Assert.IsTrue(noChangeBack);
         }
 
         [Test]
         public void WithDelinking()
         {
-            Assert.AreEqual("'''Foo''' is a bar While remaining upright may be the primary goal of beginning riders", 
+            Assert.AreEqual("'''Foo''' is a bar While remaining upright may be the primary goal of beginning riders",
                 parser.BoldTitle("[[Foo]] is a bar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsFalse(noChangeBack);
 
@@ -1158,7 +1158,7 @@ While remaining upright may be the primary goal of beginning riders While remain
         {
             // too long
             StringBuilder sb = new StringBuilder(300);
-            for (int i=0;i<300;i++) sb.Append('x');
+            for (int i = 0; i < 300; i++) sb.Append('x');
             Assert.IsFalse(Parsers.IsCorrectEditSummary(sb.ToString()));
 
             // no wikilinks
@@ -1302,7 +1302,7 @@ While remaining upright may be the primary goal of beginning riders While remain
             Assert.IsFalse(noChange);
 
             // just removing diacritics in categories is useful
-            Assert.AreEqual(@"[[Category:Bronze Wolf awardees|Laine, Juan]]", 
+            Assert.AreEqual(@"[[Category:Bronze Wolf awardees|Laine, Juan]]",
                 Parsers.ChangeToDefaultSort(@"[[Category:Bronze Wolf awardees|Lainé, Juan]]", "Hi", out noChange));
             Assert.IsFalse(noChange);
 

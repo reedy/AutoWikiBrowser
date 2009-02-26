@@ -392,7 +392,7 @@ namespace WikiFunctions.Parse
             for (int i = 0; i < 5; i++) // allows for up to 5 consecutive references
             {
                 ArticleTextBefore = ArticleText;
-                
+
                 foreach (Match m in OutofOrderRefs1.Matches(ArticleText))
                 {
                     string Ref1 = m.Groups[1].Value;
@@ -434,7 +434,7 @@ namespace WikiFunctions.Parse
                         ArticleText = ArticleText.Replace(Ref1 + Whitespace + Ref2, Ref2 + Whitespace + Ref1);
                     }
                 }
-                
+
                 if (ArticleTextBefore.Equals(ArticleText))
                     break;
             }
@@ -1504,7 +1504,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             NoChange = true;
 
             string ArticleTextHidden = HideMoreText(ArticleText);
-            
+
             // first quick check: ignore articles with some bold in first 5% of hidemore article
             int fivepc = ArticleTextHidden.Length / 20;
             //ArticleText5.Length
