@@ -598,7 +598,7 @@ http://example.com }}");
     }
 
     [TestFixture]
-    public class FormattingTests : RequiresInitialization
+    public class FormattingTests : RequiresParser
     {
         [Test]
         public void TestBrConverter()
@@ -714,6 +714,49 @@ Some news here.", "test"));
 
             // eh? should we fix such tables too?
             //Assert.AreEqual("{|\r\n! foo\r\n!\r\nbar\r\n|}", Parsers.RemoveWhiteSpace("{|\r\n! foo\r\n\r\n!\r\n\r\nbar\r\n|}"));
+        }
+
+        [Test]
+        public void TestMdashes()
+        {
+            Assert.AreEqual(@"pp. 55–57", parser.Mdashes(@"pp. 55-57"));
+            Assert.AreEqual(@"pp. 55 – 57", parser.Mdashes(@"pp. 55 - 57"));
+            Assert.AreEqual(@"pp 55–57", parser.Mdashes(@"pp 55-57"));
+            Assert.AreEqual(@"pp 1155–1157", parser.Mdashes(@"pp 1155-1157"));
+            Assert.AreEqual(@"pages= 55–57", parser.Mdashes(@"pages= 55-57"));
+            Assert.AreEqual(@"pages = 55–57", parser.Mdashes(@"pages = 55-57"));
+            Assert.AreEqual(@"pages=55–57", parser.Mdashes(@"pages=55-57"));
+            Assert.AreEqual(@"pages=55–57", parser.Mdashes(@"pages=55—57"));
+            Assert.AreEqual(@"pages=55–57", parser.Mdashes(@"pages=55&#8212;57"));
+            Assert.AreEqual(@"pages=55–57", parser.Mdashes(@"pages=55&mdash;57"));
+
+            Assert.AreEqual(@"55–57 miles", parser.Mdashes(@"55-57 miles"));
+            Assert.AreEqual(@"55–57 kg", parser.Mdashes(@"55-57 kg"));
+            Assert.AreEqual(@"55 – 57 kg", parser.Mdashes(@"55 - 57 kg"));
+            Assert.AreEqual(@"55–57&nbsp;kg", parser.Mdashes(@"55-57&nbsp;kg"));
+            Assert.AreEqual(@"55–57 Hz", parser.Mdashes(@"55-57 Hz"));
+            Assert.AreEqual(@"55–57 GHz", parser.Mdashes(@"55-57 GHz"));
+
+            Assert.AreEqual(@"$55–57", parser.Mdashes(@"$55-57"));
+            Assert.AreEqual(@"$55 – 57", parser.Mdashes(@"$55 - 57"));
+            Assert.AreEqual(@"$55–57", parser.Mdashes(@"$55-57"));
+            Assert.AreEqual(@"$1155–1157", parser.Mdashes(@"$1155-1157"));
+            Assert.AreEqual(@"$55–57", parser.Mdashes(@"$55&mdash;57"));
+            Assert.AreEqual(@"$55–57", parser.Mdashes(@"$55—57"));
+
+            Assert.AreEqual(@"5:17 AM – 5:19 AM", parser.Mdashes(@"5:17 AM - 5:19 AM"));
+            Assert.AreEqual(@"05:17 AM – 05:19 AM", parser.Mdashes(@"05:17 AM - 05:19 AM"));
+            Assert.AreEqual(@"11:17 PM – 11:19 PM", parser.Mdashes(@"11:17 PM - 11:19 PM"));
+            Assert.AreEqual(@"11:17 pm – 11:19 pm", parser.Mdashes(@"11:17 pm - 11:19 pm"));
+            Assert.AreEqual(@"11:17 pm – 11:19 pm", parser.Mdashes(@"11:17 pm &mdash; 11:19 pm"));
+            Assert.AreEqual(@"11:17 pm – 11:19 pm", parser.Mdashes(@"11:17 pm — 11:19 pm"));
+
+            Assert.AreEqual(@"Aged 5–9", parser.Mdashes(@"Aged 5–9"));
+            Assert.AreEqual(@"Aged 5–11", parser.Mdashes(@"Aged 5–11"));
+            Assert.AreEqual(@"Aged 5 – 9", parser.Mdashes(@"Aged 5 – 9"));
+            Assert.AreEqual(@"Aged 15–19", parser.Mdashes(@"Aged 15–19"));
+            Assert.AreEqual(@"Ages 15–19", parser.Mdashes(@"Ages 15–19"));
+            Assert.AreEqual(@"Aged 15–19", parser.Mdashes(@"Aged 15–19"));
         }
     }
 

@@ -855,6 +855,9 @@ namespace WikiFunctions
                 Variables.Profiler.Profile("AddMissingReflist");
             }
 
+            AWBChangeArticleText("Mdashes", parsers.Mdashes(ArticleText), true);
+            Variables.Profiler.Profile("Mdashes");
+
             //Just a bit broken/Some unwanted fixes (moving of <ref> tags around)
             //AWBChangeArticleText("Fix Footnotes", parsers.FixFootnotes(ArticleText), true);
             //Variables.Profiler.Profile("FixFootnotes");
