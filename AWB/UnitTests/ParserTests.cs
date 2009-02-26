@@ -1859,6 +1859,12 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             {{nofootnotes}}", Parsers.Conversions(@"Article 
             ==References==
             {{nofootnotes}}"));
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.7B.7Bcommons.7CCategory:XXX.7D.7D_.3E_.7B.7Bcommonscat.7CXXX.7D.7D
+            // {{commons|Category:XXX}} > {{commonscat|XXX}}
+            Assert.AreEqual(@"{{commons cat|XXX}}", Parsers.Conversions(@"{{commons|Category:XXX}}"));
+            Assert.AreEqual(@"{{commons cat|XXX}}", Parsers.Conversions(@"{{Commons|category:XXX}}"));
+            Assert.AreEqual(@"{{commons cat|XXX}}", Parsers.Conversions(@"{{Commons| category:XXX }}"));
         }
     }
 }
