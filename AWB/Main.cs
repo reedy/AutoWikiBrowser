@@ -1327,6 +1327,7 @@ namespace AutoWikiBrowser
             {
                 ErrorHandler.Handle(ex);
                 theArticle.Trace.AWBSkipped("Exception:" + ex.Message);
+                Stop();
             }
             finally
             {
