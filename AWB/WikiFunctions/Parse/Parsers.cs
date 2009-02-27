@@ -282,9 +282,11 @@ namespace WikiFunctions.Parse
             return AddBackMoreText(ArticleText);
         }
 
-        private static readonly Regex DiedDateRegex = new Regex(@"('''[^']+'''\s*\()d.(\s+\[*(?:(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+0?([1-3]?[0-9])|0?([1-3]?[0-9])\s*(?:January|February|March|April|May|June|July|August|September|October|November|December))?\]*\s*\[*[1-2]?[0-9][0-9][0-9]\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex DOBRegex = new Regex(@"('''[^']+'''\s*\()b.(\s+\[*(?:(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+0?([1-3]?[0-9])|0?([1-3]?[0-9])\s*(?:January|February|March|April|May|June|July|August|September|October|November|December))?\]*\s*\[*[1-2]?[0-9][0-9][0-9]\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex BornDeathRegex = new Regex(@"('''[^']+'''\s*\()(?:[Bb]orn|b\.)\s+(\[*(?:(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+0?(?:[1-3]?[0-9])|0?(?:[1-3]?[0-9])\s*(?:January|February|March|April|May|June|July|August|September|October|November|December))?\]*,?\s*\[*[1-2]?[0-9][0-9][0-9]\]*)\s*(.|&.dash;)\s*(?:[Dd]ied|d\.)\s+(\[*(?:(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+0?(?:[1-3]?[0-9])|0?(?:[1-3]?[0-9])\s*(?:January|February|March|April|May|June|July|August|September|October|November|December))\]*,?\s*\[*[1-2]?[0-9][0-9][0-9]\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        static string months = @"(?:" + string.Join("|", Variables.MonthNames) + ")";
+
+        private static readonly Regex DiedDateRegex = new Regex(@"('''[^']+'''\s*\()d\.(\s+\[*(?:" + months + @"\s+0?([1-3]?[0-9])|0?([1-3]?[0-9])\s*" + months + @")?\]*\s*\[*[1-2]?\d{3}\]*\)\s*)", RegexOptions.IgnoreCase);
+        private static readonly Regex DOBRegex = new Regex(@"('''[^']+'''\s*\()b\.(\s+\[*(?:" + months + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" + months + @")?\]*\s*\[*[1-2]?\d{3}\]*\)\s*)", RegexOptions.IgnoreCase);
+        private static readonly Regex BornDeathRegex = new Regex(@"('''[^']+'''\s*\()(?:[Bb]orn|b\.)\s+(\[*(?:" + months + @"\s+0?(?:[1-3]?\d)|0?(?:[1-3]?\d)\s*" + months + @")?\]*,?\s*\[*[1-2]?\d{3}\]*)\s*(.|&.dash;)\s*(?:[Dd]ied|d\.)\s+(\[*(?:" + months + @"\s+0?(?:[1-3]?\d)|0?(?:[1-3]?\d)\s*" + months + @")\]*,?\s*\[*[1-2]?\d{3}\]*\)\s*)", RegexOptions.IgnoreCase);
 
         //Covered by: LinkTests.FixLivingThingsRelatedDates()
         /// <summary>
@@ -296,7 +298,7 @@ namespace WikiFunctions.Parse
         {
             ArticleText = DiedDateRegex.Replace(ArticleText, "$1died$2"); //date of death
             ArticleText = DOBRegex.Replace(ArticleText, "$1born$2"); //date of birth
-            return BornDeathRegex.Replace(ArticleText, "$1$2 – $4"); //birth and death, with +? lazy regex match
+            return BornDeathRegex.Replace(ArticleText, "$1$2 – $4"); //birth and death
         }
 
         // Covered by: LinkTests.FixDates()
