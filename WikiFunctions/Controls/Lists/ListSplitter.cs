@@ -30,7 +30,7 @@ namespace WikiFunctions.Controls.Lists
 {
     public partial class ListSplitter : Form
     {
-        UserPrefs P;
+        readonly UserPrefs P;
         readonly List<Type> Types;
 
         public ListSplitter(UserPrefs Prefs, List<Type> type)
