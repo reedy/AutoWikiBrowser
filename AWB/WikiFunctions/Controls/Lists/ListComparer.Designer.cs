@@ -57,21 +57,30 @@ namespace WikiFunctions.Controls.Lists
             this.openInBrowserToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.copySelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnSaveOnly2 = new System.Windows.Forms.Button();
+            this.btnMoveOnly2 = new System.Windows.Forms.Button();
             this.flwBoth = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnMoveCommon = new System.Windows.Forms.Button();
             this.flwDiff1 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblOnly1 = new System.Windows.Forms.Label();
             this.lblNo1 = new System.Windows.Forms.Label();
             this.lbNo1 = new System.Windows.Forms.ListBox();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnSaveOnly1 = new System.Windows.Forms.Button();
+            this.btnMoveOnly1 = new System.Windows.Forms.Button();
             this.mnuDuplicates.SuspendLayout();
             this.gbList1.SuspendLayout();
             this.gbList2.SuspendLayout();
             this.gbResults.SuspendLayout();
             this.flwDiff2.SuspendLayout();
             this.mnuList.SuspendLayout();
+            this.flowLayoutPanel3.SuspendLayout();
             this.flwBoth.SuspendLayout();
+            this.flowLayoutPanel2.SuspendLayout();
             this.flwDiff1.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbBoth
@@ -157,9 +166,9 @@ namespace WikiFunctions.Controls.Lists
             // 
             // btnSaveBoth
             // 
-            this.btnSaveBoth.Location = new System.Drawing.Point(3, 299);
+            this.btnSaveBoth.Location = new System.Drawing.Point(3, 3);
             this.btnSaveBoth.Name = "btnSaveBoth";
-            this.btnSaveBoth.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveBoth.Size = new System.Drawing.Size(60, 27);
             this.btnSaveBoth.TabIndex = 9;
             this.btnSaveBoth.Text = "Save list";
             this.btnSaveBoth.UseVisualStyleBackColor = true;
@@ -167,7 +176,7 @@ namespace WikiFunctions.Controls.Lists
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(178, 347);
+            this.btnClear.Location = new System.Drawing.Point(184, 351);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 23);
             this.btnClear.TabIndex = 10;
@@ -244,11 +253,11 @@ namespace WikiFunctions.Controls.Lists
             this.flwDiff2.Controls.Add(this.lblOnly2);
             this.flwDiff2.Controls.Add(this.lblNo2);
             this.flwDiff2.Controls.Add(this.lbNo2);
-            this.flwDiff2.Controls.Add(this.btnSaveOnly2);
+            this.flwDiff2.Controls.Add(this.flowLayoutPanel3);
             this.flwDiff2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flwDiff2.Location = new System.Drawing.Point(284, 16);
             this.flwDiff2.Name = "flwDiff2";
-            this.flwDiff2.Size = new System.Drawing.Size(140, 325);
+            this.flwDiff2.Size = new System.Drawing.Size(140, 336);
             this.flwDiff2.TabIndex = 24;
             // 
             // lblOnly2
@@ -307,38 +316,78 @@ namespace WikiFunctions.Controls.Lists
             this.copySelectedToolStripMenuItem.Text = "Copy Selected";
             this.copySelectedToolStripMenuItem.Click += new System.EventHandler(this.copySelectedToolStripMenuItem_Click);
             // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.Controls.Add(this.btnSaveOnly2);
+            this.flowLayoutPanel3.Controls.Add(this.btnMoveOnly2);
+            this.flowLayoutPanel3.FlowDirection = System.Windows.Forms.FlowDirection.BottomUp;
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 299);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(133, 33);
+            this.flowLayoutPanel3.TabIndex = 27;
+            // 
             // btnSaveOnly2
             // 
-            this.btnSaveOnly2.Location = new System.Drawing.Point(3, 299);
+            this.btnSaveOnly2.Location = new System.Drawing.Point(3, 3);
             this.btnSaveOnly2.Name = "btnSaveOnly2";
-            this.btnSaveOnly2.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveOnly2.Size = new System.Drawing.Size(60, 27);
             this.btnSaveOnly2.TabIndex = 20;
             this.btnSaveOnly2.Text = "Save list";
             this.btnSaveOnly2.UseVisualStyleBackColor = true;
             this.btnSaveOnly2.Click += new System.EventHandler(this.btnSaveOnly2_Click);
+            // 
+            // btnMoveOnly2
+            // 
+            this.btnMoveOnly2.Location = new System.Drawing.Point(69, 3);
+            this.btnMoveOnly2.Name = "btnMoveOnly2";
+            this.btnMoveOnly2.Size = new System.Drawing.Size(60, 27);
+            this.btnMoveOnly2.TabIndex = 17;
+            this.btnMoveOnly2.Text = "Use list";
+            this.btnMoveOnly2.UseVisualStyleBackColor = true;
+            this.btnMoveOnly2.Click += new System.EventHandler(this.btnMoveOnly2_Click);
             // 
             // flwBoth
             // 
             this.flwBoth.Controls.Add(this.lblBoth);
             this.flwBoth.Controls.Add(this.lblNoBoth);
             this.flwBoth.Controls.Add(this.lbBoth);
-            this.flwBoth.Controls.Add(this.btnSaveBoth);
+            this.flwBoth.Controls.Add(this.flowLayoutPanel2);
             this.flwBoth.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flwBoth.Location = new System.Drawing.Point(145, 16);
             this.flwBoth.Name = "flwBoth";
-            this.flwBoth.Size = new System.Drawing.Size(140, 325);
+            this.flwBoth.Size = new System.Drawing.Size(140, 336);
             this.flwBoth.TabIndex = 23;
+            // 
+            // flowLayoutPanel2
+            // 
+            this.flowLayoutPanel2.Controls.Add(this.btnSaveBoth);
+            this.flowLayoutPanel2.Controls.Add(this.btnMoveCommon);
+            this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.BottomUp;
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 299);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(133, 33);
+            this.flowLayoutPanel2.TabIndex = 26;
+            // 
+            // btnMoveCommon
+            // 
+            this.btnMoveCommon.Location = new System.Drawing.Point(69, 3);
+            this.btnMoveCommon.Name = "btnMoveCommon";
+            this.btnMoveCommon.Size = new System.Drawing.Size(60, 27);
+            this.btnMoveCommon.TabIndex = 17;
+            this.btnMoveCommon.Text = "Use list";
+            this.btnMoveCommon.UseVisualStyleBackColor = true;
+            this.btnMoveCommon.Click += new System.EventHandler(this.btnMoveCommon_Click);
             // 
             // flwDiff1
             // 
             this.flwDiff1.Controls.Add(this.lblOnly1);
             this.flwDiff1.Controls.Add(this.lblNo1);
             this.flwDiff1.Controls.Add(this.lbNo1);
-            this.flwDiff1.Controls.Add(this.btnSaveOnly1);
+            this.flwDiff1.Controls.Add(this.flowLayoutPanel1);
             this.flwDiff1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flwDiff1.Location = new System.Drawing.Point(6, 16);
             this.flwDiff1.Name = "flwDiff1";
-            this.flwDiff1.Size = new System.Drawing.Size(140, 325);
+            this.flwDiff1.Size = new System.Drawing.Size(140, 336);
             this.flwDiff1.TabIndex = 22;
             // 
             // lblOnly1
@@ -369,15 +418,35 @@ namespace WikiFunctions.Controls.Lists
             this.lbNo1.Size = new System.Drawing.Size(130, 264);
             this.lbNo1.TabIndex = 14;
             // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.btnSaveOnly1);
+            this.flowLayoutPanel1.Controls.Add(this.btnMoveOnly1);
+            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.BottomUp;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 299);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(133, 33);
+            this.flowLayoutPanel1.TabIndex = 25;
+            // 
             // btnSaveOnly1
             // 
-            this.btnSaveOnly1.Location = new System.Drawing.Point(3, 299);
+            this.btnSaveOnly1.Location = new System.Drawing.Point(3, 3);
             this.btnSaveOnly1.Name = "btnSaveOnly1";
-            this.btnSaveOnly1.Size = new System.Drawing.Size(75, 23);
+            this.btnSaveOnly1.Size = new System.Drawing.Size(60, 27);
             this.btnSaveOnly1.TabIndex = 16;
             this.btnSaveOnly1.Text = "Save list";
             this.btnSaveOnly1.UseVisualStyleBackColor = true;
             this.btnSaveOnly1.Click += new System.EventHandler(this.btnSaveOnly1_Click);
+            // 
+            // btnMoveOnly1
+            // 
+            this.btnMoveOnly1.Location = new System.Drawing.Point(69, 3);
+            this.btnMoveOnly1.Name = "btnMoveOnly1";
+            this.btnMoveOnly1.Size = new System.Drawing.Size(60, 27);
+            this.btnMoveOnly1.TabIndex = 17;
+            this.btnMoveOnly1.Text = "Use list";
+            this.btnMoveOnly1.UseVisualStyleBackColor = true;
+            this.btnMoveOnly1.Click += new System.EventHandler(this.btnMoveOnly1_Click);
             // 
             // ListComparer
             // 
@@ -402,10 +471,13 @@ namespace WikiFunctions.Controls.Lists
             this.flwDiff2.ResumeLayout(false);
             this.flwDiff2.PerformLayout();
             this.mnuList.ResumeLayout(false);
+            this.flowLayoutPanel3.ResumeLayout(false);
             this.flwBoth.ResumeLayout(false);
             this.flwBoth.PerformLayout();
+            this.flowLayoutPanel2.ResumeLayout(false);
             this.flwDiff1.ResumeLayout(false);
             this.flwDiff1.PerformLayout();
+            this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -446,6 +518,12 @@ namespace WikiFunctions.Controls.Lists
         private System.Windows.Forms.FlowLayoutPanel flwDiff2;
         private System.Windows.Forms.FlowLayoutPanel flwBoth;
         private System.Windows.Forms.FlowLayoutPanel flwDiff1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Button btnMoveOnly1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
+        private System.Windows.Forms.Button btnMoveOnly2;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private System.Windows.Forms.Button btnMoveCommon;
     }
 }
 

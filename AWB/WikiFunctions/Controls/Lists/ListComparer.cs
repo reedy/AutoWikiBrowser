@@ -61,14 +61,6 @@ namespace WikiFunctions.Controls.Lists
             updateCounts();
         }
 
-        private void SaveList(StringBuilder strList)
-        {
-            if (saveListDialog.ShowDialog() == DialogResult.OK)
-            {
-                Tools.WriteTextFileAbsolutePath(strList, saveListDialog.FileName, false);
-            }
-        }
-
         private void btnGo_Click(object sender, EventArgs e)
         {
             clear();
@@ -123,6 +115,14 @@ namespace WikiFunctions.Controls.Lists
             SaveList(strList);
         }
 
+        private void SaveList(StringBuilder strList)
+        {
+            if (saveListDialog.ShowDialog() == DialogResult.OK)
+            {
+                Tools.WriteTextFileAbsolutePath(strList, saveListDialog.FileName, false);
+            }
+        }
+
         private void transferDuplicatesToList1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             listMaker1.Clear();
@@ -160,6 +160,24 @@ namespace WikiFunctions.Controls.Lists
             {
                 return (ListBox)(((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl);
             }
+        }
+
+        private void btnMoveOnly1_Click(object sender, EventArgs e)
+        {
+            foreach (string a in lbNo1.Items)
+                listMaker1.Add(a);
+        }
+
+        private void btnMoveCommon_Click(object sender, EventArgs e)
+        {
+            foreach (string a in lbBoth.Items)
+                listMaker1.Add(a);
+        }
+
+        private void btnMoveOnly2_Click(object sender, EventArgs e)
+        {
+            foreach (string a in lbNo2.Items)
+                listMaker1.Add(a);
         }
     }
 }
