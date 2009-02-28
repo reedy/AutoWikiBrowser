@@ -277,7 +277,10 @@ namespace WikiFunctions.API
         {
             if (Globals.UnitTestMode) throw new Exception("You shouldn't access Wikipedia from unit tests");
 
+            ServicePointManager.Expect100Continue = false;
             HttpWebRequest res = (HttpWebRequest)WebRequest.Create(url);
+            res.ServicePoint.Expect100Continue = false;
+            res.Expect = "";
             if (ProxySettings != null) res.Proxy = ProxySettings;
             res.UserAgent = UserAgent;
             res.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
@@ -332,7 +335,6 @@ namespace WikiFunctions.API
             {
                 rs.Write(postData, 0, postData.Length);
             }
-
             return GetResponseString(req);
         }
 
