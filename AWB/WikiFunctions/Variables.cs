@@ -165,7 +165,7 @@ namespace WikiFunctions
 
         public static Profiler Profiler = new Profiler();
 
-        private static bool mono = Type.GetType("Mono.Runtime") != null;
+        private static readonly bool mono = Type.GetType("Mono.Runtime") != null;
         /// <summary>
         /// Returns whether we are using the Mono Runtime
         /// </summary>
