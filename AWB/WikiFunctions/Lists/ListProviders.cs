@@ -725,8 +725,9 @@ namespace WikiFunctions.Lists
             foreach (string g in searchCriteria)
             {
                 int intStart = 0;
-                string google = Tools.WikiEncode(g);
-                string url = "http://www.google.com/search?q=" + google + "+site:" + Variables.URL + "&num=100&hl=en&lr=&start=0&sa=N&filter=0";
+                string google = HttpUtility.UrlEncode(g);
+                string url = "http://www.google.com/search?q=" + google + "+site:" + Variables.URL +
+                             "&num=100&hl=en&lr=&start=0&sa=N&filter=0";
 
                 do
                 {
