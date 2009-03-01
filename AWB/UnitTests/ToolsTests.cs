@@ -105,6 +105,7 @@ namespace UnitTests
             Assert.IsTrue(r.IsMatch("[tEsT}"));
             Assert.IsFalse(r.IsMatch("test"));
         }
+
         [Test]
         public void CaseInsensitiveStringCompare()
         {
@@ -623,6 +624,30 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
             Assert.AreEqual("User talk", Tools.GetNamespaceString("User talk:Test"));
             Assert.AreEqual("Category", Tools.GetNamespaceString("Category:Test"));
             Assert.AreEqual("Help", Tools.GetNamespaceString("Help:Test"));
+        }
+
+        [Test]
+        public void FilterSomeArticles()
+        {
+            List<Article> articles = new List<Article>(new[]
+                                                           {
+                                                               new Article("Test"), new Article("Commons:Test"),
+                                                               new Article("MediaWiki:Test"),
+                                                               new Article("MediaWiki talk: test"),
+                                                               new Article("User talk:Test")
+                                                           });
+
+            List<Article> res = Tools.FilterSomeArticles(articles);
+
+            Assert.AreEqual(2, res.Count);
+
+            foreach (Article a in res)
+            {
+                Assert.IsFalse(a.Name.StartsWith("Commons:"));
+                Assert.AreNotEqual(Namespace.MediaWiki, a.NameSpaceKey);
+                Assert.AreNotEqual(Namespace.MediaWikiTalk, a.NameSpaceKey);
+                Assert.IsTrue(a.NameSpaceKey >= Namespace.Article);
+            }
         }
     }
 

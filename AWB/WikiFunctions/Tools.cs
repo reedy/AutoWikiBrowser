@@ -1672,12 +1672,13 @@ Message: {2}
             return newList;
         }
 
-        // Not Covered
+        // Covered by ToolsTests.FilterSomeArticles()
         /// <summary>
         /// Filter out articles which we definately do not want to edit and remove duplicates.
+        /// (Filters MediaWiki (and talk) NS, Commons, and where NS is less than 0)
         /// </summary>
-        /// <param name="UnfilteredArticles"></param>
-        /// <returns></returns>
+        /// <param name="UnfilteredArticles">Original unfiltered article list</param>
+        /// <returns>Filtered article list</returns>
         public static List<Article> FilterSomeArticles(List<Article> UnfilteredArticles)
         {
             List<Article> items = new List<Article>();
