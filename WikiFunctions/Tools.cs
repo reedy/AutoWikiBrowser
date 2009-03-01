@@ -1674,18 +1674,18 @@ Message: {2}
 
         // Not Covered
         /// <summary>
-        /// 
+        /// Filter out articles which we definately do not want to edit and remove duplicates.
         /// </summary>
         /// <param name="UnfilteredArticles"></param>
         /// <returns></returns>
         public static List<Article> FilterSomeArticles(List<Article> UnfilteredArticles)
         {
-            //Filter out articles which we definately do not want to edit and remove duplicates.
             List<Article> items = new List<Article>();
 
             foreach (Article a in UnfilteredArticles)
             {
-                if (a.NameSpaceKey >= 0 && a.NameSpaceKey != 9 && a.NameSpaceKey != 8 && !a.Name.StartsWith("Commons:"))
+                if (a.NameSpaceKey >= Namespace.Article && a.NameSpaceKey != Namespace.MediaWiki &&
+                    a.NameSpaceKey != Namespace.MediaWikiTalk && !a.Name.StartsWith("Commons:"))
                 {
                     if (!items.Contains(a))
                         items.Add(a);
