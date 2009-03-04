@@ -105,6 +105,7 @@ namespace WikiFunctions.Parse
         private static readonly Dictionary<Regex, string> RegexTagger = new Dictionary<Regex, string>();
 
         private readonly HideText hider = new HideText();
+        private readonly HideText hiderHideExtLinksImages = new HideText(true, true, true);
         public static int StubMaxWordCount = 500;
 
         /// <summary>
@@ -158,17 +159,17 @@ namespace WikiFunctions.Parse
 
         public string HideMoreText(string ArticleText, bool HideOnlyTargetOfWikilink)
         {
-            return hider.HideMore(ArticleText, HideOnlyTargetOfWikilink);
+            return hiderHideExtLinksImages.HideMore(ArticleText, HideOnlyTargetOfWikilink);
         }
 
         public string HideMoreText(string ArticleText)
         {
-            return hider.HideMore(ArticleText);
+            return hiderHideExtLinksImages.HideMore(ArticleText);
         }
 
         public string AddBackMoreText(string ArticleText)
         {
-            return hider.AddBackMore(ArticleText);
+            return hiderHideExtLinksImages.AddBackMore(ArticleText);
         }
 
         // NOT covered
