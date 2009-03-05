@@ -479,13 +479,13 @@ Image:quux[http://example.com]
     [TestFixture]
     public class ConcurrencyTests : RequiresInitialization
     {
-        [Test, Category("Unarchived bugs")]
+        [Test]
         public void Parser()
         {
             Parsers p1 = new Parsers();
             Parsers p2 = new Parsers();
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#NullReferenceException_2
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#NullReferenceException_in_HideText.AddBackMore
             string s1 = p1.HideText("<pre>foo bar</pre>");
             string s2 = p2.HideText("<source>quux</source>");
             Assert.AreEqual("<pre>foo bar</pre>", p1.AddBackText(s1));

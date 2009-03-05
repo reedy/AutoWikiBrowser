@@ -257,7 +257,7 @@ End of.";
                 Parsers.StickyLinks("[[Sacramento, California|Sacramento]], California's [[capital city]]"));
         }
 
-        [Test, Category("Unarchived bugs")]
+        [Test]
         public void TestSimplifyLinks()
         {
             Assert.AreEqual("[[dog]]s", Parsers.SimplifyLinks("[[dog|dogs]]"));
@@ -1182,7 +1182,7 @@ While remaining upright may be the primary goal of beginning riders While remain
 
             Assert.AreEqual("The F&#x2011;22 plane", parser.Unicodify("The F&#x2011;22 plane"));
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#SmackBot:_conversion_of_HTML_char-codes_to_raw_Unicode:_issue_.26_consequent_suggestion
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#SmackBot:_conversion_of_HTML_char-codes_to_raw_Unicode:_issue_.26_consequent_suggestion
             Assert.AreEqual(@"the exclamation mark&#8201;! was", parser.Unicodify(@"the exclamation mark&#8201;! was"));
             Assert.AreEqual(@"the exclamation mark&#8239;! was", parser.Unicodify(@"the exclamation mark&#8239;! was"));
         }
@@ -1752,7 +1752,7 @@ fish | name = Bert }} ''Bert'' is a good fish."));
             Assert.IsFalse(text.Contains(uncatstub));
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Autotagging_and_Articleissues
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#Autotagging_and_Articleissues
             // do not add orphan where article already has orphan tag within {{Article issues}}
 
             text = parser.Tagger(@"{{Article issues|orphan=May 2008|cleanup=May 2008|story=May 2008}}\r\n" + shortText, "Test", out noChange, ref summary, true, false);
