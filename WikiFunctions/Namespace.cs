@@ -38,7 +38,7 @@ namespace WikiFunctions
         public static readonly int Image = File;
         public static readonly int ImageTalk = FileTalk;
 
-        // Not Covered
+        // Covered by: NamespaceTests.Determine
         /// <summary>
         /// Deduces the namespace number.
         /// TODO: doesn't recognise acceptable deviations such as "template:foo" or "Category : bar"
@@ -72,7 +72,7 @@ namespace WikiFunctions
             return 0;
         }
 
-        // Covered by ToolsTests.IsMainSpace()
+        // Covered by NamespaceTests.IsMainSpace()
         /// <summary>
         /// Tests title to make sure it is main space
         /// </summary>
@@ -90,7 +90,7 @@ namespace WikiFunctions
             return ns == Article;
         }
 
-        // Covered by ToolsTests.IsImportantNamespace()
+        // Covered by NamespaceTests.IsImportant()
         /// <summary>
         /// Tests title to make sure it is either main, image, category or template namespace.
         /// </summary>
@@ -110,7 +110,7 @@ namespace WikiFunctions
                 || key == Namespace.Template || key == Namespace.Category);
         }
 
-        // Covered by ToolsTest.IsTalkPage()
+        // Covered by NamespaceTests.IsTalk()
         /// <summary>
         /// Tests title to make sure it is a talk page.
         /// </summary>
@@ -120,7 +120,7 @@ namespace WikiFunctions
             return IsTalk(Determine(ArticleTitle));
         }
 
-        // Covered by ToolsTests.IsTalkPage()
+        // Covered by NamespaceTests.IsTalk()
         /// <summary>
         /// Tests title to make sure it is a talk page.
         /// </summary>
@@ -130,7 +130,7 @@ namespace WikiFunctions
             return (key % 2 == 1);
         }
 
-        // Covered by ToolsTests.IsUserSpace()
+        // Covered by NamespaceTests.IsUserSpace()
         /// <summary>
         /// returns true if current page is a userpage
         /// </summary>
@@ -139,7 +139,7 @@ namespace WikiFunctions
             return IsUserTalk(ArticleTitle) || IsUserPage(ArticleTitle);
         }
 
-        // Covered by ToolsTests.IsUserTalk()
+        // Covered by NamespaceTests.IsUserTalk()
         /// <summary>
         /// 
         /// </summary>
@@ -150,7 +150,7 @@ namespace WikiFunctions
             return ArticleTitle.StartsWith(Variables.Namespaces[Namespace.UserTalk]);
         }
 
-        // Covered by ToolsTests.IsUserPage()
+        // Covered by NamespaceTests.IsUserPage()
         /// <summary>
         /// 
         /// </summary>
@@ -163,7 +163,7 @@ namespace WikiFunctions
 
         private static readonly Regex NormalizeColon = new Regex(@"\s*:$", RegexOptions.Compiled);
 
-        // Covered by NamespaceFunctions.NormalizeNamespace()
+        // Covered by NamespaceTests.NormalizeNamespace()
         /// <summary>
         /// Normalizes a namespace string, but does not changes it to default namespace name
         /// </summary>
