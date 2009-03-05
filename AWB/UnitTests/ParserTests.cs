@@ -634,6 +634,7 @@ http://example.com }}");
         {
             // breaks if article title is empty
             Assert.AreEqual("==foo==", Parsers.FixHeadings("=='''foo'''==", "test"));
+            Assert.AreEqual("== foo ==", Parsers.FixHeadings("== '''foo''' ==", "test"));
             StringAssert.StartsWith("==foo==", Parsers.FixHeadings("=='''foo'''==\r\n", "test"));
             Assert.AreEqual("quux\r\n==foo==\r\nbar", Parsers.FixHeadings("quux\r\n=='''foo'''==\r\nbar", "test"));
             Assert.AreEqual("quux\r\n==foo==\r\n\r\nbar", Parsers.FixHeadings("quux\r\n=='''foo'''==\r\n\r\nbar", "test"));
