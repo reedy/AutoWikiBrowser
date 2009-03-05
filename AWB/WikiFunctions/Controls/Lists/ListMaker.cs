@@ -874,7 +874,7 @@ namespace WikiFunctions.Controls.Lists
             {
                 s = lbArticles.Items[i].ToString();
 
-                if (!Tools.IsMainSpace(s))
+                if (!Namespace.IsMainSpace(s))
                     lbArticles.Items.Remove(lbArticles.Items[i]);
                 else //move on
                     i++;

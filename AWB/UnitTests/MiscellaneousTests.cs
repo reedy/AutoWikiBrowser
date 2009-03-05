@@ -360,6 +360,11 @@ Image:quux[http://example.com]
     }
 
     [TestFixture]
+    public class NamespaceTests : RequiresInitialization
+    {
+    }
+
+    [TestFixture]
     public class ConcurrencyTests : RequiresInitialization
     {
         [Test, Category("Unarchived bugs")]

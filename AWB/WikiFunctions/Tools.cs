@@ -33,78 +33,19 @@ using WikiFunctions.Parse;
 namespace WikiFunctions
 {
     /// <summary>
-    /// Contains constants for canonical namespace numbers
-    /// </summary>
-    public static class Namespace
-    {
-        public static readonly int Media = -2;
-        public static readonly int Special = -1;
-        public static readonly int Article = 0;
-        public static readonly int Talk = 1;
-        public static readonly int User = 2;
-        public static readonly int UserTalk = 3;
-        public static readonly int Project = 4;
-        public static readonly int ProjectTalk = 5;
-        public static readonly int File = 6;
-        public static readonly int FileTalk = 7;
-        public static readonly int MediaWiki = 8;
-        public static readonly int MediaWikiTalk = 9;
-        public static readonly int Template = 10;
-        public static readonly int TemplateTalk = 11;
-        public static readonly int Help = 12;
-        public static readonly int HelpTalk = 13;
-        public static readonly int Category = 14;
-        public static readonly int CategoryTalk = 15;
-
-        public static readonly int FirstCustom = 100;
-
-        // Aliases
-
-        public static readonly int Mainspace = Article;
-        public static readonly int Image = File;
-        public static readonly int ImageTalk = FileTalk;
-    };
-
-
-    /// <summary>
     /// Provides various tools as static methods, such as getting the html of a page
     /// </summary>
     public static class Tools
     {
         public delegate void SetProgress(int percent);
 
-        // Not Covered
+        [Obsolete("This function is superseded by Namespace.Deduce")]
         /// <summary>
         /// Calculates the namespace index.
-        /// TODO: doesn't recognise acceptable deviations such as "template:foo" or "Category : bar"
         /// </summary>
         public static int CalculateNS(string ArticleTitle)
         {
-            if (!ArticleTitle.Contains(":"))
-                return 0;
-
-            foreach (KeyValuePair<int, string> k in Variables.Namespaces)
-            {
-                if (ArticleTitle.StartsWith(k.Value))
-                    return k.Key;
-            }
-
-            foreach (KeyValuePair<int, List<string>> k in Variables.NamespaceAliases)
-            {
-                foreach (string s in k.Value)
-                {
-                    if (ArticleTitle.StartsWith(s))
-                        return k.Key;
-                }
-            }
-
-            foreach (KeyValuePair<int, string> k in Variables.CanonicalNamespaces)
-            {
-                if (ArticleTitle.StartsWith(k.Value))
-                    return k.Key;
-            }
-
-            return 0;
+            return Namespace.Determine(ArticleTitle);
         }
 
         /// <summary>
@@ -133,14 +74,14 @@ namespace WikiFunctions
             new Controls.AboutBox().Show();
         }
 
-        // Covered by ToolsTests.IsMainSpace()
+        [Obsolete("This function is superseded by Namespace.IsMainSpace()")]
         /// <summary>
         /// Tests title to make sure it is main space
         /// </summary>
         /// <param name="ArticleTitle">The title.</param>
         public static bool IsMainSpace(string ArticleTitle)
         {
-            return (CalculateNS(ArticleTitle) == 0);
+            return Namespace.IsMainSpace(ArticleTitle);
         }
 
         // Covered by ToolsTests.IsRedirect()
@@ -203,48 +144,46 @@ namespace WikiFunctions
             return ArticleTitle;
         }
 
-        // Covered by ToolsTests.IsImportantNamespace()
+        [Obsolete("This function is superseded by Namespace.IsImportant")]
         /// <summary>
         /// Tests title to make sure it is either main, image, category or template namespace.
         /// </summary>
         /// <param name="ArticleTitle">The title.</param>
         public static bool IsImportantNamespace(string ArticleTitle)
         {
-            int i = CalculateNS(ArticleTitle);
-            return (i == Namespace.Article || i == Namespace.File
-                || i == Namespace.Template || i == Namespace.Category);
+            return Namespace.IsImportant(ArticleTitle);
         }
 
-        // Covered by ToolsTest.IsTalkPage()
+        [Obsolete("This function is superseded by Namespace.IsTalk()")]
         /// <summary>
         /// Tests title to make sure it is a talk page.
         /// </summary>
         /// <param name="ArticleTitle">The title.</param>
         public static bool IsTalkPage(string ArticleTitle)
         {
-            return IsTalkPage(CalculateNS(ArticleTitle));
+            return Namespace.IsTalk(ArticleTitle);
         }
 
-        // Covered by ToolsTests.IsTalkPage()
+        [Obsolete("This function is superseded by Namespace.IsTalk()")]
         /// <summary>
         /// Tests title to make sure it is a talk page.
         /// </summary>
         /// <param name="Key">The namespace key</param>
         public static bool IsTalkPage(int Key)
         {
-            return (Key % 2 == 1);
+            return Namespace.IsTalk(Key);
         }
 
-        // Covered by ToolsTests.IsUserSpace()
+        [Obsolete("This function is superseded by Namespace.IsUserSpace()")]
         /// <summary>
         /// returns true if current page is a userpage
         /// </summary>
         public static bool IsUserSpace(string ArticleTitle)
         {
-            return IsUserTalk(ArticleTitle) || IsUserPage(ArticleTitle);
+            return Namespace.IsUserSpace(ArticleTitle);
         }
 
-        // Covered by ToolsTests.IsUserTalk()
+        [Obsolete("This function is superseded by Namespace.IsUserTalk()")]
         /// <summary>
         /// 
         /// </summary>
@@ -252,10 +191,10 @@ namespace WikiFunctions
         /// <returns></returns>
         public static bool IsUserTalk(string ArticleTitle)
         {
-            return ArticleTitle.StartsWith(Variables.Namespaces[Namespace.UserTalk]);
+            return Namespace.IsUserTalk(ArticleTitle);
         }
 
-        // Covered by ToolsTests.IsUserPage()
+        [Obsolete("This function is superseded by Namespace.IsUserPage()")]
         /// <summary>
         /// 
         /// </summary>
@@ -263,7 +202,7 @@ namespace WikiFunctions
         /// <returns></returns>
         public static bool IsUserPage(string ArticleTitle)
         {
-            return ArticleTitle.StartsWith(Variables.Namespaces[Namespace.User]);
+            return Namespace.IsUserPage(ArticleTitle);
         }
 
         // Covered by ToolsTests.StripNamespaceColon()
@@ -276,26 +215,13 @@ namespace WikiFunctions
             return ns.TrimEnd(':');
         }
 
-        private static readonly Regex NormalizeColon = new Regex(@"\s*:$", RegexOptions.Compiled);
-
-        // Covered by NamespaceFunctions.NormalizeNamespace()
+        [Obsolete("This function is superseded by Namespace.Normalize()")]
         /// <summary>
         /// Normalizes a namespace string, but does not changes it to default namespace name
         /// </summary>
         public static string NormalizeNamespace(string ns, int nsId)
         {
-            ns = WikiDecode(NormalizeColon.Replace(ns, ":"));
-            if (Variables.Namespaces[nsId].Equals(ns, StringComparison.InvariantCultureIgnoreCase))
-                return Variables.Namespaces[nsId];
-
-            foreach (string s in Variables.NamespaceAliases[nsId])
-            {
-                if (s.Equals(ns, StringComparison.InvariantCultureIgnoreCase))
-                    return s;
-            }
-
-            // fail
-            return ns;
+            return Namespace.Normalize(ns, nsId);
         }
 
         // Covered by ToolsTests.RegexMatchCount()
@@ -1603,7 +1529,7 @@ Message: {2}
         /// <returns>Article Title</returns>
         public static string ConvertToTalk(Article a)
         {
-            if (IsTalkPage(a.NameSpaceKey))
+            if (Namespace.IsTalk(a.NameSpaceKey))
                 return a.Name;
 
             if (a.NameSpaceKey == Namespace.Article)
@@ -1641,7 +1567,7 @@ Message: {2}
         /// <returns>Article Title</returns>
         public static string ConvertFromTalk(Article a)
         {
-            if (IsTalkPage(a.NameSpaceKey))
+            if (Namespace.IsTalk(a.NameSpaceKey))
             {
                 if (a.NameSpaceKey == 1)
                     return a.NamespacelessName;
