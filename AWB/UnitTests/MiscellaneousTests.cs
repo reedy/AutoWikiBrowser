@@ -362,6 +362,92 @@ Image:quux[http://example.com]
     [TestFixture]
     public class NamespaceTests : RequiresInitialization
     {
+        [Test]
+        public void IsTalk()
+        {
+            Assert.IsTrue(Namespace.IsTalk(1));
+            Assert.IsTrue(Namespace.IsTalk(3));
+
+            Assert.IsFalse(Namespace.IsTalk(2));
+            Assert.IsFalse(Namespace.IsTalk(4));
+
+            Assert.IsTrue(Namespace.IsTalk("Talk:Test"));
+            Assert.IsTrue(Namespace.IsTalk("User talk:Test"));
+
+            Assert.IsFalse(Namespace.IsTalk("Test"));
+            Assert.IsFalse(Namespace.IsTalk("User:Test"));
+        }
+
+        [Test]
+        public void IsMainSpace()
+        {
+            Assert.IsTrue(Namespace.IsMainSpace("Test"));
+
+            Assert.IsFalse(Namespace.IsMainSpace("Talk:Test"));
+            Assert.IsFalse(Namespace.IsMainSpace("User:Test"));
+            Assert.IsFalse(Namespace.IsMainSpace("User talk:Test"));
+
+            Assert.IsFalse(Namespace.IsMainSpace("File:Test"));
+            Assert.IsFalse(Namespace.IsMainSpace("Image:Test"));
+        }
+
+        [Test]
+        public void IsImportant()
+        {
+            Assert.IsTrue(Namespace.IsImportant("Test"));
+            Assert.IsTrue(Namespace.IsImportant("File:Test.jpg"));
+            Assert.IsTrue(Namespace.IsImportant("Template:Test"));
+            Assert.IsTrue(Namespace.IsImportant("Category:Test"));
+
+            Assert.IsFalse(Namespace.IsImportant("Talk:Test"));
+            Assert.IsFalse(Namespace.IsImportant("File talk:Test"));
+            Assert.IsFalse(Namespace.IsImportant("Template talk:Test"));
+            Assert.IsFalse(Namespace.IsImportant("Category talk:Test"));
+            Assert.IsFalse(Namespace.IsImportant("User:Test"));
+        }
+
+        [Test]
+        public void IsUserSpace()
+        {
+            Assert.IsTrue(Namespace.IsUserSpace("User:Test"));
+            Assert.IsTrue(Namespace.IsUserSpace("User talk:Test"));
+
+            Assert.IsFalse(Namespace.IsUserSpace("User"));
+            Assert.IsFalse(Namespace.IsUserSpace("Test"));
+            Assert.IsFalse(Namespace.IsUserSpace("Project:User"));
+        }
+
+        [Test]
+        public void IsUserTalk()
+        {
+            Assert.IsTrue(Namespace.IsUserTalk("User talk:Test"));
+
+            Assert.IsFalse(Namespace.IsUserTalk("User:Test"));
+            Assert.IsFalse(Namespace.IsUserTalk("Test"));
+            Assert.IsFalse(Namespace.IsUserTalk("Project:User"));
+        }
+
+        [Test]
+        public void IsUserPage()
+        {
+            Assert.IsTrue(Namespace.IsUserPage("User:Test"));
+
+            Assert.IsFalse(Namespace.IsUserPage("User talk:Test"));
+            Assert.IsFalse(Namespace.IsUserPage("Test"));
+            Assert.IsFalse(Namespace.IsUserPage("Project:User"));
+        }
+
+        [Test]
+        public void NormalizeNamespace()
+        {
+            Assert.AreEqual("User:", Namespace.Normalize("User:", 2));
+            Assert.AreEqual("User:", Namespace.Normalize("user :", 2));
+            Assert.AreEqual("User talk:", Namespace.Normalize("User_talk:", 3));
+
+            Assert.AreEqual("Image:", Namespace.Normalize("image:", 6));
+            Assert.AreEqual("File:", Namespace.Normalize("file:", 6));
+            Assert.AreEqual("Image talk:", Namespace.Normalize("image talk:", 7));
+        }
     }
 
     [TestFixture]

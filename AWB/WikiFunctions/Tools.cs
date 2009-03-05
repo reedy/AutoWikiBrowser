@@ -39,7 +39,7 @@ namespace WikiFunctions
     {
         public delegate void SetProgress(int percent);
 
-        [Obsolete("This function is superseded by Namespace.Deduce")]
+        [Obsolete("This function is superseded by Namespace.Determine()")]
         /// <summary>
         /// Calculates the namespace index.
         /// </summary>
