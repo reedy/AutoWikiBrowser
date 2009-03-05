@@ -351,7 +351,7 @@ Image:quux[http://example.com]
             Assert.AreEqual("Foo", new Article("Category:Foo").NamespacelessName);
             Assert.AreEqual("Category:Foo", new Article("Category:Category:Foo").NamespacelessName);
 
-            // uncomment when Tools.CalculateNS() will support non-normalised names
+            // TODO: uncomment when Namespace.Determine() will support non-normalised names
             //Assert.AreEqual("Foo", new Article("Category : Foo").NamespacelessName);
 
             Assert.AreEqual("", new Article("Category:").NamespacelessName);
@@ -362,6 +362,32 @@ Image:quux[http://example.com]
     [TestFixture]
     public class NamespaceTests : RequiresInitialization
     {
+        [Test]
+        public void Determine()
+        {
+            Assert.AreEqual(0, Namespace.Determine("test"));
+            Assert.AreEqual(0, Namespace.Determine(":test"));
+            Assert.AreEqual(0, Namespace.Determine("test:test"));
+            Assert.AreEqual(0, Namespace.Determine("My Project:Foo"));
+
+            Assert.AreEqual(Namespace.Talk, Namespace.Determine("Talk:foo"));
+            Assert.AreEqual(Namespace.UserTalk, Namespace.Determine("User talk:bar"));
+
+            Assert.AreEqual(Namespace.File, Namespace.Determine("File:foo"));
+            Assert.AreEqual(Namespace.File, Namespace.Determine("Image:foo"));
+
+            Assert.AreEqual(Namespace.Project, Namespace.Determine("Wikipedia:Foo"));
+            Assert.AreEqual(Namespace.Project, Namespace.Determine("Project:Foo"));
+        }
+
+        [Test, Ignore("feature not implemented")]
+        public void Determine_Deviations()
+        {
+            Assert.AreEqual(Namespace.User, Namespace.Determine("user:foo"));
+            Assert.AreEqual(Namespace.UserTalk, Namespace.Determine("user_talk:foo"));
+            Assert.AreEqual(Namespace.UserTalk, Namespace.Determine("user%20talk:foo"));
+        }
+
         [Test]
         public void IsTalk()
         {
