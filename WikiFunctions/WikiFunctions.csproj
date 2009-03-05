@@ -57,6 +57,7 @@
     <Compile Include="Article.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Namespace.cs" />
     <Compile Include="Controls\Namespaces.cs">
       <SubType>UserControl</SubType>
     </Compile>

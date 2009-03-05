@@ -58,7 +58,7 @@ namespace WikiFunctions
         }
 
         public Article(string name)
-            : this(name, Tools.CalculateNS(name))
+            : this(name, Namespace.Determine(name))
         { }
 
         public Article(string name, int nameSpaceKey)

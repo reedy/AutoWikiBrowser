@@ -277,7 +277,7 @@ namespace WikiFunctions.DBScanner
 
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
         {
-            return (namespaces.Contains(Tools.CalculateNS(ArticleTitle)));
+            return (namespaces.Contains(Namespace.Determine(ArticleTitle)));
         }
     }
 

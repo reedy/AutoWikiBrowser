@@ -78,11 +78,11 @@ namespace WikiFunctions.Lists
                 ISpecialPageProvider item = (ISpecialPageProvider)cmboSourceSelect.SelectedItem;
 
                 if (!string.IsNullOrEmpty(txtPages.Text))
-                    list = item.MakeList(Tools.CalculateNS(cboNamespace.Text), searchCriteria);
+                    list = item.MakeList(Namespace.Determine(cboNamespace.Text), searchCriteria);
                 else if (item.PagesNeeded)
                     MessageBox.Show("Pages needed!");
                 else
-                    list = item.MakeList(Tools.CalculateNS(cboNamespace.Text), new [] { "" });
+                    list = item.MakeList(Namespace.Determine(cboNamespace.Text), new[] { "" });
             }
             
             return Tools.FilterSomeArticles(list);

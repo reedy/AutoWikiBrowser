@@ -409,7 +409,7 @@ en, sq, ru
         /// <returns></returns>
         internal string Sort(string ArticleText, string ArticleTitle)
         {
-            if (Tools.CalculateNS(ArticleTitle) == 10) //Dont really want to be fooling around with templates
+            if (Namespace.Determine(ArticleTitle) == 10) //Dont really want to be fooling around with templates
                 return ArticleText;
 
             string strSave = ArticleText;
