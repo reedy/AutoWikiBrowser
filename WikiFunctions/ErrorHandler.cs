@@ -76,7 +76,7 @@ namespace WikiFunctions
                         errorMessage.Append("\r\nThread: " + Thread.CurrentThread.Name);
 
                     errorMessage.Append("<table>");
-                    FormatException(ex, errorMessage, true);
+                    FormatException(ex, errorMessage, ExceptionKind.TopLevel);
                     errorMessage.Append("</table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version);
 
                     // suppress unhandled exception if Variables constructor says 'ouch'
@@ -118,21 +118,44 @@ namespace WikiFunctions
         }
 
         #region Static helper functions
+
+        enum ExceptionKind { TopLevel, Inner, LoaderException };
+
         /// <summary>
         /// Formats exception information for bug report
         /// </summary>
         /// <param name="ex">Exception to process</param>
         /// <param name="sb">StringBuilder used for output</param>
-        /// <param name="topLevel">false if exception is nested, true otherwise</param>
-        private static void FormatException(Exception ex, StringBuilder sb, bool topLevel)
+        /// <param name="kind">what kind of exception is this</param>
+        private static void FormatException(Exception ex, StringBuilder sb, ExceptionKind kind)
         {
-            sb.Append("<tr><td>" + (topLevel ? "Exception" : "Inner exception") + ":<td><code>"
+            sb.Append("<tr><td>" + KindToString(kind) + ":<td><code>"
                 + ex.GetType().Name + "</code><tr><td>Message:<td><code>"
                 + ex.Message + "</code><tr><td>Call stack:<td><pre>" + ex.StackTrace + "</pre></tr>\r\n");
 
             if (ex.InnerException != null)
             {
-                FormatException(ex.InnerException, sb, false);
+                FormatException(ex.InnerException, sb, ExceptionKind.Inner);
+            }
+            if (ex is ReflectionTypeLoadException)
+            {
+                foreach (Exception e in ((ReflectionTypeLoadException)ex).LoaderExceptions)
+                {
+                    FormatException(e, sb, ExceptionKind.LoaderException);
+                }
+            }
+        }
+
+        private static string KindToString(ExceptionKind ek)
+        {
+            switch (ek)
+            {
+                case ExceptionKind.Inner:
+                    return "Inner exception";
+                case ExceptionKind.LoaderException:
+                    return "Loader exception";
+                default:
+                    return "Exception";
             }
         }
 
