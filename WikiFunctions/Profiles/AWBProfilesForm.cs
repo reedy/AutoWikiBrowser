@@ -98,14 +98,27 @@ namespace WikiFunctions.Profiles
         /// Publically accessible login, to allow calling of login via AWB startup parameters
         /// </summary>
         /// <param name="profileID">Profile ID to login to</param>
-        public void login(int profileID)
+        public void login(string profileIdOrName)
         {
-            if (profileID == -1)
+            if (profileIdOrName.Length == 0)
                 return;
 
             try
             {
-                AWBProfile startupProfile = AWBProfiles.GetProfile(profileID);
+                int profileID = -1;
+                AWBProfile startupProfile;
+
+                if (int.TryParse(profileIdOrName, out profileID))
+                    startupProfile = AWBProfiles.GetProfile(profileID);
+                else
+                    startupProfile = AWBProfiles.GetProfile(profileIdOrName);
+
+                if (startupProfile == null)
+                {
+                    MessageBox.Show(this.Parent, "Can't find user '" + profileIdOrName + "'.", "Command line error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
 
                 if (!string.IsNullOrEmpty(startupProfile.Password))
                 {//Get 'Saved' Password

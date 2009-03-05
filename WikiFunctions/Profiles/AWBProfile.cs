@@ -85,6 +85,8 @@ namespace WikiFunctions.Profiles
                     DeleteProfile(id);
             }
 
+            if (string.IsNullOrEmpty(prof.Username)) return null;
+
             // one try...catch without a resume has the effect that all remaining code in the try block is skipped
             // WHY are we just ignoring these errors anyway? There should be a wrapper around Registry.GetValue perhaps?
             try { prof.Password = RegistryGetAndDecryptValue(id + "\\Pass", ""); }
@@ -97,6 +99,21 @@ namespace WikiFunctions.Profiles
                 prof.notes = RegistryGetValue(id + "\\Notes", "");
             }
             return prof;
+        }
+
+        /// <summary>
+        /// Gets a profile
+        /// </summary>
+        /// <param name="userName">Profile username</param>
+        public static AWBProfile GetProfile(string userName)
+        {
+            foreach (AWBProfile prof in GetProfiles())
+            {
+                if (prof.Username == userName) return prof;
+            }
+
+            // failure
+            return null;
         }
 
         /// <summary>

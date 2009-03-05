@@ -39,32 +39,16 @@ namespace AutoWikiBrowser
                 Application.ThreadException += Application_ThreadException;
 
                 if (WikiFunctions.Variables.UsingMono)
-                    throw new NotSupportedException("AWB is not currently supported by mono");
-
-                MainForm awb = new MainForm();
-
-                for (int i = 0; i < args.Length; i++)
                 {
-                    switch (args[i])
-                    {
-                        case "/s":
-                            if ((i + 1) < args.Length)
-                            {
-                                string tmp = args[i + 1];
-                                if (tmp.Contains(".xml") && System.IO.File.Exists(tmp))
-                                    awb.SettingsFile = tmp;
-                                else if (!tmp.Contains(".xml") && System.IO.File.Exists(tmp + ".xml"))
-                                    awb.SettingsFile = tmp + ".xml";
-                            }
-                            break;
-                        case "/u":
-                            if ((i + 1) < args.Length)
-                                awb.ProfileToLoad = int.Parse(args[i + 1]);
-                            break;
-                    }
+                    MessageBox.Show("AWB is not currently supported by mono", "Not supported",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
 
+                MainForm awb = new MainForm();
                 AWB = awb;
+                awb.ParseCommandLine(args);
+
                 Application.Run(awb);
             }
             catch (Exception ex)

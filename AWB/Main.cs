@@ -51,41 +51,41 @@ namespace AutoWikiBrowser
     public sealed partial class MainForm : Form, IAutoWikiBrowser
     { // this class needs to be public, otherwise we get an exception which recommends setting ComVisibleAttribute to true (which we've already done)
         #region Fields
-        private static readonly Splash splash = new Splash();
-        private static WikiFunctions.Profiles.AWBProfilesForm profiles;
+        private readonly Splash splash = new Splash();
+        private WikiFunctions.Profiles.AWBProfilesForm profiles;
 
-        private static bool Abort;
+        private bool Abort;
 
-        private static string LastArticle = "";
-        private static string mSettingsFile = "";
-        private static string LastMove = "", LastDelete = "", LastProtect = "";
+        private string LastArticle = "";
+        private string mSettingsFile = "";
+        private string LastMove = "", LastDelete = "", LastProtect = "";
 
-        private static int oldselection;
-        private static int retries;
+        private int oldselection;
+        private int retries;
 
-        private static bool PageReload;
-        private static int sameArticleNudges;
+        private bool PageReload;
+        private int sameArticleNudges;
 
-        private static readonly HideText RemoveText = new HideText(false, true, false);
-        private static readonly List<string> noParse = new List<string>();
-        private static readonly FindandReplace findAndReplace = new FindandReplace();
-        private static readonly SubstTemplates substTemplates = new SubstTemplates();
-        private static RegExTypoFix RegexTypos;
-        private static readonly SkipOptions Skip = new SkipOptions();
-        private static readonly WikiFunctions.ReplaceSpecial.ReplaceSpecial replaceSpecial =
+        private readonly HideText RemoveText = new HideText(false, true, false);
+        private readonly List<string> noParse = new List<string>();
+        private readonly FindandReplace findAndReplace = new FindandReplace();
+        private readonly SubstTemplates substTemplates = new SubstTemplates();
+        private RegExTypoFix RegexTypos;
+        private readonly SkipOptions Skip = new SkipOptions();
+        private readonly WikiFunctions.ReplaceSpecial.ReplaceSpecial replaceSpecial =
             new WikiFunctions.ReplaceSpecial.ReplaceSpecial();
-        private static Parsers parsers;
-        private static readonly TimeSpan StartTime =
+        private Parsers parsers;
+        private readonly TimeSpan StartTime =
             new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-        private static readonly List<string> RecentList = new List<string>();
-        private static readonly CustomModule cModule = new CustomModule();
-        private static readonly ExternalProgram externalProgram = new ExternalProgram();
-        internal static RegexTester regexTester = new RegexTester();
-        private static bool userTalkWarningsLoaded;
-        private static Regex userTalkTemplatesRegex;
-        private static bool mErrorGettingLogInStatus;
-        private static bool skippable = true;
-        private static FormWindowState LastState = FormWindowState.Normal; // doesn't look like we can use RestoreBounds for this - any other built in way?
+        private readonly List<string> RecentList = new List<string>();
+        private readonly CustomModule cModule = new CustomModule();
+        private readonly ExternalProgram externalProgram = new ExternalProgram();
+        internal RegexTester regexTester = new RegexTester();
+        private bool userTalkWarningsLoaded;
+        private Regex userTalkTemplatesRegex;
+        private bool mErrorGettingLogInStatus;
+        private bool skippable = true;
+        private FormWindowState LastState = FormWindowState.Normal; // doesn't look like we can use RestoreBounds for this - any other built in way?
 
         private ArticleRedirected ArticleWasRedirected;
 
@@ -94,7 +94,7 @@ namespace AutoWikiBrowser
 
         List<TypoStat> typoStats;
 
-        private static readonly Help helpForm = new Help();
+        private readonly Help helpForm = new Help();
 
         private readonly WikiDiff diff = new WikiDiff();
 
@@ -186,8 +186,33 @@ namespace AutoWikiBrowser
             }
         }
 
-        private static string SettingsFileDisplay;
-        internal string SettingsFile
+        public void ParseCommandLine(string[] args)
+        {
+            for (int i = 0; i < args.Length; i++)
+            {
+                switch (args[i])
+                {
+                    case "/s":
+                        if ((i + 1) < args.Length)
+                        {
+                            string fileName = args[i + 1];
+
+                            if (Path.GetExtension(fileName) == "" && !File.Exists(fileName)) fileName += ".xml";
+
+                            if (File.Exists(fileName))
+                                SettingsFile = fileName;
+                        }
+                        break;
+                    case "/u":
+                        if ((i + 1) < args.Length)
+                            ProfileToLoad = args[i + 1];
+                        break;
+                }
+            }
+        }
+
+        private string SettingsFileDisplay;
+        string SettingsFile
         {
             set
             {
@@ -202,7 +227,7 @@ namespace AutoWikiBrowser
             get { return mSettingsFile; }
         }
 
-        public int ProfileToLoad = -1;
+        string ProfileToLoad = "";
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -270,10 +295,7 @@ namespace AutoWikiBrowser
                         break;
                 }
 
-                if (ProfileToLoad != -1)
-                {
-                    profiles.login(ProfileToLoad);
-                }
+                profiles.login(ProfileToLoad);
             }
             catch (Exception ex)
             {
@@ -3263,7 +3285,7 @@ window.scrollTo(0, diffTopY);
         #region ArticleActions
         // TODO: Since this is essentially/conceptually Article.Delete(), Article.Move() etc shouldn't this region be encapsulated?
 
-        private static ArticleActionDialog dlgArticleAction;
+        private ArticleActionDialog dlgArticleAction;
 
         private void MoveArticle()
         {
@@ -3597,7 +3619,7 @@ window.scrollTo(0, diffTopY);
         /// <summary>
         /// 
         /// </summary>
-        private static void LoadUserTalkWarnings()
+        private void LoadUserTalkWarnings()
         {
             Regex userTalkTemplate = new Regex(@"# ?\[\["
                 + Variables.NamespacesCaseInsensitive[Namespace.Template] + @"(.*?)\]\]");
