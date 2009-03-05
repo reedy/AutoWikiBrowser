@@ -1908,7 +1908,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string catregex = @"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category] +
                               @"\s*(.*?)\s*(?:|\|([^\|\]]*))\s*\]\]";
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#AWB_didn.27t_fix_special_characters_in_a_pipe – always fix category sortkeys
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_9#AWB_didn.27t_fix_special_characters_in_a_pipe
             ArticleText = FixCategories(ArticleText);
 
             if (ds.Count == 0)
