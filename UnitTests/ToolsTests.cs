@@ -10,7 +10,6 @@ namespace UnitTests
     [TestFixture]
     public class ToolsTests : RequiresInitialization
     {
-
         [Test]
         public void InvalidChars()
         {
@@ -731,7 +730,7 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
 
                 Assert.IsFalse(name.Contains("  "), "Sorting key shouldn't contain consecutive spaces - it breaks the sorting ({0})", name);
                 Assert.IsFalse(name.StartsWith(" "), "Sorting key shouldn't start with spaces");
-                Assert.IsFalse(name.EndsWith(" "), "Sorting key shouldn't cend with spaces");
+                Assert.IsFalse(name.EndsWith(" "), "Sorting key shouldn't end with spaces");
             }
         }
     }
