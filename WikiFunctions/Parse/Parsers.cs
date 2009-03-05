@@ -1082,7 +1082,7 @@ namespace WikiFunctions.Parse
                     string n = m.Value;
                     a = m.Groups[1].Value.Trim();
 
-                    b = (Tools.CalculateNS(a) != Namespace.Category)
+                    b = (Namespace.Determine(a) != Namespace.Category)
                             ? m.Groups[2].Value.Trim()
                             : m.Groups[2].Value.TrimEnd(new[] { ' ' });
 
@@ -1285,7 +1285,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             foreach (Match m in WikiRegexes.LooseImage.Matches(ArticleText))
             {
                 // only apply underscore/URL encoding fixes to image name (group 2)
-                string x = "[[" + Tools.NormalizeNamespace(m.Groups[1].Value, 6) + CanonicalizeTitle(m.Groups[2].Value).Trim() + m.Groups[3].Value.Trim() + "]]";
+                string x = "[[" + Namespace.Normalize(m.Groups[1].Value, 6) + CanonicalizeTitle(m.Groups[2].Value).Trim() + m.Groups[3].Value.Trim() + "]]";
                 ArticleText = ArticleText.Replace(m.Value, x);
             }
 
@@ -1795,7 +1795,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string cat = "\r\n[[" + Variables.Namespaces[Namespace.Category] + NewCategory + "]]";
             cat = Tools.ApplyKeyWords(ArticleTitle, cat);
 
-            if (Tools.CalculateNS(ArticleTitle) == Namespace.Template)
+            if (Namespace.Determine(ArticleTitle) == Namespace.Template)
                 ArticleText += "<noinclude>" + cat + "\r\n</noinclude>";
             else
                 ArticleText += cat;
@@ -2131,7 +2131,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public string Tagger(string ArticleText, string ArticleTitle, ref string Summary, bool addTags, bool removeTags)
         {
             // don't tag redirects/outside article namespace/no tagging changes
-            if (Tools.IsRedirect(ArticleText) || !Tools.IsMainSpace(ArticleTitle)
+            if (Tools.IsRedirect(ArticleText) || !Namespace.IsMainSpace(ArticleTitle)
                 || (!addTags && !removeTags))
                 return ArticleText;
 
@@ -2240,7 +2240,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 try
                 {
                     foreach (Article a in wlhProv.MakeList(0, ArticleTitle))
-                        if (Tools.IsMainSpace(a.Name))
+                        if (Namespace.IsMainSpace(a.Name))
                         {
                             orphaned = false;
                             break;

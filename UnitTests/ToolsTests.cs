@@ -503,35 +503,6 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
         }
 
         [Test]
-        public void IsTalkPage()
-        {
-            Assert.IsTrue(Tools.IsTalkPage(1));
-            Assert.IsTrue(Tools.IsTalkPage(3));
-
-            Assert.IsFalse(Tools.IsTalkPage(2));
-            Assert.IsFalse(Tools.IsTalkPage(4));
-
-            Assert.IsTrue(Tools.IsTalkPage("Talk:Test"));
-            Assert.IsTrue(Tools.IsTalkPage("User talk:Test"));
-
-            Assert.IsFalse(Tools.IsTalkPage("Test"));
-            Assert.IsFalse(Tools.IsTalkPage("User:Test"));
-        }
-
-        [Test]
-        public void IsMainSpace()
-        {
-            Assert.IsTrue(Tools.IsMainSpace("Test"));
-
-            Assert.IsFalse(Tools.IsMainSpace("Talk:Test"));
-            Assert.IsFalse(Tools.IsMainSpace("User:Test"));
-            Assert.IsFalse(Tools.IsMainSpace("User talk:Test"));
-
-            Assert.IsFalse(Tools.IsMainSpace("File:Test"));
-            Assert.IsFalse(Tools.IsMainSpace("Image:Test"));
-        }
-
-        [Test]
         public void IsWikimediaProject()
         {
             Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikipedia));
@@ -548,52 +519,6 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
 
             Assert.IsFalse(Tools.IsWikimediaProject(ProjectEnum.custom));
             Assert.IsFalse(Tools.IsWikimediaProject(ProjectEnum.wikia));
-        }
-
-        [Test]
-        public void IsImportantNamespace()
-        {
-            Assert.IsTrue(Tools.IsImportantNamespace("Test"));
-            Assert.IsTrue(Tools.IsImportantNamespace("File:Test.jpg"));
-            Assert.IsTrue(Tools.IsImportantNamespace("Template:Test"));
-            Assert.IsTrue(Tools.IsImportantNamespace("Category:Test"));
-
-            Assert.IsFalse(Tools.IsImportantNamespace("Talk:Test"));
-            Assert.IsFalse(Tools.IsImportantNamespace("File talk:Test"));
-            Assert.IsFalse(Tools.IsImportantNamespace("Template talk:Test"));
-            Assert.IsFalse(Tools.IsImportantNamespace("Category talk:Test"));
-            Assert.IsFalse(Tools.IsImportantNamespace("User:Test"));
-        }
-
-        [Test]
-        public void IsUserSpace()
-        {
-            Assert.IsTrue(Tools.IsUserSpace("User:Test"));
-            Assert.IsTrue(Tools.IsUserSpace("User talk:Test"));
-
-            Assert.IsFalse(Tools.IsUserSpace("User"));
-            Assert.IsFalse(Tools.IsUserSpace("Test"));
-            Assert.IsFalse(Tools.IsUserSpace("Project:User"));
-        }
-
-        [Test]
-        public void IsUserTalk()
-        {
-            Assert.IsTrue(Tools.IsUserTalk("User talk:Test"));
-
-            Assert.IsFalse(Tools.IsUserTalk("User:Test"));
-            Assert.IsFalse(Tools.IsUserTalk("Test"));
-            Assert.IsFalse(Tools.IsUserTalk("Project:User"));
-        }
-
-        [Test]
-        public void IsUserPage()
-        {
-            Assert.IsTrue(Tools.IsUserPage("User:Test"));
-
-            Assert.IsFalse(Tools.IsUserPage("User talk:Test"));
-            Assert.IsFalse(Tools.IsUserPage("Test"));
-            Assert.IsFalse(Tools.IsUserPage("Project:User"));
         }
 
         [Test]
@@ -801,18 +726,6 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
                 new[] { "Foo", "Foo bar", "User:Foo" });
         }
         #endregion
-
-        [Test]
-        public void NormalizeNamespace()
-        {
-            Assert.AreEqual("User:", Tools.NormalizeNamespace("User:", 2));
-            Assert.AreEqual("User:", Tools.NormalizeNamespace("user :", 2));
-            Assert.AreEqual("User talk:", Tools.NormalizeNamespace("User_talk:", 3));
-
-            Assert.AreEqual("Image:", Tools.NormalizeNamespace("image:", 6));
-            Assert.AreEqual("File:", Tools.NormalizeNamespace("file:", 6));
-            Assert.AreEqual("Image talk:", Tools.NormalizeNamespace("image talk:", 7));
-        }
 
         [Test]
         public void RegexMatchCount()
