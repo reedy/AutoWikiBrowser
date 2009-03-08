@@ -413,7 +413,7 @@ namespace WikiFunctions
         /// <summary>
         /// matches &lt;ref&gt; tags
         /// </summary>
-        public static readonly Regex Refs = new Regex(@"(<ref\b[^>]*?>[^<]*<\s*/\s*ref\s*>|<ref\s+name\s*=\s*.*?/\s*>)", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex Refs = new Regex(@"(<ref\b[^>]*?>.*?<\s*/\s*ref\s*>|<ref\s+name\s*=\s*.*?/\s*>)", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
         /// matches &lt;cite&gt; tags

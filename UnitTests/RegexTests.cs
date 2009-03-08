@@ -190,7 +190,7 @@ bar</ POEM>");
             RegexAssert.Matches(WikiRegexes.BulletedText, " foo\r\nfoo bar", " foo\r");
         }
 
-        [Test]
+        [Test, Category("Unarchived bugs")]
         public void Refs()
         {
             RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo</ref>", "<ref>foo</ref>");
@@ -205,6 +205,11 @@ bar</ POEM>");
 
             RegexAssert.NoMatch(WikiRegexes.Refs, "<refname=foo>bar</ref>");
             RegexAssert.NoMatch(WikiRegexes.Refs, "<refname=foo/>");
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#.3Cp.3E_deletion_in_references_and_notes
+            RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo<!-- bar --></ref>", "<ref>foo<!-- bar --></ref>");
+            // shouldn't eat too much
+            RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo<!-- bar --></ref> <ref>foo</ref>", "<ref>foo<!-- bar --></ref>", "<ref>foo</ref>");
         }
 
         [Test]
