@@ -64,7 +64,7 @@ namespace WikiFunctions
                 + @")\s*([^\|\]]+)(.*?)\]\]",
                 RegexOptions.Compiled);
 
-            string months = "(" + string.Join("|", Variables.MonthNames) + ")";
+            months = "(" + string.Join("|", Variables.MonthNames) + ")";
 
             Dates = new Regex("^(0?[1-9]|[12][0-9]|3[01]) " + months + "$", RegexOptions.Compiled);
             Dates2 = new Regex("^" + months + " (0?[1-9]|[12][0-9]|3[01])$", RegexOptions.Compiled);
@@ -108,6 +108,8 @@ namespace WikiFunctions
             //}
             ExtractTitle = new Regex("^" + s + "([^?&]*)$", RegexOptions.Compiled);
         }
+
+        public static string months;
 
         // Covered by RegexTests.GenerateNamespaceRegex()
         /// <summary>
