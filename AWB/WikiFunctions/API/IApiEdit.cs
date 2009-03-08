@@ -52,7 +52,16 @@ namespace WikiFunctions.API
         string Action
         { get; }
 
+        /// <summary>
+        /// Information about the page currently being modified
+        /// </summary>
         PageInfo Page
+        { get; }
+
+        /// <summary>
+        /// Retrieves the code of CSS/JS to be used for previews
+        /// </summary>
+        string HtmlHeaders
         { get; }
 
         /// <summary>
