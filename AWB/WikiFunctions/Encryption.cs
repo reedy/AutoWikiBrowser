@@ -129,10 +129,7 @@ namespace WikiFunctions.Encryption
             cryptoStream.Close();
 
             // Convert encrypted data into a base64-encoded string.
-            string cipherText = Convert.ToBase64String(cipherTextBytes);
-
-            // Return encrypted string.
-            return cipherText;
+            return Convert.ToBase64String(cipherTextBytes);
         }
 
         /// <summary>
@@ -249,12 +246,9 @@ namespace WikiFunctions.Encryption
 
             // Convert decrypted data into a string. 
             // Let us assume that the original plaintext string was UTF8-encoded.
-            string plainText = Encoding.UTF8.GetString(plainTextBytes,
+            return Encoding.UTF8.GetString(plainTextBytes,
                                                        0,
                                                        decryptedByteCount);
-
-            // Return decrypted string.   
-            return plainText;
         }
     }
 }

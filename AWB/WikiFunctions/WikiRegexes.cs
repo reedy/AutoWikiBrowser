@@ -411,17 +411,17 @@ namespace WikiFunctions
         public static readonly Regex EmptyComments = new Regex(@"<!--[^\S\r\n]*-->", RegexOptions.Compiled);
 
         /// <summary>
-        /// matches <ref> tags
+        /// matches &lt;ref&gt; tags
         /// </summary>
         public static readonly Regex Refs = new Regex(@"(<ref\b[^>]*?>[^<]*<\s*/\s*ref\s*>|<ref\s+name\s*=\s*.*?/\s*>)", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
-        /// matches <cite> tags
+        /// matches &lt;cite&gt; tags
         /// </summary>
         public static readonly Regex Cites = new Regex(@"<cite[^>]*?>[^<]*<\s*/cite\s*>", RegexOptions.Compiled | RegexOptions.Singleline);
 
         /// <summary>
-        /// matches <nowiki> tags
+        /// matches &lt;nowiki&gt; tags
         /// </summary>
         public static readonly Regex Nowiki = new Regex("<nowiki>.*?</nowiki>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
