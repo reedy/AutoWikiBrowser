@@ -426,11 +426,6 @@ namespace WikiFunctions
         public static readonly Regex Nowiki = new Regex("<nowiki>.*?</nowiki>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
-        /// matches user groups
-        /// </summary>
-        public static readonly Regex wgUserGroups = new Regex(@"^var\s*wgUserGroups\s*=\s*\[(.*\])", RegexOptions.Compiled);
-
-        /// <summary>
         /// matches template
         /// </summary>
         public static Regex TemplateCall;
