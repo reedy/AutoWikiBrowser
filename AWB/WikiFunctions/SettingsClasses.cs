@@ -511,15 +511,6 @@ namespace WikiFunctions.AWBSettings
     [Serializable]
     public class DabPrefs
     {
-        internal DabPrefs() { }
-        public DabPrefs(bool mEnabled, string mLink, string[] mVariants, int mContextChars)
-        {
-            Enabled = mEnabled;
-            Link = mLink;
-            Variants = mVariants;
-            ContextChars = mContextChars;
-        }
-
         public bool Enabled = false;
         public string Link = "";
         public string[] Variants = new string[0];
@@ -529,14 +520,6 @@ namespace WikiFunctions.AWBSettings
     [Serializable]
     public class ModulePrefs
     {
-        internal ModulePrefs() { }
-        public ModulePrefs(bool mEnabled, int mLanguage, string mCode)
-        {
-            Enabled = mEnabled;
-            Language = mLanguage;
-            Code = mCode;
-        }
-
         public bool Enabled = false;
         public int Language = 0;
         public string Code = @"        public string ProcessArticle(string ArticleText, string ArticleTitle, int wikiNamespace, out string Summary, out bool Skip)
