@@ -272,10 +272,30 @@ namespace AutoWikiBrowser
                AutoSaveEditBoxFile, chkLock.Checked, EditToolBarVisible, SuppressUsingAWB, AddUsingAWBOnArticleAction,
                filterOutNonMainSpaceToolStripMenuItem.Checked, removeDuplicatesToolStripMenuItem.Checked,
                alphaSortInterwikiLinksToolStripMenuItem.Checked, replaceReferenceTagsToolStripMenuItem.Checked,
-               focusAtEndOfEditTextBoxToolStripMenuItem.Checked), new DabPrefs(chkEnableDab.Checked,
-               txtDabLink.Text, txtDabVariants.Lines, (int)udContextChars.Value), new ModulePrefs(
-               cModule.ModuleEnabled, cModule.Language, cModule.Code), externalProgram.Settings, loggingSettings1.SerialisableSettings, listMaker.SpecialFilterSettings,
-               Plugin.Items);
+               focusAtEndOfEditTextBoxToolStripMenuItem.Checked), 
+               
+               
+               new DabPrefs() 
+               {
+                   Enabled = chkEnableDab.Checked,
+                   Link = txtDabLink.Text,
+                   Variants = txtDabVariants.Lines,
+                   ContextChars = (int)udContextChars.Value
+               },
+               
+               
+                new ModulePrefs()
+                {
+                    Enabled = cModule.ModuleEnabled,
+                    Language = cModule.Language,
+                    Code = cModule.Code
+                }, 
+            
+                externalProgram.Settings,
+                loggingSettings1.SerialisableSettings,
+                listMaker.SpecialFilterSettings,
+                Plugin.Items
+            );
         }
 
         /// <summary>
