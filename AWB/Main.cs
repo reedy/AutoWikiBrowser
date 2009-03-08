@@ -1420,10 +1420,15 @@ window.scrollTo(0, diffTopY);
 
             skippable = false;
 
-            if (true)//webBrowserDiff.Document != null)
+            if (webBrowserDiff.Document != null)
             {
                 webBrowserDiff.Document.OpenNew(false);
-                webBrowserDiff.Document.Write(result);
+                webBrowserDiff.Document.Write("<html><head>"
+                    + sender.HtmlHeaders
+                    + "</head><body style=\"background:white; margin:10px; text-align:left;\">"
+                    + result
+                    + "</html>"
+                    );
                 webBrowserDiff.BringToFront();
             }
 

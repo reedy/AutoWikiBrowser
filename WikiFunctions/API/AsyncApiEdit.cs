@@ -271,6 +271,11 @@ namespace WikiFunctions.API
             get { return Editor.Action; }
         }
 
+        public string HtmlHeaders
+        {
+            get { return Editor.HtmlHeaders; }
+        }
+
         public PageInfo Page
         {
             get { return Editor.Page; }

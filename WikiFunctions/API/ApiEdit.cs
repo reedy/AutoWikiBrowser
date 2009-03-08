@@ -24,6 +24,7 @@ using System.Web;
 using System.IO;
 using System.Xml;
 using System.Threading;
+using System.Text.RegularExpressions;
 
 /// MediaWiki API manual: http://www.mediawiki.org/wiki/API
 /// Site prerequisites: MediaWiki 1.13+ with the following settings:
@@ -106,6 +107,15 @@ namespace WikiFunctions.API
         /// </summary>
         public string URL { get; private set; }
 
+        private string Server
+        {
+            get
+            { 
+                Uri uri = new Uri(URL);
+                return "http://" + uri.Host;
+            }
+        }
+
         public bool PHP5 { get; private set; }
 
         /// <summary>
@@ -123,6 +133,9 @@ namespace WikiFunctions.API
         /// Name of the page currently being edited
         /// </summary>
         public PageInfo Page
+        { get; private set; }
+
+        public string HtmlHeaders
         { get; private set; }
 
         CookieContainer m_Cookies = new CookieContainer();
@@ -644,8 +657,46 @@ namespace WikiFunctions.API
 
         #region Wikitext operations
 
+        private string ExpandRelativeUrls(string html)
+        {
+            return html.Replace(" href=\"/", " href=\"" + Server + "/")
+                .Replace(" src=\"/", " src=\"" + Server + "/");
+        }
+
+        private static readonly Regex extractCssAndJs = new Regex(@"("
+            + @"<!--\[if .*?-->"
+            + @"|<style\b.*?>.*?</style>"
+            + @"|<link rel=""stylesheet"".*?/\s?>"
+            //+ @"|<script type=""text/javascript"".*?</script>"
+            + ")",
+            RegexOptions.Singleline | RegexOptions.Compiled);
+
+        /// <summary>
+        /// Loads wiki's UI HTML and scraps everything we need to make correct previews
+        /// </summary>
+        private void EnsureHtmlHeadersLoaded()
+        {
+            if (!string.IsNullOrEmpty(HtmlHeaders)) return;
+
+            string html = HttpGet(URL + "index.php" + (PHP5 ? "5" : ""));
+            html = Tools.StringBetween(html, "<head>", "</head>");
+            StringBuilder extracted = new StringBuilder(2048);
+
+            foreach (Match m in extractCssAndJs.Matches(html))
+            {
+                extracted.Append(m.Value);
+                extracted.Append("\n");
+            }
+
+            string server = "http://" + new Uri(URL).Host;
+
+            HtmlHeaders = ExpandRelativeUrls(extracted.ToString());
+        }
+
         public string Preview(string pageTitle, string text)
         {
+            EnsureHtmlHeadersLoaded();
+
             string result = HttpPost(
                 new[,]
                 {
@@ -663,7 +714,7 @@ namespace WikiFunctions.API
             {
                 XmlReader xr = XmlReader.Create(new StringReader(result));
                 if (!xr.ReadToFollowing("text")) throw new Exception("Cannot find <text> element");
-                return xr.ReadString();
+                return ExpandRelativeUrls(xr.ReadString());
             }
             catch (Exception ex)
             {
