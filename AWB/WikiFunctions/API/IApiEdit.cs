@@ -52,16 +52,7 @@ namespace WikiFunctions.API
         string Action
         { get; }
 
-        /// <summary>
-        /// Name of the page currently being edited
-        /// </summary>
-        string PageTitle
-        { get; }
-
-        /// <summary>
-        /// Initial content of the page currently being edited
-        /// </summary>
-        string PageText
+        PageInfo Page
         { get; }
 
         /// <summary>

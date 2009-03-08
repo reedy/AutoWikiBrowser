@@ -120,39 +120,10 @@ namespace WikiFunctions.API
         public string Action { get; private set; }
 
         /// <summary>
-        /// Edit token (http://www.mediawiki.org/wiki/Manual:Edit_token)
-        /// </summary>
-        public string EditToken { get; private set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Timestamp { get; private set; }
-
-        /// <summary>
         /// Name of the page currently being edited
         /// </summary>
-        public string PageTitle { get; private set; }
-
-        /// <summary>
-        /// Initial content of the page currently being edited
-        /// </summary>
-        public string PageText { get; private set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool Exists { get; private set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public Protection Edit { get; private set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public Protection Move { get; private set; }
+        public PageInfo Page
+        { get; private set; }
 
         CookieContainer m_Cookies = new CookieContainer();
         /// <summary>
@@ -169,11 +140,7 @@ namespace WikiFunctions.API
         public void Reset()
         {
             Action = null;
-            EditToken = null;
-            PageText = null;
-            PageTitle = null;
-            Timestamp = null;
-            Exists = false;
+            Page = new PageInfo();
             m_Aborting = false;
             m_Request = null;
         }
@@ -446,37 +413,7 @@ namespace WikiFunctions.API
 
             try
             {
-                XmlReader xr = XmlReader.Create(new StringReader(result));
-                if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
-
-                Exists = (xr.GetAttribute("missing") != "");
-                EditToken = xr.GetAttribute("edittoken");
-                PageTitle = xr.GetAttribute("title");
-
-                if (xr.ReadToDescendant("protection") && !xr.IsEmptyElement)
-                {
-                    XmlDocument doc = new XmlDocument();
-                    doc.LoadXml(xr.ReadOuterXml());
-
-                    foreach (XmlNode xn in doc.GetElementsByTagName("pr"))
-                    {
-                        switch (xn.Attributes["type"].Value)
-                        {
-                            case "edit":
-                                Edit = StringToProtection(xn.Attributes["level"].Value);
-                                break;
-                            case "move":
-                                Move = StringToProtection(xn.Attributes["level"].Value);
-                                break;
-                        }
-                    }
-                }
-                else
-                    xr.ReadToFollowing("revisions");
-
-                xr.ReadToDescendant("rev");
-                Timestamp = xr.GetAttribute("timestamp");
-                PageText = xr.ReadString();
+                Page = new PageInfo(result);
 
                 Action = "edit";
             }
@@ -485,7 +422,7 @@ namespace WikiFunctions.API
                 throw new ApiBrokenXmlException(this, ex);
             }
 
-            return PageText;
+            return Page.Text;
         }
 
         public void Save(string pageText, string summary, bool minor, bool watch)
@@ -493,13 +430,13 @@ namespace WikiFunctions.API
             if (string.IsNullOrEmpty(pageText)) throw new ArgumentException("Can't save empty pages", "pageText");
             if (string.IsNullOrEmpty(summary)) throw new ArgumentException("Edit summary required", "summary");
             if (Action != "edit") throw new ApiException(this, "This page is not opened properly for editing");
-            if (string.IsNullOrEmpty(EditToken)) throw new ApiException(this, "Edit token is needed to edit pages");
+            if (string.IsNullOrEmpty(Page.EditToken)) throw new ApiException(this, "Edit token is needed to edit pages");
 
             string result = HttpPost(
                 new[,]
                 {
                     { "action", "edit" },
-                    { "title", PageTitle },
+                    { "title", Page.Title },
                     { minor ? "minor" : null, null },
                     { watch ? "watch" : null, null }
                 },
@@ -507,9 +444,9 @@ namespace WikiFunctions.API
                 {// order matters here - https://bugzilla.wikimedia.org/show_bug.cgi?id=14210#c4
                     { "md5", MD5(pageText) },
                     { "summary", summary },
-                    { "timestamp", Timestamp },
+                    { "timestamp", Page.Timestamp },
                     { "text", pageText },
-                    { "token", EditToken }
+                    { "token", Page.EditToken }
                 });
 
             CheckForError(result, "edit");
@@ -546,7 +483,7 @@ namespace WikiFunctions.API
             {
                 XmlReader xr = XmlReader.Create(new StringReader(result));
                 if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
-                EditToken = xr.GetAttribute("deletetoken");
+                Page.EditToken = xr.GetAttribute("deletetoken");
             }
             catch (Exception ex)
             {
@@ -563,7 +500,7 @@ namespace WikiFunctions.API
                 new[,]
                 {
                     { "title", title },
-                    { "token", EditToken },
+                    { "token", Page.EditToken },
                     { "reason", reason }
                 });
 
@@ -611,7 +548,7 @@ namespace WikiFunctions.API
             {
                 XmlReader xr = XmlReader.Create(new StringReader(result));
                 if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
-                EditToken = xr.GetAttribute("protecttoken");
+                Page.EditToken = xr.GetAttribute("protecttoken");
             }
             catch (Exception ex)
             {
@@ -628,7 +565,7 @@ namespace WikiFunctions.API
                 new[,]
                     {
                         {"title", title},
-                        {"token", EditToken},
+                        {"token", Page.EditToken},
                         {"reason", reason},
                         {"protections", "edit" + edit + "|move=" + move},
                         {"expiry", expiry},
@@ -671,7 +608,7 @@ namespace WikiFunctions.API
             {
                 XmlReader xr = XmlReader.Create(new StringReader(result));
                 if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
-                EditToken = xr.GetAttribute("movetoken");
+                Page.EditToken = xr.GetAttribute("movetoken");
             }
             catch (Exception ex)
             {
@@ -689,7 +626,7 @@ namespace WikiFunctions.API
                     {
                         {"from", title},
                         {"to", newTitle},
-                        {"token", EditToken},
+                        {"token", Page.EditToken},
                         {"reason", reason},
                         {"protections", ""},
                         {moveTalk ? "movetalk" : null, null},
@@ -837,11 +774,6 @@ namespace WikiFunctions.API
         protected static string BoolToParam(bool value)
         {
             return value ? "1" : "0";
-        }
-
-        private static Protection StringToProtection(string val)
-        {
-            return (Protection)Enum.Parse(typeof(Protection), Tools.TurnFirstToUpperNoProjectCheck(val));
         }
 
         /// <summary>

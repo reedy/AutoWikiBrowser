@@ -23,6 +23,7 @@ using System.Reflection;
 namespace WikiFunctions.API
 {
     public delegate void AsyncOperationCompleteEventHandler(AsyncApiEdit sender);
+    public delegate void AsyncStringOperationCompleteEventHandler(AsyncApiEdit sender, string result);
     public delegate void AsyncExceptionEventHandler(AsyncApiEdit sender, Exception ex);
 
     /// <summary>
@@ -122,7 +123,7 @@ namespace WikiFunctions.API
         #region Events
 
         public event AsyncOperationCompleteEventHandler EditComplete;
-
+        public AsyncStringOperationCompleteEventHandler PreviewComplete;
         public event AsyncExceptionEventHandler ExceptionCaught;
 
         #endregion
@@ -139,6 +140,9 @@ namespace WikiFunctions.API
                 case "Edit":
                     if (EditComplete != null) EditComplete(this);
                     break;
+                case "Preview":
+                    if (PreviewComplete != null) PreviewComplete(this, (string)result);
+                    break;
             }
         }
 
@@ -153,6 +157,7 @@ namespace WikiFunctions.API
             if (ExceptionCaught != null) ExceptionCaught(this, ex);
         }
         #endregion
+
         #region Death magic invocations
 
         /// <summary>
@@ -266,14 +271,9 @@ namespace WikiFunctions.API
             get { return Editor.Action; }
         }
 
-        public string PageTitle
+        public PageInfo Page
         {
-            get { return Editor.PageTitle; }
-        }
-
-        public string PageText
-        {
-            get { return Editor.PageText; }
+            get { return Editor.Page; }
         }
 
         public void Reset()

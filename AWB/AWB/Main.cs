@@ -161,6 +161,8 @@ namespace AutoWikiBrowser
                 Variables.User.webBrowserLogin.DocumentCompleted += web4Completed;
                 Variables.User.webBrowserLogin.Navigating += web4Starting;
 
+                CreateEditor();
+
                 webBrowserEdit.Deleted += CaseWasDelete;
                 webBrowserEdit.Loaded += CaseWasLoad;
                 webBrowserEdit.Saved += CaseWasSaved;
@@ -454,7 +456,14 @@ namespace AutoWikiBrowser
             return true;
         }
 
-        private ApiEdit apiEdit = new ApiEdit(Variables.URLLong, Variables.PHP5);
+        private AsyncApiEdit apiEdit;
+
+        private void CreateEditor()
+        {
+            apiEdit = new AsyncApiEdit(Variables.URLLong, this, Variables.PHP5);
+            apiEdit.PreviewComplete += PreviewComplete;
+        }
+
         private void StartAPITextLoad(string title)
         {
             string pageText = apiEdit.Open(title);
@@ -995,12 +1004,12 @@ namespace AutoWikiBrowser
         {
             try
             {
-                if (!apiEdit.Exists && radSkipNonExistent.Checked)
+                if (!apiEdit.Page.Exists && radSkipNonExistent.Checked)
                 {//check if it is a non-existent page, if so then skip it automatically.
                     SkipPage("Non-existent page");
                     return false;
                 }
-                if (apiEdit.Exists && radSkipExistent.Checked)
+                if (apiEdit.Page.Exists && radSkipExistent.Checked)
                 {
                     SkipPage("Existing page");
                     return false;
@@ -1402,14 +1411,19 @@ window.scrollTo(0, diffTopY);
 
         private void GetPreview()
         {
+            if (!apiEdit.IsActive) apiEdit.Preview(TheArticle.Name, txtEdit.Text);
+        }
+
+        private void PreviewComplete(AsyncApiEdit sender, string result)
+        {
             LastArticle = txtEdit.Text;
 
             skippable = false;
 
-            if (webBrowserDiff.Document != null)
+            if (true)//webBrowserDiff.Document != null)
             {
                 webBrowserDiff.Document.OpenNew(false);
-                webBrowserDiff.Document.Write(apiEdit.Preview(TheArticle.Name, txtEdit.Text));
+                webBrowserDiff.Document.Write(result);
                 webBrowserDiff.BringToFront();
             }
 
@@ -2189,7 +2203,7 @@ window.scrollTo(0, diffTopY);
                     lblOnlyBots.Visible = true;
                     Variables.User.IsBot = false;
                     Variables.User.IsAdmin = false;
-                    apiEdit = new ApiEdit(Variables.URLLong, Variables.PHP5);
+                    CreateEditor();
                 }
             }
             ListMaker.AddRemoveRedirects();
