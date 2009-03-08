@@ -1,3 +1,19 @@
+/*
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -182,7 +198,7 @@ namespace WikiFunctions
         /// Renders a context row
         /// </summary>
         /// <param name="line">Number of line in the RIGHT text</param>
-        void ContextLine(int line)
+        private void ContextLine(int line)
         {
             string html = HttpUtility.HtmlEncode(RightLines[line]);
             Result.AppendFormat(@"<tr onclick='window.external.GoTo({0});'>
@@ -197,7 +213,7 @@ namespace WikiFunctions
 </tr>");
         }
 
-        void LineDeleted(int left, int right)
+        private void LineDeleted(int left, int right)
         {
             Result.AppendFormat(@"<tr>
   <td>-</td>
@@ -210,7 +226,7 @@ namespace WikiFunctions
 </tr>");
         }
 
-        void LineAdded(int line)
+        private void LineAdded(int line)
         {
             Result.AppendFormat(@"<tr>
   <td> </td>
@@ -222,7 +238,7 @@ namespace WikiFunctions
 </tr>");
         }
 
-        void ContextHeader(int left, int right)
+        private void ContextHeader(int left, int right)
         {
             Result.AppendFormat(@"<tr onclick='window.external.GoTo({2})'>
   <td colspan='2' class='diff-lineno'>Line {0}:</td>
@@ -402,23 +418,17 @@ td.diff-addedline span.diffchange {
 
     public sealed class Word
     {
-        private readonly string m_Word, m_Whitespace, m_ToString;
-        private  readonly int m_HashCode;
+        private readonly string m_ToString;
+        private readonly int m_HashCode;
 
-        public string TheWord
-        {
-            get { return m_Word; }
-        }
+        public string TheWord { get; private set;}
 
-        public string Whitespace
-        {
-            get { return m_Whitespace; }
-        }
+        public string Whitespace { get; private set;}
 
         public Word(string word, string white)
         {
-            m_Word = word;
-            m_Whitespace = white;
+            TheWord = word;
+            Whitespace = white;
             m_ToString = word + white;
             m_HashCode = (word/* + white*/).GetHashCode();
         }
