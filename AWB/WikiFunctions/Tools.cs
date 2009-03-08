@@ -987,6 +987,15 @@ namespace WikiFunctions
             return s;
         }
 
+        static readonly Regex badDSChars = new Regex("[\"]");
+
+        public static string FixupDefaultSort(string s)
+        {
+            s = RemoveDiacritics(s);
+
+            return badDSChars.Replace(s, "");
+        }
+
         /// <summary>
         /// Writes a message to the given file in the specified location.
         /// </summary>

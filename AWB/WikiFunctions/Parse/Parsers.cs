@@ -1940,13 +1940,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                             + Variables.Namespaces[Namespace.Category] + "$1]]");
 
                         if (sort != ArticleTitle)
-                            ArticleText = ArticleText + "\r\n{{DEFAULTSORT:" + Tools.RemoveDiacritics(sort) + "}}";
+                            ArticleText = ArticleText + "\r\n{{DEFAULTSORT:" + Tools.FixupDefaultSort(sort) + "}}";
                     }
                 }
             }
             else // already has DEFAULTSORT
             {
-                string s = Tools.RemoveDiacritics(ds[0].Groups[1].Value).Trim();
+                string s = Tools.FixupDefaultSort(ds[0].Groups[1].Value).Trim();
                 if (s != ds[0].Groups[1].Value && s.Length > 0)
                     ArticleText = ArticleText.Replace(ds[0].Value, "{{DEFAULTSORT:" + s + "}}");
             }
