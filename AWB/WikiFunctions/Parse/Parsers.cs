@@ -658,17 +658,14 @@ namespace WikiFunctions.Parse
             if (Variables.LangCode != LangCodeEnum.en)
                 return ArticleText;
 
-            // make string of English months
-            string months = "(" + string.Join("|", Variables.MonthNames) + ")";
-
             // don't match on 'in the June of 2007', 'on the 11th May 2008' etc. as these won't read well if changed
-            Regex OfBetweenMonthAndYear = new Regex(@"\b" + months + @"\s+of\s+(200\d|1[89]\d\d)\b(?<!\b[Tt]he\s{1,5}\w{3,15}\s{1,5}of\s{1,5}(200\d|1[89]\d\d))");
+            Regex OfBetweenMonthAndYear = new Regex(@"\b" + WikiRegexes.months + @"\s+of\s+(200\d|1[89]\d\d)\b(?<!\b[Tt]he\s{1,5}\w{3,15}\s{1,5}of\s{1,5}(200\d|1[89]\d\d))");
 
-            Regex OrdinalsInDatesAm = new Regex(@"\b" + months + @"\s+([0-3]?\d)(?:st|nd|rd|th)\b(?<!\b[Tt]he\s+\w{3,10}\s+([0-3]?\d)(?:st|nd|rd|th)\b)");
-            Regex OrdinalsInDatesInt = new Regex(@"(?:\b([0-3]?\d)(?:st|nd|rd|th)(\s*(?:to|and|.|&.dash;)\s*))?\b([0-3]?\d)(?:st|nd|rd|th)\s+" + months + @"\b(?<!\b[Tt]he\s+(?:[0-3]?\d)(?:st|nd|rd|th)\s+\w{3,10})");
+            Regex OrdinalsInDatesAm = new Regex(@"\b" + WikiRegexes.months + @"\s+([0-3]?\d)(?:st|nd|rd|th)\b(?<!\b[Tt]he\s+\w{3,10}\s+([0-3]?\d)(?:st|nd|rd|th)\b)");
+            Regex OrdinalsInDatesInt = new Regex(@"(?:\b([0-3]?\d)(?:st|nd|rd|th)(\s*(?:to|and|.|&.dash;)\s*))?\b([0-3]?\d)(?:st|nd|rd|th)\s+" + WikiRegexes.months + @"\b(?<!\b[Tt]he\s+(?:[0-3]?\d)(?:st|nd|rd|th)\s+\w{3,10})");
 
-            Regex DateLeadingZerosAm = new Regex(@"\b" + months + @"\s+0([1-9])" + @"\b");
-            Regex DateLeadingZerosInt = new Regex(@"\b" + @"0([1-9])\s+" + months + @"\b");
+            Regex DateLeadingZerosAm = new Regex(@"\b" + WikiRegexes.months + @"\s+0([1-9])" + @"\b");
+            Regex DateLeadingZerosInt = new Regex(@"\b" + @"0([1-9])\s+" + WikiRegexes.months + @"\b");
 
             // hide items in quotes etc., though this may also hide items within infoboxes etc.
             ArticleText = HideMoreText(ArticleText);
