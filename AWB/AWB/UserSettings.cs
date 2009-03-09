@@ -246,19 +246,28 @@ namespace AutoWikiBrowser
         /// </summary>
         private UserPrefs MakePrefs()
         {
-            return new UserPrefs(new FaRPrefs(chkFindandReplace.Checked, findAndReplace, replaceSpecial,
-               substTemplates.TemplateList, substTemplates.ExpandRecursively, substTemplates.IgnoreUnformatted,
-               substTemplates.IncludeComment), new EditPrefs(chkGeneralFixes.Checked, chkAutoTagger.Checked,
-               chkUnicodifyWhole.Checked, cmboCategorise.SelectedIndex, txtNewCategory.Text,
-               txtNewCategory2.Text, cmboImages.SelectedIndex, txtImageReplace.Text, txtImageWith.Text,
-               chkSkipNoCatChange.Checked, chkSkipNoImgChange.Checked, chkAppend.Checked, !rdoPrepend.Checked,
-               txtAppendMessage.Text, (int)udNewlineChars.Value, (int)nudBotSpeed.Value, chkSuppressTag.Checked,
-               chkRegExTypo.Checked), new ListPrefs(listMaker, SaveArticleList),
+            return new UserPrefs(
+                
+                new FaRPrefs(findAndReplace, replaceSpecial, substTemplates)
+                {
+                    Enabled = chkFindandReplace.Checked,
+                },
+               
+                new EditPrefs(chkGeneralFixes.Checked, chkAutoTagger.Checked,
+                chkUnicodifyWhole.Checked, cmboCategorise.SelectedIndex, txtNewCategory.Text,
+                txtNewCategory2.Text, cmboImages.SelectedIndex, txtImageReplace.Text, txtImageWith.Text,
+                chkSkipNoCatChange.Checked, chkSkipNoImgChange.Checked, chkAppend.Checked, !rdoPrepend.Checked,
+                txtAppendMessage.Text, (int)udNewlineChars.Value, (int)nudBotSpeed.Value, chkSuppressTag.Checked,
+                chkRegExTypo.Checked),
+               
+                new ListPrefs(listMaker, SaveArticleList),
+
                new SkipPrefs(radSkipNonExistent.Checked, radSkipExistent.Checked, chkSkipNoChanges.Checked, chkSkipSpamFilter.Checked,
                chkSkipIfInuse.Checked, chkSkipIfContains.Checked, chkSkipIfNotContains.Checked, txtSkipIfContains.Text,
                txtSkipIfNotContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked,
                chkSkipWhenNoFAR.Checked, chkSkipIfNoRegexTypo.Checked, chkSkipNoDab.Checked, chkSkipWhitespace.Checked, chkSkipCasing.Checked,
                chkSkipGeneralFixes.Checked, chkSkipMinorGeneralFixes.Checked, chkSkipNoPageLinks.Checked, Skip.SelectedItems, chkSkipIfRedirect.Checked),
+
                new GeneralPrefs(SaveArticleList, IgnoreNoBots, cmboEditSummary.Items,
                cmboEditSummary.Text, new string[] {PasteMore1.Text, PasteMore2.Text, PasteMore3.Text, 
                 PasteMore4.Text, PasteMore5.Text, PasteMore6.Text, PasteMore7.Text, PasteMore8.Text,
@@ -275,13 +284,13 @@ namespace AutoWikiBrowser
                focusAtEndOfEditTextBoxToolStripMenuItem.Checked), 
                
                
-               new DabPrefs() 
-               {
-                   Enabled = chkEnableDab.Checked,
-                   Link = txtDabLink.Text,
-                   Variants = txtDabVariants.Lines,
-                   ContextChars = (int)udContextChars.Value
-               },
+                new DabPrefs() 
+                {
+                    Enabled = chkEnableDab.Checked,
+                    Link = txtDabLink.Text,
+                    Variants = txtDabVariants.Lines,
+                    ContextChars = (int)udContextChars.Value
+                },
                
                
                 new ModulePrefs()
@@ -362,7 +371,7 @@ namespace AutoWikiBrowser
             substTemplates.TemplateList = p.FindAndReplace.SubstTemplates;
             substTemplates.ExpandRecursively = p.FindAndReplace.ExpandRecursively;
             substTemplates.IgnoreUnformatted = p.FindAndReplace.IgnoreUnformatted;
-            substTemplates.IncludeComment = p.FindAndReplace.IncludeComments;
+            substTemplates.IncludeComments = p.FindAndReplace.IncludeComments;
 
             findAndReplace.MakeList();
 

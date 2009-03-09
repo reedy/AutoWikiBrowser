@@ -178,11 +178,9 @@ namespace WikiFunctions.AWBSettings
         /// <summary>
         /// Fill the object with settings from UI
         /// </summary>
-        public FaRPrefs(bool mEnabled, Parse.FindandReplace findAndReplace,
-            ReplaceSpecial.ReplaceSpecial replaceSpecial, string[] mSubstTemplates,
-            bool mIncludeComments, bool mExpandRecursively, bool mIgnoreUnformatted)
+        public FaRPrefs(Parse.FindandReplace findAndReplace,
+            ReplaceSpecial.ReplaceSpecial replaceSpecial, SubstTemplates substTemplates)
         {
-            Enabled = mEnabled;
             IgnoreSomeText = findAndReplace.ignoreLinks;
             IgnoreMoreText = findAndReplace.ignoreMore;
             AppendSummary = findAndReplace.AppendToSummary;
@@ -190,10 +188,10 @@ namespace WikiFunctions.AWBSettings
             Replacements = findAndReplace.GetList();
             AdvancedReps = replaceSpecial.GetRules();
 
-            SubstTemplates = mSubstTemplates;
-            IncludeComments = mIncludeComments;
-            ExpandRecursively = mExpandRecursively;
-            IgnoreUnformatted = mIgnoreUnformatted;
+            SubstTemplates = substTemplates.TemplateList;
+            IncludeComments = substTemplates.IncludeComments;
+            ExpandRecursively = substTemplates.ExpandRecursively;
+            IgnoreUnformatted = substTemplates.IgnoreUnformatted;
         }
 
         public bool Enabled = false;
@@ -536,21 +534,6 @@ namespace WikiFunctions.AWBSettings
     [Serializable]
     public class ExternalProgramPrefs
     {
-        internal ExternalProgramPrefs() { }
-        public ExternalProgramPrefs(bool mEnabled, bool mSkip, string mWorkingDir, string mProgram, string mParameters,
-            bool mPassAsFile, string mOutputFile)
-        {
-            Enabled = mEnabled;
-            Skip = mSkip;
-
-            WorkingDir = mWorkingDir;
-            Program = mProgram;
-            Parameters = mParameters;
-
-            PassAsFile = mPassAsFile;
-            OutputFile = mOutputFile;
-        }
-
         public bool Enabled = false;
         public bool Skip = false;
 

@@ -39,8 +39,16 @@ namespace AutoWikiBrowser
         {
             get
             {
-                return new WikiFunctions.AWBSettings.ExternalProgramPrefs(chkEnabled.Checked, chkSkip.Checked,
-                    txtWorkingDir.Text, txtProgram.Text, txtParameters.Text, radFile.Checked, txtFile.Text);
+                return new WikiFunctions.AWBSettings.ExternalProgramPrefs()
+                {
+                    Enabled = chkEnabled.Checked,
+                    Skip = chkSkip.Checked,
+                    WorkingDir = txtWorkingDir.Text,
+                    Program = txtProgram.Text,
+                    Parameters = txtParameters.Text,
+                    PassAsFile = radFile.Checked,
+                    OutputFile = txtFile.Text
+                };
             }
             set
             {
