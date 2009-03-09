@@ -64,7 +64,7 @@ namespace WikiFunctions
             set { chkIgnoreUnformatted.Checked = value; }
         }
 
-        public bool IncludeComment
+        public bool IncludeComments
         {
             get { return chkIncludeComment.Checked; }
             set { chkIncludeComment.Checked = value; }
