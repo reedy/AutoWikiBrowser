@@ -274,7 +274,7 @@ GROUP BY sessions.User, lkpWikis.Site, lkpWikis.LangCode) AS UniqueUsers', 'uniq
 	}
 	
 	function sites() {
-		return $this->db_mysql_query('SELECT Count(sessions.SessionID) AS CountOfSessionID, Sum(sessions.Saves) AS SumOfSaves, lkpWikis.Site, lkpWikis.LangCode
+		return $this->db_mysql_query('SELECT Count(sessions.SessionID) AS CountOfSessionID, Sum(sessions.Saves) AS SumOfSaves, lkpWikis.Site, lkpWikis.LangCode, COUNT(DISTINCT sessions.User) AS UniqueUsers
 FROM sessions INNER JOIN lkpWikis ON sessions.Site = lkpWikis.SiteID
 GROUP BY lkpWikis.Site, lkpWikis.LangCode
 HAVING (((Sum(sessions.Saves))>49))

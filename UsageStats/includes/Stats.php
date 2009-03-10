@@ -135,6 +135,7 @@ function htmlstats(){
 		<th scope="col" class="sortable">Site</th>
 		<th scope="col" class="sortable">Number of Sessions</th>
 		<th scope="col" class="sortable">Number of Saves</th>
+		<th scope="col" class="sortable">Number of Unique Users</th>
 	</tr>
 </thead>
 ';
@@ -150,6 +151,7 @@ function htmlstats(){
 		<td>'.$site.'</td>
 		<td>'.FormatNumber($row['CountOfSessionID']).'</td>
 		<td>'.FormatNumber($row['SumOfSaves']).'</td>
+		<td>'.FormatNumber($row['UniqueUsers']).'</td>
 	</tr>
 ';
 	}
