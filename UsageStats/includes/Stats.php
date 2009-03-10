@@ -129,13 +129,13 @@ function htmlstats(){
 </table>
 <p/>
 <table class="sortable">
-	<caption><a name="sites"></a>Sessions &amp; saves per site<sup><a href="#2">2</a></sup></caption>
+	<caption><a name="sites"></a>Sessions, users &amp; saves per site<sup><a href="#2">2</a></sup></caption>
 <thead>
 	<tr>
 		<th scope="col" class="sortable">Site</th>
+		<th scope="col" class="sortable">Number of Unique Users</th>
 		<th scope="col" class="sortable">Number of Sessions</th>
 		<th scope="col" class="sortable">Number of Saves</th>
-		<th scope="col" class="sortable">Number of Unique Users</th>
 	</tr>
 </thead>
 ';
@@ -149,9 +149,9 @@ function htmlstats(){
 
 	<tr>
 		<td>'.$site.'</td>
+		<td>'.FormatNumber($row['UniqueUsers']).'</td>
 		<td>'.FormatNumber($row['CountOfSessionID']).'</td>
 		<td>'.FormatNumber($row['SumOfSaves']).'</td>
-		<td>'.FormatNumber($row['UniqueUsers']).'</td>
 	</tr>
 ';
 	}
