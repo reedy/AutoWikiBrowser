@@ -57,6 +57,12 @@
     <Compile Include="Article.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\Lists\ProtectionLevel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\Lists\ProtectionLevel.Designer.cs">
+      <DependentUpon>ProtectionLevel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Namespace.cs" />
     <Compile Include="Controls\Namespaces.cs">
       <SubType>UserControl</SubType>
@@ -324,6 +330,9 @@
     <Compile Include="WPEditor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\Lists\ProtectionLevel.resx">
+      <DependentUpon>ProtectionLevel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\Namespaces.resx">
       <DependentUpon>Namespaces.cs</DependentUpon>
     </EmbeddedResource>

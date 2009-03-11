@@ -81,7 +81,7 @@ namespace WikiFunctions.Controls
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 13;
-            this.btnOk.Text = "OK";
+            this.btnOk.Text = "Ok";
             this.btnOk.UseVisualStyleBackColor = true;
             // 
             // btnCancel
