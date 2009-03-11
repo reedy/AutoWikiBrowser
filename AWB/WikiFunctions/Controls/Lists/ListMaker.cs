@@ -51,7 +51,8 @@ namespace WikiFunctions.Controls.Lists
                                               imageFileLinksLProvider = new ImageFileLinksListProvider(),
                                               imagesOnPageLProvider = new ImagesOnPageListProvider(),
                                               categoriesOnPageLProvider = new CategoriesOnPageListProvider(),
-                                              newPagesLProvider = new NewPagesListProvider();
+                                              newPagesLProvider = new NewPagesListProvider(),
+                                              randomPagesLProvider = new RandomPagesSpecialPageProvider();
         #endregion
 
         public event ListMakerEventHandler StatusTextChanged,
@@ -98,13 +99,13 @@ namespace WikiFunctions.Controls.Lists
                 listItems.Add(new UserContribsListProvider());
                 listItems.Add(new UserContribUserDefinedNumberListProvider());
                 listItems.Add(new SpecialPageListProvider(whatLinksHereLProvider, newPagesLProvider,
-                                                          categoriesOnPageLProvider));
+                                                          categoriesOnPageLProvider, randomPagesLProvider));
                 listItems.Add(imageFileLinksLProvider);
                 listItems.Add(new DatabaseScannerListProvider(this));
                 listItems.Add(new MyWatchlistListProvider());
                 listItems.Add(new WikiSearchListProvider());
                 listItems.Add(new WikiTitleSearchListProvider());
-                listItems.Add(new RandomPagesSpecialPageProvider());
+                listItems.Add(randomPagesLProvider);
                 listItems.Add(redirectLProvider);
                 listItems.Add(newPagesLProvider);
             }
