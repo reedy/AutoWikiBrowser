@@ -44,7 +44,6 @@ namespace WikiFunctions.Lists
                 listItems.Add(new AllRedirectsSpecialPageProvider());
                 listItems.Add(new RecentChangesSpecialPageProvider());
                 listItems.Add(new LinkSearchSpecialPageProvider());
-                listItems.Add(new RandomPagesSpecialPageProvider());
                 listItems.Add(new RandomRedirectsSpecialPageProvider());
                 listItems.Add(new PagesWithoutLanguageLinksSpecialPageProvider());
                 listItems.Add(new ProtectedPagesSpecialPageProvider());
