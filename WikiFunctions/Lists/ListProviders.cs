@@ -1581,9 +1581,4 @@ namespace WikiFunctions.Lists
     //{
     //    //list=logevents&letype=upload
     //}
-
-    //public class LinksOnPageExcludingRedLinks
-    //{
-    //    //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Listbuilder:_links_on_pages_excluding_red_links
-    //}
 }
