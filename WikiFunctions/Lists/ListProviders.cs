@@ -456,7 +456,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages which transclude the Named Pages
     /// </summary>
-    public class WhatTranscludesPageListProvider : ApiListProviderBase
+    public class WhatTranscludesPageListProvider : ApiListProviderBase, ISpecialPageProvider
     {
         #region Tags: <embeddedin>/<ei>
         static readonly List<string> pe = new List<string>(new[] { "ei" });
@@ -474,12 +474,17 @@ namespace WikiFunctions.Lists
 
         public override List<Article> MakeList(string[] searchCriteria)
         {
+            return MakeList(0, searchCriteria);
+        }
+
+        public virtual List<Article> MakeList(int Namespace, params string[] searchCriteria)
+        {
             List<Article> list = new List<Article>();
 
             foreach (string page in searchCriteria)
             {
                 string url = Variables.URLApi + "?action=query&list=embeddedin&eititle="
-                    + HttpUtility.UrlEncode(page) + "&eilimit=max&format=xml";
+                    + HttpUtility.UrlEncode(page) + "&eilimit=max&format=xml&einamespace=" + Namespace;
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
@@ -500,6 +505,12 @@ namespace WikiFunctions.Lists
         public override void Selected()
         { }
         #endregion
+
+        public bool PagesNeeded
+        { get { return true; } }
+
+        public bool NamespacesEnabled
+        { get { return true; } }
     }
 
     /// <summary>
@@ -967,16 +978,16 @@ namespace WikiFunctions.Lists
         #endregion
     }
 
-     public class WikiTitleSearchListProvider : WikiSearchListProvider
-     {
-         public WikiTitleSearchListProvider()
-         {
-             srwhat = "title";
-         }
+    public class WikiTitleSearchListProvider : WikiSearchListProvider
+    {
+        public WikiTitleSearchListProvider()
+        {
+            srwhat = "title";
+        }
 
-         public override string DisplayText
-         { get { return "Wiki search (title)"; } }
-     }
+        public override string DisplayText
+        { get { return "Wiki search (title)"; } }
+    }
 
     /// <summary>
     /// Gets a list of pages which redirect to the Named Pages
@@ -1332,7 +1343,7 @@ namespace WikiFunctions.Lists
         public override bool NamespacesEnabled
         { get { return false; } }
     }
-    
+
     /// <summary>
     /// 
     /// </summary>
@@ -1572,10 +1583,27 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
-    //public class DisambiguationPagesSpecialPageProvider
-    //{
-    //    //list=embeddedin&eititle=Template:Disambiguation
-    //}
+    public class DisambiguationPagesSpecialPageProvider : WhatTranscludesPageListProvider
+    {
+        public override List<Article> MakeList(string[] searchCriteria)
+        {
+            return base.MakeList(0, new[] { "Template:Disambiguation" });
+        }
+
+        public override List<Article> MakeList(int Namespace, string[] searchCriteria)
+        {
+            return base.MakeList(Namespace, new[] { "Template:Disambiguation" });
+        }
+
+        public override string DisplayText
+        { get { return "Disambiguation Pages"; } }
+
+        public override string UserInputTextBoxText
+        { get { return ""; } }
+
+        public override bool UserInputTextBoxEnabled
+        { get { return false; } }
+    }
 
     //public class GalleryNewFilesSpecialPageProvider
     //{
