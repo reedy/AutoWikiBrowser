@@ -1526,6 +1526,9 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class LinkSearchSpecialPageProvider : ApiListProviderBase, ISpecialPageProvider
     {
         #region Tags: <exturlusage>/<eu>
@@ -1583,6 +1586,9 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class DisambiguationPagesSpecialPageProvider : WhatTranscludesPageListProvider
     {
         public override List<Article> MakeList(string[] searchCriteria)
@@ -1605,8 +1611,63 @@ namespace WikiFunctions.Lists
         { get { return false; } }
     }
 
-    //public class GalleryNewFilesSpecialPageProvider
-    //{
-    //    //list=logevents&letype=upload
-    //}
+    /// <summary>
+    /// 
+    /// </summary>
+    public class GalleryNewFilesSpecialPageProvider : ApiListProviderBase, ISpecialPageProvider
+    {
+        #region Tags: <logevents>/<item>
+        static readonly List<string> pe = new List<string>(new[] { "item" });
+        protected override ICollection<string> PageElements
+        {
+            get { return pe; }
+        }
+
+        static readonly List<string> ac = new List<string>(new[] { "logevents" });
+        protected override ICollection<string> Actions
+        {
+            get { return ac; }
+        }
+        #endregion
+
+        public GalleryNewFilesSpecialPageProvider()
+        {
+            Limit = 1000; // slow query
+        }
+
+        public override List<Article> MakeList(string[] searchCriteria)
+        {
+            List<Article> list = new List<Article>();
+
+            string url = Variables.URLApi + "?action=query&list=logevents&letype=upload&lelimit=max&format=xml";
+
+            list.AddRange(ApiMakeList(url, list.Count));
+
+            return list;
+        }
+
+        public List<Article> MakeList(int Namespace, string[] searchCriteria)
+        {
+            return MakeList("");
+        }
+
+        #region ListMaker properties
+        public override string DisplayText
+        { get { return "New files"; } }
+
+        public override string UserInputTextBoxText
+        { get { return ""; } }
+
+        public override bool UserInputTextBoxEnabled
+        { get { return false; } }
+
+        public override void Selected() { }
+        #endregion
+
+        public bool PagesNeeded
+        { get { return false; } }
+
+        public bool NamespacesEnabled
+        { get { return false; } }
+    }
 }
