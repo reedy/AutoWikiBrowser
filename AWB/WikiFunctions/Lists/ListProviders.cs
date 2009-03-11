@@ -25,7 +25,6 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml;
-using WikiFunctions.Controls;
 using WikiFunctions.Controls.Lists;
 
 namespace WikiFunctions.Lists
@@ -619,9 +618,7 @@ namespace WikiFunctions.Lists
         public override bool UserInputTextBoxEnabled
         { get { return true; } }
 
-        public override void Selected()
-        {
-        }
+        public override void Selected() { }
     }
 
     /// <summary>
@@ -979,6 +976,9 @@ namespace WikiFunctions.Lists
         #endregion
     }
 
+    /// <summary>
+    /// Gets a list of pages which are returned from a title wiki search of the Named Pages
+    /// </summary>
     public class WikiTitleSearchListProvider : WikiSearchListProvider
     {
         public WikiTitleSearchListProvider()
@@ -1095,6 +1095,9 @@ namespace WikiFunctions.Lists
         #endregion
     }
 
+    ///// <summary>
+    ///// Gets all the pages from the current user's watchlist
+    ///// </summary>
     //public class MyWatchListApiListProvider : ApiListProviderBase
     //{
     //    #region Tags: <watchlistraw>/<wr>
@@ -1172,7 +1175,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// Gets 100 random articles from the 0 namespace
+    /// Gets 100 random articles
     /// </summary>
     public class RandomPagesSpecialPageProvider : ApiListProviderBase, ISpecialPageProvider
     {
@@ -1232,6 +1235,9 @@ namespace WikiFunctions.Lists
         { get { return true; } }
     }
 
+    /// <summary>
+    /// Gets 100 random redirects
+    /// </summary>
     public class RandomRedirectsSpecialPageProvider : RandomPagesSpecialPageProvider
     {
         public RandomRedirectsSpecialPageProvider()
@@ -1295,8 +1301,7 @@ namespace WikiFunctions.Lists
         public override bool UserInputTextBoxEnabled
         { get { return true; } }
 
-        public override void Selected()
-        { }
+        public override void Selected() { }
 
         public override string DisplayText
         { get { return UserInputTextBoxText; } }
@@ -1306,7 +1311,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Returns a list of "all categories"
     /// </summary>
     public class AllCategoriesSpecialPageProvider : AllPagesSpecialPageProvider
     {
@@ -1326,7 +1331,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Returns a list of "all files"
     /// </summary>
     public class AllFilesSpecialPageProvider : AllPagesSpecialPageProvider
     {
@@ -1346,7 +1351,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Returns a list of "all redirects"
     /// </summary>
     public class AllRedirectsSpecialPageProvider : AllPagesSpecialPageProvider
     {
@@ -1363,7 +1368,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Returns a list of protected pages
     /// </summary>
     public class ProtectedPagesSpecialPageProvider : AllPagesSpecialPageProvider
     {
@@ -1389,7 +1394,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Returns a list of pages without language links
     /// </summary>
     public class PagesWithoutLanguageLinksSpecialPageProvider : AllPagesSpecialPageProvider
     {
@@ -1473,8 +1478,7 @@ namespace WikiFunctions.Lists
         public override bool UserInputTextBoxEnabled
         { get { return false; } }
 
-        public override void Selected()
-        { }
+        public override void Selected() { }
 
         public bool NamespacesEnabled
         { get { return true; } }
@@ -1537,7 +1541,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Returns a list of pages that contain the specified URL
     /// </summary>
     public class LinkSearchSpecialPageProvider : ApiListProviderBase, ISpecialPageProvider
     {
@@ -1597,7 +1601,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Returns a list of disambiguation pages
     /// </summary>
     public class DisambiguationPagesSpecialPageProvider : WhatTranscludesPageListProvider
     {
@@ -1625,7 +1629,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Returns a list of new files
     /// </summary>
     public class GalleryNewFilesSpecialPageProvider : ApiListProviderBase, ISpecialPageProvider
     {
