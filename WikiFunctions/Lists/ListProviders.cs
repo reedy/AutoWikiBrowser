@@ -25,6 +25,7 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml;
+using WikiFunctions.Controls;
 using WikiFunctions.Controls.Lists;
 
 namespace WikiFunctions.Lists
@@ -1366,9 +1367,18 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class ProtectedPagesSpecialPageProvider : AllPagesSpecialPageProvider
     {
-        public ProtectedPagesSpecialPageProvider()
+        private readonly ProtectionLevel protlevel = new ProtectionLevel();
+
+        public override List<Article> MakeList(string[] searchCriteria)
         {
-            extra = "&apprtype=edit|move&apprlevel=sysop|autoconfirmed";
+            return MakeList(0, searchCriteria);
+        }
+
+        public override List<Article> MakeList(int Namespace, string[] searchCriteria)
+        {
+            protlevel.ShowDialog();
+            extra = "&apprtype=" + protlevel.Type + "&apprlevel=" + protlevel.Level;
+            return base.MakeList(Namespace, searchCriteria);
         }
 
         public override string DisplayText
