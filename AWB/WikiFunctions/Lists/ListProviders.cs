@@ -507,7 +507,7 @@ namespace WikiFunctions.Lists
         { }
         #endregion
 
-        public bool PagesNeeded
+        public virtual bool PagesNeeded
         { get { return true; } }
 
         public bool NamespacesEnabled
@@ -1618,6 +1618,9 @@ namespace WikiFunctions.Lists
         { get { return ""; } }
 
         public override bool UserInputTextBoxEnabled
+        { get { return false; } }
+
+        public override bool PagesNeeded
         { get { return false; } }
     }
 

@@ -48,6 +48,8 @@ namespace WikiFunctions.Lists
                 listItems.Add(new RandomRedirectsSpecialPageProvider());
                 listItems.Add(new PagesWithoutLanguageLinksSpecialPageProvider());
                 listItems.Add(new ProtectedPagesSpecialPageProvider());
+                listItems.Add(new GalleryNewFilesSpecialPageProvider());
+                listItems.Add(new DisambiguationPagesSpecialPageProvider());
             }
 
             cmboSourceSelect.DataSource = listItems;
