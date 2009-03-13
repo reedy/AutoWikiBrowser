@@ -1085,6 +1085,11 @@ Steve Cook is a songwriter for Sovereign Grace. While remaining upright may be t
 While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders", "Steve Cook", out noChangeBack));
             Assert.IsFalse(noChangeBack);
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Piped_self-link_delinking__bug
+            Assert.AreEqual(@"The '''2009 Indian Premier League''' While remaining upright may be the primary goal of beginning riders
+While remaining upright may be the primary goal of beginning riders| 2009<br>", parser.BoldTitle(@"The 2009 Indian Premier League While remaining upright may be the primary goal of beginning riders
+While remaining upright may be the primary goal of beginning riders| [[2009 Indian Premier League|2009]]<br>", "2009 Indian Premier League", out noChangeBack));
         }
     }
 
