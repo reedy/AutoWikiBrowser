@@ -1544,7 +1544,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             // remove any self-links, but not other links with different capitaliastion e.g. [[Foo]] vs [[FOO]]
             // note, removal of self links in iteslf will not cause this method to return a 'change'
-            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + escTitle + @"\s*(?:\]\]|\|)", ArticleTitle);
+            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + escTitle + @"\s*\]\]", ArticleTitle);
+
+            // remove piped self links by leaving target
+            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + escTitle + @"\s*\|([^\]]+)\]\]", "$1");
             ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*(?:\]\]|\|)", Tools.TurnFirstToLower(ArticleTitle));
 
             Regex BoldTitleAlready1 = new Regex(@"'''\s*(" + escTitle + "|" + Tools.TurnFirstToLower(escTitle) + @")\s*'''");
