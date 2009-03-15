@@ -850,10 +850,6 @@ namespace WikiFunctions.Parse
 
             ArticleText = Regex.Replace(ArticleText, "ISBN: ?([0-9])", "ISBN $1");
 
-            // tidy up || or |}} (maybe with whitespace between) within templates, allows nested template
-            //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_double_.22.7C.22_inside_templates
-            ArticleText = Regex.Replace(ArticleText, @"(\{\{[^{}]+(?:{{[^{}]+}}[^{}]+)?)\|(\s*(?:\}\}|\|))", "$1$2");
-
             return ArticleText.Trim();
         }
 
