@@ -52,7 +52,7 @@ namespace AutoWikiBrowser
     { // this class needs to be public, otherwise we get an exception which recommends setting ComVisibleAttribute to true (which we've already done)
         #region Fields
         private readonly Splash splash = new Splash();
-        private WikiFunctions.Profiles.AWBProfilesForm profiles;
+        private readonly WikiFunctions.Profiles.AWBProfilesForm profiles;
 
         private bool Abort;
 
@@ -74,7 +74,7 @@ namespace AutoWikiBrowser
         private readonly SkipOptions Skip = new SkipOptions();
         private readonly WikiFunctions.ReplaceSpecial.ReplaceSpecial replaceSpecial =
             new WikiFunctions.ReplaceSpecial.ReplaceSpecial();
-        private Parsers parsers;
+        private readonly Parsers parsers;
         private readonly TimeSpan StartTime =
             new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
         private readonly List<string> RecentList = new List<string>();
