@@ -18,8 +18,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
@@ -54,14 +52,12 @@ Is this SVN (1) or a release (2)? ");
                         break;
                 }
 
-                AWBDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase).Replace("file:\\", "");
+                AWBDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase).Replace("file:\\", "");
                 Tmp = AWBDir + "\\" + Tmp;
                 AWBDir = AWBDir.Remove(AWBDir.IndexOf("Extras"));
-                string currFolder;
                 Directory.CreateDirectory(Tmp);
 
-
-                currFolder = AWBDir + "AWB\\bin\\Release\\";
+                string currFolder = AWBDir + "AWB\\bin\\Release\\";
 
                 File.Copy(currFolder + "AutoWikiBrowser.exe", Tmp + "AutoWikiBrowser.exe", true);
                 File.Copy(currFolder + "AutoWikiBrowser.exe.config", Tmp + "AutoWikiBrowser.exe.config", true);
@@ -76,6 +72,9 @@ Is this SVN (1) or a release (2)? ");
 
                 Directory.CreateDirectory(Tmp + "Plugins\\IFD\\");
                 File.Copy(currFolder + "IFD.dll", Tmp + "Plugins\\IFD\\IFD.dll", true);
+
+                Directory.CreateDirectory(Tmp + "Plugins\\CategoryNoLimitsPlugin\\");
+                File.Copy(currFolder + "CategoryNoLimitsPlugin.dll", Tmp + "Plugins\\CategoryNoLimitsPlugin\\CategoryNoLimitsPlugin.dll", true);
 
                 Directory.CreateDirectory(Tmp + "Plugins\\Yahoo Search Plugin\\");
                 File.Copy(currFolder + "YahooSearchPlugin.dll", Tmp + "Plugins\\Yahoo Search Plugin\\YahooSearchPlugin.dll", true);
