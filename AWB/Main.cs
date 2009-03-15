@@ -466,14 +466,14 @@ namespace AutoWikiBrowser
 
         private void StartAPITextLoad(string title)
         {
-            string pageText = apiEdit.Open(title);
+            apiEdit.Open(title);
 
             apiEdit.Wait();
 
             if (!LoadSuccessAPI())
                 return;
 
-            CaseWasLoad(pageText);
+            CaseWasLoad(apiEdit.Page.Text);
         }
 
         private bool stopProcessing;
