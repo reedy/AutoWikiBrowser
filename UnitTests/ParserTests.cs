@@ -410,6 +410,16 @@ End of.";
             Assert.AreEqual("HTTP/1.2", Parsers.FixSyntax("HTTP/1.2"));
             Assert.AreEqual("the HTTP/1.2 protocol", Parsers.FixSyntax("the HTTP/1.2 protocol"));
             Assert.AreEqual(@"<ref>[http://cdiac.esd.ornl.gov/ftp/cdiac74/a.pdf chapter 5]</ref>", Parsers.FixSyntax(@"<ref>[http://cdiac.esd.ornl.gov/ftp/cdiac74/a.pdf chapter 5]</ref>"));
+
+            // fixing of double | within templates
+            Assert.AreEqual(@"{{now|here|was}}", Parsers.FixSyntax(@"{{now|here||was}}"));
+            Assert.AreEqual(@"{{now|here|
+was}}", Parsers.FixSyntax(@"{{now|here||
+was}}"));
+            Assert.AreEqual(@"{{now| here | was}}", Parsers.FixSyntax(@"{{now| here || was}}"));
+            Assert.AreEqual(@"{{now|here |was}}", Parsers.FixSyntax(@"{{now|here| |was}}"));
+            Assert.AreEqual(@"{{now|here|was}}", Parsers.FixSyntax(@"{{now|here|was|}}"));
+            Assert.AreEqual(@"{{now|here|and {{abc}} there|was}}", Parsers.FixSyntax(@"{{now|here|and {{abc}} there||was}}"));
         }
 
         [Test, Ignore]
