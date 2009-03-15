@@ -407,7 +407,7 @@ namespace WikiFunctions
         #endregion
 
         /// <summary>
-        /// matches <!-- comments -->
+        /// matches &lt;!-- comments --&gt;
         /// </summary>
         public static readonly Regex Comments = new Regex(@"<!--.*?-->", RegexOptions.Compiled | RegexOptions.Singleline);
 
