@@ -107,6 +107,12 @@ namespace WikiFunctions
                  + Regex.Escape(Variables.URL.Substring(pos)) + "/wiki/" + ")";
             //}
             ExtractTitle = new Regex("^" + s + "([^?&]*)$", RegexOptions.Compiled);
+
+            string cat = Variables.NamespacesCaseInsensitive[Namespace.Category],
+                img = Variables.NamespacesCaseInsensitive[Namespace.Image];
+
+            EmptyLink = new Regex("\\[\\[(:?" + cat + "|" + img + "|)(|" + img + "|" + cat + "|.*?)\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            EmptyTemplate = new Regex(@"{{(" + Variables.NamespacesCaseInsensitive[Namespace.Template] + @")?[|\s]*}}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         }
 
         public static string months;
@@ -439,5 +445,15 @@ namespace WikiFunctions
         /// For extraction of page title from URLs
         /// </summary>
         public static Regex ExtractTitle;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static Regex EmptyLink;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static Regex EmptyTemplate;
     }
 }
