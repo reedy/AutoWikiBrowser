@@ -1187,25 +1187,17 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public static string FixEmptyLinksAndTemplates(string ArticleText)
         {
-            //TODO:Reuseable regexes?
-            string cat = Variables.NamespacesCaseInsensitive[Namespace.Category];
-            string img = Variables.NamespacesCaseInsensitive[Namespace.Image];
-
-            Regex emptyLink = new Regex("\\[\\[(:?" + cat + "|" + img + "|)(|" + img + "|" + cat + "|.*?)\\]\\]", RegexOptions.IgnoreCase);
-
-            foreach (Match link in emptyLink.Matches(ArticleText))
+            foreach (Match link in WikiRegexes.EmptyLink.Matches(ArticleText))
             {
                 string trim = link.Groups[2].Value.Trim();
-                if (string.IsNullOrEmpty(trim) || trim == "|" + img || trim == "|" + cat || trim == "|")
+                if (string.IsNullOrEmpty(trim) || trim == "|" + Variables.NamespacesCaseInsensitive[Namespace.Image] ||
+                    trim == "|" + Variables.NamespacesCaseInsensitive[Namespace.Category] || trim == "|")
                     ArticleText = ArticleText.Replace("[[" + link.Groups[1].Value + link.Groups[2].Value + "]]", "");
             }
 
-            Regex emptyTemplate = new Regex(@"{{(" + Variables.NamespacesCaseInsensitive[Namespace.Template] + @")?[|\s]*}}", RegexOptions.IgnoreCase);
+            if (WikiRegexes.EmptyTemplate.Match(ArticleText).Success)
+                ArticleText = WikiRegexes.EmptyTemplate.Replace(ArticleText, "");
 
-            if (emptyTemplate.Match(ArticleText).Success)
-            {
-                ArticleText = emptyTemplate.Replace(ArticleText, "");
-            }
             return ArticleText;
         }
 
