@@ -468,6 +468,8 @@ namespace AutoWikiBrowser
         {
             string pageText = apiEdit.Open(title);
 
+            apiEdit.Wait();
+
             if (!LoadSuccessAPI())
                 return;
 

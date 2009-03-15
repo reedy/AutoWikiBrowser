@@ -225,7 +225,7 @@ namespace AutoWikiBrowser.Logging
             if (Listeners.Count == 0)
                 return;
             BusyCounter -= 1;
-            if (BusyCounter == 0 && !(LoggingSettings.LedColour == WikiFunctions.Controls.Colour.Blue))
+            if (BusyCounter == 0 && (LoggingSettings.LedColour != WikiFunctions.Controls.Colour.Blue))
             {
                 LoggingSettings.LedColour = WikiFunctions.Controls.Colour.Red;
             }
