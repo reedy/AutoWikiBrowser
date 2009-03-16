@@ -26,7 +26,7 @@ namespace WikiFunctions
     /// This class holds all basic information about a wiki
     /// </summary>
     [Serializable]
-    public class SiteInfo : IXmlSerializable
+    public class SiteInfo
     {
         private readonly bool php5;
         private string scriptPath;
@@ -213,43 +213,6 @@ namespace WikiFunctions
 
             return result;
         }
-
-        #region Service functions
-        #endregion
-
-        #region IXmlSerializable Members
-
-        public System.Xml.Schema.XmlSchema GetSchema()
-        {
-            return null;
-        }
-
-        public void ReadXml(XmlReader reader)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
-
-        public void WriteXml(XmlWriter writer)
-        {
-            //writer.WriteStartElement("site");
-            writer.WriteAttributeString("URL", scriptPath);
-            writer.WriteStartAttribute("Time");
-            writer.WriteValue(time);
-            {
-                writer.WriteStartElement("Namespaces");
-                {
-                    foreach (KeyValuePair<int, string> p in namespaces)
-                    {
-                        writer.WriteStartElement("Namespace");
-                        writer.WriteAttributeString("id", p.Key.ToString());
-                        writer.WriteValue(p.Value);
-                        writer.WriteEndElement();
-                    }
-                }
-            }
-            //writer.WriteEndElement();
-        }
-        #endregion
     }
 
     public class WikiUrlException : Exception

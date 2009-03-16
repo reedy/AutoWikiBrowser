@@ -54,6 +54,7 @@
     <Compile Include="API\IApiEdit.cs" />
     <Compile Include="API\PageInfo.cs" />
     <Compile Include="API\UserInfo.cs" />
+    <Compile Include="AwbDirs.cs" />
     <Compile Include="Article.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -179,7 +180,7 @@
     <Compile Include="ErrorHandler.Designer.cs">
       <DependentUpon>ErrorHandler.cs</DependentUpon>
     </Compile>
-    <Compile Include="ExpirableCache.cs" />
+    <Compile Include="ObjectCache.cs" />
     <Compile Include="Parse\FindandReplace.cs">
       <SubType>Form</SubType>
     </Compile>
