@@ -495,6 +495,8 @@ namespace WikiFunctions.Parse
         /// Main regex for {{reflist}} converter
         /// </summary>
         private static readonly Regex ReferenceListTags = new Regex(@"(<(span|div)( class=""(references-small|small|references-2column)|)?"">[\r\n\s]*){1,2}[\r\n\s]*<references[\s]?/>([\r\n\s]*</(span|div)>){1,2}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+		
+		private static readonly Regex BadReferenceListTags = new Regex(@"<references>(</references>)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         private static readonly Regex DivStart = new Regex(@"<div\b.*?>", RegexOptions.Compiled);
         private static readonly Regex DivEnd = new Regex(@"< ?/ ?div\b.*?>", RegexOptions.Compiled);
@@ -507,6 +509,9 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string FixReferenceListTags(string ArticleText)
         {
+			if (BadReferenceListTags.IsMatch(ArticleText))
+				ArticleText = BadReferenceListTags.Replace(ArticleText, "<references/>");
+				
             return ReferenceListTags.Replace(ArticleText, new MatchEvaluator(ReflistMatchEvaluator));
         }
 

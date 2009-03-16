@@ -95,6 +95,9 @@ namespace UnitTests
         {
             Assert.AreEqual("<references/>", Parsers.FixReferenceListTags("<references/>"));
             Assert.AreEqual("<div><references/></div>", Parsers.FixReferenceListTags("<div><references/></div>"));
+			
+			Assert.AreEqual("<references/>", Parsers.FixReferenceListTags("<references>"));
+			Assert.AreEqual("<references/>", Parsers.FixReferenceListTags("<references></references>"));
 
             Assert.AreEqual("{{reflist}}", Parsers.FixReferenceListTags("<div class=\"references-small\"><references/>\r\n</div>"));
             Assert.AreEqual("{{reflist|2}}", Parsers.FixReferenceListTags("<div class=\"references-2column\"><references/></div>"));
