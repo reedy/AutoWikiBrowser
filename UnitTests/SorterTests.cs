@@ -1,4 +1,3 @@
-using WikiFunctions;
 using WikiFunctions.Parse;
 using NUnit.Framework;
 
@@ -17,10 +16,10 @@ namespace UnitTests
     [TestFixture]
     public class SorterTests : RequiresParser2
     {
-        public SorterTests()
-        {
+        //public SorterTests()
+        //{
             //Variables.SetToEnglish();
-        }
+        //}
 
         [Test]
         public void RemoveStubs()
@@ -47,7 +46,7 @@ namespace UnitTests
         [Test]
         public void MoveDablinksTests()
         {
-            string d = @"Fred is a doctor.
+            const string d = @"Fred is a doctor.
 Fred has a dog.
 [[Category:Dog owners]]
 {{some template}}
@@ -77,7 +76,7 @@ Fred has a dog.
             string a = @"Fred is a doctor. Fred has a dog.
 {{Lifetime|1922|1987|Smith, Fred}}
 [[Category:Dog owners]]";
-            string b = @"[[Category:Dog owners]]
+            const string b = @"[[Category:Dog owners]]
 {{Lifetime|1922|1987|Smith, Fred}}";
 
             Assert.AreEqual(b, parser2.Sorter.removeCats(ref a, "test"));
@@ -87,7 +86,7 @@ Fred has a dog.
 [[Category:Dog owners]]
 [[Category:Foo]]
 [[Category:Bar]]";
-            string d = @"[[Category:Dog owners]]
+            const string d = @"[[Category:Dog owners]]
 [[Category:Foo]]
 [[Category:Bar]]
 {{lifetime|1922|1987|Smith, Fred}}";
@@ -99,7 +98,7 @@ Fred has a dog.
 [[Category:Dog owners]]
 [[Category:Foo]]
 [[Category:Bar]]";
-            string f = @"[[Category:Dog owners]]
+            const string f = @"[[Category:Dog owners]]
 [[Category:Foo]]
 [[Category:Bar]]
 {{BIRTH-DEATH-SORT|1922|1987|Smith, Fred}}";

@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using WikiFunctions;
 using WikiFunctions.Parse;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 
 namespace UnitTests
 {
     public class TypoList : ITyposProvider
     {
-        Dictionary<string, string> typos;
+        readonly Dictionary<string, string> typos;
 
         public TypoList(Dictionary<string, string> list)
         {
@@ -36,7 +34,7 @@ namespace UnitTests
     {
         #region Preparations
         RegExTypoFix retf;
-        Dictionary<string, string> typos = new Dictionary<string,string>();
+        readonly Dictionary<string, string> typos = new Dictionary<string,string>();
         string Summary;
 
         [SetUp]
