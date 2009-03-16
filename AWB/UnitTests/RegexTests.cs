@@ -9,10 +9,6 @@ namespace UnitTests
     /// </summary>
     public class RegexTestsBase
     {
-        public RegexTestsBase()
-        {
-        }
-
         /// <summary>
         /// Checks if a regex matches a string
         /// </summary>
