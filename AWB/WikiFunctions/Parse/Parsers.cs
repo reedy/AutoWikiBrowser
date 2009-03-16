@@ -468,7 +468,7 @@ namespace WikiFunctions.Parse
 
             ArticleText = Regex.Replace(ArticleText, @"([01]?\d:[0-5]\d\s*([AP]M)\s*)(?:-|—|&mdash;|&#8212;)(\s*[01]?\d:[0-5]\d\s*([AP]M))", @"$1–$3", RegexOptions.IgnoreCase);
 
-            ArticleText = Regex.Replace(ArticleText, @"([Aa]ge[sd])\s([1-9]?\d\s*)(?:-|—|&mdash;|&#8212;)(\s*[1-9]?\d)", @"$1 $2–$3)");
+            ArticleText = Regex.Replace(ArticleText, @"([Aa]ge[sd])\s([1-9]?\d\s*)(?:-|—|&mdash;|&#8212;)(\s*[1-9]?\d)", @"$1 $2–$3");
 
             return AddBackMoreText(ArticleText);
         }
