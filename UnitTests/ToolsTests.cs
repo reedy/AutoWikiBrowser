@@ -589,6 +589,7 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
         public void WithRomanNumbers()
         {
             Assert.AreEqual("Doe, John, III", Tools.MakeHumanCatKey("John Doe III"));
+            Assert.AreEqual("XVII", Tools.MakeHumanCatKey("XVII"));
         }
 
         [Test]

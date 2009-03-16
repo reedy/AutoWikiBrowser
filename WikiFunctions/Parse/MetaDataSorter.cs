@@ -53,64 +53,10 @@ namespace WikiFunctions.Parse
             }
             else
             {
-//#if DEBUG
-//                StringBuilder builder = new StringBuilder();
-//#endif
-
-                string strMatrix = Tools.GetHTML("http://en.wikipedia.org/w/api.php?action=sitematrix&format=xml");
-
-                XmlDocument matrix = new XmlDocument();
-                matrix.LoadXml(strMatrix);
-
-                foreach (XmlNode lang in matrix.GetElementsByTagName("language"))
+                if (!LoadFromCache())
                 {
-                    string langCode = lang.Attributes["code"].Value;
-                    string langName = lang.Attributes["name"].Value;
-
-//#if DEBUG
-//                    try
-//                    {
-//                        Variables.ParseLanguage(langCode);
-//                    }
-//                    catch (ArgumentException)
-//                    {
-//                        if (!langCode.Contains("-old") && !langCode.Contains("closed") && langCode != "nomcom") //closed/old aren't used. nomcom isnt general access
-//                            builder.AppendLine(langCode);
-//                    }
-//#endif
-
-                    Languages.Add(langCode);
-                    LanguageNames[langCode] = langName;
-
-                    foreach (XmlNode site in lang.ChildNodes[0].ChildNodes)
-                    {
-                        if (site.Name != "site") continue;
-
-                        switch (site.Attributes["code"].Value)
-                        {
-                            case "wiki":
-                                WikipediaLanguages.Add(langCode);
-                                break;
-                            case "wiktionary":
-                                WiktionaryLanguages.Add(langCode);
-                                break;
-                            case "wikibooks":
-                                WikibooksLanguages.Add(langCode);
-                                break;
-                            case "wikinews":
-                                WikinewsLanguages.Add(langCode);
-                                break;
-                            case "wikisource":
-                                WikisourceLanguages.Add(langCode);
-                                break;
-                            case "wikiquote":
-                                WikiquoteLanguages.Add(langCode);
-                                break;
-                            case "wikiversity":
-                                WikiversityLanguages.Add(langCode);
-                                break;
-                        }
-                    }
+                    LoadFromNetwork();
+                    SaveToCache();
                 }
 
                 //should already be sorted, but we must be sure
@@ -122,12 +68,98 @@ namespace WikiFunctions.Parse
                 WikisourceLanguages.Sort();
                 WikiquoteLanguages.Sort();
                 WikiversityLanguages.Sort();
-
-//#if DEBUG
-//                if (builder.Length > 0)
-//                    Tools.WriteDebug("SiteMatrix - Missing Languages", builder.ToString());
-//#endif
             }
+        }
+
+        private static string Key(string what)
+        {
+            return "SiteMatrix::" + what;
+        }
+
+        private static bool loaded = true;
+
+        private static List<string> Load(string what)
+        {
+            var result = (List<string>)ObjectCache.Global.Get<List<string>>(Key(what));
+            if (result == null)
+            {
+                loaded = false;
+                return new List<string>();
+            }
+            else
+                return result;
+        }
+
+        private static bool LoadFromCache()
+        {
+            Languages = Load("Languages");
+            WikipediaLanguages = Load("WikipediaLanguages");
+            WiktionaryLanguages = Load("WiktionaryLanguages");
+            WikibooksLanguages = Load("WikibooksLanguages");
+            WikinewsLanguages = Load("WikinewsLanguages");
+            WikisourceLanguages = Load("WikisourceLanguages");
+            WikiquoteLanguages = Load("WikiquoteLanguages");
+            WikiversityLanguages = Load("WikiversityLanguages");
+            return loaded;
+        }
+
+        private static void LoadFromNetwork()
+        {
+            string strMatrix = Tools.GetHTML("http://en.wikipedia.org/w/api.php?action=sitematrix&format=xml");
+
+            XmlDocument matrix = new XmlDocument();
+            matrix.LoadXml(strMatrix);
+
+            foreach (XmlNode lang in matrix.GetElementsByTagName("language"))
+            {
+                string langCode = lang.Attributes["code"].Value;
+                string langName = lang.Attributes["name"].Value;
+
+                Languages.Add(langCode);
+                LanguageNames[langCode] = langName;
+
+                foreach (XmlNode site in lang.ChildNodes[0].ChildNodes)
+                {
+                    if (site.Name != "site") continue;
+
+                    switch (site.Attributes["code"].Value)
+                    {
+                        case "wiki":
+                            WikipediaLanguages.Add(langCode);
+                            break;
+                        case "wiktionary":
+                            WiktionaryLanguages.Add(langCode);
+                            break;
+                        case "wikibooks":
+                            WikibooksLanguages.Add(langCode);
+                            break;
+                        case "wikinews":
+                            WikinewsLanguages.Add(langCode);
+                            break;
+                        case "wikisource":
+                            WikisourceLanguages.Add(langCode);
+                            break;
+                        case "wikiquote":
+                            WikiquoteLanguages.Add(langCode);
+                            break;
+                        case "wikiversity":
+                            WikiversityLanguages.Add(langCode);
+                            break;
+                    }
+                }
+            }
+        }
+
+        private static void SaveToCache()
+        {
+            ObjectCache.Global.Set(Key("Languages"), Languages);
+            ObjectCache.Global.Set(Key("WikipediaLanguages"), WikipediaLanguages);
+            ObjectCache.Global.Set(Key("WiktionaryLanguages"), WiktionaryLanguages);
+            ObjectCache.Global.Set(Key("WikibooksLanguages"), WikibooksLanguages);
+            ObjectCache.Global.Set(Key("WikinewsLanguages"), WikinewsLanguages);
+            ObjectCache.Global.Set(Key("WikisourceLanguages"), WikisourceLanguages);
+            ObjectCache.Global.Set(Key("WikiquoteLanguages"), WikiquoteLanguages);
+            ObjectCache.Global.Set(Key("WikiversityLanguages"), WikiversityLanguages);
         }
 
         /// <summary>

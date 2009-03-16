@@ -816,6 +816,17 @@ namespace WikiFunctions
             return NonPrettifiedURL(title) + "&action=raw";
         }
         #endregion
+
+        /// <summary>
+        /// Returns the WikiFunctions assembly version
+        /// </summary>
+        public static Version WikiFunctionsVersion
+        {
+            get
+            {
+                return Assembly.GetAssembly(typeof (Variables)).GetName().Version;
+            }
+        }
     }
 
     public enum WikiStatusResult { Error, NotLoggedIn, NotRegistered, OldVersion, Registered, Null }
