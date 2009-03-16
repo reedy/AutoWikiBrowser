@@ -354,8 +354,9 @@ Image:quux[http://example.com]
             // TODO: uncomment when Namespace.Determine() will support non-normalised names
             //Assert.AreEqual("Foo", new Article("Category : Foo").NamespacelessName);
 
-            Assert.AreEqual("", new Article("Category:").NamespacelessName);
-            Assert.AreEqual("", new Article("Category: ").NamespacelessName);
+            // this behaviour has changed in recent MW versions
+            //Assert.AreEqual("", new Article("Category:").NamespacelessName);
+            //Assert.AreEqual("", new Article("Category: ").NamespacelessName);
         }
     }
 
@@ -369,6 +370,7 @@ Image:quux[http://example.com]
             Assert.AreEqual(0, Namespace.Determine(":test"));
             Assert.AreEqual(0, Namespace.Determine("test:test"));
             Assert.AreEqual(0, Namespace.Determine("My Project:Foo"));
+            Assert.AreEqual(0, Namespace.Determine("User:"));
 
             Assert.AreEqual(Namespace.Talk, Namespace.Determine("Talk:foo"));
             Assert.AreEqual(Namespace.UserTalk, Namespace.Determine("User talk:bar"));
@@ -407,7 +409,11 @@ Image:quux[http://example.com]
         [Test]
         public void IsMainSpace()
         {
+            Assert.IsTrue(Namespace.IsMainSpace(0));
+            Assert.IsFalse(Namespace.IsMainSpace(1));
+
             Assert.IsTrue(Namespace.IsMainSpace("Test"));
+            Assert.IsTrue(Namespace.IsMainSpace("User:"));
 
             Assert.IsFalse(Namespace.IsMainSpace("Talk:Test"));
             Assert.IsFalse(Namespace.IsMainSpace("User:Test"));
