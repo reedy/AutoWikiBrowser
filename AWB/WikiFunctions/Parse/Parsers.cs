@@ -447,6 +447,7 @@ namespace WikiFunctions.Parse
             return (ArticleText);
         }
 
+        // Covered by: FormattingTests.TestMdashes()
         /// <summary>
         /// Replaces hyphens and em-dashes with en-dashes, per [[WP:DASH]]
         /// </summary>
