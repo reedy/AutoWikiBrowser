@@ -214,19 +214,19 @@ Article started off pretty good, <ref name = ""Tim1""/><ref name = ""John3"" >So
 End of."));
 
             // no changes
-            string A = @"'''Article''' is great.<ref name = ""Fred3"">So says Fred</ref>
+            const string A = @"'''Article''' is great.<ref name = ""Fred3"">So says Fred</ref>
 Article started off pretty good, <ref name = ""Fred3"" /> <ref name = ""John2"" >So says John</ref> and finished well.
 End of.";
-            string B = @"'''Article''' is great.<ref name = ""Fred4"">So says Fred</ref>
+            const string B = @"'''Article''' is great.<ref name = ""Fred4"">So says Fred</ref>
 Article started off pretty good, <ref>So says Tim</ref> <ref>So says John</ref> and finished well.
 End of.";
-            string C = @"'''Article''' is great.<ref name = ""Fred5"">So says Fred</ref>
+            const string C = @"'''Article''' is great.<ref name = ""Fred5"">So says Fred</ref>
 Article started off pretty good,<ref name = ""Fred5"" /> <ref>So says John</ref> and finished well.
 End of.";
-            string D = @"'''Article''' is great.<ref name = ""Fred6"">So says Fred</ref>
+            const string D = @"'''Article''' is great.<ref name = ""Fred6"">So says Fred</ref>
 Article started off pretty good, <ref>So says John</ref> <ref name = ""A"">So says A</ref> and finished well.
 End of.";
-            string E = @"'''Article''' is great.<ref name = ""John2"" />
+            const string E = @"'''Article''' is great.<ref name = ""John2"" />
 Article is new.<ref name = ""Fred7"">So says Fred</ref>
 Article started off pretty good, <ref name = ""John2"" >So says John</ref> <ref name = ""Fred7"" /> and finished well.
 End of.";
@@ -761,7 +761,7 @@ Some news here.", "test"));
             Assert.AreEqual("Ages 15–19", parser.Mdashes("Ages 15–19"));
             Assert.AreEqual("Aged 15–19", parser.Mdashes("Aged 15–19"));
 
-            Assert.AreEqual("(ages 15–18)", parser.Mdashes("(ages 15-18)")); //Minor replace expression bug
+            Assert.AreEqual("(ages 15–18)", parser.Mdashes("(ages 15-18)"));
         }
     }
 
