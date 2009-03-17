@@ -203,9 +203,9 @@ namespace AutoWikiBrowser
             this.lblTimeoutPost.AutoSize = true;
             this.lblTimeoutPost.Location = new System.Drawing.Point(98, 111);
             this.lblTimeoutPost.Name = "lblTimeoutPost";
-            this.lblTimeoutPost.Size = new System.Drawing.Size(128, 13);
+            this.lblTimeoutPost.Size = new System.Drawing.Size(183, 13);
             this.lblTimeoutPost.TabIndex = 7;
-            this.lblTimeoutPost.Text = "seconds before &timing out";
+            this.lblTimeoutPost.Text = "seconds before web control &times out";
             // 
             // chkAlwaysConfirmExit
             // 
