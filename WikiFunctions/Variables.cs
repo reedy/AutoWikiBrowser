@@ -388,12 +388,12 @@ namespace WikiFunctions
             DelayedRequests.Clear();
         }
 
-        public static void LoadUnderscores(params string[] templates)
+        public static void LoadUnderscores(params string[] cats)
         {
             BackgroundRequest r = new BackgroundRequest(UnderscoresLoaded);
             r.HasUI = false;
             DelayedRequests.Add(r);
-            r.GetList(new Lists.WhatTranscludesPageListProvider(), templates);
+            r.GetList(new Lists.CategoryListProvider(), cats);
         }
 
         static void UnderscoresLoaded(BackgroundRequest req)
@@ -953,7 +953,7 @@ namespace WikiFunctions
 
         readonly static Regex Message = new Regex("<!--[Mm]essage:(.*?)-->", RegexOptions.Compiled);
         readonly static Regex VersionMessage = new Regex("<!--VersionMessage:(.*?)\\|\\|\\|\\|(.*?)-->", RegexOptions.Compiled);
-        //readonly static Regex Underscores = new Regex("<!--[Uu]nderscores:(.*?)-->", RegexOptions.Compiled);
+        readonly static Regex Underscores = new Regex("<!--[Uu]nderscores:(.*?)-->", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches <head> on right-to-left wikis
@@ -1124,13 +1124,13 @@ namespace WikiFunctions
                 if (m.Success && m.Groups[1].Value.Trim().Length > 0)
                     Variables.RetfPath = m.Groups[1].Value.Trim();
 
-                //List<string> us = new List<string>();
-                //foreach (Match m1 in Underscores.Matches(strText))
-                //{
-                //    if (m1.Success && m1.Groups[1].Value.Trim().Length > 0)
-                //        us.Add(m1.Groups[1].Value.Trim());
-                //}
-                //if (us.Count > 0) Variables.LoadUnderscores(us.ToArray());
+                List<string> us = new List<string>();
+                foreach (Match m1 in Underscores.Matches(strText))
+                {
+                    if (m1.Success && m1.Groups[1].Value.Trim().Length > 0)
+                        us.Add(m1.Groups[1].Value.Trim());
+                }
+                if (us.Count > 0) Variables.LoadUnderscores(us.ToArray());
 
                 Regex r = new Regex("\"([a-z]*)\"[,\\]]");
 
