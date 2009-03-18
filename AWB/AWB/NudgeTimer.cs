@@ -29,13 +29,13 @@ namespace AutoWikiBrowser
          * saved (e.g. wiki or net connection is down). */
         // Events
         public new event TickEventHandler Tick;
-        public delegate void TickEventHandler(object sender, NudgeTimer.NudgeTimerEventArgs EventArgs);
+        public delegate void TickEventHandler(object sender, NudgeTimerEventArgs EventArgs);
 
         // Methods
         public NudgeTimer(IContainer container)
             : base(container)
         {
-            base.Tick += new EventHandler(this.NudgeTimer_Tick);
+            base.Tick += NudgeTimer_Tick;
         }
 
         public void StartMe()
@@ -54,7 +54,7 @@ namespace AutoWikiBrowser
             Tick(this, myEventArgs);
             if (!myEventArgs.Cancel)
             {
-                switch (base.Interval)
+                switch (Interval)
                 {
                     case 120000:
                         Interval = 240000;
@@ -85,15 +85,7 @@ namespace AutoWikiBrowser
         // Nested Types
         internal sealed class NudgeTimerEventArgs : EventArgs
         {
-            // Fields
-            private bool mCancel;
-
-            // Properties
-            public bool Cancel
-            {
-                get { return mCancel; }
-                set { mCancel = value; }
-            }
+            public bool Cancel { get; set; }
         }
     }
 }

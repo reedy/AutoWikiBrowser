@@ -169,7 +169,7 @@ namespace AutoWikiBrowser
                 }
                 else
                 {
-                    Program.AWB.NotifyBalloon("Folder doesn't exist, using previous setting (" + 
+                    Program.AWB.NotifyBalloon("Folder doesn't exist, using previous setting (" +
                         Settings.LogFolder + ")", ToolTipIcon.Warning);
                     FolderTextBox.Text = Settings.LogFolder;
                 }
@@ -227,65 +227,70 @@ namespace AutoWikiBrowser
         #endregion
 
         #region Event Handlers
-		private void ApplyButton_Click(object sender, EventArgs e)
-		{
-			if (UploadCheckBox.Checked && string.IsNullOrEmpty(UploadJobNameTextBox.Text.Trim()))
-			{
-				MessageBox.Show("Please enter a job name", "Job name missing", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-			}
-			else
-			{
-				GetSettingsFromControls();
-			}
-		}
-        private void CategoryReset(object sender, EventArgs e)
+        private void ApplyButton_Click(object sender, EventArgs e)
+        {
+            if (UploadCheckBox.Checked && string.IsNullOrEmpty(UploadJobNameTextBox.Text.Trim()))
+            {
+                MessageBox.Show("Please enter a job name", "Job name missing", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else
+            {
+                GetSettingsFromControls();
+            }
+        }
+        private void CategoryReset()
         {
             UploadLocationTextBox.Text = "";
         }
-		private void LocationReset(object sender, EventArgs e)
-		{
-			UploadLocationTextBox.Text = Props.ConUploadToUserSlashLogsToken;
-		}
-		private void JobNameReset(object sender, EventArgs e)
-		{
-			UploadJobNameTextBox.Text = Props.ConUploadCategoryIsJobName;
-		}
-		private void MaxLinesReset(object sender, EventArgs e)
-		{
-			UploadMaxLinesControl.Value = 1000;
-		}
-		private void SetLinesToMaximum(object sender, EventArgs e)
-		{
-			UploadMaxLinesControl.Value = UploadMaxLinesControl.Maximum;
-		}
-		private void WikiLogCheckBox_CheckedChanged(object sender, EventArgs e)
-		{
-			if (WikiLogCheckBox.Checked && ! UploadCheckBox.Enabled)
-			{
-				UploadCheckBox.Enabled = true;
-				EnableDisableUploadControls(UploadCheckBox.Checked);
-			}
-			else if (! WikiLogCheckBox.Checked && UploadCheckBox.Enabled)
-			{
-				UploadCheckBox.Enabled = false;
-				EnableDisableUploadControls(false);
-			}
 
-			WEHaveUnappliedChanges();
-		}
-		private void UploadCheckBox_CheckedChanged(object sender, EventArgs e)
-		{
-			EnableDisableUploadControls(UploadCheckBox.Checked);
-			WEHaveUnappliedChanges();
-		}
-		private void FolderButton_Click(object sender, EventArgs e)
-		{
-			if (FolderBrowserDialog1.ShowDialog(this) == DialogResult.OK)
-			{
-				FolderTextBox.Text = FolderBrowserDialog1.SelectedPath;
-				WEHaveUnappliedChanges();
-			}
-		}
+        private void LocationReset(object sender, EventArgs e)
+        {
+            UploadLocationTextBox.Text = Props.ConUploadToUserSlashLogsToken;
+        }
+
+        private void JobNameReset(object sender, EventArgs e)
+        {
+            UploadJobNameTextBox.Text = Props.ConUploadCategoryIsJobName;
+        }
+
+        private void MaxLinesReset(object sender, EventArgs e)
+        {
+            UploadMaxLinesControl.Value = 1000;
+        }
+
+        private void SetLinesToMaximum(object sender, EventArgs e)
+        {
+            UploadMaxLinesControl.Value = UploadMaxLinesControl.Maximum;
+        }
+
+        private void WikiLogCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (WikiLogCheckBox.Checked && !UploadCheckBox.Enabled)
+            {
+                UploadCheckBox.Enabled = true;
+                EnableDisableUploadControls(UploadCheckBox.Checked);
+            }
+            else if (!WikiLogCheckBox.Checked && UploadCheckBox.Enabled)
+            {
+                UploadCheckBox.Enabled = false;
+                EnableDisableUploadControls(false);
+            }
+
+            WEHaveUnappliedChanges();
+        }
+        private void UploadCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            EnableDisableUploadControls(UploadCheckBox.Checked);
+            WEHaveUnappliedChanges();
+        }
+        private void FolderButton_Click(object sender, EventArgs e)
+        {
+            if (FolderBrowserDialog1.ShowDialog(this) == DialogResult.OK)
+            {
+                FolderTextBox.Text = FolderBrowserDialog1.SelectedPath;
+                WEHaveUnappliedChanges();
+            }
+        }
 
         private void ResetButton_Click(object sender, EventArgs e)
         {
@@ -293,11 +298,11 @@ namespace AutoWikiBrowser
                 VerboseCheckBox.Checked = UploadCheckBox.Checked = false;
             WikiLogCheckBox.Checked = UploadOpenInBrowserCheckBox.Checked =
                 UploadWatchlistCheckBox.Checked = UploadWikiProjectCheckBox.Checked = true;
-            CategoryReset(null, null);
+            CategoryReset();
             LocationReset(null, null);
             JobNameReset(null, null);
             MaxLinesReset(null, null);
-            if(string.IsNullOrEmpty(FolderTextBox.Text))
+            if (string.IsNullOrEmpty(FolderTextBox.Text))
                 FolderButton_Click(null, null);
         }
 
@@ -320,11 +325,11 @@ namespace AutoWikiBrowser
         {
             LoggingCategoryTextBox.Text = "";
         }
-#endregion
+        #endregion
 
         internal sealed class Props : UploadableLogSettings2
         {
-            private bool mUploadToWikiProjects = true, mDebugUploading;
+            private bool mUploadToWikiProjects = true;
             private string mCategory = "";
             internal const string ConUploadToUserSlashLogsToken = "$USER/Logs";
             internal const string ConUploadCategoryIsJobName = "$CATEGORY";
@@ -337,7 +342,7 @@ namespace AutoWikiBrowser
 
             internal bool Equals(Props compare)
             {
-                return ((compare.LogFolder == LogFolder) && (compare.LogVerbose == LogVerbose) 
+                return ((compare.LogFolder == LogFolder) && (compare.LogVerbose == LogVerbose)
                     && (compare.LogWiki == LogWiki) && (compare.LogXHTML == LogXHTML)
                     && (compare.UploadAddToWatchlist == UploadAddToWatchlist) && (compare.UploadJobName == UploadJobName)
                     && (compare.UploadLocation == UploadLocation) && (compare.UploadMaxLines == UploadMaxLines)
@@ -352,11 +357,9 @@ namespace AutoWikiBrowser
                 get { return mUploadToWikiProjects; }
                 set { mUploadToWikiProjects = value; }
             }
-            internal bool DebugUploading
-            {
-                get { return mDebugUploading; }
-                set { mDebugUploading = value; }
-            }
+
+            internal bool DebugUploading { get; set; }
+
             internal List<LogEntry> LinksToLog()
             {
                 List<LogEntry> tempLinksToLog = new List<LogEntry>();
@@ -389,7 +392,7 @@ namespace AutoWikiBrowser
                     if (string.IsNullOrEmpty(mCategory))
                         return "";
 
-                    return "[[:" + Variables.Namespaces[Namespace.Category] + mCategory 
+                    return "[[:" + Variables.Namespaces[Namespace.Category] + mCategory
                         + "|" + mCategory + "]]";
                 }
             }
