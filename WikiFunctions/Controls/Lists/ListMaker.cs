@@ -1135,7 +1135,10 @@ namespace WikiFunctions.Controls.Lists
 
         private void loadArticlesInBrowser()
         {
-            foreach (Article item in lbArticles.SelectedItems)
+            Article[] articles = new Article[lbArticles.SelectedItems.Count];
+            lbArticles.SelectedItems.CopyTo(articles, 0);
+
+            foreach (Article item in articles)
             {
                 Tools.OpenArticleInBrowser(item.Name);
             }
