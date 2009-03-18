@@ -736,8 +736,8 @@ namespace AutoWikiBrowser
                         SkipPage("Only casing changed");
                         return;
                     }
-                    
-                    if(chkSkipMinorGeneralFixes.Checked && chkGeneralFixes.Checked && TheArticle.OnlyMinorGeneralFixesChanged)
+
+                    if (chkSkipMinorGeneralFixes.Checked && chkGeneralFixes.Checked && TheArticle.OnlyMinorGeneralFixesChanged)
                     {
                         SkipPage("Only minor general fix changes");
                         return;
@@ -1061,7 +1061,7 @@ namespace AutoWikiBrowser
                         return;
                     }
                 }
-                
+
                 SkipPage("Edit blocked by spam protection filter");
                 return;
             }
@@ -1748,7 +1748,7 @@ window.scrollTo(0, diffTopY);
             chkSkipWhenNoFAR.Enabled = chkFindandReplace.Checked;
             btnSubst.Enabled = chkFindandReplace.Checked;
         }
-        
+
         private void chkSkipGeneralFixes_CheckedChanged(object sender, EventArgs e)
         {
             if (chkSkipGeneralFixes.Checked)
@@ -2844,9 +2844,9 @@ window.scrollTo(0, diffTopY);
         private void chkGeneralParse_CheckedChanged(object sender, EventArgs e)
         {
             alphaSortInterwikiLinksToolStripMenuItem.Enabled = chkSkipGeneralFixes.Enabled = chkSkipMinorGeneralFixes.Enabled = chkGeneralFixes.Checked;
-            
+
             if (chkSkipGeneralFixes.Checked)
-              chkSkipMinorGeneralFixes.Enabled = false;
+                chkSkipMinorGeneralFixes.Enabled = false;
         }
 
         private void btnFindAndReplaceAdvanced_Click(object sender, EventArgs e)
@@ -3063,7 +3063,7 @@ window.scrollTo(0, diffTopY);
         {
             if (InvokeRequired)
             {
-                Invoke(new BackgroundRequestComplete(RegexTypos_Complete), new object[] {req});
+                Invoke(new BackgroundRequestComplete(RegexTypos_Complete), new object[] { req });
                 return;
             }
 
@@ -3279,13 +3279,13 @@ window.scrollTo(0, diffTopY);
 
         private void txtImageReplace_Leave(object sender, EventArgs e)
         {
-            txtImageReplace.Text = Regex.Replace(txtImageReplace.Text, "^" 
+            txtImageReplace.Text = Regex.Replace(txtImageReplace.Text, "^"
                 + Variables.Namespaces[Namespace.File], "", RegexOptions.IgnoreCase);
         }
 
         private void txtImageWith_Leave(object sender, EventArgs e)
         {
-            txtImageWith.Text = Regex.Replace(txtImageWith.Text, "^" 
+            txtImageWith.Text = Regex.Replace(txtImageWith.Text, "^"
                 + Variables.Namespaces[Namespace.File], "", RegexOptions.IgnoreCase);
         }
 
@@ -3437,7 +3437,7 @@ window.scrollTo(0, diffTopY);
                 foreach (
                     Article a in
                         new WikiFunctions.Lists.LinksOnPageListProvider().MakeList(
-                            txtDabLink.Text.Split(new [] {'|'}, StringSplitOptions.RemoveEmptyEntries)))
+                            txtDabLink.Text.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries)))
                 {
                     uint i;
                     // exclude years
@@ -4037,7 +4037,7 @@ window.scrollTo(0, diffTopY);
                                 "Test typos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 return;
 
-            int iterations = 1000000/text.Length;
+            int iterations = 1000000 / text.Length;
             if (iterations > 500) iterations = 500;
 
             List<KeyValuePair<int, string>> times = new List<KeyValuePair<int, string>>();
@@ -4050,7 +4050,7 @@ window.scrollTo(0, diffTopY);
                 {
                     p.Key.IsMatch(text);
                 }
-                times.Add(new KeyValuePair<int, string>((int) watch.ElapsedMilliseconds, p.Key + " > " + p.Value));
+                times.Add(new KeyValuePair<int, string>((int)watch.ElapsedMilliseconds, p.Key + " > " + p.Value));
             }
 
             times.Sort(new Comparison<KeyValuePair<int, string>>(CompareRegexPairs));
