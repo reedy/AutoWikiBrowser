@@ -236,7 +236,7 @@ namespace AutoWikiBrowser
                 ErrorHandler.Handle(ex);
 
                 // don't attempt to write to disk if the error was IOException (disk full etc.)
-                if (!(ex is System.IO.IOException) && File.Exists(SettingsFile + ".old"))
+                if (!(ex is IOException) && File.Exists(SettingsFile + ".old"))
                     File.Copy(SettingsFile + ".old", SettingsFile, true);
             }
         }
@@ -247,64 +247,83 @@ namespace AutoWikiBrowser
         private UserPrefs MakePrefs()
         {
             return new UserPrefs(
-                
+
                 new FaRPrefs(findAndReplace, replaceSpecial, substTemplates)
-                {
-                    Enabled = chkFindandReplace.Checked,
-                },
-               
+                    {
+                        Enabled = chkFindandReplace.Checked,
+                    },
+
                 new EditPrefs(chkGeneralFixes.Checked, chkAutoTagger.Checked,
-                chkUnicodifyWhole.Checked, cmboCategorise.SelectedIndex, txtNewCategory.Text,
-                txtNewCategory2.Text, cmboImages.SelectedIndex, txtImageReplace.Text, txtImageWith.Text,
-                chkSkipNoCatChange.Checked, chkSkipNoImgChange.Checked, chkAppend.Checked, !rdoPrepend.Checked,
-                txtAppendMessage.Text, (int)udNewlineChars.Value, (int)nudBotSpeed.Value, chkSuppressTag.Checked,
-                chkRegExTypo.Checked),
-               
+                              chkUnicodifyWhole.Checked, cmboCategorise.SelectedIndex, txtNewCategory.Text,
+                              txtNewCategory2.Text, cmboImages.SelectedIndex, txtImageReplace.Text, txtImageWith.Text,
+                              chkSkipNoCatChange.Checked, chkSkipNoImgChange.Checked, chkAppend.Checked,
+                              !rdoPrepend.Checked,
+                              txtAppendMessage.Text, (int)udNewlineChars.Value, (int)nudBotSpeed.Value,
+                              chkSuppressTag.Checked,
+                              chkRegExTypo.Checked),
+
                 new ListPrefs(listMaker, SaveArticleList),
 
-               new SkipPrefs(radSkipNonExistent.Checked, radSkipExistent.Checked, chkSkipNoChanges.Checked, chkSkipSpamFilter.Checked,
-               chkSkipIfInuse.Checked, chkSkipIfContains.Checked, chkSkipIfNotContains.Checked, txtSkipIfContains.Text,
-               txtSkipIfNotContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked,
-               chkSkipWhenNoFAR.Checked, chkSkipIfNoRegexTypo.Checked, chkSkipNoDab.Checked, chkSkipWhitespace.Checked, chkSkipCasing.Checked,
-               chkSkipGeneralFixes.Checked, chkSkipMinorGeneralFixes.Checked, chkSkipNoPageLinks.Checked, Skip.SelectedItems, chkSkipIfRedirect.Checked),
+                new SkipPrefs(radSkipNonExistent.Checked, radSkipExistent.Checked, chkSkipNoChanges.Checked,
+                              chkSkipSpamFilter.Checked,
+                              chkSkipIfInuse.Checked, chkSkipIfContains.Checked, chkSkipIfNotContains.Checked,
+                              txtSkipIfContains.Text,
+                              txtSkipIfNotContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked,
+                              chkSkipWhenNoFAR.Checked, chkSkipIfNoRegexTypo.Checked, chkSkipNoDab.Checked,
+                              chkSkipWhitespace.Checked, chkSkipCasing.Checked,
+                              chkSkipGeneralFixes.Checked, chkSkipMinorGeneralFixes.Checked, chkSkipNoPageLinks.Checked,
+                              Skip.SelectedItems, chkSkipIfRedirect.Checked),
 
-               new GeneralPrefs(SaveArticleList, IgnoreNoBots, cmboEditSummary.Items,
-               cmboEditSummary.Text, new string[] {PasteMore1.Text, PasteMore2.Text, PasteMore3.Text, 
-                PasteMore4.Text, PasteMore5.Text, PasteMore6.Text, PasteMore7.Text, PasteMore8.Text,
-                PasteMore9.Text, PasteMore10.Text}, txtFind.Text, chkFindRegex.Checked,
-               chkFindCaseSensitive.Checked, wordWrapToolStripMenuItem1.Checked, EnableToolBar,
-               bypassRedirectsToolStripMenuItem.Checked, autoSaveSettingsToolStripMenuItem.Checked, preParseModeToolStripMenuItem.Checked, !automaticallyDoAnythingToolStripMenuItem.Checked,
-               toolStripComboOnLoad.SelectedIndex, chkMinor.Checked, addAllToWatchlistToolStripMenuItem.Checked,
-               dontAddToWatchlistToolStripMenuItem.Checked, ShowMovingAverageTimer, sortAlphabeticallyToolStripMenuItem.Checked,
-               displayfalsePositivesButtonToolStripMenuItem.Checked, (int)txtEdit.Font.Size, txtEdit.Font.Name,
-               LowThreadPriority, Beep, Flash, Minimize, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxPeriod,
-               AutoSaveEditBoxFile, chkLock.Checked, EditToolBarVisible, SuppressUsingAWB, AddUsingAWBOnArticleAction,
-               filterOutNonMainSpaceToolStripMenuItem.Checked, removeDuplicatesToolStripMenuItem.Checked,
-               alphaSortInterwikiLinksToolStripMenuItem.Checked, replaceReferenceTagsToolStripMenuItem.Checked,
-               focusAtEndOfEditTextBoxToolStripMenuItem.Checked), 
-               
-               
-                new DabPrefs() 
-                {
-                    Enabled = chkEnableDab.Checked,
-                    Link = txtDabLink.Text,
-                    Variants = txtDabVariants.Lines,
-                    ContextChars = (int)udContextChars.Value
-                },
-               
-               
-                new ModulePrefs()
-                {
-                    Enabled = cModule.ModuleEnabled,
-                    Language = cModule.Language,
-                    Code = cModule.Code
-                }, 
-            
+                new GeneralPrefs(SaveArticleList, IgnoreNoBots, cmboEditSummary.Items,
+                                 cmboEditSummary.Text, new[]
+                                                           {
+                                                               PasteMore1.Text, PasteMore2.Text, PasteMore3.Text,
+                                                               PasteMore4.Text, PasteMore5.Text, PasteMore6.Text,
+                                                               PasteMore7.Text, PasteMore8.Text,
+                                                               PasteMore9.Text, PasteMore10.Text
+                                                           }, txtFind.Text, chkFindRegex.Checked,
+                                 chkFindCaseSensitive.Checked, wordWrapToolStripMenuItem1.Checked, EnableToolBar,
+                                 bypassRedirectsToolStripMenuItem.Checked, autoSaveSettingsToolStripMenuItem.Checked,
+                                 preParseModeToolStripMenuItem.Checked,
+                                 !automaticallyDoAnythingToolStripMenuItem.Checked,
+                                 toolStripComboOnLoad.SelectedIndex, chkMinor.Checked,
+                                 addAllToWatchlistToolStripMenuItem.Checked,
+                                 dontAddToWatchlistToolStripMenuItem.Checked, ShowMovingAverageTimer,
+                                 sortAlphabeticallyToolStripMenuItem.Checked,
+                                 displayfalsePositivesButtonToolStripMenuItem.Checked, (int)txtEdit.Font.Size,
+                                 txtEdit.Font.Name,
+                                 LowThreadPriority, Beep, Flash, Minimize, TimeOut, AutoSaveEditBoxEnabled,
+                                 AutoSaveEditBoxPeriod,
+                                 AutoSaveEditBoxFile, chkLock.Checked, EditToolBarVisible, SuppressUsingAWB,
+                                 AddUsingAWBOnArticleAction,
+                                 filterOutNonMainSpaceToolStripMenuItem.Checked,
+                                 removeDuplicatesToolStripMenuItem.Checked,
+                                 alphaSortInterwikiLinksToolStripMenuItem.Checked,
+                                 replaceReferenceTagsToolStripMenuItem.Checked,
+                                 focusAtEndOfEditTextBoxToolStripMenuItem.Checked),
+
+
+                new DabPrefs
+                    {
+                        Enabled = chkEnableDab.Checked,
+                        Link = txtDabLink.Text,
+                        Variants = txtDabVariants.Lines,
+                        ContextChars = (int)udContextChars.Value
+                    },
+
+
+                new ModulePrefs
+                    {
+                        Enabled = cModule.ModuleEnabled,
+                        Language = cModule.Language,
+                        Code = cModule.Code
+                    },
+
                 externalProgram.Settings,
                 loggingSettings1.SerialisableSettings,
                 listMaker.SpecialFilterSettings,
                 Plugin.Items
-            );
+                );
         }
 
         /// <summary>
