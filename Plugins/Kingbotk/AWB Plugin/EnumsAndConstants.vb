@@ -18,6 +18,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
     End Enum
     Friend Enum Classification As Integer
         Unassessed = 0
+        Dab
         Stub
         Start
         C
