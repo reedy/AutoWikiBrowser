@@ -81,7 +81,7 @@ namespace UnitTests
         public void SimpleWikiLink()
         {
             TestMatch(WikiRegexes.SimpleWikiLink, "[[foo]]", "[[foo]]", "foo");
-            TestMatch(WikiRegexes.SimpleWikiLink, "[[foo[]]", "[[foo[]]", "foo[");
+            TestMatches(WikiRegexes.SimpleWikiLink, "[[foo[]]", 0);
             TestMatch(WikiRegexes.SimpleWikiLink, "[[foo bar]]", "[[foo bar]]", "foo bar");
             TestMatches(WikiRegexes.SimpleWikiLink, "[[foo\r\nbar]]", 0);
             TestMatches(WikiRegexes.SimpleWikiLink, "[foo]]", 0);
@@ -92,11 +92,8 @@ namespace UnitTests
 
             TestMatch(WikiRegexes.SimpleWikiLink, "[[foo]]]", "[[foo]]", "foo");
 
-        }
 
-        [Test, Ignore, Category("failing")] // TODO fix failing test
-        public void SimpleWikiLinkFailing()
-        {
+            TestMatch(WikiRegexes.SimpleWikiLink, "[[foo [[bar]] here]]", "[[foo [[bar]] here]]", "foo [[bar]] here");
             TestMatch(WikiRegexes.SimpleWikiLink, "[[[foo]]", "[[foo]]", "foo");
         }
 
@@ -114,12 +111,9 @@ namespace UnitTests
 
             TestMatch(WikiRegexes.WikiLinksOnly, "[[foo]]]", "[[foo]]");
             TestMatch(WikiRegexes.WikiLinksOnly, "[[[foo]]", "[[foo]]");
-        }
 
-        [Test, Ignore, Category("failing")] // TODO fix failing test
-        public void WikiLinksOnlyFailing()
-        {
-            TestMatch(WikiRegexes.WikiLinksOnly, "[[foo[]]", "[[foo[]]");
+            TestMatches(WikiRegexes.WikiLinksOnly, "[[foo[]]", 0);
+            TestMatch(WikiRegexes.WikiLinksOnly, "[[foo [[bar]] here]", "[[bar]]");
         }
 
         [Test]
