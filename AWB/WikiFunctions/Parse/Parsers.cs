@@ -764,11 +764,10 @@ namespace WikiFunctions.Parse
             NoChange = (testText == ArticleText);
             return ArticleText;
         }
-
-        private static readonly Regex SyntaxRegex1 = new Regex(@"\[\[http:\/\/([^][]*?)\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegex2fix = new Regex("\\[http:\\/\\/([^][]*?)\\]\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegex2 = new Regex("\\[http:\\/\\/([^][]*?)\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegex3 = new Regex("\\[\\[http:\\/\\/(.*?)\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        // regexes for external link match on balanced bracket
+        private static readonly Regex DoubleBracketAtStartOfExternalLink = new Regex(@"\[(\[http:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex DoubleBracketAtEndOfExternalLink = new Regex(@"(\[http:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])\](?!\])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex DoubleBracketAtEndOfExternalLinkWithinImage = new Regex(@"(\[http:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!)))\](?=\]{3})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex SyntaxRegex4 = new Regex(@"\[\[([^][]*?)\](?=[^\]]*?(?:$|\[|\n))", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegex5 = new Regex(@"(?<=(?:^|\]|\n)[^\[]*?)\[([^][]*?)\]\](?!\])", RegexOptions.Compiled);
 
@@ -824,10 +823,9 @@ namespace WikiFunctions.Parse
             ArticleText = SyntaxRegex11.Replace(ArticleText, "$1\r\n");
 
             //fix uneven bracketing on links
-            ArticleText = SyntaxRegex1.Replace(ArticleText, "[http://$1]");
-            ArticleText = SyntaxRegex2fix.Replace(ArticleText, "[http://$1]]]]");
-            ArticleText = SyntaxRegex2.Replace(ArticleText, "[http://$1]");
-            ArticleText = SyntaxRegex3.Replace(ArticleText, "[http://$1]");
+            ArticleText = DoubleBracketAtStartOfExternalLink.Replace(ArticleText, "$1");
+            ArticleText = DoubleBracketAtEndOfExternalLink.Replace(ArticleText, "$1");
+            ArticleText = DoubleBracketAtEndOfExternalLinkWithinImage.Replace(ArticleText, "$1");
 
             ArticleText = MultipleHttpInLink.Replace(ArticleText, "$1$2");
 
