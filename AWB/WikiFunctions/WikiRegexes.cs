@@ -159,9 +159,9 @@ namespace WikiFunctions
         public static string TemplateStart;
 
         /// <summary>
-        /// Matches all wikilinks, categories, images etc.
+        /// Matches all wikilinks, categories, images etc. with nested links on same line
         /// </summary>
-        public static readonly Regex SimpleWikiLink = new Regex(@"\[\[(.*?)\]\]", RegexOptions.Compiled);
+        public static readonly Regex SimpleWikiLink = new Regex(@"\[\[((?>[^\[\]\n]+|\[\[(?<DEPTH>)|\]\](?<-DEPTH>))*(?(DEPTH)(?!)))\]\]", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches only internal wiki links
