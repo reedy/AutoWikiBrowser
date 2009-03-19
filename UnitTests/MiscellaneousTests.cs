@@ -224,6 +224,12 @@ image = AmorMexicanaThalia.jpg |"), hidden + @"\|"));
             AssertAllHidden("[[Image:foo|A [[bar]][http://fubar].]]");
             AssertAllHidden("[[FILE:foo|A [[bar]][http://fubar].{{quux}}]]");
             AssertAllHidden("[[Image:foo|test [[Image:bar|thumb|[[boz]]]]]]"); */
+
+            Assert.IsFalse(HideMore(@"{{Drugbox|
+   |IUPAC_name = 6-chloro-1,1-dioxo-2''H''-1,2,4-benzothiadiazine-7-sulfonamide
+   | image=Chlorothiazide.svg
+   | image2=Chlorothiazide-from-xtal-3D-balls.png
+   | CAS_number=58-94-6").Contains("=Chlorothiazide")); 
         }
 
         [Test]
@@ -298,19 +304,13 @@ image = AmorMexicanaThalia.jpg |"), hidden + @"\|"));
             Assert.IsTrue(Regex.IsMatch(HideMore(@"| Img =Arlberg passstrasse.jpg |"), hidden + @"\|"));
             Assert.IsTrue(Regex.IsMatch(HideMore(@"| img =Arlberg passstrasse.jpg }}"), hidden + @"}}"));
             // AssertAllHiddenMore("[[Image:foo|test [[File:bar|thumb|[[boz]]]]]]");
-        }
 
-        [Test, Ignore, Category("failing")] // TODO, resolve issue below
-        public void HideImagesFailing()
-        {
-            // this test fails at the moment due to two image files in an infobox/template in consecutive fields
-            /*   Assert.IsFalse(HideMore(@"{{Drugbox|
+            Assert.IsFalse(HideMore(@"{{Drugbox|
    |IUPAC_name = 6-chloro-1,1-dioxo-2''H''-1,2,4-benzothiadiazine-7-sulfonamide
    | image=Chlorothiazide.svg
    | image2=Chlorothiazide-from-xtal-3D-balls.png
-   | CAS_number=58-94-6").Contains("=Chlorothiazide")); */
+   | CAS_number=58-94-6").Contains("=Chlorothiazide")); 
         }
-
 
         [Test]
         public void HideGalleries()
