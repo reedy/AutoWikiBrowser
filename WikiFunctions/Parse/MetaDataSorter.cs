@@ -86,8 +86,8 @@ namespace WikiFunctions.Parse
                 loaded = false;
                 return new List<string>();
             }
-            else
-                return result;
+            
+            return result;
         }
 
         private static bool LoadFromCache()
