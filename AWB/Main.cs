@@ -161,8 +161,6 @@ namespace AutoWikiBrowser
                 Variables.User.webBrowserLogin.DocumentCompleted += web4Completed;
                 Variables.User.webBrowserLogin.Navigating += web4Starting;
 
-                CreateEditor();
-
                 webBrowserEdit.Deleted += CaseWasDelete;
                 webBrowserEdit.Loaded += CaseWasLoad;
                 webBrowserEdit.Saved += CaseWasSaved;
@@ -277,6 +275,7 @@ namespace AutoWikiBrowser
                 Plugin.LoadPluginsStartup(this, splash); // progress 65-79 in LoadPlugins()
 
                 LoadPrefs(); // progress 80-85 in LoadPrefs()
+                CreateEditor();
 
                 splash.SetProgress(86);
                 UpdateButtons(null, null);
