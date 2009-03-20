@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml.Serialization;
 using System.IO;
-using System.Security.Permissions;
 
 namespace WikiFunctions
 {
@@ -106,8 +105,8 @@ namespace WikiFunctions
 
                     return (T)found.Data; // extra typecast to detect type mismatch earlier
                 }
-                else
-                    return null;
+
+                return null;
             }
         }
 
@@ -191,7 +190,7 @@ namespace WikiFunctions
                     foreach (var value in type.Value)
                     {
                         if (value.Value.Expires < now) continue;
-                        typeRoot.Items.Add(new Internal.Item()
+                        typeRoot.Items.Add(new Internal.Item
                             {Value = value.Value.Data, Expires = value.Value.Expires, Key = value.Key});
                     }
                     if (typeRoot.Items.Count > 0) root.Types.Add(typeRoot);
@@ -230,8 +229,6 @@ namespace WikiFunctions
             {
                 var loaded = (Internal.CacheRoot)Serializer.Deserialize(str);
                 if (loaded.Version != Variables.WikiFunctionsVersion.ToString()) return false;
-
-                DateTime now = DateTime.Now;
 
                 lock (Storage)
                 {
@@ -306,7 +303,7 @@ namespace WikiFunctions
 
             //[XmlText]
             [XmlArray("Types")]
-            public List<Internal.Type> Types = new List<Internal.Type>();
+            public List<Type> Types = new List<Type>();
         }
     }
 
