@@ -2200,7 +2200,8 @@ window.scrollTo(0, diffTopY);
                 IgnoreNoBots = myPrefs.PrefIgnoreNoBots;
                 ShowMovingAverageTimer = myPrefs.PrefShowTimer;
 
-                if (myPrefs.Language != Variables.LangCode || myPrefs.Project != Variables.Project)
+                if (myPrefs.Language != Variables.LangCode || myPrefs.Project != Variables.Project
+                    || (myPrefs.CustomProject != Variables.CustomProject))
                 {
                     Variables.PHP5 = myPrefs.PrefPHP5;
                     SetProject(myPrefs.Language, myPrefs.Project, myPrefs.CustomProject);
