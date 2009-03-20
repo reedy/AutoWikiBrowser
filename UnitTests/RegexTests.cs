@@ -332,5 +332,17 @@ fast„"));
             Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(@"{{Article issues| orphan |cleanup=May 2008|story=May 2008}}"));
             Assert.IsFalse(WikiRegexes.OrphanArticleIssues.IsMatch(@"{{Article issues|cleanup=May 2008|story=May 2008}}"));
         }
+
+        [Test]
+        public void InfoboxTests()
+        {
+            Assert.IsTrue(WikiRegexes.Infobox.IsMatch(@" {{Infobox hello| bye}} "));
+            Assert.IsTrue(WikiRegexes.Infobox.IsMatch(@" {{infobox hello| bye}} "));
+            Assert.IsTrue(WikiRegexes.Infobox.IsMatch(@" {{infobox hello| bye {{a}} was}} "));
+            Assert.IsTrue(WikiRegexes.Infobox.IsMatch(@" {{infobox hello
+| bye}} "));
+            Assert.IsTrue(WikiRegexes.Infobox.IsMatch(@" {{some infobox| hello| bye}} "));
+            Assert.IsTrue(WikiRegexes.Infobox.IsMatch(@" {{Some Infobox| hello| bye}} "));
+        }
     }
 }

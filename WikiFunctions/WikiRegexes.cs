@@ -397,7 +397,7 @@ namespace WikiFunctions
         /// <summary>
         /// Checks for presence of infobox in article
         /// </summary>
-        public static readonly Regex Infobox = new Regex(@"{{\s*[Ii]nfobox\s.*?}}", RegexOptions.Compiled | RegexOptions.Singleline);
+        public static readonly Regex Infobox = new Regex(@"{{(?:\s*[Ii]nfobox\s|[^{}\|]+?[Ii]nfobox\s*\|).*?}}", RegexOptions.Compiled | RegexOptions.Singleline);
         
         // covered by DablinksTests
         /// <summary>
