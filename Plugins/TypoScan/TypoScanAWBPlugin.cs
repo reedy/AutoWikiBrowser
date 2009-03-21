@@ -37,9 +37,9 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         private static readonly List<string> SkippedPages = new List<string>();
         private static readonly List<string> SkippedReasons = new List<string>();
 
-        private static readonly List<string> SavedPagesThisSession = new List<string>();
-        private static readonly List<string> SkippedPagesThisSession = new List<string>();
-        private static int UploadedThisSession;
+        internal static readonly List<string> SavedPagesThisSession = new List<string>();
+        internal static readonly List<string> SkippedPagesThisSession = new List<string>();
+        internal static int UploadedThisSession;
 
         internal static DateTime CheckoutTime;
 
