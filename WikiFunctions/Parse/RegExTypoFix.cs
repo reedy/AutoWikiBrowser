@@ -148,9 +148,9 @@ namespace WikiFunctions.Parse
 
         List<Regex> Groups;
 
-        public List<KeyValuePair<Regex, string>> Typos = new List<KeyValuePair<Regex, string>>(20);
+        public readonly List<KeyValuePair<Regex, string>> Typos = new List<KeyValuePair<Regex, string>>(20);
 
-        public List<TypoStat> Statistics = new List<TypoStat>();
+        public readonly List<TypoStat> Statistics = new List<TypoStat>();
 
         /// <summary>
         /// 
@@ -524,11 +524,8 @@ namespace WikiFunctions.Parse
     /// </summary>
     public class TypoStat
     {
-        public string Find;
-        public string Replace;
-        public int Total;
-        public int SelfMatches;
-        public int FalsePositives;
+        public readonly string Find, Replace;
+        public int Total, SelfMatches, FalsePositives;
 
         public TypoStatsListViewItem ListViewItem;
 

@@ -352,7 +352,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{lifetime}} and its aliases
         /// </summary>
-        public static Regex Lifetime = new Regex(@"{{(?:[Ll]ifetime|BIRTH-DEATH-SORT|BD)\s*\|[^\}]*}}", RegexOptions.Compiled);
+        public static readonly Regex Lifetime = new Regex(@"{{(?:[Ll]ifetime|BIRTH-DEATH-SORT|BD)\s*\|[^\}]*}}", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches persondata (en only)
@@ -439,7 +439,7 @@ namespace WikiFunctions
         /// <summary>
         /// for checkpage parsing
         /// </summary>
-        public static Regex NoGeneralFixes = new Regex("<!--No general fixes:.*?-->", RegexOptions.Singleline | RegexOptions.Compiled);
+        public static readonly Regex NoGeneralFixes = new Regex("<!--No general fixes:.*?-->", RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
         /// For extraction of page title from URLs
