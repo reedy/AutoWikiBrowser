@@ -36,7 +36,7 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
     /// </remarks>
     public class YahooSearchListMakerPlugin : IListMakerPlugin
     {
-        internal const string appID = "3mG9u3PV34GC4rnRXJlID0_3aUb0.XVxGZYrbFcYClzQYUqtlkn0u6iXVwYVv9sW1Q--";
+        private const string appID = "3mG9u3PV34GC4rnRXJlID0_3aUb0.XVxGZYrbFcYClzQYUqtlkn0u6iXVwYVv9sW1Q--";
         #region IListMakerPlugin Members
 
         readonly string baseUrl = "http://search.yahooapis.com/WebSearchService/V1/webSearch?appid=" + appID + "&query={0}&results={1}&site=" + Variables.URL + "&start={2}";
