@@ -157,7 +157,7 @@ namespace WikiFunctions
             }
         }
 
-        public static UserProperties User = new UserProperties();
+        public static readonly UserProperties User = new UserProperties();
         public static string RetfPath;
 
         public static IAutoWikiBrowser MainForm
@@ -170,21 +170,19 @@ namespace WikiFunctions
         /// Returns whether we are using the Mono Runtime
         /// </summary>
         public static bool UsingMono
-        {
-            get { return mono; }
-        }
+        { get { return mono; } }
 
         #region project and language settings
 
         /// <summary>
         /// Provides access to the en namespace keys
         /// </summary>
-        public static Dictionary<int, string> CanonicalNamespaces = new Dictionary<int, string>(20);
+        public static readonly Dictionary<int, string> CanonicalNamespaces = new Dictionary<int, string>(20);
 
         /// <summary>
         /// Canonical namespace aliases
         /// </summary>
-        public static Dictionary<int, List<string>> CanonicalNamespaceAliases;
+        public static readonly Dictionary<int, List<string>> CanonicalNamespaceAliases;
 
         /// <summary>
         /// Provides access to the namespace keys
@@ -199,7 +197,7 @@ namespace WikiFunctions
         /// <summary>
         /// Provides access to the namespace keys in a form so the first letter is case insensitive e.g. [Ww]ikipedia:
         /// </summary>
-        public static Dictionary<int, string> NamespacesCaseInsensitive = new Dictionary<int, string>(24);
+        public static readonly Dictionary<int, string> NamespacesCaseInsensitive = new Dictionary<int, string>(24);
 
         /// <summary>
         /// 
@@ -235,7 +233,7 @@ namespace WikiFunctions
         /// </summary>
         public static string[] MonthNames;
 
-        public static string[] ENLangMonthNames = new []{"January", "February", "March", "April", "May", "June",
+        public static readonly string[] ENLangMonthNames = new []{"January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"};
 
         private static string URLEnd = "/w/";
@@ -258,22 +256,15 @@ namespace WikiFunctions
             get { return URLEnd.Substring(0, URLEnd.LastIndexOf('/')); }
         }
 
-        private static ProjectEnum mProject = ProjectEnum.wikipedia;
         /// <summary>
         /// Gets a name of the project, e.g. "wikipedia".
         /// </summary>
-        public static ProjectEnum Project
-        { get { return mProject; } }
+        public static ProjectEnum Project { get; private set; }
 
-        private static LangCodeEnum mLangCode = LangCodeEnum.en;
         /// <summary>
         /// Gets the language code, e.g. "en".
         /// </summary>
-        public static LangCodeEnum LangCode
-        {
-            get { return mLangCode; }
-            internal set { mLangCode = value; }
-        }
+        public static LangCodeEnum LangCode { get; internal set; }// = LangCodeEnum.en;
 
         /// <summary>
         /// Returns true if we are currently editing a WMF wiki
@@ -379,8 +370,8 @@ namespace WikiFunctions
         }
 
         #region Delayed load stuff
-        public static List<string> UnderscoredTitles = new List<string>();
-        public static List<BackgroundRequest> DelayedRequests = new List<BackgroundRequest>();
+        public static readonly List<string> UnderscoredTitles = new List<string>();
+        public static readonly List<BackgroundRequest> DelayedRequests = new List<BackgroundRequest>();
 
         public static void CancelBackgroundRequests()
         {
@@ -456,7 +447,7 @@ namespace WikiFunctions
 
         public static string Stub;
         public static string SectStub;
-        public static Regex InUse = new Regex(@"{{\s*[Ii]nuse\s*[\}\|]", RegexOptions.Compiled);
+        public static readonly Regex InUse = new Regex(@"{{\s*[Ii]nuse\s*[\}\|]", RegexOptions.Compiled);
 
         /// <summary>
         /// Sets different language variables, such as namespaces. Default is english Wikipedia
@@ -487,8 +478,8 @@ namespace WikiFunctions
                 Application.Exit();
             }
 
-            mProject = projectName;
-            mLangCode = langCode;
+            Project = projectName;
+            LangCode = langCode;
             CustomProject = customProject;
 
             RefreshProxy();
@@ -504,7 +495,7 @@ namespace WikiFunctions
 
             if (IsCustomProject)
             {
-                mLangCode = LangCodeEnum.en;
+                LangCode = LangCodeEnum.en;
                 int x = customProject.IndexOf('/');
 
                 if (x > 0)
@@ -614,22 +605,22 @@ namespace WikiFunctions
             else if (projectName == ProjectEnum.commons)
             {
                 URL = "http://commons.wikimedia.org";
-                mLangCode = LangCodeEnum.en;
+                LangCode = LangCodeEnum.en;
             }
             else if (projectName == ProjectEnum.meta)
             {
                 URL = "http://meta.wikimedia.org";
-                mLangCode = LangCodeEnum.en;
+                LangCode = LangCodeEnum.en;
             }
             else if (projectName == ProjectEnum.mediawiki)
             {
                 URL = "http://www.mediawiki.org";
-                mLangCode = LangCodeEnum.en;
+                LangCode = LangCodeEnum.en;
             }
             else if (projectName == ProjectEnum.species)
             {
                 URL = "http://species.wikimedia.org";
-                mLangCode = LangCodeEnum.en;
+                LangCode = LangCodeEnum.en;
             }
             else if (projectName == ProjectEnum.wikia)
             {
@@ -716,8 +707,8 @@ namespace WikiFunctions
 
         private static void SetDefaults()
         {
-            mProject = ProjectEnum.wikipedia;
-            mLangCode = LangCodeEnum.en;
+            Project = ProjectEnum.wikipedia;
+            LangCode = LangCodeEnum.en;
             mSummaryTag = " using ";
             strWPAWB = "[[Project:AWB|AWB]]";
 
@@ -870,9 +861,9 @@ namespace WikiFunctions
         private bool bLoggedIn;
         private bool bLoaded;
 
-        public List<string> Groups = new List<string>();
+        public readonly List<string> Groups = new List<string>();
 
-        public WebControl webBrowserLogin;
+        public readonly WebControl webBrowserLogin;
         private static Boolean WeAskedAboutUpdate;
 
         /// <summary>

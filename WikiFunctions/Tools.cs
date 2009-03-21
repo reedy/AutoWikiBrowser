@@ -473,7 +473,7 @@ namespace WikiFunctions
         }
 
         [DllImport("user32.dll")]
-        private static extern bool FlashWindow(IntPtr hwnd, bool bInvert);
+        private static extern void FlashWindow(IntPtr hwnd, bool bInvert);
 
         /// <summary>
         /// Flashes the given form in the taskbar
