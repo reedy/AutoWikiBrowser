@@ -55,7 +55,7 @@ namespace AwbUpdater
         /// <summary>
         /// Version of the Updater
         /// </summary>
-        public static int AssemblyVersion
+        private static int AssemblyVersion
         {
             get { return StringToVersion(Assembly.GetExecutingAssembly().GetName().Version.ToString()); }
         }

@@ -29,7 +29,7 @@ using System.Windows.Forms;
 namespace WikiFunctions.Plugins.ListMaker.TypoScan
 {
     /// <summary>
-    /// 
+    /// Gets 100 pages from the TypoScan server
     /// </summary>
     public class TypoScanListMakerPlugin : IListMakerPlugin
     {
@@ -101,7 +101,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
     }
 
     /// <summary>
-    /// 
+    /// Gets 500 TypoScan pages
     /// </summary>
     public class TypoScanListMakerPlugin500 : TypoScanListMakerPlugin
     {

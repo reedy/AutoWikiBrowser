@@ -14,9 +14,9 @@ namespace AutoWikiBrowser.Plugins.Delinker
         private readonly ToolStripMenuItem pluginenabledMenuItem = new ToolStripMenuItem("Delinker plugin");
         private readonly ToolStripMenuItem pluginconfigMenuItem = new ToolStripMenuItem("Configuration");
         //private ToolStripMenuItem aboutMenuItem = new ToolStripMenuItem("About the Delinker plugin");
-        internal static IAutoWikiBrowser AWB;
-        
-        internal static bool Enabled;
+        private static IAutoWikiBrowser AWB;
+
+        private static bool Enabled;
         internal static bool Skip;
         internal static string Link;
         internal static bool RemoveEmptiedSections = true;

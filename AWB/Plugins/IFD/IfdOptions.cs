@@ -34,7 +34,7 @@ namespace AutoWikiBrowser.Plugins.IFD
 
         static string prevContent = "";
 
-        Dictionary<string, string> ToDo = new Dictionary<string, string>();
+        readonly Dictionary<string, string> ToDo = new Dictionary<string, string>();
 
         public new void Show()
         {

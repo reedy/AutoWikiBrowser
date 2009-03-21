@@ -13,7 +13,7 @@ namespace WikiFunctions.Plugins.ListMaker.CategoryNoLimitsPlugin
             Limit = 1000000;
         }
 
-        public override System.Collections.Generic.List<Article> MakeList(string[] searchCriteria)
+        public override System.Collections.Generic.List<Article> MakeList(params string[] searchCriteria)
         {
             if (Variables.User.IsBot || Variables.User.IsAdmin)
                 return base.MakeList(searchCriteria);
@@ -42,7 +42,7 @@ namespace WikiFunctions.Plugins.ListMaker.CategoryNoLimitsPlugin
             Depth = 1000;
         }
 
-        public override System.Collections.Generic.List<Article> MakeList(string[] searchCriteria)
+        public override System.Collections.Generic.List<Article> MakeList(params string[] searchCriteria)
         {
             if (Variables.User.IsBot || Variables.User.IsAdmin)
                 return base.MakeList(searchCriteria);

@@ -30,16 +30,16 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
     class TypoScanAWBPlugin : IAWBPlugin
     {
         #region IAWBPlugin Members
-        internal static IAutoWikiBrowser AWB;
-        internal static Dictionary<string, int> PageList = new Dictionary<string, int>();
-        internal static List<string> SavedPages = new List<string>();
+        private static IAutoWikiBrowser AWB;
+        internal static readonly Dictionary<string, int> PageList = new Dictionary<string, int>();
+        private static readonly List<string> SavedPages = new List<string>();
 
-        internal static List<string> SkippedPages = new List<string>();
-        internal static List<string> SkippedReasons = new List<string>();
+        private static readonly List<string> SkippedPages = new List<string>();
+        private static readonly List<string> SkippedReasons = new List<string>();
 
-        internal static List<string> SavedPagesThisSession = new List<string>();
-        internal static List<string> SkippedPagesThisSession = new List<string>();
-        internal static int UploadedThisSession;
+        private static readonly List<string> SavedPagesThisSession = new List<string>();
+        private static readonly List<string> SkippedPagesThisSession = new List<string>();
+        private static int UploadedThisSession;
 
         internal static DateTime CheckoutTime;
 
