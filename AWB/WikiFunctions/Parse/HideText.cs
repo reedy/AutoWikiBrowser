@@ -228,6 +228,8 @@ namespace WikiFunctions.Parse
             // hide untemplated quotes between some form of quotation marks (most particularly for typo fixing)
             ReplaceMore(WikiRegexes.UntemplatedQuotes.Matches(ArticleText), ref ArticleText);
 
+            ReplaceMore(WikiRegexes.Pstyles.Matches(ArticleText), ref ArticleText);
+
             return ArticleText;
         }
 
