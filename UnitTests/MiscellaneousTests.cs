@@ -146,6 +146,16 @@ namespace UnitTests
             RegexAssert.IsMatch(@"\{" + hidden + @"\}", HideMore("{{{foo}}}"));
         }
 
+        [Test]
+        public void HidePstyles()
+        {
+            AssertAllHiddenMore(@"<p style=""margin:0px;font-size:100%""><span style=""color:#00ff00"">▪</span> <small>Francophone minorities</small></p>");
+            AssertAllHiddenMore(@"<p style=""font-family:monospace; line-height:130%"">hello</p>");
+            AssertAllHiddenMore(@"<p style=""font-family:monospace; line-height:130%"">hello</P>");
+            AssertAllHiddenMore(@"<p style=""font-family:monospace; line-height:130%"">hello
+</P>");
+        }
+
         const string Caption1 = @"|image_caption=London is a European Parliament constituency. It has water. |",
             Caption2 = @"|image_caption= some load of text here. Some more there.}}",
             Caption3 = @"|image_caption=some load of text here. Some more there.   }}",

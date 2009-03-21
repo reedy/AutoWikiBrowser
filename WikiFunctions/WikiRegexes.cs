@@ -412,6 +412,11 @@ namespace WikiFunctions
         public static readonly Regex Comments = new Regex(@"<!--.*?-->", RegexOptions.Compiled | RegexOptions.Singleline);
 
         /// <summary>
+        /// matches text within &lt;p style...&gt;...&lt;/p&gt; HTML tags
+        /// </summary>
+        public static readonly Regex Pstyles = new Regex(@"<p style\s*=\s*[^<>]+>.*?<\s*/p>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+        /// <summary>
         /// 
         /// </summary>
         public static readonly Regex EmptyComments = new Regex(@"<!--[^\S\r\n]*-->", RegexOptions.Compiled);

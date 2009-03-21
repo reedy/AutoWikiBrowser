@@ -344,5 +344,17 @@ fast„"));
             Assert.IsTrue(WikiRegexes.Infobox.IsMatch(@" {{some infobox| hello| bye}} "));
             Assert.IsTrue(WikiRegexes.Infobox.IsMatch(@" {{Some Infobox| hello| bye}} "));
         }
+
+        [Test]
+        public void PstylesTests()
+        {
+            Assert.IsTrue(WikiRegexes.Pstyles.IsMatch(@"<p style=""margin:0px;font-size:100%""><span style=""color:#00ff00"">▪</span> <small>Francophone minorities</small></p>"));
+            Assert.IsTrue(WikiRegexes.Pstyles.IsMatch(@"<p style=""font-family:monospace; line-height:130%"">hello</p>"));
+            Assert.IsTrue(WikiRegexes.Pstyles.IsMatch(@"<p style=""font-family:monospace; line-height:130%"">hello</P>"));
+            Assert.IsTrue(WikiRegexes.Pstyles.IsMatch(@"<p style=""font-family:monospace; line-height:130%"">hello</P>"));
+            Assert.IsTrue(WikiRegexes.Pstyles.IsMatch(@"<p style = ""font-family:monospace; line-height:130%"">
+hello</P>"));
+
+        }
     }
 }
