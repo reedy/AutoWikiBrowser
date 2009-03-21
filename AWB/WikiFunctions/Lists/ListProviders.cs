@@ -36,7 +36,7 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class CategoryListProvider : CategoryProviderBase
     {
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             List<Article> list = new List<Article>();
 
@@ -81,7 +81,7 @@ namespace WikiFunctions.Lists
             Limit = 200000;
         }
 
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             List<Article> list = new List<Article>();
 
@@ -126,7 +126,7 @@ namespace WikiFunctions.Lists
             : base(0)
         { }
 
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             int userDepth = Tools.GetNumberFromUser(false);
             if (userDepth < 0)
@@ -264,7 +264,7 @@ namespace WikiFunctions.Lists
         }
         #endregion
 
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
@@ -357,7 +357,7 @@ namespace WikiFunctions.Lists
             return MakeList(Namespace.ToString(), searchCriteria);
         }
 
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             return MakeList(Namespace.Article, searchCriteria);
         }
@@ -414,7 +414,7 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class WhatLinksHereAllNSListProvider : WhatLinksHereListProvider
     {
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             return MakeList("", searchCriteria);
         }
@@ -472,7 +472,7 @@ namespace WikiFunctions.Lists
         }
         #endregion
 
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             return MakeList(0, searchCriteria);
         }
@@ -532,7 +532,7 @@ namespace WikiFunctions.Lists
         }
         #endregion
 
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
@@ -587,7 +587,7 @@ namespace WikiFunctions.Lists
         }
         #endregion
 
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
@@ -640,7 +640,7 @@ namespace WikiFunctions.Lists
         }
         #endregion
 
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
@@ -689,7 +689,7 @@ namespace WikiFunctions.Lists
         }
         #endregion
 
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
@@ -801,7 +801,7 @@ namespace WikiFunctions.Lists
 
         protected string uclimit = "max";
 
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
@@ -842,7 +842,7 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class UserContribUserDefinedNumberListProvider : UserContribsListProvider
     {
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             Limit = Tools.GetNumberFromUser(true);
             if (Limit < 500)
@@ -876,7 +876,7 @@ namespace WikiFunctions.Lists
         }
         #endregion
 
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
@@ -936,7 +936,7 @@ namespace WikiFunctions.Lists
             Limit = 1000; // slow query
         }
 
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             List<Article> list = new List<Article>();
 
@@ -1009,7 +1009,7 @@ namespace WikiFunctions.Lists
         }
         #endregion
 
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
@@ -1199,7 +1199,7 @@ namespace WikiFunctions.Lists
         }
         #endregion
 
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             return MakeList(Namespace.Article, searchCriteria);
         }
@@ -1272,7 +1272,7 @@ namespace WikiFunctions.Lists
 
         #region ISpecialPageProvider Members
 
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             return MakeList(Namespace.Article, searchCriteria);
         }
@@ -1315,7 +1315,7 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class AllCategoriesSpecialPageProvider : AllPagesSpecialPageProvider
     {
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             return MakeList(Namespace.Category, searchCriteria);
         }
@@ -1335,7 +1335,7 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class AllFilesSpecialPageProvider : AllPagesSpecialPageProvider
     {
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             return MakeList(Namespace.File, searchCriteria);
         }
@@ -1374,12 +1374,12 @@ namespace WikiFunctions.Lists
     {
         private readonly ProtectionLevel protlevel = new ProtectionLevel();
 
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             return MakeList(0, searchCriteria);
         }
 
-        public override List<Article> MakeList(int Namespace, string[] searchCriteria)
+        public override List<Article> MakeList(int Namespace, params string[] searchCriteria)
         {
             protlevel.ShowDialog();
             extra = "&apprtype=" + protlevel.Type + "&apprlevel=" + protlevel.Level;
@@ -1447,7 +1447,7 @@ namespace WikiFunctions.Lists
         #endregion
 
         #region ISpecialPageProvider Members
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             return MakeList(Namespace.Article, searchCriteria);
         }
@@ -1503,7 +1503,7 @@ namespace WikiFunctions.Lists
         }
         #endregion
 
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             return MakeList(Namespace.Article, searchCriteria);
         }
@@ -1559,7 +1559,7 @@ namespace WikiFunctions.Lists
         }
         #endregion
 
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             return MakeList(Namespace.Article, searchCriteria);
         }
@@ -1605,12 +1605,12 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class DisambiguationPagesSpecialPageProvider : WhatTranscludesPageListProvider
     {
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             return base.MakeList(0, new[] { "Template:Disambiguation" });
         }
 
-        public override List<Article> MakeList(int Namespace, string[] searchCriteria)
+        public override List<Article> MakeList(int Namespace, params string[] searchCriteria)
         {
             return base.MakeList(Namespace, new[] { "Template:Disambiguation" });
         }
@@ -1652,7 +1652,7 @@ namespace WikiFunctions.Lists
             Limit = 1000; // slow query
         }
 
-        public override List<Article> MakeList(string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             List<Article> list = new List<Article>();
 

@@ -237,7 +237,7 @@ namespace WikiFunctions.Lists
             return GetListing(category, 0);
         }
 
-        protected List<string> Visited = new List<string>();
+        protected readonly List<string> Visited = new List<string>();
 
         public List<Article> RecurseCategory(string category, int haveSoFar, int depth)
         {

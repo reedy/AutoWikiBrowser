@@ -279,8 +279,7 @@ namespace WikiFunctions.Parse
             this.text = text;
         }
 
-        public string code;
-        public string text;
+        public readonly string code, text;
 
         public override string ToString()
         {
