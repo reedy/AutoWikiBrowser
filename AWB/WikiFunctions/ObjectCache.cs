@@ -299,11 +299,11 @@ namespace WikiFunctions
             }
 
             [XmlAttribute("version")]
-            public string Version = Variables.WikiFunctionsVersion.ToString();
+            public readonly string Version = Variables.WikiFunctionsVersion.ToString();
 
             //[XmlText]
             [XmlArray("Types")]
-            public List<Type> Types = new List<Type>();
+            public readonly List<Type> Types = new List<Type>();
         }
     }
 
