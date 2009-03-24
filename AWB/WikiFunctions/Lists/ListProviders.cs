@@ -474,7 +474,7 @@ namespace WikiFunctions.Lists
 
         public override List<Article> MakeList(params string[] searchCriteria)
         {
-            return MakeList(0, searchCriteria);
+            return MakeList(Namespace.Article, searchCriteria);
         }
 
         public virtual List<Article> MakeList(int Namespace, params string[] searchCriteria)
@@ -1376,7 +1376,7 @@ namespace WikiFunctions.Lists
 
         public override List<Article> MakeList(params string[] searchCriteria)
         {
-            return MakeList(0, searchCriteria);
+            return MakeList(Namespace.Article, searchCriteria);
         }
 
         public override List<Article> MakeList(int Namespace, params string[] searchCriteria)
@@ -1607,7 +1607,7 @@ namespace WikiFunctions.Lists
     {
         public override List<Article> MakeList(params string[] searchCriteria)
         {
-            return base.MakeList(0, new[] { "Template:Disambiguation" });
+            return base.MakeList(Namespace.Article, new[] { "Template:Disambiguation" });
         }
 
         public override List<Article> MakeList(int Namespace, params string[] searchCriteria)
