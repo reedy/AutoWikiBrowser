@@ -362,7 +362,7 @@ namespace WikiFunctions.Lists
             return MakeList(Namespace.Article, searchCriteria);
         }
 
-        public List<Article> MakeList(string Namespace, params string[] searchCriteria)
+        protected List<Article> MakeList(string Namespace, params string[] searchCriteria)
         {
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
@@ -479,6 +479,11 @@ namespace WikiFunctions.Lists
 
         public virtual List<Article> MakeList(int Namespace, params string[] searchCriteria)
         {
+            return MakeList(Namespace.ToString(), searchCriteria);
+        }
+
+        protected List<Article> MakeList(string Namespace, params string[] searchCriteria)
+        {
             List<Article> list = new List<Article>();
 
             foreach (string page in searchCriteria)
@@ -511,6 +516,20 @@ namespace WikiFunctions.Lists
 
         public bool NamespacesEnabled
         { get { return true; } }
+    }
+
+    /// <summary>
+    /// Gets a list of pages (all ns's) which transclude the Named Pages
+    /// </summary>
+    public class WhatTranscludesPageAllNSListProvider : WhatTranscludesPageListProvider
+    {
+        public override List<Article> MakeList(params string[] searchCriteria)
+        {
+            return MakeList("", searchCriteria);
+        }
+
+        public override string DisplayText
+        { get { return "What transcludes page (all NS)"; } }
     }
 
     /// <summary>
