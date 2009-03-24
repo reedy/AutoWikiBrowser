@@ -46,7 +46,7 @@ namespace WikiFunctions
         map_bms, mdf, mg, mh, mi, minnan, mk, ml, mn, mo, mr, ms, mt, mus, my, myv, mzn,
         na, nah, nan, nap, nb, nds, nds_nl, ne, New, ng, nl, nn, no, nov, nrm, nv, ny,
         oc, om, or, os,
-        pa, pag, pam, pap, pdc, pi, pih, pl, pms, ps, pt,
+        pa, pag, pam, pap, pdc, pi, pih, pl, pms, pnt, ps, pt,
         qu,
         rm, rmy, rn, ro, roa_rup, roa_tara, ru, rw,
         sa, sah, sc, scn, sco, sd, se, sg, sh, si, simple, sk, sl, sm, sn, so, sq, sr, srn, ss, st, stq, su, sv, sw, szl,

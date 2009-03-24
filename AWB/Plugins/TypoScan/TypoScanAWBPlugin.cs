@@ -210,15 +210,13 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             postVars.Add("skipped", string.Join(",", SkippedPages.ToArray()));
             postVars.Add("skipreason", string.Join(",", SkippedReasons.ToArray()));
 
-            if (!AWB.Privacy)
-                postVars.Add("user", Variables.User.Name);
-            else
-                postVars.Add("user", "[withheld]");
+            postVars.Add("user", AWB.Privacy ? "[withheld]" : Variables.User.Name);
 
             if (!AWB.Shutdown)
                 thread.PostData(Common.GetUrlFor("finished"), postVars);
             else
                 UploadResult(Tools.PostData(postVars, Common.GetUrlFor("finished")));
+
         }
 
         private static void UploadFinishedArticlesToServerFinished(BackgroundRequest req)
