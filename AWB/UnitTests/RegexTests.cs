@@ -348,6 +348,21 @@ fast„"));
         }
 
         [Test]
+        public void WikifyTests()
+        {
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{wikify|date=March 2009}}"));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Wikify}}"));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Wikify|date=March 2009}}"));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Article issues|wikify=May 2008|a=b|c=d}}"));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Articleissues|wikify=May 2008|a=b|c=d}}"));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{articleissues|wikify=May 2008|a=b|c=d}}"));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{article issues|wikify=May 2008|a=b|c=d}}"));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Article issues|a=b|c=d| wikify = May 2008|a=b|c=d}}"));
+        }
+
+        [Test]
         public void PstylesTests()
         {
             Assert.IsTrue(WikiRegexes.Pstyles.IsMatch(@"<p style=""margin:0px;font-size:100%""><span style=""color:#00ff00"">▪</span> <small>Francophone minorities</small></p>"));

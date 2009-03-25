@@ -372,7 +372,7 @@ namespace WikiFunctions
         /// <summary>
         /// 
         /// </summary>
-        public static readonly Regex Wikify = new Regex(@"{{Wikify\|?(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?)?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static readonly Regex Wikify = new Regex(@"{{(Wikify\|?(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?)?|Article\s*issues\b[^{}]*?\|\s*wikify\s*=[^{}]+)}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// 
