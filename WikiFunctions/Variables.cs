@@ -509,128 +509,125 @@ namespace WikiFunctions
             else
                 URL = "http://" + LangCodeEnumString() + "." + Project + ".org";
 
-            if (projectName == ProjectEnum.wikipedia)
+            switch (projectName)
             {
-                #region Interwiki Switch
-                //set language variables
-                switch (langCode)
-                {
-                    case LangCodeEnum.en:
-                        SetToEnglish();
-                        break;
+                case ProjectEnum.wikipedia:
+                case ProjectEnum.wikinews:
+                case ProjectEnum.wikisource:
+                case ProjectEnum.wikibooks:
+                case ProjectEnum.wikiquote:
+                case ProjectEnum.wiktionary:
+                case ProjectEnum.wikiversity:
+                    switch (langCode)
+                    {
+                        case LangCodeEnum.en:
+                            SetToEnglish();
+                            break;
 
-                    case LangCodeEnum.ar:
-                        mSummaryTag = " ";
-                        strWPAWB = "باستخدام [[ويكيبيديا:أوب|الأوتوويكي براوزر]]";
-                        strTypoSummaryTag = ".الأخطاء المصححة: ";
-                        break;
+                        case LangCodeEnum.ar:
+                            mSummaryTag = " ";
+                            strWPAWB = "باستخدام [[ويكيبيديا:أوب|الأوتوويكي براوزر]]";
+                            strTypoSummaryTag = ".الأخطاء المصححة: ";
+                            break;
 
-                    case LangCodeEnum.bg:
-                        mSummaryTag = " редактирано с ";
-                        strWPAWB = "AWB";
-                        break;
+                        case LangCodeEnum.bg:
+                            mSummaryTag = " редактирано с ";
+                            strWPAWB = "AWB";
+                            break;
 
-                    case LangCodeEnum.ca:
-                        mSummaryTag = " ";
-                        strWPAWB = "[[Viquipèdia:AutoWikiBrowser|AWB]]";
-                        break;
+                        case LangCodeEnum.ca:
+                            mSummaryTag = " ";
+                            strWPAWB = "[[Viquipèdia:AutoWikiBrowser|AWB]]";
+                            break;
 
-                    case LangCodeEnum.da:
-                        mSummaryTag = " ved brug af ";
-                        strWPAWB = "[[en:Wikipedia:AutoWikiBrowser|AWB]]";
-                        break;
-                    case LangCodeEnum.eo:
-                        mSummaryTag = " ";
-                        strWPAWB = "[[Vikipedio:AutoWikiBrowser|AWB]]";
-                        break;
+                        case LangCodeEnum.da:
+                            mSummaryTag = " ved brug af ";
+                            strWPAWB = "[[en:Wikipedia:AutoWikiBrowser|AWB]]";
+                            break;
+                        case LangCodeEnum.eo:
+                            mSummaryTag = " ";
+                            strWPAWB = "[[Vikipedio:AutoWikiBrowser|AWB]]";
+                            break;
 
-                    case LangCodeEnum.hu:
-                        mSummaryTag = " ";
-                        strWPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
-                        break;
+                        case LangCodeEnum.hu:
+                            mSummaryTag = " ";
+                            strWPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
+                            break;
 
-                    case LangCodeEnum.ku:
-                        mSummaryTag = " ";
-                        strWPAWB = "[[Wîkîpediya:AutoWikiBrowser|AWB]]";
-                        break;
+                        case LangCodeEnum.ku:
+                            mSummaryTag = " ";
+                            strWPAWB = "[[Wîkîpediya:AutoWikiBrowser|AWB]]";
+                            break;
 
-                    case LangCodeEnum.nl:
-                        mSummaryTag = " met ";
-                        strWPAWB = "[[Wikipedia:AutoWikiBrowser|AWB]]";
-                        break;
+                        case LangCodeEnum.nl:
+                            mSummaryTag = " met ";
+                            strWPAWB = "[[Wikipedia:AutoWikiBrowser|AWB]]";
+                            break;
 
-                    case LangCodeEnum.pl:
-                        SectStub = @"\{\{[Ss]ek";
-                        break;
+                        case LangCodeEnum.pl:
+                            SectStub = @"\{\{[Ss]ek";
+                            break;
 
-                    case LangCodeEnum.pt:
-                        mSummaryTag = " utilizando ";
-                        strWPAWB = "[[Wikipedia:AutoWikiBrowser|AWB]]";
-                        break;
+                        case LangCodeEnum.pt:
+                            mSummaryTag = " utilizando ";
+                            strWPAWB = "[[Wikipedia:AutoWikiBrowser|AWB]]";
+                            break;
 
-                    case LangCodeEnum.ru:
-                        mSummaryTag = " с помощью ";
-                        strWPAWB = "[[WP:AWB|AWB]]";
-                        Stub = "(?:[Ss]tub|[Зз]аготовка)";
-                        break;
+                        case LangCodeEnum.ru:
+                            mSummaryTag = " с помощью ";
+                            strWPAWB = "[[WP:AWB|AWB]]";
+                            Stub = "(?:[Ss]tub|[Зз]аготовка)";
+                            break;
 
-                    case LangCodeEnum.sk:
-                        mSummaryTag = " ";
-                        strWPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
-                        break;
+                        case LangCodeEnum.sk:
+                            mSummaryTag = " ";
+                            strWPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
+                            break;
 
-                    case LangCodeEnum.sl:
-                        mSummaryTag = " ";
-                        strWPAWB = "[[Wikipedija:AutoWikiBrowser|AWB]]";
-                        Stub = "(?:[Ss]tub|[Šš]krbina)";
-                        break;
+                        case LangCodeEnum.sl:
+                            mSummaryTag = " ";
+                            strWPAWB = "[[Wikipedija:AutoWikiBrowser|AWB]]";
+                            Stub = "(?:[Ss]tub|[Šš]krbina)";
+                            break;
 
-                    case LangCodeEnum.uk:
-                        Stub = "(?:[Ss]tub|[Дд]оробити)";
-                        mSummaryTag = " за допомогою ";
-                        strWPAWB = "[[Вікіпедія:AutoWikiBrowser|AWB]]";
-                        break;
+                        case LangCodeEnum.uk:
+                            Stub = "(?:[Ss]tub|[Дд]оробити)";
+                            mSummaryTag = " за допомогою ";
+                            strWPAWB = "[[Вікіпедія:AutoWikiBrowser|AWB]]";
+                            break;
 
-                    // case LangCodeEnum.xx:
-                    // strsummarytag = " ";
-                    // strWPAWB = "";
-                    // break;
+                            // case LangCodeEnum.xx:
+                            // strsummarytag = " ";
+                            // strWPAWB = "";
+                            // break;
 
-                    default:
-                        break;
-                }
-
-                #endregion
-            }
-            else if (projectName == ProjectEnum.commons)
-            {
-                URL = "http://commons.wikimedia.org";
-                LangCode = LangCodeEnum.en;
-            }
-            else if (projectName == ProjectEnum.meta)
-            {
-                URL = "http://meta.wikimedia.org";
-                LangCode = LangCodeEnum.en;
-            }
-            else if (projectName == ProjectEnum.mediawiki)
-            {
-                URL = "http://www.mediawiki.org";
-                LangCode = LangCodeEnum.en;
-            }
-            else if (projectName == ProjectEnum.species)
-            {
-                URL = "http://species.wikimedia.org";
-                LangCode = LangCodeEnum.en;
-            }
-            else if (projectName == ProjectEnum.wikia)
-            {
-                URL = "http://" + customProject + ".wikia.com";
-                URLEnd = "/";
-            }
-            else
-            {
-                if (projectName == ProjectEnum.custom)
+                        default:
+                            break;
+                    }
+                    break;
+                case ProjectEnum.commons:
+                    URL = "http://commons.wikimedia.org";
+                    LangCode = LangCodeEnum.en;
+                    break;
+                case ProjectEnum.meta:
+                    URL = "http://meta.wikimedia.org";
+                    LangCode = LangCodeEnum.en;
+                    break;
+                case ProjectEnum.mediawiki:
+                    URL = "http://www.mediawiki.org";
+                    LangCode = LangCodeEnum.en;
+                    break;
+                case ProjectEnum.species:
+                    URL = "http://species.wikimedia.org";
+                    LangCode = LangCodeEnum.en;
+                    break;
+                case ProjectEnum.wikia:
+                    URL = "http://" + customProject + ".wikia.com";
+                    URLEnd = "/";
+                    break;
+                case ProjectEnum.custom:
                     URLEnd = "";
+                    break;
             }
 
             if (projectName != ProjectEnum.wikipedia || langCode != LangCodeEnum.en)
@@ -648,10 +645,10 @@ namespace WikiFunctions
             foreach (string s in Namespaces.Values)
             {
                 System.Diagnostics.Trace.Assert(s.EndsWith(":"), "Internal error: namespace does not end with ':'.",
-                    "Please contact a developer.");
+                                                "Please contact a developer.");
             }
             System.Diagnostics.Trace.Assert(!Namespaces.ContainsKey(0), "Internal error: key exists for namespace 0.",
-                    "Please contact a developer.");
+                                            "Please contact a developer.");
         }
 
         private static void RegenerateRegexes()
