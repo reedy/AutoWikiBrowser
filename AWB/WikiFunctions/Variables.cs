@@ -544,6 +544,12 @@ namespace WikiFunctions
                             mSummaryTag = " ved brug af ";
                             strWPAWB = "[[en:Wikipedia:AutoWikiBrowser|AWB]]";
                             break;
+
+                        case LangCodeEnum.de:
+                            mSummaryTag = " mit ";
+                            strWPAWB = "[[Wikipedia:AutoWikiBrowser|AWB]]";
+                            break;
+
                         case LangCodeEnum.eo:
                             mSummaryTag = " ";
                             strWPAWB = "[[Vikipedio:AutoWikiBrowser|AWB]]";
