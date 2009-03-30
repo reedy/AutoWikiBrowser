@@ -329,42 +329,5 @@ namespace WikiFunctions.Profiles
 
         private static RegistryKey RegistryGetWritableKey(int keyNameSuffix)
         { return RegistryUtils.GetWritableKey(ProfileRegistryString + keyNameSuffix); }
-
-        public static void MigrateProfiles()
-        {
-            const string RegKey = "Software\\Wikipedia\\AutoWikiBrowser\\Profiles";
-            try
-            {
-                foreach (string id in new Microsoft.VisualBasic.Devices.Computer().Registry.CurrentUser.OpenSubKey(RegKey).GetSubKeyNames())
-                {
-                    AWBProfile prof = new AWBProfile();
-
-                    Microsoft.VisualBasic.Devices.Computer myComputer = new Microsoft.VisualBasic.Devices.Computer();
-
-                    prof.id = int.Parse(id);
-                    try
-                    {
-                        prof.Username = EncryptionUtils.Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "User", "").ToString());
-
-                        try { prof.Password = EncryptionUtils.Decrypt(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Pass", "").ToString()); }
-                        catch { prof.Password = ""; }
-
-                        prof.defaultsettings = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Settings", "").ToString();
-
-                        try { prof.useforupload = bool.Parse(myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "UseForUpload", "").ToString()); }
-                        catch { prof.useforupload = false; }
-
-                        prof.notes = myComputer.Registry.GetValue("HKEY_CURRENT_USER\\" + RegKey + "\\" + id, "Notes", "").ToString();
-                    }
-                    catch
-                    { }
-
-                    AddEditProfile(prof);
-                }
-            }
-            catch
-            { }
-        }
     }
-
 }

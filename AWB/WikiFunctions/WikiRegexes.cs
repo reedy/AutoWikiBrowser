@@ -33,10 +33,8 @@ namespace WikiFunctions
             Category = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[Namespace.Category] 
                 + @"(.*?)\]\]", RegexOptions.Compiled);
 
-            // images mask was [^\]]*?(?:\[\[?.*?(?:\[\[.*?\]\].*?)?\]\]?[^\]]*?)*)\]\]
-            // now instead use allowed character list, then a file extension (these are mandatory on mediawiki), then optional closing ]]
+            // Use allowed character list, then a file extension (these are mandatory on mediawiki), then optional closing ]]
             // this allows typo fixing and find&replace to operate on image descriptions
-            // TODO: replace these two with direct returns from API, when available
             // or, alternatively, an image filename has to have a pipe or ]] after it if using the [[Image: start, so just set first one to 
             // @"[^\[\]\|\{\}]+\.[a-zA-Z]{3,4}\b(?:\s*(?:\]\]|\|))
             Images =

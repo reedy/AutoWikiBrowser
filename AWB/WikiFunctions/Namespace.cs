@@ -26,27 +26,27 @@ namespace WikiFunctions
     /// </summary>
     public static class Namespace
     {
-        public static readonly int Media = -2;
-        public static readonly int Special = -1;
-        public static readonly int Article = 0;
-        public static readonly int Talk = 1;
-        public static readonly int User = 2;
-        public static readonly int UserTalk = 3;
-        public static readonly int Project = 4;
-        public static readonly int ProjectTalk = 5;
-        public static readonly int File = 6;
-        public static readonly int FileTalk = 7;
-        public static readonly int MediaWiki = 8;
-        public static readonly int MediaWikiTalk = 9;
-        public static readonly int Template = 10;
-        public static readonly int TemplateTalk = 11;
-        public static readonly int Help = 12;
-        public static readonly int HelpTalk = 13;
-        public static readonly int Category = 14;
-        public static readonly int CategoryTalk = 15;
+        public const int Media = -2;
+        public const int Special = -1;
+        public const int Article = 0;
+        public const int Talk = 1;
+        public const int User = 2;
+        public const int UserTalk = 3;
+        public const int Project = 4;
+        public const int ProjectTalk = 5;
+        public const int File = 6;
+        public const int FileTalk = 7;
+        public const int MediaWiki = 8;
+        public const int MediaWikiTalk = 9;
+        public const int Template = 10;
+        public const int TemplateTalk = 11;
+        public const int Help = 12;
+        public const int HelpTalk = 13;
+        public const int Category = 14;
+        public const int CategoryTalk = 15;
 
-        public static readonly int FirstCustom = 100;
-        public static readonly int FirstCustomTalk = 101;
+        public const int FirstCustom = 100;
+        public const int FirstCustomTalk = 101;
 
         // Aliases
 

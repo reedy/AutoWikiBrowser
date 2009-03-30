@@ -112,7 +112,6 @@ namespace AutoWikiBrowser
             RightToLeft = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft
                 ? RightToLeft.Yes : RightToLeft.No;
             InitializeComponent();
-            Tools.RegistryMigration();
             splash.SetProgress(5);
             try
             {
