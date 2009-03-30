@@ -233,7 +233,7 @@ namespace WikiFunctions
         /// </summary>
         public static string[] MonthNames;
 
-        public static readonly string[] ENLangMonthNames = new []{"January", "February", "March", "April", "May", "June",
+        public static readonly string[] ENLangMonthNames = new[]{"January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"};
 
         private static string URLEnd = "/w/";
@@ -325,8 +325,8 @@ namespace WikiFunctions
         public static bool PHP5
         {
             get { return usePHP5; }
-            set 
-            { 
+            set
+            {
                 usePHP5 = value;
                 IndexPHP = value ? "index.php5" : "index.php";
                 ApiPHP = value ? "api.php5" : "api.php";
@@ -602,10 +602,10 @@ namespace WikiFunctions
                             strWPAWB = "[[Вікіпедія:AutoWikiBrowser|AWB]]";
                             break;
 
-                            // case LangCodeEnum.xx:
-                            // strsummarytag = " ";
-                            // strWPAWB = "";
-                            // break;
+                        // case LangCodeEnum.xx:
+                        // strsummarytag = " ";
+                        // strWPAWB = "";
+                        // break;
 
                         default:
                             break;
@@ -657,13 +657,16 @@ namespace WikiFunctions
                                             "Please contact a developer.");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private static void RegenerateRegexes()
         {
             NamespacesCaseInsensitive.Clear();
 
             foreach (int ns in Namespaces.Keys)
             {
-                NamespacesCaseInsensitive.Add(ns, "(?i:" 
+                NamespacesCaseInsensitive.Add(ns, "(?i:"
                     + WikiRegexes.GenerateNamespaceRegex(ns) + @")\s*:");
             }
 
@@ -708,6 +711,9 @@ namespace WikiFunctions
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private static void SetDefaults()
         {
             Project = ProjectEnum.wikipedia;
@@ -719,6 +725,9 @@ namespace WikiFunctions
             SetToEnglish();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static void SetToEnglish()
         {
             SetToEnglish("Wikipedia:", "Wikipedia talk:");
@@ -726,6 +735,11 @@ namespace WikiFunctions
             Namespaces[101] = "Portal talk:";
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="project"></param>
+        /// <param name="projectTalk"></param>
         private static void SetToEnglish(string project, string projectTalk)
         {
             Namespaces[-2] = "Media:";
@@ -757,6 +771,11 @@ namespace WikiFunctions
             RTL = false;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lang"></param>
+        /// <returns></returns>
         public static LangCodeEnum ParseLanguage(string lang)
         {
             if (string.Compare(lang, "is", true) == 0) return LangCodeEnum.Is;
@@ -776,36 +795,70 @@ namespace WikiFunctions
             return URLIndex + "?title=" + Tools.WikiEncode(title);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
         public static string GetArticleHistoryURL(string title)
         {
             return (NonPrettifiedURL(title) + "&action=history");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
         public static string GetEditURL(string title)
         {
             return (NonPrettifiedURL(title) + "&action=edit");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
         public static string GetAddToWatchlistURL(string title)
         {
             return (NonPrettifiedURL(title) + "&action=watch");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
         public static string GetRemoveFromWatchlistURL(string title)
         {
             return (NonPrettifiedURL(title) + "&action=unwatch");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
         public static string GetUserTalkURL(string username)
         {
             return URLIndex + "?title=User_talk:" + Tools.WikiEncode(username) + "&action=purge";
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public static string GetUserTalkURL()
         {
             return URLIndex + "?title=User_talk:" + Tools.WikiEncode(User.Name) + "&action=purge";
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
         public static string GetPlainTextURL(string title)
         {
             return NonPrettifiedURL(title) + "&action=raw";
@@ -817,10 +870,7 @@ namespace WikiFunctions
         /// </summary>
         public static Version WikiFunctionsVersion
         {
-            get
-            {
-                return Assembly.GetAssembly(typeof (Variables)).GetName().Version;
-            }
+            get { return Assembly.GetAssembly(typeof(Variables)).GetName().Version; }
         }
     }
 
