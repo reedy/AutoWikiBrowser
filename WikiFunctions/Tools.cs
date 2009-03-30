@@ -1479,58 +1479,6 @@ Message: {2}
             return Math.Min(a.Length, b.Length);
         }
 
-        // TODO: remove in 4.5 or 5.0, whichever will be released next
-        /// <summary>
-        /// 
-        /// </summary>
-        public static void RegistryMigration()
-        {
-            try
-            {
-                const string regKey = "Software\\Wikipedia";
-
-                Microsoft.Win32.RegistryKey wpReg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(regKey);
-
-                if (wpReg == null)
-                    return;
-
-                //RecentSettings
-                Microsoft.Win32.RegistryKey reg = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(regKey + "\\AutoWikiBrowser");
-
-                if (reg == null)
-                    return;
-
-                Profiles.AWBProfiles.MigrateProfiles();
-
-                if (reg.ValueCount > 0)
-                {
-                    string s = reg.GetValue("RecentList", "").ToString();
-
-                    string pluginLocation = "";
-                    try
-                    {
-                        pluginLocation = reg.GetValue("RecentPluginLoadedLocation").ToString();
-                    }
-                    catch { }
-
-                    reg = Microsoft.Win32.Registry.CurrentUser.CreateSubKey("Software\\AutoWikiBrowser");
-                    reg.SetValue("RecentList", s);
-
-                    if (!string.IsNullOrEmpty(pluginLocation))
-                        reg.SetValue("RecentPluginLoadedLocation", pluginLocation);
-                }
-
-                //Delete old Registry Stuff
-                if (wpReg.SubKeyCount == 1)
-                    new Microsoft.VisualBasic.Devices.Computer().Registry.CurrentUser.DeleteSubKeyTree(regKey);
-                else
-                    new Microsoft.VisualBasic.Devices.Computer().Registry.CurrentUser.DeleteSubKeyTree(regKey + "\\AutoWikiBrowser");
-
-            }
-            catch
-            { }
-        }
-
         // Covered by NamespaceFunctions.ConvertToTalk()
         /// <summary>
         /// Turns an article into its associated talk page
