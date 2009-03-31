@@ -446,6 +446,59 @@ namespace WikiFunctions.Parse
 
             return (ArticleText);
         }
+        
+         private static readonly Regex NamedReferences = new Regex(@"(<\s*ref\s+name\s*=\s*(?:""|')?([^<>=\r\n]+?)(?:""|')?\s*>\s*([^<>]+?)\s*<\s*/\s*ref>)", RegexOptions.Singleline);
+                
+        // Covered by: DuplicateNamedReferencesTests()
+        /// <summary>
+        /// Where an unnamed reference is a duplicate of another named reference, set the unnamed one to use the named ref
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <returns>The modified article text.</returns>        
+        public static string DuplicateNamedReferences(string ArticleText)
+        {
+
+            foreach (Match m in NamedReferences.Matches(ArticleText))
+            {
+                string RefName = m.Groups[2].Value;
+                string UnnamedRefValue = m.Groups[3].Value;
+
+                int a = 0;
+                string firstref = "";
+                // duplicate citation fixer (both named): <ref name="Fred">(...)</ref>....<ref name="Fred">\2</ref> --> ..<ref name="Fred"/>, minimum 25 characters to avoid short refs
+                // don't fix the fist match, change the later ones to use <ref name="a"/> format, don't bother to change really short refs (value < 25 chars)
+                foreach (Match m2 in Regex.Matches(ArticleText, @"((<\s*ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(RefName) + @"(?:""|')?)\s*>\s*" + Regex.Escape(UnnamedRefValue) + @"\s*<\s*/\s*ref>)"))
+                {
+                    if (UnnamedRefValue.Length < 25)
+                        break;
+
+                    // mask first match
+                    if (a == 0)
+                    {
+                        firstref = m2.Value;
+                        Regex r = new Regex(Regex.Escape(firstref));
+
+                        ArticleText = r.Replace(ArticleText, @"⌊⌊⌊⌊@@⌋⌋⌋⌋", 1);
+                    }
+                    else // replace all duplicates
+                        ArticleText = ArticleText.Replace(m2.Value, @"<ref name=""" + RefName + @"""/>");
+
+                    a++;
+                }
+
+                // unmask first match
+                ArticleText = ArticleText.Replace(@"⌊⌊⌊⌊@@⌋⌋⌋⌋", firstref);
+
+                // duplicate citation fixer (first named): <ref name="Fred">(...)</ref>....<ref>\2</ref> --> ..<ref name="Fred"/>
+                // duplicate citation fixer (second named): <ref>(...)</ref>....<ref name="Fred">\2</ref> --> ..<ref name="Fred"/>
+                foreach (Match m3 in Regex.Matches(ArticleText, @"<\s*ref\s*>\s*" + Regex.Escape(UnnamedRefValue) + @"\s*<\s*/\s*ref>"))
+                {
+                    ArticleText = ArticleText.Replace(m3.Value, @"<ref name=""" + RefName + @"""/>");
+                }
+            }
+        
+            return(ArticleText);
+        }
 
         // Covered by: FormattingTests.TestMdashes()
         /// <summary>

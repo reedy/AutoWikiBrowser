@@ -842,6 +842,9 @@ namespace WikiFunctions
             AWBChangeArticleText("FixReferenceTags", Parsers.FixReferenceTags(ArticleText), true);
             Variables.Profiler.Profile("FixReferenceTags");
 
+            AWBChangeArticleText("DuplicateNamedReferences", Parsers.DuplicateNamedReferences(ArticleText), true);
+            Variables.Profiler.Profile("DuplicateNamedReferences");
+            
             AWBChangeArticleText("ReorderReferences", Parsers.ReorderReferences(ArticleText), true);
             Variables.Profiler.Profile("ReorderReferences");
 
