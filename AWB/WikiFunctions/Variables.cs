@@ -547,7 +547,6 @@ namespace WikiFunctions
 
                         case LangCodeEnum.de:
                             mSummaryTag = " mit ";
-                            strWPAWB = "[[Wikipedia:AutoWikiBrowser|AWB]]";
                             strTypoSummaryTag = ", Schreibweise:";
                             break;
 
@@ -568,7 +567,6 @@ namespace WikiFunctions
 
                         case LangCodeEnum.nl:
                             mSummaryTag = " met ";
-                            strWPAWB = "[[Wikipedia:AutoWikiBrowser|AWB]]";
                             break;
 
                         case LangCodeEnum.pl:
@@ -577,12 +575,10 @@ namespace WikiFunctions
 
                         case LangCodeEnum.pt:
                             mSummaryTag = " utilizando ";
-                            strWPAWB = "[[Wikipedia:AutoWikiBrowser|AWB]]";
                             break;
 
                         case LangCodeEnum.ru:
                             mSummaryTag = " с помощью ";
-                            strWPAWB = "[[WP:AWB|AWB]]";
                             Stub = "(?:[Ss]tub|[Зз]аготовка)";
                             break;
 
