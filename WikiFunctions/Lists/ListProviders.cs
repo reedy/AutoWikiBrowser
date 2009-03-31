@@ -1541,7 +1541,7 @@ namespace WikiFunctions.Lists
 
         #region ListMaker properties
         public override string DisplayText
-        { get { return "New articles"; } }
+        { get { return "New pages"; } }
 
         public override string UserInputTextBoxText
         { get { return ""; } }
