@@ -676,6 +676,9 @@ namespace WikiFunctions.Parse
         // <ref>...</red> --> <ref>...</ref>
         private static readonly Regex ReferenceTags15 = new Regex(@"(<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>[^<>""]+?)<\s*/\s*red\s*>", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
+        // <REF> and <Ref> to <ref>
+        private static readonly Regex ReferenceTags16 = new Regex(@"(<\s*\/?\s*)(?:R[Ee][Ff]|r[Ee]F)(\s*(?:>|name\s*=))");
+
         // Covered by TestFixReferenceTags
         /// <summary>
         /// Various fixes to the formatting of <ref> reference tags
@@ -702,6 +705,7 @@ namespace WikiFunctions.Parse
             ArticleText = ReferenceTags13.Replace(ArticleText, "$1a$2");
             ArticleText = ReferenceTags14.Replace(ArticleText, "$1</ref>");
             ArticleText = ReferenceTags15.Replace(ArticleText, "$1</ref>");
+            ArticleText = ReferenceTags16.Replace(ArticleText, "$1ref$2");
 
             return ArticleText;
         }
