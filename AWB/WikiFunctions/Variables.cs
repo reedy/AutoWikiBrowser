@@ -548,6 +548,7 @@ namespace WikiFunctions
                         case LangCodeEnum.de:
                             mSummaryTag = " mit ";
                             strWPAWB = "[[Wikipedia:AutoWikiBrowser|AWB]]";
+                            strTypoSummaryTag = ", Schreibweise:";
                             break;
 
                         case LangCodeEnum.eo:
