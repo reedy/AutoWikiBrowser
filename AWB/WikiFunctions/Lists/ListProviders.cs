@@ -1532,7 +1532,7 @@ namespace WikiFunctions.Lists
             List<Article> list = new List<Article>();
 
             string url = Variables.URLApi + "?action=query&list=recentchanges"
-                + "&rclimit=max&rctype=new&rcshow=!redirects&rcnamespace=" + Namespace + "&format=xml";
+                + "&rclimit=max&rctype=new&rcshow=!redirect&rcnamespace=" + Namespace + "&format=xml";
 
             list.AddRange(ApiMakeList(url, list.Count));
 
