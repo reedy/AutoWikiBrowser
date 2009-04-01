@@ -1510,7 +1510,7 @@ namespace WikiFunctions.Lists
     {
         public NewPagesListProvider()
         {
-            Limit = 10000; // slow query
+            Limit = 100; // slow query
         }
 
         #region Tags: <recentchanges>/<rc>
@@ -1537,7 +1537,7 @@ namespace WikiFunctions.Lists
             List<Article> list = new List<Article>();
 
             string url = Variables.URLApi + "?action=query&list=recentchanges"
-                + "&rclimit=max&rctype=new&rcshow=!redirect&rcnamespace=" + Namespace + "&format=xml";
+                + "&rclimit=100&rctype=new&rcshow=!redirect&rcnamespace=" + Namespace + "&format=xml";
 
             list.AddRange(ApiMakeList(url, list.Count));
 
