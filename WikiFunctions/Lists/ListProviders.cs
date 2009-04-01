@@ -1508,6 +1508,11 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class NewPagesListProvider : ApiListProviderBase, ISpecialPageProvider
     {
+        public NewPagesListProvider()
+        {
+            Limit = 10000; // slow query
+        }
+
         #region Tags: <recentchanges>/<rc>
         static readonly List<string> pe = new List<string>(new[] { "rc" });
         protected override ICollection<string> PageElements
