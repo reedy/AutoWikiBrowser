@@ -493,6 +493,29 @@ End of.";
         }
         
         [Test]
+        public void UppercaseCiteFields()
+        {
+          // single uppercase field
+          Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{cite web|URL=http://members.bib-arch.org|title=hello}}"));
+          Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{cite web|uRL=http://members.bib-arch.org|title=hello}}"));
+          Assert.AreEqual(@"{{citeweb|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{citeweb|URL=http://members.bib-arch.org|title=hello}}"));
+          Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{cite web|UrL=http://members.bib-arch.org|title=hello}}"));
+          Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{cite web|Url=http://members.bib-arch.org|title=hello}}"));
+          Assert.AreEqual(@"{{Cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{Cite web|URL=http://members.bib-arch.org|title=hello}}"));
+          Assert.AreEqual(@"{{cite web | url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{cite web | URL=http://members.bib-arch.org|title=hello}}"));
+          Assert.AreEqual(@"{{cite web| url = http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{cite web| URL = http://members.bib-arch.org|title=hello}}"));
+          Assert.AreEqual(@"{{cite web|url =http://members.bib-arch.org|title=HELLO}}", Parsers.FixSyntax(@"{{cite web|URL =http://members.bib-arch.org|title=HELLO}}"));
+        
+          // multiple uppercase fields
+          Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{cite web|URL=http://members.bib-arch.org|Title=hello}}"));
+          Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{cite web|URL=http://members.bib-arch.org|TITLE=hello}}"));
+          Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello | publisher=BBC}}", Parsers.FixSyntax(@"{{cite web|URL=http://members.bib-arch.org|TITLE=hello | Publisher=BBC}}"));
+          
+          // no match if value of field uppercase
+          Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello | publisher=BBC}}", Parsers.FixSyntax(@"{{cite web|url=http://members.bib-arch.org|title=hello | publisher=BBC}}"));
+        }        
+        
+        [Test]
         public void TestCellpaddingTypo()
         {
           Assert.AreEqual(@"now {| class=""wikitable"" cellpadding=2", Parsers.FixSyntax(@"now {| class=""wikitable"" celpadding=2"));
