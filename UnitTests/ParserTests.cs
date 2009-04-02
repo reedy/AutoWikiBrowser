@@ -431,8 +431,8 @@ End of.";
             Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://http://test.com]"));
             Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://http://http://test.com]"));
 
-            Assert.AreEqual("[http://www.site.com ''my cool site'']",
-                            Parsers.FixSyntax("[http://www.site.com|''my cool site'']"));
+            Assert.AreEqual("[http://www.site.com ''my cool site'']", Parsers.FixSyntax("[http://www.site.com|''my cool site'']"));
+            Assert.AreEqual("[http://www.site.com/here/there.html ''my cool site'']", Parsers.FixSyntax("[http://www.site.com/here/there.html|''my cool site'']"));
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#NEsted_square_brackets_again.
             Assert.AreEqual("[[Image:foo.jpg|Some [http://some_crap.com]]]",
