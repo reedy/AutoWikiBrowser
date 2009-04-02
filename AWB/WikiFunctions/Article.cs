@@ -860,6 +860,9 @@ namespace WikiFunctions
 
             AWBChangeArticleText("Mdashes", parsers.Mdashes(ArticleText), true);
             Variables.Profiler.Profile("Mdashes");
+            
+            AWBChangeArticleText("Correct Cite Template Dates", Parsers.CiteTemplateDates(ArticleText), true);
+            Variables.Profiler.Profile("CiteTemplateDates");
 
             //Just a bit broken/Some unwanted fixes (moving of <ref> tags around)
             //AWBChangeArticleText("Fix Footnotes", parsers.FixFootnotes(ArticleText), true);
