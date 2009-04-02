@@ -931,8 +931,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex CellpaddingTypo = new Regex(@"({\s*\|\s*class\s*=\s*""wikitable[^}]*?)cel(?:lpa|pad?)ding\b", RegexOptions.IgnoreCase | RegexOptions.Singleline);
         
-        // TODO, what other templates need this fix?
-        private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{[Cc]ite\s*web\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(\s*=\s*[^{}\|]{3,})");
+        private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{(?:[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)|[Cc]itation)\b\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(\s*=\s*[^{}\|]{3,})");
         
         // Covered by: LinkTests.TestFixSyntax(), incomplete
         /// <summary>
