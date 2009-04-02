@@ -931,6 +931,9 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex CellpaddingTypo = new Regex(@"({\s*\|\s*class\s*=\s*""wikitable[^}]*?)cel(?:lpa|pad?)ding\b", RegexOptions.IgnoreCase | RegexOptions.Singleline);
         
+        // TODO, what other templates need this fix?
+        private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{[Cc]ite\s*web\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(\s*=\s*[^{}\|]{3,})");
+        
         // Covered by: LinkTests.TestFixSyntax(), incomplete
         /// <summary>
         /// Fixes and improves syntax (such as html markup)
@@ -990,6 +993,19 @@ namespace WikiFunctions.Parse
             ArticleText = Regex.Replace(ArticleText, "ISBN: ?([0-9])", "ISBN $1");
             
             ArticleText = CellpaddingTypo.Replace(ArticleText, "$1cellpadding");
+            
+            // {{cite web}} needs lower case field names; two loops in case a single template has multiple uppercase fields
+            // restrict to en-wiki
+            while(Variables.LangCode == LangCodeEnum.en)
+            {           
+              foreach (Match m in UppercaseCiteFields.Matches(ArticleText))
+              {
+                  ArticleText = ArticleText.Replace(m.Value, m.Groups[1].Value + m.Groups[2].Value.ToLower() + m.Groups[3].Value);
+              }
+              
+              if (!UppercaseCiteFields.IsMatch(ArticleText))
+                break;
+            }
 
             return ArticleText.Trim();
         }
