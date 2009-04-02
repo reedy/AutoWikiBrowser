@@ -2228,8 +2228,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                                       ? categoryProv.MakeList(new[] { ArticleTitle }).Count
                                       : Globals.UnitTestIntValue;
 
-            // TODO: update link when it's archived
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser#AWB_problems
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Archive_19#AWB_problems
             // nl wiki doesn't use {{Uncategorized}} template
             if (addTags && words > 6 && totalCategories == 0
                 && !WikiRegexes.Uncat.IsMatch(ArticleText) && Variables.LangCode != LangCodeEnum.nl)
@@ -2287,6 +2286,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 Summary += ", removed wikify tag";
             }
 
+            ArticleText = TagOrphans(ArticleText, ArticleTitle, ref Summary, addTags, removeTags);
+
+            return ArticleText;
+        }
+
+        private string TagOrphans(string ArticleText, string ArticleTitle, ref string summary, bool addTags, bool removeTags)
+        {
             // check if not orphaned
             bool orphaned = true;
             if (Globals.UnitTestMode)
@@ -2317,14 +2323,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (addTags && orphaned && !WikiRegexes.Orphan.IsMatch(ArticleText) && !WikiRegexes.OrphanArticleIssues.IsMatch(ArticleText))
             {
                 ArticleText = "{{orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
-                Summary += ", added [[:Category:Orphaned articles|orphan]] tag";
+                summary += ", added [[:Category:Orphaned articles|orphan]] tag";
             }
             else if (removeTags && !orphaned && WikiRegexes.Orphan.IsMatch(ArticleText))
             {
                 ArticleText = WikiRegexes.Orphan.Replace(ArticleText, "");
-                Summary += ", removed orphan tag";
+                summary += ", removed orphan tag";
             }
-
             return ArticleText;
         }
 
