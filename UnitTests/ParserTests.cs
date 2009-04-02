@@ -1723,12 +1723,6 @@ fish | name = Bert }} ''Bert'' is a good fish."));
         private bool noChange;
         private string summary;
 
-        public TaggerTests()
-        {
-            Globals.UnitTestMode = true;
-            WikiRegexes.MakeLangSpecificRegexes();
-        }
-
         private const string uncat = "{{Uncategorized|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
                        uncatstub = "{{Uncategorizedstub|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
                        orphan = "{{orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
