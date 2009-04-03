@@ -547,6 +547,27 @@ End of.";
           Assert.AreEqual("now the cellpading of the", Parsers.FixSyntax("now the cellpading of the"));
           Assert.AreEqual(@"now {| class=""wikitable"" cellpadding=2", Parsers.FixSyntax(@"now {| class=""wikitable"" cellpadding=2"));
         }
+        
+        [Test]
+        public void TestAccessdateTypo()
+        {
+          string Correct = @"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23 }} was";
+          Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acessdate = 2008-04-23 }} was"));
+          Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accesdate = 2008-04-23 }} was"));
+          Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|Acessdate = 2008-04-23 }} was"));
+          Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|Accesdate = 2008-04-23 }} was"));
+          Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|Acesdate = 2008-04-23 }} was"));
+          Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acesdate = 2008-04-23 }} was"));
+          Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccesdate = 2008-04-23 }} was"));
+          Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23 }} was"));
+          
+          Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23|publisher=BBC }} was", Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23|publisher=BBC }} was"));
+          Assert.AreEqual(@"now {{Cite web | url=http://site.it | title=hello|accessdate = 2008-04-23  |publisher=BBC }} was", Parsers.FixSyntax(@"now {{Cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23  |publisher=BBC }} was"));
+          
+          // no match
+          Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|acccessdated = 2008-04-23 }} was", Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccessdated = 2008-04-23 }} was"));
+          Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23 }} was", Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23 }} was"));
+        }
 
         [Test]
         public void TestCiteTemplateDates()

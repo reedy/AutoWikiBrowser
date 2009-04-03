@@ -950,6 +950,8 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex CellpaddingTypo = new Regex(@"({\s*\|\s*class\s*=\s*""wikitable[^}]*?)cel(?:lpa|pad?)ding\b", RegexOptions.IgnoreCase | RegexOptions.Singleline);
         
+        private static readonly Regex AccessdateTypo = new Regex(@"(\{\{\s*cit[^{}]*?\|\s*)ac(?:(?:ess?s?|cc?es|cesss|ccess)date|cessdare)(\s*=\s*)", RegexOptions.IgnoreCase);
+        
         private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{(?:[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)|[Cc]itation)\b\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(\s*=\s*[^{}\|]{3,})");
         
         // Covered by: LinkTests.TestFixSyntax(), incomplete
@@ -1011,6 +1013,8 @@ namespace WikiFunctions.Parse
             ArticleText = Regex.Replace(ArticleText, "ISBN: ?([0-9])", "ISBN $1");
             
             ArticleText = CellpaddingTypo.Replace(ArticleText, "$1cellpadding");
+            
+            ArticleText = AccessdateTypo.Replace(ArticleText, "$1accessdate$2");
             
             // {{cite web}} needs lower case field names; two loops in case a single template has multiple uppercase fields
             // restrict to en-wiki
