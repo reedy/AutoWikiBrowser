@@ -373,5 +373,26 @@ fast„"));
 hello</P>"));
 
         }
+        
+        [Test]
+        public void UncatTests()
+        {
+          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized}}"));
+          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised}}"));
+          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorized}}"));
+          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised}}"));
+          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncat}}"));
+          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat}}"));
+          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat|date=January 2009}}"));
+          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised|date=May 2008}}"));
+          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised|date=May 2008}}"));
+          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorisedstub|date=May 2008}}"));
+          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorisedstub|date = May 2008}}"));
+          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+          
+          // no match
+          Assert.IsFalse(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized other template}}"));
+          Assert.IsFalse(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized other template|foo=bar}}"));
+        }
     }
 }

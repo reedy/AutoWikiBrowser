@@ -383,9 +383,9 @@ namespace WikiFunctions
         public static readonly Regex OrphanArticleIssues = new Regex(@"{{\s*article\s*issues\s*\|[^{}]*?\borphan\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
-        /// 
+        /// matches uncategorised templates: {{Uncat}}, {{Uncaegorised}}, {{Uncategorised stub}} allowing for nested subst: {{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
         /// </summary>
-        public static readonly Regex Uncat = new Regex(@"{{Uncategori[zs]ed\|?(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?)?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static readonly Regex Uncat = new Regex(@"{{[Uu]ncat(egori[zs]ed(?:stub)?)?((\s*\|[^{}]+)?\s*|\s*\|((?>[^\{\}]+|\{\{(?<DEPTH>)|\}\}(?<-DEPTH>))*(?(DEPTH)(?!))))\}\}", RegexOptions.Compiled);
 
         /// <summary>
         /// 
