@@ -208,6 +208,10 @@ namespace WikiFunctions
         public static readonly Regex Headings = new Regex(@"^={1,6}.*={1,6}\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
 
         /// <summary>
+        /// Matches the first section of an article, if the article has sections, else the whole article
+        /// </summary>
+        public static readonly Regex ZerothSection = new Regex("(^.+?(?===+)|^.+$)", RegexOptions.Singleline);
+        /// <summary>
         /// Matches text indented with a :
         /// </summary>
         public static readonly Regex IndentedText = new Regex(@"^:.*", RegexOptions.Compiled | RegexOptions.Multiline);
@@ -370,7 +374,7 @@ namespace WikiFunctions
         /// <summary>
         /// 
         /// </summary>
-        public static readonly Regex Wikify = new Regex(@"{{(Wikify\|?(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?)?|Article\s*issues\b[^{}]*?\|\s*wikify\s*=[^{}]+)}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static readonly Regex Wikify = new Regex(@"({{Wikify\|?(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?)?}}|(?<={{Article\s*issues\b[^{}]*?)\|\s*wikify\s*=[^{}\|]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// 
@@ -387,6 +391,21 @@ namespace WikiFunctions
         /// </summary>
         public static readonly Regex Uncat = new Regex(@"{{([Uu]ncat|[Cc]lassify|[Cc]at[Nn]eeded|[Uu]ncategori[sz]ed|[Cc]ategori[sz]e|[Cc]ategories needed|[Cc]ategory ?needed|[Cc]ategory requested|[Cc]ategories requested|[Nn]ocats?|[Uu]ncat-date|[Uu]ncategorized-date|[Nn]eeds cats?|[Cc]ats? needed|[Uu]ncategori[sz]edstub)((\s*\|[^{}]+)?\s*|\s*\|((?>[^\{\}]+|\{\{(?<DEPTH>)|\}\}(?<-DEPTH>))*(?(DEPTH)(?!))))\}\}", RegexOptions.Compiled);
 
+        /// <summary>
+        /// matches {{Article issues}} template
+        /// </summary>
+        public static readonly Regex ArticleIssues = new Regex(@"({{\s*[Aa]rticle ?issues(?:\s*\|[^{}]*)?\s*)}}");
+
+        /// <summary>
+        /// the cleanup templates that can be moved into the {{article issues}} template
+        /// </summary>
+        public static readonly string ArticleIssuesTemplatesString = @"([Aa]dvert|[Aa]utobiography|[Bb]iased|[Bb]lpdispute|[Cc]itations missing|[Cc]itationstyle|[Cc]itecheck|[Cc]leanup|COI|[Cc]olloquial|[Cc]onfusing|[Cc]ontext|[Cc]ontradict|[Cc]opyedit|[Cc]riticisms|[Cc]rystal|[Dd]eadend|[Dd]isputed|[Dd]o-attempt|[Ee]ssay|[Ee]xamplefarm|[Ee]xpand|[Ee]xpert|[Ee]xternal links|[Ff]ancruft|[Ff]ansite|[Ff]iction|[Gg]ameguide|[Gg]lobalize|[Gg]rammar|[Hh]istinfo|[Hh]oax|[Hh]owto|[Ii]nappropriate person|[Ii]n-universe|[Ii]mportance|[Ii]ncomplete|[Ii]ntro length|[Ii]ntromissing|[Ii]ntrorewrite|[Jj]argon|[Ll]aundrylists|[Ll]ikeresume|[Ll]ong|[Nn]ewsrelease|[Nn]otable|[Oo]nesource|OR|[Oo]rphan|[Pp]eacock|[Pp]lot|POV|[Pp]rimarysources|[Pp]rose|[Pp]roseline|[Qq]uotefarm|[Rr]ecent|[Rr]efimprove|[Rr]estructure|[Rr]eview|[Rr]ewrite|[Rr]oughtranslation|[Ss]ections|[Ss]elf-published|[Ss]pam|[Ss]tory|[Ss]ynthesis|[Tt]one|[Tt]ooshort|[Tt]ravelguide|[Tt]rivia|[Uu]nbalanced|[Uu]nencyclopedic|[Uu]nreferenced|[Uu]pdate|[Ww]easel|[Ww]ikify)";
+
+        /// <summary>
+        /// matches the cleanup templates that can be moved into the {{article issues}} template
+        /// </summary>
+        public static readonly Regex ArticleIssuesTemplates = new Regex(@"{{" + ArticleIssuesTemplatesString + @"\s*(?:\|\s*([^{}]+?))?\s*}}");
+        
         /// <summary>
         /// 
         /// </summary>
