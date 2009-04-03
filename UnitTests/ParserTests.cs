@@ -2193,13 +2193,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             a = @"{{ARTICLEISSUES|cleanup=January 2008}} Article text here";
             Assert.AreEqual(a, Parsers.Conversions(a));
 
-            a = @"{{Articleissues|cleanup=May 30}} Article text here";
-            Assert.AreEqual(a, Parsers.Conversions(a));
-
-            a = @"{{articleissues|trivia=January 2008|}} Article text here";
-            Assert.AreEqual(a, Parsers.Conversions(a));
-
-            a = @"{{articleissues|trivia}} Article text here";
+            a = @"{{Articleissues|cleanup=May 2007|trivia=January 2008}} Article text here";
             Assert.AreEqual(a, Parsers.Conversions(a));
 
             // nofootnotes --> morefootnotes
@@ -2251,6 +2245,117 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
           // no match, 'section' and 'sections' are different parameters for the template
           Assert.AreEqual(@"{{Article issues|cleanup=May 2008|POV=March 2008}}", Parsers.Conversions(@"{{Article issues|cleanup=May 2008|POV=March 2008}}"));
           Assert.AreEqual(@"{{Article issues|sections=May 2008|POV=March 2008}}", Parsers.Conversions(@"{{Article issues|sections=May 2008|POV=March 2008}}"));
-    }
+        }
+
+        
+        [Test]
+        public void DuplicateTemplateFieldsTests()
+        {
+            Assert.AreEqual("" , Parsers.Conversions(""));
+
+            // duplciate fields
+            Assert.AreEqual(@"now {{cite web| url=http://site.net |accessdate = 2008-10-08|title=hello}}", Parsers.Conversions(@"now {{cite web| url=http://site.net |title=hello|accessdate = 2008-10-08|title=hello}}"));
+            Assert.AreEqual(@"now {{cite web| url=http://site.net |accessdate = 2008-10-08|title=hello|publisher=BBC}}", Parsers.Conversions(@"now {{cite web| url=http://site.net |title=hello|accessdate = 2008-10-08|title=hello|publisher=BBC}}"));
+            Assert.AreEqual(@"now {{Cite web|  url=http://site.net |accessdate = 2008-10-08|title=hello}}", Parsers.Conversions(@"now {{Cite web| title = hello | url=http://site.net |accessdate = 2008-10-08|title=hello}}"));
+            Assert.AreEqual(@"now {{cite web| url=http://site.net |accessdate = 2008-10-08| title = hello }}", Parsers.Conversions(@"now {{cite web| url=http://site.net |title=hello|accessdate = 2008-10-08| title = hello }}"));
+            Assert.AreEqual(@"now {{cite web| url=http://site.net |date = 2008-10-08|title=hello}}", Parsers.Conversions(@"now {{cite web| url=http://site.net |date = 2008-10-08|date = 2008-10-08|title=hello}}"));
+            Assert.AreEqual(@"now {{cite web| url=http://site.net |date = 2008-10-08|title=hello}}", Parsers.Conversions(@"now {{cite web| title=hello|url=http://site.net |date = 2008-10-08|title=hello}}"));
+            Assert.AreEqual(@"now {{cite web| title=hello|url=http://site.net |date = 2008-10-08}}", Parsers.Conversions(@"now {{cite web| title=hello|title=hello|url=http://site.net |date = 2008-10-08}}"));
+
+            Assert.AreEqual(@"{{Article issues|wikify=May 2008|POV=May 2008|Expand=June 2008}}", Parsers.Conversions(@"{{Article issues|wikify=May 2008|POV=May 2008|Expand=June 2008|Expand=June 2008}}"));
+            Assert.AreEqual(@"{{Articleissues|wikify=May 2008|POV=May 2008|Expand=June 2008}}", Parsers.Conversions(@"{{Articleissues|wikify=May 2008|Expand=June 2008|POV=May 2008|Expand=June 2008}}"));
+
+            // null fields
+            Assert.AreEqual(@"now {{cite web| url=http://site.net |accessdate = 2008-10-08|title=hello}}", Parsers.Conversions(@"now {{cite web| url=http://site.net |title=|accessdate = 2008-10-08|title=hello}}"));
+            Assert.AreEqual(@"now {{cite web| url=http://site.net |accessdate = 2008-10-08|title=hello|publisher=BBC}}", Parsers.Conversions(@"now {{cite web| url=http://site.net |title=|accessdate = 2008-10-08|title=hello|publisher=BBC}}"));
+            Assert.AreEqual(@"now {{Cite web| title = hello | url=http://site.net |accessdate = 2008-10-08}}", Parsers.Conversions(@"now {{Cite web| title = hello | url=http://site.net |accessdate = 2008-10-08|title=}}"));
+            Assert.AreEqual(@"now {{cite web| url=http://site.net |accessdate = 2008-10-08| title = hello }}", Parsers.Conversions(@"now {{cite web| url=http://site.net |title=|accessdate = 2008-10-08| title = hello }}"));
+            Assert.AreEqual(@"now {{cite web| title=hello|url=http://site.net |date = 2008-10-08}}", Parsers.Conversions(@"now {{cite web| title=hello|title=|url=http://site.net |date = 2008-10-08}}"));
+            
+            Assert.AreEqual(@"{{Article issues|wikify=May 2008|Expand=June 2008|POV=May 2008}}", Parsers.Conversions(@"{{Article issues|wikify=May 2008|Expand=June 2008|POV=May 2008|Expand=}}"));
+            Assert.AreEqual(@"{{Article issues|wikify=May 2008|POV=May 2008|Expand=June 2008}}", Parsers.Conversions(@"{{Article issues|wikify=May 2008|Expand=|POV=May 2008|Expand=June 2008}}"));
+
+            //no matches
+            Assert.AreEqual(@"now {{cite web| title=hello|url=http://site.net |date = 2008-10-08|title=HELLO}}", Parsers.Conversions(@"now {{cite web| title=hello|url=http://site.net |date = 2008-10-08|title=HELLO}}")); // case of field value different
+            Assert.AreEqual(@"now {{cite web| url=http://site.net |title=hello|accessdate = 2008-10-08|title=hello t}}", Parsers.Conversions(@"now {{cite web| url=http://site.net |title=hello|accessdate = 2008-10-08|title=hello t}}"));
+            Assert.AreEqual(@"now {{cite web| url=http://site.net |title=hello|accessdate = 2008-10-08|name=hello}}", Parsers.Conversions(@"now {{cite web| url=http://site.net |title=hello|accessdate = 2008-10-08|name=hello}}"));
+            Assert.AreEqual(@"now {{cite web| url=http://site.net |title=hello|first=|accessdate = 2008-10-08|first=}}", Parsers.Conversions(@"now {{cite web| url=http://site.net |title=hello|first=|accessdate = 2008-10-08|first=}}")); //dupe fields have no value
+            Assert.AreEqual(@"now {{cite web| url=http://site.net |title=hello|first=a|accessdate = 2008-10-08|first=}}", Parsers.Conversions(@"now {{cite web| url=http://site.net |title=hello|first=a|accessdate = 2008-10-08|first=}}"));
+
+            Assert.AreEqual(@"{{Article issues|wikify=May 2008|POV=May 2008|Expand=June 2008|Expand=June 2009}}", Parsers.Conversions(@"{{Article issues|wikify=May 2008|POV=May 2008|Expand=June 2008|Expand=June 2009}}"));
+
+        }
+
+        [Test]
+        public void ArticleIssues()
+        {
+            string A1 = @"{{wikify}} {{expand}}", A2 = @" {{COI}}", A3 = @" the article";
+            string A4 = @" {{COI|date=May 2008}}", A5 = @"{{Article issues|POV|prose|spam}} ";
+
+            // adding new {{article issues}}
+            Assert.IsTrue(parser.ArticleIssues(A1 + A2 + A3).Contains(@"{{Article issues|wikify|expand|COI}}"));
+            Assert.IsTrue(parser.ArticleIssues(A1 + A4 + A3).Contains(@"{{Article issues|wikify|expand|COI date=May 2008}}"));
+
+            // amend existing {{article issues}}
+            Assert.IsTrue(parser.ArticleIssues(A5 + A1 + A2 + A3).Contains(@"{{Article issues|POV|prose|spam|wikify|expand|COI"));
+            Assert.IsTrue(parser.ArticleIssues(A5 + A1 + A4 + A3).Contains(@"{{Article issues|POV|prose|spam|wikify|expand|COI date=May 2008}}"));
+
+            // insufficient tags
+            Assert.IsFalse(Parsers.Conversions(A1 + A3).Contains(@"{{Article issues"));
+
+            // before first heading tag can be used
+            string A7 = @"{{trivia}} ==heading==";
+            Assert.IsTrue(parser.ArticleIssues(A5 + A3 + A7).Contains(@"{{Article issues|POV|prose|spam|trivia}}"));
+
+            // don't grab tags in later sections of article
+            string A6 = @"==head== {{essay}}";
+            Assert.AreEqual(A5 + A3 + A6, parser.ArticleIssues(A5 + A3 + A6));
+        }
+
+        [Test]
+        public void ArticleIssuesDates()
+        {
+            // addition of date
+            Assert.AreEqual(@"{{Article issues|wikfy=May 2008|COI=May 2008|expand={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|expand}}"));
+            Assert.AreEqual(@"{{Article issues|wikfy=May 2008|expand={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI=May 2008}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|expand|COI=May 2008}}"));
+            
+            // multiple dates
+            Assert.AreEqual(@"{{Article issues|wikfy=May 2008|COI=May 2008|expand={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|external links={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|expand|external links}}"));
+
+            // removal of date word
+            Assert.AreEqual(@"{{Article issues|wikfy=May 2008|COI=May 2008|expand =March 2009|POV=May 2008}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|expand date=March 2009|POV=May 2008}}"));
+            Assert.AreEqual(@"{{Article issues|wikfy=May 2008|COI=May 2008|expand =March 2009}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|expand date=March 2009}}"));
+
+            // removal of non-existent date field
+            Assert.AreEqual(@"{{Article issues|wikfy=May 2008|COI=May 2008|expert=Fred}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|expert=Fred|date = March 2007}}"));
+            Assert.AreEqual(@"{{Article issues|wikfy=May 2008|COI=May 2008|expert=Fred}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|expert=Fred| date=March 2007}}"));
+            Assert.AreEqual(@"{{Article issues|wikfy=May 2008|COI=May 2008|expert=Fred}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|date = March 2007|expert=Fred}}"));
+
+            // don't add date for expert field
+            string A1 = @"{{Article issues|wikfy=May 2008|COI=May 2008|expert}}";
+            Assert.AreEqual(A1, Parsers.Conversions(A1));
+
+            string A2 = @"{{Article issues|wikfy=May 2008|COI=May 2008|expert=Fred}}";
+            Assert.AreEqual(A2, Parsers.Conversions(A2));
+
+            // don't remove 'update'field
+            string A3 = @"{{Article issues|wikfy=May 2008|COI=May 2008|update=May 2008}}";
+            Assert.AreEqual(A3, Parsers.Conversions(A3));
+        }
+
+        [Test]
+        public void NullTemplateParameterRemoval()
+        {
+            Assert.AreEqual(@"{{Article issues}}", Parsers.Conversions(@"{{Article issues|}}"));
+            Assert.AreEqual(@"{{Article issues|POV=May 2008}}", Parsers.Conversions(@"{{Article issues||POV=May 2008}}"));
+            Assert.AreEqual(@"{{Article issues|POV=May 2008}}", Parsers.Conversions(@"{{Article issues|  |POV=May 2008}}"));
+
+
+            Assert.AreEqual(@"{{cite web|url=http://www.site.com|title=hello}}", Parsers.Conversions(@"{{cite web||url=http://www.site.com|title=hello}}"));
+            Assert.AreEqual(@"{{cite web|url=http://www.site.com|title=hello}}", Parsers.Conversions(@"{{cite web|url=http://www.site.com|title=hello|}}"));
+            Assert.AreEqual(@"{{cite web|url=http://www.site.com|title=hello}}", Parsers.Conversions(@"{{cite web|url=http://www.site.com|  |title=hello}}"));
+
+
+        }
     }
 }

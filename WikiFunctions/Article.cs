@@ -802,6 +802,10 @@ namespace WikiFunctions
             HideText(removeText);
 
             Variables.Profiler.Profile("HideText");
+            
+            // call this before FixHeaderErrors so that Parsers.Conversions cleans up from ArticleIssues
+            AWBChangeArticleText("Fixes for {{article issues}}", parsers.ArticleIssues(ArticleText), true);
+            Variables.Profiler.Profile("ArticleIssues");
 
             FixHeaderErrors(parsers, Variables.LangCode, skip.SkipNoHeaderError);
             Variables.Profiler.Profile("FixHeaderErrors");
@@ -816,7 +820,7 @@ namespace WikiFunctions
 
             AWBChangeArticleText("Fix whitespace in links", Parsers.FixLinkWhitespace(ArticleText, Name), true);
             Variables.Profiler.Profile("FixLinkWhitespace");
-            
+
             // does significant fixes
             AWBChangeArticleText("Fix syntax", Parsers.FixSyntax(ArticleText), true, true);
             Variables.Profiler.Profile("FixSyntax");

@@ -94,6 +94,19 @@ namespace WikiFunctions.Parse
             RegexConversion.Add(new Regex(@"\{\{(?:Template:)?(Prettytable|Prettytable100)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{subst:Prettytable}}");
             RegexConversion.Add(new Regex(@"\{\{(?:[Tt]emplate:)?(PAGENAMEE?\}\}|[Ll]ived\||[Bb]io-cats\|)", RegexOptions.Compiled), "{{subst:$1");
 
+            // remove any date field within  {{Article issues}}, this isn't a valid field, must be above two looped entries below
+            RegexConversion.Add(new Regex(@"({{\s*[Aa]rticle ?issues\s*(?:\|[^{}]*?)?)\|\s*date\s*=[^{}\|]{0,20}?(\||}})"), "$1$2");
+
+            // could be multiple to date per template so loop
+            for (int a = 0; a < 5; a++)
+            {
+                // add date to any undated tags within {{Article issues}}
+                RegexConversion.Add(new Regex(@"({{\s*[Aa]rticle ?issues\s*(?:\|[^{}]*|\|)\s*)(?![Ee]xpert)" + WikiRegexes.ArticleIssuesTemplatesString + @"\s*(\||}})"), "$1$2={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}$3");
+
+                // clean any 'date' word within {{Article issues}} (but not 'update' field), place after the date adding rule above
+                RegexConversion.Add(new Regex(@"({{\s*[Aa]rticle ?issues\s*\|[^{}]*?)\bdate"), "$1");
+            }
+            
             // articleissues with one issue -> single issue tag (e.g. {{articleissues|cleanup=January 2008}} to {{cleanup|date=January 2008}} etc.)
             RegexConversion.Add(new Regex(@"\{\{[Aa]rticle ?issues\s*\|\s*([^\|{}=]{3,}?)\s*(=\s*\w{3,10}\s+20\d\d\s*\}\})", RegexOptions.Compiled), "{{$1|date$2");
             
@@ -103,6 +116,14 @@ namespace WikiFunctions.Parse
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.7B.7Bcommons.7CCategory:XXX.7D.7D_.3E_.7B.7Bcommonscat.7CXXX.7D.7D
             RegexConversion.Add(new Regex(@"\{\{[Cc]ommons\|\s*[Cc]ategory:\s*([^{}]+?)\s*\}\}", RegexOptions.Compiled), @"{{commons cat|$1}}");
+
+            // tidy up || or |}} (maybe with whitespace between) within templates that don't use null parameters
+            RegexConversion.Add(new Regex(@"(\{\{\s*(?:[Cc]it|[Aa]rticle ?issues)[^{}]*)\|\s*(\}\}|\|)"), "$1$2");
+
+            // remove duplicate / populated and null fields in cite/article issues templates
+            RegexConversion.Add(new Regex(@"({{\s*(?:[Cc]it|[Aa]rticle ?issues)[^{}]*\|\s*)(\w+)\s*=\s*([^\|}{]+?)\s*\|((?:[^{}]*?\|)?\s*)\2(\s*=\s*)\3(\s*(\||\}\}))"), "$1$4$2$5$3$6"); // duplicate field remover for cite templates
+            RegexConversion.Add(new Regex(@"(\{\{\s*(?:[Cc]it|[Aa]rticle ?issues)[^{}]*\|\s*)(\w+)(\s*=\s*[^\|}{\s][^\|}{]+?\s*\|?(?:[^{}]*?)?)\|\s*\2\s*=\s*(\||\}\})"), "$1$2$3$4"); // 'field=populated | field=null' drop field=null
+            RegexConversion.Add(new Regex(@"(\{\{\s*(?:[Cc]it|[Aa]rticle ?issues)[^{}]*\|\s*)(\w+)\s*=\s*\|\s*((?:[^{}]+?\|)?\s*\2\s*=\s*[^\|}{\s])"), "$1$3"); // 'field=null | field=populated' drop field=null
         }
 
         private static readonly Dictionary<Regex, string> RegexUnicode = new Dictionary<Regex, string>();
@@ -227,6 +248,51 @@ namespace WikiFunctions.Parse
             NoChange = (testText == ArticleText);
 
             return ArticleText.Trim();
+        }
+        
+        private const int MIN_CLEANUP_TAGS_TO_COMBINE = 3; // article must have at least this many tags to combine to {{Article issues}}
+        
+        /// <summary>
+        /// Combines multiple cleanup tags into {{article issues}} template
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <returns>The modified article text.</returns>
+        // TODO
+        public string ArticleIssues(string ArticleText)
+        {
+            string NewTags = "";
+
+            // get the zeroth section (text upto first heading)
+            string ZerothSection = WikiRegexes.ZerothSection.Match(ArticleText).Value;
+
+            // get the rest of the article including first heading (may be null if article has no headings)
+            string RestOfArticle = ArticleText.Replace(ZerothSection, "");
+
+            // if currently no {{Article issues}} and less than the min number of cleanup templates, do nothing
+            if (!WikiRegexes.ArticleIssues.IsMatch(ZerothSection) && WikiRegexes.ArticleIssuesTemplates.Matches(ZerothSection).Count < MIN_CLEANUP_TAGS_TO_COMBINE)
+                return (ArticleText);
+
+            if (WikiRegexes.ArticleIssuesTemplates.Matches(ZerothSection).Count > 0)
+            {
+
+                foreach (Match m in WikiRegexes.ArticleIssuesTemplates.Matches(ZerothSection))
+                {
+                    NewTags += @"|" + m.Groups[1].Value + @" " + m.Groups[2].Value;
+                    NewTags = NewTags.Trim();
+
+                    // remove the single template
+                    ZerothSection = ZerothSection.Replace(m.Value, "");
+                }
+
+                // if article currently has {{Article issues}}, add tags to it
+                if (WikiRegexes.ArticleIssues.IsMatch(ZerothSection))
+                    ZerothSection = WikiRegexes.ArticleIssues.Replace(ZerothSection, "$1" + NewTags + @"}}");
+                else // add {{article issues}} to top of article, metaDataSorter will arrange correctly later
+                    ZerothSection = @"{{Article issues" + NewTags + @"}}\r\n" + ZerothSection;
+            }
+
+            // Parsers.Conversions will add any missing dates and correct ...|wikify date=May 2008|...
+            return (ZerothSection + RestOfArticle);
         }
 
         // Covered by: FormattingTests.TestFixHeadings(), incomplete
