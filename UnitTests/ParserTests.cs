@@ -2216,5 +2216,24 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"{{commons cat|XXX}}", Parsers.Conversions(@"{{Commons| category:XXX }}"));
             Assert.AreEqual(@"{{commons cat|Backgammon|Backgammon}}", Parsers.Conversions(@"{{commons|Category:Backgammon|Backgammon}}"));
         }
+        
+        [Test]
+        public void TestRemoveEmptyArticleIssues()
+        {
+          Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues}}"));
+          Assert.AreEqual(@"", Parsers.Conversions(@"{{Articleissues}}"));
+          Assert.AreEqual(@"", Parsers.Conversions(@"{{article issues}}"));
+          Assert.AreEqual(@"", Parsers.Conversions(@"{{articleissues}}"));
+          Assert.AreEqual(@"", Parsers.Conversions(@"{{articleissues }}"));
+          Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues|article=y}}"));
+          Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues|article = y}}"));
+          Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues|section = y}}"));
+          Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues|section= y}}"));
+          Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues | section= y}}"));
+          
+          // no match, 'section' and 'sections' are different parameters for the template
+          Assert.AreEqual(@"{{Article issues|cleanup=May 2008|POV=March 2008}}", Parsers.Conversions(@"{{Article issues|cleanup=May 2008|POV=March 2008}}"));
+          Assert.AreEqual(@"{{Article issues|sections=May 2008|POV=March 2008}}", Parsers.Conversions(@"{{Article issues|sections=May 2008|POV=March 2008}}"));
+    }
     }
 }
