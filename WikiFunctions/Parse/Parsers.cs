@@ -920,6 +920,12 @@ namespace WikiFunctions.Parse
         private static readonly Regex DoubleBracketAtStartOfExternalLink = new Regex(@"\[(\[http:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex DoubleBracketAtEndOfExternalLink = new Regex(@"(\[http:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])\](?!\])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex DoubleBracketAtEndOfExternalLinkWithinImage = new Regex(@"(\[http:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!)))\](?=\]{3})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        
+        private const string TemEnd = @"(\s*(?:\||\}\}))";
+        private const string CitURL = @"(\{\{\s*cit[^{}]*?\|\s*url\s*=\s*)";
+        private static readonly Regex BracketsAtBeginCiteTemplateURL = new Regex(CitURL + @"\[+\s*((?:(?:ht|f)tp://)?[^\[\]<>""\s]+?\s*)\]?" + TemEnd, RegexOptions.IgnoreCase);
+        private static readonly Regex BracketsAtEndCiteTemplateURL = new Regex(CitURL + @"\[?\s*((?:(?:ht|f)tp://)?[^\[\]<>""\s]+?\s*)\]+" + TemEnd, RegexOptions.IgnoreCase);
+        
         private static readonly Regex SyntaxRegex4 = new Regex(@"\[\[([^][]*?)\](?=[^\]]*?(?:$|\[|\n))", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegex5 = new Regex(@"(?<=(?:^|\]|\n)[^\[]*?)\[([^][]*?)\]\](?!\])", RegexOptions.Compiled);
 
@@ -984,6 +990,10 @@ namespace WikiFunctions.Parse
             ArticleText = DoubleBracketAtStartOfExternalLink.Replace(ArticleText, "$1");
             ArticleText = DoubleBracketAtEndOfExternalLink.Replace(ArticleText, "$1");
             ArticleText = DoubleBracketAtEndOfExternalLinkWithinImage.Replace(ArticleText, "$1");
+            
+            // (part) wikilinked/external linked URL in cite template, uses MediaWiki regex of [^\[\]<>""\s] for URL bit after http://
+            ArticleText = BracketsAtBeginCiteTemplateURL.Replace(ArticleText, "$1$2$3");
+            ArticleText = BracketsAtEndCiteTemplateURL.Replace(ArticleText, "$1$2$3");
 
             ArticleText = MultipleHttpInLink.Replace(ArticleText, "$1$2");
 
