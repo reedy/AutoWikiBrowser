@@ -567,6 +567,25 @@ namespace WikiFunctions.Parse
             ArticleText = Regex.Replace(ArticleText, CitDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]?([1-9])[/_\-\.]?([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-0$3-$4");
             ArticleText = Regex.Replace(ArticleText, CitDate + @")((?:\[\[)?200\d|19[7-9]\d)([0-1]\d)[/_\-\.]([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-$3-$4");
             ArticleText = Regex.Replace(ArticleText, CitDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]([0-1]\d)0?([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-$3-$4");
+            
+            // date = YYYY-Month-DD fix, on en-wiki only
+            if (Variables.LangCode == LangCodeEnum.en)
+            {
+              string CitYMonthD = SICitStart + @"(?:archive|air)?date2?\s*=\s*\d{4})[-/\s]";
+              string DTemEnd = @"?[-/\s]([0-3]?\d\s*(?:\||}}))";
+              ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Apr(?:il|\.)" + DTemEnd, "$1-04-$2");
+              ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Aug(?:ust|\.)" + DTemEnd, "$1-08-$2");
+              ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Dec(?:ember|\.)" + DTemEnd, "$1-12-$2");
+              ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Feb(?:r?uary|\.)" + DTemEnd, "$1-02-$2");
+              ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Jan(?:uary|\.)" + DTemEnd, "$1-01-$2");
+              ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Jul(?:y|\.)" + DTemEnd, "$1-07-$2");
+              ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Jun(?:e|\.)" + DTemEnd, "$1-06-$2");
+              ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Mar(?:ch|\.)" + DTemEnd, "$1-03-$2");
+              ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Nov(?:ember|\.)" + DTemEnd, "$1-11-$2");
+              ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Oct(?:ober|\.)" + DTemEnd, "$1-10-$2");
+              ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Sep(?:tember|\.)" + DTemEnd, "$1-09-$2");
+              ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"May\." + DTemEnd, "$1-05-$2");
+            }
           }
             
           // all citation dates
