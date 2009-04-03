@@ -964,6 +964,8 @@ namespace WikiFunctions.Parse
         
         private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{(?:[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)|[Cc]itation)\b\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(\s*=\s*[^{}\|]{3,})");
         
+        private static readonly Regex CiteFormatFieldTypo = new Regex(@"(\{\{\s*[Cc]it[^{}]*?\|\s*)(?:fprmat)(\s*=\s*)");
+        
         // Covered by: LinkTests.TestFixSyntax(), incomplete
         /// <summary>
         /// Fixes and improves syntax (such as html markup)
@@ -1042,6 +1044,8 @@ namespace WikiFunctions.Parse
               if (!UppercaseCiteFields.IsMatch(ArticleText))
                 break;
             }
+            
+            ArticleText = CiteFormatFieldTypo.Replace(ArticleText, "$1format$2");
 
             return ArticleText.Trim();
         }

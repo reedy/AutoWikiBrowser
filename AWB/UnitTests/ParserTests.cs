@@ -416,6 +416,23 @@ End of.";
             Assert.AreEqual("'''John Doe''' (died [[21 February]] [[2008]])", Parsers.FixLivingThingsRelatedDates("'''John Doe''' (d. [[21 February]] [[2008]])"));
             Assert.AreEqual("'''Willa Klug Baum''' ([[October 4]], [[1926]] – May 18, 2006)", Parsers.FixLivingThingsRelatedDates("'''Willa Klug Baum''' (born [[October 4]], [[1926]], died May 18, 2006)"));
         }
+        
+        [Test]
+        public void TestCiteFormatFieldTypo()
+        {
+          Assert.AreEqual(@"now {{cite web| url=a.com|title=hello|format=PDF}} was", Parsers.FixSyntax(@"now {{cite web| url=a.com|title=hello|fprmat=PDF}} was"));
+          Assert.AreEqual(@"now {{cite web| url=a.com|title=hello| format=PDF}} was", Parsers.FixSyntax(@"now {{cite web| url=a.com|title=hello| fprmat=PDF}} was"));
+          Assert.AreEqual(@"now {{cite web| url=a.com|title=hello|format = PDF}} was", Parsers.FixSyntax(@"now {{cite web| url=a.com|title=hello|Fprmat = PDF}} was"));
+          Assert.AreEqual(@"now {{Cite web| url=a.com|title=hello|format=DOC}} was", Parsers.FixSyntax(@"now {{Cite web| url=a.com|title=hello|fprmat=DOC}} was"));
+          Assert.AreEqual(@"now {{Cite web| url=a.com|title=hello|
+          format=DOC|publisher=BBC}} was", Parsers.FixSyntax(@"now {{Cite web| url=a.com|title=hello|
+          fprmat=DOC|publisher=BBC}} was"));
+
+          // no matches
+          Assert.AreEqual(@"now {{cite web| url=http://site.net|title=okay}} fprmat of PDF", Parsers.FixSyntax(@"now {{cite web| url=http://site.net|title=okay}} fprmat of PDF"));
+          Assert.AreEqual(@"now {{cite web| url=http://site.net/1.pdf|format=PDF}} was", Parsers.FixSyntax(@"now {{cite web| url=http://site.net/1.pdf|format=PDF}} was"));
+          Assert.AreEqual(@"now {{cite web|\r\nurl=http://site.net/1.pdf|format=PDF|title=okay}} was", Parsers.FixSyntax(@"now {{cite web|\r\nurl=http://site.net/1.pdf|format=PDF|title=okay}} was"));
+        }
 
         [Test, Category("Incomplete")]
         public void TestFixSyntax()
