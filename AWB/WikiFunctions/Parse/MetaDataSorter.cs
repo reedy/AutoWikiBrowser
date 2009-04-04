@@ -280,7 +280,11 @@ namespace WikiFunctions.Parse
 
             SortInterwikis = true;
 
-            LoadInterWiki();
+            if (!LoadInterWikiFromCache())
+            {
+                LoadInterWikiFromNetwork();
+                SaveInterWikiToCache();
+            }
 
             if (InterwikiLocalAlpha == null)
                 throw new NullReferenceException("InterwikiLocalAlpha is null");
@@ -336,10 +340,47 @@ namespace WikiFunctions.Parse
             }
         }
 
+        private bool loaded;
+
+        private string[] Load(string what)
+        {
+            var result = (string[])ObjectCache.Global.Get<string[]>(Key(what));
+            if (result == null)
+            {
+                loaded = false;
+                return new string[0];
+            }
+
+            return result;
+        }
+
+        private void SaveInterWikiToCache()
+        {
+            ObjectCache.Global.Set(Key("InterwikiLocalAlpha"), InterwikiLocalAlpha);
+            ObjectCache.Global.Set(Key("InterwikiLocalFirst"), InterwikiLocalFirst);
+            ObjectCache.Global.Set(Key("InterwikiAlpha"), InterwikiAlpha);
+            ObjectCache.Global.Set(Key("InterwikiAlphaEnFirst"), InterwikiAlphaEnFirst);
+        }
+
+        private static string Key(string what)
+        {
+            return "MetaDataSorter::" + what;
+        }
+
+        private bool LoadInterWikiFromCache()
+        {
+            InterwikiLocalAlpha = Load("InterwikiLocalAlpha");
+            InterwikiLocalFirst = Load("InterwikiLocalFirst");
+            InterwikiAlpha = Load("InterwikiAlpha");
+            InterwikiAlphaEnFirst = Load("InterwikiAlphaEnFirst");
+            
+            return loaded;
+        }
+
         /// <summary>
         /// 
         /// </summary>
-        private void LoadInterWiki()
+        private void LoadInterWikiFromNetwork()
         {
             string text = !Globals.UnitTestMode
                        ? Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/IW&action=raw")

@@ -46,7 +46,6 @@ namespace WikiFunctions
             GC.SuppressFinalize(this);
         }
 
-
         public static ObjectCache Global
         { get; private set; }
 
@@ -86,6 +85,10 @@ namespace WikiFunctions
             set
             {
                 Set(key, value);
+            }
+            get
+            {
+                return Get<object>(key);
             }
         }
 
