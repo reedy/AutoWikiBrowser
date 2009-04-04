@@ -15,9 +15,10 @@ namespace WikiFunctions
     {
         public ObjectCache()
         {
-            SupportedTypes[typeof(string)] = DefaultLifespan;
-            SupportedTypes[typeof(List<string>)] = DefaultLifespan;
-            SupportedTypes[typeof(string[])] = DefaultLifespan;
+            AddType(typeof(string), DefaultLifespan);
+            AddType(typeof(List<string>), DefaultLifespan);
+            //AddType(typeof(string[]), DefaultLifespan);
+            AddType(typeof(SiteInfo), DefaultLifespan);
         }
 
         public ObjectCache(string fileName)
@@ -41,16 +42,21 @@ namespace WikiFunctions
         public void Dispose()
         {
             if (FileName == null) return;
-            Save();
+
+            try
+            {
+                Save();
+            }
+            catch (Exception ex)
+            {
+                ReportException(ex);
+            }
             FileName = null;
             GC.SuppressFinalize(this);
         }
 
         public static ObjectCache Global
         { get; private set; }
-
-        //public static ObjectCache UserCache
-        //{ get; private set; }
 
         public string FileName
         { get; private set; }

@@ -164,7 +164,7 @@ namespace WikiFunctions.Parse
         {
             get
             {
-                if (metaDataSorter == null) metaDataSorter = new MetaDataSorter(this);
+                if (metaDataSorter == null) metaDataSorter = new MetaDataSorter();
                 return metaDataSorter;
             }
         }

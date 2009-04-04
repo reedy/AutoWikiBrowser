@@ -264,8 +264,6 @@ namespace WikiFunctions.Parse
     
     public class MetaDataSorter
     {
-        //readonly Parsers parser;
-
         public List<string> PossibleInterwikis;
 
         public bool SortInterwikis
@@ -274,10 +272,8 @@ namespace WikiFunctions.Parse
         public bool AddCatKey
         { get; set; }
 
-        public MetaDataSorter(Parsers p)
+        public MetaDataSorter()
         {
-            //parser = p;
-
             SortInterwikis = true;
 
             if (!LoadInterWikiFromCache())
@@ -297,10 +293,10 @@ namespace WikiFunctions.Parse
         readonly Regex InterLangRegex = new Regex("<!-- ?(other languages?|language links?|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wikis?|The below are interlanguage links\\.?) ?-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         readonly Regex CatCommentRegex = new Regex("<!-- ?cat(egories)? ?-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private string[] InterwikiLocalAlpha;
-        private string[] InterwikiLocalFirst;
-        private string[] InterwikiAlpha;
-        private string[] InterwikiAlphaEnFirst; 
+        private List<string> InterwikiLocalAlpha;
+        private List<string> InterwikiLocalFirst;
+        private List<string> InterwikiAlpha;
+        private List<string> InterwikiAlphaEnFirst; 
         //List<Regex> InterWikisList = new List<Regex>();
         readonly Regex IWSplit = new Regex(",", RegexOptions.Compiled);
 
@@ -312,7 +308,7 @@ namespace WikiFunctions.Parse
             {
                 order = value;
 
-                string[] seq;
+                List<string> seq;
                 switch (order)
                 {
                     case InterWikiOrderEnum.Alphabetical:
@@ -340,15 +336,15 @@ namespace WikiFunctions.Parse
             }
         }
 
-        private bool loaded;
+        private bool loaded = true;
 
-        private string[] Load(string what)
+        private List<string> Load(string what)
         {
-            var result = (string[])ObjectCache.Global.Get<string[]>(Key(what));
+            var result = (List<string>)ObjectCache.Global.Get<List<string>>(Key(what));
             if (result == null)
             {
                 loaded = false;
-                return new string[0];
+                return new List<string>();
             }
 
             return result;
@@ -396,46 +392,28 @@ en, sq, ru
             string interwikiLocalFirstRaw =
                 remExtra(Tools.StringBetween(text, "<!--InterwikiLocalFirstBegins-->", "<!--InterwikiLocalFirstEnds-->"));
 
-            int no = 0;
-            int size = IWSplit.Matches(interwikiLocalFirstRaw).Count + 1;
-
-            InterwikiLocalAlpha = new string[IWSplit.Matches(interwikiLocalAlphaRaw).Count + 1];
+            InterwikiLocalAlpha = new List<string>();
 
             foreach (string s in interwikiLocalAlphaRaw.Split(new [] {","}, StringSplitOptions.RemoveEmptyEntries)
                 )
             {
-                InterwikiLocalAlpha[no] = s.Trim().ToLower();
-                no++;
+                InterwikiLocalAlpha.Add(s.Trim().ToLower());
             }
 
-            InterwikiLocalFirst = new string[size];
-            no = 0;
+            InterwikiLocalFirst = new List<string>();
 
             foreach (string s in interwikiLocalFirstRaw.Split(new [] {","}, StringSplitOptions.RemoveEmptyEntries)
                 )
             {
-                InterwikiLocalFirst[no] = s.Trim().ToLower();
-                no++;
+                InterwikiLocalFirst.Add(s.Trim().ToLower());
             }
 
-            InterwikiAlpha = (string[]) InterwikiLocalFirst.Clone();
-            Array.Sort(InterwikiAlpha, StringComparer.Create(new System.Globalization.CultureInfo("en-US", true), true));
+            InterwikiAlpha = new List<string>(InterwikiLocalFirst);
+            InterwikiAlpha.Sort(StringComparer.Create(new System.Globalization.CultureInfo("en-US", true), true));
 
-            string[] temp = (string[]) InterwikiAlpha.Clone();
-            temp[Array.IndexOf(temp, "en")] = "";
-
-            InterwikiAlphaEnFirst = new string[size];
-            InterwikiAlphaEnFirst[0] = "en";
-            no = 1;
-
-            foreach (string s in temp)
-            {
-                if (s.Trim().Length > 0)
-                {
-                    InterwikiAlphaEnFirst[no] = s;
-                    no++;
-                }
-            }
+            InterwikiAlphaEnFirst = new List<string>(InterwikiAlpha);
+            InterwikiAlphaEnFirst.Remove("en");
+            InterwikiAlphaEnFirst.Insert(0, "en");
         }
 
         /// <summary>
