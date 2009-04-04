@@ -18,7 +18,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
     End Enum
     Friend Enum Classification As Integer
         Unassessed = 0
-        Dab
         Stub
         Start
         C
@@ -27,6 +26,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         A
         FA
         NA
+        Dab
         List
         FL
         Code = 100
