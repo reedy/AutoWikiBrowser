@@ -1094,6 +1094,23 @@ Some news here.", "test"));
             // all hyphens, no change
             Assert.AreEqual(@"The Alpher-Bethe-Gamow paper is great.", parser.Mdashes(@"The Alpher-Bethe-Gamow paper is great.", "Alpher-Bethe-Gamow paper"));
         }
+
+        [Test]
+        public void TestBulletListWhitespace()
+        {
+            Assert.AreEqual(@"* item
+* item2
+* item3", Parsers.RemoveAllWhiteSpace(@"*    item
+*            item2
+*item3"));
+
+            Assert.AreEqual(@"# item
+# item2
+# item3", Parsers.RemoveAllWhiteSpace(@"#    item
+#            item2
+#item3"));
+
+        }
     }
 
     [TestFixture]
