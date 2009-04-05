@@ -2155,7 +2155,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             string testText = ArticleText;
             NoChange = true;
-            bool DefaultsortAdded = false;
 
             // count categories
             string sort = null;
@@ -2180,11 +2179,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             // we don't need to process that {{Lifetime}} crap
             MatchCollection ds = WikiRegexes.Defaultsort.Matches(ArticleText);
-            if (ds.Count > 1 || (ds.Count == 1 && !ds[0].Value.ToUpper().Contains("DEFAULTSORT"))) 
-                return DefaultsortTitlesWithDiacritics(ArticleText, ArticleTitle, matches);
-
-            if (WikiRegexes.Lifetime.IsMatch(ArticleText))
-                return DefaultsortTitlesWithDiacritics(ArticleText, ArticleTitle, matches);
+            if (WikiRegexes.Lifetime.IsMatch(ArticleText) || ds.Count > 1 || (ds.Count == 1 && !ds[0].Value.ToUpper().Contains("DEFAULTSORT")))
+            {
+                ArticleText = DefaultsortTitlesWithDiacritics(ArticleText, ArticleTitle, matches);
+                NoChange = (testText == ArticleText);
+                return ArticleText;
+            }
 
             ArticleText = TalkPages.TalkPageHeaders.FormatDefaultSort(ArticleText);
 
@@ -2266,7 +2266,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The article text possibly using defaultsort.</returns>
         private static string DefaultsortTitlesWithDiacritics(string ArticleText, string ArticleTitle, int Matches)
         {
-            if (Tools.FixupDefaultSort(ArticleTitle) != ArticleTitle && Matches > 0 && !WikiRegexes.Defaultsort.IsMatch(ArticleText))
+            // need some categories and either no defaultsort, or the only 'defaultsort' is a {{lifetime}}
+            if (Tools.FixupDefaultSort(ArticleTitle) != ArticleTitle && Matches > 0 &&
+                (!WikiRegexes.Defaultsort.IsMatch(ArticleText) || WikiRegexes.Defaultsort.Matches(ArticleText).Count == 1 && WikiRegexes.Lifetime.IsMatch(ArticleText)))
             {
                 ArticleText = ArticleText + "\r\n{{DEFAULTSORT:" + Tools.FixupDefaultSort(ArticleTitle) + "}}";
 

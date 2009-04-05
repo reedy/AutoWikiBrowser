@@ -1736,6 +1736,15 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
 [[Category:São Miguel Island]]", @"Água Retorta", out noChange));
             Assert.IsFalse(noChange);
 
+            // lifetime is allowed here
+            Assert.AreEqual(@"[[Category:Parishes of the Azores]]
+[[Category:São Miguel Island]]
+{{Lifetime|1833|1907|Bisson, Elie-Hercule}}
+{{DEFAULTSORT:Agua Retorta}}", Parsers.ChangeToDefaultSort(@"[[Category:Parishes of the Azores|Agua Retorta]]
+[[Category:São Miguel Island]]
+{{Lifetime|1833|1907|Bisson, Elie-Hercule}}", @"Água Retorta", out noChange));
+            Assert.IsFalse(noChange);
+
         }
 
         [Test, Ignore("Unused"), Category("Incomplete")]
