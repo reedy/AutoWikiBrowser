@@ -862,7 +862,7 @@ namespace WikiFunctions
                 Variables.Profiler.Profile("AddMissingReflist");
             }
 
-            AWBChangeArticleText("Mdashes", parsers.Mdashes(ArticleText), true);
+            AWBChangeArticleText("Mdashes", parsers.Mdashes(ArticleText, Name), true);
             Variables.Profiler.Profile("Mdashes");
             
             AWBChangeArticleText("Correct Cite Template Dates", Parsers.CiteTemplateDates(ArticleText), true);

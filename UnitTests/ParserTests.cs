@@ -1041,46 +1041,58 @@ Some news here.", "test"));
         [Test]
         public void TestMdashes()
         {
-            Assert.AreEqual("pp. 55–57", parser.Mdashes("pp. 55-57"));
-            Assert.AreEqual("pp. 55 – 57", parser.Mdashes("pp. 55 - 57"));
-            Assert.AreEqual("pp 55–57", parser.Mdashes("pp 55-57"));
-            Assert.AreEqual("pp 1155–1157", parser.Mdashes("pp 1155-1157"));
-            Assert.AreEqual("pages= 55–57", parser.Mdashes("pages= 55-57"));
-            Assert.AreEqual("pages = 55–57", parser.Mdashes("pages = 55-57"));
-            Assert.AreEqual("pages=55–57", parser.Mdashes("pages=55-57"));
-            Assert.AreEqual("pages=55–57", parser.Mdashes("pages=55—57"));
-            Assert.AreEqual("pages=55–57", parser.Mdashes("pages=55&#8212;57"));
-            Assert.AreEqual("pages=55–57", parser.Mdashes("pages=55&mdash;57"));
+            Assert.AreEqual("pp. 55–57", parser.Mdashes("pp. 55-57", "test"));
+            Assert.AreEqual("pp. 55 – 57", parser.Mdashes("pp. 55 - 57", "test"));
+            Assert.AreEqual("pp 55–57", parser.Mdashes("pp 55-57", "test"));
+            Assert.AreEqual("pp 1155–1157", parser.Mdashes("pp 1155-1157", "test"));
+            Assert.AreEqual("pages= 55–57", parser.Mdashes("pages= 55-57", "test"));
+            Assert.AreEqual("pages = 55–57", parser.Mdashes("pages = 55-57", "test"));
+            Assert.AreEqual("pages=55–57", parser.Mdashes("pages=55-57", "test"));
+            Assert.AreEqual("pages=55–57", parser.Mdashes("pages=55—57", "test"));
+            Assert.AreEqual("pages=55–57", parser.Mdashes("pages=55&#8212;57", "test"));
+            Assert.AreEqual("pages=55–57", parser.Mdashes("pages=55&mdash;57", "test"));
 
-            Assert.AreEqual("55–57 miles", parser.Mdashes("55-57 miles"));
-            Assert.AreEqual("55–57 kg", parser.Mdashes("55-57 kg"));
-            Assert.AreEqual("55 – 57 kg", parser.Mdashes("55 - 57 kg"));
-            Assert.AreEqual("55–57&nbsp;kg", parser.Mdashes("55-57&nbsp;kg"));
-            Assert.AreEqual("55–57 Hz", parser.Mdashes("55-57 Hz"));
-            Assert.AreEqual("55–57 GHz", parser.Mdashes("55-57 GHz"));
+            Assert.AreEqual("55–57 miles", parser.Mdashes("55-57 miles", "test"));
+            Assert.AreEqual("55–57 kg", parser.Mdashes("55-57 kg", "test"));
+            Assert.AreEqual("55 – 57 kg", parser.Mdashes("55 - 57 kg", "test"));
+            Assert.AreEqual("55–57&nbsp;kg", parser.Mdashes("55-57&nbsp;kg", "test"));
+            Assert.AreEqual("55–57 Hz", parser.Mdashes("55-57 Hz", "test"));
+            Assert.AreEqual("55–57 GHz", parser.Mdashes("55-57 GHz", "test"));
 
-            Assert.AreEqual("$55–57", parser.Mdashes("$55-57"));
-            Assert.AreEqual("$55 – 57", parser.Mdashes("$55 - 57"));
-            Assert.AreEqual("$55–57", parser.Mdashes("$55-57"));
-            Assert.AreEqual("$1155–1157", parser.Mdashes("$1155-1157"));
-            Assert.AreEqual("$55–57", parser.Mdashes("$55&mdash;57"));
-            Assert.AreEqual("$55–57", parser.Mdashes("$55—57"));
+            Assert.AreEqual("$55–57", parser.Mdashes("$55-57", "test"));
+            Assert.AreEqual("$55 – 57", parser.Mdashes("$55 - 57", "test"));
+            Assert.AreEqual("$55–57", parser.Mdashes("$55-57", "test"));
+            Assert.AreEqual("$1155–1157", parser.Mdashes("$1155-1157", "test"));
+            Assert.AreEqual("$55–57", parser.Mdashes("$55&mdash;57", "test"));
+            Assert.AreEqual("$55–57", parser.Mdashes("$55—57", "test"));
 
-            Assert.AreEqual("5:17 AM – 5:19 AM", parser.Mdashes("5:17 AM - 5:19 AM"));
-            Assert.AreEqual("05:17 AM – 05:19 AM", parser.Mdashes("05:17 AM - 05:19 AM"));
-            Assert.AreEqual("11:17 PM – 11:19 PM", parser.Mdashes("11:17 PM - 11:19 PM"));
-            Assert.AreEqual("11:17 pm – 11:19 pm", parser.Mdashes("11:17 pm - 11:19 pm"));
-            Assert.AreEqual("11:17 pm – 11:19 pm", parser.Mdashes("11:17 pm &mdash; 11:19 pm"));
-            Assert.AreEqual("11:17 pm – 11:19 pm", parser.Mdashes("11:17 pm — 11:19 pm"));
+            Assert.AreEqual("5:17 AM – 5:19 AM", parser.Mdashes("5:17 AM - 5:19 AM", "test"));
+            Assert.AreEqual("05:17 AM – 05:19 AM", parser.Mdashes("05:17 AM - 05:19 AM", "test"));
+            Assert.AreEqual("11:17 PM – 11:19 PM", parser.Mdashes("11:17 PM - 11:19 PM", "test"));
+            Assert.AreEqual("11:17 pm – 11:19 pm", parser.Mdashes("11:17 pm - 11:19 pm", "test"));
+            Assert.AreEqual("11:17 pm – 11:19 pm", parser.Mdashes("11:17 pm &mdash; 11:19 pm", "test"));
+            Assert.AreEqual("11:17 pm – 11:19 pm", parser.Mdashes("11:17 pm — 11:19 pm", "test"));
 
-            Assert.AreEqual("Aged 5–9", parser.Mdashes("Aged 5–9"));
-            Assert.AreEqual("Aged 5–11", parser.Mdashes("Aged 5–11"));
-            Assert.AreEqual("Aged 5 – 9", parser.Mdashes("Aged 5 – 9"));
-            Assert.AreEqual("Aged 15–19", parser.Mdashes("Aged 15–19"));
-            Assert.AreEqual("Ages 15–19", parser.Mdashes("Ages 15–19"));
-            Assert.AreEqual("Aged 15–19", parser.Mdashes("Aged 15–19"));
+            Assert.AreEqual("Aged 5–9", parser.Mdashes("Aged 5–9", "test"));
+            Assert.AreEqual("Aged 5–11", parser.Mdashes("Aged 5–11", "test"));
+            Assert.AreEqual("Aged 5 – 9", parser.Mdashes("Aged 5 – 9", "test"));
+            Assert.AreEqual("Aged 15–19", parser.Mdashes("Aged 15–19", "test"));
+            Assert.AreEqual("Ages 15–19", parser.Mdashes("Ages 15–19", "test"));
+            Assert.AreEqual("Aged 15–19", parser.Mdashes("Aged 15–19", "test"));
 
-            Assert.AreEqual("(ages 15–18)", parser.Mdashes("(ages 15-18)"));
+            Assert.AreEqual("(ages 15–18)", parser.Mdashes("(ages 15-18)", "test"));
+        }
+
+        [Test]
+        public void TestTitleDashes()
+        {
+            // en-dash
+            Assert.AreEqual(@"The Alpher–Bethe–Gamow paper is great.", parser.Mdashes(@"The Alpher-Bethe-Gamow paper is great.", @"Alpher–Bethe–Gamow paper"));
+            // em-dash
+            Assert.AreEqual(@"The Alpher—Bethe—Gamow paper is great. The Alpher—Bethe—Gamow paper is old.", parser.Mdashes(@"The Alpher-Bethe-Gamow paper is great. The Alpher-Bethe-Gamow paper is old.", @"Alpher—Bethe—Gamow paper"));
+
+            // all hyphens, no change
+            Assert.AreEqual(@"The Alpher-Bethe-Gamow paper is great.", parser.Mdashes(@"The Alpher-Bethe-Gamow paper is great.", "Alpher-Bethe-Gamow paper"));
         }
     }
 
