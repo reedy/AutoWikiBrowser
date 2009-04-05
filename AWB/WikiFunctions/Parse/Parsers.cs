@@ -1582,7 +1582,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         /// <summary>
-        /// regex that matches every template, for GetTemplate
+        /// regex that Matches every template, for GetTemplate
         /// </summary>
         public const string EveryTemplate = @"[^\|\{\}]+";
 
@@ -2140,6 +2140,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
+        private static readonly string catregex = @"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category] +
+                  @"\s*(.*?)\s*(?:|\|([^\|\]]*))\s*\]\]";
+
         // Covered by: UtilityFunctionTests.ChangeToDefaultSort()
         /// <summary>
         /// Changes an article to use defaultsort when all categories use the same sort field / cleans diacritics from defaultsort/categories
@@ -2152,13 +2155,36 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             string testText = ArticleText;
             NoChange = true;
+            bool DefaultsortAdded = false;
+
+            // count categories
+            string sort = null;
+            bool allsame = true;
+            int matches = 0;
+
+            foreach (Match m in Regex.Matches(ArticleText, catregex))
+            {
+                string explicitKey = m.Groups[2].Value;
+                if (explicitKey.Length == 0) explicitKey = ArticleTitle;
+
+                if (string.IsNullOrEmpty(sort))
+                    sort = explicitKey;
+
+                if (sort != explicitKey && explicitKey != "")
+                {
+                    allsame = false;
+                    break;
+                }
+                matches++;
+            }
 
             // we don't need to process that {{Lifetime}} crap
             MatchCollection ds = WikiRegexes.Defaultsort.Matches(ArticleText);
-            if (ds.Count > 1 || (ds.Count == 1 && !ds[0].Value.ToUpper().Contains("DEFAULTSORT"))) return ArticleText;
+            if (ds.Count > 1 || (ds.Count == 1 && !ds[0].Value.ToUpper().Contains("DEFAULTSORT"))) 
+                return DefaultsortTitlesWithDiacritics(ArticleText, ArticleTitle, matches);
 
             if (WikiRegexes.Lifetime.IsMatch(ArticleText))
-                return ArticleText;
+                return DefaultsortTitlesWithDiacritics(ArticleText, ArticleTitle, matches);
 
             ArticleText = TalkPages.TalkPageHeaders.FormatDefaultSort(ArticleText);
 
@@ -2167,34 +2193,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (ds.Count > 1)
                 return testText;
 
-            string catregex = @"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category] +
-                              @"\s*(.*?)\s*(?:|\|([^\|\]]*))\s*\]\]";
-
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_9#AWB_didn.27t_fix_special_characters_in_a_pipe
             ArticleText = FixCategories(ArticleText);
 
             if (ds.Count == 0)
             {
-                string sort = null;
-                bool allsame = true;
-                int matches = 0;
-
-                foreach (Match m in Regex.Matches(ArticleText, catregex))
-                {
-                    string explicitKey = m.Groups[2].Value;
-                    if (explicitKey.Length == 0) explicitKey = ArticleTitle;
-
-                    if (string.IsNullOrEmpty(sort))
-                        sort = explicitKey;
-
-                    if (sort != explicitKey && explicitKey != "")
-                    {
-                        allsame = false;
-                        break;
-                    }
-                    matches++;
-                }
-
                 if (allsame && matches > 1 && !string.IsNullOrEmpty(sort))
                 {
                     if (sort.Length > 4 && // So that this doesn't get confused by sort keys of "*", " ", etc.
@@ -2204,37 +2207,72 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                         ArticleText = Regex.Replace(ArticleText, catregex, "[["
                             + Variables.Namespaces[Namespace.Category] + "$1]]");
 
-                        if (sort != ArticleTitle)
+                        if (Tools.FixupDefaultSort(sort) != ArticleTitle)
                             ArticleText = ArticleText + "\r\n{{DEFAULTSORT:" + Tools.FixupDefaultSort(sort) + "}}";
                     }
                 }
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Add_defaultsort_to_pages_with_special_letters_and_no_defaultsort
+                ArticleText = DefaultsortTitlesWithDiacritics(ArticleText, ArticleTitle, matches);
             }
             else // already has DEFAULTSORT
             {
                 string s = Tools.FixupDefaultSort(ds[0].Groups[1].Value).Trim();
                 if (s != ds[0].Groups[1].Value && s.Length > 0)
                     ArticleText = ArticleText.Replace(ds[0].Value, "{{DEFAULTSORT:" + s + "}}");
+
             }
 
             if (ds.Count == 1)
             {
+                string DefaultsortKey = ds[0].Groups["key"].Value;
                 //Removes any explicit keys that are case insensitively the same as the default sort (To help tidy up on pages that already have defaultsort)
-                foreach (Match m in Regex.Matches(ArticleText, catregex))
-                {
-                    string explicitKey = m.Groups[2].Value;
-                    if (explicitKey.Length == 0)
-                        continue;
-
-                    if (string.Compare(explicitKey, ds[0].Groups["key"].Value, StringComparison.OrdinalIgnoreCase) == 0)
-                    {
-                        ArticleText = ArticleText.Replace(m.Value,
-                            "[[" + Variables.Namespaces[Namespace.Category] + m.Groups[1].Value + "]]");
-                    }
-                }
+                ArticleText = ExplicitCategorySortkeys(ArticleText, DefaultsortKey);
             }
 
             NoChange = (testText == ArticleText);
             return ArticleText;
+        }
+
+        /// <summary>
+        /// Removes any explicit keys that are case insensitively the same as the default sort (To help tidy up on pages that already have defaultsort)
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <param name="catregex"></param>
+        /// <returns>The article text.</returns>
+        private static string ExplicitCategorySortkeys(string ArticleText, string DefaultsortKey)
+        {
+            foreach (Match m in Regex.Matches(ArticleText, catregex))
+            {
+                string explicitKey = m.Groups[2].Value;
+                if (explicitKey.Length == 0)
+                    continue;
+
+                if (string.Compare(explicitKey, DefaultsortKey, StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    ArticleText = ArticleText.Replace(m.Value,
+                        "[[" + Variables.Namespaces[Namespace.Category] + m.Groups[1].Value + "]]");
+                }
+            }
+            return (ArticleText);
+        }
+
+        /// <summary>
+        /// if title has diacritics, no defaultsort added yet, adds a defaultsort with cleaned up title as sort key
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <param name="ArticleTitle">Title of the article</param>
+        /// <param name="Matches">If there is no change (True if no Change)</param>
+        /// <param name="DefaultsortAdded">If a defaultsort is added</param>
+        /// <returns>The article text possibly using defaultsort.</returns>
+        private static string DefaultsortTitlesWithDiacritics(string ArticleText, string ArticleTitle, int Matches)
+        {
+            if (Tools.FixupDefaultSort(ArticleTitle) != ArticleTitle && Matches > 0 && !WikiRegexes.Defaultsort.IsMatch(ArticleText))
+            {
+                ArticleText = ArticleText + "\r\n{{DEFAULTSORT:" + Tools.FixupDefaultSort(ArticleTitle) + "}}";
+
+                return (ExplicitCategorySortkeys(ArticleText, Tools.FixupDefaultSort(ArticleTitle)));
+            }
+            return (ArticleText);
         }
 
         /// <summary>
