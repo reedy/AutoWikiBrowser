@@ -571,7 +571,12 @@ en, sq, ru
                 Lifetime = WikiRegexes.Lifetime.Match(ArticleText).Value;
 
                 if (!string.IsNullOrEmpty(Lifetime))
+                {
                     ArticleText = ArticleText.Replace(Lifetime, "");
+
+                    // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Blank_lines_after_Lifetime
+                    Lifetime += "\r\n";
+                }
             }
 
             return defaultSort + ListToString(categoryList) + Lifetime;
