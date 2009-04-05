@@ -671,7 +671,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public string Mdashes(string ArticleText)
+        public string Mdashes(string ArticleText, string ArticleTitle)
         {
             ArticleText = HideMoreText(ArticleText);
 
@@ -688,6 +688,11 @@ namespace WikiFunctions.Parse
             ArticleText = Regex.Replace(ArticleText, @"([01]?\d:[0-5]\d\s*([AP]M)\s*)(?:-|—|&mdash;|&#8212;)(\s*[01]?\d:[0-5]\d\s*([AP]M))", @"$1–$3", RegexOptions.IgnoreCase);
 
             ArticleText = Regex.Replace(ArticleText, @"([Aa]ge[sd])\s([1-9]?\d\s*)(?:-|—|&mdash;|&#8212;)(\s*[1-9]?\d)", @"$1 $2–$3");
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Match_en_dashes.2Femdashs_from_titles_with_those_in_the_text
+            // if title has en or em dashes, apply them to strings matching article title but with hyphens
+            if (ArticleTitle.Contains(@"–") || ArticleTitle.Contains(@"—"))
+                ArticleText = Regex.Replace(ArticleText, Regex.Escape(ArticleTitle.Replace(@"–", @"-").Replace(@"—", @"-")), ArticleTitle);
 
             return AddBackMoreText(ArticleText);
         }
