@@ -175,7 +175,7 @@ namespace UnitTests
             Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now <ref>[http://www.site.com a site]</red> was"));
             Assert.AreEqual(@"now <ref> [http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now <ref> [http://www.site.com a site]</red> was"));
 
-            // no matches
+            // no Matches
             Assert.AreEqual(@"now <ref name=""foo bar""> and", Parsers.FixReferenceTags(@"now <ref name=""foo bar""> and"));
             Assert.AreEqual(@"now <ref name=""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref name=""foo bar"" /> and"));
             Assert.AreEqual(@"now <ref name = ""foo bar"" > and", Parsers.FixReferenceTags(@"now <ref name = ""foo bar"" > and"));
@@ -266,7 +266,7 @@ End of.";
         public void DuplicateNamedReferencesTests()
         {
             // duplicate references fix (both named)
-            // matches
+            // Matches
             Assert.AreEqual(@"now<ref name=""Fred"">The Honourable Fred Smith, 2002</ref>but later than<ref name=""Fred""/> was", Parsers.DuplicateNamedReferences(@"now<ref name=""Fred"">The Honourable Fred Smith, 2002</ref>but later than<ref name=""Fred"">The Honourable Fred Smith, 2002</ref> was"));
             Assert.AreEqual(@"now<ref name=""Fred"">The Honourable Fred Smith, 2002</ref>but later than<ref name=""Fred""/> was", Parsers.DuplicateNamedReferences(@"now<ref name=""Fred"">The Honourable Fred Smith, 2002</ref>but later than<ref name=""Fred""> The Honourable Fred Smith, 2002  </ref> was"));
             Assert.AreEqual(@"now<ref name=""Fred"" >The Honourable Fred Smith, 2002</ref>but later than<ref name=""Fred""/> was", Parsers.DuplicateNamedReferences(@"now<ref name=""Fred"" >The Honourable Fred Smith, 2002</ref>but later than<ref name = ""Fred"">The Honourable Fred Smith, 2002</ref> was"));
@@ -274,7 +274,7 @@ End of.";
             Assert.AreEqual(@"now<ref name=""Fred"">The Honourable Fred Smith, 2002</ref>but later than<ref name=""Fred""/> was", Parsers.DuplicateNamedReferences(@"now<ref name=""Fred"">The Honourable Fred Smith, 2002</ref>but later than<ref name=""Fred"" >The Honourable Fred Smith, 2002< /ref> was"));
             Assert.AreEqual(@"now<ref name='Fred'>The Honourable Fred Smith, 2002</ref>but later than<ref name=""Fred""/> was", Parsers.DuplicateNamedReferences(@"now<ref name='Fred'>The Honourable Fred Smith, 2002</ref>but later than<ref name=""Fred"" >The Honourable Fred Smith, 2002< /ref> was"));
 
-            // no matches
+            // no Matches
             string a = @"now<ref name=""Fred"">The Honourable Fred Smith, 2002</ref>but later than<ref name=""Fred"">The Honourable Fred Smith, 2005</ref> was"; // ref text different year
             string b = @"now<ref name=""Fred"">The Honourable Fred Smith, 2004</ref>but later than<ref name=""Fred"">The Honourable FRED SMITH, 2004</ref> was"; // ref text has different case
             string c = @"now<ref name=""Fred"">The Honourable Fred Smith, 2003</ref>but later than<ref name=""Fred2"">The Honourable Fred Smith, 2003</ref> was"; // ref name different
@@ -286,14 +286,14 @@ End of.";
             Assert.AreEqual(c2, Parsers.DuplicateNamedReferences(c2));
 
             // duplicate references fix (first named)
-            // matches
+            // Matches
             Assert.AreEqual(@"now<ref name=""Bert"">The Honourable Bert Smith, 2002</ref>but later than<ref name=""Bert""/> was", Parsers.DuplicateNamedReferences(@"now<ref name=""Bert"">The Honourable Bert Smith, 2002</ref>but later than<ref> The Honourable Bert Smith, 2002  </ref> was"));
             Assert.AreEqual(@"now<ref name=""Bert"" >The Honourable Bert Smith, 2002</ref>but later than<ref name=""Bert""/> was", Parsers.DuplicateNamedReferences(@"now<ref name=""Bert"" >The Honourable Bert Smith, 2002</ref>but later than<ref>The Honourable Bert Smith, 2002</ref> was"));
             Assert.AreEqual(@"now<ref name = ""Bert"">The Honourable Bert Smith, 2002 </ref>but later than<ref name=""Bert""/> was", Parsers.DuplicateNamedReferences(@"now<ref name = ""Bert"">The Honourable Bert Smith, 2002 </ref>but later than<ref>The Honourable Bert Smith, 2002</ref> was"));
             Assert.AreEqual(@"now<ref name=""Bert"">The Honourable Bert Smith, 2002</ref>but later than<ref name=""Bert""/> was", Parsers.DuplicateNamedReferences(@"now<ref name=""Bert"">The Honourable Bert Smith, 2002</ref>but later than<ref>The Honourable Bert Smith, 2002< /ref> was"));
             Assert.AreEqual(@"now<ref name='Bert'>The Honourable Bert Smith, 2002</ref>but later than<ref name=""Bert""/> was", Parsers.DuplicateNamedReferences(@"now<ref name='Bert'>The Honourable Bert Smith, 2002</ref>but later than<ref>The Honourable Bert Smith, 2002< /ref> was"));
 
-            // no matches
+            // no Matches
             string d = @"now<ref name=""Bert"">The Honourable Bert Smith, 2002</ref>but later than<ref>The Honourable Bert Smith, 2005</ref> was";
             string e = @"now<ref name=""Bert"">The Honourable Bert Smith, 2004</ref>but later than<ref>The Honourable BERT SMITH, 2004</ref> was";
 
@@ -308,7 +308,7 @@ End of.";
             Assert.AreEqual(@"now<ref name=""John""/>but later than<ref name='John'>The Honourable John Smith, 2002< /ref> was", Parsers.DuplicateNamedReferences(@"now<ref>The Honourable John Smith, 2002</ref>but later than<ref name='John'>The Honourable John Smith, 2002< /ref> was"));
             Assert.AreEqual(@"now<ref name=""John 2""/>but later than<ref name=""John 2"" > The Honourable John Smith, 2002  </ref> was", Parsers.DuplicateNamedReferences(@"now<ref>The Honourable John Smith, 2002</ref>but later than<ref name=""John 2"" > The Honourable John Smith, 2002  </ref> was"));
 
-            // no matches
+            // no Matches
             string f = @"now<ref>The Honourable John Smith, 2002</ref>but later than<ref name=""John"">The Honourable John Smith, 2005</ref> was";
             string g = @"now<ref>The Honourable John Smith, 2004</ref>but later than<ref name=""John"">The HONOURABLE JOHN SMITH, 2004</ref> was";
 
@@ -428,7 +428,7 @@ End of.";
           format=DOC|publisher=BBC}} was", Parsers.FixSyntax(@"now {{Cite web| url=a.com|title=hello|
           fprmat=DOC|publisher=BBC}} was"));
 
-          // no matches
+          // no Matches
           Assert.AreEqual(@"now {{cite web| url=http://site.net|title=okay}} fprmat of PDF", Parsers.FixSyntax(@"now {{cite web| url=http://site.net|title=okay}} fprmat of PDF"));
           Assert.AreEqual(@"now {{cite web| url=http://site.net/1.pdf|format=PDF}} was", Parsers.FixSyntax(@"now {{cite web| url=http://site.net/1.pdf|format=PDF}} was"));
           Assert.AreEqual(@"now {{cite web|\r\nurl=http://site.net/1.pdf|format=PDF|title=okay}} was", Parsers.FixSyntax(@"now {{cite web|\r\nurl=http://site.net/1.pdf|format=PDF|title=okay}} was"));
@@ -560,7 +560,7 @@ End of.";
           Assert.AreEqual(@"now {| class=""wikitable"" cellpadding=2", Parsers.FixSyntax(@"now {| class=""wikitable"" cellpading=2"));
           Assert.AreEqual(@"now {| class=""wikitable"" cellpadding=2", Parsers.FixSyntax(@"now {| class=""wikitable"" Celpading=2"));
           
-          // no matches
+          // no Matches
           Assert.AreEqual("now the cellpading of the", Parsers.FixSyntax("now the cellpading of the"));
           Assert.AreEqual(@"now {| class=""wikitable"" cellpadding=2", Parsers.FixSyntax(@"now {| class=""wikitable"" cellpadding=2"));
         }
@@ -1126,7 +1126,7 @@ Some news here.", "test"));
             Assert.AreEqual(@"Now in January 1807 a new", parser.FixDateOrdinalsAndOf(@"Now in January of 1807 a new", "test"));
             Assert.AreEqual(@"Now in January 1807 and May 1804 a new", parser.FixDateOrdinalsAndOf(@"Now in January of 1807 and May of 1804 a new", "test"));
 
-            // no matches
+            // no Matches
             Assert.AreEqual(@"Now ""in July of 2007"" a new", parser.FixDateOrdinalsAndOf(@"Now ""in July of 2007"" a new", "test"));
             Assert.AreEqual(@"Now {{quote|in July of 2007}} a new", parser.FixDateOrdinalsAndOf(@"Now {{quote|in July of 2007}} a new", "test"));
             Assert.AreEqual(@"Now ""in July of 1707"" a new", parser.FixDateOrdinalsAndOf(@"Now ""in July of 1707"" a new", "test"));
@@ -1150,7 +1150,7 @@ Some news here.", "test"));
             Assert.AreEqual(@"On 14,15 June elections were", parser.FixDateOrdinalsAndOf(@"On 14th,15th June elections were", "test"));
             Assert.AreEqual(@"On 3 and 15 June elections were", parser.FixDateOrdinalsAndOf(@"On 3rd and 15th June elections were", "test"));
 
-            // no matches, particularly dates with 'the' before where fixing the ordinal may leave 'on the 11 May' which wouldn't read well
+            // no Matches, particularly dates with 'the' before where fixing the ordinal may leave 'on the 11 May' which wouldn't read well
             Assert.AreEqual(@"On 14th march was", parser.FixDateOrdinalsAndOf(@"On 14th march was", "test"));
             Assert.AreEqual(@"On 14th of February was", parser.FixDateOrdinalsAndOf(@"On 14th of February was", "test"));
             Assert.AreEqual(@"Now the 14th February was", parser.FixDateOrdinalsAndOf(@"Now the 14th February was", "test"));
@@ -1165,7 +1165,7 @@ Some news here.", "test"));
             Assert.AreEqual(@"On June 7 2008, elections were", parser.FixDateOrdinalsAndOf(@"On June 07 2008, elections were", "test"));
             Assert.AreEqual(@"On 3 June elections were", parser.FixDateOrdinalsAndOf(@"On 03rd June elections were", "test"));
 
-            // no matches
+            // no Matches
             Assert.AreEqual(@"The 007 march was", parser.FixDateOrdinalsAndOf(@"The 007 march was", "test"));
             Assert.AreEqual(@"In June '08 there was", parser.FixDateOrdinalsAndOf(@"In June '08 there was", "test"));
             Assert.AreEqual(@"In June 2008 there was", parser.FixDateOrdinalsAndOf(@"In June 2008 there was", "test"));
@@ -1710,6 +1710,32 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
             Assert.AreEqual(@"[[Category:Bronze Wolf awardees|Laine, Juan]]",
                 Parsers.ChangeToDefaultSort(@"[[Category:Bronze Wolf awardees|Laine, Juan]]", "Hi", out noChange));
             Assert.IsTrue(noChange);
+        }
+
+        [Test]
+        public void TestDefaultsortTitlesWithDiacritics()
+        {
+            bool noChange;
+
+            Assert.AreEqual(@"[[Category:Parishes in Asturias]]
+{{DEFAULTSORT:Abandames}}",
+                Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]", "Abándames", out noChange));
+            Assert.IsFalse(noChange);
+
+            // no change if a defaultsort already there
+            Assert.AreEqual(@"[[Category:Parishes in Asturias]]
+{{DEFAULTSORT:Bert}}",
+    Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
+{{DEFAULTSORT:Bert}}", "Abándames", out noChange));
+            Assert.IsTrue(noChange);
+
+            // category sortkeys are cleaned too
+            Assert.AreEqual(@"[[Category:Parishes of the Azores]]
+[[Category:São Miguel Island]]
+{{DEFAULTSORT:Agua Retorta}}", Parsers.ChangeToDefaultSort(@"[[Category:Parishes of the Azores|Agua Retorta]]
+[[Category:São Miguel Island]]", @"Água Retorta", out noChange));
+            Assert.IsFalse(noChange);
+
         }
 
         [Test, Ignore("Unused"), Category("Incomplete")]
@@ -2304,7 +2330,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"{{Article issues|wikify=May 2008|Expand=June 2008|POV=May 2008}}", Parsers.Conversions(@"{{Article issues|wikify=May 2008|Expand=June 2008|POV=May 2008|Expand=}}"));
             Assert.AreEqual(@"{{Article issues|wikify=May 2008|POV=May 2008|Expand=June 2008}}", Parsers.Conversions(@"{{Article issues|wikify=May 2008|Expand=|POV=May 2008|Expand=June 2008}}"));
 
-            //no matches
+            //no Matches
             Assert.AreEqual(@"now {{cite web| title=hello|url=http://site.net |date = 2008-10-08|title=HELLO}}", Parsers.Conversions(@"now {{cite web| title=hello|url=http://site.net |date = 2008-10-08|title=HELLO}}")); // case of field value different
             Assert.AreEqual(@"now {{cite web| url=http://site.net |title=hello|accessdate = 2008-10-08|title=hello t}}", Parsers.Conversions(@"now {{cite web| url=http://site.net |title=hello|accessdate = 2008-10-08|title=hello t}}"));
             Assert.AreEqual(@"now {{cite web| url=http://site.net |title=hello|accessdate = 2008-10-08|name=hello}}", Parsers.Conversions(@"now {{cite web| url=http://site.net |title=hello|accessdate = 2008-10-08|name=hello}}"));
