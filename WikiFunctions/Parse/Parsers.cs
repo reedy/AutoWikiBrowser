@@ -964,9 +964,10 @@ namespace WikiFunctions.Parse
             ArticleText = Regex.Replace(ArticleText, "==\r\n\r\n", "==\r\n");
             ArticleText = Regex.Replace(ArticleText, @"==External links==[\r\n\s]*\*", "==External links==\r\n*");
 
-            //fix bullet points
-            ArticleText = Regex.Replace(ArticleText, "^([\\*#]+) ", "$1", RegexOptions.Multiline);
-            ArticleText = Regex.Replace(ArticleText, "^([\\*#]+)", "$1 ", RegexOptions.Multiline);
+            //fix bullet points – one space after them
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_arbitrary_spaces_after_bullet
+            ArticleText = Regex.Replace(ArticleText, @"^([\*#]+) +", "$1", RegexOptions.Multiline);
+            ArticleText = Regex.Replace(ArticleText, @"^([\*#]+)", "$1 ", RegexOptions.Multiline);
 
             //fix heading space
             ArticleText = Regex.Replace(ArticleText, "^(={1,4}) ?(.*?) ?(={1,4})$", "$1$2$3", RegexOptions.Multiline);
