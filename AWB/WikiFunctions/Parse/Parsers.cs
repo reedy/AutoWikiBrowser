@@ -233,6 +233,10 @@ namespace WikiFunctions.Parse
         private static readonly Regex regexHeadingWhitespaceBefore = new Regex(@"^ *(==+)(\s*.+?\s*)\1 +(\r|\n)", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
         private static readonly Regex regexHeadingWhitespaceAfter = new Regex(@"^ +(==+)(\s*.+?\s*)\1 *(\r|\n)", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
 
+        private static readonly Regex regexHeadingLevelTwo = new Regex(@"^==[^=].*?[^=]==(\r\n?|\n)$", RegexOptions.Multiline);
+
+        private static readonly Regex regexHeadingUpOneLevel = new Regex(@"^=(=+[^=].*?[^=]=+)=(\r\n?|\n)$", RegexOptions.Multiline);
+
         /// <summary>
         /// Fix ==See also== and similar section common errors.
         /// </summary>
@@ -288,7 +292,7 @@ namespace WikiFunctions.Parse
                 if (WikiRegexes.ArticleIssues.IsMatch(ZerothSection))
                     ZerothSection = WikiRegexes.ArticleIssues.Replace(ZerothSection, "$1" + NewTags + @"}}");
                 else // add {{article issues}} to top of article, metaDataSorter will arrange correctly later
-                    ZerothSection = @"{{Article issues" + NewTags + @"}}\r\n" + ZerothSection;
+                    ZerothSection = @"{{Article issues" + NewTags + "}}\r\n" + ZerothSection;
             }
 
             // Parsers.Conversions will add any missing dates and correct ...|wikify date=May 2008|...
@@ -330,6 +334,11 @@ namespace WikiFunctions.Parse
 
             ArticleText = regexHeadingWhitespaceBefore.Replace(ArticleText, "$1$2$1$3");
             ArticleText = regexHeadingWhitespaceAfter.Replace(ArticleText, "$1$2$1$3");
+            
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Section_header_level_.28WikiProject_Check_Wikipedia_.237.29
+            // if no level 2 heading in article, remove two levels from all headings
+            if(!regexHeadingLevelTwo.IsMatch(ArticleText))
+              ArticleText = regexHeadingUpOneLevel.Replace(ArticleText, "$1$2");
 
             return ArticleText;
         }
