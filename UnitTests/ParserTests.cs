@@ -549,6 +549,8 @@ End of.";
             Assert.AreEqual(@"{{Cite encyclopedia|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{Cite encyclopedia|URL=http://members.bib-arch.org|title=hello}}"));
             Assert.AreEqual(@"{{Citation|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{Citation|URL=http://members.bib-arch.org|title=hello}}"));
 
+            Assert.AreEqual(@"{{cite book | author=Smith | title=Great Book | ISBN=15478454 | date=17 May 2004 }}", Parsers.FixSyntax(@"{{cite book | author=Smith | Title=Great Book | ISBN=15478454 | date=17 May 2004 }}"));
+
             // no match if value of field uppercase
             Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello | publisher=BBC}}", Parsers.FixSyntax(@"{{cite web|url=http://members.bib-arch.org|title=hello | publisher=BBC}}"));
 
