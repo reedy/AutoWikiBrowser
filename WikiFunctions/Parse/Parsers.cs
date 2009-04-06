@@ -2266,9 +2266,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The article text possibly using defaultsort.</returns>
         private static string DefaultsortTitlesWithDiacritics(string ArticleText, string ArticleTitle, int Matches)
         {
-            // need some categories and either no defaultsort, or the only 'defaultsort' is a {{lifetime}}
+            // need some categories and either no defaultsort
             if (Tools.FixupDefaultSort(ArticleTitle) != ArticleTitle && Matches > 0 &&
-                (!WikiRegexes.Defaultsort.IsMatch(ArticleText) || WikiRegexes.Defaultsort.Matches(ArticleText).Count == 1 && WikiRegexes.Lifetime.IsMatch(ArticleText)))
+                !WikiRegexes.Defaultsort.IsMatch(ArticleText))
             {
                 ArticleText = ArticleText + "\r\n{{DEFAULTSORT:" + Tools.FixupDefaultSort(ArticleTitle) + "}}";
 

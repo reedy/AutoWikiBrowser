@@ -1729,6 +1729,14 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
 {{DEFAULTSORT:Bert}}", "Abándames", out noChange));
             Assert.IsTrue(noChange);
 
+            Assert.AreEqual(@"{{DEFAULTSORT:Bert}}
+[[Category:Parishes in Asturias]]
+{{Lifetime|1833|1907|Bisson, Elie-Hercule}}",
+Parsers.ChangeToDefaultSort(@"{{DEFAULTSORT:Bert}}
+[[Category:Parishes in Asturias]]
+{{Lifetime|1833|1907|Bisson, Elie-Hercule}}", "Abándames", out noChange));
+            Assert.IsTrue(noChange);
+
             // category sortkeys are cleaned too
             Assert.AreEqual(@"[[Category:Parishes of the Azores]]
 [[Category:São Miguel Island]]
