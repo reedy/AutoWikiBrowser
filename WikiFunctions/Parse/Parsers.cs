@@ -281,7 +281,12 @@ namespace WikiFunctions.Parse
 
                 foreach (Match m in WikiRegexes.ArticleIssuesTemplates.Matches(ZerothSection))
                 {
-                    NewTags += @"|" + m.Groups[1].Value + @" " + m.Groups[2].Value;
+                    // all fields except COI, OR, POV should be lower case
+                    string SingleTag = m.Groups[1].Value;
+                    if(!Regex.IsMatch(SingleTag, "(COI|OR|POV)"))
+                        SingleTag = SingleTag.ToLower();
+
+                    NewTags += @"|" + SingleTag + @" " + m.Groups[2].Value;
                     NewTags = NewTags.Trim();
 
                     // remove the single template
