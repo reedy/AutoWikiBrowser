@@ -1749,15 +1749,21 @@ Parsers.ChangeToDefaultSort(@"{{DEFAULTSORT:Bert}}
 [[Category:São Miguel Island]]", @"Água Retorta", out noChange));
             Assert.IsFalse(noChange);
 
-            // lifetime is allowed here
+            // if lifetime present use that sortkey
             Assert.AreEqual(@"[[Category:Parishes of the Azores]]
 [[Category:São Miguel Island]]
 {{Lifetime|1833|1907|Bisson, Elie-Hercule}}
-{{DEFAULTSORT:Agua Retorta}}", Parsers.ChangeToDefaultSort(@"[[Category:Parishes of the Azores|Agua Retorta]]
+{{DEFAULTSORT:Bisson, Elie-Hercule}}", Parsers.ChangeToDefaultSort(@"[[Category:Parishes of the Azores]]
 [[Category:São Miguel Island]]
 {{Lifetime|1833|1907|Bisson, Elie-Hercule}}", @"Água Retorta", out noChange));
             Assert.IsFalse(noChange);
-
+            
+            // else if no lifetime, use article name
+            Assert.AreEqual(@"[[Category:Parishes of the Azores]]
+[[Category:São Miguel Island]]
+{{DEFAULTSORT:Agua Retorta}}", Parsers.ChangeToDefaultSort(@"[[Category:Parishes of the Azores]]
+[[Category:São Miguel Island]]", @"Água Retorta", out noChange));
+            Assert.IsFalse(noChange);
         }
 
         [Test, Ignore("Unused"), Category("Incomplete")]
