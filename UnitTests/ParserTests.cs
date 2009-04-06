@@ -551,7 +551,10 @@ End of.";
 
             // no match if value of field uppercase
             Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello | publisher=BBC}}", Parsers.FixSyntax(@"{{cite web|url=http://members.bib-arch.org|title=hello | publisher=BBC}}"));
-        }        
+
+            // ISBN is allowed to be uppercase
+            Assert.AreEqual(@"{{cite book | author=Smith | title=Great Book | ISBN=15478454 | date=17 May 2004 }}", Parsers.FixSyntax(@"{{cite book | author=Smith | title=Great Book | ISBN=15478454 | date=17 May 2004 }}"));
+        }
         
         [Test]
         public void TestCellpaddingTypo()
