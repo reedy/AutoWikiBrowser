@@ -971,6 +971,9 @@ namespace WikiFunctions
                 new KeyValuePair<string, string>("Ё", "Е"),
                 new KeyValuePair<string, string>("ё", "е"),
 
+                // new
+                new KeyValuePair<string, string>("ộ", "o"),
+
             };
         #endregion
 
