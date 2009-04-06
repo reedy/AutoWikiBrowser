@@ -2415,7 +2415,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         [Test]
         public void ArticleIssues()
         {
-            string A1 = @"{{wikify}} {{expand}}", A2 = @" {{COI}}", A3 = @" the article";
+            string A1 = @"{{Wikify}} {{expand}}", A2 = @" {{COI}}", A3 = @" the article";
             string A4 = @" {{COI|date=May 2008}}", A5 = @"{{Article issues|POV|prose|spam}} ";
 
             // adding new {{article issues}}
