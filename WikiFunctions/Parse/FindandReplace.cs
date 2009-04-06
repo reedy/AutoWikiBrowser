@@ -35,13 +35,14 @@ namespace WikiFunctions.Parse
         {
             InitializeComponent();
         }
-        string streditsummary = "";
 
-        readonly HideText Remove = new HideText(true, false, true);
+        private string streditsummary = "";
 
-        readonly List<Replacement> ReplacementList = new List<Replacement>();
+        private readonly HideText Remove = new HideText(true, false, true);
 
-        bool applydefault;
+        private readonly List<Replacement> ReplacementList = new List<Replacement>();
+
+        private bool applydefault;
         private bool ApplyDefaultFormatting
         {
             get { return applydefault; }
@@ -118,16 +119,14 @@ namespace WikiFunctions.Parse
             }
         }
 
-        static readonly Regex NewlineRegex = new Regex(@"(?<!\\)\\n", RegexOptions.Compiled);
-        static readonly Regex TabulationRegex = new Regex(@"(?<!\\)\\t", RegexOptions.Compiled);
-        static string PrepareReplacePart(string replace)
+        private static readonly Regex NewlineRegex = new Regex(@"(?<!\\)\\n", RegexOptions.Compiled),
+            TabulationRegex = new Regex(@"(?<!\\)\\t", RegexOptions.Compiled);
+
+        private static string PrepareReplacePart(string replace)
         {
             replace = NewlineRegex.Replace(replace, "\n");
-            replace = TabulationRegex.Replace(replace, "\t");
-
-            return replace;
+            return TabulationRegex.Replace(replace, "\t");
         }
-
 
         /// <summary>
         /// Applies a series of defined find and replacements to the supplied article text.
@@ -164,17 +163,15 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
-        Regex findRegex;
-        MatchCollection Matches;
-        string summary = "";
+        private string summary = "";
 
         private string PerformFindAndReplace(string Find, string Replace, string ArticleText, string ArticleTitle, RegexOptions ROptions)
         {
             Find = Tools.ApplyKeyWords(ArticleTitle, Find);
             Replace = Tools.ApplyKeyWords(ArticleTitle, PrepareReplacePart(Replace));
 
-            findRegex = new Regex(Find, ROptions);
-            Matches = findRegex.Matches(ArticleText);
+            Regex findRegex = new Regex(Find, ROptions);
+            MatchCollection Matches = findRegex.Matches(ArticleText);
 
             if (Matches.Count > 0)
             {
@@ -213,7 +210,8 @@ namespace WikiFunctions.Parse
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Do you really want to clear the whole table?", "Really clear?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Do you really want to clear the whole table?", "Really clear?", MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question) == DialogResult.Yes)
                 Clear();
         }
 
@@ -228,7 +226,7 @@ namespace WikiFunctions.Parse
 
         private static string Encode(string Text)
         {
-           return Text.Replace("\\r\\n", "\r\n");
+            return Text.Replace("\\r\\n", "\r\n");
         }
 
         private static string Decode(string Text)
@@ -258,13 +256,17 @@ namespace WikiFunctions.Parse
             MakeList();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="R"></param>
         public void AddNew(Replacement R)
         {
             bool caseSens = !R.RegularExpressionOptions.ToString().Contains("IgnoreCase");
             bool multiine = R.RegularExpressionOptions.ToString().Contains("Multiline");
             bool singleLine = R.RegularExpressionOptions.ToString().Contains("Singleline");
 
-            if(!R.IsRegex)
+            if (!R.IsRegex)
                 dataGridView1.Rows.Add(Regex.Unescape(Decode(R.Find)), Decode(R.Replace), caseSens, R.IsRegex, multiine, singleLine, R.Enabled, R.Comment);
             else
                 dataGridView1.Rows.Add(Decode(R.Find), Decode(R.Replace), caseSens, R.IsRegex, multiine, singleLine, R.Enabled, R.Comment);
@@ -275,6 +277,10 @@ namespace WikiFunctions.Parse
             ReplacementList.Add(R);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="RList"></param>
         public void AddNew(List<Replacement> RList)
         {
             foreach (Replacement r in RList)
@@ -449,10 +455,9 @@ namespace WikiFunctions.Parse
         private void FindAndReplaceContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             deleteRowToolStripMenuItem.Enabled = (dataGridView1.SelectedRows.Count > 0);
-            testRegexToolStripMenuItem.Enabled = createRetfRuleToolStripMenuItem.Enabled = 
+            testRegexToolStripMenuItem.Enabled = createRetfRuleToolStripMenuItem.Enabled =
                 ((dataGridView1.CurrentRow != null)
                 && ((bool)dataGridView1.CurrentRow.Cells["regex"].FormattedValue));
-            dataGridView1.EndEdit();
         }
 
         private void testRegexToolStripMenuItem_Click(object sender, EventArgs e)
@@ -596,9 +601,11 @@ namespace WikiFunctions.Parse
                 return;
 
             string typoName = (string)row.Cells["Comment"].Value;
-            if(string.IsNullOrEmpty(typoName)) typoName = "<enter a name>";
+            if (string.IsNullOrEmpty(typoName))
+                typoName = "<enter a name>";
 
-            Tools.CopyToClipboard(RegExTypoFix.CreateRule((string)row.Cells["find"].Value, (string)row.Cells["replace"].Value, typoName));
+            Tools.CopyToClipboard(RegExTypoFix.CreateRule((string)row.Cells["find"].Value,
+                                                          (string)row.Cells["replace"].Value, typoName));
         }
     }
 
@@ -616,7 +623,7 @@ namespace WikiFunctions.Parse
             Comment = comment;
         }
 
-        public string Find, 
+        public string Find,
             Replace, Comment;
 
         public bool IsRegex,
