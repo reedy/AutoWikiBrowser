@@ -1034,7 +1034,7 @@ namespace WikiFunctions.Parse
         
         private static readonly Regex AccessdateTypo = new Regex(@"(\{\{\s*cit[^{}]*?\|\s*)ac(?:(?:ess?s?|cc?es|cesss|ccess)date|cessdare)(\s*=\s*)", RegexOptions.IgnoreCase);
         
-        private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{(?:[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)|[Cc]itation)\b\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(\s*=\s*[^{}\|]{3,})");
+        private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{(?:[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)|[Cc]itation)\b\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(?<!ISBN)(\s*=\s*[^{}\|]{3,})");
         
         private static readonly Regex CiteFormatFieldTypo = new Regex(@"(\{\{\s*[Cc]it[^{}]*?\|\s*)(?:fprmat)(\s*=\s*)");
         
@@ -1106,14 +1106,15 @@ namespace WikiFunctions.Parse
             
             // {{cite web}} needs lower case field names; two loops in case a single template has multiple uppercase fields
             // restrict to en-wiki
+            // exceptionally, 'ISBN' is allowed
             while(Variables.LangCode == LangCodeEnum.en)
-            {           
+            {
               foreach (Match m in UppercaseCiteFields.Matches(ArticleText))
               {
-                  ArticleText = ArticleText.Replace(m.Value, m.Groups[1].Value + m.Groups[2].Value.ToLower() + m.Groups[3].Value);
+                      ArticleText = ArticleText.Replace(m.Value, m.Groups[1].Value + m.Groups[2].Value.ToLower() + m.Groups[3].Value);
               }
               
-              if (!UppercaseCiteFields.IsMatch(ArticleText))
+              if (!UppercaseCiteFields.IsMatch(ArticleText) )
                 break;
             }
             
