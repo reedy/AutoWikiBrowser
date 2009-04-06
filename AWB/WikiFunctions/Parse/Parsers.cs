@@ -2271,9 +2271,16 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (Tools.FixupDefaultSort(ArticleTitle) != ArticleTitle && Matches > 0 &&
                 !WikiRegexes.Defaultsort.IsMatch(ArticleText))
             {
-                ArticleText = ArticleText + "\r\n{{DEFAULTSORT:" + Tools.FixupDefaultSort(ArticleTitle) + "}}";
+              string sortkey = "";
+              // use the sortkey from any existing {{tl|lifetime}} if available, else fall back to article title.
+              if(WikiRegexes.LifetimeSortkey.IsMatch(ArticleText))
+                sortkey = WikiRegexes.LifetimeSortkey.Match(ArticleText).Groups[1].Value;
+              else
+                sortkey = Tools.FixupDefaultSort(ArticleTitle);
+              
+                ArticleText = ArticleText + "\r\n{{DEFAULTSORT:" + sortkey + "}}";
 
-                return (ExplicitCategorySortkeys(ArticleText, Tools.FixupDefaultSort(ArticleTitle)));
+                return (ExplicitCategorySortkeys(ArticleText, sortkey));
             }
             return (ArticleText);
         }

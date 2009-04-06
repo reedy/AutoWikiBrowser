@@ -355,6 +355,11 @@ namespace WikiFunctions
         /// Matches {{lifetime}} and its aliases
         /// </summary>
         public static readonly Regex Lifetime = new Regex(@"{{(?:[Ll]ifetime|BIRTH-DEATH-SORT|BD)\s*\|[^\}]*}}", RegexOptions.Compiled);
+        
+        /// <summary>
+        /// Matches the sorkey in a {{lifetime}} template and its aliases
+        /// </summary>
+        public static readonly Regex LifetimeSortkey = new Regex(@"{{(?:[Ll]ifetime|BIRTH-DEATH-SORT|BD)\s*\|[^\}\|]*\|[^\}\|]*\|\s*([^\}\|]+?)\s*}}", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches persondata (en only)

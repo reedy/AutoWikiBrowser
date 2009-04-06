@@ -712,5 +712,57 @@ article words, '''bold''' blah.
             Assert.IsFalse(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{WIKIFY}}"));
             Assert.IsFalse(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{Coi}}"));
         }
+        
+        [Test]
+        public void LifetimeSortkeyTests()
+        {
+          Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{Lifetime|1833|1907|Bisson, Elie-Hercule}}"));
+          Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{BD|1833|1907|Bisson, Elie-Hercule}}"));
+          Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{BIRTH-DEATH-SORT|1833|1907|Bisson, Elie-Hercule}}"));
+          Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{Lifetime||1907|Bisson, Elie-Hercule}}"));
+          Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{Lifetime|MISSING|1907|Bisson, Elie-Hercule}}"));
+          Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{Lifetime|1833||Bisson, Elie-Hercule}}"));
+          Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{Lifetime|1833|MISSING|Bisson, Elie-Hercule}}"));
+          Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{lifetime|||Bisson, Elie-Hercule}}"));
+          Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{lifetime |||Bisson, Elie-Hercule}}"));
+          Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{lifetime
+          |||Bisson, Elie-Hercule}}"));
+          
+          Assert.IsTrue(WikiRegexes.LifetimeSortkey.Match(@"{{Lifetime|1833|1907|Bisson, Elie-Hercule}}").Groups[1].Value.Equals("Bisson, Elie-Hercule"));
+          
+          // ignores whitespace when getting sortkey
+          Assert.IsTrue(WikiRegexes.LifetimeSortkey.Match(@"{{Lifetime|1833|1907|Bisson, Elie-Hercule }}").Groups[1].Value.Equals("Bisson, Elie-Hercule"));
+          Assert.IsTrue(WikiRegexes.LifetimeSortkey.Match(@"{{Lifetime|1833|1907|
+          Bisson, Elie-Hercule }}").Groups[1].Value.Equals("Bisson, Elie-Hercule"));
+          Assert.IsTrue(WikiRegexes.LifetimeSortkey.Match(@"{{Lifetime|1833|1907| Bisson, Elie-Hercule }}").Groups[1].Value.Equals("Bisson, Elie-Hercule"));
+          
+          // case sensitive
+          Assert.IsFalse(WikiRegexes.LifetimeSortkey.IsMatch(@"{{LIFETIME|1833|1907|Bisson, Elie-Hercule}}"));
+          Assert.IsFalse(WikiRegexes.LifetimeSortkey.IsMatch(@"{{bd|1833|1907|Bisson, Elie-Hercule}}"));
+          
+          // no match if no sortkey
+          Assert.IsFalse(WikiRegexes.LifetimeSortkey.IsMatch(@"{{Lifetime|1833|1907|}}"));
+        }
+        
+        [Test]
+        public void LifetimeTests()
+        {
+          Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{Lifetime|1833|1907|Bisson, Elie-Hercule}}"));
+          Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{BD|1833|1907|Bisson, Elie-Hercule}}"));
+          Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{BIRTH-DEATH-SORT|1833|1907|Bisson, Elie-Hercule}}"));
+          Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{Lifetime||1907|Bisson, Elie-Hercule}}"));
+          Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{Lifetime|MISSING|1907|Bisson, Elie-Hercule}}"));
+          Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{Lifetime|1833||Bisson, Elie-Hercule}}"));
+          Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{Lifetime|1833|MISSING|Bisson, Elie-Hercule}}"));
+          Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{lifetime|||Bisson, Elie-Hercule}}"));
+          Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{lifetime |||Bisson, Elie-Hercule}}"));
+          Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{lifetime
+          |||Bisson, Elie-Hercule}}"));
+          
+          
+          // case sensitive
+          Assert.IsFalse(WikiRegexes.Lifetime.IsMatch(@"{{LIFETIME|1833|1907|Bisson, Elie-Hercule}}"));
+          Assert.IsFalse(WikiRegexes.Lifetime.IsMatch(@"{{bd|1833|1907|Bisson, Elie-Hercule}}"));
+        }
     }
 }
