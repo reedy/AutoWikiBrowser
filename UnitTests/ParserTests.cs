@@ -968,9 +968,9 @@ http://example.com }}");
 
             // following unit tests appear messy due to need to include whitespace and newlines
             Assert.AreEqual(@"hi.
-===News===
+==News==
 Some news here.", Parsers.FixHeadings(@"hi.
- ===News===
+ ==News==
 Some news here.", "test"));
             Assert.AreEqual(@"hi.
 ==News place==
@@ -998,7 +998,7 @@ Some news here.", "test"));
             Assert.AreEqual("==Hello world==", Parsers.FixHeadings("==[[Hello world]]==", "a"));
             Assert.AreEqual("==world==", Parsers.FixHeadings("==[[hello|world]]==", "a"));
             Assert.AreEqual("== world ==", Parsers.FixHeadings("== [[hello|world]] ==", "a"));
-            Assert.AreEqual("===world===", Parsers.FixHeadings("===[[hello now|world]]===", "a"));
+            Assert.AreEqual("==world==", Parsers.FixHeadings("==[[hello now|world]]==", "a"));
             Assert.AreEqual("==world now==", Parsers.FixHeadings("==[[hello|world now]]==", "a"));
             Assert.AreEqual("==now world==", Parsers.FixHeadings("==now [[hello|world]]==", "a"));
             Assert.AreEqual("==now world here==", Parsers.FixHeadings("==now [[hello|world]] here==", "a"));
@@ -1015,6 +1015,49 @@ Some news here.", "test"));
             Assert.AreEqual("==hello[http://example.net]==", Parsers.FixHeadings("==hello[http://example.net]==", "a"));
             Assert.AreEqual("hello [[world]]", Parsers.FixHeadings("hello [[world]]", "a"));
             Assert.AreEqual("now == hello [[world]] == here", Parsers.FixHeadings("now == hello [[world]] == here", "a"));
+        }
+        
+        [Test]
+        public void TestFixHeadingsRemoveTwoLevels()
+        {
+          // single heading
+          Assert.AreEqual(@"===hello===
+text", Parsers.FixHeadings(@"====hello====
+text", "a"));
+          
+          // multiple
+          Assert.AreEqual(@"===hello===
+text
+=== hello2 ===
+texty
+==== hello3 ====
+", Parsers.FixHeadings(@"====hello====
+text
+==== hello2 ====
+texty
+===== hello3 =====
+", "a"));
+          
+          // level 1 not altered
+          Assert.AreEqual(@"=level1=
+text
+===hello===
+", Parsers.FixHeadings(@"=level1=
+text
+====hello====
+", "a"));
+          
+          // no changes if already a level two
+          Assert.AreEqual(@"==hi==
+====hello====
+", Parsers.FixHeadings(@"==hi==
+====hello====
+", "a"));
+          
+          // no changes on level 1 only
+          Assert.AreEqual(@"=hello=
+text", Parsers.FixHeadings(@"=hello=
+text", "a"));
         }
 
         [Test, Category("Incomplete")]
