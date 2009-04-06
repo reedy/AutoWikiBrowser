@@ -653,25 +653,31 @@ en, sq, ru
         }
         
         /// <summary>
-        /// Moves any disambiguation links to the top of the article (en only)
+        /// Moves any disambiguation links in the zeroth section to the top of the article (en only)
         /// </summary>
         /// <param name="ArticleText"></param>
         /// <returns>Article text with disambiguation links at top</returns>
         public static string moveDablinks(string ArticleText)
         {
+            // get the zeroth section (text upto first heading)
+            string ZerothSection = WikiRegexes.ZerothSection.Match(ArticleText).Value;
+
+            // get the rest of the article including first heading (may be null if article has no headings)
+            string RestOfArticle = ArticleText.Replace(ZerothSection, "");
+
             // avoid moving commented out Dablinks
-            if (Variables.LangCode != LangCodeEnum.en || !WikiRegexes.Dablinks.IsMatch(WikiRegexes.Comments.Replace(ArticleText, "")))
+            if (Variables.LangCode != LangCodeEnum.en || !WikiRegexes.Dablinks.IsMatch(WikiRegexes.Comments.Replace(ZerothSection, "")))
               return ArticleText;
 
             string strDablinks = "";
 
-            foreach (Match m in WikiRegexes.Dablinks.Matches(ArticleText))
+            foreach (Match m in WikiRegexes.Dablinks.Matches(ZerothSection))
             {
                 strDablinks = strDablinks + m.Value + "\r\n";
-                ArticleText = ArticleText.Replace(m.Value, "");
+                ZerothSection = ZerothSection.Replace(m.Value, "");
             }
 
-            ArticleText = strDablinks + ArticleText;
+            ArticleText = strDablinks + ZerothSection + RestOfArticle;
 
             // may now have two newlines between dablinks and rest of article, so cut down to one
             return ArticleText.Replace(strDablinks + "\r\n", strDablinks);
