@@ -1777,11 +1777,11 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
 {{DEFAULTSORT:Bert}}", "Abándames", out noChange));
             Assert.IsTrue(noChange);
 
-            Assert.AreEqual(@"{{DEFAULTSORT:Bert}}
-[[Category:Parishes in Asturias]]
+
+            // lifetime provides a defaultsort, no change
+            Assert.AreEqual(@"[[Category:Parishes in Asturias]]
 {{Lifetime|1833|1907|Bisson, Elie-Hercule}}",
-Parsers.ChangeToDefaultSort(@"{{DEFAULTSORT:Bert}}
-[[Category:Parishes in Asturias]]
+Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
 {{Lifetime|1833|1907|Bisson, Elie-Hercule}}", "Abándames", out noChange));
             Assert.IsTrue(noChange);
 
@@ -1792,14 +1792,13 @@ Parsers.ChangeToDefaultSort(@"{{DEFAULTSORT:Bert}}
 [[Category:São Miguel Island]]", @"Água Retorta", out noChange));
             Assert.IsFalse(noChange);
 
-            // if lifetime present use that sortkey
+            // lifetime provides a defaultsort, no change
             Assert.AreEqual(@"[[Category:Parishes of the Azores]]
 [[Category:São Miguel Island]]
-{{Lifetime|1833|1907|Bisson, Elie-Hercule}}
-{{DEFAULTSORT:Bisson, Elie-Hercule}}", Parsers.ChangeToDefaultSort(@"[[Category:Parishes of the Azores]]
+{{Lifetime|1833|1907|Bisson, Elie-Hercule}}", Parsers.ChangeToDefaultSort(@"[[Category:Parishes of the Azores]]
 [[Category:São Miguel Island]]
 {{Lifetime|1833|1907|Bisson, Elie-Hercule}}", @"Água Retorta", out noChange));
-            Assert.IsFalse(noChange);
+            Assert.IsTrue(noChange);
             
             // else if no lifetime, use article name
             Assert.AreEqual(@"[[Category:Parishes of the Azores]]

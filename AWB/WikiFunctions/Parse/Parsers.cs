@@ -2195,11 +2195,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             // we don't need to process that {{Lifetime}} crap
             MatchCollection ds = WikiRegexes.Defaultsort.Matches(ArticleText);
             if (WikiRegexes.Lifetime.IsMatch(ArticleText) || ds.Count > 1 || (ds.Count == 1 && !ds[0].Value.ToUpper().Contains("DEFAULTSORT")))
-            {
-                ArticleText = DefaultsortTitlesWithDiacritics(ArticleText, ArticleTitle, matches);
-                NoChange = (testText == ArticleText);
                 return ArticleText;
-            }
+
 
             ArticleText = TalkPages.TalkPageHeaders.FormatDefaultSort(ArticleText);
 
@@ -2281,16 +2278,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The article text possibly using defaultsort.</returns>
         private static string DefaultsortTitlesWithDiacritics(string ArticleText, string ArticleTitle, int Matches)
         {
-            // need some categories and either no defaultsort
+            // need some categories and no defaultsort
             if (Tools.FixupDefaultSort(ArticleTitle) != ArticleTitle && Matches > 0 &&
                 !WikiRegexes.Defaultsort.IsMatch(ArticleText))
             {
-              string sortkey = "";
-              // use the sortkey from any existing {{tl|lifetime}} if available, else fall back to article title.
-              if(WikiRegexes.LifetimeSortkey.IsMatch(ArticleText))
-                sortkey = WikiRegexes.LifetimeSortkey.Match(ArticleText).Groups[1].Value;
-              else
-                sortkey = Tools.FixupDefaultSort(ArticleTitle);
+              string sortkey = Tools.FixupDefaultSort(ArticleTitle);
               
                 ArticleText = ArticleText + "\r\n{{DEFAULTSORT:" + sortkey + "}}";
 
