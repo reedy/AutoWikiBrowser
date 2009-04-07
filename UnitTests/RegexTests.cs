@@ -315,9 +315,17 @@ fast„"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{For|
     Fred the dancer|
     Fred (dancer)}}"));
+    
+            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{Otheruse|something}}"));
+            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{Otheruses2|something}}"));
+            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{otheruse|something}}"));
+            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{otheruse
+|something}}"));
+            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{2otheruses|something}}"));
 
             Assert.IsFalse(WikiRegexes.Dablinks.IsMatch(@"{{For fake template|Fred the dancer|Fred(dancer)}}"));
             Assert.IsFalse(WikiRegexes.Dablinks.IsMatch(@"{{REDIRECT2|Fred the dancer|Fred Smith (dancer)}}"));
+            Assert.IsFalse(WikiRegexes.Dablinks.IsMatch(@"{{Otheruse2|something}}")); //non-existent
         }
 
         [Test]
