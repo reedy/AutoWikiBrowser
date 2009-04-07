@@ -449,8 +449,13 @@ namespace WikiFunctions
             strTemp = replaceSpecial.ApplyRules(strTemp, mName);
             strTemp = substTemplates.SubstituteTemplates(strTemp, mName);
 
-            if (SkipIfNoChange && (testText == strTemp)) // NoChange
-                Trace.AWBSkipped("No Find And Replace Changes");
+            if (testText == strTemp)
+            {
+                if (SkipIfNoChange)
+                    Trace.AWBSkipped("No Find And Replace Changes");
+                else
+                    return;
+            }
             else
             {
                 AWBChangeArticleText("Find and replace applied" + tmpEditSummary,
