@@ -870,6 +870,5 @@ namespace WikiFunctions.API
         public void Wait()
         {
         }
-
     }
 }

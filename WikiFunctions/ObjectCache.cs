@@ -173,15 +173,9 @@ namespace WikiFunctions
         {
             FileName = fileName;
 
-            try
+            using (FileStream fs = File.OpenWrite(fileName))
             {
-                using (FileStream fs = File.OpenWrite(fileName))
-                {
-                    Save(fs);
-                }
-            }
-            catch
-            {
+                Save(fs);
             }
         }
 
