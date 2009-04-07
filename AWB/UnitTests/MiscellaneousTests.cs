@@ -239,7 +239,7 @@ image = AmorMexicanaThalia.jpg |"), hidden + @"\|"));
    |IUPAC_name = 6-chloro-1,1-dioxo-2''H''-1,2,4-benzothiadiazine-7-sulfonamide
    | image=Chlorothiazide.svg
    | image2=Chlorothiazide-from-xtal-3D-balls.png
-   | CAS_number=58-94-6").Contains("=Chlorothiazide")); 
+   | CAS_number=58-94-6").Contains("=Chlorothiazide"));
         }
 
         [Test]
@@ -319,7 +319,7 @@ image = AmorMexicanaThalia.jpg |"), hidden + @"\|"));
    |IUPAC_name = 6-chloro-1,1-dioxo-2''H''-1,2,4-benzothiadiazine-7-sulfonamide
    | image=Chlorothiazide.svg
    | image2=Chlorothiazide-from-xtal-3D-balls.png
-   | CAS_number=58-94-6").Contains("=Chlorothiazide")); 
+   | CAS_number=58-94-6").Contains("=Chlorothiazide"));
         }
 
         [Test]

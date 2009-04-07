@@ -126,7 +126,7 @@ namespace UnitTests
             // shouldn't eat too much
             TestMatch(WikiRegexes.PipedWikiLink, "[[foo]] [[foo|bar]]", "[[foo|bar]]");
             TestMatch(WikiRegexes.PipedWikiLink, "[[foo|bar]] [[foo]]", "[[foo|bar]]");
-            
+
             TestMatch(WikiRegexes.PipedWikiLink, "[[foo|\r\nbar]]", false);
             TestMatch(WikiRegexes.PipedWikiLink, "[[foo\r\n|bar]]", false);
             TestMatch(WikiRegexes.PipedWikiLink, "[[foo]] | bar]]", false);
@@ -221,41 +221,41 @@ bar</ POEM>");
 
             // be careful about condensing any of these unit tests, as some of the different quote characters *look* the same, but in fact are different Unicode characters
 
-           Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ""very fast"" ", "1").Contains(@"""very fast"""));
-           Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" « very fast » ", "1").Contains(@"« very fast »"));
-           Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ‘very fast‘ ", "1").Contains(@"‘very fast‘"));
-           Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ’ very fast ’ ", "").Contains(@"’ very fast ’"));
-           Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast “ ", "").Contains(@"“ very fast “"));
-           Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ” very fast ” ", "").Contains(@"” very fast ”"));
-           Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ‛ very fast ‛ ", "").Contains(@"‛ very fast ‛"));
-           Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ‟ very fast‟ ", " ").Contains(@"‟ very fast‟"));
-           Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ‹ very fast › ", "").Contains(@"‹ very fast ›"));
-           Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast ” ", "").Contains(@"“ very fast ”"));
-           Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" „ very fast „ ", "").Contains(@"„ very fast „"));
-           Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" „ very fast „ ", "").Contains(@"„ very fast „"));
-           Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ‘ very fast ‘ ", "").Contains(@"‘ very fast ‘"));
-           Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ’ very fast ’ ", "").Contains(@"’ very fast ’"));
-           Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast ” ", "").Contains(@"“ very fast ”"));
-           Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ` very fast ` ", "").Contains(@"` very fast `"));
-           Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ’ very fast ‘ ", "").Contains(@"’ very fast ‘"));
-           Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" „very 
+            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ""very fast"" ", "1").Contains(@"""very fast"""));
+            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" « very fast » ", "1").Contains(@"« very fast »"));
+            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ‘very fast‘ ", "1").Contains(@"‘very fast‘"));
+            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ’ very fast ’ ", "").Contains(@"’ very fast ’"));
+            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast “ ", "").Contains(@"“ very fast “"));
+            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ” very fast ” ", "").Contains(@"” very fast ”"));
+            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ‛ very fast ‛ ", "").Contains(@"‛ very fast ‛"));
+            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ‟ very fast‟ ", " ").Contains(@"‟ very fast‟"));
+            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ‹ very fast › ", "").Contains(@"‹ very fast ›"));
+            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast ” ", "").Contains(@"“ very fast ”"));
+            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" „ very fast „ ", "").Contains(@"„ very fast „"));
+            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" „ very fast „ ", "").Contains(@"„ very fast „"));
+            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ‘ very fast ‘ ", "").Contains(@"‘ very fast ‘"));
+            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ’ very fast ’ ", "").Contains(@"’ very fast ’"));
+            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast ” ", "").Contains(@"“ very fast ”"));
+            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ` very fast ` ", "").Contains(@"` very fast `"));
+            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ’ very fast ‘ ", "").Contains(@"’ very fast ‘"));
+            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" „very 
 fast„", "@@").Contains(@" „very 
 fast„"));
 
-           Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast ” but not pretty ", "").Contains("but not pretty"));
-           Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast ” but not pretty“ ", "").Contains("but not pretty“"));
-           Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast ” and “ very well ” ", "").Contains(" and "));
-           Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@"not pretty but “ very fast ” ", "").Contains("not pretty but "));
+            Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast ” but not pretty ", "").Contains("but not pretty"));
+            Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast ” but not pretty“ ", "").Contains("but not pretty“"));
+            Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast ” and “ very well ” ", "").Contains(" and "));
+            Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@"not pretty but “ very fast ” ", "").Contains("not pretty but "));
 
-           // don't match single quotes, no quotes
-           Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" very fast ", "").Contains(@"very fast"));
-           Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" 'very fast' ", "").Contains(@"'very fast'"));
-           Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" ''very fast'' ", "").Contains(@"''very fast''"));
-           Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" ''very fast'' ", "").Contains(@"''very fast''"));
-           Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" ,very fast, ", "").Contains(@",very fast,")); // commas
+            // don't match single quotes, no quotes
+            Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" very fast ", "").Contains(@"very fast"));
+            Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" 'very fast' ", "").Contains(@"'very fast'"));
+            Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" ''very fast'' ", "").Contains(@"''very fast''"));
+            Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" ''very fast'' ", "").Contains(@"''very fast''"));
+            Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" ,very fast, ", "").Contains(@",very fast,")); // commas
 
             // don't match apostrophes when used within words
-           Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@"Now it’s a shame as it’s a", "").Contains(@"Now it’s a shame as it’s a"));
+            Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@"Now it’s a shame as it’s a", "").Contains(@"Now it’s a shame as it’s a"));
         }
 
         [Test]
@@ -302,28 +302,28 @@ fast„"));
             Assert.IsFalse(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref name=""F"">Fred</ref>"));
             Assert.IsFalse(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello world"));
         }
-        
+
         [Test]
         public void RefAfterReflist()
         {
-          Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}} <ref>b</ref>"));
-          Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== <references/> <ref>b</ref>"));
-          Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{Reflist}} <ref>b</ref>"));
-          Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflink}} <ref>b</ref>"));
-          Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{ref-list}} <ref>b</ref>"));
-          Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> 
+            Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}} <ref>b</ref>"));
+            Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== <references/> <ref>b</ref>"));
+            Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{Reflist}} <ref>b</ref>"));
+            Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflink}} <ref>b</ref>"));
+            Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{ref-list}} <ref>b</ref>"));
+            Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> 
 ==references== {{reflist}} <ref>b</ref>"));
-          Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}} blah
+            Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}} blah
 <ref>b</ref>"));
-          Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}} <ref name=""b"">b</ref>"));
-          
-            // {{GR}} with argument as simple decimal provides embedded <ref></ref>
-          Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}} {{GR|4}}"));
-          Assert.IsFalse(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}} {{GR|r4}}"));
-          Assert.IsFalse(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}} {{GR|India}}"));
+            Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}} <ref name=""b"">b</ref>"));
 
-          // this is correct syntax
-          Assert.IsFalse(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}}"));
+            // {{GR}} with argument as simple decimal provides embedded <ref></ref>
+            Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}} {{GR|4}}"));
+            Assert.IsFalse(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}} {{GR|r4}}"));
+            Assert.IsFalse(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}} {{GR|India}}"));
+
+            // this is correct syntax
+            Assert.IsFalse(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}}"));
         }
 
         [Test]
@@ -341,7 +341,7 @@ fast„"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{For|
     Fred the dancer|
     Fred (dancer)}}"));
-    
+
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{Otheruse|something}}"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{Otheruses2|something}}"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{otheruse|something}}"));
@@ -425,68 +425,68 @@ article words, '''bold''' blah.
 
             Assert.IsFalse(WikiRegexes.ZerothSection.IsMatch(@""));
         }
-        
+
         [Test]
         public void UncatTests()
         {
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorized}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncat}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat|date=January 2009}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised|date=May 2008}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised|date=May 2008}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorisedstub|date=May 2008}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorisedstub|date = May 2008}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorized}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncat}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat|date=January 2009}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised|date=May 2008}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised|date=May 2008}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorisedstub|date=May 2008}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorisedstub|date = May 2008}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
 
             // all the other redirects
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Classify}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{CatNeeded}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Catneeded}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categorize}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categories needed}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categoryneeded}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Category needed}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Category requested}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categories requested}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Nocats}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categorise}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Nocat}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat-date}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized-date}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Needs cat}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Needs cats}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Cats needed}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Cat needed}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{classify}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{catneeded}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{catneeded}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncat}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categorize}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categories needed}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categoryneeded}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{category needed}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{category requested}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categories requested}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{nocats}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categorise}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{nocat}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncat-date}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorized-date}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{needs cat}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{needs cats}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{cats needed}}"));
-          Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{cat needed}}"));
-          
-          // no match
-          Assert.IsFalse(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized other template}}"));
-          Assert.IsFalse(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized other template|foo=bar}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Classify}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{CatNeeded}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Catneeded}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categorize}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categories needed}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categoryneeded}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Category needed}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Category requested}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categories requested}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Nocats}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categorise}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Nocat}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat-date}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized-date}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Needs cat}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Needs cats}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Cats needed}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Cat needed}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{classify}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{catneeded}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{catneeded}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncat}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categorize}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categories needed}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categoryneeded}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{category needed}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{category requested}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categories requested}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{nocats}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categorise}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{nocat}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncat-date}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorized-date}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{needs cat}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{needs cats}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{cats needed}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{cat needed}}"));
+
+            // no match
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized other template}}"));
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized other template|foo=bar}}"));
         }
 
         [Test]
@@ -746,57 +746,57 @@ article words, '''bold''' blah.
             Assert.IsFalse(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{WIKIFY}}"));
             Assert.IsFalse(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{Coi}}"));
         }
-        
+
         [Test]
         public void LifetimeSortkeyTests()
         {
-          Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{Lifetime|1833|1907|Bisson, Elie-Hercule}}"));
-          Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{BD|1833|1907|Bisson, Elie-Hercule}}"));
-          Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{BIRTH-DEATH-SORT|1833|1907|Bisson, Elie-Hercule}}"));
-          Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{Lifetime||1907|Bisson, Elie-Hercule}}"));
-          Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{Lifetime|MISSING|1907|Bisson, Elie-Hercule}}"));
-          Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{Lifetime|1833||Bisson, Elie-Hercule}}"));
-          Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{Lifetime|1833|MISSING|Bisson, Elie-Hercule}}"));
-          Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{lifetime|||Bisson, Elie-Hercule}}"));
-          Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{lifetime |||Bisson, Elie-Hercule}}"));
-          Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{lifetime
+            Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{Lifetime|1833|1907|Bisson, Elie-Hercule}}"));
+            Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{BD|1833|1907|Bisson, Elie-Hercule}}"));
+            Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{BIRTH-DEATH-SORT|1833|1907|Bisson, Elie-Hercule}}"));
+            Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{Lifetime||1907|Bisson, Elie-Hercule}}"));
+            Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{Lifetime|MISSING|1907|Bisson, Elie-Hercule}}"));
+            Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{Lifetime|1833||Bisson, Elie-Hercule}}"));
+            Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{Lifetime|1833|MISSING|Bisson, Elie-Hercule}}"));
+            Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{lifetime|||Bisson, Elie-Hercule}}"));
+            Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{lifetime |||Bisson, Elie-Hercule}}"));
+            Assert.IsTrue(WikiRegexes.LifetimeSortkey.IsMatch(@"{{lifetime
           |||Bisson, Elie-Hercule}}"));
-          
-          Assert.IsTrue(WikiRegexes.LifetimeSortkey.Match(@"{{Lifetime|1833|1907|Bisson, Elie-Hercule}}").Groups[1].Value.Equals("Bisson, Elie-Hercule"));
-          
-          // ignores whitespace when getting sortkey
-          Assert.IsTrue(WikiRegexes.LifetimeSortkey.Match(@"{{Lifetime|1833|1907|Bisson, Elie-Hercule }}").Groups[1].Value.Equals("Bisson, Elie-Hercule"));
-          Assert.IsTrue(WikiRegexes.LifetimeSortkey.Match(@"{{Lifetime|1833|1907|
+
+            Assert.IsTrue(WikiRegexes.LifetimeSortkey.Match(@"{{Lifetime|1833|1907|Bisson, Elie-Hercule}}").Groups[1].Value.Equals("Bisson, Elie-Hercule"));
+
+            // ignores whitespace when getting sortkey
+            Assert.IsTrue(WikiRegexes.LifetimeSortkey.Match(@"{{Lifetime|1833|1907|Bisson, Elie-Hercule }}").Groups[1].Value.Equals("Bisson, Elie-Hercule"));
+            Assert.IsTrue(WikiRegexes.LifetimeSortkey.Match(@"{{Lifetime|1833|1907|
           Bisson, Elie-Hercule }}").Groups[1].Value.Equals("Bisson, Elie-Hercule"));
-          Assert.IsTrue(WikiRegexes.LifetimeSortkey.Match(@"{{Lifetime|1833|1907| Bisson, Elie-Hercule }}").Groups[1].Value.Equals("Bisson, Elie-Hercule"));
-          
-          // case sensitive
-          Assert.IsFalse(WikiRegexes.LifetimeSortkey.IsMatch(@"{{LIFETIME|1833|1907|Bisson, Elie-Hercule}}"));
-          Assert.IsFalse(WikiRegexes.LifetimeSortkey.IsMatch(@"{{bd|1833|1907|Bisson, Elie-Hercule}}"));
-          
-          // no match if no sortkey
-          Assert.IsFalse(WikiRegexes.LifetimeSortkey.IsMatch(@"{{Lifetime|1833|1907|}}"));
+            Assert.IsTrue(WikiRegexes.LifetimeSortkey.Match(@"{{Lifetime|1833|1907| Bisson, Elie-Hercule }}").Groups[1].Value.Equals("Bisson, Elie-Hercule"));
+
+            // case sensitive
+            Assert.IsFalse(WikiRegexes.LifetimeSortkey.IsMatch(@"{{LIFETIME|1833|1907|Bisson, Elie-Hercule}}"));
+            Assert.IsFalse(WikiRegexes.LifetimeSortkey.IsMatch(@"{{bd|1833|1907|Bisson, Elie-Hercule}}"));
+
+            // no match if no sortkey
+            Assert.IsFalse(WikiRegexes.LifetimeSortkey.IsMatch(@"{{Lifetime|1833|1907|}}"));
         }
-        
+
         [Test]
         public void LifetimeTests()
         {
-          Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{Lifetime|1833|1907|Bisson, Elie-Hercule}}"));
-          Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{BD|1833|1907|Bisson, Elie-Hercule}}"));
-          Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{BIRTH-DEATH-SORT|1833|1907|Bisson, Elie-Hercule}}"));
-          Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{Lifetime||1907|Bisson, Elie-Hercule}}"));
-          Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{Lifetime|MISSING|1907|Bisson, Elie-Hercule}}"));
-          Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{Lifetime|1833||Bisson, Elie-Hercule}}"));
-          Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{Lifetime|1833|MISSING|Bisson, Elie-Hercule}}"));
-          Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{lifetime|||Bisson, Elie-Hercule}}"));
-          Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{lifetime |||Bisson, Elie-Hercule}}"));
-          Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{lifetime
+            Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{Lifetime|1833|1907|Bisson, Elie-Hercule}}"));
+            Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{BD|1833|1907|Bisson, Elie-Hercule}}"));
+            Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{BIRTH-DEATH-SORT|1833|1907|Bisson, Elie-Hercule}}"));
+            Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{Lifetime||1907|Bisson, Elie-Hercule}}"));
+            Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{Lifetime|MISSING|1907|Bisson, Elie-Hercule}}"));
+            Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{Lifetime|1833||Bisson, Elie-Hercule}}"));
+            Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{Lifetime|1833|MISSING|Bisson, Elie-Hercule}}"));
+            Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{lifetime|||Bisson, Elie-Hercule}}"));
+            Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{lifetime |||Bisson, Elie-Hercule}}"));
+            Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{lifetime
           |||Bisson, Elie-Hercule}}"));
-          
-          
-          // case sensitive
-          Assert.IsFalse(WikiRegexes.Lifetime.IsMatch(@"{{LIFETIME|1833|1907|Bisson, Elie-Hercule}}"));
-          Assert.IsFalse(WikiRegexes.Lifetime.IsMatch(@"{{bd|1833|1907|Bisson, Elie-Hercule}}"));
+
+
+            // case sensitive
+            Assert.IsFalse(WikiRegexes.Lifetime.IsMatch(@"{{LIFETIME|1833|1907|Bisson, Elie-Hercule}}"));
+            Assert.IsFalse(WikiRegexes.Lifetime.IsMatch(@"{{bd|1833|1907|Bisson, Elie-Hercule}}"));
         }
     }
 }

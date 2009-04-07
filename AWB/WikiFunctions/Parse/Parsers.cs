@@ -106,10 +106,10 @@ namespace WikiFunctions.Parse
                 // clean any 'date' word within {{Article issues}} (but not 'update' field), place after the date adding rule above
                 RegexConversion.Add(new Regex(@"({{\s*[Aa]rticle ?issues\s*\|[^{}]*?)\bdate"), "$1");
             }
-            
+
             // articleissues with one issue -> single issue tag (e.g. {{articleissues|cleanup=January 2008}} to {{cleanup|date=January 2008}} etc.)
             RegexConversion.Add(new Regex(@"\{\{[Aa]rticle ?issues\s*\|\s*([^\|{}=]{3,}?)\s*(=\s*\w{3,10}\s+20\d\d\s*\}\})", RegexOptions.Compiled), "{{$1|date$2");
-            
+
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_empty_.7B.7BArticle_issues.7D.7D
             // articleissues with no issues -> remove tag
             RegexConversion.Add(new Regex(@"\{\{[Aa]rticle ?issues(?:\s*\|\s*(?:section|article)\s*=\s*[Yy])?\s*\}\}"), "");
@@ -124,7 +124,7 @@ namespace WikiFunctions.Parse
             RegexConversion.Add(new Regex(@"({{\s*(?:[Cc]it|[Aa]rticle ?issues)[^{}]*\|\s*)(\w+)\s*=\s*([^\|}{]+?)\s*\|((?:[^{}]*?\|)?\s*)\2(\s*=\s*)\3(\s*(\||\}\}))"), "$1$4$2$5$3$6"); // duplicate field remover for cite templates
             RegexConversion.Add(new Regex(@"(\{\{\s*(?:[Cc]it|[Aa]rticle ?issues)[^{}]*\|\s*)(\w+)(\s*=\s*[^\|}{\s][^\|}{]+?\s*\|?(?:[^{}]*?)?)\|\s*\2\s*=\s*(\||\}\})"), "$1$2$3$4"); // 'field=populated | field=null' drop field=null
             RegexConversion.Add(new Regex(@"(\{\{\s*(?:[Cc]it|[Aa]rticle ?issues)[^{}]*\|\s*)(\w+)\s*=\s*\|\s*((?:[^{}]+?\|)?\s*\2\s*=\s*[^\|}{\s])"), "$1$3"); // 'field=null | field=populated' drop field=null
-            
+
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Add_.7B.7Botheruse.7D.7D_and_.7B.7B2otheruses.7D.7D_in_the_supported_DABlinks
             RegexConversion.Add(new Regex(@"({{)2otheruses(\s*(?:\|[^{}]*}}|}}))"), "$1Two other uses$2");
         }
@@ -258,9 +258,9 @@ namespace WikiFunctions.Parse
 
             return ArticleText.Trim();
         }
-        
+
         private const int MIN_CLEANUP_TAGS_TO_COMBINE = 3; // article must have at least this many tags to combine to {{Article issues}}
-        
+
         /// <summary>
         /// Combines multiple cleanup tags into {{article issues}} template
         /// </summary>
@@ -288,7 +288,7 @@ namespace WikiFunctions.Parse
                 {
                     // all fields except COI, OR, POV should be lower case
                     string SingleTag = m.Groups[1].Value;
-                    if(!Regex.IsMatch(SingleTag, "(COI|OR|POV)"))
+                    if (!Regex.IsMatch(SingleTag, "(COI|OR|POV)"))
                         SingleTag = SingleTag.ToLower();
 
                     NewTags += @"|" + SingleTag + @" " + m.Groups[2].Value;
@@ -344,14 +344,14 @@ namespace WikiFunctions.Parse
 
             ArticleText = regexHeadingWhitespaceBefore.Replace(ArticleText, "$1$2$1$3");
             ArticleText = regexHeadingWhitespaceAfter.Replace(ArticleText, "$1$2$1$3");
-            
+
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Headlines_end_with_colon_.28WikiProject_Check_Wikipedia_.2357.29
             ArticleText = regexHeadingColonAtEnd.Replace(ArticleText, "$1$2$3");
-            
+
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Section_header_level_.28WikiProject_Check_Wikipedia_.237.29
             // if no level 2 heading in article, remove two levels from all headings
-            if(!regexHeadingLevelTwo.IsMatch(ArticleText))
-              ArticleText = regexHeadingUpOneLevel.Replace(ArticleText, "$1$2");
+            if (!regexHeadingLevelTwo.IsMatch(ArticleText))
+                ArticleText = regexHeadingUpOneLevel.Replace(ArticleText, "$1$2");
 
             return ArticleText;
         }
@@ -538,9 +538,9 @@ namespace WikiFunctions.Parse
 
             return (ArticleText);
         }
-        
-         private static readonly Regex NamedReferences = new Regex(@"(<\s*ref\s+name\s*=\s*(?:""|')?([^<>=\r\n]+?)(?:""|')?\s*>\s*([^<>]+?)\s*<\s*/\s*ref>)", RegexOptions.Singleline);
-                
+
+        private static readonly Regex NamedReferences = new Regex(@"(<\s*ref\s+name\s*=\s*(?:""|')?([^<>=\r\n]+?)(?:""|')?\s*>\s*([^<>]+?)\s*<\s*/\s*ref>)", RegexOptions.Singleline);
+
         // Covered by: DuplicateNamedReferencesTests()
         /// <summary>
         /// Where an unnamed reference is a duplicate of another named reference, set the unnamed one to use the named ref
@@ -588,10 +588,10 @@ namespace WikiFunctions.Parse
                     ArticleText = ArticleText.Replace(m3.Value, @"<ref name=""" + RefName + @"""/>");
                 }
             }
-        
-            return(ArticleText);
+
+            return (ArticleText);
         }
-        
+
         /// <summary>
         /// Corrects common formatting errors in dates in external reference citation templates (doesn't link/delink dates)
         /// </summary>
@@ -599,92 +599,92 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string CiteTemplateDates(string ArticleText)
         {
-          // note some incorrect date formats such as 3-2-2009 are ambiguous as could be 3-FEB-2009 or MAR-2-2009
-          // these fixes don't address such errors
-          
-          const string SICitStart = @"(?si)(\{\{\s*cit[^{}]*\|\s*";
-          
-          // convert invalid date formats like DD-MM-YYYY, MM-DD-YYYY, YYYY-D-M, YYYY-DD-MM, YYYY_MM_DD etc. to iso format of YYYY-MM-DD
-          // for accessdate= and archivedate=
-          if(Regex.IsMatch(ArticleText, @"\b(access|archive)date\s*=", RegexOptions.IgnoreCase))
-          {
-            string CitAccessdate = SICitStart + @"(?:access|archive)date\s*=\s*";
-            ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")(1[0-2])[/_\-\.]?(1[3-9])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$2-$3");
-            ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")(1[0-2])[/_\-\.]?([2-3]\d)[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$2-$3");
-            ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")(1[0-2])[/_\-\.]?\2[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$3-$2-$2"); // nn-nn-2004 and nn-nn-04 to ISO format (both nn the same)
-            ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")(1[3-9])[/_\-\.]?(1[0-2])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$3-$2");
-            ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")(1[3-9])[/_\-\.]?0?([1-9])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-0$3-$2");
-            ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")(20[01]\d)0?([01]\d)[/_\-\.]([0-3]\d\s*(?:\||}}))", "$1$2-$3-$4");
-            ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")(20[01]\d)[/_\-\.]([01]\d)0?([0-3]\d\s*(?:\||}}))", "$1$2-$3-$4");
-            ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")(20[01]\d)[/_\-\.]?([01]\d)[/_\-\.]?([1-9]\s*(?:\||}}))", "$1$2-$3-0$4");
-            ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")(20[01]\d)[/_\-\.]?([1-9])[/_\-\.]?([0-3]\d\s*(?:\||}}))", "$1$2-0$3-$4");
-            ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")(20[01]\d)[/_\-\.]?([1-9])[/_\-\.]0?([1-9]\s*(?:\||}}))", "$1$2-0$3-0$4");
-            ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")(20[01]\d)[/_\-\.]0?([1-9])[/_\-\.]([1-9]\s*(?:\||}}))", "$1$2-0$3-0$4");
-            ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")(20[01]\d)[/_\.]?([01]\d)[/_\.]?([0-3]\d\s*(?:\||}}))", "$1$2-$3-$4");
-            
-            ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")([2-3]\d)[/_\-\.]?(1[0-2])[/_\-\.]?(?:20)?([01]\d)", "${1}20$4-$3-$2");
-            ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")([2-3]\d)[/_\-\.]0?([1-9])[/_\-\.](?:20)?([01]\d)", "${1}20$4-0$3-$2");
-            ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")0?([1-9])[/_\-\.]?(1[3-9]|[2-3]\d)[/_\-\.]?(?:20)?([01]\d)", "${1}20$4-0$2-$3");
-            ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")0?([1-9])[/_\-\.]?0?\2[/_\-\.]?(?:20)?([01]\d)", "${1}20$3-0$2-0$2"); // n-n-2004 and n-n-04 to ISO format (both n the same)
-          }
-            
-          // date=, archivedate=, airdate=, date2=
-          if(Regex.IsMatch(ArticleText, @"{{\s*cit[^{}]*\|\s*(?:archive|air)?date2?\s*=", RegexOptions.IgnoreCase | RegexOptions.Singleline))
-          {
-            string CitDate = SICitStart + @"(?:archive|air)?date2?\s*=\s*";
-            ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)(200\d|19[7-9]\d)[/_]?([0-1]\d)[/_]?([0-3]\d\s*(?:\||}}))", "$1$2-$3-$4");
-            ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)(1[0-2])[/_\-\.]?([2-3]\d)[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-$2-$3");
-            ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)0?([1-9])[/_\-\.]?([2-3]\d)[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-0$2-$3");
-            ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)([2-3]\d)[/_\-\.]?0?([1-9])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-0$3-$2");
-            ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)([2-3]\d)[/_\-\.]?(1[0-2])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-$3-$2");
-            ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)(1[0-2])[/_\-\.]([2-3]\d)[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$2-$3");
-            ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)0?([1-9])[/_\-\.]([2-3]\d)[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-0$2-$3");
-            ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)([2-3]\d)[/_\-\.]0?([1-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-0$3-$2");
-            ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)([2-3]\d)[/_\-\.]?(1[0-2])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$3-$2");
-            ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)(1[0-2])[/_\-\.]?(1[3-9])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-$2-$3");
-            ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)0?([1-9])[/_\-\.](1[3-9])[/_\-\.](19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-0$2-$3");
-            ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)(1[3-9])[/_\-\.]?0?([1-9])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-0$3-$2");
-            ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)(1[3-9])[/_\-\.]?(1[0-2])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-$3-$2");
-            ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)(1[0-2])[/_\-\.]?(1[3-9])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$2-$3");
-            ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)([1-9])[/_\-\.](1[3-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-0$2-$3");
-            ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)(1[3-9])[/_\-\.]?([1-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-0$3-$2");
-            ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)(1[3-9])[/_\-\.](1[0-2])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$3-$2");
-            ArticleText = Regex.Replace(ArticleText, CitDate + @")0?([1-9])[/_\-\.]0?\2[/_\-\.](200\d|19[7-9]\d)(?=\s*(?:\||}}))", "$1$3-0$2-0$2"); // n-n-2004 and n-n-1980 to ISO format (both n the same)
-            ArticleText = Regex.Replace(ArticleText, CitDate + @")0?([1-9])[/_\-\.]0?\2[/_\-\.]([01]\d)(?=\s*(?:\||}}))", "${1}20$3-0$2-0$2"); // n-n-04 to ISO format (both n the same)
-            ArticleText = Regex.Replace(ArticleText, CitDate + @")(1[0-2])[/_\-\.]?\2[/_\-\.]?(200\d|19[7-9]\d)(?=\s*(?:\||}}))", "$1$3-$2-$2"); // nn-nn-2004 and nn-nn-1980 to ISO format (both nn the same)
-            ArticleText = Regex.Replace(ArticleText, CitDate + @")(1[0-2])[/_\-\.]?\2[/_\-\.]?([01]\d)(?=\s*(?:\||}}))", "${1}20$3-$2-$2"); // nn-nn-04 to ISO format (both nn the same)
-            ArticleText = Regex.Replace(ArticleText, CitDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]([1-9])[/_\-\.]0?([1-9](?:\]\])?\s*(?:\||}}))", "$1$2-0$3-0$4");
-            ArticleText = Regex.Replace(ArticleText, CitDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]0?([1-9])[/_\-\.]([1-9](?:\]\])?\s*(?:\||}}))", "$1$2-0$3-0$4");
-            ArticleText = Regex.Replace(ArticleText, CitDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]?([0-1]\d)[/_\-\.]?([1-9](?:\]\])?\s*(?:\||}}))", "$1$2-$3-0$4");
-            ArticleText = Regex.Replace(ArticleText, CitDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]?([1-9])[/_\-\.]?([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-0$3-$4");
-            ArticleText = Regex.Replace(ArticleText, CitDate + @")((?:\[\[)?200\d|19[7-9]\d)([0-1]\d)[/_\-\.]([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-$3-$4");
-            ArticleText = Regex.Replace(ArticleText, CitDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]([0-1]\d)0?([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-$3-$4");
-            
-            // date = YYYY-Month-DD fix, on en-wiki only
-            if (Variables.LangCode == LangCodeEnum.en)
+            // note some incorrect date formats such as 3-2-2009 are ambiguous as could be 3-FEB-2009 or MAR-2-2009
+            // these fixes don't address such errors
+
+            const string SICitStart = @"(?si)(\{\{\s*cit[^{}]*\|\s*";
+
+            // convert invalid date formats like DD-MM-YYYY, MM-DD-YYYY, YYYY-D-M, YYYY-DD-MM, YYYY_MM_DD etc. to iso format of YYYY-MM-DD
+            // for accessdate= and archivedate=
+            if (Regex.IsMatch(ArticleText, @"\b(access|archive)date\s*=", RegexOptions.IgnoreCase))
             {
-              string CitYMonthD = SICitStart + @"(?:archive|air)?date2?\s*=\s*\d{4})[-/\s]";
-              string DTemEnd = @"?[-/\s]([0-3]?\d\s*(?:\||}}))";
-              ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Apr(?:il|\.)" + DTemEnd, "$1-04-$2");
-              ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Aug(?:ust|\.)" + DTemEnd, "$1-08-$2");
-              ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Dec(?:ember|\.)" + DTemEnd, "$1-12-$2");
-              ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Feb(?:r?uary|\.)" + DTemEnd, "$1-02-$2");
-              ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Jan(?:uary|\.)" + DTemEnd, "$1-01-$2");
-              ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Jul(?:y|\.)" + DTemEnd, "$1-07-$2");
-              ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Jun(?:e|\.)" + DTemEnd, "$1-06-$2");
-              ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Mar(?:ch|\.)" + DTemEnd, "$1-03-$2");
-              ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Nov(?:ember|\.)" + DTemEnd, "$1-11-$2");
-              ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Oct(?:ober|\.)" + DTemEnd, "$1-10-$2");
-              ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Sep(?:tember|\.)" + DTemEnd, "$1-09-$2");
-              ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"May\." + DTemEnd, "$1-05-$2");
+                string CitAccessdate = SICitStart + @"(?:access|archive)date\s*=\s*";
+                ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")(1[0-2])[/_\-\.]?(1[3-9])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$2-$3");
+                ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")(1[0-2])[/_\-\.]?([2-3]\d)[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$2-$3");
+                ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")(1[0-2])[/_\-\.]?\2[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$3-$2-$2"); // nn-nn-2004 and nn-nn-04 to ISO format (both nn the same)
+                ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")(1[3-9])[/_\-\.]?(1[0-2])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$3-$2");
+                ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")(1[3-9])[/_\-\.]?0?([1-9])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-0$3-$2");
+                ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")(20[01]\d)0?([01]\d)[/_\-\.]([0-3]\d\s*(?:\||}}))", "$1$2-$3-$4");
+                ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")(20[01]\d)[/_\-\.]([01]\d)0?([0-3]\d\s*(?:\||}}))", "$1$2-$3-$4");
+                ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")(20[01]\d)[/_\-\.]?([01]\d)[/_\-\.]?([1-9]\s*(?:\||}}))", "$1$2-$3-0$4");
+                ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")(20[01]\d)[/_\-\.]?([1-9])[/_\-\.]?([0-3]\d\s*(?:\||}}))", "$1$2-0$3-$4");
+                ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")(20[01]\d)[/_\-\.]?([1-9])[/_\-\.]0?([1-9]\s*(?:\||}}))", "$1$2-0$3-0$4");
+                ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")(20[01]\d)[/_\-\.]0?([1-9])[/_\-\.]([1-9]\s*(?:\||}}))", "$1$2-0$3-0$4");
+                ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")(20[01]\d)[/_\.]?([01]\d)[/_\.]?([0-3]\d\s*(?:\||}}))", "$1$2-$3-$4");
+
+                ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")([2-3]\d)[/_\-\.]?(1[0-2])[/_\-\.]?(?:20)?([01]\d)", "${1}20$4-$3-$2");
+                ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")([2-3]\d)[/_\-\.]0?([1-9])[/_\-\.](?:20)?([01]\d)", "${1}20$4-0$3-$2");
+                ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")0?([1-9])[/_\-\.]?(1[3-9]|[2-3]\d)[/_\-\.]?(?:20)?([01]\d)", "${1}20$4-0$2-$3");
+                ArticleText = Regex.Replace(ArticleText, CitAccessdate + @")0?([1-9])[/_\-\.]?0?\2[/_\-\.]?(?:20)?([01]\d)", "${1}20$3-0$2-0$2"); // n-n-2004 and n-n-04 to ISO format (both n the same)
             }
-          }
-            
-          // all citation dates
-          ArticleText = Regex.Replace(ArticleText, SICitStart + @"(?:archive|air|access)?date2?\s*=\s*(?:\[\[)?200\d)-([2-3]\d|1[3-9])-(0[1-9]|1[0-2])(\]\])?", "$1-$3-$2$4"); // YYYY-DD-MM to YYYY-MM-DD
-          ArticleText = Regex.Replace(ArticleText, @"(\{\{\s*cite[^\{\}]*\|\s*(?:archive|air|access)?date2?\s*=\s*(?:(?:200\d|19[7-9]\d)-[01]?\d-[0-3]?\d|[0-3]?\d\s*\w+,?\s*(?:200\d|19[7-9]\d)|\w+\s*[0-3]?\d,?\s*(?:200\d|19[7-9]\d)))(\s*[,-:]?\s+[0-2]?\d\:?[0-5]\d(?:\:?[0-5]\d)?\s*[^\|\}]*)", "$1<!--$2-->", RegexOptions.IgnoreCase | RegexOptions.Singleline); // Removes time from date fields
-          
-          return(ArticleText);
+
+            // date=, archivedate=, airdate=, date2=
+            if (Regex.IsMatch(ArticleText, @"{{\s*cit[^{}]*\|\s*(?:archive|air)?date2?\s*=", RegexOptions.IgnoreCase | RegexOptions.Singleline))
+            {
+                string CitDate = SICitStart + @"(?:archive|air)?date2?\s*=\s*";
+                ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)(200\d|19[7-9]\d)[/_]?([0-1]\d)[/_]?([0-3]\d\s*(?:\||}}))", "$1$2-$3-$4");
+                ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)(1[0-2])[/_\-\.]?([2-3]\d)[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-$2-$3");
+                ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)0?([1-9])[/_\-\.]?([2-3]\d)[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-0$2-$3");
+                ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)([2-3]\d)[/_\-\.]?0?([1-9])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-0$3-$2");
+                ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)([2-3]\d)[/_\-\.]?(1[0-2])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-$3-$2");
+                ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)(1[0-2])[/_\-\.]([2-3]\d)[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$2-$3");
+                ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)0?([1-9])[/_\-\.]([2-3]\d)[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-0$2-$3");
+                ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)([2-3]\d)[/_\-\.]0?([1-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-0$3-$2");
+                ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)([2-3]\d)[/_\-\.]?(1[0-2])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$3-$2");
+                ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)(1[0-2])[/_\-\.]?(1[3-9])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-$2-$3");
+                ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)0?([1-9])[/_\-\.](1[3-9])[/_\-\.](19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-0$2-$3");
+                ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)(1[3-9])[/_\-\.]?0?([1-9])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-0$3-$2");
+                ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)(1[3-9])[/_\-\.]?(1[0-2])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-$3-$2");
+                ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)(1[0-2])[/_\-\.]?(1[3-9])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$2-$3");
+                ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)([1-9])[/_\-\.](1[3-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-0$2-$3");
+                ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)(1[3-9])[/_\-\.]?([1-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-0$3-$2");
+                ArticleText = Regex.Replace(ArticleText, CitDate + @"\[?\[?)(1[3-9])[/_\-\.](1[0-2])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$3-$2");
+                ArticleText = Regex.Replace(ArticleText, CitDate + @")0?([1-9])[/_\-\.]0?\2[/_\-\.](200\d|19[7-9]\d)(?=\s*(?:\||}}))", "$1$3-0$2-0$2"); // n-n-2004 and n-n-1980 to ISO format (both n the same)
+                ArticleText = Regex.Replace(ArticleText, CitDate + @")0?([1-9])[/_\-\.]0?\2[/_\-\.]([01]\d)(?=\s*(?:\||}}))", "${1}20$3-0$2-0$2"); // n-n-04 to ISO format (both n the same)
+                ArticleText = Regex.Replace(ArticleText, CitDate + @")(1[0-2])[/_\-\.]?\2[/_\-\.]?(200\d|19[7-9]\d)(?=\s*(?:\||}}))", "$1$3-$2-$2"); // nn-nn-2004 and nn-nn-1980 to ISO format (both nn the same)
+                ArticleText = Regex.Replace(ArticleText, CitDate + @")(1[0-2])[/_\-\.]?\2[/_\-\.]?([01]\d)(?=\s*(?:\||}}))", "${1}20$3-$2-$2"); // nn-nn-04 to ISO format (both nn the same)
+                ArticleText = Regex.Replace(ArticleText, CitDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]([1-9])[/_\-\.]0?([1-9](?:\]\])?\s*(?:\||}}))", "$1$2-0$3-0$4");
+                ArticleText = Regex.Replace(ArticleText, CitDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]0?([1-9])[/_\-\.]([1-9](?:\]\])?\s*(?:\||}}))", "$1$2-0$3-0$4");
+                ArticleText = Regex.Replace(ArticleText, CitDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]?([0-1]\d)[/_\-\.]?([1-9](?:\]\])?\s*(?:\||}}))", "$1$2-$3-0$4");
+                ArticleText = Regex.Replace(ArticleText, CitDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]?([1-9])[/_\-\.]?([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-0$3-$4");
+                ArticleText = Regex.Replace(ArticleText, CitDate + @")((?:\[\[)?200\d|19[7-9]\d)([0-1]\d)[/_\-\.]([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-$3-$4");
+                ArticleText = Regex.Replace(ArticleText, CitDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]([0-1]\d)0?([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-$3-$4");
+
+                // date = YYYY-Month-DD fix, on en-wiki only
+                if (Variables.LangCode == LangCodeEnum.en)
+                {
+                    string CitYMonthD = SICitStart + @"(?:archive|air)?date2?\s*=\s*\d{4})[-/\s]";
+                    string DTemEnd = @"?[-/\s]([0-3]?\d\s*(?:\||}}))";
+                    ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Apr(?:il|\.)" + DTemEnd, "$1-04-$2");
+                    ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Aug(?:ust|\.)" + DTemEnd, "$1-08-$2");
+                    ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Dec(?:ember|\.)" + DTemEnd, "$1-12-$2");
+                    ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Feb(?:r?uary|\.)" + DTemEnd, "$1-02-$2");
+                    ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Jan(?:uary|\.)" + DTemEnd, "$1-01-$2");
+                    ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Jul(?:y|\.)" + DTemEnd, "$1-07-$2");
+                    ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Jun(?:e|\.)" + DTemEnd, "$1-06-$2");
+                    ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Mar(?:ch|\.)" + DTemEnd, "$1-03-$2");
+                    ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Nov(?:ember|\.)" + DTemEnd, "$1-11-$2");
+                    ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Oct(?:ober|\.)" + DTemEnd, "$1-10-$2");
+                    ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"Sep(?:tember|\.)" + DTemEnd, "$1-09-$2");
+                    ArticleText = Regex.Replace(ArticleText, CitYMonthD + @"May\." + DTemEnd, "$1-05-$2");
+                }
+            }
+
+            // all citation dates
+            ArticleText = Regex.Replace(ArticleText, SICitStart + @"(?:archive|air|access)?date2?\s*=\s*(?:\[\[)?200\d)-([2-3]\d|1[3-9])-(0[1-9]|1[0-2])(\]\])?", "$1-$3-$2$4"); // YYYY-DD-MM to YYYY-MM-DD
+            ArticleText = Regex.Replace(ArticleText, @"(\{\{\s*cite[^\{\}]*\|\s*(?:archive|air|access)?date2?\s*=\s*(?:(?:200\d|19[7-9]\d)-[01]?\d-[0-3]?\d|[0-3]?\d\s*\w+,?\s*(?:200\d|19[7-9]\d)|\w+\s*[0-3]?\d,?\s*(?:200\d|19[7-9]\d)))(\s*[,-:]?\s+[0-2]?\d\:?[0-5]\d(?:\:?[0-5]\d)?\s*[^\|\}]*)", "$1<!--$2-->", RegexOptions.IgnoreCase | RegexOptions.Singleline); // Removes time from date fields
+
+            return (ArticleText);
         }
 
         // Covered by: FormattingTests.TestMdashes()
@@ -740,8 +740,8 @@ namespace WikiFunctions.Parse
         /// Main regex for {{reflist}} converter
         /// </summary>
         private static readonly Regex ReferenceListTags = new Regex(@"(<(span|div)( class=""(references-small|small|references-2column)|)?"">[\r\n\s]*){1,2}[\r\n\s]*<references[\s]?/>([\r\n\s]*</(span|div)>){1,2}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-		
-		private static readonly Regex BadReferenceListTags = new Regex(@"<references>(</references>)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        private static readonly Regex BadReferenceListTags = new Regex(@"<references>(</references>)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         private static readonly Regex DivStart = new Regex(@"<div\b.*?>", RegexOptions.Compiled);
         private static readonly Regex DivEnd = new Regex(@"< ?/ ?div\b.*?>", RegexOptions.Compiled);
@@ -754,9 +754,9 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string FixReferenceListTags(string ArticleText)
         {
-			if (BadReferenceListTags.IsMatch(ArticleText))
-				ArticleText = BadReferenceListTags.Replace(ArticleText, "<references/>");
-				
+            if (BadReferenceListTags.IsMatch(ArticleText))
+                ArticleText = BadReferenceListTags.Replace(ArticleText, "<references/>");
+
             return ReferenceListTags.Replace(ArticleText, new MatchEvaluator(ReflistMatchEvaluator));
         }
 
@@ -1018,12 +1018,12 @@ namespace WikiFunctions.Parse
         private static readonly Regex DoubleBracketAtStartOfExternalLink = new Regex(@"\[(\[http:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex DoubleBracketAtEndOfExternalLink = new Regex(@"(\[http:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])\](?!\])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex DoubleBracketAtEndOfExternalLinkWithinImage = new Regex(@"(\[http:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!)))\](?=\]{3})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        
+
         private const string TemEnd = @"(\s*(?:\||\}\}))";
         private const string CitURL = @"(\{\{\s*cit[^{}]*?\|\s*url\s*=\s*)";
         private static readonly Regex BracketsAtBeginCiteTemplateURL = new Regex(CitURL + @"\[+\s*((?:(?:ht|f)tp://)?[^\[\]<>""\s]+?\s*)\]?" + TemEnd, RegexOptions.IgnoreCase);
         private static readonly Regex BracketsAtEndCiteTemplateURL = new Regex(CitURL + @"\[?\s*((?:(?:ht|f)tp://)?[^\[\]<>""\s]+?\s*)\]+" + TemEnd, RegexOptions.IgnoreCase);
-        
+
         private static readonly Regex SyntaxRegex4 = new Regex(@"\[\[([^][]*?)\](?=[^\]]*?(?:$|\[|\n))", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegex5 = new Regex(@"(?<=(?:^|\]|\n)[^\[]*?)\[([^][]*?)\]\](?!\])", RegexOptions.Compiled);
 
@@ -1053,16 +1053,16 @@ namespace WikiFunctions.Parse
         private static readonly Regex SingleTripleSlashInHttpLink = new Regex(@"([\s\[>=](?:ht|f))tp:(?:/|///)(\w+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private static readonly Regex CellpaddingTypo = new Regex(@"({\s*\|\s*class\s*=\s*""wikitable[^}]*?)cel(?:lpa|pad?)ding\b", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-        
+
         private static readonly Regex AccessdateTypo = new Regex(@"(\{\{\s*cit[^{}]*?\|\s*)ac(?:(?:ess?s?|cc?es|cesss|ccess)date|cessdare)(\s*=\s*)", RegexOptions.IgnoreCase);
-        
+
         private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{(?:[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)|[Cc]itation)\b\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(?<!ISBN)(\s*=\s*[^{}\|]{3,})");
-        
+
         private static readonly Regex CiteFormatFieldTypo = new Regex(@"(\{\{\s*[Cc]it[^{}]*?\|\s*)(?:fprmat)(\s*=\s*)");
 
         //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.3Cfont.3E_tags
         private static readonly Regex RemoveNoPropertyFontTags = new Regex(@"<font>([^<>]+)</font>", RegexOptions.IgnoreCase);
-        
+
         // Covered by: LinkTests.TestFixSyntax(), incomplete
         /// <summary>
         /// Fixes and improves syntax (such as html markup)
@@ -1093,7 +1093,7 @@ namespace WikiFunctions.Parse
             ArticleText = DoubleBracketAtStartOfExternalLink.Replace(ArticleText, "$1");
             ArticleText = DoubleBracketAtEndOfExternalLink.Replace(ArticleText, "$1");
             ArticleText = DoubleBracketAtEndOfExternalLinkWithinImage.Replace(ArticleText, "$1");
-            
+
             // (part) wikilinked/external linked URL in cite template, uses MediaWiki regex of [^\[\]<>""\s] for URL bit after http://
             ArticleText = BracketsAtBeginCiteTemplateURL.Replace(ArticleText, "$1$2$3");
             ArticleText = BracketsAtEndCiteTemplateURL.Replace(ArticleText, "$1$2$3");
@@ -1124,25 +1124,25 @@ namespace WikiFunctions.Parse
             }
 
             ArticleText = Regex.Replace(ArticleText, "ISBN: ?([0-9])", "ISBN $1");
-            
+
             ArticleText = CellpaddingTypo.Replace(ArticleText, "$1cellpadding");
-            
+
             ArticleText = AccessdateTypo.Replace(ArticleText, "$1accessdate$2");
-            
+
             // {{cite web}} needs lower case field names; two loops in case a single template has multiple uppercase fields
             // restrict to en-wiki
             // exceptionally, 'ISBN' is allowed
-            while(Variables.LangCode == LangCodeEnum.en)
+            while (Variables.LangCode == LangCodeEnum.en)
             {
-              foreach (Match m in UppercaseCiteFields.Matches(ArticleText))
-              {
-                      ArticleText = ArticleText.Replace(m.Value, m.Groups[1].Value + m.Groups[2].Value.ToLower() + m.Groups[3].Value);
-              }
-              
-              if (!UppercaseCiteFields.IsMatch(ArticleText) )
-                break;
+                foreach (Match m in UppercaseCiteFields.Matches(ArticleText))
+                {
+                    ArticleText = ArticleText.Replace(m.Value, m.Groups[1].Value + m.Groups[2].Value.ToLower() + m.Groups[3].Value);
+                }
+
+                if (!UppercaseCiteFields.IsMatch(ArticleText))
+                    break;
             }
-            
+
             ArticleText = CiteFormatFieldTypo.Replace(ArticleText, "$1format$2");
 
             ArticleText = RemoveNoPropertyFontTags.Replace(ArticleText, "$1");
@@ -2295,8 +2295,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (Tools.FixupDefaultSort(ArticleTitle) != ArticleTitle && Matches > 0 &&
                 !WikiRegexes.Defaultsort.IsMatch(ArticleText))
             {
-              string sortkey = Tools.FixupDefaultSort(ArticleTitle);
-              
+                string sortkey = Tools.FixupDefaultSort(ArticleTitle);
+
                 ArticleText = ArticleText + "\r\n{{DEFAULTSORT:" + sortkey + "}}";
 
                 return (ExplicitCategorySortkeys(ArticleText, sortkey));
@@ -2741,7 +2741,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             return (WikiRegexes.MoreNoFootnotes.IsMatch(WikiRegexes.Comments.Replace(ArticleText, "")) && WikiRegexes.Refs.Matches(ArticleText).Count > 4);
         }
-        
+
         /// <summary>
         /// Check if the article uses cite references but has no recognised template to display the references; only for en-wiki
         /// </summary>
@@ -2753,15 +2753,15 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             return !WikiRegexes.ReferencesTemplate.IsMatch(ArticleText) && Regex.IsMatch(ArticleText, WikiRegexes.ReferenceEndGR);
         }
-        
+
         /// <summary>
         /// Check if the article contains a <ref>...</ref> reference after the {{reflist}} to show them
         /// </summary>
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
         public static bool HasRefAfterReflist(string ArticleText)
         {
-          ArticleText = WikiRegexes.Comments.Replace(ArticleText, "");
-          return(WikiRegexes.RefAfterReflist.IsMatch(ArticleText) && WikiRegexes.ReferencesTemplate.Matches(ArticleText).Count == 1);
+            ArticleText = WikiRegexes.Comments.Replace(ArticleText, "");
+            return (WikiRegexes.RefAfterReflist.IsMatch(ArticleText) && WikiRegexes.ReferencesTemplate.Matches(ArticleText).Count == 1);
         }
 
         #endregion

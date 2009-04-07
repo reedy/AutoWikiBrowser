@@ -93,9 +93,9 @@ namespace UnitTests
         {
             Assert.AreEqual("<references/>", Parsers.FixReferenceListTags("<references/>"));
             Assert.AreEqual("<div><references/></div>", Parsers.FixReferenceListTags("<div><references/></div>"));
-			
-			Assert.AreEqual("<references/>", Parsers.FixReferenceListTags("<references>"));
-			Assert.AreEqual("<references/>", Parsers.FixReferenceListTags("<references></references>"));
+
+            Assert.AreEqual("<references/>", Parsers.FixReferenceListTags("<references>"));
+            Assert.AreEqual("<references/>", Parsers.FixReferenceListTags("<references></references>"));
 
             Assert.AreEqual("{{reflist}}", Parsers.FixReferenceListTags("<div class=\"references-small\"><references/>\r\n</div>"));
             Assert.AreEqual("{{reflist|2}}", Parsers.FixReferenceListTags("<div class=\"references-2column\"><references/></div>"));
@@ -261,7 +261,7 @@ End of.";
             Assert.AreEqual(D, Parsers.ReorderReferences(D));
             Assert.AreEqual(E, Parsers.ReorderReferences(E));
         }
-        
+
         [Test]
         public void DuplicateNamedReferencesTests()
         {
@@ -416,22 +416,22 @@ End of.";
             Assert.AreEqual("'''John Doe''' (died [[21 February]] [[2008]])", Parsers.FixLivingThingsRelatedDates("'''John Doe''' (d. [[21 February]] [[2008]])"));
             Assert.AreEqual("'''Willa Klug Baum''' ([[October 4]], [[1926]] – May 18, 2006)", Parsers.FixLivingThingsRelatedDates("'''Willa Klug Baum''' (born [[October 4]], [[1926]], died May 18, 2006)"));
         }
-        
+
         [Test]
         public void TestCiteFormatFieldTypo()
         {
-          Assert.AreEqual(@"now {{cite web| url=a.com|title=hello|format=PDF}} was", Parsers.FixSyntax(@"now {{cite web| url=a.com|title=hello|fprmat=PDF}} was"));
-          Assert.AreEqual(@"now {{cite web| url=a.com|title=hello| format=PDF}} was", Parsers.FixSyntax(@"now {{cite web| url=a.com|title=hello| fprmat=PDF}} was"));
-          Assert.AreEqual(@"now {{cite web| url=a.com|title=hello|format = PDF}} was", Parsers.FixSyntax(@"now {{cite web| url=a.com|title=hello|Fprmat = PDF}} was"));
-          Assert.AreEqual(@"now {{Cite web| url=a.com|title=hello|format=DOC}} was", Parsers.FixSyntax(@"now {{Cite web| url=a.com|title=hello|fprmat=DOC}} was"));
-          Assert.AreEqual(@"now {{Cite web| url=a.com|title=hello|
+            Assert.AreEqual(@"now {{cite web| url=a.com|title=hello|format=PDF}} was", Parsers.FixSyntax(@"now {{cite web| url=a.com|title=hello|fprmat=PDF}} was"));
+            Assert.AreEqual(@"now {{cite web| url=a.com|title=hello| format=PDF}} was", Parsers.FixSyntax(@"now {{cite web| url=a.com|title=hello| fprmat=PDF}} was"));
+            Assert.AreEqual(@"now {{cite web| url=a.com|title=hello|format = PDF}} was", Parsers.FixSyntax(@"now {{cite web| url=a.com|title=hello|Fprmat = PDF}} was"));
+            Assert.AreEqual(@"now {{Cite web| url=a.com|title=hello|format=DOC}} was", Parsers.FixSyntax(@"now {{Cite web| url=a.com|title=hello|fprmat=DOC}} was"));
+            Assert.AreEqual(@"now {{Cite web| url=a.com|title=hello|
           format=DOC|publisher=BBC}} was", Parsers.FixSyntax(@"now {{Cite web| url=a.com|title=hello|
           fprmat=DOC|publisher=BBC}} was"));
 
-          // no Matches
-          Assert.AreEqual(@"now {{cite web| url=http://site.net|title=okay}} fprmat of PDF", Parsers.FixSyntax(@"now {{cite web| url=http://site.net|title=okay}} fprmat of PDF"));
-          Assert.AreEqual(@"now {{cite web| url=http://site.net/1.pdf|format=PDF}} was", Parsers.FixSyntax(@"now {{cite web| url=http://site.net/1.pdf|format=PDF}} was"));
-          Assert.AreEqual(@"now {{cite web|\r\nurl=http://site.net/1.pdf|format=PDF|title=okay}} was", Parsers.FixSyntax(@"now {{cite web|\r\nurl=http://site.net/1.pdf|format=PDF|title=okay}} was"));
+            // no Matches
+            Assert.AreEqual(@"now {{cite web| url=http://site.net|title=okay}} fprmat of PDF", Parsers.FixSyntax(@"now {{cite web| url=http://site.net|title=okay}} fprmat of PDF"));
+            Assert.AreEqual(@"now {{cite web| url=http://site.net/1.pdf|format=PDF}} was", Parsers.FixSyntax(@"now {{cite web| url=http://site.net/1.pdf|format=PDF}} was"));
+            Assert.AreEqual(@"now {{cite web|\r\nurl=http://site.net/1.pdf|format=PDF|title=okay}} was", Parsers.FixSyntax(@"now {{cite web|\r\nurl=http://site.net/1.pdf|format=PDF|title=okay}} was"));
         }
 
         [Test, Category("Incomplete")]
@@ -567,38 +567,38 @@ world</font>"));
             // ISBN is allowed to be uppercase
             Assert.AreEqual(@"{{cite book | author=Smith | title=Great Book | ISBN=15478454 | date=17 May 2004 }}", Parsers.FixSyntax(@"{{cite book | author=Smith | title=Great Book | ISBN=15478454 | date=17 May 2004 }}"));
         }
-        
+
         [Test]
         public void TestCellpaddingTypo()
         {
-          Assert.AreEqual(@"now {| class=""wikitable"" cellpadding=2", Parsers.FixSyntax(@"now {| class=""wikitable"" celpadding=2"));
-          Assert.AreEqual(@"now {| class=""wikitable"" cellpadding=2", Parsers.FixSyntax(@"now {| class=""wikitable"" cellpading=2"));
-          Assert.AreEqual(@"now {| class=""wikitable"" cellpadding=2", Parsers.FixSyntax(@"now {| class=""wikitable"" Celpading=2"));
-          
-          // no Matches
-          Assert.AreEqual("now the cellpading of the", Parsers.FixSyntax("now the cellpading of the"));
-          Assert.AreEqual(@"now {| class=""wikitable"" cellpadding=2", Parsers.FixSyntax(@"now {| class=""wikitable"" cellpadding=2"));
+            Assert.AreEqual(@"now {| class=""wikitable"" cellpadding=2", Parsers.FixSyntax(@"now {| class=""wikitable"" celpadding=2"));
+            Assert.AreEqual(@"now {| class=""wikitable"" cellpadding=2", Parsers.FixSyntax(@"now {| class=""wikitable"" cellpading=2"));
+            Assert.AreEqual(@"now {| class=""wikitable"" cellpadding=2", Parsers.FixSyntax(@"now {| class=""wikitable"" Celpading=2"));
+
+            // no Matches
+            Assert.AreEqual("now the cellpading of the", Parsers.FixSyntax("now the cellpading of the"));
+            Assert.AreEqual(@"now {| class=""wikitable"" cellpadding=2", Parsers.FixSyntax(@"now {| class=""wikitable"" cellpadding=2"));
         }
-        
+
         [Test]
         public void TestAccessdateTypo()
         {
-          string Correct = @"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23 }} was";
-          Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acessdate = 2008-04-23 }} was"));
-          Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accesdate = 2008-04-23 }} was"));
-          Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|Acessdate = 2008-04-23 }} was"));
-          Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|Accesdate = 2008-04-23 }} was"));
-          Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|Acesdate = 2008-04-23 }} was"));
-          Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acesdate = 2008-04-23 }} was"));
-          Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccesdate = 2008-04-23 }} was"));
-          Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23 }} was"));
-          
-          Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23|publisher=BBC }} was", Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23|publisher=BBC }} was"));
-          Assert.AreEqual(@"now {{Cite web | url=http://site.it | title=hello|accessdate = 2008-04-23  |publisher=BBC }} was", Parsers.FixSyntax(@"now {{Cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23  |publisher=BBC }} was"));
-          
-          // no match
-          Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|acccessdated = 2008-04-23 }} was", Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccessdated = 2008-04-23 }} was"));
-          Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23 }} was", Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23 }} was"));
+            string Correct = @"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23 }} was";
+            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acessdate = 2008-04-23 }} was"));
+            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accesdate = 2008-04-23 }} was"));
+            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|Acessdate = 2008-04-23 }} was"));
+            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|Accesdate = 2008-04-23 }} was"));
+            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|Acesdate = 2008-04-23 }} was"));
+            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acesdate = 2008-04-23 }} was"));
+            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccesdate = 2008-04-23 }} was"));
+            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23 }} was"));
+
+            Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23|publisher=BBC }} was", Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23|publisher=BBC }} was"));
+            Assert.AreEqual(@"now {{Cite web | url=http://site.it | title=hello|accessdate = 2008-04-23  |publisher=BBC }} was", Parsers.FixSyntax(@"now {{Cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23  |publisher=BBC }} was"));
+
+            // no match
+            Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|acccessdated = 2008-04-23 }} was", Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccessdated = 2008-04-23 }} was"));
+            Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23 }} was", Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23 }} was"));
         }
 
         [Test]
@@ -683,7 +683,7 @@ world</font>"));
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 2011-05-21 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 21-5-2011 }} was"));
             Assert.AreEqual(@"now {{Cite web | url=http://site.it | title=hello|date = 2008-05-21 |publisher=BBC}} was", Parsers.CiteTemplateDates(@"now {{Cite web | url=http://site.it | title=hello|date = 21-5-08 |publisher=BBC}} was"));
             Assert.AreEqual(@"now {{Cite web | url=http://site.it | title=hello|date = 2008-05-21|publisher=BBC}} was", Parsers.CiteTemplateDates(@"now {{Cite web | url=http://site.it | title=hello|date = 21-5-08|publisher=BBC}} was"));
-            
+
             // date = YYYY-Month-DD fix
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 2008-01-11 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 2008-Jan-11 }} was"));
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 2008-02-11 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 2008-Feb-11 }} was"));
@@ -697,7 +697,7 @@ world</font>"));
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 2008-10-11 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 2008-Oct-11 }} was"));
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 2008-11-11 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 2008-Nov-11 }} was"));
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 2008-12-11 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 2008-Dec-11 }} was"));
-            
+
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 2008-01-11 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 2008-January-11 }} was"));
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 2008-02-11 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 2008-February-11 }} was"));
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 2008-03-11 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 2008-March-11 }} was"));
@@ -709,7 +709,7 @@ world</font>"));
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 2008-10-11 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 2008-October-11 }} was"));
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 2008-11-11 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 2008-November-11 }} was"));
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 2008-12-11 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 2008-December-11 }} was"));
-            
+
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 2008-01-07 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 2008-Jan.-07 }} was"));
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 2008-02-07 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 2008-Feb.-07 }} was"));
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 2008-03-07 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 2008-Mar.-07 }} was"));
@@ -721,11 +721,11 @@ world</font>"));
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 2008-10-07 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 2008-Oct.-07 }} was"));
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 2008-11-07 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 2008-Nov.-07 }} was"));
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 2008-12-07 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 2008-Dec.-07 }} was"));
-            
+
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 2008-01-07 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 2008 Jan. 07 }} was"));
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 2008-01-07 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 2008 Jan 07 }} was"));
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 1998-01-07 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 1998 January 07 }} was"));
-            
+
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|archivedate = 2008-12-07 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|archivedate = 2008-Dec.-07 }} was"));
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|airdate = 2008-12-07 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|airdate = 2008-Dec.-07 }} was"));
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date2 = 2008-12-07 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date2 = 2008-Dec.-07 }} was"));
@@ -750,27 +750,27 @@ world</font>"));
             Assert.AreEqual("now [[Image:Fred12.JPG| here [http://www.site.com a g site]]] was", Parsers.FixSyntax("now [[Image:Fred12.JPG| here [[http://www.site.com a g site]]]] was"));
             Assert.AreEqual("[[Image:foo.jpg|Some [http://some_crap.com]]]", Parsers.FixSyntax("[[Image:foo.jpg|Some [[http://some_crap.com]]]]"));
         }
-        
+
         [Test]
         public void TestBracketsAtCiteTemplateURL()
         {
-          string Correct = @"now {{cite web|url=http://site.net|title=hello}} was";
+            string Correct = @"now {{cite web|url=http://site.net|title=hello}} was";
 
-          Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web|url=[http://site.net]|title=hello}} was"));
-          Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web|url=http://site.net]|title=hello}} was"));
-          Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web|url=[http://site.net|title=hello}} was"));
-          Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web|url=[[http://site.net]|title=hello}} was"));
-          Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web|url=[http://site.net]]|title=hello}} was"));
-          Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web|url=[[http://site.net]]|title=hello}} was"));
-          Assert.AreEqual(@"now {{cite web|url = http://site.net  |title=hello}} was", Parsers.FixSyntax(@"now {{cite web|url = [http://site.net]  |title=hello}} was"));
-          Assert.AreEqual(@"now {{cite web|title=hello |url=www.site.net}} was", Parsers.FixSyntax(@"now {{cite web|title=hello |url=[www.site.net]}} was"));
-          Assert.AreEqual(@"now {{cite journal|title=hello | url=site.net }} was", Parsers.FixSyntax(@"now {{cite journal|title=hello | url=[site.net]] }} was"));
-          
-          // no match
-          Assert.AreEqual(@"now {{cite web| url=http://site.net|title=hello}} was", Parsers.FixSyntax(@"now {{cite web| url=http://site.net|title=hello}} was"));
-          Assert.AreEqual(@"now {{cite web| url=[http://site.net cool site]|title=hello}} was", Parsers.FixSyntax(@"now {{cite web| url=[http://site.net cool site]|title=hello}} was"));
-          Assert.AreEqual(@"now {{cite web| url=http://site.net cool site]|title=hello}} was", Parsers.FixSyntax(@"now {{cite web| url=http://site.net cool site]|title=hello}} was"));
-          Assert.AreEqual(@"now {{cite web| url=[http://site.net cool site|title=hello}} was", Parsers.FixSyntax(@"now {{cite web| url=[http://site.net cool site|title=hello}} was"));
+            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web|url=[http://site.net]|title=hello}} was"));
+            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web|url=http://site.net]|title=hello}} was"));
+            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web|url=[http://site.net|title=hello}} was"));
+            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web|url=[[http://site.net]|title=hello}} was"));
+            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web|url=[http://site.net]]|title=hello}} was"));
+            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web|url=[[http://site.net]]|title=hello}} was"));
+            Assert.AreEqual(@"now {{cite web|url = http://site.net  |title=hello}} was", Parsers.FixSyntax(@"now {{cite web|url = [http://site.net]  |title=hello}} was"));
+            Assert.AreEqual(@"now {{cite web|title=hello |url=www.site.net}} was", Parsers.FixSyntax(@"now {{cite web|title=hello |url=[www.site.net]}} was"));
+            Assert.AreEqual(@"now {{cite journal|title=hello | url=site.net }} was", Parsers.FixSyntax(@"now {{cite journal|title=hello | url=[site.net]] }} was"));
+
+            // no match
+            Assert.AreEqual(@"now {{cite web| url=http://site.net|title=hello}} was", Parsers.FixSyntax(@"now {{cite web| url=http://site.net|title=hello}} was"));
+            Assert.AreEqual(@"now {{cite web| url=[http://site.net cool site]|title=hello}} was", Parsers.FixSyntax(@"now {{cite web| url=[http://site.net cool site]|title=hello}} was"));
+            Assert.AreEqual(@"now {{cite web| url=http://site.net cool site]|title=hello}} was", Parsers.FixSyntax(@"now {{cite web| url=http://site.net cool site]|title=hello}} was"));
+            Assert.AreEqual(@"now {{cite web| url=[http://site.net cool site|title=hello}} was", Parsers.FixSyntax(@"now {{cite web| url=[http://site.net cool site|title=hello}} was"));
         }
 
         [Test]
@@ -1025,7 +1025,7 @@ Some news here.", "test"));
             Assert.AreEqual("==hello[http://example.net]==", Parsers.FixHeadings("==hello[http://example.net]==", "a"));
             Assert.AreEqual("hello [[world]]", Parsers.FixHeadings("hello [[world]]", "a"));
             Assert.AreEqual("now == hello [[world]] == here", Parsers.FixHeadings("now == hello [[world]] == here", "a"));
-            
+
             // remove colon from end of heading text
             Assert.AreEqual(@"== hello world ==
 ", Parsers.FixHeadings(@"== hello world: ==
@@ -1041,23 +1041,23 @@ Some news here.", "test"));
 ", Parsers.FixHeadings(@"== hello world: ==
 == hello world2: ==
 ", "a"));
-            
+
             // no change if colon within heading text
             Assert.AreEqual(@"== hello:world ==
 ", Parsers.FixHeadings(@"== hello:world ==
 ", "a"));
         }
-        
+
         [Test]
         public void TestFixHeadingsRemoveTwoLevels()
         {
-          // single heading
-          Assert.AreEqual(@"===hello===
+            // single heading
+            Assert.AreEqual(@"===hello===
 text", Parsers.FixHeadings(@"====hello====
 text", "a"));
-          
-          // multiple
-          Assert.AreEqual(@"===hello===
+
+            // multiple
+            Assert.AreEqual(@"===hello===
 text
 === hello2 ===
 texty
@@ -1068,25 +1068,25 @@ text
 texty
 ===== hello3 =====
 ", "a"));
-          
-          // level 1 not altered
-          Assert.AreEqual(@"=level1=
+
+            // level 1 not altered
+            Assert.AreEqual(@"=level1=
 text
 ===hello===
 ", Parsers.FixHeadings(@"=level1=
 text
 ====hello====
 ", "a"));
-          
-          // no changes if already a level two
-          Assert.AreEqual(@"==hi==
+
+            // no changes if already a level two
+            Assert.AreEqual(@"==hi==
 ====hello====
 ", Parsers.FixHeadings(@"==hi==
 ====hello====
 ", "a"));
-          
-          // no changes on level 1 only
-          Assert.AreEqual(@"=hello=
+
+            // no changes on level 1 only
+            Assert.AreEqual(@"=hello=
 text", Parsers.FixHeadings(@"=hello=
 text", "a"));
         }
@@ -1830,7 +1830,7 @@ Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
 [[Category:São Miguel Island]]
 {{Lifetime|1833|1907|Bisson, Elie-Hercule}}", @"Água Retorta", out noChange));
             Assert.IsTrue(noChange);
-            
+
             // else if no lifetime, use article name
             Assert.AreEqual(@"[[Category:Parishes of the Azores]]
 [[Category:São Miguel Island]]
@@ -1926,27 +1926,27 @@ Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
 ==References== 
 {{reflist}}"));
         }
-        
+
         [Test]
         public void HasRefAfterReflistTest()
         {
-          Assert.IsTrue(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} <ref>b</ref>"));
-          Assert.IsTrue(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} {{GR|4}}"));
-          Assert.IsTrue(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> 
+            Assert.IsTrue(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} <ref>b</ref>"));
+            Assert.IsTrue(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} {{GR|4}}"));
+            Assert.IsTrue(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> 
 ==references== {{reflist}} <ref>b</ref>"));
-          Assert.IsTrue(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} <ref name=""b"">b</ref>"));
-          
-          // this is correct syntax
-          Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}}"));
-          // ignores commented out refs
-          Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} <!--<ref>b</ref>-->"));
-          
-          // the second template means this is okay too
-          Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} <ref name=""b"">b</ref> {{reflist}}"));
+            Assert.IsTrue(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} <ref name=""b"">b</ref>"));
+
+            // this is correct syntax
+            Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}}"));
+            // ignores commented out refs
+            Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} <!--<ref>b</ref>-->"));
+
+            // the second template means this is okay too
+            Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} <ref name=""b"">b</ref> {{reflist}}"));
 
             // 'r' in argument means no embedded <ref></ref>
-          Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} {{GR|r4}}"));
-          Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} {{GR|India}}"));
+            Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} {{GR|r4}}"));
+            Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} {{GR|India}}"));
         }
 
         [Test]
@@ -2413,7 +2413,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"{{commons cat|XXX}}", Parsers.Conversions(@"{{Commons|category:XXX}}"));
             Assert.AreEqual(@"{{commons cat|XXX}}", Parsers.Conversions(@"{{Commons| category:XXX }}"));
             Assert.AreEqual(@"{{commons cat|Backgammon|Backgammon}}", Parsers.Conversions(@"{{commons|Category:Backgammon|Backgammon}}"));
-            
+
             // {{2otheriuses}} --> {{Two other uses}}
             Assert.AreEqual(@"{{Two other uses}}", Parsers.Conversions(@"{{2otheruses}}"));
             Assert.AreEqual(@"{{Two other uses|a|b}}", Parsers.Conversions(@"{{2otheruses|a|b}}"));
@@ -2422,31 +2422,31 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 |a|b}}"));
             Assert.AreEqual(@"{{Two other uses|aasd}}", Parsers.Conversions(@"{{2otheruses|aasd}}"));
         }
-        
+
         [Test]
         public void TestRemoveEmptyArticleIssues()
         {
-          Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues}}"));
-          Assert.AreEqual(@"", Parsers.Conversions(@"{{Articleissues}}"));
-          Assert.AreEqual(@"", Parsers.Conversions(@"{{article issues}}"));
-          Assert.AreEqual(@"", Parsers.Conversions(@"{{articleissues}}"));
-          Assert.AreEqual(@"", Parsers.Conversions(@"{{articleissues }}"));
-          Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues|article=y}}"));
-          Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues|article = y}}"));
-          Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues|section = y}}"));
-          Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues|section= y}}"));
-          Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues | section= y}}"));
-          
-          // no match, 'section' and 'sections' are different parameters for the template
-          Assert.AreEqual(@"{{Article issues|cleanup=May 2008|POV=March 2008}}", Parsers.Conversions(@"{{Article issues|cleanup=May 2008|POV=March 2008}}"));
-          Assert.AreEqual(@"{{Article issues|sections=May 2008|POV=March 2008}}", Parsers.Conversions(@"{{Article issues|sections=May 2008|POV=March 2008}}"));
+            Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues}}"));
+            Assert.AreEqual(@"", Parsers.Conversions(@"{{Articleissues}}"));
+            Assert.AreEqual(@"", Parsers.Conversions(@"{{article issues}}"));
+            Assert.AreEqual(@"", Parsers.Conversions(@"{{articleissues}}"));
+            Assert.AreEqual(@"", Parsers.Conversions(@"{{articleissues }}"));
+            Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues|article=y}}"));
+            Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues|article = y}}"));
+            Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues|section = y}}"));
+            Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues|section= y}}"));
+            Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues | section= y}}"));
+
+            // no match, 'section' and 'sections' are different parameters for the template
+            Assert.AreEqual(@"{{Article issues|cleanup=May 2008|POV=March 2008}}", Parsers.Conversions(@"{{Article issues|cleanup=May 2008|POV=March 2008}}"));
+            Assert.AreEqual(@"{{Article issues|sections=May 2008|POV=March 2008}}", Parsers.Conversions(@"{{Article issues|sections=May 2008|POV=March 2008}}"));
         }
 
-        
+
         [Test]
         public void DuplicateTemplateFieldsTests()
         {
-            Assert.AreEqual("" , Parsers.Conversions(""));
+            Assert.AreEqual("", Parsers.Conversions(""));
 
             // duplciate fields
             Assert.AreEqual(@"now {{cite web| url=http://site.net |accessdate = 2008-10-08|title=hello}}", Parsers.Conversions(@"now {{cite web| url=http://site.net |title=hello|accessdate = 2008-10-08|title=hello}}"));
@@ -2466,7 +2466,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"now {{Cite web| title = hello | url=http://site.net |accessdate = 2008-10-08}}", Parsers.Conversions(@"now {{Cite web| title = hello | url=http://site.net |accessdate = 2008-10-08|title=}}"));
             Assert.AreEqual(@"now {{cite web| url=http://site.net |accessdate = 2008-10-08| title = hello }}", Parsers.Conversions(@"now {{cite web| url=http://site.net |title=|accessdate = 2008-10-08| title = hello }}"));
             Assert.AreEqual(@"now {{cite web| title=hello|url=http://site.net |date = 2008-10-08}}", Parsers.Conversions(@"now {{cite web| title=hello|title=|url=http://site.net |date = 2008-10-08}}"));
-            
+
             Assert.AreEqual(@"{{Article issues|wikify=May 2008|Expand=June 2008|POV=May 2008}}", Parsers.Conversions(@"{{Article issues|wikify=May 2008|Expand=June 2008|POV=May 2008|Expand=}}"));
             Assert.AreEqual(@"{{Article issues|wikify=May 2008|POV=May 2008|Expand=June 2008}}", Parsers.Conversions(@"{{Article issues|wikify=May 2008|Expand=|POV=May 2008|Expand=June 2008}}"));
 
@@ -2513,7 +2513,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             // addition of date
             Assert.AreEqual(@"{{Article issues|wikfy=May 2008|COI=May 2008|expand={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|expand}}"));
             Assert.AreEqual(@"{{Article issues|wikfy=May 2008|expand={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI=May 2008}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|expand|COI=May 2008}}"));
-            
+
             // multiple dates
             Assert.AreEqual(@"{{Article issues|wikfy=May 2008|COI=May 2008|expand={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|external links={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|expand|external links}}"));
 

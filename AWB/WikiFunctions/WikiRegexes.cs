@@ -30,7 +30,7 @@ namespace WikiFunctions
         {
             TemplateStart = @"\{\{\s*(:?" + Variables.NamespacesCaseInsensitive[Namespace.Template] + ")?";
 
-            Category = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[Namespace.Category] 
+            Category = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[Namespace.Category]
                 + @"(.*?)\]\]", RegexOptions.Compiled);
 
             // Use allowed character list, then a file extension (these are mandatory on mediawiki), then optional closing ]]
@@ -54,11 +54,11 @@ namespace WikiFunctions
                                      RegexOptions.Compiled | RegexOptions.Singleline);
 
             LooseCategory =
-                new Regex(@"\[\[[\s_]*" + Variables.NamespacesCaseInsensitive[Namespace.Category] 
+                new Regex(@"\[\[[\s_]*" + Variables.NamespacesCaseInsensitive[Namespace.Category]
                     + @"[\s_]*([^\|]*?)(|\|.*?)\]\]",
                     RegexOptions.Compiled);
 
-            LooseImage = new Regex(@"\[\[\s*?(" + Variables.NamespacesCaseInsensitive[Namespace.File] 
+            LooseImage = new Regex(@"\[\[\s*?(" + Variables.NamespacesCaseInsensitive[Namespace.File]
                 + @")\s*([^\|\]]+)(.*?)\]\]",
                 RegexOptions.Compiled);
 
@@ -132,7 +132,7 @@ namespace WikiFunctions
 
                 string nsName = Variables.Namespaces[ns];
                 sb.Append(Tools.StripNamespaceColon(nsName));
-                if (Variables.CanonicalNamespaces.ContainsKey(ns) 
+                if (Variables.CanonicalNamespaces.ContainsKey(ns)
                     && Variables.CanonicalNamespaces[ns] != nsName)
                 {
                     sb.Append('|');
@@ -328,7 +328,7 @@ namespace WikiFunctions
         /// see http://en.wikipedia.org/wiki/Quotation_mark_glyphs
         /// http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Ignoring_spelling_errors_within_quotation_marks.3F
         public static readonly Regex UntemplatedQuotes = new Regex(@"\s[""«»‘’“”‛‟‹›“”„‘’`’“‘”].{1,500}?[""«»‘’“”‛‟‹›“”„‘’`’“‘”]", RegexOptions.Compiled | RegexOptions.Singleline);
-        
+
         // covered by TestFixNonBreakingSpaces
         /// <summary>
         /// Matches abbreviated SI units without a non-breaking space
@@ -346,15 +346,15 @@ namespace WikiFunctions
         /// Matches {{nofootnotes}} OR {{morefootnotes}} templates
         /// </summary>
         public static readonly Regex MoreNoFootnotes = new Regex(@"{{([Mm]ore|[Nn]o)footnotes}}", RegexOptions.Compiled);
-        
+
         private static readonly string ReferencesTemplates = @"(\{\{\s*ref(?:-?li(?:st|nk)|erence)[^{}]*\}\}|<references\s*/>|\{\{refs)";
         public static readonly string ReferenceEndGR = @"(</ref>|{{GR\|\d}})";
-        
+
         /// <summary>
         /// Matches any of the recognised templates for displaying cite references
         /// </summary>
         public static readonly Regex ReferencesTemplate = new Regex(ReferencesTemplates, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
-        
+
         /// <summary>
         /// Matches any of the recognised templates for displaying cite references followed by a <ref> reference
         /// </summary>
@@ -364,7 +364,7 @@ namespace WikiFunctions
         /// Matches {{lifetime}} and its aliases
         /// </summary>
         public static readonly Regex Lifetime = new Regex(@"{{(?:[Ll]ifetime|BIRTH-DEATH-SORT|BD)\s*\|[^\}]*}}", RegexOptions.Compiled);
-        
+
         /// <summary>
         /// Matches the sorkey in a {{lifetime}} template and its aliases
         /// </summary>
@@ -394,7 +394,7 @@ namespace WikiFunctions
         /// 
         /// </summary>
         public static readonly Regex Orphan = new Regex(@"{{[Oo]rphan\|?(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?)?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        
+
         /// <summary>
         /// matches orphan tag within {{Article issues}} template
         /// </summary>
@@ -419,17 +419,17 @@ namespace WikiFunctions
         /// matches the cleanup templates that can be moved into the {{article issues}} template
         /// </summary>
         public static readonly Regex ArticleIssuesTemplates = new Regex(@"{{" + ArticleIssuesTemplatesString + @"\s*(?:\|\s*([^{}]+?))?\s*}}");
-        
+
         /// <summary>
         /// 
         /// </summary>
         public static readonly Regex ReferenceList = new Regex("{{(reflist|references-small|references-2column)}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        
+
         /// <summary>
         /// Checks for presence of infobox in article
         /// </summary>
         public static readonly Regex Infobox = new Regex(@"{{(?:\s*[Ii]nfobox[\s_]|[^{}\|]+?[Ii]nfobox\s*\|).*?}}", RegexOptions.Compiled | RegexOptions.Singleline);
-        
+
         // covered by DablinksTests
         /// <summary>
         /// Finds article disamiguation links from http://en.wikipedia.org/wiki/Wikipedia:Template_messages/General#Disambiguation_and_redirection (en only)

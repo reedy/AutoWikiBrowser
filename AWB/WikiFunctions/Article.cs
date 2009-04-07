@@ -193,7 +193,7 @@ namespace WikiFunctions
         [XmlIgnore]
         public bool HasMorefootnotesAndManyReferences
         { get { return Parsers.HasMorefootnotesAndManyReferences(mArticleText); } }
-        
+
         /// <summary>
         /// Returns true if the article contains a <ref>...</ref> reference after the {{reflist}} to show them
         /// </summary>
@@ -211,14 +211,14 @@ namespace WikiFunctions
 
         [XmlIgnore]
         public bool CanDoGeneralFixes
-        { 
-            get 
+        {
+            get
             {
                 return (NameSpaceKey == Namespace.Article
                     || NameSpaceKey == Namespace.Category
-                    || Name.Contains("Sandbox") )
+                    || Name.Contains("Sandbox"))
                         || Name.Contains("/doc");
-            } 
+            }
         }
 
         /// <summary>
@@ -267,7 +267,7 @@ namespace WikiFunctions
         {
             get { return (generalFixesCausedChange && (ArticleText == afterGeneralFixesArticleText)); }
         }
-        
+
         /// <summary>
         /// Returns whether the only general fix changes are minor ones
         /// </summary>
@@ -551,7 +551,7 @@ namespace WikiFunctions
         /// <summary>
         /// Fix link syntax
         /// </summary>
-       /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
+        /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
         public void FixLinks(bool SkipIfNoChange)
         {
             string strTemp = Parsers.FixLinks(mArticleText, out noChange);
@@ -634,10 +634,10 @@ namespace WikiFunctions
 
                 if (Regex.IsMatch(OriginalArticleText, FindText, regexOptions))
                     return DoesContain;
-                
+
                 return !DoesContain;
             }
-            
+
             return false;
         }
 
@@ -686,7 +686,7 @@ namespace WikiFunctions
         {
             ChangeArticleText("AWB", reason, newText, checkIfChanged);
         }
-        
+
         /// <summary>
         /// A subroutine allowing AWB to modify the article text. Passes through to ChangeArticleText()
         /// </summary>
@@ -696,9 +696,9 @@ namespace WikiFunctions
         /// <param name="performsSignificantChanges">indicates whether the general fix function makes 'significant' changes</param>
         public void AWBChangeArticleText(string reason, string newText, bool checkIfChanged, bool performsSignificantChanges)
         {
-            if(performsSignificantChanges && !(newText == mArticleText))
+            if (performsSignificantChanges && !(newText == mArticleText))
                 generalFixesSignificantChange = true;
-          
+
             AWBChangeArticleText(reason, newText, checkIfChanged);
         }
 
@@ -810,7 +810,7 @@ namespace WikiFunctions
             HideText(removeText);
 
             Variables.Profiler.Profile("HideText");
-            
+
             // call this before FixHeaderErrors so that Parsers.Conversions cleans up from ArticleIssues
             AWBChangeArticleText("Fixes for {{article issues}}", parsers.ArticleIssues(ArticleText), true);
             Variables.Profiler.Profile("ArticleIssues");
@@ -835,7 +835,7 @@ namespace WikiFunctions
 
             AWBChangeArticleText("Fix temperatures", Parsers.FixTemperatures(ArticleText), true);
             Variables.Profiler.Profile("FixTemperatures");
-            
+
             AWBChangeArticleText("Fix non-breaking spaces", parsers.FixNonBreakingSpaces(ArticleText), true);
             Variables.Profiler.Profile("FixNonBreakingSpaces");
 
@@ -856,7 +856,7 @@ namespace WikiFunctions
 
             AWBChangeArticleText("DuplicateNamedReferences", Parsers.DuplicateNamedReferences(ArticleText), true);
             Variables.Profiler.Profile("DuplicateNamedReferences");
-            
+
             AWBChangeArticleText("ReorderReferences", Parsers.ReorderReferences(ArticleText), true);
             Variables.Profiler.Profile("ReorderReferences");
 
@@ -864,7 +864,7 @@ namespace WikiFunctions
             Variables.Profiler.Profile("FixEmptyReferences");
 
             // does significant fixes
-            if(IsMissingReferencesDisplay)
+            if (IsMissingReferencesDisplay)
             {
                 AWBChangeArticleText("Add missing {{reflist}}", Parsers.AddMissingReflist(ArticleText), true, true);
                 Variables.Profiler.Profile("AddMissingReflist");
@@ -872,7 +872,7 @@ namespace WikiFunctions
 
             AWBChangeArticleText("Mdashes", parsers.Mdashes(ArticleText, Name), true);
             Variables.Profiler.Profile("Mdashes");
-            
+
             AWBChangeArticleText("Correct Cite Template Dates", Parsers.CiteTemplateDates(ArticleText), true);
             Variables.Profiler.Profile("CiteTemplateDates");
 
