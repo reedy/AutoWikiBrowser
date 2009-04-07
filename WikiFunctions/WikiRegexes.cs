@@ -348,6 +348,7 @@ namespace WikiFunctions
         public static readonly Regex MoreNoFootnotes = new Regex(@"{{([Mm]ore|[Nn]o)footnotes}}", RegexOptions.Compiled);
         
         private static readonly string ReferencesTemplates = @"(\{\{\s*ref(?:-?li(?:st|nk)|erence)[^{}]*\}\}|<references\s*/>|\{\{refs)";
+        public static readonly string ReferenceEndGR = @"(</ref>|{{GR\|\d}})";
         
         /// <summary>
         /// Matches any of the recognised templates for displaying cite references
@@ -357,7 +358,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches any of the recognised templates for displaying cite references followed by a <ref> reference
         /// </summary>
-        public static readonly Regex RefAfterReflist = new Regex(ReferencesTemplates + @".*?<ref(?:\s+name\s*=[^<>]*?)?\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        public static readonly Regex RefAfterReflist = new Regex(ReferencesTemplates + @".*?" + ReferenceEndGR, RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
         /// Matches {{lifetime}} and its aliases

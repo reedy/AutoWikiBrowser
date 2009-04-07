@@ -1921,6 +1921,7 @@ Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
         public void HasRefAfterReflistTest()
         {
           Assert.IsTrue(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} <ref>b</ref>"));
+          Assert.IsTrue(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} {{GR|4}}"));
           Assert.IsTrue(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> 
 ==references== {{reflist}} <ref>b</ref>"));
           Assert.IsTrue(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} <ref name=""b"">b</ref>"));
@@ -1932,6 +1933,10 @@ Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
           
           // the second template means this is okay too
           Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} <ref name=""b"">b</ref> {{reflist}}"));
+
+            // 'r' in argument means no embedded <ref></ref>
+          Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} {{GR|r4}}"));
+          Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} {{GR|India}}"));
         }
 
         [Test]
@@ -1956,12 +1961,21 @@ Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
             Assert.IsTrue(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref>"));
             Assert.IsTrue(Parsers.IsMissingReferencesDisplay(@"Hello<ref name=""F"">Fred</ref>"));
 
+            // {{GR}} provides an embedded <ref></ref> if its argument is a decimal
+            Assert.IsTrue(Parsers.IsMissingReferencesDisplay(@"Hello{{GR|4}}"));
+
             Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello"));
             Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref> {{reflist}}"));
+            Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref> {{Reflist}}"));
             Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref> {{ref-list}}"));
             Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref> {{reflink}}"));
             Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref> {{references}}"));
             Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref> <references/>"));
+            Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello{{GR|4}} <references/>"));
+
+            // this specifies to {{GR}} not to embed <ref></ref>
+            Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello{{GR|r4}}"));
+            Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello{{GR|India}}"));
         }
 
         [Test]

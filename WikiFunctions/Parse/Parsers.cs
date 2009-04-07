@@ -2740,12 +2740,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// Check if the article uses cite references but has no recognised template to display the references; only for en-wiki
         /// </summary>
+        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
         public static bool IsMissingReferencesDisplay(string ArticleText)
         {
             if (Variables.LangCode != LangCodeEnum.en)
                 return false;
 
-            return !WikiRegexes.ReferencesTemplate.IsMatch(ArticleText) && Regex.IsMatch(ArticleText, @"</ref>");
+            return !WikiRegexes.ReferencesTemplate.IsMatch(ArticleText) && Regex.IsMatch(ArticleText, WikiRegexes.ReferenceEndGR);
         }
         
         /// <summary>
