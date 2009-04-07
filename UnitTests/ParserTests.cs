@@ -1916,6 +1916,23 @@ Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
 ==References== 
 {{reflist}}"));
         }
+        
+        [Test]
+        public void HasRefAfterReflistTest()
+        {
+          Assert.IsTrue(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} <ref>b</ref>"));
+          Assert.IsTrue(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> 
+==references== {{reflist}} <ref>b</ref>"));
+          Assert.IsTrue(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} <ref name=""b"">b</ref>"));
+          
+          // this is correct syntax
+          Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}}"));
+          // ignores commented out refs
+          Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} <!--<ref>b</ref>-->"));
+          
+          // the second template means this is okay too
+          Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} <ref name=""b"">b</ref> {{reflist}}"));
+        }
 
         [Test]
         public void HasInUseTagTests()
