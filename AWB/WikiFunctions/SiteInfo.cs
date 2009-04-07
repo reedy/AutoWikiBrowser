@@ -168,7 +168,7 @@ namespace WikiFunctions
         public string ScriptPath
         {
             get { return scriptPath; }
-            internal set
+            set //Must stay public otherwise Serialiser for ObjectCache isn't happy =(
             {
                 scriptPath = NormalizeURL(value);
             }
