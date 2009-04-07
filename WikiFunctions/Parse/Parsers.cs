@@ -1059,6 +1059,9 @@ namespace WikiFunctions.Parse
         private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{(?:[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)|[Cc]itation)\b\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(?<!ISBN)(\s*=\s*[^{}\|]{3,})");
         
         private static readonly Regex CiteFormatFieldTypo = new Regex(@"(\{\{\s*[Cc]it[^{}]*?\|\s*)(?:fprmat)(\s*=\s*)");
+
+        //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.3Cfont.3E_tags
+        private static readonly Regex RemoveNoPropertyFontTags = new Regex(@"<font>([^<>]+)</font>", RegexOptions.IgnoreCase);
         
         // Covered by: LinkTests.TestFixSyntax(), incomplete
         /// <summary>
@@ -1141,6 +1144,8 @@ namespace WikiFunctions.Parse
             }
             
             ArticleText = CiteFormatFieldTypo.Replace(ArticleText, "$1format$2");
+
+            ArticleText = RemoveNoPropertyFontTags.Replace(ArticleText, "$1");
 
             return ArticleText.Trim();
         }
