@@ -593,7 +593,7 @@ namespace WikiFunctions.API
 
         public void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect)
         {
-            MovePage(title, newTitle, reason, moveTalk, noRedirect);
+            MovePage(title, newTitle, reason, moveTalk, noRedirect, false);
         }
 
         public void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect, bool watch)
