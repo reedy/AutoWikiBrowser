@@ -193,6 +193,14 @@ namespace WikiFunctions
         [XmlIgnore]
         public bool HasMorefootnotesAndManyReferences
         { get { return Parsers.HasMorefootnotesAndManyReferences(mArticleText); } }
+        
+        /// <summary>
+        /// Returns true if the article contains a <ref>...</ref> reference after the {{reflist}} to show them
+        /// </summary>
+        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
+        [XmlIgnore]
+        public bool HasRefAfterReflist
+        { get { return Parsers.HasRefAfterReflist(mArticleText); } }
 
         /// <summary>
         /// Returns true if the article should be skipped; check after each call to a worker member. See AWB main.cs.

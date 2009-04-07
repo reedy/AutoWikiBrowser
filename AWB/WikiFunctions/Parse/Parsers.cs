@@ -2736,6 +2736,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             return (WikiRegexes.MoreNoFootnotes.IsMatch(WikiRegexes.Comments.Replace(ArticleText, "")) && WikiRegexes.Refs.Matches(ArticleText).Count > 4);
         }
+        
         /// <summary>
         /// Check if the article uses cite references but has no recognised template to display the references; only for en-wiki
         /// </summary>
@@ -2745,6 +2746,16 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 return false;
 
             return !WikiRegexes.ReferencesTemplate.IsMatch(ArticleText) && Regex.IsMatch(ArticleText, @"</ref>");
+        }
+        
+        /// <summary>
+        /// Check if the article contains a <ref>...</ref> reference after the {{reflist}} to show them
+        /// </summary>
+        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
+        public static bool HasRefAfterReflist(string ArticleText)
+        {
+          ArticleText = WikiRegexes.Comments.Replace(ArticleText, "");
+          return(WikiRegexes.RefAfterReflist.IsMatch(ArticleText) && WikiRegexes.ReferencesTemplate.Matches(ArticleText).Count == 1);
         }
 
         #endregion
