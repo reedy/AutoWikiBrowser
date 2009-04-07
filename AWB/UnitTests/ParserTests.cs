@@ -507,6 +507,16 @@ End of.";
             Assert.AreEqual("HTTP/1.2", Parsers.FixSyntax("HTTP/1.2"));
             Assert.AreEqual("the HTTP/1.2 protocol", Parsers.FixSyntax("the HTTP/1.2 protocol"));
             Assert.AreEqual(@"<ref>[http://cdiac.esd.ornl.gov/ftp/cdiac74/a.pdf chapter 5]</ref>", Parsers.FixSyntax(@"<ref>[http://cdiac.esd.ornl.gov/ftp/cdiac74/a.pdf chapter 5]</ref>"));
+
+            // <font> tag removal
+            Assert.AreEqual("hello", Parsers.FixSyntax(@"<font>hello</font>"));
+            Assert.AreEqual("hello", Parsers.FixSyntax(@"<font>hello</FONT>"));
+            Assert.AreEqual(@"hello
+world", Parsers.FixSyntax(@"<font>hello
+world</font>"));
+
+            // only changing font tags without properties
+            Assert.AreEqual(@"<font name=ab>hello</font>", Parsers.FixSyntax(@"<font name=ab>hello</font>"));
         }
 
         [Test]
