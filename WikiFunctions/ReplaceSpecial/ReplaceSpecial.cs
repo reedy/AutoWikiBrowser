@@ -327,6 +327,16 @@ namespace WikiFunctions.ReplaceSpecial
             SaveCurrentRule();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public int NoOfRules { get { return RulesTreeView.Nodes.Count; } }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool HasRules { get { return NoOfRules != 0; } }
+
         public string ApplyRules(string text, string title)
         {
             foreach (TreeNode tn in RulesTreeView.Nodes)

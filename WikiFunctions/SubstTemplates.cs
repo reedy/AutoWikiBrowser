@@ -109,9 +109,26 @@ namespace WikiFunctions
             textBoxTemplates.Lines = TemplateList;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public int NoOfRegexes { get { return Regexes.Count; } }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool HasSubstitutions { get { return NoOfRegexes != 0; } }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ArticleText"></param>
+        /// <param name="ArticleTitle"></param>
+        /// <returns></returns>
         public string SubstituteTemplates(string ArticleText, string ArticleTitle)
         {
-            if (Regexes.Count == 0) return ArticleText; // nothing to substitute
+            if (!HasSubstitutions) 
+                return ArticleText; // nothing to substitute
 
             if (chkIgnoreUnformatted.Checked)
                 ArticleText = RemoveUnformatted.HideUnformatted(ArticleText);
