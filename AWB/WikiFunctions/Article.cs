@@ -438,8 +438,12 @@ namespace WikiFunctions
         public void PerformFindAndReplace(FindandReplace findAndReplace, SubstTemplates substTemplates,
             ReplaceSpecial.ReplaceSpecial replaceSpecial, bool SkipIfNoChange)
         {
+            if (!findAndReplace.HasReplacements && !replaceSpecial.HasRules && !substTemplates.HasSubstitutions)
+                return;
+
             string strTemp = mArticleText.Replace("\r\n", "\n"),
-                testText = strTemp, tmpEditSummary = "";
+                   testText = strTemp,
+                   tmpEditSummary = "";
 
             strTemp = findAndReplace.MultipleFindAndReplace(strTemp, mName, ref tmpEditSummary);
             strTemp = replaceSpecial.ApplyRules(strTemp, mName);
@@ -450,7 +454,7 @@ namespace WikiFunctions
             else
             {
                 AWBChangeArticleText("Find and replace applied" + tmpEditSummary,
-                    strTemp.Replace("\n", "\r\n"), false);
+                                     strTemp.Replace("\n", "\r\n"), false);
                 EditSummary += tmpEditSummary;
             }
         }

@@ -129,6 +129,16 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public int NoOfReplacements { get { return ReplacementList.Count; } }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool HasReplacements { get { return NoOfReplacements != 0; } }
+
+        /// <summary>
         /// Applies a series of defined find and replacements to the supplied article text.
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
@@ -137,6 +147,9 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string MultipleFindAndReplace(string ArticleText, string strTitle, ref string EditSummary)
         {
+            if (!HasReplacements)
+                return ArticleText;
+
             streditsummary = "";
 
             if (chkIgnoreMore.Checked)
