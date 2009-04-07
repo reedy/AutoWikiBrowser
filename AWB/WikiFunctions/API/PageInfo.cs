@@ -46,7 +46,7 @@ namespace WikiFunctions.API
             XmlReader xr = XmlReader.Create(new StringReader(xml));
             if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
 
-            Exists = (xr.GetAttribute("missing") != "");
+            Exists = (xr.GetAttribute("missing") == null); //if null, page exists
             EditToken = xr.GetAttribute("edittoken");
             Title = xr.GetAttribute("title");
 
