@@ -240,6 +240,8 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex regexHeadingUpOneLevel = new Regex(@"^=(=+[^=].*?[^=]=+)=(\r\n?|\n)$", RegexOptions.Multiline);
 
+        private static readonly Regex regexHeadingColonAtEnd = new Regex(@"^(=+)(.+?)\:(\s*\1(?:\r\n?|\n))$", RegexOptions.Multiline);
+
         /// <summary>
         /// Fix ==See also== and similar section common errors.
         /// </summary>
@@ -342,6 +344,9 @@ namespace WikiFunctions.Parse
 
             ArticleText = regexHeadingWhitespaceBefore.Replace(ArticleText, "$1$2$1$3");
             ArticleText = regexHeadingWhitespaceAfter.Replace(ArticleText, "$1$2$1$3");
+            
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Headlines_end_with_colon_.28WikiProject_Check_Wikipedia_.2357.29
+            ArticleText = regexHeadingColonAtEnd.Replace(ArticleText, "$1$2$3");
             
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Section_header_level_.28WikiProject_Check_Wikipedia_.237.29
             // if no level 2 heading in article, remove two levels from all headings
