@@ -454,7 +454,7 @@ namespace WikiFunctions
             else
             {
                 AWBChangeArticleText("Find and replace applied" + tmpEditSummary,
-                                     strTemp.Replace("\n", "\r\n"), false);
+                                     strTemp.Replace("\n", "\r\n"), true);
                 EditSummary += tmpEditSummary;
             }
         }
