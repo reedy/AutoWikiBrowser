@@ -1015,6 +1015,27 @@ Some news here.", "test"));
             Assert.AreEqual("==hello[http://example.net]==", Parsers.FixHeadings("==hello[http://example.net]==", "a"));
             Assert.AreEqual("hello [[world]]", Parsers.FixHeadings("hello [[world]]", "a"));
             Assert.AreEqual("now == hello [[world]] == here", Parsers.FixHeadings("now == hello [[world]] == here", "a"));
+            
+            // remove colon from end of heading text
+            Assert.AreEqual(@"== hello world ==
+", Parsers.FixHeadings(@"== hello world: ==
+", "a"));
+            Assert.AreEqual(@"== hello world  ==
+", Parsers.FixHeadings(@"== hello world : ==
+", "a"));
+            Assert.AreEqual(@"== hello world ==
+", Parsers.FixHeadings(@"=== hello world: ===
+", "a"));
+            Assert.AreEqual(@"== hello world ==
+== hello world2 ==
+", Parsers.FixHeadings(@"== hello world: ==
+== hello world2: ==
+", "a"));
+            
+            // no change if colon within heading text
+            Assert.AreEqual(@"== hello:world ==
+", Parsers.FixHeadings(@"== hello:world ==
+", "a"));
         }
         
         [Test]
