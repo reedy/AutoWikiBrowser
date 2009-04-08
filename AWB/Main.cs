@@ -460,6 +460,13 @@ namespace AutoWikiBrowser
         {
             apiEdit = new AsyncApiEdit(Variables.URLLong, this, Variables.PHP5);
             apiEdit.PreviewComplete += PreviewComplete;
+
+            apiEdit.ExceptionCaught += apiEdit_ExceptionCaught;
+        }
+
+        private void apiEdit_ExceptionCaught(AsyncApiEdit sender, Exception ex)
+        {
+            StartDelayedRestartTimer(null, null);
         }
 
         private void StartAPITextLoad(string title)
@@ -467,6 +474,9 @@ namespace AutoWikiBrowser
             apiEdit.Open(title);
 
             apiEdit.Wait();
+
+            if (apiEdit.State == AsyncApiEdit.EditState.Failed)
+                return;
 
             if (!LoadSuccessAPI())
                 return;
