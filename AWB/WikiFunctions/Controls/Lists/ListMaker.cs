@@ -584,10 +584,7 @@ namespace WikiFunctions.Controls.Lists
 
             // Assumsuption flaw: that all wikis use /wiki/ as the default path
             string url = Variables.URL + "/wiki/";
-            if (Regex.Match(s, url).Success)
-                return s.Replace(url, "");
-
-            return s;
+            return Regex.Match(s, url).Success ? s.Replace(url, "") : s;
         }
 
         private delegate void AddToListDel(string s);
