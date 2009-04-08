@@ -353,6 +353,20 @@ fast„"));
             Assert.IsFalse(WikiRegexes.Dablinks.IsMatch(@"{{REDIRECT2|Fred the dancer|Fred Smith (dancer)}}"));
             Assert.IsFalse(WikiRegexes.Dablinks.IsMatch(@"{{Otheruse2|something}}")); //non-existent
         }
+        
+        [Test]
+        public void PortalTemplateTests()
+        {
+          Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal}}"));
+          Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{Portal}}"));
+          Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Science}}"));
+          Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Spaceflight|RocketSunIcon.svg|break=yes}}"));
+          
+          Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{PORTAL}}"));
+          Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{portalos}}"));
+          Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{Spanish portal|game}}"));
+          Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Bert|{{here}}}}"));
+        }
 
         [Test]
         public void OrphanArticleIssuesTests()

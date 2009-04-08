@@ -1,5 +1,6 @@
 ﻿using WikiFunctions.Parse;
 using NUnit.Framework;
+using System.Text.RegularExpressions;
 
 namespace UnitTests
 {
@@ -74,6 +75,105 @@ Fred has a dog.
 words";
             Assert.AreEqual(f, MetaDataSorter.moveDablinks(f));
 
+        }
+
+        [Test]
+        public void movePortalTemplatesTests()
+        {
+         Assert.AreEqual(@"text here
+text here2
+== see also ==
+{{Portal|Football}}
+some words", MetaDataSorter.movePortalTemplates(@"text here
+{{Portal|Football}}
+text here2
+== see also ==
+some words"));
+
+          Assert.AreEqual(@"text here
+text here2
+== see also ==
+{{Portal|Football}}
+some words", MetaDataSorter.movePortalTemplates(@"{{Portal|Football}}
+text here
+text here2
+== see also ==
+some words"));
+
+            Assert.AreEqual(@"text here
+text here2
+== see also==
+{{Portal|abc}}
+* Fred", MetaDataSorter.movePortalTemplates(@"text here
+{{Portal|abc}}
+text here2
+== see also==
+* Fred"));
+
+            Assert.AreEqual(@"text here
+text here2
+== see also ==
+{{Portal|Football}}
+* Fred
+== hello ==
+some words", MetaDataSorter.movePortalTemplates(@"text here
+{{Portal|Football}}
+text here2
+== see also ==
+* Fred
+== hello ==
+some words"));
+
+            Assert.AreEqual(@"text here
+text here2
+== see also ==
+{{Portal|Football}}
+* Fred
+=== hello ===
+some words", MetaDataSorter.movePortalTemplates(@"text here
+{{Portal|Football}}
+text here2
+== see also ==
+* Fred
+=== hello ===
+some words"));
+
+            // if portal is already in 'see also', don't move it
+            Assert.AreEqual(@"text here
+text here2
+== see also ==
+{{Portal|Football}}
+some words", MetaDataSorter.movePortalTemplates(@"text here
+text here2
+== see also ==
+{{Portal|Football}}
+some words"));
+
+            Assert.AreEqual(@"text here
+text here2
+== see also ==
+* Fred
+{{Portal|Football}}
+some words", MetaDataSorter.movePortalTemplates(@"text here
+text here2
+== see also ==
+* Fred
+{{Portal|Football}}
+some words"));
+
+            Assert.AreEqual(@"text here
+text here2
+== see also ==
+* Fred
+=== portals ===
+{{Portal|Football}}
+some words", MetaDataSorter.movePortalTemplates(@"text here
+text here2
+== see also ==
+* Fred
+=== portals ===
+{{Portal|Football}}
+some words"));
         }
 
         // {{Lifetime}} template lives after categories on en-wiki

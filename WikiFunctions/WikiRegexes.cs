@@ -451,6 +451,11 @@ namespace WikiFunctions
         /// Finds article disamiguation links from http://en.wikipedia.org/wiki/Wikipedia:Template_messages/General#Disambiguation_and_redirection (en only)
         /// </summary>
         public static readonly Regex Dablinks = new Regex(@"{{\s*(?:[Ff]or2?|[Dd]ablink|[Dd]istinguish2?|[Oo]therpeople[1-4]|[Oo]therpersons|[Oo]therplaces[23]?|[Oo]theruses-number|[Oo]theruse(?:s[1-4])?|2otheruses|[Rr]edirect-acronym|[Rr]edirect[2-4]?|[Aa]mbiguous link|[Dd]isambig-acronym)\s*(?:\|[^{}]*(?:{{[^{}]*}}[^{}]*)?)?}}", RegexOptions.Compiled);
+        
+        /// <summary>
+        /// Matches {{XX Portal}} templates
+        /// </summary>
+        public static readonly Regex PortalTemplate = new Regex(@"{{[Pp]ortal(?:\|[^{}]+)?}}");
         #endregion
 
         /// <summary>
