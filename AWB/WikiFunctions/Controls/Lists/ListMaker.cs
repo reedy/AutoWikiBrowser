@@ -1018,17 +1018,16 @@ namespace WikiFunctions.Controls.Lists
                 if (obj == null)
                     return;
 
-                string textTba = ((IDataObject)obj).GetData(DataFormats.UnicodeText).ToString();
+                string textTba = ((IDataObject) obj).GetData(DataFormats.UnicodeText).ToString();
 
-                string[] splitTextTBA = textTba.Split(new[] { "\r\n", "|" }, StringSplitOptions.RemoveEmptyEntries);
-
-                foreach (string entry in splitTextTBA)
+                foreach (string entry in textTba.Split(new[] {"\r\n", "|", ","}, StringSplitOptions.RemoveEmptyEntries))
                 {
                     if (!string.IsNullOrEmpty(entry.Trim()))
                         Add(NormalizeTitle(entry));
                 }
             }
-            catch { }
+            catch
+            {}
             lbArticles.EndUpdate();
         }
 
