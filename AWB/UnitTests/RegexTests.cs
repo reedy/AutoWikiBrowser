@@ -427,6 +427,68 @@ article words, '''bold''' blah.
         }
 
         [Test]
+        public void HeadingLevelTwoTests()
+        {
+            Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article 
+==heading==
+a"));
+            Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article 
+== heading ==
+a"));
+            Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article 
+== heading ==
+words"));
+
+            // no matches
+            Assert.IsFalse(WikiRegexes.HeadingLevelTwo.IsMatch(@"article ==
+heading=="));
+            Assert.IsFalse(WikiRegexes.HeadingLevelTwo.IsMatch(@"article 
+==heading== words"));
+            Assert.IsFalse(WikiRegexes.HeadingLevelTwo.IsMatch(@"article ===heading=="));
+            Assert.IsFalse(WikiRegexes.HeadingLevelTwo.IsMatch(@"article 
+====heading===
+words"));
+        }
+
+        [Test]
+        public void SectionLevelTwoTests()
+        {
+            Assert.IsTrue(WikiRegexes.SectionLevelTwo.IsMatch(@"== heading a ==
+words
+=== subsection ===
+words
+words2
+== heading b ==
+"));
+
+            Assert.IsFalse(WikiRegexes.SectionLevelTwo.IsMatch(@"=== subsection ===
+words
+words2"));
+            Assert.IsFalse(WikiRegexes.SectionLevelTwo.IsMatch(@"=== heading a ==
+words
+=== subsection ===
+words
+words2"));
+            Assert.IsFalse(WikiRegexes.SectionLevelTwo.IsMatch(@"= heading a =
+words
+=== subsection ===
+words
+words2"));
+        }
+
+        [Test]
+        public void ArticleToFirstLevelTwoHeadingTests()
+        {
+            Assert.IsTrue(WikiRegexes.ArticleToFirstLevelTwoHeading.IsMatch(@"words
+== heading a ==
+"));
+
+            Assert.IsFalse(WikiRegexes.ArticleToFirstLevelTwoHeading.IsMatch(@"words
+=== heading a ===
+"));
+        }
+
+        [Test]
         public void UncatTests()
         {
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized}}"));
