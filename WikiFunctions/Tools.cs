@@ -79,30 +79,30 @@ namespace WikiFunctions
         /// <summary>
         /// Tests title to make sure it is main space
         /// </summary>
-        /// <param name="ArticleTitle">The title.</param>
-        public static bool IsMainSpace(string ArticleTitle)
+        /// <param name="articleTitle">The title.</param>
+        public static bool IsMainSpace(string articleTitle)
         {
-            return Namespace.IsMainSpace(ArticleTitle);
+            return Namespace.IsMainSpace(articleTitle);
         }
 
         // Covered by ToolsTests.IsRedirect()
         /// <summary>
         /// Tests article to see if it is a redirect
         /// </summary>
-        /// <param name="Text">The title.</param>
-        public static bool IsRedirect(string Text)
+        /// <param name="text">The title.</param>
+        public static bool IsRedirect(string text)
         {
-            return WikiRegexes.Redirect.IsMatch(FirstChars(Text, 512));
+            return WikiRegexes.Redirect.IsMatch(FirstChars(text, 512));
         }
 
         // Covered by ToolsTests.RedirectTarget()
         /// <summary>
         /// Gets the target of the redirect
         /// </summary>
-        /// <param name="Text">Title of redirect target</param>
-        public static string RedirectTarget(string Text)
+        /// <param name="text">Title of redirect target</param>
+        public static string RedirectTarget(string text)
         {
-            Match m = WikiRegexes.Redirect.Match(FirstChars(Text, 512));
+            Match m = WikiRegexes.Redirect.Match(FirstChars(text, 512));
             return WikiDecode(m.Groups[1].Value).Trim();
         }
 
@@ -121,89 +121,89 @@ namespace WikiFunctions
         /// <summary>
         /// Tests article title to see if it is valid
         /// </summary>
-        /// <param name="ArticleTitle">The title.</param>
-        public static bool IsValidTitle(string ArticleTitle)
+        /// <param name="articleTitle">The title.</param>
+        public static bool IsValidTitle(string articleTitle)
         {
-            ArticleTitle = WikiDecode(ArticleTitle).Trim();
-            if (ArticleTitle.Length == 0) return false;
+            articleTitle = WikiDecode(articleTitle).Trim();
+            if (articleTitle.Length == 0) return false;
 
-            return (ArticleTitle.IndexOfAny(InvalidChars) < 0);
+            return (articleTitle.IndexOfAny(InvalidChars) < 0);
         }
 
         // Covered by ToolsTests.RemoveInvalidChars()
         /// <summary>
-        /// Removes Invalid Characters from an Article ArticleTitle
+        /// Removes Invalid Characters from an Article articleTitle
         /// </summary>
-        /// <param name="ArticleTitle">Article Title</param>
-        /// <returns>Article ArticleTitle with no invalid characters</returns>
-        public static string RemoveInvalidChars(string ArticleTitle)
+        /// <param name="articleTitle">Article Title</param>
+        /// <returns>Article articleTitle with no invalid characters</returns>
+        public static string RemoveInvalidChars(string articleTitle)
         {
             int pos;
-            while ((pos = ArticleTitle.IndexOfAny(InvalidChars)) >= 0)
-                ArticleTitle = ArticleTitle.Remove(pos, 1);
+            while ((pos = articleTitle.IndexOfAny(InvalidChars)) >= 0)
+                articleTitle = articleTitle.Remove(pos, 1);
 
-            return ArticleTitle;
+            return articleTitle;
         }
 
         [Obsolete("This function is superseded by Namespace.IsImportant")]
         /// <summary>
         /// Tests title to make sure it is either main, image, category or template namespace.
         /// </summary>
-        /// <param name="ArticleTitle">The title.</param>
-        public static bool IsImportantNamespace(string ArticleTitle)
+        /// <param name="articleTitle">The title.</param>
+        public static bool IsImportantNamespace(string articleTitle)
         {
-            return Namespace.IsImportant(ArticleTitle);
+            return Namespace.IsImportant(articleTitle);
         }
 
         [Obsolete("This function is superseded by Namespace.IsTalk()")]
         /// <summary>
         /// Tests title to make sure it is a talk page.
         /// </summary>
-        /// <param name="ArticleTitle">The title.</param>
-        public static bool IsTalkPage(string ArticleTitle)
+        /// <param name="articleTitle">The title.</param>
+        public static bool IsTalkPage(string articleTitle)
         {
-            return Namespace.IsTalk(ArticleTitle);
+            return Namespace.IsTalk(articleTitle);
         }
 
         [Obsolete("This function is superseded by Namespace.IsTalk()")]
         /// <summary>
         /// Tests title to make sure it is a talk page.
         /// </summary>
-        /// <param name="Key">The namespace key</param>
-        public static bool IsTalkPage(int Key)
+        /// <param name="key">The namespace key</param>
+        public static bool IsTalkPage(int key)
         {
-            return Namespace.IsTalk(Key);
+            return Namespace.IsTalk(key);
         }
 
         [Obsolete("This function is superseded by Namespace.IsUserSpace()")]
         /// <summary>
         /// returns true if current page is a userpage
         /// </summary>
-        public static bool IsUserSpace(string ArticleTitle)
+        public static bool IsUserSpace(string articleTitle)
         {
-            return Namespace.IsUserSpace(ArticleTitle);
+            return Namespace.IsUserSpace(articleTitle);
         }
 
         [Obsolete("This function is superseded by Namespace.IsUserTalk()")]
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ArticleTitle"></param>
+        /// <param name="articleTitle"></param>
         /// <returns></returns>
-        public static bool IsUserTalk(string ArticleTitle)
+        public static bool IsUserTalk(string articleTitle)
         {
-            return Namespace.IsUserTalk(ArticleTitle);
+            return Namespace.IsUserTalk(articleTitle);
         }
 
         [Obsolete("This function is superseded by Namespace.IsUserPage()")]
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ArticleTitle"></param>
+        /// <param name="articleTitle"></param>
         /// <returns></returns>
-        public static bool IsUserPage(string ArticleTitle)
+        public static bool IsUserPage(string articleTitle)
         {
-            return Namespace.IsUserPage(ArticleTitle);
+            return Namespace.IsUserPage(articleTitle);
         }
 
         // Covered by ToolsTests.StripNamespaceColon()
@@ -268,34 +268,34 @@ namespace WikiFunctions
         /// special case: "John Doe, Jr." turns into "Doe, Jonn Jr."
         /// http://en.wikipedia.org/wiki/Wikipedia:Categorization_of_people
         /// </summary>
-        public static string MakeHumanCatKey(string Name)
+        public static string MakeHumanCatKey(string name)
         {
-            Name = RemoveNamespaceString(Regex.Replace(RemoveDiacritics(Name), @"\(.*?\)$", "").Replace("'", "").Trim()).Trim();
-            string origName = Name;
-            if (!Name.Contains(" ") || Variables.LangCode == LangCodeEnum.uk) return origName;
+            name = RemoveNamespaceString(Regex.Replace(RemoveDiacritics(name), @"\(.*?\)$", "").Replace("'", "").Trim()).Trim();
+            string origName = name;
+            if (!name.Contains(" ") || Variables.LangCode == LangCodeEnum.uk) return origName;
             // ukwiki uses "Lastname Firstname Patronymic" convention, nothing more is needed
 
             string suffix = "";
-            int pos = Name.IndexOf(',');
+            int pos = name.IndexOf(',');
 
             // ruwiki has "Lastname, Firstname Patronymic" convention
             if (pos >= 0 && Variables.LangCode != LangCodeEnum.ru)
             {
-                suffix = Name.Substring(pos + 1).Trim();
-                Name = Name.Substring(0, pos).Trim();
+                suffix = name.Substring(pos + 1).Trim();
+                name = name.Substring(0, pos).Trim();
             }
 
-            int intLast = Name.LastIndexOf(" ") + 1;
-            string lastName = Name.Substring(intLast).Trim();
-            Name = Name.Remove(intLast).Trim();
+            int intLast = name.LastIndexOf(" ") + 1;
+            string lastName = name.Substring(intLast).Trim();
+            name = name.Remove(intLast).Trim();
             if (IsRomanNumber(lastName))
             {
-                if (Name.Contains(" "))
+                if (name.Contains(" "))
                 {
                     suffix += lastName;
-                    intLast = Name.LastIndexOf(" ") + 1;
-                    lastName = Name.Substring(intLast);
-                    Name = Name.Remove(intLast).Trim();
+                    intLast = name.LastIndexOf(" ") + 1;
+                    lastName = name.Substring(intLast);
+                    name = name.Remove(intLast).Trim();
                 }
                 else
                 { //if (Suffix != "") {
@@ -306,9 +306,9 @@ namespace WikiFunctions
             }
             lastName = TurnFirstToUpper(lastName.ToLower());
 
-            Name = (lastName + ", " + Name + ", " + suffix).Trim(" ,".ToCharArray());
+            name = (lastName + ", " + name + ", " + suffix).Trim(" ,".ToCharArray());
 
-            return Name;
+            return name;
         }
 
         // Covered by ToolsTests.RemoveNamespaceString()
@@ -418,29 +418,29 @@ namespace WikiFunctions
         /// <summary>
         /// Gets the HTML from the given web address.
         /// </summary>
-        /// <param name="URL">The URL of the webpage.</param>
+        /// <param name="url">The URL of the webpage.</param>
         /// <returns>The HTML.</returns>
-        public static string GetHTML(string URL)
+        public static string GetHTML(string url)
         {
-            return GetHTML(URL, Encoding.UTF8);
+            return GetHTML(url, Encoding.UTF8);
         }
 
         /// <summary>
         /// Gets the HTML from the given web address.
         /// </summary>
-        /// <param name="URL">The URL of the webpage.</param>
-        /// <param name="Enc">The encoding to use.</param>
+        /// <param name="url">The URL of the webpage.</param>
+        /// <param name="enc">The encoding to use.</param>
         /// <returns>The HTML.</returns>
-        public static string GetHTML(string URL, Encoding Enc)
+        public static string GetHTML(string url, Encoding enc)
         {
             if (Globals.UnitTestMode) throw new Exception("You shouldn't access Wikipedia from unit tests");
 
-            HttpWebRequest rq = Variables.PrepareWebRequest(URL); // Uses WikiFunctions' default UserAgent string
+            HttpWebRequest rq = Variables.PrepareWebRequest(url); // Uses WikiFunctions' default UserAgent string
 
             HttpWebResponse response = (HttpWebResponse)rq.GetResponse();
 
             Stream stream = response.GetResponseStream();
-            StreamReader sr = new StreamReader(stream, Enc);
+            StreamReader sr = new StreamReader(stream, enc);
 
             string text = sr.ReadToEnd();
 
@@ -454,14 +454,14 @@ namespace WikiFunctions
         /// <summary>
         /// Gets the wiki text of the given article.
         /// </summary>
-        /// <param name="ArticleTitle">The name of the article.</param>
+        /// <param name="articleTitle">The name of the article.</param>
         /// <returns>The wiki text of the article.</returns>
-        public static string GetArticleText(string ArticleTitle)
+        public static string GetArticleText(string articleTitle)
         {
-            if (!IsValidTitle(ArticleTitle))
+            if (!IsValidTitle(articleTitle))
                 return "";
 
-            string url = Variables.GetPlainTextURL(ArticleTitle);
+            string url = Variables.GetPlainTextURL(articleTitle);
             try
             {
                 return GetHTML(url, Encoding.UTF8);
@@ -542,45 +542,45 @@ namespace WikiFunctions
         /// Applies the key words "%%title%%" etc.
         /// </summary>
         /// http://meta.wikimedia.org/wiki/Help:Magic_words
-        public static string ApplyKeyWords(string Title, string Text)
+        public static string ApplyKeyWords(string title, string text)
         {
-            if (Text.Contains("%%"))
+            if (text.Contains("%%"))
             {
-                string titleEncoded = WikiEncode(Title);
-                Text = Text.Replace("%%title%%", Title);
-                Text = Text.Replace("%%titlee%%", titleEncoded);
-                Text = Text.Replace("%%fullpagename%%", Title);
-                Text = Text.Replace("%%fullpagenamee%%", titleEncoded);
-                Text = Text.Replace("%%key%%", MakeHumanCatKey(Title));
+                string titleEncoded = WikiEncode(title);
+                text = text.Replace("%%title%%", title);
+                text = text.Replace("%%titlee%%", titleEncoded);
+                text = text.Replace("%%fullpagename%%", title);
+                text = text.Replace("%%fullpagenamee%%", titleEncoded);
+                text = text.Replace("%%key%%", MakeHumanCatKey(title));
 
-                string titleNoNamespace = RemoveNamespaceString(Title);
-                string basePageName = BasePageName(Title);
-                string subPageName = SubPageName(Title);
-                string Namespace = GetNamespaceString(Title);
+                string titleNoNamespace = RemoveNamespaceString(title);
+                string basePageName = BasePageName(title);
+                string subPageName = SubPageName(title);
+                string theNamespace = GetNamespaceString(title);
 
-                Text = Text.Replace("%%pagename%%", titleNoNamespace);
-                Text = Text.Replace("%%pagenamee%%", WikiEncode(titleNoNamespace));
+                text = text.Replace("%%pagename%%", titleNoNamespace);
+                text = text.Replace("%%pagenamee%%", WikiEncode(titleNoNamespace));
 
-                Text = Text.Replace("%%basepagename%%", basePageName);
-                Text = Text.Replace("%%basepagenamee%%", WikiEncode(basePageName));
+                text = text.Replace("%%basepagename%%", basePageName);
+                text = text.Replace("%%basepagenamee%%", WikiEncode(basePageName));
 
-                Text = Text.Replace("%%namespace%%", Namespace);
-                Text = Text.Replace("%%namespacee%%", WikiEncode(Namespace));
+                text = text.Replace("%%namespace%%", theNamespace);
+                text = text.Replace("%%namespacee%%", WikiEncode(theNamespace));
 
-                Text = Text.Replace("%%subpagename%%", subPageName);
-                Text = Text.Replace("%%subpagenamee%%", WikiEncode(subPageName));
+                text = text.Replace("%%subpagename%%", subPageName);
+                text = text.Replace("%%subpagenamee%%", WikiEncode(subPageName));
 
                 // we need to use project's names, not user's
-                //Text = Text.Replace("{{CURRENTDAY}}", DateTime.Now.Day.ToString());
-                //Text = Text.Replace("{{CURRENTMONTHNAME}}", DateTime.Now.ToString("MMM"));
-                //Text = Text.Replace("{{CURRENTYEAR}}", DateTime.Now.Year.ToString());
+                //text = text.Replace("{{CURRENTDAY}}", DateTime.Now.Day.ToString());
+                //text = text.Replace("{{CURRENTMONTHNAME}}", DateTime.Now.ToString("MMM"));
+                //text = text.Replace("{{CURRENTYEAR}}", DateTime.Now.Year.ToString());
 
-                Text = Text.Replace("%%server%%", Variables.URL);
-                Text = Text.Replace("%%scriptpath%%", Variables.ScriptPath);
-                Text = Text.Replace("%%servername%%", ServerName(Variables.URL));
+                text = text.Replace("%%server%%", Variables.URL);
+                text = text.Replace("%%scriptpath%%", Variables.ScriptPath);
+                text = text.Replace("%%servername%%", ServerName(Variables.URL));
             }
 
-            return Text;
+            return text;
         }
 
         // Covered by ToolsTests.TurnFirstToUpper()
@@ -619,13 +619,13 @@ namespace WikiFunctions
         /// <summary>
         /// Returns word count of the string
         /// </summary>
-        public static int WordCount(string Text)
+        public static int WordCount(string text)
         {
-            Text = RegexWordCountTable.Replace(Text, "");
-            Text = WikiRegexes.TemplateMultiLine.Replace(Text, " ");
-            Text = WikiRegexes.Comments.Replace(Text, "");
+            text = RegexWordCountTable.Replace(text, "");
+            text = WikiRegexes.TemplateMultiLine.Replace(text, " ");
+            text = WikiRegexes.Comments.Replace(text, "");
 
-            return WikiRegexes.RegexWordCount.Matches(Text).Count;
+            return WikiRegexes.RegexWordCount.Matches(text).Count;
         }
 
         // Not Covered
@@ -646,33 +646,33 @@ namespace WikiFunctions
         /// <summary>
         /// Returns the number of [[links]] in the string
         /// </summary>
-        public static int LinkCount(string Text)
-        { return WikiRegexes.WikiLinksOnly.Matches(Text).Count; }
+        public static int LinkCount(string text)
+        { return WikiRegexes.WikiLinksOnly.Matches(text).Count; }
 
         // Not Covered
         /// <summary>
         /// Removes underscores and wiki syntax from links
         /// </summary>
-        public static string RemoveSyntax(string Text)
+        public static string RemoveSyntax(string text)
         {
-            if (Text[0] == '#' || Text[0] == '*')
-                Text = Text.Substring(1);
+            if (text[0] == '#' || text[0] == '*')
+                text = text.Substring(1);
 
-            Text = Text.Replace("_", " ").Trim();
-            Text = Text.Trim('[', ']');
+            text = text.Replace("_", " ").Trim();
+            text = text.Trim('[', ']');
 
-            return Text;
+            return text;
         }
 
         // Covered by ToolsTests.SplitToSections()
         /// <summary>
         /// Splits wikitext to sections
         /// </summary>
-        /// <param name="ArticleText">Page text</param>
+        /// <param name="articleText">Page text</param>
         /// <returns>Array of strings, each represents a section with its heading (if any)</returns>
-        public static string[] SplitToSections(string ArticleText)
+        public static string[] SplitToSections(string articleText)
         {
-            string[] lines = ArticleText.Split(new[] { "\r\n" }, StringSplitOptions.None);
+            string[] lines = articleText.Split(new[] { "\r\n" }, StringSplitOptions.None);
 
             List<string> sections = new List<string>();
             StringBuilder section = new StringBuilder();
@@ -990,28 +990,28 @@ namespace WikiFunctions
             return s;
         }
 
-        static readonly Regex badDSChars = new Regex("[\"]");
+        private static readonly Regex BadDsChars = new Regex("[\"]");
 
         public static string FixupDefaultSort(string s)
         {
             s = RemoveDiacritics(s);
 
-            return badDSChars.Replace(s, "");
+            return BadDsChars.Replace(s, "");
         }
 
         /// <summary>
         /// Writes a message to the given file in the specified location.
         /// </summary>
-        /// <param name="Message">The message to write.</param>
-        /// <param name="File">The name of the file, e.g. "Log.txt".</param>
+        /// <param name="message">The message to write.</param>
+        /// <param name="file">The name of the file, e.g. "Log.txt".</param>
         /// <param name="append"></param>
-        public static void WriteTextFileAbsolutePath(string Message, string File, bool append)
+        public static void WriteTextFileAbsolutePath(string message, string file, bool append)
         {
             try
             {
-                using (StreamWriter writer = new StreamWriter(File, append, Encoding.UTF8))
+                using (StreamWriter writer = new StreamWriter(file, append, Encoding.UTF8))
                 {
-                    writer.Write(Message);
+                    writer.Write(message);
                     writer.Close();
                 }
             }
@@ -1024,34 +1024,34 @@ namespace WikiFunctions
         /// <summary>
         /// Writes a message to the given file in the specified location.
         /// </summary>
-        /// <param name="Message">The message to write.</param>
-        /// <param name="File">The name of the file, e.g. "Log.txt".</param>
+        /// <param name="message">The message to write.</param>
+        /// <param name="file">The name of the file, e.g. "Log.txt".</param>
         /// <param name="append"></param>
-        public static void WriteTextFileAbsolutePath(StringBuilder Message, string File, bool append)
+        public static void WriteTextFileAbsolutePath(StringBuilder message, string file, bool append)
         {
-            WriteTextFileAbsolutePath(Message.ToString(), File, append);
+            WriteTextFileAbsolutePath(message.ToString(), file, append);
         }
 
         /// <summary>
         /// Writes a message to the given file in the directory of the application.
         /// </summary>
-        /// <param name="Message">The message to write.</param>
-        /// <param name="File">The name of the file, e.g. "Log.txt".</param>
+        /// <param name="message">The message to write.</param>
+        /// <param name="file">The name of the file, e.g. "Log.txt".</param>
         /// <param name="append"></param>
-        public static void WriteTextFile(string Message, string File, bool append)
+        public static void WriteTextFile(string message, string file, bool append)
         {
-            WriteTextFileAbsolutePath(Message, Application.StartupPath + "\\" + File, append);
+            WriteTextFileAbsolutePath(message, Application.StartupPath + "\\" + file, append);
         }
 
         /// <summary>
         /// Writes a message to the given file in the directory of the application.
         /// </summary>
-        /// <param name="Message">The message to write.</param>
-        /// <param name="File">The name of the file, e.g. "Log.txt".</param>
+        /// <param name="message">The message to write.</param>
+        /// <param name="file">The name of the file, e.g. "Log.txt".</param>
         /// <param name="append"></param>
-        public static void WriteTextFile(StringBuilder Message, string File, bool append)
+        public static void WriteTextFile(StringBuilder message, string file, bool append)
         {
-            WriteTextFileAbsolutePath(Message.ToString(), Application.StartupPath + "\\" + File, append);
+            WriteTextFileAbsolutePath(message.ToString(), Application.StartupPath + "\\" + file, append);
         }
 
         // Not Covered
@@ -1068,15 +1068,15 @@ namespace WikiFunctions
             return Regex.Replace(text, "^", bullet, RegexOptions.Multiline);
         }
 
-        private static readonly System.Media.SoundPlayer sound = new System.Media.SoundPlayer();
+        private static readonly System.Media.SoundPlayer Sound = new System.Media.SoundPlayer();
 
         /// <summary>
         /// Beeps
         /// </summary>
         public static void Beep()
         {//public domain sounds from http://www.partnersinrhyme.com/soundfx/PDsoundfx/beep.shtml
-            sound.Stream = Properties.Resources.beep1;
-            sound.Play();
+            Sound.Stream = Properties.Resources.beep1;
+            Sound.Play();
         }
 
         /// <summary>
@@ -1087,7 +1087,7 @@ namespace WikiFunctions
         /// <summary>
         /// Writes debug log message
         /// </summary>
-        public static void WriteDebug(string Object, string Text)
+        public static void WriteDebug(string @object, string text)
         {
             if (!WriteDebugEnabled)
                 return;
@@ -1095,11 +1095,11 @@ namespace WikiFunctions
             try
             {
                 WriteTextFile(string.Format(
-@"Object: {0}
+@"object: {0}
 Time: {1}
 Message: {2}
 
-", Object, DateTime.Now.ToLongTimeString(), Text), "Log.txt", true);
+", @object, DateTime.Now.ToLongTimeString(), text), "Log.txt", true);
             }
             catch (Exception ex)
             {
@@ -1189,9 +1189,9 @@ Message: {2}
                 OpenURLInBrowser("http://en.wikipedia.org/wiki/" + WikiEncode(title));
         }
 
-        public static string GetENLinkWithSimpleSkinAndLocalLanguage(string Article)
+        public static string GetENLinkWithSimpleSkinAndLocalLanguage(string article)
         {
-            return "http://en.wikipedia.org/w/index.php?title=" + WikiEncode(Article) + "&useskin=simple&uselang=" +
+            return "http://en.wikipedia.org/w/index.php?title=" + WikiEncode(article) + "&useskin=simple&uselang=" +
               Variables.LangCodeEnumString();
         }
 
@@ -1292,26 +1292,26 @@ Message: {2}
             return url;
         }
 
-        static readonly Regex ExpandTemplatesRegex = new Regex("<expandtemplates>(.*?)</expandtemplates>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        private static readonly Regex ExpandTemplatesRegex = new Regex("<expandtemplates>(.*?)</expandtemplates>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ArticleText">The text of the article</param>
-        /// <param name="ArticleTitle">The title of the artlce</param>
-        /// <param name="Regexes"></param>
+        /// <param name="articleText">The text of the article</param>
+        /// <param name="articleTitle">The title of the artlce</param>
+        /// <param name="regexes"></param>
         /// <param name="includeComment"></param>
         /// <returns></returns>
-        public static string ExpandTemplate(string ArticleText, string ArticleTitle, Dictionary<Regex, string> Regexes, bool includeComment)
+        public static string ExpandTemplate(string articleText, string articleTitle, Dictionary<Regex, string> regexes, bool includeComment)
         {
-            foreach (KeyValuePair<Regex, string> p in Regexes)
+            foreach (KeyValuePair<Regex, string> p in regexes)
             {
-                MatchCollection uses = p.Key.Matches(ArticleText);
+                MatchCollection uses = p.Key.Matches(articleText);
                 foreach (Match m in uses)
                 {
                     string call = m.Value;
 
-                    string expandUri = Variables.URLApi + "?action=expandtemplates&format=xml&title=" + WikiEncode(ArticleTitle) + "&text=" + HttpUtility.UrlEncode(call);
+                    string expandUri = Variables.URLApi + "?action=expandtemplates&format=xml&title=" + WikiEncode(articleTitle) + "&text=" + HttpUtility.UrlEncode(call);
                     string result;
 
                     try
@@ -1331,11 +1331,11 @@ Message: {2}
                     if (includeComment)
                         result = result + "<!-- " + call + " -->";
 
-                    ArticleText = ArticleText.Replace(call, result);
+                    articleText = articleText.Replace(call, result);
                 }
             }
 
-            return ArticleText;
+            return articleText;
         }
 
         // Covered by ToolsTests.GetTitleFromURL()
@@ -1564,13 +1564,13 @@ Message: {2}
         /// Filter out articles which we definately do not want to edit and remove duplicates.
         /// (Filters MediaWiki (and talk) NS, Commons, and where NS is less than 0)
         /// </summary>
-        /// <param name="UnfilteredArticles">Original unfiltered article list</param>
+        /// <param name="unfilteredArticles">Original unfiltered article list</param>
         /// <returns>Filtered article list</returns>
-        public static List<Article> FilterSomeArticles(List<Article> UnfilteredArticles)
+        public static List<Article> FilterSomeArticles(List<Article> unfilteredArticles)
         {
             List<Article> items = new List<Article>();
 
-            foreach (Article a in UnfilteredArticles)
+            foreach (Article a in unfilteredArticles)
             {
                 if (a.NameSpaceKey >= Namespace.Article && a.NameSpaceKey != Namespace.MediaWiki &&
                     a.NameSpaceKey != Namespace.MediaWikiTalk && !a.Name.StartsWith("Commons:"))
@@ -1665,15 +1665,15 @@ Message: {2}
         /// <summary>
         /// Wrapper for VisualBasic's Inputbox, so other projects don't have to reference Microsoft.VisualBasic
         /// </summary>
-        /// <param name="Prompt">String displayed as the message</param>
-        /// <param name="Title">Title of Input Box</param>
-        /// <param name="DefaultResponse">Response if no other input provided</param>
-        /// <param name="XPos">X Position of input box</param>
-        /// <param name="YPos">Y Position of input box</param>
+        /// <param name="prompt">String displayed as the message</param>
+        /// <param name="title">Title of Input Box</param>
+        /// <param name="defaultResponse">Response if no other input provided</param>
+        /// <param name="xPos">X Position of input box</param>
+        /// <param name="yPos">Y Position of input box</param>
         /// <returns>A string with the contents of the input box</returns>
-        public static string VBInputBox(string Prompt, string Title, string DefaultResponse, int XPos, int YPos)
+        public static string VBInputBox(string prompt, string title, string defaultResponse, int xPos, int yPos)
         {
-            return Microsoft.VisualBasic.Interaction.InputBox(Prompt, Title, DefaultResponse, XPos, YPos);
+            return Microsoft.VisualBasic.Interaction.InputBox(prompt, title, defaultResponse, xPos, yPos);
         }
 
         /// <summary>
