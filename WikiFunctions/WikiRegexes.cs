@@ -206,11 +206,27 @@ namespace WikiFunctions
         /// Matches headings of all levels
         /// </summary>
         public static readonly Regex Headings = new Regex(@"^={1,6}.*={1,6}\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
-
+        
+        /// <summary>
+        /// Matches level 2 headings including the newline at end
+        /// </summary>
+        public static readonly Regex HeadingLevelTwo = new Regex(@"^==([^=].*?[^=])==(?:\r\n?|\n)$", RegexOptions.Multiline);
+        
+        /// <summary>
+        /// Matches the whole of a level 2 section including heading and any subsections up to but not including the next level 2 section
+        /// </summary>
+        public static readonly Regex SectionLevelTwo = new Regex(@"^==[^=][^\r\n]*?[^=]==.*?(?=^==[^=][^\r\n]*?[^=]==(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
+        
         /// <summary>
         /// Matches the first section of an article, if the article has sections, else the whole article
         /// </summary>
         public static readonly Regex ZerothSection = new Regex("(^.+?(?===+)|^.+$)", RegexOptions.Singleline);
+        
+        /// <summary>
+        /// Matches article text up to but not including first level 2 heading
+        /// </summary>
+        public static readonly Regex ArticleToFirstLevelTwoHeading = new Regex(@"^.*?(?=[^=]==[^=][^\r\n]*?[^=]==(\r\n?|\n))", RegexOptions.Singleline);
+        
         /// <summary>
         /// Matches text indented with a :
         /// </summary>

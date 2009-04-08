@@ -1717,6 +1717,12 @@ window.scrollTo(0, diffTopY);
 
             string tag = cmboEditSummary.Text + TheArticle.EditSummary;
 
+            // check to see if we have only edited one level 2 section
+            string SectionEditText = SectionEditSummary();
+
+            if (!SectionEditText.Equals(""))
+                tag = @"/* " + SectionEditText + @" */" + tag;
+
             if ((Variables.User.IsBot && chkSuppressTag.Checked)
                 || (!Variables.IsWikimediaProject && SuppressUsingAWB))
                 return tag;
@@ -1737,6 +1743,77 @@ window.scrollTo(0, diffTopY);
             tag += Variables.SummaryTag;
 
             return tag;
+        }
+
+        private string SectionEditSummary()
+        {
+            // if edit only affects one level 2 heading, add /* heading  title */ to make a section edit
+            if (!WikiRegexes.HeadingLevelTwo.IsMatch(TheArticle.OriginalArticleText))
+                return ("");
+
+            string[] LevelTwoHeadingsBefore = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
+            string[] LevelTwoHeadingsAfter = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
+            string OriginalArticleTextLocal = TheArticle.OriginalArticleText;
+            string ArticleTextLocal = TheArticle.ArticleText;
+            int Before = 0, After = 0;
+
+            string ZerothSectionBefore = WikiRegexes.ArticleToFirstLevelTwoHeading.Match(OriginalArticleTextLocal).Value;
+            OriginalArticleTextLocal = OriginalArticleTextLocal.Replace(ZerothSectionBefore, "");
+
+            string ZerothSectionAfter = WikiRegexes.ArticleToFirstLevelTwoHeading.Match(ArticleTextLocal).Value;
+            ArticleTextLocal = ArticleTextLocal.Replace(ZerothSectionAfter, "");
+
+            // can't provide a section edit summary if there are changes in text before first level 2 heading
+            if (!ZerothSectionBefore.Equals(ZerothSectionAfter))
+                return ("");
+
+            // get sections for article text before any AWB changes
+            foreach (Match m in WikiRegexes.SectionLevelTwo.Matches(OriginalArticleTextLocal))
+            {
+                LevelTwoHeadingsBefore[Before] = null;
+                LevelTwoHeadingsBefore[Before] = m.Value;
+                OriginalArticleTextLocal = OriginalArticleTextLocal.Replace(m.Value, "");
+                Before++;
+
+                if (Before == 20)
+                    return ("");
+            }
+            // add the last section to the array
+            LevelTwoHeadingsBefore[Before] = OriginalArticleTextLocal;
+
+            // get sections for article text after AWB changes
+            foreach (Match m in WikiRegexes.SectionLevelTwo.Matches(ArticleTextLocal))
+            {
+                LevelTwoHeadingsAfter[After] = m.Value;
+                ArticleTextLocal = ArticleTextLocal.Replace(m.Value, "");
+                After++;
+            }
+            // add the last section to the array
+            LevelTwoHeadingsAfter[After] = ArticleTextLocal;
+
+            // if number of sections has changed, can't provide section edit summary
+            if (!(After == Before))
+                return ("");
+
+            int SectionsChanged = 0, SectionChangeNumber = 0;
+
+            for (int i = 0; i <= After; i++)
+            {
+                if (!(LevelTwoHeadingsBefore[i] == LevelTwoHeadingsAfter[i]))
+                {
+                    SectionsChanged++;
+                    SectionChangeNumber = i;
+                }
+
+                // if multiple level 2 sections changed, can't provide section edit summary
+                if (SectionsChanged == 2)
+                    return ("");
+            }
+
+            // so SectionsChanged == 1, get heading name from LevelTwoHeadingsBefore
+            string HeadingText = WikiRegexes.HeadingLevelTwo.Match(LevelTwoHeadingsBefore[SectionChangeNumber]).Groups[1].Value.Trim();
+
+            return HeadingText;
         }
 
         private void chkFindandReplace_CheckedChanged(object sender, EventArgs e)
@@ -2017,6 +2094,10 @@ window.scrollTo(0, diffTopY);
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Replace_nofootnotes_with_morefootnote_if_references_exists
                 if (TheArticle.HasMorefootnotesAndManyReferences)
                     lblWarn.Text += @"Has 'No/More footnotes' template yet many references\r\n";
+
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
+                if (TheArticle.HasRefAfterReflist)
+                    lblWarn.Text += @"Has a <ref> after <references/>\r\n";
 
                 if (articleText.StartsWith("=="))
                     lblWarn.Text += "Starts with heading.";

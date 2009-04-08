@@ -236,8 +236,6 @@ namespace WikiFunctions.Parse
         private static readonly Regex regexHeadingWhitespaceBefore = new Regex(@"^ *(==+)(\s*.+?\s*)\1 +(\r|\n)", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
         private static readonly Regex regexHeadingWhitespaceAfter = new Regex(@"^ +(==+)(\s*.+?\s*)\1 *(\r|\n)", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
 
-        private static readonly Regex regexHeadingLevelTwo = new Regex(@"^==[^=].*?[^=]==(\r\n?|\n)$", RegexOptions.Multiline);
-
         private static readonly Regex regexHeadingUpOneLevel = new Regex(@"^=(=+[^=].*?[^=]=+)=(\r\n?|\n)$", RegexOptions.Multiline);
 
         private static readonly Regex regexHeadingColonAtEnd = new Regex(@"^(=+)(.+?)\:(\s*\1(?:\r\n?|\n))$", RegexOptions.Multiline);
@@ -350,7 +348,7 @@ namespace WikiFunctions.Parse
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Section_header_level_.28WikiProject_Check_Wikipedia_.237.29
             // if no level 2 heading in article, remove two levels from all headings
-            if (!regexHeadingLevelTwo.IsMatch(ArticleText))
+            if (!WikiRegexes.HeadingLevelTwo.IsMatch(ArticleText))
                 ArticleText = regexHeadingUpOneLevel.Replace(ArticleText, "$1$2");
 
             return ArticleText;
