@@ -661,7 +661,7 @@ namespace WikiFunctions
             text = text.Replace("_", " ").Trim();
             text = text.Trim('[', ']');
 
-            return text;
+            return text.Trim(':');
         }
 
         // Covered by ToolsTests.SplitToSections()
