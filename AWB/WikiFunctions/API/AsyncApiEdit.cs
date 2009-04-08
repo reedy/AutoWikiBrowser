@@ -204,7 +204,7 @@ namespace WikiFunctions.API
 
                 object result = t.InvokeMember(
                     args.Function,                                  // name
-                    BindingFlags.InvokeMethod,    // invokeAttr
+                    BindingFlags.InvokeMethod,                      // invokeAttr
                     null,                                           // binder
                     Editor,                                         // target
                     args.Arguments                                  // args
