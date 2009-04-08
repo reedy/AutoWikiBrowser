@@ -1718,7 +1718,7 @@ window.scrollTo(0, diffTopY);
             string tag = cmboEditSummary.Text + TheArticle.EditSummary;
 
             // check to see if we have only edited one level 2 section
-            string SectionEditText = SectionEditSummary();
+            string SectionEditText = SectionEditSummary(TheArticle.OriginalArticleText, TheArticle.ArticleText);
 
             if (!SectionEditText.Equals(""))
                 tag = @"/* " + SectionEditText + @" */" + tag;
@@ -1745,16 +1745,17 @@ window.scrollTo(0, diffTopY);
             return tag;
         }
 
-        private string SectionEditSummary()
+        private string SectionEditSummary(string OriginalArticleTextLocal, string ArticleTextLocal)
         {
+            // TODO: could add recursion to look for edits to only a level 3 section within a level 2 etc.
+
             // if edit only affects one level 2 heading, add /* heading  title */ to make a section edit
             if (!WikiRegexes.HeadingLevelTwo.IsMatch(TheArticle.OriginalArticleText))
                 return ("");
 
             string[] LevelTwoHeadingsBefore = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
             string[] LevelTwoHeadingsAfter = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
-            string OriginalArticleTextLocal = TheArticle.OriginalArticleText;
-            string ArticleTextLocal = TheArticle.ArticleText;
+
             int Before = 0, After = 0;
 
             string ZerothSectionBefore = WikiRegexes.ArticleToFirstLevelTwoHeading.Match(OriginalArticleTextLocal).Value;
