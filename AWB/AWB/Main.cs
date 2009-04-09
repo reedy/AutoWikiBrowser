@@ -2159,13 +2159,11 @@ window.scrollTo(0, diffTopY);
             if (lbDuplicateWikilinks.SelectedIndex != -1)
             {
                 // remove the duplicate link count added to the end above
-                string strLink = "";
+                string strLink = lbDuplicateWikilinks.SelectedItem.ToString();
                 
                 strLink = Regex.Replace(strLink, @" \(\d+\)$", "");
-
-                strLink = Regex.Escape(lbDuplicateWikilinks.SelectedItem.ToString());
                 
-                Find.Find1("\\[\\[" + strLink + "(\\|.*?)?\\]\\]", true, true, txtEdit, TheArticle.Name);
+                Find.Find1("\\[\\[" + Regex.Escape(strLink) + "(\\|.*?)?\\]\\]", true, true, txtEdit, TheArticle.Name);
                 btnRemove.Enabled = true;
             }
             else
