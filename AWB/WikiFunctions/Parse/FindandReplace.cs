@@ -151,6 +151,7 @@ namespace WikiFunctions.Parse
                 return ArticleText;
 
             streditsummary = "";
+            RemovedSummary = "";
 
             if (chkIgnoreMore.Checked)
                 ArticleText = Remove.HideMore(ArticleText);
@@ -170,13 +171,20 @@ namespace WikiFunctions.Parse
             else if (chkIgnoreLinks.Checked)
                 ArticleText = Remove.AddBack(ArticleText);
 
-            if (chkAddToSummary.Checked && !string.IsNullOrEmpty(streditsummary))
-                EditSummary = ", Replaced: " + summary.Trim();
+            if (chkAddToSummary.Checked) 
+            {
+              if (!string.IsNullOrEmpty(streditsummary))
+                  EditSummary = ", Replaced: " + streditsummary.Trim();
+                  
+              if (!string.IsNullOrEmpty(RemovedSummary))
+                  EditSummary += ", Removed: " + RemovedSummary.Trim();
+            }
 
             return ArticleText;
         }
 
         private string summary = "";
+        private string RemovedSummary = "";
 
         private string PerformFindAndReplace(string Find, string Replace, string ArticleText, string ArticleTitle, RegexOptions ROptions)
         {
@@ -192,12 +200,24 @@ namespace WikiFunctions.Parse
 
                 if (Matches[0].Value != Matches[0].Result(Replace))
                 {
-                    summary = Matches[0].Value + Arrow + Matches[0].Result(Replace);
+                    if (!string.IsNullOrEmpty(Matches[0].Result(Replace)))
+                    {
+                        summary = Matches[0].Value + Arrow + Matches[0].Result(Replace);
 
-                    if (Matches.Count > 1)
-                        summary += " (" + Matches.Count + ")";
+                        if (Matches.Count > 1)
+                            summary += " (" + Matches.Count + ")";
 
-                    streditsummary += summary + ", ";
+                        streditsummary += summary + ", ";
+                    }
+                    else
+                    {
+                        RemovedSummary += Matches[0].Value;
+                        
+                        if (Matches.Count > 1)
+                            RemovedSummary += " (" + Matches.Count + ")";
+                            
+                        RemovedSummary += ", ";
+                    }
                 }
             }
 
