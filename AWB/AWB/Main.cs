@@ -2121,12 +2121,16 @@ window.scrollTo(0, diffTopY);
 
                 //Find multiple links                
                 ArrayList arrayLinks = new ArrayList();
+                ArrayList arrayLinks2 = new ArrayList();
 
                 //get all the links
                 foreach (Match m in WikiRegexes.WikiLink.Matches(articleText))
                 {
                     string x = m.Groups[1].Value;
                     if (!WikiRegexes.Dates.IsMatch(x) && !WikiRegexes.Dates2.IsMatch(x))
+                        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Multiple_links
+                        // make first character uppercase so that [[proton]] and [[Proton]] are marked as duplicate
+                        x = Tools.TurnFirstToUpper(x);
                         arrayLinks.Add(x);
                 }
 
@@ -2135,8 +2139,12 @@ window.scrollTo(0, diffTopY);
                 //add the duplicate articles to the listbox
                 foreach (string z in arrayLinks)
                 {
-                    if ((arrayLinks.IndexOf(z) < arrayLinks.LastIndexOf(z)) && (!lbDuplicateWikilinks.Items.Contains(z)))
-                        lbDuplicateWikilinks.Items.Add(z);
+                    if ((arrayLinks.IndexOf(z) < arrayLinks.LastIndexOf(z)) && (!arrayLinks2.Contains(z)))
+                    {
+                        arrayLinks2.Add(z);
+                        // include count of links in form Proton (3)
+                        lbDuplicateWikilinks.Items.Add(z + @" (" + Regex.Matches(articleText, @"\[\[" + Regex.Escape(z) + @"(\|.*?)?\]\]").Count + @")");
+                    }
                 }
             }
             lblDuplicateWikilinks.Visible = lbDuplicateWikilinks.Visible = btnRemove.Visible = (lbDuplicateWikilinks.Items.Count > 0);
@@ -2150,7 +2158,13 @@ window.scrollTo(0, diffTopY);
                 Find.ResetFind();
             if (lbDuplicateWikilinks.SelectedIndex != -1)
             {
-                string strLink = Regex.Escape(lbDuplicateWikilinks.SelectedItem.ToString());
+                // remove the duplicate link count added to the end above
+                string strLink = "";
+                
+                strLink = Regex.Replace(strLink, @" \(\d+\)$", "");
+
+                strLink = Regex.Escape(lbDuplicateWikilinks.SelectedItem.ToString());
+                
                 Find.Find1("\\[\\[" + strLink + "(\\|.*?)?\\]\\]", true, true, txtEdit, TheArticle.Name);
                 btnRemove.Enabled = true;
             }
