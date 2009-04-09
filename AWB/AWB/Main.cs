@@ -1769,10 +1769,12 @@ window.scrollTo(0, diffTopY);
             int Before = 0, After = 0;
 
             string ZerothSectionBefore = WikiRegexes.ArticleToFirstLevelTwoHeading.Match(OriginalArticleTextLocal).Value;
-            OriginalArticleTextLocal = OriginalArticleTextLocal.Replace(ZerothSectionBefore, "");
+            if (!string.IsNullOrEmpty(ZerothSectionBefore))
+                OriginalArticleTextLocal = OriginalArticleTextLocal.Replace(ZerothSectionBefore, "");
 
             string ZerothSectionAfter = WikiRegexes.ArticleToFirstLevelTwoHeading.Match(ArticleTextLocal).Value;
-            ArticleTextLocal = ArticleTextLocal.Replace(ZerothSectionAfter, "");
+            if (!string.IsNullOrEmpty(ZerothSectionAfter))
+                ArticleTextLocal = ArticleTextLocal.Replace(ZerothSectionAfter, "");
 
             // can't provide a section edit summary if there are changes in text before first level 2 heading
             if (!ZerothSectionBefore.Equals(ZerothSectionAfter))
