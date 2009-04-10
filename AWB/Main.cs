@@ -2145,7 +2145,7 @@ window.scrollTo(0, diffTopY);
                     {
                         arrayLinks2.Add(z);
                         // include count of links in form Proton (3)
-                        lbDuplicateWikilinks.Items.Add(z + @" (" + Regex.Matches(articleText, @"\[\[" + Regex.Escape(z) + @"(\|.*?)?\]\]").Count + @")");
+                        lbDuplicateWikilinks.Items.Add(z + @" (" + (Regex.Matches(articleText, @"\[\[" + Regex.Escape(z) + @"(\|.*?)?\]\]").Count + Regex.Matches(articleText, @"\[\[" + Regex.Escape(Tools.TurnFirstToLower(z)) + @"(\|.*?)?\]\]").Count) + @")");
                     }
                 }
             }
@@ -2160,12 +2160,14 @@ window.scrollTo(0, diffTopY);
                 Find.ResetFind();
             if (lbDuplicateWikilinks.SelectedIndex != -1)
             {
-                // remove the duplicate link count added to the end above
                 string strLink = lbDuplicateWikilinks.SelectedItem.ToString();
-                
+
+                // remove the duplicate link count added to the end above
                 strLink = Regex.Replace(strLink, @" \(\d+\)$", "");
-                
-                Find.Find1("\\[\\[" + Regex.Escape(strLink) + "(\\|.*?)?\\]\\]", true, true, txtEdit, TheArticle.Name);
+
+                // perform case sensitive search, but make search on first character of link case insensitive
+                // as first character may have been converted to upper case
+                Find.Find1("\\[\\[(?i)" + Regex.Escape(strLink[0].ToString()) + @"(?-i)" + Regex.Escape(strLink.Remove(0, 1)) + "(\\|.*?)?\\]\\]", true, true, txtEdit, TheArticle.Name);
                 btnRemove.Enabled = true;
             }
             else
