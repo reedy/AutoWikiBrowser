@@ -517,6 +517,10 @@ world</font>"));
 
             // only changing font tags without properties
             Assert.AreEqual(@"<font name=ab>hello</font>", Parsers.FixSyntax(@"<font name=ab>hello</font>"));
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#second_pair_of_brackets_added_to_https_links
+            Assert.AreEqual("[https://example.com] site", Parsers.FixSyntax("[https://example.com]] site"));
+            Assert.AreEqual("[https://example.com] site", Parsers.FixSyntax("[[https://example.com] site"));
         }
 
         [Test]
