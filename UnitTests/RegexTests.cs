@@ -117,6 +117,16 @@ namespace UnitTests
         }
 
         [Test]
+        public void WikiLinkTests()
+        {
+            Assert.AreEqual(WikiRegexes.WikiLink.Match(@"[[foo]]").Groups[1].Value, @"foo");
+            Assert.AreEqual(WikiRegexes.WikiLink.Match(@"[[foo|bar]]").Groups[1].Value, @"foo");
+            Assert.AreEqual(WikiRegexes.WikiLink.Match(@"[[foo bar]]").Groups[1].Value, @"foo bar");
+            Assert.AreEqual(WikiRegexes.WikiLink.Match(@"[[Foo]]").Groups[1].Value, @"Foo");
+            Assert.AreEqual(WikiRegexes.WikiLink.Match(@"[[foo bar|word here]]").Groups[1].Value, @"foo bar");
+        }
+
+        [Test]
         public void PipedWikiLink()
         {
             TestMatch(WikiRegexes.PipedWikiLink, "[[foo|bar]]");
