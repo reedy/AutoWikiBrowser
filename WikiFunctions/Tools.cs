@@ -585,7 +585,7 @@ namespace WikiFunctions
 
         // Covered by ToolsTests.TurnFirstToUpper()
         /// <summary>
-        /// Returns uppercase version of the string
+        /// Returns version of the string with first character in upper case but not on wiktionary
         /// </summary>
         public static string TurnFirstToUpper(string input)
         {   //other projects don't always start with capital
@@ -597,7 +597,7 @@ namespace WikiFunctions
 
         // Covered by ToolsTests.TurnFirstToUpper()
         /// <summary>
-        /// Returns uppercase version of the string
+        /// Returns version of the string with first character in upper case
         /// </summary>
         public static string TurnFirstToUpperNoProjectCheck(string input)
         {
@@ -606,7 +606,7 @@ namespace WikiFunctions
 
         // Covered by ToolsTests.TurnFirstToLower()
         /// <summary>
-        /// Returns lowercase version of the string
+        /// Returns version of the string with first character in lower case
         /// </summary>
         public static string TurnFirstToLower(string input)
         {
