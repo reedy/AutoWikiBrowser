@@ -792,7 +792,8 @@ namespace AutoWikiBrowser
             txtEdit.Text = TheArticle.ArticleText;
 
             //Update statistics and alerts
-            ArticleInfo(false);
+            if (!BotMode)
+                ArticleInfo(false);
 
             if (chkSkipNoPageLinks.Checked && (lblLinks.Text == "Links: 0"))
             {
