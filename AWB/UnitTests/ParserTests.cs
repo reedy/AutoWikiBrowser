@@ -2201,6 +2201,14 @@ fish | name = Bert }} ''Bert'' is a good fish."));
             Assert.IsFalse(text.Contains(uncatstub));
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
 
+            // with categories and no links, deadend not removed
+            Globals.UnitTestIntValue = 3;
+            text = parser.Tagger(deadend + shortText, "Test", out noChange, ref summary, true, false);
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+
             Globals.UnitTestIntValue = 5;
 
             text = parser.Tagger(shortText, "Test", out noChange, ref summary, true, false);
