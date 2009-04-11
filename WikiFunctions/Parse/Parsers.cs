@@ -2536,7 +2536,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 ArticleText = "{{deadend|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
                 Summary += ", added [[:Category:Dead-end pages|deadend]] tag";
             }
-            else if (removeTags && linkCount > 0 && WikiRegexes.DeadEnd.IsMatch(ArticleText))
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#.7B.7BDeadend.7D.7D_gets_removed_from_categorized_pages
+            // don't include categories as 'links'
+            else if (removeTags && (linkCount - totalCategories) > 0 && WikiRegexes.DeadEnd.IsMatch(ArticleText))
             {
                 ArticleText = WikiRegexes.DeadEnd.Replace(ArticleText, "");
                 Summary += ", removed deadend tag";
