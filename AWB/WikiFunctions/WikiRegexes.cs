@@ -399,7 +399,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{Deadend|xxx}} (en only)
         /// </summary>
-        public static readonly Regex DeadEnd = new Regex(@"{{Deadend\|?(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?)?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static readonly Regex DeadEnd = new Regex(@"({{([Dd]ead ?end|[Ii]nternal ?links|[Nn]uevointernallinks|[Dd]ep)(\|(?:[^{}]+|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}))?}}|(?<={{Article\s*issues\b[^{}]*?)\|\s*deadend\s*=[^{}\|]+)", RegexOptions.Compiled);
 
         /// <summary>
         /// 

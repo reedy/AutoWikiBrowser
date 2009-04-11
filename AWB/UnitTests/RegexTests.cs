@@ -879,10 +879,30 @@ words2"));
             Assert.IsTrue(WikiRegexes.Lifetime.IsMatch(@"{{lifetime
           |||Bisson, Elie-Hercule}}"));
 
-
             // case sensitive
             Assert.IsFalse(WikiRegexes.Lifetime.IsMatch(@"{{LIFETIME|1833|1907|Bisson, Elie-Hercule}}"));
             Assert.IsFalse(WikiRegexes.Lifetime.IsMatch(@"{{bd|1833|1907|Bisson, Elie-Hercule}}"));
+        }
+
+        [Test]
+        public void DeadEndTests()
+        {
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Deadend}}"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{deadend}}"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dead end}}"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{deadend|date=May 2008}}"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Dead end}}"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{internal links}}"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{internallinks}}"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Internal links}}"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Internal links|date=May 2008}}"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{nuevointernallinks}}"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Nuevointernallinks}}"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dep}}"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dep|date=May 2008|Foobar}}"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Article issues|deadend=May 2008|a=b|c=d}}"));
+
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(@"{{deadend|}}"));
         }
     }
 }
