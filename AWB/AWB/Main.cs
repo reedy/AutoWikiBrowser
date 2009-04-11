@@ -2111,7 +2111,7 @@ window.scrollTo(0, diffTopY);
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
                 if (TheArticle.HasRefAfterReflist)
-                    lblWarn.Text += @"Has a <ref> after <references/>\r\n";
+                    lblWarn.Text += @"Has a <ref> after <references/>" + "\r\n";
 
                 if (articleText.StartsWith("=="))
                     lblWarn.Text += "Starts with heading.";
