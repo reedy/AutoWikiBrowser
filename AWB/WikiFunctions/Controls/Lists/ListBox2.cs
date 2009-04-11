@@ -67,7 +67,7 @@ namespace WikiFunctions.Controls.Lists
             if (Items.Count > i)
                 SelectedIndex = i;
             else
-                SelectedIndex = i - 1;
+                SelectedIndex = System.Math.Min(i, Items.Count) - 1;
 
             EndUpdate();
         }
