@@ -573,6 +573,17 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
                 Assert.IsTrue(a.NameSpaceKey >= Namespace.Article);
             }
         }
+
+        [Test]
+        public void ReplaceWithSpacesTests()
+        {
+            Assert.AreEqual("   ", Tools.ReplaceWithSpaces("foo"));
+            Assert.AreEqual("   ", Tools.ReplaceWithSpaces("   "));
+            Assert.AreEqual("", Tools.ReplaceWithSpaces(""));
+            Assert.AreEqual("  ", Tools.ReplaceWithSpaces("fo"));
+            Assert.AreEqual("     ", Tools.ReplaceWithSpaces("foooo"));
+            Assert.AreEqual("       ", Tools.ReplaceWithSpaces("FOO BAR"));
+        }
     }
 
     [TestFixture]

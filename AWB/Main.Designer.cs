@@ -157,6 +157,7 @@ namespace AutoWikiBrowser
             this.automaticallyDoAnythingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripComboOnLoad = new System.Windows.Forms.ToolStripComboBox();
             this.focusAtEndOfEditTextBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scrollToUnbalancedBracketsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.markAllAsMinorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addAllToWatchlistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1258,6 +1259,7 @@ namespace AutoWikiBrowser
             this.automaticallyDoAnythingToolStripMenuItem,
             this.toolStripComboOnLoad,
             this.focusAtEndOfEditTextBoxToolStripMenuItem,
+            this.scrollToUnbalancedBracketsToolStripMenuItem,
             this.toolStripSeparator6,
             this.markAllAsMinorToolStripMenuItem,
             this.addAllToWatchlistToolStripMenuItem,
@@ -1335,6 +1337,13 @@ namespace AutoWikiBrowser
             this.focusAtEndOfEditTextBoxToolStripMenuItem.Name = "focusAtEndOfEditTextBoxToolStripMenuItem";
             this.focusAtEndOfEditTextBoxToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
             this.focusAtEndOfEditTextBoxToolStripMenuItem.Text = "Auto focus end of the edit box";
+            //
+            // scrollToUnbalancedBracketsToolStripMenuItem
+            //
+            this.scrollToUnbalancedBracketsToolStripMenuItem.CheckOnClick = true;
+            this.scrollToUnbalancedBracketsToolStripMenuItem.Name = "scrollToUnbalancedBracketsToolStripMenuItem";
+            this.scrollToUnbalancedBracketsToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
+            this.scrollToUnbalancedBracketsToolStripMenuItem.Text = "Highlight first unbalanced brackets if found";
             // 
             // toolStripSeparator6
             // 
@@ -4382,6 +4391,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem removeDuplicatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator28;
         private System.Windows.Forms.ToolStripMenuItem focusAtEndOfEditTextBoxToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scrollToUnbalancedBracketsToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.GroupBox gbPageExisting;
         private System.Windows.Forms.RadioButton radSkipNone;

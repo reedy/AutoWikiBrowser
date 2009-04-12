@@ -73,6 +73,18 @@ namespace AutoWikiBrowser
             txtEdit.Focus();
             txtEdit.ScrollToCaret();
         }
+
+        public static void SetEditBoxSelection(System.Windows.Forms.TextBox txtEdit, int InputIndex, int InputLength)
+        {
+            if (InputIndex > 0 && InputLength > 0 && (InputIndex + InputLength) < txtEdit.TextLength)
+            {
+                txtEdit.SelectionStart = InputIndex;
+                txtEdit.SelectionLength = InputLength;
+            }
+
+            txtEdit.Focus();
+            txtEdit.ScrollToCaret();
+        }
     }
 }
 

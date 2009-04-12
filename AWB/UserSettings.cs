@@ -300,7 +300,8 @@ namespace AutoWikiBrowser
                                  removeDuplicatesToolStripMenuItem.Checked,
                                  alphaSortInterwikiLinksToolStripMenuItem.Checked,
                                  replaceReferenceTagsToolStripMenuItem.Checked,
-                                 focusAtEndOfEditTextBoxToolStripMenuItem.Checked),
+                                 focusAtEndOfEditTextBoxToolStripMenuItem.Checked,
+                                 scrollToUnbalancedBracketsToolStripMenuItem.Checked),
 
 
                 new DabPrefs
@@ -514,6 +515,7 @@ namespace AutoWikiBrowser
             alphaSortInterwikiLinksToolStripMenuItem.Checked = p.General.SortInterWikiOrder;
             replaceReferenceTagsToolStripMenuItem.Checked = p.General.ReplaceReferenceTags;
             focusAtEndOfEditTextBoxToolStripMenuItem.Checked = p.General.FocusAtEndOfEditBox;
+            scrollToUnbalancedBracketsToolStripMenuItem.Checked = p.General.scrollToUnbalancedBrackets;
 
             txtEdit.Font = new System.Drawing.Font(p.General.TextBoxFont, p.General.TextBoxSize);
 

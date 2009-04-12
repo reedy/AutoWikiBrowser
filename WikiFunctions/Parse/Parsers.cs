@@ -1169,6 +1169,78 @@ namespace WikiFunctions.Parse
             return s;
         }
 
+        private static readonly Regex DoubleCurlyBrackets = new Regex(@"{{((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})");
+        private static readonly Regex DoubleSquareBrackets = new Regex(@"\[\[((?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\]\])");
+        private static readonly Regex SingleSquareBrackets = new Regex(@"\[((?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])");
+
+        /// <summary>
+        /// Checks the article text for unbalanced brackets, either square or curly
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <param name="BracketLength">integer to hold length of unbalanced bracket found</param>
+        /// <returns>Index of any unbalanced brackets found</returns>
+        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Missing_opening_or_closing_brackets.2C_table_and_template_markup_.28WikiProject_Check_Wikipedia_.23_10.2C_28.2C_43.2C_46.2C_47.29
+        public static int UnbalancedBrackets(string ArticleText, ref int BracketLength)
+        {
+            BracketLength = 2;
+
+            int unbalancedfound = UnbalancedBrackets(ArticleText, @"{{", @"}}", DoubleCurlyBrackets);
+
+            if (unbalancedfound < 0)
+                unbalancedfound = UnbalancedBrackets(ArticleText, @"[[", @"]]", DoubleSquareBrackets);
+            else return unbalancedfound;
+
+            if (unbalancedfound < 0)
+                unbalancedfound = UnbalancedBrackets(ArticleText, @"[", @"]", SingleSquareBrackets);
+            else return unbalancedfound;
+
+            if (unbalancedfound > 0)
+            {
+                BracketLength = 1;
+                return unbalancedfound;
+            }
+            else return -1;
+        }
+
+        /// <summary>
+        /// Checks the article text for unbalanced brackets of the input type
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <returns>Index of any unbalanced brackets found</returns>
+        private static int UnbalancedBrackets(string ArticleText, string openingbrackets, string closingbrackets, Regex BracketsRegex)
+        {
+            if (Regex.Matches(ArticleText, Regex.Escape(openingbrackets)).Count != Regex.Matches(ArticleText, Regex.Escape(closingbrackets)).Count)
+            {
+
+                if (openingbrackets.Equals(@"["))
+                {
+                    // need to remove double square brackets first
+                    foreach (Match m in DoubleSquareBrackets.Matches(ArticleText))
+                    {
+                        ArticleText = ArticleText.Replace(m.Value, Tools.ReplaceWithSpaces(m.Value));
+                    }
+                }
+                // replace all the valid balanced curly bracket sets with spaces
+                foreach (Match m in BracketsRegex.Matches(ArticleText))
+                {
+                    ArticleText = ArticleText.Replace(m.Value, Tools.ReplaceWithSpaces(m.Value));
+                }
+
+                // now return the unbalanced one that's left
+                int open = Regex.Matches(ArticleText, Regex.Escape(openingbrackets)).Count;
+                int closed = Regex.Matches(ArticleText, Regex.Escape(closingbrackets)).Count;
+
+                if (open == 0 && closed >= 1)
+                    return ArticleText.IndexOf(closingbrackets);
+                else if (open >= 1 && closed == 0)
+                    return ArticleText.IndexOf(openingbrackets);
+                else
+                    return -1;
+            }
+
+            return -1;
+        }
+
         /// <summary>
         /// 
         /// </summary>

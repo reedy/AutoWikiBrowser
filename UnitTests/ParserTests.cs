@@ -418,6 +418,36 @@ End of.";
         }
 
         [Test]
+        public void UnbalancedBracketsTests()
+        {
+            int BracketLength = 0;
+            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now}", ref BracketLength));
+            Assert.AreEqual(2, BracketLength);
+            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now} abc", ref BracketLength));
+            Assert.AreEqual(2, BracketLength);
+            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} [[now]", ref BracketLength));
+            Assert.AreEqual(2, BracketLength);
+            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello [[bye]] {{now}", ref BracketLength));
+            Assert.AreEqual(2, BracketLength);
+            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} [now words [here]", ref BracketLength));
+            Assert.AreEqual(1, BracketLength);
+            Assert.AreEqual(21, Parsers.UnbalancedBrackets(@"now hello {{bye}} now] words [here]", ref BracketLength));
+            Assert.AreEqual(1, BracketLength);
+            Assert.AreEqual(22, Parsers.UnbalancedBrackets(@"now hello {{bye}} {now}}", ref BracketLength));
+            Assert.AreEqual(2, BracketLength);
+
+            // only first reported
+            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now} or {{now} was", ref BracketLength));
+            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now} or [[now] was", ref BracketLength));
+
+            // brackets all okay
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now}}", ref BracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello [[bye]] {{now}}", ref BracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} [now]", ref BracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello", ref BracketLength));
+        }
+
+        [Test]
         public void TestCiteFormatFieldTypo()
         {
             Assert.AreEqual(@"now {{cite web| url=a.com|title=hello|format=PDF}} was", Parsers.FixSyntax(@"now {{cite web| url=a.com|title=hello|fprmat=PDF}} was"));
@@ -2456,7 +2486,6 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"{{Article issues|cleanup=May 2008|POV=March 2008}}", Parsers.Conversions(@"{{Article issues|cleanup=May 2008|POV=March 2008}}"));
             Assert.AreEqual(@"{{Article issues|sections=May 2008|POV=March 2008}}", Parsers.Conversions(@"{{Article issues|sections=May 2008|POV=March 2008}}"));
         }
-
 
         [Test]
         public void DuplicateTemplateFieldsTests()
