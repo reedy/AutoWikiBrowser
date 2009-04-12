@@ -2550,6 +2550,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             }
 
             // skip article if contains any template except for stub templates
+            // because templates may provide categories/references
             foreach (Match m in WikiRegexes.Template.Matches(ArticleText))
             {
                 if (!(WikiRegexes.Stub.IsMatch(m.Value)
