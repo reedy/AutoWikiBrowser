@@ -325,6 +325,16 @@ namespace WikiFunctions
         }
 
         /// <summary>
+        /// Checks the article text for unbalanced brackets, either square or curly
+        /// </summary>
+        /// <param name="BracketLength">integer to hold length of unbalanced bracket found</param>
+        /// <returns>Index of any unbalanced brackets found</returns>
+        public int UnbalancedBrackets(ref int BracketLength)
+        {
+            return Parsers.UnbalancedBrackets(ArticleText, ref BracketLength);
+        }
+
+        /// <summary>
         /// Remove, replace or comment out a specified image
         /// </summary>
         /// <param name="option">The action to take</param>

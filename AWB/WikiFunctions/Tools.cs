@@ -1697,5 +1697,17 @@ Message: {2}
                 return num.Levels;
             }
         }
+
+        /// <summary>
+        /// replaces each character in the input string with spaces
+        /// </summary>
+        /// <returns>input string with spaces instead of characters</returns>
+        public static string ReplaceWithSpaces(string input)
+        {
+            string output = "";
+            for (int a = 0; a < input.Length; a++)
+                output += " ";
+            return output;
+        }
     }
 }

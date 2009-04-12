@@ -375,7 +375,7 @@ namespace WikiFunctions.AWBSettings
             decimal mTimeOutLimit, bool autoSaveEditBoxEnabled, decimal autoSaveEditBoxPeriod,
             string autoSaveEditBoxFile, bool mLockSummary, bool mEditToolbarEnabled, bool mSuppressUsingAWB,
             bool mAddUsingAWBToActionSummaries, bool mfilterNonMainSpace, bool mAutoFilterDupes, bool mSortInterWikiOrder,
-            bool mReplaceReferenceTags, bool mFocusAtEndOfEditBox)
+            bool mReplaceReferenceTags, bool mFocusAtEndOfEditBox, bool mscrollToUnbalancedBrackets)
         {
             SaveArticleList = mSaveArticleList;
             IgnoreNoBots = mIgnoreNoBots;
@@ -417,6 +417,7 @@ namespace WikiFunctions.AWBSettings
             filterNonMainSpace = mfilterNonMainSpace;
             AutoFilterDuplicates = mAutoFilterDupes;
             FocusAtEndOfEditBox = mFocusAtEndOfEditBox;
+            scrollToUnbalancedBrackets = mscrollToUnbalancedBrackets;
 
             SortInterWikiOrder = mSortInterWikiOrder;
             ReplaceReferenceTags = mReplaceReferenceTags;
@@ -450,6 +451,7 @@ namespace WikiFunctions.AWBSettings
         public bool filterNonMainSpace = false;
         public bool AutoFilterDuplicates = false;
         public bool FocusAtEndOfEditBox = false;
+        public bool scrollToUnbalancedBrackets = false;
 
         public int TextBoxSize = 10;
         public string TextBoxFont = "Courier New";

@@ -829,13 +829,26 @@ namespace AutoWikiBrowser
 
                 txtReviewEditSummary.Text = MakeSummary();
 
+                int BracketLength = 0;
+                int UnbalancedBracket = TheArticle.UnbalancedBrackets(ref BracketLength);
+                if(UnbalancedBracket > 0)
+                    lblWarn.Text += "Unbalanced brackets found\r\n";
+
                 if (focusAtEndOfEditTextBoxToolStripMenuItem.Checked)
                 {
                     txtEdit.Select(txtEdit.Text.Length, 0);
                     txtEdit.ScrollToCaret();
                 }
                 else
-                    btnSave.Focus();
+                {
+                    if (UnbalancedBracket < 0)
+                        btnSave.Focus();
+                    else if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
+                    {
+                        EditBoxTab.SelectedTab = tpEdit;
+                        Find.SetEditBoxSelection(txtEdit, UnbalancedBracket, BracketLength);
+                    }
+                }
             }
             else
             {
