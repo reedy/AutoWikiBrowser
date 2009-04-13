@@ -259,14 +259,25 @@ namespace WikiFunctions.Parse
 
         private const int MIN_CLEANUP_TAGS_TO_COMBINE = 3; // article must have at least this many tags to combine to {{Article issues}}
 
+        private static readonly Regex ArticleIssuesInTitleCase = new Regex(@"({{[Aa]rticle ?issues\|\s*(?:[^{}]+?\|\s*)?)([A-Z])([a-z]+(?: [a-z]+)?\s*=)");
+
         /// <summary>
-        /// Combines multiple cleanup tags into {{article issues}} template
+        /// Combines multiple cleanup tags into {{article issues}} template, ensures parameters have correct case
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        // TODO
         public string ArticleIssues(string ArticleText)
         {
+            // convert title case parameters within {{Article issues}} to lower case
+            foreach (Match m in ArticleIssuesInTitleCase.Matches(ArticleText))
+            {
+                string FirstPart = m.Groups[1].Value;
+                string ParameterFirstChar = m.Groups[2].Value.ToLower();
+                string LastPart = m.Groups[3].Value;
+
+                ArticleText = ArticleText.Replace(m.Value, FirstPart + ParameterFirstChar + LastPart);
+            }
+
             string NewTags = "";
 
             // get the zeroth section (text upto first heading)
