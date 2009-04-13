@@ -2549,6 +2549,12 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             // don't grab tags in later sections of article
             string A6 = @"==head== {{essay}}";
             Assert.AreEqual(A5 + A3 + A6, parser.ArticleIssues(A5 + A3 + A6));
+
+            // title case parameters converted to lowercase
+            Assert.AreEqual(@"{{article issues|POV=May 2008|cleanup=May 2008|expand=June 2007}}", parser.ArticleIssues(@"{{article issues|POV=May 2008|cleanup=May 2008|Expand=June 2007}}"));
+            Assert.AreEqual(@"{{article issues|POV=May 2008|cleanup=May 2008|expand=June 2007}}", parser.ArticleIssues(@"{{article issues|POV=May 2008|cleanup=May 2008|Expand=June 2007}}"));
+            Assert.AreEqual(@"{{article issues|POV=May 2008|cleanup=May 2008| expand = June 2007}}", parser.ArticleIssues(@"{{article issues|POV=May 2008|cleanup=May 2008| Expand = June 2007}}"));
+            Assert.AreEqual(@"{{Articleissues|POV=May 2008|cleanup=May 2008|expand=June 2007}}", parser.ArticleIssues(@"{{Articleissues|POV=May 2008|Cleanup=May 2008|expand=June 2007}}"));
         }
 
         [Test]
