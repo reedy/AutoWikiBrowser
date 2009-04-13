@@ -601,6 +601,11 @@ namespace WikiFunctions.Parse
             return (ArticleText);
         }
 
+        /// <summary>
+        /// Corrects common formatting errors in dates in external reference citation templates (doesn't link/delink dates)
+        /// </summary>
+        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <returns>The modified article text.</returns>
         public string CiteTemplateDates(string ArticleText, out bool NoChange)
         {
             string ArticleTextAtStart = ArticleText;

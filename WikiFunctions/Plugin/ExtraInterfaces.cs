@@ -83,5 +83,8 @@ namespace WikiFunctions.Plugin
         /// </summary>
         bool SkipNoDefaultSortAdded
         { get; }
+
+        bool SkipNoCiteTemplateDatesFixed
+        { get; }
     }
 }

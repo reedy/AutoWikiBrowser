@@ -568,6 +568,21 @@ namespace WikiFunctions
         }
 
         /// <summary>
+        /// Corrects common formatting errors in dates in external reference citation templates (doesn't link/delink dates)
+        /// </summary>
+        /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
+        public void CiteTemplateDates(Parsers parsers, bool SkipIfNoChange)
+        {
+
+            string strTemp = parsers.CiteTemplateDates(mArticleText, out noChange);
+
+                if (SkipIfNoChange && noChange)
+                    Trace.AWBSkipped("No Citation template dates fixed");
+                else if (!noChange)
+                    AWBChangeArticleText("Citation template dates fixed", strTemp, true);
+        }
+
+        /// <summary>
         /// Fix link syntax
         /// </summary>
         /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
@@ -892,7 +907,7 @@ namespace WikiFunctions
             AWBChangeArticleText("Mdashes", parsers.Mdashes(ArticleText, Name), true);
             Variables.Profiler.Profile("Mdashes");
 
-            AWBChangeArticleText("Correct Cite Template Dates", Parsers.CiteTemplateDates(ArticleText), true);
+            CiteTemplateDates(parsers, skip.SkipNoCiteTemplateDatesFixed);
             Variables.Profiler.Profile("CiteTemplateDates");
 
             //Just a bit broken/Some unwanted fixes (moving of <ref> tags around)
