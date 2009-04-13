@@ -239,6 +239,8 @@ namespace WikiFunctions.DBScanner
                 s.Add(new HasBadLinks());
             if (chkNoBold.Checked)
                 s.Add(new HasNoBoldTitle());
+            if (chkCiteTemplateDates.Checked)
+                s.Add(new CiteTemplateDates());
             if (chkSimpleLinks.Checked)
                 s.Add(new HasSimpleLinks());
             if (chkHasHTML.Checked)
