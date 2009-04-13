@@ -445,6 +445,10 @@ End of.";
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello [[bye]] {{now}}", ref BracketLength));
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} [now]", ref BracketLength));
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello", ref BracketLength));
+
+            // don't consider stuff in <math> or <pre> tags
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <pre>{now}}</pre>", ref BracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <math>{a{b}}</math>", ref BracketLength));
         }
 
         [Test]
