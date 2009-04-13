@@ -1238,6 +1238,11 @@ namespace WikiFunctions.Parse
         {
             if (Regex.Matches(ArticleText, Regex.Escape(openingbrackets)).Count != Regex.Matches(ArticleText, Regex.Escape(closingbrackets)).Count)
             {
+                // remove all <math> stuff where curly brackets are used in singles and pairs
+                foreach (Match m in WikiRegexes.UnFormattedText.Matches(ArticleText))
+                {
+                    ArticleText = ArticleText.Replace(m.Value, Tools.ReplaceWithSpaces(m.Value));
+                }
 
                 if (openingbrackets.Equals(@"["))
                 {

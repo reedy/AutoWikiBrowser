@@ -98,6 +98,15 @@ namespace UnitTests
         }
 
         [Test]
+        public void UnformattedTextTests()
+        {
+            Assert.IsTrue(WikiRegexes.UnFormattedText.IsMatch(@"<pre>{{abc}}</pre>"));
+            Assert.IsTrue(WikiRegexes.UnFormattedText.IsMatch(@"<math>{{abc}}</math>"));
+            Assert.IsTrue(WikiRegexes.UnFormattedText.IsMatch(@"<nowiki>{{abc}}</nowiki>"));
+            Assert.IsTrue(WikiRegexes.UnFormattedText.IsMatch(@"now hello {{bye}} <pre>{now}}</pre>"));
+        }
+
+        [Test]
         public void WikiLinksOnly()
         {
             TestMatch(WikiRegexes.WikiLinksOnly, "[[foo]]", "[[foo]]");
