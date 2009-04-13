@@ -698,21 +698,24 @@ en, sq, ru
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Placement_of_portal_template
         public static string movePortalTemplates(string ArticleText)
         {
-            // if multiple portal templates leave alone; need to have a 'see also' section to move the portal template to
-            if (WikiRegexes.PortalTemplate.Matches(ArticleText).Count == 1 && SeeAlso.Matches(ArticleText).Count == 1)
+            // need to have a 'see also' section to move the portal template to
+            if (WikiRegexes.PortalTemplate.Matches(ArticleText).Count >= 1 && SeeAlso.Matches(ArticleText).Count == 1)
             {
-                string PortalTemplateFound = WikiRegexes.PortalTemplate.Match(ArticleText).Value;
-                string SeeAlsoSectionString = SeeAlsoSection.Match(ArticleText).Value;
-
-                // if SeeAlsoSection didn't match then 'see also' must be last section
-                if (SeeAlsoSectionString.Equals(""))
-                    SeeAlsoSectionString = SeeAlsoToEnd.Match(ArticleText).Value;
-
-                // check portal template NOT currently in 'see also'
-                if (!SeeAlsoSectionString.Contains(PortalTemplateFound.Trim()))
+                foreach (Match m in WikiRegexes.PortalTemplate.Matches(ArticleText))
                 {
-                    ArticleText = ArticleText.Replace(PortalTemplateFound + "\r\n", "");
-                    ArticleText = SeeAlso.Replace(ArticleText, "$0" + "\r\n" + PortalTemplateFound);
+                    string PortalTemplateFound = m.Value;
+                    string SeeAlsoSectionString = SeeAlsoSection.Match(ArticleText).Value;
+
+                    // if SeeAlsoSection didn't match then 'see also' must be last section
+                    if (SeeAlsoSectionString.Equals(""))
+                        SeeAlsoSectionString = SeeAlsoToEnd.Match(ArticleText).Value;
+
+                    // check portal template NOT currently in 'see also'
+                    if (!SeeAlsoSectionString.Contains(PortalTemplateFound.Trim()))
+                    {
+                        ArticleText = ArticleText.Replace(PortalTemplateFound + "\r\n", "");
+                        ArticleText = SeeAlso.Replace(ArticleText, "$0" + "\r\n" + PortalTemplateFound);
+                    }
                 }
             }
 
