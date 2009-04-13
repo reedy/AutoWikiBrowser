@@ -1088,6 +1088,16 @@ namespace WikiFunctions.Parse
         //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.3Cfont.3E_tags
         private static readonly Regex RemoveNoPropertyFontTags = new Regex(@"<font>([^<>]+)</font>", RegexOptions.IgnoreCase);
 
+        private static readonly Regex SyntaxRegex13 = new Regex(@"(<ref(?:\s*name\s*=[^{}<>/]+?\s*)?>\s*{{[^{}]+?)(?:}]?|\)\))?(\s*</ref>)");
+        private static readonly Regex SyntaxRegex14 = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*){{(\s*https?://[^{}\s\r\n]+)(\s+[^{}]+\s*)?}}(\s*</ref>)");
+        private static readonly Regex SyntaxRegex15 = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*){\s*([Cc]it[ae])");
+        private static readonly Regex SyntaxRegex16 = new Regex(@"(?:{\[|\[{)([^{}\[\]]+}})");
+        private static readonly Regex SyntaxRegex17 = new Regex(@"([^{])({[Cc]it[ae])");
+        private static readonly Regex SyntaxRegex18 = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*{{[^{}]+)}}(}}\s*</ref>)");
+        private static readonly Regex SyntaxRegex19 = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>){\[([Cc]it[ae])");
+        private static readonly Regex SyntaxRegex20 = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*{{[Cc]it[ae][^{}]+?)(?:}\]|\]}|{})(\s*</ref>)");
+        private static readonly Regex SyntaxRegex21 = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*)(https?://[^{}\[\]]+?\]\s*</ref>)");
+
         // Covered by: LinkTests.TestFixSyntax(), incomplete
         /// <summary>
         /// Fixes and improves syntax (such as html markup)
@@ -1171,6 +1181,16 @@ namespace WikiFunctions.Parse
             ArticleText = CiteFormatFieldTypo.Replace(ArticleText, "$1format$2");
 
             ArticleText = RemoveNoPropertyFontTags.Replace(ArticleText, "$1");
+
+            ArticleText = SyntaxRegex13.Replace(ArticleText, @"$1}}$2");
+            ArticleText = SyntaxRegex14.Replace(ArticleText, @"$1[$2$3]$4");
+            ArticleText = SyntaxRegex15.Replace(ArticleText, @"$1{{$2");
+            ArticleText = SyntaxRegex16.Replace(ArticleText, @"{{$1");
+            ArticleText = SyntaxRegex17.Replace(ArticleText, @"$1{$2");
+            ArticleText = SyntaxRegex18.Replace(ArticleText, @"$1$2");
+            ArticleText = SyntaxRegex19.Replace(ArticleText, @"$1{{$2");
+            ArticleText = SyntaxRegex20.Replace(ArticleText, @"$1}}$2");
+            ArticleText = SyntaxRegex21.Replace(ArticleText, @"$1[$2");
 
             return ArticleText.Trim();
         }
