@@ -63,6 +63,7 @@ namespace WikiFunctions.DBScanner
             this.btnTransfer = new System.Windows.Forms.Button();
             this.btnClearList = new System.Windows.Forms.Button();
             this.chkNoBold = new System.Windows.Forms.CheckBox();
+            this.chkCiteTemplateDates = new System.Windows.Forms.CheckBox();
             this.chkBadLinks = new System.Windows.Forms.CheckBox();
             this.chkHasHTML = new System.Windows.Forms.CheckBox();
             this.chkHeaderError = new System.Windows.Forms.CheckBox();
@@ -90,6 +91,7 @@ namespace WikiFunctions.DBScanner
             this.rdoHash = new System.Windows.Forms.RadioButton();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.progressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.lblPercentageComplete = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.threadPriorityButton = new System.Windows.Forms.ToolStripDropDownButton();
@@ -156,7 +158,6 @@ namespace WikiFunctions.DBScanner
             this.btnPause = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
-            this.lblPercentageComplete = new System.Windows.Forms.ToolStripStatusLabel();
             this.gbText.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLength)).BeginInit();
@@ -588,6 +589,16 @@ namespace WikiFunctions.DBScanner
             this.chkNoBold.Text = "Has title AWB will embolden";
             this.tooltip.SetToolTip(this.chkNoBold, "AWB \'\'\'emboldens\'\'\' the title when appropriate");
             // 
+            // chkCiteTemplateDates
+            // 
+            this.chkCiteTemplateDates.AutoSize = true;
+            this.chkCiteTemplateDates.Location = new System.Drawing.Point(167, 72);
+            this.chkCiteTemplateDates.Name = "chkCiteTemplateDates";
+            this.chkCiteTemplateDates.Size = new System.Drawing.Size(148, 17);
+            this.chkCiteTemplateDates.TabIndex = 9;
+            this.chkCiteTemplateDates.Text = "Citation dates AWB will fix";
+            this.tooltip.SetToolTip(this.chkCiteTemplateDates, "AWB fixes various errors in dates within the citation family of templates");
+            // 
             // chkBadLinks
             // 
             this.chkBadLinks.AutoSize = true;
@@ -611,7 +622,7 @@ namespace WikiFunctions.DBScanner
             // chkHeaderError
             // 
             this.chkHeaderError.AutoSize = true;
-            this.chkHeaderError.Location = new System.Drawing.Point(167, 3);
+            this.chkHeaderError.Location = new System.Drawing.Point(167, 49);
             this.chkHeaderError.Name = "chkHeaderError";
             this.chkHeaderError.Size = new System.Drawing.Size(86, 17);
             this.chkHeaderError.TabIndex = 4;
@@ -621,7 +632,7 @@ namespace WikiFunctions.DBScanner
             // chkUnbulletedLinks
             // 
             this.chkUnbulletedLinks.AutoSize = true;
-            this.chkUnbulletedLinks.Location = new System.Drawing.Point(167, 26);
+            this.chkUnbulletedLinks.Location = new System.Drawing.Point(3, 95);
             this.chkUnbulletedLinks.Name = "chkUnbulletedLinks";
             this.chkUnbulletedLinks.Size = new System.Drawing.Size(101, 17);
             this.chkUnbulletedLinks.TabIndex = 5;
@@ -872,11 +883,17 @@ namespace WikiFunctions.DBScanner
             this.progressBar.Size = new System.Drawing.Size(150, 16);
             this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             // 
+            // lblPercentageComplete
+            // 
+            this.lblPercentageComplete.Name = "lblPercentageComplete";
+            this.lblPercentageComplete.Size = new System.Drawing.Size(23, 17);
+            this.lblPercentageComplete.Text = "0%";
+            // 
             // lblCount
             // 
             this.lblCount.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblCount.Name = "lblCount";
-            this.lblCount.Size = new System.Drawing.Size(232, 17);
+            this.lblCount.Size = new System.Drawing.Size(263, 17);
             this.lblCount.Spring = true;
             this.lblCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -951,7 +968,7 @@ namespace WikiFunctions.DBScanner
             this.gbAWBSpecific.Controls.Add(this.flwAWB);
             this.gbAWBSpecific.Location = new System.Drawing.Point(6, 6);
             this.gbAWBSpecific.Name = "gbAWBSpecific";
-            this.gbAWBSpecific.Size = new System.Drawing.Size(321, 116);
+            this.gbAWBSpecific.Size = new System.Drawing.Size(327, 153);
             this.gbAWBSpecific.TabIndex = 3;
             this.gbAWBSpecific.TabStop = false;
             this.gbAWBSpecific.Text = "A&WB specific";
@@ -962,21 +979,22 @@ namespace WikiFunctions.DBScanner
             this.flwAWB.Controls.Add(this.chkSimpleLinks);
             this.flwAWB.Controls.Add(this.chkBadLinks);
             this.flwAWB.Controls.Add(this.chkHasHTML);
-            this.flwAWB.Controls.Add(this.chkHeaderError);
             this.flwAWB.Controls.Add(this.chkUnbulletedLinks);
             this.flwAWB.Controls.Add(this.chkTypo);
             this.flwAWB.Controls.Add(this.chkDefaultSort);
+            this.flwAWB.Controls.Add(this.chkHeaderError);
+            this.flwAWB.Controls.Add(this.chkCiteTemplateDates);
             this.flwAWB.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flwAWB.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flwAWB.Location = new System.Drawing.Point(3, 16);
             this.flwAWB.Name = "flwAWB";
-            this.flwAWB.Size = new System.Drawing.Size(315, 97);
+            this.flwAWB.Size = new System.Drawing.Size(321, 134);
             this.flwAWB.TabIndex = 5;
             // 
             // chkTypo
             // 
             this.chkTypo.AutoSize = true;
-            this.chkTypo.Location = new System.Drawing.Point(167, 49);
+            this.chkTypo.Location = new System.Drawing.Point(167, 3);
             this.chkTypo.Name = "chkTypo";
             this.chkTypo.Size = new System.Drawing.Size(50, 17);
             this.chkTypo.TabIndex = 7;
@@ -985,7 +1003,7 @@ namespace WikiFunctions.DBScanner
             // chkDefaultSort
             // 
             this.chkDefaultSort.AutoSize = true;
-            this.chkDefaultSort.Location = new System.Drawing.Point(167, 72);
+            this.chkDefaultSort.Location = new System.Drawing.Point(167, 26);
             this.chkDefaultSort.Name = "chkDefaultSort";
             this.chkDefaultSort.Size = new System.Drawing.Size(129, 17);
             this.chkDefaultSort.TabIndex = 8;
@@ -1581,12 +1599,6 @@ namespace WikiFunctions.DBScanner
                 ")|*.txt";
             this.saveListDialog.Title = "Save article list";
             // 
-            // lblPercentageComplete
-            // 
-            this.lblPercentageComplete.Name = "lblPercentageComplete";
-            this.lblPercentageComplete.Size = new System.Drawing.Size(23, 17);
-            this.lblPercentageComplete.Text = "0%";
-            // 
             // DatabaseScanner
             // 
             this.AcceptButton = this.btnStart;
@@ -1701,6 +1713,7 @@ namespace WikiFunctions.DBScanner
         private CheckBox chkBadLinks;
         private CheckBox chkSimpleLinks;
         private CheckBox chkNoBold;
+        private CheckBox chkCiteTemplateDates;
         private CheckBox chkTypo;
         private CheckBox chkABCHeader;
         private Label lblStartFrom;

@@ -322,6 +322,22 @@ namespace WikiFunctions.DBScanner
     }
 
     /// <summary>
+    /// Returns whether CiteTemplateDates fixed something in the article
+    /// </summary>
+    public class CiteTemplateDates : Scan
+    {
+        Parsers p = new Parsers();
+
+        public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
+        {
+            bool skip = true;
+            p.CiteTemplateDates(ArticleText, out skip);
+
+            return !skip;
+        }
+    }
+
+    /// <summary>
     /// Returns whether the article has html entities
     /// </summary>
     public class HasHTMLEntities : Scan
