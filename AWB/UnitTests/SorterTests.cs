@@ -90,6 +90,18 @@ text here2
 == see also ==
 some words"));
 
+         Assert.AreEqual(@"text here
+text here2
+== see also ==
+{{Portal|Sport}}
+{{Portal|Football}}
+some words", MetaDataSorter.movePortalTemplates(@"text here
+{{Portal|Football}}
+{{Portal|Sport}}
+text here2
+== see also ==
+some words"));
+
           Assert.AreEqual(@"text here
 text here2
 == see also ==
