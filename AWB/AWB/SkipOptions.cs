@@ -73,6 +73,11 @@ namespace AutoWikiBrowser
         {
             get { return chkUserTalkTemplates.Checked; }
         }
+
+        public bool SkipNoCiteTemplateDatesFixed
+        {
+            get { return chkCiteTemplateDates.Checked; }
+        }
         #endregion
 
         #region Methods
