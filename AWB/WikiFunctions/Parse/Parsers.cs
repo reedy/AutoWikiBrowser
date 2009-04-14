@@ -103,6 +103,9 @@ namespace WikiFunctions.Parse
                 // add date to any undated tags within {{Article issues}}
                 RegexConversion.Add(new Regex(@"({{\s*[Aa]rticle ?issues\s*(?:\|[^{}]*|\|)\s*)(?![Ee]xpert)" + WikiRegexes.ArticleIssuesTemplatesString + @"\s*(\||}})"), "$1$2={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}$3");
 
+                // clean 'do-attempt =July 2006|att=April 2008' to 'do attempt = April 2008'
+                RegexConversion.Add(new Regex(@"({{\s*[Aa]rticle ?issues\s*(?:\|[^{}]*|\|)\s*[Dd]o-attempt\s*=\s*)[^{}\|]+\|\s*att\s*=\s*([^{}\|]+)(?=\||}})"), "$1$2");
+                
                 // clean any 'date' word within {{Article issues}} (but not 'update' field), place after the date adding rule above
                 RegexConversion.Add(new Regex(@"({{\s*[Aa]rticle ?issues\s*\|[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?)?)\bdate"), "$1");
             }
