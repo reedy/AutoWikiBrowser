@@ -855,6 +855,10 @@ namespace WikiFunctions.Parse
         // whitespace cleaning
         private static readonly Regex RefWhitespace1 = new Regex(@"<\s*(?:\s+ref\s*|\s*ref\s+)>", RegexOptions.Compiled | RegexOptions.Singleline);
         private static readonly Regex RefWhitespace2 = new Regex(@"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>", RegexOptions.Compiled | RegexOptions.Singleline);
+        // remove any whitespace between consecutive references
+        private static readonly Regex RefWhitespace3 = new Regex(@"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>) +(?=<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)");
+        // ensure a space between a reference and text (reference within a paragrah)
+        private static readonly Regex RefWhitespace4 = new Regex(@"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>)(\w)");
 
         // <ref name="Fred" /ref> --> <ref name="Fred"/>
         private static readonly Regex ReferenceTags1 = new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?"")\s*/\s*ref\s*>", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
@@ -912,6 +916,8 @@ namespace WikiFunctions.Parse
         {
             ArticleText = RefWhitespace1.Replace(ArticleText, "<ref>");
             ArticleText = RefWhitespace2.Replace(ArticleText, "</ref>");
+            ArticleText = RefWhitespace3.Replace(ArticleText, "$1");
+            ArticleText = RefWhitespace4.Replace(ArticleText, "$1 $2");
 
             ArticleText = ReferenceTags1.Replace(ArticleText, "$1/>");
             ArticleText = ReferenceTags2.Replace(ArticleText, "$1$2>");
