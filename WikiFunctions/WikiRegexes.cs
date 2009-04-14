@@ -434,7 +434,7 @@ namespace WikiFunctions
         /// <summary>
         /// matches the cleanup templates that can be moved into the {{article issues}} template
         /// </summary>
-        public static readonly Regex ArticleIssuesTemplates = new Regex(@"{{" + ArticleIssuesTemplatesString + @"\s*(?:\|\s*([^{}]+?))?\s*}}");
+        public static readonly Regex ArticleIssuesTemplates = new Regex(@"{{" + ArticleIssuesTemplatesString + @"\s*(?:\|\s*([^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?)?))?\s*}}");
 
         /// <summary>
         /// 
