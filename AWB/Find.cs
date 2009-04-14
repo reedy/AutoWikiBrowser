@@ -81,8 +81,6 @@ namespace AutoWikiBrowser
                 txtEdit.SelectionStart = InputIndex;
                 txtEdit.SelectionLength = InputLength;
             }
-
-            txtEdit.Focus();
             txtEdit.ScrollToCaret();
         }
     }
