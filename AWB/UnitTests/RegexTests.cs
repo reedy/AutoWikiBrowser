@@ -609,6 +609,7 @@ words2"));
         public void ArticleIssuesTemplatesTests()
         {
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{advert|date =  April 2009}}"));
+            Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{advert|date =  {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{autobiography|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{biased|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{blpdispute|date =  April 2008}}"));
