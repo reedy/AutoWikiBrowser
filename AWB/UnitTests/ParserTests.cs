@@ -2633,6 +2633,10 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"{{Article issues|wikfy=May 2008|COI=May 2008|do-attempt =April 2008}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|do-attempt =July 2006|att=April 2008}}"));
             Assert.AreEqual(@"{{Article issues|wikfy=May 2008|do-attempt =April 2008|COI=May 2008}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|do-attempt =July 2006|att=April 2008|COI=May 2008}}"));
 
+            // clean of "Copyedit|for=grammar|date=April 2009"to "Copyedit=April 2009"
+            Assert.AreEqual(@"{{Article issues|wikfy=May 2008|COI=May 2008|Copyedit =April 2009}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|Copyedit for=grammar|date=April 2009}}"));
+            Assert.AreEqual(@"{{Article issues|wikfy=May 2008|copyedit=April 2009|COI=May 2008}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|copyeditfor=grammar|date=April 2009|COI=May 2008}}"));
+
             // removal of non-existent date field
             Assert.AreEqual(@"{{Article issues|wikfy=May 2008|COI=May 2008|expert=Fred}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|expert=Fred|date = March 2007}}"));
             Assert.AreEqual(@"{{Article issues|wikfy=May 2008|COI=May 2008|expert=Fred}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|expert=Fred| date=March 2007}}"));
