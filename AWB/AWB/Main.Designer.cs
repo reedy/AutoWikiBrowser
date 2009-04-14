@@ -1337,6 +1337,7 @@ namespace AutoWikiBrowser
             this.focusAtEndOfEditTextBoxToolStripMenuItem.Name = "focusAtEndOfEditTextBoxToolStripMenuItem";
             this.focusAtEndOfEditTextBoxToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
             this.focusAtEndOfEditTextBoxToolStripMenuItem.Text = "Auto focus end of the edit box";
+            this.focusAtEndOfEditTextBoxToolStripMenuItem.Click += new System.EventHandler(this.focusAtEndOfEditTextBoxToolStripMenuItem_Click);
             //
             // scrollToUnbalancedBracketsToolStripMenuItem
             //
@@ -1344,6 +1345,7 @@ namespace AutoWikiBrowser
             this.scrollToUnbalancedBracketsToolStripMenuItem.Name = "scrollToUnbalancedBracketsToolStripMenuItem";
             this.scrollToUnbalancedBracketsToolStripMenuItem.Size = new System.Drawing.Size(264, 22);
             this.scrollToUnbalancedBracketsToolStripMenuItem.Text = "Highlight first unbalanced brackets if found";
+            this.scrollToUnbalancedBracketsToolStripMenuItem.Click += new System.EventHandler(this.scrollToUnbalancedBracketsToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 

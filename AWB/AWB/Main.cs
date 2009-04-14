@@ -4277,6 +4277,18 @@ window.scrollTo(0, diffTopY);
                 dontAddToWatchlistToolStripMenuItem.Checked = false;
         }
 
+        private void scrollToUnbalancedBracketsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
+                focusAtEndOfEditTextBoxToolStripMenuItem.Checked = false;
+        }
+
+        private void focusAtEndOfEditTextBoxToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (focusAtEndOfEditTextBoxToolStripMenuItem.Checked)
+                scrollToUnbalancedBracketsToolStripMenuItem.Checked = false;
+        }
+
         private void dontAddToWatchlistToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (addAllToWatchlistToolStripMenuItem.Checked)
