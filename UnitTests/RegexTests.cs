@@ -655,6 +655,7 @@ words2"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{long|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{newsrelease|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{notable|date =  April 2009}}"));
+            Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{notability|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{onesource|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{OR|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{orphan|date =  April 2009}}"));
