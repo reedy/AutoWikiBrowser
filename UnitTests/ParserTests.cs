@@ -454,6 +454,8 @@ End of.";
             Assert.AreEqual(1, BracketLength);
             Assert.AreEqual(22, Parsers.UnbalancedBrackets(@"now hello {{bye}} {now}}", ref BracketLength));
             Assert.AreEqual(2, BracketLength);
+            Assert.AreEqual(33, Parsers.UnbalancedBrackets(@"[http://www.site.com a link [cool]]", ref BracketLength)); // FixSyntax replaces with &#93;
+            Assert.AreEqual(2, BracketLength);
 
             // only first reported
             Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now} or {{now} was", ref BracketLength));
@@ -464,6 +466,7 @@ End of.";
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello [[bye]] {{now}}", ref BracketLength));
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} [now]", ref BracketLength));
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello", ref BracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"[http://www.site.com a link [cool&#93;]", ref BracketLength)); // displays as valid syntax
 
             // don't consider stuff in <math> or <pre> tags
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <pre>{now}}</pre>", ref BracketLength));
@@ -849,7 +852,6 @@ world</font>"));
         {
             //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_9#Bug_in_regex_to_correct_double_bracketed_external_links
             Assert.AreEqual("now [http://www.site.com a [[a]] site] was", Parsers.FixSyntax("now [http://www.site.com a [[a]] site] was"));  // valid syntax
-            Assert.AreEqual("now [http://www.site.com a site [cool] here] was", Parsers.FixSyntax("now [http://www.site.com a site [cool] here] was"));         // valid syntax
             Assert.AreEqual("now [http://www.site.com a b site] was", Parsers.FixSyntax("now [http://www.site.com a b site]] was"));
             Assert.AreEqual("now [http://www.site.com a c site] was", Parsers.FixSyntax("now [[http://www.site.com a c site] was"));
             Assert.AreEqual("now [http://www.site.com a d3 site] was", Parsers.FixSyntax("now [[http://www.site.com a d3 site]] was"));
@@ -862,6 +864,22 @@ world</font>"));
             Assert.AreEqual("now [[Image:Fred12.JPG| here [http://www.site.com a g site]]] was", Parsers.FixSyntax("now [[Image:Fred12.JPG| here [http://www.site.com a g site]]]] was"));
             Assert.AreEqual("now [[Image:Fred12.JPG| here [http://www.site.com a g site]]] was", Parsers.FixSyntax("now [[Image:Fred12.JPG| here [[http://www.site.com a g site]]]] was"));
             Assert.AreEqual("[[Image:foo.jpg|Some [http://some_crap.com]]]", Parsers.FixSyntax("[[Image:foo.jpg|Some [[http://some_crap.com]]]]"));
+        }
+
+        [Test]
+        public void SquareBracketsInExternalLinksTests()
+        {
+            Assert.AreEqual(@"[http://www.site.com some stuff [great&#93;]", Parsers.FixSyntax(@"[http://www.site.com some stuff [great]]"));
+            Assert.AreEqual(@"[http://www.site.com some stuff [great&#93; free]", Parsers.FixSyntax(@"[http://www.site.com some stuff [great] free]"));
+            Assert.AreEqual(@"[http://www.site.com some stuff [great&#93; free [here&#93;]", Parsers.FixSyntax(@"[http://www.site.com some stuff [great] free [here]]"));
+            Assert.AreEqual(@"[http://www.site.com some stuff [great&#93; free [[now]]]", Parsers.FixSyntax(@"[http://www.site.com some stuff [great] free [[now]]]"));
+
+            // no delinking needed
+            Assert.AreEqual(@"[http://www.site.com some great stuff]", Parsers.FixSyntax(@"[http://www.site.com some great stuff]"));
+            Assert.AreEqual(@"[http://www.site.com some [[great]] stuff]", Parsers.FixSyntax(@"[http://www.site.com some [[great]] stuff]"));
+            Assert.AreEqual(@"[http://www.site.com some great [[stuff]]]", Parsers.FixSyntax(@"[http://www.site.com some great [[stuff]]]"));
+            Assert.AreEqual(@"[http://www.site.com [[some great stuff|loads of stuff]]]", Parsers.FixSyntax(@"[http://www.site.com [[some great stuff|loads of stuff]]]"));
+            Assert.AreEqual(@"[http://www.site.com [[some great stuff|loads of stuff]] here]", Parsers.FixSyntax(@"[http://www.site.com [[some great stuff|loads of stuff]] here]"));
         }
 
         [Test]

@@ -1102,6 +1102,7 @@ namespace WikiFunctions.Parse
         //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.3Cfont.3E_tags
         private static readonly Regex RemoveNoPropertyFontTags = new Regex(@"<font>([^<>]+)</font>", RegexOptions.IgnoreCase);
 
+        // for fixing unbalanced brackets
         private static readonly Regex SyntaxRegex13 = new Regex(@"(<ref(?:\s*name\s*=[^{}<>/]+?\s*)?>\s*{{[^{}]+?)(?:}]?|\)\))?(\s*</ref>)");
         private static readonly Regex SyntaxRegex14 = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*){{(\s*https?://[^{}\s\r\n]+)(\s+[^{}]+\s*)?}}(\s*</ref>)");
         private static readonly Regex SyntaxRegex15 = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*){\s*([Cc]it[ae])");
@@ -1111,6 +1112,9 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegex19 = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>){\[([Cc]it[ae])");
         private static readonly Regex SyntaxRegex20 = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*{{[Cc]it[ae][^{}]+?)(?:}\]|\]}|{})(\s*</ref>)");
         private static readonly Regex SyntaxRegex21 = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*)(https?://[^{}\[\]]+?\]\s*</ref>)");
+
+        // for correcting square brackets within external links
+        private static readonly Regex SquareBracketsInExternalLinks = new Regex(@"(\[https?://(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])");
 
         // Covered by: LinkTests.TestFixSyntax(), incomplete
         /// <summary>
@@ -1151,12 +1155,6 @@ namespace WikiFunctions.Parse
 
             ArticleText = PipedExternalLink.Replace(ArticleText, "$1 ''");
 
-            if (!Regex.IsMatch(ArticleText, "\\[\\[[Ii]mage:[^]]*http"))
-            {
-                ArticleText = SyntaxRegex4.Replace(ArticleText, "[[$1]]");
-                ArticleText = SyntaxRegex5.Replace(ArticleText, "[[$1]]");
-            }
-
             //repair bad external links
             ArticleText = SyntaxRegex6.Replace(ArticleText, "[$1]");
 
@@ -1196,6 +1194,7 @@ namespace WikiFunctions.Parse
 
             ArticleText = RemoveNoPropertyFontTags.Replace(ArticleText, "$1");
 
+            // fixes for missing/unbalanced brackets
             ArticleText = SyntaxRegex13.Replace(ArticleText, @"$1}}$2");
             ArticleText = SyntaxRegex14.Replace(ArticleText, @"$1[$2$3]$4");
             ArticleText = SyntaxRegex15.Replace(ArticleText, @"$1{{$2");
@@ -1205,6 +1204,31 @@ namespace WikiFunctions.Parse
             ArticleText = SyntaxRegex19.Replace(ArticleText, @"$1{{$2");
             ArticleText = SyntaxRegex20.Replace(ArticleText, @"$1}}$2");
             ArticleText = SyntaxRegex21.Replace(ArticleText, @"$1[$2");
+
+            // fixes for square brackets used within external links
+            foreach (Match m in SquareBracketsInExternalLinks.Matches(ArticleText))
+            {
+                // strip off leading [ and trailing ]
+                string ExternalLink = m.Value;
+                ExternalLink = Regex.Replace(ExternalLink, @"^\[(http.*?)\]$", "$1");
+
+                // if there are some brackets left then they need fixing; the mediawiki parser finishes the external link
+                // at the first ] found
+                if (ExternalLink.Contains("]"))
+                {
+                    // replace single ] with &#93; when used for brackets in the link description
+                    ExternalLink = Regex.Replace(ExternalLink, @"([^]])\]([^]]|$)", @"$1&#93;$2");
+
+                    ArticleText = ArticleText.Replace(m.Value, @"[" + ExternalLink + @"]");
+                }
+            }
+
+            // needs to be applied after SquareBracketsInExternalLinks
+            if (!Regex.IsMatch(ArticleText, "\\[\\[[Ii]mage:[^]]*http"))
+            {
+                ArticleText = SyntaxRegex4.Replace(ArticleText, "[[$1]]");
+                ArticleText = SyntaxRegex5.Replace(ArticleText, "[[$1]]");
+            }
 
             return ArticleText.Trim();
         }
@@ -1270,6 +1294,10 @@ namespace WikiFunctions.Parse
         /// <returns>Index of any unbalanced brackets found</returns>
         private static int UnbalancedBrackets(string ArticleText, string openingbrackets, string closingbrackets, Regex BracketsRegex)
         {
+            // &#93; is used to replace the ] in external link text, which gives correct markup
+            // replace [...&#93; with spaces to avoid matching as unbalanced brackets
+            ArticleText = Regex.Replace(ArticleText, @"[^\[\]{}<>]\[[^\[\]{}<>]*?&#93;", @" ");
+
             if (Regex.Matches(ArticleText, Regex.Escape(openingbrackets)).Count != Regex.Matches(ArticleText, Regex.Escape(closingbrackets)).Count)
             {
                 // remove all <math> stuff where curly brackets are used in singles and pairs
