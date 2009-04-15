@@ -292,12 +292,15 @@ namespace WikiFunctions.Parse
             // get the rest of the article including first heading (may be null if article has no headings)
             string RestOfArticle = ArticleText.Replace(ZerothSection, "");
 
+            int TagsToAdd = WikiRegexes.ArticleIssuesTemplates.Matches(ZerothSection).Count;
+
             // if currently no {{Article issues}} and less than the min number of cleanup templates, do nothing
             if (!WikiRegexes.ArticleIssues.IsMatch(ZerothSection) && WikiRegexes.ArticleIssuesTemplates.Matches(ZerothSection).Count < MIN_CLEANUP_TAGS_TO_COMBINE)
                 return (ArticleText);
 
-            if (WikiRegexes.ArticleIssuesTemplates.Matches(ZerothSection).Count > 0)
-            {
+            // only add tags to articleissues if new tags + existing >= MIN_CLEANUP_TAGS_TO_COMBINE
+            if ((Regex.Matches(WikiRegexes.ArticleIssues.Match(ZerothSection).Value, WikiRegexes.ArticleIssuesTemplatesString).Count + TagsToAdd) < MIN_CLEANUP_TAGS_TO_COMBINE || TagsToAdd == 0)
+                return (ArticleText);
 
                 foreach (Match m in WikiRegexes.ArticleIssuesTemplates.Matches(ZerothSection))
                 {
@@ -318,7 +321,6 @@ namespace WikiFunctions.Parse
                     ZerothSection = WikiRegexes.ArticleIssues.Replace(ZerothSection, "$1" + NewTags + @"}}");
                 else // add {{article issues}} to top of article, metaDataSorter will arrange correctly later
                     ZerothSection = @"{{Article issues" + NewTags + "}}\r\n" + ZerothSection;
-            }
 
             // Parsers.Conversions will add any missing dates and correct ...|wikify date=May 2008|...
             return (ZerothSection + RestOfArticle);
