@@ -1210,7 +1210,7 @@ namespace WikiFunctions.Parse
             {
                 // strip off leading [ and trailing ]
                 string ExternalLink = m.Value;
-                ExternalLink = Regex.Replace(ExternalLink, @"^\[(http.*?)\]$", "$1");
+                ExternalLink = Regex.Replace(ExternalLink, @"^\[(http.*?)\]$", "$1", RegexOptions.Singleline);
 
                 // if there are some brackets left then they need fixing; the mediawiki parser finishes the external link
                 // at the first ] found

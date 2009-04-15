@@ -466,6 +466,8 @@ End of.";
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello [[bye]] {{now}}", ref BracketLength));
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} [now]", ref BracketLength));
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello", ref BracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"<ref>[http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=32159 Message to 
+complementary and alternative medicine: evidence is a better friend than power. Andrew J Vickers]</ref>", ref BracketLength));
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"[http://www.site.com a link [cool&#93;]", ref BracketLength)); // displays as valid syntax
 
             // don't consider stuff in <math> or <pre> tags
@@ -876,6 +878,9 @@ world</font>"));
 
             // no delinking needed
             Assert.AreEqual(@"[http://www.site.com some great stuff]", Parsers.FixSyntax(@"[http://www.site.com some great stuff]"));
+            Assert.AreEqual(@"<ref>[http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=32159 Message to 
+complementary and alternative medicine: evidence is a better friend than power. Andrew J Vickers]</ref>", Parsers.FixSyntax(@"<ref>[http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=32159 Message to 
+complementary and alternative medicine: evidence is a better friend than power. Andrew J Vickers]</ref>"));
             Assert.AreEqual(@"[http://www.site.com some [[great]] stuff]", Parsers.FixSyntax(@"[http://www.site.com some [[great]] stuff]"));
             Assert.AreEqual(@"[http://www.site.com some great [[stuff]]]", Parsers.FixSyntax(@"[http://www.site.com some great [[stuff]]]"));
             Assert.AreEqual(@"[http://www.site.com [[some great stuff|loads of stuff]]]", Parsers.FixSyntax(@"[http://www.site.com [[some great stuff|loads of stuff]]]"));
