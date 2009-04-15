@@ -337,6 +337,17 @@ namespace WikiFunctions.DBScanner
         }
     }
 
+    public class UnbalancedBrackets : Scan
+    {
+        public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
+        {
+            int BracketLength = 0;
+            int Position = Parsers.UnbalancedBrackets(ArticleText, ref BracketLength);
+
+            return !(Position == -1);
+        }
+    }
+
     /// <summary>
     /// Returns whether the article has html entities
     /// </summary>

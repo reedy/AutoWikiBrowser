@@ -64,6 +64,7 @@ namespace WikiFunctions.DBScanner
             this.btnClearList = new System.Windows.Forms.Button();
             this.chkNoBold = new System.Windows.Forms.CheckBox();
             this.chkCiteTemplateDates = new System.Windows.Forms.CheckBox();
+            this.chkUnbalancedBrackets = new System.Windows.Forms.CheckBox();
             this.chkBadLinks = new System.Windows.Forms.CheckBox();
             this.chkHasHTML = new System.Windows.Forms.CheckBox();
             this.chkHeaderError = new System.Windows.Forms.CheckBox();
@@ -598,6 +599,16 @@ namespace WikiFunctions.DBScanner
             this.chkCiteTemplateDates.TabIndex = 9;
             this.chkCiteTemplateDates.Text = "Citation dates AWB will fix";
             this.tooltip.SetToolTip(this.chkCiteTemplateDates, "AWB fixes various errors in dates within the citation family of templates");
+            //
+            // chkUnbalancedBrackets
+            //
+            this.chkUnbalancedBrackets.AutoSize = true;
+            this.chkUnbalancedBrackets.Location = new System.Drawing.Point(167, 72);
+            this.chkUnbalancedBrackets.Name = "chkUnbalancedBrackets";
+            this.chkUnbalancedBrackets.Size = new System.Drawing.Size(148, 17);
+            this.chkUnbalancedBrackets.TabIndex = 10;
+            this.chkUnbalancedBrackets.Text = "Unbalanced brackets";
+            this.tooltip.SetToolTip(this.chkUnbalancedBrackets, "AWB identifies unbalanced brackets and is able to fix many of them automatically");
             // 
             // chkBadLinks
             // 
@@ -984,6 +995,7 @@ namespace WikiFunctions.DBScanner
             this.flwAWB.Controls.Add(this.chkDefaultSort);
             this.flwAWB.Controls.Add(this.chkHeaderError);
             this.flwAWB.Controls.Add(this.chkCiteTemplateDates);
+            this.flwAWB.Controls.Add(this.chkUnbalancedBrackets);
             this.flwAWB.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flwAWB.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flwAWB.Location = new System.Drawing.Point(3, 16);
@@ -1714,6 +1726,7 @@ namespace WikiFunctions.DBScanner
         private CheckBox chkSimpleLinks;
         private CheckBox chkNoBold;
         private CheckBox chkCiteTemplateDates;
+        private CheckBox chkUnbalancedBrackets;
         private CheckBox chkTypo;
         private CheckBox chkABCHeader;
         private Label lblStartFrom;
