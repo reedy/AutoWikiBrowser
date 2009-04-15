@@ -185,7 +185,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches unpiped wikilinks, group 1 is text
         /// </summary>
-        public static readonly Regex UnPipedWikiLink = new Regex(@"\[\[([^\|]*?)\]\]", RegexOptions.Compiled);
+        public static readonly Regex UnPipedWikiLink = new Regex(@"\[\[([^\|\n]*?)\]\]", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches link targets with encoded anchors
