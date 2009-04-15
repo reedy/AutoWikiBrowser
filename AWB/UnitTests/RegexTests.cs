@@ -838,10 +838,10 @@ words2"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{Update}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{Weasel}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{Wikify}}"));
+            Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{Coi}}"));
 
             Assert.IsFalse(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{Article issues|wikify=May 2008|a=b|c=d}}"));
             Assert.IsFalse(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{WIKIFY}}"));
-            Assert.IsFalse(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{Coi}}"));
         }
 
         [Test]

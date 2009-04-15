@@ -304,9 +304,9 @@ namespace WikiFunctions.Parse
 
                 foreach (Match m in WikiRegexes.ArticleIssuesTemplates.Matches(ZerothSection))
                 {
-                    // all fields except COI, OR, POV should be lower case
+                    // all fields except COI, OR, POV and ones with BLP should be lower case
                     string SingleTag = m.Groups[1].Value;
-                    if (!Regex.IsMatch(SingleTag, "(COI|OR|POV)"))
+                    if (!Regex.IsMatch(SingleTag, "(COI|OR|POV|BLP)"))
                         SingleTag = SingleTag.ToLower();
 
                     NewTags += @"|" + SingleTag + @" " + m.Groups[2].Value;

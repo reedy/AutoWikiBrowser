@@ -2630,7 +2630,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"{{article issues|POV=May 2008|cleanup=May 2008|expand=June 2007}}", parser.ArticleIssues(@"{{article issues|POV=May 2008|cleanup=May 2008|Expand=June 2007}}"));
             Assert.AreEqual(@"{{article issues|POV=May 2008|cleanup=May 2008|expand=June 2007}}", parser.ArticleIssues(@"{{article issues|POV=May 2008|cleanup=May 2008|Expand=June 2007}}"));
             Assert.AreEqual(@"{{article issues|POV=May 2008|cleanup=May 2008| expand = June 2007}}", parser.ArticleIssues(@"{{article issues|POV=May 2008|cleanup=May 2008| Expand = June 2007}}"));
-            Assert.AreEqual(@"{{Articleissues|POV=May 2008|cleanup=May 2008|expand=June 2007}}", parser.ArticleIssues(@"{{Articleissues|POV=May 2008|Cleanup=May 2008|expand=June 2007}}"));
+            Assert.AreEqual(@"{{Articleissues|BLPunsourced=May 2008|cleanup=May 2008|expand=June 2007}}", parser.ArticleIssues(@"{{Articleissues|BLPunsourced=May 2008|Cleanup=May 2008|expand=June 2007}}"));
 
             // parsers function doesn't add tags if total tags would be less than 3
             Assert.AreEqual(@"{{article issues|POV=May 2008}} {{wikify|date=May 2007}}", parser.ArticleIssues(@"{{article issues|POV=May 2008}} {{wikify|date=May 2007}}"));
