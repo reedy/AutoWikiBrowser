@@ -976,6 +976,9 @@ namespace WikiFunctions
                 new KeyValuePair<string, string>("ộ", "o"),
                 new KeyValuePair<string, string>("ầ", "a"),
                 new KeyValuePair<string, string>("ơ", "o"),
+                new KeyValuePair<string, string>("Ơ", "O"),
+                new KeyValuePair<string, string>("ư", "u"),
+                new KeyValuePair<string, string>("Ư", "U"),
 
             };
         #endregion
