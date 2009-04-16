@@ -2497,10 +2497,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public static string LivingPeople(string ArticleText)
         {
-            if (LivingPeopleRegex1.IsMatch(ArticleText))
-                return ArticleText;
-
-            if (LivingPeopleRegex2.IsMatch(ArticleText))
+            if (LivingPeopleRegex1.IsMatch(ArticleText) || LivingPeopleRegex2.IsMatch(ArticleText) ||
+                BornDeathRegex.IsMatch(ArticleText) || DiedDateRegex.IsMatch(ArticleText))
                 return ArticleText;
 
             Match m = LivingPeopleRegex3.Match(ArticleText);
