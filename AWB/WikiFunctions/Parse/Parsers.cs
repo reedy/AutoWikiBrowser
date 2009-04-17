@@ -2489,29 +2489,32 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         private static readonly Regex LivingPeopleRegex2 = new Regex(@"\{\{(Template:)?(Recent ?death|Recentlydeceased)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex LivingPeopleRegex3 = new Regex("\\[\\[ ?Category ?:[ _]?([0-9]{4})[ _]births(\\|.*?)?\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        // NOT covered
         /// <summary>
-        /// 
+        /// Adds [[Category:Living people]] to articles with a [[Category:XXXX births]] and no living people/deaths category, taking sortkey from births category if present
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
-        /// <returns></returns>
+        /// <returns>The updated article text.</returns>
         public static string LivingPeople(string ArticleText)
         {
+            // don't add living people category if already dead, or thought to be dead
             if (LivingPeopleRegex1.IsMatch(ArticleText) || LivingPeopleRegex2.IsMatch(ArticleText) ||
                 BornDeathRegex.IsMatch(ArticleText) || DiedDateRegex.IsMatch(ArticleText))
                 return ArticleText;
 
             Match m = LivingPeopleRegex3.Match(ArticleText);
 
+            // don't add living people category unless 'XXXX births' category is present
             if (!m.Success)
                 return ArticleText;
 
             string birthCat = m.Value;
             int birthYear = int.Parse(m.Groups[1].Value);
 
+            // if born < 1910 they're likely dead
             if (birthYear < 1910)
                 return ArticleText;
 
+            // use any sortkey from 'XXXX births' category
             string catKey = birthCat.Contains("|") ? Regex.Match(birthCat, "\\|.*?\\]\\]").Value : "]]";
 
             return ArticleText + "[[Category:Living people" + catKey;
