@@ -477,7 +477,10 @@ en, sq, ru
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Placement_of_portal_template
                 if (Variables.LangCode == LangCodeEnum.en)
+                {
                     ArticleText = movePortalTemplates(ArticleText);
+                    ArticleText = moveExternalLinks(ArticleText);
+                }
 
                 // two newlines here per http://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser&oldid=243224092#Blank_lines_before_stubs
                 string strStub = Newline(removeStubs(ref ArticleText), 2);
@@ -720,6 +723,37 @@ en, sq, ru
             }
 
             return (ArticleText);
+        }
+
+        private static readonly Regex ExternalLinksSection = new Regex(@"(^== *[Ee]xternal +[Ll]inks? *==.*?)(?=^==+[^=][^\r\n]*?[^=]==+(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
+
+        private static readonly Regex ReferencesSection = new Regex(@"(^== *[Rr]eferences *==.*?)(?=^==+[^=][^\r\n]*?[^=]==+(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
+
+        private static readonly Regex ReferencesToEnd = new Regex(@"^== *[Rr]eferences *==.*", RegexOptions.Multiline | RegexOptions.Singleline);
+
+        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Place_.22External_links.22_section_after_.22References.22
+        /// <summary>
+        /// Ensures the external links section of an article is after the references section
+        /// </summary>
+        /// <param name="ArticleText"></param>
+        /// <returns>Article text with external links section below the references section</returns>
+        public static string moveExternalLinks(string ArticleText)
+        {
+            // is external links section above references?
+            string ExternalLinks = ExternalLinksSection.Match(ArticleText).Groups[1].Value;
+            string References = ReferencesSection.Match(ArticleText).Groups[1].Value;
+
+            // references may be last section
+            if (References.Equals(""))
+                References = ReferencesToEnd.Match(ArticleText).Value;
+
+            if (ArticleText.IndexOf(ExternalLinks) < ArticleText.IndexOf(References) && References.Length > 0 && ExternalLinks.Length > 0)
+            {
+                ArticleText = ArticleText.Replace(ExternalLinks, "");
+                ArticleText = ArticleText.Replace(References, References + ExternalLinks);
+            }
+            // newlines are fixed by later logic
+            return ArticleText;
         }
 
         /// <summary>
