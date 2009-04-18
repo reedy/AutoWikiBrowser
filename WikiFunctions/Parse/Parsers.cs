@@ -1114,7 +1114,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegex21 = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*)(https?://[^{}\[\]]+?\]\s*</ref>)");
 
         // for correcting square brackets within external links
-        private static readonly Regex SquareBracketsInExternalLinks = new Regex(@"(\[https?://(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])");
+        private static readonly Regex SquareBracketsInExternalLinks = new Regex(@"(\[https?://(?>[^\[\]<>]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])");
 
         // Covered by: LinkTests.TestFixSyntax(), incomplete
         /// <summary>
@@ -1210,7 +1210,7 @@ namespace WikiFunctions.Parse
             {
                 // strip off leading [ and trailing ]
                 string ExternalLink = m.Value;
-                ExternalLink = Regex.Replace(ExternalLink, @"^\[(http.*?)\]$", "$1", RegexOptions.Singleline);
+                ExternalLink = Regex.Replace(ExternalLink, @"^\[(\s*http.*?)\]$", "$1", RegexOptions.Singleline);
 
                 // if there are some brackets left then they need fixing; the mediawiki parser finishes the external link
                 // at the first ] found
