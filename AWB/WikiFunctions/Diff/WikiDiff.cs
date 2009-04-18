@@ -317,7 +317,9 @@ namespace WikiFunctions
 ";
             }
         }
-
+        /// <summary>
+        /// TableHeader but without help information (double click to undo etc.) and current revision/ your text labels
+        /// </summary>
         public static string TableHeaderNoMessages
         {
             get
