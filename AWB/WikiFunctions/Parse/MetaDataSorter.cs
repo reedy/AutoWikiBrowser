@@ -734,6 +734,7 @@ en, sq, ru
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Place_.22External_links.22_section_after_.22References.22
         /// <summary>
         /// Ensures the external links section of an article is after the references section
+        /// TODO only works when there is another section following the references section
         /// </summary>
         /// <param name="ArticleText"></param>
         /// <returns>Article text with external links section below the references section</returns>
@@ -744,8 +745,8 @@ en, sq, ru
             string References = ReferencesSection.Match(ArticleText).Groups[1].Value;
 
             // references may be last section
-            if (References.Equals(""))
-                References = ReferencesToEnd.Match(ArticleText).Value;
+        /*    if (References.Equals(""))
+                References = ReferencesToEnd.Match(ArticleText).Value; */
 
             if (ArticleText.IndexOf(ExternalLinks) < ArticleText.IndexOf(References) && References.Length > 0 && ExternalLinks.Length > 0)
             {
