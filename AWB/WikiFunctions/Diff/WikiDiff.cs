@@ -296,16 +296,18 @@ namespace WikiFunctions
         #endregion
 
         #region Static methods
+
+        private static string DiffColumnClasses = @"<table id='wikiDiff' class='diff'>
+<col class='diff-marker' />
+<col class='diff-content' />
+<col class='diff-marker' />
+<col class='diff-content' />";
         public static string TableHeader
         {
             get
             {
                 return @"<p style='margin: 0px;'>Double click on a line to undo all changes on that line, or single click to focus the edit box to that line.</p>
-<table id='wikiDiff' class='diff'>
-<col class='diff-marker' />
-<col class='diff-content' />
-<col class='diff-marker' />
-<col class='diff-content' />
+" + DiffColumnClasses + @"
 <thead>
   <tr valign='top'>
     <td colspan='2' width='50%' class='diff-otitle'>Current revision</td>
@@ -313,6 +315,14 @@ namespace WikiFunctions
   </tr>
 </thead>
 ";
+            }
+        }
+
+        public static string TableHeaderNoMessages
+        {
+            get
+            {
+                return DiffColumnClasses;
             }
         }
 
