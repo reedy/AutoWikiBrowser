@@ -904,7 +904,7 @@ namespace WikiFunctions
                 Variables.Profiler.Profile("AddMissingReflist");
             }
 
-            AWBChangeArticleText("Mdashes", parsers.Mdashes(ArticleText, Name), true);
+            AWBChangeArticleText("Mdashes", parsers.Mdashes(ArticleText, Name, NameSpaceKey), true);
             Variables.Profiler.Profile("Mdashes");
 
             CiteTemplateDates(parsers, skip.SkipNoCiteTemplateDatesFixed);

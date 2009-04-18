@@ -726,7 +726,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public string Mdashes(string ArticleText, string ArticleTitle)
+        public string Mdashes(string ArticleText, string ArticleTitle, int NameSpaceKey)
         {
             ArticleText = HideMoreText(ArticleText);
 
@@ -748,6 +748,10 @@ namespace WikiFunctions.Parse
             // if title has en or em dashes, apply them to strings matching article title but with hyphens
             if (ArticleTitle.Contains(@"–") || ArticleTitle.Contains(@"—"))
                 ArticleText = Regex.Replace(ArticleText, Regex.Escape(ArticleTitle.Replace(@"–", @"-").Replace(@"—", @"-")), ArticleTitle);
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Change_--_.28two_dashes.29_to_.E2.80.94_.28em_dash.29
+            if (NameSpaceKey == 0)
+                ArticleText = Regex.Replace(ArticleText, @"(?<=\w)\s*--\s*(?=\w)", @"—");
 
             return AddBackMoreText(ArticleText);
         }
