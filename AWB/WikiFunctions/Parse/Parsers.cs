@@ -1107,16 +1107,16 @@ namespace WikiFunctions.Parse
         private static readonly Regex RemoveNoPropertyFontTags = new Regex(@"<font>([^<>]+)</font>", RegexOptions.IgnoreCase);
 
         // for fixing unbalanced brackets
-        private static readonly Regex SyntaxRegex13 = new Regex(@"(<ref(?:\s*name\s*=[^{}<>/]+?\s*)?>\s*{{[^{}]+?)(?:}]?|\)\))?(\s*</ref>)");
-        private static readonly Regex SyntaxRegex14 = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*){{(\s*https?://[^{}\s\r\n]+)(\s+[^{}]+\s*)?}}(\s*</ref>)");
-        private static readonly Regex SyntaxRegex15 = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*){\s*([Cc]it[ae])");
-        private static readonly Regex SyntaxRegex16 = new Regex(@"(?:{\[|\[{)([^{}\[\]]+}})");
-        private static readonly Regex SyntaxRegex17 = new Regex(@"([^{])({[Cc]it[ae])");
-        private static readonly Regex SyntaxRegex18 = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*{{[^{}]+)}}(}}\s*</ref>)");
-        private static readonly Regex SyntaxRegex19 = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>){\[([Cc]it[ae])");
-        private static readonly Regex SyntaxRegex20 = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*{{[Cc]it[ae][^{}]+?)(?:}\]|\]}|{})(\s*</ref>)");
-        private static readonly Regex SyntaxRegex21 = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>[^{}\[\]<>]*?)(https?://[^{}\[\]<>]+\][^{}\[\]<>]*</ref>)");
-        private static readonly Regex SyntaxRegex22 = new Regex(@"(?<=<ref(?:\s*name\s*=[^{}<>]+?\s*)?>[^{}\[\]<>]*?\[\s*https?://[^{}\[\]<>]+)(?=</ref>)");
+        private static readonly Regex RefTemplateIncorrectBracesAtEnd = new Regex(@"(<ref(?:\s*name\s*=[^{}<>/]+?\s*)?>\s*{{[^{}]+?)(?:}]?|\)\))?(\s*</ref>)");
+        private static readonly Regex RefExternalLinkUsingBraces = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*){{(\s*https?://[^{}\s\r\n]+)(\s+[^{}]+\s*)?}}(\s*</ref>)");
+        private static readonly Regex RefTemplateSingleBraceAtStart = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*){\s*([Cc]it[ae])");
+        private static readonly Regex TemplateIncorrectBracesAtStart = new Regex(@"(?:{\[|\[{)([^{}\[\]]+}})");
+        private static readonly Regex CitationTemplateSingleBraceAtStart = new Regex(@"([^{])({\s*[Cc]it[ae])");
+        private static readonly Regex ReferenceTemplateQuadBracesAtEnd = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*{{[^{}]+)}}(}}\s*</ref>)");
+        private static readonly Regex CitationTemplateIncorrectBraceAtStart = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>){\[([Cc]it[ae])");
+        private static readonly Regex CitationTemplateIncorrectBracesAtEnd = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*{{[Cc]it[ae][^{}]+?)(?:}\]|\]}|{})(\s*</ref>)");
+        private static readonly Regex RefExternalLinkMissingStartBracket = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>[^{}\[\]<>]*?)(https?://[^{}\[\]<>]+\][^{}\[\]<>]*</ref>)");
+        private static readonly Regex RefExternalLinkMissingEndBracket = new Regex(@"(?<=<ref(?:\s*name\s*=[^{}<>]+?\s*)?>[^{}\[\]<>]*?\[\s*https?://[^{}\[\]<>]+)(?=</ref>)");
         private static readonly Regex RefCitationMissingOpeningBraces = new Regex(@"(?<=<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>\s*)\(?\(?(?=[Cc]it[ae][^{}]+}}\s*</ref>)");
 
         // for correcting square brackets within external links
@@ -1201,16 +1201,16 @@ namespace WikiFunctions.Parse
             ArticleText = RemoveNoPropertyFontTags.Replace(ArticleText, "$1");
 
             // fixes for missing/unbalanced brackets
-            ArticleText = SyntaxRegex13.Replace(ArticleText, @"$1}}$2");
-            ArticleText = SyntaxRegex14.Replace(ArticleText, @"$1[$2$3]$4");
-            ArticleText = SyntaxRegex15.Replace(ArticleText, @"$1{{$2");
-            ArticleText = SyntaxRegex16.Replace(ArticleText, @"{{$1");
-            ArticleText = SyntaxRegex17.Replace(ArticleText, @"$1{$2");
-            ArticleText = SyntaxRegex18.Replace(ArticleText, @"$1$2");
-            ArticleText = SyntaxRegex19.Replace(ArticleText, @"$1{{$2");
-            ArticleText = SyntaxRegex20.Replace(ArticleText, @"$1}}$2");
-            ArticleText = SyntaxRegex21.Replace(ArticleText, @"$1[$2");
-            ArticleText = SyntaxRegex22.Replace(ArticleText, @"]");
+            ArticleText = RefTemplateIncorrectBracesAtEnd.Replace(ArticleText, @"$1}}$2");
+            ArticleText = RefExternalLinkUsingBraces.Replace(ArticleText, @"$1[$2$3]$4");
+            ArticleText = RefTemplateSingleBraceAtStart.Replace(ArticleText, @"$1{{$2");
+            ArticleText = TemplateIncorrectBracesAtStart.Replace(ArticleText, @"{{$1");
+            ArticleText = CitationTemplateSingleBraceAtStart.Replace(ArticleText, @"$1{$2");
+            ArticleText = ReferenceTemplateQuadBracesAtEnd.Replace(ArticleText, @"$1$2");
+            ArticleText = CitationTemplateIncorrectBraceAtStart.Replace(ArticleText, @"$1{{$2");
+            ArticleText = CitationTemplateIncorrectBracesAtEnd.Replace(ArticleText, @"$1}}$2");
+            ArticleText = RefExternalLinkMissingStartBracket.Replace(ArticleText, @"$1[$2");
+            ArticleText = RefExternalLinkMissingEndBracket.Replace(ArticleText, @"]");
             ArticleText = RefCitationMissingOpeningBraces.Replace(ArticleText, @"{{");
 
             // fixes for square brackets used within external links
