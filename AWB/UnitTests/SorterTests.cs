@@ -200,13 +200,26 @@ words<ref>abc</ref>";
 {{reflist}}";
             string d = @"=== another section ===
 blah";
+            string e = @"[[Category:Foos]]";
 
-            // Assert.AreEqual(a + "\r\n" + c + b + "\r\n", MetaDataSorter.moveExternalLinks(a + "\r\n" + b + "\r\n" + c));
-            Assert.AreEqual(a + "\r\n" + c + "\r\n" + b + "\r\n" + d, MetaDataSorter.moveExternalLinks(a + "\r\n" + b + "\r\n" + c + "\r\n" + d));
+            string f = @"{{some footer thing}}";
+
+            string g = @"== another section ==
+blah";
+
+            Assert.AreEqual(a + "\r\n" + c + "\r\n" + b + "\r\n" + e, MetaDataSorter.moveExternalLinks(a + "\r\n" + b + "\r\n" + c + "\r\n" + e));
+            Assert.AreEqual(a + "\r\n" + c + "\r\n" + b + "\r\n" + g, MetaDataSorter.moveExternalLinks(a + "\r\n" + b + "\r\n" + c + "\r\n" + g));
 
             // no change if already correct
             Assert.AreEqual(a + "\r\n" + c + "\r\n" + b, MetaDataSorter.moveExternalLinks(a + "\r\n" + c + "\r\n" + b));
-            Assert.AreEqual(a + "\r\n" + c + "\r\n" + b + "\r\n" + d, MetaDataSorter.moveExternalLinks(a + "\r\n" + c + "\r\n" + b + "\r\n" + d));
+            Assert.AreEqual(a + "\r\n" + c + "\r\n" + b + "\r\n" + g, MetaDataSorter.moveExternalLinks(a + "\r\n" + c + "\r\n" + b + "\r\n" + g));
+
+            // no change if end of references section is unclear
+            Assert.AreEqual(a + "\r\n" + b + "\r\n" + c + "\r\n" + f, MetaDataSorter.moveExternalLinks(a + "\r\n" + b + "\r\n" + c + "\r\n" + f));
+
+            // only matching level two headings following references
+            Assert.AreEqual(a + "\r\n" + b + "\r\n" + c + "\r\n" + d, MetaDataSorter.moveExternalLinks(a + "\r\n" + b + "\r\n" + c + "\r\n" + d));
+
         }
 
         // {{Lifetime}} template lives after categories on en-wiki

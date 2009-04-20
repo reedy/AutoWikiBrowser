@@ -363,7 +363,7 @@ namespace WikiFunctions
         /// </summary>
         public static readonly Regex MoreNoFootnotes = new Regex(@"{{([Mm]ore|[Nn]o)footnotes}}", RegexOptions.Compiled);
 
-        private static readonly string ReferencesTemplates = @"(\{\{\s*ref(?:-?li(?:st|nk)|erence)[^{}]*\}\}|<references\s*/>|\{\{refs)";
+        public static readonly string ReferencesTemplates = @"(\{\{\s*ref(?:-?li(?:st|nk)|erence)[^{}]*\}\}|<references\s*/>|\{\{refs)";
         public static readonly string ReferenceEndGR = @"(</ref>|{{GR\|\d}})";
 
         /// <summary>
