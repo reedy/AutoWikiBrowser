@@ -22,6 +22,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Diagnostics;
 
 namespace WikiFunctions.Controls
 {
@@ -330,6 +331,7 @@ namespace WikiFunctions.Controls
                 else
                     Status.Text = sender.Matches.Count + " matches found";
 
+                Status.Text += " in " + sender.GetExecutionTime() + " ms";
 
                 Captures.ExpandAll();
             }
@@ -341,6 +343,8 @@ namespace WikiFunctions.Controls
                 else
                     Status.Text = "1 replacement performed";
 
+                Status.Text += " in " + sender.GetExecutionTime() + " ms";
+                
                 Captures.Visible = false;
                 ResultText.Visible = true;
 
@@ -379,6 +383,13 @@ namespace WikiFunctions.Controls
         readonly Thread Thr;
         readonly RegexTester Parent;
 
+        private long executiontime = 0;
+
+        public long GetExecutionTime()
+        {
+            return executiontime;
+        }
+
         public RegexRunner(RegexTester parent, string input, Regex regex)
             : this(parent, input, null, regex)
         { }
@@ -406,6 +417,8 @@ namespace WikiFunctions.Controls
         {
             try
             {
+                Stopwatch sw = Stopwatch.StartNew();
+
                 Matches = _Regex.Matches(Input);
 
                 foreach (Match m in Matches)
@@ -413,6 +426,8 @@ namespace WikiFunctions.Controls
 
                 if (!string.IsNullOrEmpty(Replace))
                     Result = _Regex.Replace(Input, Replace);
+
+                executiontime = sw.ElapsedMilliseconds;
             }
             catch (Exception ex)
             {
