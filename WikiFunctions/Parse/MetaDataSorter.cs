@@ -727,9 +727,9 @@ en, sq, ru
 
         private static readonly Regex ExternalLinksSection = new Regex(@"(^== *[Ee]xternal +[Ll]inks? *==.*?)(?=^==+[^=][^\r\n]*?[^=]==+(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
 
-        private static readonly Regex ReferencesSection = new Regex(@"(^== *[Rr]eferences *==.*?)(?=^==+[^=][^\r\n]*?[^=]==+(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
+        private static readonly Regex ReferencesSection = new Regex(@"(^== *[Rr]eferences *==.*?)(?=^==[^=][^\r\n]*?[^=]==(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
 
-        private static readonly Regex ReferencesToEnd = new Regex(@"^== *[Rr]eferences *==.*", RegexOptions.Multiline | RegexOptions.Singleline);
+        private static readonly Regex ReferencesToEnd = new Regex(@"^== *[Rr]eferences *==\s*" + WikiRegexes.ReferencesTemplates + @"\s*(?=\[\[Category\:)", RegexOptions.Multiline);
 
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Place_.22External_links.22_section_after_.22References.22
         /// <summary>
@@ -745,8 +745,8 @@ en, sq, ru
             string References = ReferencesSection.Match(ArticleText).Groups[1].Value;
 
             // references may be last section
-        /*    if (References.Equals(""))
-                References = ReferencesToEnd.Match(ArticleText).Value; */
+            if (References.Equals(""))
+                References = ReferencesToEnd.Match(ArticleText).Value;
 
             if (ArticleText.IndexOf(ExternalLinks) < ArticleText.IndexOf(References) && References.Length > 0 && ExternalLinks.Length > 0)
             {
