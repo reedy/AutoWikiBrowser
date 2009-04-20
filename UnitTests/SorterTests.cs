@@ -206,8 +206,10 @@ blah";
 
             string g = @"== another section ==
 blah";
+            string h = @"{{DEFAULTSORT:Foo, bar}}";
 
             Assert.AreEqual(a + "\r\n" + c + "\r\n" + b + "\r\n" + e, MetaDataSorter.moveExternalLinks(a + "\r\n" + b + "\r\n" + c + "\r\n" + e));
+            Assert.AreEqual(a + "\r\n" + c + "\r\n" + b + "\r\n" + h, MetaDataSorter.moveExternalLinks(a + "\r\n" + b + "\r\n" + c + "\r\n" + h));
             Assert.AreEqual(a + "\r\n" + c + "\r\n" + b + "\r\n" + g, MetaDataSorter.moveExternalLinks(a + "\r\n" + b + "\r\n" + c + "\r\n" + g));
 
             // no change if already correct
