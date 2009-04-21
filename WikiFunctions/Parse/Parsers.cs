@@ -1312,6 +1312,11 @@ namespace WikiFunctions.Parse
                     ArticleText = ArticleText.Replace(m.Value, Tools.ReplaceWithSpaces(m.Value));
                 }
 
+                foreach (Match m in WikiRegexes.Code.Matches(ArticleText))
+                {
+                    ArticleText = ArticleText.Replace(m.Value, Tools.ReplaceWithSpaces(m.Value));
+                }
+
                 if (openingbrackets.Equals(@"["))
                 {
                     // need to remove double square brackets first
