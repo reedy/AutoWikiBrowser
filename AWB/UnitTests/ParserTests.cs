@@ -525,9 +525,10 @@ string h = @"'''Fred Smith''' (d. 1950) is a bloke.";
 complementary and alternative medicine: evidence is a better friend than power. Andrew J Vickers]</ref>", ref BracketLength));
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"[http://www.site.com a link [cool&#93;]", ref BracketLength)); // displays as valid syntax
 
-            // don't consider stuff in <math> or <pre> tags
+            // don't consider stuff in <math> or <pre> tags etc.
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <pre>{now}}</pre>", ref BracketLength));
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <math>{a{b}}</math>", ref BracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <code>{now}}</code>", ref BracketLength));
         }
 
         [Test]
