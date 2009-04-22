@@ -588,7 +588,7 @@ namespace WikiFunctions
         /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
         public void FixLinks(bool SkipIfNoChange)
         {
-            string strTemp = Parsers.FixLinks(mArticleText, out noChange);
+            string strTemp = Parsers.FixLinks(mArticleText, Name, out noChange);
             if (noChange && SkipIfNoChange)
                 Trace.AWBSkipped("No bad links");
             else if (!noChange)
