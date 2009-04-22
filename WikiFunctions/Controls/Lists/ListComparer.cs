@@ -58,34 +58,29 @@ namespace WikiFunctions.Controls.Lists
                     lbNo2.Items.Add(article.Name);
             }
         
-            updateCounts();
+            UpdateCounts();
         }
 
         private void btnGo_Click(object sender, EventArgs e)
         {
-            clear();
+            Clear();
             GetDuplicates();
-        }
-
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            SaveList(lbBoth);
         }
         
         private void btnClear_Click(object sender, EventArgs e)
         {
-            clear();
-            updateCounts();
+            Clear();
+            UpdateCounts();
         }
 
-        private void clear()
+        private void Clear()
         {
             lbBoth.Items.Clear();
             lbNo1.Items.Clear();
             lbNo2.Items.Clear();
         }
 
-        private void updateCounts()
+        private void UpdateCounts()
         {
             lblNo1.Text = lbNo1.Items.Count + " pages";
             lblNo2.Text = lbNo2.Items.Count + " pages";
@@ -100,6 +95,11 @@ namespace WikiFunctions.Controls.Lists
         private void btnSaveOnly2_Click(object sender, EventArgs e)
         {
             SaveList(lbNo2);
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            SaveList(lbBoth);
         }
 
         private void SaveList(ListBox lb)
