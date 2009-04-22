@@ -597,7 +597,7 @@ complementary and alternative medicine: evidence is a better friend than power. 
             //TODO: move it to parts testing specific functions, when they're covered
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_4#Bug_encountered_when_perusing_Sonorous_Susurrus
             Parsers.CanonicalizeTitle("[[|foo]]"); // shouldn't throw exceptions
-            Assert.AreEqual("[[|foo]]", Parsers.FixLinks("[[|foo]]", out noChange));
+            Assert.AreEqual("[[|foo]]", Parsers.FixLinks("[[|foo]]", "bar", out noChange));
 
             // string before and after
             Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http//www.site.com</ref>"));
@@ -1746,19 +1746,6 @@ While remaining upright may be the primary goal of beginning riders While remain
 While remaining upright may be the primary goal of beginning riders| 2009<br>", parser.BoldTitle(@"The 2009 Indian Premier League While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders| [[2009 Indian Premier League|2009]]<br>", "2009 Indian Premier League", out noChangeBack));
         }
-
-        [Test]
-        public void SelfLinkRemoval()
-        {
-            Assert.AreEqual(@"'''Foo''' is great. Foo is cool", parser.BoldTitle(@"'''Foo''' is great. [[Foo]] is cool", "Foo", out noChangeBack));
-            Assert.AreEqual(@"'''Foo''' is great. Bar is cool", parser.BoldTitle(@"'''Foo''' is great. [[Foo|Bar]] is cool", "Foo", out noChangeBack));
-            Assert.AreEqual(@"'''Foo bar''' is great. Foo bar is cool", parser.BoldTitle(@"'''Foo bar''' is great. [[Foo bar]] is cool", "Foo bar", out noChangeBack));
-            Assert.AreEqual(@"'''Foo''' is great. Foo is cool.{{cite web|url=a|title=b|publisher=Foo}}", parser.BoldTitle(@"'''Foo''' is great. Foo is cool.{{cite web|url=a|title=b|publisher=[[Foo]]}}", "Foo", out noChangeBack));
-
-            // no support for delinking self section links
-            Assert.AreEqual(@"'''Foo''' is great. [[Foo#Bar|Bar]] is cool", parser.BoldTitle(@"'''Foo''' is great. [[Foo#Bar|Bar]] is cool", "Foo", out noChangeBack));
-
-        }
     }
 
     [TestFixture]
@@ -1834,6 +1821,24 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
         {
             Assert.AreEqual("test\r\n{{main|Foo}}\r\ntest", Parsers.FixMainArticle("test\r\nMain article: [[Foo]]\r\ntest"));
             Assert.AreEqual("test\r\n\r\n{{main|Foo}}\r\n\r\ntest", Parsers.FixMainArticle("test\r\n\r\nMain article: [[Foo]]\r\n\r\ntest"));
+        }
+
+        [Test]
+        public void SelfLinkRemoval()
+        {
+            bool noChangeBack = false;
+            Assert.AreEqual(@"'''Foo''' is great. Foo is cool", Parsers.FixLinks(@"'''Foo''' is great. [[Foo]] is cool", "Foo", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
+            Assert.AreEqual(@"'''Foo''' is great. Bar is cool", Parsers.FixLinks(@"'''Foo''' is great. [[Foo|Bar]] is cool", "Foo", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
+            Assert.AreEqual(@"'''Foo bar''' is great. Foo bar is cool", Parsers.FixLinks(@"'''Foo bar''' is great. [[Foo bar]] is cool", "Foo bar", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
+            Assert.AreEqual(@"'''Foo''' is great. Foo is cool.{{cite web|url=a|title=b|publisher=Foo}}", Parsers.FixLinks(@"'''Foo''' is great. Foo is cool.{{cite web|url=a|title=b|publisher=[[Foo]]}}", "Foo", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
+
+            // no support for delinking self section links
+            Assert.AreEqual(@"'''Foo''' is great. [[Foo#Bar|Bar]] is cool", Parsers.FixLinks(@"'''Foo''' is great. [[Foo#Bar|Bar]] is cool", "Foo", out noChangeBack));
+            Assert.IsTrue(noChangeBack);
         }
     }
 

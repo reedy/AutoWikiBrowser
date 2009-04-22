@@ -1467,13 +1467,25 @@ namespace WikiFunctions.Parse
 
         // NOT covered
         /// <summary>
-        /// Fixes link syntax
+        /// Fixes link syntax, including removal of self links
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="NoChange">Value that indicated whether no change was made.</param>
         /// <returns>The modified article text.</returns>
-        public static string FixLinks(string ArticleText, out bool NoChange)
+        public static string FixLinks(string ArticleText, string ArticleTitle, out bool NoChange)
         {
+            string ArticleTextAtStart = ArticleText;
+            string escTitle = Regex.Escape(ArticleTitle);
+            string escTitleNoBrackets = Regex.Escape(Regex.Replace(ArticleTitle, @" \(.*?\)$", ""));
+
+            // remove any self-links, but not other links with different capitaliastion e.g. [[Foo]] vs [[FOO]]
+            // note, removal of self links in iteslf will not cause this method to return a 'change'
+            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + escTitle + @"\s*\]\]", ArticleTitle);
+
+            // remove piped self links by leaving target
+            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + escTitle + @"\s*\|([^\]]+)\]\]", "$1");
+            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*(?:\]\]|\|)", Tools.TurnFirstToLower(ArticleTitle));
+
             StringBuilder sb = new StringBuilder(ArticleText, (ArticleText.Length * 11) / 10);
 
             foreach (Match m in WikiRegexes.WikiLink.Matches(ArticleText))
@@ -1486,7 +1498,7 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            NoChange = (sb.ToString() == ArticleText);
+            NoChange = (sb.ToString() == ArticleTextAtStart);
 
             return sb.ToString();
         }
@@ -1989,21 +2001,17 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text.</returns>
         public string BoldTitle(string ArticleText, string ArticleTitle, out bool NoChange)
         {
+            NoChange = true;
             string escTitle = Regex.Escape(ArticleTitle);
             string escTitleNoBrackets = Regex.Escape(Regex.Replace(ArticleTitle, @" \(.*?\)$", ""));
 
-            // remove any self-links, but not other links with different capitaliastion e.g. [[Foo]] vs [[FOO]]
-            // note, removal of self links in iteslf will not cause this method to return a 'change'
-            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + escTitle + @"\s*\]\]", ArticleTitle);
+            string ArticleTextHidden = HideMoreText(ArticleText);
 
-            // remove piped self links by leaving target
-            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + escTitle + @"\s*\|([^\]]+)\]\]", "$1");
-            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*(?:\]\]|\|)", Tools.TurnFirstToLower(ArticleTitle));
-
-            NoChange = true;
+            bool IgnoredNoChange = false;
+            // remove any self-links
+            ArticleText = FixLinks(ArticleText, ArticleTitle, out IgnoredNoChange);
 
             string ArticleTextAtStart = ArticleText;
-            string ArticleTextHidden = HideMoreText(ArticleText);
 
             // first quick check: ignore articles with some bold in first 5% of hidemore article
             int fivepc = ArticleTextHidden.Length / 20;
