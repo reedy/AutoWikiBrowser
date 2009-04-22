@@ -1989,12 +1989,20 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text.</returns>
         public string BoldTitle(string ArticleText, string ArticleTitle, out bool NoChange)
         {
-            string ArticleTextAtStart = ArticleText;
             string escTitle = Regex.Escape(ArticleTitle);
             string escTitleNoBrackets = Regex.Escape(Regex.Replace(ArticleTitle, @" \(.*?\)$", ""));
 
+            // remove any self-links, but not other links with different capitaliastion e.g. [[Foo]] vs [[FOO]]
+            // note, removal of self links in iteslf will not cause this method to return a 'change'
+            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + escTitle + @"\s*\]\]", ArticleTitle);
+
+            // remove piped self links by leaving target
+            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + escTitle + @"\s*\|([^\]]+)\]\]", "$1");
+            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*(?:\]\]|\|)", Tools.TurnFirstToLower(ArticleTitle));
+
             NoChange = true;
 
+            string ArticleTextAtStart = ArticleText;
             string ArticleTextHidden = HideMoreText(ArticleText);
 
             // first quick check: ignore articles with some bold in first 5% of hidemore article
@@ -2005,15 +2013,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             // ignore date articles (date in American or international format)
             if (WikiRegexes.Dates2.IsMatch(ArticleTitle) || WikiRegexes.Dates.IsMatch(ArticleTitle))
-                return ArticleTextAtStart;
-
-            // remove any self-links, but not other links with different capitaliastion e.g. [[Foo]] vs [[FOO]]
-            // note, removal of self links in iteslf will not cause this method to return a 'change'
-            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + escTitle + @"\s*\]\]", ArticleTitle);
-
-            // remove piped self links by leaving target
-            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + escTitle + @"\s*\|([^\]]+)\]\]", "$1");
-            ArticleText = Regex.Replace(ArticleText, @"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*(?:\]\]|\|)", Tools.TurnFirstToLower(ArticleTitle));
+                return ArticleTextAtStart;            
 
             Regex BoldTitleAlready1 = new Regex(@"'''\s*(" + escTitle + "|" + Tools.TurnFirstToLower(escTitle) + @")\s*'''");
             Regex BoldTitleAlready2 = new Regex(@"'''\s*(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + @")\s*'''");

@@ -1718,7 +1718,7 @@ While remaining upright may be the primary goal of beginning riders", "Foo", out
             Assert.IsFalse(noChangeBack);
 
             // removal of self links in iteslf are not a 'change'
-            Assert.AreEqual("'''Foo''' is a bar, now [[Foo]] here While remaining upright may be the primary goal of beginning riders",
+            Assert.AreEqual("'''Foo''' is a bar, now Foo here While remaining upright may be the primary goal of beginning riders",
                 parser.BoldTitle("'''Foo''' is a bar, now [[Foo]] here While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsTrue(noChangeBack);
         }
@@ -1745,6 +1745,19 @@ While remaining upright may be the primary goal of beginning riders While remain
             Assert.AreEqual(@"The '''2009 Indian Premier League''' While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders| 2009<br>", parser.BoldTitle(@"The 2009 Indian Premier League While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders| [[2009 Indian Premier League|2009]]<br>", "2009 Indian Premier League", out noChangeBack));
+        }
+
+        [Test]
+        public void SelfLinkRemoval()
+        {
+            Assert.AreEqual(@"'''Foo''' is great. Foo is cool", parser.BoldTitle(@"'''Foo''' is great. [[Foo]] is cool", "Foo", out noChangeBack));
+            Assert.AreEqual(@"'''Foo''' is great. Bar is cool", parser.BoldTitle(@"'''Foo''' is great. [[Foo|Bar]] is cool", "Foo", out noChangeBack));
+            Assert.AreEqual(@"'''Foo bar''' is great. Foo bar is cool", parser.BoldTitle(@"'''Foo bar''' is great. [[Foo bar]] is cool", "Foo bar", out noChangeBack));
+            Assert.AreEqual(@"'''Foo''' is great. Foo is cool.{{cite web|url=a|title=b|publisher=Foo}}", parser.BoldTitle(@"'''Foo''' is great. Foo is cool.{{cite web|url=a|title=b|publisher=[[Foo]]}}", "Foo", out noChangeBack));
+
+            // no support for delinking self section links
+            Assert.AreEqual(@"'''Foo''' is great. [[Foo#Bar|Bar]] is cool", parser.BoldTitle(@"'''Foo''' is great. [[Foo#Bar|Bar]] is cool", "Foo", out noChangeBack));
+
         }
     }
 
