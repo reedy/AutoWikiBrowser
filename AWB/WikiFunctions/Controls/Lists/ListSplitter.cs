@@ -33,15 +33,15 @@ namespace WikiFunctions.Controls.Lists
         readonly UserPrefs P;
         readonly List<Type> Types;
 
-        public ListSplitter(UserPrefs Prefs, List<Type> type)
+        public ListSplitter(UserPrefs prefs, List<Type> type)
         {
             InitializeComponent();
-            P = Prefs;
+            P = prefs;
             Types = type;
         }
 
-        public ListSplitter(UserPrefs Prefs, List<Type> type, List<Article> list)
-            : this(Prefs, type)
+        public ListSplitter(UserPrefs prefs, List<Type> type, List<Article> list)
+            : this(prefs, type)
         {
             listMaker1.Add(list);
         }
@@ -55,17 +55,17 @@ namespace WikiFunctions.Controls.Lists
         {
             saveTXT.FileName = listMaker1.SourceText;
             if (saveTXT.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(saveTXT.FileName))
-                save(saveTXT.FileName, false);
+                Save(saveTXT.FileName, false);
         }
 
         private void btnXMLSave_Click(object sender, EventArgs e)
         {
             saveXML.FileName = listMaker1.SourceText;
             if (saveXML.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(saveXML.FileName))
-                save(saveXML.FileName, true);
+                Save(saveXML.FileName, true);
         }
 
-        private void save(string path, bool XML)
+        private void Save(string path, bool xml)
         {
             try
             {
@@ -80,7 +80,7 @@ namespace WikiFunctions.Controls.Lists
                 int noGroups =
                     Convert.ToInt32((Math.Round(noA/numSplitAmount.Value)*numSplitAmount.Value)/numSplitAmount.Value);
 
-                if (XML)
+                if (xml)
                 {
                     for (int i = 0; i < noGroups; i++)
                     {

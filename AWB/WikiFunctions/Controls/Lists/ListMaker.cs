@@ -35,8 +35,8 @@ namespace WikiFunctions.Controls.Lists
 
     public partial class ListMaker : UserControl, IList<Article>
     {
-        private readonly static SaveFileDialog saveListDialog;
-        private readonly static BindingList<IListProvider> listItems = new BindingList<IListProvider>();
+        private readonly static SaveFileDialog SaveListDialog;
+        private readonly static BindingList<IListProvider> ListItems = new BindingList<IListProvider>();
         private readonly ListFilterForm SpecialFilter;
 
         //used to keep easy track of providers for add/remove/(re)use in code
@@ -66,55 +66,55 @@ namespace WikiFunctions.Controls.Lists
 
         static ListMaker()
         {
-            saveListDialog = new SaveFileDialog();
-            saveListDialog.DefaultExt = "txt";
-            saveListDialog.Filter = "Text file with wiki markup|*.txt|Plaintext list|*.txt|CSV (Comma Seperated Values)|*.txt|CSV with Wikitext|*.txt";
-            saveListDialog.Title = "Save article list";
+            SaveListDialog = new SaveFileDialog();
+            SaveListDialog.DefaultExt = "txt";
+            SaveListDialog.Filter = "Text file with wiki markup|*.txt|Plaintext list|*.txt|CSV (Comma Seperated Values)|*.txt|CSV with Wikitext|*.txt";
+            SaveListDialog.Title = "Save article list";
         }
 
         public ListMaker()
         {
             InitializeComponent();
 
-            if (listItems.Count == 0)
+            if (ListItems.Count == 0)
             {
-                listItems.Add(categoryLProvider);
-                listItems.Add(categoryRecursiveLProvider);
-                listItems.Add(new CategoryRecursiveOneLevelListProvider());
-                listItems.Add(new CategoryRecursiveUserDefinedLevelListProvider());
-                listItems.Add(categoriesOnPageLProvider);
-                listItems.Add(new CategoriesOnPageOnlyHiddenListProvider());
-                listItems.Add(new CategoriesOnPageNoHiddenListProvider());
-                listItems.Add(whatLinksHereLProvider);
-                listItems.Add(new WhatLinksHereAllNSListProvider());
-                listItems.Add(new WhatLinksHereIncludingRedirectsListProvider());
-                listItems.Add(new WhatLinksHereAllNSIncludingRedirectsListProvider());
-                listItems.Add(whatTranscludesLProvider);
-                listItems.Add(new WhatTranscludesPageAllNSListProvider());
-                listItems.Add(linksOnPageLProvider);
-                listItems.Add(new LinksOnPageExcludingRedLinksListProvider());
-                listItems.Add(imagesOnPageLProvider);
-                listItems.Add(new TransclusionsOnPageListProvider());
-                listItems.Add(new TextFileListProvider());
-                listItems.Add(new GoogleSearchListProvider());
-                listItems.Add(new UserContribsListProvider());
-                listItems.Add(new UserContribUserDefinedNumberListProvider());
-                listItems.Add(new SpecialPageListProvider(whatLinksHereLProvider, newPagesLProvider,
+                ListItems.Add(categoryLProvider);
+                ListItems.Add(categoryRecursiveLProvider);
+                ListItems.Add(new CategoryRecursiveOneLevelListProvider());
+                ListItems.Add(new CategoryRecursiveUserDefinedLevelListProvider());
+                ListItems.Add(categoriesOnPageLProvider);
+                ListItems.Add(new CategoriesOnPageOnlyHiddenListProvider());
+                ListItems.Add(new CategoriesOnPageNoHiddenListProvider());
+                ListItems.Add(whatLinksHereLProvider);
+                ListItems.Add(new WhatLinksHereAllNSListProvider());
+                ListItems.Add(new WhatLinksHereIncludingRedirectsListProvider());
+                ListItems.Add(new WhatLinksHereAllNSIncludingRedirectsListProvider());
+                ListItems.Add(whatTranscludesLProvider);
+                ListItems.Add(new WhatTranscludesPageAllNSListProvider());
+                ListItems.Add(linksOnPageLProvider);
+                ListItems.Add(new LinksOnPageExcludingRedLinksListProvider());
+                ListItems.Add(imagesOnPageLProvider);
+                ListItems.Add(new TransclusionsOnPageListProvider());
+                ListItems.Add(new TextFileListProvider());
+                ListItems.Add(new GoogleSearchListProvider());
+                ListItems.Add(new UserContribsListProvider());
+                ListItems.Add(new UserContribUserDefinedNumberListProvider());
+                ListItems.Add(new SpecialPageListProvider(whatLinksHereLProvider, newPagesLProvider,
                                                           categoriesOnPageLProvider, randomPagesLProvider));
-                listItems.Add(imageFileLinksLProvider);
-                listItems.Add(new DatabaseScannerListProvider(this));
-                listItems.Add(new MyWatchlistListProvider());
-                listItems.Add(new WikiSearchListProvider());
-                listItems.Add(new WikiTitleSearchListProvider());
-                listItems.Add(randomPagesLProvider);
-                listItems.Add(redirectLProvider);
-                listItems.Add(newPagesLProvider);
+                ListItems.Add(imageFileLinksLProvider);
+                ListItems.Add(new DatabaseScannerListProvider(this));
+                ListItems.Add(new MyWatchlistListProvider());
+                ListItems.Add(new WikiSearchListProvider());
+                ListItems.Add(new WikiTitleSearchListProvider());
+                ListItems.Add(randomPagesLProvider);
+                ListItems.Add(redirectLProvider);
+                ListItems.Add(newPagesLProvider);
             }
 
             SpecialFilter = new ListFilterForm(lbArticles);
 
             // We'll manage our own collection of list items:
-            cmboSourceSelect.DataSource = listItems;
+            cmboSourceSelect.DataSource = ListItems;
             // Bind IListProvider.DisplayText to be the displayed text:
             cmboSourceSelect.DisplayMember = "DisplayText";
             cmboSourceSelect.ValueMember = "DisplayText";
@@ -173,10 +173,10 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public static void AddRemoveRedirects()
         {
-            if (Variables.LangCode != LangCodeEnum.en && listItems.Contains(redirectLProvider))
-                listItems.Remove(redirectLProvider);
-            else if (!listItems.Contains(redirectLProvider))
-                listItems.Add(redirectLProvider);
+            if (Variables.LangCode != LangCodeEnum.en && ListItems.Contains(redirectLProvider))
+                ListItems.Remove(redirectLProvider);
+            else if (!ListItems.Contains(redirectLProvider))
+                ListItems.Add(redirectLProvider);
         }
 
         /// <summary>
@@ -809,38 +809,38 @@ namespace WikiFunctions.Controls.Lists
         /// <summary>
         /// Saves the list from the passed ListBox2 to the specified text file.
         /// </summary>
-        public static void SaveList(ListBox2 ArticlesListBox)
+        public static void SaveList(ListBox2 articlesListBox)
         {
             try
             {
                 StringBuilder strList = new StringBuilder();
 
-                if (strListFile.Length > 0) saveListDialog.FileName = strListFile;
+                if (strListFile.Length > 0) SaveListDialog.FileName = strListFile;
 
-                if (saveListDialog.ShowDialog() == DialogResult.OK)
+                if (SaveListDialog.ShowDialog() == DialogResult.OK)
                 {
-                    switch (saveListDialog.FilterIndex)
+                    switch (SaveListDialog.FilterIndex)
                     {
                         case 1: //wikitext
-                            foreach (Article a in ArticlesListBox)
+                            foreach (Article a in articlesListBox)
                                 strList.AppendLine("# [[:" + a.Name + "]]");
                             break;
                         case 2: //plaintext
-                            foreach (Article a in ArticlesListBox)
+                            foreach (Article a in articlesListBox)
                                 strList.AppendLine(a.Name);
                             break;
                         case 3: //CSV
-                            foreach (Article a in ArticlesListBox)
+                            foreach (Article a in articlesListBox)
                                 strList.Append(a.Name + ", ");
                             strList = strList.Remove(strList.Length - 2, 2);
                             break;
                         case 4: //CSV with wikitext
-                            foreach (Article a in ArticlesListBox)
+                            foreach (Article a in articlesListBox)
                                 strList.Append("[[:" + a.Name + "]], ");
                             strList = strList.Remove(strList.Length - 2, 2);
                             break;
                     }
-                    strListFile = saveListDialog.FileName;
+                    strListFile = SaveListDialog.FileName;
 
                     Tools.WriteTextFileAbsolutePath(strList, strListFile, false);
                 }
@@ -893,17 +893,17 @@ namespace WikiFunctions.Controls.Lists
         /// <summary>
         /// Replaces one article in the list with another, in the same place
         /// </summary>
-        public void ReplaceArticle(Article OldArticle, Article NewArticle)
+        public void ReplaceArticle(Article oldArticle, Article newArticle)
         {
-            int intPos = lbArticles.Items.IndexOf(OldArticle);
+            int intPos = lbArticles.Items.IndexOf(oldArticle);
 
-            Remove(OldArticle);
-            lbArticles.Items.Insert(intPos, NewArticle);
+            Remove(oldArticle);
+            lbArticles.Items.Insert(intPos, newArticle);
 
             lbArticles.ClearSelected();
 
             // set current position by index of new article rather than name in case new entry already exists earlier in list
-            //lbArticles.SelectedItem = NewArticle;
+            //lbArticles.SelectedItem = newArticle;
             lbArticles.SetSelected(intPos, true);
         }
 
@@ -1127,10 +1127,10 @@ namespace WikiFunctions.Controls.Lists
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if ((lbArticles.SelectedItems.Count < 10) || (MessageBox.Show("Opening " + lbArticles.SelectedItems.Count + " articles in your browser at once could cause your system to run slowly, and even stop responding.\r\nAre you sure you want to continue?", "Continue?", MessageBoxButtons.YesNo) == DialogResult.Yes))
-                loadArticlesInBrowser();
+                LoadArticlesInBrowser();
         }
 
-        private void loadArticlesInBrowser()
+        private void LoadArticlesInBrowser()
         {
             Article[] articles = new Article[lbArticles.SelectedItems.Count];
             lbArticles.SelectedItems.CopyTo(articles, 0);
@@ -1152,10 +1152,10 @@ namespace WikiFunctions.Controls.Lists
         private void openHistoryInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if ((lbArticles.SelectedItems.Count < 10) || (MessageBox.Show("Opening " + lbArticles.SelectedItems.Count + " articles in your browser at once could cause your system to run slowly, and even stop responding.\r\nAre you sure you want to continue?", "Continue?", MessageBoxButtons.YesNo) == DialogResult.Yes))
-                loadArticleHistoryInBrowser();
+                LoadArticleHistoryInBrowser();
         }
 
-        private void loadArticleHistoryInBrowser()
+        private void LoadArticleHistoryInBrowser()
         {
             foreach (Article item in lbArticles.SelectedItems)
                 Tools.OpenArticleHistoryInBrowser(item.Name);
@@ -1163,7 +1163,7 @@ namespace WikiFunctions.Controls.Lists
 
         private void lbArticles_DoubleClick(object sender, EventArgs e)
         {
-            loadArticlesInBrowser();
+            LoadArticlesInBrowser();
         }
 
         private void moveToTopToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1218,7 +1218,7 @@ namespace WikiFunctions.Controls.Lists
         /// <param name="provider">IListProvider/IListMakerPlugin to add</param>
         public static void AddProvider(IListProvider provider)
         {
-            listItems.Add(provider);
+            ListItems.Add(provider);
         }
 
         /// <summary>
@@ -1254,7 +1254,7 @@ namespace WikiFunctions.Controls.Lists
         {
             List<Plugin.IListMakerPlugin> plugins = new List<Plugin.IListMakerPlugin>();
 
-            foreach (IListProvider p in listItems)
+            foreach (IListProvider p in ListItems)
             {
                 Plugin.IListMakerPlugin plugin = (p as Plugin.IListMakerPlugin);
 
