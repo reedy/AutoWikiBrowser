@@ -86,9 +86,6 @@ namespace WikiFunctions.Parse
             RegexTagger.Add(new Regex(@"\{\{(template:)?(COI|Conflict of interest|Selfpromotion)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{COI|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
 
             RegexConversion.Add(new Regex(@"\{\{(?:Template:)?(Dab|Disamb|Disambiguation)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Disambig}}");
-            RegexConversion.Add(new Regex(@"\{\{(?:Template:)?(2cc|2LAdisambig|2LCdisambig|2LC)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{2CC}}");
-            RegexConversion.Add(new Regex(@"\{\{(?:Template:)?(3cc|3L[WC]|Tla|Tla-dab|TLA-disambig|TLAdisambig)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{3CC}}");
-            RegexConversion.Add(new Regex(@"\{\{(?:Template:)?(4cc|4L[AWC])\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{4CC}}");
             RegexConversion.Add(new Regex(@"\{\{(?:Template:)?(Bio-dab|Hndisambig)", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Hndis");
 
             RegexConversion.Add(new Regex(@"\{\{(?:Template:)?(Prettytable|Prettytable100)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{subst:Prettytable}}");
