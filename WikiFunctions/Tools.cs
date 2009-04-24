@@ -981,6 +981,11 @@ namespace WikiFunctions
                 new KeyValuePair<string, string>("Ư", "U"),
                 new KeyValuePair<string, string>("ề", "e"),
                 new KeyValuePair<string, string>("ứ", "u"),
+                new KeyValuePair<string, string>("ṅ", "n"),
+                new KeyValuePair<string, string>("ẏ ", "y"),
+                new KeyValuePair<string, string>("ḻ ", "l"),
+                new KeyValuePair<string, string>("ṟ ", "r"),
+                new KeyValuePair<string, string>("ṉ", "n"),
 
             };
         #endregion
