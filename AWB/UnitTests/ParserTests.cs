@@ -2728,7 +2728,6 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"now {{cite web| url=http://site.net |title=hello|accessdate = 2008-10-08|title=hello t}}", Parsers.Conversions(@"now {{cite web| url=http://site.net |title=hello|accessdate = 2008-10-08|title=hello t}}"));
             Assert.AreEqual(@"now {{cite web| url=http://site.net |title=hello|accessdate = 2008-10-08|name=hello}}", Parsers.Conversions(@"now {{cite web| url=http://site.net |title=hello|accessdate = 2008-10-08|name=hello}}"));
             Assert.AreEqual(@"now {{cite web| url=http://site.net |title=hello|first=|accessdate = 2008-10-08|first=}}", Parsers.Conversions(@"now {{cite web| url=http://site.net |title=hello|first=|accessdate = 2008-10-08|first=}}")); //dupe fields have no value
-            Assert.AreEqual(@"now {{cite web| url=http://site.net |title=hello|first=a|accessdate = 2008-10-08|first=}}", Parsers.Conversions(@"now {{cite web| url=http://site.net |title=hello|first=a|accessdate = 2008-10-08|first=}}"));
 
             Assert.AreEqual(@"{{Article issues|wikify=May 2008|POV=May 2008|Expand=June 2008|Expand=June 2009}}", Parsers.Conversions(@"{{Article issues|wikify=May 2008|POV=May 2008|Expand=June 2008|Expand=June 2009}}"));
 
