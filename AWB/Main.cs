@@ -475,6 +475,7 @@ namespace AutoWikiBrowser
 
             apiEdit.Wait();
 
+            // if MAXLAG exceeded then API will report error, so AWB should go into restart timer to try again in a few seconds
             if (apiEdit.State == AsyncApiEdit.EditState.Failed)
             {
                 StartDelayedRestartTimer(null, null);
