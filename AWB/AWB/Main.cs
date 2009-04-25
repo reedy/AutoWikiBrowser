@@ -476,7 +476,10 @@ namespace AutoWikiBrowser
             apiEdit.Wait();
 
             if (apiEdit.State == AsyncApiEdit.EditState.Failed)
+            {
+                StartDelayedRestartTimer(null, null);
                 return;
+            }
 
             if (!LoadSuccessAPI())
                 return;
