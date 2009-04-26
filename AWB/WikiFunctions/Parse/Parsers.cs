@@ -557,7 +557,6 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>        
         public static string DuplicateNamedReferences(string ArticleText)
         {
-
             foreach (Match m in NamedReferences.Matches(ArticleText))
             {
                 string RefName = m.Groups[2].Value;
@@ -1206,8 +1205,7 @@ namespace WikiFunctions.Parse
             foreach (Match m in SquareBracketsInExternalLinks.Matches(ArticleText))
             {
                 // strip off leading [ and trailing ]
-                string ExternalLink = m.Value;
-                ExternalLink = Regex.Replace(ExternalLink, @"^\[(\s*http.*?)\]$", "$1", RegexOptions.Singleline);
+                string ExternalLink = Regex.Replace(m.Value, @"^\[(\s*http.*?)\]$", "$1", RegexOptions.Singleline);
 
                 // if there are some brackets left then they need fixing; the mediawiki parser finishes the external link
                 // at the first ] found
@@ -1281,7 +1279,7 @@ namespace WikiFunctions.Parse
                 BracketLength = 1;
                 return unbalancedfound;
             }
-            else return -1;
+            return -1;
         }
 
         /// <summary>
@@ -1328,10 +1326,11 @@ namespace WikiFunctions.Parse
 
                 if (open == 0 && closed >= 1)
                     return ArticleText.IndexOf(closingbrackets);
-                else if (open >= 1 && closed == 0)
+                
+                if (open >= 1 && closed == 0)
                     return ArticleText.IndexOf(openingbrackets);
-                else
-                    return -1;
+                
+                return -1;
             }
 
             return -1;
@@ -1467,7 +1466,7 @@ namespace WikiFunctions.Parse
         {
             string ArticleTextAtStart = ArticleText;
             string escTitle = Regex.Escape(ArticleTitle);
-            string escTitleNoBrackets = Regex.Escape(Regex.Replace(ArticleTitle, @" \(.*?\)$", ""));
+            //string escTitleNoBrackets = Regex.Escape(Regex.Replace(ArticleTitle, @" \(.*?\)$", ""));
 
             // remove any self-links, but not other links with different capitaliastion e.g. [[Foo]] vs [[FOO]]
             // note, removal of self links in iteslf will not cause this method to return a 'change'
@@ -2436,7 +2435,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// Removes any explicit keys that are case insensitively the same as the default sort (To help tidy up on pages that already have defaultsort)
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
-        /// <param name="catregex"></param>
         /// <returns>The article text.</returns>
         private static string ExplicitCategorySortkeys(string ArticleText, string DefaultsortKey)
         {
@@ -2461,7 +2459,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <param name="ArticleTitle">Title of the article</param>
         /// <param name="Matches">If there is no change (True if no Change)</param>
-        /// <param name="DefaultsortAdded">If a defaultsort is added</param>
         /// <returns>The article text possibly using defaultsort.</returns>
         private static string DefaultsortTitlesWithDiacritics(string ArticleText, string ArticleTitle, int Matches)
         {
