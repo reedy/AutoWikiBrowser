@@ -912,6 +912,7 @@ words2"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dep}}"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dep|date=May 2008|Foobar}}"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Article issues|deadend=May 2008|a=b|c=d}}"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{articleissues|deadend=May 2008|a=b|c=d}}"));
 
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(@"{{deadend|}}"));
         }
