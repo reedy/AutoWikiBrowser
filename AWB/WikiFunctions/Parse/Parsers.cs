@@ -361,7 +361,7 @@ namespace WikiFunctions.Parse
             ArticleText = regexHeadingColonAtEnd.Replace(ArticleText, "$1$2$3");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Section_header_level_.28WikiProject_Check_Wikipedia_.237.29
-            // if no level 2 heading in article, remove two levels from all headings
+            // if no level 2 heading in article, remove a level from all headings (i.e. '===blah===' to '==blah==' etc.)
             if (!WikiRegexes.HeadingLevelTwo.IsMatch(ArticleText))
                 ArticleText = regexHeadingUpOneLevel.Replace(ArticleText, "$1$2");
 
