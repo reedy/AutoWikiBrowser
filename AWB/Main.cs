@@ -2125,7 +2125,7 @@ window.scrollTo(0, diffTopY);
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Replace_nofootnotes_with_morefootnote_if_references_exists
                 if (TheArticle.HasMorefootnotesAndManyReferences)
-                    lblWarn.Text += @"Has 'No/More footnotes' template yet many references\r\n";
+                    lblWarn.Text += @"Has 'No/More footnotes' template yet many references" + "\r\n";
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
                 if (TheArticle.HasRefAfterReflist)
