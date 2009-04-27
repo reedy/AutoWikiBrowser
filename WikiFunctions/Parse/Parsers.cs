@@ -2567,7 +2567,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             // {{nofootnotes}} --> {{morefootnotes}}, if some <ref>...</ref> references in article, uses regex from WikiRegexes.Refs
             if (WikiRegexes.Refs.IsMatch(ArticleText))
-                ArticleText = Regex.Replace(ArticleText, @"{{nofootnotes}}", "{{morefootnotes}}", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                ArticleText = Regex.Replace(ArticleText, @"{{nofootnotes}}", "{{morefootnotes}}", RegexOptions.IgnoreCase);
 
             return ArticleText;
         }
