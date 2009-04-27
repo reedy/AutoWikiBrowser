@@ -476,9 +476,11 @@ en, sq, ru
                 ArticleText = moveDablinks(ArticleText);
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Placement_of_portal_template
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests.html#Move_nofootnotes_to_the_references_section
                 if (Variables.LangCode == LangCodeEnum.en)
                 {
                     ArticleText = movePortalTemplates(ArticleText);
+                    ArticleText = moveMoreNoFootnotes(ArticleText);
                     ArticleText = moveExternalLinks(ArticleText);
                 }
 
@@ -723,6 +725,65 @@ en, sq, ru
             }
 
             return (ArticleText);
+        }
+        
+        
+        private static readonly Regex ReferencesSectionRegex = new Regex(@"^== *[Rr]eferences *==\s*", RegexOptions.Multiline);
+        private static readonly Regex NotesSectionRegex = new Regex(@"^== *[Nn]otes *==\s*", RegexOptions.Multiline);
+        private static readonly Regex FootnotesSectionRegex = new Regex(@"^== *[Ff]ootnotes *==\s*", RegexOptions.Multiline);
+        /// <summary>
+        /// Moves any {{nofootnotes}} or {{morefootnotes}} to the references section from the zeroth section, if present (en only)
+        /// </summary>
+        /// <param name="ArticleText"></param>
+        /// <returns>Article text with {{nofootnotes}} or {{morefootnotes}} template correctly placed</returns>
+        public static string moveMoreNoFootnotes(string ArticleText)
+        {
+          // no support for more than one of these templates in the article
+          string ZerothSection = WikiRegexes.ZerothSection.Match(ArticleText).Value;
+          if(WikiRegexes.MoreNoFootnotes.Matches(ZerothSection).Count != 1)
+            return ArticleText;          
+
+          // find the template position
+          int MoreNoFootnotesPosition = WikiRegexes.MoreNoFootnotes.Match(ArticleText).Index;
+          
+          // the template must be in one of the 'References', 'Notes' or 'Footnotes' section          
+          int ReferencesSectionPosition = ReferencesSectionRegex.Match(ArticleText).Index;
+          
+          if(ReferencesSectionPosition > 0 && MoreNoFootnotesPosition < ReferencesSectionPosition)
+            return moveMoreNoFootnotesToSection(ArticleText, 1);
+          
+          int NotesSectionPosition = NotesSectionRegex.Match(ArticleText).Index;
+          
+          if(NotesSectionPosition > 0 && MoreNoFootnotesPosition < NotesSectionPosition)
+            return moveMoreNoFootnotesToSection(ArticleText, 2);
+            
+          int FootnotesSectionPosition = FootnotesSectionRegex.Match(ArticleText).Index;
+          
+          if(FootnotesSectionPosition > 0 && MoreNoFootnotesPosition < FootnotesSectionPosition)
+            return moveMoreNoFootnotesToSection(ArticleText, 3);
+            
+          return ArticleText;        
+        }
+        
+        private static string moveMoreNoFootnotesToSection(string ArticleText, int section)
+        {
+            // extract the template
+            string MoreNoFootnotes = WikiRegexes.MoreNoFootnotes.Match(ArticleText).Value;
+            ArticleText = ArticleText.Replace(MoreNoFootnotes, "");
+            
+            switch(section)
+            {
+              case 1: ArticleText = ReferencesSectionRegex.Replace(ArticleText, "$0" + MoreNoFootnotes + "\r\n");
+              break;
+
+              case 2: ArticleText = NotesSectionRegex.Replace(ArticleText, "$0" + MoreNoFootnotes + "\r\n");
+              break;
+
+              case 3: ArticleText = FootnotesSectionRegex.Replace(ArticleText, "$0" + MoreNoFootnotes + "\r\n");
+              break;
+            }
+            
+            return ArticleText;        
         }
 
         private static readonly Regex ExternalLinksSection = new Regex(@"(^== *[Ee]xternal +[Ll]inks? *==.*?)(?=^==+[^=][^\r\n]*?[^=]==+(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);

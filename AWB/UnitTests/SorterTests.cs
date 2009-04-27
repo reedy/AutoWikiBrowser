@@ -187,6 +187,43 @@ text here2
 {{Portal|Football}}
 some words"));
         }
+        
+        [Test]
+        public void moveMoreNoFootnotesTests()
+        {
+          string A = @"{{nofootnotes}}";
+          string A2 = @"{{Morefootnotes}}";
+          
+          string B = @"
+'''Article''' words.
+== section ==
+words.
+";
+          string C = @"== References ==
+";
+          string D = @"== Notes ==
+";
+          string E = @"== Footnotes ==
+";
+
+          string F = @"'''Article''' words.
+== section ==
+{{nofootnotes}}
+words.
+";  
+          string G = @"words";
+        
+          Assert.AreEqual(B + C + A + "\r\n" + G, MetaDataSorter.moveMoreNoFootnotes(A + B + C + G));
+          Assert.AreEqual(B + D + A + "\r\n" + G, MetaDataSorter.moveMoreNoFootnotes(A + B + D + G));
+          Assert.AreEqual(B + E + A + "\r\n" + G, MetaDataSorter.moveMoreNoFootnotes(A + B + E + G));
+          Assert.AreEqual(B + E + A + "\r\n", MetaDataSorter.moveMoreNoFootnotes(A + B + E));
+          Assert.AreEqual(B + E + A2 + "\r\n", MetaDataSorter.moveMoreNoFootnotes(A2 + B + E));
+        
+          // not moved if outside zeroth section
+          Assert.AreEqual(F + C + G, MetaDataSorter.moveMoreNoFootnotes(F + C + G));
+          Assert.AreEqual(F + D + G, MetaDataSorter.moveMoreNoFootnotes(F + D + G));
+          Assert.AreEqual(F + E + G, MetaDataSorter.moveMoreNoFootnotes(F + E + G));
+        }
 
         [Test]
         public void moveExternalLinksTests()

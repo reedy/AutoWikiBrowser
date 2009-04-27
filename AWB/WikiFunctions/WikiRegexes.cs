@@ -361,7 +361,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{nofootnotes}} OR {{morefootnotes}} templates
         /// </summary>
-        public static readonly Regex MoreNoFootnotes = new Regex(@"{{([Mm]ore|[Nn]o)footnotes}}", RegexOptions.Compiled);
+        public static readonly Regex MoreNoFootnotes = new Regex(@"{{([Mm]ore|[Nn]o) ?footnotes[^{}]*}}", RegexOptions.Compiled);
 
         public static readonly string ReferencesTemplates = @"(\{\{\s*ref(?:-?li(?:st|nk)|erence)[^{}]*\}\}|<references\s*/>|\{\{refs)";
         public static readonly string ReferenceEndGR = @"(</ref>|{{GR\|\d}})";
