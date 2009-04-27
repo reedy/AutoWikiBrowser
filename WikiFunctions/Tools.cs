@@ -1131,7 +1131,7 @@ namespace WikiFunctions
 
         // Covered by HumanCatKeyTests.RemoveDiacritics()
         /// <summary>
-        /// substitutes characters with diacritics with their simple equivalents
+        /// substitutes characters with diacritics with their Latin equivalents
         /// </summary>
         public static string RemoveDiacritics(string s)
         {
@@ -1141,14 +1141,23 @@ namespace WikiFunctions
             }
             return s;
         }
+        
+        /// <summary>
+        /// Returns whether the given string contains recognised diacritics
+        /// </summary>
+        public static bool HasDiacritics(string s)
+        {
+            return(!s.Equals(RemoveDiacritics(s)))
+        }
 
         private static readonly Regex BadDsChars = new Regex("[\"]");
 
+        /// <summary>
+        /// Removes recognised diacritics and double quotes
+        /// </summary>
         public static string FixupDefaultSort(string s)
         {
-            s = RemoveDiacritics(s);
-
-            return BadDsChars.Replace(s, "");
+            return BadDsChars.Replace(RemoveDiacritics(s), "");
         }
 
         /// <summary>
