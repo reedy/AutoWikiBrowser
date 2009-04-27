@@ -641,6 +641,18 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
                 Assert.AreEqual(kvp.Value, Tools.RemoveDiacritics(kvp.Key));
             }
         }
+        
+        [Test]
+        public void HasDiacritics()
+        {
+            Assert.IsTrue(Tools.HasDiacritics("hellõ"));
+            Assert.IsTrue(Tools.HasDiacritics("hellõ there"));
+            Assert.IsTrue(Tools.HasDiacritics("hẽllõ there"));
+            Assert.IsTrue(Tools.HasDiacritics("hẽllo there"));
+            
+            Assert.IsFalse(Tools.HasDiacritics("hello"));
+            Assert.IsFalse(Tools.HasDiacritics(""));
+        }
 
         [Test]
         public void RemoveNamespace()
