@@ -1747,7 +1747,7 @@ window.scrollTo(0, diffTopY);
             string tag = cmboEditSummary.Text + TheArticle.EditSummary;
 
             // check to see if we have only edited one level 2 section
-            string SectionEditText = SectionEditSummary(TheArticle.OriginalArticleText, TheArticle.ArticleText);
+            string SectionEditText = SectionEditSummary(TheArticle.OriginalArticleText, txtEdit.Text);
 
             if (!SectionEditText.Equals(""))
                 tag = @"/* " + SectionEditText + @" */" + tag;
