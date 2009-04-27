@@ -1147,7 +1147,7 @@ namespace WikiFunctions
         /// </summary>
         public static bool HasDiacritics(string s)
         {
-            return(!s.Equals(RemoveDiacritics(s)))
+            return (!s.Equals(RemoveDiacritics(s)));
         }
 
         private static readonly Regex BadDsChars = new Regex("[\"]");
