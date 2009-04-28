@@ -258,8 +258,8 @@ bar</ POEM>");
             Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ` very fast ` ", "").Contains(@"` very fast `"));
             Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ’ very fast ‘ ", "").Contains(@"’ very fast ‘"));
             Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" „very 
-fast„", "@@").Contains(@" „very 
-fast„"));
+fast„ ", "").Contains(@" „very 
+fast„ "));
 
             Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast ” but not pretty ", "").Contains("but not pretty"));
             Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast ” but not pretty“ ", "").Contains("but not pretty“"));
