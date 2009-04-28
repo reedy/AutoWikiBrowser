@@ -1439,10 +1439,9 @@ namespace WikiFunctions.Parse
             // correct [[page# section]] to [[page#section]]
             Regex SectionLinkWhitespace = new Regex(@"(\[\[" + Regex.Escape(ArticleTitle) + @"\#)\s+([^\[\]]+\]\])");
 
-            if (SectionLinkWhitespace.IsMatch(ArticleText))
-                ArticleText = SectionLinkWhitespace.Replace(ArticleText, "$1$2");
-
-            return ArticleText;
+            return SectionLinkWhitespace.IsMatch(ArticleText)
+                       ? SectionLinkWhitespace.Replace(ArticleText, "$1$2")
+                       : ArticleText;
         }
 
         /// <summary>
@@ -1637,7 +1636,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleText;
         }
 
-        private static readonly Regex regexMainArticle = new Regex(@"^:?'{0,5}Main article:\s?'{0,5}\[\[([^\|\[\]]*?)(\|([^\[\]]*?))?\]\]\.?'{0,5}\.?\s*?(?=($|[\r\n]))", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex RegexMainArticle = new Regex(@"^:?'{0,5}Main article:\s?'{0,5}\[\[([^\|\[\]]*?)(\|([^\[\]]*?))?\]\]\.?'{0,5}\.?\s*?(?=($|[\r\n]))", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
 
         // Covered by: FixMainArticleTests
         /// <summary>
@@ -1647,9 +1646,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public static string FixMainArticle(string ArticleText)
         {
-            return regexMainArticle.Match(ArticleText).Groups[2].Value.Length == 0
-                       ? regexMainArticle.Replace(ArticleText, "{{main|$1}}")
-                       : regexMainArticle.Replace(ArticleText, "{{main|$1|l1=$3}}");
+            return RegexMainArticle.Match(ArticleText).Groups[2].Value.Length == 0
+                       ? RegexMainArticle.Replace(ArticleText, "{{main|$1}}")
+                       : RegexMainArticle.Replace(ArticleText, "{{main|$1|l1=$3}}");
         }
 
         // Covered by LinkTests.TestFixEmptyLinksAndTemplates()
@@ -1712,10 +1711,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             ArticleText = ArticleText.Substring(0, intStart);
             articleTextSubstring = BulletExternalHider.HideMore(articleTextSubstring);
             articleTextSubstring = Regex.Replace(articleTextSubstring, "(\r\n|\n)?(\r\n|\n)(\\[?http)", "$2* $3");
-            articleTextSubstring = BulletExternalHider.AddBackMore(articleTextSubstring);
-            ArticleText += articleTextSubstring;
 
-            return ArticleText;
+            return ArticleText + BulletExternalHider.AddBackMore(articleTextSubstring);
         }
 
         // Covered by: LinkTests.TestFixCategories()
@@ -1908,10 +1905,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 if (string.IsNullOrEmpty(setting)) return "";
 
                 string gtn = GetTemplateName(setting).Trim();
-                if (string.IsNullOrEmpty(gtn))
-                    return setting;
-
-                return gtn;
+                return string.IsNullOrEmpty(gtn) ? setting : gtn;
             }
 
             return GetTemplateName(setting);
