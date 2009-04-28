@@ -652,6 +652,17 @@ namespace AutoWikiBrowser
                         SkipPage("Recursive redirect");
                         return;
                     }
+
+                    // don't allow redirects to a redirect as we could go round in circles
+                    redirect.OriginalArticleText = webBrowserEdit.GetArticleText();
+                    if (Tools.IsRedirect(redirect.OriginalArticleText))
+                    {
+                        listMaker.Remove(TheArticle);
+                        TheArticle = redirect;
+                        SkipPage("Redirect to a redirect");
+                        return;                    
+                    }
+
                     if (ArticleWasRedirected != null)
                         ArticleWasRedirected(TheArticle.Name, redirect.Name);
 
