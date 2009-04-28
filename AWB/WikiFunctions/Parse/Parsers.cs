@@ -481,13 +481,15 @@ namespace WikiFunctions.Parse
             return ArticleText;
         }
 
-        private static readonly Regex OutofOrderRefs1 = new Regex(@"(<ref>[^<>]+</ref>)(\s*)(<ref\s+name\s*=\s*(?:""|')?([^<>""]+?)(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
-        private static readonly Regex OutofOrderRefs2 = new Regex(@"(<ref\s+name\s*=\s*(?:""|')?([^<>""]+?)(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>)(\s*)(<ref\s+name\s*=\s*(?:""|')?([^<>""]+?)(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        private static readonly string OutofOrderRefs = @"(<ref\s+name\s*=\s*(?:""|')?([^<>""]+?)(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>)(\s*{{\s*rp\|[^{}]+}})?(\s*)(<ref\s+name\s*=\s*(?:""|')?([^<>""]+?)(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>)(\s*{{\s*rp\|[^{}]+}})?";
+        private static readonly Regex OutofOrderRefs1 = new Regex(@"(<ref>[^<>]+</ref>)(\s*)(<ref\s+name\s*=\s*(?:""|')?([^<>""]+?)(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>)(\s*{{\s*[Rr]p\|[^{}]+}})?", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        private static readonly Regex OutofOrderRefs2 = new Regex(OutofOrderRefs, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
-        private static readonly Regex OutofOrderRefs3 = new Regex(@"(?<=\s*(?:\/\s*|>[^<>]+</ref)>)(<ref\s+name\s*=\s*(?:""|')?([^<>""]+?)(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>)(\s*)(<ref\s+name\s*=\s*(?:""|')?([^<>""]+?)(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        // regex below ensures a forced match on second and third of consecutive references
+        private static readonly Regex OutofOrderRefs3 = new Regex(@"(?<=\s*(?:\/\s*|>[^<>]+</ref)>\s*(?:{{\s*rp\|[^{}]+}})?)" + OutofOrderRefs, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
-        /// Reorders references so that they appear in numerical order
+        /// Reorders references so that they appear in numerical order, allows for use of {{rp}}
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
@@ -507,44 +509,41 @@ namespace WikiFunctions.Parse
                     if (Ref1Index < Ref2Index && Ref2Index > 0)
                     {
                         string Whitespace = m.Groups[2].Value;
+                        string Rptemplate = m.Groups[5].Value;
                         string Ref2 = m.Groups[3].Value;
-                        ArticleText = ArticleText.Replace(Ref1 + Whitespace + Ref2, Ref2 + Whitespace + Ref1);
+                        ArticleText = ArticleText.Replace(Ref1 + Whitespace + Ref2 + Rptemplate, Ref2 + Rptemplate + Whitespace + Ref1);
                     }
                 }
 
-                foreach (Match m in OutofOrderRefs2.Matches(ArticleText))
-                {
-                    int Ref1Index = Regex.Match(ArticleText, @"(?i)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[2].Value) + @"(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>").Index;
-                    int Ref2Index = Regex.Match(ArticleText, @"(?i)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[5].Value) + @"(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>").Index;
-
-                    if (Ref1Index > Ref2Index && Ref1Index > 0)
-                    {
-                        string Ref1 = m.Groups[1].Value;
-                        string Ref2 = m.Groups[4].Value;
-                        string Whitespace = m.Groups[3].Value;
-                        ArticleText = ArticleText.Replace(Ref1 + Whitespace + Ref2, Ref2 + Whitespace + Ref1);
-                    }
-                }
-
-                foreach (Match m in OutofOrderRefs3.Matches(ArticleText))
-                {
-                    int Ref1Index = Regex.Match(ArticleText, @"(?i)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[2].Value) + @"(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>").Index;
-                    int Ref2Index = Regex.Match(ArticleText, @"(?i)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[5].Value) + @"(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>").Index;
-
-                    if (Ref1Index > Ref2Index && Ref1Index > 0)
-                    {
-                        string Ref1 = m.Groups[1].Value;
-                        string Ref2 = m.Groups[4].Value;
-                        string Whitespace = m.Groups[3].Value;
-                        ArticleText = ArticleText.Replace(Ref1 + Whitespace + Ref2, Ref2 + Whitespace + Ref1);
-                    }
-                }
+                ArticleText = ReorderRefs(ArticleText, OutofOrderRefs2);
+                ArticleText = ReorderRefs(ArticleText, OutofOrderRefs3);
 
                 if (ArticleTextBefore.Equals(ArticleText))
                     break;
             }
 
             return (ArticleText);
+        }
+
+        private static string ReorderRefs(string ArticleText, Regex OutofOrderRegex)
+        {
+            foreach (Match m in OutofOrderRegex.Matches(ArticleText))
+            {
+                int Ref1Index = Regex.Match(ArticleText, @"(?i)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[2].Value) + @"(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>").Index;
+                int Ref2Index = Regex.Match(ArticleText, @"(?i)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[6].Value) + @"(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>").Index;
+
+                if (Ref1Index > Ref2Index && Ref1Index > 0)
+                {
+                    string Ref1 = m.Groups[1].Value;
+                    string Ref2 = m.Groups[5].Value;
+                    string Whitespace = m.Groups[4].Value;
+                    string Rptemplate1 = m.Groups[3].Value;
+                    string Rptemplate2 = m.Groups[7].Value;
+                    ArticleText = ArticleText.Replace(Ref1 + Rptemplate1 + Whitespace + Ref2 + Rptemplate2, Ref2 + Rptemplate2 + Whitespace + Ref1 + Rptemplate1);
+                }
+            }
+
+            return ArticleText;
         }
 
         private static readonly Regex NamedReferences = new Regex(@"(<\s*ref\s+name\s*=\s*(?:""|')?([^<>=\r\n]+?)(?:""|')?\s*>\s*([^<>]+?)\s*<\s*/\s*ref>)", RegexOptions.Singleline);
