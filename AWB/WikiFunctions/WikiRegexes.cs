@@ -347,10 +347,10 @@ namespace WikiFunctions
 
         // covered by TestFixNonBreakingSpaces
         /// <summary>
-        /// Matches abbreviated SI units without a non-breaking space
+        /// Matches abbreviated SI units without a non-breaking space, notably does not correct millimetres without a space due to firearms articles using this convention
         /// </summary>
         /// http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Non_breaking_spaces
-        public static readonly Regex SiUnitsWithoutNonBreakingSpaces = new Regex(@"\b(\d?\.?\d+)\s*((?:[cmknuµ])(?:m|g)|m?mol|cd)\b", RegexOptions.Compiled);
+        public static readonly Regex SiUnitsWithoutNonBreakingSpaces = new Regex(@"\b(\d?\.?\d+)\s*((?:[cmknuµ])(?:m|g)|m?mol|cd)\b(?<!(\d?\.?\d+)mm)", RegexOptions.Compiled);
 
         #region en only
         /// <summary>
