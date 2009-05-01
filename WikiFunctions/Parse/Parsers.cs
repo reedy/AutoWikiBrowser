@@ -949,7 +949,7 @@ namespace WikiFunctions.Parse
             // don't match on 'in the June of 2007', 'on the 11th May 2008' etc. as these won't read well if changed
             Regex OfBetweenMonthAndYear = new Regex(@"\b" + WikiRegexes.months + @"\s+of\s+(200\d|1[89]\d\d)\b(?<!\b[Tt]he\s{1,5}\w{3,15}\s{1,5}of\s{1,5}(200\d|1[89]\d\d))");
 
-            Regex OrdinalsInDatesAm = new Regex(@"\b" + WikiRegexes.months + @"\s+([0-3]?\d)(?:st|nd|rd|th)\b(?<!\b[Tt]he\s+\w{3,10}\s+([0-3]?\d)(?:st|nd|rd|th)\b)");
+            Regex OrdinalsInDatesAm = new Regex(@"\b" + WikiRegexes.months + @"\s+([0-3]?\d)(?:st|nd|rd|th)\b(?<!\b[Tt]he\s+\w{3,10}\s+(?:[0-3]?\d)(?:st|nd|rd|th)\b)(?:(\s*(?:to|and|.|&.dash;)\s*[0-3]?\d)(?:st|nd|rd|th)\b)?");
             Regex OrdinalsInDatesInt = new Regex(@"(?:\b([0-3]?\d)(?:st|nd|rd|th)(\s*(?:to|and|.|&.dash;)\s*))?\b([0-3]?\d)(?:st|nd|rd|th)\s+" + WikiRegexes.months + @"\b(?<!\b[Tt]he\s+(?:[0-3]?\d)(?:st|nd|rd|th)\s+\w{3,10})");
 
             Regex DateLeadingZerosAm = new Regex(@"\b" + WikiRegexes.months + @"\s+0([1-9])" + @"\b");
@@ -963,7 +963,7 @@ namespace WikiFunctions.Parse
             // don't apply if article title has a month in it (e.g. [[6th of October City]])
             if (!Regex.IsMatch(ArticleTitle, @"\b" + months + @"\b"))
             {
-                ArticleText = OrdinalsInDatesAm.Replace(ArticleText, "$1 $2");
+                ArticleText = OrdinalsInDatesAm.Replace(ArticleText, "$1 $2$3");
                 ArticleText = OrdinalsInDatesInt.Replace(ArticleText, "$1$2$3 $4");
             }
 
