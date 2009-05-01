@@ -160,6 +160,13 @@ namespace WikiFunctions
         public bool IsStub { get { return Parsers.IsStub(mArticleText); } }
 
         /// <summary>
+        /// returns whether the article's title contains any recognised diacritic(s)
+        /// </summary>
+        [XmlIgnore]
+        public bool HasDiacriticsInTitle
+            { get { return (Tools.RemoveDiacritics(Name) != Name);} }
+
+        /// <summary>
         /// Returns true if the article contains a stub template
         /// </summary>
         [XmlIgnore]
