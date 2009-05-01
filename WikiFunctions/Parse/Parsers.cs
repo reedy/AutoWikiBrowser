@@ -1106,6 +1106,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex RefExternalLinkMissingStartBracket = new Regex(@"(?<=<ref(?:\s*name\s*=[^{}<>]+?\s*)?>[^{}\[\]<>]*?)(https?://[^{}\[\]<>]+\][^{}\[\]<>]*</ref>)");
         private static readonly Regex RefExternalLinkMissingEndBracket = new Regex(@"(?<=<ref(?:\s*name\s*=[^{}<>]+?\s*)?>[^{}\[\]<>]*?\[\s*https?://[^{}\[\]<>]+)(</ref>)");
         private static readonly Regex RefCitationMissingOpeningBraces = new Regex(@"(?<=<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>\s*)\(?\(?(?=[Cc]it[ae][^{}]+}}\s*</ref>)");
+        private static readonly Regex BracesWithinDefaultsort = new Regex(@"(?<={{DEFAULTSORT[^{}\[\]]+)[\]\[]+}}");
 
         // for correcting square brackets within external links
         private static readonly Regex SquareBracketsInExternalLinks = new Regex(@"(\[https?://(?>[^\[\]<>]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])");
@@ -1199,6 +1200,7 @@ namespace WikiFunctions.Parse
             ArticleText = RefExternalLinkMissingStartBracket.Replace(ArticleText, @"[$1");
             ArticleText = RefExternalLinkMissingEndBracket.Replace(ArticleText, @"]$1");
             ArticleText = RefCitationMissingOpeningBraces.Replace(ArticleText, @"{{");
+            ArticleText = BracesWithinDefaultsort.Replace(ArticleText, @"}}");
 
             // fixes for square brackets used within external links
             foreach (Match m in SquareBracketsInExternalLinks.Matches(ArticleText))
