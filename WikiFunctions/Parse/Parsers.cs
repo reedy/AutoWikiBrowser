@@ -1726,6 +1726,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             string cat = "[[" + Variables.Namespaces[Namespace.Category];
 
+            // fix extra brackets: three or more at end
+            ArticleText = Regex.Replace(ArticleText, @"(?<=" + Regex.Escape(cat) + @"[^\r\n\[\]{}<>]+\]\])\]+", "");
+            // three or more at start
+            ArticleText = Regex.Replace(ArticleText, @"\[+(?=" + Regex.Escape(cat) + @"[^\r\n\[\]{}<>]+\]\])", "");
+
             foreach (Match m in WikiRegexes.LooseCategory.Matches(ArticleText))
             {
                 if (!Tools.IsValidTitle(m.Groups[1].Value)) continue;
