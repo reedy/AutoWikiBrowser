@@ -284,12 +284,12 @@ namespace WikiFunctions
         public static readonly Regex RegexWordCount = new Regex(@"\w+", RegexOptions.Compiled);
 
         /// <summary>
-        /// Matches <source></source> tags
+        /// Matches &lt;source&gt;&lt;/source&gt; tags
         /// </summary>
         public static readonly Regex Source = new Regex(@"<\s*source(?:\s.*?|)>(.*?)<\s*/\s*source\s*>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
-        /// Matches <code></code> tags
+        /// Matches &lt;code&gt;&lt;/code&gt; tags
         /// </summary>
         public static readonly Regex Code = new Regex(@"<\s*code\s*>(.*?)<\s*/\s*code\s*>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
