@@ -1236,10 +1236,10 @@ namespace WikiFunctions.Parse
             {
                 int FirstUnbalancedBracket = UnbalancedBracket;
                 // if it's ]]_]_ then see if removing bracket makes it all balance
-                if (BracketLength == 1 && ArticleTextTemp[UnbalancedBracket - 1].ToString().Equals(@"]") && ArticleTextTemp[UnbalancedBracket - 2].ToString().Equals(@"]"))
+                if (BracketLength == 1 && ArticleTextTemp[UnbalancedBracket].ToString().Equals(@"]") && 
+                    ArticleTextTemp[UnbalancedBracket - 1].ToString().Equals(@"]") && ArticleTextTemp[UnbalancedBracket - 2].ToString().Equals(@"]"))
                     ArticleTextTemp = ArticleTextTemp.Remove(UnbalancedBracket, 1);
-
-                
+                                
                 if (BracketLength == 1)
                 {
                     // if it's (blah} then see if setting the } to a ) makes it all balance
