@@ -543,6 +543,8 @@ string h = @"'''Fred Smith''' (d. 1950) is a bloke.";
             Assert.AreEqual(2, BracketLength);
             Assert.AreEqual(33, Parsers.UnbalancedBrackets(@"[http://www.site.com a link [cool]]", ref BracketLength)); // FixSyntax replaces with &#93;
             Assert.AreEqual(2, BracketLength);
+            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {now", ref BracketLength));
+            Assert.AreEqual(1, BracketLength);
 
             // only first reported
             Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now} or {{now} was", ref BracketLength));
@@ -743,6 +745,95 @@ url=a|title=b}}</ref>"));
             Assert.AreEqual(@"{{DEFAULTSORT:Astaire, Fred}}", Parsers.FixSyntax(@"{{DEFAULTSORT:Astaire, Fred]]}}"));
             Assert.AreEqual(@"{{DEFAULTSORT:Astaire, Fred}}", Parsers.FixSyntax(@"{{DEFAULTSORT:Astaire, Fred]]]}}"));
             Assert.AreEqual(@"{{DEFAULTSORT:Astaire, Fred}}", Parsers.FixSyntax(@"{{DEFAULTSORT:Astaire, Fred[]}}"));
+
+            // completes curly brackets where it would make all brackets balance
+            Assert.AreEqual(@"Great.{{fact|date=May 2008}} Now", Parsers.FixSyntax(@"Great.{{fact|date=May 2008} Now"));
+            Assert.AreEqual(@"Great.{{fact|date=May 2008}} Now", Parsers.FixSyntax(@"Great.{{fact|date=May 2008]} Now"));
+
+            // set single curly bracket to normal bracket if that makes all brackets balance
+            Assert.AreEqual(@"Great (not really) now", Parsers.FixSyntax(@"Great (not really} now"));
+            // can't fix these
+            Assert.AreEqual(@"Great { but (not really} now", Parsers.FixSyntax(@"Great { but (not really} now"));
+            Assert.AreEqual(@"Great (not really)} now", Parsers.FixSyntax(@"Great (not really)} now"));
+            Assert.AreEqual(@"Great [not really} now", Parsers.FixSyntax(@"Great [not really} now"));
+
+            // doesn't complete curly brackets where they don't balance after
+            string Cite1 = @"Great.<ref>{{cite web | url=http://www.site.com | title=abc } year=2009}}</ref>";
+            Assert.AreEqual(Cite1, Parsers.FixSyntax(Cite1));
+
+            // set double round bracket to single
+            Assert.AreEqual(@"then (but often) for", Parsers.FixSyntax(@"then ((but often) for"));
+
+            // only applies changes if brackets then balance out
+            Assert.AreEqual(@"then ((but often)) for", Parsers.FixSyntax(@"then ((but often)) for"));
+            Assert.AreEqual(@"then ((but often)} for", Parsers.FixSyntax(@"then ((but often)} for"));
+            Assert.AreEqual(@"then ((but often) for(", Parsers.FixSyntax(@"then ((but often) for("));
+
+            // an unbalanced bracket is fixed if there are enough characters until the next one to be confident that the next one is indeed
+            // a separate incident
+            Assert.AreEqual(@"# [[Daniel Sylvester Tuttle|Daniel S. Tuttle]], (1867 - 1887)
+# Ethelbert Talbot, (1887 - 1898), 
+# James B. Funsten, (1899 - 1918)
+# Herman Page, (1919 - 1919)
+# Frank H. Touret, (1919 - 1924)
+# Herbert H. H. Fox, (1925 - 1926)
+# [[Middleton S. Barnwell]], (1926 - 1935)
+# Frederick B. Bartlett, (1935 - 1941)
+# Frak A. Rhea, (1942 - 1968)
+# Norman L. Foote, (1957 - 1972)
+# Hanford L. King, Jr., (1972 - 1981)
+# David B. Birney, IV, (1982 - 1989)
+# John S. Thornton. (1990 - 1998
+# Harry B. Bainbridge, III, (1998 - 2008)
+# Brian J. Thom  (2008 - Present)", Parsers.FixSyntax(@"# [[Daniel Sylvester Tuttle|Daniel S. Tuttle]], (1867 - 1887)
+# Ethelbert Talbot, (1887 - 1898), 
+# James B. Funsten, (1899 - 1918)
+# Herman Page, (1919 - 1919}
+# Frank H. Touret, (1919 - 1924)
+# Herbert H. H. Fox, (1925 - 1926)
+# [[Middleton S. Barnwell]], (1926 - 1935)
+# Frederick B. Bartlett, (1935 - 1941)
+# Frak A. Rhea, (1942 - 1968)
+# Norman L. Foote, (1957 - 1972)
+# Hanford L. King, Jr., (1972 - 1981)
+# David B. Birney, IV, (1982 - 1989)
+# John S. Thornton. (1990 - 1998
+# Harry B. Bainbridge, III, (1998 - 2008)
+# Brian J. Thom  (2008 - Present)"));
+
+            Assert.AreEqual(@"The '''Zach Feuer Gallery''' is a [[contemporary art]] gallery located in [[Chelsea, Manhattan|Chelsea]], [[New York City|New York]].
+
+==History==
+
+The Zach Feuer Gallery was founded in 2000 as the LFL Gallery, by Nick Lawrence, Russell LaMontagne and Zach Feuer.  It was originally located on a fourth floor space on 26th Street.    In 2002 the gallery moved to a first floor space on 24th Street, briefly sharing space with an art book gallery owned by one of the partners.  In 2004  Zach Feuer purchased the gallery from his partners and changed the gallery name to Zach Feuer Gallery.
+
+Some artists represented by Zach Feuer Gallery are [[Phoebe Washburn]], [[Jules de Balincourt]], [[Nathalie Djurberg]], [[Justin Lieberman]], [[Stuart Hawkins]],  [[Johannes Vanderbeek]], [[Sister Corita Kent]], [[Tamy Ben Tor]], [[Anton Henning]], [[Dana Schutz]], and [[Mark Flood]].
+
+==External links==
+* [http://www.zachfeuer.com Zach Feuer Gallery] website
+
+{{coord missing|New York}}
+
+[[Category:Contemporary art galleries]]
+[[Category:2000 establishments]]
+[[Category:Art galleries in Manhattan]]", Parsers.FixSyntax(@"The '''Zach Feuer Gallery''' is a [[contemporary art]] gallery located in [[Chelsea, Manhattan|Chelsea]], [[New York City|New York]].
+
+==History==
+
+The Zach Feuer Gallery was founded in 2000 as the LFL Gallery, by Nick Lawrence, Russell LaMontagne and Zach Feuer.  It was originally located on a fourth floor space on 26th Street.    In 2002 the gallery moved to a first floor space on 24th Street, briefly sharing space with an art book gallery owned by one of the partners.  In 2004  Zach Feuer purchased the gallery from his partners and changed the gallery name to Zach Feuer Gallery.
+
+Some artists represented by Zach Feuer Gallery are [[Phoebe Washburn]], [[Jules de Balincourt]], [[Nathalie Djurberg]]], [[Justin Lieberman]], [[Stuart Hawkins]],  [[Johannes Vanderbeek]], [[Sister Corita Kent]], [[Tamy Ben Tor]], [[Anton Henning]], [[Dana Schutz]], and [[Mark Flood]].
+
+==External links==
+* [http://www.zachfeuer.com Zach Feuer Gallery] website
+
+{{coord missing|New York}}
+
+[[Category:Contemporary art galleries]]
+[[Category:2000 establishments]]
+[[Category:Art galleries in Manhattan]]"));
+
+            Assert.AreEqual(@"<ref>[http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=5194 Find A Grave]</ref>", Parsers.FixSyntax(@"<ref>{http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=5194 Find A Grave]</ref>"));
         }
 
         [Test]

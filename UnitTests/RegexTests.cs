@@ -107,6 +107,19 @@ namespace UnitTests
         }
 
         [Test]
+        public void MathPreSourceCodeTests()
+        {
+            Assert.IsTrue(WikiRegexes.MathPreSourceCode.IsMatch(@"<pre>{{abc}}</pre>"));
+            Assert.IsTrue(WikiRegexes.MathPreSourceCode.IsMatch(@"<code>{{abc}}</code>"));
+            Assert.IsTrue(WikiRegexes.MathPreSourceCode.IsMatch(@"<source lang=xml>{{abc}}</source>"));
+            Assert.IsTrue(WikiRegexes.MathPreSourceCode.IsMatch(@"<source>{{abc}}</source>"));
+            Assert.IsTrue(WikiRegexes.MathPreSourceCode.IsMatch(@"now hello {{bye}} <pre>{now}}</pre>"));
+            Assert.IsTrue(WikiRegexes.MathPreSourceCode.IsMatch(@"<math>{{abc}}</math>"));
+
+            Assert.IsFalse(WikiRegexes.MathPreSourceCode.IsMatch(@"<nowiki>{{abc}}</nowiki>"));
+        }
+
+        [Test]
         public void WikiLinksOnly()
         {
             TestMatch(WikiRegexes.WikiLinksOnly, "[[foo]]", "[[foo]]");

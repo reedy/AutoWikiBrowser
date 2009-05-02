@@ -1103,7 +1103,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex ReferenceTemplateQuadBracesAtEnd = new Regex(@"(?<=<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*{{[^{}]+)}}(}}\s*</ref>)");
         private static readonly Regex CitationTemplateIncorrectBraceAtStart = new Regex(@"(?<=<ref(?:\s*name\s*=[^{}<>]+?\s*)?>){\[([Cc]it[ae])");
         private static readonly Regex CitationTemplateIncorrectBracesAtEnd = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*{{[Cc]it[ae][^{}]+?)(?:}\]|\]}|{})(?=\s*</ref>)");
-        private static readonly Regex RefExternalLinkMissingStartBracket = new Regex(@"(?<=<ref(?:\s*name\s*=[^{}<>]+?\s*)?>[^{}\[\]<>]*?)(https?://[^{}\[\]<>]+\][^{}\[\]<>]*</ref>)");
+        private static readonly Regex RefExternalLinkMissingStartBracket = new Regex(@"(?<=<ref(?:\s*name\s*=[^{}<>]+?\s*)?>[^{}\[\]<>]*?){?(https?://[^{}\[\]<>]+\][^{}\[\]<>]*</ref>)");
         private static readonly Regex RefExternalLinkMissingEndBracket = new Regex(@"(?<=<ref(?:\s*name\s*=[^{}<>]+?\s*)?>[^{}\[\]<>]*?\[\s*https?://[^{}\[\]<>]+)(</ref>)");
         private static readonly Regex RefCitationMissingOpeningBraces = new Regex(@"(?<=<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>\s*)\(?\(?(?=[Cc]it[ae][^{}]+}}\s*</ref>)");
         private static readonly Regex BracesWithinDefaultsort = new Regex(@"(?<={{DEFAULTSORT[^{}\[\]]+)[\]\[]+}}");
@@ -1226,6 +1226,40 @@ namespace WikiFunctions.Parse
                 ArticleText = SyntaxRegex5.Replace(ArticleText, "[[$1]]");
             }
 
+            // if there are some unbalanced brackets, see whether we can fix them
+            // the fixes applied might damage correct wiki syntax, hence are only applied if there are unbalanced brackets
+            // of the right type
+            int BracketLength = 0;
+            string ArticleTextTemp = ArticleText;
+            int UnbalancedBracket = Parsers.UnbalancedBrackets(ArticleText, ref BracketLength);
+            if (UnbalancedBracket > -1)
+            {
+                int FirstUnbalancedBracket = UnbalancedBracket;
+                // if it's ]]_]_ then see if removing bracket makes it all balance
+                if (BracketLength == 1 && ArticleTextTemp[UnbalancedBracket - 1].ToString().Equals(@"]") && ArticleTextTemp[UnbalancedBracket - 2].ToString().Equals(@"]"))
+                    ArticleTextTemp = ArticleTextTemp.Remove(UnbalancedBracket, 1);
+
+                
+                if (BracketLength == 1)
+                {
+                    // if it's (blah} then see if setting the } to a ) makes it all balance
+                    ArticleTextTemp = Regex.Replace(ArticleTextTemp, @"(?<=\([^{}<>\(\)]+)}(?=[^{}])", @")");
+
+                    // if it's ((word) then see if removing the extra opening round bracket makes it all balance
+                    if (ArticleTextTemp[UnbalancedBracket].ToString().Equals(@"(") && ArticleText[UnbalancedBracket + 1].ToString().Equals(@"("))
+                        ArticleTextTemp = ArticleTextTemp.Remove(UnbalancedBracket, 1);
+                }
+
+                // if it's on double curly brackets, see if one is missing e.g. {{foo} or {{foo]}
+                if (BracketLength == 2)
+                    ArticleTextTemp = Regex.Replace(ArticleTextTemp, @"(?<={{[^{}<>]+)(?:\]?}|}\])(?=[^{}])", @"}}");
+
+                UnbalancedBracket = Parsers.UnbalancedBrackets(ArticleTextTemp, ref BracketLength);
+                // the change worked if unbalanced bracket location moved considerably (so this one fixed), or all brackets now balance
+                if (UnbalancedBracket < 0 || Math.Abs(UnbalancedBracket - FirstUnbalancedBracket) > 300)
+                    ArticleText = ArticleTextTemp; 
+            }
+
             return ArticleText.Trim();
         }
 
@@ -1251,8 +1285,10 @@ namespace WikiFunctions.Parse
         }
 
         private static readonly Regex DoubleCurlyBrackets = new Regex(@"{{((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})");
+        private static readonly Regex SingleCurlyBrackets = new Regex(@"{((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))})");
         private static readonly Regex DoubleSquareBrackets = new Regex(@"\[\[((?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\]\])");
         private static readonly Regex SingleSquareBrackets = new Regex(@"\[((?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])");
+        private static readonly Regex SingleRoundBrackets = new Regex(@"\(((?>[^\(\)]+|\((?<DEPTH>)|\)(?<-DEPTH>))*(?(DEPTH)(?!))\))");
 
         /// <summary>
         /// Checks the article text for unbalanced brackets, either square or curly
@@ -1266,20 +1302,27 @@ namespace WikiFunctions.Parse
             BracketLength = 2;
 
             int unbalancedfound = UnbalancedBrackets(ArticleText, @"{{", @"}}", DoubleCurlyBrackets);
-
-            if (unbalancedfound < 0)
-                unbalancedfound = UnbalancedBrackets(ArticleText, @"[[", @"]]", DoubleSquareBrackets);
-            else return unbalancedfound;
-
-            if (unbalancedfound < 0)
-                unbalancedfound = UnbalancedBrackets(ArticleText, @"[", @"]", SingleSquareBrackets);
-            else return unbalancedfound;
-
-            if (unbalancedfound > 0)
-            {
-                BracketLength = 1;
+            if (unbalancedfound > -1)
                 return unbalancedfound;
-            }
+
+            unbalancedfound = UnbalancedBrackets(ArticleText, @"[[", @"]]", DoubleSquareBrackets);
+            if (unbalancedfound > -1)
+                return unbalancedfound;
+
+            BracketLength = 1;
+            
+            unbalancedfound = UnbalancedBrackets(ArticleText, @"{", @"}", SingleCurlyBrackets);
+            if (unbalancedfound > -1)
+                return unbalancedfound;
+            
+            unbalancedfound = UnbalancedBrackets(ArticleText, @"[", @"]", SingleSquareBrackets);
+            if (unbalancedfound > -1)
+                return unbalancedfound;
+
+            unbalancedfound = UnbalancedBrackets(ArticleText, @"(", @")", SingleRoundBrackets);
+            if (unbalancedfound > -1)
+                return unbalancedfound;
+
             return -1;
         }
 
@@ -1296,13 +1339,8 @@ namespace WikiFunctions.Parse
 
             if (Regex.Matches(ArticleText, Regex.Escape(openingbrackets)).Count != Regex.Matches(ArticleText, Regex.Escape(closingbrackets)).Count)
             {
-                // remove all <math> stuff where curly brackets are used in singles and pairs
-                foreach (Match m in WikiRegexes.UnFormattedText.Matches(ArticleText))
-                {
-                    ArticleText = ArticleText.Replace(m.Value, Tools.ReplaceWithSpaces(m.Value));
-                }
-
-                foreach (Match m in WikiRegexes.Code.Matches(ArticleText))
+                // remove all <math>, <code> stuff etc. where curly brackets are used in singles and pairs
+                foreach (Match m in WikiRegexes.MathPreSourceCode.Matches(ArticleText))
                 {
                     ArticleText = ArticleText.Replace(m.Value, Tools.ReplaceWithSpaces(m.Value));
                 }
@@ -1315,7 +1353,17 @@ namespace WikiFunctions.Parse
                         ArticleText = ArticleText.Replace(m.Value, Tools.ReplaceWithSpaces(m.Value));
                     }
                 }
-                // replace all the valid balanced curly bracket sets with spaces
+
+                if (openingbrackets.Equals(@"{"))
+                {
+                    // need to remove double curly brackets first
+                    foreach (Match m in DoubleCurlyBrackets.Matches(ArticleText))
+                    {
+                        ArticleText = ArticleText.Replace(m.Value, Tools.ReplaceWithSpaces(m.Value));
+                    }
+                }
+
+                // replace all the valid balanced bracket sets with spaces
                 foreach (Match m in BracketsRegex.Matches(ArticleText))
                 {
                     ArticleText = ArticleText.Replace(m.Value, Tools.ReplaceWithSpaces(m.Value));
