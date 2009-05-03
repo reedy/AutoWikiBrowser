@@ -757,6 +757,8 @@ url=a|title=b}}</ref>"));
             Assert.AreEqual(@"Great { but (not really} now", Parsers.FixSyntax(@"Great { but (not really} now"));
             Assert.AreEqual(@"Great (not really)} now", Parsers.FixSyntax(@"Great (not really)} now"));
             Assert.AreEqual(@"Great [not really} now", Parsers.FixSyntax(@"Great [not really} now"));
+            // don't touch when it could be a table
+            Assert.AreEqual(@"great (in 2001 | blah |} now", Parsers.FixSyntax(@"great (in 2001 | blah |} now"));
 
             // doesn't complete curly brackets where they don't balance after
             string Cite1 = @"Great.<ref>{{cite web | url=http://www.site.com | title=abc } year=2009}}</ref>";
@@ -835,6 +837,14 @@ Some artists represented by Zach Feuer Gallery are [[Phoebe Washburn]], [[Jules 
 [[Category:Art galleries in Manhattan]]"));
 
             Assert.AreEqual(@"<ref>[http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=5194 Find A Grave]</ref>", Parsers.FixSyntax(@"<ref>{http://www.findagrave.com/cgi-bin/fg.cgi?page=gr&GRid=5194 Find A Grave]</ref>"));
+
+            // convert [[[[link]] to [[link]] if that balances it all out
+            Assert.AreEqual(@"hello [[link]] there", Parsers.FixSyntax(@"hello [[[[link]] there"));
+            Assert.AreEqual(@"hello [[[[link]] there]]", Parsers.FixSyntax(@"hello [[[[link]] there]]"));
+
+            // convert {blah) to (blah) if that balances it all out, not wikitables
+            Assert.AreEqual(@"hello (link) there", Parsers.FixSyntax(@"hello {link) there"));
+            Assert.AreEqual(@"hello {|table|blah) there", Parsers.FixSyntax(@"hello {|table|blah) there"));
         }
 
         [Test]

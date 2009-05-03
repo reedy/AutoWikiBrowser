@@ -1242,17 +1242,27 @@ namespace WikiFunctions.Parse
                                 
                 if (BracketLength == 1)
                 {
-                    // if it's (blah} then see if setting the } to a ) makes it all balance
-                    ArticleTextTemp = Regex.Replace(ArticleTextTemp, @"(?<=\([^{}<>\(\)]+)}(?=[^{}])", @")");
+                    // if it's (blah} then see if setting the } to a ) makes it all balance, but not |} which could be wikitables
+                    ArticleTextTemp = Regex.Replace(ArticleTextTemp, @"(?<=\([^{}<>\(\)]+[^{}<>\(\)\|])}(?=[^{}])", @")");
+
+                    // if it's {blah) then see if setting the { to a ( makes it all balance, but not {| which could be wikitables
+                    ArticleTextTemp = Regex.Replace(ArticleTextTemp, @"{(?=[^{}<>\(\)\|][^{}<>\(\)]+\)[^{}\(\)])", @"(");
 
                     // if it's ((word) then see if removing the extra opening round bracket makes it all balance
                     if (ArticleTextTemp[UnbalancedBracket].ToString().Equals(@"(") && ArticleText[UnbalancedBracket + 1].ToString().Equals(@"("))
                         ArticleTextTemp = ArticleTextTemp.Remove(UnbalancedBracket, 1);
                 }
 
-                // if it's on double curly brackets, see if one is missing e.g. {{foo} or {{foo]}
+
                 if (BracketLength == 2)
+                {
+                    // if it's on double curly brackets, see if one is missing e.g. {{foo} or {{foo]}
                     ArticleTextTemp = Regex.Replace(ArticleTextTemp, @"(?<={{[^{}<>]+)(?:\]?}|}\])(?=[^{}])", @"}}");
+
+                    // might be [[[[link]] so see if removing the two found square brackets makes it all balance
+                    if(ArticleTextTemp.Substring(UnbalancedBracket, Math.Min(4, ArticleTextTemp.Length - UnbalancedBracket)).Equals("[[[["))
+                        ArticleTextTemp = ArticleTextTemp.Remove(UnbalancedBracket, 2);
+                }
 
                 UnbalancedBracket = Parsers.UnbalancedBrackets(ArticleTextTemp, ref BracketLength);
                 // the change worked if unbalanced bracket location moved considerably (so this one fixed), or all brackets now balance
