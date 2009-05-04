@@ -1012,6 +1012,8 @@ namespace WikiFunctions
                 new KeyValuePair<string, string>("ǧ", "g"),
                 new KeyValuePair<string, string>("ǩ", "k"),
                 new KeyValuePair<string, string>("ǫ", "o"),
+                new KeyValuePair<string, string>("ợ", "o"),
+                new KeyValuePair<string, string>("ố", "o"),
                 new KeyValuePair<string, string>("ǭ", "o"),
                 new KeyValuePair<string, string>("ǰ", "j"),
                 new KeyValuePair<string, string>("ǵ", "g"),
