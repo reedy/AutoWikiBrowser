@@ -1245,8 +1245,11 @@ namespace WikiFunctions.Parse
                     // if it's (blah} then see if setting the } to a ) makes it all balance, but not |} which could be wikitables
                     ArticleTextTemp = Regex.Replace(ArticleTextTemp, @"(?<=\([^{}<>\(\)]+[^{}<>\(\)\|])}(?=[^{}])", @")");
 
+                    // if it's [blah} then see if setting the } to a ] makes it all balance
+                    ArticleTextTemp = Regex.Replace(ArticleTextTemp, @"(?<=\[[^{}<>\[\]]+[^{}<>\(\)\|])}(?=[^{}])", @"]");
+
                     // if it's {blah) then see if setting the { to a ( makes it all balance, but not {| which could be wikitables
-                    ArticleTextTemp = Regex.Replace(ArticleTextTemp, @"{(?=[^{}<>\(\)\|][^{}<>\(\)]+\)[^{}\(\)])", @"(");
+                    ArticleTextTemp = Regex.Replace(ArticleTextTemp, @"(?<=[^{}<>]){(?=[^{}<>\(\)\|][^{}<>\(\)]+\)[^{}\(\)])", @"(");
 
                     // if it's ((word) then see if removing the extra opening round bracket makes it all balance
                     if (ArticleTextTemp[UnbalancedBracket].ToString().Equals(@"(") && ArticleText[UnbalancedBracket + 1].ToString().Equals(@"("))

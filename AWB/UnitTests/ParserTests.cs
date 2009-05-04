@@ -756,7 +756,6 @@ url=a|title=b}}</ref>"));
             // can't fix these
             Assert.AreEqual(@"Great { but (not really} now", Parsers.FixSyntax(@"Great { but (not really} now"));
             Assert.AreEqual(@"Great (not really)} now", Parsers.FixSyntax(@"Great (not really)} now"));
-            Assert.AreEqual(@"Great [not really} now", Parsers.FixSyntax(@"Great [not really} now"));
             // don't touch when it could be a table
             Assert.AreEqual(@"great (in 2001 | blah |} now", Parsers.FixSyntax(@"great (in 2001 | blah |} now"));
 
@@ -842,9 +841,16 @@ Some artists represented by Zach Feuer Gallery are [[Phoebe Washburn]], [[Jules 
             Assert.AreEqual(@"hello [[link]] there", Parsers.FixSyntax(@"hello [[[[link]] there"));
             Assert.AreEqual(@"hello [[[[link]] there]]", Parsers.FixSyntax(@"hello [[[[link]] there]]"));
 
-            // convert {blah) to (blah) if that balances it all out, not wikitables
+            // convert {blah) to (blah) if that balances it all out, not wikitables, templates
             Assert.AreEqual(@"hello (link) there", Parsers.FixSyntax(@"hello {link) there"));
             Assert.AreEqual(@"hello {|table|blah) there", Parsers.FixSyntax(@"hello {|table|blah) there"));
+            Assert.AreEqual(@"{{cite web|title=a|url=http://www.site.com|publisher=ABC)|year=2006}", Parsers.FixSyntax(@"{{cite web|title=a|url=http://www.site.com|publisher=ABC)|year=2006}"));
+
+            // convert [blah} to [blah] if that balances it all out
+            Assert.AreEqual(@"*[http://aeiou.visao.pt/Pages/Lusa.aspx?News=200808068620453 Obituary notice] here", Parsers.FixSyntax(@"*[http://aeiou.visao.pt/Pages/Lusa.aspx?News=200808068620453 Obituary notice} here"));
+
+            // don't touch template ends
+            Assert.AreEqual(@"[http://aeiou.visao.pt/Pages/Lusa.aspx?News=200808068620453 Obituary notice}}", Parsers.FixSyntax(@"[http://aeiou.visao.pt/Pages/Lusa.aspx?News=200808068620453 Obituary notice}}"));
         }
 
         [Test]
