@@ -154,17 +154,17 @@ namespace AutoWikiBrowser
             }
         }
 
-        public void UpdateRecentList(string[] list)
+        private void UpdateRecentList(string[] list)
         {
             RecentList.Clear();
             foreach (string s in list)
             {
-                if (s.Trim().Length > 0) RecentList.Add(s);
+                if (!string.IsNullOrEmpty(s.Trim())) RecentList.Add(s);
             }
             UpdateRecentSettingsMenu();
         }
 
-        public void UpdateRecentList(string path)
+        private void UpdateRecentList(string path)
         {
             int i = RecentList.IndexOf(path);
 
@@ -189,7 +189,7 @@ namespace AutoWikiBrowser
             recentToolStripMenuItem.Visible = (RecentList.Count > 0);
         }
 
-        public void SaveRecentSettingsList()
+        private void SaveRecentSettingsList()
         {
             RegistryUtils.SetValue("", "RecentList", string.Join("|", RecentList.ToArray()));
         }
@@ -352,11 +352,11 @@ namespace AutoWikiBrowser
         /// </summary>
         private void LoadPrefs(string path)
         {
+            if (string.IsNullOrEmpty(path))
+                return;
+
             try
             {
-                if (string.IsNullOrEmpty(path))
-                    return;
-
                 LoadPrefs(UserPrefs.LoadPrefs(path));
 
                 SettingsFile = path;

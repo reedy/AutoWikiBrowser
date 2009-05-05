@@ -165,12 +165,12 @@ namespace WikiFunctions
 
         public static Profiler Profiler = new Profiler();
 
-        private static readonly bool mono = Type.GetType("Mono.Runtime") != null;
+        private static readonly bool Mono = Type.GetType("Mono.Runtime") != null;
         /// <summary>
         /// Returns whether we are using the Mono Runtime
         /// </summary>
         public static bool UsingMono
-        { get { return mono; } }
+        { get { return Mono; } }
 
         #region project and language settings
 
@@ -402,13 +402,13 @@ namespace WikiFunctions
         #region Proxy support
         static IWebProxy SystemProxy;
 
-        public static HttpWebRequest PrepareWebRequest(string url, string UserAgent)
+        public static HttpWebRequest PrepareWebRequest(string url, string userAgent)
         {
             HttpWebRequest r = (HttpWebRequest)WebRequest.Create(url);
 
             if (SystemProxy != null) r.Proxy = SystemProxy;
 
-            r.UserAgent = string.IsNullOrEmpty(UserAgent) ? Tools.DefaultUserAgentString : UserAgent;
+            r.UserAgent = string.IsNullOrEmpty(userAgent) ? Tools.DefaultUserAgentString : userAgent;
 
             r.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
 
@@ -431,12 +431,14 @@ namespace WikiFunctions
         #endregion
 
         // for logging, these will probably need internationalising
-        public static string AWBVersionString(string Version)
+        public static string AWBVersionString(string version)
         {
-            return "*" + WPAWB + " version " + Version + Environment.NewLine;
+            return "*" + WPAWB + " version " + version + Environment.NewLine;
         }
+
         public static string AWBLoggingEditSummary
         { get { return "(" + WPAWB + " Logging) "; } }
+
         public const string UploadingLogEntryDefaultEditSummary = "Adding log entry";
         public const string UploadingLogDefaultEditSummary = "Uploading log";
         public const string LoggingStartButtonClicked = "Initialising log.";

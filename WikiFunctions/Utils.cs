@@ -27,7 +27,7 @@ namespace WikiFunctions
     public static class RegistryUtils
     {
         private const string KeyPrefix = "Software\\AutoWikiBrowser\\";
-        private readonly static RegistryKey registryKey = new Microsoft.VisualBasic.Devices.Computer().Registry.CurrentUser;
+        private readonly static RegistryKey RegistryKey = new Microsoft.VisualBasic.Devices.Computer().Registry.CurrentUser;
 
         /// <summary>
         /// Gets a string value from an AWB registry subkey
@@ -38,7 +38,7 @@ namespace WikiFunctions
         public static string GetValue(string keyNameSuffix, object defaultValue)
         {
             string wantedKey = keyNameSuffix.Substring(keyNameSuffix.LastIndexOf("\\"));
-            RegistryKey regKey = registryKey.OpenSubKey(BuildKeyName(keyNameSuffix.Replace(wantedKey, "")));
+            RegistryKey regKey = RegistryKey.OpenSubKey(BuildKeyName(keyNameSuffix.Replace(wantedKey, "")));
             return (regKey != null) ? regKey.GetValue(wantedKey.Replace("\\", ""), defaultValue).ToString() : "";
         }
 
@@ -59,7 +59,7 @@ namespace WikiFunctions
         public static RegistryKey GetWritableKey(string keyNameSuffix)
         {
             // CreateSubKey() creates a new subkey *or opens an existing key for write access*
-            return registryKey.CreateSubKey(BuildKeyName(keyNameSuffix));
+            return RegistryKey.CreateSubKey(BuildKeyName(keyNameSuffix));
         }
 
         /// <summary>
@@ -68,19 +68,19 @@ namespace WikiFunctions
         /// <param name="keyNameSuffix"></param>
         /// <returns></returns>
         public static RegistryKey OpenSubKey(string keyNameSuffix)
-        { return registryKey.OpenSubKey(BuildKeyName(keyNameSuffix)); }
+        { return RegistryKey.OpenSubKey(BuildKeyName(keyNameSuffix)); }
 
         /// <summary>
         /// Deletes a sub key
         /// </summary>
         public static void DeleteSubKey(string keyNameSuffix, bool throwOnMissingSubKey)
-        { registryKey.DeleteSubKey(BuildKeyName(keyNameSuffix), throwOnMissingSubKey); }
+        { RegistryKey.DeleteSubKey(BuildKeyName(keyNameSuffix), throwOnMissingSubKey); }
 
         /// <summary>
         /// Deletes a sub key
         /// </summary>
         public static void DeleteSubKey(string keyNameSuffix)
-        { registryKey.DeleteSubKey(BuildKeyName(keyNameSuffix)); }
+        { RegistryKey.DeleteSubKey(BuildKeyName(keyNameSuffix)); }
 
         private static string BuildKeyName(string keyNameSuffix)
         { return KeyPrefix + keyNameSuffix; }
@@ -97,11 +97,11 @@ namespace WikiFunctions
             internal readonly string PassPhrase;
             internal readonly string Salt;
 
-            public EncryptionUtils(string InitVector, string PassPhrase, string Salt)
+            public EncryptionUtils(string initVector, string passPhrase, string salt)
             {
-                IV16Chars = InitVector;
-                this.PassPhrase = PassPhrase;
-                this.Salt = Salt;
+                IV16Chars = initVector;
+                PassPhrase = passPhrase;
+                Salt = salt;
             }
 
             /// <summary>

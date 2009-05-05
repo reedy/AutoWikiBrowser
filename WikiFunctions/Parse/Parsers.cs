@@ -136,8 +136,8 @@ namespace WikiFunctions.Parse
         private static readonly Dictionary<Regex, string> RegexConversion = new Dictionary<Regex, string>();
         private static readonly Dictionary<Regex, string> RegexTagger = new Dictionary<Regex, string>();
 
-        private readonly HideText hider = new HideText();
-        private readonly HideText hiderHideExtLinksImages = new HideText(true, true, true);
+        private readonly HideText Hider = new HideText();
+        private readonly HideText HiderHideExtLinksImages = new HideText(true, true, true);
         public static int StubMaxWordCount = 500;
 
         /// <summary>
@@ -181,27 +181,27 @@ namespace WikiFunctions.Parse
 
         public string HideText(string ArticleText)
         {
-            return hider.Hide(ArticleText);
+            return Hider.Hide(ArticleText);
         }
 
         public string AddBackText(string ArticleText)
         {
-            return hider.AddBack(ArticleText);
+            return Hider.AddBack(ArticleText);
         }
 
         public string HideMoreText(string ArticleText, bool HideOnlyTargetOfWikilink)
         {
-            return hiderHideExtLinksImages.HideMore(ArticleText, HideOnlyTargetOfWikilink);
+            return HiderHideExtLinksImages.HideMore(ArticleText, HideOnlyTargetOfWikilink);
         }
 
         public string HideMoreText(string ArticleText)
         {
-            return hiderHideExtLinksImages.HideMore(ArticleText);
+            return HiderHideExtLinksImages.HideMore(ArticleText);
         }
 
         public string AddBackMoreText(string ArticleText)
         {
-            return hiderHideExtLinksImages.AddBackMore(ArticleText);
+            return HiderHideExtLinksImages.AddBackMore(ArticleText);
         }
 
         // NOT covered
@@ -2118,26 +2118,26 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ArticleTextAtStart;
         }
 
-        static readonly Regex regexFirstBold = new Regex(@"^(.*?)'''", RegexOptions.Singleline | RegexOptions.Compiled);
+        private static readonly Regex RegexFirstBold = new Regex(@"^(.*?)'''", RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
         /// Checks that the bold just added to the article is the first bold in the article, and that it's within the first 5% of the HideMore article
         /// </summary>
-        private bool AddedBoldIsValid(string ArticleText, string escapedTitle)
+        private bool AddedBoldIsValid(string articleText, string escapedTitle)
         {
             Regex regexBoldAdded = new Regex(@"^(.*?)'''" + escapedTitle, RegexOptions.Singleline);
 
-            int BoldAddedPos = regexBoldAdded.Match(ArticleText).Length - Regex.Unescape(escapedTitle).Length;
+            int boldAddedPos = regexBoldAdded.Match(articleText).Length - Regex.Unescape(escapedTitle).Length;
 
-            int FirstBoldPos = regexFirstBold.Match(ArticleText).Length;
+            int firstBoldPos = RegexFirstBold.Match(articleText).Length;
 
-            ArticleText = HideMoreText(ArticleText);
+            articleText = HideMoreText(articleText);
 
             // was bold added in first 5% of article?
-            bool inFirst5Percent = ArticleText.Substring(0, ArticleText.Length / 20).Contains("'''");
+            bool inFirst5Percent = articleText.Substring(0, articleText.Length / 20).Contains("'''");
 
             // check that the bold added is the first bit in bold in the main body of the article, and in first 5% of HideMore article
-            return inFirst5Percent && BoldAddedPos <= FirstBoldPos;
+            return inFirst5Percent && boldAddedPos <= firstBoldPos;
         }
 
         /// <summary>
@@ -2539,18 +2539,18 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ArticleText">The wiki text of the article.</param>
-        /// <param name="NoChange"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="noChange"></param>
         /// <returns></returns>
-        public static string LivingPeople(string ArticleText, out bool NoChange)
+        public static string LivingPeople(string articleText, out bool noChange)
         {
-            string testText = ArticleText;
+            string testText = articleText;
 
-            ArticleText = LivingPeople(ArticleText);
+            articleText = LivingPeople(articleText);
 
-            NoChange = (testText == ArticleText);
+            noChange = (testText == articleText);
 
-            return ArticleText;
+            return articleText;
         }
 
         private static readonly Regex LivingPeopleRegex1 = new Regex("\\[\\[ ?Category ?:[ _]?([0-9]{1,2}[ _]century[ _]deaths|[0-9s]{4,5}[ _]deaths|Disappeared[ _]people|Living[ _]people|Year[ _]of[ _]death[ _]missing|Possibly[ _]living[ _]people)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -2560,144 +2560,144 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// Adds [[Category:Living people]] to articles with a [[Category:XXXX births]] and no living people/deaths category, taking sortkey from births category if present
         /// </summary>
-        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The updated article text.</returns>
-        public static string LivingPeople(string ArticleText)
+        public static string LivingPeople(string articleText)
         {
             // don't add living people category if already dead, or thought to be dead
-            if (LivingPeopleRegex1.IsMatch(ArticleText) || LivingPeopleRegex2.IsMatch(ArticleText) ||
-                BornDeathRegex.IsMatch(ArticleText) || DiedDateRegex.IsMatch(ArticleText))
-                return ArticleText;
+            if (LivingPeopleRegex1.IsMatch(articleText) || LivingPeopleRegex2.IsMatch(articleText) ||
+                BornDeathRegex.IsMatch(articleText) || DiedDateRegex.IsMatch(articleText))
+                return articleText;
 
-            Match m = LivingPeopleRegex3.Match(ArticleText);
+            Match m = LivingPeopleRegex3.Match(articleText);
 
             // don't add living people category unless 'XXXX births' category is present
             if (!m.Success)
-                return ArticleText;
+                return articleText;
 
             string birthCat = m.Value;
             int birthYear = int.Parse(m.Groups[1].Value);
 
             // if born < 1910 they're likely dead
             if (birthYear < 1910)
-                return ArticleText;
+                return articleText;
 
             // use any sortkey from 'XXXX births' category
             string catKey = birthCat.Contains("|") ? Regex.Match(birthCat, "\\|.*?\\]\\]").Value : "]]";
 
-            return ArticleText + "[[Category:Living people" + catKey;
+            return articleText + "[[Category:Living people" + catKey;
         }
 
         /// <summary>
         /// Converts/subst'd some deprecated templates
         /// </summary>
-        /// <param name="ArticleText">The wiki text of the article.</param>
-        /// <param name="NoChange">Value that indicated whether no change was made.</param>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="noChange">Value that indicated whether no change was made.</param>
         /// <returns>The new article text.</returns>
-        public static string Conversions(string ArticleText, out bool NoChange)
+        public static string Conversions(string articleText, out bool noChange)
         {
-            string testText = ArticleText;
-            ArticleText = Conversions(ArticleText);
+            string testText = articleText;
+            articleText = Conversions(articleText);
 
-            NoChange = (testText == ArticleText);
+            noChange = (testText == articleText);
 
-            return ArticleText;
+            return articleText;
         }
 
         // NOT covered
         /// <summary>
         /// Converts/subst'd some deprecated templates
         /// </summary>
-        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The new article text.</returns>
-        public static string Conversions(string ArticleText)
+        public static string Conversions(string articleText)
         {
             //Use proper codes
             //checking first instead of substituting blindly saves some
             //time due to low occurence rate
-            if (ArticleText.Contains("[[zh-tw:")) ArticleText = ArticleText.Replace("[[zh-tw:", "[[zh:");
-            if (ArticleText.Contains("[[nb:")) ArticleText = ArticleText.Replace("[[nb:", "[[no:");
-            if (ArticleText.Contains("[[dk:")) ArticleText = ArticleText.Replace("[[dk:", "[[da:");
+            if (articleText.Contains("[[zh-tw:")) articleText = articleText.Replace("[[zh-tw:", "[[zh:");
+            if (articleText.Contains("[[nb:")) articleText = articleText.Replace("[[nb:", "[[no:");
+            if (articleText.Contains("[[dk:")) articleText = articleText.Replace("[[dk:", "[[da:");
 
-            if (ArticleText.Contains("{{msg:")) ArticleText = ArticleText.Replace("{{msg:", "{{");
+            if (articleText.Contains("{{msg:")) articleText = articleText.Replace("{{msg:", "{{");
 
             foreach (KeyValuePair<Regex, string> k in RegexConversion)
             {
-                ArticleText = k.Key.Replace(ArticleText, k.Value);
+                articleText = k.Key.Replace(articleText, k.Value);
             }
 
             // {{nofootnotes}} --> {{morefootnotes}}, if some <ref>...</ref> references in article, uses regex from WikiRegexes.Refs
-            if (WikiRegexes.Refs.IsMatch(ArticleText))
-                ArticleText = Regex.Replace(ArticleText, @"{{nofootnotes}}", "{{morefootnotes}}", RegexOptions.IgnoreCase);
+            if (WikiRegexes.Refs.IsMatch(articleText))
+                articleText = Regex.Replace(articleText, @"{{nofootnotes}}", "{{morefootnotes}}", RegexOptions.IgnoreCase);
 
-            return ArticleText;
+            return articleText;
         }
 
         // NOT covered
         /// <summary>
         /// Substitutes some user talk templates
         /// </summary>
-        /// <param name="TalkPageText">The wiki text of the talk page.</param>
-        /// <param name="TalkPageTitle"></param>
+        /// <param name="talkPageText">The wiki text of the talk page.</param>
+        /// <param name="talkPageTitle"></param>
         /// <param name="userTalkTemplatesRegex"></param>
         /// <returns>The new text.</returns>
-        public static string SubstUserTemplates(string TalkPageText, string TalkPageTitle, Regex userTalkTemplatesRegex)
+        public static string SubstUserTemplates(string talkPageText, string talkPageTitle, Regex userTalkTemplatesRegex)
         {
-            if (userTalkTemplatesRegex == null) return TalkPageText;
+            if (userTalkTemplatesRegex == null) return talkPageText;
 
-            TalkPageText = TalkPageText.Replace("{{{subst", "REPLACE_THIS_TEXT");
+            talkPageText = talkPageText.Replace("{{{subst", "REPLACE_THIS_TEXT");
             Dictionary<Regex, string> regexes = new Dictionary<Regex, string>();
 
             regexes.Add(userTalkTemplatesRegex, "{{subst:$2}}");
-            TalkPageText = Tools.ExpandTemplate(TalkPageText, TalkPageTitle, regexes, true);
+            talkPageText = Tools.ExpandTemplate(talkPageText, talkPageTitle, regexes, true);
 
-            TalkPageText = Regex.Replace(TalkPageText, " \\{\\{\\{2\\|\\}\\}\\}", "");
-            TalkPageText = TalkPageText.Replace("REPLACE_THIS_TEXT", "{{{subst");
-            return TalkPageText;
+            talkPageText = Regex.Replace(talkPageText, " \\{\\{\\{2\\|\\}\\}\\}", "");
+            talkPageText = talkPageText.Replace("REPLACE_THIS_TEXT", "{{{subst");
+            return talkPageText;
         }
 
         //Covered by TaggerTests
         /// <summary>
         /// If necessary, adds/removes wikify or stub tag
         /// </summary>
-        public string Tagger(string ArticleText, string ArticleTitle, out bool NoChange, ref string Summary, bool addTags, bool removeTags)
+        public string Tagger(string articleText, string articleTitle, out bool noChange, ref string summary, bool addTags, bool removeTags)
         {
             if (!addTags && !removeTags)
             {
-                NoChange = true;
-                return ArticleText;
+                noChange = true;
+                return articleText;
             }
 
-            string testText = ArticleText;
-            ArticleText = Tagger(ArticleText, ArticleTitle, ref Summary, addTags, removeTags);
-            ArticleText = TagUpdater(ArticleText);
+            string testText = articleText;
+            articleText = Tagger(articleText, articleTitle, ref summary, addTags, removeTags);
+            articleText = TagUpdater(articleText);
 
-            NoChange = (testText == ArticleText);
+            noChange = (testText == articleText);
 
-            return ArticleText;
+            return articleText;
         }
 
-        private static readonly CategoriesOnPageNoHiddenListProvider categoryProv = new CategoriesOnPageNoHiddenListProvider();
-        private static readonly WhatLinksHereListProvider wlhProv = new WhatLinksHereListProvider(1);
+        private static readonly CategoriesOnPageNoHiddenListProvider CategoryProv = new CategoriesOnPageNoHiddenListProvider();
+        private static readonly WhatLinksHereListProvider WlhProv = new WhatLinksHereListProvider(1);
 
         //TODO:Needs re-write
         /// <summary>
         /// If necessary, adds/removes wikify or stub tag
         /// </summary>
-        /// <param name="ArticleText">The wiki text of the article.</param>
-        /// <param name="ArticleTitle">The article title.</param>
-        /// <param name="Summary"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">The article title.</param>
+        /// <param name="summary"></param>
         /// <param name="addTags"></param>
         /// <param name="removeTags"></param>
         /// <returns>The tagged article.</returns>
-        public string Tagger(string ArticleText, string ArticleTitle, ref string Summary, bool addTags, bool removeTags)
+        public string Tagger(string articleText, string articleTitle, ref string summary, bool addTags, bool removeTags)
         {
             // don't tag redirects/outside article namespace/no tagging changes
-            if (Tools.IsRedirect(ArticleText) || !Namespace.IsMainSpace(ArticleTitle)
+            if (Tools.IsRedirect(articleText) || !Namespace.IsMainSpace(articleTitle)
                 || (!addTags && !removeTags))
-                return ArticleText;
+                return articleText;
 
-            string commentsStripped = WikiRegexes.Comments.Replace(ArticleText, "");
+            string commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
             Sorter.interwikis(ref commentsStripped);
 
             // bulleted or indented text should weigh less than simple text.
@@ -2708,13 +2708,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             // remove stub tags from long articles
             if (removeTags && (words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped))
             {
-                ArticleText = WikiRegexes.Stub.Replace(ArticleText, stubChecker).Trim();
-                Summary += ", removed Stub tag";
+                articleText = WikiRegexes.Stub.Replace(articleText, StubChecker).Trim();
+                summary += ", removed Stub tag";
             }
 
             // skip article if contains any template except for stub templates
             // because templates may provide categories/references
-            foreach (Match m in WikiRegexes.Template.Matches(ArticleText))
+            foreach (Match m in WikiRegexes.Template.Matches(articleText))
             {
                 if (!(WikiRegexes.Stub.IsMatch(m.Value)
                     || WikiRegexes.Uncat.IsMatch(m.Value)
@@ -2723,82 +2723,82 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     || WikiRegexes.Orphan.IsMatch(m.Value)
                     || WikiRegexes.ReferenceList.IsMatch(m.Value)
                     || m.Value.Contains("subst")))
-                    return ArticleText;
+                    return articleText;
             }
 
-            double length = ArticleText.Length + 1,
+            double length = articleText.Length + 1,
                    linkCount = Tools.LinkCount(commentsStripped);
 
             int totalCategories = (!Globals.UnitTestMode)
-                                      ? categoryProv.MakeList(new[] { ArticleTitle }).Count
+                                      ? CategoryProv.MakeList(new[] { articleTitle }).Count
                                       : Globals.UnitTestIntValue;
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Archive_19#AWB_problems
             // nl wiki doesn't use {{Uncategorized}} template
             if (addTags && words > 6 && totalCategories == 0
-                && !WikiRegexes.Uncat.IsMatch(ArticleText) && Variables.LangCode != LangCodeEnum.nl)
+                && !WikiRegexes.Uncat.IsMatch(articleText) && Variables.LangCode != LangCodeEnum.nl)
             {
                 if (WikiRegexes.Stub.IsMatch(commentsStripped))
                 {
                     // add uncategorized stub tag
-                    ArticleText +=
+                    articleText +=
                         "\r\n\r\n{{Uncategorizedstub|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
-                    Summary += ", added [[:Category:Uncategorized stubs|uncategorised]] tag";
+                    summary += ", added [[:Category:Uncategorized stubs|uncategorised]] tag";
                 }
                 else
                 {
                     // add uncategorized tag
-                    ArticleText += "\r\n\r\n{{Uncategorized|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
-                    Summary += ", added [[:Category:Category needed|uncategorised]] tag";
+                    articleText += "\r\n\r\n{{Uncategorized|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
+                    summary += ", added [[:Category:Category needed|uncategorised]] tag";
                 }
             }
             else if (removeTags && totalCategories > 0
-                     && WikiRegexes.Uncat.IsMatch(ArticleText))
+                     && WikiRegexes.Uncat.IsMatch(articleText))
             {
-                ArticleText = WikiRegexes.Uncat.Replace(ArticleText, "");
-                Summary += ", removed uncategorised tag";
+                articleText = WikiRegexes.Uncat.Replace(articleText, "");
+                summary += ", removed uncategorised tag";
             }
 
             if (addTags && commentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped))
             {
                 // add stub tag
-                ArticleText = ArticleText + "\r\n\r\n\r\n{{stub}}";
-                Summary += ", added stub tag";
+                articleText = articleText + "\r\n\r\n\r\n{{stub}}";
+                summary += ", added stub tag";
             }
 
-            if (addTags && linkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(ArticleText))
+            if (addTags && linkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText))
             {
                 // add dead-end tag
-                ArticleText = "{{deadend|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
-                Summary += ", added [[:Category:Dead-end pages|deadend]] tag";
+                articleText = "{{deadend|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
+                summary += ", added [[:Category:Dead-end pages|deadend]] tag";
             }
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#.7B.7BDeadend.7D.7D_gets_removed_from_categorized_pages
             // don't include categories as 'links'
-            else if (removeTags && (linkCount - totalCategories) > 0 && WikiRegexes.DeadEnd.IsMatch(ArticleText))
+            else if (removeTags && (linkCount - totalCategories) > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
             {
-                ArticleText = WikiRegexes.DeadEnd.Replace(ArticleText, "");
-                Summary += ", removed deadend tag";
+                articleText = WikiRegexes.DeadEnd.Replace(articleText, "");
+                summary += ", removed deadend tag";
             }
 
-            if (addTags && linkCount < 3 && ((linkCount / length) < 0.0025) && !WikiRegexes.Wikify.IsMatch(ArticleText))
+            if (addTags && linkCount < 3 && ((linkCount / length) < 0.0025) && !WikiRegexes.Wikify.IsMatch(articleText))
             {
                 // add wikify tag
-                ArticleText = "{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
-                Summary += ", added [[:Category:Articles that need to be wikified|wikify]] tag";
+                articleText = "{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
+                summary += ", added [[:Category:Articles that need to be wikified|wikify]] tag";
             }
             else if (removeTags && linkCount > 3 && ((linkCount / length) > 0.0025) &&
-                     WikiRegexes.Wikify.IsMatch(ArticleText))
+                     WikiRegexes.Wikify.IsMatch(articleText))
             {
-                ArticleText = WikiRegexes.Wikify.Replace(ArticleText, "");
-                Summary += ", removed wikify tag";
+                articleText = WikiRegexes.Wikify.Replace(articleText, "");
+                summary += ", removed wikify tag";
             }
 
-            ArticleText = TagOrphans(ArticleText, ArticleTitle, ref Summary, addTags, removeTags);
+            articleText = TagOrphans(articleText, articleTitle, ref summary, addTags, removeTags);
 
-            return ArticleText;
+            return articleText;
         }
 
-        private string TagOrphans(string ArticleText, string ArticleTitle, ref string summary, bool addTags, bool removeTags)
+        private string TagOrphans(string articleText, string articleTitle, ref string summary, bool addTags, bool removeTags)
         {
             // check if not orphaned
             bool orphaned = true;
@@ -2810,7 +2810,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             {
                 try
                 {
-                    foreach (Article a in wlhProv.MakeList(0, ArticleTitle))
+                    foreach (Article a in WlhProv.MakeList(0, articleTitle))
                         if (Namespace.IsMainSpace(a.Name))
                         {
                             orphaned = false;
@@ -2821,41 +2821,41 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 {
                     // don't mark as orphan in case of exception
                     orphaned = false;
-                    ErrorHandler.CurrentPage = ArticleTitle;
+                    ErrorHandler.CurrentPage = articleTitle;
                     ErrorHandler.Handle(ex);
                 }
             }
 
             // add orphan tag if applicable
-            if (addTags && orphaned && !WikiRegexes.Orphan.IsMatch(ArticleText) && !WikiRegexes.OrphanArticleIssues.IsMatch(ArticleText))
+            if (addTags && orphaned && !WikiRegexes.Orphan.IsMatch(articleText) && !WikiRegexes.OrphanArticleIssues.IsMatch(articleText))
             {
-                ArticleText = "{{orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + ArticleText;
+                articleText = "{{orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
                 summary += ", added [[:Category:Orphaned articles|orphan]] tag";
             }
-            else if (removeTags && !orphaned && WikiRegexes.Orphan.IsMatch(ArticleText))
+            else if (removeTags && !orphaned && WikiRegexes.Orphan.IsMatch(articleText))
             {
-                ArticleText = WikiRegexes.Orphan.Replace(ArticleText, "");
+                articleText = WikiRegexes.Orphan.Replace(articleText, "");
                 summary += ", removed orphan tag";
             }
-            return ArticleText;
+            return articleText;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ArticleText"></param>
+        /// <param name="articleText"></param>
         /// <returns></returns>
-        public static string TagUpdater(string ArticleText)
+        public static string TagUpdater(string articleText)
         {
             // update by-date tags
             foreach (KeyValuePair<Regex, string> k in RegexTagger)
             {
-                ArticleText = k.Key.Replace(ArticleText, k.Value);
+                articleText = k.Key.Replace(articleText, k.Value);
             }
-            return ArticleText;
+            return articleText;
         }
 
-        private static string stubChecker(Match m)
+        private static string StubChecker(Match m)
         {
             // Replace each Regex cc match with the number of the occurrence.
             return Regex.IsMatch(m.Value, Variables.SectStub) ? m.Value : "";
@@ -2866,19 +2866,19 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// checks if a user is allowed to edit this article
         /// using {{bots}} and {{nobots}} tags
         /// </summary>
-        /// <param name="ArticleText">The wiki text of the article.</param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="user">Name of this user</param>
         /// <returns>true if you can edit, false otherwise</returns>
-        public static bool CheckNoBots(string ArticleText, string user)
+        public static bool CheckNoBots(string articleText, string user)
         {
             return
-                !Regex.Match(ArticleText,
+                !Regex.Match(articleText,
                              @"\{\{(nobots|bots\|(allow=none|deny=(?!none).*(" + user.Normalize() +
                              @"|awb|all).*|optout=all))\}\}", RegexOptions.IgnoreCase).Success;
         }
 
-        private static readonly Regex dupeLinks1 = new Regex("\\[\\[([^\\]\\|]+)\\|([^\\]]*)\\]\\](.*[.\n]*)\\[\\[\\1\\|\\2\\]\\]", RegexOptions.Compiled);
-        private static readonly Regex dupeLinks2 = new Regex("\\[\\[([^\\]]+)\\]\\](.*[.\n]*)\\[\\[\\1\\]\\]", RegexOptions.Compiled);
+        private static readonly Regex DupeLinks1 = new Regex("\\[\\[([^\\]\\|]+)\\|([^\\]]*)\\]\\](.*[.\n]*)\\[\\[\\1\\|\\2\\]\\]", RegexOptions.Compiled);
+        private static readonly Regex DupeLinks2 = new Regex("\\[\\[([^\\]]+)\\]\\](.*[.\n]*)\\[\\[\\1\\]\\]", RegexOptions.Compiled);
 
         /// <summary>
         /// Remove some of the duplicated wikilinks from the article text
@@ -2887,8 +2887,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public static string RemoveDuplicateWikiLinks(string ArticleText)
         {
-            ArticleText = dupeLinks1.Replace(ArticleText, "[[$1|$2]]$3$2");
-            return dupeLinks2.Replace(ArticleText, "[[$1]]$2$1");
+            ArticleText = DupeLinks1.Replace(ArticleText, "[[$1|$2]]$3$2");
+            return DupeLinks2.Replace(ArticleText, "[[$1]]$2$1");
         }
 
         private static readonly Regex ExtToInt1 = new Regex(@"/\w+:\/\/secure\.wikimedia\.org\/(\w+)\/(\w+)\//", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -2902,24 +2902,24 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ArticleText"></param>
+        /// <param name="articleText"></param>
         /// <returns></returns>
-        public static string ExternalURLToInternalLink(string ArticleText)
+        public static string ExternalURLToInternalLink(string articleText)
         {
             // Convert from the escaped UTF-8 byte code into Unicode
-            ArticleText = HttpUtility.UrlDecode(ArticleText);
+            articleText = HttpUtility.UrlDecode(articleText);
             // Convert secure URLs into non-secure equivalents (note the secure system is considered a 'hack')
-            ArticleText = ExtToInt1.Replace(ArticleText, "http://$2.$1.org/");
+            articleText = ExtToInt1.Replace(articleText, "http://$2.$1.org/");
             // Convert http://lang.domain.org/wiki/ into interwiki format
-            ArticleText = ExtToInt2.Replace(ArticleText, "$2:$1:$3");
+            articleText = ExtToInt2.Replace(articleText, "$2:$1:$3");
             // Scripts paths (/w/index.php?...) into interwiki format
-            ArticleText = ExtToInt3.Replace(ArticleText, "$2:$1:$3");
+            articleText = ExtToInt3.Replace(articleText, "$2:$1:$3");
             // Remove [[brackets]] from link
-            ArticleText = ExtToInt4.Replace(ArticleText, "$1");
+            articleText = ExtToInt4.Replace(articleText, "$1");
             // '_' -> ' ' and hard coded home wiki
-            ArticleText = ExtToInt5.Replace(ArticleText, "$3");
+            articleText = ExtToInt5.Replace(articleText, "$3");
             // Use short prefix form (wiktionary:en:Wiktionary:Main Page -> wikt:en:Wiktionary:Main Page)
-            return ExtToInt6.Replace(ArticleText, "$1$2$3$4$5$6$7$8$9");
+            return ExtToInt6.Replace(articleText, "$1$2$3$4$5$6$7$8$9");
         }
         #endregion
 
@@ -2927,77 +2927,77 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// Checks if the article has a stub template
         /// </summary>
-        public static bool HasStubTemplate(string ArticleText)
+        public static bool HasStubTemplate(string articleText)
         {
-            return WikiRegexes.Stub.IsMatch(ArticleText);
+            return WikiRegexes.Stub.IsMatch(articleText);
         }
 
         /// <summary>
         /// Checks if the article is classible as a 'Stub'
         /// </summary>
-        public static bool IsStub(string ArticleText)
+        public static bool IsStub(string articleText)
         {
-            return (HasStubTemplate(ArticleText) || ArticleText.Length < StubMaxWordCount);
+            return (HasStubTemplate(articleText) || articleText.Length < StubMaxWordCount);
         }
 
         /// <summary>
         /// Checks if the article has an Infobox (en wiki)
         /// </summary>
-        public static bool HasInfobox(string ArticleText)
+        public static bool HasInfobox(string articleText)
         {
             if (Variables.LangCode != LangCodeEnum.en)
                 return false;
 
-            ArticleText = WikiRegexes.Nowiki.Replace(ArticleText, "");
-            ArticleText = WikiRegexes.Comments.Replace(ArticleText, "");
+            articleText = WikiRegexes.Nowiki.Replace(articleText, "");
+            articleText = WikiRegexes.Comments.Replace(articleText, "");
 
-            return WikiRegexes.Infobox.IsMatch(ArticleText);
+            return WikiRegexes.Infobox.IsMatch(articleText);
         }
 
         /// <summary>
         /// Check if article has an 'inusetag'
         /// </summary>
-        public static bool IsInUse(string ArticleText)
+        public static bool IsInUse(string articleText)
         {
-            return (Variables.LangCode != LangCodeEnum.en) ? false : Variables.InUse.IsMatch(WikiRegexes.Comments.Replace(ArticleText, ""));
+            return (Variables.LangCode != LangCodeEnum.en) ? false : Variables.InUse.IsMatch(WikiRegexes.Comments.Replace(articleText, ""));
         }
 
         /// <summary>
         /// Check if the article contains a sic template or bracketed wording, indicating the presence of a deliberate typo
         /// </summary>
-        public static bool HasSicTag(string ArticleText)
+        public static bool HasSicTag(string articleText)
         {
-            return WikiRegexes.SicTag.IsMatch(ArticleText);
+            return WikiRegexes.SicTag.IsMatch(articleText);
         }
 
         /// <summary>
         /// Check if the article contains a {{nofootnotes}} or {{morefootnotes}} template but has 5+ <ref>...</ref> references
         /// </summary>
-        public static bool HasMorefootnotesAndManyReferences(string ArticleText)
+        public static bool HasMorefootnotesAndManyReferences(string articleText)
         {
-            return (WikiRegexes.MoreNoFootnotes.IsMatch(WikiRegexes.Comments.Replace(ArticleText, "")) && WikiRegexes.Refs.Matches(ArticleText).Count > 4);
+            return (WikiRegexes.MoreNoFootnotes.IsMatch(WikiRegexes.Comments.Replace(articleText, "")) && WikiRegexes.Refs.Matches(articleText).Count > 4);
         }
 
         /// <summary>
         /// Check if the article uses cite references but has no recognised template to display the references; only for en-wiki
         /// </summary>
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
-        public static bool IsMissingReferencesDisplay(string ArticleText)
+        public static bool IsMissingReferencesDisplay(string articleText)
         {
             if (Variables.LangCode != LangCodeEnum.en)
                 return false;
 
-            return !WikiRegexes.ReferencesTemplate.IsMatch(ArticleText) && Regex.IsMatch(ArticleText, WikiRegexes.ReferenceEndGR);
+            return !WikiRegexes.ReferencesTemplate.IsMatch(articleText) && Regex.IsMatch(articleText, WikiRegexes.ReferenceEndGR);
         }
 
         /// <summary>
         /// Check if the article contains a <ref>...</ref> reference after the {{reflist}} to show them
         /// </summary>
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
-        public static bool HasRefAfterReflist(string ArticleText)
+        public static bool HasRefAfterReflist(string articleText)
         {
-            ArticleText = WikiRegexes.Comments.Replace(ArticleText, "");
-            return (WikiRegexes.RefAfterReflist.IsMatch(ArticleText) && WikiRegexes.ReferencesTemplate.Matches(ArticleText).Count == 1);
+            articleText = WikiRegexes.Comments.Replace(articleText, "");
+            return (WikiRegexes.RefAfterReflist.IsMatch(articleText) && WikiRegexes.ReferencesTemplate.Matches(articleText).Count == 1);
         }
 
         #endregion
