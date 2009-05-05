@@ -1017,7 +1017,7 @@ namespace WikiFunctions.Controls.Lists
 
                 string textTba = ((IDataObject)obj).GetData(DataFormats.UnicodeText).ToString();
 
-                foreach (string entry in textTba.Split(new[] { "\r\n", "|" }, StringSplitOptions.RemoveEmptyEntries))
+                foreach (string entry in textTba.Split(new[] { "\r\n", "\n", "|" }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     if (!string.IsNullOrEmpty(entry.Trim()))
                         Add(NormalizeTitle(entry));
