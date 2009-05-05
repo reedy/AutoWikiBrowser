@@ -608,6 +608,9 @@ namespace AutoWikiBrowser
             CaseWasLoad(webBrowserEdit.GetArticleText());
         }
 
+        // counts number of redirects so that we catch double redirects
+        private int redirects = 0;
+
         private void CaseWasLoad(string articleText)
         {
             if (stopProcessing)
@@ -629,6 +632,11 @@ namespace AutoWikiBrowser
                 SkipPage("Page is a redirect");
                 return;
             }
+
+            if (articleIsRedirect)
+                redirects++;
+            else
+                redirects = 0;
 
             //check for redirect
             if (bypassRedirectsToolStripMenuItem.Checked && articleIsRedirect && !PageReload)
@@ -653,21 +661,18 @@ namespace AutoWikiBrowser
                         return;
                     }
 
-                    // don't allow redirects to a redirect as we could go round in circles
-                    redirect.OriginalArticleText = webBrowserEdit.GetArticleText();
-                    if (Tools.IsRedirect(redirect.OriginalArticleText))
-                    {
-                        listMaker.Remove(TheArticle);
-                        TheArticle = redirect;
-                        SkipPage("Redirect to a redirect");
-                        return;                    
-                    }
-
                     if (ArticleWasRedirected != null)
                         ArticleWasRedirected(TheArticle.Name, redirect.Name);
 
                     listMaker.ReplaceArticle(TheArticle, new Article(redirect.Name));
                     TheArticle = new ArticleEX(redirect.Name);
+
+                    // don't allow redirects to a redirect as we could go round in circles
+                    if (redirects > 1)
+                    {
+                        SkipPage("Double redirect");
+                        return;
+                    }
 
                     if (preParseModeToolStripMenuItem.Checked)
                         StartAPITextLoad(redirect.Name);
