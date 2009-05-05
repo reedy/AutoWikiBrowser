@@ -122,9 +122,6 @@ namespace WikiFunctions.Controls.Lists
 
         new public static void Refresh() { }
 
-        public string strlbArticlesTooltip = "";
-        public string strtxtNewArticleTooltip = "";
-
         #region Enumerator
         public IEnumerator<Article> GetEnumerator()
         {
@@ -190,9 +187,9 @@ namespace WikiFunctions.Controls.Lists
         /// <summary>
         /// Returns a value indicating whether the given article is in the list
         /// </summary>
-        public bool Contains(string s)
+        public bool Contains(string title)
         {
-            return Contains(new Article(s));
+            return Contains(new Article(title));
         }
 
         public void CopyTo(Article[] array, int arrayIndex)
@@ -216,9 +213,9 @@ namespace WikiFunctions.Controls.Lists
         /// <summary>
         /// Removes the given article, by title, from the list
         /// </summary>
-        public bool Remove(string Title)
+        public bool Remove(string title)
         {
-            return Remove(new Article(Title));
+            return Remove(new Article(title));
         }
 
         /// <summary>
@@ -361,18 +358,18 @@ namespace WikiFunctions.Controls.Lists
 
             //Get the item
             int nIdx = lbArticles.IndexFromPoint(e.Location);
+
             if ((nIdx >= 0) && (nIdx < lbArticles.Items.Count))
                 strTip = lbArticles.Items[nIdx].ToString();
-            if (strTip != strlbArticlesTooltip)
+
+            if (strTip != tooltip.GetToolTip(lbArticles))
                 tooltip.SetToolTip(lbArticles, strTip);
-            strlbArticlesTooltip = strTip;
         }
 
         private void txtNewArticle_MouseMove(object sender, MouseEventArgs e)
         {
-            if (txtPage.Text != strtxtNewArticleTooltip)
+            if (txtPage.Text != tooltip.GetToolTip(txtPage))
                 tooltip.SetToolTip(txtPage, txtPage.Text);
-            strtxtNewArticleTooltip = txtPage.Text;
         }
 
         private void lbArticles_KeyDown(object sender, KeyEventArgs e)

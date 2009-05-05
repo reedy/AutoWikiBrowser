@@ -142,7 +142,7 @@ namespace AutoWikiBrowser
 
         private void LoadRecentSettingsList()
         {
-            splash.SetProgress(89);
+            SplashScreen.SetProgress(89);
             try
             {
                 UpdateRecentList(RegistryUtils.GetValue("\\RecentList", "").Split('|'));
@@ -150,7 +150,7 @@ namespace AutoWikiBrowser
             catch { return; }
             finally
             {
-                splash.SetProgress(94);
+                SplashScreen.SetProgress(94);
             }
         }
 
@@ -332,7 +332,7 @@ namespace AutoWikiBrowser
         /// </summary>
         private void LoadPrefs()
         {
-            splash.SetProgress(80);
+            SplashScreen.SetProgress(80);
 
             if (!string.IsNullOrEmpty(SettingsFile))
                 LoadPrefs(SettingsFile);
@@ -344,7 +344,7 @@ namespace AutoWikiBrowser
                 SettingsFile = "";
             }
 
-            splash.SetProgress(85);
+            SplashScreen.SetProgress(85);
         }
 
         /// <summary>
