@@ -51,7 +51,7 @@ namespace AutoWikiBrowser
     public sealed partial class MainForm : Form, IAutoWikiBrowser
     { // this class needs to be public, otherwise we get an exception which recommends setting ComVisibleAttribute to true (which we've already done)
         #region Fields
-        private readonly Splash splash = new Splash();
+        private readonly Splash SplashScreen = new Splash();
         private readonly WikiFunctions.Profiles.AWBProfilesForm profiles;
 
         private bool Abort;
@@ -108,11 +108,11 @@ namespace AutoWikiBrowser
         #region Constructor and MainForm load/resize
         public MainForm()
         {
-            splash.Show(this);
+            SplashScreen.Show(this);
             RightToLeft = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft
                 ? RightToLeft.Yes : RightToLeft.No;
             InitializeComponent();
-            splash.SetProgress(5);
+            SplashScreen.SetProgress(5);
             try
             {
                 Icon = Resources.AWBIcon;
@@ -134,7 +134,7 @@ namespace AutoWikiBrowser
                 btntsStart.Image = Resources.Run;
                 btntsDelete.Image = Resources.Vista_trashcan_empty;
 
-                splash.SetProgress(10);
+                SplashScreen.SetProgress(10);
                 try
                 {
                     parsers = new Parsers(Properties.Settings.Default.StubMaxWordCount,
@@ -175,7 +175,7 @@ namespace AutoWikiBrowser
                 profiles = new WikiFunctions.Profiles.AWBProfilesForm(webBrowserEdit);
                 profiles.LoadProfile += LoadProfileSettings;
 
-                splash.SetProgress(15);
+                SplashScreen.SetProgress(15);
 
                 WikiFunctions.Profiles.AWBProfiles.ResetTempPassword();
             }
@@ -233,11 +233,11 @@ namespace AutoWikiBrowser
             EditBoxTab.TabPages.Remove(tpTypos);
 
             StatusLabelText = "Initialising...";
-            splash.SetProgress(20);
+            SplashScreen.SetProgress(20);
             Variables.MainForm = this;
             lblOnlyBots.BringToFront();
-            Updater.UpdateAWB(splash.SetProgress); // progress 22-29 in UpdateAWB()
-            splash.SetProgress(30);
+            Updater.UpdateAWB(SplashScreen.SetProgress); // progress 22-29 in UpdateAWB()
+            SplashScreen.SetProgress(30);
 
             Program.MyTrace.LS = loggingSettings1;
 
@@ -256,7 +256,7 @@ namespace AutoWikiBrowser
                 webBrowserDiff.Navigate("about:blank");
                 webBrowserDiff.ObjectForScripting = this;
 
-                splash.SetProgress(35);
+                SplashScreen.SetProgress(35);
                 if (Properties.Settings.Default.LogInOnStart)
                     CheckStatus(false);
 
@@ -271,16 +271,16 @@ namespace AutoWikiBrowser
                 Debug();
                 Release();
 
-                Plugin.LoadPluginsStartup(this, splash); // progress 65-79 in LoadPlugins()
+                Plugin.LoadPluginsStartup(this, SplashScreen); // progress 65-79 in LoadPlugins()
 
                 LoadPrefs(); // progress 80-85 in LoadPrefs()
                 CreateEditor();
 
-                splash.SetProgress(86);
+                SplashScreen.SetProgress(86);
                 UpdateButtons(null, null);
-                splash.SetProgress(88);
+                SplashScreen.SetProgress(88);
                 LoadRecentSettingsList(); // progress 89-94 in LoadRecentSettingsList()
-                splash.SetProgress(95);
+                SplashScreen.SetProgress(95);
 
                 switch (Variables.User.CheckEnabled())
                 {
@@ -305,8 +305,8 @@ namespace AutoWikiBrowser
             UsageStats.Initialise();
 
             StatusLabelText = "";
-            splash.SetProgress(100);
-            splash.Close();
+            SplashScreen.SetProgress(100);
+            SplashScreen.Close();
 
 #if DEBUG && INSTASTATS
             UsageStats.Do(false);
@@ -1628,7 +1628,7 @@ window.scrollTo(0, diffTopY);
             if (string.IsNullOrEmpty(Variables.User.Name))
             {
                 lblUserName.BackColor = Color.Red;
-                lblUserName.Text = "User:";
+                lblUserName.Text = Variables.Namespaces[Namespace.User];
             }
             else
             {
@@ -1780,9 +1780,7 @@ window.scrollTo(0, diffTopY);
                     tag = tag.Substring(0, maxSummaryLength);
             }
 
-            tag += Variables.SummaryTag;
-
-            return tag;
+            return tag + Variables.SummaryTag;
         }
 
         private string SectionEditSummary(string OriginalArticleTextLocal, string ArticleTextLocal)
@@ -1854,9 +1852,7 @@ window.scrollTo(0, diffTopY);
             }
 
             // so SectionsChanged == 1, get heading name from LevelTwoHeadingsBefore
-            string HeadingText = WikiRegexes.HeadingLevelTwo.Match(LevelTwoHeadingsBefore[SectionChangeNumber]).Groups[1].Value.Trim();
-
-            return HeadingText;
+            return WikiRegexes.HeadingLevelTwo.Match(LevelTwoHeadingsBefore[SectionChangeNumber]).Groups[1].Value.Trim();
         }
 
         private void chkFindandReplace_CheckedChanged(object sender, EventArgs e)
@@ -2368,7 +2364,7 @@ window.scrollTo(0, diffTopY);
 
         private void SetProject(LangCodeEnum code, ProjectEnum project, string customProject)
         {
-            splash.SetProgress(81);
+            SplashScreen.SetProgress(81);
             try
             {
                 //set namespaces
