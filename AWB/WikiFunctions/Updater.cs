@@ -38,7 +38,7 @@ namespace WikiFunctions
                 }
                 else
                 {
-                    bool Update = false;
+                    bool update = false;
 
                     string text = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
 
@@ -54,19 +54,19 @@ namespace WikiFunctions
                         int awbFileVersion = StringToVersion(awbVersionInfo.FileVersion);
 
                         if (awbFileVersion < awbCurrentVersion)
-                            Update = true;
+                            update = true;
                         else if ((awbFileVersion >= awbCurrentVersion) && (awbFileVersion < awbNewestVersion) &&
                             MessageBox.Show("There is an optional update to AutoWikiBrowser. Would you like to upgrade?", "Optional update", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                            Update = true;
+                            update = true;
 
-                        if (!Update && (updaterVersion > 1400) &&
+                        if (!update && (updaterVersion > 1400) &&
                     (updaterVersion > StringToVersion(FileVersionInfo.GetVersionInfo(AWBDirectory + "AWBUpdater.exe").FileVersion)))
                         {
                             MessageBox.Show("There is an Update to the AWB updater. Updating Now", "Updater update", MessageBoxButtons.YesNo);
-                            Update = true;
+                            update = true;
                         }
 
-                        if (Update)
+                        if (update)
                             Process.Start(AWBDirectory + "AWBUpdater.exe");
                     }
                 }
@@ -88,17 +88,17 @@ namespace WikiFunctions
             return res;
         }
 
-        private static BackgroundRequest request;
+        private static BackgroundRequest Request;
 
         /// <summary>
         /// Checks to see if AWBUpdater.exe.new exists, if it does, replace it.
         /// If not, see if the version of AWB Updater is older than the version on the checkpage, and run AWBUpdater if so
         /// </summary>
-        public static void UpdateAWB(Tools.SetProgress SetProgress)
+        public static void UpdateAWB(Tools.SetProgress setProgress)
         {
-            SetProgress(22);
+            setProgress(22);
             Update();
-            SetProgress(29);
+            setProgress(29);
         }
         /// <summary>
         /// Checks to see if AWBUpdater.exe.new exists, if it does, replace it.
@@ -106,8 +106,8 @@ namespace WikiFunctions
         /// </summary>
         public static void Update()
         {
-            request = new BackgroundRequest();
-            request.Execute(UpdateFunc);
+            Request = new BackgroundRequest();
+            Request.Execute(UpdateFunc);
         }
 
         /// <summary>
@@ -115,9 +115,9 @@ namespace WikiFunctions
         /// </summary>
         public static void WaitForCompletion()
         {
-            if (request == null) return;
-            request.Wait();
-            request = null;
+            if (Request == null) return;
+            Request.Wait();
+            Request = null;
         }
     }
 }

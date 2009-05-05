@@ -215,24 +215,24 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Applies a given typo fix to the article provided the typo does not also match the article title
         /// </summary>
-        /// <param name="ArticleText"></param>
+        /// <param name="articleText"></param>
         /// <param name="summary"></param>
         /// <param name="typo"></param>
-        /// <param name="ArticleTitle"></param>
-        private void FixTypo(ref string ArticleText, ref string summary, KeyValuePair<Regex, string> typo, string ArticleTitle)
+        /// <param name="articleTitle"></param>
+        private void FixTypo(ref string articleText, ref string summary, KeyValuePair<Regex, string> typo, string articleTitle)
         {
             // don't apply the typo if it matches on the Article's title
-            if (typo.Key.IsMatch(ArticleTitle))
+            if (typo.Key.IsMatch(articleTitle))
                 return;
 
-            MatchCollection matches = typo.Key.Matches(ArticleText);
+            MatchCollection matches = typo.Key.Matches(articleText);
 
             if (matches.Count > 0)
             {
                 TypoStat stats = new TypoStat(typo);
                 stats.Total = matches.Count;
 
-                ArticleText = typo.Key.Replace(ArticleText, typo.Value);
+                articleText = typo.Key.Replace(articleText, typo.Value);
 
                 int count = 0;
 
@@ -254,23 +254,23 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Fixes typos
         /// </summary>
-        public void FixTypos(ref string ArticleText, ref string summary, string ArticleTitle)
+        public void FixTypos(ref string articleText, ref string summary, string articleTitle)
         {
             Statistics.Clear();
             if (Groups != null)
                 for (int i = 0; i < Groups.Count; i++)
                 {
-                    if (Groups[i].IsMatch(ArticleText))
+                    if (Groups[i].IsMatch(articleText))
                     {
                         for (int j = 0; j < Math.Min(GroupSize, Typos.Count - i * GroupSize); j++)
                         {
-                            FixTypo(ref ArticleText, ref summary, Typos[i * GroupSize + j], ArticleTitle);
+                            FixTypo(ref articleText, ref summary, Typos[i * GroupSize + j], articleTitle);
                         }
                     }
                 }
             else
                 foreach (KeyValuePair<Regex, string> typo in Typos)
-                    FixTypo(ref ArticleText, ref summary, typo, ArticleTitle);
+                    FixTypo(ref articleText, ref summary, typo, articleTitle);
         }
     }
 
@@ -279,7 +279,7 @@ namespace WikiFunctions.Parse
     /// </summary>
     public class RegExTypoFix
     {
-        readonly BackgroundRequest typoThread;
+        private readonly BackgroundRequest TypoThread;
         public event BackgroundRequestComplete Complete;
 
         private readonly ITyposProvider Source;
@@ -324,8 +324,8 @@ namespace WikiFunctions.Parse
                 return;
             }
 
-            typoThread = new BackgroundRequest(Complete);
-            typoThread.Execute(MakeRegexes);
+            TypoThread = new BackgroundRequest(Complete);
+            TypoThread.Execute(MakeRegexes);
         }
 
         /// <summary>
@@ -419,70 +419,70 @@ namespace WikiFunctions.Parse
             }
             finally
             {
-                if (Complete != null) Complete(typoThread);
+                if (Complete != null) Complete(TypoThread);
             }
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ArticleText"></param>
-        /// <param name="NoChange"></param>
-        /// <param name="Summary"></param>
-        /// <param name="ArticleTitle"></param>
+        /// <param name="articleText"></param>
+        /// <param name="noChange"></param>
+        /// <param name="summary"></param>
+        /// <param name="articleTitle"></param>
         /// <returns></returns>
-        public string PerformTypoFixes(string ArticleText, out bool NoChange, out string Summary, string ArticleTitle)
+        public string PerformTypoFixes(string articleText, out bool noChange, out string summary, string articleTitle)
         {
-            Summary = "";
-            if ((TypoCount == 0) || IgnoreRegex.IsMatch(ArticleText))
+            summary = "";
+            if ((TypoCount == 0) || IgnoreRegex.IsMatch(articleText))
             {
-                NoChange = true;
-                return ArticleText;
+                noChange = true;
+                return articleText;
             }
 
-            HideText RemoveText = new HideText(true, false, true);
+            HideText removeText = new HideText(true, false, true);
 
-            ArticleText = RemoveText.HideMore(ArticleText, true);
+            articleText = removeText.HideMore(articleText, true);
 
             //remove newlines, whitespace and hide tokens from bottom
             //to avoid running 2K regexps on them
-            Match m = RemoveTail.Match(ArticleText);
+            Match m = RemoveTail.Match(articleText);
             string tail = m.Value;
-            if (!string.IsNullOrEmpty(tail)) ArticleText = ArticleText.Remove(m.Index);
+            if (!string.IsNullOrEmpty(tail)) articleText = articleText.Remove(m.Index);
 
-            string originalText = ArticleText;
+            string originalText = articleText;
             string strSummary = "";
 
             foreach (TypoGroup grp in Groups)
             {
-                grp.FixTypos(ref ArticleText, ref strSummary, ArticleTitle);
+                grp.FixTypos(ref articleText, ref strSummary, articleTitle);
             }
 
-            NoChange = (originalText == ArticleText);
+            noChange = (originalText == articleText);
 
-            ArticleText = RemoveText.AddBackMore(ArticleText + tail);
+            articleText = removeText.AddBackMore(articleText + tail);
 
             if (!string.IsNullOrEmpty(strSummary))
             {
                 strSummary = Variables.TypoSummaryTag + strSummary.Trim();
-                Summary = strSummary;
+                summary = strSummary;
             }
 
-            return ArticleText;
+            return articleText;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ArticleText"></param>
-        /// <param name="ArticleTitle"></param>
+        /// <param name="articleText"></param>
+        /// <param name="articleTitle"></param>
         /// <returns></returns>
-        public bool DetectTypo(string ArticleText, string ArticleTitle)
+        public bool DetectTypo(string articleText, string articleTitle)
         {
             bool noChange;
             string summary;
 
-            PerformTypoFixes(ArticleText, out noChange, out summary, ArticleTitle);
+            PerformTypoFixes(articleText, out noChange, out summary, articleTitle);
 
             return !noChange;
         }

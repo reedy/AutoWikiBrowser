@@ -69,84 +69,83 @@ namespace WikiFunctions.TalkPages
            @"\{\{\s*(template *:)?\s*(talkheader|Talkheaderlong|Comment Guidelines|Categorytalkheader|Newtalk|Templatetalkheader|Talkheader2|Talkheader3|Talkpagelong|Talk box|Talkpageheader|TalkHeader|User Talkheader)\s*\}\}\s*", 
            RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
 
-        // Public methods:
-        public static bool ContainsDefaultSortKeywordOrTemplate(string ArticleText)
+        public static bool ContainsDefaultSortKeywordOrTemplate(string articleText)
         {
-            return WikiRegexes.Defaultsort.IsMatch(ArticleText);
+            return WikiRegexes.Defaultsort.IsMatch(articleText);
         }
 
-        public static void ProcessTalkPage(ref string ArticleText, string PluginName)
+        public static void ProcessTalkPage(ref string articleText, string pluginName)
         {
-            ProcessTalkPage(ref ArticleText, null, DEFAULTSORT.NoChange, PluginName);
+            ProcessTalkPage(ref articleText, null, DEFAULTSORT.NoChange, pluginName);
         }
 
-        public static void ProcessTalkPage(ref string ArticleText, DEFAULTSORT MoveDEFAULTSORT, string PluginName)
+        public static void ProcessTalkPage(ref string articleText, DEFAULTSORT moveDEFAULTSORT, string pluginName)
         {
-            ProcessTalkPage(ref ArticleText, null, MoveDEFAULTSORT, PluginName);
+            ProcessTalkPage(ref articleText, null, moveDEFAULTSORT, pluginName);
         }
 
-        public static bool ProcessTalkPage(ref string ArticleText, IMyTraceListener Trace, 
-        DEFAULTSORT MoveDEFAULTSORT, string PluginName)
+        public static bool ProcessTalkPage(ref string articleText, IMyTraceListener trace, 
+        DEFAULTSORT moveDEFAULTSORT, string pluginName)
         {
             Processor pr = new Processor();
-            ArticleText = TalkHeaderTemplateRegex.Replace(ArticleText, 
+            articleText = TalkHeaderTemplateRegex.Replace(articleText, 
                 new MatchEvaluator(pr.TalkHeaderMatchEvaluator),
                 1);
-            ArticleText = SkipTOCTemplateRegex.Replace(ArticleText, new MatchEvaluator(pr.SkipTOCMatchEvaluator), 1);
+            articleText = SkipTOCTemplateRegex.Replace(articleText, new MatchEvaluator(pr.SkipTOCMatchEvaluator), 1);
             if (pr.FoundTalkHeader)
-                WriteHeaderTemplate("talkheader", ref ArticleText, Trace, PluginName);
+                WriteHeaderTemplate("talkheader", ref articleText, trace, pluginName);
             if (pr.FoundSkipTOC)
-                WriteHeaderTemplate("skiptotoctalk", ref ArticleText, Trace, PluginName);
-            if (MoveDEFAULTSORT != DEFAULTSORT.NoChange)
+                WriteHeaderTemplate("skiptotoctalk", ref articleText, trace, pluginName);
+            if (moveDEFAULTSORT != DEFAULTSORT.NoChange)
             {
-                ArticleText = WikiRegexes.Defaultsort.Replace(ArticleText, 
+                articleText = WikiRegexes.Defaultsort.Replace(articleText, 
                     new MatchEvaluator(pr.DefaultSortMatchEvaluator), 1);
                 if (pr.FoundDefaultSort)
                 {
                     if (string.IsNullOrEmpty(pr.DefaultSortKey))
                     {
-                        if (Trace != null)
-                            Trace.WriteArticleActionLine("DEFAULTSORT has no key; removed", PluginName);
+                        if (trace != null)
+                            trace.WriteArticleActionLine("DEFAULTSORT has no key; removed", pluginName);
                     }
                     else
                     {
-                        ArticleText = SetDefaultSort(pr.DefaultSortKey, MoveDEFAULTSORT, Trace, PluginName, ArticleText);
+                        articleText = SetDefaultSort(pr.DefaultSortKey, moveDEFAULTSORT, trace, pluginName, articleText);
                     }
                 }
             }
             return pr.FoundTalkHeader || pr.FoundSkipTOC || pr.FoundDefaultSort;
         }
 
-        public static string FormatDefaultSort(string ArticleText)
+        public static string FormatDefaultSort(string articleText)
         {
-            return WikiRegexes.Defaultsort.Replace(ArticleText, "{{DEFAULTSORT:${key}}}");
+            return WikiRegexes.Defaultsort.Replace(articleText, "{{DEFAULTSORT:${key}}}");
         }
         
         // Helper routines:
-        private static string SetDefaultSort(string key, DEFAULTSORT Location, IMyTraceListener Trace, string PluginName, string ArticleText)
+        private static string SetDefaultSort(string key, DEFAULTSORT location, IMyTraceListener trace, string pluginName, string articleText)
         {
             string strMovedTo;
-            if (Location == DEFAULTSORT.MoveToTop)
+            if (location == DEFAULTSORT.MoveToTop)
             {
-                ArticleText = "{{DEFAULTSORT:" + key + "}}\r\n" + ArticleText;
+                articleText = "{{DEFAULTSORT:" + key + "}}\r\n" + articleText;
                 strMovedTo = " given top billing";
             }
             else
             {
-                ArticleText = ArticleText + "\r\n{{DEFAULTSORT:" + key + "}}";
+                articleText = articleText + "\r\n{{DEFAULTSORT:" + key + "}}";
                 strMovedTo = " sent to the bottom";
             }
-            if (Trace != null)
-                Trace.WriteArticleActionLine("DEFAULTSORT" + strMovedTo, PluginName, false);
+            if (trace != null)
+                trace.WriteArticleActionLine("DEFAULTSORT" + strMovedTo, pluginName, false);
 
-            return ArticleText;
+            return articleText;
         }
 
-        private static void WriteHeaderTemplate(string Name, ref string ArticleText, IMyTraceListener Trace, string PluginName)
+        private static void WriteHeaderTemplate(string name, ref string articleText, IMyTraceListener trace, string pluginName)
         {
-            ArticleText = "{{" + Name + "}}\r\n" + ArticleText;
-            if (Trace != null)
-                Trace.WriteArticleActionLine("{{tl|" + Name + "}} given top billing", PluginName, false);
+            articleText = "{{" + name + "}}\r\n" + articleText;
+            if (trace != null)
+                trace.WriteArticleActionLine("{{tl|" + name + "}} given top billing", pluginName, false);
         }
     }
 }

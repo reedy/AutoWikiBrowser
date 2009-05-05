@@ -44,9 +44,9 @@ namespace WikiFunctions
         /// <summary>
         /// Calculates the namespace index.
         /// </summary>
-        public static int CalculateNS(string ArticleTitle)
+        public static int CalculateNS(string articleTitle)
         {
-            return Namespace.Determine(ArticleTitle);
+            return Namespace.Determine(articleTitle);
         }
 
         /// <summary>
@@ -1763,10 +1763,10 @@ Message: {2}
             rq.Method = "POST";
             rq.ContentType = "application/x-www-form-urlencoded";
 
-            Stream RequestStream = rq.GetRequestStream();
+            Stream requestStream = rq.GetRequestStream();
             byte[] data = Encoding.UTF8.GetBytes(BuildPostDataString(postvars));
-            RequestStream.Write(data, 0, data.Length);
-            RequestStream.Close();
+            requestStream.Write(data, 0, data.Length);
+            requestStream.Close();
 
             HttpWebResponse rs = (HttpWebResponse)rq.GetResponse();
             if (rs.StatusCode == HttpStatusCode.OK)
