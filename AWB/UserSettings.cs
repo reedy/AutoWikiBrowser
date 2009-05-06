@@ -237,7 +237,7 @@ namespace AutoWikiBrowser
                 // if user runs AWB from somewhere they can't write to, saving settings as default will fail, so handle this
                 if (ex is UnauthorizedAccessException)
                 {
-                    MessageBox.Show("Saving default settings failed due to insufficient permissions.", "Error",
+                    MessageBox.Show("Saving settings failed due to insufficient permissions.", "Error",
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
