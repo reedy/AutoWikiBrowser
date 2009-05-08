@@ -117,9 +117,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                 End If
             End If
 
-            If WeFoundBannerShells = BannerShellsEnum.FoundWikiProjectBannerShell Then _
-               Template.NewOrReplaceTemplateParm("nested", "yes", Me, True, False, PluginName:=PluginName)
-
             Text += Template.ParametersToString(ParameterBreak)
 
             Select Case WeFoundBannerShells
