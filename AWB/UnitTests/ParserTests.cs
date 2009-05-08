@@ -1996,6 +1996,11 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
             // no support for delinking self section links
             Assert.AreEqual(@"'''Foo''' is great. [[Foo#Bar|Bar]] is cool", Parsers.FixLinks(@"'''Foo''' is great. [[Foo#Bar|Bar]] is cool", "Foo", out noChangeBack));
             Assert.IsTrue(noChangeBack);
+
+            Assert.AreEqual(@"'''the''' extreme anti-cult activists resort", Parsers.FixLinks(@"'''the''' extreme [[anti-cult movement|anti-cult activist]]s resort", "Anti-cult movement", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
+            Assert.AreEqual(@"'''the''' extreme anti-cult activists resort", Parsers.FixLinks(@"'''the''' extreme [[Anti-cult movement|anti-cult activist]]s resort", "Anti-cult movement", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
         }
     }
 
