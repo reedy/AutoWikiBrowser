@@ -26,7 +26,7 @@ namespace WikiFunctions
             }
         }
 
-        public static string mUserData;
+        private static string mUserData;
 
         /// <summary>
         /// Application data directory specific to the current user

@@ -2699,7 +2699,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 return articleText;
 
             string commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
-            Sorter.interwikis(ref commentsStripped);
+            Sorter.Interwikis(ref commentsStripped);
 
             // bulleted or indented text should weigh less than simple text.
             // for example, actor stubs may contain large filmographies

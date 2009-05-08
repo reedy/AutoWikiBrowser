@@ -72,6 +72,7 @@
       <DependentUpon>Namespaces.cs</DependentUpon>
     </Compile>
     <Compile Include="Logging\AWBLogListener.cs" />
+    <Compile Include="Parse\SiteMatrix.cs" />
     <Compile Include="Plugin\ExtraInterfaces.cs" />
     <Compile Include="Plugin\IAutoWikiBrowser.cs" />
     <Compile Include="Profiles\AWBProfilesForm.cs">
