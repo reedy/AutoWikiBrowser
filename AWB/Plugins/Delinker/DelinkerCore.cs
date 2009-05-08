@@ -94,11 +94,11 @@ namespace AutoWikiBrowser.Plugins.Delinker
 
                     if (lastSection)
                     {
-                        parser.Sorter.removeCats(ref el, "");
-                        parser.Sorter.interwikis(ref el);
-                        MetaDataSorter.removeDisambig(ref ArticleText);
-                        MetaDataSorter.removePersonData(ref ArticleText);
-                        MetaDataSorter.removeStubs(ref ArticleText);
+                        parser.Sorter.RemoveCats(ref el, "");
+                        parser.Sorter.Interwikis(ref el);
+                        MetaDataSorter.RemoveDisambig(ref ArticleText);
+                        MetaDataSorter.RemovePersonData(ref ArticleText);
+                        MetaDataSorter.RemoveStubs(ref ArticleText);
                     }
                     el = Parsers.RemoveAllWhiteSpace(ArticleText).Trim();
 

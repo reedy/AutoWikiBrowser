@@ -29,13 +29,13 @@ namespace WikiFunctions.Parse
         /// 
         /// </summary>
         /// <param name="matches"></param>
-        /// <param name="ArticleText"></param>
-        private void Replace(IEnumerable matches, ref string ArticleText)
+        /// <param name="articleText"></param>
+        private void Replace(IEnumerable matches, ref string articleText)
         {
             foreach (Match m in matches)
             {
                 string s = "⌊⌊⌊⌊" + HiddenTokens.Count + "⌋⌋⌋⌋";
-                ArticleText = ArticleText.Replace(m.Value, s);
+                articleText = articleText.Replace(m.Value, s);
                 HiddenTokens.Add(new HideObject(s, m.Value));
             }
         }
@@ -43,128 +43,128 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ArticleText"></param>
+        /// <param name="articleText"></param>
         /// <returns></returns>
-        public string Hide(string ArticleText)
+        public string Hide(string articleText)
         {
             HiddenTokens.Clear();
 
-            Replace(WikiRegexes.Source.Matches(ArticleText), ref ArticleText);
+            Replace(WikiRegexes.Source.Matches(articleText), ref articleText);
 
-            foreach (Match m in WikiRegexes.UnFormattedText.Matches(ArticleText))
+            foreach (Match m in WikiRegexes.UnFormattedText.Matches(articleText))
             {
                 if (LeaveMetaHeadings && NoWikiIgnoreRegex.IsMatch(m.Value))
                     continue;
 
                 string s = "⌊⌊⌊⌊" + HiddenTokens.Count + "⌋⌋⌋⌋";
 
-                ArticleText = ArticleText.Replace(m.Value, s);
+                articleText = articleText.Replace(m.Value, s);
                 HiddenTokens.Add(new HideObject(s, m.Value));
             }
 
             if (HideImages)
             {
-                Replace(WikiRegexes.Images.Matches(ArticleText), ref ArticleText);
+                Replace(WikiRegexes.Images.Matches(articleText), ref articleText);
             }
 
             if (HideExternalLinks)
             {
-                Replace(WikiRegexes.ExternalLinks.Matches(ArticleText), ref ArticleText);
+                Replace(WikiRegexes.ExternalLinks.Matches(articleText), ref articleText);
                 List<Match> matches = new List<Match>();
-                foreach (Match m in WikiRegexes.PossibleInterwikis.Matches(ArticleText))
+                foreach (Match m in WikiRegexes.PossibleInterwikis.Matches(articleText))
                 {
                     if (SiteMatrix.Languages.Contains(m.Groups[1].Value.ToLower()))
                         matches.Add(m);
                 }
-                Replace(matches, ref ArticleText);
+                Replace(matches, ref articleText);
             }
 
-            return ArticleText;
+            return articleText;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ArticleText"></param>
+        /// <param name="articleText"></param>
         /// <returns></returns>
-        public string AddBack(string ArticleText)
+        public string AddBack(string articleText)
         {
             HiddenTokens.Reverse();
 
             foreach (HideObject k in HiddenTokens)
-                ArticleText = ArticleText.Replace(k.code, k.text);
+                articleText = articleText.Replace(k.Code, k.Text);
 
             HiddenTokens.Clear();
-            return ArticleText;
+            return articleText;
         }
 
         #region Separate hiding of unformatted text
-        readonly List<HideObject> HiddenUnformattedText = new List<HideObject>();
+        private readonly List<HideObject> HiddenUnformattedText = new List<HideObject>();
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ArticleText"></param>
+        /// <param name="articleText"></param>
         /// <returns></returns>
-        public string HideUnformatted(string ArticleText)
+        public string HideUnformatted(string articleText)
         {
             HiddenUnformattedText.Clear();
 
             int i = 0;
-            foreach (Match m in WikiRegexes.UnFormattedText.Matches(ArticleText))
+            foreach (Match m in WikiRegexes.UnFormattedText.Matches(articleText))
             {
                 string s = "⌊⌊⌊⌊" + i + "⌋⌋⌋⌋";
 
-                ArticleText = ArticleText.Replace(m.Value, s);
+                articleText = articleText.Replace(m.Value, s);
                 HiddenUnformattedText.Add(new HideObject(s, m.Value));
                 i++;
             }
 
-            return ArticleText;
+            return articleText;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ArticleText"></param>
+        /// <param name="articleText"></param>
         /// <returns></returns>
-        public string AddBackUnformatted(string ArticleText)
+        public string AddBackUnformatted(string articleText)
         {
             HiddenUnformattedText.Reverse();
 
             foreach (HideObject k in HiddenUnformattedText)
-                ArticleText = ArticleText.Replace(k.code, k.text);
+                articleText = articleText.Replace(k.Code, k.Text);
 
             HiddenUnformattedText.Clear();
-            return ArticleText;
+            return articleText;
         }
         #endregion
 
         #region More thorough hiding
-        readonly List<HideObject> MoreHide = new List<HideObject>(32);
+        private readonly List<HideObject> MoreHide = new List<HideObject>(32);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="matches"></param>
-        /// <param name="ArticleText"></param>
-        private void ReplaceMore(ICollection matches, ref string ArticleText)
+        /// <param name="articleText"></param>
+        private void ReplaceMore(ICollection matches, ref string articleText)
         {
-            StringBuilder sb = new StringBuilder((int)(ArticleText.Length * 1.1));
+            StringBuilder sb = new StringBuilder((int)(articleText.Length * 1.1));
             int pos = 0;
 
             foreach (Match m in matches)
             {
-                sb.Append(ArticleText, pos, m.Index - pos);
+                sb.Append(articleText, pos, m.Index - pos);
                 string s = "⌊⌊⌊⌊M" + MoreHide.Count + "⌋⌋⌋⌋";
                 sb.Append(s);
                 pos = m.Index + m.Value.Length;
                 MoreHide.Add(new HideObject(s, m.Value));
             }
 
-            sb.Append(ArticleText, pos, ArticleText.Length - pos);
+            sb.Append(articleText, pos, articleText.Length - pos);
 
-            ArticleText = sb.ToString();
+            articleText = sb.ToString();
         }
 
         static readonly Regex HiddenMoreRegex = new Regex("⌊⌊⌊⌊M(\\d*)⌋⌋⌋⌋", RegexOptions.Compiled);
@@ -172,102 +172,101 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Hides images, external links, templates, headings
         /// </summary>
-        public string HideMore(string ArticleText, bool HideOnlyTargetOfWikilink)
+        public string HideMore(string articleText, bool hideOnlyTargetOfWikilink)
         {
             MoreHide.Clear();
 
-            string ArticleTextBefore;
+            string articleTextBefore;
             do
             { // hide nested templates
-                ArticleTextBefore = ArticleText;
-                List<Match> matches = Parsers.GetTemplates(ArticleText, Parsers.EveryTemplate);
-                ReplaceMore(matches, ref ArticleText);
+                articleTextBefore = articleText;
+                List<Match> matches = Parsers.GetTemplates(articleText, Parsers.EveryTemplate);
+                ReplaceMore(matches, ref articleText);
             }
-            while (!ArticleTextBefore.Equals(ArticleText));
+            while (!articleTextBefore.Equals(articleText));
 
-            ReplaceMore(WikiRegexes.Blockquote.Matches(ArticleText), ref ArticleText);
+            ReplaceMore(WikiRegexes.Blockquote.Matches(articleText), ref articleText);
 
-            ReplaceMore(WikiRegexes.Poem.Matches(ArticleText), ref ArticleText);
+            ReplaceMore(WikiRegexes.Poem.Matches(articleText), ref articleText);
 
-            ReplaceMore(WikiRegexes.Source.Matches(ArticleText), ref ArticleText);
+            ReplaceMore(WikiRegexes.Source.Matches(articleText), ref articleText);
 
-            ReplaceMore(WikiRegexes.Code.Matches(ArticleText), ref ArticleText);
+            ReplaceMore(WikiRegexes.Code.Matches(articleText), ref articleText);
 
-            if (HideExternalLinks) ReplaceMore(WikiRegexes.ExternalLinks.Matches(ArticleText), ref ArticleText);
+            if (HideExternalLinks) ReplaceMore(WikiRegexes.ExternalLinks.Matches(articleText), ref articleText);
 
-            ReplaceMore(WikiRegexes.Headings.Matches(ArticleText), ref ArticleText);
+            ReplaceMore(WikiRegexes.Headings.Matches(articleText), ref articleText);
 
-            ReplaceMore(WikiRegexes.UnFormattedText.Matches(ArticleText), ref ArticleText);
+            ReplaceMore(WikiRegexes.UnFormattedText.Matches(articleText), ref articleText);
 
-            ReplaceMore(WikiRegexes.IndentedText.Matches(ArticleText), ref ArticleText);
+            ReplaceMore(WikiRegexes.IndentedText.Matches(articleText), ref articleText);
 
             // This hides internal wikilinks (with or without pipe) with extra word character(s) e.g. [[link]]age, which need hiding even if hiding for typo fixing 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Improve_HideText.HideMore.28.29
             // place this as first wikilink rule as otherwise WikiLinksOnly will grab link without extra word character(s)
-            ReplaceMore(WikiRegexes.WikiLinksOnlyPlusWord.Matches(ArticleText), ref ArticleText);
+            ReplaceMore(WikiRegexes.WikiLinksOnlyPlusWord.Matches(articleText), ref articleText);
 
             // if HideOnlyTargetOfWikilink is not set, pipes of links e.g.  [[target|pipe]] will be hidden
             // if set then don't mask the pipe of a link so that typo fixing can be done on it
-            if (!HideOnlyTargetOfWikilink)
+            if (!hideOnlyTargetOfWikilink)
             {
-                ReplaceMore(WikiRegexes.WikiLinksOnly.Matches(ArticleText), ref ArticleText);
+                ReplaceMore(WikiRegexes.WikiLinksOnly.Matches(articleText), ref articleText);
 
-                ReplaceMore(WikiRegexes.SimpleWikiLink.Matches(ArticleText), ref ArticleText);
+                ReplaceMore(WikiRegexes.SimpleWikiLink.Matches(articleText), ref articleText);
             }
 
-            ReplaceMore(WikiRegexes.Cites.Matches(ArticleText), ref ArticleText);
+            ReplaceMore(WikiRegexes.Cites.Matches(articleText), ref articleText);
 
-            ReplaceMore(WikiRegexes.Refs.Matches(ArticleText), ref ArticleText);
+            ReplaceMore(WikiRegexes.Refs.Matches(articleText), ref articleText);
 
             // this hides only the target of a link, leaving the pipe exposed
-            ReplaceMore(WikiRegexes.WikiLink.Matches(ArticleText), ref ArticleText);
+            ReplaceMore(WikiRegexes.WikiLink.Matches(articleText), ref articleText);
 
             //TODO: replace with gallery-only regex, all normal images should be hidden by now as simple wikilinks
-            ReplaceMore(WikiRegexes.Images.Matches(ArticleText), ref ArticleText);
+            ReplaceMore(WikiRegexes.Images.Matches(articleText), ref articleText);
 
             // hide untemplated quotes between some form of quotation marks (most particularly for typo fixing)
-            ReplaceMore(WikiRegexes.UntemplatedQuotes.Matches(ArticleText), ref ArticleText);
+            ReplaceMore(WikiRegexes.UntemplatedQuotes.Matches(articleText), ref articleText);
 
-            ReplaceMore(WikiRegexes.Pstyles.Matches(ArticleText), ref ArticleText);
+            ReplaceMore(WikiRegexes.Pstyles.Matches(articleText), ref articleText);
 
-            return ArticleText;
+            return articleText;
         }
 
         /// <summary>
         /// Hides images, external links, templates, headings
         /// </summary>
-        public string HideMore(string ArticleText)
+        public string HideMore(string articleText)
         {
-            return HideMore(ArticleText, false);
+            return HideMore(articleText, false);
         }
+
         /// <summary>
         /// Adds back hidden stuff from HideMore
         /// </summary>
-        public string AddBackMore(string ArticleText)
+        public string AddBackMore(string articleText)
         {
-            StringBuilder sb;
-
             MatchCollection mc;
 
-            while ((mc = HiddenMoreRegex.Matches(ArticleText)).Count > 0)
+            while ((mc = HiddenMoreRegex.Matches(articleText)).Count > 0)
             {
-                sb = new StringBuilder(ArticleText.Length * 2);
+                StringBuilder sb = new StringBuilder(articleText.Length * 2);
                 int pos = 0;
 
                 foreach (Match m in mc)
                 {
-                    sb.Append(ArticleText, pos, m.Index - pos);
-                    sb.Append(MoreHide[int.Parse(m.Groups[1].Value)].text);
+                    sb.Append(articleText, pos, m.Index - pos);
+                    sb.Append(MoreHide[int.Parse(m.Groups[1].Value)].Text);
                     pos = m.Index + m.Value.Length;
                 }
 
-                sb.Append(ArticleText, pos, ArticleText.Length - pos);
+                sb.Append(articleText, pos, articleText.Length - pos);
 
-                ArticleText = sb.ToString();
+                articleText = sb.ToString();
             }
 
             MoreHide.Clear();
-            return ArticleText;
+            return articleText;
         }
         #endregion
 
@@ -277,15 +276,15 @@ namespace WikiFunctions.Parse
     {
         public HideObject(string code, string text)
         {
-            this.code = code;
-            this.text = text;
+            Code = code;
+            Text = text;
         }
 
-        public readonly string code, text;
+        public readonly string Code, Text;
 
         public override string ToString()
         {
-            return code + " --> " + text;
+            return Code + " --> " + Text;
         }
     }
 }

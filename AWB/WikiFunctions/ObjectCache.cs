@@ -287,7 +287,7 @@ namespace WikiFunctions
             [XmlAttribute("name")]
             public string Name;
 
-            public List<Item> Items = new List<Item>();
+            public readonly List<Item> Items = new List<Item>();
         }
 
         [Serializable, XmlRoot("Cache")]

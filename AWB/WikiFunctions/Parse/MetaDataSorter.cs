@@ -21,245 +21,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Xml;
 using WikiFunctions.TalkPages;
 
 namespace WikiFunctions.Parse
 {
-    public static class SiteMatrix
-    {
-        public static List<string> Languages = new List<string>();
-        public static List<string> WikipediaLanguages = new List<string>();
-        public static List<string> WiktionaryLanguages = new List<string>();
-        public static List<string> WikibooksLanguages = new List<string>();
-        public static List<string> WikinewsLanguages = new List<string>();
-        public static List<string> WikisourceLanguages = new List<string>();
-        public static List<string> WikiquoteLanguages = new List<string>();
-        public static List<string> WikiversityLanguages = new List<string>();
-        public static readonly Dictionary<string, string> LanguageNames = new Dictionary<string, string>();
-
-        static SiteMatrix()
-        {
-            if (Globals.UnitTestMode) // or unit tests gonna run like a turtle
-            {
-                Languages.AddRange(new[] { "en", "ru", "sq" });
-                WikipediaLanguages.AddRange(Languages);
-                WiktionaryLanguages.AddRange(Languages);
-                WikibooksLanguages.AddRange(Languages);
-                WikinewsLanguages.AddRange(Languages);
-                WikisourceLanguages.AddRange(Languages);
-                WikiquoteLanguages.AddRange(Languages);
-                WikiversityLanguages.AddRange(Languages);
-            }
-            else
-            {
-                if (!LoadFromCache())
-                {
-                    LoadFromNetwork();
-                    SaveToCache();
-                }
-
-                //should already be sorted, but we must be sure
-                Languages.Sort();
-                WikipediaLanguages.Sort();
-                WiktionaryLanguages.Sort();
-                WikibooksLanguages.Sort();
-                WikinewsLanguages.Sort();
-                WikisourceLanguages.Sort();
-                WikiquoteLanguages.Sort();
-                WikiversityLanguages.Sort();
-            }
-        }
-
-        private static string Key(string what)
-        {
-            return "SiteMatrix::" + what;
-        }
-
-        private static bool loaded = true;
-
-        private static List<string> Load(string what)
-        {
-            var result = (List<string>)ObjectCache.Global.Get<List<string>>(Key(what));
-            if (result == null)
-            {
-                loaded = false;
-                return new List<string>();
-            }
-
-            return result;
-        }
-
-        private static bool LoadFromCache()
-        {
-            Languages = Load("Languages");
-            WikipediaLanguages = Load("WikipediaLanguages");
-            WiktionaryLanguages = Load("WiktionaryLanguages");
-            WikibooksLanguages = Load("WikibooksLanguages");
-            WikinewsLanguages = Load("WikinewsLanguages");
-            WikisourceLanguages = Load("WikisourceLanguages");
-            WikiquoteLanguages = Load("WikiquoteLanguages");
-            WikiversityLanguages = Load("WikiversityLanguages");
-            return loaded;
-        }
-
-        private static void LoadFromNetwork()
-        {
-            string strMatrix = Tools.GetHTML("http://en.wikipedia.org/w/api.php?action=sitematrix&format=xml");
-
-            XmlDocument matrix = new XmlDocument();
-            matrix.LoadXml(strMatrix);
-
-            foreach (XmlNode lang in matrix.GetElementsByTagName("language"))
-            {
-                string langCode = lang.Attributes["code"].Value;
-                string langName = lang.Attributes["name"].Value;
-
-                Languages.Add(langCode);
-                LanguageNames[langCode] = langName;
-
-                foreach (XmlNode site in lang.ChildNodes[0].ChildNodes)
-                {
-                    if (site.Name != "site") continue;
-
-                    switch (site.Attributes["code"].Value)
-                    {
-                        case "wiki":
-                            WikipediaLanguages.Add(langCode);
-                            break;
-                        case "wiktionary":
-                            WiktionaryLanguages.Add(langCode);
-                            break;
-                        case "wikibooks":
-                            WikibooksLanguages.Add(langCode);
-                            break;
-                        case "wikinews":
-                            WikinewsLanguages.Add(langCode);
-                            break;
-                        case "wikisource":
-                            WikisourceLanguages.Add(langCode);
-                            break;
-                        case "wikiquote":
-                            WikiquoteLanguages.Add(langCode);
-                            break;
-                        case "wikiversity":
-                            WikiversityLanguages.Add(langCode);
-                            break;
-                    }
-                }
-            }
-        }
-
-        private static void SaveToCache()
-        {
-            ObjectCache.Global.Set(Key("Languages"), Languages);
-            ObjectCache.Global.Set(Key("WikipediaLanguages"), WikipediaLanguages);
-            ObjectCache.Global.Set(Key("WiktionaryLanguages"), WiktionaryLanguages);
-            ObjectCache.Global.Set(Key("WikibooksLanguages"), WikibooksLanguages);
-            ObjectCache.Global.Set(Key("WikinewsLanguages"), WikinewsLanguages);
-            ObjectCache.Global.Set(Key("WikisourceLanguages"), WikisourceLanguages);
-            ObjectCache.Global.Set(Key("WikiquoteLanguages"), WikiquoteLanguages);
-            ObjectCache.Global.Set(Key("WikiversityLanguages"), WikiversityLanguages);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="project"></param>
-        /// <returns></returns>
-        public static List<string> GetProjectLanguages(ProjectEnum project)
-        {
-            switch (project)
-            {
-                case ProjectEnum.wikipedia:
-                case ProjectEnum.meta:
-                case ProjectEnum.commons:
-                case ProjectEnum.species:
-                    return WikipediaLanguages;
-
-                case ProjectEnum.wiktionary:
-                    return WiktionaryLanguages;
-
-                case ProjectEnum.wikisource:
-                    return WikisourceLanguages;
-
-                case ProjectEnum.wikibooks:
-                    return WikibooksLanguages;
-
-                case ProjectEnum.wikinews:
-                    return WikinewsLanguages;
-
-                case ProjectEnum.wikiquote:
-                    return WikiquoteLanguages;
-
-                case ProjectEnum.wikiversity:
-                    return WikiversityLanguages;
-
-                default:
-                    return new List<string>();
-            }
-        }
-    }
-
-    internal sealed class InterWikiComparer : IComparer<string>
-    {
-        readonly Dictionary<string, int> Order = new Dictionary<string, int>();
-        public InterWikiComparer(List<string> order, List<string> languages)
-        {
-            languages = new List<string>(languages); // make a copy
-            List<string> unordered = new List<string>(),
-                output = new List<string>();
-
-            // remove unneeded languages from order
-            for (int i = 0; i < order.Count; )
-            {
-                if (languages.Contains(order[i])) i++;
-                else order.RemoveAt(i);
-            }
-
-            foreach (string s in languages)
-                if (!order.Contains(s)) unordered.Add(s);
-
-            if (unordered.Count == 0) output = order;
-            else for (int i = 0; i < languages.Count; i++)
-                {
-                    if (unordered.Contains(languages[i]))
-                    {
-                        output.Add(languages[i]);
-                        unordered.RemoveAt(0);
-                    }
-                    else
-                    {
-                        output.Add(order[0]);
-                        order.RemoveAt(0);
-                    }
-                }
-
-            int n = 0;
-            foreach (string s in output)
-            {
-                Order.Add("[[" + s, n);
-                n++;
-            }
-        }
-
-        static string RawCode(string iw)
-        {
-            return iw.Substring(0, iw.IndexOf(':'));
-        }
-
-        public int Compare(string x, string y)
-        {
-            //should NOT be enclosed into try ... catch - I'd like to see exceptions if something goes wrong,
-            //not quiet missorting --MaxSem
-            int ix = Order[RawCode(x)], iy = Order[RawCode(y)];
-
-            if (ix < iy) return -1;
-            if (ix == iy) return 0;
-            return 1;
-        }
-    }
-
     public enum InterWikiOrderEnum { LocalLanguageAlpha, LocalLanguageFirstWord, Alphabetical, AlphabeticalEnFirst }
 
     public class MetaDataSorter
@@ -298,18 +63,21 @@ namespace WikiFunctions.Parse
         private List<string> InterwikiAlpha;
         private List<string> InterwikiAlphaEnFirst;
         //List<Regex> InterWikisList = new List<Regex>();
-        readonly Regex IWSplit = new Regex(",", RegexOptions.Compiled);
 
         private InterWikiComparer Comparer;
-        private InterWikiOrderEnum order = InterWikiOrderEnum.LocalLanguageAlpha;
+        private InterWikiOrderEnum Order = InterWikiOrderEnum.LocalLanguageAlpha;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public InterWikiOrderEnum InterWikiOrder
         {//orders from http://meta.wikimedia.org/wiki/Interwiki_sorting_order
             set
             {
-                order = value;
+                Order = value;
 
                 List<string> seq;
-                switch (order)
+                switch (Order)
                 {
                     case InterWikiOrderEnum.Alphabetical:
                         seq = InterwikiAlpha;
@@ -332,24 +100,32 @@ namespace WikiFunctions.Parse
             }
             get
             {
-                return order;
+                return Order;
             }
         }
 
-        private bool loaded = true;
+        private bool Loaded = true;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="what"></param>
+        /// <returns></returns>
         private List<string> Load(string what)
         {
             var result = (List<string>)ObjectCache.Global.Get<List<string>>(Key(what));
             if (result == null)
             {
-                loaded = false;
+                Loaded = false;
                 return new List<string>();
             }
 
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void SaveInterWikiToCache()
         {
             ObjectCache.Global.Set(Key("InterwikiLocalAlpha"), InterwikiLocalAlpha);
@@ -358,11 +134,20 @@ namespace WikiFunctions.Parse
             ObjectCache.Global.Set(Key("InterwikiAlphaEnFirst"), InterwikiAlphaEnFirst);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="what"></param>
+        /// <returns></returns>
         private static string Key(string what)
         {
             return "MetaDataSorter::" + what;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         private bool LoadInterWikiFromCache()
         {
             InterwikiLocalAlpha = Load("InterwikiLocalAlpha");
@@ -370,7 +155,7 @@ namespace WikiFunctions.Parse
             InterwikiAlpha = Load("InterwikiAlpha");
             InterwikiAlphaEnFirst = Load("InterwikiAlphaEnFirst");
 
-            return loaded;
+            return Loaded;
         }
 
         /// <summary>
@@ -388,9 +173,9 @@ en, sq, ru
 <!--InterwikiLocalFirstEnds-->";
 
             string interwikiLocalAlphaRaw =
-                remExtra(Tools.StringBetween(text, "<!--InterwikiLocalAlphaBegins-->", "<!--InterwikiLocalAlphaEnds-->"));
+                RemExtra(Tools.StringBetween(text, "<!--InterwikiLocalAlphaBegins-->", "<!--InterwikiLocalAlphaEnds-->"));
             string interwikiLocalFirstRaw =
-                remExtra(Tools.StringBetween(text, "<!--InterwikiLocalFirstBegins-->", "<!--InterwikiLocalFirstEnds-->"));
+                RemExtra(Tools.StringBetween(text, "<!--InterwikiLocalFirstBegins-->", "<!--InterwikiLocalFirstEnds-->"));
 
             InterwikiLocalAlpha = new List<string>();
 
@@ -419,11 +204,11 @@ en, sq, ru
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="Input"></param>
+        /// <param name="input"></param>
         /// <returns></returns>
-        private static string remExtra(string Input)
+        private static string RemExtra(string input)
         {
-            return Input.Replace("\r\n", "").Replace(">", "").Replace("\n", "");
+            return input.Replace("\r\n", "").Replace(">", "").Replace("\n", "");
         }
 
         /// <summary>
@@ -437,11 +222,11 @@ en, sq, ru
         }
 
         /// <summary>
-        /// 
+        /// Adds the specified number of newlines to the string
         /// </summary>
-        /// <param name="s"></param>
-        /// <param name="n"></param>
-        /// <returns></returns>
+        /// <param name="s">Input string</param>
+        /// <param name="n">Number of newlines to add</param>
+        /// <returns>Input string + (n x newlines)</returns>
         private static string Newline(string s, int n)
         {
             if (s.Length == 0)
@@ -455,63 +240,63 @@ en, sq, ru
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ArticleText"></param>
-        /// <param name="ArticleTitle"></param>
+        /// <param name="articleText"></param>
+        /// <param name="articleTitle"></param>
         /// <returns></returns>
-        internal string Sort(string ArticleText, string ArticleTitle)
+        internal string Sort(string articleText, string articleTitle)
         {
-            if (Namespace.Determine(ArticleTitle) == 10) //Dont really want to be fooling around with templates
-                return ArticleText;
+            if (Namespace.Determine(articleTitle) == 10) //Dont really want to be fooling around with templates
+                return articleText;
 
-            string strSave = ArticleText;
+            string strSave = articleText;
             try
             {
-                ArticleText = Regex.Replace(ArticleText, "<!-- ?\\[\\[en:.*?\\]\\] ?-->", "");
+                articleText = Regex.Replace(articleText, "<!-- ?\\[\\[en:.*?\\]\\] ?-->", "");
 
-                string strPersonData = Newline(removePersonData(ref ArticleText));
-                string strDisambig = Newline(removeDisambig(ref ArticleText));
-                string strCategories = Newline(removeCats(ref ArticleText, ArticleTitle));
-                string strInterwikis = Newline(interwikis(ref ArticleText));
+                string strPersonData = Newline(RemovePersonData(ref articleText));
+                string strDisambig = Newline(RemoveDisambig(ref articleText));
+                string strCategories = Newline(RemoveCats(ref articleText, articleTitle));
+                string strInterwikis = Newline(Interwikis(ref articleText));
 
-                ArticleText = moveDablinks(ArticleText);
+                articleText = MoveDablinks(articleText);
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Placement_of_portal_template
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests.html#Move_nofootnotes_to_the_references_section
                 if (Variables.LangCode == LangCodeEnum.en)
                 {
-                    ArticleText = movePortalTemplates(ArticleText);
-                    ArticleText = moveMoreNoFootnotes(ArticleText);
-                    ArticleText = moveExternalLinks(ArticleText);
+                    articleText = MovePortalTemplates(articleText);
+                    articleText = MoveMoreNoFootnotes(articleText);
+                    articleText = MoveExternalLinks(articleText);
                 }
 
                 // two newlines here per http://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser&oldid=243224092#Blank_lines_before_stubs
-                string strStub = Newline(removeStubs(ref ArticleText), 2);
+                string strStub = Newline(RemoveStubs(ref articleText), 2);
 
                 //filter out excess white space and remove "----" from end of article
-                ArticleText = Parsers.RemoveWhiteSpace(ArticleText) + "\r\n";
-                ArticleText += strDisambig;
+                articleText = Parsers.RemoveWhiteSpace(articleText) + "\r\n";
+                articleText += strDisambig;
 
                 switch (Variables.LangCode)
                 {
                     case LangCodeEnum.de:
                     case LangCodeEnum.sl:
-                        ArticleText += strStub + strCategories + strPersonData;
+                        articleText += strStub + strCategories + strPersonData;
 
                         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser#Removal_of_blank_lines
                         // on de wiki a blank line is desired between persondata and interwikis
                         if (Variables.LangCode == LangCodeEnum.de && strPersonData.Length > 0 && strInterwikis.Length > 0)
-                            ArticleText += "\r\n";
+                            articleText += "\r\n";
                         break;
                     case LangCodeEnum.pl:
                     case LangCodeEnum.ru:
                     case LangCodeEnum.simple:
-                        ArticleText += strPersonData + strStub + strCategories;
+                        articleText += strPersonData + strStub + strCategories;
                         break;
                     default:
-                        ArticleText += strPersonData + strCategories + strStub;
+                        articleText += strPersonData + strCategories + strStub;
                         break;
                 }
-                return (ArticleText + strInterwikis);
+                return (articleText + strInterwikis);
             }
             catch (Exception ex)
             {
@@ -523,10 +308,10 @@ en, sq, ru
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ArticleText"></param>
-        /// <param name="ArticleTitle"></param>
+        /// <param name="articleText"></param>
+        /// <param name="articleTitle"></param>
         /// <returns></returns>
-        public string removeCats(ref string ArticleText, string ArticleTitle)
+        public string RemoveCats(ref string articleText, string articleTitle)
         {
             List<string> categoryList = new List<string>();
 
@@ -535,7 +320,7 @@ en, sq, ru
                 + Variables.NamespacesCaseInsensitive[Namespace.Category]
                 + ".*?(\\]\\]|\\|.*?\\]\\])( {0,4}⌊⌊⌊⌊[0-9]{1,4}⌋⌋⌋⌋)?");
 
-            MatchCollection matches = r.Matches(ArticleText);
+            MatchCollection matches = r.Matches(articleText);
             foreach (Match m in matches)
             {
                 string x = m.Value;
@@ -546,26 +331,26 @@ en, sq, ru
                 }
             }
 
-            ArticleText = Tools.RemoveMatches(ArticleText, matches);
+            articleText = Tools.RemoveMatches(articleText, matches);
 
             if (AddCatKey)
-                categoryList = catKeyer(categoryList, ArticleTitle);
+                categoryList = CatKeyer(categoryList, articleTitle);
 
-            if (CatCommentRegex.IsMatch(ArticleText))
+            if (CatCommentRegex.IsMatch(articleText))
             {
-                string catComment = CatCommentRegex.Match(ArticleText).Value;
-                ArticleText = ArticleText.Replace(catComment, "");
+                string catComment = CatCommentRegex.Match(articleText).Value;
+                articleText = articleText.Replace(catComment, "");
                 categoryList.Insert(0, catComment);
             }
 
-            MatchCollection mc = WikiRegexes.Defaultsort.Matches(ArticleText);
+            MatchCollection mc = WikiRegexes.Defaultsort.Matches(articleText);
             if (mc.Count > 1) throw new ArgumentException("Page contains multiple {{DEFAULTSORTS}} tags. Metadata sorting cancelled");
 
             string defaultSort = "";
             if (mc.Count > 0) defaultSort = mc[0].Value;
 
             if (!string.IsNullOrEmpty(defaultSort))
-                ArticleText = ArticleText.Replace(defaultSort, "");
+                articleText = articleText.Replace(defaultSort, "");
 
             if (!string.IsNullOrEmpty(defaultSort) && defaultSort.ToUpper().Contains("DEFAULTSORT"))
             {
@@ -574,36 +359,36 @@ en, sq, ru
             if (!string.IsNullOrEmpty(defaultSort)) defaultSort += "\r\n";
 
             // on en-wiki find any {{Lifetime}} template and move directly after categories
-            string Lifetime = "";
+            string lifetime = "";
             if (Variables.LangCode == LangCodeEnum.en)
             {
-                Lifetime = WikiRegexes.Lifetime.Match(ArticleText).Value;
+                lifetime = WikiRegexes.Lifetime.Match(articleText).Value;
 
-                if (!string.IsNullOrEmpty(Lifetime))
+                if (!string.IsNullOrEmpty(lifetime))
                 {
-                    ArticleText = ArticleText.Replace(Lifetime, "");
+                    articleText = articleText.Replace(lifetime, "");
 
                     // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Blank_lines_after_Lifetime
-                    Lifetime += "\r\n";
+                    lifetime += "\r\n";
                 }
             }
 
-            return defaultSort + ListToString(categoryList) + Lifetime;
+            return defaultSort + ListToString(categoryList) + lifetime;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ArticleText"></param>
+        /// <param name="articleText"></param>
         /// <returns></returns>
-        public static string removePersonData(ref string ArticleText)
+        public static string RemovePersonData(ref string articleText)
         {
             string strPersonData = (Variables.LangCode == LangCodeEnum.de)
-                                ? Parsers.GetTemplate(ArticleText, "[Pp]ersonendaten")
-                                : Parsers.GetTemplate(ArticleText, "[Pp]ersondata");
+                                ? Parsers.GetTemplate(articleText, "[Pp]ersonendaten")
+                                : Parsers.GetTemplate(articleText, "[Pp]ersondata");
 
             if (!string.IsNullOrEmpty(strPersonData))
-                ArticleText = ArticleText.Replace(strPersonData, "");
+                articleText = articleText.Replace(strPersonData, "");
 
             return strPersonData;
         }
@@ -611,16 +396,16 @@ en, sq, ru
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ArticleText"></param>
+        /// <param name="articleText"></param>
         /// <returns></returns>
-        public static string removeStubs(ref string ArticleText)
+        public static string RemoveStubs(ref string articleText)
         {
             List<string> stubList = new List<string>();
-            MatchCollection matches = WikiRegexes.PossiblyCommentedStub.Matches(ArticleText);
+            MatchCollection matches = WikiRegexes.PossiblyCommentedStub.Matches(articleText);
             if (matches.Count == 0) return "";
 
             string x;
-            StringBuilder sb = new StringBuilder(ArticleText);
+            StringBuilder sb = new StringBuilder(articleText);
 
             for (int i = matches.Count - 1; i >= 0; i--)
             {
@@ -632,30 +417,27 @@ en, sq, ru
                     sb.Remove(m.Index, x.Length);
                 }
             }
-            ArticleText = sb.ToString();
+            articleText = sb.ToString();
 
             stubList.Reverse();
-            if (stubList.Count != 0)
-                return ListToString(stubList);
-
-            return "";
+            return (stubList.Count != 0) ? ListToString(stubList) : "";
         }
 
         /// <summary>
         /// Removes any disambiguation templates from the article text, to be added at bottom later
         /// </summary>
-        /// <param name="ArticleText"></param>
+        /// <param name="articleText"></param>
         /// <returns>Article text stripped of disambiguation templates</returns>
-        public static string removeDisambig(ref string ArticleText)
+        public static string RemoveDisambig(ref string articleText)
         {
             if (Variables.LangCode != LangCodeEnum.en)
                 return "";
 
             string strDisambig = "";
-            if (WikiRegexes.Disambigs.IsMatch(ArticleText))
+            if (WikiRegexes.Disambigs.IsMatch(articleText))
             {
-                strDisambig = WikiRegexes.Disambigs.Match(ArticleText).Value;
-                ArticleText = ArticleText.Replace(strDisambig, "");
+                strDisambig = WikiRegexes.Disambigs.Match(articleText).Value;
+                articleText = articleText.Replace(strDisambig, "");
             }
 
             return strDisambig;
@@ -664,132 +446,129 @@ en, sq, ru
         /// <summary>
         /// Moves any disambiguation links in the zeroth section to the top of the article (en only)
         /// </summary>
-        /// <param name="ArticleText"></param>
+        /// <param name="articleText"></param>
         /// <returns>Article text with disambiguation links at top</returns>
-        public static string moveDablinks(string ArticleText)
+        public static string MoveDablinks(string articleText)
         {
             // get the zeroth section (text upto first heading)
-            string ZerothSection = WikiRegexes.ZerothSection.Match(ArticleText).Value;
+            string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
 
             // get the rest of the article including first heading (may be null if article has no headings)
-            string RestOfArticle = ArticleText.Replace(ZerothSection, "");
+            string restOfArticle = articleText.Replace(zerothSection, "");
 
             // avoid moving commented out Dablinks
-            if (Variables.LangCode != LangCodeEnum.en || !WikiRegexes.Dablinks.IsMatch(WikiRegexes.Comments.Replace(ZerothSection, "")))
-                return ArticleText;
+            if (Variables.LangCode != LangCodeEnum.en || !WikiRegexes.Dablinks.IsMatch(WikiRegexes.Comments.Replace(zerothSection, "")))
+                return articleText;
 
             string strDablinks = "";
 
-            foreach (Match m in WikiRegexes.Dablinks.Matches(ZerothSection))
+            foreach (Match m in WikiRegexes.Dablinks.Matches(zerothSection))
             {
                 strDablinks = strDablinks + m.Value + "\r\n";
-                ZerothSection = ZerothSection.Replace(m.Value, "");
+                zerothSection = zerothSection.Replace(m.Value, "");
             }
 
-            ArticleText = strDablinks + ZerothSection + RestOfArticle;
+            articleText = strDablinks + zerothSection + restOfArticle;
 
             // may now have two newlines between dablinks and rest of article, so cut down to one
-            return ArticleText.Replace(strDablinks + "\r\n", strDablinks);
+            return articleText.Replace(strDablinks + "\r\n", strDablinks);
         }
 
         private static readonly Regex SeeAlso = new Regex(@"(\s*(==+)\s*see\s+also\s*\2)",  RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly Regex SeeAlsoSection = new Regex(@"(\s*(==+)\s*see\s+also\s*\2 *).*?(?===[^=][^\r\n]*?[^=]==(\r\n?|\n))", RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly Regex SeeAlsoToEnd = new Regex(@"(\s*(==+)\s*see\s+also\s*\2 *).*",  RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        
         /// <summary>
         /// Moves any {{XX portal}} templates to the 'see also' section, if present (en only)
         /// </summary>
-        /// <param name="ArticleText"></param>
+        /// <param name="articleText"></param>
         /// <returns>Article text with {{XX portal}} template correctly placed</returns>
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Placement_of_portal_template
-        public static string movePortalTemplates(string ArticleText)
+        public static string MovePortalTemplates(string articleText)
         {
             // need to have a 'see also' section to move the portal template to
-            if (WikiRegexes.PortalTemplate.Matches(ArticleText).Count >= 1 && SeeAlso.Matches(ArticleText).Count == 1)
+            if (WikiRegexes.PortalTemplate.Matches(articleText).Count >= 1 && SeeAlso.Matches(articleText).Count == 1)
             {
-                foreach (Match m in WikiRegexes.PortalTemplate.Matches(ArticleText))
+                foreach (Match m in WikiRegexes.PortalTemplate.Matches(articleText))
                 {
-                    string PortalTemplateFound = m.Value;
-                    string SeeAlsoSectionString = SeeAlsoSection.Match(ArticleText).Value;
+                    string portalTemplateFound = m.Value;
+                    string seeAlsoSectionString = SeeAlsoSection.Match(articleText).Value;
 
                     // if SeeAlsoSection didn't match then 'see also' must be last section
-                    if (SeeAlsoSectionString.Equals(""))
-                        SeeAlsoSectionString = SeeAlsoToEnd.Match(ArticleText).Value;
+                    if (seeAlsoSectionString.Equals(""))
+                        seeAlsoSectionString = SeeAlsoToEnd.Match(articleText).Value;
 
                     // check portal template NOT currently in 'see also'
-                    if (!SeeAlsoSectionString.Contains(PortalTemplateFound.Trim()))
+                    if (!seeAlsoSectionString.Contains(portalTemplateFound.Trim()))
                     {
-                        ArticleText = ArticleText.Replace(PortalTemplateFound + "\r\n", "");
-                        ArticleText = SeeAlso.Replace(ArticleText, "$0" + "\r\n" + PortalTemplateFound);
+                        articleText = articleText.Replace(portalTemplateFound + "\r\n", "");
+                        articleText = SeeAlso.Replace(articleText, "$0" + "\r\n" + portalTemplateFound);
                     }
                 }
             }
 
-            return (ArticleText);
+            return (articleText);
         }
-        
         
         private static readonly Regex ReferencesSectionRegex = new Regex(@"^== *[Rr]eferences *==\s*", RegexOptions.Multiline);
         private static readonly Regex NotesSectionRegex = new Regex(@"^== *[Nn]otes *==\s*", RegexOptions.Multiline);
         private static readonly Regex FootnotesSectionRegex = new Regex(@"^== *[Ff]ootnotes *==\s*", RegexOptions.Multiline);
+
         /// <summary>
         /// Moves any {{nofootnotes}} or {{morefootnotes}} to the references section from the zeroth section, if present (en only)
         /// </summary>
-        /// <param name="ArticleText"></param>
+        /// <param name="articleText"></param>
         /// <returns>Article text with {{nofootnotes}} or {{morefootnotes}} template correctly placed</returns>
-        public static string moveMoreNoFootnotes(string ArticleText)
+        public static string MoveMoreNoFootnotes(string articleText)
         {
           // no support for more than one of these templates in the article
-          string ZerothSection = WikiRegexes.ZerothSection.Match(ArticleText).Value;
-          if(WikiRegexes.MoreNoFootnotes.Matches(ZerothSection).Count != 1)
-            return ArticleText;          
+          string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
+          if(WikiRegexes.MoreNoFootnotes.Matches(zerothSection).Count != 1)
+            return articleText;          
 
           // find the template position
-          int MoreNoFootnotesPosition = WikiRegexes.MoreNoFootnotes.Match(ArticleText).Index;
+          int moreNoFootnotesPosition = WikiRegexes.MoreNoFootnotes.Match(articleText).Index;
           
           // the template must be in one of the 'References', 'Notes' or 'Footnotes' section          
-          int ReferencesSectionPosition = ReferencesSectionRegex.Match(ArticleText).Index;
+          int referencesSectionPosition = ReferencesSectionRegex.Match(articleText).Index;
           
-          if(ReferencesSectionPosition > 0 && MoreNoFootnotesPosition < ReferencesSectionPosition)
-            return moveMoreNoFootnotesToSection(ArticleText, 1);
+          if(referencesSectionPosition > 0 && moreNoFootnotesPosition < referencesSectionPosition)
+            return MoveMoreNoFootnotesToSection(articleText, 1);
           
-          int NotesSectionPosition = NotesSectionRegex.Match(ArticleText).Index;
+          int notesSectionPosition = NotesSectionRegex.Match(articleText).Index;
           
-          if(NotesSectionPosition > 0 && MoreNoFootnotesPosition < NotesSectionPosition)
-            return moveMoreNoFootnotesToSection(ArticleText, 2);
+          if(notesSectionPosition > 0 && moreNoFootnotesPosition < notesSectionPosition)
+            return MoveMoreNoFootnotesToSection(articleText, 2);
             
-          int FootnotesSectionPosition = FootnotesSectionRegex.Match(ArticleText).Index;
+          int footnotesSectionPosition = FootnotesSectionRegex.Match(articleText).Index;
           
-          if(FootnotesSectionPosition > 0 && MoreNoFootnotesPosition < FootnotesSectionPosition)
-            return moveMoreNoFootnotesToSection(ArticleText, 3);
+          if(footnotesSectionPosition > 0 && moreNoFootnotesPosition < footnotesSectionPosition)
+            return MoveMoreNoFootnotesToSection(articleText, 3);
             
-          return ArticleText;        
+          return articleText;        
         }
         
-        private static string moveMoreNoFootnotesToSection(string ArticleText, int section)
+        private static string MoveMoreNoFootnotesToSection(string articleText, int section)
         {
             // extract the template
-            string MoreNoFootnotes = WikiRegexes.MoreNoFootnotes.Match(ArticleText).Value;
-            ArticleText = ArticleText.Replace(MoreNoFootnotes, "");
-            
-            switch(section)
+            string moreNoFootnotes = WikiRegexes.MoreNoFootnotes.Match(articleText).Value;
+            articleText = articleText.Replace(moreNoFootnotes, "");
+
+            switch (section)
             {
-              case 1: ArticleText = ReferencesSectionRegex.Replace(ArticleText, "$0" + MoreNoFootnotes + "\r\n");
-              break;
-
-              case 2: ArticleText = NotesSectionRegex.Replace(ArticleText, "$0" + MoreNoFootnotes + "\r\n");
-              break;
-
-              case 3: ArticleText = FootnotesSectionRegex.Replace(ArticleText, "$0" + MoreNoFootnotes + "\r\n");
-              break;
+                case 1:
+                    return ReferencesSectionRegex.Replace(articleText, "$0" + moreNoFootnotes + "\r\n");
+                case 2:
+                    return NotesSectionRegex.Replace(articleText, "$0" + moreNoFootnotes + "\r\n");
+                case 3:
+                    return FootnotesSectionRegex.Replace(articleText, "$0" + moreNoFootnotes + "\r\n");
+                default:
+                    return articleText;
             }
-            
-            return ArticleText;        
         }
 
         private static readonly Regex ExternalLinksSection = new Regex(@"(^== *[Ee]xternal +[Ll]inks? *==.*?)(?=^==+[^=][^\r\n]*?[^=]==+(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
-
         private static readonly Regex ReferencesSection = new Regex(@"(^== *[Rr]eferences *==.*?)(?=^==[^=][^\r\n]*?[^=]==(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
-
         private static readonly Regex ReferencesToEnd = new Regex(@"^== *[Rr]eferences *==\s*" + WikiRegexes.ReferencesTemplates + @"\s*(?={{DEFAULTSORT\:|\[\[Category\:)", RegexOptions.Multiline);
 
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Place_.22External_links.22_section_after_.22References.22
@@ -797,41 +576,41 @@ en, sq, ru
         /// Ensures the external links section of an article is after the references section
         /// TODO only works when there is another section following the references section
         /// </summary>
-        /// <param name="ArticleText"></param>
+        /// <param name="articleText"></param>
         /// <returns>Article text with external links section below the references section</returns>
-        public static string moveExternalLinks(string ArticleText)
+        public static string MoveExternalLinks(string articleText)
         {
             // is external links section above references?
-            string ExternalLinks = ExternalLinksSection.Match(ArticleText).Groups[1].Value;
-            string References = ReferencesSection.Match(ArticleText).Groups[1].Value;
+            string externalLinks = ExternalLinksSection.Match(articleText).Groups[1].Value;
+            string references = ReferencesSection.Match(articleText).Groups[1].Value;
 
             // references may be last section
-            if (References.Equals(""))
-                References = ReferencesToEnd.Match(ArticleText).Value;
+            if (references.Equals(""))
+                references = ReferencesToEnd.Match(articleText).Value;
 
-            if (ArticleText.IndexOf(ExternalLinks) < ArticleText.IndexOf(References) && References.Length > 0 && ExternalLinks.Length > 0)
+            if (articleText.IndexOf(externalLinks) < articleText.IndexOf(references) && references.Length > 0 && externalLinks.Length > 0)
             {
-                ArticleText = ArticleText.Replace(ExternalLinks, "");
-                ArticleText = ArticleText.Replace(References, References + ExternalLinks);
+                articleText = articleText.Replace(externalLinks, "");
+                articleText = articleText.Replace(references, references + externalLinks);
             }
             // newlines are fixed by later logic
-            return ArticleText;
+            return articleText;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ArticleText"></param>
+        /// <param name="articleText"></param>
         /// <returns></returns>
-        private static List<string> removeLinkFGAs(ref string ArticleText)
+        private static List<string> RemoveLinkFGAs(ref string articleText)
         {
             List<string> linkFGAList = new List<string>();
-            foreach (Match m in WikiRegexes.LinkFGAs.Matches(ArticleText))
+            foreach (Match m in WikiRegexes.LinkFGAs.Matches(articleText))
             {
                 string x = m.Value;
                 linkFGAList.Add(x);
                 //remove old LinkFA
-                ArticleText = ArticleText.Replace(x, "");
+                articleText = articleText.Replace(x, "");
             }
 
             return linkFGAList;
@@ -840,24 +619,24 @@ en, sq, ru
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ArticleText"></param>
+        /// <param name="articleText"></param>
         /// <returns></returns>
-        public string interwikis(ref string ArticleText)
+        public string Interwikis(ref string articleText)
         {
-            return ListToString(removeLinkFGAs(ref ArticleText)) + ListToString(removeInterWikis(ref ArticleText));
+            return ListToString(RemoveLinkFGAs(ref articleText)) + ListToString(RemoveInterWikis(ref articleText));
         }
 
-        static readonly Regex FastIW = new Regex(@"\[\[\s*([-a-zA-Z]*?)\s*:\s*([^\]]*?)\s*\]\]", RegexOptions.Compiled);
+        private static readonly Regex FastIW = new Regex(@"\[\[\s*([-a-zA-Z]*?)\s*:\s*([^\]]*?)\s*\]\]", RegexOptions.Compiled);
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ArticleText"></param>
+        /// <param name="articleText"></param>
         /// <returns></returns>
-        private List<string> removeInterWikis(ref string ArticleText)
+        private List<string> RemoveInterWikis(ref string articleText)
         {
             List<string> interWikiList = new List<string>();
-            MatchCollection matches = FastIW.Matches(ArticleText);
+            MatchCollection matches = FastIW.Matches(articleText);
             if (matches.Count == 0) return interWikiList;
 
             List<Match> goodMatches = new List<Match>(matches.Count);
@@ -870,13 +649,13 @@ en, sq, ru
                 interWikiList.Add("[[" + site + ":" + m.Groups[2].Value.Trim() + "]]");
             }
 
-            ArticleText = Tools.RemoveMatches(ArticleText, goodMatches);
+            articleText = Tools.RemoveMatches(articleText, goodMatches);
 
             string interWikiComment = "";
-            if (InterLangRegex.IsMatch(ArticleText))
+            if (InterLangRegex.IsMatch(articleText))
             {
-                interWikiComment = InterLangRegex.Match(ArticleText).Value;
-                ArticleText = ArticleText.Replace(interWikiComment, "");
+                interWikiComment = InterLangRegex.Match(articleText).Value;
+                articleText = articleText.Replace(interWikiComment, "");
             }
 
             if (SortInterwikis)
@@ -933,20 +712,20 @@ en, sq, ru
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="List"></param>
-        /// <param name="strName"></param>
+        /// <param name="list"></param>
+        /// <param name="name"></param>
         /// <returns></returns>
-        private static List<string> catKeyer(List<string> List, string strName)
+        private static List<string> CatKeyer(List<string> list, string name)
         {
-            strName = Tools.MakeHumanCatKey(strName); // make key
+            name = Tools.MakeHumanCatKey(name); // make key
 
             //add key to cats that need it
             List<string> newCats = new List<string>();
-            foreach (string s in List)
+            foreach (string s in list)
             {
                 string z = s;
                 if (!z.Contains("|"))
-                    z = z.Replace("]]", "|" + strName + "]]");
+                    z = z.Replace("]]", "|" + name + "]]");
 
                 newCats.Add(z);
             }

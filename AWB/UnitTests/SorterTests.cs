@@ -27,20 +27,20 @@ namespace UnitTests
         {
             // shouldn't break anything
             string s = "==foo==\r\nbar<ref name=\"123\"/>{{boz}}";
-            Assert.AreEqual("", MetaDataSorter.removeStubs(ref s));
+            Assert.AreEqual("", MetaDataSorter.RemoveStubs(ref s));
             Assert.AreEqual("==foo==\r\nbar<ref name=\"123\"/>{{boz}}", s);
 
             // should remove stubs, but not section stubs
             s = "{{foo}}{{stub}}{{foo-stub}}bar{{sect-stub}}{{not-a-stub|123}}{{not a|stub}}";
-            Assert.AreEqual("{{stub}}\r\n{{foo-stub}}\r\n", MetaDataSorter.removeStubs(ref s));
+            Assert.AreEqual("{{stub}}\r\n{{foo-stub}}\r\n", MetaDataSorter.RemoveStubs(ref s));
             Assert.AreEqual("{{foo}}bar{{sect-stub}}{{not-a-stub|123}}{{not a|stub}}", s);
 
             //shouldn't fail
             s = "";
-            Assert.AreEqual("", MetaDataSorter.removeStubs(ref s));
+            Assert.AreEqual("", MetaDataSorter.RemoveStubs(ref s));
             Assert.AreEqual("", s);
             s = "{{stub}}";
-            Assert.AreEqual("{{stub}}\r\n", MetaDataSorter.removeStubs(ref s));
+            Assert.AreEqual("{{stub}}\r\n", MetaDataSorter.RemoveStubs(ref s));
             Assert.AreEqual("", s);
         }
 
@@ -54,26 +54,26 @@ Fred has a dog.
 ";
 
             string e = @"{{otherpeople1|Fred the dancer|Fred Smith (dancer)}}";
-            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.moveDablinks(d + e));
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveDablinks(d + e));
 
             e = @"{{For|Fred the dancer|Fred Smith (dancer)}}";
-            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.moveDablinks(d + e));
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveDablinks(d + e));
 
             e = @"{{redirect2|Fred the dancer|Fred Smith (dancer)}}";
-            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.moveDablinks(d + e));
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveDablinks(d + e));
 
             e = @"{{redirect2|Fred the {{dancer}}|Fred Smith (dancer)}}";
-            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.moveDablinks(d + e));
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveDablinks(d + e));
 
             // check no change when already in correct position
-            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.moveDablinks(e + "\r\n" + d));
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveDablinks(e + "\r\n" + d));
 
             // don't move dablinks in a section
             string f = @"Article words
 == heading ==
 {{redirect2|Fred the dancer|Fred Smith (dancer)}}
 words";
-            Assert.AreEqual(f, MetaDataSorter.moveDablinks(f));
+            Assert.AreEqual(f, MetaDataSorter.MoveDablinks(f));
 
         }
 
@@ -84,7 +84,7 @@ words";
 text here2
 == see also ==
 {{Portal|Football}}
-some words", MetaDataSorter.movePortalTemplates(@"text here
+some words", MetaDataSorter.MovePortalTemplates(@"text here
 {{Portal|Football}}
 text here2
 == see also ==
@@ -95,7 +95,7 @@ text here2
 == see also ==
 {{Portal|Sport}}
 {{Portal|Football}}
-some words", MetaDataSorter.movePortalTemplates(@"text here
+some words", MetaDataSorter.MovePortalTemplates(@"text here
 {{Portal|Football}}
 {{Portal|Sport}}
 text here2
@@ -106,7 +106,7 @@ some words"));
 text here2
 == see also ==
 {{Portal|Football}}
-some words", MetaDataSorter.movePortalTemplates(@"{{Portal|Football}}
+some words", MetaDataSorter.MovePortalTemplates(@"{{Portal|Football}}
 text here
 text here2
 == see also ==
@@ -116,7 +116,7 @@ some words"));
 text here2
 == see also==
 {{Portal|abc}}
-* Fred", MetaDataSorter.movePortalTemplates(@"text here
+* Fred", MetaDataSorter.MovePortalTemplates(@"text here
 {{Portal|abc}}
 text here2
 == see also==
@@ -128,7 +128,7 @@ text here2
 {{Portal|Football}}
 * Fred
 == hello ==
-some words", MetaDataSorter.movePortalTemplates(@"text here
+some words", MetaDataSorter.MovePortalTemplates(@"text here
 {{Portal|Football}}
 text here2
 == see also ==
@@ -142,7 +142,7 @@ text here2
 {{Portal|Football}}
 * Fred
 === hello ===
-some words", MetaDataSorter.movePortalTemplates(@"text here
+some words", MetaDataSorter.MovePortalTemplates(@"text here
 {{Portal|Football}}
 text here2
 == see also ==
@@ -155,7 +155,7 @@ some words"));
 text here2
 == see also ==
 {{Portal|Football}}
-some words", MetaDataSorter.movePortalTemplates(@"text here
+some words", MetaDataSorter.MovePortalTemplates(@"text here
 text here2
 == see also ==
 {{Portal|Football}}
@@ -166,7 +166,7 @@ text here2
 == see also ==
 * Fred
 {{Portal|Football}}
-some words", MetaDataSorter.movePortalTemplates(@"text here
+some words", MetaDataSorter.MovePortalTemplates(@"text here
 text here2
 == see also ==
 * Fred
@@ -179,7 +179,7 @@ text here2
 * Fred
 === portals ===
 {{Portal|Football}}
-some words", MetaDataSorter.movePortalTemplates(@"text here
+some words", MetaDataSorter.MovePortalTemplates(@"text here
 text here2
 == see also ==
 * Fred
@@ -213,16 +213,16 @@ words.
 ";  
           string G = @"words";
         
-          Assert.AreEqual(B + C + A + "\r\n" + G, MetaDataSorter.moveMoreNoFootnotes(A + B + C + G));
-          Assert.AreEqual(B + D + A + "\r\n" + G, MetaDataSorter.moveMoreNoFootnotes(A + B + D + G));
-          Assert.AreEqual(B + E + A + "\r\n" + G, MetaDataSorter.moveMoreNoFootnotes(A + B + E + G));
-          Assert.AreEqual(B + E + A + "\r\n", MetaDataSorter.moveMoreNoFootnotes(A + B + E));
-          Assert.AreEqual(B + E + A2 + "\r\n", MetaDataSorter.moveMoreNoFootnotes(A2 + B + E));
+          Assert.AreEqual(B + C + A + "\r\n" + G, MetaDataSorter.MoveMoreNoFootnotes(A + B + C + G));
+          Assert.AreEqual(B + D + A + "\r\n" + G, MetaDataSorter.MoveMoreNoFootnotes(A + B + D + G));
+          Assert.AreEqual(B + E + A + "\r\n" + G, MetaDataSorter.MoveMoreNoFootnotes(A + B + E + G));
+          Assert.AreEqual(B + E + A + "\r\n", MetaDataSorter.MoveMoreNoFootnotes(A + B + E));
+          Assert.AreEqual(B + E + A2 + "\r\n", MetaDataSorter.MoveMoreNoFootnotes(A2 + B + E));
         
           // not moved if outside zeroth section
-          Assert.AreEqual(F + C + G, MetaDataSorter.moveMoreNoFootnotes(F + C + G));
-          Assert.AreEqual(F + D + G, MetaDataSorter.moveMoreNoFootnotes(F + D + G));
-          Assert.AreEqual(F + E + G, MetaDataSorter.moveMoreNoFootnotes(F + E + G));
+          Assert.AreEqual(F + C + G, MetaDataSorter.MoveMoreNoFootnotes(F + C + G));
+          Assert.AreEqual(F + D + G, MetaDataSorter.MoveMoreNoFootnotes(F + D + G));
+          Assert.AreEqual(F + E + G, MetaDataSorter.MoveMoreNoFootnotes(F + E + G));
         }
 
         [Test]
@@ -245,19 +245,19 @@ blah";
 blah";
             string h = @"{{DEFAULTSORT:Foo, bar}}";
 
-            Assert.AreEqual(a + "\r\n" + c + "\r\n" + b + "\r\n" + e, MetaDataSorter.moveExternalLinks(a + "\r\n" + b + "\r\n" + c + "\r\n" + e));
-            Assert.AreEqual(a + "\r\n" + c + "\r\n" + b + "\r\n" + h, MetaDataSorter.moveExternalLinks(a + "\r\n" + b + "\r\n" + c + "\r\n" + h));
-            Assert.AreEqual(a + "\r\n" + c + "\r\n" + b + "\r\n" + g, MetaDataSorter.moveExternalLinks(a + "\r\n" + b + "\r\n" + c + "\r\n" + g));
+            Assert.AreEqual(a + "\r\n" + c + "\r\n" + b + "\r\n" + e, MetaDataSorter.MoveExternalLinks(a + "\r\n" + b + "\r\n" + c + "\r\n" + e));
+            Assert.AreEqual(a + "\r\n" + c + "\r\n" + b + "\r\n" + h, MetaDataSorter.MoveExternalLinks(a + "\r\n" + b + "\r\n" + c + "\r\n" + h));
+            Assert.AreEqual(a + "\r\n" + c + "\r\n" + b + "\r\n" + g, MetaDataSorter.MoveExternalLinks(a + "\r\n" + b + "\r\n" + c + "\r\n" + g));
 
             // no change if already correct
-            Assert.AreEqual(a + "\r\n" + c + "\r\n" + b, MetaDataSorter.moveExternalLinks(a + "\r\n" + c + "\r\n" + b));
-            Assert.AreEqual(a + "\r\n" + c + "\r\n" + b + "\r\n" + g, MetaDataSorter.moveExternalLinks(a + "\r\n" + c + "\r\n" + b + "\r\n" + g));
+            Assert.AreEqual(a + "\r\n" + c + "\r\n" + b, MetaDataSorter.MoveExternalLinks(a + "\r\n" + c + "\r\n" + b));
+            Assert.AreEqual(a + "\r\n" + c + "\r\n" + b + "\r\n" + g, MetaDataSorter.MoveExternalLinks(a + "\r\n" + c + "\r\n" + b + "\r\n" + g));
 
             // no change if end of references section is unclear
-            Assert.AreEqual(a + "\r\n" + b + "\r\n" + c + "\r\n" + f, MetaDataSorter.moveExternalLinks(a + "\r\n" + b + "\r\n" + c + "\r\n" + f));
+            Assert.AreEqual(a + "\r\n" + b + "\r\n" + c + "\r\n" + f, MetaDataSorter.MoveExternalLinks(a + "\r\n" + b + "\r\n" + c + "\r\n" + f));
 
             // only matching level two headings following references
-            Assert.AreEqual(a + "\r\n" + b + "\r\n" + c + "\r\n" + d, MetaDataSorter.moveExternalLinks(a + "\r\n" + b + "\r\n" + c + "\r\n" + d));
+            Assert.AreEqual(a + "\r\n" + b + "\r\n" + c + "\r\n" + d, MetaDataSorter.MoveExternalLinks(a + "\r\n" + b + "\r\n" + c + "\r\n" + d));
 
         }
 
@@ -272,7 +272,7 @@ blah";
 {{Lifetime|1922|1987|Smith, Fred}}
 ";
 
-            Assert.AreEqual(b, parser2.Sorter.removeCats(ref a, "test"));
+            Assert.AreEqual(b, parser2.Sorter.RemoveCats(ref a, "test"));
 
             string c = @"Fred is a doctor. Fred has a dog.
 {{lifetime|1922|1987|Smith, Fred}}
@@ -285,7 +285,7 @@ blah";
 {{lifetime|1922|1987|Smith, Fred}}
 ";
 
-            Assert.AreEqual(d, parser2.Sorter.removeCats(ref c, "test"));
+            Assert.AreEqual(d, parser2.Sorter.RemoveCats(ref c, "test"));
 
             string e = @"Fred is a doctor. Fred has a dog.
 {{BIRTH-DEATH-SORT|1922|1987|Smith, Fred}}
@@ -298,7 +298,7 @@ blah";
 {{BIRTH-DEATH-SORT|1922|1987|Smith, Fred}}
 ";
 
-            Assert.AreEqual(f, parser2.Sorter.removeCats(ref e, "test"));
+            Assert.AreEqual(f, parser2.Sorter.RemoveCats(ref e, "test"));
 
             // normal spacing rules apply for {{lifetime}} 1 for interwikis, two for stubs
             string g = @"{{Maroon 5}}
@@ -314,7 +314,7 @@ blah";
 {{Lifetime|1979||Carmichael, Jesse}}
 ";
 
-            Assert.AreEqual(h, parser2.Sorter.removeCats(ref g, "test"));
+            Assert.AreEqual(h, parser2.Sorter.RemoveCats(ref g, "test"));
         }
     }
 }
