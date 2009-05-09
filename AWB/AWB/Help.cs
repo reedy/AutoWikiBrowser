@@ -36,8 +36,8 @@ namespace AutoWikiBrowser
             get { return Tools.GetENLinkWithSimpleSkinAndLocalLanguage("Wikipedia:AutoWikiBrowser/User_manual"); }
         }
 
-        public void ShowHelpEN(Help h, string Article)
-        { ShowHelp(h, Tools.GetENLinkWithSimpleSkinAndLocalLanguage(Article)); }
+        public void ShowHelpEN(Help h, string article)
+        { ShowHelp(h, Tools.GetENLinkWithSimpleSkinAndLocalLanguage(article)); }
 
         public void ShowHelp(Help h, string url)
         {

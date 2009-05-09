@@ -36,7 +36,7 @@ namespace AutoWikiBrowser
         {
             InitializeComponent();
             cmboLang.SelectedIndex = 0;
-            txtCode.Text = codeexample;
+            txtCode.Text = CodeExample;
         }
 
         public string Code
@@ -62,13 +62,13 @@ namespace AutoWikiBrowser
             }
         }
 
-        IModule m;
+        IModule M;
         public IModule Module
         {
-            get { return m; }
+            get { return M; }
             private set
             {
-                m = value;
+                M = value;
 
                 if (value == null)
                 {
@@ -85,22 +85,24 @@ namespace AutoWikiBrowser
             }
         }
 
-        string codestart = "", codeend = "", codeexample = @"";
+        string CodeStart = "", CodeEnd = "", CodeExample = @"";
 
         public void MakeModule()
         {
             try
             {
-                CompilerParameters cp = new CompilerParameters();
-                cp.GenerateExecutable = false;
-                cp.IncludeDebugInformation = false;
+                CompilerParameters cp = new CompilerParameters
+                                            {
+                                                GenerateExecutable = false,
+                                                IncludeDebugInformation = false
+                                            };
 
                 foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
                 {
                     cp.ReferencedAssemblies.Add(asm.Location);
                 }
 
-                string code = codestart + Regex.Replace(txtCode.Text, "VbCrLf", "\"/r/n\"", RegexOptions.IgnoreCase) + "\r\n" + codeend;
+                string code = CodeStart + Regex.Replace(txtCode.Text, "VbCrLf", "\"/r/n\"", RegexOptions.IgnoreCase) + "\r\n" + CodeEnd;
 
                 CodeDomProvider codeProvider;
 
@@ -163,7 +165,7 @@ namespace AutoWikiBrowser
         {
             if (cmboLang.SelectedIndex == 0)
             {
-                codestart = @"using System;
+                CodeStart = @"using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -180,7 +182,7 @@ namespace AutoWikiBrowser.CustomModules
            awb =  mAWB;
         }
 ";
-                codeexample = @"        public string ProcessArticle(string ArticleText, string ArticleTitle, int wikiNamespace, out string Summary, out bool Skip)
+                CodeExample = @"        public string ProcessArticle(string ArticleText, string ArticleTitle, int wikiNamespace, out string Summary, out bool Skip)
         {
             Skip = false;
             Summary = ""test"";
@@ -189,12 +191,12 @@ namespace AutoWikiBrowser.CustomModules
 
             return ArticleText;
         }";
-                codeend = @"    }
+                CodeEnd = @"    }
 }";
             }
             else
             {
-                codestart = @"Imports System
+                CodeStart = @"Imports System
 Imports System.Collections.Generic
 Imports System.Text
 Imports System.Text.RegularExpressions
@@ -211,7 +213,7 @@ Namespace AutoWikiBrowser.CustomModules
         End Sub
 ";
 
-                codeexample = @"        Public Function ProcessArticle(ByVal ArticleText As String, ByVal ArticleTitle As String, ByVal wikiNamespace As Integer, ByRef Summary As String, ByRef Skip As Boolean) As String Implements WikiFunctions.Plugin.IModule.ProcessArticle
+                CodeExample = @"        Public Function ProcessArticle(ByVal ArticleText As String, ByVal ArticleTitle As String, ByVal wikiNamespace As Integer, ByRef Summary As String, ByRef Skip As Boolean) As String Implements WikiFunctions.Plugin.IModule.ProcessArticle
             Skip = False
             Summary = ""test""
 
@@ -220,13 +222,13 @@ Namespace AutoWikiBrowser.CustomModules
             Return ArticleText
         End Function";
 
-                codeend = @"     End Class
+                CodeEnd = @"     End Class
 End Namespace";
             }
 
-            lblStart.Text = codestart;
-            txtCode.Text = codeexample;
-            lblEnd.Text = codeend;
+            lblStart.Text = CodeStart;
+            txtCode.Text = CodeExample;
+            lblEnd.Text = CodeEnd;
         }
 
         private void guideToolStripMenuItem_Click(object sender, EventArgs e)

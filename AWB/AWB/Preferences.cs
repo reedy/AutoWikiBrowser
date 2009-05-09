@@ -282,17 +282,16 @@ namespace AutoWikiBrowser
         {
             get
             {
-                List<String> Temp = new List<String>();
-                Temp.Add(cmboCustomProject.Text);
+                List<String> temp = new List<String> {cmboCustomProject.Text};
                 foreach (object a in cmboCustomProject.Items)
-                    Temp.Add(a.ToString());
-                return Temp;
+                    temp.Add(a.ToString());
+                return temp;
             }
             set
             {
                 cmboCustomProject.Items.Clear();
-                foreach (string Temp in value)
-                    cmboCustomProject.Items.Add(Temp);
+                foreach (string temp in value)
+                    cmboCustomProject.Items.Add(temp);
             }
         }
 

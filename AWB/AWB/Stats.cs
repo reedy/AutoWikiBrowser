@@ -89,10 +89,10 @@ namespace AutoWikiBrowser
         private static int RecordId;
         private static int SecretNumber;
         private static int LastEditCount;
-        private static string mUserName = "";
+        private static string UserName = "";
         private static bool SentUserName;
-        private static readonly List<IAWBPlugin> newAWBPlugins = new List<IAWBPlugin>();
-        private static readonly List<IListMakerPlugin> newListMakerPlugins = new List<IListMakerPlugin>();
+        private static readonly List<IAWBPlugin> NewAWBPlugins = new List<IAWBPlugin>();
+        private static readonly List<IListMakerPlugin> NewListMakerPlugins = new List<IListMakerPlugin>();
 
         #region Public
         internal static void Initialise()
@@ -111,7 +111,7 @@ namespace AutoWikiBrowser
             {
                 if (EstablishedContact)
                 {
-                    if (Program.AWB.NumberOfEdits > LastEditCount || newAWBPlugins.Count > 0
+                    if (Program.AWB.NumberOfEdits > LastEditCount || NewAWBPlugins.Count > 0
                         || HaveUserNameToSend) SubsequentContact();
                 }
                 else
@@ -132,7 +132,7 @@ namespace AutoWikiBrowser
         internal static void AddedPlugin(IAWBPlugin plugin)
         {
             // if we've already written to the remote database, we'll need to add details of this plugin when we next contact it, otherwise do nothing
-            if (EstablishedContact) newAWBPlugins.Add(plugin);
+            if (EstablishedContact) NewAWBPlugins.Add(plugin);
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace AutoWikiBrowser
         /// </summary>
         internal static void AddedPlugin(IListMakerPlugin plugin)
         {
-            if (EstablishedContact) newListMakerPlugins.Add(plugin);
+            if (EstablishedContact) NewListMakerPlugins.Add(plugin);
         }
         #endregion
 
@@ -212,15 +212,15 @@ namespace AutoWikiBrowser
             postvars.Add("RecordID", RecordId.ToString());
             postvars.Add("Verify", SecretNumber.ToString());
 
-            EnumeratePlugins(postvars, newAWBPlugins, newListMakerPlugins);
+            EnumeratePlugins(postvars, NewAWBPlugins, NewListMakerPlugins);
             ProcessUsername(postvars);
 
             if (Program.AWB.NumberOfEdits > LastEditCount)
                 postvars.Add("Saves", Program.AWB.NumberOfEdits.ToString());
 
             PostData(postvars);
-            newAWBPlugins.Clear();
-            newListMakerPlugins.Clear();
+            NewAWBPlugins.Clear();
+            NewListMakerPlugins.Clear();
         }
 
         /// <summary>
@@ -274,19 +274,19 @@ namespace AutoWikiBrowser
             foreach (IAWBPlugin plugin in awbPlugins)
             {
                 i++;
-                string P = "P" + i;
-                postvars.Add(P + "N", plugin.Name);
-                postvars.Add(P + "V", Plugins.Plugin.GetPluginVersionString(plugin));
-                postvars.Add(P + "T", "0");
+                string p = "P" + i;
+                postvars.Add(p + "N", plugin.Name);
+                postvars.Add(p + "V", Plugins.Plugin.GetPluginVersionString(plugin));
+                postvars.Add(p + "T", "0");
             }
 
             foreach (IListMakerPlugin plugin in listLakerPlugins)
             {
                 i++;
-                string P = "P" + i;
-                postvars.Add(P + "N", plugin.Name);
-                postvars.Add(P + "V", Plugins.Plugin.GetPluginVersionString(plugin));
-                postvars.Add(P + "T", "1");
+                string p = "P" + i;
+                postvars.Add(p + "N", plugin.Name);
+                postvars.Add(p + "V", Plugins.Plugin.GetPluginVersionString(plugin));
+                postvars.Add(p + "T", "1");
             }
         }
 
@@ -328,9 +328,9 @@ namespace AutoWikiBrowser
                     postvars.Add("User", "<Withheld>");
                     SentUserName = true;
                 }
-                else if (!string.IsNullOrEmpty(mUserName))
+                else if (!string.IsNullOrEmpty(UserName))
                 {
-                    postvars.Add("User", mUserName);
+                    postvars.Add("User", UserName);
                     SentUserName = true;
                 }
             }
@@ -341,14 +341,14 @@ namespace AutoWikiBrowser
             get
             {
                 return (!SentUserName &&
-                    (Properties.Settings.Default.Privacy || !string.IsNullOrEmpty(mUserName)));
+                    (Properties.Settings.Default.Privacy || !string.IsNullOrEmpty(UserName)));
             }
         }
 
         private static void UserNameChanged(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(Variables.User.Name))
-                mUserName = Variables.User.Name;
+                UserName = Variables.User.Name;
         }
         #endregion
 
