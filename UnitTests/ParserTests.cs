@@ -851,6 +851,39 @@ Some artists represented by Zach Feuer Gallery are [[Phoebe Washburn]], [[Jules 
 
             // don't touch template ends
             Assert.AreEqual(@"[http://aeiou.visao.pt/Pages/Lusa.aspx?News=200808068620453 Obituary notice}}", Parsers.FixSyntax(@"[http://aeiou.visao.pt/Pages/Lusa.aspx?News=200808068620453 Obituary notice}}"));
+
+            // correct [[blah blah}word]] to [[blah blah|word]]
+            Assert.AreEqual(@"[[blah blah|word]]", Parsers.FixSyntax(@"[[blah blah}word]]"));
+            Assert.AreEqual(@"[[blah|word]]", Parsers.FixSyntax(@"[[blah}word]]"));
+
+            // not if unbalanced brackets remain
+            Assert.AreEqual(@"{ here [[blah blah}word]]", Parsers.FixSyntax(@"{ here [[blah blah}word]]"));
+
+            // correct {[link]] or {[[link]] or [[[link]] or [[{link]]
+            Assert.AreEqual(@"now [[link]] was", Parsers.FixSyntax(@"now {[link]] was"));
+            Assert.AreEqual(@"now [[link]] was", Parsers.FixSyntax(@"now {[[link]] was"));
+            Assert.AreEqual(@"now [[link]] was", Parsers.FixSyntax(@"now [[[link]] was"));
+            Assert.AreEqual(@"now [[link]] was", Parsers.FixSyntax(@"now [[{link]] was"));
+
+            // not if unbalanced brackets remain nearby
+            Assert.AreEqual(@"now {[[link]]} was", Parsers.FixSyntax(@"now {[link]]} was"));
+            Assert.AreEqual(@"now [[[link]] was]", Parsers.FixSyntax(@"now [[[link]] was]"));
+
+            // convert [[link]]]] to [[link]] IFF that balances it all out
+            Assert.AreEqual(@"hello [[link]] there", Parsers.FixSyntax(@"hello [[link]]]] there"));
+            Assert.AreEqual(@"[[hello [[link]]]] there", Parsers.FixSyntax(@"[[hello [[link]]]] there"));
+
+            // external links missing brackets
+            Assert.AreEqual(@"blah
+* [http://www.site.com a site]
+* [http://www.site2.com another]", Parsers.FixSyntax(@"blah
+* [http://www.site.com a site
+* [http://www.site2.com another]"));
+            Assert.AreEqual(@"blah
+* [http://www.site.com a site]
+* [http://www.site2.com another]", Parsers.FixSyntax(@"blah
+* http://www.site.com a site]
+* [http://www.site2.com another]"));
         }
 
         [Test]

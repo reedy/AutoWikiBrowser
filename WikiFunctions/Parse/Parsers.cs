@@ -1242,6 +1242,9 @@ namespace WikiFunctions.Parse
                                 
                 if (BracketLength == 1)
                 {
+                    // if it's [[blah blah}word]]
+                    ArticleTextTemp = Regex.Replace(ArticleTextTemp, @"(?<=\[\[[^\[\]{}<>\r\n\|]{1,50})}(?=[^\[\]{}<>\r\n\|]{1,50}\]\])", @"|");
+
                     // if it's (blah} then see if setting the } to a ) makes it all balance, but not |} which could be wikitables
                     ArticleTextTemp = Regex.Replace(ArticleTextTemp, @"(?<=\([^{}<>\(\)]+[^{}<>\(\)\|])}(?=[^{}])", @")");
 
@@ -1252,18 +1255,30 @@ namespace WikiFunctions.Parse
                     ArticleTextTemp = Regex.Replace(ArticleTextTemp, @"(?<=[^{}<>]){(?=[^{}<>\(\)\|][^{}<>\(\)]+\)[^{}\(\)])", @"(");
 
                     // if it's ((word) then see if removing the extra opening round bracket makes it all balance
-                    if (ArticleTextTemp[UnbalancedBracket].ToString().Equals(@"(") && ArticleText[UnbalancedBracket + 1].ToString().Equals(@"("))
+                    if (ArticleTextTemp.Length > UnbalancedBracket && ArticleTextTemp[UnbalancedBracket].ToString().Equals(@"(") && ArticleText[UnbalancedBracket + 1].ToString().Equals(@"("))
                         ArticleTextTemp = ArticleTextTemp.Remove(UnbalancedBracket, 1);
+
+                    // if it's {[link]] or {[[link]] or [[[link]] then see if setting to [[ makes it all balance
+                    ArticleTextTemp = Regex.Replace(ArticleTextTemp, @"(?<=[^\[\]{}<>])(?:{\[\[?|\[\[\[)(?=[^\[\]{}<>]+\]\])", @"[[");
+
+                    // could be [[{link]]
+                    ArticleTextTemp = Regex.Replace(ArticleTextTemp, @"(?<=\[\[){(?=[^{}\[\]<>]+\]\])", "");
+
+                    // external link missing closing ]
+                    ArticleTextTemp = Regex.Replace(ArticleTextTemp, @"(?<=^ *\* *\[ *https?://[^<>{}\[\]\r\n\s]+[^\[\]\r\n]*)(\s$)", "]$1", RegexOptions.Multiline);
+
+                    // external link missing opening [
+                    ArticleTextTemp = Regex.Replace(ArticleTextTemp, @"(?<=^ *\*) *(?=https?://[^<>{}\[\]\r\n\s]+[^\[\]\r\n]*\]\s$)", " [", RegexOptions.Multiline);
                 }
-
-
+                
                 if (BracketLength == 2)
                 {
                     // if it's on double curly brackets, see if one is missing e.g. {{foo} or {{foo]}
                     ArticleTextTemp = Regex.Replace(ArticleTextTemp, @"(?<={{[^{}<>]+)(?:\]?}|}\])(?=[^{}])", @"}}");
 
-                    // might be [[[[link]] so see if removing the two found square brackets makes it all balance
-                    if(ArticleTextTemp.Substring(UnbalancedBracket, Math.Min(4, ArticleTextTemp.Length - UnbalancedBracket)).Equals("[[[["))
+                    // might be [[[[link]] or [[link]]]] so see if removing the two found square brackets makes it all balance
+                    if(ArticleTextTemp.Substring(UnbalancedBracket, Math.Min(4, ArticleTextTemp.Length - UnbalancedBracket)).Equals("[[[[")
+                        || ArticleTextTemp.Substring(Math.Max(0, UnbalancedBracket-2), Math.Min(4, ArticleTextTemp.Length - UnbalancedBracket)).Equals("]]]]"))                    
                         ArticleTextTemp = ArticleTextTemp.Remove(UnbalancedBracket, 2);
                 }
 
