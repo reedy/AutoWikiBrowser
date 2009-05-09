@@ -276,6 +276,7 @@ namespace WikiFunctions.Parse
                 ArticleText = ArticleText.Replace(m.Value, FirstPart + ParameterFirstChar + LastPart);
             }
 
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Date_parameter_getting_stripped_from_.7B.7Btl.7CArticle_issues.7D.7D
             // remove any date field within  {{Article issues}} if no 'expert' field using it
             if(!Regex.IsMatch(ArticleText, @"{{\s*[Aa]rticle ?issues[^{}]+?expert"))
                 ArticleText = Regex.Replace(ArticleText, @"({{\s*[Aa]rticle ?issues\s*(?:\|[^{}]*?)?)\|\s*date\s*=[^{}\|]{0,20}?(\||}})", "$1$2");
