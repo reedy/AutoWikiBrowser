@@ -97,9 +97,6 @@ namespace WikiFunctions.Parse
             // clean "Copyedit for=grammar|date=April 2009"to "Copyedit=April 2009"
             RegexConversion.Add(new Regex(@"({{\s*[Aa]rticle ?issues\s*(?:\|[^{}]*|\|)\s*[Cc]opyedit\s*)for\s*=\s*[^{}\|]+\|\s*date(\s*=[^{}\|]+)(?=\||}})"), "$1$2");
 
-            // remove any date field within  {{Article issues}}, this isn't a valid field, must be above two looped entries below
-            RegexConversion.Add(new Regex(@"({{\s*[Aa]rticle ?issues\s*(?:\|[^{}]*?)?)\|\s*date\s*=[^{}\|]{0,20}?(\||}})"), "$1$2");
-
             // could be multiple to date per template so loop
             for (int a = 0; a < 5; a++)
             {
@@ -107,7 +104,7 @@ namespace WikiFunctions.Parse
                 RegexConversion.Add(new Regex(@"({{\s*[Aa]rticle ?issues\s*(?:\|[^{}]*|\|)\s*)(?![Ee]xpert)" + WikiRegexes.ArticleIssuesTemplatesString + @"\s*(\||}})"), "$1$2={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}$3");
                 
                 // clean any 'date' word within {{Article issues}} (but not 'update' field), place after the date adding rule above
-                RegexConversion.Add(new Regex(@"({{\s*[Aa]rticle ?issues\s*\|[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?)?)\bdate"), "$1");
+                RegexConversion.Add(new Regex(@"({{\s*[Aa]rticle ?issues\s*\|[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?)?\|[^{}\|]{3,}?)\bdate"), "$1");
             }
 
             // articleissues with one issue -> single issue tag (e.g. {{articleissues|cleanup=January 2008}} to {{cleanup|date=January 2008}} etc.)
@@ -263,7 +260,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex ArticleIssuesInTitleCase = new Regex(@"({{[Aa]rticle ?issues\|\s*(?:[^{}]+?\|\s*)?)([A-Z])([a-z]+(?: [a-z]+)?\s*=)");
 
         /// <summary>
-        /// Combines multiple cleanup tags into {{article issues}} template, ensures parameters have correct case
+        /// Combines multiple cleanup tags into {{article issues}} template, ensures parameters have correct case, removes date parameter where not needed
         /// </summary>
         /// <param name="ArticleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
@@ -278,6 +275,10 @@ namespace WikiFunctions.Parse
 
                 ArticleText = ArticleText.Replace(m.Value, FirstPart + ParameterFirstChar + LastPart);
             }
+
+            // remove any date field within  {{Article issues}} if no 'expert' field using it
+            if(!Regex.IsMatch(ArticleText, @"{{\s*[Aa]rticle ?issues[^{}]+?expert"))
+                ArticleText = Regex.Replace(ArticleText, @"({{\s*[Aa]rticle ?issues\s*(?:\|[^{}]*?)?)\|\s*date\s*=[^{}\|]{0,20}?(\||}})", "$1$2");
 
             string NewTags = "";
 
