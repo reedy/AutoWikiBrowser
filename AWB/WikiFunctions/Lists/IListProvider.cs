@@ -65,9 +65,9 @@ namespace WikiFunctions.Lists
         /// <summary>
         /// Process the user input (if any) and return a list of pages
         /// </summary>
-        /// <param name="Namespace">Namespace to enumerate</param>
+        /// <param name="namespace">Namespace to enumerate</param>
         /// <param name="searchCriteria">User Input/Pages</param>
-        List<Article> MakeList(int Namespace, params string[] searchCriteria);
+        List<Article> MakeList(int @namespace, params string[] searchCriteria);
 
         /// <summary>
         /// Whether something must be entered in the text box

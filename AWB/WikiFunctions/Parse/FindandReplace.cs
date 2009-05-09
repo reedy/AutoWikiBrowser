@@ -36,19 +36,19 @@ namespace WikiFunctions.Parse
             InitializeComponent();
         }
 
-        private string streditsummary = "";
+        private string EditSummary = "";
 
         private readonly HideText Remove = new HideText(true, false, true);
 
         private readonly List<Replacement> ReplacementList = new List<Replacement>();
 
-        private bool applydefault;
+        private bool ApplyDefault;
         private bool ApplyDefaultFormatting
         {
-            get { return applydefault; }
+            get { return ApplyDefault; }
             set
             {
-                applydefault = value;
+                ApplyDefault = value;
                 dataGridView1.AllowUserToAddRows = value;
             }
         }
@@ -68,9 +68,10 @@ namespace WikiFunctions.Parse
 
         private static Replacement RowToReplacement(DataGridViewRow dataGridRow)
         {
-            Replacement rep = new Replacement();
-
-            rep.Enabled = ((bool)dataGridRow.Cells["enabled"].FormattedValue);
+            Replacement rep = new Replacement
+                                  {
+                                      Enabled = ((bool) dataGridRow.Cells["enabled"].FormattedValue)
+                                  };
 
             if (dataGridRow.Cells["replace"].Value == null)
                 dataGridRow.Cells["replace"].Value = "";
@@ -141,87 +142,87 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Applies a series of defined find and replacements to the supplied article text.
         /// </summary>
-        /// <param name="ArticleText">The wiki text of the article.</param>
-        /// <param name="EditSummary"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="editSummary"></param>
         /// <param name="strTitle"></param>
         /// <returns>The modified article text.</returns>
-        public string MultipleFindAndReplace(string ArticleText, string strTitle, ref string EditSummary)
+        public string MultipleFindAndReplace(string articleText, string strTitle, ref string editSummary)
         {
             if (!HasReplacements)
-                return ArticleText;
+                return articleText;
 
-            streditsummary = "";
+            EditSummary = "";
             RemovedSummary = "";
 
             if (chkIgnoreMore.Checked)
-                ArticleText = Remove.HideMore(ArticleText);
+                articleText = Remove.HideMore(articleText);
             else if (chkIgnoreLinks.Checked)
-                ArticleText = Remove.Hide(ArticleText);
+                articleText = Remove.Hide(articleText);
 
             foreach (Replacement rep in ReplacementList)
             {
                 if (!rep.Enabled)
                     continue;
 
-                ArticleText = PerformFindAndReplace(rep.Find, rep.Replace, ArticleText, strTitle, rep.RegularExpressionOptions);
+                articleText = PerformFindAndReplace(rep.Find, rep.Replace, articleText, strTitle, rep.RegularExpressionOptions);
             }
 
             if (chkIgnoreMore.Checked)
-                ArticleText = Remove.AddBackMore(ArticleText);
+                articleText = Remove.AddBackMore(articleText);
             else if (chkIgnoreLinks.Checked)
-                ArticleText = Remove.AddBack(ArticleText);
+                articleText = Remove.AddBack(articleText);
 
             if (chkAddToSummary.Checked) 
             {
-              if (!string.IsNullOrEmpty(streditsummary))
-                  EditSummary = ", Replaced: " + streditsummary.Trim();
+              if (!string.IsNullOrEmpty(EditSummary))
+                  editSummary = ", Replaced: " + EditSummary.Trim();
                   
               if (!string.IsNullOrEmpty(RemovedSummary))
-                  EditSummary += ", Removed: " + RemovedSummary.Trim();
+                  editSummary += ", Removed: " + RemovedSummary.Trim();
             }
 
-            return ArticleText;
+            return articleText;
         }
 
-        private string summary = "";
+        private string Summary = "";
         private string RemovedSummary = "";
 
-        private string PerformFindAndReplace(string Find, string Replace, string ArticleText, string ArticleTitle, RegexOptions ROptions)
+        private string PerformFindAndReplace(string findThis, string replaceWith, string articleText, string articleTitle, RegexOptions rOptions)
         {
-            Find = Tools.ApplyKeyWords(ArticleTitle, Find);
-            Replace = Tools.ApplyKeyWords(ArticleTitle, PrepareReplacePart(Replace));
+            findThis = Tools.ApplyKeyWords(articleTitle, findThis);
+            replaceWith = Tools.ApplyKeyWords(articleTitle, PrepareReplacePart(replaceWith));
 
-            Regex findRegex = new Regex(Find, ROptions);
-            MatchCollection Matches = findRegex.Matches(ArticleText);
+            Regex findRegex = new Regex(findThis, rOptions);
+            MatchCollection matches = findRegex.Matches(articleText);
 
-            if (Matches.Count > 0)
+            if (matches.Count > 0)
             {
-                ArticleText = findRegex.Replace(ArticleText, Replace);
+                articleText = findRegex.Replace(articleText, replaceWith);
 
-                if (Matches[0].Value != Matches[0].Result(Replace))
+                if (matches[0].Value != matches[0].Result(replaceWith))
                 {
-                    if (!string.IsNullOrEmpty(Matches[0].Result(Replace)))
+                    if (!string.IsNullOrEmpty(matches[0].Result(replaceWith)))
                     {
-                        summary = Matches[0].Value + Arrow + Matches[0].Result(Replace);
+                        Summary = matches[0].Value + Arrow + matches[0].Result(replaceWith);
 
-                        if (Matches.Count > 1)
-                            summary += " (" + Matches.Count + ")";
+                        if (matches.Count > 1)
+                            Summary += " (" + matches.Count + ")";
 
-                        streditsummary += summary + ", ";
+                        EditSummary += Summary + ", ";
                     }
                     else
                     {
-                        RemovedSummary += Matches[0].Value;
+                        RemovedSummary += matches[0].Value;
                         
-                        if (Matches.Count > 1)
-                            RemovedSummary += " (" + Matches.Count + ")";
+                        if (matches.Count > 1)
+                            RemovedSummary += " (" + matches.Count + ")";
                             
                         RemovedSummary += ", ";
                     }
                 }
             }
 
-            return ArticleText;
+            return articleText;
         }
 
         private void btnDone_Click(object sender, EventArgs e)
@@ -257,14 +258,14 @@ namespace WikiFunctions.Parse
             dataGridView1.Rows.Clear();
         }
 
-        private static string Encode(string Text)
+        private static string Encode(string text)
         {
-            return Text.Replace("\\r\\n", "\r\n");
+            return text.Replace("\\r\\n", "\r\n");
         }
 
-        private static string Decode(string Text)
+        private static string Decode(string text)
         {
-            return Text.Replace("\n", "\\r\\n");
+            return text.Replace("\n", "\\r\\n");
         }
 
         #region loading/saving
@@ -272,18 +273,18 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Adds a find and replacement task.
         /// </summary>
-        /// <param name="Find">The string to find.</param>
-        /// <param name="ReplaceWith">The replacement string.</param>
-        /// <param name="CaseSensitive"></param>
-        /// <param name="IsRegex"></param>
-        /// <param name="Multiline"></param>
-        /// <param name="Singleline"></param>
-        /// <param name="LineEnabled"></param>
-        /// <param name="LineComment"></param>
-        public void AddNew(string Find, string ReplaceWith, bool CaseSensitive, bool IsRegex, bool Multiline, bool Singleline, bool LineEnabled, string LineComment)
+        /// <param name="find">The string to find.</param>
+        /// <param name="replaceWith">The replacement string.</param>
+        /// <param name="caseSensitive"></param>
+        /// <param name="isRegex"></param>
+        /// <param name="multiline"></param>
+        /// <param name="singleline"></param>
+        /// <param name="lineEnabled"></param>
+        /// <param name="lineComment"></param>
+        public void AddNew(string find, string replaceWith, bool caseSensitive, bool isRegex, bool multiline, bool singleline, bool lineEnabled, string lineComment)
         {
-            dataGridView1.Rows.Add(Find, ReplaceWith, CaseSensitive, IsRegex, Multiline, Singleline, LineEnabled, LineComment);
-            if (!LineEnabled)
+            dataGridView1.Rows.Add(find, replaceWith, caseSensitive, isRegex, multiline, singleline, lineEnabled, lineComment);
+            if (!lineEnabled)
                 dataGridView1.Rows[dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGray;
 
             MakeList();
@@ -292,31 +293,31 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="R"></param>
-        public void AddNew(Replacement R)
+        /// <param name="r"></param>
+        public void AddNew(Replacement r)
         {
-            bool caseSens = !R.RegularExpressionOptions.ToString().Contains("IgnoreCase");
-            bool multiine = R.RegularExpressionOptions.ToString().Contains("Multiline");
-            bool singleLine = R.RegularExpressionOptions.ToString().Contains("Singleline");
+            bool caseSens = !r.RegularExpressionOptions.ToString().Contains("IgnoreCase");
+            bool multiine = r.RegularExpressionOptions.ToString().Contains("Multiline");
+            bool singleLine = r.RegularExpressionOptions.ToString().Contains("Singleline");
 
-            if (!R.IsRegex)
-                dataGridView1.Rows.Add(Regex.Unescape(Decode(R.Find)), Decode(R.Replace), caseSens, R.IsRegex, multiine, singleLine, R.Enabled, R.Comment);
+            if (!r.IsRegex)
+                dataGridView1.Rows.Add(Regex.Unescape(Decode(r.Find)), Decode(r.Replace), caseSens, r.IsRegex, multiine, singleLine, r.Enabled, r.Comment);
             else
-                dataGridView1.Rows.Add(Decode(R.Find), Decode(R.Replace), caseSens, R.IsRegex, multiine, singleLine, R.Enabled, R.Comment);
+                dataGridView1.Rows.Add(Decode(r.Find), Decode(r.Replace), caseSens, r.IsRegex, multiine, singleLine, r.Enabled, r.Comment);
 
-            if (!R.Enabled)
+            if (!r.Enabled)
                 dataGridView1.Rows[dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGray;
 
-            ReplacementList.Add(R);
+            ReplacementList.Add(r);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="RList"></param>
-        public void AddNew(List<Replacement> RList)
+        /// <param name="rList"></param>
+        public void AddNew(List<Replacement> rList)
         {
-            foreach (Replacement r in RList)
+            foreach (Replacement r in rList)
             {
                 AddNew(r);
             }
@@ -333,7 +334,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Gets or sets whether the replacements ignore external links and images
         /// </summary>
-        public bool ignoreLinks
+        public bool IgnoreLinks
         {
             get { return chkIgnoreLinks.Checked; }
             set { chkIgnoreLinks.Checked = value; }
@@ -342,7 +343,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Gets or sets whether the replacements ignore headings, internal link targets, templates, and refs
         /// </summary>
-        public bool ignoreMore
+        public bool IgnoreMore
         {
             get { return chkIgnoreMore.Checked; }
             set { chkIgnoreMore.Checked = value; }

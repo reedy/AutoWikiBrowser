@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (C) 2007
 
 This program is free software; you can redistribute it and/or modify
@@ -67,7 +67,7 @@ namespace AutoWikiBrowser.Plugins.IFD
             }
         }
 
-        public string ProcessArticle(IAutoWikiBrowser sender, ProcessArticleEventArgs eventargs)
+        public string ProcessArticle(IAutoWikiBrowser sender, IProcessArticleEventArgs eventargs)
         {
             //If menu item is not checked, then return
             if (!PluginEnabled || Settings.Images.Count == 0)

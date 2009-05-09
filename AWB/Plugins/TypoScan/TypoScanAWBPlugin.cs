@@ -43,10 +43,10 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         internal static DateTime CheckoutTime;
 
-        private readonly ToolStripMenuItem pluginMenuItem = new ToolStripMenuItem("TypoScan plugin");
-        private readonly ToolStripMenuItem pluginUploadMenuItem = new ToolStripMenuItem("Upload finished articles to server now");
-        private readonly ToolStripMenuItem pluginReAddArticlesMenuItem = new ToolStripMenuItem("Re-add Unprocessed TypoScan articles to ListMaker");
-        private readonly ToolStripMenuItem aboutMenuItem = new ToolStripMenuItem("About the TypoScan plugin");
+        private readonly ToolStripMenuItem PluginMenuItem = new ToolStripMenuItem("TypoScan plugin");
+        private readonly ToolStripMenuItem PluginUploadMenuItem = new ToolStripMenuItem("Upload finished articles to server now");
+        private readonly ToolStripMenuItem PluginReAddArticlesMenuItem = new ToolStripMenuItem("Re-add Unprocessed TypoScan articles to ListMaker");
+        private readonly ToolStripMenuItem AboutMenuItem = new ToolStripMenuItem("About the TypoScan plugin");
 
         public void Initialise(IAutoWikiBrowser sender)
         {
@@ -55,15 +55,15 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             AWB.AddMainFormClosingEventHandler(UploadFinishedArticlesToServer);
             AWB.AddArticleRedirectedEventHandler(ArticleRedirected);
 
-            pluginMenuItem.DropDownItems.Add(pluginUploadMenuItem);
-            pluginMenuItem.DropDownItems.Add(pluginReAddArticlesMenuItem);
-            pluginUploadMenuItem.Click += pluginUploadMenuItem_Click;
+            PluginMenuItem.DropDownItems.Add(PluginUploadMenuItem);
+            PluginMenuItem.DropDownItems.Add(PluginReAddArticlesMenuItem);
+            PluginUploadMenuItem.Click += pluginUploadMenuItem_Click;
 
-            pluginReAddArticlesMenuItem.Click += pluginReAddArticlesMenuItem_Click;
-            sender.PluginsToolStripMenuItem.DropDownItems.Add(pluginMenuItem);
+            PluginReAddArticlesMenuItem.Click += pluginReAddArticlesMenuItem_Click;
+            sender.PluginsToolStripMenuItem.DropDownItems.Add(PluginMenuItem);
 
-            aboutMenuItem.Click += aboutMenuItem_Click;
-            sender.HelpToolStripMenuItem.DropDownItems.Add(aboutMenuItem);
+            AboutMenuItem.Click += aboutMenuItem_Click;
+            sender.HelpToolStripMenuItem.DropDownItems.Add(AboutMenuItem);
         }
 
         private static void ArticleRedirected(string oldTitle, string newTitle)
@@ -97,15 +97,15 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             UploadFinishedArticlesToServer();
         }
 
-        private static void LogControl_LogAdded(bool Skipped, Logging.AWBLogListener LogListener)
+        private static void LogControl_LogAdded(bool skipped, Logging.AWBLogListener logListener)
         {
             int articleID;
-            if ((PageList.Count > 0) && (PageList.TryGetValue(LogListener.Text, out articleID)))
+            if ((PageList.Count > 0) && (PageList.TryGetValue(logListener.Text, out articleID)))
             {
-                if (Skipped)
+                if (skipped)
                 {
                     SkippedPages.Add(articleID.ToString());
-                    SkippedReasons.Add(LogListener.SkipReason);
+                    SkippedReasons.Add(logListener.SkipReason);
                     SkippedPagesThisSession.Add(articleID.ToString());
                 }
                 else
@@ -133,7 +133,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             }
         }
 
-        public string ProcessArticle(IAutoWikiBrowser sender, ProcessArticleEventArgs eventargs)
+        public string ProcessArticle(IAutoWikiBrowser sender, IProcessArticleEventArgs eventargs)
         {
             return eventargs.ArticleText;
         }
@@ -168,12 +168,12 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         public void Reset()
         { }
 
-        public void Nudge(out bool Cancel)
+        public void Nudge(out bool cancel)
         {
-            Cancel = false;
+            cancel = false;
         }
 
-        public void Nudged(int Nudges)
+        public void Nudged(int nudges)
         { }
 
         #endregion
@@ -183,10 +183,10 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             UploadFinishedArticlesToServer();
         }
 
-        private static int editsAndIgnored;
-        private static bool isUploading;
+        private static int EditsAndIgnored;
+        private static bool IsUploading;
 
-        static readonly BackgroundRequest thread = new BackgroundRequest(UploadFinishedArticlesToServerFinished,
+        private static readonly BackgroundRequest Thread = new BackgroundRequest(UploadFinishedArticlesToServerFinished,
                                                             UploadFinishedArticlesToServerErrored);
 
         /// <summary>
@@ -194,26 +194,26 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         /// </summary>
         private static void UploadFinishedArticlesToServer()
         {
-            if (isUploading || EditAndIgnoredPages == 0)
+            if (IsUploading || EditAndIgnoredPages == 0)
                 return;
 
-            isUploading = true;
+            IsUploading = true;
 
-            editsAndIgnored = EditAndIgnoredPages;
+            EditsAndIgnored = EditAndIgnoredPages;
 
             AWB.StartProgressBar();
-            AWB.StatusLabelText = "Uploading " + editsAndIgnored + " TypoScan articles to server...";
+            AWB.StatusLabelText = "Uploading " + EditsAndIgnored + " TypoScan articles to server...";
 
-            NameValueCollection postVars = new NameValueCollection();
-
-            postVars.Add("articles", string.Join(",", SavedPages.ToArray()));
-            postVars.Add("skipped", string.Join(",", SkippedPages.ToArray()));
-            postVars.Add("skipreason", string.Join(",", SkippedReasons.ToArray()));
-
-            postVars.Add("user", AWB.Privacy ? "[withheld]" : Variables.User.Name);
+            NameValueCollection postVars = new NameValueCollection
+                                               {
+                                                   {"articles", string.Join(",", SavedPages.ToArray())},
+                                                   {"skipped", string.Join(",", SkippedPages.ToArray())},
+                                                   {"skipreason", string.Join(",", SkippedReasons.ToArray())},
+                                                   {"user", AWB.Privacy ? "[withheld]" : Variables.User.Name}
+                                               };
 
             if (!AWB.Shutdown)
-                thread.PostData(Common.GetUrlFor("finished"), postVars);
+                Thread.PostData(Common.GetUrlFor("finished"), postVars);
             else
                 UploadResult(Tools.PostData(postVars, Common.GetUrlFor("finished")));
 
@@ -228,7 +228,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         {
             if (string.IsNullOrEmpty(Common.CheckOperation(result)))
             {
-                UploadedThisSession += editsAndIgnored;
+                UploadedThisSession += EditsAndIgnored;
                 SavedPages.Clear();
                 SkippedPages.Clear();
                 SkippedReasons.Clear();
@@ -239,14 +239,14 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
             AWB.StopProgressBar();
             AWB.StatusLabelText = "";
-            isUploading = false;
+            IsUploading = false;
         }
 
         private static void UploadFinishedArticlesToServerErrored(BackgroundRequest req)
         {
             AWB.StopProgressBar();
             AWB.StatusLabelText = "TypoScan reporting failed";
-            isUploading = false;
+            IsUploading = false;
 
             if (req.ErrorException is System.IO.IOException)
             {

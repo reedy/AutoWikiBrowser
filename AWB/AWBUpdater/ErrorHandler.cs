@@ -17,83 +17,44 @@ namespace AwbUpdater
     public partial class ErrorHandler : Form
     {
         /// <summary>
-        /// Title of the page currently being processed
-        /// </summary>
-        public static string CurrentPage;
-
-        /// <summary>
-        /// Revision of the page currently being processed
-        /// </summary>
-        public static int CurrentRevision;
-
-        /// <summary>
-        /// Current text that the list is being made from in ListMaker
-        /// </summary>
-        public static string ListMakerText;
-
-        /// <summary>
         /// Displays exception information. Should be called from try...catch handlers
         /// </summary>
         /// <param name="ex">Exception object to handle</param>
         new public static void Handle(Exception ex)
         {
-            if (ex != null)
+            if (ex == null) return;
+
+            if (ex is System.Net.WebException)
             {
-                /*// invalid regex - only ArgumentException, without subclasses
-                if (ex.GetType().ToString().Equals("System.ArgumentException")
-                    && ex.StackTrace.Contains("System.Text.RegularExpressions"))
-                {
-                    MessageBox.Show(ex.Message, "Invalid regular expression",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                // network access error
-                else */if (ex is System.Net.WebException)
-                {
-                    MessageBox.Show(ex.Message, "Network access error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                MessageBox.Show(ex.Message, "Network access error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
                 // out of memory error
-                else if (ex is OutOfMemoryException)
-                {
-                    MessageBox.Show(ex.Message, "Out of Memory error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else // suggest a bug report for other exceptions
-                {
-                    ErrorHandler handler = new ErrorHandler();
+            else if (ex is OutOfMemoryException)
+            {
+                MessageBox.Show(ex.Message, "Out of Memory error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else // suggest a bug report for other exceptions
+            {
+                ErrorHandler handler = new ErrorHandler {txtError = {Text = ex.Message}};
 
-                    handler.txtError.Text = ex.Message;
+                StringBuilder errorMessage = new StringBuilder("{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = ");
 
-                    StringBuilder errorMessage = new StringBuilder("{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = ");
+                if (Thread.CurrentThread.Name != "Main thread")
+                    errorMessage.Append("\r\nThread: " + Thread.CurrentThread.Name);
 
-                    if (Thread.CurrentThread.Name != "Main thread")
-                        errorMessage.Append("\r\nThread: " + Thread.CurrentThread.Name);
+                errorMessage.Append("<table>");
+                FormatException(ex, errorMessage, true);
+                errorMessage.Append("</table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version);
 
-                    errorMessage.Append("<table>");
-                    FormatException(ex, errorMessage, true);
-                    errorMessage.Append("</table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version);
+                errorMessage.Append("\r\n}}");
 
-                    //if (!Variables.Revision.Contains("?")) errorMessage.Append(", revision " + Variables.Revision);
+                handler.txtDetails.Text = errorMessage.ToString();
 
-                    //if (!string.IsNullOrEmpty(CurrentPage))
-                    //{
-                    //    // don't use Tools.WikiEncode here, to keep code portable to updater
-                    //    // as it's not a pretty URL, we don't need to follow the MediaWiki encoding rules
-                    //    string link = "[" + Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(CurrentPage) + "&oldid=" + CurrentRevision.ToString() + "]";
+                handler.txtSubject.Text = ex.GetType().Name + " in " + Thrower(ex);
 
-                    //    errorMessage.Append("\r\n | duplicate = [encountered while processing page ''" + link + "'']");
-                    //}
-                    //else if (!string.IsNullOrEmpty(ListMakerText))
-                    //    errorMessage.Append("\r\n | duplicate = '''ListMaker Text:''' " + ListMakerText);
-
-                    errorMessage.Append("\r\n}}");
-
-                    handler.txtDetails.Text = errorMessage.ToString();
-
-                    handler.txtSubject.Text = ex.GetType().Name + " in " + Thrower(ex);
-
-                    handler.ShowDialog();
-                }
+                handler.ShowDialog();
             }
         }
 
@@ -132,7 +93,7 @@ namespace AwbUpdater
             return res;
         }
 
-        static readonly string[] PresetNamespaces =
+        private static readonly string[] PresetNamespaces =
             new [] { "System.", "Microsoft.", "Mono." };
 
         /// <summary>

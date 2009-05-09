@@ -33,7 +33,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
     /// </summary>
     public class TypoScanListMakerPlugin : IListMakerPlugin
     {
-        protected int iterations = 1;
+        protected int Iterations = 1;
 
         public string Name
         {
@@ -52,7 +52,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                 return articles;
             }
 
-            for (int i = 0; i < iterations; i++)
+            for (int i = 0; i < Iterations; i++)
             {
                 using (
                     XmlTextReader reader =
@@ -107,7 +107,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
     {
         public TypoScanListMakerPlugin500()
         {
-            iterations = 5;
+            Iterations = 5;
         }
 
         public override string DisplayText

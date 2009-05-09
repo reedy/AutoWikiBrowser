@@ -181,8 +181,8 @@ namespace WikiFunctions.AWBSettings
         public FaRPrefs(Parse.FindandReplace findAndReplace,
             ReplaceSpecial.ReplaceSpecial replaceSpecial, SubstTemplates substTemplates)
         {
-            IgnoreSomeText = findAndReplace.ignoreLinks;
-            IgnoreMoreText = findAndReplace.ignoreMore;
+            IgnoreSomeText = findAndReplace.IgnoreLinks;
+            IgnoreMoreText = findAndReplace.IgnoreMore;
             AppendSummary = findAndReplace.AppendToSummary;
             AfterOtherFixes = findAndReplace.AfterOtherFixes;
             Replacements = findAndReplace.GetList();

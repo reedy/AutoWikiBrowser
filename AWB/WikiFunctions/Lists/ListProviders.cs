@@ -743,7 +743,7 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class GoogleSearchListProvider : IListProvider
     {
-        private static readonly Regex regexGoogle = new Regex("href\\s*=\\s*(?:\"(?<1>[^\"]*)\"|(?<1>\\S+) class=l)",
+        private static readonly Regex RegexGoogle = new Regex("href\\s*=\\s*(?:\"(?<1>[^\"]*)\"|(?<1>\\S+) class=l)",
                                                               RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public List<Article> MakeList(params string[] searchCriteria)
@@ -762,7 +762,7 @@ namespace WikiFunctions.Lists
                     string googleText = Tools.GetHTML(url, Encoding.Default);
 
                     //Find each match to the pattern
-                    foreach (Match m in regexGoogle.Matches(googleText))
+                    foreach (Match m in RegexGoogle.Matches(googleText))
                     {
                         string title = Tools.GetTitleFromURL(m.Groups[1].Value);
 
@@ -1634,9 +1634,9 @@ namespace WikiFunctions.Lists
             return base.MakeList(Namespace.Article, new[] { "Template:Disambiguation" });
         }
 
-        public override List<Article> MakeList(int Namespace, params string[] searchCriteria)
+        public override List<Article> MakeList(int @namespace, params string[] searchCriteria)
         {
-            return base.MakeList(Namespace, new[] { "Template:Disambiguation" });
+            return base.MakeList(@namespace, new[] { "Template:Disambiguation" });
         }
 
         public override string DisplayText
@@ -1687,7 +1687,7 @@ namespace WikiFunctions.Lists
             return list;
         }
 
-        public List<Article> MakeList(int Namespace, string[] searchCriteria)
+        public List<Article> MakeList(int @namespace, string[] searchCriteria)
         {
             return MakeList("");
         }

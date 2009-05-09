@@ -27,14 +27,14 @@ namespace WikiFunctions.Plugin
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ArticleText"></param>
-        /// <param name="ArticleTitle"></param>
-        /// <param name="Namespace"></param>
-        /// <param name="Summary"></param>
-        /// <param name="Skip"></param>
+        /// <param name="articleText"></param>
+        /// <param name="articleTitle"></param>
+        /// <param name="namespace"></param>
+        /// <param name="summary"></param>
+        /// <param name="skip"></param>
         /// <returns></returns>
-        string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, out string Summary,
-            out bool Skip);
+        string ProcessArticle(string articleText, string articleTitle, int @namespace, out string summary,
+            out bool skip);
     }
 
     /// <summary>

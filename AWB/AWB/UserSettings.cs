@@ -386,8 +386,8 @@ namespace AutoWikiBrowser
 
             findAndReplace.Clear();
             chkFindandReplace.Checked = p.FindAndReplace.Enabled;
-            findAndReplace.ignoreLinks = p.FindAndReplace.IgnoreSomeText;
-            findAndReplace.ignoreMore = p.FindAndReplace.IgnoreMoreText;
+            findAndReplace.IgnoreLinks = p.FindAndReplace.IgnoreSomeText;
+            findAndReplace.IgnoreMore = p.FindAndReplace.IgnoreMoreText;
             findAndReplace.AppendToSummary = p.FindAndReplace.AppendSummary;
             findAndReplace.AfterOtherFixes = p.FindAndReplace.AfterOtherFixes;
             findAndReplace.AddNew(p.FindAndReplace.Replacements);

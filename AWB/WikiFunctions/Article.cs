@@ -33,7 +33,7 @@ namespace WikiFunctions
     /// <summary>
     /// A class which represents a wiki article
     /// </summary>
-    public class Article : ProcessArticleEventArgs, IArticleSimple, IComparable<Article>
+    public class Article : IProcessArticleEventArgs, IArticleSimple, IComparable<Article>
     {
         protected string mName = "";
         protected string mEditSummary = "";
@@ -272,7 +272,7 @@ namespace WikiFunctions
         /// </summary>
         public bool OnlyGeneralFixesChanged
         {
-            get { return (generalFixesCausedChange && (ArticleText == afterGeneralFixesArticleText)); }
+            get { return (GeneralFixesCausedChange && (ArticleText == AfterGeneralFixesArticleText)); }
         }
 
         /// <summary>
@@ -280,7 +280,7 @@ namespace WikiFunctions
         /// </summary>
         public bool OnlyMinorGeneralFixesChanged
         {
-            get { return (OnlyGeneralFixesChanged && !generalFixesSignificantChange); }
+            get { return (OnlyGeneralFixesChanged && !GeneralFixesSignificantChange); }
         }
 
         /// <summary>
@@ -319,13 +319,13 @@ namespace WikiFunctions
         /// <summary>
         /// Convert HTML characters in the article to Unicode
         /// </summary>
-        /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
+        /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         /// <param name="parsers">An initialised Parsers object</param>
-        public void Unicodify(bool SkipIfNoChange, Parsers parsers)
+        public void Unicodify(bool skipIfNoChange, Parsers parsers)
         {
             string strTemp = parsers.Unicodify(mArticleText, out noChange);
 
-            if (SkipIfNoChange && noChange)
+            if (skipIfNoChange && noChange)
                 Trace.AWBSkipped("No Unicodification");
             else if (!noChange)
                 AWBChangeArticleText("Page Unicodified", strTemp, false);
@@ -334,52 +334,51 @@ namespace WikiFunctions
         /// <summary>
         /// Checks the article text for unbalanced brackets, either square or curly
         /// </summary>
-        /// <param name="BracketLength">integer to hold length of unbalanced bracket found</param>
+        /// <param name="bracketLength">integer to hold length of unbalanced bracket found</param>
         /// <returns>Index of any unbalanced brackets found</returns>
-        public int UnbalancedBrackets(ref int BracketLength)
+        public int UnbalancedBrackets(ref int bracketLength)
         {
-            return Parsers.UnbalancedBrackets(ArticleText, ref BracketLength);
+            return Parsers.UnbalancedBrackets(ArticleText, ref bracketLength);
         }
 
         /// <summary>
         /// Remove, replace or comment out a specified image
         /// </summary>
         /// <param name="option">The action to take</param>
-        /// <param name="parsers">An initialised Parsers object</param>
-        /// <param name="ImageReplaceText">The text (image name) to look for</param>
-        /// <param name="ImageWithText">Replacement text (if applicable)</param>
-        /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
-        public void UpdateImages(ImageReplaceOptions option, Parsers parsers,
-            string ImageReplaceText, string ImageWithText, bool SkipIfNoChange)
+        /// <param name="imageReplaceText">The text (image name) to look for</param>
+        /// <param name="imageWithText">Replacement text (if applicable)</param>
+        /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
+        public void UpdateImages(ImageReplaceOptions option,
+            string imageReplaceText, string imageWithText, bool skipIfNoChange)
         {
             string strTemp = "";
 
-            ImageReplaceText = ImageReplaceText.Trim();
-            ImageWithText = ImageWithText.Trim();
+            imageReplaceText = imageReplaceText.Trim();
+            imageWithText = imageWithText.Trim();
 
-            if (ImageReplaceText.Length > 0)
+            if (imageReplaceText.Length > 0)
                 switch (option)
                 {
                     case ImageReplaceOptions.NoAction:
                         return;
 
                     case ImageReplaceOptions.Replace:
-                        if (ImageWithText.Length > 0) strTemp = Parsers.ReplaceImage(ImageReplaceText, ImageWithText, mArticleText, out noChange);
+                        if (imageWithText.Length > 0) strTemp = Parsers.ReplaceImage(imageReplaceText, imageWithText, mArticleText, out noChange);
                         break;
 
                     case ImageReplaceOptions.Remove:
-                        strTemp = Parsers.RemoveImage(ImageReplaceText, mArticleText, false, ImageWithText, out noChange);
+                        strTemp = Parsers.RemoveImage(imageReplaceText, mArticleText, false, imageWithText, out noChange);
                         break;
 
                     case ImageReplaceOptions.Comment:
-                        strTemp = Parsers.RemoveImage(ImageReplaceText, mArticleText, true, ImageWithText, out noChange);
+                        strTemp = Parsers.RemoveImage(imageReplaceText, mArticleText, true, imageWithText, out noChange);
                         break;
 
                     default:
                         throw new ArgumentOutOfRangeException("option");
                 }
 
-            if (noChange && SkipIfNoChange)
+            if (noChange && skipIfNoChange)
                 Trace.AWBSkipped("No File Changed");
             else if (!noChange)
                 AWBChangeArticleText("File replacement applied", strTemp, false);
@@ -390,11 +389,11 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="option">The action to take</param>
         /// <param name="parsers">An initialised Parsers object</param>
-        /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
-        /// <param name="CategoryText">The category to add or remove; or, when replacing, the name of the old category</param>
-        /// <param name="CategoryText2">The name of the replacement category (recat mode only)</param>
+        /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
+        /// <param name="categoryText">The category to add or remove; or, when replacing, the name of the old category</param>
+        /// <param name="categoryText2">The name of the replacement category (recat mode only)</param>
         public void Categorisation(CategorisationOptions option, Parsers parsers,
-            bool SkipIfNoChange, string CategoryText, string CategoryText2)
+            bool skipIfNoChange, string categoryText, string categoryText2)
         {
             string strTemp, action = "";
 
@@ -404,27 +403,27 @@ namespace WikiFunctions
                     return;
 
                 case CategorisationOptions.AddCat:
-                    if (CategoryText.Length < 1) return;
-                    strTemp = parsers.AddCategory(CategoryText, mArticleText, mName, out noChange);
-                    action = "Added " + CategoryText;
+                    if (categoryText.Length < 1) return;
+                    strTemp = parsers.AddCategory(categoryText, mArticleText, mName, out noChange);
+                    action = "Added " + categoryText;
                     break;
 
                 case CategorisationOptions.ReCat:
-                    if (CategoryText.Length < 1 || CategoryText2.Length < 1) return;
-                    strTemp = Parsers.ReCategoriser(CategoryText, CategoryText2, mArticleText, out noChange);
+                    if (categoryText.Length < 1 || categoryText2.Length < 1) return;
+                    strTemp = Parsers.ReCategoriser(categoryText, categoryText2, mArticleText, out noChange);
                     break;
 
                 case CategorisationOptions.RemoveCat:
-                    if (CategoryText.Length < 1) return;
-                    strTemp = Parsers.RemoveCategory(CategoryText, mArticleText, out noChange);
-                    action = "Removed " + CategoryText;
+                    if (categoryText.Length < 1) return;
+                    strTemp = Parsers.RemoveCategory(categoryText, mArticleText, out noChange);
+                    action = "Removed " + categoryText;
                     break;
 
                 default:
                     throw new ArgumentOutOfRangeException("option");
             }
 
-            if (noChange && SkipIfNoChange)
+            if (noChange && skipIfNoChange)
                 Trace.AWBSkipped("No Category Changed");
             else if (!noChange)
                 AWBChangeArticleText(action, strTemp, false);
@@ -435,14 +434,14 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="option">The action to take</param>
         /// <param name="parsers">An initialised Parsers object</param>
-        /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
-        /// <param name="NewCategoryText">The category to add or remove</param>
+        /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
+        /// <param name="newCategoryText">The category to add or remove</param>
         public void Categorisation(CategorisationOptions option, Parsers parsers,
-            bool SkipIfNoChange, string NewCategoryText)
+            bool skipIfNoChange, string newCategoryText)
         {
             if (option == CategorisationOptions.ReCat)
                 throw new ArgumentException("This overload has no CategoryText2 argument");
-            Categorisation(option, parsers, SkipIfNoChange, NewCategoryText, "");
+            Categorisation(option, parsers, skipIfNoChange, newCategoryText, "");
         }
 
         /// <summary>
@@ -451,9 +450,9 @@ namespace WikiFunctions
         /// <param name="findAndReplace">A FindandReplace object</param>
         /// <param name="substTemplates">A SubstTemplates object</param>
         /// <param name="replaceSpecial">An MWB ReplaceSpecial object</param>
-        /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
+        /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         public void PerformFindAndReplace(FindandReplace findAndReplace, SubstTemplates substTemplates,
-            ReplaceSpecial.ReplaceSpecial replaceSpecial, bool SkipIfNoChange)
+            ReplaceSpecial.ReplaceSpecial replaceSpecial, bool skipIfNoChange)
         {
             if (!findAndReplace.HasReplacements && !replaceSpecial.HasRules && !substTemplates.HasSubstitutions)
                 return;
@@ -468,7 +467,7 @@ namespace WikiFunctions
 
             if (testText == strTemp)
             {
-                if (SkipIfNoChange)
+                if (skipIfNoChange)
                     Trace.AWBSkipped("No Find And Replace Changes");
                 else
                     return;
@@ -484,13 +483,13 @@ namespace WikiFunctions
         /// <summary>
         /// Fix spelling mistakes
         /// </summary>
-        /// <param name="RegexTypos">A RegExTypoFix object</param>
-        /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
-        public void PerformTypoFixes(RegExTypoFix RegexTypos, bool SkipIfNoChange)
+        /// <param name="regexTypos">A RegExTypoFix object</param>
+        /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
+        public void PerformTypoFixes(RegExTypoFix regexTypos, bool skipIfNoChange)
         {
-            string strTemp = RegexTypos.PerformTypoFixes(mArticleText, out noChange, out mPluginEditSummary, mName);
+            string strTemp = regexTypos.PerformTypoFixes(mArticleText, out noChange, out mPluginEditSummary, mName);
 
-            if (noChange && SkipIfNoChange)
+            if (noChange && skipIfNoChange)
                 Trace.AWBSkipped("No typo fixes");
             else if (!noChange)
             {
@@ -503,15 +502,15 @@ namespace WikiFunctions
         /// "Auto tag" (Adds/removes wikify or stub tags if necessary)
         /// </summary>
         /// <param name="parsers">An initialised Parsers object</param>
-        /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
+        /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         /// <param name="addTags"></param>
         /// <param name="removeTags"></param>
-        public void AutoTag(Parsers parsers, bool SkipIfNoChange, bool addTags, bool removeTags)
+        public void AutoTag(Parsers parsers, bool skipIfNoChange, bool addTags, bool removeTags)
         {
             string tmpEditSummary = "";
             string strTemp = parsers.Tagger(mArticleText, mName, out noChange, ref tmpEditSummary, addTags, removeTags);
 
-            if (SkipIfNoChange && noChange)
+            if (skipIfNoChange && noChange)
                 Trace.AWBSkipped("No Tag changed");
             else if (!noChange)
             {
@@ -632,14 +631,14 @@ namespace WikiFunctions
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="Module"></param>
-        public void SendPageToCustomModule(IModule Module)
+        /// <param name="module"></param>
+        public void SendPageToCustomModule(IModule module)
         {
-            ProcessArticleEventArgs processArticleEventArgs = this;
+            IProcessArticleEventArgs processArticleEventArgs = this;
             string strEditSummary;
             bool skipArticle;
 
-            string strTemp = Module.ProcessArticle(processArticleEventArgs.ArticleText,
+            string strTemp = module.ProcessArticle(processArticleEventArgs.ArticleText,
                 processArticleEventArgs.ArticleTitle, NameSpaceKey, out strEditSummary, out skipArticle);
 
             if (!skipArticle)
@@ -657,26 +656,26 @@ namespace WikiFunctions
         /// <summary>
         /// Returns true if the article should be skipped based on the text it does or doesn't contain
         /// </summary>
-        /// <param name="FindText">The text to find</param>
+        /// <param name="findText">The text to find</param>
         /// <param name="regEx">True if FindText contains a regular expression</param>
         /// <param name="caseSensitive">True if the search should be case sensitive</param>
-        /// <param name="DoesContain">True if the article should be skipped if it contains the text, false if it should be skipped if it does *not* contain the text</param>
+        /// <param name="doesContain">True if the article should be skipped if it contains the text, false if it should be skipped if it does *not* contain the text</param>
         /// <returns>A boolean value indicating whether or not the article should be skipped</returns>
-        public bool SkipIfContains(string FindText, bool regEx, bool caseSensitive, bool DoesContain)
+        public bool SkipIfContains(string findText, bool regEx, bool caseSensitive, bool doesContain)
         {
-            if (FindText.Length > 0)
+            if (findText.Length > 0)
             {
                 RegexOptions regexOptions = (caseSensitive) ? RegexOptions.None : RegexOptions.IgnoreCase;
 
-                FindText = Tools.ApplyKeyWords(Name, FindText);
+                findText = Tools.ApplyKeyWords(Name, findText);
 
                 if (!regEx)
-                    FindText = Regex.Escape(FindText);
+                    findText = Regex.Escape(findText);
 
-                if (Regex.IsMatch(OriginalArticleText, FindText, regexOptions))
-                    return DoesContain;
+                if (Regex.IsMatch(OriginalArticleText, findText, regexOptions))
+                    return doesContain;
 
-                return !DoesContain;
+                return !doesContain;
             }
 
             return false;
@@ -686,12 +685,12 @@ namespace WikiFunctions
         /// Disambiguate
         /// </summary>
         /// <returns>True if OK to proceed, false to abort</returns>
-        public bool Disambiguate(string dabLinkText, string[] dabVariantsLines, bool botMode, int Context,
+        public bool Disambiguate(string dabLinkText, string[] dabVariantsLines, bool botMode, int context,
             bool skipIfNoChange)
         {
             Disambiguation.DabForm df = new Disambiguation.DabForm();
             string strTemp = df.Disambiguate(mArticleText, mName, dabLinkText,
-                dabVariantsLines, Context, botMode, out noChange);
+                dabVariantsLines, context, botMode, out noChange);
 
             if (df.Abort) return false;
 
@@ -738,7 +737,7 @@ namespace WikiFunctions
         public void AWBChangeArticleText(string reason, string newText, bool checkIfChanged, bool performsSignificantChanges)
         {
             if (performsSignificantChanges && !(newText == mArticleText))
-                generalFixesSignificantChange = true;
+                GeneralFixesSignificantChange = true;
 
             AWBChangeArticleText(reason, newText, checkIfChanged);
         }
@@ -763,17 +762,17 @@ namespace WikiFunctions
             }
         }
 
-        public void HideText(HideText RemoveText)
-        { mArticleText = RemoveText.Hide(mArticleText); }
+        public void HideText(HideText removeText)
+        { mArticleText = removeText.Hide(mArticleText); }
 
-        public void UnHideText(HideText RemoveText)
-        { mArticleText = RemoveText.AddBack(mArticleText); }
+        public void UnHideText(HideText removeText)
+        { mArticleText = removeText.AddBack(mArticleText); }
 
-        public void HideMoreText(HideText RemoveText)
-        { mArticleText = RemoveText.HideMore(mArticleText); }
+        public void HideMoreText(HideText removeText)
+        { mArticleText = removeText.HideMore(mArticleText); }
 
-        public void UnHideMoreText(HideText RemoveText)
-        { mArticleText = RemoveText.AddBackMore(mArticleText); }
+        public void UnHideMoreText(HideText removeText)
+        { mArticleText = removeText.AddBackMore(mArticleText); }
         #endregion
 
         #region Overrides
@@ -809,16 +808,16 @@ namespace WikiFunctions
 
         #region Interfaces
 
-        //IMyTraceListener ProcessArticleEventArgs.AWBLogItem
+        //IMyTraceListener IProcessArticleEventArgs.AWBLogItem
         //{ get { return mAWBLogListener; } }
 
-        string ProcessArticleEventArgs.ArticleTitle
+        string IProcessArticleEventArgs.ArticleTitle
         { get { return mName; } }
 
-        string ProcessArticleEventArgs.EditSummary // this is temp edit summary field, sent from plugin
+        string IProcessArticleEventArgs.EditSummary // this is temp edit summary field, sent from plugin
         { get { return mPluginEditSummary; } set { mPluginEditSummary = value.Trim(); } }
 
-        bool ProcessArticleEventArgs.Skip
+        bool IProcessArticleEventArgs.Skip
         { get { return mPluginSkip; } set { mPluginSkip = value; } }
 
         // and NamespaceKey
@@ -826,15 +825,15 @@ namespace WikiFunctions
         Article IArticleSimple.Article { get { return this; } }
         #endregion
 
-        public static IArticleSimple GetReadOnlyArticle(string Title)
+        public static IArticleSimple GetReadOnlyArticle(string title)
         {
             // TODO: See Parsers.HasInfobox
             return null;
         }
 
         #region General fixes
-        bool generalFixesCausedChange, textAlreadyChanged, generalFixesSignificantChange;
-        string afterGeneralFixesArticleText;
+        private bool GeneralFixesCausedChange, TextAlreadyChanged, GeneralFixesSignificantChange;
+        private string AfterGeneralFixesArticleText;
 
         /// <summary>
         /// Performs numerous minor improvements to the page text
@@ -968,7 +967,7 @@ namespace WikiFunctions
         /// </summary>
         private void BeforeGeneralFixesTextChanged()
         {
-            textAlreadyChanged = (ArticleText != OriginalArticleText);
+            TextAlreadyChanged = (ArticleText != OriginalArticleText);
         }
 
         /// <summary>
@@ -977,12 +976,12 @@ namespace WikiFunctions
         /// </summary>
         private void AfterGeneralFixesTextChanged()
         {
-            if (!textAlreadyChanged)
+            if (!TextAlreadyChanged)
             {
-                generalFixesCausedChange = (ArticleText != OriginalArticleText);
+                GeneralFixesCausedChange = (ArticleText != OriginalArticleText);
 
-                if (generalFixesCausedChange)
-                    afterGeneralFixesArticleText = ArticleText;
+                if (GeneralFixesCausedChange)
+                    AfterGeneralFixesArticleText = ArticleText;
             }
         }
 
@@ -991,8 +990,8 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="removeText"></param>
         /// <param name="userTalkTemplatesRegex">Regex of user talk templates to substitute</param>
-        /// <param name="SkipIfNoChange"></param>
-        public void PerformUserTalkGeneralFixes(HideText removeText, Regex userTalkTemplatesRegex, bool SkipIfNoChange)
+        /// <param name="skipIfNoChange"></param>
+        public void PerformUserTalkGeneralFixes(HideText removeText, Regex userTalkTemplatesRegex, bool skipIfNoChange)
         {
             string originalText = ArticleText;
             HideText(removeText);
@@ -1006,7 +1005,7 @@ namespace WikiFunctions
             UnHideText(removeText);
             Variables.Profiler.Profile("UnHideText");
 
-            if (SkipIfNoChange && (originalText == ArticleText))
+            if (skipIfNoChange && (originalText == ArticleText))
             {
                 Trace.AWBSkipped("No user talk templates subst'd");
             }
