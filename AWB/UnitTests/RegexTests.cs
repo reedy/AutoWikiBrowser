@@ -857,6 +857,9 @@ words2"));
 
             Assert.IsFalse(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{Article issues|wikify=May 2008|a=b|c=d}}"));
             Assert.IsFalse(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{WIKIFY}}"));
+            
+            // no support for handling templates with multiple parameters
+            Assert.IsFalse(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{notability|Biographies|date=December 2008}}"));
         }
 
         [Test]
