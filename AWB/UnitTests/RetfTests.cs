@@ -7,25 +7,25 @@ namespace UnitTests
 {
     public class TypoList : ITyposProvider
     {
-        readonly Dictionary<string, string> typos;
+        readonly Dictionary<string, string> Typos;
 
         public TypoList(Dictionary<string, string> list)
         {
-            typos = list;
+            Typos = list;
         }
 
         public TypoList(IEnumerable<KeyValuePair<string, string>> list)
         {
-            typos = new Dictionary<string, string>();
+            Typos = new Dictionary<string, string>();
             foreach (KeyValuePair<string, string> p in list)
             {
-                typos.Add(p.Key, p.Value);
+                Typos.Add(p.Key, p.Value);
             }
         }
 
         public Dictionary<string, string> GetTypos()
         {
-            return typos;
+            return Typos;
         }
     }
 
@@ -33,59 +33,59 @@ namespace UnitTests
     public class RetfTests : RequiresInitialization
     {
         #region Preparations
-        RegExTypoFix retf;
-        readonly Dictionary<string, string> typos = new Dictionary<string,string>();
-        string Summary;
+        private RegExTypoFix Retf;
+        private readonly Dictionary<string, string> Typos = new Dictionary<string, string>();
+        private string Summary;
 
         [SetUp]
         public void SetUp()
         {
-            typos.Clear();
-            retf = null;
+            Typos.Clear();
+            Retf = null;
         }
 
-        private string FixTypos(string ArticleText)
+        private string FixTypos(string articleText)
         {
-            return FixTypos(ArticleText, "Test");
+            return FixTypos(articleText, "Test");
         }
 
-        private string FixTypos(string ArticleText, string ArticleTitle)
+        private string FixTypos(string articleText, string articleTitle)
         {
-            if (retf == null)
+            if (Retf == null)
             {
-                if (typos.Count == 0) throw new Exception("You forgot to provide a list of typos!");
-                retf = new RegExTypoFix(false, new TypoList(typos));
+                if (Typos.Count == 0) throw new Exception("You forgot to provide a list of typos!");
+                Retf = new RegExTypoFix(false, new TypoList(Typos));
             }
 
             bool noChange;
-            return retf.PerformTypoFixes(ArticleText, out noChange, out Summary, ArticleTitle);
+            return Retf.PerformTypoFixes(articleText, out noChange, out Summary, articleTitle);
         }
 
-        private void AssertFix(string expected, string ArticleText, string ArticleTitle)
+        private void AssertFix(string expected, string articleText, string articleTitle)
         {
-            Assert.AreEqual(expected, FixTypos(ArticleText, ArticleTitle));
+            Assert.AreEqual(expected, FixTypos(articleText, articleTitle));
         }
 
-        private void AssertFix(string expected, string ArticleText)
+        private void AssertFix(string expected, string articleText)
         {
-            Assert.AreEqual(expected, FixTypos(ArticleText));
+            Assert.AreEqual(expected, FixTypos(articleText));
         }
 
-        private void AssertNoFix(string ArticleText, string ArticleTitle)
+        private void AssertNoFix(string articleText, string articleTitle)
         {
-            Assert.AreEqual(ArticleText, FixTypos(ArticleText, ArticleTitle));
+            Assert.AreEqual(articleText, FixTypos(articleText, articleTitle));
         }
 
-        private void AssertNoFix(string ArticleText)
+        private void AssertNoFix(string articleText)
         {
-            Assert.AreEqual(ArticleText, FixTypos(ArticleText));
+            Assert.AreEqual(articleText, FixTypos(articleText));
         }
         #endregion
 
         [Test]
         public void SimpleTypos()
         {
-            typos["foo"] = "bar";
+            Typos["foo"] = "bar";
 
             AssertNoFix("");
             AssertNoFix("test");
@@ -96,9 +96,9 @@ namespace UnitTests
         [Test]
         public void CaseSensitivity()
         {
-            typos["foo"] = "bar";
-            typos["[Bb]oz"] = "quux";
-            typos["(?i:fubar)"] = "fur";
+            Typos["foo"] = "bar";
+            Typos["[Bb]oz"] = "quux";
+            Typos["(?i:fubar)"] = "fur";
 
             // fixes matching case
             AssertFix("bars", "foos");
@@ -116,8 +116,8 @@ namespace UnitTests
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#Rules_in_Finnish_Regex_TypoFix_list_not_always_applied
         public void Backreferences()
         {
-            typos["(taht)"] = "that";
-            typos[@"\b(a|the)\b\s+\1\b"] = "$1";
+            Typos["(taht)"] = "that";
+            Typos[@"\b(a|the)\b\s+\1\b"] = "$1";
 
             // all rules must function separately
             AssertFix("that", "taht");
@@ -131,7 +131,7 @@ namespace UnitTests
         [Test]
         public void SummaryTests()
         {
-            typos["f[oO0]{2}"] = "foo";
+            Typos["f[oO0]{2}"] = "foo";
 
             AssertFix("foo foo", "foo fO0");
             Assert.That(!Summary.Contains("foo → foo"));
@@ -141,7 +141,7 @@ namespace UnitTests
         [Test]
         public void FixLinkFaces()
         {
-            typos["foo"] = "bar";
+            Typos["foo"] = "bar";
 
             AssertNoFix("[[foo]]");
             AssertFix("[[foo|bar]]", "[[foo|foo]]");
@@ -150,9 +150,9 @@ namespace UnitTests
         [Test]
         public void AllThreeGroups()
         {
-            typos[@"\booze\b"] = "booze!";
-            typos[@"foo(\w*)\b"] = "bar$1";
-            typos[@"\b(a|the)\b\s+\1\b"] = "$1";
+            Typos[@"\booze\b"] = "booze!";
+            Typos[@"foo(\w*)\b"] = "bar$1";
+            Typos[@"\b(a|the)\b\s+\1\b"] = "$1";
 
             AssertFix("barwards viva the booze!", "foowards viva the the ooze");
         }
@@ -160,7 +160,7 @@ namespace UnitTests
         [Test]
         public void DontFixCertainStuff()
         {
-            typos["(T|t)eh"] = "the";
+            Typos["(T|t)eh"] = "the";
 
             AssertNoFix(@"{{teh}} http://tehcrappe.org/TehCrappe [[teh]] [http://tehcrappe.org/TehCrappe]");
         }
@@ -168,8 +168,8 @@ namespace UnitTests
         [Test]
         public void DontChangeTitle()
         {
-            typos["teh"] = "the";
-            typos["foo"] = "bar";
+            Typos["teh"] = "the";
+            Typos["foo"] = "bar";
 
             AssertFix("teh bar", "teh foo", "teh");
             AssertFix("teh bar", "teh foo", "teh crap");

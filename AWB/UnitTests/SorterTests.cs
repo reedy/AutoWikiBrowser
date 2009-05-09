@@ -78,7 +78,7 @@ words";
         }
 
         [Test]
-        public void movePortalTemplatesTests()
+        public void MovePortalTemplatesTests()
         {
          Assert.AreEqual(@"text here
 text here2
@@ -189,7 +189,7 @@ some words"));
         }
         
         [Test]
-        public void moveMoreNoFootnotesTests()
+        public void MoveMoreNoFootnotesTests()
         {
           string A = @"{{nofootnotes}}";
           string A2 = @"{{Morefootnotes}}";
@@ -226,7 +226,7 @@ words.
         }
 
         [Test]
-        public void moveExternalLinksTests()
+        public void MoveExternalLinksTests()
         {
             string a = @"'''article'''
 == blah ==
