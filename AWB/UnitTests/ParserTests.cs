@@ -750,6 +750,9 @@ url=a|title=b}}</ref>"));
             Assert.AreEqual(@"Great.{{fact|date=May 2008}} Now", Parsers.FixSyntax(@"Great.{{fact|date=May 2008} Now"));
             Assert.AreEqual(@"Great.{{fact|date=May 2008}} Now", Parsers.FixSyntax(@"Great.{{fact|date=May 2008]} Now"));
 
+            // don't change what could be wikitable
+            Assert.AreEqual(@"Great.{{foo|} Now", Parsers.FixSyntax(@"Great.{{foo|} Now"));
+
             // set single curly bracket to normal bracket if that makes all brackets balance
             Assert.AreEqual(@"Great (not really) now", Parsers.FixSyntax(@"Great (not really} now"));
             Assert.AreEqual(@"# [[Herbert H. H. Fox]] ([[1934 - 1939]])<br>", Parsers.FixSyntax(@"# [[Herbert H. H. Fox]] ([[1934 - 1939]]}<br>"));
