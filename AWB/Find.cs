@@ -35,13 +35,13 @@ namespace AutoWikiBrowser
         }
 
         public static void Find1(string strRegex, bool isRegex, bool caseSensitive,
-            System.Windows.Forms.TextBox txtEdit, string ArticleName)
+            System.Windows.Forms.TextBox txtEdit, string articleName)
         {
-            string ArticleText = txtEdit.Text;
+            string articleText = txtEdit.Text;
 
             RegexOptions regOptions = caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase;
 
-            strRegex = Tools.ApplyKeyWords(ArticleName, strRegex);
+            strRegex = Tools.ApplyKeyWords(articleName, strRegex);
 
             if (!isRegex)
                 strRegex = Regex.Escape(strRegex);
@@ -51,7 +51,7 @@ namespace AutoWikiBrowser
                 int findStart = txtEdit.SelectionStart;
 
                 RegexObj = new Regex(strRegex, regOptions);
-                MatchObj = RegexObj.Match(ArticleText, findStart);
+                MatchObj = RegexObj.Match(articleText, findStart);
                 txtEdit.SelectionStart = MatchObj.Index;
                 txtEdit.SelectionLength = MatchObj.Length;
             }
@@ -74,12 +74,12 @@ namespace AutoWikiBrowser
             txtEdit.ScrollToCaret();
         }
 
-        public static void SetEditBoxSelection(System.Windows.Forms.TextBox txtEdit, int InputIndex, int InputLength)
+        public static void SetEditBoxSelection(System.Windows.Forms.TextBox txtEdit, int inputIndex, int inputLength)
         {
-            if (InputIndex > 0 && InputLength > 0 && (InputIndex + InputLength) < txtEdit.TextLength)
+            if (inputIndex > 0 && inputLength > 0 && (inputIndex + inputLength) < txtEdit.TextLength)
             {
-                txtEdit.SelectionStart = InputIndex;
-                txtEdit.SelectionLength = InputLength;
+                txtEdit.SelectionStart = inputIndex;
+                txtEdit.SelectionLength = inputLength;
             }
             txtEdit.ScrollToCaret();
         }

@@ -39,7 +39,7 @@ namespace AutoWikiBrowser
         {
             get
             {
-                return new WikiFunctions.AWBSettings.ExternalProgramPrefs()
+                return new WikiFunctions.AWBSettings.ExternalProgramPrefs
                 {
                     Enabled = chkEnabled.Checked,
                     Skip = chkSkip.Checked,
@@ -71,55 +71,51 @@ namespace AutoWikiBrowser
         }
 
         //Look at User:Pseudomonas/AWBPerlWrapperPlugin
-        public string ProcessArticle(string ArticleText, string ArticleTitle, int Namespace, out string Summary, out bool Skip)
+        public string ProcessArticle(string articleText, string articleTitle, int @namespace, out string summary, out bool skip)
         {
-            string OrigText = ArticleText;
-            Skip = false;
-            Summary = "";
+            string origText = articleText;
+            skip = false;
+            summary = "";
 
-            string IOFile = txtWorkingDir.Text + "\\" + txtFile.Text;
+            string ioFile = txtWorkingDir.Text + "\\" + txtFile.Text;
 
             try
             {
-                System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo();
-                psi.WorkingDirectory = txtWorkingDir.Text;
-                psi.FileName = txtProgram.Text;
-                psi.Arguments = txtParameters.Text;
-                
+                System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo
+                                                              {
+                                                                  WorkingDirectory = txtWorkingDir.Text,
+                                                                  FileName = txtProgram.Text,
+                                                                  Arguments = txtParameters.Text
+                                                              };
+
                 if (radFile.Checked)
-                {
-                    using (System.IO.StreamWriter writer = new System.IO.StreamWriter(IOFile))
-                    {
-                        writer.Write(ArticleText);
-                        writer.Close();
-                    }
-                }
+                    WikiFunctions.Tools.WriteTextFile(articleText, ioFile, false);
                 else
-                    psi.Arguments = psi.Arguments.Replace("%%articletext%%", ArticleText);
+                    psi.Arguments = psi.Arguments.Replace("%%articletext%%", articleText);
                 
                 psi.Arguments = psi.Arguments.Replace("%%file%%", txtFile.Text);
 
                 System.Diagnostics.Process p = System.Diagnostics.Process.Start(psi);
                 p.WaitForExit();
 
-                if (File.Exists(IOFile))
+                if (File.Exists(ioFile))
                 {
-                    using (StreamReader reader = File.OpenText(IOFile))
+                    using (StreamReader reader = File.OpenText(ioFile))
                     {
-                        ArticleText = reader.ReadToEnd();
+                        articleText = reader.ReadToEnd();
                         reader.Close();
                     }
 
-                    Skip = (chkSkip.Checked && (ArticleText == OrigText));
+                    skip = (chkSkip.Checked && (articleText == origText));
 
-                    File.Delete(IOFile);
+                    File.Delete(ioFile);
                 }
-                return ArticleText;
+                return articleText;
             }
             catch (Exception ex)
             {
                 WikiFunctions.ErrorHandler.Handle(ex);
-                return OrigText;
+                return origText;
             }
         }
 
@@ -148,7 +144,7 @@ namespace AutoWikiBrowser
         private void ExternalProgram_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
-            this.Hide();
+            Hide();
         }
 
         private void btnSelect_Click(object sender, EventArgs e)
