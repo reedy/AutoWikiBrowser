@@ -294,9 +294,9 @@ namespace WikiFunctions
         public static readonly Regex Code = new Regex(@"<\s*code\s*>(.*?)<\s*/\s*code\s*>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
-        /// Matches math, pre, source, code tags
+        /// Matches math, pre, source, code tags or comments
         /// </summary>
-        public static readonly Regex MathPreSourceCode = new Regex(@"<pre>.*?</pre>|<math>.*?</math>|" + Code.ToString() + @"|" + Source.ToString(), RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        public static readonly Regex MathPreSourceCodeComments = new Regex(@"<pre>.*?</pre>|<!--.*?-->|<math>.*?</math>|" + Code.ToString() + @"|" + Source.ToString(), RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
         /// Matches Dates like 21 January

@@ -1382,7 +1382,7 @@ namespace WikiFunctions.Parse
             if (Regex.Matches(articleText, Regex.Escape(openingBrackets)).Count != Regex.Matches(articleText, Regex.Escape(closingBrackets)).Count)
             {
                 // remove all <math>, <code> stuff etc. where curly brackets are used in singles and pairs
-                foreach (Match m in WikiRegexes.MathPreSourceCode.Matches(articleText))
+                foreach (Match m in WikiRegexes.MathPreSourceCodeComments.Matches(articleText))
                 {
                     articleText = articleText.Replace(m.Value, Tools.ReplaceWithSpaces(m.Value));
                 }
