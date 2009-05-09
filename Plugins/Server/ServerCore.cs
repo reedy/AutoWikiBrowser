@@ -1,4 +1,4 @@
-﻿/*
+/*
 (C) 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 
 This program is free software; you can redistribute it and/or modify
@@ -55,7 +55,7 @@ namespace AutoWikiBrowser.Plugins.Server
         string IAWBPlugin.WikiName
         { get { return Name; } }
 
-        string IAWBPlugin.ProcessArticle(IAutoWikiBrowser sender, ProcessArticleEventArgs eventargs)
+        string IAWBPlugin.ProcessArticle(IAutoWikiBrowser sender, IProcessArticleEventArgs eventargs)
         {
             return eventargs.ArticleText;
         }

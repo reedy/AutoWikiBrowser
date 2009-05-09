@@ -93,7 +93,7 @@ namespace WikiFunctions.Plugin
         int Nudges { get; }
         ProjectEnum Project { get; }
         LangCodeEnum LangCode { get; }
-        bool CheckStatus(bool Login);
+        bool CheckStatus(bool login);
         bool Privacy { get; }
         bool Shutdown { get; }
     }
@@ -104,7 +104,7 @@ namespace WikiFunctions.Plugin
     public interface IAutoWikiBrowserCommands
     {
         void ShowHelp(string URL);
-        void ShowHelpEnWiki(string Article);
+        void ShowHelpEnWiki(string article);
 
         void Start(IAWBPlugin sender);
         void Start(string sender);
@@ -115,9 +115,9 @@ namespace WikiFunctions.Plugin
         /// <summary>
         /// Add an article log entry to the AWB Log tab
         /// </summary>
-        /// <param name="Skipped">True if the article was skipped and needs to be added to the Skipped list on the AWB log tab, false if it should be added to the Saved articles list</param>
-        /// <param name="LogListener">An AWBLogListener object - basically an object inherited from ListViewItem, which implements IMyTraceListener, and which represents a wiki article for logging purposes.</param>
-        void AddLogItem(bool Skipped, AWBLogListener LogListener);
+        /// <param name="skipped">True if the article was skipped and needs to be added to the Skipped list on the AWB log tab, false if it should be added to the Saved articles list</param>
+        /// <param name="logListener">An AWBLogListener object - basically an object inherited from ListViewItem, which implements IMyTraceListener, and which represents a wiki article for logging purposes.</param>
+        void AddLogItem(bool skipped, AWBLogListener logListener);
 
         /// <summary>
         /// Turn off any logging to files
@@ -127,7 +127,7 @@ namespace WikiFunctions.Plugin
         /// <summary>
         /// For the purposes of the logging tab, mark the page as Skipped and provide a reason.
         /// </summary>
-        /// <remarks>ProcessArticleEventArgs.Skip needs to be set to True if you want AWB to actually skip the article.
+        /// <remarks>IProcessArticleEventArgs.Skip needs to be set to True if you want AWB to actually skip the article.
         /// 
         ///  To write to all active log listeners, including logging to file listeners, use methods from IAutoWikiBrowser.TraceManager.</remarks>
         /// <param name="sender">A reference to the calling plugin</param>
@@ -137,7 +137,7 @@ namespace WikiFunctions.Plugin
         /// <summary>
         /// For the purposes of the logging tab, mark the page as Skipped and provide a reason.
         /// </summary>
-        /// <remarks>ProcessArticleEventArgs.Skip needs to be set to True if you want AWB to actually skip the article.
+        /// <remarks>IProcessArticleEventArgs.Skip needs to be set to True if you want AWB to actually skip the article.
         /// 
         /// To write to all active log listeners, including logging to file listeners, use methods from IAutoWikiBrowser.TraceManager.</remarks>
         /// <param name="sender">The calling plugin's name</param>

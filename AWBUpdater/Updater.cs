@@ -32,24 +32,24 @@ namespace AwbUpdater
 {
     internal sealed partial class Updater : Form
     {
-        readonly string AWBdirectory = "", tempDirectory = "";
-        string AWBZipName = "", AWBWebAddress = "";
+        private readonly string AWBdirectory = "", TempDirectory = "";
+        private string AWBZipName = "", AWBWebAddress = "";
         string UpdaterZipName = "", UpdaterWebAddress = "";
 
-        IWebProxy proxy;
+        IWebProxy Proxy;
 
-        bool updaterUpdate;
-        bool awbUpdate;
-        bool updateSucessful;
+        private bool UpdaterUpdate;
+        private bool AWBUpdate;
+        private bool UpdateSucessful;
 
         public Updater()
         {
             InitializeComponent();
 
             AWBdirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\";
-            tempDirectory = Environment.GetEnvironmentVariable("TEMP") ?? "C:\\Windows\\Temp";
-            if (!tempDirectory.EndsWith("\\")) tempDirectory += "\\";
-            tempDirectory += "$AWB$Updater$Temp$\\";
+            TempDirectory = Environment.GetEnvironmentVariable("TEMP") ?? "C:\\Windows\\Temp";
+            if (!TempDirectory.EndsWith("\\")) TempDirectory += "\\";
+            TempDirectory += "$AWB$Updater$Temp$\\";
         }
 
         /// <summary>
@@ -73,15 +73,15 @@ namespace AwbUpdater
         {
             try
             {
-                proxy = WebRequest.GetSystemWebProxy();
+                Proxy = WebRequest.GetSystemWebProxy();
 
-                if (proxy.IsBypassed(new Uri("http://en.wikipedia.org")))
-                    proxy = null;
+                if (Proxy.IsBypassed(new Uri("http://en.wikipedia.org")))
+                    Proxy = null;
 
                 UpdateUI("Getting current AWB and Updater versions", true);
                 AWBversion();
 
-                if ((!updaterUpdate && !awbUpdate) && string.IsNullOrEmpty(AWBWebAddress))
+                if ((!UpdaterUpdate && !AWBUpdate) && string.IsNullOrEmpty(AWBWebAddress))
                     ExitEarly();
                 else
                 {
@@ -105,7 +105,7 @@ namespace AwbUpdater
                     UpdateUI("Cleaning up from update", true);
                     KillTempDir();
 
-                    updateSucessful = true;
+                    UpdateSucessful = true;
                     ReadyToExit();
                 }
             }
@@ -171,13 +171,13 @@ namespace AwbUpdater
         /// </summary>
         private void CreateTempDir()
         {
-            if (Directory.Exists(tempDirectory))
+            if (Directory.Exists(TempDirectory))
             {
                 // clear its content just to be sure that no parasitic files are left
-                Directory.Delete(tempDirectory, true);
+                Directory.Delete(TempDirectory, true);
             }
 
-            Directory.CreateDirectory(tempDirectory);
+            Directory.CreateDirectory(TempDirectory);
 
             progressUpdate.Value = 10;
         }
@@ -194,7 +194,7 @@ namespace AwbUpdater
             {
                 HttpWebRequest rq = (HttpWebRequest)WebRequest.Create("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
 
-                rq.Proxy = proxy;
+                rq.Proxy = Proxy;
 
                 rq.UserAgent = "AWBUpdater " + Assembly.GetExecutingAssembly().GetName().Version;
 
@@ -225,18 +225,18 @@ namespace AwbUpdater
             {
                 try
                 {
-                    awbUpdate = updaterUpdate = false;
+                    AWBUpdate = UpdaterUpdate = false;
                     FileVersionInfo awbVersionInfo = FileVersionInfo.GetVersionInfo(AWBdirectory + "AutoWikiBrowser.exe");
                     int awbFileVersion = StringToVersion(awbVersionInfo.FileVersion);
 
                     if (awbFileVersion < awbCurrentVersion)
-                        awbUpdate = true;
+                        AWBUpdate = true;
                     else if ((awbFileVersion >= awbCurrentVersion) &&
                         (awbFileVersion < awbNewestVersion) &&
                         MessageBox.Show("There is an optional update to AutoWikiBrowser. Would you like to upgrade?", "Optional update", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        awbUpdate = true;
+                        AWBUpdate = true;
 
-                    if (awbUpdate)
+                    if (AWBUpdate)
                     {
                         AWBZipName = "AutoWikiBrowser" + awbNewestVersion + ".zip";
                         AWBWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + AWBZipName;
@@ -246,7 +246,7 @@ namespace AwbUpdater
                     {
                         UpdaterZipName = "AWBUpdater" + updaterVersion + ".zip";
                         UpdaterWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + UpdaterZipName;
-                        updaterUpdate = true;
+                        UpdaterUpdate = true;
                     }
                 }
                 catch
@@ -261,13 +261,12 @@ namespace AwbUpdater
         /// </summary>
         private void GetAwbFromInternet()
         {
-            WebClient client = new WebClient();
-            client.Proxy = proxy;
+            WebClient client = new WebClient {Proxy = Proxy};
 
             if (!string.IsNullOrEmpty(AWBWebAddress))
-                client.DownloadFile(AWBWebAddress, tempDirectory + AWBZipName);
+                client.DownloadFile(AWBWebAddress, TempDirectory + AWBZipName);
             else if (!string.IsNullOrEmpty(UpdaterWebAddress))
-                client.DownloadFile(UpdaterWebAddress, tempDirectory + UpdaterZipName);
+                client.DownloadFile(UpdaterWebAddress, TempDirectory + UpdaterZipName);
 
             client.Dispose();
 
@@ -279,11 +278,11 @@ namespace AwbUpdater
         /// </summary>
         private void UnzipAwb()
         {
-            if (!string.IsNullOrEmpty(AWBZipName) && File.Exists(tempDirectory + AWBZipName))
-                Extract(tempDirectory + AWBZipName);
+            if (!string.IsNullOrEmpty(AWBZipName) && File.Exists(TempDirectory + AWBZipName))
+                Extract(TempDirectory + AWBZipName);
 
-            if (!string.IsNullOrEmpty(UpdaterZipName) && File.Exists(tempDirectory + UpdaterZipName))
-                Extract(tempDirectory + UpdaterZipName);
+            if (!string.IsNullOrEmpty(UpdaterZipName) && File.Exists(TempDirectory + UpdaterZipName))
+                Extract(TempDirectory + UpdaterZipName);
 
             progressUpdate.Value = 70;
         }
@@ -291,12 +290,12 @@ namespace AwbUpdater
         /// <summary>
         /// Code used to unzip the zip files to the temporary directory
         /// </summary>
-        /// <param name="File"></param>
-        private void Extract(string File)
+        /// <param name="file"></param>
+        private void Extract(string file)
         {
             try
             {
-                new FastZip().ExtractZip(File, tempDirectory, null);
+                new FastZip().ExtractZip(file, TempDirectory, null);
             }
             catch (Exception ex)
             {
@@ -334,10 +333,10 @@ namespace AwbUpdater
         /// </summary>
         private void CopyFiles()
         {
-            if (updaterUpdate && File.Exists(tempDirectory + "AWBUpdater.exe"))
-                CopyFile(tempDirectory + "AWBUpdater.exe", AWBdirectory + "AWBUpdater.exe.new");
+            if (UpdaterUpdate && File.Exists(TempDirectory + "AWBUpdater.exe"))
+                CopyFile(TempDirectory + "AWBUpdater.exe", AWBdirectory + "AWBUpdater.exe.new");
 
-            if (awbUpdate)
+            if (AWBUpdate)
             {
                 //Explicit Deletions (Remove these if they exist!!)
                 if (File.Exists(AWBdirectory + "Wikidiff2.dll"))
@@ -352,12 +351,12 @@ namespace AwbUpdater
                 if (Directory.Exists(AWBdirectory + "\\Plugins\\WPAssessmentsCatCreator"))
                     Directory.Delete(AWBdirectory + "\\Plugins\\WPAssessmentsCatCreator", true);
 
-                foreach (string file in Directory.GetFiles(tempDirectory, "*.*", SearchOption.AllDirectories))
+                foreach (string file in Directory.GetFiles(TempDirectory, "*.*", SearchOption.AllDirectories))
                 {
                     if (!file.Contains("AWBUpdater"))
-                        CopyFile(file, AWBdirectory + file.Replace(tempDirectory, ""));
+                        CopyFile(file, AWBdirectory + file.Replace(TempDirectory, ""));
                     else
-                        CopyFile(file, AWBdirectory + file.Replace(tempDirectory, "") + ".new");
+                        CopyFile(file, AWBdirectory + file.Replace(TempDirectory, "") + ".new");
                 }
 
                 string[] pluginFiles = Directory.GetFiles(AWBdirectory + "\\Plugins", "*.*", SearchOption.AllDirectories);
@@ -464,8 +463,8 @@ namespace AwbUpdater
         /// </summary>
         private void KillTempDir()
         {
-            if (Directory.Exists(tempDirectory))
-                Directory.Delete(tempDirectory, true);
+            if (Directory.Exists(TempDirectory))
+                Directory.Delete(TempDirectory, true);
             progressUpdate.Value = 100;
         }
 
@@ -486,7 +485,7 @@ namespace AwbUpdater
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            if (updateSucessful) StartAwb();
+            if (UpdateSucessful) StartAwb();
 
             Close();
         }

@@ -1375,7 +1375,7 @@ namespace AutoWikiBrowser
                 if (cmboImages.SelectedIndex != 0)
                 {
                     theArticle.UpdateImages((WikiFunctions.Options.ImageReplaceOptions)cmboImages.SelectedIndex,
-                        parsers, txtImageReplace.Text, txtImageWith.Text, chkSkipNoImgChange.Checked);
+                        txtImageReplace.Text, txtImageWith.Text, chkSkipNoImgChange.Checked);
                     if (theArticle.SkipArticle) return;
                 }
 

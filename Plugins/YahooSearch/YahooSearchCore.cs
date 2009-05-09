@@ -36,11 +36,11 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
     /// </remarks>
     public class YahooSearchListMakerPlugin : IListMakerPlugin
     {
-        private const string appID = "3mG9u3PV34GC4rnRXJlID0_3aUb0.XVxGZYrbFcYClzQYUqtlkn0u6iXVwYVv9sW1Q--";
+        private const string AppId = "3mG9u3PV34GC4rnRXJlID0_3aUb0.XVxGZYrbFcYClzQYUqtlkn0u6iXVwYVv9sW1Q--";
         #region IListMakerPlugin Members
 
-        readonly string baseUrl = "http://search.yahooapis.com/WebSearchService/V1/webSearch?appid=" + appID + "&query={0}&results={1}&site=" + Variables.URL + "&start={2}";
-        private const int noResults = 100;
+        private readonly string BaseUrl = "http://search.yahooapis.com/WebSearchService/V1/webSearch?appid=" + AppId + "&query={0}&results={1}&site=" + Variables.URL + "&start={2}";
+        private const int NoResults = 100;
 
         public List<Article> MakeList(string[] searchCriteria)
         {
@@ -49,7 +49,7 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
 
             foreach (string s in searchCriteria)
             {
-                string url = string.Format(baseUrl, s, noResults, start);
+                string url = string.Format(BaseUrl, s, NoResults, start);
                 int resultsReturned = 0, totalResults = 0;
 
                 do
@@ -96,11 +96,11 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
                         break;
 
                     if ((articles.Count < totalResults) && (articles.Count <= 900))
-                        start += noResults;
+                        start += NoResults;
                     else
                         break;
 
-                    url = string.Format(baseUrl, s, noResults, start);
+                    url = string.Format(BaseUrl, s, NoResults, start);
                 } while (true);
             }
 

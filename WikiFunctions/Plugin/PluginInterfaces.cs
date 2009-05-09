@@ -48,9 +48,9 @@ namespace WikiFunctions.Plugin
         /// When AWB has an article to process, it calls this function in your plugin
         /// </summary>
         /// <param name="sender">A reference to an active IAutoWikiBrowser object owned by AWB</param>
-        /// <param name="eventargs">An ProcessArticleEventArgs object, containing various read-only and read-write data</param>
+        /// <param name="eventargs">An IProcessArticleEventArgs object, containing various read-only and read-write data</param>
         /// <returns></returns>
-        string ProcessArticle(IAutoWikiBrowser sender, ProcessArticleEventArgs eventargs);
+        string ProcessArticle(IAutoWikiBrowser sender, IProcessArticleEventArgs eventargs);
 
         /// <summary>
         /// Called by AWB when it loads a setting file
@@ -77,14 +77,14 @@ namespace WikiFunctions.Plugin
         /// <summary>
         /// AWB has got stuck and wants to "nudge" (stop and restart processing)
         /// </summary>
-        /// <param name="Cancel">True if you want to cancel the "nudging" operation</param>
-        void Nudge(out bool Cancel);
+        /// <param name="cancel">True if you want to cancel the "nudging" operation</param>
+        void Nudge(out bool cancel);
 
         /// <summary>
         ///  AWB performed a nudge
         /// </summary>
-        /// <param name="Nudges">How many nudges AWB has performed in this session</param>
-        void Nudged(int Nudges);
+        /// <param name="nudges">How many nudges AWB has performed in this session</param>
+        void Nudged(int nudges);
     }
 
     public delegate void GetLogUploadLocationsEvent(IAutoWikiBrowser sender, List<Logging.Uploader.LogEntry> locations);
@@ -93,7 +93,7 @@ namespace WikiFunctions.Plugin
     /// <summary>
     /// Sent by AWB to plugins in ProcessArticle()
     /// </summary>
-    public interface ProcessArticleEventArgs
+    public interface IProcessArticleEventArgs
     {
         /// <summary>
         /// The article text

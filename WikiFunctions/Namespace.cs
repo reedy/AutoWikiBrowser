@@ -59,30 +59,30 @@ namespace WikiFunctions
         /// Deduces the namespace number.
         /// TODO: doesn't recognise acceptable deviations such as "template:foo" or "Category : bar"
         /// </summary>
-        public static int Determine(string ArticleTitle)
+        public static int Determine(string articleTitle)
         {
-            if (!ArticleTitle.Contains(":"))
+            if (!articleTitle.Contains(":"))
                 return 0;
 
             foreach (KeyValuePair<int, string> k in Variables.Namespaces)
             {
-                if (ArticleTitle.StartsWith(k.Value))
-                    return ArticleTitle.Length > k.Value.Length ? k.Key : 0;
+                if (articleTitle.StartsWith(k.Value))
+                    return articleTitle.Length > k.Value.Length ? k.Key : 0;
             }
 
             foreach (KeyValuePair<int, List<string>> k in Variables.NamespaceAliases)
             {
                 foreach (string s in k.Value)
                 {
-                    if (ArticleTitle.StartsWith(s))
-                        return ArticleTitle.Length > s.Length ? k.Key : 0;
+                    if (articleTitle.StartsWith(s))
+                        return articleTitle.Length > s.Length ? k.Key : 0;
                 }
             }
 
             foreach (KeyValuePair<int, string> k in Variables.CanonicalNamespaces)
             {
-                if (ArticleTitle.StartsWith(k.Value))
-                    return ArticleTitle.Length > k.Value.Length ? k.Key : 0;
+                if (articleTitle.StartsWith(k.Value))
+                    return articleTitle.Length > k.Value.Length ? k.Key : 0;
             }
 
             return 0;
@@ -92,10 +92,10 @@ namespace WikiFunctions
         /// <summary>
         /// Tests title to make sure it is main space
         /// </summary>
-        /// <param name="ArticleTitle">The title.</param>
-        public static bool IsMainSpace(string ArticleTitle)
+        /// <param name="articleTitle">The title.</param>
+        public static bool IsMainSpace(string articleTitle)
         {
-            return Determine(ArticleTitle) == 0;
+            return Determine(articleTitle) == 0;
         }
 
         /// <summary>
@@ -110,10 +110,10 @@ namespace WikiFunctions
         /// <summary>
         /// Tests title to make sure it is either main, image, category or template namespace.
         /// </summary>
-        /// <param name="ArticleTitle">The title.</param>
-        public static bool IsImportant(string ArticleTitle)
+        /// <param name="articleTitle">The title.</param>
+        public static bool IsImportant(string articleTitle)
         {
-            return IsImportant(Determine(ArticleTitle));
+            return IsImportant(Determine(articleTitle));
         }
 
         /// <summary>
@@ -130,10 +130,10 @@ namespace WikiFunctions
         /// <summary>
         /// Tests title to make sure it is a talk page.
         /// </summary>
-        /// <param name="ArticleTitle">The title.</param>
-        public static bool IsTalk(string ArticleTitle)
+        /// <param name="articleTitle">The title.</param>
+        public static bool IsTalk(string articleTitle)
         {
-            return IsTalk(Determine(ArticleTitle));
+            return IsTalk(Determine(articleTitle));
         }
 
         // Covered by NamespaceTests.IsTalk()
@@ -150,31 +150,31 @@ namespace WikiFunctions
         /// <summary>
         /// returns true if current page is a userpage
         /// </summary>
-        public static bool IsUserSpace(string ArticleTitle)
+        public static bool IsUserSpace(string articleTitle)
         {
-            return IsUserTalk(ArticleTitle) || IsUserPage(ArticleTitle);
+            return IsUserTalk(articleTitle) || IsUserPage(articleTitle);
         }
 
         // Covered by NamespaceTests.IsUserTalk()
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ArticleTitle"></param>
+        /// <param name="articleTitle"></param>
         /// <returns></returns>
-        public static bool IsUserTalk(string ArticleTitle)
+        public static bool IsUserTalk(string articleTitle)
         {
-            return ArticleTitle.StartsWith(Variables.Namespaces[UserTalk]);
+            return articleTitle.StartsWith(Variables.Namespaces[UserTalk]);
         }
 
         // Covered by NamespaceTests.IsUserPage()
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ArticleTitle"></param>
+        /// <param name="articleTitle"></param>
         /// <returns></returns>
-        public static bool IsUserPage(string ArticleTitle)
+        public static bool IsUserPage(string articleTitle)
         {
-            return Determine(ArticleTitle) == User;
+            return Determine(articleTitle) == User;
         }
 
         private static readonly Regex NormalizeColon = new Regex(@"\s*:$", RegexOptions.Compiled);

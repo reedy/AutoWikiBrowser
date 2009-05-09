@@ -127,7 +127,7 @@ namespace AutoWikiBrowser.Plugins.Delinker
             return match.Value;
         }
 
-        public string ProcessArticle(IAutoWikiBrowser sender, ProcessArticleEventArgs eventargs)
+        public string ProcessArticle(IAutoWikiBrowser sender, IProcessArticleEventArgs eventargs)
         {
             if (!Enabled) return eventargs.ArticleText;
 

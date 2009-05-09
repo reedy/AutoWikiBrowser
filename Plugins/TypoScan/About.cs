@@ -29,9 +29,9 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                 SetTimeText(0, 0, 0);
         }
 
-        private void SetTimeText(double Hours, int Minutes, int Seconds)
+        private void SetTimeText(double hours, int minutes, int seconds)
         {
-            lblTimeLeft.Text = string.Format("{0:00}:{1:00}:{2:00}", Hours, Minutes, Seconds);
+            lblTimeLeft.Text = string.Format("{0:00}:{1:00}:{2:00}", hours, minutes, seconds);
         }
 
         private void linkMboverload_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
