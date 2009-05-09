@@ -1285,7 +1285,7 @@ namespace WikiFunctions.Parse
                 if (bracketLength == 2)
                 {
                     // if it's on double curly brackets, see if one is missing e.g. {{foo} or {{foo]}
-                    articleTextTemp = Regex.Replace(articleTextTemp, @"(?<={{[^{}<>]+)(?:\]?}|}\])(?=[^{}])", @"}}");
+                    articleTextTemp = Regex.Replace(articleTextTemp, @"(?<={{[^{}<>]{1,400}[^{}<>\|])(?:\]}|}\]?)(?=[^{}])", @"}}");
 
                     // might be [[[[link]] or [[link]]]] so see if removing the two found square brackets makes it all balance
                     if(articleTextTemp.Substring(unbalancedBracket, Math.Min(4, articleTextTemp.Length - unbalancedBracket)).Equals("[[[[")
