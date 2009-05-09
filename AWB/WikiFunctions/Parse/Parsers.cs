@@ -104,7 +104,7 @@ namespace WikiFunctions.Parse
                 RegexConversion.Add(new Regex(@"({{\s*[Aa]rticle ?issues\s*(?:\|[^{}]*|\|)\s*)(?![Ee]xpert)" + WikiRegexes.ArticleIssuesTemplatesString + @"\s*(\||}})"), "$1$2={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}$3");
                 
                 // clean any 'date' word within {{Article issues}} (but not 'update' field), place after the date adding rule above
-                RegexConversion.Add(new Regex(@"({{\s*[Aa]rticle ?issues\s*\|[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?)?\|[^{}\|]{3,}?)\bdate"), "$1");
+                RegexConversion.Add(new Regex(@"(?<={{\s*[Aa]rticle ?issues\s*(?:\|[^{}]*?)?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?){0,4}\|[^{}\|]{3,}?)\bdate"), "");
             }
 
             // articleissues with one issue -> single issue tag (e.g. {{articleissues|cleanup=January 2008}} to {{cleanup|date=January 2008}} etc.)
