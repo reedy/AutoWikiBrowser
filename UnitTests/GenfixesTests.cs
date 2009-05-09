@@ -9,13 +9,13 @@ namespace UnitTests
 {
     public class GenfixesTestsBase : RequiresParser
     {
-        readonly Article a = new Article("Test");
-        readonly HideText h = new HideText();
-        readonly MockSkipOptions s = new MockSkipOptions();
+        private readonly Article A = new Article("Test");
+        private readonly HideText H = new HideText();
+        private readonly MockSkipOptions S = new MockSkipOptions();
 
         public void GenFixes(bool replaceReferenceTags)
         {
-            a.PerformGeneralFixes(parser, h, s, replaceReferenceTags);
+            A.PerformGeneralFixes(parser, H, S, replaceReferenceTags);
         }
 
         public void GenFixes()
@@ -25,16 +25,16 @@ namespace UnitTests
 
         public GenfixesTestsBase()
         {
-            a.InitialiseLogListener();
+            A.InitialiseLogListener();
         }
 
         public string ArticleText
         {
-            get { return a.ArticleText; }
+            get { return A.ArticleText; }
             set
             {
-                a.AWBChangeArticleText("unit testing", value, true);
-                a.OriginalArticleText = value;
+                A.AWBChangeArticleText("unit testing", value, true);
+                A.OriginalArticleText = value;
             }
         }
 

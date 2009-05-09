@@ -9,14 +9,14 @@ namespace UnitTests
     public class HideTextTests : RequiresInitialization
     {
         #region Helpers
-        const string hidden = @"⌊⌊⌊⌊M?\d+⌋⌋⌋⌋",
-            allHidden = @"^(⌊⌊⌊⌊M?\d+⌋⌋⌋⌋)*$";
-        HideText hider;
+        const string Hidden = @"⌊⌊⌊⌊M?\d+⌋⌋⌋⌋",
+            AllHidden = @"^(⌊⌊⌊⌊M?\d+⌋⌋⌋⌋)*$";
+        HideText Hider;
 
         private string HideMore(string text, bool HideExternalLinks, bool LeaveMetaHeadings, bool HideImages)
         {
-            hider = new HideText(HideExternalLinks, LeaveMetaHeadings, HideImages);
-            return hider.HideMore(text);
+            Hider = new HideText(HideExternalLinks, LeaveMetaHeadings, HideImages);
+            return Hider.HideMore(text);
         }
 
         private string HideMore(string text)
@@ -26,28 +26,28 @@ namespace UnitTests
 
         private string HideMore(string text, bool HideOnlyTargetOfWikilink)
         {
-            hider = new HideText();
-            return hider.HideMore(text, HideOnlyTargetOfWikilink);
+            Hider = new HideText();
+            return Hider.HideMore(text, HideOnlyTargetOfWikilink);
         }
 
         private void AssertHiddenMore(string text)
         {
-            RegexAssert.IsMatch(hidden, HideMore(text));
+            RegexAssert.IsMatch(Hidden, HideMore(text));
         }
 
         private void AssertAllHiddenMore(string text)
         {
             string s = HideMore(text);
-            RegexAssert.IsMatch(allHidden, s);
-            s = hider.AddBackMore(s);
+            RegexAssert.IsMatch(AllHidden, s);
+            s = Hider.AddBackMore(s);
             Assert.AreEqual(text, s);
         }
 
         private void AssertAllHiddenMore(string text, bool HideExternalLinks)
         {
             string s = HideMore(text, HideExternalLinks, false, true);
-            RegexAssert.IsMatch(allHidden, s);
-            s = hider.AddBackMore(s);
+            RegexAssert.IsMatch(AllHidden, s);
+            s = Hider.AddBackMore(s);
             Assert.AreEqual(text, s);
         }
 
@@ -58,20 +58,20 @@ namespace UnitTests
 
         private string Hide(string text, bool HideExternalLinks, bool LeaveMetaHeadings, bool HideImages)
         {
-            hider = new HideText(HideExternalLinks, LeaveMetaHeadings, HideImages);
-            return hider.Hide(text);
+            Hider = new HideText(HideExternalLinks, LeaveMetaHeadings, HideImages);
+            return Hider.Hide(text);
         }
 
         private void AssertHidden(string text)
         {
-            RegexAssert.IsMatch(hidden, Hide(text));
+            RegexAssert.IsMatch(Hidden, Hide(text));
         }
 
         private void AssertAllHidden(string text)
         {
             string s = Hide(text);
-            RegexAssert.IsMatch(allHidden, s);
-            s = hider.AddBack(s);
+            RegexAssert.IsMatch(AllHidden, s);
+            s = Hider.AddBack(s);
             Assert.AreEqual(text, s);
         }
         private void AssertBothHidden(string text)
@@ -81,7 +81,7 @@ namespace UnitTests
 
         private void AssertBothHidden(string text, bool HideExternalLinks, bool LeaveMetaHeadings, bool HideImages)
         {
-            hider = new HideText(HideExternalLinks, LeaveMetaHeadings, HideImages);
+            Hider = new HideText(HideExternalLinks, LeaveMetaHeadings, HideImages);
             AssertAllHidden(text);
             AssertAllHiddenMore(text);
         }
@@ -90,7 +90,7 @@ namespace UnitTests
         {
             string s = Hide(text);
             Assert.AreEqual(expected, s);
-            s = hider.AddBack(s);
+            s = Hider.AddBack(s);
             Assert.AreEqual(text, s);
         }
 
@@ -98,7 +98,7 @@ namespace UnitTests
         {
             string s = HideMore(text, HideOnlyTargetOfWikilink);
             Assert.AreEqual(expected, s);
-            s = hider.AddBackMore(s);
+            s = Hider.AddBackMore(s);
             Assert.AreEqual(text, s);
         }
 
@@ -128,7 +128,7 @@ namespace UnitTests
         {
             string s = HideMore("[[foo|bar]]", true);
             StringAssert.Contains("bar", s);
-            Assert.AreEqual("[[foo|bar]]", hider.AddBackMore(s));
+            Assert.AreEqual("[[foo|bar]]", Hider.AddBackMore(s));
         }
 
         [Test]
@@ -137,13 +137,13 @@ namespace UnitTests
             AssertAllHiddenMore("{{foo}}");
             AssertAllHiddenMore("{{foo|}}");
             AssertAllHiddenMore("{{foo|bar}}");
-            RegexAssert.IsMatch("123" + hidden + "123", HideMore("123{{foo}}123"));
+            RegexAssert.IsMatch("123" + Hidden + "123", HideMore("123{{foo}}123"));
             AssertAllHiddenMore("{{foo|{{bar}}}}");
             AssertAllHiddenMore("{{foo|{{bar|{{{1|}}}}}}}");
             AssertAllHiddenMore("{{foo|\r\nbar= {blah} blah}}");
             AssertAllHiddenMore("{{foo|\r\nbar= {blah} {{{1|{{blah}}}}}}}");
 
-            RegexAssert.IsMatch(@"\{" + hidden + @"\}", HideMore("{{{foo}}}"));
+            RegexAssert.IsMatch(@"\{" + Hidden + @"\}", HideMore("{{{foo}}}"));
         }
 
         [Test]
@@ -192,17 +192,17 @@ namespace UnitTests
             AssertAllHidden(@"[[Image:westminster.tube.station.jubilee.arp.jpg|");
 
             // in these ones all but the last | is hidden
-            Assert.IsTrue(Regex.IsMatch(Hide(@"|image_skyline=442px_-_London_Lead_Image.jpg|"), hidden + @"\|"));
-            Assert.IsTrue(Regex.IsMatch(Hide(@"|image_map=London (European Parliament constituency).svg   |"), hidden + @"\|"));
-            Assert.IsTrue(Regex.IsMatch(Hide(@"|image_map=westminster.tube.station.jubilee.arp.jpg|"), hidden + @"\|"));
-            Assert.IsTrue(Regex.IsMatch(Hide(@"|Cover  = AmorMexicanaThalia.jpg |"), hidden + @"\|"));
-            Assert.IsTrue(Regex.IsMatch(Hide(@"|image = AmorMexicanaThalia.jpg |"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(Hide(@"|image_skyline=442px_-_London_Lead_Image.jpg|"), Hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(Hide(@"|image_map=London (European Parliament constituency).svg   |"), Hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(Hide(@"|image_map=westminster.tube.station.jubilee.arp.jpg|"), Hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(Hide(@"|Cover  = AmorMexicanaThalia.jpg |"), Hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(Hide(@"|image = AmorMexicanaThalia.jpg |"), Hidden + @"\|"));
             Assert.IsTrue(Regex.IsMatch(Hide(@"|
-image = AmorMexicanaThalia.jpg |"), hidden + @"\|"));
+image = AmorMexicanaThalia.jpg |"), Hidden + @"\|"));
             Assert.IsTrue(Regex.IsMatch(Hide(@"|Img = BBC_logo1.jpg 
-|"), hidden + @"\|"));
-            Assert.IsTrue(Regex.IsMatch(Hide(@"| image name = Fred Astaire.jpg |"), hidden + @"\|"));
-            Assert.IsTrue(Regex.IsMatch(Hide(@"|image2 = AmorMexicanaThalia.jpg |"), hidden + @"\|"));
+|"), Hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(Hide(@"| image name = Fred Astaire.jpg |"), Hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(Hide(@"|image2 = AmorMexicanaThalia.jpg |"), Hidden + @"\|"));
             // in tests below no text is hidden
 
             Assert.AreEqual(Caption1, Hide(Caption1));
@@ -269,17 +269,17 @@ image = AmorMexicanaThalia.jpg |"), hidden + @"\|"));
             AssertAllHiddenMore(@"[[Image:westminster.tube.station.jubilee.arp.jpg|");
 
             // in these ones all but the last | is hidden
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"|image_skyline=442px_-_London_Lead_Image.jpg|"), hidden + @"\|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"|image_map=London (European Parliament constituency).svg   |"), hidden + @"\|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"|image_map=westminster.tube.station.jubilee.arp.jpg|"), hidden + @"\|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"|Cover  = AmorMexicanaThalia.jpg |"), hidden + @"\|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"|image = AmorMexicanaThalia.jpg |"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"|image_skyline=442px_-_London_Lead_Image.jpg|"), Hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"|image_map=London (European Parliament constituency).svg   |"), Hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"|image_map=westminster.tube.station.jubilee.arp.jpg|"), Hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"|Cover  = AmorMexicanaThalia.jpg |"), Hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"|image = AmorMexicanaThalia.jpg |"), Hidden + @"\|"));
             Assert.IsTrue(Regex.IsMatch(HideMore(@"|
-image = AmorMexicanaThalia.jpg |"), hidden + @"\|"));
+image = AmorMexicanaThalia.jpg |"), Hidden + @"\|"));
             Assert.IsTrue(Regex.IsMatch(HideMore(@"|Img = BBC_logo1.jpg 
-|"), hidden + @"\|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"| image name = Fred Astaire.jpg |"), hidden + @"\|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"|image2 = AmorMexicanaThalia.jpg |"), hidden + @"\|"));
+|"), Hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"| image name = Fred Astaire.jpg |"), Hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"|image2 = AmorMexicanaThalia.jpg |"), Hidden + @"\|"));
 
             // in tests below no text is hidden
 
@@ -304,15 +304,15 @@ image = AmorMexicanaThalia.jpg |"), hidden + @"\|"));
                 AssertAllHiddenMore("[[Image:foo|A [[bar]][http://fubar].{{quux}}]]"); */
 
             // in these ones all but the last | or }} is hidden
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"| Photo =Arlberg passstrasse.jpg |"), hidden + @"\|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"| Photo =Arlberg passstrasse.jpg}}"), hidden + @"}}"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"|photo=Arlberg passstrasse.jpg|"), hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"| Photo =Arlberg passstrasse.jpg |"), Hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"| Photo =Arlberg passstrasse.jpg}}"), Hidden + @"}}"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"|photo=Arlberg passstrasse.jpg|"), Hidden + @"\|"));
             Assert.IsTrue(Regex.IsMatch(HideMore(@"| Photo =Arlberg passstrasse.jpg
-|"), hidden + @"\|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"| Image =Arlberg passstrasse.jpg |"), hidden + @"\|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"| image =Arlberg passstrasse.jpg |"), hidden + @"\|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"| Img =Arlberg passstrasse.jpg |"), hidden + @"\|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"| img =Arlberg passstrasse.jpg }}"), hidden + @"}}"));
+|"), Hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"| Image =Arlberg passstrasse.jpg |"), Hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"| image =Arlberg passstrasse.jpg |"), Hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"| Img =Arlberg passstrasse.jpg |"), Hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"| img =Arlberg passstrasse.jpg }}"), Hidden + @"}}"));
             // AssertAllHiddenMore("[[Image:foo|test [[File:bar|thumb|[[boz]]]]]]");
 
             Assert.IsFalse(HideMore(@"{{Drugbox|
@@ -393,7 +393,7 @@ Image:quux[http://example.com]
         }
 
         [Test, Ignore("feature not implemented")]
-        public void Determine_Deviations()
+        public void DetermineDeviations()
         {
             Assert.AreEqual(Namespace.User, Namespace.Determine("user:foo"));
             Assert.AreEqual(Namespace.UserTalk, Namespace.Determine("user_talk:foo"));
