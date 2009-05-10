@@ -2736,6 +2736,15 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string crapStripped = WikiRegexes.BulletedText.Replace(commentsStripped, "");
             int words = (Tools.WordCount(commentsStripped) + Tools.WordCount(crapStripped)) / 2;
 
+            // on en wiki, remove expand template when a stub template exists
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.7B.7Bexpand.7D.7D_when_a_stub_template_exists
+            if (removeTags && Variables.LangCode == LangCodeEnum.en && WikiRegexes.Stub.IsMatch(commentsStripped) && WikiRegexes.Expand.IsMatch(commentsStripped))
+            {
+                articleText = WikiRegexes.Expand.Replace(articleText, "");
+
+                summary += ", removed expand tag";
+            }
+
             // remove stub tags from long articles
             if (removeTags && (words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped))
             {
