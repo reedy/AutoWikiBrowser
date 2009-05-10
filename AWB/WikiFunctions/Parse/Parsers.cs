@@ -1568,6 +1568,7 @@ namespace WikiFunctions.Parse
             articleText = Regex.Replace(articleText, @"\[\[\s*" + escTitle + @"\s*\|([^\]]+)\]\]", "$1");
             articleText = Regex.Replace(articleText, @"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\|([^\]]+)\]\]", "$1");
 
+            // clean up wikilinks: replace underscores, percentages and URL encoded accents etc.
             StringBuilder sb = new StringBuilder(articleText, (articleText.Length * 11) / 10);
 
             foreach (Match m in WikiRegexes.WikiLink.Matches(articleText))
