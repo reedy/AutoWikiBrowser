@@ -1545,7 +1545,7 @@ namespace WikiFunctions.Parse
             return FixLinkWhitespace(articleText, "test");
         }
 
-        // NOT covered
+        // Partially covered by SelfLinkRemoval
         /// <summary>
         /// Fixes link syntax, including removal of self links
         /// </summary>
@@ -1557,10 +1557,8 @@ namespace WikiFunctions.Parse
         {
             string articleTextAtStart = articleText;
             string escTitle = Regex.Escape(articleTitle);
-            //string escTitleNoBrackets = Regex.Escape(Regex.Replace(articleTitle, @" \(.*?\)$", ""));
 
             // remove any self-links, but not other links with different capitaliastion e.g. [[Foo]] vs [[FOO]]
-            // note, removal of self links in iteslf will not cause this method to return a 'change'
             articleText = Regex.Replace(articleText, @"\[\[\s*" + escTitle + @"\s*\]\]", articleTitle);
             articleText = Regex.Replace(articleText, @"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]", Tools.TurnFirstToLower(articleTitle));
 
