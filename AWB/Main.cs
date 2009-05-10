@@ -1079,51 +1079,71 @@ namespace AutoWikiBrowser
 
         private void CaseWasSaved(object sender, EventArgs e)
         {
-            if (webBrowserEdit.DocumentText.Contains("<H1 class=firstHeading>Edit conflict: "))
-            {//if session data is lost, if data is lost then save after delay with tmrAutoSaveDelay
-                MessageBox.Show("There has been an Edit Conflict. AWB will now re-apply its changes on the updated page. \n\r Please re-review the changes before saving. Any Custom edits will be lost, and have to be re-added manually.", "Edit Conflict");
-                NudgeTimer.Stop();
-                Start();
-                return;
-            }
-            if (!BotMode && webBrowserEdit.DocumentText.Contains("<DIV id=spamprotected>"))
-            {//check edit wasn't blocked due to spam filter
-                if (!chkSkipSpamFilter.Checked)
-                {
-                    Match m = spamUrlRegex.Match(webBrowserEdit.DocumentText);
-
-                    string messageBoxText = "Edit has been blocked by spam blacklist.\r\n";
-
-                    if (m.Success)
-                        messageBoxText += "Spam URL: " + m.Groups[1].Value.Trim() + "\r\n";
-
-                    if (MessageBox.Show(messageBoxText + "Try and edit again?", "Spam blacklist", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            try
+            {
+                if (webBrowserEdit.DocumentText.Contains("<H1 class=firstHeading>Edit conflict: "))
+                {//if session data is lost, if data is lost then save after delay with tmrAutoSaveDelay
+                    MessageBox.Show("There has been an Edit Conflict. AWB will now re-apply its changes on the updated page. \n\r Please re-review the changes before saving. Any Custom edits will be lost, and have to be re-added manually.", "Edit Conflict");
+                    NudgeTimer.Stop();
+                    Start();
+                    return;
+                }
+                if (!BotMode && webBrowserEdit.DocumentText.Contains("<DIV id=spamprotected>"))
+                {//check edit wasn't blocked due to spam filter
+                    if (!chkSkipSpamFilter.Checked)
                     {
-                        Start();
-                        return;
+                        Match m = spamUrlRegex.Match(webBrowserEdit.DocumentText);
+
+                        string messageBoxText = "Edit has been blocked by spam blacklist.\r\n";
+
+                        if (m.Success)
+                            messageBoxText += "Spam URL: " + m.Groups[1].Value.Trim() + "\r\n";
+
+                        if (MessageBox.Show(messageBoxText + "Try and edit again?", "Spam blacklist", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                        {
+                            Start();
+                            return;
+                        }
                     }
+
+                    SkipPage("Edit blocked by spam protection filter");
+                    return;
                 }
 
-                SkipPage("Edit blocked by spam protection filter");
-                return;
-            }
+                if (webBrowserEdit.DocumentText.Contains("<DIV CLASS=PREVIEWNOTE"))
+                {//if session data is lost, if data is lost then save after delay with tmrAutoSaveDelay
+                    StartDelayedRestartTimer(null, null);
+                    return;
+                }
 
-            if (webBrowserEdit.DocumentText.Contains("<DIV CLASS=PREVIEWNOTE"))
-            {//if session data is lost, if data is lost then save after delay with tmrAutoSaveDelay
-                StartDelayedRestartTimer(null, null);
-                return;
-            }
+                if (webBrowserEdit.DocumentText.Contains("<h1 id=\"FoundationName\">Wikimedia Foundation</h1>"))
+                {//WMF Error
+                    StartDelayedRestartTimer(null, null);
+                    return;
+                }
 
-            if (webBrowserEdit.DocumentText.Contains("<h1 id=\"FoundationName\">Wikimedia Foundation</h1>"))
-            {//WMF Error
-                StartDelayedRestartTimer(null, null);
-                return;
+                if (IsReadOnlyDB(webBrowserEdit.DocumentText))
+                {
+                    StartDelayedRestartTimer(null, null);
+                    return;
+                }
             }
-
-            if (IsReadOnlyDB(webBrowserEdit.DocumentText))
+            catch (Exception ext)
             {
-                StartDelayedRestartTimer(null, null);
-                return;
+                /* TODO find source of error
+                 * what we get here is a: 
+                 * 
+                 * System.IO.FileNotFoundException
+                 *    at System.Windows.Forms.UnsafeNativeMethods.IPersistStreamInit.Save(IStream pstm, Boolean fClearDirty)
+   at System.Windows.Forms.WebBrowser.get_DocumentStream()
+   at System.Windows.Forms.WebBrowser.get_DocumentText()
+   at AutoWikiBrowser.MainForm.CaseWasSaved(Object sender, EventArgs e)
+                 * 
+                 * which can be triggered when we look at webBrowserEdit.DocumentText
+                 * for some unknown reason
+                 * could be to do with internet connection speed
+                 */
+                Start();
             }
 
             //lower restart delay
