@@ -407,14 +407,19 @@ namespace WikiFunctions
         public static readonly Regex DeadEnd = new Regex(@"({{([Dd]ead ?end|[Ii]nternal ?links|[Nn]uevointernallinks|[Dd]ep)(\|(?:[^{}]+|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}))?}}|(?<={{[Aa]rticle\s*issues\b[^{}]*?)\|\s*deadend\s*=[^{}\|]+)", RegexOptions.Compiled);
 
         /// <summary>
-        /// 
+        /// Matches {{wikify}} tag including within {{article issues}}
         /// </summary>
-        public static readonly Regex Wikify = new Regex(@"({{Wikify\|?(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?)?}}|(?<={{Article\s*issues\b[^{}]*?)\|\s*wikify\s*=[^{}\|]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static readonly Regex Wikify = new Regex(@"({{Wikify(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|(?<={{Article\s*issues\b[^{}]*?)\|\s*wikify\s*=[^{}\|]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
-        /// 
+        /// Matches {{expand}} tag and its redirects and also {{expand}} within {{article issues}}
         /// </summary>
-        public static readonly Regex Orphan = new Regex(@"{{[Oo]rphan\|?(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?)?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static readonly Regex Expand = new Regex(@"({{(?:Expand-?article|Expand|Develop|Elaborate|Expansion)(?:\s*\|\s*(?:date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|(?<={{Article\s*issues\b[^{}]*?)\|\s*expand\s*=[^{}\|]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        /// <summary>
+        /// Matches {{orphan}} tag
+        /// </summary>
+        public static readonly Regex Orphan = new Regex(@"{{[Oo]rphan(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// matches orphan tag within {{Article issues}} template

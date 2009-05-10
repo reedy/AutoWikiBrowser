@@ -446,6 +446,43 @@ fast„ "));
 
             // don't remove the whole of an {{article issues}} template if removing wikify tag
             Assert.IsTrue(WikiRegexes.Wikify.Replace(@"{{Article issues|a=b|c=d| wikify = May 2008|a=b|c=d}}", "").Contains(@"{{Article issues|a=b|c=d|"));
+
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(@"{{wikifyworldblah}}"));
+        }
+
+        [Test]
+        public void ExpandTests()
+        {
+            Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{expand}} here"));
+            Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{Expand}} here"));
+            Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{Expand|date=May 2009}} here"));
+            Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{expandarticle}} here"));
+            Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{Expandarticle}} here"));
+            Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{expand-article}} here"));
+            Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{Expand-article}} here"));
+            Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{expansion}} here"));
+            Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{Expansion|date=subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}} here"));
+            Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{Develop}} here"));
+            Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{develop}} here"));
+
+            Assert.IsFalse(WikiRegexes.Expand.IsMatch(@"now {{developers}} here"));
+
+            Assert.AreEqual(WikiRegexes.Expand.Replace(@"now {{expand}} here", ""), @"now  here");
+            Assert.AreEqual(WikiRegexes.Expand.Replace(@"now {{expandarticle}} here", ""), @"now  here");
+            Assert.AreEqual(WikiRegexes.Expand.Replace(@"{{article issues|wikify=May 2009|COI=March 2009|expand=May 2008}}", ""), @"{{article issues|wikify=May 2009|COI=March 2009}}");
+            Assert.AreEqual(WikiRegexes.Expand.Replace(@"{{article issues|wikify=May 2009| expand = May 2008|COI=March 2009}}", ""), @"{{article issues|wikify=May 2009|COI=March 2009}}");
+        }
+
+        [Test]
+        public void OrphanTests()
+        {
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{Orphan}}"));
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{orphan|date=May 2008}}"));
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{Orphan| date = May 2008}}"));
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{orphan|date=subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphanblahblah}}"));
         }
 
         [Test]
