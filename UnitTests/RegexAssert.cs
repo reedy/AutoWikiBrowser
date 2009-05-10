@@ -92,7 +92,7 @@ namespace UnitTests
 
         public static void NoMatch(Regex regex, string input, string message)
         {
-            AssertionHelper.Expect(!regex.IsMatch(input), "The string matches the given regex"
+            new AssertionHelper().Expect(!regex.IsMatch(input), "The string matches the given regex"
                 + (message.Length == 0 ? "" : ": " + message));
         }
         #endregion
