@@ -452,9 +452,11 @@ en, sq, ru
         {
             // get the zeroth section (text upto first heading)
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
+            string restOfArticle = "";
 
             // get the rest of the article including first heading (may be null if article has no headings)
-            string restOfArticle = articleText.Replace(zerothSection, "");
+            if (zerothSection.Length > 0)
+                articleText.Replace(zerothSection, "");
 
             // avoid moving commented out Dablinks
             if (Variables.LangCode != LangCodeEnum.en || !WikiRegexes.Dablinks.IsMatch(WikiRegexes.Comments.Replace(zerothSection, "")))
