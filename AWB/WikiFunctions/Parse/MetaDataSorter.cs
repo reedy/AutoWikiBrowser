@@ -456,7 +456,7 @@ en, sq, ru
 
             // get the rest of the article including first heading (may be null if article has no headings)
             if (zerothSection.Length > 0)
-                articleText.Replace(zerothSection, "");
+                restOfArticle = articleText.Replace(zerothSection, "");
 
             // avoid moving commented out Dablinks
             if (Variables.LangCode != LangCodeEnum.en || !WikiRegexes.Dablinks.IsMatch(WikiRegexes.Comments.Replace(zerothSection, "")))
