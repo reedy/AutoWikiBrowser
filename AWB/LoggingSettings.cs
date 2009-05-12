@@ -33,16 +33,16 @@ namespace AutoWikiBrowser
     /// </summary>
     internal sealed partial class LoggingSettings : UserControl
     {
-        private bool mStartingUp;
+        private bool StartingUp;
         internal UsernamePassword2 LoginDetails = new UsernamePassword2();
         private bool mInitialised;
         internal Props Settings = new Props();
 
         public LoggingSettings()
         {
-            mStartingUp = true;
+            StartingUp = true;
             InitializeComponent();
-            mStartingUp = false;
+            StartingUp = false;
         }
 
         internal string LogFolder
@@ -56,7 +56,7 @@ namespace AutoWikiBrowser
         }
         internal bool IgnoreEvents
         {
-            set { mStartingUp = value; }
+            set { StartingUp = value; }
         }
         internal WikiFunctions.Controls.Colour LedColour
         {
@@ -135,7 +135,7 @@ namespace AutoWikiBrowser
             Props newProps = new Props();
 
             if (!ApplyButton.Enabled && !(Settings.Equals(newProps)))
-                WEHaveUnappliedChanges();
+                WeHaveUnappliedChanges();
 
             // Settings = NewProps ' No, that doesn't happen until the apply button is clicked
             ApplySettingsToControls(newProps);
@@ -192,9 +192,9 @@ namespace AutoWikiBrowser
             if (mInitialised)
                 Program.MyTrace.PropertiesChange();
         }
-        internal void WEHaveUnappliedChanges()
+        internal void WeHaveUnappliedChanges()
         {
-            if (!mStartingUp)
+            if (!StartingUp)
             {
                 if (Program.MyTrace.HaveOpenFile)
                 {
@@ -207,8 +207,8 @@ namespace AutoWikiBrowser
                 }
             }
         }
-        internal void WEHaveUnappliedChanges(object sender, EventArgs e)
-        { WEHaveUnappliedChanges(); }
+        internal void WeHaveUnappliedChanges(object sender, EventArgs e)
+        { WeHaveUnappliedChanges(); }
         private void DisableApplyButton()
         {
             ApplyButton.Enabled = false;
@@ -276,19 +276,19 @@ namespace AutoWikiBrowser
                 EnableDisableUploadControls(false);
             }
 
-            WEHaveUnappliedChanges();
+            WeHaveUnappliedChanges();
         }
         private void UploadCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             EnableDisableUploadControls(UploadCheckBox.Checked);
-            WEHaveUnappliedChanges();
+            WeHaveUnappliedChanges();
         }
         private void FolderButton_Click(object sender, EventArgs e)
         {
             if (FolderBrowserDialog1.ShowDialog(this) == DialogResult.OK)
             {
                 FolderTextBox.Text = FolderBrowserDialog1.SelectedPath;
-                WEHaveUnappliedChanges();
+                WeHaveUnappliedChanges();
             }
         }
 

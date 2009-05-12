@@ -29,13 +29,13 @@ namespace AutoWikiBrowser
          * saved (e.g. wiki or net connection is down). */
         // Events
         public new event TickEventHandler Tick;
-        public delegate void TickEventHandler(object sender, NudgeTimerEventArgs EventArgs);
+        public delegate void TickEventHandler(object sender, NudgeTimerEventArgs eventArgs);
 
         // Methods
         public NudgeTimer(IContainer container)
             : base(container)
         {
-            base.Tick += NudgeTimer_Tick;
+            base.Tick += NudgeTimerTick;
         }
 
         public void StartMe()
@@ -48,7 +48,7 @@ namespace AutoWikiBrowser
             Interval = 120000;
         }
 
-        private void NudgeTimer_Tick(object sender, EventArgs eventArgs)
+        private void NudgeTimerTick(object sender, EventArgs eventArgs)
         {
             NudgeTimerEventArgs myEventArgs = new NudgeTimerEventArgs();
             Tick(this, myEventArgs);

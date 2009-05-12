@@ -64,7 +64,7 @@ namespace AutoWikiBrowser
         private int retries;
 
         private bool PageReload;
-        private int sameArticleNudges;
+        private int SameArticleNudges;
 
         private readonly HideText RemoveText = new HideText(false, true, false);
         private readonly List<string> noParse = new List<string>();
@@ -74,14 +74,14 @@ namespace AutoWikiBrowser
         private readonly SkipOptions Skip = new SkipOptions();
         private readonly WikiFunctions.ReplaceSpecial.ReplaceSpecial replaceSpecial =
             new WikiFunctions.ReplaceSpecial.ReplaceSpecial();
-        private readonly Parsers parsers;
+        private readonly Parsers Parser;
         private readonly TimeSpan StartTime =
             new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
         private readonly List<string> RecentList = new List<string>();
-        private readonly CustomModule cModule = new CustomModule();
-        private readonly ExternalProgram externalProgram = new ExternalProgram();
-        internal RegexTester regexTester = new RegexTester();
-        private bool userTalkWarningsLoaded;
+        private readonly CustomModule CModule = new CustomModule();
+        private readonly ExternalProgram ExtProgram = new ExternalProgram();
+        private RegexTester regexTester;
+        private bool UserTalkWarningsLoaded;
         private Regex userTalkTemplatesRegex;
         private bool mErrorGettingLogInStatus;
         private bool skippable = true;
@@ -89,19 +89,19 @@ namespace AutoWikiBrowser
 
         private ArticleRedirected ArticleWasRedirected;
 
-        private ListComparer listComparer;
-        private ListSplitter splitter;
+        private ListComparer Comparer;
+        private ListSplitter Splitter;
 
-        List<TypoStat> typoStats;
+        List<TypoStat> TypoStats;
 
-        private readonly Help helpForm = new Help();
+        private readonly Help HelpForm = new Help();
 
-        private readonly WikiDiff diff = new WikiDiff();
+        private readonly WikiDiff Diff = new WikiDiff();
 
         /// <summary>
         /// Whether AWB is currently shutting down
         /// </summary>
-        public bool Shutdown { get; private set; }
+        private bool ShuttingDown { get; set; }
 
         #endregion
 
@@ -137,12 +137,12 @@ namespace AutoWikiBrowser
                 SplashScreen.SetProgress(10);
                 try
                 {
-                    parsers = new Parsers(Properties.Settings.Default.StubMaxWordCount,
+                    Parser = new Parsers(Properties.Settings.Default.StubMaxWordCount,
                         Properties.Settings.Default.AddHummanKeyToCats);
                 }
                 catch (Exception ex)
                 {
-                    parsers = new Parsers();
+                    Parser = new Parsers();
                     ErrorHandler.Handle(ex);
                 }
 
@@ -155,10 +155,10 @@ namespace AutoWikiBrowser
                 Variables.User.UserNameChanged += UpdateUserName;
                 Variables.User.BotStatusChanged += UpdateBotStatus;
                 Variables.User.AdminStatusChanged += UpdateAdminStatus;
-                Variables.User.WikiStatusChanged += UpdateWikiStatus;
+                //Variables.User.WikiStatusChanged += UpdateWikiStatus;
 
-                Variables.User.webBrowserLogin.DocumentCompleted += web4Completed;
-                Variables.User.webBrowserLogin.Navigating += web4Starting;
+                Variables.User.webBrowserLogin.DocumentCompleted += WebLoginCompleted;
+                Variables.User.webBrowserLogin.Navigating += WebLoginStarting;
 
                 webBrowserEdit.Deleted += CaseWasDelete;
                 webBrowserEdit.Loaded += CaseWasLoad;
@@ -454,29 +454,29 @@ namespace AutoWikiBrowser
             return true;
         }
 
-        private AsyncApiEdit apiEdit;
+        private AsyncApiEdit APIEdit;
 
         private void CreateEditor()
         {
-            apiEdit = new AsyncApiEdit(Variables.URLLong, this, Variables.PHP5);
-            apiEdit.PreviewComplete += PreviewComplete;
+            APIEdit = new AsyncApiEdit(Variables.URLLong, this, Variables.PHP5);
+            APIEdit.PreviewComplete += PreviewComplete;
 
-            apiEdit.ExceptionCaught += apiEdit_ExceptionCaught;
+            APIEdit.ExceptionCaught += APIEditExceptionCaught;
         }
 
-        private void apiEdit_ExceptionCaught(AsyncApiEdit sender, Exception ex)
+        private void APIEditExceptionCaught(AsyncApiEdit sender, Exception ex)
         {
             StartDelayedRestartTimer(null, null);
         }
 
         private void StartAPITextLoad(string title)
         {
-            apiEdit.Open(title);
+            APIEdit.Open(title);
 
-            apiEdit.Wait();
+            APIEdit.Wait();
 
             // if MAXLAG exceeded then API will report error, so AWB should go into restart timer to try again in a few seconds
-            if (apiEdit.State == AsyncApiEdit.EditState.Failed)
+            if (APIEdit.State == AsyncApiEdit.EditState.Failed)
             {
                 StartDelayedRestartTimer(null, null);
                 return;
@@ -485,21 +485,21 @@ namespace AutoWikiBrowser
             if (!LoadSuccessAPI())
                 return;
 
-            CaseWasLoad(apiEdit.Page.Text);
+            CaseWasLoad(APIEdit.Page.Text);
         }
 
-        private bool stopProcessing;
+        private bool StopProcessing;
 
         private void Start()
         {
-            if (stopProcessing)
+            if (StopProcessing)
                 return;
 
             try
             {
                 Tools.WriteDebug(Name, "Starting");
 
-                CanShutdown();
+                Shutdown();
 
                 //check edit summary
                 txtEdit.Enabled = true;
@@ -609,11 +609,11 @@ namespace AutoWikiBrowser
         }
 
         // counts number of redirects so that we catch double redirects
-        private int redirects = 0;
+        private int Redirects;
 
         private void CaseWasLoad(string articleText)
         {
-            if (stopProcessing)
+            if (StopProcessing)
                 return;
 
             if (!preParseModeToolStripMenuItem.Checked && !CheckLoginStatus()) return;
@@ -634,9 +634,9 @@ namespace AutoWikiBrowser
             }
 
             if (articleIsRedirect)
-                redirects++;
+                Redirects++;
             else
-                redirects = 0;
+                Redirects = 0;
 
             //check for redirect
             if (bypassRedirectsToolStripMenuItem.Checked && articleIsRedirect && !PageReload)
@@ -668,7 +668,7 @@ namespace AutoWikiBrowser
                     TheArticle = new ArticleEX(redirect.Name);
 
                     // don't allow redirects to a redirect as we could go round in circles
-                    if (redirects > 1)
+                    if (Redirects > 1)
                     {
                         SkipPage("Double redirect");
                         return;
@@ -849,9 +849,9 @@ namespace AutoWikiBrowser
 
                 txtReviewEditSummary.Text = MakeSummary();
 
-                int BracketLength = 0;
-                int UnbalancedBracket = TheArticle.UnbalancedBrackets(ref BracketLength);
-                if(UnbalancedBracket > 0)
+                int bracketLength = 0;
+                int unbalancedBracket = TheArticle.UnbalancedBrackets(ref bracketLength);
+                if(unbalancedBracket > 0)
                     lblWarn.Text += "Unbalanced brackets found\r\n";
 
                 if (focusAtEndOfEditTextBoxToolStripMenuItem.Checked)
@@ -861,12 +861,12 @@ namespace AutoWikiBrowser
                 }
                 else
                 {
-                    if (UnbalancedBracket < 0)
+                    if (unbalancedBracket < 0)
                         btnSave.Focus();
                     else if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
                     {
                         EditBoxTab.SelectedTab = tpEdit;
-                        Find.SetEditBoxSelection(txtEdit, UnbalancedBracket, BracketLength);
+                        Find.SetEditBoxSelection(txtEdit, unbalancedBracket, bracketLength);
                     }
                 }
             }
@@ -931,11 +931,11 @@ namespace AutoWikiBrowser
                     return false;
                 }
 
-                string HTML = null;
+                string html = null;
                 if (webBrowserEdit.Document != null && webBrowserEdit.Document.Body != null)
-                    HTML = webBrowserEdit.Document.Body.InnerHtml;
+                    html = webBrowserEdit.Document.Body.InnerHtml;
 
-                if (string.IsNullOrEmpty(HTML) || IsReadOnlyDB(HTML))
+                if (string.IsNullOrEmpty(html) || IsReadOnlyDB(html))
                 {
                     if (retries < 10)
                     {
@@ -946,7 +946,7 @@ namespace AutoWikiBrowser
                     }
 
                     retries = 0;
-                    if (!string.IsNullOrEmpty(HTML))
+                    if (!string.IsNullOrEmpty(html))
                         SkipPage("Database is locked, tried 10 times");
                     else
                     {
@@ -957,7 +957,7 @@ namespace AutoWikiBrowser
                     return false;
                 }
 
-                if (HTML.Contains("Sorry! We could not process your edit due to a loss of session data. Please try again. If it still doesn't work, try logging out and logging back in."))
+                if (html.Contains("Sorry! We could not process your edit due to a loss of session data. Please try again. If it still doesn't work, try logging out and logging back in."))
                 {
                     Save();
                     return false;
@@ -1048,12 +1048,12 @@ namespace AutoWikiBrowser
         {
             try
             {
-                if (!apiEdit.Page.Exists && radSkipNonExistent.Checked)
+                if (!APIEdit.Page.Exists && radSkipNonExistent.Checked)
                 {//check if it is a non-existent page, if so then skip it automatically.
                     SkipPage("Non-existent page");
                     return false;
                 }
-                if (apiEdit.Page.Exists && radSkipExistent.Checked)
+                if (APIEdit.Page.Exists && radSkipExistent.Checked)
                 {
                     SkipPage("Existing page");
                     return false;
@@ -1075,7 +1075,7 @@ namespace AutoWikiBrowser
             GuiUpdateAfterProcessing();
         }
 
-        private static readonly Regex spamUrlRegex = new Regex("<p>The following link has triggered our spam protection filter:<strong>(.*?)</strong><br/?>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex SpamUrlRegex = new Regex("<p>The following link has triggered our spam protection filter:<strong>(.*?)</strong><br/?>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         private void CaseWasSaved(object sender, EventArgs e)
         {
@@ -1092,7 +1092,7 @@ namespace AutoWikiBrowser
                 {//check edit wasn't blocked due to spam filter
                     if (!chkSkipSpamFilter.Checked)
                     {
-                        Match m = spamUrlRegex.Match(webBrowserEdit.DocumentText);
+                        Match m = SpamUrlRegex.Match(webBrowserEdit.DocumentText);
 
                         string messageBoxText = "Edit has been blocked by spam blacklist.\r\n";
 
@@ -1128,7 +1128,7 @@ namespace AutoWikiBrowser
                     return;
                 }
             }
-            catch (Exception ext)
+            catch (Exception/* ext*/)
             {
                 /* TODO find source of error
                  * what we get here is a: 
@@ -1147,15 +1147,15 @@ namespace AutoWikiBrowser
             }
 
             //lower restart delay
-            if (intRestartDelay > 5)
-                intRestartDelay -= 1;
+            if (IntRestartDelay > 5)
+                IntRestartDelay -= 1;
 
             NumberOfEdits++;
 
             LastArticle = "";
             listMaker.Remove(TheArticle);
             NudgeTimer.Stop();
-            sameArticleNudges = 0;
+            SameArticleNudges = 0;
             if (EditBoxTab.SelectedTab == tpHistory)
                 EditBoxTab.SelectedTab = tpEdit;
             logControl.AddLog(false, TheArticle.LogListener);
@@ -1197,7 +1197,7 @@ namespace AutoWikiBrowser
                 StopDelayedAutoSaveTimer();
                 NudgeTimer.Stop();
                 listMaker.Remove(TheArticle);
-                sameArticleNudges = 0;
+                SameArticleNudges = 0;
                 logControl.AddLog(true, TheArticle.LogListener);
                 retries = 0;
                 Start();
@@ -1238,7 +1238,7 @@ namespace AutoWikiBrowser
         private void ProcessPage(ArticleEX theArticle, bool mainProcess)
         {
             bool process = true;
-            typoStats = null;
+            TypoStats = null;
 
 #if DEBUG
             Variables.Profiler.Start("ProcessPage(\"" + theArticle.Name + "\")");
@@ -1258,17 +1258,17 @@ namespace AutoWikiBrowser
 
                 Variables.Profiler.Profile("Initial skip checks");
 
-                if (cModule.ModuleEnabled && cModule.Module != null)
+                if (CModule.ModuleEnabled && CModule.Module != null)
                 {
-                    theArticle.SendPageToCustomModule(cModule.Module);
+                    theArticle.SendPageToCustomModule(CModule.Module);
                     if (theArticle.SkipArticle) return;
                 }
 
                 Variables.Profiler.Profile("Custom module");
 
-                if (externalProgram.ModuleEnabled)
+                if (ExtProgram.ModuleEnabled)
                 {
-                    theArticle.SendPageToCustomModule(externalProgram);
+                    theArticle.SendPageToCustomModule(ExtProgram);
                     if (theArticle.SkipArticle) return;
                 }
 
@@ -1290,7 +1290,7 @@ namespace AutoWikiBrowser
                     theArticle.HideMoreText(RemoveText);
                     Variables.Profiler.Profile("HideMoreText");
 
-                    theArticle.Unicodify(Skip.SkipNoUnicode, parsers);
+                    theArticle.Unicodify(Skip.SkipNoUnicode, Parser);
                     Variables.Profiler.Profile("Unicodify");
 
                     theArticle.UnHideMoreText(RemoveText);
@@ -1313,12 +1313,12 @@ namespace AutoWikiBrowser
                 {
                     theArticle.PerformTypoFixes(RegexTypos, chkSkipIfNoRegexTypo.Checked);
                     Variables.Profiler.Profile("Typos");
-                    typoStats = RegexTypos.GetStatistics();
+                    TypoStats = RegexTypos.GetStatistics();
                     if (theArticle.SkipArticle)
                     {
                         if (mainProcess)
                         {   // update stats only if not called from e.g. 'Re-parse' than could be clicked repeatedly
-                            OverallTypoStats.UpdateStats(typoStats, true);
+                            OverallTypoStats.UpdateStats(TypoStats, true);
                             UpdateTypoCount();
                         }
                         return;
@@ -1329,7 +1329,7 @@ namespace AutoWikiBrowser
                 if (cmboCategorise.SelectedIndex != 0)
                 {
                     theArticle.Categorisation((WikiFunctions.Options.CategorisationOptions)
-                        cmboCategorise.SelectedIndex, parsers, chkSkipNoCatChange.Checked, txtNewCategory.Text.Trim(),
+                        cmboCategorise.SelectedIndex, Parser, chkSkipNoCatChange.Checked, txtNewCategory.Text.Trim(),
                         txtNewCategory2.Text.Trim());
                     if (theArticle.SkipArticle) return;
                     else if (!chkGeneralFixes.Checked) theArticle.AWBChangeArticleText("Fix categories", Parsers.FixCategories(theArticle.ArticleText), true);
@@ -1342,7 +1342,7 @@ namespace AutoWikiBrowser
                     // auto tag
                     if (process)
                     {
-                        theArticle.AutoTag(parsers, Skip.SkipNoTag, chkAutoTagger.Checked, chkGeneralFixes.Checked);
+                        theArticle.AutoTag(Parser, Skip.SkipNoTag, chkAutoTagger.Checked, chkGeneralFixes.Checked);
                         if (theArticle.SkipArticle) return;
                     }
 
@@ -1350,12 +1350,12 @@ namespace AutoWikiBrowser
 
                     if (process && chkGeneralFixes.Checked)
                     {
-                        theArticle.PerformGeneralFixes(parsers, RemoveText, Skip, replaceReferenceTagsToolStripMenuItem.Checked);
+                        theArticle.PerformGeneralFixes(Parser, RemoveText, Skip, replaceReferenceTagsToolStripMenuItem.Checked);
                     }
                 }
                 else if (process && chkGeneralFixes.Checked && theArticle.NameSpaceKey == 3)
                 {
-                    if (!userTalkWarningsLoaded)
+                    if (!UserTalkWarningsLoaded)
                     {
                         LoadUserTalkWarnings();
                         Variables.Profiler.Profile("loadUserTalkWarnings");
@@ -1453,7 +1453,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                     webBrowserDiff.Document.Write("<!DOCTYPE HTML PUBLIC \" -//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
                                                   + "<html><head>" +
                                                   WikiDiff.DiffHead() + @"</head><body>" + ((NumberOfEdits < 10) ? WikiDiff.TableHeader : WikiDiff.TableHeaderNoMessages) +
-                                                  diff.GetDiff(TheArticle.OriginalArticleText, txtEdit.Text, 2) +
+                                                  Diff.GetDiff(TheArticle.OriginalArticleText, txtEdit.Text, 2) +
                                                   @"</table><!--<script language='Javascript'>
 // Scroll part of the way into the table, disabled due to other interface problems
 diffNode=document.getElementById('wikiDiff');
@@ -1476,7 +1476,7 @@ window.scrollTo(0, diffTopY);
 
         private void GetPreview()
         {
-            if (!apiEdit.IsActive) apiEdit.Preview(TheArticle.Name, txtEdit.Text);
+            if (!APIEdit.IsActive) APIEdit.Preview(TheArticle.Name, txtEdit.Text);
         }
 
         private void PreviewComplete(AsyncApiEdit sender, string result)
@@ -1554,7 +1554,7 @@ window.scrollTo(0, diffTopY);
         {
             try
             {
-                txtEdit.Text = diff.UndoChange(left, right);
+                txtEdit.Text = Diff.UndoChange(left, right);
                 TheArticle.EditSummary = "";
                 GetDiff();
             }
@@ -1568,7 +1568,7 @@ window.scrollTo(0, diffTopY);
         {
             try
             {
-                txtEdit.Text = diff.UndoDeletion(left, right);
+                txtEdit.Text = Diff.UndoDeletion(left, right);
                 TheArticle.EditSummary = "";
                 GetDiff();
             }
@@ -1582,7 +1582,7 @@ window.scrollTo(0, diffTopY);
         {
             try
             {
-                txtEdit.Text = diff.UndoAddition(right);
+                txtEdit.Text = Diff.UndoAddition(right);
                 TheArticle.EditSummary = "";
                 GetDiff();
             }
@@ -1623,8 +1623,8 @@ window.scrollTo(0, diffTopY);
             SetBrowserSize();
         }
 
-        Point oldPosition;
-        Size oldSize;
+        Point OldPosition;
+        Size OldSize;
         private void ParametersShowHide()
         {
             enlargeEditAreaToolStripMenuItem.Checked = !enlargeEditAreaToolStripMenuItem.Checked;
@@ -1632,18 +1632,18 @@ window.scrollTo(0, diffTopY);
             {
                 btntsShowHideParameters.Image = Resources.Showhideparameters2;
 
-                oldPosition = EditBoxTab.Location;
+                OldPosition = EditBoxTab.Location;
                 EditBoxTab.Location = new Point(groupBox2.Location.X, groupBox2.Location.Y - 5);
 
-                oldSize = EditBoxTab.Size;
+                OldSize = EditBoxTab.Size;
                 EditBoxTab.Size = new Size((EditBoxTab.Size.Width + MainTab.Size.Width + groupBox2.Size.Width + 8), EditBoxTab.Size.Height);
             }
             else
             {
                 btntsShowHideParameters.Image = Resources.Showhideparameters;
 
-                EditBoxTab.Location = oldPosition;
-                EditBoxTab.Size = oldSize;
+                EditBoxTab.Location = OldPosition;
+                EditBoxTab.Size = OldSize;
             }
             groupBox2.Visible = MainTab.Visible = !groupBox2.Visible;
         }
@@ -1674,13 +1674,13 @@ window.scrollTo(0, diffTopY);
 
         private void UpdateCurrentTypoStats()
         {
-            CurrentTypoStats.UpdateStats(typoStats, false);
+            CurrentTypoStats.UpdateStats(TypoStats, false);
         }
 
         private void UpdateOverallTypoStats()
         {
             if (chkRegExTypo.Checked)
-                OverallTypoStats.UpdateStats(typoStats, false);
+                OverallTypoStats.UpdateStats(TypoStats, false);
             UpdateTypoCount();
         }
 
@@ -1739,7 +1739,7 @@ window.scrollTo(0, diffTopY);
 
             if (!Properties.Settings.Default.AskForTerminate || (dlg != null && dlg.DialogResult == DialogResult.OK))
             {
-                Shutdown = true;
+                ShuttingDown = true;
                 // save user persistent settings
                 Properties.Settings.Default.Save();
 
@@ -1783,10 +1783,10 @@ window.scrollTo(0, diffTopY);
             string tag = cmboEditSummary.Text + TheArticle.EditSummary;
 
             // check to see if we have only edited one level 2 section
-            string SectionEditText = SectionEditSummary(TheArticle.OriginalArticleText, txtEdit.Text);
+            string sectionEditText = SectionEditSummary(TheArticle.OriginalArticleText, txtEdit.Text);
 
-            if (!SectionEditText.Equals(""))
-                tag = @"/* " + SectionEditText + @" */" + tag;
+            if (!sectionEditText.Equals(""))
+                tag = @"/* " + sectionEditText + @" */" + tag;
 
             if ((Variables.User.IsBot && chkSuppressTag.Checked)
                 || (!Variables.IsWikimediaProject && SuppressUsingAWB))
@@ -1808,7 +1808,7 @@ window.scrollTo(0, diffTopY);
             return tag + Variables.SummaryTag;
         }
 
-        private string SectionEditSummary(string OriginalArticleTextLocal, string ArticleTextLocal)
+        private string SectionEditSummary(string originalArticleTextLocal, string articleTextLocal)
         {
             // TODO: could add recursion to look for edits to only a level 3 section within a level 2 etc.
 
@@ -1816,68 +1816,68 @@ window.scrollTo(0, diffTopY);
             if (!WikiRegexes.HeadingLevelTwo.IsMatch(TheArticle.OriginalArticleText))
                 return ("");
 
-            string[] LevelTwoHeadingsBefore = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
-            string[] LevelTwoHeadingsAfter = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
+            string[] levelTwoHeadingsBefore = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
+            string[] levelTwoHeadingsAfter = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
 
-            int Before = 0, After = 0;
+            int before = 0, after = 0;
 
-            string ZerothSectionBefore = WikiRegexes.ArticleToFirstLevelTwoHeading.Match(OriginalArticleTextLocal).Value;
-            if (!string.IsNullOrEmpty(ZerothSectionBefore))
-                OriginalArticleTextLocal = OriginalArticleTextLocal.Replace(ZerothSectionBefore, "");
+            string zerothSectionBefore = WikiRegexes.ArticleToFirstLevelTwoHeading.Match(originalArticleTextLocal).Value;
+            if (!string.IsNullOrEmpty(zerothSectionBefore))
+                originalArticleTextLocal = originalArticleTextLocal.Replace(zerothSectionBefore, "");
 
-            string ZerothSectionAfter = WikiRegexes.ArticleToFirstLevelTwoHeading.Match(ArticleTextLocal).Value;
-            if (!string.IsNullOrEmpty(ZerothSectionAfter))
-                ArticleTextLocal = ArticleTextLocal.Replace(ZerothSectionAfter, "");
+            string zerothSectionAfter = WikiRegexes.ArticleToFirstLevelTwoHeading.Match(articleTextLocal).Value;
+            if (!string.IsNullOrEmpty(zerothSectionAfter))
+                articleTextLocal = articleTextLocal.Replace(zerothSectionAfter, "");
 
             // can't provide a section edit summary if there are changes in text before first level 2 heading
-            if (!ZerothSectionBefore.Equals(ZerothSectionAfter))
+            if (!zerothSectionBefore.Equals(zerothSectionAfter))
                 return ("");
 
             // get sections for article text before any AWB changes
-            foreach (Match m in WikiRegexes.SectionLevelTwo.Matches(OriginalArticleTextLocal))
+            foreach (Match m in WikiRegexes.SectionLevelTwo.Matches(originalArticleTextLocal))
             {
-                LevelTwoHeadingsBefore[Before] = null;
-                LevelTwoHeadingsBefore[Before] = m.Value;
-                OriginalArticleTextLocal = OriginalArticleTextLocal.Replace(m.Value, "");
-                Before++;
+                levelTwoHeadingsBefore[before] = null;
+                levelTwoHeadingsBefore[before] = m.Value;
+                originalArticleTextLocal = originalArticleTextLocal.Replace(m.Value, "");
+                before++;
 
-                if (Before == 20)
+                if (before == 20)
                     return ("");
             }
             // add the last section to the array
-            LevelTwoHeadingsBefore[Before] = OriginalArticleTextLocal;
+            levelTwoHeadingsBefore[before] = originalArticleTextLocal;
 
             // get sections for article text after AWB changes
-            foreach (Match m in WikiRegexes.SectionLevelTwo.Matches(ArticleTextLocal))
+            foreach (Match m in WikiRegexes.SectionLevelTwo.Matches(articleTextLocal))
             {
-                LevelTwoHeadingsAfter[After] = m.Value;
-                ArticleTextLocal = ArticleTextLocal.Replace(m.Value, "");
-                After++;
+                levelTwoHeadingsAfter[after] = m.Value;
+                articleTextLocal = articleTextLocal.Replace(m.Value, "");
+                after++;
             }
             // add the last section to the array
-            LevelTwoHeadingsAfter[After] = ArticleTextLocal;
+            levelTwoHeadingsAfter[after] = articleTextLocal;
 
             // if number of sections has changed, can't provide section edit summary
-            if (!(After == Before))
+            if (!(after == before))
                 return ("");
 
-            int SectionsChanged = 0, SectionChangeNumber = 0;
+            int sectionsChanged = 0, sectionChangeNumber = 0;
 
-            for (int i = 0; i <= After; i++)
+            for (int i = 0; i <= after; i++)
             {
-                if (!(LevelTwoHeadingsBefore[i] == LevelTwoHeadingsAfter[i]))
+                if (!(levelTwoHeadingsBefore[i] == levelTwoHeadingsAfter[i]))
                 {
-                    SectionsChanged++;
-                    SectionChangeNumber = i;
+                    sectionsChanged++;
+                    sectionChangeNumber = i;
                 }
 
                 // if multiple level 2 sections changed, can't provide section edit summary
-                if (SectionsChanged == 2)
+                if (sectionsChanged == 2)
                     return ("");
             }
 
             // so SectionsChanged == 1, get heading name from LevelTwoHeadingsBefore
-            return WikiRegexes.HeadingLevelTwo.Match(LevelTwoHeadingsBefore[SectionChangeNumber]).Groups[1].Value.Trim();
+            return WikiRegexes.HeadingLevelTwo.Match(levelTwoHeadingsBefore[sectionChangeNumber]).Groups[1].Value.Trim();
         }
 
         private void chkFindandReplace_CheckedChanged(object sender, EventArgs e)
@@ -1912,12 +1912,12 @@ window.scrollTo(0, diffTopY);
             }
         }
 
-        private void web4Completed(object sender, WebBrowserDocumentCompletedEventArgs e)
+        private void WebLoginCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             StopProgressBar();
         }
 
-        private void web4Starting(object sender, WebBrowserNavigatingEventArgs e)
+        private void WebLoginStarting(object sender, WebBrowserNavigatingEventArgs e)
         {
             StartProgressBar();
         }
@@ -1946,7 +1946,7 @@ window.scrollTo(0, diffTopY);
             btnProtect.Enabled = btnMove.Enabled = btnDelete.Enabled = btntsDelete.Enabled = (Variables.User.IsAdmin && btnSave.Enabled && (TheArticle != null));
         }
 
-        private void UpdateWikiStatus(object sender, EventArgs e) { }
+        //private void UpdateWikiStatus(object sender, EventArgs e) { }
 
         private void chkAutoMode_CheckedChanged(object sender, EventArgs e)
         {
@@ -2000,7 +2000,7 @@ window.scrollTo(0, diffTopY);
             }
         }
 
-        public bool CheckStatus(bool Login)
+        public bool CheckStatus(bool login)
         {
             StatusLabelText = "Loading page to check if we are logged in.";
 
@@ -2018,7 +2018,7 @@ window.scrollTo(0, diffTopY);
                 case WikiStatusResult.NotLoggedIn:
                     lblUserName.BackColor = Color.Red;
                     lblUserName.Text = "User:";
-                    if (!Login)
+                    if (!login)
                         MessageBox.Show("You are not logged in. The log in screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.\r\n\r\nIn the future you can make sure this won't happen by logging in to Wikipedia using Microsoft Internet Explorer.", "Not logged in", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     webBrowserEdit.LoadLogInPage();
                     webBrowserEdit.BringToFront();
@@ -2102,22 +2102,18 @@ window.scrollTo(0, diffTopY);
             txtSkipIfNotContains.Enabled = chkSkipIfNotContains.Checked;
         }
 
-        private void txtNewCategory_Leave(object sender, EventArgs e)
+        private void CategoryLeave(object sender, EventArgs e)
         {
-            CategoryLeave(txtNewCategory);
-        }
+            TextBox cat = sender as TextBox;
 
-        private void txtNewCategory2_Leave(object sender, EventArgs e)
-        {
-            CategoryLeave(txtNewCategory2);
-        }
+            if (cat != null)
+            {
+                string text = cat.Text.Trim('[', ']');
 
-        private static void CategoryLeave(TextBox catTextBox)
-        {
-            catTextBox.Text = catTextBox.Text.Trim('[', ']');
-            catTextBox.Text = Regex.Replace(catTextBox.Text, "^" +
-                Variables.NamespacesCaseInsensitive[Namespace.Category], "");
-            catTextBox.Text = Tools.TurnFirstToUpper(catTextBox.Text);
+                text = Regex.Replace(text, "^" +
+                                                   Variables.NamespacesCaseInsensitive[Namespace.Category], "");
+                cat.Text = Tools.TurnFirstToUpper(text);
+            }
         }
 
         private void ArticleInfo(bool reset)
@@ -2305,7 +2301,7 @@ window.scrollTo(0, diffTopY);
         }
 
         [Conditional("DEBUG")]
-        public void Debug()
+        private void Debug()
         {
             Tools.WriteDebugEnabled = true;
             listMaker.Add("Project:AutoWikiBrowser/Sandbox");
@@ -2322,7 +2318,7 @@ window.scrollTo(0, diffTopY);
         }
 
         [Conditional("RELEASE")]
-        public void Release()
+        private void Release()
         {
             if (MainTab.Contains(tpBots))
                 MainTab.Controls.Remove(tpBots);
@@ -2383,7 +2379,7 @@ window.scrollTo(0, diffTopY);
             LoadTypos(true);
 
             //refresh talk warnings list
-            if (userTalkWarningsLoaded)
+            if (UserTalkWarningsLoaded)
                 LoadUserTalkWarnings();
         }
 
@@ -2401,16 +2397,16 @@ window.scrollTo(0, diffTopY);
                     case LangCodeEnum.en:
                     case LangCodeEnum.pl:
                     case LangCodeEnum.simple:
-                        parsers.InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
+                        Parser.InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
                         break;
 
                     case LangCodeEnum.he:
                     case LangCodeEnum.hu:
-                        parsers.InterWikiOrder = InterWikiOrderEnum.AlphabeticalEnFirst;
+                        Parser.InterWikiOrder = InterWikiOrderEnum.AlphabeticalEnFirst;
                         break;
 
                     default:
-                        parsers.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
+                        Parser.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
                         break;
                 }
 
@@ -2425,7 +2421,7 @@ window.scrollTo(0, diffTopY);
                     humanNameDisambigTagToolStripMenuItem.Visible = birthdeathCatsToolStripMenuItem.Visible = true;
                 }
 
-                userTalkWarningsLoaded = false; // force reload
+                UserTalkWarningsLoaded = false; // force reload
 
                 if (!Variables.IsCustomProject && !Variables.IsWikia && !Variables.IsWikimediaMonolingualProject)
                     lblProject.Text = Variables.LangCodeEnumString() + "." + Variables.Project;
@@ -2489,43 +2485,43 @@ window.scrollTo(0, diffTopY);
 
         #region Timers
 
-        int intRestartDelay = 5, intStartInSeconds = 5;
+        int IntRestartDelay = 5, IntStartInSeconds = 5;
         private void DelayedRestart(object sender, EventArgs e)
         {
             StopDelayedAutoSaveTimer();
-            StatusLabelText = "Restarting in " + intStartInSeconds;
+            StatusLabelText = "Restarting in " + IntStartInSeconds;
 
-            if (intStartInSeconds == 0)
+            if (IntStartInSeconds == 0)
             {
                 StopDelayedRestartTimer();
                 Start();
             }
             else
-                intStartInSeconds--;
+                IntStartInSeconds--;
         }
 
         private void StartDelayedRestartTimer(object sender, EventArgs e)
         {
-            intStartInSeconds = intRestartDelay;
+            IntStartInSeconds = IntRestartDelay;
             Ticker += DelayedRestart;
             //increase the restart delay each time, this is decreased by 1 on each successfull save
-            intRestartDelay += 5;
+            IntRestartDelay += 5;
 
-            if (intRestartDelay > 60)
-                intRestartDelay = 60;
+            if (IntRestartDelay > 60)
+                IntRestartDelay = 60;
         }
 
         private void StopDelayedRestartTimer()
         {
             Ticker -= DelayedRestart;
-            intStartInSeconds = intRestartDelay;
+            IntStartInSeconds = IntRestartDelay;
         }
 
         private void StopDelayedAutoSaveTimer()
         {
             Ticker -= DelayedAutoSave;
-            intTimer = 0;
-            lblBotTimer.Text = "Bot timer: " + intTimer;
+            IntTimer = 0;
+            lblBotTimer.Text = "Bot timer: " + IntTimer;
         }
 
         private void StartDelayedAutoSaveTimer()
@@ -2533,13 +2529,13 @@ window.scrollTo(0, diffTopY);
             Ticker += DelayedAutoSave;
         }
 
-        int intTimer;
+        int IntTimer;
         private void DelayedAutoSave(object sender, EventArgs e)
         {
-            if (intTimer < nudBotSpeed.Value)
+            if (IntTimer < nudBotSpeed.Value)
             {
-                intTimer++;
-                lblBotTimer.BackColor = (intTimer == 1) ? Color.Red : DefaultBackColor;
+                IntTimer++;
+                lblBotTimer.BackColor = (IntTimer == 1) ? Color.Red : DefaultBackColor;
             }
             else
             {
@@ -2547,7 +2543,7 @@ window.scrollTo(0, diffTopY);
                 SaveArticle();
             }
 
-            lblBotTimer.Text = "Bot timer: " + intTimer;
+            lblBotTimer.Text = "Bot timer: " + IntTimer;
         }
 
         private void ShowTimer()
@@ -2556,16 +2552,16 @@ window.scrollTo(0, diffTopY);
             StopSaveInterval();
         }
 
-        int intStartTimer;
+        int IntStartTimer;
         private void SaveInterval(object sender, EventArgs e)
         {
-            intStartTimer++;
-            lblTimer.Text = "Timer: " + intStartTimer;
+            IntStartTimer++;
+            lblTimer.Text = "Timer: " + IntStartTimer;
         }
 
         private void StopSaveInterval()
         {
-            intStartTimer = 0;
+            IntStartTimer = 0;
             lblTimer.Text = "Timer: 0";
             Ticker -= SaveInterval;
         }
@@ -2577,20 +2573,20 @@ window.scrollTo(0, diffTopY);
             if (Ticker != null)
                 Ticker(null, null);
 
-            seconds++;
-            if (seconds == 60)
+            Seconds++;
+            if (Seconds == 60)
             {
-                seconds = 0;
+                Seconds = 0;
                 EditsPerMin();
             }
         }
 
-        int seconds, lastTotal;
+        int Seconds, LastTotal;
         private void EditsPerMin()
         {
-            int editsInLastMin = NumberOfEdits - lastTotal;
+            int editsInLastMin = NumberOfEdits - LastTotal;
             NumberOfEditsPerMinute = editsInLastMin;
-            lastTotal = NumberOfEdits;
+            LastTotal = NumberOfEdits;
         }
 
         #endregion
@@ -2599,7 +2595,7 @@ window.scrollTo(0, diffTopY);
 
         private void makeModuleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            cModule.Show();
+            CModule.Show();
         }
 
         private void btnMoreSkip_Click(object sender, EventArgs e)
@@ -2625,7 +2621,7 @@ window.scrollTo(0, diffTopY);
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            stopProcessing = false;
+            StopProcessing = false;
             Start();
         }
 
@@ -2706,11 +2702,11 @@ window.scrollTo(0, diffTopY);
         private void launchListComparerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (listMaker.Count > 0 && MessageBox.Show("Would you like to copy your current Article List to the ListComparer?", "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                listComparer = new ListComparer(listMaker.GetArticleList());
+                Comparer = new ListComparer(listMaker.GetArticleList());
             else
-                listComparer = new ListComparer();
+                Comparer = new ListComparer();
 
-            listComparer.Show(this);
+            Comparer.Show(this);
         }
 
         private void launchListSplitterToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2718,11 +2714,11 @@ window.scrollTo(0, diffTopY);
             WikiFunctions.AWBSettings.UserPrefs p = MakePrefs();
 
             if (listMaker.Count > 0 && MessageBox.Show("Would you like to copy your current Article List to the ListSplitter?", "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                splitter = new ListSplitter(p, WikiFunctions.AWBSettings.UserPrefs.SavePluginSettings(p), listMaker.GetArticleList());
+                Splitter = new ListSplitter(p, WikiFunctions.AWBSettings.UserPrefs.SavePluginSettings(p), listMaker.GetArticleList());
             else
-                splitter = new ListSplitter(p, WikiFunctions.AWBSettings.UserPrefs.SavePluginSettings(p));
+                Splitter = new ListSplitter(p, WikiFunctions.AWBSettings.UserPrefs.SavePluginSettings(p));
 
-            splitter.Show(this);
+            Splitter.Show(this);
         }
 
         private void launchDumpSearcherToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2744,7 +2740,7 @@ window.scrollTo(0, diffTopY);
 
         private void alphaSortInterwikiLinksToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
         {
-            parsers.SortInterwikis = alphaSortInterwikiLinksToolStripMenuItem.Checked;
+            Parser.SortInterwikis = alphaSortInterwikiLinksToolStripMenuItem.Checked;
         }
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
@@ -2909,7 +2905,7 @@ window.scrollTo(0, diffTopY);
         private void unicodifyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string text = txtEdit.SelectedText;
-            text = parsers.Unicodify(text);
+            text = Parser.Unicodify(text);
             txtEdit.SelectedText = text;
         }
 
@@ -3022,11 +3018,11 @@ window.scrollTo(0, diffTopY);
 
         private void Stop()
         {
-            stopProcessing = true;
+            StopProcessing = true;
             PageReload = false;
             NudgeTimer.Stop();
             UpdateButtons(null, null);
-            if (intTimer > 0)
+            if (IntTimer > 0)
             {//stop and reset the bot timer.
                 StopDelayedAutoSaveTimer();
                 EnableButtons();
@@ -3050,20 +3046,19 @@ window.scrollTo(0, diffTopY);
 
         private void helpToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            helpForm.Show();
+            HelpForm.Show();
         }
 
         #region Edit Box Menu
         private void reparseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            reparseEditBox();
+            ReparseEditBox();
         }
 
-        private void reparseEditBox()
+        private void ReparseEditBox()
         {
-            ArticleEX a = new ArticleEX(TheArticle.Name);
+            ArticleEX a = new ArticleEX(TheArticle.Name) {OriginalArticleText = txtEdit.Text};
 
-            a.OriginalArticleText = txtEdit.Text;
             ErrorHandler.CurrentPage = TheArticle.Name;
             ProcessPage(a, false);
             ErrorHandler.CurrentPage = "";
@@ -3168,10 +3163,10 @@ window.scrollTo(0, diffTopY);
             UpdateButtons(null, null);
         }
 
-        bool loadingTypos;
+        bool LoadingTypos;
         private void chkRegExTypo_CheckedChanged(object sender, EventArgs e)
         {
-            if (loadingTypos)
+            if (LoadingTypos)
                 return;
 
             if (chkRegExTypo.Checked && BotMode)
@@ -3182,11 +3177,11 @@ window.scrollTo(0, diffTopY);
             LoadTypos(false);
         }
 
-        private void LoadTypos(bool Reload)
+        private void LoadTypos(bool reload)
         {
-            if (chkRegExTypo.Checked && (RegexTypos == null || Reload))
+            if (chkRegExTypo.Checked && (RegexTypos == null || reload))
             {
-                loadingTypos = true;
+                LoadingTypos = true;
                 chkRegExTypo.Checked = false;
 
                 StatusLabelText = "Loading typos";
@@ -3210,18 +3205,18 @@ window.scrollTo(0, diffTopY);
 #endif
 
                 RegexTypos = new RegExTypoFix();
-                RegexTypos.Complete += RegexTypos_Complete;
+                RegexTypos.Complete += RegexTyposComplete;
             }
         }
 
         private delegate void GenericDelegate();
         private delegate void GenericDelegate1Parm(string parm);
 
-        private void RegexTypos_Complete(BackgroundRequest req)
+        private void RegexTyposComplete(BackgroundRequest req)
         {
             if (InvokeRequired)
             {
-                Invoke(new BackgroundRequestComplete(RegexTypos_Complete), new object[] { req });
+                Invoke(new BackgroundRequestComplete(RegexTyposComplete), new object[] { req });
                 return;
             }
 
@@ -3239,7 +3234,7 @@ window.scrollTo(0, diffTopY);
                 if (EditBoxTab.TabPages.Contains(tpTypos)) EditBoxTab.TabPages.Remove(tpTypos);
             }
 
-            loadingTypos = false;
+            LoadingTypos = false;
         }
 
         private void ProfileToLoad_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -3322,7 +3317,7 @@ window.scrollTo(0, diffTopY);
 
         private void btntsStart_Click(object sender, EventArgs e)
         {
-            stopProcessing = false;
+            StopProcessing = false;
             Start();
         }
 
@@ -3463,12 +3458,9 @@ window.scrollTo(0, diffTopY);
 
         #region ArticleActions
         // TODO: Since this is essentially/conceptually Article.Delete(), Article.Move() etc shouldn't this region be encapsulated?
-
-        private ArticleActionDialog dlgArticleAction;
-
         private void MoveArticle()
         {
-            dlgArticleAction = new ArticleActionDialog(ArticleAction.Move);
+            ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Move);
 
             try
             {
@@ -3478,7 +3470,7 @@ window.scrollTo(0, diffTopY);
                 if (dlgArticleAction.ShowDialog(this) == DialogResult.OK)
                 {
                     LastMove = dlgArticleAction.Summary;
-                    webBrowserEdit.MovePage(TheArticle.Name, dlgArticleAction.NewTitle, ArticleActionSummary);
+                    webBrowserEdit.MovePage(TheArticle.Name, dlgArticleAction.NewTitle, ArticleActionSummary(dlgArticleAction));
                 }
             }
             catch (Exception ex)
@@ -3493,7 +3485,7 @@ window.scrollTo(0, diffTopY);
 
         private void DeleteArticle()
         {
-            dlgArticleAction = new ArticleActionDialog(ArticleAction.Delete);
+            ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Delete);
 
             try
             {
@@ -3502,7 +3494,7 @@ window.scrollTo(0, diffTopY);
                 if (dlgArticleAction.ShowDialog(this) == DialogResult.OK)
                 {
                     LastDelete = dlgArticleAction.Summary;
-                    webBrowserEdit.DeletePage(TheArticle.Name, ArticleActionSummary);
+                    webBrowserEdit.DeletePage(TheArticle.Name, ArticleActionSummary(dlgArticleAction));
                 }
             }
             catch (Exception ex)
@@ -3517,7 +3509,7 @@ window.scrollTo(0, diffTopY);
 
         private void ProtectArticle()
         {
-            dlgArticleAction = new ArticleActionDialog(ArticleAction.Protect);
+            ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Protect);
 
             try
             {
@@ -3526,7 +3518,7 @@ window.scrollTo(0, diffTopY);
                 if (dlgArticleAction.ShowDialog(this) == DialogResult.OK)
                 {
                     LastProtect = dlgArticleAction.Summary;
-                    webBrowserEdit.ProtectPage(TheArticle.Name, ArticleActionSummary, dlgArticleAction.EditProtectionLevel, dlgArticleAction.MoveProtectionLevel, dlgArticleAction.ProtectExpiry, dlgArticleAction.CascadingProtection);
+                    webBrowserEdit.ProtectPage(TheArticle.Name, ArticleActionSummary(dlgArticleAction), dlgArticleAction.EditProtectionLevel, dlgArticleAction.MoveProtectionLevel, dlgArticleAction.ProtectExpiry, dlgArticleAction.CascadingProtection);
                 }
             }
             catch (Exception ex)
@@ -3535,14 +3527,11 @@ window.scrollTo(0, diffTopY);
             }
         }
 
-        private string ArticleActionSummary
+        private string ArticleActionSummary(ArticleActionDialog dlgArticleAction)
         {
-            get
-            {
-                if (AddUsingAWBOnArticleAction)
-                    return dlgArticleAction.Summary + " (" + Variables.SummaryTag.Trim() + ")";
-                return dlgArticleAction.Summary;
-            }
+            if (AddUsingAWBOnArticleAction)
+                return dlgArticleAction.Summary + " (" + Variables.SummaryTag.Trim() + ")";
+            return dlgArticleAction.Summary;
         }
 
         #endregion
@@ -3724,7 +3713,7 @@ window.scrollTo(0, diffTopY);
         private void btnResetNudges_Click(object sender, EventArgs e)
         {
             Nudges = 0;
-            sameArticleNudges = 0;
+            SameArticleNudges = 0;
             lblNudges.Text = NudgeTimerString + "0";
         }
 
@@ -3742,14 +3731,16 @@ window.scrollTo(0, diffTopY);
                     e.Cancel = true; return;
                 }
 
-                bool cancel;
                 // Tell plugins we're about to nudge, and give them the opportunity to cancel:
                 foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.Items)
                 {
+                    bool cancel;
                     a.Value.Nudge(out cancel);
+                    
                     if (cancel)
                     {
-                        e.Cancel = true; return;
+                        e.Cancel = true;
+                        return;
                     }
                 }
 
@@ -3757,14 +3748,14 @@ window.scrollTo(0, diffTopY);
                 Nudges++;
                 lblNudges.Text = NudgeTimerString + Nudges;
                 NudgeTimer.Stop();
-                if (chkNudgeSkip.Checked && sameArticleNudges > 0)
+                if (chkNudgeSkip.Checked && SameArticleNudges > 0)
                 {
-                    sameArticleNudges = 0;
+                    SameArticleNudges = 0;
                     SkipPage("There was an error saving the page twice");
                 }
                 else
                 {
-                    sameArticleNudges++;
+                    SameArticleNudges++;
                     Stop();
                     Start();
                 }
@@ -3805,7 +3796,7 @@ window.scrollTo(0, diffTopY);
             StringBuilder builder = new StringBuilder();
 
             userTalkTemplatesRegex = null;
-            userTalkWarningsLoaded = true; // or it will retry on each page load
+            UserTalkWarningsLoaded = true; // or it will retry on each page load
             try
             {
                 string text;
@@ -3825,7 +3816,7 @@ window.scrollTo(0, diffTopY);
             catch (Exception ex)
             {
                 ErrorHandler.Handle(ex);
-                userTalkWarningsLoaded = false;
+                UserTalkWarningsLoaded = false;
             }
             if (builder.Length > 1)
             {
@@ -3952,28 +3943,33 @@ window.scrollTo(0, diffTopY);
             = radHibernate.Enabled = radShutdown.Checked = enabled;
         }
 
-        private void CanShutdown()
+        private bool CanShutdown
         {
-            if (chkShutdown.Checked && listMaker.Count == 0)
+            get { return (chkShutdown.Checked && listMaker.Count == 0); }   
+        }
+
+        private void Shutdown()
+        {
+            if (CanShutdown)
             {
                 ShutdownTimer.Enabled = true;
-                ShutdownNotification shut = new ShutdownNotification();
-                shut.ShutdownType = GetShutdownType();
+                ShutdownNotification shut = new ShutdownNotification {ShutdownType = GetShutdownType()};
 
-                DialogResult result = shut.ShowDialog(this);
-
-                if (result == DialogResult.Cancel)
+                switch (shut.ShowDialog(this))
                 {
-                    ShutdownTimer.Enabled = false;
-                    MessageBox.Show(GetShutdownType() + " aborted!");
-                }
-                else if (result == DialogResult.Yes)
-                    if (GetShutdownType() == "Standby" || GetShutdownType() == "Hibernate")
-                    {
-                        shut.Close();
-                        shut.Dispose();
+                    case DialogResult.Cancel:
                         ShutdownTimer.Enabled = false;
-                    }
+                        MessageBox.Show(GetShutdownType() + " aborted!");
+                        break;
+                    case DialogResult.Yes:
+                        if (GetShutdownType() == "Standby" || GetShutdownType() == "Hibernate")
+                        {
+                            shut.Close();
+                            shut.Dispose();
+                            ShutdownTimer.Enabled = false;
+                        }
+                        break;
+                }
                 ShutdownComputer();
             }
         }
@@ -3986,10 +3982,8 @@ window.scrollTo(0, diffTopY);
                 return "Standby";
             if (radRestart.Checked)
                 return "Restart";
-            if (radHibernate.Checked)
-                return "Hibernate";
 
-            return "";
+            return radHibernate.Checked ? "Hibernate" : "";
         }
 
         private void ShutdownComputer()
@@ -4266,7 +4260,7 @@ window.scrollTo(0, diffTopY);
 
         private void externalProcessingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            externalProgram.Show();
+            ExtProgram.Show();
         }
 
         readonly CategoryNameForm CatName = new CategoryNameForm();
@@ -4278,7 +4272,7 @@ window.scrollTo(0, diffTopY);
             if (string.IsNullOrEmpty(CatName.CategoryName)) return;
 
             txtEdit.Text += "\r\n\r\n[[" + CatName.CategoryName + "]]";
-            reparseEditBox();
+            ReparseEditBox();
         }
 
         private void UsageStatsMenuItem_Click(object sender, EventArgs e)
