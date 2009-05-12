@@ -104,7 +104,7 @@ namespace AutoWikiBrowser
                     MessageBox.Show("Problem reseting plugin\r\n\r\n" + ex.Message);
                 }
 
-                cModule.ModuleEnabled = false;
+                CModule.ModuleEnabled = false;
                 Text = Program.NAME;
                 StatusLabelText = "Default settings loaded.";
             }
@@ -323,12 +323,12 @@ namespace AutoWikiBrowser
 
                 new ModulePrefs
                     {
-                        Enabled = cModule.ModuleEnabled,
-                        Language = cModule.Language,
-                        Code = cModule.Code
+                        Enabled = CModule.ModuleEnabled,
+                        Language = CModule.Language,
+                        Code = CModule.Code
                     },
 
-                externalProgram.Settings,
+                ExtProgram.Settings,
                 loggingSettings1.SerialisableSettings,
                 listMaker.SpecialFilterSettings,
                 Plugin.Items
@@ -544,15 +544,15 @@ namespace AutoWikiBrowser
 
             loggingSettings1.SerialisableSettings = p.Logging;
 
-            cModule.ModuleEnabled = p.Module.Enabled;
-            cModule.Language = p.Module.Language;
-            cModule.Code = p.Module.Code.Replace("\n", "\r\n");
-            if (cModule.ModuleEnabled)
-                cModule.MakeModule();
+            CModule.ModuleEnabled = p.Module.Enabled;
+            CModule.Language = p.Module.Language;
+            CModule.Code = p.Module.Code.Replace("\n", "\r\n");
+            if (CModule.ModuleEnabled)
+                CModule.MakeModule();
             else
-                cModule.SetModuleNotBuilt();
+                CModule.SetModuleNotBuilt();
 
-            externalProgram.Settings = p.ExternalProgram;
+            ExtProgram.Settings = p.ExternalProgram;
 
             foreach (PluginPrefs pp in p.Plugin)
             {

@@ -33,6 +33,6 @@ namespace AutoWikiBrowser
         ProjectEnum IAutoWikiBrowserInfo.Project { get { return Variables.Project; } }
 
         bool IAutoWikiBrowserInfo.Privacy { get { return Properties.Settings.Default.Privacy; } }
-        bool IAutoWikiBrowserInfo.Shutdown { get { return Shutdown; } }
+        bool IAutoWikiBrowserInfo.Shutdown { get { return ShuttingDown; } }
     }
 }

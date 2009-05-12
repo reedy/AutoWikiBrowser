@@ -31,7 +31,7 @@ namespace AutoWikiBrowser
         void IAutoWikiBrowserCommands.GetPreview(IAWBPlugin sender) { ((IAutoWikiBrowserCommands)this).GetPreview(sender.Name); }
         void IAutoWikiBrowserCommands.Save(IAWBPlugin sender) { ((IAutoWikiBrowserCommands)this).Save(sender.Name); }
         void IAutoWikiBrowserCommands.SkipPage(string sender, string reason) { SkipPage(reason); }
-        void IAutoWikiBrowserCommands.Start(string sender) { stopProcessing = false; Start(); }
+        void IAutoWikiBrowserCommands.Start(string sender) { StopProcessing = false; Start(); }
         void IAutoWikiBrowserCommands.Stop(string sender) { Stop(); }
         void IAutoWikiBrowserCommands.GetDiff(string sender) { GetDiff(); }
         void IAutoWikiBrowserCommands.GetPreview(string sender) { GetPreview(); }
@@ -40,8 +40,8 @@ namespace AutoWikiBrowser
         void IAutoWikiBrowserCommands.AddLogItem(bool Skipped, AWBLogListener LogListener)
         { logControl.AddLog(Skipped, LogListener); }
         void IAutoWikiBrowserCommands.TurnOffLogging() { Program.MyTrace.TurnOffLogging(); }
-        void IAutoWikiBrowserCommands.ShowHelp(string URL) { helpForm.ShowHelp(helpForm, URL); }
-        void IAutoWikiBrowserCommands.ShowHelpEnWiki(string Article) { helpForm.ShowHelpEN(helpForm, Article); }
+        void IAutoWikiBrowserCommands.ShowHelp(string URL) { HelpForm.ShowHelp(HelpForm, URL); }
+        void IAutoWikiBrowserCommands.ShowHelpEnWiki(string Article) { HelpForm.ShowHelpEN(HelpForm, Article); }
 
         void IAutoWikiBrowserCommands.AddMainFormClosingEventHandler(FormClosingEventHandler handler) { FormClosing += handler; }
 

@@ -6,7 +6,7 @@ namespace AutoWikiBrowser
     public partial class ShutdownNotification : Form
     {
         int Counter = 120;  // 2 minutes
-        string sShutdownType;
+        string SType;
 
         public ShutdownNotification()
         {
@@ -16,7 +16,7 @@ namespace AutoWikiBrowser
         public string ShutdownType
         {
             set {
-                sShutdownType = value;
+                SType = value;
                 txtPrompt.Text = @"AutoWikiBrowser has finished processing all pages and has been set to " + value + @". If you would like to stop this, press cancel.";
                 SetShutdownLabel(Counter);
             }
@@ -24,7 +24,7 @@ namespace AutoWikiBrowser
 
         private void SetShutdownLabel(int time)
         {
-            lblTimer.Text = "Time until " + sShutdownType + ": " + time;
+            lblTimer.Text = "Time until " + SType + ": " + time;
         }
 
         private void btnOk_Click(object sender, EventArgs e)

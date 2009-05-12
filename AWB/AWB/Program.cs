@@ -36,7 +36,7 @@ namespace AutoWikiBrowser
                 System.Threading.Thread.CurrentThread.Name = "Main thread";
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.ThreadException += Application_ThreadException;
+                Application.ThreadException += ApplicationThreadException;
 
                 if (WikiFunctions.Variables.UsingMono)
                 {
@@ -57,7 +57,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        private static void ApplicationThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
             WikiFunctions.ErrorHandler.Handle(e.Exception);
         }

@@ -1749,7 +1749,7 @@ namespace AutoWikiBrowser
             this.txtNewCategory.TabIndex = 1;
             this.ToolTip.SetToolTip(this.txtNewCategory, "The new category, the old one is specified when you make the list");
             this.txtNewCategory.DoubleClick += new System.EventHandler(this.txtNewCategory_DoubleClick);
-            this.txtNewCategory.Leave += new System.EventHandler(this.txtNewCategory_Leave);
+            this.txtNewCategory.Leave += new System.EventHandler(this.CategoryLeave);
             // 
             // txtAppendMessage
             // 
@@ -2879,7 +2879,7 @@ namespace AutoWikiBrowser
             this.txtNewCategory2.Name = "txtNewCategory2";
             this.txtNewCategory2.Size = new System.Drawing.Size(107, 20);
             this.txtNewCategory2.TabIndex = 3;
-            this.txtNewCategory2.Leave += new System.EventHandler(this.txtNewCategory2_Leave);
+            this.txtNewCategory2.Leave += new System.EventHandler(this.CategoryLeave);
             // 
             // label1
             // 
