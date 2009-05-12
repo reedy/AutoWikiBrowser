@@ -55,7 +55,7 @@ namespace WikiFunctions.AWBSettings
         // the public constructors are used to create an object with settings from the UI
         public UserPrefs(FaRPrefs mFaRPrefs, EditPrefs mEditprefs, ListPrefs mList, SkipPrefs mSkipOptions,
             GeneralPrefs mGeneral, DabPrefs mDisambiguation, ModulePrefs mModule, ExternalProgramPrefs mExternalProgram, LoggingPrefs mLogging, SpecialFilterPrefs mSpecial,
-            Dictionary<string, Plugin.IAWBPlugin> Plugins)
+            Dictionary<string, Plugin.IAWBPlugin> plugins)
         {
             LanguageCode = Variables.LangCode;
             Project = Variables.Project;
@@ -73,7 +73,7 @@ namespace WikiFunctions.AWBSettings
             Logging = mLogging;
             Special = mSpecial;
 
-            foreach (KeyValuePair<string, Plugin.IAWBPlugin> a in Plugins)
+            foreach (KeyValuePair<string, Plugin.IAWBPlugin> a in plugins)
             {
                 Plugin.Add(new PluginPrefs(a.Key, a.Value.SaveSettings()));
             }
@@ -146,16 +146,16 @@ namespace WikiFunctions.AWBSettings
         /// <summary>
         /// Saves the plugin Settings
         /// </summary>
-        /// <param name="Prefs">UserPrefs object</param>
+        /// <param name="prefs">UserPrefs object</param>
         /// <returns>A list of the plugin types</returns>
-        public static List<Type> SavePluginSettings(UserPrefs Prefs)
+        public static List<Type> SavePluginSettings(UserPrefs prefs)
         {
             List<Type> types = new List<Type>();
             /* Find out what types the plugins are using for their settings so we can 
                add them to the Serializer. The plugin author must ensure s(he) is using
                serializable types.*/
 
-            foreach (PluginPrefs pl in Prefs.Plugin)
+            foreach (PluginPrefs pl in prefs.Plugin)
             {
                 if ((pl.PluginSettings != null) && (pl.PluginSettings.Length >= 1))
                 {

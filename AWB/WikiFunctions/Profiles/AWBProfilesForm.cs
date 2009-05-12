@@ -24,25 +24,25 @@ namespace WikiFunctions.Profiles
 {
     public partial class AWBProfilesForm : AWBLogUploadProfilesForm
     {
-        private readonly Browser.WebControl webBrowser;
+        private readonly Browser.WebControl WebBrowser;
         public event EventHandler LoadProfile;
 
-        public AWBProfilesForm(Browser.WebControl Browser)
+        public AWBProfilesForm(Browser.WebControl browser)
         {
             InitializeComponent();
             loginAsThisAccountToolStripMenuItem.Visible = true;
             loginAsThisAccountToolStripMenuItem.Click += lvAccounts_DoubleClick;
-            webBrowser = Browser;
+            WebBrowser = browser;
         }
 
-        private void browserLogin(string Password)
+        private void BrowserLogin(string password)
         {
-            browserLogin(AWBProfiles.GetUsername(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)), Password);
+            BrowserLogin(AWBProfiles.GetUsername(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)), password);
         }
 
-        private void browserLogin(string Username, string Password)
+        private void BrowserLogin(string username, string password)
         {
-            webBrowser.Login(Username, Password);
+            WebBrowser.Login(username, password);
             System.Threading.Thread.Sleep(1000); // HACK: fix this mess
             if (LoadProfile != null)
                 LoadProfile(null, null);
@@ -51,18 +51,18 @@ namespace WikiFunctions.Profiles
         
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            login();
+            Login();
         }
 
         protected override void lvAccounts_DoubleClick(object sender, EventArgs e)
         {
-            login();
+            Login();
         }
 
         /// <summary>
         /// Login based on selected item on the form
         /// </summary>
-        private void login()
+        private void Login()
         {
             try
             {
@@ -76,15 +76,19 @@ namespace WikiFunctions.Profiles
 
                 if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[2].Text == "Yes")
                 {//Get 'Saved' Password
-                    browserLogin(AWBProfiles.GetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
+                    BrowserLogin(AWBProfiles.GetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
                 }
                 else
                 {//Get Password from User
-                    UserPassword password = new UserPassword();
-                    password.SetText = "Enter password for " + lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text;
+                    UserPassword password = new UserPassword
+                                                {
+                                                    SetText =
+                                                        "Enter password for " +
+                                                        lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text
+                                                };
 
                     if (password.ShowDialog() == DialogResult.OK)
-                        browserLogin(password.GetPassword);
+                        BrowserLogin(password.GetPassword);
                 }
                 Cursor = Cursors.Default;
             }
@@ -97,8 +101,8 @@ namespace WikiFunctions.Profiles
         /// <summary>
         /// Publically accessible login, to allow calling of login via AWB startup parameters
         /// </summary>
-        /// <param name="profileID">Profile ID to login to</param>
-        public void login(string profileIdOrName)
+        /// <param name="profileIdOrName">Profile ID to login to</param>
+        public void Login(string profileIdOrName)
         {
             if (profileIdOrName.Length == 0)
                 return;
@@ -106,31 +110,28 @@ namespace WikiFunctions.Profiles
             try
             {
                 int profileID = -1;
-                AWBProfile startupProfile;
-
-                if (int.TryParse(profileIdOrName, out profileID))
-                    startupProfile = AWBProfiles.GetProfile(profileID);
-                else
-                    startupProfile = AWBProfiles.GetProfile(profileIdOrName);
+                AWBProfile startupProfile = int.TryParse(profileIdOrName, out profileID) ? AWBProfiles.GetProfile(profileID) : AWBProfiles.GetProfile(profileIdOrName);
 
                 if (startupProfile == null)
                 {
-                    MessageBox.Show(this.Parent, "Can't find user '" + profileIdOrName + "'.", "Command line error",
+                    MessageBox.Show(Parent, "Can't find user '" + profileIdOrName + "'.", "Command line error",
                         MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
 
                 if (!string.IsNullOrEmpty(startupProfile.Password))
                 {//Get 'Saved' Password
-                    browserLogin(startupProfile.Username, startupProfile.Password);
+                    BrowserLogin(startupProfile.Username, startupProfile.Password);
                 }
                 else
                 {//Get Password from User
-                    UserPassword password = new UserPassword();
-                    password.SetText = "Enter password for " + startupProfile.Username;
+                    UserPassword password = new UserPassword
+                                                {
+                                                    SetText = "Enter password for " + startupProfile.Username
+                                                };
 
                     if (password.ShowDialog() == DialogResult.OK)
-                        browserLogin(startupProfile.Username, password.GetPassword);
+                        BrowserLogin(startupProfile.Username, password.GetPassword);
                 }
             }
             catch (Exception ex)

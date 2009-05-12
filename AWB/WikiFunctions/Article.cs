@@ -75,11 +75,11 @@ namespace WikiFunctions
             return mAWBLogListener;
         }
 
-        public AWBLogListener InitialiseLogListener(string name, TraceManager TraceManager)
+        public AWBLogListener InitialiseLogListener(string name, TraceManager traceManager)
         {
             // Initialise a Log Listener and add it to a TraceManager collection
             InitLog();
-            TraceManager.AddListener(name, mAWBLogListener);
+            traceManager.AddListener(name, mAWBLogListener);
             return mAWBLogListener;
         }
 
@@ -523,11 +523,11 @@ namespace WikiFunctions
         /// Fix header errors
         /// </summary>
         /// <param name="parsers"></param>
-        /// <param name="LangCode">The wiki's language code</param>
-        /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
-        protected void FixHeaderErrors(Parsers parsers, LangCodeEnum LangCode, bool SkipIfNoChange)
+        /// <param name="langCode">The wiki's language code</param>
+        /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
+        protected void FixHeaderErrors(Parsers parsers, LangCodeEnum langCode, bool skipIfNoChange)
         {
-            if (LangCode == LangCodeEnum.en)
+            if (langCode == LangCodeEnum.en)
             {
                 string strTemp = Parsers.Conversions(mArticleText);
 
@@ -538,7 +538,7 @@ namespace WikiFunctions
 
                 if (mArticleText == strTemp)
                 {
-                    if (SkipIfNoChange)
+                    if (skipIfNoChange)
                         Trace.AWBSkipped("No header errors");
                 }
                 else
@@ -548,7 +548,7 @@ namespace WikiFunctions
                     else
                     {
                         AWBChangeArticleText("Fixed minor formatting issues", strTemp, true);
-                        if (SkipIfNoChange) Trace.AWBSkipped("No header errors");
+                        if (skipIfNoChange) Trace.AWBSkipped("No header errors");
                     }
 
                 }
@@ -558,15 +558,15 @@ namespace WikiFunctions
         /// <summary>
         /// Sets Default Sort on Article if Necessary / clean diacritics
         /// </summary>
-        /// <param name="LangCode">The wiki's language code</param>
-        /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
-        public void SetDefaultSort(LangCodeEnum LangCode, bool SkipIfNoChange)
+        /// <param name="langCode">The wiki's language code</param>
+        /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
+        public void SetDefaultSort(LangCodeEnum langCode, bool skipIfNoChange)
         {
-            if (LangCode == LangCodeEnum.en)
+            if (langCode == LangCodeEnum.en)
             {
                 string strTemp = Parsers.ChangeToDefaultSort(mArticleText, mName, out noChange);
 
-                if (SkipIfNoChange && noChange)
+                if (skipIfNoChange && noChange)
                     Trace.AWBSkipped("No DefaultSort Added");
                 else if (!noChange)
                     AWBChangeArticleText("DefaultSort Added/Diacritics cleaned", strTemp, true);
@@ -576,13 +576,14 @@ namespace WikiFunctions
         /// <summary>
         /// Corrects common formatting errors in dates in external reference citation templates (doesn't link/delink dates)
         /// </summary>
-        /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
-        public void CiteTemplateDates(Parsers parsers, bool SkipIfNoChange)
+        /// <param name="parsers"></param>
+        /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
+        public void CiteTemplateDates(Parsers parsers, bool skipIfNoChange)
         {
 
             string strTemp = parsers.CiteTemplateDates(mArticleText, out noChange);
 
-                if (SkipIfNoChange && noChange)
+                if (skipIfNoChange && noChange)
                     Trace.AWBSkipped("No Citation template dates fixed");
                 else if (!noChange)
                     AWBChangeArticleText("Citation template dates fixed", strTemp, true);
@@ -591,11 +592,11 @@ namespace WikiFunctions
         /// <summary>
         /// Fix link syntax
         /// </summary>
-        /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
-        public void FixLinks(bool SkipIfNoChange)
+        /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
+        public void FixLinks(bool skipIfNoChange)
         {
             string strTemp = Parsers.FixLinks(mArticleText, Name, out noChange);
-            if (noChange && SkipIfNoChange)
+            if (noChange && skipIfNoChange)
                 Trace.AWBSkipped("No bad links");
             else if (!noChange)
                 AWBChangeArticleText("Fixed links", strTemp, false);
@@ -604,11 +605,11 @@ namespace WikiFunctions
         /// <summary>
         /// Add bulletpoints to external links, if necessary
         /// </summary>
-        /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
-        public void BulletExternalLinks(bool SkipIfNoChange)
+        /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
+        public void BulletExternalLinks(bool skipIfNoChange)
         {
             string strTemp = Parsers.BulletExternalLinks(mArticleText, out noChange);
-            if (SkipIfNoChange && noChange)
+            if (skipIfNoChange && noChange)
                 Trace.AWBSkipped("No missing bulleted links");
             else if (!noChange)
                 AWBChangeArticleText("Bulleted external links", strTemp, false);
@@ -618,11 +619,11 @@ namespace WikiFunctions
         /// '''Emboldens''' the first occurence of the article title, if not already bold
         /// </summary>
         /// <param name="parsers"></param>
-        /// <param name="SkipIfNoChange">True if the article should be skipped if no changes are made</param>
-        public void EmboldenTitles(Parsers parsers, bool SkipIfNoChange)
+        /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
+        public void EmboldenTitles(Parsers parsers, bool skipIfNoChange)
         {
             string strTemp = parsers.BoldTitle(mArticleText, mName, out noChange);
-            if (SkipIfNoChange && noChange)
+            if (skipIfNoChange && noChange)
                 Trace.AWBSkipped("No Titles to embolden");
             else if (!noChange)
                 AWBChangeArticleText("Emboldened titles", strTemp, false);

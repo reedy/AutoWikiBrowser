@@ -33,7 +33,7 @@ namespace WikiFunctions.Profiles
 
         private void AWBProfiles_Load(object sender, EventArgs e)
         {
-            loadProfiles();
+            LoadProfiles();
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace WikiFunctions.Profiles
         /// <summary>
         /// Loads all the profiles onto the form
         /// </summary>
-        private void loadProfiles()
+        private void LoadProfiles()
         {
             lvAccounts.BeginUpdate();
             lvAccounts.Items.Clear();
@@ -78,7 +78,7 @@ namespace WikiFunctions.Profiles
                 else
                     item.SubItems.Add("No");
                 item.SubItems.Add(profile.defaultsettings);
-                if (profile.useforupload)
+                if (profile.UseForUpload)
                     item.SubItems.Add("Yes");
                 else
                     item.SubItems.Add("No");
@@ -106,7 +106,7 @@ namespace WikiFunctions.Profiles
         {
             AWBProfileAdd add = new AWBProfileAdd();
             if (add.ShowDialog() == DialogResult.Yes)
-                loadProfiles();
+                LoadProfiles();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -125,7 +125,7 @@ namespace WikiFunctions.Profiles
             {
                 if (SelectedItem < 0) return;
                 AWBProfiles.DeleteProfile(SelectedItem);
-                loadProfiles();
+                LoadProfiles();
             }
             finally
             {
@@ -137,30 +137,34 @@ namespace WikiFunctions.Profiles
         {
 			try
 			{
-	            UserPassword password = new UserPassword();
-	            password.SetText = "Set password for: " + lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text;
+	            UserPassword password = new UserPassword
+	                                        {
+	                                            SetText =
+	                                                "Set password for: " +
+	                                                lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text
+	                                        };
 
-	            if (password.ShowDialog() == DialogResult.OK)
+			    if (password.ShowDialog() == DialogResult.OK)
 	                AWBProfiles.SetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text), password.GetPassword);
 			}
 			finally
 			{
-				loadProfiles();
+				LoadProfiles();
 			}
         }
 
         private void editThisAccountToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            edit();
+            Edit();
         }
 
-        private void edit()
+        private void Edit()
         {
             try
             {
                 AWBProfileAdd add = new AWBProfileAdd(AWBProfiles.GetProfile(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
                 if (add.ShowDialog() == DialogResult.Yes)
-                    loadProfiles();
+                    LoadProfiles();
             }
             catch { }
         }
@@ -182,12 +186,12 @@ namespace WikiFunctions.Profiles
 
         protected virtual void lvAccounts_DoubleClick(object sender, EventArgs e)
         {
-            edit();
+            Edit();
         }
 
         private void BtnEdit_Click(object sender, EventArgs e)
         {
-            edit();
+            Edit();
         }
     }
 }

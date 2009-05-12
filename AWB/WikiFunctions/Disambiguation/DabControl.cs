@@ -36,7 +36,7 @@ namespace WikiFunctions.Disambiguation
             try
             {
                 ArticleText = articleText;
-                dabLink = link;
+                DabLink = link;
                 Match = match;
                 Variants = variants;
                 ContextChars = contextChars;
@@ -52,7 +52,7 @@ namespace WikiFunctions.Disambiguation
         public event EventHandler Changed;
 
         // input data
-        public string dabLink;
+        public string DabLink;
         public string ArticleText;
         public Match Match;
         public List<string> Variants;
@@ -66,9 +66,9 @@ namespace WikiFunctions.Disambiguation
         }
 
         //internal
-        int ContextChars;
-        int posStart;
-        int posEnd;
+        readonly int ContextChars;
+        int PosStart;
+        int PosEnd;
         bool StartOfSentence;
         string VisibleLink;
         string RealLink;
@@ -100,16 +100,16 @@ namespace WikiFunctions.Disambiguation
                 foreach (string s in Variants) cmboChoice.Items.Add(s);
 
                 //find our paragraph
-                for (posStart = Match.Index; posStart > 0; posStart--)
+                for (PosStart = Match.Index; PosStart > 0; PosStart--)
                 {
-                    if ("\n\r".Contains(ArticleText[posStart] + ""))
+                    if ("\n\r".Contains(ArticleText[PosStart] + ""))
                     {
-                        posStart++;
+                        PosStart++;
                         break;
                     }
                 }
 
-                posEnd = Match.Index + Match.Value.Length;
+                PosEnd = Match.Index + Match.Value.Length;
 
                 if (string.IsNullOrEmpty(Match.Groups[2].Value))
                 {
@@ -125,12 +125,12 @@ namespace WikiFunctions.Disambiguation
 
                 LinkTrail = Match.Groups[3].Value;
 
-                while (posEnd < ArticleText.Length - 1 && !"\n\r".Contains(ArticleText[posEnd] + "")) posEnd++;
+                while (PosEnd < ArticleText.Length - 1 && !"\n\r".Contains(ArticleText[PosEnd] + "")) PosEnd++;
 
                 // find surroundings (~ ±ContextChars from link)
                 int n = Match.Index - ContextChars;
-                if (n < posStart) n = posStart;
-                for (; n > posStart; n--)
+                if (n < PosStart) n = PosStart;
+                for (; n > PosStart; n--)
                 {
                     if (char.IsSeparator(ArticleText[n]))
                     {
@@ -141,8 +141,8 @@ namespace WikiFunctions.Disambiguation
                 SurroundingsStart = n;
 
                 n = Match.Index + Match.Length + ContextChars;
-                if (n > posEnd) n = posEnd;
-                for (; n < posEnd; n++)
+                if (n > PosEnd) n = PosEnd;
+                for (; n < PosEnd; n++)
                 {
                     if (char.IsSeparator(ArticleText[n]))
                     {
@@ -154,7 +154,7 @@ namespace WikiFunctions.Disambiguation
                 PosInSurroundings = Match.Index - SurroundingsStart; //Surroundings.IndexOf(Match.Value);
 
                 // check if the link is at the beginning of a sentence
-                for (n = Match.Index - 1; n > posStart; --n)
+                for (n = Match.Index - 1; n > PosStart; --n)
                 {
                     if (ArticleText[n] == '.')
                     {
@@ -163,18 +163,18 @@ namespace WikiFunctions.Disambiguation
                     }
                     if (!char.IsWhiteSpace(ArticleText[n])) break;
                 }
-                if (n == posStart) StartOfSentence = true;
+                if (n == PosStart) StartOfSentence = true;
 
                 // prepare text boxes
                 txtCorrection.Text = Surroundings;
 
-                txtViewer.Text = ArticleText.Substring(posStart, posEnd - posStart);
+                txtViewer.Text = ArticleText.Substring(PosStart, PosEnd - PosStart);
                 // highlight link to disambiguate
-                txtViewer.Select(Match.Index - posStart, Match.Length);
+                txtViewer.Select(Match.Index - PosStart, Match.Length);
                 txtViewer.SelectionFont = new System.Drawing.Font(txtViewer.SelectionFont.FontFamily,
                     txtViewer.SelectionFont.Size, System.Drawing.FontStyle.Bold);
                 txtViewer.SelectionBackColor = System.Drawing.Color.FromArgb(0xFFD754);
-                txtViewer.Select(SurroundingsStart - posStart, 0);
+                txtViewer.Select(SurroundingsStart - PosStart, 0);
                 txtViewer.ScrollToCaret();
                 txtViewer.Select(0, 0);
 

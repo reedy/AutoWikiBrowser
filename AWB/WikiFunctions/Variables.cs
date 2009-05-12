@@ -163,7 +163,7 @@ namespace WikiFunctions
         public static IAutoWikiBrowser MainForm
         { get; set; }
 
-        public static Profiler Profiler = new Profiler();
+        public static readonly Profiler Profiler = new Profiler();
 
         private static readonly bool Mono = Type.GetType("Mono.Runtime") != null;
         /// <summary>
@@ -318,16 +318,16 @@ namespace WikiFunctions
         /// </summary>
         public static string ApiPHP { get; private set; }
 
-        private static bool usePHP5;
+        private static bool UsePHP5;
         /// <summary>
         /// Whether the current wiki uses the .php5 extension
         /// </summary>
         public static bool PHP5
         {
-            get { return usePHP5; }
+            get { return UsePHP5; }
             set
             {
-                usePHP5 = value;
+                UsePHP5 = value;
                 IndexPHP = value ? "index.php5" : "index.php";
                 ApiPHP = value ? "api.php5" : "api.php";
             }
@@ -381,8 +381,7 @@ namespace WikiFunctions
 
         public static void LoadUnderscores(params string[] cats)
         {
-            BackgroundRequest r = new BackgroundRequest(UnderscoresLoaded);
-            r.HasUI = false;
+            BackgroundRequest r = new BackgroundRequest(UnderscoresLoaded) {HasUI = false};
             DelayedRequests.Add(r);
             r.GetList(new Lists.CategoryListProvider(), cats);
         }
@@ -882,8 +881,7 @@ namespace WikiFunctions
         public UserProperties()
         {
             if (Globals.UnitTestMode) return;
-            webBrowserLogin = new WebControl();
-            webBrowserLogin.ScriptErrorsSuppressed = true;
+            WebBrowserLogin = new WebControl {ScriptErrorsSuppressed = true};
         }
 
         /// <summary>
@@ -915,7 +913,7 @@ namespace WikiFunctions
 
         public readonly List<string> Groups = new List<string>();
 
-        public readonly WebControl webBrowserLogin;
+        public readonly WebControl WebBrowserLogin;
         private static Boolean WeAskedAboutUpdate;
 
         /// <summary>
@@ -995,14 +993,14 @@ namespace WikiFunctions
             set { bLoggedIn = WikiStatus = value; }
         }
 
-        readonly static Regex Message = new Regex("<!--[Mm]essage:(.*?)-->", RegexOptions.Compiled);
-        readonly static Regex VersionMessage = new Regex("<!--VersionMessage:(.*?)\\|\\|\\|\\|(.*?)-->", RegexOptions.Compiled);
-        readonly static Regex Underscores = new Regex("<!--[Uu]nderscores:(.*?)-->", RegexOptions.Compiled);
+        private readonly static Regex Message = new Regex("<!--[Mm]essage:(.*?)-->", RegexOptions.Compiled);
+        private readonly static Regex VersionMessage = new Regex("<!--VersionMessage:(.*?)\\|\\|\\|\\|(.*?)-->", RegexOptions.Compiled);
+        private readonly static Regex Underscores = new Regex("<!--[Uu]nderscores:(.*?)-->", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches <head> on right-to-left wikis
         /// </summary>
-        static readonly Regex HeadRTL = new Regex("<html [^>]*? dir=\"rtl\">", RegexOptions.Compiled);
+        private static readonly Regex HeadRTL = new Regex("<html [^>]*? dir=\"rtl\">", RegexOptions.Compiled);
 
         /// <summary>
         /// Checks log in status, registered and version.
@@ -1023,19 +1021,19 @@ namespace WikiFunctions
 
                 //load check page
                 if (Variables.IsWikia)
-                    webBrowserLogin.Navigate(
+                    WebBrowserLogin.Navigate(
                         "http://www.wikia.com/wiki/index.php?title=Wikia:AutoWikiBrowser/CheckPage&action=edit");
                 else if ((Variables.Project == ProjectEnum.wikipedia) && (Variables.LangCode == LangCodeEnum.ar))
-                    webBrowserLogin.Navigate(
+                    WebBrowserLogin.Navigate(
                         "http://ar.wikipedia.org/w/index.php?title=%D9%88%D9%8A%D9%83%D9%8A%D8%A8%D9%8A%D8%AF%D9%8A%D8%A7:%D8%A7%D9%84%D8%A3%D9%88%D8%AA%D9%88%D9%88%D9%8A%D9%83%D9%8A_%D8%A8%D8%B1%D8%A7%D9%88%D8%B2%D8%B1/%D9%85%D8%B3%D9%85%D9%88%D8%AD&action=edit");
                 else
-                    webBrowserLogin.Navigate(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=edit");
+                    WebBrowserLogin.Navigate(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=edit");
 
                 //wait for both pages to load
-                webBrowserLogin.Wait();
-                string strText = webBrowserLogin.GetArticleText();
+                WebBrowserLogin.Wait();
+                string strText = WebBrowserLogin.GetArticleText();
 
-                Variables.RTL = HeadRTL.IsMatch(webBrowserLogin.ToString());
+                Variables.RTL = HeadRTL.IsMatch(WebBrowserLogin.ToString());
 
                 if (Variables.IsWikia)
                 {
@@ -1065,7 +1063,7 @@ namespace WikiFunctions
                     userGroups = webBrowserWikia.GetScriptingVar("wgUserGroups");
                 }
                 else
-                    userGroups = webBrowserLogin.GetScriptingVar("wgUserGroups");
+                    userGroups = WebBrowserLogin.GetScriptingVar("wgUserGroups");
 
                 bLoaded = true;
 
@@ -1074,7 +1072,7 @@ namespace WikiFunctions
                     try
                     {
                         Variables.LangCode =
-                            Variables.ParseLanguage(webBrowserLogin.GetScriptingVar("wgContentLanguage"));
+                            Variables.ParseLanguage(WebBrowserLogin.GetScriptingVar("wgContentLanguage"));
                     }
                     catch
                     {
@@ -1102,8 +1100,8 @@ namespace WikiFunctions
                             "This version has been superceeded by a new version.  You may continue to use this version or update to the newest version.\r\n\r\nWould you like to automatically upgrade to the newest version?",
                             "Upgrade?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
-                        Match m_version = Regex.Match(strVersionPage, @"<!-- Current version: (.*?) -->");
-                        if (m_version.Success && m_version.Groups[1].Value.Length == 4)
+                        Match version = Regex.Match(strVersionPage, @"<!-- Current version: (.*?) -->");
+                        if (version.Success && version.Groups[1].Value.Length == 4)
                         {
                             System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) +
                                                              "\\AWBUpdater.exe");
@@ -1120,7 +1118,7 @@ namespace WikiFunctions
                 CheckPageText = strText;
 
                 //AWB does not support any skin other than Monobook
-                if (webBrowserLogin.GetScriptingVar("skin") == "cologneblue")
+                if (WebBrowserLogin.GetScriptingVar("skin") == "cologneblue")
                 {
                     MessageBox.Show("This software does not support the Cologne Blue skin." +
                                     "\r\nPlease choose another skin in your preferences and relogin.", "Error",
@@ -1129,10 +1127,10 @@ namespace WikiFunctions
                 }
 
                 //see if we are logged in
-                Name = webBrowserLogin.UserName;
+                Name = WebBrowserLogin.UserName;
 
                 // don't run GetInLogInStatus if we don't have the username, we sometimes get 2 error message boxes otherwise
-                LoggedIn = !string.IsNullOrEmpty(Name) && webBrowserLogin.GetLogInStatus();
+                LoggedIn = !string.IsNullOrEmpty(Name) && WebBrowserLogin.GetLogInStatus();
 
                 if (!LoggedIn)
                 {

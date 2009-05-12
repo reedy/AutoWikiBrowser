@@ -157,8 +157,8 @@ namespace AutoWikiBrowser
                 Variables.User.AdminStatusChanged += UpdateAdminStatus;
                 //Variables.User.WikiStatusChanged += UpdateWikiStatus;
 
-                Variables.User.webBrowserLogin.DocumentCompleted += WebLoginCompleted;
-                Variables.User.webBrowserLogin.Navigating += WebLoginStarting;
+                Variables.User.WebBrowserLogin.DocumentCompleted += WebLoginCompleted;
+                Variables.User.WebBrowserLogin.Navigating += WebLoginStarting;
 
                 webBrowserEdit.Deleted += CaseWasDelete;
                 webBrowserEdit.Loaded += CaseWasLoad;
@@ -295,7 +295,7 @@ namespace AutoWikiBrowser
                         break;
                 }
 
-                profiles.login(ProfileToLoad);
+                profiles.Login(ProfileToLoad);
             }
             catch (Exception ex)
             {
@@ -1745,8 +1745,8 @@ window.scrollTo(0, diffTopY);
 
                 if (webBrowserEdit.IsBusy)
                     webBrowserEdit.Stop2();
-                if (Variables.User.webBrowserLogin.IsBusy)
-                    Variables.User.webBrowserLogin.Stop();
+                if (Variables.User.WebBrowserLogin.IsBusy)
+                    Variables.User.WebBrowserLogin.Stop();
 
                 SaveRecentSettingsList();
                 UsageStats.Do(true);
@@ -3033,8 +3033,8 @@ window.scrollTo(0, diffTopY);
             StopDelayedRestartTimer();
             if (webBrowserEdit.IsBusy)
                 webBrowserEdit.Stop2();
-            if (Variables.User.webBrowserLogin.IsBusy)
-                Variables.User.webBrowserLogin.Stop();
+            if (Variables.User.WebBrowserLogin.IsBusy)
+                Variables.User.WebBrowserLogin.Stop();
 
             listMaker.Stop();
 

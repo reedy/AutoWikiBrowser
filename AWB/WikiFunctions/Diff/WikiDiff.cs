@@ -297,7 +297,7 @@ namespace WikiFunctions
 
         #region Static methods
 
-        private static string DiffColumnClasses = @"<table id='wikiDiff' class='diff'>
+        private const string DiffColumnClasses = @"<table id='wikiDiff' class='diff'>
 <col class='diff-marker' />
 <col class='diff-content' />
 <col class='diff-marker' />

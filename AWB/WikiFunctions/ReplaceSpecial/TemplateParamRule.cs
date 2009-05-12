@@ -26,8 +26,8 @@ namespace WikiFunctions.ReplaceSpecial
     {
         public const string XmlName = "TemplateParamRule";
 
-        public string ParamName_ = "";
-        public string NewParamName_ = "";
+        public string ParamName = "";
+        public string NewParamName = "";
 
         TemplateParamRuleControl ruleControl_;
 
@@ -55,8 +55,7 @@ namespace WikiFunctions.ReplaceSpecial
 
         public override Control CreateControl(IRuleControlOwner owner, Control.ControlCollection collection, System.Drawing.Point pos)
         {
-            TemplateParamRuleControl rc = new TemplateParamRuleControl(owner);
-            rc.Location = pos;
+            TemplateParamRuleControl rc = new TemplateParamRuleControl(owner) {Location = pos};
             rc.RestoreFromRule(this);
             DisposeControl();
             ruleControl_ = rc;
@@ -93,9 +92,9 @@ namespace WikiFunctions.ReplaceSpecial
             if (!enabled_)
                 return text;
 
-            string pattern = "(\\|[\\s]*)" + ParamName_ + "([\\s]*=)";
+            string pattern = "(\\|[\\s]*)" + ParamName + "([\\s]*=)";
 
-            text = Regex.Replace(text, pattern, "$1" + NewParamName_ + "$2");
+            text = Regex.Replace(text, pattern, "$1" + NewParamName + "$2");
 
             foreach (TreeNode t in tn.Nodes)
             {

@@ -57,8 +57,7 @@ namespace WikiFunctions.ReplaceSpecial
 
         public override Control CreateControl(IRuleControlOwner owner, Control.ControlCollection collection, System.Drawing.Point pos)
         {
-            InTemplateRuleControl rc = new InTemplateRuleControl(owner);
-            rc.Location = pos;
+            InTemplateRuleControl rc = new InTemplateRuleControl(owner) {Location = pos};
             rc.RestoreFromRule(this);
             DisposeControl();
             ruleControl_ = rc;
@@ -145,7 +144,7 @@ namespace WikiFunctions.ReplaceSpecial
 
             private void Inside(TreeNode tn)
             {
-                bool check_done = false, check = true;
+                bool checkDone = false, check = true;
 
                 for (; ; )
                 {
@@ -163,10 +162,10 @@ namespace WikiFunctions.ReplaceSpecial
                         j += 2;
                         text_ = text_.Substring(j);
 
-                        if (!check_done)
+                        if (!checkDone)
                         {
                             check = CheckIf(template_, t);
-                            check_done = true;
+                            checkDone = true;
                         }
 
                         if (check)
@@ -186,7 +185,7 @@ namespace WikiFunctions.ReplaceSpecial
                     i += 2;
                     text_ = text_.Substring(i);
 
-                    if (check_done)
+                    if (checkDone)
                     {
                         if (check)
                             result_ += ReplaceOn(template_, tn, t, title_);
