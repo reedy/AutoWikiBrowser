@@ -61,15 +61,15 @@ namespace WikiFunctions
         /// <summary>
         /// Gets the wikitext for a specified article.
         /// </summary>
-        /// <param name="Article">The article to return the wikitext for.</param>
+        /// <param name="article">The article to return the wikitext for.</param>
         /// <param name="indexpath">The path to the index page of the wiki to edit.</param>
         /// <returns>The wikitext of the specified article.</returns>
         /// <param name="oldid"
-        public static String GetWikiText(String Article, string indexpath, int oldid)
+        public static String GetWikiText(string article, string indexpath, int oldid)
         {
             try
             {
-                string targetUrl = indexpath + "index.php?title=" + Tools.WikiEncode(Article) + "&action=raw";
+                string targetUrl = indexpath + "index.php?title=" + Tools.WikiEncode(article) + "&action=raw";
 
                 if (oldid != 0)
                     targetUrl += "&oldid=" + oldid;
@@ -100,7 +100,7 @@ namespace WikiFunctions
 
         public struct EditPageRetvals
         {
-            public string article;
+            public string Article;
             public string responsetext;
             public string difflink;
         }
@@ -182,7 +182,7 @@ namespace WikiFunctions
 
             StreamReader sr = new StreamReader(resps.GetResponseStream());
             EditPageRetvals retval = new EditPageRetvals();
-            retval.article = Article;
+            retval.Article = Article;
 
             retval.responsetext = sr.ReadToEnd();
 
@@ -256,15 +256,15 @@ namespace WikiFunctions
         /// <summary>
         /// Logs this instance in with the specified username and password.
         /// </summary>
-        /// <param name="Username">The username to log in with.</param>
+        /// <param name="username">The username to log in with.</param>
         /// <param name="password">The password to log in with.</param>
-        public void LogIn(string Username, string password)
+        public void LogIn(string username, string password)
         {
             HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath + "index.php?title=Special:Userlogin&action=submitlogin&type=login", UserAgent);
 
             //Create poststring
             string poststring = string.Format("wpName=+{0}&wpPassword={1}&wpRemember=1&wpLoginattempt=Log+in",
-                                              new[] { HttpUtility.UrlEncode(Username), HttpUtility.UrlEncode(password) });
+                                              new[] { HttpUtility.UrlEncode(username), HttpUtility.UrlEncode(password) });
 
             wr.Method = "POST";
             wr.ContentType = "application/x-www-form-urlencoded";
@@ -458,14 +458,14 @@ namespace WikiFunctions
 
             foreach (XmlElement rvElement in doc.GetElementsByTagName("rev"))
             {
-                Revision rv = new Revision();
-
-                rv.RevisionID = Convert.ToInt32(rvElement.Attributes["revid"].Value);
-                rv.Time = DateTime.Parse(rvElement.Attributes["timestamp"].Value);
-                rv.Summary = rvElement.InnerText;
-                rv.User = rvElement.Attributes["user"].Value;
-
-                rv.Minor = (rvElement.OuterXml.Contains("minor=\""));
+                Revision rv = new Revision
+                                  {
+                                      RevisionID = Convert.ToInt32(rvElement.Attributes["revid"].Value),
+                                      Time = DateTime.Parse(rvElement.Attributes["timestamp"].Value),
+                                      Summary = rvElement.InnerText,
+                                      User = rvElement.Attributes["user"].Value,
+                                      Minor = (rvElement.OuterXml.Contains("minor=\""))
+                                  };
 
                 history.Add(rv);
             }
@@ -661,13 +661,14 @@ namespace WikiFunctions
 
             while (xr.Read())
             {
-                if (xr.Name == "g")
+                switch (xr.Name)
                 {
-                    Groups.Add(xr.ReadString());
-                }
-                else if (xr.Name == "r")
-                {
-                    Rights.Add(xr.ReadString());
+                    case "g":
+                        Groups.Add(xr.ReadString());
+                        break;
+                    case "r":
+                        Rights.Add(xr.ReadString());
+                        break;
                 }
             }
             Name = Regex.Match(xml, @"<userinfo name=""(.*?)"">").Groups[1].Value;

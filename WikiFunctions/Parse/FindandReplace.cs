@@ -273,7 +273,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Adds a find and replacement task.
         /// </summary>
-        /// <param name="find">The string to find.</param>
+        /// <param name="findText">The string to find.</param>
         /// <param name="replaceWith">The replacement string.</param>
         /// <param name="caseSensitive"></param>
         /// <param name="isRegex"></param>
@@ -281,9 +281,9 @@ namespace WikiFunctions.Parse
         /// <param name="singleline"></param>
         /// <param name="lineEnabled"></param>
         /// <param name="lineComment"></param>
-        public void AddNew(string find, string replaceWith, bool caseSensitive, bool isRegex, bool multiline, bool singleline, bool lineEnabled, string lineComment)
+        public void AddNew(string findText, string replaceWith, bool caseSensitive, bool isRegex, bool multiline, bool singleline, bool lineEnabled, string lineComment)
         {
-            dataGridView1.Rows.Add(find, replaceWith, caseSensitive, isRegex, multiline, singleline, lineEnabled, lineComment);
+            dataGridView1.Rows.Add(findText, replaceWith, caseSensitive, isRegex, multiline, singleline, lineEnabled, lineComment);
             if (!lineEnabled)
                 dataGridView1.Rows[dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGray;
 

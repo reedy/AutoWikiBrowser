@@ -229,8 +229,7 @@ namespace WikiFunctions.Parse
 
             if (matches.Count > 0)
             {
-                TypoStat stats = new TypoStat(typo);
-                stats.Total = matches.Count;
+                TypoStat stats = new TypoStat(typo) {Total = matches.Count};
 
                 articleText = typo.Key.Replace(articleText, typo.Value);
 

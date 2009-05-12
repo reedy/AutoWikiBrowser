@@ -46,7 +46,7 @@ namespace WikiFunctions.Browser
             ProcessStage = ProcessingStage.None;
         }
 
-        readonly Timer timer = new Timer();
+        private readonly Timer timer = new Timer();
 
         public static bool Shutdown;
 
@@ -86,12 +86,12 @@ namespace WikiFunctions.Browser
 
         #region Properties
 
-        ProcessingStage pStage = ProcessingStage.None;
+        private ProcessingStage Stage = ProcessingStage.None;
         [Browsable(false)]
         public ProcessingStage ProcessStage
         {
-            get { return pStage; }
-            set { pStage = value; }
+            get { return Stage; }
+            set { Stage = value; }
         }
 
         /// <summary>
@@ -244,7 +244,7 @@ namespace WikiFunctions.Browser
             Wait();
         }
 
-        static readonly Regex NewMessagesRegex = new Regex("\\<div id=\"contentSub\"\\>[^<>]*?\\</div\\>\\s*\\<div class=\"usermessage\"", 
+        private static readonly Regex NewMessagesRegex = new Regex("\\<div id=\"contentSub\"\\>[^<>]*?\\</div\\>\\s*\\<div class=\"usermessage\"", 
             RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
@@ -254,7 +254,7 @@ namespace WikiFunctions.Browser
         public bool NewMessage
         { get { return NewMessagesRegex.IsMatch(DocumentText); } }
 
-        static readonly Regex wpTextbox1Regex = new Regex(@"<textarea [^>]*?name=[""']wpTextbox1[""'].*?>", RegexOptions.Compiled | RegexOptions.Singleline);
+        private static readonly Regex WpTextbox1Regex = new Regex(@"<textarea [^>]*?name=[""']wpTextbox1[""'].*?>", RegexOptions.Compiled | RegexOptions.Singleline);
 
         /// <summary>
         /// Gets a value indicating whether the textbox is present
@@ -265,7 +265,7 @@ namespace WikiFunctions.Browser
             get { return (EditBoxTag.Length > 0); }
         }
 
-        private string cachedEditBox;
+        private string CachedEditBox;
 
         /// <summary>
         /// Gets the opening tag for textarea that holds main edit box or empty string
@@ -274,10 +274,10 @@ namespace WikiFunctions.Browser
         {
             get
             {
-                if (string.IsNullOrEmpty(cachedEditBox))
-                    cachedEditBox = wpTextbox1Regex.Match(DocumentText).Value;
+                if (string.IsNullOrEmpty(CachedEditBox))
+                    CachedEditBox = WpTextbox1Regex.Match(DocumentText).Value;
 
-                return cachedEditBox;
+                return CachedEditBox;
             }
         }
 
@@ -684,14 +684,14 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Loads the delete page of the given article
         /// </summary>
-        public void LoadDeletePage(string Article)
+        public void LoadDeletePage(string article)
         {
             try
             {
                 AllowNavigation = true;
                 ProcessStage = ProcessingStage.Delete;
                 Status = "Loading delete page";
-                Navigate(Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(Article) + "&action=delete");
+                Navigate(Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(article) + "&action=delete");
             }
             catch (Exception ex)
             {
@@ -702,7 +702,7 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Invokes the Protect button
         /// </summary>
-        public void Protect(int EditProtectionLevel, int MoveProtectionLevel, bool CascadingProtection)
+        public void Protect(int editProtectionLevel, int moveProtectionLevel, bool cascadingProtection)
         {
             if (Document == null)
                 return;
@@ -711,15 +711,15 @@ namespace WikiFunctions.Browser
             ProcessStage = ProcessingStage.Protect;
             Status = "Protecting page";
 
-            SetListBoxValues(Document.GetElementById("mwProtect-level-edit"), EditProtectionLevel);
-            SetListBoxValues(Document.GetElementById("mwProtect-level-move"), MoveProtectionLevel);
+            SetListBoxValues(Document.GetElementById("mwProtect-level-edit"), editProtectionLevel);
+            SetListBoxValues(Document.GetElementById("mwProtect-level-move"), moveProtectionLevel);
 
             HtmlElement mwProtectcascade = Document.GetElementById("mwProtect-cascade");
 
             if (mwProtectcascade == null)
                 return;
 
-            mwProtectcascade.SetAttribute("checked", CascadingProtection ? "checked" : "");
+            mwProtectcascade.SetAttribute("checked", cascadingProtection ? "checked" : "");
 
             HtmlElement mwProtectsubmit = Document.GetElementById("mw-Protect-submit");
 
@@ -730,15 +730,15 @@ namespace WikiFunctions.Browser
 
         }
 
-        private static void SetListBoxValues(HtmlElement element, int Level)
+        private static void SetListBoxValues(HtmlElement element, int level)
         {
             if (element == null)
                 return;
 
-            if (Level != 0)
+            if (level != 0)
             {
                 element.Children[0].SetAttribute("selected", "");
-                switch (Level)
+                switch (level)
                 {
                     case 1:
                         element.Children[1].SetAttribute("selected", "selected");
@@ -761,14 +761,14 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Loads the protect page of the given article
         /// </summary>
-        public void LoadProtectPage(string Article)
+        public void LoadProtectPage(string article)
         {
             try
             {
                 AllowNavigation = true;
                 ProcessStage = ProcessingStage.Protect;
                 Status = "Loading protect page";
-                Navigate(Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(Article) + "&action=protect");
+                Navigate(Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(article) + "&action=protect");
             }
             catch (Exception ex)
             {
@@ -779,14 +779,14 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Loads the edit page of the given article
         /// </summary>
-        public void LoadEditPage(string Article)
+        public void LoadEditPage(string article)
         {
             try
             {
                 AllowNavigation = true;
                 ProcessStage = ProcessingStage.Load;
                 Status = "Loading page";
-                Navigate(Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(Article) + "&action=edit&useskin=myskin");
+                Navigate(Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(article) + "&action=edit&useskin=myskin");
             }
             catch (Exception ex)
             {
@@ -797,27 +797,27 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Loads the edit page of the given article
         /// </summary>
-        /// <param name="Article">Article title</param>
-        /// <param name="Revision">Revision</param>
-        public void LoadEditPage(string Article, int Revision)
+        /// <param name="article">Article title</param>
+        /// <param name="revision">Revision</param>
+        public void LoadEditPage(string article, int revision)
         {
-            LoadEditPage(Article, Revision.ToString());
+            LoadEditPage(article, revision.ToString());
         }
 
         /// <summary>
         /// Loads the edit page of the given article
         /// </summary>
-        /// <param name="Article">Article title</param>
-        /// <param name="Revision">Revision</param>
-        public void LoadEditPage(string Article, string Revision)
+        /// <param name="article">Article title</param>
+        /// <param name="revision">Revision</param>
+        public void LoadEditPage(string article, string revision)
         {
             try
             {
                 AllowNavigation = true;
                 ProcessStage = ProcessingStage.Load;
                 Status = "Loading page";
-                Navigate(Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(Article) + "&action=edit&oldid="
-                    + Revision);
+                Navigate(Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(article) + "&action=edit&oldid="
+                    + revision);
             }
             catch (Exception ex)
             {
@@ -828,16 +828,16 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Loads the edit page of the given article
         /// </summary>
-        /// <param name="Article">Article title</param>
-        /// <param name="Section">Section name</param>
-        public void LoadEditPageSection(string Article, string Section)
+        /// <param name="article">Article title</param>
+        /// <param name="section">Section name</param>
+        public void LoadEditPageSection(string article, string section)
         {
             try
             {
                 AllowNavigation = true;
                 ProcessStage = ProcessingStage.Load;
                 Status = "Loading page";
-                string url = Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(Article) + "&action=edit&section=" + Section;
+                string url = Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(article) + "&action=edit&section=" + section;
                 Navigate(url);
             }
             catch (Exception ex)
@@ -878,7 +878,7 @@ namespace WikiFunctions.Browser
             base.OnDocumentCompleted(e);
 
             // reset cached variables
-            cachedEditBox = null;
+            CachedEditBox = null;
 
             StopTimer();
 
@@ -942,11 +942,11 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Moves an article, returns true if successful
         /// </summary>
-        public bool MovePage(string OldTitle, string NewTitle, string Summary)
+        public bool MovePage(string oldTitle, string newTitle, string summary)
         {
             AllowNavigation = true;
 
-            Navigate(Variables.URL + "/wiki/Special:Movepage/" + OldTitle);
+            Navigate(Variables.URL + "/wiki/Special:Movepage/" + oldTitle);
             Status = "Loading move page";
             Wait();
 
@@ -959,9 +959,9 @@ namespace WikiFunctions.Browser
             HtmlElement wpNewTitle = Document.GetElementById("wpNewTitle");
 
             if (wpNewTitle != null)
-                wpNewTitle.InnerText = NewTitle;
+                wpNewTitle.InnerText = newTitle;
 
-            if (!SetReason(Summary))
+            if (!SetReason(summary))
             {
                 AllowNavigation = false;
                 return false;
@@ -1014,9 +1014,9 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Deletes an article, returns true if successful
         /// </summary>
-        public bool DeletePage(string Article, string Summary)
+        public bool DeletePage(string article, string summary)
         {
-            LoadDeletePage(Article);
+            LoadDeletePage(article);
             Wait();
 
             if (Document == null)
@@ -1025,7 +1025,7 @@ namespace WikiFunctions.Browser
                 return false;
             }
 
-            if (!SetReason(Summary))
+            if (!SetReason(summary))
             {
                 AllowNavigation = false;
                 return false;
@@ -1042,9 +1042,9 @@ namespace WikiFunctions.Browser
         /// <summary>
         /// Protects an article, returns true if successful
         /// </summary>
-        public bool ProtectPage(string Article, string Summary, int EditProtectionLevel, int MoveProtectionLevel, string ProtectExpiry, bool CascadingProtection)
+        public bool ProtectPage(string article, string summary, int editProtectionLevel, int moveProtectionLevel, string protectExpiry, bool cascadingProtection)
         {
-            LoadProtectPage(Article);
+            LoadProtectPage(article);
             Wait();
 
             if (Document == null)
@@ -1053,13 +1053,13 @@ namespace WikiFunctions.Browser
                 return false;
             }
 
-            if (!SetReasonAndExpiry(Summary, ProtectExpiry))
+            if (!SetReasonAndExpiry(summary, protectExpiry))
             {
                 AllowNavigation = false;
                 return false;
             }
 
-            Protect(EditProtectionLevel, MoveProtectionLevel, CascadingProtection);
+            Protect(editProtectionLevel, moveProtectionLevel, cascadingProtection);
             Wait();
             AllowNavigation = false;
 
@@ -1092,7 +1092,7 @@ namespace WikiFunctions.Browser
         {
             LoadTime++;
 
-            if (LoadTime == timeout)
+            if (LoadTime == Timeout)
             {
                 StopTimer();
                 Stop2();
@@ -1102,11 +1102,11 @@ namespace WikiFunctions.Browser
             }
         }
 
-        int timeout = 30;
+        int Timeout = 30;
         public int TimeoutLimit
         {
-            get { return timeout; }
-            set { timeout = value; }
+            get { return Timeout; }
+            set { Timeout = value; }
         }
     }
 

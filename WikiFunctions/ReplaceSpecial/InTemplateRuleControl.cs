@@ -24,13 +24,13 @@ namespace WikiFunctions.ReplaceSpecial
 {
     public partial class InTemplateRuleControl : UserControl
     {
-        readonly IRuleControlOwner owner_;
+        readonly IRuleControlOwner Owner;
 
         public InTemplateRuleControl(IRuleControlOwner owner)
         {
             InitializeComponent();
 
-            owner_ = owner;
+            Owner = owner;
             Anchor =
               AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
 
@@ -85,7 +85,7 @@ namespace WikiFunctions.ReplaceSpecial
 
         private void NameTextbox_TextChanged(object sender, EventArgs e)
         {
-            owner_.NameChanged(this, NameTextbox.Text.Trim());
+            Owner.NameChanged(this, NameTextbox.Text.Trim());
         }
 
         private void NameTextbox_DoubleClick(object sender, EventArgs e)

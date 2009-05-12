@@ -56,9 +56,9 @@ namespace WikiFunctions.ReplaceSpecial
 
         #endregion
 
-        IRule currentRule_;
+        IRule CurrentRule;
         Control ruleControl_;
-        readonly RuleTreeHistory history_;
+        readonly RuleTreeHistory History;
 
         public void Clear()
         {
@@ -70,11 +70,11 @@ namespace WikiFunctions.ReplaceSpecial
         {
             InitializeComponent();
 
-            history_ = new RuleTreeHistory(RulesTreeView);
+            History = new RuleTreeHistory(RulesTreeView);
 
             //NewRule();
             UpdateEnabledStates();
-            setTreeViewColours();
+            SetTreeViewColours();
         }
 
         private void OkButton_Click(object sender, EventArgs e)
@@ -102,22 +102,22 @@ namespace WikiFunctions.ReplaceSpecial
 
         private void SaveCurrentRule()
         {
-            IRule r = currentRule_;
+            IRule r = CurrentRule;
             if (r == null)
                 return;
 
             r.Save();
-            setTreeViewColours();
+            SetTreeViewColours();
         }
 
         private void RestoreSelectedRule()
         {
             if (RulesTreeView.SelectedNode == null)
             {
-                if (currentRule_ != null)
+                if (CurrentRule != null)
                 {
-                    currentRule_.DisposeControl();
-                    currentRule_ = null;
+                    CurrentRule.DisposeControl();
+                    CurrentRule = null;
                     NoRuleSelectedLabel.Show();
                 }
             }
@@ -125,24 +125,24 @@ namespace WikiFunctions.ReplaceSpecial
             {
                 NoRuleSelectedLabel.Hide();
 
-                IRule oldrule = currentRule_;
+                IRule oldrule = CurrentRule;
 
-                currentRule_ = (IRule)RulesTreeView.SelectedNode.Tag;
+                CurrentRule = (IRule)RulesTreeView.SelectedNode.Tag;
 
                 SuspendLayout();
 
                 Point pos = new Point();
                 ruleControl_ = null;
-                ruleControl_ = currentRule_.CreateControl(this, RuleControlSpace.Controls, pos);
+                ruleControl_ = CurrentRule.CreateControl(this, RuleControlSpace.Controls, pos);
                 ruleControl_.Size = RuleControlSpace.Size;
 
-                currentRule_.Name = RulesTreeView.SelectedNode.Text;
+                CurrentRule.Name = RulesTreeView.SelectedNode.Text;
 
-                currentRule_.Restore();
+                CurrentRule.Restore();
 
                 if (oldrule != null)
                 {
-                    if (!currentRule_.Equals(oldrule))
+                    if (!CurrentRule.Equals(oldrule))
                         oldrule.DisposeControl();
                 }
 
@@ -151,7 +151,7 @@ namespace WikiFunctions.ReplaceSpecial
                 ResumeLayout();
             }
             UpdateEnabledStates();
-            setTreeViewColours();
+            SetTreeViewColours();
         }
 
         private void UpButton_Click(object sender, EventArgs e)
@@ -177,7 +177,7 @@ namespace WikiFunctions.ReplaceSpecial
             if (p == null)
                 return;
 
-            history_.Save();
+            History.Save();
 
             col.Remove(tn);
             int i = col.IndexOf(p);
@@ -215,7 +215,7 @@ namespace WikiFunctions.ReplaceSpecial
             if (p == null)
                 return;
 
-            history_.Save();
+            History.Save();
 
             int i = col.IndexOf(p);
             col.Remove(tn);
@@ -229,13 +229,13 @@ namespace WikiFunctions.ReplaceSpecial
         private void NewRuleButton_Click(object sender, EventArgs e)
         {
             NewRule();
-            setTreeViewColours();
+            SetTreeViewColours();
         }
 
         private void NewSubruleButton_Click(object sender, EventArgs e)
         {
             NewSubrule();
-            setTreeViewColours();
+            SetTreeViewColours();
         }
 
         public void NameChanged(Control rc, string name)
@@ -282,8 +282,8 @@ namespace WikiFunctions.ReplaceSpecial
             CopyMenuItem.Enabled = has_selection;
             CopyContextMenuItem.Enabled = has_selection;
 
-            UndoMenuItem.Enabled = history_.CanUndo;
-            RedoMenuItem.Enabled = history_.CanRedo;
+            UndoMenuItem.Enabled = History.CanUndo;
+            RedoMenuItem.Enabled = History.CanRedo;
         }
 
 
@@ -300,7 +300,7 @@ namespace WikiFunctions.ReplaceSpecial
 
             SaveCurrentRule();
 
-            history_.Save();
+            History.Save();
 
             TreeNode nt = st.NextNode;
 
@@ -309,7 +309,7 @@ namespace WikiFunctions.ReplaceSpecial
             RulesTreeView.SelectedNode = nt;
             RulesTreeView.Select();
             RestoreSelectedRule();
-            setTreeViewColours();
+            SetTreeViewColours();
         }
 
         private void ReplaceSpecial_VisibleChanged(object sender, EventArgs e)
@@ -368,7 +368,7 @@ namespace WikiFunctions.ReplaceSpecial
             if (RulesTreeView.SelectedNode == null)
                 return;
             SaveCurrentRule();
-            history_.Save();
+            History.Save();
 
             Tools.CopyToClipboard(Serialize(GetSelectedRule()), true);
             UpdateEnabledStates();
@@ -377,7 +377,7 @@ namespace WikiFunctions.ReplaceSpecial
         private void PasteCmd()
         {
             SaveCurrentRule();
-            history_.Save();
+            History.Save();
 
             AddNewRule(Deserialize(Clipboard.GetDataObject().GetData(typeof(string)).ToString()));
 
@@ -437,11 +437,11 @@ namespace WikiFunctions.ReplaceSpecial
             return r;
         }
 
-        public void AddNewRule(List<IRule> Rules)
+        public void AddNewRule(List<IRule> rules)
         {
             RulesTreeView.Nodes.Clear();
 
-            foreach (IRule r in Rules)
+            foreach (IRule r in rules)
             {
                 AppendRule(r);
             }
@@ -455,7 +455,7 @@ namespace WikiFunctions.ReplaceSpecial
                 return;
 
             SaveCurrentRule();
-            history_.Save();
+            History.Save();
 
             TreeNode n = new TreeNode(r.Name);
             n.Tag = r;
@@ -482,7 +482,7 @@ namespace WikiFunctions.ReplaceSpecial
             }
 
             RestoreSelectedRule();
-            currentRule_.SelectName();
+            CurrentRule.SelectName();
         }
 
         private void AddNewRule(IRule r, TreeNode tn)
@@ -528,7 +528,7 @@ namespace WikiFunctions.ReplaceSpecial
             if (s == null)
                 return;
 
-            history_.Save();
+            History.Save();
 
             TreeNode n = new TreeNode(r.Name);
             n.Tag = r;
@@ -538,7 +538,7 @@ namespace WikiFunctions.ReplaceSpecial
             RulesTreeView.Select();
 
             RestoreSelectedRule();
-            currentRule_.SelectName();
+            CurrentRule.SelectName();
         }
 
         private void NewSubruleInTemplateCallMenuItem_Click(object sender, EventArgs e)
@@ -564,7 +564,7 @@ namespace WikiFunctions.ReplaceSpecial
         private void UndoMenuItem_Click(object sender, EventArgs e)
         {
             SaveCurrentRule();
-            history_.Undo();
+            History.Undo();
             RestoreSelectedRule();
             //RulesTreeView.ExpandAll();
         }
@@ -572,14 +572,14 @@ namespace WikiFunctions.ReplaceSpecial
         private void RedoMenuItem_Click(object sender, EventArgs e)
         {
             SaveCurrentRule();
-            history_.Redo();
+            History.Redo();
             RestoreSelectedRule();
             //RulesTreeView.ExpandAll();
         }
 
         private void refreshColoursToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            setTreeViewColours();
+            SetTreeViewColours();
         }
 
         private void ReplaceSpecial_KeyDown(object sender, KeyEventArgs e)
@@ -671,38 +671,38 @@ namespace WikiFunctions.ReplaceSpecial
             e.Effect = DragDropEffects.Move;
         }
 
-        private void setTreeViewColours()
+        private void SetTreeViewColours()
         {
             RulesTreeView.BeginUpdate();
             foreach (TreeNode node in RulesTreeView.Nodes)
             {
-                setColours(node);
+                SetColours(node);
             }
             RulesTreeView.EndUpdate();
         }
 
-        private void setColours(TreeNode rnode)
+        private static void SetColours(TreeNode rnode)
         {
             IRule temp = (IRule)rnode.Tag;
-            setNodeColour(rnode, temp);
+            SetNodeColour(rnode, temp);
 
             foreach (TreeNode node in rnode.Nodes)
             {
                 IRule temp2 = (IRule)node.Tag;
 
-                setNodeColour(node, temp2);
-                setColours(node);
+                SetNodeColour(node, temp2);
+                SetColours(node);
             }
         }
 
-        private static void setNodeColour(TreeNode node, IRule rule)
+        private static void SetNodeColour(TreeNode node, IRule rule)
         {
             node.BackColor = rule.enabled_ ? Color.White : Color.Red;
         }
 
         private void ReplaceSpecial_Load(object sender, EventArgs e)
         {
-            setTreeViewColours();
+            SetTreeViewColours();
         }
 
         private void expandAllToolStripMenuItem_Click(object sender, EventArgs e)

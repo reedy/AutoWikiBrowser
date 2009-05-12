@@ -962,13 +962,13 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             // don't match on 'in the June of 2007', 'on the 11th May 2008' etc. as these won't read well if changed
-            Regex ofBetweenMonthAndYear = new Regex(@"\b" + WikiRegexes.months + @"\s+of\s+(200\d|1[89]\d\d)\b(?<!\b[Tt]he\s{1,5}\w{3,15}\s{1,5}of\s{1,5}(200\d|1[89]\d\d))");
+            Regex ofBetweenMonthAndYear = new Regex(@"\b" + WikiRegexes.Months + @"\s+of\s+(200\d|1[89]\d\d)\b(?<!\b[Tt]he\s{1,5}\w{3,15}\s{1,5}of\s{1,5}(200\d|1[89]\d\d))");
 
-            Regex ordinalsInDatesAm = new Regex(@"\b" + WikiRegexes.months + @"\s+([0-3]?\d)(?:st|nd|rd|th)\b(?<!\b[Tt]he\s+\w{3,10}\s+(?:[0-3]?\d)(?:st|nd|rd|th)\b)(?:(\s*(?:to|and|.|&.dash;)\s*[0-3]?\d)(?:st|nd|rd|th)\b)?");
-            Regex ordinalsInDatesInt = new Regex(@"(?:\b([0-3]?\d)(?:st|nd|rd|th)(\s*(?:to|and|.|&.dash;)\s*))?\b([0-3]?\d)(?:st|nd|rd|th)\s+" + WikiRegexes.months + @"\b(?<!\b[Tt]he\s+(?:[0-3]?\d)(?:st|nd|rd|th)\s+\w{3,10})");
+            Regex ordinalsInDatesAm = new Regex(@"\b" + WikiRegexes.Months + @"\s+([0-3]?\d)(?:st|nd|rd|th)\b(?<!\b[Tt]he\s+\w{3,10}\s+(?:[0-3]?\d)(?:st|nd|rd|th)\b)(?:(\s*(?:to|and|.|&.dash;)\s*[0-3]?\d)(?:st|nd|rd|th)\b)?");
+            Regex ordinalsInDatesInt = new Regex(@"(?:\b([0-3]?\d)(?:st|nd|rd|th)(\s*(?:to|and|.|&.dash;)\s*))?\b([0-3]?\d)(?:st|nd|rd|th)\s+" + WikiRegexes.Months + @"\b(?<!\b[Tt]he\s+(?:[0-3]?\d)(?:st|nd|rd|th)\s+\w{3,10})");
 
-            Regex dateLeadingZerosAm = new Regex(@"\b" + WikiRegexes.months + @"\s+0([1-9])" + @"\b");
-            Regex dateLeadingZerosInt = new Regex(@"\b" + @"0([1-9])\s+" + WikiRegexes.months + @"\b");
+            Regex dateLeadingZerosAm = new Regex(@"\b" + WikiRegexes.Months + @"\s+0([1-9])" + @"\b");
+            Regex dateLeadingZerosInt = new Regex(@"\b" + @"0([1-9])\s+" + WikiRegexes.Months + @"\b");
 
             // hide items in quotes etc., though this may also hide items within infoboxes etc.
             articleText = HideMoreText(articleText);
@@ -1050,16 +1050,16 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Fixes and improves syntax (such as html markup)
         /// </summary>
-        /// <param name="ArticleText">The wiki text of the article.</param>
-        /// <param name="NoChange">Value that indicated whether no change was made.</param>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="noChange">Value that indicated whether no change was made.</param>
         /// <returns>The modified article text.</returns>
-        public static string FixSyntax(string ArticleText, out bool NoChange)
+        public static string FixSyntax(string articleText, out bool noChange)
         {
-            string testText = ArticleText;
-            ArticleText = FixSyntax(ArticleText);
+            string testText = articleText;
+            articleText = FixSyntax(articleText);
 
-            NoChange = (testText == ArticleText);
-            return ArticleText;
+            noChange = (testText == articleText);
+            return articleText;
         }
         // regexes for external link match on balanced bracket
         private static readonly Regex DoubleBracketAtStartOfExternalLink = new Regex(@"\[(\[https?:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -1465,24 +1465,24 @@ namespace WikiFunctions.Parse
             byte[] src = Encoding.UTF8.GetBytes(anchor);
             byte[] dest = (byte[])src.Clone();
 
-            int SrcCount, DestCount = 0;
+            int destCount = 0;
 
-            for (SrcCount = 0; SrcCount < src.Length; SrcCount++)
+            for (int srcCount = 0; srcCount < src.Length; srcCount++)
             {
-                if (src[SrcCount] != '.' || !(SrcCount + 3 <= src.Length &&
-                    IsHex(src[SrcCount + 1]) && IsHex(src[SrcCount + 2])))
+                if (src[srcCount] != '.' || !(srcCount + 3 <= src.Length &&
+                    IsHex(src[srcCount + 1]) && IsHex(src[srcCount + 2])))
                     // then
-                    dest[DestCount] = src[SrcCount];
+                    dest[destCount] = src[srcCount];
                 else
                 {
-                    dest[DestCount] = DecodeHex(src[SrcCount + 1], src[SrcCount + 2]);
-                    SrcCount += 2;
+                    dest[destCount] = DecodeHex(src[srcCount + 1], src[srcCount + 2]);
+                    srcCount += 2;
                 }
 
-                DestCount++;
+                destCount++;
             }
 
-            link = link.Replace(m.Value, Encoding.UTF8.GetString(dest, 0, DestCount));
+            link = link.Replace(m.Value, Encoding.UTF8.GetString(dest, 0, destCount));
         }
 
         private static readonly Regex LinkWhitespace1 = new Regex(@" \[\[ ([^\]]{1,30})\]\]", RegexOptions.Compiled);
@@ -2681,9 +2681,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (userTalkTemplatesRegex == null) return talkPageText;
 
             talkPageText = talkPageText.Replace("{{{subst", "REPLACE_THIS_TEXT");
-            Dictionary<Regex, string> regexes = new Dictionary<Regex, string>();
+            Dictionary<Regex, string> regexes = new Dictionary<Regex, string> {{userTalkTemplatesRegex, "{{subst:$2}}"}};
 
-            regexes.Add(userTalkTemplatesRegex, "{{subst:$2}}");
             talkPageText = Tools.ExpandTemplate(talkPageText, talkPageTitle, regexes, true);
 
             talkPageText = Regex.Replace(talkPageText, " \\{\\{\\{2\\|\\}\\}\\}", "");
@@ -2842,6 +2841,15 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return articleText;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <param name="articleTitle"></param>
+        /// <param name="summary"></param>
+        /// <param name="addTags"></param>
+        /// <param name="removeTags"></param>
+        /// <returns></returns>
         private string TagOrphans(string articleText, string articleTitle, ref string summary, bool addTags, bool removeTags)
         {
             // check if not orphaned

@@ -255,7 +255,7 @@ namespace WikiFunctions.Logging
                 foreach (Editor.EditPageRetvals editPageRetval in PageRetVals)
                 {
                     io.WriteLine("***********************************************************************************");
-                    io.WriteLine("Page: " + editPageRetval.article);
+                    io.WriteLine("Page: " + editPageRetval.Article);
                     io.WriteLine("Diff link: " + editPageRetval.difflink);
                     io.WriteLine("Server response: ");
                     io.WriteLine(editPageRetval.responsetext);

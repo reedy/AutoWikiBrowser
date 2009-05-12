@@ -32,7 +32,7 @@ namespace WikiFunctions
             InitializeComponent();
         }
 
-        private string[] locTemplateList = new string[0];
+        private string[] LocTemplateList = new string[0];
 
         public Dictionary<Regex, string> Regexes = new Dictionary<Regex, string>();
 
@@ -42,11 +42,11 @@ namespace WikiFunctions
         {
             get
             {
-                return locTemplateList;
+                return LocTemplateList;
             }
             set
             {
-                textBoxTemplates.Lines = locTemplateList = value;
+                textBoxTemplates.Lines = LocTemplateList = value;
                 textBoxTemplates.Select(0, 0);
                 RefreshRegexes();
             }
@@ -72,7 +72,7 @@ namespace WikiFunctions
 
         public void Clear()
         {
-            locTemplateList = new string[0];
+            LocTemplateList = new string[0];
             Regexes.Clear();
         }
 

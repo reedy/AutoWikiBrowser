@@ -38,12 +38,29 @@ namespace WikiFunctions.ReplaceSpecial
             get { return name_; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public abstract Control GetControl();
+
+        /// <summary>
+        /// 
+        /// </summary>
         public abstract void ForgetControl();
 
+        /// <summary>
+        /// 
+        /// </summary>
         public abstract void SelectName();
 
+        /// <summary>
+        /// 
+        /// </summary>
         public abstract void Save();
+        /// <summary>
+        /// 
+        /// </summary>
         public abstract void Restore();
 
         public abstract Control CreateControl(IRuleControlOwner owner, Control.ControlCollection collection, System.Drawing.Point pos);
@@ -60,10 +77,26 @@ namespace WikiFunctions.ReplaceSpecial
             old.Dispose();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tn"></param>
+        /// <param name="text"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
         public abstract string Apply(TreeNode tn, string text, string title);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public abstract Object Clone();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tn"></param>
+        /// <returns></returns>
         public static TreeNode CloneTreeNode(TreeNode tn)
         {
             if (tn == null)
@@ -73,6 +106,10 @@ namespace WikiFunctions.ReplaceSpecial
             return res;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tn"></param>
         private static void CloneTags(TreeNode tn)
         {
             IRule r = (IRule)tn.Tag;

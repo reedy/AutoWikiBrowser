@@ -22,7 +22,13 @@ namespace WikiFunctions.ReplaceSpecial
 {
     static class Utility
     {
-        // returns true if testnode is the same or a subnode of refnode
+
+        /// <summary>
+        /// returns true if testnode is the same or a subnode of refnode
+        /// </summary>
+        /// <param name="refnode"></param>
+        /// <param name="testnode"></param>
+        /// <returns></returns>
         public static bool IsSubnodeOf(TreeNode refnode, TreeNode testnode)
         {
             for (TreeNode t = testnode; t != null; t = t.Parent)

@@ -51,8 +51,8 @@ namespace WikiFunctions.ReplaceSpecial
 
             r.enabled_ = RuleEnabledCheckBox.Checked;
             r.Name = NameTextbox.Text.Trim();
-            r.ParamName_ = ParamNameTextBox.Text.Trim();
-            r.NewParamName_ = ChangeNameToTextBox.Text.Trim();
+            r.ParamName = ParamNameTextBox.Text.Trim();
+            r.NewParamName = ChangeNameToTextBox.Text.Trim();
         }
 
         public void RestoreFromRule(TemplateParamRule r)
@@ -62,8 +62,8 @@ namespace WikiFunctions.ReplaceSpecial
 
             RuleEnabledCheckBox.Checked = r.enabled_;
             NameTextbox.Text = r.Name;
-            ParamNameTextBox.Text = r.ParamName_;
-            ChangeNameToTextBox.Text = r.NewParamName_;
+            ParamNameTextBox.Text = r.ParamName;
+            ChangeNameToTextBox.Text = r.NewParamName;
         }
 
         private void NameTextbox_TextChanged(object sender, EventArgs e)

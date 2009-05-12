@@ -66,10 +66,10 @@ namespace WikiFunctions.ReplaceSpecial
             ruleControl_ = null;
         }
 
+
         public override Control CreateControl(IRuleControlOwner owner, Control.ControlCollection collection, System.Drawing.Point pos)
         {
-            RuleControl rc = new RuleControl(owner);
-            rc.Location = pos;
+            RuleControl rc = new RuleControl(owner) {Location = pos};
             rc.RestoreFromRule(this);
             DisposeControl();
             ruleControl_ = rc;
@@ -107,6 +107,7 @@ namespace WikiFunctions.ReplaceSpecial
                 return text;
 
             int apply = numoftimes_;
+
             if (apply > 100)
                 apply = 100;
             if (apply <= 0)
@@ -119,22 +120,30 @@ namespace WikiFunctions.ReplaceSpecial
             return text;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tn"></param>
+        /// <param name="text"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
         static string ApplyOnce(TreeNode tn, string text, string title)
         {
             Rule r = (Rule)tn.Tag;
 
             if (r.ruletype_ == T.OnWholePage)
                 return ApplyOn(tn, text, title);
-            if (r.ruletype_ == T.InsideTemplate)
-                return ApplyInsideTemplate(tn, text, title);
-
-            return text;
+            
+            return (r.ruletype_ == T.InsideTemplate) ? ApplyInsideTemplate(tn, text, title) : text;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         class ParseTemplate
         {
-            string text_ = "";
-            string title_ = "";
+            readonly string text_ = "";
+            readonly string title_ = "";
             string result_ = "";
 
             public ParseTemplate(string text, string title)
@@ -143,8 +152,15 @@ namespace WikiFunctions.ReplaceSpecial
                 title_ = title;
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
             public string Result { get { return result_; } }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="tn"></param>
             public void Parse(TreeNode tn)
             {
                 result_ = text_;
@@ -156,88 +172,15 @@ namespace WikiFunctions.ReplaceSpecial
                     }
                 }
             }
-
-            /*
-            public void Parse(TreeNode tn)
-            {
-                for (; ; )
-                {
-                    int i = text_.IndexOf("{{");
-                    if (i < 0)
-                    {
-                        result_ += text_;
-                        return;
-                    }
-
-                    i += 2;
-                    result_ += text_.Substring(0, i);
-
-                    text_ = text_.Substring(i);
-                    Inside(tn);
-                }
-            }
-
-            void Inside(TreeNode tn)
-            {
-                bool check_done = false;
-                bool check = true;
-                string t = "";
-
-                for (; ; )
-                {
-                    int i = text_.IndexOf("}}");
-                    if (i < 0)
-                        return; // error: template not closed
-
-                    int j = text_.IndexOf("{{");
-
-                    if (j != -1 && j < i)
-                    {
-                        t = text_.Substring(0, j);
-                        j += 2;
-                        text_ = text_.Substring(j);
-
-                        if (!check_done)
-                        {
-                            check = CheckIf(tn, t);
-                            check_done = true;
-                        }
-
-                        if (check)
-                        {
-                            result_ += ReplaceOn(tn, t, title_);
-                        }
-                        else
-                        {
-                            result_ += t;
-                        }
-                        result_ += "{{";
-                        Inside(tn);
-                        continue;
-                    }
-
-                    t = text_.Substring(0, i);
-                    i += 2;
-                    text_ = text_.Substring(i);
-
-                    if (check_done)
-                    {
-                        if (check)
-                            result_ += ReplaceOn(tn, t, title_);
-                        else
-                            result_ += t;
-                    }
-                    else
-                        result_ += ApplyOn(tn, t, title_);
-
-                    result_ += "}}";
-
-                    return;
-
-                }
-            }*/
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tn"></param>
+        /// <param name="text"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
         private static string ApplyInsideTemplate(TreeNode tn, string text, string title)
         {
             ParseTemplate p = new ParseTemplate(text, title);
@@ -247,6 +190,12 @@ namespace WikiFunctions.ReplaceSpecial
             return p.Result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tn"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
         private static bool CheckIf(TreeNode tn, string text)
         {
             Rule r = (Rule)tn.Tag;
@@ -269,6 +218,13 @@ namespace WikiFunctions.ReplaceSpecial
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tn"></param>
+        /// <param name="text"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
         private static string ReplaceOn(TreeNode tn, string text, string title)
         {
             Rule r = (Rule)tn.Tag;
@@ -297,12 +253,16 @@ namespace WikiFunctions.ReplaceSpecial
             return text;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tn"></param>
+        /// <param name="text"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
         private static string ApplyOn(TreeNode tn, string text, string title)
         {
-            if (!CheckIf(tn, text))
-                return text;
-
-            return ReplaceOn(tn, text, title);
+            return !CheckIf(tn, text) ? text : ReplaceOn(tn, text, title);
         }
     }
 }

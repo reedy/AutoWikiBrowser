@@ -103,7 +103,7 @@ namespace WikiFunctions.Plugin
     /// </summary>
     public interface IAutoWikiBrowserCommands
     {
-        void ShowHelp(string URL);
+        void ShowHelp(string url);
         void ShowHelpEnWiki(string article);
 
         void Start(IAWBPlugin sender);

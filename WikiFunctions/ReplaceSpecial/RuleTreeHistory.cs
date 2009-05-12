@@ -22,7 +22,7 @@ namespace WikiFunctions.ReplaceSpecial
 {
     public class RuleTreeHistory
     {
-        readonly List<List<TreeNode>> history_ = new List<List<TreeNode>>();
+        readonly List<List<TreeNode>> History = new List<List<TreeNode>>();
         int index_ = -1;
 
         readonly TreeView treeView_;
@@ -34,7 +34,7 @@ namespace WikiFunctions.ReplaceSpecial
 
         public void Clear()
         {
-            history_.Clear();
+            History.Clear();
             index_ = -1;
         }
 
@@ -51,14 +51,14 @@ namespace WikiFunctions.ReplaceSpecial
         private void InternalSave()
         {
             List<TreeNode> cp = Copy(treeView_.Nodes);
-            history_.Insert(0, cp);
+            History.Insert(0, cp);
         }
 
         public bool CanUndo
         {
             get
             {
-                return (history_.Count > 0) && (index_ == -1 || index_ + 1 < history_.Count);
+                return (History.Count > 0) && (index_ == -1 || index_ + 1 < History.Count);
             }
         }
 
@@ -80,7 +80,7 @@ namespace WikiFunctions.ReplaceSpecial
             Restore();
         }
 
-        public bool CanRedo { get { return (history_.Count > 0) && (index_ > 0); } }
+        public bool CanRedo { get { return (History.Count > 0) && (index_ > 0); } }
 
         public void Redo()
         {
@@ -94,13 +94,13 @@ namespace WikiFunctions.ReplaceSpecial
         {
             treeView_.Nodes.Clear();
 
-            List<TreeNode> hcol = history_[index_];
+            List<TreeNode> hcol = History[index_];
 
             foreach (TreeNode t in hcol)
             {
-                TreeNode copy_t = (TreeNode)t.Clone();
-                treeView_.Nodes.Add(copy_t);
-                UpdateNames(copy_t);
+                TreeNode copy = (TreeNode)t.Clone();
+                treeView_.Nodes.Add(copy);
+                UpdateNames(copy);
             }
         }
 
@@ -110,19 +110,19 @@ namespace WikiFunctions.ReplaceSpecial
                 return;
             IRule r = (IRule)t.Tag;
             t.Text = r.Name;
-            foreach (TreeNode sub_t in t.Nodes)
-                UpdateNames(sub_t);
+            foreach (TreeNode sub in t.Nodes)
+                UpdateNames(sub);
         }
 
         private static List<TreeNode> Copy(TreeNodeCollection col)
         {
-            List<TreeNode> new_col = new List<TreeNode>();
+            List<TreeNode> newCol = new List<TreeNode>();
             foreach (TreeNode t in col)
             {
-                TreeNode copy_t = (TreeNode)t.Clone();
-                new_col.Add(copy_t);
+                TreeNode copy = (TreeNode)t.Clone();
+                newCol.Add(copy);
             }
-            return new_col;
+            return newCol;
         }
     }
 }

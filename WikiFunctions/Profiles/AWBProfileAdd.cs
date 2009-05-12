@@ -26,7 +26,7 @@ namespace WikiFunctions.Profiles
     public partial class AWBProfileAdd : Form
     {
         private readonly int editid;
-        private readonly bool justLoading;
+        private readonly bool JustLoading;
 
         public AWBProfileAdd()
         {
@@ -42,14 +42,14 @@ namespace WikiFunctions.Profiles
         public AWBProfileAdd(AWBProfile profile)
         {
             InitializeComponent();
-            justLoading = true;
+            JustLoading = true;
 
             editid = profile.id;
 
             txtUsername.Text = profile.Username;
             txtPassword.Text = profile.Password;
             txtPath.Text = profile.defaultsettings;
-            chkUseForUpload.Checked = profile.useforupload;
+            chkUseForUpload.Checked = profile.UseForUpload;
             txtNotes.Text = profile.notes;
 
             if (!string.IsNullOrEmpty(txtPath.Text))
@@ -59,7 +59,7 @@ namespace WikiFunctions.Profiles
                 chkSavePassword.Checked = true;
 
             Text = "Edit Profile";
-            justLoading = false;
+            JustLoading = false;
         }
 
         private void chkSavePassword_CheckedChanged(object sender, EventArgs e)
@@ -75,7 +75,7 @@ namespace WikiFunctions.Profiles
         private void chkDefaultSettings_CheckedChanged(object sender, EventArgs e)
         {
             txtPath.Enabled = chkDefaultSettings.Checked;
-            if (!justLoading && chkDefaultSettings.Checked && (openDefaultFile.ShowDialog() == DialogResult.OK))
+            if (!JustLoading && chkDefaultSettings.Checked && (openDefaultFile.ShowDialog() == DialogResult.OK))
                 txtPath.Text = openDefaultFile.FileName;
         }
 
@@ -85,9 +85,7 @@ namespace WikiFunctions.Profiles
                 MessageBox.Show("The Username cannot be blank");
             else
             {
-                AWBProfile profile = new AWBProfile();
-
-                profile.Username = txtUsername.Text;
+                AWBProfile profile = new AWBProfile {Username = txtUsername.Text};
 
                 if (chkSavePassword.Checked && !string.IsNullOrEmpty(txtPassword.Text))
                     profile.Password = txtPassword.Text;
@@ -99,7 +97,7 @@ namespace WikiFunctions.Profiles
                 if (chkUseForUpload.Checked && (idUpload != -1) && (idUpload != editid))
                     AWBProfiles.SetOtherAccountsAsNotForUpload();
 
-                profile.useforupload = chkUseForUpload.Checked;
+                profile.UseForUpload = chkUseForUpload.Checked;
                 profile.notes = txtNotes.Text;
 
                 profile.id = editid;
