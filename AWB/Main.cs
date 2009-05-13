@@ -55,6 +55,7 @@ namespace AutoWikiBrowser
         private readonly WikiFunctions.Profiles.AWBProfilesForm profiles;
 
         private bool Abort;
+        private bool IgnoreNoBots;
 
         private string LastArticle = "";
         private string mSettingsFile = "";
@@ -410,7 +411,6 @@ namespace AutoWikiBrowser
             }
         }
 
-        private bool IgnoreNoBots;
         private bool AddIgnoredToLogFile
         {
             set
