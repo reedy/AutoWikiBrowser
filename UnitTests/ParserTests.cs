@@ -1451,6 +1451,19 @@ Some news here.", "test"));
             Assert.AreEqual(@"== hello:world ==
 ", Parsers.FixHeadings(@"== hello:world ==
 ", "a"));
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#ReferenceS
+            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==REFERENCES==", "a"));
+            Assert.AreEqual(@"==Reference==", Parsers.FixHeadings(@"==REFERENCE:==", "a"));
+            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==REFERENSES==", "a"));
+            Assert.AreEqual(@"==Reference==", Parsers.FixHeadings(@"==REFERENCE==", "a"));
+            Assert.AreEqual(@"==Reference==", Parsers.FixHeadings(@"==REFERENCE:==", "a"));
+            Assert.AreEqual(@"== References ==", Parsers.FixHeadings(@"== REFERENCES ==", "a"));
+            Assert.AreEqual(@"==Sources==", Parsers.FixHeadings(@"==SOURCES==", "a"));
+            Assert.AreEqual(@"==Sources==", Parsers.FixHeadings(@"==sources==", "a"));
+            Assert.AreEqual(@"==Source==", Parsers.FixHeadings(@"==source==", "a"));
+            Assert.AreEqual(@"==Source==", Parsers.FixHeadings(@"==source:==", "a"));
+            Assert.AreEqual(@"== Sources ==", Parsers.FixHeadings(@"== SOURCES ==", "a"));
         }
 
         [Test]
