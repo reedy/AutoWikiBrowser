@@ -163,7 +163,7 @@ namespace WikiFunctions
         public static IAutoWikiBrowser MainForm
         { get; set; }
 
-        public static readonly Profiler Profiler = new Profiler();
+        public static Profiler Profiler = new Profiler();
 
         private static readonly bool Mono = Type.GetType("Mono.Runtime") != null;
         /// <summary>
