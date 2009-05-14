@@ -369,7 +369,7 @@ namespace WikiFunctions.AWBSettings
         public GeneralPrefs(bool mSaveArticleList, bool mIgnoreNoBots,
             System.Windows.Forms.ComboBox.ObjectCollection mSummaries, string mSelectedSummary,
             string[] mPasteMore, string mFindText, bool mFindRegex, bool mFindCaseSensitive, bool mWordWrap,
-            bool mToolBarEnabled, bool mBypassRedirect, bool mAutoSaveSettings, bool mPreParseMode, bool mNoAutoChanges, int mOnLoadAction, bool mMinor,
+            bool mToolBarEnabled, bool mBypassRedirect, bool mAutoSaveSettings, bool mPreParseMode, bool mNoSectionEditSummary, bool mNoAutoChanges, int mOnLoadAction, bool mMinor,
             bool mWatch, bool mDoNotWatch, bool mTimerEnabled, bool mSortListAlphabetically, bool mAddIgnoredToLog, int mTextBoxSize,
             string mTextBoxFont, bool mLowThreadPriority, bool mBeep, bool mFlash, bool mMinimize,
             decimal mTimeOutLimit, bool autoSaveEditBoxEnabled, decimal autoSaveEditBoxPeriod,
@@ -393,6 +393,7 @@ namespace WikiFunctions.AWBSettings
             BypassRedirect = mBypassRedirect;
             AutoSaveSettings = mAutoSaveSettings;
             PreParseMode = mPreParseMode;
+            noSectionEditSummary = mNoSectionEditSummary;
             NoAutoChanges = mNoAutoChanges;
             OnLoadAction = mOnLoadAction;
             Minor = mMinor;
@@ -438,6 +439,7 @@ namespace WikiFunctions.AWBSettings
         public bool ToolBarEnabled = false;
         public bool BypassRedirect = true;
         public bool AutoSaveSettings = false;
+        public bool noSectionEditSummary = false;
         public bool PreParseMode = false;
         public bool NoAutoChanges = false;
         public int OnLoadAction = 0;
