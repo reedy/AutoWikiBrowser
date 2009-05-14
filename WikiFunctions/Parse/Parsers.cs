@@ -352,17 +352,21 @@ namespace WikiFunctions.Parse
             //articleText = regexHeadings2.Replace(articleText, "$1External link$3");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#ReferenceS
-            string refsheader1 = RegexHeadings3.Match(articleText).Groups[1].Value;
-            string refsheader2 = RegexHeadings3.Match(articleText).Groups[2].Value;
-            string refsheader3 = RegexHeadings3.Match(articleText).Groups[3].Value;
+            Match refsHeader = RegexHeadings3.Match(articleText);
+            string refsheader1 = refsHeader.Groups[1].Value;
+            string refsheader2 = refsHeader.Groups[2].Value;
+            string refsheader3 = refsHeader.Groups[3].Value;
             if (refsheader2.Length > 0)
-                articleText = articleText.Replace(refsheader1 + refsheader2 + refsheader3, refsheader1 + "Reference" + refsheader3.ToLower());
+                articleText = articleText.Replace(refsheader1 + refsheader2 + refsheader3,
+                                                  refsheader1 + "Reference" + refsheader3.ToLower());
 
-            string sourcesheader1 = RegexHeadings4.Match(articleText).Groups[1].Value;
-            string sourcesheader2 = RegexHeadings4.Match(articleText).Groups[2].Value;
-            string sourcesheader3 = RegexHeadings4.Match(articleText).Groups[3].Value;
+            Match sourcesHeader = RegexHeadings4.Match(articleText);
+            string sourcesheader1 = sourcesHeader.Groups[1].Value;
+            string sourcesheader2 = sourcesHeader.Groups[2].Value;
+            string sourcesheader3 = sourcesHeader.Groups[3].Value;
             if (sourcesheader2.Length > 0)
-                articleText = articleText.Replace(sourcesheader1 + sourcesheader2 + sourcesheader3, sourcesheader1 + "Source" + sourcesheader3.ToLower());
+                articleText = articleText.Replace(sourcesheader1 + sourcesheader2 + sourcesheader3,
+                                                  sourcesheader1 + "Source" + sourcesheader3.ToLower());
             
             articleText = RegexHeadings5.Replace(articleText, "$1Further reading$3");
             articleText = RegexHeadings6.Replace(articleText, "$1$2 life$3");
