@@ -293,6 +293,7 @@ namespace AutoWikiBrowser
                                  chkFindCaseSensitive.Checked, wordWrapToolStripMenuItem1.Checked, EnableToolBar,
                                  bypassRedirectsToolStripMenuItem.Checked, autoSaveSettingsToolStripMenuItem.Checked,
                                  preParseModeToolStripMenuItem.Checked,
+                                 noSectionEditSummaryToolStripMenuItem.Checked,
                                  !automaticallyDoAnythingToolStripMenuItem.Checked,
                                  toolStripComboOnLoad.SelectedIndex, chkMinor.Checked,
                                  addAllToWatchlistToolStripMenuItem.Checked,
@@ -500,6 +501,7 @@ namespace AutoWikiBrowser
             bypassRedirectsToolStripMenuItem.Checked = p.General.BypassRedirect;
             autoSaveSettingsToolStripMenuItem.Checked = p.General.AutoSaveSettings;
             preParseModeToolStripMenuItem.Checked = p.General.PreParseMode;
+            noSectionEditSummaryToolStripMenuItem.Checked = p.General.noSectionEditSummary;
             automaticallyDoAnythingToolStripMenuItem.Checked = !p.General.NoAutoChanges;
             toolStripComboOnLoad.SelectedIndex = p.General.OnLoadAction;
             chkMinor.Checked = p.General.Minor;

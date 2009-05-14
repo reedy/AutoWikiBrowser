@@ -1783,10 +1783,13 @@ window.scrollTo(0, diffTopY);
             string tag = cmboEditSummary.Text + TheArticle.EditSummary;
 
             // check to see if we have only edited one level 2 section
-            string sectionEditText = SectionEditSummary(TheArticle.OriginalArticleText, txtEdit.Text);
+            if (!noSectionEditSummaryToolStripMenuItem.Checked)
+            {
+                string sectionEditText = SectionEditSummary(TheArticle.OriginalArticleText, txtEdit.Text);
 
-            if (!sectionEditText.Equals(""))
-                tag = @"/* " + sectionEditText + @" */" + tag;
+                if (!sectionEditText.Equals(""))
+                    tag = @"/* " + sectionEditText + @" */" + tag;
+            }
 
             if ((Variables.User.IsBot && chkSuppressTag.Checked)
                 || (!Variables.IsWikimediaProject && SuppressUsingAWB))
