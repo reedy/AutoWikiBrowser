@@ -71,6 +71,7 @@ namespace AutoWikiBrowser
             this.tabSite = new System.Windows.Forms.TabPage();
             this.chkPHP5Ext = new System.Windows.Forms.CheckBox();
             this.chkIgnoreNoBots = new System.Windows.Forms.CheckBox();
+            this.ToolTip = new System.Windows.Forms.ToolTip();
             this.tabEditing = new System.Windows.Forms.TabPage();
             this.chkShowTimer = new System.Windows.Forms.CheckBox();
             this.tabPrivacy = new System.Windows.Forms.TabPage();
@@ -510,6 +511,7 @@ namespace AutoWikiBrowser
             this.chkIgnoreNoBots.Size = new System.Drawing.Size(167, 17);
             this.chkIgnoreNoBots.TabIndex = 10;
             this.chkIgnoreNoBots.Text = "Ignore {{bots}} and {{no&bots}}";
+            this.ToolTip.SetToolTip(this.chkIgnoreNoBots, @"Checking this box will cause you to edit pages with the {{bots}} and {{nobots}} tags on them. By default these pages are skipped.");
             this.chkIgnoreNoBots.UseVisualStyleBackColor = true;
             // 
             // tabEditing
@@ -641,5 +643,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkShowTimer;
         private System.Windows.Forms.Label lblSaveAsDefaultFile;
         private System.Windows.Forms.CheckBox chkPHP5Ext;
+        private System.Windows.Forms.ToolTip ToolTip;
     }
 }
