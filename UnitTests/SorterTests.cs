@@ -75,6 +75,15 @@ Fred has a dog.
 words";
             Assert.AreEqual(f, MetaDataSorter.MoveDablinks(f));
 
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#String_cannot_be_of_zero_length._Parameter_name:_oldValue
+            Assert.AreEqual(@"[[Category:Confederate Navy officers|Captains]]", MetaDataSorter.MoveDablinks(@"[[Category:Confederate Navy officers|Captains]]"));
+
+            string g = @"Some words";
+            string h = @"==heading==
+more words
+[[Category:Foo]]";
+
+            Assert.AreEqual(e + "\r\n" + g + "\r\n\r\n" + h, MetaDataSorter.MoveDablinks(g + "\r\n" + e + "\r\n" + h));
         }
 
         [Test]
