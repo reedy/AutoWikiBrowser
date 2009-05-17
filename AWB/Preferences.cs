@@ -172,7 +172,7 @@ namespace AutoWikiBrowser
                 cmboCustomProject.Visible = true;
                 cmboLang.Visible = false;
                 lblLang.Text = "http://";
-                if (prj == ProjectEnum.wikia) lblPostfix.Text = ".wikia.com";
+                lblPostfix.Text = prj == ProjectEnum.wikia ? ".wikia.com" : "";
                 cmboCustomProjectChanged(null, null);
 
                 chkSupressAWB.Enabled = true;
