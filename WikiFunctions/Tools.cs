@@ -959,8 +959,9 @@ namespace WikiFunctions
                 new KeyValuePair<string, string>("þ", "th"),
                 new KeyValuePair<string, string>("Œ", "O"),
                 new KeyValuePair<string, string>("œ", "o"),
-                new KeyValuePair<string, string>("Æ", "E"),
-                new KeyValuePair<string, string>("æ", "e"),
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#.22.C3.86.22_.E2.86.92_.22ae.22_not_.22e.22
+                new KeyValuePair<string, string>("Æ", "AE"),
+                new KeyValuePair<string, string>("æ", "ae"),
                 new KeyValuePair<string, string>("Ø", "O"),
                 new KeyValuePair<string, string>("ø", "o"),
                 new KeyValuePair<string, string>("Å", "A"),
