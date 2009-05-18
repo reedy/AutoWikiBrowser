@@ -456,6 +456,9 @@ End of.";
 
             Assert.AreEqual("<blockquote><p>some text</blockquote>", parser.FixDates("<blockquote><p>some text</blockquote>"));
             Assert.AreEqual("<blockquote>|<br><br>some text</blockquote>", parser.FixDates("<blockquote>|<br><br>some text</blockquote>"));
+
+            Assert.AreEqual(@"* {{Polish2|Krzepice (województwo dolnośląskie)|[[24 November]] [[2007]]}}
+", parser.FixDates(@"* {{Polish2|Krzepice (województwo dolnośląskie)|[[24 November]] [[2007]]}}<br><br>  "));
         }
 
         [Test]
