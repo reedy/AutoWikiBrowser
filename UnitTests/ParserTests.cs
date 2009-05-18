@@ -2128,6 +2128,10 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
             Assert.IsFalse(noChangeBack);
             Assert.AreEqual(@"'''the''' extreme anti-cult activists resort", Parsers.FixLinks(@"'''the''' extreme [[Anti-cult movement|anti-cult activist]]s resort", "Anti-cult movement", out noChangeBack));
             Assert.IsFalse(noChangeBack);
+
+            // don't apply within imagemaps
+            Assert.AreEqual(@"<imagemap> [[foo]] </imagemap>", Parsers.FixLinks(@"<imagemap> [[foo]] </imagemap>", "foo", out noChangeBack));
+            Assert.IsTrue(noChangeBack);
         }
     }
 

@@ -189,6 +189,19 @@ bar</ POEM>");
         }
 
         [Test]
+        public void ImageMapTests()
+        {
+            // one line
+            TestMatch(WikiRegexes.ImageMap, "<imagemap>foo bar< /imagemap>", "<imagemap>foo bar< /imagemap>");
+            TestMatch(WikiRegexes.ImageMap, "<Imagemap>foo bar< /Imagemap>", "<Imagemap>foo bar< /Imagemap>");
+
+            // multiple lines
+            TestMatch(WikiRegexes.ImageMap, @"< imagemap >foo
+bar</ IMAGEMAP>", @"< imagemap >foo
+bar</ IMAGEMAP>");
+        }
+
+        [Test]
         public void Template()
         {
             RegexAssert.Matches("{{foo}}", WikiRegexes.TemplateMultiLine, "{{foo}}");
