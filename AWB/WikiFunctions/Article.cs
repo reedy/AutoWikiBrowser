@@ -921,8 +921,6 @@ namespace WikiFunctions
             //AWBChangeArticleText("Fix Footnotes", parsers.FixFootnotes(ArticleText), true);
             //Variables.Profiler.Profile("FixFootnotes");
 
-            FixLinks(skip.SkipNoBadLink);
-            Variables.Profiler.Profile("FixLinks");
             BulletExternalLinks(skip.SkipNoBulletedLink);
             Variables.Profiler.Profile("BulletExternalLinks");
 
@@ -948,7 +946,11 @@ namespace WikiFunctions
                 Variables.Profiler.Profile("Metadata");
             }
 
+            // must call EmboldenTitles before calling FixLinks
             EmboldenTitles(parsers, skip.SkipNoBoldTitle);
+
+            FixLinks(skip.SkipNoBadLink);
+            Variables.Profiler.Profile("FixLinks");
 
             AWBChangeArticleText("Format sticky links",
                 Parsers.StickyLinks(Parsers.SimplifyLinks(ArticleText)), true);

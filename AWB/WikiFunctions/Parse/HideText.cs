@@ -172,7 +172,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Hides images, external links, templates, headings
         /// </summary>
-        public string HideMore(string articleText, bool hideOnlyTargetOfWikilink)
+        public string HideMore(string articleText, bool hideOnlyTargetOfWikilink, bool hideWikiLinks)
         {
             MoreHide.Clear();
 
@@ -204,11 +204,12 @@ namespace WikiFunctions.Parse
             // This hides internal wikilinks (with or without pipe) with extra word character(s) e.g. [[link]]age, which need hiding even if hiding for typo fixing 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Improve_HideText.HideMore.28.29
             // place this as first wikilink rule as otherwise WikiLinksOnly will grab link without extra word character(s)
-            ReplaceMore(WikiRegexes.WikiLinksOnlyPlusWord.Matches(articleText), ref articleText);
+            if(hideWikiLinks)
+                ReplaceMore(WikiRegexes.WikiLinksOnlyPlusWord.Matches(articleText), ref articleText);
 
             // if HideOnlyTargetOfWikilink is not set, pipes of links e.g.  [[target|pipe]] will be hidden
             // if set then don't mask the pipe of a link so that typo fixing can be done on it
-            if (!hideOnlyTargetOfWikilink)
+            if (!hideOnlyTargetOfWikilink && hideWikiLinks)
             {
                 ReplaceMore(WikiRegexes.WikiLinksOnly.Matches(articleText), ref articleText);
 
@@ -220,7 +221,8 @@ namespace WikiFunctions.Parse
             ReplaceMore(WikiRegexes.Refs.Matches(articleText), ref articleText);
 
             // this hides only the target of a link, leaving the pipe exposed
-            ReplaceMore(WikiRegexes.WikiLink.Matches(articleText), ref articleText);
+            if(hideWikiLinks)
+                ReplaceMore(WikiRegexes.WikiLink.Matches(articleText), ref articleText);
 
             //TODO: replace with gallery-only regex, all normal images should be hidden by now as simple wikilinks
             ReplaceMore(WikiRegexes.Images.Matches(articleText), ref articleText);
@@ -238,7 +240,15 @@ namespace WikiFunctions.Parse
         /// </summary>
         public string HideMore(string articleText)
         {
-            return HideMore(articleText, false);
+            return HideMore(articleText, false, true);
+        }
+
+        /// <summary>
+        /// Hides images, external links, templates, headings
+        /// </summary>
+        public string HideMore(string articleText, bool hideOnlyTargetOfWikilink)
+        {
+            return HideMore(articleText, hideOnlyTargetOfWikilink, true);
         }
 
         /// <summary>
