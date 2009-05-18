@@ -1573,13 +1573,19 @@ namespace WikiFunctions.Parse
             string articleTextAtStart = articleText;
             string escTitle = Regex.Escape(articleTitle);
 
-            // remove any self-links, but not other links with different capitaliastion e.g. [[Foo]] vs [[FOO]]
-            articleText = Regex.Replace(articleText, @"\[\[\s*" + escTitle + @"\s*\]\]", articleTitle);
-            articleText = Regex.Replace(articleText, @"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]", Tools.TurnFirstToLower(articleTitle));
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Your_code_creates_page_errors_inside_imagemap_tags.
+            // don't apply if there's an imagemap on the page
+            // TODO, better to not apply to text within imagemaps
+            if (!WikiRegexes.ImageMap.IsMatch(articleText))
+            {
+                // remove any self-links, but not other links with different capitaliastion e.g. [[Foo]] vs [[FOO]]
+                articleText = Regex.Replace(articleText, @"\[\[\s*" + escTitle + @"\s*\]\]", articleTitle);
+                articleText = Regex.Replace(articleText, @"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]", Tools.TurnFirstToLower(articleTitle));
 
-            // remove piped self links by leaving target
-            articleText = Regex.Replace(articleText, @"\[\[\s*" + escTitle + @"\s*\|([^\]]+)\]\]", "$1");
-            articleText = Regex.Replace(articleText, @"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\|([^\]]+)\]\]", "$1");
+                // remove piped self links by leaving target
+                articleText = Regex.Replace(articleText, @"\[\[\s*" + escTitle + @"\s*\|([^\]]+)\]\]", "$1");
+                articleText = Regex.Replace(articleText, @"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\|([^\]]+)\]\]", "$1");
+            }
 
             // clean up wikilinks: replace underscores, percentages and URL encoded accents etc.
             StringBuilder sb = new StringBuilder(articleText, (articleText.Length * 11) / 10);
