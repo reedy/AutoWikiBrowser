@@ -272,11 +272,7 @@ en, sq, ru
                 // two newlines here per http://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser&oldid=243224092#Blank_lines_before_stubs
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Two_empty_lines_before_stub-templates
                 // Russian wiki uses only one newline
-                string strStub = "";
-                if (Variables.LangCode == LangCodeEnum.ru)
-                    strStub = Newline(RemoveStubs(ref articleText), 1);
-                else
-                    strStub = Newline(RemoveStubs(ref articleText), 2);
+                string strStub = Newline(RemoveStubs(ref articleText), Variables.LangCode == LangCodeEnum.ru ? 1 : 2);
 
                 //filter out excess white space and remove "----" from end of article
                 articleText = Parsers.RemoveWhiteSpace(articleText) + "\r\n";
