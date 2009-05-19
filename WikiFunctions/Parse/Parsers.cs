@@ -1583,8 +1583,8 @@ namespace WikiFunctions.Parse
                 articleText = Regex.Replace(articleText, @"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]", Tools.TurnFirstToLower(articleTitle));
 
                 // remove piped self links by leaving target
-                articleText = Regex.Replace(articleText, @"\[\[\s*" + escTitle + @"\s*\|([^\]]+)\]\]", "$1");
-                articleText = Regex.Replace(articleText, @"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\|([^\]]+)\]\]", "$1");
+                articleText = Regex.Replace(articleText, @"\[\[\s*" + escTitle + @"\s*\|\s*([^\]]+)\s*\]\]", "$1");
+                articleText = Regex.Replace(articleText, @"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\|\s*([^\]]+)\s*\]\]", "$1");
             }
 
             // clean up wikilinks: replace underscores, percentages and URL encoded accents etc.
