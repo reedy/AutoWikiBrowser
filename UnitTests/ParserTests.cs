@@ -2133,6 +2133,14 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
             Assert.AreEqual(@"<imagemap> [[foo]] </imagemap>", Parsers.FixLinks(@"<imagemap> [[foo]] </imagemap>", "foo", out noChangeBack));
             Assert.IsTrue(noChangeBack);
         }
+
+        [Test]
+        public void MoreSelfLinkRemoval()
+        {
+            bool noChangeBack;
+
+            Assert.AreEqual("Thorsten", Parsers.FixLinks("[[Þorsteins saga Víkingssonar| Thorsten]]", "Þorsteins saga Víkingssonar", out noChangeBack));
+        }
     }
 
     [TestFixture]
