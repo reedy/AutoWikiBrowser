@@ -39,6 +39,9 @@ namespace WikiFunctions
             Dispose();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Dispose()
         {
             if (FileName == null) return;
@@ -55,9 +58,15 @@ namespace WikiFunctions
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static ObjectCache Global
         { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string FileName
         { get; private set; }
 
@@ -79,6 +88,11 @@ namespace WikiFunctions
         private readonly Dictionary<Type, Dictionary<string, StoredData>> Storage
             = new Dictionary<Type, Dictionary<string, StoredData>>();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="what"></param>
+        /// <param name="lifeSpan"></param>
         public void AddType(Type what, TimeSpan lifeSpan)
         {
             if (what == null) throw new ArgumentNullException("what");
@@ -86,6 +100,11 @@ namespace WikiFunctions
             SupportedTypes[what] = lifeSpan;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public object this[string key]
         {
             set
@@ -98,6 +117,12 @@ namespace WikiFunctions
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public object Get<T>(string key)
         {
             lock (Storage)
@@ -119,24 +144,42 @@ namespace WikiFunctions
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
         public void Set(string key, object value)
         {
             Set(key, value, DateTime.MinValue);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="duration"></param>
         public void Set(string key, object value, TimeSpan duration)
         {
             Set(key, value, DateTime.Now + duration);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="expiry"></param>
         public void Set(string key, object value, DateTime expiry)
         {
             if (string.IsNullOrEmpty(key)) throw new ArgumentNullException("key");
             if (value == null) throw new ArgumentNullException("value");
 
             Type type = value.GetType();
-            if(!SupportedTypes.ContainsKey(type)) throw new ArgumentException("Caching of type " + value.GetType().Name + " is not supported",
-                "value");
+            if (!SupportedTypes.ContainsKey(type))
+                throw new ArgumentException("Caching of type " + value.GetType().Name + " is not supported",
+                                            "value");
 
             if (expiry == DateTime.MinValue) expiry = DateTime.Now + SupportedTypes[type];
 
@@ -164,11 +207,18 @@ namespace WikiFunctions
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Save()
         {
             Save(FileName);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
         public void Save(string fileName)
         {
             FileName = fileName;
@@ -179,6 +229,10 @@ namespace WikiFunctions
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="str"></param>
         public void Save(Stream str)
         {
             var root = new Internal.CacheRoot();
@@ -193,8 +247,7 @@ namespace WikiFunctions
                     foreach (var value in type.Value)
                     {
                         if (value.Value.Expires < now) continue;
-                        typeRoot.Items.Add(new Internal.Item
-                            {Value = value.Value.Data, Expires = value.Value.Expires, Key = value.Key});
+                        typeRoot.Items.Add(new Internal.Item { Value = value.Value.Data, Expires = value.Value.Expires, Key = value.Key });
                     }
                     if (typeRoot.Items.Count > 0) root.Types.Add(typeRoot);
                 }
@@ -203,11 +256,19 @@ namespace WikiFunctions
             Serializer.Serialize(str, root);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ex"></param>
         private void ReportException(Exception ex)
         {
             Trace.WriteLine("Exception caught in ObjectCache: " + ex.Message);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName"></param>
         public void Load(string fileName)
         {
             if (fileName == null) throw new ArgumentNullException("fileName");
@@ -224,6 +285,11 @@ namespace WikiFunctions
             { } // give up silently
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public bool Load(Stream str)
         {
             if (str == null) throw new ArgumentNullException("str");
@@ -265,7 +331,6 @@ namespace WikiFunctions
         }
     }
 
-
     namespace Internal
     {
         [Serializable]
@@ -294,7 +359,7 @@ namespace WikiFunctions
         public class CacheRoot
         {
             public CacheRoot()
-            {}
+            { }
 
             public CacheRoot(string version)
             {
@@ -309,5 +374,4 @@ namespace WikiFunctions
             public readonly List<Type> Types = new List<Type>();
         }
     }
-
 }

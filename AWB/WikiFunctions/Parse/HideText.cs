@@ -20,10 +20,10 @@ namespace WikiFunctions.Parse
             HideImages = hideImages;
         }
 
-        readonly bool LeaveMetaHeadings, HideImages, HideExternalLinks;
+        private readonly bool LeaveMetaHeadings, HideImages, HideExternalLinks;
 
-        readonly List<HideObject> HiddenTokens = new List<HideObject>();
-        static readonly Regex NoWikiIgnoreRegex = new Regex("<!-- ?(cat(egories)?|\\{\\{.*?stub\\}\\}.*?|other languages?|language links?|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wikis?|The below are interlanguage links\\.?) ?-->", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private readonly List<HideObject> HiddenTokens = new List<HideObject>();
+        private static readonly Regex NoWikiIgnoreRegex = new Regex("<!-- ?(cat(egories)?|\\{\\{.*?stub\\}\\}.*?|other languages?|language links?|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wikis?|The below are interlanguage links\\.?) ?-->", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// 

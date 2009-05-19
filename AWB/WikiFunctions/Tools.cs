@@ -521,20 +521,18 @@ namespace WikiFunctions
         /// </summary>
         public static string AllCaseInsensitive(string input)
         {
-            if (!string.IsNullOrEmpty(input))
-            {
-                input = input.Trim();
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i <= input.Length - 1; i++)
-                {
-                    if (char.IsLetter(input[i]))
-                        builder.Append("[" + char.ToUpper(input[i]) + char.ToLower(input[i]) + "]");
-                    else builder.Append(input[i]);
-                }
-                return builder.ToString();
-            }
+            if (string.IsNullOrEmpty(input))
+                return input;
 
-            return input;
+            input = input.Trim();
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i <= input.Length - 1; i++)
+            {
+                if (char.IsLetter(input[i]))
+                    builder.Append("[" + char.ToUpper(input[i]) + char.ToLower(input[i]) + "]");
+                else builder.Append(input[i]);
+            }
+            return builder.ToString();
         }
 
         // Covered by ToolsTests.ApplyKeyWords()
