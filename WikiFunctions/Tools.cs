@@ -1156,11 +1156,20 @@ namespace WikiFunctions
         private static readonly Regex BadDsChars = new Regex("[\"]");
 
         /// <summary>
-        /// Removes recognised diacritics and double quotes
+        /// Removes recognised diacritics and double quotes, converts to Proper Case
         /// </summary>
         public static string FixupDefaultSort(string s)
         {
-            return BadDsChars.Replace(RemoveDiacritics(s), "");
+            Regex Words = new Regex(@"\w+");
+            s = BadDsChars.Replace(RemoveDiacritics(s), "");
+
+            // convert each word to Proper Case
+            foreach (Match m in Words.Matches(s))
+            {
+                s = s.Replace(m.Value, Tools.TurnFirstToUpper(m.Value.ToLower()));
+            }
+
+            return s;
         }
 
         /// <summary>
