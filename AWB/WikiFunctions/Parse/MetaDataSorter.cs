@@ -523,33 +523,33 @@ en, sq, ru
         /// <returns>Article text with {{nofootnotes}} or {{morefootnotes}} template correctly placed</returns>
         public static string MoveMoreNoFootnotes(string articleText)
         {
-          // no support for more than one of these templates in the article
-          string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
-          if(WikiRegexes.MoreNoFootnotes.Matches(zerothSection).Count != 1)
-            return articleText;          
+            // no support for more than one of these templates in the article
+            string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
+            if (WikiRegexes.MoreNoFootnotes.Matches(zerothSection).Count != 1)
+                return articleText;
 
-          // find the template position
-          int moreNoFootnotesPosition = WikiRegexes.MoreNoFootnotes.Match(articleText).Index;
-          
-          // the template must be in one of the 'References', 'Notes' or 'Footnotes' section          
-          int referencesSectionPosition = ReferencesSectionRegex.Match(articleText).Index;
-          
-          if(referencesSectionPosition > 0 && moreNoFootnotesPosition < referencesSectionPosition)
-            return MoveMoreNoFootnotesToSection(articleText, 1);
-          
-          int notesSectionPosition = NotesSectionRegex.Match(articleText).Index;
-          
-          if(notesSectionPosition > 0 && moreNoFootnotesPosition < notesSectionPosition)
-            return MoveMoreNoFootnotesToSection(articleText, 2);
-            
-          int footnotesSectionPosition = FootnotesSectionRegex.Match(articleText).Index;
-          
-          if(footnotesSectionPosition > 0 && moreNoFootnotesPosition < footnotesSectionPosition)
-            return MoveMoreNoFootnotesToSection(articleText, 3);
-            
-          return articleText;        
+            // find the template position
+            int moreNoFootnotesPosition = WikiRegexes.MoreNoFootnotes.Match(articleText).Index;
+
+            // the template must be in one of the 'References', 'Notes' or 'Footnotes' section          
+            int referencesSectionPosition = ReferencesSectionRegex.Match(articleText).Index;
+
+            if (referencesSectionPosition > 0 && moreNoFootnotesPosition < referencesSectionPosition)
+                return MoveMoreNoFootnotesToSection(articleText, 1);
+
+            int notesSectionPosition = NotesSectionRegex.Match(articleText).Index;
+
+            if (notesSectionPosition > 0 && moreNoFootnotesPosition < notesSectionPosition)
+                return MoveMoreNoFootnotesToSection(articleText, 2);
+
+            int footnotesSectionPosition = FootnotesSectionRegex.Match(articleText).Index;
+
+            if (footnotesSectionPosition > 0 && moreNoFootnotesPosition < footnotesSectionPosition)
+                return MoveMoreNoFootnotesToSection(articleText, 3);
+
+            return articleText;
         }
-        
+
         private static string MoveMoreNoFootnotesToSection(string articleText, int section)
         {
             // extract the template
