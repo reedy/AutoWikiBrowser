@@ -2115,14 +2115,14 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string zerothSectionHiddenOriginal = zerothSectionHidden;
             
             // first check for any self links and no bold title, if found just convert first link to bold and return
-            Regex R1 = new Regex(@"\[\[\s*" + escTitle + @"\s*\]\]");
-            Regex R2 = new Regex(@"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]");
+            Regex r1 = new Regex(@"\[\[\s*" + escTitle + @"\s*\]\]");
+            Regex r2 = new Regex(@"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]");
 
             // don't apply if bold in lead section already
             if (!Regex.IsMatch(zerothSection, @"'''" + escTitle + @"'''"))
-                zerothSectionHidden = R1.Replace(zerothSectionHidden, @"'''" + articleTitle + @"'''");
+                zerothSectionHidden = r1.Replace(zerothSectionHidden, @"'''" + articleTitle + @"'''");
             if (zerothSectionHiddenOriginal.Equals(zerothSectionHidden) && !Regex.IsMatch(zerothSection, @"'''" + Tools.TurnFirstToLower(escTitle) + @"'''"))
-                zerothSectionHidden = R2.Replace(zerothSectionHidden, @"'''" + Tools.TurnFirstToLower(articleTitle) + @"'''");
+                zerothSectionHidden = r2.Replace(zerothSectionHidden, @"'''" + Tools.TurnFirstToLower(articleTitle) + @"'''");
 
             if (!zerothSectionHiddenOriginal.Equals(zerothSectionHidden))
             {
