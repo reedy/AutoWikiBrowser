@@ -655,6 +655,17 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
         }
 
         [Test]
+        public void FixUpDefaultSortTests()
+        {
+            Assert.AreEqual("Hello", Tools.FixupDefaultSort("hellõ"));
+            Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"FRED SMITH"));
+            Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"fred smith"));
+            Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"fred smitH"));
+            Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"Fred Smith"));
+            Assert.AreEqual(@"Smith, Fred", Tools.FixupDefaultSort(@"Smith, FRed"));
+        }
+
+        [Test]
         public void RemoveNamespace()
         {
             Assert.AreEqual("Doe, John", Tools.MakeHumanCatKey("Wikipedia:John Doe"));
