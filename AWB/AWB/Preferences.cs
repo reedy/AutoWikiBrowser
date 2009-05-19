@@ -122,7 +122,7 @@ namespace AutoWikiBrowser
 
         private void cmboProject_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ProjectEnum prj = (ProjectEnum) Enum.Parse(typeof (ProjectEnum), cmboProject.SelectedItem.ToString());
+            ProjectEnum prj = Project;
 
             //disable language selection for single language projects
             cmboLang.Enabled = (prj < ProjectEnum.species);
@@ -278,7 +278,7 @@ namespace AutoWikiBrowser
             set { txtAutosave.Text = value; }
         }
 
-        public List<String> PrefCustomWikis
+        public List<string> PrefCustomWikis
         {
             get
             {

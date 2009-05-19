@@ -1560,7 +1560,7 @@ namespace WikiFunctions.Parse
             return FixLinkWhitespace(articleText, "test");
         }
 
-        // Partially covered by SelfLinkRemoval
+        // Partially covered by FixMainArticleTests.SelfLinkRemoval()
         /// <summary>
         /// Fixes link syntax, including removal of self links
         /// </summary>
@@ -1843,7 +1843,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             foreach (Match m in WikiRegexes.LooseCategory.Matches(articleText))
             {
                 if (!Tools.IsValidTitle(m.Groups[1].Value)) continue;
-                string x = cat + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim()) + Regex.Replace(Tools.RemoveDiacritics(m.Groups[2].Value), @"(\w+)\s+$", "$1") + "]]";
+                string x = cat + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim()) +
+                           Regex.Replace(Tools.RemoveDiacritics(m.Groups[2].Value), @"(\w+)\s+$", "$1") + "]]";
                 if (x != m.Value) articleText = articleText.Replace(m.Value, x);
             }
 
