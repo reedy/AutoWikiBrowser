@@ -286,7 +286,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches words
         /// </summary>
-        public static readonly Regex RegexWordCount = new Regex(@"\w+", RegexOptions.Compiled);
+        public static readonly Regex RegexWord = new Regex(@"\w+", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches &lt;source&gt;&lt;/source&gt; tags
