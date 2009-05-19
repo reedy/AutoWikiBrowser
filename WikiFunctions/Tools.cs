@@ -625,7 +625,7 @@ namespace WikiFunctions
             text = WikiRegexes.TemplateMultiLine.Replace(text, " ");
             text = WikiRegexes.Comments.Replace(text, "");
 
-            return WikiRegexes.RegexWordCount.Matches(text).Count;
+            return WikiRegexes.RegexWord.Matches(text).Count;
         }
 
         // Not Covered
@@ -1164,7 +1164,7 @@ namespace WikiFunctions
             s = BadDsChars.Replace(RemoveDiacritics(s), "");
 
             // convert each word to Proper Case
-            foreach (Match m in WikiRegexes.RegexWordCount.Matches(s))
+            foreach (Match m in WikiRegexes.RegexWord.Matches(s))
             {
                 s = s.Replace(m.Value, TurnFirstToUpper(m.Value.ToLower()));
             }
