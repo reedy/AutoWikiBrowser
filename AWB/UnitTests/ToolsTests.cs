@@ -593,14 +593,17 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
         [Test]
         public void OneWordNames()
         {
-            Assert.AreEqual("OneWordName", Tools.MakeHumanCatKey("OneWordName"));
+            Assert.AreEqual("Onewordname", Tools.MakeHumanCatKey("OneWordName"));
+            Assert.AreEqual("Onewordname", Tools.MakeHumanCatKey("ONEWORDNAME"));
+            Assert.AreEqual("Onewordname", Tools.MakeHumanCatKey("Onewordname"));
+            Assert.AreEqual("Onewordname", Tools.MakeHumanCatKey("onewordname"));
         }
 
         [Test]
         public void WithRomanNumbers()
         {
-            Assert.AreEqual("Doe, John, III", Tools.MakeHumanCatKey("John Doe III"));
-            Assert.AreEqual("XVII", Tools.MakeHumanCatKey("XVII"));
+            Assert.AreEqual("Doe, John, Iii", Tools.MakeHumanCatKey("John Doe III"));
+            Assert.AreEqual("Xvii", Tools.MakeHumanCatKey("XVII"));
         }
 
         [Test]
@@ -620,7 +623,7 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
         [Test]
         public void WithPrefixes()
         {
-            Assert.AreEqual("Doe, John de", Tools.MakeHumanCatKey("John de Doe"));
+            Assert.AreEqual("Doe, John De", Tools.MakeHumanCatKey("John de Doe"));
         }
 
         [Test]
@@ -663,6 +666,7 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
             Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"fred smitH"));
             Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"Fred Smith"));
             Assert.AreEqual(@"Smith, Fred", Tools.FixupDefaultSort(@"Smith, FRed"));
+            Assert.AreEqual(@"Oneworditem", Tools.FixupDefaultSort(@"OneWordItem"));
         }
 
         [Test]
