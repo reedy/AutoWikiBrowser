@@ -272,7 +272,8 @@ namespace WikiFunctions
         {
             name = RemoveNamespaceString(Regex.Replace(RemoveDiacritics(name), @"\(.*?\)$", "").Replace("'", "").Trim()).Trim();
             string origName = name;
-            if (!name.Contains(" ") || Variables.LangCode == LangCodeEnum.uk) return origName;
+            if (!name.Contains(" ") || Variables.LangCode == LangCodeEnum.uk) 
+                return FixupDefaultSort(origName);
             // ukwiki uses "Lastname Firstname Patronymic" convention, nothing more is needed
 
             string suffix = "";
@@ -301,14 +302,17 @@ namespace WikiFunctions
                 { //if (Suffix != "") {
                     // We have something like "Peter" "II" "King of Spain" (first/last/suffix), so return what we started with
                     // OR We have "Fred" "II", we don't want to return "II, Fred" so we must return "Fred II"
-                    return origName;
+                    return FixupDefaultSort(origName);
                 }
             }
             lastName = TurnFirstToUpper(lastName.ToLower());
 
             name = (lastName + ", " + name + ", " + suffix).Trim(" ,".ToCharArray());
 
-            return name;
+            // set correct casing
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Correct_case_for_.25.25key.25.25
+
+            return FixupDefaultSort(name);
         }
 
         // Covered by ToolsTests.RemoveNamespaceString()
