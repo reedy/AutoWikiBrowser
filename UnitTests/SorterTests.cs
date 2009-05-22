@@ -111,7 +111,7 @@ more words
         [Test]
         public void MovePortalTemplatesTests()
         {
-         Assert.AreEqual(@"text here
+            Assert.AreEqual(@"text here
 text here2
 == see also ==
 {{Portal|Football}}
@@ -121,7 +121,7 @@ text here2
 == see also ==
 some words"));
 
-         Assert.AreEqual(@"text here
+            Assert.AreEqual(@"text here
 text here2
 == see also ==
 {{Portal|Sport}}
@@ -133,7 +133,7 @@ text here2
 == see also ==
 some words"));
 
-          Assert.AreEqual(@"text here
+            Assert.AreEqual(@"text here
 text here2
 == see also ==
 {{Portal|Football}}
@@ -218,42 +218,42 @@ text here2
 {{Portal|Football}}
 some words"));
         }
-        
+
         [Test]
         public void MoveMoreNoFootnotesTests()
         {
-          string A = @"{{nofootnotes}}";
-          string A2 = @"{{Morefootnotes}}";
-          
-          string B = @"
+            string A = @"{{nofootnotes}}";
+            string A2 = @"{{Morefootnotes}}";
+
+            string B = @"
 '''Article''' words.
 == section ==
 words.
 ";
-          string C = @"== References ==
+            string C = @"== References ==
 ";
-          string D = @"== Notes ==
+            string D = @"== Notes ==
 ";
-          string E = @"== Footnotes ==
+            string E = @"== Footnotes ==
 ";
 
-          string F = @"'''Article''' words.
+            string F = @"'''Article''' words.
 == section ==
 {{nofootnotes}}
 words.
-";  
-          string G = @"words";
-        
-          Assert.AreEqual(B + C + A + "\r\n" + G, MetaDataSorter.MoveMoreNoFootnotes(A + B + C + G));
-          Assert.AreEqual(B + D + A + "\r\n" + G, MetaDataSorter.MoveMoreNoFootnotes(A + B + D + G));
-          Assert.AreEqual(B + E + A + "\r\n" + G, MetaDataSorter.MoveMoreNoFootnotes(A + B + E + G));
-          Assert.AreEqual(B + E + A + "\r\n", MetaDataSorter.MoveMoreNoFootnotes(A + B + E));
-          Assert.AreEqual(B + E + A2 + "\r\n", MetaDataSorter.MoveMoreNoFootnotes(A2 + B + E));
-        
-          // not moved if outside zeroth section
-          Assert.AreEqual(F + C + G, MetaDataSorter.MoveMoreNoFootnotes(F + C + G));
-          Assert.AreEqual(F + D + G, MetaDataSorter.MoveMoreNoFootnotes(F + D + G));
-          Assert.AreEqual(F + E + G, MetaDataSorter.MoveMoreNoFootnotes(F + E + G));
+";
+            string G = @"words";
+
+            Assert.AreEqual(B + C + A + "\r\n" + G, MetaDataSorter.MoveMoreNoFootnotes(A + B + C + G));
+            Assert.AreEqual(B + D + A + "\r\n" + G, MetaDataSorter.MoveMoreNoFootnotes(A + B + D + G));
+            Assert.AreEqual(B + E + A + "\r\n" + G, MetaDataSorter.MoveMoreNoFootnotes(A + B + E + G));
+            Assert.AreEqual(B + E + A + "\r\n", MetaDataSorter.MoveMoreNoFootnotes(A + B + E));
+            Assert.AreEqual(B + E + A2 + "\r\n", MetaDataSorter.MoveMoreNoFootnotes(A2 + B + E));
+
+            // not moved if outside zeroth section
+            Assert.AreEqual(F + C + G, MetaDataSorter.MoveMoreNoFootnotes(F + C + G));
+            Assert.AreEqual(F + D + G, MetaDataSorter.MoveMoreNoFootnotes(F + D + G));
+            Assert.AreEqual(F + E + G, MetaDataSorter.MoveMoreNoFootnotes(F + E + G));
         }
 
         [Test]
@@ -368,7 +368,6 @@ blah";
             Assert.AreEqual(j + "\r\n", parser2.Sorter.RemoveCats(ref k, "test"));
 
             // but don't grab any comment just after the last category
-
             string l = i + j + @"
 <!--foo-->";
             Assert.AreEqual(j + "\r\n", parser2.Sorter.RemoveCats(ref l, "test"));
