@@ -1142,6 +1142,9 @@ namespace WikiFunctions.Parse
         // for correcting square brackets within external links
         private static readonly Regex SquareBracketsInExternalLinks = new Regex(@"(\[https?://(?>[^\[\]<>]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])");
 
+        // fix incorrect <br> of <br.>, <\br> and <br\>
+        private static readonly Regex IncorrectBr = new Regex(@"< *br\. *>|<\\ *br *>|< *br *\\ *>", RegexOptions.IgnoreCase);
+
         // Covered by: LinkTests.TestFixSyntax(), incomplete
         /// <summary>
         /// Fixes and improves syntax (such as html markup)
@@ -1318,6 +1321,10 @@ namespace WikiFunctions.Parse
                 if (unbalancedBracket < 0 || Math.Abs(unbalancedBracket - firstUnbalancedBracket) > 300)
                     articleText = articleTextTemp; 
             }
+
+            // http://en.wikipedia.org/wiki/Wikipedia:WikiProject_Check_Wikipedia#Article_with_false_.3Cbr.2F.3E_.28AutoEd.29
+            // fix incorrect <br> of <br.>, <\br> and <br\>
+            articleText = IncorrectBr.Replace(articleText, "<br />");
 
             return articleText.Trim();
         }
