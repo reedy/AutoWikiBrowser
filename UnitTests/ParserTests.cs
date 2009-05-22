@@ -674,6 +674,20 @@ world</font>"));
         }
 
         [Test]
+        public void TestFixIncorrectBr()
+        {
+            // fix incorrect <br>
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br.>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<BR.>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br\>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<BR\>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<\br>"));
+
+            Assert.AreEqual("<br/>", Parsers.FixSyntax(@"<br/>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br />"));
+        }
+
+        [Test]
         public void TestFixSyntaxUnbalancedBrackets()
         {
             Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>{{cite web|url=a|title=b}</ref>"));
