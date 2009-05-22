@@ -940,8 +940,11 @@ namespace WikiFunctions
 
             if (!Globals.UnitTestMode) // disable to avoid ssslow network requests
             {
+                // pass unhidden text to MetaDataSorter so that it can allow for comments around persondata, categories etc.
+                UnHideText(removeText);
                 AWBChangeArticleText("Sort meta data",
                     parsers.SortMetaData(ArticleText, Name), true);
+                HideText(removeText);
 
                 Variables.Profiler.Profile("Metadata");
             }

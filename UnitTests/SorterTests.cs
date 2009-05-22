@@ -45,6 +45,28 @@ namespace UnitTests
         }
 
         [Test]
+        public void MovePersonDataTests()
+        {
+            string a = @"<!-- Metadata: see [[Wikipedia:Persondata]] -->
+";
+            string b = @"{{Persondata
+|NAME= Hodgson, Jane Elizabeth
+|ALTERNATIVE NAMES=
+|SHORT DESCRIPTION= [[Physician]], [[obstetrician]], [[gynecologist]]
+|DATE OF BIRTH= 1915-1-23
+|PLACE OF BIRTH= [[Crookston, Minnesota]]
+|DATE OF DEATH= 2006-10-23
+|PLACE OF DEATH= [[Rochester, Minnesota]]
+}}";
+            string c = a + b;
+
+            MetaDataSorter.RemovePersonData(ref c);
+            Assert.AreEqual(c, "");
+            MetaDataSorter.RemovePersonData(ref b);
+            Assert.AreEqual(b, "");
+        }
+
+        [Test]
         public void MoveDablinksTests()
         {
             const string d = @"Fred is a doctor.

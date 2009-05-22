@@ -402,6 +402,12 @@ namespace WikiFunctions
         public static readonly Regex Persondata = new Regex(@"{{ ?[Pp]ersondata.*?}}", RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
+        /// Comment often put on the line before the Persondata template on the en-wiki
+        /// </summary>
+        public static readonly string PersonDataCommentEN = @"<!-- Metadata: see [[Wikipedia:Persondata]] -->
+";
+
+        /// <summary>
         /// Matches {{Link FA|xxx}}, {{Link GA|xxx}}
         /// </summary>
         public static readonly Regex LinkFGAs = new Regex(@"{{[Ll]ink [FG]A\|.*?}}", RegexOptions.Compiled);
