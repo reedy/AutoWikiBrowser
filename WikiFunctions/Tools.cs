@@ -1159,13 +1159,14 @@ namespace WikiFunctions
 
         //Covered by HumanCatKeyTests.FixUpDefaultSortTests()
         /// <summary>
-        /// Removes recognised diacritics and double quotes, converts to Proper Case
+        /// Removes recognised diacritics and double quotes, converts to Proper Case per [[WP:CAT]]
         /// </summary>
         public static string FixupDefaultSort(string s)
         {
             s = BadDsChars.Replace(RemoveDiacritics(s), "");
 
             // convert each word to Proper Case
+            // http://en.wikipedia.org/wiki/Wikipedia:Categorization#Using_sort_keys
             foreach (Match m in WikiRegexes.RegexWord.Matches(s))
             {
                 s = s.Replace(m.Value, TurnFirstToUpper(m.Value.ToLower()));
