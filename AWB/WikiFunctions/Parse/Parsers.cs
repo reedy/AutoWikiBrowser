@@ -241,6 +241,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex RegexHeadingUpOneLevel = new Regex(@"^=(=+[^=].*?[^=]=+)=(\r\n?|\n)$", RegexOptions.Multiline);
 
         private static readonly Regex RegexHeadingColonAtEnd = new Regex(@"^(=+)(.+?)\:(\s*\1(?:\r\n?|\n))$", RegexOptions.Multiline);
+        private static readonly Regex RegexHeadingWithBold = new Regex(@"(?<====+.*?)'''(.*?)'''(?=.*?===+)");
 
         /// <summary>
         /// Fix ==See also== and similar section common errors.
@@ -386,6 +387,10 @@ namespace WikiFunctions.Parse
             // if no level 2 heading in article, remove a level from all headings (i.e. '===blah===' to '==blah==' etc.)
             if (!WikiRegexes.HeadingLevelTwo.IsMatch(articleText))
                 articleText = RegexHeadingUpOneLevel.Replace(articleText, "$1$2");
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Bold_text_in_headers
+            // remove bold from level 3 headers and below, as it makes no visible difference
+            articleText = RegexHeadingWithBold.Replace(articleText, "$1");
 
             return articleText;
         }
