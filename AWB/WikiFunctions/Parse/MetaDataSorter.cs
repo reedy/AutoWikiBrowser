@@ -379,7 +379,7 @@ en, sq, ru
         }
 
         /// <summary>
-        /// 
+        /// Extracts the persondata template from the articleText, along with the persondata comment, if present on the line before
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns></returns>
@@ -391,6 +391,14 @@ en, sq, ru
 
             if (!string.IsNullOrEmpty(strPersonData))
                 articleText = articleText.Replace(strPersonData, "");
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Persondata_comments
+            // catch the persondata comment the line before it so that the comment and template aren't separated
+            if (articleText.Contains(WikiRegexes.PersonDataCommentEN) && Variables.LangCode == LangCodeEnum.en)
+            {
+                articleText = articleText.Replace(WikiRegexes.PersonDataCommentEN, "");
+                strPersonData = WikiRegexes.PersonDataCommentEN + strPersonData;
+            }
 
             return strPersonData;
         }
