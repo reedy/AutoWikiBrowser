@@ -325,8 +325,6 @@ en, sq, ru
                 + ".*?(\\]\\]|\\|.*?\\]\\])( {0,4}⌊⌊⌊⌊[0-9]{1,4}⌋⌋⌋⌋|\r\n<!--.*?-->(?=\r\n\\[\\[))?");
 
             MatchCollection matches = r.Matches(articleText);
-            int matchesfound = matches.Count-1;
-            int k = 0;
             foreach (Match m in matches)
             {
                 string x = m.Value;
@@ -335,8 +333,6 @@ en, sq, ru
                 {
                     categoryList.Add(x.Replace("_", " "));
                 }
-
-                k++;
             }
 
             articleText = Tools.RemoveMatches(articleText, matches);
@@ -475,7 +471,7 @@ en, sq, ru
 
             // get the rest of the article including first heading (may be null if article has no headings)
             string restOfArticle = articleText.Replace(zerothSection, "");
-            
+
             string strDablinks = "";
 
             foreach (Match m in WikiRegexes.Dablinks.Matches(zerothSection))
@@ -490,10 +486,10 @@ en, sq, ru
             return articleText.Replace(strDablinks + "\r\n", strDablinks);
         }
 
-        private static readonly Regex SeeAlso = new Regex(@"(\s*(==+)\s*see\s+also\s*\2)",  RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        private static readonly Regex SeeAlso = new Regex(@"(\s*(==+)\s*see\s+also\s*\2)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly Regex SeeAlsoSection = new Regex(@"(\s*(==+)\s*see\s+also\s*\2 *).*?(?===[^=][^\r\n]*?[^=]==(\r\n?|\n))", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-        private static readonly Regex SeeAlsoToEnd = new Regex(@"(\s*(==+)\s*see\s+also\s*\2 *).*",  RegexOptions.IgnoreCase | RegexOptions.Singleline);
-        
+        private static readonly Regex SeeAlsoToEnd = new Regex(@"(\s*(==+)\s*see\s+also\s*\2 *).*", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
         /// <summary>
         /// Moves any {{XX portal}} templates to the 'see also' section, if present (en only)
         /// </summary>
@@ -525,7 +521,7 @@ en, sq, ru
 
             return (articleText);
         }
-        
+
         private static readonly Regex ReferencesSectionRegex = new Regex(@"^== *[Rr]eferences *==\s*", RegexOptions.Multiline);
         private static readonly Regex NotesSectionRegex = new Regex(@"^== *[Nn]otes *==\s*", RegexOptions.Multiline);
         private static readonly Regex FootnotesSectionRegex = new Regex(@"^== *[Ff]ootnotes *==\s*", RegexOptions.Multiline);
