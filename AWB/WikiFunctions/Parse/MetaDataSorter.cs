@@ -308,7 +308,7 @@ en, sq, ru
         }
 
         /// <summary>
-        /// 
+        /// Extracts categories from the article text; removes duplicate categories, cleans whitespace and underscores
         /// </summary>
         /// <param name="articleText"></param>
         /// <param name="articleTitle"></param>
@@ -317,12 +317,16 @@ en, sq, ru
         {
             List<string> categoryList = new List<string>();
 
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Comments_get_removed_from_between_categories
+            // allow comments on newline between categories, and keep them in the same place, but don't grab any comment just after the last category
             Regex r = new Regex("<!-- ? ?\\[\\[" + Variables.NamespacesCaseInsensitive[Namespace.Category]
                 + ".*?(\\]\\]|\\|.*?\\]\\]).*?-->|\\[\\["
                 + Variables.NamespacesCaseInsensitive[Namespace.Category]
-                + ".*?(\\]\\]|\\|.*?\\]\\])( {0,4}⌊⌊⌊⌊[0-9]{1,4}⌋⌋⌋⌋)?");
+                + ".*?(\\]\\]|\\|.*?\\]\\])( {0,4}⌊⌊⌊⌊[0-9]{1,4}⌋⌋⌋⌋|\r\n<!--.*?-->(?=\r\n\\[\\[))?");
 
             MatchCollection matches = r.Matches(articleText);
+            int matchesfound = matches.Count-1;
+            int k = 0;
             foreach (Match m in matches)
             {
                 string x = m.Value;
@@ -331,6 +335,8 @@ en, sq, ru
                 {
                     categoryList.Add(x.Replace("_", " "));
                 }
+
+                k++;
             }
 
             articleText = Tools.RemoveMatches(articleText, matches);

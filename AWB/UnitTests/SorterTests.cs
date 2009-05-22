@@ -346,6 +346,33 @@ blah";
 ";
 
             Assert.AreEqual(h, parser2.Sorter.RemoveCats(ref g, "test"));
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Comments_get_removed_from_between_categories
+            // allow comments on newline between categories, and keep them in the same place
+            string i = @"#REDIRECT [[Ohio and Mississippi Railway]]
+
+";
+            string j = @"[[Category:Predecessors of the Baltimore and Ohio Railroad]]
+<!--Illinois company:-->
+[[Category:Railway companies established in 1851]]
+[[Category:Railway companies disestablished in 1862]]
+[[Category:Defunct Illinois railroads]]
+<!--Indiana company:-->
+[[Category:Railway companies established in 1848]]
+[[Category:Railway companies disestablished in 1867]]
+[[Category:Defunct Indiana railroads]]
+[[Category:Defunct Ohio railroads]]";
+
+            string k = i + j;
+
+            Assert.AreEqual(j + "\r\n", parser2.Sorter.RemoveCats(ref k, "test"));
+
+            // but don't grab any comment just after the last category
+
+            string l = i + j + @"
+<!--foo-->";
+            Assert.AreEqual(j + "\r\n", parser2.Sorter.RemoveCats(ref l, "test"));
+            Assert.IsTrue(l.Contains("\r\n" + @"<!--foo-->"));
         }
     }
 }
