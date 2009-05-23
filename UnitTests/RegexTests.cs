@@ -985,6 +985,7 @@ words2"));
 
             Assert.IsTrue(WikiRegexes.BirthsCategory.IsMatch(@"[[Category:12th-century births]]"));
             Assert.IsTrue(WikiRegexes.BirthsCategory.IsMatch(@"[[Category:1299 births]]"));
+            Assert.IsTrue(WikiRegexes.BirthsCategory.IsMatch(@"[[Category:110 BC births]]"));
 
             //no matches
             Assert.IsFalse(WikiRegexes.BirthsCategory.IsMatch(@"[[Category:strange births]]"));

@@ -499,6 +499,11 @@ End of.";
             string b10 = @"'''Phillip Rhodes''' (born [[May 26]], [[1960]]) was a [[Category:Living people]]";
             Assert.AreEqual(b10 + "\r\n" + b2, Parsers.FixPeopleCategories(b10));
 
+            // no matches when two birth dates in article
+            string b11 = @"'''Kid 'n Play''' was a [[hip-hop music|hip-hop]] and [[comedy]] duo from [[New York City]] that was popular in the late 1980s and early 1990s. The duo comprised '''[[Christopher Kid Reid]]''' (born [[April 5]] [[1964]] in [[The Bronx|The Bronx, New York City]]) 
+and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[July 10]] [[1962]] in [[Queens, New York City]]). Besides their successful musical careers, Kid 'n Play are also notable for branching out into acting. [[Category:Living people]]";
+            Assert.AreEqual(b11, Parsers.FixPeopleCategories(b11));
+
             // death
             string a3 = @"'''Fred Smith''' (died 1960) is a bloke. {{Persondata}}";
             string b3 = @"[[Category:1960 deaths]]";

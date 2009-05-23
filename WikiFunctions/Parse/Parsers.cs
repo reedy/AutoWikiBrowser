@@ -2719,6 +2719,22 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns></returns>
+        public static string FixPeopleCategories(string articleText, out bool noChange)
+        {
+            string testText = articleText;
+
+            articleText = FixPeopleCategories(articleText);
+
+            noChange = (testText == articleText);
+
+            return articleText;
+        }
+
+        /// <summary>
+        /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <returns></returns>
         public static string FixPeopleCategories(string articleText)
         {
             if (Variables.LangCode != LangCodeEnum.en || WikiRegexes.Lifetime.IsMatch(articleText) || !IsArticleAboutAPerson(articleText))
@@ -2729,7 +2745,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             string yearstring = "";
             // birth
-            if (!WikiRegexes.BirthsCategory.IsMatch(articleText) && (PersonYearOfBirth.IsMatch(zerothSection) || WikiRegexes.DateBirthAndAge.IsMatch(articleText)))
+            if (!WikiRegexes.BirthsCategory.IsMatch(articleText) && (PersonYearOfBirth.Matches(zerothSection).Count == 1 || WikiRegexes.DateBirthAndAge.IsMatch(articleText)))
             {
                 // look for '{{birth date...' template first
                 yearstring = WikiRegexes.DateBirthAndAge.Match(articleText).Groups[1].Value;
