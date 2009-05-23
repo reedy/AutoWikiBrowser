@@ -540,7 +540,7 @@ namespace WikiFunctions
 
                 strTemp = parsers.FixDates(strTemp);
                 strTemp = Parsers.FixLivingThingsRelatedDates(strTemp);
-                strTemp = Parsers.FixPeopleCategories(strTemp);
+                //strTemp = Parsers.FixPeopleCategories(strTemp); // TODO reinstate when more accurate
                 strTemp = Parsers.LivingPeople(strTemp, out noChange);
                 strTemp = Parsers.FixHeadings(strTemp, mName, out noChange);
 
