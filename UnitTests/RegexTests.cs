@@ -965,6 +965,48 @@ words2"));
         }
 
         [Test]
+        public void DeathsOrLivingCategoryTests()
+        {
+            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:653 deaths|Honorius]]"));
+            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:839 deaths]]"));
+            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:5th-century BC deaths]]"));
+            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:1209 deaths]]"));
+            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Living people]]"));
+
+            // no matches
+            Assert.IsFalse(WikiRegexes.DeathsOrLivingCategory.IsMatch(@""));
+            Assert.IsFalse(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:strange deaths]]"));
+            Assert.IsFalse(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"1990 deaths"));
+        }
+
+        [Test]
+        public void BirthsCategoryTests()
+        {
+
+            Assert.IsTrue(WikiRegexes.BirthsCategory.IsMatch(@"[[Category:12th-century births]]"));
+            Assert.IsTrue(WikiRegexes.BirthsCategory.IsMatch(@"[[Category:1299 births]]"));
+
+            //no matches
+            Assert.IsFalse(WikiRegexes.BirthsCategory.IsMatch(@"[[Category:strange births]]"));
+            Assert.IsFalse(WikiRegexes.BirthsCategory.IsMatch(@"1960 births"));
+            Assert.IsFalse(WikiRegexes.BirthsCategory.IsMatch(@""));
+        }
+
+        [Test]
+        public void DateBirthAndAgeTests()
+        {
+            Assert.IsTrue(WikiRegexes.DateBirthAndAge.IsMatch(@"{{Birth date|1972|02|18}}"));
+            Assert.IsTrue(WikiRegexes.DateBirthAndAge.IsMatch(@"{{Birth date and age|1972|02|18}}"));
+            Assert.IsTrue(WikiRegexes.DateBirthAndAge.IsMatch(@"{{Birth date| 1972 |02|18}}"));
+
+            Assert.IsTrue(WikiRegexes.DateBirthAndAge.IsMatch(@"{{birth date and age|mf=yes|1980|3|9}}"));
+
+            Assert.AreEqual("1975", WikiRegexes.DateBirthAndAge.Match(@"{{birth-date|1975}}").Groups[1].Value);
+            Assert.AreEqual("1975", WikiRegexes.DateBirthAndAge.Match(@"{{birth-date|   1975}}").Groups[1].Value);
+
+        }
+
+        [Test]
         public void DeadEndTests()
         {
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Deadend}}"));
