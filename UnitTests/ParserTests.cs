@@ -484,6 +484,21 @@ End of.";
             string b5 = @"Some words {{birth date and age|1960|01|9}}";
             Assert.AreEqual(b5 + "\r\n" + b2, Parsers.FixPeopleCategories(b5));
 
+            string b6 = @"'''Fred Lerdahl''' (born [[March 10]] [[1960]]) [[Category:Living people]]";
+            Assert.AreEqual(b6 + "\r\n" + b2, Parsers.FixPeopleCategories(b6));
+
+            string b7 = @"'''William Arthur O'Donnell''' (born May 4, 1960 in [[Springhill, Nova Scotia]], Canada) is [[Category:Living people]]";
+            Assert.AreEqual(b7 + "\r\n" + b2, Parsers.FixPeopleCategories(b7));
+
+            string b8 = @"'''Burrell Carver Smith''' (born [[December 16]], [[1960]] in upstate New York) [[Category:Living people]]";
+            Assert.AreEqual(b8 + "\r\n" + b2, Parsers.FixPeopleCategories(b8));
+
+            string b9 = @"'''Fredro Starr''' (born '''Fredro Scruggs''' on [[April 18]] [[1960]] in [[Jamaica, Queens]]) is an [[Category:Living people]]";
+            Assert.AreEqual(b9 + "\r\n" + b2, Parsers.FixPeopleCategories(b9));
+
+            string b10 = @"'''Phillip Rhodes''' (born [[May 26]], [[1960]]) was a [[Category:Living people]]";
+            Assert.AreEqual(b10 + "\r\n" + b2, Parsers.FixPeopleCategories(b10));
+
             // death
             string a3 = @"'''Fred Smith''' (died 1960) is a bloke. {{Persondata}}";
             string b3 = @"[[Category:1960 deaths]]";
