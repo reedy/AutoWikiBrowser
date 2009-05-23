@@ -2627,6 +2627,10 @@ Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@""));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Married couples]]"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Multiple people]]"));
+
+            // multiple birth dates means not about one person
+            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"{{nat fs player|no=1|pos=GK|name=[[Meg]]|age={{Birth date|1956|01|01}} ({{Age at date|1956|01|01|1995|6|5}})|caps=|club=|clubnat=}}
+{{nat fs player|no=2|pos=MF|name=[[Valeria]]|age={{Birth date|1968|09|03}} ({{Age at date|1968|09|03|1995|6|5}})|caps=|club=|clubnat=}}"));
         }
 
         [Test, Ignore("Unused"), Category("Incomplete")]
