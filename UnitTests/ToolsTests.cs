@@ -663,10 +663,12 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
             Assert.AreEqual("Hello", Tools.FixupDefaultSort("hellõ"));
             Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"FRED SMITH"));
             Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"fred smith"));
+            Assert.AreEqual(@"Fred Smithson", Tools.FixupDefaultSort(@"fred smithson"));
             Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"fred smitH"));
             Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"Fred Smith"));
             Assert.AreEqual(@"Smith, Fred", Tools.FixupDefaultSort(@"Smith, FRed"));
             Assert.AreEqual(@"Oneworditem", Tools.FixupDefaultSort(@"OneWordItem"));
+            Assert.AreEqual(@"2007 Fifa Women World Cup Squads", Tools.FixupDefaultSort(@"2007 Fifa women world cup squads"));
         }
 
         [Test]
