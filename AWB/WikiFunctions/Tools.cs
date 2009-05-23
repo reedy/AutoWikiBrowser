@@ -1168,8 +1168,10 @@ namespace WikiFunctions
             // convert each word to Proper Case
             // http://en.wikipedia.org/wiki/Wikipedia:Categorization#Using_sort_keys
             foreach (Match m in WikiRegexes.RegexWord.Matches(s))
-            {
-                s = s.Replace(m.Value, TurnFirstToUpper(m.Value.ToLower()));
+            {  
+                s = s.Remove(m.Index, m.Length);
+
+                s = s.Insert(m.Index, TurnFirstToUpper(m.Value.ToLower()));
             }
 
             return s;
