@@ -167,6 +167,13 @@ namespace WikiFunctions
             { get { return (Tools.RemoveDiacritics(Name) != Name);} }
 
         /// <summary>
+        /// returns whether the article is about a person
+        /// </summary>
+        [XmlIgnore]
+        public bool ArticleIsAboutAPerson
+        { get { return Parsers.IsArticleAboutAPerson(mArticleText); } }
+
+        /// <summary>
         /// Returns true if the article contains a stub template
         /// </summary>
         [XmlIgnore]
