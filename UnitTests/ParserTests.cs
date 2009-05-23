@@ -574,6 +574,15 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
 
             string n2 = @"'''Charles Meik''' (born? - 1923) was an {{Persondata}}";
             Assert.AreEqual(n2, Parsers.FixPeopleCategories(n2));
+
+            // no changes
+            string n3 = @"'''Johannes Widmann''' (born c. 1460 in [[Cheb|Eger]]; died after 1498 in [[Leipzig]]) [[Category:1460s births]]";
+            Assert.AreEqual(n3, Parsers.FixPeopleCategories(n3));
+
+            string n4 = @"'''John Hulme''' (born circa 1970) is [[Category:Living people]]
+[[Category:Year of birth missing (living people)]]";
+
+            Assert.AreEqual(n4, Parsers.FixPeopleCategories(n4));
         }
 
         [Test]
@@ -2598,6 +2607,7 @@ Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
             Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:1900 births]]"));
             Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Living people]]"));
             Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Living people|Smith]]"));
+            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{England-bio-stub}}"));
 
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@""));
