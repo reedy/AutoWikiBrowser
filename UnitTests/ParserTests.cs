@@ -2507,6 +2507,20 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
         }
 
         [Test]
+        public void LifetimeDiacritics()
+        {
+            bool noChange;
+
+            Assert.AreEqual(@"{{Lifetime|1900|2000|Smithe, Fred}}",
+    Parsers.ChangeToDefaultSort(@"{{Lifetime|1900|2000|Smithé, Fred}}", "Hi", out noChange));
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual(@"{{Lifetime|1900|2000|Smithe, Fred}}",
+Parsers.ChangeToDefaultSort(@"{{Lifetime|1900|2000|Smithe, Fred}}", "Hi", out noChange));
+            Assert.IsTrue(noChange);
+        }
+
+        [Test]
         public void CategorySortKeyPartialCleaning()
         {
             // to test that if a cat's sortkey is the start of the defaultsort key, it's removed too

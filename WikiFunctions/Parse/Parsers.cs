@@ -2519,7 +2519,15 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 matches++;
             }
 
-            // we don't need to process that {{Lifetime}} crap
+            // clean diacritics from any lifetime template
+            if (WikiRegexes.Lifetime.Matches(articleText).Count == 1)
+            {
+                Match m = WikiRegexes.Lifetime.Match(articleText);
+                articleText = articleText.Replace(m.Value, Tools.RemoveDiacritics(m.Value));
+                noChange = (testText == articleText);
+            }
+
+            // limited support for {{Lifetime}}
             MatchCollection ds = WikiRegexes.Defaultsort.Matches(articleText);
             if (WikiRegexes.Lifetime.IsMatch(articleText) || ds.Count > 1 || (ds.Count == 1 && !ds[0].Value.ToUpper().Contains("DEFAULTSORT")))
                 return articleText;
