@@ -406,6 +406,21 @@ namespace WikiFunctions
         /// </summary>
         public static readonly string PersonDataCommentEN = @"<!-- Metadata: see [[Wikipedia:Persondata]] -->
 ";
+        /// <summary>
+        /// Matches the various categories for dead people on en wiki, and the living people category
+        /// </summary>
+        public static readonly Regex DeathsOrLivingCategory = new Regex(@"\[\[ ?Category ?:[ _]?(\d{1,2}\w{0,2}[- _]century(?: BC)?[ _]deaths|[0-9s]{3,5}[ _]deaths|Disappeared[ _]people|Living[ _]people|Year[ _]of[ _]death[ _]missing|Possibly[ _]living[ _]people)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        
+        /// <summary>
+        /// Matches the {{recentlydeceased}} templates and its redirects
+        /// </summary>
+        public static readonly Regex LivingPeopleRegex2 = new Regex(@"\{\{(Template:)?(Recent ?death|Recentlydeceased)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex BirthsCategory = new Regex(@"\[\[ ?Category ?:[ _]?(?:(\d{3,4})s?|\d{1,2}\w{0,2}[- _]century)[ _]births(\|.*?)?\]\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        /// <summary>
+        /// Matches the various {{birth date and age}} templates, group 1 being the year of birth
+        /// </summary>
+        public static readonly Regex DateBirthAndAge = new Regex(@"{{[Bb]irth(?: date(?: and age)?\s*(?:\|\s*[md]f\s*=\s*y(?:es)?\s*)?\|\s*|-date\s*\|[^{}\|]*?)\b([12]\d{3})\s*(?:\||}})");
 
         /// <summary>
         /// Matches {{Link FA|xxx}}, {{Link GA|xxx}}

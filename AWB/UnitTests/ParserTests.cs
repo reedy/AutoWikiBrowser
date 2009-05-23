@@ -474,15 +474,18 @@ End of.";
         public void FixPeopleCategoriesTests()
         {
             // birth
-            string a1 = @"'''Fred Smith''' (born 1960) is a bloke.";
+            string a1 = @"'''Fred Smith''' (born 1960) is a bloke. {{Persondata}}";
             string b2 = @"[[Category:1960 births]]";
             Assert.AreEqual(a1 + "\r\n" + b2, Parsers.FixPeopleCategories(a1));
 
             string a2 = a1 + "\r\n" + @"[[Category:1990 deaths]]";
             Assert.AreEqual(a2 + "\r\n" + b2, Parsers.FixPeopleCategories(a2));
 
+            string b5 = @"Some words {{birth date and age|1960|01|9}}";
+            Assert.AreEqual(b5 + "\r\n" + b2, Parsers.FixPeopleCategories(b5));
+
             // death
-            string a3 = @"'''Fred Smith''' (died 1960) is a bloke.";
+            string a3 = @"'''Fred Smith''' (died 1960) is a bloke. {{Persondata}}";
             string b3 = @"[[Category:1960 deaths]]";
             Assert.AreEqual(a3 + "\r\n" + b3, Parsers.FixPeopleCategories(a3));
 
