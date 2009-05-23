@@ -2707,7 +2707,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 return articleText;
 
             string birthCat = m.Value;
-            int birthYear = int.Parse(m.Groups[1].Value);
+            int birthYear = 0;
+
+            string byear = m.Groups[1].Value;
+
+            if (Regex.IsMatch(byear, @"\d{3,}"))
+                birthYear = int.Parse(byear);
 
             // if born < 1910 they're likely dead
             if (birthYear < 1910)
@@ -2727,7 +2732,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns></returns>
-        public static string FixPeopleCategories(string articleText, out bool noChange)
+        public string FixPeopleCategories(string articleText, out bool noChange)
         {
             string testText = articleText;
 

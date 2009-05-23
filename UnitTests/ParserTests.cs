@@ -661,6 +661,10 @@ string h = @"'''Fred Smith''' (d. 1950) is a bloke.";
             string d1 = @"'''Fred Smith''' (born 1960) is a bloke.
 [[Category:1909 births|Smith, Fred]]";
             Assert.AreEqual(d1, Parsers.LivingPeople(d1));
+
+            // check correcltly handles birth category with no year to parse
+            string d2 = @"Fred [[Category:15th-century births]]";
+            Assert.AreEqual(d2, Parsers.LivingPeople(d2));
         }
 
         [Test]
