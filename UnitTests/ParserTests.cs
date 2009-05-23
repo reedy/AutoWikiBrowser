@@ -504,16 +504,6 @@ End of.";
 and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[July 10]] [[1962]] in [[Queens, New York City]]). Besides their successful musical careers, Kid 'n Play are also notable for branching out into acting. [[Category:Living people]]";
             Assert.AreEqual(b11, Parsers.FixPeopleCategories(b11));
 
-            // no matches when approximate year of birth
-            string b12 = @"'''Judith Victor Grabiner''' (born about 1938) is {{Persondata}}";
-            Assert.AreEqual(b12, Parsers.FixPeopleCategories(b12));
-
-            string b13 = @"'''Judith Victor Grabiner''' (born circa 1938) is {{Persondata}}";
-            Assert.AreEqual(b13, Parsers.FixPeopleCategories(b13));
-
-            string b14 = @"'''Judith Victor Grabiner''' (born before 1938) is {{Persondata}}";
-            Assert.AreEqual(b14, Parsers.FixPeopleCategories(b14));
-
             // death
             string a3 = @"'''Fred Smith''' (died 1960) is a bloke. {{Persondata}}";
             string b3 = @"[[Category:1960 deaths]]";
@@ -561,6 +551,29 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             Assert.AreEqual(f, Parsers.FixPeopleCategories(f));
             Assert.AreEqual(g, Parsers.FixPeopleCategories(g));
             Assert.AreEqual(h, Parsers.FixPeopleCategories(h));
+
+            // year of birth uncertain
+            string u = "\r\n" + @"[[Category:Year of birth uncertain]]";
+            
+            string u2 = @"'''Charles Meik''' (born around 1330 in [[Ghent]] - [[22 July]] [[1387]]) {{Persondata}}";
+            Assert.AreEqual(u2 + u, Parsers.FixPeopleCategories(u2));
+
+            // no matches when approximate year of birth
+            string b12 = @"'''Judith Victor Grabiner''' (born about 1938) is {{Persondata}}";
+            Assert.AreEqual(b12 + u, Parsers.FixPeopleCategories(b12));
+
+            string b13 = @"'''Judith Victor Grabiner''' (born circa 1938) is {{Persondata}}";
+            Assert.AreEqual(b13 + u, Parsers.FixPeopleCategories(b13));
+
+            string b14 = @"'''Judith Victor Grabiner''' (born before 1938) is {{Persondata}}";
+            Assert.AreEqual(b14 + u, Parsers.FixPeopleCategories(b14));
+
+            // no change: birth date not present so not 'uncertain'
+            string n1 = @"'''Thomas F. Goreau''' (born in [[Germany]], died 1970 in [[Jamaica]]) was [[Category:1970 deaths]]";
+            Assert.AreEqual(n1, Parsers.FixPeopleCategories(n1));
+
+            string n2 = @"'''Charles Meik''' (born? - 1923) was an {{Persondata}}";
+            Assert.AreEqual(n2, Parsers.FixPeopleCategories(n2));
         }
 
         [Test]
