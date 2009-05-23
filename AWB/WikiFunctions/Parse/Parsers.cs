@@ -2724,7 +2724,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return articleText + "[[Category:Living people" + catKey;
         }
 
-        private static readonly Regex PersonYearOfBirth = new Regex(@"\( *[Bb]orn[^\(\)\.;]+?(?<!.*[Dd]ied.*)([12]?\d{3})\b[^\(\)]*?(?=[Dd]ied)?");
+        private static readonly Regex PersonYearOfBirth = new Regex(@"\( *[Bb]orn[^\(\)\.;]+?(?<!.*[Dd]ied.*)([12]?\d{3})\b[^\(\)]*");
         private static readonly Regex PersonYearOfDeath = new Regex(@"\([^\(\)]*?[Dd]ied[^\(\)\.;]+?([12]?\d{3})\b");
 
         /// <summary>
@@ -2769,7 +2769,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     Match m = PersonYearOfBirth.Match(zerothSection);
 
                     // when there's only an approximate birth year, add the appropriate cat rather than the xxxx birth one
-                    if (Regex.IsMatch(m.Value, @"(?:\b(about|before|after|around|circa|c\.|between|died)\b|\d{3} *\?)"))
+                    if (Regex.IsMatch(m.Value, @"(?:\b(about|before|after|around|circa|c\.|between|or +\d{3,})\b|\d{3} *\?)"))
                     {
                         if(!articleText.Contains(CatYearOfBirthMissingLivingPeople))
                             articleText += "\r\n" + @"[[Category:Year of birth uncertain]]";

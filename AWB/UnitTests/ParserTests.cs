@@ -568,6 +568,9 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             string b14 = @"'''Judith Victor Grabiner''' (born before 1938) is {{Persondata}}";
             Assert.AreEqual(b14 + u, Parsers.FixPeopleCategories(b14));
 
+            string b15 = @"'''Judith Victor Grabiner''' (born 1938 or 1939) is {{Persondata}}";
+            Assert.AreEqual(b15 + u, Parsers.FixPeopleCategories(b15));
+
             // no change: birth date not present so not 'uncertain'
             string n1 = @"'''Thomas F. Goreau''' (born in [[Germany]], died 1970 in [[Jamaica]]) was [[Category:1970 deaths]]";
             Assert.AreEqual(n1, Parsers.FixPeopleCategories(n1));
