@@ -2369,6 +2369,24 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
         }
 
         [Test]
+        public void ChangeToDefaultSortHuman()
+        {
+            bool noChange;
+
+            string a = @"Fred Smith blah [[Category:Living people]]";
+            string b = "\r\n" + @"{{DEFAULTSORT:Smith, Fred}}";
+
+            Assert.AreEqual(a + b, Parsers.ChangeToDefaultSort(a, "Fred Smith", out noChange));
+            Assert.IsFalse(noChange);
+
+            string c = @"Stéphanie Mahieu blah [[Category:Living people]]";
+            string d = "\r\n" + @"{{DEFAULTSORT:Mahieu, Stephanie}}";
+
+            Assert.AreEqual(c + d, Parsers.ChangeToDefaultSort(c, "Stéphanie Mahieu", out noChange));
+            Assert.IsFalse(noChange);
+        }
+
+        [Test]
         public void TestDefaultsortTitlesWithDiacritics()
         {
             bool noChange;
@@ -2414,6 +2432,20 @@ Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
 {{DEFAULTSORT:Agua Retorta}}", Parsers.ChangeToDefaultSort(@"[[Category:Parishes of the Azores]]
 [[Category:São Miguel Island]]", @"Água Retorta", out noChange));
             Assert.IsFalse(noChange);
+        }
+
+        [Test]
+        public void TestIsArticleAboutAPerson()
+        {
+            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo {{Lifetime|||smith}}"));
+            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo {{persondata|name=smith}}"));
+            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:1900 deaths]]"));
+            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:1900 births]]"));
+            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Living people]]"));
+            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Living people|Smith]]"));
+
+            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo"));
+            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@""));
         }
 
         [Test, Ignore("Unused"), Category("Incomplete")]

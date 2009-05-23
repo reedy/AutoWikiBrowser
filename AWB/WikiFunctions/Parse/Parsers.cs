@@ -2524,7 +2524,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (WikiRegexes.Lifetime.IsMatch(articleText) || ds.Count > 1 || (ds.Count == 1 && !ds[0].Value.ToUpper().Contains("DEFAULTSORT")))
                 return articleText;
 
-
             articleText = TalkPages.TalkPageHeaders.FormatDefaultSort(articleText);
 
             // match again, after normalisation
@@ -2546,19 +2545,24 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                         articleText = Catregex.Replace(articleText, "[["
                             + Variables.Namespaces[Namespace.Category] + "$1]]");
 
-                        if (Tools.FixupDefaultSort(sort) != articleTitle)
-                            articleText = articleText + "\r\n{{DEFAULTSORT:" + Tools.FixupDefaultSort(sort) + "}}";
+                        if (Tools.FixupDefaultSort(sort) != articleTitle) 
+                        {
+                            if (!IsArticleAboutAPerson(articleText))
+                                articleText = articleText + "\r\n{{DEFAULTSORT:" + Tools.FixupDefaultSort(sort) + "}}";
+                            else 
+                                articleText = articleText + "\r\n{{DEFAULTSORT:" + Tools.MakeHumanCatKey(articleTitle) + "}}";
+                        }
                     }
                 }
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Add_defaultsort_to_pages_with_special_letters_and_no_defaultsort
-                articleText = DefaultsortTitlesWithDiacritics(articleText, articleTitle, matches);
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Human_DEFAULTSORT
+                articleText = DefaultsortTitlesWithDiacritics(articleText, articleTitle, matches, IsArticleAboutAPerson(articleText));
             }
             else // already has DEFAULTSORT
             {
                 string s = Tools.FixupDefaultSort(ds[0].Groups[1].Value).Trim();
                 if (s != ds[0].Groups[1].Value && s.Length > 0)
                     articleText = articleText.Replace(ds[0].Value, "{{DEFAULTSORT:" + s + "}}");
-
             }
 
             if (ds.Count == 1)
@@ -2601,20 +2605,61 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
         /// <param name="matches">If there is no change (True if no Change)</param>
+        /// <param name="articleAboutAPerson">Whether the article is about a person</param>
         /// <returns>The article text possibly using defaultsort.</returns>
-        private static string DefaultsortTitlesWithDiacritics(string articleText, string articleTitle, int matches)
+        private static string DefaultsortTitlesWithDiacritics(string articleText, string articleTitle, int matches, bool articleAboutAPerson)
         {
-            // need some categories and no defaultsort
-            if (Tools.FixupDefaultSort(articleTitle) != articleTitle && matches > 0 &&
-                !WikiRegexes.Defaultsort.IsMatch(articleText))
+            // need some categories and no defaultsort, and a sortkey not the same as the article title
+            if (((Tools.FixupDefaultSort(articleTitle) != articleTitle && !articleAboutAPerson)  || 
+                (Tools.MakeHumanCatKey(articleTitle) != articleTitle && articleAboutAPerson)) 
+                && matches > 0 && !WikiRegexes.Defaultsort.IsMatch(articleText))
             {
-                string sortkey = Tools.FixupDefaultSort(articleTitle);
+                string sortkey = "";
+
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Human_DEFAULTSORT
+                // if article is about a person, attempt to add a surname, forenames sort key rather than the tidied article title
+                if (articleAboutAPerson)
+                    sortkey = Tools.MakeHumanCatKey(articleTitle);
+                else 
+                    sortkey = Tools.FixupDefaultSort(articleTitle);
 
                 articleText = articleText + "\r\n{{DEFAULTSORT:" + sortkey + "}}";
 
                 return (ExplicitCategorySortkeys(articleText, sortkey));
             }
             return articleText;
+        }
+
+        /// <summary>
+        /// determines whether the article is about a person by looking for persondata/birth death categories etc. for en wiki only
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <returns></returns>
+        public static bool IsArticleAboutAPerson(string articleText)
+        {
+            if (!(Variables.LangCode == LangCodeEnum.en))
+                return false;
+
+            if (WikiRegexes.Lifetime.IsMatch(articleText) || WikiRegexes.Persondata.IsMatch(articleText))
+                return true;
+
+            if (LivingPeopleRegex1.IsMatch(articleText) || LivingPeopleRegex2.IsMatch(articleText) || LivingPeopleRegex3.IsMatch(articleText)
+                || articleText.Contains(@"[[Category:Living people"))
+                return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// if title has diacritics, no defaultsort added yet, adds a defaultsort with cleaned up title as sort key
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">Title of the article</param>
+        /// <param name="matches">If there is no change (True if no Change)</param>
+        /// <returns>The article text possibly using defaultsort.</returns>
+        private static string DefaultsortTitlesWithDiacritics(string articleText, string articleTitle, int matches)
+        {
+            return DefaultsortTitlesWithDiacritics(articleText, articleTitle, matches, false);
         }
 
         /// <summary>
