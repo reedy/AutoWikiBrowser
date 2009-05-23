@@ -2577,7 +2577,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         /// <summary>
-        /// Removes any explicit keys that are case insensitively the same as the default sort (To help tidy up on pages that already have defaultsort)
+        /// Removes any explicit keys that are case insensitively the same as the default sort OR entirely match the start of the defaultsort (To help tidy up on pages that already have defaultsort)
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="defaultsortKey"></param>
@@ -2590,7 +2590,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 if (explicitKey.Length == 0)
                     continue;
 
-                if (string.Compare(explicitKey, defaultsortKey, StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Compare(explicitKey, defaultsortKey, StringComparison.OrdinalIgnoreCase) == 0
+                    || defaultsortKey.StartsWith(explicitKey))
                 {
                     articleText = articleText.Replace(m.Value,
                         "[[" + Variables.Namespaces[Namespace.Category] + m.Groups[1].Value + "]]");
@@ -2637,14 +2638,14 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public static bool IsArticleAboutAPerson(string articleText)
         {
-            if (!(Variables.LangCode == LangCodeEnum.en) || articleText.Contains(@"[[Category:Multiple people]]"))
+            if (!(Variables.LangCode == LangCodeEnum.en) || articleText.Contains(@"[[Category:Multiple people]]") || articleText.Contains(@"[[Category:Married couples"))
                 return false;
 
             if (WikiRegexes.Lifetime.IsMatch(articleText) || WikiRegexes.Persondata.IsMatch(articleText) || WikiRegexes.DateBirthAndAge.IsMatch(articleText))
                 return true;
 
             if (WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) || WikiRegexes.LivingPeopleRegex2.IsMatch(articleText) || WikiRegexes.BirthsCategory.IsMatch(articleText)
-                || articleText.Contains(@"[[Category:Living people") || articleText.Contains(@"[[Category:Married couples"))
+                || articleText.Contains(@"[[Category:Living people"))
                 return true;
 
             return false;

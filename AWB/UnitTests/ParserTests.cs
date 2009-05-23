@@ -2429,6 +2429,32 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
         }
 
         [Test]
+        public void CategorySortKeyPartialCleaning()
+        {
+            // to test that if a cat's sortkey is the start of the defaultsort key, it's removed too
+            bool noChange;
+            Assert.AreEqual(@"{{DEFAULTSORT:Willis, Bobby}}
+[[Category:1999 deaths]]
+[[Category:1942 births]]
+[[Category:Cancer deaths in the United Kingdom]]", Parsers.ChangeToDefaultSort(@"{{DEFAULTSORT:Willis, Bobby}}
+[[Category:1999 deaths|Willis]]
+[[Category:1942 births]]
+[[Category:Cancer deaths in the United Kingdom]]", "Bobby Willis", out noChange));
+
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual(@"{{DEFAULTSORT:Willis, Bobby}}
+[[Category:1999 deaths]]
+[[Category:1942 births|Foo]]
+[[Category:Cancer deaths in the United Kingdom]]", Parsers.ChangeToDefaultSort(@"{{DEFAULTSORT:Willis, Bobby}}
+[[Category:1999 deaths|Willis]]
+[[Category:1942 births|Foo]]
+[[Category:Cancer deaths in the United Kingdom]]", "Bobby Willis", out noChange));
+
+            Assert.IsFalse(noChange);
+        }
+
+        [Test]
         public void ChangeToDefaultSortHuman()
         {
             bool noChange;
@@ -2506,6 +2532,8 @@ Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
 
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@""));
+            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Married couples]]"));
+            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Multiple people]]"));
         }
 
         [Test, Ignore("Unused"), Category("Incomplete")]
