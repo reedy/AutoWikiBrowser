@@ -504,6 +504,16 @@ End of.";
 and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[July 10]] [[1962]] in [[Queens, New York City]]). Besides their successful musical careers, Kid 'n Play are also notable for branching out into acting. [[Category:Living people]]";
             Assert.AreEqual(b11, Parsers.FixPeopleCategories(b11));
 
+            // no matches when approximate year of birth
+            string b12 = @"'''Judith Victor Grabiner''' (born about 1938) is {{Persondata}}";
+            Assert.AreEqual(b12, Parsers.FixPeopleCategories(b12));
+
+            string b13 = @"'''Judith Victor Grabiner''' (born circa 1938) is {{Persondata}}";
+            Assert.AreEqual(b13, Parsers.FixPeopleCategories(b13));
+
+            string b14 = @"'''Judith Victor Grabiner''' (born before 1938) is {{Persondata}}";
+            Assert.AreEqual(b14, Parsers.FixPeopleCategories(b14));
+
             // death
             string a3 = @"'''Fred Smith''' (died 1960) is a bloke. {{Persondata}}";
             string b3 = @"[[Category:1960 deaths]]";
@@ -515,6 +525,9 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             string d = @"'''Fred Smith''' (born 11 May 1950 - died 17 August 1990) is a bloke.
 [[Category:1960 births|Smith, Fred]]";
             Assert.AreEqual(d + "\r\n" + @"[[Category:1990 deaths]]", Parsers.FixPeopleCategories(d));
+
+            string d2 = @"'''Johnny Sandon''' (originally named '''Billy Beck''') (born in 1960, in Lıverpool, Lancashire died 23 December 1990) was {{Persondata}}";
+            Assert.AreEqual(d2 + "\r\n" + b2 + "\r\n" + @"[[Category:1990 deaths]]", Parsers.FixPeopleCategories(d2));
 
             // no matches if not identified as born
             string b1 = @"'''Fred Smith''' is a bloke.";
@@ -548,6 +561,29 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             Assert.AreEqual(f, Parsers.FixPeopleCategories(f));
             Assert.AreEqual(g, Parsers.FixPeopleCategories(g));
             Assert.AreEqual(h, Parsers.FixPeopleCategories(h));
+        }
+
+        [Test]
+        public void YearOfBirthMissingCategory()
+        {
+            Assert.AreEqual(@"[[Category:Pakistani lawyers]]
+[[Category:Attorneys General of Pakistan]]
+[[Category:Living people]]
+[[Category:1944 births]]", Parsers.FixPeopleCategories(@"[[Category:Pakistani lawyers]]
+[[Category:Attorneys General of Pakistan]]
+[[Category:Year of birth missing (living people)]]
+[[Category:Living people]]
+[[Category:1944 births]]"));
+
+            // no change when already correct
+            Assert.AreEqual(@"[[Category:Pakistani lawyers]]
+[[Category:Attorneys General of Pakistan]]
+[[Category:Living people]]
+[[Category:1944 births]]", Parsers.FixPeopleCategories(@"[[Category:Pakistani lawyers]]
+[[Category:Attorneys General of Pakistan]]
+[[Category:Living people]]
+[[Category:1944 births]]"));
+
         }
         
         [Test]

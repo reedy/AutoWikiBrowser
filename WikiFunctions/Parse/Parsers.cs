@@ -2738,7 +2738,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static string FixPeopleCategories(string articleText)
         {
             if (Variables.LangCode != LangCodeEnum.en || WikiRegexes.Lifetime.IsMatch(articleText) || !IsArticleAboutAPerson(articleText))
-                return articleText;
+                return YearOfBirthMissingCategory(articleText);
 
             // get the zeroth section (text upto first heading)
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
@@ -2752,8 +2752,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
                 // look for '(born xxxx)'
                 if (String.IsNullOrEmpty(yearstring))
-                    yearstring = PersonYearOfBirth.Match(zerothSection).Groups[1].Value;
+                {
+                    Match m = PersonYearOfBirth.Match(zerothSection);
 
+                    // don't add category when there's only an approximate birth year
+                    if(!Regex.IsMatch(m.Value, @"\b(about|before|after|circa|c\.|between)\b"))
+                        yearstring = m.Groups[1].Value;
+                }
                 if(yearstring.Length > 2)
                     articleText += "\r\n" + @"[[Category:" + yearstring + @" births]]";
             }
@@ -2765,6 +2770,19 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
                 articleText += "\r\n" + @"[[Category:" + yearstring + @" deaths]]";
             }
+
+            return YearOfBirthMissingCategory(articleText);
+        }
+
+        private static readonly string CatYearOfBirthMissingLivingPeople = @"
+[[Category:Year of birth missing (living people)]]";
+
+        private static string YearOfBirthMissingCategory(string articleText)
+        {
+            // if there is a 'year of birth missing' and a year of birth, remove the 'missing' category
+            if (articleText.Contains(CatYearOfBirthMissingLivingPeople)
+                && Regex.IsMatch(articleText, @"\[\[Category:\d{4} births\]\]"))
+                articleText = articleText.Replace(CatYearOfBirthMissingLivingPeople, "");
 
             return articleText;
         }
