@@ -2949,6 +2949,9 @@ window.scrollTo(0, diffTopY);
                     categories = "[[Category:" + strBirth + " births|" + strName + "]]\r\n[[Category:" + strDeath + " deaths|" + strName + "]]";
 
                 txtEdit.SelectedText = categories;
+
+                bool noChange;
+                txtEdit.Text = Parsers.ChangeToDefaultSort(txtEdit.Text, TheArticle.Name, out noChange);
             }
             catch (Exception ex)
             {

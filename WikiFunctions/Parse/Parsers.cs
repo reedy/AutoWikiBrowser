@@ -2643,7 +2643,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (WikiRegexes.Lifetime.IsMatch(articleText) || WikiRegexes.Persondata.IsMatch(articleText))
                 return true;
 
-            if (LivingPeopleRegex1.IsMatch(articleText) || LivingPeopleRegex2.IsMatch(articleText) || LivingPeopleRegex3.IsMatch(articleText)
+            if (DeathsOrLivingCategory.IsMatch(articleText) || LivingPeopleRegex2.IsMatch(articleText) || BirthsCategory.IsMatch(articleText)
                 || articleText.Contains(@"[[Category:Living people"))
                 return true;
 
@@ -2663,7 +2663,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         /// <summary>
-        /// 
+        /// Adds [[Category:Living people]] to articles with a [[Category:XXXX births]] and no living people/deaths category, taking sortkey from births category if present
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="noChange"></param>
@@ -2679,9 +2679,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return articleText;
         }
 
-        private static readonly Regex LivingPeopleRegex1 = new Regex("\\[\\[ ?Category ?:[ _]?([0-9]{1,2}[ _]century[ _]deaths|[0-9s]{4,5}[ _]deaths|Disappeared[ _]people|Living[ _]people|Year[ _]of[ _]death[ _]missing|Possibly[ _]living[ _]people)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex DeathsOrLivingCategory = new Regex("\\[\\[ ?Category ?:[ _]?([0-9]{1,2}[ _]century[ _]deaths|[0-9s]{4,5}[ _]deaths|Disappeared[ _]people|Living[ _]people|Year[ _]of[ _]death[ _]missing|Possibly[ _]living[ _]people)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex LivingPeopleRegex2 = new Regex(@"\{\{(Template:)?(Recent ?death|Recentlydeceased)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex LivingPeopleRegex3 = new Regex("\\[\\[ ?Category ?:[ _]?([0-9]{4})[ _]births(\\|.*?)?\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex BirthsCategory = new Regex("\\[\\[ ?Category ?:[ _]?([0-9]{4})[ _]births(\\|.*?)?\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
         /// Adds [[Category:Living people]] to articles with a [[Category:XXXX births]] and no living people/deaths category, taking sortkey from births category if present
@@ -2691,11 +2691,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static string LivingPeople(string articleText)
         {
             // don't add living people category if already dead, or thought to be dead
-            if (LivingPeopleRegex1.IsMatch(articleText) || LivingPeopleRegex2.IsMatch(articleText) ||
+            if (DeathsOrLivingCategory.IsMatch(articleText) || LivingPeopleRegex2.IsMatch(articleText) ||
                 BornDeathRegex.IsMatch(articleText) || DiedDateRegex.IsMatch(articleText))
                 return articleText;
 
-            Match m = LivingPeopleRegex3.Match(articleText);
+            Match m = BirthsCategory.Match(articleText);
 
             // don't add living people category unless 'XXXX births' category is present
             if (!m.Success)
@@ -2712,6 +2712,42 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string catKey = birthCat.Contains("|") ? Regex.Match(birthCat, "\\|.*?\\]\\]").Value : "]]";
 
             return articleText + "[[Category:Living people" + catKey;
+        }
+
+        private static readonly Regex PersonYearOfBirth = new Regex(@"\( *[Bb]orn[^\(\)]+?([12]?\d{3})\b");
+        private static readonly Regex PersonYearOfDeath = new Regex(@"\([^\(\)]*?[Dd]ied[^\(\)]+?([12]?\d{3})\b");
+
+        /// <summary>
+        /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <returns></returns>
+        public static string FixPeopleCategories(string articleText)
+        {
+            if (Variables.LangCode != LangCodeEnum.en || WikiRegexes.Lifetime.IsMatch(articleText))
+                return articleText;
+
+            // get the zeroth section (text upto first heading)
+            string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
+
+            string yearstring = "";
+            // birth
+            if (!BirthsCategory.IsMatch(articleText) && PersonYearOfBirth.IsMatch(zerothSection))
+            {
+                yearstring = PersonYearOfBirth.Match(zerothSection).Groups[1].Value;
+
+                articleText += "\r\n" + @"[[Category:" + yearstring + @" births]]";
+            }
+
+            // death
+            if (!DeathsOrLivingCategory.IsMatch(articleText) && PersonYearOfDeath.IsMatch(zerothSection))
+            {
+                yearstring = PersonYearOfDeath.Match(zerothSection).Groups[1].Value;
+
+                articleText += "\r\n" + @"[[Category:" + yearstring + @" deaths]]";
+            }
+
+            return articleText;
         }
 
         /// <summary>
