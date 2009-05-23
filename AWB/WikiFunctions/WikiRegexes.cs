@@ -420,7 +420,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the various {{birth date and age}} templates, group 1 being the year of birth
         /// </summary>
-        public static readonly Regex DateBirthAndAge = new Regex(@"{{[Bb]irth(?: date(?: and age)?\s*(?:\|\s*[md]f\s*=\s*y(?:es)?\s*)?\|\s*|-date\s*\|[^{}\|]*?)\b([12]\d{3})\s*(?:\||}})");
+        public static readonly Regex DateBirthAndAge = new Regex(@"{{[Bb]irth(?: date(?: and age)?\s*(?:\|\s*[md]f\s*=\s*y(?:es)?\s*)?\|\s*|-date\s*\|[^{}\|]*?)(?:year *= *)?\b([12]\d{3})\s*(?:\||}})");
 
         /// <summary>
         /// Matches {{Link FA|xxx}}, {{Link GA|xxx}}

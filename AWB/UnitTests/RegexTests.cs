@@ -1004,7 +1004,7 @@ words2"));
 
             Assert.AreEqual("1975", WikiRegexes.DateBirthAndAge.Match(@"{{birth-date|1975}}").Groups[1].Value);
             Assert.AreEqual("1975", WikiRegexes.DateBirthAndAge.Match(@"{{birth-date|   1975}}").Groups[1].Value);
-
+            Assert.AreEqual("1984", WikiRegexes.DateBirthAndAge.Match(@"{{birth date and age|year=1984|month=2|day=6}}").Groups[1].Value);
         }
 
         [Test]
