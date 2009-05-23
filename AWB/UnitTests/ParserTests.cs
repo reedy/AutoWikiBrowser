@@ -469,6 +469,63 @@ End of.";
             Assert.AreEqual("'''John Doe''' (died [[21 February]] [[2008]])", Parsers.FixLivingThingsRelatedDates("'''John Doe''' (d. [[21 February]] [[2008]])"));
             Assert.AreEqual("'''Willa Klug Baum''' ([[October 4]], [[1926]] – May 18, 2006)", Parsers.FixLivingThingsRelatedDates("'''Willa Klug Baum''' (born [[October 4]], [[1926]], died May 18, 2006)"));
         }
+
+        [Test]
+        public void FixPeopleCategoriesTests()
+        {
+            // birth
+            string a1 = @"'''Fred Smith''' (born 1960) is a bloke.";
+            string b2 = @"[[Category:1960 births]]";
+            Assert.AreEqual(a1 + "\r\n" + b2, Parsers.FixPeopleCategories(a1));
+
+            string a2 = a1 + "\r\n" + @"[[Category:1990 deaths]]";
+            Assert.AreEqual(a2 + "\r\n" + b2, Parsers.FixPeopleCategories(a2));
+
+            // death
+            string a3 = @"'''Fred Smith''' (died 1960) is a bloke.";
+            string b3 = @"[[Category:1960 deaths]]";
+            Assert.AreEqual(a3 + "\r\n" + b3, Parsers.FixPeopleCategories(a3));
+
+            string a4 = a3 + "\r\n" + @"[[Category:1990 births]]";
+            Assert.AreEqual(a4 + "\r\n" + b3, Parsers.FixPeopleCategories(a4));
+
+            string d = @"'''Fred Smith''' (born 11 May 1950 - died 17 August 1990) is a bloke.
+[[Category:1960 births|Smith, Fred]]";
+            Assert.AreEqual(d + "\r\n" + @"[[Category:1990 deaths]]", Parsers.FixPeopleCategories(d));
+
+            // no matches if not identified as born
+            string b1 = @"'''Fred Smith''' is a bloke.";
+            Assert.AreEqual(b1, Parsers.FixPeopleCategories(b1));
+
+            // no matches if already categorised
+            string a = @"'''Fred Smith''' (born 1960) is a bloke.
+[[Category:1960 births]]
+[[Category:1990 deaths]]";
+            string b = @"'''Fred Smith''' is a bloke.
+[[Category:1960 births]]
+[[Category:1990 deaths]]";
+            string c = @"'''Fred Smith''' is a bloke.
+[[Category:1960 births|Smith, Fred]]
+[[Category:1990 deaths|Smith, Fred]]";
+            string e = @"'''Fred Smith''' (born 1950) is a bloke.
+[[Category:1950 births|Smith, Fred]]
+{{Recentlydeceased}}";
+            string f = @"'''Fred Smith''' (born 1950) is a bloke.
+[[Category:1950 births|Smith, Fred]]
+{{recentlydeceased}}";
+            string g = @"'''Fred Smith''' (born 1950) is a bloke.
+[[Category:1950 births|Smith, Fred]]
+[[Category:Year of death missing]]";
+            string h = @"'''Fred Smith''' (born 1950) is a bloke. {{lifetime|||Smith}}";
+
+            Assert.AreEqual(a, Parsers.FixPeopleCategories(a));
+            Assert.AreEqual(b, Parsers.FixPeopleCategories(b));
+            Assert.AreEqual(c, Parsers.FixPeopleCategories(c));
+            Assert.AreEqual(e, Parsers.FixPeopleCategories(e));
+            Assert.AreEqual(f, Parsers.FixPeopleCategories(f));
+            Assert.AreEqual(g, Parsers.FixPeopleCategories(g));
+            Assert.AreEqual(h, Parsers.FixPeopleCategories(h));
+        }
         
         [Test]
         public void LivingPeopleTests()

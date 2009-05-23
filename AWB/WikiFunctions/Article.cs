@@ -539,8 +539,9 @@ namespace WikiFunctions
                 string strTemp = Parsers.Conversions(mArticleText);
 
                 strTemp = parsers.FixDates(strTemp);
-                strTemp = Parsers.LivingPeople(strTemp, out noChange);
                 strTemp = Parsers.FixLivingThingsRelatedDates(strTemp);
+                strTemp = Parsers.FixPeopleCategories(strTemp);
+                strTemp = Parsers.LivingPeople(strTemp, out noChange);
                 strTemp = Parsers.FixHeadings(strTemp, mName, out noChange);
 
                 if (mArticleText == strTemp)
