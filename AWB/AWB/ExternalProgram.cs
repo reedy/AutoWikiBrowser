@@ -85,17 +85,19 @@ namespace AutoWikiBrowser
                                                               {
                                                                   WorkingDirectory = txtWorkingDir.Text,
                                                                   FileName = txtProgram.Text,
-                                                                  Arguments = txtParameters.Text
+                                                                  Arguments = txtParameters.Text.Replace("%%file%%", txtFile.Text)
                                                               };
 
                 if (radFile.Checked)
                     WikiFunctions.Tools.WriteTextFile(articleText, ioFile, false);
                 else
                     psi.Arguments = psi.Arguments.Replace("%%articletext%%", articleText);
-                
-                psi.Arguments = psi.Arguments.Replace("%%file%%", txtFile.Text);
 
                 System.Diagnostics.Process p = System.Diagnostics.Process.Start(psi);
+
+                if (p == null)
+                    return origText;
+                
                 p.WaitForExit();
 
                 if (File.Exists(ioFile))
