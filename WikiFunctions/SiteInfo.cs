@@ -26,7 +26,7 @@ namespace WikiFunctions
     /// This class holds all basic information about a wiki
     /// </summary>
     [Serializable]
-    public class SiteInfo
+    public class SiteInfo : IXmlSerializable
     {
         private readonly bool php5;
         private string scriptPath;
@@ -34,7 +34,6 @@ namespace WikiFunctions
         private Dictionary<int, List<string>> namespaceAliases = new Dictionary<int, List<string>>();
         //private Dictionary<string, string> messageCache = new Dictionary<string, string>();
         private readonly Dictionary<string, List<string>> magicWords = new Dictionary<string, List<string>>();
-        private readonly DateTime time  = DateTime.Now;
 
         /// <summary>
         /// Creates an instance of the class
@@ -67,6 +66,22 @@ namespace WikiFunctions
             {
                 throw new WikiUrlException(ex);
             }
+        }
+
+        private static string Key(string scriptPath, bool php5Ext)
+        {
+            return "SiteInfo[" + scriptPath + "]@" + php5Ext;
+        }
+
+        public static SiteInfo CreateOrLoad(string scriptPath, bool php5Ext)
+        {
+            SiteInfo si = (SiteInfo)ObjectCache.Global.Get<SiteInfo>(Key(scriptPath, php5Ext));
+            if (si != null) return si;
+
+            si = new SiteInfo(scriptPath, php5Ext);
+            ObjectCache.Global[Key(scriptPath, php5Ext)] = si;
+
+            return si;
         }
 
         /// <summary>
@@ -164,7 +179,7 @@ namespace WikiFunctions
             return true;
         }
 
-        [XmlAttribute(AttributeName = "url")]
+        //[XmlAttribute(AttributeName = "url")]
         public string ScriptPath
         {
             get { return scriptPath; }
@@ -174,21 +189,12 @@ namespace WikiFunctions
             }
         }
 
-        [XmlAttribute(AttributeName = "time")]
-        public DateTime Time
-        {
-            get { return time; }
-        }
-
-        [XmlIgnore]
         public Dictionary<int, string> Namespaces
         { get { return namespaces; } }
 
-        [XmlIgnore]
         public Dictionary<int, List<string>> NamespaceAliases
         { get { return namespaceAliases; } }
 
-        [XmlIgnore]
         public Dictionary<string, List<string>> MagicWords
         { get { return magicWords; } }
 
@@ -213,6 +219,42 @@ namespace WikiFunctions
 
             return result;
         }
+
+        #region Service functions
+        #endregion
+
+        #region IXmlSerializable Members
+
+        public System.Xml.Schema.XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            //writer.WriteStartElement("site");
+            writer.WriteAttributeString("url", scriptPath);
+            writer.WriteAttributeString("php5", php5 ? "1" : "0");
+            {
+                writer.WriteStartElement("Namespaces");
+                {
+                    foreach (KeyValuePair<int, string> p in namespaces)
+                    {
+                        writer.WriteStartElement("Namespace");
+                        writer.WriteAttributeString("id", p.Key.ToString());
+                        writer.WriteValue(p.Value);
+                        writer.WriteEndElement();
+                    }
+                }
+            }
+            //writer.WriteEndElement();
+        }
+        #endregion
     }
 
     public class WikiUrlException : Exception
