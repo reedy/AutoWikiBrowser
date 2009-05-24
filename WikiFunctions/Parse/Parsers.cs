@@ -308,10 +308,15 @@ namespace WikiFunctions.Parse
                 {
                     // all fields except COI, OR, POV and ones with BLP should be lower case
                     string singleTag = m.Groups[1].Value;
+                    string tagValue = m.Groups[2].Value;
                     if (!Regex.IsMatch(singleTag, "(COI|OR|POV|BLP)"))
                         singleTag = singleTag.ToLower();
 
-                    newTags += @"|" + singleTag + @" " + m.Groups[2].Value;
+                    // for 'expert' or 'update' group 2 can be text explanation without equals, so add an equals
+                    if (tagValue.Contains("=") || tagValue.Length == 0)
+                        newTags += @"|" + singleTag + @" " + tagValue;
+                    else
+                        newTags += @"|" + singleTag + @" =" + tagValue;
                     newTags = newTags.Trim();
 
                     // remove the single template
