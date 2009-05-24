@@ -27,12 +27,12 @@ namespace AutoWikiBrowser
         internal static void Close()
         { Program.MyTrace.RemoveListener("AWB"); }
 
-        internal static ArticleEX SwitchToNewArticleObject(ArticleEX Old, ArticleEX New)
+        internal static ArticleEX SwitchToNewArticleObject(ArticleEX old, ArticleEX @new)
         {
-            if(Old != null && Old.LogListener != null)
+            if(old != null && old.LogListener != null)
                 Close(); // remove old AWBLogListener from MyTrace collection
-            New.InitialiseLogListener(); // create new listener and add to collection
-            return New;
+            @new.InitialiseLogListener(); // create new listener and add to collection
+            return @new;
         }
     }
 }

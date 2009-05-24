@@ -32,9 +32,9 @@ namespace AutoWikiBrowser
 
         bool IAutoWikiBrowser.SkipNoChanges { get { return chkSkipNoChanges.Checked; } set { chkSkipNoChanges.Checked = value; } }
 
-        WikiFunctions.Parse.FindandReplace IAutoWikiBrowser.FindandReplace { get { return findAndReplace; } }
-        WikiFunctions.SubstTemplates IAutoWikiBrowser.SubstTemplates { get { return substTemplates; } }
-        string IAutoWikiBrowser.CustomModule { get { if (CModule.ModuleEnabled && CModule.Module != null) return CModule.Code; return null; } }
+        WikiFunctions.Parse.FindandReplace IAutoWikiBrowser.FindandReplace { get { return FindAndReplace; } }
+        WikiFunctions.SubstTemplates IAutoWikiBrowser.SubstTemplates { get { return SubstTemplates; } }
+        string IAutoWikiBrowser.CustomModule { get { return (CModule.ModuleEnabled && CModule.Module != null) ? CModule.Code : null; } }
 
         public event GetLogUploadLocationsEvent GetLogUploadLocations;
 

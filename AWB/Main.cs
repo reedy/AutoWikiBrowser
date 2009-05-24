@@ -52,7 +52,7 @@ namespace AutoWikiBrowser
     { // this class needs to be public, otherwise we get an exception which recommends setting ComVisibleAttribute to true (which we've already done)
         #region Fields
         private readonly Splash SplashScreen = new Splash();
-        private readonly WikiFunctions.Profiles.AWBProfilesForm profiles;
+        private readonly WikiFunctions.Profiles.AWBProfilesForm Profiles;
 
         private bool Abort;
         private bool IgnoreNoBots;
@@ -61,19 +61,19 @@ namespace AutoWikiBrowser
         private string mSettingsFile = "";
         private string LastMove = "", LastDelete = "", LastProtect = "";
 
-        private int oldselection;
-        private int retries;
+        private int OldSelection;
+        private int Retries;
 
         private bool PageReload;
         private int SameArticleNudges;
 
         private readonly HideText RemoveText = new HideText(false, true, false);
-        private readonly List<string> noParse = new List<string>();
-        private readonly FindandReplace findAndReplace = new FindandReplace();
-        private readonly SubstTemplates substTemplates = new SubstTemplates();
+        private readonly List<string> NoParse = new List<string>();
+        private readonly FindandReplace FindAndReplace = new FindandReplace();
+        private readonly SubstTemplates SubstTemplates = new SubstTemplates();
         private RegExTypoFix RegexTypos;
         private readonly SkipOptions Skip = new SkipOptions();
-        private readonly WikiFunctions.ReplaceSpecial.ReplaceSpecial replaceSpecial =
+        private readonly WikiFunctions.ReplaceSpecial.ReplaceSpecial RplcSpecial =
             new WikiFunctions.ReplaceSpecial.ReplaceSpecial();
         private readonly Parsers Parser;
         private readonly TimeSpan StartTime =
@@ -83,7 +83,7 @@ namespace AutoWikiBrowser
         private readonly ExternalProgram ExtProgram = new ExternalProgram();
         private RegexTester regexTester;
         private bool UserTalkWarningsLoaded;
-        private Regex userTalkTemplatesRegex;
+        private Regex UserTalkTemplatesRegex;
         private bool mErrorGettingLogInStatus;
         private bool skippable = true;
         private FormWindowState LastState = FormWindowState.Normal; // doesn't look like we can use RestoreBounds for this - any other built in way?
@@ -173,8 +173,8 @@ namespace AutoWikiBrowser
                 listMaker.StatusTextChanged += UpdateListStatus;
                 listMaker.cmboSourceSelect.SelectedIndexChanged += ListMakerSourceSelectHandler;
 
-                profiles = new WikiFunctions.Profiles.AWBProfilesForm(webBrowserEdit);
-                profiles.LoadProfile += LoadProfileSettings;
+                Profiles = new WikiFunctions.Profiles.AWBProfilesForm(webBrowserEdit);
+                Profiles.LoadProfile += LoadProfileSettings;
 
                 SplashScreen.SetProgress(15);
 
@@ -296,7 +296,7 @@ namespace AutoWikiBrowser
                         break;
                 }
 
-                profiles.Login(ProfileToLoad);
+                Profiles.Login(ProfileToLoad);
             }
             catch (Exception ex)
             {
@@ -338,13 +338,13 @@ namespace AutoWikiBrowser
             set { chkAutoMode.Checked = value; }
         }
 
-        private bool bLowThreadPriority;
+        private bool LowThrdPriority;
         private bool LowThreadPriority
         {
-            get { return bLowThreadPriority; }
+            get { return LowThrdPriority; }
             set
             {
-                bLowThreadPriority = value;
+                LowThrdPriority = value;
                 Thread.CurrentThread.Priority = value ? ThreadPriority.Lowest : ThreadPriority.Normal;
             }
         }
@@ -380,11 +380,11 @@ namespace AutoWikiBrowser
         /// </summary>
         private bool AddUsingAWBOnArticleAction;
 
-        private decimal dAutoSaveEditPeriod = 60;
+        private decimal ASEditPeriod = 60;
         private decimal AutoSaveEditBoxPeriod
         {
-            get { return dAutoSaveEditPeriod; }
-            set { dAutoSaveEditPeriod = value; EditBoxSaveTimer.Interval = int.Parse((value * 1000).ToString()); }
+            get { return ASEditPeriod; }
+            set { ASEditPeriod = value; EditBoxSaveTimer.Interval = int.Parse((value * 1000).ToString()); }
         }
 
         internal void SetStatusLabelText(string text)
@@ -422,15 +422,15 @@ namespace AutoWikiBrowser
             }
         }
 
-        bool showTimer = true;
+        bool TimerShown = true;
         private bool ShowMovingAverageTimer
         {
             set
             {
-                showTimer = value;
+                TimerShown = value;
                 ShowTimer();
             }
-            get { return showTimer; }
+            get { return TimerShown; }
         }
 
         #endregion
@@ -937,15 +937,15 @@ namespace AutoWikiBrowser
 
                 if (string.IsNullOrEmpty(html) || IsReadOnlyDB(html))
                 {
-                    if (retries < 10)
+                    if (Retries < 10)
                     {
                         StartDelayedRestartTimer(null, null);
-                        retries++;
+                        Retries++;
                         Start();
                         return false;
                     }
 
-                    retries = 0;
+                    Retries = 0;
                     if (!string.IsNullOrEmpty(html))
                         SkipPage("Database is locked, tried 10 times");
                     else
@@ -1163,7 +1163,7 @@ namespace AutoWikiBrowser
 
             if (listMaker.Count == 0 && AutoSaveEditBoxEnabled)
                 EditBoxSaveTimer.Enabled = false;
-            retries = 0;
+            Retries = 0;
 
             // if user has loaded a settings file, save it every 10 edits if autosavesettings is set
             if (autoSaveSettingsToolStripMenuItem.Checked && !string.IsNullOrEmpty(SettingsFile) && (NumberOfEdits > 5) && (NumberOfEdits % 10 == 0))
@@ -1199,7 +1199,7 @@ namespace AutoWikiBrowser
                 listMaker.Remove(TheArticle);
                 SameArticleNudges = 0;
                 logControl.AddLog(true, TheArticle.LogListener);
-                retries = 0;
+                Retries = 0;
                 Start();
             }
             catch (Exception ex)
@@ -1235,7 +1235,7 @@ namespace AutoWikiBrowser
         /// <param name="theArticle">Page to process</param>
         /// <param name="mainProcess">True if the page is being processed for save as usual,
         /// otherwise (Re-parse in context menu, prefetch, etc) false</param>
-        private void ProcessPage(ArticleEX theArticle, bool mainProcess)
+        private void ProcessPage(Article theArticle, bool mainProcess)
         {
             bool process = true;
             TypoStats = null;
@@ -1246,7 +1246,7 @@ namespace AutoWikiBrowser
 
             try
             {
-                if (noParse.Contains(theArticle.Name))
+                if (NoParse.Contains(theArticle.Name))
                     process = false;
 
                 if (!IgnoreNoBots &&
@@ -1298,9 +1298,9 @@ namespace AutoWikiBrowser
                 }
 
                 // find and replace before general fixes
-                if (chkFindandReplace.Checked && !findAndReplace.AfterOtherFixes)
+                if (chkFindandReplace.Checked && !FindAndReplace.AfterOtherFixes)
                 {
-                    theArticle.PerformFindAndReplace(findAndReplace, substTemplates, replaceSpecial,
+                    theArticle.PerformFindAndReplace(FindAndReplace, SubstTemplates, RplcSpecial,
                         chkSkipWhenNoFAR.Checked);
 
                     Variables.Profiler.Profile("F&R");
@@ -1361,13 +1361,13 @@ namespace AutoWikiBrowser
                         Variables.Profiler.Profile("loadUserTalkWarnings");
                     }
 
-                    theArticle.PerformUserTalkGeneralFixes(RemoveText, userTalkTemplatesRegex, Skip.SkipNoUserTalkTemplatesSubstd);
+                    theArticle.PerformUserTalkGeneralFixes(RemoveText, UserTalkTemplatesRegex, Skip.SkipNoUserTalkTemplatesSubstd);
                 }
 
                 // find and replace after general fixes
-                if (chkFindandReplace.Checked && findAndReplace.AfterOtherFixes)
+                if (chkFindandReplace.Checked && FindAndReplace.AfterOtherFixes)
                 {
-                    theArticle.PerformFindAndReplace(findAndReplace, substTemplates, replaceSpecial,
+                    theArticle.PerformFindAndReplace(FindAndReplace, SubstTemplates, RplcSpecial,
                         chkSkipWhenNoFAR.Checked);
 
                     Variables.Profiler.Profile("F&R (2nd)");
@@ -1833,7 +1833,7 @@ window.scrollTo(0, diffTopY);
                 articleTextLocal = articleTextLocal.Replace(zerothSectionAfter, "");
 
             // can't provide a section edit summary if there are changes in text before first level 2 heading
-            if (!zerothSectionBefore.Equals(zerothSectionAfter))
+            if (!string.IsNullOrEmpty(zerothSectionBefore) && !zerothSectionBefore.Equals(zerothSectionAfter))
                 return ("");
 
             // get sections for article text before any AWB changes
@@ -2047,8 +2047,8 @@ window.scrollTo(0, diffTopY);
                     if (n.Success)
                     {
                         foreach (Match link in WikiRegexes.UnPipedWikiLink.Matches(n.Value))
-                            if (!noParse.Contains(link.Groups[1].Value))
-                                noParse.Add(link.Groups[1].Value);
+                            if (!NoParse.Contains(link.Groups[1].Value))
+                                NoParse.Add(link.Groups[1].Value);
                     }
                     break;
             }
@@ -2068,12 +2068,17 @@ window.scrollTo(0, diffTopY);
             {
                 lblUserName.BackColor = Color.Red;
 
-                DialogResult yesnocancel = MessageBox.Show("This version is not enabled, please download the newest version. If you have the newest version, check that Wikipedia is online.\r\n\r\nPlease press \"Yes\" to run the AutoUpdater, \"No\" to load the download page and update manually, or \"Cancel\" to not update (but you will not be able to edit).", "Problem", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information);
-                if (yesnocancel == DialogResult.Yes)
-                    RunUpdater();
-                else if (yesnocancel == DialogResult.No)
+                switch (
+                    MessageBox.Show(
+                        "This version is not enabled, please download the newest version. If you have the newest version, check that Wikipedia is online.\r\n\r\nPlease press \"Yes\" to run the AutoUpdater, \"No\" to load the download page and update manually, or \"Cancel\" to not update (but you will not be able to edit).",
+                        "Problem", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information))
                 {
-                    Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=158332");
+                    case DialogResult.Yes:
+                        RunUpdater();
+                        break;
+                    case DialogResult.No:
+                        Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=158332");
+                        break;
                 }
             }
         }
@@ -2206,7 +2211,7 @@ window.scrollTo(0, diffTopY);
         {
             EditBoxTab.SelectedTab = tpEdit;
             int selection = lbDuplicateWikilinks.SelectedIndex;
-            if (selection != oldselection)
+            if (selection != OldSelection)
                 Find.ResetFind();
             if (lbDuplicateWikilinks.SelectedIndex != -1)
             {
@@ -2239,7 +2244,7 @@ window.scrollTo(0, diffTopY);
             {
                 lbDuplicateWikilinks.SelectedIndex = lbDuplicateWikilinks.Items.Count - 1;
             }
-            oldselection = selection;
+            OldSelection = selection;
         }
 
         private void ResetFind(object sender, EventArgs e)
@@ -3011,15 +3016,15 @@ window.scrollTo(0, diffTopY);
 
         private void btnFindAndReplaceAdvanced_Click(object sender, EventArgs e)
         {
-            if (!replaceSpecial.Visible)
-                replaceSpecial.Show();
+            if (!RplcSpecial.Visible)
+                RplcSpecial.Show();
             else
-                replaceSpecial.Hide();
+                RplcSpecial.Hide();
         }
 
         private void btnMoreFindAndReplce_Click(object sender, EventArgs e)
         {
-            findAndReplace.ShowDialog(this);
+            FindAndReplace.ShowDialog(this);
         }
 
         private void Stop()
@@ -3280,20 +3285,19 @@ window.scrollTo(0, diffTopY);
 
                 string prevSummary = cmboEditSummary.SelectedText;
 
-                if (se.ShowDialog(this) == DialogResult.OK)
+                if (se.ShowDialog(this) != DialogResult.OK) return;
+
+                cmboEditSummary.Items.Clear();
+
+                foreach (string s in se.Summaries.Lines)
                 {
-                    cmboEditSummary.Items.Clear();
-
-                    foreach (string s in se.Summaries.Lines)
-                    {
-                        if (string.IsNullOrEmpty(s.Trim())) continue;
-                        cmboEditSummary.Items.Add(s.Trim());
-                    }
-
-                    if (cmboEditSummary.Items.Contains(prevSummary))
-                        cmboEditSummary.SelectedText = prevSummary;
-                    else cmboEditSummary.SelectedItem = 0;
+                    if (string.IsNullOrEmpty(s.Trim())) continue;
+                    cmboEditSummary.Items.Add(s.Trim());
                 }
+
+                if (cmboEditSummary.Items.Contains(prevSummary))
+                    cmboEditSummary.SelectedText = prevSummary;
+                else cmboEditSummary.SelectedItem = 0;
             }
         }
 
@@ -3544,7 +3548,7 @@ window.scrollTo(0, diffTopY);
 
         private void btnSubst_Click(object sender, EventArgs e)
         {
-            substTemplates.ShowDialog();
+            SubstTemplates.ShowDialog();
         }
 
         private void launchRegexTester(object sender, EventArgs e)
@@ -3801,7 +3805,7 @@ window.scrollTo(0, diffTopY);
                 + Variables.NamespacesCaseInsensitive[Namespace.Template] + @"(.*?)\]\]");
             StringBuilder builder = new StringBuilder();
 
-            userTalkTemplatesRegex = null;
+            UserTalkTemplatesRegex = null;
             UserTalkWarningsLoaded = true; // or it will retry on each page load
             try
             {
@@ -3827,7 +3831,7 @@ window.scrollTo(0, diffTopY);
             if (builder.Length > 1)
             {
                 builder.Remove((builder.Length - 1), 1);
-                userTalkTemplatesRegex =
+                UserTalkTemplatesRegex =
                     new Regex(
                         @"\{\{ ?(" + Variables.NamespacesCaseInsensitive[Namespace.Template] + ")? ?((" + builder +
                         ") ?(\\|.*?)?) ?\\}\\}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -3918,13 +3922,13 @@ window.scrollTo(0, diffTopY);
 
         private void profilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            profiles.ShowDialog(this);
+            Profiles.ShowDialog(this);
         }
 
         private void LoadProfileSettings(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(profiles.SettingsToLoad))
-                LoadPrefs(profiles.SettingsToLoad);
+            if (!string.IsNullOrEmpty(Profiles.SettingsToLoad))
+                LoadPrefs(Profiles.SettingsToLoad);
         }
 
         private void chkMinor_CheckedChanged(object sender, EventArgs e)

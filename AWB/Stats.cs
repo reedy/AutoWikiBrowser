@@ -36,13 +36,13 @@ namespace AutoWikiBrowser
         // Unfortunately, NotifyIcon is sealed, otherwise I would inherit from that and do tooltiptext/stats management there
         // Even more unfortunately, it seems it's tooltip is limited to 64 chars. Stinking great, Microsoft!
         // T-O-D-O: Maybe an alternative approach using mouse events? - doesn't seem to be a reliable way of doing even that! see e.g. http://64.233.183.104/search?q=cache:34QVls9xRoUJ:www.experts-exchange.com/Programming/Languages/.NET/Visual_Basic.NET/Q_21161863.html+notifyicon+mouseover&hl=en&ct=clnk&cd=1&gl=uk&lr=lang_en
-        private int intEdits;
+        private int NoEdits;
         public int NumberOfEdits
         {
-            get { return intEdits; }
+            get { return NoEdits; }
             private set
             {
-                intEdits = value;
+                NoEdits = value;
                 lblEditCount.Text = "Edits: " + value;
                 //UpdateNotifyIconTooltip();
                 if (value == 100 || (value > 0 && value % 1000 == 0)) // we'll first report to remote db when we have 100 saves or app is exiting, whichever comes first; we'll also update db at 1000 and each 1000 thereafter
@@ -50,25 +50,25 @@ namespace AutoWikiBrowser
             }
         }
 
-        private int intIgnoredEdits;
+        private int NoIgnoredEdits;
         public int NumberOfIgnoredEdits
         {
-            get { return intIgnoredEdits; }
+            get { return NoIgnoredEdits; }
             private set
             {
-                intIgnoredEdits = value;
+                NoIgnoredEdits = value;
                 lblIgnoredArticles.Text = "Ignored: " + value;
                 //UpdateNotifyIconTooltip();
             }
         }
 
-        private int intEditsPerMin;
+        private int NoEditsPerMin;
         public int NumberOfEditsPerMinute
         {
-            get { return intEditsPerMin; }
+            get { return NoEditsPerMin; }
             private set
             {
-                intEditsPerMin = value;
+                NoEditsPerMin = value;
                 lblEditsPerMin.Text = "Edits/min: " + value;
                 //UpdateNotifyIconTooltip();
             }

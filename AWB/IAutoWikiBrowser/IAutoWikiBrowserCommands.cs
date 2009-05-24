@@ -37,11 +37,11 @@ namespace AutoWikiBrowser
         void IAutoWikiBrowserCommands.GetPreview(string sender) { GetPreview(); }
         void IAutoWikiBrowserCommands.Save(string sender) { Save(); }
 
-        void IAutoWikiBrowserCommands.AddLogItem(bool Skipped, AWBLogListener LogListener)
-        { logControl.AddLog(Skipped, LogListener); }
+        void IAutoWikiBrowserCommands.AddLogItem(bool skipped, AWBLogListener logListener)
+        { logControl.AddLog(skipped, logListener); }
         void IAutoWikiBrowserCommands.TurnOffLogging() { Program.MyTrace.TurnOffLogging(); }
-        void IAutoWikiBrowserCommands.ShowHelp(string URL) { HelpForm.ShowHelp(HelpForm, URL); }
-        void IAutoWikiBrowserCommands.ShowHelpEnWiki(string Article) { HelpForm.ShowHelpEN(HelpForm, Article); }
+        void IAutoWikiBrowserCommands.ShowHelp(string url) { HelpForm.ShowHelp(HelpForm, url); }
+        void IAutoWikiBrowserCommands.ShowHelpEnWiki(string article) { HelpForm.ShowHelpEN(HelpForm, article); }
 
         void IAutoWikiBrowserCommands.AddMainFormClosingEventHandler(FormClosingEventHandler handler) { FormClosing += handler; }
 

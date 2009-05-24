@@ -154,7 +154,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        private void UpdateRecentList(string[] list)
+        private void UpdateRecentList(IEnumerable<string> list)
         {
             RecentList.Clear();
             foreach (string s in list)
@@ -256,7 +256,7 @@ namespace AutoWikiBrowser
         {
             return new UserPrefs(
 
-                new FaRPrefs(findAndReplace, replaceSpecial, substTemplates)
+                new FaRPrefs(FindAndReplace, RplcSpecial, SubstTemplates)
                     {
                         Enabled = chkFindandReplace.Checked,
                     },
@@ -385,24 +385,24 @@ namespace AutoWikiBrowser
         {
             SetProject(p.LanguageCode, p.Project, p.CustomProject);
 
-            findAndReplace.Clear();
+            FindAndReplace.Clear();
             chkFindandReplace.Checked = p.FindAndReplace.Enabled;
-            findAndReplace.IgnoreLinks = p.FindAndReplace.IgnoreSomeText;
-            findAndReplace.IgnoreMore = p.FindAndReplace.IgnoreMoreText;
-            findAndReplace.AppendToSummary = p.FindAndReplace.AppendSummary;
-            findAndReplace.AfterOtherFixes = p.FindAndReplace.AfterOtherFixes;
-            findAndReplace.AddNew(p.FindAndReplace.Replacements);
+            FindAndReplace.IgnoreLinks = p.FindAndReplace.IgnoreSomeText;
+            FindAndReplace.IgnoreMore = p.FindAndReplace.IgnoreMoreText;
+            FindAndReplace.AppendToSummary = p.FindAndReplace.AppendSummary;
+            FindAndReplace.AfterOtherFixes = p.FindAndReplace.AfterOtherFixes;
+            FindAndReplace.AddNew(p.FindAndReplace.Replacements);
 
-            replaceSpecial.Clear();
-            replaceSpecial.AddNewRule(p.FindAndReplace.AdvancedReps);
+            RplcSpecial.Clear();
+            RplcSpecial.AddNewRule(p.FindAndReplace.AdvancedReps);
 
-            substTemplates.Clear();
-            substTemplates.TemplateList = p.FindAndReplace.SubstTemplates;
-            substTemplates.ExpandRecursively = p.FindAndReplace.ExpandRecursively;
-            substTemplates.IgnoreUnformatted = p.FindAndReplace.IgnoreUnformatted;
-            substTemplates.IncludeComments = p.FindAndReplace.IncludeComments;
+            SubstTemplates.Clear();
+            SubstTemplates.TemplateList = p.FindAndReplace.SubstTemplates;
+            SubstTemplates.ExpandRecursively = p.FindAndReplace.ExpandRecursively;
+            SubstTemplates.IgnoreUnformatted = p.FindAndReplace.IgnoreUnformatted;
+            SubstTemplates.IncludeComments = p.FindAndReplace.IncludeComments;
 
-            findAndReplace.MakeList();
+            FindAndReplace.MakeList();
 
             listMaker.SourceText = p.List.ListSource;
             listMaker.SelectedSource = p.List.SourceIndex;
