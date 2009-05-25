@@ -423,6 +423,11 @@ namespace WikiFunctions
         public static readonly Regex DateBirthAndAge = new Regex(@"{{[Bb]irth(?: date(?: and age)?\s*(?:\|\s*[md]f\s*=\s*y(?:es)?\s*)?\|\s*|-date\s*\|[^{}\|]*?)(?:year *= *)?\b([12]\d{3})\s*(?:\||}})");
 
         /// <summary>
+        /// Matches the various {{death date and age}} templates, group 1 being the year of death
+        /// </summary>
+        public static readonly Regex DateDeathAndAge = new Regex(@"{{[Dd]eath(?: date(?: and age)?\s*(?:\|\s*[md]f\s*=\s*y(?:es)?\s*)?\|\s*|-date\s*\|[^{}\|]*?)(?:year *= *)?\b([12]\d{3})\s*(?:\||}})");
+
+        /// <summary>
         /// Matches {{Link FA|xxx}}, {{Link GA|xxx}}
         /// </summary>
         public static readonly Regex LinkFGAs = new Regex(@"{{[Ll]ink [FG]A\|.*?}}", RegexOptions.Compiled);

@@ -523,6 +523,9 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             string d3 = @"'''Aeacides''' ({{lang-el|Aἰακίδης}}; died 313 BC), king {{persondata}}";
             Assert.AreEqual(d3 + "\r\n" + @"[[Category:313 BC deaths]]", Parsers.FixPeopleCategories(d3));
 
+            string d4 = @"Some words {{death date and age|1960|01|9}}";
+            Assert.AreEqual(d4 + "\r\n" + @"[[Category:1960 deaths]]", Parsers.FixPeopleCategories(d4));
+
             // no matches if not identified as born
             string b1 = @"'''Fred Smith''' is a bloke.";
             Assert.AreEqual(b1, Parsers.FixPeopleCategories(b1));
@@ -2748,6 +2751,7 @@ Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
             Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Living people]]"));
             Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Living people|Smith]]"));
             Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{England-bio-stub}}"));
+            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Some words {{death date and age|1960|01|9}}"));
 
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@""));

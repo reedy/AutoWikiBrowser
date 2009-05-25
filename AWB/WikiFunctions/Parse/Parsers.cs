@@ -2678,11 +2678,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 return false;
 
             int DateBirthAndAgeCount = WikiRegexes.DateBirthAndAge.Matches(articleText).Count;
+            int DateDeathAndAgeCount = WikiRegexes.DateDeathAndAge.Matches(articleText).Count;
 
-            if (DateBirthAndAgeCount > 1)
+            if (DateBirthAndAgeCount > 1 || DateDeathAndAgeCount > 1)
                 return false;
 
-            if (WikiRegexes.Lifetime.IsMatch(articleText) || WikiRegexes.Persondata.Matches(articleText).Count == 1 || DateBirthAndAgeCount == 1 || articleText.Contains(@"-bio-stub}}"))
+            if (WikiRegexes.Lifetime.IsMatch(articleText) || WikiRegexes.Persondata.Matches(articleText).Count == 1 || DateBirthAndAgeCount == 1 || DateDeathAndAgeCount == 1 || articleText.Contains(@"-bio-stub}}"))
                 return true;
 
             if (WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) || WikiRegexes.LivingPeopleRegex2.IsMatch(articleText) || WikiRegexes.BirthsCategory.IsMatch(articleText)
@@ -2815,13 +2816,19 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             }
 
             // death
-            if (!WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) && PersonYearOfDeath.IsMatch(zerothSection))
+            if (!WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) && (PersonYearOfDeath.IsMatch(zerothSection) || WikiRegexes.DateDeathAndAge.IsMatch(articleText)))
             {
-                Match m = PersonYearOfDeath.Match(zerothSection);
+                // look for '{{death date...' template first
+                yearstring = WikiRegexes.DateDeathAndAge.Match(articleText).Groups[1].Value;
 
-                if (!Regex.IsMatch(m.Value, @"(?:\b(about|before|after|around|circa|c\.|between)\b|\d{3} *\?)"))
-                    yearstring = m.Groups[1].Value;
+                // look for '(died xxxx)'
+                if (String.IsNullOrEmpty(yearstring))
+                {
+                    Match m = PersonYearOfDeath.Match(zerothSection);
 
+                    if (!Regex.IsMatch(m.Value, @"(?:\b(about|before|after|around|circa|c\.|between)\b|\d{3} *\?)"))
+                        yearstring = m.Groups[1].Value;
+                }
                 if (yearstring.Length > 2)
                     articleText += "\r\n" + @"[[Category:" + yearstring + @" deaths]]";
             }
