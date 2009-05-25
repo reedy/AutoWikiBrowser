@@ -1590,11 +1590,14 @@ namespace WikiFunctions.Parse
             string articleTextAtStart = articleText;
             string escTitle = Regex.Escape(articleTitle);
 
+            if (Regex.IsMatch(articleText, @"{{[Ii]nfobox (?:[Ss]ingle|[Aa]lbum)"))
+                articleText = FixLinksInfoBoxSingleAlbum(articleText, articleTitle);
+            
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Your_code_creates_page_errors_inside_imagemap_tags.
             // don't apply if there's an imagemap on the page
             // TODO, better to not apply to text within imagemaps
             if (!WikiRegexes.ImageMap.IsMatch(articleText))
-            {
+            {              
                 // remove any self-links, but not other links with different capitaliastion e.g. [[Foo]] vs [[FOO]]
                 articleText = Regex.Replace(articleText, @"\[\[\s*" + escTitle + @"\s*\]\]", articleTitle);
                 articleText = Regex.Replace(articleText, @"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]", Tools.TurnFirstToLower(articleTitle));
@@ -1620,6 +1623,26 @@ namespace WikiFunctions.Parse
             noChange = (sb.ToString() == articleTextAtStart);
 
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Converts self links for the 'this single/album' field of 'infobox single/album' to bold
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <param name="articleTitle"></param>
+        /// <returns></returns>
+        private static string FixLinksInfoBoxSingleAlbum(string articleText, string articleTitle)
+        {
+            string escTitle = Regex.Escape(articleTitle);
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#.22This_album.2Fsingle.22
+            // for this single or this album within the infobox, make bold instead of delinking
+            string InfoBoxSingleAlbum = @"(?s)(?<={{[Ii]nfobox (?:[Ss]ingle|[Aa]lbum).*?\|\s*[Tt]his (?:[Ss]ingle|[Aa]lbum)\s*=[^{}]*?)\[\[\s*";
+            articleText = Regex.Replace(articleText, InfoBoxSingleAlbum + escTitle + @"\s*\]\](?=[^{}\|]*(?:\||}}))", @"'''" + articleTitle + @"'''");
+            articleText = Regex.Replace(articleText, InfoBoxSingleAlbum + Tools.TurnFirstToLower(escTitle) + @"\s*\]\](?=[^{}\|]*(?:\||}}))", @"'''" + Tools.TurnFirstToLower(articleTitle) + @"'''");
+            articleText = Regex.Replace(articleText, InfoBoxSingleAlbum + escTitle + @"\s*\|\s*([^\]]+)\s*\]\](?=[^{}\|]*(?:\||}}))", @"'''" + "$1" + @"'''");
+            articleText = Regex.Replace(articleText, InfoBoxSingleAlbum + Tools.TurnFirstToLower(escTitle) + @"\s*\|\s*([^\]]+)\s*\]\](?=[^{}\|]*(?:\||}}))", @"'''" + "$1" + @"'''");
+
+            return articleText;
         }
 
         /// <summary>
