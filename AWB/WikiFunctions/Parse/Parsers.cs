@@ -1986,13 +1986,20 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>template with all params, enclosed in curly brackets</returns>
         public static string GetTemplate(string articleText, string template)
         {
-            articleText = WikiRegexes.Nowiki.Replace(articleText, "");
-            articleText = WikiRegexes.Comments.Replace(articleText, "");
-            Regex search = new Regex(@"(\{\{\s*" + template + @"\s*)(?:\||\})", RegexOptions.Singleline);
+            Regex search = new Regex(@"(\{\{\s*" + template + @"\s*)(?:\||\}|<)", RegexOptions.Singleline);
 
-            Match m = search.Match(articleText);
+            // remove commented out templates etc. before searching
+            string articleTextCleaned = WikiRegexes.Comments.Replace(WikiRegexes.Nowiki.Replace(articleText, ""), "");
+            
+            if (search.IsMatch(articleTextCleaned))
+            {
+                // extract from original article text
+                Match m = search.Match(articleText);
+                               
+                return m.Success ? ExtractTemplate(articleText, m) : "";
+            }
 
-            return m.Success ? ExtractTemplate(articleText, m) : "";
+            return "";
         }
 
         // NOT covered
