@@ -64,6 +64,27 @@ namespace UnitTests
             Assert.AreEqual(c, "");
             MetaDataSorter.RemovePersonData(ref b);
             Assert.AreEqual(b, "");
+
+            string d1 = @"{{Persondata<!-- Metadata: see [[Wikipedia:Persondata]] -->
+|NAME= Becker, Gary
+|ALTERNATIVE NAMES=
+|SHORT DESCRIPTION= [[Economics|Economist]]
+|DATE OF BIRTH= [[December 2]], [[1930]]
+|PLACE OF BIRTH= [[Pottsville, Pennsylvania]]
+|DATE OF DEATH=
+|PLACE OF DEATH=
+}}";
+            string d2 = @"{{Winners of the National Medal of Science|behav-social}}
+";
+            string d3 = @"
+[[Category:Members of the National Academy of Sciences]]";
+
+            string e = d2 + d1 + d3;
+
+            string f = MetaDataSorter.RemovePersonData(ref e);
+
+            Assert.AreEqual(d1, f);
+            Assert.AreEqual(e, d2 + d3);
         }
 
         [Test]
