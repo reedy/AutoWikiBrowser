@@ -2674,7 +2674,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public static bool IsArticleAboutAPerson(string articleText)
         {
-            if (!(Variables.LangCode == LangCodeEnum.en) || articleText.Contains(@"[[Category:Multiple people]]") || articleText.Contains(@"[[Category:Married couples"))
+            if (!(Variables.LangCode == LangCodeEnum.en) || articleText.Contains(@"[[Category:Multiple people]]") || articleText.Contains(@"[[Category:Married couples") || articleText.Contains(@"[[Category:Fictional"))
                 return false;
 
             int DateBirthAndAgeCount = WikiRegexes.DateBirthAndAge.Matches(articleText).Count;
@@ -2757,7 +2757,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return articleText + "[[Category:Living people" + catKey;
         }
 
-        private static readonly Regex PersonYearOfBirth = new Regex(@"\( *[Bb]orn[^\(\)\.;]+?(?<!.*[Dd]ied.*)([12]?\d{3})\b[^\(\)]*");
+        private static readonly Regex PersonYearOfBirth = new Regex(@"\( *[Bb]orn[^\(\)\.;]+?(?<!.*[Dd]ied.*)([12]?\d{3}(?: BC)?)\b[^\(\)]*");
         private static readonly Regex PersonYearOfDeath = new Regex(@"\([^\(\)]*?[Dd]ied[^\(\)\.;]+?([12]?\d{3})\b");
 
         /// <summary>
