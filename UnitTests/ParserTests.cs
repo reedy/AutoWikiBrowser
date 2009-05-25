@@ -2770,6 +2770,8 @@ Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@""));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Married couples]] {{persondata|name=smith}}"));
+            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{In-universe}} {{persondata|name=smith}}"));
+            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{in-universe}} {{persondata|name=smith}}"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Multiple people]] {{persondata|name=smith}}"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Fictional blah]] {{persondata|name=smith}}"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[fictional character]] {{persondata|name=smith}}"));
