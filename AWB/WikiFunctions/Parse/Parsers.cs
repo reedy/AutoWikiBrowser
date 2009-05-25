@@ -104,7 +104,7 @@ namespace WikiFunctions.Parse
                 RegexConversion.Add(new Regex(@"({{\s*[Aa]rticle ?issues\s*(?:\|[^{}]*|\|)\s*)(?![Ee]xpert)" + WikiRegexes.ArticleIssuesTemplatesString + @"\s*(\||}})"), "$1$2={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}$3");
                 
                 // clean any 'date' word within {{Article issues}} (but not 'update' field), place after the date adding rule above
-                RegexConversion.Add(new Regex(@"(?<={{\s*[Aa]rticle ?issues\s*(?:\|[^{}]*?)?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?){0,4}\|[^{}\|]{3,}?)\bdate"), "");
+                RegexConversion.Add(new Regex(@"(?<={{\s*[Aa]rticle ?issues\s*(?:\|[^{}]*?)?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?){0,4}\|[^{}\|]{3,}?)\b(?i)date"), "");
             }
 
             // articleissues with one issue -> single issue tag (e.g. {{articleissues|cleanup=January 2008}} to {{cleanup|date=January 2008}} etc.)
@@ -312,11 +312,11 @@ namespace WikiFunctions.Parse
                     if (!Regex.IsMatch(singleTag, "(COI|OR|POV|BLP)"))
                         singleTag = singleTag.ToLower();
 
-                    // for 'expert' or 'update' group 2 can be text explanation without equals, so add an equals
-                    if (tagValue.Contains("=") || tagValue.Length == 0)
+                    // for tags with a parameter, that parameter must be the date
+                    if ((tagValue.Contains("=") && Regex.IsMatch(tagValue, @"(?i)date")) || tagValue.Length == 0)
                         newTags += @"|" + singleTag + @" " + tagValue;
-                    else
-                        newTags += @"|" + singleTag + @" =" + tagValue;
+                    else 
+                        continue;
                     newTags = newTags.Trim();
 
                     // remove the single template

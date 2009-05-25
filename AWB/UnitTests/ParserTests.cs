@@ -3450,6 +3450,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         {
             string A1 = @"{{Wikify}} {{expand}}", A2 = @" {{COI}}", A3 = @" the article";
             string A4 = @" {{COI|date=May 2008}}", A5 = @"{{Article issues|POV|prose|spam}} ";
+            string A4a = @" {{COI|Date=May 2008}}";
 
             // adding new {{article issues}}
             Assert.IsTrue(parser.ArticleIssues(A1 + A2 + A3).Contains(@"{{Article issues|wikify|expand|COI}}"));
@@ -3458,6 +3459,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             // amend existing {{article issues}}
             Assert.IsTrue(parser.ArticleIssues(A5 + A1 + A2 + A3).Contains(@"{{Article issues|POV|prose|spam|wikify|expand|COI"));
             Assert.IsTrue(parser.ArticleIssues(A5 + A1 + A4 + A3).Contains(@"{{Article issues|POV|prose|spam|wikify|expand|COI date=May 2008}}"));
+            Assert.IsTrue(parser.ArticleIssues(A5 + A1 + A4a + A3).Contains(@"{{Article issues|POV|prose|spam|wikify|expand|COI Date=May 2008}}"));
 
             // insufficient tags
             Assert.IsFalse(Parsers.Conversions(A1 + A3).Contains(@"{{Article issues"));
@@ -3493,10 +3495,8 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"{{Article issues|wikfy=May 2008|COI=May 2008|cleanup=May 2008}}", parser.ArticleIssues(@"{{Article issues|wikfy=May 2008|COI=May 2008|cleanup=May 2008| date=March 2007}}"));
             Assert.AreEqual(@"{{Article issues|wikfy=May 2008|COI=May 2008|cleanup=May 2008}}", parser.ArticleIssues(@"{{Article issues|wikfy=May 2008|COI=May 2008|date = March 2007|cleanup=May 2008}}"));
 
-            // when adding update or expert with text explanation, equals added
-            Assert.AreEqual(@"{{Article issues|wikfy=May 2008|copyedit=April 2009|COI=May 2008|update =some reason}} ", parser.ArticleIssues(@"{{Article issues|wikfy=May 2008|copyedit=April 2009|COI=May 2008}} {{update|some reason}}"));
-            Assert.AreEqual(@"{{Article issues|wikfy=May 2008|copyedit=April 2009|COI=May 2008|expert =some reason}} ", parser.ArticleIssues(@"{{Article issues|wikfy=May 2008|copyedit=April 2009|COI=May 2008}} {{expert|some reason}}"));
-            Assert.AreEqual(@"{{Article issues|wikfy=May 2008|copyedit=April 2009|COI=May 2008|update date=May 2008}} ", parser.ArticleIssues(@"{{Article issues|wikfy=May 2008|copyedit=April 2009|COI=May 2008}} {{update|date=May 2008}}"));
+            // tags with a parameter value that's not a date are not supported
+            Assert.AreEqual(@"{{Article issues|wikfy=May 2008|copyedit=April 2009|COI=May 2008}} {{update|some date reason}}", parser.ArticleIssues(@"{{Article issues|wikfy=May 2008|copyedit=April 2009|COI=May 2008}} {{update|some date reason}}"));
         }
 
         [Test]
