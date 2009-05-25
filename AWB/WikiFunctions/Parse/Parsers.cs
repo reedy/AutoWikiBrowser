@@ -2677,7 +2677,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (!(Variables.LangCode == LangCodeEnum.en) || articleText.Contains(@"[[Category:Multiple people]]") || articleText.Contains(@"[[Category:Married couples"))
                 return false;
 
-            if (WikiRegexes.Lifetime.IsMatch(articleText) || WikiRegexes.Persondata.Matches(articleText).Count == 1 || WikiRegexes.DateBirthAndAge.Matches(articleText).Count == 1 || articleText.Contains(@"-bio-stub}}"))
+            int DateBirthAndAgeCount = WikiRegexes.DateBirthAndAge.Matches(articleText).Count;
+
+            if (DateBirthAndAgeCount > 1)
+                return false;
+
+            if (WikiRegexes.Lifetime.IsMatch(articleText) || WikiRegexes.Persondata.Matches(articleText).Count == 1 || DateBirthAndAgeCount == 1 || articleText.Contains(@"-bio-stub}}"))
                 return true;
 
             if (WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) || WikiRegexes.LivingPeopleRegex2.IsMatch(articleText) || WikiRegexes.BirthsCategory.IsMatch(articleText)
