@@ -2315,6 +2315,117 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
             bool noChangeBack;
 
             Assert.AreEqual("Thorsten", Parsers.FixLinks("[[Þorsteins saga Víkingssonar| Thorsten]]", "Þorsteins saga Víkingssonar", out noChangeBack));
+
+            // convert to bold in infobox album/single
+            Assert.AreEqual(@"{{Infobox Single
+| Name = Feels So Right
+| Cover =  
+| Artist =  [[Alabama (band)|Alabama]]
+| from Album = [[Feels So Right (album)|Feels So Right]]
+| A-side         = ""Feels So Right""
+| B-side         = ""See the Embers, Feel the Flame""
+| Released = May 1, 1981 <small>([[United States|U.S.]])</small>
+| Format         = [[7-inch single|7""]]
+| Recorded       = August 26, 1980
+| Genre = [[Country music|Country]]
+| Length         = 3:36
+| Label          = [[RCA Records]] <small>12236</small>
+| Writer = [[Randy Owen]]
+| Producer       = [[Harold Shedd]] and [[Alabama (band)|Alabama]]
+| Last single = ""[[Old Flame (song)|Old Flame]]""<br />(1981)
+| This single = ""'''Feels So Right'''"" <br />(1981)
+| Next single = ""[[Love in the First Degree (Alabama song)|Love in the First Degree]]"" <br />(1981)
+}}", Parsers.FixLinks(@"{{Infobox Single
+| Name = Feels So Right
+| Cover =  
+| Artist =  [[Alabama (band)|Alabama]]
+| from Album = [[Feels So Right (album)|Feels So Right]]
+| A-side         = ""Feels So Right""
+| B-side         = ""See the Embers, Feel the Flame""
+| Released = May 1, 1981 <small>([[United States|U.S.]])</small>
+| Format         = [[7-inch single|7""]]
+| Recorded       = August 26, 1980
+| Genre = [[Country music|Country]]
+| Length         = 3:36
+| Label          = [[RCA Records]] <small>12236</small>
+| Writer = [[Randy Owen]]
+| Producer       = [[Harold Shedd]] and [[Alabama (band)|Alabama]]
+| Last single = ""[[Old Flame (song)|Old Flame]]""<br />(1981)
+| This single = ""[[Feels So Right (song)|Feels So Right]]"" <br />(1981)
+| Next single = ""[[Love in the First Degree (Alabama song)|Love in the First Degree]]"" <br />(1981)
+}}", @"Feels So Right (song)", out noChangeBack));
+
+            Assert.AreEqual(@"{{Infobox Single
+| Name = Feels So Right
+| Cover =  
+| Artist =  [[Alabama (band)|Alabama]]
+| from Album = [[Feels So Right (album)|Feels So Right]]
+| A-side         = ""Feels So Right""
+| B-side         = ""See the Embers, Feel the Flame""
+| Released = May 1, 1981 <small>([[United States|U.S.]])</small>
+| Format         = [[7-inch single|7""]]
+| Recorded       = August 26, 1980
+| Genre = [[Country music|Country]]
+| Length         = 3:36
+| Label          = [[RCA Records]] <small>12236</small>
+| Writer = [[Randy Owen]]
+| Producer       = [[Harold Shedd]] and [[Alabama (band)|Alabama]]
+| Last single = ""[[Old Flame (song)|Old Flame]]""<br />(1981)
+| This single = ""'''Feels So Right'''"" <br />(1981)
+| Next single = ""[[Love in the First Degree (Alabama song)|Love in the First Degree]]"" <br />(1981)
+}}", Parsers.FixLinks(@"{{Infobox Single
+| Name = Feels So Right
+| Cover =  
+| Artist =  [[Alabama (band)|Alabama]]
+| from Album = [[Feels So Right (album)|Feels So Right]]
+| A-side         = ""Feels So Right""
+| B-side         = ""See the Embers, Feel the Flame""
+| Released = May 1, 1981 <small>([[United States|U.S.]])</small>
+| Format         = [[7-inch single|7""]]
+| Recorded       = August 26, 1980
+| Genre = [[Country music|Country]]
+| Length         = 3:36
+| Label          = [[RCA Records]] <small>12236</small>
+| Writer = [[Randy Owen]]
+| Producer       = [[Harold Shedd]] and [[Alabama (band)|Alabama]]
+| Last single = ""[[Old Flame (song)|Old Flame]]""<br />(1981)
+| This single = ""[[Feels So Right]]"" <br />(1981)
+| Next single = ""[[Love in the First Degree (Alabama song)|Love in the First Degree]]"" <br />(1981)
+}}", @"Feels So Right", out noChangeBack));
+
+            Assert.AreEqual(@"{{Infobox Album  <!-- See Wikipedia:WikiProject_Albums -->
+|Name        = Feels So Right
+|Type        = [[Album]]
+|Artist      = [[Alabama (band)|Alabama]]
+|Cover       = Alabama - Feels So Right.jpg
+|Released    = [[1981 in country music|1981]]</br>[[July 7]], [[1987]] (re-release)
+|Recorded    = | [[1980 in country music|1980]]
+|Genre       = [[Country music|Country]]
+|Length      = 34:59
+|Label       = [[RCA Records]]
+|Producer    = Larry McBride, [[Harold Shedd]], Alabama
+|Reviews     = *[[Allmusic]] {{Rating|4|5}} [http://allmusic.com/cg/amg.dll?p=amg&token=&sql=10:kjfixql5ldae]
+|Chronology = [[Alabama (band)|Alabama]]
+|Last album  = ''[[My Home's in Alabama (album)|My Home's In Alabama]]''<br />(1980)
+|This album  = '''''Feels So Right'''''<br />(1981)
+|Next album  = ''[[Mountain Music (album)|Mountain Music]]''<br />(1982)
+}}", Parsers.FixLinks(@"{{Infobox Album  <!-- See Wikipedia:WikiProject_Albums -->
+|Name        = Feels So Right
+|Type        = [[Album]]
+|Artist      = [[Alabama (band)|Alabama]]
+|Cover       = Alabama - Feels So Right.jpg
+|Released    = [[1981 in country music|1981]]</br>[[July 7]], [[1987]] (re-release)
+|Recorded    = | [[1980 in country music|1980]]
+|Genre       = [[Country music|Country]]
+|Length      = 34:59
+|Label       = [[RCA Records]]
+|Producer    = Larry McBride, [[Harold Shedd]], Alabama
+|Reviews     = *[[Allmusic]] {{Rating|4|5}} [http://allmusic.com/cg/amg.dll?p=amg&token=&sql=10:kjfixql5ldae]
+|Chronology = [[Alabama (band)|Alabama]]
+|Last album  = ''[[My Home's in Alabama (album)|My Home's In Alabama]]''<br />(1980)
+|This album  = ''[[Feels So Right (album)|Feels So Right]]''<br />(1981)
+|Next album  = ''[[Mountain Music (album)|Mountain Music]]''<br />(1982)
+}}", @"Feels So Right (album)", out noChangeBack));
         }
     }
 
