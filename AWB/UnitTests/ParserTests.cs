@@ -605,6 +605,12 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             Assert.AreEqual(n5, Parsers.FixPeopleCategories(@"'''Alexander II''' ({{lang-ka|ალექსანდრე II, '''''Aleksandre II'''''}}) (died [[April 1]], [[1510]]) was a. 
 * Prince David (born 1505)
 [[Category:1510 deaths]]"));
+
+            // don't pick up outside of zeroth section
+            string n6 = @"foo {{persondata}}
+== hello ==
+{{birth date and age|1960|01|9}}";
+            Assert.AreEqual(n6, Parsers.FixPeopleCategories(n6));
         }
 
         [Test]
@@ -2767,6 +2773,7 @@ Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Multiple people]] {{persondata|name=smith}}"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Fictional blah]] {{persondata|name=smith}}"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[fictional character]] {{persondata|name=smith}}"));
+            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[fictional character|character]] {{persondata|name=smith}}"));
 
             // multiple birth dates means not about one person
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"{{nat fs player|no=1|pos=GK|name=[[Meg]]|age={{Birth date|1956|01|01}} ({{Age at date|1956|01|01|1995|6|5}})|caps=|club=|clubnat=}}

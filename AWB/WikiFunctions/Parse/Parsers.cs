@@ -2674,7 +2674,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public static bool IsArticleAboutAPerson(string articleText)
         {
-            if (!(Variables.LangCode == LangCodeEnum.en) || articleText.Contains(@"[[Category:Multiple people]]") || articleText.Contains(@"[[Category:Married couples") || articleText.Contains(@"[[Category:Fictional") || articleText.Contains(@"[[fictional character]]"))
+            if (!(Variables.LangCode == LangCodeEnum.en) || articleText.Contains(@"[[Category:Multiple people]]") || articleText.Contains(@"[[Category:Married couples") || articleText.Contains(@"[[Category:Fictional") || articleText.Contains(@"[[fictional character"))
                 return false;
 
             // TODO a workaround for abuse of {{birth date and age}} template by many fraternity articles e.g. [[Zeta Phi Beta]]
@@ -2796,7 +2796,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             string yearstring = "";
             // birth
-            if (!WikiRegexes.BirthsCategory.IsMatch(articleText) && (PersonYearOfBirth.Matches(zerothSection).Count == 1 || WikiRegexes.DateBirthAndAge.IsMatch(articleText)))
+            if (!WikiRegexes.BirthsCategory.IsMatch(articleText) && (PersonYearOfBirth.Matches(zerothSection).Count == 1 || WikiRegexes.DateBirthAndAge.IsMatch(zerothSection)))
             {
                 // look for '{{birth date...' template first
                 yearstring = WikiRegexes.DateBirthAndAge.Match(articleText).Groups[1].Value;
@@ -2824,7 +2824,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             }
 
             // death
-            if (!WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) && (PersonYearOfDeath.IsMatch(zerothSection) || WikiRegexes.DateDeathAndAge.IsMatch(articleText)))
+            if (!WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) && (PersonYearOfDeath.IsMatch(zerothSection) || WikiRegexes.DateDeathAndAge.IsMatch(zerothSection)))
             {
                 // look for '{{death date...' template first
                 yearstring = WikiRegexes.DateDeathAndAge.Match(articleText).Groups[1].Value;
