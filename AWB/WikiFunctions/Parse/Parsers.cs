@@ -2674,7 +2674,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public static bool IsArticleAboutAPerson(string articleText)
         {
-            if (!(Variables.LangCode == LangCodeEnum.en) || articleText.Contains(@"[[Category:Multiple people]]") || articleText.Contains(@"[[Category:Married couples") || articleText.Contains(@"[[Category:Fictional") || articleText.Contains(@"[[fictional character"))
+            if (!(Variables.LangCode == LangCodeEnum.en) || articleText.Contains(@"[[Category:Multiple people]]") || articleText.Contains(@"[[Category:Married couples") || articleText.Contains(@"[[Category:Fictional") || articleText.Contains(@"[[fictional character")
+                || Regex.IsMatch(articleText, @"{{[Ii]n-universe"))
                 return false;
 
             // TODO a workaround for abuse of {{birth date and age}} template by many fraternity articles e.g. [[Zeta Phi Beta]]
