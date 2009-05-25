@@ -972,6 +972,7 @@ words2"));
             Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:5th-century BC deaths]]"));
             Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:1209 deaths]]"));
             Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Living people]]"));
+            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:221 BC deaths]]"));
 
             // no matches
             Assert.IsFalse(WikiRegexes.DeathsOrLivingCategory.IsMatch(@""));
