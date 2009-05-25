@@ -2674,7 +2674,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public static bool IsArticleAboutAPerson(string articleText)
         {
-            if (!(Variables.LangCode == LangCodeEnum.en) || articleText.Contains(@"[[Category:Multiple people]]") || articleText.Contains(@"[[Category:Married couples") || articleText.Contains(@"[[Category:Fictional"))
+            if (!(Variables.LangCode == LangCodeEnum.en) || articleText.Contains(@"[[Category:Multiple people]]") || articleText.Contains(@"[[Category:Married couples") || articleText.Contains(@"[[Category:Fictional") || articleText.Contains(@"[[fictional character]]"))
                 return false;
 
             // TODO a workaround for abuse of {{birth date and age}} template by many fraternity articles e.g. [[Zeta Phi Beta]]
@@ -2805,15 +2805,19 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 if (String.IsNullOrEmpty(yearstring))
                 {
                     Match m = PersonYearOfBirth.Match(zerothSection);
-
-                    // when there's only an approximate birth year, add the appropriate cat rather than the xxxx birth one
-                    if (Regex.IsMatch(m.Value, @"(?:\b(about|before|after|around|circa|c\.|between|or +\d{3,})\b|\d{3} *\?)"))
+                    
+                    // check born info before any untemplated died info
+                    if (!(m.Index > PersonYearOfDeath.Match(zerothSection).Index) || !PersonYearOfDeath.IsMatch(zerothSection))
                     {
-                        if(!articleText.Contains(CatYearOfBirthMissingLivingPeople))
-                            articleText += "\r\n" + @"[[Category:Year of birth uncertain]]";
+                        // when there's only an approximate birth year, add the appropriate cat rather than the xxxx birth one
+                        if (Regex.IsMatch(m.Value, @"(?:\b(about|before|after|around|circa|c\.|between|or +\d{3,})\b|\d{3} *\?)"))
+                        {
+                            if (!articleText.Contains(CatYearOfBirthMissingLivingPeople))
+                                articleText += "\r\n" + @"[[Category:Year of birth uncertain]]";
+                        }
+                        else if (!m.Value.Contains("?"))
+                            yearstring = m.Groups[1].Value;
                     }
-                    else if (!m.Value.Contains("?"))
-                        yearstring = m.Groups[1].Value;
                 }
                 if(yearstring.Length > 2)
                     articleText += "\r\n" + @"[[Category:" + yearstring + @" births]]";
@@ -2830,9 +2834,14 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 {
                     Match m = PersonYearOfDeath.Match(zerothSection);
 
-                    if (!Regex.IsMatch(m.Value, @"(?:\b(about|before|after|around|circa|c\.|between)\b|\d{3} *\?)"))
-                        yearstring = m.Groups[1].Value;
+                    // check died info after any untemplated born info
+                    if (m.Index >= PersonYearOfBirth.Match(zerothSection).Index || !PersonYearOfBirth.IsMatch(zerothSection))
+                    {
+                        if (!Regex.IsMatch(m.Value, @"(?:\b(about|before|after|around|circa|c\.|between)\b|\d{3} *\?)"))
+                            yearstring = m.Groups[1].Value;
+                    }
                 }
+
                 if (yearstring.Length > 2)
                     articleText += "\r\n" + @"[[Category:" + yearstring + @" deaths]]";
             }
