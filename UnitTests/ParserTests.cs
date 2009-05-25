@@ -571,6 +571,10 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             string b15 = @"'''Judith Victor Grabiner''' (born 1938 or 1939) is {{Persondata}}";
             Assert.AreEqual(b15 + u, Parsers.FixPeopleCategories(b15));
 
+            // born BC
+            string b16 = @"'''Phillipus Rhodicus''' (born 220 BC) was a {{Persondata}}";
+            Assert.AreEqual(b16 + "\r\n" + @"[[Category:220 BC births]]", Parsers.FixPeopleCategories(b16));
+
             // no change: birth date not present so not 'uncertain'
             string n1 = @"'''Thomas F. Goreau''' (born in [[Germany]], died 1970 in [[Jamaica]]) was [[Category:1970 deaths]]";
             Assert.AreEqual(n1, Parsers.FixPeopleCategories(n1));
@@ -2743,8 +2747,9 @@ Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
 
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@""));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Married couples]]"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Multiple people]]"));
+            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Married couples]] {{persondata|name=smith}}"));
+            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Multiple people]] {{persondata|name=smith}}"));
+            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Fictional blah]] {{persondata|name=smith}}"));
 
             // multiple birth dates means not about one person
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"{{nat fs player|no=1|pos=GK|name=[[Meg]]|age={{Birth date|1956|01|01}} ({{Age at date|1956|01|01|1995|6|5}})|caps=|club=|clubnat=}}
