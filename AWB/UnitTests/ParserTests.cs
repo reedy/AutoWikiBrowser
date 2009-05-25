@@ -519,6 +519,10 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             string d2 = @"'''Johnny Sandon''' (originally named '''Billy Beck''') (born in 1960, in Lıverpool, Lancashire died 23 December 1990) was {{Persondata}}";
             Assert.AreEqual(d2 + "\r\n" + b2 + "\r\n" + @"[[Category:1990 deaths]]", Parsers.FixPeopleCategories(d2));
 
+            // BC death
+            string d3 = @"'''Aeacides''' ({{lang-el|Aἰακίδης}}; died 313 BC), king {{persondata}}";
+            Assert.AreEqual(d3 + "\r\n" + @"[[Category:313 BC deaths]]", Parsers.FixPeopleCategories(d3));
+
             // no matches if not identified as born
             string b1 = @"'''Fred Smith''' is a bloke.";
             Assert.AreEqual(b1, Parsers.FixPeopleCategories(b1));
