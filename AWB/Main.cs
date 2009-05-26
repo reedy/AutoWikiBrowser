@@ -3538,9 +3538,9 @@ window.scrollTo(0, diffTopY);
 
         private string ArticleActionSummary(ArticleActionDialog dlgArticleAction)
         {
-            if (AddUsingAWBOnArticleAction)
-                return dlgArticleAction.Summary + " (" + Variables.SummaryTag.Trim() + ")";
-            return dlgArticleAction.Summary;
+            return AddUsingAWBOnArticleAction
+                       ? dlgArticleAction.Summary + " (" + Variables.SummaryTag.Trim() + ")"
+                       : dlgArticleAction.Summary;
         }
 
         #endregion
@@ -3600,7 +3600,7 @@ window.scrollTo(0, diffTopY);
                     if (uint.TryParse(a.Name, out i) && (i < 2100)) continue;
 
                     // disambigs typically link to pages in the same namespace only
-                    if (new Article(name).NameSpaceKey != a.NameSpaceKey) continue;
+                    if (Namespace.Determine(name) != a.NameSpaceKey) continue;
 
                     txtDabVariants.Text += a.Name + "\r\n";
                 }
