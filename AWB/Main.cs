@@ -3470,70 +3470,69 @@ window.scrollTo(0, diffTopY);
         // TODO: Since this is essentially/conceptually Article.Delete(), Article.Move() etc shouldn't this region be encapsulated?
         private void MoveArticle()
         {
-            ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Move);
-
-            try
+            using (ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Delete))
             {
-                dlgArticleAction.NewTitle = TheArticle.Name;
-                dlgArticleAction.Summary = LastMove;
-
-                if (dlgArticleAction.ShowDialog(this) == DialogResult.OK)
+                try
                 {
-                    LastMove = dlgArticleAction.Summary;
-                    webBrowserEdit.MovePage(TheArticle.Name, dlgArticleAction.NewTitle, ArticleActionSummary(dlgArticleAction));
+                    dlgArticleAction.NewTitle = TheArticle.Name;
+                    dlgArticleAction.Summary = LastMove;
+
+                    if (dlgArticleAction.ShowDialog(this) == DialogResult.OK)
+                    {
+                        LastMove = dlgArticleAction.Summary;
+                        webBrowserEdit.MovePage(TheArticle.Name, dlgArticleAction.NewTitle,
+                                                ArticleActionSummary(dlgArticleAction));
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                ErrorHandler.Handle(ex);
-            }
-            finally
-            {
-                dlgArticleAction.Dispose();
+                catch (Exception ex)
+                {
+                    ErrorHandler.Handle(ex);
+                }
             }
         }
 
         private void DeleteArticle()
         {
-            ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Delete);
-
-            try
+            using (ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Delete))
             {
-                dlgArticleAction.Summary = LastDelete;
-
-                if (dlgArticleAction.ShowDialog(this) == DialogResult.OK)
+                try
                 {
-                    LastDelete = dlgArticleAction.Summary;
-                    webBrowserEdit.DeletePage(TheArticle.Name, ArticleActionSummary(dlgArticleAction));
+                    dlgArticleAction.Summary = LastDelete;
+
+                    if (dlgArticleAction.ShowDialog(this) == DialogResult.OK)
+                    {
+                        LastDelete = dlgArticleAction.Summary;
+                        webBrowserEdit.DeletePage(TheArticle.Name, ArticleActionSummary(dlgArticleAction));
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                ErrorHandler.Handle(ex);
-            }
-            finally
-            {
-                dlgArticleAction.Dispose();
+                catch (Exception ex)
+                {
+                    ErrorHandler.Handle(ex);
+                }
             }
         }
 
         private void ProtectArticle()
         {
-            ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Protect);
-
-            try
+            using (ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Delete))
             {
-                dlgArticleAction.Summary = LastProtect;
-
-                if (dlgArticleAction.ShowDialog(this) == DialogResult.OK)
+                try
                 {
-                    LastProtect = dlgArticleAction.Summary;
-                    webBrowserEdit.ProtectPage(TheArticle.Name, ArticleActionSummary(dlgArticleAction), dlgArticleAction.EditProtectionLevel, dlgArticleAction.MoveProtectionLevel, dlgArticleAction.ProtectExpiry, dlgArticleAction.CascadingProtection);
+                    dlgArticleAction.Summary = LastProtect;
+
+                    if (dlgArticleAction.ShowDialog(this) == DialogResult.OK)
+                    {
+                        LastProtect = dlgArticleAction.Summary;
+                        webBrowserEdit.ProtectPage(TheArticle.Name, ArticleActionSummary(dlgArticleAction),
+                                                   dlgArticleAction.EditProtectionLevel,
+                                                   dlgArticleAction.MoveProtectionLevel, dlgArticleAction.ProtectExpiry,
+                                                   dlgArticleAction.CascadingProtection);
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                ErrorHandler.Handle(ex);
+                catch (Exception ex)
+                {
+                    ErrorHandler.Handle(ex);
+                }
             }
         }
 
