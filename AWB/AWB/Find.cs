@@ -35,7 +35,7 @@ namespace AutoWikiBrowser
         }
 
         public static void Find1(string strRegex, bool isRegex, bool caseSensitive,
-            System.Windows.Forms.TextBox txtEdit, string articleName)
+            System.Windows.Forms.TextBoxBase txtEdit, string articleName)
         {
             string articleText = txtEdit.Text;
 
@@ -74,7 +74,7 @@ namespace AutoWikiBrowser
             txtEdit.ScrollToCaret();
         }
 
-        public static void SetEditBoxSelection(System.Windows.Forms.TextBox txtEdit, int inputIndex, int inputLength)
+        public static void SetEditBoxSelection(System.Windows.Forms.TextBoxBase txtEdit, int inputIndex, int inputLength)
         {
             if (inputIndex > 0 && inputLength > 0 && (inputIndex + inputLength) < txtEdit.TextLength)
             {

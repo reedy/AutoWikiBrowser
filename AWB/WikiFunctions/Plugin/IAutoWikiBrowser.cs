@@ -26,7 +26,7 @@ namespace WikiFunctions.Plugin
     public interface IAutoWikiBrowserForm : IAutoWikiBrowserTabs
     {
         Form Form { get; }
-        TextBox EditBox { get; }
+        TextBoxBase EditBox { get; }
         TextBox CategoryTextBox { get; }
         CheckBox BotModeCheckbox { get; }
         Button DiffButton { get; }

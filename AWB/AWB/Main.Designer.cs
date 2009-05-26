@@ -2304,7 +2304,6 @@ namespace AutoWikiBrowser
             // 
             // txtEdit
             // 
-            this.txtEdit.AcceptsReturn = true;
             this.txtEdit.AcceptsTab = true;
             this.txtEdit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
@@ -2315,7 +2314,6 @@ namespace AutoWikiBrowser
             this.txtEdit.MaxLength = 0;
             this.txtEdit.Multiline = true;
             this.txtEdit.Name = "txtEdit";
-            this.txtEdit.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtEdit.Size = new System.Drawing.Size(394, 320);
             this.txtEdit.TabIndex = 0;
             this.txtEdit.TextChanged += new System.EventHandler(this.txtEdit_TextChanged);

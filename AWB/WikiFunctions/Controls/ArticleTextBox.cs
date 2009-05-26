@@ -6,7 +6,7 @@ namespace WikiFunctions.Controls
     /// <summary>
     /// Wrapped EditBox to conveniently manage the automatic summary reset conditions
     /// </summary>
-    public class ArticleTextBox : TextBox
+    public class ArticleTextBox : RichTextBox
     {
         bool Locked;
 
