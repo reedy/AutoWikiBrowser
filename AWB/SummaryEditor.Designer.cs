@@ -36,9 +36,11 @@ namespace AutoWikiBrowser
             // 
             // Summaries
             // 
+            this.Summaries.AcceptsReturn = true;
             this.Summaries.Location = new System.Drawing.Point(12, 12);
             this.Summaries.Multiline = true;
             this.Summaries.Name = "Summaries";
+            this.Summaries.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.Summaries.Size = new System.Drawing.Size(609, 312);
             this.Summaries.TabIndex = 0;
             // 
