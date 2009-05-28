@@ -12,7 +12,7 @@ namespace WikiFunctions.Controls
 
         public override string Text
         {
-            get { return base.Text; }
+            get { return base.Text.Replace("\n", "\r\n"); }
             set
             {
                 Locked = true;
