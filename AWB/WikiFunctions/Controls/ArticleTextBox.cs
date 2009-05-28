@@ -8,6 +8,11 @@ namespace WikiFunctions.Controls
     /// </summary>
     public class ArticleTextBox : RichTextBox
     {
+        public ArticleTextBox()
+        {
+            LanguageOption = RichTextBoxLanguageOptions.DualFont;
+        }
+
         bool Locked;
 
         public override string Text
