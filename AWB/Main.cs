@@ -1453,7 +1453,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                     webBrowserDiff.Document.Write("<!DOCTYPE HTML PUBLIC \" -//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
                                                   + "<html><head>" +
                                                   WikiDiff.DiffHead() + @"</head><body>" + ((NumberOfEdits < 10) ? WikiDiff.TableHeader : WikiDiff.TableHeaderNoMessages) +
-                                                  Diff.GetDiff(TheArticle.OriginalArticleText, txtEdit.Text.Replace("\n", "\r\n"), 2) +
+                                                  Diff.GetDiff(TheArticle.OriginalArticleText, txtEdit.Text, 2) +
                                                   @"</table><!--<script language='Javascript'>
 // Scroll part of the way into the table, disabled due to other interface problems
 diffNode=document.getElementById('wikiDiff');
@@ -1550,6 +1550,11 @@ window.scrollTo(0, diffTopY);
         #region extra stuff
 
         #region Diff
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
         public void UndoChange(int left, int right)
         {
             try
@@ -1564,6 +1569,11 @@ window.scrollTo(0, diffTopY);
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
         public void UndoDeletion(int left, int right)
         {
             try
@@ -1578,6 +1588,10 @@ window.scrollTo(0, diffTopY);
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="right"></param>
         public void UndoAddition(int right)
         {
             try
@@ -1592,6 +1606,10 @@ window.scrollTo(0, diffTopY);
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="destLine"></param>
         public void GoTo(int destLine)
         {
             try
@@ -1600,7 +1618,7 @@ window.scrollTo(0, diffTopY);
                 txtEdit.Select();
                 if (destLine < 0) return;
 
-                MatchCollection mc = Regex.Matches(txtEdit.Text, "\n");
+                MatchCollection mc = Regex.Matches(txtEdit.Text, "\r\n");
                 destLine = Math.Min(mc.Count, destLine);
 
                 if (destLine == 0) txtEdit.Select(0, 0);
