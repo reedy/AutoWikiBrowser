@@ -2170,6 +2170,10 @@ window.scrollTo(0, diffTopY);
                 if (articleText.StartsWith("=="))
                     lblWarn.Text += "Starts with heading.";
 
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Format_references
+                if(TheArticle.HasBareReferences)
+                    lblWarn.Text += @"Unformatted references found" + "\r\n";
+
                 lblWords.Text = "Words: " + intWords;
                 lblCats.Text = "Categories: " + intCats;
                 lblImages.Text = "Images: " + intImages;
