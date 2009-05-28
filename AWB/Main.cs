@@ -1623,8 +1623,8 @@ window.scrollTo(0, diffTopY);
             SetBrowserSize();
         }
 
-        Point OldPosition;
-        Size OldSize;
+        private Point OldPosition;
+        private Size OldSize;
         private void ParametersShowHide()
         {
             enlargeEditAreaToolStripMenuItem.Checked = !enlargeEditAreaToolStripMenuItem.Checked;
@@ -3154,9 +3154,8 @@ window.scrollTo(0, diffTopY);
         {
             string text = RemoveText.Hide(txtEdit.Text);
             text = Parsers.RemoveAllWhiteSpace(text);
-            text = RemoveText.AddBack(text);
 
-            txtEdit.Text = text;
+            txtEdit.Text = RemoveText.AddBack(text);
         }
         #endregion
 
