@@ -231,7 +231,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex RegexHeadings10 = new Regex("(== ?)Life and Career( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex RegexHeadingsCareer = new Regex("(== ?)([a-zA-Z]+) Career( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private static readonly Regex RegexRemoveHeadingsInLinks = new Regex(@"^ *((={1,4})[^\[\]\{\}\|=]*)\[{2}(?:[^\[\]\{\}\|=]+\|)?([^\[\]\{\}\|]+)\]\]([^\{\}=]*\2) *$", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex RegexRemoveLinksInHeadings = new Regex(@"^ *((={1,4})[^\[\]\{\}\|=]*)\[{2}(?:[^\[\]\{\}\|=]+\|)?([^\[\]\{\}\|]+)\]\]([^\{\}=]*\2) *$", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
 
         private static readonly Regex RegexBadHeader = new Regex("^(={1,4} ?(about|description|overview|definition|profile|(?:general )?information|background|intro(?:duction)?|summary|bio(?:graphy)?) ?={1,4})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
@@ -346,9 +346,9 @@ namespace WikiFunctions.Parse
             articleText = RegexBadHeader.Replace(articleText, "");
 
             // loop through in case a heading has mulitple wikilinks in it
-            while (RegexRemoveHeadingsInLinks.IsMatch(articleText))
+            while (RegexRemoveLinksInHeadings.IsMatch(articleText))
             {
-                articleText = RegexRemoveHeadingsInLinks.Replace(articleText, "$1$3$4");
+                articleText = RegexRemoveLinksInHeadings.Replace(articleText, "$1$3$4");
             }
 
             if (!Regex.IsMatch(articleText, "= ?See also ?="))
