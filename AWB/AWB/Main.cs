@@ -1600,7 +1600,7 @@ window.scrollTo(0, diffTopY);
                 txtEdit.Select();
                 if (destLine < 0) return;
 
-                MatchCollection mc = Regex.Matches(txtEdit.Text, "\r\n");
+                MatchCollection mc = Regex.Matches(txtEdit.Text, "\n");
                 destLine = Math.Min(mc.Count, destLine);
 
                 if (destLine == 0) txtEdit.Select(0, 0);
