@@ -1594,15 +1594,19 @@ Some news here.", "test"));
             Assert.AreEqual("==foo==", Parsers.FixHeadings("==[[foo]]==", "test"));
             Assert.AreEqual("== foo ==", Parsers.FixHeadings("== [[foo]] ==", "test"));
             Assert.AreEqual("==bar==", Parsers.FixHeadings("==[[foo|bar]]==", "test"));
-
-            // match
-            Assert.AreEqual("==hello world ==", Parsers.FixHeadings("==hello [[world]] ==", "a"));
+            Assert.AreEqual(@"==hello world ==
+", Parsers.FixHeadings(@"==hello [[world]] ==
+", "a"));
             Assert.AreEqual("==Hello world==", Parsers.FixHeadings("==[[Hello world]]==", "a"));
             Assert.AreEqual("==world==", Parsers.FixHeadings("==[[hello|world]]==", "a"));
             Assert.AreEqual("== world ==", Parsers.FixHeadings("== [[hello|world]] ==", "a"));
             Assert.AreEqual("==world==", Parsers.FixHeadings("==[[hello now|world]]==", "a"));
             Assert.AreEqual("==world now==", Parsers.FixHeadings("==[[hello|world now]]==", "a"));
-            Assert.AreEqual("==now world==", Parsers.FixHeadings("==now [[hello|world]]==", "a"));
+            Assert.AreEqual(@"
+==now world==
+", Parsers.FixHeadings(@"
+==now [[hello|world]]==
+", "a"));
             Assert.AreEqual("==now world here==", Parsers.FixHeadings("==now [[hello|world]] here==", "a"));
             Assert.AreEqual("==now world def here==", Parsers.FixHeadings("==now [[hello abc|world def]] here==", "a"));
             Assert.AreEqual("==now world here==", Parsers.FixHeadings("==now [[ hello |world]] here==", "a"));
@@ -1611,10 +1615,16 @@ Some news here.", "test"));
             Assert.AreEqual("===hello world ===", Parsers.FixHeadings("===hello [[world]] ===", "a"));
             Assert.AreEqual("====hello world ====", Parsers.FixHeadings("====hello [[world]] ====", "a"));
             Assert.AreEqual("====United States Marine Corps====", Parsers.FixHeadings("====[[United States Marine Corps]]====", "a"));
+            Assert.AreEqual(@"
+==foo==
+====United States Marine Corps====
+*[[V-22 Osprey]] - tilt-rotor, [[VTOL]] tactical transport", Parsers.FixHeadings(@"
+==foo==
+====[[United States Marine Corps]]====
+*[[V-22 Osprey]] - tilt-rotor, [[VTOL]] tactical transport", "a"));
 
             // no match
             Assert.AreEqual("===hello [[world]] ==", Parsers.FixHeadings("===hello [[world]] ==", "a"));
-            Assert.AreEqual("==hello [[world]] ===", Parsers.FixHeadings("==hello [[world]] ===", "a"));
             Assert.AreEqual("== hello world ==", Parsers.FixHeadings("== hello world ==", "a"));
             Assert.AreEqual("==hello==", Parsers.FixHeadings("==hello==", "a"));
             Assert.AreEqual("==now [[hello|world] ] here==", Parsers.FixHeadings("==now [[hello|world] ] here==", "a"));
