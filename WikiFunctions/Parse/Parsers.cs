@@ -3296,6 +3296,32 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return (WikiRegexes.RefAfterReflist.IsMatch(articleText) && WikiRegexes.ReferencesTemplate.Matches(articleText).Count == 1);
         }
 
+        /// <summary>
+        /// Returns true if the article contains bare external links in the references section (just the URL link on a line with no description/name)
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <returns></returns>
+        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Format_references
+        public static bool HasBareReferences(string articleText)
+        {
+            int referencesIndex = Regex.Match(articleText, @"== *References *==", RegexOptions.IgnoreCase).Index;
+
+            int externalLinksIndex = Regex.Match(articleText, @"== *External +links? *==", RegexOptions.IgnoreCase).Index;
+
+            string refsArea = "";
+
+            if (referencesIndex < 2)
+                return false;
+
+            // get the references section: to external links or end of article, whichever is earlier
+            if (externalLinksIndex > referencesIndex)
+                refsArea = articleText.Substring(referencesIndex, (externalLinksIndex - referencesIndex));
+            else
+                refsArea = articleText.Substring(referencesIndex);
+
+            return (WikiRegexes.BareExternalLink.IsMatch(refsArea));
+        }
+
         #endregion
     }
 }

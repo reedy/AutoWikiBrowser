@@ -217,6 +217,13 @@ namespace WikiFunctions
         { get { return Parsers.HasRefAfterReflist(mArticleText); } }
 
         /// <summary>
+        /// Returns true if the article contains bare references (just the URL link on a line with no description/name)
+        /// </summary>
+        [XmlIgnore]
+        public bool HasBareReferences
+        { get { return Parsers.HasBareReferences(mArticleText); } }
+
+        /// <summary>
         /// Returns true if the article should be skipped; check after each call to a worker member. See AWB main.cs.
         /// </summary>
         [XmlIgnore]

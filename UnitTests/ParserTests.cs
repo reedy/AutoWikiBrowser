@@ -2452,6 +2452,69 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
 |Next album  = ''[[Mountain Music (album)|Mountain Music]]''<br />(1982)
 }}", @"Feels So Right (album)", out noChangeBack));
         }
+
+        [Test]
+        public void BareReferencesTests()
+        {
+            Assert.IsTrue(Parsers.HasBareReferences(@"
+foo
+==References==
+* http://www.site.com
+"));
+
+            Assert.IsTrue(Parsers.HasBareReferences(@"
+foo
+==References==
+* http://www.site.com
+==External links==
+* http://www.site2.com
+"));
+
+            Assert.IsTrue(Parsers.HasBareReferences(@"
+foo
+==References==
+* [http://www.site.com/site a site]
+* http://www.site.com
+==External links==
+* http://www.site2.com
+"));
+
+            Assert.IsTrue(Parsers.HasBareReferences(@"
+foo
+==References==
+* http://www.site.com
+* [http://www.site.com/site a site]
+==External links==
+* http://www.site2.com
+"));
+
+            Assert.IsTrue(Parsers.HasBareReferences(@"
+foo
+==External links==
+* http://www.site2.com
+==References==
+* http://www.site.com
+* [http://www.site.com/site a site]
+"));
+
+            Assert.IsFalse(Parsers.HasBareReferences(@"
+foo
+==References==
+* [http://www.site.com/site a site]
+==External links==
+* http://www.site2.com
+"));
+
+            Assert.IsFalse(Parsers.HasBareReferences(@"
+foo
+* [http://www.site.com/site a site]
+==External links==
+* http://www.site2.com
+"));
+
+            Assert.IsFalse(Parsers.HasBareReferences(@""));
+            Assert.IsFalse(Parsers.HasBareReferences(@"foo"));
+        }
     }
 
     [TestFixture]

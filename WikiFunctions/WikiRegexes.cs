@@ -387,6 +387,11 @@ namespace WikiFunctions
         public static readonly Regex RefAfterReflist = new Regex(ReferencesTemplates + @".*?" + ReferenceEndGR, RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
+        /// Matches a line with a bare external link (no description or name of link)
+        /// </summary>
+        public static readonly Regex BareExternalLink = new Regex(@"^ *\*? *(?:[Hh]ttp|[Hh]ttps|[Ff]tp|[Mm]ailto)://[^\ \n<>]+\s+$", RegexOptions.Multiline);
+
+        /// <summary>
         /// Matches {{lifetime}} and its aliases
         /// </summary>
         public static readonly Regex Lifetime = new Regex(@"{{(?:[Ll]ifetime|BIRTH-DEATH-SORT|BD)\s*\|[^\}]*}}", RegexOptions.Compiled);
