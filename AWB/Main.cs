@@ -1453,7 +1453,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                     webBrowserDiff.Document.Write("<!DOCTYPE HTML PUBLIC \" -//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
                                                   + "<html><head>" +
                                                   WikiDiff.DiffHead() + @"</head><body>" + ((NumberOfEdits < 10) ? WikiDiff.TableHeader : WikiDiff.TableHeaderNoMessages) +
-                                                  Diff.GetDiff(TheArticle.OriginalArticleText, txtEdit.Text, 2) +
+                                                  Diff.GetDiff(TheArticle.OriginalArticleText, txtEdit.Text.Replace("\n", "\r\n"), 2) +
                                                   @"</table><!--<script language='Javascript'>
 // Scroll part of the way into the table, disabled due to other interface problems
 diffNode=document.getElementById('wikiDiff');
