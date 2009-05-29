@@ -133,7 +133,7 @@ namespace WikiFunctions.Controls
             set { chkExplicitCapture.Checked = value; }
         }
 
-        public bool AskToApply;
+        public readonly bool AskToApply;
         #endregion
 
         bool Busy
@@ -267,10 +267,10 @@ namespace WikiFunctions.Controls
         private void RegexTester_HelpButtonClicked(object sender, CancelEventArgs e)
         {
             e.Cancel = true;
-            RegexTester_HelpRequested();
+            RegexTesterHelpRequested();
         }
 
-        private static void RegexTester_HelpRequested()
+        private static void RegexTesterHelpRequested()
         {
             Tools.OpenURLInBrowser("http://msdn2.microsoft.com/en-us/library/az24scfc.aspx");
         }
@@ -324,12 +324,18 @@ namespace WikiFunctions.Controls
                             n.Nodes.Add(ReplaceNewLines("{" + g.Captures[0].Value) + "}");
                     }
                 }
-                if (sender.Matches.Count == 0)
-                    Status.Text = "No matches";
-                else if (sender.Matches.Count == 1)
-                    Status.Text = "1 match found";
-                else
-                    Status.Text = sender.Matches.Count + " matches found";
+                switch (sender.Matches.Count)
+                {
+                    case 0:
+                        Status.Text = "No matches";
+                        break;
+                    case 1:
+                        Status.Text = "1 match found";
+                        break;
+                    default:
+                        Status.Text = sender.Matches.Count + " matches found";
+                        break;
+                }
 
                 Status.Text += " in " + sender.GetExecutionTime() + " ms";
 
@@ -370,9 +376,9 @@ namespace WikiFunctions.Controls
     internal class RegexRunner
     {
         // in
-        public string Input;
-        public string Replace;
-        public Regex _Regex;
+        public readonly string Input;
+        public readonly string Replace;
+        public readonly Regex _Regex;
 
         // out
         public string Result;
@@ -383,11 +389,11 @@ namespace WikiFunctions.Controls
         readonly Thread Thr;
         readonly RegexTester Parent;
 
-        private long executiontime = 0;
+        private long ExecutionTime = 0;
 
         public long GetExecutionTime()
         {
-            return executiontime;
+            return ExecutionTime;
         }
 
         public RegexRunner(RegexTester parent, string input, Regex regex)
@@ -401,9 +407,11 @@ namespace WikiFunctions.Controls
             Replace = replace;
             _Regex = regex;
 
-            Thr = new Thread(ThreadFunc);
-            Thr.Priority = ThreadPriority.BelowNormal;
-            Thr.Name = "RegexRunner";
+            Thr = new Thread(ThreadFunc)
+                      {
+                          Priority = ThreadPriority.BelowNormal, 
+                          Name = "RegexRunner"
+                      };
             Thr.Start();
         }
 
@@ -427,7 +435,7 @@ namespace WikiFunctions.Controls
                 if (!string.IsNullOrEmpty(Replace))
                     Result = _Regex.Replace(Input, Replace);
 
-                executiontime = sw.ElapsedMilliseconds;
+                ExecutionTime = sw.ElapsedMilliseconds;
             }
             catch (Exception ex)
             {
@@ -469,6 +477,4 @@ namespace WikiFunctions.Controls
 {{WPBiography|living=no|class=Start|priority=|sports-work-group=yes|listas=Magadan, Dave|nested=yes|activepol=yes|non-bio=yes|politician-work-group=yes}}
 {{WikiProject Texas |class=Start |importance=Low |nested=yes}}
 }}
-
-
-**/
+*/
