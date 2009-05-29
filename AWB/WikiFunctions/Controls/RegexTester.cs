@@ -212,7 +212,7 @@ namespace WikiFunctions.Controls
 
                 Regex r = new Regex(txtFind.Text, Options);
 
-                Runner = new RegexRunner(this, txtInput.Text, txtReplace.Text.Replace("\\n", "\r\n"), r);
+                Runner = new RegexRunner(this, txtInput.Text, NewLineRegex.Replace(txtReplace.Text, "\r\n"), r);
             }
             catch (Exception ex)
             {
@@ -354,9 +354,9 @@ namespace WikiFunctions.Controls
                 Captures.Visible = false;
                 ResultText.Visible = true;
 
-                txtInput.Text = txtInput.Text.Replace("\n", "\r\n");
+                txtInput.Text = NewLineRegex.Replace(txtInput.Text, "\r\n");
                 ResultText.Text = ResultText.Text.Replace("\r\n", "\n");
-                ResultText.Text = ResultText.Text.Replace("\n", "\r\n");
+                ResultText.Text = NewLineRegex.Replace(ResultText.Text, "\r\n");
             }
         }
 
