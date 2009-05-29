@@ -389,7 +389,7 @@ namespace WikiFunctions.Controls
         readonly Thread Thr;
         readonly RegexTester Parent;
 
-        private long ExecutionTime = 0;
+        private long ExecutionTime;
 
         public long GetExecutionTime()
         {
