@@ -64,23 +64,23 @@ namespace WikiFunctions.Controls
             ResizeColumns(true);
         }
 
-        bool resizeColumnsOnControlResize;
+        private bool ResizeColumnsOnControlResize;
         [DefaultValue(false)]
         public bool ResizeColumsOnControlResize
         {
             set
             {
-                if (value && !resizeColumnsOnControlResize)
+                if (value && !ResizeColumnsOnControlResize)
                     Resize += NoFlickerExtendedListView_Resize;
-                else if (!value && resizeColumnsOnControlResize)
+                else if (!value && ResizeColumnsOnControlResize)
                     Resize -= NoFlickerExtendedListView_Resize;
 
-                resizeColumnsOnControlResize = value;
+                ResizeColumnsOnControlResize = value;
             }
-            get { return resizeColumnsOnControlResize; }
+            get { return ResizeColumnsOnControlResize; }
         }
 
-        bool sortColumnsOnClick;
+        private bool sortColumnsOnClick;
         [DefaultValue(false)]
         /// <summary>
         /// Enables or disables sorting upon click on column header
@@ -102,7 +102,7 @@ namespace WikiFunctions.Controls
         private int sortColumn;
 
         /// <remarks>From http://msdn2.microsoft.com/en-us/library/ms996467.aspx </remarks>
-        void ExtendedListView_ColumnClick(object sender, ColumnClickEventArgs e)
+        private void ExtendedListView_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             try
             {
@@ -189,26 +189,26 @@ namespace WikiFunctions.Controls
 
         sealed class ListViewItemComparer : IComparer
         {
-            private readonly int col;
-            private readonly SortOrder order;
+            private readonly int Col;
+            private readonly SortOrder Order;
 
             public ListViewItemComparer()
             {
-                order = SortOrder.Ascending;
+                Order = SortOrder.Ascending;
             }
 
             public ListViewItemComparer(int column, SortOrder order)
             {
-                col = column;
-                this.order = order;
+                Col = column;
+                Order = order;
             }
 
             public int Compare(object x, object y)
             {
                 int returnVal;
 
-                string sx = ((ListViewItem)x).SubItems[col].Text;
-                string sy = ((ListViewItem)y).SubItems[col].Text;
+                string sx = ((ListViewItem) x).SubItems[Col].Text;
+                string sy = ((ListViewItem) y).SubItems[Col].Text;
 
                 DateTime firstDate, secondDate;
                 double dblX, dblY;
@@ -219,21 +219,21 @@ namespace WikiFunctions.Controls
                     returnVal = dblX.CompareTo(dblY);
                 }
                 else
-                // Determine whether the type being compared is a DateTime type
-                if (DateTime.TryParse(sx, out firstDate) && DateTime.TryParse(sy, out secondDate))
-                {
-                    // Compare the two dates.
-                    returnVal = DateTime.Compare(firstDate, secondDate);
-                }
-                else
-                {
-                    // If neither compared object has a valid int or date format, compare
-                    // as a string.
-                    returnVal = String.Compare(sx, sy);
-                }
+                    // Determine whether the type being compared is a DateTime type
+                    if (DateTime.TryParse(sx, out firstDate) && DateTime.TryParse(sy, out secondDate))
+                    {
+                        // Compare the two dates.
+                        returnVal = DateTime.Compare(firstDate, secondDate);
+                    }
+                    else
+                    {
+                        // If neither compared object has a valid int or date format, compare
+                        // as a string.
+                        returnVal = String.Compare(sx, sy);
+                    }
 
                 // Determine whether the sort order is descending.
-                if (order == SortOrder.Descending)
+                if (Order == SortOrder.Descending)
                     // Invert the value returned by String.Compare.
                     returnVal *= -1;
                 return returnVal;

@@ -133,7 +133,7 @@ namespace WikiFunctions.Controls
         }
         #endregion
 
-        Dictionary<string, TypoStat> Data;
+        private Dictionary<string, TypoStat> Data;
         /// <summary>
         /// Whether this controll accumulates statistics for the whole run
         /// </summary>
@@ -303,7 +303,7 @@ namespace WikiFunctions.Controls
     public class TypoStatsListViewItem : ListViewItem
     {
         public TypoStat Typo;
-        bool isYellow;
+        private bool IsYellow;
 
         public TypoStatsListViewItem(TypoStat stat)
             : base(new [] { stat.Find, stat.Replace, "", "" })
@@ -318,15 +318,15 @@ namespace WikiFunctions.Controls
             SubItems[2].Text = Typo.Total.ToString();
             SubItems[3].Text = Typo.SelfMatches.ToString();
 
-            if ((Typo.Total == Typo.SelfMatches) && !isYellow)
+            if ((Typo.Total == Typo.SelfMatches) && !IsYellow)
             {
                 BackColor = System.Drawing.Color.Yellow;
-                isYellow = true;
+                IsYellow = true;
             }
-            else if (isYellow)
+            else if (IsYellow)
             {
                 BackColor = System.Drawing.Color.White;
-                isYellow = false;
+                IsYellow = false;
             }
         }
     }
