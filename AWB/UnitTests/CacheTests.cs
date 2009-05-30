@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using NUnit.Framework;
 using WikiFunctions;
 using System.IO;
@@ -28,11 +29,6 @@ namespace UnitTests
             Cache.Load(ms);
         }
 
-        //string SaveToString()
-        //{
-        //    StringStream 
-        //}
-
         [Test]
         public void GetAndSet()
         {
@@ -56,7 +52,7 @@ namespace UnitTests
         [Test]
         public void Expiry()
         {
-            var expiresSoon = new TimeSpan(0, 0, 0, 0, 50);
+            var expiresSoon = new TimeSpan(0, 0, 0, 0, 20);
             Cache.AddType(typeof(int), expiresSoon);
 
             // using default expiry time
@@ -139,7 +135,6 @@ namespace UnitTests
         public void PresetCachesCreated()
         {
             Assert.IsNotNull(ObjectCache.Global);
-            //Assert.IsNotNull(ObjectCache.UserCache);
         }
     }
 }
