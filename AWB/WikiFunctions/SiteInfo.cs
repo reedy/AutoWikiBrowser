@@ -59,7 +59,7 @@ namespace WikiFunctions
                 if (!LoadNamespaces())
                     throw new WikiUrlException();
 
-                if (!LoadLocalisedMagicWordAlias())
+                if (!LoadLocalisedMagicWordAliases())
                     throw new WikiUrlException();
             }
             catch (Exception ex)
@@ -122,7 +122,8 @@ namespace WikiFunctions
             XmlDocument xd = new XmlDocument();
             xd.LoadXml(output);
 
-            if (xd.GetElementsByTagName("api").Count != 1)
+            if (xd["api"] == null || xd["api"]["query"] == null
+                || xd["api"]["query"]["namespaces"] == null || xd["api"]["query"]["namespacealiases"] == null)
                 return false;
 
             foreach (XmlNode xn in xd["api"]["query"]["namespaces"].GetElementsByTagName("ns"))
@@ -148,7 +149,7 @@ namespace WikiFunctions
         /// 
         /// </summary>
         /// <returns></returns>
-        public bool LoadLocalisedMagicWordAlias()
+        public bool LoadLocalisedMagicWordAliases()
         {
             string output = Tools.GetHTML(ApiPath + "?action=query&meta=siteinfo&siprop=magicwords&format=xml");
 
@@ -163,6 +164,10 @@ namespace WikiFunctions
                 return false;
 
             magicWords.Clear();
+
+            // api / query existence is already checked
+            if (xd["api"]["query"]["magicwords"] == null)
+                return false;
 
             foreach (XmlNode xn in xd["api"]["query"]["magicwords"].GetElementsByTagName("magicword"))
             {

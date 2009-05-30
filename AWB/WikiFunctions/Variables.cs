@@ -698,11 +698,13 @@ namespace WikiFunctions
                 NamespaceAliases = si.NamespaceAliases;
                 MagicWords = si.MagicWords;
             }
-            catch
+            catch (Exception ex)
             {
+                string message = ex is WikiUrlException ? ex.InnerException.Message : ex.Message;
                 MessageBox.Show("An error occured while connecting to the server or loading project information from it. " +
                         "Please make sure that your internet connection works and such combination of project/language exist." +
-                        "\r\nEnter the URL in the format \"en.wikipedia.org/w/\" (including path where index.php and api.php reside).",
+                        "\r\nEnter the URL in the format \"en.wikipedia.org/w/\" (including path where index.php and api.php reside)." +
+                        "\r\nError description: " + message,
                         "Error connecting to wiki", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 SetDefaults();
                 return;
