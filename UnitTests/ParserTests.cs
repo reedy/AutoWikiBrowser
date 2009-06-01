@@ -3337,7 +3337,6 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
             text = parser.Tagger("{{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", "Test", out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
-            Assert.IsTrue(string.IsNullOrEmpty(text));
 
             Globals.UnitTestBoolValue = false;
 
