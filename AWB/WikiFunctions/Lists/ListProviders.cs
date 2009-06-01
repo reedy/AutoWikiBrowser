@@ -427,6 +427,7 @@ namespace WikiFunctions.Lists
 
     /// <summary>
     /// Gets a list of pages (all ns's) from which link to the Named Pages
+    /// (If linking page is a redirect, get pages which link to that also)
     /// </summary>
     public class WhatLinksHereAllNSIncludingRedirectsListProvider : WhatLinksHereAllNSListProvider
     {
@@ -440,7 +441,8 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// Gets a list of pages which link to the Named Pages (including what links to the redirects)
+    /// Gets a list of pages which link to the Named Pages
+    /// (If linking page is a redirect, get pages which link to that also)
     /// </summary>
     public class WhatLinksHereIncludingRedirectsListProvider : WhatLinksHereListProvider
     {
