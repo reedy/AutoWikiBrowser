@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System.Text.RegularExpressions;
 using WikiFunctions;
+using WikiFunctions.Controls;
 
 namespace AutoWikiBrowser
 {
@@ -35,9 +36,9 @@ namespace AutoWikiBrowser
         }
 
         public static void Find1(string strRegex, bool isRegex, bool caseSensitive,
-            System.Windows.Forms.TextBoxBase txtEdit, string articleName)
+            ArticleTextBox txtEdit, string articleName)
         {
-            string articleText = txtEdit.Text;
+            string articleText = txtEdit.RawText;
 
             RegexOptions regOptions = caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase;
 

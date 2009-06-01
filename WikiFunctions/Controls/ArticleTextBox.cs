@@ -26,6 +26,11 @@ namespace WikiFunctions.Controls
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public string RawText { get { return base.Text; } }
+
         protected override void OnTextChanged(EventArgs e)
         {
             // Prohibits triggering the TextChanged event if the text is changed programmatically
