@@ -345,10 +345,14 @@ namespace WikiFunctions.Parse
             articleText = Regex.Replace(articleText, "^={1,4} ?" + Regex.Escape(articleTitle) + " ?={1,4}", "", RegexOptions.IgnoreCase);
             articleText = RegexBadHeader.Replace(articleText, "");
 
-            // loop through in case a heading has mulitple wikilinks in it
-            while (RegexRemoveLinksInHeadings.IsMatch(articleText))
+            // only apply if < 6 matches, otherwise (badly done) articles with 'list of...' and lots of links in headings will be further messed up
+            if (RegexRemoveLinksInHeadings.Matches(articleText).Count < 6)
             {
-                articleText = RegexRemoveLinksInHeadings.Replace(articleText, "$1$3$4");
+                // loop through in case a heading has mulitple wikilinks in it
+                while (RegexRemoveLinksInHeadings.IsMatch(articleText))
+                {
+                    articleText = RegexRemoveLinksInHeadings.Replace(articleText, "$1$3$4");
+                }
             }
 
             if (!Regex.IsMatch(articleText, "= ?See also ?="))
