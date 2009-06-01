@@ -992,6 +992,16 @@ words2"));
         }
 
         [Test]
+        public void WordApostropheTests()
+        {
+            Assert.IsTrue(WikiRegexes.RegexWordApostrophes.IsMatch(@"Rachel"));
+            Assert.IsTrue(WikiRegexes.RegexWordApostrophes.IsMatch(@"Rachel's"));
+            Assert.IsTrue(WikiRegexes.RegexWordApostrophes.IsMatch(@"Kwakwaka'wakw"));
+
+            Assert.AreEqual("", WikiRegexes.RegexWordApostrophes.Replace(@"Kwakwaka'wakw", ""));
+        }
+
+        [Test]
         public void DeathsOrLivingCategoryTests()
         {
             Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:653 deaths|Honorius]]"));
