@@ -437,7 +437,7 @@ namespace WikiFunctions.Lists
         }
 
         public override string DisplayText
-        { get { return base.DisplayText + " (inc. Redirects)"; } }
+        { get { return base.DisplayText + " (and to Redirects)"; } }
     }
 
     /// <summary>
@@ -452,7 +452,7 @@ namespace WikiFunctions.Lists
         }
 
         public override string DisplayText
-        { get { return base.DisplayText + " (inc. Redirects)"; } }
+        { get { return base.DisplayText + " (and to Redirects)"; } }
     }
 
     /// <summary>
