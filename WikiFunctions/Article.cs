@@ -517,12 +517,10 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="parsers">An initialised Parsers object</param>
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
-        /// <param name="addTags"></param>
-        /// <param name="removeTags"></param>
-        public void AutoTag(Parsers parsers, bool skipIfNoChange, bool addTags, bool removeTags)
+        public void AutoTag(Parsers parsers, bool skipIfNoChange)
         {
             string tmpEditSummary = "";
-            string strTemp = parsers.Tagger(mArticleText, mName, out noChange, ref tmpEditSummary, addTags, removeTags);
+            string strTemp = parsers.Tagger(mArticleText, mName, out noChange, ref tmpEditSummary);
 
             if (skipIfNoChange && noChange)
                 Trace.AWBSkipped("No Tag changed");

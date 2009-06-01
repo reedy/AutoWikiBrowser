@@ -16,8 +16,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-/* From WikiFunctions2.dll. Converted from VB to C# in Reflector.
-   Some of this is currently only suitable for enwiki. */
+/* Some of this is currently only suitable for enwiki. */
 
 using System.Text.RegularExpressions;
 using WikiFunctions.Logging;

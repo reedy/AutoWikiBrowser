@@ -2654,18 +2654,15 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         private static string DefaultsortTitlesWithDiacritics(string articleText, string articleTitle, int matches, bool articleAboutAPerson)
         {
             // need some categories and no defaultsort, and a sortkey not the same as the article title
-            if (((Tools.FixupDefaultSort(articleTitle) != articleTitle && !articleAboutAPerson)  || 
-                (Tools.MakeHumanCatKey(articleTitle) != articleTitle && articleAboutAPerson)) 
+            if (((Tools.FixupDefaultSort(articleTitle) != articleTitle && !articleAboutAPerson) ||
+                 (Tools.MakeHumanCatKey(articleTitle) != articleTitle && articleAboutAPerson))
                 && matches > 0 && !WikiRegexes.Defaultsort.IsMatch(articleText))
             {
-                string sortkey = "";
-
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Human_DEFAULTSORT
                 // if article is about a person, attempt to add a surname, forenames sort key rather than the tidied article title
-                if (articleAboutAPerson)
-                    sortkey = Tools.MakeHumanCatKey(articleTitle);
-                else 
-                    sortkey = Tools.FixupDefaultSort(articleTitle);
+                string sortkey = articleAboutAPerson
+                              ? Tools.MakeHumanCatKey(articleTitle)
+                              : Tools.FixupDefaultSort(articleTitle);
 
                 articleText = articleText + "\r\n{{DEFAULTSORT:" + sortkey + "}}";
 
@@ -2689,20 +2686,19 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (Regex.IsMatch(articleText, @"{{\s*[Ii]nfobox[\s_]+[Ff]raternity"))
                 return false;
 
-            int DateBirthAndAgeCount = WikiRegexes.DateBirthAndAge.Matches(articleText).Count;
-            int DateDeathAndAgeCount = WikiRegexes.DateDeathAndAge.Matches(articleText).Count;
+            int dateBirthAndAgeCount = WikiRegexes.DateBirthAndAge.Matches(articleText).Count;
+            int dateDeathAndAgeCount = WikiRegexes.DateDeathAndAge.Matches(articleText).Count;
 
-            if (DateBirthAndAgeCount > 1 || DateDeathAndAgeCount > 1)
+            if (dateBirthAndAgeCount > 1 || dateDeathAndAgeCount > 1)
                 return false;
 
-            if (WikiRegexes.Lifetime.IsMatch(articleText) || WikiRegexes.Persondata.Matches(articleText).Count == 1 || DateBirthAndAgeCount == 1 || DateDeathAndAgeCount == 1 || articleText.Contains(@"-bio-stub}}"))
+            if (WikiRegexes.Lifetime.IsMatch(articleText) || WikiRegexes.Persondata.Matches(articleText).Count == 1 || dateBirthAndAgeCount == 1 || dateDeathAndAgeCount == 1 || articleText.Contains(@"-bio-stub}}"))
                 return true;
 
-            if (WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) || WikiRegexes.LivingPeopleRegex2.IsMatch(articleText) || WikiRegexes.BirthsCategory.IsMatch(articleText)
-                || articleText.Contains(@"[[Category:Living people"))
-                return true;
-
-            return false;
+            return WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) ||
+                   WikiRegexes.LivingPeopleRegex2.IsMatch(articleText) ||
+                   WikiRegexes.BirthsCategory.IsMatch(articleText)
+                   || articleText.Contains(@"[[Category:Living people");
         }
 
         /// <summary>
@@ -2940,16 +2936,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// If necessary, adds/removes wikify or stub tag
         /// </summary>
-        public string Tagger(string articleText, string articleTitle, out bool noChange, ref string summary, bool addTags, bool removeTags)
+        public string Tagger(string articleText, string articleTitle, out bool noChange, ref string summary)
         {
-            if (!addTags && !removeTags)
-            {
-                noChange = true;
-                return articleText;
-            }
-
             string testText = articleText;
-            articleText = Tagger(articleText, articleTitle, ref summary, addTags, removeTags);
+            articleText = Tagger(articleText, articleTitle, ref summary);
             articleText = TagUpdater(articleText);
 
             noChange = (testText == articleText);
@@ -2967,14 +2957,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">The article title.</param>
         /// <param name="summary"></param>
-        /// <param name="addTags"></param>
-        /// <param name="removeTags"></param>
         /// <returns>The tagged article.</returns>
-        public string Tagger(string articleText, string articleTitle, ref string summary, bool addTags, bool removeTags)
+        public string Tagger(string articleText, string articleTitle, ref string summary)
         {
             // don't tag redirects/outside article namespace/no tagging changes
-            if (Tools.IsRedirect(articleText) || !Namespace.IsMainSpace(articleTitle)
-                || (!addTags && !removeTags))
+            if (Tools.IsRedirect(articleText) || !Namespace.IsMainSpace(articleTitle))
                 return articleText;
 
             string commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
@@ -2987,7 +2974,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             // on en wiki, remove expand template when a stub template exists
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.7B.7Bexpand.7D.7D_when_a_stub_template_exists
-            if (removeTags && Variables.LangCode == LangCodeEnum.en && WikiRegexes.Stub.IsMatch(commentsStripped) && WikiRegexes.Expand.IsMatch(commentsStripped))
+            if (Variables.LangCode == LangCodeEnum.en && WikiRegexes.Stub.IsMatch(commentsStripped) && WikiRegexes.Expand.IsMatch(commentsStripped))
             {
                 articleText = WikiRegexes.Expand.Replace(articleText, "");
 
@@ -2995,7 +2982,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             }
 
             // remove stub tags from long articles
-            if (removeTags && (words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped))
+            if ((words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped))
             {
                 articleText = WikiRegexes.Stub.Replace(articleText, StubChecker).Trim();
                 summary += ", removed Stub tag";
@@ -3024,7 +3011,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Archive_19#AWB_problems
             // nl wiki doesn't use {{Uncategorized}} template
-            if (addTags && words > 6 && totalCategories == 0
+            if (words > 6 && totalCategories == 0
                 && !WikiRegexes.Uncat.IsMatch(articleText) && Variables.LangCode != LangCodeEnum.nl)
             {
                 if (WikiRegexes.Stub.IsMatch(commentsStripped))
@@ -3041,21 +3028,21 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     summary += ", added [[:Category:Category needed|uncategorised]] tag";
                 }
             }
-            else if (removeTags && totalCategories > 0
+            else if (totalCategories > 0
                      && WikiRegexes.Uncat.IsMatch(articleText))
             {
                 articleText = WikiRegexes.Uncat.Replace(articleText, "");
                 summary += ", removed uncategorised tag";
             }
 
-            if (addTags && commentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped))
+            if (commentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped))
             {
                 // add stub tag
                 articleText = articleText + "\r\n\r\n\r\n{{stub}}";
                 summary += ", added stub tag";
             }
 
-            if (addTags && linkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText))
+            if (linkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText))
             {
                 // add dead-end tag
                 articleText = "{{deadend|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
@@ -3063,26 +3050,26 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             }
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#.7B.7BDeadend.7D.7D_gets_removed_from_categorized_pages
             // don't include categories as 'links'
-            else if (removeTags && (linkCount - totalCategories) > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
+            else if ((linkCount - totalCategories) > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
             {
                 articleText = WikiRegexes.DeadEnd.Replace(articleText, "");
                 summary += ", removed deadend tag";
             }
 
-            if (addTags && linkCount < 3 && ((linkCount / length) < 0.0025) && !WikiRegexes.Wikify.IsMatch(articleText))
+            if (linkCount < 3 && ((linkCount / length) < 0.0025) && !WikiRegexes.Wikify.IsMatch(articleText))
             {
                 // add wikify tag
                 articleText = "{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
                 summary += ", added [[:Category:Articles that need to be wikified|wikify]] tag";
             }
-            else if (removeTags && linkCount > 3 && ((linkCount / length) > 0.0025) &&
+            else if (linkCount > 3 && ((linkCount / length) > 0.0025) &&
                      WikiRegexes.Wikify.IsMatch(articleText))
             {
                 articleText = WikiRegexes.Wikify.Replace(articleText, "");
                 summary += ", removed wikify tag";
             }
 
-            return TagOrphans(articleText, articleTitle, ref summary, addTags, removeTags);
+            return TagOrphans(articleText, articleTitle, ref summary);
         }
 
         /// <summary>
@@ -3091,10 +3078,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="articleText"></param>
         /// <param name="articleTitle"></param>
         /// <param name="summary"></param>
-        /// <param name="addTags"></param>
-        /// <param name="removeTags"></param>
         /// <returns></returns>
-        private string TagOrphans(string articleText, string articleTitle, ref string summary, bool addTags, bool removeTags)
+        private string TagOrphans(string articleText, string articleTitle, ref string summary)
         {
             // check if not orphaned
             bool orphaned = true;
@@ -3123,12 +3108,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             }
 
             // add orphan tag if applicable
-            if (addTags && orphaned && !WikiRegexes.Orphan.IsMatch(articleText) && !WikiRegexes.OrphanArticleIssues.IsMatch(articleText))
+            if (orphaned && !WikiRegexes.Orphan.IsMatch(articleText) && !WikiRegexes.OrphanArticleIssues.IsMatch(articleText))
             {
                 articleText = "{{orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
                 summary += ", added [[:Category:Orphaned articles|orphan]] tag";
             }
-            else if (removeTags && !orphaned && WikiRegexes.Orphan.IsMatch(articleText))
+            else if (!orphaned && WikiRegexes.Orphan.IsMatch(articleText))
             {
                 articleText = WikiRegexes.Orphan.Replace(articleText, "");
                 summary += ", removed orphan tag";
