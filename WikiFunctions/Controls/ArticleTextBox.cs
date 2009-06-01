@@ -38,15 +38,25 @@ namespace WikiFunctions.Controls
             if (!Locked) base.OnTextChanged(e);
         }
 
-        private static Regex RegexObj;
-        private static Match MatchObj;
+        private Regex RegexObj;
+        private Match MatchObj;
 
+        /// <summary>
+        /// Resets the Find Objects
+        /// </summary>
         public void ResetFind()
         {
             RegexObj = null;
             MatchObj = null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="strRegex"></param>
+        /// <param name="isRegex"></param>
+        /// <param name="caseSensitive"></param>
+        /// <param name="articleName"></param>
         public void Find(string strRegex, bool isRegex, bool caseSensitive, string articleName)
         {
             string articleText = RawText;
@@ -86,6 +96,11 @@ namespace WikiFunctions.Controls
             ScrollToCaret();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inputIndex"></param>
+        /// <param name="inputLength"></param>
         public void SetEditBoxSelection(int inputIndex, int inputLength)
         {
             if (inputIndex > 0 && inputLength > 0 && (inputIndex + inputLength) < TextLength)
