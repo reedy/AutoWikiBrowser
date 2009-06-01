@@ -202,6 +202,32 @@ bar</ IMAGEMAP>");
         }
 
         [Test]
+        public void NoincludeTests()
+        {
+            // one line
+            TestMatch(WikiRegexes.Noinclude, "<noinclude>foo bar< /noinclude>", "<noinclude>foo bar< /noinclude>");
+            TestMatch(WikiRegexes.Noinclude, "<Noinclude>foo bar< /Noinclude>", "<Noinclude>foo bar< /Noinclude>");
+
+            // multiple lines
+            TestMatch(WikiRegexes.Noinclude, @"< noinclude >foo
+bar</ NOINCLUDE>", @"< noinclude >foo
+bar</ NOINCLUDE>");
+        }
+
+        [Test]
+        public void IncludeonlyTests()
+        {
+            // one line
+            TestMatch(WikiRegexes.Includeonly, "<includeonly>foo bar< /includeonly>", "<includeonly>foo bar< /includeonly>");
+            TestMatch(WikiRegexes.Includeonly, "<Includeonly>foo bar< /Includeonly>", "<Includeonly>foo bar< /Includeonly>");
+
+            // multiple lines
+            TestMatch(WikiRegexes.Includeonly, @"< includeonly >foo
+bar</ INCLUDEONLY>", @"< includeonly >foo
+bar</ INCLUDEONLY>");
+        }
+
+        [Test]
         public void Template()
         {
             RegexAssert.Matches("{{foo}}", WikiRegexes.TemplateMultiLine, "{{foo}}");
