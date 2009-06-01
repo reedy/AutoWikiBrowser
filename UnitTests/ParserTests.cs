@@ -2240,6 +2240,19 @@ While remaining upright may be the primary goal of beginning riders While remain
 While remaining upright may be the primary goal of beginning riders| 2009<br>", Parsers.FixLinks(parser.BoldTitle(@"The 2009 Indian Premier League While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders| [[2009 Indian Premier League|2009]]<br>", "2009 Indian Premier League", out noChangeBack), "2009 Indian Premier League", out noChangeBack));
         }
+
+        [Test]
+        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#If_a_selflink_is_also_bolded.2C_AWB_should_just_remove_the_selflink
+        public void SelfLinksWithBold()
+        {
+            bool noChangeBack;
+            Assert.AreEqual(@"'''Marie-Madeleine-Marguerite d'Aubray, Marquise de Brinvilliers'''", parser.BoldTitle(@"'''[[Marie-Madeleine-Marguerite d'Aubray, Marquise de Brinvilliers]]'''", @"Marie-Madeleine-Marguerite d'Aubray, Marquise de Brinvilliers", out noChangeBack));
+
+            Assert.AreEqual(@"'''foo'''", parser.BoldTitle(@"'''[[foo]]'''", @"Foo", out noChangeBack));
+
+            // don't remove italics
+            Assert.AreEqual(@"'''''Marie-Madeleine-Marguerite d'Aubray, Marquise de Brinvilliers'''''", parser.BoldTitle(@"''[[Marie-Madeleine-Marguerite d'Aubray, Marquise de Brinvilliers]]''", @"Marie-Madeleine-Marguerite d'Aubray, Marquise de Brinvilliers", out noChangeBack));
+        }
     }
 
     [TestFixture]

@@ -2162,8 +2162,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string zerothSectionHiddenOriginal = zerothSectionHidden;
             
             // first check for any self links and no bold title, if found just convert first link to bold and return
-            Regex r1 = new Regex(@"\[\[\s*" + escTitle + @"\s*\]\]");
-            Regex r2 = new Regex(@"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]");
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#If_a_selflink_is_also_bolded.2C_AWB_should_just_remove_the_selflink
+            // catch any bolded self links too
+            Regex r1 = new Regex(@"(?:'''\[\[\s*" + escTitle + @"\s*\]\]'''|\[\[\s*" + escTitle + @"\s*\]\])");
+            Regex r2 = new Regex(@"(?:'''\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]'''|\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\])");
 
             // don't apply if bold in lead section already
             if (!Regex.IsMatch(zerothSection, @"'''" + escTitle + @"'''"))
