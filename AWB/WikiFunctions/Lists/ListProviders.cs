@@ -435,6 +435,12 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class WhatLinksHereAndToRedirectsAllNSListProvider : WhatLinksHereAllNSListProvider
     {
+        public WhatLinksHereAndToRedirectsAllNSListProvider(int limit)
+            :this()
+        {
+            Limit = limit;
+        }
+
         public WhatLinksHereAndToRedirectsAllNSListProvider()
         {
             IncludeRedirects = true;
@@ -450,6 +456,12 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class WhatLinksHereAndToRedirectsListProvider : WhatLinksHereListProvider
     {
+        public WhatLinksHereAndToRedirectsListProvider(int limit)
+            : this()
+        {
+            Limit = limit;
+        }
+
         public WhatLinksHereAndToRedirectsListProvider()
         {
             IncludeRedirects = true;
@@ -464,6 +476,12 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class WhatLinksHereExcludingPageRedirectsListProvider : WhatLinksHereListProvider
     {
+        public WhatLinksHereExcludingPageRedirectsListProvider(int limit)
+            : this()
+        {
+            Limit = limit;
+        }
+
         public WhatLinksHereExcludingPageRedirectsListProvider()
         {
             blfilterredir = "nonredirects";
@@ -478,6 +496,12 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class WhatLinksHereOnlyPageRedirectsListProvider : WhatLinksHereListProvider
     {
+        public WhatLinksHereOnlyPageRedirectsListProvider(int limit)
+            : this()
+        {
+            Limit = limit;
+        }
+
         public WhatLinksHereOnlyPageRedirectsListProvider()
         {
             blfilterredir = "redirects";

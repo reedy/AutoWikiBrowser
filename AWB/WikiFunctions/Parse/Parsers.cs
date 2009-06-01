@@ -2948,7 +2948,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         private static readonly CategoriesOnPageNoHiddenListProvider CategoryProv = new CategoriesOnPageNoHiddenListProvider();
-        private static readonly WhatLinksHereListProvider WlhProv = new WhatLinksHereListProvider(1);
+        private static readonly WhatLinksHereExcludingPageRedirectsListProvider WlhProv = new WhatLinksHereExcludingPageRedirectsListProvider(1);
 
         //TODO:Needs re-write
         /// <summary>
