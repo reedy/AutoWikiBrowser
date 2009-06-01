@@ -1340,9 +1340,9 @@ namespace AutoWikiBrowser
                 if (theArticle.CanDoGeneralFixes)
                 {
                     // auto tag
-                    if (process)
+                    if (process && chkAutoTagger.Checked)
                     {
-                        theArticle.AutoTag(Parser, Skip.SkipNoTag, chkAutoTagger.Checked, chkGeneralFixes.Checked);
+                        theArticle.AutoTag(Parser, Skip.SkipNoTag);
                         if (theArticle.SkipArticle) return;
                     }
 
