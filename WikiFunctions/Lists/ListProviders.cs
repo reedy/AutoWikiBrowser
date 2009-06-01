@@ -492,6 +492,20 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
+    /// Gets a list of pages which redirect to the Named Pages
+    /// </summary>
+    public class RedirectsListProvider : WhatLinksHereListProvider
+    {
+        public RedirectsListProvider()
+        {
+            Blfilterredir = "redirects";
+        }
+
+        public override string UserInputTextBoxText
+        { get { return "Redirects to"; } }
+    }
+
+    /// <summary>
     /// Gets a list of pages which transclude the Named Pages
     /// </summary>
     public class WhatTranscludesPageListProvider : ApiListProviderBase, ISpecialPageProvider
@@ -1045,55 +1059,6 @@ namespace WikiFunctions.Lists
 
         public override string DisplayText
         { get { return "Wiki search (title)"; } }
-    }
-
-    /// <summary>
-    /// Gets a list of pages which redirect to the Named Pages
-    /// </summary>
-    public class RedirectsListProvider : ApiListProviderBase
-    {
-        #region Tags: <backlinks>/<bl>
-        static readonly List<string> pe = new List<string>(new[] { "bl" });
-        protected override ICollection<string> PageElements
-        {
-            get { return pe; }
-        }
-
-        static readonly List<string> ac = new List<string>(new[] { "backlinks" });
-        protected override ICollection<string> Actions
-        {
-            get { return ac; }
-        }
-        #endregion
-
-        public override List<Article> MakeList(params string[] searchCriteria)
-        {
-            searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
-
-            List<Article> list = new List<Article>();
-
-            foreach (string page in searchCriteria)
-            {
-                string url = Variables.URLApi + "?action=query&list=backlinks&bltitle="
-                    + HttpUtility.UrlEncode(page) + "&bllimit=max&blfilterredir=redirects&format=xml";
-
-                list.AddRange(ApiMakeList(url, list.Count));
-            }
-            return list;
-        }
-
-        #region ListMaker properties
-        public override string DisplayText
-        { get { return UserInputTextBoxText; } }
-
-        public override string UserInputTextBoxText
-        { get { return "Redirects to"; } }
-
-        public override bool UserInputTextBoxEnabled
-        { get { return true; } }
-
-        public override void Selected() { }
-        #endregion
     }
 
     /// <summary>
