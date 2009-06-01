@@ -368,6 +368,12 @@ blah";
 
             Assert.AreEqual(h, parser2.Sorter.RemoveCats(ref g, "test"));
 
+        }
+
+        [Test]
+        public void CategoryAndCommentTests()
+        {
+
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Comments_get_removed_from_between_categories
             // allow comments on newline between categories, and keep them in the same place
             string i = @"#REDIRECT [[Ohio and Mississippi Railway]]
@@ -393,6 +399,18 @@ blah";
 <!--foo-->";
             Assert.AreEqual(j + "\r\n", parser2.Sorter.RemoveCats(ref l, "test"));
             Assert.IsTrue(l.Contains("\r\n" + @"<!--foo-->"));
+
+            string m = @"[[Category:American women writers]]
+[[Category:Autism activists]]
+<!--LBGT categories are not to be used on bios of living people unless they self-identify with the label and it is relevant to their public lives[[Category:Bisexual actors]]
+[[Category:LGBT models]]
+[[Category:LGBT people from the United States]]
+[[Category:LGBT television personalities]]-->
+[[Category:Parents of people on the autistic spectrum]]";
+
+            string n = m;
+
+            Assert.AreEqual(m + "\r\n", parser2.Sorter.RemoveCats(ref n, "test"));
         }
     }
 }
