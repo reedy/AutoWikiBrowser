@@ -350,7 +350,7 @@ namespace WikiFunctions.Lists
         }
         #endregion
 
-        protected bool IncludeRedirects;
+        protected bool IncludeWhatLinksToRedirects;
         protected string Blfilterredir;
 
         public List<Article> MakeList(int Namespace, params string[] searchCriteria)
@@ -374,7 +374,7 @@ namespace WikiFunctions.Lists
                 string url = Variables.URLApi + "?action=query&list=backlinks&bltitle="
                     + HttpUtility.UrlEncode(page) + "&format=xml&bllimit=max&blnamespace=" + Namespace;
 
-                if (IncludeRedirects)
+                if (IncludeWhatLinksToRedirects)
                     url += "&blredirect";
 
                 if (!string.IsNullOrEmpty(Blfilterredir))
@@ -443,7 +443,7 @@ namespace WikiFunctions.Lists
 
         public WhatLinksHereAndToRedirectsAllNSListProvider()
         {
-            IncludeRedirects = true;
+            IncludeWhatLinksToRedirects = true;
         }
 
         public override string DisplayText
@@ -464,11 +464,32 @@ namespace WikiFunctions.Lists
 
         public WhatLinksHereAndToRedirectsListProvider()
         {
-            IncludeRedirects = true;
+            IncludeWhatLinksToRedirects = true;
         }
 
         public override string DisplayText
         { get { return base.DisplayText + " (and to Redirects)"; } }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider : WhatLinksHereListProvider
+    {
+        public WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider(int limit)
+            : this()
+        {
+            Limit = limit;
+        }
+
+        public WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider()
+        {
+            Blfilterredir = "nonredirects";
+            IncludeWhatLinksToRedirects = true;
+        }
+
+        public override string DisplayText
+        { get { return base.DisplayText + " (No Redirects)(Links to Redirects)"; } }
     }
 
     /// <summary>
