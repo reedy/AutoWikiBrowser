@@ -220,6 +220,7 @@ bar</ NOINCLUDE>");
             // one line
             TestMatch(WikiRegexes.Includeonly, "<includeonly>foo bar< /includeonly>", "<includeonly>foo bar< /includeonly>");
             TestMatch(WikiRegexes.Includeonly, "<Includeonly>foo bar< /Includeonly>", "<Includeonly>foo bar< /Includeonly>");
+            TestMatch(WikiRegexes.Includeonly, "<onlyInclude>foo bar< /onlyInclude>", "<onlyInclude>foo bar< /onlyInclude>");
 
             // multiple lines
             TestMatch(WikiRegexes.Includeonly, @"< includeonly >foo

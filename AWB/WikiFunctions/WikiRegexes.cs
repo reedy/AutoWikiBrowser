@@ -283,9 +283,9 @@ namespace WikiFunctions
         public static readonly Regex Noinclude = new Regex(@"<\s*noinclude\s*>(.*?)<\s*/\s*noinclude\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
-        /// Matches &lt;includeonly&gt; tags
+        /// Matches &lt;includeonly&gt; and &lt;onlyinclude&gt; tags
         /// </summary>
-        public static readonly Regex Includeonly = new Regex(@"<\s*includeonly\s*>(.*?)<\s*/\s*includeonly\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+        public static readonly Regex Includeonly = new Regex(@"(?:<\s*includeonly\s*>.*?<\s*/\s*includeonly\s*>|<\s*onlyinclude\s*>.*?<\s*/\s*onlyinclude\s*>)", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
         /// Matches redirects
