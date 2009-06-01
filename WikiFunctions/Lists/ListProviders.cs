@@ -351,7 +351,7 @@ namespace WikiFunctions.Lists
         #endregion
 
         protected bool IncludeRedirects;
-        protected string blfilterredir;
+        protected string Blfilterredir;
 
         public List<Article> MakeList(int Namespace, params string[] searchCriteria)
         {
@@ -377,8 +377,8 @@ namespace WikiFunctions.Lists
                 if (IncludeRedirects)
                     url += "&blredirect";
 
-                if (!string.IsNullOrEmpty(blfilterredir))
-                    url += "&blfilterredir=" + blfilterredir;
+                if (!string.IsNullOrEmpty(Blfilterredir))
+                    url += "&blfilterredir=" + Blfilterredir;
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
@@ -484,31 +484,11 @@ namespace WikiFunctions.Lists
 
         public WhatLinksHereExcludingPageRedirectsListProvider()
         {
-            blfilterredir = "nonredirects";
+            Blfilterredir = "nonredirects";
         }
 
         public override string DisplayText
         { get { return base.DisplayText + " (No Redirects)"; } }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public class WhatLinksHereOnlyPageRedirectsListProvider : WhatLinksHereListProvider
-    {
-        public WhatLinksHereOnlyPageRedirectsListProvider(int limit)
-            : this()
-        {
-            Limit = limit;
-        }
-
-        public WhatLinksHereOnlyPageRedirectsListProvider()
-        {
-            blfilterredir = "redirects";
-        }
-
-        public override string DisplayText
-        { get { return base.DisplayText + " (Only Redirects)"; } }
     }
 
     /// <summary>
