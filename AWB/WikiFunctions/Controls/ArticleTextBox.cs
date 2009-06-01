@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace WikiFunctions.Controls
@@ -35,6 +36,64 @@ namespace WikiFunctions.Controls
         {
             // Prohibits triggering the TextChanged event if the text is changed programmatically
             if (!Locked) base.OnTextChanged(e);
+        }
+
+        private static Regex RegexObj;
+        private static Match MatchObj;
+
+        public void ResetFind()
+        {
+            RegexObj = null;
+            MatchObj = null;
+        }
+
+        public void Find(string strRegex, bool isRegex, bool caseSensitive, string articleName)
+        {
+            string articleText = RawText;
+
+            RegexOptions regOptions = caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase;
+
+            strRegex = Tools.ApplyKeyWords(articleName, strRegex);
+
+            if (!isRegex)
+                strRegex = Regex.Escape(strRegex);
+
+            if (MatchObj == null || RegexObj == null)
+            {
+                int findStart = SelectionStart;
+
+                RegexObj = new Regex(strRegex, regOptions);
+                MatchObj = RegexObj.Match(articleText, findStart);
+                SelectionStart = MatchObj.Index;
+                SelectionLength = MatchObj.Length;
+            }
+            else
+            {
+                if (MatchObj.NextMatch().Success)
+                {
+                    MatchObj = MatchObj.NextMatch();
+                    SelectionStart = MatchObj.Index;
+                    SelectionLength = MatchObj.Length;
+                }
+                else
+                {
+                    SelectionStart = 0;
+                    SelectionLength = 0;
+                    ResetFind();
+                }
+            }
+            Focus();
+            ScrollToCaret();
+        }
+
+        public void SetEditBoxSelection(int inputIndex, int inputLength)
+        {
+            if (inputIndex > 0 && inputLength > 0 && (inputIndex + inputLength) < TextLength)
+            {
+                SelectionStart = inputIndex;
+                SelectionLength = inputLength;
+            }
+            ScrollToCaret();
         }
     }
 }
