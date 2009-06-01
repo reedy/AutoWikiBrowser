@@ -87,8 +87,8 @@ namespace WikiFunctions.Controls.Lists
                 ListItems.Add(new CategoriesOnPageNoHiddenListProvider());
                 ListItems.Add(whatLinksHereLProvider);
                 ListItems.Add(new WhatLinksHereAllNSListProvider());
-                ListItems.Add(new WhatLinksHereIncludingRedirectsListProvider());
-                ListItems.Add(new WhatLinksHereAllNSIncludingRedirectsListProvider());
+                ListItems.Add(new WhatLinksHereAndToRedirectsListProvider());
+                ListItems.Add(new WhatLinksHereAndToRedirectsAllNSListProvider());
                 ListItems.Add(whatTranscludesLProvider);
                 ListItems.Add(new WhatTranscludesPageAllNSListProvider());
                 ListItems.Add(linksOnPageLProvider);
