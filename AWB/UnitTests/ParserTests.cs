@@ -3374,9 +3374,6 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.IsTrue(noChange);
 
             //No change as no add/remove
-            Assert.AreEqual(ShortText, parser.Tagger(ShortText, "Test", out noChange, ref summary));
-            Assert.IsTrue(noChange);
-
             Assert.AreEqual("{{Test Template}}", parser.Tagger("{{Test Template}}", "Test", out noChange, ref summary));
             Assert.IsTrue(noChange);
 
