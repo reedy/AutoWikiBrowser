@@ -387,12 +387,12 @@ namespace AutoWikiBrowser
             set { ASEditPeriod = value; EditBoxSaveTimer.Interval = int.Parse((value * 1000).ToString()); }
         }
 
-        internal void SetStatusLabelText(string text)
+        private void SetStatusLabelText(string text)
         {
             StatusLabelText = text;
         }
 
-        internal string StatusLabelText
+        private string StatusLabelText
         {
             get { return lblStatusText.Text; }
             set
