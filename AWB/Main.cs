@@ -866,7 +866,7 @@ namespace AutoWikiBrowser
                     else if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
                     {
                         EditBoxTab.SelectedTab = tpEdit;
-                        Find.SetEditBoxSelection(txtEdit, unbalancedBracket, bracketLength);
+                        txtEdit.SetEditBoxSelection(unbalancedBracket, bracketLength);
                     }
                 }
             }
@@ -2234,7 +2234,7 @@ window.scrollTo(0, diffTopY);
             EditBoxTab.SelectedTab = tpEdit;
             int selection = lbDuplicateWikilinks.SelectedIndex;
             if (selection != OldSelection)
-                Find.ResetFind();
+                txtEdit.ResetFind();
             if (lbDuplicateWikilinks.SelectedIndex != -1)
             {
                 string strLink = lbDuplicateWikilinks.SelectedItem.ToString();
@@ -2244,12 +2244,12 @@ window.scrollTo(0, diffTopY);
 
                 // perform case sensitive search, but make search on first character of link case insensitive
                 // as first character may have been converted to upper case
-                Find.Find1("\\[\\[(?i)" + Regex.Escape(strLink[0].ToString()) + @"(?-i)" + Regex.Escape(strLink.Remove(0, 1)) + "(\\|.*?)?\\]\\]", true, true, txtEdit, TheArticle.Name);
+                txtEdit.Find("\\[\\[(?i)" + Regex.Escape(strLink[0].ToString()) + @"(?-i)" + Regex.Escape(strLink.Remove(0, 1)) + "(\\|.*?)?\\]\\]", true, true, TheArticle.Name);
                 btnRemove.Enabled = true;
             }
             else
             {
-                Find.ResetFind();
+                txtEdit.ResetFind();
                 btnRemove.Enabled = false;
             }
 
@@ -2271,12 +2271,12 @@ window.scrollTo(0, diffTopY);
 
         private void ResetFind(object sender, EventArgs e)
         {
-            Find.ResetFind();
+            txtEdit.ResetFind();
         }
 
         private void txtEdit_TextChanged(object sender, EventArgs e)
         {
-            Find.ResetFind();
+            txtEdit.ResetFind();
 
             // After manual changes, automatic edit summary may be inaccurate, removing it altogether
             if (TheArticle != null)
@@ -2286,7 +2286,7 @@ window.scrollTo(0, diffTopY);
         private void btnFind_Click(object sender, EventArgs e)
         {
             EditBoxTab.SelectedTab = tpEdit;
-            Find.Find1(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, txtEdit, TheArticle.Name);
+            txtEdit.Find(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, TheArticle.Name);
         }
 
         private void toolStripTextBox2_Click(object sender, EventArgs e)
@@ -2823,8 +2823,7 @@ window.scrollTo(0, diffTopY);
                 if (e.KeyCode == Keys.F)
                 {
                     if (TheArticle != null)
-                        Find.Find1(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked,
-                        txtEdit, TheArticle.Name);
+                        txtEdit.Find(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, TheArticle.Name);
                     e.SuppressKeyPress = true;
                     return;
                 }
