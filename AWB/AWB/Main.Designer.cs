@@ -3999,6 +3999,7 @@ namespace AutoWikiBrowser
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AutoWikiBrowser";
+            this.Icon = WikiFunctions.Properties.Resources.AWBIcon;
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
