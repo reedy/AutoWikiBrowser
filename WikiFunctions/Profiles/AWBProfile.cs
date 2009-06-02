@@ -54,6 +54,11 @@ namespace WikiFunctions.Profiles
             "oi frjweopi 4r390%^($%%^$HJKJNMHJGY 2`';'[#", "SH1ew yuhn gxe$£$%^y HNKLHWEQ JEW`b");
         private const string ProfileRegistryString = "Profiles\\";
 
+        static AWBProfiles()
+        {
+            ResetTempPassword();
+        }
+
         /// <summary>
         /// Gets all the Saved Profiles from the Registry
         /// </summary>
