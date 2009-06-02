@@ -189,7 +189,8 @@ namespace AutoWikiBrowser
                         {
                             string fileName = args[i + 1];
 
-                            if (Path.GetExtension(fileName) == "" && !File.Exists(fileName)) fileName += ".xml";
+                            if (string.IsNullOrEmpty(Path.GetExtension(fileName)) && !File.Exists(fileName)) 
+                                fileName += ".xml";
 
                             if (File.Exists(fileName))
                                 SettingsFile = fileName;

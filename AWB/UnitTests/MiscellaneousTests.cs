@@ -380,7 +380,8 @@ Image:quux[http://example.com]
             Assert.AreEqual(0, Namespace.Determine(":test"));
             Assert.AreEqual(0, Namespace.Determine("test:test"));
             Assert.AreEqual(0, Namespace.Determine("My Project:Foo"));
-            Assert.AreEqual(0, Namespace.Determine("User:"));
+
+            Assert.AreEqual(Namespace.User, Namespace.Determine("User:"));
 
             Assert.AreEqual(Namespace.Talk, Namespace.Determine("Talk:foo"));
             Assert.AreEqual(Namespace.UserTalk, Namespace.Determine("User talk:bar"));
@@ -423,8 +424,8 @@ Image:quux[http://example.com]
             Assert.IsFalse(Namespace.IsMainSpace(1));
 
             Assert.IsTrue(Namespace.IsMainSpace("Test"));
-            Assert.IsTrue(Namespace.IsMainSpace("User:"));
 
+            Assert.IsFalse(Namespace.IsMainSpace("User:"));
             Assert.IsFalse(Namespace.IsMainSpace("Talk:Test"));
             Assert.IsFalse(Namespace.IsMainSpace("User:Test"));
             Assert.IsFalse(Namespace.IsMainSpace("User talk:Test"));

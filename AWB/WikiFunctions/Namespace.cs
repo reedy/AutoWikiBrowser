@@ -67,7 +67,7 @@ namespace WikiFunctions
             foreach (KeyValuePair<int, string> k in Variables.Namespaces)
             {
                 if (articleTitle.StartsWith(k.Value))
-                    return articleTitle.Length > k.Value.Length ? k.Key : 0;
+                    return articleTitle.Length >= k.Value.Length ? k.Key : 0;
             }
 
             foreach (KeyValuePair<int, List<string>> k in Variables.NamespaceAliases)
@@ -75,14 +75,14 @@ namespace WikiFunctions
                 foreach (string s in k.Value)
                 {
                     if (articleTitle.StartsWith(s))
-                        return articleTitle.Length > s.Length ? k.Key : 0;
+                        return articleTitle.Length >= s.Length ? k.Key : 0;
                 }
             }
 
             foreach (KeyValuePair<int, string> k in Variables.CanonicalNamespaces)
             {
                 if (articleTitle.StartsWith(k.Value))
-                    return articleTitle.Length > k.Value.Length ? k.Key : 0;
+                    return articleTitle.Length >= k.Value.Length ? k.Key : 0;
             }
 
             return 0;
