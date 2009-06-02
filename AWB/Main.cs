@@ -142,8 +142,6 @@ namespace AutoWikiBrowser
                 toolStripComboOnLoad.SelectedIndex = 0;
                 cmboCategorise.SelectedIndex = 0;
                 cmboImages.SelectedIndex = 0;
-                lblStatusText.AutoSize = true;
-                lblBotTimer.AutoSize = true;
 
                 Variables.User.UserNameChanged += UpdateUserName;
                 Variables.User.BotStatusChanged += UpdateBotStatus;
