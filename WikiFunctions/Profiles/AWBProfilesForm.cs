@@ -109,7 +109,7 @@ namespace WikiFunctions.Profiles
 
             try
             {
-                int profileID = -1;
+                int profileID;
                 AWBProfile startupProfile = int.TryParse(profileIdOrName, out profileID) ? AWBProfiles.GetProfile(profileID) : AWBProfiles.GetProfile(profileIdOrName);
 
                 if (startupProfile == null)

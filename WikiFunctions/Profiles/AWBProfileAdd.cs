@@ -25,13 +25,13 @@ namespace WikiFunctions.Profiles
 {
     public partial class AWBProfileAdd : Form
     {
-        private readonly int editid;
+        private readonly int Editid;
         private readonly bool JustLoading;
 
         public AWBProfileAdd()
         {
             InitializeComponent();
-            editid = -1;
+            Editid = -1;
 
             Text = "Add new Profile";
         }
@@ -44,13 +44,13 @@ namespace WikiFunctions.Profiles
             InitializeComponent();
             JustLoading = true;
 
-            editid = profile.id;
+            Editid = profile.ID;
 
             txtUsername.Text = profile.Username;
             txtPassword.Text = profile.Password;
-            txtPath.Text = profile.defaultsettings;
+            txtPath.Text = profile.DefaultSettings;
             chkUseForUpload.Checked = profile.UseForUpload;
-            txtNotes.Text = profile.notes;
+            txtNotes.Text = profile.Notes;
 
             if (!string.IsNullOrEmpty(txtPath.Text))
                 chkDefaultSettings.Checked = true;
@@ -90,17 +90,17 @@ namespace WikiFunctions.Profiles
                 if (chkSavePassword.Checked && !string.IsNullOrEmpty(txtPassword.Text))
                     profile.Password = txtPassword.Text;
 
-                profile.defaultsettings = txtPath.Text;
+                profile.DefaultSettings = txtPath.Text;
 
                 int idUpload = AWBProfiles.GetIDOfUploadAccount();
 
-                if (chkUseForUpload.Checked && (idUpload != -1) && (idUpload != editid))
+                if (chkUseForUpload.Checked && (idUpload != -1) && (idUpload != Editid))
                     AWBProfiles.SetOtherAccountsAsNotForUpload();
 
                 profile.UseForUpload = chkUseForUpload.Checked;
-                profile.notes = txtNotes.Text;
+                profile.Notes = txtNotes.Text;
 
-                profile.id = editid;
+                profile.ID = Editid;
                 AWBProfiles.AddEditProfile(profile);
 
                 DialogResult = DialogResult.Yes;

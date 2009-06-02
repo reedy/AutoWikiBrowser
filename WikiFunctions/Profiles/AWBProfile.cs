@@ -29,21 +29,20 @@ namespace WikiFunctions.Profiles
         public AWBProfile(int pID, string pUsername, string pPassword, string pDefaultSettings, string pNotes,
             bool pUseForUpload)
         {
-            id = pID;
+            ID = pID;
             Username = pUsername;
             Password = pPassword;
-            defaultsettings = pDefaultSettings;
-            notes = pNotes;
+            DefaultSettings = pDefaultSettings;
+            Notes = pNotes;
             UseForUpload = pUseForUpload;
         }
 
         public AWBProfile() { }
 
-        public int id;
-        public string defaultsettings, notes;
+        public int ID;
+        public string DefaultSettings, Notes;
 
-        public string Username;
-        public string Password;
+        public string Username, Password;
 
         public bool UseForUpload;
     }
@@ -80,9 +79,8 @@ namespace WikiFunctions.Profiles
         /// <returns>Specified Profile</returns>
         public static AWBProfile GetProfile(int id)
         {
-            AWBProfile prof = new AWBProfile();
+            AWBProfile prof = new AWBProfile {ID = id};
 
-            prof.id = id;
             try { prof.Username = RegistryGetAndDecryptValue(id + "\\User", ""); }
             catch
             {
@@ -98,10 +96,10 @@ namespace WikiFunctions.Profiles
             catch { prof.Password = ""; }
             finally
             {
-                prof.defaultsettings = RegistryGetValue(id + "\\Settings", "");
+                prof.DefaultSettings = RegistryGetValue(id + "\\Settings", "");
                 try { prof.UseForUpload = bool.Parse(RegistryGetValue(id + "\\UseForUpload", "")); }
                 catch { prof.UseForUpload = false; }
-                prof.notes = RegistryGetValue(id + "\\Notes", "");
+                prof.Notes = RegistryGetValue(id + "\\Notes", "");
             }
             return prof;
         }
@@ -129,7 +127,6 @@ namespace WikiFunctions.Profiles
         {
             int idOfUploadAccount = GetIDOfUploadAccount();
             AWBProfile retval;
-            AWBLogUploadProfilesForm profiles;
 
             if (idOfUploadAccount == -1)
             {
@@ -137,7 +134,7 @@ namespace WikiFunctions.Profiles
                     "Log uploading", MessageBoxButtons.OKCancel, MessageBoxIcon.Information)
                     == DialogResult.OK)
                 {
-                    profiles = new AWBLogUploadProfilesForm();
+                    AWBLogUploadProfilesForm profiles = new AWBLogUploadProfilesForm();
                     profiles.ShowDialog(owner);
                     retval = GetProfileForLogUploading(owner);
                 }
@@ -149,8 +146,7 @@ namespace WikiFunctions.Profiles
 
             if (string.IsNullOrEmpty(retval.Password) && string.IsNullOrEmpty(TempPassword))
             {
-                UserPassword password = new UserPassword();
-                password.SetText = "Enter password for " + retval.Username;
+                UserPassword password = new UserPassword {SetText = "Enter password for " + retval.Username};
                 if (password.ShowDialog() == DialogResult.OK)
                 {
                     retval.Password = TempPassword = password.GetPassword;
@@ -169,7 +165,7 @@ namespace WikiFunctions.Profiles
         {
             foreach (AWBProfile prof in GetProfiles())
                 if (prof.UseForUpload)
-                    return prof.id;
+                    return prof.ID;
             return -1;
         }
 
@@ -228,18 +224,18 @@ namespace WikiFunctions.Profiles
         /// <param name="profile">Profile Object of User</param>
         internal static void AddEditProfile(AWBProfile profile)
         {
-            if (profile.id == -1)
-                profile.id = GetFirstFreeID();
+            if (profile.ID == -1)
+                profile.ID = GetFirstFreeID();
 
-            RegistryKey key = RegistryGetWritableKey(profile.id);
+            RegistryKey key = RegistryGetWritableKey(profile.ID);
 
             try
             {
                 key.SetValue("User", EncryptionUtils.Encrypt(profile.Username));
                 key.SetValue("Pass", EncryptionUtils.Encrypt(profile.Password));
-                key.SetValue("Settings", profile.defaultsettings);
+                key.SetValue("Settings", profile.DefaultSettings);
                 key.SetValue("UseForUpload", profile.UseForUpload);
-                key.SetValue("Notes", profile.notes);
+                key.SetValue("Notes", profile.Notes);
             }
             catch { }
         }
