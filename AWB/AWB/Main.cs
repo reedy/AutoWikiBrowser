@@ -169,8 +169,6 @@ namespace AutoWikiBrowser
                 Profiles.LoadProfile += LoadProfileSettings;
 
                 SplashScreen.SetProgress(15);
-
-                WikiFunctions.Profiles.AWBProfiles.ResetTempPassword();
             }
             catch (Exception ex)
             {
