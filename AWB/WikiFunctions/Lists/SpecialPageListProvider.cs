@@ -29,29 +29,29 @@ namespace WikiFunctions.Lists
     /// </summary>
     public partial class SpecialPageListProvider : Form, IListProvider
     {
-        private static readonly BindingList<IListProvider> listItems = new BindingList<IListProvider>();
+        private static readonly BindingList<IListProvider> ListItems = new BindingList<IListProvider>();
 
         public SpecialPageListProvider()
         {
             InitializeComponent();
 
-            if (listItems.Count == 0)
+            if (ListItems.Count == 0)
             {
-                listItems.Add(new PrefixIndexSpecialPageProvider());
-                listItems.Add(new AllPagesSpecialPageProvider());
-                listItems.Add(new AllCategoriesSpecialPageProvider());
-                listItems.Add(new AllFilesSpecialPageProvider());
-                listItems.Add(new AllRedirectsSpecialPageProvider());
-                listItems.Add(new RecentChangesSpecialPageProvider());
-                listItems.Add(new LinkSearchSpecialPageProvider());
-                listItems.Add(new RandomRedirectsSpecialPageProvider());
-                listItems.Add(new PagesWithoutLanguageLinksSpecialPageProvider());
-                listItems.Add(new ProtectedPagesSpecialPageProvider());
-                listItems.Add(new GalleryNewFilesSpecialPageProvider());
-                listItems.Add(new DisambiguationPagesSpecialPageProvider());
+                ListItems.Add(new PrefixIndexSpecialPageProvider());
+                ListItems.Add(new AllPagesSpecialPageProvider());
+                ListItems.Add(new AllCategoriesSpecialPageProvider());
+                ListItems.Add(new AllFilesSpecialPageProvider());
+                ListItems.Add(new AllRedirectsSpecialPageProvider());
+                ListItems.Add(new RecentChangesSpecialPageProvider());
+                ListItems.Add(new LinkSearchSpecialPageProvider());
+                ListItems.Add(new RandomRedirectsSpecialPageProvider());
+                ListItems.Add(new PagesWithoutLanguageLinksSpecialPageProvider());
+                ListItems.Add(new ProtectedPagesSpecialPageProvider());
+                ListItems.Add(new GalleryNewFilesSpecialPageProvider());
+                ListItems.Add(new DisambiguationPagesSpecialPageProvider());
             }
 
-            cmboSourceSelect.DataSource = listItems;
+            cmboSourceSelect.DataSource = ListItems;
             cmboSourceSelect.DisplayMember = "DisplayText";
             cmboSourceSelect.ValueMember = "DisplayText";
         }
@@ -62,7 +62,7 @@ namespace WikiFunctions.Lists
             foreach (IListProvider prov in providers)
             {
                 if (prov is ISpecialPageProvider)
-                    listItems.Add(prov);
+                    ListItems.Add(prov);
             }
         }
 
