@@ -110,5 +110,16 @@ namespace WikiFunctions.Controls
             }
             ScrollToCaret();
         }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // ArticleTextBox
+            // 
+            this.DetectUrls = false;
+            this.ResumeLayout(false);
+
+        }
     }
 }
