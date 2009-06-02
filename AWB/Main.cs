@@ -116,7 +116,6 @@ namespace AutoWikiBrowser
             SplashScreen.SetProgress(5);
             try
             {
-                Icon = Resources.AWBIcon;
                 lblUserName.Alignment = ToolStripItemAlignment.Right;
                 lblProject.Alignment = ToolStripItemAlignment.Right;
                 lblTimer.Alignment = ToolStripItemAlignment.Right;
