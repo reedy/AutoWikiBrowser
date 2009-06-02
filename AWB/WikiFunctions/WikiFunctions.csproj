@@ -332,6 +332,9 @@
     <Compile Include="WPEditor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\ArticleTextBox.resx">
+      <DependentUpon>ArticleTextBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\Lists\ProtectionLevel.resx">
       <DependentUpon>ProtectionLevel.cs</DependentUpon>
     </EmbeddedResource>
