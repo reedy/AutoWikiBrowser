@@ -71,18 +71,18 @@ namespace WikiFunctions.Profiles
 
             foreach (AWBProfile profile in AWBProfiles.GetProfiles())
             {
-                ListViewItem item = new ListViewItem(profile.id.ToString());
+                ListViewItem item = new ListViewItem(profile.ID.ToString());
                 item.SubItems.Add(profile.Username);
                 if (!string.IsNullOrEmpty(profile.Password))
                     item.SubItems.Add("Yes");
                 else
                     item.SubItems.Add("No");
-                item.SubItems.Add(profile.defaultsettings);
+                item.SubItems.Add(profile.DefaultSettings);
                 if (profile.UseForUpload)
                     item.SubItems.Add("Yes");
                 else
                     item.SubItems.Add("No");
-                item.SubItems.Add(profile.notes);
+                item.SubItems.Add(profile.Notes);
 
                 lvAccounts.Items.Add(item);
             }
