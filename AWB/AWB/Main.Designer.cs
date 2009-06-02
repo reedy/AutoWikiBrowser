@@ -1589,6 +1589,7 @@ namespace AutoWikiBrowser
             this.lblUserName.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblUserName.Size = new System.Drawing.Size(37, 17);
             this.lblUserName.Text = "User:";
+            this.lblUserName.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             // 
             // lblProject
             // 
@@ -1597,6 +1598,7 @@ namespace AutoWikiBrowser
             this.lblProject.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblProject.Size = new System.Drawing.Size(63, 17);
             this.lblProject.Text = "Wikipedia";
+            this.lblProject.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             // 
             // lblIgnoredArticles
             // 
@@ -1604,6 +1606,7 @@ namespace AutoWikiBrowser
             this.lblIgnoredArticles.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblIgnoredArticles.Size = new System.Drawing.Size(64, 17);
             this.lblIgnoredArticles.Text = "Ignored: 0";
+            this.lblIgnoredArticles.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             // 
             // lblEditCount
             // 
@@ -1611,6 +1614,7 @@ namespace AutoWikiBrowser
             this.lblEditCount.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblEditCount.Size = new System.Drawing.Size(48, 17);
             this.lblEditCount.Text = "Edits: 0";
+            this.lblEditCount.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             // 
             // lblEditsPerMin
             // 
@@ -1618,6 +1622,7 @@ namespace AutoWikiBrowser
             this.lblEditsPerMin.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblEditsPerMin.Size = new System.Drawing.Size(74, 17);
             this.lblEditsPerMin.Text = "Edits/min: 0";
+            this.lblEditsPerMin.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             // 
             // lblTimer
             // 
@@ -1626,6 +1631,7 @@ namespace AutoWikiBrowser
             this.lblTimer.Size = new System.Drawing.Size(54, 17);
             this.lblTimer.Text = "Timer: 0";
             this.lblTimer.Visible = false;
+            this.lblTimer.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             // 
             // btnIgnore
             // 

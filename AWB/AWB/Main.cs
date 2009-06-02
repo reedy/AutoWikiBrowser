@@ -116,13 +116,6 @@ namespace AutoWikiBrowser
             SplashScreen.SetProgress(5);
             try
             {
-                lblUserName.Alignment = ToolStripItemAlignment.Right;
-                lblProject.Alignment = ToolStripItemAlignment.Right;
-                lblTimer.Alignment = ToolStripItemAlignment.Right;
-                lblEditsPerMin.Alignment = ToolStripItemAlignment.Right;
-                lblIgnoredArticles.Alignment = ToolStripItemAlignment.Right;
-                lblEditCount.Alignment = ToolStripItemAlignment.Right;
-
                 btntsShowHide.Image = Resources.Showhide;
                 btntsShowHideParameters.Image = Resources.Showhideparameters;
                 btntsSave.Image = Resources.Save;
