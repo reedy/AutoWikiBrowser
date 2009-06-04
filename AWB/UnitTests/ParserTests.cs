@@ -2811,6 +2811,10 @@ Parsers.ChangeToDefaultSort(@"{{Lifetime|1900|2000|Smithe, Fred}}", "Hi", out no
             Assert.AreEqual(a + b, Parsers.ChangeToDefaultSort(a, "Fred Smith", out noChange));
             Assert.IsFalse(noChange);
 
+            // no defaultsort added if restricted defaultsort addition on
+            Assert.AreEqual(a, Parsers.ChangeToDefaultSort(a, "Fred Smith", out noChange, true));
+            Assert.IsTrue(noChange);
+
             string c = @"Stéphanie Mahieu blah [[Category:Living people]]";
             string d = "\r\n" + @"{{DEFAULTSORT:Mahieu, Stephanie}}";
 

@@ -2543,7 +2543,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         private static readonly Regex Catregex = new Regex(@"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category] +
                   @"\s*(.*?)\s*(?:|\|([^\|\]]*))\s*\]\]", RegexOptions.Compiled); //TODO:Reassign namespace
 
-        // Covered by: UtilityFunctionTests.ChangeToDefaultSort()
         /// <summary>
         /// Changes an article to use defaultsort when all categories use the same sort field / cleans diacritics from defaultsort/categories
         /// </summary>
@@ -2552,6 +2551,20 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="noChange">If there is no change (True if no Change)</param>
         /// <returns>The article text possibly using defaultsort.</returns>
         public static string ChangeToDefaultSort(string articleText, string articleTitle, out bool noChange)
+        {
+            return ChangeToDefaultSort(articleText, articleTitle, out noChange, false);
+        }
+
+        // Covered by: UtilityFunctionTests.ChangeToDefaultSort()
+        /// <summary>
+        /// Changes an article to use defaultsort when all categories use the same sort field / cleans diacritics from defaultsort/categories
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">Title of the article</param>
+        /// <param name="noChange">If there is no change (True if no Change)</param>
+        /// <param name="restrictDefaultsortAddition">Prevent insertion of a new {{DEFAULTSORT}} as AWB may not always be right for articles about people</param>
+        /// <returns>The article text possibly using defaultsort.</returns>
+        public static string ChangeToDefaultSort(string articleText, string articleTitle, out bool noChange, bool restrictDefaultsortAddition)
         {
             string testText = articleText;
             noChange = true;
@@ -2611,7 +2624,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                         articleText = Catregex.Replace(articleText, "[["
                             + Variables.Namespaces[Namespace.Category] + "$1]]");
 
-                        if (Tools.FixupDefaultSort(sort) != articleTitle) 
+                        if (Tools.FixupDefaultSort(sort) != articleTitle && !restrictDefaultsortAddition) 
                         {
                             if (!IsArticleAboutAPerson(articleText))
                                 articleText = articleText + "\r\n{{DEFAULTSORT:" + Tools.FixupDefaultSort(sort) + "}}";
@@ -2622,7 +2635,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 }
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Add_defaultsort_to_pages_with_special_letters_and_no_defaultsort
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Human_DEFAULTSORT
-                articleText = DefaultsortTitlesWithDiacritics(articleText, articleTitle, matches, IsArticleAboutAPerson(articleText));
+                if(!restrictDefaultsortAddition)
+                    articleText = DefaultsortTitlesWithDiacritics(articleText, articleTitle, matches, IsArticleAboutAPerson(articleText));
             }
             else // already has DEFAULTSORT
             {

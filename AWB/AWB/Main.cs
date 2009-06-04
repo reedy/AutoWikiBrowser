@@ -1339,7 +1339,7 @@ namespace AutoWikiBrowser
 
                     if (process && chkGeneralFixes.Checked)
                     {
-                        theArticle.PerformGeneralFixes(Parser, RemoveText, Skip, replaceReferenceTagsToolStripMenuItem.Checked);
+                        theArticle.PerformGeneralFixes(Parser, RemoveText, Skip, replaceReferenceTagsToolStripMenuItem.Checked, restrictDefaultsortAdditionToolStripMenuItem.Checked);
                     }
                 }
                 else if (process && chkGeneralFixes.Checked && theArticle.NameSpaceKey == 3)
@@ -2966,7 +2966,7 @@ window.scrollTo(0, diffTopY);
                 txtEdit.SelectedText = categories;
 
                 bool noChange;
-                txtEdit.Text = Parsers.ChangeToDefaultSort(txtEdit.Text, TheArticle.Name, out noChange);
+                txtEdit.Text = Parsers.ChangeToDefaultSort(txtEdit.Text, TheArticle.Name, out noChange, restrictDefaultsortAdditionToolStripMenuItem.Checked);
             }
             catch (Exception ex)
             {

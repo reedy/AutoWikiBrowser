@@ -573,11 +573,11 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="langCode">The wiki's language code</param>
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
-        public void SetDefaultSort(LangCodeEnum langCode, bool skipIfNoChange)
+        public void SetDefaultSort(LangCodeEnum langCode, bool skipIfNoChange, bool restrictDefaultsortAddition)
         {
             if (langCode == LangCodeEnum.en)
             {
-                string strTemp = Parsers.ChangeToDefaultSort(mArticleText, mName, out noChange);
+                string strTemp = Parsers.ChangeToDefaultSort(mArticleText, mName, out noChange, restrictDefaultsortAddition);
 
                 if (skipIfNoChange && noChange)
                     Trace.AWBSkipped("No DefaultSort Added");
@@ -857,7 +857,7 @@ namespace WikiFunctions
         /// <param name="skip">Skip options</param>
         /// <param name="replaceReferenceTags">If true, <div class="references-small"><references/></div> and so on
         /// will be replaced with {{reflist}}</param>
-        public void PerformGeneralFixes(Parsers parsers, HideText removeText, ISkipOptions skip, bool replaceReferenceTags)
+        public void PerformGeneralFixes(Parsers parsers, HideText removeText, ISkipOptions skip, bool replaceReferenceTags, bool restrictDefaultsortAddition)
         { //TODO: 2009-01-28 review which of the genfixes below should be labelled 'significant'
             BeforeGeneralFixesTextChanged();
 
@@ -871,7 +871,7 @@ namespace WikiFunctions
 
             FixHeaderErrors(parsers, Variables.LangCode, skip.SkipNoHeaderError);
             Variables.Profiler.Profile("FixHeaderErrors");
-            SetDefaultSort(Variables.LangCode, skip.SkipNoDefaultSortAdded);
+            SetDefaultSort(Variables.LangCode, skip.SkipNoDefaultSortAdded, restrictDefaultsortAddition);
             Variables.Profiler.Profile("SetDefaultSort");
 
             AWBChangeArticleText("Fix categories", Parsers.FixCategories(ArticleText, Namespace.IsMainSpace(Name)), true);
