@@ -637,6 +637,16 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
         }
 
         [Test]
+        public void ArabicNames()
+        {
+            Assert.AreEqual(@"Ahmed Mohammed Mukit", Tools.MakeHumanCatKey(@"Ahmed Mohammed Mukit"));
+            Assert.AreEqual(@"Ahmed Mohammed Mukit", Tools.MakeHumanCatKey(@"AHMED Mohammed MUKIT"));
+            Assert.AreEqual(@"Ahmed Mohammed Mukit", Tools.MakeHumanCatKey(@"ahmed Mohammed mukit"));
+            
+            Assert.AreEqual(@"Smith, John", Tools.MakeHumanCatKey(@"John Smith"));
+        }
+
+        [Test]
         public void RemoveDiacritics()
         {
             foreach (KeyValuePair<string, string> kvp in Tools.Diacritics)
