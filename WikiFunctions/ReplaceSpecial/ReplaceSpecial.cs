@@ -58,7 +58,7 @@ namespace WikiFunctions.ReplaceSpecial
 
         IRule CurrentRule;
         Control ruleControl_;
-        readonly RuleTreeHistory History;
+        private readonly RuleTreeHistory History;
 
         public void Clear()
         {
@@ -74,7 +74,6 @@ namespace WikiFunctions.ReplaceSpecial
 
             //NewRule();
             UpdateEnabledStates();
-            SetTreeViewColours();
         }
 
         private void OkButton_Click(object sender, EventArgs e)
@@ -192,9 +191,7 @@ namespace WikiFunctions.ReplaceSpecial
         private TreeNodeCollection GetOwningNodes(TreeNode t)
         {
             TreeNode p = t.Parent;
-            if (p != null)
-                return p.Nodes;
-            return RulesTreeView.Nodes;
+            return p != null ? p.Nodes : RulesTreeView.Nodes;
         }
 
         private void DownButton_Click(object sender, EventArgs e)
@@ -254,38 +251,37 @@ namespace WikiFunctions.ReplaceSpecial
 
         private void UpdateEnabledStates()
         {
-            bool has_selection = RulesTreeView.SelectedNode != null;
+            bool hasSelection = RulesTreeView.SelectedNode != null;
 
             if (ruleControl_ != null)
-                ruleControl_.Enabled = has_selection;
+                ruleControl_.Enabled = hasSelection;
 
-            DeleteButton.Enabled = has_selection;
-            UpButton.Enabled = has_selection;
-            DownButton.Enabled = has_selection;
-            NewSubruleButton.Enabled = has_selection;
+            DeleteButton.Enabled = hasSelection;
+            UpButton.Enabled = hasSelection;
+            DownButton.Enabled = hasSelection;
+            NewSubruleButton.Enabled = hasSelection;
 
-            DeleteMenuItem.Enabled = has_selection;
-            DeleteContextMenuItem.Enabled = has_selection;
+            DeleteMenuItem.Enabled = hasSelection;
+            DeleteContextMenuItem.Enabled = hasSelection;
 
-            NewSubruleMenu.Enabled = has_selection;
-            NewSubruleContextMenuItem.Enabled = has_selection;
+            NewSubruleMenu.Enabled = hasSelection;
+            NewSubruleContextMenuItem.Enabled = hasSelection;
 
-            NewSubruleMenuItem.Enabled = has_selection;
-            NewSubruleInTemplateCallMenuItem.Enabled = has_selection;
-            NewSubruleTemplateParameterMenuItem.Enabled = has_selection;
+            NewSubruleMenuItem.Enabled = hasSelection;
+            NewSubruleInTemplateCallMenuItem.Enabled = hasSelection;
+            NewSubruleTemplateParameterMenuItem.Enabled = hasSelection;
 
             PasteMenuItem.Enabled = PasteContextMenuItem.Enabled = true;
 
-            CutMenuItem.Enabled = has_selection;
-            CutContextMenuItem.Enabled = has_selection;
+            CutMenuItem.Enabled = hasSelection;
+            CutContextMenuItem.Enabled = hasSelection;
 
-            CopyMenuItem.Enabled = has_selection;
-            CopyContextMenuItem.Enabled = has_selection;
+            CopyMenuItem.Enabled = hasSelection;
+            CopyContextMenuItem.Enabled = hasSelection;
 
             UndoMenuItem.Enabled = History.CanUndo;
             RedoMenuItem.Enabled = History.CanRedo;
         }
-
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
@@ -457,8 +453,7 @@ namespace WikiFunctions.ReplaceSpecial
             SaveCurrentRule();
             History.Save();
 
-            TreeNode n = new TreeNode(r.Name);
-            n.Tag = r;
+            TreeNode n = new TreeNode(r.Name) {Tag = r};
 
             TreeNode s = RulesTreeView.SelectedNode;
             if (s != null)
@@ -487,8 +482,7 @@ namespace WikiFunctions.ReplaceSpecial
 
         private void AddNewRule(IRule r, TreeNode tn)
         {
-            TreeNode n = new TreeNode(r.Name);
-            n.Tag = r;
+            TreeNode n = new TreeNode(r.Name) {Tag = r};
 
             tn.Nodes.Add(n);
 
@@ -502,8 +496,7 @@ namespace WikiFunctions.ReplaceSpecial
 
         private void AppendRule(IRule r)
         {
-            TreeNode n = new TreeNode(r.Name);
-            n.Tag = r;
+            TreeNode n = new TreeNode(r.Name) {Tag = r};
 
             RulesTreeView.Nodes.Add(n);
 
@@ -530,8 +523,7 @@ namespace WikiFunctions.ReplaceSpecial
 
             History.Save();
 
-            TreeNode n = new TreeNode(r.Name);
-            n.Tag = r;
+            TreeNode n = new TreeNode(r.Name) {Tag = r};
 
             s.Nodes.Add(n);
             RulesTreeView.SelectedNode = n;
