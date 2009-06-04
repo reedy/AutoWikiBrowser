@@ -1436,6 +1436,23 @@ http://example.com }}");
         }
 
         [Test]
+        public void SubstitutedTemplatesCategory()
+        {
+            Assert.AreEqual(@"<includeonly>foo</includeonly> foo
+[[Category:Substituted templates]]", Parsers.FixCategories(@"<includeonly>foo</includeonly> foo", true));
+            Assert.AreEqual(@"<noinclude>foo</noinclude> foo
+[[Category:Substituted templates]]", Parsers.FixCategories(@"<noinclude>foo</noinclude> foo", true));
+            Assert.AreEqual(@"{{{1}}} foo
+[[Category:Substituted templates]]", Parsers.FixCategories(@"{{{1}}} foo", true));
+
+            Assert.AreEqual(@"{{{1}}} foo
+[[Category:Substituted templates]]", Parsers.FixCategories(@"{{{1}}} foo
+[[Category:Substituted templates]]", true));
+
+            Assert.AreEqual(@"{{{1}}} foo", Parsers.FixCategories(@"{{{1}}} foo", false));
+        }
+
+        [Test]
         public void TestFixEmptyLinksAndTemplates()
         {
             Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates(""));

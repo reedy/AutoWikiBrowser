@@ -193,6 +193,10 @@ namespace WikiFunctions.Parse
 
             ReplaceMore(WikiRegexes.Code.Matches(articleText), ref articleText);
 
+            ReplaceMore(WikiRegexes.Noinclude.Matches(articleText), ref articleText);
+
+            ReplaceMore(WikiRegexes.Includeonly.Matches(articleText), ref articleText);
+
             if (HideExternalLinks) ReplaceMore(WikiRegexes.ExternalLinks.Matches(articleText), ref articleText);
 
             ReplaceMore(WikiRegexes.Headings.Matches(articleText), ref articleText);
