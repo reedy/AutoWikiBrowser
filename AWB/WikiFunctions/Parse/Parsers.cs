@@ -1876,7 +1876,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public static string FixCategories(string articleText)
+        public static string FixCategories(string articleText, bool isMainSpace)
         {
             string cat = "[[" + Variables.Namespaces[Namespace.Category];
 
@@ -1884,6 +1884,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             articleText = Regex.Replace(articleText, @"(?<=" + Regex.Escape(cat) + @"[^\r\n\[\]{}<>]+\]\])\]+", "");
             // three or more at start
             articleText = Regex.Replace(articleText, @"\[+(?=" + Regex.Escape(cat) + @"[^\r\n\[\]{}<>]+\]\])", "");
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Substituted_templates
+            // for en-wiki mainspace articles any match on these three regexes means there's some dodgy template programming that should be cleaned up, so add to cleanup category
+            if (isMainSpace && Variables.LangCode == LangCodeEnum.en && (WikiRegexes.Noinclude.IsMatch(articleText) || WikiRegexes.Includeonly.IsMatch(articleText) || Regex.IsMatch(articleText, @"{{{\d}}}")) && !articleText.Contains(@"[[Category:Substituted templates]]"))
+                articleText += "\r\n" + @"[[Category:Substituted templates]]";
 
             foreach (Match m in WikiRegexes.LooseCategory.Matches(articleText))
             {
@@ -1894,6 +1899,16 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             }
 
             return articleText;
+        }
+
+        /// <summary>
+        /// Fix common spacing/capitalisation errors in categories; remove diacritics and trailing whitespace from sortkeys (not leading whitespace)
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <returns>The modified article text.</returns>
+        public static string FixCategories(string articleText)
+        {
+            return FixCategories(articleText, false);
         }
 
         // Covered by: ImageTests.BasicImprovements(), incomplete
@@ -2430,7 +2445,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             string oldText = articleText;
 
-            articleText = FixCategories(articleText);
+            articleText = FixCategories(articleText, Namespace.IsMainSpace(articleText));
 
             if (Regex.IsMatch(articleText, @"\[\["
                 + Variables.NamespacesCaseInsensitive[Namespace.Category]
@@ -2583,7 +2598,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 return testText;
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_9#AWB_didn.27t_fix_special_characters_in_a_pipe
-            articleText = FixCategories(articleText);
+            articleText = FixCategories(articleText, Namespace.IsMainSpace(articleTitle));
 
             if (ds.Count == 0)
             {
