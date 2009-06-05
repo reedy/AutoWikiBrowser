@@ -208,12 +208,18 @@ namespace WikiFunctions.Parse
         // NOT covered
         /// <summary>
         /// Re-organises the Person Data, stub/disambig templates, categories and interwikis
+        /// except when a mainspace article has some 'includeonly' tags etc.
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">The article title.</param>
         /// <returns>The re-organised text.</returns>
         public string SortMetaData(string articleText, string articleTitle)
         {
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Substituted_templates
+            // if article contains some substituted template stuff, sorting the data may mess it up (further)
+            if (Namespace.IsMainSpace(articleTitle) && NoIncludeIncludeOnlyProgrammingElement(articleText))
+                return articleText;
+
             return (Variables.Project <= ProjectEnum.species) ? Sorter.Sort(articleText, articleTitle) : articleText;
         }
 
@@ -1887,7 +1893,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Substituted_templates
             // for en-wiki mainspace articles any match on these three regexes means there's some dodgy template programming that should be cleaned up, so add to cleanup category
-            if (isMainSpace && Variables.LangCode == LangCodeEnum.en && (WikiRegexes.Noinclude.IsMatch(articleText) || WikiRegexes.Includeonly.IsMatch(articleText) || Regex.IsMatch(articleText, @"{{{\d}}}")) && !articleText.Contains(@"[[Category:Substituted templates]]"))
+            if (isMainSpace && Variables.LangCode == LangCodeEnum.en && NoIncludeIncludeOnlyProgrammingElement(articleText) && !articleText.Contains(@"[[Category:Substituted templates]]"))
                 articleText += "\r\n" + @"[[Category:Substituted templates]]";
 
             foreach (Match m in WikiRegexes.LooseCategory.Matches(articleText))
@@ -1909,6 +1915,16 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static string FixCategories(string articleText)
         {
             return FixCategories(articleText, false);
+        }
+
+        /// <summary>
+        /// Returns whether the article text has a &lt;noinclude&gt; or &lt;includeonly&gt; or '{{{1}}}' or '{{#if:' etc. which should not appear on the mainspace
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <returns></returns>
+        public static bool NoIncludeIncludeOnlyProgrammingElement(string articleText)
+        {
+            return WikiRegexes.Noinclude.IsMatch(articleText) || WikiRegexes.Includeonly.IsMatch(articleText) || Regex.IsMatch(articleText, @"{{{\d}}}") || articleText.Contains(@"{{#if:");
         }
 
         // Covered by: ImageTests.BasicImprovements(), incomplete
