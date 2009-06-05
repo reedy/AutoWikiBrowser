@@ -908,6 +908,9 @@ namespace WikiFunctions
             AWBChangeArticleText("FixReferenceTags", Parsers.FixReferenceTags(ArticleText), true);
             Variables.Profiler.Profile("FixReferenceTags");
 
+         //   AWBChangeArticleText("DuplicateUnnamedReferences", Parsers.DuplicateUnnamedReferences(ArticleText), true);
+         //   Variables.Profiler.Profile("DuplicateUnnamedReferences");
+
             AWBChangeArticleText("DuplicateNamedReferences", Parsers.DuplicateNamedReferences(ArticleText), true);
             Variables.Profiler.Profile("DuplicateNamedReferences");
 
@@ -931,7 +934,7 @@ namespace WikiFunctions
             Variables.Profiler.Profile("CiteTemplateDates");
 
             //Just a bit broken/Some unwanted fixes (moving of <ref> tags around)
-            //AWBChangeArticleText("Fix Footnotes", parsers.FixFootnotes(ArticleText), true);
+            //AWBChangeArticleText("Fix Footnotes", parsers.FixFootnotes(articleText), true);
             //Variables.Profiler.Profile("FixFootnotes");
 
             BulletExternalLinks(skip.SkipNoBulletedLink);
@@ -945,7 +948,7 @@ namespace WikiFunctions
 
             //if (Variables.IsWikimediaProject)
             //{
-            //    AWBChangeArticleText("External to internal links", Parsers.ExternalURLToInternalLink(ArticleText), true);
+            //    AWBChangeArticleText("External to internal links", Parsers.ExternalURLToInternalLink(articleText), true);
             //    Variables.Profiler.Profile("ExternalURLToInternalLink");
             //}
 
@@ -971,7 +974,7 @@ namespace WikiFunctions
             AWBChangeArticleText("Format sticky links",
                 Parsers.StickyLinks(Parsers.SimplifyLinks(ArticleText)), true);
 
-            //AWBChangeArticleText("Remove duplicate wikilink", parsers.RemoveDuplicateWikiLinks(ArticleText), true);
+            //AWBChangeArticleText("Remove duplicate wikilink", parsers.RemoveDuplicateWikiLinks(articleText), true);
 
             UnHideText(removeText);
 
