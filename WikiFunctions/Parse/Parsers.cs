@@ -646,6 +646,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
+        private static readonly string RefName = @"(?si)<\s*ref\s+name\s*=\s*""";
         /// <summary>
         /// Derives and sets a reference name per [[WP:REFNAME]] for duplicate &lt;ref&gt;s
         /// </summary>
@@ -653,157 +654,71 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string DuplicateUnnamedReferences(string articleText)
         {
-            int MAX_ITERATIONS = 5;
-            // duplicate citation fixer (not named): add named reference to first and use in latter ones
-            Regex DuplicateUnnamedRef = new Regex(@"(?s)(<\s*ref\s*>\s*([^<>]+)\s*<\s*/\s*ref>)(.*?)(<\s*ref\s*>\s*\2\s*<\s*/\s*ref>)", RegexOptions.Compiled);
+            // can't proceed if multiref is already in use
+            if (Regex.IsMatch(articleText, @"<ref name=""multiref\d+""/?>"))
+                return articleText;
 
-            if (DuplicateUnnamedRef.IsMatch(articleText))
+            int j = 0;
+            Regex DuplicateUnnamedRef = new Regex(@"(?s)(<\s*ref\s*>\s*([^<>]+)\s*<\s*/\s*ref>)(.*?)(<\s*ref\s*>\s*\2\s*<\s*/\s*ref>)");
+
+            foreach (Match m in DuplicateUnnamedRef.Matches(articleText))
             {
-                if (!Regex.IsMatch(articleText, @"<ref name=""multiref\d+""/?>"))
+                string articleTextBefore = articleText;
+                string FriendlyName = "";
+                string Multiref = String.Format(@"multiref{0}", j);
+                string MultirefRefString = m.Groups[2].Value;
+
+                // ref contains ibid/op cit, don't combine it, could refer to any ref on page
+                if (Regex.IsMatch(MultirefRefString, @"(?is)\b(ibid|op.{1,4}cit)\b"))
                 {
-                    MatchCollection MultirefMC = DuplicateUnnamedRef.Matches(articleText);
-
-                    for (int j = 1; j < MAX_ITERATIONS; j++)
-                    {
-                        string Before = articleText;
-                        string Replace = String.Format(@"<ref name=""multiref{0}"">$2</ref>$3<ref name=""multiref{0}""/>", j);
-                        string FriendlyReplace = "";
-                        string FriendlyName = "";
-                        string Multiref = String.Format(@"multiref{0}", j);
-                        string MultirefRefString = "";
-                        int NotCounting = 0;
-                        string RefName = @"(?si)<\s*ref\s+name\s*=\s*""";
-                        string NameMask = @""">(?-i)\s*(?:sir)?\s*((?:[A-Z]+\.?){0,3}\s*[A-Z][\w-']{2,}[,\.]?\s*(?:\s+\w\.?|\b(?:[A-Z]+\.?){0,3})?(?:\s+[A-Z][\w-']{2,}){0,3}(?:\s+\w(?:\.?|\b)){0,2})\s*(?:[,\.'&;:\[\(“`]|et\s+al)(?i)[^{}<>\n]*?";
-                        string YearMask = @"(\([12]\d{3}\)|\b[12]\d{3}[,\.\)])";
-                        string PageMask = @"('*(?:p+g?|pages?)'*\.?'*(?:&nbsp;)?\s*(?:\d{1,3}|(?-i)[XVICM]+(?i))\.?(?:\s*[-/&\.,]\s*(?:\d{1,3}|(?-i)[XVICM]+(?i)))?\b)";
-
-                        if (j == 1 || DuplicateUnnamedRef.IsMatch(articleText))
-                        {
-                            try
-                            {
-                                Match MultirefMatch = MultirefMC[j - 1];
-                                MultirefRefString = MultirefMatch.Groups[2].Value;
-                            }
-                            catch // index out of range exception i.e. no more matches
-                            {
-                                break; // if no more matches in collection, we've finished
-                            }
-
-                            if (Regex.IsMatch(MultirefRefString, @"(?is)\b(ibid|op.{1,4}cit)\b"))
-                            {
-                                //LogToFile("@@@MREFERR@@@ref contains ibid/op cit@@@" + Regex.Replace(MultirefRefString, @"\n", " "));
-                                articleText = Before;
-                                continue;
-                            }
-
-                            //articleText = DuplicateUnnamedRef.Replace(articleText, Replace, 1); // replacements limited to 1
-                            Regex MultirefReplace = new Regex(@"(?s)(<\s*ref\s*>\s*(" + Regex.Escape(MultirefRefString) + @")\s*<\s*/\s*ref>)(.*?)(<\s*ref\s*>\s*\2\s*<\s*/\s*ref>)", RegexOptions.Compiled);
-                            articleText = MultirefReplace.Replace(articleText, Replace, 1);
-
-                            FriendlyName = "";
-
-                            // try description of a simple external link
-                            if (Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>") || FriendlyName.Length < 4)
-                                FriendlyName = DeriveFriendlyName(articleText, RefName + Multiref + @""">\s*[^{}<>\n]*?\s*\[*(?:http://www\.|http://|www\.)[^\[\]<>""\s]+?\s+([^{}<>\[\]]{4,35}?)\s*(?:\]|<!--|⌊⌊⌊⌊|</ref>)", 1);
-
-                            // website URL first, allowing a name before link
-                            if (Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>") || FriendlyName.Length < 4)
-                                FriendlyName = DeriveFriendlyName(articleText, RefName + Multiref + @""">\s*\w*?[^{}<>]{0,4}?\s*(?:\[?|\{\{\s*cit[^{}<>]*\|\s*url\s*=\s*)\s*(?:http://www\.|http://|www\.)([^\[\]<>""\s\/:]+)", 1);
-
-                            // Harvnb template {{Harvnb|Young|1852|p=50}}
-                            if (Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>") || FriendlyName.Length < 4)
-                                FriendlyName = DeriveFriendlyName(articleText, RefName + Multiref + @""">\s*{{Harvnb\s*\|\s*([^{}\|]+?)\s*\|\s*(\d{4})\s*\|\s*([^{}\|]+?)\s*}}\s*", 3);
-
-                            // now just try to use the whole reference if it's short (<35 characters)
-                            if (Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>") || FriendlyName.Length < 4)
-                                FriendlyName = DeriveFriendlyName(articleText, RefName + Multiref + @""">\s*([^<>{}]{4,35})\s*</ref>", 1);
-
-                            //now try title of a citation
-                            if (Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>") || FriendlyName.Length < 4)
-                                FriendlyName = DeriveFriendlyName(articleText, RefName + Multiref + @""">\s*\{\{\s*cit[^{}<>]*\|\s*url\s*=\s*([^\/<>{}\|]{4,35})", 1);
-
-                            // name...year...page
-                            if (Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>") || FriendlyName.Length < 4)
-                                FriendlyName = DeriveFriendlyName(articleText, RefName + Multiref + NameMask + YearMask + @"[^{}<>\n]*?" + PageMask + @"\s*</ref>", 3);
-
-                            // name...page
-                            if (Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>") || FriendlyName.Length < 4)
-                                FriendlyName = DeriveFriendlyName(articleText, RefName + Multiref + NameMask + PageMask + @"\s*</ref>", 2);
-
-                            // name...year
-                            if (Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>") || FriendlyName.Length < 4)
-                                FriendlyName = DeriveFriendlyName(articleText, RefName + Multiref + NameMask + YearMask + @"\s*</ref>", 2);
-
-                            // now see if specific reference name has been written
-                            // string MultirefRefStringToCompare = Regex.Replace(MultirefRefString, @"\n", " ");
-                            // ="if (MultirefRefStringToCompare.Equals(@"""&D1&""")) FriendlyName = """&F1&""";
-
-                            FriendlyName = CleanFriendlyName(FriendlyName);
-
-                            try // if FriendlyName has some brackets or something, will get regex parse error
-                            {
-                                // if can't get a distinct name, revert multiref and log
-                                if (FriendlyName.Length > 3 && Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>"))
-                                {
-                                    //LogToFile("@@@MREFERR@@@FriendlyName '" + FriendlyName + "' already in use for@@@" + Regex.Replace(MultirefRefString, @"\n", " "));
-                                    articleText = Before;
-                                    continue;
-                                }
-
-                                // only attempt to rename if suitable name found and isn't already used by article
-                                if (FriendlyName.Length > 3 && !Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>"))
-                                {
-                                    FriendlyReplace = @"${1}" + FriendlyName + @"${2}";
-
-                                    articleText = Regex.Replace(articleText, @"(?si)(<ref name="")" + Multiref + @"(""/?>)", FriendlyReplace);
-
-                                    //LogToFile("@@@MULTIREF@@@'" + Multiref + "' --> '" + FriendlyName + "' for@@@" + Regex.Replace(MultirefRefString, @"\n", " "));
-                                }
-                                else
-                                {
-                                   // LogToFile("@@@MREFERR@@@'" + Multiref + "' failed to get renamed for@@@" + MultirefRefString);
-                                    articleText = Before;
-                                    continue;
-                                }
-
-                            }
-                            catch // regex parse exception
-                            {
-                                articleText = Before;
-                                //LogToFile("@@@MREFERR@@@ parse exception on FriendlyName@@@" + FriendlyName);
-                                continue;
-                            }
-                        }
-                        else
-                            break;
-                    }
+                    articleText = articleTextBefore;
+                    j++;
+                    continue;
                 }
-                    //LogToFile("@@@MULTIREF@@@set to insert multiref but one already there");
+
+                Regex MultirefReplace = new Regex(@"(?s)(<\s*ref\s*>\s*(" + Regex.Escape(MultirefRefString) + @")\s*<\s*/\s*ref>)(.*?)(<\s*ref\s*>\s*\2\s*<\s*/\s*ref>)", RegexOptions.Compiled);
+                articleText = MultirefReplace.Replace(articleText, String.Format(@"<ref name=""multiref{0}"">$2</ref>$3<ref name=""multiref{0}""/>", j), 1);
+
+                // get the reference name to use
+                FriendlyName = DeriveReferenceName(articleText, MultirefRefString);
+
+                // check reference name not already in use for some other reference
+                if (FriendlyName.Length > 3 && !Regex.IsMatch(articleText, RefName + Regex.Escape(FriendlyName) + @"""\s*/?\s*>"))
+                    articleText = Regex.Replace(articleText, @"(?si)(<ref name="")" + Multiref + @"(""/?>)", @"${1}" + FriendlyName + @"${2}");
+                else
+                // either derived reference name too short, or already in use
+                {
+                    articleText = articleTextBefore;
+                    j++;
+                    continue;
+                }
+
+                j++;
             }
 
             return articleText;
         }
 
-        private static string DeriveFriendlyName(string ArticleText, string Mask, int Components)
+        private static string DeriveFriendlyName(string reference, string Mask, int Components)
         {
             string FriendlyNameString = "";
 
-            Regex FriendlyName = new Regex(Mask, RegexOptions.Compiled);
-            MatchCollection FriendlyMatchList = FriendlyName.Matches(ArticleText);
-            if (FriendlyMatchList.Count > 0)
+            Regex FriendlyName = new Regex(Mask);
+            
+            if (FriendlyName.Matches(reference).Count > 0)
             {
-                Match FriendlyMatch = FriendlyMatchList[0];
-                FriendlyNameString = FriendlyMatch.Groups[1].Value;
+                Match m = FriendlyName.Match(reference);
+                
+                FriendlyNameString = m.Groups[1].Value;
 
                 if (Components > 1)
-                    FriendlyNameString += " " + FriendlyMatch.Groups[2].Value;
+                    FriendlyNameString += " " + m.Groups[2].Value;
 
                 if (Components > 2)
-                    FriendlyNameString += " " + FriendlyMatch.Groups[3].Value;
+                    FriendlyNameString += " " + m.Groups[3].Value;
             }
-            else return ("");
 
-            return (CleanFriendlyName(FriendlyNameString));
+            return CleanFriendlyName(FriendlyNameString);
         }
 
         private static string CleanFriendlyName(string FriendlyName)
@@ -818,7 +733,82 @@ namespace WikiFunctions.Parse
             if (Regex.IsMatch(FriendlyName, @"(?im)(\s*(date\s+)?(retrieved|accessed)\b|^\d+$)")) // don't allow friendly name to be 'retrieved on...' or just a number
                 return ("");
 
-            return (FriendlyName);
+            return FriendlyName;
+        }
+
+        public static string DeriveReferenceName(string articleText, string reference)
+        {
+            string FriendlyName = "";
+            string NameMask = @"(?-i)\s*(?:sir)?\s*((?:[A-Z]+\.?){0,3}\s*[A-Z][\w-']{2,}[,\.]?\s*(?:\s+\w\.?|\b(?:[A-Z]+\.?){0,3})?(?:\s+[A-Z][\w-']{2,}){0,3}(?:\s+\w(?:\.?|\b)){0,2})\s*(?:[,\.'&;:\[\(“`]|et\s+al)(?i)[^{}<>\n]*?";
+            string YearMask = @"(\([12]\d{3}\)|\b[12]\d{3}[,\.\)])";
+            string PageMask = @"('*(?:p+g?|pages?)'*\.?'*(?:&nbsp;)?\s*(?:\d{1,3}|(?-i)[XVICM]+(?i))\.?(?:\s*[-/&\.,]\s*(?:\d{1,3}|(?-i)[XVICM]+(?i)))?\b)";
+
+            // try parameters from a citation: lastname, year and page
+            Regex CitationCiteBook = new Regex(@"{{[Cc]it[ae]((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})");
+
+            string CitationTemplate = CitationCiteBook.Match(reference).Value;
+
+            if (CitationTemplate.Length > 10)
+            {
+                string Last = Regex.Match(reference, @"(?<=\s*last\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
+
+                if (Last.Length > 1)
+                {
+                    FriendlyName = Last;
+                    string Year = Regex.Match(reference, @"(?<=\s*year\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
+
+                    string Pages = Regex.Match(reference, @"(?<=\s*pages?\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
+
+                    if (Year.Length > 3)
+                        FriendlyName += " " + Year;
+                    else
+                    {
+                        string date = Regex.Match(reference, @"(?<=\s*date\s*=\s*)(\d{4})(?=\s*(?:\||}}))").Value.Trim();
+
+                        if (date.Length > 3)
+                            FriendlyName += " " + date;
+                    }
+
+                    if (Pages.Length > 0)
+                        FriendlyName += " " + Pages;
+                }
+            }
+            
+            // try description of a simple external link
+            if (Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>") || FriendlyName.Length < 4)
+                FriendlyName = DeriveFriendlyName(reference, @"\s*[^{}<>\n]*?\s*\[*(?:http://www\.|http://|www\.)[^\[\]<>""\s]+?\s+([^{}<>\[\]]{4,35}?)\s*(?:\]|<!--|⌊⌊⌊⌊)", 1);
+
+            // website URL first, allowing a name before link
+            if (Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>") || FriendlyName.Length < 4)
+                FriendlyName = DeriveFriendlyName(reference, @"\s*\w*?[^{}<>]{0,4}?\s*(?:\[?|\{\{\s*cit[^{}<>]*\|\s*url\s*=\s*)\s*(?:http://www\.|http://|www\.)([^\[\]<>""\s\/:]+)", 1);
+
+            // Harvnb template {{Harvnb|Young|1852|p=50}}
+            if (Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>") || FriendlyName.Length < 4)
+                FriendlyName = DeriveFriendlyName(reference, @"\s*{{Harvnb\s*\|\s*([^{}\|]+?)\s*\|\s*(\d{4})\s*\|\s*([^{}\|]+?)\s*}}\s*", 3);
+
+            // now just try to use the whole reference if it's short (<35 characters)
+            if (Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>") || FriendlyName.Length < 4 && reference.Length < 35)
+                FriendlyName = DeriveFriendlyName(reference, @"\s*([^<>{}]{4,35})\s*", 1);
+
+            //now try title of a citation
+            if (Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>") || FriendlyName.Length < 4)
+                FriendlyName = DeriveFriendlyName(reference, @"\s*\{\{\s*cit[^{}<>]*\|\s*url\s*=\s*([^\/<>{}\|]{4,35})", 1);
+
+            // name...year...page
+            if (Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>") || FriendlyName.Length < 4)
+                FriendlyName = DeriveFriendlyName(reference, NameMask + YearMask + @"[^{}<>\n]*?" + PageMask + @"\s*", 3);
+
+            // name...page
+            if (Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>") || FriendlyName.Length < 4)
+                FriendlyName = DeriveFriendlyName(reference, NameMask + PageMask + @"\s*", 2);
+
+            // name...year
+            if (Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>") || FriendlyName.Length < 4)
+                FriendlyName = DeriveFriendlyName(reference, NameMask + YearMask + @"\s*", 2);
+
+            FriendlyName = CleanFriendlyName(FriendlyName);
+
+            return FriendlyName;
         }
 
         /// <summary>
