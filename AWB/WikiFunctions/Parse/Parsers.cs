@@ -3074,12 +3074,19 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         private static readonly string CatYearOfBirthMissingLivingPeople = @"
 [[Category:Year of birth missing (living people)]]";
 
+        private static readonly string CatYearOfBirthMissing = @"
+[[Category:Year of birth missing]]";
+
         private static string YearOfBirthMissingCategory(string articleText)
         {
             // if there is a 'year of birth missing' and a year of birth, remove the 'missing' category
             if (articleText.Contains(CatYearOfBirthMissingLivingPeople)
                 && Regex.IsMatch(articleText, @"\[\[Category:\d{4} births\]\]"))
                 articleText = articleText.Replace(CatYearOfBirthMissingLivingPeople, "");
+            else
+                if (articleText.Contains(CatYearOfBirthMissing)
+                && Regex.IsMatch(articleText, @"\[\[Category:\d{4} births\]\]"))
+                    articleText = articleText.Replace(CatYearOfBirthMissing, "");
 
             return articleText;
         }
