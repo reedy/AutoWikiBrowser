@@ -2093,13 +2093,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         /// <summary>
-        /// Returns whether the article text has a &lt;noinclude&gt; or &lt;includeonly&gt; or '{{{1}}}' or '{{#if:' etc. which should not appear on the mainspace
+        /// Returns whether the article text has a &lt;noinclude&gt; or &lt;includeonly&gt; or '{{{1}}}' etc. which should not appear on the mainspace
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns></returns>
         public static bool NoIncludeIncludeOnlyProgrammingElement(string articleText)
         {
-            return WikiRegexes.Noinclude.IsMatch(articleText) || WikiRegexes.Includeonly.IsMatch(articleText) || Regex.IsMatch(articleText, @"{{{\d}}}") || articleText.Contains(@"{{#if:");
+            return WikiRegexes.Noinclude.IsMatch(articleText) || WikiRegexes.Includeonly.IsMatch(articleText) || Regex.IsMatch(articleText, @"{{{\d}}}");
         }
 
         // Covered by: ImageTests.BasicImprovements(), incomplete

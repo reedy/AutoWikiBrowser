@@ -428,7 +428,7 @@ blah";
 
             Assert.AreNotEqual(b, parser2.SortMetaData(b, "foo"));
 
-            string d = @"[[Category:Foo]]", e = @"[[Category:More foo]]", f = @"{{#if:blah[[Category:Foo]]}}";
+            string d = @"[[Category:Foo]]", e = @"[[Category:More foo]]", f = @"<includeonly>blah[[Category:Foo]]</includeonly>";
 
             Assert.AreEqual(a + d + c + e, parser2.SortMetaData(a + d + c + e, "foo"));
 
