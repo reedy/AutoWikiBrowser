@@ -25,7 +25,7 @@ namespace WikiFunctions.ReplaceSpecial
 {
     public partial class RuleControl : UserControl
     {
-        IRuleControlOwner owner_ = null;
+        readonly IRuleControlOwner owner_;
 
         public RuleControl(IRuleControlOwner owner)
         {

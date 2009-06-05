@@ -130,9 +130,7 @@ namespace WikiFunctions.ReplaceSpecial
 
                 SuspendLayout();
 
-                Point pos = new Point();
-                ruleControl_ = null;
-                ruleControl_ = CurrentRule.CreateControl(this, RuleControlSpace.Controls, pos);
+                ruleControl_ = CurrentRule.CreateControl(this, RuleControlSpace.Controls, new Point());
                 ruleControl_.Size = RuleControlSpace.Size;
 
                 CurrentRule.Name = RulesTreeView.SelectedNode.Text;
@@ -469,13 +467,16 @@ namespace WikiFunctions.ReplaceSpecial
                 RulesTreeView.Nodes.Add(n);
             }
 
-            if (r.Children != null && r.Children.Count > 0) foreach (IRule rnew in r.Children) AddNewRule(rnew, n);
+            if (r.Children != null && r.Children.Count > 0) 
+                foreach (IRule rnew in r.Children) 
+                    AddNewRule(rnew, n);
             else
             {
                 RulesTreeView.SelectedNode = n;
                 RulesTreeView.Select();
             }
 
+            AppendRule(r);
             RestoreSelectedRule();
             CurrentRule.SelectName();
         }
@@ -486,7 +487,9 @@ namespace WikiFunctions.ReplaceSpecial
 
             tn.Nodes.Add(n);
 
-            if (r.Children != null && r.Children.Count > 0) foreach (IRule rnew in r.Children) AddNewRule(rnew, n);
+            if (r.Children != null && r.Children.Count > 0) 
+                foreach (IRule rnew in r.Children) 
+                    AddNewRule(rnew, n);
             else
             {
                 RulesTreeView.SelectedNode = n;
@@ -494,6 +497,10 @@ namespace WikiFunctions.ReplaceSpecial
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="r"></param>
         private void AppendRule(IRule r)
         {
             TreeNode n = new TreeNode(r.Name) {Tag = r};
