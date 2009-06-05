@@ -365,6 +365,34 @@ End of.";
             Assert.AreEqual(f, Parsers.DuplicateNamedReferences(f));
             Assert.AreEqual(g, Parsers.DuplicateNamedReferences(g)); // reference text casing
         }
+
+        [Test]
+        public void DuplicateUnnamedReferences()
+        {
+            Assert.AreEqual(@"<ref name=""bookrags.com"">""bookrags.com""</ref> foo <ref name=""bookrags.com""/>", Parsers.DuplicateUnnamedReferences(@"<ref>""bookrags.com""</ref> foo <ref>""bookrags.com""</ref>"));
+            
+
+        }
+
+        [Test]
+        public void DeriveReferenceNameTests()
+        {
+            Assert.AreEqual("Smith", Parsers.DeriveReferenceName("a", "Smith"));
+            Assert.AreEqual(@"Smith 2008", Parsers.DeriveReferenceName("a", @"{{cite book|last=Smith|title=hello|year=2008|foo=bar}}"));
+            Assert.AreEqual(@"Smith 2008", Parsers.DeriveReferenceName("a", @"{{cite book|last=Smith|title=hello|year=2008}}"));
+            Assert.AreEqual(@"Smith 2008 17", Parsers.DeriveReferenceName("a", @"{{cite book|year=2008|last=Smith|title=hello||foo=bar|pages=17}}"));
+            Assert.AreEqual(@"Smith 2008 17", Parsers.DeriveReferenceName("a", @"{{citation|pages=17|year=2008|last=Smith|title=hello||foo=bar}}"));
+            Assert.AreEqual(@"Smither Bee 2008", Parsers.DeriveReferenceName("a", @"{{Cite book|title=hello|year=2008|last=Smither Bee|foo=bar}}"));
+            Assert.AreEqual("Oldani 1982: p.8", Parsers.DeriveReferenceName("a", "Oldani (1982: p.8)"));
+
+
+            Assert.AreEqual("", Parsers.DeriveReferenceName("a", ""));
+            Assert.AreEqual("", Parsers.DeriveReferenceName("a", ""));
+            Assert.AreEqual("", Parsers.DeriveReferenceName("a", ""));
+            Assert.AreEqual("", Parsers.DeriveReferenceName("a", ""));
+
+
+        }
     }
 
     [TestFixture]
