@@ -3083,6 +3083,19 @@ fish | name = Bert }} ''Bert'' is a good fish."));
             Assert.IsFalse(Parsers.CheckNoBots("{{bots|deny=test}}", "test"));
             Assert.IsFalse(Parsers.CheckNoBots("{{bots|allow=none}}", ""));
         }
+
+        [Test]
+        public void NoIncludeIncludeOnlyProgrammingElement()
+        {
+            Assert.IsTrue(Parsers.NoIncludeIncludeOnlyProgrammingElement(@"<noinclude>blah</noinclude>"));
+            Assert.IsTrue(Parsers.NoIncludeIncludeOnlyProgrammingElement(@"<includeonly>blah</includeonly>"));
+            Assert.IsTrue(Parsers.NoIncludeIncludeOnlyProgrammingElement(@"{{{1}}}"));
+            Assert.IsTrue(Parsers.NoIncludeIncludeOnlyProgrammingElement(@"{{{3}}}"));
+            Assert.IsTrue(Parsers.NoIncludeIncludeOnlyProgrammingElement(@"{{#if:"));
+
+            Assert.IsFalse(Parsers.NoIncludeIncludeOnlyProgrammingElement(@"hello"));
+            Assert.IsFalse(Parsers.NoIncludeIncludeOnlyProgrammingElement(@""));
+        }
     }
 
     [TestFixture]

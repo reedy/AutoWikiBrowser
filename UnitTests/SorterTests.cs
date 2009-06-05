@@ -412,5 +412,29 @@ blah";
 
             Assert.AreEqual(m + "\r\n", parser2.Sorter.RemoveCats(ref n, "test"));
         }
+
+        [Test]
+        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Substituted_templates
+        public void NoIncludeIncludeOnlyTests()
+        {
+            string a = @"<noinclude>", b = @"[[ar:قالب:بذرة موسيقي]]
+[[bg:Шаблон:Музика-мъниче]]
+[[ca:Plantilla:Esborrany de música]]
+[[cs:Šablona:Hudební pahýl]]
+[[cs:Šablona:Hudební pahýl]]
+[[vi:Tiêu bản:Music-stub]]", c = @"</noinclude>";
+
+            Assert.AreEqual(a + b + c, parser2.SortMetaData(a + b + c, "foo"));
+
+            Assert.AreNotEqual(b, parser2.SortMetaData(b, "foo"));
+
+            string d = @"[[Category:Foo]]", e = @"[[Category:More foo]]", f = @"{{#if:blah[[Category:Foo]]}}";
+
+            Assert.AreEqual(a + d + c + e, parser2.SortMetaData(a + d + c + e, "foo"));
+
+            Assert.AreNotEqual(d + "\r\n" + e, parser2.SortMetaData(d + e, "foo"));
+
+            Assert.AreEqual(f + d, parser2.SortMetaData(f + d, "foo"));
+        }
     }
 }
