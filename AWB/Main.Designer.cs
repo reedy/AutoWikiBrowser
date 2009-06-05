@@ -1349,9 +1349,9 @@ namespace AutoWikiBrowser
             this.noSectionEditSummaryToolStripMenuItem.Name = "noSectionEditSummaryToolStripMenuItem";
             this.noSectionEditSummaryToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
             this.noSectionEditSummaryToolStripMenuItem.Text = "Do not use section edit summaries";
-            //
+            // 
             // restrictDefaultsortAdditionToolStripMenuItem
-            //
+            // 
             this.restrictDefaultsortAdditionToolStripMenuItem.CheckOnClick = true;
             this.restrictDefaultsortAdditionToolStripMenuItem.Name = "restrictDefaultsortAdditionToolStripMenuItem";
             this.restrictDefaultsortAdditionToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
@@ -1593,54 +1593,54 @@ namespace AutoWikiBrowser
             // 
             // lblUserName
             // 
+            this.lblUserName.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.lblUserName.BackColor = System.Drawing.Color.Red;
             this.lblUserName.Name = "lblUserName";
             this.lblUserName.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblUserName.Size = new System.Drawing.Size(37, 17);
             this.lblUserName.Text = "User:";
-            this.lblUserName.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             // 
             // lblProject
             // 
+            this.lblProject.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.lblProject.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.lblProject.Name = "lblProject";
             this.lblProject.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblProject.Size = new System.Drawing.Size(63, 17);
             this.lblProject.Text = "Wikipedia";
-            this.lblProject.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             // 
             // lblIgnoredArticles
             // 
+            this.lblIgnoredArticles.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.lblIgnoredArticles.Name = "lblIgnoredArticles";
             this.lblIgnoredArticles.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblIgnoredArticles.Size = new System.Drawing.Size(64, 17);
             this.lblIgnoredArticles.Text = "Ignored: 0";
-            this.lblIgnoredArticles.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             // 
             // lblEditCount
             // 
+            this.lblEditCount.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.lblEditCount.Name = "lblEditCount";
             this.lblEditCount.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblEditCount.Size = new System.Drawing.Size(48, 17);
             this.lblEditCount.Text = "Edits: 0";
-            this.lblEditCount.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             // 
             // lblEditsPerMin
             // 
+            this.lblEditsPerMin.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.lblEditsPerMin.Name = "lblEditsPerMin";
             this.lblEditsPerMin.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblEditsPerMin.Size = new System.Drawing.Size(74, 17);
             this.lblEditsPerMin.Text = "Edits/min: 0";
-            this.lblEditsPerMin.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             // 
             // lblTimer
             // 
+            this.lblTimer.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.lblTimer.Name = "lblTimer";
             this.lblTimer.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTimer.Size = new System.Drawing.Size(54, 17);
             this.lblTimer.Text = "Timer: 0";
             this.lblTimer.Visible = false;
-            this.lblTimer.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             // 
             // btnIgnore
             // 
@@ -3658,6 +3658,7 @@ namespace AutoWikiBrowser
             this.webBrowserHistory.Location = new System.Drawing.Point(0, 0);
             this.webBrowserHistory.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowserHistory.Name = "webBrowserHistory";
+            this.webBrowserHistory.ScriptErrorsSuppressed = true;
             this.webBrowserHistory.Size = new System.Drawing.Size(394, 351);
             this.webBrowserHistory.TabIndex = 0;
             this.webBrowserHistory.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserHistory_DocumentCompleted);
@@ -4008,13 +4009,13 @@ namespace AutoWikiBrowser
             this.Controls.Add(this.toolStrip);
             this.DataBindings.Add(new System.Windows.Forms.Binding("Location", global::AutoWikiBrowser.Properties.Settings.Default, "WindowLocation", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.DoubleBuffered = true;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Location = global::AutoWikiBrowser.Properties.Settings.Default.WindowLocation;
             this.MinimumSize = new System.Drawing.Size(780, 499);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AutoWikiBrowser";
-            this.Icon = WikiFunctions.Properties.Resources.AWBIcon;
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
