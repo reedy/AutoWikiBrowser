@@ -3091,7 +3091,6 @@ fish | name = Bert }} ''Bert'' is a good fish."));
             Assert.IsTrue(Parsers.NoIncludeIncludeOnlyProgrammingElement(@"<includeonly>blah</includeonly>"));
             Assert.IsTrue(Parsers.NoIncludeIncludeOnlyProgrammingElement(@"{{{1}}}"));
             Assert.IsTrue(Parsers.NoIncludeIncludeOnlyProgrammingElement(@"{{{3}}}"));
-            Assert.IsTrue(Parsers.NoIncludeIncludeOnlyProgrammingElement(@"{{#if:"));
 
             Assert.IsFalse(Parsers.NoIncludeIncludeOnlyProgrammingElement(@"hello"));
             Assert.IsFalse(Parsers.NoIncludeIncludeOnlyProgrammingElement(@""));
