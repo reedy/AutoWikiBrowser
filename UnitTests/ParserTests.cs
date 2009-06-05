@@ -653,6 +653,15 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
 [[Category:Living people]]
 [[Category:1944 births]]"));
 
+            Assert.AreEqual(@"[[Category:Pakistani lawyers]]
+[[Category:Attorneys General of Pakistan]]
+[[Category:Living people]]
+[[Category:1944 births]]", Parsers.FixPeopleCategories(@"[[Category:Pakistani lawyers]]
+[[Category:Attorneys General of Pakistan]]
+[[Category:Year of birth missing]]
+[[Category:Living people]]
+[[Category:1944 births]]"));
+
             // no change when already correct
             Assert.AreEqual(@"[[Category:Pakistani lawyers]]
 [[Category:Attorneys General of Pakistan]]
