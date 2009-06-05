@@ -62,8 +62,8 @@ namespace WikiFunctions.ReplaceSpecial
 
         public void Clear()
         {
-            RulesTreeView.Nodes.Clear();
-            NewRule();
+            if (NoOfRules > 0)
+                RulesTreeView.Nodes.Clear();
         }
 
         public ReplaceSpecial()
@@ -72,7 +72,6 @@ namespace WikiFunctions.ReplaceSpecial
 
             History = new RuleTreeHistory(RulesTreeView);
 
-            //NewRule();
             UpdateEnabledStates();
         }
 
@@ -101,11 +100,10 @@ namespace WikiFunctions.ReplaceSpecial
 
         private void SaveCurrentRule()
         {
-            IRule r = CurrentRule;
-            if (r == null)
+            if (CurrentRule == null)
                 return;
 
-            r.Save();
+            CurrentRule.Save();
             SetTreeViewColours();
         }
 
@@ -235,13 +233,9 @@ namespace WikiFunctions.ReplaceSpecial
 
         public void NameChanged(Control rc, string name)
         {
-            if (RulesTreeView.SelectedNode == null)
-                return;
-
-            if (string.IsNullOrEmpty(name))
-                return;
-
-            if (RulesTreeView.SelectedNode.Text == name)
+            if (RulesTreeView.SelectedNode == null
+                || string.IsNullOrEmpty(name)
+                || RulesTreeView.SelectedNode.Text == name)
                 return;
 
             RulesTreeView.SelectedNode.Text = name;
@@ -476,7 +470,6 @@ namespace WikiFunctions.ReplaceSpecial
                 RulesTreeView.Select();
             }
 
-            AppendRule(r);
             RestoreSelectedRule();
             CurrentRule.SelectName();
         }
@@ -565,7 +558,6 @@ namespace WikiFunctions.ReplaceSpecial
             SaveCurrentRule();
             History.Undo();
             RestoreSelectedRule();
-            //RulesTreeView.ExpandAll();
         }
 
         private void RedoMenuItem_Click(object sender, EventArgs e)
@@ -573,7 +565,6 @@ namespace WikiFunctions.ReplaceSpecial
             SaveCurrentRule();
             History.Redo();
             RestoreSelectedRule();
-            //RulesTreeView.ExpandAll();
         }
 
         private void refreshColoursToolStripMenuItem_Click(object sender, EventArgs e)
