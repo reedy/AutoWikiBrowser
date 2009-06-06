@@ -2979,11 +2979,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (Regex.IsMatch(zerothSection, @"{{(?:[Ss]ee\salso|[Mm]ain)\b"))
                 return false;
 
-            // articles with bold linking to another article may be linking to the main article on the person the article is about
-            // e.g. '''military career of [[Napoleon Bonaparte]]'''
-            if (Regex.IsMatch(WikiRegexes.Template.Replace(zerothSection, ""), @"'''.*?\[\[[^\[\]]+\]\].*?'''"))
-                return false;
-
             // TODO a workaround for abuse of {{birth date and age}} template by many fraternity articles e.g. [[Zeta Phi Beta]]
             if (Regex.IsMatch(articleText, @"{{\s*[Ii]nfobox[\s_]+[Ff]raternity"))
                 return false;
@@ -2994,13 +2989,21 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (dateBirthAndAgeCount > 1 || dateDeathAndAgeCount > 1)
                 return false;
 
-            if (WikiRegexes.Lifetime.IsMatch(articleText) || WikiRegexes.Persondata.Matches(articleText).Count == 1 || dateBirthAndAgeCount == 1 || dateDeathAndAgeCount == 1 || articleText.Contains(@"-bio-stub}}"))
+            if (WikiRegexes.Lifetime.IsMatch(articleText) || WikiRegexes.Persondata.Matches(articleText).Count == 1 || articleText.Contains(@"-bio-stub}}")
+                || articleText.Contains(@"[[Category:Living people"))
+                return true;
+
+            // articles with bold linking to another article may be linking to the main article on the person the article is about
+            // e.g. '''military career of [[Napoleon Bonaparte]]'''
+            if (Regex.IsMatch(WikiRegexes.Template.Replace(zerothSection, ""), @"'''.*?\[\[[^\[\]]+\]\].*?'''"))
+                return false;
+
+            if (dateBirthAndAgeCount == 1 || dateDeathAndAgeCount == 1)
                 return true;
 
             return WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) ||
                    WikiRegexes.LivingPeopleRegex2.IsMatch(articleText) ||
-                   WikiRegexes.BirthsCategory.IsMatch(articleText)
-                   || articleText.Contains(@"[[Category:Living people");
+                   WikiRegexes.BirthsCategory.IsMatch(articleText);
         }
 
         /// <summary>
@@ -3068,8 +3071,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return articleText + "[[Category:Living people" + catKey;
         }
 
-        private static readonly Regex PersonYearOfBirth = new Regex(@"\( *[Bb]orn[^\(\)\.;]{1,150}?(?<!.*[Dd]ied.*)([12]?\d{3}(?: BC)?)\b[^\(\)]*");
-        private static readonly Regex PersonYearOfDeath = new Regex(@"\([^\(\)]*?[Dd]ied[^\(\)\.;]+?([12]?\d{3}(?: BC)?)\b");
+        private static readonly Regex PersonYearOfBirth = new Regex(@"(?<='''.*?)\( *[Bb]orn[^\(\)\.;]{1,150}?(?<!.*[Dd]ied.*)([12]?\d{3}(?: BC)?)\b[^\(\)]*");
+        private static readonly Regex PersonYearOfDeath = new Regex(@"(?<='''.*?)\([^\(\)]*?[Dd]ied[^\(\)\.;]+?([12]?\d{3}(?: BC)?)\b");
 
         /// <summary>
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
