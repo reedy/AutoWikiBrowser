@@ -745,6 +745,21 @@ died 2002
 
             Assert.AreEqual(bd11 + u, Parsers.FixPeopleCategories(bd11));
 
+            string bd12 = @"'''Lorenzo Monaco''' (born  '''Piero di Giovanni''' [[Circa|c.]]1370-1425) {{persondata}}
+[[Category:1425 deaths]]";
+
+            Assert.AreEqual(bd12 + u, Parsers.FixPeopleCategories(bd12));
+
+            string bd13 = @"'''Mocius''' ('''Mucius''', died 288-295), also kno
+[[Category:3rd-century deaths]]";
+
+            Assert.AreEqual(bd13, Parsers.FixPeopleCategories(bd13));
+
+            // no data to use here
+            string no1 = @"'''Bahram I''' (also spelled ''Varahran'' or ''Vahram'', ''r.'' 273&ndash;276) {{persondata}}";
+            Assert.AreEqual(no1, Parsers.FixPeopleCategories(no1));
+
+
         }
 
         [Test]
