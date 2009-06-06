@@ -1651,7 +1651,6 @@ http://example.com }}");
 
             Assert.AreEqual("==foo==", Parsers.FixHeadings("==foo==", "test"));
 
-            // following unit tests appear messy due to need to include whitespace and newlines
             Assert.AreEqual(@"hi.
 ==News==
 Some news here.", Parsers.FixHeadings(@"hi.
@@ -1791,6 +1790,43 @@ text
             Assert.AreEqual(@"=hello=
 text", Parsers.FixHeadings(@"=hello=
 text", "a"));
+
+            // don't consider the "references", "see also", or "external links" level 2 headings when counting level two headings
+            // single heading
+            Assert.AreEqual(@"===hello===
+text
+==References==
+foo", Parsers.FixHeadings(@"====hello====
+text
+==References==
+foo", "a"));
+
+            Assert.AreEqual(@"===hello===
+text
+==External links==
+foo", Parsers.FixHeadings(@"====hello====
+text
+==External links==
+foo", "a"));
+
+            Assert.AreEqual(@"===hello===
+text
+==See also==
+==External links==
+foo", Parsers.FixHeadings(@"====hello====
+text
+==See also==
+==External links==
+foo", "a"));
+
+            // no change
+            Assert.AreEqual(@"==hello==
+text
+==References==
+foo", Parsers.FixHeadings(@"==hello==
+text
+==References==
+foo", "a"));
         }
 
         [Test]
