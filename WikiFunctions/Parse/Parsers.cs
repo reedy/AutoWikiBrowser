@@ -3077,7 +3077,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         private static readonly Regex PersonYearOfBirthAndDeath = new Regex(@"'''\s*\([^\)\r\n]*?(?<![Dd]ied)\b([12]?\d{3})\b[^\)\r\n]*?(-|–|—|&[nm]dash;)[^\)\r\n]*?([12]?\d{3})\b[^\)]*");
 
         private static readonly Regex UncertainWordings = new Regex(@"(?:\b(about|before|after|around|[Cc]irca|between|\d{3,4}/\d{1,4}|or +\d{3,})\b|\d{3} *\?|\bca?(?:'')?\.|\bca\b|\b(bef|abt)\.)");
-        private static readonly Regex ReignedRuledUnsure = new Regex(@"(?:\?|[Rr](?:uled|eigned)|''r\.''|(chr|fl)\.)");
+        private static readonly Regex ReignedRuledUnsure = new Regex(@"(?:\?|[Rr](?:uled|eigned)|\br\.|(chr|fl)\.)");
 
         /// <summary>
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
@@ -3186,9 +3186,14 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 string deathyear = m.Groups[3].Value;
                 int deathyearint = int.Parse(deathyear);
 
-                // logical valdiation of dates
+                // logical valdiation of dates, and can't have any other born/died before this one
                 if (birthyearint <= deathyearint && (deathyearint - birthyearint) <= 125)
                 {
+                    if (m.Index > PersonYearOfDeath.Match(zerothSection).Index && PersonYearOfDeath.IsMatch(zerothSection))
+                        return YearOfBirthMissingCategory(articleText);
+                    if (m.Index > PersonYearOfBirth.Match(zerothSection).Index && PersonYearOfBirth.IsMatch(zerothSection))
+                        return YearOfBirthMissingCategory(articleText);
+                
                     string birthpart = zerothSection.Substring(m.Index, m.Groups[2].Index - m.Index);
 
                     string deathpart = zerothSection.Substring(m.Groups[2].Index, (m.Value.Length+m.Index) - m.Groups[2].Index);
@@ -3206,6 +3211,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                         articleText += "\r\n" + @"[[Category:" + deathyear + @" deaths]]";
 
                 }
+                ;
             }
 
             return YearOfBirthMissingCategory(articleText);
