@@ -41,26 +41,26 @@ namespace WikiFunctions.DBScanner
         public event StopDel StoppedEvent;
         public CrossThreadQueue<string> OutputQueue;
 
-        string FileName = "";
-        string From = "";
+        private readonly string FileName = "";
+        private readonly string From = "";
         Stream stream;
 
-        SendOrPostCallback SOPCstopped;
-        private SynchronizationContext context;
+        private readonly SendOrPostCallback SOPCstopped;
+        private SynchronizationContext Context;
 
         Thread ScanThread;
-        List<Thread> SecondaryThreads = new List<Thread>();
-        public bool MultiThreaded = false;
-        int ProcessorCount;
-        CrossThreadQueue<ArticleInfo> PendingArticles = new CrossThreadQueue<ArticleInfo>();
+        readonly List<Thread> SecondaryThreads = new List<Thread>();
+        private readonly bool MultiThreaded;
+        private readonly int ProcessorCount;
+        readonly CrossThreadQueue<ArticleInfo> PendingArticles = new CrossThreadQueue<ArticleInfo>();
 
-        List<Scan> Scanners;
-        bool IgnoreComments = false;
+        private readonly List<Scan> Scanners;
+        private readonly bool IgnoreComments;
 
-        public MainProcess(List<Scan> z, string filename, ThreadPriority tp, bool ignoreComments, string StartFrom)
+        public MainProcess(List<Scan> z, string filename, ThreadPriority tp, bool ignoreComments, string startFrom)
             : this(z, filename, tp, ignoreComments)
         {
-            From = StartFrom;
+            From = startFrom;
         }
 
         public MainProcess(List<Scan> z, string filename, ThreadPriority tp, bool ignoreComments)
@@ -119,40 +119,43 @@ namespace WikiFunctions.DBScanner
         public void Stop()
         {
             Run = false;
-            if (ScanThread != null)
-            {
-                ScanThread.Abort();
-                foreach (Thread thr in SecondaryThreads)
-                {
-                    thr.Abort();
-                }
-                ScanThread.Join();
+            if (ScanThread == null) return;
 
-                foreach (Thread thr in SecondaryThreads)
-                {
-                    // avoid deadlocks when calling from secondary thread
-                    if (thr.ManagedThreadId != Thread.CurrentThread.ManagedThreadId)
-                        thr.Join();
-                }
+            ScanThread.Abort();
+            foreach (Thread thr in SecondaryThreads)
+            {
+                thr.Abort();
+            }
+            ScanThread.Join();
+
+            foreach (Thread thr in SecondaryThreads)
+            {
+                // avoid deadlocks when calling from secondary thread
+                if (thr.ManagedThreadId != Thread.CurrentThread.ManagedThreadId)
+                    thr.Join();
             }
         }
 
         public void Start()
         {
-            context = SynchronizationContext.Current;
+            Context = SynchronizationContext.Current;
 
-            ScanThread = new Thread(Process);
-            ScanThread.Name = "DB Scanner thread";
-            ScanThread.IsBackground = true;
-            ScanThread.Priority = mPriority;
+            ScanThread = new Thread(Process)
+                             {
+                                 Name = "DB Scanner thread", 
+                                 IsBackground = true, 
+                                 Priority = mPriority
+                             };
             ScanThread.Start();
 
             for (int i = 0; i < ProcessorCount - 1; i++)
             {
-                Thread thr = new Thread(SecondaryThread);
-                thr.Name = "DB Scanner thread #" + (i + 2);
-                thr.IsBackground = true;
-                thr.Priority = mPriority;
+                Thread thr = new Thread(SecondaryThread)
+                                 {
+                                     Name = "DB Scanner thread #" + (i + 2),
+                                     IsBackground = true,
+                                     Priority = mPriority
+                                 };
                 SecondaryThreads.Add(thr);
                 thr.Start();
             }
@@ -184,7 +187,7 @@ namespace WikiFunctions.DBScanner
                     if (From.Length > 0)
                     {
                         //move to start from article
-                        while (reader.Read() && mRun)
+                        while (reader.Read() && Run)
                         {
                             if (reader.Name == "page")
                             {
@@ -197,7 +200,7 @@ namespace WikiFunctions.DBScanner
                         }
                     }
 
-                    while (reader.Read() && mRun)
+                    while (reader.Read() && Run)
                     {
                         if (reader.Name == "page")
                         {
@@ -206,12 +209,7 @@ namespace WikiFunctions.DBScanner
                             reader.ReadToFollowing("title");
                             ai.Title = articleTitle = reader.ReadString();
 
-                            //reader.ReadToFollowing(restriction); //TODO:This is wrong. Only want to read the restriction if in that <page></page>
-
-                            if (reader.Name == "restrictions")
-                                ai.Restrictions = reader.ReadString();
-                            else
-                                ai.Restrictions = "";
+                            ai.Restrictions = reader.Name == "restrictions" ? reader.ReadString() : "";
 
                             reader.ReadToFollowing("timestamp");
                             ai.Timestamp = reader.ReadString();
@@ -249,7 +247,7 @@ namespace WikiFunctions.DBScanner
                         while (PendingArticles.Count > 0)
                             Thread.Sleep(10);
 
-                        mRun = false;
+                        Run = false;
 
                         foreach (Thread thr in SecondaryThreads)
                             thr.Join();
@@ -266,7 +264,7 @@ namespace WikiFunctions.DBScanner
             finally
             {
                 if (boolMessage)
-                    context.Post(SOPCstopped, articleTitle);
+                    Context.Post(SOPCstopped, articleTitle);
             }
         }
 
@@ -304,18 +302,12 @@ namespace WikiFunctions.DBScanner
             { }
             catch (Exception ex)
             {
-                //TODO:
                 ErrorHandler.Handle(ex);
             }
         }
 
         #region Properties
-        bool mRun = true;
-        public bool Run
-        {
-            get { return mRun; }
-            set { mRun = value; }
-        }
+        public bool Run { get; set; }
 
         bool boolMessage = true;
         public bool Message
