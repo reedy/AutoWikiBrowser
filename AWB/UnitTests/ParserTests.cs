@@ -627,6 +627,9 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             string n2 = @"'''Charles Meik''' (born? - 1923) was an {{Persondata}}";
             Assert.AreEqual(n2, Parsers.FixPeopleCategories(n2));
 
+            string n2a = @"'''Anatoly Rasskazov''' (born 1960(?)) was {{persondata}}";
+            Assert.AreEqual(n2a, Parsers.FixPeopleCategories(n2a));
+
             // no changes
             string n3 = @"'''Johannes Widmann''' (born c. 1460 in [[Cheb|Eger]]; died after 1498 in [[Leipzig]]) [[Category:1460s births]]";
             Assert.AreEqual(n3, Parsers.FixPeopleCategories(n3));
