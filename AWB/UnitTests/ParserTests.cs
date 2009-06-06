@@ -1482,7 +1482,7 @@ http://example.com }}");
             Assert.AreEqual(@"[[Category:London]]", Parsers.FixCategories(@"[[Category:London]]"));
         }
 
-        [Test]
+        [Test, Ignore]
         public void SubstitutedTemplatesCategory()
         {
             Assert.AreEqual(@"<includeonly>foo</includeonly> foo
