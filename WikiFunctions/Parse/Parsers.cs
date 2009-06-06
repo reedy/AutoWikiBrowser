@@ -3072,8 +3072,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return articleText + "[[Category:Living people" + catKey;
         }
 
-        private static readonly Regex PersonYearOfBirth = new Regex(@"(?<='''.*?)\( *[Bb]orn[^\(\)\.;]{1,150}?(?<!.*[Dd]ied.*)([12]?\d{3}(?: BC)?)\b[^\(\)]*");
-        private static readonly Regex PersonYearOfDeath = new Regex(@"(?<='''.*?)\([^\(\)]*?[Dd]ied[^\(\)\.;]+?([12]?\d{3}(?: BC)?)\b");
+        private static readonly Regex PersonYearOfBirth = new Regex(@"(?<='''.*?)\( *[Bb]orn[^\)\.;]{1,150}?(?<!.*[Dd]ied.*)([12]?\d{3}(?: BC)?)\b[^\)]*");
+        private static readonly Regex PersonYearOfDeath = new Regex(@"(?<='''.*?)\([^\(\)]*?[Dd]ied[^\)\.;]+?([12]?\d{3}(?: BC)?)\b");
 
         /// <summary>
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
@@ -3133,7 +3133,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                             if (!articleText.Contains(CatYearOfBirthMissingLivingPeople))
                                 articleText += "\r\n" + @"[[Category:Year of birth uncertain]]";
                         }
-                        else if (!m.Value.Contains("?"))
+                        else if (!m.Value.Contains(@"?"))
                             yearstring = m.Groups[1].Value;
 
                         // don't accept if dash before year: could be death date
