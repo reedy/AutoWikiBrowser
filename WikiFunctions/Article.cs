@@ -607,8 +607,12 @@ namespace WikiFunctions
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         public void FixPeopleCategories(Parsers parsers, bool skipIfNoChange)
         {
+            bool noChange2 = false;
             string strTemp = parsers.FixPeopleCategories(mArticleText, out noChange);
-            strTemp = Parsers.LivingPeople(strTemp, out noChange);
+            strTemp = Parsers.LivingPeople(strTemp, out noChange2);
+
+            if (!noChange2)
+                noChange = false;
 
             if (skipIfNoChange && noChange)
                 Trace.AWBSkipped("No human category changes");
