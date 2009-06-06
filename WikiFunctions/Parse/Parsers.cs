@@ -2940,7 +2940,18 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static bool IsArticleAboutAPerson(string articleText)
         {
             if (!(Variables.LangCode == LangCodeEnum.en) || articleText.Contains(@"[[Category:Multiple people]]") || articleText.Contains(@"[[Category:Married couples") || articleText.Contains(@"[[Category:Fictional") || articleText.Contains(@"[[fictional character")
-                || Regex.IsMatch(articleText, @"{{[Ii]n-universe"))
+                || Regex.IsMatch(articleText, @"{{[Ii]n-universe") || articleText.Contains(@"[[Category:Presidencies") || articleText.Contains(@"[[Category:Military careers"))
+                return false;
+
+            string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
+
+            // not about a person if it's not the principle article on the subject
+            if (Regex.IsMatch(zerothSection, @"{{(?:[Ss]ee\salso|[Mm]ain)\b"))
+                return false;
+
+            // articles with bold linking to another article may be linking to the main article on the person the article is about
+            // e.g. '''military career of [[Napoleon Bonaparte]]'''
+            if (Regex.IsMatch(WikiRegexes.Template.Replace(zerothSection, ""), @"'''.*?\[\[[^\[\]]+\]\].*?'''"))
                 return false;
 
             // TODO a workaround for abuse of {{birth date and age}} template by many fraternity articles e.g. [[Zeta Phi Beta]]
@@ -3027,7 +3038,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return articleText + "[[Category:Living people" + catKey;
         }
 
-        private static readonly Regex PersonYearOfBirth = new Regex(@"\( *[Bb]orn[^\(\)\.;]+?(?<!.*[Dd]ied.*)([12]?\d{3}(?: BC)?)\b[^\(\)]*");
+        private static readonly Regex PersonYearOfBirth = new Regex(@"\( *[Bb]orn[^\(\)\.;]{1,150}?(?<!.*[Dd]ied.*)([12]?\d{3}(?: BC)?)\b[^\(\)]*");
         private static readonly Regex PersonYearOfDeath = new Regex(@"\([^\(\)]*?[Dd]ied[^\(\)\.;]+?([12]?\d{3}(?: BC)?)\b");
 
         /// <summary>
@@ -3059,6 +3070,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             // get the zeroth section (text upto first heading)
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
 
+            zerothSection = WikiRegexes.Refs.Replace(zerothSection, "");
+
             string yearstring = "";
             // birth
             if (!WikiRegexes.BirthsCategory.IsMatch(articleText) && (PersonYearOfBirth.Matches(zerothSection).Count == 1 || WikiRegexes.DateBirthAndAge.IsMatch(zerothSection)))
@@ -3082,6 +3095,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                         }
                         else if (!m.Value.Contains("?"))
                             yearstring = m.Groups[1].Value;
+
+                        // don't accept if dash before year: could be death date
+                        if (m.Value.Contains(@"–") && m.Groups[1].Index > m.Value.IndexOf(@"–"))
+                            yearstring = "";
                     }
                 }
                 if(yearstring.Length > 2)

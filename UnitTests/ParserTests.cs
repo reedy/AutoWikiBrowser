@@ -649,6 +649,25 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
 == hello ==
 {{birth date and age|1960|01|9}}";
             Assert.AreEqual(n6, Parsers.FixPeopleCategories(n6));
+
+            // don't grab a number out of a reference
+            string n7 = @"'''Buck Peterson''' (born in [[Minnesota, United States]]<ref name=extreme_1970/>) {{persondata}}";
+
+            Assert.AreEqual(n7, Parsers.FixPeopleCategories(n7));
+
+            // don't accept if dash before year: could be death date
+            string n8 = @"'''Wilhem Heinrich Kramer''' (born [[Dresden]] – 1765) {{persondata}}";
+
+            Assert.AreEqual(n8, Parsers.FixPeopleCategories(n8));
+
+            // date of death too far from bold name to be correct
+            string n9 = @"'''Æthelstan''' was king of [[East Anglia]] in the 9th century.
+
+As with the other kings of East Anglia, there is very little textual information available. He did, however, leave an extensive coinage of both portrait and non-portrait type (for example, Coins of England and the United Kingdom, Spink and Son, London, 2005 and the Fitzwilliam Museum database of early medieval coins. [http://www.fitzmuseum.cam.ac.uk/coins/emc] 
+
+It is suggested that Æthelstan was probably the king who defeated and killed the Mercian kings [[Beornwulf of Mercia|Beornwulf]] (killed 826) and [[Ludeca of Mercia|Ludeca]] (killed 827). He may have attempted to seize power in [[East Anglia]] on the death of [[Coenwulf of Mercia]] (died 821). If this";
+
+            Assert.AreEqual(n9, Parsers.FixPeopleCategories(n9));
         }
 
         [Test]
@@ -2942,6 +2961,12 @@ Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
             // multiple birth dates means not about one person
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"{{nat fs player|no=1|pos=GK|name=[[Meg]]|age={{Birth date|1956|01|01}} ({{Age at date|1956|01|01|1995|6|5}})|caps=|club=|clubnat=}}
 {{nat fs player|no=2|pos=MF|name=[[Valeria]]|age={{Birth date|1968|09|03}} ({{Age at date|1968|09|03|1995|6|5}})|caps=|club=|clubnat=}}"));
+
+            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"{{see also|Fred}} Fred Smith is great == foo == {{persondata}}"));
+            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"{{Main|Fred}} Fred Smith is great == foo == {{persondata}}"));
+
+            // link in bold in zeroth section to somewhere else is no good
+            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''military career of [[Napoleon Bonaparte]]''' == foo == {{persondata}}"));
         }
 
         [Test, Ignore("Unused"), Category("Incomplete")]
