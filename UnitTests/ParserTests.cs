@@ -578,7 +578,7 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             string c = @"'''Fred Smith''' is a bloke.
 [[Category:1960 births|Smith, Fred]]
 [[Category:1990 deaths|Smith, Fred]]";
-            string e = @"'''Fred Smith''' (born 1950) is a bloke.
+            string e = @"'''Fred Smith''' (born [[1950]]) is a bloke.
 [[Category:1950 births|Smith, Fred]]
 {{Recentlydeceased}}";
             string f = @"'''Fred Smith''' (born 1950) is a bloke.
@@ -675,6 +675,11 @@ died 2002
 {{persondata}}";
 
             Assert.AreEqual(n10, Parsers.FixPeopleCategories(n10));
+
+            // don't grab numbers out of long wikilinks
+            string n11 = @"'''Marcus Caecilius Metellus''' was a son of [[Lucius Caecilius Metellus (died 221 BC)|Lucius Caecilius Metellus]]. Deported {{persondata}}";
+
+            Assert.AreEqual(n11, Parsers.FixPeopleCategories(n11));
         }
 
         [Test]
