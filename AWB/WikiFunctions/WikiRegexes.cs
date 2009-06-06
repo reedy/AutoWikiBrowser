@@ -535,7 +535,7 @@ namespace WikiFunctions
         public static readonly Regex EmptyComments = new Regex(@"<!--[^\S\r\n]*-->", RegexOptions.Compiled);
 
         /// <summary>
-        /// matches &lt;ref&gt; tags
+        /// matches &lt;ref&gt; tags, including named references
         /// </summary>
         public static readonly Regex Refs = new Regex(@"(<ref\b[^>]*?>.*?<\s*/\s*ref\s*>|<ref\s+name\s*=\s*.*?/\s*>)", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
