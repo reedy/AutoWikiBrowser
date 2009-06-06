@@ -2872,7 +2872,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 if (allsame && matches > 1 && !string.IsNullOrEmpty(sort))
                 {
                     if (sort.Length > 4 && // So that this doesn't get confused by sort keys of "*", " ", etc.
-                        !sort.StartsWith(" "))
+                        !sort.StartsWith(" ") && !restrictDefaultsortAddition)
                     // MW bug: DEFAULTSORT doesn't treat leading spaces the same way as categories do
                     {
                         articleText = Catregex.Replace(articleText, "[["

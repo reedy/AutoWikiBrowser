@@ -2925,6 +2925,19 @@ foo", Parsers.ChangeToDefaultSort(@"foo
 
 {{DEFAULTSORT:Fred}}
 foo", "Hi", out noChange));
+
+            // can't clean cat keys if not adding a DEFAULTSORT
+            Assert.AreEqual(@"
+foo {{persondata}}
+[[Category:1910 births|Lahiff, Tommy]]
+[[Category:Australian players of Australian rules football|Lahiff, Tommy]]
+[[Category:Essendon Football Club players|Lahiff, Tommy]]
+", Parsers.ChangeToDefaultSort(@"
+foo {{persondata}}
+[[Category:1910 births|Lahiff, Tommy]]
+[[Category:Australian players of Australian rules football|Lahiff, Tommy]]
+[[Category:Essendon Football Club players|Lahiff, Tommy]]
+", "foo", out noChange, true));
         }
 
         [Test]
