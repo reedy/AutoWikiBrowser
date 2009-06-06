@@ -3060,6 +3060,9 @@ Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
 
             // link in bold in zeroth section to somewhere else is no good
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''military career of [[Napoleon Bonaparte]]''' == foo == {{birth date|2008|11|11}}"));
+
+            // 'characters' category means fictional person
+            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"foo [[Category:227 characters]] {{persondata}}"));
         }
 
         [Test, Ignore("Unused"), Category("Incomplete")]
