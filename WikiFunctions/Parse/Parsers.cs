@@ -416,7 +416,7 @@ namespace WikiFunctions.Parse
 
         // Covered by: LinkTests.FixDates()
         /// <summary>
-        /// Fix date and decade formatting errors, and replace <br> and <p> HTML tags
+        /// Fix date and decade formatting errors, and replace &lt;br&gt; and &lt;p&gt; HTML tags
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
