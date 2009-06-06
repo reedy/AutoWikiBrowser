@@ -601,7 +601,8 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             string u = "\r\n" + @"[[Category:Year of birth uncertain]]";
             
             string u2 = @"'''Charles Meik''' (born around 1330 in [[Ghent]] - [[22 July]] [[1387]]) {{Persondata}}";
-            Assert.AreEqual(u2 + u, Parsers.FixPeopleCategories(u2));
+            Assert.AreEqual(u2 + u + @"
+[[Category:1387 deaths]]", Parsers.FixPeopleCategories(u2));
 
             // no matches when approximate year of birth
             string b12 = @"'''Judith Victor Grabiner''' (born about 1938) is {{Persondata}}";
@@ -683,6 +684,67 @@ died 2002
             string n11 = @"'''Marcus Caecilius Metellus''' was a son of [[Lucius Caecilius Metellus (died 221 BC)|Lucius Caecilius Metellus]]. Deported {{persondata}}";
 
             Assert.AreEqual(n11, Parsers.FixPeopleCategories(n11));
+
+            // birth and death
+            string bd1 = @"''Foo''' (8 May 1920 - 11 June 2004) was {{persondata}}";
+
+            string bd1a = @"
+[[Category:1920 births]]", bd1b = @"
+[[Category:2004 deaths]]";
+
+            Assert.AreEqual(bd1 + bd1a + bd1b, Parsers.FixPeopleCategories(bd1));
+
+            Assert.AreEqual(bd1 + bd1a + bd1b, Parsers.FixPeopleCategories(bd1 + bd1a));
+
+            Assert.AreEqual(bd1 + bd1b + bd1a, Parsers.FixPeopleCategories(bd1 + bd1b));
+
+            string bd2 = @"''Foo''' (8 May 1920 – 11 June 2004) was {{persondata}}";
+            Assert.AreEqual(bd2 + bd1a + bd1b, Parsers.FixPeopleCategories(bd2));
+
+            string bd3 = @"'''Foo''' (8 May 1920 somewhere or other&ndash;11 June 2004) was {{persondata}}";
+            Assert.AreEqual(bd3 + bd1a + bd1b, Parsers.FixPeopleCategories(bd3));
+
+            // approximate date check still applied
+            string bd4 = @"''Foo''' (Circa 8 May 1920 – 11 June 2004) was {{persondata}}";
+            Assert.AreEqual(bd4 + u + @"
+[[Category:2004 deaths]]", Parsers.FixPeopleCategories(bd4));
+
+            string bd5 = @"'''Autpert Ambrose (Ambroise)''' (ca. 730 – 784) {{persondata}} 
+[[Category:778 deaths]]";
+
+            Assert.AreEqual(bd5 + u, Parsers.FixPeopleCategories(bd5));
+
+            string bd6 = @"'''Saint Bruno of Querfurt''' (c. 970 – February 14 1009) (also known as ''Brun'' and ''Boniface''  {{persondata}} 
+[[Category:1009 deaths]]";
+
+            Assert.AreEqual(bd6 + u, Parsers.FixPeopleCategories(bd6));
+
+            // all correct already
+            string bd7 = @"'''Agapetus II''' (born in [[Rome]]; died October, 955) was {{persondata}} 
+[[Category:955 deaths]]";
+
+            Assert.AreEqual(bd7, Parsers.FixPeopleCategories(bd7));
+
+            // no change
+            string bd8 = @"'''Husain''' (d. April or May 1382) was a [[Jalayirids|Jalayirid]] ruler (1374-1382). He was the son of [[Shaikh Uvais]]. {{persondata}}
+[[Category:1382 deaths]]";
+
+            // add death and uncertain birth
+            Assert.AreEqual(bd8, Parsers.FixPeopleCategories(bd8));
+
+            string bd9 = @"'''Mannalargenna''' (ca. 1770-1835), a [[Tasmanian Aborigine]], was the chief of the Ben Lomond tribe (Plangermaireener). {{persondata}}";
+
+            Assert.AreEqual(bd9 + @"
+[[Category:Year of birth uncertain]]
+[[Category:1835 deaths]]", Parsers.FixPeopleCategories(bd9));
+
+            string bd10 = @"'''King Godfred''' (ruled 804 - 810) {{persondata}}";
+            Assert.AreEqual(bd10, Parsers.FixPeopleCategories(bd10));
+
+            string bd11 = @"'''Rabat I''' (1616/7 - 1644/5) {{persondata}}";
+
+            Assert.AreEqual(bd11 + u, Parsers.FixPeopleCategories(bd11));
+
         }
 
         [Test]

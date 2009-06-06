@@ -3074,6 +3074,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
         private static readonly Regex PersonYearOfBirth = new Regex(@"(?<='''.*?)\( *[Bb]orn[^\)\.;]{1,150}?(?<!.*[Dd]ied.*)([12]?\d{3}(?: BC)?)\b[^\)]*");
         private static readonly Regex PersonYearOfDeath = new Regex(@"(?<='''.*?)\([^\(\)]*?[Dd]ied[^\)\.;]+?([12]?\d{3}(?: BC)?)\b");
+        private static readonly Regex PersonYearOfBirthAndDeath = new Regex(@"'''\s*\([^\)\r\n]*?\b([12]?\d{3})\b[^\)\r\n]*?(-|–|—|&[nm]dash;)[^\)\r\n]*?([12]?\d{3})\b[^\)]*");
+
+        private static readonly Regex UncertainWordings = new Regex(@"(?:\b(about|before|after|around|[Cc]irca|between|\d{3,4}/\d|bef\.|or +\d{3,})\b|\d{3} *\?|\bca?(?:'')?\.)");
+        private static readonly Regex ReignedRuledUnsure = new Regex(@"(?:\?|[Rr]uled|''r\.'')");
 
         /// <summary>
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
@@ -3129,10 +3133,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     if (!(m.Index > PersonYearOfDeath.Match(zerothSection).Index) || !PersonYearOfDeath.IsMatch(zerothSection))
                     {
                         // when there's only an approximate birth year, add the appropriate cat rather than the xxxx birth one
-                        if (Regex.IsMatch(m.Value, @"(?:\b(about|before|after|around|circa|c\.|between|or +\d{3,})\b|\d{3} *\?)"))
+                        if (UncertainWordings.IsMatch(m.Value))
                         {
                             if (!articleText.Contains(CatYearOfBirthMissingLivingPeople))
-                                articleText += "\r\n" + @"[[Category:Year of birth uncertain]]";
+                                articleText += CatYearOfBirthUncertain;
                         }
                         else if (!m.Value.Contains(@"?"))
                             yearstring = m.Groups[1].Value;
@@ -3160,13 +3164,47 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     // check died info after any untemplated born info
                     if (m.Index >= PersonYearOfBirth.Match(zerothSection).Index || !PersonYearOfBirth.IsMatch(zerothSection))
                     {
-                        if (!Regex.IsMatch(m.Value, @"(?:\b(about|before|after|around|circa|c\.|between)\b|\d{3} *\?)"))
+                        if (!UncertainWordings.IsMatch(m.Value))
                             yearstring = m.Groups[1].Value;
                     }
                 }
 
                 if (!string.IsNullOrEmpty(yearstring) && yearstring.Length > 2)
                     articleText += "\r\n" + @"[[Category:" + yearstring + @" deaths]]";
+            }
+
+            // birth and death combined
+            // if not fully categorised, check it
+            if (PersonYearOfBirthAndDeath.IsMatch(zerothSection) && (!WikiRegexes.BirthsCategory.IsMatch(articleText) || !WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)))
+            {
+                Match m = PersonYearOfBirthAndDeath.Match(zerothSection);
+
+                string birthyear = m.Groups[1].Value;
+                int birthyearint = int.Parse(birthyear);
+
+                string deathyear = m.Groups[3].Value;
+                int deathyearint = int.Parse(deathyear);
+
+                // logical valdiation of dates
+                if (birthyearint <= deathyearint && (deathyearint - birthyearint) <= 125)
+                {
+                    string birthpart = zerothSection.Substring(m.Index, m.Groups[2].Index - m.Index);
+
+                    string deathpart = zerothSection.Substring(m.Groups[2].Index, (m.Value.Length+m.Index) - m.Groups[2].Index);
+
+                    if (!WikiRegexes.BirthsCategory.IsMatch(articleText))
+                    {
+                        if (!UncertainWordings.IsMatch(birthpart) && !ReignedRuledUnsure.IsMatch(birthpart))
+                            articleText += "\r\n" + @"[[Category:" + birthyear + @" births]]";
+                        else 
+                            if (UncertainWordings.IsMatch(birthpart) && !articleText.Contains(CatYearOfBirthMissingLivingPeople) && !articleText.Contains(CatYearOfBirthUncertain))
+                            articleText += CatYearOfBirthUncertain;
+                    }
+
+                    if (!UncertainWordings.IsMatch(deathpart) && !ReignedRuledUnsure.IsMatch(birthpart) && !WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText))
+                        articleText += "\r\n" + @"[[Category:" + deathyear + @" deaths]]";
+
+                }
             }
 
             return YearOfBirthMissingCategory(articleText);
@@ -3177,6 +3215,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
         private const string CatYearOfBirthMissing = @"
 [[Category:Year of birth missing]]";
+
+        private const string CatYearOfBirthUncertain = @"
+[[Category:Year of birth uncertain]]";
 
         private static string YearOfBirthMissingCategory(string articleText)
         {
