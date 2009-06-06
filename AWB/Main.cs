@@ -855,7 +855,13 @@ namespace AutoWikiBrowser
                     else if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
                     {
                         EditBoxTab.SelectedTab = tpEdit;
-                        txtEdit.SetEditBoxSelection(unbalancedBracket, bracketLength);
+
+                        // indexes in articleText and txtEdit.Edit are offset by the number of newlines before the index of the unbalanced brackets
+                        // so allow for this when highlighting the unbalanced bracket
+                        string a = txtEdit.Text.Substring(0, unbalancedBracket);
+                        int b = Regex.Matches(a, "\n").Count;
+                        txtEdit.SetEditBoxSelection(unbalancedBracket - b, bracketLength);
+                        txtEdit.SelectionBackColor = System.Drawing.Color.Red;
                     }
                 }
             }
