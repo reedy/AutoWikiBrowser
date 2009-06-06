@@ -78,6 +78,11 @@ namespace AutoWikiBrowser
         {
             get { return chkCiteTemplateDates.Checked; }
         }
+
+        public bool SkipNoPeopleCategoriesFixed
+        {
+            get { return chkPeopleCategories.Checked; }
+        }
         #endregion
 
         #region Methods

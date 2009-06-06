@@ -86,5 +86,8 @@ namespace WikiFunctions.Plugin
 
         bool SkipNoCiteTemplateDatesFixed
         { get; }
+
+        bool SkipNoPeopleCategoriesFixed
+        { get; }
     }
 }

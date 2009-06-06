@@ -27,5 +27,8 @@ namespace UnitTests
 
         public bool SkipNoCiteTemplateDatesFixed
         { get; set; }
+
+        public bool SkipNoPeopleCategoriesFixed
+        { get; set; }
     }
 }
