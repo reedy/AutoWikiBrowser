@@ -776,7 +776,8 @@ died 2002
 [[Category:1835 deaths]]";
             Assert.AreEqual(no5, Parsers.FixPeopleCategories(no5));
 
-
+            string ISO1 = @"'''Ben Moon''' (born [[1960-06-13]]) is a {{persondata}}";
+            Assert.AreEqual(ISO1 + "\r\n" + b2, Parsers.FixPeopleCategories(ISO1));
         }
 
         [Test]
