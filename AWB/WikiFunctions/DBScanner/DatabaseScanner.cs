@@ -37,14 +37,14 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public partial class DatabaseScanner : Form
     {
-        MainProcess Main;
-        TimeSpan StartTime;
-        readonly ListBox AWBListbox;
-        readonly ListMaker listMaker;
+        private MainProcess Main;
+        private TimeSpan StartTime;
+        private readonly ListBox AWBListbox;
+        private readonly ListMaker LMaker;
 
-        readonly ListFilterForm SpecialFilter;
+        private readonly ListFilterForm SpecialFilter;
 
-        ThreadPriority priority = ThreadPriority.Normal;
+        private ThreadPriority priority = ThreadPriority.Normal;
         ThreadPriority Priority
         {
             get { return priority; }
@@ -56,8 +56,8 @@ namespace WikiFunctions.DBScanner
             }
         }
 
-        int intMatches;
-        int intLimit = 100000;
+        int Matches;
+        int Limit = 100000;
 
         public DatabaseScanner()
         {
@@ -72,7 +72,7 @@ namespace WikiFunctions.DBScanner
         public DatabaseScanner(ListMaker lm)
             : this()
         {
-            listMaker = lm;
+            LMaker = lm;
             if (lm != null)
                 AWBListbox = lm.Items;
         }
@@ -93,7 +93,7 @@ namespace WikiFunctions.DBScanner
                 if (Main != null)
                     return;
 
-                if (fileName.Length == 0)
+                if (FileName.Length == 0)
                 {
                     MessageBox.Show("Please open an \"Pages\" XML data-dump file\r\n\r\nSee the About menu for where to download this file.", "Problem", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -102,7 +102,7 @@ namespace WikiFunctions.DBScanner
                 lbArticles.Items.Clear();
                 lblCount.Text = "";
 
-                intMatches = 0;
+                Matches = 0;
                 lblPercentageComplete.Text = "0%";
 
                 UpdateControls(true);
@@ -118,21 +118,21 @@ namespace WikiFunctions.DBScanner
             }
         }
 
-        Regex TitleDoesRegex, TitleDoesNotRegex;
-        Regex ArticleDoesRegex, ArticleDoesNotRegex;
-        string ArticleContains, ArticleDoesNotContain;
-        readonly List<int> namespaces = new List<int>();
-        bool ArticleCaseSensitive;
+        private Regex TitleDoesRegex, TitleDoesNotRegex;
+        private Regex ArticleDoesRegex, ArticleDoesNotRegex;
+        private string ArticleContains, ArticleDoesNotContain;
+        private readonly List<int> Namespaces = new List<int>();
+        private bool ArticleCaseSensitive;
 
-        readonly CrossThreadQueue<string> Queue = new CrossThreadQueue<string>();
+        private readonly CrossThreadQueue<string> Queue = new CrossThreadQueue<string>();
 
         private void MakePatterns()
         {
-            string strTitleNot = convert(txtTitleNotContains.Text);
-            string strTitle = convert(txtTitleContains.Text);
+            string strTitleNot = Convert(txtTitleNotContains.Text);
+            string strTitle = Convert(txtTitleContains.Text);
 
-            ArticleContains = convert(txtArticleDoesContain.Text);
-            ArticleDoesNotContain = convert(txtArticleDoesNotContain.Text);
+            ArticleContains = Convert(txtArticleDoesContain.Text);
+            ArticleDoesNotContain = Convert(txtArticleDoesNotContain.Text);
 
             RegexOptions articleRegOptions = RegexOptions.Compiled;
             RegexOptions titleRegOptions = RegexOptions.Compiled;
@@ -166,16 +166,13 @@ namespace WikiFunctions.DBScanner
             TitleDoesRegex = new Regex(strTitle, titleRegOptions);
             TitleDoesNotRegex = new Regex(strTitleNot, titleRegOptions);
 
-            namespaces.Clear();
-            namespaces.AddRange(pageNamespaces.GetSelectedNamespaces());
+            Namespaces.Clear();
+            Namespaces.AddRange(pageNamespaces.GetSelectedNamespaces());
         }
 
         private static Dictionary<string, bool> MakeReplacementDictionary(string rule, bool caseSensitive)
         {
-            Dictionary<string, bool> dict = new Dictionary<string, bool>(1);
-            dict.Add(rule, caseSensitive);
-
-            return dict;
+            return new Dictionary<string, bool>(1) {{rule, caseSensitive}};
         }
 
         private void Start()
@@ -183,11 +180,9 @@ namespace WikiFunctions.DBScanner
             MakePatterns();
 
             StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
-            intLimit = (int)nudLimitResults.Value;
+            Limit = (int)nudLimitResults.Value;
 
-            List<Scan> s = new List<Scan>();
-
-            s.Add(new CheckNamespace(namespaces));
+            List<Scan> s = new List<Scan> {new CheckNamespace(Namespaces)};
 
             if (chkIgnoreRedirects.Checked)
                 s.Add(new IsNotRedirect());
@@ -258,7 +253,7 @@ namespace WikiFunctions.DBScanner
             if (chkDefaultSort.Checked)
                 s.Add(new MissingDefaultsort());
 
-            Main = new MainProcess(s, fileName, Priority, chkIgnoreComments.Checked, txtStartFrom.Text);
+            Main = new MainProcess(s, FileName, Priority, chkIgnoreComments.Checked, txtStartFrom.Text);
             progressBar.Value = 0;
             Main.StoppedEvent += Stopped;
             Main.OutputQueue = Queue;
@@ -276,9 +271,9 @@ namespace WikiFunctions.DBScanner
             if (AWBListbox != null)
                 AWBListbox.Items.Add(a);
 
-            intMatches++;
+            Matches++;
 
-            if (intMatches >= intLimit)
+            if (Matches >= Limit)
                 Main.Run = false;
         }
 
@@ -321,7 +316,7 @@ namespace WikiFunctions.DBScanner
 
         private void UpdateListMakerCount()
         {
-            if (listMaker != null) listMaker.UpdateNumberOfArticles();
+            if (LMaker != null) LMaker.UpdateNumberOfArticles();
         }
 
         private void RemoveDBScannerListItemsFromAWBListbox()
@@ -337,11 +332,11 @@ namespace WikiFunctions.DBScanner
 
         # region other
 
-        private void wikifyToList()
+        private void WikifyToList()
         {
             StringBuilder strbList = new StringBuilder();
             string s, l = "";
-            int intHeadingSpace = Convert.ToInt32(nudHeadingSpace.Value);
+            int intHeadingSpace = System.Convert.ToInt32(nudHeadingSpace.Value);
 
             string strBullet = rdoHash.Checked ? "#" : "*";
 
@@ -395,17 +390,17 @@ namespace WikiFunctions.DBScanner
             txtList.Text = strbList.ToString().Trim();
         }
 
-        string strfileName = "";
-        private string fileName
+        private string File = "";
+        private string FileName
         {
-            get { return strfileName; }
+            get { return File; }
             set
             {
-                strfileName = value;
+                File = value;
 
                 if (value.Length > 0)
                 {
-                    string shortened = value.Substring(fileName.LastIndexOf("\\") + 1);
+                    string shortened = value.Substring(FileName.LastIndexOf("\\") + 1);
                     Text = "Wiki Database Scanner - " + shortened;
                 }
                 else
@@ -486,7 +481,7 @@ namespace WikiFunctions.DBScanner
 
         private void btnTransfer_Click(object sender, EventArgs e)
         {
-            wikifyToList();
+            WikifyToList();
         }
 
         private void btnFilter_Click(object sender, EventArgs e)
@@ -554,19 +549,19 @@ namespace WikiFunctions.DBScanner
             openInBrowserToolStripMenuItem.Enabled = (lbArticles.SelectedIndex >= 0);
         }
 
-        private static string convert(string text)
+        private static string Convert(string text)
         {
             return text.Replace("\r\n", "\n");
         }
 
         private void txtTitleContains_Leave(object sender, EventArgs e)
         {
-            txtTitleContains.Text = convert(txtTitleContains.Text);
+            txtTitleContains.Text = Convert(txtTitleContains.Text);
         }
 
         private void txtTitleNotContains_Leave(object sender, EventArgs e)
         {
-            txtTitleNotContains.Text = convert(txtTitleNotContains.Text);
+            txtTitleNotContains.Text = Convert(txtTitleNotContains.Text);
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -657,7 +652,7 @@ namespace WikiFunctions.DBScanner
 
         private void nudLimitResults_ValueChanged(object sender, EventArgs e)
         {
-            intLimit = (int)nudLimitResults.Value;
+            Limit = (int)nudLimitResults.Value;
         }
 
         #endregion
@@ -666,10 +661,10 @@ namespace WikiFunctions.DBScanner
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            resetSettings();
+            ResetSettings();
         }
 
-        private void resetSettings()
+        private void ResetSettings()
         {
             //menu
             chkIgnoreRedirects.Checked = true;
@@ -718,7 +713,7 @@ namespace WikiFunctions.DBScanner
             rdoBullet.Checked = false;
             rdoHash.Checked = true;
 
-            fileName = "";
+            FileName = "";
             txtDumpLocation.Text = "";
             txtSitename.Text = "";
             lnkBase.Text = "";
@@ -768,13 +763,13 @@ namespace WikiFunctions.DBScanner
                     AWBListbox.EndUpdate();
             }
 
-            lblCount.Text = intMatches.ToString();
+            lblCount.Text = Matches.ToString();
             UpdateListMakerCount();
         }
 
         private void UpdateProgressBar()
         {
-            double matchesByLimit = ((double)intMatches / intLimit);
+            double matchesByLimit = ((double)Matches / Limit);
             double completion = Main.PercentageComplete;
 
             int newValue;
@@ -794,12 +789,12 @@ namespace WikiFunctions.DBScanner
             {
                 if (openXMLDialog.ShowDialog() == DialogResult.OK)
                 {
-                    fileName = openXMLDialog.FileName;
-                    txtDumpLocation.Text = fileName;
+                    FileName = openXMLDialog.FileName;
+                    txtDumpLocation.Text = FileName;
 
                     int dataFound = 0;
 
-                    using (XmlTextReader reader = new XmlTextReader(new StreamReader(fileName)))
+                    using (XmlTextReader reader = new XmlTextReader(new StreamReader(FileName)))
                     {
                         while (reader.Read())
                         {
