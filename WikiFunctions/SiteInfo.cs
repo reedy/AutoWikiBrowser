@@ -62,6 +62,10 @@ namespace WikiFunctions
                 if (!LoadLocalisedMagicWordAliases())
                     throw new WikiUrlException();
             }
+            catch (WikiUrlException)
+            {
+                throw;
+            }
             catch (Exception ex)
             {
                 throw new WikiUrlException(ex);
