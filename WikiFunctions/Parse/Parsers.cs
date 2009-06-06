@@ -3113,9 +3113,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             // get the zeroth section (text upto first heading)
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
 
-            // remove references and long wikilinks that may contain false positives of birth/death date
+            // remove references and long wikilinks (but allow an ISO date) that may contain false positives of birth/death date
             zerothSection = WikiRegexes.Refs.Replace(zerothSection, " ");
-            zerothSection = Regex.Replace(zerothSection, @"\[\[[^\[\]]{10,}\]\]", " ");
+            zerothSection = Regex.Replace(zerothSection, @"\[\[[^\[\]]{11,}\]\]", " ");
 
             string yearstring;
             // birth
