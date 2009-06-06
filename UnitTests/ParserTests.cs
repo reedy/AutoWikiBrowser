@@ -667,7 +667,14 @@ As with the other kings of East Anglia, there is very little textual information
 
 It is suggested that Æthelstan was probably the king who defeated and killed the Mercian kings [[Beornwulf of Mercia|Beornwulf]] (killed 826) and [[Ludeca of Mercia|Ludeca]] (killed 827). He may have attempted to seize power in [[East Anglia]] on the death of [[Coenwulf of Mercia]] (died 821). If this";
 
+            // date of death over newline – too far away to be correct
             Assert.AreEqual(n9, Parsers.FixPeopleCategories(n9));
+
+            string n10 = @"'''Fred''' blah
+died 2002
+{{persondata}}";
+
+            Assert.AreEqual(n10, Parsers.FixPeopleCategories(n10));
         }
 
         [Test]
@@ -3052,7 +3059,7 @@ Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"{{Main|Fred}} Fred Smith is great == foo == {{persondata}}"));
 
             // link in bold in zeroth section to somewhere else is no good
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''military career of [[Napoleon Bonaparte]]''' == foo == {{persondata}}"));
+            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''military career of [[Napoleon Bonaparte]]''' == foo == {{birth date|2008|11|11}}"));
         }
 
         [Test, Ignore("Unused"), Category("Incomplete")]
