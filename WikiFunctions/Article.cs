@@ -545,8 +545,6 @@ namespace WikiFunctions
 
                 strTemp = parsers.FixDates(strTemp);
                 strTemp = Parsers.FixLivingThingsRelatedDates(strTemp);
-                //strTemp = Parsers.FixPeopleCategories(strTemp, out noChange);
-                strTemp = Parsers.LivingPeople(strTemp, out noChange);
                 strTemp = Parsers.FixHeadings(strTemp, mName, out noChange);
 
                 if (mArticleText == strTemp)
@@ -594,13 +592,28 @@ namespace WikiFunctions
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         public void CiteTemplateDates(Parsers parsers, bool skipIfNoChange)
         {
-
             string strTemp = parsers.CiteTemplateDates(mArticleText, out noChange);
 
-                if (skipIfNoChange && noChange)
-                    Trace.AWBSkipped("No Citation template dates fixed");
-                else if (!noChange)
-                    AWBChangeArticleText("Citation template dates fixed", strTemp, true);
+            if (skipIfNoChange && noChange)
+                Trace.AWBSkipped("No Citation template dates fixed");
+            else if (!noChange)
+                AWBChangeArticleText("Citation template dates fixed", strTemp, true);
+        }
+
+        /// <summary>
+        /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]], [[Category:Living people]] etc. to articles about people where available, for en-wiki only
+        /// </summary>
+        /// <param name="parsers"></param>
+        /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
+        public void FixPeopleCategories(Parsers parsers, bool skipIfNoChange)
+        {
+            string strTemp = parsers.FixPeopleCategories(mArticleText, out noChange);
+            strTemp = Parsers.LivingPeople(strTemp, out noChange);
+
+            if (skipIfNoChange && noChange)
+                Trace.AWBSkipped("No human category changes");
+            else if (!noChange)
+                AWBChangeArticleText("Human category changes", strTemp, true);
         }
 
         /// <summary>
@@ -873,6 +886,10 @@ namespace WikiFunctions
 
             FixHeaderErrors(parsers, Variables.LangCode, skip.SkipNoHeaderError);
             Variables.Profiler.Profile("FixHeaderErrors");
+
+            FixPeopleCategories(parsers, skip.SkipNoPeopleCategoriesFixed);
+            Variables.Profiler.Profile("FixPeopleCategories");
+
             SetDefaultSort(Variables.LangCode, skip.SkipNoDefaultSortAdded, restrictDefaultsortAddition);
             Variables.Profiler.Profile("SetDefaultSort");
 

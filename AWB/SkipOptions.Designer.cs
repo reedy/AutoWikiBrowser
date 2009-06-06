@@ -34,6 +34,7 @@ namespace AutoWikiBrowser
             this.gbOptions = new System.Windows.Forms.GroupBox();
             this.chkUserTalkTemplates = new System.Windows.Forms.CheckBox();
             this.chkCiteTemplateDates = new System.Windows.Forms.CheckBox();
+            this.chkPeopleCategories = new System.Windows.Forms.CheckBox();
             this.chkDefaultSortAdded = new System.Windows.Forms.CheckBox();
             this.chkNoBadLink = new System.Windows.Forms.CheckBox();
             this.chkNoBulletedLink = new System.Windows.Forms.CheckBox();
@@ -86,6 +87,7 @@ namespace AutoWikiBrowser
             this.gbOptions.Controls.Add(this.chkNoTag);
             this.gbOptions.Controls.Add(this.chkNoUnicode);
             this.gbOptions.Controls.Add(this.chkCiteTemplateDates);
+            this.gbOptions.Controls.Add(this.chkPeopleCategories);
             this.gbOptions.Location = new System.Drawing.Point(12, 12);
             this.gbOptions.Name = "gbOptions";
             this.gbOptions.Size = new System.Drawing.Size(164, 307);
@@ -104,7 +106,7 @@ namespace AutoWikiBrowser
             this.chkUserTalkTemplates.Text = "User talk templates subst\'d";
             this.chkUserTalkTemplates.UseVisualStyleBackColor = true;
             // 
-            // cCiteTemplateDates
+            // chkCiteTemplateDates
             // 
             this.chkCiteTemplateDates.AutoSize = true;
             this.chkCiteTemplateDates.Location = new System.Drawing.Point(6, 203);
@@ -114,6 +116,17 @@ namespace AutoWikiBrowser
             this.chkCiteTemplateDates.Tag = 9;
             this.chkCiteTemplateDates.Text = "Citation template dates fixed";
             this.chkCiteTemplateDates.UseVisualStyleBackColor = true;
+            // 
+            // chkPeopleCategories
+            // 
+            this.chkPeopleCategories.AutoSize = true;
+            this.chkPeopleCategories.Location = new System.Drawing.Point(6, 226);
+            this.chkPeopleCategories.Name = "chkPeopleCategories";
+            this.chkPeopleCategories.Size = new System.Drawing.Size(152, 17);
+            this.chkPeopleCategories.TabIndex = 10;
+            this.chkPeopleCategories.Tag = 10;
+            this.chkPeopleCategories.Text = "Human category changes";
+            this.chkPeopleCategories.UseVisualStyleBackColor = true;
             // 
             // chkDefaultSortAdded
             // 
@@ -205,5 +218,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkDefaultSortAdded;
         private System.Windows.Forms.CheckBox chkUserTalkTemplates;
         private System.Windows.Forms.CheckBox chkCiteTemplateDates;
+        private System.Windows.Forms.CheckBox chkPeopleCategories;
     }
 }
