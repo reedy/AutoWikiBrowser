@@ -998,6 +998,11 @@ namespace WikiFunctions.Parse
             if (nameSpaceKey == 0)
                 articleText = Regex.Replace(articleText, @"(?<=\w)\s*--\s*(?=\w)", @"—");
 
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#minuses
+            // replace hyphen or en-dash or emdash with Unicode minus (&minus;)
+            // [[Wikipedia:MOSNUM#Common_mathematical_symbols]]
+            articleText = Regex.Replace(articleText, @"(?<=<sup>)(?:-|–|—)(?=\d+</sup>)", "−");
+
             return AddBackMoreText(articleText);
         }
 
