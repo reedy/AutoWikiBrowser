@@ -861,7 +861,7 @@ namespace AutoWikiBrowser
                         string a = txtEdit.Text.Substring(0, unbalancedBracket);
                         int b = Regex.Matches(a, "\n").Count;
                         txtEdit.SetEditBoxSelection(unbalancedBracket - b, bracketLength);
-                        txtEdit.SelectionBackColor = System.Drawing.Color.Red;
+                        txtEdit.SelectionBackColor = Color.Red;
                     }
                 }
             }
@@ -2913,14 +2913,13 @@ window.scrollTo(0, diffTopY);
             if (MessageBox.Show("Replacement of links to redirects with direct links is strongly discouraged, " +
                 "however it could be useful in some circumstances. Are you sure you want to continue?",
                 "Bypass redirects", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
-
                 return;
 
             BackgroundRequest r = new BackgroundRequest();
 
             Enabled = false;
             r.BypassRedirects(txtEdit.Text);
-            while (!r.Done) Application.DoEvents();
+            r.Wait();
             Enabled = true;
 
             txtEdit.Text = (string)r.Result;
@@ -2943,12 +2942,13 @@ window.scrollTo(0, diffTopY);
             txtEdit.SelectedText = "{{DEFAULTSORT:" + Tools.MakeHumanCatKey(TheArticle.Name) + "}}";
         }
 
+        readonly Regex regexDates = new Regex("[1-2][0-9]{3}");
+
         private void birthdeathCatsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //find first dates
             string strBirth = "";
             string strDeath = "";
-            Regex regexDates = new Regex("[1-2][0-9]{3}");
 
             try
             {
