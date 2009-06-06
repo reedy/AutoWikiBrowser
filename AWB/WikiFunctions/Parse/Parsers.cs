@@ -3101,6 +3101,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (Variables.LangCode != LangCodeEnum.en || WikiRegexes.Lifetime.IsMatch(articleText) || !IsArticleAboutAPerson(articleText))
                 return YearOfBirthMissingCategory(articleText);
 
+            // over 20 references and not tagged yet: implausible
+            if (WikiRegexes.Refs.Matches(articleText).Count > 20)
+                return articleText;
+
             // get the zeroth section (text upto first heading)
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
 
