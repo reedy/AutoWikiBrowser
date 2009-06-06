@@ -755,9 +755,25 @@ died 2002
 
             Assert.AreEqual(bd13, Parsers.FixPeopleCategories(bd13));
 
+            string bd14 = @"'''Asclepigenia''' (fl. 430  – 485 AD) was {{persondata}}";
+
+            string bd14a = @"
+[[Category:485 deaths]]";
+
+            Assert.AreEqual(bd14 + u + bd14a, Parsers.FixPeopleCategories(bd14));
+
             // no data to use here
             string no1 = @"'''Bahram I''' (also spelled ''Varahran'' or ''Vahram'', ''r.'' 273&ndash;276) {{persondata}}";
             Assert.AreEqual(no1, Parsers.FixPeopleCategories(no1));
+
+            string no2 = @"'''Trebellianus''' (d. 260-268), also {{persondata}}";
+            Assert.AreEqual(no2, Parsers.FixPeopleCategories(no2));
+
+            string no3 = @"'''[[Grand Ayatollah]] {{unicode|Muhammad Sādiq as-Sadr}}''' ([[Arabic]] محمّد صادق الصدر ) is an [[Iraq]]i [[Twelver]] [[Shi'a]] cleric of high rank. He is the father of [[Muqtada al-Sadr]] (born 1973). Sometimes the son is called by his father's name. He is the cousin of Grand Ayatollah [[Muhammad Baqir al-Sadr]] (died 1980). The al-Sadr family are considered [[Sayyid]], which is used among the Shia to denote persons descending directly from [[Muhammad]]. The family's lineage is traced through Imam [[Jafar al-Sadiq]] and his son Imam [[Musa al-Kazim]] the sixth and seventh Shia Imams respectively.";
+            Assert.AreEqual(no3, Parsers.FixPeopleCategories(no3));
+
+            string no4 = @"'''Bahram I''' (also spelled ''Varahran'' or ''Vahram'', ''r.'' 273&ndash;276) {{persondata}}";
+            Assert.AreEqual(no4, Parsers.FixPeopleCategories(no4));
 
 
         }
