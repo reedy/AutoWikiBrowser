@@ -772,6 +772,10 @@ died 2002
             string no4 = @"'''Bahram I''' (also spelled ''Varahran'' or ''Vahram'', ''r.'' 273&ndash;276) {{persondata}}";
             Assert.AreEqual(no4, Parsers.FixPeopleCategories(no4));
 
+            string no5 = @"'''John Coggeshall''' (chr. December 9, 1601) Charles
+[[Category:1835 deaths]]";
+            Assert.AreEqual(no5, Parsers.FixPeopleCategories(no5));
+
 
         }
 
