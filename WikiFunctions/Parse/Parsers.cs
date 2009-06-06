@@ -244,7 +244,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex RegexHeadingWhitespaceBefore = new Regex(@"^ *(==+)(\s*.+?\s*)\1 +(\r|\n)", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
         private static readonly Regex RegexHeadingWhitespaceAfter = new Regex(@"^ +(==+)(\s*.+?\s*)\1 *(\r|\n)", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
 
-        private static readonly Regex RegexHeadingUpOneLevel = new Regex(@"^=(=+[^=].*?[^=]=+)=(\r\n?|\n)$", RegexOptions.Multiline);
+        private static readonly Regex RegexHeadingUpOneLevel = new Regex(@"^=(==+[^=].*?[^=]==+)=(\r\n?|\n)$", RegexOptions.Multiline);
 
         private static readonly Regex RegexHeadingColonAtEnd = new Regex(@"^(=+)(.+?)\:(\s*\1(?:\r\n?|\n))$", RegexOptions.Multiline);
         private static readonly Regex RegexHeadingWithBold = new Regex(@"(?<====+.*?)'''(.*?)'''(?=.*?===+)");
@@ -400,7 +400,11 @@ namespace WikiFunctions.Parse
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Section_header_level_.28WikiProject_Check_Wikipedia_.237.29
             // if no level 2 heading in article, remove a level from all headings (i.e. '===blah===' to '==blah==' etc.)
-            if (!WikiRegexes.HeadingLevelTwo.IsMatch(articleText))
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Standard_level_2_headers
+            // don't consider the "references", "see also", or "external links" level 2 headings when counting level two headings
+            string articleTextLocal = articleText;
+            articleTextLocal = Regex.Replace(articleTextLocal, @"== *([Rr]eferences|[Ee]xternal +[Ll]inks?|[Ss]ee +[Aa]lso) *==\s", "");
+            if (!WikiRegexes.HeadingLevelTwo.IsMatch(articleTextLocal))
                 articleText = RegexHeadingUpOneLevel.Replace(articleText, "$1$2");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Bold_text_in_headers
