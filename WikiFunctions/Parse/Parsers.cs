@@ -3076,8 +3076,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         private static readonly Regex PersonYearOfDeath = new Regex(@"(?<='''.{0,100}?)\([^\(\)]*?[Dd]ied[^\)\.;]+?([12]?\d{3}(?: BC)?)\b");
         private static readonly Regex PersonYearOfBirthAndDeath = new Regex(@"'''\s*\([^\)\r\n]*?(?<![Dd]ied)\b([12]?\d{3})\b[^\)\r\n]*?(-|–|—|&[nm]dash;)[^\)\r\n]*?([12]?\d{3})\b[^\)]*");
 
-        private static readonly Regex UncertainWordings = new Regex(@"(?:\b(about|before|after|around|[Cc]irca|between|\d{3,4}/\d{1,4}|or +\d{3,})\b|\d{3} *\?|\bca?(?:'')?\.|\bbef\.|\bfl\.)");
-        private static readonly Regex ReignedRuledUnsure = new Regex(@"(?:\?|[Rr](?:uled|eigned)|''r\.'')");
+        private static readonly Regex UncertainWordings = new Regex(@"(?:\b(about|before|after|around|[Cc]irca|between|\d{3,4}/\d{1,4}|or +\d{3,})\b|\d{3} *\?|\bca?(?:'')?\.|\bca\b|\b(bef|abt)\.)");
+        private static readonly Regex ReignedRuledUnsure = new Regex(@"(?:\?|[Rr](?:uled|eigned)|''r\.''|(chr|fl)\.)");
 
         /// <summary>
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
