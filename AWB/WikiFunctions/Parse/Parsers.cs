@@ -2970,7 +2970,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static bool IsArticleAboutAPerson(string articleText)
         {
             if (!(Variables.LangCode == LangCodeEnum.en) || articleText.Contains(@"[[Category:Multiple people]]") || articleText.Contains(@"[[Category:Married couples") || articleText.Contains(@"[[Category:Fictional") || articleText.Contains(@"[[fictional character")
-                || Regex.IsMatch(articleText, @"{{[Ii]n-universe") || articleText.Contains(@"[[Category:Presidencies") || articleText.Contains(@"[[Category:Military careers"))
+                || Regex.IsMatch(articleText, @"{{[Ii]n-universe") || articleText.Contains(@"[[Category:Presidencies") || articleText.Contains(@"[[Category:Military careers")
+                || Regex.IsMatch(articleText, @"\[\[Category:[^\[\]]*?[Cc]haracters"))
                 return false;
 
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
