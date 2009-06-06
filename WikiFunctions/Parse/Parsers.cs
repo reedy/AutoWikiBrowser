@@ -699,46 +699,64 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static string DeriveFriendlyName(string reference, string Mask, int Components)
+        /// <summary>
+        /// Extracts strings from an input string using the input regex to derive a name for a reference
+        /// </summary>
+        /// <param name="reference">value of the reference needing a name</param>
+        /// <param name="mask">regular expression to apply</param>
+        /// <param name="components">number of groups to extract</param>
+        /// <returns></returns>
+        private static string ExtractReferenceNameComponents(string reference, string mask, int components)
         {
-            string FriendlyNameString = "";
+            string ReferenceName = "";
 
-            Regex FriendlyName = new Regex(Mask);
+            Regex ReferenceNameMask = new Regex(mask);
             
-            if (FriendlyName.Matches(reference).Count > 0)
+            if (ReferenceNameMask.Matches(reference).Count > 0)
             {
-                Match m = FriendlyName.Match(reference);
+                Match m = ReferenceNameMask.Match(reference);
                 
-                FriendlyNameString = m.Groups[1].Value;
+                ReferenceName = m.Groups[1].Value;
 
-                if (Components > 1)
-                    FriendlyNameString += " " + m.Groups[2].Value;
+                if (components > 1)
+                    ReferenceName += " " + m.Groups[2].Value;
 
-                if (Components > 2)
-                    FriendlyNameString += " " + m.Groups[3].Value;
+                if (components > 2)
+                    ReferenceName += " " + m.Groups[3].Value;
             }
 
-            return CleanFriendlyName(FriendlyNameString);
+            return CleanDerivedReferenceName(ReferenceName);
         }
 
-        private static string CleanFriendlyName(string FriendlyName)
+        /// <summary>
+        /// Removes various unwanted punctuation and comment characters from a derived reference name
+        /// </summary>
+        /// <param name="derivedName">the input reference name</param>
+        /// <returns>the cleaned reference name</returns>
+        private static string CleanDerivedReferenceName(string derivedName)
         {
             string CharsToTrim = @".;: {}[]|`?\/$’‘-_–=+,";
 
-            FriendlyName = Regex.Replace(FriendlyName, @"(\<\!--.*?--\>|⌊{3,}\d+⌋{3,})", ""); // rm comments from ref name, might be masked
-            FriendlyName = FriendlyName.Trim(CharsToTrim.ToCharArray());
-            FriendlyName = Regex.Replace(FriendlyName, @"(''+|[“‘”""\[\]\(\)\<\>⌋⌊])", ""); // remove chars
-            FriendlyName = Regex.Replace(FriendlyName, @"(\s{2,}|&nbsp;|\t|\n)", " "); // spacing fixes
+            derivedName = Regex.Replace(derivedName, @"(\<\!--.*?--\>|⌊{3,}\d+⌋{3,})", ""); // rm comments from ref name, might be masked
+            derivedName = derivedName.Trim(CharsToTrim.ToCharArray());
+            derivedName = Regex.Replace(derivedName, @"(''+|[“‘”""\[\]\(\)\<\>⌋⌊])", ""); // remove chars
+            derivedName = Regex.Replace(derivedName, @"(\s{2,}|&nbsp;|\t|\n)", " "); // spacing fixes
 
-            if (Regex.IsMatch(FriendlyName, @"(?im)(\s*(date\s+)?(retrieved|accessed)\b|^\d+$)")) // don't allow friendly name to be 'retrieved on...' or just a number
+            if (Regex.IsMatch(derivedName, @"(?im)(\s*(date\s+)?(retrieved|accessed)\b|^\d+$)")) // don't allow friendly name to be 'retrieved on...' or just a number
                 return ("");
 
-            return FriendlyName;
+            return derivedName;
         }
 
+        /// <summary>
+        /// Derives a name for a reference by searching for author names and dates, or website base URL etc.
+        /// </summary>
+        /// <param name="articleText">text of article, to check the derived name is not already used for some other reference</param>
+        /// <param name="reference">the value of the reference a name is needed for</param>
+        /// <returns>the derived reference name, or null if none could be determined</returns>
         public static string DeriveReferenceName(string articleText, string reference)
         {
-            string FriendlyName = "";
+            string DerivedReferenceName = "";
             string NameMask = @"(?-i)\s*(?:sir)?\s*((?:[A-Z]+\.?){0,3}\s*[A-Z][\w-']{2,}[,\.]?\s*(?:\s+\w\.?|\b(?:[A-Z]+\.?){0,3})?(?:\s+[A-Z][\w-']{2,}){0,3}(?:\s+\w(?:\.?|\b)){0,2})\s*(?:[,\.'&;:\[\(“`]|et\s+al)(?i)[^{}<>\n]*?";
             string YearMask = @"(\([12]\d{3}\)|\b[12]\d{3}[,\.\)])";
             string PageMask = @"('*(?:p+g?|pages?)'*\.?'*(?:&nbsp;)?\s*(?:\d{1,3}|(?-i)[XVICM]+(?i))\.?(?:\s*[-/&\.,]\s*(?:\d{1,3}|(?-i)[XVICM]+(?i)))?\b)";
@@ -754,61 +772,85 @@ namespace WikiFunctions.Parse
 
                 if (Last.Length > 1)
                 {
-                    FriendlyName = Last;
+                    DerivedReferenceName = Last;
                     string Year = Regex.Match(reference, @"(?<=\s*year\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
 
                     string Pages = Regex.Match(reference, @"(?<=\s*pages?\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
 
                     if (Year.Length > 3)
-                        FriendlyName += " " + Year;
+                        DerivedReferenceName += " " + Year;
                     else
                     {
                         string date = Regex.Match(reference, @"(?<=\s*date\s*=\s*)(\d{4})(?=\s*(?:\||}}))").Value.Trim();
 
                         if (date.Length > 3)
-                            FriendlyName += " " + date;
+                            DerivedReferenceName += " " + date;
                     }
 
                     if (Pages.Length > 0)
-                        FriendlyName += " " + Pages;
+                        DerivedReferenceName += " " + Pages;
+
+                    DerivedReferenceName = CleanDerivedReferenceName(DerivedReferenceName);
                 }
             }
-            
+
+            if (ReferenceNameValid(articleText, DerivedReferenceName))
+                return DerivedReferenceName;
+
             // try description of a simple external link
-            if (Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>") || FriendlyName.Length < 4)
-                FriendlyName = DeriveFriendlyName(reference, @"\s*[^{}<>\n]*?\s*\[*(?:http://www\.|http://|www\.)[^\[\]<>""\s]+?\s+([^{}<>\[\]]{4,35}?)\s*(?:\]|<!--|⌊⌊⌊⌊)", 1);
+            DerivedReferenceName = ExtractReferenceNameComponents(reference, @"\s*[^{}<>\n]*?\s*\[*(?:http://www\.|http://|www\.)[^\[\]<>""\s]+?\s+([^{}<>\[\]]{4,35}?)\s*(?:\]|<!--|⌊⌊⌊⌊)", 1);
+
+            if (ReferenceNameValid(articleText, DerivedReferenceName))
+                return DerivedReferenceName;
 
             // website URL first, allowing a name before link
-            if (Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>") || FriendlyName.Length < 4)
-                FriendlyName = DeriveFriendlyName(reference, @"\s*\w*?[^{}<>]{0,4}?\s*(?:\[?|\{\{\s*cit[^{}<>]*\|\s*url\s*=\s*)\s*(?:http://www\.|http://|www\.)([^\[\]<>""\s\/:]+)", 1);
+            DerivedReferenceName = ExtractReferenceNameComponents(reference, @"\s*\w*?[^{}<>]{0,4}?\s*(?:\[?|\{\{\s*cit[^{}<>]*\|\s*url\s*=\s*)\s*(?:http://www\.|http://|www\.)([^\[\]<>""\s\/:]+)", 1);
+
+            if (ReferenceNameValid(articleText, DerivedReferenceName))
+                return DerivedReferenceName;
 
             // Harvnb template {{Harvnb|Young|1852|p=50}}
-            if (Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>") || FriendlyName.Length < 4)
-                FriendlyName = DeriveFriendlyName(reference, @"\s*{{Harvnb\s*\|\s*([^{}\|]+?)\s*\|\s*(\d{4})\s*\|\s*([^{}\|]+?)\s*}}\s*", 3);
+            DerivedReferenceName = ExtractReferenceNameComponents(reference, @"\s*{{Harvnb\s*\|\s*([^{}\|]+?)\s*\|\s*(\d{4})\s*\|\s*([^{}\|]+?)\s*}}\s*", 3);
+
+            if (ReferenceNameValid(articleText, DerivedReferenceName))
+                return DerivedReferenceName;
 
             // now just try to use the whole reference if it's short (<35 characters)
-            if (Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>") || FriendlyName.Length < 4 && reference.Length < 35)
-                FriendlyName = DeriveFriendlyName(reference, @"\s*([^<>{}]{4,35})\s*", 1);
+            if(reference.Length < 35)
+                DerivedReferenceName = ExtractReferenceNameComponents(reference, @"\s*([^<>{}]{4,35})\s*", 1);
+
+            if (ReferenceNameValid(articleText, DerivedReferenceName))
+                return DerivedReferenceName;
 
             //now try title of a citation
-            if (Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>") || FriendlyName.Length < 4)
-                FriendlyName = DeriveFriendlyName(reference, @"\s*\{\{\s*cit[^{}<>]*\|\s*url\s*=\s*([^\/<>{}\|]{4,35})", 1);
+            DerivedReferenceName = ExtractReferenceNameComponents(reference, @"\s*\{\{\s*cit[^{}<>]*\|\s*url\s*=\s*([^\/<>{}\|]{4,35})", 1);
+
+            if (ReferenceNameValid(articleText, DerivedReferenceName))
+                return DerivedReferenceName;
 
             // name...year...page
-            if (Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>") || FriendlyName.Length < 4)
-                FriendlyName = DeriveFriendlyName(reference, NameMask + YearMask + @"[^{}<>\n]*?" + PageMask + @"\s*", 3);
+            DerivedReferenceName = ExtractReferenceNameComponents(reference, NameMask + YearMask + @"[^{}<>\n]*?" + PageMask + @"\s*", 3);
+
+            if (ReferenceNameValid(articleText, DerivedReferenceName))
+                return DerivedReferenceName;
 
             // name...page
-            if (Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>") || FriendlyName.Length < 4)
-                FriendlyName = DeriveFriendlyName(reference, NameMask + PageMask + @"\s*", 2);
+            DerivedReferenceName = ExtractReferenceNameComponents(reference, NameMask + PageMask + @"\s*", 2);
+
+            if(ReferenceNameValid(articleText, DerivedReferenceName))
+                return DerivedReferenceName;
 
             // name...year
-            if (Regex.IsMatch(articleText, RefName + FriendlyName + @"""\s*/?\s*>") || FriendlyName.Length < 4)
-                FriendlyName = DeriveFriendlyName(reference, NameMask + YearMask + @"\s*", 2);
+            DerivedReferenceName = ExtractReferenceNameComponents(reference, NameMask + YearMask + @"\s*", 2);
 
-            FriendlyName = CleanFriendlyName(FriendlyName);
+            if (ReferenceNameValid(articleText, DerivedReferenceName))
+                return DerivedReferenceName;
+            else return "";
+        }
 
-            return FriendlyName;
+        private static bool ReferenceNameValid(string articleText, string derivedReferenceName)
+        {
+            return !Regex.IsMatch(articleText, RefName + Regex.Escape(derivedReferenceName) + @"""\s*/?\s*>") && derivedReferenceName.Length >= 3;
         }
 
         /// <summary>
