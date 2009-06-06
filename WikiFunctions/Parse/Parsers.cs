@@ -761,9 +761,9 @@ namespace WikiFunctions.Parse
         public static string DeriveReferenceName(string articleText, string reference)
         {
             string DerivedReferenceName = "";
-            string NameMask = @"(?-i)\s*(?:sir)?\s*((?:[A-Z]+\.?){0,3}\s*[A-Z][\w-']{2,}[,\.]?\s*(?:\s+\w\.?|\b(?:[A-Z]+\.?){0,3})?(?:\s+[A-Z][\w-']{2,}){0,3}(?:\s+\w(?:\.?|\b)){0,2})\s*(?:[,\.'&;:\[\(“`]|et\s+al)(?i)[^{}<>\n]*?";
-            string YearMask = @"(\([12]\d{3}\)|\b[12]\d{3}[,\.\)])";
-            string PageMask = @"('*(?:p+g?|pages?)'*\.?'*(?:&nbsp;)?\s*(?:\d{1,3}|(?-i)[XVICM]+(?i))\.?(?:\s*[-/&\.,]\s*(?:\d{1,3}|(?-i)[XVICM]+(?i)))?\b)";
+            const string NameMask = @"(?-i)\s*(?:sir)?\s*((?:[A-Z]+\.?){0,3}\s*[A-Z][\w-']{2,}[,\.]?\s*(?:\s+\w\.?|\b(?:[A-Z]+\.?){0,3})?(?:\s+[A-Z][\w-']{2,}){0,3}(?:\s+\w(?:\.?|\b)){0,2})\s*(?:[,\.'&;:\[\(“`]|et\s+al)(?i)[^{}<>\n]*?";
+            const string YearMask = @"(\([12]\d{3}\)|\b[12]\d{3}[,\.\)])";
+            const string PageMask = @"('*(?:p+g?|pages?)'*\.?'*(?:&nbsp;)?\s*(?:\d{1,3}|(?-i)[XVICM]+(?i))\.?(?:\s*[-/&\.,]\s*(?:\d{1,3}|(?-i)[XVICM]+(?i)))?\b)";
 
             // try parameters from a citation: lastname, year and page
             Regex CitationCiteBook = new Regex(@"{{[Cc]it[ae]((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})");
@@ -3079,6 +3079,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
         /// </summary>
         /// <param name="articleText"></param>
+        /// <param name="noChange"></param>
         /// <returns></returns>
         public string FixPeopleCategories(string articleText, out bool noChange)
         {
@@ -3112,7 +3113,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             zerothSection = WikiRegexes.Refs.Replace(zerothSection, "");
             zerothSection = Regex.Replace(zerothSection, @"\[\[[^\[\]]{5,}\]\]", "");
 
-            string yearstring = "";
+            string yearstring;
             // birth
             if (!WikiRegexes.BirthsCategory.IsMatch(articleText) && (PersonYearOfBirth.Matches(zerothSection).Count == 1 || WikiRegexes.DateBirthAndAge.IsMatch(zerothSection)))
             {
@@ -3141,7 +3142,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                             yearstring = "";
                     }
                 }
-                if(yearstring.Length > 2)
+                if(!string.IsNullOrEmpty(yearstring) && yearstring.Length > 2)
                     articleText += "\r\n" + @"[[Category:" + yearstring + @" births]]";
             }
 
@@ -3164,17 +3165,17 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     }
                 }
 
-                if (yearstring.Length > 2)
+                if (!string.IsNullOrEmpty(yearstring) && yearstring.Length > 2)
                     articleText += "\r\n" + @"[[Category:" + yearstring + @" deaths]]";
             }
 
             return YearOfBirthMissingCategory(articleText);
         }
 
-        private static readonly string CatYearOfBirthMissingLivingPeople = @"
+        private const string CatYearOfBirthMissingLivingPeople = @"
 [[Category:Year of birth missing (living people)]]";
 
-        private static readonly string CatYearOfBirthMissing = @"
+        private const string CatYearOfBirthMissing = @"
 [[Category:Year of birth missing]]";
 
         private static string YearOfBirthMissingCategory(string articleText)
