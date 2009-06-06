@@ -241,6 +241,8 @@ namespace WikiFunctions.DBScanner
                 s.Add(new HasNoBoldTitle());
             if (chkCiteTemplateDates.Checked)
                 s.Add(new CiteTemplateDates());
+            if (chkPeopleCategories.Checked)
+                s.Add(new PeopleCategories());
             if (chkUnbalancedBrackets.Checked)
                 s.Add(new UnbalancedBrackets());
             if (chkSimpleLinks.Checked)

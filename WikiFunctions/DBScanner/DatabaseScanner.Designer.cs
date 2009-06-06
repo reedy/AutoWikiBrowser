@@ -64,6 +64,7 @@ namespace WikiFunctions.DBScanner
             this.btnClearList = new System.Windows.Forms.Button();
             this.chkNoBold = new System.Windows.Forms.CheckBox();
             this.chkCiteTemplateDates = new System.Windows.Forms.CheckBox();
+            this.chkPeopleCategories = new System.Windows.Forms.CheckBox();
             this.chkUnbalancedBrackets = new System.Windows.Forms.CheckBox();
             this.chkBadLinks = new System.Windows.Forms.CheckBox();
             this.chkHasHTML = new System.Windows.Forms.CheckBox();
@@ -599,13 +600,23 @@ namespace WikiFunctions.DBScanner
             this.chkCiteTemplateDates.TabIndex = 9;
             this.chkCiteTemplateDates.Text = "Citation dates AWB will fix";
             this.tooltip.SetToolTip(this.chkCiteTemplateDates, "AWB fixes various errors in dates within the citation family of templates");
-            //
+            // 
+            // chkPeopleCategories
+            // 
+            this.chkPeopleCategories.AutoSize = true;
+            this.chkPeopleCategories.Location = new System.Drawing.Point(3, 118);
+            this.chkPeopleCategories.Name = "chkPeopleCategories";
+            this.chkPeopleCategories.Size = new System.Drawing.Size(138, 17);
+            this.chkPeopleCategories.TabIndex = 11;
+            this.chkPeopleCategories.Text = "Human birth/death cats";
+            this.tooltip.SetToolTip(this.chkPeopleCategories, "AWB can add/correct birth & death categories for articles about people");
+            // 
             // chkUnbalancedBrackets
-            //
+            // 
             this.chkUnbalancedBrackets.AutoSize = true;
-            this.chkUnbalancedBrackets.Location = new System.Drawing.Point(167, 72);
+            this.chkUnbalancedBrackets.Location = new System.Drawing.Point(167, 95);
             this.chkUnbalancedBrackets.Name = "chkUnbalancedBrackets";
-            this.chkUnbalancedBrackets.Size = new System.Drawing.Size(148, 17);
+            this.chkUnbalancedBrackets.Size = new System.Drawing.Size(128, 17);
             this.chkUnbalancedBrackets.TabIndex = 10;
             this.chkUnbalancedBrackets.Text = "Unbalanced brackets";
             this.tooltip.SetToolTip(this.chkUnbalancedBrackets, "AWB identifies unbalanced brackets and is able to fix many of them automatically");
@@ -979,6 +990,7 @@ namespace WikiFunctions.DBScanner
             this.gbAWBSpecific.Controls.Add(this.flwAWB);
             this.gbAWBSpecific.Location = new System.Drawing.Point(6, 6);
             this.gbAWBSpecific.Name = "gbAWBSpecific";
+            this.gbAWBSpecific.Padding = new System.Windows.Forms.Padding(2);
             this.gbAWBSpecific.Size = new System.Drawing.Size(327, 153);
             this.gbAWBSpecific.TabIndex = 3;
             this.gbAWBSpecific.TabStop = false;
@@ -991,16 +1003,16 @@ namespace WikiFunctions.DBScanner
             this.flwAWB.Controls.Add(this.chkBadLinks);
             this.flwAWB.Controls.Add(this.chkHasHTML);
             this.flwAWB.Controls.Add(this.chkUnbulletedLinks);
+            this.flwAWB.Controls.Add(this.chkPeopleCategories);
             this.flwAWB.Controls.Add(this.chkTypo);
             this.flwAWB.Controls.Add(this.chkDefaultSort);
             this.flwAWB.Controls.Add(this.chkHeaderError);
             this.flwAWB.Controls.Add(this.chkCiteTemplateDates);
             this.flwAWB.Controls.Add(this.chkUnbalancedBrackets);
-            this.flwAWB.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flwAWB.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flwAWB.Location = new System.Drawing.Point(3, 16);
             this.flwAWB.Name = "flwAWB";
-            this.flwAWB.Size = new System.Drawing.Size(321, 134);
+            this.flwAWB.Size = new System.Drawing.Size(321, 140);
             this.flwAWB.TabIndex = 5;
             // 
             // chkTypo
@@ -1726,6 +1738,7 @@ namespace WikiFunctions.DBScanner
         private CheckBox chkSimpleLinks;
         private CheckBox chkNoBold;
         private CheckBox chkCiteTemplateDates;
+        private CheckBox chkPeopleCategories;
         private CheckBox chkUnbalancedBrackets;
         private CheckBox chkTypo;
         private CheckBox chkABCHeader;

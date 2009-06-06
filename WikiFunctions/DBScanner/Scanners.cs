@@ -337,6 +337,23 @@ namespace WikiFunctions.DBScanner
         }
     }
 
+    /// <summary>
+    /// Returns whether FixPeopleCategories did something (birth/death categories for living people altered)
+    /// </summary>
+    public class PeopleCategories : Scan
+    {
+        Parsers p = new Parsers();
+
+        public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
+        {
+            bool skip = true;
+            p.FixPeopleCategories(ArticleText, out skip);
+
+            return !skip;
+        }
+
+    }
+
     public class UnbalancedBrackets : Scan
     {
         public override bool Check(ref string ArticleText, ref string ArticleTitle, string ArticleTimestamp, string ArticleRestrictions)
