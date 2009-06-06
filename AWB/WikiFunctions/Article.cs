@@ -573,6 +573,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="langCode">The wiki's language code</param>
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
+        /// <param name="restrictDefaultsortAddition"></param>
         public void SetDefaultSort(LangCodeEnum langCode, bool skipIfNoChange, bool restrictDefaultsortAddition)
         {
             if (langCode == LangCodeEnum.en)
@@ -856,6 +857,7 @@ namespace WikiFunctions
         /// <param name="removeText"></param>
         /// <param name="skip">Skip options</param>
         /// <param name="replaceReferenceTags">If true, <div class="references-small"><references/></div> and so on
+        /// <param name="restrictDefaultsortAddition"></param>
         /// will be replaced with {{reflist}}</param>
         public void PerformGeneralFixes(Parsers parsers, HideText removeText, ISkipOptions skip, bool replaceReferenceTags, bool restrictDefaultsortAddition)
         { //TODO: 2009-01-28 review which of the genfixes below should be labelled 'significant'
