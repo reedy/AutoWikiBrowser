@@ -1887,6 +1887,16 @@ text", "a"));
 
             // precisely two dashes only
             Assert.AreEqual(@"Djali Zwan made their live debut as a quartet --- Corgan, Sweeney, Pajo and Chamberlin - at the end of 2001", parser.Mdashes(@"Djali Zwan made their live debut as a quartet --- Corgan, Sweeney, Pajo and Chamberlin - at the end of 2001", "test", 0));
+
+            Assert.AreEqual("m<sup>−33</sup>", parser.Mdashes("m<sup>-33</sup>", "test", 0)); // hyphen
+            Assert.AreEqual("m<sup>−3324</sup>", parser.Mdashes("m<sup>-3324</sup>", "test", 0)); // hyphen
+            Assert.AreEqual("m<sup>−2</sup>", parser.Mdashes("m<sup>-2</sup>", "test", 0)); // hyphen
+            Assert.AreEqual("m<sup>−2</sup>", parser.Mdashes("m<sup>–2</sup>", "test", 0)); // en-dash
+            Assert.AreEqual("m<sup>−2</sup>", parser.Mdashes("m<sup>—2</sup>", "test", 0)); // em-dash
+
+            // already correct
+            Assert.AreEqual("m<sup>−2</sup>", parser.Mdashes("m<sup>−2</sup>", "test", 0));
+            Assert.AreEqual("m<sup>2</sup>", parser.Mdashes("m<sup>2</sup>", "test", 0));
         }
 
         [Test]
