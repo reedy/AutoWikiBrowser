@@ -2824,6 +2824,46 @@ foo
             Assert.AreEqual(@"[[Category:Bronze Wolf awardees|Laine, Juan]]",
                 Parsers.ChangeToDefaultSort(@"[[Category:Bronze Wolf awardees|Laine, Juan]]", "Hi", out noChange));
             Assert.IsTrue(noChange);
+
+            // remove duplicate defaultsorts
+            Assert.AreEqual(@"foo
+
+[[Category:Businesspeople]]
+
+{{DEFAULTSORT:Phillips, James M.}}
+foo", Parsers.ChangeToDefaultSort(@"foo
+{{DEFAULTSORT:Phillips, James M.}}
+[[Category:Businesspeople]]
+
+{{DEFAULTSORT:Phillips, James M.}}
+foo", "Hi", out noChange));
+
+            Assert.AreEqual(@"foo
+
+[[Category:Businesspeople]]
+
+
+{{DEFAULTSORT:Phillips, James M.}}
+foo", Parsers.ChangeToDefaultSort(@"foo
+{{DEFAULTSORT:Phillips, James M.}}
+[[Category:Businesspeople]]
+
+{{DEFAULTSORT:Phillips, James M.}}
+{{DEFAULTSORT:Phillips, James M.}}
+foo", "Hi", out noChange));
+
+            // don't remove duplicate different defaultsorts
+            Assert.AreEqual(@"foo
+{{DEFAULTSORT:Phillips, James M.}}
+[[Category:Businesspeople]]
+
+{{DEFAULTSORT:Fred}}
+foo", Parsers.ChangeToDefaultSort(@"foo
+{{DEFAULTSORT:Phillips, James M.}}
+[[Category:Businesspeople]]
+
+{{DEFAULTSORT:Fred}}
+foo", "Hi", out noChange));
         }
 
         [Test]

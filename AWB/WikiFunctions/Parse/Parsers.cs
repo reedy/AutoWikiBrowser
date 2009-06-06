@@ -2825,7 +2825,28 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             // limited support for {{Lifetime}}
             MatchCollection ds = WikiRegexes.Defaultsort.Matches(articleText);
             if (WikiRegexes.Lifetime.IsMatch(articleText) || ds.Count > 1 || (ds.Count == 1 && !ds[0].Value.ToUpper().Contains("DEFAULTSORT")))
-                return articleText;
+            {
+                bool allsame2 = false;
+                string lastvalue = "";
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Detect_multiple_DEFAULTSORT
+                // if all the defaultsorts are the same just remove all but one
+                foreach (Match m in WikiRegexes.Defaultsort.Matches(articleText))
+                {
+                    if (lastvalue.Equals(""))
+                    {
+                        lastvalue = m.Value;
+                        allsame2 = true;
+                    }
+                    else
+                        if (m.Value == lastvalue)
+                            allsame2 = true;
+                        else allsame2 = false;
+                }
+                if (allsame2)
+                    articleText = WikiRegexes.Defaultsort.Replace(articleText, "", ds.Count-1);
+                else
+                    return articleText;
+            }              
 
             articleText = TalkPages.TalkPageHeaders.FormatDefaultSort(articleText);
 
