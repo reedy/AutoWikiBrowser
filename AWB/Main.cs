@@ -3932,14 +3932,13 @@ window.scrollTo(0, diffTopY);
                 webBrowserLinks.Document.Body.InnerHtml = ProcessHTMLForDisplay(webBrowserLinks.DocumentText);
         }
 
+        private const string StartMark = "<!-- start content -->", EndMark = "<!-- end content -->";
+
         private string ProcessHTMLForDisplay(string linksHtml)
         {
-            const string startMark = "<!-- start content -->";
-            const string endMark = "<!-- end content -->";
+            if (linksHtml.Contains(StartMark) && linksHtml.Contains(EndMark))
+                linksHtml = Tools.StringBetween(linksHtml, StartMark, EndMark);
 
-            if (linksHtml.Contains(startMark) && linksHtml.Contains(endMark))
-                linksHtml = linksHtml.Substring(linksHtml.IndexOf(startMark),
-                                                linksHtml.IndexOf(endMark) - linksHtml.IndexOf(startMark));
             linksHtml = linksHtml.Replace("<A ", "<a target=\"blank\" ");
             linksHtml = linksHtml.Replace("<FORM ", "<form target=\"blank\" ");
             return "<h3>" + TheArticle.Name + "</h3>" + linksHtml;
