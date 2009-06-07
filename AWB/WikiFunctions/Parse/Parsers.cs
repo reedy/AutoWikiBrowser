@@ -2788,24 +2788,40 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ChangeToDefaultSort(articleText, articleTitle, out noChange, false);
         }
 
-        // Covered by: UtilityFunctionTests.ChangeToDefaultSort()
         /// <summary>
-        /// Changes an article to use defaultsort when all categories use the same sort field / cleans diacritics from defaultsort/categories
+        /// Returns the sortkey used by all categories, if all categories use the same sortkey
+        /// Where no sortkey is used for all categories, returns null
         /// </summary>
-        /// <param name="articleText">The wiki text of the article.</param>
-        /// <param name="articleTitle">Title of the article</param>
-        /// <param name="noChange">If there is no change (True if no Change)</param>
-        /// <param name="restrictDefaultsortAddition">Prevent insertion of a new {{DEFAULTSORT}} as AWB may not always be right for articles about people</param>
-        /// <returns>The article text possibly using defaultsort.</returns>
-        public static string ChangeToDefaultSort(string articleText, string articleTitle, out bool noChange, bool restrictDefaultsortAddition)
+        /// <param name="articleText"></param>
+        /// <returns></returns>
+        public static string GetCategorySort(string articleText)
         {
-            string testText = articleText;
-            noChange = true;
+            int matches;
+            string dummy = @"@@@@";
 
-            // count categories
-            string sort = null;
+            string sort = GetCategorySort(articleText, dummy, out matches);
+
+            matches++; // keeps the compiler happy
+
+            if (sort.Equals(dummy))
+                return "";
+            else
+                return sort;
+        }
+
+        /// <summary>
+        /// Returns the sortkey used by all categories, if all categories use the same sortkey
+        /// Where no sortkey is used for all categories, returns the articletitle
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <param name="articleTitle"></param>
+        /// <param name="matches"></param>
+        /// <returns></returns>
+        public static string GetCategorySort(string articleText, string articleTitle, out int matches)
+        {
+            string sort = "";
             bool allsame = true;
-            int matches = 0;
+            matches = 0;
 
             foreach (Match m in Catregex.Matches(articleText))
             {
@@ -2822,6 +2838,30 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 }
                 matches++;
             }
+            if (allsame && matches > 0)
+                return sort;
+            else return "";
+        }
+
+        // Covered by: UtilityFunctionTests.ChangeToDefaultSort()
+        /// <summary>
+        /// Changes an article to use defaultsort when all categories use the same sort field / cleans diacritics from defaultsort/categories
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">Title of the article</param>
+        /// <param name="noChange">If there is no change (True if no Change)</param>
+        /// <param name="restrictDefaultsortAddition">Prevent insertion of a new {{DEFAULTSORT}} as AWB may not always be right for articles about people</param>
+        /// <returns>The article text possibly using defaultsort.</returns>
+        public static string ChangeToDefaultSort(string articleText, string articleTitle, out bool noChange, bool restrictDefaultsortAddition)
+        {
+            string testText = articleText;
+            noChange = true;
+
+            // count categories
+            string sort = null;
+            int matches = 0;
+
+            sort = GetCategorySort(articleText, articleTitle, out matches);
 
             // clean diacritics from any lifetime template
             if (WikiRegexes.Lifetime.Matches(articleText).Count == 1)
@@ -2869,27 +2909,22 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             if (ds.Count == 0)
             {
-                if (allsame && matches > 1 && !string.IsNullOrEmpty(sort))
+                // So that this doesn't get confused by sort keys of "*", " ", etc.
+                // MW bug: DEFAULTSORT doesn't treat leading spaces the same way as categories do
+                // if all existing categories use a suitable sortkey, insert that rather than generating a new one
+                if (sort.Length > 4 && matches > 1 && !sort.StartsWith(" "))
                 {
-                    if (sort.Length > 4 && // So that this doesn't get confused by sort keys of "*", " ", etc.
-                        !sort.StartsWith(" ") && !restrictDefaultsortAddition)
-                    // MW bug: DEFAULTSORT doesn't treat leading spaces the same way as categories do
-                    {
-                        articleText = Catregex.Replace(articleText, "[["
-                            + Variables.Namespaces[Namespace.Category] + "$1]]");
+                    articleText = Catregex.Replace(articleText, "[["
+                        + Variables.Namespaces[Namespace.Category] + "$1]]");
 
-                        if (Tools.FixupDefaultSort(sort) != articleTitle && !restrictDefaultsortAddition) 
-                        {
-                            if (!IsArticleAboutAPerson(articleText))
-                                articleText = articleText + "\r\n{{DEFAULTSORT:" + Tools.FixupDefaultSort(sort) + "}}";
-                            else 
-                                articleText = articleText + "\r\n{{DEFAULTSORT:" + Tools.MakeHumanCatKey(articleTitle) + "}}";
-                        }
-                    }
+                    // set the defaultsort to the existing unique category sort value
+                    if (Tools.FixupDefaultSort(sort) != articleTitle)
+                        articleText = articleText + "\r\n{{DEFAULTSORT:" + Tools.FixupDefaultSort(sort) + "}}";
                 }
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Add_defaultsort_to_pages_with_special_letters_and_no_defaultsort
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Human_DEFAULTSORT
-                if(!restrictDefaultsortAddition)
+                // AWB's generation of its own sortkey may be incorrect for people, provide option not to insert in this situation
+                if (!restrictDefaultsortAddition)
                     articleText = DefaultsortTitlesWithDiacritics(articleText, articleTitle, matches, IsArticleAboutAPerson(articleText));
             }
             else // already has DEFAULTSORT
@@ -3117,7 +3152,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             zerothSection = WikiRegexes.Refs.Replace(zerothSection, " ");
             zerothSection = Regex.Replace(zerothSection, @"\[\[[^\[\]]{11,}\]\]", " ");
 
-            string yearstring;
+            string yearstring = "";
+
+            string sort = GetCategorySort(articleText);
+
             // birth
             if (!WikiRegexes.BirthsCategory.IsMatch(articleText) && (PersonYearOfBirth.Matches(zerothSection).Count == 1 || WikiRegexes.DateBirthAndAge.IsMatch(zerothSection)))
             {
@@ -3139,7 +3177,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                         if (UncertainWordings.IsMatch(birthpart))
                         {
                             if (!articleText.Contains(CatYearOfBirthMissingLivingPeople))
-                                articleText += CatYearOfBirthUncertain;
+                                articleText += "\r\n" + @"[[Category:Year of birth uncertain" + CatEnd(sort);
                         }
                         else // after removing dashes, birthpart must still contain year
                             if (!birthpart.Contains(@"?") && Regex.IsMatch(birthpart, @"\d{3,4}"))
@@ -3147,7 +3185,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     }
                 }
                 if(!string.IsNullOrEmpty(yearstring) && yearstring.Length > 2)
-                    articleText += "\r\n" + @"[[Category:" + yearstring + @" births]]";
+                    articleText += "\r\n" + @"[[Category:" + yearstring + @" births" + CatEnd(sort);
             }
 
             // death
@@ -3170,7 +3208,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 }
 
                 if (!string.IsNullOrEmpty(yearstring) && yearstring.Length > 2)
-                    articleText += "\r\n" + @"[[Category:" + yearstring + @" deaths]]";
+                    articleText += "\r\n" + @"[[Category:" + yearstring + @" deaths" + CatEnd(sort);
             }
 
             zerothSection = WikiRegexes.TemplateMultiLine.Replace(zerothSection, " ");
@@ -3201,20 +3239,23 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     if (!WikiRegexes.BirthsCategory.IsMatch(articleText))
                     {
                         if (!UncertainWordings.IsMatch(birthpart) && !ReignedRuledUnsure.IsMatch(m.Value) && !Regex.IsMatch(birthpart, @"[Dd](?:ied|\.)"))
-                            articleText += "\r\n" + @"[[Category:" + birthyear + @" births]]";
+                            articleText += "\r\n" + @"[[Category:" + birthyear + @" births" + CatEnd(sort);
                         else 
                             if (UncertainWordings.IsMatch(birthpart) && !articleText.Contains(CatYearOfBirthMissingLivingPeople) && !articleText.Contains(CatYearOfBirthUncertain))
-                            articleText += CatYearOfBirthUncertain;
+                                articleText += "\r\n" + @"[[Category:Year of birth uncertain" + CatEnd(sort);
                     }
 
                     if (!UncertainWordings.IsMatch(deathpart) && !ReignedRuledUnsure.IsMatch(m.Value) && !Regex.IsMatch(deathpart, @"[Bb](?:orn|\.)") && !Regex.IsMatch(birthpart, @"[Dd](?:ied|\.)") && !WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText))
-                        articleText += "\r\n" + @"[[Category:" + deathyear + @" deaths]]";
-
+                        articleText += "\r\n" + @"[[Category:" + deathyear + @" deaths" + CatEnd(sort);
                 }
-                ;
             }
 
             return YearOfBirthMissingCategory(articleText);
+        }
+
+        private static string CatEnd(string sort)
+        {
+            return ((sort.Length > 3) ? @"|" + sort : "") + @"]]";
         }
 
         private const string CatYearOfBirthMissingLivingPeople = @"
@@ -3228,6 +3269,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
         private static string YearOfBirthMissingCategory(string articleText)
         {
+            // TODO need to handle these categories with explicit sortkeys
+
             // if there is a 'year of birth missing' and a year of birth, remove the 'missing' category
             if (articleText.Contains(CatYearOfBirthMissingLivingPeople)
                 && Regex.IsMatch(articleText, @"\[\[Category:\d{4} births\]\]"))

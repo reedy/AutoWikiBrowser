@@ -552,7 +552,7 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
 
             string d = @"'''Fred Smith''' (born 11 May 1950 - died 17 August 1990) is a bloke.
 [[Category:1960 births|Smith, Fred]]";
-            Assert.AreEqual(d + "\r\n" + @"[[Category:1990 deaths]]", Parsers.FixPeopleCategories(d));
+            Assert.AreEqual(d + "\r\n" + @"[[Category:1990 deaths|Smith, Fred]]", Parsers.FixPeopleCategories(d));
 
             string d2 = @"'''Johnny Sandon''' (originally named '''Billy Beck''') (born in 1960, in Lıverpool, Lancashire died 23 December 1990) was {{Persondata}}";
             Assert.AreEqual(d2 + "\r\n" + b2 + "\r\n" + @"[[Category:1990 deaths]]", Parsers.FixPeopleCategories(d2));
@@ -782,6 +782,13 @@ died 2002
             string bd15 = @"'''Kristina of Norway''' (born in [[1234]] in [[Bergen]] &ndash; circa [[1262]]), sometimes {{persondata}}";
             Assert.AreEqual(bd15 + @"
 [[Category:1234 births]]", Parsers.FixPeopleCategories(bd15));
+
+            // sortkey usage
+            string s1 = @"'''Claire Hazel Weekes''' (1903&mdash;1990) was {{persondata}}
+[[Category:1990 deaths|Weekes, Claire]]";
+
+            Assert.AreEqual(s1 + @"
+[[Category:1903 births|Weekes, Claire]]", Parsers.FixPeopleCategories(s1));
         }
 
         [Test]
@@ -3025,17 +3032,44 @@ foo", Parsers.ChangeToDefaultSort(@"foo
 {{DEFAULTSORT:Fred}}
 foo", "Hi", out noChange));
 
-            // can't clean cat keys if not adding a DEFAULTSORT
+            // can add a DEFAULTSORT using existing cat sortkeys even if restricted
+            Assert.AreEqual(@"
+foo {{persondata}}
+[[Category:1910 births]]
+[[Category:Australian players of Australian rules football]]
+[[Category:Essendon Football Club players]]
+
+{{DEFAULTSORT:Lahiff, Tommy}}", Parsers.ChangeToDefaultSort(@"
+foo {{persondata}}
+[[Category:1910 births|Lahiff, Tommy]]
+[[Category:Australian players of Australian rules football|Lahiff, Tommy]]
+[[Category:Essendon Football Club players|Lahiff, Tommy]]
+", "foo", out noChange, true));
+
+            Assert.AreEqual(@"
+foo {{persondata}}
+[[Category:1910 births]]
+[[Category:Australian players of Australian rules football]]
+[[Category:Essendon Football Club players]]
+
+{{DEFAULTSORT:Lahiff, Tommy}}", Parsers.ChangeToDefaultSort(@"
+foo {{persondata}}
+[[Category:1910 births|Lahiff, Tommy]]
+[[Category:Australian players of Australian rules football|Lahiff, Tommy]]
+[[Category:Essendon Football Club players|Lahiff, Tommy]]
+", "foo", out noChange, false));
+
+            // can't add a DEFAULTSORT using existing cat sortkeys if they're different
             Assert.AreEqual(@"
 foo {{persondata}}
 [[Category:1910 births|Lahiff, Tommy]]
 [[Category:Australian players of Australian rules football|Lahiff, Tommy]]
-[[Category:Essendon Football Club players|Lahiff, Tommy]]
+[[Category:Essendon Football Club players|TOmmy]]
 ", Parsers.ChangeToDefaultSort(@"
 foo {{persondata}}
 [[Category:1910 births|Lahiff, Tommy]]
 [[Category:Australian players of Australian rules football|Lahiff, Tommy]]
-[[Category:Essendon Football Club players|Lahiff, Tommy]]
+[[Category:Essendon Football Club players|TOmmy]]
 ", "foo", out noChange, true));
         }
 
