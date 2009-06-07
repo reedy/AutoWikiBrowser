@@ -778,6 +778,10 @@ died 2002
 
             string ISO1 = @"'''Ben Moon''' (born [[1960-06-13]]) is a {{persondata}}";
             Assert.AreEqual(ISO1 + "\r\n" + b2, Parsers.FixPeopleCategories(ISO1));
+
+            string bd15 = @"'''Kristina of Norway''' (born in [[1234]] in [[Bergen]] &ndash; circa [[1262]]), sometimes {{persondata}}";
+            Assert.AreEqual(bd15 + @"
+[[Category:1234 births]]", Parsers.FixPeopleCategories(bd15));
         }
 
         [Test]

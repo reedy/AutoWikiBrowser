@@ -3072,7 +3072,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return articleText + "[[Category:Living people" + catKey;
         }
 
-        private static readonly Regex PersonYearOfBirth = new Regex(@"(?<='''.{0,100}?)\( *[Bb]orn[^\)\.;]{1,150}?(?<!.*[Dd]ied.*)([12]?\d{3}(?: BC)?)\b[^\)]*");
+        private static readonly Regex PersonYearOfBirth = new Regex(@"(?<='''.{0,100}?)\( *[Bb]orn[^\)\.;]{1,150}?(?<!.*(?:[Dd]ied|&[nm]dash;|—).*)([12]?\d{3}(?: BC)?)\b[^\)]*");
         private static readonly Regex PersonYearOfDeath = new Regex(@"(?<='''.{0,100}?)\([^\(\)]*?[Dd]ied[^\)\.;]+?([12]?\d{3}(?: BC)?)\b");
         private static readonly Regex PersonYearOfBirthAndDeath = new Regex(@"'''\s*\([^\)\r\n]*?(?<![Dd]ied)\b([12]?\d{3})\b[^\)\r\n]*?(-|–|—|&[nm]dash;)[^\)\r\n]*?([12]?\d{3})\b[^\)]*");
 
@@ -3128,22 +3128,22 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 if (String.IsNullOrEmpty(yearstring))
                 {
                     Match m = PersonYearOfBirth.Match(zerothSection);
+
+                    // remove part beyond dash or died
+                    string birthpart = Regex.Replace(m.Value, @"(^.*?)((?:&[nm]dash;|—|–|[Dd](?:ied|\.)).*)", "$1");
                     
                     // check born info before any untemplated died info
                     if (!(m.Index > PersonYearOfDeath.Match(zerothSection).Index) || !PersonYearOfDeath.IsMatch(zerothSection))
                     {
                         // when there's only an approximate birth year, add the appropriate cat rather than the xxxx birth one
-                        if (UncertainWordings.IsMatch(m.Value))
+                        if (UncertainWordings.IsMatch(birthpart))
                         {
                             if (!articleText.Contains(CatYearOfBirthMissingLivingPeople))
                                 articleText += CatYearOfBirthUncertain;
                         }
-                        else if (!m.Value.Contains(@"?"))
+                        else // after removing dashes, birthpart must still contain year
+                            if (!birthpart.Contains(@"?") && Regex.IsMatch(birthpart, @"\d{3,4}"))
                             yearstring = m.Groups[1].Value;
-
-                        // don't accept if dash before year: could be death date
-                        if (m.Value.Contains(@"–") && m.Groups[1].Index > m.Value.IndexOf(@"–"))
-                            yearstring = "";
                     }
                 }
                 if(!string.IsNullOrEmpty(yearstring) && yearstring.Length > 2)
