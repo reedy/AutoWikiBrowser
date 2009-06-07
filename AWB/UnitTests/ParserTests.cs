@@ -3071,6 +3071,14 @@ foo {{persondata}}
 [[Category:Australian players of Australian rules football|Lahiff, Tommy]]
 [[Category:Essendon Football Club players|TOmmy]]
 ", "foo", out noChange, true));
+
+            // restricted
+            string r1 = @"[[Category:Franks]]
+[[Category:Carolingian dynasty]]
+[[Category:Frankish people]]
+[[Category:811 deaths]]
+[[Category:9th-century rulers]]";
+            Assert.AreEqual(r1, Parsers.ChangeToDefaultSort(r1, "foo", out noChange, true));
         }
 
         [Test]
