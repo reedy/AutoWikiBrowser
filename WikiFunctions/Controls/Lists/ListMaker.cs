@@ -111,6 +111,8 @@ namespace WikiFunctions.Controls.Lists
                 ListItems.Add(randomPagesLProvider);
                 ListItems.Add(redirectLProvider);
                 ListItems.Add(newPagesLProvider);
+                ListItems.Add(new HTMLPageListProvider());
+                ListItems.Add(new CheckWikiListProvider());
             }
 
             SpecialFilter = new ListFilterForm(lbArticles);
