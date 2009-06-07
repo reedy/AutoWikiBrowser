@@ -540,6 +540,7 @@ namespace AutoWikiBrowser
                 TheArticle = new ArticleEX(listMaker.SelectedArticle().Name);
 
                 NewHistory();
+                NewWhatLinksHere();
 
                 EditBoxSaveTimer.Enabled = AutoSaveEditBoxEnabled;
 
@@ -3868,14 +3869,17 @@ window.scrollTo(0, diffTopY);
         #region History
         private void tabControl2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            NewHistory();
+            if (EditBoxTab.SelectedTab == tpHistory)
+                NewHistory();
+            else if (EditBoxTab.SelectedTab == tpLinks)
+                NewWhatLinksHere();
         }
 
         private void NewHistory()
         {
             try
             {
-                if (EditBoxTab.SelectedTab == tpHistory)
+                if (EditBoxTab.SelectedTab == tpHistory && TheArticle != null)
                 {
                     if (webBrowserHistory.Url != new Uri(Variables.URLIndex + "?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin") && !string.IsNullOrEmpty(TheArticle.URLEncodedName))
                         webBrowserHistory.Navigate(Variables.URLIndex + "?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin");
@@ -3894,19 +3898,51 @@ window.scrollTo(0, diffTopY);
 
         private void webBrowserHistory_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            string histHtml = webBrowserHistory.DocumentText;
+            if (webBrowserHistory.Document != null && webBrowserHistory.Document.Body != null)
+                webBrowserHistory.Document.Body.InnerHtml = ProcessHTMLForDisplay(webBrowserHistory.DocumentText);
+        }
+
+        private void NewWhatLinksHere()
+        {
+            try
+            {
+                if (EditBoxTab.SelectedTab == tpLinks && TheArticle != null)
+                {
+                    if (webBrowserLinks.Url !=
+                        new Uri(Variables.URLIndex + "?title=Special:WhatLinksHere/" + TheArticle.URLEncodedName +
+                                "&useskin=myskin") && !string.IsNullOrEmpty(TheArticle.URLEncodedName))
+                        webBrowserLinks.Navigate(Variables.URLIndex + "?title=Special:WhatLinksHere/" +
+                                                 TheArticle.URLEncodedName + "&useskin=myskin");
+                }
+                else
+                    webBrowserLinks.Navigate("about:blank");
+            }
+            catch
+            {
+                webBrowserLinks.Navigate("about:blank");
+
+                if (webBrowserLinks.Document != null)
+                    webBrowserLinks.Document.Write("<html><body><p>Unable to load What Links Here</p></body></html>");
+            }
+        }
+
+        private void webBrowserLinks_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            if (webBrowserLinks.Document != null && webBrowserLinks.Document.Body != null)
+                webBrowserLinks.Document.Body.InnerHtml = ProcessHTMLForDisplay(webBrowserLinks.DocumentText);
+        }
+
+        private string ProcessHTMLForDisplay(string linksHtml)
+        {
             const string startMark = "<!-- start content -->";
             const string endMark = "<!-- end content -->";
-            if (histHtml.Contains(startMark) && histHtml.Contains(endMark))
-                histHtml = histHtml.Substring(histHtml.IndexOf(startMark),
-                                              histHtml.IndexOf(endMark) - histHtml.IndexOf(startMark));
-            histHtml = histHtml.Replace("<A ", "<a target=\"blank\" ");
-            histHtml = histHtml.Replace("<FORM ", "<form target=\"blank\" ");
-            histHtml = histHtml.Replace("<DIV id=histlegend", "<div id=histlegend style=\"display:none;\"");
-            histHtml = "<h3>" + TheArticle.Name + "</h3>" + histHtml;
 
-            if (webBrowserHistory.Document != null && webBrowserHistory.Document.Body != null)
-                webBrowserHistory.Document.Body.InnerHtml = histHtml;
+            if (linksHtml.Contains(startMark) && linksHtml.Contains(endMark))
+                linksHtml = linksHtml.Substring(linksHtml.IndexOf(startMark),
+                                                linksHtml.IndexOf(endMark) - linksHtml.IndexOf(startMark));
+            linksHtml = linksHtml.Replace("<A ", "<a target=\"blank\" ");
+            linksHtml = linksHtml.Replace("<FORM ", "<form target=\"blank\" ");
+            return "<h3>" + TheArticle.Name + "</h3>" + linksHtml;
         }
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)

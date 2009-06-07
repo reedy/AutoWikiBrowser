@@ -370,6 +370,8 @@ namespace AutoWikiBrowser
             this.tpEdit = new System.Windows.Forms.TabPage();
             this.tpHistory = new System.Windows.Forms.TabPage();
             this.webBrowserHistory = new System.Windows.Forms.WebBrowser();
+			this.tpLinks = new System.Windows.Forms.TabPage();
+            this.webBrowserLinks = new System.Windows.Forms.WebBrowser();
             this.tpEditSummary = new System.Windows.Forms.TabPage();
             this.txtReviewEditSummary = new System.Windows.Forms.TextBox();
             this.tpLogs = new System.Windows.Forms.TabPage();
@@ -454,6 +456,7 @@ namespace AutoWikiBrowser
             this.EditBoxTab.SuspendLayout();
             this.tpEdit.SuspendLayout();
             this.tpHistory.SuspendLayout();
+			 this.tpLinks.SuspendLayout();
             this.tpEditSummary.SuspendLayout();
             this.tpLogs.SuspendLayout();
             this.tpLoggingOptions.SuspendLayout();
@@ -3604,6 +3607,7 @@ namespace AutoWikiBrowser
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.EditBoxTab.Controls.Add(this.tpEdit);
             this.EditBoxTab.Controls.Add(this.tpHistory);
+			 this.EditBoxTab.Controls.Add(this.tpLinks);
             this.EditBoxTab.Controls.Add(this.tpEditSummary);
             this.EditBoxTab.Controls.Add(this.tpLogs);
             this.EditBoxTab.Controls.Add(this.tpLoggingOptions);
@@ -3662,6 +3666,28 @@ namespace AutoWikiBrowser
             this.webBrowserHistory.Size = new System.Drawing.Size(394, 351);
             this.webBrowserHistory.TabIndex = 0;
             this.webBrowserHistory.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserHistory_DocumentCompleted);
+			 //
+            // tpLinks
+            // 
+            this.tpLinks.Controls.Add(this.webBrowserLinks);
+            this.tpLinks.Location = new System.Drawing.Point(4, 22);
+            this.tpLinks.Name = "tpLinks";
+            this.tpLinks.Size = new System.Drawing.Size(394, 351);
+            this.tpLinks.TabIndex = 2;
+            this.tpLinks.Text = "What links here";
+            this.tpLinks.UseVisualStyleBackColor = true;
+            // 
+            // webBrowserLinks
+            // 
+            this.webBrowserLinks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowserLinks.IsWebBrowserContextMenuEnabled = false;
+            this.webBrowserLinks.Location = new System.Drawing.Point(0, 0);
+            this.webBrowserLinks.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowserLinks.Name = "webBrowserLinks";
+            this.webBrowserLinks.ScriptErrorsSuppressed = true;
+            this.webBrowserLinks.Size = new System.Drawing.Size(394, 351);
+            this.webBrowserLinks.TabIndex = 0;
+            this.webBrowserLinks.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserLinks_DocumentCompleted);
             // 
             // tpEditSummary
             // 
@@ -4095,6 +4121,7 @@ namespace AutoWikiBrowser
             this.tpEdit.ResumeLayout(false);
             this.tpEdit.PerformLayout();
             this.tpHistory.ResumeLayout(false);
+			 this.tpLinks.ResumeLayout(false);
             this.tpEditSummary.ResumeLayout(false);
             this.tpEditSummary.PerformLayout();
             this.tpLogs.ResumeLayout(false);
@@ -4353,6 +4380,8 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ContextMenuStrip mnuHistory;
         private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem refreshHistoryToolStripMenuItem;
+		 private System.Windows.Forms.TabPage tpLinks;
+		 private System.Windows.Forms.WebBrowser webBrowserLinks;
         private System.Windows.Forms.Button btnProtect;
         private LoggingSettings loggingSettings1;
         internal System.Windows.Forms.ToolStripSeparator toolStripSeparator25;
