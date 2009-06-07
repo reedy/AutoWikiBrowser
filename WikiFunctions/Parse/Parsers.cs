@@ -2912,15 +2912,19 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 // So that this doesn't get confused by sort keys of "*", " ", etc.
                 // MW bug: DEFAULTSORT doesn't treat leading spaces the same way as categories do
                 // if all existing categories use a suitable sortkey, insert that rather than generating a new one
+                // GetCatSortkey just returns articleTitle if cats don't have sortkey, so don't accept this here
                 if (sort.Length > 4 && matches > 1 && !sort.StartsWith(" "))
                 {
+                    // remove keys from categories
                     articleText = Catregex.Replace(articleText, "[["
                         + Variables.Namespaces[Namespace.Category] + "$1]]");
 
                     // set the defaultsort to the existing unique category sort value
-                    if (Tools.FixupDefaultSort(sort) != articleTitle)
+                    // don't add a defaultsort if cat sort was the same as article title
+                    if (!sort.Equals(articleTitle) && Tools.FixupDefaultSort(sort) != articleTitle)
                         articleText = articleText + "\r\n{{DEFAULTSORT:" + Tools.FixupDefaultSort(sort) + "}}";
                 }
+
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Add_defaultsort_to_pages_with_special_letters_and_no_defaultsort
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Human_DEFAULTSORT
                 // AWB's generation of its own sortkey may be incorrect for people, provide option not to insert in this situation
