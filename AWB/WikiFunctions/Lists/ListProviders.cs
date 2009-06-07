@@ -1738,7 +1738,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// 
     /// </summary>
-    public class HTMLPageListProvider : IListProvider
+    public class HTMLPageScraperListProvider : IListProvider
     {
         public List<Article> MakeList(params string[] searchCriteria)
         {
@@ -1790,7 +1790,7 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets a list of pages from an online CheckWiki-output type page
     /// </summary>
-    public class CheckWikiListProvider : HTMLPageListProvider
+    public class CheckWikiListProvider : HTMLPageScraperListProvider
     {
         protected override bool CheckExtra(string entry)
         {
