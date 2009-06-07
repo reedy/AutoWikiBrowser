@@ -150,12 +150,12 @@ namespace WikiFunctions.Lists
     {
         private readonly static Regex RegexFromFile = new Regex("(^[a-z]{2,3}:)|(simple:)", RegexOptions.Compiled);
         private readonly static Regex LoadWikiLink = new Regex(@"\[\[:?(.*?)(?:\]\]|\|)", RegexOptions.Compiled);
-        private readonly OpenFileDialog openListDialog = new OpenFileDialog();
+        private readonly OpenFileDialog OpenListDialog = new OpenFileDialog();
 
         public TextFileListProvider()
         {
-            openListDialog.Filter = "Text files|*.txt|Text files (no validation)|*.txt|All files|*.*";
-            openListDialog.Multiselect = true;
+            OpenListDialog.Filter = "Text files|*.txt|Text files (no validation)|*.txt|All files|*.*";
+            OpenListDialog.Multiselect = true;
         }
 
         public List<Article> MakeList(string searchCriteria)
@@ -173,8 +173,8 @@ namespace WikiFunctions.Lists
             List<Article> list = new List<Article>();
             try
             {
-                if (searchCriteria.Length == 0 && openListDialog.ShowDialog() == DialogResult.OK)
-                    searchCriteria = openListDialog.FileNames;
+                if (searchCriteria.Length == 0 && OpenListDialog.ShowDialog() == DialogResult.OK)
+                    searchCriteria = OpenListDialog.FileNames;
 
                 foreach (string fileName in searchCriteria)
                 {
@@ -186,7 +186,7 @@ namespace WikiFunctions.Lists
                         sr.Close();
                     }
 
-                    switch (openListDialog.FilterIndex)
+                    switch (OpenListDialog.FilterIndex)
                     {
                         case 2:
                             foreach (string s in pageText.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
@@ -917,7 +917,7 @@ namespace WikiFunctions.Lists
         { get { return "User contribs"; } }
 
         public override string UserInputTextBoxText
-        { get { return Variables.Namespaces[Namespace.User]; } }
+        { get { return Variables.Namespaces[Namespace.User] + ":"; } }
 
         public override bool UserInputTextBoxEnabled
         { get { return true; } }
@@ -993,7 +993,7 @@ namespace WikiFunctions.Lists
         { get { return "Image file links"; } }
 
         public override string UserInputTextBoxText
-        { get { return Variables.Namespaces[Namespace.File]; } }
+        { get { return Variables.Namespaces[Namespace.File] + ":"; } }
 
         public override bool UserInputTextBoxEnabled
         { get { return true; } }
@@ -1007,7 +1007,7 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class WikiSearchListProvider : ApiListProviderBase
     {
-        protected string srwhat = "text";
+        protected string Srwhat = "text";
 
         #region Tags: <search>/<p>
         static readonly List<string> pe = new List<string>(new[] { "p" });
@@ -1046,7 +1046,7 @@ namespace WikiFunctions.Lists
 
             foreach (string page in searchCriteria)
             {
-                string url = Variables.URLApi + "?action=query&list=search&srwhat=" + srwhat + "&srsearch="
+                string url = Variables.URLApi + "?action=query&list=search&srwhat=" + Srwhat + "&srsearch="
                     + page + "&srlimit=max&format=xml" + ns;
 
                 list.AddRange(ApiMakeList(url, list.Count));
@@ -1075,7 +1075,7 @@ namespace WikiFunctions.Lists
     {
         public WikiTitleSearchListProvider()
         {
-            srwhat = "title";
+            Srwhat = "title";
         }
 
         public override string DisplayText
@@ -1090,8 +1090,7 @@ namespace WikiFunctions.Lists
     {
         public List<Article> MakeList(params string[] searchCriteria)
         {
-            Browser.WebControl webbrowser = new Browser.WebControl();
-            webbrowser.ScriptErrorsSuppressed = true;
+            Browser.WebControl webbrowser = new Browser.WebControl {ScriptErrorsSuppressed = true};
             webbrowser.Navigate(Variables.URLIndex + "?title=Special:Watchlist&action=raw");
             webbrowser.Wait();
 
@@ -1222,7 +1221,7 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class RandomPagesSpecialPageProvider : ApiListProviderBase, ISpecialPageProvider
     {
-        protected string extra;
+        protected string Extra;
         public RandomPagesSpecialPageProvider()
         {
             Limit = 100;
@@ -1252,7 +1251,7 @@ namespace WikiFunctions.Lists
             List<Article> list = new List<Article>();
 
             string url = Variables.URLApi + "?action=query&list=random&rnnamespace=" + Namespace +
-                         "&rnlimit=max&format=xml" + extra;
+                         "&rnlimit=max&format=xml" + Extra;
 
             list.AddRange(ApiMakeList(url, list.Count));
             return list;
@@ -1285,7 +1284,7 @@ namespace WikiFunctions.Lists
     {
         public RandomRedirectsSpecialPageProvider()
         {
-            extra = "&rnredirect";
+            Extra = "&rnredirect";
         }
 
         public override string DisplayText
@@ -1311,7 +1310,7 @@ namespace WikiFunctions.Lists
         }
         #endregion
 
-        protected string from = "apfrom", extra;
+        protected string From = "apfrom", Extra;
 
         #region ISpecialPageProvider Members
 
@@ -1326,8 +1325,8 @@ namespace WikiFunctions.Lists
 
             foreach (string page in searchCriteria)
             {
-                string url = Variables.URLApi + "?action=query&list=allpages&" + from + "=" +
-                             HttpUtility.UrlEncode(page) + "&apnamespace=" + Namespace + "&aplimit=max&format=xml" + extra;
+                string url = Variables.URLApi + "?action=query&list=allpages&" + From + "=" +
+                             HttpUtility.UrlEncode(page) + "&apnamespace=" + Namespace + "&aplimit=max&format=xml" + Extra;
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
@@ -1335,7 +1334,7 @@ namespace WikiFunctions.Lists
         }
 
         public override string UserInputTextBoxText
-        { get { return "All Pages"; } }
+        { get { return "All Pages:"; } }
 
         public virtual bool PagesNeeded
         { get { return false; } }
@@ -1367,7 +1366,7 @@ namespace WikiFunctions.Lists
         { get { return "All Categories"; } }
 
         public override string UserInputTextBoxText
-        { get { return "Start Cat."; } }
+        { get { return "Start Cat.:"; } }
 
         public override bool NamespacesEnabled
         { get { return false; } }
@@ -1387,7 +1386,7 @@ namespace WikiFunctions.Lists
         { get { return "All Files"; } }
 
         public override string UserInputTextBoxText
-        { get { return "Start File"; } }
+        { get { return "Start File:"; } }
 
         public override bool NamespacesEnabled
         { get { return false; } }
@@ -1400,14 +1399,14 @@ namespace WikiFunctions.Lists
     {
         public AllRedirectsSpecialPageProvider()
         {
-            extra = "&apfilterredir=redirects";
+            Extra = "&apfilterredir=redirects";
         }
 
         public override string DisplayText
-        { get { return "All Redirect"; } }
+        { get { return "All Redirects"; } }
 
         public override string UserInputTextBoxText
-        { get { return "Start Redirect"; } }
+        { get { return "Start Redirect:"; } }
     }
 
     /// <summary>
@@ -1415,7 +1414,7 @@ namespace WikiFunctions.Lists
     /// </summary>
     public class ProtectedPagesSpecialPageProvider : AllPagesSpecialPageProvider
     {
-        private readonly ProtectionLevel protlevel = new ProtectionLevel();
+        private readonly ProtectionLevel Protlevel = new ProtectionLevel();
 
         public override List<Article> MakeList(params string[] searchCriteria)
         {
@@ -1424,8 +1423,8 @@ namespace WikiFunctions.Lists
 
         public override List<Article> MakeList(int Namespace, params string[] searchCriteria)
         {
-            protlevel.ShowDialog();
-            extra = "&apprtype=" + protlevel.Type + "&apprlevel=" + protlevel.Level;
+            Protlevel.ShowDialog();
+            Extra = "&apprtype=" + Protlevel.Type + "&apprlevel=" + Protlevel.Level;
             return base.MakeList(Namespace, searchCriteria);
         }
 
@@ -1443,7 +1442,7 @@ namespace WikiFunctions.Lists
     {
         public PagesWithoutLanguageLinksSpecialPageProvider()
         {
-            extra = "&apfilterlanglinks=withoutlanglinks";
+            Extra = "&apfilterlanglinks=withoutlanglinks";
         }
 
         public override string DisplayText
@@ -1460,7 +1459,7 @@ namespace WikiFunctions.Lists
     {
         public PrefixIndexSpecialPageProvider()
         {
-            from = "apprefix";
+            From = "apprefix";
         }
 
         public override string DisplayText
@@ -1633,7 +1632,7 @@ namespace WikiFunctions.Lists
         { get { return "Link search"; } }
 
         public override string UserInputTextBoxText
-        { get { return "URL"; } }
+        { get { return "URL:"; } }
 
         public override bool UserInputTextBoxEnabled
         { get { return true; } }
@@ -1734,5 +1733,76 @@ namespace WikiFunctions.Lists
 
         public bool NamespacesEnabled
         { get { return false; } }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class HTMLPageListProvider : IListProvider
+    {
+        public List<Article> MakeList(params string[] searchCriteria)
+        {
+            List<Article> list = new List<Article>();
+
+            foreach (string url in searchCriteria)
+            {
+                foreach (
+                    string entry in
+                        Tools.StringBetween(Tools.GetHTML(url), "<body>", "</body>").Split(new[] {"\r\n", "\n"},
+                                                                                           StringSplitOptions.RemoveEmptyEntries))
+                {
+                    if (entry.Length > 0 && CheckExtra(entry))
+                    {
+                        list.Add(new Article(ModifyArticleName(entry)));
+                    }
+                }
+            }
+
+            return list;
+        }
+
+        protected virtual bool CheckExtra(string entry)
+        {
+            return true;
+        }
+
+        protected virtual string ModifyArticleName(string title)
+        {
+            return title;
+        }
+
+        public virtual string DisplayText
+        { get { return "HTML Scraper"; } }
+
+        public string UserInputTextBoxText
+        { get { return "URL:"; } }
+
+        public bool UserInputTextBoxEnabled
+        { get { return true; } }
+
+        public void Selected()
+        { }
+
+        public bool RunOnSeparateThread
+        { get { return true; } }
+    }
+
+    /// <summary>
+    /// Gets a list of pages from an online CheckWiki-output type page
+    /// </summary>
+    public class CheckWikiListProvider : HTMLPageListProvider
+    {
+        protected override bool CheckExtra(string entry)
+        {
+            return !entry.Contains("Error number");
+        }
+
+        protected override string ModifyArticleName(string title)
+        {
+            return title.Replace("<br />", "");
+        }
+
+        public override string DisplayText
+        { get { return "CheckWiki error"; } }
     }
 }

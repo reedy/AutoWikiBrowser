@@ -29,7 +29,7 @@ namespace WikiFunctions.Lists
 {
     public partial class ListFilterForm : Form
     {
-        private readonly ListBox2 destListBox;
+        private readonly ListBox2 DestListBox;
 
         public ListFilterForm(ListBox2 lb)
         {
@@ -38,14 +38,14 @@ namespace WikiFunctions.Lists
             if (lb == null)
                 throw new ArgumentNullException("lb");
 
-            destListBox = lb;
+            DestListBox = lb;
 
-            if (prefs != null)
-                Settings = prefs;
+            if (Prefs != null)
+                Settings = Prefs;
         }      
 
-        List<Article> list = new List<Article>();
-        static AWBSettings.SpecialFilterPrefs prefs;
+        private List<Article> List = new List<Article>();
+        private static AWBSettings.SpecialFilterPrefs Prefs;
 
         private void btnApply_Click(object sender, EventArgs e)
         {
@@ -55,12 +55,12 @@ namespace WikiFunctions.Lists
                     RemoveDuplicates();
 
                 if (chkSortAZ.Checked)
-                    destListBox.Sort();
+                    DestListBox.Sort();
 
-                list.Clear();
+                List.Clear();
 
-                foreach (Article a in destListBox)
-                    list.Add(a);
+                foreach (Article a in DestListBox)
+                    List.Add(a);
 
                 bool does = (chkContains.Checked && !string.IsNullOrEmpty(txtContains.Text));
                 bool doesnot = (chkNotContains.Checked && !string.IsNullOrEmpty(txtDoesNotContain.Text));
@@ -71,18 +71,18 @@ namespace WikiFunctions.Lists
                 if (does || doesnot)
                     FilterMatches(does, doesnot);
 
-                if (destListBox.Items.Count > 0 && destListBox.Items[0] is Article)
+                if (DestListBox.Items.Count > 0 && DestListBox.Items[0] is Article)
                     FilterNamespace();
 
-                destListBox.Items.Clear();
+                DestListBox.Items.Clear();
 
-                foreach (Article a in list)
-                    destListBox.Items.Add(a);
+                foreach (Article a in List)
+                    DestListBox.Items.Add(a);
 
                 //Only try to update number of articles using listmaker method IF the parent is indeed a listmaker
                 //Causes exception on DBScanner otherwise
-                if (destListBox.Parent is ListMaker)
-                    (destListBox.Parent as ListMaker).UpdateNumberOfArticles();
+                if (DestListBox.Parent is ListMaker)
+                    (DestListBox.Parent as ListMaker).UpdateNumberOfArticles();
             }
             catch (Exception ex)
             {
@@ -93,17 +93,17 @@ namespace WikiFunctions.Lists
 
         public void RemoveDuplicates()
         {
-            list.Clear();
+            List.Clear();
 
-            foreach (Article a in destListBox)
+            foreach (Article a in DestListBox)
             {
-                if (!list.Contains(a))
-                    list.Add(a);
+                if (!List.Contains(a))
+                    List.Add(a);
             }
-            destListBox.Items.Clear();
+            DestListBox.Items.Clear();
 
-            foreach (Article a in list)
-                destListBox.Items.Add(a);
+            foreach (Article a in List)
+                DestListBox.Items.Add(a);
         }
 
         private void FilterNamespace()
@@ -112,10 +112,10 @@ namespace WikiFunctions.Lists
 
             int i = 0;
 
-            while (i < list.Count)
+            while (i < List.Count)
             {
-                if (!selectedNS.Contains(list[i].NameSpaceKey))
-                    list.RemoveAt(i);
+                if (!selectedNS.Contains(List[i].NameSpaceKey))
+                    List.RemoveAt(i);
                 else
                     i++;
             }
@@ -138,12 +138,12 @@ namespace WikiFunctions.Lists
                 Regex notMatch = new Regex(strNotMatch);
 
                 int i = 0;
-                while (i < list.Count)
+                while (i < List.Count)
                 {
-                    if (does && match.IsMatch(list[i].Name))
-                        list.RemoveAt(i);
-                    else if (doesnot && !notMatch.IsMatch(list[i].Name))
-                        list.RemoveAt(i);
+                    if (does && match.IsMatch(List[i].Name))
+                        List.RemoveAt(i);
+                    else if (doesnot && !notMatch.IsMatch(List[i].Name))
+                        List.RemoveAt(i);
                     else
                         i++;
                 }
@@ -174,18 +174,18 @@ namespace WikiFunctions.Lists
                 // a, b,    d, e
                 // got:
                 // (none)
-                foreach (Article a in list)
+                foreach (Article a in List)
                     if (BinarySearch(remove, a, 0, remove.Count - 1) == -1)
                         list2.Add(a);
             }
             else
             {
                 // find intersection
-                foreach (Article a in list)
+                foreach (Article a in List)
                     if (BinarySearch(remove, a, 0, remove.Count - 1) != -1)
                         list2.Add(a);
             }
-            list = list2;
+            List = list2;
         }
 
         private static int BinarySearch(IList<Article> articleList, Article article, int left, int right)
@@ -236,7 +236,7 @@ namespace WikiFunctions.Lists
         }
         internal void Clear()
         {
-            list.Clear();
+            List.Clear();
         }
 
         private void SpecialFilter_VisibleChanged(object sender, EventArgs e)
@@ -250,53 +250,53 @@ namespace WikiFunctions.Lists
         {
             get
             {
-                prefs = new AWBSettings.SpecialFilterPrefs();
+                Prefs = new AWBSettings.SpecialFilterPrefs();
 
-                prefs.namespaceValues = pageNamespaces.GetSelectedNamespaces();
+                Prefs.namespaceValues = pageNamespaces.GetSelectedNamespaces();
 
-                prefs.filterTitlesThatContain = chkContains.Checked;
-                prefs.filterTitlesThatContainText = txtContains.Text;
-                prefs.filterTitlesThatDontContain = chkNotContains.Checked;
-                prefs.filterTitlesThatDontContainText = txtDoesNotContain.Text;
-                prefs.areRegex = chkIsRegex.Checked;
+                Prefs.filterTitlesThatContain = chkContains.Checked;
+                Prefs.filterTitlesThatContainText = txtContains.Text;
+                Prefs.filterTitlesThatDontContain = chkNotContains.Checked;
+                Prefs.filterTitlesThatDontContainText = txtDoesNotContain.Text;
+                Prefs.areRegex = chkIsRegex.Checked;
 
-                prefs.remDupes = chkRemoveDups.Checked;
-                prefs.sortAZ = chkSortAZ.Checked;
+                Prefs.remDupes = chkRemoveDups.Checked;
+                Prefs.sortAZ = chkSortAZ.Checked;
 
-                prefs.opType = cbOpType.SelectedIndex;
+                Prefs.opType = cbOpType.SelectedIndex;
 
                 foreach (Article a in lbRemove.Items)
                 {
-                    prefs.remove.Add(a.Name);
+                    Prefs.remove.Add(a.Name);
                 }
 
-                return prefs;
+                return Prefs;
             }
             set
             {
                 if (value == null || DesignMode)
                     return;
 
-                prefs = value;
+                Prefs = value;
 
-                if (prefs.namespaceValues == null)
-                    prefs.namespaceValues = new List<int>(new [] { 0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 14, 15 });
+                if (Prefs.namespaceValues == null)
+                    Prefs.namespaceValues = new List<int>(new [] { 0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 14, 15 });
 
-                if (prefs.namespaceValues.Count > 0)
-                    pageNamespaces.SetSelectedNamespaces(prefs.namespaceValues);
+                if (Prefs.namespaceValues.Count > 0)
+                    pageNamespaces.SetSelectedNamespaces(Prefs.namespaceValues);
 
-                chkContains.Checked = prefs.filterTitlesThatContain;
-                txtContains.Text = prefs.filterTitlesThatContainText;
-                chkNotContains.Checked = prefs.filterTitlesThatDontContain;
-                txtDoesNotContain.Text = prefs.filterTitlesThatDontContainText;
-                chkIsRegex.Checked = prefs.areRegex;
+                chkContains.Checked = Prefs.filterTitlesThatContain;
+                txtContains.Text = Prefs.filterTitlesThatContainText;
+                chkNotContains.Checked = Prefs.filterTitlesThatDontContain;
+                txtDoesNotContain.Text = Prefs.filterTitlesThatDontContainText;
+                chkIsRegex.Checked = Prefs.areRegex;
 
-                chkRemoveDups.Checked = prefs.remDupes;
-                chkSortAZ.Checked = prefs.sortAZ;
+                chkRemoveDups.Checked = Prefs.remDupes;
+                chkSortAZ.Checked = Prefs.sortAZ;
 
-                cbOpType.SelectedIndex = prefs.opType;
+                cbOpType.SelectedIndex = Prefs.opType;
 
-                foreach (string s in prefs.remove)
+                foreach (string s in Prefs.remove)
                     lbRemove.Items.Add(new Article(s));
             }
         }
