@@ -839,6 +839,10 @@ namespace AutoWikiBrowser
 
                 txtReviewEditSummary.Text = MakeSummary();
 
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Detect_multiple_DEFAULTSORT
+                if (WikiRegexes.Defaultsort.Matches(txtEdit.Text).Count > 1)
+                    lblWarn.Text += "Multiple DEFAULTSORTs found\r\n";
+
                 int bracketLength = 0;
                 int unbalancedBracket = TheArticle.UnbalancedBrackets(ref bracketLength);
                 if(unbalancedBracket > 0)
