@@ -774,6 +774,11 @@ namespace WikiFunctions.Parse
             {
                 string Last = Regex.Match(reference, @"(?<=\s*last\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
 
+                if (Last.Length < 1)
+                {
+                    Last = Regex.Match(reference, @"(?<=\s*author\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
+                }
+                
                 if (Last.Length > 1)
                 {
                     DerivedReferenceName = Last;
@@ -814,7 +819,7 @@ namespace WikiFunctions.Parse
                 return DerivedReferenceName;
 
             // Harvnb template {{Harvnb|Young|1852|p=50}}
-            DerivedReferenceName = ExtractReferenceNameComponents(reference, @"\s*{{Harvnb\s*\|\s*([^{}\|]+?)\s*\|\s*(\d{4})\s*\|\s*([^{}\|]+?)\s*}}\s*", 3);
+            DerivedReferenceName = ExtractReferenceNameComponents(reference, @"\s*{{[Hh]arv(?:nb)?\s*\|\s*([^{}\|]+?)\s*\|\s*(\d{4})\s*\|\s*([^{}\|]+?)\s*}}\s*", 3);
 
             if (ReferenceNameValid(articleText, DerivedReferenceName))
                 return DerivedReferenceName;
@@ -846,6 +851,12 @@ namespace WikiFunctions.Parse
 
             // name...year
             DerivedReferenceName = ExtractReferenceNameComponents(reference, NameMask + YearMask + @"\s*", 2);
+
+            if (ReferenceNameValid(articleText, DerivedReferenceName))
+                return DerivedReferenceName;
+
+            // generic ReferenceA
+            DerivedReferenceName = @"ReferenceA";
 
             if (ReferenceNameValid(articleText, DerivedReferenceName))
                 return DerivedReferenceName;
