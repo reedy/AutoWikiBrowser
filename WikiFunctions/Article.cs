@@ -585,6 +585,17 @@ namespace WikiFunctions
             }
         }
 
+         /// <summary>
+        /// Sets Default Sort on Article if Necessary / clean diacritics, in restricted addition mode
+        /// </summary>
+        /// <param name="langCode">The wiki's language code</param>
+        /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
+        /// <param name="restrictDefaultsortAddition"></param>
+        public void SetDefaultSort(LangCodeEnum langCode, bool skipIfNoChange)
+        {
+            SetDefaultSort(langCode, skipIfNoChange, true);
+        }
+
         /// <summary>
         /// Corrects common formatting errors in dates in external reference citation templates (doesn't link/delink dates)
         /// </summary>
@@ -931,8 +942,8 @@ namespace WikiFunctions
             AWBChangeArticleText("FixReferenceTags", Parsers.FixReferenceTags(ArticleText), true);
             Variables.Profiler.Profile("FixReferenceTags");
 
-         //   AWBChangeArticleText("DuplicateUnnamedReferences", Parsers.DuplicateUnnamedReferences(ArticleText), true);
-         //   Variables.Profiler.Profile("DuplicateUnnamedReferences");
+            AWBChangeArticleText("DuplicateUnnamedReferences", Parsers.DuplicateUnnamedReferences(ArticleText), true);
+            Variables.Profiler.Profile("DuplicateUnnamedReferences");
 
             AWBChangeArticleText("DuplicateNamedReferences", Parsers.DuplicateNamedReferences(ArticleText), true);
             Variables.Profiler.Profile("DuplicateNamedReferences");
