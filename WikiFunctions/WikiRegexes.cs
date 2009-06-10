@@ -404,7 +404,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches a line with a bare external link (no description or name of link)
         /// </summary>
-        public static readonly Regex BareExternalLink = new Regex(@"^ *\*? *(?:[Hh]ttp|[Hh]ttps|[Ff]tp|[Mm]ailto)://[^\ \n<>]+\s+$", RegexOptions.Multiline);
+        public static readonly Regex BareExternalLink = new Regex(@"^ *\*? *(?:[Hh]ttp|[Hh]ttps|[Ff]tp|[Mm]ailto)://[^\ \n\r<>]+\s+$", RegexOptions.Multiline);
 
         /// <summary>
         /// Matches {{lifetime}} and its aliases

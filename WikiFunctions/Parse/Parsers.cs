@@ -681,7 +681,7 @@ namespace WikiFunctions.Parse
                 }
 
                 Regex MultirefReplace = new Regex(@"(?s)(<\s*ref\s*>\s*(" + Regex.Escape(MultirefRefString) + @")\s*<\s*/\s*ref>)(.*?)(<\s*ref\s*>\s*\2\s*<\s*/\s*ref>)", RegexOptions.Compiled);
-                articleText = MultirefReplace.Replace(articleText, String.Format(@"<ref name=""multiref{0}"">$2</ref>$3<ref name=""multiref{0}""/>", j), 1);
+                articleText = MultirefReplace.Replace(articleText, String.Format(@"<ref name=""multiref{0}"">$2</ref>$3<ref name=""multiref{0}""/>", j));
 
                 // get the reference name to use
                 FriendlyName = DeriveReferenceName(articleText, MultirefRefString);
@@ -1381,6 +1381,9 @@ namespace WikiFunctions.Parse
         private static readonly Regex RefCitationMissingOpeningBraces = new Regex(@"(?<=<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>\s*)\(?\(?(?=[Cc]it[ae][^{}]+}}\s*</ref>)");
         private static readonly Regex BracesWithinDefaultsort = new Regex(@"(?<={{DEFAULTSORT[^{}\[\]]+)[\]\[]+}}");
 
+        // refs with wording and bare link: combine the two
+        private static readonly Regex WordingIntoBareExternalLinks = new Regex(@"(?<=<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*)([^<>{}\r\n]{3,70}?)[\.,::]?\s*\[\s*((?:[Hh]ttp|[Hh]ttps|[Ff]tp|[Mm]ailto)://[^\ \n\r<>]+)\s*\](?=\s*</ref>)");
+
         // for correcting square brackets within external links
         private static readonly Regex SquareBracketsInExternalLinks = new Regex(@"(\[https?://(?>[^\[\]<>]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])");
 
@@ -1567,6 +1570,8 @@ namespace WikiFunctions.Parse
             // http://en.wikipedia.org/wiki/Wikipedia:WikiProject_Check_Wikipedia#Article_with_false_.3Cbr.2F.3E_.28AutoEd.29
             // fix incorrect <br> of <br.>, <\br> and <br\>
             articleText = IncorrectBr.Replace(articleText, "<br />");
+
+            articleText = WordingIntoBareExternalLinks.Replace(articleText, @"[$2 $1]");
 
             return articleText.Trim();
         }
