@@ -3835,7 +3835,11 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"{{commons cat|XXX}}", Parsers.Conversions(@"{{commons|Category:XXX}}"));
             Assert.AreEqual(@"{{commons cat|XXX}}", Parsers.Conversions(@"{{Commons|category:XXX}}"));
             Assert.AreEqual(@"{{commons cat|XXX}}", Parsers.Conversions(@"{{Commons| category:XXX }}"));
-            Assert.AreEqual(@"{{commons cat|Backgammon|Backgammon}}", Parsers.Conversions(@"{{commons|Category:Backgammon|Backgammon}}"));
+            Assert.AreEqual(@"{{commons cat|Backgammon}}", Parsers.Conversions(@"{{commons|Category:Backgammon|Backgammon}}"));
+            Assert.AreEqual(@"{{commons cat|Backgammon}}", Parsers.Conversions(@"{{commons|Category:Backgammon | Backgammon  }}"));
+            Assert.AreEqual(@"{{commons cat|Backgammon|Backgammon main}}", Parsers.Conversions(@"{{Commons|Category:Backgammon|Backgammon main}}"));
+            Assert.AreEqual(@"{{commons cat|Gander International Airport}}", Parsers.Conversions(@"{{commons cat|Gander International Airport|Gander International Airport}}"));
+            Assert.AreEqual(@"{{Commons cat|Gander International Airport}}", Parsers.Conversions(@"{{Commons cat|Gander International Airport|Gander International Airport}}"));
 
             // {{2otheriuses}} --> {{Two other uses}}
             Assert.AreEqual(@"{{Two other uses}}", Parsers.Conversions(@"{{2otheruses}}"));
