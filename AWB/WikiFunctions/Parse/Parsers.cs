@@ -1062,7 +1062,7 @@ namespace WikiFunctions.Parse
             return ReferenceListTags.Replace(articleText, new MatchEvaluator(ReflistMatchEvaluator));
         }
 
-        private static readonly Regex EmptyReferences = new Regex(@"<ref\s+name=[""]?([^<>""]*)[""]?\s*>[\s]*< ?/ ?ref ?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex EmptyReferences = new Regex(@"(?<=<ref\s+name\s*=\s*(?:""|')?[^<>=\r\n]+(?:""|')?)\s*>\s*<\s*/\s*ref\s*>", RegexOptions.IgnoreCase);
 
         // Covered by: FootnotesTests.TestSimplifyReferenceTags()
         /// <summary>
@@ -1074,7 +1074,7 @@ namespace WikiFunctions.Parse
         public static string SimplifyReferenceTags(string articleText)
         {
             if (EmptyReferences.Match(articleText).Success)
-                articleText = EmptyReferences.Replace(articleText, @"<ref name=""$1"" />");
+                articleText = EmptyReferences.Replace(articleText, @" />");
 
             return articleText;
         }
