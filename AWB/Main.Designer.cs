@@ -159,6 +159,7 @@ namespace AutoWikiBrowser
             this.focusAtEndOfEditTextBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.noSectionEditSummaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.restrictDefaultsortAdditionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.noMOSComplianceFixesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scrollToUnbalancedBracketsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.markAllAsMinorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1266,6 +1267,7 @@ namespace AutoWikiBrowser
             this.focusAtEndOfEditTextBoxToolStripMenuItem,
             this.noSectionEditSummaryToolStripMenuItem,
             this.restrictDefaultsortAdditionToolStripMenuItem,
+            this.noMOSComplianceFixesToolStripMenuItem,
             this.scrollToUnbalancedBracketsToolStripMenuItem,
             this.toolStripSeparator6,
             this.markAllAsMinorToolStripMenuItem,
@@ -1359,6 +1361,13 @@ namespace AutoWikiBrowser
             this.restrictDefaultsortAdditionToolStripMenuItem.Name = "restrictDefaultsortAdditionToolStripMenuItem";
             this.restrictDefaultsortAdditionToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
             this.restrictDefaultsortAdditionToolStripMenuItem.Text = "Restrict addition of {{DEFAULTSORT}}";
+            //
+            // noMOSComplianceFixesToolStripMenuItem
+            //
+            this.noMOSComplianceFixesToolStripMenuItem.CheckOnClick = true;
+            this.noMOSComplianceFixesToolStripMenuItem.Name = "noMOSComplianceFixesToolStripMenuItem";
+            this.noMOSComplianceFixesToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
+            this.noMOSComplianceFixesToolStripMenuItem.Text = "Do not apply WP:MOS fixes";            
             // 
             // scrollToUnbalancedBracketsToolStripMenuItem
             // 
@@ -4448,6 +4457,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem focusAtEndOfEditTextBoxToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem noSectionEditSummaryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem restrictDefaultsortAdditionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem noMOSComplianceFixesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scrollToUnbalancedBracketsToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.GroupBox gbPageExisting;

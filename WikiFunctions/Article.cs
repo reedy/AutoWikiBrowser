@@ -887,7 +887,7 @@ namespace WikiFunctions
         /// <param name="replaceReferenceTags">If true, <div class="references-small"><references/></div> and so on
         /// <param name="restrictDefaultsortAddition"></param>
         /// will be replaced with {{reflist}}</param>
-        public void PerformGeneralFixes(Parsers parsers, HideText removeText, ISkipOptions skip, bool replaceReferenceTags, bool restrictDefaultsortAddition)
+        public void PerformGeneralFixes(Parsers parsers, HideText removeText, ISkipOptions skip, bool replaceReferenceTags, bool restrictDefaultsortAddition, bool noMOSComplianceFixes)
         { //TODO: 2009-01-28 review which of the genfixes below should be labelled 'significant'
             BeforeGeneralFixesTextChanged();
 
@@ -977,8 +977,11 @@ namespace WikiFunctions
             AWBChangeArticleText("Remove empty comments", Parsers.RemoveEmptyComments(ArticleText), false);
             Variables.Profiler.Profile("RemoveEmptyComments");
 
-            AWBChangeArticleText("Fix Date Ordinals/Of", parsers.FixDateOrdinalsAndOf(ArticleText, Name), true, true);
-            Variables.Profiler.Profile("FixDateOrdinalsAndOf");
+            if (!noMOSComplianceFixes)
+            {
+                AWBChangeArticleText("Fix Date Ordinals/Of", parsers.FixDateOrdinalsAndOf(ArticleText, Name), true, true);
+                Variables.Profiler.Profile("FixDateOrdinalsAndOf");
+            }
 
             //if (Variables.IsWikimediaProject)
             //{
