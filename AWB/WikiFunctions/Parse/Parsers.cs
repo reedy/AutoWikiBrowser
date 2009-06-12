@@ -2426,9 +2426,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             Regex r1 = new Regex(@"'''\[\[\s*" + escTitle + @"\s*\]\]'''");
             Regex r2 = new Regex(@"'''\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]'''");
 
-            articleText = r1.Replace(articleText, @"'''" + articleTitle + @"'''");
+            if (!WikiRegexes.Noinclude.IsMatch(articleText) && !WikiRegexes.Includeonly.IsMatch(articleText))
+            {
+                articleText = r1.Replace(articleText, @"'''" + articleTitle + @"'''");
 
-            articleText = r2.Replace(articleText, @"'''" + Tools.TurnFirstToLower(articleTitle) + @"'''");
+                articleText = r2.Replace(articleText, @"'''" + Tools.TurnFirstToLower(articleTitle) + @"'''");
+            }
 
             return articleText;
         }
