@@ -3128,9 +3128,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The updated article text.</returns>
         public static string LivingPeople(string articleText)
         {
-            // don't add living people category if already dead, or thought to be dead
+            // don't add living people category if already dead, or thought to be dead, or there's a lifetime template
             if (WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) || WikiRegexes.LivingPeopleRegex2.IsMatch(articleText) ||
-                BornDeathRegex.IsMatch(articleText) || DiedDateRegex.IsMatch(articleText))
+                BornDeathRegex.IsMatch(articleText) || DiedDateRegex.IsMatch(articleText) || WikiRegexes.Lifetime.IsMatch(articleText))
                 return articleText;
 
             Match m = WikiRegexes.BirthsCategory.Match(articleText);
@@ -3299,6 +3299,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                         articleText += "\r\n" + @"[[Category:" + deathyear + @" deaths" + CatEnd(sort);
                 }
             }
+
+            // TODO: check for lifetime and explicit XXX births/deaths categories and remove the categories if they co-incide
 
             return YearOfBirthMissingCategory(articleText);
         }
