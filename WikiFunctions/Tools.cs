@@ -1137,6 +1137,8 @@ namespace WikiFunctions
                 new KeyValuePair<string, string>("ⱬ", "z"),
                 new KeyValuePair<string, string>("ⱴ", "v"),
                 new KeyValuePair<string, string>("ớ", "o"),
+
+                new KeyValuePair<string, string>("ế", "e"),
             };
         #endregion
 

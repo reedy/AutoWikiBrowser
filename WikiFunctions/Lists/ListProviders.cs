@@ -1085,7 +1085,6 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets all the pages from the current user's watchlist
     /// </summary>
-    /// TODO:Change for list=watchlistraw when available
     public class MyWatchlistListProvider : IListProvider
     {
         public List<Article> MakeList(params string[] searchCriteria)
