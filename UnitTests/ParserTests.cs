@@ -615,6 +615,14 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             Assert.AreEqual(u2 + u + @"
 [[Category:1387 deaths]]", Parsers.FixPeopleCategories(u2));
 
+            string u2a = @"'''Charles Meik''' (born either 1330 or 1331 in [[Ghent]] - [[22 July]] [[1387]]) {{Persondata}}";
+            Assert.AreEqual(u2a + u + @"
+[[Category:1387 deaths]]", Parsers.FixPeopleCategories(u2a));
+
+            string u3 = @"'''Yusuf Ibn Muhammad Ibn Yusuf al-Fasi''' ([[1530]]/[[1531|31]]{{Fact|date=February 2007}} in [[Ksar-el-Kebir]], [[Morocco]] – 14 August [[1604]] in [[Fes, Morocco]]) {{persondata}}";
+            Assert.AreEqual(u3 + u + @"
+[[Category:1604 deaths]]", Parsers.FixPeopleCategories(u3));
+
             // no matches when approximate year of birth
             string b12 = @"'''Judith Victor Grabiner''' (born about 1938) is {{Persondata}}";
             Assert.AreEqual(b12 + u, Parsers.FixPeopleCategories(b12));
@@ -800,6 +808,10 @@ died 2002
 
             Assert.AreEqual(s1 + @"
 [[Category:1903 births|Weekes, Claire]]", Parsers.FixPeopleCategories(s1));
+
+            string m1 = @"'''Hans G Helms''' (born [[8 June]] [[1960]] in [[Teterow]]; full name: ''Hans Günter Helms''; the bearer of the name does not use a full stop after the initial for his middle name) is a [[Germany|German]] experimental writer, composer, and social and economic analyst and critic. {{persondata}}";
+
+            Assert.AreEqual(m1 + "\r\n" + b2, Parsers.FixPeopleCategories(m1));
         }
 
         [Test]
