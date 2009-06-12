@@ -2523,7 +2523,7 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
         }
 
         [Test]
-        public void BoldSelfTitleTests()
+        public void BoldedSelfLinks()
         {
             bool noChangeBack;
 
@@ -2558,6 +2558,8 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
 | This album  = '''''[[It Crawled into My Hand, Honest]]'''''<br />(1968)
 | Next album  = ''[[Belle of Avenue A]]''<br /> (1969)
 }}", "It Crawled into My Hand, Honest", out noChangeBack));
+
+            Assert.AreEqual(@"<noinclude> = '''''[[It Crawled into My Hand, Honest]]'''''<br /> </noinlcude>", parser.BoldTitle(@"<noinclude> = '''''[[It Crawled into My Hand, Honest]]'''''<br /> </noinlcude>", "[[It Crawled into My Hand, Honest]]", out noChangeBack));
         }
     }
 
