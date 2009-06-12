@@ -2521,6 +2521,44 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
             // don't remove italics
             Assert.AreEqual(@"'''''Marie-Madeleine-Marguerite d'Aubray, Marquise de Brinvilliers'''''", parser.BoldTitle(@"''[[Marie-Madeleine-Marguerite d'Aubray, Marquise de Brinvilliers]]''", @"Marie-Madeleine-Marguerite d'Aubray, Marquise de Brinvilliers", out noChangeBack));
         }
+
+        [Test]
+        public void BoldSelfTitleTests()
+        {
+            bool noChangeBack;
+
+            Assert.AreEqual(@"{{Infobox Album <!-- See Wikipedia:WikiProject_Albums -->
+| Name        = ''It Crawled into My Hand, Honest''
+| Type        = studio
+| Artist      = [[The Fugs]]
+| Cover       = 
+| Released    = 1968
+| Recorded    = 1968
+| Genre       = [[Rock and roll|Rock]], [[protopunk]], [[Psychedelic music|psychedelic]] [[Folk-rock]]
+| Length      =
+| Label       = [[Folkways Records|Folkways]]<br />[[ESP-Disk]]
+| Producer    = [[Ed Sanders]], [[Harry Everett Smith|Harry Smith]]
+| Reviews     = 
+| Last album  = ''[[Tenderness Junction]]''<br />(1968)
+| This album  = '''''It Crawled into My Hand, Honest'''''<br />(1968)
+| Next album  = ''[[Belle of Avenue A]]''<br /> (1969)
+}}", parser.BoldTitle(@"{{Infobox Album <!-- See Wikipedia:WikiProject_Albums -->
+| Name        = ''It Crawled into My Hand, Honest''
+| Type        = studio
+| Artist      = [[The Fugs]]
+| Cover       = 
+| Released    = 1968
+| Recorded    = 1968
+| Genre       = [[Rock and roll|Rock]], [[protopunk]], [[Psychedelic music|psychedelic]] [[Folk-rock]]
+| Length      =
+| Label       = [[Folkways Records|Folkways]]<br />[[ESP-Disk]]
+| Producer    = [[Ed Sanders]], [[Harry Everett Smith|Harry Smith]]
+| Reviews     = 
+| Last album  = ''[[Tenderness Junction]]''<br />(1968)
+| This album  = '''''[[It Crawled into My Hand, Honest]]'''''<br />(1968)
+| Next album  = ''[[Belle of Avenue A]]''<br /> (1969)
+}}", "It Crawled into My Hand, Honest", out noChangeBack));
+        }
     }
 
     [TestFixture]
