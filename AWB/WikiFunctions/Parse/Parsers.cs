@@ -2410,6 +2410,29 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return articleText;
         }
 
+        /// <summary>
+        /// Delinks all bolded self links in the article
+        /// </summary>
+        /// <param name="articleTitle"></param>
+        /// <param name="articleText"></param>
+        /// <returns></returns>
+        private static string BoldedSelfLinks(string articleTitle, string articleText)
+        {
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#If_a_selflink_is_also_bolded.2C_AWB_should_just_remove_the_selflink
+            
+            string escTitle = Regex.Escape(articleTitle);
+            string escTitleNoBrackets = Regex.Escape(Regex.Replace(articleTitle, @" \(.*?\)$", ""));
+
+            Regex r1 = new Regex(@"'''\[\[\s*" + escTitle + @"\s*\]\]'''");
+            Regex r2 = new Regex(@"'''\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]'''");
+
+            articleText = r1.Replace(articleText, @"'''" + articleTitle + @"'''");
+
+            articleText = r2.Replace(articleText, @"'''" + Tools.TurnFirstToLower(articleTitle) + @"'''");
+
+            return articleText;
+        }
+
         // Covered by: BoldTitleTests
         /// <summary>
         /// '''Emboldens''' the first occurence of the article title, if not already bold
@@ -2420,6 +2443,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text.</returns>
         public string BoldTitle(string articleText, string articleTitle, out bool noChange)
         {
+            // clean up bolded self links first
+            articleText = BoldedSelfLinks(articleTitle, articleText);
+
             noChange = true;
             string escTitle = Regex.Escape(articleTitle);
             string escTitleNoBrackets = Regex.Escape(Regex.Replace(articleTitle, @" \(.*?\)$", ""));
@@ -2434,10 +2460,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string zerothSectionHiddenOriginal = zerothSectionHidden;
             
             // first check for any self links and no bold title, if found just convert first link to bold and return
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#If_a_selflink_is_also_bolded.2C_AWB_should_just_remove_the_selflink
-            // catch any bolded self links too
-            Regex r1 = new Regex(@"(?:'''\[\[\s*" + escTitle + @"\s*\]\]'''|\[\[\s*" + escTitle + @"\s*\]\])");
-            Regex r2 = new Regex(@"(?:'''\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]'''|\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\])");
+            Regex r1 = new Regex(@"\[\[\s*" + escTitle + @"\s*\]\]");
+            Regex r2 = new Regex(@"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Includes_and_selflinks
             // don't apply if bold in lead section already or some noinclude transclusion business
