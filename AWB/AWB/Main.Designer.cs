@@ -370,7 +370,7 @@ namespace AutoWikiBrowser
             this.tpEdit = new System.Windows.Forms.TabPage();
             this.tpHistory = new System.Windows.Forms.TabPage();
             this.webBrowserHistory = new System.Windows.Forms.WebBrowser();
-			this.tpLinks = new System.Windows.Forms.TabPage();
+            this.tpLinks = new System.Windows.Forms.TabPage();
             this.webBrowserLinks = new System.Windows.Forms.WebBrowser();
             this.tpEditSummary = new System.Windows.Forms.TabPage();
             this.txtReviewEditSummary = new System.Windows.Forms.TextBox();
@@ -456,7 +456,7 @@ namespace AutoWikiBrowser
             this.EditBoxTab.SuspendLayout();
             this.tpEdit.SuspendLayout();
             this.tpHistory.SuspendLayout();
-			 this.tpLinks.SuspendLayout();
+            this.tpLinks.SuspendLayout();
             this.tpEditSummary.SuspendLayout();
             this.tpLogs.SuspendLayout();
             this.tpLoggingOptions.SuspendLayout();
@@ -2330,7 +2330,6 @@ namespace AutoWikiBrowser
             this.txtEdit.Enabled = false;
             this.txtEdit.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtEdit.Location = new System.Drawing.Point(0, 31);
-            this.txtEdit.MaxLength = 0;
             this.txtEdit.Name = "txtEdit";
             this.txtEdit.Size = new System.Drawing.Size(394, 320);
             this.txtEdit.TabIndex = 0;
@@ -3607,7 +3606,7 @@ namespace AutoWikiBrowser
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.EditBoxTab.Controls.Add(this.tpEdit);
             this.EditBoxTab.Controls.Add(this.tpHistory);
-			 this.EditBoxTab.Controls.Add(this.tpLinks);
+            this.EditBoxTab.Controls.Add(this.tpLinks);
             this.EditBoxTab.Controls.Add(this.tpEditSummary);
             this.EditBoxTab.Controls.Add(this.tpLogs);
             this.EditBoxTab.Controls.Add(this.tpLoggingOptions);
@@ -3666,7 +3665,7 @@ namespace AutoWikiBrowser
             this.webBrowserHistory.Size = new System.Drawing.Size(394, 351);
             this.webBrowserHistory.TabIndex = 0;
             this.webBrowserHistory.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserHistory_DocumentCompleted);
-			 //
+            // 
             // tpLinks
             // 
             this.tpLinks.Controls.Add(this.webBrowserLinks);
@@ -4121,7 +4120,7 @@ namespace AutoWikiBrowser
             this.tpEdit.ResumeLayout(false);
             this.tpEdit.PerformLayout();
             this.tpHistory.ResumeLayout(false);
-			 this.tpLinks.ResumeLayout(false);
+            this.tpLinks.ResumeLayout(false);
             this.tpEditSummary.ResumeLayout(false);
             this.tpEditSummary.PerformLayout();
             this.tpLogs.ResumeLayout(false);
