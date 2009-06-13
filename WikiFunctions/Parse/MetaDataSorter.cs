@@ -322,7 +322,7 @@ en, sq, ru
             Regex r = new Regex("<!-- ? ?\\[\\[" + Variables.NamespacesCaseInsensitive[Namespace.Category]
                 + ".*?(\\]\\]|\\|.*?\\]\\]).*?-->|\\[\\["
                 + Variables.NamespacesCaseInsensitive[Namespace.Category]
-                + ".*?(\\]\\]|\\|.*?\\]\\])( {0,4}⌊⌊⌊⌊[0-9]{1,4}⌋⌋⌋⌋|\r\n<!--.*?-->(?=\r\n\\[\\[))?", RegexOptions.Singleline);
+                + ".*?(\\]\\]|\\|.*?\\]\\])( {0,4}⌊⌊⌊⌊[0-9]{1,4}⌋⌋⌋⌋|\\s*<!--.*?-->(?=\r\n\\[\\[))?", RegexOptions.Singleline);
 
             MatchCollection matches = r.Matches(articleText);
             foreach (Match m in matches)

@@ -373,7 +373,6 @@ blah";
         [Test]
         public void CategoryAndCommentTests()
         {
-
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Comments_get_removed_from_between_categories
             // allow comments on newline between categories, and keep them in the same place
             string i = @"#REDIRECT [[Ohio and Mississippi Railway]]
@@ -411,6 +410,16 @@ blah";
             string n = m;
 
             Assert.AreEqual(m + "\r\n", parser2.Sorter.RemoveCats(ref n, "test"));
+
+            // comments on same line of category
+            string o = @"[[Category:Canadian Aviation Hall of Fame inductees]]
+[[Category:Canadian World War I pilots]] <!-- If he was a Flying Ace, use the Canadian subcategory -->
+[[Category:Canadian World War II pilots]] <!-- If he was a Flying Ace, use the subcategory -->
+[[Category:Foo]]";
+
+            string p = o;
+
+            Assert.AreEqual(o + "\r\n", parser2.Sorter.RemoveCats(ref p, "test"));
         }
 
         [Test]
