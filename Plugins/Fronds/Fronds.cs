@@ -2,16 +2,14 @@
 using WikiFunctions;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
-using System.Collections;
 using System.Collections.Generic;
 using WikiFunctions.Plugin;
 using WikiFunctions.AWBSettings;
 
 namespace Fronds
 {
-    public class Fronds : WikiFunctions.Plugin.IAWBPlugin
+    public class Fronds : IAWBPlugin
     {
-
         private readonly ToolStripMenuItem enabledMenuItem = new ToolStripMenuItem("Fronds plugin");
         private readonly ToolStripMenuItem configMenuItem = new ToolStripMenuItem("Configuration");
         private readonly ToolStripMenuItem aboutMenuItem = new ToolStripMenuItem("About Fronds");
@@ -25,12 +23,11 @@ namespace Fronds
         private static List<Boolean> loadedCases = new List<Boolean>();
         Dictionary<Regex, string> cases = new Dictionary<Regex, string>();
 
-        public void Initialise(WikiFunctions.Plugin.IAutoWikiBrowser sender)
+        public void Initialise(IAutoWikiBrowser sender)
         {
             if (sender == null)
                 throw new ArgumentNullException("sender");
             AWB = sender;
-
 
             // Menuitem should be checked when Fronds plugin is active and unchecked when not, and default to not!
             enabledMenuItem.CheckOnClick = true;
@@ -67,7 +64,7 @@ namespace Fronds
             }
         }
 
-        public string ProcessArticle(WikiFunctions.Plugin.IAutoWikiBrowser sender, WikiFunctions.Plugin.IProcessArticleEventArgs eventargs)
+        public string ProcessArticle(IAutoWikiBrowser sender, IProcessArticleEventArgs eventargs)
         {
             //If menu item is not checked, then return
             if (!PluginEnabled)
@@ -79,7 +76,9 @@ namespace Fronds
             // Warn if plugin is running, but no fronds have been enabled. A common newbie situation.
             if (Settings.EnabledFilenames.Count == 0)
             {
-                MessageBox.Show("The Fronds plugin is running, but no individual fronds have been enabled. Either enable some or disable the plugin to stop getting this message.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(
+                    "The Fronds plugin is running, but no individual fronds have been enabled. Either enable some or disable the plugin to stop getting this message.",
+                    "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return eventargs.ArticleText;
             }
 
@@ -90,7 +89,8 @@ namespace Fronds
             string text = eventargs.ArticleText;
             for (int i = 0; i < loadedFinds.Count; i++)
             {
-                   text = Regex.Replace(text, loadedFinds[i], loadedReplaces[i], loadedCases[i] ? RegexOptions.None : RegexOptions.IgnoreCase);
+                text = Regex.Replace(text, loadedFinds[i], loadedReplaces[i],
+                                     loadedCases[i] ? RegexOptions.None : RegexOptions.IgnoreCase);
             }
             return text;
         }
@@ -123,7 +123,7 @@ namespace Fronds
             PrefsKeyPair[] prefs = new PrefsKeyPair[2];
             prefs[0] = new PrefsKeyPair("Enabled", Settings.Enabled);
             prefs[1] = new PrefsKeyPair("EnabledFilenames", Settings.EnabledFilenames);
-            
+
             return prefs;
         }
 
@@ -132,10 +132,10 @@ namespace Fronds
             FrondsOptions frmFrondsOptions = new FrondsOptions();
             foreach (string frond in possibleFronds)
             {
-                frmFrondsOptions.addOption(frond);
+                frmFrondsOptions.AddOption(frond);
             }
             frmFrondsOptions.Show();
-            frmFrondsOptions.ButtonClicked += new OptionsOKClickedEventHandler(btnOptionsOK_Clicked);
+            frmFrondsOptions.ButtonClicked += btnOptionsOK_Clicked;
         }
 
         private static void btnOptionsOK_Clicked(object sender, OptionsOKClickedEventArgs e)
@@ -229,8 +229,8 @@ namespace Fronds
             PluginEnabled = false;
         }
 
-        public void Nudge(out bool Cancel) { Cancel = false; }
-        public void Nudged(int Nudges) { }
+        public void Nudge(out bool cancel) { cancel = false; }
+        public void Nudged(int nudges) { }
         #endregion
 
     }
