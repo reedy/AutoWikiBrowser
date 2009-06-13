@@ -117,11 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label1.Text" xml:space="preserve">
+  <data name="lblAbout.Text" xml:space="preserve">
     <value>At the time of writing this, Fronds is still in beta.
 It's quite possible that I forget to update this page
 before release however, so here are the applicable
-details, correct as of version 1.0.0.0:
+details for your version of Fronds (X.X.X.X):
 
 Developers: Jarry1250, with help from the rest of
                       the AWB team, and suggestions from

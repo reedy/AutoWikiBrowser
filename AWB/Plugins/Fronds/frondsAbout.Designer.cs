@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrondsAbout));
             this.btnAboutOK = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblAbout = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnAboutOK
@@ -43,22 +43,22 @@
             this.btnAboutOK.UseVisualStyleBackColor = true;
             this.btnAboutOK.Click += new System.EventHandler(this.btnAboutOK_Click);
             // 
-            // label1
+            // lblAbout
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(11, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(283, 255);
-            this.label1.TabIndex = 1;
-            this.label1.Text = resources.GetString("label1.Text");
+            this.lblAbout.AutoSize = true;
+            this.lblAbout.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAbout.Location = new System.Drawing.Point(11, 9);
+            this.lblAbout.Name = "lblAbout";
+            this.lblAbout.Size = new System.Drawing.Size(283, 255);
+            this.lblAbout.TabIndex = 1;
+            this.lblAbout.Text = resources.GetString("lblAbout.Text");
             // 
             // FrondsAbout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(307, 309);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblAbout);
             this.Controls.Add(this.btnAboutOK);
             this.MaximumSize = new System.Drawing.Size(323, 345);
             this.MinimumSize = new System.Drawing.Size(323, 345);
@@ -66,6 +66,7 @@
             this.ShowIcon = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Fronds";
+            this.Load += new System.EventHandler(this.FrondsAbout_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -74,6 +75,6 @@
         #endregion
 
         private System.Windows.Forms.Button btnAboutOK;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblAbout;
     }
 }

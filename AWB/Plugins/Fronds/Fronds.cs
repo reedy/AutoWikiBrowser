@@ -12,9 +12,12 @@ namespace Fronds
     {
         private readonly ToolStripMenuItem enabledMenuItem = new ToolStripMenuItem("Fronds plugin");
         private readonly ToolStripMenuItem configMenuItem = new ToolStripMenuItem("Configuration");
+        private readonly ToolStripMenuItem pluginAboutMenuItem = new ToolStripMenuItem("About");
         private readonly ToolStripMenuItem aboutMenuItem = new ToolStripMenuItem("About Fronds");
+
         internal static IAutoWikiBrowser AWB;
         internal static FrondsSettings Settings = new FrondsSettings();
+        internal static String currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         private static List<String> possibleFronds = new List<String>();
         private static List<String> possibleFilenames = new List<String>();
@@ -35,42 +38,37 @@ namespace Fronds
             configMenuItem.Click += ShowSettings;
             enabledMenuItem.CheckedChanged += PluginEnabledCheckedChange;
             aboutMenuItem.Click += AboutMenuItemClicked;
+            pluginAboutMenuItem.Click += AboutMenuItemClicked;
             enabledMenuItem.DropDownItems.Add(configMenuItem);
-            enabledMenuItem.DropDownItems.Add(aboutMenuItem);
+            enabledMenuItem.DropDownItems.Add(pluginAboutMenuItem);
+
 
             AWB.PluginsToolStripMenuItem.DropDownItems.Add(enabledMenuItem);
             AWB.HelpToolStripMenuItem.DropDownItems.Add(aboutMenuItem);
 
-            string newVersion = Tools.GetHTML("http://toolserver.org/~jarry/fronds/version.txt");
-            string currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            if (newVersion != currentVersion)
+            string newVersion = Tools.GetHTML("http://toolserver.org/~jarry/fronds/version.txt").Replace(".","");
+            if (Int16.Parse(newVersion) > Int16.Parse(currentVersion.Replace(".", "")))
             {
-                DialogResult result = MessageBox.Show("A newer version of Fronds is available. Downloading it is advisable, as it may contain important bugfixes. Load update page now? (Current version: " + currentVersion + ", new version: " + newVersion + ".)",
+                DialogResult result = MessageBox.Show(
+                    "A newer version of Fronds is available. Downloading it is advisable, as it may contain important bugfixes.\r\n\r\nLoad update page now?",
                     "New version", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                 if (result == DialogResult.Yes)
                 {
                     Tools.OpenURLInBrowser("http://en.wikipedia.org/wiki/WP:FRONDS/U");
                 }
             }
-            try
+            string html = Tools.GetHTML("http://toolserver.org/~jarry/fronds/index.txt");
+            string[] all = Regex.Split(html, "\r\n");
+            foreach (string item in all)
             {
-                string html = Tools.GetHTML("http://toolserver.org/~jarry/fronds/index.txt");
-                string[] all = Regex.Split(html, "\r\n");
-                foreach (string item in all)
+                if (item.Contains("@#@"))
                 {
-                    if (item.Contains("@#@"))
-                    {
-                        string[] parts = Regex.Split(item, "@#@");
-                        string filename = parts[0].Trim();
-                        string meta = parts[1].Trim();
-                        possibleFronds.Add(meta + " (" + filename + ")");
-                        possibleFilenames.Add(filename);
-                    }
+                    string[] parts = Regex.Split(item, "@#@");
+                    string filename = parts[0].Trim();
+                    string meta = parts[1].Trim();
+                    possibleFronds.Add(meta + " (" + filename + ")");
+                    possibleFilenames.Add(filename);
                 }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
             }
         }
 
@@ -86,15 +84,21 @@ namespace Fronds
             // Warn if plugin is running, but no fronds have been enabled. A common newbie situation.
             if (Settings.EnabledFilenames.Count == 0)
             {
-                MessageBox.Show(
-                    "The Fronds plugin is running, but no individual fronds have been enabled. Either enable some or disable the plugin to stop getting this message.",
-                    "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                DialogResult result = MessageBox.Show(
+                    "It looks like you forget to select some fronds to use. You might like to choose some (\"Okay\"), or disable the plugin for now (\"Cancel\").",
+                    "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
+                if (result == DialogResult.OK)
+                {
+                    configMenuItem.PerformClick();
+                }
+                else
+                {
+                    enabledMenuItem.Checked = Settings.Enabled = PluginEnabled = false;
+                }
                 return eventargs.ArticleText;
             }
 
             // The inefficiency of this is depressing
-            // I was kinda hoping C# could match PHP's functionality -
-            // where you can pass arrays of regexes
 
             string text = eventargs.ArticleText;
             for (int i = 0; i < loadedFinds.Count; i++)
@@ -173,16 +177,7 @@ namespace Fronds
                     }
                     else if (chunk.Contains("CaseSensitive:"))
                     {
-                        string myCase = chunk.Trim().Substring(14);
-                        switch (myCase.ToLower())
-                        {
-                            case "yes":
-                                loadedCases.Add(true);
-                                break;
-                            case "no":
-                                loadedCases.Add(false);
-                                break;
-                        }
+                        loadedCases.Add(chunk.Substring(14).Trim() == "yes");
                     }
                 }
             }
@@ -199,10 +194,6 @@ namespace Fronds
         private void PluginEnabledCheckedChange(object sender, EventArgs e)
         {
             Settings.Enabled = PluginEnabled;
-            if (PluginEnabled)
-                AWB.NotifyBalloon("Fronds enabled", ToolTipIcon.Info);
-            else
-                AWB.NotifyBalloon("Fronds disabled", ToolTipIcon.Info);
         }
 
         private static void AboutMenuItemClicked(Object sender, EventArgs e)
@@ -230,8 +221,7 @@ namespace Fronds
         {
             get
             {
-                return "[[WP:FRONDS|Fronds]] Plugin version " +
-                    System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+                return "[[WP:FRONDS|Fronds]] Plugin version " + currentVersion;
             }
         }
 
