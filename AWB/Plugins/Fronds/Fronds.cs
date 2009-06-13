@@ -45,8 +45,12 @@ namespace Fronds
             string currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             if (newVersion != currentVersion)
             {
-                MessageBox.Show("A newer version of Fronds is available. Downloading it is advisable, as it may contain important bugfixes. (Current version: " + currentVersion + ", new version: " + newVersion + ".)",
-                    "New version", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DialogResult result = MessageBox.Show("A newer version of Fronds is available. Downloading it is advisable, as it may contain important bugfixes. Load update page now? (Current version: " + currentVersion + ", new version: " + newVersion + ".)",
+                    "New version", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                if (result == DialogResult.Yes)
+                {
+                    Tools.OpenURLInBrowser("http://en.wikipedia.org/wiki/WP:FRONDS/U");
+                }
             }
             try
             {
