@@ -243,7 +243,7 @@ namespace WikiFunctions.AWBSettings
         /// </summary>
         public EditPrefs(bool mGeneralFixes, bool mTagger, bool mUnicodify, int mRecategorisation,
             string mNewCategory, string mNewCategory2, int mReImage, string mImageFind, string mReplace,
-            bool mSkipIfNoCatChange, bool mSkipIfNoImgChange, bool mAppendText, bool mAppend, string mText,
+            bool mSkipIfNoCatChange, bool mRemoveSortKey, bool mSkipIfNoImgChange, bool mAppendText, bool mAppend, string mText,
             int mNewlines, int mAutoDelay, bool mSuppressTag, bool mRegexTypoFix)
         {
             GeneralFixes = mGeneralFixes;
@@ -256,6 +256,7 @@ namespace WikiFunctions.AWBSettings
             ImageFind = mImageFind;
             Replace = mReplace;
             SkipIfNoCatChange = mSkipIfNoCatChange;
+            RemoveSortKey = mRemoveSortKey;
             SkipIfNoImgChange = mSkipIfNoImgChange;
             AppendText = mAppendText;
             Append = mAppend;
@@ -279,6 +280,7 @@ namespace WikiFunctions.AWBSettings
         public string Replace = "";
 
         public bool SkipIfNoCatChange = false;
+        public bool RemoveSortKey = false;
         public bool SkipIfNoImgChange = false;
 
         public bool AppendText = false;

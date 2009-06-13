@@ -781,7 +781,7 @@ namespace WikiFunctions.Parse
                 {
                     Last = Regex.Match(reference, @"(?<=\s*author\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
                 }
-                
+
                 if (Last.Length > 1)
                 {
                     DerivedReferenceName = Last;
@@ -804,6 +804,26 @@ namespace WikiFunctions.Parse
 
                     DerivedReferenceName = CleanDerivedReferenceName(DerivedReferenceName);
                 }
+                // otherwise try title
+                else
+                {
+                    string Title = Regex.Match(reference, @"(?<=\s*title\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
+
+                    if (Title.Length > 3 && Title.Length < 35)
+                        DerivedReferenceName = Title;
+                    DerivedReferenceName = CleanDerivedReferenceName(DerivedReferenceName);
+
+                    // try publisher
+                    if (DerivedReferenceName.Length < 4)
+                    {
+                        Title = Regex.Match(reference, @"(?<=\s*publisher\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
+
+                        if (Title.Length > 3 && Title.Length < 35)
+                            DerivedReferenceName = Title;
+                        DerivedReferenceName = CleanDerivedReferenceName(DerivedReferenceName);
+                    }
+                }
+
             }
 
             if (ReferenceNameValid(articleText, DerivedReferenceName))
@@ -860,6 +880,18 @@ namespace WikiFunctions.Parse
 
             // generic ReferenceA
             DerivedReferenceName = @"ReferenceA";
+
+            if (ReferenceNameValid(articleText, DerivedReferenceName))
+                return DerivedReferenceName;
+
+            // generic ReferenceA
+            DerivedReferenceName = @"ReferenceB";
+
+            if (ReferenceNameValid(articleText, DerivedReferenceName))
+                return DerivedReferenceName;
+
+            // generic ReferenceA
+            DerivedReferenceName = @"ReferenceC";
 
             if (ReferenceNameValid(articleText, DerivedReferenceName))
                 return DerivedReferenceName;
@@ -2744,7 +2776,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return SortMetaData(articleText, articleTitle); //Sort metadata ordering so general fixes dont need to be enabled
         }
 
-        // Covered by: RecategorizerTests.Replacement()
+                // Covered by: RecategorizerTests.Replacement()
         /// <summary>
         /// Re-categorises the article.
         /// </summary>
@@ -2754,6 +2786,21 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="noChange">Value that indicated whether no change was made.</param>
         /// <returns>The re-categorised article text.</returns>
         public static string ReCategoriser(string oldCategory, string newCategory, string articleText, out bool noChange)
+        {
+            return ReCategoriser(oldCategory, newCategory, articleText, out noChange, false);
+        }
+
+        // Covered by: RecategorizerTests.Replacement()
+        /// <summary>
+        /// Re-categorises the article.
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="oldCategory">The old category to replace.</param>
+        /// <param name="newCategory">The new category.</param>
+        /// <param name="noChange">Value that indicated whether no change was made.</param>
+        /// <param name="removeSortKey">If set, any sort key is removed when the category is replaced</param>
+        /// <returns>The re-categorised article text.</returns>
+        public static string ReCategoriser(string oldCategory, string newCategory, string articleText, out bool noChange, bool removeSortKey)
         {
             //remove category prefix
             oldCategory = Regex.Replace(oldCategory, "^"
@@ -2778,8 +2825,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 oldCategory = Regex.Escape(oldCategory);
                 oldCategory = Tools.CaseInsensitive(oldCategory);
 
-                oldCategory = Variables.Namespaces[Namespace.Category] + oldCategory + @"\s*(\||\]\])";
-                newCategory = Variables.Namespaces[Namespace.Category] + newCategory + "$1";
+                oldCategory = Variables.Namespaces[Namespace.Category] + oldCategory + @"\s*(\|[^\|\[\]]+\]\]|\]\])";
+
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Replacing_categoring_and_keeping_pipes
+                if (!removeSortKey)
+                    newCategory = Variables.Namespaces[Namespace.Category] + newCategory + "$1";
+                else
+                    newCategory = Variables.Namespaces[Namespace.Category] + newCategory + @"]]";
 
                 articleText = Regex.Replace(articleText, oldCategory, newCategory);
             }

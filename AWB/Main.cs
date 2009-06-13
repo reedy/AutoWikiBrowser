@@ -1330,7 +1330,7 @@ namespace AutoWikiBrowser
                 {
                     theArticle.Categorisation((WikiFunctions.Options.CategorisationOptions)
                         cmboCategorise.SelectedIndex, Parser, chkSkipNoCatChange.Checked, txtNewCategory.Text.Trim(),
-                        txtNewCategory2.Text.Trim());
+                        txtNewCategory2.Text.Trim(), chkRemoveSortKey.Checked);
                     if (theArticle.SkipArticle) return;
                     else if (!chkGeneralFixes.Checked) theArticle.AWBChangeArticleText("Fix categories", Parsers.FixCategories(theArticle.ArticleText, Namespace.IsMainSpace(theArticle.Name)), true);
                 }
@@ -1925,11 +1925,13 @@ window.scrollTo(0, diffTopY);
             {
                 label1.Text = "with Category:";
                 txtNewCategory2.Enabled = true;
+                chkRemoveSortKey.Enabled = true;
             }
             else
             {
                 label1.Text = "";
                 txtNewCategory2.Enabled = false;
+                chkRemoveSortKey.Enabled = false;
             }
         }
 

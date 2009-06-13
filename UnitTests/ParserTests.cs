@@ -3589,6 +3589,27 @@ fish | name = Bert }} ''Bert'' is a good fish."));
         }
 
         [Test]
+        public void ReplacementSortkeys()
+        {
+            bool noChange;
+
+            Assert.AreEqual("[[Category:Bar|key]]", Parsers.ReCategoriser("Foo", "Bar", "[[Category:Foo|key]]", out noChange));
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual("[[Category:Bar|key here]]", Parsers.ReCategoriser("Foo", "Bar", "[[Category:Foo|key here]]", out noChange));
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual("[[Category:Bar|key]]", Parsers.ReCategoriser("Foo", "Bar", "[[Category:Foo|key]]", out noChange, false));
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual("[[Category:Bar]]", Parsers.ReCategoriser("Foo", "Bar", "[[Category:Foo|key]]", out noChange, true));
+            Assert.IsFalse(noChange);
+
+            Assert.AreEqual("[[Category:Bar]]", Parsers.ReCategoriser("Foo", "Bar", "[[Category:Foo|key here]]", out noChange, true));
+            Assert.IsFalse(noChange);
+        }
+
+        [Test]
         public void Removal()
         {
             bool noChange;

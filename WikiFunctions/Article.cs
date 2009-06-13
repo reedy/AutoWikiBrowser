@@ -407,7 +407,7 @@ namespace WikiFunctions
         /// <param name="categoryText">The category to add or remove; or, when replacing, the name of the old category</param>
         /// <param name="categoryText2">The name of the replacement category (recat mode only)</param>
         public void Categorisation(CategorisationOptions option, Parsers parsers,
-            bool skipIfNoChange, string categoryText, string categoryText2)
+            bool skipIfNoChange, string categoryText, string categoryText2, bool removeSortKey)
         {
             string strTemp, action = "";
 
@@ -424,7 +424,7 @@ namespace WikiFunctions
 
                 case CategorisationOptions.ReCat:
                     if (categoryText.Length < 1 || categoryText2.Length < 1) return;
-                    strTemp = Parsers.ReCategoriser(categoryText, categoryText2, mArticleText, out noChange);
+                    strTemp = Parsers.ReCategoriser(categoryText, categoryText2, mArticleText, out noChange, removeSortKey);
                     break;
 
                 case CategorisationOptions.RemoveCat:
@@ -455,7 +455,7 @@ namespace WikiFunctions
         {
             if (option == CategorisationOptions.ReCat)
                 throw new ArgumentException("This overload has no CategoryText2 argument");
-            Categorisation(option, parsers, skipIfNoChange, newCategoryText, "");
+            Categorisation(option, parsers, skipIfNoChange, newCategoryText, "", false);
         }
 
         /// <summary>
