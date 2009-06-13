@@ -21,7 +21,6 @@ namespace Fronds
         private static List<String> loadedFinds = new List<String>();
         private static List<String> loadedReplaces = new List<String>();
         private static List<Boolean> loadedCases = new List<Boolean>();
-        Dictionary<Regex, string> cases = new Dictionary<Regex, string>();
 
         public void Initialise(IAutoWikiBrowser sender)
         {
@@ -42,6 +41,13 @@ namespace Fronds
             AWB.PluginsToolStripMenuItem.DropDownItems.Add(enabledMenuItem);
             AWB.HelpToolStripMenuItem.DropDownItems.Add(aboutMenuItem);
 
+            string newVersion = Tools.GetHTML("http://toolserver.org/~jarry/fronds/version.txt");
+            string currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            if (newVersion != currentVersion)
+            {
+                MessageBox.Show("A newer version of Fronds is available. Downloading it is advisable, as it may contain important bugfixes. (Current version: " + currentVersion + ", new version: " + newVersion + ".)",
+                    "New version", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
             try
             {
                 string html = Tools.GetHTML("http://toolserver.org/~jarry/fronds/index.txt");
@@ -109,6 +115,9 @@ namespace Fronds
                 {
                     case "enabled":
                         PluginEnabled = Settings.Enabled = (bool)p.Setting;
+                        break;
+                    case "enabledfilenames":
+                        Settings.EnabledFilenames = (List<string>)p.Setting;
                         break;
                     default:
                         break;
