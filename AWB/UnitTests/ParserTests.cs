@@ -412,6 +412,27 @@ End of.";
             Assert.AreEqual("Bray, Warwick 1968 93-96", Parsers.DeriveReferenceName("a", @"{{cite book |author=Bray, Warwick |year=1968 |chapter=Everyday Life of The Aztecs |pages=93-96}}"));
             Assert.AreEqual("Olson 2000 p=84", Parsers.DeriveReferenceName("a", @"{{harv|Olson|2000|p=84}}"));
 
+            Assert.AreEqual("reloadbench.com", Parsers.DeriveReferenceName("a", @"<ref>Reload Bench [http://reloadbench.com/cartridges/w17bee.html]</ref>"));
+
+            Assert.AreEqual("The Oxford English Dictionary 1989", Parsers.DeriveReferenceName("a", @"<ref>""-logy."" ''The Oxford English Dictionary'', Second Edition. Oxford University Press, 1989. retrieved 20 Aug 2008.</ref>"));
+
+            Assert.AreEqual("firstaif", Parsers.DeriveReferenceName("a", @"<ref>{{cite web|title=firstaif|url=http://www.firstaif.info/pages/nz_mounted.htm}}</ref><ref>{{cite web|title=diggerhistory|url=http://www.diggerhistory.info/pages-nz/nzef.htm}}</ref>"));
+
+
+            Assert.AreEqual("Bloom Cigar Company", Parsers.DeriveReferenceName("a", @"<ref>{{cite web
+  | last = 
+  | first = 
+  | title = Welcome to the on-line catalog of Bloom Cigar Company in Pittsburgh, home of Cigar CampTM
+  | work = 
+  | publisher = Bloom Cigar Company
+  | date = 2003
+  | url = http://www.bloomcigar.com/catalog/
+  | accessdate = 2008-11-01
+  | archiveurl = http://www.webcitation.org/5c1PcWcc8
+  | archivedate = 2008-11-01}}</ref>"));
+
+            Assert.AreEqual("Kuykendall, R.S. 1967 p. 628", Parsers.DeriveReferenceName("a", @"<ref>Kuykendall, R.S. (1967). The Hawaiian Kingdom, Vol. III, 1874-1893: The Kalakaua Dynasty. Honolulu: University of Hawaii Press. p. 628.</ref>"));
+
             // doesn't provide what's already in use
         }
     }
