@@ -19,5 +19,10 @@ namespace Fronds
         {
             this.Close();
         }
+
+        private void FrondsAbout_Load(object sender, EventArgs e)
+        {
+            lblAbout.Text = lblAbout.Text.Replace("X.X.X.X", Fronds.currentVersion);
+        }
     }
 }
