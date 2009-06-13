@@ -815,6 +815,13 @@ died 2002
             string m1 = @"'''Hans G Helms''' (born [[8 June]] [[1960]] in [[Teterow]]; full name: ''Hans Günter Helms''; the bearer of the name does not use a full stop after the initial for his middle name) is a [[Germany|German]] experimental writer, composer, and social and economic analyst and critic. {{persondata}}";
 
             Assert.AreEqual(m1 + "\r\n" + b2, Parsers.FixPeopleCategories(m1));
+
+            // uncertain year of death
+            string m2 = @"'''Arthur Paunzen''' (born [[4 February]] [[1890]], died ?[[9 August]] [[1940]])
+[[Category:1890 births]]";
+
+            Assert.AreEqual(m2, Parsers.FixPeopleCategories(m2));
+
         }
 
         [Test]

@@ -3252,7 +3252,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     // check died info after any untemplated born info
                     if (m.Index >= PersonYearOfBirth.Match(zerothSection).Index || !PersonYearOfBirth.IsMatch(zerothSection))
                     {
-                        if (!UncertainWordings.IsMatch(m.Value))
+                        if (!UncertainWordings.IsMatch(m.Value) && !m.Value.Contains(@"?"))
                             yearstring = m.Groups[1].Value;
                     }
                 }
