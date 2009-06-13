@@ -1,22 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using WikiFunctions;
 
 namespace Fronds
 {
-    using System.Collections;
     public partial class FrondsOptions : Form
     {
         public FrondsOptions()
         {
             InitializeComponent();
         }
-        public void addOption(string text)
+
+        public void AddOption(string text)
         {
             //Also very inefficient, but does work.
             bool checkme = false;
@@ -33,16 +29,16 @@ namespace Fronds
 
         private void btnOptionsCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void btnOptionsOK_Click(object sender, EventArgs e)
         {
             List<int> indices = new List<int>();
-            List<String> filenames = new List<String>();
+            List<string> filenames = new List<string>();
             foreach (int index in listOptionsFronds.CheckedIndices)
             {
-               indices.Add(index);
+                indices.Add(index);
             }
             foreach (string item in listOptionsFronds.CheckedItems)
             {
@@ -51,13 +47,14 @@ namespace Fronds
             }
             Fronds.Settings.EnabledFilenames = filenames;
             OnButtonClicked(new OptionsOKClickedEventArgs(indices));
-            this.Close();
+            Close();
         }
         public event Fronds.OptionsOKClickedEventHandler ButtonClicked;
 
         // add the event invoker method
-        protected virtual void OnButtonClicked (OptionsOKClickedEventArgs e) {
-        if(ButtonClicked != null) ButtonClicked(this, e);
+        protected virtual void OnButtonClicked(OptionsOKClickedEventArgs e)
+        {
+            if (ButtonClicked != null) ButtonClicked(this, e);
         }
 
         private void linkWikipedia_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
