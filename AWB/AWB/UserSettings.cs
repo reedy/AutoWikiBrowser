@@ -264,7 +264,7 @@ namespace AutoWikiBrowser
                 new EditPrefs(chkGeneralFixes.Checked, chkAutoTagger.Checked,
                               chkUnicodifyWhole.Checked, cmboCategorise.SelectedIndex, txtNewCategory.Text,
                               txtNewCategory2.Text, cmboImages.SelectedIndex, txtImageReplace.Text, txtImageWith.Text,
-                              chkSkipNoCatChange.Checked, chkSkipNoImgChange.Checked, chkAppend.Checked,
+                              chkSkipNoCatChange.Checked, chkRemoveSortKey.Checked, chkSkipNoImgChange.Checked, chkAppend.Checked,
                               !rdoPrepend.Checked,
                               txtAppendMessage.Text, (int)udNewlineChars.Value, (int)nudBotSpeed.Value,
                               chkSuppressTag.Checked,
@@ -427,6 +427,7 @@ namespace AutoWikiBrowser
             txtImageWith.Text = p.Editprefs.Replace;
 
             chkSkipNoCatChange.Checked = p.Editprefs.SkipIfNoCatChange;
+            chkRemoveSortKey.Checked = p.Editprefs.RemoveSortKey;
             chkSkipNoImgChange.Checked = p.Editprefs.SkipIfNoImgChange;
 
             chkAppend.Checked = p.Editprefs.AppendText;
