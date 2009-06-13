@@ -44,9 +44,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Fronds.cs">
-      <Link>Fronds.cs</Link>
-    </Compile>
+    <Compile Include="Fronds.cs" />
     <Compile Include="frondsAbout.cs">
       <SubType>Form</SubType>
     </Compile>
