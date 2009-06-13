@@ -46,7 +46,7 @@ namespace WikiFunctions
             this.lblTemplates.Name = "lblTemplates";
             this.lblTemplates.Size = new System.Drawing.Size(183, 13);
             this.lblTemplates.TabIndex = 0;
-            this.lblTemplates.Text = "Templates to &substitute (one pre line):";
+            this.lblTemplates.Text = "Templates to &substitute (one per line):";
             // 
             // textBoxTemplates
             // 
