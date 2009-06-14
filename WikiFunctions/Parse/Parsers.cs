@@ -275,11 +275,15 @@ namespace WikiFunctions.Parse
 
         /// <summary>
         /// Combines multiple cleanup tags into {{article issues}} template, ensures parameters have correct case, removes date parameter where not needed
+        /// only for English-language wikis
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
         public string ArticleIssues(string articleText)
         {
+            if (Variables.LangCode != LangCodeEnum.en)
+                return articleText;
+
             // convert title case parameters within {{Article issues}} to lower case
             foreach (Match m in ArticleIssuesInTitleCase.Matches(articleText))
             {
