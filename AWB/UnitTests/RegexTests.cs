@@ -1048,16 +1048,23 @@ words2"));
         [Test]
         public void DateDeathAndAgeTests()
         {
-            Assert.IsTrue(WikiRegexes.DateDeathAndAge.IsMatch(@"{{Death date|1972|02|18}}"));
-            Assert.IsTrue(WikiRegexes.DateDeathAndAge.IsMatch(@"{{Death date and age|1972|02|18}}"));
-            Assert.IsTrue(WikiRegexes.DateDeathAndAge.IsMatch(@"{{Death date| 1972 |02|18}}"));
+            Assert.IsTrue(WikiRegexes.DeathDate.IsMatch(@"{{Death date|1972|02|18}}"));
+            Assert.IsTrue(WikiRegexes.DeathDate.IsMatch(@"{{Death date and age|1972|02|18}}"));
+            Assert.IsTrue(WikiRegexes.DeathDate.IsMatch(@"{{Death date| 1972 |02|18}}"));
 
-            Assert.IsTrue(WikiRegexes.DateDeathAndAge.IsMatch(@"{{death date and age|mf=yes|1980|3|9}}"));
+            Assert.IsTrue(WikiRegexes.DeathDate.IsMatch(@"{{death date and age|mf=yes|1980|3|9}}"));
 
-            Assert.AreEqual("1975", WikiRegexes.DateDeathAndAge.Match(@"{{death-date|1975}}").Groups[1].Value);
-            Assert.AreEqual("1975", WikiRegexes.DateDeathAndAge.Match(@"{{death-date|   1975}}").Groups[1].Value);
-            Assert.AreEqual("1984", WikiRegexes.DateDeathAndAge.Match(@"{{death date and age|year=1984|month=2|day=6}}").Groups[1].Value);
-            Assert.AreEqual("1911", WikiRegexes.DateDeathAndAge.Match(@"{{death date and age|1911|12|12|1821|10|02}}").Groups[1].Value);
+            Assert.AreEqual("1975", WikiRegexes.DeathDate.Match(@"{{death-date|1975}}").Groups[1].Value);
+            Assert.AreEqual("1975", WikiRegexes.DeathDate.Match(@"{{death-date|   1975}}").Groups[1].Value);
+            Assert.AreEqual("1984", WikiRegexes.DeathDate.Match(@"{{death date and age|year=1984|month=2|day=6}}").Groups[1].Value);
+            Assert.AreEqual("1911", WikiRegexes.DeathDate.Match(@"{{death date and age|1911|12|12|1821|10|02}}").Groups[1].Value);          
+        }
+
+        [Test]
+        public void DeathDateAndAge()
+        {
+            Assert.AreEqual("1911", WikiRegexes.DeathDateAndAge.Match(@"{{death date and age|1911|12|12|1821|10|02}}").Groups[1].Value);
+            Assert.AreEqual("1821", WikiRegexes.DeathDateAndAge.Match(@"{{death date and age|1911|12|12|1821|10|02}}").Groups[2].Value);
         }
 
         [Test]
