@@ -3122,7 +3122,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 return false;
 
             int dateBirthAndAgeCount = WikiRegexes.DateBirthAndAge.Matches(articleText).Count;
-            int dateDeathAndAgeCount = WikiRegexes.DateDeathAndAge.Matches(articleText).Count;
+            int dateDeathAndAgeCount = WikiRegexes.DeathDate.Matches(articleText).Count;
 
             if (dateBirthAndAgeCount > 1 || dateDeathAndAgeCount > 1)
                 return false;
@@ -3209,9 +3209,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return articleText + "[[Category:Living people" + catKey;
         }
 
-        private static readonly Regex PersonYearOfBirth = new Regex(@"(?<='''.{0,100}?)\( *[Bb]orn[^\)\.;]{1,150}?(?<!.*(?:[Dd]ied|&[nm]dash;|—).*)([12]?\d{3}(?: BC)?)\b[^\)]*");
+        private static readonly Regex PersonYearOfBirth = new Regex(@"(?<='''.{0,100}?)\( *[Bb]orn[^\)\.;]{1,150}?(?<!.*(?:[Dd]ied|&[nm]dash;|—).*)([12]?\d{3}(?: BC)?)\b[^\)]{0,200}");
         private static readonly Regex PersonYearOfDeath = new Regex(@"(?<='''.{0,100}?)\([^\(\)]*?[Dd]ied[^\)\.;]+?([12]?\d{3}(?: BC)?)\b");
-        private static readonly Regex PersonYearOfBirthAndDeath = new Regex(@"'''\s*\([^\)\r\n]*?(?<![Dd]ied)\b([12]?\d{3})\b[^\)\r\n]*?(-|–|—|&[nm]dash;)[^\)\r\n]*?([12]?\d{3})\b[^\)]*");
+        private static readonly Regex PersonYearOfBirthAndDeath = new Regex(@"'''\s*\([^\)\r\n]*?(?<![Dd]ied)\b([12]?\d{3})\b[^\)\r\n]*?(-|–|—|&[nm]dash;)[^\)\r\n]*?([12]?\d{3})\b[^\)]{0,200}");
 
         private static readonly Regex UncertainWordings = new Regex(@"(?:\b(about|before|after|either|around|late|[Cc]irca|between|\d{3,4}(?:\]\])?/(?:\[\[)?\d{1,4}|or +\d{3,})\b|\d{3} *\?|\bca?(?:'')?\.|\bca\b|\b(bef|abt)\.)");
         private static readonly Regex ReignedRuledUnsure = new Regex(@"(?:\?|[Rr](?:uled|eigned)|\br\.|(chr|fl(?:\]\])?)\.)");
@@ -3259,10 +3259,14 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string sort = GetCategorySort(articleText);
 
             // birth
-            if (!WikiRegexes.BirthsCategory.IsMatch(articleText) && (PersonYearOfBirth.Matches(zerothSection).Count == 1 || WikiRegexes.DateBirthAndAge.IsMatch(zerothSection)))
+            if (!WikiRegexes.BirthsCategory.IsMatch(articleText) && (PersonYearOfBirth.Matches(zerothSection).Count == 1 || WikiRegexes.DateBirthAndAge.IsMatch(zerothSection) || WikiRegexes.DeathDateAndAge.IsMatch(zerothSection)))
             {
                 // look for '{{birth date...' template first
                 yearstring = WikiRegexes.DateBirthAndAge.Match(articleText).Groups[1].Value;
+
+                // look for '{{death date and age' template second
+                if (String.IsNullOrEmpty(yearstring))
+                    yearstring = WikiRegexes.DeathDateAndAge.Match(articleText).Groups[2].Value;
 
                 // look for '(born xxxx)'
                 if (String.IsNullOrEmpty(yearstring))
@@ -3291,10 +3295,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             }
 
             // death
-            if (!WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) && (PersonYearOfDeath.IsMatch(zerothSection) || WikiRegexes.DateDeathAndAge.IsMatch(zerothSection)))
+            if (!WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) && (PersonYearOfDeath.IsMatch(zerothSection) || WikiRegexes.DeathDate.IsMatch(zerothSection)))
             {
                 // look for '{{death date...' template first
-                yearstring = WikiRegexes.DateDeathAndAge.Match(articleText).Groups[1].Value;
+                yearstring = WikiRegexes.DeathDate.Match(articleText).Groups[1].Value;
 
                 // look for '(died xxxx)'
                 if (String.IsNullOrEmpty(yearstring))

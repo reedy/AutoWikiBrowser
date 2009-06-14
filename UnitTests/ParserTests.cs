@@ -843,6 +843,12 @@ died 2002
 
             Assert.AreEqual(m2, Parsers.FixPeopleCategories(m2));
 
+            string m3 = @"Foo {{death date and age|2008|8|21|1942|7|13|mf=y}} {{persondata}}";
+            string m3a = @"
+[[Category:1942 births]]
+[[Category:2008 deaths]]";
+
+            Assert.AreEqual(m3 + m3a, Parsers.FixPeopleCategories(m3));
         }
 
         [Test]

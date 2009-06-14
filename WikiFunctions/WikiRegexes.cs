@@ -443,9 +443,14 @@ namespace WikiFunctions
         public static readonly Regex DateBirthAndAge = new Regex(@"{{[Bb]irth(?: date(?: and age)?\s*(?:\|\s*[md]f\s*=\s*y(?:es)?\s*)?\|\s*|-date\s*\|[^{}\|]*?)(?:year *= *)?\b([12]\d{3})\s*(?:\||}})");
 
         /// <summary>
-        /// Matches the various {{death date and age}} templates, group 1 being the year of death
+        /// Matches the various {{death date}} templates, group 1 being the year of death
         /// </summary>
-        public static readonly Regex DateDeathAndAge = new Regex(@"{{[Dd]eath(?: date(?: and age)?\s*(?:\|\s*[md]f\s*=\s*y(?:es)?\s*)?\|\s*|-date\s*\|[^{}\|]*?)(?:year *= *)?\b([12]\d{3})\s*(?:\||}})");
+        public static readonly Regex DeathDate = new Regex(@"{{[Dd]eath(?: date(?: and age)?\s*(?:\|\s*[md]f\s*=\s*y(?:es)?\s*)?\|\s*|-date\s*\|[^{}\|]*?)(?:year *= *)?\b([12]\d{3})\s*(?:\||}})");
+
+        /// <summary>
+        /// Matches the {{death date and age}} template, group 1 being the year of death, group 2 being the year of birth
+        /// </summary>
+        public static readonly Regex DeathDateAndAge = new Regex(@"{{[Dd]eath date and age\s*\|(?:[^{}]*?\|)?\s*([12]\d{3})\s*\|[^{}]+?\|\s*([12]\d{3})\s*\|");
 
         /// <summary>
         /// Matches {{Link FA|xxx}}, {{Link GA|xxx}}
