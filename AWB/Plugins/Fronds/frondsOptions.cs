@@ -45,9 +45,10 @@ namespace Fronds
             Fronds.Settings.EnabledFilenames = filenames;
 
             //Loaded selected fronds
-            Fronds.loadedFinds = new List<String>();
+            //TODO: don't wipe and start again; just add/remove.
+            List<String> loadedFinds = new List<String>();
+            List<Boolean> loadedCases = new List<Boolean>();
             Fronds.loadedReplaces = new List<String>();
-            Fronds.loadedCases = new List<Boolean>();
 
             foreach (int index in listOptionsFronds.CheckedIndices)
             {
@@ -57,7 +58,7 @@ namespace Fronds
                 {
                     if (chunk.Contains("Find:"))
                     {
-                        Fronds.loadedFinds.Add(chunk.Substring(5));
+                        loadedFinds.Add(chunk.Substring(5));
                     }
                     else if (chunk.Contains("Replace:"))
                     {
@@ -65,9 +66,15 @@ namespace Fronds
                     }
                     else if (chunk.Contains("CaseSensitive:"))
                     {
-                        Fronds.loadedCases.Add(chunk.Substring(14).Trim() == "yes");
+                        loadedCases.Add(chunk.Substring(14).Trim() == "yes");
                     }
                 }
+            }
+            for (int i = 0; i < loadedFinds.Count; i++)
+            {
+                Regex re = new Regex(loadedFinds[i],
+                    loadedCases[i] ? RegexOptions.None : RegexOptions.IgnoreCase | RegexOptions.Compiled);
+                Fronds.loadedRegexes.Add(re);
             }
             Close();
         }

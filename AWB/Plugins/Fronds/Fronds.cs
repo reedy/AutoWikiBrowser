@@ -18,12 +18,11 @@ namespace Fronds
         internal static IAutoWikiBrowser AWB;
         internal static FrondsSettings Settings = new FrondsSettings();
         internal static String currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        internal static List<String> possibleFilenames = new List<String>();
+        internal static List<Regex> loadedRegexes = new List<Regex>();
+        internal static List<String> loadedReplaces = new List<String>();
 
         private static List<String> possibleFronds = new List<String>();
-        internal static List<String> possibleFilenames = new List<String>();
-        internal static List<String> loadedFinds = new List<String>();
-        internal static List<String> loadedReplaces = new List<String>();
-        internal static List<Boolean> loadedCases = new List<Boolean>();
 
         public void Initialise(IAutoWikiBrowser sender)
         {
@@ -101,10 +100,9 @@ namespace Fronds
             // The inefficiency of this is depressing
 
             string text = eventargs.ArticleText;
-            for (int i = 0; i < loadedFinds.Count; i++)
+            for (int i = 0; i < loadedRegexes.Count; i++)
             {
-                text = Regex.Replace(text, loadedFinds[i], loadedReplaces[i],
-                                     loadedCases[i] ? RegexOptions.None : RegexOptions.IgnoreCase);
+                text = loadedRegexes[i].Replace(text,loadedReplaces[i]);
             }
             return text;
         }
