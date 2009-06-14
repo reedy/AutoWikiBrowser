@@ -49,6 +49,7 @@ namespace Fronds
             List<String> loadedFinds = new List<String>();
             List<Boolean> loadedCases = new List<Boolean>();
             Fronds.loadedReplaces = new List<String>();
+            Fronds.loadedRegexes = new List<Regex>();
 
             foreach (int index in listOptionsFronds.CheckedIndices)
             {
