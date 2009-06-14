@@ -280,7 +280,7 @@ namespace AutoWikiBrowser
                               chkSkipWhenNoFAR.Checked, chkSkipIfNoRegexTypo.Checked, chkSkipNoDab.Checked,
                               chkSkipWhitespace.Checked, chkSkipCasing.Checked,
                               chkSkipGeneralFixes.Checked, chkSkipMinorGeneralFixes.Checked, chkSkipNoPageLinks.Checked,
-                              Skip.SelectedItems, chkSkipIfRedirect.Checked),
+                              Skip.SelectedItems, chkSkipIfRedirect.Checked, chkSkipIfNoAlerts.Checked),
 
                 new GeneralPrefs(SaveArticleList, IgnoreNoBots, cmboEditSummary.Items,
                                  cmboEditSummary.Text, new[]
@@ -451,6 +451,7 @@ namespace AutoWikiBrowser
             chkSkipGeneralFixes.Checked = p.SkipOptions.SkipOnlyGeneralFixChanges;
             chkSkipMinorGeneralFixes.Checked = p.SkipOptions.SkipOnlyMinorGeneralFixChanges;
             chkSkipIfRedirect.Checked = p.SkipOptions.SkipIfRedirect;
+            chkSkipIfNoAlerts.Checked = p.SkipOptions.SkipIfNoAlerts;
 
             chkSkipIfContains.Checked = p.SkipOptions.SkipDoes;
             chkSkipIfNotContains.Checked = p.SkipOptions.SkipDoesNot;

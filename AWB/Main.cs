@@ -848,6 +848,13 @@ namespace AutoWikiBrowser
                 if(unbalancedBracket > 0)
                     lblWarn.Text += "Unbalanced brackets found\r\n";
 
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Working_with_Alerts
+                if (chkSkipIfNoAlerts.Checked && lblWarn.Text.Length == 0)
+                {
+                    SkipPage("Page has no alerts");
+                    return;
+                }
+
                 if (focusAtEndOfEditTextBoxToolStripMenuItem.Checked)
                 {
                     txtEdit.Select(txtEdit.Text.Length, 0);

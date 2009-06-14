@@ -303,7 +303,7 @@ namespace WikiFunctions.AWBSettings
             bool mSkipDoesNot, string mSkipDoesText, string mSkipDoesNotText, bool mRegex, bool mCaseSensitive,
             bool mSkipNoFindAndReplace, bool mSkipNoRegexTypoFix, bool mSkipNoDisambiguation,
             bool mSkipWhitespaceOnly, bool mSkipCasingOnly, bool mSkipOnlyGeneralFixChanges, bool mSkipOnlyMinorGeneralFixChanges, bool mSkipNoLinksOnPage,
-            List<int> mGeneralSkipList, bool mSkipIfRedirect)
+            List<int> mGeneralSkipList, bool mSkipIfRedirect, bool mSkipIfNoAlerts)
         {
             SkipNonexistent = mSkipNonexistent;
             Skipexistent = mSkipexistent;
@@ -326,6 +326,7 @@ namespace WikiFunctions.AWBSettings
             SkipOnlyMinorGeneralFixChanges = mSkipOnlyMinorGeneralFixChanges;
             SkipNoLinksOnPage = mSkipNoLinksOnPage;
             SkipIfRedirect = mSkipIfRedirect;
+            SkipIfNoAlerts = mSkipIfNoAlerts;
         }
 
         public bool SkipNonexistent = true;
@@ -338,6 +339,7 @@ namespace WikiFunctions.AWBSettings
         public bool SkipOnlyMinorGeneralFixChanges = false;
         public bool SkipOnlyCasingChanged = false;
         public bool SkipIfRedirect = false;
+        public bool SkipIfNoAlerts = false;
 
         public bool SkipDoes = false;
         public bool SkipDoesNot = false;
