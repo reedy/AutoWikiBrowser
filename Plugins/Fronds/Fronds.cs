@@ -20,10 +20,10 @@ namespace Fronds
         internal static String currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         private static List<String> possibleFronds = new List<String>();
-        private static List<String> possibleFilenames = new List<String>();
-        private static List<String> loadedFinds = new List<String>();
-        private static List<String> loadedReplaces = new List<String>();
-        private static List<Boolean> loadedCases = new List<Boolean>();
+        internal static List<String> possibleFilenames = new List<String>();
+        internal static List<String> loadedFinds = new List<String>();
+        internal static List<String> loadedReplaces = new List<String>();
+        internal static List<Boolean> loadedCases = new List<Boolean>();
 
         public void Initialise(IAutoWikiBrowser sender)
         {
@@ -152,38 +152,7 @@ namespace Fronds
                 frmFrondsOptions.AddOption(frond);
             }
             frmFrondsOptions.Show();
-            frmFrondsOptions.ButtonClicked += btnOptionsOK_Clicked;
         }
-
-        private static void btnOptionsOK_Clicked(object sender, OptionsOKClickedEventArgs e)
-        {
-            loadedFinds = new List<String>();
-            loadedReplaces = new List<String>();
-            loadedCases = new List<Boolean>();
-
-            foreach (int frond in e.EnabledIndices)
-            {
-                string html = Tools.GetHTML(("http://toolserver.org/~jarry/fronds/" + possibleFilenames[frond].ToString()));
-                string[] parts = Regex.Split(html, "@#@");
-                foreach (string chunk in parts)
-                {
-                    if (chunk.Contains("Find:"))
-                    {
-                        loadedFinds.Add(chunk.Substring(5));
-                    }
-                    else if (chunk.Contains("Replace:"))
-                    {
-                        loadedReplaces.Add(chunk.Substring(8));
-                    }
-                    else if (chunk.Contains("CaseSensitive:"))
-                    {
-                        loadedCases.Add(chunk.Substring(14).Trim() == "yes");
-                    }
-                }
-            }
-        }
-
-        public delegate void OptionsOKClickedEventHandler(object sender, OptionsOKClickedEventArgs e);
 
         private bool PluginEnabled
         {
