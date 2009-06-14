@@ -327,6 +327,7 @@ namespace AutoWikiBrowser
             this.chkSkipCaseSensitive = new System.Windows.Forms.CheckBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.chkSkipIfRedirect = new System.Windows.Forms.CheckBox();
+            this.chkSkipIfNoAlerts = new System.Windows.Forms.CheckBox();
             this.chkSkipNoPageLinks = new System.Windows.Forms.CheckBox();
             this.gbPageExisting = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -3118,6 +3119,7 @@ namespace AutoWikiBrowser
             // groupBox8
             // 
             this.groupBox8.Controls.Add(this.chkSkipIfRedirect);
+            this.groupBox8.Controls.Add(this.chkSkipIfNoAlerts);
             this.groupBox8.Controls.Add(this.chkSkipCasing);
             this.groupBox8.Controls.Add(this.chkSkipGeneralFixes);
             this.groupBox8.Controls.Add(this.chkSkipMinorGeneralFixes);
@@ -3136,12 +3138,22 @@ namespace AutoWikiBrowser
             // chkSkipIfRedirect
             // 
             this.chkSkipIfRedirect.AutoSize = true;
-            this.chkSkipIfRedirect.Location = new System.Drawing.Point(3, 157);
+            this.chkSkipIfRedirect.Location = new System.Drawing.Point(6, 157);
             this.chkSkipIfRedirect.Name = "chkSkipIfRedirect";
             this.chkSkipIfRedirect.Size = new System.Drawing.Size(99, 17);
             this.chkSkipIfRedirect.TabIndex = 8;
             this.chkSkipIfRedirect.Text = "Page is redirect";
             this.chkSkipIfRedirect.UseVisualStyleBackColor = true;
+            // 
+            // chkSkipIfNoAlerts
+            // 
+            this.chkSkipIfNoAlerts.AutoSize = true;
+            this.chkSkipIfNoAlerts.Location = new System.Drawing.Point(113, 157);
+            this.chkSkipIfNoAlerts.Name = "chkSkipIfNoAlerts";
+            this.chkSkipIfNoAlerts.Size = new System.Drawing.Size(68, 17);
+            this.chkSkipIfNoAlerts.TabIndex = 9;
+            this.chkSkipIfNoAlerts.Text = "No alerts";
+            this.chkSkipIfNoAlerts.UseVisualStyleBackColor = true;
             // 
             // chkSkipNoPageLinks
             // 
@@ -4510,6 +4522,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator30;
         private System.Windows.Forms.ToolStripMenuItem commentSelectedToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkSkipIfRedirect;
+        private System.Windows.Forms.CheckBox chkSkipIfNoAlerts;
         private System.Windows.Forms.ToolStripMenuItem dontAddToWatchlistToolStripMenuItem;
         private System.Windows.Forms.TabPage tpEditSummary;
         private System.Windows.Forms.TextBox txtReviewEditSummary;
