@@ -748,6 +748,8 @@ namespace WikiFunctions.Parse
         {
             string CharsToTrim = @".;: {}[]|`?\/$’‘-_–=+,";
 
+            derivedName = WikiRegexes.PipedWikiLink.Replace(derivedName, "$2"); // piped wikilinks -> text value
+
             derivedName = Regex.Replace(derivedName, @"(\<\!--.*?--\>|⌊{3,}\d+⌋{3,})", ""); // rm comments from ref name, might be masked
             derivedName = derivedName.Trim(CharsToTrim.ToCharArray());
             derivedName = Regex.Replace(derivedName, @"(''+|[“‘”""\[\]\(\)\<\>⌋⌊])", ""); // remove chars
@@ -827,7 +829,6 @@ namespace WikiFunctions.Parse
                         DerivedReferenceName = CleanDerivedReferenceName(DerivedReferenceName);
                     }
                 }
-
             }
 
             if (ReferenceNameValid(articleText, DerivedReferenceName))
