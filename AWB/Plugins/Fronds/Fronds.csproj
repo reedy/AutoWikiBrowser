@@ -38,10 +38,6 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WikiFunctions, Version=4.5.3.3, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\AWB\WikiFunctions\bin\Debug\WikiFunctions.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fronds.cs" />
@@ -70,6 +66,12 @@
       <DependentUpon>frondsOptions.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\WikiFunctions\WikiFunctions.csproj">
+      <Project>{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}</Project>
+      <Name>WikiFunctions</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -78,4 +80,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>"$(SolutionDir)Copy.exe" "$(TargetDir)$(TargetFileName)" "$(SolutionDir)AWB\$(OutDir)$(TargetFileName)"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
