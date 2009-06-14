@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml;
 using WikiFunctions;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
@@ -56,17 +57,28 @@ namespace Fronds
                     Tools.OpenURLInBrowser("http://en.wikipedia.org/wiki/WP:FRONDS/U");
                 }
             }
-            string html = Tools.GetHTML("http://toolserver.org/~jarry/fronds/index.txt");
-            string[] all = Regex.Split(html, "\r\n");
-            foreach (string item in all)
+            XmlTextReader objXmlTextReader =
+                new XmlTextReader("http://toolserver.org/~jarry/fronds/index.xml");
+            string sName = "";
+            while (objXmlTextReader.Read())
             {
-                if (item.Contains("@#@"))
+                switch (objXmlTextReader.NodeType)
                 {
-                    string[] parts = Regex.Split(item, "@#@");
-                    string filename = parts[0].Trim();
-                    string meta = parts[1].Trim();
-                    possibleFronds.Add(meta + " (" + filename + ")");
-                    possibleFilenames.Add(filename);
+                    case XmlNodeType.Element:
+                        sName = objXmlTextReader.Name;
+                        break;
+                    case XmlNodeType.Text:
+                        string value = objXmlTextReader.Value;
+                        switch (sName)
+                        {
+                            case "name":
+                                possibleFilenames.Add(value);
+                                break;
+                            case "meta":
+                                possibleFronds.Add(value + " (" + possibleFilenames[possibleFilenames.Count - 1] + ")");
+                                break;
+                        }
+                        break;
                 }
             }
         }
