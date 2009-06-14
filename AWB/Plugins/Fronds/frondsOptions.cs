@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 using WikiFunctions;
 
 namespace Fronds
@@ -34,27 +35,41 @@ namespace Fronds
 
         private void btnOptionsOK_Click(object sender, EventArgs e)
         {
-            List<int> indices = new List<int>();
+            // Preserve enabled filenames
             List<string> filenames = new List<string>();
-            foreach (int index in listOptionsFronds.CheckedIndices)
-            {
-                indices.Add(index);
-            }
             foreach (string item in listOptionsFronds.CheckedItems)
             {
                 string filename = item.Substring((item.LastIndexOf("(") + 1), (item.Length - item.LastIndexOf("(") - 2));
                 filenames.Add(filename);
             }
             Fronds.Settings.EnabledFilenames = filenames;
-            OnButtonClicked(new OptionsOKClickedEventArgs(indices));
-            Close();
-        }
-        public event Fronds.OptionsOKClickedEventHandler ButtonClicked;
 
-        // add the event invoker method
-        protected virtual void OnButtonClicked(OptionsOKClickedEventArgs e)
-        {
-            if (ButtonClicked != null) ButtonClicked(this, e);
+            //Loaded selected fronds
+            Fronds.loadedFinds = new List<String>();
+            Fronds.loadedReplaces = new List<String>();
+            Fronds.loadedCases = new List<Boolean>();
+
+            foreach (int index in listOptionsFronds.CheckedIndices)
+            {
+                string html = Tools.GetHTML(("http://toolserver.org/~jarry/fronds/" + Fronds.possibleFilenames[index]));
+                string[] parts = Regex.Split(html, "@#@");
+                foreach (string chunk in parts)
+                {
+                    if (chunk.Contains("Find:"))
+                    {
+                        Fronds.loadedFinds.Add(chunk.Substring(5));
+                    }
+                    else if (chunk.Contains("Replace:"))
+                    {
+                        Fronds.loadedReplaces.Add(chunk.Substring(8));
+                    }
+                    else if (chunk.Contains("CaseSensitive:"))
+                    {
+                        Fronds.loadedCases.Add(chunk.Substring(14).Trim() == "yes");
+                    }
+                }
+            }
+            Close();
         }
 
         private void linkWikipedia_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -67,14 +82,5 @@ namespace Fronds
             Tools.OpenURLInBrowser("http://toolserver.org/~jarry/fronds/");
         }
 
-    }
-    public class OptionsOKClickedEventArgs : EventArgs
-    {
-        List<int> enabledIndices;
-        public List<int> EnabledIndices { get { return enabledIndices; } }
-        public OptionsOKClickedEventArgs(List<int> enabledIndices)
-        {
-            this.enabledIndices = enabledIndices;
-        }
     }
 }
