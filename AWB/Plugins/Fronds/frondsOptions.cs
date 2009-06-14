@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Xml;
 using WikiFunctions;
 
 namespace Fronds
@@ -53,21 +54,31 @@ namespace Fronds
 
             foreach (int index in listOptionsFronds.CheckedIndices)
             {
-                string html = Tools.GetHTML(("http://toolserver.org/~jarry/fronds/" + Fronds.possibleFilenames[index]));
-                string[] parts = Regex.Split(html, "@#@");
-                foreach (string chunk in parts)
+                XmlTextReader objXmlTextReader =
+                      new XmlTextReader("http://toolserver.org/~jarry/fronds/" + Fronds.possibleFilenames[index]);
+                string sName = "";
+                while (objXmlTextReader.Read())
                 {
-                    if (chunk.Contains("Find:"))
+                    switch (objXmlTextReader.NodeType)
                     {
-                        loadedFinds.Add(chunk.Substring(5));
-                    }
-                    else if (chunk.Contains("Replace:"))
-                    {
-                        Fronds.loadedReplaces.Add(chunk.Substring(8));
-                    }
-                    else if (chunk.Contains("CaseSensitive:"))
-                    {
-                        loadedCases.Add(chunk.Substring(14).Trim() == "yes");
+                        case XmlNodeType.Element:
+                            sName = objXmlTextReader.Name;
+                            break;
+                        case XmlNodeType.Text:
+                            string value = objXmlTextReader.Value;
+                            switch (sName)
+                            {
+                                case "find":
+                                    loadedFinds.Add(value);
+                                    break;
+                                case "replace":
+                                    Fronds.loadedReplaces.Add(value);
+                                    break;
+                                case "casesensitive":
+                                    loadedCases.Add(value.ToLower() == "yes");
+                                    break;
+                            }
+                            break;
                     }
                 }
             }
