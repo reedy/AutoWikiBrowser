@@ -275,7 +275,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches &lt;imagemap&gt; tags
         /// </summary>
-        public static readonly Regex ImageMap = new Regex(@"<\s*imagemap\s*>(.*?)<\s*/\s*imagemap\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+        public static readonly Regex ImageMap = new Regex(@"<\s*imagemap\b[^<>]*>(.*?)<\s*/\s*imagemap\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
         /// Matches &lt;noinclude&gt; tags
