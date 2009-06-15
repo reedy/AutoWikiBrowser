@@ -9,7 +9,7 @@ namespace Fronds
 {
     public partial class FrondsOptions : Form
     {
-        public FrondsOptions(List<string> possibleFronds)
+        public FrondsOptions(IEnumerable<string> possibleFronds)
         {
             InitializeComponent();
 
@@ -37,13 +37,11 @@ namespace Fronds
         private void btnOptionsOK_Click(object sender, EventArgs e)
         {
             // Preserve enabled filenames
-            List<string> filenames = new List<string>();
             foreach (string item in listOptionsFronds.CheckedItems)
             {
-                string filename = item.Substring((item.LastIndexOf("(") + 1), (item.Length - item.LastIndexOf("(") - 2));
-                filenames.Add(filename);
+                Fronds.Settings.EnabledFilenames.Add(item.Substring((item.LastIndexOf("(") + 1),
+                                                                    (item.Length - item.LastIndexOf("(") - 2)));
             }
-            Fronds.Settings.EnabledFilenames = filenames;
 
             //Loaded selected fronds
             foreach (int index in listOptionsFronds.CheckedIndices)
