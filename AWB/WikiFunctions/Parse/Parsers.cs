@@ -657,7 +657,9 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly string RefName = @"(?si)<\s*ref\s+name\s*=\s*""";
+        private const string RefName = @"(?si)<\s*ref\s+name\s*=\s*""";
+        private static readonly Regex DuplicateUnnamedRef = new Regex(@"(?s)(<\s*ref\s*>\s*([^<>]+)\s*<\s*/\s*ref>)(.*?)(<\s*ref\s*>\s*\2\s*<\s*/\s*ref>)", RegexOptions.Compiled);
+
         /// <summary>
         /// Derives and sets a reference name per [[WP:REFNAME]] for duplicate &lt;ref&gt;s
         /// </summary>
@@ -670,32 +672,30 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             int j = 0;
-            Regex DuplicateUnnamedRef = new Regex(@"(?s)(<\s*ref\s*>\s*([^<>]+)\s*<\s*/\s*ref>)(.*?)(<\s*ref\s*>\s*\2\s*<\s*/\s*ref>)");
 
             foreach (Match m in DuplicateUnnamedRef.Matches(articleText))
             {
                 string articleTextBefore = articleText;
-                string FriendlyName = "";
-                string Multiref = String.Format(@"multiref{0}", j);
-                string MultirefRefString = m.Groups[2].Value;
+                string multiref = String.Format(@"multiref{0}", j);
+                string multirefRefString = m.Groups[2].Value;
 
                 // ref contains ibid/op cit, don't combine it, could refer to any ref on page
-                if (Regex.IsMatch(MultirefRefString, @"(?is)\b(ibid|op.{1,4}cit)\b"))
+                if (Regex.IsMatch(multirefRefString, @"(?is)\b(ibid|op.{1,4}cit)\b"))
                 {
                     articleText = articleTextBefore;
                     j++;
                     continue;
                 }
 
-                Regex MultirefReplace = new Regex(@"(?s)(<\s*ref\s*>\s*(" + Regex.Escape(MultirefRefString) + @")\s*<\s*/\s*ref>)(.*?)(<\s*ref\s*>\s*\2\s*<\s*/\s*ref>)", RegexOptions.Compiled);
-                articleText = MultirefReplace.Replace(articleText, String.Format(@"<ref name=""multiref{0}"">$2</ref>$3<ref name=""multiref{0}""/>", j));
+                Regex multirefReplace = new Regex(@"(?s)(<\s*ref\s*>\s*(" + Regex.Escape(multirefRefString) + @")\s*<\s*/\s*ref>)(.*?)(<\s*ref\s*>\s*\2\s*<\s*/\s*ref>)", RegexOptions.Compiled);
+                articleText = multirefReplace.Replace(articleText, String.Format(@"<ref name=""multiref{0}"">$2</ref>$3<ref name=""multiref{0}""/>", j));
 
                 // get the reference name to use
-                FriendlyName = DeriveReferenceName(articleText, MultirefRefString);
+                string friendlyName = DeriveReferenceName(articleText, multirefRefString);
 
                 // check reference name not already in use for some other reference
-                if (FriendlyName.Length > 3 && !Regex.IsMatch(articleText, RefName + Regex.Escape(FriendlyName) + @"""\s*/?\s*>"))
-                    articleText = Regex.Replace(articleText, @"(?si)(<ref name="")" + Multiref + @"(""/?>)", @"${1}" + FriendlyName + @"${2}");
+                if (friendlyName.Length > 3 && !Regex.IsMatch(articleText, RefName + Regex.Escape(friendlyName) + @"""\s*/?\s*>"))
+                    articleText = Regex.Replace(articleText, @"(?si)(<ref name="")" + multiref + @"(""/?>)", @"${1}" + friendlyName + @"${2}");
                 else
                 // either derived reference name too short, or already in use
                 {
@@ -719,25 +719,27 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private static string ExtractReferenceNameComponents(string reference, string mask, int components)
         {
-            string ReferenceName = "";
+            string referenceName = "";
 
-            Regex ReferenceNameMask = new Regex(mask);
+            Regex referenceNameMask = new Regex(mask);
             
-            if (ReferenceNameMask.Matches(reference).Count > 0)
+            if (referenceNameMask.Matches(reference).Count > 0)
             {
-                Match m = ReferenceNameMask.Match(reference);
+                Match m = referenceNameMask.Match(reference);
                 
-                ReferenceName = m.Groups[1].Value;
+                referenceName = m.Groups[1].Value;
 
                 if (components > 1)
-                    ReferenceName += " " + m.Groups[2].Value;
+                    referenceName += " " + m.Groups[2].Value;
 
                 if (components > 2)
-                    ReferenceName += " " + m.Groups[3].Value;
+                    referenceName += " " + m.Groups[3].Value;
             }
 
-            return CleanDerivedReferenceName(ReferenceName);
+            return CleanDerivedReferenceName(referenceName);
         }
+
+        private const string CharsToTrim = @".;: {}[]|`?\/$’‘-_–=+,";
 
         /// <summary>
         /// Removes various unwanted punctuation and comment characters from a derived reference name
@@ -746,21 +748,23 @@ namespace WikiFunctions.Parse
         /// <returns>the cleaned reference name</returns>
         private static string CleanDerivedReferenceName(string derivedName)
         {
-            string CharsToTrim = @".;: {}[]|`?\/$’‘-_–=+,";
-
             derivedName = WikiRegexes.PipedWikiLink.Replace(derivedName, "$2"); // piped wikilinks -> text value
 
-            derivedName = Regex.Replace(derivedName, @"(\<\!--.*?--\>|⌊{3,}\d+⌋{3,})", ""); // rm comments from ref name, might be masked
+            derivedName = Regex.Replace(derivedName, @"(\<\!--.*?--\>|⌊{3,}\d+⌋{3,})", "");
+                // rm comments from ref name, might be masked
             derivedName = derivedName.Trim(CharsToTrim.ToCharArray());
             derivedName = Regex.Replace(derivedName, @"(''+|[“‘”""\[\]\(\)\<\>⌋⌊])", ""); // remove chars
             derivedName = Regex.Replace(derivedName, @"(\s{2,}|&nbsp;|\t|\n)", " "); // spacing fixes
             derivedName = derivedName.Replace(@"&ndash;", "–");
 
-            if (Regex.IsMatch(derivedName, @"(?im)(\s*(date\s+)?(retrieved|accessed)\b|^\d+$)")) // don't allow friendly name to be 'retrieved on...' or just a number
-                return ("");
-
-            return derivedName;
+            return Regex.IsMatch(derivedName, @"(?im)(\s*(date\s+)?(retrieved|accessed)\b|^\d+$)") ? "" : derivedName;
         }
+
+        private const string NameMask = @"(?-i)\s*(?:sir)?\s*((?:[A-Z]+\.?){0,3}\s*[A-Z][\w-']{2,}[,\.]?\s*(?:\s+\w\.?|\b(?:[A-Z]+\.?){0,3})?(?:\s+[A-Z][\w-']{2,}){0,3}(?:\s+\w(?:\.?|\b)){0,2})\s*(?:[,\.'&;:\[\(“`]|et\s+al)(?i)[^{}<>\n]*?";
+        private const string YearMask = @"(\([12]\d{3}\)|\b[12]\d{3}[,\.\)])";
+        private const string PageMask = @"('*(?:p+g?|pages?)'*\.?'*(?:&nbsp;)?\s*(?:\d{1,3}|(?-i)[XVICM]+(?i))\.?(?:\s*[-/&\.,]\s*(?:\d{1,3}|(?-i)[XVICM]+(?i)))?\b)";
+
+        private static readonly Regex CitationCiteBook = new Regex(@"{{[Cc]it[ae]((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})");
 
         /// <summary>
         /// Derives a name for a reference by searching for author names and dates, or website base URL etc.
@@ -770,138 +774,131 @@ namespace WikiFunctions.Parse
         /// <returns>the derived reference name, or null if none could be determined</returns>
         public static string DeriveReferenceName(string articleText, string reference)
         {
-            string DerivedReferenceName = "";
-            const string NameMask = @"(?-i)\s*(?:sir)?\s*((?:[A-Z]+\.?){0,3}\s*[A-Z][\w-']{2,}[,\.]?\s*(?:\s+\w\.?|\b(?:[A-Z]+\.?){0,3})?(?:\s+[A-Z][\w-']{2,}){0,3}(?:\s+\w(?:\.?|\b)){0,2})\s*(?:[,\.'&;:\[\(“`]|et\s+al)(?i)[^{}<>\n]*?";
-            const string YearMask = @"(\([12]\d{3}\)|\b[12]\d{3}[,\.\)])";
-            const string PageMask = @"('*(?:p+g?|pages?)'*\.?'*(?:&nbsp;)?\s*(?:\d{1,3}|(?-i)[XVICM]+(?i))\.?(?:\s*[-/&\.,]\s*(?:\d{1,3}|(?-i)[XVICM]+(?i)))?\b)";
+            string derivedReferenceName = "";
 
             // try parameters from a citation: lastname, year and page
-            Regex CitationCiteBook = new Regex(@"{{[Cc]it[ae]((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})");
+            string citationTemplate = CitationCiteBook.Match(reference).Value;
 
-            string CitationTemplate = CitationCiteBook.Match(reference).Value;
-
-            if (CitationTemplate.Length > 10)
+            if (citationTemplate.Length > 10)
             {
-                string Last = Regex.Match(reference, @"(?<=\s*last\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
+                string last = Regex.Match(reference, @"(?<=\s*last\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
 
-                if (Last.Length < 1)
+                if (last.Length < 1)
                 {
-                    Last = Regex.Match(reference, @"(?<=\s*author(?:link)?\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
+                    last = Regex.Match(reference, @"(?<=\s*author(?:link)?\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
                 }
 
-                if (Last.Length > 1)
+                if (last.Length > 1)
                 {
-                    DerivedReferenceName = Last;
-                    string Year = Regex.Match(reference, @"(?<=\s*year\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
+                    derivedReferenceName = last;
+                    string year = Regex.Match(reference, @"(?<=\s*year\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
 
-                    string Pages = Regex.Match(reference, @"(?<=\s*pages?\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
+                    string pages = Regex.Match(reference, @"(?<=\s*pages?\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
 
-                    if (Year.Length > 3)
-                        DerivedReferenceName += " " + Year;
+                    if (year.Length > 3)
+                        derivedReferenceName += " " + year;
                     else
                     {
                         string date = Regex.Match(reference, @"(?<=\s*date\s*=\s*)(\d{4})(?=\s*(?:\||}}))").Value.Trim();
 
                         if (date.Length > 3)
-                            DerivedReferenceName += " " + date;
+                            derivedReferenceName += " " + date;
                     }
 
-                    if (Pages.Length > 0)
-                        DerivedReferenceName += " " + Pages;
+                    if (pages.Length > 0)
+                        derivedReferenceName += " " + pages;
 
-                    DerivedReferenceName = CleanDerivedReferenceName(DerivedReferenceName);
+                    derivedReferenceName = CleanDerivedReferenceName(derivedReferenceName);
                 }
                 // otherwise try title
                 else
                 {
-                    string Title = Regex.Match(reference, @"(?<=\s*title\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
+                    string title = Regex.Match(reference, @"(?<=\s*title\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
 
-                    if (Title.Length > 3 && Title.Length < 35)
-                        DerivedReferenceName = Title;
-                    DerivedReferenceName = CleanDerivedReferenceName(DerivedReferenceName);
+                    if (title.Length > 3 && title.Length < 35)
+                        derivedReferenceName = title;
+                    derivedReferenceName = CleanDerivedReferenceName(derivedReferenceName);
 
                     // try publisher
-                    if (DerivedReferenceName.Length < 4)
+                    if (derivedReferenceName.Length < 4)
                     {
-                        Title = Regex.Match(reference, @"(?<=\s*publisher\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
+                        title = Regex.Match(reference, @"(?<=\s*publisher\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
 
-                        if (Title.Length > 3 && Title.Length < 35)
-                            DerivedReferenceName = Title;
-                        DerivedReferenceName = CleanDerivedReferenceName(DerivedReferenceName);
+                        if (title.Length > 3 && title.Length < 35)
+                            derivedReferenceName = title;
+                        derivedReferenceName = CleanDerivedReferenceName(derivedReferenceName);
                     }
                 }
             }
 
-            if (ReferenceNameValid(articleText, DerivedReferenceName))
-                return DerivedReferenceName;
+            if (ReferenceNameValid(articleText, derivedReferenceName))
+                return derivedReferenceName;
 
             // try description of a simple external link
-            DerivedReferenceName = ExtractReferenceNameComponents(reference, @"\s*[^{}<>\n]*?\s*\[*(?:http://www\.|http://|www\.)[^\[\]<>""\s]+?\s+([^{}<>\[\]]{4,35}?)\s*(?:\]|<!--|⌊⌊⌊⌊)", 1);
+            derivedReferenceName = ExtractReferenceNameComponents(reference, @"\s*[^{}<>\n]*?\s*\[*(?:http://www\.|http://|www\.)[^\[\]<>""\s]+?\s+([^{}<>\[\]]{4,35}?)\s*(?:\]|<!--|⌊⌊⌊⌊)", 1);
 
-            if (ReferenceNameValid(articleText, DerivedReferenceName))
-                return DerivedReferenceName;
+            if (ReferenceNameValid(articleText, derivedReferenceName))
+                return derivedReferenceName;
 
             // website URL first, allowing a name before link
-            DerivedReferenceName = ExtractReferenceNameComponents(reference, @"\s*\w*?[^{}<>]{0,4}?\s*(?:\[?|\{\{\s*cit[^{}<>]*\|\s*url\s*=\s*)\s*(?:http://www\.|http://|www\.)([^\[\]<>""\s\/:]+)", 1);
+            derivedReferenceName = ExtractReferenceNameComponents(reference, @"\s*\w*?[^{}<>]{0,4}?\s*(?:\[?|\{\{\s*cit[^{}<>]*\|\s*url\s*=\s*)\s*(?:http://www\.|http://|www\.)([^\[\]<>""\s\/:]+)", 1);
 
-            if (ReferenceNameValid(articleText, DerivedReferenceName))
-                return DerivedReferenceName;
+            if (ReferenceNameValid(articleText, derivedReferenceName))
+                return derivedReferenceName;
 
             // Harvnb template {{Harvnb|Young|1852|p=50}}
-            DerivedReferenceName = ExtractReferenceNameComponents(reference, @"\s*{{[Hh]arv(?:nb)?\s*\|\s*([^{}\|]+?)\s*\|\s*(\d{4})\s*\|\s*([^{}\|]+?)\s*}}\s*", 3);
+            derivedReferenceName = ExtractReferenceNameComponents(reference, @"\s*{{[Hh]arv(?:nb)?\s*\|\s*([^{}\|]+?)\s*\|\s*(\d{4})\s*\|\s*([^{}\|]+?)\s*}}\s*", 3);
 
-            if (ReferenceNameValid(articleText, DerivedReferenceName))
-                return DerivedReferenceName;
+            if (ReferenceNameValid(articleText, derivedReferenceName))
+                return derivedReferenceName;
 
             // now just try to use the whole reference if it's short (<35 characters)
             if(reference.Length < 35)
-                DerivedReferenceName = ExtractReferenceNameComponents(reference, @"\s*([^<>{}]{4,35})\s*", 1);
+                derivedReferenceName = ExtractReferenceNameComponents(reference, @"\s*([^<>{}]{4,35})\s*", 1);
 
-            if (ReferenceNameValid(articleText, DerivedReferenceName))
-                return DerivedReferenceName;
+            if (ReferenceNameValid(articleText, derivedReferenceName))
+                return derivedReferenceName;
 
             //now try title of a citation
-            DerivedReferenceName = ExtractReferenceNameComponents(reference, @"\s*\{\{\s*cit[^{}<>]*\|\s*url\s*=\s*([^\/<>{}\|]{4,35})", 1);
+            derivedReferenceName = ExtractReferenceNameComponents(reference, @"\s*\{\{\s*cit[^{}<>]*\|\s*url\s*=\s*([^\/<>{}\|]{4,35})", 1);
 
-            if (ReferenceNameValid(articleText, DerivedReferenceName))
-                return DerivedReferenceName;
+            if (ReferenceNameValid(articleText, derivedReferenceName))
+                return derivedReferenceName;
 
             // name...year...page
-            DerivedReferenceName = ExtractReferenceNameComponents(reference, NameMask + YearMask + @"[^{}<>\n]*?" + PageMask + @"\s*", 3);
+            derivedReferenceName = ExtractReferenceNameComponents(reference, NameMask + YearMask + @"[^{}<>\n]*?" + PageMask + @"\s*", 3);
 
-            if (ReferenceNameValid(articleText, DerivedReferenceName))
-                return DerivedReferenceName;
+            if (ReferenceNameValid(articleText, derivedReferenceName))
+                return derivedReferenceName;
 
             // name...page
-            DerivedReferenceName = ExtractReferenceNameComponents(reference, NameMask + PageMask + @"\s*", 2);
+            derivedReferenceName = ExtractReferenceNameComponents(reference, NameMask + PageMask + @"\s*", 2);
 
-            if(ReferenceNameValid(articleText, DerivedReferenceName))
-                return DerivedReferenceName;
+            if(ReferenceNameValid(articleText, derivedReferenceName))
+                return derivedReferenceName;
 
             // name...year
-            DerivedReferenceName = ExtractReferenceNameComponents(reference, NameMask + YearMask + @"\s*", 2);
+            derivedReferenceName = ExtractReferenceNameComponents(reference, NameMask + YearMask + @"\s*", 2);
 
-            if (ReferenceNameValid(articleText, DerivedReferenceName))
-                return DerivedReferenceName;
-
-            // generic ReferenceA
-            DerivedReferenceName = @"ReferenceA";
-
-            if (ReferenceNameValid(articleText, DerivedReferenceName))
-                return DerivedReferenceName;
+            if (ReferenceNameValid(articleText, derivedReferenceName))
+                return derivedReferenceName;
 
             // generic ReferenceA
-            DerivedReferenceName = @"ReferenceB";
+            derivedReferenceName = @"ReferenceA";
 
-            if (ReferenceNameValid(articleText, DerivedReferenceName))
-                return DerivedReferenceName;
+            if (ReferenceNameValid(articleText, derivedReferenceName))
+                return derivedReferenceName;
 
             // generic ReferenceA
-            DerivedReferenceName = @"ReferenceC";
+            derivedReferenceName = @"ReferenceB";
 
-            if (ReferenceNameValid(articleText, DerivedReferenceName))
-                return DerivedReferenceName;
-            else return "";
+            if (ReferenceNameValid(articleText, derivedReferenceName))
+                return derivedReferenceName;
+
+            // generic ReferenceA
+            derivedReferenceName = @"ReferenceC";
+
+            return ReferenceNameValid(articleText, derivedReferenceName) ? derivedReferenceName : "";
         }
 
         private static bool ReferenceNameValid(string articleText, string derivedReferenceName)
@@ -2459,7 +2456,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#If_a_selflink_is_also_bolded.2C_AWB_should_just_remove_the_selflink
             
             string escTitle = Regex.Escape(articleTitle);
-            string escTitleNoBrackets = Regex.Escape(Regex.Replace(articleTitle, @" \(.*?\)$", ""));
+            //string escTitleNoBrackets = Regex.Escape(Regex.Replace(articleTitle, @" \(.*?\)$", ""));
 
             Regex r1 = new Regex(@"'''\[\[\s*" + escTitle + @"\s*\]\]'''");
             Regex r2 = new Regex(@"'''\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]'''");
@@ -2782,7 +2779,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return SortMetaData(articleText, articleTitle); //Sort metadata ordering so general fixes dont need to be enabled
         }
 
-                // Covered by: RecategorizerTests.Replacement()
+        // Covered by: RecategorizerTests.Replacement()
         /// <summary>
         /// Re-categorises the article.
         /// </summary>
@@ -2901,16 +2898,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static string GetCategorySort(string articleText)
         {
             int matches;
-            string dummy = @"@@@@";
+            const string dummy = @"@@@@";
 
             string sort = GetCategorySort(articleText, dummy, out matches);
 
-            matches++; // keeps the compiler happy
-
-            if (sort.Equals(dummy))
-                return "";
-            else
-                return sort;
+            return sort.Equals(dummy) ? "" : sort;
         }
 
         /// <summary>
@@ -2944,7 +2936,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             }
             if (allsame && matches > 0)
                 return sort;
-            else return "";
+            return "";
         }
 
         // Covered by: UtilityFunctionTests.ChangeToDefaultSort()
@@ -2962,10 +2954,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             noChange = true;
 
             // count categories
-            string sort = null;
-            int matches = 0;
+            int matches;
 
-            sort = GetCategorySort(articleText, articleTitle, out matches);
+            string sort = GetCategorySort(articleText, articleTitle, out matches);
 
             // clean diacritics from any lifetime template
             if (WikiRegexes.Lifetime.Matches(articleText).Count == 1)
@@ -2991,9 +2982,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                         allsame2 = true;
                     }
                     else
-                        if (m.Value == lastvalue)
-                            allsame2 = true;
-                        else allsame2 = false;
+                        allsame2 = (m.Value == lastvalue);
                 }
                 if (allsame2)
                     articleText = WikiRegexes.Defaultsort.Replace(articleText, "", ds.Count-1);
@@ -3261,7 +3250,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             zerothSection = WikiRegexes.Refs.Replace(zerothSection, " ");
             zerothSection = Regex.Replace(zerothSection, @"\[\[[^\[\]]{11,}\]\]", " ");
 
-            string yearstring = "";
+            string yearstring;
 
             string sort = GetCategorySort(articleText);
 
@@ -3810,7 +3799,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static bool HasRefAfterReflist(string articleText)
         {
             articleText = WikiRegexes.Comments.Replace(articleText, "");
-            return (WikiRegexes.RefAfterReflist.IsMatch(articleText) && WikiRegexes.ReferencesTemplate.Matches(articleText).Count == 1);
+            return (WikiRegexes.RefAfterReflist.IsMatch(articleText) &&
+                    WikiRegexes.ReferencesTemplate.Matches(articleText).Count == 1);
         }
 
         /// <summary>
@@ -3823,18 +3813,16 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             int referencesIndex = Regex.Match(articleText, @"== *References *==", RegexOptions.IgnoreCase).Index;
 
-            int externalLinksIndex = Regex.Match(articleText, @"== *External +links? *==", RegexOptions.IgnoreCase).Index;
-
-            string refsArea = "";
-
             if (referencesIndex < 2)
                 return false;
 
+            int externalLinksIndex =
+                Regex.Match(articleText, @"== *External +links? *==", RegexOptions.IgnoreCase).Index;
+
             // get the references section: to external links or end of article, whichever is earlier
-            if (externalLinksIndex > referencesIndex)
-                refsArea = articleText.Substring(referencesIndex, (externalLinksIndex - referencesIndex));
-            else
-                refsArea = articleText.Substring(referencesIndex);
+            string refsArea = externalLinksIndex > referencesIndex
+                           ? articleText.Substring(referencesIndex, (externalLinksIndex - referencesIndex))
+                           : articleText.Substring(referencesIndex);
 
             return (WikiRegexes.BareExternalLink.IsMatch(refsArea));
         }

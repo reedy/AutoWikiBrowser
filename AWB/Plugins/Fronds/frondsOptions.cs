@@ -13,7 +13,7 @@ namespace Fronds
         {
             InitializeComponent();
 
-            //Also very inefficient, but does work.
+            //Inefficient, but does work..
             foreach (string text in possibleFronds)
             {
                 bool checkme = false;
