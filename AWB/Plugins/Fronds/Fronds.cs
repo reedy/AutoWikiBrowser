@@ -66,6 +66,9 @@ namespace Fronds
 
             foreach (XmlNode xn in xd["fronds"].GetElementsByTagName("frond"))
             {
+                if (xn.ChildNodes.Count != 2)
+                    continue;
+
                 PossibleFilenames.Add(xn.ChildNodes[0].InnerText);
                 PossibleFronds.Add(xn.ChildNodes[1].InnerText + " (" + xn.ChildNodes[0].InnerText + ")");
             }
