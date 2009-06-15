@@ -942,8 +942,8 @@ namespace WikiFunctions
             AWBChangeArticleText("FixReferenceTags", Parsers.FixReferenceTags(ArticleText), true);
             Variables.Profiler.Profile("FixReferenceTags");
 
-            //AWBChangeArticleText("DuplicateUnnamedReferences", Parsers.DuplicateUnnamedReferences(ArticleText), true);
-            //Variables.Profiler.Profile("DuplicateUnnamedReferences");
+            AWBChangeArticleText("DuplicateUnnamedReferences", Parsers.DuplicateUnnamedReferences(ArticleText), true);
+            Variables.Profiler.Profile("DuplicateUnnamedReferences");
 
             AWBChangeArticleText("DuplicateNamedReferences", Parsers.DuplicateNamedReferences(ArticleText), true);
             Variables.Profiler.Profile("DuplicateNamedReferences");
