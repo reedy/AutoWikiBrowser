@@ -24,6 +24,8 @@ namespace Fronds
 
         internal static readonly List<Frond> Replacements = new List<Frond>();
 
+        internal const string BaseURL = "http://toolserver.org/~jarry/fronds/";
+
         public void Initialise(IAutoWikiBrowser sender)
         {
             if (sender == null)
@@ -44,7 +46,7 @@ namespace Fronds
             AWB.PluginsToolStripMenuItem.DropDownItems.Add(EnabledMenuItem);
             AWB.HelpToolStripMenuItem.DropDownItems.Add(AboutMenuItem);
 
-            string newVersion = Tools.GetHTML("http://toolserver.org/~jarry/fronds/version.txt").Replace(".", "");
+            string newVersion = Tools.GetHTML(BaseURL + "version.txt").Replace(".", "");
             if (Int16.Parse(newVersion) > Int16.Parse(CurrentVersion.Replace(".", "")))
             {
                 DialogResult result = MessageBox.Show(
@@ -57,7 +59,7 @@ namespace Fronds
             }
 
             XmlTextReader objXmlTextReader =
-                new XmlTextReader("http://toolserver.org/~jarry/fronds/index.xml");
+                new XmlTextReader(BaseURL + "index.xml");
             string sName = "";
             while (objXmlTextReader.Read())
             {

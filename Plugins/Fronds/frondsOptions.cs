@@ -47,7 +47,7 @@ namespace Fronds
             foreach (int index in listOptionsFronds.CheckedIndices)
             {
                 XmlTextReader objXmlTextReader =
-                    new XmlTextReader("http://toolserver.org/~jarry/fronds/" + Fronds.PossibleFilenames[index]);
+                    new XmlTextReader(Fronds.BaseURL + Fronds.PossibleFilenames[index]);
                 string sName = "";
 
                 string find = "", replace = "", caseSensitive = "";
@@ -97,7 +97,7 @@ namespace Fronds
 
         private void linkToolserver_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Tools.OpenURLInBrowser("http://toolserver.org/~jarry/fronds/");
+            Tools.OpenURLInBrowser(Fronds.BaseURL);
         }
     }
 }
