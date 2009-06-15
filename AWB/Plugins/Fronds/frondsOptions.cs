@@ -9,24 +9,24 @@ namespace Fronds
 {
     public partial class FrondsOptions : Form
     {
-        public FrondsOptions()
+        public FrondsOptions(List<string> possibleFronds)
         {
             InitializeComponent();
-        }
 
-        public void AddOption(string text)
-        {
             //Also very inefficient, but does work.
-            bool checkme = false;
-            foreach (string filename in Fronds.Settings.EnabledFilenames)
+            foreach (string text in possibleFronds)
             {
-                if (text.Contains(filename))
+                bool checkme = false;
+                foreach (string filename in Fronds.Settings.EnabledFilenames)
                 {
-                    checkme = true;
-                    break;
+                    if (text.Contains(filename))
+                    {
+                        checkme = true;
+                        break;
+                    }
                 }
+                listOptionsFronds.Items.Add(text, checkme);
             }
-            listOptionsFronds.Items.Add(text, checkme);
         }
 
         private void btnOptionsCancel_Click(object sender, EventArgs e)
