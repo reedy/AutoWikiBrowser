@@ -72,6 +72,8 @@ namespace Fronds
                 PossibleFilenames.Add(xn.ChildNodes[0].InnerText);
                 PossibleFronds.Add(xn.ChildNodes[1].InnerText + " (" + xn.ChildNodes[0].InnerText + ")");
             }
+
+            //TODO:We should probably load enabled Fronds when the plugin is enabled... (Probably in LoadSettings)
         }
 
         public string ProcessArticle(IAutoWikiBrowser sender, IProcessArticleEventArgs eventargs)
