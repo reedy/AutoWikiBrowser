@@ -49,10 +49,10 @@ namespace Fronds
             foreach (int index in listOptionsFronds.CheckedIndices)
             {
                 XmlTextReader objXmlTextReader =
-                      new XmlTextReader("http://toolserver.org/~jarry/fronds/" + Fronds.PossibleFilenames[index]);
+                    new XmlTextReader("http://toolserver.org/~jarry/fronds/" + Fronds.PossibleFilenames[index]);
                 string sName = "";
 
-                string f = "", r = "", c = "";
+                string find = "", replace = "", caseSensitive = "";
                 while (objXmlTextReader.Read())
                 {
                     switch (objXmlTextReader.NodeType)
@@ -65,29 +65,28 @@ namespace Fronds
                             switch (sName)
                             {
                                 case "find":
-                                    f = value;
+                                    find = value;
                                     break;
                                 case "replace":
-                                    r = value;
+                                    replace = value;
                                     break;
                                 case "casesensitive":
-                                    c = value.ToLower();
+                                    caseSensitive = value.ToLower();
                                     break;
                             }
                             break;
                     }
 
-                    if (!string.IsNullOrEmpty(f) && !string.IsNullOrEmpty(r) && !string.IsNullOrEmpty(c))
-                    {
-                        Fronds.Replacements.Add(new Frond(f,
-                                                          (c.ToLower() == "yes")
-                                                              ? RegexOptions.None
-                                                              : RegexOptions.IgnoreCase, r));
+                    if (string.IsNullOrEmpty(find) || string.IsNullOrEmpty(replace) || string.IsNullOrEmpty(caseSensitive)) continue;
 
-                        f = "";
-                        r = "";
-                        c = "";
-                    }
+                    Fronds.Replacements.Add(new Frond(find,
+                                                      (caseSensitive.ToLower() == "yes")
+                                                          ? RegexOptions.None
+                                                          : RegexOptions.IgnoreCase, replace));
+
+                    find = "";
+                    replace = "";
+                    caseSensitive = "";
                 }
             }
             Close();

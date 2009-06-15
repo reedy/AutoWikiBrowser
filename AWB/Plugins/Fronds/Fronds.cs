@@ -44,7 +44,7 @@ namespace Fronds
             AWB.PluginsToolStripMenuItem.DropDownItems.Add(EnabledMenuItem);
             AWB.HelpToolStripMenuItem.DropDownItems.Add(AboutMenuItem);
 
-            string newVersion = Tools.GetHTML("http://toolserver.org/~jarry/fronds/version.txt").Replace(".","");
+            string newVersion = Tools.GetHTML("http://toolserver.org/~jarry/fronds/version.txt").Replace(".", "");
             if (Int16.Parse(newVersion) > Int16.Parse(CurrentVersion.Replace(".", "")))
             {
                 DialogResult result = MessageBox.Show(
@@ -154,7 +154,7 @@ namespace Fronds
 
         private static void ShowSettings(object sender, EventArgs e)
         {
-            new FrondsOptions(PossibleFronds).Show();
+            new FrondsOptions(PossibleFronds).Show(); //TODO: We can probably reuse the instance and just update the enabled state
         }
 
         private bool PluginEnabled
