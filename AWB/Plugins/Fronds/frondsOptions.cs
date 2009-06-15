@@ -9,12 +9,12 @@ namespace Fronds
 {
     public partial class FrondsOptions : Form
     {
-        public FrondsOptions()
+        public FrondsOptions(IEnumerable<string> possibleFronds)
         {
             InitializeComponent();
 
             //Also very inefficient, but does work.
-            foreach (string text in Fronds.Possibles.Keys)
+            foreach (string text in possibleFronds)
             {
                 bool checkme = false;
                 foreach (string filename in Fronds.Settings.EnabledFilenames)

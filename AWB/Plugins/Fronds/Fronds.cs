@@ -18,11 +18,9 @@ namespace Fronds
         private static IAutoWikiBrowser AWB;
         internal static FrondsSettings Settings = new FrondsSettings();
         internal static readonly string CurrentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        
         internal static readonly List<string> PossibleFilenames = new List<string>();
-        private static readonly List<string> PossibleFronds = new List<string>();
 
-        internal static readonly Dictionary<string, string> Possibles = new Dictionary<string, string>();
+        private static readonly List<string> PossibleFronds = new List<string>();
 
         internal static readonly List<Frond> Replacements = new List<Frond>();
 
@@ -71,7 +69,8 @@ namespace Fronds
                 if (xn.ChildNodes.Count != 2)
                     continue;
 
-                Possibles.Add(xn.ChildNodes[0].InnerText, xn.ChildNodes[1].InnerText);
+                PossibleFilenames.Add(xn.ChildNodes[0].InnerText);
+                PossibleFronds.Add(xn.ChildNodes[1].InnerText + " (" + xn.ChildNodes[0].InnerText + ")");
             }
 
             //TODO:We should probably load enabled Fronds when the plugin is enabled... (Probably in LoadSettings)
@@ -148,7 +147,7 @@ namespace Fronds
 
         private static void ShowSettings(object sender, EventArgs e)
         {
-            new FrondsOptions().Show(); //TODO: We can probably reuse the instance and just update the enabled state
+            new FrondsOptions(PossibleFronds).Show(); //TODO: We can probably reuse the instance and just update the enabled state
         }
 
         private bool PluginEnabled
