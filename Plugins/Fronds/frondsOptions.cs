@@ -46,17 +46,13 @@ namespace Fronds
             Fronds.Settings.EnabledFilenames = filenames;
 
             //Loaded selected fronds
-            //TODO: don't wipe and start again; just add/remove.
-            List<String> loadedFinds = new List<String>();
-            List<Boolean> loadedCases = new List<Boolean>();
-            Fronds.loadedReplaces = new List<String>();
-            Fronds.loadedRegexes = new List<Regex>();
-
             foreach (int index in listOptionsFronds.CheckedIndices)
             {
                 XmlTextReader objXmlTextReader =
-                      new XmlTextReader("http://toolserver.org/~jarry/fronds/" + Fronds.possibleFilenames[index]);
+                      new XmlTextReader("http://toolserver.org/~jarry/fronds/" + Fronds.PossibleFilenames[index]);
                 string sName = "";
+
+                string f = "", r = "", c = "";
                 while (objXmlTextReader.Read())
                 {
                     switch (objXmlTextReader.NodeType)
@@ -69,24 +65,30 @@ namespace Fronds
                             switch (sName)
                             {
                                 case "find":
-                                    loadedFinds.Add(value);
+                                    f = value;
                                     break;
                                 case "replace":
-                                    Fronds.loadedReplaces.Add(value);
+                                    r = value;
                                     break;
                                 case "casesensitive":
-                                    loadedCases.Add(value.ToLower() == "yes");
+                                    c = value.ToLower();
                                     break;
                             }
                             break;
                     }
+
+                    if (!string.IsNullOrEmpty(f) && !string.IsNullOrEmpty(r) && !string.IsNullOrEmpty(c))
+                    {
+                        Fronds.Replacements.Add(new Frond(f,
+                                                          (c.ToLower() == "yes")
+                                                              ? RegexOptions.None
+                                                              : RegexOptions.IgnoreCase, r));
+
+                        f = "";
+                        r = "";
+                        c = "";
+                    }
                 }
-            }
-            for (int i = 0; i < loadedFinds.Count; i++)
-            {
-                Regex re = new Regex(loadedFinds[i],
-                    loadedCases[i] ? RegexOptions.None : RegexOptions.IgnoreCase | RegexOptions.Compiled);
-                Fronds.loadedRegexes.Add(re);
             }
             Close();
         }
@@ -100,6 +102,5 @@ namespace Fronds
         {
             Tools.OpenURLInBrowser("http://toolserver.org/~jarry/fronds/");
         }
-
     }
 }

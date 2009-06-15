@@ -2,7 +2,6 @@
 using System.Xml;
 using WikiFunctions;
 using System.Windows.Forms;
-using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using WikiFunctions.Plugin;
 using WikiFunctions.AWBSettings;
@@ -11,19 +10,19 @@ namespace Fronds
 {
     public class Fronds : IAWBPlugin
     {
-        private readonly ToolStripMenuItem enabledMenuItem = new ToolStripMenuItem("Fronds plugin");
-        private readonly ToolStripMenuItem configMenuItem = new ToolStripMenuItem("Configuration");
-        private readonly ToolStripMenuItem pluginAboutMenuItem = new ToolStripMenuItem("About");
-        private readonly ToolStripMenuItem aboutMenuItem = new ToolStripMenuItem("About Fronds");
+        private readonly ToolStripMenuItem EnabledMenuItem = new ToolStripMenuItem("Fronds plugin");
+        private readonly ToolStripMenuItem ConfigMenuItem = new ToolStripMenuItem("Configuration");
+        private readonly ToolStripMenuItem PluginAboutMenuItem = new ToolStripMenuItem("About");
+        private readonly ToolStripMenuItem AboutMenuItem = new ToolStripMenuItem("About Fronds");
 
         internal static IAutoWikiBrowser AWB;
         internal static FrondsSettings Settings = new FrondsSettings();
-        internal static String currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        internal static List<String> possibleFilenames = new List<String>();
-        internal static List<Regex> loadedRegexes = new List<Regex>();
-        internal static List<String> loadedReplaces = new List<String>();
+        internal static String CurrentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        internal static List<String> PossibleFilenames = new List<String>();
 
-        private static List<String> possibleFronds = new List<String>();
+        private static readonly List<String> PossibleFronds = new List<String>();
+
+        internal static readonly List<Frond> Replacements = new List<Frond>();
 
         public void Initialise(IAutoWikiBrowser sender)
         {
@@ -32,22 +31,22 @@ namespace Fronds
             AWB = sender;
 
             // Menuitem should be checked when Fronds plugin is active and unchecked when not, and default to not!
-            enabledMenuItem.CheckOnClick = true;
+            EnabledMenuItem.CheckOnClick = true;
             PluginEnabled = Settings.Enabled;
 
-            configMenuItem.Click += ShowSettings;
-            enabledMenuItem.CheckedChanged += PluginEnabledCheckedChange;
-            aboutMenuItem.Click += AboutMenuItemClicked;
-            pluginAboutMenuItem.Click += AboutMenuItemClicked;
-            enabledMenuItem.DropDownItems.Add(configMenuItem);
-            enabledMenuItem.DropDownItems.Add(pluginAboutMenuItem);
+            ConfigMenuItem.Click += ShowSettings;
+            EnabledMenuItem.CheckedChanged += PluginEnabledCheckedChange;
+            AboutMenuItem.Click += AboutMenuItemClicked;
+            PluginAboutMenuItem.Click += AboutMenuItemClicked;
+            EnabledMenuItem.DropDownItems.Add(ConfigMenuItem);
+            EnabledMenuItem.DropDownItems.Add(PluginAboutMenuItem);
 
 
-            AWB.PluginsToolStripMenuItem.DropDownItems.Add(enabledMenuItem);
-            AWB.HelpToolStripMenuItem.DropDownItems.Add(aboutMenuItem);
+            AWB.PluginsToolStripMenuItem.DropDownItems.Add(EnabledMenuItem);
+            AWB.HelpToolStripMenuItem.DropDownItems.Add(AboutMenuItem);
 
             string newVersion = Tools.GetHTML("http://toolserver.org/~jarry/fronds/version.txt").Replace(".","");
-            if (Int16.Parse(newVersion) > Int16.Parse(currentVersion.Replace(".", "")))
+            if (Int16.Parse(newVersion) > Int16.Parse(CurrentVersion.Replace(".", "")))
             {
                 DialogResult result = MessageBox.Show(
                     "A newer version of Fronds is available. Downloading it is advisable, as it may contain important bugfixes.\r\n\r\nLoad update page now?",
@@ -57,6 +56,7 @@ namespace Fronds
                     Tools.OpenURLInBrowser("http://en.wikipedia.org/wiki/WP:FRONDS/U");
                 }
             }
+
             XmlTextReader objXmlTextReader =
                 new XmlTextReader("http://toolserver.org/~jarry/fronds/index.xml");
             string sName = "";
@@ -72,10 +72,10 @@ namespace Fronds
                         switch (sName)
                         {
                             case "name":
-                                possibleFilenames.Add(value);
+                                PossibleFilenames.Add(value);
                                 break;
                             case "meta":
-                                possibleFronds.Add(value + " (" + possibleFilenames[possibleFilenames.Count - 1] + ")");
+                                PossibleFronds.Add(value + " (" + PossibleFilenames[PossibleFilenames.Count - 1] + ")");
                                 break;
                         }
                         break;
@@ -100,21 +100,20 @@ namespace Fronds
                     "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
                 if (result == DialogResult.OK)
                 {
-                    configMenuItem.PerformClick();
+                    ConfigMenuItem.PerformClick();
                 }
                 else
                 {
-                    enabledMenuItem.Checked = Settings.Enabled = PluginEnabled = false;
+                    EnabledMenuItem.Checked = Settings.Enabled = PluginEnabled = false;
                 }
                 return eventargs.ArticleText;
             }
 
             // The inefficiency of this is depressing
-
             string text = eventargs.ArticleText;
-            for (int i = 0; i < loadedRegexes.Count; i++)
+            foreach (Frond f in Replacements)
             {
-                text = loadedRegexes[i].Replace(text,loadedReplaces[i]);
+                text = f.Preform(text);
             }
             return text;
         }
@@ -157,7 +156,7 @@ namespace Fronds
         private static void ShowSettings(object sender, EventArgs e)
         {
             FrondsOptions frmFrondsOptions = new FrondsOptions();
-            foreach (string frond in possibleFronds)
+            foreach (string frond in PossibleFronds)
             {
                 frmFrondsOptions.AddOption(frond);
             }
@@ -166,8 +165,8 @@ namespace Fronds
 
         private bool PluginEnabled
         {
-            get { return enabledMenuItem.Checked; }
-            set { enabledMenuItem.Checked = value; }
+            get { return EnabledMenuItem.Checked; }
+            set { EnabledMenuItem.Checked = value; }
         }
 
         private void PluginEnabledCheckedChange(object sender, EventArgs e)
@@ -200,7 +199,7 @@ namespace Fronds
         {
             get
             {
-                return "[[WP:FRONDS|Fronds]] Plugin version " + currentVersion;
+                return "[[WP:FRONDS|Fronds]] Plugin version " + CurrentVersion;
             }
         }
 
