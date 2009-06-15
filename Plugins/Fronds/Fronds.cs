@@ -58,29 +58,16 @@ namespace Fronds
                 }
             }
 
-            XmlTextReader objXmlTextReader =
-                new XmlTextReader(BaseURL + "index.xml");
-            string sName = "";
-            while (objXmlTextReader.Read())
+            XmlDocument xd = new XmlDocument();
+            xd.LoadXml(Tools.GetHTML(BaseURL + "index.xml"));
+
+            if (xd["fronds"] == null)
+                return;
+
+            foreach (XmlNode xn in xd["fronds"].GetElementsByTagName("frond"))
             {
-                switch (objXmlTextReader.NodeType)
-                {
-                    case XmlNodeType.Element:
-                        sName = objXmlTextReader.Name;
-                        break;
-                    case XmlNodeType.Text:
-                        string value = objXmlTextReader.Value;
-                        switch (sName)
-                        {
-                            case "name":
-                                PossibleFilenames.Add(value);
-                                break;
-                            case "meta":
-                                PossibleFronds.Add(value + " (" + PossibleFilenames[PossibleFilenames.Count - 1] + ")");
-                                break;
-                        }
-                        break;
-                }
+                PossibleFilenames.Add(xn.ChildNodes[0].InnerText);
+                PossibleFronds.Add(xn.ChildNodes[1].InnerText + " (" + xn.ChildNodes[0].InnerText + ")");
             }
         }
 
