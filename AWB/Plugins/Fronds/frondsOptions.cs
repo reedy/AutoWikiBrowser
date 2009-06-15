@@ -36,17 +36,15 @@ namespace Fronds
 
         private void btnOptionsOK_Click(object sender, EventArgs e)
         {
+            //TODO:Improve this code so we're not reloading Fronds unnecesserily
             Fronds.Replacements.Clear();
-            List<String> temp = new List<string>();
+            Fronds.Settings.EnabledFilenames.Clear();
 
             // Preserve enabled filenames
             foreach (string item in listOptionsFronds.CheckedItems)
             {
-                temp.Add(item.Substring((item.LastIndexOf("(") + 1),
+                Fronds.Settings.EnabledFilenames.Add(item.Substring((item.LastIndexOf("(") + 1),
                                     (item.Length - item.LastIndexOf("(") - 2)));
-            }
-            if(!temp.Equals(Fronds.Settings.EnabledFilenames)){
-                Fronds.Settings.EnabledFilenames = temp;
             }
 
             //Loaded selected fronds
