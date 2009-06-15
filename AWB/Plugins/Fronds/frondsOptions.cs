@@ -9,12 +9,12 @@ namespace Fronds
 {
     public partial class FrondsOptions : Form
     {
-        public FrondsOptions(IEnumerable<string> possibleFronds)
+        public FrondsOptions()
         {
             InitializeComponent();
 
             //Also very inefficient, but does work.
-            foreach (string text in possibleFronds)
+            foreach (string text in Fronds.Possibles.Keys)
             {
                 bool checkme = false;
                 foreach (string filename in Fronds.Settings.EnabledFilenames)
@@ -37,6 +37,7 @@ namespace Fronds
         private void btnOptionsOK_Click(object sender, EventArgs e)
         {
             Fronds.Replacements.Clear();
+            Fronds.Settings.EnabledFilenames.Clear();
 
             // Preserve enabled filenames
             foreach (string item in listOptionsFronds.CheckedItems)
