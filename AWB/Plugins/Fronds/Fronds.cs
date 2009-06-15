@@ -102,7 +102,6 @@ namespace Fronds
                 return eventargs.ArticleText;
             }
 
-            // The inefficiency of this is depressing
             string text = eventargs.ArticleText;
             foreach (Frond f in Replacements)
             {
