@@ -754,6 +754,7 @@ namespace WikiFunctions.Parse
             derivedName = derivedName.Trim(CharsToTrim.ToCharArray());
             derivedName = Regex.Replace(derivedName, @"(''+|[“‘”""\[\]\(\)\<\>⌋⌊])", ""); // remove chars
             derivedName = Regex.Replace(derivedName, @"(\s{2,}|&nbsp;|\t|\n)", " "); // spacing fixes
+            derivedName = derivedName.Replace(@"&ndash;", "–");
 
             if (Regex.IsMatch(derivedName, @"(?im)(\s*(date\s+)?(retrieved|accessed)\b|^\d+$)")) // don't allow friendly name to be 'retrieved on...' or just a number
                 return ("");
@@ -785,7 +786,7 @@ namespace WikiFunctions.Parse
 
                 if (Last.Length < 1)
                 {
-                    Last = Regex.Match(reference, @"(?<=\s*author\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
+                    Last = Regex.Match(reference, @"(?<=\s*author(?:link)?\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
                 }
 
                 if (Last.Length > 1)
