@@ -36,6 +36,8 @@ namespace Fronds
 
         private void btnOptionsOK_Click(object sender, EventArgs e)
         {
+            Fronds.Replacements.Clear();
+
             // Preserve enabled filenames
             foreach (string item in listOptionsFronds.CheckedItems)
             {
