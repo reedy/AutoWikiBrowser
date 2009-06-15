@@ -40,7 +40,7 @@
             // btnOptionsOK
             // 
             this.btnOptionsOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnOptionsOK.Location = new System.Drawing.Point(26, 349);
+            this.btnOptionsOK.Location = new System.Drawing.Point(277, 334);
             this.btnOptionsOK.Name = "btnOptionsOK";
             this.btnOptionsOK.Size = new System.Drawing.Size(75, 23);
             this.btnOptionsOK.TabIndex = 1;
@@ -52,7 +52,7 @@
             // 
             this.btnOptionsCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOptionsCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnOptionsCancel.Location = new System.Drawing.Point(338, 350);
+            this.btnOptionsCancel.Location = new System.Drawing.Point(359, 334);
             this.btnOptionsCancel.Name = "btnOptionsCancel";
             this.btnOptionsCancel.Size = new System.Drawing.Size(75, 23);
             this.btnOptionsCancel.TabIndex = 2;
@@ -68,7 +68,7 @@
             this.listOptionsFronds.FormattingEnabled = true;
             this.listOptionsFronds.Location = new System.Drawing.Point(12, 89);
             this.listOptionsFronds.Name = "listOptionsFronds";
-            this.listOptionsFronds.Size = new System.Drawing.Size(421, 244);
+            this.listOptionsFronds.Size = new System.Drawing.Size(421, 229);
             this.listOptionsFronds.TabIndex = 3;
             // 
             // lblOptionsDesc
@@ -111,7 +111,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnOptionsCancel;
-            this.ClientSize = new System.Drawing.Size(445, 389);
+            this.ClientSize = new System.Drawing.Size(445, 369);
             this.Controls.Add(this.linkWikipedia);
             this.Controls.Add(this.linkToolserver);
             this.Controls.Add(this.lblOptionsDesc);
