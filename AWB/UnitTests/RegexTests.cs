@@ -194,6 +194,7 @@ bar</ POEM>");
             // one line
             TestMatch(WikiRegexes.ImageMap, "<imagemap>foo bar< /imagemap>", "<imagemap>foo bar< /imagemap>");
             TestMatch(WikiRegexes.ImageMap, "<Imagemap>foo bar< /Imagemap>", "<Imagemap>foo bar< /Imagemap>");
+            TestMatch(WikiRegexes.ImageMap, "<imagemap id=hello>foo bar< /imagemap>", "<imagemap id=hello>foo bar< /imagemap>");
 
             // multiple lines
             TestMatch(WikiRegexes.ImageMap, @"< imagemap >foo
