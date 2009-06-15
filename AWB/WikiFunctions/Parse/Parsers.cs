@@ -248,6 +248,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex RegexHeadingWhitespaceAfter = new Regex(@"^ +(==+)(\s*.+?\s*)\1 *(\r|\n)", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
 
         private static readonly Regex RegexHeadingUpOneLevel = new Regex(@"^=(==+[^=].*?[^=]==+)=(\r\n?|\n)$", RegexOptions.Multiline);
+        private static readonly Regex ReferencesExternalLinksSeeAlso = new Regex(@"== *([Rr]eferences|[Ee]xternal +[Ll]inks?|[Ss]ee +[Aa]lso) *==\s");
 
         private static readonly Regex RegexHeadingColonAtEnd = new Regex(@"^(=+)(.+?)\:(\s*\1(?:\r\n?|\n))$", RegexOptions.Multiline);
         private static readonly Regex RegexHeadingWithBold = new Regex(@"(?<====+.*?)'''(.*?)'''(?=.*?===+)");
@@ -410,9 +411,21 @@ namespace WikiFunctions.Parse
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Standard_level_2_headers
             // don't consider the "references", "see also", or "external links" level 2 headings when counting level two headings
             string articleTextLocal = articleText;
-            articleTextLocal = Regex.Replace(articleTextLocal, @"== *([Rr]eferences|[Ee]xternal +[Ll]inks?|[Ss]ee +[Aa]lso) *==\s", "");
+            articleTextLocal = ReferencesExternalLinksSeeAlso.Replace(articleTextLocal, "");
+
+            // only apply if all level 3 headings and lower are before the fist of references/external links/see also
             if (!WikiRegexes.HeadingLevelTwo.IsMatch(articleTextLocal))
-                articleText = RegexHeadingUpOneLevel.Replace(articleText, "$1$2");
+            {
+                int upone = 0;
+                foreach (Match m in RegexHeadingUpOneLevel.Matches(articleText))
+                {
+                    if (m.Index > upone)
+                        upone = m.Index;
+                }
+
+                if(!ReferencesExternalLinksSeeAlso.IsMatch(articleText) || (upone < ReferencesExternalLinksSeeAlso.Match(articleText).Index))
+                    articleText = RegexHeadingUpOneLevel.Replace(articleText, "$1$2");
+            }
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Bold_text_in_headers
             // remove bold from level 3 headers and below, as it makes no visible difference

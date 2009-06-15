@@ -2023,6 +2023,22 @@ foo", Parsers.FixHeadings(@"==hello==
 text
 ==References==
 foo", "a"));
+
+            // don't apply where level 3 headings after references/external links/see also
+            string a = @"====hello====
+text
+==External links==
+foo
+===bar===
+foo2";
+            Assert.AreEqual(a, Parsers.FixHeadings(a, "a"));
+
+            string a2 = @"text
+==External links==
+foo
+===bar===
+foo2";
+            Assert.AreEqual(a2, Parsers.FixHeadings(a2, "a"));
         }
 
         [Test]
