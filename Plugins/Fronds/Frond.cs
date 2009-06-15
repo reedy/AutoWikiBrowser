@@ -2,10 +2,13 @@
 
 namespace Fronds
 {
+    /// <summary>
+    /// 
+    /// </summary>
     class Frond
     {
-        public readonly Regex Find;
-        public readonly string Replace;
+        private readonly Regex Find;
+        private readonly string Replace;
 
         public Frond(Regex find, string replace)
         {

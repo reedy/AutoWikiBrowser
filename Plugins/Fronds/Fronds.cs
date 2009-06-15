@@ -15,10 +15,10 @@ namespace Fronds
         private readonly ToolStripMenuItem PluginAboutMenuItem = new ToolStripMenuItem("About");
         private readonly ToolStripMenuItem AboutMenuItem = new ToolStripMenuItem("About Fronds");
 
-        internal static IAutoWikiBrowser AWB;
+        private static IAutoWikiBrowser AWB;
         internal static FrondsSettings Settings = new FrondsSettings();
-        internal static String CurrentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        internal static List<String> PossibleFilenames = new List<String>();
+        internal static readonly string CurrentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        internal static readonly List<String> PossibleFilenames = new List<String>();
 
         private static readonly List<String> PossibleFronds = new List<String>();
 
@@ -40,7 +40,6 @@ namespace Fronds
             PluginAboutMenuItem.Click += AboutMenuItemClicked;
             EnabledMenuItem.DropDownItems.Add(ConfigMenuItem);
             EnabledMenuItem.DropDownItems.Add(PluginAboutMenuItem);
-
 
             AWB.PluginsToolStripMenuItem.DropDownItems.Add(EnabledMenuItem);
             AWB.HelpToolStripMenuItem.DropDownItems.Add(AboutMenuItem);
@@ -155,12 +154,7 @@ namespace Fronds
 
         private static void ShowSettings(object sender, EventArgs e)
         {
-            FrondsOptions frmFrondsOptions = new FrondsOptions();
-            foreach (string frond in PossibleFronds)
-            {
-                frmFrondsOptions.AddOption(frond);
-            }
-            frmFrondsOptions.Show();
+            new FrondsOptions(PossibleFronds).Show();
         }
 
         private bool PluginEnabled
@@ -191,17 +185,10 @@ namespace Fronds
         #region Other IAWBPlugin members
 
         public string Name
-        {
-            get { return "Fronds"; }
-        }
+        { get { return "Fronds"; } }
 
         public string WikiName
-        {
-            get
-            {
-                return "[[WP:FRONDS|Fronds]] Plugin version " + CurrentVersion;
-            }
-        }
+        { get { return "[[WP:FRONDS|Fronds]] Plugin version " + CurrentVersion; } }
 
         public void Reset()
         {
@@ -213,6 +200,5 @@ namespace Fronds
         public void Nudge(out bool cancel) { cancel = false; }
         public void Nudged(int nudges) { }
         #endregion
-
     }
 }
