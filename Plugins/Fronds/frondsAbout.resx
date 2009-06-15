@@ -119,15 +119,16 @@
   </resheader>
   <data name="lblAbout.Text" xml:space="preserve">
     <value>At the time of writing this, Fronds is still in beta.
-It's quite possible that I forget to update this page
+It's quite possible that we forget to update this page
 before release however, so here are the applicable
 details for your version of Fronds (X.X.X.X):
 
-Developers: Jarry1250, with help from the rest of
-                      the AWB team, and suggestions from
-                      other edits on the English language
-                      Wikipedia. Regexes contributed by
-                      the community at large (thank you!).
+Developers: Jarry1250 (web interface, plugin)
+                      Reedy (improving plugin lots)
+                      Suggestions from other editors on
+                      the English language  Wikipedia. 
+                      Regexes contributed by the
+                      community at large (thank you!).
 
 Licensing:    Fronds imitates the licence of AWB,
                       whatever that may be at time of
