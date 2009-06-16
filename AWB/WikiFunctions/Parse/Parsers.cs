@@ -1930,7 +1930,7 @@ namespace WikiFunctions.Parse
             string escTitle = Regex.Escape(articleTitle);
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#.22This_album.2Fsingle.22
             // for this single or this album within the infobox, make bold instead of delinking
-            string InfoBoxSingleAlbum = @"(?s)(?<={{[Ii]nfobox (?:[Ss]ingle|[Aa]lbum).*?\|\s*[Tt]his (?:[Ss]ingle|[Aa]lbum)\s*=[^{}]*?)\[\[\s*";
+            const string InfoBoxSingleAlbum = @"(?s)(?<={{[Ii]nfobox (?:[Ss]ingle|[Aa]lbum).*?\|\s*[Tt]his (?:[Ss]ingle|[Aa]lbum)\s*=[^{}]*?)\[\[\s*";
             articleText = Regex.Replace(articleText, InfoBoxSingleAlbum + escTitle + @"\s*\]\](?=[^{}\|]*(?:\||}}))", @"'''" + articleTitle + @"'''");
             articleText = Regex.Replace(articleText, InfoBoxSingleAlbum + Tools.TurnFirstToLower(escTitle) + @"\s*\]\](?=[^{}\|]*(?:\||}}))", @"'''" + Tools.TurnFirstToLower(articleTitle) + @"'''");
             articleText = Regex.Replace(articleText, InfoBoxSingleAlbum + escTitle + @"\s*\|\s*([^\]]+)\s*\]\](?=[^{}\|]*(?:\||}}))", @"'''" + "$1" + @"'''");
