@@ -1333,7 +1333,7 @@ namespace WikiFunctions.Lists
         }
 
         public override string UserInputTextBoxText
-        { get { return "All Pages:"; } }
+        { get { return "All Pages"; } }
 
         public virtual bool PagesNeeded
         { get { return false; } }
