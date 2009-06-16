@@ -851,6 +851,9 @@ died 2002
 [[Category:2008 deaths]]";
 
             Assert.AreEqual(m3 + m3a, Parsers.FixPeopleCategories(m3));
+
+            string bug1 = @"'''Jane Borghesi''' (born 17 June{{Fact|date=January 2009}}, [[Melbourne]]) {{persondata}}";
+            Assert.AreEqual(bug1, Parsers.FixPeopleCategories(bug1));
         }
 
         [Test]

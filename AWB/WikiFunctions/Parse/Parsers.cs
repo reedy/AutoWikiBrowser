@@ -3284,6 +3284,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
                     // remove part beyond dash or died
                     string birthpart = Regex.Replace(m.Value, @"(^.*?)((?:&[nm]dash;|—|–|;|[Dd](?:ied|\.)).*)", "$1");
+
+                    birthpart = WikiRegexes.TemplateMultiLine.Replace(birthpart, " ");
                     
                     // check born info before any untemplated died info
                     if (!(m.Index > PersonYearOfDeath.Match(zerothSection).Index) || !PersonYearOfDeath.IsMatch(zerothSection))
