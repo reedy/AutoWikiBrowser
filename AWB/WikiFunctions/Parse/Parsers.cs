@@ -1585,7 +1585,7 @@ namespace WikiFunctions.Parse
                     articleTextTemp = Regex.Replace(articleTextTemp, @"(?<=[^{}<>]){(?=[^{}<>\(\)\|][^{}<>\(\)]+\)[^{}\(\)])", @"(");
 
                     // if it's ((word) then see if removing the extra opening round bracket makes it all balance
-                    if (articleTextTemp.Length > unbalancedBracket && articleTextTemp[unbalancedBracket].ToString().Equals(@"(") && articleText[unbalancedBracket + 1].ToString().Equals(@"("))
+                    if (articleTextTemp.Length > (unbalancedBracket+1) && articleTextTemp[unbalancedBracket].ToString().Equals(@"(") && articleText[unbalancedBracket + 1].ToString().Equals(@"("))
                         articleTextTemp = articleTextTemp.Remove(unbalancedBracket, 1);
 
                     // if it's {[link]] or {[[link]] or [[[link]] then see if setting to [[ makes it all balance
