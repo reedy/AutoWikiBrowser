@@ -60,14 +60,14 @@ namespace WikiFunctions.Lists
         #region Internals
         public const int MaxDepth = 30;
 
-        int m_Depth = MaxDepth;
+        int depth = MaxDepth;
         /// <summary>
         /// Maximum recursion depth during category scan
         /// </summary>
         public int Depth
         {
-            get { return m_Depth; }
-            set { m_Depth = Math.Min(value, MaxDepth); }
+            get { return depth; }
+            set { depth = Math.Min(value, MaxDepth); }
         }
         #endregion
 
