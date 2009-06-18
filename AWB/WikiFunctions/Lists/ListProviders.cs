@@ -917,7 +917,7 @@ namespace WikiFunctions.Lists
         { get { return "User contribs"; } }
 
         public override string UserInputTextBoxText
-        { get { return Variables.Namespaces[Namespace.User] + ":"; } }
+        { get { return Variables.Namespaces[Namespace.User]; } }
 
         public override bool UserInputTextBoxEnabled
         { get { return true; } }
