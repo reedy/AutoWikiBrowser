@@ -3387,7 +3387,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
         private static string YearOfBirthMissingCategory(string articleText)
         {
+            bool a;
             // TODO need to handle these categories with explicit sortkeys
+            if(Variables.LangCode != LangCodeEnum.en)
+                return articleText;
 
             // if there is a 'year of birth missing' and a year of birth, remove the 'missing' category
             if (articleText.Contains(CatYearOfBirthMissingLivingPeople)
@@ -3397,6 +3400,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 if (articleText.Contains(CatYearOfBirthMissing)
                 && Regex.IsMatch(articleText, @"\[\[Category:\d{4} births\]\]"))
                     articleText = articleText.Replace(CatYearOfBirthMissing, "");
+
+            // if there's a 'year of birth missing' and a 'year of birth uncertain', remove the former
+            articleText = RemoveCategory(@"Year of birth missing", articleText, out a);
 
             return articleText;
         }
