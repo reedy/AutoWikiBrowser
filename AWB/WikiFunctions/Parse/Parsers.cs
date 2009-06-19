@@ -2886,6 +2886,20 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return articleText;
         }
 
+        /// <summary>
+        /// Returns whether the input string matches the name of a category in use in the input article text string, based on a case insensitive match
+        /// </summary>
+        /// <param name="articleText">the article text</param>
+        /// <param name="categoryName">name of the category</param>
+        /// <returns></returns>
+        public static bool CategoryMatch(string articleText, string categoryName)
+        {
+            Regex anyCategory = new Regex(@"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category] +
+                  @"\s*" + Regex.Escape(categoryName)+ @"\s*(?:|\|([^\|\]]*))\s*\]\]", RegexOptions.IgnoreCase);
+
+                  return anyCategory.IsMatch(articleText);
+        }
+
         private static readonly Regex Catregex = new Regex(@"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category] +
                   @"\s*(.*?)\s*(?:|\|([^\|\]]*))\s*\]\]", RegexOptions.Compiled); //TODO:Reassign namespace
 
