@@ -2870,6 +2870,22 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             articleText = FixCategories(articleText);
             string testText = articleText;
 
+            articleText = RemoveCategory(strOldCat, articleText);
+
+            noChange = (testText == articleText);
+
+            return articleText;
+        }
+
+        /// <summary>
+        /// Removes a category from an article.
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="strOldCat">The old category to remove.</param>
+        /// <param name="noChange">Value that indicated whether no change was made.</param>
+        /// <returns>The article text without the old category.</returns>
+        public static string RemoveCategory(string strOldCat, string articleText)
+        {
             strOldCat = Tools.CaseInsensitive(Regex.Escape(strOldCat));
 
             if (!articleText.Contains("<includeonly>"))
@@ -2880,8 +2896,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             articleText = Regex.Replace(articleText, "\\[\\["
                 + Variables.NamespacesCaseInsensitive[Namespace.Category] + " ?"
                 + strOldCat + "( ?\\]\\]| ?\\|[^\\|]*?\\]\\])", "");
-
-            noChange = (testText == articleText);
 
             return articleText;
         }
@@ -3306,7 +3320,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                         // when there's only an approximate birth year, add the appropriate cat rather than the xxxx birth one
                         if (UncertainWordings.IsMatch(birthpart))
                         {
-                            if (!articleText.Contains(CatYearOfBirthMissingLivingPeople))
+                            if (!CategoryMatch(articleText, YearOfBirthMissingLivingPeople))
                                 articleText += "\r\n" + @"[[Category:Year of birth uncertain" + CatEnd(sort);
                         }
                         else // after removing dashes, birthpart must still contain year
@@ -3370,13 +3384,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     {
                         if (!UncertainWordings.IsMatch(birthpart) && !ReignedRuledUnsure.IsMatch(m.Value) && !Regex.IsMatch(birthpart, @"[Dd](?:ied|\.)"))
                             articleText += "\r\n" + @"[[Category:" + birthyear + @" births" + CatEnd(sort);
-                        else 
-                            if (UncertainWordings.IsMatch(birthpart) && !articleText.Contains(CatYearOfBirthMissingLivingPeople) && !articleText.Contains(CatYearOfBirthUncertain))
+                        else
+                            if (UncertainWordings.IsMatch(birthpart) && !CategoryMatch(articleText, YearOfBirthMissingLivingPeople) && !CategoryMatch(articleText, YearOfBirthUncertain))
                                 articleText += "\r\n" + @"[[Category:Year of birth uncertain" + CatEnd(sort);
                     }
 
                     if (!UncertainWordings.IsMatch(deathpart) && !ReignedRuledUnsure.IsMatch(m.Value) && !Regex.IsMatch(deathpart, @"[Bb](?:orn|\.)") && !Regex.IsMatch(birthpart, @"[Dd](?:ied|\.)") 
-                        && (!WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) || articleText.Contains(CatYearofDeathMissing)))
+                        && (!WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) || CategoryMatch(articleText, YearofDeathMissing)))
                         articleText += "\r\n" + @"[[Category:" + deathyear + @" deaths" + CatEnd(sort);
                 }
             }
@@ -3391,41 +3405,34 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return ((sort.Length > 3) ? @"|" + sort : "") + @"]]";
         }
 
-        private const string CatYearOfBirthMissingLivingPeople = @"
-[[Category:Year of birth missing (living people)]]";
+        private const string YearOfBirthMissingLivingPeople = @"Year of birth missing (living people)";
 
-        private const string CatYearOfBirthMissing = @"
-[[Category:Year of birth missing]]";
+        private const string YearOfBirthMissing = @"Year of birth missing";
 
-        private const string CatYearOfBirthUncertain = @"
-[[Category:Year of birth uncertain]]";
+        private const string YearOfBirthUncertain = @"Year of birth uncertain";
 
-        private const string CatYearofDeathMissing = @"
-[[Category:Year of death missing]]";
+        private const string YearofDeathMissing = @"Year of death missing";
 
         private static string YearOfBirthMissingCategory(string articleText)
         {
-            bool a;
             // TODO need to handle these categories with explicit sortkeys
             if(Variables.LangCode != LangCodeEnum.en)
                 return articleText;
 
             // if there is a 'year of birth missing' and a year of birth, remove the 'missing' category
-            if (articleText.Contains(CatYearOfBirthMissingLivingPeople)
-                && Regex.IsMatch(articleText, @"\[\[Category:\d{4} births\]\]"))
-                articleText = articleText.Replace(CatYearOfBirthMissingLivingPeople, "");
+            if (CategoryMatch(articleText, YearOfBirthMissingLivingPeople) && Regex.IsMatch(articleText, @"\[\[Category:\d{4} births\]\]"))
+                articleText = RemoveCategory(YearOfBirthMissingLivingPeople, articleText);
             else
-                if (articleText.Contains(CatYearOfBirthMissing)
-                && Regex.IsMatch(articleText, @"\[\[Category:\d{4} births\]\]"))
-                    articleText = articleText.Replace(CatYearOfBirthMissing, "");
+                if (CategoryMatch(articleText, YearOfBirthMissing) && Regex.IsMatch(articleText, @"\[\[Category:\d{4} births\]\]"))
+                    articleText = RemoveCategory(YearOfBirthMissing, articleText);
 
             // if there's a 'year of birth missing' and a 'year of birth uncertain', remove the former
-            if(articleText.Contains(CatYearOfBirthMissing) && articleText.Contains(CatYearOfBirthUncertain))
-                articleText = RemoveCategory(@"Year of birth missing", articleText, out a);
+            if(CategoryMatch(articleText, YearOfBirthMissing) && CategoryMatch(articleText, YearOfBirthUncertain))
+                articleText = RemoveCategory(YearOfBirthMissing, articleText);
 
             // if there's a year of death and a 'year of death missing', remove the latter
-            if (articleText.Contains(CatYearofDeathMissing) && Regex.IsMatch(articleText, @"\[\[Category:\d{4} deaths\]\]"))
-                articleText = RemoveCategory(@"Year of death missing", articleText, out a);
+            if (CategoryMatch(articleText, YearofDeathMissing) && Regex.IsMatch(articleText, @"\[\[Category:\d{4} deaths\]\]"))
+                articleText = RemoveCategory(YearofDeathMissing, articleText);
 
             return articleText;
         }
