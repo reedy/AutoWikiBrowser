@@ -4124,12 +4124,12 @@ window.scrollTo(0, diffTopY);
 
         private void imgSup_Click(object sender, EventArgs e)
         {
-            EditToolBarAction("<sup>Superscript text</sup>", 22, 16, "<sup>", "</sup");
+            EditToolBarAction("<sup>Superscript text</sup>", 22, 16, "<sup>", "</sup>");
         }
 
         private void imgSub_Click(object sender, EventArgs e)
         {
-            EditToolBarAction("<sub>Subscript text</sub>", 20, 14, "<sub>", "</sub");
+            EditToolBarAction("<sub>Subscript text</sub>", 20, 14, "<sub>", "</sub>");
         }
 
         private void imgComment_Click(object sender, EventArgs e)
