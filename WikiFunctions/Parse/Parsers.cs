@@ -3413,6 +3413,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
         private const string YearofDeathMissing = @"Year of death missing";
 
+        private const string Cat4YearBirths = @"\[\[Category:\d{4} births(?:\s*\|[^\[\]]+)? *\]\]";
+        private const string Cat4YearDeaths = @"\[\[Category:\d{4} deaths(?:\s*\|[^\[\]]+)? *\]\]";
+
         private static string YearOfBirthMissingCategory(string articleText)
         {
             // TODO need to handle these categories with explicit sortkeys
@@ -3420,18 +3423,21 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 return articleText;
 
             // if there is a 'year of birth missing' and a year of birth, remove the 'missing' category
-            if (CategoryMatch(articleText, YearOfBirthMissingLivingPeople) && Regex.IsMatch(articleText, @"\[\[Category:\d{4} births\]\]"))
+            if (CategoryMatch(articleText, YearOfBirthMissingLivingPeople) && Regex.IsMatch(articleText, Cat4YearBirths))
                 articleText = RemoveCategory(YearOfBirthMissingLivingPeople, articleText);
             else
-                if (CategoryMatch(articleText, YearOfBirthMissing) && Regex.IsMatch(articleText, @"\[\[Category:\d{4} births\]\]"))
-                    articleText = RemoveCategory(YearOfBirthMissing, articleText);
+                if (CategoryMatch(articleText, YearOfBirthMissing))
+                {
+                    if (Regex.IsMatch(articleText, Cat4YearBirths))
+                        articleText = RemoveCategory(YearOfBirthMissing, articleText);
+                }
 
             // if there's a 'year of birth missing' and a 'year of birth uncertain', remove the former
             if(CategoryMatch(articleText, YearOfBirthMissing) && CategoryMatch(articleText, YearOfBirthUncertain))
                 articleText = RemoveCategory(YearOfBirthMissing, articleText);
 
             // if there's a year of death and a 'year of death missing', remove the latter
-            if (CategoryMatch(articleText, YearofDeathMissing) && Regex.IsMatch(articleText, @"\[\[Category:\d{4} deaths\]\]"))
+            if (CategoryMatch(articleText, YearofDeathMissing) && Regex.IsMatch(articleText, Cat4YearDeaths))
                 articleText = RemoveCategory(YearofDeathMissing, articleText);
 
             return articleText;
