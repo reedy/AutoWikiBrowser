@@ -861,6 +861,12 @@ died 2002
 [[Category:People from St. John's, Newfoundland and Labrador]]", miss2 = @"[[Category:Year of birth missing]]";
 
             Assert.AreEqual(miss1 + u, Parsers.FixPeopleCategories(miss1 + "\r\n" + miss2));
+
+            string both1 = @"'''Mary Ellen Wilson''' (1864–1956)<ref name=""amhum"">{{foo}}</ref> {{persondata}}", both2 = @"[[Category:1864 births]]
+[[Category:1956 deaths]]";
+
+            Assert.AreEqual(both1 + "\r\n" + both2, Parsers.FixPeopleCategories(both1));
+
         }
 
         [Test]
