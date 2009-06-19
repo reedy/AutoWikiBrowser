@@ -854,6 +854,13 @@ died 2002
 
             string bug1 = @"'''Jane Borghesi''' (born 17 June{{Fact|date=January 2009}}, [[Melbourne]]) {{persondata}}";
             Assert.AreEqual(bug1, Parsers.FixPeopleCategories(bug1));
+
+            string miss1 = @"'''Alonza J. White''' (ca 1836 &ndash; [[August 29]] [[1912]]) {{persondata}}
+{{DEFAULTSORT:White, Alonza J}}
+[[Category:1912 deaths]]
+[[Category:People from St. John's, Newfoundland and Labrador]]", miss2 = @"[[Category:Year of birth missing]]";
+
+            Assert.AreEqual(miss1 + u, Parsers.FixPeopleCategories(miss1 + "\r\n" + miss2));
         }
 
         [Test]
