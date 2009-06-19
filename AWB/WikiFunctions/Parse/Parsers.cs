@@ -2867,6 +2867,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The article text without the old category.</returns>
         public static string RemoveCategory(string strOldCat, string articleText, out bool noChange)
         {
+            // TODO, should strOldCat not be regex.escape'd ?
             articleText = FixCategories(articleText);
             string testText = articleText;
 
