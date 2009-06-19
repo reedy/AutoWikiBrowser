@@ -34,9 +34,9 @@ namespace WikiFunctions
 
         private string[] LocTemplateList = new string[0];
 
-        public Dictionary<Regex, string> Regexes = new Dictionary<Regex, string>();
+        private readonly Dictionary<Regex, string> Regexes = new Dictionary<Regex, string>();
 
-        readonly Parse.HideText RemoveUnformatted = new Parse.HideText(true, false, true);
+        private readonly Parse.HideText RemoveUnformatted = new Parse.HideText(true, false, true);
 
         public string[] TemplateList
         {
@@ -122,30 +122,30 @@ namespace WikiFunctions
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="ArticleText"></param>
-        /// <param name="ArticleTitle"></param>
+        /// <param name="articleText"></param>
+        /// <param name="articleTitle"></param>
         /// <returns></returns>
-        public string SubstituteTemplates(string ArticleText, string ArticleTitle)
+        public string SubstituteTemplates(string articleText, string articleTitle)
         {
             if (!HasSubstitutions) 
-                return ArticleText; // nothing to substitute
+                return articleText; // nothing to substitute
 
             if (chkIgnoreUnformatted.Checked)
-                ArticleText = RemoveUnformatted.HideUnformatted(ArticleText);
+                articleText = RemoveUnformatted.HideUnformatted(articleText);
             if (!chkUseExpandTemplates.Checked)
             {
                 foreach (KeyValuePair<Regex, string> p in Regexes)
                 {
-                    ArticleText = p.Key.Replace(ArticleText, p.Value);
+                    articleText = p.Key.Replace(articleText, p.Value);
                 }
             }
             else
-                ArticleText = Tools.ExpandTemplate(ArticleText, ArticleTitle, Regexes, chkIncludeComment.Checked);
+                articleText = Tools.ExpandTemplate(articleText, articleTitle, Regexes, chkIncludeComment.Checked);
 
             if (chkIgnoreUnformatted.Checked)
-                ArticleText = RemoveUnformatted.AddBackUnformatted(ArticleText);
+                articleText = RemoveUnformatted.AddBackUnformatted(articleText);
 
-            return ArticleText;
+            return articleText;
         }
 
         private void chkUseExpandTemplates_CheckedChanged(object sender, EventArgs e)
