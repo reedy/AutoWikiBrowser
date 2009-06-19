@@ -40,10 +40,7 @@ namespace WikiFunctions
 
         public string[] TemplateList
         {
-            get
-            {
-                return LocTemplateList;
-            }
+            get { return LocTemplateList; }
             set
             {
                 textBoxTemplates.Lines = LocTemplateList = value;
@@ -70,12 +67,18 @@ namespace WikiFunctions
             set { chkIncludeComment.Checked = value; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Clear()
         {
             LocTemplateList = new string[0];
             Regexes.Clear();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void RefreshRegexes()
         {
             Regexes.Clear();
@@ -132,6 +135,7 @@ namespace WikiFunctions
 
             if (chkIgnoreUnformatted.Checked)
                 articleText = RemoveUnformatted.HideUnformatted(articleText);
+
             if (!chkUseExpandTemplates.Checked)
             {
                 foreach (KeyValuePair<Regex, string> p in Regexes)
