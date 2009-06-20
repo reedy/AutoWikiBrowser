@@ -31,8 +31,8 @@ namespace WikiFunctions.API
     /// </summary>
     public class AsyncApiEdit : IApiEdit
     {
-        Thread m_Thread;
-        readonly Control m_ParentControl;
+        private Thread TheThread;
+        private readonly Control ParentControl;
 
         public AsyncApiEdit(string url)
             :this(url, null, false)
@@ -53,7 +53,7 @@ namespace WikiFunctions.API
         {
             Editor = new ApiEdit(url, php5);
             State = EditState.Ready;
-            m_ParentControl = parentControl;
+            ParentControl = parentControl;
         }
 
         /// <summary>
@@ -106,16 +106,16 @@ namespace WikiFunctions.API
         /// </summary>
         public void Wait()
         {
-            if (m_Thread != null)
+            if (TheThread != null)
             {
-                if (m_ParentControl != null && !m_ParentControl.InvokeRequired)
+                if (ParentControl != null && !ParentControl.InvokeRequired)
                 {
                     // simple Thread.Joid() from UI thread would deadlock
                     while (IsActive) Application.DoEvents();
                 }
                 else
                 {
-                    m_Thread.Join();
+                    TheThread.Join();
                 }
             }
         }
@@ -167,13 +167,13 @@ namespace WikiFunctions.API
         /// </summary>
         private void CallEvent(Delegate method, params object[] args)
         {
-            if (m_ParentControl == null)
+            if (ParentControl == null)
             {
                 method.DynamicInvoke(args);
             }
             else
             {
-                m_ParentControl.Invoke(method, args);
+                ParentControl.Invoke(method, args);
             }
         }
 
@@ -239,12 +239,12 @@ namespace WikiFunctions.API
 
         private void InvokeFunction(InvokeArgs args)
         {
-            if (m_Thread != null && m_Thread.IsAlive)
+            if (TheThread != null && TheThread.IsAlive)
                 throw new ApiInvokeException("An asynchronous call is already being performed");
 
             State = EditState.Working;
-            m_Thread = new Thread(InvokerThread);
-            m_Thread.Start(args);
+            TheThread = new Thread(InvokerThread);
+            TheThread.Start(args);
         }
 
         private void InvokeFunction(string name, params object[] args)
@@ -371,8 +371,8 @@ namespace WikiFunctions.API
             try
             {
                 //Editor.Abort();
-                if (m_Thread != null)
-                    m_Thread.Abort();
+                if (TheThread != null)
+                    TheThread.Abort();
 
                 State = EditState.Finishing;
             }
