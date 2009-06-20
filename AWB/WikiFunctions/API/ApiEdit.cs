@@ -42,6 +42,8 @@ namespace WikiFunctions.API
     {
         private ApiEdit()
         {
+            Cookies = new CookieContainer();
+            User = new UserInfo();
         }
 
         /// <summary>
@@ -59,6 +61,7 @@ namespace WikiFunctions.API
         /// <param name="url">Path to scripts on server</param>
         /// <param name="usePHP5"></param>
         public ApiEdit(string url, bool usePHP5)
+            : this()
         {
             if (string.IsNullOrEmpty(url)) throw new ArgumentException("Invalid URL specified", "url");
             if (!url.StartsWith("http://")) throw new NotSupportedException("Only editing via HTTP is currently supported");
@@ -94,9 +97,9 @@ namespace WikiFunctions.API
                                     URL = URL,
                                     PHP5 = PHP5,
                                     Maxlag = Maxlag,
-                                    m_Cookies = m_Cookies,
+                                    Cookies = Cookies,
                                     ProxySettings = ProxySettings,
-                                    m_UserInfo = m_UserInfo
+                                    User = User
                                 };
 
             return clone;
@@ -110,21 +113,14 @@ namespace WikiFunctions.API
         public string URL { get; private set; }
 
         private string Server
-        {
-            get
-            { 
-                Uri uri = new Uri(URL);
-                return "http://" + uri.Host;
-            }
-        }
+        { get { return "http://" + new Uri(URL).Host; } }
 
         public bool PHP5 { get; private set; }
 
         /// <summary>
         /// Maxlag parameter of every request (http://www.mediawiki.org/wiki/Manual:Maxlag_parameter)
         /// </summary>
-        public int Maxlag
-        { get; set; }
+        public int Maxlag { get; set; }
 
         /// <summary>
         /// Action for which we have edit token
@@ -140,12 +136,10 @@ namespace WikiFunctions.API
         public string HtmlHeaders
         { get; private set; }
 
-        CookieContainer m_Cookies = new CookieContainer();
         /// <summary>
         /// Cookies stored between requests
         /// </summary>
-        public CookieContainer Cookies
-        { get { return m_Cookies; } }
+        public CookieContainer Cookies { get; private set; }
         #endregion
 
         /// <summary>
@@ -156,8 +150,8 @@ namespace WikiFunctions.API
         {
             Action = null;
             Page = new PageInfo();
-            m_Aborting = false;
-            m_Request = null;
+            Aborting = false;
+            Request = null;
         }
 
         /// <summary>
@@ -165,10 +159,10 @@ namespace WikiFunctions.API
         /// </summary>
         public void Abort()
         {
-            m_Aborting = true;
-            m_Request.Abort();
+            Aborting = true;
+            Request.Abort();
             Thread.Sleep(1);
-            m_Aborting = false;
+            Aborting = false;
         }
 
         #region URL stuff
@@ -250,9 +244,9 @@ namespace WikiFunctions.API
         #endregion
 
         #region Network access
-        static readonly Dictionary<string, IWebProxy> ProxyCache = new Dictionary<string, IWebProxy>();
-        IWebProxy ProxySettings;
-        static readonly string UserAgent = string.Format("WikiFunctions/{0} ({1})", Assembly.GetExecutingAssembly().GetName().Version,
+        private static readonly Dictionary<string, IWebProxy> ProxyCache = new Dictionary<string, IWebProxy>();
+        private IWebProxy ProxySettings;
+        private static readonly string UserAgent = string.Format("WikiFunctions/{0} ({1})", Assembly.GetExecutingAssembly().GetName().Version,
             Environment.OSVersion.VersionString);
 
         protected HttpWebRequest CreateRequest(string url)
@@ -268,17 +262,17 @@ namespace WikiFunctions.API
             res.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
 
             // SECURITY: don't send cookies to third-party sites
-            if (url.StartsWith(URL)) res.CookieContainer = m_Cookies;
+            if (url.StartsWith(URL)) res.CookieContainer = Cookies;
 
             return res;
         }
 
-        bool m_Aborting;
-        HttpWebRequest m_Request;
+        private bool Aborting;
+        private HttpWebRequest Request;
 
         protected string GetResponseString(HttpWebRequest req)
         {
-            m_Request = req;
+            Request = req;
 
             try
             {
@@ -298,7 +292,7 @@ namespace WikiFunctions.API
             }
             finally
             {
-                m_Request = null;
+                Request = null;
             }
         }
 
@@ -353,7 +347,7 @@ namespace WikiFunctions.API
         {
             Reset();
 
-            string result = HttpPost(new[,] { {"action", "login"} },
+            string result = HttpPost(new[,] { { "action", "login" } },
                                      new[,] { 
                                         { "lgname", username }, 
                                         { "lgpassword", password }
@@ -376,22 +370,17 @@ namespace WikiFunctions.API
         public void Logout()
         {
             Reset();
-            m_UserInfo = new UserInfo();
+            User = new UserInfo();
             string result = HttpGet(new[,] { { "action", "logout" } }, false);
             CheckForError(result, "logout");
         }
 
-        private UserInfo m_UserInfo = new UserInfo();
-
-        public UserInfo User
-        {
-            get { return m_UserInfo; }
-        }
+        public UserInfo User { get; private set; }
 
         public void RefreshUserInfo()
         {
             Reset();
-            m_UserInfo = new UserInfo();
+            User = new UserInfo();
 
             string result = HttpPost(new[,] { { "action", "query" } },
                          new[,] {
@@ -401,7 +390,7 @@ namespace WikiFunctions.API
 
             CheckForError(result, "userinfo");
 
-            m_UserInfo = new UserInfo(result);
+            User = new UserInfo(result);
         }
 
         #endregion
@@ -505,7 +494,7 @@ namespace WikiFunctions.API
                 throw new ApiBrokenXmlException(this, ex);
             }
 
-            if (m_Aborting) throw new ApiAbortedException(this);
+            if (Aborting) throw new ApiAbortedException(this);
 
             result = HttpPost(
                 new[,]
@@ -570,8 +559,8 @@ namespace WikiFunctions.API
                 throw new ApiBrokenXmlException(this, ex);
             }
 
-            if (m_Aborting) throw new ApiAbortedException(this);
-            
+            if (Aborting) throw new ApiAbortedException(this);
+
             result = HttpPost(
                 new[,]
                     {
@@ -630,8 +619,8 @@ namespace WikiFunctions.API
                 throw new ApiBrokenXmlException(this, ex);
             }
 
-            if (m_Aborting) throw new ApiAbortedException(this);
-            
+            if (Aborting) throw new ApiAbortedException(this);
+
             result = HttpPost(
                 new[,]
                     {
@@ -832,7 +821,7 @@ namespace WikiFunctions.API
         /// <summary>
         /// For private use, static to avoid unneeded reinitialisation
         /// </summary>
-        private static readonly System.Security.Cryptography.MD5 m_MD5 = System.Security.Cryptography.MD5.Create();
+        private static readonly System.Security.Cryptography.MD5 MD5Summer = System.Security.Cryptography.MD5.Create();
 
         /// <summary>
         /// 
@@ -851,7 +840,7 @@ namespace WikiFunctions.API
         /// <returns></returns>
         protected static string MD5(byte[] input)
         {
-            byte[] hash = m_MD5.ComputeHash(input);
+            byte[] hash = MD5Summer.ComputeHash(input);
 
             StringBuilder sb = new StringBuilder(20);
             for (int i = 0; i < hash.Length; i++)
@@ -865,9 +854,7 @@ namespace WikiFunctions.API
         #endregion
 
         public bool Asynchronous
-        {
-            get { return false; }
-        }
+        { get { return false; } }
 
         public void Wait()
         {
