@@ -867,6 +867,9 @@ died 2002
 
             Assert.AreEqual(both1 + "\r\n" + both2, Parsers.FixPeopleCategories(both1));
 
+            string bug2 = @"'''Foo''' (born {{circa}} 1925) was {{persondata}}";
+            Assert.AreEqual(bug2 + u, Parsers.FixPeopleCategories(bug2));
+
         }
 
         [Test]

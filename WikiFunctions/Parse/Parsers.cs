@@ -3294,6 +3294,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             string sort = GetCategorySort(articleText);
 
+            bool alreadyUncertain = false;
+
             // birth
             if (!WikiRegexes.BirthsCategory.IsMatch(articleText) && (PersonYearOfBirth.Matches(zerothSection).Count == 1 || WikiRegexes.DateBirthAndAge.IsMatch(zerothSection) || WikiRegexes.DeathDateAndAge.IsMatch(zerothSection)))
             {
@@ -3310,7 +3312,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     Match m = PersonYearOfBirth.Match(zerothSection);
 
                     // remove part beyond dash or died
-                    string birthpart = Regex.Replace(m.Value, @"(^.*?)((?:&[nm]dash;|—|–|;|[Dd](?:ied|\.)).*)", "$1");
+                    string birthpart = Regex.Replace(m.Value, @"(^.*?)((?:&[nm]dash;|—|–|;|[Dd](?:ied|\.)|baptised).*)", "$1");
+
+                    if (Regex.IsMatch(birthpart, @"{{[Cc]irca}}"))
+                        alreadyUncertain = true;
 
                     birthpart = WikiRegexes.TemplateMultiLine.Replace(birthpart, " ");
                     
@@ -3318,7 +3323,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     if (!(m.Index > PersonYearOfDeath.Match(zerothSection).Index) || !PersonYearOfDeath.IsMatch(zerothSection))
                     {
                         // when there's only an approximate birth year, add the appropriate cat rather than the xxxx birth one
-                        if (UncertainWordings.IsMatch(birthpart))
+                        if (UncertainWordings.IsMatch(birthpart) || alreadyUncertain)
                         {
                             if (!CategoryMatch(articleText, YearOfBirthMissingLivingPeople))
                                 articleText += "\r\n" + @"[[Category:Year of birth uncertain" + CatEnd(sort);
@@ -3382,7 +3387,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
                     if (!WikiRegexes.BirthsCategory.IsMatch(articleText))
                     {
-                        if (!UncertainWordings.IsMatch(birthpart) && !ReignedRuledUnsure.IsMatch(m.Value) && !Regex.IsMatch(birthpart, @"[Dd](?:ied|\.)"))
+                        if (!UncertainWordings.IsMatch(birthpart) && !ReignedRuledUnsure.IsMatch(m.Value) && !Regex.IsMatch(birthpart, @"(?:[Dd](?:ied|\.)|baptised)"))
                             articleText += "\r\n" + @"[[Category:" + birthyear + @" births" + CatEnd(sort);
                         else
                             if (UncertainWordings.IsMatch(birthpart) && !CategoryMatch(articleText, YearOfBirthMissingLivingPeople) && !CategoryMatch(articleText, YearOfBirthUncertain))
