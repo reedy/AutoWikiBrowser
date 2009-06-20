@@ -1063,6 +1063,14 @@ complementary and alternative medicine: evidence is a better friend than power. 
             Assert.AreEqual(@"{{cite web|title=foo|url=http://site.net/a.htm|year=2009}}", Parsers.FixCitationTemplates(@"{{cite web|title=foo|url=http://site.net/a.htm|year=2009|format=}}"));
             Assert.AreEqual(@"{{cite web|title=foo|url=http://site.net/a.html|year=2009}}", Parsers.FixCitationTemplates(@"{{cite web|title=foo|url=http://site.net/a.html|year=2009|format=}}"));
             Assert.AreEqual(@"{{cite web|title=foo|url=http://site.net/a.HTML|year=2009}}", Parsers.FixCitationTemplates(@"{{cite web|title=foo|url=http://site.net/a.HTML|year=2009|format=}}"));
+
+            // removal of pp. from 'pages' field
+            Assert.AreEqual(@"{{cite book|author=Smith|title=Great|pages=57-59}}", Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|pages=pp. 57-59}}"));
+            Assert.AreEqual(@"{{cite book|author=Smith|title=Great|pages= 57-59}}", Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|pages= pp. 57-59}}"));
+            Assert.AreEqual(@"{{cite book|author=Smith|title=Great|pages=57-59|year=2007}}", Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|pages=pp. 57-59|year=2007}}"));
+            Assert.AreEqual(@"{{cite book|author=Smith|title=Great|page=57}}", Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|page=p. 57}}"));
+
+            Assert.AreEqual(@"{{cite book|author=Smith|title=Great|page= 57}}", Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|page= 57}}"));
         }
 
 

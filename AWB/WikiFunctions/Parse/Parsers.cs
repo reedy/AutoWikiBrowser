@@ -1643,6 +1643,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex CiteTemplateFormatHTML = new Regex(@"\|\s*format\s*=\s*(?:HTML?|\[\[HTML?\]\]|html?)\s*(?=\||}})");
         private static readonly Regex CiteTemplateFormatnull = new Regex(@"\|\s*format\s*=\s*(?=\||}})");
         private static readonly Regex CiteTemplateLangEnglish = new Regex(@"\|\s*language\s*=\s*(?:[Ee]nglish)\s*(?=\||}})");
+        private static readonly Regex CiteTemplatePagesPP = new Regex(@"(?<=\|\s*pages?\s*=\s*)pp?\.\s*(?=[^{}\|]+(?:\||}}))");
         private static readonly Regex CiteTemplateHTMLURL = new Regex(@"\|\s*url\s*=\s*[^<>{}\s\|]+?\.(?:HTML?|html?)\s*(?:\||}})");
         private static readonly Regex CiteTemplates = new Regex(@"{{\s*[Cc]it[ae]((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})");
 
@@ -1667,6 +1668,9 @@ namespace WikiFunctions.Parse
                 // remove format= field with null value when URL is HTML page
                 if (CiteTemplateHTMLURL.IsMatch(newValue))
                     newValue = CiteTemplateFormatnull.Replace(newValue, "");
+
+                // page= and pages= fields don't need p. or pp. in them
+                newValue = CiteTemplatePagesPP.Replace(newValue, "");
 
                 articleText = articleText.Replace(m.Value, newValue);
             }
