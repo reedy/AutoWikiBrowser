@@ -25,7 +25,7 @@ namespace WikiFunctions.Background
     {
         delegate void SetTextCallback(string text);
 
-        delegate void SetProgressCallback(int Completed, int Total);
+        delegate void SetProgressCallback(int completed, int total);
 
         public Thread Worker;
 
@@ -57,19 +57,19 @@ namespace WikiFunctions.Background
             set { SetStatus(value); }
         }
 
-        public void SetProgress(int Completed, int Total)
+        public void SetProgress(int completed, int total)
         {
             if (Progress.InvokeRequired)
             {
                 SetProgressCallback d = SetProgress;
-                Invoke(d, new object[] { Completed, Total });
+                Invoke(d, new object[] { completed, total });
             }
             else
             {
-                Progress.Maximum = Total;
-                Progress.Value = Completed;
+                Progress.Maximum = total;
+                Progress.Value = completed;
 
-                groupBox.Text = string.Format("{0}/{1} complete", Completed, Total);
+                groupBox.Text = string.Format("{0}/{1} complete", completed, total);
             }
         }
     }

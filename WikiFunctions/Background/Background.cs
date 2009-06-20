@@ -65,7 +65,7 @@ namespace WikiFunctions.Background
 
                 try
                 {
-                    if (res && ui != null) ui.Close();
+                    if (res && UI != null) UI.Close();
                 }
                 catch
                 {
@@ -84,7 +84,7 @@ namespace WikiFunctions.Background
         /// </summary>
         public Exception ErrorException { get; private set; }
 
-        PleaseWait ui;
+        PleaseWait UI;
 
         Thread BgThread;
 
@@ -137,16 +137,16 @@ namespace WikiFunctions.Background
         /// </summary>
         public void Abort()
         {
-            if (ui != null) ui.Close();
-            ui = null;
+            if (UI != null) UI.Close();
+            UI = null;
 
             if (BgThread != null) BgThread.Abort();
             Wait();
             Result = null;
         }
 
-        protected string strParam;
-        protected object objParam1, objParam2, objParam3;
+        protected string StrParam;
+        protected object ObjParam1, ObjParam2, ObjParam3;
 
         /// <summary>
         /// 
@@ -154,10 +154,14 @@ namespace WikiFunctions.Background
         /// <param name="start"></param>
         private void InitThread(ThreadStart start)
         {
-            BgThread = new Thread(start);
-            BgThread.IsBackground = true;
-            BgThread.Name = string.Format("BackgroundRequest (strParam = {0}, objParam1 = {1}, objParam2 = {2}, objParam3 = {3})",
-                strParam, objParam1, objParam2, objParam3);
+            BgThread = new Thread(start)
+                           {
+                               IsBackground = true,
+                               Name =
+                                   string.Format(
+                                   "BackgroundRequest (StrParam = {0}, ObjParam1 = {1}, ObjParam2 = {2}, ObjParam3 = {3})",
+                                   StrParam, ObjParam1, ObjParam2, ObjParam3)
+                           };
             BgThread.Start();
         }
 
@@ -183,7 +187,7 @@ namespace WikiFunctions.Background
         /// <param name="url"></param>
         public void GetHTML(string url)
         {
-            strParam = url;
+            StrParam = url;
 
             InitThread(GetHTMLFunc);
         }
@@ -195,7 +199,7 @@ namespace WikiFunctions.Background
         {
             try
             {
-                Result = Tools.GetHTML(strParam);
+                Result = Tools.GetHTML(StrParam);
                 InvokeOnComplete();
             }
             catch (Exception e)
@@ -212,8 +216,8 @@ namespace WikiFunctions.Background
         /// <param name="postvars"></param>
         public void PostData(string url, NameValueCollection postvars)
         {
-            strParam = url;
-            objParam1 = postvars;
+            StrParam = url;
+            ObjParam1 = postvars;
 
             InitThread(PostDataFunc);
         }
@@ -225,7 +229,7 @@ namespace WikiFunctions.Background
         {
             try
             {
-                Result = Tools.PostData((NameValueCollection)objParam1, strParam);
+                Result = Tools.PostData((NameValueCollection)ObjParam1, StrParam);
                 InvokeOnComplete();
             }
             catch (Exception e)
@@ -241,9 +245,7 @@ namespace WikiFunctions.Background
         /// <param name="d"></param>
         public void Execute(ExecuteFunctionDelegate d)
         {
-            BgThread = new Thread(ExecuteFunc);
-            BgThread.Name = "BackgroundThread";
-            BgThread.IsBackground = true;
+            BgThread = new Thread(ExecuteFunc) {Name = "BackgroundThread", IsBackground = true};
             BgThread.Start(d);
         }
 
@@ -268,39 +270,42 @@ namespace WikiFunctions.Background
         /// <summary>
         /// Bypasses all redirects in the article
         /// </summary>
-        public void BypassRedirects(string Article)
+        public void BypassRedirects(string article)
         {
-            Result = strParam = Article;
+            Result = StrParam = article;
 
-            if (HasUI) ui = new PleaseWait();
+            if (HasUI)
+            {
+                UI = new PleaseWait();
+                UI.Show(Variables.MainForm as Form);
+            }
 
-            if (HasUI) ui.Show(Variables.MainForm as Form);
             InitThread(BypassRedirectsFunc);
         }
+
+        private readonly Regex WikiLinksOnly = new Regex("\\[\\[([^:|]*?)\\]\\]", RegexOptions.Compiled);
 
         /// <summary>
         /// 
         /// </summary>
         private void BypassRedirectsFunc()
         {//checks links to make them bypass redirects and (TODO) disambigs
-            Regex wikiLinksOnly = new Regex("\\[\\[([^:|]*?)\\]\\]", RegexOptions.Compiled);
-
             Dictionary<string, string> knownLinks = new Dictionary<string, string>();
 
-            if (HasUI) ui.Worker = Thread.CurrentThread;
+            if (HasUI) UI.Worker = Thread.CurrentThread;
 
             try
             {
-                if (HasUI) ui.Status = "Loading links";
+                if (HasUI) UI.Status = "Loading links";
 
-                MatchCollection simple = wikiLinksOnly.Matches(strParam);
-                MatchCollection piped = WikiRegexes.PipedWikiLink.Matches(strParam);
+                MatchCollection simple = WikiLinksOnly.Matches(StrParam);
+                MatchCollection piped = WikiRegexes.PipedWikiLink.Matches(StrParam);
 
                 if (HasUI)
                 {
-                    ui.Status = "Processing links";
+                    UI.Status = "Processing links";
 
-                    ui.SetProgress(0, simple.Count + piped.Count);
+                    UI.SetProgress(0, simple.Count + piped.Count);
                 }
                 int n = 0;
                 string link, article;
@@ -331,7 +336,7 @@ namespace WikiFunctions.Background
                             dest = HttpUtility.UrlDecode(Tools.RedirectTarget(text).Replace("_", " "));
                             string directLink = "[[" + dest + "|" + article + "]]";
 
-                            strParam = strParam.Replace(link, directLink);
+                            StrParam = StrParam.Replace(link, directLink);
                         }
                         knownLinks.Add(Tools.TurnFirstToUpper(article), Tools.TurnFirstToUpper(dest));
                     }
@@ -339,10 +344,10 @@ namespace WikiFunctions.Background
                     {
                         string directLink = "[[" + knownLinks[Tools.TurnFirstToUpper(article)] + "|" + article + "]]";
 
-                        strParam = strParam.Replace(link, directLink);
+                        StrParam = StrParam.Replace(link, directLink);
                     }
                     n++;
-                    if (HasUI) ui.SetProgress(n, simple.Count + piped.Count);
+                    if (HasUI) UI.SetProgress(n, simple.Count + piped.Count);
                 }
 
                 foreach (Match m in piped)
@@ -373,7 +378,7 @@ namespace WikiFunctions.Background
                             dest = HttpUtility.UrlDecode(Tools.RedirectTarget(text).Replace("_", " "));
                             string directLink = "[[" + dest + "|" + linkText + "]]";
 
-                            strParam = strParam.Replace(link, directLink);
+                            StrParam = StrParam.Replace(link, directLink);
                         }
                         knownLinks.Add(Tools.TurnFirstToUpper(article), Tools.TurnFirstToUpper(dest));
                     }
@@ -381,20 +386,20 @@ namespace WikiFunctions.Background
                     {
                         string directLink = "[[" + knownLinks[Tools.TurnFirstToUpper(article)] + "|" + linkText + "]]";
 
-                        strParam = strParam.Replace(link, directLink);
+                        StrParam = StrParam.Replace(link, directLink);
                     }
                     n++;
-                    if (HasUI) ui.SetProgress(n, simple.Count + piped.Count);
+                    if (HasUI) UI.SetProgress(n, simple.Count + piped.Count);
                 }
 
 
-                Result = strParam;
+                Result = StrParam;
                 InvokeOnComplete();
-                //ui.Close();
+                //UI.Close();
             }
             catch (Exception e)
             {
-                //ui.Close();
+                //UI.Close();
                 ErrorException = e;
                 InvokeOnError();
             }
@@ -407,11 +412,11 @@ namespace WikiFunctions.Background
         /// <param name="params1">Optional parameters, depend on source</param>
         public void GetList(Lists.IListProvider what, params string[] params1)
         {
-            objParam1 = what;
-            objParam2 = params1;
+            ObjParam1 = what;
+            ObjParam2 = params1;
 
-            if (HasUI) ui = new PleaseWait();
-            if (HasUI) ui.Show(Variables.MainForm as Form);
+            if (HasUI) UI = new PleaseWait();
+            if (HasUI) UI.Show(Variables.MainForm as Form);
             InitThread(GetListFunc);
         }
 
@@ -422,14 +427,14 @@ namespace WikiFunctions.Background
         {
             if (HasUI)
             {
-                ui.Worker = Thread.CurrentThread;
+                UI.Worker = Thread.CurrentThread;
 
-                ui.Status = "Getting list of pages";
+                UI.Status = "Getting list of pages";
             }
 
             try
             {
-                Result = ((Lists.IListProvider)objParam1).MakeList((string[])objParam2);
+                Result = ((Lists.IListProvider)ObjParam1).MakeList((string[])ObjParam2);
                 InvokeOnComplete();
             }
             catch (Exception e)
@@ -446,21 +451,21 @@ namespace WikiFunctions.Background
     /// <typeparam name="T">Type to store</typeparam>
     public class CrossThreadQueue<T>
     {
-        private readonly Queue<T> queue = new Queue<T>();
+        private readonly Queue<T> Queue = new Queue<T>();
 
         public void Add(T value)
         {
-            lock (queue)
+            lock (Queue)
             {
-                queue.Enqueue(value);
+                Queue.Enqueue(value);
             }
         }
 
         public T Remove()
         {
-            lock (queue)
+            lock (Queue)
             {
-                return queue.Dequeue();
+                return Queue.Dequeue();
             }
         }
 
@@ -468,9 +473,9 @@ namespace WikiFunctions.Background
         {
             get
             {
-                lock (queue)
+                lock (Queue)
                 {
-                    return queue.Count;
+                    return Queue.Count;
                 }
             }
         }
