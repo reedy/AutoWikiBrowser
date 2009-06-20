@@ -1641,7 +1641,9 @@ namespace WikiFunctions.Parse
         }
 
         private static readonly Regex CiteTemplateFormatHTML = new Regex(@"\|\s*format\s*=\s*(?:HTML?|\[\[HTML?\]\]|html?)\s*(?=\||}})");
+        private static readonly Regex CiteTemplateFormatnull = new Regex(@"\|\s*format\s*=\s*(?=\||}})");
         private static readonly Regex CiteTemplateLangEnglish = new Regex(@"\|\s*language\s*=\s*(?:[Ee]nglish)\s*(?=\||}})");
+        private static readonly Regex CiteTemplateHTMLURL = new Regex(@"\|\s*url\s*=\s*[^<>{}\s\|]+?\.(?:HTML?|html?)\s*(?:\||}})");
         private static readonly Regex CiteTemplates = new Regex(@"{{\s*[Cc]it[ae]((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})");
 
         /// <summary>
@@ -1658,8 +1660,13 @@ namespace WikiFunctions.Parse
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.22format.3DHTML.22_in_citation_templates
                 newValue = CiteTemplateFormatHTML.Replace(newValue, "");
 
+                // remove language=English on en-wiki
                 if(Variables.LangCode == LangCodeEnum.en)
                     newValue = CiteTemplateLangEnglish.Replace(newValue, "");
+
+                // remove format= field with null value when URL is HTML page
+                if (CiteTemplateHTMLURL.IsMatch(newValue))
+                    newValue = CiteTemplateFormatnull.Replace(newValue, "");
 
                 articleText = articleText.Replace(m.Value, newValue);
             }
