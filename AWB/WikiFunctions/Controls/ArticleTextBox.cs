@@ -103,7 +103,7 @@ namespace WikiFunctions.Controls
         /// <param name="inputLength"></param>
         public void SetEditBoxSelection(int inputIndex, int inputLength)
         {
-            if (inputIndex > 0 && inputLength > 0 && (inputIndex + inputLength) < TextLength)
+            if (inputIndex >= 0 && inputLength > 0 && (inputIndex + inputLength) <= TextLength)
             {
                 SelectionStart = inputIndex;
                 SelectionLength = inputLength;
