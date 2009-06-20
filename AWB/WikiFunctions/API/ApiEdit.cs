@@ -684,7 +684,7 @@ namespace WikiFunctions.API
             HtmlHeaders = ExpandRelativeUrls(extracted.ToString());
         }
 
-        public string Preview(string pageTitle, string text)
+        public string Preview(string title, string text)
         {
             EnsureHtmlHeadersLoaded();
 
@@ -696,7 +696,7 @@ namespace WikiFunctions.API
                 },
                 new[,]
                 {
-                    { "title", pageTitle },
+                    { "title", title },
                     { "text", text }
                 });
 
@@ -713,7 +713,7 @@ namespace WikiFunctions.API
             }
         }
 
-        public string ExpandTemplates(string pageTitle, string text)
+        public string ExpandTemplates(string title, string text)
         {
             string result = HttpPost(
                 new[,]
@@ -722,7 +722,7 @@ namespace WikiFunctions.API
                 },
                 new[,]
                 {
-                    { "title", pageTitle },
+                    { "title", title },
                     { "text", text }
                 });
 

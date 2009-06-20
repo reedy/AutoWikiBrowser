@@ -354,15 +354,15 @@ namespace WikiFunctions.API
             InvokeFunction("MovePage", title, newTitle, reason, moveTalk, noRedirect, watch);
         }
 
-        public string Preview(string pageTitle, string text)
+        public string Preview(string title, string text)
         {
-            InvokeFunction("Preview", pageTitle, text);
+            InvokeFunction("Preview", title, text);
             return null;
         }
 
-        public string ExpandTemplates(string pageTitle, string text)
+        public string ExpandTemplates(string title, string text)
         {
-            InvokeFunction("ExpandTemplates", pageTitle, text);
+            InvokeFunction("ExpandTemplates", title, text);
             return null;
         }
 
