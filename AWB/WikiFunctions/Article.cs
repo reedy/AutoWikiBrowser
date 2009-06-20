@@ -921,6 +921,9 @@ namespace WikiFunctions
             AWBChangeArticleText("Fix syntax", Parsers.FixSyntax(ArticleText), true, true);
             Variables.Profiler.Profile("FixSyntax");
 
+            AWBChangeArticleText("Fix citation templates", Parsers.FixCitationTemplates(ArticleText), true, false);
+            Variables.Profiler.Profile("FixCitationTemplates");
+
             AWBChangeArticleText("Fix temperatures", Parsers.FixTemperatures(ArticleText), true);
             Variables.Profiler.Profile("FixTemperatures");
 

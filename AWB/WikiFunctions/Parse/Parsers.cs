@@ -1565,8 +1565,6 @@ namespace WikiFunctions.Parse
 
             articleText = WordingIntoBareExternalLinks.Replace(articleText, @"[$2 $1]");
 
-            articleText = FixCitationTemplates(articleText);
-
             return articleText.Trim();
         }
 
@@ -1642,18 +1640,29 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly Regex CiteTemplateFormatHTML = new Regex(@"(?<={{\s*[Cc]it[ae][^{}]*?)\|\s*format\s*=\s*(?:HTML?|\[\[HTML?\]\]|html?)\s*(?=\||}})");
+        private static readonly Regex CiteTemplateFormatHTML = new Regex(@"\|\s*format\s*=\s*(?:HTML?|\[\[HTML?\]\]|html?)\s*(?=\||}})");
+        private static readonly Regex CiteTemplateLangEnglish = new Regex(@"\|\s*language\s*=\s*(?:[Ee]nglish)\s*(?=\||}})");
+        private static readonly Regex CiteTemplates = new Regex(@"{{\s*[Cc]it[ae]((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})");
 
         /// <summary>
         /// Applies various formatting fixes to citation templates
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns></returns>
-        private static string FixCitationTemplates(string articleText)
+        public static string FixCitationTemplates(string articleText)
         {
-            // remove the unneeded 'format=HTML' field
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.22format.3DHTML.22_in_citation_templates
-            articleText = CiteTemplateFormatHTML.Replace(articleText, "");
+            foreach (Match m in CiteTemplates.Matches(articleText))
+            {
+                string newValue = m.Value;
+                // remove the unneeded 'format=HTML' field
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.22format.3DHTML.22_in_citation_templates
+                newValue = CiteTemplateFormatHTML.Replace(newValue, "");
+
+                if(Variables.LangCode == LangCodeEnum.en)
+                    newValue = CiteTemplateLangEnglish.Replace(newValue, "");
+
+                articleText = articleText.Replace(m.Value, newValue);
+            }
 
             return articleText;
         }
