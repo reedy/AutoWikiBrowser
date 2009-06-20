@@ -1376,7 +1376,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex DoubleBracketAtEndOfExternalLinkWithinImage = new Regex(@"(\[https?:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!)))\](?=\]{3})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private const string TemEnd = @"(\s*(?:\||\}\}))";
-        private const string CitURL = @"(\{\{\s*cit[^{}]*?\|\s*url\s*=\s*)";
+        private const string CitURL = @"(\{\{\s*cit[ae][^{}]*?\|\s*url\s*=\s*)";
         private static readonly Regex BracketsAtBeginCiteTemplateURL = new Regex(CitURL + @"\[+\s*((?:(?:ht|f)tp://)?[^\[\]<>""\s]+?\s*)\]?" + TemEnd, RegexOptions.IgnoreCase);
         private static readonly Regex BracketsAtEndCiteTemplateURL = new Regex(CitURL + @"\[?\s*((?:(?:ht|f)tp://)?[^\[\]<>""\s]+?\s*)\]+" + TemEnd, RegexOptions.IgnoreCase);
 
@@ -1565,6 +1565,8 @@ namespace WikiFunctions.Parse
 
             articleText = WordingIntoBareExternalLinks.Replace(articleText, @"[$2 $1]");
 
+            articleText = FixCitationTemplates(articleText);
+
             return articleText.Trim();
         }
 
@@ -1636,6 +1638,22 @@ namespace WikiFunctions.Parse
                 if (unbalancedBracket < 0 || Math.Abs(unbalancedBracket - firstUnbalancedBracket) > 300)
                     articleText = articleTextTemp;
             }
+
+            return articleText;
+        }
+
+        private static readonly Regex CiteTemplateFormatHTML = new Regex(@"(?<={{\s*[Cc]it[ae][^{}]*?)\|\s*format\s*=\s*(?:HTML?|\[\[HTML?\]\]|html?)\s*(?=\||}})");
+
+        /// <summary>
+        /// Applies various formatting fixes to citation templates
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <returns></returns>
+        private static string FixCitationTemplates(string articleText)
+        {
+            // remove the unneeded 'format=HTML' field
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.22format.3DHTML.22_in_citation_templates
+            articleText = CiteTemplateFormatHTML.Replace(articleText, "");
 
             return articleText;
         }
