@@ -121,30 +121,30 @@ namespace WikiFunctions.API
         void Delete(string title, string reason, bool watch);
 
         /// <summary>
-        /// 
+        /// Protects the Page
         /// </summary>
-        /// <param name="title">Title of the page to delete</param>
-        /// <param name="reason"></param>
+        /// <param name="title">Title of the page to protect</param>
+        /// <param name="reason">Reason for protection. Must not be empty.</param>
         /// <param name="expiry"></param>
         /// <param name="edit"></param>
         /// <param name="move"></param>
         void Protect(string title, string reason, string expiry, Protection edit, Protection move);
 
         /// <summary>
-        /// 
+        /// Protects the Page
         /// </summary>
-        /// <param name="title">Title of the page to delete</param>
-        /// <param name="reason"></param>
+        /// <param name="title">Title of the page to protect</param>
+        /// <param name="reason">Reason for protection. Must not be empty.</param>
         /// <param name="expiry"></param>
         /// <param name="edit"></param>
         /// <param name="move"></param>
         void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move);
 
         /// <summary>
-        /// 
+        /// Protects the Page
         /// </summary>
-        /// <param name="title">Title of the page to delete</param>
-        /// <param name="reason"></param>
+        /// <param name="title">Title of the page to protect</param>
+        /// <param name="reason">Reason for protection. Must not be empty.</param>
         /// <param name="expiry"></param>
         /// <param name="edit"></param>
         /// <param name="move"></param>
@@ -153,10 +153,10 @@ namespace WikiFunctions.API
         void Protect(string title, string reason, string expiry, Protection edit, Protection move, bool cascade, bool watch);
 
         /// <summary>
-        /// 
+        /// Protects the Page
         /// </summary>
-        /// <param name="title">Title of the page to delete</param>
-        /// <param name="reason"></param>
+        /// <param name="title">Title of the page to protect</param>
+        /// <param name="reason">Reason for protection. Must not be empty.</param>
         /// <param name="expiry"></param>
         /// <param name="edit"></param>
         /// <param name="move"></param>
@@ -165,30 +165,30 @@ namespace WikiFunctions.API
         void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move, bool cascade, bool watch);
 
         /// <summary>
-        /// 
+        /// Moves the page
         /// </summary>
-        /// <param name="title">Title of the page to delete</param>
-        /// <param name="newTitle"></param>
-        /// <param name="reason"></param>
+        /// <param name="title">Title of the page to move</param>
+        /// <param name="newTitle">Title of the target page</param>
+        /// <param name="reason">Reason for move. Must not be empty.</param>
         /// <param name="moveTalk"></param>
         /// <param name="noRedirect"></param>
         void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect);
 
         /// <summary>
-        /// 
+        /// Moves the page
         /// </summary>
-        /// <param name="title">Title of the page to delete</param>
-        /// <param name="newTitle"></param>
-        /// <param name="reason"></param>
+        /// <param name="title">Title of the page to move</param>
+        /// <param name="newTitle">Title of the target page</param>
+        /// <param name="reason">Reason for move. Must not be empty.</param>
         /// <param name="moveTalk"></param>
         /// <param name="noRedirect"></param>
         /// <param name="watch">Whether to add the page to your watchlist</param>
         void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect, bool watch);
 
         /// <summary>
-        /// 
+        /// Previews the page
         /// </summary>
-        /// <param name="title">Title of the page to delete</param>
+        /// <param name="title">Title of the page to preview</param>
         /// <param name="text"></param>
         /// <returns></returns>
         string Preview(string title, string text);
@@ -196,7 +196,7 @@ namespace WikiFunctions.API
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="title">Title of the page to delete</param>
+        /// <param name="title"></param>
         /// <param name="text"></param>
         /// <returns></returns>
         string ExpandTemplates(string title, string text);
