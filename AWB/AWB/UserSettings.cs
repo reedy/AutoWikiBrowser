@@ -295,6 +295,7 @@ namespace AutoWikiBrowser
                                  preParseModeToolStripMenuItem.Checked,
                                  noSectionEditSummaryToolStripMenuItem.Checked, restrictDefaultsortAdditionToolStripMenuItem.Checked,
                                  noMOSComplianceFixesToolStripMenuItem.Checked,
+                                 syntaxHighlightEditBoxToolStripMenuItem.Checked,
                                  !automaticallyDoAnythingToolStripMenuItem.Checked,
                                  toolStripComboOnLoad.SelectedIndex, chkMinor.Checked,
                                  addAllToWatchlistToolStripMenuItem.Checked,
@@ -507,6 +508,7 @@ namespace AutoWikiBrowser
             noSectionEditSummaryToolStripMenuItem.Checked = p.General.noSectionEditSummary;
             restrictDefaultsortAdditionToolStripMenuItem.Checked = p.General.restrictDefaultsortAddition;
             noMOSComplianceFixesToolStripMenuItem.Checked = p.General.noMOSComplianceFixes;
+            syntaxHighlightEditBoxToolStripMenuItem.Checked = p.General.syntaxHighlightEditBox;
             automaticallyDoAnythingToolStripMenuItem.Checked = !p.General.NoAutoChanges;
             toolStripComboOnLoad.SelectedIndex = p.General.OnLoadAction;
             chkMinor.Checked = p.General.Minor;
