@@ -1557,6 +1557,25 @@ namespace WikiFunctions.Parse
             }
 
             // if there are some unbalanced brackets, see whether we can fix them
+            articleText = FixUnbalancedBrackets(articleText);
+
+            // http://en.wikipedia.org/wiki/Wikipedia:WikiProject_Check_Wikipedia#Article_with_false_.3Cbr.2F.3E_.28AutoEd.29
+            // fix incorrect <br> of <br.>, <\br> and <br\>
+            articleText = IncorrectBr.Replace(articleText, "<br />");
+
+            articleText = WordingIntoBareExternalLinks.Replace(articleText, @"[$2 $1]");
+
+            return articleText.Trim();
+        }
+
+        /// <summary>
+        /// Applies some fixes for unbalanced brackets, applied if there are unbalanced brackets
+        /// </summary>
+        /// <param name="articleText">the article text</param>
+        /// <returns>the corrected article text</returns>
+        private static string FixUnbalancedBrackets(string articleText)
+        {
+            // if there are some unbalanced brackets, see whether we can fix them
             // the fixes applied might damage correct wiki syntax, hence are only applied if there are unbalanced brackets
             // of the right type
             int bracketLength = 0;
@@ -1566,10 +1585,10 @@ namespace WikiFunctions.Parse
             {
                 int firstUnbalancedBracket = unbalancedBracket;
                 // if it's ]]_]_ then see if removing bracket makes it all balance
-                if (bracketLength == 1 && articleTextTemp[unbalancedBracket].ToString().Equals(@"]") && 
+                if (bracketLength == 1 && articleTextTemp[unbalancedBracket].ToString().Equals(@"]") &&
                     articleTextTemp[unbalancedBracket - 1].ToString().Equals(@"]") && articleTextTemp[unbalancedBracket - 2].ToString().Equals(@"]"))
                     articleTextTemp = articleTextTemp.Remove(unbalancedBracket, 1);
-                                
+
                 if (bracketLength == 1)
                 {
                     // if it's [[blah blah}word]]
@@ -1585,7 +1604,7 @@ namespace WikiFunctions.Parse
                     articleTextTemp = Regex.Replace(articleTextTemp, @"(?<=[^{}<>]){(?=[^{}<>\(\)\|][^{}<>\(\)]+\)[^{}\(\)])", @"(");
 
                     // if it's ((word) then see if removing the extra opening round bracket makes it all balance
-                    if (articleTextTemp.Length > (unbalancedBracket+1) && articleTextTemp[unbalancedBracket].ToString().Equals(@"(") && articleText[unbalancedBracket + 1].ToString().Equals(@"("))
+                    if (articleTextTemp.Length > (unbalancedBracket + 1) && articleTextTemp[unbalancedBracket].ToString().Equals(@"(") && articleText[unbalancedBracket + 1].ToString().Equals(@"("))
                         articleTextTemp = articleTextTemp.Remove(unbalancedBracket, 1);
 
                     // if it's {[link]] or {[[link]] or [[[link]] then see if setting to [[ makes it all balance
@@ -1600,31 +1619,25 @@ namespace WikiFunctions.Parse
                     // external link missing opening [
                     articleTextTemp = Regex.Replace(articleTextTemp, @"(?<=^ *\*) *(?=https?://[^<>{}\[\]\r\n\s]+[^\[\]\r\n]*\]\s$)", " [", RegexOptions.Multiline);
                 }
-                
+
                 if (bracketLength == 2)
                 {
                     // if it's on double curly brackets, see if one is missing e.g. {{foo} or {{foo]}
                     articleTextTemp = Regex.Replace(articleTextTemp, @"(?<={{[^{}<>]{1,400}[^{}<>\|])(?:\]}|}\]?)(?=[^{}])", @"}}");
 
                     // might be [[[[link]] or [[link]]]] so see if removing the two found square brackets makes it all balance
-                    if(articleTextTemp.Substring(unbalancedBracket, Math.Min(4, articleTextTemp.Length - unbalancedBracket)).Equals("[[[[")
-                        || articleTextTemp.Substring(Math.Max(0, unbalancedBracket-2), Math.Min(4, articleTextTemp.Length - unbalancedBracket)).Equals("]]]]"))                    
+                    if (articleTextTemp.Substring(unbalancedBracket, Math.Min(4, articleTextTemp.Length - unbalancedBracket)).Equals("[[[[")
+                        || articleTextTemp.Substring(Math.Max(0, unbalancedBracket - 2), Math.Min(4, articleTextTemp.Length - unbalancedBracket)).Equals("]]]]"))
                         articleTextTemp = articleTextTemp.Remove(unbalancedBracket, 2);
                 }
 
                 unbalancedBracket = UnbalancedBrackets(articleTextTemp, ref bracketLength);
                 // the change worked if unbalanced bracket location moved considerably (so this one fixed), or all brackets now balance
                 if (unbalancedBracket < 0 || Math.Abs(unbalancedBracket - firstUnbalancedBracket) > 300)
-                    articleText = articleTextTemp; 
+                    articleText = articleTextTemp;
             }
 
-            // http://en.wikipedia.org/wiki/Wikipedia:WikiProject_Check_Wikipedia#Article_with_false_.3Cbr.2F.3E_.28AutoEd.29
-            // fix incorrect <br> of <br.>, <\br> and <br\>
-            articleText = IncorrectBr.Replace(articleText, "<br />");
-
-            articleText = WordingIntoBareExternalLinks.Replace(articleText, @"[$2 $1]");
-
-            return articleText.Trim();
+            return articleText;
         }
 
         // Covered by: LinkTests.TestCanonicalizeTitle(), incomplete
