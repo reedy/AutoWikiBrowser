@@ -89,13 +89,15 @@ namespace WikiFunctions.API
         /// </summary>
         public ApiEdit Clone()
         {
-            ApiEdit clone = new ApiEdit();
-            clone.URL = URL;
-            clone.PHP5 = PHP5;
-            clone.Maxlag = Maxlag;
-            clone.m_Cookies = m_Cookies;
-            clone.ProxySettings = ProxySettings;
-            clone.m_UserInfo = m_UserInfo;
+            ApiEdit clone = new ApiEdit
+                                {
+                                    URL = URL,
+                                    PHP5 = PHP5,
+                                    Maxlag = Maxlag,
+                                    m_Cookies = m_Cookies,
+                                    ProxySettings = ProxySettings,
+                                    m_UserInfo = m_UserInfo
+                                };
 
             return clone;
         }
@@ -663,7 +665,7 @@ namespace WikiFunctions.API
                 .Replace(" src=\"/", " src=\"" + Server + "/");
         }
 
-        private static readonly Regex extractCssAndJs = new Regex(@"("
+        private static readonly Regex ExtractCssAndJs = new Regex(@"("
             + @"<!--\[if .*?-->"
             + @"|<style\b.*?>.*?</style>"
             + @"|<link rel=""stylesheet"".*?/\s?>"
@@ -682,7 +684,7 @@ namespace WikiFunctions.API
             html = Tools.StringBetween(html, "<head>", "</head>");
             StringBuilder extracted = new StringBuilder(2048);
 
-            foreach (Match m in extractCssAndJs.Matches(html))
+            foreach (Match m in ExtractCssAndJs.Matches(html))
             {
                 extracted.Append(m.Value);
                 extracted.Append("\n");
