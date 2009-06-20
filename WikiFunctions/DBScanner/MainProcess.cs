@@ -43,16 +43,16 @@ namespace WikiFunctions.DBScanner
 
         private readonly string FileName = "";
         private readonly string From = "";
-        Stream stream;
+        private Stream stream;
 
         private readonly SendOrPostCallback SOPCstopped;
         private SynchronizationContext Context;
 
-        Thread ScanThread;
+        private Thread ScanThread;
         readonly List<Thread> SecondaryThreads = new List<Thread>();
         private readonly bool MultiThreaded;
         private readonly int ProcessorCount;
-        readonly CrossThreadQueue<ArticleInfo> PendingArticles = new CrossThreadQueue<ArticleInfo>();
+        private readonly CrossThreadQueue<ArticleInfo> PendingArticles = new CrossThreadQueue<ArticleInfo>();
 
         private readonly List<Scan> Scanners;
         private readonly bool IgnoreComments;
@@ -257,13 +257,13 @@ namespace WikiFunctions.DBScanner
             catch (ThreadAbortException) { }
             catch (Exception ex)
             {
-                if (boolMessage)
+                if (Message)
                     //System.Windows.Forms.MessageBox.Show("Problem on " + articleTitle + "\r\n\r\n" + ex.Message);
                     ErrorHandler.Handle(ex);
             }
             finally
             {
-                if (boolMessage)
+                if (Message)
                     Context.Post(SOPCstopped, articleTitle);
             }
         }
@@ -273,7 +273,7 @@ namespace WikiFunctions.DBScanner
             try
             {
                 bool sleep;
-                int sleeps = 0;
+                //int sleeps = 0;
                 while (Run)
                 {
                     if (PendingArticles.Count > 0) lock (PendingArticles)
@@ -293,7 +293,7 @@ namespace WikiFunctions.DBScanner
                     if (sleep)
                     {
                         Thread.Sleep(1);
-                        sleeps++;
+                        //sleeps++;
                     }
                 }
                 //System.Windows.Forms.MessageBox.Show(sleeps.ToString());
@@ -309,13 +309,7 @@ namespace WikiFunctions.DBScanner
         #region Properties
 
         public bool Run = true;
-
-        bool boolMessage = true;
-        public bool Message
-        {
-            get { return boolMessage; }
-            set { boolMessage = value; }
-        }
+        public bool Message = true;
 
         ThreadPriority mPriority = ThreadPriority.BelowNormal;
         public ThreadPriority Priority
