@@ -1767,6 +1767,7 @@ namespace WikiFunctions.Lists
 
         protected virtual string ModifyArticleName(string title)
         {
+            title = title.Replace("<br />", "");
             return title;
         }
 
