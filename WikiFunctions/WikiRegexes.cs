@@ -248,6 +248,11 @@ namespace WikiFunctions
         public static readonly Regex TemplateMultiLine = new Regex(@"{{[^{]*?}}", RegexOptions.Compiled);
 
         /// <summary>
+        /// Matches single and multiline templates, AND those with nested templates
+        /// </summary>
+        public static readonly Regex NestedTemplates = new Regex(@"{{((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})");
+
+        /// <summary>
         /// Matches external links
         /// </summary>
         public static readonly Regex ExternalLinks = new Regex(@"(?:[Hh]ttp|[Hh]ttps|[Ff]tp|[Mm]ailto)://[^\ \n<>]*|\[(?:[Hh]ttp|[Hh]ttps|[Ff]tp|[Mm]ailto):.*?\]", RegexOptions.Compiled);
