@@ -256,6 +256,14 @@ bar</ INCLUDEONLY>");
         }
 
         [Test]
+        public void TemplateName()
+        {
+            Assert.IsTrue(WikiRegexes.TemplateName.Match(@"{{Lifetime|1833|1907|Bisson, Elie-Hercule}}").Groups[1].Value.Equals("Lifetime"));
+            Assert.IsTrue(WikiRegexes.TemplateName.Match(@"{{ Lifetime  |1833|1907|Bisson, Elie-Hercule}}").Groups[1].Value.Equals("Lifetime"));
+            Assert.IsTrue(WikiRegexes.TemplateName.Match(@"{{Start date and age|1833|7|11}}").Groups[1].Value.Equals("Start date and age"));
+        }
+
+        [Test]
         public void BulletedText()
         {
             RegexAssert.NoMatch(WikiRegexes.BulletedText, "");

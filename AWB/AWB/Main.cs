@@ -884,12 +884,6 @@ namespace AutoWikiBrowser
                         txtEdit.SelectionBackColor = Color.LightGray;
                     }
 
-                    foreach (Match m in WikiRegexes.TemplateMultiLine.Matches(txtEdit.RawText))
-                    {
-                        txtEdit.SetEditBoxSelection(m.Index, m.Length);
-                        txtEdit.SelectionBackColor = Color.LightGray;
-                    }
-
                     // * items grey background
                     Regex StarRows = new Regex(@"^ *(\*)(.*)", RegexOptions.Multiline);
                     foreach (Match m in StarRows.Matches(txtEdit.RawText))
@@ -902,8 +896,7 @@ namespace AutoWikiBrowser
                     }
 
                     // template names dark blue font
-                    Regex TemplateName = new Regex(@"{{([^\|{}]+)");
-                    foreach (Match m in TemplateName.Matches(txtEdit.RawText))
+                    foreach (Match m in WikiRegexes.TemplateName.Matches(txtEdit.RawText))
                     {
                         txtEdit.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
                         txtEdit.SelectionColor = Color.DarkBlue;
