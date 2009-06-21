@@ -253,6 +253,11 @@ namespace WikiFunctions
         public static readonly Regex NestedTemplates = new Regex(@"{{((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})");
 
         /// <summary>
+        /// Matches templates: group 1 matches the names of templates
+        /// </summary>
+        public static readonly Regex TemplateName = new Regex(@"{{\s*([^\|{}]+?)(?=\s*(?:\||}}))");
+
+        /// <summary>
         /// Matches external links
         /// </summary>
         public static readonly Regex ExternalLinks = new Regex(@"(?:[Hh]ttp|[Hh]ttps|[Ff]tp|[Mm]ailto)://[^\ \n<>]*|\[(?:[Hh]ttp|[Hh]ttps|[Ff]tp|[Mm]ailto):.*?\]", RegexOptions.Compiled);
