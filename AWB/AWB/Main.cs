@@ -864,9 +864,8 @@ namespace AutoWikiBrowser
                     // TODO: regexes to be moved to WikiRegexes where appropriate and covered by unit tests
 
                     txtEdit.Visible = false;
-                    //  txtEdit.Text = " " + txtEdit.Text + " ";
 
-                    System.Drawing.Font currentFont = txtEdit.SelectionFont;
+                    Font currentFont = txtEdit.SelectionFont;
                     Font boldFont = new Font(currentFont.FontFamily, currentFont.Size, FontStyle.Bold);
                     Font italicFont = new Font(currentFont.FontFamily, currentFont.Size, FontStyle.Italic);
                     Font boldItalicFont = new Font(currentFont.FontFamily, currentFont.Size, FontStyle.Bold | FontStyle.Italic);
@@ -879,8 +878,7 @@ namespace AutoWikiBrowser
                     }
 
                     // templates grey background
-                    Regex NestedTemplates = new Regex(@"{{((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})");
-                    foreach (Match m in NestedTemplates.Matches(txtEdit.RawText))
+                    foreach (Match m in WikiRegexes.NestedTemplates.Matches(txtEdit.RawText))
                     {
                         txtEdit.SetEditBoxSelection(m.Index, m.Length);
                         txtEdit.SelectionBackColor = Color.LightGray;
@@ -1031,7 +1029,6 @@ namespace AutoWikiBrowser
                     txtEdit.Select(0, 0);
                     txtEdit.ScrollToCaret();
 
-                    //txtEdit.Text = txtEdit.Text.Trim();
                     txtEdit.Visible = true;
                 }
 

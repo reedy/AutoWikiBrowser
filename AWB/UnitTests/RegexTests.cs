@@ -244,6 +244,18 @@ bar</ INCLUDEONLY>");
         }
 
         [Test]
+        public void NestedTemplates()
+        {
+            RegexAssert.Matches("{{foo}}", WikiRegexes.NestedTemplates, "{{foo}}");
+            RegexAssert.Matches("{{foo}}", WikiRegexes.NestedTemplates, "123{{foo}}test");
+            RegexAssert.Matches("{{foo|bar}}", WikiRegexes.NestedTemplates, "{{foo|bar}}");
+            RegexAssert.Matches("{{foo\r\n|bar=test}}", WikiRegexes.NestedTemplates, "{{foo\r\n|bar=test}}");
+            RegexAssert.Matches("Should match distinct templates", WikiRegexes.NestedTemplates, "{{foo}}{{bar}}", "{{foo}}", "{{bar}}");
+            RegexAssert.Matches("{{foo| {bar} }}", WikiRegexes.NestedTemplates, "{{foo| {bar} }}");
+            RegexAssert.Matches("{{foo {{bar}} end}}", WikiRegexes.NestedTemplates, "{{foo {{bar}} end}}");
+        }
+
+        [Test]
         public void BulletedText()
         {
             RegexAssert.NoMatch(WikiRegexes.BulletedText, "");
