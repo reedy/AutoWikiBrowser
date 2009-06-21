@@ -28,11 +28,11 @@ namespace WikiFunctions
     /// </summary>
     public class WikiDiff
     {
-        string[] LeftLines;
-        string[] RightLines;
-        Diff diff;
-        StringBuilder Result;
-        int ContextLines;
+        private string[] LeftLines;
+        private string[] RightLines;
+        private Diff diff;
+        private StringBuilder Result;
+        private int ContextLines;
 
         /// <summary>
         /// Renders diff
@@ -53,7 +53,6 @@ namespace WikiFunctions
             {
                 if (h.Same) RenderContext(h);
                 else RenderDifference(h);
-
             }
             return Result.ToString();
         }
