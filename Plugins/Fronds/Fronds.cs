@@ -42,7 +42,8 @@ namespace Fronds
             PluginAboutMenuItem.Click += AboutMenuItemClicked;
 
             EnabledMenuItem.DropDownItems.AddRange(new[] {ConfigMenuItem, PluginAboutMenuItem});
-            AWB.PluginsToolStripMenuItem.DropDownItems.AddRange(new[] {EnabledMenuItem, AboutMenuItem});
+            AWB.PluginsToolStripMenuItem.DropDownItems.Add(EnabledMenuItem);
+            AWB.HelpToolStripMenuItem.DropDownItems.Add(AboutMenuItem);
 
             string newVersion = Tools.GetHTML(BaseURL + "version.txt").Replace(".", "");
             if (Int16.Parse(newVersion) > Int16.Parse(CurrentVersion.Replace(".", "")))
