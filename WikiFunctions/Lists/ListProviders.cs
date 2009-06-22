@@ -1765,6 +1765,8 @@ namespace WikiFunctions.Lists
 
         protected virtual bool CheckExtra(string entry)
         {
+            if (entry.StartsWith(@"<h1>"))
+                return false;
             return true;
         }
 
