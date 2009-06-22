@@ -522,6 +522,9 @@ namespace WikiFunctions.Lists
             Blfilterredir = "redirects";
         }
 
+        public override string DisplayText
+        { get { return "What redirects here"; } }
+
         public override string UserInputTextBoxText
         { get { return "Redirects to"; } }
     }
