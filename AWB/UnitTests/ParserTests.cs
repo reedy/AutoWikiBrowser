@@ -1471,12 +1471,16 @@ Some artists represented by Zach Feuer Gallery are [[Phoebe Washburn]], [[Jules 
             string Correct = @"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23 }} was";
             Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acessdate = 2008-04-23 }} was"));
             Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accessedate = 2008-04-23 }} was"));
+            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accessed = 2008-04-23 }} was"));
+            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|retrieved = 2008-04-23 }} was"));
+            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|retrieved on = 2008-04-23 }} was"));
             Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accesdate = 2008-04-23 }} was"));
             Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|Acessdate = 2008-04-23 }} was"));
             Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|Accesdate = 2008-04-23 }} was"));
             Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|Acesdate = 2008-04-23 }} was"));
             Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acesdate = 2008-04-23 }} was"));
             Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccesdate = 2008-04-23 }} was"));
+            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|access date = 2008-04-23 }} was"));
             Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23 }} was"));
 
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23|publisher=BBC }} was", Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23|publisher=BBC }} was"));
