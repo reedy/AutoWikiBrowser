@@ -609,7 +609,7 @@ namespace WikiFunctions
         /// </summary>
         public static string TurnFirstToUpperNoProjectCheck(string input)
         {
-            return (char.ToUpper(input[0]) + input.Remove(0, 1));
+            return (string.IsNullOrEmpty(input)) ? "" : (char.ToUpper(input[0]) + input.Remove(0, 1));
         }
 
         // Covered by ToolsTests.TurnFirstToLower()
