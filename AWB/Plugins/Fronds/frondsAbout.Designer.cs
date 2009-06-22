@@ -35,7 +35,7 @@
             // 
             // btnAboutOK
             // 
-            this.btnAboutOK.Location = new System.Drawing.Point(109, 286);
+            this.btnAboutOK.Location = new System.Drawing.Point(111, 286);
             this.btnAboutOK.Name = "btnAboutOK";
             this.btnAboutOK.Size = new System.Drawing.Size(75, 23);
             this.btnAboutOK.TabIndex = 0;
@@ -47,9 +47,9 @@
             // 
             this.lblAbout.AutoSize = true;
             this.lblAbout.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAbout.Location = new System.Drawing.Point(11, 9);
+            this.lblAbout.Location = new System.Drawing.Point(19, 9);
             this.lblAbout.Name = "lblAbout";
-            this.lblAbout.Size = new System.Drawing.Size(284, 270);
+            this.lblAbout.Size = new System.Drawing.Size(266, 270);
             this.lblAbout.TabIndex = 1;
             this.lblAbout.Text = resources.GetString("lblAbout.Text");
             // 

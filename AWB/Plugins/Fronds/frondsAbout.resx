@@ -118,9 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="lblAbout.Text" xml:space="preserve">
-    <value>At the time of writing this, Fronds is still in beta.
-It's quite possible that we forget to update this page
-before release however, so here are the applicable
+    <value>What is Fronds? Well, handy instructions are
+available via the "Configuration" option.  In the
+meantime, here are the applicable technical
 details for your version of Fronds (X.X.X.X):
 
 Developers: Jarry1250 (web interface, plugin)
