@@ -2166,8 +2166,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     articleText = articleText.Replace("[[" + link.Groups[1].Value + link.Groups[2].Value + "]]", "");
             }
 
-            if (WikiRegexes.EmptyTemplate.Match(articleText).Success)
-                articleText = WikiRegexes.EmptyTemplate.Replace(articleText, "");
+            articleText = WikiRegexes.EmptyTemplate.Replace(articleText, "");
 
             return articleText;
         }
