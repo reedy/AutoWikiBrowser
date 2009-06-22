@@ -42,13 +42,13 @@ Is this SVN (1) or a release (2)? ");
                 {
                     case 1:
                         Console.Write("Please enter the current SVN revision: ");
-                        string SVNRev = Console.ReadLine();
-                        filename = "AutoWikiBrowser_rev" + SVNRev + ".zip";
+                        string svnRev = Console.ReadLine();
+                        filename = "AutoWikiBrowser_rev" + svnRev + ".zip";
                         break;
                     case 2:
                         Console.Write("Please enter the version: ");
-                        string Ver = Console.ReadLine();
-                        filename = "AutoWikiBrowser" + Ver.Replace(".", "") + ".zip";
+                        string ver = Console.ReadLine();
+                        filename = "AutoWikiBrowser" + ver.Replace(".", "") + ".zip";
                         break;
                 }
 
