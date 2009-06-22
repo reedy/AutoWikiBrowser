@@ -1470,6 +1470,7 @@ Some artists represented by Zach Feuer Gallery are [[Phoebe Washburn]], [[Jules 
         {
             string Correct = @"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23 }} was";
             Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acessdate = 2008-04-23 }} was"));
+            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accessedate = 2008-04-23 }} was"));
             Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accesdate = 2008-04-23 }} was"));
             Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|Acessdate = 2008-04-23 }} was"));
             Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|Accesdate = 2008-04-23 }} was"));
