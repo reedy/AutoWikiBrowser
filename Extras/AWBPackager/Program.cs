@@ -85,6 +85,9 @@ Is this SVN (1) or a release (2)? ");
                 Directory.CreateDirectory(Tmp + "Plugins\\Delinker\\");
                 File.Copy(currFolder + "DelinkerPlugin.dll", Tmp + "Plugins\\Delinker\\DelinkerPlugin.dll", true);
 
+                Directory.CreateDirectory(Tmp + "Plugins\\Fronds\\");
+                File.Copy(currFolder + "Fronds.dll", Tmp + "Plugins\\Fronds\\Fronds.dll", true);
+
                 Directory.CreateDirectory(Tmp + "Plugins\\Kingbotk\\");
                 currFolder = AWBDir + "Plugins\\Kingbotk\\";
 
