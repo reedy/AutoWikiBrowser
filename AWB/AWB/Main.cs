@@ -1018,9 +1018,12 @@ namespace AutoWikiBrowser
                         txtEdit.SelectionBackColor = Color.PaleGoldenrod;
                     }
 
-                    txtEdit.SetEditBoxSelection(0, 0);
-                    txtEdit.Select(0, 0);
-                    txtEdit.ScrollToCaret();
+                    if (!focusAtEndOfEditTextBoxToolStripMenuItem.Checked)
+                    {
+                        txtEdit.SetEditBoxSelection(0, 0);
+                        txtEdit.Select(0, 0);
+                        txtEdit.ScrollToCaret();
+                    }
 
                     txtEdit.Visible = true;
                 }
