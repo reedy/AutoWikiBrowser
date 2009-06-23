@@ -12,6 +12,7 @@ namespace WikiFunctions.Controls
         public ArticleTextBox()
         {
             LanguageOption = RichTextBoxLanguageOptions.DualFont;
+            InitializeComponent();
         }
 
         bool Locked;
