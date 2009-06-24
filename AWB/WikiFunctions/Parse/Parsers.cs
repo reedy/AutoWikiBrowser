@@ -1880,39 +1880,30 @@ namespace WikiFunctions.Parse
         public static string FixLinkWhitespace(string articleText, string articleTitle)
         {
             //remove undesirable space from beginning of wikilink (space before wikilink) - parse this line first
-            if (LinkWhitespace1.Match(articleText).Success)
-                articleText = LinkWhitespace1.Replace(articleText, " [[$1]]");
+            articleText = LinkWhitespace1.Replace(articleText, " [[$1]]");
 
             //remove undesirable space from beginning of wikilink and move it outside link - parse this line second
-            if (LinkWhitespace2.Match(articleText).Success)
-                articleText = LinkWhitespace2.Replace(articleText, " [[$1]]");
+            articleText = LinkWhitespace2.Replace(articleText, " [[$1]]");
 
             //remove undesirable double space from middle of wikilink (up to 61 characters in wikilink)
-            if (LinkWhitespace3.Match(articleText).Success)
-                articleText = LinkWhitespace3.Replace(articleText, "[[$1 $2]]");
+            articleText = LinkWhitespace3.Replace(articleText, "[[$1 $2]]");
 
             //remove undesirable space from end of wikilink (space after wikilink) - parse this line first
-            if (LinkWhitespace4.Match(articleText).Success)
-                articleText = LinkWhitespace4.Replace(articleText, "[[$1]] ");
+            articleText = LinkWhitespace4.Replace(articleText, "[[$1]] ");
 
             //remove undesirable space from end of wikilink and move it outside link - parse this line second
-            if (LinkWhitespace5.Match(articleText).Success)
-                articleText = LinkWhitespace5.Replace(articleText, "[[$1]] ");
+            articleText = LinkWhitespace5.Replace(articleText, "[[$1]] ");
 
             //remove undesirable double space between links in date (day first)
-            if (DateLinkWhitespace1.Match(articleText).Success)
-                articleText = DateLinkWhitespace1.Replace(articleText, "$1 $2");
+            articleText = DateLinkWhitespace1.Replace(articleText, "$1 $2");
 
             //remove undesirable double space between links in date (day second)
-            if (DateLinkWhitespace2.Match(articleText).Success)
-                articleText = DateLinkWhitespace2.Replace(articleText, "$1 $2");
+            articleText = DateLinkWhitespace2.Replace(articleText, "$1 $2");
 
             // correct [[page# section]] to [[page#section]]
             Regex sectionLinkWhitespace = new Regex(@"(\[\[" + Regex.Escape(articleTitle) + @"\#)\s+([^\[\]]+\]\])");
 
-            return sectionLinkWhitespace.IsMatch(articleText)
-                       ? sectionLinkWhitespace.Replace(articleText, "$1$2")
-                       : articleText;
+            return sectionLinkWhitespace.Replace(articleText, "$1$2");
         }
 
         /// <summary>
