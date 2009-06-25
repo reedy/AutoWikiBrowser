@@ -670,7 +670,7 @@ namespace WikiFunctions
             text = text.Trim('[', ']');
             text = text.Replace(@"&amp;", @"&");
 
-            return text.Trim(':');
+            return text.TrimStart(':');
         }
 
         // Covered by ToolsTests.SplitToSections()
