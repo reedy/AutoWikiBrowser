@@ -262,12 +262,11 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixHeadings(string articleText, string articleTitle, out bool noChange)
         {
-            string testText = articleText;
-            articleText = FixHeadings(articleText, articleTitle);
+            string newText = FixHeadings(articleText, articleTitle);
 
-            noChange = (testText == articleText);
+            noChange = (newText == articleText);
 
-            return articleText.Trim();
+            return newText.Trim();
         }
 
         private const int MinCleanupTagsToCombine = 3; // article must have at least this many tags to combine to {{Article issues}}
