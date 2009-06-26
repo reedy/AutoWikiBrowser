@@ -1471,7 +1471,7 @@ Some artists represented by Zach Feuer Gallery are [[Phoebe Washburn]], [[Jules 
             string Correct = @"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23 }} was";
             Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acessdate = 2008-04-23 }} was"));
             Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accessedate = 2008-04-23 }} was"));
-            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accessed = 2008-04-23 }} was"));
+            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|date accessed = 2008-04-23 }} was"));
             Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|retrieved = 2008-04-23 }} was"));
             Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|retrieved on = 2008-04-23 }} was"));
             Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accesdate = 2008-04-23 }} was"));
@@ -1488,6 +1488,7 @@ Some artists represented by Zach Feuer Gallery are [[Phoebe Washburn]], [[Jules 
 
             // no match
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|acccessdated = 2008-04-23 }} was", Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccessdated = 2008-04-23 }} was"));
+            Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|accessed = 2008-04-23 }} was", Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accessed = 2008-04-23 }} was"));
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23 }} was", Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23 }} was"));
         }
 
