@@ -2461,7 +2461,7 @@ window.scrollTo(0, diffTopY);
             txtEdit.ResetFind();
 
             // After manual changes, automatic edit summary may be inaccurate, removing it altogether
-            if (TheArticle != null)
+            if (TheArticle.ArticleText != txtEdit.Text)
                 TheArticle.EditSummary = "";
         }
 
