@@ -3891,6 +3891,18 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         /// <summary>
+        /// Returns whether the input article text contains any {{dead link}} templates, ignoring comments
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <returns></returns>
+        public static bool HasDeadLinks(string articleText)
+        {
+            articleText = WikiRegexes.Comments.Replace(articleText, "");
+
+            return WikiRegexes.DeadLink.IsMatch(articleText);
+        }
+
+        /// <summary>
         /// Check if the article contains a {{nofootnotes}} or {{morefootnotes}} template but has 5+ <ref>...</ref> references
         /// </summary>
         public static bool HasMorefootnotesAndManyReferences(string articleText)
