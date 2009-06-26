@@ -1028,6 +1028,20 @@ namespace WikiFunctions.Parse
             return Regex.Replace(articleText, @"(\{\{\s*cite[^\{\}]*\|\s*(?:archive|air|access)?date2?\s*=\s*(?:(?:200\d|19[7-9]\d)-[01]?\d-[0-3]?\d|[0-3]?\d\s*\w+,?\s*(?:200\d|19[7-9]\d)|\w+\s*[0-3]?\d,?\s*(?:200\d|19[7-9]\d)))(\s*[,-:]?\s+[0-2]?\d\:?[0-5]\d(?:\:?[0-5]\d)?\s*[^\|\}]*)", "$1<!--$2-->", RegexOptions.IgnoreCase | RegexOptions.Singleline); // Removes time from date fields
         }
 
+                // Covered by: FormattingTests.TestMdashes()
+        /// <summary>
+        /// Replaces hyphens and em-dashes with en-dashes, per [[WP:DASH]]
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle"></param>
+        /// <returns>The modified article text.</returns>
+        [Obsolete ("cannot provide correct namespace key")]
+        public string Mdashes(string articleText, string articleTitle)
+        {
+            // use dummy namespace of -1
+            return Mdashes(articleText, articleTitle, -1);
+        }
+
         // Covered by: FormattingTests.TestMdashes()
         /// <summary>
         /// Replaces hyphens and em-dashes with en-dashes, per [[WP:DASH]]
