@@ -851,6 +851,10 @@ namespace AutoWikiBrowser
                 if(unbalancedBracket > 0)
                     lblWarn.Text += "Unbalanced brackets found\r\n";
 
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Some_additional_edits
+                if (TheArticle.HasDeadLinks)
+                    lblWarn.Text += "Dead links found\r\n";
+
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Working_with_Alerts
                 if (chkSkipIfNoAlerts.Checked && lblWarn.Text.Length == 0)
                 {

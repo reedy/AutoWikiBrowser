@@ -202,6 +202,13 @@ namespace WikiFunctions
         { get { return Parsers.HasSicTag(mArticleText); } }
 
         /// <summary>
+        /// Returns whether the article contains any {{dead link}} templates
+        /// </summary>
+        [XmlIgnore]
+        public bool HasDeadLinks
+        { get { return Parsers.HasDeadLinks(mArticleText); } }
+
+        /// <summary>
         /// Returns true if the article contains a {{nofootnotes}} or {{morefootnotes}} template but has 5+ <ref>...</ref> references
         /// </summary>
         [XmlIgnore]

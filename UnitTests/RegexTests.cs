@@ -140,6 +140,18 @@ namespace UnitTests
         }
 
         [Test]
+        public void DeadLinkTests()
+        {
+            TestMatch(WikiRegexes.DeadLink, "{{dead link}}", "{{dead link}}");
+            TestMatch(WikiRegexes.DeadLink, "{{Dead link}}", "{{Dead link}}");
+            TestMatch(WikiRegexes.DeadLink, "{{Deadlink}}", "{{Deadlink}}");
+            TestMatch(WikiRegexes.DeadLink, "{{brokenlink}}", "{{brokenlink}}");
+            TestMatch(WikiRegexes.DeadLink, "{{Dl}}", "{{Dl}}");
+            TestMatch(WikiRegexes.DeadLink, "{{Dead link}}", "{{Dead link}}");
+            TestMatch(WikiRegexes.DeadLink, "{{dead link|date=May 2009}}", "{{dead link|date=May 2009}}");
+        }
+
+        [Test]
         public void WikiLinkTests()
         {
             Assert.AreEqual(WikiRegexes.WikiLink.Match(@"[[foo]]").Groups[1].Value, @"foo");
