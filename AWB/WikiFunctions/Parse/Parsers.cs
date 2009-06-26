@@ -1060,7 +1060,7 @@ namespace WikiFunctions.Parse
                 articleText = Regex.Replace(articleText, Regex.Escape(articleTitle.Replace(@"–", @"-").Replace(@"—", @"-")), articleTitle);
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Change_--_.28two_dashes.29_to_.E2.80.94_.28em_dash.29
-            if (nameSpaceKey == 0)
+            if (nameSpaceKey == Namespace.Mainspace)
                 articleText = Regex.Replace(articleText, @"(?<=\w)\s*--\s*(?=\w)", @"—");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#minuses
