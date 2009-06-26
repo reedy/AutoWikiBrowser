@@ -926,13 +926,11 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string CiteTemplateDates(string articleText, out bool noChange)
         {
-            string articleTextAtStart = articleText;
+            string newText = CiteTemplateDates(articleText);
 
-            articleText = CiteTemplateDates(articleText);
+            noChange = (newText == articleText);
 
-            noChange = (articleTextAtStart == articleText);
-
-            return articleText;
+            return newText;
         }
 
         /// <summary>
@@ -1373,11 +1371,10 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixSyntax(string articleText, out bool noChange)
         {
-            string testText = articleText;
-            articleText = FixSyntax(articleText);
+            string newText = FixSyntax(articleText);
 
-            noChange = (testText == articleText);
-            return articleText;
+            noChange = (newText == articleText);
+            return newText;
         }
 
         // regexes for external link match on balanced bracket
@@ -2184,12 +2181,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text.</returns>
         public static string BulletExternalLinks(string articleText, out bool noChange)
         {
-            string testText = articleText;
-            articleText = BulletExternalLinks(articleText);
+            string newText = BulletExternalLinks(articleText);
 
-            noChange = (testText == articleText);
+            noChange = (newText == articleText);
 
-            return articleText;
+            return newText;
         }
 
         private static readonly HideText BulletExternalHider = new HideText(false, true, false);
@@ -2474,12 +2470,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text.</returns>
         public string Unicodify(string articleText, out bool noChange)
         {
-            string testText = articleText;
-            articleText = Unicodify(articleText);
+            string newText = Unicodify(articleText);
 
-            noChange = (testText == articleText);
+            noChange = (newText == articleText);
 
-            return articleText;
+            return newText;
         }
 
         // Covered by: UnicodifyTests
@@ -2675,12 +2670,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The new article text.</returns>
         public static string ReplaceImage(string oldImage, string newImage, string articleText, out bool noChange)
         {
-            string testText = articleText;
-            articleText = ReplaceImage(oldImage, newImage, articleText);
+            string newText = ReplaceImage(oldImage, newImage, articleText);
 
-            noChange = (testText == articleText);
+            noChange = (newText == articleText);
 
-            return articleText;
+            return newText;
         }
 
         /// <summary>
@@ -2792,12 +2786,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The new article text.</returns>
         public static string RemoveImage(string image, string articleText, bool commentOut, string comment, out bool noChange)
         {
-            string testText = articleText;
-            articleText = RemoveImage(image, articleText, commentOut, comment);
+            string newText = RemoveImage(image, articleText, commentOut, comment);
 
-            noChange = (testText == articleText);
+            noChange = (newText == articleText);
 
-            return articleText;
+            return newText;
         }
 
         /// <summary>
@@ -2810,12 +2803,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The article text.</returns>
         public string AddCategory(string newCategory, string articleText, string articleTitle, out bool noChange)
         {
-            string testText = articleText;
-            articleText = AddCategory(newCategory, articleText, articleTitle);
+            string newText = AddCategory(newCategory, articleText, articleTitle);
 
-            noChange = (testText == articleText);
+            noChange = (newText == articleText);
 
-            return articleText;
+            return newText;
         }
 
         // Covered by: RecategorizerTests.Addition()
@@ -2940,7 +2932,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="strOldCat">The old category to remove.</param>
-        /// <param name="noChange">Value that indicated whether no change was made.</param>
         /// <returns>The article text without the old category.</returns>
         public static string RemoveCategory(string strOldCat, string articleText)
         {
@@ -3257,13 +3248,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public static string LivingPeople(string articleText, out bool noChange)
         {
-            string testText = articleText;
+            string newText = LivingPeople(articleText);
 
-            articleText = LivingPeople(articleText);
+            noChange = (newText == articleText);
 
-            noChange = (testText == articleText);
-
-            return articleText;
+            return newText;
         }
 
         /// <summary>
@@ -3317,13 +3306,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public string FixPeopleCategories(string articleText, out bool noChange)
         {
-            string testText = articleText;
+            string newText = FixPeopleCategories(articleText);
 
-            articleText = FixPeopleCategories(articleText);
+            noChange = (newText == articleText);
 
-            noChange = (testText == articleText);
-
-            return articleText;
+            return newText;
         }
 
         /// <summary>
@@ -3513,12 +3500,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The new article text.</returns>
         public static string Conversions(string articleText, out bool noChange)
         {
-            string testText = articleText;
-            articleText = Conversions(articleText);
+            string newText = Conversions(articleText);
 
-            noChange = (testText == articleText);
+            noChange = (newText == articleText);
 
-            return articleText;
+            return newText;
         }
 
         // NOT covered
@@ -3577,13 +3563,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         public string Tagger(string articleText, string articleTitle, out bool noChange, ref string summary)
         {
-            string testText = articleText;
-            articleText = Tagger(articleText, articleTitle, ref summary);
-            articleText = TagUpdater(articleText);
+            string newText = Tagger(articleText, articleTitle, ref summary);
+            newText = TagUpdater(newText);
 
-            noChange = (testText == articleText);
+            noChange = (newText == articleText);
 
-            return articleText;
+            return newText;
         }
 
         private static readonly CategoriesOnPageNoHiddenListProvider CategoryProv = new CategoriesOnPageNoHiddenListProvider();
