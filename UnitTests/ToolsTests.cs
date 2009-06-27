@@ -653,6 +653,9 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
             {
                 Assert.AreEqual(kvp.Value, Tools.RemoveDiacritics(kvp.Key));
             }
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Leaving_foreign_characters_in_DEFAULTSORT
+            Assert.AreEqual(@"aaaaa eee ii oooo uuu y", Tools.RemoveDiacritics(@"ắạảằẩ ếễệ ịỉ ỏøờồ ụủữ ỳ"));
         }
         
         [Test]
