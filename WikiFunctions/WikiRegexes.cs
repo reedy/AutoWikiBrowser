@@ -523,9 +523,9 @@ namespace WikiFunctions
         public static readonly Regex ReferenceList = new Regex("{{(reflist|references-small|references-2column)}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
-        /// Checks for presence of infobox in article
+        /// Matches infoboxes, group 1 being the template name of the infobox
         /// </summary>
-        public static readonly Regex Infobox = new Regex(@"{{(?:\s*[Ii]nfobox[\s_]|[^{}\|]+?[Ii]nfobox\s*\|).*?}}", RegexOptions.Compiled | RegexOptions.Singleline);
+        public static readonly Regex InfoBox = new Regex(@"{{\s*([Ii]nfobox[\s_][^{}\|]+?|[^{}\|]+?[Ii]nfobox)\s*\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}}");
 
         // covered by DablinksTests
         /// <summary>
