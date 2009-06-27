@@ -584,6 +584,54 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
             Assert.AreEqual("     ", Tools.ReplaceWithSpaces("foooo"));
             Assert.AreEqual("       ", Tools.ReplaceWithSpaces("FOO BAR"));
         }
+
+        [Test]
+        public void HTMLListToWiki()
+        {
+            Assert.AreEqual(@"*Fred", Tools.HTMLListToWiki("Fred", "*"));
+            Assert.AreEqual(@"*Fred
+*Jones", Tools.HTMLListToWiki(@"Fred
+Jones", "*"));
+            Assert.AreEqual(@"*Fred", Tools.HTMLListToWiki("Fred<BR>", "*"));
+            Assert.AreEqual(@"*Fred", Tools.HTMLListToWiki("Fred<br/>", "*"));
+            Assert.AreEqual(@"#Fred", Tools.HTMLListToWiki("Fred", "#"));
+            Assert.AreEqual(@"#Fred", Tools.HTMLListToWiki("<OL>Fred</OL>", "#"));
+            Assert.AreEqual(@"#Fred", Tools.HTMLListToWiki("<li>Fred</li>", "#"));
+            Assert.AreEqual(@"*Fred", Tools.HTMLListToWiki(":Fred", "*"));
+            Assert.AreEqual(@"*Fred", Tools.HTMLListToWiki("*Fred", "*"));
+            Assert.AreEqual(@"*Fred Smith [[Foo#bar]]", Tools.HTMLListToWiki("#Fred Smith [[Foo#bar]]", "*"));
+
+            Assert.AreEqual(@"*Fred Smith:here", Tools.HTMLListToWiki("Fred Smith:here", "*"));
+
+            Assert.AreEqual(@"* Fred
+* Jones", Tools.HTMLListToWiki(@"1 Fred
+2 Jones", "*"));
+
+            Assert.AreEqual(@"* Fred
+* Jones", Tools.HTMLListToWiki(@"11. Fred
+12. Jones", "*"));
+
+            Assert.AreEqual(@"* Fred
+* Jones", Tools.HTMLListToWiki(@"(1) Fred
+(2) Jones", "*"));
+
+            Assert.AreEqual(@"* Fred
+* Jones", Tools.HTMLListToWiki(@"1) Fred
+2) Jones", "*"));
+
+            Assert.AreEqual(@"* Fred
+* Jones", Tools.HTMLListToWiki(@"(11) Fred
+(12) Jones", "*"));
+
+            Assert.AreEqual(@"* Fred
+* Jones", Tools.HTMLListToWiki(@"(998) Fred
+(999) Jones", "*"));
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Text_deleted_by_.22convert_list_to.22_.22.2A_list.22
+            Assert.AreEqual(@"*1980 Fred
+*2004 Jones", Tools.HTMLListToWiki(@"1980 Fred
+2004 Jones", "*"));
+        }
     }
 
     [TestFixture]
