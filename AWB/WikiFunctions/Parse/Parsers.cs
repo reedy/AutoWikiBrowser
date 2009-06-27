@@ -2979,13 +2979,18 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         /// <summary>
-        /// Returns the sortkey used by all categories, if all categories use the same sortkey
-        /// Where no sortkey is used for all categories, returns null
+        /// Returns the sortkey used by all categories, if 
+        /// * all categories use the same sortkey
+        /// * no {{DEFAULTSORT}} in article
+        /// Otherwise returns null
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns></returns>
         public static string GetCategorySort(string articleText)
         {
+            if (WikiRegexes.Defaultsort.Matches(articleText).Count == 1)
+                return "";
+
             int matches;
             const string dummy = @"@@@@";
 

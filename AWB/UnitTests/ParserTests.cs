@@ -905,6 +905,27 @@ died 2002
         }
 
         [Test]
+        public void GetCategorySortTests()
+        {
+            Assert.AreEqual(@"", Parsers.GetCategorySort(@"'''Jonathan Sothcott''' (born [[26 April]] [[1980]]) {{persondata}}
+{{DEFAULTSORT:Sothcott, Jonathan}}
+[[Category:British television producers|Sothcott, Jonathon]]"));
+
+            Assert.AreEqual(@"Sothcott, Jonathan", Parsers.GetCategorySort(@"'''Jonathan Sothcott''' (born [[26 April]] [[1980]]) {{persondata}}
+[[Category:British television producers|Sothcott, Jonathan]]
+[[Category:Living people|Sothcott, Jonathan]]"));
+
+            Assert.AreEqual(@"Sothcott, Jonathan", Parsers.GetCategorySort(@"'''Jonathan Sothcott''' (born [[26 April]] [[1980]]) {{persondata}}
+[[Category:Living people|Sothcott, Jonathan]]"));
+
+            // not all same – null return
+            Assert.AreEqual(@"", Parsers.GetCategorySort(@"'''Jonathan Sothcott''' (born [[26 April]] [[1980]]) {{persondata}}
+[[Category:British television producers|Sothcott, Jonathan]]
+[[Category:Living people|Sothcott, Jonathan]]
+[[Category:1944 births]]"));
+        }
+
+        [Test]
         public void CategoryMatch()
         {
             Assert.IsTrue(Parsers.CategoryMatch(@"foo [[Category:1990 births]]", @"1990 births"));
