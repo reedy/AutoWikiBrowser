@@ -267,6 +267,7 @@ en, sq, ru
                     articleText = MovePortalTemplates(articleText);
                     articleText = MoveMoreNoFootnotes(articleText);
                     articleText = MoveExternalLinks(articleText);
+                    articleText = MoveSeeAlso(articleText);
                 }
 
                 // two newlines here per http://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser&oldid=243224092#Blank_lines_before_stubs
@@ -487,7 +488,7 @@ en, sq, ru
         }
 
         private static readonly Regex SeeAlso = new Regex(@"(\s*(==+)\s*see\s+also\s*\2)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-        private static readonly Regex SeeAlsoSection = new Regex(@"(\s*(==+)\s*see\s+also\s*\2 *).*?(?===[^=][^\r\n]*?[^=]==(\r\n?|\n))", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        private static readonly Regex SeeAlsoSection = new Regex(@"(^== *[Ss]ee also *==.*?)(?=^==[^=][^\r\n]*?[^=]==(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
         private static readonly Regex SeeAlsoToEnd = new Regex(@"(\s*(==+)\s*see\s+also\s*\2 *).*", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
@@ -604,6 +605,26 @@ en, sq, ru
             {
                 articleText = articleText.Replace(externalLinks, "");
                 articleText = articleText.Replace(references, references + externalLinks);
+            }
+            // newlines are fixed by later logic
+            return articleText;
+        }
+
+        /// <summary>
+        /// Moves the 'see also' section to be above the 'references' section, subject to the limitation that the 'see also' section can't be the last level-2 section
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <returns></returns>
+        public static string MoveSeeAlso(string articleText)
+        {
+            // is 'see also' section below references?
+            string references = ReferencesSection.Match(articleText).Groups[1].Value;
+            string seealso = SeeAlsoSection.Match(articleText).Groups[1].Value;
+
+            if (articleText.IndexOf(seealso) > articleText.IndexOf(references) && references.Length > 0 && seealso.Length > 0)
+            {
+                articleText = articleText.Replace(seealso, "");
+                articleText = articleText.Replace(references, seealso + references);
             }
             // newlines are fixed by later logic
             return articleText;
