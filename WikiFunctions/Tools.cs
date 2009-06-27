@@ -272,7 +272,7 @@ namespace WikiFunctions
         {
             name = RemoveNamespaceString(Regex.Replace(RemoveDiacritics(name), @"\(.*?\)$", "").Replace("'", "").Trim()).Trim();
             string origName = name;
-            if (!name.Contains(" ") || Variables.LangCode == LangCodeEnum.uk) 
+            if (!name.Contains(" ") || Variables.LangCode == LangCodeEnum.uk)
                 return FixupDefaultSort(origName);
             // ukwiki uses "Lastname Firstname Patronymic" convention, nothing more is needed
 
@@ -1172,7 +1172,7 @@ namespace WikiFunctions
             }
             return s;
         }
-        
+
         /// <summary>
         /// Returns whether the given string contains recognised diacritics
         /// </summary>
@@ -1195,7 +1195,7 @@ namespace WikiFunctions
             // http://en.wikipedia.org/wiki/Wikipedia:Categorization#Using_sort_keys
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#DEFAULTSORT_capitalization_after_apostrophes
             foreach (Match m in WikiRegexes.RegexWordApostrophes.Matches(s))
-            {  
+            {
                 s = s.Remove(m.Index, m.Length);
 
                 s = s.Insert(m.Index, TurnFirstToUpper(m.Value.ToLower()));
@@ -1259,7 +1259,6 @@ namespace WikiFunctions
             WriteTextFileAbsolutePath(message.ToString(), Application.StartupPath + "\\" + file, append);
         }
 
-        // Not Covered
         /// <summary>
         /// Turns an HTML list into a wiki style list using the input bullet style
         /// </summary>
