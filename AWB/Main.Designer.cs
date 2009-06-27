@@ -158,7 +158,7 @@ namespace AutoWikiBrowser
             this.toolStripComboOnLoad = new System.Windows.Forms.ToolStripComboBox();
             this.focusAtEndOfEditTextBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.noSectionEditSummaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.restrictDefaultsortAdditionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.restrictDefaultsortChangesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.noMOSComplianceFixesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.syntaxHighlightEditBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scrollToUnbalancedBracketsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1269,7 +1269,7 @@ namespace AutoWikiBrowser
             this.toolStripComboOnLoad,
             this.focusAtEndOfEditTextBoxToolStripMenuItem,
             this.noSectionEditSummaryToolStripMenuItem,
-            this.restrictDefaultsortAdditionToolStripMenuItem,
+            this.restrictDefaultsortChangesToolStripMenuItem,
             this.noMOSComplianceFixesToolStripMenuItem,
             this.syntaxHighlightEditBoxToolStripMenuItem,
             this.scrollToUnbalancedBracketsToolStripMenuItem,
@@ -1359,12 +1359,12 @@ namespace AutoWikiBrowser
             this.noSectionEditSummaryToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
             this.noSectionEditSummaryToolStripMenuItem.Text = "Do not use section edit summaries";
             // 
-            // restrictDefaultsortAdditionToolStripMenuItem
+            // restrictDefaultsortChangesToolStripMenuItem
             // 
-            this.restrictDefaultsortAdditionToolStripMenuItem.CheckOnClick = true;
-            this.restrictDefaultsortAdditionToolStripMenuItem.Name = "restrictDefaultsortAdditionToolStripMenuItem";
-            this.restrictDefaultsortAdditionToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
-            this.restrictDefaultsortAdditionToolStripMenuItem.Text = "Restrict addition of {{DEFAULTSORT}}";
+            this.restrictDefaultsortChangesToolStripMenuItem.CheckOnClick = true;
+            this.restrictDefaultsortChangesToolStripMenuItem.Name = "restrictDefaultsortChangesToolStripMenuItem";
+            this.restrictDefaultsortChangesToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
+            this.restrictDefaultsortChangesToolStripMenuItem.Text = "Restrict {{DEFAULTSORT}} change/addition";
             // 
             // noMOSComplianceFixesToolStripMenuItem
             // 
@@ -4491,7 +4491,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator28;
         private System.Windows.Forms.ToolStripMenuItem focusAtEndOfEditTextBoxToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem noSectionEditSummaryToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem restrictDefaultsortAdditionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem restrictDefaultsortChangesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem noMOSComplianceFixesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem syntaxHighlightEditBoxToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scrollToUnbalancedBracketsToolStripMenuItem;

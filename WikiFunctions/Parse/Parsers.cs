@@ -3042,7 +3042,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="noChange">If there is no change (True if no Change)</param>
         /// <param name="restrictDefaultsortAddition">Prevent insertion of a new {{DEFAULTSORT}} as AWB may not always be right for articles about people</param>
         /// <returns>The article text possibly using defaultsort.</returns>
-        public static string ChangeToDefaultSort(string articleText, string articleTitle, out bool noChange, bool restrictDefaultsortAddition)
+        public static string ChangeToDefaultSort(string articleText, string articleTitle, out bool noChange, bool restrictDefaultsortChanges)
         {
             string testText = articleText;
             noChange = true;
@@ -3094,7 +3094,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_9#AWB_didn.27t_fix_special_characters_in_a_pipe
             articleText = FixCategories(articleText, Namespace.IsMainSpace(articleTitle));
 
-            if (ds.Count == 0)
+            // AWB's generation of its own sortkey may be incorrect for people, provide option not to insert in this situation
+            if (ds.Count == 0 && !restrictDefaultsortChanges)
             {
                 // So that this doesn't get confused by sort keys of "*", " ", etc.
                 // MW bug: DEFAULTSORT doesn't treat leading spaces the same way as categories do
@@ -3114,20 +3115,19 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Add_defaultsort_to_pages_with_special_letters_and_no_defaultsort
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Human_DEFAULTSORT
-                // AWB's generation of its own sortkey may be incorrect for people, provide option not to insert in this situation
-                if (!restrictDefaultsortAddition)
-                    articleText = DefaultsortTitlesWithDiacritics(articleText, articleTitle, matches, IsArticleAboutAPerson(articleText));
+                articleText = DefaultsortTitlesWithDiacritics(articleText, articleTitle, matches, IsArticleAboutAPerson(articleText));
             }
-            else // already has DEFAULTSORT
+            else if (ds.Count == 1) // already has DEFAULTSORT
             {
                 string s = Tools.FixupDefaultSort(ds[0].Groups[1].Value).Trim();
-                if (s != ds[0].Groups[1].Value && s.Length > 0)
-                    articleText = articleText.Replace(ds[0].Value, "{{DEFAULTSORT:" + s + "}}");
-            }
 
-            if (ds.Count == 1)
-            {
+                if (s != ds[0].Groups[1].Value && s.Length > 0 && !restrictDefaultsortChanges)
+                    articleText = articleText.Replace(ds[0].Value, "{{DEFAULTSORT:" + s + "}}");
+
+                // get key value again in case replace above changed it
+                ds = WikiRegexes.Defaultsort.Matches(articleText);
                 string defaultsortKey = ds[0].Groups["key"].Value;
+
                 //Removes any explicit keys that are case insensitively the same as the default sort (To help tidy up on pages that already have defaultsort)
                 articleText = ExplicitCategorySortkeys(articleText, defaultsortKey);
             }

@@ -293,7 +293,7 @@ namespace AutoWikiBrowser
                                  chkFindCaseSensitive.Checked, wordWrapToolStripMenuItem1.Checked, EnableToolBar,
                                  bypassRedirectsToolStripMenuItem.Checked, autoSaveSettingsToolStripMenuItem.Checked,
                                  preParseModeToolStripMenuItem.Checked,
-                                 noSectionEditSummaryToolStripMenuItem.Checked, restrictDefaultsortAdditionToolStripMenuItem.Checked,
+                                 noSectionEditSummaryToolStripMenuItem.Checked, restrictDefaultsortChangesToolStripMenuItem.Checked,
                                  noMOSComplianceFixesToolStripMenuItem.Checked,
                                  syntaxHighlightEditBoxToolStripMenuItem.Checked,
                                  !automaticallyDoAnythingToolStripMenuItem.Checked,
@@ -506,7 +506,7 @@ namespace AutoWikiBrowser
             autoSaveSettingsToolStripMenuItem.Checked = p.General.AutoSaveSettings;
             preParseModeToolStripMenuItem.Checked = p.General.PreParseMode;
             noSectionEditSummaryToolStripMenuItem.Checked = p.General.noSectionEditSummary;
-            restrictDefaultsortAdditionToolStripMenuItem.Checked = p.General.restrictDefaultsortAddition;
+            restrictDefaultsortChangesToolStripMenuItem.Checked = p.General.restrictDefaultsortAddition;
             noMOSComplianceFixesToolStripMenuItem.Checked = p.General.noMOSComplianceFixes;
             syntaxHighlightEditBoxToolStripMenuItem.Checked = p.General.syntaxHighlightEditBox;
             automaticallyDoAnythingToolStripMenuItem.Checked = !p.General.NoAutoChanges;

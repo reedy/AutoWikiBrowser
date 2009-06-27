@@ -3258,21 +3258,7 @@ foo", Parsers.ChangeToDefaultSort(@"foo
 
 {{DEFAULTSORT:Fred}}
 foo", "Hi", out noChange));
-
-            // can add a DEFAULTSORT using existing cat sortkeys even if restricted
-            Assert.AreEqual(@"
-foo {{persondata}}
-[[Category:1910 births]]
-[[Category:Australian players of Australian rules football]]
-[[Category:Essendon Football Club players]]
-
-{{DEFAULTSORT:Lahiff, Tommy}}", Parsers.ChangeToDefaultSort(@"
-foo {{persondata}}
-[[Category:1910 births|Lahiff, Tommy]]
-[[Category:Australian players of Australian rules football|Lahiff, Tommy]]
-[[Category:Essendon Football Club players|Lahiff, Tommy]]
-", "foo", out noChange, true));
-
+            
             Assert.AreEqual(@"
 foo {{persondata}}
 [[Category:1910 births]]
@@ -3285,6 +3271,23 @@ foo {{persondata}}
 [[Category:Australian players of Australian rules football|Lahiff, Tommy]]
 [[Category:Essendon Football Club players|Lahiff, Tommy]]
 ", "foo", out noChange, false));
+
+            // can't add a DEFAULTSORT using existing cat sortkeys even if restricted, as sortkey case may be changed
+            string a = @"
+foo {{persondata}}
+[[Category:1910 births|Lahiff, Tommy]]
+[[Category:Australian players of Australian rules football|Lahiff, Tommy]]
+[[Category:Essendon Football Club players|Lahiff, Tommy]]
+";
+            Assert.AreEqual(a, Parsers.ChangeToDefaultSort(a, "foo", out noChange, true));
+
+            Assert.AreEqual(@"
+foo {{persondata}}
+[[Category:1910 births]]
+[[Category:Australian players of Australian rules football]]
+[[Category:Essendon Football Club players]]
+
+{{DEFAULTSORT:Lahiff, Tommy}}", Parsers.ChangeToDefaultSort(a, "foo", out noChange, false));
 
             // can't add a DEFAULTSORT using existing cat sortkeys if they're different
             Assert.AreEqual(@"
