@@ -493,14 +493,18 @@ fast„ "));
         [Test]
         public void InfoboxTests()
         {
-            Assert.IsTrue(WikiRegexes.Infobox.IsMatch(@" {{Infobox hello| bye}} "));
-            Assert.IsTrue(WikiRegexes.Infobox.IsMatch(@" {{infobox hello| bye}} "));
-            Assert.IsTrue(WikiRegexes.Infobox.IsMatch(@" {{infobox hello| bye {{a}} was}} "));
-            Assert.IsTrue(WikiRegexes.Infobox.IsMatch(@" {{infobox hello
+            TestMatch(WikiRegexes.InfoBox, @" {{Infobox hello| bye}} ", @"{{Infobox hello| bye}}", @"Infobox hello");
+            TestMatch(WikiRegexes.InfoBox, @" {{ Infobox hello | bye}} ", @"{{ Infobox hello | bye}}", @"Infobox hello");
+            TestMatch(WikiRegexes.InfoBox, @" {{infobox hello| bye}} ", @"{{infobox hello| bye}}", @"infobox hello");
+            TestMatch(WikiRegexes.InfoBox, @" {{Infobox hello| bye {{a}} was}} ", @"{{Infobox hello| bye {{a}} was}}", @"Infobox hello");
+            TestMatch(WikiRegexes.InfoBox, @" {{hello Infobox| bye {{a}} was}} ", @"{{hello Infobox| bye {{a}} was}}", @"hello Infobox");
+            TestMatch(WikiRegexes.InfoBox, @" {{hello_Infobox| bye {{a}} was}} ", @"{{hello_Infobox| bye {{a}} was}}", @"hello_Infobox");
+            Assert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{infobox hello| bye}} "));
+            Assert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{infobox hello
 | bye}} "));
-            Assert.IsTrue(WikiRegexes.Infobox.IsMatch(@" {{Infobox_play| bye}} "));
-            Assert.IsTrue(WikiRegexes.Infobox.IsMatch(@" {{some infobox| hello| bye}} "));
-            Assert.IsTrue(WikiRegexes.Infobox.IsMatch(@" {{Some Infobox| hello| bye}} "));
+            Assert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{Infobox_play| bye}} "));
+            Assert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{some infobox| hello| bye}} "));
+            Assert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{Some Infobox| hello| bye}} "));
         }
 
         [Test]
