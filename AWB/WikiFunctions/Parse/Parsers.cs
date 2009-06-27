@@ -1713,7 +1713,6 @@ namespace WikiFunctions.Parse
             return s;
         }
 
-        private static readonly Regex DoubleCurlyBrackets = new Regex(@"{{((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})");
         private static readonly Regex SingleCurlyBrackets = new Regex(@"{((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))})");
         private static readonly Regex DoubleSquareBrackets = new Regex(@"\[\[((?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\]\])");
         private static readonly Regex SingleSquareBrackets = new Regex(@"\[((?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])");
@@ -1730,7 +1729,7 @@ namespace WikiFunctions.Parse
         {
             bracketLength = 2;
 
-            int unbalancedfound = UnbalancedBrackets(articleText, @"{{", @"}}", DoubleCurlyBrackets);
+            int unbalancedfound = UnbalancedBrackets(articleText, @"{{", @"}}", WikiRegexes.NestedTemplates);
             if (unbalancedfound > -1)
                 return unbalancedfound;
 
@@ -1789,7 +1788,7 @@ namespace WikiFunctions.Parse
                 if (openingBrackets.Equals(@"{"))
                 {
                     // need to remove double curly brackets first
-                    foreach (Match m in DoubleCurlyBrackets.Matches(articleText))
+                    foreach (Match m in WikiRegexes.NestedTemplates.Matches(articleText))
                     {
                         articleText = articleText.Replace(m.Value, Tools.ReplaceWithSpaces(m.Value));
                     }
@@ -3851,7 +3850,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         /// <summary>
-        /// Checks if the article has an Infobox (en wiki)
+        /// Checks if the article has an InfoBox (en wiki)
         /// </summary>
         public static bool HasInfobox(string articleText)
         {
@@ -3861,7 +3860,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             articleText = WikiRegexes.Nowiki.Replace(articleText, "");
             articleText = WikiRegexes.Comments.Replace(articleText, "");
 
-            return WikiRegexes.Infobox.IsMatch(articleText);
+            return WikiRegexes.InfoBox.IsMatch(articleText);
         }
 
         /// <summary>
