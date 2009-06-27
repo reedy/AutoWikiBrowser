@@ -310,7 +310,27 @@ blah";
 
             // only matching level two headings following references
             Assert.AreEqual(a + "\r\n" + b + "\r\n" + c + "\r\n" + d, MetaDataSorter.MoveExternalLinks(a + "\r\n" + b + "\r\n" + c + "\r\n" + d));
+        }
 
+        [Test]
+        public void MoveSeeAlso()
+        {
+            string a = @"'''article'''
+== blah ==
+words<ref>abc</ref>";
+
+            string b = @"== see also ==
+* [http://www.site.com a site]";
+
+            string c = @"== References ==
+{{reflist}}";
+            string d = @"== another section ==
+blah";
+
+            Assert.AreEqual(a + "\r\n" + b + "\r\n" + c + "\r\n" + d, MetaDataSorter.MoveSeeAlso(a + "\r\n" + c + "\r\n" + b + "\r\n" + d));
+
+            // no change when already correct
+            Assert.AreEqual(a + "\r\n" + b + "\r\n" + c + "\r\n" + d, MetaDataSorter.MoveSeeAlso(a + "\r\n" + b + "\r\n" + c + "\r\n" + d));
         }
 
         // {{Lifetime}} template lives after categories on en-wiki
