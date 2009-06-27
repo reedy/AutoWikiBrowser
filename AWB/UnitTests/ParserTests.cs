@@ -191,21 +191,21 @@ namespace UnitTests
             Assert.AreEqual(@"now <ref>Smith 2004</ref>", Parsers.FixReferenceTags(@"now <REF>Smith 2004</REF>"));
             Assert.AreEqual(@"now <ref>Smith 2004</ref>", Parsers.FixReferenceTags(@"now <reF>Smith 2004</ref>"));
             Assert.AreEqual(@"now <ref name=S1>Smith 2004</ref>", Parsers.FixReferenceTags(@"now <reF name=S1>Smith 2004</ref>"));
-            
+
             // removal of spaces between consecutive references
             Assert.AreEqual(@"<ref>foo</ref><ref>foo2</ref>", Parsers.FixReferenceTags(@"<ref>foo</ref> <ref>foo2</ref>"));
             Assert.AreEqual(@"<ref>foo</ref><ref>foo2</ref>", Parsers.FixReferenceTags(@"<ref>foo</ref>     <ref>foo2</ref>"));
             Assert.AreEqual(@"<ref>foo</ref><ref name=Bert />", Parsers.FixReferenceTags(@"<ref>foo</ref> <ref name=Bert />"));
             Assert.AreEqual(@"<ref>foo</ref><ref name=Bert>Bert2</ref>", Parsers.FixReferenceTags(@"<ref>foo</ref> <ref name=Bert>Bert2</ref>"));
-            
+
             Assert.AreEqual(@"<ref name=""Tim""/><ref>foo2</ref>", Parsers.FixReferenceTags(@"<ref name=""Tim""/> <ref>foo2</ref>"));
             Assert.AreEqual(@"<ref name=Tim/><ref>foo2</ref>", Parsers.FixReferenceTags(@"<ref name=Tim/>     <ref>foo2</ref>"));
             Assert.AreEqual(@"<ref name=Tim/><ref name=Bert />", Parsers.FixReferenceTags(@"<ref name=Tim/> <ref name=Bert />"));
             Assert.AreEqual(@"<ref name=Tim/><ref name=Bert>Bert2</ref>", Parsers.FixReferenceTags(@"<ref name=Tim/> <ref name=Bert>Bert2</ref>"));
-            
+
             // no matches on inalid ref format
             Assert.AreEqual(@"<ref name=""Tim""> <ref>foo2</ref>", Parsers.FixReferenceTags(@"<ref name=""Tim""> <ref>foo2</ref>"));
-            
+
             // ensure a space between a reference and text (reference within a paragrah)
             Assert.AreEqual(@"Now clearly,<ref>Smith 2004</ref> he was", Parsers.FixReferenceTags(@"Now clearly,<ref>Smith 2004</ref>he was"));
             Assert.AreEqual(@"Now clearly,<ref>Smith 2004</ref> 2 were", Parsers.FixReferenceTags(@"Now clearly,<ref>Smith 2004</ref>2 were"));
@@ -375,7 +375,7 @@ End of.";
         public void DuplicateUnnamedReferences()
         {
             Assert.AreEqual(@"<ref name=""bookrags.com"">""bookrags.com""</ref> foo <ref name=""bookrags.com""/>", Parsers.DuplicateUnnamedReferences(@"<ref>""bookrags.com""</ref> foo <ref>""bookrags.com""</ref>"));
-            
+
 
         }
 
@@ -633,7 +633,7 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
 
             // year of birth uncertain
             string u = "\r\n" + @"[[Category:Year of birth uncertain]]";
-            
+
             string u2 = @"'''Charles Meik''' (born around 1330 in [[Ghent]] - [[22 July]] [[1387]]) {{Persondata}}";
             Assert.AreEqual(u2 + u + @"
 [[Category:1387 deaths]]", Parsers.FixPeopleCategories(u2));
@@ -939,7 +939,7 @@ died 2002
 
             Assert.IsFalse(Parsers.CategoryMatch(@"foo [[Category:1990 births]]", @"1990"));
         }
-        
+
         [Test]
         public void LivingPeopleTests()
         {
@@ -978,7 +978,7 @@ died 2002
             string g = @"'''Fred Smith''' (born 1950) is a bloke.
 [[Category:1950 births|Smith, Fred]]
 [[Category:Year of death missing]]";
-string h = @"'''Fred Smith''' (d. 1950) is a bloke.";
+            string h = @"'''Fred Smith''' (d. 1950) is a bloke.";
 
             Assert.AreEqual(a, Parsers.LivingPeople(a));
             Assert.AreEqual(b, Parsers.LivingPeople(b));
@@ -988,7 +988,7 @@ string h = @"'''Fred Smith''' (d. 1950) is a bloke.";
             Assert.AreEqual(f, Parsers.LivingPeople(f));
             Assert.AreEqual(g, Parsers.LivingPeople(g));
             Assert.AreEqual(h, Parsers.LivingPeople(h));
-            
+
             // assume dead if born earlier than 1910, so no change
             string d1 = @"'''Fred Smith''' (born 1960) is a bloke.
 [[Category:1909 births|Smith, Fred]]";
@@ -1078,7 +1078,7 @@ complementary and alternative medicine: evidence is a better friend than power. 
             Assert.AreEqual(@"{{cite web|title=foo|url=http://site.net|year=2009}}", Parsers.FixCitationTemplates(@"{{cite web|title=foo|url=http://site.net|year=2009|language=English}}"));
             Assert.AreEqual(@"{{cite web|title=foo|url=http://site.net|year=2009}}", Parsers.FixCitationTemplates(@"{{cite web|title=foo|url=http://site.net|year=2009|language = English}}"));
             Assert.AreEqual(@"{{cite web|title=foo|url=http://site.net|year=2009}}", Parsers.FixCitationTemplates(@"{{cite web|title=foo|url=http://site.net|year=2009|language=english}}"));
-            
+
             // removal of null 'format=' when URL is to HTML            
             Assert.AreEqual(@"{{cite web|title=foo|url=http://site.net|year=2009|format=}}", Parsers.FixCitationTemplates(@"{{cite web|title=foo|url=http://site.net|year=2009|format=}}"));
             Assert.AreEqual(@"{{cite web|title=foo|url=http://site.net/a.htm|year=2009}}", Parsers.FixCitationTemplates(@"{{cite web|title=foo|url=http://site.net/a.htm|year=2009|format=}}"));
@@ -1897,7 +1897,7 @@ http://example.com }}");
             Assert.AreEqual(@"now <!--a 50kg dog--> was", parser.FixNonBreakingSpaces(@"now <!--a 50kg dog--> was"));
             Assert.AreEqual(@"now <nowiki>a 50kg dog</nowiki> was", parser.FixNonBreakingSpaces(@"now <nowiki>a 50kg dog</nowiki> was"));
             Assert.AreEqual(@"*[http://site.com/blah_20cm_long Site here]", parser.FixNonBreakingSpaces("*[http://site.com/blah_20cm_long Site here]"));
-            
+
             // firearms articles don't use spaces for ammo sizes
             Assert.AreEqual(@"the 50mm gun", parser.FixNonBreakingSpaces(@"the 50mm gun"));
         }
@@ -3261,7 +3261,7 @@ foo", Parsers.ChangeToDefaultSort(@"foo
 
 {{DEFAULTSORT:Fred}}
 foo", "Hi", out noChange));
-            
+
             Assert.AreEqual(@"
 foo {{persondata}}
 [[Category:1910 births]]
@@ -4152,7 +4152,6 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"now {{cite web| url=http://site.net |title=hello|first=|accessdate = 2008-10-08|first=}}", Parsers.Conversions(@"now {{cite web| url=http://site.net |title=hello|first=|accessdate = 2008-10-08|first=}}")); //dupe fields have no value
 
             Assert.AreEqual(@"{{Article issues|wikify=May 2008|POV=May 2008|Expand=June 2008|Expand=June 2009}}", Parsers.Conversions(@"{{Article issues|wikify=May 2008|POV=May 2008|Expand=June 2008|Expand=June 2009}}"));
-
         }
 
         [Test]
@@ -4257,8 +4256,6 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"{{cite web|url=http://www.site.com|title=hello}}", Parsers.Conversions(@"{{cite web||url=http://www.site.com|title=hello}}"));
             Assert.AreEqual(@"{{cite web|url=http://www.site.com|title=hello}}", Parsers.Conversions(@"{{cite web|url=http://www.site.com|title=hello|}}"));
             Assert.AreEqual(@"{{cite web|url=http://www.site.com|title=hello}}", Parsers.Conversions(@"{{cite web|url=http://www.site.com|  |title=hello}}"));
-
-
         }
     }
 }
