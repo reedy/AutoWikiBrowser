@@ -478,7 +478,7 @@ namespace WikiFunctions
         public static readonly Regex Wikify = new Regex(@"({{Wikify(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|(?<={{Article\s*issues\b[^{}]*?)\|\s*wikify\s*=[^{}\|]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
-        /// Matches {{dead link}} template
+        /// Matches {{dead link}} template and its redirects
         /// </summary>
         public static readonly Regex DeadLink = new Regex(@"{{((?:[Dd]ead|[Bb]roken) ?link|[Ll]ink ?broken|404|[Dd]l(?:-s)?|[Cc]leanup-link)\s*(\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})|}})");
 

@@ -842,6 +842,8 @@ namespace AutoWikiBrowser
 
                 txtReviewEditSummary.Text = MakeSummary();
 
+                Variables.Profiler.Profile("Make Edit summary");
+
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Detect_multiple_DEFAULTSORT
                 if (WikiRegexes.Defaultsort.Matches(txtEdit.Text).Count > 1)
                     lblWarn.Text += "Multiple DEFAULTSORTs found\r\n";
@@ -850,6 +852,8 @@ namespace AutoWikiBrowser
                 int unbalancedBracket = TheArticle.UnbalancedBrackets(ref bracketLength);
                 if(unbalancedBracket > 0)
                     lblWarn.Text += "Unbalanced brackets found\r\n";
+
+                Variables.Profiler.Profile("Unbalanced brackets");
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Some_additional_edits
                 if (TheArticle.HasDeadLinks)
@@ -861,166 +865,15 @@ namespace AutoWikiBrowser
                     SkipPage("Page has no alerts");
                     return;
                 }
-
+                
                 // syntax highlighting of edit box based on m:extension:wikEd standards
                 if (syntaxHighlightEditBoxToolStripMenuItem.Checked)
-                {
-                    // TODO: regexes to be moved to WikiRegexes where appropriate and covered by unit tests
-
+                {                    
                     txtEdit.Visible = false;
 
-                    Font currentFont = txtEdit.SelectionFont;
-                    Font boldFont = new Font(currentFont.FontFamily, currentFont.Size, FontStyle.Bold);
-                    Font italicFont = new Font(currentFont.FontFamily, currentFont.Size, FontStyle.Italic);
-                    Font boldItalicFont = new Font(currentFont.FontFamily, currentFont.Size, FontStyle.Bold | FontStyle.Italic);
-
-                    // headings text in bold
-                    foreach (Match m in WikiRegexes.Heading.Matches(txtEdit.RawText))
-                    {
-                        txtEdit.SetEditBoxSelection(m.Groups[2].Index, m.Groups[2].Length);
-                        txtEdit.SelectionFont = boldFont;
-                    }
-
-                    // templates grey background
-                    foreach (Match m in WikiRegexes.NestedTemplates.Matches(txtEdit.RawText))
-                    {
-                        txtEdit.SetEditBoxSelection(m.Index, m.Length);
-                        txtEdit.SelectionBackColor = Color.LightGray;
-                    }
-
-                    // * items grey background
-                    Regex StarRows = new Regex(@"^ *(\*)(.*)", RegexOptions.Multiline);
-                    foreach (Match m in StarRows.Matches(txtEdit.RawText))
-                    {
-                        txtEdit.SetEditBoxSelection(m.Index, m.Length);
-                        txtEdit.SelectionBackColor = Color.LightGray;
-
-                        txtEdit.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
-                        txtEdit.SelectionFont = boldFont;
-                    }
-
-                    // template names dark blue font
-                    foreach (Match m in WikiRegexes.TemplateName.Matches(txtEdit.RawText))
-                    {
-                        txtEdit.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
-                        txtEdit.SelectionColor = Color.DarkBlue;
-                    }
-
-                    // refs grey background
-                    foreach (Match m in WikiRegexes.Refs.Matches(txtEdit.RawText))
-                    {
-                        txtEdit.SetEditBoxSelection(m.Index, m.Length);
-                        txtEdit.SelectionBackColor = Color.LightGray;
-                    }
-
-                    // external links grey background, blue bold
-                    foreach (Match m in WikiRegexes.ExternalLinks.Matches(txtEdit.RawText))
-                    {
-                        txtEdit.SetEditBoxSelection(m.Index, m.Length);
-                        txtEdit.SelectionColor = Color.Blue;
-                        txtEdit.SelectionFont = boldFont;
-                    }
-
-                    // images green background
-                    //foreach (Match m in WikiRegexes.Images.Matches(txtEdit.RawText))
-                    //{
-                    //    txtEdit.SetEditBoxSelection(m.Index, m.Length);
-                    //    txtEdit.SelectionBackColor = Color.Green;
-
-                    //}
-
-                    // italics
-                    Regex Italics = new Regex(@"''(.+?)''");
-                    foreach (Match m in Italics.Matches(txtEdit.RawText))
-                    {
-                        txtEdit.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
-                        txtEdit.SelectionFont = italicFont;
-                    }
-
-                    // bold  
-                    Regex Bold = new Regex(@"'''(.+?)'''");
-                    foreach (Match m in Bold.Matches(txtEdit.RawText))
-                    {
-                        // reset anything incorrectly done by italics  earlier
-                        txtEdit.SetEditBoxSelection(m.Index, m.Length);
-                        txtEdit.SelectionFont = currentFont;
-
-                        txtEdit.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
-                        txtEdit.SelectionFont = boldFont;
-                    }
-
-                    // bold italics 
-                    Regex BoldItalics = new Regex(@"'''''(.+?)'''''");
-                    foreach (Match m in BoldItalics.Matches(txtEdit.RawText))
-                    {
-                        // reset anything incorrectly done by italics/bold earlier
-                        txtEdit.SetEditBoxSelection(m.Index, m.Length);
-                        txtEdit.SelectionFont = currentFont;
-
-                        txtEdit.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
-                        txtEdit.SelectionFont = boldItalicFont;
-                    }
-
-                    // piped wikilink text in blue, piped part in bold
-                    foreach (Match m in WikiRegexes.PipedWikiLink.Matches(txtEdit.RawText))
-                    {
-                        txtEdit.SetEditBoxSelection(m.Groups[2].Index, m.Groups[2].Length);
-                        txtEdit.SelectionColor = Color.Blue;
-                        txtEdit.SelectionFont = boldFont;
-
-                        txtEdit.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
-                        txtEdit.SelectionColor = Color.Blue;
-                    }
-
-                    // unpiped wikilinks in blue and bold
-                    foreach (Match m in WikiRegexes.UnPipedWikiLink.Matches(txtEdit.RawText))
-                    {
-                        txtEdit.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
-                        txtEdit.SelectionColor = Color.Blue;
-                        txtEdit.SelectionFont = boldFont;
-                    }
-
-                    // pipe trick: in blue bold too
-                    foreach (Match m in WikiRegexes.WikiLinksOnlyPlusWord.Matches(txtEdit.RawText))
-                    {
-                        txtEdit.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
-                        txtEdit.SelectionColor = Color.Blue;
-                        txtEdit.SelectionFont = boldFont;
-                    }
-
-                    // cats grey background
-                    foreach (Match m in WikiRegexes.Category.Matches(txtEdit.RawText))
-                    {
-                        txtEdit.SetEditBoxSelection(m.Index, m.Length);
-                        txtEdit.SelectionBackColor = Color.LightGray;
-                        txtEdit.SelectionFont = currentFont;
-                        txtEdit.SelectionColor = Color.Black;
-
-                        txtEdit.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
-                        txtEdit.SelectionColor = Color.Blue;
-                    }
-
-                    // interwikis dark grey background
-                    Regex Interwiki = new Regex(@"\[\[([a-z-]{2,6}\:)([^\[\]\r\n]+)\]\]");
-                    foreach (Match m in Interwiki.Matches(txtEdit.RawText))
-                    {
-                        txtEdit.SetEditBoxSelection(m.Index, m.Length);
-                        txtEdit.SelectionBackColor = Color.Gray;
-                        txtEdit.SelectionFont = currentFont;
-
-                        txtEdit.SetEditBoxSelection(m.Groups[2].Index, m.Groups[2].Length);
-                        txtEdit.SelectionColor = Color.Blue;
-
-                        txtEdit.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
-                        txtEdit.SelectionColor = Color.Black;
-                    }
-
-                    // comments dark orange background
-                    foreach (Match m in WikiRegexes.Comments.Matches(txtEdit.RawText))
-                    {
-                        txtEdit.SetEditBoxSelection(m.Index, m.Length);
-                        txtEdit.SelectionBackColor = Color.PaleGoldenrod;
-                    }
+                    Variables.Profiler.Profile("Alerts");
+                    txtEdit = HighlightSyntax(txtEdit);
+                    Variables.Profiler.Profile("Syntax highlighting");
 
                     if (!focusAtEndOfEditTextBoxToolStripMenuItem.Checked)
                     {
@@ -1059,6 +912,175 @@ namespace AutoWikiBrowser
                 EnableButtons();
                 Abort = false;
             }
+        }
+
+        /// <summary>
+        /// Applies syntax highlighting to the input ArticleTextBox 
+        /// </summary>
+        /// <param name="txtEditLocal"></param>
+        /// <returns></returns>
+        private WikiFunctions.Controls.ArticleTextBox HighlightSyntax(WikiFunctions.Controls.ArticleTextBox txtEditLocal)
+        {
+            // temporarily disable TextChanged firing to help performance of this function
+            txtEditLocal.TextChanged -= txtEdit_TextChanged;
+
+            // TODO: regexes to be moved to WikiRegexes where appropriate and covered by unit tests
+            Font currentFont = txtEditLocal.SelectionFont;
+            Font boldFont = new Font(currentFont.FontFamily, currentFont.Size, FontStyle.Bold);
+            Font italicFont = new Font(currentFont.FontFamily, currentFont.Size, FontStyle.Italic);
+            Font boldItalicFont = new Font(currentFont.FontFamily, currentFont.Size, FontStyle.Bold | FontStyle.Italic);
+
+            // headings text in bold
+            foreach (Match m in WikiRegexes.Heading.Matches(txtEditLocal.RawText))
+            {
+                txtEditLocal.SetEditBoxSelection(m.Groups[2].Index, m.Groups[2].Length);
+                txtEditLocal.SelectionFont = boldFont;
+            }
+
+            // templates grey background
+            foreach (Match m in WikiRegexes.NestedTemplates.Matches(txtEditLocal.RawText))
+            {
+                txtEditLocal.SetEditBoxSelection(m.Index, m.Length);
+                txtEditLocal.SelectionBackColor = Color.LightGray;
+            }
+
+            // * items grey background
+            Regex StarRows = new Regex(@"^ *(\*)(.*)", RegexOptions.Multiline);
+            foreach (Match m in StarRows.Matches(txtEditLocal.RawText))
+            {
+                txtEditLocal.SetEditBoxSelection(m.Index, m.Length);
+                txtEditLocal.SelectionBackColor = Color.LightGray;
+
+                txtEditLocal.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
+                txtEditLocal.SelectionFont = boldFont;
+            }
+
+            // template names dark blue font
+            foreach (Match m in WikiRegexes.TemplateName.Matches(txtEditLocal.RawText))
+            {
+                txtEditLocal.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
+                txtEditLocal.SelectionColor = Color.DarkBlue;
+            }
+
+            // refs grey background
+            foreach (Match m in WikiRegexes.Refs.Matches(txtEditLocal.RawText))
+            {
+                txtEditLocal.SetEditBoxSelection(m.Index, m.Length);
+                txtEditLocal.SelectionBackColor = Color.LightGray;
+            }
+
+            // external links grey background, blue bold
+            foreach (Match m in WikiRegexes.ExternalLinks.Matches(txtEditLocal.RawText))
+            {
+                txtEditLocal.SetEditBoxSelection(m.Index, m.Length);
+                txtEditLocal.SelectionColor = Color.Blue;
+                txtEditLocal.SelectionFont = boldFont;
+            }
+
+            // images green background
+            //foreach (Match m in WikiRegexes.Images.Matches(txtEdit.RawText))
+            //{
+            //    txtEdit.SetEditBoxSelection(m.Index, m.Length);
+            //    txtEdit.SelectionBackColor = Color.Green;
+
+            //}
+
+            // italics
+            Regex Italics = new Regex(@"''(.+?)''");
+            foreach (Match m in Italics.Matches(txtEditLocal.RawText))
+            {
+                txtEditLocal.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
+                txtEditLocal.SelectionFont = italicFont;
+            }
+
+            // bold  
+            Regex Bold = new Regex(@"'''(.+?)'''");
+            foreach (Match m in Bold.Matches(txtEditLocal.RawText))
+            {
+                // reset anything incorrectly done by italics  earlier
+                txtEditLocal.SetEditBoxSelection(m.Index, m.Length);
+                txtEditLocal.SelectionFont = currentFont;
+
+                txtEditLocal.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
+                txtEditLocal.SelectionFont = boldFont;
+            }
+
+            // bold italics 
+            Regex BoldItalics = new Regex(@"'''''(.+?)'''''");
+            foreach (Match m in BoldItalics.Matches(txtEditLocal.RawText))
+            {
+                // reset anything incorrectly done by italics/bold earlier
+                txtEditLocal.SetEditBoxSelection(m.Index, m.Length);
+                txtEditLocal.SelectionFont = currentFont;
+
+                txtEditLocal.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
+                txtEditLocal.SelectionFont = boldItalicFont;
+            }
+
+            // piped wikilink text in blue, piped part in bold
+            foreach (Match m in WikiRegexes.PipedWikiLink.Matches(txtEditLocal.RawText))
+            {
+                txtEditLocal.SetEditBoxSelection(m.Groups[2].Index, m.Groups[2].Length);
+                txtEditLocal.SelectionColor = Color.Blue;
+                txtEditLocal.SelectionFont = boldFont;
+
+                txtEditLocal.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
+                txtEditLocal.SelectionColor = Color.Blue;
+            }
+
+            // unpiped wikilinks in blue and bold
+            foreach (Match m in WikiRegexes.UnPipedWikiLink.Matches(txtEditLocal.RawText))
+            {
+                txtEditLocal.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
+                txtEditLocal.SelectionColor = Color.Blue;
+                txtEditLocal.SelectionFont = boldFont;
+            }
+
+            // pipe trick: in blue bold too
+            foreach (Match m in WikiRegexes.WikiLinksOnlyPlusWord.Matches(txtEditLocal.RawText))
+            {
+                txtEditLocal.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
+                txtEditLocal.SelectionColor = Color.Blue;
+                txtEditLocal.SelectionFont = boldFont;
+            }
+
+            // cats grey background
+            foreach (Match m in WikiRegexes.Category.Matches(txtEditLocal.RawText))
+            {
+                txtEditLocal.SetEditBoxSelection(m.Index, m.Length);
+                txtEditLocal.SelectionBackColor = Color.LightGray;
+                txtEditLocal.SelectionFont = currentFont;
+                txtEditLocal.SelectionColor = Color.Black;
+
+                txtEditLocal.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
+                txtEditLocal.SelectionColor = Color.Blue;
+            }
+
+            // interwikis dark grey background
+            Regex Interwiki = new Regex(@"\[\[([a-z-]{2,6}\:)([^\[\]\r\n]+)\]\]");
+            foreach (Match m in Interwiki.Matches(txtEditLocal.RawText))
+            {
+                txtEditLocal.SetEditBoxSelection(m.Index, m.Length);
+                txtEditLocal.SelectionBackColor = Color.Gray;
+                txtEditLocal.SelectionFont = currentFont;
+
+                txtEditLocal.SetEditBoxSelection(m.Groups[2].Index, m.Groups[2].Length);
+                txtEditLocal.SelectionColor = Color.Blue;
+
+                txtEditLocal.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
+                txtEditLocal.SelectionColor = Color.Black;
+            }
+
+            // comments dark orange background
+            foreach (Match m in WikiRegexes.Comments.Matches(txtEditLocal.RawText))
+            {
+                txtEditLocal.SetEditBoxSelection(m.Index, m.Length);
+                txtEditLocal.SelectionBackColor = Color.PaleGoldenrod;
+            }
+
+            txtEditLocal.TextChanged += txtEdit_TextChanged;
+
+            return txtEditLocal;
         }
 
         /// <summary>
