@@ -1138,7 +1138,25 @@ namespace WikiFunctions
                 new KeyValuePair<string, string>("ⱴ", "v"),
                 new KeyValuePair<string, string>("ớ", "o"),
 
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Leaving_foreign_characters_in_DEFAULTSORT
+                new KeyValuePair<string, string>("ắ", "a"),
+                new KeyValuePair<string, string>("ạ", "a"),
+                new KeyValuePair<string, string>("ả", "a"),
+                new KeyValuePair<string, string>("ằ", "a"),
+                new KeyValuePair<string, string>("ẩ", "a"),
                 new KeyValuePair<string, string>("ế", "e"),
+                new KeyValuePair<string, string>("ễ", "e"),
+                new KeyValuePair<string, string>("ệ", "e"),
+                new KeyValuePair<string, string>("ị", "i"),
+                new KeyValuePair<string, string>("ỉ", "i"),
+                new KeyValuePair<string, string>("ỏ", "o"),
+                new KeyValuePair<string, string>("ø", "o"),
+                new KeyValuePair<string, string>("ờ", "o"),
+                new KeyValuePair<string, string>("ồ", "o"),
+                new KeyValuePair<string, string>("ụ", "u"),
+                new KeyValuePair<string, string>("ủ", "u"),
+                new KeyValuePair<string, string>("ữ", "u"),
+                new KeyValuePair<string, string>("ỳ", "y"),
             };
         #endregion
 
