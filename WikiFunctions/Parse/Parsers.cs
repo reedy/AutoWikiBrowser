@@ -3343,14 +3343,21 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             zerothSection = WikiRegexes.Refs.Replace(zerothSection, " ");
             zerothSection = Regex.Replace(zerothSection, @"\[\[[^\[\]\|]{11,}(?:\|[^\[\]]+)?\]\]", " ");
 
-            string yearstring;
+            string yearstring = "", fromInfoBox, yearFromInfoBox = "";
 
             string sort = GetCategorySort(articleText);
 
             bool alreadyUncertain = false;
 
+            // scrape any infobox for birth year
+            fromInfoBox = GetInfoBoxFieldValue(zerothSection, @"(?:[Yy]earofbirth|Born|birth_?date)");
+
+            if (fromInfoBox.Length > 0 && !UncertainWordings.IsMatch(fromInfoBox))
+                yearFromInfoBox = Regex.Match(fromInfoBox, @"\d{3,4}(?!\d)").Value;
+
             // birth
-            if (!WikiRegexes.BirthsCategory.IsMatch(articleText) && (PersonYearOfBirth.Matches(zerothSection).Count == 1 || WikiRegexes.DateBirthAndAge.IsMatch(zerothSection) || WikiRegexes.DeathDateAndAge.IsMatch(zerothSection)))
+            if (!WikiRegexes.BirthsCategory.IsMatch(articleText) && (PersonYearOfBirth.Matches(zerothSection).Count == 1 || WikiRegexes.DateBirthAndAge.IsMatch(zerothSection) || WikiRegexes.DeathDateAndAge.IsMatch(zerothSection)
+                || Regex.IsMatch(yearFromInfoBox, @"\d{3,4}")))
             {
                 // look for '{{birth date...' template first
                 yearstring = WikiRegexes.DateBirthAndAge.Match(articleText).Groups[1].Value;
@@ -3358,6 +3365,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 // look for '{{death date and age' template second
                 if (String.IsNullOrEmpty(yearstring))
                     yearstring = WikiRegexes.DeathDateAndAge.Match(articleText).Groups[2].Value;
+
+                // thirdly use yearFromInfoBox
+                if (Regex.IsMatch(yearFromInfoBox, @"\d{3,4}"))
+                    yearstring = yearFromInfoBox;
 
                 // look for '(born xxxx)'
                 if (String.IsNullOrEmpty(yearstring))
@@ -3391,10 +3402,24 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             }
 
             // death
-            if (!WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) && (PersonYearOfDeath.IsMatch(zerothSection) || WikiRegexes.DeathDate.IsMatch(zerothSection)))
+
+            // scrape any infobox
+            fromInfoBox = "";
+            yearFromInfoBox = "";
+            fromInfoBox = GetInfoBoxFieldValue(articleText, @"(?:[Yy]earofdeath|Died|death_?date)");
+
+            if (fromInfoBox.Length > 0 && !UncertainWordings.IsMatch(fromInfoBox))
+                yearFromInfoBox = Regex.Match(fromInfoBox, @"\d{3,4}(?!\d)").Value;
+
+            if (!WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) && (PersonYearOfDeath.IsMatch(zerothSection) || WikiRegexes.DeathDate.IsMatch(zerothSection)
+                || Regex.IsMatch(yearFromInfoBox, @"\d{3,4}")))
             {
                 // look for '{{death date...' template first
                 yearstring = WikiRegexes.DeathDate.Match(articleText).Groups[1].Value;
+
+                // secondly use yearFromInfoBox
+                if (Regex.IsMatch(yearFromInfoBox, @"\d{3,4}"))
+                    yearstring = yearFromInfoBox;
 
                 // look for '(died xxxx)'
                 if (String.IsNullOrEmpty(yearstring))
@@ -3498,6 +3523,49 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 articleText = RemoveCategory(YearofDeathMissing, articleText);
 
             return articleText;
+        }
+
+        /// <summary>
+        /// Returns the value of the given field from the page's infobox, where available
+        /// Returns a null string if the input article has no infobox, or the input field regex doesn't match on the infobox found
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <param name="fieldRegex">Regular expression of field names, must not contain regex groups</param>
+        /// <returns></returns>
+        public static string GetInfoBoxFieldValue(string articleText, string fieldRegex)
+        {
+            string infoBox = WikiRegexes.InfoBox.Match(articleText).Value;
+            string fieldValue;
+
+            // clean out references and comments
+            infoBox = WikiRegexes.Comments.Replace(infoBox, "");
+            infoBox = WikiRegexes.Refs.Replace(infoBox, "");
+
+            try // in case of parse exception on fieldRegex
+            {
+               fieldValue = Regex.Match(infoBox, @"^\s*\|?\s*" + fieldRegex + @"\s*=\s*(.*)", RegexOptions.Multiline).Groups[1].Value.Trim();
+            }
+
+            catch
+            {
+                return "";
+            }
+
+            if (fieldValue.Length > 0)
+            {
+                // handle multiple fields on same line
+                if (Regex.IsMatch(fieldValue, @"\s*\|[^{}\|=]+?\s*=\s*.*"))
+                {
+                   // string fieldValueLocal = WikiRegexes.NestedTemplates.Replace(fieldValue, "");
+
+                   // fieldValueLocal = Regex.Replace(fieldValueLocal, @"\s*\|[^{}\|=]+?\s*=\s*.*", "");
+                    return "";
+                }
+
+                return fieldValue;
+            }
+
+            return "";
         }
 
         /// <summary>

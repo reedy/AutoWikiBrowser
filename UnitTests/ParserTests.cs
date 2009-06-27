@@ -545,6 +545,10 @@ End of.";
         [Test]
         public void FixPeopleCategoriesTests()
         {
+            // must be about a person
+            string a0 = @"'''Fred Smith''' (born 1960) is a bloke.";
+            Assert.AreEqual(a0, Parsers.FixPeopleCategories(a0));
+
             // birth
             string a1 = @"'''Fred Smith''' (born 1960) is a bloke. {{Persondata}}";
             string b2 = @"[[Category:1960 births]]";
@@ -870,6 +874,66 @@ died 2002
             string bug2 = @"'''Foo''' (born {{circa}} 1925) was {{persondata}}";
             Assert.AreEqual(bug2 + u, Parsers.FixPeopleCategories(bug2));
 
+            // infobox scraping
+            string infob1 = @"{{Infobox Officeholder
+|honorific-prefix   = 
+|name            = John C. Zimmerman, Sr.
+|term_start       = 1895
+|term_end         = 1896
+|predecessor      = [[Arthur C. McCall]]
+|successor        = [[Samuel C. Randall]]
+|birth_date      = May 12, 1835
+|birth_place     = [[Free City of Frankfurt]]
+|death_date= October 26, 1935
+|death_place=      
+|restingplace = Glenwood Cemetery, Flint
+|restingplacecoordinates = 
+|alma_mater      = 
+|occupation      =brickmason, mercha
+
+}} {{persondata}}";
+
+            // scraped from infobox
+            Assert.AreEqual(infob1 + @"
+[[Category:1835 births]]
+[[Category:1935 deaths]]", Parsers.FixPeopleCategories(infob1));
+
+            // doesn't add twice
+            Assert.AreEqual(infob1 + @"
+[[Category:1835 births]]
+[[Category:1935 deaths]]", Parsers.FixPeopleCategories(infob1 + @"
+[[Category:1835 births]]
+[[Category:1935 deaths]]"));
+
+        }
+
+        [Test]
+        public void GetInfoBoxFieldValue()
+        {
+            Assert.AreEqual(@"1990", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
+|year=1990
+|other=great}} now", @"[Yy]ear"));
+
+            Assert.AreEqual(@"1990", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
+|  year  =  1990  
+|other=great}} now", @"[Yy]ear"));
+
+            Assert.AreEqual(@"1990", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
+|  Year  =  1990  
+|other=great}} now", @"[Yy]ear"));
+
+            // no infobox
+            Assert.AreEqual(@"", Parsers.GetInfoBoxFieldValue(@"hello now", @"[Yy]ear"));
+            
+            // field not found
+            Assert.AreEqual(@"", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
+|  Year  =  1990  
+|other=great}} now", @"[Yy]early"));
+
+            // multiple fields on same line
+            Assert.AreEqual(@"", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
+|  Year  =  1990  |some=where
+|other=great}} now", @"[Yy]ear"));
         }
 
         [Test]
@@ -1911,10 +1975,7 @@ http://example.com }}");
             Assert.AreEqual(@"Smith 2004, p.&nbsp;XI", parser.FixNonBreakingSpaces(@"Smith 2004, p. XI"));
             Assert.AreEqual(@"Smith 2004, pp.&nbsp;40-44", parser.FixNonBreakingSpaces(@"Smith 2004, pp. 40-44"));
             Assert.AreEqual(@"Smith 2004, Pp.&nbsp;40-44", parser.FixNonBreakingSpaces(@"Smith 2004, Pp. 40-44"));
-
             Assert.AreEqual(@"Smith 2004, p.&nbsp;40", parser.FixNonBreakingSpaces(@"Smith 2004, p.&nbsp;40"));
-
-
         }
     }
 
