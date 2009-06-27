@@ -1261,15 +1261,19 @@ namespace WikiFunctions
 
         // Not Covered
         /// <summary>
-        /// Turns an HTML list into a wiki style list
+        /// Turns an HTML list into a wiki style list using the input bullet style
         /// </summary>
+        /// <param name="text">HTML text to convert to list</param>
+        /// <param name="bullet">List style to use (# or *)</param>
         public static string HTMLListToWiki(string text, string bullet)
-        {//converts wiki/html/plain text list to wiki formatted list, bullet should be * or #
+        {
             text = text.Replace("\r\n\r\n", "\r\n");
             text = Regex.Replace(text, "<br ?/?>", "", RegexOptions.IgnoreCase);
-            text = Regex.Replace(text, "</?(ol|ul|li)>", "", RegexOptions.Multiline | RegexOptions.IgnoreCase);
+            text = Regex.Replace(text, "</?(ol|ul|li)>", "", RegexOptions.IgnoreCase);
             text = Regex.Replace(text, "^</?(ol|ul|li)>\r\n", "", RegexOptions.Multiline | RegexOptions.IgnoreCase);
-            text = Regex.Replace(text, "^(<li>|\\:|\\*|#|\\(? ?[0-9]{1,3} ?\\)|[0-9]{1,3}\\.?)", "", RegexOptions.Multiline);
+            text = Regex.Replace(text, @"^(\:|\*|#|\(? ?[0-9]{1,3}\b ?\)|[0-9]{1,3}\b\.?)", "", RegexOptions.Multiline);
+
+            // add bullet to start of each line
             return Regex.Replace(text, "^", bullet, RegexOptions.Multiline);
         }
 
