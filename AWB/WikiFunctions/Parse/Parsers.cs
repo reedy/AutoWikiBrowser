@@ -1986,11 +1986,11 @@ namespace WikiFunctions.Parse
 			string lowerTitle = Tools.TurnFirstToLower(escTitle);
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#.22This_album.2Fsingle.22
             // for this single or this album within the infobox, make bold instead of delinking
-            const string InfoBoxSingleAlbum = @"(?s)(?<={{[Ii]nfobox (?:[Ss]ingle|[Aa]lbum).*?\|\s*[Tt]his (?:[Ss]ingle|[Aa]lbum)\s*=[^{}]*?)\[\[\s*";
-            articleText = Regex.Replace(articleText, InfoBoxSingleAlbum + escTitle + @"\s*\]\](?=[^{}\|]*(?:\||}}))", @"'''" + articleTitle + @"'''");
-            articleText = Regex.Replace(articleText, InfoBoxSingleAlbum + lowerTitle + @"\s*\]\](?=[^{}\|]*(?:\||}}))", @"'''" + lowerTitle + @"'''");
-            articleText = Regex.Replace(articleText, InfoBoxSingleAlbum + escTitle + @"\s*\|\s*([^\]]+)\s*\]\](?=[^{}\|]*(?:\||}}))", @"'''" + "$1" + @"'''");
-            articleText = Regex.Replace(articleText, InfoBoxSingleAlbum + lowerTitle + @"\s*\|\s*([^\]]+)\s*\]\](?=[^{}\|]*(?:\||}}))", @"'''" + "$1" + @"'''");
+            const string infoBoxSingleAlbum = @"(?s)(?<={{[Ii]nfobox (?:[Ss]ingle|[Aa]lbum).*?\|\s*[Tt]his (?:[Ss]ingle|[Aa]lbum)\s*=[^{}]*?)\[\[\s*";
+            articleText = Regex.Replace(articleText, infoBoxSingleAlbum + escTitle + @"\s*\]\](?=[^{}\|]*(?:\||}}))", @"'''" + articleTitle + @"'''");
+            articleText = Regex.Replace(articleText, infoBoxSingleAlbum + lowerTitle + @"\s*\]\](?=[^{}\|]*(?:\||}}))", @"'''" + lowerTitle + @"'''");
+            articleText = Regex.Replace(articleText, infoBoxSingleAlbum + escTitle + @"\s*\|\s*([^\]]+)\s*\]\](?=[^{}\|]*(?:\||}}))", @"'''" + "$1" + @"'''");
+            articleText = Regex.Replace(articleText, infoBoxSingleAlbum + lowerTitle + @"\s*\|\s*([^\]]+)\s*\]\](?=[^{}\|]*(?:\||}}))", @"'''" + "$1" + @"'''");
 
             return articleText;
         }
@@ -3044,7 +3044,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
         /// <param name="noChange">If there is no change (True if no Change)</param>
-        /// <param name="restrictDefaultsortAddition">Prevent insertion of a new {{DEFAULTSORT}} as AWB may not always be right for articles about people</param>
+        /// <param name="restrictDefaultsortChanges">Prevent insertion of a new {{DEFAULTSORT}} as AWB may not always be right for articles about people</param>
         /// <returns>The article text possibly using defaultsort.</returns>
         public static string ChangeToDefaultSort(string articleText, string articleTitle, out bool noChange, bool restrictDefaultsortChanges)
         {
@@ -3344,14 +3344,14 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             zerothSection = WikiRegexes.Refs.Replace(zerothSection, " ");
             zerothSection = Regex.Replace(zerothSection, @"\[\[[^\[\]\|]{11,}(?:\|[^\[\]]+)?\]\]", " ");
 
-            string yearstring = "", fromInfoBox, yearFromInfoBox = "";
+            string yearstring, yearFromInfoBox = "";
 
             string sort = GetCategorySort(articleText);
 
             bool alreadyUncertain = false;
 
             // scrape any infobox for birth year
-            fromInfoBox = GetInfoBoxFieldValue(zerothSection, @"(?:[Yy]earofbirth|Born|birth_?date)");
+            string fromInfoBox = GetInfoBoxFieldValue(zerothSection, @"(?:[Yy]earofbirth|Born|birth_?date)");
 
             if (fromInfoBox.Length > 0 && !UncertainWordings.IsMatch(fromInfoBox))
                 yearFromInfoBox = Regex.Match(fromInfoBox, @"\d{3,4}(?!\d)").Value;
@@ -3399,13 +3399,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     }
                 }
                 if (!string.IsNullOrEmpty(yearstring) && yearstring.Length > 2)
-                    articleText += "\r\n" + @"[[Category:" + yearstring + @" births" + CatEnd(sort);
+                    articleText += "\r\n" + @"[[Category:" + yearstring + " births" + CatEnd(sort);
             }
 
             // death
 
             // scrape any infobox
-            fromInfoBox = "";
             yearFromInfoBox = "";
             fromInfoBox = GetInfoBoxFieldValue(articleText, @"(?:[Yy]earofdeath|Died|death_?date)");
 
@@ -3423,7 +3422,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     yearstring = yearFromInfoBox;
 
                 // look for '(died xxxx)'
-                if (String.IsNullOrEmpty(yearstring))
+                if (string.IsNullOrEmpty(yearstring))
                 {
                     Match m = PersonYearOfDeath.Match(zerothSection);
 
@@ -3436,7 +3435,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 }
 
                 if (!string.IsNullOrEmpty(yearstring) && yearstring.Length > 2)
-                    articleText += "\r\n" + @"[[Category:" + yearstring + @" deaths" + CatEnd(sort);
+                    articleText += "\r\n" + @"[[Category:" + yearstring + " deaths" + CatEnd(sort);
             }
 
             zerothSection = WikiRegexes.TemplateMultiLine.Replace(zerothSection, " ");
@@ -3486,16 +3485,16 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
         private static string CatEnd(string sort)
         {
-            return ((sort.Length > 3) ? @"|" + sort : "") + @"]]";
+            return ((sort.Length > 3) ? "|" + sort : "") + "]]";
         }
 
-        private const string YearOfBirthMissingLivingPeople = @"Year of birth missing (living people)";
+        private const string YearOfBirthMissingLivingPeople = "Year of birth missing (living people)";
 
-        private const string YearOfBirthMissing = @"Year of birth missing";
+        private const string YearOfBirthMissing = "Year of birth missing";
 
-        private const string YearOfBirthUncertain = @"Year of birth uncertain";
+        private const string YearOfBirthUncertain = "Year of birth uncertain";
 
-        private const string YearofDeathMissing = @"Year of death missing";
+        private const string YearofDeathMissing = "Year of death missing";
 
         private const string Cat4YearBirths = @"\[\[Category:\d{4} births(?:\s*\|[^\[\]]+)? *\]\]";
         private const string Cat4YearDeaths = @"\[\[Category:\d{4} deaths(?:\s*\|[^\[\]]+)? *\]\]";
