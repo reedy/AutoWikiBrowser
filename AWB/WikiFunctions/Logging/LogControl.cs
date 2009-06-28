@@ -30,7 +30,7 @@ namespace WikiFunctions.Logging
     public partial class LogControl : UserControl
     {
         protected ListMaker listMaker;
-        protected List<AWBLogListener> mFilteredItems = new List<AWBLogListener>();
+        protected List<AWBLogListener> FilteredItems = new List<AWBLogListener>();
 
         #region Public
         public LogControl()
@@ -41,28 +41,28 @@ namespace WikiFunctions.Logging
         public void Initialise(ListMaker rlistMaker)
         {
             listMaker = rlistMaker;
-            resizeListView(lvIgnored);
-            resizeListView(lvSaved);
+            ResizeListView(lvIgnored);
+            ResizeListView(lvSaved);
         }
 
-        public delegate void LogAddedToControl(bool Skipped, AWBLogListener LogListener);
+        public delegate void LogAddedToControl(bool skipped, AWBLogListener logListener);
         public event LogAddedToControl LogAdded;
 
-        public void AddLog(bool Skipped, AWBLogListener LogListener)
+        public void AddLog(bool skipped, AWBLogListener logListener)
         {
-            if (Skipped)
+            if (skipped)
             {
-                LogListener.AddAndDateStamp(lvIgnored);
-                resizeListView(lvIgnored);
+                logListener.AddAndDateStamp(lvIgnored);
+                ResizeListView(lvIgnored);
             }
             else
             {
-                LogListener.AddAndDateStamp(lvSaved);
-                resizeListView(lvSaved);
+                logListener.AddAndDateStamp(lvSaved);
+                ResizeListView(lvSaved);
             }
 
             if (LogAdded != null)
-                LogAdded(Skipped, LogListener);
+                LogAdded(skipped, logListener);
         }
         #endregion
 
@@ -137,7 +137,7 @@ namespace WikiFunctions.Logging
             catch { }
         }
 
-        private static void resizeListView(NoFlickerExtendedListView lstView)
+        private static void ResizeListView(NoFlickerExtendedListView lstView)
         {
             lstView.ResizeColumns(true);
         }
@@ -181,7 +181,7 @@ namespace WikiFunctions.Logging
         private void btnClearIgnored_Click(object sender, EventArgs e)
         {
             lvIgnored.Items.Clear();
-            mFilteredItems.Clear();
+            FilteredItems.Clear();
         }
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -238,7 +238,7 @@ namespace WikiFunctions.Logging
             {
                 if (string.Compare(item.SkipReason, filterBy, true) != 0) // no match
                 {
-                    mFilteredItems.Add(item);
+                    FilteredItems.Add(item);
                     item.Remove();
                 }
             }
@@ -252,7 +252,7 @@ namespace WikiFunctions.Logging
             {
                 if (string.Compare(item.SkipReason, filterBy, true) == 0) // match
                 {
-                    mFilteredItems.Add(item);
+                    FilteredItems.Add(item);
                     item.Remove();
                 }
             }
@@ -263,7 +263,7 @@ namespace WikiFunctions.Logging
             if (MenuItemOwner(sender) == lvIgnored)
             {
                 lvIgnored.Items.Clear();
-                mFilteredItems.Clear();
+                FilteredItems.Clear();
             }
             else
             {
@@ -275,12 +275,12 @@ namespace WikiFunctions.Logging
         {
             if (MenuItemOwner(sender) == lvIgnored)
             {
-                foreach (AWBLogListener log in mFilteredItems)
+                foreach (AWBLogListener log in FilteredItems)
                 { // AddRange accepts only an array or a ListViewItemCollection (the latter is only creatable by passing a listview object to the creator)
                     lvIgnored.Items.Add(log);
                 }
                 lvIgnored.Sorting = SortOrder.None;
-                mFilteredItems.Clear();
+                FilteredItems.Clear();
             }
             else
             {

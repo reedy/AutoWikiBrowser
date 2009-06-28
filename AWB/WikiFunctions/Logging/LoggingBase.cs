@@ -16,8 +16,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-// From WikiFunctions2.dll. Converted from VB to C#
-
 using System.Text.RegularExpressions;
 using WikiFunctions.Logging.Uploader;
 
@@ -26,7 +24,7 @@ namespace WikiFunctions.Logging
     /// <summary>
     /// This abstract class can be used to build trace listener classes, or you can build a class from scratch and implement IMyTraceListener
     /// </summary>
-    public abstract class TraceListenerBase : System.IO.StreamWriter, WikiFunctions.Logging.IMyTraceListener
+    public abstract class TraceListenerBase : System.IO.StreamWriter, IMyTraceListener
     {
 		// Initialisation
         private static readonly Regex GetArticleTemplateRegex = new Regex("( talk)?:", RegexOptions.Compiled);
@@ -37,67 +35,60 @@ namespace WikiFunctions.Logging
         }
 
         #region IMyTraceListener interface
-		public abstract void ProcessingArticle(string FullArticleTitle, Namespaces NS);
-		public abstract void WriteBulletedLine(string Line, bool Bold, bool VerboseOnly, bool DateStamp);
-		public void WriteBulletedLine(string Line, bool Bold, bool VerboseOnly)
+		public abstract void ProcessingArticle(string fullArticleTitle, Namespaces ns);
+		public abstract void WriteBulletedLine(string line, bool bold, bool verboseOnly, bool dateStamp);
+		public void WriteBulletedLine(string line, bool bold, bool verboseOnly)
 		{
-			WriteBulletedLine(Line, Bold, VerboseOnly, false);
+			WriteBulletedLine(line, bold, verboseOnly, false);
 		}
-		public abstract void SkippedArticle(string SkippedBy, string Reason);
-		public abstract void SkippedArticleBadTag(string SkippedBy, string FullArticleTitle, Namespaces NS);
-		public abstract void WriteArticleActionLine(string Line, string PluginName);
-		public abstract void WriteTemplateAdded(string Template, string PluginName);
-		public abstract void WriteComment(string Line);
-		public abstract void WriteCommentAndNewLine(string Line);
-		public virtual void SkippedArticleRedlink(string SkippedBy, string FullArticleTitle, Namespaces NS)
+		public abstract void SkippedArticle(string skippedBy, string reason);
+		public abstract void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, Namespaces ns);
+		public abstract void WriteArticleActionLine(string line, string pluginName);
+		public abstract void WriteTemplateAdded(string template, string pluginName);
+		public abstract void WriteComment(string line);
+		public abstract void WriteCommentAndNewLine(string line);
+
+		public virtual void SkippedArticleRedlink(string skippedBy, string fullArticleTitle, Namespaces ns)
 		{
-			SkippedArticle(SkippedBy, "Attached article doesn't exist - maybe deleted?");
+			SkippedArticle(skippedBy, "Attached article doesn't exist - maybe deleted?");
 		}
-		public void WriteArticleActionLine(string Line, string PluginName, bool VerboseOnly)
+
+		public void WriteArticleActionLine(string line, string pluginName, bool verboseOnly)
 		{
-			WriteArticleActionLineVerbose(Line, PluginName, VerboseOnly);
+			WriteArticleActionLineVerbose(line, pluginName, verboseOnly);
 		}
-		public void WriteArticleActionLineVerbose(string Line, string PluginName, bool VerboseOnly)
+
+		public void WriteArticleActionLineVerbose(string line, string pluginName, bool verboseOnly)
 		{
-			if (VerboseOnly && ! Verbose)
+			if (verboseOnly && ! Verbose)
 			{
 				return;
 			}
-			WriteArticleActionLine(Line, PluginName);
+			WriteArticleActionLine(line, pluginName);
 		}
+
 		public abstract bool Uploadable {get;}
 #endregion
 
 		// Protected and public members:
-		public static string GetArticleTemplate(string ArticleFullTitle, Namespaces NS)
+		public static string GetArticleTemplate(string articleFullTitle, Namespaces ns)
 		{
-			int namesp = 0;
-			string strnamespace = null;
-			string templ = null;
-
-            switch (NS)
+            switch (ns)
             {
                 case Namespaces.Main:
-					return "#{{subst:la|" + ArticleFullTitle + "}}";
+					return "#{{subst:la|" + articleFullTitle + "}}";
 
                 case Namespaces.Talk:
-					return "#{{subst:lat|" + Tools.RemoveNamespaceString(ArticleFullTitle).Trim() + "}}";
+					return "#{{subst:lat|" + Tools.RemoveNamespaceString(articleFullTitle).Trim() + "}}";
 
                 default:
-					namesp = (int)NS;
-                    strnamespace = GetArticleTemplateRegex.Replace(Variables.Namespaces[(int) NS], "");
+                    int namesp = (int)ns;
+                    string strnamespace = GetArticleTemplateRegex.Replace(Variables.Namespaces[(int)ns], "");
 
-					if (namesp % 2 == 1) // talk
-					{
-						templ = "lnt";
-					}
-					else // not talk
-					{
-						templ = "ln";
-					}
+                    string templ = namesp % 2 == 1 ? "lnt" : "ln";
 
 					return "#{{subst:" + templ + "|" + strnamespace + "|" + 
-                        Tools.RemoveNamespaceString(ArticleFullTitle).Trim() + "}}";
+                        Tools.RemoveNamespaceString(articleFullTitle).Trim() + "}}";
 			}
 		}
 		public abstract bool Verbose {get;}
@@ -111,15 +102,15 @@ namespace WikiFunctions.Logging
         protected TraceStatus mTraceStatus;
         protected UploadableLogSettings2 mUploadSettings;
 
-		public delegate void UploadEventHandler(TraceListenerUploadableBase Sender, ref bool Success);
+		public delegate void UploadEventHandler(TraceListenerUploadableBase sender, ref bool success);
 		public event UploadEventHandler Upload;
 
 		// Initialisation:
-        protected TraceListenerUploadableBase(UploadableLogSettings2 UploadSettings, TraceStatus TraceStatus)
-            : base(TraceStatus.FileName)
+        protected TraceListenerUploadableBase(UploadableLogSettings2 uploadSettings, TraceStatus traceStatus)
+            : base(traceStatus.FileName)
 		{
-			mTraceStatus = TraceStatus;
-			mUploadSettings = UploadSettings;
+			mTraceStatus = traceStatus;
+			mUploadSettings = uploadSettings;
 		}
 
 		// Overrides & Shadowing:
@@ -127,28 +118,30 @@ namespace WikiFunctions.Logging
 		{
             get { return true; }
 		}
+
 		public override bool Verbose
 		{
             get { return mUploadSettings.LogVerbose; }
 		}
 
-		public virtual new void WriteLine(string Line)
+		public virtual new void WriteLine(string line)
 		{
-			WriteLine(Line, true);
+			WriteLine(line, true);
 		}
 
-		public virtual void WriteLine(string Line, bool CheckCounter)
+		public virtual void WriteLine(string line, bool checkCounter)
 		{
-			base.WriteLine(Line);
+			base.WriteLine(line);
 
-			mTraceStatus.LogUpload += Line + System.Environment.NewLine;
+			mTraceStatus.LogUpload += line + System.Environment.NewLine;
 			mTraceStatus.LinesWritten += 1;
 
-			if (CheckCounter)
+			if (checkCounter)
 			{
 				CheckCounterForUpload();
 			}
 		}
+
 		protected virtual bool IsReadyToUpload
 		{
 			get
@@ -156,6 +149,7 @@ namespace WikiFunctions.Logging
 				return mTraceStatus.LinesWrittenSinceLastUpload >= mUploadSettings.UploadMaxLines;
 			}
 		}
+
 		public virtual void CheckCounterForUpload()
 		{
 			if (IsReadyToUpload)
@@ -163,9 +157,9 @@ namespace WikiFunctions.Logging
 				UploadLog();
 			}
 		}
-		public void Close(bool Upload)
+		public void Close(bool upload)
 		{
-			if (Upload)
+			if (upload)
 			{
 				UploadLog();
 			}
@@ -180,13 +174,13 @@ namespace WikiFunctions.Logging
 			return UploadLog(false);
 		}
 
-		public virtual bool UploadLog(bool NewJob)
+		public virtual bool UploadLog(bool newJob)
 		{
             bool retval = false;
 			if (Upload != null)	Upload(this, ref retval);
 
 			// TODO: Logging: Get result, reset TraceStatus, write success/failure to log
-			if (NewJob)
+			if (newJob)
 			{
 				mTraceStatus.PageNumber = 1;
 				mTraceStatus.StartDate = System.DateTime.Now;
@@ -205,10 +199,12 @@ namespace WikiFunctions.Logging
 		{
             get { return mTraceStatus; }
 		}
+
 		public UploadableLogSettings2 UploadSettings
 		{
             get { return mUploadSettings; }
 		}
+
 		public virtual string PageName
 		{
             get { return string.Format("{0:ddMMyy} {1}", mTraceStatus.StartDate, mUploadSettings.UploadJobName); }

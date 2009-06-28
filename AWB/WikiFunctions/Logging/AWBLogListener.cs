@@ -32,8 +32,6 @@ namespace WikiFunctions.Logging
          * Handle double click event (open article in browser)
         */
 
-        private string mArticle; /* store this locally rather than relying on .Text in case a Plugin changes .Text
-                                   * (it shouldn't, and Kingbotk doesn't, but who knows :) ) */
         private bool mSkipped;
         private bool Datestamped, HaveSkipInfo;
 
@@ -41,10 +39,10 @@ namespace WikiFunctions.Logging
         public bool Skipped
         { get { return mSkipped; } internal set { mSkipped = value; } }
 
-        public AWBLogListener(string ArticleTitle)
+        public AWBLogListener(string articleTitle)
         {
-            Text = ArticleTitle;
-            mArticle = ArticleTitle;
+            Text = articleTitle;
+            ArticleTitle = articleTitle;
         }
 
         public void UserSkipped()
@@ -52,9 +50,9 @@ namespace WikiFunctions.Logging
             Skip(Variables.StringUser, Variables.StringUserSkipped);
         }
 
-        public void AWBSkipped(string Reason)
+        public void AWBSkipped(string reason)
         {
-            Skip("AWB", Reason);
+            Skip("AWB", reason);
         }
 
         public void PluginSkipped()
@@ -64,18 +62,17 @@ namespace WikiFunctions.Logging
 
         public void OpenInBrowser()
         {
-            Tools.OpenArticleInBrowser(mArticle);
+            Tools.OpenArticleInBrowser(ArticleTitle);
         }
 
         public void OpenHistoryInBrowser()
         {
-            Tools.OpenArticleHistoryInBrowser(mArticle);
+            Tools.OpenArticleHistoryInBrowser(ArticleTitle);
         }
 
         public void AddAndDateStamp(ListView listView)
         {
-            ListViewSubItem dateStamp = new ListViewSubItem();
-            dateStamp.Text = DateTime.Now.ToString();
+            ListViewSubItem dateStamp = new ListViewSubItem {Text = DateTime.Now.ToString()};
 
             base.SubItems.Insert(1, dateStamp);
 
@@ -86,32 +83,29 @@ namespace WikiFunctions.Logging
             Datestamped = true;
         }
 
-        public string Output(LogFileType LogFileType)
+        public string Output(LogFileType logFileType)
         {
-            switch (LogFileType)
+            switch (logFileType)
             {
                 case LogFileType.AnnotatedWikiText:
-                    string output = "*" + TimeStamp + ": [[" + mArticle + "]]\r\n";
+                    string output = "*" + TimeStamp + ": [[" + ArticleTitle + "]]\r\n";
                     if (mSkipped)
                         output += "'''Skipped''' by: " + SkippedBy + "\r\n" + "Skip reason: " +
                             SkipReason + "\r\n";
                     return output + ToolTipText + "\r\n";
 
                 case LogFileType.PlainText:
-                    return mArticle;
+                    return ArticleTitle;
 
                 case LogFileType.WikiText:
-                    return "#[[:" + mArticle + "]]";
+                    return "#[[:" + ArticleTitle + "]]";
 
                 default:
                     throw new ArgumentOutOfRangeException("LogFileType");
             }
         }
 
-        public string ArticleTitle
-        {
-            get { return mArticle; }
-        }
+        public string ArticleTitle { get; private set; }
 
         public string SkipReason
         {
@@ -134,21 +128,21 @@ namespace WikiFunctions.Logging
         #region IMyTraceListener Members
         void IMyTraceListener.Close() { }
         void IMyTraceListener.Flush() { }
-        void IMyTraceListener.ProcessingArticle(string FullArticleTitle, Namespaces NS) { }
-        void IMyTraceListener.WriteComment(string Line) { }
-        void IMyTraceListener.WriteCommentAndNewLine(string Line) { }
+        void IMyTraceListener.ProcessingArticle(string fullArticleTitle, Namespaces ns) { }
+        void IMyTraceListener.WriteComment(string line) { }
+        void IMyTraceListener.WriteCommentAndNewLine(string line) { }
 
-        void IMyTraceListener.SkippedArticle(string skippedBy, string Reason)
+        void IMyTraceListener.SkippedArticle(string skippedBy, string reason)
         {
-            Skip(skippedBy, Reason);
+            Skip(skippedBy, reason);
         }
 
-        void IMyTraceListener.SkippedArticleBadTag(string skippedBy, string FullArticleTitle, Namespaces NS)
+        void IMyTraceListener.SkippedArticleBadTag(string skippedBy, string fullArticleTitle, Namespaces ns)
         {
             Skip(skippedBy, "Bad tag");
         }
 
-        void IMyTraceListener.SkippedArticleRedlink(string skippedBy, string FullArticleTitle, Namespaces NS)
+        void IMyTraceListener.SkippedArticleRedlink(string skippedBy, string fullArticleTitle, Namespaces ns)
         {
             Skip(skippedBy, "Red link (article deleted)");
         }
@@ -158,34 +152,34 @@ namespace WikiFunctions.Logging
             get { return false; }
         }
 
-        void IMyTraceListener.WriteArticleActionLine(string Line, string PluginName, bool VerboseOnly)
+        void IMyTraceListener.WriteArticleActionLine(string line, string pluginName, bool verboseOnly)
         {
-            if (!VerboseOnly) WriteLine(Line, PluginName);
+            if (!verboseOnly) WriteLine(line, pluginName);
         }
 
-        void IMyTraceListener.WriteArticleActionLine(string Line, string PluginName)
+        void IMyTraceListener.WriteArticleActionLine(string line, string pluginName)
         {
-            WriteLine(Line, PluginName);
+            WriteLine(line, pluginName);
         }
 
-        void IMyTraceListener.WriteBulletedLine(string Line, bool Bold, bool VerboseOnly)
+        void IMyTraceListener.WriteBulletedLine(string line, bool bold, bool verboseOnly)
         {
-            if (!VerboseOnly) Write(Line);
+            if (!verboseOnly) Write(line);
         }
 
-        void IMyTraceListener.WriteBulletedLine(string Line, bool Bold, bool VerboseOnly, bool DateStamp)
+        void IMyTraceListener.WriteBulletedLine(string line, bool bold, bool verboseOnly, bool dateStamp)
         {
-            if (!VerboseOnly) Write(Line);
+            if (!verboseOnly) Write(line);
         }
 
-        void IMyTraceListener.WriteLine(string Line)
+        void IMyTraceListener.WriteLine(string line)
         {
-            Write(Line);
+            Write(line);
         }
 
-        void IMyTraceListener.WriteTemplateAdded(string Template, string PluginName)
+        void IMyTraceListener.WriteTemplateAdded(string template, string pluginName)
         {
-            WriteLine("{{" + Template + "}} added", PluginName);
+            WriteLine("{{" + template + "}} added", pluginName);
         }
 
         public void Write(string text)
@@ -196,9 +190,9 @@ namespace WikiFunctions.Logging
             { ToolTipText = text + Environment.NewLine + ToolTipText; }
         }
 
-        public void WriteLine(string text, string Sender)
+        public void WriteLine(string text, string sender)
         {
-            if (!string.IsNullOrEmpty(text.Trim())) Write(Sender + ": " + text);
+            if (!string.IsNullOrEmpty(text.Trim())) Write(sender + ": " + text);
         }
         #endregion
 
@@ -212,29 +206,20 @@ namespace WikiFunctions.Logging
         /// <summary>
         /// Returns the ListViewItem.SubItems number for a specified piece of information
         /// </summary>
-        /// <param name="SubItem"></param>
+        /// <param name="subItem"></param>
         /// <returns>-1 if the SubItem doesn't exist</returns>
-        private int GetSubItemNumber(SubItem SubItem)
+        private int GetSubItemNumber(SubItem subItem)
         {
-            switch (SubItem)
+            switch (subItem)
             {
                 case SubItem.SkippedBy:
-                    if (Datestamped)
-                        return 2;
-
-                    return 1;
+                    return Datestamped ? 2 : 1;
 
                 case SubItem.SkippedReason:
-                    if (Datestamped)
-                        return 3;
-
-                    return 2;
+                    return Datestamped ? 3 : 2;
 
                 case SubItem.TimeStamp:
-                    if (Datestamped)
-                        return 1;
-
-                    return -1;
+                    return (Datestamped) ? 1 : -1;
 
                 default:
                     throw new ArgumentOutOfRangeException("SubItem");
@@ -244,38 +229,32 @@ namespace WikiFunctions.Logging
         /// <summary>
         /// Returns the Text from a ListViewItem.SubItems object
         /// </summary>
-        private string GetSubItemText(SubItem SubItem)
+        private string GetSubItemText(SubItem subItem)
         {
-            switch (SubItem)
+            switch (subItem)
             {
                 case SubItem.SkippedBy:
                 case SubItem.SkippedReason:
-                    if (HaveSkipInfo)
-                        return base.SubItems[GetSubItemNumber(SubItem)].Text;
-                    else
-                        return "";
+                    return HaveSkipInfo ? base.SubItems[GetSubItemNumber(subItem)].Text : "";
 
                 case SubItem.TimeStamp:
-                    if (Datestamped)
-                        return base.SubItems[1].Text;
-                    else
-                        return "";
+                    return Datestamped ? base.SubItems[1].Text : "";
 
                 default:
-                    return base.SubItems[GetSubItemNumber(SubItem)].Text;
+                    return base.SubItems[GetSubItemNumber(subItem)].Text;
             }
         }
 
-        private void SetSubItemText(SubItem SubItem, string value)
+        private void SetSubItemText(SubItem subItem, string value)
         {
-            if ((SubItem == SubItem.SkippedBy || SubItem == SubItem.SkippedReason) &! (HaveSkipInfo))
+            if ((subItem == SubItem.SkippedBy || subItem == SubItem.SkippedReason) &! (HaveSkipInfo))
             {
                 base.SubItems.Add("SkippedBy");
                 base.SubItems.Add("SkipReason");
                 HaveSkipInfo = true;
             
             }
-            base.SubItems[GetSubItemNumber(SubItem)].Text = value;
+            base.SubItems[GetSubItemNumber(subItem)].Text = value;
         }
 
         protected void Skip(string mSkippedBy, string mSkipReason)
@@ -287,7 +266,7 @@ namespace WikiFunctions.Logging
         }
 
         // disable access to underlying Items property
-        public static new System.Windows.Forms.ListViewItem.ListViewSubItemCollection SubItems
+        public static new ListViewSubItemCollection SubItems
         {
             get { throw new NotImplementedException("The SubItems property should not be accessed directly"); }
         }

@@ -64,6 +64,8 @@ namespace WikiFunctions.Logging
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Uploading...";
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).EndInit();
+            base.Shown += new System.EventHandler(this.Form_Shown);
+            base.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_Closing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

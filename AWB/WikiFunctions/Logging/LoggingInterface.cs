@@ -34,19 +34,19 @@ namespace WikiFunctions.Logging
         // Methods
         void Close();
         void Flush();
-        void ProcessingArticle(string FullArticleTitle, Namespaces NS);
-        void SkippedArticle(string SkippedBy, string Reason);
-        void SkippedArticleBadTag(string SkippedBy, string FullArticleTitle, Namespaces NS);
-        void SkippedArticleRedlink(string SkippedBy, string FullArticleTitle, Namespaces NS);
+        void ProcessingArticle(string fullArticleTitle, Namespaces ns);
+        void SkippedArticle(string skippedBy, string reason);
+        void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, Namespaces ns);
+        void SkippedArticleRedlink(string skippedBy, string fullArticleTitle, Namespaces ns);
         void Write(string text);
-        void WriteArticleActionLine(string Line, string PluginName);
-        void WriteArticleActionLine(string Line, string PluginName, bool VerboseOnly);
-        void WriteBulletedLine(string Line, bool Bold, bool VerboseOnly);
-        void WriteBulletedLine(string Line, bool Bold, bool VerboseOnly, bool DateStamp);
-        void WriteComment(string Line);
-        void WriteCommentAndNewLine(string Line);
-        void WriteLine(string Line);
-        void WriteTemplateAdded(string Template, string PluginName);
+        void WriteArticleActionLine(string line, string pluginName);
+        void WriteArticleActionLine(string line, string pluginName, bool verboseOnly);
+        void WriteBulletedLine(string line, bool bold, bool verboseOnly);
+        void WriteBulletedLine(string line, bool bold, bool verboseOnly, bool dateStamp);
+        void WriteComment(string line);
+        void WriteCommentAndNewLine(string line);
+        void WriteLine(string line);
+        void WriteTemplateAdded(string template, string pluginName);
 
         // Properties
         /// <summary>
@@ -58,7 +58,7 @@ namespace WikiFunctions.Logging
 
     public interface IAWBTraceListener : IMyTraceListener
     {
-        void AWBSkipped(string Reason);
+        void AWBSkipped(string reason);
         void UserSkipped();
         void PluginSkipped();
     }

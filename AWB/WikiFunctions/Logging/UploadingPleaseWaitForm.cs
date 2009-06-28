@@ -28,24 +28,22 @@ namespace WikiFunctions.Logging
     /// </summary>
     public partial class UploadingPleaseWaitForm : Form
     {
-        Cursor oldCursor;
+        Cursor OldCursor;
 
         public UploadingPleaseWaitForm()
         {
-            base.Shown += new EventHandler(this.Form_Shown);
-            base.FormClosing += new FormClosingEventHandler(this.Form_Closing);
             InitializeComponent();
         }
 
         private void Form_Closing(object sender, FormClosingEventArgs e)
         {
-            this.Cursor = this.oldCursor;
+            Cursor = OldCursor;
         }
 
         private void Form_Shown(object sender, EventArgs e)
         {
-            this.oldCursor = this.Cursor;
-            this.Cursor = Cursors.WaitCursor;
+            OldCursor = Cursor;
+            Cursor = Cursors.WaitCursor;
         }
     }
 }
