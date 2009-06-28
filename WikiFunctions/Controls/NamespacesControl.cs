@@ -60,7 +60,7 @@ namespace WikiFunctions.Controls
                 chkPortal.Visible = chkPortalTalk.Visible = false;
         }
 
-        CheckBox tmp;
+        CheckBox Tmp;
         public void Reset()
         {
             SetSelectedNamespaces(new List<int>(new [] {0}));
@@ -84,10 +84,10 @@ namespace WikiFunctions.Controls
                     continue;
                 }
 
-                tmp = (cntrl as CheckBox);
+                Tmp = (cntrl as CheckBox);
 
-                if (tmp != null && tmp.Checked && tmp.Tag != null)
-                    ret.Add(int.Parse(tmp.Tag.ToString()));
+                if (Tmp != null && Tmp.Checked && Tmp.Tag != null)
+                    ret.Add(int.Parse(Tmp.Tag.ToString()));
             }
 
             return ret;
@@ -98,7 +98,7 @@ namespace WikiFunctions.Controls
             SetListTags(Controls, tags);
         }
 
-        private void SetListTags(ControlCollection controls, List<int> tags)
+        private void SetListTags(ControlCollection controls, ICollection<int> tags)
         {
             foreach (Control cntrl in controls)
             {
@@ -108,27 +108,27 @@ namespace WikiFunctions.Controls
                     continue;
                 }
 
-                tmp = (cntrl as CheckBox);
+                Tmp = (cntrl as CheckBox);
 
-                if (tmp != null && tmp.Tag != null)
-                    tmp.Checked = tags.Contains(int.Parse(tmp.Tag.ToString()));
+                if (Tmp != null && Tmp.Tag != null)
+                    Tmp.Checked = tags.Contains(int.Parse(Tmp.Tag.ToString()));
             }
         }
 
-        private bool doublecol;
+        private bool DoubleCol;
         [DefaultValue(false), Category("Layout")]
         [Browsable(true)]
         public bool DoubleColumnFlowLayouts
         {
-            get { return doublecol; }
+            get { return DoubleCol; }
             set
             {
-                if (doublecol == value)
+                if (DoubleCol == value)
                     return;
 
-                doublecol = value;
+                DoubleCol = value;
 
-                if (doublecol)
+                if (DoubleCol)
                 {
                     flwContent.Size = new Size(flwContent.Size.Width * 2, flwContent.Size.Height);
                     flwTalk.Size = new Size(flwTalk.Size.Width * 2, flwTalk.Size.Height);
@@ -151,27 +151,15 @@ namespace WikiFunctions.Controls
         [Browsable(false)]
         public override Size MaximumSize
         {
-            get
-            {
-                return base.MaximumSize;
-            }
-            set
-            {
-                base.MaximumSize = value;
-            }
+            get { return base.MaximumSize; }
+            set { base.MaximumSize = value; }
         }
 
         [Browsable(false)]
         public override Size MinimumSize
         {
-            get
-            {
-                return base.MinimumSize;
-            }
-            set
-            {
-                base.MinimumSize = value;
-            }
+            get { return base.MinimumSize; }
+            set { base.MinimumSize = value; }
         }
     }
 }

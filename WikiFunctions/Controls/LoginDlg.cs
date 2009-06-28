@@ -39,6 +39,5 @@ namespace WikiFunctions.Controls
             get { return txtPassword.Text; }
             set { txtPassword.Text = value; }
         }
-        
     }
 }
