@@ -1983,13 +1983,14 @@ namespace WikiFunctions.Parse
         private static string FixLinksInfoBoxSingleAlbum(string articleText, string articleTitle)
         {
             string escTitle = Regex.Escape(articleTitle);
+			string lowerTitle = Tools.TurnFirstToLower(escTitle);
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#.22This_album.2Fsingle.22
             // for this single or this album within the infobox, make bold instead of delinking
             const string InfoBoxSingleAlbum = @"(?s)(?<={{[Ii]nfobox (?:[Ss]ingle|[Aa]lbum).*?\|\s*[Tt]his (?:[Ss]ingle|[Aa]lbum)\s*=[^{}]*?)\[\[\s*";
             articleText = Regex.Replace(articleText, InfoBoxSingleAlbum + escTitle + @"\s*\]\](?=[^{}\|]*(?:\||}}))", @"'''" + articleTitle + @"'''");
-            articleText = Regex.Replace(articleText, InfoBoxSingleAlbum + Tools.TurnFirstToLower(escTitle) + @"\s*\]\](?=[^{}\|]*(?:\||}}))", @"'''" + Tools.TurnFirstToLower(articleTitle) + @"'''");
+            articleText = Regex.Replace(articleText, InfoBoxSingleAlbum + lowerTitle + @"\s*\]\](?=[^{}\|]*(?:\||}}))", @"'''" + lowerTitle + @"'''");
             articleText = Regex.Replace(articleText, InfoBoxSingleAlbum + escTitle + @"\s*\|\s*([^\]]+)\s*\]\](?=[^{}\|]*(?:\||}}))", @"'''" + "$1" + @"'''");
-            articleText = Regex.Replace(articleText, InfoBoxSingleAlbum + Tools.TurnFirstToLower(escTitle) + @"\s*\|\s*([^\]]+)\s*\]\](?=[^{}\|]*(?:\||}}))", @"'''" + "$1" + @"'''");
+            articleText = Regex.Replace(articleText, InfoBoxSingleAlbum + lowerTitle + @"\s*\|\s*([^\]]+)\s*\]\](?=[^{}\|]*(?:\||}}))", @"'''" + "$1" + @"'''");
 
             return articleText;
         }
