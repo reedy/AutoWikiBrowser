@@ -4282,6 +4282,9 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
             // tags with a parameter value that's not a date are not supported
             Assert.AreEqual(@"{{Article issues|wikfy=May 2008|copyedit=April 2009|COI=May 2008}} {{update|some date reason}}", parser.ArticleIssues(@"{{Article issues|wikfy=May 2008|copyedit=April 2009|COI=May 2008}} {{update|some date reason}}"));
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#ArgumentException_in_Parsers.ArticleIssues
+            Assert.AreEqual("", parser.ArticleIssues(""));
         }
 
         [Test]
