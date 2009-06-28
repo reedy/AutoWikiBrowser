@@ -375,8 +375,11 @@ namespace WikiFunctions
 
         public static void CancelBackgroundRequests()
         {
-            foreach (BackgroundRequest b in DelayedRequests) b.Abort();
-            DelayedRequests.Clear();
+            lock (DelayedRequests)
+            {
+                foreach (BackgroundRequest b in DelayedRequests) b.Abort();
+                DelayedRequests.Clear();
+            }
         }
 
         public static void LoadUnderscores(params string[] cats)
@@ -388,11 +391,14 @@ namespace WikiFunctions
 
         private static void UnderscoresLoaded(BackgroundRequest req)
         {
-            DelayedRequests.Remove(req);
-            UnderscoredTitles.Clear();
-            foreach (Article a in (List<Article>)req.Result)
+            lock (DelayedRequests)
             {
-                UnderscoredTitles.Add(a.Name);
+                DelayedRequests.Remove(req);
+                UnderscoredTitles.Clear();
+                foreach (Article a in (List<Article>)req.Result)
+                {
+                    UnderscoredTitles.Add(a.Name);
+                }
             }
         }
 
