@@ -64,6 +64,7 @@
     <Compile Include="Controls\Lists\ProtectionLevel.Designer.cs">
       <DependentUpon>ProtectionLevel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Logging\Uploader\UploaderExtras.cs" />
     <Compile Include="Namespace.cs" />
     <Compile Include="Controls\NamespacesControl.cs">
       <SubType>UserControl</SubType>
