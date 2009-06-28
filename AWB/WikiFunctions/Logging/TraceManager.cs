@@ -64,6 +64,7 @@ namespace WikiFunctions.Logging
 				t.Value.Close();
 			}
 		}
+
 		public virtual void Flush()
 		{
 			foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
@@ -71,81 +72,91 @@ namespace WikiFunctions.Logging
 				t.Value.Flush();
 			}
 		}
-		public virtual void ProcessingArticle(string FullArticleTitle, Namespaces NS)
+
+		public virtual void ProcessingArticle(string fullArticleTitle, Namespaces ns)
 		{
 			foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
 			{
-				t.Value.ProcessingArticle(FullArticleTitle, NS);
-			}
-		}
-		public virtual void WriteBulletedLine(string Line, bool Bold, bool VerboseOnly, bool DateStamp)
-		{
-			foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
-			{
-				t.Value.WriteBulletedLine(Line, Bold, VerboseOnly, DateStamp);
-			}
-		}
-		public virtual void WriteBulletedLine(string Line, bool Bold, bool VerboseOnly)
-		{
-			WriteBulletedLine(Line, Bold, VerboseOnly, false);
-		}
-		public virtual void SkippedArticle(string SkippedBy, string Reason)
-		{
-			foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
-			{
-				t.Value.SkippedArticle(SkippedBy, Reason);
-			}
-		}
-		public virtual void SkippedArticleBadTag(string SkippedBy, string FullArticleTitle, Namespaces NS)
-		{
-			foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
-			{
-				t.Value.SkippedArticleBadTag(SkippedBy, FullArticleTitle, NS);
+				t.Value.ProcessingArticle(fullArticleTitle, ns);
 			}
 		}
 
-        public virtual void SkippedArticleRedlink(string SkippedBy, string FullArticleTitle, Namespaces NS)
+		public virtual void WriteBulletedLine(string line, bool bold, bool verboseOnly, bool dateStamp)
+		{
+			foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
+			{
+				t.Value.WriteBulletedLine(line, bold, verboseOnly, dateStamp);
+			}
+		}
+
+		public virtual void WriteBulletedLine(string line, bool bold, bool verboseOnly)
+		{
+			WriteBulletedLine(line, bold, verboseOnly, false);
+		}
+
+		public virtual void SkippedArticle(string skippedBy, string reason)
+		{
+			foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
+			{
+				t.Value.SkippedArticle(skippedBy, reason);
+			}
+		}
+
+		public virtual void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, Namespaces ns)
+		{
+			foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
+			{
+				t.Value.SkippedArticleBadTag(skippedBy, fullArticleTitle, ns);
+			}
+		}
+
+        public virtual void SkippedArticleRedlink(string skippedBy, string fullArticleTitle, Namespaces ns)
         {
             foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
             {
-                t.Value.SkippedArticleRedlink(SkippedBy, FullArticleTitle, NS);
+                t.Value.SkippedArticleRedlink(skippedBy, fullArticleTitle, ns);
             }
         }
-        public virtual void WriteArticleActionLine(string Line, string PluginName)
+
+        public virtual void WriteArticleActionLine(string line, string pluginName)
         {
             foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
             {
-                t.Value.WriteArticleActionLine(Line, PluginName);
+                t.Value.WriteArticleActionLine(line, pluginName);
             }
         }
-        public virtual void WriteTemplateAdded(string Template, string PluginName)
+
+        public virtual void WriteTemplateAdded(string template, string pluginName)
         {
             foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
             {
-                t.Value.WriteTemplateAdded(Template, PluginName);
+                t.Value.WriteTemplateAdded(template, pluginName);
             }
         }
-        public virtual void WriteArticleActionLine(string Line, string PluginName, bool VerboseOnly)
+
+        public virtual void WriteArticleActionLine(string line, string pluginName, bool verboseOnly)
         {
-            WriteArticleActionLine1(Line, PluginName, VerboseOnly);
+            WriteArticleActionLine1(line, pluginName, verboseOnly);
         }
-        public virtual void WriteArticleActionLine1(string Line, string PluginName, bool VerboseOnly)
+
+        public virtual void WriteArticleActionLine1(string line, string pluginName, bool verboseOnly)
         {
-            if (VerboseOnly)
+            if (verboseOnly)
             {
                 foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
                 {
-                    t.Value.WriteArticleActionLine(Line, PluginName, true);
+                    t.Value.WriteArticleActionLine(line, pluginName, true);
                 }
             }
             else
             {
                 foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
                 {
-                    t.Value.WriteArticleActionLine(Line, PluginName);
+                    t.Value.WriteArticleActionLine(line, pluginName);
                 }
             }
         }
+
         public virtual bool Uploadable
         {
             get
@@ -164,25 +175,28 @@ namespace WikiFunctions.Logging
                 t.Value.Write(text);
             }
         }
-        public virtual void WriteComment(string Line)
+
+        public virtual void WriteComment(string line)
         {
             foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
             {
-                t.Value.WriteComment(Line);
+                t.Value.WriteComment(line);
             }
         }
-        public virtual void WriteCommentAndNewLine(string Line)
+
+        public virtual void WriteCommentAndNewLine(string line)
         {
             foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
             {
-                t.Value.WriteCommentAndNewLine(Line);
+                t.Value.WriteCommentAndNewLine(line);
             }
         }
-        public virtual void WriteLine(string Line)
+
+        public virtual void WriteLine(string line)
         {
             foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
             {
-                t.Value.WriteLine(Line);
+                t.Value.WriteLine(line);
             }
         }
 
@@ -195,17 +209,17 @@ namespace WikiFunctions.Logging
         /// <summary>
         /// A fully featured upload-event handler
         /// </summary>
-        protected virtual UploadHandlerReturnVal UploadHandler(TraceListenerUploadableBase Sender, string LogTitle, 
-            string LogDetails, string UploadToWithoutPageNumber, List<LogEntry> LinksToLog, bool OpenInBrowser,
-            bool AddToWatchlist, string Username, string LogHeader, string EditSummary,
-            string LogSummaryEditSummary, Plugin.IAutoWikiBrowser AWB, 
-            UsernamePassword LoginDetails)
+        protected virtual UploadHandlerReturnVal UploadHandler(TraceListenerUploadableBase sender, string logTitle, 
+            string logDetails, string uploadToWithoutPageNumber, List<LogEntry> linksToLog, bool openInBrowser,
+            bool addToWatchlist, string username, string logHeader, string editSummary,
+            string logSummaryEditSummary, Plugin.IAutoWikiBrowser awb, 
+            UsernamePassword loginDetails)
         {
             UploadHandlerReturnVal retval = new UploadHandlerReturnVal {Success = false};
 
-            if (StartingUpload(Sender))
+            if (StartingUpload(sender))
             {
-                string pageName = UploadToWithoutPageNumber + " " + Sender.TraceStatus.PageNumber;
+                string pageName = uploadToWithoutPageNumber + " " + sender.TraceStatus.PageNumber;
                 UploadingPleaseWaitForm waitForm = new UploadingPleaseWaitForm();
                 LogUploader uploader = new LogUploader();
 
@@ -213,14 +227,14 @@ namespace WikiFunctions.Logging
 
                 try
                 {
-                    uploader.LogIn(LoginDetails);
+                    uploader.LogIn(loginDetails);
                     Application.DoEvents();
 
-                    retval.PageRetVals = uploader.LogIt(Sender.TraceStatus.LogUpload, LogTitle, LogDetails, pageName, LinksToLog,
-                        Sender.TraceStatus.PageNumber, Sender.TraceStatus.StartDate, OpenInBrowser,
-                        AddToWatchlist, Username, "{{log|name=" + UploadToWithoutPageNumber + "|page=" +
-                        Sender.TraceStatus.PageNumber + "}}" + Environment.NewLine + LogHeader,
-                        false, EditSummary, LogSummaryEditSummary, ApplicationName, true, AWB);
+                    retval.PageRetVals = uploader.LogIt(sender.TraceStatus.LogUpload, logTitle, logDetails, pageName, linksToLog,
+                        sender.TraceStatus.PageNumber, sender.TraceStatus.StartDate, openInBrowser,
+                        addToWatchlist, username, "{{log|name=" + uploadToWithoutPageNumber + "|page=" +
+                        sender.TraceStatus.PageNumber + "}}" + Environment.NewLine + logHeader,
+                        false, editSummary, logSummaryEditSummary, ApplicationName, true, awb);
 
                     retval.Success = true;
                 }
@@ -233,9 +247,9 @@ namespace WikiFunctions.Logging
                 finally
                 {
                     if (retval.Success)                       
-                        Sender.WriteCommentAndNewLine("Log uploaded to " + pageName);
+                        sender.WriteCommentAndNewLine("Log uploaded to " + pageName);
                     else
-                        Sender.WriteCommentAndNewLine(
+                        sender.WriteCommentAndNewLine(
                            "LOG UPLOADING FAILED. Please manually upload this section to " + pageName);
                 }
 

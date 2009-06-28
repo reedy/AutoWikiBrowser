@@ -32,9 +32,8 @@ namespace WikiFunctions.Logging.Uploader
 	{
 		private string mLocation;
 		private bool mUserName;
-        private bool mSuccess;
 
-		public LogEntry(string pLocation, bool pUserName)
+	    public LogEntry(string pLocation, bool pUserName)
 		{
 			mLocation = pLocation;
 			mUserName = pUserName;
@@ -42,7 +41,7 @@ namespace WikiFunctions.Logging.Uploader
 
         public string Location { get { return mLocation; } }
         public bool LogUserName { get { return mUserName; } }
-        public bool Success { get { return mSuccess; } protected internal set { mSuccess = value; } }
+	    public bool Success { get; protected internal set; }
 	}
 
 	/// <summary>

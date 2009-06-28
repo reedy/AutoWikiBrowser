@@ -41,8 +41,8 @@ namespace AutoWikiBrowser.Logging
         private bool mIsGettingPassword;
         private bool mStoppedWithConfigError;
 
-        private const string conWiki = "Wiki";
-        private const string conXhtml = "XHTML";
+        private const string ConWiki = "Wiki";
+        private const string ConXhtml = "XHTML";
 
         // The most important stuff:
         internal void Initialise()
@@ -54,7 +54,7 @@ namespace AutoWikiBrowser.Logging
 
                 if (LoggingSettings.Settings.LogXHTML || LoggingSettings.Settings.LogWiki)
                 {
-                    if (!(System.IO.Directory.Exists(LoggingSettings.Settings.LogFolder)))
+                    if (!System.IO.Directory.Exists(LoggingSettings.Settings.LogFolder))
                     {
                         LogFolder = Application.StartupPath;
                     }
@@ -111,7 +111,7 @@ namespace AutoWikiBrowser.Logging
 
         protected override bool StartingUpload(TraceListenerUploadableBase sender)
         {
-            if (sender.TraceStatus.LogName != conWiki)
+            if (sender.TraceStatus.LogName != ConWiki)
                 return false;
 
             mIsUploading = true;
@@ -193,12 +193,12 @@ namespace AutoWikiBrowser.Logging
         }
         private void NewXhtmlTraceListener()
         {
-            AddListener(conXhtml, new XhtmlTraceListener(GetFilePrefix(LoggingSettings.Settings.LogFolder) + 
+            AddListener(ConXhtml, new XhtmlTraceListener(GetFilePrefix(LoggingSettings.Settings.LogFolder) + 
                 " log.html", LoggingSettings));
         }
         private void NewWikiTraceListener()
         {
-            AddListener(conWiki, new WikiTraceListener(GetFilePrefix(LoggingSettings.Settings.LogFolder) + 
+            AddListener(ConWiki, new WikiTraceListener(GetFilePrefix(LoggingSettings.Settings.LogFolder) + 
                 " log.txt", LoggingSettings));
         }
         private string GetFileNameFromActiveListener(string key)
@@ -237,7 +237,7 @@ namespace AutoWikiBrowser.Logging
         }
         private bool WikiLogToUpload
         {
-            get { return (ContainsKey(conWiki) && ((WikiTraceListener)(Listeners[conWiki])).TraceStatus.LinesWrittenSinceLastUpload > 1); }
+            get { return (ContainsKey(ConWiki) && ((WikiTraceListener)(Listeners[ConWiki])).TraceStatus.LinesWrittenSinceLastUpload > 1); }
         }
 
         // Overrides:
@@ -294,9 +294,9 @@ namespace AutoWikiBrowser.Logging
         // Friend:
         internal void UploadWikiLog()
         {
-            if (ContainsKey(conWiki))
+            if (ContainsKey(ConWiki))
             {
-                ((WikiTraceListener)(Listeners[conWiki])).UploadLog();
+                ((WikiTraceListener)(Listeners[ConWiki])).UploadLog();
             }
         }
 
@@ -405,23 +405,23 @@ namespace AutoWikiBrowser.Logging
             if (LoggingSettings.Settings.LogFolder == LogFolder)
             {
                 if (LoggingSettings.Settings.LogXHTML)
-                    if (!(ContainsKey(conXhtml)))
+                    if (!(ContainsKey(ConXhtml)))
                         NewXhtmlTraceListener();
-                else if (ContainsKey(conXhtml))
-                    RemoveListener(conXhtml);
+                else if (ContainsKey(ConXhtml))
+                    RemoveListener(ConXhtml);
 
                 if (LoggingSettings.Settings.LogWiki)
-                    if (!(ContainsKey(conWiki)))
+                    if (!(ContainsKey(ConWiki)))
                         NewWikiTraceListener();
-                else if (ContainsKey(conWiki))
-                    RemoveListener(conWiki);
+                else if (ContainsKey(ConWiki))
+                    RemoveListener(ConWiki);
             }
             else if (HaveOpenFile) // folder has changed, close and reopen all active logs
             {
-                if (ContainsKey(conWiki))
-                    RemoveListenerAndReplaceWithSameType(conWiki);
-                if (ContainsKey(conXhtml))
-                    RemoveListenerAndReplaceWithSameType(conXhtml);
+                if (ContainsKey(ConWiki))
+                    RemoveListenerAndReplaceWithSameType(ConWiki);
+                if (ContainsKey(ConXhtml))
+                    RemoveListenerAndReplaceWithSameType(ConXhtml);
             }
 
             ValidateUploadProfile();
@@ -509,7 +509,7 @@ namespace AutoWikiBrowser.Logging
             public XhtmlTraceListener(string FileName, LoggingSettings LS)
                 : base(FileName, LS.Settings.LogVerbose)
             {
-                mTraceStatus = new TraceStatus(LS.XHTMLLinesLabel, null, null, false, FileName, conXhtml);
+                mTraceStatus = new TraceStatus(LS.XHTMLLinesLabel, null, null, false, FileName, ConXhtml);
             }
             public WikiFunctions.Logging.Uploader.TraceStatus TraceStatus
             {
@@ -533,7 +533,7 @@ namespace AutoWikiBrowser.Logging
         {
             public WikiTraceListener(string fileName, LoggingSettings ls)
                 : base(ls.Settings, new TraceStatus(ls.WikiLinesLabel, ls.WikiLinesSinceUploadLabel, 
-                ls.UploadsCountLabel, ls.Settings.UploadYN, fileName, conWiki)) { }
+                ls.UploadsCountLabel, ls.Settings.UploadYN, fileName, ConWiki)) { }
 
             public void AWBSkipped(string reason)
             {
