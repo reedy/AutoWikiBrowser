@@ -1967,10 +1967,15 @@ window.scrollTo(0, diffTopY);
                 // save user persistent settings
                 Properties.Settings.Default.Save();
 
-                if (webBrowserEdit.IsBusy)
-                    webBrowserEdit.Stop2();
-                if (Variables.User.WebBrowserLogin.IsBusy)
-                    Variables.User.WebBrowserLogin.Stop();
+                try
+                {
+                    if (webBrowserEdit.IsBusy)
+                        webBrowserEdit.Stop2();
+                    if (Variables.User.WebBrowserLogin.IsBusy)
+                        Variables.User.WebBrowserLogin.Stop();
+                }
+                catch
+                { } // simply suppress IE silliness
 
                 SaveRecentSettingsList();
                 UsageStats.Do(true);
