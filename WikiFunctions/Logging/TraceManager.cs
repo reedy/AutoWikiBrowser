@@ -29,17 +29,24 @@ namespace WikiFunctions.Logging
     public abstract class TraceManager : IMyTraceListener
 	{
 		// Listeners:
-        protected Dictionary<string, IMyTraceListener> Listeners = new Dictionary<string, IMyTraceListener>();
+        protected readonly Dictionary<string, IMyTraceListener> Listeners = new Dictionary<string, IMyTraceListener>();
 
+        /// <summary>
+        /// Override this if you want to programatically add an event handler
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="listener"></param>
 		public virtual void AddListener(string key, IMyTraceListener listener)
 		{
-			// Override this if you want to programatically add an event handler
 			Listeners.Add(key, listener);
 		}
 
+        /// <summary>
+        /// Override this if you want to programatically remove an event handler
+        /// </summary>
+        /// <param name="key">Key to remove</param>
 		public virtual void RemoveListener(string key)
 		{
-			// Override this if you want to programatically remove an event handler
 			Listeners[key].Close();
 			Listeners.Remove(key);
 		}

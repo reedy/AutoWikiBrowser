@@ -40,6 +40,7 @@ namespace WikiFunctions
     /// <summary>
     /// The main class for editing Wikipedia. This class must be instantiated and persists login data.
     /// </summary>
+    [Obsolete("Use ApiEdit or similar")]
     public class Editor
     {
         protected CookieCollection logincookies;
