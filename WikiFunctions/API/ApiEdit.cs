@@ -92,17 +92,15 @@ namespace WikiFunctions.API
         /// </summary>
         public ApiEdit Clone()
         {
-            ApiEdit clone = new ApiEdit
-                                {
-                                    URL = URL,
-                                    PHP5 = PHP5,
-                                    Maxlag = Maxlag,
-                                    Cookies = Cookies,
-                                    ProxySettings = ProxySettings,
-                                    User = User
-                                };
-
-            return clone;
+            return new ApiEdit
+                       {
+                           URL = URL,
+                           PHP5 = PHP5,
+                           Maxlag = Maxlag,
+                           Cookies = Cookies,
+                           ProxySettings = ProxySettings,
+                           User = User
+                       };
         }
 
         #region Properties
