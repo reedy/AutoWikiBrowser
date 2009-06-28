@@ -166,23 +166,35 @@ namespace AutoWikiBrowser
 
         private void UpdateRecentList(string path)
         {
-            int i = RecentList.IndexOf(path);
-
-            if (i >= 0) RecentList.RemoveAt(i);
-
+            RecentList.Remove(path);
             RecentList.Insert(0, path);
+
             UpdateRecentSettingsMenu();
+        }
+
+        private void FixupObsoleteRecentSettings()
+        {
+            RecentList.Remove("Default.xml");
+            RecentList.RemoveAll(x => string.Compare(x, "Default.xml", true) == 0 
+                || string.Compare(x, AwbDirs.DefaultSettings, true) == 0);
+
+            while (RecentList.Count > 5)
+                RecentList.RemoveAt(5);
         }
 
         private void UpdateRecentSettingsMenu()
         {
-            while (RecentList.Count > 5)
-                RecentList.RemoveAt(5);
+            FixupObsoleteRecentSettings();
 
             recentToolStripMenuItem.DropDown.Items.Clear();
+
+            var item = recentToolStripMenuItem.DropDownItems.Add("Default settings");
+            item.Click += DefaultSettingsClick;
+
+            if (RecentList.Count > 0) recentToolStripMenuItem.DropDownItems.Add(new ToolStripSeparator());
             foreach (string filename in RecentList)
             {
-                ToolStripItem item = recentToolStripMenuItem.DropDownItems.Add(filename);
+                item = recentToolStripMenuItem.DropDownItems.Add(filename);
                 item.Click += RecentSettingsClick;
             }
 
@@ -199,20 +211,21 @@ namespace AutoWikiBrowser
             ToolStripItem item = (sender as ToolStripItem);
 
             if (item != null)
-            {
                 LoadPrefs(item.Text);
-                SettingsFile = item.Text;
-            }
-
-            listMaker.RemoveListDuplicates();
         }
+
+        private void DefaultSettingsClick(object sender, EventArgs e)
+        {
+            LoadPrefs(AwbDirs.DefaultSettings);
+        }
+
 
         /// <summary>
         /// Save preferences as default
         /// </summary>
         private void SavePrefs()
         {
-            SavePrefs("Default.xml");
+            SavePrefs(AwbDirs.DefaultSettings);
         }
 
         /// <summary>
@@ -347,8 +360,9 @@ namespace AutoWikiBrowser
 
             if (!string.IsNullOrEmpty(SettingsFile))
                 LoadPrefs(SettingsFile);
-            else if (File.Exists("Default.xml"))
-                LoadPrefs("Default.xml");
+            else 
+                if (File.Exists(AwbDirs.DefaultSettings))
+                    LoadPrefs(AwbDirs.DefaultSettings);
             else
             {
                 LoadPrefs(new UserPrefs());
@@ -378,6 +392,9 @@ namespace AutoWikiBrowser
             {
                 ErrorHandler.Handle(ex);
             }
+
+            SettingsFile = path;
+            listMaker.RemoveListDuplicates();
         }
 
         /// <summary>

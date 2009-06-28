@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Windows.Forms;
+using WikiFunctions;
 
 namespace AutoWikiBrowser
 {
@@ -44,6 +45,8 @@ namespace AutoWikiBrowser
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+
+                AwbDirs.MigrateDefaultSettings();
 
                 MainForm awb = new MainForm();
                 AWB = awb;
