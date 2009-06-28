@@ -20,7 +20,8 @@ namespace WikiFunctions
             {
                 if (mAppData != null) return mAppData;
 
-                mAppData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "AutoWikiBrowser");
+                mAppData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+                    "AutoWikiBrowser");
                 Directory.CreateDirectory(mAppData);
                 return mAppData;
             }
@@ -37,9 +38,23 @@ namespace WikiFunctions
             {
                 if (mUserData != null) return mUserData;
 
-                mUserData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AutoWikiBrowser");
+                mUserData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    "AutoWikiBrowser");
                 Directory.CreateDirectory(mUserData);
                 return mUserData;
+            }
+        }
+
+        private static string mDefaultSettings;
+
+        public static string DefaultSettings
+        {
+            get
+            {
+                if (mDefaultSettings != null) return mDefaultSettings;
+
+                mDefaultSettings = Path.Combine(UserData, "Default.xml");
+                return mDefaultSettings;
             }
         }
 
@@ -52,17 +67,28 @@ namespace WikiFunctions
             {
                 string drive = Path.GetPathRoot(Application.ExecutablePath);
                 if (drive.StartsWith("\\")) return true;
-                DriveInfo di = new DriveInfo("" + drive[0]);
+                DriveInfo di = new DriveInfo(drive.Substring(0, 1));
                 return di.DriveType == DriveType.Removable || di.DriveType == DriveType.Network;
             }
         }
 
-        //public static void MigrateDefaultSettings()
-        //{
-        //    if (File.Exists("Default.xml") && !RunningFromNetworkOrRemovableDrive)
-        //    {
-        //        if (MessageBox.Show(""))) ; //
-        //    }
-        //}
+        /// <summary>
+        /// Performs silent migration from the previous scheme when we used to 
+        /// </summary>
+        public static void MigrateDefaultSettings()
+        {
+            string exeDir = Path.GetDirectoryName(Application.ExecutablePath);
+            string defaultXml = Path.Combine(exeDir, "Default.xml");
+            if (File.Exists(defaultXml) && !File.Exists(DefaultSettings) && !RunningFromNetworkOrRemovableDrive)
+            {
+                try
+                {
+                    File.Copy(defaultXml, DefaultSettings);
+                    File.Delete(defaultXml);
+                }
+                catch
+                { } // ignore
+            }
+        }
     }
 }
