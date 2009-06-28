@@ -30,8 +30,8 @@ namespace WikiFunctions.Logging
         protected static readonly System.Globalization.CultureInfo DateFormat = 
             new System.Globalization.CultureInfo("en-US", false); // override user's culture when writing to English Wikipedia; applied only as a formatter so won't affect localisation/UI
 
-        public WikiTraceListener(UploadableLogSettings2 UploadSettings, TraceStatus TraceStatus)
-            : base(UploadSettings, TraceStatus)
+        public WikiTraceListener(UploadableLogSettings2 uploadSettings, TraceStatus traceStatus)
+            : base(uploadSettings, traceStatus)
         {
             WriteBulletedLine("Logging: WikiFunctions.dll v" + Tools.VersionString, false, false);
         }
@@ -42,10 +42,7 @@ namespace WikiFunctions.Logging
         /// </summary>
         protected virtual string DateStamp()
         {
-            if (Variables.IsWikipediaEN)
-                return WikiDateStamp();
-            
-            return NonWikiDateStamp();
+            return Variables.IsWikipediaEN ? WikiDateStamp() : NonWikiDateStamp();
         }
 
         /// <summary>
@@ -66,56 +63,61 @@ namespace WikiFunctions.Logging
         }
 
         // Overrides:
-        public override void WriteBulletedLine(string Line, bool Bold, bool VerboseOnly, bool DateStamp)
+        public override void WriteBulletedLine(string line, bool bold, bool verboseOnly, bool dateStamp)
         {
-            if (VerboseOnly && !Verbose)
+            if (verboseOnly && !Verbose)
                 return;
 
-            if (DateStamp)
-                Line = this.DateStamp() + Line;
+            if (dateStamp)
+                line = DateStamp() + line;
 
-            if (Bold)
-                base.WriteLine("*'''" + Line + "'''", true);
+            if (bold)
+                base.WriteLine("*'''" + line + "'''", true);
             else
-                base.WriteLine("*" + Line, true);
+                base.WriteLine("*" + line, true);
         }
-        public override void ProcessingArticle(string FullArticleTitle, Namespaces NS)
+
+        public override void ProcessingArticle(string fullArticleTitle, Namespaces ns)
         {
             CheckCounterForUpload(); // Check counter *before* starting a new article section
-            base.WriteLine(GetArticleTemplate(FullArticleTitle, NS), false);
-        }
-        public override void SkippedArticle(string SkippedBy, string Reason)
-        {
-            if (!string.IsNullOrEmpty(Reason))
-                Reason = ": " + Reason;
-            base.WriteLine("#*''" + SkippedBy + ": Skipped" + Reason + "''", false);
-        }
-        public override void SkippedArticleBadTag(string SkippedBy, string FullArticleTitle, Namespaces NS)
-        {
-            SkippedArticle(SkippedBy, "Bad tag");
-        }
-        public override void WriteArticleActionLine(string Line, string PluginName)
-        {
-            base.WriteLine("#*" + PluginName + ": " + Line.Replace("[[Category:", "[[:Category:"), false);
-        }
-        public override void WriteTemplateAdded(string Template, string PluginName)
-        {
-            base.WriteLine(string.Format("#*{1}: [[Template:{0}|{0}]] added", Template, PluginName), false);
+            base.WriteLine(GetArticleTemplate(fullArticleTitle, ns), false);
         }
 
-        public override void WriteLine(string Line)
+        public override void SkippedArticle(string skippedBy, string reason)
         {
-            WriteLine(Line, true);
+            if (!string.IsNullOrEmpty(reason))
+                reason = ": " + reason;
+            base.WriteLine("#*''" + skippedBy + ": Skipped" + reason + "''", false);
         }
 
-        public override void WriteComment(string Line)
+        public override void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, Namespaces ns)
         {
-            base.Write("<!-- " + Line + " -->");
+            SkippedArticle(skippedBy, "Bad tag");
         }
 
-        public override void WriteCommentAndNewLine(string Line)
+        public override void WriteArticleActionLine(string line, string pluginName)
         {
-            base.WriteLine("<!-- " + Line + " -->", false);
+            base.WriteLine("#*" + pluginName + ": " + line.Replace("[[Category:", "[[:Category:"), false);
+        }
+
+        public override void WriteTemplateAdded(string template, string pluginName)
+        {
+            base.WriteLine(string.Format("#*{1}: [[Template:{0}|{0}]] added", template, pluginName), false);
+        }
+
+        public override void WriteLine(string line)
+        {
+            WriteLine(line, true);
+        }
+
+        public override void WriteComment(string line)
+        {
+            base.Write("<!-- " + line + " -->");
+        }
+
+        public override void WriteCommentAndNewLine(string line)
+        {
+            base.WriteLine("<!-- " + line + " -->", false);
         }
     }
 
@@ -124,14 +126,13 @@ namespace WikiFunctions.Logging
     /// </summary>
     public class XHTMLTraceListener : TraceListenerBase
     {
-
         protected static int mArticleCount = 1;
         protected static bool mVerbose;
 
-        public XHTMLTraceListener(string filename, bool LogVerbose)
+        public XHTMLTraceListener(string filename, bool logVerbose)
             : base(filename)
         {
-            mVerbose = LogVerbose;
+            mVerbose = logVerbose;
 
             base.WriteLine("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" " + "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">");
             base.WriteLine("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" " + "lang=\"en\" dir=\"ltr\">");
@@ -149,58 +150,62 @@ namespace WikiFunctions.Logging
             base.WriteLine("</html>");
             base.Close();
         }
+
         public override bool Verbose
         {
             get { return mVerbose; }
         }
-        public override void WriteBulletedLine(string Line, bool Bold, bool VerboseOnly, bool DateStamp)
+
+        public override void WriteBulletedLine(string line, bool bold, bool verboseOnly, bool dateStamp)
         {
-            if (VerboseOnly && !mVerbose)
+            if (verboseOnly && !mVerbose)
                 return;
             
-            if (DateStamp)
-                Line = string.Format("{0:g}: {1}", System.DateTime.Now, Line);
+            if (dateStamp)
+                line = string.Format("{0:g}: {1}", System.DateTime.Now, line);
             
-            if (Bold)
-                base.WriteLine("<br/><li><b>" + Line + "</b></li>");
+            if (bold)
+                base.WriteLine("<br/><li><b>" + line + "</b></li>");
             else
-                base.WriteLine("<li>" + Line + "</li>");
+                base.WriteLine("<li>" + line + "</li>");
         }
-        public override void ProcessingArticle(string FullArticleTitle, Namespaces NS)
+
+        public override void ProcessingArticle(string fullArticleTitle, Namespaces ns)
         {
-            base.WriteLine("<br/>" + mArticleCount + ". <a href=\"" + Variables.NonPrettifiedURL(FullArticleTitle) + "\">[[" + FullArticleTitle + "]]</a>");
+            base.WriteLine("<br/>" + mArticleCount + ". <a href=\"" + Variables.NonPrettifiedURL(fullArticleTitle) + "\">[[" + fullArticleTitle + "]]</a>");
             mArticleCount += 1;
         }
-        public override void SkippedArticle(string SkippedBy, string Reason)
+
+        public override void SkippedArticle(string skippedBy, string reason)
         {
-            if (!string.IsNullOrEmpty(Reason))
-                Reason = ": " + Reason;
-            base.WriteLine("<li><i>" + SkippedBy + ": Skipped" + Reason + "</i></li>");
+            if (!string.IsNullOrEmpty(reason))
+                reason = ": " + reason;
+            base.WriteLine("<li><i>" + skippedBy + ": Skipped" + reason + "</i></li>");
         }
 
-        public override void SkippedArticleBadTag(string SkippedBy, string FullArticleTitle, Namespaces NS)
+        public override void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, Namespaces ns)
         {
-            SkippedArticle(SkippedBy, "Bad tag");
+            SkippedArticle(skippedBy, "Bad tag");
         }
 
-        public override void WriteArticleActionLine(string Line, string PluginName)
+        public override void WriteArticleActionLine(string line, string pluginName)
         {
-            base.WriteLine("<li><i>" + PluginName + ": " + Line + "</i></li>");
+            base.WriteLine("<li><i>" + pluginName + ": " + line + "</i></li>");
         }
 
-        public override void WriteTemplateAdded(string Template, string PluginName)
+        public override void WriteTemplateAdded(string template, string pluginName)
         {
-            base.WriteLine("<br/><li><i>" + PluginName + ": " + Template + "</i></li>");
+            base.WriteLine("<br/><li><i>" + pluginName + ": " + template + "</i></li>");
         }
 
-        public override void WriteComment(string Line)
+        public override void WriteComment(string line)
         {
-            base.Write("<!-- " + Line + " -->");
+            base.Write("<!-- " + line + " -->");
         }
 
-        public override void WriteCommentAndNewLine(string Line)
+        public override void WriteCommentAndNewLine(string line)
         {
-            base.WriteLine("<!-- " + Line + " -->");
+            base.WriteLine("<!-- " + line + " -->");
         }
 
         public override bool Uploadable

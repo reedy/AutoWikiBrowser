@@ -30,28 +30,30 @@ namespace WikiFunctions.Logging
 	/// </summary>
     public abstract class TraceManager : IMyTraceListener
 	{
-
 		// Listeners:
         protected Dictionary<string, IMyTraceListener> Listeners = new Dictionary<string, IMyTraceListener>();
 
-		public virtual void AddListener(string Key, IMyTraceListener Listener)
+		public virtual void AddListener(string key, IMyTraceListener listener)
 		{
 			// Override this if you want to programatically add an event handler
-			Listeners.Add(Key, Listener);
+			Listeners.Add(key, listener);
 		}
-		public virtual void RemoveListener(string Key)
+
+		public virtual void RemoveListener(string key)
 		{
 			// Override this if you want to programatically remove an event handler
-			Listeners[Key].Close();
-			Listeners.Remove(Key);
+			Listeners[key].Close();
+			Listeners.Remove(key);
 		}
-		public bool ContainsKey(string Key)
+
+		public bool ContainsKey(string key)
 		{
-			return Listeners.ContainsKey(Key);
+			return Listeners.ContainsKey(key);
 		}
-		public bool ContainsValue(IMyTraceListener Listener)
+
+		public bool ContainsValue(IMyTraceListener listener)
 		{
-			return Listeners.ContainsValue(Listener);
+			return Listeners.ContainsValue(listener);
 		}
 
 		// IMyTraceListener:
@@ -199,8 +201,7 @@ namespace WikiFunctions.Logging
             string LogSummaryEditSummary, Plugin.IAutoWikiBrowser AWB, 
             UsernamePassword LoginDetails)
         {
-            UploadHandlerReturnVal retval = new UploadHandlerReturnVal();
-            retval.Success = false;
+            UploadHandlerReturnVal retval = new UploadHandlerReturnVal {Success = false};
 
             if (StartingUpload(Sender))
             {
@@ -244,15 +245,15 @@ namespace WikiFunctions.Logging
             return retval;
         }
 
-        public virtual void WriteUploadLog(List<Editor.EditPageRetvals> PageRetVals, string LogFolder)
+        public virtual void WriteUploadLog(List<Editor.EditPageRetvals> pageRetVals, string logFolder)
         {
             try
             {
                 System.IO.StreamWriter io =
-                    new System.IO.StreamWriter(LogFolder + "\\Log uploading " +
+                    new System.IO.StreamWriter(logFolder + "\\Log uploading " +
                     DateTime.Now.Ticks + ".txt");
 
-                foreach (Editor.EditPageRetvals editPageRetval in PageRetVals)
+                foreach (Editor.EditPageRetvals editPageRetval in pageRetVals)
                 {
                     io.WriteLine("***********************************************************************************");
                     io.WriteLine("Page: " + editPageRetval.Article);
@@ -275,7 +276,7 @@ namespace WikiFunctions.Logging
         }
 
         protected abstract string ApplicationName { get; }
-        protected abstract bool StartingUpload(TraceListenerUploadableBase Sender);
+        protected abstract bool StartingUpload(TraceListenerUploadableBase sender);
         protected virtual void FinishedUpload() { }
     }
 }
