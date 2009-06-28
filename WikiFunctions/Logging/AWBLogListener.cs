@@ -32,12 +32,10 @@ namespace WikiFunctions.Logging
          * Handle double click event (open article in browser)
         */
 
-        private bool mSkipped;
         private bool Datestamped, HaveSkipInfo;
 
         #region AWB Interface
-        public bool Skipped
-        { get { return mSkipped; } internal set { mSkipped = value; } }
+        public bool Skipped { get; internal set; }
 
         public AWBLogListener(string articleTitle)
         {
@@ -89,7 +87,7 @@ namespace WikiFunctions.Logging
             {
                 case LogFileType.AnnotatedWikiText:
                     string output = "*" + TimeStamp + ": [[" + ArticleTitle + "]]\r\n";
-                    if (mSkipped)
+                    if (Skipped)
                         output += "'''Skipped''' by: " + SkippedBy + "\r\n" + "Skip reason: " +
                             SkipReason + "\r\n";
                     return output + ToolTipText + "\r\n";
@@ -262,7 +260,7 @@ namespace WikiFunctions.Logging
             SetSubItemText(SubItem.SkippedBy, mSkippedBy);
             SetSubItemText(SubItem.SkippedReason, mSkipReason);
             WriteLine(SkipReason, SkippedBy);
-            mSkipped = true;
+            Skipped = true;
         }
 
         // disable access to underlying Items property

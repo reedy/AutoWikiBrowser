@@ -160,10 +160,10 @@ namespace WikiFunctions.Logging
         {
             if (verboseOnly && !mVerbose)
                 return;
-            
+
             if (dateStamp)
                 line = string.Format("{0:g}: {1}", System.DateTime.Now, line);
-            
+
             if (bold)
                 base.WriteLine("<br/><li><b>" + line + "</b></li>");
             else
@@ -213,96 +213,6 @@ namespace WikiFunctions.Logging
             get { return false; }
         }
     }
-
     // TODO: MySQLTraceListener
-    //public class MySQLTraceListener : IMyTraceListener, ITraceStatusProvider
-    //{
-    //    public WikiFunctions.Logging.Uploader.TraceStatus TraceStatus
-    //    {
-    //        get { throw new Exception("The method or operation is not implemented."); }
-    //    }
-
-    //    #region IMyTraceListener Members
-    //        public void Close()
-    //        {
-    //            throw new Exception("The method or operation is not implemented.");
-    //        }
-
-    //        public void Flush()
-    //        {
-    //            throw new Exception("The method or operation is not implemented.");
-    //        }
-
-    //        public void ProcessingArticle(string FullArticleTitle, Namespaces NS)
-    //        {
-    //            throw new Exception("The method or operation is not implemented.");
-    //        }
-
-    //        public void SkippedArticle(string SkippedBy, string Reason)
-    //        {
-    //            throw new Exception("The method or operation is not implemented.");
-    //        }
-
-    //        public void SkippedArticleBadTag(string SkippedBy, string FullArticleTitle, Namespaces NS)
-    //        {
-    //            throw new Exception("The method or operation is not implemented.");
-    //        }
-
-    //        public void SkippedArticleRedlink(string SkippedBy, string FullArticleTitle, Namespaces NS)
-    //        {
-    //            throw new Exception("The method or operation is not implemented.");
-    //        }
-
-    //        public void Write(string Text)
-    //        {
-    //            throw new Exception("The method or operation is not implemented.");
-    //        }
-
-    //        public void WriteArticleActionLine(string Line, string PluginName)
-    //        {
-    //            throw new Exception("The method or operation is not implemented.");
-    //        }
-
-    //        public void WriteArticleActionLine(string Line, string PluginName, bool VerboseOnly)
-    //        {
-    //            throw new Exception("The method or operation is not implemented.");
-    //        }
-
-    //        public void WriteBulletedLine(string Line, bool Bold, bool VerboseOnly)
-    //        {
-    //            throw new Exception("The method or operation is not implemented.");
-    //        }
-
-    //        public void WriteBulletedLine(string Line, bool Bold, bool VerboseOnly, bool DateStamp)
-    //        {
-    //            throw new Exception("The method or operation is not implemented.");
-    //        }
-
-    //        public void WriteComment(string Line)
-    //        {
-    //            throw new Exception("The method or operation is not implemented.");
-    //        }
-
-    //        public void WriteCommentAndNewLine(string Line)
-    //        {
-    //            throw new Exception("The method or operation is not implemented.");
-    //        }
-
-    //        public void WriteLine(string Line)
-    //        {
-    //            throw new Exception("The method or operation is not implemented.");
-    //        }
-
-    //        public void WriteTemplateAdded(string Template, string PluginName)
-    //        {
-    //            throw new Exception("The method or operation is not implemented.");
-    //        }
-
-    //        public bool Uploadable
-    //        {
-    //            get { return false; }
-    //        } // Should take care of it's own upload management; as far as client is concerned it's a static log
-    //    #endregion
-    //}
 }
 
