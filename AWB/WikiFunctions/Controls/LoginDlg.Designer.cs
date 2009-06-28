@@ -94,7 +94,7 @@ namespace WikiFunctions.Controls
             this.ShowIcon = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Loggin";
+            this.Text = "Login";
             this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
