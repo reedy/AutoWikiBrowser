@@ -110,6 +110,5 @@ namespace WikiFunctions.API
         {
             return (Protection)Enum.Parse(typeof(Protection), Tools.TurnFirstToUpperNoProjectCheck(val));
         }
-
     }
 }
