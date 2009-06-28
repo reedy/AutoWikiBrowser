@@ -250,8 +250,8 @@ namespace WikiFunctions.Logging
                 base.SubItems.Add("SkippedBy");
                 base.SubItems.Add("SkipReason");
                 HaveSkipInfo = true;
-            
             }
+
             base.SubItems[GetSubItemNumber(subItem)].Text = value;
         }
 

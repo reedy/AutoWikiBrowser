@@ -84,9 +84,15 @@ namespace WikiFunctions.Plugin
         bool SkipNoDefaultSortAdded
         { get; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         bool SkipNoCiteTemplateDatesFixed
         { get; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         bool SkipNoPeopleCategoriesFixed
         { get; }
     }
