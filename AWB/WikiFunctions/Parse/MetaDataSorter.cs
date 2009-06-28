@@ -413,6 +413,10 @@ en, sq, ru
         /// <returns></returns>
         public static string RemoveStubs(ref string articleText)
         {
+            // Per http://ru.wikipedia.org/wiki/Википедия:Опросы/Использование_служебных_разделов/Этап_2#.D0.A1.D0.BB.D1.83.D0.B6.D0.B5.D0.B1.D0.BD.D1.8B.D0.B5_.D1.88.D0.B0.D0.B1.D0.BB.D0.BE.D0.BD.D1.8B
+            // Russian Wikipedia places stubs before navboxes
+            if (Variables.LangCode == LangCodeEnum.ru) return "";
+
             List<string> stubList = new List<string>();
             MatchCollection matches = WikiRegexes.PossiblyCommentedStub.Matches(articleText);
             if (matches.Count == 0) return "";
