@@ -291,7 +291,6 @@ namespace AutoWikiBrowser.Logging
             NotBusy();
         }
 
-        // Friend:
         internal void UploadWikiLog()
         {
             if (ContainsKey(ConWiki))
@@ -309,6 +308,7 @@ namespace AutoWikiBrowser.Logging
                 ((IAWBTraceListener)listener.Value).AWBSkipped(reason);
             }
         }
+
         public void PluginSkipped()
         {
             Busy();
@@ -317,6 +317,7 @@ namespace AutoWikiBrowser.Logging
                 ((IAWBTraceListener)listener.Value).PluginSkipped();
             }
         }
+
         public void UserSkipped()
         {
             Busy();
@@ -325,72 +326,84 @@ namespace AutoWikiBrowser.Logging
                 ((IAWBTraceListener)listener.Value).UserSkipped();
             }
         }
+
         public override void ProcessingArticle(string fullArticleTitle, Namespaces ns)
         {
             Busy();
             base.ProcessingArticle(fullArticleTitle, ns);
             NotBusy();
         }
+
         public override void SkippedArticle(string skippedBy, string reason)
         {
             Busy();
             base.SkippedArticle(skippedBy, reason);
             NotBusy();
         }
+
         public override void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, Namespaces ns)
         {
             Busy();
             base.SkippedArticleBadTag(skippedBy, fullArticleTitle, ns);
             NotBusy();
         }
+
         public override void SkippedArticleRedlink(string skippedBy, string fullArticleTitle, Namespaces ns)
         {
             Busy();
             base.SkippedArticleRedlink(skippedBy, fullArticleTitle, ns);
             NotBusy();
         }
+
         public override void Write(string text)
         {
             Busy();
             base.Write(text);
             NotBusy();
         }
+
         public override void WriteArticleActionLine(string line, string pluginName)
         {
             Busy();
             base.WriteArticleActionLine(line, pluginName);
             NotBusy();
         }
+
         public override void WriteArticleActionLine1(string line, string pluginName, bool verboseOnly)
         {
             Busy();
             base.WriteArticleActionLine1(line, pluginName, verboseOnly);
             NotBusy();
         }
+
         public override void WriteBulletedLine(string line, bool bold, bool verboseOnly, bool dateStamp)
         {
             Busy();
             base.WriteBulletedLine(line, bold, verboseOnly, dateStamp);
             NotBusy();
         }
+
         public override void WriteComment(string line)
         {
             Busy();
             base.WriteComment(line);
             NotBusy();
         }
+
         public override void WriteCommentAndNewLine(string line)
         {
             Busy();
             base.WriteCommentAndNewLine(line);
             NotBusy();
         }
+
         public override void WriteLine(string line)
         {
             Busy();
             base.WriteLine(line);
             NotBusy();
         }
+
         public override void WriteTemplateAdded(string template, string pluginName)
         {
             Busy();
@@ -434,9 +447,9 @@ namespace AutoWikiBrowser.Logging
         /// <remarks></remarks>
         private sealed class TraceStatus : WikiFunctions.Logging.Uploader.TraceStatus
         {
-            private Label LinesLabel;
-            private Label LinesSinceUploadLabel;
-            private Label NumberOfUploadsLabel;
+            private readonly Label LinesLabel;
+            private readonly Label LinesSinceUploadLabel;
+            private readonly Label NumberOfUploadsLabel;
             private static int mUploadCount;
 
             // Initialisation
@@ -463,6 +476,7 @@ namespace AutoWikiBrowser.Logging
                 LinesLabel.Text = "N/A";
                 LinesSinceUploadLabel.Text = "N/A";
             }
+
             public override int LinesWritten
             {
                 get { return base.LinesWritten; }
@@ -472,6 +486,7 @@ namespace AutoWikiBrowser.Logging
                     LinesLabel.Text = value.ToString();
                 }
             }
+
             public override int LinesWrittenSinceLastUpload
             {
                 get { return base.LinesWrittenSinceLastUpload; }
@@ -506,21 +521,25 @@ namespace AutoWikiBrowser.Logging
         {
             private TraceStatus mTraceStatus;
 
-            public XhtmlTraceListener(string FileName, LoggingSettings LS)
-                : base(FileName, LS.Settings.LogVerbose)
+            public XhtmlTraceListener(string fileName, LoggingSettings ls)
+                : base(fileName, ls.Settings.LogVerbose)
             {
-                mTraceStatus = new TraceStatus(LS.XHTMLLinesLabel, null, null, false, FileName, ConXhtml);
+                mTraceStatus = new TraceStatus(ls.XHTMLLinesLabel, null, null, false, fileName, ConXhtml);
             }
+
             public WikiFunctions.Logging.Uploader.TraceStatus TraceStatus
             {
                 get { return mTraceStatus; }
             }
-            public void AWBSkipped(string Reason)
+
+            public void AWBSkipped(string reason)
             {
-                SkippedArticle("AWB", Reason);
+                SkippedArticle("AWB", reason);
             }
+
             public void UserSkipped()
             { SkippedArticle(Variables.StringUser, Variables.StringUserSkipped); }
+
             public void PluginSkipped()
             { SkippedArticle(Variables.StringPlugin, Variables.StringPluginSkipped); }
         }
