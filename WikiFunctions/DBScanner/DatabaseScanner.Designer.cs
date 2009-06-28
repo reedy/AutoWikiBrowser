@@ -127,7 +127,7 @@ namespace WikiFunctions.DBScanner
             this.txtDumpLocation = new System.Windows.Forms.TextBox();
             this.lblDBDump = new System.Windows.Forms.Label();
             this.tabNamespace = new System.Windows.Forms.TabPage();
-            this.pageNamespaces = new WikiFunctions.Controls.Namespaces();
+            this.pageNamespaces = new WikiFunctions.Controls.NamespacesControl();
             this.tabTitle = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.chkTitleCase = new System.Windows.Forms.CheckBox();
@@ -1804,7 +1804,7 @@ namespace WikiFunctions.DBScanner
         private WikiFunctions.Controls.EditProtectControl MoveDelete;
         private CheckBox chkProtection;
         private TabPage tabTitle;
-        private WikiFunctions.Controls.Namespaces pageNamespaces;
+        private WikiFunctions.Controls.NamespacesControl pageNamespaces;
         private TableLayoutPanel tableLayoutPanel2;
         private CheckBox chkTitleCase;
         private CheckBox chkTitleContains;

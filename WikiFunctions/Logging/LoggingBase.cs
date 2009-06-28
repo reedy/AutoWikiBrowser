@@ -29,7 +29,7 @@ namespace WikiFunctions.Logging
     public abstract class TraceListenerBase : System.IO.StreamWriter, WikiFunctions.Logging.IMyTraceListener
     {
 		// Initialisation
-        private static Regex GetArticleTemplateRegex = new Regex("( talk)?:", RegexOptions.Compiled);
+        private static readonly Regex GetArticleTemplateRegex = new Regex("( talk)?:", RegexOptions.Compiled);
 
         protected TraceListenerBase(string filename)
             : base(filename, false, System.Text.Encoding.UTF8)

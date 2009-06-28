@@ -45,7 +45,7 @@ namespace WikiFunctions.Lists
             this.flwOther = new System.Windows.Forms.FlowLayoutPanel();
             this.chkSortAZ = new System.Windows.Forms.CheckBox();
             this.chkRemoveDups = new System.Windows.Forms.CheckBox();
-            this.pageNamespaces = new WikiFunctions.Controls.Namespaces();
+            this.pageNamespaces = new WikiFunctions.Controls.NamespacesControl();
             this.lbRemove = new WikiFunctions.Controls.Lists.ListBox2();
             this.gbNamespaces.SuspendLayout();
             this.gbSearch.SuspendLayout();
@@ -325,6 +325,6 @@ namespace WikiFunctions.Lists
         private System.Windows.Forms.ComboBox cbOpType;
         private System.Windows.Forms.CheckBox chkSortAZ;
         private System.Windows.Forms.FlowLayoutPanel flwOther;
-        private WikiFunctions.Controls.Namespaces pageNamespaces;
+        private WikiFunctions.Controls.NamespacesControl pageNamespaces;
     }
 }
