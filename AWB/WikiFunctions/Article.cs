@@ -102,8 +102,7 @@ namespace WikiFunctions
                 if (NameSpaceKey == 0) return mName;
 
                 int pos = mName.IndexOf(':');
-                if (pos < 0) return mName;
-                return mName.Substring(pos + 1).Trim();
+                return pos < 0 ? mName : mName.Substring(pos + 1).Trim();
             }
         }
 

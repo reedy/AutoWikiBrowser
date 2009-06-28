@@ -327,7 +327,7 @@ namespace AutoWikiBrowser.Logging
             }
         }
 
-        public override void ProcessingArticle(string fullArticleTitle, Namespaces ns)
+        public override void ProcessingArticle(string fullArticleTitle, int ns)
         {
             Busy();
             base.ProcessingArticle(fullArticleTitle, ns);
@@ -341,14 +341,14 @@ namespace AutoWikiBrowser.Logging
             NotBusy();
         }
 
-        public override void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, Namespaces ns)
+        public override void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, int ns)
         {
             Busy();
             base.SkippedArticleBadTag(skippedBy, fullArticleTitle, ns);
             NotBusy();
         }
 
-        public override void SkippedArticleRedlink(string skippedBy, string fullArticleTitle, Namespaces ns)
+        public override void SkippedArticleRedlink(string skippedBy, string fullArticleTitle, int ns)
         {
             Busy();
             base.SkippedArticleRedlink(skippedBy, fullArticleTitle, ns);

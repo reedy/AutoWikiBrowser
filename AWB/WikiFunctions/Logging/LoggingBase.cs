@@ -35,20 +35,20 @@ namespace WikiFunctions.Logging
         }
 
         #region IMyTraceListener interface
-		public abstract void ProcessingArticle(string fullArticleTitle, Namespaces ns);
+		public abstract void ProcessingArticle(string fullArticleTitle, int ns);
 		public abstract void WriteBulletedLine(string line, bool bold, bool verboseOnly, bool dateStamp);
 		public void WriteBulletedLine(string line, bool bold, bool verboseOnly)
 		{
 			WriteBulletedLine(line, bold, verboseOnly, false);
 		}
 		public abstract void SkippedArticle(string skippedBy, string reason);
-		public abstract void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, Namespaces ns);
+		public abstract void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, int ns);
 		public abstract void WriteArticleActionLine(string line, string pluginName);
 		public abstract void WriteTemplateAdded(string template, string pluginName);
 		public abstract void WriteComment(string line);
 		public abstract void WriteCommentAndNewLine(string line);
 
-		public virtual void SkippedArticleRedlink(string skippedBy, string fullArticleTitle, Namespaces ns)
+		public virtual void SkippedArticleRedlink(string skippedBy, string fullArticleTitle, int ns)
 		{
 			SkippedArticle(skippedBy, "Attached article doesn't exist - maybe deleted?");
 		}
@@ -71,27 +71,26 @@ namespace WikiFunctions.Logging
 #endregion
 
 		// Protected and public members:
-		public static string GetArticleTemplate(string articleFullTitle, Namespaces ns)
+		public static string GetArticleTemplate(string articleFullTitle, int ns)
 		{
             switch (ns)
             {
-                case Namespaces.Main:
+                case Namespace.Article:
 					return "#{{subst:la|" + articleFullTitle + "}}";
 
-                case Namespaces.Talk:
+                case Namespace.Talk:
 					return "#{{subst:lat|" + Tools.RemoveNamespaceString(articleFullTitle).Trim() + "}}";
 
                 default:
-                    int namesp = (int)ns;
-                    string strnamespace = GetArticleTemplateRegex.Replace(Variables.Namespaces[(int)ns], "");
+                    string strnamespace = GetArticleTemplateRegex.Replace(Variables.Namespaces[ns], "");
 
-                    string templ = namesp % 2 == 1 ? "lnt" : "ln";
+                    string templ = ns % 2 == 1 ? "lnt" : "ln";
 
 					return "#{{subst:" + templ + "|" + strnamespace + "|" + 
                         Tools.RemoveNamespaceString(articleFullTitle).Trim() + "}}";
 			}
 		}
-		public abstract bool Verbose {get;}
+        public abstract bool Verbose { get; }
 	}
 
 	/// <summary>

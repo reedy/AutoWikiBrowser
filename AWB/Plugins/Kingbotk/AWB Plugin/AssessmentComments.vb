@@ -24,7 +24,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             mNeedsInfobox = NeedsInfobox
             mNeedsPhoto = NeedsPhoto
             mStats = TimerStats
-            PluginManager.AWBForm.TraceManager.ProcessingArticle(TalkTitle & "/Comments", Namespaces.Talk)
+            PluginManager.AWBForm.TraceManager.ProcessingArticle(TalkTitle & "/Comments", [Namespace].Talk)
             Me.ShowDialog()
         End Sub
         Private Sub AddLine(ByVal Line As String)

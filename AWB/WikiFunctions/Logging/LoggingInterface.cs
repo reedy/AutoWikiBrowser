@@ -34,10 +34,10 @@ namespace WikiFunctions.Logging
         // Methods
         void Close();
         void Flush();
-        void ProcessingArticle(string fullArticleTitle, Namespaces ns);
+        void ProcessingArticle(string fullArticleTitle, int ns);
         void SkippedArticle(string skippedBy, string reason);
-        void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, Namespaces ns);
-        void SkippedArticleRedlink(string skippedBy, string fullArticleTitle, Namespaces ns);
+        void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, int ns);
+        void SkippedArticleRedlink(string skippedBy, string fullArticleTitle, int ns);
         void Write(string text);
         void WriteArticleActionLine(string line, string pluginName);
         void WriteArticleActionLine(string line, string pluginName, bool verboseOnly);
@@ -63,32 +63,3 @@ namespace WikiFunctions.Logging
         void PluginSkipped();
     }
 }
-
-#region Namespaces
-namespace WikiFunctions
-{ // This is needed by the Kingbotk plugin. It has to live here rather than in WikiFunctions2 to get a clean compile.
-    public enum Namespaces
-    {
-        Category = 14,
-        CategoryTalk = 15,
-        Help = 12,
-        HelpTalk = 13,
-        Image = 6,
-        ImageTalk = 7,
-        Main = 0,
-        Media = -2,
-        Mediawiki = 8,
-        MediawikiTalk = 9,
-        Portal = 100,
-        PortalTalk = 0x65,
-        Project = 4,
-        ProjectTalk = 5,
-        Special = -1,
-        Talk = 1,
-        Template = 10,
-        TemplateTalk = 11,
-        User = 2,
-        UserTalk = 3
-    }
-}
-#endregion
