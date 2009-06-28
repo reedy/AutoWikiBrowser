@@ -124,7 +124,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             System.Windows.Forms.Application.DoEvents() ' the statusbar text wasn't updating without this; if happens elsewhere may need to write a small subroutine
 
             Try
-                Return New WikiFunctions.Lists.RedirectsListProvider().MakeList(New String() {"Template:" & Target})
+                Return New WikiFunctions.Lists.RedirectsListProvider().MakeList([Namespace].Template, New String() {"Template:" & Target})
             Catch
                 Throw
             Finally
