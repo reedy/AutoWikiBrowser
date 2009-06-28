@@ -919,7 +919,7 @@ namespace AutoWikiBrowser
         /// </summary>
         /// <param name="txtEditLocal"></param>
         /// <returns></returns>
-        private WikiFunctions.Controls.ArticleTextBox HighlightSyntax(WikiFunctions.Controls.ArticleTextBox txtEditLocal)
+        private ArticleTextBox HighlightSyntax(ArticleTextBox txtEditLocal)
         {
             // temporarily disable TextChanged firing to help performance of this function
             txtEditLocal.TextChanged -= txtEdit_TextChanged;
@@ -3160,7 +3160,7 @@ window.scrollTo(0, diffTopY);
             txtEdit.SelectedText = "{{DEFAULTSORT:" + Tools.MakeHumanCatKey(TheArticle.Name) + "}}";
         }
 
-        readonly Regex regexDates = new Regex("[1-2][0-9]{3}");
+        private readonly Regex RegexDates = new Regex("[1-2][0-9]{3}");
 
         private void birthdeathCatsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -3170,7 +3170,7 @@ window.scrollTo(0, diffTopY);
 
             try
             {
-                MatchCollection m = regexDates.Matches(txtEdit.Text);
+                MatchCollection m = RegexDates.Matches(txtEdit.Text);
 
                 if (m.Count >= 1)
                     strBirth = m[0].Value;

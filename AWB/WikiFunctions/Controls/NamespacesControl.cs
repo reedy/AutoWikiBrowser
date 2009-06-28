@@ -6,9 +6,9 @@ using System.Windows.Forms;
 
 namespace WikiFunctions.Controls
 {
-    public partial class Namespaces : UserControl
+    public partial class NamespacesControl : UserControl
     {
-        public Namespaces()
+        public NamespacesControl()
         {
             InitializeComponent();
 

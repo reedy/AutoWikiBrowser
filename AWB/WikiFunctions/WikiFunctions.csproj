@@ -65,11 +65,11 @@
       <DependentUpon>ProtectionLevel.cs</DependentUpon>
     </Compile>
     <Compile Include="Namespace.cs" />
-    <Compile Include="Controls\Namespaces.cs">
+    <Compile Include="Controls\NamespacesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\Namespaces.Designer.cs">
-      <DependentUpon>Namespaces.cs</DependentUpon>
+    <Compile Include="Controls\NamespacesControl.Designer.cs">
+      <DependentUpon>NamespacesControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Logging\AWBLogListener.cs" />
     <Compile Include="Parse\SiteMatrix.cs" />
@@ -338,8 +338,8 @@
     <EmbeddedResource Include="Controls\Lists\ProtectionLevel.resx">
       <DependentUpon>ProtectionLevel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\Namespaces.resx">
-      <DependentUpon>Namespaces.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\NamespacesControl.resx">
+      <DependentUpon>NamespacesControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Profiles\AWBProfilesForm.resx">
       <SubType>Designer</SubType>

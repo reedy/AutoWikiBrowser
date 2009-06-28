@@ -1,6 +1,6 @@
 ﻿namespace WikiFunctions.Controls
 {
-    partial class Namespaces
+    partial class NamespacesControl
     {
         /// <summary> 
         /// Required designer variable.
