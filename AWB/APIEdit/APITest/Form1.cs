@@ -28,6 +28,7 @@ namespace APITest
                 txtEdit.Text = "";
                 groupBox2.Enabled = Editor.User.IsRegistered;
                 btnSave.Enabled = false;
+                Editor.Maxlag = -1;
             }
             catch (Exception ex)
             {
@@ -42,9 +43,9 @@ namespace APITest
                 btnSave.Enabled = false;
                 Editor.Open(txtTitle.Text);
                 Editor.Wait();
-                if (Editor.PageText != null)
+                if (Editor.Page.Text != null)
                 {
-                    txtEdit.Text = Editor.PageText.Replace("\n", "\r\n");
+                    txtEdit.Text = Editor.Page.Text.Replace("\n", "\r\n");
                     btnSave.Enabled = true;
                 }
                 else
