@@ -126,7 +126,7 @@ namespace WikiFunctions.Logging
         #region IMyTraceListener Members
         void IMyTraceListener.Close() { }
         void IMyTraceListener.Flush() { }
-        void IMyTraceListener.ProcessingArticle(string fullArticleTitle, Namespaces ns) { }
+        void IMyTraceListener.ProcessingArticle(string fullArticleTitle, int ns) { }
         void IMyTraceListener.WriteComment(string line) { }
         void IMyTraceListener.WriteCommentAndNewLine(string line) { }
 
@@ -135,12 +135,12 @@ namespace WikiFunctions.Logging
             Skip(skippedBy, reason);
         }
 
-        void IMyTraceListener.SkippedArticleBadTag(string skippedBy, string fullArticleTitle, Namespaces ns)
+        void IMyTraceListener.SkippedArticleBadTag(string skippedBy, string fullArticleTitle, int ns)
         {
             Skip(skippedBy, "Bad tag");
         }
 
-        void IMyTraceListener.SkippedArticleRedlink(string skippedBy, string fullArticleTitle, Namespaces ns)
+        void IMyTraceListener.SkippedArticleRedlink(string skippedBy, string fullArticleTitle, int ns)
         {
             Skip(skippedBy, "Red link (article deleted)");
         }

@@ -73,7 +73,7 @@ namespace WikiFunctions.Logging
 			}
 		}
 
-		public virtual void ProcessingArticle(string fullArticleTitle, Namespaces ns)
+        public virtual void ProcessingArticle(string fullArticleTitle, int ns)
 		{
 			foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
 			{
@@ -102,7 +102,7 @@ namespace WikiFunctions.Logging
 			}
 		}
 
-		public virtual void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, Namespaces ns)
+        public virtual void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, int ns)
 		{
 			foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
 			{
@@ -110,7 +110,7 @@ namespace WikiFunctions.Logging
 			}
 		}
 
-        public virtual void SkippedArticleRedlink(string skippedBy, string fullArticleTitle, Namespaces ns)
+        public virtual void SkippedArticleRedlink(string skippedBy, string fullArticleTitle, int ns)
         {
             foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
             {

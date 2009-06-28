@@ -77,7 +77,7 @@ namespace WikiFunctions.Logging
                 base.WriteLine("*" + line, true);
         }
 
-        public override void ProcessingArticle(string fullArticleTitle, Namespaces ns)
+        public override void ProcessingArticle(string fullArticleTitle, int ns)
         {
             CheckCounterForUpload(); // Check counter *before* starting a new article section
             base.WriteLine(GetArticleTemplate(fullArticleTitle, ns), false);
@@ -90,7 +90,7 @@ namespace WikiFunctions.Logging
             base.WriteLine("#*''" + skippedBy + ": Skipped" + reason + "''", false);
         }
 
-        public override void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, Namespaces ns)
+        public override void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, int ns)
         {
             SkippedArticle(skippedBy, "Bad tag");
         }
@@ -170,7 +170,7 @@ namespace WikiFunctions.Logging
                 base.WriteLine("<li>" + line + "</li>");
         }
 
-        public override void ProcessingArticle(string fullArticleTitle, Namespaces ns)
+        public override void ProcessingArticle(string fullArticleTitle, int ns)
         {
             base.WriteLine("<br/>" + mArticleCount + ". <a href=\"" + Variables.NonPrettifiedURL(fullArticleTitle) + "\">[[" + fullArticleTitle + "]]</a>");
             mArticleCount += 1;
@@ -183,7 +183,7 @@ namespace WikiFunctions.Logging
             base.WriteLine("<li><i>" + skippedBy + ": Skipped" + reason + "</i></li>");
         }
 
-        public override void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, Namespaces ns)
+        public override void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, int ns)
         {
             SkippedArticle(skippedBy, "Bad tag");
         }
