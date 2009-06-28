@@ -208,9 +208,9 @@ namespace WikiFunctions.Logging.Uploader
             }
         }
 
-		protected virtual void OpenLogInBrowser(string UploadTo)
+		protected virtual void OpenLogInBrowser(string uploadTo)
 		{
-            Tools.OpenArticleInBrowser(UploadTo);
+            Tools.OpenArticleInBrowser(uploadTo);
 		}
 
         private static bool DoAWBLogListener(bool doIt, IAutoWikiBrowser awb)
