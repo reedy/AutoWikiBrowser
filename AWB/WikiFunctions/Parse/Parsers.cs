@@ -304,8 +304,8 @@ namespace WikiFunctions.Parse
             // get the zeroth section (text upto first heading)
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
 
-            // get the rest of the article including first heading (may be null if article has no headings)
-            string restOfArticle = articleText.Replace(zerothSection, "");
+            // get the rest of the article including first heading (may be null if entire article falls in zeroth section)
+            string restOfArticle = zerothSection.Length > 0 ? articleText.Replace(zerothSection, "") : "";
 
             int tagsToAdd = WikiRegexes.ArticleIssuesTemplates.Matches(zerothSection).Count;
 
