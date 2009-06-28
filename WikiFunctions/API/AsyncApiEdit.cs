@@ -266,6 +266,12 @@ namespace WikiFunctions.API
             get { return Editor.PHP5; }
         }
 
+        public int Maxlag
+        {
+            get { return Editor.Maxlag; }
+            set { Editor.Maxlag = value; }
+        }
+
         public string Action
         {
             get { return Editor.Action; }

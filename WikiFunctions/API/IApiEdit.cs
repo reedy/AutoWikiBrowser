@@ -42,6 +42,12 @@ namespace WikiFunctions.API
         { get; }
 
         /// <summary>
+        /// Maxlag parameter of every request (http://www.mediawiki.org/wiki/Manual:Maxlag_parameter)
+        /// </summary>
+        int Maxlag
+        { get; set; }
+
+        /// <summary>
         /// Updates the User property
         /// </summary>
         void RefreshUserInfo();
