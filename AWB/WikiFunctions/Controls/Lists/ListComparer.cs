@@ -42,58 +42,52 @@ namespace WikiFunctions.Controls.Lists
             listMaker1.Add(list);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void GetDuplicates()
         {
-            //TODO:Remove code duplication
             List<Article> list1 = listMaker1.GetArticleList();
             list1.Sort();
             List<Article> list2 = listMaker2.GetArticleList();
             list2.Sort();
 
             if (listMaker1.Count < listMaker2.Count)
-            {
-                while (list1.Count > 0)
-                {
-                    Article a = list1[0];
-                    if (list2.Contains(a))
-                    {
-                        lbBoth.Items.Add(a.Name);
-                        list2.Remove(a);
-                    }
-                    else
-                        lbNo1.Items.Add(a.Name);
-
-                    list1.Remove(a);
-                }
-
-                foreach (Article article in list2)
-                {
-                    lbNo2.Items.Add(article.Name);
-                }
-            }
+                GetDuplicates(list1, list2, lbNo1, lbNo2, lbBoth);
             else
-            {
-                while (list2.Count > 0)
-                {
-                    Article a = list2[0];
-                    if (list1.Contains(a))
-                    {
-                        lbBoth.Items.Add(a.Name);
-                        list1.Remove(a);
-                    }
-                    else
-                        lbNo2.Items.Add(a.Name);
-
-                    list2.Remove(a);
-                }
-
-                foreach (Article article in list1)
-                {
-                    lbNo1.Items.Add(article.Name);
-                }
-            }
+                GetDuplicates(list2, list1, lbNo2, lbNo1, lbBoth);
 
             UpdateCounts();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list1"></param>
+        /// <param name="list2"></param>
+        /// <param name="lb1"></param>
+        /// <param name="lb2"></param>
+        /// <param name="lb3"></param>
+        private static void GetDuplicates(IList<Article> list1, ICollection<Article> list2, ListBox lb1, ListBox lb2, ListBox lb3)
+        {
+            while (list1.Count > 0)
+            {
+                Article a = list1[0];
+                if (list2.Contains(a))
+                {
+                    lb3.Items.Add(a.Name);
+                    list2.Remove(a);
+                }
+                else
+                    lb1.Items.Add(a.Name);
+
+                list1.Remove(a);
+            }
+
+            foreach (Article article in list2)
+            {
+                lb2.Items.Add(article.Name);
+            }
         }
 
         private void btnGo_Click(object sender, EventArgs e)
