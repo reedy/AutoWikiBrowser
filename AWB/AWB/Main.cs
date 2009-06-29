@@ -106,6 +106,8 @@ namespace AutoWikiBrowser
 
         #endregion
 
+        Controller TheController = new Controller();
+
         #region Constructor and MainForm load/resize
         public MainForm()
         {
@@ -1740,10 +1742,14 @@ window.scrollTo(0, diffTopY);
 
             try
             {
-                SetCheckBoxes();
+                // Warning: Plugins can call SetMinor and SetWatch, so only turn these *on* not off
+                //if (addAllToWatchlistToolStripMenuItem.Checked)
+                //    webBrowserEdit.SetWatch(true);
+                //if (dontAddToWatchlistToolStripMenuItem.Checked)
+                //    webBrowserEdit.SetWatch(false);
 
-                webBrowserEdit.SetArticleText(txtEdit.Text);
-                webBrowserEdit.Save();
+                TheController.Editor.Save(txtEdit.Text, MakeSummary(), markAllAsMinorToolStripMenuItem.Checked,
+                                          false); //Fixup Watch from code above
             }
             catch (Exception ex)
             {
@@ -1935,7 +1941,6 @@ window.scrollTo(0, diffTopY);
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             ExitQuestion dlg = null;
-            WebControl.Shutdown = true;
 
             Properties.Settings.Default.WindowState = WindowState;
 
@@ -1967,15 +1972,7 @@ window.scrollTo(0, diffTopY);
                 // save user persistent settings
                 Properties.Settings.Default.Save();
 
-                try
-                {
-                    if (webBrowserEdit.IsBusy)
-                        webBrowserEdit.Stop2();
-                    if (Variables.User.WebBrowserLogin.IsBusy)
-                        Variables.User.WebBrowserLogin.Stop();
-                }
-                catch
-                { } // simply suppress IE silliness
+                TheController.Editor.Abort();
 
                 SaveRecentSettingsList();
                 UsageStats.Do(true);
@@ -1986,22 +1983,6 @@ window.scrollTo(0, diffTopY);
                 return;
             }
             ntfyTray.Dispose();
-        }
-
-        private void SetCheckBoxes()
-        {
-            if (webBrowserEdit.Document != null && webBrowserEdit.DocumentText.Contains("wpMinoredit"))
-            {
-                // Warning: Plugins can call SetMinor and SetWatch, so only turn these *on* not off
-                if (markAllAsMinorToolStripMenuItem.Checked)
-                    webBrowserEdit.SetMinor(true);
-                if (addAllToWatchlistToolStripMenuItem.Checked)
-                    webBrowserEdit.SetWatch(true);
-                if (dontAddToWatchlistToolStripMenuItem.Checked)
-                    webBrowserEdit.SetWatch(false);
-
-                webBrowserEdit.SetSummary(MakeSummary());
-            }
         }
 
         private string MakeSummary()
@@ -2209,7 +2190,7 @@ window.scrollTo(0, diffTopY);
         {
             TimeSpan time = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute,
                 DateTime.Now.Second).Subtract(StartTime);
-            new AboutBox(webBrowserEdit.Version.ToString(), time, NumberOfEdits).Show();
+            new AboutBox(webBrowserHistory.Version.ToString(), time, NumberOfEdits).Show();
         }
 
         private void loginToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2222,10 +2203,9 @@ window.scrollTo(0, diffTopY);
                 chkAutoMode.Enabled = false;
                 BotMode = false;
                 lblOnlyBots.Visible = true;
-                webBrowserEdit.BringToFront();
-                webBrowserEdit.LoadLogOut();
-                webBrowserEdit.Wait();
-                Variables.User.UpdateWikiStatus();
+                TheController.Editor.Logout();
+                TheController.Editor.Wait();
+                TheController.UpdateWikiStatus();
             }
         }
 
@@ -2236,7 +2216,7 @@ window.scrollTo(0, diffTopY);
             bool b = false;
             string label = "Software disabled";
 
-            switch (Variables.User.UpdateWikiStatus())
+            switch (TheController.UpdateWikiStatus())
             {
                 case WikiStatusResult.Error:
                     lblUserName.BackColor = Color.Red;
@@ -2250,7 +2230,6 @@ window.scrollTo(0, diffTopY);
                     if (!login)
                         MessageBox.Show("You are not logged in. The log in screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.\r\n\r\nIn the future you can make sure this won't happen by logging in to Wikipedia using Microsoft Internet Explorer.", "Not logged in", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     webBrowserEdit.LoadLogInPage();
-                    webBrowserEdit.BringToFront();
                     break;
 
                 case WikiStatusResult.NotRegistered:
@@ -2290,22 +2269,19 @@ window.scrollTo(0, diffTopY);
 
         private void OldVersion()
         {
-            if (!WebControl.Shutdown)
-            {
-                lblUserName.BackColor = Color.Red;
+            lblUserName.BackColor = Color.Red;
 
-                switch (
-                    MessageBox.Show(
-                        "This version is not enabled, please download the newest version. If you have the newest version, check that Wikipedia is online.\r\n\r\nPlease press \"Yes\" to run the AutoUpdater, \"No\" to load the download page and update manually, or \"Cancel\" to not update (but you will not be able to edit).",
-                        "Problem", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information))
-                {
-                    case DialogResult.Yes:
-                        RunUpdater();
-                        break;
-                    case DialogResult.No:
-                        Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=158332");
-                        break;
-                }
+            switch (
+                MessageBox.Show(
+                    "This version is not enabled, please download the newest version. If you have the newest version, check that Wikipedia is online.\r\n\r\nPlease press \"Yes\" to run the AutoUpdater, \"No\" to load the download page and update manually, or \"Cancel\" to not update (but you will not be able to edit).",
+                    "Problem", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information))
+            {
+                case DialogResult.Yes:
+                    RunUpdater();
+                    break;
+                case DialogResult.No:
+                    Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=158332");
+                    break;
             }
         }
 
@@ -3271,10 +3247,8 @@ window.scrollTo(0, diffTopY);
 
             StopSaveInterval();
             StopDelayedRestartTimer();
-            if (webBrowserEdit.IsBusy)
-                webBrowserEdit.Stop2();
-            if (Variables.User.WebBrowserLogin.IsBusy)
-                Variables.User.WebBrowserLogin.Stop();
+
+            TheController.Editor.Abort();
 
             listMaker.Stop();
 
@@ -4074,8 +4048,8 @@ window.scrollTo(0, diffTopY);
         private void reloadEditPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PageReload = true;
-            webBrowserEdit.LoadEditPage(TheArticle.Name);
-            TheArticle.OriginalArticleText = webBrowserEdit.GetArticleText();
+            TheController.Editor.Open(TheArticle.Name);
+            TheArticle.OriginalArticleText = TheController.Editor.Page.Text;
         }
 
         #region History
@@ -4191,7 +4165,7 @@ window.scrollTo(0, diffTopY);
             if (!string.IsNullOrEmpty(Profiles.SettingsToLoad))
                 LoadPrefs(Profiles.SettingsToLoad);
 
-            Variables.User.UpdateWikiStatus();
+            TheController.UpdateWikiStatus();
 
             StopProgressBar();
         }
