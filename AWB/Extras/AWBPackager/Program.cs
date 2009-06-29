@@ -73,8 +73,8 @@ Is this SVN (1) or a release (2)? ");
                 Directory.CreateDirectory(Tmp + "Plugins\\IFD\\");
                 File.Copy(currFolder + "IFD.dll", Tmp + "Plugins\\IFD\\IFD.dll", true);
 
-                Directory.CreateDirectory(Tmp + "Plugins\\CategoryNoLimitsPlugin\\");
-                File.Copy(currFolder + "CategoryNoLimitsPlugin.dll", Tmp + "Plugins\\CategoryNoLimitsPlugin\\CategoryNoLimitsPlugin.dll", true);
+                Directory.CreateDirectory(Tmp + "Plugins\\NoLimitsPlugin\\");
+                File.Copy(currFolder + "NoLimitsPlugin.dll", Tmp + "Plugins\\NoLimitsPlugin\\NoLimitsPlugin.dll", true);
 
                 Directory.CreateDirectory(Tmp + "Plugins\\Yahoo Search Plugin\\");
                 File.Copy(currFolder + "YahooSearchPlugin.dll", Tmp + "Plugins\\Yahoo Search Plugin\\YahooSearchPlugin.dll", true);

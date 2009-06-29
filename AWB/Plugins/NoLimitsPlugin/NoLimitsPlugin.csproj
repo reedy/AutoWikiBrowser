@@ -8,8 +8,8 @@
     <ProjectGuid>{468DA108-0051-4F6F-AC1B-F655CB46ED19}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WikiFunctions.Plugins.ListMaker.CategoryNoLimitsPlugin</RootNamespace>
-    <AssemblyName>CategoryNoLimitsPlugin</AssemblyName>
+    <RootNamespace>WikiFunctions.Plugins.ListMaker.NoLimitsPlugin</RootNamespace>
+    <AssemblyName>NoLimitsPlugin</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

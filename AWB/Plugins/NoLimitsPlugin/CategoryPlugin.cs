@@ -1,7 +1,7 @@
 ﻿using WikiFunctions.Lists;
 using WikiFunctions.Plugin;
 
-namespace WikiFunctions.Plugins.ListMaker.CategoryNoLimitsPlugin
+namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
 {
     /// <summary>
     /// Category list getter with no limits for admin and bot users (wont work for non admin/bots)

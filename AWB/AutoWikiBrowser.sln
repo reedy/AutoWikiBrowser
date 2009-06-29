@@ -27,7 +27,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypoScan", "Plugins\TypoSca
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Kingbotk Plugin", "Plugins\Kingbotk\AWB Plugin\Kingbotk Plugin.vbproj", "{70AF6097-1ED6-475C-878E-A0BAEDB705F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CategoryNoLimitsPlugin", "Plugins\CategoryNoLimitsPlugin\CategoryNoLimitsPlugin.csproj", "{468DA108-0051-4F6F-AC1B-F655CB46ED19}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoLimitsPlugin", "Plugins\NoLimitsPlugin\NoLimitsPlugin.csproj", "{468DA108-0051-4F6F-AC1B-F655CB46ED19}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fronds", "Plugins\Fronds\Fronds.csproj", "{462DE585-5DA9-4862-85BB-382D76A6AEF3}"
 EndProject
