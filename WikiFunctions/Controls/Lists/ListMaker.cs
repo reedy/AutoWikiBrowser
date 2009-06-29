@@ -696,7 +696,7 @@ namespace WikiFunctions.Controls.Lists
                 ListFinished(null, null);
         }
 
-        Thread ListerThread;
+        private Thread ListerThread;
 
         public void MakeList()
         {
@@ -867,12 +867,11 @@ namespace WikiFunctions.Controls.Lists
             }
 
             int i = 0;
-            string s;
 
             lbArticles.BeginUpdate();
             while (i < lbArticles.Items.Count)
             {
-                s = lbArticles.Items[i].ToString();
+                string s = lbArticles.Items[i].ToString();
 
                 if (!Namespace.IsMainSpace(s))
                     lbArticles.Items.Remove(lbArticles.Items[i]);
