@@ -72,8 +72,8 @@ namespace WikiFunctions
                     //it cannot be used to approve users, but it could be used to set some settings
                     //such as underscores and pages to ignore
                     AsyncApiEdit webBrowserWikia = (AsyncApiEdit)Editor.Clone();
-                    webBrowserWikia.Navigate(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=edit");
-                    webBrowserWikia.Wait();
+                    webBrowserWikia.Editor.Open(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=edit");
+                    //webBrowserWikia.Wait();
                     try
                     {
                         Variables.LangCode = Variables.ParseLanguage(webBrowserWikia.GetScriptingVar("wgContentLanguage"));
@@ -84,7 +84,7 @@ namespace WikiFunctions
                         Variables.LangCode = LangCodeEnum.en;
                     }
                     typoPostfix = "-" + Variables.ParseLanguage(webBrowserWikia.GetScriptingVar("wgContentLanguage"));
-                    string s = webBrowserWikia.GetArticleText();
+                    string s = webBrowserWikia.Page.Text;
 
                     // selectively add content of the local checkpage to the global one
                     strText += Message.Match(s).Value
@@ -153,9 +153,9 @@ namespace WikiFunctions
                 }
 
                 // don't run GetInLogInStatus if we don't have the username, we sometimes get 2 error message boxes otherwise
-                bool LoggedIn = Editor.User.IsRegistered;
+                bool loggedIn = Editor.User.IsRegistered;
 
-                if (!LoggedIn)
+                if (!loggedIn)
                 {
                     IsBot = WikiStatus = false;
                     return WikiStatusResult.NotLoggedIn;
