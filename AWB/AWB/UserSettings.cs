@@ -96,7 +96,7 @@ namespace AutoWikiBrowser
 
                 try
                 {
-                    foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.Items)
+                    foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.AWBPlugins)
                         a.Value.Reset();
                 }
                 catch (Exception ex)
@@ -347,7 +347,7 @@ namespace AutoWikiBrowser
                 ExtProgram.Settings,
                 loggingSettings1.SerialisableSettings,
                 listMaker.SpecialFilterSettings,
-                Plugin.Items
+                Plugin.AWBPlugins
                 );
         }
 
@@ -582,8 +582,8 @@ namespace AutoWikiBrowser
 
             foreach (PluginPrefs pp in p.Plugin)
             {
-                if (Plugin.Items.ContainsKey(pp.Name))
-                    Plugin.Items[pp.Name].LoadSettings(pp.PluginSettings);
+                if (Plugin.AWBPlugins.ContainsKey(pp.Name))
+                    Plugin.AWBPlugins[pp.Name].LoadSettings(pp.PluginSettings);
             }
         }
     }

@@ -36,16 +36,16 @@ namespace AutoWikiBrowser
             get { return Tools.GetENLinkWithSimpleSkinAndLocalLanguage("Wikipedia:AutoWikiBrowser/User_manual"); }
         }
 
-        public void ShowHelpEN(Help h, string article)
-        { ShowHelp(h, Tools.GetENLinkWithSimpleSkinAndLocalLanguage(article)); }
+        public void ShowHelpEN(string article)
+        { ShowHelp( Tools.GetENLinkWithSimpleSkinAndLocalLanguage(article)); }
 
-        public void ShowHelp(Help h, string url)
+        public void ShowHelp(string url)
         {
-            Show();
+            ShowDialog();
             if (string.IsNullOrEmpty(url))
-                h.Navigate();
+                Navigate();
             else
-                h.Navigate(url);
+                Navigate(url);
         }
 
         private void Navigate()
