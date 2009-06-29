@@ -26,9 +26,7 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
         { get { return "Category (NL, Admin & Bot)"; } }
 
         public string Name
-        {
-            get { return "CategoryNoLimitsForAdminAndBotsPlugin"; }
-        }
+        { get { return "CategoryNoLimitsForAdminAndBotsPlugin"; } }
     }
 
     /// <summary>
@@ -55,8 +53,6 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
         { get { return "Category (NL, Admin & Bot, recursive)"; } }
 
         public string Name
-        {
-            get { return "CategoryRecursiveNoLimitsForAdminAndBotsPlugin"; }
-        }
+        { get { return "CategoryRecursiveNoLimitsForAdminAndBotsPlugin"; } }
     }
 }
