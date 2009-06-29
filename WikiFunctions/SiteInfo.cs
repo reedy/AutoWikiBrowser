@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
+using WikiFunctions.API;
 
 namespace WikiFunctions
 {
@@ -28,7 +29,8 @@ namespace WikiFunctions
     [Serializable]
     public class SiteInfo : IXmlSerializable
     {
-        private readonly bool php5;
+        private readonly IApiEdit Editor;
+
         private string scriptPath;
         private readonly Dictionary<int, string> namespaces = new Dictionary<int, string>();
         private Dictionary<int, List<string>> namespaceAliases = new Dictionary<int, List<string>>();
@@ -38,21 +40,10 @@ namespace WikiFunctions
         /// <summary>
         /// Creates an instance of the class
         /// </summary>
-        /// <param name="scriptPath">URL where index.php and api.php reside</param>
-        public SiteInfo(string scriptPath)
-            : this(scriptPath, false)
+        public SiteInfo(IApiEdit editor)
         {
-        }
-
-        /// <summary>
-        /// Creates an instance of the class
-        /// </summary>
-        /// <param name="scriptPath">URL where index.php and api.php reside</param>
-        /// <param name="php5Ext"></param>
-        public SiteInfo(string scriptPath, bool php5Ext)
-        {
-            ScriptPath = scriptPath;
-            php5 = php5Ext;
+            Editor = editor;
+            ScriptPath = editor.URL + "api.php";
 
             try
             {
@@ -72,18 +63,18 @@ namespace WikiFunctions
             }
         }
 
-        private static string Key(string scriptPath, bool php5Ext)
+        private static string Key(string scriptPath)
         {
-            return "SiteInfo[" + scriptPath + "]@" + php5Ext;
+            return "SiteInfo[" + scriptPath + "]@";
         }
 
-        public static SiteInfo CreateOrLoad(string scriptPath, bool php5Ext)
+        public static SiteInfo CreateOrLoad(IApiEdit editor)
         {
-            SiteInfo si = (SiteInfo)ObjectCache.Global.Get<SiteInfo>(Key(scriptPath, php5Ext));
+            SiteInfo si = (SiteInfo)ObjectCache.Global.Get<SiteInfo>(Key(editor.URL));
             if (si != null) return si;
 
-            si = new SiteInfo(scriptPath, php5Ext);
-            ObjectCache.Global[Key(scriptPath, php5Ext)] = si;
+            si = new SiteInfo(editor);
+            ObjectCache.Global[Key(editor.URL)] = si;
 
             return si;
         }
@@ -107,7 +98,7 @@ namespace WikiFunctions
 
         private string ApiPath
         {
-            get { return scriptPath + "api.php" + ((php5) ? "5" : ""); }
+            get { return scriptPath + "api.php" + ((Editor.PHP5) ? "5" : ""); }
         }
 
         public static string NormalizeURL(string url)
@@ -248,7 +239,7 @@ namespace WikiFunctions
         {
             //writer.WriteStartElement("site");
             writer.WriteAttributeString("url", scriptPath);
-            writer.WriteAttributeString("php5", php5 ? "1" : "0");
+            writer.WriteAttributeString("php5", Editor.PHP5 ? "1" : "0");
             {
                 writer.WriteStartElement("Namespaces");
                 {

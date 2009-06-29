@@ -35,6 +35,9 @@ namespace WikiFunctions.API
         bool Asynchronous
         { get; }
 
+        bool PHP5
+        { get; }
+
         /// <summary>
         /// Properties of the currently logged in user
         /// </summary>
