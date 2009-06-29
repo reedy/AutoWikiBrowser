@@ -43,9 +43,9 @@ namespace WikiFunctions.Controls.Lists
         }
 
         /// <summary>
-        /// 
+        /// Compares the lists of articles in the 2 ListMakers
         /// </summary>
-        private void GetDuplicates()
+        private void CompareLists()
         {
             List<Article> list1 = listMaker1.GetArticleList();
             list1.Sort();
@@ -53,22 +53,23 @@ namespace WikiFunctions.Controls.Lists
             list2.Sort();
 
             if (listMaker1.Count < listMaker2.Count)
-                GetDuplicates(list1, list2, lbNo1, lbNo2, lbBoth);
+                CompareLists(list1, list2, lbNo1, lbNo2, lbBoth);
             else
-                GetDuplicates(list2, list1, lbNo2, lbNo1, lbBoth);
+                CompareLists(list2, list1, lbNo2, lbNo1, lbBoth);
 
             UpdateCounts();
         }
 
         /// <summary>
-        /// 
+        /// Compares the lists of articles in the 2 provided Lists
+        /// Best to provide an already sorted list. List 1 should be the smallest list
         /// </summary>
-        /// <param name="list1"></param>
-        /// <param name="list2"></param>
-        /// <param name="lb1"></param>
-        /// <param name="lb2"></param>
-        /// <param name="lb3"></param>
-        private static void GetDuplicates(IList<Article> list1, ICollection<Article> list2, ListBox lb1, ListBox lb2, ListBox lb3)
+        /// <param name="list1">First List (preferably the smallest)</param>
+        /// <param name="list2">Second List</param>
+        /// <param name="lb1">List Box where unique items from list1 should go</param>
+        /// <param name="lb2">List Box where unique items from list2 should go</param>
+        /// <param name="lb3">List Box where the duplicates should go</param>
+        private static void CompareLists(IList<Article> list1, ICollection<Article> list2, ListBox lb1, ListBox lb2, ListBox lb3)
         {
             while (list1.Count > 0)
             {
@@ -93,7 +94,7 @@ namespace WikiFunctions.Controls.Lists
         private void btnGo_Click(object sender, EventArgs e)
         {
             Clear();
-            GetDuplicates();
+            CompareLists();
         }
         
         private void btnClear_Click(object sender, EventArgs e)
@@ -162,13 +163,13 @@ namespace WikiFunctions.Controls.Lists
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (String article in lbBoth.SelectedItems)
+            foreach (string article in lbBoth.SelectedItems)
                 Tools.OpenArticleInBrowser(article);
         }
 
         private void openInBrowserToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            foreach (String article in MenuItemOwner(sender).SelectedItems)
+            foreach (string article in MenuItemOwner(sender).SelectedItems)
                 Tools.OpenArticleInBrowser(article);
         }
 
