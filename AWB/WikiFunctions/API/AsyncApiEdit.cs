@@ -50,10 +50,20 @@ namespace WikiFunctions.API
         }
 
         public AsyncApiEdit(string url, Control parentControl, bool php5)
+            : this(new ApiEdit(url, php5), parentControl)
         {
-            Editor = new ApiEdit(url, php5);
-            State = EditState.Ready;
+        }
+
+        private AsyncApiEdit(ApiEdit editor, Control parentControl)
+        {
+            Editor = editor;
             ParentControl = parentControl;
+            State = EditState.Ready;
+        }
+
+        public IApiEdit Clone()
+        {
+            return new AsyncApiEdit((ApiEdit)Editor.Clone(), ParentControl);
         }
 
         /// <summary>

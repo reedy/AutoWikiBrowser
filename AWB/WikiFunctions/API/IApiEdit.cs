@@ -71,6 +71,13 @@ namespace WikiFunctions.API
         { get; }
 
         /// <summary>
+        /// Creates a new instance of the current class by cloning the current instance
+        /// ATTENTION: the clones will share the same cookie container, so logging off or logging under another username
+        /// with one instance will automatically make another one do the same
+        /// </summary>
+        IApiEdit Clone();
+
+        /// <summary>
         /// Resets all internal variables, discarding edit tokens and so on,
         /// but does not logs off
         /// </summary>

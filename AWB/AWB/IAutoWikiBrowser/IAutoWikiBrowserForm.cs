@@ -45,7 +45,6 @@ namespace AutoWikiBrowser
         ToolStripMenuItem IAutoWikiBrowserForm.InsertTagToolStripMenuItem { get { return insertTagToolStripMenuItem; } }
         ToolStripMenuItem IAutoWikiBrowserForm.ToolStripMenuGeneral { get { return ToolStripMenuGeneral; } }
         WikiFunctions.Controls.Lists.ListMaker IAutoWikiBrowserForm.ListMaker { get { return listMaker; } }
-        WikiFunctions.Browser.WebControl IAutoWikiBrowserForm.WebControl { get { return webBrowserEdit; } }
         ContextMenuStrip IAutoWikiBrowserForm.EditBoxContextMenu { get { return mnuTextBox; } }
         WikiFunctions.Logging.LogControl IAutoWikiBrowserForm.LogControl { get { return logControl; } }
 
