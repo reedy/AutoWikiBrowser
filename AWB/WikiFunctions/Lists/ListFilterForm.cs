@@ -250,20 +250,18 @@ namespace WikiFunctions.Lists
         {
             get
             {
-                Prefs = new AWBSettings.SpecialFilterPrefs();
-
-                Prefs.namespaceValues = pageNamespaces.GetSelectedNamespaces();
-
-                Prefs.filterTitlesThatContain = chkContains.Checked;
-                Prefs.filterTitlesThatContainText = txtContains.Text;
-                Prefs.filterTitlesThatDontContain = chkNotContains.Checked;
-                Prefs.filterTitlesThatDontContainText = txtDoesNotContain.Text;
-                Prefs.areRegex = chkIsRegex.Checked;
-
-                Prefs.remDupes = chkRemoveDups.Checked;
-                Prefs.sortAZ = chkSortAZ.Checked;
-
-                Prefs.opType = cbOpType.SelectedIndex;
+                Prefs = new AWBSettings.SpecialFilterPrefs
+                            {
+                                namespaceValues = pageNamespaces.GetSelectedNamespaces(),
+                                filterTitlesThatContain = chkContains.Checked,
+                                filterTitlesThatContainText = txtContains.Text,
+                                filterTitlesThatDontContain = chkNotContains.Checked,
+                                filterTitlesThatDontContainText = txtDoesNotContain.Text,
+                                areRegex = chkIsRegex.Checked,
+                                remDupes = chkRemoveDups.Checked,
+                                sortAZ = chkSortAZ.Checked,
+                                opType = cbOpType.SelectedIndex
+                            };
 
                 foreach (Article a in lbRemove.Items)
                 {
