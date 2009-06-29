@@ -28,7 +28,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.btnDiff = New System.Windows.Forms.Button
             Me.btnIgnore = New System.Windows.Forms.Button
             Me.AWBGroupBox = New System.Windows.Forms.GroupBox
-            Me.btnDryRun = New System.Windows.Forms.Button
             Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
             Me.GroupBox2 = New System.Windows.Forms.GroupBox
             Me.Label9 = New System.Windows.Forms.Label
@@ -58,9 +57,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.SkipBadTagsCheckBox = New System.Windows.Forms.CheckBox
             Me.lblAWBNudges = New System.Windows.Forms.Label
             Me.ResetTimerButton = New System.Windows.Forms.Button
-            Me.Led1 = New WikiFunctions.Controls.LED
             Me.ETALabel = New System.Windows.Forms.Label
             Me.BotCheckBox = New System.Windows.Forms.CheckBox
+            Me.Led1 = New WikiFunctions.Controls.LED
             Me.GroupBox4 = New System.Windows.Forms.GroupBox
             Me.PluginMenuStrip = New System.Windows.Forms.MenuStrip
             Me.PluginToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -113,9 +112,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             '
             Me.btnStop.DialogResult = System.Windows.Forms.DialogResult.Cancel
             Me.btnStop.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.btnStop.Location = New System.Drawing.Point(6, 66)
+            Me.btnStop.Location = New System.Drawing.Point(10, 46)
             Me.btnStop.Name = "btnStop"
-            Me.btnStop.Size = New System.Drawing.Size(102, 23)
+            Me.btnStop.Size = New System.Drawing.Size(102, 32)
             Me.btnStop.TabIndex = 34
             Me.btnStop.Text = "Stop"
             Me.btnStop.UseVisualStyleBackColor = True
@@ -123,9 +122,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             'btnStart
             '
             Me.btnStart.Enabled = False
-            Me.btnStart.Location = New System.Drawing.Point(6, 12)
+            Me.btnStart.Location = New System.Drawing.Point(10, 8)
             Me.btnStart.Name = "btnStart"
-            Me.btnStart.Size = New System.Drawing.Size(102, 23)
+            Me.btnStart.Size = New System.Drawing.Size(102, 36)
             Me.btnStart.TabIndex = 29
             Me.btnStart.Tag = "Start the process"
             Me.btnStart.Text = "Start the process (Shortcut ctrl + s)"
@@ -134,9 +133,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             'btnPreview
             '
             Me.btnPreview.Enabled = False
-            Me.btnPreview.Location = New System.Drawing.Point(6, 93)
+            Me.btnPreview.Location = New System.Drawing.Point(10, 80)
             Me.btnPreview.Name = "btnPreview"
-            Me.btnPreview.Size = New System.Drawing.Size(102, 23)
+            Me.btnPreview.Size = New System.Drawing.Size(102, 32)
             Me.btnPreview.TabIndex = 32
             Me.btnPreview.Text = "Preview"
             Me.btnPreview.UseVisualStyleBackColor = True
@@ -146,7 +145,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.btnSave.Enabled = False
             Me.btnSave.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
             Me.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-            Me.btnSave.Location = New System.Drawing.Point(6, 186)
+            Me.btnSave.Location = New System.Drawing.Point(10, 182)
             Me.btnSave.Name = "btnSave"
             Me.btnSave.Size = New System.Drawing.Size(102, 32)
             Me.btnSave.TabIndex = 30
@@ -157,9 +156,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             'btnDiff
             '
             Me.btnDiff.Enabled = False
-            Me.btnDiff.Location = New System.Drawing.Point(6, 120)
+            Me.btnDiff.Location = New System.Drawing.Point(10, 114)
             Me.btnDiff.Name = "btnDiff"
-            Me.btnDiff.Size = New System.Drawing.Size(102, 23)
+            Me.btnDiff.Size = New System.Drawing.Size(102, 32)
             Me.btnDiff.TabIndex = 33
             Me.btnDiff.Text = "Show changes"
             Me.btnDiff.UseVisualStyleBackColor = True
@@ -169,7 +168,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.btnIgnore.Enabled = False
             Me.btnIgnore.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
             Me.btnIgnore.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-            Me.btnIgnore.Location = New System.Drawing.Point(6, 151)
+            Me.btnIgnore.Location = New System.Drawing.Point(10, 148)
             Me.btnIgnore.Name = "btnIgnore"
             Me.btnIgnore.Size = New System.Drawing.Size(102, 32)
             Me.btnIgnore.TabIndex = 31
@@ -178,7 +177,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             '
             'AWBGroupBox
             '
-            Me.AWBGroupBox.Controls.Add(Me.btnDryRun)
             Me.AWBGroupBox.Controls.Add(Me.btnIgnore)
             Me.AWBGroupBox.Controls.Add(Me.btnStop)
             Me.AWBGroupBox.Controls.Add(Me.btnDiff)
@@ -191,19 +189,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.AWBGroupBox.TabIndex = 35
             Me.AWBGroupBox.TabStop = False
             Me.AWBGroupBox.Text = "AWB"
-            '
-            'btnDryRun
-            '
-            Me.btnDryRun.DialogResult = System.Windows.Forms.DialogResult.Cancel
-            Me.btnDryRun.Enabled = False
-            Me.btnDryRun.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.btnDryRun.Location = New System.Drawing.Point(6, 39)
-            Me.btnDryRun.Name = "btnDryRun"
-            Me.btnDryRun.Size = New System.Drawing.Size(102, 23)
-            Me.btnDryRun.TabIndex = 35
-            Me.btnDryRun.Text = "Dry Run"
-            Me.ToolTip1.SetToolTip(Me.btnDryRun, "Build a list of articles with changes but don't save")
-            Me.btnDryRun.UseVisualStyleBackColor = True
             '
             'GroupBox2
             '
@@ -506,15 +491,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.ToolTip1.SetToolTip(Me.ResetTimerButton, "Reset the timer")
             Me.ResetTimerButton.UseVisualStyleBackColor = True
             '
-            'Led1
-            '
-            Me.Led1.Colour = WikiFunctions.Controls.Colour.Red
-            Me.Led1.Location = New System.Drawing.Point(9, 318)
-            Me.Led1.Name = "Led1"
-            Me.Led1.Size = New System.Drawing.Size(20, 20)
-            Me.Led1.TabIndex = 43
-            Me.ToolTip1.SetToolTip(Me.Led1, "Green when the plugin is processing article text")
-            '
             'ETALabel
             '
             Me.ETALabel.AutoSize = True
@@ -537,6 +513,15 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.ToolTip1.SetToolTip(Me.BotCheckBox, "Auto-save (AWB bot mode)")
             Me.BotCheckBox.UseVisualStyleBackColor = True
             '
+            'Led1
+            '
+            Me.Led1.Colour = WikiFunctions.Controls.Colour.Red
+            Me.Led1.Location = New System.Drawing.Point(9, 318)
+            Me.Led1.Name = "Led1"
+            Me.Led1.Size = New System.Drawing.Size(20, 20)
+            Me.Led1.TabIndex = 43
+            Me.ToolTip1.SetToolTip(Me.Led1, "Green when the plugin is processing article text")
+            '
             'GroupBox4
             '
             Me.GroupBox4.Controls.Add(Me.ManuallyAssessCheckBox)
@@ -554,7 +539,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.PluginMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PluginToolStripMenuItem, Me.MenuAbout, Me.MenuHelp, Me.MenuHelpReleaseNotes})
             Me.PluginMenuStrip.Location = New System.Drawing.Point(0, 0)
             Me.PluginMenuStrip.Name = "PluginMenuStrip"
-            Me.PluginMenuStrip.Size = New System.Drawing.Size(615, 24)
+            Me.PluginMenuStrip.Size = New System.Drawing.Size(617, 24)
             Me.PluginMenuStrip.TabIndex = 42
             Me.PluginMenuStrip.Text = "MenuStrip1"
             Me.PluginMenuStrip.Visible = False
@@ -576,13 +561,13 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             'MenuAbout
             '
             Me.MenuAbout.Name = "MenuAbout"
-            Me.MenuAbout.Size = New System.Drawing.Size(159, 20)
+            Me.MenuAbout.Size = New System.Drawing.Size(160, 20)
             Me.MenuAbout.Text = "About the Kingbotk plugin"
             '
             'MenuHelp
             '
             Me.MenuHelp.Name = "MenuHelp"
-            Me.MenuHelp.Size = New System.Drawing.Size(169, 20)
+            Me.MenuHelp.Size = New System.Drawing.Size(170, 20)
             Me.MenuHelp.Text = "Help for the Kingbotk plugin"
             '
             'MenuHelpReleaseNotes
@@ -906,7 +891,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Friend WithEvents TopPriorityMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents ToolStripSeparator6 As System.Windows.Forms.ToolStripSeparator
         Friend WithEvents NAPriorityMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents btnDryRun As System.Windows.Forms.Button
         Friend WithEvents SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
         Private WithEvents ETALabel As System.Windows.Forms.Label
         Friend WithEvents BotCheckBox As System.Windows.Forms.CheckBox

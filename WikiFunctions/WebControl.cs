@@ -892,35 +892,37 @@ namespace WikiFunctions.Browser
 
             if (Url.AbsolutePath.Contains("api.php?action=logout"))
                 AllowNavigation = false;
-            else if (ProcessStage == ProcessingStage.Load)
+            else switch (ProcessStage)
             {
-                TalkPageExists = !RegexArticleTalkExists.IsMatch(Document.Body.InnerHtml);
+                case ProcessingStage.Load:
+                    {
+                        TalkPageExists = !RegexArticleTalkExists.IsMatch(Document.Body.InnerHtml);
 
-                ArticlePageExists = !RegexArticleExists.IsMatch(Document.Body.InnerHtml);
+                        ArticlePageExists = !RegexArticleExists.IsMatch(Document.Body.InnerHtml);
 
-                AllowNavigation = false;
-                ProcessStage = ProcessingStage.None;
+                        AllowNavigation = false;
+                        ProcessStage = ProcessingStage.None;
 
-                Status = "Ready to save";
+                        Status = "Ready to save";
 
-                if (Loaded != null)
-                    Loaded(null, null);
+                        if (Loaded != null)
+                            Loaded(null, null);
 
-                HtmlElement wpTextbox1 = Document.GetElementById("wpTextbox1");
+                        HtmlElement wpTextbox1 = Document.GetElementById("wpTextbox1");
 
-                if (wpTextbox1 != null)
-                    wpTextbox1.Enabled = false;
-            }
-            else if (ProcessStage == ProcessingStage.Diff)
-            {
-                AllowNavigation = false;
-                ProcessStage = ProcessingStage.None;
-                Status = "Ready to save";
-            }
-            else if (ProcessStage == ProcessingStage.None)
-            {
-                if (None != null)
-                    None(null, null);
+                        if (wpTextbox1 != null)
+                            wpTextbox1.Enabled = false;
+                    }
+                    break;
+                case ProcessingStage.Diff:
+                    AllowNavigation = false;
+                    ProcessStage = ProcessingStage.None;
+                    Status = "Ready to save";
+                    break;
+                case ProcessingStage.None:
+                    if (None != null)
+                        None(null, null);
+                    break;
             }
         }
 

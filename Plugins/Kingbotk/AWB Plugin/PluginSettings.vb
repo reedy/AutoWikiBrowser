@@ -201,13 +201,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
                 SkipBadTagsCheckBox.Enabled = False
                 SkipNoChangesCheckBox.Checked = False
                 SkipNoChangesCheckBox.Enabled = False
-                btnDryRun.Enabled = False
             Else
                 PluginManager.AWBForm.BotModeCheckbox.Enabled = WikiFunctions.Variables.User.IsBot
                 BotCheckBox.Visible = WikiFunctions.Variables.User.IsBot
                 SkipBadTagsCheckBox.Enabled = True
                 SkipNoChangesCheckBox.Enabled = True
-                btnDryRun.Enabled = btnStart.Enabled
             End If
 
             CleanupCheckBox.Checked = ManuallyAssess
@@ -241,7 +239,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Dim btn As Button = DirectCast(sender, Button)
 
             btnStart.Enabled = btn.Enabled
-            btnDryRun.Enabled = btn.Enabled
         End Sub
         Private Sub AWBSkipButtonClickEventHandler(ByVal sender As Object, ByVal e As EventArgs) _
         Handles btnIgnore.Click
