@@ -47,7 +47,6 @@ namespace WikiFunctions.Plugin
         ToolStripMenuItem InsertTagToolStripMenuItem { get; }
         ToolStripMenuItem ToolStripMenuGeneral { get; }
         Controls.Lists.ListMaker ListMaker { get; }
-        Browser.WebControl WebControl { get; }
         ContextMenuStrip EditBoxContextMenu { get; }
         LogControl LogControl { get; }
 

@@ -58,6 +58,7 @@
     <Compile Include="Article.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controller.cs" />
     <Compile Include="Controls\Lists\ProtectionLevel.cs">
       <SubType>Form</SubType>
     </Compile>

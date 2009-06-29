@@ -85,12 +85,7 @@ namespace WikiFunctions.API
             }
         }
 
-        /// <summary>
-        /// Creates a new instance of the ApiEdit class by cloning the current instance
-        /// ATTENTION: the clones will share the same cookie container, so logging off or logging under another username
-        /// with one instance will automatically make another one do the same
-        /// </summary>
-        public ApiEdit Clone()
+        public IApiEdit Clone()
         {
             return new ApiEdit
                        {

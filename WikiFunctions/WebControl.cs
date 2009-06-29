@@ -32,7 +32,7 @@ namespace WikiFunctions.Browser
     /// <summary>
     /// Provides a WebBrowser component adapted and extended for use with Wikis.
     /// </summary>
-    public partial class WebControl : WebBrowser
+    internal partial class WebControl : WebBrowser
     {
         #region Constructor etc.
 

@@ -19,31 +19,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Windows.Forms;
+using WikiFunctions.API;
 
 namespace WikiFunctions.Profiles
 {
     public partial class AWBProfilesForm : AWBLogUploadProfilesForm
     {
-        private readonly Browser.WebControl WebBrowser;
+        private readonly IApiEdit Editor;
         public event EventHandler LoadProfile;
 
-        public AWBProfilesForm(Browser.WebControl browser)
+        public AWBProfilesForm(IApiEdit editor)
         {
             InitializeComponent();
             loginAsThisAccountToolStripMenuItem.Visible = true;
             loginAsThisAccountToolStripMenuItem.Click += lvAccounts_DoubleClick;
-            WebBrowser = browser;
+            Editor = editor;
         }
 
-        private void BrowserLogin(string password)
+        private void PerformLogin(string password)
         {
-            BrowserLogin(AWBProfiles.GetUsername(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)), password);
+            PerformLogin(AWBProfiles.GetUsername(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)), password);
         }
 
-        private void BrowserLogin(string username, string password)
+        private void PerformLogin(string username, string password)
         {
-            WebBrowser.Login(username, password);
-            System.Threading.Thread.Sleep(1000); // HACK: fix this mess
+            Editor.Login(username, password);
             if (LoadProfile != null)
                 LoadProfile(null, null);
             Variables.User.UpdateWikiStatus();
@@ -76,7 +76,7 @@ namespace WikiFunctions.Profiles
 
                 if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[2].Text == "Yes")
                 {//Get 'Saved' Password
-                    BrowserLogin(AWBProfiles.GetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
+                    PerformLogin(AWBProfiles.GetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
                 }
                 else
                 {//Get Password from User
@@ -88,7 +88,7 @@ namespace WikiFunctions.Profiles
                                                 };
 
                     if (password.ShowDialog() == DialogResult.OK)
-                        BrowserLogin(password.GetPassword);
+                        PerformLogin(password.GetPassword);
                 }
                 Cursor = Cursors.Default;
             }
@@ -121,7 +121,7 @@ namespace WikiFunctions.Profiles
 
                 if (!string.IsNullOrEmpty(startupProfile.Password))
                 {//Get 'Saved' Password
-                    BrowserLogin(startupProfile.Username, startupProfile.Password);
+                    PerformLogin(startupProfile.Username, startupProfile.Password);
                 }
                 else
                 {//Get Password from User
@@ -131,7 +131,7 @@ namespace WikiFunctions.Profiles
                                                 };
 
                     if (password.ShowDialog() == DialogResult.OK)
-                        BrowserLogin(startupProfile.Username, password.GetPassword);
+                        PerformLogin(startupProfile.Username, password.GetPassword);
                 }
             }
             catch (Exception ex)
