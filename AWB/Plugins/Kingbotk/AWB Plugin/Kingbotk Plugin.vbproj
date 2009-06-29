@@ -98,7 +98,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="BannerShells.vb" />
-    <Compile Include="DryRunLog.vb" />
     <Compile Include="Redirects.vb">
     </Compile>
     <Compile Include="Templating.vb" />
