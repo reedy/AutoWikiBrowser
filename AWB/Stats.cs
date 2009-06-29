@@ -197,7 +197,7 @@ namespace AutoWikiBrowser
 #else
             postvars.Add("Debug", "N");
 #endif
-            EnumeratePlugins(postvars, Plugins.Plugin.Items.Values,
+            EnumeratePlugins(postvars, Plugins.Plugin.AWBPlugins.Values,
                              WikiFunctions.Controls.Lists.ListMaker.GetListMakerPlugins());
 
             ReadXML(PostData(postvars));

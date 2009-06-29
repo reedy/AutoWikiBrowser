@@ -494,7 +494,7 @@ namespace AutoWikiBrowser
                 txtEdit.Enabled = true;
                 SetEditToolBarEnabled(true);
 
-                if (Variables.Project != ProjectEnum.custom && string.IsNullOrEmpty(cmboEditSummary.Text) && Plugin.Items.Count == 0)
+                if (Variables.Project != ProjectEnum.custom && string.IsNullOrEmpty(cmboEditSummary.Text) && Plugin.AWBPlugins.Count == 0)
                 {
                     MessageBox.Show("Please enter an edit summary.", "Edit summary", MessageBoxButtons.OK,
                                     MessageBoxIcon.Exclamation);
@@ -1480,9 +1480,9 @@ namespace AutoWikiBrowser
 
                 Variables.Profiler.Profile("External Program");
 
-                if (Plugin.Items.Count > 0)
+                if (Plugin.AWBPlugins.Count > 0)
                 {
-                    foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.Items)
+                    foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.AWBPlugins)
                     {
                         theArticle.SendPageToPlugin(a.Value, this);
                         if (theArticle.SkipArticle) return;
@@ -3974,7 +3974,7 @@ window.scrollTo(0, diffTopY);
                 }
 
                 // Tell plugins we're about to nudge, and give them the opportunity to cancel:
-                foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.Items)
+                foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.AWBPlugins)
                 {
                     bool cancel;
                     a.Value.Nudge(out cancel);
@@ -4003,7 +4003,7 @@ window.scrollTo(0, diffTopY);
                 }
 
                 // Inform plugins:
-                foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.Items)
+                foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.AWBPlugins)
                 { a.Value.Nudged(Nudges); }
             }
         }
