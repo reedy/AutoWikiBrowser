@@ -112,7 +112,7 @@ namespace WikiFunctions
         /// <returns></returns>
         public bool LoadNamespaces()
         {
-            string output = Tools.GetHTML(ApiPath + "?action=query&meta=siteinfo&siprop=general|namespaces|namespacealiases|statistics&format=xml");
+            string output = Editor.HttpGet(ApiPath + "?action=query&meta=siteinfo&siprop=general|namespaces|namespacealiases|statistics&format=xml");
 
             XmlDocument xd = new XmlDocument();
             xd.LoadXml(output);
@@ -146,7 +146,7 @@ namespace WikiFunctions
         /// <returns></returns>
         public bool LoadLocalisedMagicWordAliases()
         {
-            string output = Tools.GetHTML(ApiPath + "?action=query&meta=siteinfo&siprop=magicwords&format=xml");
+            string output = Editor.HttpGet(ApiPath + "?action=query&meta=siteinfo&siprop=magicwords&format=xml");
 
             //TODO:Remove post 1.14
             if (output.Contains("'siprop': magicwords"))
