@@ -114,7 +114,8 @@ namespace WikiFunctions.Controls.Lists
                             strList.AppendLine(listMaker1.SelectedArticle().ToString());
                             listMaker1.Remove(listMaker1.SelectedArticle());
                         }
-                        Tools.WriteTextFileAbsolutePath(strList.ToString(), path.Replace(".txt", " " + (i + 1) + ".txt"), false);
+                        Tools.WriteTextFileAbsolutePath(strList.ToString(), path.Replace(".txt", " " + (i + 1) + ".txt"),
+                                                        false);
                     }
                 }
                 MessageBox.Show("Lists saved to text files");
