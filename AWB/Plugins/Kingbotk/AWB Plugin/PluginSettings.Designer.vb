@@ -112,7 +112,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             '
             Me.btnStop.DialogResult = System.Windows.Forms.DialogResult.Cancel
             Me.btnStop.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.btnStop.Location = New System.Drawing.Point(10, 46)
+            Me.btnStop.Location = New System.Drawing.Point(10, 49)
             Me.btnStop.Name = "btnStop"
             Me.btnStop.Size = New System.Drawing.Size(102, 32)
             Me.btnStop.TabIndex = 34
@@ -122,18 +122,19 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             'btnStart
             '
             Me.btnStart.Enabled = False
-            Me.btnStart.Location = New System.Drawing.Point(10, 8)
+            Me.btnStart.Location = New System.Drawing.Point(10, 11)
             Me.btnStart.Name = "btnStart"
             Me.btnStart.Size = New System.Drawing.Size(102, 36)
             Me.btnStart.TabIndex = 29
             Me.btnStart.Tag = "Start the process"
-            Me.btnStart.Text = "Start the process (Shortcut ctrl + s)"
+            Me.btnStart.Text = "Start the process"
+            Me.ToolTip1.SetToolTip(Me.btnStart, "Shortcut Ctrl + S")
             Me.btnStart.UseVisualStyleBackColor = True
             '
             'btnPreview
             '
             Me.btnPreview.Enabled = False
-            Me.btnPreview.Location = New System.Drawing.Point(10, 80)
+            Me.btnPreview.Location = New System.Drawing.Point(10, 83)
             Me.btnPreview.Name = "btnPreview"
             Me.btnPreview.Size = New System.Drawing.Size(102, 32)
             Me.btnPreview.TabIndex = 32
@@ -145,7 +146,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.btnSave.Enabled = False
             Me.btnSave.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
             Me.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-            Me.btnSave.Location = New System.Drawing.Point(10, 182)
+            Me.btnSave.Location = New System.Drawing.Point(10, 185)
             Me.btnSave.Name = "btnSave"
             Me.btnSave.Size = New System.Drawing.Size(102, 32)
             Me.btnSave.TabIndex = 30
@@ -156,7 +157,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             'btnDiff
             '
             Me.btnDiff.Enabled = False
-            Me.btnDiff.Location = New System.Drawing.Point(10, 114)
+            Me.btnDiff.Location = New System.Drawing.Point(10, 117)
             Me.btnDiff.Name = "btnDiff"
             Me.btnDiff.Size = New System.Drawing.Size(102, 32)
             Me.btnDiff.TabIndex = 33
@@ -168,7 +169,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.btnIgnore.Enabled = False
             Me.btnIgnore.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
             Me.btnIgnore.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-            Me.btnIgnore.Location = New System.Drawing.Point(10, 148)
+            Me.btnIgnore.Location = New System.Drawing.Point(10, 151)
             Me.btnIgnore.Name = "btnIgnore"
             Me.btnIgnore.Size = New System.Drawing.Size(102, 32)
             Me.btnIgnore.TabIndex = 31
