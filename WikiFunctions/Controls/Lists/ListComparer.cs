@@ -45,37 +45,51 @@ namespace WikiFunctions.Controls.Lists
         private void GetDuplicates()
         {
             //TODO:Remove code duplication
-            //Idea by Magioladitis, he's going to test and report back if has the desired affect
+            List<Article> list1 = listMaker1.GetArticleList();
+            list1.Sort();
+            List<Article> list2 = listMaker2.GetArticleList();
+            list2.Sort();
+
             if (listMaker1.Count < listMaker2.Count)
             {
-                foreach (Article article in listMaker1)
+                while (list1.Count > 0)
                 {
-                    if (listMaker2.Contains(article))
-                        lbBoth.Items.Add(article.Name);
+                    Article a = list1[0];
+                    if (list2.Contains(a))
+                    {
+                        lbBoth.Items.Add(a.Name);
+                        list2.Remove(a);
+                    }
                     else
-                        lbNo1.Items.Add(article.Name);
+                        lbNo1.Items.Add(a.Name);
+
+                    list1.Remove(a);
                 }
 
-                foreach (Article article in listMaker2)
+                foreach (Article article in list2)
                 {
-                    if (!listMaker1.Contains(article))
-                        lbNo2.Items.Add(article.Name);
+                    lbNo2.Items.Add(article.Name);
                 }
             }
             else
             {
-                foreach (Article article in listMaker2)
+                while (list2.Count > 0)
                 {
-                    if (listMaker1.Contains(article))
-                        lbBoth.Items.Add(article.Name);
+                    Article a = list2[0];
+                    if (list1.Contains(a))
+                    {
+                        lbBoth.Items.Add(a.Name);
+                        list1.Remove(a);
+                    }
                     else
-                        lbNo2.Items.Add(article.Name);
+                        lbNo2.Items.Add(a.Name);
+
+                    list2.Remove(a);
                 }
 
-                foreach (Article article in listMaker1)
+                foreach (Article article in list1)
                 {
-                    if (!listMaker2.Contains(article))
-                        lbNo1.Items.Add(article.Name);
+                    lbNo1.Items.Add(article.Name);
                 }
             }
 
