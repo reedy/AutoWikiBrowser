@@ -193,9 +193,9 @@ namespace AutoWikiBrowser
             /// <summary>
             /// Dictionary of Plugins, name, and reference to plugin
             /// </summary>
-            internal static Dictionary<string, IAWBPlugin> Items = new Dictionary<string, IAWBPlugin>();
+            internal static readonly Dictionary<string, IAWBPlugin> Items = new Dictionary<string, IAWBPlugin>();
 
-            public static List<IAWBPlugin> FailedPlugins = new List<IAWBPlugin>();
+            public static readonly List<IAWBPlugin> FailedPlugins = new List<IAWBPlugin>();
 
             /// <summary>
             /// String of plugins formatted like
@@ -318,7 +318,7 @@ namespace AutoWikiBrowser
                             {
                                 if (t.GetInterface("IAWBPlugin") != null)
                                 {
-                                    IAWBPlugin awbPlugin = (IAWBPlugin) Activator.CreateInstance(t);
+                                    IAWBPlugin awbPlugin = (IAWBPlugin)Activator.CreateInstance(t);
 
                                     if (Items.ContainsKey(awbPlugin.Name))
                                     {
@@ -334,12 +334,16 @@ namespace AutoWikiBrowser
                                 }
                                 else if (t.GetInterface("IListMakerPlugin") != null)
                                 {
-                                    IListMakerPlugin listMakerPlugin = (IListMakerPlugin) Activator.CreateInstance(t);
+                                    IListMakerPlugin listMakerPlugin = (IListMakerPlugin)Activator.CreateInstance(t);
                                     WikiFunctions.Controls.Lists.ListMaker.AddProvider(listMakerPlugin);
 
                                     if (afterStartup) UsageStats.AddedPlugin(listMakerPlugin);
                                 }
                             }
+                        }
+                        catch (ReflectionTypeLoadException)
+                        {
+                            PluginObsolete(plugin);
                         }
                         catch (MissingMemberException)
                         {
