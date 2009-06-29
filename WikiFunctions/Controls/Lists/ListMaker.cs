@@ -205,14 +205,10 @@ namespace WikiFunctions.Controls.Lists
         /// Returns the length of the list
         /// </summary>
         public int Count
-        {
-            get { return lbArticles.Items.Count; }
-        }
+        { get { return lbArticles.Items.Count; } }
 
         public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        { get { return false; } }
 
         /// <summary>
         /// Removes the given article, by title, from the list
@@ -285,8 +281,7 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public void Insert(int index, string item)
         {
-            Article a = new Article(item);
-            lbArticles.Items.Insert(index, a);
+            lbArticles.Items.Insert(index, new Article(item));
             UpdateNumberOfArticles();
         }
 
@@ -636,12 +631,7 @@ namespace WikiFunctions.Controls.Lists
         public List<Article> GetArticleList()
         {
             List<Article> list = new List<Article>();
-
-            foreach (Article a in lbArticles)
-            {
-                list.Add(a);
-            }
-
+            list.AddRange(lbArticles);
             return list;
         }
 
