@@ -40,8 +40,8 @@ namespace AutoWikiBrowser
         void IAutoWikiBrowserCommands.AddLogItem(bool skipped, AWBLogListener logListener)
         { logControl.AddLog(skipped, logListener); }
         void IAutoWikiBrowserCommands.TurnOffLogging() { Program.MyTrace.TurnOffLogging(); }
-        void IAutoWikiBrowserCommands.ShowHelp(string url) { HelpForm.ShowHelp(HelpForm, url); }
-        void IAutoWikiBrowserCommands.ShowHelpEnWiki(string article) { HelpForm.ShowHelpEN(HelpForm, article); }
+        void IAutoWikiBrowserCommands.ShowHelp(string url) { HelpForm.ShowHelp(url); }
+        void IAutoWikiBrowserCommands.ShowHelpEnWiki(string article) { HelpForm.ShowHelpEN(article); }
 
         void IAutoWikiBrowserCommands.AddMainFormClosingEventHandler(FormClosingEventHandler handler) { FormClosing += handler; }
 
