@@ -82,7 +82,7 @@ namespace WikiFunctions
 
                 string strText = Editor.Editor.HttpGet(url);
 
-                Variables.RTL = HeadRTL.IsMatch(Editor.S.ToString());
+                Variables.RTL = HeadRTL.IsMatch(Editor.Page.Text);
 
                 if (Variables.IsWikia)
                 {
@@ -101,7 +101,7 @@ namespace WikiFunctions
                         // use English if language not recognized
                         Variables.LangCode = LangCodeEnum.en;
                     }
-                    typoPostfix = "-" + Variables.ParseLanguage(webBrowserWikia.GetScriptingVar("wgContentLanguage"));
+                    typoPostfix = "-" + Variables.LangCode;
                     string s = webBrowserWikia.Page.Text;
 
                     // selectively add content of the local checkpage to the global one
