@@ -26,6 +26,7 @@ using System.Reflection;
 using WikiFunctions.Plugin;
 using WikiFunctions.Background;
 using System.Net;
+using System.Threading;
 
 namespace WikiFunctions
 {
@@ -373,7 +374,7 @@ namespace WikiFunctions
         public static readonly List<string> UnderscoredTitles = new List<string>();
         public static readonly List<BackgroundRequest> DelayedRequests = new List<BackgroundRequest>();
 
-        public static void CancelBackgroundRequests()
+        static void CancelBackgroundRequests()
         {
             lock (DelayedRequests)
             {
@@ -382,7 +383,22 @@ namespace WikiFunctions
             }
         }
 
-        public static void LoadUnderscores(params string[] cats)
+        /// <summary>
+        /// Waits for all background stuff to be loaded
+        /// </summary>
+        public static void WaitForDelayedRequests()
+        {
+            do
+            {
+                lock(DelayedRequests)
+                {
+                    if (DelayedRequests.Count == 0) return;
+                }
+                Thread.Sleep(100);
+            } while (true);
+        }
+
+        internal static void LoadUnderscores(params string[] cats)
         {
             BackgroundRequest r = new BackgroundRequest(UnderscoresLoaded) {HasUI = false};
             DelayedRequests.Add(r);

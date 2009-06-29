@@ -1704,6 +1704,7 @@ namespace WikiFunctions.Parse
 
             //AnchorDecode(ref title); // disabled, breaks things such as [[Windows#Version_3.11]]
 
+            Variables.WaitForDelayedRequests();
             string s = CanonicalizeTitleRaw(title);
             if (Variables.UnderscoredTitles.Contains(Tools.TurnFirstToUpper(s)))
             {
