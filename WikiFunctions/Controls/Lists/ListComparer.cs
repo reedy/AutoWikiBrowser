@@ -44,20 +44,41 @@ namespace WikiFunctions.Controls.Lists
 
         private void GetDuplicates()
         {
-            foreach (Article article in listMaker1)
+            //TODO:Remove code duplication
+            //Idea by Magioladitis, he's going to test and report back if has the desired affect
+            if (listMaker1.Count < listMaker2.Count)
             {
-                if (listMaker2.Contains(article))
-                    lbBoth.Items.Add(article.Name);
-                else
-                    lbNo1.Items.Add(article.Name);
+                foreach (Article article in listMaker1)
+                {
+                    if (listMaker2.Contains(article))
+                        lbBoth.Items.Add(article.Name);
+                    else
+                        lbNo1.Items.Add(article.Name);
+                }
+
+                foreach (Article article in listMaker2)
+                {
+                    if (!listMaker1.Contains(article))
+                        lbNo2.Items.Add(article.Name);
+                }
+            }
+            else
+            {
+                foreach (Article article in listMaker2)
+                {
+                    if (listMaker1.Contains(article))
+                        lbBoth.Items.Add(article.Name);
+                    else
+                        lbNo2.Items.Add(article.Name);
+                }
+
+                foreach (Article article in listMaker1)
+                {
+                    if (!listMaker2.Contains(article))
+                        lbNo1.Items.Add(article.Name);
+                }
             }
 
-            foreach (Article article in listMaker2)
-            {
-                if (!listMaker1.Contains(article))
-                    lbNo2.Items.Add(article.Name);
-            }
-        
             UpdateCounts();
         }
 
