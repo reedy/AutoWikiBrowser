@@ -148,7 +148,7 @@ namespace AutoWikiBrowser
                 Variables.User.AdminStatusChanged += UpdateAdminStatus;
                 //Variables.User.WikiStatusChanged += UpdateWikiStatus;
 
-                Variables.User.WebBrowserLogin.DocumentCompleted += WebLoginCompleted;
+                //Variables.User.WebBrowserLogin.DocumentCompleted += WebLoginCompleted;
                 Variables.User.WebBrowserLogin.Navigating += WebLoginStarting;
 
                 webBrowserEdit.Deleted += CaseWasDelete;
@@ -164,7 +164,7 @@ namespace AutoWikiBrowser
                 listMaker.cmboSourceSelect.SelectedIndexChanged += ListMakerSourceSelectHandler;
 
                 Profiles = new WikiFunctions.Profiles.AWBProfilesForm(webBrowserEdit);
-                Profiles.LoadProfile += LoadProfileSettings;
+                Profiles.LoggedIn += ProfileLoggedIn;
 
                 SplashScreen.SetProgress(15);
             }
@@ -2144,11 +2144,6 @@ window.scrollTo(0, diffTopY);
                 txtNewCategory2.Enabled = false;
                 chkRemoveSortKey.Enabled = false;
             }
-        }
-
-        private void WebLoginCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-            StopProgressBar();
         }
 
         private void WebLoginStarting(object sender, WebBrowserNavigatingEventArgs e)
@@ -4191,10 +4186,14 @@ window.scrollTo(0, diffTopY);
             Profiles.ShowDialog(this);
         }
 
-        private void LoadProfileSettings(object sender, EventArgs e)
+        private void ProfileLoggedIn(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(Profiles.SettingsToLoad))
                 LoadPrefs(Profiles.SettingsToLoad);
+
+            Variables.User.UpdateWikiStatus();
+
+            StopProgressBar();
         }
 
         private void chkMinor_CheckedChanged(object sender, EventArgs e)

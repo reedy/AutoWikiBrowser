@@ -26,7 +26,7 @@ namespace WikiFunctions.Profiles
     public partial class AWBProfilesForm : AWBLogUploadProfilesForm
     {
         private readonly IApiEdit Editor;
-        public event EventHandler LoadProfile;
+        public event EventHandler LoggedIn;
 
         public AWBProfilesForm(IApiEdit editor)
         {
@@ -44,9 +44,8 @@ namespace WikiFunctions.Profiles
         private void PerformLogin(string username, string password)
         {
             Editor.Login(username, password);
-            if (LoadProfile != null)
-                LoadProfile(null, null);
-            Variables.User.UpdateWikiStatus();
+            if (LoggedIn != null)
+                LoggedIn(null, null);
         }
         
         private void btnLogin_Click(object sender, EventArgs e)
