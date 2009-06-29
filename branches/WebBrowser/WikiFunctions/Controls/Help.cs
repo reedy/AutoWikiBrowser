@@ -44,9 +44,9 @@ namespace WikiFunctions.Controls
             webBrowserHelp.Navigate(url);
         }
 
-        public virtual void NavigateEn(string Article)
+        public virtual void NavigateEn(string article)
         {
-            webBrowserHelp.Navigate(Tools.GetENLinkWithSimpleSkinAndLocalLanguage(Article));
+            webBrowserHelp.Navigate(Tools.GetENLinkWithSimpleSkinAndLocalLanguage(article));
         }
 
         protected internal virtual string URL { get { return ""; } }
@@ -61,16 +61,24 @@ namespace WikiFunctions.Controls
                 string html = webBrowserHelp.Document.Body.InnerHtml;
                 foreach (Match m in TOC.Matches(html))
                 {
-                    if (m.Groups[1].Value == "1")
-                        lbTopics.Items.Add(m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));
-                    else if (m.Groups[1].Value == "2")
-                        lbTopics.Items.Add("  • " + m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));
-                    else if (m.Groups[1].Value == "3")
-                        lbTopics.Items.Add("      • " + m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));
-                    else if (m.Groups[1].Value == "4")
-                        lbTopics.Items.Add("          • " + m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));
-                    else if (m.Groups[1].Value == "5")
-                        lbTopics.Items.Add("              • " + m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));
+                    switch (m.Groups[1].Value)
+                    {
+                        case "1":
+                            lbTopics.Items.Add(m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));
+                            break;
+                        case "2":
+                            lbTopics.Items.Add("  • " + m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));
+                            break;
+                        case "3":
+                            lbTopics.Items.Add("      • " + m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));
+                            break;
+                        case "4":
+                            lbTopics.Items.Add("          • " + m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));
+                            break;
+                        case "5":
+                            lbTopics.Items.Add("              • " + m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));
+                            break;
+                    }
                 }
             }
         }

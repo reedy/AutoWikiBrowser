@@ -3291,7 +3291,7 @@ window.scrollTo(0, diffTopY);
 
         private void helpToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            HelpForm.Show();
+            HelpForm.ShowDialog();
         }
 
         #region Edit Box Menu
