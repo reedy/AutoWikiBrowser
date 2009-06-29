@@ -20,4 +20,29 @@ using WikiFunctions.Plugin;
 
 namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
 {
+    /// <summary>
+    /// What transcludes page list getter with no limits for admin and bot users (wont work for non admin/bots)
+    /// </summary>
+    public class WhatTranscludesNoLimitsPageListProvider : WhatTranscludesPageListProvider, IListMakerPlugin
+    {
+        public WhatTranscludesNoLimitsPageListProvider()
+        {
+            Limit = 1000000;
+        }
+
+        public override System.Collections.Generic.List<Article> MakeList(params string[] searchCriteria)
+        {
+            if (Variables.User.IsBot || Variables.User.IsAdmin)
+                return base.MakeList(searchCriteria);
+
+            Tools.MessageBox("Action only allowed for Admins and Bot accounts");
+            return null;
+        }
+
+        public override string DisplayText
+        { get { return "What transcludes page (NL, Admin & Bot)"; } }
+
+        public string Name
+        { get { return "WhatTranscludesNoLimitsPageListProvider"; } }
+    }
 }
