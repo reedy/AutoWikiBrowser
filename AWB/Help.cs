@@ -41,7 +41,7 @@ namespace AutoWikiBrowser
 
         public void ShowHelp(Help h, string url)
         {
-            Show();
+            h.ShowDialog();
             if (string.IsNullOrEmpty(url))
                 h.Navigate();
             else
