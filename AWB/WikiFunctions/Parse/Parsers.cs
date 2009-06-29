@@ -359,7 +359,8 @@ namespace WikiFunctions.Parse
             articleText = RegexBadHeader.Replace(articleText, "");
 
             // only apply if < 6 matches, otherwise (badly done) articles with 'list of...' and lots of links in headings will be further messed up
-            if (RegexRemoveLinksInHeadings.Matches(articleText).Count < 6)
+            if (RegexRemoveLinksInHeadings.Matches(articleText).Count < 6
+                && !(Regex.IsMatch(articleTitle, WikiRegexes.Months) || articleTitle.StartsWith(@"List of") || Regex.IsMatch(articleTitle, @"\b\d{4}\b")))
             {
                 // loop through in case a heading has mulitple wikilinks in it
                 while (RegexRemoveLinksInHeadings.IsMatch(articleText))

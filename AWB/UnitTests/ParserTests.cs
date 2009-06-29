@@ -2043,6 +2043,45 @@ Some news here.", Parsers.FixHeadings(@"hi.
 ==News place==  
 Some news here.", "test"));
 
+            // remove colon from end of heading text
+            Assert.AreEqual(@"== hello world ==
+", Parsers.FixHeadings(@"== hello world: ==
+", "a"));
+            Assert.AreEqual(@"== hello world  ==
+", Parsers.FixHeadings(@"== hello world : ==
+", "a"));
+            Assert.AreEqual(@"== hello world ==
+", Parsers.FixHeadings(@"=== hello world: ===
+", "a"));
+            Assert.AreEqual(@"== hello world ==
+== hello world2 ==
+", Parsers.FixHeadings(@"== hello world: ==
+== hello world2: ==
+", "a"));
+
+            // no change if colon within heading text
+            Assert.AreEqual(@"== hello:world ==
+", Parsers.FixHeadings(@"== hello:world ==
+", "a"));
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#ReferenceS
+            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==REFERENCES==", "a"));
+            Assert.AreEqual(@"==Reference==", Parsers.FixHeadings(@"==REFERENCE:==", "a"));
+            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==REFERENSES==", "a"));
+            Assert.AreEqual(@"==Reference==", Parsers.FixHeadings(@"==REFERENCE==", "a"));
+            Assert.AreEqual(@"==Reference==", Parsers.FixHeadings(@"==REFERENCE:==", "a"));
+            Assert.AreEqual(@"== References ==", Parsers.FixHeadings(@"== REFERENCES ==", "a"));
+            Assert.AreEqual(@"==Sources==", Parsers.FixHeadings(@"==SOURCES==", "a"));
+            Assert.AreEqual(@"==Sources==", Parsers.FixHeadings(@"==sources==", "a"));
+            Assert.AreEqual(@"==Source==", Parsers.FixHeadings(@"==source==", "a"));
+            Assert.AreEqual(@"==Source==", Parsers.FixHeadings(@"==source:==", "a"));
+            Assert.AreEqual(@"== Sources ==", Parsers.FixHeadings(@"== SOURCES ==", "a"));
+        }
+
+        [Test]
+        public void TestFixHeadingsDelinking()
+        {
+
             // tests for regexRemoveHeadingsInLinks
             Assert.AreEqual("==foo==", Parsers.FixHeadings("==[[foo]]==", "test"));
             Assert.AreEqual("== foo ==", Parsers.FixHeadings("== [[foo]] ==", "test"));
@@ -2085,39 +2124,12 @@ Some news here.", "test"));
             Assert.AreEqual("hello [[world]]", Parsers.FixHeadings("hello [[world]]", "a"));
             Assert.AreEqual("now == hello [[world]] == here", Parsers.FixHeadings("now == hello [[world]] == here", "a"));
 
-            // remove colon from end of heading text
-            Assert.AreEqual(@"== hello world ==
-", Parsers.FixHeadings(@"== hello world: ==
-", "a"));
-            Assert.AreEqual(@"== hello world  ==
-", Parsers.FixHeadings(@"== hello world : ==
-", "a"));
-            Assert.AreEqual(@"== hello world ==
-", Parsers.FixHeadings(@"=== hello world: ===
-", "a"));
-            Assert.AreEqual(@"== hello world ==
-== hello world2 ==
-", Parsers.FixHeadings(@"== hello world: ==
-== hello world2: ==
-", "a"));
-
-            // no change if colon within heading text
-            Assert.AreEqual(@"== hello:world ==
-", Parsers.FixHeadings(@"== hello:world ==
-", "a"));
-
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#ReferenceS
-            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==REFERENCES==", "a"));
-            Assert.AreEqual(@"==Reference==", Parsers.FixHeadings(@"==REFERENCE:==", "a"));
-            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==REFERENSES==", "a"));
-            Assert.AreEqual(@"==Reference==", Parsers.FixHeadings(@"==REFERENCE==", "a"));
-            Assert.AreEqual(@"==Reference==", Parsers.FixHeadings(@"==REFERENCE:==", "a"));
-            Assert.AreEqual(@"== References ==", Parsers.FixHeadings(@"== REFERENCES ==", "a"));
-            Assert.AreEqual(@"==Sources==", Parsers.FixHeadings(@"==SOURCES==", "a"));
-            Assert.AreEqual(@"==Sources==", Parsers.FixHeadings(@"==sources==", "a"));
-            Assert.AreEqual(@"==Source==", Parsers.FixHeadings(@"==source==", "a"));
-            Assert.AreEqual(@"==Source==", Parsers.FixHeadings(@"==source:==", "a"));
-            Assert.AreEqual(@"== Sources ==", Parsers.FixHeadings(@"== SOURCES ==", "a"));
+            // some articles excepted
+            string linked = "==now [[hello|world]] here==";
+            Assert.AreEqual(linked, Parsers.FixHeadings(linked, "List of stuff"));
+            Assert.AreEqual(linked, Parsers.FixHeadings(linked, "1980 in poetry"));
+            Assert.AreEqual(linked, Parsers.FixHeadings(linked, "1980"));
+            Assert.AreEqual(linked, Parsers.FixHeadings(linked, "January 11"));
         }
 
         [Test]
