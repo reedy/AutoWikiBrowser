@@ -2106,6 +2106,7 @@ Some news here.", "test"));
             Assert.AreEqual("==now world and moon==", Parsers.FixHeadings("==now [[hello|world]] and [[bye|moon]]==", "a"));
             Assert.AreEqual("===hello world ===", Parsers.FixHeadings("===hello [[world]] ===", "a"));
             Assert.AreEqual("====hello world ====", Parsers.FixHeadings("====hello [[world]] ====", "a"));
+            Assert.AreEqual("====hello world ====", Parsers.FixHeadings("====hello [[world]] ====", "7899"));
             Assert.AreEqual("====United States Marine Corps====", Parsers.FixHeadings("====[[United States Marine Corps]]====", "a"));
             Assert.AreEqual(@"
 ==foo==
