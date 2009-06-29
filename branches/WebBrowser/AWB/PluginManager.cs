@@ -191,9 +191,10 @@ namespace AutoWikiBrowser
         internal static class Plugin
         {
             /// <summary>
-            /// Dictionary of Plugins, name, and reference to plugin
+            /// Dictionary of Plugins, name, and reference to AWB Plugin
             /// </summary>
-            internal static readonly Dictionary<string, IAWBPlugin> Items = new Dictionary<string, IAWBPlugin>();
+            internal static readonly Dictionary<string, IAWBPlugin> AWBPlugins = new Dictionary<string, IAWBPlugin>();
+            internal static readonly Dictionary<string, IListMakerPlugin> LMPlugins = new Dictionary<string, IListMakerPlugin>();
 
             public static readonly List<IAWBPlugin> FailedPlugins = new List<IAWBPlugin>();
 
@@ -205,7 +206,7 @@ namespace AutoWikiBrowser
             internal static string GetPluginsWikiTextBlock()
             {
                 StringBuilder retval = new StringBuilder();
-                foreach (KeyValuePair<string, IAWBPlugin> plugin in Items)
+                foreach (KeyValuePair<string, IAWBPlugin> plugin in AWBPlugins)
                 {
                     retval.AppendLine("* " + plugin.Value.WikiName);
                 }
@@ -218,7 +219,7 @@ namespace AutoWikiBrowser
             /// <returns>Number of Plugins</returns>
             internal static int Count()
             {
-                return Items.Count;
+                return AWBPlugins.Count;
             }
 
             /// <summary>
@@ -229,7 +230,7 @@ namespace AutoWikiBrowser
             {
                 List<string> plugins = new List<string>();
 
-                foreach (KeyValuePair<string, IAWBPlugin> a in Items)
+                foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
                 {
                     plugins.Add(a.Key);
                 }
@@ -272,11 +273,11 @@ namespace AutoWikiBrowser
 
                 foreach (IAWBPlugin p in FailedPlugins)
                 {
-                    foreach (string s in Items.Keys)
+                    foreach (string s in AWBPlugins.Keys)
                     {
-                        if (Items[s] == p)
+                        if (AWBPlugins[s] == p)
                         {
-                            Items.Remove(s);
+                            AWBPlugins.Remove(s);
                             break;
                         }
                     }
@@ -320,7 +321,7 @@ namespace AutoWikiBrowser
                                 {
                                     IAWBPlugin awbPlugin = (IAWBPlugin)Activator.CreateInstance(t);
 
-                                    if (Items.ContainsKey(awbPlugin.Name))
+                                    if (AWBPlugins.ContainsKey(awbPlugin.Name))
                                     {
                                         MessageBox.Show("A plugin with the name \"" + awbPlugin.Name + "\", has already been added.\r\nPlease remove old duplicates from your AutoWikiBrowser Directory, and restart AWB.", "Duplicate AWB Plugin");
                                         continue;
@@ -328,14 +329,23 @@ namespace AutoWikiBrowser
 
                                     InitialisePlugin(awbPlugin, awb);
 
-                                    Items.Add(awbPlugin.Name, awbPlugin);
+                                    AWBPlugins.Add(awbPlugin.Name, awbPlugin);
 
                                     if (afterStartup) UsageStats.AddedPlugin(awbPlugin);
                                 }
                                 else if (t.GetInterface("IListMakerPlugin") != null)
                                 {
                                     IListMakerPlugin listMakerPlugin = (IListMakerPlugin)Activator.CreateInstance(t);
+
+                                    if (LMPlugins.ContainsKey(listMakerPlugin.Name))
+                                    {
+                                        MessageBox.Show("A plugin with the name \"" + listMakerPlugin.Name + "\", has already been added.\r\nPlease remove old duplicates from your AutoWikiBrowser Directory, and restart AWB.", "Duplicate AWB Plugin");
+                                        continue;
+                                    }
+                                    
                                     WikiFunctions.Controls.Lists.ListMaker.AddProvider(listMakerPlugin);
+
+                                    LMPlugins.Add(listMakerPlugin.Name, listMakerPlugin);
 
                                     if (afterStartup) UsageStats.AddedPlugin(listMakerPlugin);
                                 }

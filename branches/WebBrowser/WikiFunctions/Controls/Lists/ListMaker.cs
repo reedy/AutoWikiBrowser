@@ -66,10 +66,13 @@ namespace WikiFunctions.Controls.Lists
 
         static ListMaker()
         {
-            SaveListDialog = new SaveFileDialog();
-            SaveListDialog.DefaultExt = "txt";
-            SaveListDialog.Filter = "Text file with wiki markup|*.txt|Plaintext list|*.txt|CSV (Comma Seperated Values)|*.txt|CSV with Wikitext|*.txt";
-            SaveListDialog.Title = "Save article list";
+            SaveListDialog = new SaveFileDialog
+                                 {
+                                     DefaultExt = "txt",
+                                     Filter =
+                                         "Text file with wiki markup|*.txt|Plaintext list|*.txt|CSV (Comma Seperated Values)|*.txt|CSV with Wikitext|*.txt",
+                                     Title = "Save article list"
+                                 };
         }
 
         public ListMaker()
@@ -122,6 +125,9 @@ namespace WikiFunctions.Controls.Lists
             // Bind IListProvider.DisplayText to be the displayed text:
             cmboSourceSelect.DisplayMember = "DisplayText";
             cmboSourceSelect.ValueMember = "DisplayText";
+
+            //Dictionary to ComboBox (Maybe change at later date?)
+            //http://steve-fair-dev.blogspot.com/2008/04/bind-dictionary-to-winform-combobox.html
         }
 
         new public static void Refresh() { }

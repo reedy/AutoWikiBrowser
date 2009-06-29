@@ -35,7 +35,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
     {
         protected int Iterations = 1;
 
-        public string Name
+        public virtual string Name
         {
             get { return "TypoScan ListMaker Plugin"; }
         }
@@ -77,27 +77,19 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         }
 
         public virtual string DisplayText
-        {
-            get { return "TypoScan"; }
-        }
+        { get { return "TypoScan"; } }
 
         public string UserInputTextBoxText
-        {
-            get { return ""; }
-        }
+        { get { return ""; } }
 
         public bool UserInputTextBoxEnabled
-        {
-            get { return false; }
-        }
+        { get { return false; } }
 
         public void Selected()
         { }
 
         public bool RunOnSeparateThread
-        {
-            get { return true; }
-        }
+        { get { return true; } }
     }
 
     /// <summary>
@@ -111,8 +103,9 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         }
 
         public override string DisplayText
-        {
-            get { return base.DisplayText + " (500 pages)"; }
-        }
+        { get { return base.DisplayText + " (500 pages)"; } }
+
+        public override string Name
+        { get { return base.Name + " 500"; } }
     }
 }
