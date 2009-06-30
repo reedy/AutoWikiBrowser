@@ -2373,12 +2373,12 @@ window.scrollTo(0, diffTopY);
 
                 intLinks = intLinks - intInterLinks - intImages - intCats;
 
-                if (TheArticle.NameSpaceKey == 0 && (WikiRegexes.Stub.IsMatch(articleText)) && (intWords > 500))
+                if (TheArticle.NameSpaceKey == Namespace.Article && (WikiRegexes.Stub.IsMatch(articleText)) && (intWords > 500))
                     lblWarn.Text = "Long article with a stub tag.\r\n";
 
                 // TODO? - just match if intCats == 0
-                if (!(Regex.IsMatch(articleText, "\\[\\[" + Variables.Namespaces[Namespace.Category],
-                    RegexOptions.IgnoreCase)))
+                if (!Regex.IsMatch(articleText, "\\[\\[" + Variables.Namespaces[Namespace.Category],
+                    RegexOptions.IgnoreCase))
                 {
                     lblWarn.Text += "No category (although one may be in a template)\r\n";
                 }
