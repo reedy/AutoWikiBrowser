@@ -844,20 +844,12 @@ namespace AutoWikiBrowser
 
                 Variables.Profiler.Profile("Make Edit summary");
 
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Detect_multiple_DEFAULTSORT
-                if (WikiRegexes.Defaultsort.Matches(txtEdit.Text).Count > 1)
-                    lblWarn.Text += "Multiple DEFAULTSORTs found\r\n";
-
                 int bracketLength = 0;
                 int unbalancedBracket = TheArticle.UnbalancedBrackets(ref bracketLength);
                 if(unbalancedBracket > 0)
                     lblWarn.Text += "Unbalanced brackets found\r\n";
 
                 Variables.Profiler.Profile("Unbalanced brackets");
-
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Some_additional_edits
-                if (TheArticle.HasDeadLinks)
-                    lblWarn.Text += "Dead links found\r\n";
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Working_with_Alerts
                 if (chkSkipIfNoAlerts.Checked && lblWarn.Text.Length == 0)
@@ -2384,6 +2376,7 @@ window.scrollTo(0, diffTopY);
                 if (TheArticle.NameSpaceKey == 0 && (WikiRegexes.Stub.IsMatch(articleText)) && (intWords > 500))
                     lblWarn.Text = "Long article with a stub tag.\r\n";
 
+                // TODO? - just match if intCats == 0
                 if (!(Regex.IsMatch(articleText, "\\[\\[" + Variables.Namespaces[Namespace.Category],
                     RegexOptions.IgnoreCase)))
                 {
@@ -2404,6 +2397,14 @@ window.scrollTo(0, diffTopY);
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Format_references
                 if(TheArticle.HasBareReferences)
                     lblWarn.Text += @"Unformatted references found" + "\r\n";
+
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Detect_multiple_DEFAULTSORT
+                if (WikiRegexes.Defaultsort.Matches(txtEdit.Text).Count > 1)
+                    lblWarn.Text += "Multiple DEFAULTSORTs found\r\n";
+
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Some_additional_edits
+                if (TheArticle.HasDeadLinks)
+                    lblWarn.Text += "Dead links found\r\n";
 
                 lblWords.Text = "Words: " + intWords;
                 lblCats.Text = "Categories: " + intCats;
