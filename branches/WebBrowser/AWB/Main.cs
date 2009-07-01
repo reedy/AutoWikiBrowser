@@ -3302,12 +3302,17 @@ window.scrollTo(0, diffTopY);
         private void ReparseEditBox()
         {
             ArticleEX a = new ArticleEX(TheArticle.Name) {OriginalArticleText = txtEdit.Text};
-
+            ArticleEX theArtricleOriginal = TheArticle;
             ErrorHandler.CurrentPage = TheArticle.Name;
             ProcessPage(a, false);
             ErrorHandler.CurrentPage = "";
             UpdateCurrentTypoStats();
+
+            // provide article statistics based on new article, not the existing one
+            TheArticle = a;
             ArticleInfo(false);
+            TheArticle = theArtricleOriginal;
+
             txtEdit.Text = a.ArticleText;
             GetDiff();
         }
