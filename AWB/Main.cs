@@ -600,6 +600,7 @@ namespace AutoWikiBrowser
 
         // counts number of redirects so that we catch double redirects
         private int Redirects;
+        private int unbalancedBracket = 0, bracketLength = 0;
 
         private void CaseWasLoad(string articleText)
         {
@@ -843,13 +844,6 @@ namespace AutoWikiBrowser
                 txtReviewEditSummary.Text = MakeSummary();
 
                 Variables.Profiler.Profile("Make Edit summary");
-
-                int bracketLength = 0;
-                int unbalancedBracket = TheArticle.UnbalancedBrackets(ref bracketLength);
-                if(unbalancedBracket > 0)
-                    lblWarn.Text += "Unbalanced brackets found\r\n";
-
-                Variables.Profiler.Profile("Unbalanced brackets");
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Working_with_Alerts
                 if (chkSkipIfNoAlerts.Checked && lblWarn.Text.Length == 0)
@@ -2406,6 +2400,10 @@ window.scrollTo(0, diffTopY);
                 if (TheArticle.HasDeadLinks)
                     lblWarn.Text += "Dead links found\r\n";
 
+                unbalancedBracket = TheArticle.UnbalancedBrackets(ref bracketLength);
+                if (unbalancedBracket > 0)
+                    lblWarn.Text += "Unbalanced brackets found\r\n";
+
                 lblWords.Text = "Words: " + intWords;
                 lblCats.Text = "Categories: " + intCats;
                 lblImages.Text = "Images: " + intImages;
@@ -3309,6 +3307,7 @@ window.scrollTo(0, diffTopY);
             ProcessPage(a, false);
             ErrorHandler.CurrentPage = "";
             UpdateCurrentTypoStats();
+            ArticleInfo(false);
             txtEdit.Text = a.ArticleText;
             GetDiff();
         }
