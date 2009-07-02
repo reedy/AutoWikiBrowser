@@ -1500,7 +1500,7 @@ Message: {2}
             return url;
         }
 
-        private static readonly Regex ExpandTemplatesRegex = new Regex("<expandtemplates>(.*?)</expandtemplates>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        private static readonly Regex ExpandTemplatesRegex = new Regex(@"<expandtemplates[^\>]*>(.*?)</expandtemplates>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
         /// 
@@ -1514,8 +1514,7 @@ Message: {2}
         {
             foreach (KeyValuePair<Regex, string> p in regexes)
             {
-                MatchCollection uses = p.Key.Matches(articleText);
-                foreach (Match m in uses)
+                foreach (Match m in p.Key.Matches(articleText))
                 {
                     string call = m.Value;
 
