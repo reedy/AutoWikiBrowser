@@ -412,6 +412,7 @@ namespace WikiFunctions
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         /// <param name="categoryText">The category to add or remove; or, when replacing, the name of the old category</param>
         /// <param name="categoryText2">The name of the replacement category (recat mode only)</param>
+        /// <param name="removeSortKey"></param>
         public void Categorisation(CategorisationOptions option, Parsers parsers,
             bool skipIfNoChange, string categoryText, string categoryText2, bool removeSortKey)
         {
@@ -596,7 +597,6 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="langCode">The wiki's language code</param>
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
-        /// <param name="restrictDefaultsortAddition"></param>
         public void SetDefaultSort(LangCodeEnum langCode, bool skipIfNoChange)
         {
             SetDefaultSort(langCode, skipIfNoChange, true);
@@ -624,7 +624,7 @@ namespace WikiFunctions
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         public void FixPeopleCategories(Parsers parsers, bool skipIfNoChange)
         {
-            bool noChange2 = false;
+            bool noChange2;
             string strTemp = parsers.FixPeopleCategories(mArticleText, out noChange);
             strTemp = Parsers.LivingPeople(strTemp, out noChange2);
 
