@@ -602,6 +602,7 @@ namespace AutoWikiBrowser
 
         // counts number of redirects so that we catch double redirects
         private int Redirects;
+        private int unbalancedBracket = 0, bracketLength = 0;
 
         private void CaseWasLoad(string articleText)
         {
@@ -846,13 +847,6 @@ namespace AutoWikiBrowser
 
                 Variables.Profiler.Profile("Make Edit summary");
                 
-                int bracketLength = 0;
-                int unbalancedBracket = TheArticle.UnbalancedBrackets(ref bracketLength);
-                if(unbalancedBracket > 0)
-                    lblWarn.Text += "Unbalanced brackets found\r\n";
-
-                Variables.Profiler.Profile("Unbalanced brackets");
-
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Working_with_Alerts
                 if (chkSkipIfNoAlerts.Checked && lblWarn.Text.Length == 0)
                 {
@@ -2344,12 +2338,12 @@ window.scrollTo(0, diffTopY);
 
                 intLinks = intLinks - intInterLinks - intImages - intCats;
 
-                if (TheArticle.NameSpaceKey == 0 && (WikiRegexes.Stub.IsMatch(articleText)) && (intWords > 500))
+                if (TheArticle.NameSpaceKey == Namespace.Article && (WikiRegexes.Stub.IsMatch(articleText)) && (intWords > 500))
                     lblWarn.Text = "Long article with a stub tag.\r\n";
 
                 // TODO? - just match if intCats == 0
-                if (!(Regex.IsMatch(articleText, "\\[\\[" + Variables.Namespaces[Namespace.Category],
-                    RegexOptions.IgnoreCase)))
+                if (!Regex.IsMatch(articleText, "\\[\\[" + Variables.Namespaces[Namespace.Category],
+                    RegexOptions.IgnoreCase))
                 {
                     lblWarn.Text += "No category (although one may be in a template)\r\n";
                 }
@@ -2376,6 +2370,10 @@ window.scrollTo(0, diffTopY);
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Some_additional_edits
                 if (TheArticle.HasDeadLinks)
                     lblWarn.Text += "Dead links found\r\n";
+
+                unbalancedBracket = TheArticle.UnbalancedBrackets(ref bracketLength);
+                if (unbalancedBracket > 0)
+                    lblWarn.Text += "Unbalanced brackets found\r\n";
 
                 lblWords.Text = "Words: " + intWords;
                 lblCats.Text = "Categories: " + intCats;
@@ -3273,11 +3271,17 @@ window.scrollTo(0, diffTopY);
         private void ReparseEditBox()
         {
             ArticleEX a = new ArticleEX(TheArticle.Name) {OriginalArticleText = txtEdit.Text};
-
+            ArticleEX theArtricleOriginal = TheArticle;
             ErrorHandler.CurrentPage = TheArticle.Name;
             ProcessPage(a, false);
             ErrorHandler.CurrentPage = "";
             UpdateCurrentTypoStats();
+
+            // provide article statistics based on new article, not the existing one
+            TheArticle = a;
+            ArticleInfo(false);
+            TheArticle = theArtricleOriginal;
+
             txtEdit.Text = a.ArticleText;
             GetDiff();
         }
