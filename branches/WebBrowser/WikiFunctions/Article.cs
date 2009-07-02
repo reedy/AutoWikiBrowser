@@ -915,7 +915,7 @@ namespace WikiFunctions
         /// <param name="parsers">A parser object</param>
         /// <param name="removeText"></param>
         /// <param name="skip">Skip options</param>
-        /// <param name="replaceReferenceTags">If true, <div class="references-small"><references/></div> and so on
+        /// <param name="replaceReferenceTags">If true, &lt;div class="references-small">&lt;references/>&lt;/div> and so on
         /// <param name="restrictDefaultsortAddition"></param>
         /// will be replaced with {{reflist}}</param>
         public void PerformGeneralFixes(Parsers parsers, HideText removeText, ISkipOptions skip, bool replaceReferenceTags, bool restrictDefaultsortAddition, bool noMOSComplianceFixes)
