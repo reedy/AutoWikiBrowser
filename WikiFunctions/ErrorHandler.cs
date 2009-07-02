@@ -1,4 +1,5 @@
 using System;
+using System.Configuration;
 using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
@@ -46,20 +47,22 @@ namespace WikiFunctions
                 MessageBox.Show(ex.Message, "Invalid regular expression",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-                // network access error
+            // network access error
             else if (ex is System.Net.WebException || ex.InnerException is System.Net.WebException)
             {
                 MessageBox.Show(ex.Message, "Network access error",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-                // out of memory error
+            // out of memory error
             else if (ex is OutOfMemoryException)
             {
                 MessageBox.Show(ex.Message, "Out of Memory error",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-                // disk writer error / full
-            else if (ex is System.IO.IOException)
+            // disk writer error / full
+            else if (ex is System.IO.IOException || ex is ConfigurationErrorsException 
+                && (ex.InnerException != null && ex.InnerException.InnerException != null 
+                && ex.InnerException.InnerException is System.IO.IOException))
             {
                 MessageBox.Show(ex.Message, "Disk write error - is disk full?",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
