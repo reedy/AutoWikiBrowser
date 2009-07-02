@@ -848,12 +848,37 @@ namespace WikiFunctions
             return (mName == a.mName);
         }
 
+        public bool Equals(Article a)
+        {
+            if (a == null)
+                return false;
+
+            return (mName == a.mName);
+        }
+
         public int CompareTo(Article other)
         {
             return string.Compare(mName, other.mName, false, System.Globalization.CultureInfo.InvariantCulture);
         }
 
         #endregion
+
+        public static bool operator ==(Article a, Article b)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(a, b))
+                return true;
+
+            if ((object)a == null || (object)b == null)
+                return false;
+
+            return (a.mName == b.mName);
+        }
+
+        public static bool operator !=(Article a, Article b)
+        {
+            return !(a == b);
+        }
 
         #region Interfaces
 
