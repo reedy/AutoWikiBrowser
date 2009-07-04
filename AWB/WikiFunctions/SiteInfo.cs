@@ -42,17 +42,6 @@ namespace WikiFunctions
         { }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="scriptPath"></param>
-        /// <param name="namespaces"></param>
-        public SiteInfo(string scriptPath, Dictionary<int, string> namespaces)
-        {
-            ScriptPath = scriptPath;
-            this.namespaces = namespaces;
-        }
-
-        /// <summary>
         /// Creates an instance of the class
         /// </summary>
         public SiteInfo(IApiEdit editor)
