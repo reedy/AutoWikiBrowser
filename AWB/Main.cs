@@ -105,7 +105,7 @@ namespace AutoWikiBrowser
 
         #endregion
 
-        Session TheSession = new Session();
+        Session TheSession;
 
         #region Constructor and MainForm load/resize
         public MainForm()
@@ -265,6 +265,8 @@ namespace AutoWikiBrowser
                 Plugin.LoadPluginsStartup(this, SplashScreen); // progress 65-79 in LoadPlugins()
 
                 LoadPrefs(); // progress 80-85 in LoadPrefs()
+
+                TheSession = new Session();
                 CreateEditor();
 
                 SplashScreen.SetProgress(86);
@@ -2543,11 +2545,9 @@ window.scrollTo(0, diffTopY);
                     Variables.PHP5 = myPrefs.PrefPHP5;
                     SetProject(myPrefs.Language, myPrefs.Project, myPrefs.CustomProject);
 
-                    Variables.User.WikiStatus = false;
                     BotMode = false;
                     lblOnlyBots.Visible = true;
-                    Variables.User.IsBot = false;
-                    Variables.User.IsAdmin = false;
+
                     CreateEditor();
                 }
             }
@@ -2574,6 +2574,8 @@ window.scrollTo(0, diffTopY);
             {
                 //set namespaces
                 Variables.SetProject(code, project, customProject);
+
+                TheSession = new Session();
 
                 //set interwikiorder
                 switch (Variables.LangCode)
