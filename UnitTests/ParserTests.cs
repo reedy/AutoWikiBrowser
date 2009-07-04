@@ -4317,6 +4317,10 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#ArgumentException_in_Parsers.ArticleIssues
             Assert.AreEqual("", parser.ArticleIssues(""));
+
+            string bug1 = @"{{article issues|disputed=June 2009|primarysources=June 2009}}
+{{Expert}}";
+            Assert.AreEqual(bug1, parser.ArticleIssues(bug1));
         }
 
         [Test]
