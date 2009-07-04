@@ -32,15 +32,15 @@ namespace WikiFunctions.Controls
 
     public partial class ArticleActionDialog : Form
     {
-        private readonly ArticleAction currentAction;
+        private readonly ArticleAction CurrentAction;
 
-        public ArticleActionDialog(ArticleAction MoveDeleteProtect)
+        public ArticleActionDialog(ArticleAction moveDeleteProtect)
         {
             InitializeComponent();
             string[] messages;
-            currentAction = MoveDeleteProtect;
+            CurrentAction = moveDeleteProtect;
 
-            if (MoveDeleteProtect == ArticleAction.Protect)
+            if (moveDeleteProtect == ArticleAction.Protect)
             {
                 lblSummary.Location = new Point(8, 15);
                 cmboSummary.Location = new Point(62, 12);
@@ -59,7 +59,7 @@ namespace WikiFunctions.Controls
                 txtExpiry.Visible = false;
                 chkCascadingProtection.Visible = false;
 
-                if (MoveDeleteProtect == ArticleAction.Move)
+                if (moveDeleteProtect == ArticleAction.Move)
                 {
                     Size = new Size(Width, 120);
                     chkNoRedirect.Visible = true;
@@ -127,21 +127,25 @@ namespace WikiFunctions.Controls
             set { cmboSummary.Text = value; }
         }
 
-        public int EditProtectionLevel
-        { get { return MoveDelete.EditProtectionLevel; } }
+        public API.Protection EditProtectionLevel
+        {
+            get
+            {
+                if (CurrentAction == ArticleAction.Protect) 
+                    return (API.Protection)(MoveDelete.EditProtectionLevel + 1);
+                return API.Protection.Unknown;
+            }
+        }
 
-        public int MoveProtectionLevel
-        { get { return MoveDelete.MoveProtectionLevel; } }
-
-        //public API.Protection EditProtectionLevelApi
-        //{
-        //    get { return (API.Protection)MoveDelete.EditProtectionLevel; }
-        //}
-
-        //public API.Protection MoveProtectionLevelApi
-        //{
-        //    get { return (API.Protection)MoveDelete.MoveProtectionLevel; }
-        //}
+        public API.Protection MoveProtectionLevel
+        {
+            get
+            {
+                if (CurrentAction == ArticleAction.Protect)
+                    return (API.Protection)(MoveDelete.MoveProtectionLevel + 1);
+                return API.Protection.Unknown;
+            }
+        }
 
         public string ProtectExpiry
         {get { return txtExpiry.Text; }}
@@ -157,7 +161,7 @@ namespace WikiFunctions.Controls
 
         private void ArticleActionDialog_Load(object sender, EventArgs e)
         {
-            switch (currentAction)
+            switch (CurrentAction)
             {
                 case ArticleAction.Delete:
                     Text = btnOk.Text = "Delete";

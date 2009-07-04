@@ -164,7 +164,7 @@ namespace AutoWikiBrowser
                 listMaker.StatusTextChanged += UpdateListStatus;
                 listMaker.cmboSourceSelect.SelectedIndexChanged += ListMakerSourceSelectHandler;
 
-                Profiles = new WikiFunctions.Profiles.AWBProfilesForm(webBrowserEdit);
+                Profiles = new WikiFunctions.Profiles.AWBProfilesForm(TheSession.Editor);
                 Profiles.LoggedIn += ProfileLoggedIn;
 
                 SplashScreen.SetProgress(15);
@@ -3686,7 +3686,7 @@ window.scrollTo(0, diffTopY);
                     if (dlgArticleAction.ShowDialog(this) == DialogResult.OK)
                     {
                         LastMove = dlgArticleAction.Summary;
-                        webBrowserEdit.MovePage(TheArticle.Name, dlgArticleAction.NewTitle,
+                        TheSession.Editor.Move(TheArticle.Name, dlgArticleAction.NewTitle,
                                                 ArticleActionSummary(dlgArticleAction));
                     }
                 }
@@ -3708,7 +3708,7 @@ window.scrollTo(0, diffTopY);
                     if (dlgArticleAction.ShowDialog(this) == DialogResult.OK)
                     {
                         LastDelete = dlgArticleAction.Summary;
-                        webBrowserEdit.DeletePage(TheArticle.Name, ArticleActionSummary(dlgArticleAction));
+                        TheSession.Editor.Delete(TheArticle.Name, ArticleActionSummary(dlgArticleAction));
                     }
                 }
                 catch (Exception ex)
@@ -3729,9 +3729,10 @@ window.scrollTo(0, diffTopY);
                     if (dlgArticleAction.ShowDialog(this) == DialogResult.OK)
                     {
                         LastProtect = dlgArticleAction.Summary;
-                        webBrowserEdit.ProtectPage(TheArticle.Name, ArticleActionSummary(dlgArticleAction),
+                        TheSession.Editor.Protect(TheArticle.Name, ArticleActionSummary(dlgArticleAction),
                                                    dlgArticleAction.EditProtectionLevel,
-                                                   dlgArticleAction.MoveProtectionLevel, dlgArticleAction.ProtectExpiry,
+                                                   dlgArticleAction.MoveProtectionLevel, 
+                                                   dlgArticleAction.ProtectExpiry,
                                                    dlgArticleAction.CascadingProtection);
                     }
                 }
