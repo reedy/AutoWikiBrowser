@@ -106,7 +106,7 @@ namespace AutoWikiBrowser
 
         #endregion
 
-        Controller TheController = new Controller();
+        Session TheController = new Session();
 
         #region Constructor and MainForm load/resize
         public MainForm()
