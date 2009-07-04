@@ -2114,7 +2114,7 @@ window.scrollTo(0, diffTopY);
 
         private void UpdateAdminStatus(object sender, EventArgs e)
         {
-            btnProtect.Enabled = btnMove.Enabled = btnDelete.Enabled = btntsDelete.Enabled = (TheSession.IsAdmin && btnSave.Enabled && (TheArticle != null));
+            btnProtect.Enabled = btnMove.Enabled = btnDelete.Enabled = btntsDelete.Enabled = (TheSession.IsSysop && btnSave.Enabled && (TheArticle != null));
         }
 
         //private void UpdateWikiStatus(object sender, EventArgs e) { }
@@ -2205,7 +2205,7 @@ window.scrollTo(0, diffTopY);
 
                 case WikiStatusResult.Registered:
                     b = true;
-                    label = string.Format("Logged in, user and software enabled. Bot = {0}, Admin = {1}", TheSession.Editor.User.IsBot, TheSession.Editor.User.IsAdmin);
+                    label = string.Format("Logged in, user and software enabled. Bot = {0}, Admin = {1}", TheSession.Editor.User.IsBot, TheSession.Editor.User.IsSysop);
                     lblUserName.BackColor = Color.LightGreen;
 
                     //Get list of articles not to apply general fixes to.
@@ -2628,7 +2628,7 @@ window.scrollTo(0, diffTopY);
             SetStartButton(listMaker.NumberOfArticles > 0);
 
             lbltsNumberofItems.Text = "Pages: " + listMaker.NumberOfArticles;
-            bypassAllRedirectsToolStripMenuItem.Enabled = TheSession.Editor.User.IsAdmin;
+            bypassAllRedirectsToolStripMenuItem.Enabled = TheSession.Editor.User.IsSysop;
         }
 
         private void SetStartButton(bool enabled)
@@ -2662,7 +2662,7 @@ window.scrollTo(0, diffTopY);
             btntsPreview.Enabled = btntsChanges.Enabled = listMaker.MakeListEnabled =
             btntsSave.Enabled = btntsIgnore.Enabled = /*btnWatch.Enabled = */ findGroup.Enabled = enabled;
 
-            btnDelete.Enabled = btntsDelete.Enabled = btnMove.Enabled = btnProtect.Enabled = (enabled && TheSession.Editor.User.IsAdmin && (TheArticle != null));
+            btnDelete.Enabled = btntsDelete.Enabled = btnMove.Enabled = btnProtect.Enabled = (enabled && TheSession.Editor.User.IsSysop && (TheArticle != null));
         }
 
         #endregion
