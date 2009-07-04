@@ -518,7 +518,6 @@ namespace AutoWikiBrowser
 
                 if (listMaker.NumberOfArticles < 1)
                 {
-                    webBrowserEdit.Busy = false;
                     StopSaveInterval();
                     lblTimer.Text = "";
                     StatusLabelText = "No articles in list, you need to use the Make list";
@@ -527,7 +526,6 @@ namespace AutoWikiBrowser
                     return;
                 }
 
-                webBrowserEdit.Busy = true;
 
                 if (!Tools.IsValidTitle(listMaker.SelectedArticle().Name))
                 {
@@ -553,22 +551,12 @@ namespace AutoWikiBrowser
                     StartAPITextLoad(TheArticle.Name);
                 else
                 {
-                    webBrowserEdit.BringToFront();
-
-                    if (webBrowserEdit.IsBusy)
-                        webBrowserEdit.Stop();
-
-                    if (webBrowserEdit.Document != null)
-                        webBrowserEdit.Document.Write("");
-
                     //check we are logged in
                     if (!Variables.User.WikiStatus && !CheckStatus(false))
                         return;
 
-                    webBrowserEdit.Busy = true;
-
                     //Navigate to edit page
-                    webBrowserEdit.LoadEditPage(TheArticle.Name);
+                    TheSession.Editor.Open(TheArticle.Name);
                 }
             }
             catch (Exception ex)
@@ -592,16 +580,16 @@ namespace AutoWikiBrowser
             Start();
         }
 
-        private void CaseWasLoad(object sender, EventArgs e)
+        private void CaseWasLoad(object sender, EventArgs e) //Event handler needs attaching
         {
             if (!LoadSuccess()) return;
 
-            CaseWasLoad(webBrowserEdit.GetArticleText());
+            CaseWasLoad(TheSession.Editor.Page.Text);
         }
 
         // counts number of redirects so that we catch double redirects
         private int Redirects;
-        private int unbalancedBracket = 0, bracketLength = 0;
+        private int UnbalancedBracket, BracketLength;
 
         private void CaseWasLoad(string articleText)
         {
@@ -669,7 +657,7 @@ namespace AutoWikiBrowser
                     if (preParseModeToolStripMenuItem.Checked)
                         StartAPITextLoad(redirect.Name);
                     else
-                        webBrowserEdit.LoadEditPage(redirect.Name);
+                        TheSession.Editor.Open(redirect.Name);
 
                     return;
                 }
@@ -879,7 +867,7 @@ namespace AutoWikiBrowser
                 }
                 else
                 {
-                    if (unbalancedBracket < 0)
+                    if (UnbalancedBracket < 0)
                         btnSave.Focus();
                     else if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
                     {
@@ -887,9 +875,9 @@ namespace AutoWikiBrowser
 
                         // indexes in articleText and txtEdit.Edit are offset by the number of newlines before the index of the unbalanced brackets
                         // so allow for this when highlighting the unbalanced bracket
-                        string a = txtEdit.Text.Substring(0, unbalancedBracket);
+                        string a = txtEdit.Text.Substring(0, UnbalancedBracket);
                         int b = Regex.Matches(a, "\n").Count;
-                        txtEdit.SetEditBoxSelection(unbalancedBracket - b, bracketLength);
+                        txtEdit.SetEditBoxSelection(UnbalancedBracket - b, BracketLength);
                         txtEdit.SelectionBackColor = Color.Red;
                     }
                 }
@@ -2358,8 +2346,8 @@ window.scrollTo(0, diffTopY);
                 if (TheArticle.HasDeadLinks)
                     lblWarn.Text += "Dead links found\r\n";
 
-                unbalancedBracket = TheArticle.UnbalancedBrackets(ref bracketLength);
-                if (unbalancedBracket > 0)
+                UnbalancedBracket = TheArticle.UnbalancedBrackets(ref BracketLength);
+                if (UnbalancedBracket > 0)
                     lblWarn.Text += "Unbalanced brackets found\r\n";
 
                 lblWords.Text = "Words: " + intWords;
