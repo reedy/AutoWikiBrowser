@@ -489,7 +489,7 @@ namespace WikiFunctions.Lists
         }
 
         public override string DisplayText
-        { get { return base.DisplayText + " (No Redirects)(Links to Redirects)"; } }
+        { get { return base.DisplayText + " (No Redirects) (Links to Redirects)"; } }
     }
 
     /// <summary>
