@@ -518,7 +518,7 @@ namespace WikiFunctions
             if (!string.IsNullOrEmpty(input) && char.IsLetter(input[0]) && (char.ToUpper(input[0]) != char.ToLower(input[0])))
             {
                 input = input.Trim();
-                // escaping breaks many places that alredy escape their data
+                // escaping breaks many places that already escape their data
                 return "[" + char.ToUpper(input[0]) + char.ToLower(input[0]) + "]" + input.Remove(0, 1);
             }
 

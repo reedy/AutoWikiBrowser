@@ -3153,7 +3153,6 @@ foo
     [TestFixture]
     public class UtilityFunctionTests : RequiresParser
     {
-
         [Test]
         public void IsCorrectEditSummary()
         {
@@ -3746,6 +3745,26 @@ fish | name = Bert }} ''Bert'' is a good fish."));
 
             Assert.IsFalse(Parsers.NoIncludeIncludeOnlyProgrammingElement(@"hello"));
             Assert.IsFalse(Parsers.NoIncludeIncludeOnlyProgrammingElement(@""));
+        }
+
+        [Test]
+        public void GetTemplateTests()
+        {
+            Assert.AreEqual(@"{{foo}}", Parsers.GetTemplate(@"now {{foo}} was here", "foo"));
+            Assert.AreEqual(@"{{Foo}}", Parsers.GetTemplate(@"now {{Foo}} was here", "foo"));
+            Assert.AreEqual(@"{{foo}}", Parsers.GetTemplate(@"now {{foo}} was here", "Foo"));
+            Assert.AreEqual(@"{{foo}}", Parsers.GetTemplate(@"now {{foo}} was here", "[Ff]oo"));
+            Assert.AreEqual(@"{{ foo|bar asdfasdf}}", Parsers.GetTemplate(@"now {{ foo|bar asdfasdf}} was here", "foo"));
+            Assert.AreEqual(@"{{ foo |bar asdfasdf}}", Parsers.GetTemplate(@"now {{ foo |bar asdfasdf}} was here", "foo"));
+            Assert.AreEqual(@"{{ foo|bar 
+asdfasdf}}", Parsers.GetTemplate(@"now {{ foo|bar 
+asdfasdf}} was here", "foo"));
+
+            Assert.AreEqual(@"", Parsers.GetTemplate(@"now {{ foo|bar asdfasdf}} was here", "foot"));
+            Assert.AreEqual(@"", Parsers.GetTemplate(@"now {{ foo|bar asdfasdf}} was here", ""));
+            Assert.AreEqual(@"", Parsers.GetTemplate(@"", "foo"));
+
+            Assert.AreEqual(@"{{foo  |a={{bar}} here}}", Parsers.GetTemplate(@"now {{foo  |a={{bar}} here}} was here", "foo"));
         }
     }
 
