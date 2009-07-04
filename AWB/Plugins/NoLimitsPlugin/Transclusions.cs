@@ -23,9 +23,9 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
     /// <summary>
     /// What transcludes page list getter with no limits for admin and bot users (wont work for non admin/bots)
     /// </summary>
-    public class WhatTranscludesNoLimitsPageListProvider : WhatTranscludesPageListProvider, IListMakerPlugin
+    public class WhatTranscludesPageNoLimitsForAdminAndBotsPlugin : WhatTranscludesPageListProvider, IListMakerPlugin
     {
-        public WhatTranscludesNoLimitsPageListProvider()
+        public WhatTranscludesPageNoLimitsForAdminAndBotsPlugin()
         {
             Limit = 1000000;
         }
@@ -43,6 +43,32 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
         { get { return "What transcludes page (NL, Admin & Bot)"; } }
 
         public string Name
-        { get { return "WhatTranscludesNoLimitsPageListProvider"; } }
+        { get { return "WhatTranscludesPageNoLimitsForAdminAndBotsPlugin"; } }
+    }
+
+    /// <summary>
+    /// What transcludes page (in all namespaces) list getter with no limits for admin and bot users (wont work for non admin/bots)
+    /// </summary>
+    public class WhatTranscludesPageAllNSNoLimitsForAdminAndBotsPagePlugin : WhatTranscludesPageAllNSListProvider, IListMakerPlugin
+    {
+        public WhatTranscludesPageAllNSNoLimitsForAdminAndBotsPagePlugin()
+        {
+            Limit = 1000000;
+        }
+
+        public override System.Collections.Generic.List<Article> MakeList(params string[] searchCriteria)
+        {
+            if (Variables.User.IsBot || Variables.User.IsAdmin)
+                return base.MakeList(searchCriteria);
+
+            Tools.MessageBox("Action only allowed for Admins and Bot accounts");
+            return null;
+        }
+
+        public override string DisplayText
+        { get { return "What transcludes page (All NS) (NL, Admin & Bot)"; } }
+
+        public string Name
+        { get { return "WhatTranscludesPageAllNSNoLimitsForAdminAndBotsPagePlugin"; } }
     }
 }
