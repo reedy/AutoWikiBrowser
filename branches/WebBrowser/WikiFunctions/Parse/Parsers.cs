@@ -325,6 +325,11 @@ namespace WikiFunctions.Parse
                 if (!Regex.IsMatch(singleTag, "(COI|OR|POV|BLP)"))
                     singleTag = singleTag.ToLower();
 
+                // expert must have a parameter
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Article_Issues
+                if (singleTag.Equals(@"expert") && tagValue.Trim().Length == 0)
+                    continue;
+
                 // for tags with a parameter, that parameter must be the date
                 if ((tagValue.Contains("=") && Regex.IsMatch(tagValue, @"(?i)date")) || tagValue.Length == 0)
                     newTags += @"|" + singleTag + @" " + tagValue;
