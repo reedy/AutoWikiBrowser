@@ -56,20 +56,20 @@ namespace WikiFunctions.API
 
         private AsyncApiEdit(ApiEdit editor, Control parentControl)
         {
-            Editor = editor;
+            SynchronousEditor = editor;
             ParentControl = parentControl;
             State = EditState.Ready;
         }
 
         public IApiEdit Clone()
         {
-            return new AsyncApiEdit((ApiEdit)Editor.Clone(), ParentControl);
+            return new AsyncApiEdit((ApiEdit)SynchronousEditor.Clone(), ParentControl);
         }
 
         /// <summary>
         /// Provides access to the underlying ApiEdit
         /// </summary>
-        public ApiEdit Editor { get; private set; }
+        public ApiEdit SynchronousEditor { get; private set; }
 
         public enum EditState
         {
@@ -210,13 +210,13 @@ namespace WikiFunctions.API
 
                 Thread.CurrentThread.Name = string.Format("InvokerThread ({0})", args.Function);
 
-                Type t = Editor.GetType();
+                Type t = SynchronousEditor.GetType();
 
                 object result = t.InvokeMember(
                     args.Function,                                  // name
                     BindingFlags.InvokeMethod,                      // invokeAttr
                     null,                                           // binder
-                    Editor,                                         // target
+                    SynchronousEditor,                                         // target
                     args.Arguments                                  // args
                     );
 
@@ -226,12 +226,12 @@ namespace WikiFunctions.API
             }
             catch (ThreadAbortException)
             {
-                Editor.Reset();
+                SynchronousEditor.Reset();
                 //TODO: maybe, an OperationAborted event is needed?
             }
             catch (Exception ex)
             {
-                Editor.Reset();
+                SynchronousEditor.Reset();
 
                 if (ex is TargetInvocationException) ex = ex.InnerException;
 
@@ -267,40 +267,40 @@ namespace WikiFunctions.API
 
         public string URL
         {
-            get { return Editor.URL; }
-            set { Editor = new ApiEdit(value, PHP5); }
+            get { return SynchronousEditor.URL; }
+            set { SynchronousEditor = new ApiEdit(value, PHP5); }
         }
 
         public bool PHP5
         {
-            get { return Editor.PHP5; }
+            get { return SynchronousEditor.PHP5; }
         }
 
         public int Maxlag
         {
-            get { return Editor.Maxlag; }
-            set { Editor.Maxlag = value; }
+            get { return SynchronousEditor.Maxlag; }
+            set { SynchronousEditor.Maxlag = value; }
         }
 
         public string Action
         {
-            get { return Editor.Action; }
+            get { return SynchronousEditor.Action; }
         }
 
         public string HtmlHeaders
         {
-            get { return Editor.HtmlHeaders; }
+            get { return SynchronousEditor.HtmlHeaders; }
         }
 
         public PageInfo Page
         {
-            get { return Editor.Page; }
+            get { return SynchronousEditor.Page; }
         }
 
         public void Reset()
         {
             Abort();
-            Editor.Reset();
+            SynchronousEditor.Reset();
         }
 
         public string HttpGet(string url)
@@ -423,7 +423,7 @@ namespace WikiFunctions.API
 
         public UserInfo User
         {
-            get { return Editor.User; }
+            get { return SynchronousEditor.User; }
         }
 
         public void RefreshUserInfo()

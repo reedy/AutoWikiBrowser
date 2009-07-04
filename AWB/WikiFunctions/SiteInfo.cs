@@ -64,9 +64,23 @@ namespace WikiFunctions
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="scriptPath"></param>
+        /// <param name="namespaces"></param>
+        public SiteInfo(string scriptPath, Dictionary<int, string> namespaces)
+        {
+            ScriptPath = scriptPath;
+            this.namespaces = namespaces;
+        }
+
+        /// <summary>
+        /// For object caching support
+        /// </summary>
         private static string Key(string scriptPath)
         {
-            return "SiteInfo[" + scriptPath + "]@";
+            return "SiteInfo(" + scriptPath + ")@";
         }
 
         public static SiteInfo CreateOrLoad(IApiEdit editor)
@@ -105,6 +119,7 @@ namespace WikiFunctions
             if (general == null) return false;
 
             Language = general.Attributes["lang"].Value;
+            IsRightToLeft = general.Attributes["rtl"] != null;
 
             if (xd["api"] == null || xd["api"]["query"] == null
                 || xd["api"]["query"]["namespaces"] == null || xd["api"]["query"]["namespacealiases"] == null)
@@ -164,6 +179,9 @@ namespace WikiFunctions
         { get { return magicWords; } }
 
         public string Language
+        { get; private set; }
+
+        public bool IsRightToLeft
         { get; private set; }
 
         /// <summary>
