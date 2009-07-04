@@ -1088,103 +1088,49 @@ namespace WikiFunctions.Lists
     /// <summary>
     /// Gets all the pages from the current user's watchlist
     /// </summary>
-    public class MyWatchlistListProvider : IListProvider
+    public class MyWatchlistListProvider : ApiListProviderBase
     {
-        public List<Article> MakeList(params string[] searchCriteria)
+        #region Tags: <watchlistraw>/<wr>
+        static readonly List<string> pe = new List<string>(new[] { "wr" });
+        protected override ICollection<string> PageElements
         {
-            Browser.WebControl webbrowser = new Browser.WebControl {ScriptErrorsSuppressed = true};
-            webbrowser.Navigate(Variables.URLIndex + "?title=Special:Watchlist&action=raw");
-            webbrowser.Wait();
+            get { return pe; }
+        }
 
-            List<Article> list = new List<Article>();
+        static readonly List<string> ac = new List<string>(new[] { "watchlistraw" });
+        protected override ICollection<string> Actions
+        {
+            get { return ac; }
+        }
+        #endregion
 
-            if (webbrowser.Document == null)
-                return list;
+        public override List<Article> MakeList(params string[] searchCriteria)
+        {
+            string url = Variables.URLApi + "?action=query&list=watchlistraw&wrlimit=max&format=xml";
 
-            HtmlElement textarea = webbrowser.Document.GetElementById("titles");
-            string html;
-            if (textarea == null || (html = textarea.InnerText) == null) return list;
-
-            try
-            {
-                string[] splitter = { "\r\n" };
-                foreach (string entry in html.Split(splitter, StringSplitOptions.RemoveEmptyEntries))
-                {
-                    if (entry.Length > 0)
-                        list.Add(new Article(entry));
-                }
-            }
-            catch (Exception ex)
-            {
-                ErrorHandler.Handle(ex);
-            }
-
-            return list;
+            return ApiMakeList(url, 0);
         }
 
         #region ListMaker properties
-        public string DisplayText
+        public override string DisplayText
         { get { return "My Watchlist"; } }
 
-        public string UserInputTextBoxText
+        public override string UserInputTextBoxText
         { get { return ""; } }
 
-        public bool UserInputTextBoxEnabled
+        public override bool UserInputTextBoxEnabled
         { get { return false; } }
 
-        public void Selected() { }
-
-        public bool RunOnSeparateThread
-        { get { return true; } }
+        public override void Selected() { }
         #endregion
     }
-
-    ///// <summary>
-    ///// Gets all the pages from the current user's watchlist
-    ///// </summary>
-    //public class MyWatchListApiListProvider : ApiListProviderBase
-    //{
-    //    #region Tags: <watchlistraw>/<wr>
-    //    static readonly List<string> pe = new List<string>(new[] { "wr" });
-    //    protected override ICollection<string> PageElements
-    //    {
-    //        get { return pe; }
-    //    }
-
-    //    static readonly List<string> ac = new List<string>(new[] { "watchlistraw" });
-    //    protected override ICollection<string> Actions
-    //    {
-    //        get { return ac; }
-    //    }
-    //    #endregion
-
-    //    public override List<Article> MakeList(string[] searchCriteria)
-    //    {
-    //        string url = Variables.URLApi + "?action=query&list=watchlistraw&wrlimit=max&format=xml";
-
-    //        return ApiMakeList(url, 0);
-    //    }
-
-    //    #region ListMaker properties
-    //    public override string DisplayText
-    //    { get { return "My Watchlist (Api Raw)"; } }
-
-    //    public override string UserInputTextBoxText
-    //    { get { return ""; } }
-
-    //    public override bool UserInputTextBoxEnabled
-    //    { get { return false; } }
-
-    //    public override void Selected() { }
-    //    #endregion
-    //}
 
     /// <summary>
     /// Runs the Database Scanner
     /// </summary>
     public class DatabaseScannerListProvider : IListProvider
     {
-        private readonly ListMaker listMaker;
+        private readonly ListMaker LMaker;
 
         /// <summary>
         /// Default constructor
@@ -1192,12 +1138,12 @@ namespace WikiFunctions.Lists
         /// <param name="lm">ListMaker for DBScanner to add articles to</param>
         public DatabaseScannerListProvider(ListMaker lm)
         {
-            listMaker = lm;
+            LMaker = lm;
         }
 
         public List<Article> MakeList(params string[] searchCriteria)
         {
-            new DBScanner.DatabaseScanner(listMaker).Show();
+            new DBScanner.DatabaseScanner(LMaker).Show();
             return null;
         }
 
