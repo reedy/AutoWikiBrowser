@@ -1202,18 +1202,6 @@ namespace AutoWikiBrowser
                         Process.Start("iexplore", Variables.GetUserTalkURL());
                     return false;
                 }
-                if (!webBrowserEdit.HasArticleTextBox)
-                {
-                    if (!BotMode)
-                    {
-                        SkipPage("There was a problem loading the page");
-                        return false;
-                    }
-
-                    StatusLabelText = "There was a problem loading the page. Re-starting.";
-                    StartDelayedRestartTimer(null, null);
-                    return false;
-                }
 
                 HtmlElement wpt = webBrowserEdit.Document.GetElementById("wpTextbox1");
                 bool wpTextbox1IsNull = (wpt != null && wpt.InnerText == null);
