@@ -30,7 +30,7 @@ namespace WikiFunctions
     /// <summary>
     /// This class controls editing process in one wiki
     /// </summary>
-    public class Controller
+    public class Session
     {
         private AsyncApiEdit Editor;
 
