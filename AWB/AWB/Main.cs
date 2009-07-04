@@ -665,16 +665,6 @@ namespace AutoWikiBrowser
                 }
             }
 
-            if (!preParseModeToolStripMenuItem.Checked && webBrowserEdit.EditBoxTag.Contains("readonly=\"readonly\""))
-            {
-                if (!webBrowserEdit.UserAllowedToEdit())
-                {
-                    NudgeTimer.Stop();
-                    SkipPage("Database is locked");
-                    return;
-                }
-            }
-
             TheArticle.OriginalArticleText = articleText;
             int.TryParse(TheSession.Editor.Page.RevisionID, out ErrorHandler.CurrentRevision);
 
@@ -792,7 +782,6 @@ namespace AutoWikiBrowser
             if (syntaxHighlightEditBoxToolStripMenuItem.Checked)
                 txtEdit.Visible = false;
             
-            webBrowserEdit.SetArticleText(TheArticle.ArticleText);
             txtEdit.Text = TheArticle.ArticleText;
 
             //Update statistics and alerts
@@ -829,7 +818,7 @@ namespace AutoWikiBrowser
                         break;
                 }
 
-                SetWatchButton(webBrowserEdit.IsWatched());
+                SetWatchButton(TheSession.Editor.Page.IsWatched());
 
                 txtReviewEditSummary.Text = MakeSummary();
 
