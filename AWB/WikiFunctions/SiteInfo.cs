@@ -48,10 +48,7 @@ namespace WikiFunctions
 
             try
             {
-                if (!LoadNamespaces())
-                    throw new WikiUrlException();
-
-                if (!LoadLocalisedMagicWordAliases())
+                if (!LoadSiteInfo())
                     throw new WikiUrlException();
             }
             catch (WikiUrlException)
@@ -109,9 +106,9 @@ namespace WikiFunctions
         /// 
         /// </summary>
         /// <returns></returns>
-        public bool LoadNamespaces()
+        public bool LoadSiteInfo()
         {
-            string output = Editor.HttpGet(ApiPath + "?action=query&meta=siteinfo&siprop=general|namespaces|namespacealiases|statistics&format=xml");
+            string output = Editor.HttpGet(ApiPath + "?action=query&meta=siteinfo&siprop=general|namespaces|namespacealiases|statistics|magicwords&format=xml");
 
             XmlDocument xd = new XmlDocument();
             xd.LoadXml(output);
@@ -141,30 +138,6 @@ namespace WikiFunctions
                 if (id != 0) namespaceAliases[id].Add(xn.InnerText);
             }
 
-            return true;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public bool LoadLocalisedMagicWordAliases()
-        {
-            string output = Editor.HttpGet(ApiPath + "?action=query&meta=siteinfo&siprop=magicwords&format=xml");
-
-            //TODO:Remove post 1.14
-            if (output.Contains("'siprop': magicwords"))
-                return true;
-
-            XmlDocument xd = new XmlDocument();
-            xd.LoadXml(output);
-
-            if (xd.GetElementsByTagName("api").Count != 1)
-                return false;
-
-            magicWords.Clear();
-
-            // api / query existence is already checked
             if (xd["api"]["query"]["magicwords"] == null)
                 return false;
 
