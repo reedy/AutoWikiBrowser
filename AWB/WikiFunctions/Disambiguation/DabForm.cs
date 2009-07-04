@@ -51,7 +51,7 @@ namespace WikiFunctions.Disambiguation
         static int SavedTop;
         bool NoSave = true;
 
-        readonly Browser.WebControl Browser = new Browser.WebControl();
+        readonly Session session;
 
         /// <summary>
         /// displays form that promts user for disambiguation
@@ -241,8 +241,8 @@ namespace WikiFunctions.Disambiguation
             //TODO:Must be a better way. Background request?
             try
             {
-                Browser.Navigate(Variables.GetRemoveFromWatchlistURL(Tools.WikiEncode(ArticleTitle)));
-                Browser.Wait();
+                session.Editor.Watch(ArticleTitle);
+                session.Editor.Wait();
                 MessageBox.Show("Page successfully added to your watchlist");
             }
             catch (Exception ex)
@@ -256,8 +256,8 @@ namespace WikiFunctions.Disambiguation
             //TODO:Must be a better way. Background request?
             try
             {
-                Browser.Navigate(Variables.GetAddToWatchlistURL(Tools.WikiEncode(ArticleTitle)));
-                Browser.Wait();
+                session.Editor.Watch(ArticleTitle);
+                session.Editor.Wait();
                 MessageBox.Show("Page successfully removed from your watchlist");
             }
             catch (Exception ex)

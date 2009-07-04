@@ -122,6 +122,18 @@ namespace WikiFunctions.API
         void Save(string pageText, string summary, bool minor, bool watch);
 
         /// <summary>
+        /// Adds the given page to current user's watchlist
+        /// </summary>
+        /// <param name="title">Page to add to watchlist</param>
+        void Watch(string title);
+
+        /// <summary>
+        /// Removes the given page from current user's watchlist
+        /// </summary>
+        /// <param name="title">Page to remove from watchlist</param>
+        void Unwatch(string title);
+
+        /// <summary>
         /// Deletes the page
         /// </summary>
         /// <param name="title">Title of the page to delete</param>

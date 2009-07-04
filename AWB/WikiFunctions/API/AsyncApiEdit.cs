@@ -330,6 +330,16 @@ namespace WikiFunctions.API
             InvokeFunction("Save", pageText, summary, minor, watch);
         }
 
+        public void Watch(string title)
+        {
+            InvokeFunction("Watch", title);
+        }
+
+        public void Unwatch(string title)
+        {
+            InvokeFunction("Unwatch", title);
+        }
+
         public void Delete(string title, string reason)
         {
             Delete(title, reason, false);

@@ -368,6 +368,33 @@ namespace WikiFunctions.API
             CheckForError(result, "logout");
         }
 
+        public void Watch(string title)
+        {
+            if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
+
+            Reset();
+            string result = HttpGet(new[,]
+                {
+                    {"action", "watch"},
+                    {"title", title}
+                });
+            CheckForError(result, "watch");
+        }
+
+        public void Unwatch(string title)
+        {
+            if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
+
+            Reset();
+            string result = HttpGet(new[,]
+                {
+                    {"action", "watch"},
+                    {"title", title},
+                    {"unwatch", null}
+                });
+            CheckForError(result, "watch");
+        }
+
         public UserInfo User { get; private set; }
 
         public void RefreshUserInfo()
