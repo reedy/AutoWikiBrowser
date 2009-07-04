@@ -2313,15 +2313,11 @@ window.scrollTo(0, diffTopY);
 
                 intLinks = intLinks - intInterLinks - intImages - intCats;
 
-                if (TheArticle.NameSpaceKey == Namespace.Article && (WikiRegexes.Stub.IsMatch(articleText)) && (intWords > 500))
+                if (TheArticle.NameSpaceKey == Namespace.Article && WikiRegexes.Stub.IsMatch(articleText) && intWords > 500)
                     lblWarn.Text = "Long article with a stub tag.\r\n";
 
-                // TODO? - just match if intCats == 0
-                if (!Regex.IsMatch(articleText, "\\[\\[" + Variables.Namespaces[Namespace.Category],
-                    RegexOptions.IgnoreCase))
-                {
+                if (intCats == 0)
                     lblWarn.Text += "No category (although one may be in a template)\r\n";
-                }
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Replace_nofootnotes_with_morefootnote_if_references_exists
                 if (TheArticle.HasMorefootnotesAndManyReferences)
@@ -2368,7 +2364,7 @@ window.scrollTo(0, diffTopY);
                         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Multiple_links
                         // make first character uppercase so that [[proton]] and [[Proton]] are marked as duplicate
                         x = Tools.TurnFirstToUpper(x);
-                        arrayLinks.Add(x);
+                    arrayLinks.Add(x);
                 }
 
                 lbDuplicateWikilinks.Sorted = true;
