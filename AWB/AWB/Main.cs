@@ -3687,7 +3687,8 @@ window.scrollTo(0, diffTopY);
                     {
                         LastMove = dlgArticleAction.Summary;
                         TheSession.Editor.Move(TheArticle.Name, dlgArticleAction.NewTitle,
-                                                ArticleActionSummary(dlgArticleAction));
+                                                ArticleActionSummary(dlgArticleAction), true /* probably wants dealing with on dialog*/,
+                                                dlgArticleAction.NoRedirect, dlgArticleAction.Watch);
                     }
                 }
                 catch (Exception ex)
@@ -3708,7 +3709,7 @@ window.scrollTo(0, diffTopY);
                     if (dlgArticleAction.ShowDialog(this) == DialogResult.OK)
                     {
                         LastDelete = dlgArticleAction.Summary;
-                        TheSession.Editor.Delete(TheArticle.Name, ArticleActionSummary(dlgArticleAction));
+                        TheSession.Editor.Delete(TheArticle.Name, ArticleActionSummary(dlgArticleAction), dlgArticleAction.Watch);
                     }
                 }
                 catch (Exception ex)
@@ -3729,11 +3730,13 @@ window.scrollTo(0, diffTopY);
                     if (dlgArticleAction.ShowDialog(this) == DialogResult.OK)
                     {
                         LastProtect = dlgArticleAction.Summary;
-                        TheSession.Editor.Protect(TheArticle.Name, ArticleActionSummary(dlgArticleAction),
-                                                   dlgArticleAction.EditProtectionLevel,
-                                                   dlgArticleAction.MoveProtectionLevel, 
-                                                   dlgArticleAction.ProtectExpiry,
-                                                   dlgArticleAction.CascadingProtection);
+                        TheSession.Editor.Protect(TheArticle.Name, 
+                                                    ArticleActionSummary(dlgArticleAction),
+                                                    dlgArticleAction.EditProtectionLevel,
+                                                    dlgArticleAction.MoveProtectionLevel, 
+                                                    dlgArticleAction.ProtectExpiry,
+                                                    dlgArticleAction.CascadingProtection
+                                                    dlgArticleAction.Watch);
                     }
                 }
                 catch (Exception ex)
