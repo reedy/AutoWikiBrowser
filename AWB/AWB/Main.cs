@@ -37,7 +37,6 @@ using WikiFunctions.API;
 using WikiFunctions.Plugin;
 using WikiFunctions.Parse;
 using WikiFunctions.Properties;
-using WikiFunctions.Browser;
 using WikiFunctions.Controls;
 using WikiFunctions.Background;
 using System.Security.Permissions;
@@ -106,7 +105,7 @@ namespace AutoWikiBrowser
 
         #endregion
 
-        Session TheController = new Session();
+        Session TheSession = new Session();
 
         #region Constructor and MainForm load/resize
         public MainForm()
@@ -1734,7 +1733,7 @@ window.scrollTo(0, diffTopY);
                 //if (dontAddToWatchlistToolStripMenuItem.Checked)
                 //    webBrowserEdit.SetWatch(false);
 
-                TheController.Editor.Save(txtEdit.Text, MakeSummary(), markAllAsMinorToolStripMenuItem.Checked,
+                TheSession.Editor.Save(txtEdit.Text, MakeSummary(), markAllAsMinorToolStripMenuItem.Checked,
                                           false); //Fixup Watch from code above
             }
             catch (Exception ex)
@@ -1958,7 +1957,7 @@ window.scrollTo(0, diffTopY);
                 // save user persistent settings
                 Properties.Settings.Default.Save();
 
-                TheController.Editor.Abort();
+                TheSession.Editor.Abort();
 
                 SaveRecentSettingsList();
                 UsageStats.Do(true);
@@ -2139,7 +2138,7 @@ window.scrollTo(0, diffTopY);
 
         private void UpdateAdminStatus(object sender, EventArgs e)
         {
-            btnProtect.Enabled = btnMove.Enabled = btnDelete.Enabled = btntsDelete.Enabled = (Variables.User.IsAdmin && btnSave.Enabled && (TheArticle != null));
+            btnProtect.Enabled = btnMove.Enabled = btnDelete.Enabled = btntsDelete.Enabled = (TheSession.IsAdmin && btnSave.Enabled && (TheArticle != null));
         }
 
         //private void UpdateWikiStatus(object sender, EventArgs e) { }
@@ -2189,9 +2188,9 @@ window.scrollTo(0, diffTopY);
                 chkAutoMode.Enabled = false;
                 BotMode = false;
                 lblOnlyBots.Visible = true;
-                TheController.Editor.Logout();
-                TheController.Editor.Wait();
-                TheController.UpdateWikiStatus();
+                TheSession.Editor.Logout();
+                TheSession.Editor.Wait();
+                TheSession.UpdateWikiStatus();
             }
         }
 
@@ -2202,7 +2201,7 @@ window.scrollTo(0, diffTopY);
             bool b = false;
             string label = "Software disabled";
 
-            switch (TheController.UpdateWikiStatus())
+            switch (TheSession.UpdateWikiStatus())
             {
                 case WikiStatusResult.Error:
                     lblUserName.BackColor = Color.Red;
@@ -3247,7 +3246,7 @@ window.scrollTo(0, diffTopY);
             StopSaveInterval();
             StopDelayedRestartTimer();
 
-            TheController.Editor.Abort();
+            TheSession.Editor.Abort();
 
             listMaker.Stop();
 
@@ -4053,8 +4052,8 @@ window.scrollTo(0, diffTopY);
         private void reloadEditPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PageReload = true;
-            TheController.Editor.Open(TheArticle.Name);
-            TheArticle.OriginalArticleText = TheController.Editor.Page.Text;
+            TheSession.Editor.Open(TheArticle.Name);
+            TheArticle.OriginalArticleText = TheSession.Editor.Page.Text;
         }
 
         #region History
@@ -4170,7 +4169,7 @@ window.scrollTo(0, diffTopY);
             if (!string.IsNullOrEmpty(Profiles.SettingsToLoad))
                 LoadPrefs(Profiles.SettingsToLoad);
 
-            TheController.UpdateWikiStatus();
+            TheSession.UpdateWikiStatus();
 
             StopProgressBar();
         }

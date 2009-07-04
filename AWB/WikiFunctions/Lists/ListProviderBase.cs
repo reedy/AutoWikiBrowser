@@ -53,37 +53,6 @@ namespace WikiFunctions.Lists
             set { m_Limit = value; }
         }
 
-        #region Dirty hack for 1.12's inability to accept cmtitle and cmcategory at the same time
-        string m_LastURL;
-
-        /// <summary>
-        /// Don't friggin access directly!
-        /// </summary>
-        bool m_1dot12hack;
-
-        protected bool Hack1_12
-        {
-            get
-            {
-                if (Variables.URL != m_LastURL)
-                {
-                    m_LastURL = Variables.URL;
-                    m_1dot12hack = false;
-                }
-
-                return m_1dot12hack;
-            }
-            set
-            {
-                m_1dot12hack = value;
-                m_LastURL = Variables.URL;
-            }
-        }
-
-        static readonly Regex RemoveCmcategory = new Regex("&cmcategory=[^&]*", RegexOptions.Compiled);
-
-        #endregion
-
         /// <summary>
         /// Main function that retrieves the list from API, including paging
         /// </summary>
@@ -97,19 +66,10 @@ namespace WikiFunctions.Lists
             string postfix = "";
 
             string newUrl = url;
-            if (Hack1_12) newUrl = RemoveCmcategory.Replace(newUrl, "");
 
             while (list.Count + haveSoFar < Limit)
             {
                 string text = Tools.GetHTML(newUrl + postfix);
-                if (text.Contains("code=\"cmtitleandcategory\""))
-                {
-                    if (Hack1_12) throw new ListProviderException("cmtitleandcategory persists.");
-
-                    Hack1_12 = true;
-                    newUrl = RemoveCmcategory.Replace(url, "");
-                    text = Tools.GetHTML(newUrl + postfix);
-                }
 
                 XmlTextReader xml = new XmlTextReader(new StringReader(text));
                 xml.MoveToContent();
