@@ -65,17 +65,6 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="scriptPath"></param>
-        /// <param name="namespaces"></param>
-        public SiteInfo(string scriptPath, Dictionary<int, string> namespaces)
-        {
-            ScriptPath = scriptPath;
-            this.namespaces = namespaces;
-        }
-
-        /// <summary>
         /// For object caching support
         /// </summary>
         private static string Key(string scriptPath)
