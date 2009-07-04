@@ -38,6 +38,20 @@ namespace WikiFunctions
         //private Dictionary<string, string> messageCache = new Dictionary<string, string>();
         private readonly Dictionary<string, List<string>> magicWords = new Dictionary<string, List<string>>();
 
+        internal SiteInfo()
+        { }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="scriptPath"></param>
+        /// <param name="namespaces"></param>
+        public SiteInfo(string scriptPath, Dictionary<int, string> namespaces)
+        {
+            ScriptPath = scriptPath;
+            this.namespaces = namespaces;
+        }
+
         /// <summary>
         /// Creates an instance of the class
         /// </summary>
@@ -76,21 +90,6 @@ namespace WikiFunctions
 
             return si;
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="scriptPath"></param>
-        /// <param name="namespaces"></param>
-        public SiteInfo(string scriptPath, Dictionary<int, string> namespaces)
-        {
-            ScriptPath = scriptPath;
-            this.namespaces = namespaces;
-        }
-
-        internal SiteInfo()
-        { }
-
 
         private string ApiPath
         {
