@@ -49,7 +49,7 @@ namespace UnitTests
         {
             string a = @"<!-- Metadata: see [[Wikipedia:Persondata]] -->
 ";
-            string b = @"{{Persondata
+            string b1 = @"{{Persondata
 |NAME= Hodgson, Jane Elizabeth
 |ALTERNATIVE NAMES=
 |SHORT DESCRIPTION= [[Physician]], [[obstetrician]], [[gynecologist]]
@@ -58,12 +58,26 @@ namespace UnitTests
 |DATE OF DEATH= 2006-10-23
 |PLACE OF DEATH= [[Rochester, Minnesota]]
 }}";
-            string c = a + b;
 
-            MetaDataSorter.RemovePersonData(ref c);
-            Assert.AreEqual(c, "");
-            MetaDataSorter.RemovePersonData(ref b);
-            Assert.AreEqual(b, "");
+            string b2 = @"{{Persondata
+|NAME= Hodgson, Jane Elizabeth
+|ALTERNATIVE NAMES=
+|SHORT DESCRIPTION= [[Physician]], [[obstetrician]], [[gynecologist]]
+|DATE OF BIRTH= {{birth date|1915|1|23}}
+|PLACE OF BIRTH= [[Crookston, Minnesota]]
+|DATE OF DEATH= 2006-10-23
+|PLACE OF DEATH= [[Rochester, Minnesota]]
+}}";
+
+            string c1 = a + b1;
+            string c2 = a + b2;
+
+            MetaDataSorter.RemovePersonData(ref c1);
+            Assert.AreEqual(c1, "");
+            MetaDataSorter.RemovePersonData(ref c2);
+            Assert.AreEqual(c2, "");
+            MetaDataSorter.RemovePersonData(ref b1);
+            Assert.AreEqual(b1, "");
 
             string d1 = @"{{Persondata<!-- Metadata: see [[Wikipedia:Persondata]] -->
 |NAME= Becker, Gary

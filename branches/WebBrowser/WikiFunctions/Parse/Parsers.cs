@@ -2356,7 +2356,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return "";
         }
 
-        // NOT covered
         /// <summary>
         /// finds first occurence of a given template in article text
         /// handles nested templates correctly
@@ -2366,7 +2365,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>template with all params, enclosed in curly brackets</returns>
         public static string GetTemplate(string articleText, string template)
         {
-            Regex search = new Regex(@"(\{\{\s*" + template + @"\s*)(?:\||\}|<)", RegexOptions.Singleline);
+            Regex search = new Regex(@"(\{\{\s*" + Tools.CaseInsensitive(template) + @"\s*)(?:\||\}|<)", RegexOptions.Singleline);
 
             // remove commented out templates etc. before searching
             string articleTextCleaned = WikiRegexes.Comments.Replace(WikiRegexes.Nowiki.Replace(articleText, ""), "");
@@ -2394,7 +2393,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             MatchCollection nw = WikiRegexes.Nowiki.Matches(articleText);
             MatchCollection cm = WikiRegexes.Comments.Matches(articleText);
-            Regex search = new Regex(@"(\{\{\s*" + template + @"\s*)[\|\}]",
+            Regex search = new Regex(@"(\{\{\s*" + Tools.CaseInsensitive(template) + @"\s*)[\|\}]",
                 RegexOptions.Singleline);
 
             List<Match> res = new List<Match>();
