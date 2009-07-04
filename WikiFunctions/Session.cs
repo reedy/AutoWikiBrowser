@@ -50,6 +50,13 @@ namespace WikiFunctions
         internal string CheckPageText
         { get; private set; }
 
+        public Session(string url)
+        {
+            Editor = new AsyncApiEdit(url);
+            LoadProjectOptions();
+            Update();
+        }
+
         private readonly static Regex Message = new Regex("<!--[Mm]essage:(.*?)-->", RegexOptions.Compiled);
         private readonly static Regex VersionMessage = new Regex("<!--VersionMessage:(.*?)\\|\\|\\|\\|(.*?)-->", RegexOptions.Compiled);
         private readonly static Regex Underscores = new Regex("<!--[Uu]nderscores:(.*?)-->", RegexOptions.Compiled);
@@ -247,6 +254,47 @@ namespace WikiFunctions
                 Tools.WriteDebug(ToString(), ex.StackTrace);
                 IsBot = false;
                 return WikiStatusResult.Error;
+            }
+        }
+
+        /// <summary>
+        /// Loads namespaces
+        /// </summary>
+        private void LoadProjectOptions()
+        {
+            string[] months = (string[])Variables.ENLangMonthNames.Clone();
+
+            try
+            {
+                for (int i = 0; i < months.Length; i++) months[i] += "-gen";
+                Dictionary<string, string> messages = Site.GetMessages(months);
+
+                if (messages.Count == 12)
+                {
+                    for (int i = 0; i < months.Length; i++)
+                    {
+                        months[i] = messages[months[i]];
+                    }
+                    Variables.MonthNames = months;
+                }
+
+                Variables.Namespaces = Site.Namespaces;
+                Variables.NamespaceAliases = Site.NamespaceAliases;
+                Variables.MagicWords = Site.MagicWords;
+            }
+            catch (Exception ex)
+            {
+                //TODO:Better error handling
+
+                string message = ex is WikiUrlException ? ex.InnerException.Message : ex.Message;
+                MessageBox.Show("An error occured while connecting to the server or loading project information from it. " +
+                        "Please make sure that your internet connection works and such combination of project/language exist." +
+                        "\r\nEnter the URL in the format \"en.wikipedia.org/w/\" (including path where index.php and api.php reside)." +
+                        "\r\nError description: " + message,
+                        "Error connecting to wiki", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //SetDefaults();
+                
+                return;
             }
         }
     }
