@@ -602,12 +602,17 @@ namespace WikiFunctions.API
             Reset();
         }
 
-        public void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect)
+        public void Move(string title, string newTitle, string reason)
         {
-            MovePage(title, newTitle, reason, moveTalk, noRedirect, false);
+            Move(title, newTitle, reason, true, false, false);
         }
 
-        public void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect, bool watch)
+        public void Move(string title, string newTitle, string reason, bool moveTalk, bool noRedirect)
+        {
+            Move(title, newTitle, reason, moveTalk, noRedirect, false);
+        }
+
+        public void Move(string title, string newTitle, string reason, bool moveTalk, bool noRedirect, bool watch)
         {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page title required", "title");
             if (string.IsNullOrEmpty(newTitle)) throw new ArgumentException("Target page title required", "newTitle");

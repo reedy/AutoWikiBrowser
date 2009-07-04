@@ -370,14 +370,19 @@ namespace WikiFunctions.API
             Protect(title, reason, expiry.ToString(), edit, move, false, false);
         }
 
-        public void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect)
+        public void Move(string title, string newTitle, string reason)
         {
-            MovePage(title, newTitle, reason, moveTalk, noRedirect, false);
+            Move(title, newTitle, reason, true, false, false);
         }
 
-        public void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect, bool watch)
+        public void Move(string title, string newTitle, string reason, bool moveTalk, bool noRedirect)
         {
-            InvokeFunction("MovePage", title, newTitle, reason, moveTalk, noRedirect, watch);
+            Move(title, newTitle, reason, moveTalk, noRedirect, false);
+        }
+
+        public void Move(string title, string newTitle, string reason, bool moveTalk, bool noRedirect, bool watch)
+        {
+            InvokeFunction("Move", title, newTitle, reason, moveTalk, noRedirect, watch);
         }
 
         public string Preview(string title, string text)

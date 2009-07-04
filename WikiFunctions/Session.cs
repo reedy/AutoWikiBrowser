@@ -235,7 +235,6 @@ namespace WikiFunctions
                 strText = Tools.StringBetween(strText, "<!--enabledusersbegins-->", "<!--enabledusersends-->");
 
                 string strBotUsers = Tools.StringBetween(strText, "<!--enabledbots-->", "<!--enabledbotsends-->");
-                string strAdmins = Tools.StringBetween(strText, "<!--adminsbegins-->", "<!--adminsends-->");
                 Regex username = new Regex(@"^\*\s*" + Tools.CaseInsensitive(Editor.User.Name)
                                            + @"\s*$", RegexOptions.Multiline);
 
