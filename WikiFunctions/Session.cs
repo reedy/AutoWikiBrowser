@@ -105,7 +105,7 @@ namespace WikiFunctions
                     //webBrowserWikia.Wait();
                     try
                     {
-                        Variables.LangCode = Variables.ParseLanguage(webBrowserWikia.GetScriptingVar("wgContentLanguage"));
+                        Variables.LangCode = Variables.ParseLanguage(webBrowserWikia.Site.Language);
                     }
                     catch
                     {
