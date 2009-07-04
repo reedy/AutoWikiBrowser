@@ -44,7 +44,7 @@ namespace WikiFunctions
         public SiteInfo(IApiEdit editor)
         {
             Editor = editor;
-            ScriptPath = editor.URL + "api.php";
+            ScriptPath = editor.URL;
 
             try
             {
@@ -185,7 +185,7 @@ namespace WikiFunctions
         /// <returns></returns>
         public Dictionary<string, string> GetMessages(params string[] names)
         {
-            string output = Tools.GetHTML(ApiPath + "?format=xml&action=query&meta=allmessages&ammessages=" + string.Join("|", names));
+            string output = Editor.HttpGet(ApiPath + "?format=xml&action=query&meta=allmessages&ammessages=" + string.Join("|", names));
 
             XmlDocument xd = new XmlDocument();
             xd.LoadXml(output);
