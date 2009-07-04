@@ -676,8 +676,7 @@ namespace AutoWikiBrowser
             }
 
             TheArticle.OriginalArticleText = articleText;
-
-            int.TryParse(webBrowserEdit.GetScriptingVar("wgCurRevisionId"), out ErrorHandler.CurrentRevision);
+            int.TryParse(TheSession.Editor.Page.RevisionID, out ErrorHandler.CurrentRevision);
 
             if (PageReload)
             {
