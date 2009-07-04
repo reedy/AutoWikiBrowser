@@ -559,7 +559,6 @@ namespace AutoWikiBrowser
 
             Minimize = p.General.Minimize;
             TimeOut = p.General.TimeOutLimit;
-            webBrowserEdit.TimeoutLimit = int.Parse(TimeOut.ToString());
 
             chkEnableDab.Checked = p.Disambiguation.Enabled;
             txtDabLink.Text = p.Disambiguation.Link;

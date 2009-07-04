@@ -350,13 +350,12 @@ namespace AutoWikiBrowser
         private bool Minimize;
 
         private decimal dTimeOut = 30;
-        private decimal TimeOut
+        private decimal TimeOut //TODO:Do we still need this? If no, remove from settings
         {
             get { return dTimeOut; }
             set
             {
                 dTimeOut = value;
-                webBrowserEdit.TimeoutLimit = int.Parse(value.ToString());
             }
         }
 
@@ -818,7 +817,7 @@ namespace AutoWikiBrowser
                         break;
                 }
 
-                SetWatchButton(TheSession.Editor.Page.IsWatched());
+                SetWatchButton(TheSession.Editor.Page.IsWatched);
 
                 txtReviewEditSummary.Text = MakeSummary();
 
@@ -3533,23 +3532,20 @@ window.scrollTo(0, diffTopY);
         {
             if (toolStrip.Visible)
             {
-                webBrowserEdit.Location = new Point(webBrowserEdit.Location.X, 48);
+                webBrowserDiff.Location = new Point(webBrowserDiff.Location.X, 48);
                 if (panel1.Visible)
-                    webBrowserEdit.Height = panel1.Location.Y - 48;
+                    webBrowserDiff.Height = panel1.Location.Y - 48;
                 else
-                    webBrowserEdit.Height = StatusMain.Location.Y - 48;
+                    webBrowserDiff.Height = StatusMain.Location.Y - 48;
             }
             else
             {
-                webBrowserEdit.Location = new Point(webBrowserEdit.Location.X, 25);
+                webBrowserDiff.Location = new Point(webBrowserDiff.Location.X, 25);
                 if (panel1.Visible)
-                    webBrowserEdit.Height = panel1.Location.Y - 25;
+                    webBrowserDiff.Height = panel1.Location.Y - 25;
                 else
-                    webBrowserEdit.Height = StatusMain.Location.Y - 25;
+                    webBrowserDiff.Height = StatusMain.Location.Y - 25;
             }
-
-            webBrowserDiff.Location = webBrowserEdit.Location;
-            webBrowserDiff.Size = webBrowserEdit.Size;
         }
 
         private void enableTheToolbarToolStripMenuItem_Click(object sender, EventArgs e)
