@@ -20,7 +20,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using WikiFunctions.Browser;
 using System.Text.RegularExpressions;
 using System.Reflection;
 using WikiFunctions.Plugin;
@@ -158,7 +157,6 @@ namespace WikiFunctions
             }
         }
 
-        public static readonly UserProperties User = new UserProperties();
         public static string RetfPath;
 
         public static IAutoWikiBrowser MainForm
@@ -865,15 +863,6 @@ namespace WikiFunctions
         public static string GetUserTalkURL(string username)
         {
             return URLIndex + "?title=User_talk:" + Tools.WikiEncode(username) + "&action=purge";
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static string GetUserTalkURL()
-        {
-            return URLIndex + "?title=User_talk:" + Tools.WikiEncode(User.Name) + "&action=purge";
         }
 
         /// <summary>

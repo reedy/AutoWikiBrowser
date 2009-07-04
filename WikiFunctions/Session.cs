@@ -45,6 +45,9 @@ namespace WikiFunctions
             get { return Editor.User.IsSysop; }
         }
 
+        internal string CheckPageText
+        { get; private set; }
+
         private readonly static Regex Message = new Regex("<!--[Mm]essage:(.*?)-->", RegexOptions.Compiled);
         private readonly static Regex VersionMessage = new Regex("<!--VersionMessage:(.*?)\\|\\|\\|\\|(.*?)-->", RegexOptions.Compiled);
         private readonly static Regex Underscores = new Regex("<!--[Uu]nderscores:(.*?)-->", RegexOptions.Compiled);
@@ -54,10 +57,18 @@ namespace WikiFunctions
         /// </summary>
         private static readonly Regex HeadRTL = new Regex("<html [^>]*? dir=\"rtl\">", RegexOptions.Compiled);
 
+        private WikiStatusResult Status;
+
+        public WikiStatusResult Update()
+        {
+            Status = UpdateWikiStatus();
+            return Status;
+        }
+
         /// <summary>
         /// Checks log in status, registered and version.
         /// </summary>
-        public WikiStatusResult UpdateWikiStatus()
+        private WikiStatusResult UpdateWikiStatus()
         {
             try
             {
@@ -116,7 +127,7 @@ namespace WikiFunctions
                     try
                     {
                         Variables.LangCode = 
-                            Variables.ParseLanguage(Site.ContentLanguage);
+                            Variables.ParseLanguage(Site.Language);
                     }
                     catch
                     {
@@ -130,10 +141,7 @@ namespace WikiFunctions
 
                 //see if this version is enabled
                 if (!strVersionPage.Contains(AWBVersion + " enabled"))
-                {
-                    IsBot = WikiStatus = false;
                     return WikiStatusResult.OldVersion;
-                }
 
                 // else
                 if (!WeAskedAboutUpdate && strVersionPage.Contains(AWBVersion + " enabled (old)"))
@@ -151,7 +159,7 @@ namespace WikiFunctions
                                                              "\\AWBUpdater.exe");
                         }
                         else if (
-                            MessageBox.Show("Error automatically updating AWB.  Load the download page instead?",
+                            MessageBox.Show("Error automatically updating AWB. Load the download page instead?",
                                             "Load download page?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
                             Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=158332");
@@ -161,23 +169,11 @@ namespace WikiFunctions
 
                 CheckPageText = strText;
 
-                //AWB does not support any skin other than Monobook
-                if (Editor.GetScriptingVar("skin") == "cologneblue")
-                {
-                    MessageBox.Show("This software does not support the Cologne Blue skin." +
-                                    "\r\nPlease choose another skin in your preferences and relogin.", "Error",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    return WikiStatusResult.Null;
-                }
-
                 // don't run GetInLogInStatus if we don't have the username, we sometimes get 2 error message boxes otherwise
                 bool loggedIn = Editor.User.IsRegistered;
 
                 if (!loggedIn)
-                {
-                    IsBot = WikiStatus = false;
                     return WikiStatusResult.NotLoggedIn;
-                }
 
                 // check if username is globally blacklisted
                 foreach (
@@ -217,7 +213,6 @@ namespace WikiFunctions
                 //don't require approval if checkpage does not exist.
                 if (strText.Length < 1)
                 {
-                    WikiStatus = true;
                     IsBot = true;
                     return WikiStatusResult.Registered;
                 }
@@ -225,7 +220,6 @@ namespace WikiFunctions
                 if (strText.Contains("<!--All users enabled-->"))
                 {
                     //see if all users enabled
-                    WikiStatus = true;
                     IsBot = true;
                     return WikiStatusResult.Registered;
                 }
@@ -235,12 +229,11 @@ namespace WikiFunctions
 
                 string strBotUsers = Tools.StringBetween(strText, "<!--enabledbots-->", "<!--enabledbotsends-->");
                 string strAdmins = Tools.StringBetween(strText, "<!--adminsbegins-->", "<!--adminsends-->");
-                Regex username = new Regex(@"^\*\s*" + Tools.CaseInsensitive(Variables.User.Name)
+                Regex username = new Regex(@"^\*\s*" + Tools.CaseInsensitive(Editor.User.Name)
                                            + @"\s*$", RegexOptions.Multiline);
 
                 if (IsSysop)
                 {
-                    WikiStatus = true;
                     IsBot = username.IsMatch(strBotUsers);
                     return WikiStatusResult.Registered;
                 }
@@ -250,19 +243,17 @@ namespace WikiFunctions
                     //enable botmode
                     IsBot = username.IsMatch(strBotUsers);
 
-                    WikiStatus = true;
-
                     return WikiStatusResult.Registered;
                 }
 
-                IsBot = WikiStatus = false;
+                IsBot = false;
                 return WikiStatusResult.NotRegistered;
             }
             catch (Exception ex)
             {
                 Tools.WriteDebug(ToString(), ex.Message);
                 Tools.WriteDebug(ToString(), ex.StackTrace);
-                IsBot = WikiStatus = false;
+                IsBot = false;
                 return WikiStatusResult.Error;
             }
         }
