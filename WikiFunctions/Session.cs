@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -65,6 +66,9 @@ namespace WikiFunctions
             return Status;
         }
 
+        private static string AWBVersion
+        { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }
+
         /// <summary>
         /// Checks log in status, registered and version.
         /// </summary>
@@ -73,6 +77,8 @@ namespace WikiFunctions
             try
             {
                 string typoPostfix = "";
+
+                IsBot = false;
 
                 //TODO: login?
                 Site = new SiteInfo(Editor);
@@ -143,29 +149,30 @@ namespace WikiFunctions
                 if (!strVersionPage.Contains(AWBVersion + " enabled"))
                     return WikiStatusResult.OldVersion;
 
+                //TODO:
                 // else
-                if (!WeAskedAboutUpdate && strVersionPage.Contains(AWBVersion + " enabled (old)"))
-                {
-                    WeAskedAboutUpdate = true;
-                    if (
-                        MessageBox.Show(
-                            "This version has been superceeded by a new version.  You may continue to use this version or update to the newest version.\r\n\r\nWould you like to automatically upgrade to the newest version?",
-                            "Upgrade?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        Match version = Regex.Match(strVersionPage, @"<!-- Current version: (.*?) -->");
-                        if (version.Success && version.Groups[1].Value.Length == 4)
-                        {
-                            System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) +
-                                                             "\\AWBUpdater.exe");
-                        }
-                        else if (
-                            MessageBox.Show("Error automatically updating AWB. Load the download page instead?",
-                                            "Load download page?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        {
-                            Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=158332");
-                        }
-                    }
-                }
+                //if (!WeAskedAboutUpdate && strVersionPage.Contains(AWBVersion + " enabled (old)"))
+                //{
+                //    WeAskedAboutUpdate = true;
+                //    if (
+                //        MessageBox.Show(
+                //            "This version has been superceeded by a new version.  You may continue to use this version or update to the newest version.\r\n\r\nWould you like to automatically upgrade to the newest version?",
+                //            "Upgrade?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                //    {
+                //        Match version = Regex.Match(strVersionPage, @"<!-- Current version: (.*?) -->");
+                //        if (version.Success && version.Groups[1].Value.Length == 4)
+                //        {
+                //            System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) +
+                //                                             "\\AWBUpdater.exe");
+                //        }
+                //        else if (
+                //            MessageBox.Show("Error automatically updating AWB. Load the download page instead?",
+                //                            "Load download page?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                //        {
+                //            Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=158332");
+                //        }
+                //    }
+                //}
 
                 CheckPageText = strText;
 
@@ -246,7 +253,6 @@ namespace WikiFunctions
                     return WikiStatusResult.Registered;
                 }
 
-                IsBot = false;
                 return WikiStatusResult.NotRegistered;
             }
             catch (Exception ex)
@@ -256,11 +262,6 @@ namespace WikiFunctions
                 IsBot = false;
                 return WikiStatusResult.Error;
             }
-        }
-
-        public void EnsureLoaded()
-        {
-            if (!bLoaded) UpdateWikiStatus();
         }
     }
 }

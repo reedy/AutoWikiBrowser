@@ -889,8 +889,9 @@ namespace WikiFunctions
 
     #region UserProperties
 
-    public class UserProperties
+    internal class UserProperties
     {
+        //TODO: port notification crap to Session before removing
         public UserProperties()
         {
             if (Globals.UnitTestMode) return;
@@ -1019,7 +1020,7 @@ namespace WikiFunctions
                     return WikiStatusResult.Error;
                 }
 
-                return !strText.Contains(AWBVersion + " enabled") ? WikiStatusResult.OldVersion : WikiStatusResult.Null;
+                return !strText.Contains(""/*Variables.AWBVersion*/ + " enabled") ? WikiStatusResult.OldVersion : WikiStatusResult.Null;
             }
             catch (Exception ex)
             {
@@ -1028,16 +1029,6 @@ namespace WikiFunctions
                 return WikiStatusResult.Error;
             }
         }
-
-        string strCheckPage = "";
-        public string CheckPageText
-        {
-            get { return strCheckPage; }
-            private set { strCheckPage = value; }
-        }
-
-        private static string AWBVersion
-        { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }
     }
     #endregion
 }
