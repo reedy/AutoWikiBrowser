@@ -1431,7 +1431,7 @@ namespace AutoWikiBrowser
                     process = false;
 
                 if (!IgnoreNoBots &&
-                    !Parsers.CheckNoBots(theArticle.ArticleText, Variables.User.Name))
+                    !Parsers.CheckNoBots(theArticle.ArticleText, TheSession.Editor.User.Name))
                 {
                     theArticle.AWBSkip("Restricted by {{bots}}/{{nobots}}");
                     return;
@@ -1853,7 +1853,7 @@ window.scrollTo(0, diffTopY);
 
         private void UpdateUserName(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(Variables.User.Name))
+            if (string.IsNullOrEmpty(TheSession.Editor.User.Name))
             {
                 lblUserName.BackColor = Color.Red;
                 lblUserName.Text = Variables.Namespaces[Namespace.User];
@@ -1861,7 +1861,7 @@ window.scrollTo(0, diffTopY);
             else
             {
                 lblUserName.BackColor = Color.Green;
-                lblUserName.Text = Variables.User.Name;
+                lblUserName.Text = TheSession.Editor.User.Name;
             }
         }
 
@@ -1974,7 +1974,7 @@ window.scrollTo(0, diffTopY);
                     tag = @"/* " + sectionEditText + @" */" + tag;
             }
 
-            if ((Variables.User.IsBot && chkSuppressTag.Checked)
+            if ((TheSession.Editor.User.IsBot && chkSuppressTag.Checked)
                 || (!Variables.IsWikimediaProject && SuppressUsingAWB))
                 return tag;
 
@@ -2107,11 +2107,11 @@ window.scrollTo(0, diffTopY);
 
         private void UpdateBotStatus(object sender, EventArgs e)
         {
-            chkAutoMode.Enabled = chkSuppressTag.Enabled = Variables.User.IsBot;
+            chkAutoMode.Enabled = chkSuppressTag.Enabled = TheSession.Editor.User.IsBot;
 
-            lblOnlyBots.Visible = !Variables.User.IsBot;
+            lblOnlyBots.Visible = !TheSession.Editor.User.IsBot;
 
-            if (Variables.User.IsBot)
+            if (TheSession.Editor.User.IsBot)
             {
                 if (!MainTab.TabPages.Contains(tpBots))
                     MainTab.TabPages.Insert(MainTab.TabPages.IndexOf(tpStart), tpBots);
@@ -2207,7 +2207,7 @@ window.scrollTo(0, diffTopY);
 
                 case WikiStatusResult.NotRegistered:
                     lblUserName.BackColor = Color.Red;
-                    MessageBox.Show(Variables.User.Name + " is not enabled to use this.", "Not enabled", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show(TheSession.Editor.User.Name + " is not enabled to use this.", "Not enabled", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     Tools.OpenURLInBrowser(Variables.URL + "/wiki/Project:AutoWikiBrowser/CheckPage");
                     break;
 
@@ -2217,7 +2217,7 @@ window.scrollTo(0, diffTopY);
 
                 case WikiStatusResult.Registered:
                     b = true;
-                    label = string.Format("Logged in, user and software enabled. Bot = {0}, Admin = {1}", Variables.User.IsBot, Variables.User.IsAdmin);
+                    label = string.Format("Logged in, user and software enabled. Bot = {0}, Admin = {1}", TheSession.Editor.User.IsBot, TheSession.Editor.User.IsAdmin);
                     lblUserName.BackColor = Color.LightGreen;
 
                     //Get list of articles not to apply general fixes to.
@@ -2644,7 +2644,7 @@ window.scrollTo(0, diffTopY);
             SetStartButton(listMaker.NumberOfArticles > 0);
 
             lbltsNumberofItems.Text = "Pages: " + listMaker.NumberOfArticles;
-            bypassAllRedirectsToolStripMenuItem.Enabled = Variables.User.IsAdmin;
+            bypassAllRedirectsToolStripMenuItem.Enabled = TheSession.Editor.User.IsAdmin;
         }
 
         private void SetStartButton(bool enabled)
@@ -2678,7 +2678,7 @@ window.scrollTo(0, diffTopY);
             btntsPreview.Enabled = btntsChanges.Enabled = listMaker.MakeListEnabled =
             btntsSave.Enabled = btntsIgnore.Enabled = /*btnWatch.Enabled = */ findGroup.Enabled = enabled;
 
-            btnDelete.Enabled = btntsDelete.Enabled = btnMove.Enabled = btnProtect.Enabled = (enabled && Variables.User.IsAdmin && (TheArticle != null));
+            btnDelete.Enabled = btntsDelete.Enabled = btnMove.Enabled = btnProtect.Enabled = (enabled && TheSession.Editor.User.IsAdmin && (TheArticle != null));
         }
 
         #endregion
