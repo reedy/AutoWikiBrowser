@@ -3708,10 +3708,10 @@ window.scrollTo(0, diffTopY);
                         LastProtect = dlgArticleAction.Summary;
                         TheSession.Editor.Protect(TheArticle.Name, 
                                                     ArticleActionSummary(dlgArticleAction),
+                                                    dlgArticleAction.ProtectExpiry,
                                                     dlgArticleAction.EditProtectionLevel,
                                                     dlgArticleAction.MoveProtectionLevel, 
-                                                    dlgArticleAction.ProtectExpiry,
-                                                    dlgArticleAction.CascadingProtection
+                                                    dlgArticleAction.CascadingProtection,
                                                     dlgArticleAction.Watch);
                     }
                 }
