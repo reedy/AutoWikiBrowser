@@ -42,6 +42,7 @@ namespace WikiFunctions.Controls
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
+            //Bug fix for AutoWordSelection - http://msdn.microsoft.com/en-us/library/system.windows.forms.richtextbox.autowordselection.aspx
             if (!AutoWordSelection)
             {
                 AutoWordSelection = true;
@@ -124,13 +125,9 @@ namespace WikiFunctions.Controls
 
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // ArticleTextBox
-            // 
-            this.DetectUrls = false;
-            this.ResumeLayout(false);
-
+            SuspendLayout();
+            DetectUrls = false;
+            ResumeLayout(false);
         }
     }
 }
