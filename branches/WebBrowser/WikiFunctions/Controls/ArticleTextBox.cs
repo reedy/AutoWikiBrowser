@@ -39,6 +39,16 @@ namespace WikiFunctions.Controls
             if (!Locked) base.OnTextChanged(e);
         }
 
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+            if (!AutoWordSelection)
+            {
+                AutoWordSelection = true;
+                AutoWordSelection = false;
+            }
+        }
+
         private Regex RegexObj;
         private Match MatchObj;
 
