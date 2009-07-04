@@ -132,9 +132,12 @@ namespace WikiFunctions.API
 
         #region Events
 
-        public event AsyncOperationCompleteEventHandler EditComplete;
+        public event AsyncOperationCompleteEventHandler SaveComplete;
         public AsyncStringOperationCompleteEventHandler PreviewComplete;
+
         public event AsyncExceptionEventHandler ExceptionCaught;
+        public event AsyncOperationCompleteEventHandler MaxlagExceeded;
+        public event AsyncOperationCompleteEventHandler LoggedOff;
 
         #endregion
 
@@ -148,7 +151,7 @@ namespace WikiFunctions.API
             switch (operation)
             {
                 case "Edit":
-                    if (EditComplete != null) EditComplete(this);
+                    if (SaveComplete != null) SaveComplete(this);
                     break;
                 case "Preview":
                     if (PreviewComplete != null) PreviewComplete(this, (string)result);
@@ -159,7 +162,18 @@ namespace WikiFunctions.API
         protected virtual void OnOperationFailed(string operation, Exception ex)
         {
             Tools.WriteDebug("ApiEdit", ex.Message);
-            // TODO: do something useful here
+
+            if (ex is ApiMaxlagException)
+            {
+                if (MaxlagExceeded != null) MaxlagExceeded(this);
+            }
+            else if (ex is ApiLoggedOffException)
+            {
+                if (LoggedOff != null) LoggedOff(this);
+            }
+
+            else
+                OnExceptionCaught(ex);
         }
 
         protected virtual void OnExceptionCaught(Exception ex)
