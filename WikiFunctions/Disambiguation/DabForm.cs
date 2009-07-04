@@ -54,8 +54,8 @@ namespace WikiFunctions.Disambiguation
         readonly Session session;
 
         /// <summary>
-        /// displays form that promts user for disambiguation
-        /// if no disambihuation needed, immediately returns
+        /// Displays a form that promts user for disambiguation
+        /// if no disambiguation needed, immediately returns
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle"></param>
@@ -241,8 +241,7 @@ namespace WikiFunctions.Disambiguation
             //TODO:Must be a better way. Background request?
             try
             {
-                session.Editor.Watch(ArticleTitle);
-                session.Editor.Wait();
+                session.Editor.Clone().Watch(ArticleTitle);
                 MessageBox.Show("Page successfully added to your watchlist");
             }
             catch (Exception ex)
@@ -256,8 +255,7 @@ namespace WikiFunctions.Disambiguation
             //TODO:Must be a better way. Background request?
             try
             {
-                session.Editor.Watch(ArticleTitle);
-                session.Editor.Wait();
+                session.Editor.Clone().Watch(ArticleTitle);
                 MessageBox.Show("Page successfully removed from your watchlist");
             }
             catch (Exception ex)

@@ -33,7 +33,8 @@ namespace WikiFunctions
     /// </summary>
     public class Session
     {
-        private AsyncApiEdit Editor;
+        public AsyncApiEdit Editor
+        { get; private set; }
 
         public SiteInfo Site
         { get; private set; }
@@ -52,11 +53,6 @@ namespace WikiFunctions
         private readonly static Regex Message = new Regex("<!--[Mm]essage:(.*?)-->", RegexOptions.Compiled);
         private readonly static Regex VersionMessage = new Regex("<!--VersionMessage:(.*?)\\|\\|\\|\\|(.*?)-->", RegexOptions.Compiled);
         private readonly static Regex Underscores = new Regex("<!--[Uu]nderscores:(.*?)-->", RegexOptions.Compiled);
-
-        /// <summary>
-        /// Matches <head> on right-to-left wikis
-        /// </summary>
-        private static readonly Regex HeadRTL = new Regex("<html [^>]*? dir=\"rtl\">", RegexOptions.Compiled);
 
         private WikiStatusResult Status;
 
@@ -84,8 +80,8 @@ namespace WikiFunctions
                 Site = new SiteInfo(Editor);
 
                 //load version check page
-                BackgroundRequest br = new BackgroundRequest();
-                br.GetHTML(
+                BackgroundRequest versionRequest = new BackgroundRequest();
+                versionRequest.GetHTML(
                     "http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
 
                 //load check page
@@ -97,42 +93,15 @@ namespace WikiFunctions
                 else
                     url = Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=edit";
 
-                string strText = Editor.Editor.HttpGet(url);
+                string strText = Editor.SynchronousEditor.HttpGet(url);
 
-                Variables.RTL = HeadRTL.IsMatch(Editor.Page.Text);
+                Variables.RTL = Site.IsRightToLeft;
 
-                if (Variables.IsWikia)
-                {
-                    //this object loads a local checkpage on Wikia
-                    //it cannot be used to approve users, but it could be used to set some settings
-                    //such as underscores and pages to ignore
-                    AsyncApiEdit webBrowserWikia = (AsyncApiEdit)Editor.Clone();
-                    webBrowserWikia.Editor.Open(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=edit");
-                    //webBrowserWikia.Wait();
-                    try
-                    {
-                        Variables.LangCode = Variables.ParseLanguage(webBrowserWikia.Site.Language);
-                    }
-                    catch
-                    {
-                        // use English if language not recognized
-                        Variables.LangCode = LangCodeEnum.en;
-                    }
-                    typoPostfix = "-" + Variables.LangCode;
-                    string s = webBrowserWikia.Page.Text;
-
-                    // selectively add content of the local checkpage to the global one
-                    strText += Message.Match(s).Value
-                        /*+ Underscores.Match(s).Value*/
-                               + WikiRegexes.NoGeneralFixes.Match(s);
-
-                }
-
-                if (Variables.IsCustomProject)
+                if (Variables.IsCustomProject || Variables.IsWikia)
                 {
                     try
                     {
-                        Variables.LangCode = 
+                        Variables.LangCode =
                             Variables.ParseLanguage(Site.Language);
                     }
                     catch
@@ -142,8 +111,26 @@ namespace WikiFunctions
                     }
                 }
 
-                br.Wait();
-                string strVersionPage = (string)br.Result;
+                if (Variables.IsWikia)
+                {
+                    //this object loads a local checkpage on Wikia
+                    //it cannot be used to approve users, but it could be used to set some settings
+                    //such as underscores and pages to ignore
+                    AsyncApiEdit editWikia = (AsyncApiEdit)Editor.Clone();
+                    SiteInfo wikiaInfo = new SiteInfo();
+                    string s = editWikia.SynchronousEditor.Open("Project:AutoWikiBrowser/CheckPage");
+
+                    typoPostfix = "-" + Variables.LangCode;
+
+                    // selectively add content of the local checkpage to the global one
+                    strText += Message.Match(s).Value
+                        /*+ Underscores.Match(s).Value*/
+                               + WikiRegexes.NoGeneralFixes.Match(s);
+
+                }
+
+                versionRequest.Wait();
+                string strVersionPage = (string)versionRequest.Result;
 
                 //see if this version is enabled
                 if (!strVersionPage.Contains(AWBVersion + " enabled"))
@@ -246,7 +233,7 @@ namespace WikiFunctions
 
                 if (!string.IsNullOrEmpty(Editor.User.Name) && username.IsMatch(strText))
                 {
-                    //enable botmode
+                    //enable bot mode
                     IsBot = username.IsMatch(strBotUsers);
 
                     return WikiStatusResult.Registered;
