@@ -23,9 +23,9 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
     /// <summary>
     /// What transcludes page list getter with no limits for admin and bot users (wont work for non admin/bots)
     /// </summary>
-    public class WhatTranscludesNoLimitsForAdminAndBotsPageListProvider : WhatTranscludesPageListProvider, IListMakerPlugin
+    public class WhatTranscludesPageNoLimitsForAdminAndBotsPlugin : WhatTranscludesPageListProvider, IListMakerPlugin
     {
-        public WhatTranscludesNoLimitsForAdminAndBotsPageListProvider()
+        public WhatTranscludesPageNoLimitsForAdminAndBotsPlugin()
         {
             Limit = 1000000;
         }
@@ -43,15 +43,15 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
         { get { return "What transcludes page (NL, Admin & Bot)"; } }
 
         public string Name
-        { get { return "WhatTranscludesNoLimitsForAdminAndBotsPageListProvider"; } }
+        { get { return "WhatTranscludesPageNoLimitsForAdminAndBotsPlugin"; } }
     }
 
     /// <summary>
     /// What transcludes page (in all namespaces) list getter with no limits for admin and bot users (wont work for non admin/bots)
     /// </summary>
-    public class WhatTranscludesAllNSNoLimitsForAdminAndBotsPageListProvider : WhatTranscludesPageAllNSListProvider, IListMakerPlugin
+    public class WhatTranscludesPageAllNSNoLimitsForAdminAndBotsPagePlugin : WhatTranscludesPageAllNSListProvider, IListMakerPlugin
     {
-        public WhatTranscludesAllNSNoLimitsForAdminAndBotsPageListProvider()
+        public WhatTranscludesPageAllNSNoLimitsForAdminAndBotsPagePlugin()
         {
             Limit = 1000000;
         }
@@ -69,6 +69,6 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
         { get { return "What transcludes page (All NS) (NL, Admin & Bot)"; } }
 
         public string Name
-        { get { return "WhatTranscludesAllNSNoLimitsForAdminAndBotsPageListProvider"; } }
+        { get { return "WhatTranscludesPageAllNSNoLimitsForAdminAndBotsPagePlugin"; } }
     }
 }
