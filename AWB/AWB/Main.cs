@@ -3677,7 +3677,7 @@ window.scrollTo(0, diffTopY);
         // TODO: Since this is essentially/conceptually Article.Delete(), Article.Move() etc shouldn't this region be encapsulated?
         private void MoveArticle()
         {
-            using (ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Delete))
+            using (ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Move))
             {
                 try
                 {
@@ -3721,7 +3721,7 @@ window.scrollTo(0, diffTopY);
 
         private void ProtectArticle()
         {
-            using (ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Delete))
+            using (ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Protect))
             {
                 try
                 {

@@ -39,6 +39,17 @@ namespace WikiFunctions.Controls
             if (!Locked) base.OnTextChanged(e);
         }
 
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+            //Bug fix for AutoWordSelection - http://msdn.microsoft.com/en-us/library/system.windows.forms.richtextbox.autowordselection.aspx
+            if (!AutoWordSelection)
+            {
+                AutoWordSelection = true;
+                AutoWordSelection = false;
+            }
+        }
+
         private Regex RegexObj;
         private Match MatchObj;
 
@@ -114,13 +125,9 @@ namespace WikiFunctions.Controls
 
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // ArticleTextBox
-            // 
-            this.DetectUrls = false;
-            this.ResumeLayout(false);
-
+            SuspendLayout();
+            DetectUrls = false;
+            ResumeLayout(false);
         }
     }
 }
