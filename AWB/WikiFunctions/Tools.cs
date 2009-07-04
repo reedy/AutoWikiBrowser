@@ -1424,7 +1424,7 @@ Message: {2}
         /// </summary>
         public static void OpenUserTalkInBrowser()
         {
-            OpenURLInBrowser(Variables.GetUserTalkURL());
+            OpenURLInBrowser(Variables.GetUserTalkURL("User:CurrentUser"));//TODO:FIX
         }
 
         /// <summary>

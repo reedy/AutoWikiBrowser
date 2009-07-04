@@ -656,7 +656,7 @@ namespace WikiFunctions
 
             if (projectName != ProjectEnum.wikipedia || langCode != LangCodeEnum.en)
             {
-                LoadProjectOptions();
+                //LoadProjectOptions(); //TODO:Reinstate/use in Session if necessary
             }
 
             //refresh once more in case project settings were reset due to error with loading
@@ -691,45 +691,7 @@ namespace WikiFunctions
             WikiRegexes.MakeLangSpecificRegexes();
         }
 
-        /// <summary>
-        /// Loads namespaces
-        /// </summary>
-        public static void LoadProjectOptions()
-        {
-            string[] months = (string[])ENLangMonthNames.Clone();
 
-            try
-            {
-                SiteInfo si = new SiteInfo(URLLong, PHP5);
-
-                for (int i = 0; i < months.Length; i++) months[i] += "-gen";
-                Dictionary<string, string> messages = si.GetMessages(months);
-
-                if (messages.Count == 12)
-                {
-                    for (int i = 0; i < months.Length; i++)
-                    {
-                        months[i] = messages[months[i]];
-                    }
-                    MonthNames = months;
-                }
-
-                Namespaces = si.Namespaces;
-                NamespaceAliases = si.NamespaceAliases;
-                MagicWords = si.MagicWords;
-            }
-            catch (Exception ex)
-            {
-                string message = ex is WikiUrlException ? ex.InnerException.Message : ex.Message;
-                MessageBox.Show("An error occured while connecting to the server or loading project information from it. " +
-                        "Please make sure that your internet connection works and such combination of project/language exist." +
-                        "\r\nEnter the URL in the format \"en.wikipedia.org/w/\" (including path where index.php and api.php reside)." +
-                        "\r\nError description: " + message,
-                        "Error connecting to wiki", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                SetDefaults();
-                return;
-            }
-        }
 
         /// <summary>
         /// 
