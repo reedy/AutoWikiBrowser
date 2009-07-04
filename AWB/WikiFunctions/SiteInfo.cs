@@ -94,8 +94,6 @@ namespace WikiFunctions
         internal SiteInfo()
         { }
 
-        //private static void VerifyIntegrity()
-        //{ }
 
         private string ApiPath
         {
@@ -117,6 +115,11 @@ namespace WikiFunctions
 
             XmlDocument xd = new XmlDocument();
             xd.LoadXml(output);
+
+            var general = xd["general"];
+            if (general == null) return false;
+
+            Language = general.Attributes["lang"].Value;
 
             if (xd["api"] == null || xd["api"]["query"] == null
                 || xd["api"]["query"]["namespaces"] == null || xd["api"]["query"]["namespacealiases"] == null)
@@ -198,6 +201,9 @@ namespace WikiFunctions
 
         public Dictionary<string, List<string>> MagicWords
         { get { return magicWords; } }
+
+        public string Language
+        { get; private set; }
 
         /// <summary>
         /// 

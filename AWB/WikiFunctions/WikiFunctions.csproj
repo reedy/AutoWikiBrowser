@@ -319,12 +319,6 @@
     </Compile>
     <Compile Include="Utils.cs" />
     <Compile Include="Variables.cs" />
-    <Compile Include="WebControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="WebControl.Designer.cs">
-      <DependentUpon>WebControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
