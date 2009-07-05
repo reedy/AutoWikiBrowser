@@ -145,11 +145,6 @@ namespace AutoWikiBrowser
                 cmboCategorise.SelectedIndex = 0;
                 cmboImages.SelectedIndex = 0;
 
-                Variables.User.UserNameChanged += UpdateUserName;
-                Variables.User.BotStatusChanged += UpdateBotStatus;
-                Variables.User.AdminStatusChanged += UpdateAdminStatus;
-                //Variables.User.WikiStatusChanged += UpdateWikiStatus;
-
                 listMaker.UserInputTextBox.ContextMenuStrip = mnuMakeFromTextBox;
                 listMaker.BusyStateChanged += SetProgressBar;
                 listMaker.NoOfArticlesChanged += UpdateButtons;
@@ -1649,7 +1644,7 @@ window.scrollTo(0, diffTopY);
             groupBox2.Visible = MainTab.Visible = !groupBox2.Visible;
         }
 
-        private void UpdateUserName(object sender, EventArgs e)
+        private void UpdateUserName()
         {
             if (string.IsNullOrEmpty(TheSession.Editor.User.Name))
             {
@@ -1893,7 +1888,7 @@ window.scrollTo(0, diffTopY);
             }
         }
 
-        private void UpdateBotStatus(object sender, EventArgs e)
+        private void UpdateBotStatus()
         {
             chkAutoMode.Enabled = chkSuppressTag.Enabled = TheSession.Editor.User.IsBot;
 
@@ -1912,9 +1907,10 @@ window.scrollTo(0, diffTopY);
             }
         }
 
-        private void UpdateAdminStatus(object sender, EventArgs e)
+        private void UpdateAdminStatus()
         {
-            btnProtect.Enabled = btnMove.Enabled = btnDelete.Enabled = btntsDelete.Enabled = (TheSession.IsSysop && btnSave.Enabled && (TheArticle != null));
+            btnProtect.Enabled = btnMove.Enabled = btnDelete.Enabled = btntsDelete.Enabled = 
+                TheSession.IsSysop && btnSave.Enabled && (TheArticle != null);
         }
 
         //private void UpdateWikiStatus(object sender, EventArgs e) { }
@@ -3942,6 +3938,10 @@ window.scrollTo(0, diffTopY);
                 LoadPrefs(Profiles.SettingsToLoad);
 
             TheSession.Update();
+
+            UpdateUserName();
+            UpdateBotStatus();
+            UpdateAdminStatus();
 
             StopProgressBar();
         }
