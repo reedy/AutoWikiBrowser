@@ -1544,7 +1544,7 @@ namespace AutoWikiBrowser
                 if (chkEnableDab.Checked && txtDabLink.Text.Trim().Length > 0 &&
                     txtDabVariants.Text.Trim().Length > 0)
                 {
-                    if (theArticle.Disambiguate(txtDabLink.Text.Trim(), txtDabVariants.Lines, BotMode,
+                    if (theArticle.Disambiguate(TheSession, txtDabLink.Text.Trim(), txtDabVariants.Lines, BotMode,
                         (int)udContextChars.Value, chkSkipNoDab.Checked))
                     {
                         if (theArticle.SkipArticle) return;
