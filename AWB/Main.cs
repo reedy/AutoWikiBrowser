@@ -441,7 +441,13 @@ namespace AutoWikiBrowser
 
         private void APIEditExceptionCaught(AsyncApiEdit sender, Exception ex)
         {
-            StartDelayedRestartTimer(null, null);
+            if (ex is ApiInterwikiException)
+            {
+                SkipPage(ex.Message);
+            }
+
+            else
+                StartDelayedRestartTimer(null, null);
         }
 
         private void StartAPITextLoad(string title)
@@ -1048,12 +1054,6 @@ namespace AutoWikiBrowser
         {
             try
             {
-                if (!TheSession.Editor.Page.Title.StartsWith(Variables.URLLong)) //TODO:Is this needed?
-                {
-                    SkipPage("Interwiki in page title");
-                    return false;
-                }
-
                 if (!TheSession.Editor.Page.Exists && radSkipNonExistent.Checked)
                 {//check if it is a non-existent page, if so then skip it automatically.
                     SkipPage("Non-existent page");

@@ -435,6 +435,10 @@ namespace WikiFunctions.API
 
             CheckForError(result, "query");
 
+
+            //HACK:
+            if (result.Contains("<interwiki>")) throw new ApiInterwikiException(this);
+
             try
             {
                 Page = new PageInfo(result);

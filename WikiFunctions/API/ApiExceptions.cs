@@ -194,4 +194,12 @@ namespace WikiFunctions.API
         {
         }
     }
+
+    public class ApiInterwikiException : ApiException
+    {
+        public ApiInterwikiException(ApiEdit editor)
+            : base(editor, "Page title contains interwiki")
+        {
+        }
+    }
 }
