@@ -36,21 +36,16 @@ namespace WikiFunctions.Disambiguation
         /// if true, all processing should be immediately halted
         /// </summary>
         public bool Abort;
-        bool BotMode;
+        private bool BotMode;
 
-        readonly List<string> Variants = new List<string>();
-        string ArticleText;
-        string ArticleTitle;
-        Regex Search;
-        MatchCollection Matches;
+        private readonly List<string> Variants = new List<string>();
+        private string ArticleTitle;
+        private Regex Search;
 
-        readonly List<DabControl> Dabs = new List<DabControl>();
+        private readonly List<DabControl> Dabs = new List<DabControl>();
 
-        static int SavedWidth;
-        static int SavedHeight;
-        static int SavedLeft;
-        static int SavedTop;
-        bool NoSave = true;
+        private static int SavedWidth, SavedHeight, SavedLeft, SavedTop;
+        private bool NoSave = true;
 
         private readonly Session Session;
 
@@ -69,6 +64,9 @@ namespace WikiFunctions.Disambiguation
         public string Disambiguate(string articleText, string articleTitle, string dabLink,
             string[] dabVariants, int contextChars, bool botMode, out bool skip)
         {
+            Variants.Clear();
+            Dabs.Clear();
+
             skip = true;
 
             BotMode = botMode;
@@ -76,7 +74,7 @@ namespace WikiFunctions.Disambiguation
             if (dabLink.Contains("|"))
             {
                 string sum = "";
-                foreach (string s in dabLink.Split(new [] { '|' }))
+                foreach (string s in dabLink.Split(new[] {'|'}))
                 {
                     if (s.Trim().Length == 0) continue;
                     sum += "|" + Tools.CaseInsensitive(Regex.Escape(s.Trim()));
@@ -88,7 +86,7 @@ namespace WikiFunctions.Disambiguation
             else
                 dabLink = Tools.CaseInsensitive(Regex.Escape(dabLink.Trim()));
 
-            ArticleText = articleText;
+            string newText = articleText;
             ArticleTitle = articleTitle;
 
             foreach (string s in dabVariants)
@@ -100,13 +98,14 @@ namespace WikiFunctions.Disambiguation
             if (Variants.Count == 0) return articleText;
 
             Search = new Regex(@"\[\[\s*(" + dabLink +
-                @")\s*(?:|#[^\|\]]*)(|\|[^\]]*)\]\]([\p{Ll}\p{Lu}\p{Lt}\p{Pc}\p{Lm}]*)");
+                               @")\s*(?:|#[^\|\]]*)(|\|[^\]]*)\]\]([\p{Ll}\p{Lu}\p{Lt}\p{Pc}\p{Lm}]*)");
 
-            Matches = Search.Matches(articleText);
+            MatchCollection matches = Search.Matches(articleText);
 
-            if (Matches.Count == 0) return articleText;
+            if (matches.Count == 0)
+                return articleText;
 
-            foreach (Match m in Matches)
+            foreach (Match m in matches)
             {
                 DabControl c = new DabControl(articleText, dabLink, m, Variants, contextChars);
                 c.Changed += OnUserInput;
@@ -129,7 +128,10 @@ namespace WikiFunctions.Disambiguation
             foreach (DabControl d in Dabs)
             {
                 int start;
-                for (start = 0; (start < Math.Min(d.Surroundings.Length, d.Result.Length)) && (d.Result[start] == d.Surroundings[start]); start++)
+                for (start = 0;
+                     (start < Math.Min(d.Surroundings.Length, d.Result.Length)) &&
+                     (d.Result[start] == d.Surroundings[start]);
+                     start++)
                 {
                 }
 
@@ -142,14 +144,15 @@ namespace WikiFunctions.Disambiguation
                     end2--;
                 }
 
-                ArticleText = Tools.ReplacePartOfString(ArticleText, d.SurroundingsStart + start + adjust,
-                    end1 - start + 1, d.Result.Substring(start, end2 - start + 1));
+                newText = Tools.ReplacePartOfString(newText, d.SurroundingsStart + start + adjust,
+                                                    end1 - start + 1, d.Result.Substring(start, end2 - start + 1));
                 adjust += d.Result.Length - d.Surroundings.Length;
             }
 
-            if (ArticleText != articleText) skip = false;
+            if (newText != articleText)
+                skip = false;
 
-            return ArticleText;
+            return newText;
         }
 
         private void btnResetAll_Click(object sender, EventArgs e)
@@ -188,7 +191,7 @@ namespace WikiFunctions.Disambiguation
             }
             if (SavedLeft != 0)
             {
-                
+
                 Left = SavedLeft;
                 Top = SavedTop;
             }
