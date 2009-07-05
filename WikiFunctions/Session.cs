@@ -59,13 +59,27 @@ namespace WikiFunctions
 
         #endregion
 
-        public Session(string url)
+        Control parentControl;
+
+        public Session(Control parent)
         {
-            Editor = new AsyncApiEdit(url);
-            AttachEvents(Editor);
+            parentControl = parent;
+            Editor = CreateEditor();
             Site = new SiteInfo(Editor.SynchronousEditor);
             LoadProjectOptions();
             Update();
+        }
+
+        private AsyncApiEdit CreateEditor()
+        {
+            AsyncApiEdit edit = new AsyncApiEdit(Variables.URLLong, parentControl);
+            edit.SaveComplete += OnSaveComplete;
+            edit.PreviewComplete += OnPreviewComplete;
+            edit.ExceptionCaught += OnExceptionCaught;
+            edit.MaxlagExceeded += OnMaxlagExceeded;
+            edit.LoggedOff += OnLoggedOff;
+
+            return edit;
         }
 
         #region Events
@@ -77,14 +91,6 @@ namespace WikiFunctions
         public event AsyncOperationCompleteEventHandler MaxlagExceeded;
         public event AsyncOperationCompleteEventHandler LoggedOff;
 
-        private void AttachEvents(AsyncApiEdit edit)
-        {
-            edit.SaveComplete += SaveComplete;
-            edit.PreviewComplete += PreviewComplete;
-            edit.ExceptionCaught += ExceptionCaught;
-            edit.MaxlagExceeded += MaxlagExceeded;
-            edit.LoggedOff += LoggedOff;
-        }
 
         void OnSaveComplete(AsyncApiEdit sender)
         {

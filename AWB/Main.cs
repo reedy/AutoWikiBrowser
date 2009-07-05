@@ -151,7 +151,7 @@ namespace AutoWikiBrowser
                 listMaker.StatusTextChanged += UpdateListStatus;
                 listMaker.cmboSourceSelect.SelectedIndexChanged += ListMakerSourceSelectHandler;
 
-                TheSession = new Session(Variables.URLLong);
+                TheSession = new Session(this);
                 CreateEditor();
 
                 Profiles = new WikiFunctions.Profiles.AWBProfilesForm(TheSession.Editor.SynchronousEditor);
