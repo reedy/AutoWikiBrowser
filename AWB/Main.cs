@@ -80,11 +80,11 @@ namespace AutoWikiBrowser
         private readonly List<string> RecentList = new List<string>();
         private readonly CustomModule CModule = new CustomModule();
         private readonly ExternalProgram ExtProgram = new ExternalProgram();
-        private RegexTester regexTester;
+        private RegexTester RegexTester;
         private bool UserTalkWarningsLoaded;
         private Regex UserTalkTemplatesRegex;
-        private bool mErrorGettingLogInStatus;
-        private bool skippable = true;
+        private bool ErrorGettingLogInStatus;
+        private bool Skippable = true;
         private FormWindowState LastState = FormWindowState.Normal; // doesn't look like we can use RestoreBounds for this - any other built in way?
 
         private ArticleRedirected ArticleWasRedirected;
@@ -338,10 +338,7 @@ namespace AutoWikiBrowser
         private decimal TimeOut //TODO:Do we still need this? If not, remove from settings
         {
             get { return dTimeOut; }
-            set
-            {
-                dTimeOut = value;
-            }
+            set { dTimeOut = value; }
         }
 
         private bool SaveArticleList = true;
@@ -503,7 +500,7 @@ namespace AutoWikiBrowser
                 StopDelayedRestartTimer();
                 DisableButtons();
 
-                skippable = true;
+                Skippable = true;
                 txtEdit.Clear();
 
                 ArticleInfo(true);
@@ -537,6 +534,8 @@ namespace AutoWikiBrowser
                 //if (dlg != null && dlg.AutoProtectAll)
                 //    webBrowserEdit.ProtectPage(TheArticle.Name, dlg.Summary, dlg.EditProtectionLevel, dlg.MoveProtectionLevel, dlg.ProtectExpiry);
 
+                StartProgressBar();
+
                 //Navigate to edit page
                 StartAPITextLoad(TheArticle.Name);
             }
@@ -561,6 +560,8 @@ namespace AutoWikiBrowser
 
         private void CaseWasLoad(string articleText)
         {
+            StopProgressBar();
+
             if (StopProcessing)
                 return;
 
@@ -676,7 +677,7 @@ namespace AutoWikiBrowser
                         return;
                     }
 
-                    if (skippable && (chkSkipNoChanges.Checked || BotMode) && TheArticle.NoArticleTextChanged)
+                    if (Skippable && (chkSkipNoChanges.Checked || BotMode) && TheArticle.NoArticleTextChanged)
                     {
                         SkipPage("No change");
                         return;
@@ -1465,7 +1466,7 @@ window.scrollTo(0, diffTopY);
         {
             LastArticle = txtEdit.Text;
 
-            skippable = false;
+            Skippable = false;
 
             if (webBrowser.Document != null)
             {
@@ -3228,16 +3229,6 @@ window.scrollTo(0, diffTopY);
             Tools.OpenENArticleInBrowser("Wikipedia:AutoWikiBrowser/Typos", false);
         }
 
-        private void webBrowserEdit_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-            StopProgressBar();
-        }
-
-        private void webBrowserEdit_Navigating(object sender, WebBrowserNavigatingEventArgs e)
-        {
-            StartProgressBar();
-        }
-
         private void logOutDebugToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TheSession.Editor.Logout();
@@ -3528,12 +3519,12 @@ window.scrollTo(0, diffTopY);
 
         private void launchRegexTester(object sender, EventArgs e)
         {
-            regexTester = new RegexTester();
+            RegexTester = new RegexTester();
 
             if (txtEdit.SelectionLength > 0 && MessageBox.Show("Would you like to transfer the currently selected Article Text to the Regex Tester?", "Transfer Article Text?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                regexTester.ArticleText = txtEdit.SelectedText;
+                RegexTester.ArticleText = txtEdit.SelectedText;
 
-            regexTester.Show();
+            RegexTester.Show();
         }
 
         private void chkLock_CheckedChanged(object sender, EventArgs e)
