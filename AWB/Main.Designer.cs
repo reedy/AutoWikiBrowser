@@ -393,7 +393,7 @@ namespace AutoWikiBrowser
             this.label6 = new System.Windows.Forms.Label();
             this.lblOverallTypos = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.webBrowserDiff = new System.Windows.Forms.WebBrowser();
+            this.webBrowser = new System.Windows.Forms.WebBrowser();
             this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
             this.ShutdownTimer = new System.Windows.Forms.Timer(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
@@ -3933,18 +3933,18 @@ namespace AutoWikiBrowser
             // 
             // webBrowserDiff
             // 
-            this.webBrowserDiff.AllowNavigation = false;
-            this.webBrowserDiff.AllowWebBrowserDrop = false;
-            this.webBrowserDiff.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.webBrowser.AllowNavigation = false;
+            this.webBrowser.AllowWebBrowserDrop = false;
+            this.webBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.webBrowserDiff.Location = new System.Drawing.Point(0, 25);
-            this.webBrowserDiff.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowserDiff.Name = "webBrowserDiff";
-            this.webBrowserDiff.ScriptErrorsSuppressed = true;
-            this.webBrowserDiff.Size = new System.Drawing.Size(907, 237);
-            this.webBrowserDiff.TabIndex = 2;
-            this.webBrowserDiff.WebBrowserShortcutsEnabled = false;
+            this.webBrowser.Location = new System.Drawing.Point(0, 25);
+            this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser.Name = "webBrowserDiff";
+            this.webBrowser.ScriptErrorsSuppressed = true;
+            this.webBrowser.Size = new System.Drawing.Size(907, 237);
+            this.webBrowser.TabIndex = 2;
+            this.webBrowser.WebBrowserShortcutsEnabled = false;
             // 
             // toolStripSeparator25
             // 
@@ -4040,7 +4040,7 @@ namespace AutoWikiBrowser
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(907, 679);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.webBrowserDiff);
+            this.Controls.Add(this.webBrowser);
             this.Controls.Add(this.MnuMain);
             this.Controls.Add(this.StatusMain);
             this.Controls.Add(this.toolStrip);
@@ -4381,7 +4381,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.TabPage tpLogs;
         private System.Windows.Forms.ToolStripButton btntsShowHideParameters;
         private WikiFunctions.Logging.LogControl logControl;
-        private System.Windows.Forms.WebBrowser webBrowserDiff;
+        private System.Windows.Forms.WebBrowser webBrowser;
         private System.Windows.Forms.ToolStripMenuItem undoAllChangesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reloadEditPageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openTalkPageInBrowserToolStripMenuItem;
