@@ -313,7 +313,6 @@ namespace AutoWikiBrowser
                         if (asm == null)
                             continue;
 
-                        //TODO:Chances are if we've already loaded one (as its a duplicate assembly), we wont need to load more. Break out of this loop (is break instead of continue enough?)
                         try
                         {
                             foreach (Type t in asm.GetTypes())
@@ -324,8 +323,8 @@ namespace AutoWikiBrowser
 
                                     if (AWBPlugins.ContainsKey(awbPlugin.Name))
                                     {
-                                        MessageBox.Show("A plugin with the name \"" + awbPlugin.Name + "\", has already been added.\r\nPlease remove old duplicates from your AutoWikiBrowser Directory, and restart AWB.", "Duplicate AWB Plugin");
-                                        continue;
+                                        MessageBox.Show("A plugin with the name \"" + awbPlugin.Name + "\", has already been added.\r\nPlease remove old duplicates from your AutoWikiBrowser Directory, and restart AWB.\r\nThis was loaded from the plugin file \"" + plugin + "\".", "Duplicate AWB Plugin");
+                                        break;
                                     }
 
                                     InitialisePlugin(awbPlugin, awb);
@@ -340,8 +339,8 @@ namespace AutoWikiBrowser
 
                                     if (LMPlugins.ContainsKey(listMakerPlugin.Name))
                                     {
-                                        MessageBox.Show("A plugin with the name \"" + listMakerPlugin.Name + "\", has already been added.\r\nPlease remove old duplicates from your AutoWikiBrowser Directory, and restart AWB.", "Duplicate AWB Plugin");
-                                        continue;
+                                        MessageBox.Show("A plugin with the name \"" + listMakerPlugin.Name + "\", has already been added.\r\nPlease remove old duplicates from your AutoWikiBrowser Directory, and restart AWB.\r\nThis was loaded from the plugin file \"" + plugin + "\".", "Duplicate AWB Plugin");
+                                        break;
                                     }
                                     
                                     WikiFunctions.Controls.Lists.ListMaker.AddProvider(listMakerPlugin);
