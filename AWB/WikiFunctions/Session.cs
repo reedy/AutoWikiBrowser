@@ -299,7 +299,7 @@ namespace WikiFunctions
                     return WikiStatusResult.Registered;
                 }
 
-                //see if we are allowed to use this softare
+                //see if we are allowed to use this software
                 strText = Tools.StringBetween(strText, "<!--enabledusersbegins-->", "<!--enabledusersends-->");
 
                 string strBotUsers = Tools.StringBetween(strText, "<!--enabledbots-->", "<!--enabledbotsends-->");
