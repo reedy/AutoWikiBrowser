@@ -67,7 +67,26 @@ namespace WikiFunctions
         private readonly static Regex VersionMessage = new Regex("<!--VersionMessage:(.*?)\\|\\|\\|\\|(.*?)-->", RegexOptions.Compiled);
         private readonly static Regex Underscores = new Regex("<!--[Uu]nderscores:(.*?)-->", RegexOptions.Compiled);
 
-        private WikiStatusResult Status;
+        WikiStatusResult status;
+        public WikiStatusResult Status
+        {
+            get
+            {
+                if (status == WikiStatusResult.PendingUpdate)
+                    Update();
+
+                return status;
+            }
+            set
+            {
+                status = value;
+            }
+        }
+
+        public void RequireUpdate()
+        {
+            status = WikiStatusResult.PendingUpdate;
+        }
 
         public WikiStatusResult Update()
         {
