@@ -152,7 +152,6 @@ namespace AutoWikiBrowser
 
                 webBrowserEdit.Saved += CaseWasSaved;
                 webBrowserEdit.None += CaseWasNull;
-                webBrowserEdit.Fault += StartDelayedRestartTimer;
                 listMaker.UserInputTextBox.ContextMenuStrip = mnuMakeFromTextBox;
                 listMaker.BusyStateChanged += SetProgressBar;
                 listMaker.NoOfArticlesChanged += UpdateButtons;
