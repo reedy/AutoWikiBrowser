@@ -126,6 +126,13 @@ namespace WikiFunctions.API
         /// </summary>
         public Protection Move { get; private set; }
 
+        //TODO: waiting for https://bugzilla.wikimedia.org/show_bug.cgi?id=19523
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool IsWatched
+        { get { return false; } }
+
         private static Protection StringToProtection(string val)
         {
             return (Protection)Enum.Parse(typeof(Protection), Tools.TurnFirstToUpperNoProjectCheck(val));
