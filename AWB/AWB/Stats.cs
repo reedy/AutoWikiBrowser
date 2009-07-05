@@ -89,18 +89,16 @@ namespace AutoWikiBrowser
         private static int RecordId;
         private static int SecretNumber;
         private static int LastEditCount;
-        private static string UserName = "";
         private static bool SentUserName;
         private static readonly List<IAWBPlugin> NewAWBPlugins = new List<IAWBPlugin>();
         private static readonly List<IListMakerPlugin> NewListMakerPlugins = new List<IListMakerPlugin>();
 
-        #region Public
-        internal static void Initialise()
+        private static string UserName
         {
-            // static constructor only gets called when an member of the class is first accessed, not at startup (surprised me!)
-            // so, we'll have to call this code at startup manually instead
-            Variables.User.UserNameChanged += UserNameChanged;
+            get { return Variables.MainForm.TheSession.User.Name; }
         }
+
+        #region Public
 
         /// <summary>
         /// Call this when it's time to consider submitting some data
@@ -348,12 +346,6 @@ namespace AutoWikiBrowser
             }
         }
 
-        private static void UserNameChanged(object sender, EventArgs e)
-        {
-            var name = Variables.MainForm.TheSession.User.Name;
-            if (!string.IsNullOrEmpty(name))
-                UserName = name;
-        }
         #endregion
 
         internal static void OpenUsageStatsURL()
