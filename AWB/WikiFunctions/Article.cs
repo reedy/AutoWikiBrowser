@@ -737,7 +737,7 @@ namespace WikiFunctions
         public bool Disambiguate(Session session, string dabLinkText, string[] dabVariantsLines, bool botMode, int context,
             bool skipIfNoChange)
         {
-            Disambiguation.DabForm df = new Disambiguation.DabForm(session);
+            Disambiguation.DabForm df = new Disambiguation.DabForm(session); //TODO:Can we reuse a DabForm instance?
             string strTemp = df.Disambiguate(mArticleText, mName, dabLinkText,
                 dabVariantsLines, context, botMode, out noChange);
 

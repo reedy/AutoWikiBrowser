@@ -85,7 +85,9 @@ namespace WikiFunctions.Disambiguation
                 if (sum.Contains("|")) sum = "(?:" + sum + ")";
                 dabLink = sum;
             }
-            else dabLink = Tools.CaseInsensitive(Regex.Escape(dabLink.Trim()));
+            else
+                dabLink = Tools.CaseInsensitive(Regex.Escape(dabLink.Trim()));
+
             ArticleText = articleText;
             ArticleTitle = articleTitle;
 
