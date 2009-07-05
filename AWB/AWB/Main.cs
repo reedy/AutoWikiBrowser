@@ -684,7 +684,6 @@ namespace AutoWikiBrowser
 
                 ErrorHandler.CurrentPage = "";
 
-                UpdateWebBrowserStatus(null, null);
                 UpdateCurrentTypoStats();
 
                 if (!Abort)
