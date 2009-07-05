@@ -445,7 +445,7 @@ namespace AutoWikiBrowser
         private void CreateEditor()
         {
             APIEdit = new AsyncApiEdit(Variables.URLLong, this, Variables.PHP5);
-            APIEdit.PreviewComplete += PreviewComplete;
+            TheSession.Editor.PreviewComplete += PreviewComplete;
 
             APIEdit.ExceptionCaught += APIEditExceptionCaught;
         }
@@ -1615,7 +1615,7 @@ window.scrollTo(0, diffTopY);
 
         private void GetPreview()
         {
-            if (!APIEdit.IsActive) APIEdit.Preview(TheArticle.Name, txtEdit.Text);
+            if (!TheSession.Editor.IsActive) TheSession.Editor.Preview(TheArticle.Name, txtEdit.Text);
         }
 
         private void PreviewComplete(AsyncApiEdit sender, string result)
