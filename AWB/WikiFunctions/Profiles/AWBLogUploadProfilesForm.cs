@@ -73,15 +73,13 @@ namespace WikiFunctions.Profiles
             {
                 ListViewItem item = new ListViewItem(profile.ID.ToString());
                 item.SubItems.Add(profile.Username);
-                if (!string.IsNullOrEmpty(profile.Password))
-                    item.SubItems.Add("Yes");
-                else
-                    item.SubItems.Add("No");
+
+                item.SubItems.Add(!string.IsNullOrEmpty(profile.Password) ? "Yes" : "No");
+
                 item.SubItems.Add(profile.DefaultSettings);
-                if (profile.UseForUpload)
-                    item.SubItems.Add("Yes");
-                else
-                    item.SubItems.Add("No");
+
+                item.SubItems.Add(profile.UseForUpload ? "Yes" : "No");
+
                 item.SubItems.Add(profile.Notes);
 
                 lvAccounts.Items.Add(item);
