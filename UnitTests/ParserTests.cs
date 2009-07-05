@@ -923,6 +923,21 @@ died 2002
 [[Category:1835 births]]
 [[Category:1935 deaths]]"));
 
+            // just decade no good
+            string infob3 = @"{{Infobox Officeholder
+|honorific-prefix   = 
+|name            = John Foo
+|predecessor      = [[Arthur C. McCall]]
+|successor        = [[Samuel C. Randall]]
+|birth_date      = 1970s
+|birth_place     = [[Free City of Frankfurt]]
+|death_date=
+|death_place=      
+|alma_mater      = 
+|occupation      =brickmason, mercha
+
+}} {{persondata}}";
+            Assert.AreEqual(infob3, Parsers.FixPeopleCategories(infob3));
         }
 
         [Test]
