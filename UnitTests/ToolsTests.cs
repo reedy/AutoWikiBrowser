@@ -435,7 +435,7 @@ bar"));
             Assert.AreEqual(3, Tools.FirstDifference("foo", "foo"));
         }
 
-        const string 100 = "123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 1234567890";
+        const string _100 = "123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 1234567890";
 
         [Test, Ignore] // TODO: fix failing tests
         public void TrimEditSummary()
@@ -444,7 +444,7 @@ bar"));
             Assert.AreEqual("test", Tools.TrimEditSummary("test", ""));
 
             Assert.That(Parsers.IsCorrectEditSummary(
-                Tools.TrimEditSummary("[[" + 100 + "|" + 100 + "]] [[" + 100 + "]]", "[[WP:AWB]]")));
+                Tools.TrimEditSummary("[[" + _100 + "|" + _100 + "]] [[" + _100 + "]]", "[[WP:AWB]]")));
         }
 
         [Test]
