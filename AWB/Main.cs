@@ -440,14 +440,11 @@ namespace AutoWikiBrowser
             return true;
         }
 
-        private AsyncApiEdit APIEdit;
-
         private void CreateEditor()
         {
-            APIEdit = new AsyncApiEdit(Variables.URLLong, this, Variables.PHP5);
             TheSession.Editor.PreviewComplete += PreviewComplete;
 
-            APIEdit.ExceptionCaught += APIEditExceptionCaught;
+            TheSession.Editor.ExceptionCaught += APIEditExceptionCaught;
         }
 
         private void APIEditExceptionCaught(AsyncApiEdit sender, Exception ex)
@@ -457,12 +454,12 @@ namespace AutoWikiBrowser
 
         private void StartAPITextLoad(string title)
         {
-            APIEdit.Open(title);
+            TheSession.Editor.Open(title);
 
-            APIEdit.Wait();
+            TheSession.Editor.Wait();
 
             // if MAXLAG exceeded then API will report error, so AWB should go into restart timer to try again in a few seconds
-            if (APIEdit.State == AsyncApiEdit.EditState.Failed)
+            if (TheSession.Editor.State == AsyncApiEdit.EditState.Failed)
             {
                 StartDelayedRestartTimer(null, null);
                 return;
@@ -471,7 +468,7 @@ namespace AutoWikiBrowser
             if (!LoadSuccessAPI())
                 return;
 
-            CaseWasLoad(APIEdit.Page.Text);
+            CaseWasLoad(TheSession.Editor.Page.Text);
         }
 
         private bool StopProcessing;
@@ -578,7 +575,7 @@ namespace AutoWikiBrowser
 
         private void CaseWasLoad(object sender, EventArgs e) //Event handler needs attaching
         {
-            if (!LoadSuccess()) return;
+            if (!LoadSuccessApi()) return;
 
             CaseWasLoad(TheSession.Editor.Page.Text);
         }
@@ -1080,132 +1077,40 @@ namespace AutoWikiBrowser
 
         private readonly TalkMessage DlgTalk = new TalkMessage();
 
-        private bool LoadSuccess()
+        private bool LoadSuccessAPI()
         {
             try
             {
-                if (!webBrowserEdit.Url.ToString().StartsWith(Variables.URLLong))
+                if (!TheSession.Editor.Page.Title.StartsWith(Variables.URLLong)) //TODO:Is this needed?
                 {
                     SkipPage("Interwiki in page title");
                     return false;
                 }
 
-                if (webBrowserEdit.DocumentText.Contains("<div class=\"permissions-errors\">"))
-                {
-                    SkipPage("User doesn't have permissions to edit this page.");
+                if (!TheSession.Editor.Page.Exists && radSkipNonExistent.Checked)
+                {//check if it is a non-existent page, if so then skip it automatically.
+                    SkipPage("Non-existent page");
                     return false;
                 }
-
-                string html = null;
-                if (webBrowserEdit.Document != null && webBrowserEdit.Document.Body != null)
-                    html = webBrowserEdit.Document.Body.InnerHtml;
-
-                if (string.IsNullOrEmpty(html) || IsReadOnlyDB(html))
+                if (TheSession.Editor.Page.Exists && radSkipExistent.Checked)
                 {
-                    if (Retries < 10)
-                    {
-                        StartDelayedRestartTimer(null, null);
-                        Retries++;
-                        Start();
-                        return false;
-                    }
-
-                    Retries = 0;
-                    if (!string.IsNullOrEmpty(html))
-                        SkipPage("Database is locked, tried 10 times");
-                    else
-                    {
-                        MessageBox.Show("Loading edit page failed after 10 retries. Processing stopped.", "Error",
-                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        Stop();
-                    }
+                    SkipPage("Existing page");
                     return false;
                 }
-
-                if (html.Contains("Sorry! We could not process your edit due to a loss of session data. Please try again. If it still doesn't work, try logging out and logging back in."))
-                {
-                    Save();
-                    return false;
-                }
-
-                //check we are still logged in
-                try
-                {
-                    if (!webBrowserEdit.GetLogInStatus())
-                    {
-                        Variables.User.LoggedIn = false;
-                        NudgeTimer.Stop();
-                        Start();
-                        return false;
-                    }
-                }
-                catch
-                {
-                    // No point writing to log listener I think, as it gets destroyed when we Stop?
-                    if (mErrorGettingLogInStatus)
-                    {
-                        MessageBox.Show("Error getting login status", "Error", MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
-                        // Stop AWB and reset the state variable:
-                        Stop(); mErrorGettingLogInStatus = false;
-                    }
-                    else
-                    {
-                        mErrorGettingLogInStatus = true; // prevent start / error / start / error loop
-                        Stop();
-                        Start();
-                    }
-                    return false;
-                }
-
-                mErrorGettingLogInStatus = false;
 
                 if (!preParseModeToolStripMenuItem.Checked && TheSession.User.HasMessages)
                 { //check if we have any messages
                     NudgeTimer.Stop();
                     TheSession.RequireUpdate();
                     UpdateButtons(null, null);
-                    webBrowserEdit.Document.Write("");
+                    if (webBrowser.Document != null)
+                        webBrowser.Document.Write("");
                     Focus();
 
                     if (DlgTalk.ShowDialog() == DialogResult.Yes)
                         Tools.OpenUserTalkInBrowser(TheSession.User.Name);
                     else
                         Process.Start("iexplore", Variables.GetUserTalkURL(TheSession.User.Name));
-                    return false;
-                }
-
-                if (!TheSession.Page.Exists)
-                {//check if it is a non-existent page, if so then skip it automatically.
-                    SkipPage("Non-existent page");
-                    return false;
-                }
-                else if (radSkipExistent.Checked)
-                {
-                    SkipPage("Existing page");
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                ErrorHandler.Handle(ex);
-            }
-            NudgeTimer.Reset();
-            return true;
-        }
-
-        private bool LoadSuccessAPI()
-        {
-            try
-            {
-                if (!APIEdit.Page.Exists && radSkipNonExistent.Checked)
-                {//check if it is a non-existent page, if so then skip it automatically.
-                    SkipPage("Non-existent page");
-                    return false;
-                }
-                if (APIEdit.Page.Exists && radSkipExistent.Checked)
-                {
-                    SkipPage("Existing page");
                     return false;
                 }
             }
