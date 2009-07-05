@@ -183,7 +183,6 @@ namespace AutoWikiBrowser
             this.UsageStatsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runUpdaterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator29 = new System.Windows.Forms.ToolStripSeparator();
-            this.dumpHTMLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logOutDebugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusMain = new System.Windows.Forms.StatusStrip();
             this.MainFormProgressBar = new System.Windows.Forms.ToolStripProgressBar();
@@ -1516,7 +1515,6 @@ namespace AutoWikiBrowser
             this.UsageStatsMenuItem,
             this.runUpdaterToolStripMenuItem,
             this.toolStripSeparator29,
-            this.dumpHTMLToolStripMenuItem,
             this.logOutDebugToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
@@ -1556,14 +1554,6 @@ namespace AutoWikiBrowser
             this.toolStripSeparator29.Name = "toolStripSeparator29";
             this.toolStripSeparator29.Size = new System.Drawing.Size(180, 6);
             this.toolStripSeparator29.Visible = false;
-            // 
-            // dumpHTMLToolStripMenuItem
-            // 
-            this.dumpHTMLToolStripMenuItem.Name = "dumpHTMLToolStripMenuItem";
-            this.dumpHTMLToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
-            this.dumpHTMLToolStripMenuItem.Text = "&Dump HTML (Debug)";
-            this.dumpHTMLToolStripMenuItem.Visible = false;
-            this.dumpHTMLToolStripMenuItem.Click += new System.EventHandler(this.dumpHTMLToolStripMenuItem_Click);
             // 
             // logOutDebugToolStripMenuItem
             // 
@@ -4261,7 +4251,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripStatusLabel lblTimer;
         private System.Windows.Forms.ToolStripButton btntsStart;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
-        private System.Windows.Forms.ToolStripMenuItem dumpHTMLToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pluginsToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel lblEditCount;
         private System.Windows.Forms.ToolStripStatusLabel lblIgnoredArticles;

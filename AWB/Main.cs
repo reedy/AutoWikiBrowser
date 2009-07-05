@@ -434,7 +434,7 @@ namespace AutoWikiBrowser
         /// </summary>
         private bool CheckLoginStatus()
         {
-            if (webBrowserEdit.UserName != Variables.User.Name)
+            if (!TheSession.User.IsRegistered)
             {
                 MessageBox.Show("You've been logged off, probably due to loss of session data.\r\n" +
                     "Please relogin.", "Logged off", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -1180,15 +1180,12 @@ namespace AutoWikiBrowser
                     return false;
                 }
 
-                HtmlElement wpt = webBrowserEdit.Document.GetElementById("wpTextbox1");
-                bool wpTextbox1IsNull = (wpt != null && wpt.InnerText == null);
-
-                if (wpTextbox1IsNull && radSkipNonExistent.Checked)
+                if (!TheSession.Page.Exists)
                 {//check if it is a non-existent page, if so then skip it automatically.
                     SkipPage("Non-existent page");
                     return false;
                 }
-                if (!wpTextbox1IsNull && radSkipExistent.Checked)
+                else if (radSkipExistent.Checked)
                 {
                     SkipPage("Existing page");
                     return false;
@@ -1270,12 +1267,6 @@ namespace AutoWikiBrowser
 
                 if (webBrowserEdit.DocumentText.Contains("<DIV CLASS=PREVIEWNOTE"))
                 {//if session data is lost, if data is lost then save after delay with tmrAutoSaveDelay
-                    StartDelayedRestartTimer(null, null);
-                    return;
-                }
-
-                if (webBrowserEdit.DocumentText.Contains("<h1 id=\"FoundationName\">Wikimedia Foundation</h1>"))
-                {//WMF Error
                     StartDelayedRestartTimer(null, null);
                     return;
                 }
@@ -1679,8 +1670,6 @@ window.scrollTo(0, diffTopY);
 
         private void SaveArticle()
         {
-            webBrowserEdit.BringToFront();
-
             //remember article text in case it is lost, this is set to "" again when the article title is removed
             LastArticle = txtEdit.Text;
 
@@ -1690,21 +1679,15 @@ window.scrollTo(0, diffTopY);
                 Ticker += SaveInterval;
             }
 
-            try
-            {
-                // Warning: Plugins can call SetMinor and SetWatch, so only turn these *on* not off
-                //if (addAllToWatchlistToolStripMenuItem.Checked)
-                //    webBrowserEdit.SetWatch(true);
-                //if (dontAddToWatchlistToolStripMenuItem.Checked)
-                //    webBrowserEdit.SetWatch(false);
+            // Warning: Plugins can call SetMinor and SetWatch, so only turn these *on* not off
+            //if (addAllToWatchlistToolStripMenuItem.Checked)
+            //    webBrowserEdit.SetWatch(true);
+            //if (dontAddToWatchlistToolStripMenuItem.Checked)
+            //    webBrowserEdit.SetWatch(false);
 
-                TheSession.Editor.Save(txtEdit.Text, MakeSummary(), markAllAsMinorToolStripMenuItem.Checked,
-                                          false); //Fixup Watch from code above
-            }
-            catch (Exception ex)
-            {
-                ErrorHandler.Handle(ex);
-            }
+            TheSession.Editor.Save(txtEdit.Text, MakeSummary(), markAllAsMinorToolStripMenuItem.Checked,
+                                   false); //Fixup Watch from code above
+
         }
 
         #endregion
@@ -2155,7 +2138,7 @@ window.scrollTo(0, diffTopY);
                 lblOnlyBots.Visible = true;
                 TheSession.Editor.Logout();
                 TheSession.Editor.Wait();
-                TheSession.UpdateWikiStatus();
+                TheSession.Update();
             }
         }
 
@@ -2166,7 +2149,7 @@ window.scrollTo(0, diffTopY);
             bool b = false;
             string label = "Software disabled";
 
-            switch (TheSession.UpdateWikiStatus())
+            switch (TheSession.Update())
             {
                 case WikiStatusResult.Error:
                     lblUserName.BackColor = Color.Red;
@@ -2179,7 +2162,7 @@ window.scrollTo(0, diffTopY);
                     lblUserName.Text = "User:";
                     if (!login)
                         MessageBox.Show("You are not logged in. The log in screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.\r\n\r\nIn the future you can make sure this won't happen by logging in to Wikipedia using Microsoft Internet Explorer.", "Not logged in", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    webBrowserEdit.LoadLogInPage();
+                    Profiles.ShowDialog();
                     break;
 
                 case WikiStatusResult.NotRegistered:
@@ -2198,7 +2181,7 @@ window.scrollTo(0, diffTopY);
                     lblUserName.BackColor = Color.LightGreen;
 
                     //Get list of articles not to apply general fixes to.
-                    Match n = WikiRegexes.NoGeneralFixes.Match(Variables.User.CheckPageText);
+                    Match n = WikiRegexes.NoGeneralFixes.Match(TheSession.CheckPageText);
                     if (n.Success)
                     {
                         foreach (Match link in WikiRegexes.UnPipedWikiLink.Matches(n.Value))
@@ -3431,14 +3414,11 @@ window.scrollTo(0, diffTopY);
             StartProgressBar();
         }
 
-        private void dumpHTMLToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            txtEdit.Text = webBrowserEdit.DocumentText;
-        }
-
         private void logOutDebugToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Variables.User.WikiStatus = false;
+            TheSession.Editor.Logout();
+            TheSession.Editor.Wait();
+            TheSession.Update();
         }
 
         private void summariesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4131,7 +4111,7 @@ window.scrollTo(0, diffTopY);
             if (!string.IsNullOrEmpty(Profiles.SettingsToLoad))
                 LoadPrefs(Profiles.SettingsToLoad);
 
-            TheSession.UpdateWikiStatus();
+            TheSession.Update();
 
             StopProgressBar();
         }
