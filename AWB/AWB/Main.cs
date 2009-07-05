@@ -1137,33 +1137,14 @@ namespace AutoWikiBrowser
                     return;
                 }
 
-                if (webBrowserEdit.DocumentText.Contains("<DIV CLASS=PREVIEWNOTE"))
-                {//if session data is lost, if data is lost then save after delay with tmrAutoSaveDelay
-                    StartDelayedRestartTimer(null, null);
-                    return;
-                }
-
                 if (IsReadOnlyDB())
                 {
                     StartDelayedRestartTimer(null, null);
                     return;
                 }
             }
-            catch (Exception/* ext*/)
+            catch (Exception)
             {
-                /* TODO find source of error
-                 * what we get here is a: 
-                 * 
-                 * System.IO.FileNotFoundException
-                 *    at System.Windows.Forms.UnsafeNativeMethods.IPersistStreamInit.Save(IStream pstm, Boolean fClearDirty)
-   at System.Windows.Forms.WebBrowser.get_DocumentStream()
-   at System.Windows.Forms.WebBrowser.get_DocumentText()
-   at AutoWikiBrowser.MainForm.CaseWasSaved(Object sender, EventArgs e)
-                 * 
-                 * which can be triggered when we look at webBrowserEdit.DocumentText
-                 * for some unknown reason
-                 * could be to do with internet connection speed
-                 */
                 Start();
             }
 
