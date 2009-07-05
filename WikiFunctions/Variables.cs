@@ -847,7 +847,7 @@ namespace WikiFunctions
         }
     }
 
-    public enum WikiStatusResult { Error, NotLoggedIn, NotRegistered, OldVersion, Registered, Null }
+    public enum WikiStatusResult { Error, NotLoggedIn, NotRegistered, OldVersion, Registered, Null, PendingUpdate }
 
     #region UserProperties
 

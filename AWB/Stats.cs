@@ -350,8 +350,9 @@ namespace AutoWikiBrowser
 
         private static void UserNameChanged(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(Variables.User.Name))
-                UserName = Variables.User.Name;
+            var name = Variables.MainForm.TheSession.User.Name;
+            if (!string.IsNullOrEmpty(name))
+                UserName = name;
         }
         #endregion
 

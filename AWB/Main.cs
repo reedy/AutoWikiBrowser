@@ -158,7 +158,6 @@ namespace AutoWikiBrowser
                 webBrowserEdit.Saved += CaseWasSaved;
                 webBrowserEdit.None += CaseWasNull;
                 webBrowserEdit.Fault += StartDelayedRestartTimer;
-                webBrowserEdit.StatusChanged += UpdateWebBrowserStatus;
                 listMaker.UserInputTextBox.ContextMenuStrip = mnuMakeFromTextBox;
                 listMaker.BusyStateChanged += SetProgressBar;
                 listMaker.NoOfArticlesChanged += UpdateButtons;
@@ -1166,18 +1165,18 @@ namespace AutoWikiBrowser
 
                 mErrorGettingLogInStatus = false;
 
-                if (!preParseModeToolStripMenuItem.Checked && webBrowserEdit.NewMessage)
+                if (!preParseModeToolStripMenuItem.Checked && TheSession.User.HasMessages)
                 { //check if we have any messages
                     NudgeTimer.Stop();
-                    Variables.User.WikiStatus = false;
+                    TheSession.RequireUpdate();
                     UpdateButtons(null, null);
                     webBrowserEdit.Document.Write("");
                     Focus();
 
                     if (DlgTalk.ShowDialog() == DialogResult.Yes)
-                        Tools.OpenUserTalkInBrowser();
+                        Tools.OpenUserTalkInBrowser(TheSession.User.Name);
                     else
-                        Process.Start("iexplore", Variables.GetUserTalkURL());
+                        Process.Start("iexplore", Variables.GetUserTalkURL(TheSession.User.Name));
                     return false;
                 }
 
@@ -1272,7 +1271,7 @@ namespace AutoWikiBrowser
                     return;
                 }
 
-                if (IsReadOnlyDB(webBrowserEdit.DocumentText))
+                if (IsReadOnlyDB())
                 {
                     StartDelayedRestartTimer(null, null);
                     return;
@@ -1331,11 +1330,6 @@ namespace AutoWikiBrowser
                 if (!Variables.User.WikiStatus)
                     CheckStatus(false);
             }
-        }
-
-        private static bool IsReadOnlyDB(string html)
-        {//Read-Only DB - http://en.wikipedia.org/wiki/MediaWiki:Readonlytext
-            return (html.Contains("<div class=\"mw-readonly-error\">"));
         }
 
         private void SkipPageReasonAlreadyProvided()
@@ -1824,11 +1818,6 @@ window.scrollTo(0, diffTopY);
                 lblUserName.BackColor = Color.Green;
                 lblUserName.Text = TheSession.Editor.User.Name;
             }
-        }
-
-        private void UpdateWebBrowserStatus(object sender, EventArgs e)
-        {
-            StatusLabelText = webBrowserEdit.Status;
         }
 
         private void UpdateListStatus(object sender, EventArgs e)
