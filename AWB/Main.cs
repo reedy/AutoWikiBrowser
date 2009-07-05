@@ -150,7 +150,6 @@ namespace AutoWikiBrowser
                 Variables.User.AdminStatusChanged += UpdateAdminStatus;
                 //Variables.User.WikiStatusChanged += UpdateWikiStatus;
 
-                webBrowserEdit.None += CaseWasNull;
                 listMaker.UserInputTextBox.ContextMenuStrip = mnuMakeFromTextBox;
                 listMaker.BusyStateChanged += SetProgressBar;
                 listMaker.NoOfArticlesChanged += UpdateButtons;
@@ -1192,17 +1191,6 @@ namespace AutoWikiBrowser
                 SavePrefs(SettingsFile);
 
             Start();
-        }
-
-        private void CaseWasNull(object sender, EventArgs e)
-        {
-            if (webBrowserEdit.DocumentText.Contains("var wgAction = \"submitlogin\";"))
-            {
-                StatusLabelText = "Signed in, now re-starting";
-
-                if (!Variables.User.WikiStatus)
-                    CheckStatus(false);
-            }
         }
 
         private void SkipPageReasonAlreadyProvided()
