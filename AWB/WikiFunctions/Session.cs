@@ -36,6 +36,12 @@ namespace WikiFunctions
         public AsyncApiEdit Editor
         { get; private set; }
 
+        public UserInfo User
+        { get { return Editor.User; } }
+
+        public PageInfo Page
+        { get { return Editor.Page; } }
+
         public SiteInfo Site
         { get; private set; }
 

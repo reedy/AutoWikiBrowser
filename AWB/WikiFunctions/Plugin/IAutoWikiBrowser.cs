@@ -49,6 +49,7 @@ namespace WikiFunctions.Plugin
         Controls.Lists.ListMaker ListMaker { get; }
         ContextMenuStrip EditBoxContextMenu { get; }
         LogControl LogControl { get; }
+        Session TheSession { get; }
 
         /// <summary>
         /// Display a message balloon above AWB's system tray icon
