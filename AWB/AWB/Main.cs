@@ -258,7 +258,7 @@ namespace AutoWikiBrowser
 
                 LoadPrefs(); // progress 80-85 in LoadPrefs()
 
-                TheSession = new Session();
+                TheSession = new Session(Variables.URL);
                 CreateEditor();
 
                 SplashScreen.SetProgress(86);
