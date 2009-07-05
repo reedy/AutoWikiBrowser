@@ -589,9 +589,9 @@ en, sq, ru
         private static readonly Regex ReferencesToEnd = new Regex(@"^== *[Rr]eferences *==\s*" + WikiRegexes.ReferencesTemplates + @"\s*(?={{DEFAULTSORT\:|\[\[Category\:)", RegexOptions.Multiline);
 
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Place_.22External_links.22_section_after_.22References.22
+        // TODO: only works when there is another section following the references section
         /// <summary>
         /// Ensures the external links section of an article is after the references section
-        /// TODO only works when there is another section following the references section
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns>Article text with external links section below the references section</returns>

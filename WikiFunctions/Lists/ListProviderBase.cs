@@ -96,8 +96,8 @@ namespace WikiFunctions.Lists
                         if (!EvaluateXmlElement(xml))
                             continue;
 
-                        //int ns = -1;
-                        //int.TryParse(xml.GetAttribute("ns"), out ns);
+                        int ns = -1;
+                        int.TryParse(xml.GetAttribute("ns"), out ns);
                         string name = xml.GetAttribute("title");
 
                         if (string.IsNullOrEmpty(name))
@@ -106,11 +106,10 @@ namespace WikiFunctions.Lists
                             break;
                         }
 
-                        // HACK: commented out until we make AWB always load namespaces from the wiki,
-                        // to avoid problems with unknown namespace
-                        //if (ns >= 0) list.Add(new Article(name, ns));
-                        //else
-                        list.Add(new Article(name));
+                        if (ns >= 0) 
+                            list.Add(new Article(name, ns));
+                        else
+                            list.Add(new Article(name));
                     }
 
                 }

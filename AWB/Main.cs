@@ -335,7 +335,7 @@ namespace AutoWikiBrowser
         private bool Minimize;
 
         private decimal dTimeOut = 30;
-        private decimal TimeOut //TODO:Do we still need this? If no, remove from settings
+        private decimal TimeOut //TODO:Do we still need this? If not, remove from settings
         {
             get { return dTimeOut; }
             set

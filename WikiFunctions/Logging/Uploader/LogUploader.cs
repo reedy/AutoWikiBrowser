@@ -49,12 +49,12 @@ namespace WikiFunctions.Logging.Uploader
 		public virtual new System.Net.CookieCollection LogIn(string username, string password)
 		{
 			base.LogIn(username, password);
-			return logincookies;
+			return LoginCookies;
 		}
 
 		public virtual void LogIn(System.Net.CookieCollection cookies)
 		{
-			logincookies = cookies;
+			LoginCookies = cookies;
 		}
 
 		public virtual void LogIn(UsernamePassword loginDetails)

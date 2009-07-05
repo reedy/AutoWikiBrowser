@@ -244,7 +244,6 @@ namespace WikiFunctions.Disambiguation
 
         private void watchToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //TODO:Must be a better way. Background request?
             try
             {
                 Session.Editor.Clone().Watch(ArticleTitle);
@@ -258,7 +257,6 @@ namespace WikiFunctions.Disambiguation
 
         private void unwatchToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //TODO:Must be a better way. Background request?
             try
             {
                 Session.Editor.Clone().Watch(ArticleTitle);

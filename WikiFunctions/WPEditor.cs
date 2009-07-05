@@ -40,9 +40,9 @@ namespace WikiFunctions
     [Obsolete("Use ApiEdit or similar")]
     public class Editor
     {
-        protected CookieCollection logincookies;
+        protected CookieCollection LoginCookies;
         protected bool LoggedIn;
-        protected string m_indexpath = Variables.URLLong;
+        protected string Indexpath = Variables.URLLong;
         const string mUserAgent = "WPAutoEdit/1.02";
 
         protected virtual string UserAgent
@@ -99,27 +99,27 @@ namespace WikiFunctions
         public struct EditPageRetvals
         {
             public string Article;
-            public string responsetext;
-            public string difflink;
+            public string Responsetext;
+            public string Difflink;
         }
 
-        readonly Regex permalinkrx = new Regex("<li id=\"t-permalink\"><a href=\"([^\"]*)\">", RegexOptions.Compiled);
+        readonly Regex Permalinkrx = new Regex("<li id=\"t-permalink\"><a href=\"([^\"]*)\">", RegexOptions.Compiled);
 
         /// <summary>
         /// Edits the specified page.
         /// </summary>
-        /// <param name="Article">The article to edit.</param>
-        /// <param name="NewText">The new wikitext for the article.</param>
-        /// <param name="Summary">The edit summary to use for this edit.</param>
-        /// <param name="Minor">Whether or not to flag the edit as minor.</param>
-        /// <param name="Watch">Whether article should be added to your watchlist</param>
+        /// <param name="article">The article to edit.</param>
+        /// <param name="newText">The new wikitext for the article.</param>
+        /// <param name="summary">The edit summary to use for this edit.</param>
+        /// <param name="minor">Whether or not to flag the edit as minor.</param>
+        /// <param name="watch">Whether article should be added to your watchlist</param>
         /// <returns>An EditPageRetvals object</returns>
-        public EditPageRetvals EditPageEx(String Article, String NewText, String Summary, bool Minor, bool Watch)
+        public EditPageRetvals EditPageEx(string article, string newText, string summary, bool minor, bool watch)
         {
-            HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath + "index.php?title=" +
-                Tools.WikiEncode(Article) + "&action=submit", UserAgent);
+            HttpWebRequest wr = Variables.PrepareWebRequest(Indexpath + "index.php?title=" +
+                Tools.WikiEncode(article) + "&action=submit", UserAgent);
 
-            string editpagestr = GetEditPage(Article);
+            string editpagestr = GetEditPage(article);
 
             Match m = Edittime.Match(editpagestr);
             string wpEdittime = m.Groups[1].Value;
@@ -129,7 +129,7 @@ namespace WikiFunctions
 
             wr.CookieContainer = new CookieContainer();
 
-            foreach (Cookie cook in logincookies)
+            foreach (Cookie cook in LoginCookies)
                 wr.CookieContainer.Add(cook);
 
             //Create poststring
@@ -139,13 +139,13 @@ namespace WikiFunctions
                     new[]
                         {
                             DateTime.Now.ToUniversalTime().ToString("yyyyMMddHHmmss"), wpEdittime,
-                            HttpUtility.UrlEncode(NewText), HttpUtility.UrlEncode(Summary), wpEditkey
+                            HttpUtility.UrlEncode(newText), HttpUtility.UrlEncode(summary), wpEditkey
                         });
 
-            if (Minor)
+            if (minor)
                 poststring = poststring.Insert(poststring.IndexOf("wpSummary"), "wpMinoredit=1&");
 
-            if (Watch || editpagestr.Contains("type='checkbox' name='wpWatchthis' checked='checked' accesskey=\"w\" id='wpWatchthis'  />"))
+            if (watch || editpagestr.Contains("type='checkbox' name='wpWatchthis' checked='checked' accesskey=\"w\" id='wpWatchthis'  />"))
                 poststring += "&wpWatchthis=1";
 
             wr.Method = "POST";
@@ -165,49 +165,45 @@ namespace WikiFunctions
             WebResponse resps = wr.GetResponse();
 
             StreamReader sr = new StreamReader(resps.GetResponseStream());
-            EditPageRetvals retval = new EditPageRetvals();
-            retval.Article = Article;
+            EditPageRetvals retval = new EditPageRetvals {Article = article, Responsetext = sr.ReadToEnd()};
 
-            retval.responsetext = sr.ReadToEnd();
-
-            Match permalinkmatch = permalinkrx.Match(retval.responsetext);
+            Match permalinkmatch = Permalinkrx.Match(retval.Responsetext);
 
             //From the root directory.
-            retval.difflink = m_indexpath.Substring(0, m_indexpath.IndexOf("/", 9)) +
+            retval.Difflink = Indexpath.Substring(0, Indexpath.IndexOf("/", 9)) +
                 permalinkmatch.Groups[1].Value + "&diff=prev";
 
-            retval.difflink = retval.difflink.Replace("&amp;", "&");
+            retval.Difflink = retval.Difflink.Replace("&amp;", "&");
 
-            // TODO: Check our submission worked and we have a valid difflink; throw an exception if not. Also check for the sorry we could not process because of loss of session data message
             return retval;
         }
 
         /// <summary>
         /// Edits the specified page.
         /// </summary>
-        /// <param name="Article">The article to edit.</param>
-        /// <param name="NewText">The new wikitext for the article.</param>
-        /// <param name="Summary">The edit summary to use for this edit.</param>
-        /// <param name="Minor">Whether or not to flag the edit as minor.</param>
+        /// <param name="article">The article to edit.</param>
+        /// <param name="newText">The new wikitext for the article.</param>
+        /// <param name="summary">The edit summary to use for this edit.</param>
+        /// <param name="minor">Whether or not to flag the edit as minor.</param>
         /// <returns>An EditPageRetvals object</returns>
-        public EditPageRetvals EditPageEx(String Article, String NewText, String Summary, bool Minor)
+        public EditPageRetvals EditPageEx(string article, string newText, string summary, bool minor)
         {
-            return EditPageEx(Article, NewText, Summary, Minor, false);
+            return EditPageEx(article, newText, summary, minor, false);
         }
 
         /// <summary>
         /// Internal function to retrieve the HTML for the "edit" page of an article.
         /// </summary>
-        /// <param name="Article">The article to retrieve the edit page for.</param>
+        /// <param name="article">The article to retrieve the edit page for.</param>
         /// <returns>The full HTML source of the edit page for the specified article.</returns>
-        public string GetEditPage(String Article)
+        public string GetEditPage(string article)
         {
-            HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath + "index.php?title=" +
-                HttpUtility.UrlEncode(Article) + "&action=edit", UserAgent);
+            HttpWebRequest wr = Variables.PrepareWebRequest(Indexpath + "index.php?title=" +
+                HttpUtility.UrlEncode(article) + "&action=edit", UserAgent);
 
             wr.CookieContainer = new CookieContainer();
 
-            foreach (Cookie cook in logincookies)
+            foreach (Cookie cook in LoginCookies)
                 wr.CookieContainer.Add(cook);
 
             HttpWebResponse resps = (HttpWebResponse)wr.GetResponse();
@@ -231,7 +227,7 @@ namespace WikiFunctions
         /// <param name="password">The password to log in with.</param>
         public void LogIn(string username, string password)
         {
-            HttpWebRequest wr = Variables.PrepareWebRequest(m_indexpath + "index.php?title=Special:Userlogin&action=submitlogin&type=login", UserAgent);
+            HttpWebRequest wr = Variables.PrepareWebRequest(Indexpath + "index.php?title=Special:Userlogin&action=submitlogin&type=login", UserAgent);
 
             //Create poststring
             string poststring = string.Format("wpName=+{0}&wpPassword={1}&wpRemember=1&wpLoginattempt=Log+in",
@@ -255,32 +251,32 @@ namespace WikiFunctions
 
             HttpWebResponse resps = (HttpWebResponse)wr.GetResponse();
 
-            logincookies = resps.Cookies;
+            LoginCookies = resps.Cookies;
         }
 
         /// <summary>
         /// Appends the specified text to the specified article.
         /// </summary>
-        /// <param name="Article">The article to append text to.</param>
-        /// <param name="AppendText">The text to append.</param>
-        /// <param name="Summary">The edit summary for this edit.</param>
-        /// <param name="Minor">Whether or not to flag this edit as minor.</param>
+        /// <param name="article">The article to append text to.</param>
+        /// <param name="appendText">The text to append.</param>
+        /// <param name="summary">The edit summary for this edit.</param>
+        /// <param name="minor">Whether or not to flag this edit as minor.</param>
         /// <returns>An EditPageRetvals object</returns>
-        public EditPageRetvals EditPageAppendEx(string Article, string AppendText, string Summary, bool Minor)
+        public EditPageRetvals EditPageAppendEx(string article, string appendText, string summary, bool minor)
         {
-            string pagetext = GetWikiText(Article, m_indexpath, 0) + AppendText;
+            string pagetext = GetWikiText(article, Indexpath, 0) + appendText;
 
-            return EditPageEx(Article, pagetext, Summary, Minor);
+            return EditPageEx(article, pagetext, summary, minor);
         }
 
         /// <summary>
         /// Gets the raw wiki-text for a specific page.
         /// </summary>
-        /// <param name="Article">The page to get the raw wikitext for.</param>
+        /// <param name="article">The page to get the raw wikitext for.</param>
         /// <returns>The raw wikitext for the specified article.</returns>
-        public static string GetWikiText(string Article)
+        public static string GetWikiText(string article)
         {
-            return GetWikiText(Article, "http://en.wikipedia.org/w/", 0);
+            return GetWikiText(article, "http://en.wikipedia.org/w/", 0);
         }
         #endregion
     }

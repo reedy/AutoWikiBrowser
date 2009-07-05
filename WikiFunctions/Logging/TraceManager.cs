@@ -276,9 +276,9 @@ namespace WikiFunctions.Logging
                 {
                     io.WriteLine("***********************************************************************************");
                     io.WriteLine("Page: " + editPageRetval.Article);
-                    io.WriteLine("Diff link: " + editPageRetval.difflink);
+                    io.WriteLine("Diff link: " + editPageRetval.Difflink);
                     io.WriteLine("Server response: ");
-                    io.WriteLine(editPageRetval.responsetext);
+                    io.WriteLine(editPageRetval.Responsetext);
                     io.WriteLine();
                     io.WriteLine();
                     io.WriteLine();

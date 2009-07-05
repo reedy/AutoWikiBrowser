@@ -78,7 +78,6 @@ namespace WikiFunctions.Lists
 
                 ISpecialPageProvider item = (ISpecialPageProvider)cmboSourceSelect.SelectedItem;
 
-                //TODO: There must be a better way to do the NS determination??
                 if (!string.IsNullOrEmpty(txtPages.Text))
                     list = item.MakeList(Namespace.Determine(cboNamespace.Text), searchCriteria);
                 else if (item.PagesNeeded)
