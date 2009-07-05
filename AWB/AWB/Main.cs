@@ -150,9 +150,6 @@ namespace AutoWikiBrowser
                 Variables.User.AdminStatusChanged += UpdateAdminStatus;
                 //Variables.User.WikiStatusChanged += UpdateWikiStatus;
 
-                //Variables.User.WebBrowserLogin.DocumentCompleted += WebLoginCompleted;
-                Variables.User.WebBrowserLogin.Navigating += WebLoginStarting;
-
                 webBrowserEdit.Deleted += CaseWasDelete;
                 webBrowserEdit.Loaded += CaseWasLoad;
                 webBrowserEdit.Saved += CaseWasSaved;
@@ -2048,11 +2045,6 @@ window.scrollTo(0, diffTopY);
                 txtNewCategory2.Enabled = false;
                 chkRemoveSortKey.Enabled = false;
             }
-        }
-
-        private void WebLoginStarting(object sender, WebBrowserNavigatingEventArgs e)
-        {
-            StartProgressBar();
         }
 
         private void UpdateBotStatus(object sender, EventArgs e)
