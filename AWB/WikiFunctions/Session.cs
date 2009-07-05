@@ -53,7 +53,7 @@ namespace WikiFunctions
             get { return Editor.User.IsSysop; }
         }
 
-        internal string CheckPageText
+        public string CheckPageText
         { get; private set; }
 
         public Session(string url)

@@ -105,7 +105,8 @@ namespace AutoWikiBrowser
 
         #endregion
 
-        Session TheSession;
+        public Session TheSession
+        { get; private set; }
 
         #region Constructor and MainForm load/resize
         public MainForm()
@@ -2462,7 +2463,6 @@ window.scrollTo(0, diffTopY);
             Tools.WriteDebugEnabled = true;
             listMaker.Add("Project:AutoWikiBrowser/Sandbox");
             lblOnlyBots.Visible = false;
-            dumpHTMLToolStripMenuItem.Visible = true;
             logOutDebugToolStripMenuItem.Visible = true;
             bypassAllRedirectsToolStripMenuItem.Enabled = true;
             profileTyposToolStripMenuItem.Visible = true;
@@ -2545,7 +2545,7 @@ window.scrollTo(0, diffTopY);
                 //set namespaces
                 Variables.SetProject(code, project, customProject);
 
-                TheSession = new Session();
+                TheSession.Update();
 
                 //set interwikiorder
                 switch (Variables.LangCode)
@@ -3410,7 +3410,6 @@ window.scrollTo(0, diffTopY);
 
         private void webBrowserEdit_Navigating(object sender, WebBrowserNavigatingEventArgs e)
         {
-            webBrowserEdit.BringToFront();
             StartProgressBar();
         }
 
