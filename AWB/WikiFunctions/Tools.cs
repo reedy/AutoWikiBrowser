@@ -32,7 +32,7 @@ using WikiFunctions.Parse;
 
 namespace WikiFunctions
 {
-    // TODO: remove functions superseded by ones from Namespace class 6 months after 5 March 2009
+    // TODO: remove functions superseded by ones from Namespace class 6 months after 5 March 2009 (or in V5?)
     /// <summary>
     /// Provides various tools as static methods, such as getting the html of a page
     /// </summary>
