@@ -313,6 +313,7 @@ namespace AutoWikiBrowser
                         if (asm == null)
                             continue;
 
+                        //TODO:Chances are if we've already loaded one (as its a duplicate assembly), we wont need to load more. Break out of this loop (is break instead of continue enough?)
                         try
                         {
                             foreach (Type t in asm.GetTypes())
