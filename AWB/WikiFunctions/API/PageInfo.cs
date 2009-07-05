@@ -48,7 +48,11 @@ namespace WikiFunctions.API
 
             Exists = (xr.GetAttribute("missing") == null); //if null, page exists
             EditToken = xr.GetAttribute("edittoken");
-            RevisionID = xr.GetAttribute("lastrevid");
+
+            long revId = -1;
+            long.TryParse(xr.GetAttribute("lastrevid"), out revId);
+            RevisionID = revId;
+
             Title = xr.GetAttribute("title");
 
             if (xr.ReadToDescendant("protection") && !xr.IsEmptyElement)
@@ -96,9 +100,9 @@ namespace WikiFunctions.API
         { get; internal set; }
 
         /// <summary>
-        /// 
+        /// Revision ID, -1 if N/A
         /// </summary>
-        public string RevisionID
+        public long RevisionID
         { get; internal set; }
 
         /// <summary>

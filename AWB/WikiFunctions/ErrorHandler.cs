@@ -26,7 +26,7 @@ namespace WikiFunctions
         /// <summary>
         /// Revision of the page currently being processed
         /// </summary>
-        public static int CurrentRevision;
+        public static long CurrentRevision;
 
         /// <summary>
         /// Current text that the list is being made from in ListMaker
