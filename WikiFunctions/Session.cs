@@ -33,6 +33,7 @@ namespace WikiFunctions
     /// </summary>
     public class Session
     {
+        #region Properties
         public AsyncApiEdit Editor
         { get; private set; }
 
@@ -56,12 +57,60 @@ namespace WikiFunctions
         public string CheckPageText
         { get; private set; }
 
+        #endregion
+
         public Session(string url)
         {
             Editor = new AsyncApiEdit(url);
+            AttachEvents(Editor);
             LoadProjectOptions();
             Update();
         }
+
+        #region Events
+
+        public event AsyncOperationCompleteEventHandler SaveComplete;
+        public AsyncStringOperationCompleteEventHandler PreviewComplete;
+
+        public event AsyncExceptionEventHandler ExceptionCaught;
+        public event AsyncOperationCompleteEventHandler MaxlagExceeded;
+        public event AsyncOperationCompleteEventHandler LoggedOff;
+
+        private void AttachEvents(AsyncApiEdit edit)
+        {
+            edit.SaveComplete += SaveComplete;
+            edit.PreviewComplete += PreviewComplete;
+            edit.ExceptionCaught += ExceptionCaught;
+            edit.MaxlagExceeded += MaxlagExceeded;
+            edit.LoggedOff += LoggedOff;
+        }
+
+        void OnSaveComplete(AsyncApiEdit sender)
+        {
+            if (SaveComplete != null) SaveComplete(sender);
+        }
+
+        void OnPreviewComplete(AsyncApiEdit sender, string result)
+        {
+            if (PreviewComplete != null) PreviewComplete(sender, result);
+        }
+
+        void OnExceptionCaught(AsyncApiEdit sender, Exception ex)
+        {
+            if (ExceptionCaught != null) ExceptionCaught(sender, ex);
+        }
+
+        void OnMaxlagExceeded(AsyncApiEdit sender)
+        {
+            if (MaxlagExceeded != null) MaxlagExceeded(sender);
+        }
+
+        void OnLoggedOff(AsyncApiEdit sender)
+        {
+            if (LoggedOff != null) LoggedOff(sender);
+        }
+
+        #endregion
 
         private readonly static Regex Message = new Regex("<!--[Mm]essage:(.*?)-->", RegexOptions.Compiled);
         private readonly static Regex VersionMessage = new Regex("<!--VersionMessage:(.*?)\\|\\|\\|\\|(.*?)-->", RegexOptions.Compiled);
