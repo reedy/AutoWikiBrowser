@@ -3360,7 +3360,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string fromInfoBox = GetInfoBoxFieldValue(zerothSection, @"(?:[Yy]earofbirth|Born|birth_?date)");
 
             if (fromInfoBox.Length > 0 && !UncertainWordings.IsMatch(fromInfoBox))
-                yearFromInfoBox = Regex.Match(fromInfoBox, @"\d{3,4}(?!\d)").Value;
+                yearFromInfoBox = Regex.Match(fromInfoBox, @"\d{3,4}(?!\d)(?: BC)?").Value;
 
             // birth
             if (!WikiRegexes.BirthsCategory.IsMatch(articleText) && (PersonYearOfBirth.Matches(zerothSection).Count == 1 || WikiRegexes.DateBirthAndAge.IsMatch(zerothSection) || WikiRegexes.DeathDateAndAge.IsMatch(zerothSection)
@@ -3415,7 +3415,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             fromInfoBox = GetInfoBoxFieldValue(articleText, @"(?:[Yy]earofdeath|Died|death_?date)");
 
             if (fromInfoBox.Length > 0 && !UncertainWordings.IsMatch(fromInfoBox))
-                yearFromInfoBox = Regex.Match(fromInfoBox, @"\d{3,4}(?!\d)").Value;
+                yearFromInfoBox = Regex.Match(fromInfoBox, @"\d{3,4}(?!\d)(?: BC)?").Value;
 
             if (!WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) && (PersonYearOfDeath.IsMatch(zerothSection) || WikiRegexes.DeathDate.IsMatch(zerothSection)
                 || Regex.IsMatch(yearFromInfoBox, @"\d{3,4}")))
