@@ -151,6 +151,9 @@ namespace AutoWikiBrowser
                 listMaker.StatusTextChanged += UpdateListStatus;
                 listMaker.cmboSourceSelect.SelectedIndexChanged += ListMakerSourceSelectHandler;
 
+                TheSession = new Session(Variables.URL);
+                CreateEditor();
+
                 Profiles = new WikiFunctions.Profiles.AWBProfilesForm(TheSession.Editor);
                 Profiles.LoggedIn += ProfileLoggedIn;
 
@@ -252,9 +255,6 @@ namespace AutoWikiBrowser
                 Plugin.LoadPluginsStartup(this, SplashScreen); // progress 65-79 in LoadPlugins()
 
                 LoadPrefs(); // progress 80-85 in LoadPrefs()
-
-                TheSession = new Session(Variables.URL);
-                CreateEditor();
 
                 SplashScreen.SetProgress(86);
                 UpdateButtons(null, null);
