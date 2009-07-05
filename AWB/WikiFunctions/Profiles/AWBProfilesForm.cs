@@ -46,6 +46,8 @@ namespace WikiFunctions.Profiles
             Editor.Login(username, password);
             if (LoggedIn != null)
                 LoggedIn(null, null);
+
+            Close();
         }
         
         private void btnLogin_Click(object sender, EventArgs e)
