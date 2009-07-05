@@ -241,8 +241,8 @@ namespace AutoWikiBrowser
                     listMaker.MakeListEnabled = false;
                 }
 
-                webBrowserDiff.Navigate("about:blank");
-                webBrowserDiff.ObjectForScripting = this;
+                webBrowser.Navigate("about:blank");
+                webBrowser.ObjectForScripting = this;
 
                 SplashScreen.SetProgress(35);
                 if (Properties.Settings.Default.LogInOnStart)
@@ -291,8 +291,6 @@ namespace AutoWikiBrowser
             {
                 ErrorHandler.Handle(ex);
             }
-
-            UsageStats.Initialise();
 
             StatusLabelText = "";
             SplashScreen.SetProgress(100);
@@ -1575,14 +1573,14 @@ namespace AutoWikiBrowser
         {
             try
             {
-                webBrowserDiff.BringToFront();
-                if (webBrowserDiff.Document == null)
+                webBrowser.BringToFront();
+                if (webBrowser.Document == null)
                     return;
 
-                webBrowserDiff.Document.OpenNew(false);
+                webBrowser.Document.OpenNew(false);
                 if (TheArticle.OriginalArticleText == txtEdit.Text)
                 {
-                    webBrowserDiff.Document.Write(
+                    webBrowser.Document.Write(
                         @"<h2 style='padding-top: .5em;
 padding-bottom: .17em;
 border-bottom: 1px solid #aaa;
@@ -1591,7 +1589,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to
                 else
                 {
                     // when less than 10 edits show user help info on double click to undo etc.
-                    webBrowserDiff.Document.Write("<!DOCTYPE HTML PUBLIC \" -//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
+                    webBrowser.Document.Write("<!DOCTYPE HTML PUBLIC \" -//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">"
                                                   + "<html><head>" +
                                                   WikiDiff.DiffHead() + @"</head><body>" + ((NumberOfEdits < 10) ? WikiDiff.TableHeader : WikiDiff.TableHeaderNoMessages) +
                                                   Diff.GetDiff(TheArticle.OriginalArticleText, txtEdit.Text, 2) +
@@ -1626,16 +1624,16 @@ window.scrollTo(0, diffTopY);
 
             skippable = false;
 
-            if (webBrowserDiff.Document != null)
+            if (webBrowser.Document != null)
             {
-                webBrowserDiff.Document.OpenNew(false);
-                webBrowserDiff.Document.Write("<html><head>"
+                webBrowser.Document.OpenNew(false);
+                webBrowser.Document.Write("<html><head>"
                     + sender.HtmlHeaders
                     + "</head><body style=\"background:white; margin:10px; text-align:left;\">"
                     + result
                     + "</html>"
                     );
-                webBrowserDiff.BringToFront();
+                webBrowser.BringToFront();
             }
 
             GuiUpdateAfterProcessing();
@@ -3492,19 +3490,19 @@ window.scrollTo(0, diffTopY);
         {
             if (toolStrip.Visible)
             {
-                webBrowserDiff.Location = new Point(webBrowserDiff.Location.X, 48);
+                webBrowser.Location = new Point(webBrowser.Location.X, 48);
                 if (panel1.Visible)
-                    webBrowserDiff.Height = panel1.Location.Y - 48;
+                    webBrowser.Height = panel1.Location.Y - 48;
                 else
-                    webBrowserDiff.Height = StatusMain.Location.Y - 48;
+                    webBrowser.Height = StatusMain.Location.Y - 48;
             }
             else
             {
-                webBrowserDiff.Location = new Point(webBrowserDiff.Location.X, 25);
+                webBrowser.Location = new Point(webBrowser.Location.X, 25);
                 if (panel1.Visible)
-                    webBrowserDiff.Height = panel1.Location.Y - 25;
+                    webBrowser.Height = panel1.Location.Y - 25;
                 else
-                    webBrowserDiff.Height = StatusMain.Location.Y - 25;
+                    webBrowser.Height = StatusMain.Location.Y - 25;
             }
         }
 
