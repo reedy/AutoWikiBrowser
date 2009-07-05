@@ -891,12 +891,30 @@ died 2002
 |alma_mater      = 
 |occupation      =brickmason, mercha
 
+}} {{persondata}}", infob2 = @"{{Infobox Officeholder
+|honorific-prefix   = 
+|name            = John Footus
+|term_start       = 144 BCE
+|term_end         = 127 BCE
+|predecessor      = [[Arthur C. McCall]]
+|successor        = [[Samuel C. Randall]]
+|birth_date      = 193 BC
+|birth_place     = [[Free City of Frankfurt]]
+|death_date= 127 BCE
+|death_place=      
+|alma_mater      = 
+|occupation      =brickmason, mercha
+
 }} {{persondata}}";
 
             // scraped from infobox
             Assert.AreEqual(infob1 + @"
 [[Category:1835 births]]
 [[Category:1935 deaths]]", Parsers.FixPeopleCategories(infob1));
+
+            Assert.AreEqual(infob2 + @"
+[[Category:193 BC births]]
+[[Category:127 BC deaths]]", Parsers.FixPeopleCategories(infob2));
 
             // doesn't add twice
             Assert.AreEqual(infob1 + @"
