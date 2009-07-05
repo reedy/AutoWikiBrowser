@@ -150,7 +150,6 @@ namespace AutoWikiBrowser
                 Variables.User.AdminStatusChanged += UpdateAdminStatus;
                 //Variables.User.WikiStatusChanged += UpdateWikiStatus;
 
-                webBrowserEdit.Saved += CaseWasSaved;
                 webBrowserEdit.None += CaseWasNull;
                 listMaker.UserInputTextBox.ContextMenuStrip = mnuMakeFromTextBox;
                 listMaker.BusyStateChanged += SetProgressBar;
@@ -442,6 +441,8 @@ namespace AutoWikiBrowser
             TheSession.PreviewComplete += PreviewComplete;
 
             TheSession.ExceptionCaught += APIEditExceptionCaught;
+
+            TheSession.SaveComplete += CaseWasSaved;
         }
 
         private void APIEditExceptionCaught(AsyncApiEdit sender, Exception ex)
@@ -552,13 +553,6 @@ namespace AutoWikiBrowser
                 catch (Exception ex)
                 { Program.MyTrace.ConfigError(ex); }
             }
-        }
-
-        private void CaseWasLoad(object sender, EventArgs e) //Event handler needs attaching
-        {
-            if (!LoadSuccessAPI()) return;
-
-            CaseWasLoad(TheSession.Editor.Page.Text);
         }
 
         // counts number of redirects so that we catch double redirects
@@ -1111,7 +1105,7 @@ namespace AutoWikiBrowser
 
         private static readonly Regex SpamUrlRegex = new Regex("<p>The following link has triggered our spam protection filter:<strong>(.*?)</strong><br/?>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        private void CaseWasSaved(object sender, EventArgs e)
+        private void CaseWasSaved(AsyncApiEdit sender)
         {
             try
             {
