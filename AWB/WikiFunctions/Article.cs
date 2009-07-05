@@ -734,10 +734,10 @@ namespace WikiFunctions
         /// Disambiguate
         /// </summary>
         /// <returns>True if OK to proceed, false to abort</returns>
-        public bool Disambiguate(string dabLinkText, string[] dabVariantsLines, bool botMode, int context,
+        public bool Disambiguate(Session session, string dabLinkText, string[] dabVariantsLines, bool botMode, int context,
             bool skipIfNoChange)
         {
-            Disambiguation.DabForm df = new Disambiguation.DabForm();
+            Disambiguation.DabForm df = new Disambiguation.DabForm(session);
             string strTemp = df.Disambiguate(mArticleText, mName, dabLinkText,
                 dabVariantsLines, context, botMode, out noChange);
 

@@ -26,9 +26,10 @@ namespace WikiFunctions.Disambiguation
 {
     public partial class DabForm : Form
     {
-        public DabForm()
+        public DabForm(Session session)
         {
             InitializeComponent();
+            Session = session;
         }
 
         /// <summary>
@@ -51,7 +52,7 @@ namespace WikiFunctions.Disambiguation
         static int SavedTop;
         bool NoSave = true;
 
-        readonly Session session;
+        private readonly Session Session;
 
         /// <summary>
         /// Displays a form that promts user for disambiguation
@@ -241,7 +242,7 @@ namespace WikiFunctions.Disambiguation
             //TODO:Must be a better way. Background request?
             try
             {
-                session.Editor.Clone().Watch(ArticleTitle);
+                Session.Editor.Clone().Watch(ArticleTitle);
                 MessageBox.Show("Page successfully added to your watchlist");
             }
             catch (Exception ex)
@@ -255,7 +256,7 @@ namespace WikiFunctions.Disambiguation
             //TODO:Must be a better way. Background request?
             try
             {
-                session.Editor.Clone().Watch(ArticleTitle);
+                Session.Editor.Clone().Watch(ArticleTitle);
                 MessageBox.Show("Page successfully removed from your watchlist");
             }
             catch (Exception ex)
