@@ -1951,7 +1951,9 @@ window.scrollTo(0, diffTopY);
         }
 
         private void loginToolStripMenuItem_Click(object sender, EventArgs e)
-        { CheckStatus(true); }
+        {
+            CheckStatus(true);
+        }
 
         private void logOutToolStripMenuItem_Click(object sender, EventArgs e)
         {
