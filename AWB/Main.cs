@@ -665,7 +665,7 @@ namespace AutoWikiBrowser
             }
 
             TheArticle.OriginalArticleText = articleText;
-            int.TryParse(TheSession.Editor.Page.RevisionID, out ErrorHandler.CurrentRevision);
+            ErrorHandler.CurrentRevision = TheSession.Editor.Page.RevisionID;
 
             if (PageReload)
             {
