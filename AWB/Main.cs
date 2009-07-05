@@ -485,7 +485,8 @@ namespace AutoWikiBrowser
                 txtEdit.Enabled = true;
                 SetEditToolBarEnabled(true);
 
-                if (Variables.Project != ProjectEnum.custom && string.IsNullOrEmpty(cmboEditSummary.Text) && Plugin.AWBPlugins.Count == 0)
+                if (Variables.Project != ProjectEnum.custom && string.IsNullOrEmpty(cmboEditSummary.Text) &&
+                    Plugin.AWBPlugins.Count == 0)
                 {
                     MessageBox.Show("Please enter an edit summary.", "Edit summary", MessageBoxButtons.OK,
                                     MessageBoxIcon.Exclamation);
@@ -516,7 +517,6 @@ namespace AutoWikiBrowser
                     return;
                 }
 
-
                 if (!Tools.IsValidTitle(listMaker.SelectedArticle().Name))
                 {
                     SkipPage("Invalid page title");
@@ -537,17 +537,7 @@ namespace AutoWikiBrowser
                 //    webBrowserEdit.ProtectPage(TheArticle.Name, dlg.Summary, dlg.EditProtectionLevel, dlg.MoveProtectionLevel, dlg.ProtectExpiry);
 
                 //Navigate to edit page
-                if (preParseModeToolStripMenuItem.Checked)
-                    StartAPITextLoad(TheArticle.Name);
-                else
-                {
-                    //check we are logged in
-                    if (!Variables.User.WikiStatus && !CheckStatus(false))
-                        return;
-
-                    //Navigate to edit page
-                    TheSession.Editor.Open(TheArticle.Name);
-                }
+                StartAPITextLoad(TheArticle.Name);
             }
             catch (Exception ex)
             {
@@ -613,13 +603,15 @@ namespace AutoWikiBrowser
                     if (filterOutNonMainSpaceToolStripMenuItem.Checked && (redirect.NameSpaceKey != 0))
                     {
                         listMaker.Remove(TheArticle); // or we get stuck in a loop
-                        TheArticle = redirect; // if we didn't do this, we were writing the SkipPage info to the AWBLogListener belonging to the object redirect and resident in the MyTrace collection, but then attempting to add TheArticle's log listener to the logging tab
+                        TheArticle = redirect;
+                            // if we didn't do this, we were writing the SkipPage info to the AWBLogListener belonging to the object redirect and resident in the MyTrace collection, but then attempting to add TheArticle's log listener to the logging tab
                         SkipPage("Page is not in mainspace");
                         return;
                     }
 
                     if (redirect.Name == TheArticle.Name)
-                    {//ignore recursive redirects
+                    {
+//ignore recursive redirects
                         TheArticle = redirect;
                         SkipPage("Recursive redirect");
                         return;
@@ -638,10 +630,7 @@ namespace AutoWikiBrowser
                         return;
                     }
 
-                    if (preParseModeToolStripMenuItem.Checked)
-                        StartAPITextLoad(redirect.Name);
-                    else
-                        TheSession.Editor.Open(redirect.Name);
+                    StartAPITextLoad(redirect.Name);
 
                     return;
                 }
