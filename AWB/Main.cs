@@ -267,7 +267,7 @@ namespace AutoWikiBrowser
                 LoadRecentSettingsList(); // progress 89-94 in LoadRecentSettingsList()
                 SplashScreen.SetProgress(95);
 
-                switch (Variables.User.CheckEnabled())
+                switch (TheSession.Update())
                 {
                     case WikiStatusResult.OldVersion:
                         OldVersion();
@@ -1106,47 +1106,48 @@ namespace AutoWikiBrowser
 
         private void CaseWasSaved(AsyncApiEdit sender)
         {
-            try
-            {
-                if (webBrowserEdit.DocumentText.Contains("<H1 class=firstHeading>Edit conflict: "))
-                {//if session data is lost, if data is lost then save after delay with tmrAutoSaveDelay
-                    MessageBox.Show("There has been an Edit Conflict. AWB will now re-apply its changes on the updated page. \n\r Please re-review the changes before saving. Any Custom edits will be lost, and have to be re-added manually.", "Edit Conflict");
-                    NudgeTimer.Stop();
-                    Start();
-                    return;
-                }
-                if (!BotMode && webBrowserEdit.DocumentText.Contains("<DIV id=spamprotected>"))
-                {//check edit wasn't blocked due to spam filter
-                    if (!chkSkipSpamFilter.Checked)
-                    {
-                        Match m = SpamUrlRegex.Match(webBrowserEdit.DocumentText);
+            //TODO:Reinstate as needed
+            //try
+            //{
+            //    if (webBrowserEdit.DocumentText.Contains("<H1 class=firstHeading>Edit conflict: "))
+            //    {//if session data is lost, if data is lost then save after delay with tmrAutoSaveDelay
+            //        MessageBox.Show("There has been an Edit Conflict. AWB will now re-apply its changes on the updated page. \n\r Please re-review the changes before saving. Any Custom edits will be lost, and have to be re-added manually.", "Edit Conflict");
+            //        NudgeTimer.Stop();
+            //        Start();
+            //        return;
+            //    }
+            //    if (!BotMode && webBrowserEdit.DocumentText.Contains("<DIV id=spamprotected>"))
+            //    {//check edit wasn't blocked due to spam filter
+            //        if (!chkSkipSpamFilter.Checked)
+            //        {
+            //            Match m = SpamUrlRegex.Match(webBrowserEdit.DocumentText);
 
-                        string messageBoxText = "Edit has been blocked by spam blacklist.\r\n";
+            //            string messageBoxText = "Edit has been blocked by spam blacklist.\r\n";
 
-                        if (m.Success)
-                            messageBoxText += "Spam URL: " + m.Groups[1].Value.Trim() + "\r\n";
+            //            if (m.Success)
+            //                messageBoxText += "Spam URL: " + m.Groups[1].Value.Trim() + "\r\n";
 
-                        if (MessageBox.Show(messageBoxText + "Try and edit again?", "Spam blacklist", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-                        {
-                            Start();
-                            return;
-                        }
-                    }
+            //            if (MessageBox.Show(messageBoxText + "Try and edit again?", "Spam blacklist", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            //            {
+            //                Start();
+            //                return;
+            //            }
+            //        }
 
-                    SkipPage("Edit blocked by spam protection filter");
-                    return;
-                }
+            //        SkipPage("Edit blocked by spam protection filter");
+            //        return;
+            //    }
 
-                if (IsReadOnlyDB())
-                {
-                    StartDelayedRestartTimer(null, null);
-                    return;
-                }
-            }
-            catch (Exception)
-            {
-                Start();
-            }
+            //    if (IsReadOnlyDB())
+            //    {
+            //        StartDelayedRestartTimer(null, null);
+            //        return;
+            //    }
+            //}
+            //catch (Exception)
+            //{
+            //    Start();
+            //}
 
             //lower restart delay
             if (IntRestartDelay > 5)
