@@ -104,17 +104,22 @@ namespace WikiFunctions
             XmlDocument xd = new XmlDocument();
             xd.LoadXml(output);
 
-            var general = xd["general"];
+            var api = xd["api"];
+            if (api == null) return false;
+
+            var query = api["query"];
+            if (query == null) return false;
+
+            var general = query["general"];
             if (general == null) return false;
 
             Language = general.Attributes["lang"].Value;
             IsRightToLeft = general.Attributes["rtl"] != null;
 
-            if (xd["api"] == null || xd["api"]["query"] == null
-                || xd["api"]["query"]["namespaces"] == null || xd["api"]["query"]["namespacealiases"] == null)
+            if (query["namespaces"] == null || query["namespacealiases"] == null)
                 return false;
 
-            foreach (XmlNode xn in xd["api"]["query"]["namespaces"].GetElementsByTagName("ns"))
+            foreach (XmlNode xn in query["namespaces"].GetElementsByTagName("ns"))
             {
                 int id = int.Parse(xn.Attributes["id"].Value);
 
@@ -123,17 +128,17 @@ namespace WikiFunctions
 
             namespaceAliases = Variables.PrepareAliases(namespaces);
 
-            foreach (XmlNode xn in xd["api"]["query"]["namespacealiases"].GetElementsByTagName("ns"))
+            foreach (XmlNode xn in query["namespacealiases"].GetElementsByTagName("ns"))
             {
                 int id = int.Parse(xn.Attributes["id"].Value);
 
                 if (id != 0) namespaceAliases[id].Add(xn.InnerText);
             }
 
-            if (xd["api"]["query"]["magicwords"] == null)
+            if (query["magicwords"] == null)
                 return false;
 
-            foreach (XmlNode xn in xd["api"]["query"]["magicwords"].GetElementsByTagName("magicword"))
+            foreach (XmlNode xn in query["magicwords"].GetElementsByTagName("magicword"))
             {
                 List<string> alias = new List<string>();
 

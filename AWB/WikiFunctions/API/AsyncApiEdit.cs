@@ -29,7 +29,7 @@ namespace WikiFunctions.API
     /// <summary>
     /// Multithreaded API editor class
     /// </summary>
-    public class AsyncApiEdit : IApiEdit
+    public class AsyncApiEdit
     {
         private Thread TheThread;
         private readonly Control ParentControl;
@@ -61,7 +61,7 @@ namespace WikiFunctions.API
             State = EditState.Ready;
         }
 
-        public IApiEdit Clone()
+        public AsyncApiEdit Clone()
         {
             return new AsyncApiEdit((ApiEdit)SynchronousEditor.Clone(), ParentControl);
         }

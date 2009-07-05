@@ -63,6 +63,7 @@ namespace WikiFunctions
         {
             Editor = new AsyncApiEdit(url);
             AttachEvents(Editor);
+            Site = new SiteInfo(Editor.SynchronousEditor);
             LoadProjectOptions();
             Update();
         }
@@ -158,7 +159,7 @@ namespace WikiFunctions
                 IsBot = false;
 
                 //TODO: login?
-                Site = new SiteInfo(Editor);
+                Site = new SiteInfo(Editor.SynchronousEditor);
 
                 //load version check page
                 BackgroundRequest versionRequest = new BackgroundRequest();
