@@ -150,7 +150,7 @@ namespace WikiFunctions.API
         {
             switch (operation)
             {
-                case "Edit":
+                case "Save":
                     if (SaveComplete != null) SaveComplete(this);
                     break;
                 case "Preview":
