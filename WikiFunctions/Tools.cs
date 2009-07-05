@@ -1420,14 +1420,6 @@ Message: {2}
         }
 
         /// <summary>
-        /// Opens the current users talk page in the browser
-        /// </summary>
-        public static void OpenUserTalkInBrowser()
-        {
-            OpenURLInBrowser(Variables.GetUserTalkURL("User:CurrentUser"));//TODO:FIX
-        }
-
-        /// <summary>
         /// Opens the specified articles edit page
         /// </summary>
         public static void EditArticleInBrowser(string title)
