@@ -150,8 +150,6 @@ namespace AutoWikiBrowser
                 Variables.User.AdminStatusChanged += UpdateAdminStatus;
                 //Variables.User.WikiStatusChanged += UpdateWikiStatus;
 
-                webBrowserEdit.Deleted += CaseWasDelete;
-                webBrowserEdit.Loaded += CaseWasLoad;
                 webBrowserEdit.Saved += CaseWasSaved;
                 webBrowserEdit.None += CaseWasNull;
                 webBrowserEdit.Fault += StartDelayedRestartTimer;
@@ -567,15 +565,9 @@ namespace AutoWikiBrowser
             }
         }
 
-        private void CaseWasDelete(object sender, EventArgs e)
-        {
-            listMaker.Remove(TheArticle);
-            Start();
-        }
-
         private void CaseWasLoad(object sender, EventArgs e) //Event handler needs attaching
         {
-            if (!LoadSuccessApi()) return;
+            if (!LoadSuccessAPI()) return;
 
             CaseWasLoad(TheSession.Editor.Page.Text);
         }
@@ -3531,6 +3523,10 @@ window.scrollTo(0, diffTopY);
                     {
                         LastDelete = dlgArticleAction.Summary;
                         TheSession.Editor.Delete(TheArticle.Name, ArticleActionSummary(dlgArticleAction), dlgArticleAction.Watch);
+
+                        //TODO:Error Handling
+                        listMaker.Remove(TheArticle);
+                        Start();
                     }
                 }
                 catch (Exception ex)
