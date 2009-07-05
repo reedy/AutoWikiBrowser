@@ -2341,7 +2341,7 @@ window.scrollTo(0, diffTopY);
                     BotMode = false;
                     lblOnlyBots.Visible = true;
 
-                    CreateEditor();
+                    //CreateEditor();
                 }
             }
             ListMaker.AddRemoveRedirects();
