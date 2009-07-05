@@ -439,9 +439,9 @@ namespace AutoWikiBrowser
 
         private void CreateEditor()
         {
-            TheSession.Editor.PreviewComplete += PreviewComplete;
+            TheSession.PreviewComplete += PreviewComplete;
 
-            TheSession.Editor.ExceptionCaught += APIEditExceptionCaught;
+            TheSession.ExceptionCaught += APIEditExceptionCaught;
         }
 
         private void APIEditExceptionCaught(AsyncApiEdit sender, Exception ex)
