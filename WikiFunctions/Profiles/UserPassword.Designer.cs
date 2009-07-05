@@ -72,6 +72,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "UserPassword";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Password";
             this.ResumeLayout(false);
             this.PerformLayout();

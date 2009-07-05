@@ -86,7 +86,7 @@ namespace WikiFunctions.Profiles
                                                         lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text
                                                 };
 
-                    if (password.ShowDialog() == DialogResult.OK)
+                    if (password.ShowDialog(this) == DialogResult.OK)
                         PerformLogin(password.GetPassword);
                 }
                 Cursor = Cursors.Default;
@@ -129,7 +129,7 @@ namespace WikiFunctions.Profiles
                                                     SetText = "Enter password for " + startupProfile.Username
                                                 };
 
-                    if (password.ShowDialog() == DialogResult.OK)
+                    if (password.ShowDialog(this) == DialogResult.OK)
                         PerformLogin(startupProfile.Username, password.GetPassword);
                 }
             }
