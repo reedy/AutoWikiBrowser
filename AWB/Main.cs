@@ -2373,7 +2373,7 @@ window.scrollTo(0, diffTopY);
                 //set namespaces
                 Variables.SetProject(code, project, customProject);
 
-                TheSession.Update();
+                //TheSession.Update();
 
                 //set interwikiorder
                 switch (Variables.LangCode)
@@ -4062,7 +4062,8 @@ window.scrollTo(0, diffTopY);
 
         private void imgRedirect_Click(object sender, EventArgs e)
         {
-            EditToolBarAction("#REDIRECT [[Insert text]]", 13, 11, "#REDIRECT [[", "]]");
+            string redirect = Variables.MagicWords["redirect"][0].ToUpper;
+            EditToolBarAction(redirect + " [[Insert text]]", 13, 11, redirect + " [[", "]]");
         }
 
         private void imgStrike_Click(object sender, EventArgs e)
@@ -4086,7 +4087,7 @@ window.scrollTo(0, diffTopY);
         }
 
         /// <summary>
-        /// Applys EditToolBar button action
+        /// Applies EditToolBar button action
         /// </summary>
         /// <param name="noSelection">String to display if no text already select</param>
         /// <param name="selectionStartOffset">Start position to highlight from end of noSelection</param>
