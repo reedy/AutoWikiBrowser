@@ -76,12 +76,12 @@ namespace WikiFunctions.API
 
         public bool CanEditPage(PageInfo page)
         {
-            return string.IsNullOrEmpty(page.Edit) || HasPermission(page.Edit);
+            return string.IsNullOrEmpty(page.EditProtection) || HasPermission(page.EditProtection);
         }
 
         public bool CanMovePage(PageInfo page)
         {
-            return string.IsNullOrEmpty(page.Move) || HasPermission(page.Move);
+            return string.IsNullOrEmpty(page.MoveProtection) || HasPermission(page.MoveProtection);
         }
 
         /// <summary>
