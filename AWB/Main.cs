@@ -1916,8 +1916,6 @@ window.scrollTo(0, diffTopY);
                 TheSession.IsSysop && btnSave.Enabled && (TheArticle != null);
         }
 
-        //private void UpdateWikiStatus(object sender, EventArgs e) { }
-
         private void chkAutoMode_CheckedChanged(object sender, EventArgs e)
         {
             if (BotMode)
