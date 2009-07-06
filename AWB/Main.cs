@@ -2605,6 +2605,11 @@ window.scrollTo(0, diffTopY);
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            if (!TheSession.User.IsRegistered)
+            {
+                Profiles.ShowDialog();
+                if (!TheSession.User.IsRegistered) return;
+            }
             StopProcessing = false;
             Start();
         }
