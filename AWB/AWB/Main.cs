@@ -4062,7 +4062,7 @@ window.scrollTo(0, diffTopY);
 
         private void imgRedirect_Click(object sender, EventArgs e)
         {
-            string redirect = Variables.MagicWords["redirect"][0].ToUpper;
+            string redirect = Variables.MagicWords["redirect"][0].ToUpper();
             EditToolBarAction(redirect + " [[Insert text]]", 13, 11, redirect + " [[", "]]");
         }
 
