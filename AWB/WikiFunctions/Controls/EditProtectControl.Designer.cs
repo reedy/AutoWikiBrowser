@@ -38,7 +38,7 @@
             // chkUnlock
             // 
             this.chkUnlock.AutoSize = true;
-            this.chkUnlock.Location = new System.Drawing.Point(156, 65);
+            this.chkUnlock.Location = new System.Drawing.Point(157, 78);
             this.chkUnlock.Name = "chkUnlock";
             this.chkUnlock.Size = new System.Drawing.Size(146, 17);
             this.chkUnlock.TabIndex = 17;
@@ -56,7 +56,7 @@
             "Fully protected"});
             this.lbMove.Location = new System.Drawing.Point(157, 16);
             this.lbMove.Name = "lbMove";
-            this.lbMove.Size = new System.Drawing.Size(145, 43);
+            this.lbMove.Size = new System.Drawing.Size(145, 56);
             this.lbMove.TabIndex = 16;
             this.lbMove.SelectedIndexChanged += new System.EventHandler(this.BothListBox_SelectedIndexChanged);
             // 
@@ -78,9 +78,8 @@
             "Fully protected"});
             this.lbEdit.Location = new System.Drawing.Point(6, 16);
             this.lbEdit.Name = "lbEdit";
-            this.lbEdit.Size = new System.Drawing.Size(145, 43);
+            this.lbEdit.Size = new System.Drawing.Size(145, 56);
             this.lbEdit.TabIndex = 13;
-            this.lbEdit.SelectedIndexChanged += new System.EventHandler(this.BothListBox_SelectedIndexChanged);
             this.lbEdit.SelectedIndexChanged += new System.EventHandler(this.lbEdit_SelectedIndexChanged);
             // 
             // lblEdit
@@ -92,7 +91,7 @@
             this.lblEdit.TabIndex = 12;
             this.lblEdit.Text = "Edit";
             // 
-            // MoveDeleteControl
+            // EditProtectControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -101,8 +100,8 @@
             this.Controls.Add(this.lblMove);
             this.Controls.Add(this.lbEdit);
             this.Controls.Add(this.lblEdit);
-            this.Name = "MoveDeleteControl";
-            this.Size = new System.Drawing.Size(311, 88);
+            this.Name = "EditProtectControl";
+            this.Size = new System.Drawing.Size(311, 103);
             this.ResumeLayout(false);
             this.PerformLayout();
 
