@@ -40,7 +40,7 @@ namespace AutoWikiBrowser
         {
             InitializeComponent();
 
-            foreach (ProjectEnum l in Enum.GetValues(typeof(ProjectEnum)))
+            foreach (ProjectEnum l in Enum.GetValues(typeof (ProjectEnum)))
                 cmboProject.Items.Add(l);
 
             cmboProject.SelectedItem = proj;
@@ -76,11 +76,16 @@ namespace AutoWikiBrowser
             PrefAddUsingAWBOnArticleAction = addUsingAWBOnArticleAction;
 
             chkSupressAWB.Enabled = (cmboProject.Text == "custom" || cmboProject.Text == "wikia");
-            
+
             PrefSuppressUsingAWB = chkSupressAWB.Enabled && suppressUsingAWB;
 
             chkAlwaysConfirmExit.Checked = Properties.Settings.Default.AskForTerminate;
             chkPrivacy.Checked = !Properties.Settings.Default.Privacy;
+
+#if MONO
+            chkFlash.Enabled = false;
+            chkFlast.Checked = false;
+#endif
         }
 
         #region Language and project
