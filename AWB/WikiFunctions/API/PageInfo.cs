@@ -78,7 +78,7 @@ namespace WikiFunctions.API
 
             xr.ReadToDescendant("rev");
             Timestamp = xr.GetAttribute("timestamp");
-            Text = xr.ReadString();
+            Text = Tools.ConvertToLocalLineEndings(xr.ReadString());
         }
 
         /// <summary>

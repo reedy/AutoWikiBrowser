@@ -459,6 +459,8 @@ namespace WikiFunctions.API
             if (Action != "edit") throw new ApiException(this, "This page is not opened properly for editing");
             if (string.IsNullOrEmpty(Page.EditToken)) throw new ApiException(this, "Edit token is needed to edit pages");
 
+            pageText = Tools.ConvertFromLocalLineEndings(pageText);
+
             string result = HttpPost(
                 new[,]
                 {
