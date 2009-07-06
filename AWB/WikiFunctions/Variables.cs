@@ -890,11 +890,8 @@ namespace WikiFunctions
         private bool bIsAdmin;
         private bool bIsBot;
         private bool bLoggedIn;
-        private bool bLoaded;
 
         public readonly List<string> Groups = new List<string>();
-
-        private static bool WeAskedAboutUpdate;
 
         /// <summary>
         /// Gets the user name
