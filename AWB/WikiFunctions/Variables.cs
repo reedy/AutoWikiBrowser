@@ -662,6 +662,12 @@ namespace WikiFunctions
             //refresh once more in case project settings were reset due to error with loading
             RefreshProxy();
 
+            //HACK:HACK:HACK:HACK:HACK:
+            if (MainForm != null && MainForm.TheSession != null)
+            {
+                MainForm.TheSession.UpdateProject();
+            }
+
             RegenerateRegexes();
 
             RetfPath = Namespaces[Namespace.Project] + "AutoWikiBrowser/Typos";
