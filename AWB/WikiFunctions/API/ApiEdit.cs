@@ -279,8 +279,12 @@ namespace WikiFunctions.API
             }
             catch (WebException ex)
             {
+                if ((ex.Response as HttpWebResponse).StatusCode == HttpStatusCode.NotFound /*404*/)
+                    return ""; // emulate the behaviour of Tools.HttpGet()
+
                 // just reclassifying
-                if (ex.Status == WebExceptionStatus.RequestCanceled) throw new ApiAbortedException(this);
+                if (ex.Status == WebExceptionStatus.RequestCanceled)
+                    throw new ApiAbortedException(this);
                 else throw;
             }
             finally
