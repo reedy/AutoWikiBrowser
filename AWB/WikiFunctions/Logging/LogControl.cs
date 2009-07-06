@@ -78,14 +78,13 @@ namespace WikiFunctions.Logging
         {
             /* we seem to sometimes be receiving a ToolStripMenuItem, and sometimes a ContextMenuStrip...
              * I've no idea why, but in the meantime this version of the function handles both. */
-            try
-            {
-                return ((ListView) ((ContextMenuStrip) sender).SourceControl);
-            }
-            catch
-            {
-                return (ListView) (((ContextMenuStrip) ((ToolStripMenuItem) sender).Owner).SourceControl);
-            }
+
+            if (sender is ContextMenuStrip)
+                return ((ListView)((ContextMenuStrip)sender).SourceControl);
+            else if (sender is ToolStripMenuItem)
+                return (ListView)(((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl);
+            else
+                throw new ArgumentException("Object of unknown type passed to LogControl.MenuItemOwner()");
         }
 
         private LogFileType GetFilePrefs()
