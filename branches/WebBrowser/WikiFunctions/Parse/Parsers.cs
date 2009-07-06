@@ -865,7 +865,7 @@ namespace WikiFunctions.Parse
                 return derivedReferenceName;
 
             // Harvnb template {{Harvnb|Young|1852|p=50}}
-            derivedReferenceName = ExtractReferenceNameComponents(reference, @"\s*{{[Hh]arv(?:nb)?\s*\|\s*([^{}\|]+?)\s*\|\s*(\d{4})\s*\|\s*([^{}\|]+?)\s*}}\s*", 3);
+            derivedReferenceName = ExtractReferenceNameComponents(reference, @"\s*{{[Hh]arv(?:(?:col)?nb)?\s*\|\s*([^{}\|]+?)\s*\|\s*(\d{4})\s*\|\s*([^{}\|]+?)\s*}}\s*", 3);
 
             if (ReferenceNameValid(articleText, derivedReferenceName))
                 return derivedReferenceName;
