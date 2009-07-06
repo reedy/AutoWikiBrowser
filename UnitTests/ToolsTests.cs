@@ -194,6 +194,18 @@ bar"));
         }
 
         [Test]
+        public void LineEndings()
+        {
+            Assert.AreEqual("", Tools.ConvertToLocalLineEndings(""));
+            Assert.AreEqual("foo bar", Tools.ConvertToLocalLineEndings("foo bar"));
+            Assert.AreEqual("\r\nfoo\r\nbar\r\n", Tools.ConvertToLocalLineEndings("\nfoo\nbar\n"));
+
+            Assert.AreEqual("", Tools.ConvertFromLocalLineEndings(""));
+            Assert.AreEqual("foo bar", Tools.ConvertFromLocalLineEndings("foo bar"));
+            Assert.AreEqual("\nfoo\nbar\n", Tools.ConvertFromLocalLineEndings("\r\nfoo\r\nbar\r\n"));
+        }
+
+        [Test]
         public void ReplacePartOfString()
         {
             Assert.AreEqual("abc123ef", Tools.ReplacePartOfString("abcdef", 3, 1, "123"));
