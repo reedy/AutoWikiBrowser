@@ -22,17 +22,6 @@ using System;
 namespace WikiFunctions.API
 {
     /// <summary>
-    /// Protection level for a page
-    /// </summary>
-    public enum Protection
-    {
-        None,
-        Autoconfirmed,
-        Sysop,
-        Unknown
-    };
-
-    /// <summary>
     /// This class represents information about the page currently being edited
     /// </summary>
     public class PageInfo
@@ -65,10 +54,10 @@ namespace WikiFunctions.API
                     switch (xn.Attributes["type"].Value)
                     {
                         case "edit":
-                            Edit = StringToProtection(xn.Attributes["level"].Value);
+                            Edit = xn.Attributes["level"].Value;
                             break;
                         case "move":
-                            Move = StringToProtection(xn.Attributes["level"].Value);
+                            Move = xn.Attributes["level"].Value;
                             break;
                     }
                 }
@@ -119,12 +108,12 @@ namespace WikiFunctions.API
         /// <summary>
         /// 
         /// </summary>
-        public Protection Edit { get; private set; }
+        public string Edit { get; private set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public Protection Move { get; private set; }
+        public string Move { get; private set; }
 
         //TODO: waiting for https://bugzilla.wikimedia.org/show_bug.cgi?id=19523
         /// <summary>
@@ -132,10 +121,5 @@ namespace WikiFunctions.API
         /// </summary>
         public bool IsWatched
         { get { return false; } }
-
-        private static Protection StringToProtection(string val)
-        {
-            return (Protection)Enum.Parse(typeof(Protection), Tools.TurnFirstToUpperNoProjectCheck(val));
-        }
     }
 }

@@ -49,13 +49,13 @@ namespace WikiFunctions.API
         /// Whether the current user is an administrator
         /// </summary>
         public bool IsSysop
-        { get { return Groups.Contains("sysop"); } }
+        { get { return HasPermission("sysop"); } }
 
         /// <summary>
         /// Whether the current user is a flagged bot
         /// </summary>
         public bool IsBot
-        { get { return Groups.Contains("bot"); } }
+        { get { return HasPermission("bot"); } }
 
         /// <summary>
         /// Whether the current user is blocked from editing
@@ -68,6 +68,21 @@ namespace WikiFunctions.API
         /// </summary>
         public bool HasMessages
         { get; internal set; }
+
+        public bool HasPermission(string permission)
+        {
+            return Groups.Contains(permission);
+        }
+
+        public bool CanEditPage(PageInfo page)
+        {
+            return string.IsNullOrEmpty(page.Edit) || HasPermission(page.Edit);
+        }
+
+        public bool CanMovePage(PageInfo page)
+        {
+            return string.IsNullOrEmpty(page.Move) || HasPermission(page.Move);
+        }
 
         /// <summary>
         /// Creates a UserInfo class from an meta=userinfo XML

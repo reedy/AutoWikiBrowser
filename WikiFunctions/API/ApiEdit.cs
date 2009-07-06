@@ -538,22 +538,22 @@ namespace WikiFunctions.API
             Reset();
         }
 
-        public void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move)
+        public void Protect(string title, string reason, TimeSpan expiry, string edit, string move)
         {
             Protect(title, reason, expiry.ToString(), edit, move, false, false);
         }
 
-        public void Protect(string title, string reason, string expiry, Protection edit, Protection move)
+        public void Protect(string title, string reason, string expiry, string edit, string move)
         {
             Protect(title, reason, expiry, edit, move, false, false);
         }
 
-        public void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move, bool cascade, bool watch)
+        public void Protect(string title, string reason, TimeSpan expiry, string edit, string move, bool cascade, bool watch)
         {
             Protect(title, reason, expiry.ToString(), edit, move, cascade, watch);
         }
 
-        public void Protect(string title, string reason, string expiry, Protection edit, Protection move, bool cascade, bool watch)
+        public void Protect(string title, string reason, string expiry, string edit, string move, bool cascade, bool watch)
         {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
             if (string.IsNullOrEmpty(reason)) throw new ArgumentException("Deletion reason required", "reason");

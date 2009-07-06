@@ -127,23 +127,24 @@ namespace WikiFunctions.Controls
             set { cmboSummary.Text = value; }
         }
 
-        public API.Protection EditProtectionLevel
+        public string EditProtectionLevel
         {
             get
             {
                 if (CurrentAction == ArticleAction.Protect) 
-                    return (API.Protection)(MoveDelete.EditProtectionLevel + 1);
-                return API.Protection.Unknown;
+                    return MoveDelete.EditProtectionLevel;
+                else
+                    return "";
             }
         }
 
-        public API.Protection MoveProtectionLevel
+        public string MoveProtectionLevel
         {
             get
             {
                 if (CurrentAction == ArticleAction.Protect)
-                    return (API.Protection)(MoveDelete.MoveProtectionLevel + 1);
-                return API.Protection.Unknown;
+                    return MoveDelete.MoveProtectionLevel;
+                return "";
             }
         }
 

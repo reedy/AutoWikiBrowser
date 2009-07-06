@@ -156,7 +156,7 @@ namespace WikiFunctions.API
         /// <param name="expiry"></param>
         /// <param name="edit"></param>
         /// <param name="move"></param>
-        void Protect(string title, string reason, string expiry, Protection edit, Protection move);
+        void Protect(string title, string reason, string expiry, string edit, string move);
 
         /// <summary>
         /// Protects the Page
@@ -166,19 +166,7 @@ namespace WikiFunctions.API
         /// <param name="expiry"></param>
         /// <param name="edit"></param>
         /// <param name="move"></param>
-        void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move);
-
-        /// <summary>
-        /// Protects the Page
-        /// </summary>
-        /// <param name="title">Title of the page to protect</param>
-        /// <param name="reason">Reason for protection. Must not be empty.</param>
-        /// <param name="expiry"></param>
-        /// <param name="edit"></param>
-        /// <param name="move"></param>
-        /// <param name="cascade"></param>
-        /// <param name="watch">Whether to add the page to your watchlist</param>
-        void Protect(string title, string reason, string expiry, Protection edit, Protection move, bool cascade, bool watch);
+        void Protect(string title, string reason, TimeSpan expiry, string edit, string move);
 
         /// <summary>
         /// Protects the Page
@@ -190,7 +178,19 @@ namespace WikiFunctions.API
         /// <param name="move"></param>
         /// <param name="cascade"></param>
         /// <param name="watch">Whether to add the page to your watchlist</param>
-        void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move, bool cascade, bool watch);
+        void Protect(string title, string reason, string expiry, string edit, string move, bool cascade, bool watch);
+
+        /// <summary>
+        /// Protects the Page
+        /// </summary>
+        /// <param name="title">Title of the page to protect</param>
+        /// <param name="reason">Reason for protection. Must not be empty.</param>
+        /// <param name="expiry"></param>
+        /// <param name="edit"></param>
+        /// <param name="move"></param>
+        /// <param name="cascade"></param>
+        /// <param name="watch">Whether to add the page to your watchlist</param>
+        void Protect(string title, string reason, TimeSpan expiry, string edit, string move, bool cascade, bool watch);
 
         /// <summary>
         /// Moves the page
