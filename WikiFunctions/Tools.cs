@@ -40,15 +40,6 @@ namespace WikiFunctions
     {
         public delegate void SetProgress(int percent);
 
-        [Obsolete("This function is superseded by Namespace.Determine()")]
-        /// <summary>
-        /// Calculates the namespace index.
-        /// </summary>
-        public static int CalculateNS(string articleTitle)
-        {
-            return Namespace.Determine(articleTitle);
-        }
-
         /// <summary>
         /// Returns the version of WikiFunctions
         /// </summary>
@@ -73,16 +64,6 @@ namespace WikiFunctions
         public static void About()
         {
             new Controls.AboutBox().Show();
-        }
-
-        [Obsolete("This function is superseded by Namespace.IsMainSpace()")]
-        /// <summary>
-        /// Tests title to make sure it is main space
-        /// </summary>
-        /// <param name="articleTitle">The title.</param>
-        public static bool IsMainSpace(string articleTitle)
-        {
-            return Namespace.IsMainSpace(articleTitle);
         }
 
         // Covered by ToolsTests.IsRedirect()
@@ -145,67 +126,6 @@ namespace WikiFunctions
             return articleTitle;
         }
 
-        [Obsolete("This function is superseded by Namespace.IsImportant")]
-        /// <summary>
-        /// Tests title to make sure it is either main, image, category or template namespace.
-        /// </summary>
-        /// <param name="articleTitle">The title.</param>
-        public static bool IsImportantNamespace(string articleTitle)
-        {
-            return Namespace.IsImportant(articleTitle);
-        }
-
-        [Obsolete("This function is superseded by Namespace.IsTalk()")]
-        /// <summary>
-        /// Tests title to make sure it is a talk page.
-        /// </summary>
-        /// <param name="articleTitle">The title.</param>
-        public static bool IsTalkPage(string articleTitle)
-        {
-            return Namespace.IsTalk(articleTitle);
-        }
-
-        [Obsolete("This function is superseded by Namespace.IsTalk()")]
-        /// <summary>
-        /// Tests title to make sure it is a talk page.
-        /// </summary>
-        /// <param name="key">The namespace key</param>
-        public static bool IsTalkPage(int key)
-        {
-            return Namespace.IsTalk(key);
-        }
-
-        [Obsolete("This function is superseded by Namespace.IsUserSpace()")]
-        /// <summary>
-        /// returns true if current page is a userpage
-        /// </summary>
-        public static bool IsUserSpace(string articleTitle)
-        {
-            return Namespace.IsUserSpace(articleTitle);
-        }
-
-        [Obsolete("This function is superseded by Namespace.IsUserTalk()")]
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="articleTitle"></param>
-        /// <returns></returns>
-        public static bool IsUserTalk(string articleTitle)
-        {
-            return Namespace.IsUserTalk(articleTitle);
-        }
-
-        [Obsolete("This function is superseded by Namespace.IsUserPage()")]
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="articleTitle"></param>
-        /// <returns></returns>
-        public static bool IsUserPage(string articleTitle)
-        {
-            return Namespace.IsUserPage(articleTitle);
-        }
-
         // Covered by ToolsTests.StripNamespaceColon()
         /// <summary>
         /// Strips trailing colon from a namespace name, e.g. "User:" -> "User"
@@ -214,15 +134,6 @@ namespace WikiFunctions
         public static string StripNamespaceColon(string ns)
         {
             return ns.TrimEnd(':');
-        }
-
-        [Obsolete("This function is superseded by Namespace.Normalize()")]
-        /// <summary>
-        /// Normalizes a namespace string, but does not changes it to default namespace name
-        /// </summary>
-        public static string NormalizeNamespace(string ns, int nsId)
-        {
-            return Namespace.Normalize(ns, nsId);
         }
 
         // Covered by ToolsTests.RegexMatchCount()
