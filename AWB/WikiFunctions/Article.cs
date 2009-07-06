@@ -478,7 +478,7 @@ namespace WikiFunctions
             if (!findAndReplace.HasReplacements && !replaceSpecial.HasRules && !substTemplates.HasSubstitutions)
                 return;
 
-            string strTemp = mArticleText.Replace("\r\n", "\n"),
+            string strTemp = Tools.ConvertFromLocalLineEndings(mArticleText),
                    testText = strTemp,
                    tmpEditSummary = "";
 
@@ -496,7 +496,7 @@ namespace WikiFunctions
             else
             {
                 AWBChangeArticleText("Find and replace applied" + tmpEditSummary,
-                                     strTemp.Replace("\n", "\r\n"), true);
+                                     Tools.ConvertToLocalLineEndings(strTemp), true);
                 EditSummary += tmpEditSummary;
             }
         }

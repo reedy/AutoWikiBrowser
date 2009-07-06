@@ -1997,7 +1997,7 @@ window.scrollTo(0, diffTopY);
                 case WikiStatusResult.NotRegistered:
                     lblUserName.BackColor = Color.Red;
                     MessageBox.Show(TheSession.Editor.User.Name + " is not enabled to use this.", "Not enabled", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    Tools.OpenURLInBrowser(Variables.URL + "/wiki/Project:AutoWikiBrowser/CheckPage");
+                    Tools.OpenURLInBrowser(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage");
                     break;
 
                 case WikiStatusResult.OldVersion:

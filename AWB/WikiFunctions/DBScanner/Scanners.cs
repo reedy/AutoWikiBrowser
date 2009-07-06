@@ -525,29 +525,29 @@ namespace WikiFunctions.DBScanner
 
         private const string EditRest = "edit=", MoveRest = "move=";
 
-        private readonly int Edit, Move;
+        private readonly string Edit, Move;
 
-        public Restriction(int editLevel, int moveLevel)
+        public Restriction(string editLevel, string moveLevel)
         {
-            Edit = (editLevel - 1);
-            Move = (moveLevel - 1);
+            Edit = editLevel;
+            Move = moveLevel;
         }
 
         public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
         {
             bool restrictionStringEmpty = (string.IsNullOrEmpty(articleRestrictions));
-            bool noEditRestriction = (Edit == -1);
-            bool noMoveRestriction = (Move == -1);
+            bool noEditRestriction = string.IsNullOrEmpty(Edit);
+            bool noMoveRestriction = string.IsNullOrEmpty(Move);
 
             if (restrictionStringEmpty)
             {
                 return (noEditRestriction && noMoveRestriction);
             }
 
-            if (!noEditRestriction && !articleRestrictions.Contains(EditRest + Restrictions[Edit]))
+            if (!noEditRestriction && !articleRestrictions.Contains(EditRest + Edit))
                 return false;
 
-            return noMoveRestriction || articleRestrictions.Contains(MoveRest + Restrictions[Move]);
+            return noMoveRestriction || articleRestrictions.Contains(MoveRest + Move);
         }
     }
 }

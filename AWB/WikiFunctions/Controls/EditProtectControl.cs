@@ -36,14 +36,14 @@ namespace WikiFunctions.Controls
             get { return ((lbEdit.SelectedIndex == 2) && (lbMove.SelectedIndex == 2)); }
         }
 
-        public int EditProtectionLevel
+        public string EditProtectionLevel
         {
-            get { return lbEdit.SelectedIndex; }
+            get { return lbEdit.Text; }
         }
 
-        public int MoveProtectionLevel
+        public string MoveProtectionLevel
         {
-            get { return lbMove.SelectedIndex; }
+            get { return lbMove.Text; }
         }
 
         public bool Visibility
