@@ -1019,6 +1019,12 @@ namespace AutoWikiBrowser
         /// <returns>Whether the page has been skipped</returns>
         private bool SkipChecks()
         {
+            if (!TheSession.User.CanEditPage(TheSession.Page))
+            {
+                SkipPage("Page is protected");
+                return true;
+            }
+
             if (chkSkipIfContains.Checked && TheArticle.SkipIfContains(txtSkipIfContains.Text,
                 chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, true))
             {

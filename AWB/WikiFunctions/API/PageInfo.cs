@@ -54,10 +54,10 @@ namespace WikiFunctions.API
                     switch (xn.Attributes["type"].Value)
                     {
                         case "edit":
-                            Edit = xn.Attributes["level"].Value;
+                            EditProtection = xn.Attributes["level"].Value;
                             break;
                         case "move":
-                            Move = xn.Attributes["level"].Value;
+                            MoveProtection = xn.Attributes["level"].Value;
                             break;
                     }
                 }
@@ -108,12 +108,12 @@ namespace WikiFunctions.API
         /// <summary>
         /// 
         /// </summary>
-        public string Edit { get; private set; }
+        public string EditProtection { get; private set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string Move { get; private set; }
+        public string MoveProtection { get; private set; }
 
         //TODO: waiting for https://bugzilla.wikimedia.org/show_bug.cgi?id=19523
         /// <summary>
