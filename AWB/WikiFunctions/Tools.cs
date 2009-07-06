@@ -482,6 +482,7 @@ namespace WikiFunctions
             }
         }
 
+#if !MONO
         [DllImport("user32.dll")]
         private static extern void FlashWindow(IntPtr hwnd, bool bInvert);
 
@@ -496,6 +497,7 @@ namespace WikiFunctions
             }
             catch { }
         }
+#endif
 
         // Covered by ToolsTests.CaseInsensitiveStringCompare()
         /// <summary>

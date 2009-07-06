@@ -1045,7 +1045,9 @@ namespace AutoWikiBrowser
         private void Bleepflash()
         {
             if (ContainsFocus) return;
+#if !MONO
             if (Flash) Tools.FlashWindow(this);
+#endif
             if (Beep) Tools.Beep();
         }
 
