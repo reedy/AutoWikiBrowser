@@ -77,18 +77,18 @@ namespace WikiFunctions.Controls
             // 
             this.btnOk.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(137, 171);
+            this.btnOk.Location = new System.Drawing.Point(137, 182);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 13;
-            this.btnOk.Text = "Ok";
+            this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = true;
             // 
             // btnCancel
             // 
             this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(218, 171);
+            this.btnCancel.Location = new System.Drawing.Point(218, 182);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 14;
@@ -124,7 +124,7 @@ namespace WikiFunctions.Controls
             // chkAutoProtect
             // 
             this.chkAutoProtect.AutoSize = true;
-            this.chkAutoProtect.Location = new System.Drawing.Point(148, 151);
+            this.chkAutoProtect.Location = new System.Drawing.Point(148, 162);
             this.chkAutoProtect.Name = "chkAutoProtect";
             this.chkAutoProtect.Size = new System.Drawing.Size(99, 17);
             this.chkAutoProtect.TabIndex = 8;
@@ -137,7 +137,7 @@ namespace WikiFunctions.Controls
             this.chkCascadingProtection.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.chkCascadingProtection.AutoSize = true;
             this.chkCascadingProtection.Enabled = false;
-            this.chkCascadingProtection.Location = new System.Drawing.Point(23, 151);
+            this.chkCascadingProtection.Location = new System.Drawing.Point(23, 162);
             this.chkCascadingProtection.Name = "chkCascadingProtection";
             this.chkCascadingProtection.Size = new System.Drawing.Size(126, 17);
             this.chkCascadingProtection.TabIndex = 12;
@@ -147,7 +147,7 @@ namespace WikiFunctions.Controls
             // chkNoRedirect
             // 
             this.chkNoRedirect.AutoSize = true;
-            this.chkNoRedirect.Location = new System.Drawing.Point(253, 151);
+            this.chkNoRedirect.Location = new System.Drawing.Point(253, 162);
             this.chkNoRedirect.Name = "chkNoRedirect";
             this.chkNoRedirect.Size = new System.Drawing.Size(83, 17);
             this.chkNoRedirect.TabIndex = 16;
@@ -158,7 +158,7 @@ namespace WikiFunctions.Controls
             // chkWatch
             // 
             this.chkWatch.AutoSize = true;
-            this.chkWatch.Location = new System.Drawing.Point(342, 151);
+            this.chkWatch.Location = new System.Drawing.Point(342, 162);
             this.chkWatch.Name = "chkWatch";
             this.chkWatch.Size = new System.Drawing.Size(58, 17);
             this.chkWatch.TabIndex = 17;
@@ -170,7 +170,7 @@ namespace WikiFunctions.Controls
             // 
             this.MoveDelete.Location = new System.Drawing.Point(62, 64);
             this.MoveDelete.Name = "MoveDelete";
-            this.MoveDelete.Size = new System.Drawing.Size(313, 84);
+            this.MoveDelete.Size = new System.Drawing.Size(313, 101);
             this.MoveDelete.TabIndex = 15;
             this.MoveDelete.TextBoxIndexChanged += new System.EventHandler(this.MoveDelete_TextBoxIndexChanged);
             // 
@@ -180,7 +180,7 @@ namespace WikiFunctions.Controls
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(423, 208);
+            this.ClientSize = new System.Drawing.Size(423, 219);
             this.Controls.Add(this.chkWatch);
             this.Controls.Add(this.chkNoRedirect);
             this.Controls.Add(this.chkAutoProtect);

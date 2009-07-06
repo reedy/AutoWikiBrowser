@@ -3495,6 +3495,9 @@ window.scrollTo(0, diffTopY);
                 {
                     dlgArticleAction.Summary = LastProtect;
 
+                    dlgArticleAction.EditProtectionLevel = TheSession.Page.EditProtection;
+                    dlgArticleAction.MoveProtectionLevel = TheSession.Page.MoveProtection;
+
                     if (dlgArticleAction.ShowDialog(this) == DialogResult.OK)
                     {
                         LastProtect = dlgArticleAction.Summary;

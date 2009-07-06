@@ -136,6 +136,10 @@ namespace WikiFunctions.Controls
                 else
                     return "";
             }
+            set
+            {
+                MoveDelete.EditProtectionLevel = value;
+            }
         }
 
         public string MoveProtectionLevel
@@ -145,6 +149,10 @@ namespace WikiFunctions.Controls
                 if (CurrentAction == ArticleAction.Protect)
                     return MoveDelete.MoveProtectionLevel;
                 return "";
+            }
+            set
+            {
+                MoveDelete.MoveProtectionLevel = value;
             }
         }
 

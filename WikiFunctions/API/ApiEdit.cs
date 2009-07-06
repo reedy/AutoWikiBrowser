@@ -600,8 +600,8 @@ namespace WikiFunctions.API
                         {"title", title},
                         {"token", Page.EditToken},
                         {"reason", reason},
-                        {"protections", "edit" + edit + "|move=" + move},
-                        {"expiry", expiry},
+                        {"protections", "edit=" + edit + "|move=" + move},
+                        {"expiry", expiry + "|" + expiry},
                         {cascade ? "cascade" : null, null},
                         {watch ? "watch" : null, null},
                     });
