@@ -64,9 +64,7 @@ namespace WikiFunctions
         public Session(Control parent)
         {
             parentControl = parent;
-            Editor = CreateEditor();
-            Site = new SiteInfo(Editor.SynchronousEditor);
-            LoadProjectOptions();
+            UpdateProject();
             Update();
         }
 
@@ -137,6 +135,14 @@ namespace WikiFunctions
             {
                 status = value;
             }
+        }
+
+        public void UpdateProject()
+        {
+            Editor = CreateEditor();
+            Site = new SiteInfo(Editor.SynchronousEditor);
+            LoadProjectOptions();
+            RequireUpdate();
         }
 
         public void RequireUpdate()

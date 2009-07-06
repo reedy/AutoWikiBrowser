@@ -154,7 +154,7 @@ namespace AutoWikiBrowser
                 TheSession = new Session(this);
                 CreateEditor();
 
-                Profiles = new WikiFunctions.Profiles.AWBProfilesForm(TheSession.Editor.SynchronousEditor);
+                Profiles = new WikiFunctions.Profiles.AWBProfilesForm(TheSession);
                 Profiles.LoggedIn += ProfileLoggedIn;
 
                 SplashScreen.SetProgress(15);

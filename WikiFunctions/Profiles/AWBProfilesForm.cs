@@ -25,15 +25,15 @@ namespace WikiFunctions.Profiles
 {
     public partial class AWBProfilesForm : AWBLogUploadProfilesForm
     {
-        private readonly IApiEdit Editor;
+        private readonly Session TheSession;
         public event EventHandler LoggedIn;
 
-        public AWBProfilesForm(IApiEdit editor)
+        public AWBProfilesForm(Session session)
         {
             InitializeComponent();
             loginAsThisAccountToolStripMenuItem.Visible = true;
             loginAsThisAccountToolStripMenuItem.Click += lvAccounts_DoubleClick;
-            Editor = editor;
+            TheSession = session;
         }
 
         private void PerformLogin(string password)
@@ -43,7 +43,8 @@ namespace WikiFunctions.Profiles
 
         private void PerformLogin(string username, string password)
         {
-            Editor.Login(username, password);
+            TheSession.Editor.Login(username, password);
+            TheSession.Editor.Wait();
             if (LoggedIn != null)
                 LoggedIn(null, null);
 
