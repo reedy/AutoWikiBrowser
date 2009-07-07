@@ -170,7 +170,6 @@ namespace WikiFunctions
 
                 IsBot = false;
 
-                //TODO: login?
                 Site = new SiteInfo(Editor.SynchronousEditor);
 
                 //load version check page
