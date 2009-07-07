@@ -60,6 +60,9 @@ namespace AutoWikiBrowser
         private string mSettingsFile = "";
         private string LastMove = "", LastDelete = "", LastProtect = "";
 
+
+        private const int MaxRetries = 10;
+
         private int OldSelection;
         private int Retries;
 
@@ -430,10 +433,26 @@ namespace AutoWikiBrowser
         private void CreateEditor()
         {
             TheSession.PreviewComplete += PreviewComplete;
-
             TheSession.ExceptionCaught += APIEditExceptionCaught;
-
             TheSession.SaveComplete += CaseWasSaved;
+            TheSession.MaxlagExceeded += MaxlagExceeded;
+        }
+
+        private void MaxlagExceeded(AsyncApiEdit sender)
+        {
+            Retries++;
+
+            if (Retries < MaxRetries)
+            {
+                StartDelayedRestartTimer();
+            }
+            else
+            {
+                Stop();
+                MessageBox.Show(this, "Maxlag exceeded " + MaxRetries + " times in a row. Processing stopped, " +
+                    "please try later when the server is under a less load.", "Stopped", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
 
         private void APIEditExceptionCaught(AsyncApiEdit sender, Exception ex)
@@ -444,7 +463,7 @@ namespace AutoWikiBrowser
             }
 
             else
-                StartDelayedRestartTimer(null, null);
+                StartDelayedRestartTimer();
         }
 
         private void StartAPITextLoad(string title)
@@ -456,7 +475,7 @@ namespace AutoWikiBrowser
             // if MAXLAG exceeded then API will report error, so AWB should go into restart timer to try again in a few seconds
             if (TheSession.Editor.State == AsyncApiEdit.EditState.Failed)
             {
-                StartDelayedRestartTimer(null, null);
+                StartDelayedRestartTimer();
                 return;
             }
 
@@ -542,7 +561,7 @@ namespace AutoWikiBrowser
             catch (Exception ex)
             {
                 Tools.WriteDebug(Name, "Start() error: " + ex.Message);
-                StartDelayedRestartTimer(null, null);
+                StartDelayedRestartTimer();
             }
 
             if (Program.MyTrace.StoppedWithConfigError)
@@ -560,6 +579,8 @@ namespace AutoWikiBrowser
 
         private void CaseWasLoad(string articleText)
         {
+            Retries = 0;
+
             StopProgressBar();
 
             if (StopProcessing)
@@ -2488,7 +2509,7 @@ window.scrollTo(0, diffTopY);
                 IntStartInSeconds--;
         }
 
-        private void StartDelayedRestartTimer(object sender, EventArgs e)
+        private void StartDelayedRestartTimer()
         {
             IntStartInSeconds = IntRestartDelay;
             Ticker += DelayedRestart;
@@ -3013,6 +3034,7 @@ window.scrollTo(0, diffTopY);
 
         private void Stop()
         {
+            Retries = 0;
             StopProcessing = true;
             PageReload = false;
             NudgeTimer.Stop();
