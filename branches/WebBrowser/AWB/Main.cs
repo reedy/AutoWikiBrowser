@@ -972,16 +972,14 @@ namespace AutoWikiBrowser
             //}
 
             // italics
-            Regex Italics = new Regex(@"''(.+?)''");
-            foreach (Match m in Italics.Matches(txtEditLocal.RawText))
+            foreach (Match m in WikiRegexes.Italics.Matches(txtEditLocal.RawText))
             {
                 txtEditLocal.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
                 txtEditLocal.SelectionFont = italicFont;
             }
 
             // bold  
-            Regex Bold = new Regex(@"'''(.+?)'''");
-            foreach (Match m in Bold.Matches(txtEditLocal.RawText))
+            foreach (Match m in WikiRegexes.Bold.Matches(txtEditLocal.RawText))
             {
                 // reset anything incorrectly done by italics  earlier
                 txtEditLocal.SetEditBoxSelection(m.Index, m.Length);
@@ -992,8 +990,7 @@ namespace AutoWikiBrowser
             }
 
             // bold italics 
-            Regex BoldItalics = new Regex(@"'''''(.+?)'''''");
-            foreach (Match m in BoldItalics.Matches(txtEditLocal.RawText))
+            foreach (Match m in WikiRegexes.BoldItalics.Matches(txtEditLocal.RawText))
             {
                 // reset anything incorrectly done by italics/bold earlier
                 txtEditLocal.SetEditBoxSelection(m.Index, m.Length);
@@ -1043,7 +1040,7 @@ namespace AutoWikiBrowser
             }
 
             // interwikis dark grey background
-            Regex Interwiki = new Regex(@"\[\[([a-z-]{2,6}\:)([^\[\]\r\n]+)\]\]");
+            Regex Interwiki = new Regex(@"\[\[([a-z-]{2,6}\:)([^\[\]\r\n]+)\]\]"); //TODO:Can WikiRegexes.PossibleInterwiki be used here, or can this replace it?
             foreach (Match m in Interwiki.Matches(txtEditLocal.RawText))
             {
                 txtEditLocal.SetEditBoxSelection(m.Index, m.Length);
