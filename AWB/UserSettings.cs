@@ -319,7 +319,7 @@ namespace AutoWikiBrowser
                                  LowThreadPriority, Beep, Flash, Minimize, AutoSaveEditBoxEnabled,
                                  AutoSaveEditBoxPeriod,
                                  AutoSaveEditBoxFile, chkLock.Checked, EditToolBarVisible, SuppressUsingAWB,
-                                 AddUsingAWBOnArticleAction,
+                                 Article.AddUsingAWBOnArticleAction,
                                  filterOutNonMainSpaceToolStripMenuItem.Checked,
                                  removeDuplicatesToolStripMenuItem.Checked,
                                  alphaSortInterwikiLinksToolStripMenuItem.Checked,
@@ -541,7 +541,7 @@ namespace AutoWikiBrowser
             AutoSaveEditBoxFile = p.General.AutoSaveEdit.SaveFile;
 
             SuppressUsingAWB = p.General.SuppressUsingAWB;
-            AddUsingAWBOnArticleAction = p.General.AddUsingAWBToActionSummaries;
+            Article.AddUsingAWBOnArticleAction = p.General.AddUsingAWBToActionSummaries;
 
             filterOutNonMainSpaceToolStripMenuItem.Checked = p.General.filterNonMainSpace;
             removeDuplicatesToolStripMenuItem.Checked = p.General.AutoFilterDuplicates;

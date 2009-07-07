@@ -58,8 +58,6 @@ namespace AutoWikiBrowser
 
         private string LastArticle = "";
         private string mSettingsFile = "";
-        private string LastMove = "", LastDelete = "", LastProtect = "";
-
 
         private const int MaxRetries = 10;
 
@@ -342,11 +340,6 @@ namespace AutoWikiBrowser
         private string AutoSaveEditBoxFile = Application.StartupPath + "\\Edit Box.txt";
 
         private bool SuppressUsingAWB;
-
-        /// <summary>
-        /// Setting: Add "Using AWB" to the summary when deleting or protecting an article?
-        /// </summary>
-        private bool AddUsingAWBOnArticleAction;
 
         private decimal ASEditPeriod = 60;
         private decimal AutoSaveEditBoxPeriod
@@ -2331,7 +2324,7 @@ window.scrollTo(0, diffTopY);
             MyPreferences myPrefs = new MyPreferences(Variables.LangCode, Variables.Project,
                 Variables.CustomProject, txtEdit.Font, LowThreadPriority, Flash, Beep,
                 Minimize, SaveArticleList, AutoSaveEditBoxEnabled, AutoSaveEditBoxFile,
-                AutoSaveEditBoxPeriod, SuppressUsingAWB, AddUsingAWBOnArticleAction, IgnoreNoBots,
+                AutoSaveEditBoxPeriod, SuppressUsingAWB, Article.AddUsingAWBOnArticleAction, IgnoreNoBots,
                 ShowMovingAverageTimer, Variables.PHP5);
 
             if (myPrefs.ShowDialog(this) == DialogResult.OK)
@@ -2346,7 +2339,7 @@ window.scrollTo(0, diffTopY);
                 AutoSaveEditBoxPeriod = myPrefs.PrefAutoSaveEditBoxPeriod;
                 AutoSaveEditBoxFile = myPrefs.PrefAutoSaveEditBoxFile;
                 SuppressUsingAWB = myPrefs.PrefSuppressUsingAWB;
-                AddUsingAWBOnArticleAction = myPrefs.PrefAddUsingAWBOnArticleAction;
+                Article.AddUsingAWBOnArticleAction = myPrefs.PrefAddUsingAWBOnArticleAction;
                 IgnoreNoBots = myPrefs.PrefIgnoreNoBots;
                 ShowMovingAverageTimer = myPrefs.PrefShowTimer;
 
@@ -3447,93 +3440,45 @@ window.scrollTo(0, diffTopY);
         #endregion
 
         #region ArticleActions
-        // TODO: Since this is essentially/conceptually Article.Delete(), Article.Move() etc shouldn't this region be encapsulated?
         private void MoveArticle()
         {
-            using (ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Move))
+            try
             {
-                try
-                {
-                    dlgArticleAction.NewTitle = TheArticle.Name;
-                    dlgArticleAction.Summary = LastMove;
-
-                    if (dlgArticleAction.ShowDialog(this) == DialogResult.OK)
-                    {
-                        LastMove = dlgArticleAction.Summary;
-                        TheSession.Editor.Move(TheArticle.Name, dlgArticleAction.NewTitle,
-                                                ArticleActionSummary(dlgArticleAction), true /* probably wants dealing with on dialog*/,
-                                                dlgArticleAction.NoRedirect, dlgArticleAction.Watch);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ErrorHandler.Handle(ex);
-                }
+                TheArticle.Move(TheSession);
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.Handle(ex);
             }
         }
 
         private void DeleteArticle()
         {
-            using (ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Delete))
+            try
             {
-                try
+                if (TheArticle.Delete(TheSession))
                 {
-                    dlgArticleAction.Summary = LastDelete;
-
-                    if (dlgArticleAction.ShowDialog(this) == DialogResult.OK)
-                    {
-                        LastDelete = dlgArticleAction.Summary;
-                        TheSession.Editor.Delete(TheArticle.Name, ArticleActionSummary(dlgArticleAction), dlgArticleAction.Watch);
-
-                        //TODO:Error Handling
-                        listMaker.Remove(TheArticle);
-                        Start();
-                    }
+                    listMaker.Remove(TheArticle);
+                    Start();
                 }
-                catch (Exception ex)
-                {
-                    ErrorHandler.Handle(ex);
-                }
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.Handle(ex);
             }
         }
 
         private void ProtectArticle()
         {
-            using (ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Protect))
+            try
             {
-                try
-                {
-                    dlgArticleAction.Summary = LastProtect;
-
-                    dlgArticleAction.EditProtectionLevel = TheSession.Page.EditProtection;
-                    dlgArticleAction.MoveProtectionLevel = TheSession.Page.MoveProtection;
-
-                    if (dlgArticleAction.ShowDialog(this) == DialogResult.OK)
-                    {
-                        LastProtect = dlgArticleAction.Summary;
-                        TheSession.Editor.Protect(TheArticle.Name, 
-                                                    ArticleActionSummary(dlgArticleAction),
-                                                    dlgArticleAction.ProtectExpiry,
-                                                    dlgArticleAction.EditProtectionLevel,
-                                                    dlgArticleAction.MoveProtectionLevel, 
-                                                    dlgArticleAction.CascadingProtection,
-                                                    dlgArticleAction.Watch);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ErrorHandler.Handle(ex);
-                }
+                TheArticle.Protect(TheSession);
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.Handle(ex);
             }
         }
-
-        private string ArticleActionSummary(ArticleActionDialog dlgArticleAction)
-        {
-            return AddUsingAWBOnArticleAction
-                       ? dlgArticleAction.Summary + " (" + Variables.SummaryTag.Trim() + ")"
-                       : dlgArticleAction.Summary;
-        }
-
         #endregion
 
         private void btnSubst_Click(object sender, EventArgs e)

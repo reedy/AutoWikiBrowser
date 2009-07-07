@@ -25,6 +25,8 @@ using System.Text.RegularExpressions;
 using WikiFunctions.Plugin;
 using WikiFunctions.Options;
 using WikiFunctions.Parse;
+using WikiFunctions.Controls;
+using System.Windows.Forms;
 
 namespace WikiFunctions
 {
@@ -1110,6 +1112,85 @@ namespace WikiFunctions
         public bool IsRedirect
         {
             get { return Tools.IsRedirect(ArticleText); }
+        }
+        
+        
+        private static string LastMove = "", LastDelete = "", LastProtect = "" ;
+        public bool Move(Session session)
+        {
+            using (ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Move))
+            {
+                dlgArticleAction.NewTitle = Name;
+                dlgArticleAction.Summary = LastMove;
+
+                if (dlgArticleAction.ShowDialog() == DialogResult.OK)
+                {
+                    LastMove = dlgArticleAction.Summary;
+                    session.Editor.Move(Name, dlgArticleAction.NewTitle,
+                                            ArticleActionSummary(dlgArticleAction), true /* probably wants dealing with on dialog*/,
+                                            dlgArticleAction.NoRedirect, dlgArticleAction.Watch);
+
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        public bool Delete(Session session)
+        {
+            using (ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Delete))
+            {
+                dlgArticleAction.Summary = LastDelete;
+
+                if (dlgArticleAction.ShowDialog() == DialogResult.OK)
+                {
+                    LastDelete = dlgArticleAction.Summary;
+                    session.Editor.Delete(Name, ArticleActionSummary(dlgArticleAction), dlgArticleAction.Watch);
+
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        public bool Protect(Session session)
+        {                    
+            using (ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Protect))
+            {
+                dlgArticleAction.Summary = LastProtect;
+
+                dlgArticleAction.EditProtectionLevel = session.Page.EditProtection;
+                dlgArticleAction.MoveProtectionLevel = session.Page.MoveProtection;
+
+                if (dlgArticleAction.ShowDialog() == DialogResult.OK)
+                {
+                    LastProtect = dlgArticleAction.Summary;
+                    session.Editor.Protect(Name,
+                                                ArticleActionSummary(dlgArticleAction),
+                                                dlgArticleAction.ProtectExpiry,
+                                                dlgArticleAction.EditProtectionLevel,
+                                                dlgArticleAction.MoveProtectionLevel,
+                                                dlgArticleAction.CascadingProtection,
+                                                dlgArticleAction.Watch);
+
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Setting: Add "Using AWB" to the summary when deleting or protecting an article?
+        /// </summary>
+        public static bool AddUsingAWBOnArticleAction;
+
+        private static string ArticleActionSummary(ArticleActionDialog dlgArticleAction)
+        {
+            return AddUsingAWBOnArticleAction
+                       ? dlgArticleAction.Summary + " (" + Variables.SummaryTag.Trim() + ")"
+                       : dlgArticleAction.Summary;
         }
     }
 
