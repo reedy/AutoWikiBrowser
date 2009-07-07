@@ -834,12 +834,7 @@ namespace AutoWikiBrowser
                     {
                         EditBoxTab.SelectedTab = tpEdit;
 
-                        // indexes in articleText and txtEdit.Edit are offset by the number of newlines before the index of the unbalanced brackets
-                        // so allow for this when highlighting the unbalanced bracket
-                        string a = txtEdit.Text.Substring(0, UnbalancedBracket);
-                        int b = Regex.Matches(a, "\n").Count;
-                        txtEdit.SetEditBoxSelection(UnbalancedBracket - b, BracketLength);
-                        txtEdit.SelectionBackColor = Color.Red;
+                        highlightUnbalancedBrackets();
                     }
                 }
             }
@@ -3066,6 +3061,12 @@ window.scrollTo(0, diffTopY);
             TheArticle = theArtricleOriginal;
 
             txtEdit.Text = a.ArticleText;
+
+            if (UnbalancedBracket >= 0 && scrollToUnbalancedBracketsToolStripMenuItem.Checked)
+            {
+                highlightUnbalancedBrackets();
+            }
+
             GetDiff();
         }
 
@@ -4322,6 +4323,16 @@ window.scrollTo(0, diffTopY);
         private void displayfalsePositivesButtonToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AddIgnoredToLogFile = displayfalsePositivesButtonToolStripMenuItem.Checked;
+        }
+
+        private void highlightUnbalancedBrackets()
+        {
+            // indexes in articleText and txtEdit.Edit are offset by the number of newlines before the index of the unbalanced brackets
+            // so allow for this when highlighting the unbalanced bracket
+            string a = txtEdit.Text.Substring(0, UnbalancedBracket);
+            int b = Regex.Matches(a, "\n").Count;
+            txtEdit.SetEditBoxSelection(UnbalancedBracket - b, BracketLength);
+            txtEdit.SelectionBackColor = Color.Red;
         }
     }
         #endregion
