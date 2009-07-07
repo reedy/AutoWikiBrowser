@@ -49,13 +49,13 @@ namespace WikiFunctions.API
         /// Whether the current user is an administrator
         /// </summary>
         public bool IsSysop
-        { get { return HasPermission("sysop"); } }
+        { get { return IsInGroup("sysop"); } }
 
         /// <summary>
         /// Whether the current user is a flagged bot
         /// </summary>
         public bool IsBot
-        { get { return HasPermission("bot"); } }
+        { get { return IsInGroup("bot"); } }
 
         /// <summary>
         /// Whether the current user is blocked from editing
@@ -69,19 +69,25 @@ namespace WikiFunctions.API
         public bool HasMessages
         { get; internal set; }
 
-        public bool HasPermission(string permission)
+        public bool IsInGroup(string group)
         {
-            return Groups.Contains(permission);
+            return string.IsNullOrEmpty(group) || Groups.Contains(group);
+        }
+
+        public bool HasRight(string right)
+        {
+            return string.IsNullOrEmpty(right) || Rights.Contains(right);
         }
 
         public bool CanEditPage(PageInfo page)
         {
-            return string.IsNullOrEmpty(page.EditProtection) || HasPermission(page.EditProtection);
+            return IsInGroup(page.EditProtection) && !(page.NamespaceID == Namespace.MediaWiki &&
+                !HasRight("editinterface"));
         }
 
         public bool CanMovePage(PageInfo page)
         {
-            return string.IsNullOrEmpty(page.MoveProtection) || HasPermission(page.MoveProtection);
+            return page.NamespaceID != Namespace.MediaWiki && IsInGroup(page.MoveProtection);
         }
 
         /// <summary>

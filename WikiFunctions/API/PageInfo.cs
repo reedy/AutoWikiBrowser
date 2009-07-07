@@ -43,6 +43,7 @@ namespace WikiFunctions.API
             RevisionID = revId;
 
             Title = xr.GetAttribute("title");
+            NamespaceID = int.Parse(xr.GetAttribute("ns"));
 
             if (xr.ReadToDescendant("protection") && !xr.IsEmptyElement)
             {
@@ -93,6 +94,12 @@ namespace WikiFunctions.API
         /// </summary>
         public long RevisionID
         { get; internal set; }
+
+        /// <summary>
+        /// Namespace number
+        /// </summary>
+        public int NamespaceID
+        { get; private set; }
 
         /// <summary>
         /// 
