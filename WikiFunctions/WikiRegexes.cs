@@ -593,5 +593,20 @@ namespace WikiFunctions
         /// 
         /// </summary>
         public static Regex EmptyTemplate;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly Regex BoldItalics = new Regex(@"'''''(.+?)'''''");
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly Regex Italics = new Regex(@"''(.+?)''");
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly Regex Bold = new Regex(@"'''(.+?)'''");
     }
 }

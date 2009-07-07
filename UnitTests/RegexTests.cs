@@ -309,7 +309,6 @@ bar</ INCLUDEONLY>");
         }
 
         [Test]
-        ///
         public void PossibleInterwikis()
         {
             RegexAssert.Matches(WikiRegexes.PossibleInterwikis, "foo[[en:bar]]", "[[en:bar]]");
