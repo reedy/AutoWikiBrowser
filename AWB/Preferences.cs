@@ -34,7 +34,7 @@ namespace AutoWikiBrowser
     {
         public MyPreferences(LangCodeEnum lang, ProjectEnum proj, string customproj,
             Font textFont, bool lowPriority, bool flash, bool beep, bool minimize,
-            bool saveArticleList, decimal timeOut, bool autoSaveEditBox,
+            bool saveArticleList, bool autoSaveEditBox,
             string autoSaveEditBoxFile, decimal autoSaveEditBoxPeriod, bool suppressUsingAWB,
             bool addUsingAWBOnArticleAction, bool ignoreNoBots, bool showTimer, bool usePHP5)
         {
@@ -66,7 +66,6 @@ namespace AutoWikiBrowser
             PrefBeep = beep;
             PrefMinimize = minimize;
             PrefSaveArticleList = saveArticleList;
-            PrefTimeOutLimit = timeOut;
 
             PrefAutoSaveEditBoxEnabled = autoSaveEditBox;
             PrefAutoSaveEditBoxFile = autoSaveEditBoxFile;
@@ -257,12 +256,6 @@ namespace AutoWikiBrowser
         {
             get { return chkSaveArticleList.Checked; }
             set { chkSaveArticleList.Checked = value; }
-        }
-
-        public decimal PrefTimeOutLimit
-        {
-            get { return nudTimeOutLimit.Value; }
-            set { nudTimeOutLimit.Value = value; }
         }
 
         public bool PrefAutoSaveEditBoxEnabled

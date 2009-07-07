@@ -32,6 +32,7 @@ namespace AutoWikiBrowser
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MyPreferences));
             this.cmboLang = new System.Windows.Forms.ComboBox();
             this.btnOK = new System.Windows.Forms.Button();
@@ -44,14 +45,11 @@ namespace AutoWikiBrowser
             this.lblPostfix = new System.Windows.Forms.Label();
             this.cmboCustomProject = new System.Windows.Forms.ComboBox();
             this.chkAddUsingAWBToActionSummaries = new System.Windows.Forms.CheckBox();
-            this.lblTimeoutPost = new System.Windows.Forms.Label();
             this.chkAlwaysConfirmExit = new System.Windows.Forms.CheckBox();
             this.chkSupressAWB = new System.Windows.Forms.CheckBox();
             this.chkSaveArticleList = new System.Windows.Forms.CheckBox();
             this.chkMinimize = new System.Windows.Forms.CheckBox();
-            this.lblTimeoutPre = new System.Windows.Forms.Label();
             this.chkLowPriority = new System.Windows.Forms.CheckBox();
-            this.nudTimeOutLimit = new System.Windows.Forms.NumericUpDown();
             this.chkBeep = new System.Windows.Forms.CheckBox();
             this.chkFlash = new System.Windows.Forms.CheckBox();
             this.lblDoneDo = new System.Windows.Forms.Label();
@@ -71,12 +69,11 @@ namespace AutoWikiBrowser
             this.tabSite = new System.Windows.Forms.TabPage();
             this.chkPHP5Ext = new System.Windows.Forms.CheckBox();
             this.chkIgnoreNoBots = new System.Windows.Forms.CheckBox();
-            this.ToolTip = new System.Windows.Forms.ToolTip();
             this.tabEditing = new System.Windows.Forms.TabPage();
             this.chkShowTimer = new System.Windows.Forms.CheckBox();
             this.tabPrivacy = new System.Windows.Forms.TabPage();
+            this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.lblSaveAsDefaultFile = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.nudTimeOutLimit)).BeginInit();
             this.AutoSaveEditBoxGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudEditBoxAutosave)).BeginInit();
             this.tbPrefs.SuspendLayout();
@@ -144,7 +141,7 @@ namespace AutoWikiBrowser
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.lblNonEnNotice.Location = new System.Drawing.Point(6, 80);
             this.lblNonEnNotice.Name = "lblNonEnNotice";
-            this.lblNonEnNotice.Size = new System.Drawing.Size(370, 26);
+            this.lblNonEnNotice.Size = new System.Drawing.Size(370, 19);
             this.lblNonEnNotice.TabIndex = 6;
             this.lblNonEnNotice.Text = "Wikis not related to Wikimedia are not guaranteed to function properly.";
             // 
@@ -199,15 +196,6 @@ namespace AutoWikiBrowser
             this.chkAddUsingAWBToActionSummaries.Text = "Add \"using AWB\" to when deleting or protecting pages";
             this.chkAddUsingAWBToActionSummaries.UseVisualStyleBackColor = true;
             // 
-            // lblTimeoutPost
-            // 
-            this.lblTimeoutPost.AutoSize = true;
-            this.lblTimeoutPost.Location = new System.Drawing.Point(98, 111);
-            this.lblTimeoutPost.Name = "lblTimeoutPost";
-            this.lblTimeoutPost.Size = new System.Drawing.Size(183, 13);
-            this.lblTimeoutPost.TabIndex = 7;
-            this.lblTimeoutPost.Text = "seconds before web control &times out";
-            // 
             // chkAlwaysConfirmExit
             // 
             this.chkAlwaysConfirmExit.AutoSize = true;
@@ -253,15 +241,6 @@ namespace AutoWikiBrowser
             this.chkMinimize.Text = "&Minimize to notification area (systray)";
             this.chkMinimize.UseVisualStyleBackColor = true;
             // 
-            // lblTimeoutPre
-            // 
-            this.lblTimeoutPre.AutoSize = true;
-            this.lblTimeoutPre.Location = new System.Drawing.Point(5, 111);
-            this.lblTimeoutPre.Name = "lblTimeoutPre";
-            this.lblTimeoutPre.Size = new System.Drawing.Size(29, 13);
-            this.lblTimeoutPre.TabIndex = 9;
-            this.lblTimeoutPre.Text = "Wait";
-            // 
             // chkLowPriority
             // 
             this.chkLowPriority.AutoSize = true;
@@ -271,29 +250,6 @@ namespace AutoWikiBrowser
             this.chkLowPriority.TabIndex = 4;
             this.chkLowPriority.Text = "Low &thread priority (works better in background)";
             this.chkLowPriority.UseVisualStyleBackColor = true;
-            // 
-            // nudTimeOutLimit
-            // 
-            this.nudTimeOutLimit.Location = new System.Drawing.Point(37, 109);
-            this.nudTimeOutLimit.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.nudTimeOutLimit.Maximum = new decimal(new int[] {
-            120,
-            0,
-            0,
-            0});
-            this.nudTimeOutLimit.Minimum = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-            this.nudTimeOutLimit.Name = "nudTimeOutLimit";
-            this.nudTimeOutLimit.Size = new System.Drawing.Size(58, 20);
-            this.nudTimeOutLimit.TabIndex = 8;
-            this.nudTimeOutLimit.Value = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
             // 
             // chkBeep
             // 
@@ -474,9 +430,6 @@ namespace AutoWikiBrowser
             this.tabSite.Controls.Add(this.chkPHP5Ext);
             this.tabSite.Controls.Add(this.chkSupressAWB);
             this.tabSite.Controls.Add(this.chkIgnoreNoBots);
-            this.tabSite.Controls.Add(this.lblTimeoutPost);
-            this.tabSite.Controls.Add(this.nudTimeOutLimit);
-            this.tabSite.Controls.Add(this.lblTimeoutPre);
             this.tabSite.Controls.Add(this.lblPostfix);
             this.tabSite.Controls.Add(this.cmboLang);
             this.tabSite.Controls.Add(this.lblLang);
@@ -506,12 +459,13 @@ namespace AutoWikiBrowser
             // chkIgnoreNoBots
             // 
             this.chkIgnoreNoBots.AutoSize = true;
-            this.chkIgnoreNoBots.Location = new System.Drawing.Point(8, 135);
+            this.chkIgnoreNoBots.Location = new System.Drawing.Point(9, 102);
             this.chkIgnoreNoBots.Name = "chkIgnoreNoBots";
             this.chkIgnoreNoBots.Size = new System.Drawing.Size(167, 17);
             this.chkIgnoreNoBots.TabIndex = 10;
             this.chkIgnoreNoBots.Text = "Ignore {{bots}} and {{no&bots}}";
-            this.ToolTip.SetToolTip(this.chkIgnoreNoBots, @"Checking this box will cause you to edit pages with the {{bots}} and {{nobots}} tags on them. By default these pages are skipped.");
+            this.ToolTip.SetToolTip(this.chkIgnoreNoBots, "Checking this box will cause you to edit pages with the {{bots}} and {{nobots}} t" +
+                    "ags on them. By default these pages are skipped.");
             this.chkIgnoreNoBots.UseVisualStyleBackColor = true;
             // 
             // tabEditing
@@ -581,7 +535,6 @@ namespace AutoWikiBrowser
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Preferences";
-            ((System.ComponentModel.ISupportInitialize)(this.nudTimeOutLimit)).EndInit();
             this.AutoSaveEditBoxGroup.ResumeLayout(false);
             this.AutoSaveEditBoxGroup.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudEditBoxAutosave)).EndInit();
@@ -616,8 +569,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkMinimize;
         private System.Windows.Forms.CheckBox chkSaveArticleList;
         private System.Windows.Forms.Label lblDoneDo;
-        private System.Windows.Forms.NumericUpDown nudTimeOutLimit;
-        private System.Windows.Forms.Label lblTimeoutPre;
         private System.Windows.Forms.CheckBox chkAutoSaveEdit;
         private System.Windows.Forms.GroupBox AutoSaveEditBoxGroup;
         private System.Windows.Forms.Label AutoSaveEditCont;
@@ -632,7 +583,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkAlwaysConfirmExit;
         private System.Windows.Forms.Label lblPrivacy;
         private System.Windows.Forms.CheckBox chkPrivacy;
-        private System.Windows.Forms.Label lblTimeoutPost;
         private System.Windows.Forms.CheckBox chkAddUsingAWBToActionSummaries;
         private System.Windows.Forms.TabControl tbPrefs;
         private System.Windows.Forms.TabPage tabSite;
