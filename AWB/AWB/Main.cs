@@ -336,13 +336,6 @@ namespace AutoWikiBrowser
         /// </summary>
         private bool Minimize;
 
-        private decimal dTimeOut = 30;
-        private decimal TimeOut //TODO:Do we still need this? If not, remove from settings
-        {
-            get { return dTimeOut; }
-            set { dTimeOut = value; }
-        }
-
         private bool SaveArticleList = true;
         private bool AutoSaveEditBoxEnabled;
 
@@ -2337,7 +2330,7 @@ window.scrollTo(0, diffTopY);
         {
             MyPreferences myPrefs = new MyPreferences(Variables.LangCode, Variables.Project,
                 Variables.CustomProject, txtEdit.Font, LowThreadPriority, Flash, Beep,
-                Minimize, SaveArticleList, TimeOut, AutoSaveEditBoxEnabled, AutoSaveEditBoxFile,
+                Minimize, SaveArticleList, AutoSaveEditBoxEnabled, AutoSaveEditBoxFile,
                 AutoSaveEditBoxPeriod, SuppressUsingAWB, AddUsingAWBOnArticleAction, IgnoreNoBots,
                 ShowMovingAverageTimer, Variables.PHP5);
 
@@ -2349,7 +2342,6 @@ window.scrollTo(0, diffTopY);
                 Beep = myPrefs.PrefBeep;
                 Minimize = myPrefs.PrefMinimize;
                 SaveArticleList = myPrefs.PrefSaveArticleList;
-                TimeOut = myPrefs.PrefTimeOutLimit;
                 AutoSaveEditBoxEnabled = myPrefs.PrefAutoSaveEditBoxEnabled;
                 AutoSaveEditBoxPeriod = myPrefs.PrefAutoSaveEditBoxPeriod;
                 AutoSaveEditBoxFile = myPrefs.PrefAutoSaveEditBoxFile;

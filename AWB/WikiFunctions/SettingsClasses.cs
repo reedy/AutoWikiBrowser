@@ -376,7 +376,7 @@ namespace WikiFunctions.AWBSettings
             bool mToolBarEnabled, bool mBypassRedirect, bool mAutoSaveSettings, bool mPreParseMode, bool mNoSectionEditSummary, bool mRestrictDefaultsortAddition, bool mNoMOSComplianceFixes, bool mSyntaxHighlightEditBox, bool mNoAutoChanges, int mOnLoadAction, bool mMinor,
             bool mWatch, bool mDoNotWatch, bool mTimerEnabled, bool mSortListAlphabetically, bool mAddIgnoredToLog, int mTextBoxSize,
             string mTextBoxFont, bool mLowThreadPriority, bool mBeep, bool mFlash, bool mMinimize,
-            decimal mTimeOutLimit, bool autoSaveEditBoxEnabled, decimal autoSaveEditBoxPeriod,
+            bool autoSaveEditBoxEnabled, decimal autoSaveEditBoxPeriod,
             string autoSaveEditBoxFile, bool mLockSummary, bool mEditToolbarEnabled, bool mSuppressUsingAWB,
             bool mAddUsingAWBToActionSummaries, bool mfilterNonMainSpace, bool mAutoFilterDupes, bool mSortInterWikiOrder,
             bool mReplaceReferenceTags, bool mFocusAtEndOfEditBox, bool mscrollToUnbalancedBrackets)
@@ -415,7 +415,6 @@ namespace WikiFunctions.AWBSettings
             Beep = mBeep;
             Flash = mFlash;
             Minimize = mMinimize;
-            TimeOutLimit = mTimeOutLimit;
             AutoSaveEdit = new EditBoxAutoSavePrefs(autoSaveEditBoxEnabled, autoSaveEditBoxPeriod,
                 autoSaveEditBoxFile);
             LockSummary = mLockSummary;
@@ -475,7 +474,6 @@ namespace WikiFunctions.AWBSettings
         public bool SaveArticleList = true;
         public bool SuppressUsingAWB = false;
         public bool AddUsingAWBToActionSummaries = false;
-        public decimal TimeOutLimit = 30;
         public bool IgnoreNoBots = false;
 
         public bool SortInterWikiOrder = true;

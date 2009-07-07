@@ -316,7 +316,7 @@ namespace AutoWikiBrowser
                                  sortAlphabeticallyToolStripMenuItem.Checked,
                                  displayfalsePositivesButtonToolStripMenuItem.Checked, (int)txtEdit.Font.Size,
                                  txtEdit.Font.Name,
-                                 LowThreadPriority, Beep, Flash, Minimize, TimeOut, AutoSaveEditBoxEnabled,
+                                 LowThreadPriority, Beep, Flash, Minimize, AutoSaveEditBoxEnabled,
                                  AutoSaveEditBoxPeriod,
                                  AutoSaveEditBoxFile, chkLock.Checked, EditToolBarVisible, SuppressUsingAWB,
                                  AddUsingAWBOnArticleAction,
@@ -558,7 +558,6 @@ namespace AutoWikiBrowser
             Beep = p.General.Beep;
 
             Minimize = p.General.Minimize;
-            TimeOut = p.General.TimeOutLimit;
 
             chkEnableDab.Checked = p.Disambiguation.Enabled;
             txtDabLink.Text = p.Disambiguation.Link;
