@@ -86,7 +86,6 @@ namespace AutoWikiBrowser
         private RegexTester RegexTester;
         private bool UserTalkWarningsLoaded;
         private Regex UserTalkTemplatesRegex;
-        private bool ErrorGettingLogInStatus;
         private bool Skippable = true;
         private FormWindowState LastState = FormWindowState.Normal; // doesn't look like we can use RestoreBounds for this - any other built in way?
 
