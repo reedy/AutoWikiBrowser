@@ -28,13 +28,6 @@ namespace WikiFunctions.API
         string URL
         { get; }
 
-        /// <summary>
-        /// true if the editor is asynchronous
-        /// Whether all operations should return immediately or wait for completition
-        /// </summary>
-        bool Asynchronous
-        { get; }
-
         bool PHP5
         { get; }
 
@@ -241,11 +234,5 @@ namespace WikiFunctions.API
         /// Aborts the current operation
         /// </summary>
         void Abort();
-
-        /// <summary>
-        /// Waits for current operation to complete. If the editor is not asynchronous,
-        /// returns immediately.
-        /// </summary>
-        void Wait();
     }
 }

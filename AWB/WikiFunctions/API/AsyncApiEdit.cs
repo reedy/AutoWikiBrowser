@@ -316,10 +316,9 @@ namespace WikiFunctions.API
             SynchronousEditor.Reset();
         }
 
-        public string HttpGet(string url)
+        public void HttpGet(string url)
         {
             InvokeFunction("HttpGet", url);
-            return null;
         }
 
         public void Login(string username, string password)
@@ -332,10 +331,9 @@ namespace WikiFunctions.API
             InvokeFunction("Logout");
         }
 
-        public string Open(string title)
+        public void Open(string title)
         {
             InvokeFunction("Open", title);
-            return null;
         }
 
         public void Save(string pageText, string summary, bool minor, bool watch)
@@ -398,16 +396,14 @@ namespace WikiFunctions.API
             InvokeFunction("Move", title, newTitle, reason, moveTalk, noRedirect, watch);
         }
 
-        public string Preview(string title, string text)
+        public void Preview(string title, string text)
         {
             InvokeFunction("Preview", title, text);
-            return null;
         }
 
-        public string ExpandTemplates(string title, string text)
+        public void ExpandTemplates(string title, string text)
         {
             InvokeFunction("ExpandTemplates", title, text);
-            return null;
         }
 
         public void Abort()
@@ -423,11 +419,6 @@ namespace WikiFunctions.API
             catch (ThreadAbortException)
             {
             }
-        }
-
-        public bool Asynchronous
-        {
-            get { return true; }
         }
 
         #endregion

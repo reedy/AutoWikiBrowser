@@ -886,12 +886,5 @@ namespace WikiFunctions.API
         }
 
         #endregion
-
-        public bool Asynchronous
-        { get { return false; } }
-
-        public void Wait()
-        {
-        }
     }
 }
