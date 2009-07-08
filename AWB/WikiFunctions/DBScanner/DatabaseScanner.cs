@@ -878,7 +878,7 @@ namespace WikiFunctions.DBScanner
 
         private void chkTitleDoesNotContain_CheckedChanged(object sender, EventArgs e)
         {
-            txtTitleNotContains.Enabled = chkTitleContains.Checked;
+            txtTitleNotContains.Enabled = chkTitleDoesNotContain.Checked;
         }
     }
 }
