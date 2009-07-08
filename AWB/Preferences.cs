@@ -171,12 +171,12 @@ namespace AutoWikiBrowser
             cmboLang.Items.AddRange(langs.ToArray());
             cmboLang.SelectedIndex = 0;
 
-            if (prj == ProjectEnum.custom || prj == ProjectEnum.wikia)
+            if (prj == ProjectEnum.custom /*|| prj == ProjectEnum.wikia*/)
             {
                 cmboCustomProject.Visible = true;
                 cmboLang.Visible = false;
                 lblLang.Text = "http://";
-                lblPostfix.Text = prj == ProjectEnum.wikia ? ".wikia.com" : "";
+                lblPostfix.Text = /*prj == ProjectEnum.wikia ? ".wikia.com" :*/ "";
                 cmboCustomProjectChanged(null, null);
 
                 chkSupressAWB.Enabled = true;
@@ -197,7 +197,7 @@ namespace AutoWikiBrowser
         private void cmboCustomProjectChanged(object sender, EventArgs e)
         {
             ProjectEnum prj = (ProjectEnum) Enum.Parse(typeof (ProjectEnum), cmboProject.SelectedItem.ToString());
-            if (prj == ProjectEnum.custom || prj == ProjectEnum.wikia)
+            if (prj == ProjectEnum.custom /*|| prj == ProjectEnum.wikia*/)
                 btnOK.Enabled = (!string.IsNullOrEmpty(cmboCustomProject.Text));
             else
                 btnOK.Enabled = true;
@@ -335,6 +335,11 @@ namespace AutoWikiBrowser
             if (cmboProject.Text == "custom" && !string.IsNullOrEmpty(cmboCustomProject.Text))
             {
                 FixCustomProject();
+                if (Regex.IsMatch(cmboCustomProject.Text, @"^\w+\.wikia\.com"))
+                {
+                    Tools.DisplayWikiaWarning();
+                    return;
+                }
                 cmboCustomProject.Items.Add(cmboCustomProject.Text);
             }
 
