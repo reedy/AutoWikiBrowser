@@ -59,8 +59,7 @@ namespace WikiFunctions
         za, zea, zh, zh_cfr, zh_classical, zh_min_nan, zh_yue, zu
     }
 
-    public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks,
-        wikinews, species, commons, meta, mediawiki, /*wikia,*/ custom }
+    public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, species, commons, meta, mediawiki, wikia, custom }
 
     /// <summary>
     /// Holds some deepest-level things to be initialised prior to most other static classes,
@@ -300,7 +299,7 @@ namespace WikiFunctions
         /// Returns true if we are currently editing a Wikia site
         /// </summary>
         public static bool IsWikia
-        { get { return false /*Project == ProjectEnum.wikia*/; } }
+        { get { return Project == ProjectEnum.wikia; } }
 
         /// <summary>
         /// Gets script path of a custom project or empty string if standard project
@@ -646,10 +645,10 @@ namespace WikiFunctions
                     URL = "http://species.wikimedia.org";
                     LangCode = LangCodeEnum.en;
                     break;
-                //case ProjectEnum.wikia:
-                //    URL = "http://" + customProject + ".wikia.com";
-                //    URLEnd = "/";
-                //    break;
+                case ProjectEnum.wikia:
+                    URL = "http://" + customProject + ".wikia.com";
+                    URLEnd = "/";
+                    break;
                 case ProjectEnum.custom:
                     URLEnd = "";
                     break;

@@ -530,7 +530,7 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
             Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.mediawiki));
 
             Assert.IsFalse(Tools.IsWikimediaProject(ProjectEnum.custom));
-            //Assert.IsFalse(Tools.IsWikimediaProject(ProjectEnum.wikia));
+            Assert.IsFalse(Tools.IsWikimediaProject(ProjectEnum.wikia));
         }
 
         [Test]

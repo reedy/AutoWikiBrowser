@@ -119,24 +119,8 @@ namespace WikiFunctions.AWBSettings
             if (settings.Contains("<projectlang proj="))
                 throw new Exception("This file uses old settings format unsupported by this version of AWB.");
 
-            bool cleanUpWikia = false;
-            if (settings.Contains("<Project>wikia</Project>"))
-            {
-                cleanUpWikia = true;
-                settings = settings.Replace("<Project>wikia</Project>", "<Project>wikipedia</Project>"); 
-                // otherwise we'll encounter an exception
-            }
-
             XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), new [] { typeof(PrefsKeyPair) });
-            var prefs = (UserPrefs)xs.Deserialize(new StringReader(settings));
-
-            if (cleanUpWikia)
-            {
-                prefs.LanguageCode = LangCodeEnum.en;
-                Tools.DisplayWikiaWarning();
-            }
-
-            return prefs;
+            return (UserPrefs)xs.Deserialize(new StringReader(settings));
         }
 
         /// <summary>

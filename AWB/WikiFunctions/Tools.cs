@@ -92,7 +92,7 @@ namespace WikiFunctions
         /// </summary>
         public static bool IsWikimediaProject(ProjectEnum p)
         {
-            return p != ProjectEnum.custom /*&& p != ProjectEnum.wikia*/;
+            return (p != ProjectEnum.custom && p != ProjectEnum.wikia);
         }
 
         private readonly static char[] InvalidChars = new[] { '[', ']', '{', '}', '|', '<', '>', '#' };
@@ -1287,13 +1287,6 @@ Message: {2}
             return input.Replace(Environment.NewLine, "\n");
         }
 
-        public static void DisplayWikiaWarning()
-        {
-            MessageBox.Show((IWin32Window)Variables.MainForm, "Wikia currently does not use the standard MediaWiki write API, "
-                + "so it is not supported from version 5.0 onward. Please use 4.x instead.", "Not supported",
-                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -1802,6 +1795,15 @@ Message: {2}
         public static string VBInputBox(string prompt, string title, string defaultResponse, int xPos, int yPos)
         {
             return Microsoft.VisualBasic.Interaction.InputBox(prompt, title, defaultResponse, xPos, yPos);
+        }
+
+        /// <summary>
+        /// Wrapper for System.Windows.Forms.MessageBox.Show() - So things dont have to reference the Forms library
+        /// </summary>
+        /// <param name="message"></param>
+        public static void MessageBox(string message)
+        {
+            System.Windows.Forms.MessageBox.Show(message);
         }
 
         /// <summary>
