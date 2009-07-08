@@ -260,6 +260,10 @@ namespace WikiFunctions.API
                     CallEvent(new ExceptionCaughtInternal(OnExceptionCaught), ex);
                 }
             }
+            finally
+            {
+                TheThread = null;
+            }
         }
 
         private void InvokeFunction(InvokeArgs args)
