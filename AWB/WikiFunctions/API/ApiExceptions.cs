@@ -162,6 +162,27 @@ namespace WikiFunctions.API
     }
 
     /// <summary>
+    /// Thrown when an error occurs during asynchronous API operations
+    /// </summary>
+    public class ApiInvokeException : Exception
+    {
+        public ApiInvokeException(string message)
+            : base(message)
+        {
+        }
+
+        public ApiInvokeException(Exception innerException)
+            : this("There was a problem with an asynchronous API call", innerException)
+        {
+        }
+
+        public ApiInvokeException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
+    }
+
+    /// <summary>
     /// Thrown when edit is blocked by SpamBlacklist extension
     /// </summary>
     public class ApiSpamlistException : ApiException

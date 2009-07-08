@@ -84,9 +84,9 @@ namespace WikiFunctions.API
             Working,
 
             /// <summary>
-            /// Operation complete, notification events are being called
+            /// Operation aborted
             /// </summary>
-            Finishing,
+            Aborted,
 
             /// <summary>
             /// Last operation ended unsuccessfully
@@ -107,7 +107,7 @@ namespace WikiFunctions.API
         {
             get
             {
-                return State == EditState.Working || State == EditState.Finishing;
+                return State == EditState.Working;
             }
         }
 
@@ -234,9 +234,10 @@ namespace WikiFunctions.API
                     args.Arguments                                  // args
                     );
 
-                State = EditState.Finishing;
-                CallEvent(new OperationEndedInternal(OnOperationComplete), args.Function, result);
+                TheThread = null;
                 State = EditState.Ready;
+                // No state changes past this point, the callback may launch another operation
+                CallEvent(new OperationEndedInternal(OnOperationComplete), args.Function, result);
             }
             catch (ThreadAbortException)
             {
@@ -408,17 +409,13 @@ namespace WikiFunctions.API
 
         public void Abort()
         {
-            try
-            {
-                //Editor.Abort();
-                if (TheThread != null)
-                    TheThread.Abort();
+            if (TheThread != null)
+                TheThread.Abort();
 
-                State = EditState.Finishing;
-            }
-            catch (ThreadAbortException)
-            {
-            }
+            TheThread.Join();
+            TheThread = null;
+
+            State = EditState.Aborted;
         }
 
         #endregion
@@ -436,23 +433,5 @@ namespace WikiFunctions.API
         }
 
         #endregion
-    }
-
-    public class ApiInvokeException : Exception
-    {
-        public ApiInvokeException(string message)
-            : base(message)
-        {
-        }
-
-        public ApiInvokeException(Exception innerException)
-            : this("There was a problem with an asynchronous API call", innerException)
-        {
-        }
-
-        public ApiInvokeException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-        }
     }
 }
