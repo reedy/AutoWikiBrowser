@@ -282,7 +282,6 @@ namespace WikiFunctions.API
         public string URL
         {
             get { return SynchronousEditor.URL; }
-            set { SynchronousEditor = new ApiEdit(value, PHP5); }
         }
 
         public bool PHP5
