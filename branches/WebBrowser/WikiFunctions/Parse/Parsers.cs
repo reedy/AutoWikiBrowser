@@ -3244,7 +3244,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             return WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) ||
                    WikiRegexes.LivingPeopleRegex2.IsMatch(articleText) ||
-                   WikiRegexes.BirthsCategory.IsMatch(articleText);
+                   WikiRegexes.BirthsCategory.IsMatch(articleText) || 
+                   Regex.IsMatch(articleText, @"{{\s*[Bb]LP sources\b") || Regex.IsMatch(articleText, @"{{\s*[Rr]efimproveBLP\b");
         }
 
         /// <summary>
