@@ -456,6 +456,34 @@ blah";
             Assert.AreEqual(o + "\r\n", parser2.Sorter.RemoveCats(ref p, "test"));
         }
 
+        /*     TODO PossibleInterwikis has to be populated with interwiki codes for these tests to work,
+         * compiler doesn't like it.
+         * [Test]
+             public void InterWikiTests()
+             {
+                 List Fred = new List {"de", "es", "fr", "it", "sv"};
+                 parser2.Sorter.PossibleInterwikis = Fred;
+
+                 string a = @"[[de:Canadian National Railway]]
+     [[es:Canadian National]]
+     [[fr:Canadien National]]";
+                 string b = a;
+
+                 Assert.AreEqual(a, parser2.Sorter.Interwikis(ref a));
+
+                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Interwiki_links_moved_out_of_comment
+                 string c = @"{{Canadianmetros}}
+
+     <!-- 
+     The following links are here to prevent the interwiki bot from adding them to the list above.  The links below point to disambiguation pages and not to a translated article about Canadian National Railway.
+     [[it:CN]]
+     [[sv:CN]]
+     -->";
+                 string d = c;
+                 // no interwikis here
+                 Assert.AreEqual("", parser2.Sorter.Interwikis(ref c));
+             } */
+
         [Test]
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Substituted_templates
         public void NoIncludeIncludeOnlyTests()
