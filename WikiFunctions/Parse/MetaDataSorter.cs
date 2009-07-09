@@ -654,22 +654,32 @@ en, sq, ru
         }
 
         /// <summary>
-        /// 
+        /// Extracts all of the interwiki and interwiki featured article links from the article text
+        /// Ignores interwikis in comments/nowiki tags
         /// </summary>
-        /// <param name="articleText"></param>
-        /// <returns></returns>
+        /// <param name="articleText">Article text with interwiki and interwiki featured article links removed</param>
+        /// <returns>string of interwiki and interwiki featured article links</returns>
         public string Interwikis(ref string articleText)
         {
-            return ListToString(RemoveLinkFGAs(ref articleText)) + ListToString(RemoveInterWikis(ref articleText));
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Interwiki_links_moved_out_of_comment
+            HideText Hider = new HideText(false, true, false);
+
+            articleText = Hider.Hide(articleText);
+
+            string interWikis = ListToString(RemoveLinkFGAs(ref articleText)) + ListToString(RemoveInterWikis(ref articleText));
+
+            articleText = Hider.AddBack(articleText);
+
+            return interWikis;
         }
 
         private static readonly Regex FastIW = new Regex(@"\[\[\s*([-a-zA-Z]*?)\s*:\s*([^\]]*?)\s*\]\]", RegexOptions.Compiled);
 
         /// <summary>
-        /// 
+        /// Extracts all of the interwiki links from the article text
         /// </summary>
-        /// <param name="articleText"></param>
-        /// <returns></returns>
+        /// <param name="articleText">Article text with interwikis removed</param>
+        /// <returns>List of interwikis</returns>
         private List<string> RemoveInterWikis(ref string articleText)
         {
             List<string> interWikiList = new List<string>();
