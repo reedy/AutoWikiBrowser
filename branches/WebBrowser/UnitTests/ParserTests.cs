@@ -4298,6 +4298,20 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         }
 
         [Test]
+        public void CitationNeededRedirectTests()
+        {
+            Assert.AreEqual(@"{{citation needed}}", Parsers.Conversions(@"{{fact}}"));
+            Assert.AreEqual(@"{{citation needed}}", Parsers.Conversions(@"{{ Fact}}"));
+            Assert.AreEqual(@"{{citation needed}}", Parsers.Conversions(@"{{Cn}}"));
+            Assert.AreEqual(@"{{citation needed}}", Parsers.Conversions(@"{{proveit}}"));
+            Assert.AreEqual(@"{{citation needed}}", Parsers.Conversions(@"{{citeneeded}}"));
+            Assert.AreEqual(@"{{citation needed|date=May 2009}}", Parsers.Conversions(@"{{fact|date=May 2009}}"));
+            Assert.AreEqual(@"{{citation needed
+|date=May 2009}}", Parsers.Conversions(@"{{fact
+|date=May 2009}}"));
+        }
+
+        [Test]
         public void ArticleIssues()
         {
             string A1 = @"{{Wikify}} {{expand}}", A2 = @" {{COI}}", A3 = @" the article";
