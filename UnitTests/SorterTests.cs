@@ -456,33 +456,41 @@ blah";
             Assert.AreEqual(o + "\r\n", parser2.Sorter.RemoveCats(ref p, "test"));
         }
 
-        /*     TODO PossibleInterwikis has to be populated with interwiki codes for these tests to work,
-         * compiler doesn't like it.
-         * [Test]
-             public void InterWikiTests()
-             {
-                 List Fred = new List {"de", "es", "fr", "it", "sv"};
-                 parser2.Sorter.PossibleInterwikis = Fred;
+        [Test]
+        public void InterWikiTests()
+        {
+            parser2.SortInterwikis = false;
+            System.Collections.Generic.List<string> Fred = new System.Collections.Generic.List<string> { "de", "es", "fr", "it", "sv" };
 
-                 string a = @"[[de:Canadian National Railway]]
-     [[es:Canadian National]]
-     [[fr:Canadien National]]";
-                 string b = a;
+            parser2.Sorter.PossibleInterwikis = Fred;
 
-                 Assert.AreEqual(a, parser2.Sorter.Interwikis(ref a));
+            string a = @"[[de:Canadian National Railway]]
+[[es:Canadian National]]
+[[fr:Canadien National]]";
+            string b = a;
 
-                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Interwiki_links_moved_out_of_comment
-                 string c = @"{{Canadianmetros}}
+            Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
 
-     <!-- 
-     The following links are here to prevent the interwiki bot from adding them to the list above.  The links below point to disambiguation pages and not to a translated article about Canadian National Railway.
-     [[it:CN]]
-     [[sv:CN]]
-     -->";
-                 string d = c;
-                 // no interwikis here
-                 Assert.AreEqual("", parser2.Sorter.Interwikis(ref c));
-             } */
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Interwiki_links_moved_out_of_comment
+            string c = @"{{Canadianmetros}}
+
+<!-- 
+The following links are here to prevent the interwiki bot from adding them to the list above.  The links below point to disambiguation pages and not to a translated article about Canadian National Railway.
+[[it:CN]]
+[[sv:CN]]
+-->";
+            string d = c;
+            // no interwikis here
+            Assert.AreEqual("", parser2.Sorter.Interwikis(ref c));
+
+            // deduplication
+            string e = @"[[de:Canadian National Railway]]
+[[es:Canadian National]]
+[[es:Canadian National]]
+[[fr:Canadien National]]";
+
+            Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref e));
+        } 
 
         [Test]
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Substituted_templates
