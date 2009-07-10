@@ -2398,6 +2398,20 @@ foo2";
 #item3"));
 
         }
+
+        [Test]
+        public void FixTemperaturesTests()
+        {
+            Assert.AreEqual("5°C today", Parsers.FixTemperatures(@"5ºC today"));
+            Assert.AreEqual("5°C today", Parsers.FixTemperatures(@"5ºc today"));
+            Assert.AreEqual("5°C today", Parsers.FixTemperatures(@"5°C today"));
+            Assert.AreEqual("5°C today", Parsers.FixTemperatures(@"5°    C today"));
+            Assert.AreEqual("5°C today", Parsers.FixTemperatures(@"5°C today"));
+            Assert.AreEqual("5°F today", Parsers.FixTemperatures(@"5°F today"));
+            Assert.AreEqual("75°F today", Parsers.FixTemperatures(@"75°f today"));
+
+            Assert.AreEqual("5ºCC", Parsers.FixTemperatures(@"5ºCC"));
+        }
     }
 
     [TestFixture]
