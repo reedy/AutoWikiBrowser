@@ -416,8 +416,9 @@ namespace WikiFunctions.API
             if (TheThread != null)
                 TheThread.Abort();
 
-            TheThread.Join();
-            TheThread = null;
+            if (TheThread != null)
+                TheThread.Join();
+            TheThread = null; // the thread should reset this even if aborted, but let's be sure
 
             State = EditState.Aborted;
         }
