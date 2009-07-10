@@ -212,7 +212,6 @@ namespace WikiFunctions.Parse
             return HiderHideExtLinksImages.AddBackMore(articleText);
         }
 
-        // NOT covered
         /// <summary>
         /// Re-organises the Person Data, stub/disambig templates, categories and interwikis
         /// except when a mainspace article has some 'includeonly' tags etc.
@@ -2415,6 +2414,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return res;
         }
 
+        // NOT covered
         /// <summary>
         /// get template name from template call, e.g. "{{template:foobar|123}}"
         ///  to "foobar"
