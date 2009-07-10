@@ -2294,9 +2294,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return articleText;
         }
 
-        private static readonly Regex Temperature = new Regex(@"([º°](&nbsp;|)|(&deg;|&ordm;)(&nbsp;|))\s*([CcFf])([^A-Za-z])", RegexOptions.Compiled);
+        private static readonly Regex Temperature = new Regex(@"(?:&deg;|&ordm;|º|°)(?:&nbsp;)?\s*([CcFf])(?![A-Za-z])", RegexOptions.Compiled);
 
-        // NOT covered
         /// <summary>
         /// Fix bad Temperatures
         /// </summary>
@@ -2305,7 +2304,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static string FixTemperatures(string articleText)
         {
             foreach (Match m in Temperature.Matches(articleText))
-                articleText = articleText.Replace(m.ToString(), "°" + m.Groups[5].Value.ToUpper() + m.Groups[6].Value);
+                articleText = articleText.Replace(m.ToString(), "°" + m.Groups[1].Value.ToUpper());
             return articleText;
         }
 
