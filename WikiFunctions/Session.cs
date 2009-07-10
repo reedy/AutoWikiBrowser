@@ -82,12 +82,12 @@ namespace WikiFunctions
 
         #region Events
 
-        public event AsyncOperationCompleteEventHandler SaveComplete;
-        public AsyncStringOperationCompleteEventHandler PreviewComplete;
+        public event AsyncEventHandler SaveComplete;
+        public AsyncStringEventHandler PreviewComplete;
 
         public event AsyncExceptionEventHandler ExceptionCaught;
-        public event AsyncOperationCompleteEventHandler MaxlagExceeded;
-        public event AsyncOperationCompleteEventHandler LoggedOff;
+        public event AsyncEventHandler MaxlagExceeded;
+        public event AsyncEventHandler LoggedOff;
 
 
         void OnSaveComplete(AsyncApiEdit sender)
