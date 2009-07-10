@@ -61,7 +61,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             With PluginManager.AWBForm.BotModeCheckbox
                 BotCheckBox.Enabled = .Enabled
                 BotCheckBox.Checked = .Checked
-                BotCheckBox.Visible = WikiFunctions.Variables.User.IsBot
+                BotCheckBox.Visible = PluginManager.AWBForm.TheSession.User.IsBot
             End With
         End Sub
 
@@ -202,8 +202,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
                 SkipNoChangesCheckBox.Checked = False
                 SkipNoChangesCheckBox.Enabled = False
             Else
-                PluginManager.AWBForm.BotModeCheckbox.Enabled = WikiFunctions.Variables.User.IsBot
-                BotCheckBox.Visible = WikiFunctions.Variables.User.IsBot
+                PluginManager.AWBForm.BotModeCheckbox.Enabled = PluginManager.AWBForm.TheSession.User.IsBot
+                BotCheckBox.Visible = PluginManager.AWBForm.TheSession.User.IsBot
                 SkipBadTagsCheckBox.Enabled = True
                 SkipNoChangesCheckBox.Enabled = True
             End If
@@ -271,7 +271,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             BotCheckBox.Enabled = PluginManager.AWBForm.BotModeCheckbox.Enabled
         End Sub
         Private Sub BotStatusChangedHandler(ByVal sender As Object, ByVal e As EventArgs)
-            BotCheckBox.Visible = WikiFunctions.Variables.User.IsBot
+            BotCheckBox.Visible = PluginManager.AWBForm.TheSession.User.IsBot
         End Sub
 
         ' Event handlers - plugin stats:

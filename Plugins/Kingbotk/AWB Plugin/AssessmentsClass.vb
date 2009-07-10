@@ -266,7 +266,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         End Sub
         Private Sub CleanupCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs)
             ' TODO: this is a hack
-            If Not disposed AndAlso PluginSettings.Cleanup AndAlso Not PluginManager.AWBForm.WebControl.Busy Then _
+            If Not disposed AndAlso PluginSettings.Cleanup Then _
                ToggleAWBCleanup(True)
         End Sub
 
