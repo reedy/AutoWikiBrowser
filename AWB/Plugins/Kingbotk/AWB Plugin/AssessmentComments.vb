@@ -66,7 +66,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         End Sub
         Private Sub WebControl1_Saved(ByVal sender As Object, ByVal e As System.EventArgs) Handles WebControl1.Saved
             Application.UseWaitCursor = False
-            mStats.IncrementSavedEdits(sender, e)
+            mStats.IncrementSavedEdits()
             PluginManager.AWBForm.TraceManager.WriteArticleActionLine("Comments page saved", Assessments.conMe)
             Me.DialogResult = Windows.Forms.DialogResult.OK
             Me.Close()

@@ -9,6 +9,8 @@
 'You should have received a copy of the GNU General Public License Version 2 along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 ' Manual assessment:
+Imports WikiFunctions.API
+
 Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
     Friend NotInheritable Class Assessments
         Implements IDisposable
@@ -36,7 +38,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             ToggleAWBCleanup(PluginSettings.Cleanup)
 
             AddHandler PluginSettings.CleanupCheckBox.CheckedChanged, AddressOf Me.CleanupCheckBox_CheckedChanged
-            AddHandler PluginManager.AWBForm.WebControl.BusyChanged, AddressOf Me.WebControlBusyChanged
+            AddHandler PluginManager.AWBForm.TheSession.StateChanged, AddressOf Me.EditorStatusChanged
             AddHandler PluginManager.AWBForm.PreviewButton.Click, AddressOf Me.Preview_Click
             AddHandler PluginSettings.btnPreview.Click, AddressOf Me.Preview_Click
             AddHandler PluginManager.AWBForm.SaveButton.Click, AddressOf Me.Save_Click
@@ -60,7 +62,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                 ' It is safe to access other objects (other than the mybase object)
                 ' only from inside this block
                 RemoveHandler PluginSettings.CleanupCheckBox.CheckedChanged, AddressOf Me.CleanupCheckBox_CheckedChanged
-                RemoveHandler PluginManager.AWBForm.WebControl.BusyChanged, AddressOf Me.WebControlBusyChanged
+                RemoveHandler PluginManager.AWBForm.TheSession.StateChanged, AddressOf Me.EditorStatusChanged
                 RemoveHandler PluginManager.AWBForm.PreviewButton.Click, AddressOf Me.Preview_Click
                 RemoveHandler PluginSettings.btnPreview.Click, AddressOf Me.Preview_Click
                 RemoveHandler PluginManager.AWBForm.SaveButton.Click, AddressOf Me.Save_Click
@@ -271,13 +273,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         End Sub
 
         ' Webcontrol event handlers:
-        Private Sub WebControlBusyChanged(ByVal sender As Object, ByVal e As System.EventArgs)
-            If Not disposed Then ' TODO: this is a hack
-                If PluginManager.AWBForm.TheSession.Editor.IsActive Then
-                    LoadArticle()
-                Else
-                    Reset()
-                End If
+        Private Sub EditorStatusChanged(ByVal sender As AsyncApiEdit)
+            If PluginManager.AWBForm.TheSession.Editor.IsActive Then
+                LoadArticle()
+            Else
+                Reset()
             End If
         End Sub
         'Private Sub webcontrol_Diffed() Handles webcontrol.Diffed
