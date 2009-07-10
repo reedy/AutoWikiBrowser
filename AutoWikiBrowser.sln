@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoLimitsPlugin", "Plugins\N
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fronds", "Plugins\Fronds\Fronds.csproj", "{462DE585-5DA9-4862-85BB-382D76A6AEF3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheTemplator", "Plugins\TheTemplator\TheTemplator.csproj", "{2F4D67B0-F9DA-4EB2-9CEA-20FBC19ADABC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -158,6 +160,16 @@ Global
 		{462DE585-5DA9-4862-85BB-382D76A6AEF3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{462DE585-5DA9-4862-85BB-382D76A6AEF3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{462DE585-5DA9-4862-85BB-382D76A6AEF3}.Release|Win32.ActiveCfg = Release|Any CPU
+		{2F4D67B0-F9DA-4EB2-9CEA-20FBC19ADABC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F4D67B0-F9DA-4EB2-9CEA-20FBC19ADABC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F4D67B0-F9DA-4EB2-9CEA-20FBC19ADABC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{2F4D67B0-F9DA-4EB2-9CEA-20FBC19ADABC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{2F4D67B0-F9DA-4EB2-9CEA-20FBC19ADABC}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{2F4D67B0-F9DA-4EB2-9CEA-20FBC19ADABC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F4D67B0-F9DA-4EB2-9CEA-20FBC19ADABC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F4D67B0-F9DA-4EB2-9CEA-20FBC19ADABC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2F4D67B0-F9DA-4EB2-9CEA-20FBC19ADABC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{2F4D67B0-F9DA-4EB2-9CEA-20FBC19ADABC}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
