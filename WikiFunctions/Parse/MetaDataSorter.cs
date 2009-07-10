@@ -673,8 +673,6 @@ en, sq, ru
             return interWikis;
         }
 
-        private static readonly Regex FastIW = new Regex(@"\[\[\s*([-a-zA-Z]*?)\s*:\s*([^\]]*?)\s*\]\]", RegexOptions.Compiled);
-
         /// <summary>
         /// Extracts all of the interwiki links from the article text
         /// </summary>
@@ -683,7 +681,7 @@ en, sq, ru
         private List<string> RemoveInterWikis(ref string articleText)
         {
             List<string> interWikiList = new List<string>();
-            MatchCollection matches = FastIW.Matches(articleText);
+            MatchCollection matches = WikiRegexes.PossibleInterwikis.Matches(articleText);
             if (matches.Count == 0) return interWikiList;
 
             List<Match> goodMatches = new List<Match>(matches.Count);
@@ -706,9 +704,7 @@ en, sq, ru
             }
 
             if (SortInterwikis)
-            {
                 interWikiList.Sort(Comparer);
-            }
 
             if (!string.IsNullOrEmpty(interWikiComment)) interWikiList.Insert(0, interWikiComment);
 
