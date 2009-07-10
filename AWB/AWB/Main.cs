@@ -638,6 +638,7 @@ namespace AutoWikiBrowser
             }
 
             TheArticle.OriginalArticleText = articleText;
+            TheArticle.Exists = (TheSession.Page.Exists) ? Exists.Yes: Exists.No;
             ErrorHandler.CurrentRevision = TheSession.Editor.Page.RevisionID;
 
             if (PageReload)
