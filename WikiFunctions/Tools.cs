@@ -1606,9 +1606,9 @@ Message: {2}
         /// <summary>
         /// Turns an article into its associated talk page
         /// </summary>
-        public static string ConvertToTalk(string title)
+        public static string ConvertToTalk(string a)
         {
-            return ConvertToTalk(new Article(title));
+            return ConvertToTalk(new Article(a));
         }
 
         // Covered by NamespaceFunctions.ConvertToTalk()
@@ -1647,6 +1647,14 @@ Message: {2}
                     newList.Add(new Article(s));
             }
             return newList;
+        }
+
+        /// <summary>
+        /// Turns a talk page into its associated article
+        /// </summary>
+        public static string ConvertFromTalk(string a)
+        {
+            return ConvertFromTalk(a);
         }
 
         // Covered by NamespaceFunctions.ConvertFromTalk()
