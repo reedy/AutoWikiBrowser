@@ -94,11 +94,23 @@ namespace WikiFunctions.API
             Failed
         }
 
+        private EditState mState = EditState.Ready;
+
         /// <summary>
         /// State of the editor
         /// </summary>
         public EditState State
-        { get; protected set; }
+        {
+            get
+            {
+                return mState;
+            }
+            protected set
+            {
+                CallEvent(StateChanged, this);
+                mState = value;
+            }
+        }
 
         /// <summary>
         /// True if the asynchronous
@@ -133,11 +145,13 @@ namespace WikiFunctions.API
         #region Events
 
         public event AsyncEventHandler SaveComplete;
-        public AsyncStringEventHandler PreviewComplete;
+        public event AsyncStringEventHandler PreviewComplete;
 
         public event AsyncExceptionEventHandler ExceptionCaught;
         public event AsyncEventHandler MaxlagExceeded;
         public event AsyncEventHandler LoggedOff;
+
+        public event AsyncEventHandler StateChanged;
 
         #endregion
 
@@ -191,6 +205,8 @@ namespace WikiFunctions.API
         /// </summary>
         private void CallEvent(Delegate method, params object[] args)
         {
+            if (method == null) return;
+
             if (ParentControl == null)
             {
                 method.DynamicInvoke(args);
