@@ -212,7 +212,6 @@ namespace WikiFunctions.Parse
             return HiderHideExtLinksImages.AddBackMore(articleText);
         }
 
-        // NOT covered
         /// <summary>
         /// Re-organises the Person Data, stub/disambig templates, categories and interwikis
         /// except when a mainspace article has some 'includeonly' tags etc.
@@ -502,6 +501,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
+        [Obsolete("unfit for production use")]
         public static string FixFootnotes(string articleText)
         {
             // One space/linefeed
@@ -2294,9 +2294,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return articleText;
         }
 
-        private static readonly Regex Temperature = new Regex(@"([º°](&nbsp;|)|(&deg;|&ordm;)(&nbsp;|))\s*([CcFf])([^A-Za-z])", RegexOptions.Compiled);
+        private static readonly Regex Temperature = new Regex(@"(?:&deg;|&ordm;|º|°)(?:&nbsp;)?\s*([CcFf])(?![A-Za-z])", RegexOptions.Compiled);
 
-        // NOT covered
         /// <summary>
         /// Fix bad Temperatures
         /// </summary>
@@ -2305,7 +2304,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static string FixTemperatures(string articleText)
         {
             foreach (Match m in Temperature.Matches(articleText))
-                articleText = articleText.Replace(m.ToString(), "°" + m.Groups[5].Value.ToUpper() + m.Groups[6].Value);
+                articleText = articleText.Replace(m.ToString(), "°" + m.Groups[1].Value.ToUpper());
             return articleText;
         }
 
@@ -2333,35 +2332,19 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         public const string EveryTemplate = @"[^\|\{\}]+";
 
-        // NOT covered
         /// <summary>
         /// extracts template using the given match
         /// </summary>
         private static string ExtractTemplate(string articleText, Match m)
         {
-            int i = m.Index + m.Groups[1].Length;
+            Regex theTemplate = new Regex(Regex.Escape(m.Groups[1].Value) + @"(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}}");
 
-            int brackets = 2;
-            while (i < articleText.Length)
+            foreach (Match n in theTemplate.Matches(articleText))
             {
-                switch (articleText[i])
-                {
-                    // only sequences of 2 and more brackets should be counted
-                    case '{':
-                        if ((articleText[i - 1] == '{') || (i + 1 < articleText.Length &&
-                            articleText[i + 1] == '{')) brackets++;
-                        break;
-                    case '}':
-                        if ((articleText[i - 1] == '}') || (i + 1 < articleText.Length &&
-                            articleText[i + 1] == '}'))
-                        {
-                            brackets--;
-                            if (brackets == 0) return articleText.Substring(m.Index, i - m.Index + 1);
-                        }
-                        break;
-                }
-                i++;
+                if(n.Index == m.Index)
+                    return theTemplate.Match(articleText).Value;
             }
+
             return "";
         }
 
@@ -2377,7 +2360,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             Regex search = new Regex(@"(\{\{\s*" + Tools.CaseInsensitive(template) + @"\s*)(?:\||\}|<)", RegexOptions.Singleline);
 
             // remove commented out templates etc. before searching
-            string articleTextCleaned = WikiRegexes.Comments.Replace(WikiRegexes.Nowiki.Replace(articleText, ""), "");
+            string articleTextCleaned = WikiRegexes.UnFormattedText.Replace(articleText, "");
 
             if (search.IsMatch(articleTextCleaned))
             {
@@ -2390,7 +2373,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return "";
         }
 
-        // NOT covered
         /// <summary>
         /// finds every occurence of a given template in article text
         /// handles nested templates correctly
@@ -2433,6 +2415,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return res;
         }
 
+        // NOT covered
         /// <summary>
         /// get template name from template call, e.g. "{{template:foobar|123}}"
         ///  to "foobar"

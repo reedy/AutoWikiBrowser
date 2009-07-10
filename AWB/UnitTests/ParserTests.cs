@@ -2398,6 +2398,20 @@ foo2";
 #item3"));
 
         }
+
+        [Test]
+        public void FixTemperaturesTests()
+        {
+            Assert.AreEqual("5°C today", Parsers.FixTemperatures(@"5ºC today"));
+            Assert.AreEqual("5°C today", Parsers.FixTemperatures(@"5ºc today"));
+            Assert.AreEqual("5°C today", Parsers.FixTemperatures(@"5°C today"));
+            Assert.AreEqual("5°C today", Parsers.FixTemperatures(@"5°    C today"));
+            Assert.AreEqual("5°C today", Parsers.FixTemperatures(@"5°C today"));
+            Assert.AreEqual("5°F today", Parsers.FixTemperatures(@"5°F today"));
+            Assert.AreEqual("75°F today", Parsers.FixTemperatures(@"75°f today"));
+
+            Assert.AreEqual("5ºCC", Parsers.FixTemperatures(@"5ºCC"));
+        }
     }
 
     [TestFixture]
@@ -3802,6 +3816,19 @@ asdfasdf}} was here", "foo"));
             Assert.AreEqual(@"", Parsers.GetTemplate(@"", "foo"));
 
             Assert.AreEqual(@"{{foo  |a={{bar}} here}}", Parsers.GetTemplate(@"now {{foo  |a={{bar}} here}} was here", "foo"));
+        }
+
+        [Test]
+        public void GetTemplatesTests()
+        {
+            string text = @"now {{foo|a}} and {{foo|b}}";
+            System.Collections.Generic.List<Match> Fred = new System.Collections.Generic.List<Match> { };
+            Regex Foo = new Regex(@"{{foo.*?}}");
+            foreach (Match m in Foo.Matches(text))
+                Fred.Add(m);
+
+            Assert.AreEqual(Fred.ToString(), Parsers.GetTemplates(text, "foo").ToString());
+            Assert.AreEqual(Fred.ToString(), Parsers.GetTemplates(text, "Foo").ToString());
         }
     }
 

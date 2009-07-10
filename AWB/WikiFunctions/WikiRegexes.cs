@@ -250,7 +250,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches single and multiline templates, AND those with nested templates
         /// </summary>
-        public static readonly Regex NestedTemplates = new Regex(@"{{((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})");
+        public static readonly Regex NestedTemplates = new Regex(@"{{(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}}");
 
         /// <summary>
         /// Matches templates: group 1 matches the names of templates
