@@ -7,10 +7,11 @@
 'but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 'You should have received a copy of the GNU General Public License Version 2 along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+Imports WikiFunctions.API
 
 Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
     Friend NotInheritable Class TimerStats
-        Private WithEvents webcontrol As WikiFunctions.Browser.WebControl
+        Private WithEvents editor As AsyncApiEdit
         Private WithEvents mStats As PluginSettingsControl.Stats
         Private TimeSpan As TimeSpan
         Private Start As Date
@@ -26,9 +27,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
                 EditsLabel.Text = mNumberOfEdits.ToString
             End Set
         End Property
-        Friend Sub Init(ByVal w As WikiFunctions.Browser.WebControl, ByVal ETALabel As Label, _
+        Friend Sub Init(ByVal e As AsyncApiEdit, ByVal ETALabel As Label, _
         ByVal Stats As PluginSettingsControl.Stats)
-            webcontrol = w
+            editor = e
             ResetVars()
             mETALabel = ETALabel
             TimerEnabled = True
@@ -100,16 +101,19 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
                 End If
             End If
         End Sub
-        Private Sub webcontrol_BusyChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles webcontrol.BusyChanged
-            If webcontrol.Busy Then
+        Private Sub Editor_StateChanged(ByVal sender As AsyncApiEdit) Handles editor.StateChanged
+            If editor.IsActive Then
                 mETALabel.Visible = True
             Else
                 TimerEnabled = False
                 TimeSpan = Nothing
-                webcontrol = Nothing
+                editor = Nothing
             End If
         End Sub
-        Friend Sub IncrementSavedEdits(ByVal sender As Object, ByVal e As System.EventArgs) Handles webcontrol.Saved
+        Friend Sub IncrementSavedEdits(ByVal sender As AsyncApiEdit) Handles Editor.SaveComplete
+            IncrementSavedEdits()
+        End Sub
+        Friend Sub IncrementSavedEdits()
             NumberOfEdits += 1
         End Sub
         Private Sub mStats_SkipMisc(ByVal val As Integer) Handles mStats.SkipMisc

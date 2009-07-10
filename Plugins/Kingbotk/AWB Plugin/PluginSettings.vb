@@ -1,3 +1,5 @@
+Imports WikiFunctions.API
+
 'Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 'Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
 
@@ -66,12 +68,12 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         End Sub
 
         ' AWB processing stopped/started:
-        Friend Sub AWBProcessingStart(ByVal webcontrol As WikiFunctions.Browser.WebControl)
+        Friend Sub AWBProcessingStart(ByVal editor As AsyncApiEdit)
             For Each lbl As Label In StatLabels
                 If lbl.Text = "" Then lbl.Text = "0"
             Next
             TimerStats1.Visible = True
-            TimerStats1.Init(webcontrol, ETALabel, PluginStats)
+            TimerStats1.Init(editor, ETALabel, PluginStats)
 
             PluginManager.StatusText.Text = "Started"
         End Sub
