@@ -117,14 +117,7 @@ namespace WikiFunctions.Logging.Uploader
 
             try
             {
-                if (addToWatchlist)
-                {
-                    retval.Add(EditPageEx(uploadToNoSpaces, strLogText, editSummary, false, true));
-                }
-                else
-                {
-                    retval.Add(EditPageEx(uploadToNoSpaces, strLogText, editSummary, false));
-                }
+                retval.Add(EditPageEx(uploadToNoSpaces, strLogText, editSummary, false, addToWatchlist));
             }
             catch (Exception ex)
             {

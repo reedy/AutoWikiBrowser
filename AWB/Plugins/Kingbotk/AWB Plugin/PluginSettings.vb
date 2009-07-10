@@ -41,7 +41,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
                 AddHandler .SaveButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
                 AddHandler .SkipButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
                 AddHandler WikiFunctions.Variables.User.BotStatusChanged, AddressOf Me.BotStatusChangedHandler
-                'AddHandler .BotModeCheckbox.VisibleChanged, AddressOf Me.AWBBotModeVisibleChanged
                 AddHandler .BotModeCheckbox.EnabledChanged, AddressOf Me.AWBBotModeEnabledChanged
                 AddHandler .BotModeCheckbox.CheckedChanged, AddressOf Me.AWBBotModeCheckedChanged
                 .CategoryTextBox.ContextMenuStrip.Items.Insert(0, LivingPeopleToolStripMenuItem)

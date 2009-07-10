@@ -802,13 +802,14 @@ namespace AutoWikiBrowser
                     SkipPage("Page has no alerts");
                     return;
                 }
+
+                Variables.Profiler.Profile("Alerts");
                 
                 // syntax highlighting of edit box based on m:extension:wikEd standards
                 if (syntaxHighlightEditBoxToolStripMenuItem.Checked)
                 {                    
                     txtEdit.Visible = false;
-
-                    Variables.Profiler.Profile("Alerts");
+                    
                     txtEdit = HighlightSyntax(txtEdit);
                     Variables.Profiler.Profile("Syntax highlighting");
 
@@ -986,8 +987,7 @@ namespace AutoWikiBrowser
             }
 
             // interwikis dark grey background
-            Regex Interwiki = new Regex(@"\[\[([a-z-]{2,6}\:)([^\[\]\r\n]+)\]\]"); //TODO:Can WikiRegexes.PossibleInterwiki be used here, or can this replace it?
-            foreach (Match m in Interwiki.Matches(txtEditLocal.RawText))
+            foreach (Match m in WikiRegexes.PossibleInterwikis.Matches(txtEditLocal.RawText))
             {
                 txtEditLocal.SetEditBoxSelection(m.Index, m.Length);
                 txtEditLocal.SelectionBackColor = Color.Gray;
@@ -3070,6 +3070,13 @@ window.scrollTo(0, diffTopY);
             if (UnbalancedBracket >= 0 && scrollToUnbalancedBracketsToolStripMenuItem.Checked)
             {
                 highlightUnbalancedBrackets();
+            }
+
+            if (syntaxHighlightEditBoxToolStripMenuItem.Checked)
+            {
+                txtEdit.Visible = false;
+                txtEdit = HighlightSyntax(txtEdit);
+                txtEdit.Visible = true;
             }
 
             GetDiff();
