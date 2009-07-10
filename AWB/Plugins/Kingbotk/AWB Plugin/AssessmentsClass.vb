@@ -273,7 +273,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         ' Webcontrol event handlers:
         Private Sub WebControlBusyChanged(ByVal sender As Object, ByVal e As System.EventArgs)
             If Not disposed Then ' TODO: this is a hack
-                If PluginManager.AWBForm.WebControl.Busy Then
+                If PluginManager.AWBForm.TheSession.Editor.IsActive Then
                     LoadArticle()
                 Else
                     Reset()
