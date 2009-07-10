@@ -501,6 +501,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
+        [Obsolete("unfit for production use")]
         public static string FixFootnotes(string articleText)
         {
             // One space/linefeed
