@@ -317,6 +317,13 @@ bar</ INCLUDEONLY>");
 
             RegexAssert.NoMatch(WikiRegexes.PossibleInterwikis, "[[:en:foo]]");
             RegexAssert.NoMatch(WikiRegexes.PossibleInterwikis, "[[:foo]]");
+
+            Assert.AreEqual("en", WikiRegexes.PossibleInterwikis.Match("[[ en :bar]]").Groups[1].Value);
+            Assert.AreEqual("bar", WikiRegexes.PossibleInterwikis.Match("[[en: bar ]]").Groups[2].Value);
+
+            // length outside range
+            RegexAssert.NoMatch(WikiRegexes.PossibleInterwikis, "[[e:foo]]");
+            RegexAssert.NoMatch(WikiRegexes.PossibleInterwikis, "[[abcdefghijlkmnop:foo]]");
         }
 
         [Test]

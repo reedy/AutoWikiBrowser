@@ -263,9 +263,9 @@ namespace WikiFunctions
         public static readonly Regex ExternalLinks = new Regex(@"(?:[Hh]ttp|[Hh]ttps|[Ff]tp|[Mm]ailto)://[^\ \n<>]*|\[(?:[Hh]ttp|[Hh]ttps|[Ff]tp|[Mm]ailto):.*?\]", RegexOptions.Compiled);
 
         /// <summary>
-        /// Matches links that may be interwikis, i.e. containing colon
+        /// Matches links that may be interwikis, i.e. containing colon, group 1 being the wiki language, group 2 being the link target
         /// </summary>
-        public static readonly Regex PossibleInterwikis = new Regex(@"\[\[\s*([-a-z]+)\s*:\s*([^\]]*?)\s*\]\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex PossibleInterwikis = new Regex(@"\[\[\s*([-a-z]{2,12})\s*:\s*([^\]]*?)\s*\]\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
         /// Matches unformatted text regions: nowiki, pre, math, html comments, timelines

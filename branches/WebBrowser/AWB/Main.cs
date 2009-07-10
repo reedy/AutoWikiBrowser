@@ -1035,8 +1035,7 @@ namespace AutoWikiBrowser
             }
 
             // interwikis dark grey background
-            Regex Interwiki = new Regex(@"\[\[([a-z-]{2,6}\:)([^\[\]\r\n]+)\]\]"); //TODO:Can WikiRegexes.PossibleInterwiki be used here, or can this replace it?
-            foreach (Match m in Interwiki.Matches(txtEditLocal.RawText))
+            foreach (Match m in WikiRegexes.PossibleInterwikis.Matches(txtEditLocal.RawText))
             {
                 txtEditLocal.SetEditBoxSelection(m.Index, m.Length);
                 txtEditLocal.SelectionBackColor = Color.Gray;
