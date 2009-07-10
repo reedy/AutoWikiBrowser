@@ -19,53 +19,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using WikiFunctions.API;
 using WikiFunctions.Plugin;
 
 namespace WikiFunctions.Logging.Uploader
 {
+    public struct EditPageRetvals
+    {
+        public string Article;
+        public string Responsetext;
+        public string Difflink;
+    }
+
 	/// <summary>
 	/// A class which uploads logs to Wikipedia
 	/// </summary>
-	public class LogUploader : Editor
+	public class LogUploader
 	{
 		protected readonly string BotTag;
 		protected readonly string TableHeaderUserName;
 		protected readonly string TableHeaderNoUserName;
 		protected const string NewCell = "\r\n|";
 
-	    protected override string UserAgent
+	    private AsyncApiEdit editor;
+
+	    protected string UserAgent
         { get { 
             return Tools.DefaultUserAgentString;
             //return "WikiFunctionsLogUploader/" + Tools.VersionString; 
         } }
 
-		public LogUploader()
+		public LogUploader(AsyncApiEdit e)
 		{
 			BotTag = "|}<!--/bottag-->"; // doing it this way OUGHT to allow inherited classes to override
 			TableHeaderUserName = "! Job !! Category !! Page # !! Performed By !! Date";
 			TableHeaderNoUserName = "! Job !! Category !! Page # !! Date";
+
+		    editor = e.Clone();
 		}
 
-		public virtual new System.Net.CookieCollection LogIn(string username, string password)
+		public void LogIn(string username, string password)
 		{
-			base.LogIn(username, password);
-			return LoginCookies;
-		}
-
-		public virtual void LogIn(System.Net.CookieCollection cookies)
-		{
-			LoginCookies = cookies;
+			editor.Login(username, password);
 		}
 
 		public virtual void LogIn(UsernamePassword loginDetails)
 		{
-			if (loginDetails.HaveCookies)
+			if (loginDetails.IsSet)
 			{
-				LogIn(loginDetails.Cookies);
-			}
-			else if (loginDetails.IsSet)
-			{
-				loginDetails.Cookies = LogIn(loginDetails.Username, loginDetails.Password);
+				LogIn(loginDetails.Username, loginDetails.Password);
 			}
 			else
 			{
@@ -117,14 +119,17 @@ namespace WikiFunctions.Logging.Uploader
 
             try
             {
-                if (addToWatchlist)
-                {
-                    retval.Add(EditPageEx(uploadToNoSpaces, strLogText, editSummary, false, true));
-                }
-                else
-                {
-                    retval.Add(EditPageEx(uploadToNoSpaces, strLogText, editSummary, false));
-                }
+                editor.Open(uploadToNoSpaces);
+                editor.Wait();
+                //Todo: retval.Add()
+                editor.Save(strLogText, editSummary, false, addToWatchlist);
+
+                retval.Add(new EditPageRetvals
+                               {
+                                   Article = uploadToNoSpaces, 
+                                   Difflink = "", 
+                                   Responsetext = ""
+                               });
             }
             catch (Exception ex)
             {
@@ -156,7 +161,10 @@ namespace WikiFunctions.Logging.Uploader
 
             try
             {
-                string strExistingText = GetWikiText(logEntry.Location);
+                editor.Open(logEntry.Location);
+                editor.Wait();
+
+                string strExistingText = editor.Page.Text;
 
                 if (DoAWBLogListener(addLogArticlesToAnAWBList, awb))
                 {
@@ -177,15 +185,32 @@ namespace WikiFunctions.Logging.Uploader
 
                 if (strExistingText.Contains(BotTag))
                 {
-                    retval = EditPageEx(logEntry.Location, strExistingText.Replace(BotTag, tableAddition), editSummary, false, true);
+                    //Todo: retval
+                    editor.Save(strExistingText.Replace(BotTag, tableAddition), editSummary, false,
+                                false);
+
+                    retval = new EditPageRetvals
+                    {
+                        Article = logEntry.Location,
+                        Difflink = "",
+                        Responsetext = ""
+                    };
                 }
                 else
                 {
-                    retval = EditPageAppendEx(logEntry.Location, Environment.NewLine + "<!--bottag-->" +
-                        Environment.NewLine + "{| class=\"wikitable\" width=\"100%\"" +
-                        Environment.NewLine +
-                        (logEntry.LogUserName ? TableHeaderUserName : TableHeaderNoUserName) +
-                        Environment.NewLine + tableAddition, editSummary, false);
+                    //Todo: retval
+                    editor.Save(strExistingText + Environment.NewLine + "<!--bottag-->" +
+                                Environment.NewLine + "{| class=\"wikitable\" width=\"100%\"" +
+                                Environment.NewLine +
+                                (logEntry.LogUserName ? TableHeaderUserName : TableHeaderNoUserName) +
+                                Environment.NewLine + tableAddition, editSummary, false, false);
+
+                    retval = new EditPageRetvals
+                    {
+                        Article = logEntry.Location,
+                        Difflink = "",
+                        Responsetext = ""
+                    };
                 }
                 try
                 {

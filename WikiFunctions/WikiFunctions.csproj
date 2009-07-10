@@ -325,7 +325,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="WikiRegexes.cs" />
-    <Compile Include="WPEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Controls\ArticleTextBox.resx">

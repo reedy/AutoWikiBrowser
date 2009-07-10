@@ -208,7 +208,7 @@ namespace WikiFunctions.Logging
         public struct UploadHandlerReturnVal
         {
             public bool Success;
-            public List<Editor.EditPageRetvals> PageRetVals;
+            public List<EditPageRetvals> PageRetVals;
         }
 
         /// <summary>
@@ -226,7 +226,7 @@ namespace WikiFunctions.Logging
             {
                 string pageName = uploadToWithoutPageNumber + " " + sender.TraceStatus.PageNumber;
                 UploadingPleaseWaitForm waitForm = new UploadingPleaseWaitForm();
-                LogUploader uploader = new LogUploader();
+                LogUploader uploader = new LogUploader(awb.TheSession.Editor);
 
                 waitForm.Show();
 
@@ -264,7 +264,7 @@ namespace WikiFunctions.Logging
             return retval;
         }
 
-        public virtual void WriteUploadLog(List<Editor.EditPageRetvals> pageRetVals, string logFolder)
+        public virtual void WriteUploadLog(List<EditPageRetvals> pageRetVals, string logFolder)
         {
             try
             {
@@ -272,7 +272,7 @@ namespace WikiFunctions.Logging
                     new System.IO.StreamWriter(logFolder + "\\Log uploading " +
                     DateTime.Now.Ticks + ".txt");
 
-                foreach (Editor.EditPageRetvals editPageRetval in pageRetVals)
+                foreach (EditPageRetvals editPageRetval in pageRetVals)
                 {
                     io.WriteLine("***********************************************************************************");
                     io.WriteLine("Page: " + editPageRetval.Article);
