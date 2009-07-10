@@ -241,12 +241,12 @@ namespace WikiFunctions.Logging.Uploader
         private static bool DoAWBLogListener(bool doIt, IAutoWikiBrowser awb)
         { return (doIt && awb != null); }
 
-        private void AWBLogListenerUploadFailed(Exception ex, string sender, AWBLogListener AWBLogListener,
+        private void AWBLogListenerUploadFailed(Exception ex, string sender, AWBLogListener logListener,
             IAutoWikiBrowser AWB)
         {
-            AWBLogListener.WriteLine("Error: " + ex.Message, sender);
-            ((IMyTraceListener)AWBLogListener).SkippedArticle(sender, "Error");
-            //AWB.AddLogItem(false, AWBLogListener);
+            logListener.WriteLine("Error: " + ex.Message, sender);
+            ((IMyTraceListener)logListener).SkippedArticle(sender, "Error");
+            //AWB.AddLogItem(false, logListener);
         }
 	}
 }
