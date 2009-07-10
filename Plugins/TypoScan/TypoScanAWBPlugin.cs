@@ -209,7 +209,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                                                    {"articles", string.Join(",", SavedPages.ToArray())},
                                                    {"skipped", string.Join(",", SkippedPages.ToArray())},
                                                    {"skipreason", string.Join(",", SkippedReasons.ToArray())},
-                                                   {"user", AWB.Privacy ? "[withheld]" : Variables.User.Name}
+                                                   {"user", AWB.Privacy ? "[withheld]" : AWB.TheSession.User.Name}
                                                };
 
             if (!AWB.Shutdown)
