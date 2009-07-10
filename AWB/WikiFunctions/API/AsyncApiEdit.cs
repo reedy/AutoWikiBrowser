@@ -22,8 +22,8 @@ using System.Reflection;
 
 namespace WikiFunctions.API
 {
-    public delegate void AsyncOperationCompleteEventHandler(AsyncApiEdit sender);
-    public delegate void AsyncStringOperationCompleteEventHandler(AsyncApiEdit sender, string result);
+    public delegate void AsyncEventHandler(AsyncApiEdit sender);
+    public delegate void AsyncStringEventHandler(AsyncApiEdit sender, string result);
     public delegate void AsyncExceptionEventHandler(AsyncApiEdit sender, Exception ex);
 
     /// <summary>
@@ -132,12 +132,12 @@ namespace WikiFunctions.API
 
         #region Events
 
-        public event AsyncOperationCompleteEventHandler SaveComplete;
-        public AsyncStringOperationCompleteEventHandler PreviewComplete;
+        public event AsyncEventHandler SaveComplete;
+        public AsyncStringEventHandler PreviewComplete;
 
         public event AsyncExceptionEventHandler ExceptionCaught;
-        public event AsyncOperationCompleteEventHandler MaxlagExceeded;
-        public event AsyncOperationCompleteEventHandler LoggedOff;
+        public event AsyncEventHandler MaxlagExceeded;
+        public event AsyncEventHandler LoggedOff;
 
         #endregion
 
