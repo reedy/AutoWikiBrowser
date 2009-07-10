@@ -76,6 +76,7 @@ namespace WikiFunctions
             edit.ExceptionCaught += OnExceptionCaught;
             edit.MaxlagExceeded += OnMaxlagExceeded;
             edit.LoggedOff += OnLoggedOff;
+            edit.StateChanged += OnStateChanged;
 
             return edit;
         }
@@ -83,11 +84,13 @@ namespace WikiFunctions
         #region Events
 
         public event AsyncEventHandler SaveComplete;
-        public AsyncStringEventHandler PreviewComplete;
+        public event AsyncStringEventHandler PreviewComplete;
 
         public event AsyncExceptionEventHandler ExceptionCaught;
         public event AsyncEventHandler MaxlagExceeded;
         public event AsyncEventHandler LoggedOff;
+
+        public event AsyncEventHandler StateChanged;
 
 
         void OnSaveComplete(AsyncApiEdit sender)
@@ -113,6 +116,11 @@ namespace WikiFunctions
         void OnLoggedOff(AsyncApiEdit sender)
         {
             if (LoggedOff != null) LoggedOff(sender);
+        }
+
+        void OnStateChanged(AsyncApiEdit sender)
+        {
+            if (StateChanged != null) StateChanged(sender);
         }
 
         #endregion
