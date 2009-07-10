@@ -229,7 +229,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             If State.ShowComments Then DoShowComments()
         End Sub
         Private Sub DoShowComments()
-            Dim frmComments As New AssessmentComments
+            Dim frmComments As New AssessmentComments(PluginManager.AWBForm.TheSession.Editor)
 
             State.ShowComments = False
             frmComments.ShowDialog(State.Classification, State.NeedsInfobox, State.NeedsPhoto, _
