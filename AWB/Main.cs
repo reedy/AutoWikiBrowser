@@ -1046,6 +1046,14 @@ namespace AutoWikiBrowser
             return false;
         }
 
+        private void ClearBrowser()
+        {
+            if (webBrowser.Document != null)
+            {
+                webBrowser.Document.OpenNew(true);
+            }
+        }
+
         private void Bleepflash()
         {
             if (ContainsFocus) return;
@@ -1077,8 +1085,7 @@ namespace AutoWikiBrowser
                     NudgeTimer.Stop();
                     TheSession.RequireUpdate();
                     UpdateButtons(null, null);
-                    if (webBrowser.Document != null)
-                        webBrowser.Document.Write("");
+                    ClearBrowser();
                     Focus();
 
                     if (DlgTalk.ShowDialog() == DialogResult.Yes)
@@ -1108,6 +1115,8 @@ namespace AutoWikiBrowser
 
         private void CaseWasSaved(AsyncApiEdit sender)
         {
+            ClearBrowser();
+
             //TODO:Reinstate as needed
             //try
             //{
