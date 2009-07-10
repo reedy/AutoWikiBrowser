@@ -1955,11 +1955,6 @@ window.scrollTo(0, diffTopY);
             new AboutBox(webBrowserHistory.Version.ToString(), time, NumberOfEdits).Show();
         }
 
-        private void loginToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CheckStatus(true);
-        }
-
         private void logOutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Would you really like to logout?", "Logout", MessageBoxButtons.YesNo) == DialogResult.Yes)

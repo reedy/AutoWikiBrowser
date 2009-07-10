@@ -118,7 +118,6 @@ namespace AutoWikiBrowser
             this.saveCurrentSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
-            this.loginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.profilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
@@ -964,9 +963,8 @@ namespace AutoWikiBrowser
             this.saveCurrentSettingsToolStripMenuItem,
             this.saveAsDefaultToolStripMenuItem,
             this.toolStripSeparator8,
-            this.loginToolStripMenuItem,
-            this.logOutToolStripMenuItem,
             this.profilesToolStripMenuItem,
+            this.logOutToolStripMenuItem,
             this.toolStripSeparator21,
             this.reloadToolStripMenuItem,
             this.profileTyposToolStripMenuItem,
@@ -1027,13 +1025,6 @@ namespace AutoWikiBrowser
             this.toolStripSeparator8.Name = "toolStripSeparator8";
             this.toolStripSeparator8.Size = new System.Drawing.Size(223, 6);
             // 
-            // loginToolStripMenuItem
-            // 
-            this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
-            this.loginToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
-            this.loginToolStripMenuItem.Text = "Log &In";
-            this.loginToolStripMenuItem.Click += new System.EventHandler(this.loginToolStripMenuItem_Click);
-            // 
             // logOutToolStripMenuItem
             // 
             this.logOutToolStripMenuItem.Name = "logOutToolStripMenuItem";
@@ -1045,7 +1036,7 @@ namespace AutoWikiBrowser
             // 
             this.profilesToolStripMenuItem.Name = "profilesToolStripMenuItem";
             this.profilesToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
-            this.profilesToolStripMenuItem.Text = "&Profiles...";
+            this.profilesToolStripMenuItem.Text = "Log &In/&Profiles...";
             this.profilesToolStripMenuItem.Click += new System.EventHandler(this.profilesToolStripMenuItem_Click);
             // 
             // toolStripSeparator21
@@ -1524,41 +1515,41 @@ namespace AutoWikiBrowser
             // 
             this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
             this.helpToolStripMenuItem1.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(183, 22);
+            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(173, 22);
             this.helpToolStripMenuItem1.Text = "&Help";
             this.helpToolStripMenuItem1.Click += new System.EventHandler(this.helpToolStripMenuItem1_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // UsageStatsMenuItem
             // 
             this.UsageStatsMenuItem.Name = "UsageStatsMenuItem";
-            this.UsageStatsMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.UsageStatsMenuItem.Size = new System.Drawing.Size(173, 22);
             this.UsageStatsMenuItem.Text = "Usage &statistics";
             this.UsageStatsMenuItem.Click += new System.EventHandler(this.UsageStatsMenuItem_Click);
             // 
             // runUpdaterToolStripMenuItem
             // 
             this.runUpdaterToolStripMenuItem.Name = "runUpdaterToolStripMenuItem";
-            this.runUpdaterToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.runUpdaterToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.runUpdaterToolStripMenuItem.Text = "Check for &updates";
             this.runUpdaterToolStripMenuItem.Click += new System.EventHandler(this.runUpdaterToolStripMenuItem_Click);
             // 
             // toolStripSeparator29
             // 
             this.toolStripSeparator29.Name = "toolStripSeparator29";
-            this.toolStripSeparator29.Size = new System.Drawing.Size(180, 6);
+            this.toolStripSeparator29.Size = new System.Drawing.Size(170, 6);
             this.toolStripSeparator29.Visible = false;
             // 
             // logOutDebugToolStripMenuItem
             // 
             this.logOutDebugToolStripMenuItem.Name = "logOutDebugToolStripMenuItem";
-            this.logOutDebugToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.logOutDebugToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.logOutDebugToolStripMenuItem.Text = "&Log out (Debug)";
             this.logOutDebugToolStripMenuItem.Visible = false;
             this.logOutDebugToolStripMenuItem.Click += new System.EventHandler(this.logOutDebugToolStripMenuItem_Click);
@@ -3931,7 +3922,7 @@ namespace AutoWikiBrowser
             this.label7.TabIndex = 673;
             this.label7.Text = "Typos/save:";
             // 
-            // webBrowserDiff
+            // webBrowser
             // 
             this.webBrowser.AllowNavigation = false;
             this.webBrowser.AllowWebBrowserDrop = false;
@@ -3940,7 +3931,7 @@ namespace AutoWikiBrowser
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.webBrowser.Location = new System.Drawing.Point(0, 25);
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser.Name = "webBrowserDiff";
+            this.webBrowser.Name = "webBrowser";
             this.webBrowser.ScriptErrorsSuppressed = true;
             this.webBrowser.Size = new System.Drawing.Size(907, 237);
             this.webBrowser.TabIndex = 2;
@@ -4243,7 +4234,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem humanNameDisambigTagToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator16;
         private System.Windows.Forms.ToolStripButton btntsFalsePositive;
-        private System.Windows.Forms.ToolStripMenuItem loginToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator17;
         private System.Windows.Forms.ToolStripLabel lbltsNumberofItems;
         private System.Windows.Forms.ToolStripStatusLabel lblProject;
