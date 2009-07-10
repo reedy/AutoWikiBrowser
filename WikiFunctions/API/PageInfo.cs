@@ -38,9 +38,8 @@ namespace WikiFunctions.API
             Exists = (xr.GetAttribute("missing") == null); //if null, page exists
             EditToken = xr.GetAttribute("edittoken");
 
-            long revId = -1;
-            long.TryParse(xr.GetAttribute("lastrevid"), out revId);
-            RevisionID = revId;
+            long revId;
+            RevisionID = long.TryParse(xr.GetAttribute("lastrevid"), out revId) ? revId : -1;
 
             Title = xr.GetAttribute("title");
             NamespaceID = int.Parse(xr.GetAttribute("ns"));
