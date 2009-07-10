@@ -583,7 +583,7 @@ namespace WikiFunctions
         /// <param name="restrictDefaultsortAddition"></param>
         public void SetDefaultSort(LangCodeEnum langCode, bool skipIfNoChange, bool restrictDefaultsortAddition)
         {
-            if (langCode == LangCodeEnum.en)
+            if (langCode == LangCodeEnum.en && Variables.IsWikimediaProject && !Variables.IsWikimediaMonolingualProject)
             {
                 string strTemp = Parsers.ChangeToDefaultSort(mArticleText, mName, out noChange, restrictDefaultsortAddition);
 
