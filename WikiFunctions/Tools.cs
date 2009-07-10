@@ -1603,6 +1603,14 @@ Message: {2}
             return Math.Min(a.Length, b.Length);
         }
 
+        /// <summary>
+        /// Turns an article into its associated talk page
+        /// </summary>
+        public static string ConvertToTalk(string title)
+        {
+            return ConvertToTalk(new Article(title));
+        }
+
         // Covered by NamespaceFunctions.ConvertToTalk()
         /// <summary>
         /// Turns an article into its associated talk page
