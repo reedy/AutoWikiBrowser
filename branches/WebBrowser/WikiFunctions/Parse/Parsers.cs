@@ -2332,35 +2332,19 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         public const string EveryTemplate = @"[^\|\{\}]+";
 
-        // NOT covered
         /// <summary>
         /// extracts template using the given match
         /// </summary>
         private static string ExtractTemplate(string articleText, Match m)
         {
-            int i = m.Index + m.Groups[1].Length;
+            Regex theTemplate = new Regex(Regex.Escape(m.Groups[1].Value) + @"(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}}");
 
-            int brackets = 2;
-            while (i < articleText.Length)
+            foreach (Match n in theTemplate.Matches(articleText))
             {
-                switch (articleText[i])
-                {
-                    // only sequences of 2 and more brackets should be counted
-                    case '{':
-                        if ((articleText[i - 1] == '{') || (i + 1 < articleText.Length &&
-                            articleText[i + 1] == '{')) brackets++;
-                        break;
-                    case '}':
-                        if ((articleText[i - 1] == '}') || (i + 1 < articleText.Length &&
-                            articleText[i + 1] == '}'))
-                        {
-                            brackets--;
-                            if (brackets == 0) return articleText.Substring(m.Index, i - m.Index + 1);
-                        }
-                        break;
-                }
-                i++;
+                if(n.Index == m.Index)
+                    return theTemplate.Match(articleText).Value;
             }
+
             return "";
         }
 
@@ -2376,7 +2360,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             Regex search = new Regex(@"(\{\{\s*" + Tools.CaseInsensitive(template) + @"\s*)(?:\||\}|<)", RegexOptions.Singleline);
 
             // remove commented out templates etc. before searching
-            string articleTextCleaned = WikiRegexes.Comments.Replace(WikiRegexes.Nowiki.Replace(articleText, ""), "");
+            string articleTextCleaned = WikiRegexes.UnFormattedText.Replace(articleText, "");
 
             if (search.IsMatch(articleTextCleaned))
             {
