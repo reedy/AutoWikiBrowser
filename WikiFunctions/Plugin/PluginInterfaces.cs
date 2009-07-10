@@ -124,6 +124,11 @@ namespace WikiFunctions.Plugin
         /// Set to True if AWB should skip this article
         /// </summary>
         bool Skip { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        Exists Exists { get; }
     }
 
     /// <summary>

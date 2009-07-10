@@ -32,6 +32,8 @@ namespace WikiFunctions
 {
     public delegate void ArticleRedirected(string oldTitle, string newTitle);
 
+    public enum Exists { Yes, No, Unknown }
+
     /// <summary>
     /// A class which represents a wiki article
     /// </summary>
@@ -57,12 +59,13 @@ namespace WikiFunctions
         public Article()
         {
             EditSummary = "";
+            Exists = Exists.Unknown;
         }
 
         public Article(string name)
             : this(name, Namespace.Determine(name))
         { }
-
+       
         public Article(string name, int nameSpaceKey)
             : this()
         {
@@ -895,6 +898,8 @@ namespace WikiFunctions
 
         bool IProcessArticleEventArgs.Skip
         { get { return mPluginSkip; } set { mPluginSkip = value; } }
+
+        public Exists Exists { get; set; }
 
         // and NamespaceKey
 
