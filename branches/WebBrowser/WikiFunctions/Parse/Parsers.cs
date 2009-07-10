@@ -2373,7 +2373,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return "";
         }
 
-        // NOT covered
         /// <summary>
         /// finds every occurence of a given template in article text
         /// handles nested templates correctly
