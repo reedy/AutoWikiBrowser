@@ -851,13 +851,14 @@ namespace AutoWikiBrowser
                     SkipPage("Page has no alerts");
                     return;
                 }
+
+                Variables.Profiler.Profile("Alerts");
                 
                 // syntax highlighting of edit box based on m:extension:wikEd standards
                 if (syntaxHighlightEditBoxToolStripMenuItem.Checked)
                 {                    
                     txtEdit.Visible = false;
-
-                    Variables.Profiler.Profile("Alerts");
+                    
                     txtEdit = HighlightSyntax(txtEdit);
                     Variables.Profiler.Profile("Syntax highlighting");
 
@@ -3305,6 +3306,13 @@ window.scrollTo(0, diffTopY);
             if (unbalancedBracket >= 0 && scrollToUnbalancedBracketsToolStripMenuItem.Checked)
             {
                 highlightUnbalancedBrackets();
+            }
+
+            if (syntaxHighlightEditBoxToolStripMenuItem.Checked)
+            {
+                txtEdit.Visible = false;
+                txtEdit = HighlightSyntax(txtEdit);
+                txtEdit.Visible = true;
             }
 
             GetDiff();
