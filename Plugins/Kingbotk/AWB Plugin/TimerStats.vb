@@ -110,7 +110,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
                 editor = Nothing
             End If
         End Sub
-        Friend Sub IncrementSavedEdits(ByVal sender As AsyncApiEdit) Handles Editor.SaveComplete
+        Friend Sub IncrementSavedEdits(ByVal sender As AsyncApiEdit, ByVal save As SaveInfo) Handles editor.SaveComplete
             IncrementSavedEdits()
         End Sub
         Friend Sub IncrementSavedEdits()
