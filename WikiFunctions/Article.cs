@@ -175,7 +175,14 @@ namespace WikiFunctions
         /// </summary>
         [XmlIgnore]
         public bool ArticleIsAboutAPerson
-        { get { return Parsers.IsArticleAboutAPerson(mArticleText); } }
+        {
+            get
+            {
+                return Variables.Project == ProjectEnum.wikipedia
+                    && Variables.LangCode == LangCodeEnum.en
+                    && Parsers.IsArticleAboutAPerson(mArticleText);
+            }
+        }
 
         /// <summary>
         /// Returns true if the article contains a stub template
