@@ -24,7 +24,7 @@ namespace WikiFunctions.API
     /// <summary>
     /// This class represents information about the page currently being edited
     /// </summary>
-    public class PageInfo
+    public sealed class PageInfo
     {
         internal PageInfo()
         {

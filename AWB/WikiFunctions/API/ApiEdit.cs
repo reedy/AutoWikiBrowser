@@ -35,6 +35,7 @@ using System.Text.RegularExpressions;
 namespace WikiFunctions.API
 {
     //TODO: refactor XML parsing
+    //TODO: check for new messages
     /// <summary>
     /// This class edits MediaWiki sites using api.php
     /// </summary>
@@ -456,7 +457,7 @@ namespace WikiFunctions.API
             return Page.Text;
         }
 
-        public void Save(string pageText, string summary, bool minor, bool watch)
+        public SaveInfo Save(string pageText, string summary, bool minor, bool watch)
         {
             if (string.IsNullOrEmpty(pageText)) throw new ArgumentException("Can't save empty pages", "pageText");
             if (string.IsNullOrEmpty(summary)) throw new ArgumentException("Edit summary required", "summary");
@@ -484,6 +485,8 @@ namespace WikiFunctions.API
 
             CheckForError(result, "edit");
             Reset();
+
+            return new SaveInfo(result);
         }
 
         public void Delete(string title, string reason)

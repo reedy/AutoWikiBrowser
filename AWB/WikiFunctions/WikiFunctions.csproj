@@ -53,6 +53,7 @@
     <Compile Include="API\AsyncApiEdit.cs" />
     <Compile Include="API\IApiEdit.cs" />
     <Compile Include="API\PageInfo.cs" />
+    <Compile Include="API\SaveInfo.cs" />
     <Compile Include="API\UserInfo.cs" />
     <Compile Include="AwbDirs.cs" />
     <Compile Include="Article.cs">

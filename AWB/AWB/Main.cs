@@ -1114,7 +1114,7 @@ namespace AutoWikiBrowser
 
         private static readonly Regex SpamUrlRegex = new Regex("<p>The following link has triggered our spam protection filter:<strong>(.*?)</strong><br/?>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        private void CaseWasSaved(AsyncApiEdit sender)
+        private void CaseWasSaved(AsyncApiEdit sender, SaveInfo saveInfo)
         {
             ClearBrowser();
 
