@@ -855,7 +855,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
 		/// The number of bytes of the input which have not been processed.
 		/// </returns>
 		public int RemainingInput {
-			// TODO: This should be a long?
+			//-TODO This should be a long?
 			get {
 				return input.AvailableBytes;
 			}

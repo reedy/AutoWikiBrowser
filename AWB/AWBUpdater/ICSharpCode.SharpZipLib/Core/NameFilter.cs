@@ -207,14 +207,14 @@ namespace ICSharpCode.SharpZipLib.Core
 		/// </summary>
 		void Compile()
 		{
-			// TODO: Check to see if combining RE's makes it faster/smaller.
+			//-TODO Check to see if combining RE's makes it faster/smaller.
 			// simple scheme would be to have one RE for inclusion and one for exclusion.
 			if ( filter_ == null )
 			{
 				return;
 			}
 
-			// TODO: Allow for paths to include ';'
+			//-TODO Allow for paths to include ';'
 			string[] items = filter_.Split(';');
 			for ( int i = 0; i < items.Length; ++i )
 			{
