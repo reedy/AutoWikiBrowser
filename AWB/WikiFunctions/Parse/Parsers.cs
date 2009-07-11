@@ -3196,9 +3196,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 || Regex.IsMatch(articleText, @"\[\[Category:[^\[\]]*?[Cc]haracters"))
                 return false;
 
+            //TODO: this regex can be too slow and should be replaced
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
 
-            //TODO: this regex can be too slow and should be replaced
             // not about a person if it's not the principle article on the subject
             if (Regex.IsMatch(zerothSection, @"{{(?:[Ss]ee\salso|[Mm]ain)\b"))
                 return false;
