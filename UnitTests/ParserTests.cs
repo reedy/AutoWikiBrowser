@@ -1144,6 +1144,13 @@ complementary and alternative medicine: evidence is a better friend than power. 
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <pre>{now}}</pre>", ref BracketLength));
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <math>{a{b}}</math>", ref BracketLength));
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <code>{now}}</code>", ref BracketLength));
+
+            // unbalanced tags
+            Assert.AreEqual(15, Parsers.UnbalancedBrackets(@"now <b>hello /b>", ref BracketLength));
+            Assert.AreEqual(1, BracketLength);
+
+            Assert.AreEqual(27, Parsers.UnbalancedBrackets(@"<a>asdf</a> now <b>hello /b>", ref BracketLength));
+            Assert.AreEqual(1, BracketLength);
         }
 
         [Test]
