@@ -260,8 +260,8 @@ namespace WikiFunctions.Parse
         /// Fix ==See also== and similar section common errors.
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
-        /// <param name="articleTitle"></param>
-        /// <param name="noChange">Value that indicated whether no change was made.</param>
+        /// <param name="articleTitle">the title of the article</param>
+        /// <param name="noChange">Value that indicates whether no change was made.</param>
         /// <returns>The modified article text.</returns>
         public static string FixHeadings(string articleText, string articleTitle, out bool noChange)
         {
@@ -359,7 +359,7 @@ namespace WikiFunctions.Parse
         /// Fix ==See also== and similar section common errors. Removes unecessary introductory headings and cleans excess whitespace.
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
-        /// <param name="articleTitle"></param>
+        /// <param name="articleTitle">the title of the article</param>
         /// <returns>The modified article text.</returns>
         public static string FixHeadings(string articleText, string articleTitle)
         {
@@ -601,11 +601,11 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// 
+        /// reorders references within the article text based on the input regular expression providing matches for references that are out of numerical order
         /// </summary>
-        /// <param name="articleText"></param>
-        /// <param name="outofOrderRegex"></param>
-        /// <returns></returns>
+        /// <param name="articleText">the wiki text of the article</param>
+        /// <param name="outofOrderRegex">a regular expression representing two references that are out of numerical order</param>
+        /// <returns>the modified article text</returns>
         private static string ReorderRefs(string articleText, Regex outofOrderRegex)
         {
             foreach (Match m in outofOrderRegex.Matches(articleText))
@@ -685,8 +685,8 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Derives and sets a reference name per [[WP:REFNAME]] for duplicate &lt;ref&gt;s
         /// </summary>
-        /// <param name="articleText"></param>
-        /// <returns></returns>
+        /// <param name="articleText">the text of the article</param>
+        /// <returns>the modified article text</returns>
         public static string DuplicateUnnamedReferences(string articleText)
         {
             // can't proceed if multiref is already in use
@@ -738,7 +738,7 @@ namespace WikiFunctions.Parse
         /// <param name="reference">value of the reference needing a name</param>
         /// <param name="mask">regular expression to apply</param>
         /// <param name="components">number of groups to extract</param>
-        /// <returns></returns>
+        /// <returns>the derived reference name</returns>
         private static string ExtractReferenceNameComponents(string reference, string mask, int components)
         {
             string referenceName = "";
@@ -1041,7 +1041,7 @@ namespace WikiFunctions.Parse
         /// Replaces hyphens and em-dashes with en-dashes, per [[WP:DASH]]
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
-        /// <param name="articleTitle"></param>
+        /// <param name="articleTitle">The article's title</param>
         /// <returns>The modified article text.</returns>
         [Obsolete("cannot provide correct namespace key")]
         public string Mdashes(string articleText, string articleTitle)
@@ -1055,20 +1055,16 @@ namespace WikiFunctions.Parse
         /// Replaces hyphens and em-dashes with en-dashes, per [[WP:DASH]]
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
-        /// <param name="articleTitle"></param>
-        /// <param name="nameSpaceKey"></param>
+        /// <param name="articleTitle">The article's title</param>
+        /// <param name="nameSpaceKey">The namespace of the article</param>
         /// <returns>The modified article text.</returns>
         public string Mdashes(string articleText, string articleTitle, int nameSpaceKey)
         {
             articleText = HideMoreText(articleText);
 
-            //string months = "(" + string.Join("|", Variables.MonthNames) + ")";
-
             articleText = Regex.Replace(articleText, @"(pages\s*=\s*|pp\.?\s*)(\d+\s*)(?:-|—|&mdash;|&#8212;)(\s*\d+)", @"$1$2–$3", RegexOptions.IgnoreCase);
 
             articleText = Regex.Replace(articleText, @"([1-9]?\d\s*)(?:-|—|&mdash;|&#8212;)(\s*[1-9]?\d)(\s+|&nbsp;)(years|months|weeks|days|hours|minutes|seconds|kg|mg|kb|km|[Gk]?Hz|miles|mi\.|%)\b", @"$1–$2$3$4");
-
-            //articleText = Regex.Replace(articleText, @"(\[?\[?" + months + @"\ [1-3]?\d\]?\]?,\ \[?\[?[1-2]\d{3}\]?\]?)\s*(?:-|—|&mdash;|&#8212;)\s*(\[?\[?" + months + @"\ [1-3]?\d\]?\]?,\ \[?\[?[1-2]\d{3}\]?\]?)", @"$1–$3");
 
             articleText = Regex.Replace(articleText, @"(\$[1-9]?\d{1,3}\s*)(?:-|—|&mdash;|&#8212;)(\s*\$?[1-9]?\d{1,3})", @"$1–$2");
 
