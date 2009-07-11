@@ -27,8 +27,8 @@ namespace WikiFunctions.Logging.Uploader
     public struct EditPageRetvals
     {
         public string Article;
-        public string Responsetext;
-        public string Difflink;
+        public string ResponseText;
+        public string DiffLink;
     }
 
 	/// <summary>
@@ -41,7 +41,7 @@ namespace WikiFunctions.Logging.Uploader
 		protected readonly string TableHeaderNoUserName;
 		protected const string NewCell = "\r\n|";
 
-	    private AsyncApiEdit editor;
+	    private readonly AsyncApiEdit editor;
 
 	    protected string UserAgent
         { get { 
@@ -121,14 +121,14 @@ namespace WikiFunctions.Logging.Uploader
             {
                 editor.Open(uploadToNoSpaces);
                 editor.Wait();
-                //Todo: retval.Add()
-                editor.Save(strLogText, editSummary, false, addToWatchlist);
+
+                SaveInfo save = editor.SynchronousEditor.Save(strLogText, editSummary, false, addToWatchlist);
 
                 retval.Add(new EditPageRetvals
                                {
-                                   Article = uploadToNoSpaces, 
-                                   Difflink = "", 
-                                   Responsetext = ""
+                                   Article = uploadToNoSpaces,
+                                   DiffLink = editor.URL + "index.php?oldid=" + save.NewId + "&diff=prev",
+                                   ResponseText = save.ResponseText
                                });
             }
             catch (Exception ex)
@@ -181,37 +181,28 @@ namespace WikiFunctions.Logging.Uploader
                     NewCell + string.Format("[[{0:d MMMM}]] [[{0:yyyy}]]", startDate) +
                     Environment.NewLine + BotTag;
 
-                EditPageRetvals retval;
+                SaveInfo save;
 
                 if (strExistingText.Contains(BotTag))
                 {
-                    //Todo: retval
-                    editor.Save(strExistingText.Replace(BotTag, tableAddition), editSummary, false,
-                                false);
-
-                    retval = new EditPageRetvals
-                    {
-                        Article = logEntry.Location,
-                        Difflink = "",
-                        Responsetext = ""
-                    };
+                    save = editor.SynchronousEditor.Save(strExistingText.Replace(BotTag, tableAddition), editSummary, false, false);
                 }
                 else
                 {
-                    //Todo: retval
-                    editor.Save(strExistingText + Environment.NewLine + "<!--bottag-->" +
+                    save = editor.SynchronousEditor.Save(strExistingText + Environment.NewLine + "<!--bottag-->" +
                                 Environment.NewLine + "{| class=\"wikitable\" width=\"100%\"" +
                                 Environment.NewLine +
                                 (logEntry.LogUserName ? TableHeaderUserName : TableHeaderNoUserName) +
                                 Environment.NewLine + tableAddition, editSummary, false, false);
-
-                    retval = new EditPageRetvals
-                    {
-                        Article = logEntry.Location,
-                        Difflink = "",
-                        Responsetext = ""
-                    };
                 }
+
+                EditPageRetvals retval = new EditPageRetvals
+                {
+                    Article = logEntry.Location,
+                    DiffLink = editor.URL + "index.php?oldid=" + save.NewId + "&diff=prev",
+                    ResponseText = save.ResponseText
+                };
+
                 try
                 {
                     if (awbLogListener != null)
