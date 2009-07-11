@@ -27,7 +27,7 @@ using WikiFunctions.Plugin;
 
 namespace WikiFunctions.Plugins.ListMaker.TypoScan
 {
-    class TypoScanAWBPlugin : IAWBPlugin
+    class TypoScanAWBBasePlugin : IAWBBasePlugin
     {
         #region IAWBPlugin Members
         private static IAutoWikiBrowser AWB;
@@ -133,11 +133,6 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             }
         }
 
-        public string ProcessArticle(IAutoWikiBrowser sender, IProcessArticleEventArgs eventargs)
-        {
-            return eventargs.ArticleText;
-        }
-
         public void LoadSettings(object[] prefs)
         {
             //if (prefs == null) return;
@@ -164,17 +159,6 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             //return prefs;
             return new object[0];
         }
-
-        public void Reset()
-        { }
-
-        public void Nudge(out bool cancel)
-        {
-            cancel = false;
-        }
-
-        public void Nudged(int nudges)
-        { }
 
         #endregion
 

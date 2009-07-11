@@ -13,12 +13,12 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         private void SetText()
         {
-            lblSaved.Text = TypoScanAWBPlugin.SavedPagesThisSession.Count.ToString();
-            lblSkipped.Text = TypoScanAWBPlugin.SkippedPagesThisSession.Count.ToString();
-            lblLoaded.Text = TypoScanAWBPlugin.PageList.Count.ToString();
-            lblUploaded.Text = TypoScanAWBPlugin.UploadedThisSession.ToString();
-            lblToUpload.Text = TypoScanAWBPlugin.EditAndIgnoredPages.ToString();
-            DateTime checkInTime = TypoScanAWBPlugin.CheckoutTime.AddHours(3);
+            lblSaved.Text = TypoScanAWBBasePlugin.SavedPagesThisSession.Count.ToString();
+            lblSkipped.Text = TypoScanAWBBasePlugin.SkippedPagesThisSession.Count.ToString();
+            lblLoaded.Text = TypoScanAWBBasePlugin.PageList.Count.ToString();
+            lblUploaded.Text = TypoScanAWBBasePlugin.UploadedThisSession.ToString();
+            lblToUpload.Text = TypoScanAWBBasePlugin.EditAndIgnoredPages.ToString();
+            DateTime checkInTime = TypoScanAWBBasePlugin.CheckoutTime.AddHours(3);
 
             if (checkInTime > DateTime.Now)
             {
