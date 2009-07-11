@@ -128,7 +128,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 		/// </exception>
 		public void SetComment(string comment)
 		{
-			// TODO: Its not yet clear how to handle unicode comments here.
+			//-TODO Its not yet clear how to handle unicode comments here.
 			byte[] commentBytes = ZipConstants.ConvertToArray(comment);
 			if (commentBytes.Length > 0xffff) {
 				throw new ArgumentOutOfRangeException("comment");
@@ -333,7 +333,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 			WriteLeShort((byte)method);
 			WriteLeInt((int)entry.DosTime);
 
-			// TODO: Refactor header writing.  Its done in several places.
+			//-TODO Refactor header writing.  Its done in several places.
 			if (headerInfoAvailable == true) {
 				WriteLeInt((int)entry.Crc);
 				if ( entry.LocalHeaderRequiresZip64 ) {

@@ -535,7 +535,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 						
 						if ( RestoreAttributesOnExtract && entry.IsDOSEntry && (entry.ExternalFileAttributes != -1)) {
 							FileAttributes fileAttributes = (FileAttributes) entry.ExternalFileAttributes;
-							// TODO: FastZip - Setting of other file attributes on extraction is a little trickier.
+							//-TODO FastZip - Setting of other file attributes on extraction is a little trickier.
 							fileAttributes &= (FileAttributes.Archive | FileAttributes.Normal | FileAttributes.ReadOnly | FileAttributes.Hidden);
 							File.SetAttributes(targetName, fileAttributes);
 						}
@@ -560,14 +560,14 @@ namespace ICSharpCode.SharpZipLib.Zip
 			string nameText = entry.Name;
 			
 			if ( entry.IsFile ) {
-				// TODO: Translate invalid names allowing extraction still.
+				//-TODO Translate invalid names allowing extraction still.
 				doExtraction = NameIsValid(nameText) && entry.IsCompressionMethodSupported();
 			}
 			else if ( entry.IsDirectory ) {
 				doExtraction = NameIsValid(nameText);
 			}
 			
-			// TODO: Fire delegate were compression method not supported, or name is invalid?
+			//-TODO Fire delegate were compression method not supported, or name is invalid?
 
 			string dirName = null;
 			string targetName = null;
