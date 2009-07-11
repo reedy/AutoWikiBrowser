@@ -1724,6 +1724,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex DoubleSquareBrackets = new Regex(@"\[\[((?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\]\])");
         private static readonly Regex SingleSquareBrackets = new Regex(@"\[((?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])");
         private static readonly Regex SingleRoundBrackets = new Regex(@"\(((?>[^\(\)]+|\((?<DEPTH>)|\)(?<-DEPTH>))*(?(DEPTH)(?!))\))");
+        private static readonly Regex Tags = new Regex(@"\<((?>[^\<\>]+|\<(?<DEPTH>)|\>(?<-DEPTH>))*(?(DEPTH)(?!))\>)");
 
         /// <summary>
         /// Checks the article text for unbalanced brackets, either square or curly
@@ -1755,6 +1756,11 @@ namespace WikiFunctions.Parse
                 return unbalancedfound;
 
             unbalancedfound = UnbalancedBrackets(articleText, @"(", @")", SingleRoundBrackets);
+            if (unbalancedfound > -1)
+                return unbalancedfound;
+
+            // look for unbalanced tags
+            unbalancedfound = UnbalancedBrackets(articleText, @"<", @">", Tags);
             if (unbalancedfound > -1)
                 return unbalancedfound;
 
