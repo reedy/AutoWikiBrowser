@@ -68,7 +68,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         End Sub
 
         ' Webcontrol events:
-        Private Sub editor_Saved(ByVal sender As AsyncApiEdit) Handles editor.SaveComplete
+        Private Sub editor_Saved(ByVal sender As AsyncApiEdit, ByVal save As SaveInfo) Handles editor.SaveComplete
             Application.UseWaitCursor = False
             mStats.IncrementSavedEdits()
             PluginManager.AWBForm.TraceManager.WriteArticleActionLine("Comments page saved", Assessments.conMe)
