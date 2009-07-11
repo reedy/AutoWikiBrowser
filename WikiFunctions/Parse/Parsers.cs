@@ -496,12 +496,11 @@ namespace WikiFunctions.Parse
 
         // NOT covered, unused
         /// <summary>
-        /// Footnote formatting errors per [[WP:FN]].
+        /// NOT READY FOR PRODUCTION. Footnote formatting errors per [[WP:FN]].
         /// currently too buggy to be included into production builds
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        [Obsolete("unfit for production use")]
         public static string FixFootnotes(string articleText)
         {
             // One space/linefeed
