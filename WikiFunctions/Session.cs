@@ -83,7 +83,7 @@ namespace WikiFunctions
 
         #region Events
 
-        public event AsyncEventHandler SaveComplete;
+        public event AsyncSaveEventHandler SaveComplete;
         public event AsyncStringEventHandler PreviewComplete;
 
         public event AsyncExceptionEventHandler ExceptionCaught;
@@ -93,9 +93,9 @@ namespace WikiFunctions
         public event AsyncEventHandler StateChanged;
 
 
-        void OnSaveComplete(AsyncApiEdit sender)
+        void OnSaveComplete(AsyncApiEdit sender, SaveInfo saveInfo)
         {
-            if (SaveComplete != null) SaveComplete(sender);
+            if (SaveComplete != null) SaveComplete(sender, saveInfo);
         }
 
         void OnPreviewComplete(AsyncApiEdit sender, string result)

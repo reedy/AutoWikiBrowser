@@ -25,7 +25,7 @@ namespace WikiFunctions.API
     /// <summary>
     /// Information about a user
     /// </summary>
-    public class UserInfo
+    public sealed class UserInfo
     {
         /// <summary>
         /// Username
