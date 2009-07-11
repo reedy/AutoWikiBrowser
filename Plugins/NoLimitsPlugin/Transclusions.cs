@@ -32,7 +32,7 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
 
         public override System.Collections.Generic.List<Article> MakeList(params string[] searchCriteria)
         {
-            if (Variables.User.IsBot || Variables.User.IsAdmin)
+            if (Base.AWB.TheSession.User.IsBot || Base.AWB.TheSession.User.IsSysop)
                 return base.MakeList(searchCriteria);
 
             Tools.MessageBox("Action only allowed for Admins and Bot accounts");
@@ -58,7 +58,7 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
 
         public override System.Collections.Generic.List<Article> MakeList(params string[] searchCriteria)
         {
-            if (Variables.User.IsBot || Variables.User.IsAdmin)
+            if (Base.AWB.TheSession.User.IsBot || Base.AWB.TheSession.User.IsSysop)
                 return base.MakeList(searchCriteria);
 
             Tools.MessageBox("Action only allowed for Admins and Bot accounts");

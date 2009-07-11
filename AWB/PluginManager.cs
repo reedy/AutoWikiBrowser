@@ -319,11 +319,15 @@ namespace AutoWikiBrowser
                             {
                                 if (t.GetInterface("IAWBPlugin") != null)
                                 {
-                                    IAWBPlugin awbPlugin = (IAWBPlugin)Activator.CreateInstance(t);
+                                    IAWBPlugin awbPlugin =
+                                        (IAWBPlugin) Activator.CreateInstance(t);
 
                                     if (AWBPlugins.ContainsKey(awbPlugin.Name))
                                     {
-                                        MessageBox.Show("A plugin with the name \"" + awbPlugin.Name + "\", has already been added.\r\nPlease remove old duplicates from your AutoWikiBrowser Directory, and restart AWB.\r\nThis was loaded from the plugin file \"" + plugin + "\".", "Duplicate AWB Plugin");
+                                        MessageBox.Show(
+                                            "A plugin with the name \"" + awbPlugin.Name +
+                                            "\", has already been added.\r\nPlease remove old duplicates from your AutoWikiBrowser Directory, and restart AWB.\r\nThis was loaded from the plugin file \"" +
+                                            plugin + "\".", "Duplicate AWB Plugin");
                                         break;
                                     }
 
@@ -333,16 +337,27 @@ namespace AutoWikiBrowser
 
                                     if (afterStartup) UsageStats.AddedPlugin(awbPlugin);
                                 }
+                                else if (t.GetInterface("IAWBBasePlugin") != null) //IAWBBasePlugin needs to be checked after IAWBPlugin, as IAWBPlugin extends IAWBBasePlugin
+                                {
+                                    IAWBBasePlugin awbBasePlugin = (IAWBBasePlugin)Activator.CreateInstance(t);
+
+                                    //bool isNotJustBase = awbBasePlugin is IAWBPlugin;
+
+                                    InitialisePlugin(awbBasePlugin, awb);
+                                }
                                 else if (t.GetInterface("IListMakerPlugin") != null)
                                 {
-                                    IListMakerPlugin listMakerPlugin = (IListMakerPlugin)Activator.CreateInstance(t);
+                                    IListMakerPlugin listMakerPlugin = (IListMakerPlugin) Activator.CreateInstance(t);
 
                                     if (LMPlugins.ContainsKey(listMakerPlugin.Name))
                                     {
-                                        MessageBox.Show("A plugin with the name \"" + listMakerPlugin.Name + "\", has already been added.\r\nPlease remove old duplicates from your AutoWikiBrowser Directory, and restart AWB.\r\nThis was loaded from the plugin file \"" + plugin + "\".", "Duplicate AWB ListMaker Plugin");
+                                        MessageBox.Show(
+                                            "A plugin with the name \"" + listMakerPlugin.Name +
+                                            "\", has already been added.\r\nPlease remove old duplicates from your AutoWikiBrowser Directory, and restart AWB.\r\nThis was loaded from the plugin file \"" +
+                                            plugin + "\".", "Duplicate AWB ListMaker Plugin");
                                         break;
                                     }
-                                    
+
                                     WikiFunctions.Controls.Lists.ListMaker.AddProvider(listMakerPlugin);
 
                                     LMPlugins.Add(listMakerPlugin.Name, listMakerPlugin);
@@ -379,9 +394,9 @@ namespace AutoWikiBrowser
             /// <summary>
             /// Passes a reference of the main form to the plugin for initialisation
             /// </summary>
-            /// <param name="plugin">IAWBPlugin to initialise</param>
+            /// <param name="plugin">IAWBBasePlugin (Or IAWBPlugin) to initialise</param>
             /// <param name="awb">IAutoWikiBrowser instance of AWB</param>
-            private static void InitialisePlugin(IAWBPlugin plugin, IAutoWikiBrowser awb)
+            private static void InitialisePlugin(IAWBBasePlugin plugin, IAutoWikiBrowser awb)
             {
                 plugin.Initialise(awb);
             }

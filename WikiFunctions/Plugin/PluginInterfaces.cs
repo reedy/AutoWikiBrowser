@@ -21,12 +21,10 @@ using System.Collections.Generic;
 
 namespace WikiFunctions.Plugin
 {
-    /* Please DO NOT CHANGE without consulting plugin authors, unless moving to a new AWB major version (v5, v6 etc).
-     * This interface is a contract with external plugins. If radical changes are needed, create a new additional i/f. */
     /// <summary>
-    /// An interface for plugin components to be recognised by and interact with AWB
+    /// Basic AWB Plugin Interface, no Article Processing or List Making, just access to the AWB interface
     /// </summary>
-    public interface IAWBPlugin
+    public interface IAWBBasePlugin
     {
         /// <summary>
         /// AWB calls this method when it is ready to initialise your plugin
@@ -45,14 +43,6 @@ namespace WikiFunctions.Plugin
         string WikiName { get; }
 
         /// <summary>
-        /// When AWB has an article to process, it calls this function in your plugin
-        /// </summary>
-        /// <param name="sender">A reference to an active IAutoWikiBrowser object owned by AWB</param>
-        /// <param name="eventargs">An IProcessArticleEventArgs object, containing various read-only and read-write data</param>
-        /// <returns></returns>
-        string ProcessArticle(IAutoWikiBrowser sender, IProcessArticleEventArgs eventargs);
-
-        /// <summary>
         /// Called by AWB when it loads a setting file
         /// </summary>
         /// <param name="prefs">An array of deserialised setting objects belonging to your plugin</param>
@@ -68,6 +58,22 @@ namespace WikiFunctions.Plugin
         /// 3. Custom public classes with each field marked as Serializable
         /// 4. An XML block converted to a String (used by the Kingbotk plugin)</remarks>
         object[] SaveSettings();
+    }
+
+    /* Please DO NOT CHANGE without consulting plugin authors, unless moving to a new AWB major version (v5, v6 etc).
+     * This interface is a contract with external plugins. If radical changes are needed, create a new additional i/f. */
+    /// <summary>
+    /// An interface for plugin components to be recognised by and interact with AWB
+    /// </summary>
+    public interface IAWBPlugin : IAWBBasePlugin
+    {
+        /// <summary>
+        /// When AWB has an article to process, it calls this function in your plugin
+        /// </summary>
+        /// <param name="sender">A reference to an active IAutoWikiBrowser object owned by AWB</param>
+        /// <param name="eventargs">An IProcessArticleEventArgs object, containing various read-only and read-write data</param>
+        /// <returns></returns>
+        string ProcessArticle(IAutoWikiBrowser sender, IProcessArticleEventArgs eventargs);
 
         /// <summary>
         /// Called by AWB when the user has requested to return to default settings. When this is called you should reset your plugin to it's default state.
