@@ -300,7 +300,7 @@ namespace WikiFunctions.AWBSettings
     {
         internal SkipPrefs() { }
         public SkipPrefs(bool mSkipNonexistent, bool mSkipexistent, bool mSkipWhenNoChanges, bool mSkipWhenSpamFilterBlocked, bool mSkipInuse, bool mSkipDoes,
-            bool mSkipDoesNot, string mSkipDoesText, string mSkipDoesNotText, bool mRegex, bool mCaseSensitive,
+            bool mSkipDoesNot, string mSkipDoesText, string mSkipDoesNotText, bool mRegex, bool mCaseSensitive, bool mAfterProcessing,
             bool mSkipNoFindAndReplace, bool mSkipNoRegexTypoFix, bool mSkipNoDisambiguation,
             bool mSkipWhitespaceOnly, bool mSkipCasingOnly, bool mSkipOnlyGeneralFixChanges, bool mSkipOnlyMinorGeneralFixChanges, bool mSkipNoLinksOnPage,
             List<int> mGeneralSkipList, bool mSkipIfRedirect, bool mSkipIfNoAlerts)
@@ -316,6 +316,7 @@ namespace WikiFunctions.AWBSettings
             SkipDoesNotText = mSkipDoesNotText;
             Regex = mRegex;
             CaseSensitive = mCaseSensitive;
+            AfterProcessing = mAfterProcessing;
             SkipNoFindAndReplace = mSkipNoFindAndReplace;
             SkipNoRegexTypoFix = mSkipNoRegexTypoFix;
             SkipNoDisambiguation = mSkipNoDisambiguation;
@@ -349,6 +350,7 @@ namespace WikiFunctions.AWBSettings
 
         public bool Regex = false;
         public bool CaseSensitive = false;
+        public bool AfterProcessing = false;
 
         public bool SkipNoFindAndReplace = false;
         public bool SkipNoRegexTypoFix = false;
