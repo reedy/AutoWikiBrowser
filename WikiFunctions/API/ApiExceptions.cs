@@ -142,11 +142,22 @@ namespace WikiFunctions.API
         }
     }
 
+    /// <summary>
+    /// Thrown when servers refuse to perform operation due to overolading
+    /// </summary>
     public class ApiMaxlagException : ApiErrorException
     {
-        public ApiMaxlagException(ApiEdit editor, string message)
-            : base(editor, "maxlag", "Maxlag exceeded: '" + message + "'")
+        public int Maxlag
+        { get; private set; }
+
+        public int RetryAfter
+        { get; private set; }
+
+        public ApiMaxlagException(ApiEdit editor, int maxlag, int retryAfter)
+            : base(editor, "maxlag", "Maxlag exceeded by " + maxlag + " seconds, retry in " + retryAfter + " seconds")
         {
+            Maxlag = maxlag;
+            RetryAfter = retryAfter;
         }
     }
 
