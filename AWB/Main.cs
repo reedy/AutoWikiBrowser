@@ -649,7 +649,7 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            if (!preParseModeToolStripMenuItem.Checked && SkipChecks()) // normal mode
+            if (!preParseModeToolStripMenuItem.Checked && SkipChecks(!chkSkipAfterProcessing.Checked)) // normal mode, pre-processing of article
                 return;
 
             //check not in use
@@ -720,6 +720,10 @@ namespace AutoWikiBrowser
                         SkipPage("Only general fix changes");
                         return;
                     }
+
+                    // post-processing
+                    if (chkSkipAfterProcessing.Checked && SkipChecks(true))
+                        return;
                 }
             }
 
@@ -1014,10 +1018,11 @@ namespace AutoWikiBrowser
         }
 
         /// <summary>
-        /// 
+        /// Skips the article based on protection level and contains/not contains logic
         /// </summary>
+        /// <param name="checkContainsNotContains">whether to test contains/not contains logic</param>
         /// <returns>Whether the page has been skipped</returns>
-        private bool SkipChecks()
+        private bool SkipChecks(bool checkContainsNotContains)
         {
             if (!TheSession.User.CanEditPage(TheSession.Page))
             {
@@ -1025,18 +1030,21 @@ namespace AutoWikiBrowser
                 return true;
             }
 
-            if (chkSkipIfContains.Checked && TheArticle.SkipIfContains(txtSkipIfContains.Text,
-                chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, true))
+            if (checkContainsNotContains)
             {
-                SkipPage("Page contains: " + txtSkipIfContains.Text);
-                return true;
-            }
+                if (chkSkipIfContains.Checked && TheArticle.SkipIfContains(txtSkipIfContains.Text,
+                    chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, true))
+                {
+                    SkipPage("Page contains: " + txtSkipIfContains.Text);
+                    return true;
+                }
 
-            if (chkSkipIfNotContains.Checked && TheArticle.SkipIfContains(txtSkipIfNotContains.Text,
-                chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, false))
-            {
-                SkipPage("Page does not contain: " + txtSkipIfNotContains.Text);
-                return true;
+                if (chkSkipIfNotContains.Checked && TheArticle.SkipIfContains(txtSkipIfNotContains.Text,
+                    chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, false))
+                {
+                    SkipPage("Page does not contain: " + txtSkipIfNotContains.Text);
+                    return true;
+                }
             }
 
             if (!Skip.SkipIf(TheArticle.OriginalArticleText))
@@ -1046,6 +1054,15 @@ namespace AutoWikiBrowser
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Skips the article based on protection level and contains/not contains logic
+        /// </summary>
+        /// <returns>Whether the page has been skipped</returns>
+        private bool SkipChecks()
+        {
+            return SkipChecks(true);
         }
 
         private void ClearBrowser()

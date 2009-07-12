@@ -289,7 +289,7 @@ namespace AutoWikiBrowser
                               chkSkipSpamFilter.Checked,
                               chkSkipIfInuse.Checked, chkSkipIfContains.Checked, chkSkipIfNotContains.Checked,
                               txtSkipIfContains.Text,
-                              txtSkipIfNotContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked,
+                              txtSkipIfNotContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, chkSkipAfterProcessing.Checked,
                               chkSkipWhenNoFAR.Checked, chkSkipIfNoRegexTypo.Checked, chkSkipNoDab.Checked,
                               chkSkipWhitespace.Checked, chkSkipCasing.Checked,
                               chkSkipGeneralFixes.Checked, chkSkipMinorGeneralFixes.Checked, chkSkipNoPageLinks.Checked,
@@ -479,6 +479,7 @@ namespace AutoWikiBrowser
 
             chkSkipIsRegex.Checked = p.SkipOptions.Regex;
             chkSkipCaseSensitive.Checked = p.SkipOptions.CaseSensitive;
+            chkSkipAfterProcessing.Checked = p.SkipOptions.AfterProcessing;
 
             chkSkipWhenNoFAR.Checked = p.SkipOptions.SkipNoFindAndReplace;
             chkSkipIfNoRegexTypo.Checked = p.SkipOptions.SkipNoRegexTypoFix;
