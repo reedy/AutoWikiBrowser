@@ -3133,6 +3133,7 @@ namespace AutoWikiBrowser
             this.chkSkipIfRedirect.TabIndex = 8;
             this.chkSkipIfRedirect.Text = "Page is redirect";
             this.chkSkipIfRedirect.UseVisualStyleBackColor = true;
+            this.ToolTip.SetToolTip(this.chkSkipIfRedirect, "Automatically skips articles if they are " + "redirects");
             // 
             // chkSkipIfNoAlerts
             // 
@@ -3143,6 +3144,7 @@ namespace AutoWikiBrowser
             this.chkSkipIfNoAlerts.TabIndex = 9;
             this.chkSkipIfNoAlerts.Text = "No alerts";
             this.chkSkipIfNoAlerts.UseVisualStyleBackColor = true;
+            this.ToolTip.SetToolTip(this.chkSkipIfNoAlerts, "Automatically skips articles if there are no " + "alerts");
             // 
             // chkSkipNoPageLinks
             // 
