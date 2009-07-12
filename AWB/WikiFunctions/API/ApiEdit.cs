@@ -69,7 +69,7 @@ namespace WikiFunctions.API
 
             URL = url;
             PHP5 = usePHP5;
-            Maxlag = -1;
+            Maxlag = 5;
 
             if (ProxyCache.ContainsKey(url))
             {
