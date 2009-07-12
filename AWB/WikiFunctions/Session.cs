@@ -87,7 +87,7 @@ namespace WikiFunctions
         public event AsyncStringEventHandler PreviewComplete;
 
         public event AsyncExceptionEventHandler ExceptionCaught;
-        public event AsyncEventHandler MaxlagExceeded;
+        public event AsyncMaxlagEventHandler MaxlagExceeded;
         public event AsyncEventHandler LoggedOff;
 
         public event AsyncEventHandler StateChanged;
@@ -108,9 +108,9 @@ namespace WikiFunctions
             if (ExceptionCaught != null) ExceptionCaught(sender, ex);
         }
 
-        void OnMaxlagExceeded(AsyncApiEdit sender)
+        void OnMaxlagExceeded(AsyncApiEdit sender, int maxlag, int retryAfter)
         {
-            if (MaxlagExceeded != null) MaxlagExceeded(sender);
+            if (MaxlagExceeded != null) MaxlagExceeded(sender, maxlag, retryAfter);
         }
 
         void OnLoggedOff(AsyncApiEdit sender)
@@ -214,19 +214,21 @@ namespace WikiFunctions
 
                 if (Variables.IsWikia)
                 {
-                    //this object loads a local checkpage on Wikia
-                    //it cannot be used to approve users, but it could be used to set some settings
-                    //such as underscores and pages to ignore
-                    AsyncApiEdit editWikia = (AsyncApiEdit)Editor.Clone();
-                    SiteInfo wikiaInfo = new SiteInfo();
-                    string s = editWikia.SynchronousEditor.Open("Project:AutoWikiBrowser/CheckPage");
-
                     typoPostfix = "-" + Variables.LangCode;
 
-                    // selectively add content of the local checkpage to the global one
-                    strText += Message.Match(s).Value
-                        /*+ Underscores.Match(s).Value*/
-                               + WikiRegexes.NoGeneralFixes.Match(s);
+                    try
+                    {
+                        //load a local checkpage on Wikia
+                        //it cannot be used to approve users, but it could be used to set some settings
+                        //such as underscores and pages to ignore
+                        string s = Tools.GetArticleText("Project:AutoWikiBrowser/CheckPage");
+
+                        // selectively add content of the local checkpage to the global one
+                        strText += Message.Match(s).Value
+                            /*+ Underscores.Match(s).Value*/
+                                   + WikiRegexes.NoGeneralFixes.Match(s);
+                    }
+                    catch { }
 
                 }
 

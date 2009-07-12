@@ -69,7 +69,7 @@ namespace WikiFunctions.API
 
             URL = url;
             PHP5 = usePHP5;
-            Maxlag = 5;
+            Maxlag = -1;
 
             if (ProxyCache.ContainsKey(url))
             {
@@ -280,8 +280,20 @@ namespace WikiFunctions.API
             }
             catch (WebException ex)
             {
-                if ((ex.Response as HttpWebResponse).StatusCode == HttpStatusCode.NotFound /*404*/)
-                    return ""; // emulate the behaviour of Tools.HttpGet()
+                var resp = (HttpWebResponse)ex.Response;
+                switch (resp.StatusCode)
+                {
+                    case HttpStatusCode.NotFound /*404*/:
+                        return ""; // emulate the behaviour of Tools.HttpGet()
+                    case HttpStatusCode.ServiceUnavailable /*503*/:
+                        if (resp.Headers["X-Database-Lag"] != null)
+                        {   //TODO: verify this when 503-returning code goes live on Wikimedia
+                            int maxlag = int.Parse(resp.Headers["X-Database-Lag"]);
+                            int retryAfter = int.Parse(resp.Headers["Retry-After"]);
+                            throw new ApiMaxlagException(this, maxlag, retryAfter);
+                        }
+                        break;
+                }
 
                 // just reclassifying
                 if (ex.Status == WebExceptionStatus.RequestCanceled)
@@ -411,7 +423,7 @@ namespace WikiFunctions.API
                          new[,] {
                             { "meta", "userinfo" },
                             { "uiprop", "blockinfo|hasmsg|groups|rights" }
-                         });
+                         }, false);
 
             CheckForError(result, "userinfo");
 
@@ -797,6 +809,7 @@ namespace WikiFunctions.API
         {
             if (string.IsNullOrEmpty(xml)) throw new ApiBlankException(this);
 
+            //HACK:
             if (!xml.Contains("<error") && string.IsNullOrEmpty(action)) return;
 
             XmlReader xr = XmlReader.Create(new StringReader(xml));
@@ -807,8 +820,9 @@ namespace WikiFunctions.API
 
                 switch (errorCode.ToLower())
                 {
-                    case "maxlag":
-                        throw new ApiMaxlagException(this, errorMessage);
+                    case "maxlag": // older maxlag reporting scheme, guessing
+                        int maxlag = int.Parse(Regex.Match(xml, @": (\d+) seconds lagged").Groups[1].Value);
+                        throw new ApiMaxlagException(this, maxlag, 10);
                     default:
                         throw new ApiErrorException(this, errorCode, errorMessage);
                 }

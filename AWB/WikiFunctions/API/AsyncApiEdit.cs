@@ -26,6 +26,7 @@ namespace WikiFunctions.API
     public delegate void AsyncSaveEventHandler(AsyncApiEdit sender, SaveInfo saveInfo);
     public delegate void AsyncStringEventHandler(AsyncApiEdit sender, string result);
     public delegate void AsyncExceptionEventHandler(AsyncApiEdit sender, Exception ex);
+    public delegate void AsyncMaxlagEventHandler(AsyncApiEdit sender, int maxlag, int retryAfter);
 
     /// <summary>
     /// Multithreaded API editor class
@@ -149,7 +150,7 @@ namespace WikiFunctions.API
         public event AsyncStringEventHandler PreviewComplete;
 
         public event AsyncExceptionEventHandler ExceptionCaught;
-        public event AsyncEventHandler MaxlagExceeded;
+        public event AsyncMaxlagEventHandler MaxlagExceeded;
         public event AsyncEventHandler LoggedOff;
 
         public event AsyncEventHandler StateChanged;
@@ -180,7 +181,8 @@ namespace WikiFunctions.API
 
             if (ex is ApiMaxlagException)
             {
-                if (MaxlagExceeded != null) MaxlagExceeded(this);
+                var exm = (ApiMaxlagException)ex;
+                if (MaxlagExceeded != null) MaxlagExceeded(this, exm.Maxlag, exm.RetryAfter);
             }
             else if (ex is ApiLoggedOffException)
             {

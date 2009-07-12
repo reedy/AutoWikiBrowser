@@ -423,8 +423,9 @@ namespace AutoWikiBrowser
             TheSession.MaxlagExceeded += MaxlagExceeded;
         }
 
-        private void MaxlagExceeded(AsyncApiEdit sender)
+        private void MaxlagExceeded(AsyncApiEdit sender, int maxlag, int retryAfter)
         {
+            //TODO: use retryAfter
             Retries++;
 
             if (Retries < MaxRetries)
