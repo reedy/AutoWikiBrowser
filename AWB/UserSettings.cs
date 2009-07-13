@@ -296,12 +296,17 @@ namespace AutoWikiBrowser
                               Skip.SelectedItems, chkSkipIfRedirect.Checked, chkSkipIfNoAlerts.Checked),
 
                 new GeneralPrefs(SaveArticleList, IgnoreNoBots, cmboEditSummary.Items,
-                                 cmboEditSummary.Text, new[]
-                                                           {
-                                                               PasteMore1.Text, PasteMore2.Text, PasteMore3.Text,
-                                                               PasteMore4.Text, PasteMore5.Text, PasteMore6.Text,
-                                                               PasteMore7.Text, PasteMore8.Text,
-                                                               PasteMore9.Text, PasteMore10.Text
+                                 cmboEditSummary.Text, new string[] {
+                                                               (string)PasteMore1.Tag,
+                                                               (string)PasteMore2.Tag,
+                                                               (string)PasteMore3.Tag,
+                                                               (string)PasteMore4.Tag,
+                                                               (string)PasteMore5.Tag,
+                                                               (string)PasteMore6.Tag,
+                                                               (string)PasteMore7.Tag,
+                                                               (string)PasteMore8.Tag,
+                                                               (string)PasteMore9.Tag,
+                                                               (string)PasteMore10.Tag
                                                            }, txtFind.Text, chkFindRegex.Checked,
                                  chkFindCaseSensitive.Checked, wordWrapToolStripMenuItem1.Checked, EnableToolBar,
                                  bypassRedirectsToolStripMenuItem.Checked, autoSaveSettingsToolStripMenuItem.Checked,
@@ -503,16 +508,8 @@ namespace AutoWikiBrowser
             if (chkLock.Checked)
                 lblSummary.Text = p.General.SelectedSummary;
 
-            PasteMore1.Text = p.General.PasteMore[0];
-            PasteMore2.Text = p.General.PasteMore[1];
-            PasteMore3.Text = p.General.PasteMore[2];
-            PasteMore4.Text = p.General.PasteMore[3];
-            PasteMore5.Text = p.General.PasteMore[4];
-            PasteMore6.Text = p.General.PasteMore[5];
-            PasteMore7.Text = p.General.PasteMore[6];
-            PasteMore8.Text = p.General.PasteMore[7];
-            PasteMore9.Text = p.General.PasteMore[8];
-            PasteMore10.Text = p.General.PasteMore[9];
+            for (int i = 0; i < 10; ++i)
+                SetPasteMoreText(i, p.General.PasteMore[i]);
 
             txtFind.Text = p.General.FindText;
             chkFindRegex.Checked = p.General.FindRegex;
@@ -584,6 +581,13 @@ namespace AutoWikiBrowser
                 if (Plugin.AWBPlugins.ContainsKey(pp.Name))
                     Plugin.AWBPlugins[pp.Name].LoadSettings(pp.PluginSettings);
             }
+        }
+
+        private void SetPasteMoreText(int item, string s)
+        {
+            PasteMoreItems[item].Tag = s;
+            PasteMoreItems[item].Text = PasteMoreItemsPrefixes[item] + s.Replace("&", "&&");
+            PasteMoreItems[item].Visible = s != "";
         }
     }
 }
