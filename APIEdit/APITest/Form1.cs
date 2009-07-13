@@ -21,9 +21,8 @@ namespace APITest
             groupBox2.Enabled = false;
             try
             {
-                Editor = new AsyncApiEdit(txtURL.Text, this);//ApiEdit(txtURL.Text);
+                Editor = new ApiEdit(txtURL.Text);//ApiEdit(txtURL.Text);
                 Editor.Login(txtUsername.Text, txtPassword.Text);
-                Editor.Wait();
 
                 txtEdit.Text = "";
                 groupBox2.Enabled = Editor.User.IsRegistered;
@@ -42,7 +41,6 @@ namespace APITest
             {
                 btnSave.Enabled = false;
                 Editor.Open(txtTitle.Text);
-                Editor.Wait();
                 if (Editor.Page.Text != null)
                 {
                     txtEdit.Text = Editor.Page.Text.Replace("\n", "\r\n");
@@ -101,7 +99,7 @@ namespace APITest
         {
             try
             {
-                Editor.MovePage(txtTitle.Text,
+                Editor.Move(txtTitle.Text,
                                 WikiFunctions.Tools.VBInputBox("New article title?", "New Title", "", 100, 100),
                                 WikiFunctions.Tools.VBInputBox("Move Reason?", "Move Reason", "", 100, 100), 
                                 true, false);
@@ -119,8 +117,8 @@ namespace APITest
                 Editor.Protect(txtTitle.Text,
                                WikiFunctions.Tools.VBInputBox("Protect Reason?", "Protect Reason", "", 100, 100), 
                                "",
-                               Protection.Sysop,
-                               Protection.Sysop,
+                               "sysop",
+                               "sysop",
                                false,
                                false);
             }
