@@ -103,6 +103,10 @@ namespace AutoWikiBrowser
         /// </summary>
         private bool ShuttingDown { get; set; }
 
+        private readonly ToolStripMenuItem[] PasteMoreItems = null;
+        private readonly string[] PasteMoreItemsPrefixes = new string[] {
+            "&1. ", "&2. ", "&3. ", "&4. ", "&5. ", "&6. ", "&7. ", "&8. ", "&9. ", "1&0. ", 
+        };
         #endregion
 
         public Session TheSession
@@ -158,6 +162,10 @@ namespace AutoWikiBrowser
                 Profiles.LoggedIn += ProfileLoggedIn;
 
                 SplashScreen.SetProgress(15);
+
+                PasteMoreItems = new ToolStripMenuItem[] {
+                    PasteMore1, PasteMore2, PasteMore3, PasteMore4, PasteMore5, PasteMore6, PasteMore7, PasteMore8, PasteMore9, PasteMore10, 
+                };
             }
             catch (Exception ex)
             {
@@ -3107,64 +3115,86 @@ window.scrollTo(0, diffTopY);
         }
 
         #region PasteMore
-        private void PasteMore1_DoubleClick(object sender, EventArgs e)
+        private void PasteMore1_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = PasteMore1.Text;
+            txtEdit.SelectedText = (string)PasteMore1.Tag;
             mnuTextBox.Hide();
         }
 
-        private void PasteMore2_DoubleClick(object sender, EventArgs e)
+        private void PasteMore2_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = PasteMore2.Text;
+            txtEdit.SelectedText = (string)PasteMore2.Tag;
             mnuTextBox.Hide();
         }
 
-        private void PasteMore3_DoubleClick(object sender, EventArgs e)
+        private void PasteMore3_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = PasteMore3.Text;
+            txtEdit.SelectedText = (string)PasteMore3.Tag;
             mnuTextBox.Hide();
         }
 
-        private void PasteMore4_DoubleClick(object sender, EventArgs e)
+        private void PasteMore4_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = PasteMore4.Text;
+            txtEdit.SelectedText = (string)PasteMore4.Tag;
             mnuTextBox.Hide();
         }
 
-        private void PasteMore5_DoubleClick(object sender, EventArgs e)
+        private void PasteMore5_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = PasteMore5.Text;
+            txtEdit.SelectedText = (string)PasteMore5.Tag;
             mnuTextBox.Hide();
         }
 
-        private void PasteMore6_DoubleClick(object sender, EventArgs e)
+        private void PasteMore6_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = PasteMore6.Text;
+            txtEdit.SelectedText = (string)PasteMore6.Tag;
             mnuTextBox.Hide();
         }
 
-        private void PasteMore7_DoubleClick(object sender, EventArgs e)
+        private void PasteMore7_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = PasteMore7.Text;
+            txtEdit.SelectedText = (string)PasteMore7.Tag;
             mnuTextBox.Hide();
         }
 
-        private void PasteMore8_DoubleClick(object sender, EventArgs e)
+        private void PasteMore8_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = PasteMore8.Text;
+            txtEdit.SelectedText = (string)PasteMore8.Tag;
             mnuTextBox.Hide();
         }
 
-        private void PasteMore9_DoubleClick(object sender, EventArgs e)
+        private void PasteMore9_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = PasteMore9.Text;
+            txtEdit.SelectedText = (string)PasteMore9.Tag;
             mnuTextBox.Hide();
         }
 
-        private void PasteMore10_DoubleClick(object sender, EventArgs e)
+        private void PasteMore10_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = PasteMore10.Text;
+            txtEdit.SelectedText = (string)PasteMore10.Tag;
             mnuTextBox.Hide();
+        }
+
+        private void configureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ConfigurePasteMoreItems dlg = new ConfigurePasteMoreItems((string)PasteMore1.Tag,
+                                                                      (string)PasteMore2.Tag,
+                                                                      (string)PasteMore3.Tag,
+                                                                      (string)PasteMore4.Tag,
+                                                                      (string)PasteMore5.Tag,
+                                                                      (string)PasteMore6.Tag,
+                                                                      (string)PasteMore7.Tag,
+                                                                      (string)PasteMore8.Tag,
+                                                                      (string)PasteMore9.Tag,
+                                                                      (string)PasteMore10.Tag);
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                string[] dlgStrings = new string[] {
+                    dlg.String1, dlg.String2, dlg.String3, dlg.String4, dlg.String5, dlg.String6, dlg.String7, dlg.String8, dlg.String9, dlg.String10, 
+                };
+                for (int i = 0; i < 10; ++i)
+                    SetPasteMoreText(i, dlgStrings[i]);
+            }
         }
         #endregion
 

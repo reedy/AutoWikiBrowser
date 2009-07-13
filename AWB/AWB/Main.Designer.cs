@@ -57,16 +57,18 @@ namespace AutoWikiBrowser
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteMoreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.PasteMore1 = new System.Windows.Forms.ToolStripTextBox();
-            this.PasteMore2 = new System.Windows.Forms.ToolStripTextBox();
-            this.PasteMore3 = new System.Windows.Forms.ToolStripTextBox();
-            this.PasteMore4 = new System.Windows.Forms.ToolStripTextBox();
-            this.PasteMore5 = new System.Windows.Forms.ToolStripTextBox();
-            this.PasteMore6 = new System.Windows.Forms.ToolStripTextBox();
-            this.PasteMore7 = new System.Windows.Forms.ToolStripTextBox();
-            this.PasteMore8 = new System.Windows.Forms.ToolStripTextBox();
-            this.PasteMore9 = new System.Windows.Forms.ToolStripTextBox();
-            this.PasteMore10 = new System.Windows.Forms.ToolStripTextBox();
+            this.PasteMore1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.PasteMore2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.PasteMore3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.PasteMore4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.PasteMore5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.PasteMore6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.PasteMore7 = new System.Windows.Forms.ToolStripMenuItem();
+            this.PasteMore8 = new System.Windows.Forms.ToolStripMenuItem();
+            this.PasteMore9 = new System.Windows.Forms.ToolStripMenuItem();
+            this.PasteMore10 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
+            this.configureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator22 = new System.Windows.Forms.ToolStripSeparator();
             this.saveTextToFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -252,6 +254,20 @@ namespace AutoWikiBrowser
             this.imgComment = new System.Windows.Forms.PictureBox();
             this.chkSkipIfRedirect = new System.Windows.Forms.CheckBox();
             this.chkSkipIfNoAlerts = new System.Windows.Forms.CheckBox();
+            this.chkSkipCaseSensitive = new System.Windows.Forms.CheckBox();
+            this.chkSkipNoPageLinks = new System.Windows.Forms.CheckBox();
+            this.radSkipExistent = new System.Windows.Forms.RadioButton();
+            this.radSkipNonExistent = new System.Windows.Forms.RadioButton();
+            this.radSkipNone = new System.Windows.Forms.RadioButton();
+            this.chkNudgeSkip = new System.Windows.Forms.CheckBox();
+            this.btnResetNudges = new System.Windows.Forms.Button();
+            this.lblNudges = new System.Windows.Forms.Label();
+            this.chkSuppressTag = new System.Windows.Forms.CheckBox();
+            this.chkAutoMode = new System.Windows.Forms.CheckBox();
+            this.lblAutoDelay = new System.Windows.Forms.Label();
+            this.chkFindCaseSensitive = new System.Windows.Forms.CheckBox();
+            this.chkFindRegex = new System.Windows.Forms.CheckBox();
+            this.txtFind = new System.Windows.Forms.TextBox();
             this.txtEdit = new WikiFunctions.Controls.ArticleTextBox();
             this.mnuHistory = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -326,14 +342,9 @@ namespace AutoWikiBrowser
             this.chkEnableDab = new System.Windows.Forms.CheckBox();
             this.tpSkip = new System.Windows.Forms.TabPage();
             this.gbRegexSkip = new System.Windows.Forms.GroupBox();
-            this.chkSkipCaseSensitive = new System.Windows.Forms.CheckBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.chkSkipNoPageLinks = new System.Windows.Forms.CheckBox();
             this.gbPageExisting = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.radSkipExistent = new System.Windows.Forms.RadioButton();
-            this.radSkipNonExistent = new System.Windows.Forms.RadioButton();
-            this.radSkipNone = new System.Windows.Forms.RadioButton();
             this.tpBots = new System.Windows.Forms.TabPage();
             this.groupBox16 = new System.Windows.Forms.GroupBox();
             this.radStandby = new System.Windows.Forms.RadioButton();
@@ -341,14 +352,8 @@ namespace AutoWikiBrowser
             this.radRestart = new System.Windows.Forms.RadioButton();
             this.radShutdown = new System.Windows.Forms.RadioButton();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
-            this.chkNudgeSkip = new System.Windows.Forms.CheckBox();
-            this.btnResetNudges = new System.Windows.Forms.Button();
-            this.lblNudges = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.chkSuppressTag = new System.Windows.Forms.CheckBox();
-            this.chkAutoMode = new System.Windows.Forms.CheckBox();
-            this.lblAutoDelay = new System.Windows.Forms.Label();
             this.BotImage = new System.Windows.Forms.PictureBox();
             this.lblOnlyBots = new System.Windows.Forms.Label();
             this.tpStart = new System.Windows.Forms.TabPage();
@@ -356,9 +361,6 @@ namespace AutoWikiBrowser
             this.lblSummary = new System.Windows.Forms.Label();
             this.cmboEditSummary = new System.Windows.Forms.ComboBox();
             this.findGroup = new System.Windows.Forms.GroupBox();
-            this.chkFindCaseSensitive = new System.Windows.Forms.CheckBox();
-            this.chkFindRegex = new System.Windows.Forms.CheckBox();
-            this.txtFind = new System.Windows.Forms.TextBox();
             this.AlertGroup = new System.Windows.Forms.GroupBox();
             this.lbDuplicateWikilinks = new System.Windows.Forms.ListBox();
             this.lblDuplicateWikilinks = new System.Windows.Forms.Label();
@@ -507,7 +509,7 @@ namespace AutoWikiBrowser
             this.undoAllChangesToolStripMenuItem,
             this.reloadEditPageToolStripMenuItem});
             this.mnuTextBox.Name = "contextMenuStrip1";
-            this.mnuTextBox.Size = new System.Drawing.Size(288, 574);
+            this.mnuTextBox.Size = new System.Drawing.Size(288, 596);
             this.mnuTextBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuTextBox_Opening);
             // 
             // wordWrapToolStripMenuItem1
@@ -569,7 +571,9 @@ namespace AutoWikiBrowser
             this.PasteMore7,
             this.PasteMore8,
             this.PasteMore9,
-            this.PasteMore10});
+            this.PasteMore10,
+            this.toolStripSeparator19,
+            this.configureToolStripMenuItem});
             this.pasteMoreToolStripMenuItem.Name = "pasteMoreToolStripMenuItem";
             this.pasteMoreToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
             this.pasteMoreToolStripMenuItem.Text = "Past&e more";
@@ -577,62 +581,95 @@ namespace AutoWikiBrowser
             // PasteMore1
             // 
             this.PasteMore1.Name = "PasteMore1";
-            this.PasteMore1.Size = new System.Drawing.Size(100, 21);
-            this.PasteMore1.DoubleClick += new System.EventHandler(this.PasteMore1_DoubleClick);
+            this.PasteMore1.ShortcutKeyDisplayString = "";
+            this.PasteMore1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
+            this.PasteMore1.Size = new System.Drawing.Size(152, 22);
+            this.PasteMore1.Visible = false;
+            this.PasteMore1.Click += new System.EventHandler(this.PasteMore1_Click);
             // 
             // PasteMore2
             // 
             this.PasteMore2.Name = "PasteMore2";
-            this.PasteMore2.Size = new System.Drawing.Size(100, 21);
-            this.PasteMore2.DoubleClick += new System.EventHandler(this.PasteMore2_DoubleClick);
+            this.PasteMore2.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
+            this.PasteMore2.Size = new System.Drawing.Size(152, 22);
+            this.PasteMore2.Visible = false;
+            this.PasteMore2.Click += new System.EventHandler(this.PasteMore2_Click);
             // 
             // PasteMore3
             // 
             this.PasteMore3.Name = "PasteMore3";
-            this.PasteMore3.Size = new System.Drawing.Size(100, 21);
-            this.PasteMore3.DoubleClick += new System.EventHandler(this.PasteMore3_DoubleClick);
+            this.PasteMore3.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D3)));
+            this.PasteMore3.Size = new System.Drawing.Size(152, 22);
+            this.PasteMore3.Visible = false;
+            this.PasteMore3.Click += new System.EventHandler(this.PasteMore3_Click);
             // 
             // PasteMore4
             // 
             this.PasteMore4.Name = "PasteMore4";
-            this.PasteMore4.Size = new System.Drawing.Size(100, 21);
-            this.PasteMore4.DoubleClick += new System.EventHandler(this.PasteMore4_DoubleClick);
+            this.PasteMore4.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D4)));
+            this.PasteMore4.Size = new System.Drawing.Size(152, 22);
+            this.PasteMore4.Visible = false;
+            this.PasteMore4.Click += new System.EventHandler(this.PasteMore4_Click);
             // 
             // PasteMore5
             // 
             this.PasteMore5.Name = "PasteMore5";
-            this.PasteMore5.Size = new System.Drawing.Size(100, 21);
-            this.PasteMore5.DoubleClick += new System.EventHandler(this.PasteMore5_DoubleClick);
+            this.PasteMore5.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D5)));
+            this.PasteMore5.Size = new System.Drawing.Size(152, 22);
+            this.PasteMore5.Visible = false;
+            this.PasteMore5.Click += new System.EventHandler(this.PasteMore5_Click);
             // 
             // PasteMore6
             // 
             this.PasteMore6.Name = "PasteMore6";
-            this.PasteMore6.Size = new System.Drawing.Size(100, 21);
-            this.PasteMore6.DoubleClick += new System.EventHandler(this.PasteMore6_DoubleClick);
+            this.PasteMore6.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D6)));
+            this.PasteMore6.Size = new System.Drawing.Size(152, 22);
+            this.PasteMore6.Visible = false;
+            this.PasteMore6.Click += new System.EventHandler(this.PasteMore6_Click);
             // 
             // PasteMore7
             // 
             this.PasteMore7.Name = "PasteMore7";
-            this.PasteMore7.Size = new System.Drawing.Size(100, 21);
-            this.PasteMore7.DoubleClick += new System.EventHandler(this.PasteMore7_DoubleClick);
+            this.PasteMore7.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D7)));
+            this.PasteMore7.Size = new System.Drawing.Size(152, 22);
+            this.PasteMore7.Visible = false;
+            this.PasteMore7.Click += new System.EventHandler(this.PasteMore7_Click);
             // 
             // PasteMore8
             // 
             this.PasteMore8.Name = "PasteMore8";
-            this.PasteMore8.Size = new System.Drawing.Size(100, 21);
-            this.PasteMore8.DoubleClick += new System.EventHandler(this.PasteMore8_DoubleClick);
+            this.PasteMore8.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D8)));
+            this.PasteMore8.Size = new System.Drawing.Size(152, 22);
+            this.PasteMore8.Visible = false;
+            this.PasteMore8.Click += new System.EventHandler(this.PasteMore8_Click);
             // 
             // PasteMore9
             // 
             this.PasteMore9.Name = "PasteMore9";
-            this.PasteMore9.Size = new System.Drawing.Size(100, 21);
-            this.PasteMore9.DoubleClick += new System.EventHandler(this.PasteMore9_DoubleClick);
+            this.PasteMore9.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D9)));
+            this.PasteMore9.Size = new System.Drawing.Size(152, 22);
+            this.PasteMore9.Visible = false;
+            this.PasteMore9.Click += new System.EventHandler(this.PasteMore9_Click);
             // 
             // PasteMore10
             // 
             this.PasteMore10.Name = "PasteMore10";
-            this.PasteMore10.Size = new System.Drawing.Size(100, 21);
-            this.PasteMore10.DoubleClick += new System.EventHandler(this.PasteMore10_DoubleClick);
+            this.PasteMore10.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D0)));
+            this.PasteMore10.Size = new System.Drawing.Size(152, 22);
+            this.PasteMore10.Visible = false;
+            this.PasteMore10.Click += new System.EventHandler(this.PasteMore10_Click);
+            // 
+            // toolStripSeparator19
+            // 
+            this.toolStripSeparator19.Name = "toolStripSeparator19";
+            this.toolStripSeparator19.Size = new System.Drawing.Size(149, 6);
+            // 
+            // configureToolStripMenuItem
+            // 
+            this.configureToolStripMenuItem.Name = "configureToolStripMenuItem";
+            this.configureToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.configureToolStripMenuItem.Text = "&Configure...";
+            this.configureToolStripMenuItem.Click += new System.EventHandler(this.configureToolStripMenuItem_Click);
             // 
             // selectAllToolStripMenuItem
             // 
@@ -2354,6 +2391,160 @@ namespace AutoWikiBrowser
             this.ToolTip.SetToolTip(this.chkSkipIfNoAlerts, "Automatically skips articles if there are no alerts");
             this.chkSkipIfNoAlerts.UseVisualStyleBackColor = true;
             // 
+            // chkSkipCaseSensitive
+            // 
+            this.chkSkipCaseSensitive.AutoSize = true;
+            this.chkSkipCaseSensitive.Location = new System.Drawing.Point(84, 66);
+            this.chkSkipCaseSensitive.Name = "chkSkipCaseSensitive";
+            this.chkSkipCaseSensitive.Size = new System.Drawing.Size(94, 17);
+            this.chkSkipCaseSensitive.TabIndex = 5;
+            this.chkSkipCaseSensitive.Text = "Case sens&itive";
+            this.ToolTip.SetToolTip(this.chkSkipCaseSensitive, "Makes \"Skip if contains\" matches case-sensitive");
+            this.chkSkipCaseSensitive.UseVisualStyleBackColor = true;
+            // 
+            // chkSkipNoPageLinks
+            // 
+            this.chkSkipNoPageLinks.AutoSize = true;
+            this.chkSkipNoPageLinks.Location = new System.Drawing.Point(6, 42);
+            this.chkSkipNoPageLinks.Name = "chkSkipNoPageLinks";
+            this.chkSkipNoPageLinks.Size = new System.Drawing.Size(133, 17);
+            this.chkSkipNoPageLinks.TabIndex = 2;
+            this.chkSkipNoPageLinks.Text = "Page contains no links";
+            this.ToolTip.SetToolTip(this.chkSkipNoPageLinks, "Skip if the page does not contain any links");
+            this.chkSkipNoPageLinks.UseVisualStyleBackColor = true;
+            // 
+            // radSkipExistent
+            // 
+            this.radSkipExistent.AutoSize = true;
+            this.radSkipExistent.Location = new System.Drawing.Point(3, 3);
+            this.radSkipExistent.Name = "radSkipExistent";
+            this.radSkipExistent.Size = new System.Drawing.Size(52, 17);
+            this.radSkipExistent.TabIndex = 0;
+            this.radSkipExistent.Text = "&Exists";
+            this.ToolTip.SetToolTip(this.radSkipExistent, "Skip processing if the page exists");
+            this.radSkipExistent.UseVisualStyleBackColor = true;
+            // 
+            // radSkipNonExistent
+            // 
+            this.radSkipNonExistent.AutoSize = true;
+            this.radSkipNonExistent.Checked = true;
+            this.radSkipNonExistent.Location = new System.Drawing.Point(61, 3);
+            this.radSkipNonExistent.Name = "radSkipNonExistent";
+            this.radSkipNonExistent.Size = new System.Drawing.Size(85, 17);
+            this.radSkipNonExistent.TabIndex = 1;
+            this.radSkipNonExistent.TabStop = true;
+            this.radSkipNonExistent.Text = "Doesn\'t e&xist";
+            this.ToolTip.SetToolTip(this.radSkipNonExistent, "Skip processing if the page does not exist");
+            this.radSkipNonExistent.UseVisualStyleBackColor = true;
+            // 
+            // radSkipNone
+            // 
+            this.radSkipNone.AutoSize = true;
+            this.radSkipNone.Location = new System.Drawing.Point(152, 3);
+            this.radSkipNone.Name = "radSkipNone";
+            this.radSkipNone.Size = new System.Drawing.Size(74, 17);
+            this.radSkipNone.TabIndex = 2;
+            this.radSkipNone.Text = "Don\'t care";
+            this.ToolTip.SetToolTip(this.radSkipNone, "Continue processing regardless of whether or not the page exists");
+            this.radSkipNone.UseVisualStyleBackColor = true;
+            // 
+            // chkNudgeSkip
+            // 
+            this.chkNudgeSkip.AutoSize = true;
+            this.chkNudgeSkip.Enabled = false;
+            this.chkNudgeSkip.Location = new System.Drawing.Point(9, 72);
+            this.chkNudgeSkip.Name = "chkNudgeSkip";
+            this.chkNudgeSkip.Size = new System.Drawing.Size(194, 17);
+            this.chkNudgeSkip.TabIndex = 3;
+            this.chkNudgeSkip.Text = "Skip page if first nudge doesn\'t help";
+            this.ToolTip.SetToolTip(this.chkNudgeSkip, "Limits AWB to one nudge per page");
+            // 
+            // btnResetNudges
+            // 
+            this.btnResetNudges.Location = new System.Drawing.Point(131, 42);
+            this.btnResetNudges.Name = "btnResetNudges";
+            this.btnResetNudges.Size = new System.Drawing.Size(104, 22);
+            this.btnResetNudges.TabIndex = 2;
+            this.btnResetNudges.Text = "Reset counter";
+            this.ToolTip.SetToolTip(this.btnResetNudges, "Reset the nudge counter to zero");
+            this.btnResetNudges.Click += new System.EventHandler(this.btnResetNudges_Click);
+            // 
+            // lblNudges
+            // 
+            this.lblNudges.AutoSize = true;
+            this.lblNudges.Location = new System.Drawing.Point(29, 46);
+            this.lblNudges.Name = "lblNudges";
+            this.lblNudges.Size = new System.Drawing.Size(81, 13);
+            this.lblNudges.TabIndex = 1;
+            this.lblNudges.Text = "Total nudges: 0";
+            this.ToolTip.SetToolTip(this.lblNudges, "How many times AWB has \"nudged\"");
+            // 
+            // chkSuppressTag
+            // 
+            this.chkSuppressTag.AutoSize = true;
+            this.chkSuppressTag.Enabled = false;
+            this.chkSuppressTag.Location = new System.Drawing.Point(9, 74);
+            this.chkSuppressTag.Name = "chkSuppressTag";
+            this.chkSuppressTag.Size = new System.Drawing.Size(211, 17);
+            this.chkSuppressTag.TabIndex = 4;
+            this.chkSuppressTag.Text = "Su&ppress \"using AWB\" in edit summary";
+            this.ToolTip.SetToolTip(this.chkSuppressTag, "Removes the automatic addition of the AWB suffix to edit summaries");
+            // 
+            // chkAutoMode
+            // 
+            this.chkAutoMode.AutoSize = true;
+            this.chkAutoMode.Location = new System.Drawing.Point(9, 21);
+            this.chkAutoMode.Name = "chkAutoMode";
+            this.chkAutoMode.Size = new System.Drawing.Size(74, 17);
+            this.chkAutoMode.TabIndex = 0;
+            this.chkAutoMode.Text = "&Auto save";
+            this.ToolTip.SetToolTip(this.chkAutoMode, "Automatically save all edits");
+            this.chkAutoMode.CheckedChanged += new System.EventHandler(this.chkAutoMode_CheckedChanged);
+            // 
+            // lblAutoDelay
+            // 
+            this.lblAutoDelay.AutoSize = true;
+            this.lblAutoDelay.Enabled = false;
+            this.lblAutoDelay.Location = new System.Drawing.Point(6, 47);
+            this.lblAutoDelay.Name = "lblAutoDelay";
+            this.lblAutoDelay.Size = new System.Drawing.Size(34, 13);
+            this.lblAutoDelay.TabIndex = 1;
+            this.lblAutoDelay.Text = "&Delay";
+            this.ToolTip.SetToolTip(this.lblAutoDelay, "Specify a delay between pages while in bot mode");
+            // 
+            // chkFindCaseSensitive
+            // 
+            this.chkFindCaseSensitive.AutoSize = true;
+            this.chkFindCaseSensitive.Location = new System.Drawing.Point(6, 63);
+            this.chkFindCaseSensitive.Name = "chkFindCaseSensitive";
+            this.chkFindCaseSensitive.Size = new System.Drawing.Size(94, 17);
+            this.chkFindCaseSensitive.TabIndex = 3;
+            this.chkFindCaseSensitive.Text = "&Case sensitive";
+            this.ToolTip.SetToolTip(this.chkFindCaseSensitive, "Makes the text search case-sensitive");
+            this.chkFindCaseSensitive.CheckedChanged += new System.EventHandler(this.ResetFind);
+            // 
+            // chkFindRegex
+            // 
+            this.chkFindRegex.AutoSize = true;
+            this.chkFindRegex.Location = new System.Drawing.Point(6, 45);
+            this.chkFindRegex.Name = "chkFindRegex";
+            this.chkFindRegex.Size = new System.Drawing.Size(57, 17);
+            this.chkFindRegex.TabIndex = 1;
+            this.chkFindRegex.Text = "&Regex";
+            this.ToolTip.SetToolTip(this.chkFindRegex, "Causes the string entered in the Find box as a Regular Expression");
+            this.chkFindRegex.CheckedChanged += new System.EventHandler(this.ResetFind);
+            // 
+            // txtFind
+            // 
+            this.txtFind.Location = new System.Drawing.Point(6, 19);
+            this.txtFind.Name = "txtFind";
+            this.txtFind.Size = new System.Drawing.Size(98, 20);
+            this.txtFind.TabIndex = 0;
+            this.ToolTip.SetToolTip(this.txtFind, "The text to find in the page ");
+            this.txtFind.TextChanged += new System.EventHandler(this.ResetFind);
+            this.txtFind.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFind_KeyPress);
+            this.txtFind.MouseHover += new System.EventHandler(this.txtFind_MouseHover);
+            // 
             // txtEdit
             // 
             this.txtEdit.AcceptsTab = true;
@@ -3130,17 +3321,6 @@ namespace AutoWikiBrowser
             this.gbRegexSkip.TabStop = false;
             this.gbRegexSkip.Text = "Match";
             // 
-            // chkSkipCaseSensitive
-            // 
-            this.chkSkipCaseSensitive.AutoSize = true;
-            this.chkSkipCaseSensitive.Location = new System.Drawing.Point(84, 66);
-            this.chkSkipCaseSensitive.Name = "chkSkipCaseSensitive";
-            this.chkSkipCaseSensitive.Size = new System.Drawing.Size(94, 17);
-            this.chkSkipCaseSensitive.TabIndex = 5;
-            this.chkSkipCaseSensitive.Text = "Case sens&itive";
-            this.ToolTip.SetToolTip(this.chkSkipCaseSensitive, "Makes \"Skip if contains\" matches case-sensitive");
-            this.chkSkipCaseSensitive.UseVisualStyleBackColor = true;
-            // 
             // groupBox8
             // 
             this.groupBox8.Controls.Add(this.chkSkipIfRedirect);
@@ -3159,17 +3339,6 @@ namespace AutoWikiBrowser
             this.groupBox8.TabIndex = 1;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "General skip options";
-            // 
-            // chkSkipNoPageLinks
-            // 
-            this.chkSkipNoPageLinks.AutoSize = true;
-            this.chkSkipNoPageLinks.Location = new System.Drawing.Point(6, 42);
-            this.chkSkipNoPageLinks.Name = "chkSkipNoPageLinks";
-            this.chkSkipNoPageLinks.Size = new System.Drawing.Size(133, 17);
-            this.chkSkipNoPageLinks.TabIndex = 2;
-            this.chkSkipNoPageLinks.Text = "Page contains no links";
-            this.ToolTip.SetToolTip(this.chkSkipNoPageLinks, "Skip if the page does not contain any links");
-            this.chkSkipNoPageLinks.UseVisualStyleBackColor = true;
             // 
             // gbPageExisting
             // 
@@ -3192,41 +3361,6 @@ namespace AutoWikiBrowser
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(254, 29);
             this.flowLayoutPanel1.TabIndex = 0;
-            // 
-            // radSkipExistent
-            // 
-            this.radSkipExistent.AutoSize = true;
-            this.radSkipExistent.Location = new System.Drawing.Point(3, 3);
-            this.radSkipExistent.Name = "radSkipExistent";
-            this.radSkipExistent.Size = new System.Drawing.Size(52, 17);
-            this.radSkipExistent.TabIndex = 0;
-            this.radSkipExistent.Text = "&Exists";
-            this.ToolTip.SetToolTip(this.radSkipExistent, "Skip processing if the page exists");
-            this.radSkipExistent.UseVisualStyleBackColor = true;
-            // 
-            // radSkipNonExistent
-            // 
-            this.radSkipNonExistent.AutoSize = true;
-            this.radSkipNonExistent.Checked = true;
-            this.radSkipNonExistent.Location = new System.Drawing.Point(61, 3);
-            this.radSkipNonExistent.Name = "radSkipNonExistent";
-            this.radSkipNonExistent.Size = new System.Drawing.Size(85, 17);
-            this.radSkipNonExistent.TabIndex = 1;
-            this.radSkipNonExistent.TabStop = true;
-            this.radSkipNonExistent.Text = "Doesn\'t e&xist";
-            this.ToolTip.SetToolTip(this.radSkipNonExistent, "Skip processing if the page does not exist");
-            this.radSkipNonExistent.UseVisualStyleBackColor = true;
-            // 
-            // radSkipNone
-            // 
-            this.radSkipNone.AutoSize = true;
-            this.radSkipNone.Location = new System.Drawing.Point(152, 3);
-            this.radSkipNone.Name = "radSkipNone";
-            this.radSkipNone.Size = new System.Drawing.Size(74, 17);
-            this.radSkipNone.TabIndex = 2;
-            this.radSkipNone.Text = "Don\'t care";
-            this.ToolTip.SetToolTip(this.radSkipNone, "Continue processing regardless of whether or not the page exists");
-            this.radSkipNone.UseVisualStyleBackColor = true;
             // 
             // tpBots
             // 
@@ -3314,37 +3448,6 @@ namespace AutoWikiBrowser
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Nudge timer";
             // 
-            // chkNudgeSkip
-            // 
-            this.chkNudgeSkip.AutoSize = true;
-            this.chkNudgeSkip.Enabled = false;
-            this.chkNudgeSkip.Location = new System.Drawing.Point(9, 72);
-            this.chkNudgeSkip.Name = "chkNudgeSkip";
-            this.chkNudgeSkip.Size = new System.Drawing.Size(194, 17);
-            this.chkNudgeSkip.TabIndex = 3;
-            this.chkNudgeSkip.Text = "Skip page if first nudge doesn\'t help";
-            this.ToolTip.SetToolTip(this.chkNudgeSkip, "Limits AWB to one nudge per page");
-            // 
-            // btnResetNudges
-            // 
-            this.btnResetNudges.Location = new System.Drawing.Point(131, 42);
-            this.btnResetNudges.Name = "btnResetNudges";
-            this.btnResetNudges.Size = new System.Drawing.Size(104, 22);
-            this.btnResetNudges.TabIndex = 2;
-            this.btnResetNudges.Text = "Reset counter";
-            this.ToolTip.SetToolTip(this.btnResetNudges, "Reset the nudge counter to zero");
-            this.btnResetNudges.Click += new System.EventHandler(this.btnResetNudges_Click);
-            // 
-            // lblNudges
-            // 
-            this.lblNudges.AutoSize = true;
-            this.lblNudges.Location = new System.Drawing.Point(29, 46);
-            this.lblNudges.Name = "lblNudges";
-            this.lblNudges.Size = new System.Drawing.Size(81, 13);
-            this.lblNudges.TabIndex = 1;
-            this.lblNudges.Text = "Total nudges: 0";
-            this.ToolTip.SetToolTip(this.lblNudges, "How many times AWB has \"nudged\"");
-            // 
             // groupBox7
             // 
             this.groupBox7.Controls.Add(this.label2);
@@ -3368,39 +3471,6 @@ namespace AutoWikiBrowser
             this.label2.Size = new System.Drawing.Size(116, 13);
             this.label2.TabIndex = 3;
             this.label2.Text = "seconds between edits";
-            // 
-            // chkSuppressTag
-            // 
-            this.chkSuppressTag.AutoSize = true;
-            this.chkSuppressTag.Enabled = false;
-            this.chkSuppressTag.Location = new System.Drawing.Point(9, 74);
-            this.chkSuppressTag.Name = "chkSuppressTag";
-            this.chkSuppressTag.Size = new System.Drawing.Size(211, 17);
-            this.chkSuppressTag.TabIndex = 4;
-            this.chkSuppressTag.Text = "Su&ppress \"using AWB\" in edit summary";
-            this.ToolTip.SetToolTip(this.chkSuppressTag, "Removes the automatic addition of the AWB suffix to edit summaries");
-            // 
-            // chkAutoMode
-            // 
-            this.chkAutoMode.AutoSize = true;
-            this.chkAutoMode.Location = new System.Drawing.Point(9, 21);
-            this.chkAutoMode.Name = "chkAutoMode";
-            this.chkAutoMode.Size = new System.Drawing.Size(74, 17);
-            this.chkAutoMode.TabIndex = 0;
-            this.chkAutoMode.Text = "&Auto save";
-            this.ToolTip.SetToolTip(this.chkAutoMode, "Automatically save all edits");
-            this.chkAutoMode.CheckedChanged += new System.EventHandler(this.chkAutoMode_CheckedChanged);
-            // 
-            // lblAutoDelay
-            // 
-            this.lblAutoDelay.AutoSize = true;
-            this.lblAutoDelay.Enabled = false;
-            this.lblAutoDelay.Location = new System.Drawing.Point(6, 47);
-            this.lblAutoDelay.Name = "lblAutoDelay";
-            this.lblAutoDelay.Size = new System.Drawing.Size(34, 13);
-            this.lblAutoDelay.TabIndex = 1;
-            this.lblAutoDelay.Text = "&Delay";
-            this.ToolTip.SetToolTip(this.lblAutoDelay, "Specify a delay between pages while in bot mode");
             // 
             // BotImage
             // 
@@ -3517,39 +3587,6 @@ namespace AutoWikiBrowser
             this.findGroup.TabIndex = 17;
             this.findGroup.TabStop = false;
             this.findGroup.Text = "Fi&nd";
-            // 
-            // chkFindCaseSensitive
-            // 
-            this.chkFindCaseSensitive.AutoSize = true;
-            this.chkFindCaseSensitive.Location = new System.Drawing.Point(6, 63);
-            this.chkFindCaseSensitive.Name = "chkFindCaseSensitive";
-            this.chkFindCaseSensitive.Size = new System.Drawing.Size(94, 17);
-            this.chkFindCaseSensitive.TabIndex = 3;
-            this.chkFindCaseSensitive.Text = "&Case sensitive";
-            this.ToolTip.SetToolTip(this.chkFindCaseSensitive, "Makes the text search case-sensitive");
-            this.chkFindCaseSensitive.CheckedChanged += new System.EventHandler(this.ResetFind);
-            // 
-            // chkFindRegex
-            // 
-            this.chkFindRegex.AutoSize = true;
-            this.chkFindRegex.Location = new System.Drawing.Point(6, 45);
-            this.chkFindRegex.Name = "chkFindRegex";
-            this.chkFindRegex.Size = new System.Drawing.Size(57, 17);
-            this.chkFindRegex.TabIndex = 1;
-            this.chkFindRegex.Text = "&Regex";
-            this.ToolTip.SetToolTip(this.chkFindRegex, "Causes the string entered in the Find box as a Regular Expression");
-            this.chkFindRegex.CheckedChanged += new System.EventHandler(this.ResetFind);
-            // 
-            // txtFind
-            // 
-            this.txtFind.Location = new System.Drawing.Point(6, 19);
-            this.txtFind.Name = "txtFind";
-            this.txtFind.Size = new System.Drawing.Size(98, 20);
-            this.txtFind.TabIndex = 0;
-            this.ToolTip.SetToolTip(this.txtFind, "The text to find in the page ");
-            this.txtFind.TextChanged += new System.EventHandler(this.ResetFind);
-            this.txtFind.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFind_KeyPress);
-            this.txtFind.MouseHover += new System.EventHandler(this.txtFind_MouseHover);
             // 
             // AlertGroup
             // 
@@ -4234,16 +4271,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
         private System.Windows.Forms.ToolStripMenuItem pasteMoreToolStripMenuItem;
-        private System.Windows.Forms.ToolStripTextBox PasteMore1;
-        private System.Windows.Forms.ToolStripTextBox PasteMore2;
-        private System.Windows.Forms.ToolStripTextBox PasteMore3;
-        private System.Windows.Forms.ToolStripTextBox PasteMore4;
-        private System.Windows.Forms.ToolStripTextBox PasteMore5;
-        private System.Windows.Forms.ToolStripTextBox PasteMore6;
-        private System.Windows.Forms.ToolStripTextBox PasteMore7;
-        private System.Windows.Forms.ToolStripTextBox PasteMore8;
-        private System.Windows.Forms.ToolStripTextBox PasteMore9;
-        private System.Windows.Forms.ToolStripTextBox PasteMore10;
         private System.Windows.Forms.ToolStripMenuItem specialFilterToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem convertListToToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem listToolStripMenuItem;
@@ -4530,5 +4557,17 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem showHideEditToolbarToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
         private System.Windows.Forms.ToolStripMenuItem displayfalsePositivesButtonToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem PasteMore1;
+        private System.Windows.Forms.ToolStripMenuItem PasteMore2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator19;
+        private System.Windows.Forms.ToolStripMenuItem configureToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem PasteMore3;
+        private System.Windows.Forms.ToolStripMenuItem PasteMore4;
+        private System.Windows.Forms.ToolStripMenuItem PasteMore5;
+        private System.Windows.Forms.ToolStripMenuItem PasteMore6;
+        private System.Windows.Forms.ToolStripMenuItem PasteMore7;
+        private System.Windows.Forms.ToolStripMenuItem PasteMore8;
+        private System.Windows.Forms.ToolStripMenuItem PasteMore9;
+        private System.Windows.Forms.ToolStripMenuItem PasteMore10;
     }
 }
