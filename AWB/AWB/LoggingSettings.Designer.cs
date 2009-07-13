@@ -10,7 +10,7 @@ namespace AutoWikiBrowser
         /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <param name="disposing">true if managed resources should be disposde; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -264,7 +264,6 @@ namespace AutoWikiBrowser
             this.LoggingCategoryTextBox.Name = "LoggingCategoryTextBox";
             this.LoggingCategoryTextBox.Size = new System.Drawing.Size(103, 20);
             this.LoggingCategoryTextBox.TabIndex = 6;
-            this.ToolTip1.SetToolTip(this.LoggingCategoryTextBox, resources.GetString("LoggingCategoryTextBox.ToolTip"));
             // 
             // CategoryTextboxContextMenuStrip
             // 
