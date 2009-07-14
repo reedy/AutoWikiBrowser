@@ -1085,6 +1085,7 @@ namespace WikiFunctions.Lists
         { get { return "Wiki search (title)"; } }
     }
 
+    //TODO:We need to pass in the editor.. Or something to use it to get the watchlist for the currently logged in user (Most queries need to use the editor..)
     /// <summary>
     /// Gets all the pages from the current user's watchlist
     /// </summary>
