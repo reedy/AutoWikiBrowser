@@ -55,7 +55,7 @@ namespace WikiFunctions.API
     };
 
     /// <summary>
-    /// Thrown when an API call returned an <error> tag.
+    /// Thrown when an API call returned an &lt;error> tag.
     /// See http://www.mediawiki.org/wiki/API:Errors for details
     /// </summary>
     public class ApiErrorException : ApiException
@@ -80,9 +80,9 @@ namespace WikiFunctions.API
         }
     }
 
-    /// <summary>
-    /// Thrown when an API call returns status other than "Success"
-    /// </summary>
+    ///// <summary>
+    ///// Thrown when an API call returns status other than "Success"
+    ///// </summary>
     //public class ApiCallFailedException : ApiErrorException
     //{
     //    string m_Action;
@@ -108,6 +108,9 @@ namespace WikiFunctions.API
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class ApiBrokenXmlException : ApiException
     {
         public ApiBrokenXmlException(ApiEdit editor, string message)
@@ -125,6 +128,9 @@ namespace WikiFunctions.API
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class ApiLoginException : ApiException
     {
         public string StatusCode { get; private set; }
@@ -143,8 +149,9 @@ namespace WikiFunctions.API
     }
 
     /// <summary>
-    /// Thrown when servers refuse to perform operation due to overolading
+    /// Thrown when servers refuse to perform operation due to overloading
     /// </summary>
+    /// <remarks>http://www.mediawiki.org/wiki/Manual:Maxlag_parameter</remarks>
     public class ApiMaxlagException : ApiErrorException
     {
         public int Maxlag
@@ -211,6 +218,9 @@ namespace WikiFunctions.API
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class ApiLoggedOffException : ApiException
     {
         public ApiLoggedOffException(ApiEdit editor)
@@ -219,6 +229,9 @@ namespace WikiFunctions.API
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class ApiCaptchaException : ApiException
     {
         public ApiCaptchaException(ApiEdit editor)
@@ -227,6 +240,9 @@ namespace WikiFunctions.API
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class ApiInterwikiException : ApiException
     {
         public ApiInterwikiException(ApiEdit editor)
