@@ -258,6 +258,11 @@ en, sq, ru
                 string strCategories = Newline(RemoveCats(ref articleText, articleTitle));
                 string strInterwikis = Newline(Interwikis(ref articleText));
 
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Move_orphan_tags_on_the_top
+                // Dablinks above orphan tags per [[WP:LAYOUT]]
+                if(Variables.LangCode == LangCodeEnum.en)
+                    articleText = MoveOrphanTags(articleText);
+
                 articleText = MoveDablinks(articleText);
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Placement_of_portal_template
@@ -489,6 +494,26 @@ en, sq, ru
 
             // may now have two newlines between dablinks and rest of article, so cut down to one
             return articleText.Replace(strDablinks + "\r\n", strDablinks);
+        }
+
+        /// <summary>
+        /// Moves the {{orphan}} template to the top of the article
+        /// </summary>
+        /// <param name="articleText">the article text</param>
+        /// <returns>the modified article text</returns>
+        public static string MoveOrphanTags(string articleText)
+        {
+            string strOrphanTags = "";
+
+            foreach (Match m in WikiRegexes.Orphan.Matches(articleText))
+            {
+                strOrphanTags = strOrphanTags + m.Value + "\r\n";
+                articleText = articleText.Replace(m.Value, "");
+            }
+
+            articleText = strOrphanTags + articleText;
+
+            return articleText.Replace(strOrphanTags + "\r\n", strOrphanTags);
         }
 
         private static readonly Regex SeeAlso = new Regex(@"(\s*(==+)\s*see\s+also\s*\2)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
