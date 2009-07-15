@@ -144,6 +144,22 @@ more words
         }
 
         [Test]
+        public void MoveOrphanTagsTests()
+        {
+            const string d = @"Fred is a doctor.
+Fred has a dog.
+[[Category:Dog owners]]
+{{some template}}
+";
+
+            string e = @"{{Orphan|date=May 2008}}";
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveOrphanTags(d + e));
+
+            e = @"{{orphan|date=May 2008}}";
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveOrphanTags(d + e));
+        }
+
+        [Test]
         public void MovePortalTemplatesTests()
         {
             Assert.AreEqual(@"text here
