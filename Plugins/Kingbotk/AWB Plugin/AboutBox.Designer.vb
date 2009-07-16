@@ -91,7 +91,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.TextBoxDescription.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
             Me.TextBoxDescription.Location = New System.Drawing.Point(10, 151)
             Me.TextBoxDescription.Name = "TextBoxDescription"
-            Me.TextBoxDescription.Size = New System.Drawing.Size(366, 112)
+            Me.TextBoxDescription.Size = New System.Drawing.Size(329, 112)
             Me.TextBoxDescription.TabIndex = 6
             Me.TextBoxDescription.Text = "Disclaimer"
             '
