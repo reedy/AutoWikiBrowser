@@ -522,7 +522,7 @@ namespace WikiFunctions.API
                         {"prop", "info"},
                         {"intoken", "delete"},
                         {"titles", title},
-                        { User.IsBot ? "bot" : null, null },
+                        //{ User.IsBot ? "bot" : null, null },
                         {watch ? "watch" : null, null}
 
                     });
@@ -620,7 +620,7 @@ namespace WikiFunctions.API
                         {"protections", "edit=" + edit + "|move=" + move},
                         {"expiry", expiry + "|" + expiry},
                         {cascade ? "cascade" : null, null},
-                        { User.IsBot ? "bot" : null, null },
+                        //{ User.IsBot ? "bot" : null, null },
                         {watch ? "watch" : null, null}
                     });
 
@@ -687,7 +687,7 @@ namespace WikiFunctions.API
                         {"protections", ""},
                         {moveTalk ? "movetalk" : null, null},
                         {noRedirect ? "noredirect" : null, null},
-                        { User.IsBot ? "bot" : null, null },
+                        //{ User.IsBot ? "bot" : null, null },
                         {watch ? "watch" : null, null}
                     },
                 true);
