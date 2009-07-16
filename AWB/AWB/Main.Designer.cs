@@ -194,6 +194,7 @@ namespace AutoWikiBrowser
             this.lblIgnoredArticles = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblEditCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblEditsPerMin = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblPagesPerMin = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblTimer = new System.Windows.Forms.ToolStripStatusLabel();
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.btnIgnore = new System.Windows.Forms.Button();
@@ -408,7 +409,6 @@ namespace AutoWikiBrowser
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
-            this.lblPagesPerMin = new System.Windows.Forms.ToolStripStatusLabel();
             this.mnuTextBox.SuspendLayout();
             this.MnuMain.SuspendLayout();
             this.StatusMain.SuspendLayout();
@@ -1675,6 +1675,14 @@ namespace AutoWikiBrowser
             this.lblEditsPerMin.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblEditsPerMin.Size = new System.Drawing.Size(67, 17);
             this.lblEditsPerMin.Text = "Edits/min: 0";
+            // 
+            // lblPagesPerMin
+            // 
+            this.lblPagesPerMin.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.lblPagesPerMin.Name = "lblPagesPerMin";
+            this.lblPagesPerMin.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblPagesPerMin.Size = new System.Drawing.Size(73, 17);
+            this.lblPagesPerMin.Text = "Pages/min: 0";
             // 
             // lblTimer
             // 
@@ -4093,14 +4101,6 @@ namespace AutoWikiBrowser
             // 
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
-            // 
-            // lblPagesPerMin
-            // 
-            this.lblPagesPerMin.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.lblPagesPerMin.Name = "lblPagesPerMin";
-            this.lblPagesPerMin.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblPagesPerMin.Size = new System.Drawing.Size(73, 17);
-            this.lblPagesPerMin.Text = "Pages/min: 0";
             // 
             // MainForm
             // 

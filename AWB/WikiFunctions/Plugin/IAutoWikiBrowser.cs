@@ -29,6 +29,7 @@ namespace WikiFunctions.Plugin
         TextBoxBase EditBox { get; }
         TextBox CategoryTextBox { get; }
         CheckBox BotModeCheckbox { get; }
+        CheckBox SkipNoChangesCheckBox { get; }
         Button DiffButton { get; }
         Button PreviewButton { get; }
         Button SaveButton { get; }
