@@ -767,6 +767,12 @@ namespace AutoWikiBrowser
                         SkipPage("Only general fix changes");
                         return;
                     }
+					
+					if (chkSkipNoPageLinks.Checked && (WikiRegexes.WikiLinksOnly.Matches(articleText).Count == 0))
+                    {
+                        SkipPage("Page contains no links");
+                        return;
+                    }
                 }
             }
 
@@ -808,12 +814,6 @@ namespace AutoWikiBrowser
             //Update statistics and alerts
             if (!BotMode)
                 ArticleInfo(false);
-
-            if (chkSkipNoPageLinks.Checked && (lblLinks.Text == "Links: 0"))
-            {
-                SkipPage("Page contains no links");
-                return;
-            }
 
             if (!Abort)
             {
