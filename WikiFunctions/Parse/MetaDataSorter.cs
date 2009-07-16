@@ -513,7 +513,7 @@ en, sq, ru
 
             articleText = strOrphanTags + articleText;
 
-            return articleText.Replace(strOrphanTags + "\r\n", strOrphanTags);
+            return strOrphanTags.Length > 0 ? articleText.Replace(strOrphanTags + "\r\n", strOrphanTags) : articleText;
         }
 
         private static readonly Regex SeeAlso = new Regex(@"(\s*(==+)\s*see\s+also\s*\2)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
