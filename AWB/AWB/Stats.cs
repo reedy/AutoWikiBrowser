@@ -73,6 +73,17 @@ namespace AutoWikiBrowser
                 //UpdateNotifyIconTooltip();
             }
         }
+
+        private int NoPagesPerMin;
+        public int NumberOfPagesPerMinute
+        {
+            get { return NoPagesPerMin; }
+            private set
+            {
+                NoPagesPerMin = value;
+                lblPagesPerMin.Text = "Pages/min: " + value;
+            }
+        }
     }
 
     /// <summary>

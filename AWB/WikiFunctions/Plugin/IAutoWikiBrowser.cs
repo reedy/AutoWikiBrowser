@@ -90,6 +90,7 @@ namespace WikiFunctions.Plugin
         int NumberOfEdits { get; }
         int NumberOfIgnoredEdits { get; }
         int NumberOfEditsPerMinute { get; }
+        int NumberOfPagesPerMinute { get; }
         int Nudges { get; }
         ProjectEnum Project { get; }
         LangCodeEnum LangCode { get; }
