@@ -484,7 +484,8 @@ namespace WikiFunctions.API
                     { "action", "edit" },
                     { "title", Page.Title },
                     { minor ? "minor" : null, null },
-                    { watch ? "watch" : null, null }
+                    { watch ? "watch" : null, null },
+                    { User.IsBot ? "bot" : null, null }
                 },
                 new[,]
                 {// order matters here - https://bugzilla.wikimedia.org/show_bug.cgi?id=14210#c4
@@ -492,8 +493,7 @@ namespace WikiFunctions.API
                     { "summary", summary },
                     { "timestamp", Page.Timestamp },
                     { "text", pageText },
-                    { "token", Page.EditToken },
-                    { User.IsBot ? "bot" : null, null }
+                    { "token", Page.EditToken }
                 });
 
             CheckForError(result, "edit");
@@ -518,12 +518,12 @@ namespace WikiFunctions.API
             string result = HttpGet(
                 new[,]
                     {
-                        {"action", "query"},
-                        {"prop", "info"},
-                        {"intoken", "delete"},
-                        {"titles", title},
+                        { "action", "query" },
+                        { "prop", "info" },
+                        { "intoken", "delete" },
+                        { "titles", title },
                         //{ User.IsBot ? "bot" : null, null },
-                        {watch ? "watch" : null, null}
+                        { watch ? "watch" : null, null }
 
                     });
 
@@ -585,10 +585,10 @@ namespace WikiFunctions.API
             string result = HttpGet(
                 new[,]
                     {
-                        {"action", "query"},
-                        {"prop", "info"},
-                        {"intoken", "protect"},
-                        {"titles", title},
+                        { "action", "query" },
+                        { "prop", "info" },
+                        { "intoken", "protect" },
+                        { "titles", title },
 
                     });
 
@@ -614,14 +614,14 @@ namespace WikiFunctions.API
                     },
                 new[,]
                     {
-                        {"title", title},
-                        {"token", Page.EditToken},
-                        {"reason", reason},
-                        {"protections", "edit=" + edit + "|move=" + move},
-                        {"expiry", expiry + "|" + expiry},
-                        {cascade ? "cascade" : null, null},
+                        { "title", title },
+                        { "token", Page.EditToken },
+                        { "reason", reason },
+                        { "protections", "edit=" + edit + "|move=" + move },
+                        { "expiry", expiry + "|" + expiry },
+                        { cascade ? "cascade" : null, null },
                         //{ User.IsBot ? "bot" : null, null },
-                        {watch ? "watch" : null, null}
+                        { watch ? "watch" : null, null }
                     });
 
             CheckForError(result);
@@ -651,10 +651,10 @@ namespace WikiFunctions.API
             string result = HttpGet(
                 new[,]
                     {
-                        {"action", "query"},
-                        {"prop", "info"},
-                        {"intoken", "move"},
-                        {"titles", title + "|" + newTitle},
+                        { "action", "query" },
+                        { "prop", "info" },
+                        { "intoken", "move" },
+                        { "titles", title + "|" + newTitle },
 
                     });
 
@@ -676,19 +676,19 @@ namespace WikiFunctions.API
             result = HttpPost(
                 new[,]
                     {
-                        {"action", "move"}
+                        { "action", "move" }
                     },
                 new[,]
                     {
-                        {"from", title},
-                        {"to", newTitle},
-                        {"token", Page.EditToken},
-                        {"reason", reason},
-                        {"protections", ""},
-                        {moveTalk ? "movetalk" : null, null},
-                        {noRedirect ? "noredirect" : null, null},
+                        { "from", title },
+                        { "to", newTitle },
+                        { "token", Page.EditToken },
+                        { "reason", reason },
+                        { "protections", "" },
+                        { moveTalk ? "movetalk" : null, null },
+                        { noRedirect ? "noredirect" : null, null },
                         //{ User.IsBot ? "bot" : null, null },
-                        {watch ? "watch" : null, null}
+                        { watch ? "watch" : null, null }
                     },
                 true);
 
