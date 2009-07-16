@@ -68,6 +68,9 @@ namespace WikiFunctions.Lists
 
         public List<Article> MakeList(params string[] searchCriteria)
         {
+            if (Visible)
+                return null;
+
             txtPages.Text = "";
 
             List<Article> list = new List<Article>();
@@ -85,6 +88,8 @@ namespace WikiFunctions.Lists
                 else
                     list = item.MakeList(Namespace.Determine(cboNamespace.Text), new[] { "" });
             }
+
+            Hide();
             
             return Tools.FilterSomeArticles(list);
         }
