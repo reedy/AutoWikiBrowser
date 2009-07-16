@@ -272,6 +272,8 @@ namespace WikiFunctions
                 if (!loggedIn)
                     return WikiStatusResult.NotLoggedIn;
 
+                Editor.Maxlag = Editor.User.IsBot ? 5 : 20;
+
                 // check if username is globally blacklisted
                 foreach (
                     Match m3 in Regex.Matches(strVersionPage, @"badname:\s*(.*)\s*(:?|#.*)$", RegexOptions.IgnoreCase))
