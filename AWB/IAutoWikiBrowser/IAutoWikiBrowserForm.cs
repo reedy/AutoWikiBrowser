@@ -24,6 +24,7 @@ namespace AutoWikiBrowser
     partial class MainForm
     {
         CheckBox IAutoWikiBrowserForm.BotModeCheckbox { get { return chkAutoMode; } }
+        CheckBox IAutoWikiBrowserForm.SkipNoChangesCheckBox { get { return chkSkipNoChanges; } }
         Button IAutoWikiBrowserForm.PreviewButton { get { return btnPreview; } }
         Button IAutoWikiBrowserForm.SaveButton { get { return btnSave; } }
         Button IAutoWikiBrowserForm.SkipButton { get { return btnIgnore; } }

@@ -45,6 +45,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
                 AddHandler .BotModeCheckbox.CheckedChanged, AddressOf Me.AWBBotModeCheckedChanged
                 .CategoryTextBox.ContextMenuStrip.Items.Insert(0, LivingPeopleToolStripMenuItem)
                 .CategoryTextBox.ContextMenuStrip.Items.Insert(1, New ToolStripSeparator())
+
+                AddHandler .SkipNoChangesCheckBox.CheckedChanged, AddressOf Me.SkipNoChangesCheckBoxCheckedChanged
             End With
 
             StatLabels.AddRange(New Label() {lblTagged, lblSkipped, lblNoChange, lblBadTag, lblNamespace, lblNew, _
@@ -268,13 +270,17 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
                 BotCheckBox.Checked = False
             End If
         End Sub
+        Private Sub SkipNoChangesCheckBoxCheckedChanged(ByVal sender As Object, ByVal e As EventArgs)
+            If (PluginManager.AWBForm.SkipNoChanges <> SkipNoChangesCheckBox.Checked) Then
+                SkipNoChangesCheckBox.Checked = PluginManager.AWBForm.SkipNoChanges
+            End If
+        End Sub
         Private Sub AWBBotModeEnabledChanged(ByVal sender As Object, ByVal e As EventArgs)
             BotCheckBox.Enabled = PluginManager.AWBForm.BotModeCheckbox.Enabled
         End Sub
         Private Sub BotStatusChangedHandler(ByVal sender As Object, ByVal e As EventArgs)
             BotCheckBox.Visible = PluginManager.AWBForm.TheSession.User.IsBot
         End Sub
-
         ' Event handlers - plugin stats:
         Private Sub PluginStats_New(ByVal val As Integer) Handles PluginStats.New
             lblNew.Text = val.ToString
@@ -474,5 +480,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
                 SkippedRedLink = 0
             End Sub
         End Class
+
+        Private Sub SkipNoChangesCheckBox_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SkipNoChangesCheckBox.CheckedChanged
+            If (PluginManager.AWBForm.SkipNoChanges <> SkipNoChangesCheckBox.Checked) Then
+                PluginManager.AWBForm.SkipNoChanges = SkipNoChangesCheckBox.Checked
+            End If
+        End Sub
     End Class
 End Namespace
