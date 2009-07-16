@@ -243,6 +243,11 @@ namespace WikiFunctions.API
         private static readonly string UserAgent = string.Format("WikiFunctions/{0} ({1})", Assembly.GetExecutingAssembly().GetName().Version,
             Environment.OSVersion.VersionString);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         protected HttpWebRequest CreateRequest(string url)
         {
             if (Globals.UnitTestMode) throw new Exception("You shouldn't access Wikipedia from unit tests");
@@ -264,6 +269,11 @@ namespace WikiFunctions.API
         private bool Aborting;
         private HttpWebRequest Request;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
         protected string GetResponseString(HttpWebRequest req)
         {
             Request = req;
@@ -306,6 +316,13 @@ namespace WikiFunctions.API
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="get"></param>
+        /// <param name="post"></param>
+        /// <param name="autoParams"></param>
+        /// <returns></returns>
         protected string HttpPost(string[,] get, string[,] post, bool autoParams)
         {
             string url = BuildUrl(get, autoParams);
@@ -324,11 +341,23 @@ namespace WikiFunctions.API
             return GetResponseString(req);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="get"></param>
+        /// <param name="post"></param>
+        /// <returns></returns>
         protected string HttpPost(string[,] get, string[,] post)
         {
             return HttpPost(get, post, true);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="autoParams"></param>
+        /// <returns></returns>
         protected string HttpGet(string[,] request, bool autoParams)
         {
             string url = BuildUrl(request, autoParams);
@@ -336,6 +365,11 @@ namespace WikiFunctions.API
             return HttpGet(url);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         protected string HttpGet(string[,] request)
         {
             return HttpGet(request, true);
