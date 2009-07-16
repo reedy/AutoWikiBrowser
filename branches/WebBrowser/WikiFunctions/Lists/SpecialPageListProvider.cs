@@ -108,6 +108,7 @@ namespace WikiFunctions.Lists
         {
             int currentSelected = cboNamespace.SelectedIndex;
             cboNamespace.Items.Clear();
+			cboNamespace.Items.Add("Main:");
             foreach (string name in Variables.Namespaces.Values)
             {
                 cboNamespace.Items.Add(name);
