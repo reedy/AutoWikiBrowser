@@ -26,86 +26,101 @@ namespace AWBPackager
 {
     class Program
     {
-        static string AWBDir = "";
-        static string Tmp = "temp\\";
-
         static void Main()
         {
+            string tmp = "temp\\";
             try
             {
-                string filename = "AWB.zip";
+                string filename = "AutoWikiBrowser";
 
-                Console.Write(@"Please ensure a release build has been built before continuing.
+                Console.Write(
+                    @"Please ensure a release build has been built before continuing.
 Is this SVN (1) or a release (2)? ");
 
-                switch (int.Parse(Console.ReadLine()))
+                int selection;
+                
+                int.TryParse(Console.ReadLine(), out selection);
+                
+                if (selection == -1)
                 {
-                    case 1:
-                        Console.Write("Please enter the current SVN revision: ");
-                        string svnRev = Console.ReadLine();
-                        filename = "AutoWikiBrowser_rev" + svnRev + ".zip";
-                        break;
-                    case 2:
-                        Console.Write("Please enter the version: ");
-                        string ver = Console.ReadLine();
-                        filename = "AutoWikiBrowser" + ver.Replace(".", "") + ".zip";
-                        break;
+                    Console.Write("Please select 1 or 2");
+                    return;
+                }  
+
+                Console.Write("Please enter the AWB version: ");
+                string ver = Console.ReadLine();
+
+                if (string.IsNullOrEmpty(ver))
+                {
+                    Console.Write("Please enter a version");
+                    return;
                 }
 
-                AWBDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase).Replace("file:\\", "");
-                Tmp = AWBDir + "\\" + Tmp;
-                AWBDir = AWBDir.Remove(AWBDir.IndexOf("Extras"));
-                Directory.CreateDirectory(Tmp);
+                filename += ver.Replace(".", "");
 
-                string currFolder = AWBDir + "AWB\\bin\\Release\\";
+                if (selection == 1)
+                {
+                    Console.Write("Please enter the current SVN revision: ");
+                    string svnRev = Console.ReadLine();
+                    filename += "_rev" + svnRev;
+                }
 
-                File.Copy(currFolder + "AutoWikiBrowser.exe", Tmp + "AutoWikiBrowser.exe", true);
-                File.Copy(currFolder + "AutoWikiBrowser.exe.config", Tmp + "AutoWikiBrowser.exe.config", true);
-                File.Copy(currFolder + "WikiFunctions.dll", Tmp + "WikiFunctions.dll", true);
-                File.Copy(currFolder + "AWBUpdater.exe", Tmp + "AWBUpdater.exe", true);
-                File.Copy(currFolder + "Diff.dll", Tmp + "Diff.dll", true);
+                filename += ".zip";
 
-                Directory.CreateDirectory(Tmp + "Plugins\\");
+                string awbDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase).Replace("file:\\", "");
+                tmp = awbDir + "\\" + tmp;
+                awbDir = awbDir.Remove(awbDir.IndexOf("Extras"));
+                Directory.CreateDirectory(tmp);
 
-                Directory.CreateDirectory(Tmp + "Plugins\\CFD\\");
-                File.Copy(currFolder + "CFD.dll", Tmp + "Plugins\\CFD\\CFD.dll", true);
+                string currFolder = awbDir + "AWB\\bin\\Release\\";
 
-                Directory.CreateDirectory(Tmp + "Plugins\\IFD\\");
-                File.Copy(currFolder + "IFD.dll", Tmp + "Plugins\\IFD\\IFD.dll", true);
+                File.Copy(currFolder + "AutoWikiBrowser.exe", tmp + "AutoWikiBrowser.exe", true);
+                File.Copy(currFolder + "AutoWikiBrowser.exe.config", tmp + "AutoWikiBrowser.exe.config", true);
+                File.Copy(currFolder + "WikiFunctions.dll", tmp + "WikiFunctions.dll", true);
+                File.Copy(currFolder + "AWBUpdater.exe", tmp + "AWBUpdater.exe", true);
+                File.Copy(currFolder + "Diff.dll", tmp + "Diff.dll", true);
 
-                Directory.CreateDirectory(Tmp + "Plugins\\NoLimitsPlugin\\");
-                File.Copy(currFolder + "NoLimitsPlugin.dll", Tmp + "Plugins\\NoLimitsPlugin\\NoLimitsPlugin.dll", true);
+                Directory.CreateDirectory(tmp + "Plugins\\");
 
-                Directory.CreateDirectory(Tmp + "Plugins\\Yahoo Search Plugin\\");
-                File.Copy(currFolder + "YahooSearchPlugin.dll", Tmp + "Plugins\\Yahoo Search Plugin\\YahooSearchPlugin.dll", true);
-				
-				Directory.CreateDirectory(Tmp + "Plugins\\TypoScan Plugin\\");
-                File.Copy(currFolder + "TypoScan.dll", Tmp + "Plugins\\TypoScan Plugin\\TypoScan.dll", true);
+                Directory.CreateDirectory(tmp + "Plugins\\CFD\\");
+                File.Copy(currFolder + "CFD.dll", tmp + "Plugins\\CFD\\CFD.dll", true);
 
-                Directory.CreateDirectory(Tmp + "Plugins\\Delinker\\");
-                File.Copy(currFolder + "DelinkerPlugin.dll", Tmp + "Plugins\\Delinker\\DelinkerPlugin.dll", true);
+                Directory.CreateDirectory(tmp + "Plugins\\IFD\\");
+                File.Copy(currFolder + "IFD.dll", tmp + "Plugins\\IFD\\IFD.dll", true);
 
-                Directory.CreateDirectory(Tmp + "Plugins\\Fronds\\");
-                File.Copy(currFolder + "Fronds.dll", Tmp + "Plugins\\Fronds\\Fronds.dll", true);
+                Directory.CreateDirectory(tmp + "Plugins\\NoLimitsPlugin\\");
+                File.Copy(currFolder + "NoLimitsPlugin.dll", tmp + "Plugins\\NoLimitsPlugin\\NoLimitsPlugin.dll", true);
 
-                Directory.CreateDirectory(Tmp + "Plugins\\Kingbotk\\");
-                currFolder = AWBDir + "Plugins\\Kingbotk\\";
+                Directory.CreateDirectory(tmp + "Plugins\\Yahoo Search Plugin\\");
+                File.Copy(currFolder + "YahooSearchPlugin.dll", tmp + "Plugins\\Yahoo Search Plugin\\YahooSearchPlugin.dll", true);
 
-                File.Copy(currFolder + "Physics generic template.xml", Tmp + "Plugins\\Kingbotk\\Physics generic template.xml", true);
-                File.Copy(currFolder + "Film generic template.xml", Tmp + "Plugins\\Kingbotk\\Film generic template.xml", true);
-                File.Copy(currFolder + "COPYING", Tmp + "Plugins\\Kingbotk\\COPYING", true);
+                Directory.CreateDirectory(tmp + "Plugins\\TypoScan Plugin\\");
+                File.Copy(currFolder + "TypoScan.dll", tmp + "Plugins\\TypoScan Plugin\\TypoScan.dll", true);
+
+                Directory.CreateDirectory(tmp + "Plugins\\Delinker\\");
+                File.Copy(currFolder + "DelinkerPlugin.dll", tmp + "Plugins\\Delinker\\DelinkerPlugin.dll", true);
+
+                Directory.CreateDirectory(tmp + "Plugins\\Fronds\\");
+                File.Copy(currFolder + "Fronds.dll", tmp + "Plugins\\Fronds\\Fronds.dll", true);
+
+                Directory.CreateDirectory(tmp + "Plugins\\Kingbotk\\");
+                currFolder = awbDir + "Plugins\\Kingbotk\\";
+
+                File.Copy(currFolder + "Physics generic template.xml", tmp + "Plugins\\Kingbotk\\Physics generic template.xml", true);
+                File.Copy(currFolder + "Film generic template.xml", tmp + "Plugins\\Kingbotk\\Film generic template.xml", true);
+                File.Copy(currFolder + "COPYING", tmp + "Plugins\\Kingbotk\\COPYING", true);
 
                 currFolder += "AWB Plugin\\bin\\Release\\";
 
-                File.Copy(currFolder + "Kingbotk AWB Plugin.dll", Tmp + "Plugins\\Kingbotk\\Kingbotk AWB Plugin.dll", true);
+                File.Copy(currFolder + "Kingbotk AWB Plugin.dll", tmp + "Plugins\\Kingbotk\\Kingbotk AWB Plugin.dll", true);
 
                 Console.WriteLine("Files copied to temporary directory");
 
                 FastZip zip = new FastZip();
 
-                zip.CreateZip(filename, Tmp, true, null);
+                zip.CreateZip(filename, tmp, true, null);
 
-                Directory.Delete(Tmp, true);
+                Directory.Delete(tmp, true);
 
                 Console.WriteLine("Finished...");
                 Console.WriteLine("Zip Created: " + filename);
