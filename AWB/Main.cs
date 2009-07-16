@@ -2593,16 +2593,17 @@ window.scrollTo(0, diffTopY);
             if (Seconds == 60)
             {
                 Seconds = 0;
-                EditsPerMin();
+                GenerateEditStatistics();
             }
         }
 
-        int Seconds, LastTotal;
-        private void EditsPerMin()
+        int Seconds, LastEditsTotal, LastPagesTotal;
+        private void GenerateEditStatistics()
         {
-            int editsInLastMin = NumberOfEdits - LastTotal;
-            NumberOfEditsPerMinute = editsInLastMin;
-            LastTotal = NumberOfEdits;
+            NumberOfEditsPerMinute = (NumberOfEdits - LastEditsTotal); //Edits in the last minute
+            NumberOfPagesPerMinute = (NumberOfEdits + NumberOfIgnoredEdits - LastPagesTotal);
+            LastEditsTotal = NumberOfEdits;
+            LastPagesTotal = NumberOfEdits + NumberOfIgnoredEdits;
         }
 
         #endregion

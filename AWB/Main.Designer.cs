@@ -408,6 +408,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
+            this.lblPagesPerMin = new System.Windows.Forms.ToolStripStatusLabel();
             this.mnuTextBox.SuspendLayout();
             this.MnuMain.SuspendLayout();
             this.StatusMain.SuspendLayout();
@@ -509,7 +510,7 @@ namespace AutoWikiBrowser
             this.undoAllChangesToolStripMenuItem,
             this.reloadEditPageToolStripMenuItem});
             this.mnuTextBox.Name = "contextMenuStrip1";
-            this.mnuTextBox.Size = new System.Drawing.Size(288, 596);
+            this.mnuTextBox.Size = new System.Drawing.Size(288, 574);
             this.mnuTextBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuTextBox_Opening);
             // 
             // wordWrapToolStripMenuItem1
@@ -583,7 +584,7 @@ namespace AutoWikiBrowser
             this.PasteMore1.Name = "PasteMore1";
             this.PasteMore1.ShortcutKeyDisplayString = "";
             this.PasteMore1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
-            this.PasteMore1.Size = new System.Drawing.Size(152, 22);
+            this.PasteMore1.Size = new System.Drawing.Size(144, 22);
             this.PasteMore1.Visible = false;
             this.PasteMore1.Click += new System.EventHandler(this.PasteMore1_Click);
             // 
@@ -591,7 +592,7 @@ namespace AutoWikiBrowser
             // 
             this.PasteMore2.Name = "PasteMore2";
             this.PasteMore2.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
-            this.PasteMore2.Size = new System.Drawing.Size(152, 22);
+            this.PasteMore2.Size = new System.Drawing.Size(144, 22);
             this.PasteMore2.Visible = false;
             this.PasteMore2.Click += new System.EventHandler(this.PasteMore2_Click);
             // 
@@ -599,7 +600,7 @@ namespace AutoWikiBrowser
             // 
             this.PasteMore3.Name = "PasteMore3";
             this.PasteMore3.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D3)));
-            this.PasteMore3.Size = new System.Drawing.Size(152, 22);
+            this.PasteMore3.Size = new System.Drawing.Size(144, 22);
             this.PasteMore3.Visible = false;
             this.PasteMore3.Click += new System.EventHandler(this.PasteMore3_Click);
             // 
@@ -607,7 +608,7 @@ namespace AutoWikiBrowser
             // 
             this.PasteMore4.Name = "PasteMore4";
             this.PasteMore4.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D4)));
-            this.PasteMore4.Size = new System.Drawing.Size(152, 22);
+            this.PasteMore4.Size = new System.Drawing.Size(144, 22);
             this.PasteMore4.Visible = false;
             this.PasteMore4.Click += new System.EventHandler(this.PasteMore4_Click);
             // 
@@ -615,7 +616,7 @@ namespace AutoWikiBrowser
             // 
             this.PasteMore5.Name = "PasteMore5";
             this.PasteMore5.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D5)));
-            this.PasteMore5.Size = new System.Drawing.Size(152, 22);
+            this.PasteMore5.Size = new System.Drawing.Size(144, 22);
             this.PasteMore5.Visible = false;
             this.PasteMore5.Click += new System.EventHandler(this.PasteMore5_Click);
             // 
@@ -623,7 +624,7 @@ namespace AutoWikiBrowser
             // 
             this.PasteMore6.Name = "PasteMore6";
             this.PasteMore6.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D6)));
-            this.PasteMore6.Size = new System.Drawing.Size(152, 22);
+            this.PasteMore6.Size = new System.Drawing.Size(144, 22);
             this.PasteMore6.Visible = false;
             this.PasteMore6.Click += new System.EventHandler(this.PasteMore6_Click);
             // 
@@ -631,7 +632,7 @@ namespace AutoWikiBrowser
             // 
             this.PasteMore7.Name = "PasteMore7";
             this.PasteMore7.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D7)));
-            this.PasteMore7.Size = new System.Drawing.Size(152, 22);
+            this.PasteMore7.Size = new System.Drawing.Size(144, 22);
             this.PasteMore7.Visible = false;
             this.PasteMore7.Click += new System.EventHandler(this.PasteMore7_Click);
             // 
@@ -639,7 +640,7 @@ namespace AutoWikiBrowser
             // 
             this.PasteMore8.Name = "PasteMore8";
             this.PasteMore8.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D8)));
-            this.PasteMore8.Size = new System.Drawing.Size(152, 22);
+            this.PasteMore8.Size = new System.Drawing.Size(144, 22);
             this.PasteMore8.Visible = false;
             this.PasteMore8.Click += new System.EventHandler(this.PasteMore8_Click);
             // 
@@ -647,7 +648,7 @@ namespace AutoWikiBrowser
             // 
             this.PasteMore9.Name = "PasteMore9";
             this.PasteMore9.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D9)));
-            this.PasteMore9.Size = new System.Drawing.Size(152, 22);
+            this.PasteMore9.Size = new System.Drawing.Size(144, 22);
             this.PasteMore9.Visible = false;
             this.PasteMore9.Click += new System.EventHandler(this.PasteMore9_Click);
             // 
@@ -655,19 +656,19 @@ namespace AutoWikiBrowser
             // 
             this.PasteMore10.Name = "PasteMore10";
             this.PasteMore10.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D0)));
-            this.PasteMore10.Size = new System.Drawing.Size(152, 22);
+            this.PasteMore10.Size = new System.Drawing.Size(144, 22);
             this.PasteMore10.Visible = false;
             this.PasteMore10.Click += new System.EventHandler(this.PasteMore10_Click);
             // 
             // toolStripSeparator19
             // 
             this.toolStripSeparator19.Name = "toolStripSeparator19";
-            this.toolStripSeparator19.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator19.Size = new System.Drawing.Size(141, 6);
             // 
             // configureToolStripMenuItem
             // 
             this.configureToolStripMenuItem.Name = "configureToolStripMenuItem";
-            this.configureToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.configureToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.configureToolStripMenuItem.Text = "&Configure...";
             this.configureToolStripMenuItem.Click += new System.EventHandler(this.configureToolStripMenuItem_Click);
             // 
@@ -1603,6 +1604,7 @@ namespace AutoWikiBrowser
             this.lblIgnoredArticles,
             this.lblEditCount,
             this.lblEditsPerMin,
+            this.lblPagesPerMin,
             this.lblTimer});
             this.StatusMain.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.StatusMain.Location = new System.Drawing.Point(0, 657);
@@ -4092,6 +4094,14 @@ namespace AutoWikiBrowser
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
             // 
+            // lblPagesPerMin
+            // 
+            this.lblPagesPerMin.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.lblPagesPerMin.Name = "lblPagesPerMin";
+            this.lblPagesPerMin.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblPagesPerMin.Size = new System.Drawing.Size(73, 17);
+            this.lblPagesPerMin.Text = "Pages/min: 0";
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -4569,5 +4579,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem PasteMore8;
         private System.Windows.Forms.ToolStripMenuItem PasteMore9;
         private System.Windows.Forms.ToolStripMenuItem PasteMore10;
+        private System.Windows.Forms.ToolStripStatusLabel lblPagesPerMin;
     }
 }
