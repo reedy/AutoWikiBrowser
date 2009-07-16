@@ -1654,7 +1654,7 @@ Message: {2}
         /// </summary>
         public static string ConvertFromTalk(string a)
         {
-            return ConvertFromTalk(a);
+            return ConvertFromTalk(new Article(a));
         }
 
         // Covered by NamespaceFunctions.ConvertFromTalk()
