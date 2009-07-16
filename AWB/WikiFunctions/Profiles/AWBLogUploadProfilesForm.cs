@@ -33,7 +33,8 @@ namespace WikiFunctions.Profiles
 
         private void AWBProfiles_Load(object sender, EventArgs e)
         {
-            LoadProfiles();
+            if (!DesignMode)
+                LoadProfiles();
         }
 
         /// <summary>
