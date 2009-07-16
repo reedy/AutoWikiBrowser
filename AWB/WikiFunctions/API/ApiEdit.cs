@@ -492,7 +492,8 @@ namespace WikiFunctions.API
                     { "summary", summary },
                     { "timestamp", Page.Timestamp },
                     { "text", pageText },
-                    { "token", Page.EditToken }
+                    { "token", Page.EditToken },
+                    { User.IsBot ? "bot" : null, null }
                 });
 
             CheckForError(result, "edit");
@@ -521,6 +522,7 @@ namespace WikiFunctions.API
                         {"prop", "info"},
                         {"intoken", "delete"},
                         {"titles", title},
+                        { User.IsBot ? "bot" : null, null },
                         {watch ? "watch" : null, null}
 
                     });
@@ -618,7 +620,8 @@ namespace WikiFunctions.API
                         {"protections", "edit=" + edit + "|move=" + move},
                         {"expiry", expiry + "|" + expiry},
                         {cascade ? "cascade" : null, null},
-                        {watch ? "watch" : null, null},
+                        { User.IsBot ? "bot" : null, null },
+                        {watch ? "watch" : null, null}
                     });
 
             CheckForError(result);
@@ -684,7 +687,8 @@ namespace WikiFunctions.API
                         {"protections", ""},
                         {moveTalk ? "movetalk" : null, null},
                         {noRedirect ? "noredirect" : null, null},
-                        {watch ? "watch" : null, null},
+                        { User.IsBot ? "bot" : null, null },
+                        {watch ? "watch" : null, null}
                     },
                 true);
 
