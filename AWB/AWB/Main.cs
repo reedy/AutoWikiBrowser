@@ -103,8 +103,8 @@ namespace AutoWikiBrowser
         /// </summary>
         private bool ShuttingDown { get; set; }
 
-        private readonly ToolStripMenuItem[] PasteMoreItems = null;
-        private readonly string[] PasteMoreItemsPrefixes = new string[] {
+        private readonly ToolStripMenuItem[] PasteMoreItems;
+        private readonly string[] PasteMoreItemsPrefixes = new [] {
             "&1. ", "&2. ", "&3. ", "&4. ", "&5. ", "&6. ", "&7. ", "&8. ", "&9. ", "1&0. ", 
         };
         #endregion
@@ -163,7 +163,7 @@ namespace AutoWikiBrowser
 
                 SplashScreen.SetProgress(15);
 
-                PasteMoreItems = new ToolStripMenuItem[] {
+                PasteMoreItems = new [] {
                     PasteMore1, PasteMore2, PasteMore3, PasteMore4, PasteMore5, PasteMore6, PasteMore7, PasteMore8, PasteMore9, PasteMore10, 
                 };
             }
