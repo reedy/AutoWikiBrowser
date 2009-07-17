@@ -798,7 +798,7 @@ namespace AutoWikiBrowser
                 else
                 {
                     Stop();
-                    if (!string.IsNullOrEmpty(SettingsFile) && !(NumberOfIgnoredEdits % 10 == 0))
+                    if (autoSaveSettingsToolStripMenuItem.Checked && !(NumberOfIgnoredEdits % 10 == 0) && !string.IsNullOrEmpty(SettingsFile))
                         SavePrefs(SettingsFile);
                 }
 
@@ -1350,7 +1350,7 @@ namespace AutoWikiBrowser
             Retries = 0;
 
             // if user has loaded a settings file, save it every 10 edits if autosavesettings is set
-            if (autoSaveSettingsToolStripMenuItem.Checked && !string.IsNullOrEmpty(SettingsFile) && (NumberOfEdits > 5) && (NumberOfEdits % 10 == 0))
+            if (autoSaveSettingsToolStripMenuItem.Checked && (NumberOfEdits % 10 == 0) && !string.IsNullOrEmpty(SettingsFile) && (NumberOfEdits > 5))
                 SavePrefs(SettingsFile);
 
             Start();

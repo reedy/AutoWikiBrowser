@@ -1304,7 +1304,7 @@ namespace AutoWikiBrowser
             this.autoSaveSettingsToolStripMenuItem.CheckOnClick = true;
             this.autoSaveSettingsToolStripMenuItem.Name = "autoSaveSettingsToolStripMenuItem";
             this.autoSaveSettingsToolStripMenuItem.Size = new System.Drawing.Size(290, 22);
-            this.autoSaveSettingsToolStripMenuItem.Text = "A&uto save settings file every 10 edits";
+            this.autoSaveSettingsToolStripMenuItem.Text = "A&uto save settings file every 10 pages";
             // 
             // preParseModeToolStripMenuItem
             // 
