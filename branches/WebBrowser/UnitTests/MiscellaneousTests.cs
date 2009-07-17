@@ -135,15 +135,17 @@ namespace UnitTests
         public void HideTemplates()
         {
             AssertAllHiddenMore("{{foo}}");
+            AssertAllHiddenMore("{{{foo}}}");
             AssertAllHiddenMore("{{foo|}}");
             AssertAllHiddenMore("{{foo|bar}}");
             RegexAssert.IsMatch("123" + Hidden + "123", HideMore("123{{foo}}123"));
             AssertAllHiddenMore("{{foo|{{bar}}}}");
+            AssertAllHiddenMore(@"{{foo|
+abc={{bar}}
+|def=hello}}");
             AssertAllHiddenMore("{{foo|{{bar|{{{1|}}}}}}}");
             AssertAllHiddenMore("{{foo|\r\nbar= {blah} blah}}");
             AssertAllHiddenMore("{{foo|\r\nbar= {blah} {{{1|{{blah}}}}}}}");
-
-            RegexAssert.IsMatch(@"\{" + Hidden + @"\}", HideMore("{{{foo}}}"));
         }
 
         [Test]

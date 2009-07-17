@@ -172,18 +172,15 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Hides images, external links, templates, headings
         /// </summary>
+        /// <param name="articleText">the text of the article</param>
+        /// <param name="hideOnlyTargetOfWikilink">whether to hide only the target of a wikilink (so that fixes such as typo corrections may be applied to the piped part of the link)</param>
+        /// <param name="hideWikiLinks">whether to hide all wikilinks including those with words attached outside the link</param>
+        /// <returns>the modified article text</returns>
         public string HideMore(string articleText, bool hideOnlyTargetOfWikilink, bool hideWikiLinks)
         {
             MoreHide.Clear();
 
-            string articleTextBefore;
-            do
-            { // hide nested templates
-                articleTextBefore = articleText;
-                List<Match> matches = Parsers.GetTemplates(articleText, Parsers.EveryTemplate);
-                ReplaceMore(matches, ref articleText);
-            }
-            while (!articleTextBefore.Equals(articleText));
+            ReplaceMore(WikiRegexes.NestedTemplates.Matches(articleText), ref articleText);
 
             ReplaceMore(WikiRegexes.Blockquote.Matches(articleText), ref articleText);
 
@@ -211,7 +208,7 @@ namespace WikiFunctions.Parse
             if(hideWikiLinks)
                 ReplaceMore(WikiRegexes.WikiLinksOnlyPlusWord.Matches(articleText), ref articleText);
 
-            // if HideOnlyTargetOfWikilink is not set, pipes of links e.g.  [[target|pipe]] will be hidden
+            // if HideOnlyTargetOfWikilink is not set, pipes of links e.g. [[target|pipe]] will be hidden
             // if set then don't mask the pipe of a link so that typo fixing can be done on it
             if (!hideOnlyTargetOfWikilink && hideWikiLinks)
             {
