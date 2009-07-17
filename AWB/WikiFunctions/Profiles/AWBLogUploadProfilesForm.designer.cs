@@ -92,7 +92,7 @@ namespace WikiFunctions.Profiles
             // 
             // colProfileSettings
             // 
-            this.colProfileSettings.Text = "Profile default settings";
+            this.colProfileSettings.Text = "Default settings";
             this.colProfileSettings.Width = 175;
             // 
             // colUsedForUpload
