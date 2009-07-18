@@ -23,6 +23,7 @@ using WikiFunctions.API;
 
 namespace WikiFunctions.Profiles
 {
+    //TODO: needs to save last account and other usefulties
     public partial class AWBProfilesForm : AWBLogUploadProfilesForm
     {
         private readonly Session TheSession;
@@ -34,6 +35,7 @@ namespace WikiFunctions.Profiles
             loginAsThisAccountToolStripMenuItem.Visible = true;
             loginAsThisAccountToolStripMenuItem.Click += lvAccounts_DoubleClick;
             TheSession = session;
+            UsernameOrPasswordChanged(this, new EventArgs());
         }
 
         private void PerformLogin(string password)
@@ -140,6 +142,26 @@ namespace WikiFunctions.Profiles
             {
                 ErrorHandler.Handle(ex);
             }
+        }
+
+        private void UsernameOrPasswordChanged(object sender, EventArgs e)
+        {
+            btnQuickLogin.Enabled = txtPassword.Text.Length > 0 && txtUsername.Text.Length > 0;
+        }
+
+        private void btnQuickLogin_Click(object sender, EventArgs e)
+        {
+            string user = txtUsername.Text;
+            string password = txtPassword.Text;
+
+            if (chkSaveProfile.Checked)
+            {
+                var profile = new AWBProfile() { Username = user };
+                if (chkSavePassword.Checked) profile.Password = password;
+                AWBProfiles.AddEditProfile(profile);
+            }
+
+            PerformLogin(user, password);
         }
     }
 }
