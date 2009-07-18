@@ -700,7 +700,7 @@ namespace WikiFunctions.DBScanner
             this.copyToolStripMenuItem,
             this.removeToolStripMenuItem});
             this.ArticlesListBoxContextMenu.Name = "contextMenuStrip1";
-            this.ArticlesListBoxContextMenu.Size = new System.Drawing.Size(202, 98);
+            this.ArticlesListBoxContextMenu.Size = new System.Drawing.Size(202, 120);
             this.ArticlesListBoxContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // openInBrowserToolStripMenuItem
@@ -716,6 +716,7 @@ namespace WikiFunctions.DBScanner
             this.openRevisionInBowserToolStripMenuItem.Name = "openRevisionInBowserToolStripMenuItem";
             this.openRevisionInBowserToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.openRevisionInBowserToolStripMenuItem.Text = "Open revision in bowser";
+            this.openRevisionInBowserToolStripMenuItem.Visible = false;
             // 
             // toolStripSeparator1
             // 
