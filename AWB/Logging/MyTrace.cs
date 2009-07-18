@@ -418,13 +418,13 @@ namespace AutoWikiBrowser.Logging
             if (LoggingSettings.Settings.LogFolder == LogFolder)
             {
                 if (LoggingSettings.Settings.LogXHTML)
-                    if (!(ContainsKey(ConXhtml)))
+                    if (!ContainsKey(ConXhtml))
                         NewXhtmlTraceListener();
                 else if (ContainsKey(ConXhtml))
                     RemoveListener(ConXhtml);
 
                 if (LoggingSettings.Settings.LogWiki)
-                    if (!(ContainsKey(ConWiki)))
+                    if (!ContainsKey(ConWiki))
                         NewWikiTraceListener();
                 else if (ContainsKey(ConWiki))
                     RemoveListener(ConWiki);
