@@ -1743,6 +1743,7 @@ window.scrollTo(0, diffTopY);
         {
             try
             {
+                GetDiff(); // to pick up any manual changes from edit box
                 txtEdit.Text = Diff.UndoChange(left, right);
                 TheArticle.EditSummary = "";
                 GetDiff();
