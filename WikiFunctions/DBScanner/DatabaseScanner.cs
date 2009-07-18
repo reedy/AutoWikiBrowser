@@ -274,7 +274,7 @@ namespace WikiFunctions.DBScanner
             Matches++;
 
             if (Matches >= Limit)
-                Main.Run = false;
+                Main.Stop();
         }
 
         private void Stopped()
