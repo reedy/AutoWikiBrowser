@@ -2010,19 +2010,6 @@ window.scrollTo(0, diffTopY);
             new AboutBox(webBrowserHistory.Version.ToString(), time, NumberOfEdits).Show();
         }
 
-        private void logOutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Would you really like to logout?", "Logout", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                chkAutoMode.Enabled = false;
-                BotMode = false;
-                lblOnlyBots.Visible = true;
-                TheSession.Editor.Logout();
-                TheSession.Editor.Wait();
-                TheSession.Update();
-            }
-        }
-
         public bool CheckStatus(bool login)
         {
             StatusLabelText = "Loading page to check if we are logged in.";
