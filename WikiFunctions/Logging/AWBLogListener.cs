@@ -75,8 +75,13 @@ namespace WikiFunctions.Logging
             base.SubItems.Insert(1, dateStamp);
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#ArgumentException_in_AWBLogListener.AddAndDateStamp
-            if(!listView.Items.Contains(this))
+            // TODO resolve exception by prevention rather than simply catching
+            try
+            {
                 listView.Items.Insert(0, this);
+            }
+
+            catch { }
 
             Datestamped = true;
         }
