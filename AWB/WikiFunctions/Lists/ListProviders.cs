@@ -1035,22 +1035,10 @@ namespace WikiFunctions.Lists
         {
             List<Article> list = new List<Article>();
 
-            StringBuilder nsStringBuilder = new StringBuilder("&srnamespace=0|");
-
-            // explicitly add available namespaces to search options
-            foreach (int k in Variables.Namespaces.Keys)
-            {
-                if (k <= 0) continue;
-                nsStringBuilder.Append(k + "|");
-            }
-
-            nsStringBuilder.Remove((nsStringBuilder.Length - 1), 1);
-            string ns = nsStringBuilder.ToString();
-
             foreach (string page in searchCriteria)
             {
-                string url = Variables.URLApi + "?action=query&list=search&srwhat=" + Srwhat + "&srsearch="
-                    + HttpUtility.UrlEncode(page) + "&srlimit=max&format=xml" + ns;
+                string url = Variables.URLApi + "?action=query&list=search&srwhat=" + Srwhat + "&srsearch=all:\""
+                    + HttpUtility.UrlEncode(page) + "\"&srlimit=max&format=xml";
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
