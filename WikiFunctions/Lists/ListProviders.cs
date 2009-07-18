@@ -1050,7 +1050,7 @@ namespace WikiFunctions.Lists
             foreach (string page in searchCriteria)
             {
                 string url = Variables.URLApi + "?action=query&list=search&srwhat=" + Srwhat + "&srsearch="
-                    + page + "&srlimit=max&format=xml" + ns;
+                    + HttpUtility.UrlEncode(page) + "&srlimit=max&format=xml" + ns;
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
