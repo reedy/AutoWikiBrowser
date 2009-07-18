@@ -1791,9 +1791,9 @@ window.scrollTo(0, diffTopY);
         }
 
         /// <summary>
-        /// 
+        /// Moves the caret to the input line within the article text box
         /// </summary>
-        /// <param name="destLine"></param>
+        /// <param name="destLine">the line number the caret should be moved to</param>
         public void GoTo(int destLine)
         {
             try
@@ -1807,7 +1807,7 @@ window.scrollTo(0, diffTopY);
 
                 if (destLine == 0) txtEdit.Select(0, 0);
                 else
-                    txtEdit.Select(mc[destLine - 1].Index + 2, 0);
+                    txtEdit.Select(mc[destLine - 1].Index + 2 -destLine, 0);
                 txtEdit.ScrollToCaret();
             }
             catch (Exception ex)
