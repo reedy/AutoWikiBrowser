@@ -66,7 +66,7 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
         }
 
         public override string DisplayText
-        { get { return "What transcludes page (All NS) (NL, Admin & Bot)"; } }
+        { get { return "What transcludes page (all NS) (NL, Admin & Bot)"; } }
 
         public string Name
         { get { return "WhatTranscludesPageAllNSNoLimitsForAdminAndBotsPagePlugin"; } }
