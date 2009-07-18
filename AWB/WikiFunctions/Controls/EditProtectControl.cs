@@ -56,6 +56,7 @@ namespace WikiFunctions.Controls
             }
             set
             {
+                if (DesignMode) return;
                 EnsureProtectionLevelExists(value);
                 lbEdit.SelectedItem = value;
             }
@@ -70,6 +71,7 @@ namespace WikiFunctions.Controls
             }
             set
             {
+                if (DesignMode) return;
                 EnsureProtectionLevelExists(value);
                 lbMove.SelectedItem = value;
             }
