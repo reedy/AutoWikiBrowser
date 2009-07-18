@@ -763,7 +763,7 @@ namespace AutoWikiBrowser
                 else
                 {
                     Stop();
-                    if (!string.IsNullOrEmpty(SettingsFile) && !(NumberOfIgnoredEdits % 10 == 0))
+                    if (autoSaveSettingsToolStripMenuItem.Checked && !(NumberOfIgnoredEdits % 10 == 0) && !string.IsNullOrEmpty(SettingsFile))
                         SavePrefs(SettingsFile);
                 }
 
@@ -1207,7 +1207,7 @@ namespace AutoWikiBrowser
             Retries = 0;
 
             // if user has loaded a settings file, save it every 10 edits if autosavesettings is set
-            if (autoSaveSettingsToolStripMenuItem.Checked && !string.IsNullOrEmpty(SettingsFile) && (NumberOfEdits > 5) && (NumberOfEdits % 10 == 0))
+            if (autoSaveSettingsToolStripMenuItem.Checked && (NumberOfEdits % 10 == 0) && !string.IsNullOrEmpty(SettingsFile) && (NumberOfEdits > 5))
                 SavePrefs(SettingsFile);
 
             Start();
@@ -1580,9 +1580,15 @@ window.scrollTo(0, diffTopY);
         {
             try
             {
+                int caretPosition = txtEdit.SelectionStart;
+                GetDiff(); // to pick up any manual changes from edit box
                 txtEdit.Text = Diff.UndoChange(left, right);
                 TheArticle.EditSummary = "";
                 GetDiff();
+
+                // now put caret back where it was
+                txtEdit.Select(Math.Min(caretPosition, txtEdit.Text.Length), 0);
+                txtEdit.ScrollToCaret();
             }
             catch (Exception ex)
             {
@@ -1599,9 +1605,15 @@ window.scrollTo(0, diffTopY);
         {
             try
             {
+                int caretPosition = txtEdit.SelectionStart;
+                GetDiff(); // to pick up any manual changes from edit box
                 txtEdit.Text = Diff.UndoDeletion(left, right);
                 TheArticle.EditSummary = "";
                 GetDiff();
+
+                // now put caret back where it was
+                txtEdit.Select(Math.Min(caretPosition, txtEdit.Text.Length), 0);
+                txtEdit.ScrollToCaret();
             }
             catch (Exception ex)
             {
@@ -1617,9 +1629,15 @@ window.scrollTo(0, diffTopY);
         {
             try
             {
+                int caretPosition = txtEdit.SelectionStart;
+                GetDiff(); // to pick up any manual changes from edit box
                 txtEdit.Text = Diff.UndoAddition(right);
                 TheArticle.EditSummary = "";
                 GetDiff();
+
+                // now put caret back where it was
+                txtEdit.Select(Math.Min(caretPosition, txtEdit.Text.Length), 0);
+                txtEdit.ScrollToCaret();
             }
             catch (Exception ex)
             {
@@ -1628,9 +1646,9 @@ window.scrollTo(0, diffTopY);
         }
 
         /// <summary>
-        /// 
+        /// Moves the caret to the input line within the article text box
         /// </summary>
-        /// <param name="destLine"></param>
+        /// <param name="destLine">the line number the caret should be moved to</param>
         public void GoTo(int destLine)
         {
             try
@@ -1644,7 +1662,7 @@ window.scrollTo(0, diffTopY);
 
                 if (destLine == 0) txtEdit.Select(0, 0);
                 else
-                    txtEdit.Select(mc[destLine - 1].Index + 2, 0);
+                    txtEdit.Select(mc[destLine - 1].Index + 2 -destLine, 0);
                 txtEdit.ScrollToCaret();
             }
             catch (Exception ex)
