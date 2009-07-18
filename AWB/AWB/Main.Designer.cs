@@ -121,10 +121,7 @@ namespace AutoWikiBrowser
             this.saveAsDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.profilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.logOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
             this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.profileTyposToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -409,6 +406,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
+            this.profileTyposToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTextBox.SuspendLayout();
             this.MnuMain.SuspendLayout();
             this.StatusMain.SuspendLayout();
@@ -1003,10 +1001,7 @@ namespace AutoWikiBrowser
             this.saveAsDefaultToolStripMenuItem,
             this.toolStripSeparator8,
             this.profilesToolStripMenuItem,
-            this.logOutToolStripMenuItem,
-            this.toolStripSeparator21,
             this.reloadToolStripMenuItem,
-            this.profileTyposToolStripMenuItem,
             this.toolStripSeparator17,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -1071,18 +1066,6 @@ namespace AutoWikiBrowser
             this.profilesToolStripMenuItem.Text = "Log &In/&Profiles...";
             this.profilesToolStripMenuItem.Click += new System.EventHandler(this.profilesToolStripMenuItem_Click);
             // 
-            // logOutToolStripMenuItem
-            // 
-            this.logOutToolStripMenuItem.Name = "logOutToolStripMenuItem";
-            this.logOutToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
-            this.logOutToolStripMenuItem.Text = "Log &Out";
-            this.logOutToolStripMenuItem.Click += new System.EventHandler(this.logOutToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator21
-            // 
-            this.toolStripSeparator21.Name = "toolStripSeparator21";
-            this.toolStripSeparator21.Size = new System.Drawing.Size(223, 6);
-            // 
             // reloadToolStripMenuItem
             // 
             this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
@@ -1091,14 +1074,6 @@ namespace AutoWikiBrowser
             this.reloadToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
             this.reloadToolStripMenuItem.Text = "Re&fresh status/typos";
             this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
-            // 
-            // profileTyposToolStripMenuItem
-            // 
-            this.profileTyposToolStripMenuItem.Name = "profileTyposToolStripMenuItem";
-            this.profileTyposToolStripMenuItem.Size = new System.Drawing.Size(226, 22);
-            this.profileTyposToolStripMenuItem.Text = "Profile &typos";
-            this.profileTyposToolStripMenuItem.Visible = false;
-            this.profileTyposToolStripMenuItem.Click += new System.EventHandler(this.profileTyposToolStripMenuItem_Click);
             // 
             // toolStripSeparator17
             // 
@@ -1479,7 +1454,8 @@ namespace AutoWikiBrowser
             this.testRegexToolStripMenuItem,
             this.launchDumpSearcherToolStripMenuItem,
             this.launchListComparerToolStripMenuItem,
-            this.launchListSplitterToolStripMenuItem});
+            this.launchListSplitterToolStripMenuItem,
+            this.profileTyposToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.toolsToolStripMenuItem.Text = "&Tools";
@@ -3845,6 +3821,7 @@ namespace AutoWikiBrowser
             this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
             this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
             this.loggingSettings1.Name = "loggingSettings1";
+            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
             this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
             this.loggingSettings1.TabIndex = 0;
             // 
@@ -4101,6 +4078,13 @@ namespace AutoWikiBrowser
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
             // 
+            // profileTyposToolStripMenuItem
+            // 
+            this.profileTyposToolStripMenuItem.Name = "profileTyposToolStripMenuItem";
+            this.profileTyposToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
+            this.profileTyposToolStripMenuItem.Text = "Profile &typos";
+            this.profileTyposToolStripMenuItem.Visible = false;
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -4325,7 +4309,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem hideToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem logOutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem humanNameCategoryKeyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveCurrentSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem PreferencesToolStripMenuItem;
@@ -4501,9 +4484,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator29;
         private System.Windows.Forms.ToolStripMenuItem runUpdaterToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator21;
         private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem profileTyposToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem categoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator24;
         private System.Windows.Forms.TabPage tpSkip;
@@ -4579,5 +4560,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem PasteMore9;
         private System.Windows.Forms.ToolStripMenuItem PasteMore10;
         private System.Windows.Forms.ToolStripStatusLabel lblPagesPerMin;
+        private System.Windows.Forms.ToolStripMenuItem profileTyposToolStripMenuItem;
     }
 }
