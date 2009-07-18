@@ -1735,42 +1735,53 @@ window.scrollTo(0, diffTopY);
 
         #region Diff
         /// <summary>
-        /// 
+        /// Reverses the changes to a line of text in the page
         /// </summary>
         /// <param name="left"></param>
         /// <param name="right"></param>
         public void UndoChange(int left, int right)
         {
-            try
-            {
-                int caretPosition = txtEdit.SelectionStart;
-                GetDiff(); // to pick up any manual changes from edit box
-                txtEdit.Text = Diff.UndoChange(left, right);
-                TheArticle.EditSummary = "";
-                GetDiff();
-
-                // now put caret back where it was
-                txtEdit.Select(Math.Min(caretPosition, txtEdit.Text.Length), 0);
-                txtEdit.ScrollToCaret();
-            }
-            catch (Exception ex)
-            {
-                ErrorHandler.Handle(ex);
-            }
+            UndoChangeGeneric(diffChangeMode.Change, left, right);
         }
 
         /// <summary>
-        /// 
+        /// Reverses the deletion of a line of text from the page
         /// </summary>
         /// <param name="left"></param>
         /// <param name="right"></param>
         public void UndoDeletion(int left, int right)
         {
+            UndoChangeGeneric(diffChangeMode.Deletion, left, right);
+        }
+
+        private enum diffChangeMode : int { Deletion, Change, Addition };
+
+        /// <summary>
+        /// Reverses the change, addition or deletion of a line of text in the page
+        /// </summary>
+        /// <param name="changeType"></param>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        private void UndoChangeGeneric(diffChangeMode changeType, int left, int right)
+        {
             try
             {
                 int caretPosition = txtEdit.SelectionStart;
                 GetDiff(); // to pick up any manual changes from edit box
-                txtEdit.Text = Diff.UndoDeletion(left, right);
+                
+                switch (changeType)
+                {
+                    case diffChangeMode.Change:
+                        txtEdit.Text = Diff.UndoChange(left, right);
+                        break;
+                    case diffChangeMode.Deletion:
+                        txtEdit.Text = Diff.UndoDeletion(left, right);
+                        break;
+                    case diffChangeMode.Addition:
+                        txtEdit.Text = Diff.UndoAddition(right);
+                        break;
+                }
+
                 TheArticle.EditSummary = "";
                 GetDiff();
 
@@ -1790,22 +1801,7 @@ window.scrollTo(0, diffTopY);
         /// <param name="right"></param>
         public void UndoAddition(int right)
         {
-            try
-            {
-                int caretPosition = txtEdit.SelectionStart;
-                GetDiff(); // to pick up any manual changes from edit box
-                txtEdit.Text = Diff.UndoAddition(right);
-                TheArticle.EditSummary = "";
-                GetDiff();
-
-                // now put caret back where it was
-                txtEdit.Select(Math.Min(caretPosition, txtEdit.Text.Length), 0);
-                txtEdit.ScrollToCaret();
-            }
-            catch (Exception ex)
-            {
-                ErrorHandler.Handle(ex);
-            }
+            UndoChangeGeneric(diffChangeMode.Addition, 0, right);
         }
 
         /// <summary>
