@@ -797,7 +797,7 @@ namespace WikiFunctions
         /// <param name="performsSignificantChanges">indicates whether the general fix function makes 'significant' changes</param>
         public void AWBChangeArticleText(string reason, string newText, bool checkIfChanged, bool performsSignificantChanges)
         {
-            if (performsSignificantChanges && !(newText == mArticleText))
+            if (performsSignificantChanges && (newText != mArticleText))
                 GeneralFixesSignificantChange = true;
 
             AWBChangeArticleText(reason, newText, checkIfChanged);
