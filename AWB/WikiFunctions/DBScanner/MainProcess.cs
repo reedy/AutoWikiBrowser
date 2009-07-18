@@ -187,54 +187,46 @@ namespace WikiFunctions.DBScanner
                     if (From.Length > 0)
                     {
                         //move to start from article
-                        while (reader.Read() && Run)
+                        while (Run && reader.Read())
                         {
-                            if (reader.Name == "page")
-                            {
-                                reader.ReadToFollowing("title");
-                                articleTitle = reader.ReadString();
+                            if (reader.Name != "page") continue;
 
-                                if (From == articleTitle)
-                                    break;
-                            }
+                            reader.ReadToFollowing("title");
+                            articleTitle = reader.ReadString();
+
+                            if (From == articleTitle)
+                                break;
                         }
                     }
 
-                    while (reader.Read() && Run)
+                    while (Run && reader.Read())
                     {
-                        if (reader.Name == "page")
+                        if (reader.Name != "page") continue;
+
+                        ArticleInfo ai = new ArticleInfo();
+
+                        reader.ReadToFollowing("title");
+                        ai.Title = articleTitle = reader.ReadString();
+
+                        ai.Restrictions = reader.Name == "restrictions" ? reader.ReadString() : "";
+
+                        reader.ReadToFollowing("timestamp");
+                        ai.Timestamp = reader.ReadString();
+                        reader.ReadToFollowing("text");
+                        ai.Text = reader.ReadString();
+
+                        if (IgnoreComments)
+                            ai.Text = WikiRegexes.Comments.Replace(ai.Text, "");
+
+                        if (MultiThreaded)
                         {
-                            ArticleInfo ai = new ArticleInfo();
-
-                            reader.ReadToFollowing("title");
-                            ai.Title = articleTitle = reader.ReadString();
-
-                            ai.Restrictions = reader.Name == "restrictions" ? reader.ReadString() : "";
-
-                            reader.ReadToFollowing("timestamp");
-                            ai.Timestamp = reader.ReadString();
-                            reader.ReadToFollowing("text");
-                            ai.Text = reader.ReadString();
-
-                            if (IgnoreComments)
-                                ai.Text = WikiRegexes.Comments.Replace(ai.Text, "");
-
-                            if (MultiThreaded)
-                            {
-                                if (PendingArticles.Count < ProcessorCount * 4 + 5)
-                                {
-                                    PendingArticles.Add(ai);
-                                }
-                                else
-                                {
-                                    ScanArticle(ai);
-                                }
-                            }
+                            if (PendingArticles.Count < ProcessorCount * 4 + 5)
+                                PendingArticles.Add(ai);
                             else
-                            {
                                 ScanArticle(ai);
-                            }
                         }
+                        else
+                            ScanArticle(ai);
                     }
 
                     lock (ScanThread)
