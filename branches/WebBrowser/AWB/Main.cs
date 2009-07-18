@@ -1743,10 +1743,15 @@ window.scrollTo(0, diffTopY);
         {
             try
             {
+                int caretPosition = txtEdit.SelectionStart;
                 GetDiff(); // to pick up any manual changes from edit box
                 txtEdit.Text = Diff.UndoChange(left, right);
                 TheArticle.EditSummary = "";
                 GetDiff();
+
+                // now put caret back where it was
+                txtEdit.Select(Math.Min(caretPosition, txtEdit.Text.Length), 0);
+                txtEdit.ScrollToCaret();
             }
             catch (Exception ex)
             {
@@ -1763,9 +1768,15 @@ window.scrollTo(0, diffTopY);
         {
             try
             {
+                int caretPosition = txtEdit.SelectionStart;
+                GetDiff(); // to pick up any manual changes from edit box
                 txtEdit.Text = Diff.UndoDeletion(left, right);
                 TheArticle.EditSummary = "";
                 GetDiff();
+
+                // now put caret back where it was
+                txtEdit.Select(Math.Min(caretPosition, txtEdit.Text.Length), 0);
+                txtEdit.ScrollToCaret();
             }
             catch (Exception ex)
             {
@@ -1781,9 +1792,15 @@ window.scrollTo(0, diffTopY);
         {
             try
             {
+                int caretPosition = txtEdit.SelectionStart;
+                GetDiff(); // to pick up any manual changes from edit box
                 txtEdit.Text = Diff.UndoAddition(right);
                 TheArticle.EditSummary = "";
                 GetDiff();
+
+                // now put caret back where it was
+                txtEdit.Select(Math.Min(caretPosition, txtEdit.Text.Length), 0);
+                txtEdit.ScrollToCaret();
             }
             catch (Exception ex)
             {
