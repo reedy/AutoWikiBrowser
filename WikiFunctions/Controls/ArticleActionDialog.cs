@@ -129,12 +129,9 @@ namespace WikiFunctions.Controls
 
         public string EditProtectionLevel
         {
-            get
+            get 
             {
-                if (CurrentAction == ArticleAction.Protect) 
-                    return MoveDelete.EditProtectionLevel;
-                else
-                    return "";
+                return CurrentAction == ArticleAction.Protect ? MoveDelete.EditProtectionLevel : "";
             }
             set
             {
@@ -146,9 +143,7 @@ namespace WikiFunctions.Controls
         {
             get
             {
-                if (CurrentAction == ArticleAction.Protect)
-                    return MoveDelete.MoveProtectionLevel;
-                return "";
+                return CurrentAction == ArticleAction.Protect ? MoveDelete.MoveProtectionLevel : "";
             }
             set
             {
