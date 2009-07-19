@@ -186,11 +186,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Private Sub MenuHelp_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuHelp.Click
             PluginManager.AWBForm.ShowHelpEnWiki("User:Kingbotk/Plugin/User guide")
         End Sub
-        Private Sub MenuHelpReleaseNotes_Click(ByVal sender As Object, ByVal e As System.EventArgs) _
-        Handles MenuHelpReleaseNotes.Click
-            PluginManager.AWBForm.ShowHelpEnWiki("User:Kingbotk/Plugin")
-        End Sub
-
         ' Event handlers - our controls:
         Private Sub ManuallyAssessCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
         Handles ManuallyAssessCheckBox.CheckedChanged
