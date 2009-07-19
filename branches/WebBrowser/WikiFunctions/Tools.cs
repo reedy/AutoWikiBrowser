@@ -621,7 +621,7 @@ namespace WikiFunctions
             return (string.IsNullOrEmpty(input)) ? "" : (char.ToLower(input[0]) + input.Remove(0, 1));
         }
 
-        private static readonly Regex RegexWordCountTable = new Regex("\\{\\|.*?\\|\\}", RegexOptions.Compiled | RegexOptions.Singleline);
+        private static readonly Regex RegexWordCountTable = new Regex(@"\{\|.*?\|\}", RegexOptions.Compiled | RegexOptions.Singleline);
 
         // Covered by ToolsTests.WordCount()
         /// <summary>
@@ -633,7 +633,27 @@ namespace WikiFunctions
             text = WikiRegexes.TemplateMultiLine.Replace(text, " ");
             text = WikiRegexes.Comments.Replace(text, "");
 
-            return WikiRegexes.RegexWord.Matches(text).Count;
+            int words = 0;
+            int i = 0;
+
+            while (i < text.Length)
+            {
+                if (!char.IsLetterOrDigit(text[i]))
+                {
+                    do
+                        i++;
+                    while (i < text.Length && !char.IsLetterOrDigit(text[i]));
+                }
+                else
+                {
+                    words++;
+                    do 
+                        i++ ;
+                    while (i < text.Length && char.IsLetterOrDigit(text[i]));
+                }
+            }
+
+            return words;
         }
 
         // Not Covered
