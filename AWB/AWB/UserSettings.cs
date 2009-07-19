@@ -219,7 +219,6 @@ namespace AutoWikiBrowser
             LoadPrefs(AwbDirs.DefaultSettings);
         }
 
-
         /// <summary>
         /// Save preferences as default
         /// </summary>
