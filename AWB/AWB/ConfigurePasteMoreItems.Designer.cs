@@ -55,6 +55,7 @@
             // okButton
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.okButton.Location = new System.Drawing.Point(224, 279);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
@@ -259,7 +260,7 @@
             this.AcceptButton = this.okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(392, 314);
+            this.ClientSize = new System.Drawing.Size(392, 305);
             this.Controls.Add(this.textBox10);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.textBox9);
