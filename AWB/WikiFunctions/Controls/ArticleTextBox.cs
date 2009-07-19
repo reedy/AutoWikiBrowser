@@ -154,7 +154,7 @@ namespace WikiFunctions.Controls
         /// Applies syntax highlighting to the input ArticleTextBox 
         /// </summary>
         /// <returns></returns>
-        private void HighlightSyntax()
+        public void HighlightSyntax()
         {
             // TODO: regexes to be moved to WikiRegexes where appropriate and covered by unit tests
             Font currentFont = SelectionFont;

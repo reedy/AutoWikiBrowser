@@ -886,7 +886,6 @@ namespace AutoWikiBrowser
         /// <summary>
         /// Applies syntax highlighting to the Edit Text Box
         /// </summary>
-        /// <param name="txtEditLocal"></param>
         /// <returns></returns>
         private void HighlightSyntax()
         {
