@@ -26,6 +26,11 @@ using WikiFunctions.Lists;
 
 namespace WikiFunctions.Parse
 {
+    //TODO:Make Regexes Compiled as required
+    //TODO:Move Regexes to WikiRegexes as required
+    //TODO:Split Parser code into seperate files (for manageability), or even into seperate classes
+    //TODO:Move regexes declared in method bodies (if not dynamic based on article title, etc), into class body
+
     /// <summary>
     /// Provides functions for editting wiki text, such as formatting and re-categorisation.
     /// </summary>
