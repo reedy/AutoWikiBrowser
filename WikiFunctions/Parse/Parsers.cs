@@ -1725,6 +1725,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SingleSquareBrackets = new Regex(@"\[((?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])");
         private static readonly Regex SingleRoundBrackets = new Regex(@"\(((?>[^\(\)]+|\((?<DEPTH>)|\)(?<-DEPTH>))*(?(DEPTH)(?!))\))");
         private static readonly Regex Tags = new Regex(@"\<((?>[^\<\>]+|\<(?<DEPTH>)|\>(?<-DEPTH>))*(?(DEPTH)(?!))\>)");
+        private static readonly Regex HideNestedBrackets = new Regex(@"[^\[\]{}<>]\[[^\[\]{}<>]*?&#93;", RegexOptions.Compiled);
 
         /// <summary>
         /// Checks the article text for unbalanced brackets, either square or curly
@@ -1735,6 +1736,10 @@ namespace WikiFunctions.Parse
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Missing_opening_or_closing_brackets.2C_table_and_template_markup_.28WikiProject_Check_Wikipedia_.23_10.2C_28.2C_43.2C_46.2C_47.29
         public static int UnbalancedBrackets(string articleText, ref int bracketLength)
         {
+            // &#93; is used to replace the ] in external link text, which gives correct markup
+            // replace [...&#93; with spaces to avoid matching as unbalanced brackets
+            articleText = HideNestedBrackets.Replace(articleText, " ");
+
             bracketLength = 2;
 
             int unbalancedfound = UnbalancedBrackets(articleText, @"{{", @"}}", WikiRegexes.NestedTemplates);
@@ -1777,10 +1782,8 @@ namespace WikiFunctions.Parse
         /// <returns>Index of any unbalanced brackets found</returns>
         private static int UnbalancedBrackets(string articleText, string openingBrackets, string closingBrackets, Regex bracketsRegex)
         {
-            // &#93; is used to replace the ] in external link text, which gives correct markup
-            // replace [...&#93; with spaces to avoid matching as unbalanced brackets
-            articleText = Regex.Replace(articleText, @"[^\[\]{}<>]\[[^\[\]{}<>]*?&#93;", @" ");
-
+            //TODO: move everything possible to the parent function, however, it shouldn't be performed blindly,
+            //without a performance review
             if (Regex.Matches(articleText, Regex.Escape(openingBrackets)).Count != Regex.Matches(articleText, Regex.Escape(closingBrackets)).Count)
             {
                 // remove all <math>, <code> stuff etc. where curly brackets are used in singles and pairs
