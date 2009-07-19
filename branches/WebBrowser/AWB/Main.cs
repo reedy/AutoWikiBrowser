@@ -2242,7 +2242,7 @@ window.scrollTo(0, diffTopY);
                 int intInterLinks = Tools.InterwikiCount(articleText);
                 int intLinks = WikiRegexes.WikiLinksOnly.Matches(articleText).Count;
 
-                intLinks = intLinks - intInterLinks - intImages - intCats;
+                intLinks -= intInterLinks + intImages + intCats;
 
                 if (TheArticle.NameSpaceKey == Namespace.Article && WikiRegexes.Stub.IsMatch(articleText) && intWords > 500)
                     lblWarn.Text = "Long article with a stub tag.\r\n";
