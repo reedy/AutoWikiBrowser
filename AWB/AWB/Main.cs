@@ -45,6 +45,10 @@ using AutoWikiBrowser.Plugins;
 
 namespace AutoWikiBrowser
 {
+    //TODO:Move any code that doesn't need to be directly behind the form to WF or other code files (Preferably WF)
+    //TODO:Move regexes declared in method bodies (if not dynamic based on article title, etc), into class body
+    //TODO:Move any Regexes to WikiRegexes as required
+
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     [System.Runtime.InteropServices.ComVisibleAttribute(true)]
     public sealed partial class MainForm : Form, IAutoWikiBrowser
@@ -426,7 +430,7 @@ namespace AutoWikiBrowser
         private void CreateEditor()
         {
             TheSession.PreviewComplete += PreviewComplete;
-            TheSession.ExceptionCaught += APIEditExceptionCaught;
+            TheSession.ExceptionCaught += ApiEditExceptionCaught;
             TheSession.SaveComplete += CaseWasSaved;
             TheSession.MaxlagExceeded += MaxlagExceeded;
         }
@@ -449,7 +453,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        private void APIEditExceptionCaught(AsyncApiEdit sender, Exception ex)
+        private void ApiEditExceptionCaught(AsyncApiEdit sender, Exception ex)
         {
             if (ex is ApiInterwikiException)
             {
@@ -459,7 +463,7 @@ namespace AutoWikiBrowser
                 StartDelayedRestartTimer();
         }
 
-        private void StartAPITextLoad(string title)
+        private void StartApiTextLoad(string title)
         {
             TheSession.Editor.Open(title);
 
@@ -472,15 +476,14 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            if (!LoadSuccessAPI())
+            if (!LoadSuccessApi())
                 return;
 
             CaseWasLoad(TheSession.Editor.Page.Text);
         }
 
         private bool StopProcessing;
-        private bool InStart = false;
-        private bool StartAgain = false;
+        private bool InStart, StartAgain;
 
         private void Start()
         {
@@ -570,7 +573,7 @@ namespace AutoWikiBrowser
                 StartProgressBar();
 
                 //Navigate to edit page
-                StartAPITextLoad(TheArticle.Name);
+                StartApiTextLoad(TheArticle.Name);
             }
             catch (Exception ex)
             {
@@ -660,7 +663,7 @@ namespace AutoWikiBrowser
                         return;
                     }
 
-                    StartAPITextLoad(redirect.Name);
+                    StartApiTextLoad(redirect.Name);
 
                     return;
                 }
@@ -869,7 +872,7 @@ namespace AutoWikiBrowser
                     {
                         EditBoxTab.SelectedTab = tpEdit;
 
-                        highlightUnbalancedBrackets();
+                        HighlightUnbalancedBrackets();
                     }
                 }
             }
@@ -891,6 +894,7 @@ namespace AutoWikiBrowser
             txtEditLocal.TextChanged -= txtEdit_TextChanged;
 
             // TODO: regexes to be moved to WikiRegexes where appropriate and covered by unit tests
+            // TODO: Could be encapsulated into ArticleTextBox itself (or most of the code could)
             Font currentFont = txtEditLocal.SelectionFont;
             Font boldFont = new Font(currentFont.FontFamily, currentFont.Size, FontStyle.Bold);
             Font italicFont = new Font(currentFont.FontFamily, currentFont.Size, FontStyle.Italic);
@@ -1112,7 +1116,7 @@ namespace AutoWikiBrowser
 
         private readonly TalkMessage DlgTalk = new TalkMessage();
 
-        private bool LoadSuccessAPI()
+        private bool LoadSuccessApi()
         {
             try
             {
@@ -1158,7 +1162,7 @@ namespace AutoWikiBrowser
             GuiUpdateAfterProcessing();
         }
 
-        private static readonly Regex SpamUrlRegex = new Regex("<p>The following link has triggered our spam protection filter:<strong>(.*?)</strong><br/?>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        //private static readonly Regex SpamUrlRegex = new Regex("<p>The following link has triggered our spam protection filter:<strong>(.*?)</strong><br/?>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         private void CaseWasSaved(AsyncApiEdit sender, SaveInfo saveInfo)
         {
@@ -1598,7 +1602,7 @@ window.scrollTo(0, diffTopY);
         /// <param name="right"></param>
         public void UndoChange(int left, int right)
         {
-            UndoChangeGeneric(diffChangeMode.Change, left, right);
+            UndoChangeGeneric(DiffChangeMode.Change, left, right);
         }
 
         /// <summary>
@@ -1608,10 +1612,10 @@ window.scrollTo(0, diffTopY);
         /// <param name="right"></param>
         public void UndoDeletion(int left, int right)
         {
-            UndoChangeGeneric(diffChangeMode.Deletion, left, right);
+            UndoChangeGeneric(DiffChangeMode.Deletion, left, right);
         }
 
-        private enum diffChangeMode : int { Deletion, Change, Addition };
+        private enum DiffChangeMode { Deletion, Change, Addition };
 
         /// <summary>
         /// Reverses the change, addition or deletion of a line of text in the page
@@ -1619,7 +1623,7 @@ window.scrollTo(0, diffTopY);
         /// <param name="changeType"></param>
         /// <param name="left"></param>
         /// <param name="right"></param>
-        private void UndoChangeGeneric(diffChangeMode changeType, int left, int right)
+        private void UndoChangeGeneric(DiffChangeMode changeType, int left, int right)
         {
             try
             {
@@ -1628,13 +1632,13 @@ window.scrollTo(0, diffTopY);
                 
                 switch (changeType)
                 {
-                    case diffChangeMode.Change:
+                    case DiffChangeMode.Change:
                         txtEdit.Text = Diff.UndoChange(left, right);
                         break;
-                    case diffChangeMode.Deletion:
+                    case DiffChangeMode.Deletion:
                         txtEdit.Text = Diff.UndoDeletion(left, right);
                         break;
-                    case diffChangeMode.Addition:
+                    case DiffChangeMode.Addition:
                         txtEdit.Text = Diff.UndoAddition(right);
                         break;
                 }
@@ -1658,7 +1662,7 @@ window.scrollTo(0, diffTopY);
         /// <param name="right"></param>
         public void UndoAddition(int right)
         {
-            UndoChangeGeneric(diffChangeMode.Addition, 0, right);
+            UndoChangeGeneric(DiffChangeMode.Addition, 0, right);
         }
 
         /// <summary>
@@ -3118,7 +3122,7 @@ window.scrollTo(0, diffTopY);
 
             if (UnbalancedBracket >= 0 && scrollToUnbalancedBracketsToolStripMenuItem.Checked)
             {
-                highlightUnbalancedBrackets();
+                HighlightUnbalancedBrackets();
             }
 
             if (syntaxHighlightEditBoxToolStripMenuItem.Checked)
@@ -3212,7 +3216,7 @@ window.scrollTo(0, diffTopY);
                                                                       (string)PasteMore10.Tag);
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                string[] dlgStrings = new string[] {
+                string[] dlgStrings = new [] {
                     dlg.String1, dlg.String2, dlg.String3, dlg.String4, dlg.String5, dlg.String6, dlg.String7, dlg.String8, dlg.String9, dlg.String10, 
                 };
                 for (int i = 0; i < 10; ++i)
@@ -4335,7 +4339,7 @@ window.scrollTo(0, diffTopY);
             ExtProgram.Show();
         }
 
-        readonly CategoryNameForm CatName = new CategoryNameForm();
+        private readonly CategoryNameForm CatName = new CategoryNameForm();
 
         private void categoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -4408,7 +4412,7 @@ window.scrollTo(0, diffTopY);
             AddIgnoredToLogFile = displayfalsePositivesButtonToolStripMenuItem.Checked;
         }
 
-        private void highlightUnbalancedBrackets()
+        private void HighlightUnbalancedBrackets()
         {
             // indexes in articleText and txtEdit.Edit are offset by the number of newlines before the index of the unbalanced brackets
             // so allow for this when highlighting the unbalanced bracket
