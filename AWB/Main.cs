@@ -644,7 +644,7 @@ namespace AutoWikiBrowser
 
                     if (redirect.Name == TheArticle.Name)
                     {
-//ignore recursive redirects
+                        //ignore recursive redirects
                         TheArticle = redirect;
                         SkipPage("Recursive redirect");
                         return;
@@ -670,7 +670,7 @@ namespace AutoWikiBrowser
             }
 
             TheArticle.OriginalArticleText = articleText;
-            TheArticle.Exists = (TheSession.Page.Exists) ? Exists.Yes: Exists.No;
+            TheArticle.Exists = (TheSession.Page.Exists) ? Exists.Yes : Exists.No;
             ErrorHandler.CurrentRevision = TheSession.Editor.Page.RevisionID;
 
             if (PageReload)
