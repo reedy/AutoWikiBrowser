@@ -137,6 +137,11 @@ namespace UnitTests
 
             TestMatches(WikiRegexes.WikiLinksOnly, "[[foo[]]", 0);
             TestMatch(WikiRegexes.WikiLinksOnly, "[[foo [[bar]] here]", "[[bar]]");
+			
+			//I dont consider Categories, Images and IW to be "WikiLinks Only"
+            TestMatches(WikiRegexes.WikiLinksOnly, "[[Category:Test]]", 0);
+            TestMatches(WikiRegexes.WikiLinksOnly, "[[de:Test]]", 0);
+            TestMatches(WikiRegexes.WikiLinksOnly, "[[Image:Test,]]", 0);
         }
 
         [Test]
