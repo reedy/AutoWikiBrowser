@@ -583,7 +583,5 @@ namespace AutoWikiBrowser.Logging
 
         internal static AWBLogListener InitialiseLogListener(ArticleEX article) 
         { return null;/* Article.InitialiseLogListener("AWB", Program.MyTrace);*/ }
-        // TODO: At some point we need to *remove* the listener for the article ("AWB")
-        // Plugin did it at the end of ProcessArticle(). We also do it, but a bit late, in AddListener().
     }
 }

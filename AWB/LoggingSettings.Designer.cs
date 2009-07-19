@@ -29,7 +29,6 @@ namespace AutoWikiBrowser
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoggingSettings));
             this.ApplyButton = new System.Windows.Forms.Button();
             this.GroupBox3 = new System.Windows.Forms.GroupBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -61,14 +60,11 @@ namespace AutoWikiBrowser
             this.UploadsCountLabel = new System.Windows.Forms.Label();
             this.WikiLinesLabel = new System.Windows.Forms.Label();
             this.XHTMLLinesLabel = new System.Windows.Forms.Label();
-            this.BadTagsLinesLabel = new System.Windows.Forms.Label();
             this.WikiLinesSinceUploadLabel = new System.Windows.Forms.Label();
             this.XHTMLLinesSinceUploadLabel = new System.Windows.Forms.Label();
-            this.BadTagsLinesSinceUploadLabel = new System.Windows.Forms.Label();
             this.Label2 = new System.Windows.Forms.Label();
             this.Label3 = new System.Windows.Forms.Label();
             this.Label4 = new System.Windows.Forms.Label();
-            this.Label5 = new System.Windows.Forms.Label();
             this.Label6 = new System.Windows.Forms.Label();
             this.Label7 = new System.Windows.Forms.Label();
             this.GroupBox1 = new System.Windows.Forms.GroupBox();
@@ -166,19 +162,19 @@ namespace AutoWikiBrowser
             this.MaxLinesResetToolStripMenuItem,
             this.SetToMaximumToolStripMenuItem});
             this.MaxLinesContextMenuStrip.Name = "MaxLinesContextMenuStrip";
-            this.MaxLinesContextMenuStrip.Size = new System.Drawing.Size(152, 48);
+            this.MaxLinesContextMenuStrip.Size = new System.Drawing.Size(162, 48);
             // 
             // MaxLinesResetToolStripMenuItem
             // 
             this.MaxLinesResetToolStripMenuItem.Name = "MaxLinesResetToolStripMenuItem";
-            this.MaxLinesResetToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.MaxLinesResetToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.MaxLinesResetToolStripMenuItem.Text = "Reset";
             this.MaxLinesResetToolStripMenuItem.Click += new System.EventHandler(this.MaxLinesReset);
             // 
             // SetToMaximumToolStripMenuItem
             // 
             this.SetToMaximumToolStripMenuItem.Name = "SetToMaximumToolStripMenuItem";
-            this.SetToMaximumToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.SetToMaximumToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.SetToMaximumToolStripMenuItem.Text = "Set to maximum";
             this.SetToMaximumToolStripMenuItem.Click += new System.EventHandler(this.SetLinesToMaximum);
             // 
@@ -215,12 +211,12 @@ namespace AutoWikiBrowser
             this.JobNameContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.JobNameResetToolStripMenuItem});
             this.JobNameContextMenuStrip.Name = "JobNameContextMenuStrip";
-            this.JobNameContextMenuStrip.Size = new System.Drawing.Size(106, 26);
+            this.JobNameContextMenuStrip.Size = new System.Drawing.Size(103, 26);
             // 
             // JobNameResetToolStripMenuItem
             // 
             this.JobNameResetToolStripMenuItem.Name = "JobNameResetToolStripMenuItem";
-            this.JobNameResetToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
+            this.JobNameResetToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
             this.JobNameResetToolStripMenuItem.Text = "Reset";
             this.JobNameResetToolStripMenuItem.Click += new System.EventHandler(this.JobNameReset);
             // 
@@ -248,12 +244,12 @@ namespace AutoWikiBrowser
             this.LocationContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.LocationResetToolStripMenuItem});
             this.LocationContextMenuStrip.Name = "LocationContextMenuStrip";
-            this.LocationContextMenuStrip.Size = new System.Drawing.Size(106, 26);
+            this.LocationContextMenuStrip.Size = new System.Drawing.Size(103, 26);
             // 
             // LocationResetToolStripMenuItem
             // 
             this.LocationResetToolStripMenuItem.Name = "LocationResetToolStripMenuItem";
-            this.LocationResetToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
+            this.LocationResetToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
             this.LocationResetToolStripMenuItem.Text = "Reset";
             this.LocationResetToolStripMenuItem.Click += new System.EventHandler(this.LocationReset);
             // 
@@ -264,7 +260,6 @@ namespace AutoWikiBrowser
             this.LoggingCategoryTextBox.Name = "LoggingCategoryTextBox";
             this.LoggingCategoryTextBox.Size = new System.Drawing.Size(103, 20);
             this.LoggingCategoryTextBox.TabIndex = 6;
-            this.ToolTip1.SetToolTip(this.LoggingCategoryTextBox, resources.GetString("LoggingCategoryTextBox.ToolTip"));
             // 
             // CategoryTextboxContextMenuStrip
             // 
@@ -274,13 +269,13 @@ namespace AutoWikiBrowser
             this.toolStripMenuItemCategoryPaste,
             this.toolStripMenuItemCategoryClear});
             this.CategoryTextboxContextMenuStrip.Name = "ContextMenuStrip1";
-            this.CategoryTextboxContextMenuStrip.Size = new System.Drawing.Size(140, 92);
+            this.CategoryTextboxContextMenuStrip.Size = new System.Drawing.Size(145, 92);
             // 
             // toolStripMenuItemCategoryCut
             // 
             this.toolStripMenuItemCategoryCut.Name = "toolStripMenuItemCategoryCut";
             this.toolStripMenuItemCategoryCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.toolStripMenuItemCategoryCut.Size = new System.Drawing.Size(139, 22);
+            this.toolStripMenuItemCategoryCut.Size = new System.Drawing.Size(144, 22);
             this.toolStripMenuItemCategoryCut.Text = "Cut";
             this.toolStripMenuItemCategoryCut.Click += new System.EventHandler(this.toolStripMenuItemCategoryCut_Click);
             // 
@@ -288,7 +283,7 @@ namespace AutoWikiBrowser
             // 
             this.toolStripMenuItemCategoryCopy.Name = "toolStripMenuItemCategoryCopy";
             this.toolStripMenuItemCategoryCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.toolStripMenuItemCategoryCopy.Size = new System.Drawing.Size(139, 22);
+            this.toolStripMenuItemCategoryCopy.Size = new System.Drawing.Size(144, 22);
             this.toolStripMenuItemCategoryCopy.Text = "Copy";
             this.toolStripMenuItemCategoryCopy.Click += new System.EventHandler(this.toolStripMenuItemCategoryCopy_Click);
             // 
@@ -296,7 +291,7 @@ namespace AutoWikiBrowser
             // 
             this.toolStripMenuItemCategoryPaste.Name = "toolStripMenuItemCategoryPaste";
             this.toolStripMenuItemCategoryPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.toolStripMenuItemCategoryPaste.Size = new System.Drawing.Size(139, 22);
+            this.toolStripMenuItemCategoryPaste.Size = new System.Drawing.Size(144, 22);
             this.toolStripMenuItemCategoryPaste.Text = "Paste";
             this.toolStripMenuItemCategoryPaste.Click += new System.EventHandler(this.toolStripMenuItemCategoryPaste_Click);
             // 
@@ -304,7 +299,7 @@ namespace AutoWikiBrowser
             // 
             this.toolStripMenuItemCategoryClear.Name = "toolStripMenuItemCategoryClear";
             this.toolStripMenuItemCategoryClear.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.toolStripMenuItemCategoryClear.Size = new System.Drawing.Size(139, 22);
+            this.toolStripMenuItemCategoryClear.Size = new System.Drawing.Size(144, 22);
             this.toolStripMenuItemCategoryClear.Text = "Clear";
             this.toolStripMenuItemCategoryClear.Click += new System.EventHandler(this.toolStripMenuItemCategoryClear_Click);
             // 
@@ -357,14 +352,11 @@ namespace AutoWikiBrowser
             this.GroupBox2.Controls.Add(this.UploadsCountLabel);
             this.GroupBox2.Controls.Add(this.WikiLinesLabel);
             this.GroupBox2.Controls.Add(this.XHTMLLinesLabel);
-            this.GroupBox2.Controls.Add(this.BadTagsLinesLabel);
             this.GroupBox2.Controls.Add(this.WikiLinesSinceUploadLabel);
             this.GroupBox2.Controls.Add(this.XHTMLLinesSinceUploadLabel);
-            this.GroupBox2.Controls.Add(this.BadTagsLinesSinceUploadLabel);
             this.GroupBox2.Controls.Add(this.Label2);
             this.GroupBox2.Controls.Add(this.Label3);
             this.GroupBox2.Controls.Add(this.Label4);
-            this.GroupBox2.Controls.Add(this.Label5);
             this.GroupBox2.Controls.Add(this.Label6);
             this.GroupBox2.Controls.Add(this.Label7);
             this.GroupBox2.Location = new System.Drawing.Point(8, 247);
@@ -420,15 +412,6 @@ namespace AutoWikiBrowser
             this.XHTMLLinesLabel.TabIndex = 26;
             this.XHTMLLinesLabel.Text = "N/A";
             // 
-            // BadTagsLinesLabel
-            // 
-            this.BadTagsLinesLabel.AutoSize = true;
-            this.BadTagsLinesLabel.Location = new System.Drawing.Point(56, 77);
-            this.BadTagsLinesLabel.Name = "BadTagsLinesLabel";
-            this.BadTagsLinesLabel.Size = new System.Drawing.Size(27, 13);
-            this.BadTagsLinesLabel.TabIndex = 27;
-            this.BadTagsLinesLabel.Text = "N/A";
-            // 
             // WikiLinesSinceUploadLabel
             // 
             this.WikiLinesSinceUploadLabel.AutoSize = true;
@@ -446,15 +429,6 @@ namespace AutoWikiBrowser
             this.XHTMLLinesSinceUploadLabel.Size = new System.Drawing.Size(27, 13);
             this.XHTMLLinesSinceUploadLabel.TabIndex = 29;
             this.XHTMLLinesSinceUploadLabel.Text = "N/A";
-            // 
-            // BadTagsLinesSinceUploadLabel
-            // 
-            this.BadTagsLinesSinceUploadLabel.AutoSize = true;
-            this.BadTagsLinesSinceUploadLabel.Location = new System.Drawing.Point(123, 76);
-            this.BadTagsLinesSinceUploadLabel.Name = "BadTagsLinesSinceUploadLabel";
-            this.BadTagsLinesSinceUploadLabel.Size = new System.Drawing.Size(27, 13);
-            this.BadTagsLinesSinceUploadLabel.TabIndex = 30;
-            this.BadTagsLinesSinceUploadLabel.Text = "N/A";
             // 
             // Label2
             // 
@@ -485,16 +459,6 @@ namespace AutoWikiBrowser
             this.Label4.Size = new System.Drawing.Size(41, 13);
             this.Label4.TabIndex = 24;
             this.Label4.Text = "HMTL";
-            // 
-            // Label5
-            // 
-            this.Label5.AutoSize = true;
-            this.Label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label5.Location = new System.Drawing.Point(9, 76);
-            this.Label5.Name = "Label5";
-            this.Label5.Size = new System.Drawing.Size(31, 13);
-            this.Label5.TabIndex = 25;
-            this.Label5.Text = "SQL";
             // 
             // Label6
             // 
@@ -684,14 +648,11 @@ namespace AutoWikiBrowser
         internal System.Windows.Forms.Label UploadsCountLabel;
         internal System.Windows.Forms.Label WikiLinesLabel;
         internal System.Windows.Forms.Label XHTMLLinesLabel;
-        internal System.Windows.Forms.Label BadTagsLinesLabel;
         internal System.Windows.Forms.Label WikiLinesSinceUploadLabel;
         internal System.Windows.Forms.Label XHTMLLinesSinceUploadLabel;
-        internal System.Windows.Forms.Label BadTagsLinesSinceUploadLabel;
         private System.Windows.Forms.Label Label2;
         private System.Windows.Forms.Label Label3;
         private System.Windows.Forms.Label Label4;
-        private System.Windows.Forms.Label Label5;
         private System.Windows.Forms.Label Label6;
         private System.Windows.Forms.Label Label7;
         private System.Windows.Forms.GroupBox GroupBox1;
