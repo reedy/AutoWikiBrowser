@@ -156,7 +156,7 @@ namespace WikiFunctions.Profiles
 
             if (chkSaveProfile.Checked)
             {
-                var profile = new AWBProfile() { Username = user };
+                var profile = new AWBProfile { Username = user };
                 if (chkSavePassword.Checked) profile.Password = password;
                 AWBProfiles.AddEditProfile(profile);
             }

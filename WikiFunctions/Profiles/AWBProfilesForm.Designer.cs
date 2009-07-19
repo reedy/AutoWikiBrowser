@@ -64,6 +64,7 @@
             // btnLogin
             // 
             this.btnLogin.Location = new System.Drawing.Point(12, 135);
+            this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
             // BtnEdit
             // 
