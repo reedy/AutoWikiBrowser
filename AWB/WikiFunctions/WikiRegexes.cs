@@ -608,5 +608,10 @@ namespace WikiFunctions
         /// 
         /// </summary>
         public static readonly Regex Bold = new Regex(@"'''(.+?)'''");
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly Regex StarRows = new Regex(@"^ *(\*)(.*)", RegexOptions.Multiline);
     }
 }

@@ -156,7 +156,6 @@ namespace WikiFunctions.Controls
         /// <returns></returns>
         public void HighlightSyntax()
         {
-            // TODO: regexes to be moved to WikiRegexes where appropriate and covered by unit tests
             Font currentFont = SelectionFont;
             Font boldFont = new Font(currentFont.FontFamily, currentFont.Size, FontStyle.Bold);
             Font italicFont = new Font(currentFont.FontFamily, currentFont.Size, FontStyle.Italic);
@@ -177,8 +176,7 @@ namespace WikiFunctions.Controls
             }
 
             // * items grey background
-            Regex StarRows = new Regex(@"^ *(\*)(.*)", RegexOptions.Multiline);
-            foreach (Match m in StarRows.Matches(RawText))
+            foreach (Match m in WikiRegexes.StarRows.Matches(RawText))
             {
                 SetEditBoxSelection(m.Index, m.Length);
                 SelectionBackColor = Color.LightGray;
