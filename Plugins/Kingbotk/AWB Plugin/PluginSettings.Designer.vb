@@ -66,7 +66,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.SetAWBToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.MenuAbout = New System.Windows.Forms.ToolStripMenuItem
             Me.MenuHelp = New System.Windows.Forms.ToolStripMenuItem
-            Me.MenuHelpReleaseNotes = New System.Windows.Forms.ToolStripMenuItem
             Me.TextInsertContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
             Me.UniversalToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.ClassToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -537,10 +536,10 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             'PluginMenuStrip
             '
             Me.PluginMenuStrip.Dock = System.Windows.Forms.DockStyle.None
-            Me.PluginMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PluginToolStripMenuItem, Me.MenuAbout, Me.MenuHelp, Me.MenuHelpReleaseNotes})
+            Me.PluginMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PluginToolStripMenuItem, Me.MenuAbout, Me.MenuHelp})
             Me.PluginMenuStrip.Location = New System.Drawing.Point(0, 0)
             Me.PluginMenuStrip.Name = "PluginMenuStrip"
-            Me.PluginMenuStrip.Size = New System.Drawing.Size(617, 24)
+            Me.PluginMenuStrip.Size = New System.Drawing.Size(534, 24)
             Me.PluginMenuStrip.TabIndex = 42
             Me.PluginMenuStrip.Text = "MenuStrip1"
             Me.PluginMenuStrip.Visible = False
@@ -555,7 +554,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             'SetAWBToolStripMenuItem
             '
             Me.SetAWBToolStripMenuItem.Name = "SetAWBToolStripMenuItem"
-            Me.SetAWBToolStripMenuItem.Size = New System.Drawing.Size(119, 22)
+            Me.SetAWBToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
             Me.SetAWBToolStripMenuItem.Text = "Set AWB"
             Me.SetAWBToolStripMenuItem.ToolTipText = "Reset AWB to default values suitable for use with the plugin"
             '
@@ -570,12 +569,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.MenuHelp.Name = "MenuHelp"
             Me.MenuHelp.Size = New System.Drawing.Size(170, 20)
             Me.MenuHelp.Text = "Help for the Kingbotk plugin"
-            '
-            'MenuHelpReleaseNotes
-            '
-            Me.MenuHelpReleaseNotes.Name = "MenuHelpReleaseNotes"
-            Me.MenuHelpReleaseNotes.Size = New System.Drawing.Size(175, 20)
-            Me.MenuHelpReleaseNotes.Text = "Kingbotk plugin release notes"
             '
             'TextInsertContextMenuStrip
             '
@@ -855,7 +848,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Friend WithEvents Led1 As WikiFunctions.Controls.LED
         Friend WithEvents TimerStats1 As AutoWikiBrowser.Plugins.Kingbotk.Components.TimerStats
         Friend WithEvents TextInsertContextMenuStrip As System.Windows.Forms.ContextMenuStrip
-        Friend WithEvents MenuHelpReleaseNotes As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents Label7 As System.Windows.Forms.Label
         Friend WithEvents SkipNoChangesCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents SkipBadTagsCheckBox As System.Windows.Forms.CheckBox
