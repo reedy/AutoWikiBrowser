@@ -1989,8 +1989,7 @@ window.scrollTo(0, diffTopY);
             {
                 string text = cat.Text.Trim('[', ']');
 
-                text = Regex.Replace(text, "^" +
-                                                   Variables.NamespacesCaseInsensitive[Namespace.Category], "");
+                text = Regex.Replace(text, "^" + Variables.NamespacesCaseInsensitive[Namespace.Category], "");
                 cat.Text = Tools.TurnFirstToUpper(text);
             }
         }
@@ -2019,9 +2018,10 @@ window.scrollTo(0, diffTopY);
                 int intInterLinks = Tools.InterwikiCount(articleText);
                 int intLinks = WikiRegexes.WikiLinksOnly.Matches(articleText).Count;
 
-                intLinks = intLinks - intInterLinks - intImages - intCats;
+                intLinks -= intInterLinks + intImages + intCats;
 
-                if (TheArticle.NameSpaceKey == Namespace.Article && WikiRegexes.Stub.IsMatch(articleText) && intWords > 500)
+                if (TheArticle.NameSpaceKey == Namespace.Article && WikiRegexes.Stub.IsMatch(articleText) &&
+                    intWords > 500)
                     lblWarn.Text = "Long article with a stub tag.\r\n";
 
                 if (intCats == 0)
@@ -2039,7 +2039,7 @@ window.scrollTo(0, diffTopY);
                     lblWarn.Text += "Starts with heading.";
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Format_references
-                if(TheArticle.HasBareReferences)
+                if (TheArticle.HasBareReferences)
                     lblWarn.Text += @"Unformatted references found" + "\r\n";
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Detect_multiple_DEFAULTSORT
@@ -2084,7 +2084,12 @@ window.scrollTo(0, diffTopY);
                     {
                         arrayLinks2.Add(z);
                         // include count of links in form Proton (3)
-                        lbDuplicateWikilinks.Items.Add(z + @" (" + (Regex.Matches(articleText, @"\[\[" + Regex.Escape(z) + @"(\|.*?)?\]\]").Count + Regex.Matches(articleText, @"\[\[" + Regex.Escape(Tools.TurnFirstToLower(z)) + @"(\|.*?)?\]\]").Count) + @")");
+                        lbDuplicateWikilinks.Items.Add(z + @" (" +
+                                                       (Regex.Matches(articleText,
+                                                                      @"\[\[" + Regex.Escape(z) + @"(\|.*?)?\]\]").Count +
+                                                        Regex.Matches(articleText,
+                                                                      @"\[\[" + Regex.Escape(Tools.TurnFirstToLower(z)) +
+                                                                      @"(\|.*?)?\]\]").Count) + @")");
                     }
                 }
             }

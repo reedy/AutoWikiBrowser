@@ -137,6 +137,8 @@ namespace UnitTests
 
             TestMatches(WikiRegexes.WikiLinksOnly, "[[foo[]]", 0);
             TestMatch(WikiRegexes.WikiLinksOnly, "[[foo [[bar]] here]", "[[bar]]");
+
+            TestMatches(WikiRegexes.WikiLinksOnly, "[[Category:Test]]", 0);
         }
 
         [Test]
