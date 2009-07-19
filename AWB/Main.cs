@@ -478,8 +478,30 @@ namespace AutoWikiBrowser
         }
 
         private bool StopProcessing;
+        private bool InStart = false;
+        private bool StartAgain = false;
 
         private void Start()
+        {
+            if (InStart)
+            {
+                StartAgain = true;
+                return;
+            }
+            InStart = true;
+            do
+            {
+                StartAgain = false;
+                StartProcess();
+            } while (StartAgain);
+            InStart = false;
+        }
+
+        /// <summary>
+        /// Do some processing
+        /// </summary>
+        /// <returns>true if it is ok to call again, or false if processing should now stop</returns>
+        private void StartProcess()
         {
             if (StopProcessing)
                 return;
