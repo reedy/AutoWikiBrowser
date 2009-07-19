@@ -33,6 +33,9 @@ namespace WikiFunctions
             Category = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[Namespace.Category]
                 + @"(.*?)\]\]", RegexOptions.Compiled);
 
+            CatRegex = new Regex(@"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category] +
+                                 @"\s*(.*?)\s*(?:|\|([^\|\]]*))\s*\]\]", RegexOptions.Compiled);
+
             // Use allowed character list, then a file extension (these are mandatory on mediawiki), then optional closing ]]
             // this allows typo fixing and find&replace to operate on image descriptions
             // or, alternatively, an image filename has to have a pipe or ]] after it if using the [[Image: start, so just set first one to 
@@ -342,6 +345,12 @@ namespace WikiFunctions
         /// Matches categories
         /// </summary>
         public static Regex Category;
+
+        //TODO:Are this and Category both needed?
+        /// <summary>
+        /// 
+        /// </summary>
+        public static Regex CatRegex;
 
         /// <summary>
         /// Matches images

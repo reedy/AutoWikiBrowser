@@ -96,7 +96,7 @@ namespace WikiFunctions.Lists
                         if (!EvaluateXmlElement(xml))
                             continue;
 
-                        int ns = -1;
+                        int ns;
                         int.TryParse(xml.GetAttribute("ns"), out ns);
                         string name = xml.GetAttribute("title");
 

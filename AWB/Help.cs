@@ -29,8 +29,6 @@ namespace AutoWikiBrowser
         }
 
         // TODO: convert hyperlinks in the page to use the simple skin too.
-        // TODO: How about bug reporting using this tool, could even send exception data?
-        // TODO: After performing an update, display a message in Help browser with link to changelog (ShowHelp();)
         protected override string URL
         {
             get { return Tools.GetENLinkWithSimpleSkinAndLocalLanguage("Wikipedia:AutoWikiBrowser/User_manual"); }

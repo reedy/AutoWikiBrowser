@@ -2969,9 +2969,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return anyCategory.IsMatch(articleText);
         }
 
-        private static readonly Regex Catregex = new Regex(@"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category] +
-                  @"\s*(.*?)\s*(?:|\|([^\|\]]*))\s*\]\]", RegexOptions.Compiled); //TODO:Reassign namespace (Move to WikiRegexes)
-
         /// <summary>
         /// Changes an article to use defaultsort when all categories use the same sort field / cleans diacritics from defaultsort/categories
         /// </summary>
@@ -3019,7 +3016,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             bool allsame = true;
             matches = 0;
 
-            foreach (Match m in Catregex.Matches(articleText))
+            foreach (Match m in WikiRegexes.CatRegex.Matches(articleText))
             {
                 string explicitKey = m.Groups[2].Value;
                 if (explicitKey.Length == 0) explicitKey = articleTitle;
@@ -3110,7 +3107,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 if (sort.Length > 4 && matches > 1 && !sort.StartsWith(" "))
                 {
                     // remove keys from categories
-                    articleText = Catregex.Replace(articleText, "[["
+                    articleText = WikiRegexes.CatRegex.Replace(articleText, "[["
                         + Variables.Namespaces[Namespace.Category] + "$1]]");
 
                     // set the defaultsort to the existing unique category sort value
@@ -3150,7 +3147,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The article text.</returns>
         private static string ExplicitCategorySortkeys(string articleText, string defaultsortKey)
         {
-            foreach (Match m in Catregex.Matches(articleText))
+            foreach (Match m in WikiRegexes.CatRegex.Matches(articleText))
             {
                 string explicitKey = m.Groups[2].Value;
                 if (explicitKey.Length == 0)
