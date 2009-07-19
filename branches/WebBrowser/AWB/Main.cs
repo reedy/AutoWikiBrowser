@@ -881,7 +881,7 @@ namespace AutoWikiBrowser
                 {                    
                     txtEdit.Visible = false;
                     
-                    txtEdit = HighlightSyntax(txtEdit);
+                    HighlightSyntax();
                     Variables.Profiler.Profile("Syntax highlighting");
 
                     if (!focusAtEndOfEditTextBoxToolStripMenuItem.Checked)
@@ -919,168 +919,17 @@ namespace AutoWikiBrowser
         }
 
         /// <summary>
-        /// Applies syntax highlighting to the input ArticleTextBox 
+        /// Applies syntax highlighting to the Edit Text Box
         /// </summary>
-        /// <param name="txtEditLocal"></param>
         /// <returns></returns>
-        private ArticleTextBox HighlightSyntax(ArticleTextBox txtEditLocal)
+        private void HighlightSyntax()
         {
             // temporarily disable TextChanged firing to help performance of this function
-            txtEditLocal.TextChanged -= txtEdit_TextChanged;
+            txtEdit.TextChanged -= txtEdit_TextChanged;
 
-            // TODO: regexes to be moved to WikiRegexes where appropriate and covered by unit tests
-            Font currentFont = txtEditLocal.SelectionFont;
-            Font boldFont = new Font(currentFont.FontFamily, currentFont.Size, FontStyle.Bold);
-            Font italicFont = new Font(currentFont.FontFamily, currentFont.Size, FontStyle.Italic);
-            Font boldItalicFont = new Font(currentFont.FontFamily, currentFont.Size, FontStyle.Bold | FontStyle.Italic);
+            txtEdit.HighlightSyntax();
 
-            // headings text in bold
-            foreach (Match m in WikiRegexes.Heading.Matches(txtEditLocal.RawText))
-            {
-                txtEditLocal.SetEditBoxSelection(m.Groups[2].Index, m.Groups[2].Length);
-                txtEditLocal.SelectionFont = boldFont;
-            }
-
-            // templates grey background
-            foreach (Match m in WikiRegexes.NestedTemplates.Matches(txtEditLocal.RawText))
-            {
-                txtEditLocal.SetEditBoxSelection(m.Index, m.Length);
-                txtEditLocal.SelectionBackColor = Color.LightGray;
-            }
-
-            // * items grey background
-            Regex StarRows = new Regex(@"^ *(\*)(.*)", RegexOptions.Multiline);
-            foreach (Match m in StarRows.Matches(txtEditLocal.RawText))
-            {
-                txtEditLocal.SetEditBoxSelection(m.Index, m.Length);
-                txtEditLocal.SelectionBackColor = Color.LightGray;
-
-                txtEditLocal.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
-                txtEditLocal.SelectionFont = boldFont;
-            }
-
-            // template names dark blue font
-            foreach (Match m in WikiRegexes.TemplateName.Matches(txtEditLocal.RawText))
-            {
-                txtEditLocal.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
-                txtEditLocal.SelectionColor = Color.DarkBlue;
-            }
-
-            // refs grey background
-            foreach (Match m in WikiRegexes.Refs.Matches(txtEditLocal.RawText))
-            {
-                txtEditLocal.SetEditBoxSelection(m.Index, m.Length);
-                txtEditLocal.SelectionBackColor = Color.LightGray;
-            }
-
-            // external links grey background, blue bold
-            foreach (Match m in WikiRegexes.ExternalLinks.Matches(txtEditLocal.RawText))
-            {
-                txtEditLocal.SetEditBoxSelection(m.Index, m.Length);
-                txtEditLocal.SelectionColor = Color.Blue;
-                txtEditLocal.SelectionFont = boldFont;
-            }
-
-            // images green background
-            //foreach (Match m in WikiRegexes.Images.Matches(txtEdit.RawText))
-            //{
-            //    txtEdit.SetEditBoxSelection(m.Index, m.Length);
-            //    txtEdit.SelectionBackColor = Color.Green;
-
-            //}
-
-            // italics
-            foreach (Match m in WikiRegexes.Italics.Matches(txtEditLocal.RawText))
-            {
-                txtEditLocal.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
-                txtEditLocal.SelectionFont = italicFont;
-            }
-
-            // bold  
-            foreach (Match m in WikiRegexes.Bold.Matches(txtEditLocal.RawText))
-            {
-                // reset anything incorrectly done by italics  earlier
-                txtEditLocal.SetEditBoxSelection(m.Index, m.Length);
-                txtEditLocal.SelectionFont = currentFont;
-
-                txtEditLocal.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
-                txtEditLocal.SelectionFont = boldFont;
-            }
-
-            // bold italics 
-            foreach (Match m in WikiRegexes.BoldItalics.Matches(txtEditLocal.RawText))
-            {
-                // reset anything incorrectly done by italics/bold earlier
-                txtEditLocal.SetEditBoxSelection(m.Index, m.Length);
-                txtEditLocal.SelectionFont = currentFont;
-
-                txtEditLocal.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
-                txtEditLocal.SelectionFont = boldItalicFont;
-            }
-
-            // piped wikilink text in blue, piped part in bold
-            foreach (Match m in WikiRegexes.PipedWikiLink.Matches(txtEditLocal.RawText))
-            {
-                txtEditLocal.SetEditBoxSelection(m.Groups[2].Index, m.Groups[2].Length);
-                txtEditLocal.SelectionColor = Color.Blue;
-                txtEditLocal.SelectionFont = boldFont;
-
-                txtEditLocal.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
-                txtEditLocal.SelectionColor = Color.Blue;
-            }
-
-            // unpiped wikilinks in blue and bold
-            foreach (Match m in WikiRegexes.UnPipedWikiLink.Matches(txtEditLocal.RawText))
-            {
-                txtEditLocal.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
-                txtEditLocal.SelectionColor = Color.Blue;
-                txtEditLocal.SelectionFont = boldFont;
-            }
-
-            // pipe trick: in blue bold too
-            foreach (Match m in WikiRegexes.WikiLinksOnlyPlusWord.Matches(txtEditLocal.RawText))
-            {
-                txtEditLocal.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
-                txtEditLocal.SelectionColor = Color.Blue;
-                txtEditLocal.SelectionFont = boldFont;
-            }
-
-            // cats grey background
-            foreach (Match m in WikiRegexes.Category.Matches(txtEditLocal.RawText))
-            {
-                txtEditLocal.SetEditBoxSelection(m.Index, m.Length);
-                txtEditLocal.SelectionBackColor = Color.LightGray;
-                txtEditLocal.SelectionFont = currentFont;
-                txtEditLocal.SelectionColor = Color.Black;
-
-                txtEditLocal.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
-                txtEditLocal.SelectionColor = Color.Blue;
-            }
-
-            // interwikis dark grey background
-            foreach (Match m in WikiRegexes.PossibleInterwikis.Matches(txtEditLocal.RawText))
-            {
-                txtEditLocal.SetEditBoxSelection(m.Index, m.Length);
-                txtEditLocal.SelectionBackColor = Color.Gray;
-                txtEditLocal.SelectionFont = currentFont;
-
-                txtEditLocal.SetEditBoxSelection(m.Groups[2].Index, m.Groups[2].Length);
-                txtEditLocal.SelectionColor = Color.Blue;
-
-                txtEditLocal.SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
-                txtEditLocal.SelectionColor = Color.Black;
-            }
-
-            // comments dark orange background
-            foreach (Match m in WikiRegexes.Comments.Matches(txtEditLocal.RawText))
-            {
-                txtEditLocal.SetEditBoxSelection(m.Index, m.Length);
-                txtEditLocal.SelectionBackColor = Color.PaleGoldenrod;
-            }
-
-            txtEditLocal.TextChanged += txtEdit_TextChanged;
-
-            return txtEditLocal;
+            txtEdit.TextChanged += txtEdit_TextChanged;
         }
 
         /// <summary>
@@ -3347,7 +3196,7 @@ window.scrollTo(0, diffTopY);
             if (syntaxHighlightEditBoxToolStripMenuItem.Checked)
             {
                 txtEdit.Visible = false;
-                txtEdit = HighlightSyntax(txtEdit);
+                HighlightSyntax();
                 txtEdit.Visible = true;
             }
 
