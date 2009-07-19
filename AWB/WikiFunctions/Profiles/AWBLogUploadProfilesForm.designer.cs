@@ -29,7 +29,7 @@ namespace WikiFunctions.Profiles
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.lvAccounts = new WikiFunctions.Controls.NoFlickerExtendedListView(true, true);
+            this.lvAccounts = new WikiFunctions.Controls.NoFlickerExtendedListView();
             this.colID = new System.Windows.Forms.ColumnHeader();
             this.colAccountName = new System.Windows.Forms.ColumnHeader();
             this.colPasswordSaved = new System.Windows.Forms.ColumnHeader();
@@ -64,11 +64,14 @@ namespace WikiFunctions.Profiles
             this.colProfileSettings,
             this.colUsedForUpload,
             this.colNotes});
+            this.lvAccounts.ComparerFactory = this.lvAccounts;
             this.lvAccounts.ContextMenuStrip = this.mnuAccounts;
             this.lvAccounts.FullRowSelect = true;
             this.lvAccounts.Location = new System.Drawing.Point(12, 12);
             this.lvAccounts.Name = "lvAccounts";
+            this.lvAccounts.ResizeColumsOnControlResize = true;
             this.lvAccounts.Size = new System.Drawing.Size(494, 175);
+            this.lvAccounts.SortColumnsOnClick = true;
             this.lvAccounts.TabIndex = 0;
             this.lvAccounts.UseCompatibleStateImageBehavior = false;
             this.lvAccounts.View = System.Windows.Forms.View.Details;
@@ -78,32 +81,31 @@ namespace WikiFunctions.Profiles
             // colID
             // 
             this.colID.Text = "ID";
-            this.colID.Width = 32;
+            this.colID.Width = 25;
             // 
             // colAccountName
             // 
             this.colAccountName.Text = "Username";
-            this.colAccountName.Width = 89;
             // 
             // colPasswordSaved
             // 
             this.colPasswordSaved.Text = "Password saved?";
-            this.colPasswordSaved.Width = 107;
+            this.colPasswordSaved.Width = 96;
             // 
             // colProfileSettings
             // 
             this.colProfileSettings.Text = "Default settings";
-            this.colProfileSettings.Width = 175;
+            this.colProfileSettings.Width = 85;
             // 
             // colUsedForUpload
             // 
             this.colUsedForUpload.Text = "Used for Upload?";
-            this.colUsedForUpload.Width = 98;
+            this.colUsedForUpload.Width = 95;
             // 
             // colNotes
             // 
             this.colNotes.Text = "Notes";
-            this.colNotes.Width = 63;
+            this.colNotes.Width = 129;
             // 
             // mnuAccounts
             // 
