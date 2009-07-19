@@ -2990,63 +2990,13 @@ window.scrollTo(0, diffTopY);
         }
 
         #region PasteMore
-        private void PasteMore1_Click(object sender, EventArgs e)
+        private void PasteMore_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = (string)PasteMore1.Tag;
-            mnuTextBox.Hide();
-        }
+            ToolStripMenuItem item = (sender as ToolStripMenuItem);
 
-        private void PasteMore2_Click(object sender, EventArgs e)
-        {
-            txtEdit.SelectedText = (string)PasteMore2.Tag;
-            mnuTextBox.Hide();
-        }
+            if (item != null)
+                txtEdit.SelectedText = (string) item.Tag;
 
-        private void PasteMore3_Click(object sender, EventArgs e)
-        {
-            txtEdit.SelectedText = (string)PasteMore3.Tag;
-            mnuTextBox.Hide();
-        }
-
-        private void PasteMore4_Click(object sender, EventArgs e)
-        {
-            txtEdit.SelectedText = (string)PasteMore4.Tag;
-            mnuTextBox.Hide();
-        }
-
-        private void PasteMore5_Click(object sender, EventArgs e)
-        {
-            txtEdit.SelectedText = (string)PasteMore5.Tag;
-            mnuTextBox.Hide();
-        }
-
-        private void PasteMore6_Click(object sender, EventArgs e)
-        {
-            txtEdit.SelectedText = (string)PasteMore6.Tag;
-            mnuTextBox.Hide();
-        }
-
-        private void PasteMore7_Click(object sender, EventArgs e)
-        {
-            txtEdit.SelectedText = (string)PasteMore7.Tag;
-            mnuTextBox.Hide();
-        }
-
-        private void PasteMore8_Click(object sender, EventArgs e)
-        {
-            txtEdit.SelectedText = (string)PasteMore8.Tag;
-            mnuTextBox.Hide();
-        }
-
-        private void PasteMore9_Click(object sender, EventArgs e)
-        {
-            txtEdit.SelectedText = (string)PasteMore9.Tag;
-            mnuTextBox.Hide();
-        }
-
-        private void PasteMore10_Click(object sender, EventArgs e)
-        {
-            txtEdit.SelectedText = (string)PasteMore10.Tag;
             mnuTextBox.Hide();
         }
 
