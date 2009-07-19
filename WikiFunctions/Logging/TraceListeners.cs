@@ -211,6 +211,5 @@ namespace WikiFunctions.Logging
             get { return false; }
         }
     }
-    // TODO: MySQLTraceListener
 }
 
