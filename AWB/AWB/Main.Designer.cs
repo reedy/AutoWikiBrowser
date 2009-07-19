@@ -584,7 +584,7 @@ namespace AutoWikiBrowser
             this.PasteMore1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D1)));
             this.PasteMore1.Size = new System.Drawing.Size(136, 22);
             this.PasteMore1.Visible = false;
-            this.PasteMore1.Click += new System.EventHandler(this.PasteMore1_Click);
+            this.PasteMore1.Click += new System.EventHandler(this.PasteMore_Click);
             // 
             // PasteMore2
             // 
@@ -592,7 +592,7 @@ namespace AutoWikiBrowser
             this.PasteMore2.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D2)));
             this.PasteMore2.Size = new System.Drawing.Size(136, 22);
             this.PasteMore2.Visible = false;
-            this.PasteMore2.Click += new System.EventHandler(this.PasteMore2_Click);
+            this.PasteMore2.Click += new System.EventHandler(this.PasteMore_Click);
             // 
             // PasteMore3
             // 
@@ -600,7 +600,7 @@ namespace AutoWikiBrowser
             this.PasteMore3.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D3)));
             this.PasteMore3.Size = new System.Drawing.Size(136, 22);
             this.PasteMore3.Visible = false;
-            this.PasteMore3.Click += new System.EventHandler(this.PasteMore3_Click);
+            this.PasteMore3.Click += new System.EventHandler(this.PasteMore_Click);
             // 
             // PasteMore4
             // 
@@ -608,7 +608,7 @@ namespace AutoWikiBrowser
             this.PasteMore4.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D4)));
             this.PasteMore4.Size = new System.Drawing.Size(136, 22);
             this.PasteMore4.Visible = false;
-            this.PasteMore4.Click += new System.EventHandler(this.PasteMore4_Click);
+            this.PasteMore4.Click += new System.EventHandler(this.PasteMore_Click);
             // 
             // PasteMore5
             // 
@@ -616,7 +616,7 @@ namespace AutoWikiBrowser
             this.PasteMore5.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D5)));
             this.PasteMore5.Size = new System.Drawing.Size(136, 22);
             this.PasteMore5.Visible = false;
-            this.PasteMore5.Click += new System.EventHandler(this.PasteMore5_Click);
+            this.PasteMore5.Click += new System.EventHandler(this.PasteMore_Click);
             // 
             // PasteMore6
             // 
@@ -624,7 +624,7 @@ namespace AutoWikiBrowser
             this.PasteMore6.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D6)));
             this.PasteMore6.Size = new System.Drawing.Size(136, 22);
             this.PasteMore6.Visible = false;
-            this.PasteMore6.Click += new System.EventHandler(this.PasteMore6_Click);
+            this.PasteMore6.Click += new System.EventHandler(this.PasteMore_Click);
             // 
             // PasteMore7
             // 
@@ -632,7 +632,7 @@ namespace AutoWikiBrowser
             this.PasteMore7.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D7)));
             this.PasteMore7.Size = new System.Drawing.Size(136, 22);
             this.PasteMore7.Visible = false;
-            this.PasteMore7.Click += new System.EventHandler(this.PasteMore7_Click);
+            this.PasteMore7.Click += new System.EventHandler(this.PasteMore_Click);
             // 
             // PasteMore8
             // 
@@ -640,7 +640,7 @@ namespace AutoWikiBrowser
             this.PasteMore8.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D8)));
             this.PasteMore8.Size = new System.Drawing.Size(136, 22);
             this.PasteMore8.Visible = false;
-            this.PasteMore8.Click += new System.EventHandler(this.PasteMore8_Click);
+            this.PasteMore8.Click += new System.EventHandler(this.PasteMore_Click);
             // 
             // PasteMore9
             // 
@@ -648,7 +648,7 @@ namespace AutoWikiBrowser
             this.PasteMore9.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D9)));
             this.PasteMore9.Size = new System.Drawing.Size(136, 22);
             this.PasteMore9.Visible = false;
-            this.PasteMore9.Click += new System.EventHandler(this.PasteMore9_Click);
+            this.PasteMore9.Click += new System.EventHandler(this.PasteMore_Click);
             // 
             // PasteMore10
             // 
@@ -656,7 +656,7 @@ namespace AutoWikiBrowser
             this.PasteMore10.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D0)));
             this.PasteMore10.Size = new System.Drawing.Size(136, 22);
             this.PasteMore10.Visible = false;
-            this.PasteMore10.Click += new System.EventHandler(this.PasteMore10_Click);
+            this.PasteMore10.Click += new System.EventHandler(this.PasteMore_Click);
             // 
             // toolStripSeparator19
             // 
