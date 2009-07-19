@@ -18,9 +18,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using WikiFunctions.Background;
@@ -59,7 +57,7 @@ namespace WikiFunctions
 
         #endregion
 
-        Control parentControl;
+        readonly Control parentControl;
 
         public Session(Control parent)
         {
