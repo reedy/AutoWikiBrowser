@@ -167,7 +167,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches only internal wiki links
         /// </summary>
-        public static readonly Regex WikiLinksOnly = new Regex(@"\[\[[^[\]\n]*?\]\]", RegexOptions.Compiled);
+        public static readonly Regex WikiLinksOnly = new Regex(@"\[\[[^[\]\n]+(?<!\[\[[A-Z]?[a-z-]{2,}:[^[\]\n]+)\]\]", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches only internal wikilinks (with or without pipe) with extra word character(s) e.g. [[link]]age or [[here|link]]age
