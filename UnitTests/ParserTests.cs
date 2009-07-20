@@ -2403,7 +2403,31 @@ foo2";
 # item3", Parsers.RemoveAllWhiteSpace(@"#    item
 #            item2
 #item3"));
+        }
 
+        [Test]
+        public void RemoveAllWhiteSpaceTests()
+        {
+            Assert.AreEqual("now a", Parsers.RemoveAllWhiteSpace(@"now a"));
+            Assert.AreEqual(@"now
+* foo", Parsers.RemoveAllWhiteSpace(@"now
+
+* foo"));
+
+            Assert.AreEqual("now was", Parsers.RemoveAllWhiteSpace(@"now   was"));
+
+            Assert.AreEqual(@"now
+was", Parsers.RemoveAllWhiteSpace(@"now 
+was"));
+
+            Assert.AreEqual(@"==hi==
+was", Parsers.RemoveAllWhiteSpace(@"==hi==
+
+was"));
+            Assert.AreEqual(@"==hi==", Parsers.RemoveAllWhiteSpace(@"== hi =="));
+            Assert.AreEqual(@"==hi==", Parsers.RemoveAllWhiteSpace(@"== hi=="));
+
+            Assert.AreEqual("now–was", Parsers.RemoveAllWhiteSpace(@"now – was"));
         }
 
         [Test]
