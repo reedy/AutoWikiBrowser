@@ -1040,6 +1040,18 @@ died 2002
         }
 
         [Test]
+        public void GetTemplateNameTests()
+        {
+            WikiRegexes.TemplateCall = new Regex(@"{{Template:\s*([^\]\|]*)\s*(.*)}}", RegexOptions.Singleline);
+
+            Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template:foo|bar}}"));
+            Assert.AreEqual(@"Foo", Parsers.GetTemplateName(@"{{Template:Foo|bar}}"));
+            Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template:    foo|bar}}"));
+            Assert.AreEqual(@"foo here", Parsers.GetTemplateName(@"{{Template:    foo here|bar}}"));
+            Assert.AreEqual(@"foo-bar", Parsers.GetTemplateName(@"{{Template:    foo-bar}}"));
+        }
+
+        [Test]
         public void LivingPeopleTests()
         {
             // with sortkey
