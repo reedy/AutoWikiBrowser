@@ -1336,7 +1336,7 @@ namespace WikiFunctions.Parse
             return articleText.Trim();
         }
 
-        // NOT covered
+        // covered by RemoveAllWhiteSpaceTests
         /// <summary>
         /// Applies removes all excess whitespace from the article
         /// </summary>
