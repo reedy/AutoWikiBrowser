@@ -295,14 +295,6 @@ namespace WikiFunctions.API
                 {
                     case HttpStatusCode.NotFound /*404*/:
                         return ""; // emulate the behaviour of Tools.HttpGet()
-                    case HttpStatusCode.ServiceUnavailable /*503*/:
-                        if (resp.Headers["X-Database-Lag"] != null)
-                        {   //TODO: verify this when 503-returning code goes live on Wikimedia
-                            int maxlag = int.Parse(resp.Headers["X-Database-Lag"]);
-                            int retryAfter = int.Parse(resp.Headers["Retry-After"]);
-                            throw new ApiMaxlagException(this, maxlag, retryAfter);
-                        }
-                        break;
                 }
 
                 // just reclassifying
