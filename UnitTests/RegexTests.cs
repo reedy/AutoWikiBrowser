@@ -124,6 +124,9 @@ namespace UnitTests
         public void WikiLinksOnly()
         {
             TestMatch(WikiRegexes.WikiLinksOnly, "[[foo]]", "[[foo]]");
+            TestMatch(WikiRegexes.WikiLinksOnly, "[[a:foo]]", "[[a:foo]]");
+            TestMatch(WikiRegexes.WikiLinksOnly, "[[FOO:BAR]]", "[[FOO:BAR]]");
+            TestMatch(WikiRegexes.WikiLinksOnly, "[[foo bar:world series]]", "[[foo bar:world series]]");
             TestMatch(WikiRegexes.WikiLinksOnly, "[[foo bar]]", "[[foo bar]]");
             TestMatches(WikiRegexes.WikiLinksOnly, "[[foo\r\nbar]]", 0);
             TestMatches(WikiRegexes.WikiLinksOnly, "[foo]]", 0);
@@ -138,7 +141,7 @@ namespace UnitTests
             TestMatches(WikiRegexes.WikiLinksOnly, "[[foo[]]", 0);
             TestMatch(WikiRegexes.WikiLinksOnly, "[[foo [[bar]] here]", "[[bar]]");
 			
-			//I dont consider Categories, Images and IW to be "WikiLinks Only"
+			// don't consider Categories, Images and IW to be "WikiLinks Only"
             TestMatches(WikiRegexes.WikiLinksOnly, "[[Category:Test]]", 0);
             TestMatches(WikiRegexes.WikiLinksOnly, "[[de:Test]]", 0);
             TestMatches(WikiRegexes.WikiLinksOnly, "[[Image:Test,]]", 0);
