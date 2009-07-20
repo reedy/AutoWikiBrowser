@@ -1040,6 +1040,18 @@ died 2002
         }
 
         [Test]
+        public void GetTemplateNameTests()
+        {
+            WikiRegexes.TemplateCall = new Regex(@"{{Template:\s*([^\]\|]*)\s*(.*)}}", RegexOptions.Singleline);
+
+            Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template:foo|bar}}"));
+            Assert.AreEqual(@"Foo", Parsers.GetTemplateName(@"{{Template:Foo|bar}}"));
+            Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template:    foo|bar}}"));
+            Assert.AreEqual(@"foo here", Parsers.GetTemplateName(@"{{Template:    foo here|bar}}"));
+            Assert.AreEqual(@"foo-bar", Parsers.GetTemplateName(@"{{Template:    foo-bar}}"));
+        }
+
+        [Test]
         public void LivingPeopleTests()
         {
             // with sortkey
@@ -2403,7 +2415,31 @@ foo2";
 # item3", Parsers.RemoveAllWhiteSpace(@"#    item
 #            item2
 #item3"));
+        }
 
+        [Test]
+        public void RemoveAllWhiteSpaceTests()
+        {
+            Assert.AreEqual("now a", Parsers.RemoveAllWhiteSpace(@"now a"));
+            Assert.AreEqual(@"now
+* foo", Parsers.RemoveAllWhiteSpace(@"now
+
+* foo"));
+
+            Assert.AreEqual("now was", Parsers.RemoveAllWhiteSpace(@"now   was"));
+
+            Assert.AreEqual(@"now
+was", Parsers.RemoveAllWhiteSpace(@"now 
+was"));
+
+            Assert.AreEqual(@"==hi==
+was", Parsers.RemoveAllWhiteSpace(@"==hi==
+
+was"));
+            Assert.AreEqual(@"==hi==", Parsers.RemoveAllWhiteSpace(@"== hi =="));
+            Assert.AreEqual(@"==hi==", Parsers.RemoveAllWhiteSpace(@"== hi=="));
+
+            Assert.AreEqual("now–was", Parsers.RemoveAllWhiteSpace(@"now – was"));
         }
 
         [Test]
