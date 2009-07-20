@@ -1093,15 +1093,19 @@ namespace WikiFunctions.Parse
         private static string ReflistMatchEvaluator(Match m)
         {
             // don't change anything if div tags mismatch
-            if (DivStart.Matches(m.Value).Count != DivEnd.Matches(m.Value).Count) return m.Value;
+            if (DivStart.Matches(m.Value).Count != DivEnd.Matches(m.Value).Count)
+                return m.Value;
 
-            if (m.Value.Contains("references-2column")) return "{{reflist|2}}";
+            if (m.Value.Contains("references-2column"))
+                return "{{reflist|2}}";
 
             string s = Regex.Match(m.Value, @"[^-]column-count:[\s]*?(\d*)").Groups[1].Value;
-            if (s.Length > 0) return "{{reflist|" + s + "}}";
+            if (s.Length > 0)
+                return "{{reflist|" + s + "}}";
 
             s = Regex.Match(m.Value, @"-moz-column-count:[\s]*?(\d*)").Groups[1].Value;
-            if (s.Length > 0) return "{{reflist|" + s + "}}";
+            if (s.Length > 0)
+                return "{{reflist|" + s + "}}";
 
             return "{{reflist}}";
         }
@@ -1330,8 +1334,10 @@ namespace WikiFunctions.Parse
 
             articleText = Regex.Replace(articleText.Trim(), "----+$", "");
 
-            if (articleText.Contains("\r\n|\r\n\r\n")) articleText = articleText.Replace("\r\n|\r\n\r\n", "\r\n|\r\n");
-            if (articleText.Contains("\r\n\r\n|")) articleText = articleText.Replace("\r\n\r\n|", "\r\n|");
+            if (articleText.Contains("\r\n|\r\n\r\n"))
+                articleText = articleText.Replace("\r\n|\r\n\r\n", "\r\n|\r\n");
+            if (articleText.Contains("\r\n\r\n|"))
+                articleText = articleText.Replace("\r\n\r\n|", "\r\n|");
 
             return articleText.Trim();
         }
@@ -1706,7 +1712,8 @@ namespace WikiFunctions.Parse
         {
             // visible parts of links may contain crap we shouldn't modify, such as
             // refs and external links
-            if (!Tools.IsValidTitle(title) || title.Contains(":/")) return title;
+            if (!Tools.IsValidTitle(title) || title.Contains(":/"))
+                return title;
 
             //AnchorDecode(ref title); // disabled, breaks things such as [[Windows#Version_3.11]]
 
@@ -1860,7 +1867,8 @@ namespace WikiFunctions.Parse
         public static void AnchorDecode(ref string link)
         {
             Match m = WikiRegexes.AnchorEncodedLink.Match(link);
-            if (!m.Success) return;
+            if (!m.Success)
+                return;
 
             string anchor = m.Value.Replace('_', ' ');
             byte[] src = Encoding.UTF8.GetBytes(anchor);
@@ -1981,7 +1989,8 @@ namespace WikiFunctions.Parse
                 {
                     string y = m.Value.Replace(m.Groups[1].Value, CanonicalizeTitle(m.Groups[1].Value));
 
-                    if (y != m.Value) sb = sb.Replace(m.Value, y);
+                    if (y != m.Value)
+                        sb = sb.Replace(m.Value, y);
                 }
             }
 
@@ -1999,7 +2008,7 @@ namespace WikiFunctions.Parse
         private static string FixLinksInfoBoxSingleAlbum(string articleText, string articleTitle)
         {
             string escTitle = Regex.Escape(articleTitle);
-			string lowerTitle = Tools.TurnFirstToLower(escTitle);
+            string lowerTitle = Tools.TurnFirstToLower(escTitle);
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#.22This_album.2Fsingle.22
             // for this single or this album within the infobox, make bold instead of delinking
             const string infoBoxSingleAlbum = @"(?s)(?<={{[Ii]nfobox (?:[Ss]ingle|[Aa]lbum).*?\|\s*[Tt]his (?:[Ss]ingle|[Aa]lbum)\s*=[^{}]*?)\[\[\s*";
@@ -2039,7 +2048,8 @@ namespace WikiFunctions.Parse
         {
             bool res = true;
 
-            if (s.Length > 255) return false;
+            if (s.Length > 255)
+                return false;
             int pos = s.IndexOf("[[");
             while (pos >= 0)
             {
@@ -2073,7 +2083,8 @@ namespace WikiFunctions.Parse
                             ? m.Groups[2].Value.Trim()
                             : m.Groups[2].Value.TrimEnd(new[] { ' ' });
 
-                    if (b.Length == 0) continue;
+                    if (b.Length == 0)
+                        continue;
 
                     if (a == b || Tools.TurnFirstToLower(a) == b)
                     {
@@ -2090,7 +2101,8 @@ namespace WikiFunctions.Parse
                                 break;
                             }
                         }
-                        if (doBreak) continue;
+                        if (doBreak)
+                            continue;
                         articleText = articleText.Replace(n, "[[" + b.Substring(0, a.Length) + "]]" + b.Substring(a.Length));
                     }
                     else
@@ -2128,7 +2140,8 @@ a='" + a + "',  b='" + b + "'", "SimplifyLinks error");
                     a = m.Groups[1].Value;
                     b = m.Groups[2].Value;
 
-                    if (b.Trim().Length == 0 || a.Contains(",")) continue;
+                    if (b.Trim().Length == 0 || a.Contains(","))
+                        continue;
 
                     if (Tools.TurnFirstToLower(a).StartsWith(Tools.TurnFirstToLower(b), StringComparison.Ordinal))
                     {
@@ -2252,10 +2265,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             foreach (Match m in WikiRegexes.LooseCategory.Matches(articleText))
             {
-                if (!Tools.IsValidTitle(m.Groups[1].Value)) continue;
+                if (!Tools.IsValidTitle(m.Groups[1].Value))
+                    continue;
                 string x = cat + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim()) +
                            Regex.Replace(Tools.RemoveDiacritics(m.Groups[2].Value), @"(\w+)\s+$", "$1") + "]]";
-                if (x != m.Value) articleText = articleText.Replace(m.Value, x);
+                if (x != m.Value)
+                    articleText = articleText.Replace(m.Value, x);
             }
 
             return articleText;
@@ -2346,7 +2361,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             foreach (Match n in theTemplate.Matches(articleText))
             {
-                if(n.Index == m.Index)
+                if (n.Index == m.Index)
                     return theTemplate.Match(articleText).Value;
             }
 
@@ -2397,14 +2412,18 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             int pos = 0;
             foreach (Match m in search.Matches(articleText))
             {
-                if (m.Index < pos) continue;
-                foreach (Match m2 in nw) if (m.Index > m2.Index &&
-                    m.Index < m2.Index + m2.Length) continue;
-                foreach (Match m2 in cm) if (m.Index > m2.Index &&
-                    m.Index < m2.Index + m2.Length) continue;
+                if (m.Index < pos)
+                    continue;
+                foreach (Match m2 in nw)
+                    if (m.Index > m2.Index && m.Index < m2.Index + m2.Length)
+                        continue;
+                foreach (Match m2 in cm)
+                    if (m.Index > m2.Index && m.Index < m2.Index + m2.Length)
+                        continue;
 
                 string s = ExtractTemplate(articleText, m);
-                if (string.IsNullOrEmpty(s)) break;
+                if (string.IsNullOrEmpty(s))
+                    break;
                 pos = m.Index + s.Length;
                 Match mres = m;
                 foreach (Match m2 in Regex.Matches(articleText, Regex.Escape(s)))
@@ -2441,7 +2460,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (fromSetting)
             {
                 setting = setting.Trim();
-                if (string.IsNullOrEmpty(setting)) return "";
+                if (string.IsNullOrEmpty(setting))
+                    return "";
 
                 string gtn = GetTemplateName(setting).Trim();
                 return string.IsNullOrEmpty(gtn) ? setting : gtn;
@@ -3015,7 +3035,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             foreach (Match m in WikiRegexes.CatRegex.Matches(articleText))
             {
                 string explicitKey = m.Groups[2].Value;
-                if (explicitKey.Length == 0) explicitKey = articleTitle;
+                if (explicitKey.Length == 0)
+                    explicitKey = articleTitle;
 
                 if (string.IsNullOrEmpty(sort))
                     sort = explicitKey;
@@ -3229,7 +3250,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             return WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) ||
                    WikiRegexes.LivingPeopleRegex2.IsMatch(articleText) ||
-                   WikiRegexes.BirthsCategory.IsMatch(articleText) || 
+                   WikiRegexes.BirthsCategory.IsMatch(articleText) ||
                    Regex.IsMatch(articleText, @"{{\s*[Bb]LP sources\b") || Regex.IsMatch(articleText, @"{{\s*[Rr]efimproveBLP\b");
         }
 
@@ -3539,7 +3560,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             try // in case of parse exception on fieldRegex
             {
-               fieldValue = Regex.Match(infoBox, @"^\s*\|?\s*" + fieldRegex + @"\s*=\s*(.*)", RegexOptions.Multiline).Groups[1].Value.Trim();
+                fieldValue = Regex.Match(infoBox, @"^\s*\|?\s*" + fieldRegex + @"\s*=\s*(.*)", RegexOptions.Multiline).Groups[1].Value.Trim();
             }
 
             catch
@@ -3552,9 +3573,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 // handle multiple fields on same line
                 if (Regex.IsMatch(fieldValue, @"\s*\|[^{}\|=]+?\s*=\s*.*"))
                 {
-                   // string fieldValueLocal = WikiRegexes.NestedTemplates.Replace(fieldValue, "");
+                    // string fieldValueLocal = WikiRegexes.NestedTemplates.Replace(fieldValue, "");
 
-                   // fieldValueLocal = Regex.Replace(fieldValueLocal, @"\s*\|[^{}\|=]+?\s*=\s*.*", "");
+                    // fieldValueLocal = Regex.Replace(fieldValueLocal, @"\s*\|[^{}\|=]+?\s*=\s*.*", "");
                     return "";
                 }
 
@@ -3590,11 +3611,15 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             //Use proper codes
             //checking first instead of substituting blindly saves some
             //time due to low occurence rate
-            if (articleText.Contains("[[zh-tw:")) articleText = articleText.Replace("[[zh-tw:", "[[zh:");
-            if (articleText.Contains("[[nb:")) articleText = articleText.Replace("[[nb:", "[[no:");
-            if (articleText.Contains("[[dk:")) articleText = articleText.Replace("[[dk:", "[[da:");
+            if (articleText.Contains("[[zh-tw:"))
+                articleText = articleText.Replace("[[zh-tw:", "[[zh:");
+            if (articleText.Contains("[[nb:"))
+                articleText = articleText.Replace("[[nb:", "[[no:");
+            if (articleText.Contains("[[dk:"))
+                articleText = articleText.Replace("[[dk:", "[[da:");
 
-            if (articleText.Contains("{{msg:")) articleText = articleText.Replace("{{msg:", "{{");
+            if (articleText.Contains("{{msg:"))
+                articleText = articleText.Replace("{{msg:", "{{");
 
             foreach (KeyValuePair<Regex, string> k in RegexConversion)
             {
@@ -3618,7 +3643,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The new text.</returns>
         public static string SubstUserTemplates(string talkPageText, string talkPageTitle, Regex userTalkTemplatesRegex)
         {
-            if (userTalkTemplatesRegex == null) return talkPageText;
+            if (userTalkTemplatesRegex == null)
+                return talkPageText;
 
             talkPageText = talkPageText.Replace("{{{subst", "REPLACE_THIS_TEXT");
             Dictionary<Regex, string> regexes = new Dictionary<Regex, string> { { userTalkTemplatesRegex, "{{subst:$2}}" } };
@@ -3998,13 +4024,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Format_references
         public static bool HasBareReferences(string articleText)
         {
-            int referencesIndex = Regex.Match(articleText, @"== *References *==", RegexOptions.IgnoreCase).Index;
+            int referencesIndex = WikiRegexes.ReferencesRegex.Match(articleText).Index;
 
             if (referencesIndex < 2)
                 return false;
 
             int externalLinksIndex =
-                Regex.Match(articleText, @"== *External +links? *==", RegexOptions.IgnoreCase).Index;
+                WikiRegexes.ExternalLinksRegex.Match(articleText).Index;
 
             // get the references section: to external links or end of article, whichever is earlier
             string refsArea = externalLinksIndex > referencesIndex
