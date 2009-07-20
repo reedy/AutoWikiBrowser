@@ -2420,7 +2420,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return res;
         }
 
-        // NOT covered
+        // covered by GetTemplateNameTests
         /// <summary>
         /// get template name from template call, e.g. "{{template:foobar|123}}"
         ///  to "foobar"
