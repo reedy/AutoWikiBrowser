@@ -141,10 +141,31 @@ namespace WikiFunctions.API
             StatusCode = status;
         }
 
-        //TODO:
         protected static string GetErrorMessage(string code)
         {
-            return code;
+            switch (code.ToLower())
+            {
+                case "noname":
+                    return "You didn't set the lgname parameter";
+                case "illegal":
+                    return "You provided an illegal username";
+                case "notexists":
+                    return "The username you provided doesn't exist";
+                case "emptypass":
+                    return "You didn't set the lgpassword parameter or you left it empty";
+                case "wrongpass":
+                    return "The password you provided is incorrect";
+                case "wrongpluginpass":
+                    return
+                        "The password you provided is incorrect. (an authentication plugin rather than MediaWiki itself rejected the password)";
+                case "createblocked":
+                    return
+                        "The wiki tried to automatically create a new account for you, but your IP address has been blocked from account creation";
+                case "throttled":
+                    return "You've logged in too many times in a short time."; //see http://www.mediawiki.org/wiki/API:Login#Throttling
+                default:
+                    return code;
+            }
         }
     }
 
