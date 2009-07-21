@@ -456,9 +456,29 @@ namespace AutoWikiBrowser
         private void ApiEditExceptionCaught(AsyncApiEdit sender, Exception ex)
         {
             if (ex is ApiInterwikiException)
-            {
                 SkipPage(ex.Message);
+
+            else if (ex is ApiSpamlistException)
+            {
+                string message = "Text '" + (ex as ApiSpamlistException).URL + "' is blocked by spam blacklist";
+
+                if (!BotMode)
+                {
+                    if (!chkSkipSpamFilter.Checked
+                        && MessageBox.Show(message + ".\r\nTry and edit again?", 
+                            "Spam blacklist", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                    {
+                        Start();
+                        return;
+                    }
+
+
+                    SkipPage(message);
+                    return;
+                }
+                SkipPage(message);
             }
+
             else
                 StartDelayedRestartTimer();
         }
@@ -1026,28 +1046,6 @@ namespace AutoWikiBrowser
             //        Start();
             //        return;
             //    }
-            //    if (!BotMode && webBrowserEdit.DocumentText.Contains("<DIV id=spamprotected>"))
-            //    {//check edit wasn't blocked due to spam filter
-            //        if (!chkSkipSpamFilter.Checked)
-            //        {
-            //            Match m = SpamUrlRegex.Match(webBrowserEdit.DocumentText);
-
-            //            string messageBoxText = "Edit has been blocked by spam blacklist.\r\n";
-
-            //            if (m.Success)
-            //                messageBoxText += "Spam URL: " + m.Groups[1].Value.Trim() + "\r\n";
-
-            //            if (MessageBox.Show(messageBoxText + "Try and edit again?", "Spam blacklist", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-            //            {
-            //                Start();
-            //                return;
-            //            }
-            //        }
-
-            //        SkipPage("Edit blocked by spam protection filter");
-            //        return;
-            //    }
-
             //    if (IsReadOnlyDB())
             //    {
             //        StartDelayedRestartTimer(null, null);
