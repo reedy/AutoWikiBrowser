@@ -2449,7 +2449,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return WikiRegexes.TemplateCall.Match(call).Groups[1].Value;
         }
 
-        // NOT covered
+        // covered by GetTemplateNameFromSettingTests
         /// <summary>
         /// If fromSetting is true, get template name from a setting, i.e. strip formatting/template: call *if any*. If false, passes through to GetTemplateName(string call)
         /// </summary>
