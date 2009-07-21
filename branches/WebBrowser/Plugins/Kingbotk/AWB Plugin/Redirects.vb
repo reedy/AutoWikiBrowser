@@ -173,7 +173,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             For Each redirect As WikiFunctions.Article In Redirects
                 If redirect.NameSpaceKey = 10 Then
                     ConvertRedirectsToString += redirect.Name.Remove(0, 9) & "|"
-                    tmp.Add(redirect) ' hack because can't remove from a collection within a foreach block iterating through it
+                    tmp.Add(redirect)
                 End If
             Next
 

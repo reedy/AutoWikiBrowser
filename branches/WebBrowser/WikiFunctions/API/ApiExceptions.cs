@@ -55,7 +55,7 @@ namespace WikiFunctions.API
     };
 
     /// <summary>
-    /// Thrown when an API call returned an <error> tag.
+    /// Thrown when an API call returned an &lt;error> tag.
     /// See http://www.mediawiki.org/wiki/API:Errors for details
     /// </summary>
     public class ApiErrorException : ApiException
@@ -80,22 +80,22 @@ namespace WikiFunctions.API
         }
     }
 
+
     /// <summary>
-    /// Thrown when an API call returns status other than "Success"
+    /// Thrown when an operation is ended with result other than "Success"
     /// </summary>
-    //public class ApiCallFailedException : ApiErrorException
-    //{
-    //    string m_Action;
+    public class ApiOperationFailedException : ApiException
+    {
+        public ApiOperationFailedException(ApiEdit editor, string action, string result)
+            : base(editor, "Operation '" + action + "' ended with result '" + result + "'.")
+        {
+            Action = action;
+            Result = result;
+        }
 
-    //    public string Action
-    //    { get { return m_Action; } }
-
-    //    public ApiCallFailedException(ApiEdit editor, string action, string errorCode)
-    //        :base (editor,
-    //    {
-    //        m_Action = action;
-    //    }
-    //}
+        public readonly string Action;
+        public readonly string Result;
+    };
 
     /// <summary>
     /// Thrown when an API call returns a zero-size reply. Most likely, this indicates a server internal error.
@@ -108,6 +108,9 @@ namespace WikiFunctions.API
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class ApiBrokenXmlException : ApiException
     {
         public ApiBrokenXmlException(ApiEdit editor, string message)
@@ -125,6 +128,9 @@ namespace WikiFunctions.API
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class ApiLoginException : ApiException
     {
         public string StatusCode { get; private set; }
@@ -142,11 +148,23 @@ namespace WikiFunctions.API
         }
     }
 
+    /// <summary>
+    /// Thrown when servers refuse to perform operation due to overloading
+    /// </summary>
+    /// <remarks>http://www.mediawiki.org/wiki/Manual:Maxlag_parameter</remarks>
     public class ApiMaxlagException : ApiErrorException
     {
-        public ApiMaxlagException(ApiEdit editor, string message)
-            : base(editor, "maxlag", "Maxlag exceeded: '" + message + "'")
+        public int Maxlag
+        { get; private set; }
+
+        public int RetryAfter
+        { get; private set; }
+
+        public ApiMaxlagException(ApiEdit editor, int maxlag, int retryAfter)
+            : base(editor, "maxlag", "Maxlag exceeded by " + maxlag + " seconds, retry in " + retryAfter + " seconds")
         {
+            Maxlag = maxlag;
+            RetryAfter = retryAfter;
         }
     }
 
@@ -157,6 +175,27 @@ namespace WikiFunctions.API
     {
         public ApiAssertionException(ApiEdit editor, string assertion)
             : base(editor, "Assertion '" + assertion + "' failed")
+        {
+        }
+    }
+
+    /// <summary>
+    /// Thrown when an error occurs during asynchronous API operations
+    /// </summary>
+    public class ApiInvokeException : Exception
+    {
+        public ApiInvokeException(string message)
+            : base(message)
+        {
+        }
+
+        public ApiInvokeException(Exception innerException)
+            : this("There was a problem with an asynchronous API call", innerException)
+        {
+        }
+
+        public ApiInvokeException(string message, Exception innerException)
+            : base(message, innerException)
         {
         }
     }
@@ -179,6 +218,9 @@ namespace WikiFunctions.API
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class ApiLoggedOffException : ApiException
     {
         public ApiLoggedOffException(ApiEdit editor)
@@ -187,10 +229,24 @@ namespace WikiFunctions.API
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class ApiCaptchaException : ApiException
     {
         public ApiCaptchaException(ApiEdit editor)
             : base(editor, "Captcha required")
+        {
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ApiInterwikiException : ApiException
+    {
+        public ApiInterwikiException(ApiEdit editor)
+            : base(editor, "Page title contains interwiki")
         {
         }
     }
