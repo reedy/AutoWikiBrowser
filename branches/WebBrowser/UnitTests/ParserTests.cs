@@ -1052,6 +1052,28 @@ died 2002
         }
 
         [Test]
+        public void GetTemplateNameFromSettingTests()
+        {
+            WikiRegexes.TemplateCall = new Regex(@"{{Template:\s*([^\]\|]*)\s*(.*)}}", RegexOptions.Singleline);
+
+            Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template:foo|bar}}", false));
+            Assert.AreEqual(@"Foo", Parsers.GetTemplateName(@"{{Template:Foo|bar}}", false));
+            Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template:    foo|bar}}", false));
+            Assert.AreEqual(@"foo here", Parsers.GetTemplateName(@"{{Template:    foo here|bar}}", false));
+            Assert.AreEqual(@"foo-bar", Parsers.GetTemplateName(@"{{Template:    foo-bar}}", false));
+
+            Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template:foo|bar}}", true));
+            Assert.AreEqual(@"Foo", Parsers.GetTemplateName(@"{{Template:Foo|bar}}", true));
+            Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template:    foo|bar}}", true));
+            Assert.AreEqual(@"foo here", Parsers.GetTemplateName(@"{{Template:    foo here|bar}}", true));
+            Assert.AreEqual(@"foo-bar", Parsers.GetTemplateName(@"{{Template:    foo-bar}}", true));
+
+            // when no template found returns input string if second argument true, else null string
+            Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"foo", true));
+            Assert.AreEqual(@"", Parsers.GetTemplateName(@"foo", false));
+        }
+
+        [Test]
         public void LivingPeopleTests()
         {
             // with sortkey
