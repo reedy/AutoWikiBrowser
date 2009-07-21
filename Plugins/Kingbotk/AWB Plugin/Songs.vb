@@ -9,7 +9,7 @@
 'You should have received a copy of the GNU General Public License Version 2 along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
-    ' TODO: There's a great deal of common code used in these controls which could be inherited if I can work out how to inherit from and use a custom user control
+    ' TODO: There's a great deal of common code used in these controls which could be inherited
     Friend NotInheritable Class WPSongsSettings
         Implements IGenericSettings
 
