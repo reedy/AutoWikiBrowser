@@ -2270,6 +2270,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
         private static readonly HideText BulletExternalHider = new HideText(false, true, false);
 
+        //TODO: give these regexes, used by BulletExternalLinks, more meaningful names
+        private static readonly Regex BEL1 = new Regex(@"=\s*(?:external)?\s*links\s*=", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
+        private static readonly Regex BEL2 = new Regex("(\r\n|\n)?(\r\n|\n)(\\[?http)", RegexOptions.Compiled);
+
         // Covered by: LinkTests.TestBulletExternalLinks()
         /// <summary>
         /// Adds bullet points to external links after "external links" header
@@ -2278,7 +2282,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text.</returns>
         public static string BulletExternalLinks(string articleText)
         {
-            Match m = Regex.Match(articleText, @"=\s*(?:external)?\s*links\s*=", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
+            Match m = BEL1.Match(articleText);
 
             if (!m.Success)
                 return articleText;
@@ -2288,10 +2292,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string articleTextSubstring = articleText.Substring(intStart);
             articleText = articleText.Substring(0, intStart);
             articleTextSubstring = BulletExternalHider.HideMore(articleTextSubstring);
-            articleTextSubstring = Regex.Replace(articleTextSubstring, "(\r\n|\n)?(\r\n|\n)(\\[?http)", "$2* $3");
+            articleTextSubstring = BEL2.Replace(articleTextSubstring, "$2* $3");
 
             return articleText + BulletExternalHider.AddBackMore(articleTextSubstring);
         }
+
+        private static readonly Regex WordWhitespaceEndofline = new Regex(@"(\w+)\s+$", RegexOptions.Compiled);
 
         // Covered by: LinkTests.TestFixCategories()
         /// <summary>
@@ -2319,7 +2325,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 if (!Tools.IsValidTitle(m.Groups[1].Value))
                     continue;
                 string x = cat + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim()) +
-                           Regex.Replace(Tools.RemoveDiacritics(m.Groups[2].Value), @"(\w+)\s+$", "$1") + "]]";
+                           WordWhitespaceEndofline.Replace(Tools.RemoveDiacritics(m.Groups[2].Value), "$1") + "]]";
                 if (x != m.Value)
                     articleText = articleText.Replace(m.Value, x);
             }
@@ -2610,9 +2616,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return articleText;
         }
 
+        private static readonly Regex BracketedAtEndOfLine = new Regex(@" \(.*?\)$", RegexOptions.Compiled);
+        private static readonly Regex boldTitleAlready3 = new Regex(@"^\s*({{[^\{\}]+}}\s*)*'''('')?\s*\w", RegexOptions.Compiled);
         // Covered by: BoldTitleTests
         /// <summary>
-        /// '''Emboldens''' the first occurence of the article title, if not already bold
+        /// '''Emboldens''' the first occurrence of the article title, if not already bold
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">The title of the article.</param>
@@ -2625,14 +2633,14 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             noChange = true;
             string escTitle = Regex.Escape(articleTitle);
-            string escTitleNoBrackets = Regex.Escape(Regex.Replace(articleTitle, @" \(.*?\)$", ""));
+            string escTitleNoBrackets = Regex.Escape(BracketedAtEndOfLine.Replace(articleTitle, ""));
 
             string articleTextAtStart = articleText;
 
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
             string restOfArticle = (zerothSection.Length > 0) ? articleText.Replace(zerothSection, "") : "";
 
-            // limiation here in that can't hide image descriptions that may be above lead sentence without hiding the self links we are looking to correct
+            // There's a limitation here in that we can't hide image descriptions that may be above lead sentence without hiding the self links we are looking to correct
             string zerothSectionHidden = Hider.HideMore(zerothSection, false, false);
             string zerothSectionHiddenOriginal = zerothSectionHidden;
 
@@ -2668,7 +2676,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             Regex boldTitleAlready1 = new Regex(@"'''\s*(" + escTitle + "|" + Tools.TurnFirstToLower(escTitle) + @")\s*'''");
             Regex boldTitleAlready2 = new Regex(@"'''\s*(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + @")\s*'''");
-            Regex boldTitleAlready3 = new Regex(@"^\s*({{[^\{\}]+}}\s*)*'''('')?\s*\w");
 
             //if title in bold already exists in article, or page starts with something in bold, don't change anything
             if (boldTitleAlready1.IsMatch(articleText) || boldTitleAlready2.IsMatch(articleText)
@@ -3259,6 +3266,14 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return articleText;
         }
 
+        private static readonly Regex InUniverse = new Regex(@"{{[Ii]n-universe", RegexOptions.Compiled);
+        private static readonly Regex CategoryCharacters = new Regex(@"\[\[Category:[^\[\]]*?[Cc]haracters", RegexOptions.Compiled);
+        private static readonly Regex SeeAlsoOrMain = new Regex(@"{{(?:[Ss]ee\salso|[Mm]ain)\b", RegexOptions.Compiled);
+        private static readonly Regex InfoboxFraternity = new Regex(@"{{\s*[Ii]nfobox[\s_]+[Ff]raternity", RegexOptions.Compiled);
+        private static readonly Regex BoldedLink = new Regex(@"'''.*?\[\[[^\[\]]+\]\].*?'''", RegexOptions.Compiled);
+        private static readonly Regex BLPSources = new Regex(@"{{\s*[Bb]LP sources\b", RegexOptions.Compiled);
+        private static readonly Regex RefImprove = new Regex(@"{{\s*[Rr]efimproveBLP\b", RegexOptions.Compiled);
+
         /// <summary>
         /// determines whether the article is about a person by looking for persondata/birth death categories, bio stub etc. for en wiki only
         /// </summary>
@@ -3266,20 +3281,26 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public static bool IsArticleAboutAPerson(string articleText)
         {
-            if (!(Variables.LangCode == LangCodeEnum.en) || articleText.Contains(@"[[Category:Multiple people]]") || articleText.Contains(@"[[Category:Married couples") || articleText.Contains(@"[[Category:Fictional") || articleText.Contains(@"[[fictional character")
-                || Regex.IsMatch(articleText, @"{{[Ii]n-universe") || articleText.Contains(@"[[Category:Presidencies") || articleText.Contains(@"[[Category:Military careers")
-                || Regex.IsMatch(articleText, @"\[\[Category:[^\[\]]*?[Cc]haracters"))
+            if (Variables.LangCode != LangCodeEnum.en
+                    || articleText.Contains(@"[[Category:Multiple people]]")
+                    || articleText.Contains(@"[[Category:Married couples")
+                    || articleText.Contains(@"[[Category:Fictional")
+                    || articleText.Contains(@"[[fictional character")
+                    || InUniverse.IsMatch(articleText)
+                    || articleText.Contains(@"[[Category:Presidencies")
+                    || articleText.Contains(@"[[Category:Military careers")
+                    || CategoryCharacters.IsMatch(articleText))
                 return false;
 
             //TODO: this regex can be too slow and should be replaced
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
 
             // not about a person if it's not the principle article on the subject
-            if (Regex.IsMatch(zerothSection, @"{{(?:[Ss]ee\salso|[Mm]ain)\b"))
+            if (SeeAlsoOrMain.IsMatch(zerothSection))
                 return false;
 
             // TODO a workaround for abuse of {{birth date and age}} template by many fraternity articles e.g. [[Zeta Phi Beta]]
-            if (Regex.IsMatch(articleText, @"{{\s*[Ii]nfobox[\s_]+[Ff]raternity"))
+            if (InfoboxFraternity.IsMatch(articleText))
                 return false;
 
             int dateBirthAndAgeCount = WikiRegexes.DateBirthAndAge.Matches(articleText).Count;
@@ -3288,22 +3309,25 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (dateBirthAndAgeCount > 1 || dateDeathAndAgeCount > 1)
                 return false;
 
-            if (WikiRegexes.Lifetime.IsMatch(articleText) || WikiRegexes.Persondata.Matches(articleText).Count == 1 || articleText.Contains(@"-bio-stub}}")
-                || articleText.Contains(@"[[Category:Living people"))
+            if (WikiRegexes.Lifetime.IsMatch(articleText)
+                    || WikiRegexes.Persondata.Matches(articleText).Count == 1
+                    || articleText.Contains(@"-bio-stub}}")
+                    || articleText.Contains(@"[[Category:Living people"))
                 return true;
 
             // articles with bold linking to another article may be linking to the main article on the person the article is about
             // e.g. '''military career of [[Napoleon Bonaparte]]'''
-            if (Regex.IsMatch(WikiRegexes.Template.Replace(zerothSection, ""), @"'''.*?\[\[[^\[\]]+\]\].*?'''"))
+            if (BoldedLink.IsMatch(WikiRegexes.Template.Replace(zerothSection, "")))
                 return false;
 
             if (dateBirthAndAgeCount == 1 || dateDeathAndAgeCount == 1)
                 return true;
 
-            return WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) ||
-                   WikiRegexes.LivingPeopleRegex2.IsMatch(articleText) ||
-                   WikiRegexes.BirthsCategory.IsMatch(articleText) ||
-                   Regex.IsMatch(articleText, @"{{\s*[Bb]LP sources\b") || Regex.IsMatch(articleText, @"{{\s*[Rr]efimproveBLP\b");
+            return WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)
+                    || WikiRegexes.LivingPeopleRegex2.IsMatch(articleText)
+                    || WikiRegexes.BirthsCategory.IsMatch(articleText)
+                    || BLPSources.IsMatch(articleText)
+                    || RefImprove.IsMatch(articleText);
         }
 
         /// <summary>
@@ -3333,6 +3357,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return newText;
         }
 
+        private static readonly Regex ThreeOrMoreDigits = new Regex(@"\d{3,}", RegexOptions.Compiled);
+        private static readonly Regex BirthsSortKey = new Regex(@"\|.*?\]\]", RegexOptions.Compiled);
         /// <summary>
         /// Adds [[Category:Living people]] to articles with a [[Category:XXXX births]] and no living people/deaths category, taking sortkey from births category if present
         /// </summary>
@@ -3356,7 +3382,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             string byear = m.Groups[1].Value;
 
-            if (Regex.IsMatch(byear, @"\d{3,}"))
+            if (ThreeOrMoreDigits.IsMatch(byear))
                 birthYear = int.Parse(byear);
 
             // if born < 1910 they're likely dead
@@ -3364,17 +3390,17 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 return articleText;
 
             // use any sortkey from 'XXXX births' category
-            string catKey = birthCat.Contains("|") ? Regex.Match(birthCat, "\\|.*?\\]\\]").Value : "]]";
+            string catKey = birthCat.Contains("|") ? BirthsSortKey.Match(birthCat).Value : "]]";
 
             return articleText + "[[Category:Living people" + catKey;
         }
 
-        private static readonly Regex PersonYearOfBirth = new Regex(@"(?<='''.{0,100}?)\( *[Bb]orn[^\)\.;]{1,150}?(?<!.*(?:[Dd]ied|&[nm]dash;|—).*)([12]?\d{3}(?: BC)?)\b[^\)]{0,200}");
-        private static readonly Regex PersonYearOfDeath = new Regex(@"(?<='''.{0,100}?)\([^\(\)]*?[Dd]ied[^\)\.;]+?([12]?\d{3}(?: BC)?)\b");
-        private static readonly Regex PersonYearOfBirthAndDeath = new Regex(@"^.{0,100}'''\s*\([^\)\r\n]*?(?<![Dd]ied)\b([12]?\d{3})\b[^\)\r\n]*?(-|–|—|&[nm]dash;)[^\)\r\n]*?([12]?\d{3})\b[^\)]{0,200}", RegexOptions.Singleline);
+        private static readonly Regex PersonYearOfBirth = new Regex(@"(?<='''.{0,100}?)\( *[Bb]orn[^\)\.;]{1,150}?(?<!.*(?:[Dd]ied|&[nm]dash;|—).*)([12]?\d{3}(?: BC)?)\b[^\)]{0,200}", RegexOptions.Compiled);
+        private static readonly Regex PersonYearOfDeath = new Regex(@"(?<='''.{0,100}?)\([^\(\)]*?[Dd]ied[^\)\.;]+?([12]?\d{3}(?: BC)?)\b", RegexOptions.Compiled);
+        private static readonly Regex PersonYearOfBirthAndDeath = new Regex(@"^.{0,100}'''\s*\([^\)\r\n]*?(?<![Dd]ied)\b([12]?\d{3})\b[^\)\r\n]*?(-|–|—|&[nm]dash;)[^\)\r\n]*?([12]?\d{3})\b[^\)]{0,200}", RegexOptions.Singleline | RegexOptions.Compiled);
 
-        private static readonly Regex UncertainWordings = new Regex(@"(?:\b(about|before|after|either|prior to|around|late|[Cc]irca|between|\d{3,4}(?:\]\])?/(?:\[\[)?\d{1,4}|or +(?:\[\[)?\d{3,})\b|\d{3} *\?|\bca?(?:'')?\.|\bca\b|\b(bef|abt)\.)");
-        private static readonly Regex ReignedRuledUnsure = new Regex(@"(?:\?|[Rr](?:uled|eign(?:ed)?\b)|\br\.|(chr|fl(?:\]\])?)\.|\b[Ff]lourished\b)");
+        private static readonly Regex UncertainWordings = new Regex(@"(?:\b(about|before|after|either|prior to|around|late|[Cc]irca|between|\d{3,4}(?:\]\])?/(?:\[\[)?\d{1,4}|or +(?:\[\[)?\d{3,})\b|\d{3} *\?|\bca?(?:'')?\.|\bca\b|\b(bef|abt)\.)", RegexOptions.Compiled);
+        private static readonly Regex ReignedRuledUnsure = new Regex(@"(?:\?|[Rr](?:uled|eign(?:ed)?\b)|\br\.|(chr|fl(?:\]\])?)\.|\b[Ff]lourished\b)", RegexOptions.Compiled);
 
         /// <summary>
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
@@ -3390,6 +3416,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             return newText;
         }
+
+        //TODO: give these regexes, used in FixPeopleCategories, more meaningful names
+        private static readonly Regex LongWikilink = new Regex(@"\[\[[^\[\]\|]{11,}(?:\|[^\[\]]+)?\]\]", RegexOptions.Compiled);
+        private static readonly Regex YearPossiblyWithBC = new Regex(@"\d{3,4}(?![\ds])(?: BC)?", RegexOptions.Compiled);
+        private static readonly Regex ThreeOrFourDigitNumber = new Regex(@"\d{3,4}", RegexOptions.Compiled);
+        private static readonly Regex DiedOrBaptised = new Regex(@"(^.*?)((?:&[nm]dash;|—|–|;|[Dd](?:ied|\.)|baptised).*)", RegexOptions.Compiled);
+        private static readonly Regex Circa = new Regex(@"{{[Cc]irca}}", RegexOptions.Compiled);
 
         /// <summary>
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
@@ -3411,7 +3444,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             // remove references and long wikilinks (but allow an ISO date) that may contain false positives of birth/death date
             zerothSection = WikiRegexes.Refs.Replace(zerothSection, " ");
-            zerothSection = Regex.Replace(zerothSection, @"\[\[[^\[\]\|]{11,}(?:\|[^\[\]]+)?\]\]", " ");
+            zerothSection = LongWikilink.Replace(zerothSection, " ");
 
             string yearstring, yearFromInfoBox = "";
 
@@ -3423,11 +3456,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string fromInfoBox = GetInfoBoxFieldValue(zerothSection, @"(?:[Yy]earofbirth|Born|birth_?date)");
 
             if (fromInfoBox.Length > 0 && !UncertainWordings.IsMatch(fromInfoBox))
-                yearFromInfoBox = Regex.Match(fromInfoBox, @"\d{3,4}(?![\ds])(?: BC)?").Value;
+                yearFromInfoBox = YearPossiblyWithBC.Match(fromInfoBox).Value;
 
             // birth
             if (!WikiRegexes.BirthsCategory.IsMatch(articleText) && (PersonYearOfBirth.Matches(zerothSection).Count == 1 || WikiRegexes.DateBirthAndAge.IsMatch(zerothSection) || WikiRegexes.DeathDateAndAge.IsMatch(zerothSection)
-                || Regex.IsMatch(yearFromInfoBox, @"\d{3,4}")))
+                || ThreeOrFourDigitNumber.IsMatch(yearFromInfoBox)))
             {
                 // look for '{{birth date...' template first
                 yearstring = WikiRegexes.DateBirthAndAge.Match(articleText).Groups[1].Value;
@@ -3437,7 +3470,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     yearstring = WikiRegexes.DeathDateAndAge.Match(articleText).Groups[2].Value;
 
                 // thirdly use yearFromInfoBox
-                if (Regex.IsMatch(yearFromInfoBox, @"\d{3,4}"))
+                if (ThreeOrFourDigitNumber.IsMatch(yearFromInfoBox))
                     yearstring = yearFromInfoBox;
 
                 // look for '(born xxxx)'
@@ -3446,9 +3479,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     Match m = PersonYearOfBirth.Match(zerothSection);
 
                     // remove part beyond dash or died
-                    string birthpart = Regex.Replace(m.Value, @"(^.*?)((?:&[nm]dash;|—|–|;|[Dd](?:ied|\.)|baptised).*)", "$1");
+                    string birthpart = DiedOrBaptised.Replace(m.Value, "$1");
 
-                    if (Regex.IsMatch(birthpart, @"{{[Cc]irca}}"))
+                    if (Circa.IsMatch(birthpart))
                         alreadyUncertain = true;
 
                     birthpart = WikiRegexes.TemplateMultiLine.Replace(birthpart, " ");
@@ -3478,16 +3511,16 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             fromInfoBox = GetInfoBoxFieldValue(articleText, @"(?:[Yy]earofdeath|Died|death_?date)");
 
             if (fromInfoBox.Length > 0 && !UncertainWordings.IsMatch(fromInfoBox))
-                yearFromInfoBox = Regex.Match(fromInfoBox, @"\d{3,4}(?![\ds])(?: BC)?").Value;
+                yearFromInfoBox = YearPossiblyWithBC.Match(fromInfoBox).Value;
 
             if (!WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) && (PersonYearOfDeath.IsMatch(zerothSection) || WikiRegexes.DeathDate.IsMatch(zerothSection)
-                || Regex.IsMatch(yearFromInfoBox, @"\d{3,4}")))
+                || ThreeOrFourDigitNumber.IsMatch(yearFromInfoBox)))
             {
                 // look for '{{death date...' template first
                 yearstring = WikiRegexes.DeathDate.Match(articleText).Groups[1].Value;
 
                 // secondly use yearFromInfoBox
-                if (Regex.IsMatch(yearFromInfoBox, @"\d{3,4}"))
+                if (ThreeOrFourDigitNumber.IsMatch(yearFromInfoBox))
                     yearstring = yearFromInfoBox;
 
                 // look for '(died xxxx)'
@@ -3565,8 +3598,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
         private const string YearofDeathMissing = "Year of death missing";
 
-        private const string Cat4YearBirths = @"\[\[Category:\d{4} births(?:\s*\|[^\[\]]+)? *\]\]";
-        private const string Cat4YearDeaths = @"\[\[Category:\d{4} deaths(?:\s*\|[^\[\]]+)? *\]\]";
+        private static readonly Regex Cat4YearBirths = new Regex(@"\[\[Category:\d{4} births(?:\s*\|[^\[\]]+)? *\]\]", RegexOptions.Compiled);
+        private static readonly Regex Cat4YearDeaths = new Regex(@"\[\[Category:\d{4} deaths(?:\s*\|[^\[\]]+)? *\]\]", RegexOptions.Compiled);
 
         private static string YearOfBirthMissingCategory(string articleText)
         {
@@ -3574,12 +3607,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 return articleText;
 
             // if there is a 'year of birth missing' and a year of birth, remove the 'missing' category
-            if (CategoryMatch(articleText, YearOfBirthMissingLivingPeople) && Regex.IsMatch(articleText, Cat4YearBirths))
+            if (CategoryMatch(articleText, YearOfBirthMissingLivingPeople) && Cat4YearBirths.IsMatch(articleText))
                 articleText = RemoveCategory(YearOfBirthMissingLivingPeople, articleText);
             else
                 if (CategoryMatch(articleText, YearOfBirthMissing))
                 {
-                    if (Regex.IsMatch(articleText, Cat4YearBirths))
+                    if (Cat4YearBirths.IsMatch(articleText))
                         articleText = RemoveCategory(YearOfBirthMissing, articleText);
                 }
 
@@ -3588,12 +3621,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 articleText = RemoveCategory(YearOfBirthMissing, articleText);
 
             // if there's a year of death and a 'year of death missing', remove the latter
-            if (CategoryMatch(articleText, YearofDeathMissing) && Regex.IsMatch(articleText, Cat4YearDeaths))
+            if (CategoryMatch(articleText, YearofDeathMissing) && Cat4YearDeaths.IsMatch(articleText))
                 articleText = RemoveCategory(YearofDeathMissing, articleText);
 
             return articleText;
         }
 
+        private static readonly Regex InfoboxValue = new Regex(@"\s*\|[^{}\|=]+?\s*=\s*.*", RegexOptions.Compiled);
         /// <summary>
         /// Returns the value of the given field from the page's infobox, where available
         /// Returns a null string if the input article has no infobox, or the input field regex doesn't match on the infobox found
@@ -3623,11 +3657,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (fieldValue.Length > 0)
             {
                 // handle multiple fields on same line
-                if (Regex.IsMatch(fieldValue, @"\s*\|[^{}\|=]+?\s*=\s*.*"))
+                if (InfoboxValue.IsMatch(fieldValue))
                 {
                     // string fieldValueLocal = WikiRegexes.NestedTemplates.Replace(fieldValue, "");
 
-                    // fieldValueLocal = Regex.Replace(fieldValueLocal, @"\s*\|[^{}\|=]+?\s*=\s*.*", "");
+                    // fieldValueLocal = InfoboxValue.Replace(fieldValueLocal, "");
                     return "";
                 }
 
@@ -3685,6 +3719,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return articleText;
         }
 
+        private static readonly Regex TemplateParameter2 = new Regex(" \\{\\{\\{2\\|\\}\\}\\}", RegexOptions.Compiled);
         // NOT covered
         /// <summary>
         /// Substitutes some user talk templates
@@ -3703,7 +3738,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             talkPageText = Tools.ExpandTemplate(talkPageText, talkPageTitle, regexes, true);
 
-            talkPageText = Regex.Replace(talkPageText, " \\{\\{\\{2\\|\\}\\}\\}", "");
+            talkPageText = TemplateParameter2.Replace(talkPageText, "");
             return talkPageText.Replace("REPLACE_THIS_TEXT", "{{{subst");
         }
 
@@ -3913,7 +3948,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         private static string StubChecker(Match m)
         {
             // Replace each Regex cc match with the number of the occurrence.
-            return Regex.IsMatch(m.Value, Variables.SectStub) ? m.Value : "";
+            return Variables.SectStubRegex.IsMatch(m.Value) ? m.Value : "";
         }
 
         // Covered by UtilityFunctionTests.NoBotsTests()
