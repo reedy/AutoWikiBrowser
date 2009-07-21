@@ -43,32 +43,52 @@
             // 
             this.lvAccounts.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.lvAccounts.Size = new System.Drawing.Size(494, 117);
+            this.lvAccounts.Size = new System.Drawing.Size(496, 117);
+            // 
+            // colAccountName
+            // 
+            this.colAccountName.Width = 63;
+            // 
+            // colPasswordSaved
+            // 
+            this.colPasswordSaved.Width = 99;
+            // 
+            // colProfileSettings
+            // 
+            this.colProfileSettings.Width = 88;
             // 
             // colNotes
             // 
-            this.colNotes.Width = 116;
+            this.colNotes.Width = 118;
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(93, 135);
+            this.btnAdd.Location = new System.Drawing.Point(93, 137);
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(255, 135);
+            this.btnDelete.Location = new System.Drawing.Point(255, 137);
+            // 
+            // colID
+            // 
+            this.colID.Width = 26;
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(431, 266);
+            this.btnClose.Location = new System.Drawing.Point(433, 268);
+            // 
+            // colUsedForUpload
+            // 
+            this.colUsedForUpload.Width = 98;
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(12, 135);
+            this.btnLogin.Location = new System.Drawing.Point(12, 137);
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
             // BtnEdit
             // 
-            this.BtnEdit.Location = new System.Drawing.Point(174, 135);
+            this.BtnEdit.Location = new System.Drawing.Point(174, 137);
             // 
             // groupBox1
             // 
@@ -156,6 +176,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.ClientSize = new System.Drawing.Size(518, 296);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximumSize = new System.Drawing.Size(526, 330);
+            this.MinimumSize = new System.Drawing.Size(526, 330);
             this.Name = "AWBProfilesForm";
             this.Controls.SetChildIndex(this.btnDelete, 0);
             this.Controls.SetChildIndex(this.BtnEdit, 0);
