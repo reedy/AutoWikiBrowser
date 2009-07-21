@@ -138,9 +138,7 @@ namespace WikiFunctions.Profiles
 			{
 	            UserPassword password = new UserPassword
 	                                        {
-	                                            SetText =
-	                                                "Set password for: " +
-	                                                lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text
+	                                            Username = lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text
 	                                        };
 
 			    if (password.ShowDialog() == DialogResult.OK)

@@ -43,21 +43,22 @@
             // 
             // btnOk
             // 
+            this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnOk.Location = new System.Drawing.Point(62, 54);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 1;
             this.btnOk.Text = "Ok";
             this.btnOk.UseVisualStyleBackColor = true;
-            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // lblText
             // 
             this.lblText.AutoSize = true;
             this.lblText.Location = new System.Drawing.Point(12, 9);
             this.lblText.Name = "lblText";
-            this.lblText.Size = new System.Drawing.Size(0, 13);
+            this.lblText.Size = new System.Drawing.Size(115, 13);
             this.lblText.TabIndex = 2;
+            this.lblText.Text = "Enter password for {0}:";
             // 
             // UserPassword
             // 
