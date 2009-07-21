@@ -1,6 +1,6 @@
 /*
 AWBPackager
-Copyright (C) 2007 Sam Reed
+Copyright (C) 2009 Sam Reed
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
-
+using System.Diagnostics;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 
@@ -31,32 +31,21 @@ namespace AWBPackager
             string tmp = "temp\\";
             try
             {
-                string filename = "AutoWikiBrowser";
+                string filename = "AutoWikiBrowser{0}";
 
                 Console.Write(
                     @"Please ensure a release build has been built before continuing.
 Is this SVN (1) or a release (2)? ");
 
                 int selection;
-                
+
                 int.TryParse(Console.ReadLine(), out selection);
-                
+
                 if (selection == -1)
                 {
                     Console.Write("Please select 1 or 2");
                     return;
-                }  
-
-                Console.Write("Please enter the AWB version: ");
-                string ver = Console.ReadLine();
-
-                if (string.IsNullOrEmpty(ver))
-                {
-                    Console.Write("Please enter a version");
-                    return;
                 }
-
-                filename += ver.Replace(".", "");
 
                 if (selection == 1)
                 {
@@ -75,6 +64,12 @@ Is this SVN (1) or a release (2)? ");
                 string currFolder = awbDir + "AWB\\bin\\Release\\";
 
                 File.Copy(currFolder + "AutoWikiBrowser.exe", tmp + "AutoWikiBrowser.exe", true);
+
+                filename = string.Format(filename,
+                                         StringToVersion(
+                                             FileVersionInfo.GetVersionInfo(currFolder + "AutoWikiBrowser.exe").
+                                                 FileVersion));
+
                 File.Copy(currFolder + "AutoWikiBrowser.exe.config", tmp + "AutoWikiBrowser.exe.config", true);
                 File.Copy(currFolder + "WikiFunctions.dll", tmp + "WikiFunctions.dll", true);
                 File.Copy(currFolder + "AWBUpdater.exe", tmp + "AWBUpdater.exe", true);
@@ -136,6 +131,15 @@ Is this SVN (1) or a release (2)? ");
                 Console.WriteLine(ex.Message);
                 Console.ReadLine();
             }
+        }
+
+        static int StringToVersion(string version)
+        {
+            int res;
+            if (!int.TryParse(version.Replace(".", ""), out res))
+                res = 0;
+
+            return res;
         }
     }
 }
