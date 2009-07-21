@@ -825,9 +825,9 @@ namespace WikiFunctions.API
         /// Checks the XML returned by the server for error codes and throws an appropriate exception
         /// </summary>
         /// <param name="xml">Server output</param>
-        private void CheckForError(string xml)
+        private XmlDocument CheckForError(string xml)
         {
-            CheckForError(xml, null);
+            return CheckForError(xml, null);
         }
 
         /// <summary>
@@ -835,54 +835,61 @@ namespace WikiFunctions.API
         /// </summary>
         /// <param name="xml">Server output</param>
         /// <param name="action">The action performed, null if don't check</param>
-        private void CheckForError(string xml, string action)
+        private XmlDocument CheckForError(string xml, string action)
         {
+            var doc = new XmlDocument();
+            doc.Load(new StringReader(xml));
+
             if (string.IsNullOrEmpty(xml)) throw new ApiBlankException(this);
 
-            //HACK:
-            if (!xml.Contains("<error") && string.IsNullOrEmpty(action)) return;
+            var errors = doc.GetElementsByTagName("error");
 
-            XmlReader xr = XmlReader.Create(new StringReader(xml));
-            if (xml.Contains("<error") && xr.ReadToFollowing("error"))
+            if (errors.Count > 0)
             {
-                string errorCode = xr.GetAttribute("code");
-                string errorMessage = xr.GetAttribute("info");
+                var error = errors[0];
+                string errorCode = error.Attributes["code"].Value;
+                string errorMessage = error.Attributes["info"].Value;
 
                 switch (errorCode.ToLower())
                 {
-                    case "maxlag": // older maxlag reporting scheme, guessing
-                        int maxlag = int.Parse(Regex.Match(xml, @": (\d+) seconds lagged").Groups[1].Value);
+                    case "maxlag": //guessing
+                        int maxlag;
+                        int.TryParse(Regex.Match(xml, @": (\d+) seconds lagged").Groups[1].Value, out maxlag);
                         throw new ApiMaxlagException(this, maxlag, 10);
                     default:
                         throw new ApiErrorException(this, errorCode, errorMessage);
                 }
             }
+            else
+                if (string.IsNullOrEmpty(action)) return doc; // no action to check
 
-            if (!string.IsNullOrEmpty(action) && xr.ReadToFollowing(action))
+            var api = doc["api"];
+            if (api == null) return doc;
+            var actionElement = api[action];
+
+            if (actionElement == null) return doc; // or shall we explode?
+
+            if (actionElement.HasAttribute("assert"))
             {
-                //string result = xr.GetAttribute("result");
-                //if (result != null && result == "Success")
-                //{
-                string s = xr.GetAttribute("assert");
-                if (!string.IsNullOrEmpty(s))
-                {
-                    throw new ApiAssertionException(this, s);
-                }
-
-                s = xr.GetAttribute("spamblacklist");
-                if (!string.IsNullOrEmpty(s))
-                {
-                    throw new ApiSpamlistException(this, s);
-                }
-                //}
-                //else
-                //throw new ApiErrorException(this, result, result); //HACK: we need error message
+                throw new ApiAssertionException(this, actionElement.GetAttribute("assert"));
             }
 
-            if (xr.ReadToFollowing("captcha"))
+            if (actionElement.HasAttribute("spamblacklist"))
+            {
+                throw new ApiSpamlistException(this, actionElement.GetAttribute("spamblacklist"));
+            }
+
+            if (actionElement.GetElementsByTagName("captcha").Count > 0)
             {
                 throw new ApiCaptchaException(this);
             }
+
+            // This check must be the last, otherwise we will miss
+            string result = actionElement.GetAttribute("result");
+            if (!string.IsNullOrEmpty(result) && result != "Success") 
+                throw new ApiOperationFailedException(this, action, result);
+
+            return doc;
         }
 
         #endregion
