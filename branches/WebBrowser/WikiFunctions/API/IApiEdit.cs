@@ -28,11 +28,7 @@ namespace WikiFunctions.API
         string URL
         { get; }
 
-        /// <summary>
-        /// true if the editor is asynchronous
-        /// Whether all operations should return immediately or wait for completition
-        /// </summary>
-        bool Asynchronous
+        bool PHP5
         { get; }
 
         /// <summary>
@@ -69,6 +65,13 @@ namespace WikiFunctions.API
         /// </summary>
         string HtmlHeaders
         { get; }
+
+        /// <summary>
+        /// Creates a new instance of the current class by cloning the current instance
+        /// ATTENTION: the clones will share the same cookie container, so logging off or logging under another username
+        /// with one instance will automatically make another one do the same
+        /// </summary>
+        IApiEdit Clone();
 
         /// <summary>
         /// Resets all internal variables, discarding edit tokens and so on,
@@ -109,7 +112,19 @@ namespace WikiFunctions.API
         /// <param name="summary">Edit summary. Must not be empty.</param>
         /// <param name="minor">Whether the edit should be marked as minor</param>
         /// <param name="watch">Whether the page should be watchlisted</param>
-        void Save(string pageText, string summary, bool minor, bool watch);
+        SaveInfo Save(string pageText, string summary, bool minor, bool watch);
+
+        /// <summary>
+        /// Adds the given page to current user's watchlist
+        /// </summary>
+        /// <param name="title">Page to add to watchlist</param>
+        void Watch(string title);
+
+        /// <summary>
+        /// Removes the given page from current user's watchlist
+        /// </summary>
+        /// <param name="title">Page to remove from watchlist</param>
+        void Unwatch(string title);
 
         /// <summary>
         /// Deletes the page
@@ -134,7 +149,7 @@ namespace WikiFunctions.API
         /// <param name="expiry"></param>
         /// <param name="edit"></param>
         /// <param name="move"></param>
-        void Protect(string title, string reason, string expiry, Protection edit, Protection move);
+        void Protect(string title, string reason, string expiry, string edit, string move);
 
         /// <summary>
         /// Protects the Page
@@ -144,19 +159,7 @@ namespace WikiFunctions.API
         /// <param name="expiry"></param>
         /// <param name="edit"></param>
         /// <param name="move"></param>
-        void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move);
-
-        /// <summary>
-        /// Protects the Page
-        /// </summary>
-        /// <param name="title">Title of the page to protect</param>
-        /// <param name="reason">Reason for protection. Must not be empty.</param>
-        /// <param name="expiry"></param>
-        /// <param name="edit"></param>
-        /// <param name="move"></param>
-        /// <param name="cascade"></param>
-        /// <param name="watch">Whether to add the page to your watchlist</param>
-        void Protect(string title, string reason, string expiry, Protection edit, Protection move, bool cascade, bool watch);
+        void Protect(string title, string reason, TimeSpan expiry, string edit, string move);
 
         /// <summary>
         /// Protects the Page
@@ -168,28 +171,48 @@ namespace WikiFunctions.API
         /// <param name="move"></param>
         /// <param name="cascade"></param>
         /// <param name="watch">Whether to add the page to your watchlist</param>
-        void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move, bool cascade, bool watch);
+        void Protect(string title, string reason, string expiry, string edit, string move, bool cascade, bool watch);
 
         /// <summary>
-        /// Moves the page
+        /// Protects the Page
         /// </summary>
-        /// <param name="title">Title of the page to move</param>
-        /// <param name="newTitle">Title of the target page</param>
-        /// <param name="reason">Reason for move. Must not be empty.</param>
-        /// <param name="moveTalk"></param>
-        /// <param name="noRedirect"></param>
-        void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect);
-
-        /// <summary>
-        /// Moves the page
-        /// </summary>
-        /// <param name="title">Title of the page to move</param>
-        /// <param name="newTitle">Title of the target page</param>
-        /// <param name="reason">Reason for move. Must not be empty.</param>
-        /// <param name="moveTalk"></param>
-        /// <param name="noRedirect"></param>
+        /// <param name="title">Title of the page to protect</param>
+        /// <param name="reason">Reason for protection. Must not be empty.</param>
+        /// <param name="expiry"></param>
+        /// <param name="edit"></param>
+        /// <param name="move"></param>
+        /// <param name="cascade"></param>
         /// <param name="watch">Whether to add the page to your watchlist</param>
-        void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect, bool watch);
+        void Protect(string title, string reason, TimeSpan expiry, string edit, string move, bool cascade, bool watch);
+
+        /// <summary>
+        /// Moves the page
+        /// </summary>
+        /// <param name="title">Title of the page to move</param>
+        /// <param name="newTitle">Title of the target page</param>
+        /// <param name="reason">Reason for move. Must not be empty.</param>
+        void Move(string title, string newTitle, string reason);
+
+        /// <summary>
+        /// Moves the page
+        /// </summary>
+        /// <param name="title">Title of the page to move</param>
+        /// <param name="newTitle">Title of the target page</param>
+        /// <param name="reason">Reason for move. Must not be empty.</param>
+        /// <param name="moveTalk">Whether to also move the talk page</param>
+        /// <param name="noRedirect">Whether a redirect shoudn't be created</param>
+        void Move(string title, string newTitle, string reason, bool moveTalk, bool noRedirect);
+
+        /// <summary>
+        /// Moves the page
+        /// </summary>
+        /// <param name="title">Title of the page to move</param>
+        /// <param name="newTitle">Title of the target page</param>
+        /// <param name="reason">Reason for move. Must not be empty.</param>
+        /// <param name="moveTalk">Whether to also move the talk page</param>
+        /// <param name="noRedirect">Whether a redirect shoudn't be created</param>
+        /// <param name="watch">Whether to add the page to your watchlist</param>
+        void Move(string title, string newTitle, string reason, bool moveTalk, bool noRedirect, bool watch);
 
         /// <summary>
         /// Previews the page
@@ -211,11 +234,5 @@ namespace WikiFunctions.API
         /// Aborts the current operation
         /// </summary>
         void Abort();
-
-        /// <summary>
-        /// Waits for current operation to complete. If the editor is not asynchronous,
-        /// returns immediately.
-        /// </summary>
-        void Wait();
     }
 }

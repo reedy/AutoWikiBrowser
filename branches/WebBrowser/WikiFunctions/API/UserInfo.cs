@@ -25,7 +25,7 @@ namespace WikiFunctions.API
     /// <summary>
     /// Information about a user
     /// </summary>
-    public class UserInfo
+    public sealed class UserInfo
     {
         /// <summary>
         /// Username
@@ -49,13 +49,13 @@ namespace WikiFunctions.API
         /// Whether the current user is an administrator
         /// </summary>
         public bool IsSysop
-        { get { return Groups.Contains("sysop"); } }
+        { get { return IsInGroup("sysop"); } }
 
         /// <summary>
         /// Whether the current user is a flagged bot
         /// </summary>
         public bool IsBot
-        { get { return Groups.Contains("bot"); } }
+        { get { return IsInGroup("bot"); } }
 
         /// <summary>
         /// Whether the current user is blocked from editing
@@ -68,6 +68,27 @@ namespace WikiFunctions.API
         /// </summary>
         public bool HasMessages
         { get; internal set; }
+
+        public bool IsInGroup(string group)
+        {
+            return string.IsNullOrEmpty(group) || Groups.Contains(group);
+        }
+
+        public bool HasRight(string right)
+        {
+            return string.IsNullOrEmpty(right) || Rights.Contains(right);
+        }
+
+        public bool CanEditPage(PageInfo page)
+        {
+            return IsInGroup(page.EditProtection) && !(page.NamespaceID == Namespace.MediaWiki &&
+                !HasRight("editinterface"));
+        }
+
+        public bool CanMovePage(PageInfo page)
+        {
+            return page.NamespaceID != Namespace.MediaWiki && IsInGroup(page.MoveProtection);
+        }
 
         /// <summary>
         /// Creates a UserInfo class from an meta=userinfo XML

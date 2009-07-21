@@ -22,20 +22,9 @@ using System;
 namespace WikiFunctions.API
 {
     /// <summary>
-    /// Protection level for a page
-    /// </summary>
-    public enum Protection
-    {
-        None,
-        Autoconfirmed,
-        Sysop,
-        Unknown
-    };
-
-    /// <summary>
     /// This class represents information about the page currently being edited
     /// </summary>
-    public class PageInfo
+    public sealed class PageInfo
     {
         internal PageInfo()
         {
@@ -48,7 +37,12 @@ namespace WikiFunctions.API
 
             Exists = (xr.GetAttribute("missing") == null); //if null, page exists
             EditToken = xr.GetAttribute("edittoken");
+
+            long revId;
+            RevisionID = long.TryParse(xr.GetAttribute("lastrevid"), out revId) ? revId : -1;
+
             Title = xr.GetAttribute("title");
+            NamespaceID = int.Parse(xr.GetAttribute("ns"));
 
             if (xr.ReadToDescendant("protection") && !xr.IsEmptyElement)
             {
@@ -60,10 +54,10 @@ namespace WikiFunctions.API
                     switch (xn.Attributes["type"].Value)
                     {
                         case "edit":
-                            Edit = StringToProtection(xn.Attributes["level"].Value);
+                            EditProtection = xn.Attributes["level"].Value;
                             break;
                         case "move":
-                            Move = StringToProtection(xn.Attributes["level"].Value);
+                            MoveProtection = xn.Attributes["level"].Value;
                             break;
                     }
                 }
@@ -73,17 +67,38 @@ namespace WikiFunctions.API
 
             xr.ReadToDescendant("rev");
             Timestamp = xr.GetAttribute("timestamp");
-            Text = xr.ReadString();
+            Text = Tools.ConvertToLocalLineEndings(xr.ReadString());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string Title
         { get; private set; }
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
         public string Text
         { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool Exists
         { get; internal set; }
+
+        /// <summary>
+        /// Revision ID, -1 if N/A
+        /// </summary>
+        public long RevisionID
+        { get; internal set; }
+
+        /// <summary>
+        /// Namespace number
+        /// </summary>
+        public int NamespaceID
+        { get; private set; }
 
         /// <summary>
         /// 
@@ -99,16 +114,18 @@ namespace WikiFunctions.API
         /// <summary>
         /// 
         /// </summary>
-        public Protection Edit { get; private set; }
+        public string EditProtection { get; private set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public Protection Move { get; private set; }
+        public string MoveProtection { get; private set; }
 
-        private static Protection StringToProtection(string val)
-        {
-            return (Protection)Enum.Parse(typeof(Protection), Tools.TurnFirstToUpperNoProjectCheck(val));
-        }
+        //TODO: waiting for https://bugzilla.wikimedia.org/show_bug.cgi?id=19523
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool IsWatched
+        { get { return false; } }
     }
 }
