@@ -22,14 +22,16 @@ using System.Reflection;
 
 namespace WikiFunctions.API
 {
-    public delegate void AsyncOperationCompleteEventHandler(AsyncApiEdit sender);
-    public delegate void AsyncStringOperationCompleteEventHandler(AsyncApiEdit sender, string result);
+    public delegate void AsyncEventHandler(AsyncApiEdit sender);
+    public delegate void AsyncSaveEventHandler(AsyncApiEdit sender, SaveInfo saveInfo);
+    public delegate void AsyncStringEventHandler(AsyncApiEdit sender, string result);
     public delegate void AsyncExceptionEventHandler(AsyncApiEdit sender, Exception ex);
+    public delegate void AsyncMaxlagEventHandler(AsyncApiEdit sender, int maxlag, int retryAfter);
 
     /// <summary>
     /// Multithreaded API editor class
     /// </summary>
-    public class AsyncApiEdit : IApiEdit
+    public class AsyncApiEdit
     {
         private Thread TheThread;
         private readonly Control ParentControl;
@@ -50,16 +52,26 @@ namespace WikiFunctions.API
         }
 
         public AsyncApiEdit(string url, Control parentControl, bool php5)
+            : this(new ApiEdit(url, php5), parentControl)
         {
-            Editor = new ApiEdit(url, php5);
-            State = EditState.Ready;
+        }
+
+        private AsyncApiEdit(ApiEdit editor, Control parentControl)
+        {
+            SynchronousEditor = editor;
             ParentControl = parentControl;
+            State = EditState.Ready;
+        }
+
+        public AsyncApiEdit Clone()
+        {
+            return new AsyncApiEdit((ApiEdit)SynchronousEditor.Clone(), ParentControl);
         }
 
         /// <summary>
         /// Provides access to the underlying ApiEdit
         /// </summary>
-        public ApiEdit Editor { get; private set; }
+        public ApiEdit SynchronousEditor { get; private set; }
 
         public enum EditState
         {
@@ -74,9 +86,9 @@ namespace WikiFunctions.API
             Working,
 
             /// <summary>
-            /// Operation complete, notification events are being called
+            /// Operation aborted
             /// </summary>
-            Finishing,
+            Aborted,
 
             /// <summary>
             /// Last operation ended unsuccessfully
@@ -84,11 +96,23 @@ namespace WikiFunctions.API
             Failed
         }
 
+        private EditState mState = EditState.Ready;
+
         /// <summary>
         /// State of the editor
         /// </summary>
         public EditState State
-        { get; protected set; }
+        {
+            get
+            {
+                return mState;
+            }
+            protected set
+            {
+                CallEvent(StateChanged, this);
+                mState = value;
+            }
+        }
 
         /// <summary>
         /// True if the asynchronous
@@ -97,7 +121,7 @@ namespace WikiFunctions.API
         {
             get
             {
-                return State == EditState.Working || State == EditState.Finishing;
+                return State == EditState.Working;
             }
         }
 
@@ -122,9 +146,14 @@ namespace WikiFunctions.API
 
         #region Events
 
-        public event AsyncOperationCompleteEventHandler EditComplete;
-        public AsyncStringOperationCompleteEventHandler PreviewComplete;
+        public event AsyncSaveEventHandler SaveComplete;
+        public event AsyncStringEventHandler PreviewComplete;
+
         public event AsyncExceptionEventHandler ExceptionCaught;
+        public event AsyncMaxlagEventHandler MaxlagExceeded;
+        public event AsyncEventHandler LoggedOff;
+
+        public event AsyncEventHandler StateChanged;
 
         #endregion
 
@@ -137,8 +166,8 @@ namespace WikiFunctions.API
         {
             switch (operation)
             {
-                case "Edit":
-                    if (EditComplete != null) EditComplete(this);
+                case "Save":
+                    if (SaveComplete != null) SaveComplete(this, (SaveInfo)result);
                     break;
                 case "Preview":
                     if (PreviewComplete != null) PreviewComplete(this, (string)result);
@@ -149,7 +178,19 @@ namespace WikiFunctions.API
         protected virtual void OnOperationFailed(string operation, Exception ex)
         {
             Tools.WriteDebug("ApiEdit", ex.Message);
-            // TODO: do something useful here
+
+            if (ex is ApiMaxlagException)
+            {
+                var exm = (ApiMaxlagException)ex;
+                if (MaxlagExceeded != null) MaxlagExceeded(this, exm.Maxlag, exm.RetryAfter);
+            }
+            else if (ex is ApiLoggedOffException)
+            {
+                if (LoggedOff != null) LoggedOff(this);
+            }
+
+            else
+                OnExceptionCaught(ex);
         }
 
         protected virtual void OnExceptionCaught(Exception ex)
@@ -167,6 +208,8 @@ namespace WikiFunctions.API
         /// </summary>
         private void CallEvent(Delegate method, params object[] args)
         {
+            if (method == null) return;
+
             if (ParentControl == null)
             {
                 method.DynamicInvoke(args);
@@ -200,28 +243,29 @@ namespace WikiFunctions.API
 
                 Thread.CurrentThread.Name = string.Format("InvokerThread ({0})", args.Function);
 
-                Type t = Editor.GetType();
+                Type t = SynchronousEditor.GetType();
 
                 object result = t.InvokeMember(
                     args.Function,                                  // name
                     BindingFlags.InvokeMethod,                      // invokeAttr
                     null,                                           // binder
-                    Editor,                                         // target
+                    SynchronousEditor,                                         // target
                     args.Arguments                                  // args
                     );
 
-                State = EditState.Finishing;
-                CallEvent(new OperationEndedInternal(OnOperationComplete), args.Function, result);
+                TheThread = null;
                 State = EditState.Ready;
+                // No state changes past this point, the callback may launch another operation
+                CallEvent(new OperationEndedInternal(OnOperationComplete), args.Function, result);
             }
             catch (ThreadAbortException)
             {
-                Editor.Reset();
+                SynchronousEditor.Reset();
                 //TODO: maybe, an OperationAborted event is needed?
             }
             catch (Exception ex)
             {
-                Editor.Reset();
+                SynchronousEditor.Reset();
 
                 if (ex is TargetInvocationException) ex = ex.InnerException;
 
@@ -234,6 +278,10 @@ namespace WikiFunctions.API
                 {
                     CallEvent(new ExceptionCaughtInternal(OnExceptionCaught), ex);
                 }
+            }
+            finally
+            {
+                TheThread = null;
             }
         }
 
@@ -257,46 +305,44 @@ namespace WikiFunctions.API
 
         public string URL
         {
-            get { return Editor.URL; }
-            set { Editor = new ApiEdit(value, PHP5); }
+            get { return SynchronousEditor.URL; }
         }
 
         public bool PHP5
         {
-            get { return Editor.PHP5; }
+            get { return SynchronousEditor.PHP5; }
         }
 
         public int Maxlag
         {
-            get { return Editor.Maxlag; }
-            set { Editor.Maxlag = value; }
+            get { return SynchronousEditor.Maxlag; }
+            set { SynchronousEditor.Maxlag = value; }
         }
 
         public string Action
         {
-            get { return Editor.Action; }
+            get { return SynchronousEditor.Action; }
         }
 
         public string HtmlHeaders
         {
-            get { return Editor.HtmlHeaders; }
+            get { return SynchronousEditor.HtmlHeaders; }
         }
 
         public PageInfo Page
         {
-            get { return Editor.Page; }
+            get { return SynchronousEditor.Page; }
         }
 
         public void Reset()
         {
             Abort();
-            Editor.Reset();
+            SynchronousEditor.Reset();
         }
 
-        public string HttpGet(string url)
+        public void HttpGet(string url)
         {
             InvokeFunction("HttpGet", url);
-            return null;
         }
 
         public void Login(string username, string password)
@@ -309,15 +355,24 @@ namespace WikiFunctions.API
             InvokeFunction("Logout");
         }
 
-        public string Open(string title)
+        public void Open(string title)
         {
             InvokeFunction("Open", title);
-            return null;
         }
 
         public void Save(string pageText, string summary, bool minor, bool watch)
         {
             InvokeFunction("Save", pageText, summary, minor, watch);
+        }
+
+        public void Watch(string title)
+        {
+            InvokeFunction("Watch", title);
+        }
+
+        public void Unwatch(string title)
+        {
+            InvokeFunction("Unwatch", title);
         }
 
         public void Delete(string title, string reason)
@@ -330,66 +385,61 @@ namespace WikiFunctions.API
             InvokeFunction("Delete", title, reason, watch);
         }
 
-        public void Protect(string title, string reason, string expiry, Protection edit, Protection move, bool cascade, bool watch)
+        public void Protect(string title, string reason, string expiry, string edit, string move, bool cascade, bool watch)
         {
             InvokeFunction("Protect", title, reason, expiry, edit, move, cascade, watch);
         }
 
-        public void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move, bool cascade, bool watch)
+        public void Protect(string title, string reason, TimeSpan expiry, string edit, string move, bool cascade, bool watch)
         {
             Protect(title, reason, expiry.ToString(), edit, move, cascade, watch);
         }
 
-        public void Protect(string title, string reason, string expiry, Protection edit, Protection move)
+        public void Protect(string title, string reason, string expiry, string edit, string move)
         {
             Protect(title, reason, expiry, edit, move, false, false);
         }
 
-        public void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move)
+        public void Protect(string title, string reason, TimeSpan expiry, string edit, string move)
         {
             Protect(title, reason, expiry.ToString(), edit, move, false, false);
         }
 
-        public void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect)
+        public void Move(string title, string newTitle, string reason)
         {
-            MovePage(title, newTitle, reason, moveTalk, noRedirect, false);
+            Move(title, newTitle, reason, true, false, false);
         }
 
-        public void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect, bool watch)
+        public void Move(string title, string newTitle, string reason, bool moveTalk, bool noRedirect)
         {
-            InvokeFunction("MovePage", title, newTitle, reason, moveTalk, noRedirect, watch);
+            Move(title, newTitle, reason, moveTalk, noRedirect, false);
         }
 
-        public string Preview(string title, string text)
+        public void Move(string title, string newTitle, string reason, bool moveTalk, bool noRedirect, bool watch)
+        {
+            InvokeFunction("Move", title, newTitle, reason, moveTalk, noRedirect, watch);
+        }
+
+        public void Preview(string title, string text)
         {
             InvokeFunction("Preview", title, text);
-            return null;
         }
 
-        public string ExpandTemplates(string title, string text)
+        public void ExpandTemplates(string title, string text)
         {
             InvokeFunction("ExpandTemplates", title, text);
-            return null;
         }
 
         public void Abort()
         {
-            try
-            {
-                //Editor.Abort();
-                if (TheThread != null)
-                    TheThread.Abort();
+            if (TheThread != null)
+                TheThread.Abort();
 
-                State = EditState.Finishing;
-            }
-            catch (ThreadAbortException)
-            {
-            }
-        }
+            if (TheThread != null)
+                TheThread.Join();
+            TheThread = null; // the thread should reset this even if aborted, but let's be sure
 
-        public bool Asynchronous
-        {
-            get { return true; }
+            State = EditState.Aborted;
         }
 
         #endregion
@@ -398,7 +448,7 @@ namespace WikiFunctions.API
 
         public UserInfo User
         {
-            get { return Editor.User; }
+            get { return SynchronousEditor.User; }
         }
 
         public void RefreshUserInfo()
@@ -407,23 +457,5 @@ namespace WikiFunctions.API
         }
 
         #endregion
-    }
-
-    public class ApiInvokeException : Exception
-    {
-        public ApiInvokeException(string message)
-            : base(message)
-        {
-        }
-
-        public ApiInvokeException(Exception innerException)
-            : this("There was a problem with an asynchronous API call", innerException)
-        {
-        }
-
-        public ApiInvokeException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-        }
     }
 }

@@ -1385,6 +1385,16 @@ Message: {2}
             return (str.Length <= count) ? str : str.Substring(0, count);
         }
 
+        public static string ConvertToLocalLineEndings(string input)
+        {
+            return input.Replace("\n", Environment.NewLine);
+        }
+
+        public static string ConvertFromLocalLineEndings(string input)
+        {
+            return input.Replace(Environment.NewLine, "\n");
+        }
+
         /// <summary>
         /// 
         /// </summary>
