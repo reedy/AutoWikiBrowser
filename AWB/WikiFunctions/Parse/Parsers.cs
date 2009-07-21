@@ -771,12 +771,12 @@ namespace WikiFunctions.Parse
         private static readonly Regex CitationCiteBook = new Regex(@"{{[Cc]it[ae]((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})", RegexOptions.Compiled);
         //TODO: Give these regexes, used in DeriveReferenceName, more meaningful names
         private static readonly Regex DRN1 = new Regex(@"(?<=\s*last\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
-        private static readonly Regex DRN2 = new Regex(@"(?<=\s*author(?:link)?\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
-        private static readonly Regex DRN3 = new Regex(@"(?<=\s*year\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
+        private static readonly Regex DRNAuthor = new Regex(@"(?<=\s*author(?:link)?\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
+        private static readonly Regex DRNYear = new Regex(@"(?<=\s*year\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
         private static readonly Regex DRN4 = new Regex(@"(?<=\s*pages?\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
         private static readonly Regex DRN5 = new Regex(@"(?<=\s*date\s*=\s*)(\d{4})(?=\s*(?:\||}}))", RegexOptions.Compiled);
-        private static readonly Regex DRN6 = new Regex(@"(?<=\s*title\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
-        private static readonly Regex DRN7 = new Regex(@"(?<=\s*publisher\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
+        private static readonly Regex DRNTitle = new Regex(@"(?<=\s*title\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
+        private static readonly Regex DRNPublisher = new Regex(@"(?<=\s*publisher\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
         private static readonly Regex DRN8 = new Regex(@"\s*[^{}<>\n]*?\s*\[*(?:http://www\.|http://|www\.)[^\[\]<>""\s]+?\s+([^{}<>\[\]]{4,35}?)\s*(?:\]|<!--|\u230A\u230A\u230A\u230A)", RegexOptions.Compiled);
         private static readonly Regex DRN9 = new Regex(@"\s*\w*?[^{}<>]{0,4}?\s*(?:\[?|\{\{\s*cit[^{}<>]*\|\s*url\s*=\s*)\s*(?:http://www\.|http://|www\.)([^\[\]<>""\s\/:]+)", RegexOptions.Compiled);
         private static readonly Regex DRN10 = new Regex(@"\s*{{[Hh]arv(?:(?:col)?nb)?\s*\|\s*([^{}\|]+?)\s*\|\s*(\d{4})\s*\|\s*([^{}\|]+?)\s*}}\s*", RegexOptions.Compiled);
@@ -804,13 +804,13 @@ namespace WikiFunctions.Parse
 
                 if (last.Length < 1)
                 {
-                    last = DRN2.Match(reference).Value.Trim();
+                    last = DRNAuthor.Match(reference).Value.Trim();
                 }
 
                 if (last.Length > 1)
                 {
                     derivedReferenceName = last;
-                    string year = DRN3.Match(reference).Value.Trim();
+                    string year = DRNYear.Match(reference).Value.Trim();
 
                     string pages = DRN4.Match(reference).Value.Trim();
 
@@ -832,7 +832,7 @@ namespace WikiFunctions.Parse
                 // otherwise try title
                 else
                 {
-                    string title = DRN6.Match(reference).Value.Trim();
+                    string title = DRNTitle.Match(reference).Value.Trim();
 
                     if (title.Length > 3 && title.Length < 35)
                         derivedReferenceName = title;
@@ -841,7 +841,7 @@ namespace WikiFunctions.Parse
                     // try publisher
                     if (derivedReferenceName.Length < 4)
                     {
-                        title = DRN7.Match(reference).Value.Trim();
+                        title = DRNPublisher.Match(reference).Value.Trim();
 
                         if (title.Length > 3 && title.Length < 35)
                             derivedReferenceName = title;
