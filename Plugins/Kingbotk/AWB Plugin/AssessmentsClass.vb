@@ -46,8 +46,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         End Sub
 
 #Region "IDisposable"
-        ' TODO: Why is this object getting events after setting to nothing? Why is Finalize() not running until app closes?!
-
         Private disposed As Boolean        ' To detect redundant calls
 
         ' This procedure is where the actual cleanup occurs
@@ -236,7 +234,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 
         ' UI event handlers:
         Private Sub Save_Click(ByVal sender As Object, ByVal e As EventArgs)
-            If Not disposed Then ' TODO: this is a hack
+            If Not disposed Then
                 If State.blnNextEventShouldBeMainSpace Then
                     LoadTalkPage()
                 Else
@@ -247,7 +245,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             End If
         End Sub
         Private Sub Skip_Click(ByVal sender As Object, ByVal e As EventArgs)
-            If Not disposed Then ' TODO: this is a hack
+            If Not disposed Then
                 If State.blnNextEventShouldBeMainSpace Then
                     LoadTalkPage()
                 Else
@@ -260,12 +258,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             End If
         End Sub
         Private Sub Preview_Click(ByVal sender As Object, ByVal e As EventArgs)
-            If Not disposed Then ' TODO: this is a hack
+            If Not disposed Then
                 PreviewButtonColour(True)
             End If
         End Sub
         Private Sub CleanupCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs)
-            ' TODO: this is a hack
             If Not disposed AndAlso PluginSettings.Cleanup AndAlso Not PluginManager.AWBForm.WebControl.Busy Then _
                ToggleAWBCleanup(True)
         End Sub
@@ -280,10 +277,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                 End If
             End If
         End Sub
-        'Private Sub webcontrol_Diffed() Handles webcontrol.Diffed
-        '    ' TODO: we need to find a way of determining if there are any changes or not, so that (If
-        '    ' there aren't) we can request Preview
-        'End Sub
 
         ' State:
         Private NotInheritable Class StateClass

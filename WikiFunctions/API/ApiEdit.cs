@@ -35,6 +35,7 @@ using System.Text.RegularExpressions;
 namespace WikiFunctions.API
 {
     //TODO: refactor XML parsing
+    //TODO: check for new messages
     /// <summary>
     /// This class edits MediaWiki sites using api.php
     /// </summary>
@@ -85,12 +86,7 @@ namespace WikiFunctions.API
             }
         }
 
-        /// <summary>
-        /// Creates a new instance of the ApiEdit class by cloning the current instance
-        /// ATTENTION: the clones will share the same cookie container, so logging off or logging under another username
-        /// with one instance will automatically make another one do the same
-        /// </summary>
-        public ApiEdit Clone()
+        public IApiEdit Clone()
         {
             return new ApiEdit
                        {
@@ -247,6 +243,11 @@ namespace WikiFunctions.API
         private static readonly string UserAgent = string.Format("WikiFunctions/{0} ({1})", Assembly.GetExecutingAssembly().GetName().Version,
             Environment.OSVersion.VersionString);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         protected HttpWebRequest CreateRequest(string url)
         {
             if (Globals.UnitTestMode) throw new Exception("You shouldn't access Wikipedia from unit tests");
@@ -268,6 +269,11 @@ namespace WikiFunctions.API
         private bool Aborting;
         private HttpWebRequest Request;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
         protected string GetResponseString(HttpWebRequest req)
         {
             Request = req;
@@ -284,8 +290,16 @@ namespace WikiFunctions.API
             }
             catch (WebException ex)
             {
+                var resp = (HttpWebResponse)ex.Response;
+                switch (resp.StatusCode)
+                {
+                    case HttpStatusCode.NotFound /*404*/:
+                        return ""; // emulate the behaviour of Tools.HttpGet()
+                }
+
                 // just reclassifying
-                if (ex.Status == WebExceptionStatus.RequestCanceled) throw new ApiAbortedException(this);
+                if (ex.Status == WebExceptionStatus.RequestCanceled)
+                    throw new ApiAbortedException(this);
                 else throw;
             }
             finally
@@ -294,6 +308,13 @@ namespace WikiFunctions.API
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="get"></param>
+        /// <param name="post"></param>
+        /// <param name="autoParams"></param>
+        /// <returns></returns>
         protected string HttpPost(string[,] get, string[,] post, bool autoParams)
         {
             string url = BuildUrl(get, autoParams);
@@ -312,11 +333,23 @@ namespace WikiFunctions.API
             return GetResponseString(req);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="get"></param>
+        /// <param name="post"></param>
+        /// <returns></returns>
         protected string HttpPost(string[,] get, string[,] post)
         {
             return HttpPost(get, post, true);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="autoParams"></param>
+        /// <returns></returns>
         protected string HttpGet(string[,] request, bool autoParams)
         {
             string url = BuildUrl(request, autoParams);
@@ -324,6 +357,11 @@ namespace WikiFunctions.API
             return HttpGet(url);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         protected string HttpGet(string[,] request)
         {
             return HttpGet(request, true);
@@ -373,6 +411,33 @@ namespace WikiFunctions.API
             CheckForError(result, "logout");
         }
 
+        public void Watch(string title)
+        {
+            if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
+
+            Reset();
+            string result = HttpGet(new[,]
+                {
+                    {"action", "watch"},
+                    {"title", title}
+                });
+            CheckForError(result, "watch");
+        }
+
+        public void Unwatch(string title)
+        {
+            if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
+
+            Reset();
+            string result = HttpGet(new[,]
+                {
+                    {"action", "watch"},
+                    {"title", title},
+                    {"unwatch", null}
+                });
+            CheckForError(result, "watch");
+        }
+
         public UserInfo User { get; private set; }
 
         public void RefreshUserInfo()
@@ -384,7 +449,7 @@ namespace WikiFunctions.API
                          new[,] {
                             { "meta", "userinfo" },
                             { "uiprop", "blockinfo|hasmsg|groups|rights" }
-                         });
+                         }, false);
 
             CheckForError(result, "userinfo");
 
@@ -413,6 +478,9 @@ namespace WikiFunctions.API
 
             CheckForError(result, "query");
 
+            //HACK:
+            if (result.Contains("<interwiki>")) throw new ApiInterwikiException(this);
+
             try
             {
                 Page = new PageInfo(result);
@@ -427,12 +495,14 @@ namespace WikiFunctions.API
             return Page.Text;
         }
 
-        public void Save(string pageText, string summary, bool minor, bool watch)
+        public SaveInfo Save(string pageText, string summary, bool minor, bool watch)
         {
             if (string.IsNullOrEmpty(pageText)) throw new ArgumentException("Can't save empty pages", "pageText");
             if (string.IsNullOrEmpty(summary)) throw new ArgumentException("Edit summary required", "summary");
             if (Action != "edit") throw new ApiException(this, "This page is not opened properly for editing");
             if (string.IsNullOrEmpty(Page.EditToken)) throw new ApiException(this, "Edit token is needed to edit pages");
+
+            pageText = Tools.ConvertFromLocalLineEndings(pageText);
 
             string result = HttpPost(
                 new[,]
@@ -440,7 +510,8 @@ namespace WikiFunctions.API
                     { "action", "edit" },
                     { "title", Page.Title },
                     { minor ? "minor" : null, null },
-                    { watch ? "watch" : null, null }
+                    { watch ? "watch" : null, null },
+                    { User.IsBot ? "bot" : null, null }
                 },
                 new[,]
                 {// order matters here - https://bugzilla.wikimedia.org/show_bug.cgi?id=14210#c4
@@ -453,6 +524,8 @@ namespace WikiFunctions.API
 
             CheckForError(result, "edit");
             Reset();
+
+            return new SaveInfo(result);
         }
 
         public void Delete(string title, string reason)
@@ -471,11 +544,12 @@ namespace WikiFunctions.API
             string result = HttpGet(
                 new[,]
                     {
-                        {"action", "query"},
-                        {"prop", "info"},
-                        {"intoken", "delete"},
-                        {"titles", title},
-                        {watch ? "watch" : null, null}
+                        { "action", "query" },
+                        { "prop", "info" },
+                        { "intoken", "delete" },
+                        { "titles", title },
+                        //{ User.IsBot ? "bot" : null, null },
+                        { watch ? "watch" : null, null }
 
                     });
 
@@ -511,22 +585,22 @@ namespace WikiFunctions.API
             Reset();
         }
 
-        public void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move)
+        public void Protect(string title, string reason, TimeSpan expiry, string edit, string move)
         {
             Protect(title, reason, expiry.ToString(), edit, move, false, false);
         }
 
-        public void Protect(string title, string reason, string expiry, Protection edit, Protection move)
+        public void Protect(string title, string reason, string expiry, string edit, string move)
         {
             Protect(title, reason, expiry, edit, move, false, false);
         }
 
-        public void Protect(string title, string reason, TimeSpan expiry, Protection edit, Protection move, bool cascade, bool watch)
+        public void Protect(string title, string reason, TimeSpan expiry, string edit, string move, bool cascade, bool watch)
         {
             Protect(title, reason, expiry.ToString(), edit, move, cascade, watch);
         }
 
-        public void Protect(string title, string reason, string expiry, Protection edit, Protection move, bool cascade, bool watch)
+        public void Protect(string title, string reason, string expiry, string edit, string move, bool cascade, bool watch)
         {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
             if (string.IsNullOrEmpty(reason)) throw new ArgumentException("Deletion reason required", "reason");
@@ -537,10 +611,10 @@ namespace WikiFunctions.API
             string result = HttpGet(
                 new[,]
                     {
-                        {"action", "query"},
-                        {"prop", "info"},
-                        {"intoken", "protect"},
-                        {"titles", title},
+                        { "action", "query" },
+                        { "prop", "info" },
+                        { "intoken", "protect" },
+                        { "titles", title },
 
                     });
 
@@ -566,13 +640,14 @@ namespace WikiFunctions.API
                     },
                 new[,]
                     {
-                        {"title", title},
-                        {"token", Page.EditToken},
-                        {"reason", reason},
-                        {"protections", "edit" + edit + "|move=" + move},
-                        {"expiry", expiry},
-                        {cascade ? "cascade" : null, null},
-                        {watch ? "watch" : null, null},
+                        { "title", title },
+                        { "token", Page.EditToken },
+                        { "reason", reason },
+                        { "protections", "edit=" + edit + "|move=" + move },
+                        { "expiry", expiry + "|" + expiry },
+                        { cascade ? "cascade" : null, null },
+                        //{ User.IsBot ? "bot" : null, null },
+                        { watch ? "watch" : null, null }
                     });
 
             CheckForError(result);
@@ -580,12 +655,17 @@ namespace WikiFunctions.API
             Reset();
         }
 
-        public void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect)
+        public void Move(string title, string newTitle, string reason)
         {
-            MovePage(title, newTitle, reason, moveTalk, noRedirect, false);
+            Move(title, newTitle, reason, true, false, false);
         }
 
-        public void MovePage(string title, string newTitle, string reason, bool moveTalk, bool noRedirect, bool watch)
+        public void Move(string title, string newTitle, string reason, bool moveTalk, bool noRedirect)
+        {
+            Move(title, newTitle, reason, moveTalk, noRedirect, false);
+        }
+
+        public void Move(string title, string newTitle, string reason, bool moveTalk, bool noRedirect, bool watch)
         {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page title required", "title");
             if (string.IsNullOrEmpty(newTitle)) throw new ArgumentException("Target page title required", "newTitle");
@@ -597,10 +677,10 @@ namespace WikiFunctions.API
             string result = HttpGet(
                 new[,]
                     {
-                        {"action", "query"},
-                        {"prop", "info"},
-                        {"intoken", "move"},
-                        {"titles", title + "|" + newTitle},
+                        { "action", "query" },
+                        { "prop", "info" },
+                        { "intoken", "move" },
+                        { "titles", title + "|" + newTitle },
 
                     });
 
@@ -622,18 +702,19 @@ namespace WikiFunctions.API
             result = HttpPost(
                 new[,]
                     {
-                        {"action", "move"}
+                        { "action", "move" }
                     },
                 new[,]
                     {
-                        {"from", title},
-                        {"to", newTitle},
-                        {"token", Page.EditToken},
-                        {"reason", reason},
-                        {"protections", ""},
-                        {moveTalk ? "movetalk" : null, null},
-                        {noRedirect ? "noredirect" : null, null},
-                        {watch ? "watch" : null, null},
+                        { "from", title },
+                        { "to", newTitle },
+                        { "token", Page.EditToken },
+                        { "reason", reason },
+                        { "protections", "" },
+                        { moveTalk ? "movetalk" : null, null },
+                        { noRedirect ? "noredirect" : null, null },
+                        //{ User.IsBot ? "bot" : null, null },
+                        { watch ? "watch" : null, null }
                     },
                 true);
 
@@ -744,9 +825,9 @@ namespace WikiFunctions.API
         /// Checks the XML returned by the server for error codes and throws an appropriate exception
         /// </summary>
         /// <param name="xml">Server output</param>
-        private void CheckForError(string xml)
+        private XmlDocument CheckForError(string xml)
         {
-            CheckForError(xml, null);
+            return CheckForError(xml, null);
         }
 
         /// <summary>
@@ -754,52 +835,61 @@ namespace WikiFunctions.API
         /// </summary>
         /// <param name="xml">Server output</param>
         /// <param name="action">The action performed, null if don't check</param>
-        private void CheckForError(string xml, string action)
+        private XmlDocument CheckForError(string xml, string action)
         {
+            var doc = new XmlDocument();
+            doc.Load(new StringReader(xml));
+
             if (string.IsNullOrEmpty(xml)) throw new ApiBlankException(this);
 
-            if (!xml.Contains("<error") && string.IsNullOrEmpty(action)) return;
+            var errors = doc.GetElementsByTagName("error");
 
-            XmlReader xr = XmlReader.Create(new StringReader(xml));
-            if (xml.Contains("<error") && xr.ReadToFollowing("error"))
+            if (errors.Count > 0)
             {
-                string errorCode = xr.GetAttribute("code");
-                string errorMessage = xr.GetAttribute("info");
+                var error = errors[0];
+                string errorCode = error.Attributes["code"].Value;
+                string errorMessage = error.Attributes["info"].Value;
 
                 switch (errorCode.ToLower())
                 {
-                    case "maxlag":
-                        throw new ApiMaxlagException(this, errorMessage);
+                    case "maxlag": //guessing
+                        int maxlag;
+                        int.TryParse(Regex.Match(xml, @": (\d+) seconds lagged").Groups[1].Value, out maxlag);
+                        throw new ApiMaxlagException(this, maxlag, 10);
                     default:
                         throw new ApiErrorException(this, errorCode, errorMessage);
                 }
             }
+            else
+                if (string.IsNullOrEmpty(action)) return doc; // no action to check
 
-            if (!string.IsNullOrEmpty(action) && xr.ReadToFollowing(action))
+            var api = doc["api"];
+            if (api == null) return doc;
+            var actionElement = api[action];
+
+            if (actionElement == null) return doc; // or shall we explode?
+
+            if (actionElement.HasAttribute("assert"))
             {
-                //string result = xr.GetAttribute("result");
-                //if (result != null && result == "Success")
-                //{
-                string s = xr.GetAttribute("assert");
-                if (!string.IsNullOrEmpty(s))
-                {
-                    throw new ApiAssertionException(this, s);
-                }
-
-                s = xr.GetAttribute("spamblacklist");
-                if (!string.IsNullOrEmpty(s))
-                {
-                    throw new ApiSpamlistException(this, s);
-                }
-                //}
-                //else
-                //throw new ApiErrorException(this, result, result); //HACK: we need error message
+                throw new ApiAssertionException(this, actionElement.GetAttribute("assert"));
             }
 
-            if (xr.ReadToFollowing("captcha"))
+            if (actionElement.HasAttribute("spamblacklist"))
+            {
+                throw new ApiSpamlistException(this, actionElement.GetAttribute("spamblacklist"));
+            }
+
+            if (actionElement.GetElementsByTagName("captcha").Count > 0)
             {
                 throw new ApiCaptchaException(this);
             }
+
+            // This check must be the last, otherwise we will miss
+            string result = actionElement.GetAttribute("result");
+            if (!string.IsNullOrEmpty(result) && result != "Success") 
+                throw new ApiOperationFailedException(this, action, result);
+
+            return doc;
         }
 
         #endregion
@@ -850,12 +940,5 @@ namespace WikiFunctions.API
         }
 
         #endregion
-
-        public bool Asynchronous
-        { get { return false; } }
-
-        public void Wait()
-        {
-        }
     }
 }

@@ -736,7 +736,7 @@ namespace WikiFunctions.Parse
         /// Extracts strings from an input string using the input regex to derive a name for a reference
         /// </summary>
         /// <param name="reference">value of the reference needing a name</param>
-        /// <param name="mask">regular expression to apply</param>
+        /// <param name="referenceNameMask">regular expression to apply</param>
         /// <param name="components">number of groups to extract</param>
         /// <returns>the derived reference name</returns>
         private static string ExtractReferenceNameComponents(string reference, Regex referenceNameMask, int components)
@@ -791,12 +791,12 @@ namespace WikiFunctions.Parse
         private static readonly Regex CitationCiteBook = new Regex(@"{{[Cc]it[ae]((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})", RegexOptions.Compiled);
         //TODO: Give these regexes, used in DeriveReferenceName, more meaningful names
         private static readonly Regex DRN1 = new Regex(@"(?<=\s*last\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
-        private static readonly Regex DRN2 = new Regex(@"(?<=\s*author(?:link)?\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
-        private static readonly Regex DRN3 = new Regex(@"(?<=\s*year\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
+        private static readonly Regex DRNAuthor = new Regex(@"(?<=\s*author(?:link)?\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
+        private static readonly Regex DRNYear = new Regex(@"(?<=\s*year\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
         private static readonly Regex DRN4 = new Regex(@"(?<=\s*pages?\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
         private static readonly Regex DRN5 = new Regex(@"(?<=\s*date\s*=\s*)(\d{4})(?=\s*(?:\||}}))", RegexOptions.Compiled);
-        private static readonly Regex DRN6 = new Regex(@"(?<=\s*title\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
-        private static readonly Regex DRN7 = new Regex(@"(?<=\s*publisher\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
+        private static readonly Regex DRNTitle = new Regex(@"(?<=\s*title\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
+        private static readonly Regex DRNPublisher = new Regex(@"(?<=\s*publisher\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
         private static readonly Regex DRN8 = new Regex(@"\s*[^{}<>\n]*?\s*\[*(?:http://www\.|http://|www\.)[^\[\]<>""\s]+?\s+([^{}<>\[\]]{4,35}?)\s*(?:\]|<!--|\u230A\u230A\u230A\u230A)", RegexOptions.Compiled);
         private static readonly Regex DRN9 = new Regex(@"\s*\w*?[^{}<>]{0,4}?\s*(?:\[?|\{\{\s*cit[^{}<>]*\|\s*url\s*=\s*)\s*(?:http://www\.|http://|www\.)([^\[\]<>""\s\/:]+)", RegexOptions.Compiled);
         private static readonly Regex DRN10 = new Regex(@"\s*{{[Hh]arv(?:(?:col)?nb)?\s*\|\s*([^{}\|]+?)\s*\|\s*(\d{4})\s*\|\s*([^{}\|]+?)\s*}}\s*", RegexOptions.Compiled);
@@ -824,13 +824,13 @@ namespace WikiFunctions.Parse
 
                 if (last.Length < 1)
                 {
-                    last = DRN2.Match(reference).Value.Trim();
+                    last = DRNAuthor.Match(reference).Value.Trim();
                 }
 
                 if (last.Length > 1)
                 {
                     derivedReferenceName = last;
-                    string year = DRN3.Match(reference).Value.Trim();
+                    string year = DRNYear.Match(reference).Value.Trim();
 
                     string pages = DRN4.Match(reference).Value.Trim();
 
@@ -852,7 +852,7 @@ namespace WikiFunctions.Parse
                 // otherwise try title
                 else
                 {
-                    string title = DRN6.Match(reference).Value.Trim();
+                    string title = DRNTitle.Match(reference).Value.Trim();
 
                     if (title.Length > 3 && title.Length < 35)
                         derivedReferenceName = title;
@@ -861,7 +861,7 @@ namespace WikiFunctions.Parse
                     // try publisher
                     if (derivedReferenceName.Length < 4)
                     {
-                        title = DRN7.Match(reference).Value.Trim();
+                        title = DRNPublisher.Match(reference).Value.Trim();
 
                         if (title.Length > 3 && title.Length < 35)
                             derivedReferenceName = title;
@@ -960,20 +960,22 @@ namespace WikiFunctions.Parse
             return newText;
         }
 
-        private static readonly string siCitStart = @"(?si)(\{\{\s*cit[^{}]*\|\s*";
-        private static readonly string citAccessdate = siCitStart + @"(?:access|archive)date\s*=\s*";
-        private static readonly string citDate = siCitStart + @"(?:archive|air)?date2?\s*=\s*";
-        private static readonly string citYMonthD = siCitStart + @"(?:archive|air)?date2?\s*=\s*\d{4})[-/\s]";
-        private static readonly string dTemEnd = @"?[-/\s]([0-3]?\d\s*(?:\||}}))";
+        private const string siCitStart = @"(?si)(\{\{\s*cit[^{}]*\|\s*";
+        private const string citAccessdate = siCitStart + @"(?:access|archive)date\s*=\s*";
+        private const string citDate = siCitStart + @"(?:archive|air)?date2?\s*=\s*";
+        private const string citYMonthD = siCitStart + @"(?:archive|air)?date2?\s*=\s*\d{4})[-/\s]";
+        private const string dTemEnd = @"?[-/\s]([0-3]?\d\s*(?:\||}}))";
+
         struct RegexReplacement {
             public RegexReplacement(Regex regex, string replacement) { Regex=regex; Replacement=replacement; }
-            public Regex Regex;
-            public string Replacement;
+            public readonly Regex Regex;
+            public readonly string Replacement;
             // This could get extended to be a class with some of the Regex methods, such as IsMatch, Replace, etc, but there's little point
         }
+
         //TODO: give these regexes, used in CiteTemplateDates, more meaningful names
         private static readonly Regex CTD1 = new Regex(@"\b(access|archive)date\s*=", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private static readonly RegexReplacement[] CTD2 = new RegexReplacement[] {
+        private static readonly RegexReplacement[] CTD2 = new [] {
             new RegexReplacement(new Regex(citAccessdate + @")(1[0-2])[/_\-\.]?(1[3-9])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$2-$3"),
             new RegexReplacement(new Regex(citAccessdate + @")(1[0-2])[/_\-\.]?([2-3]\d)[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$2-$3"),
             new RegexReplacement(new Regex(citAccessdate + @")(1[0-2])[/_\-\.]?\2[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$3-$2-$2"), // nn-nn-2004 and nn-nn-04 to ISO format (both nn the same)
@@ -992,8 +994,9 @@ namespace WikiFunctions.Parse
             new RegexReplacement(new Regex(citAccessdate + @")0?([1-9])[/_\-\.]?(1[3-9]|[2-3]\d)[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-0$2-$3"),
             new RegexReplacement(new Regex(citAccessdate + @")0?([1-9])[/_\-\.]?0?\2[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$3-0$2-0$2"), // n-n-2004 and n-n-04 to ISO format (both n the same)
         };
+
         private static readonly Regex CTD3 = new Regex(@"{{\s*cit[^{}]*\|\s*(?:archive|air)?date2?\s*=", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
-        private static readonly RegexReplacement[] CTD4 = new RegexReplacement[] {
+        private static readonly RegexReplacement[] CTD4 = new [] {
             new RegexReplacement(new Regex(citDate + @"\[?\[?)(200\d|19[7-9]\d)[/_]?([0-1]\d)[/_]?([0-3]\d\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-$4"),
             new RegexReplacement(new Regex(citDate + @"\[?\[?)(1[0-2])[/_\-\.]?([2-3]\d)[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-$2-$3"),
             new RegexReplacement(new Regex(citDate + @"\[?\[?)0?([1-9])[/_\-\.]?([2-3]\d)[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-0$2-$3"),
@@ -1022,7 +1025,8 @@ namespace WikiFunctions.Parse
             new RegexReplacement(new Regex(citDate + @")((?:\[\[)?200\d|19[7-9]\d)([0-1]\d)[/_\-\.]([0-3]\d(?:\]\])?\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-$4"),
             new RegexReplacement(new Regex(citDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]([0-1]\d)0?([0-3]\d(?:\]\])?\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-$4"),
         };
-        private static readonly RegexReplacement[] CTD5 = new RegexReplacement[] {
+
+        private static readonly RegexReplacement[] CTD5 = new [] {
             new RegexReplacement(new Regex(citYMonthD + @"Jan(?:uary|\.)" + dTemEnd, RegexOptions.Compiled), "$1-01-$2"),
             new RegexReplacement(new Regex(citYMonthD + @"Feb(?:r?uary|\.)" + dTemEnd, RegexOptions.Compiled), "$1-02-$2"),
             new RegexReplacement(new Regex(citYMonthD + @"Mar(?:ch|\.)" + dTemEnd, RegexOptions.Compiled), "$1-03-$2"),
@@ -1036,6 +1040,7 @@ namespace WikiFunctions.Parse
             new RegexReplacement(new Regex(citYMonthD + @"Nov(?:ember|\.)" + dTemEnd, RegexOptions.Compiled), "$1-11-$2"),
             new RegexReplacement(new Regex(citYMonthD + @"Dec(?:ember|\.)" + dTemEnd, RegexOptions.Compiled), "$1-12-$2"),
         };
+
         private static readonly Regex CTD6 = new Regex(siCitStart + @"(?:archive|air|access)?date2?\s*=\s*(?:\[\[)?200\d)-([2-3]\d|1[3-9])-(0[1-9]|1[0-2])(\]\])?", RegexOptions.Compiled);
         private static readonly Regex CTD7 = new Regex(@"(\{\{\s*cite[^\{\}]*\|\s*(?:archive|air|access)?date2?\s*=\s*(?:(?:200\d|19[7-9]\d)-[01]?\d-[0-3]?\d|[0-3]?\d\s*\w+,?\s*(?:200\d|19[7-9]\d)|\w+\s*[0-3]?\d,?\s*(?:200\d|19[7-9]\d)))(\s*[,-:]?\s+[0-2]?\d\:?[0-5]\d(?:\:?[0-5]\d)?\s*[^\|\}]*)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
@@ -1244,7 +1249,7 @@ namespace WikiFunctions.Parse
         }
 
         // whitespace cleaning
-        private static readonly RegexReplacement[] RefWhitespace = new RegexReplacement[] {
+        private static readonly RegexReplacement[] RefWhitespace = new [] {
             new RegexReplacement(new Regex(@"<\s*(?:\s+ref\s*|\s*ref\s+)>", RegexOptions.Compiled | RegexOptions.Singleline), "<ref>"),
             new RegexReplacement(new Regex(@"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>", RegexOptions.Compiled | RegexOptions.Singleline), "</ref>"),
         // remove any whitespace between consecutive references
