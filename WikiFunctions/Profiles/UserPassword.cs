@@ -17,7 +17,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-using System;
 using System.Windows.Forms;
 
 namespace WikiFunctions.Profiles
@@ -29,19 +28,14 @@ namespace WikiFunctions.Profiles
             InitializeComponent();
         }
 
-        public string SetText
+        public string Username
         {
-            set { lblText.Text = value; }
+            set { lblText.Text = string.Format(lblText.Text, value); }
         }
 
         public string GetPassword
         {
             get { return txtPassword.Text; }
-        }
-
-        private void btnOk_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.OK;
         }
     }
 }

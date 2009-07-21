@@ -86,9 +86,7 @@ namespace WikiFunctions.Profiles
                 {//Get Password from User
                     UserPassword password = new UserPassword
                                                 {
-                                                    SetText =
-                                                        "Enter password for " +
-                                                        lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text
+                                                    Username = lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text
                                                 };
 
                     if (password.ShowDialog(this) == DialogResult.OK)
@@ -131,7 +129,7 @@ namespace WikiFunctions.Profiles
                 {//Get Password from User
                     UserPassword password = new UserPassword
                                                 {
-                                                    SetText = "Enter password for " + startupProfile.Username
+                                                    Username = startupProfile.Username
                                                 };
 
                     if (password.ShowDialog(this) == DialogResult.OK)

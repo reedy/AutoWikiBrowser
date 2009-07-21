@@ -146,7 +146,7 @@ namespace WikiFunctions.Profiles
 
             if (string.IsNullOrEmpty(retval.Password) && string.IsNullOrEmpty(TempPassword))
             {
-                UserPassword password = new UserPassword {SetText = "Enter password for " + retval.Username};
+                UserPassword password = new UserPassword {Username = retval.Username};
                 if (password.ShowDialog() == DialogResult.OK)
                 {
                     retval.Password = TempPassword = password.GetPassword;
