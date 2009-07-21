@@ -1915,6 +1915,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Decodes anchor-encoded links. Don't use unless rewrittten not to screw stuff like [[Windows#3.11]]
         /// </summary>
+        [Obsolete("unfit for production use")]
         public static void AnchorDecode(ref string link)
         {
             Match m = WikiRegexes.AnchorEncodedLink.Match(link);
@@ -2071,6 +2072,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
+        // covered by CanonicalizeTitleRawTests
         /// <summary>
         /// Performs URL-decoding of a page title, trimming all whitespace
         /// </summary>
@@ -2079,7 +2081,7 @@ namespace WikiFunctions.Parse
             return CanonicalizeTitleRaw(title, true);
         }
 
-        //NOT covered
+        // covered by CanonicalizeTitleRawTests
         /// <summary>
         /// performs URL-decoding of a page title
         /// </summary>

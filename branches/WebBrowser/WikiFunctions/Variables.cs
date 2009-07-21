@@ -470,6 +470,7 @@ namespace WikiFunctions
 
         public static string Stub;
         public static string SectStub;
+        public static Regex SectStubRegex = null;
         public static readonly Regex InUse = new Regex(@"{{\s*[Ii]nuse\s*[\}\|]", RegexOptions.Compiled);
 
         /// <summary>
@@ -515,6 +516,7 @@ namespace WikiFunctions
             MonthNames = ENLangMonthNames;
 
             SectStub = @"\{\{[Ss]ect";
+            SectStubRegex = new Regex(SectStub, RegexOptions.Compiled);
 
             if (IsCustomProject)
             {
@@ -594,6 +596,7 @@ namespace WikiFunctions
 
                         case LangCodeEnum.pl:
                             SectStub = @"\{\{[Ss]ek";
+                            SectStubRegex = new Regex(SectStub, RegexOptions.Compiled);
                             break;
 
                         case LangCodeEnum.pt:
@@ -791,6 +794,7 @@ namespace WikiFunctions
 
             MonthNames = ENLangMonthNames;
             SectStub = @"\{\{[Ss]ect";
+            SectStubRegex = new Regex(SectStub, RegexOptions.Compiled);
             Stub = "[Ss]tub";
 
             RTL = false;

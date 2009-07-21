@@ -739,11 +739,9 @@ namespace WikiFunctions.Parse
         /// <param name="mask">regular expression to apply</param>
         /// <param name="components">number of groups to extract</param>
         /// <returns>the derived reference name</returns>
-        private static string ExtractReferenceNameComponents(string reference, string mask, int components)
+        private static string ExtractReferenceNameComponents(string reference, Regex referenceNameMask, int components)
         {
             string referenceName = "";
-
-            Regex referenceNameMask = new Regex(mask);
 
             if (referenceNameMask.Matches(reference).Count > 0)
             {
@@ -762,7 +760,11 @@ namespace WikiFunctions.Parse
         }
 
         private const string CharsToTrim = @".;: {}[]|`?\/$’‘-_–=+,";
-
+        // U230A is Floor Left; U230B is Floor Right
+        private static readonly Regex CommentOrFloorNumber = new Regex(@"(\<\!--.*?--\>|" + "\u230A" + @"{3,}\d+" + "\u230B" + "{3,})", RegexOptions.Compiled);
+        private static readonly Regex SequenceOfQuotesInDerivedName = new Regex(@"(''+|[“‘”""\[\]\(\)\<\>" + "\u230A\u230B" + "])", RegexOptions.Compiled);
+        private static readonly Regex WhitespaceInDerivedName = new Regex(@"(\s{2,}|&nbsp;|\t|\n)", RegexOptions.Compiled);
+        private static readonly Regex DateRetrievedOrAccessed = new Regex(@"(?im)(\s*(date\s+)?(retrieved|accessed)\b|^\d+$)", RegexOptions.Compiled);
         /// <summary>
         /// Removes various unwanted punctuation and comment characters from a derived reference name
         /// </summary>
@@ -772,14 +774,14 @@ namespace WikiFunctions.Parse
         {
             derivedName = WikiRegexes.PipedWikiLink.Replace(derivedName, "$2"); // piped wikilinks -> text value
 
-            derivedName = Regex.Replace(derivedName, @"(\<\!--.*?--\>|⌊{3,}\d+⌋{3,})", "");
+            derivedName = CommentOrFloorNumber.Replace(derivedName, "");
             // rm comments from ref name, might be masked
             derivedName = derivedName.Trim(CharsToTrim.ToCharArray());
-            derivedName = Regex.Replace(derivedName, @"(''+|[“‘”""\[\]\(\)\<\>⌋⌊])", ""); // remove chars
-            derivedName = Regex.Replace(derivedName, @"(\s{2,}|&nbsp;|\t|\n)", " "); // spacing fixes
+            derivedName = SequenceOfQuotesInDerivedName.Replace(derivedName, ""); // remove chars
+            derivedName = WhitespaceInDerivedName.Replace(derivedName, " "); // spacing fixes
             derivedName = derivedName.Replace(@"&ndash;", "–");
 
-            return Regex.IsMatch(derivedName, @"(?im)(\s*(date\s+)?(retrieved|accessed)\b|^\d+$)") ? "" : derivedName;
+            return DateRetrievedOrAccessed.IsMatch(derivedName) ? "" : derivedName;
         }
 
         private const string NameMask = @"(?-i)\s*(?:sir)?\s*((?:[A-Z]+\.?){0,3}\s*[A-Z][\w-']{2,}[,\.]?\s*(?:\s+\w\.?|\b(?:[A-Z]+\.?){0,3})?(?:\s+[A-Z][\w-']{2,}){0,3}(?:\s+\w(?:\.?|\b)){0,2})\s*(?:[,\.'&;:\[\(“`]|et\s+al)(?i)[^{}<>\n]*?";
@@ -787,7 +789,22 @@ namespace WikiFunctions.Parse
         private const string PageMask = @"('*(?:p+g?|pages?)'*\.?'*(?:&nbsp;)?\s*(?:\d{1,3}|(?-i)[XVICM]+(?i))\.?(?:\s*[-/&\.,]\s*(?:\d{1,3}|(?-i)[XVICM]+(?i)))?\b)";
 
         private static readonly Regex CitationCiteBook = new Regex(@"{{[Cc]it[ae]((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})", RegexOptions.Compiled);
-
+        //TODO: Give these regexes, used in DeriveReferenceName, more meaningful names
+        private static readonly Regex DRN1 = new Regex(@"(?<=\s*last\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
+        private static readonly Regex DRN2 = new Regex(@"(?<=\s*author(?:link)?\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
+        private static readonly Regex DRN3 = new Regex(@"(?<=\s*year\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
+        private static readonly Regex DRN4 = new Regex(@"(?<=\s*pages?\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
+        private static readonly Regex DRN5 = new Regex(@"(?<=\s*date\s*=\s*)(\d{4})(?=\s*(?:\||}}))", RegexOptions.Compiled);
+        private static readonly Regex DRN6 = new Regex(@"(?<=\s*title\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
+        private static readonly Regex DRN7 = new Regex(@"(?<=\s*publisher\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
+        private static readonly Regex DRN8 = new Regex(@"\s*[^{}<>\n]*?\s*\[*(?:http://www\.|http://|www\.)[^\[\]<>""\s]+?\s+([^{}<>\[\]]{4,35}?)\s*(?:\]|<!--|\u230A\u230A\u230A\u230A)", RegexOptions.Compiled);
+        private static readonly Regex DRN9 = new Regex(@"\s*\w*?[^{}<>]{0,4}?\s*(?:\[?|\{\{\s*cit[^{}<>]*\|\s*url\s*=\s*)\s*(?:http://www\.|http://|www\.)([^\[\]<>""\s\/:]+)", RegexOptions.Compiled);
+        private static readonly Regex DRN10 = new Regex(@"\s*{{[Hh]arv(?:(?:col)?nb)?\s*\|\s*([^{}\|]+?)\s*\|\s*(\d{4})\s*\|\s*([^{}\|]+?)\s*}}\s*", RegexOptions.Compiled);
+        private static readonly Regex DRN11 = new Regex(@"\s*([^<>{}]{4,35})\s*", RegexOptions.Compiled);
+        private static readonly Regex DRN12 = new Regex(@"\s*\{\{\s*cit[^{}<>]*\|\s*url\s*=\s*([^\/<>{}\|]{4,35})", RegexOptions.Compiled);
+        private static readonly Regex DRN13 = new Regex(NameMask + YearMask + @"[^{}<>\n]*?" + PageMask + @"\s*", RegexOptions.Compiled);
+        private static readonly Regex DRN14 = new Regex(NameMask + PageMask + @"\s*", RegexOptions.Compiled);
+        private static readonly Regex DRN15 = new Regex(NameMask + YearMask + @"\s*", RegexOptions.Compiled);
         /// <summary>
         /// Derives a name for a reference by searching for author names and dates, or website base URL etc.
         /// </summary>
@@ -803,25 +820,25 @@ namespace WikiFunctions.Parse
 
             if (citationTemplate.Length > 10)
             {
-                string last = Regex.Match(reference, @"(?<=\s*last\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
+                string last = DRN1.Match(reference).Value.Trim();
 
                 if (last.Length < 1)
                 {
-                    last = Regex.Match(reference, @"(?<=\s*author(?:link)?\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
+                    last = DRN2.Match(reference).Value.Trim();
                 }
 
                 if (last.Length > 1)
                 {
                     derivedReferenceName = last;
-                    string year = Regex.Match(reference, @"(?<=\s*year\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
+                    string year = DRN3.Match(reference).Value.Trim();
 
-                    string pages = Regex.Match(reference, @"(?<=\s*pages?\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
+                    string pages = DRN4.Match(reference).Value.Trim();
 
                     if (year.Length > 3)
                         derivedReferenceName += " " + year;
                     else
                     {
-                        string date = Regex.Match(reference, @"(?<=\s*date\s*=\s*)(\d{4})(?=\s*(?:\||}}))").Value.Trim();
+                        string date = DRN5.Match(reference).Value.Trim();
 
                         if (date.Length > 3)
                             derivedReferenceName += " " + date;
@@ -835,7 +852,7 @@ namespace WikiFunctions.Parse
                 // otherwise try title
                 else
                 {
-                    string title = Regex.Match(reference, @"(?<=\s*title\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
+                    string title = DRN6.Match(reference).Value.Trim();
 
                     if (title.Length > 3 && title.Length < 35)
                         derivedReferenceName = title;
@@ -844,7 +861,7 @@ namespace WikiFunctions.Parse
                     // try publisher
                     if (derivedReferenceName.Length < 4)
                     {
-                        title = Regex.Match(reference, @"(?<=\s*publisher\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))").Value.Trim();
+                        title = DRN7.Match(reference).Value.Trim();
 
                         if (title.Length > 3 && title.Length < 35)
                             derivedReferenceName = title;
@@ -857,50 +874,50 @@ namespace WikiFunctions.Parse
                 return derivedReferenceName;
 
             // try description of a simple external link
-            derivedReferenceName = ExtractReferenceNameComponents(reference, @"\s*[^{}<>\n]*?\s*\[*(?:http://www\.|http://|www\.)[^\[\]<>""\s]+?\s+([^{}<>\[\]]{4,35}?)\s*(?:\]|<!--|⌊⌊⌊⌊)", 1);
+            derivedReferenceName = ExtractReferenceNameComponents(reference, DRN8, 1);
 
             if (ReferenceNameValid(articleText, derivedReferenceName))
                 return derivedReferenceName;
 
             // website URL first, allowing a name before link
-            derivedReferenceName = ExtractReferenceNameComponents(reference, @"\s*\w*?[^{}<>]{0,4}?\s*(?:\[?|\{\{\s*cit[^{}<>]*\|\s*url\s*=\s*)\s*(?:http://www\.|http://|www\.)([^\[\]<>""\s\/:]+)", 1);
+            derivedReferenceName = ExtractReferenceNameComponents(reference, DRN9, 1);
 
             if (ReferenceNameValid(articleText, derivedReferenceName))
                 return derivedReferenceName;
 
             // Harvnb template {{Harvnb|Young|1852|p=50}}
-            derivedReferenceName = ExtractReferenceNameComponents(reference, @"\s*{{[Hh]arv(?:(?:col)?nb)?\s*\|\s*([^{}\|]+?)\s*\|\s*(\d{4})\s*\|\s*([^{}\|]+?)\s*}}\s*", 3);
+            derivedReferenceName = ExtractReferenceNameComponents(reference, DRN10, 3);
 
             if (ReferenceNameValid(articleText, derivedReferenceName))
                 return derivedReferenceName;
 
             // now just try to use the whole reference if it's short (<35 characters)
             if (reference.Length < 35)
-                derivedReferenceName = ExtractReferenceNameComponents(reference, @"\s*([^<>{}]{4,35})\s*", 1);
+                derivedReferenceName = ExtractReferenceNameComponents(reference, DRN11, 1);
 
             if (ReferenceNameValid(articleText, derivedReferenceName))
                 return derivedReferenceName;
 
             //now try title of a citation
-            derivedReferenceName = ExtractReferenceNameComponents(reference, @"\s*\{\{\s*cit[^{}<>]*\|\s*url\s*=\s*([^\/<>{}\|]{4,35})", 1);
+            derivedReferenceName = ExtractReferenceNameComponents(reference, DRN12, 1);
 
             if (ReferenceNameValid(articleText, derivedReferenceName))
                 return derivedReferenceName;
 
             // name...year...page
-            derivedReferenceName = ExtractReferenceNameComponents(reference, NameMask + YearMask + @"[^{}<>\n]*?" + PageMask + @"\s*", 3);
+            derivedReferenceName = ExtractReferenceNameComponents(reference, DRN13, 3);
 
             if (ReferenceNameValid(articleText, derivedReferenceName))
                 return derivedReferenceName;
 
             // name...page
-            derivedReferenceName = ExtractReferenceNameComponents(reference, NameMask + PageMask + @"\s*", 2);
+            derivedReferenceName = ExtractReferenceNameComponents(reference, DRN14, 2);
 
             if (ReferenceNameValid(articleText, derivedReferenceName))
                 return derivedReferenceName;
 
             // name...year
-            derivedReferenceName = ExtractReferenceNameComponents(reference, NameMask + YearMask + @"\s*", 2);
+            derivedReferenceName = ExtractReferenceNameComponents(reference, DRN15, 2);
 
             if (ReferenceNameValid(articleText, derivedReferenceName))
                 return derivedReferenceName;
@@ -943,6 +960,85 @@ namespace WikiFunctions.Parse
             return newText;
         }
 
+        private static readonly string siCitStart = @"(?si)(\{\{\s*cit[^{}]*\|\s*";
+        private static readonly string citAccessdate = siCitStart + @"(?:access|archive)date\s*=\s*";
+        private static readonly string citDate = siCitStart + @"(?:archive|air)?date2?\s*=\s*";
+        private static readonly string citYMonthD = siCitStart + @"(?:archive|air)?date2?\s*=\s*\d{4})[-/\s]";
+        private static readonly string dTemEnd = @"?[-/\s]([0-3]?\d\s*(?:\||}}))";
+        struct RegexReplacement {
+            public RegexReplacement(Regex regex, string replacement) { Regex=regex; Replacement=replacement; }
+            public Regex Regex;
+            public string Replacement;
+            // This could get extended to be a class with some of the Regex methods, such as IsMatch, Replace, etc, but there's little point
+        }
+        //TODO: give these regexes, used in CiteTemplateDates, more meaningful names
+        private static readonly Regex CTD1 = new Regex(@"\b(access|archive)date\s*=", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly RegexReplacement[] CTD2 = new RegexReplacement[] {
+            new RegexReplacement(new Regex(citAccessdate + @")(1[0-2])[/_\-\.]?(1[3-9])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$2-$3"),
+            new RegexReplacement(new Regex(citAccessdate + @")(1[0-2])[/_\-\.]?([2-3]\d)[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$2-$3"),
+            new RegexReplacement(new Regex(citAccessdate + @")(1[0-2])[/_\-\.]?\2[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$3-$2-$2"), // nn-nn-2004 and nn-nn-04 to ISO format (both nn the same)
+            new RegexReplacement(new Regex(citAccessdate + @")(1[3-9])[/_\-\.]?(1[0-2])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$3-$2"),
+            new RegexReplacement(new Regex(citAccessdate + @")(1[3-9])[/_\-\.]?0?([1-9])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-0$3-$2"),
+            new RegexReplacement(new Regex(citAccessdate + @")(20[01]\d)0?([01]\d)[/_\-\.]([0-3]\d\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-$4"),
+            new RegexReplacement(new Regex(citAccessdate + @")(20[01]\d)[/_\-\.]([01]\d)0?([0-3]\d\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-$4"),
+            new RegexReplacement(new Regex(citAccessdate + @")(20[01]\d)[/_\-\.]?([01]\d)[/_\-\.]?([1-9]\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-0$4"),
+            new RegexReplacement(new Regex(citAccessdate + @")(20[01]\d)[/_\-\.]?([1-9])[/_\-\.]?([0-3]\d\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-0$3-$4"),
+            new RegexReplacement(new Regex(citAccessdate + @")(20[01]\d)[/_\-\.]?([1-9])[/_\-\.]0?([1-9]\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-0$3-0$4"),
+            new RegexReplacement(new Regex(citAccessdate + @")(20[01]\d)[/_\-\.]0?([1-9])[/_\-\.]([1-9]\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-0$3-0$4"),
+            new RegexReplacement(new Regex(citAccessdate + @")(20[01]\d)[/_\.]?([01]\d)[/_\.]?([0-3]\d\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-$4"),
+
+            new RegexReplacement(new Regex(citAccessdate + @")([2-3]\d)[/_\-\.]?(1[0-2])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$3-$2"),
+            new RegexReplacement(new Regex(citAccessdate + @")([2-3]\d)[/_\-\.]0?([1-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-0$3-$2"),
+            new RegexReplacement(new Regex(citAccessdate + @")0?([1-9])[/_\-\.]?(1[3-9]|[2-3]\d)[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-0$2-$3"),
+            new RegexReplacement(new Regex(citAccessdate + @")0?([1-9])[/_\-\.]?0?\2[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$3-0$2-0$2"), // n-n-2004 and n-n-04 to ISO format (both n the same)
+        };
+        private static readonly Regex CTD3 = new Regex(@"{{\s*cit[^{}]*\|\s*(?:archive|air)?date2?\s*=", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        private static readonly RegexReplacement[] CTD4 = new RegexReplacement[] {
+            new RegexReplacement(new Regex(citDate + @"\[?\[?)(200\d|19[7-9]\d)[/_]?([0-1]\d)[/_]?([0-3]\d\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-$4"),
+            new RegexReplacement(new Regex(citDate + @"\[?\[?)(1[0-2])[/_\-\.]?([2-3]\d)[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-$2-$3"),
+            new RegexReplacement(new Regex(citDate + @"\[?\[?)0?([1-9])[/_\-\.]?([2-3]\d)[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-0$2-$3"),
+            new RegexReplacement(new Regex(citDate + @"\[?\[?)([2-3]\d)[/_\-\.]?0?([1-9])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-0$3-$2"),
+            new RegexReplacement(new Regex(citDate + @"\[?\[?)([2-3]\d)[/_\-\.]?(1[0-2])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-$3-$2"),
+            new RegexReplacement(new Regex(citDate + @"\[?\[?)(1[0-2])[/_\-\.]([2-3]\d)[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$2-$3"),
+            new RegexReplacement(new Regex(citDate + @"\[?\[?)0?([1-9])[/_\-\.]([2-3]\d)[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-0$2-$3"),
+            new RegexReplacement(new Regex(citDate + @"\[?\[?)([2-3]\d)[/_\-\.]0?([1-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-0$3-$2"),
+            new RegexReplacement(new Regex(citDate + @"\[?\[?)([2-3]\d)[/_\-\.]?(1[0-2])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$3-$2"),
+            new RegexReplacement(new Regex(citDate + @"\[?\[?)(1[0-2])[/_\-\.]?(1[3-9])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-$2-$3"),
+            new RegexReplacement(new Regex(citDate + @"\[?\[?)0?([1-9])[/_\-\.](1[3-9])[/_\-\.](19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-0$2-$3"),
+            new RegexReplacement(new Regex(citDate + @"\[?\[?)(1[3-9])[/_\-\.]?0?([1-9])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-0$3-$2"),
+            new RegexReplacement(new Regex(citDate + @"\[?\[?)(1[3-9])[/_\-\.]?(1[0-2])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-$3-$2"),
+            new RegexReplacement(new Regex(citDate + @"\[?\[?)(1[0-2])[/_\-\.]?(1[3-9])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$2-$3"),
+            new RegexReplacement(new Regex(citDate + @"\[?\[?)([1-9])[/_\-\.](1[3-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-0$2-$3"),
+            new RegexReplacement(new Regex(citDate + @"\[?\[?)(1[3-9])[/_\-\.]?([1-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-0$3-$2"),
+            new RegexReplacement(new Regex(citDate + @"\[?\[?)(1[3-9])[/_\-\.](1[0-2])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$3-$2"),
+            new RegexReplacement(new Regex(citDate + @")0?([1-9])[/_\-\.]0?\2[/_\-\.](200\d|19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$3-0$2-0$2"), // n-n-2004 and n-n-1980 to ISO format (both n the same)
+            new RegexReplacement(new Regex(citDate + @")0?([1-9])[/_\-\.]0?\2[/_\-\.]([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$3-0$2-0$2"), // n-n-04 to ISO format (both n the same)
+            new RegexReplacement(new Regex(citDate + @")(1[0-2])[/_\-\.]?\2[/_\-\.]?(200\d|19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$3-$2-$2"), // nn-nn-2004 and nn-nn-1980 to ISO format (both nn the same)
+            new RegexReplacement(new Regex(citDate + @")(1[0-2])[/_\-\.]?\2[/_\-\.]?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$3-$2-$2"), // nn-nn-04 to ISO format (both nn the same)
+            new RegexReplacement(new Regex(citDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]([1-9])[/_\-\.]0?([1-9](?:\]\])?\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-0$3-0$4"),
+            new RegexReplacement(new Regex(citDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]0?([1-9])[/_\-\.]([1-9](?:\]\])?\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-0$3-0$4"),
+            new RegexReplacement(new Regex(citDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]?([0-1]\d)[/_\-\.]?([1-9](?:\]\])?\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-0$4"),
+            new RegexReplacement(new Regex(citDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]?([1-9])[/_\-\.]?([0-3]\d(?:\]\])?\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-0$3-$4"),
+            new RegexReplacement(new Regex(citDate + @")((?:\[\[)?200\d|19[7-9]\d)([0-1]\d)[/_\-\.]([0-3]\d(?:\]\])?\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-$4"),
+            new RegexReplacement(new Regex(citDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]([0-1]\d)0?([0-3]\d(?:\]\])?\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-$4"),
+        };
+        private static readonly RegexReplacement[] CTD5 = new RegexReplacement[] {
+            new RegexReplacement(new Regex(citYMonthD + @"Jan(?:uary|\.)" + dTemEnd, RegexOptions.Compiled), "$1-01-$2"),
+            new RegexReplacement(new Regex(citYMonthD + @"Feb(?:r?uary|\.)" + dTemEnd, RegexOptions.Compiled), "$1-02-$2"),
+            new RegexReplacement(new Regex(citYMonthD + @"Mar(?:ch|\.)" + dTemEnd, RegexOptions.Compiled), "$1-03-$2"),
+            new RegexReplacement(new Regex(citYMonthD + @"Apr(?:il|\.)" + dTemEnd, RegexOptions.Compiled), "$1-04-$2"),
+            new RegexReplacement(new Regex(citYMonthD + @"May\." + dTemEnd, RegexOptions.Compiled), "$1-05-$2"),
+            new RegexReplacement(new Regex(citYMonthD + @"Jun(?:e|\.)" + dTemEnd, RegexOptions.Compiled), "$1-06-$2"),
+            new RegexReplacement(new Regex(citYMonthD + @"Jul(?:y|\.)" + dTemEnd, RegexOptions.Compiled), "$1-07-$2"),
+            new RegexReplacement(new Regex(citYMonthD + @"Aug(?:ust|\.)" + dTemEnd, RegexOptions.Compiled), "$1-08-$2"),
+            new RegexReplacement(new Regex(citYMonthD + @"Sep(?:tember|\.)" + dTemEnd, RegexOptions.Compiled), "$1-09-$2"),
+            new RegexReplacement(new Regex(citYMonthD + @"Oct(?:ober|\.)" + dTemEnd, RegexOptions.Compiled), "$1-10-$2"),
+            new RegexReplacement(new Regex(citYMonthD + @"Nov(?:ember|\.)" + dTemEnd, RegexOptions.Compiled), "$1-11-$2"),
+            new RegexReplacement(new Regex(citYMonthD + @"Dec(?:ember|\.)" + dTemEnd, RegexOptions.Compiled), "$1-12-$2"),
+        };
+        private static readonly Regex CTD6 = new Regex(siCitStart + @"(?:archive|air|access)?date2?\s*=\s*(?:\[\[)?200\d)-([2-3]\d|1[3-9])-(0[1-9]|1[0-2])(\]\])?", RegexOptions.Compiled);
+        private static readonly Regex CTD7 = new Regex(@"(\{\{\s*cite[^\{\}]*\|\s*(?:archive|air|access)?date2?\s*=\s*(?:(?:200\d|19[7-9]\d)-[01]?\d-[0-3]?\d|[0-3]?\d\s*\w+,?\s*(?:200\d|19[7-9]\d)|\w+\s*[0-3]?\d,?\s*(?:200\d|19[7-9]\d)))(\s*[,-:]?\s+[0-2]?\d\:?[0-5]\d(?:\:?[0-5]\d)?\s*[^\|\}]*)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
         /// <summary>
         /// Corrects common formatting errors in dates in external reference citation templates (doesn't link/delink dates)
         /// </summary>
@@ -953,87 +1049,27 @@ namespace WikiFunctions.Parse
             // note some incorrect date formats such as 3-2-2009 are ambiguous as could be 3-FEB-2009 or MAR-2-2009
             // these fixes don't address such errors
 
-            const string siCitStart = @"(?si)(\{\{\s*cit[^{}]*\|\s*";
-
             // convert invalid date formats like DD-MM-YYYY, MM-DD-YYYY, YYYY-D-M, YYYY-DD-MM, YYYY_MM_DD etc. to iso format of YYYY-MM-DD
             // for accessdate= and archivedate=
-            if (Regex.IsMatch(articleText, @"\b(access|archive)date\s*=", RegexOptions.IgnoreCase))
-            {
-                const string citAccessdate = siCitStart + @"(?:access|archive)date\s*=\s*";
-                articleText = Regex.Replace(articleText, citAccessdate + @")(1[0-2])[/_\-\.]?(1[3-9])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$2-$3");
-                articleText = Regex.Replace(articleText, citAccessdate + @")(1[0-2])[/_\-\.]?([2-3]\d)[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$2-$3");
-                articleText = Regex.Replace(articleText, citAccessdate + @")(1[0-2])[/_\-\.]?\2[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$3-$2-$2"); // nn-nn-2004 and nn-nn-04 to ISO format (both nn the same)
-                articleText = Regex.Replace(articleText, citAccessdate + @")(1[3-9])[/_\-\.]?(1[0-2])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$3-$2");
-                articleText = Regex.Replace(articleText, citAccessdate + @")(1[3-9])[/_\-\.]?0?([1-9])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-0$3-$2");
-                articleText = Regex.Replace(articleText, citAccessdate + @")(20[01]\d)0?([01]\d)[/_\-\.]([0-3]\d\s*(?:\||}}))", "$1$2-$3-$4");
-                articleText = Regex.Replace(articleText, citAccessdate + @")(20[01]\d)[/_\-\.]([01]\d)0?([0-3]\d\s*(?:\||}}))", "$1$2-$3-$4");
-                articleText = Regex.Replace(articleText, citAccessdate + @")(20[01]\d)[/_\-\.]?([01]\d)[/_\-\.]?([1-9]\s*(?:\||}}))", "$1$2-$3-0$4");
-                articleText = Regex.Replace(articleText, citAccessdate + @")(20[01]\d)[/_\-\.]?([1-9])[/_\-\.]?([0-3]\d\s*(?:\||}}))", "$1$2-0$3-$4");
-                articleText = Regex.Replace(articleText, citAccessdate + @")(20[01]\d)[/_\-\.]?([1-9])[/_\-\.]0?([1-9]\s*(?:\||}}))", "$1$2-0$3-0$4");
-                articleText = Regex.Replace(articleText, citAccessdate + @")(20[01]\d)[/_\-\.]0?([1-9])[/_\-\.]([1-9]\s*(?:\||}}))", "$1$2-0$3-0$4");
-                articleText = Regex.Replace(articleText, citAccessdate + @")(20[01]\d)[/_\.]?([01]\d)[/_\.]?([0-3]\d\s*(?:\||}}))", "$1$2-$3-$4");
-
-                articleText = Regex.Replace(articleText, citAccessdate + @")([2-3]\d)[/_\-\.]?(1[0-2])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$3-$2");
-                articleText = Regex.Replace(articleText, citAccessdate + @")([2-3]\d)[/_\-\.]0?([1-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-0$3-$2");
-                articleText = Regex.Replace(articleText, citAccessdate + @")0?([1-9])[/_\-\.]?(1[3-9]|[2-3]\d)[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-0$2-$3");
-                articleText = Regex.Replace(articleText, citAccessdate + @")0?([1-9])[/_\-\.]?0?\2[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$3-0$2-0$2"); // n-n-2004 and n-n-04 to ISO format (both n the same)
-            }
+            if (CTD1.IsMatch(articleText))
+                foreach (RegexReplacement rr in CTD2)
+                    articleText = rr.Regex.Replace(articleText, rr.Replacement);
 
             // date=, archivedate=, airdate=, date2=
-            if (Regex.IsMatch(articleText, @"{{\s*cit[^{}]*\|\s*(?:archive|air)?date2?\s*=", RegexOptions.IgnoreCase | RegexOptions.Singleline))
+            if (CTD3.IsMatch(articleText))
             {
-                const string citDate = siCitStart + @"(?:archive|air)?date2?\s*=\s*";
-                articleText = Regex.Replace(articleText, citDate + @"\[?\[?)(200\d|19[7-9]\d)[/_]?([0-1]\d)[/_]?([0-3]\d\s*(?:\||}}))", "$1$2-$3-$4");
-                articleText = Regex.Replace(articleText, citDate + @"\[?\[?)(1[0-2])[/_\-\.]?([2-3]\d)[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-$2-$3");
-                articleText = Regex.Replace(articleText, citDate + @"\[?\[?)0?([1-9])[/_\-\.]?([2-3]\d)[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-0$2-$3");
-                articleText = Regex.Replace(articleText, citDate + @"\[?\[?)([2-3]\d)[/_\-\.]?0?([1-9])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-0$3-$2");
-                articleText = Regex.Replace(articleText, citDate + @"\[?\[?)([2-3]\d)[/_\-\.]?(1[0-2])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-$3-$2");
-                articleText = Regex.Replace(articleText, citDate + @"\[?\[?)(1[0-2])[/_\-\.]([2-3]\d)[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$2-$3");
-                articleText = Regex.Replace(articleText, citDate + @"\[?\[?)0?([1-9])[/_\-\.]([2-3]\d)[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-0$2-$3");
-                articleText = Regex.Replace(articleText, citDate + @"\[?\[?)([2-3]\d)[/_\-\.]0?([1-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-0$3-$2");
-                articleText = Regex.Replace(articleText, citDate + @"\[?\[?)([2-3]\d)[/_\-\.]?(1[0-2])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$3-$2");
-                articleText = Regex.Replace(articleText, citDate + @"\[?\[?)(1[0-2])[/_\-\.]?(1[3-9])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-$2-$3");
-                articleText = Regex.Replace(articleText, citDate + @"\[?\[?)0?([1-9])[/_\-\.](1[3-9])[/_\-\.](19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-0$2-$3");
-                articleText = Regex.Replace(articleText, citDate + @"\[?\[?)(1[3-9])[/_\-\.]?0?([1-9])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-0$3-$2");
-                articleText = Regex.Replace(articleText, citDate + @"\[?\[?)(1[3-9])[/_\-\.]?(1[0-2])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-$3-$2");
-                articleText = Regex.Replace(articleText, citDate + @"\[?\[?)(1[0-2])[/_\-\.]?(1[3-9])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$2-$3");
-                articleText = Regex.Replace(articleText, citDate + @"\[?\[?)([1-9])[/_\-\.](1[3-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-0$2-$3");
-                articleText = Regex.Replace(articleText, citDate + @"\[?\[?)(1[3-9])[/_\-\.]?([1-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-0$3-$2");
-                articleText = Regex.Replace(articleText, citDate + @"\[?\[?)(1[3-9])[/_\-\.](1[0-2])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$3-$2");
-                articleText = Regex.Replace(articleText, citDate + @")0?([1-9])[/_\-\.]0?\2[/_\-\.](200\d|19[7-9]\d)(?=\s*(?:\||}}))", "$1$3-0$2-0$2"); // n-n-2004 and n-n-1980 to ISO format (both n the same)
-                articleText = Regex.Replace(articleText, citDate + @")0?([1-9])[/_\-\.]0?\2[/_\-\.]([01]\d)(?=\s*(?:\||}}))", "${1}20$3-0$2-0$2"); // n-n-04 to ISO format (both n the same)
-                articleText = Regex.Replace(articleText, citDate + @")(1[0-2])[/_\-\.]?\2[/_\-\.]?(200\d|19[7-9]\d)(?=\s*(?:\||}}))", "$1$3-$2-$2"); // nn-nn-2004 and nn-nn-1980 to ISO format (both nn the same)
-                articleText = Regex.Replace(articleText, citDate + @")(1[0-2])[/_\-\.]?\2[/_\-\.]?([01]\d)(?=\s*(?:\||}}))", "${1}20$3-$2-$2"); // nn-nn-04 to ISO format (both nn the same)
-                articleText = Regex.Replace(articleText, citDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]([1-9])[/_\-\.]0?([1-9](?:\]\])?\s*(?:\||}}))", "$1$2-0$3-0$4");
-                articleText = Regex.Replace(articleText, citDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]0?([1-9])[/_\-\.]([1-9](?:\]\])?\s*(?:\||}}))", "$1$2-0$3-0$4");
-                articleText = Regex.Replace(articleText, citDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]?([0-1]\d)[/_\-\.]?([1-9](?:\]\])?\s*(?:\||}}))", "$1$2-$3-0$4");
-                articleText = Regex.Replace(articleText, citDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]?([1-9])[/_\-\.]?([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-0$3-$4");
-                articleText = Regex.Replace(articleText, citDate + @")((?:\[\[)?200\d|19[7-9]\d)([0-1]\d)[/_\-\.]([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-$3-$4");
-                articleText = Regex.Replace(articleText, citDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]([0-1]\d)0?([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-$3-$4");
+                foreach (RegexReplacement rr in CTD4)
+                    articleText = rr.Regex.Replace(articleText, rr.Replacement);
 
                 // date = YYYY-Month-DD fix, on en-wiki only
                 if (Variables.LangCode == LangCodeEnum.en)
-                {
-                    const string citYMonthD = siCitStart + @"(?:archive|air)?date2?\s*=\s*\d{4})[-/\s]";
-                    const string dTemEnd = @"?[-/\s]([0-3]?\d\s*(?:\||}}))";
-                    articleText = Regex.Replace(articleText, citYMonthD + @"Apr(?:il|\.)" + dTemEnd, "$1-04-$2");
-                    articleText = Regex.Replace(articleText, citYMonthD + @"Aug(?:ust|\.)" + dTemEnd, "$1-08-$2");
-                    articleText = Regex.Replace(articleText, citYMonthD + @"Dec(?:ember|\.)" + dTemEnd, "$1-12-$2");
-                    articleText = Regex.Replace(articleText, citYMonthD + @"Feb(?:r?uary|\.)" + dTemEnd, "$1-02-$2");
-                    articleText = Regex.Replace(articleText, citYMonthD + @"Jan(?:uary|\.)" + dTemEnd, "$1-01-$2");
-                    articleText = Regex.Replace(articleText, citYMonthD + @"Jul(?:y|\.)" + dTemEnd, "$1-07-$2");
-                    articleText = Regex.Replace(articleText, citYMonthD + @"Jun(?:e|\.)" + dTemEnd, "$1-06-$2");
-                    articleText = Regex.Replace(articleText, citYMonthD + @"Mar(?:ch|\.)" + dTemEnd, "$1-03-$2");
-                    articleText = Regex.Replace(articleText, citYMonthD + @"Nov(?:ember|\.)" + dTemEnd, "$1-11-$2");
-                    articleText = Regex.Replace(articleText, citYMonthD + @"Oct(?:ober|\.)" + dTemEnd, "$1-10-$2");
-                    articleText = Regex.Replace(articleText, citYMonthD + @"Sep(?:tember|\.)" + dTemEnd, "$1-09-$2");
-                    articleText = Regex.Replace(articleText, citYMonthD + @"May\." + dTemEnd, "$1-05-$2");
-                }
+                    foreach (RegexReplacement rr in CTD5)
+                        articleText = rr.Regex.Replace(articleText, rr.Replacement);
             }
 
             // all citation dates
-            articleText = Regex.Replace(articleText, siCitStart + @"(?:archive|air|access)?date2?\s*=\s*(?:\[\[)?200\d)-([2-3]\d|1[3-9])-(0[1-9]|1[0-2])(\]\])?", "$1-$3-$2$4"); // YYYY-DD-MM to YYYY-MM-DD
-            return Regex.Replace(articleText, @"(\{\{\s*cite[^\{\}]*\|\s*(?:archive|air|access)?date2?\s*=\s*(?:(?:200\d|19[7-9]\d)-[01]?\d-[0-3]?\d|[0-3]?\d\s*\w+,?\s*(?:200\d|19[7-9]\d)|\w+\s*[0-3]?\d,?\s*(?:200\d|19[7-9]\d)))(\s*[,-:]?\s+[0-2]?\d\:?[0-5]\d(?:\:?[0-5]\d)?\s*[^\|\}]*)", "$1<!--$2-->", RegexOptions.IgnoreCase | RegexOptions.Singleline); // Removes time from date fields
+            articleText = CTD6.Replace(articleText, "$1-$3-$2$4"); // YYYY-DD-MM to YYYY-MM-DD
+            return CTD7.Replace(articleText, "$1<!--$2-->"); // Removes time from date fields
         }
 
         // Covered by: FormattingTests.TestMdashes()
@@ -1050,6 +1086,15 @@ namespace WikiFunctions.Parse
             return Mdashes(articleText, articleTitle, -1);
         }
 
+        //TODO: Give these regexes, used in Mdashes, more meaningful names
+        private static readonly Regex MDA1 = new Regex(@"(pages\s*=\s*|pp\.?\s*)(\d+\s*)(?:-|—|&mdash;|&#8212;)(\s*\d+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex MDA2 = new Regex(@"([1-9]?\d\s*)(?:-|—|&mdash;|&#8212;)(\s*[1-9]?\d)(\s+|&nbsp;)(years|months|weeks|days|hours|minutes|seconds|kg|mg|kb|km|[Gk]?Hz|miles|mi\.|%)\b", RegexOptions.Compiled);
+        private static readonly Regex MDA3 = new Regex(@"(\$[1-9]?\d{1,3}\s*)(?:-|—|&mdash;|&#8212;)(\s*\$?[1-9]?\d{1,3})", RegexOptions.Compiled);
+        private static readonly Regex MDA4 = new Regex(@"([01]?\d:[0-5]\d\s*([AP]M)\s*)(?:-|—|&mdash;|&#8212;)(\s*[01]?\d:[0-5]\d\s*([AP]M))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex MDA5 = new Regex(@"([Aa]ge[sd])\s([1-9]?\d\s*)(?:-|—|&mdash;|&#8212;)(\s*[1-9]?\d)", RegexOptions.Compiled);
+        private static readonly Regex MDA6 = new Regex(@"(?<=\w)\s*--\s*(?=\w)", RegexOptions.Compiled);
+        private static readonly Regex MDA7 = new Regex(@"(?<=<sup>)(?:-|–|—)(?=\d+</sup>)", RegexOptions.Compiled);
+
         // Covered by: FormattingTests.TestMdashes()
         /// <summary>
         /// Replaces hyphens and em-dashes with en-dashes, per [[WP:DASH]]
@@ -1061,16 +1106,11 @@ namespace WikiFunctions.Parse
         public string Mdashes(string articleText, string articleTitle, int nameSpaceKey)
         {
             articleText = HideMoreText(articleText);
-
-            articleText = Regex.Replace(articleText, @"(pages\s*=\s*|pp\.?\s*)(\d+\s*)(?:-|—|&mdash;|&#8212;)(\s*\d+)", @"$1$2–$3", RegexOptions.IgnoreCase);
-
-            articleText = Regex.Replace(articleText, @"([1-9]?\d\s*)(?:-|—|&mdash;|&#8212;)(\s*[1-9]?\d)(\s+|&nbsp;)(years|months|weeks|days|hours|minutes|seconds|kg|mg|kb|km|[Gk]?Hz|miles|mi\.|%)\b", @"$1–$2$3$4");
-
-            articleText = Regex.Replace(articleText, @"(\$[1-9]?\d{1,3}\s*)(?:-|—|&mdash;|&#8212;)(\s*\$?[1-9]?\d{1,3})", @"$1–$2");
-
-            articleText = Regex.Replace(articleText, @"([01]?\d:[0-5]\d\s*([AP]M)\s*)(?:-|—|&mdash;|&#8212;)(\s*[01]?\d:[0-5]\d\s*([AP]M))", @"$1–$3", RegexOptions.IgnoreCase);
-
-            articleText = Regex.Replace(articleText, @"([Aa]ge[sd])\s([1-9]?\d\s*)(?:-|—|&mdash;|&#8212;)(\s*[1-9]?\d)", @"$1 $2–$3");
+            articleText = MDA1.Replace(articleText, @"$1$2–$3");
+            articleText = MDA2.Replace(articleText, @"$1–$2$3$4");
+            articleText = MDA3.Replace(articleText, @"$1–$2");
+            articleText = MDA4.Replace(articleText, @"$1–$3");
+            articleText = MDA5.Replace(articleText, @"$1 $2–$3");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Match_en_dashes.2Femdashs_from_titles_with_those_in_the_text
             // if title has en or em dashes, apply them to strings matching article title but with hyphens
@@ -1079,16 +1119,18 @@ namespace WikiFunctions.Parse
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Change_--_.28two_dashes.29_to_.E2.80.94_.28em_dash.29
             if (nameSpaceKey == Namespace.Mainspace)
-                articleText = Regex.Replace(articleText, @"(?<=\w)\s*--\s*(?=\w)", @"—");
+                articleText = MDA6.Replace(articleText, @"—");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#minuses
             // replace hyphen or en-dash or emdash with Unicode minus (&minus;)
             // [[Wikipedia:MOSNUM#Common_mathematical_symbols]]
-            articleText = Regex.Replace(articleText, @"(?<=<sup>)(?:-|–|—)(?=\d+</sup>)", "−");
+            articleText = MDA7.Replace(articleText, "−");
 
             return AddBackMoreText(articleText);
         }
 
+        private static readonly Regex RME_ColumnCount = new Regex(@"[^-]column-count:[\s]*?(\d*)", RegexOptions.Compiled);
+        private static readonly Regex RME_MozColumnCount = new Regex(@"-moz-column-count:[\s]*?(\d*)", RegexOptions.Compiled);
         // Covered by: FootnotesTests.TestFixReferenceListTags()
         private static string ReflistMatchEvaluator(Match m)
         {
@@ -1099,11 +1141,11 @@ namespace WikiFunctions.Parse
             if (m.Value.Contains("references-2column"))
                 return "{{reflist|2}}";
 
-            string s = Regex.Match(m.Value, @"[^-]column-count:[\s]*?(\d*)").Groups[1].Value;
+            string s = RME_ColumnCount.Match(m.Value).Groups[1].Value;
             if (s.Length > 0)
                 return "{{reflist|" + s + "}}";
 
-            s = Regex.Match(m.Value, @"-moz-column-count:[\s]*?(\d*)").Groups[1].Value;
+            s = RME_MozColumnCount.Match(m.Value).Groups[1].Value;
             if (s.Length > 0)
                 return "{{reflist|" + s + "}}";
 
@@ -1148,6 +1190,17 @@ namespace WikiFunctions.Parse
             return EmptyReferences.Replace(articleText, @"$1 />");
         }
 
+        //TODO: Give these regexes, used in AddMissingReflist, more meaningful names
+        private static readonly Regex AMR1=new Regex(@"(?sim)(==+\s*)Links(\s*==+\s*(?:^(?:\*|\d\.?)?\s*\[?\s*http://))", RegexOptions.Compiled);
+        private static readonly Regex AMR2=new Regex(@"(?i)==\s*'*\s*References?\s*'*\s*==", RegexOptions.Compiled);
+        private static readonly Regex AMR3=new Regex(@"(?i)(==+\s*'*\s*References?\s*'*\s*==+)", RegexOptions.Compiled);
+        private static readonly Regex AMR4=new Regex(@"(?im)(^\s*=+\s*(?:External\s+link|Source|Web\s*link)s?\s*=)", RegexOptions.Compiled);
+        private static readonly Regex AMR5=new Regex(@"(?sim)(^\s*=+\s*(?:External\s+link|Source|Web\s*link)s?\s*=+.*?)(\r\n==+References==+\r\n{{Reflist}}<!--added above External links/Sources by script-assisted edit-->)", RegexOptions.Compiled);
+        private static readonly Regex AMR6=new Regex(@"(?im)(^\s*\[\[\s*Category\s*:)", RegexOptions.Compiled);
+        private static readonly Regex AMR7=new Regex(@"(?sim)((?:^\{\{[^{}]+?\}\}\s*)*)(^\s*\[\[\s*Category\s*:.*?)(\r\n==+References==+\r\n{{Reflist}}<!--added above categories/infobox footers by script-assisted edit-->)", RegexOptions.Compiled);
+        //private static readonly Regex AMR8 = new Regex(@"(?sim)(^==.*?)(^\{\{[^{}]+?\}\}.*?)(\r\n==+References==+\r\n{{Reflist}}<!--added to end of article by script-assisted edit-->)", RegexOptions.Compiled);
+        private static readonly Regex AMR9 = new Regex(@"(\{\{Reflist\}\})<!--added[^<>]+by script-assisted edit-->", RegexOptions.Compiled);
+
         // NOT covered
         /// <summary>
         /// if the article uses cite references but has no recognised template to display the references, add {{reflist}} in the appropriate place
@@ -1159,91 +1212,92 @@ namespace WikiFunctions.Parse
             // AddMissingReflist is only called if references template is missing
 
             // Rename ==Links== to ==External links==
-            articleText = Regex.Replace(articleText, @"(?sim)(==+\s*)Links(\s*==+\s*(?:^(?:\*|\d\.?)?\s*\[?\s*http://))", "$1External links$2");
+            articleText = AMR1.Replace(articleText, "$1External links$2");
 
-            if (Regex.IsMatch(articleText, @"(?i)==\s*'*\s*References?\s*'*\s*=="))
-                articleText = Regex.Replace(articleText, @"(?i)(==+\s*'*\s*References?\s*'*\s*==+)", "$1\r\n{{Reflist}}<!--added under references heading by script-assisted edit-->");
+            if (AMR2.IsMatch(articleText))
+                articleText = AMR3.Replace(articleText, "$1\r\n{{Reflist}}<!--added under references heading by script-assisted edit-->");
             else
             {
                 //now try to move just above external links
-                if (Regex.IsMatch(articleText, @"(?im)(^\s*=+\s*(?:External\s+link|Source|Web\s*link)s?\s*=)"))
+                if (AMR4.IsMatch(articleText))
                 {
                     articleText += "\r\n==References==\r\n{{Reflist}}<!--added above External links/Sources by script-assisted edit-->";
-                    articleText = Regex.Replace(articleText, @"(?sim)(^\s*=+\s*(?:External\s+link|Source|Web\s*link)s?\s*=+.*?)(\r\n==+References==+\r\n{{Reflist}}<!--added above External links/Sources by script-assisted edit-->)", "$2\r\n$1");
+                    articleText = AMR5.Replace(articleText, "$2\r\n$1");
                 }
                 else
                 { // now try to move just above categories
-                    if (Regex.IsMatch(articleText, @"(?im)(^\s*\[\[\s*Category\s*:)"))
+                    if (AMR6.IsMatch(articleText))
                     {
                         articleText += "\r\n==References==\r\n{{Reflist}}<!--added above categories/infobox footers by script-assisted edit-->";
-                        articleText = Regex.Replace(articleText, @"(?sim)((?:^\{\{[^{}]+?\}\}\s*)*)(^\s*\[\[\s*Category\s*:.*?)(\r\n==+References==+\r\n{{Reflist}}<!--added above categories/infobox footers by script-assisted edit-->)", "$3\r\n$1$2");
+                        articleText = AMR7.Replace(articleText, "$3\r\n$1$2");
                     }
                     //else
                     //{
                     // TODO: relist is missing, but not sure where references should go – at end of article might not be correct
                     //articleText += "\r\n==References==\r\n{{Reflist}}<!--added to end of article by script-assisted edit-->";
-                    //articleText = Regex.Replace(articleText, @"(?sim)(^==.*?)(^\{\{[^{}]+?\}\}.*?)(\r\n==+References==+\r\n{{Reflist}}<!--added to end of article by script-assisted edit-->)", "$1\r\n$3\r\n$2");
+                    //articleText = AMR8.Replace(articleText, "$1\r\n$3\r\n$2");
                     //}
                 }
             }
             // remove reflist comment
-            return Regex.Replace(articleText, @"(\{\{Reflist\}\})<!--added[^<>]+by script-assisted edit-->", "$1");
+            return AMR9.Replace(articleText, "$1");
         }
 
         // whitespace cleaning
-        private static readonly Regex RefWhitespace1 = new Regex(@"<\s*(?:\s+ref\s*|\s*ref\s+)>", RegexOptions.Compiled | RegexOptions.Singleline);
-        private static readonly Regex RefWhitespace2 = new Regex(@"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>", RegexOptions.Compiled | RegexOptions.Singleline);
+        private static readonly RegexReplacement[] RefWhitespace = new RegexReplacement[] {
+            new RegexReplacement(new Regex(@"<\s*(?:\s+ref\s*|\s*ref\s+)>", RegexOptions.Compiled | RegexOptions.Singleline), "<ref>"),
+            new RegexReplacement(new Regex(@"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>", RegexOptions.Compiled | RegexOptions.Singleline), "</ref>"),
         // remove any whitespace between consecutive references
-        private static readonly Regex RefWhitespace3 = new Regex(@"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>) +(?=<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)", RegexOptions.Compiled);
-        // ensure a space between a reference and text (reference within a paragrah)
-        private static readonly Regex RefWhitespace4 = new Regex(@"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>)(\w)", RegexOptions.Compiled);
+            new RegexReplacement(new Regex(@"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>) +(?=<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)", RegexOptions.Compiled), "$1"),
+        // ensure a space between a reference and text (reference within a paragraph)
+            new RegexReplacement(new Regex(@"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>)(\w)", RegexOptions.Compiled), "$1 $2"),
 
         // <ref name="Fred" /ref> --> <ref name="Fred"/>
-        private static readonly Regex ReferenceTags1 = new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?"")\s*/\s*ref\s*>", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?"")\s*/\s*ref\s*>", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase), "$1/>"),
 
         // <ref name="Fred""> --> <ref name="Fred">
-        private static readonly Regex ReferenceTags2 = new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?"")["">]\s*(/?)>", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?"")["">]\s*(/?)>", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase), "$1$2>"),
 
         // <ref name = ”Fred”> --> <ref name="Fred">
-        private static readonly Regex ReferenceTags3 = new Regex(@"(<\s*ref\s+name\s*=\s*)[“‘”’]*([^<>=""\/]+?)[“‘”’]+(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
-        private static readonly Regex ReferenceTags4 = new Regex(@"(<\s*ref\s+name\s*=\s*)[“‘”’]+([^<>=""\/]+?)[“‘”’]*(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)[“‘”’]*([^<>=""\/]+?)[“‘”’]+(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1""$2""$3"),
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)[“‘”’]+([^<>=""\/]+?)[“‘”’]*(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1""$2""$3"),
 
         // <ref name = ''Fred'> --> <ref name="Fred"> (two apostrophes)
-        private static readonly Regex ReferenceTags5 = new Regex(@"(<\s*ref\s+name\s*=\s*)''+([^<>=""\/]+?)'+(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)''+([^<>=""\/]+?)'+(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1""$2""$3"),
 
         // <ref name = 'Fred''> --> <ref name="Fred"> (two apostrophes)
-        private static readonly Regex ReferenceTags6 = new Regex(@"(<\s*ref\s+name\s*=\s*)'+([^<>=""\/]+?)''+(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)'+([^<>=""\/]+?)''+(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1""$2""$3"),
 
         // <ref name=foo bar> --> <ref name="foo bar">, match when spaces
-        private static readonly Regex ReferenceTags7 = new Regex(@"(<\s*ref\s+name\s*=\s*)([^<>=""'\/]+?\s+[^<>=""'\/]+?)(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)([^<>=""'\/]+?\s+[^<>=""'\/]+?)(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1""$2""$3"),
 
         // <ref name=foo bar> --> <ref name="foo bar">, match when non-ASCII characters ([\x00-\xff]*)
-        private static readonly Regex ReferenceTags8 = new Regex(@"(<\s*ref\s+name\s*=\s*)([^<>=""'\/]*?[^\x00-\xff]+?[^<>=""'\/]*?)(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)([^<>=""'\/]*?[^\x00-\xff]+?[^<>=""'\/]*?)(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1""$2""$3"),
 
         // <ref name=foo bar"> --> <ref name="foo bar">
-        private static readonly Regex ReferenceTags9 = new Regex(@"(<\s*ref\s+name\s*=\s*)['`”]*([^<>=""\/]+?)""(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)['`”]*([^<>=""\/]+?)""(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1""$2""$3"),
 
         // <ref name="foo bar> --> <ref name="foo bar">
-        private static readonly Regex ReferenceTags10 = new Regex(@"(<\s*ref\s+name\s*=\s*)""([^<>=""\/]+?)['`”]*(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)""([^<>=""\/]+?)['`”]*(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1""$2""$3"),
 
         // <ref name "foo bar"> --> <ref name="foo bar">
-        private static readonly Regex ReferenceTags11 = new Regex(@"(<\s*ref\s+name\s*)[\+\-]?(\s*""[^<>=""\/]+?""\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*)[\+\-]?(\s*""[^<>=""\/]+?""\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1=$2"),
 
         // <ref "foo bar"> --> <ref name="foo bar">
-        private static readonly Regex ReferenceTags12 = new Regex(@"(<\s*ref\s+)(""[^<>=""\/]+?""\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+            new RegexReplacement(new Regex(@"(<\s*ref\s+)(""[^<>=""\/]+?""\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase), "$1name=$2"),
 
         // ref name typos
-        private static readonly Regex ReferenceTags13 = new Regex(@"(<\s*ref\s+n)(me\s*=)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            new RegexReplacement(new Regex(@"(<\s*ref\s+n)(me\s*=)", RegexOptions.Compiled | RegexOptions.IgnoreCase), "$1a$2"),
 
         // <ref>...<ref/> --> <ref>...</ref>
-        private static readonly Regex ReferenceTags14 = new Regex(@"(<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>[^<>""]+?)<\s*ref\s*/\s*>", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+            new RegexReplacement(new Regex(@"(<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>[^<>""]+?)<\s*ref\s*/\s*>", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase), "$1</ref>"),
 
         // <ref>...</red> --> <ref>...</ref>
-        private static readonly Regex ReferenceTags15 = new Regex(@"(<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>[^<>""]+?)<\s*/\s*red\s*>", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
+            new RegexReplacement(new Regex(@"(<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>[^<>""]+?)<\s*/\s*red\s*>", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase), "$1</ref>"),
 
         // <REF> and <Ref> to <ref>
-        private static readonly Regex ReferenceTags16 = new Regex(@"(<\s*\/?\s*)(?:R[Ee][Ff]|r[Ee]F)(\s*(?:>|name\s*=))");
-
+            new RegexReplacement(new Regex(@"(<\s*\/?\s*)(?:R[Ee][Ff]|r[Ee]F)(\s*(?:>|name\s*=))"), "$1ref$2"),
+        };
         // Covered by TestFixReferenceTags
         /// <summary>
         /// Various fixes to the formatting of <ref> reference tags
@@ -1252,29 +1306,19 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixReferenceTags(string articleText)
         {
-            articleText = RefWhitespace1.Replace(articleText, "<ref>");
-            articleText = RefWhitespace2.Replace(articleText, "</ref>");
-            articleText = RefWhitespace3.Replace(articleText, "$1");
-            articleText = RefWhitespace4.Replace(articleText, "$1 $2");
+            foreach (RegexReplacement rr in RefWhitespace)
+                articleText = rr.Regex.Replace(articleText, rr.Replacement);
 
-            articleText = ReferenceTags1.Replace(articleText, "$1/>");
-            articleText = ReferenceTags2.Replace(articleText, "$1$2>");
-            articleText = ReferenceTags3.Replace(articleText, @"$1""$2""$3");
-            articleText = ReferenceTags4.Replace(articleText, @"$1""$2""$3");
-            articleText = ReferenceTags5.Replace(articleText, @"$1""$2""$3");
-            articleText = ReferenceTags6.Replace(articleText, @"$1""$2""$3");
-            articleText = ReferenceTags7.Replace(articleText, @"$1""$2""$3");
-            articleText = ReferenceTags8.Replace(articleText, @"$1""$2""$3");
-            articleText = ReferenceTags9.Replace(articleText, @"$1""$2""$3");
-            articleText = ReferenceTags10.Replace(articleText, @"$1""$2""$3");
-            articleText = ReferenceTags11.Replace(articleText, @"$1=$2");
-            articleText = ReferenceTags12.Replace(articleText, "$1name=$2");
-            articleText = ReferenceTags13.Replace(articleText, "$1a$2");
-            articleText = ReferenceTags14.Replace(articleText, "$1</ref>");
-            articleText = ReferenceTags15.Replace(articleText, "$1</ref>");
-            return ReferenceTags16.Replace(articleText, "$1ref$2");
+            return articleText;
         }
 
+        // don't match on 'in the June of 2007', 'on the 11th May 2008' etc. as these won't read well if changed
+        private static readonly Regex ofBetweenMonthAndYear = new Regex(@"\b" + WikiRegexes.Months + @"\s+of\s+(200\d|1[89]\d\d)\b(?<!\b[Tt]he\s{1,5}\w{3,15}\s{1,5}of\s{1,5}(200\d|1[89]\d\d))", RegexOptions.Compiled);
+        private static readonly Regex ordinalsInDatesAm = new Regex(@"(?<!\b[1-3]\d +)\b" + WikiRegexes.Months + @"\s+([0-3]?\d)(?:st|nd|rd|th)\b(?<!\b[Tt]he\s+\w{3,10}\s+(?:[0-3]?\d)(?:st|nd|rd|th)\b)(?:(\s*(?:to|and|.|&.dash;)\s*[0-3]?\d)(?:st|nd|rd|th)\b)?", RegexOptions.Compiled);
+        private static readonly Regex ordinalsInDatesInt = new Regex(@"(?:\b([0-3]?\d)(?:st|nd|rd|th)(\s*(?:to|and|.|&.dash;)\s*))?\b([0-3]?\d)(?:st|nd|rd|th)\s+" + WikiRegexes.Months + @"\b(?<!\b[Tt]he\s+(?:[0-3]?\d)(?:st|nd|rd|th)\s+\w{3,10})", RegexOptions.Compiled);
+        private static readonly Regex dateLeadingZerosAm = new Regex(@"\b" + WikiRegexes.Months + @"\s+0([1-9])" + @"\b", RegexOptions.Compiled);
+        private static readonly Regex dateLeadingZerosInt = new Regex(@"\b" + @"0([1-9])\s+" + WikiRegexes.Months + @"\b", RegexOptions.Compiled);
+        private static readonly Regex MonthsRegex = new Regex(@"\b" + Months + @"\b", RegexOptions.Compiled);
         // Covered by TestFixDateOrdinalsAndOf
         /// <summary>
         /// Removes ordinals, leading zeros from dates and 'of' between a month and a year, per [[WP:MOSDATE]]; on en wiki only
@@ -1287,22 +1331,13 @@ namespace WikiFunctions.Parse
             if (Variables.LangCode != LangCodeEnum.en)
                 return articleText;
 
-            // don't match on 'in the June of 2007', 'on the 11th May 2008' etc. as these won't read well if changed
-            Regex ofBetweenMonthAndYear = new Regex(@"\b" + WikiRegexes.Months + @"\s+of\s+(200\d|1[89]\d\d)\b(?<!\b[Tt]he\s{1,5}\w{3,15}\s{1,5}of\s{1,5}(200\d|1[89]\d\d))");
-
-            Regex ordinalsInDatesAm = new Regex(@"(?<!\b[1-3]\d +)\b" + WikiRegexes.Months + @"\s+([0-3]?\d)(?:st|nd|rd|th)\b(?<!\b[Tt]he\s+\w{3,10}\s+(?:[0-3]?\d)(?:st|nd|rd|th)\b)(?:(\s*(?:to|and|.|&.dash;)\s*[0-3]?\d)(?:st|nd|rd|th)\b)?");
-            Regex ordinalsInDatesInt = new Regex(@"(?:\b([0-3]?\d)(?:st|nd|rd|th)(\s*(?:to|and|.|&.dash;)\s*))?\b([0-3]?\d)(?:st|nd|rd|th)\s+" + WikiRegexes.Months + @"\b(?<!\b[Tt]he\s+(?:[0-3]?\d)(?:st|nd|rd|th)\s+\w{3,10})");
-
-            Regex dateLeadingZerosAm = new Regex(@"\b" + WikiRegexes.Months + @"\s+0([1-9])" + @"\b");
-            Regex dateLeadingZerosInt = new Regex(@"\b" + @"0([1-9])\s+" + WikiRegexes.Months + @"\b");
-
             // hide items in quotes etc., though this may also hide items within infoboxes etc.
             articleText = HideMoreText(articleText);
 
             articleText = ofBetweenMonthAndYear.Replace(articleText, "$1 $2");
 
             // don't apply if article title has a month in it (e.g. [[6th of October City]])
-            if (!Regex.IsMatch(articleTitle, @"\b" + Months + @"\b"))
+            if (!MonthsRegex.IsMatch(articleTitle))
             {
                 articleText = ordinalsInDatesAm.Replace(articleText, "$1 $2$3");
                 articleText = ordinalsInDatesInt.Replace(articleText, "$1$2$3 $4");
@@ -1314,6 +1349,20 @@ namespace WikiFunctions.Parse
             return AddBackMoreText(articleText);
         }
 
+        //TODO: give these regexes, used in RemoveWhiteSpace and RemoveAllWhiteSpace, more meaningful names
+        private static readonly Regex RWS1=new Regex("<br ?/?>\r\n\r\n", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex RWS2=new Regex("\r\n(\r\n)+", RegexOptions.Compiled);
+        private static readonly Regex RWS3=new Regex("== ? ?\r\n\r\n==", RegexOptions.Compiled);
+        private static readonly Regex RWS4=new Regex(@"==External links==[\r\n\s]*\*", RegexOptions.Compiled);
+        private static readonly Regex RWS5=new Regex(@"\r\n\r\n(\* ?\[?http)", RegexOptions.Compiled);
+        private static readonly Regex RWS6=new Regex("----+$", RegexOptions.Compiled);
+        private static readonly Regex RWS7=new Regex("  +", RegexOptions.Compiled);
+        private static readonly Regex RWS8=new Regex(" \r\n", RegexOptions.Compiled);
+        private static readonly Regex RWS9=new Regex(@"==External links==[\r\n\s]*\*", RegexOptions.Compiled);
+        private static readonly Regex RWS10=new Regex(@"^([\*#]+) +", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex RWS11=new Regex(@"^([\*#]+)", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex RWS12=new Regex("^(={1,4}) ?(.*?) ?(={1,4})$", RegexOptions.Compiled| RegexOptions.Multiline);
+        private static readonly Regex RWS13=new Regex(" (–|—|&#15[01];|&[nm]dash;|&#821[12];|&#x201[34];) ", RegexOptions.Compiled);
 
         // Covered by: FormattingTests.TestFixWhitespace(), incomplete
         /// <summary>
@@ -1324,15 +1373,15 @@ namespace WikiFunctions.Parse
         public static string RemoveWhiteSpace(string articleText)
         {
             //Remove <br /> if followed by double newline
-            articleText = Regex.Replace(articleText.Trim(), "<br ?/?>\r\n\r\n", "\r\n\r\n", RegexOptions.IgnoreCase);
+            articleText = RWS1.Replace(articleText.Trim(), "\r\n\r\n");
 
-            articleText = Regex.Replace(articleText, "\r\n(\r\n)+", "\r\n\r\n");
+            articleText = RWS2.Replace(articleText, "\r\n\r\n");
 
-            articleText = Regex.Replace(articleText, "== ? ?\r\n\r\n==", "==\r\n==");
-            articleText = Regex.Replace(articleText, @"==External links==[\r\n\s]*\*", "==External links==\r\n*");
-            articleText = Regex.Replace(articleText, @"\r\n\r\n(\* ?\[?http)", "\r\n$1");
+            articleText = RWS3.Replace(articleText, "==\r\n==");
+            articleText = RWS4.Replace(articleText, "==External links==\r\n*");
+            articleText = RWS5.Replace(articleText, "\r\n$1");
 
-            articleText = Regex.Replace(articleText.Trim(), "----+$", "");
+            articleText = RWS6.Replace(articleText.Trim(), "");
 
             if (articleText.Contains("\r\n|\r\n\r\n"))
                 articleText = articleText.Replace("\r\n|\r\n\r\n", "\r\n|\r\n");
@@ -1355,22 +1404,22 @@ namespace WikiFunctions.Parse
 
             articleText = articleText.Replace("\r\n\r\n*", "\r\n*");
 
-            articleText = Regex.Replace(articleText, "  +", " ");
-            articleText = Regex.Replace(articleText, " \r\n", "\r\n");
+            articleText = RWS7.Replace(articleText, " ");
+            articleText = RWS8.Replace(articleText, "\r\n");
 
-            articleText = Regex.Replace(articleText, "==\r\n\r\n", "==\r\n");
-            articleText = Regex.Replace(articleText, @"==External links==[\r\n\s]*\*", "==External links==\r\n*");
+            articleText = articleText.Replace("==\r\n\r\n", "==\r\n");
+            articleText = RWS9.Replace(articleText, "==External links==\r\n*");
 
             //fix bullet points – one space after them
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_arbitrary_spaces_after_bullet
-            articleText = Regex.Replace(articleText, @"^([\*#]+) +", "$1", RegexOptions.Multiline);
-            articleText = Regex.Replace(articleText, @"^([\*#]+)", "$1 ", RegexOptions.Multiline);
+            articleText = RWS10.Replace(articleText, "$1");
+            articleText = RWS11.Replace(articleText, "$1 ");
 
             //fix heading space
-            articleText = Regex.Replace(articleText, "^(={1,4}) ?(.*?) ?(={1,4})$", "$1$2$3", RegexOptions.Multiline);
+            articleText = RWS12.Replace(articleText, "$1$2$3");
 
             //fix dash spacing
-            articleText = Regex.Replace(articleText, " (–|—|&#15[01];|&[nm]dash;|&#821[12];|&#x201[34];) ", "$1");
+            articleText = RWS13.Replace(articleText, "$1");
 
             return articleText.Trim();
         }
@@ -1462,6 +1511,16 @@ namespace WikiFunctions.Parse
         // fix incorrect <br> of <br.>, <\br> and <br\>
         private static readonly Regex IncorrectBr = new Regex(@"< *br\. *>|<\\ *br *>|< *br *\\ *>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
+        private static readonly Regex SyntaxRegex14 = new Regex("</?i>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex SyntaxRegex15 = new Regex("</?b>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex SyntaxRegex16 = new Regex("^<hr>|^----+", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex SyntaxRegex17 = new Regex("(^==?[^=]*==?)\r\n(\r\n)?----+", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex SyntaxRegex18 = new Regex(@"HTTP/\d\.", RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegex19 = new Regex("ISBN: ?([0-9])", RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegex20 = new Regex(@"^\[(\s*http.*?)\]$", RegexOptions.Compiled| RegexOptions.Singleline);
+        private static readonly Regex SyntaxRegex21 = new Regex(@"([^]])\]([^]]|$)", RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegex22 = new Regex("\\[\\[[Ii]mage:[^]]*http", RegexOptions.Compiled);
+
         // Covered by: LinkTests.TestFixSyntax(), incomplete
         /// <summary>
         /// Fixes and improves syntax (such as html markup)
@@ -1471,16 +1530,16 @@ namespace WikiFunctions.Parse
         public static string FixSyntax(string articleText)
         {
             //replace html with wiki syntax
-            if (Regex.IsMatch(articleText, "</?i>", RegexOptions.IgnoreCase))
+            if (SyntaxRegex14.IsMatch(articleText))
                 articleText = SyntaxRegexItalic.Replace(articleText, "''$1''");
 
-            if (Regex.IsMatch(articleText, "</?b>", RegexOptions.IgnoreCase))
+            if (SyntaxRegex15.IsMatch(articleText))
                 articleText = SyntaxRegexBold.Replace(articleText, "'''$1'''");
 
-            articleText = Regex.Replace(articleText, "^<hr>|^----+", "----", RegexOptions.Multiline);
+            articleText = SyntaxRegex16.Replace(articleText, "----");
 
             //remove appearance of double line break
-            articleText = Regex.Replace(articleText, "(^==?[^=]*==?)\r\n(\r\n)?----+", "$1", RegexOptions.Multiline);
+            articleText = SyntaxRegex17.Replace(articleText, "$1");
 
             //remove unnecessary namespace
             articleText = SyntaxRegexTemplate.Replace(articleText, "$1$2");
@@ -1510,13 +1569,13 @@ namespace WikiFunctions.Parse
             articleText = SyntaxRegex9.Replace(articleText, "[[$1#$2]]");
             articleText = SyntaxRegex12.Replace(articleText, @"$1 $2");
 
-            if (!Regex.IsMatch(articleText, @"HTTP/\d\."))
+            if (!SyntaxRegex18.IsMatch(articleText))
             {
                 articleText = MissingColonInHttpLink.Replace(articleText, "$1tp://$2");
                 articleText = SingleTripleSlashInHttpLink.Replace(articleText, "$1tp://$2");
             }
 
-            articleText = Regex.Replace(articleText, "ISBN: ?([0-9])", "ISBN $1");
+            articleText = SyntaxRegex19.Replace(articleText, "ISBN $1");
 
             articleText = CellpaddingTypo.Replace(articleText, "$1cellpadding");
 
@@ -1559,21 +1618,21 @@ namespace WikiFunctions.Parse
             foreach (Match m in SquareBracketsInExternalLinks.Matches(articleText))
             {
                 // strip off leading [ and trailing ]
-                string externalLink = Regex.Replace(m.Value, @"^\[(\s*http.*?)\]$", "$1", RegexOptions.Singleline);
+                string externalLink = SyntaxRegex20.Replace(m.Value, "$1");
 
                 // if there are some brackets left then they need fixing; the mediawiki parser finishes the external link
                 // at the first ] found
                 if (externalLink.Contains("]"))
                 {
                     // replace single ] with &#93; when used for brackets in the link description
-                    externalLink = Regex.Replace(externalLink, @"([^]])\]([^]]|$)", @"$1&#93;$2");
+                    externalLink = SyntaxRegex21.Replace(externalLink, @"$1&#93;$2");
 
                     articleText = articleText.Replace(m.Value, @"[" + externalLink + @"]");
                 }
             }
 
             // needs to be applied after SquareBracketsInExternalLinks
-            if (!Regex.IsMatch(articleText, "\\[\\[[Ii]mage:[^]]*http"))
+            if (!SyntaxRegex22.IsMatch(articleText))
             {
                 articleText = SyntaxRegex4.Replace(articleText, "[[$1]]");
                 articleText = SyntaxRegex5.Replace(articleText, "[[$1]]");
@@ -1590,6 +1649,18 @@ namespace WikiFunctions.Parse
 
             return articleText.Trim();
         }
+
+        // TODO: give these regexes, used in FixUnbalancedBrackets, more meaningful names
+        private static readonly Regex FUB1 = new Regex(@"(?<=\[\[[^\[\]{}<>\r\n\|]{1,50})}(?=[^\[\]{}<>\r\n\|]{1,50}\]\])", RegexOptions.Compiled);
+        private static readonly Regex FUB2 = new Regex(@"(?<=\([^{}<>\(\)]+[^{}<>\(\)\|])}(?=[^{}])", RegexOptions.Compiled);
+        private static readonly Regex FUB3 = new Regex(@"(?<=\[[^{}<>\[\]]+[^{}<>\(\)\|])}(?=[^{}])", RegexOptions.Compiled);
+        private static readonly Regex FUB4 = new Regex(@"(?<=[^{}<>]){(?=[^{}<>\(\)\|][^{}<>\(\)]+\)[^{}\(\)])", RegexOptions.Compiled);
+        private static readonly Regex FUB5 = new Regex(@"(?<=[^\[\]{}<>])(?:{\[\[?|\[\[\[)(?=[^\[\]{}<>]+\]\])", RegexOptions.Compiled);
+        private static readonly Regex FUB6 = new Regex(@"(?<=\[\[){(?=[^{}\[\]<>]+\]\])", RegexOptions.Compiled);
+        private static readonly Regex FUB7 = new Regex(@"(?<=^ *\* *\[ *https?://[^<>{}\[\]\r\n\s]+[^\[\]\r\n]*)(\s$)", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex FUB8 = new Regex(@"(?<=^ *\*) *(?=https?://[^<>{}\[\]\r\n\s]+[^\[\]\r\n]*\]\s$)", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex FUB9 = new Regex(@"(?<={{[^{}<>]{1,400}[^{}<>\|])(?:\]}|}\]?)(?=[^{}])", RegexOptions.Compiled);
+        private static readonly Regex FUB10 = new Regex(@"(?<=[^{}<>\|]){(?=[^{}<>]{1,400}}})", RegexOptions.Compiled);
 
         /// <summary>
         /// Applies some fixes for unbalanced brackets, applied if there are unbalanced brackets
@@ -1615,41 +1686,41 @@ namespace WikiFunctions.Parse
                 if (bracketLength == 1)
                 {
                     // if it's [[blah blah}word]]
-                    articleTextTemp = Regex.Replace(articleTextTemp, @"(?<=\[\[[^\[\]{}<>\r\n\|]{1,50})}(?=[^\[\]{}<>\r\n\|]{1,50}\]\])", @"|");
+                    articleTextTemp = FUB1.Replace(articleTextTemp, @"|");
 
                     // if it's (blah} then see if setting the } to a ) makes it all balance, but not |} which could be wikitables
-                    articleTextTemp = Regex.Replace(articleTextTemp, @"(?<=\([^{}<>\(\)]+[^{}<>\(\)\|])}(?=[^{}])", @")");
+                    articleTextTemp = FUB2.Replace(articleTextTemp, @")");
 
                     // if it's [blah} then see if setting the } to a ] makes it all balance
-                    articleTextTemp = Regex.Replace(articleTextTemp, @"(?<=\[[^{}<>\[\]]+[^{}<>\(\)\|])}(?=[^{}])", @"]");
+                    articleTextTemp = FUB3.Replace(articleTextTemp, @"]");
 
                     // if it's {blah) then see if setting the { to a ( makes it all balance, but not {| which could be wikitables
-                    articleTextTemp = Regex.Replace(articleTextTemp, @"(?<=[^{}<>]){(?=[^{}<>\(\)\|][^{}<>\(\)]+\)[^{}\(\)])", @"(");
+                    articleTextTemp = FUB4.Replace(articleTextTemp, @"(");
 
                     // if it's ((word) then see if removing the extra opening round bracket makes it all balance
                     if (articleTextTemp.Length > (unbalancedBracket + 1) && articleTextTemp[unbalancedBracket].ToString().Equals(@"(") && articleText[unbalancedBracket + 1].ToString().Equals(@"("))
                         articleTextTemp = articleTextTemp.Remove(unbalancedBracket, 1);
 
                     // if it's {[link]] or {[[link]] or [[[link]] then see if setting to [[ makes it all balance
-                    articleTextTemp = Regex.Replace(articleTextTemp, @"(?<=[^\[\]{}<>])(?:{\[\[?|\[\[\[)(?=[^\[\]{}<>]+\]\])", @"[[");
+                    articleTextTemp = FUB5.Replace(articleTextTemp, @"[[");
 
                     // could be [[{link]]
-                    articleTextTemp = Regex.Replace(articleTextTemp, @"(?<=\[\[){(?=[^{}\[\]<>]+\]\])", "");
+                    articleTextTemp = FUB6.Replace(articleTextTemp, "");
 
                     // external link missing closing ]
-                    articleTextTemp = Regex.Replace(articleTextTemp, @"(?<=^ *\* *\[ *https?://[^<>{}\[\]\r\n\s]+[^\[\]\r\n]*)(\s$)", "]$1", RegexOptions.Multiline);
+                    articleTextTemp = FUB7.Replace(articleTextTemp, "]$1");
 
                     // external link missing opening [
-                    articleTextTemp = Regex.Replace(articleTextTemp, @"(?<=^ *\*) *(?=https?://[^<>{}\[\]\r\n\s]+[^\[\]\r\n]*\]\s$)", " [", RegexOptions.Multiline);
+                    articleTextTemp = FUB8.Replace(articleTextTemp, " [");
                 }
 
                 if (bracketLength == 2)
                 {
                     // if it's on double curly brackets, see if one is missing e.g. {{foo} or {{foo]}
-                    articleTextTemp = Regex.Replace(articleTextTemp, @"(?<={{[^{}<>]{1,400}[^{}<>\|])(?:\]}|}\]?)(?=[^{}])", @"}}");
+                    articleTextTemp = FUB9.Replace(articleTextTemp, @"}}");
 
                     // {foo}}
-                    articleTextTemp = Regex.Replace(articleTextTemp, @"(?<=[^{}<>\|]){(?=[^{}<>]{1,400}}})", @"{{");
+                    articleTextTemp = FUB10.Replace(articleTextTemp, @"{{");
 
                     // might be [[[[link]] or [[link]]]] so see if removing the two found square brackets makes it all balance
                     if (articleTextTemp.Substring(unbalancedBracket, Math.Min(4, articleTextTemp.Length - unbalancedBracket)).Equals("[[[[")
@@ -2221,6 +2292,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
         private static readonly HideText BulletExternalHider = new HideText(false, true, false);
 
+        //TODO: give these regexes, used by BulletExternalLinks, more meaningful names
+        private static readonly Regex BEL1 = new Regex(@"=\s*(?:external)?\s*links\s*=", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
+        private static readonly Regex BEL2 = new Regex("(\r\n|\n)?(\r\n|\n)(\\[?http)", RegexOptions.Compiled);
+
         // Covered by: LinkTests.TestBulletExternalLinks()
         /// <summary>
         /// Adds bullet points to external links after "external links" header
@@ -2229,7 +2304,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The modified article text.</returns>
         public static string BulletExternalLinks(string articleText)
         {
-            Match m = Regex.Match(articleText, @"=\s*(?:external)?\s*links\s*=", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
+            Match m = BEL1.Match(articleText);
 
             if (!m.Success)
                 return articleText;
@@ -2239,10 +2314,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string articleTextSubstring = articleText.Substring(intStart);
             articleText = articleText.Substring(0, intStart);
             articleTextSubstring = BulletExternalHider.HideMore(articleTextSubstring);
-            articleTextSubstring = Regex.Replace(articleTextSubstring, "(\r\n|\n)?(\r\n|\n)(\\[?http)", "$2* $3");
+            articleTextSubstring = BEL2.Replace(articleTextSubstring, "$2* $3");
 
             return articleText + BulletExternalHider.AddBackMore(articleTextSubstring);
         }
+
+        private static readonly Regex WordWhitespaceEndofline = new Regex(@"(\w+)\s+$", RegexOptions.Compiled);
 
         // Covered by: LinkTests.TestFixCategories()
         /// <summary>
@@ -2270,7 +2347,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 if (!Tools.IsValidTitle(m.Groups[1].Value))
                     continue;
                 string x = cat + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim()) +
-                           Regex.Replace(Tools.RemoveDiacritics(m.Groups[2].Value), @"(\w+)\s+$", "$1") + "]]";
+                           WordWhitespaceEndofline.Replace(Tools.RemoveDiacritics(m.Groups[2].Value), "$1") + "]]";
                 if (x != m.Value)
                     articleText = articleText.Replace(m.Value, x);
             }
@@ -2561,9 +2638,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return articleText;
         }
 
+        private static readonly Regex BracketedAtEndOfLine = new Regex(@" \(.*?\)$", RegexOptions.Compiled);
+        private static readonly Regex boldTitleAlready3 = new Regex(@"^\s*({{[^\{\}]+}}\s*)*'''('')?\s*\w", RegexOptions.Compiled);
         // Covered by: BoldTitleTests
         /// <summary>
-        /// '''Emboldens''' the first occurence of the article title, if not already bold
+        /// '''Emboldens''' the first occurrence of the article title, if not already bold
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">The title of the article.</param>
@@ -2576,14 +2655,14 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             noChange = true;
             string escTitle = Regex.Escape(articleTitle);
-            string escTitleNoBrackets = Regex.Escape(Regex.Replace(articleTitle, @" \(.*?\)$", ""));
+            string escTitleNoBrackets = Regex.Escape(BracketedAtEndOfLine.Replace(articleTitle, ""));
 
             string articleTextAtStart = articleText;
 
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
             string restOfArticle = (zerothSection.Length > 0) ? articleText.Replace(zerothSection, "") : "";
 
-            // limiation here in that can't hide image descriptions that may be above lead sentence without hiding the self links we are looking to correct
+            // There's a limitation here in that we can't hide image descriptions that may be above lead sentence without hiding the self links we are looking to correct
             string zerothSectionHidden = Hider.HideMore(zerothSection, false, false);
             string zerothSectionHiddenOriginal = zerothSectionHidden;
 
@@ -2619,7 +2698,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             Regex boldTitleAlready1 = new Regex(@"'''\s*(" + escTitle + "|" + Tools.TurnFirstToLower(escTitle) + @")\s*'''");
             Regex boldTitleAlready2 = new Regex(@"'''\s*(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + @")\s*'''");
-            Regex boldTitleAlready3 = new Regex(@"^\s*({{[^\{\}]+}}\s*)*'''('')?\s*\w");
 
             //if title in bold already exists in article, or page starts with something in bold, don't change anything
             if (boldTitleAlready1.IsMatch(articleText) || boldTitleAlready2.IsMatch(articleText)
@@ -3210,6 +3288,14 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return articleText;
         }
 
+        private static readonly Regex InUniverse = new Regex(@"{{[Ii]n-universe", RegexOptions.Compiled);
+        private static readonly Regex CategoryCharacters = new Regex(@"\[\[Category:[^\[\]]*?[Cc]haracters", RegexOptions.Compiled);
+        private static readonly Regex SeeAlsoOrMain = new Regex(@"{{(?:[Ss]ee\salso|[Mm]ain)\b", RegexOptions.Compiled);
+        private static readonly Regex InfoboxFraternity = new Regex(@"{{\s*[Ii]nfobox[\s_]+[Ff]raternity", RegexOptions.Compiled);
+        private static readonly Regex BoldedLink = new Regex(@"'''.*?\[\[[^\[\]]+\]\].*?'''", RegexOptions.Compiled);
+        private static readonly Regex BLPSources = new Regex(@"{{\s*[Bb]LP sources\b", RegexOptions.Compiled);
+        private static readonly Regex RefImprove = new Regex(@"{{\s*[Rr]efimproveBLP\b", RegexOptions.Compiled);
+
         /// <summary>
         /// determines whether the article is about a person by looking for persondata/birth death categories, bio stub etc. for en wiki only
         /// </summary>
@@ -3217,19 +3303,25 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public static bool IsArticleAboutAPerson(string articleText)
         {
-            if (!(Variables.LangCode == LangCodeEnum.en) || articleText.Contains(@"[[Category:Multiple people]]") || articleText.Contains(@"[[Category:Married couples") || articleText.Contains(@"[[Category:Fictional") || articleText.Contains(@"[[fictional character")
-                || Regex.IsMatch(articleText, @"{{[Ii]n-universe") || articleText.Contains(@"[[Category:Presidencies") || articleText.Contains(@"[[Category:Military careers")
-                || Regex.IsMatch(articleText, @"\[\[Category:[^\[\]]*?[Cc]haracters"))
+            if (Variables.LangCode != LangCodeEnum.en
+                    || articleText.Contains(@"[[Category:Multiple people]]")
+                    || articleText.Contains(@"[[Category:Married couples")
+                    || articleText.Contains(@"[[Category:Fictional")
+                    || articleText.Contains(@"[[fictional character")
+                    || InUniverse.IsMatch(articleText)
+                    || articleText.Contains(@"[[Category:Presidencies")
+                    || articleText.Contains(@"[[Category:Military careers")
+                    || CategoryCharacters.IsMatch(articleText))
                 return false;
 
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
 
             // not about a person if it's not the principle article on the subject
-            if (Regex.IsMatch(zerothSection, @"{{(?:[Ss]ee\salso|[Mm]ain)\b"))
+            if (SeeAlsoOrMain.IsMatch(zerothSection))
                 return false;
 
             // TODO a workaround for abuse of {{birth date and age}} template by many fraternity articles e.g. [[Zeta Phi Beta]]
-            if (Regex.IsMatch(articleText, @"{{\s*[Ii]nfobox[\s_]+[Ff]raternity"))
+            if (InfoboxFraternity.IsMatch(articleText))
                 return false;
 
             int dateBirthAndAgeCount = WikiRegexes.DateBirthAndAge.Matches(articleText).Count;
@@ -3238,22 +3330,25 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (dateBirthAndAgeCount > 1 || dateDeathAndAgeCount > 1)
                 return false;
 
-            if (WikiRegexes.Lifetime.IsMatch(articleText) || WikiRegexes.Persondata.Matches(articleText).Count == 1 || articleText.Contains(@"-bio-stub}}")
-                || articleText.Contains(@"[[Category:Living people"))
+            if (WikiRegexes.Lifetime.IsMatch(articleText)
+                    || WikiRegexes.Persondata.Matches(articleText).Count == 1
+                    || articleText.Contains(@"-bio-stub}}")
+                    || articleText.Contains(@"[[Category:Living people"))
                 return true;
 
             // articles with bold linking to another article may be linking to the main article on the person the article is about
             // e.g. '''military career of [[Napoleon Bonaparte]]'''
-            if (Regex.IsMatch(WikiRegexes.Template.Replace(zerothSection, ""), @"'''.*?\[\[[^\[\]]+\]\].*?'''"))
+            if (BoldedLink.IsMatch(WikiRegexes.Template.Replace(zerothSection, "")))
                 return false;
 
             if (dateBirthAndAgeCount == 1 || dateDeathAndAgeCount == 1)
                 return true;
 
-            return WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) ||
-                   WikiRegexes.LivingPeopleRegex2.IsMatch(articleText) ||
-                   WikiRegexes.BirthsCategory.IsMatch(articleText) ||
-                   Regex.IsMatch(articleText, @"{{\s*[Bb]LP sources\b") || Regex.IsMatch(articleText, @"{{\s*[Rr]efimproveBLP\b");
+            return WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)
+                    || WikiRegexes.LivingPeopleRegex2.IsMatch(articleText)
+                    || WikiRegexes.BirthsCategory.IsMatch(articleText)
+                    || BLPSources.IsMatch(articleText)
+                    || RefImprove.IsMatch(articleText);
         }
 
         /// <summary>
@@ -3283,6 +3378,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return newText;
         }
 
+        private static readonly Regex ThreeOrMoreDigits = new Regex(@"\d{3,}", RegexOptions.Compiled);
+        private static readonly Regex BirthsSortKey = new Regex(@"\|.*?\]\]", RegexOptions.Compiled);
         /// <summary>
         /// Adds [[Category:Living people]] to articles with a [[Category:XXXX births]] and no living people/deaths category, taking sortkey from births category if present
         /// </summary>
@@ -3306,7 +3403,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             string byear = m.Groups[1].Value;
 
-            if (Regex.IsMatch(byear, @"\d{3,}"))
+            if (ThreeOrMoreDigits.IsMatch(byear))
                 birthYear = int.Parse(byear);
 
             // if born < 1910 they're likely dead
@@ -3314,17 +3411,17 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 return articleText;
 
             // use any sortkey from 'XXXX births' category
-            string catKey = birthCat.Contains("|") ? Regex.Match(birthCat, "\\|.*?\\]\\]").Value : "]]";
+            string catKey = birthCat.Contains("|") ? BirthsSortKey.Match(birthCat).Value : "]]";
 
             return articleText + "[[Category:Living people" + catKey;
         }
 
-        private static readonly Regex PersonYearOfBirth = new Regex(@"(?<='''.{0,100}?)\( *[Bb]orn[^\)\.;]{1,150}?(?<!.*(?:[Dd]ied|&[nm]dash;|—).*)([12]?\d{3}(?: BC)?)\b[^\)]{0,200}");
-        private static readonly Regex PersonYearOfDeath = new Regex(@"(?<='''.{0,100}?)\([^\(\)]*?[Dd]ied[^\)\.;]+?([12]?\d{3}(?: BC)?)\b");
-        private static readonly Regex PersonYearOfBirthAndDeath = new Regex(@"^.{0,100}'''\s*\([^\)\r\n]*?(?<![Dd]ied)\b([12]?\d{3})\b[^\)\r\n]*?(-|–|—|&[nm]dash;)[^\)\r\n]*?([12]?\d{3})\b[^\)]{0,200}", RegexOptions.Singleline);
+        private static readonly Regex PersonYearOfBirth = new Regex(@"(?<='''.{0,100}?)\( *[Bb]orn[^\)\.;]{1,150}?(?<!.*(?:[Dd]ied|&[nm]dash;|—).*)([12]?\d{3}(?: BC)?)\b[^\)]{0,200}", RegexOptions.Compiled);
+        private static readonly Regex PersonYearOfDeath = new Regex(@"(?<='''.{0,100}?)\([^\(\)]*?[Dd]ied[^\)\.;]+?([12]?\d{3}(?: BC)?)\b", RegexOptions.Compiled);
+        private static readonly Regex PersonYearOfBirthAndDeath = new Regex(@"^.{0,100}'''\s*\([^\)\r\n]*?(?<![Dd]ied)\b([12]?\d{3})\b[^\)\r\n]*?(-|–|—|&[nm]dash;)[^\)\r\n]*?([12]?\d{3})\b[^\)]{0,200}", RegexOptions.Singleline | RegexOptions.Compiled);
 
-        private static readonly Regex UncertainWordings = new Regex(@"(?:\b(about|before|after|either|prior to|around|late|[Cc]irca|between|\d{3,4}(?:\]\])?/(?:\[\[)?\d{1,4}|or +(?:\[\[)?\d{3,})\b|\d{3} *\?|\bca?(?:'')?\.|\bca\b|\b(bef|abt)\.)");
-        private static readonly Regex ReignedRuledUnsure = new Regex(@"(?:\?|[Rr](?:uled|eign(?:ed)?\b)|\br\.|(chr|fl(?:\]\])?)\.|\b[Ff]lourished\b)");
+        private static readonly Regex UncertainWordings = new Regex(@"(?:\b(about|before|after|either|prior to|around|late|[Cc]irca|between|\d{3,4}(?:\]\])?/(?:\[\[)?\d{1,4}|or +(?:\[\[)?\d{3,})\b|\d{3} *\?|\bca?(?:'')?\.|\bca\b|\b(bef|abt)\.)", RegexOptions.Compiled);
+        private static readonly Regex ReignedRuledUnsure = new Regex(@"(?:\?|[Rr](?:uled|eign(?:ed)?\b)|\br\.|(chr|fl(?:\]\])?)\.|\b[Ff]lourished\b)", RegexOptions.Compiled);
 
         /// <summary>
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
@@ -3340,6 +3437,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             return newText;
         }
+
+        //TODO: give these regexes, used in FixPeopleCategories, more meaningful names
+        private static readonly Regex LongWikilink = new Regex(@"\[\[[^\[\]\|]{11,}(?:\|[^\[\]]+)?\]\]", RegexOptions.Compiled);
+        private static readonly Regex YearPossiblyWithBC = new Regex(@"\d{3,4}(?![\ds])(?: BC)?", RegexOptions.Compiled);
+        private static readonly Regex ThreeOrFourDigitNumber = new Regex(@"\d{3,4}", RegexOptions.Compiled);
+        private static readonly Regex DiedOrBaptised = new Regex(@"(^.*?)((?:&[nm]dash;|—|–|;|[Dd](?:ied|\.)|baptised).*)", RegexOptions.Compiled);
+        private static readonly Regex Circa = new Regex(@"{{[Cc]irca}}", RegexOptions.Compiled);
 
         /// <summary>
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
@@ -3361,7 +3465,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             // remove references and long wikilinks (but allow an ISO date) that may contain false positives of birth/death date
             zerothSection = WikiRegexes.Refs.Replace(zerothSection, " ");
-            zerothSection = Regex.Replace(zerothSection, @"\[\[[^\[\]\|]{11,}(?:\|[^\[\]]+)?\]\]", " ");
+            zerothSection = LongWikilink.Replace(zerothSection, " ");
 
             string yearstring, yearFromInfoBox = "";
 
@@ -3373,11 +3477,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             string fromInfoBox = GetInfoBoxFieldValue(zerothSection, @"(?:[Yy]earofbirth|Born|birth_?date)");
 
             if (fromInfoBox.Length > 0 && !UncertainWordings.IsMatch(fromInfoBox))
-                yearFromInfoBox = Regex.Match(fromInfoBox, @"\d{3,4}(?![\ds])(?: BC)?").Value;
+                yearFromInfoBox = YearPossiblyWithBC.Match(fromInfoBox).Value;
 
             // birth
             if (!WikiRegexes.BirthsCategory.IsMatch(articleText) && (PersonYearOfBirth.Matches(zerothSection).Count == 1 || WikiRegexes.DateBirthAndAge.IsMatch(zerothSection) || WikiRegexes.DeathDateAndAge.IsMatch(zerothSection)
-                || Regex.IsMatch(yearFromInfoBox, @"\d{3,4}")))
+                || ThreeOrFourDigitNumber.IsMatch(yearFromInfoBox)))
             {
                 // look for '{{birth date...' template first
                 yearstring = WikiRegexes.DateBirthAndAge.Match(articleText).Groups[1].Value;
@@ -3387,7 +3491,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     yearstring = WikiRegexes.DeathDateAndAge.Match(articleText).Groups[2].Value;
 
                 // thirdly use yearFromInfoBox
-                if (Regex.IsMatch(yearFromInfoBox, @"\d{3,4}"))
+                if (ThreeOrFourDigitNumber.IsMatch(yearFromInfoBox))
                     yearstring = yearFromInfoBox;
 
                 // look for '(born xxxx)'
@@ -3396,9 +3500,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     Match m = PersonYearOfBirth.Match(zerothSection);
 
                     // remove part beyond dash or died
-                    string birthpart = Regex.Replace(m.Value, @"(^.*?)((?:&[nm]dash;|—|–|;|[Dd](?:ied|\.)|baptised).*)", "$1");
+                    string birthpart = DiedOrBaptised.Replace(m.Value, "$1");
 
-                    if (Regex.IsMatch(birthpart, @"{{[Cc]irca}}"))
+                    if (Circa.IsMatch(birthpart))
                         alreadyUncertain = true;
 
                     birthpart = WikiRegexes.TemplateMultiLine.Replace(birthpart, " ");
@@ -3428,16 +3532,16 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             fromInfoBox = GetInfoBoxFieldValue(articleText, @"(?:[Yy]earofdeath|Died|death_?date)");
 
             if (fromInfoBox.Length > 0 && !UncertainWordings.IsMatch(fromInfoBox))
-                yearFromInfoBox = Regex.Match(fromInfoBox, @"\d{3,4}(?![\ds])(?: BC)?").Value;
+                yearFromInfoBox = YearPossiblyWithBC.Match(fromInfoBox).Value;
 
             if (!WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) && (PersonYearOfDeath.IsMatch(zerothSection) || WikiRegexes.DeathDate.IsMatch(zerothSection)
-                || Regex.IsMatch(yearFromInfoBox, @"\d{3,4}")))
+                || ThreeOrFourDigitNumber.IsMatch(yearFromInfoBox)))
             {
                 // look for '{{death date...' template first
                 yearstring = WikiRegexes.DeathDate.Match(articleText).Groups[1].Value;
 
                 // secondly use yearFromInfoBox
-                if (Regex.IsMatch(yearFromInfoBox, @"\d{3,4}"))
+                if (ThreeOrFourDigitNumber.IsMatch(yearFromInfoBox))
                     yearstring = yearFromInfoBox;
 
                 // look for '(died xxxx)'
@@ -3515,8 +3619,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
         private const string YearofDeathMissing = "Year of death missing";
 
-        private const string Cat4YearBirths = @"\[\[Category:\d{4} births(?:\s*\|[^\[\]]+)? *\]\]";
-        private const string Cat4YearDeaths = @"\[\[Category:\d{4} deaths(?:\s*\|[^\[\]]+)? *\]\]";
+        private static readonly Regex Cat4YearBirths = new Regex(@"\[\[Category:\d{4} births(?:\s*\|[^\[\]]+)? *\]\]", RegexOptions.Compiled);
+        private static readonly Regex Cat4YearDeaths = new Regex(@"\[\[Category:\d{4} deaths(?:\s*\|[^\[\]]+)? *\]\]", RegexOptions.Compiled);
 
         private static string YearOfBirthMissingCategory(string articleText)
         {
@@ -3524,12 +3628,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 return articleText;
 
             // if there is a 'year of birth missing' and a year of birth, remove the 'missing' category
-            if (CategoryMatch(articleText, YearOfBirthMissingLivingPeople) && Regex.IsMatch(articleText, Cat4YearBirths))
+            if (CategoryMatch(articleText, YearOfBirthMissingLivingPeople) && Cat4YearBirths.IsMatch(articleText))
                 articleText = RemoveCategory(YearOfBirthMissingLivingPeople, articleText);
             else
                 if (CategoryMatch(articleText, YearOfBirthMissing))
                 {
-                    if (Regex.IsMatch(articleText, Cat4YearBirths))
+                    if (Cat4YearBirths.IsMatch(articleText))
                         articleText = RemoveCategory(YearOfBirthMissing, articleText);
                 }
 
@@ -3538,12 +3642,13 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 articleText = RemoveCategory(YearOfBirthMissing, articleText);
 
             // if there's a year of death and a 'year of death missing', remove the latter
-            if (CategoryMatch(articleText, YearofDeathMissing) && Regex.IsMatch(articleText, Cat4YearDeaths))
+            if (CategoryMatch(articleText, YearofDeathMissing) && Cat4YearDeaths.IsMatch(articleText))
                 articleText = RemoveCategory(YearofDeathMissing, articleText);
 
             return articleText;
         }
 
+        private static readonly Regex InfoboxValue = new Regex(@"\s*\|[^{}\|=]+?\s*=\s*.*", RegexOptions.Compiled);
         /// <summary>
         /// Returns the value of the given field from the page's infobox, where available
         /// Returns a null string if the input article has no infobox, or the input field regex doesn't match on the infobox found
@@ -3573,11 +3678,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (fieldValue.Length > 0)
             {
                 // handle multiple fields on same line
-                if (Regex.IsMatch(fieldValue, @"\s*\|[^{}\|=]+?\s*=\s*.*"))
+                if (InfoboxValue.IsMatch(fieldValue))
                 {
                     // string fieldValueLocal = WikiRegexes.NestedTemplates.Replace(fieldValue, "");
 
-                    // fieldValueLocal = Regex.Replace(fieldValueLocal, @"\s*\|[^{}\|=]+?\s*=\s*.*", "");
+                    // fieldValueLocal = InfoboxValue.Replace(fieldValueLocal, "");
                     return "";
                 }
 
@@ -3635,6 +3740,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return articleText;
         }
 
+        private static readonly Regex TemplateParameter2 = new Regex(" \\{\\{\\{2\\|\\}\\}\\}", RegexOptions.Compiled);
         // NOT covered
         /// <summary>
         /// Substitutes some user talk templates
@@ -3653,7 +3759,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             talkPageText = Tools.ExpandTemplate(talkPageText, talkPageTitle, regexes, true);
 
-            talkPageText = Regex.Replace(talkPageText, " \\{\\{\\{2\\|\\}\\}\\}", "");
+            talkPageText = TemplateParameter2.Replace(talkPageText, "");
             return talkPageText.Replace("REPLACE_THIS_TEXT", "{{{subst");
         }
 
@@ -3863,7 +3969,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         private static string StubChecker(Match m)
         {
             // Replace each Regex cc match with the number of the occurrence.
-            return Regex.IsMatch(m.Value, Variables.SectStub) ? m.Value : "";
+            return Variables.SectStubRegex.IsMatch(m.Value) ? m.Value : "";
         }
 
         // Covered by UtilityFunctionTests.NoBotsTests()
