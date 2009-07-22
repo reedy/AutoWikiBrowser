@@ -130,15 +130,9 @@ namespace AutoWikiBrowser
 
             //disable language selection for single language projects
             cmboLang.Enabled = (prj < ProjectEnum.species);
-            string temp = "";
-            try
-            {
-                temp = cmboLang.SelectedItem.ToString();
-            }
-            catch (NullReferenceException)
-            {
-                // Just loading up
-            }
+
+            string temp = (cmboLang.SelectedItem != null) ? cmboLang.SelectedItem.ToString() : "";
+
             cmboLang.Items.Clear();
             List<string> langs;
 
@@ -177,10 +171,12 @@ namespace AutoWikiBrowser
                     break;
             }
             cmboLang.Items.AddRange(langs.ToArray());
-            if (temp != "")
+
+            if (!string.IsNullOrEmpty(temp))
             {
                 cmboLang.SelectedIndex = cmboLang.Items.IndexOf(temp);
             }
+
             if (prj == ProjectEnum.custom || prj == ProjectEnum.wikia)
             {
                 cmboCustomProject.Visible = true;
