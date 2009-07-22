@@ -112,6 +112,9 @@ function htmlstats(){
 	$row = $db->unique_username_count();
 	PrintTableRow('Number of Unique Users<sup><a href="#1">1</a></sup>', FormatNumber($row['UniqueUsersCount']));
 	
+	$row = $db->language_count();
+	PrintTableRow('Number of Unique Languages', FormatNumber($row['langcount']));
+	
 	//Number of plugins known
 	$row = $db->plugin_count();
 	PrintTableRow('Number of Plugins Known', FormatNumber($row['Plugins']));

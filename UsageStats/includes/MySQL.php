@@ -254,7 +254,7 @@ class DB {
 	}
 	
 	function username_count() {
-		return $this->db_mysql_query_single_row('SELECT Count(*) AS usercount FROM lkpUsers WHERE ((Not (lkpUsers.User)="<Withheld>"))', 'username_count') ;
+		return $this->db_mysql_query_single_row('SELECT Count(*) AS usercount FROM lkpUsers WHERE (Not (lkpUsers.User)="<Withheld>")', 'username_count') ;
 	}
 	
 	function unique_username_count() {
@@ -265,12 +265,16 @@ WHERE ((Not (lkpUsers.User)="<Withheld>"))
 GROUP BY sessions.User, lkpWikis.Site, lkpWikis.LangCode) AS UniqueUsers', 'unique_username_count');
 	}
 	
+	function language_count() {
+		return $this->db_mysql_query_single_row('SELECT count(*) AS langcount FROM (SELECT DISTINCT language FROM lkpCultures GROUP BY language) AS UniqueLangs', 'language_count') ;
+	}
+	
 	function plugin_count() {
-		return $this->db_mysql_query_single_row(' SELECT COUNT( * ) AS Plugins FROM lkpPlugins', 'plugin_count') ;
+		return $this->db_mysql_query_single_row('SELECT COUNT(*) AS Plugins FROM lkpPlugins', 'plugin_count') ;
 	}
 	
 	function wiki_count() {
-		return $this->db_mysql_query_single_row(' SELECT COUNT( * ) AS Wikis FROM lkpWikis', 'wiki_count') ;
+		return $this->db_mysql_query_single_row('SELECT COUNT(*) AS Wikis FROM lkpWikis', 'wiki_count') ;
 	}
 	
 	function sites() {
