@@ -35,6 +35,7 @@ namespace WikiFunctions.API
     {
         private Thread TheThread;
         private readonly Control ParentControl;
+        private bool InCrossThreadCall;
 
         public AsyncApiEdit(string url)
             :this(url, null, false)
@@ -216,7 +217,9 @@ namespace WikiFunctions.API
             }
             else
             {
+                InCrossThreadCall = true;
                 ParentControl.Invoke(method, args);
+                InCrossThreadCall = false;
             }
         }
 
@@ -432,6 +435,8 @@ namespace WikiFunctions.API
 
         public void Abort()
         {
+            if (InCrossThreadCall) return; // otherwise we'll deadlock
+
             if (TheThread != null)
                 TheThread.Abort();
 
