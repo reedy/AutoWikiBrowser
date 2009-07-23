@@ -196,6 +196,18 @@ bar"));
         }
 
         [Test]
+        public void LineEndings()
+        {
+            Assert.AreEqual("", Tools.ConvertToLocalLineEndings(""));
+            Assert.AreEqual("foo bar", Tools.ConvertToLocalLineEndings("foo bar"));
+            Assert.AreEqual("\r\nfoo\r\nbar\r\n", Tools.ConvertToLocalLineEndings("\nfoo\nbar\n"));
+
+            Assert.AreEqual("", Tools.ConvertFromLocalLineEndings(""));
+            Assert.AreEqual("foo bar", Tools.ConvertFromLocalLineEndings("foo bar"));
+            Assert.AreEqual("\nfoo\nbar\n", Tools.ConvertFromLocalLineEndings("\r\nfoo\r\nbar\r\n"));
+        }
+
+        [Test]
         public void ReplacePartOfString()
         {
             Assert.AreEqual("abc123ef", Tools.ReplacePartOfString("abcdef", 3, 1, "123"));
@@ -439,7 +451,7 @@ bar"));
 
         const string _100 = "123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 1234567890";
 
-        [Test, Ignore] // TODO fix failing tests
+        [Test, Ignore] // TODO: fix failing tests
         public void TrimEditSummary()
         {
             Assert.AreEqual("test using [[WP:AWB]]", Tools.TrimEditSummary("test", " using [[WP:AWB]]"));
@@ -804,10 +816,12 @@ Jones", "*"));
         [Test]
         public void ToTalkOnList()
         {
-            List<Article> l = new List<Article>();
-            l.Add(new Article("Foo"));
-            l.Add(new Article("Talk:Foo bar"));
-            l.Add(new Article("File:Foo"));
+            List<Article> l = new List<Article>
+                                  {
+                                      new Article("Foo"),
+                                      new Article("Talk:Foo bar"),
+                                      new Article("File:Foo")
+                                  };
             CollectionAssert.AreEquivalent(Tools.ConvertToTalk(l),
                 new[] { "Talk:Foo", "Talk:Foo bar", "File talk:Foo" });
         }
@@ -826,10 +840,12 @@ Jones", "*"));
         [Test]
         public void FromTalkOnList()
         {
-            List<Article> l = new List<Article>();
-            l.Add(new Article("Foo"));
-            l.Add(new Article("Talk:Foo bar"));
-            l.Add(new Article("User talk:Foo"));
+            List<Article> l = new List<Article>
+                                  {
+                                      new Article("Foo"),
+                                      new Article("Talk:Foo bar"),
+                                      new Article("User talk:Foo")
+                                  };
             CollectionAssert.AreEquivalent(Tools.ConvertFromTalk(l),
                 new[] { "Foo", "Foo bar", "User:Foo" });
         }

@@ -294,27 +294,27 @@ Article started off pretty good, <ref name = 'Tim1'/><ref name = 'John3' >So say
 End of."));
 
             // no changes
-            const string A = @"'''Article''' is great.<ref name = ""Fred3"">So says Fred</ref>
+            const string a = @"'''Article''' is great.<ref name = ""Fred3"">So says Fred</ref>
 Article started off pretty good, <ref name = ""Fred3"" /> <ref name = ""John2"" >So says John</ref> and finished well.
 End of.";
-            const string B = @"'''Article''' is great.<ref name = ""Fred4"">So says Fred</ref>
+            const string b = @"'''Article''' is great.<ref name = ""Fred4"">So says Fred</ref>
 Article started off pretty good, <ref>So says Tim</ref> <ref>So says John</ref> and finished well.
 End of.";
-            const string C = @"'''Article''' is great.<ref name = ""Fred5"">So says Fred</ref>
+            const string c = @"'''Article''' is great.<ref name = ""Fred5"">So says Fred</ref>
 Article started off pretty good,<ref name = ""Fred5"" /> <ref>So says John</ref> and finished well.
 End of.";
-            const string D = @"'''Article''' is great.<ref name = ""Fred6"">So says Fred</ref>
+            const string d = @"'''Article''' is great.<ref name = ""Fred6"">So says Fred</ref>
 Article started off pretty good, <ref>So says John</ref> <ref name = ""A"">So says A</ref> and finished well.
 End of.";
-            const string E = @"'''Article''' is great.<ref name = ""John2"" />
+            const string e = @"'''Article''' is great.<ref name = ""John2"" />
 Article is new.<ref name = ""Fred7"">So says Fred</ref>
 Article started off pretty good, <ref name = ""John2"" >So says John</ref> <ref name = ""Fred7"" /> and finished well.
 End of.";
-            Assert.AreEqual(A, Parsers.ReorderReferences(A));
-            Assert.AreEqual(B, Parsers.ReorderReferences(B));
-            Assert.AreEqual(C, Parsers.ReorderReferences(C));
-            Assert.AreEqual(D, Parsers.ReorderReferences(D));
-            Assert.AreEqual(E, Parsers.ReorderReferences(E));
+            Assert.AreEqual(a, Parsers.ReorderReferences(a));
+            Assert.AreEqual(b, Parsers.ReorderReferences(b));
+            Assert.AreEqual(c, Parsers.ReorderReferences(c));
+            Assert.AreEqual(d, Parsers.ReorderReferences(d));
+            Assert.AreEqual(e, Parsers.ReorderReferences(e));
         }
 
         [Test]
@@ -330,10 +330,10 @@ End of.";
             Assert.AreEqual(@"now<ref name='Fred'>The Honourable Fred Smith, 2002</ref>but later than<ref name=""Fred""/> was", Parsers.DuplicateNamedReferences(@"now<ref name='Fred'>The Honourable Fred Smith, 2002</ref>but later than<ref name=""Fred"" >The Honourable Fred Smith, 2002< /ref> was"));
 
             // no Matches
-            string a = @"now<ref name=""Fred"">The Honourable Fred Smith, 2002</ref>but later than<ref name=""Fred"">The Honourable Fred Smith, 2005</ref> was"; // ref text different year
-            string b = @"now<ref name=""Fred"">The Honourable Fred Smith, 2004</ref>but later than<ref name=""Fred"">The Honourable FRED SMITH, 2004</ref> was"; // ref text has different case
-            string c = @"now<ref name=""Fred"">The Honourable Fred Smith, 2003</ref>but later than<ref name=""Fred2"">The Honourable Fred Smith, 2003</ref> was"; // ref name different
-            string c2 = @"now<ref name=""Fred"">Fred Smith, 2003</ref>but later than<ref name=""Fred"">Fred Smith, 2003</ref> was"; // too short
+            const string a = @"now<ref name=""Fred"">The Honourable Fred Smith, 2002</ref>but later than<ref name=""Fred"">The Honourable Fred Smith, 2005</ref> was"; // ref text different year
+            const string b = @"now<ref name=""Fred"">The Honourable Fred Smith, 2004</ref>but later than<ref name=""Fred"">The Honourable FRED SMITH, 2004</ref> was"; // ref text has different case
+            const string c = @"now<ref name=""Fred"">The Honourable Fred Smith, 2003</ref>but later than<ref name=""Fred2"">The Honourable Fred Smith, 2003</ref> was"; // ref name different
+            const string c2 = @"now<ref name=""Fred"">Fred Smith, 2003</ref>but later than<ref name=""Fred"">Fred Smith, 2003</ref> was"; // too short
 
             Assert.AreEqual(a, Parsers.DuplicateNamedReferences(a));
             Assert.AreEqual(b, Parsers.DuplicateNamedReferences(b));
@@ -349,8 +349,8 @@ End of.";
             Assert.AreEqual(@"now<ref name='Bert'>The Honourable Bert Smith, 2002</ref>but later than<ref name=""Bert""/> was", Parsers.DuplicateNamedReferences(@"now<ref name='Bert'>The Honourable Bert Smith, 2002</ref>but later than<ref>The Honourable Bert Smith, 2002< /ref> was"));
 
             // no Matches
-            string d = @"now<ref name=""Bert"">The Honourable Bert Smith, 2002</ref>but later than<ref>The Honourable Bert Smith, 2005</ref> was";
-            string e = @"now<ref name=""Bert"">The Honourable Bert Smith, 2004</ref>but later than<ref>The Honourable BERT SMITH, 2004</ref> was";
+            const string d = @"now<ref name=""Bert"">The Honourable Bert Smith, 2002</ref>but later than<ref>The Honourable Bert Smith, 2005</ref> was";
+            const string e = @"now<ref name=""Bert"">The Honourable Bert Smith, 2004</ref>but later than<ref>The Honourable BERT SMITH, 2004</ref> was";
 
             Assert.AreEqual(d, Parsers.DuplicateNamedReferences(d));
             Assert.AreEqual(e, Parsers.DuplicateNamedReferences(e)); // reference text casing
@@ -364,8 +364,8 @@ End of.";
             Assert.AreEqual(@"now<ref name=""John 2""/>but later than<ref name=""John 2"" > The Honourable John Smith, 2002  </ref> was", Parsers.DuplicateNamedReferences(@"now<ref>The Honourable John Smith, 2002</ref>but later than<ref name=""John 2"" > The Honourable John Smith, 2002  </ref> was"));
 
             // no Matches
-            string f = @"now<ref>The Honourable John Smith, 2002</ref>but later than<ref name=""John"">The Honourable John Smith, 2005</ref> was";
-            string g = @"now<ref>The Honourable John Smith, 2004</ref>but later than<ref name=""John"">The HONOURABLE JOHN SMITH, 2004</ref> was";
+            const string f = @"now<ref>The Honourable John Smith, 2002</ref>but later than<ref name=""John"">The Honourable John Smith, 2005</ref> was";
+            const string g = @"now<ref>The Honourable John Smith, 2004</ref>but later than<ref name=""John"">The HONOURABLE JOHN SMITH, 2004</ref> was";
 
             Assert.AreEqual(f, Parsers.DuplicateNamedReferences(f));
             Assert.AreEqual(g, Parsers.DuplicateNamedReferences(g)); // reference text casing
@@ -548,86 +548,86 @@ End of.";
         public void FixPeopleCategoriesTests()
         {
             // must be about a person
-            string a0 = @"'''Fred Smith''' (born 1960) is a bloke.";
+            const string a0 = @"'''Fred Smith''' (born 1960) is a bloke.";
             Assert.AreEqual(a0, Parsers.FixPeopleCategories(a0));
 
             // birth
-            string a1 = @"'''Fred Smith''' (born 1960) is a bloke. {{Persondata}}";
-            string b2 = @"[[Category:1960 births]]";
+            const string a1 = @"'''Fred Smith''' (born 1960) is a bloke. {{Persondata}}";
+            const string b2 = @"[[Category:1960 births]]";
             Assert.AreEqual(a1 + "\r\n" + b2, Parsers.FixPeopleCategories(a1));
 
-            string a2 = a1 + "\r\n" + @"[[Category:1990 deaths]]";
+            const string a2 = a1 + "\r\n" + @"[[Category:1990 deaths]]";
             Assert.AreEqual(a2 + "\r\n" + b2, Parsers.FixPeopleCategories(a2));
 
-            string b5 = @"Some words {{birth date and age|1960|01|9}}";
+            const string b5 = @"Some words {{birth date and age|1960|01|9}}";
             Assert.AreEqual(b5 + "\r\n" + b2, Parsers.FixPeopleCategories(b5));
 
-            string b6 = @"'''Fred Lerdahl''' (born [[March 10]] [[1960]]) [[Category:Living people]]";
+            const string b6 = @"'''Fred Lerdahl''' (born [[March 10]] [[1960]]) [[Category:Living people]]";
             Assert.AreEqual(b6 + "\r\n" + b2, Parsers.FixPeopleCategories(b6));
 
-            string b7 = @"'''William Arthur O'Donnell''' (born May 4, 1960 in [[Springhill, Nova Scotia]], Canada) is [[Category:Living people]]";
+            const string b7 = @"'''William Arthur O'Donnell''' (born May 4, 1960 in [[Springhill, Nova Scotia]], Canada) is [[Category:Living people]]";
             Assert.AreEqual(b7 + "\r\n" + b2, Parsers.FixPeopleCategories(b7));
 
-            string b8 = @"'''Burrell Carver Smith''' (born [[December 16]], [[1960]] in upstate New York) [[Category:Living people]]";
+            const string b8 = @"'''Burrell Carver Smith''' (born [[December 16]], [[1960]] in upstate New York) [[Category:Living people]]";
             Assert.AreEqual(b8 + "\r\n" + b2, Parsers.FixPeopleCategories(b8));
 
-            string b9 = @"'''Fredro Starr''' (born '''Fredro Scruggs''' on [[April 18]] [[1960]] in [[Jamaica, Queens]]) is an [[Category:Living people]]";
+            const string b9 = @"'''Fredro Starr''' (born '''Fredro Scruggs''' on [[April 18]] [[1960]] in [[Jamaica, Queens]]) is an [[Category:Living people]]";
             Assert.AreEqual(b9 + "\r\n" + b2, Parsers.FixPeopleCategories(b9));
 
-            string b10 = @"'''Phillip Rhodes''' (born [[May 26]], [[1960]]) was a [[Category:Living people]]";
+            const string b10 = @"'''Phillip Rhodes''' (born [[May 26]], [[1960]]) was a [[Category:Living people]]";
             Assert.AreEqual(b10 + "\r\n" + b2, Parsers.FixPeopleCategories(b10));
 
             // no matches when two birth dates in article
-            string b11 = @"'''Kid 'n Play''' was a [[hip-hop music|hip-hop]] and [[comedy]] duo from [[New York City]] that was popular in the late 1980s and early 1990s. The duo comprised '''[[Christopher Kid Reid]]''' (born [[April 5]] [[1964]] in [[The Bronx|The Bronx, New York City]]) 
+            const string b11 = @"'''Kid 'n Play''' was a [[hip-hop music|hip-hop]] and [[comedy]] duo from [[New York City]] that was popular in the late 1980s and early 1990s. The duo comprised '''[[Christopher Kid Reid]]''' (born [[April 5]] [[1964]] in [[The Bronx|The Bronx, New York City]]) 
 and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[July 10]] [[1962]] in [[Queens, New York City]]). Besides their successful musical careers, Kid 'n Play are also notable for branching out into acting. [[Category:Living people]]";
             Assert.AreEqual(b11, Parsers.FixPeopleCategories(b11));
 
             // death
-            string a3 = @"'''Fred Smith''' (died 1960) is a bloke. {{Persondata}}";
-            string b3 = @"[[Category:1960 deaths]]";
+            const string a3 = @"'''Fred Smith''' (died 1960) is a bloke. {{Persondata}}";
+            const string b3 = @"[[Category:1960 deaths]]";
             Assert.AreEqual(a3 + "\r\n" + b3, Parsers.FixPeopleCategories(a3));
 
-            string a4 = a3 + "\r\n" + @"[[Category:1990 births]]";
+            const string a4 = a3 + "\r\n" + @"[[Category:1990 births]]";
             Assert.AreEqual(a4 + "\r\n" + b3, Parsers.FixPeopleCategories(a4));
 
-            string d = @"'''Fred Smith''' (born 11 May 1950 - died 17 August 1990) is a bloke.
+            const string d = @"'''Fred Smith''' (born 11 May 1950 - died 17 August 1990) is a bloke.
 [[Category:1960 births|Smith, Fred]]";
             Assert.AreEqual(d + "\r\n" + @"[[Category:1990 deaths|Smith, Fred]]", Parsers.FixPeopleCategories(d));
 
-            string d2 = @"'''Johnny Sandon''' (originally named '''Billy Beck''') (born in 1960, in Lıverpool, Lancashire died 23 December 1990) was {{Persondata}}";
+            const string d2 = @"'''Johnny Sandon''' (originally named '''Billy Beck''') (born in 1960, in Lıverpool, Lancashire died 23 December 1990) was {{Persondata}}";
             Assert.AreEqual(d2 + "\r\n" + b2 + "\r\n" + @"[[Category:1990 deaths]]", Parsers.FixPeopleCategories(d2));
 
             // BC death
-            string d3 = @"'''Aeacides''' ({{lang-el|Aἰακίδης}}; died 313 BC), king {{persondata}}";
+            const string d3 = @"'''Aeacides''' ({{lang-el|Aἰακίδης}}; died 313 BC), king {{persondata}}";
             Assert.AreEqual(d3 + "\r\n" + @"[[Category:313 BC deaths]]", Parsers.FixPeopleCategories(d3));
 
-            string d4 = @"Some words {{death date and age|1960|01|9}}";
+            const string d4 = @"Some words {{death date and age|1960|01|9}}";
             Assert.AreEqual(d4 + "\r\n" + @"[[Category:1960 deaths]]", Parsers.FixPeopleCategories(d4));
 
             // no matches if not identified as born
-            string b1 = @"'''Fred Smith''' is a bloke.";
+            const string b1 = @"'''Fred Smith''' is a bloke.";
             Assert.AreEqual(b1, Parsers.FixPeopleCategories(b1));
 
             // no matches if already categorised
-            string a = @"'''Fred Smith''' (born 1960) is a bloke.
+            const string a = @"'''Fred Smith''' (born 1960) is a bloke.
 [[Category:1960 births]]
 [[Category:1990 deaths]]";
-            string b = @"'''Fred Smith''' is a bloke.
+            const string b = @"'''Fred Smith''' is a bloke.
 [[Category:1960 births]]
 [[Category:1990 deaths]]";
-            string c = @"'''Fred Smith''' is a bloke.
+            const string c = @"'''Fred Smith''' is a bloke.
 [[Category:1960 births|Smith, Fred]]
 [[Category:1990 deaths|Smith, Fred]]";
-            string e = @"'''Fred Smith''' (born [[1950]]) is a bloke.
+            const string e = @"'''Fred Smith''' (born [[1950]]) is a bloke.
 [[Category:1950 births|Smith, Fred]]
 {{Recentlydeceased}}";
-            string f = @"'''Fred Smith''' (born 1950) is a bloke.
+            const string f = @"'''Fred Smith''' (born 1950) is a bloke.
 [[Category:1950 births|Smith, Fred]]
 {{recentlydeceased}}";
-            string g = @"'''Fred Smith''' (born 1950) is a bloke.
+            const string g = @"'''Fred Smith''' (born 1950) is a bloke.
 [[Category:1950 births|Smith, Fred]]
 [[Category:Year of death missing]]";
-            string h = @"'''Fred Smith''' (born 1950) is a bloke. {{lifetime|||Smith}}";
+            const string h = @"'''Fred Smith''' (born 1950) is a bloke. {{lifetime|||Smith}}";
 
             Assert.AreEqual(a, Parsers.FixPeopleCategories(a));
             Assert.AreEqual(b, Parsers.FixPeopleCategories(b));
@@ -638,58 +638,58 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             Assert.AreEqual(h, Parsers.FixPeopleCategories(h));
 
             // year of birth uncertain
-            string u = "\r\n" + @"[[Category:Year of birth uncertain]]";
+            const string u = "\r\n" + @"[[Category:Year of birth uncertain]]";
 
-            string u2 = @"'''Charles Meik''' (born around 1330 in [[Ghent]] - [[22 July]] [[1387]]) {{Persondata}}";
+            const string u2 = @"'''Charles Meik''' (born around 1330 in [[Ghent]] - [[22 July]] [[1387]]) {{Persondata}}";
             Assert.AreEqual(u2 + u + @"
 [[Category:1387 deaths]]", Parsers.FixPeopleCategories(u2));
 
-            string u2a = @"'''Charles Meik''' (born either 1330 or 1331 in [[Ghent]] - [[22 July]] [[1387]]) {{Persondata}}";
+            const string u2a = @"'''Charles Meik''' (born either 1330 or 1331 in [[Ghent]] - [[22 July]] [[1387]]) {{Persondata}}";
             Assert.AreEqual(u2a + u + @"
 [[Category:1387 deaths]]", Parsers.FixPeopleCategories(u2a));
 
-            string u3 = @"'''Yusuf Ibn Muhammad Ibn Yusuf al-Fasi''' ([[1530]]/[[1531|31]]{{Fact|date=February 2007}} in [[Ksar-el-Kebir]], [[Morocco]] – 14 August [[1604]] in [[Fes, Morocco]]) {{persondata}}";
+            const string u3 = @"'''Yusuf Ibn Muhammad Ibn Yusuf al-Fasi''' ([[1530]]/[[1531|31]]{{Fact|date=February 2007}} in [[Ksar-el-Kebir]], [[Morocco]] – 14 August [[1604]] in [[Fes, Morocco]]) {{persondata}}";
             Assert.AreEqual(u3 + u + @"
 [[Category:1604 deaths]]", Parsers.FixPeopleCategories(u3));
 
             // no matches when approximate year of birth
-            string b12 = @"'''Judith Victor Grabiner''' (born about 1938) is {{Persondata}}";
+            const string b12 = @"'''Judith Victor Grabiner''' (born about 1938) is {{Persondata}}";
             Assert.AreEqual(b12 + u, Parsers.FixPeopleCategories(b12));
 
-            string b13 = @"'''Judith Victor Grabiner''' (born circa 1938) is {{Persondata}}";
+            const string b13 = @"'''Judith Victor Grabiner''' (born circa 1938) is {{Persondata}}";
             Assert.AreEqual(b13 + u, Parsers.FixPeopleCategories(b13));
 
-            string b14 = @"'''Judith Victor Grabiner''' (born before 1938) is {{Persondata}}";
+            const string b14 = @"'''Judith Victor Grabiner''' (born before 1938) is {{Persondata}}";
             Assert.AreEqual(b14 + u, Parsers.FixPeopleCategories(b14));
 
-            string b15 = @"'''Judith Victor Grabiner''' (born 1938 or 1939) is {{Persondata}}";
+            const string b15 = @"'''Judith Victor Grabiner''' (born 1938 or 1939) is {{Persondata}}";
             Assert.AreEqual(b15 + u, Parsers.FixPeopleCategories(b15));
 
             // born BC
-            string b16 = @"'''Phillipus Rhodicus''' (born 220 BC) was a {{Persondata}}";
+            const string b16 = @"'''Phillipus Rhodicus''' (born 220 BC) was a {{Persondata}}";
             Assert.AreEqual(b16 + "\r\n" + @"[[Category:220 BC births]]", Parsers.FixPeopleCategories(b16));
 
             // no change: birth date not present so not 'uncertain'
-            string n1 = @"'''Thomas F. Goreau''' (born in [[Germany]], died 1970 in [[Jamaica]]) was [[Category:1970 deaths]]";
+            const string n1 = @"'''Thomas F. Goreau''' (born in [[Germany]], died 1970 in [[Jamaica]]) was [[Category:1970 deaths]]";
             Assert.AreEqual(n1, Parsers.FixPeopleCategories(n1));
 
-            string n2 = @"'''Charles Meik''' (born? - 1923) was an {{Persondata}}";
+            const string n2 = @"'''Charles Meik''' (born? - 1923) was an {{Persondata}}";
             Assert.AreEqual(n2, Parsers.FixPeopleCategories(n2));
 
-            string n2a = @"'''Anatoly Rasskazov''' (born 1960(?)) was {{persondata}}";
+            const string n2a = @"'''Anatoly Rasskazov''' (born 1960(?)) was {{persondata}}";
             Assert.AreEqual(n2a, Parsers.FixPeopleCategories(n2a));
 
             // no changes
-            string n3 = @"'''Johannes Widmann''' (born c. 1460 in [[Cheb|Eger]]; died after 1498 in [[Leipzig]]) [[Category:1460s births]]";
+            const string n3 = @"'''Johannes Widmann''' (born c. 1460 in [[Cheb|Eger]]; died after 1498 in [[Leipzig]]) [[Category:1460s births]]";
             Assert.AreEqual(n3, Parsers.FixPeopleCategories(n3));
 
-            string n4 = @"'''John Hulme''' (born circa 1970) is [[Category:Living people]]
+            const string n4 = @"'''John Hulme''' (born circa 1970) is [[Category:Living people]]
 [[Category:Year of birth missing (living people)]]";
 
             Assert.AreEqual(n4, Parsers.FixPeopleCategories(n4));
 
             // don't use born info if after died info in text
-            string n5 = @"'''Alexander II''' ({{lang-ka|ალექსანდრე II, '''''Aleksandre II'''''}}) (died [[April 1]], [[1510]]) was a. 
+            const string n5 = @"'''Alexander II''' ({{lang-ka|ალექსანდრე II, '''''Aleksandre II'''''}}) (died [[April 1]], [[1510]]) was a. 
 * Prince David (born 1505)
 [[Category:1510 deaths]]";
             Assert.AreEqual(n5, Parsers.FixPeopleCategories(@"'''Alexander II''' ({{lang-ka|ალექსანდრე II, '''''Aleksandre II'''''}}) (died [[April 1]], [[1510]]) was a. 
@@ -697,23 +697,23 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
 [[Category:1510 deaths]]"));
 
             // don't pick up outside of zeroth section
-            string n6 = @"foo {{persondata}}
+            const string n6 = @"foo {{persondata}}
 == hello ==
 {{birth date and age|1960|01|9}}";
             Assert.AreEqual(n6, Parsers.FixPeopleCategories(n6));
 
             // don't grab a number out of a reference
-            string n7 = @"'''Buck Peterson''' (born in [[Minnesota, United States]]<ref name=extreme_1970/>) {{persondata}}";
+            const string n7 = @"'''Buck Peterson''' (born in [[Minnesota, United States]]<ref name=extreme_1970/>) {{persondata}}";
 
             Assert.AreEqual(n7, Parsers.FixPeopleCategories(n7));
 
             // don't accept if dash before year: could be death date
-            string n8 = @"'''Wilhem Heinrich Kramer''' (born [[Dresden]] – 1765) {{persondata}}";
+            const string n8 = @"'''Wilhem Heinrich Kramer''' (born [[Dresden]] – 1765) {{persondata}}";
 
             Assert.AreEqual(n8, Parsers.FixPeopleCategories(n8));
 
             // date of death too far from bold name to be correct
-            string n9 = @"'''Æthelstan''' was king of [[East Anglia]] in the 9th century.
+            const string n9 = @"'''Æthelstan''' was king of [[East Anglia]] in the 9th century.
 
 As with the other kings of East Anglia, there is very little textual information available. He did, however, leave an extensive coinage of both portrait and non-portrait type (for example, Coins of England and the United Kingdom, Spink and Son, London, 2005 and the Fitzwilliam Museum database of early medieval coins. [http://www.fitzmuseum.cam.ac.uk/coins/emc] 
 
@@ -722,21 +722,21 @@ It is suggested that Æthelstan was probably the king who defeated and killed th
             // date of death over newline – too far away to be correct
             Assert.AreEqual(n9, Parsers.FixPeopleCategories(n9));
 
-            string n10 = @"'''Fred''' blah
+            const string n10 = @"'''Fred''' blah
 died 2002
 {{persondata}}";
 
             Assert.AreEqual(n10, Parsers.FixPeopleCategories(n10));
 
             // don't grab numbers out of long wikilinks
-            string n11 = @"'''Marcus Caecilius Metellus''' was a son of [[Lucius Caecilius Metellus (died 221 BC)|Lucius Caecilius Metellus]]. Deported {{persondata}}";
+            const string n11 = @"'''Marcus Caecilius Metellus''' was a son of [[Lucius Caecilius Metellus (died 221 BC)|Lucius Caecilius Metellus]]. Deported {{persondata}}";
 
             Assert.AreEqual(n11, Parsers.FixPeopleCategories(n11));
 
             // birth and death
-            string bd1 = @"''Foo''' (8 May 1920 - 11 June 2004) was {{persondata}}";
+            const string bd1 = @"''Foo''' (8 May 1920 - 11 June 2004) was {{persondata}}";
 
-            string bd1a = @"
+            const string bd1a = @"
 [[Category:1920 births]]", bd1b = @"
 [[Category:2004 deaths]]";
 
@@ -746,10 +746,10 @@ died 2002
 
             Assert.AreEqual(bd1 + bd1b + bd1a, Parsers.FixPeopleCategories(bd1 + bd1b));
 
-            string bd2 = @"''Foo''' (8 May 1920 – 11 June 2004) was {{persondata}}";
+            const string bd2 = @"''Foo''' (8 May 1920 – 11 June 2004) was {{persondata}}";
             Assert.AreEqual(bd2 + bd1a + bd1b, Parsers.FixPeopleCategories(bd2));
 
-            string bd3 = @"'''Foo''' (8 May 1920 somewhere or other&ndash;11 June 2004) was {{persondata}}";
+            const string bd3 = @"'''Foo''' (8 May 1920 somewhere or other&ndash;11 June 2004) was {{persondata}}";
             Assert.AreEqual(bd3 + bd1a + bd1b, Parsers.FixPeopleCategories(bd3));
 
             // approximate date check still applied
@@ -757,127 +757,127 @@ died 2002
             Assert.AreEqual(bd4 + u + @"
 [[Category:2004 deaths]]", Parsers.FixPeopleCategories(bd4));
 
-            string bd5 = @"'''Autpert Ambrose (Ambroise)''' (ca. 730 – 784) {{persondata}} 
+            const string bd5 = @"'''Autpert Ambrose (Ambroise)''' (ca. 730 – 784) {{persondata}} 
 [[Category:778 deaths]]";
 
             Assert.AreEqual(bd5 + u, Parsers.FixPeopleCategories(bd5));
 
-            string bd6 = @"'''Saint Bruno of Querfurt''' (c. 970 – February 14 1009) (also known as ''Brun'' and ''Boniface''  {{persondata}} 
+            const string bd6 = @"'''Saint Bruno of Querfurt''' (c. 970 – February 14 1009) (also known as ''Brun'' and ''Boniface''  {{persondata}} 
 [[Category:1009 deaths]]";
 
             Assert.AreEqual(bd6 + u, Parsers.FixPeopleCategories(bd6));
 
             // all correct already
-            string bd7 = @"'''Agapetus II''' (born in [[Rome]]; died October, 955) was {{persondata}} 
+            const string bd7 = @"'''Agapetus II''' (born in [[Rome]]; died October, 955) was {{persondata}} 
 [[Category:955 deaths]]";
 
             Assert.AreEqual(bd7, Parsers.FixPeopleCategories(bd7));
 
             // no change
-            string bd8 = @"'''Husain''' (d. April or May 1382) was a [[Jalayirids|Jalayirid]] ruler (1374-1382). He was the son of [[Shaikh Uvais]]. {{persondata}}
+            const string bd8 = @"'''Husain''' (d. April or May 1382) was a [[Jalayirids|Jalayirid]] ruler (1374-1382). He was the son of [[Shaikh Uvais]]. {{persondata}}
 [[Category:1382 deaths]]";
 
             // add death and uncertain birth
             Assert.AreEqual(bd8, Parsers.FixPeopleCategories(bd8));
 
-            string bd9 = @"'''Mannalargenna''' (ca. 1770-1835), a [[Tasmanian Aborigine]], was the chief of the Ben Lomond tribe (Plangermaireener). {{persondata}}";
+            const string bd9 = @"'''Mannalargenna''' (ca. 1770-1835), a [[Tasmanian Aborigine]], was the chief of the Ben Lomond tribe (Plangermaireener). {{persondata}}";
 
             Assert.AreEqual(bd9 + @"
 [[Category:Year of birth uncertain]]
 [[Category:1835 deaths]]", Parsers.FixPeopleCategories(bd9));
 
-            string bd10 = @"'''King Godfred''' (ruled 804 - 810) {{persondata}}";
+            const string bd10 = @"'''King Godfred''' (ruled 804 - 810) {{persondata}}";
             Assert.AreEqual(bd10, Parsers.FixPeopleCategories(bd10));
 
-            string bd11 = @"'''Rabat I''' (1616/7 - 1644/5) {{persondata}}";
+            const string bd11 = @"'''Rabat I''' (1616/7 - 1644/5) {{persondata}}";
 
             Assert.AreEqual(bd11 + u, Parsers.FixPeopleCategories(bd11));
 
-            string bd12 = @"'''Lorenzo Monaco''' (born  '''Piero di Giovanni''' [[Circa|c.]]1370-1425) {{persondata}}
+            const string bd12 = @"'''Lorenzo Monaco''' (born  '''Piero di Giovanni''' [[Circa|c.]]1370-1425) {{persondata}}
 [[Category:1425 deaths]]";
 
             Assert.AreEqual(bd12 + u, Parsers.FixPeopleCategories(bd12));
 
-            string bd13 = @"'''Mocius''' ('''Mucius''', died 288-295), also kno
+            const string bd13 = @"'''Mocius''' ('''Mucius''', died 288-295), also kno
 [[Category:3rd-century deaths]]";
 
             Assert.AreEqual(bd13, Parsers.FixPeopleCategories(bd13));
 
             // with flourit both dates are uncertain
-            string bd14 = @"'''Asclepigenia''' (fl. 430  – 485 AD) was {{persondata}}";
+            const string bd14 = @"'''Asclepigenia''' (fl. 430  – 485 AD) was {{persondata}}";
             Assert.AreEqual(bd14, Parsers.FixPeopleCategories(bd14));
 
-            string bd14a = @"'''Asclepigenia''' ([[floruit|fl]]. 430  – 485 AD) was {{persondata}}";
+            const string bd14a = @"'''Asclepigenia''' ([[floruit|fl]]. 430  – 485 AD) was {{persondata}}";
             Assert.AreEqual(bd14a, Parsers.FixPeopleCategories(bd14a));
 
             // no data to use here
-            string no1 = @"'''Bahram I''' (also spelled ''Varahran'' or ''Vahram'', ''r.'' 273&ndash;276) {{persondata}}";
+            const string no1 = @"'''Bahram I''' (also spelled ''Varahran'' or ''Vahram'', ''r.'' 273&ndash;276) {{persondata}}";
             Assert.AreEqual(no1, Parsers.FixPeopleCategories(no1));
 
-            string no2 = @"'''Trebellianus''' (d. 260-268), also {{persondata}}";
+            const string no2 = @"'''Trebellianus''' (d. 260-268), also {{persondata}}";
             Assert.AreEqual(no2, Parsers.FixPeopleCategories(no2));
 
-            string no3 = @"'''[[Grand Ayatollah]] {{unicode|Muhammad Sādiq as-Sadr}}''' ([[Arabic]] محمّد صادق الصدر ) is an [[Iraq]]i [[Twelver]] [[Shi'a]] cleric of high rank. He is the father of [[Muqtada al-Sadr]] (born 1973). Sometimes the son is called by his father's name. He is the cousin of Grand Ayatollah [[Muhammad Baqir al-Sadr]] (died 1980). The al-Sadr family are considered [[Sayyid]], which is used among the Shia to denote persons descending directly from [[Muhammad]]. The family's lineage is traced through Imam [[Jafar al-Sadiq]] and his son Imam [[Musa al-Kazim]] the sixth and seventh Shia Imams respectively.";
+            const string no3 = @"'''[[Grand Ayatollah]] {{unicode|Muhammad Sādiq as-Sadr}}''' ([[Arabic]] محمّد صادق الصدر ) is an [[Iraq]]i [[Twelver]] [[Shi'a]] cleric of high rank. He is the father of [[Muqtada al-Sadr]] (born 1973). Sometimes the son is called by his father's name. He is the cousin of Grand Ayatollah [[Muhammad Baqir al-Sadr]] (died 1980). The al-Sadr family are considered [[Sayyid]], which is used among the Shia to denote persons descending directly from [[Muhammad]]. The family's lineage is traced through Imam [[Jafar al-Sadiq]] and his son Imam [[Musa al-Kazim]] the sixth and seventh Shia Imams respectively.";
             Assert.AreEqual(no3, Parsers.FixPeopleCategories(no3));
 
-            string no4 = @"'''Bahram I''' (also spelled ''Varahran'' or ''Vahram'', ''r.'' 273&ndash;276) {{persondata}}";
+            const string no4 = @"'''Bahram I''' (also spelled ''Varahran'' or ''Vahram'', ''r.'' 273&ndash;276) {{persondata}}";
             Assert.AreEqual(no4, Parsers.FixPeopleCategories(no4));
 
-            string no5 = @"'''John Coggeshall''' (chr. December 9, 1601) Charles
+            const string no5 = @"'''John Coggeshall''' (chr. December 9, 1601) Charles
 [[Category:1835 deaths]]";
             Assert.AreEqual(no5, Parsers.FixPeopleCategories(no5));
 
-            string ISO1 = @"'''Ben Moon''' (born [[1960-06-13]]) is a {{persondata}}";
+            const string ISO1 = @"'''Ben Moon''' (born [[1960-06-13]]) is a {{persondata}}";
             Assert.AreEqual(ISO1 + "\r\n" + b2, Parsers.FixPeopleCategories(ISO1));
 
-            string bd15 = @"'''Kristina of Norway''' (born in [[1234]] in [[Bergen]] &ndash; circa [[1262]]), sometimes {{persondata}}";
+            const string bd15 = @"'''Kristina of Norway''' (born in [[1234]] in [[Bergen]] &ndash; circa [[1262]]), sometimes {{persondata}}";
             Assert.AreEqual(bd15 + @"
 [[Category:1234 births]]", Parsers.FixPeopleCategories(bd15));
 
             // sortkey usage
-            string s1 = @"'''Claire Hazel Weekes''' (1903&mdash;1990) was {{persondata}}
+            const string s1 = @"'''Claire Hazel Weekes''' (1903&mdash;1990) was {{persondata}}
 [[Category:1990 deaths|Weekes, Claire]]";
 
             Assert.AreEqual(s1 + @"
 [[Category:1903 births|Weekes, Claire]]", Parsers.FixPeopleCategories(s1));
 
-            string m1 = @"'''Hans G Helms''' (born [[8 June]] [[1960]] in [[Teterow]]; full name: ''Hans Günter Helms''; the bearer of the name does not use a full stop after the initial for his middle name) is a [[Germany|German]] experimental writer, composer, and social and economic analyst and critic. {{persondata}}";
+            const string m1 = @"'''Hans G Helms''' (born [[8 June]] [[1960]] in [[Teterow]]; full name: ''Hans Günter Helms''; the bearer of the name does not use a full stop after the initial for his middle name) is a [[Germany|German]] experimental writer, composer, and social and economic analyst and critic. {{persondata}}";
 
             Assert.AreEqual(m1 + "\r\n" + b2, Parsers.FixPeopleCategories(m1));
 
             // uncertain year of death
-            string m2 = @"'''Arthur Paunzen''' (born [[4 February]] [[1890]], died ?[[9 August]] [[1940]])
+            const string m2 = @"'''Arthur Paunzen''' (born [[4 February]] [[1890]], died ?[[9 August]] [[1940]])
 [[Category:1890 births]]";
 
             Assert.AreEqual(m2, Parsers.FixPeopleCategories(m2));
 
-            string m3 = @"Foo {{death date and age|2008|8|21|1942|7|13|mf=y}} {{persondata}}";
-            string m3a = @"
+            const string m3 = @"Foo {{death date and age|2008|8|21|1942|7|13|mf=y}} {{persondata}}";
+            const string m3a = @"
 [[Category:1942 births]]
 [[Category:2008 deaths]]";
 
             Assert.AreEqual(m3 + m3a, Parsers.FixPeopleCategories(m3));
 
-            string bug1 = @"'''Jane Borghesi''' (born 17 June{{Fact|date=January 2009}}, [[Melbourne]]) {{persondata}}";
+            const string bug1 = @"'''Jane Borghesi''' (born 17 June{{Fact|date=January 2009}}, [[Melbourne]]) {{persondata}}";
             Assert.AreEqual(bug1, Parsers.FixPeopleCategories(bug1));
 
-            string miss1 = @"'''Alonza J. White''' (ca 1836 &ndash; [[August 29]] [[1912]]) {{persondata}}
+            const string miss1 = @"'''Alonza J. White''' (ca 1836 &ndash; [[August 29]] [[1912]]) {{persondata}}
 {{DEFAULTSORT:White, Alonza J}}
 [[Category:1912 deaths]]
 [[Category:People from St. John's, Newfoundland and Labrador]]", miss2 = @"[[Category:Year of birth missing]]";
 
             Assert.AreEqual(miss1 + u, Parsers.FixPeopleCategories(miss1 + "\r\n" + miss2));
 
-            string both1 = @"'''Mary Ellen Wilson''' (1864–1956)<ref name=""amhum"">{{foo}}</ref> {{persondata}}", both2 = @"[[Category:1864 births]]
+            const string both1 = @"'''Mary Ellen Wilson''' (1864–1956)<ref name=""amhum"">{{foo}}</ref> {{persondata}}", both2 = @"[[Category:1864 births]]
 [[Category:1956 deaths]]";
 
             Assert.AreEqual(both1 + "\r\n" + both2, Parsers.FixPeopleCategories(both1));
 
-            string bug2 = @"'''Foo''' (born {{circa}} 1925) was {{persondata}}";
+            const string bug2 = @"'''Foo''' (born {{circa}} 1925) was {{persondata}}";
             Assert.AreEqual(bug2 + u, Parsers.FixPeopleCategories(bug2));
 
             // infobox scraping
-            string infob1 = @"{{Infobox Officeholder
+            const string infob1 = @"{{Infobox Officeholder
 |honorific-prefix   = 
 |name            = John C. Zimmerman, Sr.
 |term_start       = 1895
@@ -926,7 +926,7 @@ died 2002
 [[Category:1935 deaths]]"));
 
             // just decade no good
-            string infob3 = @"{{Infobox Officeholder
+            const string infob3 = @"{{Infobox Officeholder
 |honorific-prefix   = 
 |name            = John Foo
 |predecessor      = [[Arthur C. McCall]]
@@ -1052,28 +1052,6 @@ died 2002
         }
 
         [Test]
-        public void GetTemplateNameFromSettingTests()
-        {
-            WikiRegexes.TemplateCall = new Regex(@"{{Template:\s*([^\]\|]*)\s*(.*)}}", RegexOptions.Singleline);
-
-            Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template:foo|bar}}", false));
-            Assert.AreEqual(@"Foo", Parsers.GetTemplateName(@"{{Template:Foo|bar}}", false));
-            Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template:    foo|bar}}", false));
-            Assert.AreEqual(@"foo here", Parsers.GetTemplateName(@"{{Template:    foo here|bar}}", false));
-            Assert.AreEqual(@"foo-bar", Parsers.GetTemplateName(@"{{Template:    foo-bar}}", false));
-
-            Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template:foo|bar}}", true));
-            Assert.AreEqual(@"Foo", Parsers.GetTemplateName(@"{{Template:Foo|bar}}", true));
-            Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template:    foo|bar}}", true));
-            Assert.AreEqual(@"foo here", Parsers.GetTemplateName(@"{{Template:    foo here|bar}}", true));
-            Assert.AreEqual(@"foo-bar", Parsers.GetTemplateName(@"{{Template:    foo-bar}}", true));
-
-            // when no template found returns input string if second argument true, else null string
-            Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"foo", true));
-            Assert.AreEqual(@"", Parsers.GetTemplateName(@"foo", false));
-        }
-
-        [Test]
         public void CanonicalizeTitleRawTests()
         {
             Assert.AreEqual(@"foo bar", Parsers.CanonicalizeTitleRaw(@"foo_bar"));
@@ -1101,31 +1079,31 @@ died 2002
 [[Category:1960 births]]"));
 
             // no matches if not identified as born
-            string b1 = @"'''Fred Smith''' is a bloke.";
+            const string b1 = @"'''Fred Smith''' is a bloke.";
             Assert.AreEqual(b1, Parsers.LivingPeople(b1));
 
             // no matches if identified as dead
-            string a = @"'''Fred Smith''' (born 1960) is a bloke.
+            const string a = @"'''Fred Smith''' (born 1960) is a bloke.
 [[Category:1960 births]]
 [[Category:1990 deaths]]";
-            string b = @"'''Fred Smith''' is a bloke.
+            const string b = @"'''Fred Smith''' is a bloke.
 [[Category:1960 births]]
 [[Category:1990 deaths]]";
-            string c = @"'''Fred Smith''' is a bloke.
+            const string c = @"'''Fred Smith''' is a bloke.
 [[Category:1960 births|Smith, Fred]]
 [[Category:1990 deaths|Smith, Fred]]";
-            string d = @"'''Fred Smith''' (born 11 May 1950 - died 17 August 1990) is a bloke.
+            const string d = @"'''Fred Smith''' (born 11 May 1950 - died 17 August 1990) is a bloke.
 [[Category:1960 births|Smith, Fred]]";
-            string e = @"'''Fred Smith''' (born 1950) is a bloke.
+            const string e = @"'''Fred Smith''' (born 1950) is a bloke.
 [[Category:1950 births|Smith, Fred]]
 {{Recentlydeceased}}";
-            string f = @"'''Fred Smith''' (born 1950) is a bloke.
+            const string f = @"'''Fred Smith''' (born 1950) is a bloke.
 [[Category:1950 births|Smith, Fred]]
 {{recentlydeceased}}";
-            string g = @"'''Fred Smith''' (born 1950) is a bloke.
+            const string g = @"'''Fred Smith''' (born 1950) is a bloke.
 [[Category:1950 births|Smith, Fred]]
 [[Category:Year of death missing]]";
-            string h = @"'''Fred Smith''' (d. 1950) is a bloke.";
+            const string h = @"'''Fred Smith''' (d. 1950) is a bloke.";
 
             Assert.AreEqual(a, Parsers.LivingPeople(a));
             Assert.AreEqual(b, Parsers.LivingPeople(b));
@@ -1137,17 +1115,17 @@ died 2002
             Assert.AreEqual(h, Parsers.LivingPeople(h));
 
             // assume dead if born earlier than 1910, so no change
-            string d1 = @"'''Fred Smith''' (born 1960) is a bloke.
+            const string d1 = @"'''Fred Smith''' (born 1960) is a bloke.
 [[Category:1909 births|Smith, Fred]]";
             Assert.AreEqual(d1, Parsers.LivingPeople(d1));
 
             // check correctly handles birth category with no year to parse
-            string d2 = @"Fred [[Category:15th-century births]]";
+            const string d2 = @"Fred [[Category:15th-century births]]";
             Assert.AreEqual(d2, Parsers.LivingPeople(d2));
 
             // ignores if {{lifetime}} present
 
-            string d3 = @"Fred [[Category:1961 births]]
+            const string d3 = @"Fred [[Category:1961 births]]
 {{Lifetime|1961||Clopatofsky Ghisays, Jairo}}";
             Assert.AreEqual(d3, Parsers.LivingPeople(d3));
         }
@@ -1155,50 +1133,50 @@ died 2002
         [Test]
         public void UnbalancedBracketsTests()
         {
-            int BracketLength = 0;
-            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now}", ref BracketLength));
-            Assert.AreEqual(2, BracketLength);
-            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now} abc", ref BracketLength));
-            Assert.AreEqual(2, BracketLength);
-            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} [[now]", ref BracketLength));
-            Assert.AreEqual(2, BracketLength);
-            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello [[bye]] {{now}", ref BracketLength));
-            Assert.AreEqual(2, BracketLength);
-            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} [now words [here]", ref BracketLength));
-            Assert.AreEqual(1, BracketLength);
-            Assert.AreEqual(21, Parsers.UnbalancedBrackets(@"now hello {{bye}} now] words [here]", ref BracketLength));
-            Assert.AreEqual(1, BracketLength);
-            Assert.AreEqual(22, Parsers.UnbalancedBrackets(@"now hello {{bye}} {now}}", ref BracketLength));
-            Assert.AreEqual(2, BracketLength);
-            Assert.AreEqual(33, Parsers.UnbalancedBrackets(@"[http://www.site.com a link [cool]]", ref BracketLength)); // FixSyntax replaces with &#93;
-            Assert.AreEqual(2, BracketLength);
-            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {now", ref BracketLength));
-            Assert.AreEqual(1, BracketLength);
+            int bracketLength = 0;
+            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now}", ref bracketLength));
+            Assert.AreEqual(2, bracketLength);
+            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now} abc", ref bracketLength));
+            Assert.AreEqual(2, bracketLength);
+            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} [[now]", ref bracketLength));
+            Assert.AreEqual(2, bracketLength);
+            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello [[bye]] {{now}", ref bracketLength));
+            Assert.AreEqual(2, bracketLength);
+            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} [now words [here]", ref bracketLength));
+            Assert.AreEqual(1, bracketLength);
+            Assert.AreEqual(21, Parsers.UnbalancedBrackets(@"now hello {{bye}} now] words [here]", ref bracketLength));
+            Assert.AreEqual(1, bracketLength);
+            Assert.AreEqual(22, Parsers.UnbalancedBrackets(@"now hello {{bye}} {now}}", ref bracketLength));
+            Assert.AreEqual(2, bracketLength);
+            Assert.AreEqual(33, Parsers.UnbalancedBrackets(@"[http://www.site.com a link [cool]]", ref bracketLength)); // FixSyntax replaces with &#93;
+            Assert.AreEqual(2, bracketLength);
+            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {now", ref bracketLength));
+            Assert.AreEqual(1, bracketLength);
 
             // only first reported
-            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now} or {{now} was", ref BracketLength));
-            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now} or [[now] was", ref BracketLength));
+            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now} or {{now} was", ref bracketLength));
+            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now} or [[now] was", ref bracketLength));
 
             // brackets all okay
-            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now}}", ref BracketLength));
-            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello [[bye]] {{now}}", ref BracketLength));
-            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} [now]", ref BracketLength));
-            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello", ref BracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now}}", ref bracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello [[bye]] {{now}}", ref bracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} [now]", ref bracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello", ref bracketLength));
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"<ref>[http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=32159 Message to 
-complementary and alternative medicine: evidence is a better friend than power. Andrew J Vickers]</ref>", ref BracketLength));
-            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"[http://www.site.com a link [cool&#93;]", ref BracketLength)); // displays as valid syntax
+complementary and alternative medicine: evidence is a better friend than power. Andrew J Vickers]</ref>", ref bracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"[http://www.site.com a link [cool&#93;]", ref bracketLength)); // displays as valid syntax
 
             // don't consider stuff in <math> or <pre> tags etc.
-            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <pre>{now}}</pre>", ref BracketLength));
-            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <math>{a{b}}</math>", ref BracketLength));
-            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <code>{now}}</code>", ref BracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <pre>{now}}</pre>", ref bracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <math>{a{b}}</math>", ref bracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <code>{now}}</code>", ref bracketLength));
 
             // unbalanced tags
-            Assert.AreEqual(15, Parsers.UnbalancedBrackets(@"now <b>hello /b>", ref BracketLength));
-            Assert.AreEqual(1, BracketLength);
+            Assert.AreEqual(15, Parsers.UnbalancedBrackets(@"now <b>hello /b>", ref bracketLength));
+            Assert.AreEqual(1, bracketLength);
 
-            Assert.AreEqual(27, Parsers.UnbalancedBrackets(@"<a>asdf</a> now <b>hello /b>", ref BracketLength));
-            Assert.AreEqual(1, BracketLength);
+            Assert.AreEqual(27, Parsers.UnbalancedBrackets(@"<a>asdf</a> now <b>hello /b>", ref bracketLength));
+            Assert.AreEqual(1, bracketLength);
         }
 
         [Test]
@@ -1429,7 +1407,7 @@ url=a|title=b}}</ref>"));
             Assert.AreEqual(@"<ref name=Smith>Antara News [http://www.antara.co.id/arc/2009/1/9/kri-lebanon/ KRI Lebanon]</ref>", Parsers.FixSyntax(@"<ref name=Smith>Antara News [http://www.antara.co.id/arc/2009/1/9/kri-lebanon/ KRI Lebanon]</ref>"));
 
             // no completion of template braces on non-template ref
-            string a = @"<ref>Smith and Jones, 2005, p46}}</ref>";
+            const string a = @"<ref>Smith and Jones, 2005, p46}}</ref>";
             Assert.AreEqual(a, Parsers.FixSyntax(a));
 
             Assert.AreEqual(@"{{DEFAULTSORT:Astaire, Fred}}", Parsers.FixSyntax(@"{{DEFAULTSORT:Astaire, Fred]}}"));
@@ -1454,8 +1432,8 @@ url=a|title=b}}</ref>"));
             Assert.AreEqual(@"great (in 2001 | blah |} now", Parsers.FixSyntax(@"great (in 2001 | blah |} now"));
 
             // doesn't complete curly brackets where they don't balance after
-            string Cite1 = @"Great.<ref>{{cite web | url=http://www.site.com | title=abc } year=2009}}</ref>";
-            Assert.AreEqual(Cite1, Parsers.FixSyntax(Cite1));
+            const string cite1 = @"Great.<ref>{{cite web | url=http://www.site.com | title=abc } year=2009}}</ref>";
+            Assert.AreEqual(cite1, Parsers.FixSyntax(cite1));
 
             // set double round bracket to single
             Assert.AreEqual(@"then (but often) for", Parsers.FixSyntax(@"then ((but often) for"));
@@ -1646,20 +1624,20 @@ Some artists represented by Zach Feuer Gallery are [[Phoebe Washburn]], [[Jules 
         [Test]
         public void TestAccessdateTypo()
         {
-            string Correct = @"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23 }} was";
-            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acessdate = 2008-04-23 }} was"));
-            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accessedate = 2008-04-23 }} was"));
-            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|date accessed = 2008-04-23 }} was"));
-            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|retrieved = 2008-04-23 }} was"));
-            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|retrieved on = 2008-04-23 }} was"));
-            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accesdate = 2008-04-23 }} was"));
-            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|Acessdate = 2008-04-23 }} was"));
-            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|Accesdate = 2008-04-23 }} was"));
-            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|Acesdate = 2008-04-23 }} was"));
-            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acesdate = 2008-04-23 }} was"));
-            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccesdate = 2008-04-23 }} was"));
-            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|access date = 2008-04-23 }} was"));
-            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23 }} was"));
+            const string correct = @"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23 }} was";
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acessdate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accessedate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|date accessed = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|retrieved = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|retrieved on = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accesdate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|Acessdate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|Accesdate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|Acesdate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acesdate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccesdate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|access date = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23 }} was"));
 
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23|publisher=BBC }} was", Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23|publisher=BBC }} was"));
             Assert.AreEqual(@"now {{Cite web | url=http://site.it | title=hello|accessdate = 2008-04-23  |publisher=BBC }} was", Parsers.FixSyntax(@"now {{Cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23  |publisher=BBC }} was"));
@@ -1848,14 +1826,14 @@ complementary and alternative medicine: evidence is a better friend than power. 
         [Test]
         public void TestBracketsAtCiteTemplateURL()
         {
-            string Correct = @"now {{cite web|url=http://site.net|title=hello}} was";
+            const string correct = @"now {{cite web|url=http://site.net|title=hello}} was";
 
-            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web|url=[http://site.net]|title=hello}} was"));
-            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web|url=http://site.net]|title=hello}} was"));
-            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web|url=[http://site.net|title=hello}} was"));
-            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web|url=[[http://site.net]|title=hello}} was"));
-            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web|url=[http://site.net]]|title=hello}} was"));
-            Assert.AreEqual(Correct, Parsers.FixSyntax(@"now {{cite web|url=[[http://site.net]]|title=hello}} was"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web|url=[http://site.net]|title=hello}} was"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web|url=http://site.net]|title=hello}} was"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web|url=[http://site.net|title=hello}} was"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web|url=[[http://site.net]|title=hello}} was"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web|url=[http://site.net]]|title=hello}} was"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web|url=[[http://site.net]]|title=hello}} was"));
             Assert.AreEqual(@"now {{cite web|url = http://site.net  |title=hello}} was", Parsers.FixSyntax(@"now {{cite web|url = [http://site.net]  |title=hello}} was"));
             Assert.AreEqual(@"now {{cite web|title=hello |url=www.site.net}} was", Parsers.FixSyntax(@"now {{cite web|title=hello |url=[www.site.net]}} was"));
             Assert.AreEqual(@"now {{cite journal|title=hello | url=site.net }} was", Parsers.FixSyntax(@"now {{cite journal|title=hello | url=[site.net]] }} was"));
@@ -2216,7 +2194,7 @@ Some news here.", "test"));
             Assert.AreEqual("now == hello [[world]] == here", Parsers.FixHeadings("now == hello [[world]] == here", "a"));
 
             // some articles excepted
-            string linked = "==now [[hello|world]] here==";
+            const string linked = "==now [[hello|world]] here==";
             Assert.AreEqual(linked, Parsers.FixHeadings(linked, "List of stuff"));
             Assert.AreEqual(linked, Parsers.FixHeadings(linked, "1980 in poetry"));
             Assert.AreEqual(linked, Parsers.FixHeadings(linked, "1980"));
@@ -2303,7 +2281,7 @@ text
 foo", "a"));
 
             // don't apply where level 3 headings after references/external links/see also
-            string a = @"====hello====
+            const string a = @"====hello====
 text
 ==External links==
 foo
@@ -2311,7 +2289,7 @@ foo
 foo2";
             Assert.AreEqual(a, Parsers.FixHeadings(a, "a"));
 
-            string a2 = @"text
+            const string a2 = @"text
 ==External links==
 foo
 ===bar===
@@ -2902,7 +2880,6 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#If_a_selflink_is_also_bolded.2C_AWB_should_just_remove_the_selflink
         public void SelfLinksWithBold()
         {
-            bool noChangeBack;
             Assert.AreEqual(@"'''Marie-Madeleine-Marguerite d'Aubray, Marquise de Brinvilliers'''", parser.BoldTitle(@"'''[[Marie-Madeleine-Marguerite d'Aubray, Marquise de Brinvilliers]]'''", @"Marie-Madeleine-Marguerite d'Aubray, Marquise de Brinvilliers", out noChangeBack));
 
             Assert.AreEqual(@"'''foo'''", parser.BoldTitle(@"'''[[foo]]'''", @"Foo", out noChangeBack));
@@ -2914,8 +2891,6 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
         [Test]
         public void BoldedSelfLinks()
         {
-            bool noChangeBack;
-
             Assert.AreEqual(@"{{Infobox Album <!-- See Wikipedia:WikiProject_Albums -->
 | Name        = ''It Crawled into My Hand, Honest''
 | Type        = studio
@@ -3030,7 +3005,7 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
         [Test]
         public void SelfLinkRemoval()
         {
-            bool noChangeBack = false;
+            bool noChangeBack;
             Assert.AreEqual(@"'''Foo''' is great. Foo is cool", Parsers.FixLinks(@"'''Foo''' is great. [[Foo]] is cool", "Foo", out noChangeBack));
             Assert.IsFalse(noChangeBack);
             Assert.AreEqual(@"'''Foo''' is great. Foo is cool and foo now", Parsers.FixLinks(@"'''Foo''' is great. [[Foo]] is cool and [[foo]] now", "Foo", out noChangeBack));
@@ -3492,7 +3467,7 @@ foo {{persondata}}
 ", "foo", out noChange, false));
 
             // can't add a DEFAULTSORT using existing cat sortkeys even if restricted, as sortkey case may be changed
-            string a = @"
+            const string a = @"
 foo {{persondata}}
 [[Category:1910 births|Lahiff, Tommy]]
 [[Category:Australian players of Australian rules football|Lahiff, Tommy]]
@@ -3522,7 +3497,7 @@ foo {{persondata}}
 ", "foo", out noChange, true));
 
             // restricted
-            string r1 = @"[[Category:Franks]]
+            const string r1 = @"[[Category:Franks]]
 [[Category:Carolingian dynasty]]
 [[Category:Frankish people]]
 [[Category:811 deaths]]
@@ -3575,8 +3550,8 @@ Parsers.ChangeToDefaultSort(@"{{Lifetime|1900|2000|Smithe, Fred}}", "Hi", out no
         {
             bool noChange;
 
-            string a = @"Fred Smith blah [[Category:Living people]]";
-            string b = "\r\n" + @"{{DEFAULTSORT:Smith, Fred}}";
+            const string a = @"Fred Smith blah [[Category:Living people]]";
+            const string b = "\r\n" + @"{{DEFAULTSORT:Smith, Fred}}";
 
             Assert.AreEqual(a + b, Parsers.ChangeToDefaultSort(a, "Fred Smith", out noChange));
             Assert.IsFalse(noChange);
@@ -3585,8 +3560,8 @@ Parsers.ChangeToDefaultSort(@"{{Lifetime|1900|2000|Smithe, Fred}}", "Hi", out no
             Assert.AreEqual(a, Parsers.ChangeToDefaultSort(a, "Fred Smith", out noChange, true));
             Assert.IsTrue(noChange);
 
-            string c = @"Stéphanie Mahieu blah [[Category:Living people]]";
-            string d = "\r\n" + @"{{DEFAULTSORT:Mahieu, Stephanie}}";
+            const string c = @"Stéphanie Mahieu blah [[Category:Living people]]";
+            const string d = "\r\n" + @"{{DEFAULTSORT:Mahieu, Stephanie}}";
 
             Assert.AreEqual(c + d, Parsers.ChangeToDefaultSort(c, "Stéphanie Mahieu", out noChange));
             Assert.IsFalse(noChange);
@@ -3900,8 +3875,8 @@ asdfasdf}} was here", "foo"));
         [Test]
         public void GetTemplatesTests()
         {
-            string foo1 = "{{foo|a}}";
-            string foo2 = "{{foo|b}}";
+            const string foo1 = "{{foo|a}}";
+            const string foo2 = "{{foo|b}}";
             string text = @"now " + foo1 + " and " + foo2;
 
             Regex foo = new Regex(@"{{foo.*?}}");
@@ -3927,12 +3902,12 @@ asdfasdf}} was here", "foo"));
             Assert.AreEqual(2, templates.Count);
 
             // nested templates caught
-            string foo3 = @"{{ Foo|bar={{abc}}|beer=y}}";
+            const string foo3 = @"{{ Foo|bar={{abc}}|beer=y}}";
             templates = Parsers.GetTemplates(@"now " + foo3 + @" there", "foo");
             Assert.AreEqual(foo3, templates[0].Value);
 
             // whitespace ignored
-            string foo4 = @"{{ Foo }}";
+            const string foo4 = @"{{ Foo }}";
             templates = Parsers.GetTemplates(@"now " + foo4 + @" there", "foo");
             Assert.AreEqual(foo4, templates[0].Value);
 
@@ -4080,12 +4055,12 @@ asdfasdf}} was here", "foo"));
         private bool noChange;
         private string summary;
 
-        private const string uncat = "{{Uncategorized|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
-                       uncatstub = "{{Uncategorizedstub|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
-                       orphan = "{{orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
-                       wikify = "{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
-                       deadend = "{{deadend|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
-                       stub = "{{stub}}";
+        private const string Uncat = "{{Uncategorized|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
+                       UncatStub = "{{Uncategorizedstub|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
+                       Orphan = "{{orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
+                       Wikify = "{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
+                       Deadend = "{{Deadend|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
+                       Stub = "{{stub}}";
 
         [Test]
         public void Add()
@@ -4101,27 +4076,27 @@ asdfasdf}} was here", "foo"));
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
 
-            Assert.IsFalse(text.Contains(uncatstub));
+            Assert.IsFalse(text.Contains(UncatStub));
 
-            text = parser.Tagger(ShortText + stub + uncat + wikify + orphan + deadend, "Test", out noChange, ref summary);
+            text = parser.Tagger(ShortText + Stub + Uncat + Wikify + Orphan + Deadend, "Test", out noChange, ref summary);
             //Tagged article, dupe tags shouldn't be added
-            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(stub), text));
-            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(uncat), text));
-            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(wikify), text));
-            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(orphan), text));
-            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(deadend), text));
+            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(Stub), text));
+            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(Uncat), text));
+            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(Wikify), text));
+            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(Orphan), text));
+            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(Deadend), text));
 
-            text = parser.Tagger(ShortText + stub, "Test", out noChange, ref summary);
+            text = parser.Tagger(ShortText + Stub, "Test", out noChange, ref summary);
             //Stub, existing stub tag
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
-            Assert.IsTrue(text.Contains(uncatstub));
+            Assert.IsTrue(text.Contains(UncatStub));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
 
-            Assert.IsFalse(text.Contains(uncat));
+            Assert.IsFalse(text.Contains(Uncat));
 
-            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(stub), text));
+            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(Stub), text));
 
             text = parser.Tagger(ShortText + ShortText, "Test", out noChange, ref summary);
             //Not a stub
@@ -4130,12 +4105,12 @@ asdfasdf}} was here", "foo"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text));
 
-            Assert.IsFalse(text.Contains(uncatstub));
+            Assert.IsFalse(text.Contains(UncatStub));
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
 
-            // with categories and no links, deadend not removed
+            // with categories and no links, Deadend not removed
             Globals.UnitTestIntValue = 3;
-            text = parser.Tagger(deadend + ShortText, "Test", out noChange, ref summary);
+            text = parser.Tagger(Deadend + ShortText, "Test", out noChange, ref summary);
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
@@ -4150,7 +4125,7 @@ asdfasdf}} was here", "foo"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
 
-            Assert.IsFalse(text.Contains(uncatstub));
+            Assert.IsFalse(text.Contains(UncatStub));
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
 
             text = parser.Tagger(ShortText + ShortText, "Test", out noChange, ref summary);
@@ -4160,7 +4135,7 @@ asdfasdf}} was here", "foo"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
 
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
-            Assert.IsFalse(text.Contains(uncatstub));
+            Assert.IsFalse(text.Contains(UncatStub));
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
 
             Globals.UnitTestBoolValue = false;
@@ -4172,7 +4147,7 @@ asdfasdf}} was here", "foo"));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
 
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
-            Assert.IsFalse(text.Contains(uncatstub));
+            Assert.IsFalse(text.Contains(UncatStub));
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
 
             text = parser.Tagger(ShortText + ShortText, "Test", out noChange, ref summary);
@@ -4182,17 +4157,17 @@ asdfasdf}} was here", "foo"));
 
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
-            Assert.IsFalse(text.Contains(uncatstub));
+            Assert.IsFalse(text.Contains(UncatStub));
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
 
             text = parser.Tagger(ShortText.Replace("consectetur", "[[consectetur]]"), "Test", out noChange, ref summary);
-            //Non deadend stub
+            //Non Deadend stub
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
 
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
-            Assert.IsFalse(text.Contains(uncatstub));
+            Assert.IsFalse(text.Contains(UncatStub));
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
 
             text = parser.Tagger(Regex.Replace(ShortText, @"(\w+)", "[[$1]]"), "Test", out noChange, ref summary);
@@ -4201,7 +4176,7 @@ asdfasdf}} was here", "foo"));
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
-            Assert.IsFalse(text.Contains(uncatstub));
+            Assert.IsFalse(text.Contains(UncatStub));
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#Autotagging_and_Articleissues
@@ -4232,11 +4207,11 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         [Test]
         public void Remove()
         {
-            string text = parser.Tagger(ShortText + stub, "Test", out noChange, ref summary);
+            string text = parser.Tagger(ShortText + Stub, "Test", out noChange, ref summary);
             //Stub, tag not removed
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
 
-            text = parser.Tagger(LongText + stub, "Test", out noChange, ref summary);
+            text = parser.Tagger(LongText + Stub, "Test", out noChange, ref summary);
             //stub tag removed
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
 
@@ -4453,29 +4428,29 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         [Test]
         public void ArticleIssues()
         {
-            string A1 = @"{{Wikify}} {{expand}}", A2 = @" {{COI}}", A3 = @" the article";
-            string A4 = @" {{COI|date=May 2008}}", A5 = @"{{Article issues|POV|prose|spam}} ";
-            string A4a = @" {{COI|Date=May 2008}}";
+            const string a1 = @"{{Wikify}} {{expand}}", a2 = @" {{COI}}", a3 = @" the article";
+            const string a4 = @" {{COI|date=May 2008}}", a5 = @"{{Article issues|POV|prose|spam}} ";
+            const string a4A = @" {{COI|Date=May 2008}}";
 
             // adding new {{article issues}}
-            Assert.IsTrue(parser.ArticleIssues(A1 + A2 + A3).Contains(@"{{Article issues|wikify|expand|COI}}"));
-            Assert.IsTrue(parser.ArticleIssues(A1 + A4 + A3).Contains(@"{{Article issues|wikify|expand|COI date=May 2008}}"));
+            Assert.IsTrue(parser.ArticleIssues(a1 + a2 + a3).Contains(@"{{Article issues|wikify|expand|COI}}"));
+            Assert.IsTrue(parser.ArticleIssues(a1 + a4 + a3).Contains(@"{{Article issues|wikify|expand|COI date=May 2008}}"));
 
             // amend existing {{article issues}}
-            Assert.IsTrue(parser.ArticleIssues(A5 + A1 + A2 + A3).Contains(@"{{Article issues|POV|prose|spam|wikify|expand|COI"));
-            Assert.IsTrue(parser.ArticleIssues(A5 + A1 + A4 + A3).Contains(@"{{Article issues|POV|prose|spam|wikify|expand|COI date=May 2008}}"));
-            Assert.IsTrue(parser.ArticleIssues(A5 + A1 + A4a + A3).Contains(@"{{Article issues|POV|prose|spam|wikify|expand|COI Date=May 2008}}"));
+            Assert.IsTrue(parser.ArticleIssues(a5 + a1 + a2 + a3).Contains(@"{{Article issues|POV|prose|spam|wikify|expand|COI"));
+            Assert.IsTrue(parser.ArticleIssues(a5 + a1 + a4 + a3).Contains(@"{{Article issues|POV|prose|spam|wikify|expand|COI date=May 2008}}"));
+            Assert.IsTrue(parser.ArticleIssues(a5 + a1 + a4A + a3).Contains(@"{{Article issues|POV|prose|spam|wikify|expand|COI Date=May 2008}}"));
 
             // insufficient tags
-            Assert.IsFalse(Parsers.Conversions(A1 + A3).Contains(@"{{Article issues"));
+            Assert.IsFalse(Parsers.Conversions(a1 + a3).Contains(@"{{Article issues"));
 
             // before first heading tag can be used
-            string A7 = @"{{trivia}} ==heading==";
-            Assert.IsTrue(parser.ArticleIssues(A5 + A3 + A7).Contains(@"{{Article issues|POV|prose|spam|trivia}}"));
+            const string a7 = @"{{trivia}} ==heading==";
+            Assert.IsTrue(parser.ArticleIssues(a5 + a3 + a7).Contains(@"{{Article issues|POV|prose|spam|trivia}}"));
 
             // don't grab tags in later sections of article
-            string A6 = @"==head== {{essay}}";
-            Assert.AreEqual(A5 + A3 + A6, parser.ArticleIssues(A5 + A3 + A6));
+            const string a6 = @"==head== {{essay}}";
+            Assert.AreEqual(a5 + a3 + a6, parser.ArticleIssues(a5 + a3 + a6));
 
             // title case parameters converted to lowercase
             Assert.AreEqual(@"{{article issues|POV=May 2008|cleanup=May 2008|expand=June 2007}}", parser.ArticleIssues(@"{{article issues|POV=May 2008|cleanup=May 2008|Expand=June 2007}}"));
@@ -4506,7 +4481,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#ArgumentException_in_Parsers.ArticleIssues
             Assert.AreEqual("", parser.ArticleIssues(""));
 
-            string bug1 = @"{{article issues|disputed=June 2009|primarysources=June 2009}}
+            const string bug1 = @"{{article issues|disputed=June 2009|primarysources=June 2009}}
 {{Expert}}";
             Assert.AreEqual(bug1, parser.ArticleIssues(bug1));
         }
@@ -4537,15 +4512,15 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"{{Article issues|wikfy=May 2008|copyedit=April 2009|COI=May 2008}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|copyeditfor=grammar|date=April 2009|COI=May 2008}}"));
 
             // don't add date for expert field
-            string A1 = @"{{Article issues|wikfy=May 2008|COI=May 2008|expert}}";
-            Assert.AreEqual(A1, Parsers.Conversions(A1));
+            const string a1 = @"{{Article issues|wikfy=May 2008|COI=May 2008|expert}}";
+            Assert.AreEqual(a1, Parsers.Conversions(a1));
 
-            string A2 = @"{{Article issues|wikfy=May 2008|COI=May 2008|expert=Fred}}";
-            Assert.AreEqual(A2, Parsers.Conversions(A2));
+            const string a2 = @"{{Article issues|wikfy=May 2008|COI=May 2008|expert=Fred}}";
+            Assert.AreEqual(a2, Parsers.Conversions(a2));
 
             // don't remove 'update'field
-            string A3 = @"{{Article issues|wikfy=May 2008|COI=May 2008|update=May 2008}}";
-            Assert.AreEqual(A3, Parsers.Conversions(A3));
+            const string a3 = @"{{Article issues|wikfy=May 2008|COI=May 2008|update=May 2008}}";
+            Assert.AreEqual(a3, Parsers.Conversions(a3));
         }
 
         [Test]

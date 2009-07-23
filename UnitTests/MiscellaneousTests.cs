@@ -13,9 +13,9 @@ namespace UnitTests
             AllHidden = @"^(⌊⌊⌊⌊M?\d+⌋⌋⌋⌋)*$";
         HideText Hider;
 
-        private string HideMore(string text, bool HideExternalLinks, bool LeaveMetaHeadings, bool HideImages)
+        private string HideMore(string text, bool hideExternalLinks, bool leaveMetaHeadings, bool hideImages)
         {
-            Hider = new HideText(HideExternalLinks, LeaveMetaHeadings, HideImages);
+            Hider = new HideText(hideExternalLinks, leaveMetaHeadings, hideImages);
             return Hider.HideMore(text);
         }
 
@@ -24,10 +24,10 @@ namespace UnitTests
             return HideMore(text, false);
         }
 
-        private string HideMore(string text, bool HideOnlyTargetOfWikilink)
+        private string HideMore(string text, bool hideOnlyTargetOfWikilink)
         {
             Hider = new HideText();
-            return Hider.HideMore(text, HideOnlyTargetOfWikilink);
+            return Hider.HideMore(text, hideOnlyTargetOfWikilink);
         }
 
         private void AssertHiddenMore(string text)
@@ -43,9 +43,9 @@ namespace UnitTests
             Assert.AreEqual(text, s);
         }
 
-        private void AssertAllHiddenMore(string text, bool HideExternalLinks)
+        private void AssertAllHiddenMore(string text, bool hideExternalLinks)
         {
-            string s = HideMore(text, HideExternalLinks, false, true);
+            string s = HideMore(text, hideExternalLinks, false, true);
             RegexAssert.IsMatch(AllHidden, s);
             s = Hider.AddBackMore(s);
             Assert.AreEqual(text, s);
@@ -56,9 +56,9 @@ namespace UnitTests
             return Hide(text, true, false, true);
         }
 
-        private string Hide(string text, bool HideExternalLinks, bool LeaveMetaHeadings, bool HideImages)
+        private string Hide(string text, bool hideExternalLinks, bool leaveMetaHeadings, bool hideImages)
         {
-            Hider = new HideText(HideExternalLinks, LeaveMetaHeadings, HideImages);
+            Hider = new HideText(hideExternalLinks, leaveMetaHeadings, hideImages);
             return Hider.Hide(text);
         }
 
@@ -79,9 +79,9 @@ namespace UnitTests
             AssertBothHidden(text, true, false, true);
         }
 
-        private void AssertBothHidden(string text, bool HideExternalLinks, bool LeaveMetaHeadings, bool HideImages)
+        private void AssertBothHidden(string text, bool hideExternalLinks, bool leaveMetaHeadings, bool hideImages)
         {
-            Hider = new HideText(HideExternalLinks, LeaveMetaHeadings, HideImages);
+            Hider = new HideText(hideExternalLinks, leaveMetaHeadings, hideImages);
             AssertAllHidden(text);
             AssertAllHiddenMore(text);
         }
@@ -94,9 +94,9 @@ namespace UnitTests
             Assert.AreEqual(text, s);
         }
 
-        private void AssertPartiallyHiddenMore(string expected, string text, bool HideOnlyTargetOfWikilink)
+        private void AssertPartiallyHiddenMore(string expected, string text, bool hideOnlyTargetOfWikilink)
         {
-            string s = HideMore(text, HideOnlyTargetOfWikilink);
+            string s = HideMore(text, hideOnlyTargetOfWikilink);
             Assert.AreEqual(expected, s);
             s = Hider.AddBackMore(s);
             Assert.AreEqual(text, s);
