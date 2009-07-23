@@ -3913,6 +3913,33 @@ asdfasdf}} was here", "foo"));
             System.Collections.Generic.List<Match> templates = Parsers.GetTemplates(text, "foo");
             Assert.AreEqual(foo1, templates[0].Value);
             Assert.AreEqual(foo2, templates[1].Value);
+            Assert.AreEqual(2, templates.Count);
+
+            // ignores commeted out templates
+            templates = Parsers.GetTemplates(text + @" <!-- {{foo|c}} -->", "foo");
+            Assert.AreEqual(foo1, templates[0].Value);
+            Assert.AreEqual(foo2, templates[1].Value);
+            Assert.AreEqual(2, templates.Count);
+
+            // ignores nowiki templates
+            templates = Parsers.GetTemplates(text + @" <nowiki> {{foo|c}} </nowiki>", "foo");
+            Assert.AreEqual(foo1, templates[0].Value);
+            Assert.AreEqual(foo2, templates[1].Value);
+            Assert.AreEqual(2, templates.Count);
+
+            // nested templates caught
+            string foo3 = @"{{ Foo|bar={{abc}}|beer=y}}";
+            templates = Parsers.GetTemplates(@"now " + foo3 + @" there", "foo");
+            Assert.AreEqual(foo3, templates[0].Value);
+
+            // whitespace ignored
+            string foo4 = @"{{ Foo }}";
+            templates = Parsers.GetTemplates(@"now " + foo4 + @" there", "foo");
+            Assert.AreEqual(foo4, templates[0].Value);
+
+            // no matches here
+            templates = Parsers.GetTemplates(@"now " + foo3 + @" there", "fo");
+            Assert.AreEqual(0, templates.Count);
         }
     }
 
