@@ -45,12 +45,25 @@ namespace WikiFunctions.Profiles
 
         private void PerformLogin(string username, string password)
         {
-            TheSession.Editor.Login(username, password);
-            TheSession.Editor.Wait();
-            if (LoggedIn != null)
+            bool needsUpdate = TheSession.User.IsLoggedIn;
+            try
+            {
+                TheSession.Editor.SynchronousEditor.Login(username, password);
+                needsUpdate = true;
+            }
+            catch (ApiLoginException ex)
+            {
+                MessageBox.Show(this, ex.Message, "Login failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.Handle(ex);
+            }
+
+            if (LoggedIn != null && needsUpdate)
                 LoggedIn(null, null);
 
-            Close();
+            if (TheSession.User.IsLoggedIn) Close();
         }
         
         private void btnLogin_Click(object sender, EventArgs e)

@@ -416,7 +416,7 @@ namespace AutoWikiBrowser
         /// </summary>
         private bool CheckLoginStatus()
         {
-            if (!TheSession.User.IsRegistered)
+            if (!TheSession.User.IsLoggedIn)
             {
                 MessageBox.Show("You've been logged off, probably due to loss of session data.\r\n" +
                     "Please relogin.", "Logged off", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -455,10 +455,7 @@ namespace AutoWikiBrowser
 
         private void ApiEditExceptionCaught(AsyncApiEdit sender, Exception ex)
         {
-            if (ex is ApiLoginException)
-                MessageBox.Show(this, ex.Message, "Login failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-            else if (ex is ApiInterwikiException)
+            if (ex is ApiInterwikiException)
                 SkipPage(ex.Message);
 
             else if (ex is ApiSpamlistException)
@@ -2516,10 +2513,10 @@ window.scrollTo(0, diffTopY);
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            if (!TheSession.User.IsRegistered)
+            if (!TheSession.User.IsLoggedIn)
             {
                 Profiles.ShowDialog();
-                if (!TheSession.User.IsRegistered) return;
+                if (!TheSession.User.IsLoggedIn) return;
             }
             StopProcessing = false;
             Start();

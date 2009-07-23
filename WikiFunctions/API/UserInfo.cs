@@ -40,9 +40,9 @@ namespace WikiFunctions.API
         { get; private set; }
 
         /// <summary>
-        /// Whether the user is registered
+        /// Whether we are logged in
         /// </summary>
-        public bool IsRegistered
+        public bool IsLoggedIn
         { get { return Id != 0; } }
 
         /// <summary>
