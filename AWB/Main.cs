@@ -455,7 +455,10 @@ namespace AutoWikiBrowser
 
         private void ApiEditExceptionCaught(AsyncApiEdit sender, Exception ex)
         {
-            if (ex is ApiInterwikiException)
+            if (ex is ApiLoginException)
+                MessageBox.Show(this, ex.Message, "Login failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            else if (ex is ApiInterwikiException)
                 SkipPage(ex.Message);
 
             else if (ex is ApiSpamlistException)
@@ -465,7 +468,7 @@ namespace AutoWikiBrowser
                 if (!BotMode)
                 {
                     if (!chkSkipSpamFilter.Checked
-                        && MessageBox.Show(message + ".\r\nTry and edit again?", 
+                        && MessageBox.Show(message + ".\r\nTry and edit again?",
                             "Spam blacklist", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                     {
                         Start();
