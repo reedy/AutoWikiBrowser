@@ -816,10 +816,12 @@ Jones", "*"));
         [Test]
         public void ToTalkOnList()
         {
-            List<Article> l = new List<Article>();
-            l.Add(new Article("Foo"));
-            l.Add(new Article("Talk:Foo bar"));
-            l.Add(new Article("File:Foo"));
+            List<Article> l = new List<Article>
+                                  {
+                                      new Article("Foo"),
+                                      new Article("Talk:Foo bar"),
+                                      new Article("File:Foo")
+                                  };
             CollectionAssert.AreEquivalent(Tools.ConvertToTalk(l),
                 new[] { "Talk:Foo", "Talk:Foo bar", "File talk:Foo" });
         }
@@ -838,10 +840,12 @@ Jones", "*"));
         [Test]
         public void FromTalkOnList()
         {
-            List<Article> l = new List<Article>();
-            l.Add(new Article("Foo"));
-            l.Add(new Article("Talk:Foo bar"));
-            l.Add(new Article("User talk:Foo"));
+            List<Article> l = new List<Article>
+                                  {
+                                      new Article("Foo"),
+                                      new Article("Talk:Foo bar"),
+                                      new Article("User talk:Foo")
+                                  };
             CollectionAssert.AreEquivalent(Tools.ConvertFromTalk(l),
                 new[] { "Foo", "Foo bar", "User:Foo" });
         }
