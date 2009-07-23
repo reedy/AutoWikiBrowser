@@ -3900,7 +3900,9 @@ asdfasdf}} was here", "foo"));
         [Test]
         public void GetTemplatesTests()
         {
-            string text = @"now {{foo|a}} and {{foo|b}}";
+            string foo1 = "{{foo|a}}";
+            string foo2 = "{{foo|b}}";
+            string text = @"now " + foo1 + " and " + foo2;
             System.Collections.Generic.List<Match> Fred = new System.Collections.Generic.List<Match> { };
             Regex Foo = new Regex(@"{{foo.*?}}");
             foreach (Match m in Foo.Matches(text))
@@ -3908,6 +3910,9 @@ asdfasdf}} was here", "foo"));
 
             Assert.AreEqual(Fred.ToString(), Parsers.GetTemplates(text, "foo").ToString());
             Assert.AreEqual(Fred.ToString(), Parsers.GetTemplates(text, "Foo").ToString());
+            System.Collections.Generic.List<Match> templates = Parsers.GetTemplates(text, "foo");
+            Assert.AreEqual(foo1, templates[0].Value);
+            Assert.AreEqual(foo2, templates[1].Value);
         }
     }
 
