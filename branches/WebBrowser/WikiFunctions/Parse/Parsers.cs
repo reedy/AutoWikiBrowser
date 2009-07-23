@@ -2486,40 +2486,21 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>Template with all params, enclosed in curly brackets</returns>
         public static List<Match> GetTemplates(string articleText, string template)
         {
-            MatchCollection nw = WikiRegexes.Nowiki.Matches(articleText);
-            MatchCollection cm = WikiRegexes.Comments.Matches(articleText);
-            Regex search = new Regex(@"(\{\{\s*" + Tools.CaseInsensitive(template) + @"\s*)[\|\}]",
-                RegexOptions.Singleline);
+            // replace with spaces any commented out templates etc., this means index of real matches remains the same as in actual article text
+            foreach (Match m in WikiRegexes.UnFormattedText.Matches(articleText))
+            {
+                articleText = articleText.Replace(m.Value, Tools.ReplaceWithSpaces(m.Value));
+            }
+
+            Regex search = new Regex(@"{{\s*" + Tools.CaseInsensitive(template) + @"\s*(\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})|}})", RegexOptions.Compiled);
 
             List<Match> res = new List<Match>();
 
-            int pos = 0;
             foreach (Match m in search.Matches(articleText))
             {
-                if (m.Index < pos)
-                    continue;
-                foreach (Match m2 in nw)
-                    if (m.Index > m2.Index && m.Index < m2.Index + m2.Length)
-                        continue;
-                foreach (Match m2 in cm)
-                    if (m.Index > m2.Index && m.Index < m2.Index + m2.Length)
-                        continue;
-
-                string s = ExtractTemplate(articleText, m);
-                if (string.IsNullOrEmpty(s))
-                    break;
-                pos = m.Index + s.Length;
-                Match mres = m;
-                foreach (Match m2 in Regex.Matches(articleText, Regex.Escape(s)))
-                {
-                    if (m2.Index == m.Index)
-                    {
-                        mres = m2;
-                        break;
-                    }
-                }
-                res.Add(mres);
+                res.Add(m);
             }
+
             return res;
         }
 
