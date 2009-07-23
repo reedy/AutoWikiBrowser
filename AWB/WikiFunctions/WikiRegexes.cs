@@ -408,7 +408,7 @@ namespace WikiFunctions
         public static readonly Regex MoreNoFootnotes = new Regex(@"{{([Mm]ore|[Nn]o) ?footnotes[^{}]*}}", RegexOptions.Compiled);
 
         public const string ReferencesTemplates = @"(\{\{\s*ref(?:-?li(?:st|nk)|erence)[^{}]*\}\}|<references\s*/>|\{\{refs)";
-        public static readonly string ReferenceEndGR = @"(</ref>|{{GR\|\d}})";
+        public const string ReferenceEndGR = @"(</ref>|{{GR\|\d}})";
 
         /// <summary>
         /// Matches any of the recognised templates for displaying cite references
@@ -672,24 +672,24 @@ namespace WikiFunctions
         public static readonly Regex SuperscriptedPunctuationBetweenRefs = new Regex("(</ref>|<ref[^>]*?/>)<sup>[ ]*[,;-]?[ ]*</sup><ref", RegexOptions.Compiled);
         public static readonly Regex PunctuationBetweenRefs = new Regex("(</ref>|<ref[^>]*?/>)[ ]*[,;-]?[ ]*<ref", RegexOptions.Compiled);
 
-        public static readonly string factTag = "{{[ ]*(fact|fact[ ]*[\\|][^}]*|facts|citequote|citation needed|cn|verification needed|verify source|verify credibility|who|failed verification|nonspecific|dubious|or|lopsided|GR[ ]*[\\|][ ]*[^ ]+|[c]?r[e]?f[ ]*[\\|][^}]*|ref[ _]label[ ]*[\\|][^}]*|ref[ _]num[ ]*[\\|][^}]*)[ ]*}}";
-        public static readonly Regex WhitespaceFactTag = new Regex("[\\n\\r\\f\\t ]+?" + factTag, RegexOptions.Compiled);
+        public const string FactTag = "{{[ ]*(fact|fact[ ]*[\\|][^}]*|facts|citequote|citation needed|cn|verification needed|verify source|verify credibility|who|failed verification|nonspecific|dubious|or|lopsided|GR[ ]*[\\|][ ]*[^ ]+|[c]?r[e]?f[ ]*[\\|][^}]*|ref[ _]label[ ]*[\\|][^}]*|ref[ _]num[ ]*[\\|][^}]*)[ ]*}}";
+        public static readonly Regex WhitespaceFactTag = new Regex("[\\n\\r\\f\\t ]+?" + FactTag, RegexOptions.Compiled);
 
-        public static readonly string lacksPunctuation = "([^\\.,;:!\\?\"'’])";
-        public static readonly string questionOrExclam = "([!\\?])";
-        public static readonly string minorPunctuation = "([\\.,;:])";
-        public static readonly string anyPunctuation = "([\\.,;:!\\?])";
-        public static readonly string majorPunctuation = "([,;:!\\?])";
-        public static readonly string period = "([\\.])";
-        public static readonly string quote = "([\"'’]*)";
-        public static readonly string space = "[ ]*";
+        public const string lacksPunctuation = "([^\\.,;:!\\?\"'’])";
+        public const string questionOrExclam = "([!\\?])";
+        public const string minorPunctuation = "([\\.,;:])";
+        public const string anyPunctuation = "([\\.,;:!\\?])";
+        public const string majorPunctuation = "([,;:!\\?])";
+        public const string period = "([\\.])";
+        public const string quote = "([\"'’]*)";
+        public const string space = "[ ]*";
 
-        public static readonly string refTag = "(<ref>([^<]|<[^/]|</[^r]|</r[^e]|</re[^f]|</ref[^>])*?</ref>" + "|<ref[^>]*?[^/]>([^<]|<[^/]|</[^r]|</r[^e]|</re[^f]" + "|</ref[^>])*?</ref>|<ref[^>]*?/>)";
+        public const string refTag = "(<ref>([^<]|<[^/]|</[^r]|</r[^e]|</re[^f]|</ref[^>])*?</ref>" + "|<ref[^>]*?[^/]>([^<]|<[^/]|</[^r]|</r[^e]|</re[^f]" + "|</ref[^>])*?</ref>|<ref[^>]*?/>)";
 
-        public static readonly Regex match0A = new Regex(lacksPunctuation + quote + factTag + space + anyPunctuation, RegexOptions.Compiled);
-        public static readonly Regex match0B = new Regex(questionOrExclam + quote + factTag + space + majorPunctuation, RegexOptions.Compiled);
-        //public static readonly Regex match0C = new Regex(minorPunctuation + quote + factTag + space + anyPunctuation, RegexOptions.Compiled);
-        public static readonly Regex match0D = new Regex(questionOrExclam + quote + factTag + space + period, RegexOptions.Compiled);
+        public static readonly Regex match0A = new Regex(lacksPunctuation + quote + FactTag + space + anyPunctuation, RegexOptions.Compiled);
+        public static readonly Regex match0B = new Regex(questionOrExclam + quote + FactTag + space + majorPunctuation, RegexOptions.Compiled);
+        //public static readonly Regex match0C = new Regex(minorPunctuation + quote + FactTag + space + anyPunctuation, RegexOptions.Compiled);
+        public static readonly Regex match0D = new Regex(questionOrExclam + quote + FactTag + space + period, RegexOptions.Compiled);
 
         public static readonly Regex match1A = new Regex(lacksPunctuation + quote + refTag + space + anyPunctuation, RegexOptions.Compiled);
         public static readonly Regex match1B = new Regex(questionOrExclam + quote + refTag + space + majorPunctuation, RegexOptions.Compiled);

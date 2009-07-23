@@ -1,6 +1,5 @@
 ﻿using WikiFunctions.Parse;
 using NUnit.Framework;
-using System.Text.RegularExpressions;
 
 namespace UnitTests
 {
@@ -47,7 +46,7 @@ namespace UnitTests
         [Test]
         public void MovePersonDataTests()
         {
-            string a = @"<!-- Metadata: see [[Wikipedia:Persondata]] -->
+            const string a = @"<!-- Metadata: see [[Wikipedia:Persondata]] -->
 ";
             string b1 = @"{{Persondata
 |NAME= Hodgson, Jane Elizabeth
@@ -59,7 +58,7 @@ namespace UnitTests
 |PLACE OF DEATH= [[Rochester, Minnesota]]
 }}";
 
-            string b2 = @"{{Persondata
+            const string b2 = @"{{Persondata
 |NAME= Hodgson, Jane Elizabeth
 |ALTERNATIVE NAMES=
 |SHORT DESCRIPTION= [[Physician]], [[obstetrician]], [[gynecologist]]
@@ -79,7 +78,7 @@ namespace UnitTests
             MetaDataSorter.RemovePersonData(ref b1);
             Assert.AreEqual(b1, "");
 
-            string d1 = @"{{Persondata<!-- Metadata: see [[Wikipedia:Persondata]] -->
+            const string d1 = @"{{Persondata<!-- Metadata: see [[Wikipedia:Persondata]] -->
 |NAME= Becker, Gary
 |ALTERNATIVE NAMES=
 |SHORT DESCRIPTION= [[Economics|Economist]]
@@ -88,9 +87,9 @@ namespace UnitTests
 |DATE OF DEATH=
 |PLACE OF DEATH=
 }}";
-            string d2 = @"{{Winners of the National Medal of Science|behav-social}}
+            const string d2 = @"{{Winners of the National Medal of Science|behav-social}}
 ";
-            string d3 = @"
+            const string d3 = @"
 [[Category:Members of the National Academy of Sciences]]";
 
             string e = d2 + d1 + d3;
@@ -126,7 +125,7 @@ Fred has a dog.
             Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveDablinks(e + "\r\n" + d));
 
             // don't move dablinks in a section
-            string f = @"Article words
+            const string f = @"Article words
 == heading ==
 {{redirect2|Fred the dancer|Fred Smith (dancer)}}
 words";
@@ -135,8 +134,8 @@ words";
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#String_cannot_be_of_zero_length._Parameter_name:_oldValue
             Assert.AreEqual(@"[[Category:Confederate Navy officers|Captains]]", MetaDataSorter.MoveDablinks(@"[[Category:Confederate Navy officers|Captains]]"));
 
-            string g = @"Some words";
-            string h = @"==heading==
+            const string g = @"Some words";
+            const string h = @"==heading==
 more words
 [[Category:Foo]]";
 
@@ -273,59 +272,59 @@ some words"));
         [Test]
         public void MoveMoreNoFootnotesTests()
         {
-            string A = @"{{nofootnotes}}";
-            string A2 = @"{{Morefootnotes}}";
+            const string a = @"{{nofootnotes}}";
+            const string a2 = @"{{Morefootnotes}}";
 
-            string B = @"
+            const string b = @"
 '''Article''' words.
 == section ==
 words.
 ";
-            string C = @"== References ==
+            const string c = @"== References ==
 ";
-            string D = @"== Notes ==
+            const string d = @"== Notes ==
 ";
-            string E = @"== Footnotes ==
+            const string e = @"== Footnotes ==
 ";
 
-            string F = @"'''Article''' words.
+            const string f = @"'''Article''' words.
 == section ==
 {{nofootnotes}}
 words.
 ";
-            string G = @"words";
+            const string g = @"words";
 
-            Assert.AreEqual(B + C + A + "\r\n" + G, MetaDataSorter.MoveMoreNoFootnotes(A + B + C + G));
-            Assert.AreEqual(B + D + A + "\r\n" + G, MetaDataSorter.MoveMoreNoFootnotes(A + B + D + G));
-            Assert.AreEqual(B + E + A + "\r\n" + G, MetaDataSorter.MoveMoreNoFootnotes(A + B + E + G));
-            Assert.AreEqual(B + E + A + "\r\n", MetaDataSorter.MoveMoreNoFootnotes(A + B + E));
-            Assert.AreEqual(B + E + A2 + "\r\n", MetaDataSorter.MoveMoreNoFootnotes(A2 + B + E));
+            Assert.AreEqual(b + c + a + "\r\n" + g, MetaDataSorter.MoveMoreNoFootnotes(a + b + c + g));
+            Assert.AreEqual(b + d + a + "\r\n" + g, MetaDataSorter.MoveMoreNoFootnotes(a + b + d + g));
+            Assert.AreEqual(b + e + a + "\r\n" + g, MetaDataSorter.MoveMoreNoFootnotes(a + b + e + g));
+            Assert.AreEqual(b + e + a + "\r\n", MetaDataSorter.MoveMoreNoFootnotes(a + b + e));
+            Assert.AreEqual(b + e + a2 + "\r\n", MetaDataSorter.MoveMoreNoFootnotes(a2 + b + e));
 
             // not moved if outside zeroth section
-            Assert.AreEqual(F + C + G, MetaDataSorter.MoveMoreNoFootnotes(F + C + G));
-            Assert.AreEqual(F + D + G, MetaDataSorter.MoveMoreNoFootnotes(F + D + G));
-            Assert.AreEqual(F + E + G, MetaDataSorter.MoveMoreNoFootnotes(F + E + G));
+            Assert.AreEqual(f + c + g, MetaDataSorter.MoveMoreNoFootnotes(f + c + g));
+            Assert.AreEqual(f + d + g, MetaDataSorter.MoveMoreNoFootnotes(f + d + g));
+            Assert.AreEqual(f + e + g, MetaDataSorter.MoveMoreNoFootnotes(f + e + g));
         }
 
         [Test]
         public void MoveExternalLinksTests()
         {
-            string a = @"'''article'''
+            const string a = @"'''article'''
 == blah ==
 words<ref>abc</ref>";
-            string b = @"== external links ==
+            const string b = @"== external links ==
 * [http://www.site.com a site]";
-            string c = @"== References ==
+            const string c = @"== References ==
 {{reflist}}";
-            string d = @"=== another section ===
+            const string d = @"=== another section ===
 blah";
-            string e = @"[[Category:Foos]]";
+            const string e = @"[[Category:Foos]]";
 
-            string f = @"{{some footer thing}}";
+            const string f = @"{{some footer thing}}";
 
-            string g = @"== another section ==
+            const string g = @"== another section ==
 blah";
-            string h = @"{{DEFAULTSORT:Foo, bar}}";
+            const string h = @"{{DEFAULTSORT:Foo, bar}}";
 
             Assert.AreEqual(a + "\r\n" + c + "\r\n" + b + "\r\n" + e, MetaDataSorter.MoveExternalLinks(a + "\r\n" + b + "\r\n" + c + "\r\n" + e));
             Assert.AreEqual(a + "\r\n" + c + "\r\n" + b + "\r\n" + h, MetaDataSorter.MoveExternalLinks(a + "\r\n" + b + "\r\n" + c + "\r\n" + h));
@@ -345,16 +344,16 @@ blah";
         [Test]
         public void MoveSeeAlso()
         {
-            string a = @"'''article'''
+            const string a = @"'''article'''
 == blah ==
 words<ref>abc</ref>";
 
-            string b = @"== see also ==
+            const string b = @"== see also ==
 * [http://www.site.com a site]";
 
-            string c = @"== References ==
+            const string c = @"== References ==
 {{reflist}}";
-            string d = @"== another section ==
+            const string d = @"== another section ==
 blah";
 
             Assert.AreEqual(a + "\r\n" + b + "\r\n" + c + "\r\n" + d, MetaDataSorter.MoveSeeAlso(a + "\r\n" + c + "\r\n" + b + "\r\n" + d));
@@ -411,7 +410,7 @@ blah";
 
 ";
 
-            string h = @"[[Category:American keyboardists]]
+            const string h = @"[[Category:American keyboardists]]
 [[Category:Maroon 5]]
 {{Lifetime|1979||Carmichael, Jesse}}
 ";
@@ -425,10 +424,10 @@ blah";
         {
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Comments_get_removed_from_between_categories
             // allow comments on newline between categories, and keep them in the same place
-            string i = @"#REDIRECT [[Ohio and Mississippi Railway]]
+            const string i = @"#REDIRECT [[Ohio and Mississippi Railway]]
 
 ";
-            string j = @"[[Category:Predecessors of the Baltimore and Ohio Railroad]]
+            const string j = @"[[Category:Predecessors of the Baltimore and Ohio Railroad]]
 <!--Illinois company:-->
 [[Category:Railway companies established in 1851]]
 [[Category:Railway companies disestablished in 1862]]
@@ -449,7 +448,7 @@ blah";
             Assert.AreEqual(j + "\r\n", parser2.Sorter.RemoveCats(ref l, "test"));
             Assert.IsTrue(l.Contains("\r\n" + @"<!--foo-->"));
 
-            string m = @"[[Category:American women writers]]
+            const string m = @"[[Category:American women writers]]
 [[Category:Autism activists]]
 <!--LBGT categories are not to be used on bios of living people unless they self-identify with the label and it is relevant to their public lives[[Category:Bisexual actors]]
 [[Category:LGBT models]]
@@ -462,7 +461,7 @@ blah";
             Assert.AreEqual(m + "\r\n", parser2.Sorter.RemoveCats(ref n, "test"));
 
             // comments on same line of category
-            string o = @"[[Category:Canadian Aviation Hall of Fame inductees]]
+            const string o = @"[[Category:Canadian Aviation Hall of Fame inductees]]
 [[Category:Canadian World War I pilots]] <!-- If he was a Flying Ace, use the Canadian subcategory -->
 [[Category:Canadian World War II pilots]] <!-- If he was a Flying Ace, use the subcategory -->
 [[Category:Foo]]";
@@ -476,9 +475,8 @@ blah";
         public void InterWikiTests()
         {
             parser2.SortInterwikis = false;
-            System.Collections.Generic.List<string> Fred = new System.Collections.Generic.List<string> { "de", "es", "fr", "it", "sv" };
 
-            parser2.Sorter.PossibleInterwikis = Fred;
+            parser2.Sorter.PossibleInterwikis = new System.Collections.Generic.List<string> { "de", "es", "fr", "it", "sv" };
 
             string a = @"[[de:Canadian National Railway]]
 [[es:Canadian National]]
@@ -495,24 +493,23 @@ The following links are here to prevent the interwiki bot from adding them to th
 [[it:CN]]
 [[sv:CN]]
 -->";
-            string d = c;
             // no interwikis here
             Assert.AreEqual("", parser2.Sorter.Interwikis(ref c));
 
             // deduplication
-            string e = @"[[de:Canadian National Railway]]
+            string d = @"[[de:Canadian National Railway]]
 [[es:Canadian National]]
 [[es:Canadian National]]
 [[fr:Canadien National]]";
 
-            Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref e));
+            Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref d));
         } 
 
         [Test]
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Substituted_templates
         public void NoIncludeIncludeOnlyTests()
         {
-            string a = @"<noinclude>", b = @"[[ar:قالب:بذرة موسيقي]]
+            const string a = @"<noinclude>", b = @"[[ar:قالب:بذرة موسيقي]]
 [[bg:Шаблон:Музика-мъниче]]
 [[ca:Plantilla:Esborrany de música]]
 [[cs:Šablona:Hudební pahýl]]
@@ -523,7 +520,7 @@ The following links are here to prevent the interwiki bot from adding them to th
 
             Assert.AreNotEqual(b, parser2.SortMetaData(b, "foo"));
 
-            string d = @"[[Category:Foo]]", e = @"[[Category:More foo]]", f = @"<includeonly>blah[[Category:Foo]]</includeonly>";
+            const string d = @"[[Category:Foo]]", e = @"[[Category:More foo]]", f = @"<includeonly>blah[[Category:Foo]]</includeonly>";
 
             Assert.AreEqual(a + d + c + e, parser2.SortMetaData(a + d + c + e, "foo"));
 
