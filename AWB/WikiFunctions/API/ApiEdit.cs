@@ -382,6 +382,7 @@ namespace WikiFunctions.API
         public void Login(string username, string password)
         {
             Reset();
+            User = new UserInfo(); // we don't know for sure what will be our status in case of exception
 
             string result = HttpPost(new[,] { { "action", "login" } },
                                      new[,] { 

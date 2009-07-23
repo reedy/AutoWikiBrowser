@@ -265,7 +265,7 @@ namespace WikiFunctions
                 CheckPageText = strText;
 
                 // don't run GetInLogInStatus if we don't have the username, we sometimes get 2 error message boxes otherwise
-                bool loggedIn = Editor.User.IsRegistered;
+                bool loggedIn = Editor.User.IsLoggedIn;
 
                 if (!loggedIn)
                     return WikiStatusResult.NotLoggedIn;
