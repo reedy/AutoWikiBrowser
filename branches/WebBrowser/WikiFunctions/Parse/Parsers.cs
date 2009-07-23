@@ -657,7 +657,7 @@ namespace WikiFunctions.Parse
                         firstref = m2.Value;
                         Regex r = new Regex(Regex.Escape(firstref));
 
-                        articleText = r.Replace(articleText, @"⌊⌊⌊⌊@@⌋⌋⌋⌋", 1);
+                        articleText = r.Replace(articleText, "\u230A\u230A\u230A\u230A@@\u230B\u230B\u230B\u230B", 1);
                     }
                     else // replace all duplicates
                         articleText = articleText.Replace(m2.Value, @"<ref name=""" + refName + @"""/>");
@@ -666,7 +666,7 @@ namespace WikiFunctions.Parse
                 }
 
                 // unmask first match
-                articleText = articleText.Replace(@"⌊⌊⌊⌊@@⌋⌋⌋⌋", firstref);
+                articleText = articleText.Replace("\u230A\u230A\u230A\u230A@@\u230B\u230B\u230B\u230B", firstref);
 
                 // duplicate citation fixer (first named): <ref name="Fred">(...)</ref>....<ref>\2</ref> --> ..<ref name="Fred"/>
                 // duplicate citation fixer (second named): <ref>(...)</ref>....<ref name="Fred">\2</ref> --> ..<ref name="Fred"/>
@@ -2437,7 +2437,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public const string EveryTemplate = @"[^\|\{\}]+";
 
         /// <summary>
-        /// extracts template using the given match
+        /// Extracts template using the given match.
         /// </summary>
         private static string ExtractTemplate(string articleText, Match m)
         {
@@ -2453,12 +2453,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         /// <summary>
-        /// finds first occurence of a given template in article text
-        /// handles nested templates correctly
+        /// Finds first occurrence of a given template in article text.
+        /// Handles nested templates correctly.
         /// </summary>
-        /// <param name="articleText">source text</param>
-        /// <param name="template">name of template, can be regex without a group capture</param>
-        /// <returns>template with all params, enclosed in curly brackets</returns>
+        /// <param name="articleText">Source text</param>
+        /// <param name="template">Name of template, can be regex without a group capture</param>
+        /// <returns>Template with all params, enclosed in curly brackets</returns>
         public static string GetTemplate(string articleText, string template)
         {
             Regex search = new Regex(@"(\{\{\s*" + Tools.CaseInsensitive(template) + @"\s*)(?:\||\}|<)", RegexOptions.Singleline);
@@ -2478,12 +2478,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         /// <summary>
-        /// finds every occurence of a given template in article text
-        /// handles nested templates correctly
+        /// Finds every occurrence of a given template in article text.
+        /// Handles nested templates correctly.
         /// </summary>
-        /// <param name="articleText">source text</param>
-        /// <param name="template">name of template, can be regex without a group capture</param>
-        /// <returns>template with all params, enclosed in curly brackets</returns>
+        /// <param name="articleText">Source text</param>
+        /// <param name="template">Name of template, can be regex without a group capture</param>
+        /// <returns>Template with all params, enclosed in curly brackets</returns>
         public static List<Match> GetTemplates(string articleText, string template)
         {
             MatchCollection nw = WikiRegexes.Nowiki.Matches(articleText);
