@@ -57,7 +57,7 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
             textBox.SelectionIndent = 0;
         }
 
-        Font body = new Font("Lucida Console", 10);
+        readonly Font body = new Font("Lucida Console", 10);
         int HeaderFont = 0;
         Font[] HeaderFonts;
         const int indent = 20;

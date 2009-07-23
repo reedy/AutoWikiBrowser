@@ -33,9 +33,9 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
 
 			// Populate the listviews
             foreach (KeyValuePair<string, string> kvp in parameters)
-                templateParameters.Items.Add(new ListViewItem(new string[] { kvp.Key, kvp.Value }));
+                templateParameters.Items.Add(new ListViewItem(new [] { kvp.Key, kvp.Value }));
             foreach (KeyValuePair<string, string> kvp in replacements)
-                replacementParameters.Items.Add(new ListViewItem(new string[] { kvp.Key, kvp.Value }));
+                replacementParameters.Items.Add(new ListViewItem(new [] { kvp.Key, kvp.Value }));
         }
 
 		private void SetButtonStates()
@@ -72,7 +72,7 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
         {
             TemplatorParameterDetails dlg = new TemplatorParameterDetails();
             if (dlg.ShowDialog() == DialogResult.OK)
-                replacementParameters.Items.Add(new ListViewItem(new string[] { dlg.ParamName, dlg.ParamRegex }));
+                replacementParameters.Items.Add(new ListViewItem(new [] { dlg.ParamName, dlg.ParamRegex }));
         }
         private void OnEditReplacementParam(object sender, EventArgs e)
         {
@@ -136,9 +136,9 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
             RemoveExcessPipes = removeExcessPipes.Checked;
 		}
 
-        private bool SaveParameters(ListView parameterListView, Dictionary<string, string> ParameterList)
+        private bool SaveParameters(ListView parameterListView, IDictionary<string, string> parameterList)
         {
-            ParameterList.Clear();
+            parameterList.Clear();
             List<string> names = new List<string>();
             foreach (ListViewItem lvi in parameterListView.Items)
             {
@@ -164,7 +164,7 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
                     return false;
                 }
                 names.Add(name);
-                ParameterList.Add(lvi.SubItems[0].Text, lvi.SubItems[1].Text);
+                parameterList.Add(lvi.SubItems[0].Text, lvi.SubItems[1].Text);
             }
             return true;
         }
@@ -177,7 +177,7 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
 			WikiFunctions.Tools.OpenURLInBrowser("http://msdn.microsoft.com/en-us/library/hs600312.aspx");
 		}
 
-        bool InTemplateParameters_ColumnWidthChanging = false;
+        bool InTemplateParameters_ColumnWidthChanging;
         private void templateParameters_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
         {
             if (InTemplateParameters_ColumnWidthChanging)
@@ -187,7 +187,7 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
             InTemplateParameters_ColumnWidthChanging = false;
         }
 
-        bool InReplacementParameters_ColumnWidthChanging = false;
+        bool InReplacementParameters_ColumnWidthChanging;
         private void replacementParameters_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
         {
             if (InReplacementParameters_ColumnWidthChanging)
