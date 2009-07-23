@@ -3910,7 +3910,7 @@ asdfasdf}} was here", "foo"));
 
             Assert.AreEqual(Fred.ToString(), Parsers.GetTemplates(text, "foo").ToString());
             Assert.AreEqual(Fred.ToString(), Parsers.GetTemplates(text, "Foo").ToString());
-            System.Collections.Generic.List<Match> templates = Parsers.GetTemplates(text, "foo");
+            MatchCollection templates = Parsers.GetTemplates(text, "foo");
             Assert.AreEqual(foo1, templates[0].Value);
             Assert.AreEqual(foo2, templates[1].Value);
             Assert.AreEqual(2, templates.Count);

@@ -2477,6 +2477,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return "";
         }
 
+        private static Dictionary<string, Regex> CachedGetTemplatesRegexes = new Dictionary<string, Regex>();
         /// <summary>
         /// Finds every occurrence of a given template in article text.
         /// Handles nested templates correctly.
@@ -2484,24 +2485,23 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="articleText">Source text</param>
         /// <param name="template">Name of template, can be regex without a group capture</param>
         /// <returns>Template with all params, enclosed in curly brackets</returns>
-        public static List<Match> GetTemplates(string articleText, string template)
+        public static MatchCollection GetTemplates(string articleText, string template)
         {
             // replace with spaces any commented out templates etc., this means index of real matches remains the same as in actual article text
             foreach (Match m in WikiRegexes.UnFormattedText.Matches(articleText))
-            {
                 articleText = articleText.Replace(m.Value, Tools.ReplaceWithSpaces(m.Value));
-            }
 
-            Regex search = new Regex(@"{{\s*" + Tools.CaseInsensitive(template) + @"\s*(\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})|}})", RegexOptions.Compiled);
-
-            List<Match> res = new List<Match>();
-
-            foreach (Match m in search.Matches(articleText))
+            string ciTemplateName = Tools.CaseInsensitive(template);
+            Regex search;
+            if (CachedGetTemplatesRegexes.ContainsKey(ciTemplateName))
+                search = CachedGetTemplatesRegexes[ciTemplateName];
+            else
             {
-                res.Add(m);
+                search = new Regex(@"{{\s*" + ciTemplateName + @"\s*(\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})|}})", RegexOptions.Compiled);
+                CachedGetTemplatesRegexes[ciTemplateName] = search;
             }
 
-            return res;
+            return search.Matches(articleText);
         }
 
         // covered by GetTemplateNameTests
