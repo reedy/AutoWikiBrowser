@@ -65,7 +65,7 @@ namespace UnitTests
         [Test]
         public void PrecededByEqualSign()
         {
-            Assert.That(Parsers.FixFootnotes("a=<ref>b</ref>"), Text.DoesNotContain("\n"));
+            Assert.That(Parsers.FixFootnotes("a=<ref>b</ref>"), Is.Not.StringContaining("\n"));
         }
 
         [Test]
@@ -3938,7 +3938,7 @@ asdfasdf}} was here", "foo"));
             Assert.AreEqual("[[Category:Foo]]", parser.AddCategory("Foo", "[[Category:Foo]]", "bar", out noChange));
             Assert.IsTrue(noChange);
             Assert.That(parser.AddCategory("Foo bar", "[[Category:Foo_bar]]", "bar", out noChange),
-                Text.Matches(@"\[\[Category:Foo[ _]bar\]\]"));
+                Is.StringMatching(@"\[\[Category:Foo[ _]bar\]\]"));
             Assert.IsTrue(noChange);
 
             Assert.AreEqual("[[category : foo_bar%20|quux]]", parser.AddCategory("Foo bar", "[[category : foo_bar%20|quux]]", "bar", out noChange));
