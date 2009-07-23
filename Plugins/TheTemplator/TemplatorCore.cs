@@ -47,12 +47,11 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
     /// </summary>
     public class TheTemplator : WikiFunctions.Plugin.IAWBPlugin
     {
-#if SHORT_PLUGIN_MENU
         private readonly ToolStripMenuItem pluginMenuItem = new ToolStripMenuItem("TheTemplator plugin");
         private readonly ToolStripMenuItem pluginConfigMenuItem = new ToolStripMenuItem("&Configuration...");
         private readonly ToolStripMenuItem aboutMenuItem2 = new ToolStripMenuItem("About TheTemplator plugin...");
-#else
-		private readonly ToolStripMenuItem pluginMenuItem = new ToolStripMenuItem("TheTemplator plugin");
+
+#if !SHORT_PLUGIN_MENU
 		private readonly ToolStripMenuItem pluginEnabledMenuItem = new ToolStripMenuItem("&Enabled");
 		private readonly ToolStripMenuItem pluginConfigMenuItem = new ToolStripMenuItem("&Configuration...");
 		private readonly ToolStripMenuItem aboutMenuItem1 = new ToolStripMenuItem("&About TheTemplator plugin...");
@@ -68,18 +67,20 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
             AWB = sender;
 
             // Menuitem should be checked when CFD plugin is active and unchecked when not, and default to not!
+
+            pluginMenuItem.CheckedChanged += PluginEnabledCheckedChange;
+            pluginConfigMenuItem.Click += ShowSettings;
+            aboutMenuItem2.Click += AboutMenuItemClicked;
+
 #if SHORT_PLUGIN_MENU
             pluginMenuItem.CheckOnClick = true;
-            pluginConfigMenuItem.Click += ShowSettings;
-            pluginMenuItem.CheckedChanged += PluginEnabledCheckedChange;
-            aboutMenuItem2.Click += AboutMenuItemClicked;
             pluginMenuItem.DropDownItems.Add(pluginConfigMenuItem);
 #else
 			pluginEnabledMenuItem.CheckOnClick = true;
 			pluginConfigMenuItem.Click += ShowSettings;
 			pluginEnabledMenuItem.CheckedChanged += PluginEnabledCheckedChange;
 			aboutMenuItem1.Click += AboutMenuItemClicked;
-			aboutMenuItem2.Click += AboutMenuItemClicked;
+
 			pluginMenuItem.DropDownItems.Add(pluginEnabledMenuItem);
 			pluginMenuItem.DropDownItems.Add(pluginConfigMenuItem);
 			pluginMenuItem.DropDownItems.Add("-");
@@ -157,15 +158,17 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
         }
         public object[] SaveSettings()
         {
-            List<PrefsKeyPair> settings = new List<PrefsKeyPair>();
-            settings.Add(new PrefsKeyPair("enabled", Settings.Enabled));
-            settings.Add(new PrefsKeyPair("xspipes", Settings.RemoveExcessPipes));
-            settings.Add(new PrefsKeyPair("skip", Settings.SkipIfNoTemplates));
-            settings.Add(new PrefsKeyPair("template", Settings.TemplateName));
-            settings.Add(new PrefsKeyPair("dlgwidth", Settings.dlgWidth));
-            settings.Add(new PrefsKeyPair("dlgheight", Settings.dlgHeight));
-            settings.Add(new PrefsKeyPair("dlgcol0", Settings.dlgCol0));
-            settings.Add(new PrefsKeyPair("dlgcol1", Settings.dlgCol1));
+            List<PrefsKeyPair> settings = new List<PrefsKeyPair>
+                                              {
+                                                  new PrefsKeyPair("enabled", Settings.Enabled),
+                                                  new PrefsKeyPair("xspipes", Settings.RemoveExcessPipes),
+                                                  new PrefsKeyPair("skip", Settings.SkipIfNoTemplates),
+                                                  new PrefsKeyPair("template", Settings.TemplateName),
+                                                  new PrefsKeyPair("dlgwidth", Settings.dlgWidth),
+                                                  new PrefsKeyPair("dlgheight", Settings.dlgHeight),
+                                                  new PrefsKeyPair("dlgcol0", Settings.dlgCol0),
+                                                  new PrefsKeyPair("dlgcol1", Settings.dlgCol1)
+                                              };
             foreach (KeyValuePair<string, string> p in Settings.Parameters)
                 settings.Add(new PrefsKeyPair(":" + p.Key, p.Value));
             foreach (KeyValuePair<string, string> p in Settings.Replacements)
@@ -176,11 +179,11 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
         {
             get { return PluginName; }
         }
-        public void Nudge(out bool Cancel)
+        public void Nudge(out bool cancel)
         {
-            Cancel = false;
+            cancel = false;
         }
-        public void Nudged(int Nudges)
+        public void Nudged(int nudges)
         {
         }
         public string ProcessArticle(WikiFunctions.Plugin.IAutoWikiBrowser sender, WikiFunctions.Plugin.IProcessArticleEventArgs eventargs)
@@ -208,7 +211,7 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
                 return text;
             }
 
-            int deltaLength = 0; // used when re-inserting text, to account for differences in previous replacements
+            //int deltaLength = 0; // used when re-inserting text, to account for differences in previous replacements
 
             // Now apply our regex to each instance of the template in the article text
             foreach (Match match in matches)
@@ -244,7 +247,7 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
                     if (paramSegment == "")
                         paramSegments += "|" + param.Key + "=";
                     else
-                        paramSegments += paramSegment + m.Groups["_" + param.Key].ToString();
+                        paramSegments += paramSegment + m.Groups["_" + param.Key];
                 }
 #if DEBUG_OUTPUT_DIALOG
                 DebugOutput dlg = new DebugOutput();
