@@ -264,7 +264,6 @@ namespace WikiFunctions.API
             catch (ThreadAbortException)
             {
                 SynchronousEditor.Reset();
-                //TODO: maybe, an OperationAborted event is needed?
             }
             catch (Exception ex)
             {

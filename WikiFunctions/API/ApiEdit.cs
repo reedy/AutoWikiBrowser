@@ -399,7 +399,7 @@ namespace WikiFunctions.API
                 throw new LoginException(this, status);
             }
 
-            CheckForError(result, "login");
+            CheckForErrors(result, "login");
 
             RefreshUserInfo();
         }
@@ -409,7 +409,7 @@ namespace WikiFunctions.API
             Reset();
             User = new UserInfo();
             string result = HttpGet(new[,] { { "action", "logout" } }, false);
-            CheckForError(result, "logout");
+            CheckForErrors(result, "logout");
         }
 
         public void Watch(string title)
@@ -422,7 +422,7 @@ namespace WikiFunctions.API
                     {"action", "watch"},
                     {"title", title}
                 });
-            CheckForError(result, "watch");
+            CheckForErrors(result, "watch");
         }
 
         public void Unwatch(string title)
@@ -436,7 +436,7 @@ namespace WikiFunctions.API
                     {"title", title},
                     {"unwatch", null}
                 });
-            CheckForError(result, "watch");
+            CheckForErrors(result, "watch");
         }
 
         public UserInfo User { get; private set; }
@@ -452,7 +452,7 @@ namespace WikiFunctions.API
                             { "uiprop", "blockinfo|hasmsg|groups|rights" }
                          }, false);
 
-            CheckForError(result, "userinfo");
+            CheckForErrors(result, "userinfo");
 
             User = new UserInfo(result);
         }
@@ -477,7 +477,7 @@ namespace WikiFunctions.API
                 { "rvprop", "content|timestamp" } // timestamp|user|comment|
             });
 
-            CheckForError(result, "query");
+            CheckForErrors(result, "query");
 
             //HACK:
             if (result.Contains("<interwiki>")) throw new InterwikiException(this);
@@ -523,7 +523,7 @@ namespace WikiFunctions.API
                     { "token", Page.EditToken }
                 });
 
-            CheckForError(result, "edit");
+            CheckForErrors(result, "edit");
             Reset();
 
             return new SaveInfo(result);
@@ -554,7 +554,7 @@ namespace WikiFunctions.API
 
                     });
 
-            CheckForError(result);
+            CheckForErrors(result);
 
             try
             {
@@ -581,7 +581,7 @@ namespace WikiFunctions.API
                     { "reason", reason }
                 });
 
-            CheckForError(result);
+            CheckForErrors(result);
 
             Reset();
         }
@@ -619,7 +619,7 @@ namespace WikiFunctions.API
 
                     });
 
-            CheckForError(result);
+            CheckForErrors(result);
 
             try
             {
@@ -651,7 +651,7 @@ namespace WikiFunctions.API
                         { watch ? "watch" : null, null }
                     });
 
-            CheckForError(result);
+            CheckForErrors(result);
 
             Reset();
         }
@@ -685,7 +685,7 @@ namespace WikiFunctions.API
 
                     });
 
-            CheckForError(result);
+            CheckForErrors(result);
 
             try
             {
@@ -719,7 +719,7 @@ namespace WikiFunctions.API
                     },
                 true);
 
-            CheckForError(result);
+            CheckForErrors(result);
 
             Reset();
         }
@@ -780,7 +780,7 @@ namespace WikiFunctions.API
                     { "text", text }
                 });
 
-            CheckForError(result, "parse");
+            CheckForErrors(result, "parse");
             try
             {
                 XmlReader xr = XmlReader.Create(new StringReader(result));
@@ -806,7 +806,7 @@ namespace WikiFunctions.API
                     { "text", text }
                 });
 
-            CheckForError(result, "expandtemplates");
+            CheckForErrors(result, "expandtemplates");
             try
             {
                 XmlReader xr = XmlReader.Create(new StringReader(result));
@@ -826,9 +826,9 @@ namespace WikiFunctions.API
         /// Checks the XML returned by the server for error codes and throws an appropriate exception
         /// </summary>
         /// <param name="xml">Server output</param>
-        private XmlDocument CheckForError(string xml)
+        private XmlDocument CheckForErrors(string xml)
         {
-            return CheckForError(xml, null);
+            return CheckForErrors(xml, null);
         }
 
         /// <summary>
@@ -836,7 +836,7 @@ namespace WikiFunctions.API
         /// </summary>
         /// <param name="xml">Server output</param>
         /// <param name="action">The action performed, null if don't check</param>
-        private XmlDocument CheckForError(string xml, string action)
+        private XmlDocument CheckForErrors(string xml, string action)
         {
             var doc = new XmlDocument();
             doc.Load(new StringReader(xml));
