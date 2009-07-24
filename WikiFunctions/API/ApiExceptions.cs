@@ -129,7 +129,7 @@ namespace WikiFunctions.API
     }
 
     /// <summary>
-    /// 
+    /// Thrown when logging in failed
     /// </summary>
     public class LoginException : ApiException
     {
@@ -251,7 +251,8 @@ namespace WikiFunctions.API
     }
 
     /// <summary>
-    /// 
+    /// Thrown when server requests to solve a captcha.
+    /// Note: we currently don't support captchas in any way other than stopping and reporting.
     /// </summary>
     public class CaptchaException : ApiException
     {
@@ -262,7 +263,7 @@ namespace WikiFunctions.API
     }
 
     /// <summary>
-    /// 
+    /// Thrown when page name provided for an API operation contains interwiki prefix
     /// </summary>
     public class InterwikiException : ApiException
     {
