@@ -55,6 +55,7 @@
             this.button1.TabIndex = 0;
             this.button1.Text = "&Close";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // splitContainer1
             // 
@@ -74,6 +75,7 @@
             this.splitContainer1.Size = new System.Drawing.Size(531, 486);
             this.splitContainer1.SplitterDistance = 457;
             this.splitContainer1.TabIndex = 2;
+            this.splitContainer1.TabStop = false;
             // 
             // DebugOutput
             // 
