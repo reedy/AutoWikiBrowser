@@ -17,7 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#define DEBUG_OUTPUT_DIALOG
+// #define DEBUG_OUTPUT_DIALOG
 #define SHORT_PLUGIN_MENU
 
 using System;
@@ -52,10 +52,10 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
         private readonly ToolStripMenuItem aboutMenuItem2 = new ToolStripMenuItem("About TheTemplator plugin...");
 
 #if !SHORT_PLUGIN_MENU
-		private readonly ToolStripMenuItem pluginEnabledMenuItem = new ToolStripMenuItem("&Enabled");
-		private readonly ToolStripMenuItem pluginConfigMenuItem = new ToolStripMenuItem("&Configuration...");
-		private readonly ToolStripMenuItem aboutMenuItem1 = new ToolStripMenuItem("&About TheTemplator plugin...");
-		private readonly ToolStripMenuItem aboutMenuItem2 = new ToolStripMenuItem("About TheTemplator plugin...");
+        private readonly ToolStripMenuItem pluginEnabledMenuItem = new ToolStripMenuItem("&Enabled");
+        private readonly ToolStripMenuItem pluginConfigMenuItem = new ToolStripMenuItem("&Configuration...");
+        private readonly ToolStripMenuItem aboutMenuItem1 = new ToolStripMenuItem("&About TheTemplator plugin...");
+        private readonly ToolStripMenuItem aboutMenuItem2 = new ToolStripMenuItem("About TheTemplator plugin...");
 #endif
 
         #region IAWBPlugin Members
@@ -76,15 +76,15 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
             pluginMenuItem.CheckOnClick = true;
             pluginMenuItem.DropDownItems.Add(pluginConfigMenuItem);
 #else
-			pluginEnabledMenuItem.CheckOnClick = true;
-			pluginConfigMenuItem.Click += ShowSettings;
-			pluginEnabledMenuItem.CheckedChanged += PluginEnabledCheckedChange;
-			aboutMenuItem1.Click += AboutMenuItemClicked;
+            pluginEnabledMenuItem.CheckOnClick = true;
+            pluginConfigMenuItem.Click += ShowSettings;
+            pluginEnabledMenuItem.CheckedChanged += PluginEnabledCheckedChange;
+            aboutMenuItem1.Click += AboutMenuItemClicked;
 
-			pluginMenuItem.DropDownItems.Add(pluginEnabledMenuItem);
-			pluginMenuItem.DropDownItems.Add(pluginConfigMenuItem);
-			pluginMenuItem.DropDownItems.Add("-");
-			pluginMenuItem.DropDownItems.Add(aboutMenuItem1);
+            pluginMenuItem.DropDownItems.Add(pluginEnabledMenuItem);
+            pluginMenuItem.DropDownItems.Add(pluginConfigMenuItem);
+            pluginMenuItem.DropDownItems.Add("-");
+            pluginMenuItem.DropDownItems.Add(aboutMenuItem1);
 #endif
 
             sender.PluginsToolStripMenuItem.DropDownItems.Add(pluginMenuItem);
@@ -122,7 +122,7 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
 #if SHORT_PLUGIN_MENU
                     pluginMenuItem.Checked = Settings.Enabled;
 #else
-					pluginEnabledMenuItem.Checked = Settings.Enabled;
+                    pluginEnabledMenuItem.Checked = Settings.Enabled;
 #endif
                     break;
                 case "xspipes":
@@ -211,7 +211,12 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
                 return text;
             }
 
-            //int deltaLength = 0; // used when re-inserting text, to account for differences in previous replacements
+            int deltaLength = 0; // used when re-inserting text, to account for differences in previous replacements
+#if DEBUG_OUTPUT_DIALOG
+            DebugOutput dlg = new DebugOutput();
+            dlg.Show(AWB.Form);
+            dlg.AddSection("text", text);
+#endif
 
             // Now apply our regex to each instance of the template in the article text
             foreach (Match match in matches)
@@ -239,6 +244,28 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
                 Match m = findParametersRegex.Match(matchSegment);
                 System.Diagnostics.Debug.Assert(m.Success);
 
+                // Determine the pattern for spacing, to minimise the whitespace changes
+                string paramPipeStr = "|"; // gets replaced with one surrounded by whitespace if that's what the article uses
+                string paramEqualsStr = "="; // gets replaced with one surrounded by whitespace if that's what the article uses
+                int paramDesiredLength = 0;
+                string trailingWhitespace = ""; // any whitespace after the value
+                foreach (KeyValuePair<string, string> param in Settings.Parameters)
+                {
+                    string paramSegment = m.Groups["__" + param.Key].ToString();
+                    if (paramSegment != "")
+                    {
+                        paramPipeStr = paramPipeRegex.Match(paramSegment).Value;
+                        string paramPatternMatch = paramEqualsRegex.Match(paramSegment).Value;
+                        paramDesiredLength = paramPatternMatch.Length + param.Key.Length;
+                        paramEqualsStr = paramPatternMatch.PadLeft(paramDesiredLength);
+                        string valueSegment = m.Groups["_" + param.Key].ToString();
+                        if (valueSegment == "")
+                            valueSegment = paramSegment;
+                        trailingWhitespace = trailingWhiteSpaceRegex.Match(valueSegment).Value;
+                        break;
+                    }
+                }
+
                 // Build the segments of the original input string into one composite, in a specific order
                 string paramSegments = "";
                 foreach (KeyValuePair<string, string> param in Settings.Parameters)
@@ -249,60 +276,90 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
                     else
                         paramSegments += paramSegment + m.Groups["_" + param.Key];
                 }
+                // add a trailing pipe to assist in capturing all the white space
+                paramSegments += "|";
+
+                // Build the segments of the replacement values
+                // Try to reproduce the whitespace style of the surrounding parameters if they are on separate lines
+                string paramReplacementStr = "";
+                foreach (KeyValuePair<string, string> param in Settings.Replacements)
+                {
+                    string equalsStr;
+                    if (trailingWhitespace.Contains('\n'))
+                    {
+                        int spaceLeft = paramDesiredLength - param.Key.Length;
+                        if (spaceLeft <= 0)
+                        {
+                            // This parameter name is wider than the space to the left of our reference parameter was
+                            equalsStr = "=";
+                        }
+                        else
+                        {
+                            equalsStr = paramEqualsStr;
+                            int indexOfEquals = equalsStr.IndexOf('=');
+                            // Trim space from left as far as we can
+                            equalsStr = equalsStr.Substring(Math.Max(indexOfEquals, spaceLeft));
+                            // Trim space from right if still needed
+                            if (equalsStr.Length > spaceLeft)
+                                equalsStr = equalsStr.Remove(spaceLeft);
+                        }
+                    }
+                    else
+                        equalsStr = paramEqualsStr;
+                    paramReplacementStr += paramPipeStr + param.Key + equalsStr + param.Value + trailingWhitespace;
+                }
+
+                // Do the replacement
+                string paramReplacement = paramReplacementRegex.Replace(paramSegments, paramReplacementStr);
+                paramReplacement = paramReplacement.Remove(paramReplacement.Length - 1);
+
+                // Check for only whitespace difference between old and new
+                //TODO: re-check this:
+                if (whiteSpaceRegex.Replace(paramSegments, "") == whiteSpaceRegex.Replace(paramReplacement, ""))
+                    continue;
+
 #if DEBUG_OUTPUT_DIALOG
-                DebugOutput dlg = new DebugOutput();
+                dlg.StartSection(string.Format("Match at {0}", match.Index));
                 dlg.StartSection("Groups");
                 for (int i = 0; i < findParametersRegex.GetGroupNumbers().Length; ++i)
                     dlg.AddSection("Group " + findParametersRegex.GetGroupNames()[i], m.Groups[i].ToString());
                 dlg.EndSection();
                 dlg.AddSection("paramSegments", paramSegments);
-                dlg.AddSection("paramMatcher", paramReplacementRegex.ToString());
-                //dlg.AddSection("paramReplacement", paramReplacement);
-                dlg.ShowDialog();
+                dlg.AddSection("paramReplacementStr", paramReplacementStr);
+                dlg.AddSection("paramReplacementRegex", paramReplacementRegex.ToString());
+                dlg.AddSection("paramReplacement", paramReplacement);
 #endif
-                //TODO: Transform the segments according to the user's replacement rules
-#if TODO
-				string paramReplacement = paramReplacementRegex.Replace(paramSegments, Settings.Replacements);
 
-				// Check for only whitespace difference between old and new
-				if (whiteSpaceRegex.Replace(paramSegments, "") == whiteSpaceRegex.Replace(paramReplacement, ""))
-					continue;
+                // Remove all occurrences of all of the parameters we're operating on.
+                // Note the index of the first occurrence as the insertion point for the whole replacement group
+                int firstIndex = match.Length;
+                foreach (KeyValuePair<string, string> param in Settings.Parameters)
+                {
+                    Regex segmentRegex = paramRemovalRegexes[param.Key];
+                    Match segmentMatch = segmentRegex.Match(matchSegment);
+                    if (segmentMatch.Success)
+                    {
+                        matchSegment = segmentRegex.Replace(matchSegment, "");
+                        if (segmentMatch.Index < firstIndex)
+                            firstIndex = segmentMatch.Index;
+                    }
+                }
 
-				// Remove all occurrences of all of the parameters we're operating on.
-				// Note the index of the first occurrence as the insertion point for the replacement
-				int firstIndex = match.Length;
-				foreach (KeyValuePair<string, string> param in Settings.Parameters)
-				{
-					Regex segmentRegex = paramRemovalRegexes[param.Key];
-					Match segmentMatch = segmentRegex.Match(matchSegment);
-					if (segmentMatch.Success)
-					{
-						matchSegment = segmentRegex.Replace(matchSegment, "");
-						if (segmentMatch.Index < firstIndex)
-							firstIndex = segmentMatch.Index;
-					}
-				}
+                // Replace the segments in this match with our new version
+                matchSegment = matchSegment.Substring(0, firstIndex)
+                             + paramReplacement
+                             + matchSegment.Substring(firstIndex);
 
-				// Replace the segments in this match with our new version
-				matchSegment = matchSegment.Substring(0, firstIndex)
-							 + paramReplacement
-							 + matchSegment.Substring(firstIndex);
+                // Replace this match back into the original text at match.Index+deltaLength
+                text = text.Substring(0, match.Index + deltaLength)
+                     + matchSegment
+                     + text.Substring(match.Index + match.Length + deltaLength);
+                deltaLength += matchSegment.Length - match.Length;
 
-				// Replace this match back into the original text at match.Index+deltaLength
-				text = text.Substring(0, match.Index + deltaLength)
-					 + matchSegment
-					 + text.Substring(match.Index + match.Length + deltaLength);
-				deltaLength += matchSegment.Length - match.Length;
-#endif // TODO
-#if TODO && DEBUG_OUTPUT_DIALOG
-                dlg.Clear();
-				dlg.AddSection("paramSegments", paramSegments);
-				dlg.AddSection("paramMatcher", paramReplacementRegex.ToString());
-				dlg.AddSection("paramReplacement", paramReplacement);
-				dlg.AddSection("match.Value was", match.Value);
-				dlg.AddSection("matchSegment", matchSegment);
-				dlg.AddSection("text", text);
-				dlg.ShowDialog();
+#if DEBUG_OUTPUT_DIALOG
+                dlg.AddSection("text after substitution", text);
+
+                dlg.EndSection();
 #endif
             }
             return text;
@@ -350,74 +407,78 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
                 // and capture it with a groupname of '_name'
                 // Also capture the parameter name "|label=" with a groupname of '__name' for guessing whitespace requirements in the replacements
                 string regexGroup
-                    // leading white space, the pipe to introduce the parameter, and any more white space
-                    = @"(?<__" + name + @">\s*\|\s*"
+                    // the pipe to introduce the parameter, and any more white space
+                    = @"(?<__" + name + @">\|\s*"
                     // the parameter name, with any white space, and its equals sign
-                    + param.Key + @"\s*=\s*?)"
+                    + param.Key + @"\s*=\s*)"
+                    // assert that we got all the white space
+                    + @"(?=\S)"
                     // We keep the whole of parameter value as a named match, but don't keep the components of it:
                     + @"(?<_" + name + ">("
                     // comments, HTML-type tags, etc:
                     + WikiFunctions.WikiRegexes.UnFormattedText
-                    + "|"
+                    + @"|"
                     // templates inside this template:
                     + WikiFunctions.WikiRegexes.NestedTemplates
-                    + "|"
+                    + @"|"
                     // wikilinks in the parameter value:
                     + WikiFunctions.WikiRegexes.SimpleWikiLink
-                    + "|"
+                    + @"|"
                     // external links, or just text in square brackets:
                     + BorkedExternalLinks
-                    + "|"
+                    + @"|"
                     // anything else, like regular text and white space
                     + @"[^\[\{\|\}]*"
-                    // Repeat the contents of the value
+                    // Repeat the possible bits of the contents of the value
                     + @")*"
                     // Close the named group "_name"
                     + @")"
                     // Terminate at the white space before either a pipe or the closing brace
-                    + @"(?=\s*[\|\}])";
+                    + @"(?=[\|\}])";
                 RegexString += regexGroup + "|";
             }
             string rest
-                = @"(\s*\|\s*)"
-                + @"(([^=\s]*)\s*=\s*?)?"
-                + "("
+                = @"(\|\s*)"
+                + @"(([^=\s]*)\s*=\s*(?=\S))?"
+                + @"("
                 + WikiFunctions.WikiRegexes.UnFormattedText
-                + "|"
+                + @"|"
                 + WikiFunctions.WikiRegexes.NestedTemplates
-                + "|"
+                + @"|"
                 + WikiFunctions.WikiRegexes.SimpleWikiLink
-                + "|"
+                + @"|"
                 + BorkedExternalLinks
-                + "|"
+                + @"|"
                 + @"[^\[\{\|\}]*"
-                + @")*(?=\s*[\|\}])";
+                + @")*(?=[\|\}])";
             RegexString = @"\{\{[^|]*" + ("(" + RegexString + rest + ")*") + @"\}\}";
-            findParametersRegex = new Regex(RegexString, RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+            findParametersRegex = new Regex(RegexString, RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.Singleline);
 
             // paramRemovalRegexes
             paramRemovalRegexes = new Dictionary<string, Regex>(Settings.Parameters.Count);
             foreach (KeyValuePair<string, string> param in Settings.Parameters)
             {
                 string paramRegexString
-                        = @"(\s*\|\s*" + param.Key + @"\s*=\s*(("
+                        = @"(\|\s*"
+                        + param.Key + @"\s*=\s*(?=\S)"
+                        + @"("
                         + WikiFunctions.WikiRegexes.UnFormattedText
-                        + "|"
+                        + @"|"
                         + WikiFunctions.WikiRegexes.NestedTemplates
-                        + "|"
+                        + @"|"
                         + WikiFunctions.WikiRegexes.SimpleWikiLink
-                        + "|"
+                        + @"|"
                         + BorkedExternalLinks
-                        + "|"
+                        + @"|"
                         + @"[^\[\{\|\}]*"
-                        + ")*))";
-                paramRemovalRegexes[param.Key] = new Regex(paramRegexString, RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+                        + @")*)(?=[\|\}])";
+                paramRemovalRegexes[param.Key] = new Regex(paramRegexString, RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.Singleline);
             }
 
             // paramReplacementRegex
             string paramMatcher = "";
             foreach (KeyValuePair<string, string> param in Settings.Parameters)
-                paramMatcher += @"\s*\|\s*" + param.Key + @"\s*=\s*" + param.Value;
+                paramMatcher += @"\|\s*" + param.Key + @"\s*=\s*(" + param.Value + @"\s*)?(?=\S)";
             paramReplacementRegex = new Regex(paramMatcher, RegexOptions.Compiled);
         }
 
@@ -431,8 +492,8 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
                                                       Settings.RemoveExcessPipes);
             dlg.Width = Settings.dlgWidth;
             dlg.Height = Settings.dlgHeight;
-            dlg.paramName.Width = Settings.dlgCol0;
-            dlg.paramRegex.Width = Settings.dlgCol1;
+            dlg.paramName.Width = dlg.replacementParamName.Width = Settings.dlgCol0;
+            dlg.paramRegex.Width = dlg.replacementExpression.Width = Settings.dlgCol1;
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 Settings.TemplateName = dlg.TemplateName;
@@ -483,22 +544,34 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
         private Regex paramReplacementRegex = null;
 
         // 3. To transform a template parameter name into a valid regex named group
-        internal static Regex nonIdentiferCharsRegex = new Regex("[^a-z0-9_]", RegexOptions.Compiled);
+        internal static readonly Regex nonIdentiferCharsRegex = new Regex("[^a-z0-9_]", RegexOptions.Compiled);
 
         // 4. To ignore whitespace
-        internal static Regex whiteSpaceRegex = new Regex(@"\s*", RegexOptions.Compiled);
+        internal static readonly Regex whiteSpaceRegex = new Regex(@"\s*", RegexOptions.Compiled);
 
         // 5. To remove spare pipes, either two together or a spare at the end
         // CAUTION: this would be acceptable in a wikitable
-        internal static Regex ExcessPipe = new Regex(@"\|(?<losepipe>\s*[|}])", RegexOptions.Compiled);
-        internal static string RemovePipeReplacement = @" ${losepipe}"; // adds a redundant space so the output length matches the input length
+        internal static readonly Regex ExcessPipe = new Regex(@"\|(?<losepipe>\s*[|}])", RegexOptions.Compiled);
+        internal static readonly string RemovePipeReplacement = @" ${losepipe}"; // adds a redundant space so the output length matches the input length
 
         // 6. To catch external links [http://foo.bar] or [http://foo.bar Baz]
         // but also tolerate borked usage such as [just something in square brackets]
-        internal static Regex BorkedExternalLinks = new Regex(@"\[.*?\]", RegexOptions.Compiled);
+        internal static readonly Regex BorkedExternalLinks = new Regex(@"\[.*?\]", RegexOptions.Compiled);
 
         // 7. For removing all occurrences of the target parameters from the input text
         private Dictionary<string, Regex> paramRemovalRegexes = null;
+
+        // 8. To extract the whitespace pattern for the leading pipe of replacement parameters
+        internal static readonly Regex paramPipeRegex = new Regex(@"\s*\|\s*", RegexOptions.Compiled);
+
+        // 9. To extract the whitespace pattern for the leading pipe of replacement parameters
+        internal static readonly Regex paramEqualsRegex = new Regex(@"(?<=\w)\s*=\s*", RegexOptions.Compiled);
+
+        // 10. To ignore whitespace
+        internal static readonly Regex leadingWhiteSpaceRegex = new Regex(@"^\s*", RegexOptions.Compiled);
+
+        // 11. To extract the whitespace pattern which follows the value
+        internal static readonly Regex trailingWhiteSpaceRegex = new Regex(@"(?<=\S)\s*$", RegexOptions.Compiled | RegexOptions.Singleline);
 
         internal static WikiFunctions.Plugin.IAutoWikiBrowser AWB;
         internal static TemplatorSettings Settings = new TemplatorSettings();
