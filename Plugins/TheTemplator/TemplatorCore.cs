@@ -22,8 +22,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 
@@ -285,7 +283,7 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
                 foreach (KeyValuePair<string, string> param in Settings.Replacements)
                 {
                     string equalsStr;
-                    if (trailingWhitespace.Contains('\n'))
+                    if (trailingWhitespace.Contains("\n"))
                     {
                         int spaceLeft = paramDesiredLength - param.Key.Length;
                         if (spaceLeft <= 0)
