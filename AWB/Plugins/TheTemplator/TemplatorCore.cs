@@ -283,7 +283,7 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
                 foreach (KeyValuePair<string, string> param in Settings.Replacements)
                 {
                     string equalsStr;
-                    if (trailingWhitespace.Contains('\n'))
+                    if (trailingWhitespace.Contains("\n"))
                     {
                         int spaceLeft = paramDesiredLength - param.Key.Length;
                         if (spaceLeft <= 0)
