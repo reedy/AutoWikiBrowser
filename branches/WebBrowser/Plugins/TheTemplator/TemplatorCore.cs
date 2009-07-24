@@ -296,7 +296,7 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
                             equalsStr = paramEqualsStr;
                             int indexOfEquals = equalsStr.IndexOf('=');
                             // Trim space from left as far as we can
-                            equalsStr = equalsStr.Substring(Math.Max(indexOfEquals, spaceLeft));
+                            equalsStr = equalsStr.Substring(Math.Min(indexOfEquals, paramDesiredLength - spaceLeft));
                             // Trim space from right if still needed
                             if (equalsStr.Length > spaceLeft)
                                 equalsStr = equalsStr.Remove(spaceLeft);
