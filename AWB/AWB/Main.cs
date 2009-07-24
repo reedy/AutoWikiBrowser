@@ -479,6 +479,23 @@ namespace AutoWikiBrowser
                 SkipPage(message);
             }
 
+            else if (ex is ApiErrorException)
+            {
+                switch ((ex as ApiErrorException).ErrorCode)
+                {
+                    case "editconflict":
+                        //TODO: must be a less crude way
+                        MessageBox.Show(this, "There has been an edit conflict. AWB will now re-apply its changes on the updated page. \n\r Please re-review the changes before saving. Any Custom edits will be lost, and have to be re-added manually.", "Edit conflict");
+                        NudgeTimer.Stop();
+                        Start();
+                        break;
+
+                    default:
+                        StartDelayedRestartTimer();
+                        break;
+                }
+            }
+
             else
                 StartDelayedRestartTimer();
         }
@@ -1030,8 +1047,6 @@ namespace AutoWikiBrowser
             GuiUpdateAfterProcessing();
         }
 
-        //private static readonly Regex SpamUrlRegex = new Regex("<p>The following link has triggered our spam protection filter:<strong>(.*?)</strong><br/?>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
         private void CaseWasSaved(AsyncApiEdit sender, SaveInfo saveInfo)
         {
             ClearBrowser();
@@ -1039,13 +1054,6 @@ namespace AutoWikiBrowser
             //TODO:Reinstate as needed
             //try
             //{
-            //    if (webBrowserEdit.DocumentText.Contains("<H1 class=firstHeading>Edit conflict: "))
-            //    {//if session data is lost, if data is lost then save after delay with tmrAutoSaveDelay
-            //        MessageBox.Show("There has been an Edit Conflict. AWB will now re-apply its changes on the updated page. \n\r Please re-review the changes before saving. Any Custom edits will be lost, and have to be re-added manually.", "Edit Conflict");
-            //        NudgeTimer.Stop();
-            //        Start();
-            //        return;
-            //    }
             //    if (IsReadOnlyDB())
             //    {
             //        StartDelayedRestartTimer(null, null);
