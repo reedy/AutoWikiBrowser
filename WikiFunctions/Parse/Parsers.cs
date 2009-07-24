@@ -2473,12 +2473,16 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             string ciTemplateName = Tools.CaseInsensitive(template);
             Regex search;
-            if (CachedGetTemplatesRegexes.ContainsKey(ciTemplateName))
-                search = CachedGetTemplatesRegexes[ciTemplateName];
-            else
+
+            lock (CachedGetTemplatesRegexes)
             {
-                search = new Regex(@"{{\s*" + ciTemplateName + @"\s*(\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})|}})", RegexOptions.Compiled);
-                CachedGetTemplatesRegexes[ciTemplateName] = search;
+                if (CachedGetTemplatesRegexes.ContainsKey(ciTemplateName))
+                    search = CachedGetTemplatesRegexes[ciTemplateName];
+                else
+                {
+                    search = new Regex(@"{{\s*" + ciTemplateName + @"\s*(\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})|}})", RegexOptions.Compiled);
+                    CachedGetTemplatesRegexes[ciTemplateName] = search;
+                }
             }
 
             return search.Matches(articleText);

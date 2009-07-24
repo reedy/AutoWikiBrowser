@@ -51,7 +51,7 @@ namespace WikiFunctions.Profiles
                 TheSession.Editor.SynchronousEditor.Login(username, password);
                 needsUpdate = true;
             }
-            catch (ApiLoginException ex)
+            catch (LoginException ex)
             {
                 MessageBox.Show(this, ex.Message, "Login failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

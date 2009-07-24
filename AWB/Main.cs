@@ -455,12 +455,12 @@ namespace AutoWikiBrowser
 
         private void ApiEditExceptionCaught(AsyncApiEdit sender, Exception ex)
         {
-            if (ex is ApiInterwikiException)
+            if (ex is InterwikiException)
                 SkipPage(ex.Message);
 
-            else if (ex is ApiSpamlistException)
+            else if (ex is SpamlistException)
             {
-                string message = "Text '" + (ex as ApiSpamlistException).URL + "' is blocked by spam blacklist";
+                string message = "Text '" + (ex as SpamlistException).URL + "' is blocked by spam blacklist";
 
                 if (!BotMode)
                 {

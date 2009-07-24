@@ -180,12 +180,12 @@ namespace WikiFunctions.API
         {
             Tools.WriteDebug("ApiEdit", ex.Message);
 
-            if (ex is ApiMaxlagException)
+            if (ex is MaxlagException)
             {
-                var exm = (ApiMaxlagException)ex;
+                var exm = (MaxlagException)ex;
                 if (MaxlagExceeded != null) MaxlagExceeded(this, exm.Maxlag, exm.RetryAfter);
             }
-            else if (ex is ApiLoggedOffException)
+            else if (ex is LoggedOffException)
             {
                 if (LoggedOff != null) LoggedOff(this);
             }
@@ -291,7 +291,7 @@ namespace WikiFunctions.API
         private void InvokeFunction(InvokeArgs args)
         {
             if (TheThread != null && TheThread.IsAlive)
-                throw new ApiInvokeException("An asynchronous call is already being performed");
+                throw new InvocationException("An asynchronous call is already being performed");
 
             State = EditState.Working;
             TheThread = new Thread(InvokerThread);
