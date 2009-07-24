@@ -46,16 +46,16 @@ namespace WikiFunctions.API
     /// <summary>
     /// Thrown when Abort() function is called, or request is otherwise abruptly terminated
     /// </summary>
-    public class ApiAbortedException : ApiException
+    public class AbortedException : ApiException
     {
-        public ApiAbortedException(ApiEdit editor)
+        public AbortedException(ApiEdit editor)
             : base(editor, "API operation aborted")
         {
         }
     };
 
     /// <summary>
-    /// Thrown when an API call returned an &lt;error> tag.
+    /// Thrown when an API call returned an <error> tag.
     /// See http://www.mediawiki.org/wiki/API:Errors for details
     /// </summary>
     public class ApiErrorException : ApiException
@@ -84,9 +84,9 @@ namespace WikiFunctions.API
     /// <summary>
     /// Thrown when an operation is ended with result other than "Success"
     /// </summary>
-    public class ApiOperationFailedException : ApiException
+    public class OperationFailedException : ApiException
     {
-        public ApiOperationFailedException(ApiEdit editor, string action, string result)
+        public OperationFailedException(ApiEdit editor, string action, string result)
             : base(editor, "Operation '" + action + "' ended with result '" + result + "'.")
         {
             Action = action;
@@ -109,20 +109,20 @@ namespace WikiFunctions.API
     }
 
     /// <summary>
-    /// 
+    /// Thrown when an invalid XML output is encountered, or if XML parsing results in error
     /// </summary>
-    public class ApiBrokenXmlException : ApiException
+    public class BrokenXmlException : ApiException
     {
-        public ApiBrokenXmlException(ApiEdit editor, string message)
+        public BrokenXmlException(ApiEdit editor, string message)
             : base(editor, message)
         {
         }
 
-        public ApiBrokenXmlException(ApiEdit editor, string message, Exception innerException)
+        public BrokenXmlException(ApiEdit editor, string message, Exception innerException)
             : base(editor, message, innerException)
         {
         }
-        public ApiBrokenXmlException(ApiEdit editor, Exception innerException)
+        public BrokenXmlException(ApiEdit editor, Exception innerException)
             : base(editor, "Error parsing data returned by server: " + innerException.Message , innerException)
         {
         }
@@ -131,11 +131,11 @@ namespace WikiFunctions.API
     /// <summary>
     /// 
     /// </summary>
-    public class ApiLoginException : ApiException
+    public class LoginException : ApiException
     {
         public string StatusCode { get; private set; }
 
-        public ApiLoginException(ApiEdit editor, string status)
+        public LoginException(ApiEdit editor, string status)
             : base(editor, GetErrorMessage(status))
         {
             StatusCode = status;
@@ -173,7 +173,7 @@ namespace WikiFunctions.API
     /// Thrown when servers refuse to perform operation due to overloading
     /// </summary>
     /// <remarks>http://www.mediawiki.org/wiki/Manual:Maxlag_parameter</remarks>
-    public class ApiMaxlagException : ApiErrorException
+    public class MaxlagException : ApiErrorException
     {
         public int Maxlag
         { get; private set; }
@@ -181,7 +181,7 @@ namespace WikiFunctions.API
         public int RetryAfter
         { get; private set; }
 
-        public ApiMaxlagException(ApiEdit editor, int maxlag, int retryAfter)
+        public MaxlagException(ApiEdit editor, int maxlag, int retryAfter)
             : base(editor, "maxlag", "Maxlag exceeded by " + maxlag + " seconds, retry in " + retryAfter + " seconds")
         {
             Maxlag = maxlag;
@@ -192,9 +192,9 @@ namespace WikiFunctions.API
     /// <summary>
     /// Thrown when assertion in API call fails
     /// </summary>
-    public class ApiAssertionException : ApiException
+    public class AssertionFailedException : ApiException
     {
-        public ApiAssertionException(ApiEdit editor, string assertion)
+        public AssertionFailedException(ApiEdit editor, string assertion)
             : base(editor, "Assertion '" + assertion + "' failed")
         {
         }
@@ -203,19 +203,19 @@ namespace WikiFunctions.API
     /// <summary>
     /// Thrown when an error occurs during asynchronous API operations
     /// </summary>
-    public class ApiInvokeException : Exception
+    public class InvocationException : Exception
     {
-        public ApiInvokeException(string message)
+        public InvocationException(string message)
             : base(message)
         {
         }
 
-        public ApiInvokeException(Exception innerException)
+        public InvocationException(Exception innerException)
             : this("There was a problem with an asynchronous API call", innerException)
         {
         }
 
-        public ApiInvokeException(string message, Exception innerException)
+        public InvocationException(string message, Exception innerException)
             : base(message, innerException)
         {
         }
@@ -224,7 +224,7 @@ namespace WikiFunctions.API
     /// <summary>
     /// Thrown when edit is blocked by SpamBlacklist extension
     /// </summary>
-    public class ApiSpamlistException : ApiException
+    public class SpamlistException : ApiException
     {
         /// <summary>
         /// URL which triggered the blacklist
@@ -232,7 +232,7 @@ namespace WikiFunctions.API
         public string URL
         { get; private set; }
 
-        public ApiSpamlistException(ApiEdit editor, string url)
+        public SpamlistException(ApiEdit editor, string url)
             : base(editor, "The link '" + url + "' is blocked by spam blacklist")
         {
             URL = url;
@@ -240,11 +240,11 @@ namespace WikiFunctions.API
     }
 
     /// <summary>
-    /// 
+    /// Thrown when attempted operation requires login
     /// </summary>
-    public class ApiLoggedOffException : ApiException
+    public class LoggedOffException : ApiException
     {
-        public ApiLoggedOffException(ApiEdit editor)
+        public LoggedOffException(ApiEdit editor)
             : base(editor, "You are currently logged off")
         {
         }
@@ -253,9 +253,9 @@ namespace WikiFunctions.API
     /// <summary>
     /// 
     /// </summary>
-    public class ApiCaptchaException : ApiException
+    public class CaptchaException : ApiException
     {
-        public ApiCaptchaException(ApiEdit editor)
+        public CaptchaException(ApiEdit editor)
             : base(editor, "Captcha required")
         {
         }
@@ -264,9 +264,9 @@ namespace WikiFunctions.API
     /// <summary>
     /// 
     /// </summary>
-    public class ApiInterwikiException : ApiException
+    public class InterwikiException : ApiException
     {
-        public ApiInterwikiException(ApiEdit editor)
+        public InterwikiException(ApiEdit editor)
             : base(editor, "Page title contains interwiki")
         {
         }

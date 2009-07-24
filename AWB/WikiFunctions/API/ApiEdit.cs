@@ -299,7 +299,7 @@ namespace WikiFunctions.API
 
                 // just reclassifying
                 if (ex.Status == WebExceptionStatus.RequestCanceled)
-                    throw new ApiAbortedException(this);
+                    throw new AbortedException(this);
                 else throw;
             }
             finally
@@ -396,7 +396,7 @@ namespace WikiFunctions.API
             string status = xr.GetAttribute("result");
             if (!status.Equals("Success", StringComparison.InvariantCultureIgnoreCase))
             {
-                throw new ApiLoginException(this, status);
+                throw new LoginException(this, status);
             }
 
             CheckForError(result, "login");
@@ -480,7 +480,7 @@ namespace WikiFunctions.API
             CheckForError(result, "query");
 
             //HACK:
-            if (result.Contains("<interwiki>")) throw new ApiInterwikiException(this);
+            if (result.Contains("<interwiki>")) throw new InterwikiException(this);
 
             try
             {
@@ -490,7 +490,7 @@ namespace WikiFunctions.API
             }
             catch (Exception ex)
             {
-                throw new ApiBrokenXmlException(this, ex);
+                throw new BrokenXmlException(this, ex);
             }
 
             return Page.Text;
@@ -564,10 +564,10 @@ namespace WikiFunctions.API
             }
             catch (Exception ex)
             {
-                throw new ApiBrokenXmlException(this, ex);
+                throw new BrokenXmlException(this, ex);
             }
 
-            if (Aborting) throw new ApiAbortedException(this);
+            if (Aborting) throw new AbortedException(this);
 
             result = HttpPost(
                 new[,]
@@ -629,10 +629,10 @@ namespace WikiFunctions.API
             }
             catch (Exception ex)
             {
-                throw new ApiBrokenXmlException(this, ex);
+                throw new BrokenXmlException(this, ex);
             }
 
-            if (Aborting) throw new ApiAbortedException(this);
+            if (Aborting) throw new AbortedException(this);
 
             result = HttpPost(
                 new[,]
@@ -695,10 +695,10 @@ namespace WikiFunctions.API
             }
             catch (Exception ex)
             {
-                throw new ApiBrokenXmlException(this, ex);
+                throw new BrokenXmlException(this, ex);
             }
 
-            if (Aborting) throw new ApiAbortedException(this);
+            if (Aborting) throw new AbortedException(this);
 
             result = HttpPost(
                 new[,]
@@ -789,7 +789,7 @@ namespace WikiFunctions.API
             }
             catch (Exception ex)
             {
-                throw new ApiBrokenXmlException(this, ex);
+                throw new BrokenXmlException(this, ex);
             }
         }
 
@@ -815,7 +815,7 @@ namespace WikiFunctions.API
             }
             catch (Exception ex)
             {
-                throw new ApiBrokenXmlException(this, ex);
+                throw new BrokenXmlException(this, ex);
             }
         }
         #endregion
@@ -856,7 +856,7 @@ namespace WikiFunctions.API
                     case "maxlag": //guessing
                         int maxlag;
                         int.TryParse(Regex.Match(xml, @": (\d+) seconds lagged").Groups[1].Value, out maxlag);
-                        throw new ApiMaxlagException(this, maxlag, 10);
+                        throw new MaxlagException(this, maxlag, 10);
                     default:
                         throw new ApiErrorException(this, errorCode, errorMessage);
                 }
@@ -872,23 +872,23 @@ namespace WikiFunctions.API
 
             if (actionElement.HasAttribute("assert"))
             {
-                throw new ApiAssertionException(this, actionElement.GetAttribute("assert"));
+                throw new AssertionFailedException(this, actionElement.GetAttribute("assert"));
             }
 
             if (actionElement.HasAttribute("spamblacklist"))
             {
-                throw new ApiSpamlistException(this, actionElement.GetAttribute("spamblacklist"));
+                throw new SpamlistException(this, actionElement.GetAttribute("spamblacklist"));
             }
 
             if (actionElement.GetElementsByTagName("captcha").Count > 0)
             {
-                throw new ApiCaptchaException(this);
+                throw new CaptchaException(this);
             }
 
             // This check must be the last, otherwise we will miss
             string result = actionElement.GetAttribute("result");
             if (!string.IsNullOrEmpty(result) && result != "Success") 
-                throw new ApiOperationFailedException(this, action, result);
+                throw new OperationFailedException(this, action, result);
 
             return doc;
         }
