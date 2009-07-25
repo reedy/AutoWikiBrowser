@@ -177,8 +177,8 @@ text here2
 {{Portal|Sport}}
 {{Portal|Football}}
 some words", MetaDataSorter.MovePortalTemplates(@"text here
-{{Portal|Football}}
 {{Portal|Sport}}
+{{Portal|Football}}
 text here2
 == see also ==
 some words"));
