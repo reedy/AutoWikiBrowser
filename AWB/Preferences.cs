@@ -115,13 +115,18 @@ namespace AutoWikiBrowser
 
         private void FixCustomProject()
         {
-            cmboCustomProject.Text = Regex.Replace(cmboCustomProject.Text.Trim(), "^http://", "", RegexOptions.IgnoreCase);
+            string proj = Regex.Replace(cmboCustomProject.Text.Trim(),
+                @"^.*?://(?:([\w/\.-]+?)/(?:index|api).php|([\w/\.-]+)).*$",
+                "$1$2", 
+                RegexOptions.IgnoreCase);
 
-            cmboCustomProject.Text = cmboCustomProject.Text.TrimEnd('/');
+            proj = proj.TrimEnd('/');
             if (Project == ProjectEnum.custom) // we shouldn't screw up Wikia
             {
-                cmboCustomProject.Text = cmboCustomProject.Text + "/";
+                proj += "/";
             }
+
+            cmboCustomProject.Text = proj;
         }
 
         private void cmboProject_SelectedIndexChanged(object sender, EventArgs e)
