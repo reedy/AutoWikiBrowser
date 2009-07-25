@@ -661,9 +661,9 @@ namespace WikiFunctions
             RefreshProxy();
 
             //HACK:HACK:HACK:HACK:HACK:
-            if (MainForm != null && MainForm.TheSession != null)
+            if (MainForm != null && MainForm.TheSession != null && !MainForm.TheSession.UpdateProject())
             {
-                MainForm.TheSession.UpdateProject();
+                return;
             }
 
             RegenerateRegexes();
