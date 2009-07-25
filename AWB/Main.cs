@@ -437,12 +437,11 @@ namespace AutoWikiBrowser
 
         private void MaxlagExceeded(AsyncApiEdit sender, int maxlag, int retryAfter)
         {
-            //TODO: use retryAfter
             Retries++;
 
             if (Retries < MaxRetries)
             {
-                StartDelayedRestartTimer();
+                StartDelayedRestartTimer(retryAfter);
             }
             else
             {
@@ -1062,8 +1061,8 @@ namespace AutoWikiBrowser
             //}
 
             //lower restart delay
-            if (IntRestartDelay > 5)
-                IntRestartDelay -= 1;
+            if (RestartDelay > 5)
+                RestartDelay -= 1;
 
             NumberOfEdits++;
 
@@ -2380,36 +2379,42 @@ window.scrollTo(0, diffTopY);
 
         #region Timers
 
-        int IntRestartDelay = 5, IntStartInSeconds = 5;
+        int RestartDelay = 5;
+        int StartInSeconds = 5;
         private void DelayedRestart(object sender, EventArgs e)
         {
             StopDelayedAutoSaveTimer();
-            StatusLabelText = "Restarting in " + IntStartInSeconds;
+            StatusLabelText = "Restarting in " + StartInSeconds;
 
-            if (IntStartInSeconds == 0)
+            if (StartInSeconds == 0)
             {
                 StopDelayedRestartTimer();
                 Start();
             }
             else
-                IntStartInSeconds--;
+                StartInSeconds--;
         }
 
         private void StartDelayedRestartTimer()
         {
-            IntStartInSeconds = IntRestartDelay;
-            Ticker += DelayedRestart;
             //increase the restart delay each time, this is decreased by 1 on each successfull save
-            IntRestartDelay += 5;
+            int delay = RestartDelay + 5;
+            if (delay > 60)
+                delay = 60;
 
-            if (IntRestartDelay > 60)
-                IntRestartDelay = 60;
+            StartDelayedRestartTimer(delay);
+        }
+
+        private void StartDelayedRestartTimer(int delay)
+        {
+            StartInSeconds = RestartDelay = delay;
+            Ticker += DelayedRestart;
         }
 
         private void StopDelayedRestartTimer()
         {
             Ticker -= DelayedRestart;
-            IntStartInSeconds = IntRestartDelay;
+            StartInSeconds = RestartDelay;
         }
 
         private void StopDelayedAutoSaveTimer()
