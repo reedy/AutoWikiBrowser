@@ -511,7 +511,7 @@ namespace AutoWikiBrowser
             if (!LoadSuccessApi())
                 return;
 
-            CaseWasLoad(TheSession.Editor.Page.Text);
+            CaseWasLoad(TheSession.Page.Text);
         }
 
         private bool StopProcessing;
@@ -703,7 +703,7 @@ namespace AutoWikiBrowser
 
             TheArticle.OriginalArticleText = articleText;
             TheArticle.Exists = (TheSession.Page.Exists) ? Exists.Yes : Exists.No;
-            ErrorHandler.CurrentRevision = TheSession.Editor.Page.RevisionID;
+            ErrorHandler.CurrentRevision = TheSession.Page.RevisionID;
 
             if (PageReload)
             {
@@ -858,7 +858,7 @@ namespace AutoWikiBrowser
                         break;
                 }
 
-                SetWatchButton(TheSession.Editor.Page.IsWatched);
+                SetWatchButton(TheSession.Page.IsWatched);
 
                 txtReviewEditSummary.Text = MakeSummary();
 
@@ -1148,7 +1148,7 @@ namespace AutoWikiBrowser
                     process = false;
 
                 if (!IgnoreNoBots &&
-                    !Parsers.CheckNoBots(theArticle.ArticleText, TheSession.Editor.User.Name))
+                    !Parsers.CheckNoBots(theArticle.ArticleText, TheSession.User.Name))
                 {
                     theArticle.AWBSkip("Restricted by {{bots}}/{{nobots}}");
                     return;
@@ -1576,7 +1576,7 @@ window.scrollTo(0, diffTopY);
 
         private void UpdateUserName()
         {
-            if (string.IsNullOrEmpty(TheSession.Editor.User.Name))
+            if (string.IsNullOrEmpty(TheSession.User.Name))
             {
                 lblUserName.BackColor = Color.Red;
                 lblUserName.Text = Variables.Namespaces[Namespace.User];
@@ -1584,7 +1584,7 @@ window.scrollTo(0, diffTopY);
             else
             {
                 lblUserName.BackColor = Color.Green;
-                lblUserName.Text = TheSession.Editor.User.Name;
+                lblUserName.Text = TheSession.User.Name;
             }
         }
 
@@ -1692,7 +1692,7 @@ window.scrollTo(0, diffTopY);
                     tag = @"/* " + sectionEditText + @" */" + tag;
             }
 
-            if ((TheSession.Editor.User.IsBot && chkSuppressTag.Checked)
+            if ((TheSession.User.IsBot && chkSuppressTag.Checked)
                 || (!Variables.IsWikimediaProject && SuppressUsingAWB))
                 return tag;
 
@@ -1904,7 +1904,7 @@ window.scrollTo(0, diffTopY);
 
                 case WikiStatusResult.NotRegistered:
                     lblUserName.BackColor = Color.Red;
-                    MessageBox.Show(TheSession.Editor.User.Name + " is not enabled to use this.", "Not enabled", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show(TheSession.User.Name + " is not enabled to use this.", "Not enabled", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     Tools.OpenURLInBrowser(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage");
                     break;
 
@@ -1914,7 +1914,7 @@ window.scrollTo(0, diffTopY);
 
                 case WikiStatusResult.Registered:
                     b = true;
-                    label = string.Format("Logged in, user and software enabled. Bot = {0}, Admin = {1}", TheSession.Editor.User.IsBot, TheSession.Editor.User.IsSysop);
+                    label = string.Format("Logged in, user and software enabled. Bot = {0}, Admin = {1}", TheSession.User.IsBot, TheSession.User.IsSysop);
                     lblUserName.BackColor = Color.LightGreen;
 
                     //Get list of articles not to apply general fixes to.
@@ -2338,7 +2338,7 @@ window.scrollTo(0, diffTopY);
             SetStartButton(listMaker.NumberOfArticles > 0);
 
             lbltsNumberofItems.Text = "Pages: " + listMaker.NumberOfArticles;
-            bypassAllRedirectsToolStripMenuItem.Enabled = TheSession.Editor.User.IsSysop;
+            bypassAllRedirectsToolStripMenuItem.Enabled = TheSession.User.IsSysop;
         }
 
         private void SetStartButton(bool enabled)
@@ -2372,7 +2372,7 @@ window.scrollTo(0, diffTopY);
             btntsPreview.Enabled = btntsChanges.Enabled = listMaker.MakeListEnabled =
             btntsSave.Enabled = btntsIgnore.Enabled = /*btnWatch.Enabled = */ findGroup.Enabled = enabled;
 
-            btnDelete.Enabled = btntsDelete.Enabled = btnMove.Enabled = btnProtect.Enabled = (enabled && TheSession.Editor.User.IsSysop && (TheArticle != null));
+            btnDelete.Enabled = btntsDelete.Enabled = btnMove.Enabled = btnProtect.Enabled = (enabled && TheSession.User.IsSysop && (TheArticle != null));
         }
 
         #endregion
@@ -3679,7 +3679,7 @@ window.scrollTo(0, diffTopY);
         {
             PageReload = true;
             TheSession.Editor.Open(TheArticle.Name);
-            TheArticle.OriginalArticleText = TheSession.Editor.Page.Text;
+            TheArticle.OriginalArticleText = TheSession.Page.Text;
         }
 
         #region History
