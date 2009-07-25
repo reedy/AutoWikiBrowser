@@ -68,7 +68,7 @@ namespace WikiFunctions
 
         private AsyncApiEdit CreateEditor()
         {
-            AsyncApiEdit edit = new AsyncApiEdit(Variables.URLLong, parentControl);
+            AsyncApiEdit edit = new AsyncApiEdit(Variables.URLLong, parentControl, Variables.PHP5);
             edit.SaveComplete += OnSaveComplete;
             edit.PreviewComplete += OnPreviewComplete;
             edit.ExceptionCaught += OnExceptionCaught;
