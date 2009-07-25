@@ -1174,5 +1174,17 @@ words2"));
             Assert.AreEqual(WikiRegexes.BoldItalics.Match(@"'''''foo bar'''''").Groups[1].Value, @"foo bar");
             Assert.AreEqual(WikiRegexes.BoldItalics.Match(@"'''''foo's bar'''''").Groups[1].Value, @"foo's bar");
         }
+
+        [Test]
+        public void StarRowsTests()
+        {
+            Assert.AreEqual(WikiRegexes.StarRows.Match(@"*foo bar
+Bert").Groups[1].Value, @"*");
+            Assert.AreEqual(WikiRegexes.StarRows.Match(@"*foo bar
+Bert").Groups[2].Value, "foo bar\r");
+
+            Assert.AreEqual(WikiRegexes.StarRows.Match(@"    *foo bar").Groups[1].Value, @"*");
+            Assert.AreEqual(WikiRegexes.StarRows.Match(@" *foo bar").Groups[2].Value, @"foo bar");
+        }
     }
 }

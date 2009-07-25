@@ -559,7 +559,7 @@ namespace WikiFunctions
         public static readonly Regex Pstyles = new Regex(@"<p style\s*=\s*[^<>]+>.*?<\s*/p>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
-        /// 
+        /// Matches empty comments (zero or more whitespace)
         /// </summary>
         public static readonly Regex EmptyComments = new Regex(@"<!--[^\S\r\n]*-->", RegexOptions.Compiled);
 
@@ -619,7 +619,7 @@ namespace WikiFunctions
         public static readonly Regex Bold = new Regex(@"'''(.+?)'''");
 
         /// <summary>
-        /// 
+        /// Matches a row beginning with an asterisk, allowing for spaces before
         /// </summary>
         public static readonly Regex StarRows = new Regex(@"^ *(\*)(.*)", RegexOptions.Multiline);
 
