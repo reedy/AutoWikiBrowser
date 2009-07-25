@@ -122,7 +122,10 @@ namespace AutoWikiBrowser
             SplashScreen.Show(this);
             RightToLeft = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft
                 ? RightToLeft.Yes : RightToLeft.No;
+
             InitializeComponent();
+
+
             SplashScreen.SetProgress(5);
             try
             {
@@ -167,9 +170,14 @@ namespace AutoWikiBrowser
 
                 SplashScreen.SetProgress(15);
 
-                PasteMoreItems = new [] {
+                PasteMoreItems = new[]
+                {
                     PasteMore1, PasteMore2, PasteMore3, PasteMore4, PasteMore5, PasteMore6, PasteMore7, PasteMore8, PasteMore9, PasteMore10, 
                 };
+
+                // to avoid saving to app data
+                saveXML.InitialDirectory = openXML.InitialDirectory = 
+                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             }
             catch (Exception ex)
             {

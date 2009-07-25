@@ -77,7 +77,9 @@ namespace AutoWikiBrowser
 
         private void saveCurrentSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            saveXML.FileName = SettingsFile;
+            if (SettingsFile != AwbDirs.DefaultSettings)
+                saveXML.FileName = SettingsFile;
+
             if (saveXML.ShowDialog() != DialogResult.OK)
                 return;
 
