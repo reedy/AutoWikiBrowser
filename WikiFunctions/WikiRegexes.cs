@@ -604,17 +604,17 @@ namespace WikiFunctions
         public static Regex EmptyTemplate;
 
         /// <summary>
-        /// 
+        /// Matches bold italic text, group 1 being the text in bold italics
         /// </summary>
         public static readonly Regex BoldItalics = new Regex(@"'''''(.+?)'''''");
 
         /// <summary>
-        /// 
+        /// Matches italic text, group 1 being the text in italics
         /// </summary>
         public static readonly Regex Italics = new Regex(@"''(.+?)''");
 
         /// <summary>
-        /// 
+        /// Matches bold text, group 1 being the text in bold
         /// </summary>
         public static readonly Regex Bold = new Regex(@"'''(.+?)'''");
 
