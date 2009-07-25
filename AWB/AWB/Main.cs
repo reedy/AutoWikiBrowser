@@ -471,10 +471,6 @@ namespace AutoWikiBrowser
                         Start();
                         return;
                     }
-
-
-                    SkipPage(message);
-                    return;
                 }
                 SkipPage(message);
             }
