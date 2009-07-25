@@ -143,16 +143,25 @@ namespace WikiFunctions
             }
         }
 
-        public void UpdateProject()
+        public bool UpdateProject()
         {
             // recreate only if project changed, to prevent losing login information
             if (Editor == null || Editor.URL != Variables.URLLong || Editor.PHP5 != Variables.PHP5)
             {
                 Editor = CreateEditor();
             }
-            Site = new SiteInfo(Editor.SynchronousEditor);
-            LoadProjectOptions();
-            RequireUpdate();
+
+            try
+            {
+                LoadProjectOptions();
+                RequireUpdate();
+            }
+            catch
+            {
+                return false; // Error reporting delayed until UpdateWikiStatus()
+            }
+
+            return true;
         }
 
         public void RequireUpdate()
@@ -366,6 +375,8 @@ namespace WikiFunctions
 
             try
             {
+                Site = new SiteInfo(Editor.SynchronousEditor);
+
                 for (int i = 0; i < months.Length; i++) months[i] += "-gen";
                 Dictionary<string, string> messages = Site.GetMessages(months);
 
@@ -386,15 +397,17 @@ namespace WikiFunctions
             {
                 //TODO:Better error handling
 
-                string message = ex is WikiUrlException ? ex.InnerException.Message : ex.Message;
+                string message = ex is WikiUrlException && ex.InnerException != null 
+                    ? ex.InnerException.Message
+                    : ex.Message;
+
                 MessageBox.Show("An error occured while connecting to the server or loading project information from it. " +
                         "Please make sure that your internet connection works and such combination of project/language exist." +
                         "\r\nEnter the URL in the format \"en.wikipedia.org/w/\" (including path where index.php and api.php reside)." +
                         "\r\nError description: " + message,
                         "Error connecting to wiki", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //SetDefaults();
-                
-                return;
+
+                throw;
             }
         }
     }
