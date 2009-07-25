@@ -657,11 +657,6 @@ namespace WikiFunctions
                     break;
             }
 
-            //if (projectName != ProjectEnum.wikipedia || langCode != LangCodeEnum.en)
-            //{
-                //LoadProjectOptions(); //TODO:Reinstate/use in Session if necessary
-            //}
-
             //refresh once more in case project settings were reset due to error with loading
             RefreshProxy();
 
