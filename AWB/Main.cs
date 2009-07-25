@@ -112,7 +112,10 @@ namespace AutoWikiBrowser
             SplashScreen.Show(this);
             RightToLeft = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft
                 ? RightToLeft.Yes : RightToLeft.No;
+
             InitializeComponent();
+
+
             SplashScreen.SetProgress(5);
             try
             {
@@ -167,6 +170,10 @@ namespace AutoWikiBrowser
                 Profiles.LoadProfile += LoadProfileSettings;
 
                 SplashScreen.SetProgress(15);
+
+                // to avoid saving to app data
+                saveXML.InitialDirectory = openXML.InitialDirectory = 
+                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             }
             catch (Exception ex)
             {
