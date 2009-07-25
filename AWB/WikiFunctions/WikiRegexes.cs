@@ -413,12 +413,12 @@ namespace WikiFunctions
         /// <summary>
         /// Matches any of the recognised templates for displaying cite references
         /// </summary>
-        public static readonly Regex ReferencesTemplate = new Regex(ReferencesTemplates, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        public static readonly Regex ReferencesTemplate = new Regex(ReferencesTemplates, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.RightToLeft);
 
         /// <summary>
-        /// Matches any of the recognised templates for displaying cite references followed by a <ref> reference
+        /// Matches any of the recognised templates for displaying cite references followed by a &gt;ref&lt; reference
         /// </summary>
-        public static readonly Regex RefAfterReflist = new Regex(ReferencesTemplates + @".*?" + ReferenceEndGR, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        public static readonly Regex RefAfterReflist = new Regex(ReferencesTemplates + @".*?" + ReferenceEndGR, RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.RightToLeft);
 
         /// <summary>
         /// Matches a line with a bare external link (no description or name of link)
@@ -428,22 +428,22 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{lifetime}} and its aliases
         /// </summary>
-        public static readonly Regex Lifetime = new Regex(@"{{(?:[Ll]ifetime|BIRTH-DEATH-SORT|BD)\s*\|[^\}]*}}", RegexOptions.Compiled);
+        public static readonly Regex Lifetime = new Regex(@"{{(?:[Ll]ifetime|BIRTH-DEATH-SORT|BD)\s*\|[^\}]*}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
 
         /// <summary>
         /// Matches the sorkey in a {{lifetime}} template and its aliases
         /// </summary>
-        public static readonly Regex LifetimeSortkey = new Regex(@"{{(?:[Ll]ifetime|BIRTH-DEATH-SORT|BD)\s*\|[^\}\|]*\|[^\}\|]*\|\s*([^\}\|]+?)\s*}}", RegexOptions.Compiled);
+        public static readonly Regex LifetimeSortkey = new Regex(@"{{(?:[Ll]ifetime|BIRTH-DEATH-SORT|BD)\s*\|[^\}\|]*\|[^\}\|]*\|\s*([^\}\|]+?)\s*}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
 
         /// <summary>
         /// Matches persondata (en only)
         /// </summary>
-        public static readonly Regex Persondata = new Regex(@"{{ ?[Pp]ersondata.*?}}", RegexOptions.Singleline | RegexOptions.Compiled);
+        public static readonly Regex Persondata = new Regex(@"{{ ?[Pp]ersondata.*?}}", RegexOptions.Singleline | RegexOptions.Compiled | RegexOptions.RightToLeft);
 
         /// <summary>
         /// Comment often put on the line before the Persondata template on the en-wiki
         /// </summary>
-        public static readonly string PersonDataCommentEN = @"<!-- Metadata: see [[Wikipedia:Persondata]] -->
+        public const string PersonDataCommentEN = @"<!-- Metadata: see [[Wikipedia:Persondata]] -->
 ";
         /// <summary>
         /// Matches the various categories for dead people on en wiki, and the living people category
@@ -454,7 +454,7 @@ namespace WikiFunctions
         /// Matches the {{recentlydeceased}} templates and its redirects
         /// </summary>
         public static readonly Regex LivingPeopleRegex2 = new Regex(@"\{\{(Template:)?(Recent ?death|Recentlydeceased)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        public static readonly Regex BirthsCategory = new Regex(@"\[\[ ?Category ?:[ _]?(?:(\d{3,4})(?:s| BC)?|\d{1,2}\w{0,2}[- _]century)[ _]births(\|.*?)?\]\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex BirthsCategory = new Regex(@"\[\[ ?Category ?:[ _]?(?:(\d{3,4})(?:s| BC)?|\d{1,2}\w{0,2}[- _]century)[ _]births(\|.*?)?\]\]", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.RightToLeft);
 
         /// <summary>
         /// Matches the various {{birth date and age}} templates, group 1 being the year of birth
@@ -474,7 +474,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{Link FA|xxx}}, {{Link GA|xxx}}
         /// </summary>
-        public static readonly Regex LinkFGAs = new Regex(@"{{[Ll]ink [FG]A\|.*?}}", RegexOptions.Compiled);
+        public static readonly Regex LinkFGAs = new Regex(@"{{[Ll]ink [FG]A\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
 
         /// <summary>
         /// Matches {{Deadend|xxx}} (en only)
@@ -539,7 +539,7 @@ namespace WikiFunctions
         /// <summary>
         /// 
         /// </summary>
-        public static readonly Regex ReferenceList = new Regex("{{(reflist|references-small|references-2column)}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static readonly Regex ReferenceList = new Regex("{{(reflist|references-small|references-2column)}}", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
 
         /// <summary>
         /// Matches infoboxes, group 1 being the template name of the infobox
@@ -555,7 +555,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{XX Portal}} templates
         /// </summary>
-        public static readonly Regex PortalTemplate = new Regex(@"{{[Pp]ortal(?:\|[^{}]+)?}}");
+        public static readonly Regex PortalTemplate = new Regex(@"{{[Pp]ortal(?:\|[^{}]+)?}}", RegexOptions.RightToLeft);
         #endregion
 
         /// <summary>
@@ -569,7 +569,7 @@ namespace WikiFunctions
         public static readonly Regex Pstyles = new Regex(@"<p style\s*=\s*[^<>]+>.*?<\s*/p>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
-        /// 
+        /// Matches empty comments (zero or more whitespace)
         /// </summary>
         public static readonly Regex EmptyComments = new Regex(@"<!--[^\S\r\n]*-->", RegexOptions.Compiled);
 
@@ -614,34 +614,34 @@ namespace WikiFunctions
         public static Regex EmptyTemplate;
 
         /// <summary>
-        /// 
+        /// Matches bold italic text, group 1 being the text in bold italics
         /// </summary>
         public static readonly Regex BoldItalics = new Regex(@"'''''(.+?)'''''");
 
         /// <summary>
-        /// 
+        /// Matches italic text, group 1 being the text in italics
         /// </summary>
         public static readonly Regex Italics = new Regex(@"''(.+?)''");
 
         /// <summary>
-        /// 
+        /// Matches bold text, group 1 being the text in bold
         /// </summary>
         public static readonly Regex Bold = new Regex(@"'''(.+?)'''");
 
         /// <summary>
-        /// 
+        /// Matches a row beginning with an asterisk, allowing for spaces before
         /// </summary>
         public static readonly Regex StarRows = new Regex(@"^ *(\*)(.*)", RegexOptions.Multiline);
 
         /// <summary>
-        /// 
+        /// Matches the References level 2 heading
         /// </summary>
-        public static readonly Regex ReferencesRegex = new Regex(@"== *References *==", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static readonly Regex ReferencesRegex = new Regex(@"== *References *==", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
 
         /// <summary>
-        /// 
+        /// Matches the external links level 2 heading
         /// </summary>
-        public static readonly Regex ExternalLinksRegex = new Regex(@"== *External +links? *==", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static readonly Regex ExternalLinksRegex = new Regex(@"== *External +links? *==", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
 
         /// <summary>
         /// 

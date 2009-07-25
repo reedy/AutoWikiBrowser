@@ -1158,5 +1158,33 @@ words2"));
             Assert.IsFalse(WikiRegexes.BareExternalLink.IsMatch(@"<ref>http://www.site.com</ref>
 "));
         }
+
+        [Test]
+        public void BoldItalicTests()
+        {
+            Assert.AreEqual(WikiRegexes.Bold.Match(@"'''foo'''").Groups[1].Value, @"foo");
+            Assert.AreEqual(WikiRegexes.Bold.Match(@"'''foo bar'''").Groups[1].Value, @"foo bar");
+            Assert.AreEqual(WikiRegexes.Bold.Match(@"'''foo's bar'''").Groups[1].Value, @"foo's bar");
+
+            Assert.AreEqual(WikiRegexes.Italics.Match(@"''foo''").Groups[1].Value, @"foo");
+            Assert.AreEqual(WikiRegexes.Italics.Match(@"''foo bar''").Groups[1].Value, @"foo bar");
+            Assert.AreEqual(WikiRegexes.Italics.Match(@"''foo's bar''").Groups[1].Value, @"foo's bar");
+
+            Assert.AreEqual(WikiRegexes.BoldItalics.Match(@"''''' foo'''''").Groups[1].Value, @" foo");
+            Assert.AreEqual(WikiRegexes.BoldItalics.Match(@"'''''foo bar'''''").Groups[1].Value, @"foo bar");
+            Assert.AreEqual(WikiRegexes.BoldItalics.Match(@"'''''foo's bar'''''").Groups[1].Value, @"foo's bar");
+        }
+
+        [Test]
+        public void StarRowsTests()
+        {
+            Assert.AreEqual(WikiRegexes.StarRows.Match(@"*foo bar
+Bert").Groups[1].Value, @"*");
+            Assert.AreEqual(WikiRegexes.StarRows.Match(@"*foo bar
+Bert").Groups[2].Value, "foo bar\r");
+
+            Assert.AreEqual(WikiRegexes.StarRows.Match(@"    *foo bar").Groups[1].Value, @"*");
+            Assert.AreEqual(WikiRegexes.StarRows.Match(@" *foo bar").Groups[2].Value, @"foo bar");
+        }
     }
 }
