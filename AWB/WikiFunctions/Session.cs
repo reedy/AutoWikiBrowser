@@ -145,7 +145,11 @@ namespace WikiFunctions
 
         public void UpdateProject()
         {
-            Editor = CreateEditor();
+            // recreate only if project changed, to prevent losing login information
+            if (Editor == null || Editor.URL != Variables.URLLong || Editor.PHP5 != Variables.PHP5)
+            {
+                Editor = CreateEditor();
+            }
             Site = new SiteInfo(Editor.SynchronousEditor);
             LoadProjectOptions();
             RequireUpdate();
