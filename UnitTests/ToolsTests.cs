@@ -807,6 +807,10 @@ Jones", "*"));
             Assert.AreEqual("File talk:Foo bar", ToTalk("File:Foo bar"));
             Assert.AreEqual("File talk:Foo bar", ToTalk("File talk:Foo bar"));
 
+            // Don't choke on special namespaces
+            Assert.AreEqual("Special:Foo", ToTalk("Special:Foo"));
+            Assert.AreEqual("Media:Bar", ToTalk("Media:Bar"));
+
             // current namespace detection sucks, must be tested elsewhere
             //Assert.AreEqual("Wikipedia talk:Foo", ToTalk("Project:Foo"));
             //Assert.AreEqual("Image talk:Foo bar", ToTalk("Image:Foo bar"));
@@ -820,10 +824,11 @@ Jones", "*"));
                                   {
                                       new Article("Foo"),
                                       new Article("Talk:Foo bar"),
-                                      new Article("File:Foo")
+                                      new Article("File:Foo"),
+                                      new Article("Special:Foo")
                                   };
             CollectionAssert.AreEquivalent(Tools.ConvertToTalk(l),
-                new[] { "Talk:Foo", "Talk:Foo bar", "File talk:Foo" });
+                new[] { "Talk:Foo", "Talk:Foo bar", "File talk:Foo", "Special:Foo" });
         }
 
         [Test]
@@ -835,6 +840,10 @@ Jones", "*"));
             Assert.AreEqual("Foo:Bar", FromTalk("Talk:Foo:Bar"));
             Assert.AreEqual("User:Foo bar", FromTalk("User:Foo bar"));
             Assert.AreEqual("Category:Foo bar", FromTalk("Category talk:Foo bar"));
+
+            // Don't choke on special namespaces
+            Assert.AreEqual("Special:Foo", FromTalk("Special:Foo"));
+            Assert.AreEqual("Media:Bar", FromTalk("Media:Bar"));
         }
 
         [Test]
@@ -844,10 +853,11 @@ Jones", "*"));
                                   {
                                       new Article("Foo"),
                                       new Article("Talk:Foo bar"),
-                                      new Article("User talk:Foo")
+                                      new Article("User talk:Foo"),
+                                      new Article("Special:Foo")
                                   };
             CollectionAssert.AreEquivalent(Tools.ConvertFromTalk(l),
-                new[] { "Foo", "Foo bar", "User:Foo" });
+                new[] { "Foo", "Foo bar", "User:Foo", "Special:Foo" });
         }
         #endregion
 
