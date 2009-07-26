@@ -1688,9 +1688,6 @@ Message: {2}
         /// <returns>Article Title</returns>
         public static string ConvertFromTalk(Article a)
         {
-            if (Namespace.IsSpecial(a.NameSpaceKey))
-                return a.Name;
-
             if (Namespace.IsTalk(a.NameSpaceKey))
             {
                 if (a.NameSpaceKey == 1)
