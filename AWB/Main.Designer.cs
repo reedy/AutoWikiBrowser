@@ -2225,6 +2225,7 @@ namespace AutoWikiBrowser
             this.txtSkipIfNotContains.Size = new System.Drawing.Size(154, 20);
             this.txtSkipIfNotContains.TabIndex = 3;
             this.ToolTip.SetToolTip(this.txtSkipIfNotContains, "Skip articles that do not contain this text");
+            this.txtSkipIfNotContains.TextChanged += new System.EventHandler(this.txtSkipIfNotContains_TextChanged);
             // 
             // txtSkipIfContains
             // 
@@ -2234,6 +2235,7 @@ namespace AutoWikiBrowser
             this.txtSkipIfContains.Size = new System.Drawing.Size(154, 20);
             this.txtSkipIfContains.TabIndex = 1;
             this.ToolTip.SetToolTip(this.txtSkipIfContains, "Skip articles that contain this text");
+            this.txtSkipIfContains.TextChanged += new System.EventHandler(this.txtSkipIfContains_TextChanged);
             // 
             // chkSkipIfNotContains
             // 
@@ -2256,6 +2258,7 @@ namespace AutoWikiBrowser
             this.chkSkipIsRegex.Text = "&Regexes";
             this.ToolTip.SetToolTip(this.chkSkipIsRegex, "Enables regular expressions for the \"Skip if contains\"");
             this.chkSkipIsRegex.UseVisualStyleBackColor = true;
+            this.chkSkipIsRegex.CheckedChanged += new System.EventHandler(this.chkSkipIsRegex_CheckedChanged);
             // 
             // chkSkipAfterProcessing
             // 

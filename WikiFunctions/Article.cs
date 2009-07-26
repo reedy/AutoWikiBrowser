@@ -1219,4 +1219,84 @@ namespace WikiFunctions
         bool HasStubTemplate { get; }
         bool HasInfoBox { get; }
     }
+
+    /// <summary>
+    /// Class for scanning an article for content
+    /// </summary>
+    public interface IArticleComparer
+    {
+        /// <summary>
+        /// Compares the article text against the criteria provided 
+        /// </summary>
+        /// <param name="article">An article to check</param>
+        /// <returns>Whether the article's text matches the criteria</returns>
+        bool Matches(Article article);
+    }
+
+    public class CaseSensitiveArticleComparer : IArticleComparer
+    {
+        public CaseSensitiveArticleComparer(string comparator)
+        {
+            Comparator = comparator;
+            ApplyKeywords = Comparator.Contains("%%");
+        }
+        public bool Matches(Article article)
+        {
+            return ApplyKeywords
+                     ? article.ArticleText.Contains(Tools.ApplyKeyWords(article.Name, Comparator))
+                     : article.ArticleText.Contains(Comparator);
+        }
+
+        string Comparator;
+        bool ApplyKeywords = false;
+    }
+
+    public class CaseInsensitiveArticleComparer : IArticleComparer
+    {
+        public CaseInsensitiveArticleComparer(string comparator)
+        {
+            Comparator = comparator;
+            ApplyKeywords = Comparator.Contains("%%");
+        }
+        public bool Matches(Article article)
+        {
+            return ApplyKeywords
+                     ? article.ArticleText.IndexOf(Tools.ApplyKeyWords(article.Name, Comparator), StringComparison.CurrentCultureIgnoreCase) >= 0
+                     : article.ArticleText.IndexOf(Comparator, StringComparison.CurrentCultureIgnoreCase) >= 0;
+            // or should that be OrdinalIgnoreCase?
+        }
+
+        string Comparator;
+        bool ApplyKeywords = false;
+    }
+
+    public class RegexArticleComparer : IArticleComparer
+    {
+        public RegexArticleComparer(Regex comparator)
+        {
+            Comparator = comparator;
+        }
+        public bool Matches(Article article)
+        {
+            return Comparator.IsMatch(article.ArticleText);
+        }
+
+        Regex Comparator;
+    }
+
+    public class DynamicRegexArticleComparer : IArticleComparer
+    {
+        public DynamicRegexArticleComparer(string comparator, RegexOptions options)
+        {
+            Comparator = comparator;
+            Options = options;
+        }
+        public bool Matches(Article article)
+        {
+            return Regex.IsMatch(article.ArticleText, Tools.ApplyKeyWords(article.Name, Comparator), Options);
+        }
+
+        string Comparator;
+        RegexOptions Options;
+    }
 }
