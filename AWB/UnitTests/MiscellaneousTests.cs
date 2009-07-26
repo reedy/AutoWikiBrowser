@@ -412,6 +412,9 @@ Image:quux[http://example.com]
             Assert.IsFalse(Namespace.IsTalk(Namespace.User));
             Assert.IsFalse(Namespace.IsTalk(Namespace.Project));
 
+            Assert.IsFalse(Namespace.IsTalk(Namespace.Special));
+            Assert.IsFalse(Namespace.IsTalk(Namespace.Media));
+
             Assert.IsTrue(Namespace.IsTalk("Talk:Test"));
             Assert.IsTrue(Namespace.IsTalk("User talk:Test"));
 
