@@ -28,7 +28,7 @@ namespace WikiFunctions.Parse
 {
     //TODO:Make Regexes Compiled as required
     //TODO:Move Regexes to WikiRegexes as required
-    //TODO:Split Parser code into seperate files (for manageability), or even into seperate classes
+    //TODO:Split Parser code into separate files (for manageability), or even into separate classes
     //TODO:Move regexes declared in method bodies (if not dynamic based on article title, etc), into class body
 
     /// <summary>
