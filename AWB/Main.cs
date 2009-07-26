@@ -939,21 +939,24 @@ namespace AutoWikiBrowser
             txtEdit.TextChanged += txtEdit_TextChanged;
         }
 
+        private IArticleComparer ContainsComparer = null;
+        private IArticleComparer NotContainsComparer = null;
         /// <summary>
         /// 
         /// </summary>
         /// <returns>Whether the page has been skipped</returns>
         private bool SkipChecks()
         {
-            if (chkSkipIfContains.Checked && TheArticle.SkipIfContains(txtSkipIfContains.Text,
-                chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, true))
+            if (ContainsComparer == null)
+                MakeSkipChecks();
+
+            if (chkSkipIfContains.Checked && ContainsComparer.Matches(TheArticle))
             {
                 SkipPage("Page contains: " + txtSkipIfContains.Text);
                 return true;
             }
 
-            if (chkSkipIfNotContains.Checked && TheArticle.SkipIfContains(txtSkipIfNotContains.Text,
-                chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, false))
+            if (chkSkipIfNotContains.Checked && !NotContainsComparer.Matches(TheArticle))
             {
                 SkipPage("Page does not contain: " + txtSkipIfNotContains.Text);
                 return true;
@@ -966,6 +969,48 @@ namespace AutoWikiBrowser
             }
 
             return false;
+        }
+
+        private void InvalidateSkipChecks()
+        {
+            ContainsComparer = null;
+            NotContainsComparer = null;
+        }
+        private void MakeSkipChecks()
+        {
+            if (chkSkipIsRegex.Checked)
+                if (txtSkipIfContains.Text.Contains("%%"))
+                    if (chkSkipCaseSensitive.Checked)
+                        ContainsComparer = new DynamicRegexArticleComparer(txtSkipIfContains.Text, RegexOptions.None);
+                    else
+                        ContainsComparer = new DynamicRegexArticleComparer(txtSkipIfContains.Text, RegexOptions.IgnoreCase);
+                else
+                    if (chkSkipCaseSensitive.Checked)
+                        ContainsComparer = new RegexArticleComparer(new Regex(txtSkipIfContains.Text, RegexOptions.Compiled));
+                    else
+                        ContainsComparer = new RegexArticleComparer(new Regex(txtSkipIfContains.Text, RegexOptions.Compiled | RegexOptions.IgnoreCase));
+            else
+                if (chkSkipCaseSensitive.Checked)
+                    ContainsComparer = new CaseSensitiveArticleComparer(txtSkipIfContains.Text);
+                else
+                    ContainsComparer = new CaseInsensitiveArticleComparer(txtSkipIfContains.Text);
+
+            if (chkSkipIsRegex.Checked)
+                if (txtSkipIfContains.Text.Contains("%%"))
+                    if (chkSkipCaseSensitive.Checked)
+                        NotContainsComparer = new DynamicRegexArticleComparer(txtSkipIfNotContains.Text, RegexOptions.None);
+                    else
+                        NotContainsComparer = new DynamicRegexArticleComparer(txtSkipIfNotContains.Text, RegexOptions.IgnoreCase);
+                else
+                    if (chkSkipCaseSensitive.Checked)
+                        NotContainsComparer = new RegexArticleComparer(new Regex(txtSkipIfNotContains.Text, RegexOptions.Compiled));
+                    else
+                        NotContainsComparer = new RegexArticleComparer(new Regex(txtSkipIfNotContains.Text, RegexOptions.Compiled | RegexOptions.IgnoreCase));
+            else
+                if (chkSkipCaseSensitive.Checked)
+                    NotContainsComparer = new CaseSensitiveArticleComparer(txtSkipIfNotContains.Text);
+                else
+                    NotContainsComparer = new CaseInsensitiveArticleComparer(txtSkipIfNotContains.Text);
         }
 
         private void Bleepflash()
@@ -2204,11 +2249,13 @@ window.scrollTo(0, diffTopY);
         private void chkIgnoreIfContains_CheckedChanged(object sender, EventArgs e)
         {
             txtSkipIfContains.Enabled = chkSkipIfContains.Checked;
+            InvalidateSkipChecks();
         }
 
         private void chkOnlyIfContains_CheckedChanged(object sender, EventArgs e)
         {
             txtSkipIfNotContains.Enabled = chkSkipIfNotContains.Checked;
+            InvalidateSkipChecks();
         }
 
         private void CategoryLeave(object sender, EventArgs e)
@@ -4516,6 +4563,26 @@ window.scrollTo(0, diffTopY);
             int b = Regex.Matches(a, "\n").Count;
             txtEdit.SetEditBoxSelection(unbalancedBracket - b, bracketLength);
             txtEdit.SelectionBackColor = Color.Red;
+        }
+
+        private void txtSkipIfContains_TextChanged(object sender, EventArgs e)
+        {
+            InvalidateSkipChecks();
+        }
+
+        private void txtSkipIfNotContains_TextChanged(object sender, EventArgs e)
+        {
+            InvalidateSkipChecks();
+        }
+
+        private void chkSkipIsRegex_CheckedChanged(object sender, EventArgs e)
+        {
+            InvalidateSkipChecks();
+        }
+
+        private void chkSkipCaseSensitive_CheckedChanged(object sender, EventArgs e)
+        {
+            InvalidateSkipChecks();
         }
     }
         #endregion
