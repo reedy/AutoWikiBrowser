@@ -177,6 +177,15 @@ namespace WikiFunctions
             return Determine(articleTitle) == User;
         }
 
+        // Covered by NamespaceTests.IsSpecial()
+        /// <summary>
+        /// Returns true if the given namespace is non-editable, i.e. Special or Media
+        /// </summary>
+        public static bool IsSpecial(int ns)
+        {
+            return ns < 0;
+        }
+
         private static readonly Regex NormalizeColon = new Regex(@"\s*:$", RegexOptions.Compiled);
 
         // Covered by NamespaceTests.NormalizeNamespace()
