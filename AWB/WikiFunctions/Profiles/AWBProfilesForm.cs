@@ -34,6 +34,7 @@ namespace WikiFunctions.Profiles
             InitializeComponent();
             loginAsThisAccountToolStripMenuItem.Visible = true;
             loginAsThisAccountToolStripMenuItem.Click += lvAccounts_DoubleClick;
+            btnLogin.Visible = true;
             TheSession = session;
             UsernameOrPasswordChanged(this, new EventArgs());
         }
