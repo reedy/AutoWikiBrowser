@@ -45,18 +45,6 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.lvAccounts.Size = new System.Drawing.Size(496, 117);
             // 
-            // colAccountName
-            // 
-            this.colAccountName.Width = 63;
-            // 
-            // colPasswordSaved
-            // 
-            this.colPasswordSaved.Width = 99;
-            // 
-            // colProfileSettings
-            // 
-            this.colProfileSettings.Width = 88;
-            // 
             // colNotes
             // 
             this.colNotes.Width = 118;
@@ -76,6 +64,7 @@
             // btnClose
             // 
             this.btnClose.Location = new System.Drawing.Point(433, 268);
+            this.btnClose.TabIndex = 6;
             // 
             // colUsedForUpload
             // 
@@ -102,7 +91,7 @@
             this.groupBox1.Location = new System.Drawing.Point(12, 164);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(493, 92);
-            this.groupBox1.TabIndex = 7;
+            this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Quick login";
             // 
@@ -113,7 +102,7 @@
             this.chkSavePassword.Name = "chkSavePassword";
             this.chkSavePassword.Size = new System.Drawing.Size(99, 17);
             this.chkSavePassword.TabIndex = 6;
-            this.chkSavePassword.Text = "Save password";
+            this.chkSavePassword.Text = "Sa&ve password";
             this.chkSavePassword.UseVisualStyleBackColor = true;
             // 
             // chkSaveProfile
@@ -123,7 +112,7 @@
             this.chkSaveProfile.Name = "chkSaveProfile";
             this.chkSaveProfile.Size = new System.Drawing.Size(112, 17);
             this.chkSaveProfile.TabIndex = 5;
-            this.chkSaveProfile.Text = "Save this account";
+            this.chkSaveProfile.Text = "&Save this account";
             this.chkSaveProfile.UseVisualStyleBackColor = true;
             // 
             // btnQuickLogin
@@ -132,7 +121,7 @@
             this.btnQuickLogin.Name = "btnQuickLogin";
             this.btnQuickLogin.Size = new System.Drawing.Size(75, 23);
             this.btnQuickLogin.TabIndex = 4;
-            this.btnQuickLogin.Text = "Login";
+            this.btnQuickLogin.Text = "L&ogin";
             this.btnQuickLogin.UseVisualStyleBackColor = true;
             this.btnQuickLogin.Click += new System.EventHandler(this.btnQuickLogin_Click);
             // 
@@ -142,8 +131,8 @@
             this.label2.Location = new System.Drawing.Point(6, 42);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(56, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Password:";
+            this.label2.TabIndex = 2;
+            this.label2.Text = "&Password:";
             // 
             // txtPassword
             // 
@@ -151,7 +140,7 @@
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '●';
             this.txtPassword.Size = new System.Drawing.Size(248, 20);
-            this.txtPassword.TabIndex = 2;
+            this.txtPassword.TabIndex = 3;
             this.txtPassword.TextChanged += new System.EventHandler(this.UsernameOrPasswordChanged);
             // 
             // txtUsername
@@ -169,14 +158,13 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Username:";
+            this.label1.Text = "&Username:";
             // 
             // AWBProfilesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.ClientSize = new System.Drawing.Size(518, 296);
+            this.ClientSize = new System.Drawing.Size(520, 305);
             this.Controls.Add(this.groupBox1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximumSize = new System.Drawing.Size(526, 330);
             this.MinimumSize = new System.Drawing.Size(526, 330);
             this.Name = "AWBProfilesForm";
