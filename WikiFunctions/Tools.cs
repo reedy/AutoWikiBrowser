@@ -1639,6 +1639,9 @@ Message: {2}
         /// <returns>Article Title</returns>
         public static string ConvertToTalk(Article a)
         {
+            if (a.NameSpaceKey < 0)
+                return a.Name;
+
             if (Namespace.IsTalk(a.NameSpaceKey))
                 return a.Name;
 
@@ -1685,6 +1688,9 @@ Message: {2}
         /// <returns>Article Title</returns>
         public static string ConvertFromTalk(Article a)
         {
+            if (a.NameSpaceKey < 0)
+                return a.Name;
+
             if (Namespace.IsTalk(a.NameSpaceKey))
             {
                 if (a.NameSpaceKey == 1)
