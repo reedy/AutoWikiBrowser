@@ -41,13 +41,11 @@
             // 
             // lvAccounts
             // 
-            this.lvAccounts.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
             this.lvAccounts.Size = new System.Drawing.Size(496, 117);
             // 
             // colNotes
             // 
-            this.colNotes.Width = 118;
+            this.colNotes.Width = 133;
             // 
             // btnAdd
             // 
@@ -57,18 +55,10 @@
             // 
             this.btnDelete.Location = new System.Drawing.Point(255, 137);
             // 
-            // colID
-            // 
-            this.colID.Width = 26;
-            // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(433, 268);
+            this.btnClose.Location = new System.Drawing.Point(433, 270);
             this.btnClose.TabIndex = 6;
-            // 
-            // colUsedForUpload
-            // 
-            this.colUsedForUpload.Width = 98;
             // 
             // btnLogin
             // 
@@ -81,6 +71,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.chkSavePassword);
             this.groupBox1.Controls.Add(this.chkSaveProfile);
             this.groupBox1.Controls.Add(this.btnQuickLogin);
@@ -90,7 +82,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 164);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(493, 92);
+            this.groupBox1.Size = new System.Drawing.Size(496, 92);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Quick login";
@@ -117,7 +109,8 @@
             // 
             // btnQuickLogin
             // 
-            this.btnQuickLogin.Location = new System.Drawing.Point(387, 25);
+            this.btnQuickLogin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnQuickLogin.Location = new System.Drawing.Point(415, 27);
             this.btnQuickLogin.Name = "btnQuickLogin";
             this.btnQuickLogin.Size = new System.Drawing.Size(75, 23);
             this.btnQuickLogin.TabIndex = 4;
@@ -136,18 +129,22 @@
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(106, 39);
+            this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtPassword.Location = new System.Drawing.Point(70, 39);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '●';
-            this.txtPassword.Size = new System.Drawing.Size(248, 20);
+            this.txtPassword.Size = new System.Drawing.Size(339, 20);
             this.txtPassword.TabIndex = 3;
             this.txtPassword.TextChanged += new System.EventHandler(this.UsernameOrPasswordChanged);
             // 
             // txtUsername
             // 
-            this.txtUsername.Location = new System.Drawing.Point(106, 13);
+            this.txtUsername.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtUsername.Location = new System.Drawing.Point(70, 13);
             this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(248, 20);
+            this.txtUsername.Size = new System.Drawing.Size(339, 20);
             this.txtUsername.TabIndex = 1;
             this.txtUsername.TextChanged += new System.EventHandler(this.UsernameOrPasswordChanged);
             // 
@@ -165,15 +162,14 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.ClientSize = new System.Drawing.Size(520, 305);
             this.Controls.Add(this.groupBox1);
-            this.MaximumSize = new System.Drawing.Size(526, 330);
-            this.MinimumSize = new System.Drawing.Size(526, 330);
+            this.MinimumSize = new System.Drawing.Size(450, 272);
             this.Name = "AWBProfilesForm";
             this.Controls.SetChildIndex(this.btnDelete, 0);
             this.Controls.SetChildIndex(this.BtnEdit, 0);
             this.Controls.SetChildIndex(this.btnAdd, 0);
+            this.Controls.SetChildIndex(this.btnClose, 0);
             this.Controls.SetChildIndex(this.btnLogin, 0);
             this.Controls.SetChildIndex(this.groupBox1, 0);
-            this.Controls.SetChildIndex(this.btnClose, 0);
             this.Controls.SetChildIndex(this.lvAccounts, 0);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
