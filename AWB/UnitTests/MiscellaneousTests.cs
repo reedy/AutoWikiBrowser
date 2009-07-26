@@ -406,11 +406,11 @@ Image:quux[http://example.com]
         [Test]
         public void IsTalk()
         {
-            Assert.IsTrue(Namespace.IsTalk(1));
-            Assert.IsTrue(Namespace.IsTalk(3));
+            Assert.IsTrue(Namespace.IsTalk(Namespace.Talk));
+            Assert.IsTrue(Namespace.IsTalk(Namespace.UserTalk));
 
-            Assert.IsFalse(Namespace.IsTalk(2));
-            Assert.IsFalse(Namespace.IsTalk(4));
+            Assert.IsFalse(Namespace.IsTalk(Namespace.User));
+            Assert.IsFalse(Namespace.IsTalk(Namespace.Project));
 
             Assert.IsTrue(Namespace.IsTalk("Talk:Test"));
             Assert.IsTrue(Namespace.IsTalk("User talk:Test"));
@@ -422,8 +422,8 @@ Image:quux[http://example.com]
         [Test]
         public void IsMainSpace()
         {
-            Assert.IsTrue(Namespace.IsMainSpace(0));
-            Assert.IsFalse(Namespace.IsMainSpace(1));
+            Assert.IsTrue(Namespace.IsMainSpace(Namespace.Article));
+            Assert.IsFalse(Namespace.IsMainSpace(Namespace.Talk));
 
             Assert.IsTrue(Namespace.IsMainSpace("Test"));
 
@@ -480,6 +480,16 @@ Image:quux[http://example.com]
             Assert.IsFalse(Namespace.IsUserPage("User talk:Test"));
             Assert.IsFalse(Namespace.IsUserPage("Test"));
             Assert.IsFalse(Namespace.IsUserPage("Project:User"));
+        }
+
+        [Test]
+        public void IsSpecial()
+        {
+            Assert.IsTrue(Namespace.IsSpecial(Namespace.Media));
+            Assert.IsTrue(Namespace.IsSpecial(Namespace.Special));
+
+            Assert.IsFalse(Namespace.IsSpecial(Namespace.Article));
+            Assert.IsFalse(Namespace.IsSpecial(Namespace.TemplateTalk));
         }
 
         [Test]
