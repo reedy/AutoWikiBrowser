@@ -1690,7 +1690,7 @@ Message: {2}
         {
             if (Namespace.IsTalk(a.NameSpaceKey))
             {
-                if (a.NameSpaceKey == 1)
+                if (a.NameSpaceKey == Namespace.Talk)
                     return a.NamespacelessName;
 
                 return Variables.Namespaces[a.NameSpaceKey - 1] + a.NamespacelessName;
