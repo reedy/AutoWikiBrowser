@@ -53,8 +53,8 @@ namespace AutoWikiBrowser
             this.chkEnabled.Location = new System.Drawing.Point(12, 18);
             this.chkEnabled.Name = "chkEnabled";
             this.chkEnabled.Size = new System.Drawing.Size(65, 17);
-            this.chkEnabled.TabIndex = 9;
-            this.chkEnabled.Text = "Enabled";
+            this.chkEnabled.TabIndex = 0;
+            this.chkEnabled.Text = "&Enabled";
             this.chkEnabled.UseVisualStyleBackColor = true;
             this.chkEnabled.CheckedChanged += new System.EventHandler(this.chkEnabled_CheckedChanged);
             // 
@@ -74,7 +74,7 @@ namespace AutoWikiBrowser
             this.groupBox1.Location = new System.Drawing.Point(12, 41);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(322, 189);
-            this.groupBox1.TabIndex = 10;
+            this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             // 
             // txtFile
@@ -82,7 +82,7 @@ namespace AutoWikiBrowser
             this.txtFile.Location = new System.Drawing.Point(130, 126);
             this.txtFile.Name = "txtFile";
             this.txtFile.Size = new System.Drawing.Size(186, 20);
-            this.txtFile.TabIndex = 12;
+            this.txtFile.TabIndex = 8;
             // 
             // label4
             // 
@@ -90,16 +90,16 @@ namespace AutoWikiBrowser
             this.label4.Location = new System.Drawing.Point(6, 129);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(87, 13);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "Input/Output file:";
+            this.label4.TabIndex = 7;
+            this.label4.Text = "&Input/Output file:";
             // 
             // btnSelect
             // 
             this.btnSelect.Location = new System.Drawing.Point(91, 19);
             this.btnSelect.Name = "btnSelect";
             this.btnSelect.Size = new System.Drawing.Size(140, 23);
-            this.btnSelect.TabIndex = 10;
-            this.btnSelect.Text = "Select program/script";
+            this.btnSelect.TabIndex = 0;
+            this.btnSelect.Text = "&Select program/script";
             this.btnSelect.UseVisualStyleBackColor = true;
             this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
             // 
@@ -110,9 +110,9 @@ namespace AutoWikiBrowser
             this.radFile.Location = new System.Drawing.Point(9, 160);
             this.radFile.Name = "radFile";
             this.radFile.Size = new System.Drawing.Size(129, 17);
-            this.radFile.TabIndex = 8;
+            this.radFile.TabIndex = 9;
             this.radFile.TabStop = true;
-            this.radFile.Text = "Pass article text as file";
+            this.radFile.Text = "Pass article text as &file";
             this.radFile.UseVisualStyleBackColor = true;
             // 
             // radParameter
@@ -121,8 +121,8 @@ namespace AutoWikiBrowser
             this.radParameter.Location = new System.Drawing.Point(147, 160);
             this.radParameter.Name = "radParameter";
             this.radParameter.Size = new System.Drawing.Size(163, 17);
-            this.radParameter.TabIndex = 7;
-            this.radParameter.Text = "Pass article text as parameter";
+            this.radParameter.TabIndex = 10;
+            this.radParameter.Text = "Pass article &text as parameter";
             this.radParameter.UseVisualStyleBackColor = true;
             // 
             // label3
@@ -131,8 +131,8 @@ namespace AutoWikiBrowser
             this.label3.Location = new System.Drawing.Point(6, 103);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(118, 13);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Arguments/Parameters:";
+            this.label3.TabIndex = 5;
+            this.label3.Text = "&Arguments/Parameters:";
             // 
             // label2
             // 
@@ -140,8 +140,8 @@ namespace AutoWikiBrowser
             this.label2.Location = new System.Drawing.Point(6, 77);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(89, 13);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Program or script:";
+            this.label2.TabIndex = 3;
+            this.label2.Text = "&Program or script:";
             // 
             // label1
             // 
@@ -149,29 +149,29 @@ namespace AutoWikiBrowser
             this.label1.Location = new System.Drawing.Point(6, 51);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(93, 13);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Working directory:";
+            this.label1.TabIndex = 1;
+            this.label1.Text = "&Working directory:";
             // 
             // txtParameters
             // 
             this.txtParameters.Location = new System.Drawing.Point(130, 100);
             this.txtParameters.Name = "txtParameters";
             this.txtParameters.Size = new System.Drawing.Size(186, 20);
-            this.txtParameters.TabIndex = 3;
+            this.txtParameters.TabIndex = 6;
             // 
             // txtProgram
             // 
             this.txtProgram.Location = new System.Drawing.Point(130, 74);
             this.txtProgram.Name = "txtProgram";
             this.txtProgram.Size = new System.Drawing.Size(186, 20);
-            this.txtProgram.TabIndex = 2;
+            this.txtProgram.TabIndex = 4;
             // 
             // txtWorkingDir
             // 
             this.txtWorkingDir.Location = new System.Drawing.Point(130, 48);
             this.txtWorkingDir.Name = "txtWorkingDir";
             this.txtWorkingDir.Size = new System.Drawing.Size(186, 20);
-            this.txtWorkingDir.TabIndex = 1;
+            this.txtWorkingDir.TabIndex = 2;
             // 
             // chkSkip
             // 
@@ -179,8 +179,8 @@ namespace AutoWikiBrowser
             this.chkSkip.Location = new System.Drawing.Point(83, 18);
             this.chkSkip.Name = "chkSkip";
             this.chkSkip.Size = new System.Drawing.Size(109, 17);
-            this.chkSkip.TabIndex = 0;
-            this.chkSkip.Text = "Skip if no change";
+            this.chkSkip.TabIndex = 1;
+            this.chkSkip.Text = "Skip if &no change";
             this.chkSkip.UseVisualStyleBackColor = true;
             // 
             // btnOk
@@ -189,7 +189,7 @@ namespace AutoWikiBrowser
             this.btnOk.Location = new System.Drawing.Point(259, 12);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 11;
+            this.btnOk.TabIndex = 2;
             this.btnOk.Text = "Close";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);

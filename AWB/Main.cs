@@ -3210,19 +3210,19 @@ window.scrollTo(0, diffTopY);
 
                 string prevSummary = cmboEditSummary.SelectedText;
 
-                if (se.ShowDialog(this) != DialogResult.OK) return;
+                if (se.ShowDialog(this) != DialogResult.OK)
+                    return;
 
                 cmboEditSummary.Items.Clear();
 
                 foreach (string s in se.Summaries.Lines)
-                {
-                    if (string.IsNullOrEmpty(s.Trim())) continue;
-                    cmboEditSummary.Items.Add(s.Trim());
-                }
+                    if (!string.IsNullOrEmpty(s.Trim()))
+                        cmboEditSummary.Items.Add(s.Trim());
 
                 if (cmboEditSummary.Items.Contains(prevSummary))
                     cmboEditSummary.SelectedText = prevSummary;
-                else cmboEditSummary.SelectedItem = 0;
+                else
+                    cmboEditSummary.SelectedItem = 0;
             }
         }
 

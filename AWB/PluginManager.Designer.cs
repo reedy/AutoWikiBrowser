@@ -53,6 +53,7 @@ namespace AutoWikiBrowser
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.lvPlugin.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colName});
+            this.lvPlugin.ComparerFactory = this.lvPlugin;
             this.lvPlugin.ContextMenuStrip = this.contextMenuStrip1;
             listViewGroup1.Header = "Loaded Article Plugins";
             listViewGroup1.Name = "groupArticleLoaded";
@@ -70,7 +71,6 @@ namespace AutoWikiBrowser
             this.lvPlugin.Location = new System.Drawing.Point(12, 47);
             this.lvPlugin.Name = "lvPlugin";
             this.lvPlugin.Size = new System.Drawing.Size(384, 231);
-            this.lvPlugin.SortColumnsOnClick = false;
             this.lvPlugin.TabIndex = 0;
             this.lvPlugin.UseCompatibleStateImageBehavior = false;
             this.lvPlugin.View = System.Windows.Forms.View.Details;
@@ -85,13 +85,13 @@ namespace AutoWikiBrowser
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadPluginToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(185, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(184, 26);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // loadPluginToolStripMenuItem
             // 
             this.loadPluginToolStripMenuItem.Name = "loadPluginToolStripMenuItem";
-            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.loadPluginToolStripMenuItem.Text = "Load Selected Plugin";
             this.loadPluginToolStripMenuItem.Click += new System.EventHandler(this.loadPluginToolStripMenuItem_Click);
             // 
@@ -110,14 +110,14 @@ namespace AutoWikiBrowser
             this.pluginToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadNewPluginsToolStripMenuItem});
             this.pluginToolStripMenuItem.Name = "pluginToolStripMenuItem";
-            this.pluginToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
-            this.pluginToolStripMenuItem.Text = "Plugin";
+            this.pluginToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.pluginToolStripMenuItem.Text = "&Plugin";
             // 
             // loadNewPluginsToolStripMenuItem
             // 
             this.loadNewPluginsToolStripMenuItem.Name = "loadNewPluginsToolStripMenuItem";
             this.loadNewPluginsToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
-            this.loadNewPluginsToolStripMenuItem.Text = "Load new Plugin(s)";
+            this.loadNewPluginsToolStripMenuItem.Text = "&Load new Plugin(s)";
             this.loadNewPluginsToolStripMenuItem.Click += new System.EventHandler(this.loadNewPluginsToolStripMenuItem_Click);
             // 
             // label1

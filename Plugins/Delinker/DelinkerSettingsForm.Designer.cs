@@ -45,7 +45,7 @@ namespace AutoWikiBrowser.Plugins.Delinker
             this.OK.Location = new System.Drawing.Point(245, 181);
             this.OK.Name = "OK";
             this.OK.Size = new System.Drawing.Size(75, 23);
-            this.OK.TabIndex = 0;
+            this.OK.TabIndex = 7;
             this.OK.Text = "OK";
             this.OK.UseVisualStyleBackColor = true;
             this.OK.Click += new System.EventHandler(this.OK_Click);
@@ -56,8 +56,8 @@ namespace AutoWikiBrowser.Plugins.Delinker
             this.label1.Location = new System.Drawing.Point(12, 19);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(80, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Link to remove:";
+            this.label1.TabIndex = 0;
+            this.label1.Text = "&Link to remove:";
             // 
             // Link
             // 
@@ -65,7 +65,7 @@ namespace AutoWikiBrowser.Plugins.Delinker
             this.Link.Location = new System.Drawing.Point(98, 15);
             this.Link.Name = "Link";
             this.Link.Size = new System.Drawing.Size(302, 22);
-            this.Link.TabIndex = 2;
+            this.Link.TabIndex = 1;
             // 
             // label2
             // 
@@ -73,7 +73,7 @@ namespace AutoWikiBrowser.Plugins.Delinker
             this.label2.Location = new System.Drawing.Point(242, 38);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(158, 13);
-            this.label2.TabIndex = 3;
+            this.label2.TabIndex = 2;
             this.label2.Text = "Must be properly regex-escaped";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -83,8 +83,8 @@ namespace AutoWikiBrowser.Plugins.Delinker
             this.Skip.Location = new System.Drawing.Point(15, 95);
             this.Skip.Name = "Skip";
             this.Skip.Size = new System.Drawing.Size(156, 17);
-            this.Skip.TabIndex = 4;
-            this.Skip.Text = "Skip if no links are removed";
+            this.Skip.TabIndex = 5;
+            this.Skip.Text = "&Skip if no links are removed";
             this.Skip.UseVisualStyleBackColor = true;
             // 
             // Cancel
@@ -93,7 +93,7 @@ namespace AutoWikiBrowser.Plugins.Delinker
             this.Cancel.Location = new System.Drawing.Point(326, 181);
             this.Cancel.Name = "Cancel";
             this.Cancel.Size = new System.Drawing.Size(75, 23);
-            this.Cancel.TabIndex = 5;
+            this.Cancel.TabIndex = 8;
             this.Cancel.Text = "Cancel";
             this.Cancel.UseVisualStyleBackColor = true;
             // 
@@ -103,8 +103,8 @@ namespace AutoWikiBrowser.Plugins.Delinker
             this.Subdomains.Location = new System.Drawing.Point(15, 72);
             this.Subdomains.Name = "Subdomains";
             this.Subdomains.Size = new System.Drawing.Size(120, 17);
-            this.Subdomains.TabIndex = 6;
-            this.Subdomains.Text = "Include subdomains";
+            this.Subdomains.TabIndex = 3;
+            this.Subdomains.Text = "&Include subdomains";
             this.Subdomains.UseVisualStyleBackColor = true;
             // 
             // comboBox1
@@ -117,7 +117,7 @@ namespace AutoWikiBrowser.Plugins.Delinker
             this.comboBox1.Location = new System.Drawing.Point(279, 70);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 7;
+            this.comboBox1.TabIndex = 4;
             // 
             // RemoveSections
             // 
@@ -125,8 +125,8 @@ namespace AutoWikiBrowser.Plugins.Delinker
             this.RemoveSections.Location = new System.Drawing.Point(15, 118);
             this.RemoveSections.Name = "RemoveSections";
             this.RemoveSections.Size = new System.Drawing.Size(212, 17);
-            this.RemoveSections.TabIndex = 8;
-            this.RemoveSections.Text = "Remove emptied external links sections";
+            this.RemoveSections.TabIndex = 6;
+            this.RemoveSections.Text = "&Remove emptied external links sections";
             this.RemoveSections.UseVisualStyleBackColor = true;
             // 
             // SettingsForm
@@ -145,7 +145,12 @@ namespace AutoWikiBrowser.Plugins.Delinker
             this.Controls.Add(this.Link);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.OK);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "SettingsForm";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Delinker settings";
             this.Load += new System.EventHandler(this.SettingsForm_Load);
