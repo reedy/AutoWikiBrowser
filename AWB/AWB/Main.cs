@@ -1004,7 +1004,7 @@ namespace AutoWikiBrowser
                     ContainsComparer = new CaseInsensitiveArticleComparer(txtSkipIfContains.Text);
 
             if (chkSkipIsRegex.Checked)
-                if (txtSkipIfContains.Text.Contains("%%"))
+                if (txtSkipIfNotContains.Text.Contains("%%"))
                     if (chkSkipCaseSensitive.Checked)
                         NotContainsComparer = new DynamicRegexArticleComparer(txtSkipIfNotContains.Text, RegexOptions.None);
                     else
