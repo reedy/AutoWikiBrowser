@@ -193,7 +193,7 @@ namespace AutoWikiBrowser
             this.chkAddUsingAWBToActionSummaries.Name = "chkAddUsingAWBToActionSummaries";
             this.chkAddUsingAWBToActionSummaries.Size = new System.Drawing.Size(286, 17);
             this.chkAddUsingAWBToActionSummaries.TabIndex = 1;
-            this.chkAddUsingAWBToActionSummaries.Text = "Add \"using AWB\" to when deleting or protecting pages";
+            this.chkAddUsingAWBToActionSummaries.Text = "&Add \"using AWB\" to when deleting or protecting pages";
             this.chkAddUsingAWBToActionSummaries.UseVisualStyleBackColor = true;
             // 
             // chkAlwaysConfirmExit
@@ -228,7 +228,7 @@ namespace AutoWikiBrowser
             this.chkSaveArticleList.Name = "chkSaveArticleList";
             this.chkSaveArticleList.Size = new System.Drawing.Size(154, 17);
             this.chkSaveArticleList.TabIndex = 3;
-            this.chkSaveArticleList.Text = "Save page &list with settings";
+            this.chkSaveArticleList.Text = "&Save page list with settings";
             this.chkSaveArticleList.UseVisualStyleBackColor = true;
             // 
             // chkMinimize
@@ -248,7 +248,7 @@ namespace AutoWikiBrowser
             this.chkLowPriority.Name = "chkLowPriority";
             this.chkLowPriority.Size = new System.Drawing.Size(250, 17);
             this.chkLowPriority.TabIndex = 4;
-            this.chkLowPriority.Text = "Low &thread priority (works better in background)";
+            this.chkLowPriority.Text = "&Low thread priority (works better in background)";
             this.chkLowPriority.UseVisualStyleBackColor = true;
             // 
             // chkBeep
@@ -260,7 +260,7 @@ namespace AutoWikiBrowser
             this.chkBeep.Name = "chkBeep";
             this.chkBeep.Size = new System.Drawing.Size(51, 17);
             this.chkBeep.TabIndex = 4;
-            this.chkBeep.Text = "&Beep";
+            this.chkBeep.Text = "B&eep";
             this.chkBeep.UseVisualStyleBackColor = true;
             // 
             // chkFlash
@@ -291,7 +291,7 @@ namespace AutoWikiBrowser
             this.chkAutoSaveEdit.Name = "chkAutoSaveEdit";
             this.chkAutoSaveEdit.Size = new System.Drawing.Size(183, 17);
             this.chkAutoSaveEdit.TabIndex = 0;
-            this.chkAutoSaveEdit.Text = "A&utomatically save edit box every";
+            this.chkAutoSaveEdit.Text = "Automatically &save edit box every";
             this.chkAutoSaveEdit.UseVisualStyleBackColor = true;
             this.chkAutoSaveEdit.CheckedChanged += new System.EventHandler(this.chkAutoSaveEdit_CheckedChanged);
             // 
@@ -337,7 +337,7 @@ namespace AutoWikiBrowser
             this.lblAutosaveFile.Name = "lblAutosaveFile";
             this.lblAutosaveFile.Size = new System.Drawing.Size(26, 13);
             this.lblAutosaveFile.TabIndex = 3;
-            this.lblAutosaveFile.Text = "File:";
+            this.lblAutosaveFile.Text = "&File:";
             // 
             // AutoSaveEditCont
             // 
@@ -383,7 +383,7 @@ namespace AutoWikiBrowser
             this.chkPrivacy.Name = "chkPrivacy";
             this.chkPrivacy.Size = new System.Drawing.Size(209, 17);
             this.chkPrivacy.TabIndex = 0;
-            this.chkPrivacy.Text = "Include username to im&prove accuracy";
+            this.chkPrivacy.Text = "&Include username to improve accuracy";
             // 
             // lblPrivacy
             // 
@@ -453,7 +453,7 @@ namespace AutoWikiBrowser
             this.chkPHP5Ext.Name = "chkPHP5Ext";
             this.chkPHP5Ext.Size = new System.Drawing.Size(123, 17);
             this.chkPHP5Ext.TabIndex = 11;
-            this.chkPHP5Ext.Text = "Use .php5 extension";
+            this.chkPHP5Ext.Text = "&Use .php5 extension";
             this.chkPHP5Ext.UseVisualStyleBackColor = true;
             // 
             // chkIgnoreNoBots
@@ -463,7 +463,7 @@ namespace AutoWikiBrowser
             this.chkIgnoreNoBots.Name = "chkIgnoreNoBots";
             this.chkIgnoreNoBots.Size = new System.Drawing.Size(167, 17);
             this.chkIgnoreNoBots.TabIndex = 10;
-            this.chkIgnoreNoBots.Text = "Ignore {{bots}} and {{no&bots}}";
+            this.chkIgnoreNoBots.Text = "&Ignore {{bots}} and {{nobots}}";
             this.ToolTip.SetToolTip(this.chkIgnoreNoBots, "Checking this box will cause you to edit pages with the {{bots}} and {{nobots}} t" +
                     "ags on them. By default these pages are skipped.");
             this.chkIgnoreNoBots.UseVisualStyleBackColor = true;
@@ -493,7 +493,7 @@ namespace AutoWikiBrowser
             this.chkShowTimer.Name = "chkShowTimer";
             this.chkShowTimer.Size = new System.Drawing.Size(164, 17);
             this.chkShowTimer.TabIndex = 0;
-            this.chkShowTimer.Text = "Display moving average &timer";
+            this.chkShowTimer.Text = "&Display moving average timer";
             this.chkShowTimer.UseVisualStyleBackColor = true;
             // 
             // tabPrivacy
@@ -527,7 +527,7 @@ namespace AutoWikiBrowser
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.lblSaveAsDefaultFile);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MyPreferences";

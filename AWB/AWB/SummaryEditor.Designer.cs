@@ -32,17 +32,18 @@ namespace AutoWikiBrowser
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnSort = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Summaries
             // 
             this.Summaries.AcceptsReturn = true;
-            this.Summaries.Location = new System.Drawing.Point(12, 12);
+            this.Summaries.Location = new System.Drawing.Point(12, 25);
             this.Summaries.Multiline = true;
             this.Summaries.Name = "Summaries";
             this.Summaries.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Summaries.Size = new System.Drawing.Size(609, 312);
-            this.Summaries.TabIndex = 0;
+            this.Summaries.Size = new System.Drawing.Size(609, 299);
+            this.Summaries.TabIndex = 1;
             // 
             // btnCancel
             // 
@@ -50,7 +51,7 @@ namespace AutoWikiBrowser
             this.btnCancel.Location = new System.Drawing.Point(546, 330);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 1;
+            this.btnCancel.TabIndex = 4;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
@@ -60,7 +61,7 @@ namespace AutoWikiBrowser
             this.btnOK.Location = new System.Drawing.Point(465, 330);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 2;
+            this.btnOK.TabIndex = 3;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             // 
@@ -69,10 +70,19 @@ namespace AutoWikiBrowser
             this.btnSort.Location = new System.Drawing.Point(12, 330);
             this.btnSort.Name = "btnSort";
             this.btnSort.Size = new System.Drawing.Size(75, 23);
-            this.btnSort.TabIndex = 3;
-            this.btnSort.Text = "Sort";
+            this.btnSort.TabIndex = 2;
+            this.btnSort.Text = "&Sort";
             this.btnSort.UseVisualStyleBackColor = true;
             this.btnSort.Click += new System.EventHandler(this.btnSort_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(9, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(80, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "&Edit summaries:";
             // 
             // SummaryEditor
             // 
@@ -81,6 +91,7 @@ namespace AutoWikiBrowser
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(633, 365);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSort);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnCancel);
@@ -99,5 +110,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button btnOK;
         public System.Windows.Forms.TextBox Summaries;
         private System.Windows.Forms.Button btnSort;
+        private System.Windows.Forms.Label label1;
     }
 }

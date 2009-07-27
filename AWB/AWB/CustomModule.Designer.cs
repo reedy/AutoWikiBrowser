@@ -68,7 +68,7 @@ namespace AutoWikiBrowser
             this.txtCode.Name = "txtCode";
             this.txtCode.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtCode.Size = new System.Drawing.Size(640, 160);
-            this.txtCode.TabIndex = 0;
+            this.txtCode.TabIndex = 10;
             this.txtCode.TabStop = false;
             this.txtCode.WordWrap = false;
             // 
@@ -83,26 +83,26 @@ namespace AutoWikiBrowser
             this.toolStripSeparator1,
             this.selectAllToolStripMenuItem});
             this.mnuTextBox.Name = "mnuMakeFromTextBox";
-            this.mnuTextBox.Size = new System.Drawing.Size(165, 126);
+            this.mnuTextBox.Size = new System.Drawing.Size(168, 126);
             // 
             // menuitemMakeFromTextBoxUndo
             // 
             this.menuitemMakeFromTextBoxUndo.Name = "menuitemMakeFromTextBoxUndo";
             this.menuitemMakeFromTextBoxUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.menuitemMakeFromTextBoxUndo.Size = new System.Drawing.Size(164, 22);
+            this.menuitemMakeFromTextBoxUndo.Size = new System.Drawing.Size(167, 22);
             this.menuitemMakeFromTextBoxUndo.Text = "&Undo";
             this.menuitemMakeFromTextBoxUndo.Click += new System.EventHandler(this.menuitemMakeFromTextBoxUndo_Click);
             // 
             // toolStripSeparator27
             // 
             this.toolStripSeparator27.Name = "toolStripSeparator27";
-            this.toolStripSeparator27.Size = new System.Drawing.Size(161, 6);
+            this.toolStripSeparator27.Size = new System.Drawing.Size(164, 6);
             // 
             // menuitemMakeFromTextBoxCut
             // 
             this.menuitemMakeFromTextBoxCut.Name = "menuitemMakeFromTextBoxCut";
             this.menuitemMakeFromTextBoxCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.menuitemMakeFromTextBoxCut.Size = new System.Drawing.Size(164, 22);
+            this.menuitemMakeFromTextBoxCut.Size = new System.Drawing.Size(167, 22);
             this.menuitemMakeFromTextBoxCut.Text = "Cu&t";
             this.menuitemMakeFromTextBoxCut.Click += new System.EventHandler(this.menuitemMakeFromTextBoxCut_Click);
             // 
@@ -110,7 +110,7 @@ namespace AutoWikiBrowser
             // 
             this.menuitemMakeFromTextBoxCopy.Name = "menuitemMakeFromTextBoxCopy";
             this.menuitemMakeFromTextBoxCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.menuitemMakeFromTextBoxCopy.Size = new System.Drawing.Size(164, 22);
+            this.menuitemMakeFromTextBoxCopy.Size = new System.Drawing.Size(167, 22);
             this.menuitemMakeFromTextBoxCopy.Text = "&Copy";
             this.menuitemMakeFromTextBoxCopy.Click += new System.EventHandler(this.menuitemMakeFromTextBoxCopy_Click);
             // 
@@ -118,20 +118,20 @@ namespace AutoWikiBrowser
             // 
             this.menuitemMakeFromTextBoxPaste.Name = "menuitemMakeFromTextBoxPaste";
             this.menuitemMakeFromTextBoxPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.menuitemMakeFromTextBoxPaste.Size = new System.Drawing.Size(164, 22);
+            this.menuitemMakeFromTextBoxPaste.Size = new System.Drawing.Size(167, 22);
             this.menuitemMakeFromTextBoxPaste.Text = "&Paste";
             this.menuitemMakeFromTextBoxPaste.Click += new System.EventHandler(this.menuitemMakeFromTextBoxPaste_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(161, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(164, 6);
             // 
             // selectAllToolStripMenuItem
             // 
             this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
             this.selectAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.selectAllToolStripMenuItem.Text = "&Select All";
             this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
             // 
@@ -140,8 +140,8 @@ namespace AutoWikiBrowser
             this.btnClose.Location = new System.Drawing.Point(577, 30);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
-            this.btnClose.TabIndex = 1;
-            this.btnClose.Text = "Close";
+            this.btnClose.TabIndex = 8;
+            this.btnClose.Text = "&Close";
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
@@ -151,8 +151,8 @@ namespace AutoWikiBrowser
             this.btnMake.Location = new System.Drawing.Point(484, 30);
             this.btnMake.Name = "btnMake";
             this.btnMake.Size = new System.Drawing.Size(87, 23);
-            this.btnMake.TabIndex = 2;
-            this.btnMake.Text = "Make module";
+            this.btnMake.TabIndex = 7;
+            this.btnMake.Text = "&Make module";
             this.btnMake.UseVisualStyleBackColor = true;
             this.btnMake.Click += new System.EventHandler(this.btnMake_Click);
             // 
@@ -166,7 +166,7 @@ namespace AutoWikiBrowser
             this.cmboLang.Location = new System.Drawing.Point(341, 32);
             this.cmboLang.Name = "cmboLang";
             this.cmboLang.Size = new System.Drawing.Size(137, 21);
-            this.cmboLang.TabIndex = 3;
+            this.cmboLang.TabIndex = 5;
             this.cmboLang.SelectedIndexChanged += new System.EventHandler(this.cmboLang_SelectedIndexChanged);
             // 
             // label1
@@ -176,7 +176,7 @@ namespace AutoWikiBrowser
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(55, 13);
             this.label1.TabIndex = 4;
-            this.label1.Text = "Language";
+            this.label1.Text = "&Language";
             // 
             // lblStart
             // 
@@ -186,7 +186,7 @@ namespace AutoWikiBrowser
             this.lblStart.Location = new System.Drawing.Point(12, 76);
             this.lblStart.Name = "lblStart";
             this.lblStart.Size = new System.Drawing.Size(643, 253);
-            this.lblStart.TabIndex = 5;
+            this.lblStart.TabIndex = 9;
             this.lblStart.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // lblEnd
@@ -197,7 +197,7 @@ namespace AutoWikiBrowser
             this.lblEnd.Location = new System.Drawing.Point(9, 495);
             this.lblEnd.Name = "lblEnd";
             this.lblEnd.Size = new System.Drawing.Size(643, 39);
-            this.lblEnd.TabIndex = 6;
+            this.lblEnd.TabIndex = 11;
             // 
             // lblStatus
             // 
@@ -206,7 +206,7 @@ namespace AutoWikiBrowser
             this.lblStatus.Location = new System.Drawing.Point(82, 35);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(93, 13);
-            this.lblStatus.TabIndex = 7;
+            this.lblStatus.TabIndex = 2;
             this.lblStatus.Text = "No module loaded";
             // 
             // chkModuleEnabled
@@ -215,8 +215,8 @@ namespace AutoWikiBrowser
             this.chkModuleEnabled.Location = new System.Drawing.Point(11, 34);
             this.chkModuleEnabled.Name = "chkModuleEnabled";
             this.chkModuleEnabled.Size = new System.Drawing.Size(65, 17);
-            this.chkModuleEnabled.TabIndex = 8;
-            this.chkModuleEnabled.Text = "Enabled";
+            this.chkModuleEnabled.TabIndex = 1;
+            this.chkModuleEnabled.Text = "&Enabled";
             this.chkModuleEnabled.UseVisualStyleBackColor = true;
             this.chkModuleEnabled.CheckedChanged += new System.EventHandler(this.chkModuleEnabled_CheckedChanged);
             // 
@@ -227,7 +227,7 @@ namespace AutoWikiBrowser
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(664, 24);
-            this.menuStrip1.TabIndex = 9;
+            this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // helpToolStripMenuItem
@@ -235,14 +235,14 @@ namespace AutoWikiBrowser
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.guideToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.helpToolStripMenuItem.Text = "Help";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.helpToolStripMenuItem.Text = "&Help";
             // 
             // guideToolStripMenuItem
             // 
             this.guideToolStripMenuItem.Name = "guideToolStripMenuItem";
-            this.guideToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
-            this.guideToolStripMenuItem.Text = "Guide";
+            this.guideToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.guideToolStripMenuItem.Text = "&Guide";
             this.guideToolStripMenuItem.Click += new System.EventHandler(this.guideToolStripMenuItem_Click);
             // 
             // chkFixedwidth
@@ -253,8 +253,8 @@ namespace AutoWikiBrowser
             this.chkFixedwidth.Location = new System.Drawing.Point(11, 56);
             this.chkFixedwidth.Name = "chkFixedwidth";
             this.chkFixedwidth.Size = new System.Drawing.Size(100, 17);
-            this.chkFixedwidth.TabIndex = 10;
-            this.chkFixedwidth.Text = "Fixed width font";
+            this.chkFixedwidth.TabIndex = 3;
+            this.chkFixedwidth.Text = "&Fixed width font";
             this.chkFixedwidth.UseVisualStyleBackColor = true;
             this.chkFixedwidth.CheckedChanged += new System.EventHandler(this.chkFixedwidth_CheckedChanged);
             // 
@@ -264,7 +264,7 @@ namespace AutoWikiBrowser
             this.lblBuilt.Location = new System.Drawing.Point(280, 57);
             this.lblBuilt.Name = "lblBuilt";
             this.lblBuilt.Size = new System.Drawing.Size(139, 13);
-            this.lblBuilt.TabIndex = 11;
+            this.lblBuilt.TabIndex = 6;
             this.lblBuilt.Text = "Custom Module Built At: n/a";
             // 
             // CustomModule

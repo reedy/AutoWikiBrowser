@@ -39,12 +39,12 @@
             // 
             // btnOptionsOK
             // 
-            this.btnOptionsOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnOptionsOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOptionsOK.Location = new System.Drawing.Point(277, 334);
             this.btnOptionsOK.Name = "btnOptionsOK";
             this.btnOptionsOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOptionsOK.TabIndex = 1;
-            this.btnOptionsOK.Text = "Okay";
+            this.btnOptionsOK.TabIndex = 4;
+            this.btnOptionsOK.Text = "OK";
             this.btnOptionsOK.UseVisualStyleBackColor = true;
             this.btnOptionsOK.Click += new System.EventHandler(this.btnOptionsOK_Click);
             // 
@@ -55,7 +55,7 @@
             this.btnOptionsCancel.Location = new System.Drawing.Point(359, 334);
             this.btnOptionsCancel.Name = "btnOptionsCancel";
             this.btnOptionsCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnOptionsCancel.TabIndex = 2;
+            this.btnOptionsCancel.TabIndex = 5;
             this.btnOptionsCancel.Text = "Cancel";
             this.btnOptionsCancel.UseVisualStyleBackColor = true;
             this.btnOptionsCancel.Click += new System.EventHandler(this.btnOptionsCancel_Click);
@@ -78,7 +78,7 @@
             this.lblOptionsDesc.Location = new System.Drawing.Point(9, 15);
             this.lblOptionsDesc.Name = "lblOptionsDesc";
             this.lblOptionsDesc.Size = new System.Drawing.Size(421, 60);
-            this.lblOptionsDesc.TabIndex = 4;
+            this.lblOptionsDesc.TabIndex = 0;
             this.lblOptionsDesc.Text = resources.GetString("lblOptionsDesc.Text");
             // 
             // linkToolserver
@@ -88,7 +88,7 @@
             this.linkToolserver.Location = new System.Drawing.Point(290, 62);
             this.linkToolserver.Name = "linkToolserver";
             this.linkToolserver.Size = new System.Drawing.Size(144, 14);
-            this.linkToolserver.TabIndex = 5;
+            this.linkToolserver.TabIndex = 2;
             this.linkToolserver.TabStop = true;
             this.linkToolserver.Text = "toolserver.org/~jarry/fronds/";
             this.linkToolserver.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkToolserver_LinkClicked);
@@ -100,7 +100,7 @@
             this.linkWikipedia.Location = new System.Drawing.Point(58, 47);
             this.linkWikipedia.Name = "linkWikipedia";
             this.linkWikipedia.Size = new System.Drawing.Size(172, 14);
-            this.linkWikipedia.TabIndex = 6;
+            this.linkWikipedia.TabIndex = 1;
             this.linkWikipedia.TabStop = true;
             this.linkWikipedia.Text = "en.wikipedia.org/wiki/WP:FRONDS";
             this.linkWikipedia.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkWikipedia_LinkClicked);
@@ -118,6 +118,7 @@
             this.Controls.Add(this.listOptionsFronds);
             this.Controls.Add(this.btnOptionsCancel);
             this.Controls.Add(this.btnOptionsOK);
+            this.MinimumSize = new System.Drawing.Size(451, 187);
             this.Name = "FrondsOptions";
             this.ShowIcon = false;
             this.Text = "Fronds";

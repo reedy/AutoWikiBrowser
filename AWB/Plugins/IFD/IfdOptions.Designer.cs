@@ -41,10 +41,14 @@ namespace AutoWikiBrowser.Plugins.IFD
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
             this.timer = new System.Windows.Forms.Timer(this.components);
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -55,7 +59,7 @@ namespace AutoWikiBrowser.Plugins.IFD
             this.groupBox1.Controls.Add(this.chkSkip);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(547, 49);
+            this.groupBox1.Size = new System.Drawing.Size(560, 69);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Options";
@@ -63,11 +67,11 @@ namespace AutoWikiBrowser.Plugins.IFD
             // chkComment
             // 
             this.chkComment.AutoSize = true;
-            this.chkComment.Location = new System.Drawing.Point(218, 19);
+            this.chkComment.Location = new System.Drawing.Point(6, 42);
             this.chkComment.Name = "chkComment";
             this.chkComment.Size = new System.Drawing.Size(212, 17);
             this.chkComment.TabIndex = 2;
-            this.chkComment.Text = "Comment out rather than delete Image?";
+            this.chkComment.Text = "&Comment out rather than delete Image?";
             this.chkComment.UseVisualStyleBackColor = true;
             // 
             // chkSkip
@@ -77,20 +81,21 @@ namespace AutoWikiBrowser.Plugins.IFD
             this.chkSkip.Name = "chkSkip";
             this.chkSkip.Size = new System.Drawing.Size(195, 17);
             this.chkSkip.TabIndex = 1;
-            this.chkSkip.Text = "Skip when no image changes made";
+            this.chkSkip.Text = "&Skip when no image changes made";
             this.chkSkip.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.txtBacklog);
-            this.groupBox2.Location = new System.Drawing.Point(12, 67);
+            this.groupBox2.Location = new System.Drawing.Point(6, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(547, 137);
-            this.groupBox2.TabIndex = 1;
+            this.groupBox2.Size = new System.Drawing.Size(551, 133);
+            this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Backlog text";
+            this.groupBox2.Text = "&Backlog text";
             // 
             // txtBacklog
             // 
@@ -101,7 +106,7 @@ namespace AutoWikiBrowser.Plugins.IFD
             this.txtBacklog.Multiline = true;
             this.txtBacklog.Name = "txtBacklog";
             this.txtBacklog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtBacklog.Size = new System.Drawing.Size(535, 112);
+            this.txtBacklog.Size = new System.Drawing.Size(539, 108);
             this.txtBacklog.TabIndex = 0;
             this.txtBacklog.TextChanged += new System.EventHandler(this.txtBacklog_TextChanged);
             // 
@@ -111,12 +116,12 @@ namespace AutoWikiBrowser.Plugins.IFD
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.Grid);
-            this.groupBox3.Location = new System.Drawing.Point(12, 210);
+            this.groupBox3.Location = new System.Drawing.Point(6, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(547, 179);
-            this.groupBox3.TabIndex = 2;
+            this.groupBox3.Size = new System.Drawing.Size(551, 165);
+            this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Images";
+            this.groupBox3.Text = "&Images";
             // 
             // Grid
             // 
@@ -131,7 +136,7 @@ namespace AutoWikiBrowser.Plugins.IFD
             this.Grid.Location = new System.Drawing.Point(6, 19);
             this.Grid.Name = "Grid";
             this.Grid.ReadOnly = true;
-            this.Grid.Size = new System.Drawing.Size(535, 154);
+            this.Grid.Size = new System.Drawing.Size(539, 140);
             this.Grid.TabIndex = 0;
             // 
             // From
@@ -148,20 +153,22 @@ namespace AutoWikiBrowser.Plugins.IFD
             // 
             // btnCancel
             // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(484, 395);
+            this.btnCancel.Location = new System.Drawing.Point(497, 407);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 4;
+            this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(403, 395);
+            this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOk.Location = new System.Drawing.Point(416, 407);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 3;
+            this.btnOk.TabIndex = 2;
             this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
@@ -171,18 +178,39 @@ namespace AutoWikiBrowser.Plugins.IFD
             this.timer.Interval = 1000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.Location = new System.Drawing.Point(12, 87);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.groupBox2);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.groupBox3);
+            this.splitContainer1.Size = new System.Drawing.Size(560, 314);
+            this.splitContainer1.SplitterDistance = 139;
+            this.splitContainer1.TabIndex = 1;
+            // 
             // IfdOptions
             // 
+            this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(571, 430);
+            this.ClientSize = new System.Drawing.Size(584, 442);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.MinimumSize = new System.Drawing.Size(255, 294);
             this.Name = "IfdOptions";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
@@ -193,6 +221,9 @@ namespace AutoWikiBrowser.Plugins.IFD
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -211,5 +242,6 @@ namespace AutoWikiBrowser.Plugins.IFD
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.CheckBox chkComment;
+        private System.Windows.Forms.SplitContainer splitContainer1;
     }
 }
