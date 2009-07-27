@@ -36,11 +36,7 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
     /// <summary>
     /// TheTemplator plugin for AutoWikiBrowser. Gives UI-assisted changes to portions of templates within articles.
     /// Current limitations:
-    /// 1. Cannot handle positional parameters
-    ///    - it will fail to parse the template
-    /// 2. Cannot handle empty parameters
-    ///    - it will remove a pipe
-    /// 3. Cannot handle wikitables used within templates
+    /// 1. Cannot handle wikitables used within templates
     ///    - it will stop and prompt the operator
     /// </summary>
     public class TheTemplator : WikiFunctions.Plugin.IAWBPlugin
@@ -221,7 +217,7 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
             {
                 string matchSegment = match.Value;
 
-                /// 3. Cannot handle wikitables used within templates
+                /// Cannot handle wikitables used within templates
                 if (matchSegment.Contains("{|"))
                 {
                     MessageBox.Show("Infobox contains a wikitable:\r\n\r\n" + text, eventargs.ArticleTitle);
@@ -341,6 +337,13 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
                         if (segmentMatch.Index < firstIndex)
                             firstIndex = segmentMatch.Index;
                     }
+                }
+                if (firstIndex == match.Length)
+                {
+                    // the parameters don't already exist, so
+                    // a) there's no whitespace pattern on which to base our replacement
+                    // b) there's no position for placing it
+                    continue;
                 }
 
                 // Replace the segments in this match with our new version
