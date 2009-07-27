@@ -46,7 +46,7 @@ namespace WikiFunctions
             this.lblTemplates.Name = "lblTemplates";
             this.lblTemplates.Size = new System.Drawing.Size(183, 13);
             this.lblTemplates.TabIndex = 0;
-            this.lblTemplates.Text = "Templates to &substitute (one per line):";
+            this.lblTemplates.Text = "&Templates to substitute (one per line):";
             // 
             // textBoxTemplates
             // 
@@ -134,7 +134,7 @@ namespace WikiFunctions
             this.chkIncludeComment.Name = "chkIncludeComment";
             this.chkIncludeComment.Size = new System.Drawing.Size(201, 17);
             this.chkIncludeComment.TabIndex = 8;
-            this.chkIncludeComment.Text = "Include &comment with template name";
+            this.chkIncludeComment.Text = "I&nclude comment with template name";
             // 
             // SubstTemplates
             // 

@@ -234,7 +234,7 @@ namespace WikiFunctions.Parse
             this.uncheckAllSinglelineToolStripMenuItem,
             this.disableAllToolStripMenuItem});
             this.FindAndReplaceContextMenu.Name = "FindAndReplaceContextMenu";
-            this.FindAndReplaceContextMenu.Size = new System.Drawing.Size(236, 446);
+            this.FindAndReplaceContextMenu.Size = new System.Drawing.Size(236, 424);
             this.FindAndReplaceContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.FindAndReplaceContextMenu_Opening);
             // 
             // addRowToolStripMenuItem
@@ -387,11 +387,11 @@ namespace WikiFunctions.Parse
             // 
             this.btnDone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDone.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnDone.Location = new System.Drawing.Point(658, 37);
+            this.btnDone.Location = new System.Drawing.Point(643, 37);
             this.btnDone.Name = "btnDone";
-            this.btnDone.Size = new System.Drawing.Size(60, 23);
+            this.btnDone.Size = new System.Drawing.Size(75, 23);
             this.btnDone.TabIndex = 2;
-            this.btnDone.Text = "Done";
+            this.btnDone.Text = "&Done";
             this.btnDone.UseVisualStyleBackColor = true;
             this.btnDone.Click += new System.EventHandler(this.btnDone_Click);
             // 
@@ -411,11 +411,11 @@ namespace WikiFunctions.Parse
             // btnClear
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.Location = new System.Drawing.Point(658, 8);
+            this.btnClear.Location = new System.Drawing.Point(643, 8);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(60, 23);
+            this.btnClear.Size = new System.Drawing.Size(75, 23);
             this.btnClear.TabIndex = 10;
-            this.btnClear.Text = "Clear";
+            this.btnClear.Text = "&Clear";
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
@@ -426,7 +426,7 @@ namespace WikiFunctions.Parse
             this.chkIgnoreLinks.Name = "chkIgnoreLinks";
             this.chkIgnoreLinks.Size = new System.Drawing.Size(321, 17);
             this.chkIgnoreLinks.TabIndex = 14;
-            this.chkIgnoreLinks.Text = "Ignore external/interwiki links, images, nowiki, math and <!-- -->";
+            this.chkIgnoreLinks.Text = "Ignore &external/interwiki links, images, nowiki, math and <!-- -->";
             this.toolTip1.SetToolTip(this.chkIgnoreLinks, "Find and replacements will not be made in external/interwiki links, images, <nowi" +
                     "ki>. <math> and <!-- comments -->");
             this.chkIgnoreLinks.UseVisualStyleBackColor = true;
@@ -442,7 +442,7 @@ namespace WikiFunctions.Parse
             this.chkAddToSummary.Name = "chkAddToSummary";
             this.chkAddToSummary.Size = new System.Drawing.Size(190, 20);
             this.chkAddToSummary.TabIndex = 16;
-            this.chkAddToSummary.Text = "Add replacements to edit summary";
+            this.chkAddToSummary.Text = "Add &replacements to edit summary";
             this.toolTip1.SetToolTip(this.chkAddToSummary, "Appends information about replacements made to the edit summary");
             this.chkAddToSummary.UseVisualStyleBackColor = true;
             // 
@@ -453,7 +453,7 @@ namespace WikiFunctions.Parse
             this.chkIgnoreMore.Name = "chkIgnoreMore";
             this.chkIgnoreMore.Size = new System.Drawing.Size(254, 17);
             this.chkIgnoreMore.TabIndex = 18;
-            this.chkIgnoreMore.Text = "Ignore templates, refs, link targets, and headings";
+            this.chkIgnoreMore.Text = "Ignore &templates, refs, link targets, and headings";
             this.toolTip1.SetToolTip(this.chkIgnoreMore, "Find and replacements will not be made in templates, <source>, <cite> and heading" +
                     "s");
             this.chkIgnoreMore.UseVisualStyleBackColor = true;
@@ -466,7 +466,7 @@ namespace WikiFunctions.Parse
             this.chkAfterOtherFixes.Name = "chkAfterOtherFixes";
             this.chkAfterOtherFixes.Size = new System.Drawing.Size(222, 17);
             this.chkAfterOtherFixes.TabIndex = 17;
-            this.chkAfterOtherFixes.Text = "Apply after general fixes, otherwise before";
+            this.chkAfterOtherFixes.Text = "&Apply after general fixes, otherwise before";
             this.chkAfterOtherFixes.UseVisualStyleBackColor = true;
             // 
             // txtSearch
@@ -485,7 +485,7 @@ namespace WikiFunctions.Parse
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(34, 23);
             this.btnSearch.TabIndex = 20;
-            this.btnSearch.Text = "Go";
+            this.btnSearch.Text = "&Go";
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
@@ -496,7 +496,7 @@ namespace WikiFunctions.Parse
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(44, 13);
             this.label1.TabIndex = 21;
-            this.label1.Text = "Search:";
+            this.label1.Text = "&Search:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // label2
@@ -533,11 +533,11 @@ namespace WikiFunctions.Parse
             this.Controls.Add(this.chkIgnoreMore);
             this.Controls.Add(this.chkIgnoreLinks);
             this.Controls.Add(this.chkAfterOtherFixes);
-            this.Controls.Add(this.btnClear);
             this.Controls.Add(this.chkAddToSummary);
+            this.Controls.Add(this.btnClear);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.btnDone);
             this.Controls.Add(this.lnkWpRE);
+            this.Controls.Add(this.btnDone);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.MinimumSize = new System.Drawing.Size(685, 130);
             this.Name = "FindandReplace";

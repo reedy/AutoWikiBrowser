@@ -315,7 +315,7 @@ namespace WikiFunctions.DBScanner
             this.chkCaseSensitive.Name = "chkCaseSensitive";
             this.chkCaseSensitive.Size = new System.Drawing.Size(94, 17);
             this.chkCaseSensitive.TabIndex = 5;
-            this.chkCaseSensitive.Text = "Case sens&itive";
+            this.chkCaseSensitive.Text = "Case &sensitive";
             this.tooltip.SetToolTip(this.chkCaseSensitive, "Changes case sensitivity");
             // 
             // chkSingle
@@ -326,7 +326,7 @@ namespace WikiFunctions.DBScanner
             this.chkSingle.Name = "chkSingle";
             this.chkSingle.Size = new System.Drawing.Size(71, 17);
             this.chkSingle.TabIndex = 6;
-            this.chkSingle.Text = "&Singleline";
+            this.chkSingle.Text = "S&ingleline";
             this.tooltip.SetToolTip(this.chkSingle, "Changes meaing of \".\"  so it matches all characters, as opposed to all apart from" +
                     " newlines");
             // 
@@ -356,11 +356,11 @@ namespace WikiFunctions.DBScanner
             // lblLength
             // 
             this.lblLength.AutoSize = true;
-            this.lblLength.Location = new System.Drawing.Point(5, 20);
+            this.lblLength.Location = new System.Drawing.Point(6, 20);
             this.lblLength.Name = "lblLength";
-            this.lblLength.Size = new System.Drawing.Size(58, 13);
+            this.lblLength.Size = new System.Drawing.Size(61, 13);
             this.lblLength.TabIndex = 8;
-            this.lblLength.Text = "Characters";
+            this.lblLength.Text = "C&haracters:";
             this.lblLength.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // nudLength
@@ -410,11 +410,11 @@ namespace WikiFunctions.DBScanner
             // lblLinks
             // 
             this.lblLinks.AutoSize = true;
-            this.lblLinks.Location = new System.Drawing.Point(31, 46);
+            this.lblLinks.Location = new System.Drawing.Point(6, 46);
             this.lblLinks.Name = "lblLinks";
-            this.lblLinks.Size = new System.Drawing.Size(32, 13);
+            this.lblLinks.Size = new System.Drawing.Size(35, 13);
             this.lblLinks.TabIndex = 11;
-            this.lblLinks.Text = "Links";
+            this.lblLinks.Text = "&Links:";
             this.lblLinks.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // cmboLinks
@@ -458,11 +458,11 @@ namespace WikiFunctions.DBScanner
             // lblWords
             // 
             this.lblWords.AutoSize = true;
-            this.lblWords.Location = new System.Drawing.Point(25, 72);
+            this.lblWords.Location = new System.Drawing.Point(6, 73);
             this.lblWords.Name = "lblWords";
-            this.lblWords.Size = new System.Drawing.Size(38, 13);
+            this.lblWords.Size = new System.Drawing.Size(41, 13);
             this.lblWords.TabIndex = 14;
-            this.lblWords.Text = "Words";
+            this.lblWords.Text = "&Words:";
             this.lblWords.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // cmboWords
@@ -529,11 +529,11 @@ namespace WikiFunctions.DBScanner
             // chkHeading
             // 
             this.chkHeading.AutoSize = true;
-            this.chkHeading.Location = new System.Drawing.Point(6, 6);
+            this.chkHeading.Location = new System.Drawing.Point(3, 6);
             this.chkHeading.Name = "chkHeading";
             this.chkHeading.Size = new System.Drawing.Size(115, 17);
             this.chkHeading.TabIndex = 0;
-            this.chkHeading.Text = "Add heading every";
+            this.chkHeading.Text = "Add &heading every";
             this.tooltip.SetToolTip(this.chkHeading, "Add numbered heading");
             this.chkHeading.CheckedChanged += new System.EventHandler(this.chkHeading_CheckedChanged);
             // 
@@ -565,8 +565,8 @@ namespace WikiFunctions.DBScanner
             this.btnTransfer.Location = new System.Drawing.Point(201, 3);
             this.btnTransfer.Name = "btnTransfer";
             this.btnTransfer.Size = new System.Drawing.Size(75, 23);
-            this.btnTransfer.TabIndex = 6;
-            this.btnTransfer.Text = "Make";
+            this.btnTransfer.TabIndex = 2;
+            this.btnTransfer.Text = "Ma&ke";
             this.tooltip.SetToolTip(this.btnTransfer, "Turn list into wiki formatted text, which can be saved or copied.");
             this.btnTransfer.Click += new System.EventHandler(this.btnTransfer_Click);
             // 
@@ -576,7 +576,7 @@ namespace WikiFunctions.DBScanner
             this.btnClearList.Location = new System.Drawing.Point(227, 278);
             this.btnClearList.Name = "btnClearList";
             this.btnClearList.Size = new System.Drawing.Size(75, 23);
-            this.btnClearList.TabIndex = 8;
+            this.btnClearList.TabIndex = 3;
             this.btnClearList.Text = "Clear";
             this.tooltip.SetToolTip(this.btnClearList, "Clear the list");
             this.btnClearList.Click += new System.EventHandler(this.lbClear_Click);
@@ -597,7 +597,7 @@ namespace WikiFunctions.DBScanner
             this.chkCiteTemplateDates.Location = new System.Drawing.Point(167, 72);
             this.chkCiteTemplateDates.Name = "chkCiteTemplateDates";
             this.chkCiteTemplateDates.Size = new System.Drawing.Size(148, 17);
-            this.chkCiteTemplateDates.TabIndex = 9;
+            this.chkCiteTemplateDates.TabIndex = 7;
             this.chkCiteTemplateDates.Text = "Citation dates AWB will fix";
             this.tooltip.SetToolTip(this.chkCiteTemplateDates, "AWB fixes various errors in dates within the citation family of templates");
             // 
@@ -607,7 +607,7 @@ namespace WikiFunctions.DBScanner
             this.chkPeopleCategories.Location = new System.Drawing.Point(3, 118);
             this.chkPeopleCategories.Name = "chkPeopleCategories";
             this.chkPeopleCategories.Size = new System.Drawing.Size(138, 17);
-            this.chkPeopleCategories.TabIndex = 11;
+            this.chkPeopleCategories.TabIndex = 10;
             this.chkPeopleCategories.Text = "Human birth/death cats";
             this.tooltip.SetToolTip(this.chkPeopleCategories, "AWB can add/correct birth & death categories for articles about people");
             // 
@@ -617,7 +617,7 @@ namespace WikiFunctions.DBScanner
             this.chkUnbalancedBrackets.Location = new System.Drawing.Point(167, 95);
             this.chkUnbalancedBrackets.Name = "chkUnbalancedBrackets";
             this.chkUnbalancedBrackets.Size = new System.Drawing.Size(128, 17);
-            this.chkUnbalancedBrackets.TabIndex = 10;
+            this.chkUnbalancedBrackets.TabIndex = 9;
             this.chkUnbalancedBrackets.Text = "Unbalanced brackets";
             this.tooltip.SetToolTip(this.chkUnbalancedBrackets, "AWB identifies unbalanced brackets and is able to fix many of them automatically");
             // 
@@ -627,7 +627,7 @@ namespace WikiFunctions.DBScanner
             this.chkBadLinks.Location = new System.Drawing.Point(3, 49);
             this.chkBadLinks.Name = "chkBadLinks";
             this.chkBadLinks.Size = new System.Drawing.Size(148, 17);
-            this.chkBadLinks.TabIndex = 2;
+            this.chkBadLinks.TabIndex = 4;
             this.chkBadLinks.Text = "Has bad links AWB will fix";
             this.tooltip.SetToolTip(this.chkBadLinks, "AWB fixes bad links, such as wrong syntax and URL coding");
             // 
@@ -637,7 +637,7 @@ namespace WikiFunctions.DBScanner
             this.chkHasHTML.Location = new System.Drawing.Point(3, 72);
             this.chkHasHTML.Name = "chkHasHTML";
             this.chkHasHTML.Size = new System.Drawing.Size(114, 17);
-            this.chkHasHTML.TabIndex = 3;
+            this.chkHasHTML.TabIndex = 6;
             this.chkHasHTML.Text = "Has HTML entities";
             this.tooltip.SetToolTip(this.chkHasHTML, "AWB replaces HTML entities with unicode");
             // 
@@ -647,7 +647,7 @@ namespace WikiFunctions.DBScanner
             this.chkHeaderError.Location = new System.Drawing.Point(167, 49);
             this.chkHeaderError.Name = "chkHeaderError";
             this.chkHeaderError.Size = new System.Drawing.Size(86, 17);
-            this.chkHeaderError.TabIndex = 4;
+            this.chkHeaderError.TabIndex = 5;
             this.chkHeaderError.Text = "Section error";
             this.tooltip.SetToolTip(this.chkHeaderError, "AWB fixes common mis-capitalisation in headings");
             // 
@@ -657,7 +657,7 @@ namespace WikiFunctions.DBScanner
             this.chkUnbulletedLinks.Location = new System.Drawing.Point(3, 95);
             this.chkUnbulletedLinks.Name = "chkUnbulletedLinks";
             this.chkUnbulletedLinks.Size = new System.Drawing.Size(101, 17);
-            this.chkUnbulletedLinks.TabIndex = 5;
+            this.chkUnbulletedLinks.TabIndex = 8;
             this.chkUnbulletedLinks.Text = "Unbulleted links";
             this.tooltip.SetToolTip(this.chkUnbulletedLinks, "AWB bullets links in external links sections");
             // 
@@ -667,7 +667,7 @@ namespace WikiFunctions.DBScanner
             this.chkABCHeader.Location = new System.Drawing.Point(3, 29);
             this.chkABCHeader.Name = "chkABCHeader";
             this.chkABCHeader.Size = new System.Drawing.Size(133, 17);
-            this.chkABCHeader.TabIndex = 2;
+            this.chkABCHeader.TabIndex = 3;
             this.chkABCHeader.Text = "Alpha&betised headings";
             this.tooltip.SetToolTip(this.chkABCHeader, "Add alphabetised heading, list must be alphabetised first");
             this.chkABCHeader.CheckedChanged += new System.EventHandler(this.chkABCHeader_CheckedChanged);
@@ -688,7 +688,7 @@ namespace WikiFunctions.DBScanner
             this.chkSimpleLinks.Location = new System.Drawing.Point(3, 26);
             this.chkSimpleLinks.Name = "chkSimpleLinks";
             this.chkSimpleLinks.Size = new System.Drawing.Size(150, 17);
-            this.chkSimpleLinks.TabIndex = 1;
+            this.chkSimpleLinks.TabIndex = 2;
             this.chkSimpleLinks.Text = "Has links AWB will simplify";
             // 
             // ArticlesListBoxContextMenu
@@ -759,7 +759,7 @@ namespace WikiFunctions.DBScanner
             this.btnSaveArticleList.Location = new System.Drawing.Point(146, 278);
             this.btnSaveArticleList.Name = "btnSaveArticleList";
             this.btnSaveArticleList.Size = new System.Drawing.Size(75, 23);
-            this.btnSaveArticleList.TabIndex = 12;
+            this.btnSaveArticleList.TabIndex = 2;
             this.btnSaveArticleList.Text = "Save";
             this.btnSaveArticleList.Click += new System.EventHandler(this.btnSaveArticleList_Click);
             // 
@@ -774,7 +774,7 @@ namespace WikiFunctions.DBScanner
             this.lbArticles.Name = "lbArticles";
             this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lbArticles.Size = new System.Drawing.Size(296, 251);
-            this.lbArticles.TabIndex = 5;
+            this.lbArticles.TabIndex = 0;
             // 
             // btnFilter
             // 
@@ -782,8 +782,8 @@ namespace WikiFunctions.DBScanner
             this.btnFilter.Location = new System.Drawing.Point(6, 278);
             this.btnFilter.Name = "btnFilter";
             this.btnFilter.Size = new System.Drawing.Size(75, 23);
-            this.btnFilter.TabIndex = 6;
-            this.btnFilter.Text = "Filter";
+            this.btnFilter.TabIndex = 1;
+            this.btnFilter.Text = "&Filter";
             this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
             // 
             // lblStartFrom
@@ -851,7 +851,7 @@ namespace WikiFunctions.DBScanner
             this.btnSaveTxtList.Location = new System.Drawing.Point(120, 246);
             this.btnSaveTxtList.Name = "btnSaveTxtList";
             this.btnSaveTxtList.Size = new System.Drawing.Size(75, 23);
-            this.btnSaveTxtList.TabIndex = 11;
+            this.btnSaveTxtList.TabIndex = 9;
             this.btnSaveTxtList.Text = "Save";
             this.btnSaveTxtList.Click += new System.EventHandler(this.btnSaveTxtList_Click);
             // 
@@ -861,8 +861,8 @@ namespace WikiFunctions.DBScanner
             this.lblListType.Location = new System.Drawing.Point(157, 30);
             this.lblListType.Name = "lblListType";
             this.lblListType.Size = new System.Drawing.Size(46, 13);
-            this.lblListType.TabIndex = 3;
-            this.lblListType.Text = "List type";
+            this.lblListType.TabIndex = 4;
+            this.lblListType.Text = "&List type";
             // 
             // rdoBullet
             // 
@@ -870,7 +870,7 @@ namespace WikiFunctions.DBScanner
             this.rdoBullet.Location = new System.Drawing.Point(247, 28);
             this.rdoBullet.Name = "rdoBullet";
             this.rdoBullet.Size = new System.Drawing.Size(29, 17);
-            this.rdoBullet.TabIndex = 5;
+            this.rdoBullet.TabIndex = 6;
             this.rdoBullet.Text = "*";
             // 
             // rdoHash
@@ -880,7 +880,7 @@ namespace WikiFunctions.DBScanner
             this.rdoHash.Location = new System.Drawing.Point(209, 28);
             this.rdoHash.Name = "rdoHash";
             this.rdoHash.Size = new System.Drawing.Size(32, 17);
-            this.rdoHash.TabIndex = 4;
+            this.rdoHash.TabIndex = 5;
             this.rdoHash.TabStop = true;
             this.rdoHash.Text = "#";
             // 
@@ -892,7 +892,7 @@ namespace WikiFunctions.DBScanner
             this.lblCount,
             this.toolStripStatusLabel1,
             this.threadPriorityButton});
-            this.statusStrip.Location = new System.Drawing.Point(0, 527);
+            this.statusStrip.Location = new System.Drawing.Point(0, 528);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(636, 22);
             this.statusStrip.SizingGrip = false;
@@ -1022,7 +1022,7 @@ namespace WikiFunctions.DBScanner
             this.chkTypo.Location = new System.Drawing.Point(167, 3);
             this.chkTypo.Name = "chkTypo";
             this.chkTypo.Size = new System.Drawing.Size(50, 17);
-            this.chkTypo.TabIndex = 7;
+            this.chkTypo.TabIndex = 1;
             this.chkTypo.Text = "Typo";
             // 
             // chkDefaultSort
@@ -1031,7 +1031,7 @@ namespace WikiFunctions.DBScanner
             this.chkDefaultSort.Location = new System.Drawing.Point(167, 26);
             this.chkDefaultSort.Name = "chkDefaultSort";
             this.chkDefaultSort.Size = new System.Drawing.Size(129, 17);
-            this.chkDefaultSort.TabIndex = 8;
+            this.chkDefaultSort.TabIndex = 3;
             this.chkDefaultSort.Text = "Missing {{defaultsort}}";
             this.chkDefaultSort.UseVisualStyleBackColor = true;
             // 
@@ -1151,11 +1151,11 @@ namespace WikiFunctions.DBScanner
             // lblCase
             // 
             this.lblCase.AutoSize = true;
-            this.lblCase.Location = new System.Drawing.Point(6, 113);
+            this.lblCase.Location = new System.Drawing.Point(9, 113);
             this.lblCase.Name = "lblCase";
             this.lblCase.Size = new System.Drawing.Size(34, 13);
             this.lblCase.TabIndex = 9;
-            this.lblCase.Text = "Case:";
+            this.lblCase.Text = "&Case:";
             // 
             // txtGenerator
             // 
@@ -1170,11 +1170,11 @@ namespace WikiFunctions.DBScanner
             // lblGenerator
             // 
             this.lblGenerator.AutoSize = true;
-            this.lblGenerator.Location = new System.Drawing.Point(6, 87);
+            this.lblGenerator.Location = new System.Drawing.Point(9, 87);
             this.lblGenerator.Name = "lblGenerator";
             this.lblGenerator.Size = new System.Drawing.Size(57, 13);
             this.lblGenerator.TabIndex = 7;
-            this.lblGenerator.Text = "Generator:";
+            this.lblGenerator.Text = "&Generator:";
             // 
             // lnkBase
             // 
@@ -1188,7 +1188,7 @@ namespace WikiFunctions.DBScanner
             // lblBase
             // 
             this.lblBase.AutoSize = true;
-            this.lblBase.Location = new System.Drawing.Point(6, 61);
+            this.lblBase.Location = new System.Drawing.Point(3, 64);
             this.lblBase.Name = "lblBase";
             this.lblBase.Size = new System.Drawing.Size(34, 13);
             this.lblBase.TabIndex = 5;
@@ -1208,11 +1208,11 @@ namespace WikiFunctions.DBScanner
             // lblSitename
             // 
             this.lblSitename.AutoSize = true;
-            this.lblSitename.Location = new System.Drawing.Point(6, 35);
+            this.lblSitename.Location = new System.Drawing.Point(3, 35);
             this.lblSitename.Name = "lblSitename";
             this.lblSitename.Size = new System.Drawing.Size(57, 13);
             this.lblSitename.TabIndex = 3;
-            this.lblSitename.Text = "Site name:";
+            this.lblSitename.Text = "Site &name:";
             // 
             // btnBrowse
             // 
@@ -1240,7 +1240,7 @@ namespace WikiFunctions.DBScanner
             this.lblDBDump.Name = "lblDBDump";
             this.lblDBDump.Size = new System.Drawing.Size(85, 13);
             this.lblDBDump.TabIndex = 0;
-            this.lblDBDump.Text = "Datebase dump:";
+            this.lblDBDump.Text = "&Database dump:";
             // 
             // tabNamespace
             // 
@@ -1305,7 +1305,7 @@ namespace WikiFunctions.DBScanner
             this.chkTitleCase.Name = "chkTitleCase";
             this.chkTitleCase.Size = new System.Drawing.Size(94, 17);
             this.chkTitleCase.TabIndex = 5;
-            this.chkTitleCase.Text = "Case sensitive";
+            this.chkTitleCase.Text = "Case &sensitive";
             // 
             // chkTitleContains
             // 
@@ -1315,7 +1315,7 @@ namespace WikiFunctions.DBScanner
             this.chkTitleContains.Name = "chkTitleContains";
             this.chkTitleContains.Size = new System.Drawing.Size(92, 17);
             this.chkTitleContains.TabIndex = 0;
-            this.chkTitleContains.Text = "Title contains:";
+            this.chkTitleContains.Text = "Title &contains:";
             this.chkTitleContains.CheckedChanged += new System.EventHandler(this.chkTitleContains_CheckedChanged);
             // 
             // chkTitleRegex
@@ -1325,7 +1325,7 @@ namespace WikiFunctions.DBScanner
             this.chkTitleRegex.Name = "chkTitleRegex";
             this.chkTitleRegex.Size = new System.Drawing.Size(57, 17);
             this.chkTitleRegex.TabIndex = 4;
-            this.chkTitleRegex.Text = "Regex";
+            this.chkTitleRegex.Text = "&Regex";
             // 
             // txtTitleContains
             // 
@@ -1347,7 +1347,7 @@ namespace WikiFunctions.DBScanner
             this.chkTitleDoesNotContain.Name = "chkTitleDoesNotContain";
             this.chkTitleDoesNotContain.Size = new System.Drawing.Size(89, 17);
             this.chkTitleDoesNotContain.TabIndex = 2;
-            this.chkTitleDoesNotContain.Text = "Not contains:";
+            this.chkTitleDoesNotContain.Text = "&Not contains:";
             this.chkTitleDoesNotContain.CheckedChanged += new System.EventHandler(this.chkTitleDoesNotContain_CheckedChanged);
             // 
             // txtTitleNotContains
@@ -1384,7 +1384,7 @@ namespace WikiFunctions.DBScanner
             this.chkSearchDates.Name = "chkSearchDates";
             this.chkSearchDates.Size = new System.Drawing.Size(84, 17);
             this.chkSearchDates.TabIndex = 9;
-            this.chkSearchDates.Text = "Search date";
+            this.chkSearchDates.Text = "&Search date";
             this.chkSearchDates.CheckedChanged += new System.EventHandler(this.chkSearchDates_CheckedChanged);
             // 
             // lblDate
@@ -1392,9 +1392,9 @@ namespace WikiFunctions.DBScanner
             this.lblDate.AutoSize = true;
             this.lblDate.Location = new System.Drawing.Point(22, 45);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(30, 13);
+            this.lblDate.Size = new System.Drawing.Size(33, 13);
             this.lblDate.TabIndex = 6;
-            this.lblDate.Text = "From";
+            this.lblDate.Text = "&From:";
             // 
             // dtpFrom
             // 
@@ -1410,11 +1410,11 @@ namespace WikiFunctions.DBScanner
             // lblEndDate
             // 
             this.lblEndDate.AutoSize = true;
-            this.lblEndDate.Location = new System.Drawing.Point(36, 71);
+            this.lblEndDate.Location = new System.Drawing.Point(22, 69);
             this.lblEndDate.Name = "lblEndDate";
-            this.lblEndDate.Size = new System.Drawing.Size(16, 13);
+            this.lblEndDate.Size = new System.Drawing.Size(23, 13);
             this.lblEndDate.TabIndex = 8;
-            this.lblEndDate.Text = "to";
+            this.lblEndDate.Text = "&To:";
             // 
             // dtpTo
             // 
@@ -1629,7 +1629,7 @@ namespace WikiFunctions.DBScanner
             this.AcceptButton = this.btnStart;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(636, 549);
+            this.ClientSize = new System.Drawing.Size(636, 550);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.splitContainer1);

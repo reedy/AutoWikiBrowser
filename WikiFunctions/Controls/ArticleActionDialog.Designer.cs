@@ -59,9 +59,9 @@ namespace WikiFunctions.Controls
             this.lblNewTitle.AutoSize = true;
             this.lblNewTitle.Location = new System.Drawing.Point(8, 15);
             this.lblNewTitle.Name = "lblNewTitle";
-            this.lblNewTitle.Size = new System.Drawing.Size(48, 13);
+            this.lblNewTitle.Size = new System.Drawing.Size(51, 13);
             this.lblNewTitle.TabIndex = 0;
-            this.lblNewTitle.Text = "New title";
+            this.lblNewTitle.Text = "&New title:";
             // 
             // lblSummary
             // 
@@ -80,7 +80,7 @@ namespace WikiFunctions.Controls
             this.btnOk.Location = new System.Drawing.Point(137, 182);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 13;
+            this.btnOk.TabIndex = 11;
             this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = true;
             // 
@@ -91,7 +91,7 @@ namespace WikiFunctions.Controls
             this.btnCancel.Location = new System.Drawing.Point(218, 182);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 14;
+            this.btnCancel.TabIndex = 12;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
@@ -108,9 +108,9 @@ namespace WikiFunctions.Controls
             this.lblExpiry.AutoSize = true;
             this.lblExpiry.Location = new System.Drawing.Point(8, 41);
             this.lblExpiry.Name = "lblExpiry";
-            this.lblExpiry.Size = new System.Drawing.Size(35, 13);
+            this.lblExpiry.Size = new System.Drawing.Size(38, 13);
             this.lblExpiry.TabIndex = 2;
-            this.lblExpiry.Text = "Expiry";
+            this.lblExpiry.Text = "&Expiry:";
             // 
             // txtExpiry
             // 
@@ -128,7 +128,7 @@ namespace WikiFunctions.Controls
             this.chkAutoProtect.Name = "chkAutoProtect";
             this.chkAutoProtect.Size = new System.Drawing.Size(99, 17);
             this.chkAutoProtect.TabIndex = 8;
-            this.chkAutoProtect.Text = "Auto Protect All";
+            this.chkAutoProtect.Text = "Auto &Protect All";
             this.chkAutoProtect.UseVisualStyleBackColor = true;
             this.chkAutoProtect.Visible = false;
             // 
@@ -140,8 +140,8 @@ namespace WikiFunctions.Controls
             this.chkCascadingProtection.Location = new System.Drawing.Point(23, 162);
             this.chkCascadingProtection.Name = "chkCascadingProtection";
             this.chkCascadingProtection.Size = new System.Drawing.Size(126, 17);
-            this.chkCascadingProtection.TabIndex = 12;
-            this.chkCascadingProtection.Text = "Cascading protection";
+            this.chkCascadingProtection.TabIndex = 7;
+            this.chkCascadingProtection.Text = "&Cascading protection";
             this.chkCascadingProtection.UseVisualStyleBackColor = true;
             // 
             // chkNoRedirect
@@ -150,8 +150,8 @@ namespace WikiFunctions.Controls
             this.chkNoRedirect.Location = new System.Drawing.Point(253, 162);
             this.chkNoRedirect.Name = "chkNoRedirect";
             this.chkNoRedirect.Size = new System.Drawing.Size(83, 17);
-            this.chkNoRedirect.TabIndex = 16;
-            this.chkNoRedirect.Text = "No Redirect";
+            this.chkNoRedirect.TabIndex = 9;
+            this.chkNoRedirect.Text = "&No Redirect";
             this.chkNoRedirect.UseVisualStyleBackColor = true;
             this.chkNoRedirect.Visible = false;
             // 
@@ -161,8 +161,8 @@ namespace WikiFunctions.Controls
             this.chkWatch.Location = new System.Drawing.Point(342, 162);
             this.chkWatch.Name = "chkWatch";
             this.chkWatch.Size = new System.Drawing.Size(58, 17);
-            this.chkWatch.TabIndex = 17;
-            this.chkWatch.Text = "Watch";
+            this.chkWatch.TabIndex = 10;
+            this.chkWatch.Text = "&Watch";
             this.chkWatch.UseVisualStyleBackColor = true;
             this.chkWatch.Visible = false;
             // 
@@ -171,7 +171,7 @@ namespace WikiFunctions.Controls
             this.MoveDelete.Location = new System.Drawing.Point(62, 64);
             this.MoveDelete.Name = "MoveDelete";
             this.MoveDelete.Size = new System.Drawing.Size(313, 101);
-            this.MoveDelete.TabIndex = 15;
+            this.MoveDelete.TabIndex = 6;
             this.MoveDelete.TextBoxIndexChanged += new System.EventHandler(this.MoveDelete_TextBoxIndexChanged);
             // 
             // ArticleActionDialog

@@ -39,9 +39,9 @@ namespace WikiFunctions.Disambiguation
             this.contextMenuStripOther = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.watchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unwatchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.watchWithDefaultBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unwatchWithDefaultBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -68,11 +68,10 @@ namespace WikiFunctions.Disambiguation
             // 
             this.btnDone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDone.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnDone.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnDone.Location = new System.Drawing.Point(574, 439);
             this.btnDone.Name = "btnDone";
             this.btnDone.Size = new System.Drawing.Size(75, 23);
-            this.btnDone.TabIndex = 1;
+            this.btnDone.TabIndex = 6;
             this.btnDone.Text = "Done";
             this.btnDone.UseVisualStyleBackColor = true;
             // 
@@ -83,7 +82,7 @@ namespace WikiFunctions.Disambiguation
             this.btnCancel.Location = new System.Drawing.Point(493, 439);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 2;
+            this.btnCancel.TabIndex = 5;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
@@ -93,8 +92,8 @@ namespace WikiFunctions.Disambiguation
             this.btnResetAll.Location = new System.Drawing.Point(174, 439);
             this.btnResetAll.Name = "btnResetAll";
             this.btnResetAll.Size = new System.Drawing.Size(75, 23);
-            this.btnResetAll.TabIndex = 5;
-            this.btnResetAll.Text = "Reset all";
+            this.btnResetAll.TabIndex = 3;
+            this.btnResetAll.Text = "&Reset all";
             this.btnResetAll.UseVisualStyleBackColor = true;
             this.btnResetAll.Click += new System.EventHandler(this.btnResetAll_Click);
             // 
@@ -104,8 +103,8 @@ namespace WikiFunctions.Disambiguation
             this.btnUndoAll.Location = new System.Drawing.Point(93, 439);
             this.btnUndoAll.Name = "btnUndoAll";
             this.btnUndoAll.Size = new System.Drawing.Size(75, 23);
-            this.btnUndoAll.TabIndex = 4;
-            this.btnUndoAll.Text = "Undo all";
+            this.btnUndoAll.TabIndex = 2;
+            this.btnUndoAll.Text = "&Undo all";
             this.btnUndoAll.UseVisualStyleBackColor = true;
             this.btnUndoAll.Click += new System.EventHandler(this.btnUndoAll_Click);
             // 
@@ -116,8 +115,8 @@ namespace WikiFunctions.Disambiguation
             this.btnAbort.Location = new System.Drawing.Point(412, 439);
             this.btnAbort.Name = "btnAbort";
             this.btnAbort.Size = new System.Drawing.Size(75, 23);
-            this.btnAbort.TabIndex = 3;
-            this.btnAbort.Text = "Abort";
+            this.btnAbort.TabIndex = 4;
+            this.btnAbort.Text = "&Abort";
             this.btnAbort.UseVisualStyleBackColor = true;
             // 
             // btnArticle
@@ -126,8 +125,8 @@ namespace WikiFunctions.Disambiguation
             this.btnArticle.Location = new System.Drawing.Point(12, 439);
             this.btnArticle.Name = "btnArticle";
             this.btnArticle.Size = new System.Drawing.Size(75, 23);
-            this.btnArticle.TabIndex = 9;
-            this.btnArticle.Text = "Page…";
+            this.btnArticle.TabIndex = 1;
+            this.btnArticle.Text = "&Page…";
             this.btnArticle.UseVisualStyleBackColor = true;
             this.btnArticle.Click += new System.EventHandler(this.btnArticle_Click);
             // 
@@ -143,21 +142,26 @@ namespace WikiFunctions.Disambiguation
             this.watchWithDefaultBrowserToolStripMenuItem,
             this.unwatchWithDefaultBrowserToolStripMenuItem});
             this.contextMenuStripOther.Name = "contextMenuStripOther";
-            this.contextMenuStripOther.Size = new System.Drawing.Size(230, 170);
+            this.contextMenuStripOther.Size = new System.Drawing.Size(230, 148);
             // 
             // openInBrowserToolStripMenuItem
             // 
             this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
-            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
             this.openInBrowserToolStripMenuItem.Text = "&Open in browser";
             this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
             // 
             // editInBrowserToolStripMenuItem
             // 
             this.editInBrowserToolStripMenuItem.Name = "editInBrowserToolStripMenuItem";
-            this.editInBrowserToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.editInBrowserToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
             this.editInBrowserToolStripMenuItem.Text = "&Edit in browser";
             this.editInBrowserToolStripMenuItem.Click += new System.EventHandler(this.editInBrowserToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(226, 6);
             // 
             // watchToolStripMenuItem
             // 
@@ -172,11 +176,6 @@ namespace WikiFunctions.Disambiguation
             this.unwatchToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
             this.unwatchToolStripMenuItem.Text = "&Unwatch with this account";
             this.unwatchToolStripMenuItem.Click += new System.EventHandler(this.unwatchToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(226, 6);
             // 
             // toolStripSeparator2
             // 
@@ -199,6 +198,7 @@ namespace WikiFunctions.Disambiguation
             // 
             // DabForm
             // 
+            this.AcceptButton = this.btnDone;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
@@ -216,10 +216,10 @@ namespace WikiFunctions.Disambiguation
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "Disambiguation";
-            this.Resize += new System.EventHandler(this.DabForm_Resize);
-            this.Move += new System.EventHandler(this.DabForm_Move);
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DabForm_KeyPress);
             this.Load += new System.EventHandler(this.DabForm_Load);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DabForm_KeyPress);
+            this.Move += new System.EventHandler(this.DabForm_Move);
+            this.Resize += new System.EventHandler(this.DabForm_Resize);
             this.contextMenuStripOther.ResumeLayout(false);
             this.ResumeLayout(false);
 
