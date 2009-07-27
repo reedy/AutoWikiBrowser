@@ -84,7 +84,7 @@ namespace WikiFunctions.ReplaceSpecial
         // 
         this.UpButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
         this.UpButton.Image = ((System.Drawing.Image)(resources.GetObject("UpButton.Image")));
-        this.UpButton.Location = new System.Drawing.Point(206, 3);
+        this.UpButton.Location = new System.Drawing.Point(185, 0);
         this.UpButton.Name = "UpButton";
         this.UpButton.Size = new System.Drawing.Size(24, 23);
         this.UpButton.TabIndex = 0;
@@ -94,7 +94,7 @@ namespace WikiFunctions.ReplaceSpecial
         // 
         this.DownButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
         this.DownButton.Image = ((System.Drawing.Image)(resources.GetObject("DownButton.Image")));
-        this.DownButton.Location = new System.Drawing.Point(206, 26);
+        this.DownButton.Location = new System.Drawing.Point(185, 29);
         this.DownButton.Name = "DownButton";
         this.DownButton.Size = new System.Drawing.Size(24, 23);
         this.DownButton.TabIndex = 1;
@@ -103,31 +103,31 @@ namespace WikiFunctions.ReplaceSpecial
         // DeleteButton
         // 
         this.DeleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-        this.DeleteButton.Location = new System.Drawing.Point(179, 450);
+        this.DeleteButton.Location = new System.Drawing.Point(179, 390);
         this.DeleteButton.Name = "DeleteButton";
         this.DeleteButton.Size = new System.Drawing.Size(80, 23);
-        this.DeleteButton.TabIndex = 6;
+        this.DeleteButton.TabIndex = 3;
         this.DeleteButton.Text = "&Delete";
         this.DeleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
         // 
         // NewRuleButton
         // 
         this.NewRuleButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-        this.NewRuleButton.Location = new System.Drawing.Point(7, 450);
+        this.NewRuleButton.Location = new System.Drawing.Point(7, 390);
         this.NewRuleButton.Name = "NewRuleButton";
         this.NewRuleButton.Size = new System.Drawing.Size(80, 23);
-        this.NewRuleButton.TabIndex = 4;
-        this.NewRuleButton.Text = "New Rule";
+        this.NewRuleButton.TabIndex = 1;
+        this.NewRuleButton.Text = "New &Rule";
         this.NewRuleButton.Click += new System.EventHandler(this.NewRuleButton_Click);
         // 
         // OkButton
         // 
         this.OkButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
         this.OkButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-        this.OkButton.Location = new System.Drawing.Point(613, 450);
+        this.OkButton.Location = new System.Drawing.Point(560, 390);
         this.OkButton.Name = "OkButton";
         this.OkButton.Size = new System.Drawing.Size(80, 23);
-        this.OkButton.TabIndex = 7;
+        this.OkButton.TabIndex = 4;
         this.OkButton.Text = "Close";
         this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
         // 
@@ -143,7 +143,7 @@ namespace WikiFunctions.ReplaceSpecial
         this.RulesTreeView.LabelEdit = true;
         this.RulesTreeView.Location = new System.Drawing.Point(3, 3);
         this.RulesTreeView.Name = "RulesTreeView";
-        this.RulesTreeView.Size = new System.Drawing.Size(197, 417);
+        this.RulesTreeView.Size = new System.Drawing.Size(176, 359);
         this.RulesTreeView.TabIndex = 2;
         this.RulesTreeView.DragDrop += new System.Windows.Forms.DragEventHandler(this.RulesTreeView_DragDrop);
         this.RulesTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.RulesTreeView_AfterSelect);
@@ -166,32 +166,32 @@ namespace WikiFunctions.ReplaceSpecial
             this.collapseAllToolStripMenuItem});
         this.TreeViewContextMenu.Name = "TreeViewContextMenu";
         this.TreeViewContextMenu.ShowImageMargin = false;
-        this.TreeViewContextMenu.Size = new System.Drawing.Size(120, 192);
+        this.TreeViewContextMenu.Size = new System.Drawing.Size(126, 192);
         // 
         // NewRuleContextMenuItem
         // 
         this.NewRuleContextMenuItem.Name = "NewRuleContextMenuItem";
-        this.NewRuleContextMenuItem.Size = new System.Drawing.Size(119, 22);
+        this.NewRuleContextMenuItem.Size = new System.Drawing.Size(125, 22);
         this.NewRuleContextMenuItem.Text = "New &Rule";
         this.NewRuleContextMenuItem.Click += new System.EventHandler(this.NewRuleContextMenuItem_Click);
         // 
         // NewSubruleContextMenuItem
         // 
         this.NewSubruleContextMenuItem.Name = "NewSubruleContextMenuItem";
-        this.NewSubruleContextMenuItem.Size = new System.Drawing.Size(119, 22);
+        this.NewSubruleContextMenuItem.Size = new System.Drawing.Size(125, 22);
         this.NewSubruleContextMenuItem.Text = "New &Subrule";
         this.NewSubruleContextMenuItem.Click += new System.EventHandler(this.NewSubruleContextMenuItem_Click);
         // 
         // toolStripSeparator1
         // 
         this.toolStripSeparator1.Name = "toolStripSeparator1";
-        this.toolStripSeparator1.Size = new System.Drawing.Size(116, 6);
+        this.toolStripSeparator1.Size = new System.Drawing.Size(122, 6);
         // 
         // CutContextMenuItem
         // 
         this.CutContextMenuItem.Name = "CutContextMenuItem";
         this.CutContextMenuItem.ShortcutKeyDisplayString = "Ctrl+X";
-        this.CutContextMenuItem.Size = new System.Drawing.Size(119, 22);
+        this.CutContextMenuItem.Size = new System.Drawing.Size(125, 22);
         this.CutContextMenuItem.Text = "Cu&t";
         this.CutContextMenuItem.Click += new System.EventHandler(this.CutMenuItem_Click);
         // 
@@ -199,7 +199,7 @@ namespace WikiFunctions.ReplaceSpecial
         // 
         this.CopyContextMenuItem.Name = "CopyContextMenuItem";
         this.CopyContextMenuItem.ShortcutKeyDisplayString = "Ctrl+C";
-        this.CopyContextMenuItem.Size = new System.Drawing.Size(119, 22);
+        this.CopyContextMenuItem.Size = new System.Drawing.Size(125, 22);
         this.CopyContextMenuItem.Text = "&Copy";
         this.CopyContextMenuItem.Click += new System.EventHandler(this.CopyMenuItem_Click);
         // 
@@ -207,7 +207,7 @@ namespace WikiFunctions.ReplaceSpecial
         // 
         this.PasteContextMenuItem.Name = "PasteContextMenuItem";
         this.PasteContextMenuItem.ShortcutKeyDisplayString = "Ctrl+V";
-        this.PasteContextMenuItem.Size = new System.Drawing.Size(119, 22);
+        this.PasteContextMenuItem.Size = new System.Drawing.Size(125, 22);
         this.PasteContextMenuItem.Text = "&Paste";
         this.PasteContextMenuItem.Click += new System.EventHandler(this.PasteMenuItem_Click);
         // 
@@ -215,26 +215,26 @@ namespace WikiFunctions.ReplaceSpecial
         // 
         this.DeleteContextMenuItem.Name = "DeleteContextMenuItem";
         this.DeleteContextMenuItem.ShortcutKeyDisplayString = "Del";
-        this.DeleteContextMenuItem.Size = new System.Drawing.Size(119, 22);
+        this.DeleteContextMenuItem.Size = new System.Drawing.Size(125, 22);
         this.DeleteContextMenuItem.Text = "&Delete";
         this.DeleteContextMenuItem.Click += new System.EventHandler(this.DeleteMenuItem_Click);
         // 
         // toolStripSeparator4
         // 
         this.toolStripSeparator4.Name = "toolStripSeparator4";
-        this.toolStripSeparator4.Size = new System.Drawing.Size(116, 6);
+        this.toolStripSeparator4.Size = new System.Drawing.Size(122, 6);
         // 
         // expandAllToolStripMenuItem
         // 
         this.expandAllToolStripMenuItem.Name = "expandAllToolStripMenuItem";
-        this.expandAllToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+        this.expandAllToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
         this.expandAllToolStripMenuItem.Text = "&Expand all";
         this.expandAllToolStripMenuItem.Click += new System.EventHandler(this.expandAllToolStripMenuItem_Click);
         // 
         // collapseAllToolStripMenuItem
         // 
         this.collapseAllToolStripMenuItem.Name = "collapseAllToolStripMenuItem";
-        this.collapseAllToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+        this.collapseAllToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
         this.collapseAllToolStripMenuItem.Text = "&Collapse all";
         this.collapseAllToolStripMenuItem.Click += new System.EventHandler(this.collapseAllToolStripMenuItem_Click);
         // 
@@ -245,7 +245,7 @@ namespace WikiFunctions.ReplaceSpecial
             this.EditMenu});
         this.menuStrip1.Location = new System.Drawing.Point(0, 0);
         this.menuStrip1.Name = "menuStrip1";
-        this.menuStrip1.Size = new System.Drawing.Size(705, 24);
+        this.menuStrip1.Size = new System.Drawing.Size(652, 24);
         this.menuStrip1.TabIndex = 0;
         this.menuStrip1.Text = "menuStrip1";
         // 
@@ -256,8 +256,8 @@ namespace WikiFunctions.ReplaceSpecial
             this.NewMenu,
             this.NewSubruleMenu});
         this.RuleMenu.Name = "RuleMenu";
-        this.RuleMenu.Size = new System.Drawing.Size(43, 20);
-        this.RuleMenu.Text = "Ne&w";
+        this.RuleMenu.Size = new System.Drawing.Size(40, 20);
+        this.RuleMenu.Text = "&New";
         // 
         // NewMenu
         // 
@@ -267,29 +267,29 @@ namespace WikiFunctions.ReplaceSpecial
             this.NewInTemplateRuleMenuItem,
             this.NewTemplateParameterRuleMenuItem});
         this.NewMenu.Name = "NewMenu";
-        this.NewMenu.Size = new System.Drawing.Size(114, 22);
-        this.NewMenu.Text = "Rule";
+        this.NewMenu.Size = new System.Drawing.Size(152, 22);
+        this.NewMenu.Text = "&Rule";
         // 
         // NewRuleMenuItem
         // 
         this.NewRuleMenuItem.Name = "NewRuleMenuItem";
         this.NewRuleMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-        this.NewRuleMenuItem.Size = new System.Drawing.Size(204, 22);
-        this.NewRuleMenuItem.Text = "Find and replace";
+        this.NewRuleMenuItem.Size = new System.Drawing.Size(203, 22);
+        this.NewRuleMenuItem.Text = "&Find and replace";
         this.NewRuleMenuItem.Click += new System.EventHandler(this.NewRuleMenuItem_Click);
         // 
         // NewInTemplateRuleMenuItem
         // 
         this.NewInTemplateRuleMenuItem.Name = "NewInTemplateRuleMenuItem";
-        this.NewInTemplateRuleMenuItem.Size = new System.Drawing.Size(204, 22);
-        this.NewInTemplateRuleMenuItem.Text = "In template call";
+        this.NewInTemplateRuleMenuItem.Size = new System.Drawing.Size(203, 22);
+        this.NewInTemplateRuleMenuItem.Text = "In template &call";
         this.NewInTemplateRuleMenuItem.Click += new System.EventHandler(this.NewInTemplateRuleMenuItem_Click);
         // 
         // NewTemplateParameterRuleMenuItem
         // 
         this.NewTemplateParameterRuleMenuItem.Name = "NewTemplateParameterRuleMenuItem";
-        this.NewTemplateParameterRuleMenuItem.Size = new System.Drawing.Size(204, 22);
-        this.NewTemplateParameterRuleMenuItem.Text = "Template parameter";
+        this.NewTemplateParameterRuleMenuItem.Size = new System.Drawing.Size(203, 22);
+        this.NewTemplateParameterRuleMenuItem.Text = "Template &parameter";
         this.NewTemplateParameterRuleMenuItem.Click += new System.EventHandler(this.NewTemplateParameterRuleMenuItem_Click);
         // 
         // NewSubruleMenu
@@ -300,28 +300,28 @@ namespace WikiFunctions.ReplaceSpecial
             this.NewSubruleInTemplateCallMenuItem,
             this.NewSubruleTemplateParameterMenuItem});
         this.NewSubruleMenu.Name = "NewSubruleMenu";
-        this.NewSubruleMenu.Size = new System.Drawing.Size(114, 22);
-        this.NewSubruleMenu.Text = "Subrule";
+        this.NewSubruleMenu.Size = new System.Drawing.Size(152, 22);
+        this.NewSubruleMenu.Text = "&Subrule";
         // 
         // NewSubruleMenuItem
         // 
         this.NewSubruleMenuItem.Name = "NewSubruleMenuItem";
-        this.NewSubruleMenuItem.Size = new System.Drawing.Size(181, 22);
-        this.NewSubruleMenuItem.Text = "Find and replace";
+        this.NewSubruleMenuItem.Size = new System.Drawing.Size(182, 22);
+        this.NewSubruleMenuItem.Text = "&Find and replace";
         this.NewSubruleMenuItem.Click += new System.EventHandler(this.NewSubruleMenuItem_Click);
         // 
         // NewSubruleInTemplateCallMenuItem
         // 
         this.NewSubruleInTemplateCallMenuItem.Name = "NewSubruleInTemplateCallMenuItem";
-        this.NewSubruleInTemplateCallMenuItem.Size = new System.Drawing.Size(181, 22);
-        this.NewSubruleInTemplateCallMenuItem.Text = "In template Call";
+        this.NewSubruleInTemplateCallMenuItem.Size = new System.Drawing.Size(182, 22);
+        this.NewSubruleInTemplateCallMenuItem.Text = "In template &call";
         this.NewSubruleInTemplateCallMenuItem.Click += new System.EventHandler(this.NewSubruleInTemplateCallMenuItem_Click);
         // 
         // NewSubruleTemplateParameterMenuItem
         // 
         this.NewSubruleTemplateParameterMenuItem.Name = "NewSubruleTemplateParameterMenuItem";
-        this.NewSubruleTemplateParameterMenuItem.Size = new System.Drawing.Size(181, 22);
-        this.NewSubruleTemplateParameterMenuItem.Text = "Template parameter";
+        this.NewSubruleTemplateParameterMenuItem.Size = new System.Drawing.Size(182, 22);
+        this.NewSubruleTemplateParameterMenuItem.Text = "Template &parameter";
         this.NewSubruleTemplateParameterMenuItem.Click += new System.EventHandler(this.NewSubruleTemplateParameterMenuItem_Click);
         // 
         // EditMenu
@@ -339,14 +339,15 @@ namespace WikiFunctions.ReplaceSpecial
             this.toolStripSeparator3,
             this.refreshColoursToolStripMenuItem});
         this.EditMenu.Name = "EditMenu";
-        this.EditMenu.Size = new System.Drawing.Size(42, 20);
+        this.EditMenu.Size = new System.Drawing.Size(40, 20);
         this.EditMenu.Text = "R&ule";
         // 
         // UndoMenuItem
         // 
         this.UndoMenuItem.Name = "UndoMenuItem";
         this.UndoMenuItem.ShortcutKeyDisplayString = "";
-        this.UndoMenuItem.Size = new System.Drawing.Size(174, 22);
+        this.UndoMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+        this.UndoMenuItem.Size = new System.Drawing.Size(179, 22);
         this.UndoMenuItem.Text = "&Undo";
         this.UndoMenuItem.Click += new System.EventHandler(this.UndoMenuItem_Click);
         // 
@@ -354,21 +355,22 @@ namespace WikiFunctions.ReplaceSpecial
         // 
         this.RedoMenuItem.Name = "RedoMenuItem";
         this.RedoMenuItem.ShortcutKeyDisplayString = "";
-        this.RedoMenuItem.Size = new System.Drawing.Size(174, 22);
+        this.RedoMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+        this.RedoMenuItem.Size = new System.Drawing.Size(179, 22);
         this.RedoMenuItem.Text = "&Redo";
         this.RedoMenuItem.Click += new System.EventHandler(this.RedoMenuItem_Click);
         // 
         // toolStripSeparator2
         // 
         this.toolStripSeparator2.Name = "toolStripSeparator2";
-        this.toolStripSeparator2.Size = new System.Drawing.Size(171, 6);
+        this.toolStripSeparator2.Size = new System.Drawing.Size(176, 6);
         // 
         // CutMenuItem
         // 
         this.CutMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
         this.CutMenuItem.Name = "CutMenuItem";
         this.CutMenuItem.ShortcutKeyDisplayString = "Ctrl+X";
-        this.CutMenuItem.Size = new System.Drawing.Size(174, 22);
+        this.CutMenuItem.Size = new System.Drawing.Size(179, 22);
         this.CutMenuItem.Text = "Cu&t";
         this.CutMenuItem.Click += new System.EventHandler(this.CutMenuItem_Click);
         // 
@@ -377,7 +379,7 @@ namespace WikiFunctions.ReplaceSpecial
         this.CopyMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
         this.CopyMenuItem.Name = "CopyMenuItem";
         this.CopyMenuItem.ShortcutKeyDisplayString = "Ctrl+C";
-        this.CopyMenuItem.Size = new System.Drawing.Size(174, 22);
+        this.CopyMenuItem.Size = new System.Drawing.Size(179, 22);
         this.CopyMenuItem.Text = "&Copy";
         this.CopyMenuItem.Click += new System.EventHandler(this.CopyMenuItem_Click);
         // 
@@ -386,21 +388,21 @@ namespace WikiFunctions.ReplaceSpecial
         this.PasteMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
         this.PasteMenuItem.Name = "PasteMenuItem";
         this.PasteMenuItem.ShortcutKeyDisplayString = "Ctrl+V";
-        this.PasteMenuItem.Size = new System.Drawing.Size(174, 22);
+        this.PasteMenuItem.Size = new System.Drawing.Size(179, 22);
         this.PasteMenuItem.Text = "&Paste";
         this.PasteMenuItem.Click += new System.EventHandler(this.PasteMenuItem_Click);
         // 
         // toolStripSeparator5
         // 
         this.toolStripSeparator5.Name = "toolStripSeparator5";
-        this.toolStripSeparator5.Size = new System.Drawing.Size(171, 6);
+        this.toolStripSeparator5.Size = new System.Drawing.Size(176, 6);
         // 
         // DeleteMenuItem
         // 
         this.DeleteMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
         this.DeleteMenuItem.Name = "DeleteMenuItem";
         this.DeleteMenuItem.ShortcutKeyDisplayString = "Del";
-        this.DeleteMenuItem.Size = new System.Drawing.Size(174, 22);
+        this.DeleteMenuItem.Size = new System.Drawing.Size(179, 22);
         this.DeleteMenuItem.Text = "&Delete";
         this.DeleteMenuItem.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
         this.DeleteMenuItem.Click += new System.EventHandler(this.DeleteMenuItem_Click);
@@ -408,24 +410,24 @@ namespace WikiFunctions.ReplaceSpecial
         // toolStripSeparator3
         // 
         this.toolStripSeparator3.Name = "toolStripSeparator3";
-        this.toolStripSeparator3.Size = new System.Drawing.Size(171, 6);
+        this.toolStripSeparator3.Size = new System.Drawing.Size(176, 6);
         // 
         // refreshColoursToolStripMenuItem
         // 
         this.refreshColoursToolStripMenuItem.Name = "refreshColoursToolStripMenuItem";
         this.refreshColoursToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-        this.refreshColoursToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
-        this.refreshColoursToolStripMenuItem.Text = "Refresh colours";
+        this.refreshColoursToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+        this.refreshColoursToolStripMenuItem.Text = "Re&fresh colours";
         this.refreshColoursToolStripMenuItem.Click += new System.EventHandler(this.refreshColoursToolStripMenuItem_Click);
         // 
         // NewSubruleButton
         // 
         this.NewSubruleButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-        this.NewSubruleButton.Location = new System.Drawing.Point(93, 450);
+        this.NewSubruleButton.Location = new System.Drawing.Point(93, 390);
         this.NewSubruleButton.Name = "NewSubruleButton";
         this.NewSubruleButton.Size = new System.Drawing.Size(80, 23);
-        this.NewSubruleButton.TabIndex = 5;
-        this.NewSubruleButton.Text = "New Subrule";
+        this.NewSubruleButton.TabIndex = 2;
+        this.NewSubruleButton.Text = "New &Subrule";
         this.NewSubruleButton.Click += new System.EventHandler(this.NewSubruleButton_Click);
         // 
         // NoRuleSelectedLabel
@@ -445,7 +447,7 @@ namespace WikiFunctions.ReplaceSpecial
         this.RuleControlSpace.Controls.Add(this.NoRuleSelectedLabel);
         this.RuleControlSpace.Location = new System.Drawing.Point(0, 0);
         this.RuleControlSpace.Name = "RuleControlSpace";
-        this.RuleControlSpace.Size = new System.Drawing.Size(465, 422);
+        this.RuleControlSpace.Size = new System.Drawing.Size(434, 362);
         this.RuleControlSpace.TabIndex = 0;
         // 
         // splitContainer
@@ -453,7 +455,6 @@ namespace WikiFunctions.ReplaceSpecial
         this.splitContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                     | System.Windows.Forms.AnchorStyles.Left)
                     | System.Windows.Forms.AnchorStyles.Right)));
-        this.splitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
         this.splitContainer.Location = new System.Drawing.Point(4, 24);
         this.splitContainer.Name = "splitContainer";
         // 
@@ -468,15 +469,15 @@ namespace WikiFunctions.ReplaceSpecial
         // 
         this.splitContainer.Panel2.Controls.Add(this.RuleControlSpace);
         this.splitContainer.Panel2MinSize = 100;
-        this.splitContainer.Size = new System.Drawing.Size(702, 422);
-        this.splitContainer.SplitterDistance = 233;
+        this.splitContainer.Size = new System.Drawing.Size(649, 362);
+        this.splitContainer.SplitterDistance = 211;
         this.splitContainer.TabIndex = 0;
         // 
         // ReplaceSpecial
         // 
         this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.ClientSize = new System.Drawing.Size(705, 480);
+        this.ClientSize = new System.Drawing.Size(652, 420);
         this.Controls.Add(this.splitContainer);
         this.Controls.Add(this.menuStrip1);
         this.Controls.Add(this.NewRuleButton);
@@ -489,7 +490,7 @@ namespace WikiFunctions.ReplaceSpecial
         this.Location = new System.Drawing.Point(634, 1000);
         this.MainMenuStrip = this.menuStrip1;
         this.MaximizeBox = false;
-        this.MinimumSize = new System.Drawing.Size(600, 440);
+        this.MinimumSize = new System.Drawing.Size(372, 138);
         this.Name = "ReplaceSpecial";
         this.ShowIcon = false;
         this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;

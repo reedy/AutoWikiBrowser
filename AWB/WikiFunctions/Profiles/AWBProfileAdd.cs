@@ -75,7 +75,12 @@ namespace WikiFunctions.Profiles
         private void chkDefaultSettings_CheckedChanged(object sender, EventArgs e)
         {
             txtPath.Enabled = chkDefaultSettings.Checked;
-            if (!JustLoading && chkDefaultSettings.Checked && (openDefaultFile.ShowDialog() == DialogResult.OK))
+            btnBrowse.Enabled = chkDefaultSettings.Checked;
+        }
+
+        private void btnBrowse_Click(object sender, EventArgs e)
+        {
+            if (chkDefaultSettings.Checked && (openDefaultFile.ShowDialog() == DialogResult.OK))
                 txtPath.Text = openDefaultFile.FileName;
         }
 

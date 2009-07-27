@@ -46,7 +46,7 @@
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 0;
-            this.btnOk.Text = "&OK";
+            this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = true;
             // 
             // btnCancel
@@ -57,7 +57,7 @@
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 1;
-            this.btnCancel.Text = "&Cancel";
+            this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // cboNamespace
@@ -78,7 +78,7 @@
             this.lblNamespace.Name = "lblNamespace";
             this.lblNamespace.Size = new System.Drawing.Size(67, 13);
             this.lblNamespace.TabIndex = 10;
-            this.lblNamespace.Text = "Namespace:";
+            this.lblNamespace.Text = "&Namespace:";
             // 
             // lblSource
             // 
@@ -87,7 +87,7 @@
             this.lblSource.Name = "lblSource";
             this.lblSource.Size = new System.Drawing.Size(44, 13);
             this.lblSource.TabIndex = 11;
-            this.lblSource.Text = "Source:";
+            this.lblSource.Text = "&Source:";
             // 
             // txtPages
             // 
@@ -120,7 +120,7 @@
             this.lblPages.Name = "lblPages";
             this.lblPages.Size = new System.Drawing.Size(40, 13);
             this.lblPages.TabIndex = 15;
-            this.lblPages.Text = "Pages:";
+            this.lblPages.Text = "&Pages:";
             // 
             // SpecialPageListProvider
             // 
