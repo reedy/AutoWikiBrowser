@@ -52,7 +52,7 @@ namespace WikiFunctions.Lists
         void Selected();
 
         /// <summary>
-        /// True if the object expects to be started on a seperate thread
+        /// True if the object expects to be started on a separate thread
         /// </summary>
         bool RunOnSeparateThread { get; }
     }

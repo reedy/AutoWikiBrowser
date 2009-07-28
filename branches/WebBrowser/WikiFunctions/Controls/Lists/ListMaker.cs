@@ -70,7 +70,7 @@ namespace WikiFunctions.Controls.Lists
                                  {
                                      DefaultExt = "txt",
                                      Filter =
-                                         "Text file with wiki markup|*.txt|Plaintext list|*.txt|CSV (Comma Seperated Values)|*.txt|CSV with Wikitext|*.txt",
+                                         "Text file with wiki markup|*.txt|Plaintext list|*.txt|CSV (Comma Separated Values)|*.txt|CSV with Wikitext|*.txt",
                                      Title = "Save article list"
                                  };
         }
