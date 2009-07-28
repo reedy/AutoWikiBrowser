@@ -3112,6 +3112,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             // count categories
             int matches;
 
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#defaultsort_adding_namespace
+            if(!Namespace.IsMainSpace(articleTitle))
+                articleTitle = Tools.RemoveNamespaceString(articleTitle);
+
             string sort = GetCategorySort(articleText, articleTitle, out matches);
 
             // clean diacritics from any lifetime template
@@ -3669,7 +3673,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return newText;
         }
 
-        // NOT covered
         /// <summary>
         /// Converts/subst'd some deprecated templates
         /// </summary>

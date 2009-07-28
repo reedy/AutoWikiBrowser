@@ -3503,6 +3503,12 @@ foo {{persondata}}
 [[Category:811 deaths]]
 [[Category:9th-century rulers]]";
             Assert.AreEqual(r1, Parsers.ChangeToDefaultSort(r1, "foo", out noChange, true));
+
+            // namespace not used in DEFAULTSORT key
+            Assert.AreEqual(@"foo
+[[Category:All foos]]
+{{DEFAULTSORT:Special Foos}}", Parsers.ChangeToDefaultSort(@"foo
+[[Category:All foos]]", "Category:Special foos", out noChange, false));
         }
 
         [Test]
