@@ -45,7 +45,12 @@ namespace WikiFunctions.DBScanner
             return (!Tools.IsRedirect(articleText));
         }
     }
+	
+	//TODO:Update TextContains etc to use Inheritors of IArticleComparer
 
+	/// <summary>
+    /// 
+    /// </summary>
     public class TextContains : Scan
     {
         private readonly Dictionary<string, bool> Conditions;
@@ -70,6 +75,9 @@ namespace WikiFunctions.DBScanner
         }
     }
 
+	/// <summary>
+    /// 
+    /// </summary>
     public class TextDoesNotContain : Scan
     {
         private readonly Dictionary<string, bool> Conditions;
