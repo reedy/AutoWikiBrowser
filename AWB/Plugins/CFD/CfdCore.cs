@@ -83,13 +83,13 @@ namespace AutoWikiBrowser.Plugins.CFD
                 if (p.Value.Length == 0)
                 {
                     text = Parsers.RemoveCategory(p.Key, text, out noChange);
-                    if(!noChange) eventargs.EditSummary += ", removed " + Variables.Namespaces[14] + p.Key;
+                    if (!noChange) eventargs.EditSummary += ", removed " + Variables.Namespaces[Namespace.Category] + p.Key;
                 }
                 else
                 {
                     text = Parsers.ReCategoriser(p.Key, p.Value, text, out noChange);
-                    if (!noChange) eventargs.EditSummary += ", replaced: " + Variables.Namespaces[14]
-                         + p.Key + FindandReplace.Arrow + Variables.Namespaces[14] + p.Value;
+                    if (!noChange) eventargs.EditSummary += ", replaced: " + Variables.Namespaces[Namespace.Category]
+                         + p.Key + FindandReplace.Arrow + Variables.Namespaces[Namespace.Category] + p.Value;
                 }
                 if (!noChange) text = Regex.Replace(text, "<includeonly>[\\s\\r\\n]*\\</includeonly>", "");
             }

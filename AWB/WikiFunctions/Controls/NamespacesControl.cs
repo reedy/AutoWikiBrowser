@@ -51,8 +51,8 @@ namespace WikiFunctions.Controls
 
             if (Variables.Namespaces.ContainsKey(Namespace.FirstCustom))
             {
-                chkPortal.Text = Variables.Namespaces[100];
-                chkPortalTalk.Text = Variables.Namespaces[101];
+                chkPortal.Text = Variables.Namespaces[Namespace.FirstCustom];
+                chkPortalTalk.Text = Variables.Namespaces[Namespace.FirstCustomTalk];
 
                 chkPortal.Visible = chkPortalTalk.Visible = true;
             }
