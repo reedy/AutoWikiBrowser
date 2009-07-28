@@ -30,11 +30,11 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         /// </summary>
         private const string Url = "http://toolserver.org/~maxsem/typoscan/index.php?action=";
 
+        private static readonly Regex UrlRegex = new Regex(@"^https?://([-a-z0-9\.]+).*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
         internal static string GetUrlFor(string action)
         {
-            string wiki = Regex.Replace(Variables.URLLong, @"^https?://([-a-z0-9\.]+).*$", "$1", RegexOptions.IgnoreCase);
-
-            return Url + action + "&wiki=" + wiki;
+            return Url + action + "&wiki=" + UrlRegex.Replace(Variables.URLLong, "$1");
         }
 
         public static string CheckOperation(string xml)

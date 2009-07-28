@@ -200,7 +200,6 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                 Thread.PostData(Common.GetUrlFor("finished"), postVars);
             else
                 UploadResult(Tools.PostData(postVars, Common.GetUrlFor("finished")));
-
         }
 
         private static void UploadFinishedArticlesToServerFinished(BackgroundRequest req)
@@ -232,11 +231,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             AWB.StatusLabelText = "TypoScan reporting failed";
             IsUploading = false;
 
-            if (req.ErrorException is System.IO.IOException)
-            {
-                Tools.WriteDebug("TypoScanAWBPlugin", req.ErrorException.Message);
-            }
-            else if (req.ErrorException is System.Net.WebException)
+            if (req.ErrorException is System.IO.IOException || req.ErrorException is System.Net.WebException)
             {
                 Tools.WriteDebug("TypoScanAWBPlugin", req.ErrorException.Message);
             }
