@@ -573,7 +573,7 @@ namespace WikiFunctions
                             strTypoSummaryTag = ", Schreibweise:";
                             break;
 						
-						case LangcodeEnum.el:
+						case LangCodeEnum.el:
 							mSummaryTag = " με τη χρήση ";
 							strWPAWB = "[[Βικιπαίδεια:AutoWikiBrowser|AWB]]";
 							break;
