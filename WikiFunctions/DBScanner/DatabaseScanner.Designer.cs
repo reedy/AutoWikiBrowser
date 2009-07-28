@@ -1619,7 +1619,7 @@ namespace WikiFunctions.DBScanner
             // saveListDialog
             // 
             this.saveListDialog.DefaultExt = "txt";
-            this.saveListDialog.Filter = "Text file with wiki markup|*.txt|Plaintext list|*.txt|CSV (Comma Seperated Values" +
+            this.saveListDialog.Filter = "Text file with wiki markup|*.txt|Plaintext list|*.txt|CSV (Comma Separated Values" +
                 ")|*.txt";
             this.saveListDialog.Title = "Save article list";
             // 
