@@ -86,13 +86,13 @@ namespace AutoWikiBrowser.Plugins.IFD
                 if (p.Value.Length == 0)
                 {
                     text = Parsers.RemoveImage(p.Key, text, Settings.Comment, "", out noChange);
-                    if (!noChange) eventargs.EditSummary += ", removed " + Variables.Namespaces[6] + p.Key;
+                    if (!noChange) eventargs.EditSummary += ", removed " + Variables.Namespaces[Namespace.File] + p.Key;
                 }
                 else
                 {
                     text = Parsers.ReplaceImage(p.Key, p.Value, text, out noChange);
-                    if (!noChange) eventargs.EditSummary += ", replaced: " + Variables.Namespaces[6]
-                         + p.Key + FindandReplace.Arrow + Variables.Namespaces[6] + p.Value;
+                    if (!noChange) eventargs.EditSummary += ", replaced: " + Variables.Namespaces[Namespace.File]
+                         + p.Key + FindandReplace.Arrow + Variables.Namespaces[Namespace.File] + p.Value;
                 }
                 if (!noChange) text = Regex.Replace(text, "<includeonly>[\\s\\r\\n]*\\</includeonly>", "");
             }
