@@ -164,7 +164,7 @@
 			
 			//Percentage Completion
 			PrintTableRow("Percentage Completion", 
-				($totalArticles ? round( ((($finishedArticles + $ignoredArticles)/$totalArticles) * 100),2) : '0') .'%');
+				($totalArticles ? round(((($finishedArticles + $ignoredArticles) / $totalArticles) * 100), 2) : '0') .'%');
 			
 			//Number of currently checked out articles
 			$query = "SELECT COUNT(articleid) AS nocheckedout FROM articles WHERE (checkedout >= DATE_SUB(NOW(), INTERVAL 3 HOUR)) AND (userid = 0)";
@@ -185,11 +185,39 @@
 			$query = "SELECT COUNT(userid) AS nousers FROM users";
 			$result=mysql_fetch_array(mysql_query($query));
 			PrintTableRow("Number of Users", FormatNumber($result['nousers']));
+			
+			//Number of sites
+			$query = "SELECT COUNT(siteid) AS nosites FROM site";
+			$result=mysql_fetch_array(mysql_query($query));
+			PrintTableRow("Number of Sites", FormatNumber($result['nosites']));
 
 			echo '</table>
 			<p/>';
 			
-			//Number of finished/ignored by user
+			//Site stats
+			$query = "SELECT SUM(finished) AS edits, SUM(skipid > 0) AS skips, address FROM articles a, site s WHERE (a.siteid = s.site) AND (s.siteid > 0) GROUP BY s.siteid ORDER BY edits DESC, skips DESC";
+		
+			echo '<table class="sortable">
+	<caption>Site Stats</caption>
+<thead>
+	<tr>
+		<th scope="col" class="sortable">Site</th>
+		<th scope="col" class="sortable">Number of Saved Articles</th>
+		<th scope="col" class="sortable">Number of Skipped Articles</th>
+	</tr>
+</thead>';
+	
+			$result=mysql_query($query);
+			
+			while($row = mysql_fetch_assoc($result))
+			{
+				echo '<tr><td>'. htmlspecialchars($row['address']) . '</td><td>' . FormatNumber($row['edits']) . '</td><td>' . FormatNumber($row['skips']) . '</td></tr>';
+			}
+			
+			echo '</table>
+			<p/>';
+			
+			//Number of finished/ignored by user (User stats)
 			$query = "SELECT SUM(finished) AS edits, SUM(skipid > 0) AS skips, username FROM articles a, users u WHERE (a.userid = u.userid) AND (a.userid > 0) GROUP BY a.userid ORDER BY edits DESC, skips DESC";
 		
 			echo '<table class="sortable">

@@ -22,7 +22,7 @@ if (!isset($argv[2]))
 
 $siteid = GetOrAddSite($argv[2]);
 	
-echo "Site ID: " . $siteid;
+echo "Site ID: " . $siteid . "\n";
 
 echo "Reading file {$filename}...\n";	
 $f = fopen($filename, 'r') or die;
