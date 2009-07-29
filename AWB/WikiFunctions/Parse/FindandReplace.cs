@@ -26,6 +26,8 @@ using WikiFunctions.Controls;
 
 namespace WikiFunctions.Parse
 {
+    //TODO: User IArticleComparer derivatives where possible
+
     /// <summary>
     /// Provides a form and functions for setting and applying multiple find and replacements on a text string.
     /// </summary>

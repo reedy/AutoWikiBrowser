@@ -1220,6 +1220,8 @@ namespace WikiFunctions
         bool HasInfoBox { get; }
     }
 
+    //TODO: Create more comparers. Create ComparerFactory
+
     /// <summary>
     /// Class for scanning an article for content
     /// </summary>
@@ -1233,6 +1235,9 @@ namespace WikiFunctions
         bool Matches(Article article);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class CaseSensitiveArticleComparer : IArticleComparer
     {
         public CaseSensitiveArticleComparer(string comparator)
@@ -1247,10 +1252,13 @@ namespace WikiFunctions
                      : article.ArticleText.Contains(Comparator);
         }
 
-        string Comparator;
-        bool ApplyKeywords = false;
+        readonly string Comparator;
+        readonly bool ApplyKeywords;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class CaseInsensitiveArticleComparer : IArticleComparer
     {
         public CaseInsensitiveArticleComparer(string comparator)
@@ -1266,10 +1274,13 @@ namespace WikiFunctions
             // or should that be OrdinalIgnoreCase?
         }
 
-        string Comparator;
-        bool ApplyKeywords = false;
+        readonly string Comparator;
+        readonly bool ApplyKeywords;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class RegexArticleComparer : IArticleComparer
     {
         public RegexArticleComparer(Regex comparator)
@@ -1281,9 +1292,12 @@ namespace WikiFunctions
             return Comparator.IsMatch(article.ArticleText);
         }
 
-        Regex Comparator;
+        readonly Regex Comparator;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class DynamicRegexArticleComparer : IArticleComparer
     {
         public DynamicRegexArticleComparer(string comparator, RegexOptions options)
@@ -1296,7 +1310,7 @@ namespace WikiFunctions
             return Regex.IsMatch(article.ArticleText, Tools.ApplyKeyWords(article.Name, Comparator), Options);
         }
 
-        string Comparator;
-        RegexOptions Options;
+        readonly string Comparator;
+        readonly RegexOptions Options;
     }
 }
