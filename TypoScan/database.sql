@@ -34,4 +34,4 @@ CREATE TABLE `site` (
    PRIMARY KEY (`siteid`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `site`(`address`) VALUES (`http://en.wikipedia.org`);
+INSERT INTO `site`(`address`) VALUES (`en.wikipedia.org`);

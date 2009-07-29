@@ -57,8 +57,9 @@
 			if ((!$articlesempty || !$skippedempty) && $user && $wiki)
 			{
 				$userid = GetOrAddUser($user);
+				$siteid = GetOrAddSite($site);
 				
-				if ($wiki != 'en.wikipedia.org') ReturnError('This project is not supported', 'project');
+				if (empty($wiki)) ReturnError('No project defined', 'project');
 
 				if (!$articlesempty && preg_match("/^\d+(,\s*\d+)*$/", $articlesempty))
 				{
@@ -97,13 +98,17 @@
 			header("Content-type: text/xml; charset=utf-8"); 
 		
 			$wiki = @$_GET['wiki'];
-			if ($wiki != 'en.wikipedia.org') ReturnError('This project is not supported', 'project');
+			if (empty($wiki)) ReturnError('No project defined', 'project');
+			
+			$siteid = GetOrAddSite($wiki);
 
-			$query = 'SELECT articleid, title FROM articles WHERE (checkedout < DATE_SUB(NOW(), INTERVAL 3 HOUR)) AND (userid = 0) LIMIT 100';
+			$query = 'SELECT articleid, title FROM articles, site WHERE (site.siteid = articles.articleid) AND (side.address = "' . $wiki . '") AND (checkedout < DATE_SUB(NOW(), INTERVAL 3 HOUR)) AND (userid = 0) ANDLIMIT 100';
 			
 			$result=mysql_query($query) or die ('Error: '.mysql_error());
 			
 			$xml_output  = Xml::XmlHeader() . "\n";
+			
+			$xml_output .= Xml::element('site', array('address' => $wiki));
 
 			$array = array();
 
@@ -124,7 +129,10 @@
 		
 		case 'stats':
 		default:
-		header("Content-type: text/html; charset=utf-8");
+			header("Content-type: text/html; charset=utf-8");
+			
+			//TODO:Filtering based on selected project?
+			$wiki = @$_GET['wiki'];
 		
 			Head('TypoScan - Stats');
 			echo'<h2><a href="http://en.wikipedia.org/wiki/Wikipedia:TypoScan">TypoScan</a> Stats</h2>
@@ -246,6 +254,11 @@
 	function GetOrAddUser($user)
 	{
 		return GetOrAdd($user, 'userid', 'username', 'users');
+	}
+	
+	function GetOrAddSite($site)
+	{
+		return GetOrAdd($site, 'siteid', 'address', 'site');
 	}
 	
 	function GetOrAdd($data, $selectcol, $wherecol, $table)
