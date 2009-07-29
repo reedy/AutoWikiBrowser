@@ -858,37 +858,5 @@ namespace WikiFunctions
     }
 
     public enum WikiStatusResult { Error, NotLoggedIn, NotRegistered, OldVersion, Registered, Null, PendingUpdate }
-
-    #region UserProperties
-
-    internal class UserProperties
-    {
-        //TODO: find some use for this
-        /// <summary>
-        /// Checks if the current version of AWB is enabled
-        /// </summary>
-        public WikiStatusResult CheckEnabled()
-        {
-            try
-            {
-                string strText = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
-
-                if (string.IsNullOrEmpty(strText))
-                {
-                    Tools.WriteDebug(ToString(), "Empty version checkpage");
-                    return WikiStatusResult.Error;
-                }
-
-                return !strText.Contains(""/*Variables.AWBVersion*/ + " enabled") ? WikiStatusResult.OldVersion : WikiStatusResult.Null;
-            }
-            catch (Exception ex)
-            {
-                Tools.WriteDebug(ToString(), ex.Message);
-                Tools.WriteDebug(ToString(), ex.StackTrace);
-                return WikiStatusResult.Error;
-            }
-        }
-    }
-    #endregion
 }
 
