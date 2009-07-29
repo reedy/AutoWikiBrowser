@@ -57,12 +57,12 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
             PluginMenuItem.DropDownItems.Add(PluginUploadMenuItem);
             PluginMenuItem.DropDownItems.Add(PluginReAddArticlesMenuItem);
-            PluginUploadMenuItem.Click += pluginUploadMenuItem_Click;
+            PluginUploadMenuItem.Click += PluginUploadMenuItemClick;
 
             PluginReAddArticlesMenuItem.Click += pluginReAddArticlesMenuItem_Click;
             sender.PluginsToolStripMenuItem.DropDownItems.Add(PluginMenuItem);
 
-            AboutMenuItem.Click += aboutMenuItem_Click;
+            AboutMenuItem.Click += AboutMenuItemClick;
             sender.HelpToolStripMenuItem.DropDownItems.Add(AboutMenuItem);
         }
 
@@ -87,12 +87,12 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             }
         }
 
-        private static void aboutMenuItem_Click(object sender, EventArgs e)
+        private static void AboutMenuItemClick(object sender, EventArgs e)
         {
             new About().Show();
         }
 
-        private static void pluginUploadMenuItem_Click(object sender, EventArgs e)
+        private static void PluginUploadMenuItemClick(object sender, EventArgs e)
         {
             UploadFinishedArticlesToServer();
         }
