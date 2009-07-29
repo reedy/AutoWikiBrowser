@@ -34,7 +34,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         internal static string GetUrlFor(string action)
         {
-            return Url + action + "&wiki=" + UrlRegex.Replace(Variables.URLLong, "$1");
+            return Url + action + "&wiki=" + GetSite();
         }
 
         public static string CheckOperation(string xml)
@@ -48,11 +48,13 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                     return null;
 
                 string s = r.GetAttribute("error");
-                if (!string.IsNullOrEmpty(s))
-                    return s;
-
-                return r.ReadString();
+                return !string.IsNullOrEmpty(s) ? s : r.ReadString();
             }
+        }
+
+        internal static string GetSite()
+        {
+            return UrlRegex.Replace(Variables.URLLong, "$1");
         }
     }
 }
