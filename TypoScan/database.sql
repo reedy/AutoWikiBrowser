@@ -30,8 +30,8 @@ CREATE TABLE `users` (
 DROP TABLE IF EXISTS `site`;
 CREATE TABLE `site` (
   `siteid` int(10) unsigned NOT NULL auto_increment,
-  `address` varchar(50) unsigned NOT NULL,
+  `address` varchar(50) NOT NULL,
    PRIMARY KEY (`siteid`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `site`(`address`) VALUES (`en.wikipedia.org`);
+INSERT INTO `site`(`address`) VALUES ('en.wikipedia.org');

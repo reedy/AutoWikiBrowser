@@ -30,8 +30,8 @@
 	$dbpass = '';
 	$database = '';
 	
-	$conn=mysql_connect($dbserver, $dbuser, $dbpass); 
-	mysql_select_db($database, $conn);	
+	$conn=mysql_connect($dbserver, $dbuser, $dbpass);
+	mysql_select_db($database, $conn);
 	**/
 	require_once('typo-db.php');
 	

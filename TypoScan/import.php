@@ -9,15 +9,16 @@ if (isset($_SERVER) && array_key_exists('REQUEST_METHOD', $_SERVER))
 echo "Connecting to MySQL...\n";
 require_once('typo-db.php');
 
-if (isset($argv[1])) 
+if (isset($argv[1]))
 	$filename = $argv[1];
 else
 	$filename = 'import.txt';
 	
 require_once('common.php');
-	
+
+//TODO:Need better parameter handling
 if (!isset($argv[2]))
-	die ('Site needed');
+	die ('Site needed\n');
 
 $siteid = GetOrAddSite($argv[2]);
 	
@@ -31,6 +32,8 @@ echo "Init complete, importing...\n";
 while(!feof($f))
 {
 	$name = trim(fgets($f));
+	if (empty($name))
+		continue;
 	$q = "INSERT INTO articles (title, siteid) VALUES ('" . mysql_escape_string($name) . "', '" . $siteid . "')";
 	mysql_query($q) or die;
 	//echo $name . "\n";
