@@ -241,6 +241,28 @@ namespace WikiFunctions.Profiles
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        internal static int LastUsedAccount
+        {
+            get
+            {
+                try { return int.Parse(RegistryUtils.GetValue(ProfileRegistryString + "LastUsedAccount", "")); }
+                catch { return -1; }
+            }
+
+            set
+            {
+                try
+                {
+                    RegistryKey key = RegistryUtils.GetWritableKey(ProfileRegistryString);
+                    if (key != null) key.SetValue("LastUsedAccount", value);
+                }
+                catch { }
+            }
+        }
+
+        /// <summary>
         /// Gets/Returns the temporary password set by the user
         /// </summary>
         private static string TempPassword
