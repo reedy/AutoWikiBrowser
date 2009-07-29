@@ -102,13 +102,13 @@
 			
 			$siteid = GetOrAddSite($wiki);
 
-			$query = 'SELECT articleid, title FROM articles, site WHERE (site.siteid = articles.articleid) AND (side.address = "' . $wiki . '") AND (checkedout < DATE_SUB(NOW(), INTERVAL 3 HOUR)) AND (userid = 0) ANDLIMIT 100';
+			$query = 'SELECT articleid, title FROM articles, site WHERE (site.siteid = articles.articleid) AND (side.address = "' . $wiki . '") AND (checkedout < DATE_SUB(NOW(), INTERVAL 3 HOUR)) AND (userid = 0) LIMIT 100';
 			
 			$result=mysql_query($query) or die ('Error: '.mysql_error());
 			
 			$xml_output  = Xml::XmlHeader() . "\n";
 			
-			$xml_output .= Xml::element('site', array('address' => $wiki));
+			$xml_output .= Xml::element('site', array('siteid' => $siteid, 'address' => $wiki));
 
 			$array = array();
 
@@ -244,43 +244,6 @@
 		<th align="left" scope="row">'.$header.'</th><td>'.$data.'</td>
 	</tr>
 ';
-}
-
-	function GetOrAddIgnoreReason($reason)
-	{
-		return GetOrAdd($reason, 'skipid', 'skipreason', 'skippedreason');
-	}
-	
-	function GetOrAddUser($user)
-	{
-		return GetOrAdd($user, 'userid', 'username', 'users');
-	}
-	
-	function GetOrAddSite($site)
-	{
-		return GetOrAdd($site, 'siteid', 'address', 'site');
-	}
-	
-	function GetOrAdd($data, $selectcol, $wherecol, $table)
-	{
-		$query = 'SELECT ' . $selectcol . ' FROM `' . $table .'` WHERE (' . $wherecol . ' = "' . mysql_escape_string($data) .'")';
-		$result = mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);
-		
-		//echo $query;
-			
-		if( mysql_num_rows($result) == 1)
-		{
-			//echo 'Exists:' . mysql_result($result, 0);
-			return mysql_result($result, 0);
-		}
-		else
-		{
-			$query = 'INSERT INTO ' . $table. '(' . $wherecol. ') VALUES("' . mysql_escape_string($data) .'")';
-			$result = mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);;
-			
-			//echo 'Inserted: ' . mysql_result($result, 0);
-			return GetOrAdd($data, $selectcol, $wherecol, $table);
-		}
 	}
 	
 	function PostRequired()

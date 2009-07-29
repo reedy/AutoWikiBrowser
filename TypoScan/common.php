@@ -41,3 +41,40 @@
 </body>
 </html><?php
 	}
+	
+	function GetOrAddIgnoreReason($reason)
+	{
+		return GetOrAdd($reason, 'skipid', 'skipreason', 'skippedreason');
+	}
+	
+	function GetOrAddUser($user)
+	{
+		return GetOrAdd($user, 'userid', 'username', 'users');
+	}
+	
+	function GetOrAddSite($site)
+	{
+		return GetOrAdd($site, 'siteid', 'address', 'site');
+	}
+	
+	function GetOrAdd($data, $selectcol, $wherecol, $table)
+	{
+		$query = 'SELECT ' . $selectcol . ' FROM `' . $table .'` WHERE (' . $wherecol . ' = "' . mysql_escape_string($data) .'")';
+		$result = mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);
+		
+		//echo $query;
+			
+		if( mysql_num_rows($result) == 1)
+		{
+			//echo 'Exists:' . mysql_result($result, 0);
+			return mysql_result($result, 0);
+		}
+		else
+		{
+			$query = 'INSERT INTO ' . $table. '(' . $wherecol. ') VALUES("' . mysql_escape_string($data) .'")';
+			$result = mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);;
+			
+			//echo 'Inserted: ' . mysql_result($result, 0);
+			return GetOrAdd($data, $selectcol, $wherecol, $table);
+		}
+	}

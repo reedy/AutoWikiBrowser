@@ -44,14 +44,6 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         {
             List<Article> articles = new List<Article>();
 
-            // TODO: must support other wikis
-            if (Variables.Project != ProjectEnum.wikipedia || Variables.LangCode != LangCodeEnum.en)
-            {
-                MessageBox.Show("This plugin currently supports only English Wikipedia",
-                    "TypoScan", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                return articles;
-            }
-
             for (int i = 0; i < Iterations; i++)
             {
                 using (
@@ -60,7 +52,17 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                 {
                     while (reader.Read())
                     {
-                        if (reader.Name.Equals("article"))
+                        if (reader.Name.Equals("site"))
+                        {
+                            reader.MoveToAttribute("address");
+                            string site = reader.Value;
+
+                            if (site != Common.GetSite())
+                            {
+                                //TODO:Notify of error
+                            }
+                        }
+                        else if (reader.Name.Equals("article"))
                         {
                             reader.MoveToAttribute("id");
                             int id = int.Parse(reader.Value);
