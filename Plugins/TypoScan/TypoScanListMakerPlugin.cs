@@ -57,9 +57,9 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                             reader.MoveToAttribute("address");
                             string site = reader.Value;
 
-                            if (site != Common.GetSite())
+                            if (site != Common.GetSite()) //Probably shouldnt get this as the wanted site was sent to the server
                             {
-                                //TODO:Notify of error
+                                MessageBox.Show("Wrong Site");
                             }
                         }
                         else if (reader.Name.Equals("article"))
