@@ -247,16 +247,20 @@ namespace WikiFunctions.Profiles
         {
             get
             {
-                try { return int.Parse(RegistryUtils.GetValue(ProfileRegistryString + "LastUsedAccount", "")); }
-                catch { return -1; }
+                try
+                {
+                    return int.Parse(RegistryUtils.GetValue(ProfileRegistryString + "LastUsedAccount", -1));
+                }
+                catch
+                {
+                    return -1;
+                }
             }
-
             set
             {
                 try
                 {
-                    RegistryKey key = RegistryUtils.GetWritableKey(ProfileRegistryString);
-                    if (key != null) key.SetValue("LastUsedAccount", value);
+                    RegistryUtils.SetValue(ProfileRegistryString, "LastUsedAccount", value.ToString());
                 }
                 catch { }
             }
