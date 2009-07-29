@@ -15,6 +15,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+using System;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Diagnostics;
@@ -118,6 +119,32 @@ namespace WikiFunctions
             if (Request == null) return;
             Request.Wait();
             Request = null;
+        }
+
+        //TODO: find some use/reimpliment for this. Maybe merge with Updater.cs? (we need to check version enabling)
+        /// <summary>
+        /// Checks if the current version of AWB is enabled
+        /// </summary>
+        public static WikiStatusResult CheckEnabled()
+        {
+            try
+            {
+                string strText = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
+
+                if (string.IsNullOrEmpty(strText))
+                {
+                    Tools.WriteDebug("Updater", "Empty version checkpage");
+                    return WikiStatusResult.Error;
+                }
+
+                return !strText.Contains(""/*Variables.AWBVersion*/ + " enabled") ? WikiStatusResult.OldVersion : WikiStatusResult.Null;
+            }
+            catch (Exception ex)
+            {
+                Tools.WriteDebug("Updater", ex.Message);
+                Tools.WriteDebug("Updater", ex.StackTrace);
+                return WikiStatusResult.Error;
+            }
         }
     }
 }
