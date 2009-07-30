@@ -42,13 +42,13 @@ class Xml {
 	 * Return null if no attributes given.
 	 * @param $attribs Array of attributes for an XML element
 	 */
-	public static function expandAttributes( $attribs ) {
+	private static function expandAttributes( $attribs ) {
 		$out = '';
 		if( is_null( $attribs ) ) {
 			return null;
 		} elseif( is_array( $attribs ) ) {
 			foreach( $attribs as $name => $val )
-				$out .= " {$name}=\"" . Sanitizer::encodeAttribute( $val ) . '"';
+				$out .= " {$name}=\"" . self::encodeAttribute( $val ) . '"';
 			return $out;
 		} else {
 			throw new MWException( 'Expected attribute array, got something else in ' . __METHOD__ );
@@ -106,141 +106,6 @@ class Xml {
 	 */
 	public static function tags( $element, $attribs = null, $contents ) {
 		return self::openElement( $element, $attribs ) . $contents . "</$element>";
-	}
-
-	/**
-	 * Build a drop-down box for selecting a namespace
-	 *
-	 * @param $selected Mixed: Namespace which should be pre-selected
-	 * @param $all Mixed: Value of an item denoting all namespaces, or null to omit
-	 * @param $element_name String: value of the "name" attribute of the select tag
-	 * @param $label String: optional label to add to the field
-	 * @return string
-	 */
-	public static function namespaceSelector( $selected = '', $all = null, $element_name = 'namespace', $label = null ) {
-		global $wgContLang;
-		$namespaces = $wgContLang->getFormattedNamespaces();
-		$options = array();
-
-		// Godawful hack... we'll be frequently passed selected namespaces
-		// as strings since PHP is such a shithole.
-		// But we also don't want blanks and nulls and "all"s matching 0,
-		// so let's convert *just* string ints to clean ints.
-		if( preg_match( '/^\d+$/', $selected ) ) {
-			$selected = intval( $selected );
-		}
-
-		if( !is_null( $all ) )
-			$namespaces = array( $all => wfMsg( 'namespacesall' ) ) + $namespaces;
-		foreach( $namespaces as $index => $name ) {
-			if( $index < NS_MAIN )
-				continue;
-			if( $index === 0 )
-				$name = wfMsg( 'blanknamespace' );
-			$options[] = self::option( $name, $index, $index === $selected );
-		}
-
-		$ret = Xml::openElement( 'select', array( 'id' => 'namespace', 'name' => $element_name,
-			'class' => 'namespaceselector' ) )
-			. "\n"
-			. implode( "\n", $options )
-			. "\n"
-			. Xml::closeElement( 'select' );
-		if ( !is_null( $label ) ) {
-			$ret = Xml::label( $label, $element_name ) . '&nbsp;' . $ret;
-		}
-		return $ret;
-	}
-
-	/**
-	 * Create a date selector
-	 *
-	 * @param $selected Mixed: the month which should be selected, default ''
-	 * @param $allmonths String: value of a special item denoting all month. Null to not include (default)
-	 * @param $id String: Element identifier
-	 * @return String: Html string containing the month selector
-	 */
-	public static function monthSelector( $selected = '', $allmonths = null, $id = 'month' ) {
-		global $wgLang;
-		$options = array();
-	    if( is_null( $selected ) )
-			$selected = '';
-	    if( !is_null( $allmonths ) )
-			$options[] = self::option( wfMsg( 'monthsall' ), $allmonths, $selected === $allmonths );
-		for( $i = 1; $i < 13; $i++ )
-				$options[] = self::option( $wgLang->getMonthName( $i ), $i, $selected === $i );
-		return self::openElement( 'select', array( 'id' => $id, 'name' => 'month', 'class' => 'mw-month-selector' ) )
-			. implode( "\n", $options )
-			. self::closeElement( 'select' );
-	}
-	
-	/**
-	 * @param $year Integer
-	 * @param $month Integer
-	 * @return string Formatted HTML
-	 */
-	public static function dateMenu( $year, $month ) {
-		# Offset overrides year/month selection
-		if( $month && $month !== -1 ) {
-			$encMonth = intval( $month );
-		} else {
-			$encMonth = '';
-		}
-		if( $year ) {
-			$encYear = intval( $year );
-		} else if( $encMonth ) {
-			$thisMonth = intval( gmdate( 'n' ) );
-			$thisYear = intval( gmdate( 'Y' ) );
-			if( intval($encMonth) > $thisMonth ) {
-				$thisYear--;
-			}
-			$encYear = $thisYear;
-		} else {
-			$encYear = '';
-		}
-		return Xml::label( wfMsg( 'year' ), 'year' ) . ' '.
-			Xml::input( 'year', 4, $encYear, array('id' => 'year', 'maxlength' => 4) ) . ' '.
-			Xml::label( wfMsg( 'month' ), 'month' ) . ' '.
-			Xml::monthSelector( $encMonth, -1 );
-	}
-
-	/**
-	 *
-	 * @param $selected The language code of the selected language
-	 * @param $customisedOnly If true only languages which have some content are listed
-	 * @return array of label and select
-	 */
-	public static function languageSelector( $selected, $customisedOnly = true ) {
-		global $wgContLanguageCode;
-		/**
-		 * Make sure the site language is in the list; a custom language code
-		 * might not have a defined name...
-		 */
-		$languages = Language::getLanguageNames( $customisedOnly );
-		if( !array_key_exists( $wgContLanguageCode, $languages ) ) {
-			$languages[$wgContLanguageCode] = $wgContLanguageCode;
-		}
-		ksort( $languages );
-
-		/**
-		 * If a bogus value is set, default to the content language.
-		 * Otherwise, no default is selected and the user ends up
-		 * with an Afrikaans interface since it's first in the list.
-		 */
-		$selected = isset( $languages[$selected] ) ? $selected : $wgContLanguageCode;
-		$options = "\n";
-		foreach( $languages as $code => $name ) {
-			$options .= Xml::option( "$code - $name", $code, ($code == $selected) ) . "\n";
-		}
-
-		return array(
-			Xml::label( wfMsg('yourlanguage'), 'wpUserLanguage' ),
-			Xml::tags( 'select',
-				array( 'id' => 'wpUserLanguage', 'name' => 'wpUserLanguage' ),
-				$options
-			)
-		);
-
 	}
 
 	/**
@@ -672,65 +537,46 @@ class Xml {
 	
 		foreach( $fields as $labelmsg => $input ) {
 			$id = "mw-$labelmsg";
+			
 			$form .= Xml::openElement( 'tr', array( 'id' => $id ) );
 			$form .= Xml::tags( 'td', array('class' => 'mw-label'), wfMsgExt( $labelmsg, array('parseinline') ) );
-			$form .= Xml::openElement( 'td', array( 'class' => 'mw-input' ) ) . $input . Xml::closeElement( 'td' );
-			$form .= Xml::closeElement( 'tr' );
-		}
-
-		if( $submitLabel ) {
-			$form .= Xml::openElement( 'tr' );
-			$form .= Xml::tags( 'td', array(), '' );
-			$form .= Xml::openElement( 'td', array( 'class' => 'mw-submit' ) ) . Xml::submitButton( wfMsg( $submitLabel ) ) . Xml::closeElement( 'td' );
+			$form .= Xml::openElement( 'td' ) . $input . Xml::closeElement( 'td' );
 			$form .= Xml::closeElement( 'tr' );
 		}
 	
 		$form .= "</tbody></table>";
-
+		
+		if ($submitLabel) {	
+			$form .= Xml::submitButton( wfMsg($submitLabel) );
+		}
 	
 		return $form;
 	}
 	
-	/**
-	 * Build a table of data
-	 * @param $rows An array of arrays of strings, each to be a row in a table
-	 * @param $attribs An array of attributes to apply to the table tag [optional]
-	 * @param $headers An array of strings to use as table headers [optional]
-	 * @return string
-	 */
-	public static function buildTable( $rows, $attribs = array(), $headers = null ) {
-		$s = Xml::openElement( 'table', $attribs );
-		if ( is_array( $headers ) ) {
-			foreach( $headers as $id => $header ) {
-				$attribs = array();
-				if ( is_string( $id ) ) $attribs['id'] = $id;
-				$s .= Xml::element( 'th', $attribs, $header );
-			}
-		}
-		foreach( $rows as $id => $row ) {
-			$attribs = array();
-			if ( is_string( $id ) ) $attribs['id'] = $id;
-			$s .= Xml::buildTableRow( $attribs, $row );
-		}
-		$s .= Xml::closeElement( 'table' );
-		return $s;
+	public static function XmlHeader() {
+		return '<?xml version="1.0" encoding="utf-8"?>';
 	}
 	
 	/**
-	 * Build a row for a table
-	 * @param $cells An array of strings to put in <td>
-	 * @return string
+	 * Encode an attribute value for HTML output.
+	 * @param $text
+	 * @return HTML-encoded text fragment
 	 */
-	public static function buildTableRow( $attribs, $cells ) {
-		$s = Xml::openElement( 'tr', $attribs );
-		foreach( $cells as $id => $cell ) {
-			$attribs = array();
-			if ( is_string( $id ) ) $attribs['id'] = $id;
-			$s .= Xml::element( 'td', $attribs, $cell );
-		}
-		$s .= Xml::closeElement( 'tr' );
-		return $s;
+	static function encodeAttribute( $text ) {
+		$encValue = htmlspecialchars( $text, ENT_QUOTES );
+
+		// Whitespace is normalized during attribute decoding,
+		// so if we've been passed non-spaces we must encode them
+		// ahead of time or they won't be preserved.
+		$encValue = strtr( $encValue, array(
+			"\n" => '&#10;',
+			"\r" => '&#13;',
+			"\t" => '&#9;',
+		) );
+
+		return $encValue;
 	}
+
 }
 
 class XmlSelect {
@@ -752,42 +598,9 @@ class XmlSelect {
 		$this->attributes[$name] = $value;
 	}
 
-	public function getAttribute( $name ) {
-		if ( isset($this->attributes[$name]) ) {
-			return $this->attributes[$name];
-		} else {
-			return null;
-		}
-	}
-
 	public function addOption( $name, $value = false ) {
-		// Stab stab stab
-		$value = ($value !== false) ? $value : $name;
+		$value = $value ? $value : $name;
 		$this->options[] = Xml::option( $name, $value, $value === $this->default );
-	}
-	
-	// This accepts an array of form
-	// label => value
-	// label => ( label => value, label => value )
-	public function addOptions( $options ) {
-		$this->options[] = trim(self::formatOptions( $options, $this->default ));
-	}
-
-	// This accepts an array of form
-	// label => value
-	// label => ( label => value, label => value )	
-	static function formatOptions( $options, $default = false ) {
-		$data = '';
-		foreach( $options as $label => $value ) {
-			if ( is_array( $value ) ) {
-				$contents = self::formatOptions( $value, $default );
-				$data .= Xml::tags( 'optgroup', array( 'label' => $label ), $contents ) . "\n";
-			} else {
-				$data .= Xml::option( $label, $value, $value === $default ) . "\n";
-			}
-		}
-		
-		return $data;
 	}
 
 	public function getHTML() {

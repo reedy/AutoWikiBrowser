@@ -86,7 +86,7 @@
 					    $result=mysql_query($query) or ReturnError('Error: '.mysql_error()  /*. '\nQuery: ' . $query*/, 'query');
 					}
 				}
-				echo xmlHeader() . Xml::element('operation', array('status' => 'success'), 'Articles marked as processed');
+				echo Xml::XmlHeader() . Xml::element('operation', array('status' => 'success'), 'Articles marked as processed');
 			}
 			else
 			{
@@ -105,9 +105,9 @@
 
 			$query = 'SELECT articleid, title FROM articles, site WHERE (site.siteid = articles.siteid) AND (site.address = "' . $wiki . '") AND (checkedout < DATE_SUB(NOW(), INTERVAL 3 HOUR)) AND (userid = 0) LIMIT 100';
 			
-			$result = mysql_query($query) or ReturnError('Error: '.mysql_error(), 'query');
+			$result=mysql_query($query) or ReturnError('Error: '.mysql_error(), 'query');
 			
-			$xml_output  = xmlHeader() . "\n";
+			$xml_output  = Xml::XmlHeader() . "\n";
 			
 			$xml_output .= Xml::element('site', array('siteid' => $siteid, 'address' => $wiki));
 
@@ -289,7 +289,7 @@
 		if ($error)
 			$attribs['error'] = $error;
 
-		echo xmlHeader() . Xml::element('operation', $attribs,  $message);
+		echo Xml::XmlHeader() . Xml::element('operation', $attribs,  $message);
 		die;
 	}
 	
