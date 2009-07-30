@@ -78,3 +78,8 @@
 			return GetOrAdd($data, $selectcol, $wherecol, $table);
 		}
 	}
+	
+	function xmlHeader()
+	{
+		return "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
+	}
