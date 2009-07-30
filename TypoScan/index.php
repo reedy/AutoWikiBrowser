@@ -36,7 +36,7 @@
 	require_once('typo-db.php');
 	
 	$query = "SET NAMES 'utf8'";
-	$result=mysql_query($query) or die ('Error: ' . htmlspecialchars(mysql_error()) . '\nQuery: ' . $query);
+	$result = mysql_query($query) or die ('Error: ' . htmlspecialchars(mysql_error()) . '\nQuery: ' . $query);
 	
 	if (!isset($_GET['action'])) $_GET['action'] = '';
 	
@@ -64,7 +64,7 @@
 				if (!$articlesempty && preg_match("/^\d+(,\s*\d+)*$/", $articlesempty))
 				{
 					$query = 'UPDATE articles SET finished = 1, checkedin = NOW(), userid = "' . $userid . '" WHERE articleid IN (' . $articles . ')';
-					$result=mysql_query($query) or ReturnError('Error: '.mysql_error()  /*. '\nQuery: ' . $query*/, 'query');
+					$result = mysql_query($query) or ReturnError('Error: '.mysql_error()  /*. '\nQuery: ' . $query*/, 'query');
 				}
 				
 				if (!$skippedempty)
@@ -83,7 +83,7 @@
 						if (!is_int($skippedarticles[$i])) continue;
 						$query = 'UPDATE articles SET skipid = "' . GetOrAddIgnoreReason($skippedreason[$i]) . '", checkedin = NOW(), userid = "' . $userid . '" WHERE (articleid = "' . $skippedarticles[$i] . '")';
 						//echo $query;
-					    $result=mysql_query($query) or ReturnError('Error: '.mysql_error()  /*. '\nQuery: ' . $query*/, 'query');
+					    $result = mysql_query($query) or ReturnError('Error: '.mysql_error()  /*. '\nQuery: ' . $query*/, 'query');
 					}
 				}
 				echo Xml::XmlHeader() . Xml::element('operation', array('status' => 'success'), 'Articles marked as processed');
@@ -105,7 +105,7 @@
 
 			$query = 'SELECT articleid, title FROM articles, site WHERE (site.siteid = articles.siteid) AND (site.address = "' . $wiki . '") AND (checkedout < DATE_SUB(NOW(), INTERVAL 3 HOUR)) AND (userid = 0) LIMIT 100';
 			
-			$result=mysql_query($query) or ReturnError('Error: '.mysql_error(), 'query');
+			$result = mysql_query($query) or ReturnError('Error: '.mysql_error(), 'query');
 			
 			$xml_output  = Xml::XmlHeader() . "\n";
 			
@@ -124,8 +124,11 @@
 			$xml_output .= Xml::closeElement('articles');
 			$xml_output .= Xml::closeElement('typoscan');
 			
-			$query = 'UPDATE articles SET checkedout = NOW() WHERE articleid IN (' . implode(",", $array) . ')';
-			$result=mysql_query($query) or ReturnError('Error: '.mysql_error(), 'query');
+			if (mysql_num_rows($result) > 0)
+			{
+				$query = 'UPDATE articles SET checkedout = NOW() WHERE articleid IN (' . implode(",", $array) . ')';
+				$result = mysql_query($query) or ReturnError('Error: '.mysql_error(), 'query');
+			}
 			
 			echo $xml_output; 
 			break;
@@ -143,19 +146,19 @@
 		<caption>Overview</caption>';
 			//Number of articles in Database
 			$query = "SELECT COUNT(articleid) AS noarticles FROM articles";
-			$result=mysql_fetch_array(mysql_query($query));
+			$result = mysql_fetch_array(mysql_query($query));
 			$totalArticles = $result['noarticles'];
 			PrintTableRow("Number of Articles", FormatNumber($totalArticles));
 			
 			//Number of finished articles
 			$query = "SELECT COUNT(articleid) AS nofinished FROM articles WHERE (finished = 1)";
-			$result=mysql_fetch_array(mysql_query($query));
+			$result = mysql_fetch_array(mysql_query($query));
 			$finishedArticles = $result['nofinished'];
 			PrintTableRow("Number of Finished Articles", FormatNumber($finishedArticles));
 			
 			//Number of ignored articles
 			$query = "SELECT COUNT(articleid) as noignored FROM articles WHERE (skipid > 0)";
-			$result=mysql_fetch_array(mysql_query($query));
+			$result = mysql_fetch_array(mysql_query($query));
 			$ignoredArticles = $result['noignored'];
 			PrintTableRow("Number of Ignored Articles", FormatNumber($ignoredArticles));
 			
@@ -171,27 +174,27 @@
 			
 			//Number of currently checked out articles
 			$query = "SELECT COUNT(articleid) AS nocheckedout FROM articles WHERE (checkedout >= DATE_SUB(NOW(), INTERVAL 3 HOUR)) AND (userid = 0)";
-			$result=mysql_fetch_array(mysql_query($query));
+			$result = mysql_fetch_array(mysql_query($query));
 			PrintTableRow("Number of Currently Checked Out Articles", FormatNumber($result['nocheckedout']));
 			
 			//Number of never checked out articles
 			$query = "SELECT COUNT(articleid) AS nonevercheckedout FROM articles WHERE (checkedout = '0000-00-00 00:00:00')";
-			$result=mysql_fetch_array(mysql_query($query));
+			$result = mysql_fetch_array(mysql_query($query));
 			PrintTableRow("Number of Never Checked Out Articles", FormatNumber($result['nonevercheckedout']));
 			
 			//Number of ever checked out articles
 			$query = "SELECT COUNT(articleid) AS noevercheckedout FROM articles WHERE (checkedout > '0000-00-00 00:00:00')";
-			$result=mysql_fetch_array(mysql_query($query));
+			$result = mysql_fetch_array(mysql_query($query));
 			PrintTableRow("Number of Ever Checked Out Articles", FormatNumber($result['noevercheckedout']));
 				
 			//Number of users
 			$query = "SELECT COUNT(userid) AS nousers FROM users";
-			$result=mysql_fetch_array(mysql_query($query));
+			$result = mysql_fetch_array(mysql_query($query));
 			PrintTableRow("Number of Users", FormatNumber($result['nousers']));
 			
 			//Number of sites
 			$query = "SELECT COUNT(siteid) AS nosites FROM site";
-			$result=mysql_fetch_array(mysql_query($query));
+			$result = mysql_fetch_array(mysql_query($query));
 			PrintTableRow("Number of Sites", FormatNumber($result['nosites']));
 
 			echo '</table>
@@ -212,7 +215,7 @@
 	</tr>
 </thead>';
 	
-			$result=mysql_query($query);
+			$result = mysql_query($query);
 			
 			while($row = mysql_fetch_assoc($result))
 			{
@@ -236,7 +239,7 @@
 	</tr>
 </thead>';
 	
-			$result=mysql_query($query);
+			$result = mysql_query($query);
 			
 			while($row = mysql_fetch_assoc($result))
 			{
@@ -258,7 +261,7 @@
 	</tr>
 </thead>';
 
-			$result=mysql_query($query);
+			$result = mysql_query($query);
 			
 			while($row = mysql_fetch_assoc($result))
 			{
