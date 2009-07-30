@@ -95,14 +95,14 @@
 		break;
 		
 		case 'displayarticles':
-			header("Content-type: text/xml; charset=utf-8"); 
-		
 			$wiki = @$_GET['wiki'];
 			if (empty($wiki)) ReturnError('No project defined', 'project');
-			
+		
+			header("Content-type: text/xml; charset=utf-8"); 
+					
 			$siteid = GetOrAddSite($wiki);
 
-			$query = 'SELECT articleid, title FROM articles, site WHERE (site.siteid = articles.articleid) AND (site.address = "' . $wiki . '") AND (checkedout < DATE_SUB(NOW(), INTERVAL 3 HOUR)) AND (userid = 0) LIMIT 100';
+			$query = 'SELECT articleid, title FROM articles, site WHERE (site.siteid = articles.siteid) AND (site.address = "' . $wiki . '") AND (checkedout < DATE_SUB(NOW(), INTERVAL 3 HOUR)) AND (userid = 0) LIMIT 100';
 			
 			$result=mysql_query($query) or die ('Error: '.mysql_error());
 			
