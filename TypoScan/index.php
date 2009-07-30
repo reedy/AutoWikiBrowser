@@ -210,7 +210,7 @@
 		<th scope="col" class="sortable">Site</th>
 		<th scope="col" class="sortable">Number of Saved Articles</th>
 		<th scope="col" class="sortable">Number of Skipped Articles</th>
-		<th scope="col" class="sortable">Number of Checked-Out Articles</th>
+		<th scope="col" class="sortable">Number of Currently Checked-Out Articles</th>
 		<th scope="col" class="sortable">Number of Untouched Articles</th>
 		<th scope="col" class="sortable">Total Number of Articles</th>
 	</tr>
@@ -220,7 +220,14 @@
 			
 			while($row = mysql_fetch_assoc($result))
 			{
-				echo '<tr><td>'. htmlspecialchars($row['address']) . '</td><td>' . FormatNumber($row['edits']) . '</td><td>' . FormatNumber($row['skips']) . '</td><td>' . FormatNumber($row['checkedout']) . '</td><td>' . FormatNumber($row['untouched']) . '</td><td>' . FormatNumber($row['total']) . '</td></tr>';
+				echo '<tr>
+					<td>'. htmlspecialchars($row['address']) . '</td>
+					<td>' . FormatNumber($row['edits']) . '</td>
+					<td>' . FormatNumber($row['skips']) . '</td>
+					<td>' . FormatNumber($row['checkedout']) . '</td>
+					<td>' . FormatNumber($row['untouched']) . '</td>
+					<td>' . FormatNumber($row['total']) . '</td>
+				</tr>';
 			}
 			
 			echo '</table>
@@ -244,7 +251,12 @@
 			
 			while($row = mysql_fetch_assoc($result))
 			{
-				echo '<tr><td>'. htmlspecialchars($row['username']) . '</td><td>' . FormatNumber($row['edits']) . '</td><td>' . FormatNumber($row['skips']) . '</td><td>' . FormatNumber($row['total']) . '</td></tr>';
+				echo '<tr>
+					<td>'. htmlspecialchars($row['username']) . '</td>
+					<td>' . FormatNumber($row['edits']) . '</td>
+					<td>' . FormatNumber($row['skips']) . '</td>
+					<td>' . FormatNumber($row['total']) . '</td>
+				</tr>';
 			}
 			
 			echo '</table>
