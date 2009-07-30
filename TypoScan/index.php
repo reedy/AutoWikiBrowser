@@ -102,7 +102,7 @@
 			
 			$siteid = GetOrAddSite($wiki);
 
-			$query = 'SELECT articleid, title FROM articles, site WHERE (site.siteid = articles.articleid) AND (side.address = "' . $wiki . '") AND (checkedout < DATE_SUB(NOW(), INTERVAL 3 HOUR)) AND (userid = 0) LIMIT 100';
+			$query = 'SELECT articleid, title FROM articles, site WHERE (site.siteid = articles.articleid) AND (site.address = "' . $wiki . '") AND (checkedout < DATE_SUB(NOW(), INTERVAL 3 HOUR)) AND (userid = 0) LIMIT 100';
 			
 			$result=mysql_query($query) or die ('Error: '.mysql_error());
 			
