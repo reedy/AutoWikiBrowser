@@ -109,6 +109,7 @@
 			
 			$xml_output  = Xml::XmlHeader() . "\n";
 			
+			$xml_output .= Xml::openElement('typoscan');
 			$xml_output .= Xml::element('site', array('siteid' => $siteid, 'address' => $wiki));
 
 			$array = array();
@@ -121,6 +122,7 @@
 				$xml_output .= "\t" . Xml::element('article', array('id' => $row['articleid']), $therow);
 			}
 			$xml_output .= Xml::closeElement('articles');
+			$xml_output .= Xml::closeElement('typoscan');
 			
 			$query = 'UPDATE articles SET checkedout = NOW() WHERE articleid IN (' . implode(",", $array) . ')';
 			$result=mysql_query($query) or ReturnError('Error: '.mysql_error(), 'query');
