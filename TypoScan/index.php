@@ -220,7 +220,7 @@
 			<p/>';
 			
 			//Number of finished/ignored by user (User stats)
-			$query = "SELECT SUM(finished) AS edits, SUM(skipid > 0) AS skips, username FROM articles a, users u WHERE (a.userid = u.userid) AND (a.userid > 0) GROUP BY a.userid ORDER BY edits DESC, skips DESC";
+			$query = "SELECT SUM(finished) AS edits, SUM(skipid > 0) AS skips, COUNT(u.userid) AS total, username FROM articles a, users u WHERE (a.userid = u.userid) AND (a.userid > 0) GROUP BY a.userid ORDER BY edits DESC, skips DESC";
 		
 			echo '<table class="sortable">
 	<caption>User Stats</caption>
@@ -229,6 +229,7 @@
 		<th scope="col" class="sortable">User</th>
 		<th scope="col" class="sortable">Number of Saved Articles</th>
 		<th scope="col" class="sortable">Number of Skipped Articles</th>
+		<th scope="col" class="sortable">Total Number of Articles</th>
 	</tr>
 </thead>';
 	
@@ -236,7 +237,7 @@
 			
 			while($row = mysql_fetch_assoc($result))
 			{
-				echo '<tr><td>'. htmlspecialchars($row['username']) . '</td><td>' . FormatNumber($row['edits']) . '</td><td>' . FormatNumber($row['skips']) . '</td></tr>';
+				echo '<tr><td>'. htmlspecialchars($row['username']) . '</td><td>' . FormatNumber($row['edits']) . '</td><td>' . FormatNumber($row['skips']) . '</td><td>' . FormatNumber($row['total']) . '</td></tr>';
 			}
 			
 			echo '</table>
