@@ -43,9 +43,21 @@
             // 
             this.lvAccounts.Size = new System.Drawing.Size(496, 117);
             // 
+            // colAccountName
+            // 
+            this.colAccountName.Width = 63;
+            // 
+            // colPasswordSaved
+            // 
+            this.colPasswordSaved.Width = 99;
+            // 
+            // colProfileSettings
+            // 
+            this.colProfileSettings.Width = 88;
+            // 
             // colNotes
             // 
-            this.colNotes.Width = 133;
+            this.colNotes.Width = 118;
             // 
             // btnAdd
             // 
@@ -55,10 +67,18 @@
             // 
             this.btnDelete.Location = new System.Drawing.Point(255, 137);
             // 
+            // colID
+            // 
+            this.colID.Width = 26;
+            // 
             // btnClose
             // 
             this.btnClose.Location = new System.Drawing.Point(433, 270);
             this.btnClose.TabIndex = 6;
+            // 
+            // colUsedForUpload
+            // 
+            this.colUsedForUpload.Width = 98;
             // 
             // btnLogin
             // 
@@ -90,6 +110,7 @@
             // chkSavePassword
             // 
             this.chkSavePassword.AutoSize = true;
+            this.chkSavePassword.Enabled = false;
             this.chkSavePassword.Location = new System.Drawing.Point(177, 65);
             this.chkSavePassword.Name = "chkSavePassword";
             this.chkSavePassword.Size = new System.Drawing.Size(99, 17);
@@ -106,6 +127,7 @@
             this.chkSaveProfile.TabIndex = 5;
             this.chkSaveProfile.Text = "&Save this account";
             this.chkSaveProfile.UseVisualStyleBackColor = true;
+            this.chkSaveProfile.CheckedChanged += new System.EventHandler(this.chkSaveProfile_CheckedChanged);
             // 
             // btnQuickLogin
             // 

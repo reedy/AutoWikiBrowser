@@ -36,7 +36,7 @@ namespace WikiFunctions.Profiles
             loginAsThisAccountToolStripMenuItem.Click += lvAccounts_DoubleClick;
             btnLogin.Visible = true;
             TheSession = session;
-            UsernameOrPasswordChanged(this, new EventArgs());
+            UsernameOrPasswordChanged(this, null);
         }
 
         private void PerformLogin(string password)
@@ -174,6 +174,11 @@ namespace WikiFunctions.Profiles
             }
 
             PerformLogin(user, password);
+        }
+
+        private void chkSaveProfile_CheckedChanged(object sender, EventArgs e)
+        {
+            chkSavePassword.Enabled = chkSaveProfile.Checked;
         }
     }
 }
