@@ -64,7 +64,7 @@
 				if (!$articlesempty && preg_match("/^\d+(,\s*\d+)*$/", $articlesempty))
 				{
 					$query = 'UPDATE articles SET finished = 1, checkedin = NOW(), userid = "' . $userid . '" WHERE articleid IN (' . $articles . ')';
-					$result=mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);
+					$result=mysql_query($query) or ReturnError('Error: '.mysql_error()  /*. '\nQuery: ' . $query*/, 'query');
 				}
 				
 				if (!$skippedempty)
@@ -83,7 +83,7 @@
 						if (!is_int($skippedarticles[$i])) continue;
 						$query = 'UPDATE articles SET skipid = "' . GetOrAddIgnoreReason($skippedreason[$i]) . '", checkedin = NOW(), userid = "' . $userid . '" WHERE (articleid = "' . $skippedarticles[$i] . '")';
 						//echo $query;
-					    $result=mysql_query($query) or die ('Error: '.mysql_error() . '\nQuery: ' . $query);
+					    $result=mysql_query($query) or ReturnError('Error: '.mysql_error()  /*. '\nQuery: ' . $query*/, 'query');
 					}
 				}
 				echo Xml::XmlHeader() . Xml::element('operation', array('status' => 'success'), 'Articles marked as processed');
@@ -95,16 +95,17 @@
 		break;
 		
 		case 'displayarticles':
+			header("Content-type: text/xml; charset=utf-8");
+			
 			$wiki = @$_GET['wiki'];
-			if (empty($wiki)) ReturnError('No project defined', 'project');
-		
-			header("Content-type: text/xml; charset=utf-8"); 
+			if (empty($wiki))
+				ReturnError('No project defined', 'project');
 					
 			$siteid = GetOrAddSite($wiki);
 
 			$query = 'SELECT articleid, title FROM articles, site WHERE (site.siteid = articles.siteid) AND (site.address = "' . $wiki . '") AND (checkedout < DATE_SUB(NOW(), INTERVAL 3 HOUR)) AND (userid = 0) LIMIT 100';
 			
-			$result=mysql_query($query) or die ('Error: '.mysql_error());
+			$result=mysql_query($query) or ReturnError('Error: '.mysql_error(), 'query');
 			
 			$xml_output  = Xml::XmlHeader() . "\n";
 			
@@ -122,7 +123,7 @@
 			$xml_output .= Xml::closeElement('articles');
 			
 			$query = 'UPDATE articles SET checkedout = NOW() WHERE articleid IN (' . implode(",", $array) . ')';
-			$result=mysql_query($query) or die ('Error: '.mysql_error());
+			$result=mysql_query($query) or ReturnError('Error: '.mysql_error(), 'query');
 			
 			echo $xml_output; 
 			break;
