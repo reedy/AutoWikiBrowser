@@ -59,6 +59,12 @@
     <Compile Include="Article.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\NamespacesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\NamespacesControl.Designer.cs">
+      <DependentUpon>NamespacesControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Session.cs" />
     <Compile Include="Controls\Lists\ProtectionLevel.cs">
       <SubType>Form</SubType>
@@ -68,12 +74,6 @@
     </Compile>
     <Compile Include="Logging\Uploader\UploaderExtras.cs" />
     <Compile Include="Namespace.cs" />
-    <Compile Include="Controls\NamespacesControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\NamespacesControl.Designer.cs">
-      <DependentUpon>NamespacesControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Logging\AWBLogListener.cs" />
     <Compile Include="Parse\SiteMatrix.cs" />
     <Compile Include="Plugin\ExtraInterfaces.cs" />

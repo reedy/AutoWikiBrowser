@@ -1,7 +1,22 @@
-﻿using System;
+﻿/*
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
+
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace WikiFunctions.Controls
@@ -11,83 +26,71 @@ namespace WikiFunctions.Controls
         public NamespacesControl()
         {
             InitializeComponent();
-
-            UpdateText();
+            Populate();
         }
 
         private void chkContents_CheckedChanged(object sender, EventArgs e)
         {
-            foreach (CheckBox chk in flwContent.Controls)
+            checkedLBContent.BeginUpdate();
+
+            for (int i = 0; i < checkedLBContent.Items.Count; i++)
             {
-                chk.Checked = chkContents.Checked;
+                checkedLBContent.SetItemChecked(i, chkContents.Checked);
             }
+
+            checkedLBContent.EndUpdate();
         }
 
         private void chkTalk_CheckedChanged(object sender, EventArgs e)
         {
-            foreach (CheckBox chk in flwTalk.Controls)
+            checkedLBTalk.BeginUpdate();
+
+            for (int i = 0; i < checkedLBTalk.Items.Count; i++)
             {
-                chk.Checked = chkTalk.Checked;
+                checkedLBTalk.SetItemChecked(i, chkTalk.Checked);
             }
+
+            checkedLBTalk.EndUpdate();
         }
 
-        public void UpdateText()
+        public void Populate()
         {
-            chkArticleTalk.Text = Variables.Namespaces[Namespace.Talk];
-            chkUser.Text = Variables.Namespaces[Namespace.User];
-            chkUserTalk.Text = Variables.Namespaces[Namespace.UserTalk];
-            chkWikipedia.Text = Variables.Namespaces[Namespace.Project];
-            chkWikipediaTalk.Text = Variables.Namespaces[Namespace.ProjectTalk];
-            chkImage.Text = Variables.Namespaces[Namespace.File];
-            chkImageTalk.Text = Variables.Namespaces[Namespace.FileTalk];
-            chkMediaWiki.Text = Variables.Namespaces[Namespace.MediaWiki];
-            chkMediaWikiTalk.Text = Variables.Namespaces[Namespace.MediaWikiTalk];
-            chkTemplate.Text = Variables.Namespaces[Namespace.Template];
-            chkTemplateTalk.Text = Variables.Namespaces[Namespace.TemplateTalk];
-            chkHelp.Text = Variables.Namespaces[Namespace.Help];
-            chkHelpTalk.Text = Variables.Namespaces[Namespace.HelpTalk];
-            chkCategory.Text = Variables.Namespaces[Namespace.Category];
-            chkCategoryTalk.Text = Variables.Namespaces[Namespace.CategoryTalk];
+            checkedLBTalk.BeginUpdate();
+            checkedLBContent.BeginUpdate();
 
-            if (Variables.Namespaces.ContainsKey(Namespace.FirstCustom))
+            foreach (KeyValuePair<int, string> kvp in Variables.Namespaces)
             {
-                chkPortal.Text = Variables.Namespaces[Namespace.FirstCustom];
-                chkPortalTalk.Text = Variables.Namespaces[Namespace.FirstCustomTalk];
-
-                chkPortal.Visible = chkPortalTalk.Visible = true;
+                if (Namespace.IsTalk(kvp.Key))
+                    checkedLBTalk.Items.Add(new NSItem(kvp));
+                else
+                    checkedLBContent.Items.Add(new NSItem(kvp));
             }
-            else
-                chkPortal.Visible = chkPortalTalk.Visible = false;
+
+            checkedLBTalk.EndUpdate();
+            checkedLBContent.EndUpdate();
         }
 
-        CheckBox Tmp;
         public void Reset()
         {
-            SetSelectedNamespaces(new List<int>(new [] {0}));
+            SetSelectedNamespaces(new List<int>(new[] { 0 }));
         }
 
         public List<int> GetSelectedNamespaces()
         {
             List<int> ret = new List<int>();
-            ret.AddRange(GetListTags(Controls));
+            ret.AddRange(GetSelectedListTags(checkedLBContent));
+            ret.AddRange(GetSelectedListTags(checkedLBTalk));
+            ret.Sort();
             return ret;
         }
 
-        private List<int> GetListTags(ControlCollection controls)
+        private List<int> GetSelectedListTags(CheckedListBox clb)
         {
             List<int> ret = new List<int>();
-            foreach (Control cntrl in controls)
+            for (int i = 0; i < clb.Items.Count; i++)
             {
-                if (cntrl is FlowLayoutPanel)
-                {
-                    ret.AddRange(GetListTags(cntrl.Controls));
-                    continue;
-                }
-
-                Tmp = (cntrl as CheckBox);
-
-                if (Tmp != null && Tmp.Checked && Tmp.Tag != null)
-                    ret.Add(int.Parse(Tmp.Tag.ToString()));
+                if (clb.GetItemChecked(i))
+                    ret.Add(((NSItem) clb.Items[i]).Key);
             }
 
             return ret;
@@ -95,71 +98,41 @@ namespace WikiFunctions.Controls
 
         public void SetSelectedNamespaces(List<int> tags)
         {
-            SetListTags(Controls, tags);
+            SetListTags(checkedLBContent, tags);
+            SetListTags(checkedLBTalk, tags);
         }
 
-        private void SetListTags(ControlCollection controls, ICollection<int> tags)
+        private void SetListTags(CheckedListBox clb, ICollection<int> tags)
         {
-            foreach (Control cntrl in controls)
+            for (int i = 0; i < clb.Items.Count; i++)
             {
-                if (cntrl is FlowLayoutPanel)
-                {
-                    SetListTags(cntrl.Controls, tags);
-                    continue;
-                }
-
-                Tmp = (cntrl as CheckBox);
-
-                if (Tmp != null && Tmp.Tag != null)
-                    Tmp.Checked = tags.Contains(int.Parse(Tmp.Tag.ToString()));
+                clb.SetItemChecked(i, tags.Contains(((NSItem) clb.Items[i]).Key));
             }
         }
+    }
 
-        private bool DoubleCol;
-        [DefaultValue(false), Category("Layout")]
-        [Browsable(true)]
-        public bool DoubleColumnFlowLayouts
+    public sealed class NSItem
+    {
+        private readonly KeyValuePair<int, string> kvp;
+
+        public NSItem(KeyValuePair<int, string> item)
         {
-            get { return DoubleCol; }
-            set
-            {
-                if (DoubleCol == value)
-                    return;
-
-                DoubleCol = value;
-
-                if (DoubleCol)
-                {
-                    flwContent.Size = new Size(flwContent.Size.Width * 2, flwContent.Size.Height);
-                    flwTalk.Size = new Size(flwTalk.Size.Width * 2, flwTalk.Size.Height);
-
-                    Size = new Size(MaximumSize.Width, MinimumSize.Height);
-                }
-                else
-                {
-                    flwContent.Size = new Size(flwContent.Size.Width / 2, flwContent.Size.Height);
-                    flwTalk.Size = new Size(flwTalk.Size.Width / 2, flwTalk.Size.Height);
-
-                    Size = new Size(MinimumSize.Height, MaximumSize.Width);
-                }
-
-                flwTalk.Location = new Point(flwContent.Location.X + flwContent.Size.Width + 6, flwTalk.Location.Y);
-                chkTalk.Location = new Point(flwTalk.Location.X, chkTalk.Location.Y);
-            }
+            kvp = item;
         }
 
-        [Browsable(false)]
-        public override Size MaximumSize
+        public int Key
         {
-            get { return base.MaximumSize; }
-            set { base.MaximumSize = value; }
+            get { return kvp.Key; }
         }
 
-        [Browsable(false)]
-        public override Size MinimumSize
+        public string Value
         {
-            get { return base.MinimumSize; }
-            set { base.MinimumSize = value; }
+            get { return kvp.Value; }
+        }
+
+        public override string ToString()
+        {
+            return kvp.Value;
         }
     }
 }

@@ -241,7 +241,7 @@ namespace WikiFunctions.Lists
 
         private void SpecialFilter_VisibleChanged(object sender, EventArgs e)
         {
-            if (Visible) pageNamespaces.UpdateText();
+            if (Visible) pageNamespaces.Populate();
         }
 
         [Browsable(false)]

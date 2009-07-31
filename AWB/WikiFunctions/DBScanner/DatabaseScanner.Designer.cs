@@ -127,7 +127,6 @@ namespace WikiFunctions.DBScanner
             this.txtDumpLocation = new System.Windows.Forms.TextBox();
             this.lblDBDump = new System.Windows.Forms.Label();
             this.tabNamespace = new System.Windows.Forms.TabPage();
-            this.pageNamespaces = new WikiFunctions.Controls.NamespacesControl();
             this.tabTitle = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.chkTitleCase = new System.Windows.Forms.CheckBox();
@@ -160,6 +159,7 @@ namespace WikiFunctions.DBScanner
             this.btnPause = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
+            this.pageNamespaces = new WikiFunctions.Controls.NamespacesControl();
             this.gbText.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLength)).BeginInit();
@@ -678,7 +678,7 @@ namespace WikiFunctions.DBScanner
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.txtStartFrom.Location = new System.Drawing.Point(342, 48);
             this.txtStartFrom.Name = "txtStartFrom";
-            this.txtStartFrom.Size = new System.Drawing.Size(161, 20);
+            this.txtStartFrom.Size = new System.Drawing.Size(0, 20);
             this.txtStartFrom.TabIndex = 3;
             this.tooltip.SetToolTip(this.txtStartFrom, "Page to start scanning from, leave blank to start at beginning");
             // 
@@ -700,13 +700,13 @@ namespace WikiFunctions.DBScanner
             this.copyToolStripMenuItem,
             this.removeToolStripMenuItem});
             this.ArticlesListBoxContextMenu.Name = "contextMenuStrip1";
-            this.ArticlesListBoxContextMenu.Size = new System.Drawing.Size(201, 98);
+            this.ArticlesListBoxContextMenu.Size = new System.Drawing.Size(202, 98);
             this.ArticlesListBoxContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // openInBrowserToolStripMenuItem
             // 
             this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
-            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.openInBrowserToolStripMenuItem.Text = "&Open in browser";
             this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
             // 
@@ -714,20 +714,20 @@ namespace WikiFunctions.DBScanner
             // 
             this.openRevisionInBowserToolStripMenuItem.Enabled = false;
             this.openRevisionInBowserToolStripMenuItem.Name = "openRevisionInBowserToolStripMenuItem";
-            this.openRevisionInBowserToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.openRevisionInBowserToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.openRevisionInBowserToolStripMenuItem.Text = "Open revision in bowser";
             this.openRevisionInBowserToolStripMenuItem.Visible = false;
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(197, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(198, 6);
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.copyToolStripMenuItem.Text = "&Copy";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
@@ -735,7 +735,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
             this.removeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.removeToolStripMenuItem.Text = "&Remove";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
@@ -799,7 +799,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.lblLimitResutls.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblLimitResutls.AutoSize = true;
-            this.lblLimitResutls.Location = new System.Drawing.Point(349, 9);
+            this.lblLimitResutls.Location = new System.Drawing.Point(18, 9);
             this.lblLimitResutls.Name = "lblLimitResutls";
             this.lblLimitResutls.Size = new System.Drawing.Size(73, 13);
             this.lblLimitResutls.TabIndex = 2;
@@ -813,7 +813,7 @@ namespace WikiFunctions.DBScanner
             0,
             0,
             0});
-            this.nudLimitResults.Location = new System.Drawing.Point(428, 6);
+            this.nudLimitResults.Location = new System.Drawing.Point(97, 6);
             this.nudLimitResults.Maximum = new decimal(new int[] {
             10000000,
             0,
@@ -909,21 +909,21 @@ namespace WikiFunctions.DBScanner
             // lblPercentageComplete
             // 
             this.lblPercentageComplete.Name = "lblPercentageComplete";
-            this.lblPercentageComplete.Size = new System.Drawing.Size(24, 17);
+            this.lblPercentageComplete.Size = new System.Drawing.Size(23, 17);
             this.lblPercentageComplete.Text = "0%";
             // 
             // lblCount
             // 
             this.lblCount.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblCount.Name = "lblCount";
-            this.lblCount.Size = new System.Drawing.Size(279, 17);
+            this.lblCount.Size = new System.Drawing.Size(263, 17);
             this.lblCount.Spring = true;
             this.lblCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(82, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(88, 17);
             this.toolStripStatusLabel1.Text = "Thread priority:";
             // 
             // threadPriorityButton
@@ -935,7 +935,7 @@ namespace WikiFunctions.DBScanner
             this.belowNormalToolStripMenuItem,
             this.lowestToolStripMenuItem});
             this.threadPriorityButton.Name = "threadPriorityButton";
-            this.threadPriorityButton.Size = new System.Drawing.Size(84, 20);
+            this.threadPriorityButton.Size = new System.Drawing.Size(95, 20);
             this.threadPriorityButton.Text = "Below Normal";
             this.threadPriorityButton.ToolTipText = "Thread Priority";
             // 
@@ -943,7 +943,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.highestToolStripMenuItem.CheckOnClick = true;
             this.highestToolStripMenuItem.Name = "highestToolStripMenuItem";
-            this.highestToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.highestToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.highestToolStripMenuItem.Text = "&High";
             this.highestToolStripMenuItem.Click += new System.EventHandler(this.highestToolStripMenuItem_Click);
             // 
@@ -951,7 +951,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.aboveNormalToolStripMenuItem.CheckOnClick = true;
             this.aboveNormalToolStripMenuItem.Name = "aboveNormalToolStripMenuItem";
-            this.aboveNormalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboveNormalToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.aboveNormalToolStripMenuItem.Text = "&Above Normal";
             this.aboveNormalToolStripMenuItem.Click += new System.EventHandler(this.aboveNormalToolStripMenuItem_Click);
             // 
@@ -959,7 +959,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.normalToolStripMenuItem.CheckOnClick = true;
             this.normalToolStripMenuItem.Name = "normalToolStripMenuItem";
-            this.normalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.normalToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.normalToolStripMenuItem.Text = "&Normal";
             this.normalToolStripMenuItem.Click += new System.EventHandler(this.normalToolStripMenuItem_Click);
             // 
@@ -969,7 +969,7 @@ namespace WikiFunctions.DBScanner
             this.belowNormalToolStripMenuItem.CheckOnClick = true;
             this.belowNormalToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.belowNormalToolStripMenuItem.Name = "belowNormalToolStripMenuItem";
-            this.belowNormalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.belowNormalToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.belowNormalToolStripMenuItem.Text = "&Below Normal";
             this.belowNormalToolStripMenuItem.Click += new System.EventHandler(this.belowNormalToolStripMenuItem_Click);
             // 
@@ -977,7 +977,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.lowestToolStripMenuItem.CheckOnClick = true;
             this.lowestToolStripMenuItem.Name = "lowestToolStripMenuItem";
-            this.lowestToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.lowestToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.lowestToolStripMenuItem.Text = "&Low";
             this.lowestToolStripMenuItem.Click += new System.EventHandler(this.lowestToolStripMenuItem_Click);
             // 
@@ -1252,16 +1252,6 @@ namespace WikiFunctions.DBScanner
             this.tabNamespace.TabIndex = 1;
             this.tabNamespace.Text = "Namespace";
             this.tabNamespace.UseVisualStyleBackColor = true;
-            // 
-            // pageNamespaces
-            // 
-            this.pageNamespaces.DoubleColumnFlowLayouts = true;
-            this.pageNamespaces.Location = new System.Drawing.Point(6, 7);
-            this.pageNamespaces.MaximumSize = new System.Drawing.Size(420, 247);
-            this.pageNamespaces.MinimumSize = new System.Drawing.Size(220, 152);
-            this.pageNamespaces.Name = "pageNamespaces";
-            this.pageNamespaces.Size = new System.Drawing.Size(420, 152);
-            this.pageNamespaces.TabIndex = 0;
             // 
             // tabTitle
             // 
@@ -1624,6 +1614,15 @@ namespace WikiFunctions.DBScanner
                 ")|*.txt";
             this.saveListDialog.Title = "Save article list";
             // 
+            // pageNamespaces
+            // 
+            this.pageNamespaces.Location = new System.Drawing.Point(6, 0);
+            this.pageNamespaces.MaximumSize = new System.Drawing.Size(221, 580);
+            this.pageNamespaces.MinimumSize = new System.Drawing.Size(221, 70);
+            this.pageNamespaces.Name = "pageNamespaces";
+            this.pageNamespaces.Size = new System.Drawing.Size(221, 156);
+            this.pageNamespaces.TabIndex = 0;
+            // 
             // DatabaseScanner
             // 
             this.AcceptButton = this.btnStart;
@@ -1805,7 +1804,6 @@ namespace WikiFunctions.DBScanner
         private WikiFunctions.Controls.EditProtectControl MoveDelete;
         private CheckBox chkProtection;
         private TabPage tabTitle;
-        private WikiFunctions.Controls.NamespacesControl pageNamespaces;
         private TableLayoutPanel tableLayoutPanel2;
         private CheckBox chkTitleCase;
         private CheckBox chkTitleContains;
@@ -1819,5 +1817,6 @@ namespace WikiFunctions.DBScanner
         private Label lblEndDate;
         private DateTimePicker dtpTo;
         private ToolStripStatusLabel lblPercentageComplete;
+        private WikiFunctions.Controls.NamespacesControl pageNamespaces;
     }
 }

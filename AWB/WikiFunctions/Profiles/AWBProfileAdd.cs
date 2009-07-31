@@ -26,7 +26,6 @@ namespace WikiFunctions.Profiles
     public partial class AWBProfileAdd : Form
     {
         private readonly int Editid;
-        private readonly bool JustLoading;
 
         public AWBProfileAdd()
         {
