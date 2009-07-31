@@ -127,6 +127,7 @@ namespace WikiFunctions.DBScanner
             this.txtDumpLocation = new System.Windows.Forms.TextBox();
             this.lblDBDump = new System.Windows.Forms.Label();
             this.tabNamespace = new System.Windows.Forms.TabPage();
+            this.pageNamespaces = new WikiFunctions.Controls.NamespacesControl();
             this.tabTitle = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.chkTitleCase = new System.Windows.Forms.CheckBox();
@@ -159,7 +160,6 @@ namespace WikiFunctions.DBScanner
             this.btnPause = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
-            this.pageNamespaces = new WikiFunctions.Controls.NamespacesControl();
             this.gbText.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLength)).BeginInit();
@@ -1253,6 +1253,15 @@ namespace WikiFunctions.DBScanner
             this.tabNamespace.Text = "Namespace";
             this.tabNamespace.UseVisualStyleBackColor = true;
             // 
+            // pageNamespaces
+            // 
+            this.pageNamespaces.Location = new System.Drawing.Point(6, 0);
+            this.pageNamespaces.MaximumSize = new System.Drawing.Size(221, 580);
+            this.pageNamespaces.MinimumSize = new System.Drawing.Size(221, 70);
+            this.pageNamespaces.Name = "pageNamespaces";
+            this.pageNamespaces.Size = new System.Drawing.Size(221, 156);
+            this.pageNamespaces.TabIndex = 0;
+            // 
             // tabTitle
             // 
             this.tabTitle.Controls.Add(this.tableLayoutPanel2);
@@ -1613,15 +1622,6 @@ namespace WikiFunctions.DBScanner
             this.saveListDialog.Filter = "Text file with wiki markup|*.txt|Plaintext list|*.txt|CSV (Comma Separated Values" +
                 ")|*.txt";
             this.saveListDialog.Title = "Save article list";
-            // 
-            // pageNamespaces
-            // 
-            this.pageNamespaces.Location = new System.Drawing.Point(6, 0);
-            this.pageNamespaces.MaximumSize = new System.Drawing.Size(221, 580);
-            this.pageNamespaces.MinimumSize = new System.Drawing.Size(221, 70);
-            this.pageNamespaces.Name = "pageNamespaces";
-            this.pageNamespaces.Size = new System.Drawing.Size(221, 156);
-            this.pageNamespaces.TabIndex = 0;
             // 
             // DatabaseScanner
             // 
