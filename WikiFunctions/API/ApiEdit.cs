@@ -856,9 +856,6 @@ namespace WikiFunctions.API
         /// <param name="action">The action performed, null if don't check</param>
         private XmlDocument CheckForErrors(string xml, string action)
         {
-            //HACK:
-            if (xml.Contains("<interwiki>")) throw new InterwikiException(this);
-
             var doc = new XmlDocument();
             doc.Load(new StringReader(xml));
 
@@ -887,6 +884,10 @@ namespace WikiFunctions.API
 
             var api = doc["api"];
             if (api == null) return doc;
+
+            if (api.GetElementsByTagName("interwiki").Count > 0)
+                throw new InterwikiException(this);
+
             var actionElement = api[action];
 
             if (actionElement == null) return doc; // or shall we explode?
