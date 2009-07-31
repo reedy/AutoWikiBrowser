@@ -58,6 +58,9 @@ namespace WikiFunctions.Controls
             checkedLBTalk.BeginUpdate();
             checkedLBContent.BeginUpdate();
 
+            checkedLBTalk.Items.Clear();
+            checkedLBContent.Items.Clear();
+
             foreach (KeyValuePair<int, string> kvp in Variables.Namespaces)
             {
                 if (Namespace.IsTalk(kvp.Key))
