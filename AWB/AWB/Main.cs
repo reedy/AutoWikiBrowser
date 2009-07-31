@@ -499,6 +499,11 @@ namespace AutoWikiBrowser
                 }
             }
 
+            else if (ex is NewMessagesException)
+            {
+                WeHaveNewMessages();
+            }
+
             else
                 StartDelayedRestartTimer();
         }
@@ -1049,12 +1054,24 @@ namespace AutoWikiBrowser
 
         private readonly TalkMessage DlgTalk = new TalkMessage();
 
+        private void WeHaveNewMessages()
+        {
+            Stop();
+            Focus();
+            TheSession.RequireUpdate();
+
+            if (DlgTalk.ShowDialog() == DialogResult.Yes)
+                Tools.OpenUserTalkInBrowser(TheSession.User.Name);
+            else
+                Process.Start("iexplore", Variables.GetUserTalkURL(TheSession.User.Name));
+        }
+
         private bool LoadSuccessApi()
         {
             try
             {
                 if (!TheSession.Editor.Page.Exists && radSkipNonExistent.Checked)
-                {//check if it is a non-existent page, if so then skip it automatically.
+                {
                     SkipPage("Non-existent page");
                     return false;
                 }
@@ -1065,17 +1082,9 @@ namespace AutoWikiBrowser
                 }
 
                 if (!preParseModeToolStripMenuItem.Checked && TheSession.User.HasMessages)
-                { //check if we have any messages
-                    NudgeTimer.Stop();
-                    TheSession.RequireUpdate();
-                    UpdateButtons(null, null);
-                    ClearBrowser();
-                    Focus();
-
-                    if (DlgTalk.ShowDialog() == DialogResult.Yes)
-                        Tools.OpenUserTalkInBrowser(TheSession.User.Name);
-                    else
-                        Process.Start("iexplore", Variables.GetUserTalkURL(TheSession.User.Name));
+                {
+                    //FIXME: currently ApiEdit always throws NewMessagesException, so this code is unreachable
+                    WeHaveNewMessages();
                     return false;
                 }
             }
@@ -2977,6 +2986,7 @@ window.scrollTo(0, diffTopY);
             FindAndReplace.ShowDialog(this);
         }
 
+        //FIXME: Doesn't always stop
         private void Stop()
         {
             Retries = 0;
@@ -3002,6 +3012,7 @@ window.scrollTo(0, diffTopY);
                 EditBoxSaveTimer.Enabled = false;
 
             StatusLabelText = "Stopped";
+            ClearBrowser();
         }
 
         private void helpToolStripMenuItem1_Click(object sender, EventArgs e)

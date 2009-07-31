@@ -63,8 +63,7 @@ namespace WikiFunctions.API
         /// <summary>
         /// Short error code
         /// </summary>
-        public string ErrorCode
-        { get; private set; }
+        public string ErrorCode{ get; private set; }
 
         /// <summary>
         /// Error message returned by API
@@ -269,6 +268,17 @@ namespace WikiFunctions.API
     {
         public InterwikiException(ApiEdit editor)
             : base(editor, "Page title contains interwiki")
+        {
+        }
+    }
+
+    /// <summary>
+    /// Thrown when current user has unread talk page messages
+    /// </summary>
+    public class NewMessagesException : ApiException
+    {
+        public NewMessagesException(ApiEdit editor)
+            : base(editor, "You have new messages")
         {
         }
     }
