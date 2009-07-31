@@ -45,8 +45,8 @@ namespace WikiFunctions.Lists
             this.flwOther = new System.Windows.Forms.FlowLayoutPanel();
             this.chkSortAZ = new System.Windows.Forms.CheckBox();
             this.chkRemoveDups = new System.Windows.Forms.CheckBox();
-            this.pageNamespaces = new WikiFunctions.Controls.NamespacesControl();
             this.lbRemove = new WikiFunctions.Controls.Lists.ListBox2();
+            this.pageNamespaces = new WikiFunctions.Controls.NamespacesControl();
             this.gbNamespaces.SuspendLayout();
             this.gbSearch.SuspendLayout();
             this.gbSets.SuspendLayout();
@@ -57,7 +57,7 @@ namespace WikiFunctions.Lists
             // btnOk
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOk.Location = new System.Drawing.Point(655, 12);
+            this.btnOk.Location = new System.Drawing.Point(647, 12);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 4;
@@ -69,7 +69,7 @@ namespace WikiFunctions.Lists
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(655, 41);
+            this.btnCancel.Location = new System.Drawing.Point(647, 41);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 5;
@@ -137,7 +137,7 @@ namespace WikiFunctions.Lists
             this.gbNamespaces.Controls.Add(this.pageNamespaces);
             this.gbNamespaces.Location = new System.Drawing.Point(12, 12);
             this.gbNamespaces.Name = "gbNamespaces";
-            this.gbNamespaces.Size = new System.Drawing.Size(242, 260);
+            this.gbNamespaces.Size = new System.Drawing.Size(229, 271);
             this.gbNamespaces.TabIndex = 0;
             this.gbNamespaces.TabStop = false;
             this.gbNamespaces.Text = "Namespaces to keep";
@@ -149,7 +149,7 @@ namespace WikiFunctions.Lists
             this.gbSearch.Controls.Add(this.chkNotContains);
             this.gbSearch.Controls.Add(this.txtContains);
             this.gbSearch.Controls.Add(this.chkContains);
-            this.gbSearch.Location = new System.Drawing.Point(260, 12);
+            this.gbSearch.Location = new System.Drawing.Point(247, 12);
             this.gbSearch.Name = "gbSearch";
             this.gbSearch.Size = new System.Drawing.Size(192, 141);
             this.gbSearch.TabIndex = 1;
@@ -165,9 +165,9 @@ namespace WikiFunctions.Lists
             this.gbSets.Controls.Add(this.btnGetList);
             this.gbSets.Controls.Add(this.lbRemove);
             this.gbSets.Controls.Add(this.cbOpType);
-            this.gbSets.Location = new System.Drawing.Point(458, 12);
+            this.gbSets.Location = new System.Drawing.Point(445, 12);
             this.gbSets.Name = "gbSets";
-            this.gbSets.Size = new System.Drawing.Size(191, 260);
+            this.gbSets.Size = new System.Drawing.Size(196, 260);
             this.gbSets.TabIndex = 3;
             this.gbSets.TabStop = false;
             this.gbSets.Text = "Set operations";
@@ -175,7 +175,7 @@ namespace WikiFunctions.Lists
             // btnClear
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.Location = new System.Drawing.Point(102, 231);
+            this.btnClear.Location = new System.Drawing.Point(107, 231);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(83, 23);
             this.btnClear.TabIndex = 3;
@@ -205,13 +205,13 @@ namespace WikiFunctions.Lists
             "Intersection"});
             this.cbOpType.Location = new System.Drawing.Point(6, 19);
             this.cbOpType.Name = "cbOpType";
-            this.cbOpType.Size = new System.Drawing.Size(179, 21);
+            this.cbOpType.Size = new System.Drawing.Size(184, 21);
             this.cbOpType.TabIndex = 0;
             // 
             // gbMisc
             // 
             this.gbMisc.Controls.Add(this.flwOther);
-            this.gbMisc.Location = new System.Drawing.Point(260, 159);
+            this.gbMisc.Location = new System.Drawing.Point(247, 159);
             this.gbMisc.Name = "gbMisc";
             this.gbMisc.Size = new System.Drawing.Size(192, 63);
             this.gbMisc.TabIndex = 2;
@@ -252,15 +252,6 @@ namespace WikiFunctions.Lists
             this.chkRemoveDups.Text = "Remove &duplicates";
             this.chkRemoveDups.UseVisualStyleBackColor = true;
             // 
-            // pageNamespaces
-            // 
-            this.pageNamespaces.Location = new System.Drawing.Point(6, 15);
-            this.pageNamespaces.MaximumSize = new System.Drawing.Size(420, 245);
-            this.pageNamespaces.MinimumSize = new System.Drawing.Size(220, 145);
-            this.pageNamespaces.Name = "pageNamespaces";
-            this.pageNamespaces.Size = new System.Drawing.Size(220, 245);
-            this.pageNamespaces.TabIndex = 0;
-            // 
             // lbRemove
             // 
             this.lbRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -269,8 +260,17 @@ namespace WikiFunctions.Lists
             this.lbRemove.FormattingEnabled = true;
             this.lbRemove.Location = new System.Drawing.Point(6, 44);
             this.lbRemove.Name = "lbRemove";
-            this.lbRemove.Size = new System.Drawing.Size(179, 186);
+            this.lbRemove.Size = new System.Drawing.Size(184, 186);
             this.lbRemove.TabIndex = 1;
+            // 
+            // pageNamespaces
+            // 
+            this.pageNamespaces.Location = new System.Drawing.Point(6, 16);
+            this.pageNamespaces.MaximumSize = new System.Drawing.Size(221, 580);
+            this.pageNamespaces.MinimumSize = new System.Drawing.Size(221, 70);
+            this.pageNamespaces.Name = "pageNamespaces";
+            this.pageNamespaces.Size = new System.Drawing.Size(221, 246);
+            this.pageNamespaces.TabIndex = 0;
             // 
             // ListFilterForm
             // 
@@ -278,7 +278,7 @@ namespace WikiFunctions.Lists
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(742, 286);
+            this.ClientSize = new System.Drawing.Size(734, 286);
             this.Controls.Add(this.gbNamespaces);
             this.Controls.Add(this.gbSearch);
             this.Controls.Add(this.gbSets);
