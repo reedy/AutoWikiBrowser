@@ -42,7 +42,6 @@ namespace WikiFunctions.Profiles
         public AWBProfileAdd(AWBProfile profile)
         {
             InitializeComponent();
-            JustLoading = true;
 
             Editid = profile.ID;
 
@@ -59,7 +58,6 @@ namespace WikiFunctions.Profiles
                 chkSavePassword.Checked = true;
 
             Text = "Edit Profile";
-            JustLoading = false;
         }
 
         private void chkSavePassword_CheckedChanged(object sender, EventArgs e)
