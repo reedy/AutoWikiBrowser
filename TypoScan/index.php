@@ -220,14 +220,15 @@
 			
 			while($row = mysql_fetch_assoc($result))
 			{
-				echo '<tr>
-					<td>'. htmlspecialchars($row['address']) . '</td>
-					<td>' . FormatNumber($row['edits']) . '</td>
-					<td>' . FormatNumber($row['skips']) . '</td>
-					<td>' . FormatNumber($row['checkedout']) . '</td>
-					<td>' . FormatNumber($row['untouched']) . '</td>
-					<td>' . FormatNumber($row['total']) . '</td>
-				</tr>';
+				echo '
+<tr>
+	<td>'. htmlspecialchars($row['address']) . '</td>
+	<td>' . FormatNumber($row['edits']) . '</td>
+	<td>' . FormatNumber($row['skips']) . '</td>
+	<td>' . FormatNumber($row['checkedout']) . '</td>
+	<td>' . FormatNumber($row['untouched']) . '</td>
+	<td>' . FormatNumber($row['total']) . '</td>
+</tr>';
 			}
 			
 			echo '</table>
@@ -251,12 +252,13 @@
 			
 			while($row = mysql_fetch_assoc($result))
 			{
-				echo '<tr>
-					<td>'. htmlspecialchars($row['username']) . '</td>
-					<td>' . FormatNumber($row['edits']) . '</td>
-					<td>' . FormatNumber($row['skips']) . '</td>
-					<td>' . FormatNumber($row['total']) . '</td>
-				</tr>';
+				echo '
+<tr>
+	<td>'. htmlspecialchars($row['username']) . '</td>
+	<td>' . FormatNumber($row['edits']) . '</td>
+	<td>' . FormatNumber($row['skips']) . '</td>
+	<td>' . FormatNumber($row['total']) . '</td>
+</tr>';
 			}
 			
 			echo '</table>
@@ -278,7 +280,11 @@
 			
 			while($row = mysql_fetch_assoc($result))
 			{
-				echo '<tr><td>'. htmlspecialchars($row['skipreason']) . '</td><td>' . FormatNumber($row['noskips']) . '</td></tr>';
+				echo '
+<tr>
+	<td>'. htmlspecialchars($row['skipreason']) . '</td>
+	<td>' . FormatNumber($row['noskips']) . '</td>
+</tr>';
 			}
 
 			echo '</table>
