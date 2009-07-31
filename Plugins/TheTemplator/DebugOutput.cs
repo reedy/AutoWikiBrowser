@@ -4,6 +4,9 @@ using System.Windows.Forms;
 
 namespace AutoWikiBrowser.Plugins.TheTemplator
 {
+    /// <summary>
+    /// Debug-assistant
+    /// </summary>
     public partial class DebugOutput : Form
     {
         public DebugOutput()
@@ -19,6 +22,11 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
             };
         }
 
+        /// <summary>
+        /// Add a section to the debug output
+        /// </summary>
+        /// <param name="heading">The heading for the section</param>
+        /// <param name="text">The body of the section</param>
         public void AddSection(string heading, string text)
         {
             textBox.SelectionFont = HeaderFonts[Math.Max(0, Math.Min(HeaderFont, HeaderFonts.GetUpperBound(0)))];
@@ -29,6 +37,10 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
             textBox.SelectionIndent -= indent;
         }
 
+        /// <summary>
+        /// Start a named section
+        /// </summary>
+        /// <param name="heading">The title of the section</param>
         public void StartSection(string heading)
         {
             textBox.SelectionFont = HeaderFonts[Math.Max(0, Math.Min(HeaderFont, HeaderFonts.GetUpperBound(0)))];
@@ -37,6 +49,9 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
             textBox.SelectionIndent += indent;
         }
 
+        /// <summary>
+        /// End a named section
+        /// </summary>
         public void EndSection()
         {
             System.Diagnostics.Debug.Assert(HeaderFont > 0);
@@ -45,6 +60,9 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
             textBox.SelectionIndent -= indent;
         }
 
+        /// <summary>
+        /// Clear the text from the debug assistant
+        /// </summary>
         public void Clear()
         {
             HeaderFont = 0;
