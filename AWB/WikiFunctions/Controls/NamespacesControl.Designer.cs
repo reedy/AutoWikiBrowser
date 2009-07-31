@@ -43,6 +43,7 @@
             this.chkContents.TabIndex = 7;
             this.chkContents.Tag = "1000";
             this.chkContents.Text = "&Content";
+            this.chkContents.CheckedChanged += new System.EventHandler(this.chkContents_CheckedChanged);
             // 
             // checkedLBContent
             // 
@@ -63,6 +64,7 @@
             this.chkTalk.TabIndex = 8;
             this.chkTalk.Tag = "1001";
             this.chkTalk.Text = "&Talk";
+            this.chkTalk.CheckedChanged += new System.EventHandler(this.chkTalk_CheckedChanged);
             // 
             // checkedLBTalk
             // 
