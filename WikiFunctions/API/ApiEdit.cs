@@ -35,7 +35,7 @@ using System.Text.RegularExpressions;
 namespace WikiFunctions.API
 {
     //TODO: refactor XML parsing
-    //TODO: check for new messages
+    //TODO: generalise edit token retrieval
     /// <summary>
     /// This class edits MediaWiki sites using api.php
     /// </summary>
@@ -212,18 +212,31 @@ namespace WikiFunctions.API
             return "";
         }
 
+        protected string AppendOptions(string url, ActionOptions options)
+        {
+            if ((options & ActionOptions.CheckMaxlag) > 0)
+                url += "&maxlag=" + Maxlag;
+
+            if ((options & ActionOptions.RequireLogin) > 0)
+                url += "&assert=user";
+
+            if ((options & ActionOptions.CheckNewMessages) > 0)
+                url += "&meta=userinfo&uiprop=hasmsg";
+
+            return url;
+        }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="request"></param>
         /// <param name="autoParams"></param>
         /// <returns></returns>
-        protected string BuildUrl(string[,] request, bool autoParams)
+        protected string BuildUrl(string[,] request, ActionOptions options)
         {
             string url = URL + "api.php" + (PHP5 ? "5" : "") + "?format=xml" + BuildQuery(request);
-            if (autoParams) url += "&assert=user&maxlag=" + Maxlag;
 
-            return url;
+            return AppendOptions(url, options);
         }
 
         /// <summary>
@@ -233,7 +246,7 @@ namespace WikiFunctions.API
         /// <returns></returns>
         protected string BuildUrl(string[,] request)
         {
-            return BuildUrl(request, true);
+            return BuildUrl(request, ActionOptions.None);
         }
         #endregion
 
@@ -315,9 +328,9 @@ namespace WikiFunctions.API
         /// <param name="post"></param>
         /// <param name="autoParams"></param>
         /// <returns></returns>
-        protected string HttpPost(string[,] get, string[,] post, bool autoParams)
+        protected string HttpPost(string[,] get, string[,] post, ActionOptions options)
         {
-            string url = BuildUrl(get, autoParams);
+            string url = BuildUrl(get, options);
 
             string query = BuildQuery(post);
             byte[] postData = Encoding.UTF8.GetBytes(query);
@@ -341,7 +354,7 @@ namespace WikiFunctions.API
         /// <returns></returns>
         protected string HttpPost(string[,] get, string[,] post)
         {
-            return HttpPost(get, post, true);
+            return HttpPost(get, post, ActionOptions.None);
         }
 
         /// <summary>
@@ -350,9 +363,9 @@ namespace WikiFunctions.API
         /// <param name="request"></param>
         /// <param name="autoParams"></param>
         /// <returns></returns>
-        protected string HttpGet(string[,] request, bool autoParams)
+        protected string HttpGet(string[,] request, ActionOptions options)
         {
-            string url = BuildUrl(request, autoParams);
+            string url = BuildUrl(request, options);
 
             return HttpGet(url);
         }
@@ -364,7 +377,7 @@ namespace WikiFunctions.API
         /// <returns></returns>
         protected string HttpGet(string[,] request)
         {
-            return HttpGet(request, true);
+            return HttpGet(request, ActionOptions.None);
         }
 
         /// <summary>
@@ -385,11 +398,12 @@ namespace WikiFunctions.API
             User = new UserInfo(); // we don't know for sure what will be our status in case of exception
 
             string result = HttpPost(new[,] { { "action", "login" } },
-                                     new[,] { 
+                                     new[,] 
+                                     { 
                                         { "lgname", username }, 
                                         { "lgpassword", password }
-                                     },
-                                     false);
+                                     }
+                                );
 
             XmlReader xr = XmlReader.Create(new StringReader(result));
             xr.ReadToFollowing("login");
@@ -408,7 +422,7 @@ namespace WikiFunctions.API
         {
             Reset();
             User = new UserInfo();
-            string result = HttpGet(new[,] { { "action", "logout" } }, false);
+            string result = HttpGet(new[,] { { "action", "logout" } });
             CheckForErrors(result, "logout");
         }
 
@@ -450,7 +464,7 @@ namespace WikiFunctions.API
                          new[,] {
                             { "meta", "userinfo" },
                             { "uiprop", "blockinfo|hasmsg|groups|rights" }
-                         }, false);
+                         });
 
             CheckForErrors(result, "userinfo");
 
@@ -475,12 +489,10 @@ namespace WikiFunctions.API
                 { "titles", title },
                 { "inprop", "protection" },
                 { "rvprop", "content|timestamp" } // timestamp|user|comment|
-            });
+            }, 
+            ActionOptions.All);
 
             CheckForErrors(result, "query");
-
-            //HACK:
-            if (result.Contains("<interwiki>")) throw new InterwikiException(this);
 
             try
             {
@@ -521,7 +533,8 @@ namespace WikiFunctions.API
                     { "timestamp", Page.Timestamp },
                     { "text", pageText },
                     { "token", Page.EditToken }
-                });
+                },
+                ActionOptions.All);
 
             CheckForErrors(result, "edit");
             Reset();
@@ -552,7 +565,8 @@ namespace WikiFunctions.API
                         //{ User.IsBot ? "bot" : null, null },
                         { watch ? "watch" : null, null }
 
-                    });
+                    },
+                    ActionOptions.All);
 
             CheckForErrors(result);
 
@@ -579,7 +593,8 @@ namespace WikiFunctions.API
                     { "title", title },
                     { "token", Page.EditToken },
                     { "reason", reason }
-                });
+                },
+                ActionOptions.All);
 
             CheckForErrors(result);
 
@@ -617,7 +632,8 @@ namespace WikiFunctions.API
                         { "intoken", "protect" },
                         { "titles", title },
 
-                    });
+                    },
+                    ActionOptions.All);
 
             CheckForErrors(result);
 
@@ -649,7 +665,8 @@ namespace WikiFunctions.API
                         { cascade ? "cascade" : null, null },
                         //{ User.IsBot ? "bot" : null, null },
                         { watch ? "watch" : null, null }
-                    });
+                    },
+                    ActionOptions.All);
 
             CheckForErrors(result);
 
@@ -683,7 +700,8 @@ namespace WikiFunctions.API
                         { "intoken", "move" },
                         { "titles", title + "|" + newTitle },
 
-                    });
+                    },
+                    ActionOptions.All);
 
             CheckForErrors(result);
 
@@ -717,7 +735,7 @@ namespace WikiFunctions.API
                         //{ User.IsBot ? "bot" : null, null },
                         { watch ? "watch" : null, null }
                     },
-                true);
+                ActionOptions.All);
 
             CheckForErrors(result);
 
@@ -838,6 +856,9 @@ namespace WikiFunctions.API
         /// <param name="action">The action performed, null if don't check</param>
         private XmlDocument CheckForErrors(string xml, string action)
         {
+            //HACK:
+            if (xml.Contains("<interwiki>")) throw new InterwikiException(this);
+
             var doc = new XmlDocument();
             doc.Load(new StringReader(xml));
 
@@ -885,10 +906,17 @@ namespace WikiFunctions.API
                 throw new CaptchaException(this);
             }
 
-            // This check must be the last, otherwise we will miss
             string result = actionElement.GetAttribute("result");
             if (!string.IsNullOrEmpty(result) && result != "Success") 
                 throw new OperationFailedException(this, action, result);
+
+            if (action != "login")
+            {
+                if (api["query"] != null 
+                    && api["query"]["userinfo"] != null 
+                    && api["query"]["userinfo"].HasAttribute("messages"))
+                        throw new NewMessagesException(this);
+            }
 
             return doc;
         }
@@ -942,4 +970,15 @@ namespace WikiFunctions.API
 
         #endregion
     }
+
+    [Flags]
+    public enum ActionOptions
+    {
+        None = 0,
+        CheckMaxlag = 1,
+        RequireLogin = 2,
+        CheckNewMessages = 4,
+
+        All = CheckMaxlag | RequireLogin | CheckNewMessages
+    };
 }
