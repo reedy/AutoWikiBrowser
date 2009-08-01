@@ -32,12 +32,16 @@
             this.checkedLBContent = new System.Windows.Forms.CheckedListBox();
             this.chkTalk = new System.Windows.Forms.CheckBox();
             this.checkedLBTalk = new System.Windows.Forms.CheckedListBox();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // chkContents
             // 
             this.chkContents.AutoSize = true;
-            this.chkContents.Location = new System.Drawing.Point(3, 3);
+            this.chkContents.Location = new System.Drawing.Point(0, 0);
             this.chkContents.Name = "chkContents";
             this.chkContents.Size = new System.Drawing.Size(63, 17);
             this.chkContents.TabIndex = 7;
@@ -47,18 +51,19 @@
             // 
             // checkedLBContent
             // 
-            this.checkedLBContent.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)));
+            this.checkedLBContent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.checkedLBContent.FormattingEnabled = true;
-            this.checkedLBContent.Location = new System.Drawing.Point(3, 26);
+            this.checkedLBContent.Location = new System.Drawing.Point(0, 23);
             this.checkedLBContent.Name = "checkedLBContent";
-            this.checkedLBContent.Size = new System.Drawing.Size(103, 214);
+            this.checkedLBContent.Size = new System.Drawing.Size(104, 214);
             this.checkedLBContent.TabIndex = 9;
             // 
             // chkTalk
             // 
             this.chkTalk.AutoSize = true;
-            this.chkTalk.Location = new System.Drawing.Point(112, 3);
+            this.chkTalk.Location = new System.Drawing.Point(1, 0);
             this.chkTalk.Name = "chkTalk";
             this.chkTalk.Size = new System.Drawing.Size(47, 17);
             this.chkTalk.TabIndex = 8;
@@ -72,25 +77,43 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.checkedLBTalk.FormattingEnabled = true;
-            this.checkedLBTalk.Location = new System.Drawing.Point(112, 26);
+            this.checkedLBTalk.Location = new System.Drawing.Point(1, 23);
             this.checkedLBTalk.Name = "checkedLBTalk";
-            this.checkedLBTalk.Size = new System.Drawing.Size(103, 214);
+            this.checkedLBTalk.Size = new System.Drawing.Size(108, 214);
             this.checkedLBTalk.TabIndex = 10;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.chkContents);
+            this.splitContainer1.Panel1.Controls.Add(this.checkedLBContent);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.chkTalk);
+            this.splitContainer1.Panel2.Controls.Add(this.checkedLBTalk);
+            this.splitContainer1.Size = new System.Drawing.Size(221, 246);
+            this.splitContainer1.SplitterDistance = 105;
+            this.splitContainer1.TabIndex = 11;
             // 
             // NamespacesControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.chkContents);
-            this.Controls.Add(this.chkTalk);
-            this.Controls.Add(this.checkedLBContent);
-            this.Controls.Add(this.checkedLBTalk);
-            this.MaximumSize = new System.Drawing.Size(221, 580);
-            this.MinimumSize = new System.Drawing.Size(221, 70);
+            this.Controls.Add(this.splitContainer1);
             this.Name = "NamespacesControl";
             this.Size = new System.Drawing.Size(221, 246);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -100,6 +123,7 @@
         private System.Windows.Forms.CheckedListBox checkedLBContent;
         private System.Windows.Forms.CheckBox chkTalk;
         private System.Windows.Forms.CheckedListBox checkedLBTalk;
+        private System.Windows.Forms.SplitContainer splitContainer1;
 
     }
 }
