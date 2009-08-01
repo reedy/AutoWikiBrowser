@@ -36,17 +36,17 @@ namespace WikiFunctions.Lists
             this.chkNotContains = new System.Windows.Forms.CheckBox();
             this.txtDoesNotContain = new System.Windows.Forms.TextBox();
             this.gbNamespaces = new System.Windows.Forms.GroupBox();
+            this.pageNamespaces = new WikiFunctions.Controls.NamespacesControl();
             this.gbSearch = new System.Windows.Forms.GroupBox();
             this.gbSets = new System.Windows.Forms.GroupBox();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnGetList = new System.Windows.Forms.Button();
+            this.lbRemove = new WikiFunctions.Controls.Lists.ListBox2();
             this.cbOpType = new System.Windows.Forms.ComboBox();
             this.gbMisc = new System.Windows.Forms.GroupBox();
             this.flwOther = new System.Windows.Forms.FlowLayoutPanel();
             this.chkSortAZ = new System.Windows.Forms.CheckBox();
             this.chkRemoveDups = new System.Windows.Forms.CheckBox();
-            this.lbRemove = new WikiFunctions.Controls.Lists.ListBox2();
-            this.pageNamespaces = new WikiFunctions.Controls.NamespacesControl();
             this.gbNamespaces.SuspendLayout();
             this.gbSearch.SuspendLayout();
             this.gbSets.SuspendLayout();
@@ -142,6 +142,15 @@ namespace WikiFunctions.Lists
             this.gbNamespaces.TabStop = false;
             this.gbNamespaces.Text = "Namespaces to keep";
             // 
+            // pageNamespaces
+            // 
+            this.pageNamespaces.Location = new System.Drawing.Point(6, 16);
+            this.pageNamespaces.MaximumSize = new System.Drawing.Size(221, 580);
+            this.pageNamespaces.MinimumSize = new System.Drawing.Size(221, 70);
+            this.pageNamespaces.Name = "pageNamespaces";
+            this.pageNamespaces.Size = new System.Drawing.Size(221, 246);
+            this.pageNamespaces.TabIndex = 0;
+            // 
             // gbSearch
             // 
             this.gbSearch.Controls.Add(this.chkIsRegex);
@@ -193,6 +202,17 @@ namespace WikiFunctions.Lists
             this.btnGetList.Text = "&Open file";
             this.btnGetList.UseVisualStyleBackColor = true;
             this.btnGetList.Click += new System.EventHandler(this.btnGetList_Click);
+            // 
+            // lbRemove
+            // 
+            this.lbRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbRemove.FormattingEnabled = true;
+            this.lbRemove.Location = new System.Drawing.Point(6, 44);
+            this.lbRemove.Name = "lbRemove";
+            this.lbRemove.Size = new System.Drawing.Size(184, 186);
+            this.lbRemove.TabIndex = 1;
             // 
             // cbOpType
             // 
@@ -252,26 +272,6 @@ namespace WikiFunctions.Lists
             this.chkRemoveDups.Text = "Remove &duplicates";
             this.chkRemoveDups.UseVisualStyleBackColor = true;
             // 
-            // lbRemove
-            // 
-            this.lbRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbRemove.FormattingEnabled = true;
-            this.lbRemove.Location = new System.Drawing.Point(6, 44);
-            this.lbRemove.Name = "lbRemove";
-            this.lbRemove.Size = new System.Drawing.Size(184, 186);
-            this.lbRemove.TabIndex = 1;
-            // 
-            // pageNamespaces
-            // 
-            this.pageNamespaces.Location = new System.Drawing.Point(6, 16);
-            this.pageNamespaces.MaximumSize = new System.Drawing.Size(221, 580);
-            this.pageNamespaces.MinimumSize = new System.Drawing.Size(221, 70);
-            this.pageNamespaces.Name = "pageNamespaces";
-            this.pageNamespaces.Size = new System.Drawing.Size(221, 246);
-            this.pageNamespaces.TabIndex = 0;
-            // 
             // ListFilterForm
             // 
             this.AcceptButton = this.btnOk;
@@ -291,7 +291,7 @@ namespace WikiFunctions.Lists
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Filter";
+            this.Text = "List Filter";
             this.Load += new System.EventHandler(this.specialFilter_Load);
             this.VisibleChanged += new System.EventHandler(this.SpecialFilter_VisibleChanged);
             this.gbNamespaces.ResumeLayout(false);
