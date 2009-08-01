@@ -69,22 +69,42 @@ namespace WikiFunctions.API
         public bool HasMessages
         { get; internal set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="group"></param>
+        /// <returns></returns>
         public bool IsInGroup(string group)
         {
             return string.IsNullOrEmpty(group) || Groups.Contains(group);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="right"></param>
+        /// <returns></returns>
         public bool HasRight(string right)
         {
             return string.IsNullOrEmpty(right) || Rights.Contains(right);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
         public bool CanEditPage(PageInfo page)
         {
             return IsInGroup(page.EditProtection) && !(page.NamespaceID == Namespace.MediaWiki &&
                 !HasRight("editinterface"));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
         public bool CanMovePage(PageInfo page)
         {
             return page.NamespaceID != Namespace.MediaWiki && IsInGroup(page.MoveProtection);
