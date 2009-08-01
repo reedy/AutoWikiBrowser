@@ -182,7 +182,7 @@ namespace WikiFunctions.DBScanner
             StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
             Limit = (int)nudLimitResults.Value;
 
-            List<Scan> s = new List<Scan> {new CheckNamespace(Namespaces)};
+            List<Scan> s = new List<Scan> { new CheckNamespace(Namespaces) };
 
             if (chkIgnoreRedirects.Checked)
                 s.Add(new IsNotRedirect());
@@ -253,10 +253,13 @@ namespace WikiFunctions.DBScanner
             if (chkDefaultSort.Checked)
                 s.Add(new MissingDefaultsort());
 
-            Main = new MainProcess(s, FileName, Priority, chkIgnoreComments.Checked, txtStartFrom.Text);
+            Main = new MainProcess(s, FileName, Priority, chkIgnoreComments.Checked, txtStartFrom.Text)
+            {
+                OutputQueue = Queue
+            };
+
             progressBar.Value = 0;
             Main.StoppedEvent += Stopped;
-            Main.OutputQueue = Queue;
             Main.Start();
         }
 
