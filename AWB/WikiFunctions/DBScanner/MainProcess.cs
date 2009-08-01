@@ -189,9 +189,13 @@ namespace WikiFunctions.DBScanner
                         //move to start from article
                         while (Run && reader.Read())
                         {
-                            if (reader.Name != "page") continue;
+                            if (reader.Name != "title")
+                            {
+                                reader.ReadToFollowing("page");
+                                continue;
+                            }
 
-                            reader.ReadToFollowing("title");
+                            //reader.ReadToFollowing("title");
                             articleTitle = reader.ReadString();
 
                             if (From == articleTitle)
@@ -201,11 +205,15 @@ namespace WikiFunctions.DBScanner
 
                     while (Run && reader.Read())
                     {
-                        if (reader.Name != "page") continue;
+                        if (reader.Name != "title")
+                        {
+                            reader.ReadToFollowing("page");
+                            continue;
+                        }
 
                         ArticleInfo ai = new ArticleInfo();
 
-                        reader.ReadToFollowing("title");
+                        //reader.ReadToFollowing("title");
                         ai.Title = articleTitle = reader.ReadString();
 
                         ai.Restrictions = reader.Name == "restrictions" ? reader.ReadString() : "";
