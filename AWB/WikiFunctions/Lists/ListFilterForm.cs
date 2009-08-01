@@ -31,6 +31,8 @@ namespace WikiFunctions.Lists
     {
         private readonly ListBox2 DestListBox;
 
+        string project = Variables.URL;
+
         public ListFilterForm(ListBox2 lb)
         {
             InitializeComponent();
@@ -241,7 +243,11 @@ namespace WikiFunctions.Lists
 
         private void SpecialFilter_VisibleChanged(object sender, EventArgs e)
         {
-            if (Visible) pageNamespaces.Populate();
+            if (Visible && project != Variables.URL)
+            {
+                project = Variables.URL;
+                pageNamespaces.Populate();
+            }
         }
 
         [Browsable(false)]
