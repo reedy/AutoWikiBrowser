@@ -457,7 +457,7 @@ bar"));
             Assert.AreEqual("test using [[WP:AWB]]", Tools.TrimEditSummary("test", " using [[WP:AWB]]"));
             Assert.AreEqual("test", Tools.TrimEditSummary("test", ""));
 
-            Assert.That(Parsers.IsCorrectEditSummary(
+            Assert.IsFalse(Parsers.IsCorrectEditSummary(
                 Tools.TrimEditSummary("[[" + _100 + "|" + _100 + "]] [[" + _100 + "]]", "[[WP:AWB]]")));
         }
 

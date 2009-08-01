@@ -3287,6 +3287,8 @@ foo
             Assert.IsFalse(Parsers.IsCorrectEditSummary("[[["));
             Assert.IsFalse(Parsers.IsCorrectEditSummary("[[test]"));
             Assert.IsFalse(Parsers.IsCorrectEditSummary("[[test]] [["));
+
+            Assert.IsFalse(Parsers.IsCorrectEditSummary("[[123456789 123456789 123456789 1[[WP:AWB]]"));
         }
 
         [Test]
