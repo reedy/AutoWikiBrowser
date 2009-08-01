@@ -70,6 +70,23 @@ namespace WikiFunctions.Controls
             }
         }
 
+        bool AutoKeyboardDisabled;
+
+        protected override void OnEnter(EventArgs e)
+        {
+            // Hack for the annoying bug with this option being mysteriously enabled to switch
+            // user's kb layout for no good reason. Probably, there is a better place for doing this, 
+            // but can't figure out where.
+            if (!AutoKeyboardDisabled)
+            {
+                LanguageOption &= ~RichTextBoxLanguageOptions.AutoKeyboard;
+                AutoKeyboardDisabled = true;
+            }
+
+            base.OnEnter(e);
+        }
+
+
         private Regex RegexObj;
         private Match MatchObj;
 
