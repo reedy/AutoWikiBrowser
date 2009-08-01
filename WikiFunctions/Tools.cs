@@ -315,7 +315,7 @@ namespace WikiFunctions
             return true;
         }
 
-        const int MaxEditSummaryLength = 250; // in bytes
+        public const int MaxEditSummaryLength = 250; // in bytes
 
         // Covered by ToolsTests.TrimEditSummary()
         /// <summary>
@@ -329,10 +329,14 @@ namespace WikiFunctions
             byte[] buf = Encoding.UTF8.GetBytes(summary);
             byte[] adBuf = Encoding.UTF8.GetBytes(awbAd);
 
-            if (buf.Length + adBuf.Length <= MaxEditSummaryLength)
+            int adBufLength = adBuf.Length;
+
+            if (buf.Length + adBufLength <= MaxEditSummaryLength)
                 return summary + awbAd;
 
-            return summary + awbAd;
+            int availableLength = MaxEditSummaryLength - adBufLength;
+
+            return summary.Substring(0, availableLength - 1) + awbAd;
         }
 
         /// <summary>
