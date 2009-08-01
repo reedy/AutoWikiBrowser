@@ -67,8 +67,13 @@ namespace WikiFunctions.Controls
             checkedLBTalk.Items.Clear();
             checkedLBContent.Items.Clear();
 
+            checkedLBContent.Items.Add(new NSItem(new KeyValuePair<int,string>(0, "Content")));
+
             foreach (KeyValuePair<int, string> kvp in Variables.Namespaces)
             {
+                if (kvp.Key < 0)
+                    continue;
+
                 if (Namespace.IsTalk(kvp.Key))
                     checkedLBTalk.Items.Add(new NSItem(kvp));
                 else
