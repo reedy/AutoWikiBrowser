@@ -648,6 +648,10 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             Assert.AreEqual(u2a + u + @"
 [[Category:1387 deaths]]", Parsers.FixPeopleCategories(u2a));
 
+            const string u2b = @"'''Charles Meik''' (born ~1330 in [[Ghent]] - [[22 July]] [[1387]]) {{Persondata}}";
+            Assert.AreEqual(u2b + u + @"
+[[Category:1387 deaths]]", Parsers.FixPeopleCategories(u2b));
+
             const string u3 = @"'''Yusuf Ibn Muhammad Ibn Yusuf al-Fasi''' ([[1530]]/[[1531|31]]{{Fact|date=February 2007}} in [[Ksar-el-Kebir]], [[Morocco]] – 14 August [[1604]] in [[Fes, Morocco]]) {{persondata}}";
             Assert.AreEqual(u3 + u + @"
 [[Category:1604 deaths]]", Parsers.FixPeopleCategories(u3));
