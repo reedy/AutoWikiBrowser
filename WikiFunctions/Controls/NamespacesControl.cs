@@ -21,6 +21,9 @@ using System.Windows.Forms;
 
 namespace WikiFunctions.Controls
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class NamespacesControl : UserControl
     {
         public NamespacesControl()
@@ -53,6 +56,9 @@ namespace WikiFunctions.Controls
             checkedLBTalk.EndUpdate();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Populate()
         {
             checkedLBTalk.BeginUpdate();
@@ -78,16 +84,25 @@ namespace WikiFunctions.Controls
             SetSelectedNamespaces(new List<int>(new[] { 0 }));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<int> GetSelectedNamespaces()
         {
             List<int> ret = new List<int>();
-            ret.AddRange(GetSelectedListTags(checkedLBContent));
-            ret.AddRange(GetSelectedListTags(checkedLBTalk));
+            ret.AddRange(GetSelectedNamespaces(checkedLBContent));
+            ret.AddRange(GetSelectedNamespaces(checkedLBTalk));
             ret.Sort();
             return ret;
         }
 
-        private List<int> GetSelectedListTags(CheckedListBox clb)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="clb"></param>
+        /// <returns></returns>
+        private static List<int> GetSelectedNamespaces(CheckedListBox clb)
         {
             List<int> ret = new List<int>();
             for (int i = 0; i < clb.Items.Count; i++)
@@ -99,13 +114,22 @@ namespace WikiFunctions.Controls
             return ret;
         }
 
-        public void SetSelectedNamespaces(List<int> tags)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tags"></param>
+        public void SetSelectedNamespaces(ICollection<int> tags)
         {
-            SetListTags(checkedLBContent, tags);
-            SetListTags(checkedLBTalk, tags);
+            SetSelectedNamespaces(checkedLBContent, tags);
+            SetSelectedNamespaces(checkedLBTalk, tags);
         }
 
-        private void SetListTags(CheckedListBox clb, ICollection<int> tags)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="clb"></param>
+        /// <param name="tags"></param>
+        private static void SetSelectedNamespaces(CheckedListBox clb, ICollection<int> tags)
         {
             for (int i = 0; i < clb.Items.Count; i++)
             {
@@ -114,6 +138,9 @@ namespace WikiFunctions.Controls
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public sealed class NSItem
     {
         private readonly KeyValuePair<int, string> kvp;
@@ -123,11 +150,17 @@ namespace WikiFunctions.Controls
             kvp = item;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public int Key
         {
             get { return kvp.Key; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string Value
         {
             get { return kvp.Value; }
