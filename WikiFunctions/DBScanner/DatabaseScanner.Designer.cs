@@ -1255,11 +1255,9 @@ namespace WikiFunctions.DBScanner
             // 
             // pageNamespaces
             // 
-            this.pageNamespaces.Location = new System.Drawing.Point(6, 0);
-            this.pageNamespaces.MaximumSize = new System.Drawing.Size(221, 580);
-            this.pageNamespaces.MinimumSize = new System.Drawing.Size(221, 70);
+            this.pageNamespaces.Location = new System.Drawing.Point(6, 3);
             this.pageNamespaces.Name = "pageNamespaces";
-            this.pageNamespaces.Size = new System.Drawing.Size(221, 156);
+            this.pageNamespaces.Size = new System.Drawing.Size(297, 162);
             this.pageNamespaces.TabIndex = 0;
             // 
             // tabTitle

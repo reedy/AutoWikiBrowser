@@ -47,20 +47,24 @@ namespace WikiFunctions.Lists
             this.flwOther = new System.Windows.Forms.FlowLayoutPanel();
             this.chkSortAZ = new System.Windows.Forms.CheckBox();
             this.chkRemoveDups = new System.Windows.Forms.CheckBox();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.gbNamespaces.SuspendLayout();
             this.gbSearch.SuspendLayout();
             this.gbSets.SuspendLayout();
             this.gbMisc.SuspendLayout();
             this.flwOther.SuspendLayout();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnOk
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOk.Location = new System.Drawing.Point(647, 12);
+            this.btnOk.Location = new System.Drawing.Point(655, 12);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 4;
+            this.btnOk.TabIndex = 1;
             this.btnOk.Text = "Apply";
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnApply_Click);
@@ -69,10 +73,10 @@ namespace WikiFunctions.Lists
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(647, 41);
+            this.btnCancel.Location = new System.Drawing.Point(655, 41);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 5;
+            this.btnCancel.TabIndex = 2;
             this.btnCancel.Text = "Close";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -134,21 +138,25 @@ namespace WikiFunctions.Lists
             // 
             // gbNamespaces
             // 
+            this.gbNamespaces.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gbNamespaces.Controls.Add(this.pageNamespaces);
-            this.gbNamespaces.Location = new System.Drawing.Point(12, 12);
+            this.gbNamespaces.Location = new System.Drawing.Point(6, 3);
             this.gbNamespaces.Name = "gbNamespaces";
-            this.gbNamespaces.Size = new System.Drawing.Size(229, 271);
+            this.gbNamespaces.Size = new System.Drawing.Size(229, 278);
             this.gbNamespaces.TabIndex = 0;
             this.gbNamespaces.TabStop = false;
             this.gbNamespaces.Text = "Namespaces to keep";
             // 
             // pageNamespaces
             // 
-            this.pageNamespaces.Location = new System.Drawing.Point(6, 16);
-            this.pageNamespaces.MaximumSize = new System.Drawing.Size(221, 580);
-            this.pageNamespaces.MinimumSize = new System.Drawing.Size(221, 70);
+            this.pageNamespaces.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pageNamespaces.Location = new System.Drawing.Point(3, 16);
             this.pageNamespaces.Name = "pageNamespaces";
-            this.pageNamespaces.Size = new System.Drawing.Size(221, 246);
+            this.pageNamespaces.Size = new System.Drawing.Size(221, 253);
             this.pageNamespaces.TabIndex = 0;
             // 
             // gbSearch
@@ -158,7 +166,7 @@ namespace WikiFunctions.Lists
             this.gbSearch.Controls.Add(this.chkNotContains);
             this.gbSearch.Controls.Add(this.txtContains);
             this.gbSearch.Controls.Add(this.chkContains);
-            this.gbSearch.Location = new System.Drawing.Point(247, 12);
+            this.gbSearch.Location = new System.Drawing.Point(3, 3);
             this.gbSearch.Name = "gbSearch";
             this.gbSearch.Size = new System.Drawing.Size(192, 141);
             this.gbSearch.TabIndex = 1;
@@ -174,9 +182,9 @@ namespace WikiFunctions.Lists
             this.gbSets.Controls.Add(this.btnGetList);
             this.gbSets.Controls.Add(this.lbRemove);
             this.gbSets.Controls.Add(this.cbOpType);
-            this.gbSets.Location = new System.Drawing.Point(445, 12);
+            this.gbSets.Location = new System.Drawing.Point(201, 3);
             this.gbSets.Name = "gbSets";
-            this.gbSets.Size = new System.Drawing.Size(196, 260);
+            this.gbSets.Size = new System.Drawing.Size(206, 311);
             this.gbSets.TabIndex = 3;
             this.gbSets.TabStop = false;
             this.gbSets.Text = "Set operations";
@@ -184,7 +192,7 @@ namespace WikiFunctions.Lists
             // btnClear
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.Location = new System.Drawing.Point(107, 231);
+            this.btnClear.Location = new System.Drawing.Point(117, 282);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(83, 23);
             this.btnClear.TabIndex = 3;
@@ -195,7 +203,7 @@ namespace WikiFunctions.Lists
             // btnGetList
             // 
             this.btnGetList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnGetList.Location = new System.Drawing.Point(6, 231);
+            this.btnGetList.Location = new System.Drawing.Point(6, 282);
             this.btnGetList.Name = "btnGetList";
             this.btnGetList.Size = new System.Drawing.Size(83, 23);
             this.btnGetList.TabIndex = 2;
@@ -211,7 +219,7 @@ namespace WikiFunctions.Lists
             this.lbRemove.FormattingEnabled = true;
             this.lbRemove.Location = new System.Drawing.Point(6, 44);
             this.lbRemove.Name = "lbRemove";
-            this.lbRemove.Size = new System.Drawing.Size(184, 186);
+            this.lbRemove.Size = new System.Drawing.Size(194, 225);
             this.lbRemove.TabIndex = 1;
             // 
             // cbOpType
@@ -225,13 +233,13 @@ namespace WikiFunctions.Lists
             "Intersection"});
             this.cbOpType.Location = new System.Drawing.Point(6, 19);
             this.cbOpType.Name = "cbOpType";
-            this.cbOpType.Size = new System.Drawing.Size(184, 21);
+            this.cbOpType.Size = new System.Drawing.Size(194, 21);
             this.cbOpType.TabIndex = 0;
             // 
             // gbMisc
             // 
             this.gbMisc.Controls.Add(this.flwOther);
-            this.gbMisc.Location = new System.Drawing.Point(247, 159);
+            this.gbMisc.Location = new System.Drawing.Point(3, 150);
             this.gbMisc.Name = "gbMisc";
             this.gbMisc.Size = new System.Drawing.Size(192, 63);
             this.gbMisc.TabIndex = 2;
@@ -272,17 +280,36 @@ namespace WikiFunctions.Lists
             this.chkRemoveDups.Text = "Remove &duplicates";
             this.chkRemoveDups.UseVisualStyleBackColor = true;
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer1.Location = new System.Drawing.Point(1, 5);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.gbNamespaces);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.gbSearch);
+            this.splitContainer1.Panel2.Controls.Add(this.gbMisc);
+            this.splitContainer1.Panel2.Controls.Add(this.gbSets);
+            this.splitContainer1.Size = new System.Drawing.Size(648, 284);
+            this.splitContainer1.SplitterDistance = 237;
+            this.splitContainer1.TabIndex = 0;
+            // 
             // ListFilterForm
             // 
             this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(734, 286);
-            this.Controls.Add(this.gbNamespaces);
-            this.Controls.Add(this.gbSearch);
-            this.Controls.Add(this.gbSets);
-            this.Controls.Add(this.gbMisc);
+            this.ClientSize = new System.Drawing.Size(742, 286);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
@@ -301,6 +328,9 @@ namespace WikiFunctions.Lists
             this.gbMisc.ResumeLayout(false);
             this.flwOther.ResumeLayout(false);
             this.flwOther.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -326,5 +356,6 @@ namespace WikiFunctions.Lists
         private System.Windows.Forms.CheckBox chkSortAZ;
         private System.Windows.Forms.FlowLayoutPanel flwOther;
         private WikiFunctions.Controls.NamespacesControl pageNamespaces;
+        private System.Windows.Forms.SplitContainer splitContainer1;
     }
 }
