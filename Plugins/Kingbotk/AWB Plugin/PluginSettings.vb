@@ -240,8 +240,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         End Sub
         Private Sub AWBSkipButtonClickEventHandler(ByVal sender As Object, ByVal e As EventArgs) _
         Handles btnIgnore.Click
-            If Not ManuallyAssess Then ' If ManuallyAssess is True, defer to the handler in Assessments class
-                PluginManager.AWBForm.TraceManager.SkippedArticle("User", "User clicked Ignore")
+            If Not ManuallyAssess AndAlso PluginManager.ActivePlugins.Count > 0 Then ' If ManuallyAssess is True, defer to the handler in Assessments class
+                PluginManager.AWBForm.TraceManager.SkippedArticle("User", Variables.StringUserSkipped)
                 PluginStats.SkippedMiscellaneousIncrement(True)
             End If
         End Sub
