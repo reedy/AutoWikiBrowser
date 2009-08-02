@@ -6,20 +6,15 @@ if (isset($_SERVER) && array_key_exists('REQUEST_METHOD', $_SERVER))
 	die ('This is a command-line script');
 }
 
-echo "Connecting to MySQL...\n";
-require_once('typo-db.php');
+if ((!isset($argv[1]) && ! isset($argv[2])) || count($argv) != 2)
+	die ('Parameters: <filename> <wiki>');
 
-if (isset($argv[1]))
-	$filename = $argv[1];
-else
-	$filename = 'import.txt';
-	
+echo "Connecting to MySQL...\n";
+require_once('typo-db.php');	
 require_once('common.php');
 
 //TODO:Need better parameter handling
-if (!isset($argv[2]))
-	die ('Site needed\n');
-
+$filename = $argv[1];
 $siteid = GetOrAddSite($argv[2]);
 	
 echo "Site ID: " . $siteid . "\n";
