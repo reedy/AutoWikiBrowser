@@ -72,7 +72,7 @@ namespace WikiFunctions
         /// <param name="text">The title.</param>
         public static bool IsRedirect(string text)
         {
-            return WikiRegexes.Redirect.IsMatch(FirstChars(text, 512));
+            return WikiRegexes.Redirect.IsMatch(WikiRegexes.UnFormattedText.Replace(FirstChars(text, 512), ""));
         }
 
         // Covered by ToolsTests.RedirectTarget()
@@ -333,7 +333,7 @@ namespace WikiFunctions
 
             if (buf.Length + adBufLength <= MaxEditSummaryLength)
                 return summary + awbAd;
-
+           
             int availableLength = MaxEditSummaryLength - adBufLength;
 
             return summary.Substring(0, availableLength - 1) + awbAd;
