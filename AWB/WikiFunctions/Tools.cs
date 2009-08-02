@@ -1427,15 +1427,7 @@ Message: {2}
         /// <param name="url">URL to process</param>
         public static string ServerName(string url)
         {
-            int pos = url.IndexOf("://");
-            if (pos >= 0)
-                url = url.Substring(pos + 3);
-
-            pos = url.IndexOf('/');
-            if (pos >= 0)
-                url = url.Substring(0, pos);
-
-            return url;
+            return new Uri(url).Host;
         }
 
         private static readonly Regex ExpandTemplatesRegex = new Regex(@"<expandtemplates[^\>]*>(.*?)</expandtemplates>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
