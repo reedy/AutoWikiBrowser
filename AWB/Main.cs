@@ -1886,16 +1886,19 @@ window.scrollTo(0, diffTopY);
 
             lblOnlyBots.Visible = !bot;
 
-            if (bot)
+            if (!Variables.UsingMono) // fails unexplainably under Mono
             {
-                if (!MainTab.TabPages.Contains(tpBots))
-                    MainTab.TabPages.Insert(MainTab.TabPages.IndexOf(tpStart), tpBots);
-            }
-            else
-            {
-                BotMode = false;
-                if (MainTab.TabPages.Contains(tpBots))
-                    MainTab.Controls.Remove(tpBots);
+                if (bot)
+                {
+                    if (!MainTab.TabPages.Contains(tpBots))
+                        MainTab.TabPages.Insert(MainTab.TabPages.IndexOf(tpStart), tpBots);
+                }
+                else
+                {
+                    BotMode = false;
+                    if (MainTab.TabPages.Contains(tpBots))
+                        MainTab.Controls.Remove(tpBots);
+                }
             }
         }
 
