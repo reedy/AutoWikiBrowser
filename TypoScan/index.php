@@ -141,61 +141,61 @@
 			$wiki = @$_GET['wiki'];
 		
 			Head('TypoScan - Stats');
-			echo'<h2><a href="http://en.wikipedia.org/wiki/Wikipedia:TypoScan">TypoScan</a> Stats</h2>
+			echo '<h2><a href="http://en.wikipedia.org/wiki/Wikipedia:TypoScan">TypoScan</a> Stats</h2>
 		<table>
 		<caption>Overview</caption>';
 			//Number of articles in Database
-			$query = "SELECT COUNT(articleid) AS noarticles FROM articles";
+			$query = 'SELECT COUNT(articleid) AS noarticles FROM articles';
 			$result = mysql_fetch_array(mysql_query($query));
 			$totalArticles = $result['noarticles'];
-			PrintTableRow("Number of Articles", FormatNumber($totalArticles));
+			PrintTableRow('Number of Articles', FormatNumber($totalArticles));
 			
 			//Number of finished articles
-			$query = "SELECT COUNT(articleid) AS nofinished FROM articles WHERE (finished = 1)";
+			$query = 'SELECT COUNT(articleid) AS nofinished FROM articles WHERE (finished = 1)';
 			$result = mysql_fetch_array(mysql_query($query));
 			$finishedArticles = $result['nofinished'];
-			PrintTableRow("Number of Finished Articles", FormatNumber($finishedArticles));
+			PrintTableRow('Number of Finished Articles', FormatNumber($finishedArticles));
 			
 			//Number of ignored articles
-			$query = "SELECT COUNT(articleid) as noignored FROM articles WHERE (skipid > 0)";
+			$query = 'SELECT COUNT(articleid) as noignored FROM articles WHERE (skipid > 0)';
 			$result = mysql_fetch_array(mysql_query($query));
 			$ignoredArticles = $result['noignored'];
-			PrintTableRow("Number of Ignored Articles", FormatNumber($ignoredArticles));
+			PrintTableRow('Number of Ignored Articles', FormatNumber($ignoredArticles));
 			
 			//Number of touched articles
-			PrintTableRow("Number of Touched Articles", FormatNumber($finishedArticles + $ignoredArticles));
+			PrintTableRow('Number of Touched Articles', FormatNumber($finishedArticles + $ignoredArticles));
 			
 			//Number of untouched articles
-			PrintTableRow("Number of Untouched Articles", FormatNumber($totalArticles - $finishedArticles - $ignoredArticles));
+			PrintTableRow('Number of Untouched Articles', FormatNumber($totalArticles - $finishedArticles - $ignoredArticles));
 			
 			//Percentage Completion
 			PrintTableRow("Percentage Completion", 
 				($totalArticles ? round(((($finishedArticles + $ignoredArticles) / $totalArticles) * 100), 2) : '0') .'%');
 			
 			//Number of currently checked out articles
-			$query = "SELECT COUNT(articleid) AS nocheckedout FROM articles WHERE (checkedout >= DATE_SUB(NOW(), INTERVAL 3 HOUR)) AND (userid = 0)";
+			$query = 'SELECT COUNT(articleid) AS nocheckedout FROM articles WHERE (checkedout >= DATE_SUB(NOW(), INTERVAL 3 HOUR)) AND (userid = 0)';
 			$result = mysql_fetch_array(mysql_query($query));
-			PrintTableRow("Number of Currently Checked Out Articles", FormatNumber($result['nocheckedout']));
+			PrintTableRow('Number of Currently Checked Out Articles', FormatNumber($result['nocheckedout']));
 			
 			//Number of never checked out articles
 			$query = "SELECT COUNT(articleid) AS nonevercheckedout FROM articles WHERE (checkedout = '0000-00-00 00:00:00')";
 			$result = mysql_fetch_array(mysql_query($query));
-			PrintTableRow("Number of Never Checked Out Articles", FormatNumber($result['nonevercheckedout']));
+			PrintTableRow("Number of Never Checked Out Articles", FormatNumber($result['notevercheckedout']));
 			
 			//Number of ever checked out articles
-			$query = "SELECT COUNT(articleid) AS noevercheckedout FROM articles WHERE (checkedout > '0000-00-00 00:00:00')";
+			$query = 'SELECT COUNT(articleid) AS noevercheckedout FROM articles WHERE (checkedout > "0000-00-00 00:00:00")';
 			$result = mysql_fetch_array(mysql_query($query));
-			PrintTableRow("Number of Ever Checked Out Articles", FormatNumber($result['noevercheckedout']));
+			PrintTableRow('Number of Ever Checked Out Articles', FormatNumber($result['noevercheckedout']));
 				
 			//Number of users
-			$query = "SELECT COUNT(userid) AS nousers FROM users";
+			$query = 'SELECT COUNT(userid) AS nousers FROM users';
 			$result = mysql_fetch_array(mysql_query($query));
-			PrintTableRow("Number of Users", FormatNumber($result['nousers']));
+			PrintTableRow('Number of Users', FormatNumber($result['nousers']));
 			
 			//Number of sites
-			$query = "SELECT COUNT(siteid) AS nosites FROM site";
+			$query = 'SELECT COUNT(siteid) AS nosites FROM site';
 			$result = mysql_fetch_array(mysql_query($query));
-			PrintTableRow("Number of Sites", FormatNumber($result['nosites']));
+			PrintTableRow('Number of Sites', FormatNumber($result['nosites']));
 
 			echo '</table>
 			<p/>';
@@ -209,18 +209,18 @@
 		<th scope="col" class="sortable">Number of Saved Articles</th>
 		<th scope="col" class="sortable">Number of Skipped Articles</th>
 		<th scope="col" class="sortable">Number of Currently Checked-Out Articles</th>
-		<th scope="col" class="sortable">Number of Untouched Articles</th>
+		<th scope="col" class="sortable">Number of Unfinished Articles</th>
 		<th scope="col" class="sortable">Total Number of Articles</th>
 	</tr>
 </thead>';
 	
-			$query = "SELECT SUM(finished = 1) AS edits, SUM(finished = 0) AS untouched, SUM(skipid > 0) AS skips, COUNT(articleid) AS total, address, s.siteid AS id FROM articles a, site s WHERE (a.siteid = s.siteid) AND (s.siteid > 0) GROUP BY s.siteid ORDER BY edits DESC, skips DESC";
+			$query = 'SELECT SUM(finished = 1) AS edits, SUM(finished = 0) AS unfinished, SUM(skipid > 0) AS skips, COUNT(articleid) AS total, address, s.siteid AS id FROM articles a, site s WHERE (a.siteid = s.siteid) AND (s.siteid > 0) GROUP BY s.siteid ORDER BY edits DESC, skips DESC';
 			$result = mysql_query($query);
 			
 			while($row = mysql_fetch_assoc($result))
 			{
 				$id = $row['id'];
-				$query2 = "SELECT COUNT(a.articleid) AS checkedout FROM articles a, site s WHERE (a.siteid = s.siteid) AND (s.siteid = " . $id . ") AND (checkedout >= DATE_SUB(NOW(), INTERVAL 3 HOUR)) GROUP BY s.siteid";
+				$query2 = 'SELECT COUNT(a.articleid) AS checkedout FROM articles a, site s WHERE (a.siteid = s.siteid) AND (s.siteid = ' . $id . ') AND (checkedout >= DATE_SUB(NOW(), INTERVAL 3 HOUR)) GROUP BY s.siteid';
 				$result2 = mysql_fetch_array(mysql_query($query2));
 				echo '
 <tr>
@@ -228,7 +228,7 @@
 	<td>' . FormatNumber($row['edits']) . '</td>
 	<td>' . FormatNumber($row['skips']) . '</td>
 	<td>' . FormatNumber($result2['checkedout']) . '</td>
-	<td>' . FormatNumber($row['untouched']) . '</td>
+	<td>' . FormatNumber($row['unfinished']) . '</td>
 	<td>' . FormatNumber($row['total']) . '</td>
 </tr>';
 			}
@@ -237,7 +237,7 @@
 			<p/>';
 			
 			//Number of finished/ignored by user (User stats)
-			$query = "SELECT SUM(finished) AS edits, SUM(skipid > 0) AS skips, COUNT(u.userid) AS total, username FROM articles a, users u WHERE (a.userid = u.userid) AND (a.userid > 0) GROUP BY a.userid ORDER BY edits DESC, skips DESC";
+			$query = 'SELECT SUM(finished) AS edits, SUM(skipid > 0) AS skips, COUNT(u.userid) AS total, username FROM articles a, users u WHERE (a.userid = u.userid) AND (a.userid > 0) GROUP BY a.userid ORDER BY edits DESC, skips DESC';
 		
 			echo '<table class="sortable">
 	<caption>User Stats</caption>
@@ -267,7 +267,7 @@
 			<p/>';
 			
 			//No of Ignores per reason
-			$query = "SELECT COUNT(a.skipid) AS noskips, s.skipreason FROM articles a, skippedreason s WHERE (a.skipid = s.skipid) AND (a.skipid > 0) GROUP BY a.skipid ORDER BY noskips DESC";
+			$query = 'SELECT COUNT(a.skipid) AS noskips, s.skipreason FROM articles a, skippedreason s WHERE (a.skipid = s.skipid) AND (a.skipid > 0) GROUP BY a.skipid ORDER BY noskips DESC';
 			
 			echo '<table class="sortable">
 	<caption>Skipped per Reason</caption>
