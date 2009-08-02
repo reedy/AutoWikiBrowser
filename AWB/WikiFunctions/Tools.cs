@@ -1311,6 +1311,7 @@ Message: {2}
             return input.Replace(Environment.NewLine, "\n");
         }
 
+        // TODO: should be replaced with SiteInfo.OpenPageInBrowser() wherever possible
         /// <summary>
         /// 
         /// </summary>

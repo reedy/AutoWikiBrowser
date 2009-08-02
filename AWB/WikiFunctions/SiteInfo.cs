@@ -113,8 +113,10 @@ namespace WikiFunctions
             var general = query["general"];
             if (general == null) return false;
 
-            Language = general.Attributes["lang"].Value;
-            IsRightToLeft = general.Attributes["rtl"] != null;
+            ArticleUrl = Host + general.GetAttribute("articlepath");
+            Language = general.GetAttribute("lang");
+            IsRightToLeft = general.HasAttribute("rtl");
+            CapitalizeFirstLetter = general.GetAttribute("case") == "first-letter";
 
             if (query["namespaces"] == null || query["namespacealiases"] == null)
                 return false;
@@ -163,19 +165,51 @@ namespace WikiFunctions
             }
         }
 
+        public string Host
+        {
+            get
+            {
+                return "http://" + Tools.ServerName(ScriptPath);
+            }
+        }
+
+        /// <summary>
+        /// Contains namespaces for this wiki mapped by their IDs
+        /// </summary>
         public Dictionary<int, string> Namespaces
         { get { return namespaces; } }
 
+        /// <summary>
+        /// Alternative names of namespaces
+        /// </summary>
         public Dictionary<int, List<string>> NamespaceAliases
         { get { return namespaceAliases; } }
 
+        /// <summary>
+        /// Magic words used by parser, with alternative variants
+        /// </summary>
         public Dictionary<string, List<string>> MagicWords
         { get { return magicWords; } }
 
+        /// <summary>
+        /// Prettified URL of pages on server, $1 should be replaced with page title
+        /// </summary>
+        public string ArticleUrl
+        { get; private set; }
+
+        /// <summary>
+        /// ISO code of current language
+        /// </summary>
         public string Language
         { get; private set; }
 
+        /// <summary>
+        /// RTL
+        /// </summary>
         public bool IsRightToLeft
+        { get; private set; }
+
+        public bool CapitalizeFirstLetter
         { get; private set; }
 
         /// <summary>
@@ -201,6 +235,15 @@ namespace WikiFunctions
         }
 
         #region Service functions
+        #endregion
+
+        #region Helpers
+        public void OpenPageInBrowser(string title)
+        {
+            string url = ArticleUrl.Replace("$1", Tools.WikiEncode(title));
+
+            Tools.OpenURLInBrowser(url);
+        }
         #endregion
 
         #region IXmlSerializable Members

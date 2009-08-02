@@ -1133,7 +1133,7 @@ namespace WikiFunctions.Controls.Lists
 
             foreach (Article item in articles)
             {
-                Tools.OpenArticleInBrowser(item.Name);
+                Variables.MainForm.TheSession.Site.OpenPageInBrowser(item.Name);
             }
         }
 
