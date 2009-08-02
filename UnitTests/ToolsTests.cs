@@ -245,7 +245,6 @@ bar"));
         [Test]
         public void ServerName()
         {
-            Assert.AreEqual("", Tools.ServerName(""));
             Assert.AreEqual("foo", Tools.ServerName("http://foo"));
             Assert.AreEqual("foo", Tools.ServerName("http://foo/"));
             Assert.AreEqual("foo.bar.com", Tools.ServerName("http://foo.bar.com/path/script?a=foo/bar"));
