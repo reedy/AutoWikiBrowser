@@ -113,32 +113,49 @@ namespace WikiFunctions.API
         /// <summary>
         /// Creates a UserInfo class from an meta=userinfo XML
         /// </summary>
-        /// <param name="xml">XML to parse. Must be already checked for error status by 
+        /// <param name="xml">XML document to process. Must be already checked for error status by 
         /// ApiEdit.CheckForErrors()</param>
-        internal UserInfo(string xml)
+        internal UserInfo(XmlDocument xml)
         {
-            XmlReader xr = XmlReader.Create(new StringReader(xml));
-            xr.ReadToFollowing("userinfo");
-            Name = xr.GetAttribute("name");
-            Id = int.Parse(xr.GetAttribute("id"));
-            IsBlocked = xr.GetAttribute("blockedby") != null;
-            HasMessages = xr.GetAttribute("messages") != null;
+            var users = xml.GetElementsByTagName("userinfo");
+            if (users.Count == 0) throw new BrokenXmlException(null, "XML with <userinfo> element expected");
+            var user = users[0];
 
-            if (xr.ReadToFollowing("groups") && !xr.IsEmptyElement)
+            Name = user.Attributes["name"].Value;
+            Id = int.Parse(user.Attributes["id"].Value);
+
+            var groups = user["groups"];
+            if (groups != null)
             {
-                while (xr.Read() && xr.Name != "groups")
+                foreach(XmlNode g in groups.GetElementsByTagName("g"))
                 {
-                    if (xr.Name == "g") Groups.Add(xr.ReadString());
+                    Groups.Add(g.InnerText);
                 }
             }
 
-            if (xr.ReadToFollowing("rights") && !xr.IsEmptyElement)
+            var rights = user["rights"];
+            if (rights != null)
             {
-                while (xr.Read() && xr.Name != "rights")
+                foreach (XmlNode r in rights.GetElementsByTagName("r"))
                 {
-                    if (xr.Name == "r") Rights.Add(xr.ReadString());
+                    Rights.Add(r.InnerText);
                 }
             }
+
+            Update(xml);
+        }
+
+        /// <summary>
+        /// Updates the information about the current user
+        /// </summary>
+        /// <param name="xml">XML to process</param>
+        internal void Update(XmlDocument xml)
+        {
+            var users = xml.GetElementsByTagName("userinfo");
+            if (users.Count == 0) return;
+
+            HasMessages = users[0].Attributes["messages"] != null;
+            IsBlocked = users[0].Attributes["blockedby"] != null;
         }
 
         /// <summary>

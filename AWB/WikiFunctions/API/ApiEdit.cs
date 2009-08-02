@@ -45,6 +45,7 @@ namespace WikiFunctions.API
         {
             Cookies = new CookieContainer();
             User = new UserInfo();
+            NewMessageThrows = true;
         }
 
         /// <summary>
@@ -115,6 +116,9 @@ namespace WikiFunctions.API
         /// Maxlag parameter of every request (http://www.mediawiki.org/wiki/Manual:Maxlag_parameter)
         /// </summary>
         public int Maxlag { get; set; }
+
+        public bool NewMessageThrows
+        { get; set; }
 
         /// <summary>
         /// Action for which we have edit token
@@ -466,9 +470,9 @@ namespace WikiFunctions.API
                             { "uiprop", "blockinfo|hasmsg|groups|rights" }
                          });
 
-            CheckForErrors(result, "userinfo");
+            var xml = CheckForErrors(result, "userinfo");
 
-            User = new UserInfo(result);
+            User = new UserInfo(xml);
         }
 
         #endregion
@@ -856,10 +860,20 @@ namespace WikiFunctions.API
         /// <param name="action">The action performed, null if don't check</param>
         private XmlDocument CheckForErrors(string xml, string action)
         {
+            if (string.IsNullOrEmpty(xml)) throw new ApiBlankException(this);
+
             var doc = new XmlDocument();
             doc.Load(new StringReader(xml));
 
-            if (string.IsNullOrEmpty(xml)) throw new ApiBlankException(this);
+            //TODO: can't figure out the best time for this check
+            bool prevMessages = User.HasMessages;
+            User.Update(doc);
+            if (action != "login" 
+                && action != "userinfo" 
+                && NewMessageThrows
+                && User.HasMessages 
+                && !prevMessages)
+                    throw new NewMessagesException(this);
 
             var errors = doc.GetElementsByTagName("error");
 
@@ -910,14 +924,6 @@ namespace WikiFunctions.API
             string result = actionElement.GetAttribute("result");
             if (!string.IsNullOrEmpty(result) && result != "Success") 
                 throw new OperationFailedException(this, action, result);
-
-            if (action != "login")
-            {
-                if (api["query"] != null 
-                    && api["query"]["userinfo"] != null 
-                    && api["query"]["userinfo"].HasAttribute("messages"))
-                        throw new NewMessagesException(this);
-            }
 
             return doc;
         }
