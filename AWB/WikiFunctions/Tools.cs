@@ -196,7 +196,7 @@ namespace WikiFunctions
                 name = name.Substring(0, pos).Trim();
             }
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Arabic_names
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Arabic_names
             // Arabic, Chinese names etc. don't use the "Lastname, Firstname" format, perferring "Full Name" format
             // find the most common of these names and use that format for them
             if (Regex.IsMatch(origName, @"(\b(Abd[au]ll?ah?|Ahmed|Mustaq|Merza|Kandah[a-z]*|Mohabet|Nasrat|Nazargul|Yasi[mn]|Husayn|Akram|M[ou]hamm?[ae]d\w*|Abd[eu]l|Razzaq|Adil|Anwar|Fahed|Habi[bdr]|Hafiz|Jawad|Hassan|Ibr[ao]him|Khal[ei]d|Karam|Majid|Mustafa|Rash[ie]d|Yusef|[Bb]in|Nasir|Aziz|Rahim|Kareem|Abu|Aminullah|Fahd|Fawaz|Ahmad|Rahman|Hasan|Nassar|A(?:zz|s)am|Jam[ai]l|Tariqe?|Yussef|Said|Wass?im|Wazir|Tarek|Umran|Mahmoud|Malik|Shoaib|Hizani|Abib|Raza|Salim|Iqbal|Saleh|Hajj|Brahim|Zahir|Wasm|Yo?usef|Yunis|Zakim|Shah|Yasser|Samil|Akh[dk]ar|Haji|Uthman|Khadr|Asiri|Rajab|Shakouri|Ishmurat|Anazi|Nahdi|Zaheed|Ramzi|Rasul|Muktar|Muhassen|Radhi|Rafat|Kadir|Zaman|Karim|Awal|Mahmud|Mohammon|Husein|Airat|Alawi|Ullah|Sayaf|Henali|Ismael|Salih|Mahnut|Faha|Hammad|Hozaifa|Ravil|Jehan|Abdah|Djamel|Sabir|Ruhani|Hisham|Rehman|Mesut|Mehdi|Lakhdar|Mourad|Fazal[a-z]*|Mukit|Jalil|Rustam|Jumm?a|Omar Ali)\b|(?:[bdfmtnrz]ullah|alludin|[hm]atulla|r[ao]llah|harudin|millah)\b|\b(?:Abd[aeu][lr]|Nazur| Al[- ][A-Z]| al-[A-Z]))"))
@@ -903,7 +903,7 @@ namespace WikiFunctions
                 new KeyValuePair<string, string>("þ", "th"),
                 new KeyValuePair<string, string>("Œ", "O"),
                 new KeyValuePair<string, string>("œ", "o"),
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#.22.C3.86.22_.E2.86.92_.22ae.22_not_.22e.22
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#.22.C3.86.22_.E2.86.92_.22ae.22_not_.22e.22
                 new KeyValuePair<string, string>("Æ", "AE"),
                 new KeyValuePair<string, string>("æ", "ae"),
                 new KeyValuePair<string, string>("Ø", "O"),
@@ -1074,7 +1074,7 @@ namespace WikiFunctions
                 new KeyValuePair<string, string>("ⱴ", "v"),
                 new KeyValuePair<string, string>("ớ", "o"),
 
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Leaving_foreign_characters_in_DEFAULTSORT
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Leaving_foreign_characters_in_DEFAULTSORT
                 new KeyValuePair<string, string>("ắ", "a"),
                 new KeyValuePair<string, string>("ạ", "a"),
                 new KeyValuePair<string, string>("ả", "a"),
@@ -1129,7 +1129,7 @@ namespace WikiFunctions
 
             // convert each word to Proper Case
             // http://en.wikipedia.org/wiki/Wikipedia:Categorization#Using_sort_keys
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#DEFAULTSORT_capitalization_after_apostrophes
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#DEFAULTSORT_capitalization_after_apostrophes
             foreach (Match m in WikiRegexes.RegexWordApostrophes.Matches(s))
             {
                 s = s.Remove(m.Index, m.Length);

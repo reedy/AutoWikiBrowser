@@ -276,7 +276,7 @@ en, sq, ru
                 }
 
                 // two newlines here per http://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser&oldid=243224092#Blank_lines_before_stubs
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Two_empty_lines_before_stub-templates
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Two_empty_lines_before_stub-templates
                 // Russian wiki uses only one newline
                 string strStub = Newline(RemoveStubs(ref articleText), Variables.LangCode == LangCodeEnum.ru ? 1 : 2);
 
@@ -323,7 +323,7 @@ en, sq, ru
         {
             List<string> categoryList = new List<string>();
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Comments_get_removed_from_between_categories
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Comments_get_removed_from_between_categories
             // allow comments between categories, and keep them in the same place, but don't grab any comment just after the last category
             Regex r = new Regex("<!-- ? ?\\[\\[" + Variables.NamespacesCaseInsensitive[Namespace.Category]
                 + ".*?(\\]\\]|\\|.*?\\]\\]).*?-->|\\[\\["
@@ -378,7 +378,7 @@ en, sq, ru
                 {
                     articleText = articleText.Replace(lifetime, "");
 
-                    // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Blank_lines_after_Lifetime
+                    // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#Blank_lines_after_Lifetime
                     lifetime += "\r\n";
                 }
             }
@@ -400,7 +400,7 @@ en, sq, ru
             if (!string.IsNullOrEmpty(strPersonData))
                 articleText = articleText.Replace(strPersonData, "");
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Persondata_comments
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Persondata_comments
             // catch the persondata comment the line before it so that the comment and template aren't separated
             if (articleText.Contains(WikiRegexes.PersonDataCommentEN) && Variables.LangCode == LangCodeEnum.en)
             {
@@ -686,7 +686,7 @@ en, sq, ru
         /// <returns>string of interwiki and interwiki featured article links</returns>
         public string Interwikis(ref string articleText)
         {
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Interwiki_links_moved_out_of_comment
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#Interwiki_links_moved_out_of_comment
             HideText Hider = new HideText(false, true, false);
 
             articleText = Hider.Hide(articleText);
