@@ -41,9 +41,10 @@ namespace AutoWikiBrowser
 
                 if (Variables.UsingMono)
                 {
-                    MessageBox.Show("AWB is not currently supported by mono", "Not supported",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    MessageBox.Show("AWB is not currently supported by mono. You may use it for testing purposes, but functionality is not guaranteed.",
+                        "Not supported",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    //return;
                 }
 
                 AwbDirs.MigrateDefaultSettings();

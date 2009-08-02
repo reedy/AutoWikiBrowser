@@ -40,7 +40,7 @@ namespace AutoWikiBrowser
         {
             InitializeComponent();
 
-            foreach (ProjectEnum l in Enum.GetValues(typeof (ProjectEnum)))
+            foreach (ProjectEnum l in Enum.GetValues(typeof(ProjectEnum)))
                 cmboProject.Items.Add(l);
 
             cmboProject.SelectedItem = proj;
@@ -81,10 +81,11 @@ namespace AutoWikiBrowser
             chkAlwaysConfirmExit.Checked = Properties.Settings.Default.AskForTerminate;
             chkPrivacy.Checked = !Properties.Settings.Default.Privacy;
 
-#if MONO
-            chkFlash.Enabled = false;
-            chkFlast.Checked = false;
-#endif
+            if (Variables.UsingMono)
+            {
+                chkFlash.Enabled = false;
+                chkFlash.Checked = false;
+            }
         }
 
         #region Language and project
