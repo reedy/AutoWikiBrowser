@@ -74,7 +74,7 @@ namespace WikiFunctions.Controls
 
         protected override void OnEnter(EventArgs e)
         {
-            // Hack for the annoying bug with this option being mysteriously enabled to switch
+            // A hack for the annoying bug with this option being mysteriously enabled to switch
             // user's kb layout for no good reason. Probably, there is a better place for doing this, 
             // but can't figure out where.
             if (!AutoKeyboardDisabled)
