@@ -1083,7 +1083,6 @@ namespace AutoWikiBrowser
 
                 if (!preParseModeToolStripMenuItem.Checked && TheSession.User.HasMessages)
                 {
-                    //FIXME: currently ApiEdit always throws NewMessagesException, so this code is unreachable
                     WeHaveNewMessages();
                     return false;
                 }

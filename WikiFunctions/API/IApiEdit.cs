@@ -44,6 +44,13 @@ namespace WikiFunctions.API
         { get; set; }
 
         /// <summary>
+        /// If true, all attempts to edit while the user has unread messages result in NewMessagesException,
+        /// otherwise only User.HasMessages is updated.
+        /// </summary>
+        bool NewMessageThrows
+        { get; set; }
+
+        /// <summary>
         /// Updates the User property
         /// </summary>
         void RefreshUserInfo();
@@ -61,7 +68,7 @@ namespace WikiFunctions.API
         { get; }
 
         /// <summary>
-        /// Retrieves the code of CSS/JS to be used for previews
+        /// Retrieves the code of CSS/JS to be used for previews. Forced to default skin for anons.
         /// </summary>
         string HtmlHeaders
         { get; }

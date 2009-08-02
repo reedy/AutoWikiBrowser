@@ -321,6 +321,12 @@ namespace WikiFunctions.API
             set { SynchronousEditor.Maxlag = value; }
         }
 
+        public bool NewMessageThrows
+        {
+            get { return SynchronousEditor.NewMessageThrows; }
+            set { SynchronousEditor.NewMessageThrows = value; }
+        }
+
         public string Action
         {
             get { return SynchronousEditor.Action; }
