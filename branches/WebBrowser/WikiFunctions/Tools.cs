@@ -92,7 +92,7 @@ namespace WikiFunctions
         /// <param name="text">The title.</param>
         public static bool IsRedirect(string text)
         {
-            return WikiRegexes.Redirect.IsMatch(FirstChars(text, 512));
+            return WikiRegexes.Redirect.IsMatch(WikiRegexes.UnFormattedText.Replace(FirstChars(text, 512), ""));
         }
 
         // Covered by ToolsTests.RedirectTarget()
