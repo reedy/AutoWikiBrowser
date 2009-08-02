@@ -234,7 +234,7 @@ namespace WikiFunctions.Disambiguation
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Tools.OpenArticleInBrowser(ArticleTitle);
+            Session.Site.OpenPageInBrowser(ArticleTitle);
         }
 
         private void editInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
