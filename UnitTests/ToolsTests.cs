@@ -384,6 +384,8 @@ bar"));
             // http://en.wikipedia.org/w/index.php?title=Middleton_Lake&diff=246079011&oldid=240299146
             Assert.IsTrue(Tools.IsRedirect("#REDIRECT:[[Foo]]"));
             Assert.IsTrue(Tools.IsRedirect("#REDIRECT : [[Foo]]"));
+
+            Assert.IsFalse(Tools.IsRedirect("<nowiki>#REDIRECT  [[Foo]]</nowiki>"));
         }
 
         [Test]
