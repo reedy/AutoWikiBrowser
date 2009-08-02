@@ -136,7 +136,7 @@ namespace WikiFunctions.Parse
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Add_.7B.7Botheruse.7D.7D_and_.7B.7B2otheruses.7D.7D_in_the_supported_DABlinks
             RegexConversion.Add(new Regex(@"({{)2otheruses(\s*(?:\|[^{}]*}}|}}))", RegexOptions.Compiled), "$1Two other uses$2");
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#AWB_is_still_using_.7B.7BArticleissues.7D.7D_instead_of_.7B.7BArticle_issues.7D.7D
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#AWB_is_still_using_.7B.7BArticleissues.7D.7D_instead_of_.7B.7BArticle_issues.7D.7D
             // replace any {{articleissues}} with {{article issues}}
             RegexConversion.Add(new Regex(@"(?<={{[Aa]rticle)i(?=ssues.*}})", RegexOptions.Compiled), " i");
 
@@ -300,7 +300,7 @@ namespace WikiFunctions.Parse
                 articleText = articleText.Replace(m.Value, firstPart + parameterFirstChar + lastPart);
             }
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Date_parameter_getting_stripped_from_.7B.7Btl.7CArticle_issues.7D.7D
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Date_parameter_getting_stripped_from_.7B.7BArticle_issues.7D.7D
             // remove any date field within  {{Article issues}} if no 'expert' field using it
             if (!WikiRegexes.ArticleIssuesRegexExpert.IsMatch(articleText))
                 articleText = WikiRegexes.ArticleIssuesRegexWithDate.Replace(articleText, "$1$2");
@@ -332,7 +332,7 @@ namespace WikiFunctions.Parse
                     singleTag = singleTag.ToLower();
 
                 // expert must have a parameter
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Article_Issues
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#Article_Issues
                 if (singleTag.Equals(@"expert") && tagValue.Trim().Length == 0)
                     continue;
 
@@ -386,7 +386,7 @@ namespace WikiFunctions.Parse
             articleText = RegexHeadings1.Replace(articleText, "$1External links$3");
             //articleText = regexHeadings2.Replace(articleText, "$1External link$3");
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#ReferenceS
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#ReferenceS
             Match refsHeader = RegexHeadings3.Match(articleText);
             string refsheader1 = refsHeader.Groups[1].Value;
             string refsheader2 = refsHeader.Groups[2].Value;
@@ -2015,9 +2015,9 @@ namespace WikiFunctions.Parse
             if (Regex.IsMatch(articleText, @"{{[Ii]nfobox (?:[Ss]ingle|[Aa]lbum)"))
                 articleText = FixLinksInfoBoxSingleAlbum(articleText, articleTitle);
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Your_code_creates_page_errors_inside_imagemap_tags.
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Your_code_creates_page_errors_inside_imagemap_tags.
             // don't apply if there's an imagemap on the page or some noinclude transclusion business
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Includes_and_selflinks
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Includes_and_selflinks
             // TODO, better to not apply to text within imagemaps
             if (!WikiRegexes.ImageMap.IsMatch(articleText) && !WikiRegexes.Noinclude.IsMatch(articleText) && !WikiRegexes.Includeonly.IsMatch(articleText))
             {
@@ -2059,7 +2059,7 @@ namespace WikiFunctions.Parse
         {
             string escTitle = Regex.Escape(articleTitle);
             string lowerTitle = Tools.TurnFirstToLower(escTitle);
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#.22This_album.2Fsingle.22
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#.22This_album.2Fsingle.22
             // for this single or this album within the infobox, make bold instead of delinking
             const string infoBoxSingleAlbum = @"(?s)(?<={{[Ii]nfobox (?:[Ss]ingle|[Aa]lbum).*?\|\s*[Tt]his (?:[Ss]ingle|[Aa]lbum)\s*=[^{}]*?)\[\[\s*";
             articleText = Regex.Replace(articleText, infoBoxSingleAlbum + escTitle + @"\s*\]\](?=[^{}\|]*(?:\||}}))", @"'''" + articleTitle + @"'''");
@@ -2583,7 +2583,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         private static string BoldedSelfLinks(string articleTitle, string articleText)
         {
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#If_a_selflink_is_also_bolded.2C_AWB_should_just_remove_the_selflink
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#If_a_selflink_is_also_bolded.2C_AWB_should_just_remove_the_selflink
 
             string escTitle = Regex.Escape(articleTitle);
             //string escTitleNoBrackets = Regex.Escape(Regex.Replace(articleTitle, @" \(.*?\)$", ""));
@@ -2633,7 +2633,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             Regex r1 = new Regex(@"\[\[\s*" + escTitle + @"\s*\]\]");
             Regex r2 = new Regex(@"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]");
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Includes_and_selflinks
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Includes_and_selflinks
             // don't apply if bold in lead section already or some noinclude transclusion business
             if (!Regex.IsMatch(zerothSection, @"'''" + escTitle + @"'''") && !WikiRegexes.Noinclude.IsMatch(articleText) && !WikiRegexes.Includeonly.IsMatch(articleText))
                 zerothSectionHidden = r1.Replace(zerothSectionHidden, @"'''" + articleTitle + @"'''");
@@ -3113,7 +3113,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             // count categories
             int matches;
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#defaultsort_adding_namespace
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#defaultsort_adding_namespace
             if(!Namespace.IsMainSpace(articleTitle))
                 articleTitle = Tools.RemoveNamespaceString(articleTitle);
 
@@ -3181,7 +3181,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 }
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Add_defaultsort_to_pages_with_special_letters_and_no_defaultsort
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Human_DEFAULTSORT
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Human_DEFAULTSORT
                 articleText = DefaultsortTitlesWithDiacritics(articleText, articleTitle, matches, IsArticleAboutAPerson(articleText));
             }
             else if (ds.Count == 1) // already has DEFAULTSORT
@@ -3242,7 +3242,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                  (Tools.MakeHumanCatKey(articleTitle) != articleTitle && articleAboutAPerson))
                 && matches > 0 && !WikiRegexes.Defaultsort.IsMatch(articleText))
             {
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Human_DEFAULTSORT
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Human_DEFAULTSORT
                 // if article is about a person, attempt to add a surname, forenames sort key rather than the tidied article title
                 string sortkey = articleAboutAPerson
                               ? Tools.MakeHumanCatKey(articleTitle)
@@ -3844,7 +3844,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 articleText = "{{deadend|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
                 summary += ", added [[:Category:Dead-end pages|deadend]] tag";
             }
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#.7B.7BDeadend.7D.7D_gets_removed_from_categorized_pages
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.7B.7BDeadend.7D.7D_gets_removed_from_categorized_pages
             // don't include categories as 'links'
             else if ((linkCount - totalCategories) > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
             {

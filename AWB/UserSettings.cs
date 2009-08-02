@@ -247,7 +247,7 @@ namespace AutoWikiBrowser
             }
             catch (Exception ex)
             {
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#UnauthorizedAccessException_-_Default_settings_should_not_always_save_to_.25SYSTEMROOT.25.5Csystem32_for_UAC_reason
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#UnauthorizedAccessException_-_Default_settings_should_not_always_save_to_.25SYSTEMROOT.25.5Csystem32_for_UAC_reason
                 // if user runs AWB from somewhere they can't write to, saving settings as default will fail, so handle this
                 if (ex is UnauthorizedAccessException)
                 {

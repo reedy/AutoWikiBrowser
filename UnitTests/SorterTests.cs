@@ -131,7 +131,7 @@ Fred has a dog.
 words";
             Assert.AreEqual(f, MetaDataSorter.MoveDablinks(f));
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#String_cannot_be_of_zero_length._Parameter_name:_oldValue
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#String_cannot_be_of_zero_length._Parameter_name:_oldValue_.2F_ArgumentException_in_MetaDataSorter.MoveDablinks
             Assert.AreEqual(@"[[Category:Confederate Navy officers|Captains]]", MetaDataSorter.MoveDablinks(@"[[Category:Confederate Navy officers|Captains]]"));
 
             const string g = @"Some words";
@@ -422,7 +422,7 @@ blah";
         [Test]
         public void CategoryAndCommentTests()
         {
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Comments_get_removed_from_between_categories
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Comments_get_removed_from_between_categories
             // allow comments on newline between categories, and keep them in the same place
             const string i = @"#REDIRECT [[Ohio and Mississippi Railway]]
 
@@ -485,7 +485,7 @@ blah";
 
             Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Interwiki_links_moved_out_of_comment
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#Interwiki_links_moved_out_of_comment
             string c = @"{{Canadianmetros}}
 
 <!-- 
