@@ -1105,7 +1105,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// 
+        /// Returns true if the article is a redirect page
         /// </summary>
         public bool IsRedirect
         {
