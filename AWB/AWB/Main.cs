@@ -607,6 +607,9 @@ namespace AutoWikiBrowser
 
                 TheArticle = new ArticleEX(listMaker.SelectedArticle().Name);
 
+                //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#.27Find.27_sometimes_fails_to_use_the_search_key
+                txtEdit.ResetFind();
+
                 NewHistory();
                 NewWhatLinksHere();
 
