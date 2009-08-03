@@ -214,20 +214,17 @@
 	</tr>
 </thead>';
 	
-			$query = 'SELECT SUM(finished = 1) AS edits, SUM(finished = 0) AS unfinished, SUM(skipid > 0) AS skips, COUNT(articleid) AS total, address, s.siteid AS id FROM articles a, site s WHERE (a.siteid = s.siteid) AND (s.siteid > 0) GROUP BY s.siteid ORDER BY edits DESC, skips DESC';
+			$query = 'SELECT SUM(finished = 1) AS edits, SUM(finished = 0) AS untouched, SUM(skipid > 0) AS skips, COUNT(articleid) AS total, address, co.cocount AS checkedout FROM (SELECT siteid, 0 AS cocount FROM site WHERE siteid NOT IN (SELECT s.siteid FROM articles a, site s WHERE (a.siteid = s.siteid) AND (checkedout >= DATE_SUB(NOW(), INTERVAL 3 HOUR)) GROUP BY s.siteid) UNION SELECT s.siteid, COUNT(a.articleid) AS cocount FROM articles a, site s WHERE (a.siteid = s.siteid) AND (checkedout >= DATE_SUB(NOW(), INTERVAL 3 HOUR)) GROUP BY s.siteid) AS co, articles a, site s WHERE (a.siteid = s.siteid) AND (co.siteid = s.siteid) AND (s.siteid > 0) GROUP BY s.siteid ORDER BY edits DESC, skips DESC';
 			$result = mysql_query($query);
 			
 			while($row = mysql_fetch_assoc($result))
 			{
-				$id = $row['id'];
-				$query2 = 'SELECT COUNT(a.articleid) AS checkedout FROM articles a, site s WHERE (a.siteid = s.siteid) AND (s.siteid = ' . $id . ') AND (checkedout >= DATE_SUB(NOW(), INTERVAL 3 HOUR)) GROUP BY s.siteid';
-				$result2 = mysql_fetch_array(mysql_query($query2));
 				echo '
 <tr>
 	<td>'. htmlspecialchars($row['address']) . '</td>
 	<td>' . FormatNumber($row['edits']) . '</td>
 	<td>' . FormatNumber($row['skips']) . '</td>
-	<td>' . FormatNumber($result2['checkedout']) . '</td>
+	<td>' . FormatNumber($row['checkedout']) . '</td>
 	<td>' . FormatNumber($row['unfinished']) . '</td>
 	<td>' . FormatNumber($row['total']) . '</td>
 </tr>';
