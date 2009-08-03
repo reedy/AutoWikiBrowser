@@ -92,7 +92,7 @@ namespace WikiFunctions
         /// <param name="text">The title.</param>
         public static bool IsRedirect(string text)
         {
-            return RedirectTarget(text).Length > 0 ? true : false;
+            return (RedirectTarget(text).Length > 0);
         }
 
         // Covered by ToolsTests.RedirectTarget()

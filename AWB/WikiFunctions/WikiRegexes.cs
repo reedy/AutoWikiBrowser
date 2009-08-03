@@ -74,8 +74,7 @@ namespace WikiFunctions
                     ? string.Join("|", Variables.MagicWords["redirect"].ToArray()).Replace("#", "")
                     : "REDIRECT";
 
-            Redirect = new Regex(@"#(?:" + s + @")\s*:?\s*\[\[\s*:?\s*([^\|]*?)\s*(|\|.*?)]\]",
-                                 RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            Redirect = new Regex(@"#(?:" + s + @")\s*:?\s*\[\[\s*:?\s*([^\|\[\]]*?)\s*(\|.*?)?\]\]", RegexOptions.IgnoreCase);
 
             switch (Variables.LangCode)
             {

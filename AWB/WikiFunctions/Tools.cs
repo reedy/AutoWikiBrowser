@@ -72,7 +72,7 @@ namespace WikiFunctions
         /// <param name="text">The title.</param>
         public static bool IsRedirect(string text)
         {
-            return WikiRegexes.Redirect.IsMatch(WikiRegexes.UnFormattedText.Replace(FirstChars(text, 512), ""));
+            return (RedirectTarget(text).Length > 0);
         }
 
         // Covered by ToolsTests.RedirectTarget()
@@ -82,7 +82,7 @@ namespace WikiFunctions
         /// <param name="text">Title of redirect target</param>
         public static string RedirectTarget(string text)
         {
-            Match m = WikiRegexes.Redirect.Match(FirstChars(text, 512));
+            Match m = WikiRegexes.Redirect.Match(WikiRegexes.UnFormattedText.Replace(FirstChars(text, 512), ""));
             return WikiDecode(m.Groups[1].Value).Trim();
         }
 
