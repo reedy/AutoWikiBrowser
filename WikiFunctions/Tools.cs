@@ -394,7 +394,10 @@ namespace WikiFunctions
             }
             catch
             {
-                throw new Exception("There was a problem loading " + url + ", please make sure the page exists");
+                if (!returnNullStringOnException)
+                    throw new Exception("There was a problem loading " + url + ", please make sure the page exists");
+                
+                return "";
             }
         }
 
