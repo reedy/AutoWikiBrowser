@@ -355,7 +355,7 @@ namespace WikiFunctions.DBScanner
 
         public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
         {
-            P.FixPeopleCategories(articleText, out Skip);
+            P.FixPeopleCategories(articleText, articleTitle, out Skip);
 
             return !Skip;
         }
