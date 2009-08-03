@@ -1364,7 +1364,7 @@ namespace AutoWikiBrowser
                 Variables.Profiler.Profile("Images");
 
                 // disambiguation
-                if (chkEnableDab.Checked && txtDabLink.Text.Trim().Length > 0 &&
+                if (!preParseModeToolStripMenuItem.Checked && chkEnableDab.Checked && txtDabLink.Text.Trim().Length > 0 &&
                     txtDabVariants.Text.Trim().Length > 0)
                 {
                     if (theArticle.Disambiguate(TheSession, txtDabLink.Text.Trim(), txtDabVariants.Lines, BotMode,
