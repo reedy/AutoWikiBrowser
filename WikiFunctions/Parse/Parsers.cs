@@ -3197,7 +3197,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Add_defaultsort_to_pages_with_special_letters_and_no_defaultsort
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Human_DEFAULTSORT
-                articleText = DefaultsortTitlesWithDiacritics(articleText, articleTitle, matches, IsArticleAboutAPerson(articleText));
+                articleText = DefaultsortTitlesWithDiacritics(articleText, articleTitle, matches, IsArticleAboutAPerson(articleText, articleTitle));
             }
             else if (ds.Count == 1) // already has DEFAULTSORT
             {
@@ -3275,7 +3275,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         private static readonly Regex SeeAlsoOrMain = new Regex(@"{{(?:[Ss]ee\salso|[Mm]ain)\b", RegexOptions.Compiled);
         private static readonly Regex InfoboxFraternity = new Regex(@"{{\s*[Ii]nfobox[\s_]+[Ff]raternity", RegexOptions.Compiled);
         private static readonly Regex BoldedLink = new Regex(@"'''.*?\[\[[^\[\]]+\]\].*?'''", RegexOptions.Compiled);
-        private static readonly Regex BLPSources = new Regex(@"{{\s*[Bb]LP sources\b", RegexOptions.Compiled);
+        private static readonly Regex BLPSources = new Regex(@"{{\s*[Bb]LP (sources|unsourced)\b", RegexOptions.Compiled);
         private static readonly Regex RefImprove = new Regex(@"{{\s*[Rr]efimproveBLP\b", RegexOptions.Compiled);
 
         /// <summary>
@@ -3283,7 +3283,18 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns></returns>
+        [Obsolete]
         public static bool IsArticleAboutAPerson(string articleText)
+        {
+            return IsArticleAboutAPerson(articleText, "");
+        }
+
+        /// <summary>
+        /// determines whether the article is about a person by looking for persondata/birth death categories, bio stub etc. for en wiki only
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <returns></returns>
+        public static bool IsArticleAboutAPerson(string articleText, string articleTitle)
         {
             if (Variables.LangCode != LangCodeEnum.en
                     || articleText.Contains(@"[[Category:Multiple people]]")
@@ -3330,7 +3341,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     || WikiRegexes.LivingPeopleRegex2.IsMatch(articleText)
                     || WikiRegexes.BirthsCategory.IsMatch(articleText)
                     || BLPSources.IsMatch(articleText)
-                    || RefImprove.IsMatch(articleText);
+                    || RefImprove.IsMatch(articleText) 
+                    || (!String.IsNullOrEmpty(articleTitle) && Tools.GetArticleText(@"Talk:" + articleTitle, true).Contains(@"{{WPBiography"));           
         }
 
         /// <summary>
@@ -3411,9 +3423,21 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="articleText"></param>
         /// <param name="noChange"></param>
         /// <returns></returns>
+        [Obsolete]
         public string FixPeopleCategories(string articleText, out bool noChange)
         {
-            string newText = FixPeopleCategories(articleText);
+            return FixPeopleCategories(articleText, "", out noChange);
+        }
+
+        /// <summary>
+        /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <param name="noChange"></param>
+        /// <returns></returns>
+        public string FixPeopleCategories(string articleText, string articleTitle, out bool noChange)
+        {
+            string newText = FixPeopleCategories(articleText, articleTitle);
 
             noChange = (newText == articleText);
 
@@ -3426,14 +3450,20 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         private static readonly Regex DiedOrBaptised = new Regex(@"(^.*?)((?:&[nm]dash;|—|–|;|[Dd](?:ied|\.)|baptised).*)", RegexOptions.Compiled);
         private static readonly Regex CircaTemplate = new Regex(@"{{[Cc]irca}}", RegexOptions.Compiled);
 
+        [Obsolete]
+        public static string FixPeopleCategories(string articleText)
+        {
+            return FixPeopleCategories(articleText, "");
+        }
+
         /// <summary>
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns></returns>
-        public static string FixPeopleCategories(string articleText)
+        public static string FixPeopleCategories(string articleText, string articleTitle)
         {
-            if (Variables.LangCode != LangCodeEnum.en || WikiRegexes.Lifetime.IsMatch(articleText) || !IsArticleAboutAPerson(articleText))
+            if (Variables.LangCode != LangCodeEnum.en || WikiRegexes.Lifetime.IsMatch(articleText) || !IsArticleAboutAPerson(articleText, articleTitle))
                 return YearOfBirthMissingCategory(articleText);
 
             // over 20 references or long and not DOB/DOD categorised at all yet: implausible

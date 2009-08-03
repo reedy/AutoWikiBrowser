@@ -466,7 +466,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="articleTitle">The name of the article.</param>
         /// <returns>The wiki text of the article.</returns>
-        public static string GetArticleText(string articleTitle)
+        public static string GetArticleText(string articleTitle, bool returnNullStringOnException)
         {
             if (!IsValidTitle(articleTitle))
                 return "";
@@ -478,8 +478,16 @@ namespace WikiFunctions
             }
             catch
             {
-                throw new Exception("There was a problem loading " + url + ", please make sure the page exists");
+                if (!returnNullStringOnException)
+                    throw new Exception("There was a problem loading " + url + ", please make sure the page exists");
+                else 
+                    return "";
             }
+        }
+
+        public static string GetArticleText(string articleTitle)
+        {
+            return GetArticleText(articleTitle, false);
         }
 
         [DllImport("user32.dll")]
