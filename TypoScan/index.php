@@ -214,7 +214,7 @@
 	</tr>
 </thead>';
 	
-			$query = 'SELECT SUM(finished = 1) AS edits, SUM(finished = 0) AS untouched, SUM(skipid > 0) AS skips, COUNT(articleid) AS total, address, co.cocount AS checkedout FROM (SELECT siteid, 0 AS cocount FROM site WHERE siteid NOT IN (SELECT s.siteid FROM articles a, site s WHERE (a.siteid = s.siteid) AND (checkedout >= DATE_SUB(NOW(), INTERVAL 3 HOUR)) GROUP BY s.siteid) UNION SELECT s.siteid, COUNT(a.articleid) AS cocount FROM articles a, site s WHERE (a.siteid = s.siteid) AND (checkedout >= DATE_SUB(NOW(), INTERVAL 3 HOUR)) GROUP BY s.siteid) AS co, articles a, site s WHERE (a.siteid = s.siteid) AND (co.siteid = s.siteid) AND (s.siteid > 0) GROUP BY s.siteid ORDER BY edits DESC, skips DESC';
+			$query = 'SELECT SUM(finished = 1) AS edits, SUM(finished = 0) AS untouched, SUM(skipid > 0) AS skips, COUNT(articleid) AS total, address, co.cocount AS checkedout FROM (SELECT s.siteid, COUNT(a.articleid) AS cocount FROM site AS s LEFT JOIN articles AS a ON (a.siteid = s.siteid AND a.checkedout >= DATE_SUB(NOW(), INTERVAL 3 HOUR)) GROUP BY s.siteid ORDER BY s.siteid DESC) AS co, articles a, site s WHERE (a.siteid = s.siteid) AND (co.siteid = s.siteid) AND (s.siteid > 0) GROUP BY s.siteid ORDER BY edits DESC, skips DESC';
 			$result = mysql_query($query);
 			
 			while($row = mysql_fetch_assoc($result))
