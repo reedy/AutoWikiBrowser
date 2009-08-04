@@ -1344,7 +1344,7 @@ namespace WikiFunctions
     /// <summary>
     /// Factory class for making instances of IArticleComparer
     /// </summary>
-    public class ArticleComparerFactory
+    public static class ArticleComparerFactory
     {
         /// <summary>
         /// 
@@ -1355,42 +1355,44 @@ namespace WikiFunctions
         /// <param name="isSingleLine">Whether to apply the regular expression Single Line option</param>
         /// <param name="isMultiLine">Whether to apply the regular expression Multi Line option</param>
         /// <returns>An instance of IArticleComparer which can carry out the specified comparison</returns>
-        static public IArticleComparer Create(string comparator, bool isCaseSensitive, bool isRegex, bool isSingleLine, bool isMultiLine)
+        public static IArticleComparer Create(string comparator, bool isCaseSensitive, bool isRegex, bool isSingleLine, bool isMultiLine)
         {
             if (isRegex)
             {
                 try
                 {
-                    if (comparator.Contains("%%"))
-                        if (isCaseSensitive)
-                            return new DynamicRegexArticleComparer(comparator, RegexOptions.None);
-                        else
-                            return new DynamicRegexArticleComparer(comparator, RegexOptions.IgnoreCase);
-                    else
-                        if (isCaseSensitive)
-                            return new RegexArticleComparer(new Regex(comparator, RegexOptions.Compiled));
-                        else
-                            return new RegexArticleComparer(new Regex(comparator, RegexOptions.Compiled | RegexOptions.IgnoreCase));
+                    RegexOptions opts = RegexOptions.None;
+                    if (isCaseSensitive)
+                        opts |= RegexOptions.IgnoreCase;
+
+                    if (isSingleLine)
+                        opts |= RegexOptions.Singleline;
+
+                    if (isMultiLine)
+                        opts |= RegexOptions.Multiline;
+
+
+                    return comparator.Contains("%%")
+                               ? (IArticleComparer) new DynamicRegexArticleComparer(comparator, opts)
+                               : new RegexArticleComparer(new Regex(comparator, opts | RegexOptions.Compiled));
                 }
                 catch (ArgumentException ex)
                 {
                     //TODO: handle things like "bad regex" here
                     // For now, tell the user then let normal exception handling process it as well
                     MessageBox.Show(ex.Message);
-                    throw ex;
+                    throw;
                 }
             }
-            else
-                if (comparator.Contains("%%"))
-                    if (isCaseSensitive)
-                        return new CaseSensitiveArticleComparerWithKeywords(comparator);
-                    else
-                        return new CaseInsensitiveArticleComparerWithKeywords(comparator);
-                else
-                    if (isCaseSensitive)
-                        return new CaseSensitiveArticleComparer(comparator);
-                    else
-                        return new CaseInsensitiveArticleComparer(comparator);
+
+            if (comparator.Contains("%%"))
+                return isCaseSensitive
+                    ? (IArticleComparer) new CaseSensitiveArticleComparerWithKeywords(comparator)
+                    : new CaseInsensitiveArticleComparerWithKeywords(comparator);
+
+            return isCaseSensitive
+                       ? (IArticleComparer) new CaseSensitiveArticleComparer(comparator)
+                       : new CaseInsensitiveArticleComparer(comparator);
         }
     }
 }
