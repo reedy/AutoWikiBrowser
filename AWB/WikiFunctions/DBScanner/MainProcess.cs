@@ -163,6 +163,9 @@ namespace WikiFunctions.DBScanner
 
         private void ScanArticle(ArticleInfo ai)
         {
+            if (IgnoreComments)
+                ai.Text = WikiRegexes.Comments.Replace(ai.Text, "");
+
             foreach (Scan z in Scanners)
             {
                 if (!z.Check(ref ai.Text, ref ai.Title, ai.Timestamp, ai.Restrictions))
@@ -222,9 +225,6 @@ namespace WikiFunctions.DBScanner
                         ai.Timestamp = reader.ReadString();
                         reader.ReadToFollowing("text");
                         ai.Text = reader.ReadString();
-
-                        if (IgnoreComments)
-                            ai.Text = WikiRegexes.Comments.Replace(ai.Text, "");
 
                         if (MultiThreaded)
                         {
