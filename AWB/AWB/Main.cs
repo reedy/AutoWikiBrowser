@@ -992,41 +992,19 @@ namespace AutoWikiBrowser
             ContainsComparer = null;
             NotContainsComparer = null;
         }
+
         private void MakeSkipChecks()
         {
-            if (chkSkipIsRegex.Checked)
-                if (txtSkipIfContains.Text.Contains("%%"))
-                    if (chkSkipCaseSensitive.Checked)
-                        ContainsComparer = new DynamicRegexArticleComparer(txtSkipIfContains.Text, RegexOptions.None);
-                    else
-                        ContainsComparer = new DynamicRegexArticleComparer(txtSkipIfContains.Text, RegexOptions.IgnoreCase);
-                else
-                    if (chkSkipCaseSensitive.Checked)
-                        ContainsComparer = new RegexArticleComparer(new Regex(txtSkipIfContains.Text, RegexOptions.Compiled));
-                    else
-                        ContainsComparer = new RegexArticleComparer(new Regex(txtSkipIfContains.Text, RegexOptions.Compiled | RegexOptions.IgnoreCase));
-            else
-                if (chkSkipCaseSensitive.Checked)
-                    ContainsComparer = new CaseSensitiveArticleComparer(txtSkipIfContains.Text);
-                else
-                    ContainsComparer = new CaseInsensitiveArticleComparer(txtSkipIfContains.Text);
-
-            if (chkSkipIsRegex.Checked)
-                if (txtSkipIfNotContains.Text.Contains("%%"))
-                    if (chkSkipCaseSensitive.Checked)
-                        NotContainsComparer = new DynamicRegexArticleComparer(txtSkipIfNotContains.Text, RegexOptions.None);
-                    else
-                        NotContainsComparer = new DynamicRegexArticleComparer(txtSkipIfNotContains.Text, RegexOptions.IgnoreCase);
-                else
-                    if (chkSkipCaseSensitive.Checked)
-                        NotContainsComparer = new RegexArticleComparer(new Regex(txtSkipIfNotContains.Text, RegexOptions.Compiled));
-                    else
-                        NotContainsComparer = new RegexArticleComparer(new Regex(txtSkipIfNotContains.Text, RegexOptions.Compiled | RegexOptions.IgnoreCase));
-            else
-                if (chkSkipCaseSensitive.Checked)
-                    NotContainsComparer = new CaseSensitiveArticleComparer(txtSkipIfNotContains.Text);
-                else
-                    NotContainsComparer = new CaseInsensitiveArticleComparer(txtSkipIfNotContains.Text);
+            ContainsComparer = ArticleComparerFactory.Create(txtSkipIfContains.Text,
+                                                             chkSkipCaseSensitive.Checked,
+                                                             chkSkipIsRegex.Checked,
+                                                             false, // singleline
+                                                             false); // multiline
+            NotContainsComparer = ArticleComparerFactory.Create(txtSkipIfNotContains.Text,
+                                                                chkSkipCaseSensitive.Checked,
+                                                                chkSkipIsRegex.Checked,
+                                                                false, // singleline
+                                                                false); // multiline
         }
 
         /// <summary>
