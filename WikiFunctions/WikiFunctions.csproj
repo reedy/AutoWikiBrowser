@@ -55,8 +55,11 @@
     <Compile Include="API\PageInfo.cs" />
     <Compile Include="API\SaveInfo.cs" />
     <Compile Include="API\UserInfo.cs" />
+    <Compile Include="Article\Comparers\ArticleComparerFactory.cs" />
+    <Compile Include="Article\Comparers\Comparers.cs" />
+    <Compile Include="Article\Comparers\RegexComparers.cs" />
     <Compile Include="AwbDirs.cs" />
-    <Compile Include="Article.cs">
+    <Compile Include="Article\Article.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controls\NamespacesControl.cs">
