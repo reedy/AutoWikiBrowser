@@ -1220,8 +1220,6 @@ namespace WikiFunctions
         bool HasInfoBox { get; }
     }
 
-    //TODO: Create more comparers. Create ComparerFactory
-
     /// <summary>
     /// Class for scanning an article for content
     /// </summary>
@@ -1243,17 +1241,13 @@ namespace WikiFunctions
         public CaseSensitiveArticleComparer(string comparator)
         {
             Comparator = comparator;
-            ApplyKeywords = Comparator.Contains("%%");
         }
         public bool Matches(Article article)
         {
-            return ApplyKeywords
-                     ? article.ArticleText.Contains(Tools.ApplyKeyWords(article.Name, Comparator))
-                     : article.ArticleText.Contains(Comparator);
+            return article.ArticleText.Contains(Comparator);
         }
 
         readonly string Comparator;
-        readonly bool ApplyKeywords;
     }
 
     /// <summary>
@@ -1264,18 +1258,49 @@ namespace WikiFunctions
         public CaseInsensitiveArticleComparer(string comparator)
         {
             Comparator = comparator;
-            ApplyKeywords = Comparator.Contains("%%");
         }
         public bool Matches(Article article)
         {
-            return ApplyKeywords
-                     ? article.ArticleText.IndexOf(Tools.ApplyKeyWords(article.Name, Comparator), StringComparison.CurrentCultureIgnoreCase) >= 0
-                     : article.ArticleText.IndexOf(Comparator, StringComparison.CurrentCultureIgnoreCase) >= 0;
+            return article.ArticleText.IndexOf(Comparator, StringComparison.CurrentCultureIgnoreCase) >= 0;
             // or should that be OrdinalIgnoreCase?
         }
 
         readonly string Comparator;
-        readonly bool ApplyKeywords;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class CaseSensitiveArticleComparerWithKeywords : IArticleComparer
+    {
+        public CaseSensitiveArticleComparerWithKeywords(string comparator)
+        {
+            Comparator = comparator;
+        }
+        public bool Matches(Article article)
+        {
+            return article.ArticleText.Contains(Tools.ApplyKeyWords(article.Name, Comparator));
+        }
+
+        readonly string Comparator;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class CaseInsensitiveArticleComparerWithKeywords : IArticleComparer
+    {
+        public CaseInsensitiveArticleComparerWithKeywords(string comparator)
+        {
+            Comparator = comparator;
+        }
+        public bool Matches(Article article)
+        {
+            return article.ArticleText.IndexOf(Tools.ApplyKeyWords(article.Name, Comparator), StringComparison.CurrentCultureIgnoreCase) >= 0;
+            // or should that be OrdinalIgnoreCase?
+        }
+
+        readonly string Comparator;
     }
 
     /// <summary>
@@ -1304,6 +1329,8 @@ namespace WikiFunctions
         {
             Comparator = comparator;
             Options = options;
+            // Create a regex to try it out. Throws an exception if there's a regex error
+            Regex re = new Regex(Tools.ApplyKeyWords("a", comparator), options);
         }
         public bool Matches(Article article)
         {
@@ -1312,5 +1339,58 @@ namespace WikiFunctions
 
         readonly string Comparator;
         readonly RegexOptions Options;
+    }
+
+    /// <summary>
+    /// Factory class for making instances of IArticleComparer
+    /// </summary>
+    public class ArticleComparerFactory
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="comparator">The test string</param>
+        /// <param name="isCaseSensitive">Whether the comparison should be case sensitive</param>
+        /// <param name="isRegex">Whether to employ regular expression matching when comparing the test string</param>
+        /// <param name="isSingleLine">Whether to apply the regular expression Single Line option</param>
+        /// <param name="isMultiLine">Whether to apply the regular expression Multi Line option</param>
+        /// <returns>An instance of IArticleComparer which can carry out the specified comparison</returns>
+        static public IArticleComparer Create(string comparator, bool isCaseSensitive, bool isRegex, bool isSingleLine, bool isMultiLine)
+        {
+            if (isRegex)
+            {
+                try
+                {
+                    if (comparator.Contains("%%"))
+                        if (isCaseSensitive)
+                            return new DynamicRegexArticleComparer(comparator, RegexOptions.None);
+                        else
+                            return new DynamicRegexArticleComparer(comparator, RegexOptions.IgnoreCase);
+                    else
+                        if (isCaseSensitive)
+                            return new RegexArticleComparer(new Regex(comparator, RegexOptions.Compiled));
+                        else
+                            return new RegexArticleComparer(new Regex(comparator, RegexOptions.Compiled | RegexOptions.IgnoreCase));
+                }
+                catch (ArgumentException ex)
+                {
+                    //TODO: handle things like "bad regex" here
+                    // For now, tell the user then let normal exception handling process it as well
+                    MessageBox.Show(ex.Message);
+                    throw ex;
+                }
+            }
+            else
+                if (comparator.Contains("%%"))
+                    if (isCaseSensitive)
+                        return new CaseSensitiveArticleComparerWithKeywords(comparator);
+                    else
+                        return new CaseInsensitiveArticleComparerWithKeywords(comparator);
+                else
+                    if (isCaseSensitive)
+                        return new CaseSensitiveArticleComparer(comparator);
+                    else
+                        return new CaseInsensitiveArticleComparer(comparator);
+        }
     }
 }
