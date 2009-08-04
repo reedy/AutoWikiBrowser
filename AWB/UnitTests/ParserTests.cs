@@ -1056,6 +1056,29 @@ died 2002
         }
 
         [Test]
+        public void RemoveDuplicateWikiLinks()
+        {
+            // removes duplicate piped wikilinks on same line
+            Assert.AreEqual(@"now [[foo|bar]] was bar too", Parsers.RemoveDuplicateWikiLinks(@"now [[foo|bar]] was [[foo|bar]] too"));
+            Assert.AreEqual(@"now [[foo|bar]] was bars too", Parsers.RemoveDuplicateWikiLinks(@"now [[foo|bar]] was [[foo|bar]]s too"));
+
+            // multiline – no change
+            Assert.AreEqual(@"now [[foo|bar]] 
+was [[foo|bar]] too", Parsers.RemoveDuplicateWikiLinks(@"now [[foo|bar]] 
+was [[foo|bar]] too"));
+
+            // case sensitive
+            Assert.AreEqual(@"now [[foo|bar]] was [[Foo|bar]] too", Parsers.RemoveDuplicateWikiLinks(@"now [[foo|bar]] was [[Foo|bar]] too"));
+            Assert.AreEqual(@"now [[foo bar]] was [[Foo bar]] too", Parsers.RemoveDuplicateWikiLinks(@"now [[foo bar]] was [[Foo bar]] too"));
+
+            // removes duplicate unpiped wikilinks
+            Assert.AreEqual(@"now [[foo bar]] was foo bar too", Parsers.RemoveDuplicateWikiLinks(@"now [[foo bar]] was [[foo bar]] too"));
+
+            // no changes
+            Assert.AreEqual(@"now [[foo|bar]] was [[foo]] too", Parsers.RemoveDuplicateWikiLinks(@"now [[foo|bar]] was [[foo]] too"));
+        }
+
+        [Test]
         public void CanonicalizeTitleRawTests()
         {
             Assert.AreEqual(@"foo bar", Parsers.CanonicalizeTitleRaw(@"foo_bar"));
