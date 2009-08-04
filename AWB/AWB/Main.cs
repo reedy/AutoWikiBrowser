@@ -505,7 +505,11 @@ namespace AutoWikiBrowser
             }
 
             else
-                StartDelayedRestartTimer();
+            {
+                Stop();
+                ErrorHandler.Handle(ex);
+                //StartDelayedRestartTimer();
+            }
         }
 
         private void StartApiTextLoad(string title)
