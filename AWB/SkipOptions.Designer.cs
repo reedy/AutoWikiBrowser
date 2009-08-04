@@ -33,20 +33,20 @@ namespace AutoWikiBrowser
             this.chkNoTag = new System.Windows.Forms.CheckBox();
             this.gbOptions = new System.Windows.Forms.GroupBox();
             this.chkUserTalkTemplates = new System.Windows.Forms.CheckBox();
-            this.chkCiteTemplateDates = new System.Windows.Forms.CheckBox();
-            this.chkPeopleCategories = new System.Windows.Forms.CheckBox();
             this.chkDefaultSortAdded = new System.Windows.Forms.CheckBox();
             this.chkNoBadLink = new System.Windows.Forms.CheckBox();
             this.chkNoBulletedLink = new System.Windows.Forms.CheckBox();
             this.chkNoBoldTitle = new System.Windows.Forms.CheckBox();
             this.chkNoHeaderError = new System.Windows.Forms.CheckBox();
+            this.chkCiteTemplateDates = new System.Windows.Forms.CheckBox();
+            this.chkPeopleCategories = new System.Windows.Forms.CheckBox();
             this.gbOptions.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnClose
             // 
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(101, 325);
+            this.btnClose.Location = new System.Drawing.Point(101, 274);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 1;
@@ -90,7 +90,7 @@ namespace AutoWikiBrowser
             this.gbOptions.Controls.Add(this.chkPeopleCategories);
             this.gbOptions.Location = new System.Drawing.Point(12, 12);
             this.gbOptions.Name = "gbOptions";
-            this.gbOptions.Size = new System.Drawing.Size(164, 307);
+            this.gbOptions.Size = new System.Drawing.Size(164, 256);
             this.gbOptions.TabIndex = 0;
             this.gbOptions.TabStop = false;
             this.gbOptions.Text = "Skip if no...";
@@ -105,28 +105,6 @@ namespace AutoWikiBrowser
             this.chkUserTalkTemplates.Tag = 8;
             this.chkUserTalkTemplates.Text = "User talk templates subst\'d";
             this.chkUserTalkTemplates.UseVisualStyleBackColor = true;
-            // 
-            // chkCiteTemplateDates
-            // 
-            this.chkCiteTemplateDates.AutoSize = true;
-            this.chkCiteTemplateDates.Location = new System.Drawing.Point(6, 203);
-            this.chkCiteTemplateDates.Name = "chkCiteTemplateDates";
-            this.chkCiteTemplateDates.Size = new System.Drawing.Size(152, 17);
-            this.chkCiteTemplateDates.TabIndex = 9;
-            this.chkCiteTemplateDates.Tag = 9;
-            this.chkCiteTemplateDates.Text = "Citation template dates fixed";
-            this.chkCiteTemplateDates.UseVisualStyleBackColor = true;
-            // 
-            // chkPeopleCategories
-            // 
-            this.chkPeopleCategories.AutoSize = true;
-            this.chkPeopleCategories.Location = new System.Drawing.Point(6, 226);
-            this.chkPeopleCategories.Name = "chkPeopleCategories";
-            this.chkPeopleCategories.Size = new System.Drawing.Size(152, 17);
-            this.chkPeopleCategories.TabIndex = 10;
-            this.chkPeopleCategories.Tag = 10;
-            this.chkPeopleCategories.Text = "Human category changes";
-            this.chkPeopleCategories.UseVisualStyleBackColor = true;
             // 
             // chkDefaultSortAdded
             // 
@@ -183,13 +161,35 @@ namespace AutoWikiBrowser
             this.chkNoHeaderError.Text = "Header error fixed";
             this.chkNoHeaderError.UseVisualStyleBackColor = true;
             // 
+            // chkCiteTemplateDates
+            // 
+            this.chkCiteTemplateDates.AutoSize = true;
+            this.chkCiteTemplateDates.Location = new System.Drawing.Point(6, 203);
+            this.chkCiteTemplateDates.Name = "chkCiteTemplateDates";
+            this.chkCiteTemplateDates.Size = new System.Drawing.Size(158, 17);
+            this.chkCiteTemplateDates.TabIndex = 9;
+            this.chkCiteTemplateDates.Tag = 9;
+            this.chkCiteTemplateDates.Text = "Citation template dates fixed";
+            this.chkCiteTemplateDates.UseVisualStyleBackColor = true;
+            // 
+            // chkPeopleCategories
+            // 
+            this.chkPeopleCategories.AutoSize = true;
+            this.chkPeopleCategories.Location = new System.Drawing.Point(6, 226);
+            this.chkPeopleCategories.Name = "chkPeopleCategories";
+            this.chkPeopleCategories.Size = new System.Drawing.Size(148, 17);
+            this.chkPeopleCategories.TabIndex = 10;
+            this.chkPeopleCategories.Tag = 10;
+            this.chkPeopleCategories.Text = "Human category changes";
+            this.chkPeopleCategories.UseVisualStyleBackColor = true;
+            // 
             // SkipOptions
             // 
             this.AcceptButton = this.btnClose;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(188, 355);
+            this.ClientSize = new System.Drawing.Size(188, 302);
             this.Controls.Add(this.gbOptions);
             this.Controls.Add(this.btnClose);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
