@@ -3998,8 +3998,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                              @"|awb|all).*|optout=all))\}\}", RegexOptions.IgnoreCase).Success;
         }
 
-        private static readonly Regex DupeLinks1 = new Regex("\\[\\[([^\\]\\|]+)\\|([^\\]]*)\\]\\](.*[.\n]*)\\[\\[\\1\\|\\2\\]\\]", RegexOptions.Compiled);
-        private static readonly Regex DupeLinks2 = new Regex("\\[\\[([^\\]]+)\\]\\](.*[.\n]*)\\[\\[\\1\\]\\]", RegexOptions.Compiled);
+        private static readonly Regex DuplicatePipedLinks = new Regex(@"\[\[([^\]\|]+)\|([^\]]*)\]\](.*[.\n]*)\[\[\1\|\2\]\]", RegexOptions.Compiled);
+        private static readonly Regex DuplicateUnpipedLinks = new Regex(@"\[\[([^\]]+)\]\](.*[.\n]*)\[\[\1\]\]", RegexOptions.Compiled);
 
         /// <summary>
         /// Remove some of the duplicated wikilinks from the article text
@@ -4008,8 +4008,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public static string RemoveDuplicateWikiLinks(string articleText)
         {
-            articleText = DupeLinks1.Replace(articleText, "[[$1|$2]]$3$2");
-            return DupeLinks2.Replace(articleText, "[[$1]]$2$1");
+            articleText = DuplicatePipedLinks.Replace(articleText, "[[$1|$2]]$3$2");
+            return DuplicateUnpipedLinks.Replace(articleText, "[[$1]]$2$1");
         }
 
         private static readonly Regex ExtToInt1 = new Regex(@"/\w+:\/\/secure\.wikimedia\.org\/(\w+)\/(\w+)\//", RegexOptions.IgnoreCase | RegexOptions.Compiled);
