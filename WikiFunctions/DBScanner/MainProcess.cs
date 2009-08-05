@@ -214,12 +214,13 @@ namespace WikiFunctions.DBScanner
                             continue;
                         }
 
-                        ArticleInfo ai = new ArticleInfo();
+                        ArticleInfo ai = new ArticleInfo
+                                             {
+                                                 Title = articleTitle = reader.ReadString(),
+                                                 Restrictions = reader.Name == "restrictions" ? reader.ReadString() : ""
+                                             };
 
                         //reader.ReadToFollowing("title");
-                        ai.Title = articleTitle = reader.ReadString();
-
-                        ai.Restrictions = reader.Name == "restrictions" ? reader.ReadString() : "";
 
                         reader.ReadToFollowing("timestamp");
                         ai.Timestamp = reader.ReadString();

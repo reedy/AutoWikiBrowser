@@ -110,6 +110,29 @@ namespace UnitTests
         }
 
         [Test]
+        public void BLPUnsourced()
+        {
+            TestMatches(WikiRegexes.BLPSources, @"{{BLP unsourced|foo}}", 1);
+            TestMatches(WikiRegexes.BLPSources, @"{{UnsourcedBLP|foo}}", 1);
+            TestMatches(WikiRegexes.BLPSources, @"{{BLPunreferenced|foo}}", 1);
+            TestMatches(WikiRegexes.BLPSources, @"{{Unreferencedblp|foo}}", 1);
+            TestMatches(WikiRegexes.BLPSources, @"{{Blpunsourced|foo}}", 1);
+            TestMatches(WikiRegexes.BLPSources, @"{{BLPunsourced|foo}}", 1);
+            TestMatches(WikiRegexes.BLPSources, @"{{Unsourcedblp|foo}}", 1);
+            TestMatches(WikiRegexes.BLPSources, @"{{BLPUnreferenced|foo}}", 1);
+            TestMatches(WikiRegexes.BLPSources, @"{{Unsourced BLP|foo}}", 1);
+            TestMatches(WikiRegexes.BLPSources, @"{{BLP unreferenced|foo}}", 1);
+            TestMatches(WikiRegexes.BLPSources, @"{{Blpunref|foo}}", 1);
+            TestMatches(WikiRegexes.BLPSources, @"{{Unreferenced BLP|foo}}", 1);
+            TestMatches(WikiRegexes.BLPSources, @"{{Blpunreferenced|foo}}", 1);
+            TestMatches(WikiRegexes.BLPSources, @"{{UnreferencedBLP|foo}}", 1);
+            TestMatches(WikiRegexes.BLPSources, @"{{BLPUnsourced|foo}}", 1);
+            TestMatches(WikiRegexes.BLPSources, @"{{Unreferenced blp|foo}}", 1);
+            TestMatches(WikiRegexes.BLPSources, @"{{ BLP Unreferenced | foo}}", 1);
+            TestMatches(WikiRegexes.BLPSources, @"{{bLP Unreferenced}}", 1);
+        }
+
+        [Test]
         public void UnformattedTextTests()
         {
             Assert.IsTrue(WikiRegexes.UnFormattedText.IsMatch(@"<pre>{{abc}}</pre>"));

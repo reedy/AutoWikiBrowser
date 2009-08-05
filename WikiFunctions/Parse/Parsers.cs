@@ -3260,7 +3260,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         private static readonly Regex SeeAlsoOrMain = new Regex(@"{{(?:[Ss]ee\salso|[Mm]ain)\b", RegexOptions.Compiled);
         private static readonly Regex InfoboxFraternity = new Regex(@"{{\s*[Ii]nfobox[\s_]+[Ff]raternity", RegexOptions.Compiled);
         private static readonly Regex BoldedLink = new Regex(@"'''.*?\[\[[^\[\]]+\]\].*?'''", RegexOptions.Compiled);
-        private static readonly Regex BLPSources = new Regex(@"{{\s*[Bb]LP (sources|unsourced)\b", RegexOptions.Compiled);
         private static readonly Regex RefImprove = new Regex(@"{{\s*[Rr]efimproveBLP\b", RegexOptions.Compiled);
 
         /// <summary>
@@ -3326,7 +3325,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)
                     || WikiRegexes.LivingPeopleRegex2.IsMatch(articleText)
                     || WikiRegexes.BirthsCategory.IsMatch(articleText)
-                    || BLPSources.IsMatch(articleText)
+                    || WikiRegexes.BLPSources.IsMatch(articleText)
                     || RefImprove.IsMatch(articleText) 
                     || (!String.IsNullOrEmpty(articleTitle) && Tools.GetArticleText(@"Talk:" + articleTitle, true).Contains(@"{{WPBiography"));           
         }
