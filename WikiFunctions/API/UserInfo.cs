@@ -96,7 +96,7 @@ namespace WikiFunctions.API
         /// <returns></returns>
         public bool CanEditPage(PageInfo page)
         {
-            return IsInGroup(page.EditProtection) || HasRight(page.EditProtection) && !(page.NamespaceID == Namespace.MediaWiki &&
+            return (IsInGroup(page.EditProtection) || HasRight(page.EditProtection)) && !(page.NamespaceID == Namespace.MediaWiki &&
                 !HasRight("editinterface"));
         }
 
