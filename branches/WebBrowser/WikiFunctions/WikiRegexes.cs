@@ -406,6 +406,11 @@ namespace WikiFunctions
         /// </summary>
         public static readonly Regex MoreNoFootnotes = new Regex(@"{{([Mm]ore|[Nn]o) ?footnotes[^{}]*}}", RegexOptions.Compiled);
 
+        /// <summary>
+        /// Matches the various {{BLP unsourced}} templates
+        /// </summary>
+        public static readonly Regex BLPSources = new Regex(@"{{\s*([Bb](LP|lp) ?(sources|[Uu]n(sourced|ref(?:erenced)?))|[Uu]n(sourced|referenced) ?[Bb](LP|lp))\b", RegexOptions.Compiled);
+
         public const string ReferencesTemplates = @"(\{\{\s*ref(?:-?li(?:st|nk)|erence)[^{}]*\}\}|<references\s*/>|\{\{refs)";
         public static readonly string ReferenceEndGR = @"(</ref>|{{GR\|\d}})";
 
