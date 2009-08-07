@@ -278,9 +278,10 @@ namespace AutoWikiBrowser
                 new EditPrefs(chkGeneralFixes.Checked, chkAutoTagger.Checked,
                               chkUnicodifyWhole.Checked, cmboCategorise.SelectedIndex, txtNewCategory.Text,
                               txtNewCategory2.Text, cmboImages.SelectedIndex, txtImageReplace.Text, txtImageWith.Text,
-                              chkSkipNoCatChange.Checked, chkRemoveSortKey.Checked, chkSkipNoImgChange.Checked, chkAppend.Checked,
+                              chkSkipNoCatChange.Checked, chkRemoveSortKey.Checked, chkSkipNoImgChange.Checked,
+                              chkAppend.Checked,
                               !rdoPrepend.Checked,
-                              txtAppendMessage.Text, (int)udNewlineChars.Value, (int)nudBotSpeed.Value,
+                              txtAppendMessage.Text, (int) udNewlineChars.Value, (int) nudBotSpeed.Value,
                               chkSuppressTag.Checked,
                               chkRegExTypo.Checked),
 
@@ -290,37 +291,39 @@ namespace AutoWikiBrowser
                               chkSkipSpamFilter.Checked,
                               chkSkipIfInuse.Checked, chkSkipIfContains.Checked, chkSkipIfNotContains.Checked,
                               txtSkipIfContains.Text,
-                              txtSkipIfNotContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked, chkSkipAfterProcessing.Checked,
+                              txtSkipIfNotContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked,
+                              chkSkipAfterProcessing.Checked,
                               chkSkipWhenNoFAR.Checked, chkSkipIfNoRegexTypo.Checked, chkSkipNoDab.Checked,
                               chkSkipWhitespace.Checked, chkSkipCasing.Checked,
                               chkSkipGeneralFixes.Checked, chkSkipMinorGeneralFixes.Checked, chkSkipNoPageLinks.Checked,
                               Skip.SelectedItems, chkSkipIfRedirect.Checked, chkSkipIfNoAlerts.Checked),
 
                 new GeneralPrefs(SaveArticleList, IgnoreNoBots, cmboEditSummary.Items,
-                                 cmboEditSummary.Text, new string[] {
-                                                               (string)PasteMore1.Tag,
-                                                               (string)PasteMore2.Tag,
-                                                               (string)PasteMore3.Tag,
-                                                               (string)PasteMore4.Tag,
-                                                               (string)PasteMore5.Tag,
-                                                               (string)PasteMore6.Tag,
-                                                               (string)PasteMore7.Tag,
-                                                               (string)PasteMore8.Tag,
-                                                               (string)PasteMore9.Tag,
-                                                               (string)PasteMore10.Tag
+                                 cmboEditSummary.Text, new string[]
+                                                           {
+                                                               (string) PasteMore1.Tag,
+                                                               (string) PasteMore2.Tag,
+                                                               (string) PasteMore3.Tag,
+                                                               (string) PasteMore4.Tag,
+                                                               (string) PasteMore5.Tag,
+                                                               (string) PasteMore6.Tag,
+                                                               (string) PasteMore7.Tag,
+                                                               (string) PasteMore8.Tag,
+                                                               (string) PasteMore9.Tag,
+                                                               (string) PasteMore10.Tag
                                                            }, txtFind.Text, chkFindRegex.Checked,
                                  chkFindCaseSensitive.Checked, wordWrapToolStripMenuItem1.Checked, EnableToolBar,
                                  bypassRedirectsToolStripMenuItem.Checked, autoSaveSettingsToolStripMenuItem.Checked,
                                  preParseModeToolStripMenuItem.Checked,
-                                 noSectionEditSummaryToolStripMenuItem.Checked, restrictDefaultsortChangesToolStripMenuItem.Checked,
+                                 noSectionEditSummaryToolStripMenuItem.Checked,
+                                 restrictDefaultsortChangesToolStripMenuItem.Checked,
                                  noMOSComplianceFixesToolStripMenuItem.Checked,
                                  syntaxHighlightEditBoxToolStripMenuItem.Checked,
                                  !automaticallyDoAnythingToolStripMenuItem.Checked,
                                  toolStripComboOnLoad.SelectedIndex, chkMinor.Checked,
-                                 addAllToWatchlistToolStripMenuItem.Checked,
-                                 dontAddToWatchlistToolStripMenuItem.Checked, ShowMovingAverageTimer,
+                                 ShowMovingAverageTimer,
                                  sortAlphabeticallyToolStripMenuItem.Checked,
-                                 displayfalsePositivesButtonToolStripMenuItem.Checked, (int)txtEdit.Font.Size,
+                                 displayfalsePositivesButtonToolStripMenuItem.Checked, (int) txtEdit.Font.Size,
                                  txtEdit.Font.Name,
                                  LowThreadPriority, Beep, Flash, Minimize, AutoSaveEditBoxEnabled,
                                  AutoSaveEditBoxPeriod,
@@ -339,7 +342,7 @@ namespace AutoWikiBrowser
                         Enabled = chkEnableDab.Checked,
                         Link = txtDabLink.Text,
                         Variants = txtDabVariants.Lines,
-                        ContextChars = (int)udContextChars.Value
+                        ContextChars = (int) udContextChars.Value
                     },
 
 
@@ -528,8 +531,6 @@ namespace AutoWikiBrowser
             automaticallyDoAnythingToolStripMenuItem.Checked = !p.General.NoAutoChanges;
             toolStripComboOnLoad.SelectedIndex = p.General.OnLoadAction;
             chkMinor.Checked = p.General.Minor;
-            addAllToWatchlistToolStripMenuItem.Checked = p.General.Watch;
-            dontAddToWatchlistToolStripMenuItem.Checked = p.General.DoNotWatch;
             ShowMovingAverageTimer = p.General.TimerEnabled;
 
             sortAlphabeticallyToolStripMenuItem.Checked = p.General.SortListAlphabetically;

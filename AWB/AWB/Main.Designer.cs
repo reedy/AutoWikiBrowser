@@ -162,8 +162,6 @@ namespace AutoWikiBrowser
             this.scrollToUnbalancedBracketsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.markAllAsMinorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addAllToWatchlistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dontAddToWatchlistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.alphaSortInterwikiLinksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.replaceReferenceTagsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1278,8 +1276,6 @@ namespace AutoWikiBrowser
             this.scrollToUnbalancedBracketsToolStripMenuItem,
             this.toolStripSeparator6,
             this.markAllAsMinorToolStripMenuItem,
-            this.addAllToWatchlistToolStripMenuItem,
-            this.dontAddToWatchlistToolStripMenuItem,
             this.toolStripSeparator7,
             this.alphaSortInterwikiLinksToolStripMenuItem,
             this.replaceReferenceTagsToolStripMenuItem});
@@ -1403,23 +1399,6 @@ namespace AutoWikiBrowser
             this.markAllAsMinorToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
             this.markAllAsMinorToolStripMenuItem.Text = "Mark all as &minor";
             this.markAllAsMinorToolStripMenuItem.Click += new System.EventHandler(this.markAllAsMinorToolStripMenuItem_Click);
-            // 
-            // addAllToWatchlistToolStripMenuItem
-            // 
-            this.addAllToWatchlistToolStripMenuItem.CheckOnClick = true;
-            this.addAllToWatchlistToolStripMenuItem.Name = "addAllToWatchlistToolStripMenuItem";
-            this.addAllToWatchlistToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.addAllToWatchlistToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
-            this.addAllToWatchlistToolStripMenuItem.Text = "Add all to watch&list";
-            this.addAllToWatchlistToolStripMenuItem.Click += new System.EventHandler(this.addAllToWatchlistToolStripMenuItem_Click);
-            // 
-            // dontAddToWatchlistToolStripMenuItem
-            // 
-            this.dontAddToWatchlistToolStripMenuItem.CheckOnClick = true;
-            this.dontAddToWatchlistToolStripMenuItem.Name = "dontAddToWatchlistToolStripMenuItem";
-            this.dontAddToWatchlistToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
-            this.dontAddToWatchlistToolStripMenuItem.Text = "Do not &auto add to watchlist";
-            this.dontAddToWatchlistToolStripMenuItem.Click += new System.EventHandler(this.dontAddToWatchlistToolStripMenuItem_Click);
             // 
             // toolStripSeparator7
             // 
@@ -4242,7 +4221,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem sortAlphabeticallyToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem markAllAsMinorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addAllToWatchlistToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem insertToolStripMenuItem;
@@ -4540,7 +4518,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem commentSelectedToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkSkipIfRedirect;
         private System.Windows.Forms.CheckBox chkSkipIfNoAlerts;
-        private System.Windows.Forms.ToolStripMenuItem dontAddToWatchlistToolStripMenuItem;
         private System.Windows.Forms.TabPage tpEditSummary;
         private System.Windows.Forms.TextBox txtReviewEditSummary;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
