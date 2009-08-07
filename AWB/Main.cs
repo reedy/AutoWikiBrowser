@@ -153,6 +153,7 @@ namespace AutoWikiBrowser
                 }
 
                 toolStripComboOnLoad.SelectedIndex = 0;
+                addToWatchList.SelectedIndex = 3;
                 cmboCategorise.SelectedIndex = 0;
                 cmboImages.SelectedIndex = 0;
 
@@ -1474,15 +1475,10 @@ window.scrollTo(0, diffTopY);
                 Ticker += SaveInterval;
             }
 
-            // Warning: Plugins can call SetMinor and SetWatch, so only turn these *on* not off
-            //if (addAllToWatchlistToolStripMenuItem.Checked)
-            //    webBrowserEdit.SetWatch(true);
-            //if (dontAddToWatchlistToolStripMenuItem.Checked)
-            //    webBrowserEdit.SetWatch(false);
-
+            //This can only be used to add to watchlist (therefore comparison with 1)
+            //TODO:Remove from watchlist
             TheSession.Editor.Save(txtEdit.Text, MakeSummary(), markAllAsMinorToolStripMenuItem.Checked,
-                                   false); //Fixup Watch from code above
-
+                                   (addToWatchList.SelectedIndex == 1));
         }
 
         #endregion

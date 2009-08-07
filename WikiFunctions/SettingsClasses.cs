@@ -381,7 +381,7 @@ namespace WikiFunctions.AWBSettings
             bool autoSaveEditBoxEnabled, decimal autoSaveEditBoxPeriod,
             string autoSaveEditBoxFile, bool mLockSummary, bool mEditToolbarEnabled, bool mSuppressUsingAWB,
             bool mAddUsingAWBToActionSummaries, bool mfilterNonMainSpace, bool mAutoFilterDupes, bool mSortInterWikiOrder,
-            bool mReplaceReferenceTags, bool mFocusAtEndOfEditBox, bool mscrollToUnbalancedBrackets)
+            bool mReplaceReferenceTags, bool mFocusAtEndOfEditBox, bool mscrollToUnbalancedBrackets, int addToWatchlist)
         {
             SaveArticleList = mSaveArticleList;
             IgnoreNoBots = mIgnoreNoBots;
@@ -406,6 +406,7 @@ namespace WikiFunctions.AWBSettings
             NoAutoChanges = mNoAutoChanges;
             OnLoadAction = mOnLoadAction;
             Minor = mMinor;
+            AddToWatchlist = addToWatchlist;
             TimerEnabled = mTimerEnabled;
             SortListAlphabetically = mSortListAlphabetically;
             AddIgnoredToLog = mAddIgnoredToLog;
@@ -453,6 +454,7 @@ namespace WikiFunctions.AWBSettings
         public bool NoAutoChanges = false;
         public int OnLoadAction = 0;
         public bool Minor = false;
+        public int AddToWatchlist = 0;
         public bool TimerEnabled = false;
         public bool SortListAlphabetically = false;
         public bool AddIgnoredToLog = false;
