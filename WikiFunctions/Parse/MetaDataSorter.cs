@@ -333,12 +333,8 @@ en, sq, ru
             MatchCollection matches = r.Matches(articleText);
             foreach (Match m in matches)
             {
-                string x = m.Value;
-                //add to array, replace underscores with spaces, ignore=
-                if (!Regex.IsMatch(x, "\\[\\[Category:(Pages|Categories|Articles) for deletion\\]\\]"))
-                {
-                    categoryList.Add(x.Replace("_", " "));
-                }
+                if (!Regex.IsMatch(m.Value, "\\[\\[Category:(Pages|Categories|Articles) for deletion\\]\\]"))
+                    categoryList.Add(m.Value);
             }
 
             articleText = Tools.RemoveMatches(articleText, matches);
