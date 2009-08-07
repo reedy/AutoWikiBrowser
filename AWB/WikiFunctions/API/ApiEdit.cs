@@ -513,7 +513,7 @@ namespace WikiFunctions.API
             return Page.Text;
         }
 
-        public SaveInfo Save(string pageText, string summary, bool minor, bool watch)
+        public SaveInfo Save(string pageText, string summary, bool minor, WatchOptions watch)
         {
             if (string.IsNullOrEmpty(pageText)) throw new ArgumentException("Can't save empty pages", "pageText");
             if (string.IsNullOrEmpty(summary)) throw new ArgumentException("Edit summary required", "summary");
@@ -528,7 +528,7 @@ namespace WikiFunctions.API
                     { "action", "edit" },
                     { "title", Page.Title },
                     { minor ? "minor" : null, null },
-                    { watch ? "watch" : null, null },
+                    { WatchToParam(watch) , null },
                     { User.IsBot ? "bot" : null, null }
                 },
                 new[,]
@@ -943,6 +943,22 @@ namespace WikiFunctions.API
             return value ? "1" : "0";
         }
 
+        protected static string WatchOptionsToParam(WatchOptions watch)
+        {
+            // Here we provide options for both 1.16 and older versions
+            switch (watch)
+            {
+                case WatchOptions.UsePreferences:
+                    return "watchlist=preferences";
+                case WatchOptions.Watch:
+                    return "watchlist=watch&watch";
+                case WatchOptions.Unwatch:
+                    return "watchlist=unwatch&unwatch";
+                default:
+                    return null;
+            }
+        }
+
         /// <summary>
         /// For private use, static to avoid unneeded reinitialisation
         /// </summary>
@@ -977,6 +993,14 @@ namespace WikiFunctions.API
         }
 
         #endregion
+    }
+
+    public enum WatchOptions
+    {
+        NoChange,
+        UsePreferences,
+        Watch,
+        Unwatch
     }
 
     [Flags]
