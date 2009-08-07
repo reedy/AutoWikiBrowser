@@ -376,7 +376,7 @@ namespace WikiFunctions.AWBSettings
             System.Windows.Forms.ComboBox.ObjectCollection mSummaries, string mSelectedSummary,
             string[] mPasteMore, string mFindText, bool mFindRegex, bool mFindCaseSensitive, bool mWordWrap,
             bool mToolBarEnabled, bool mBypassRedirect, bool mAutoSaveSettings, bool mPreParseMode, bool mNoSectionEditSummary, bool mRestrictDefaultsortAddition, bool mNoMOSComplianceFixes, bool mSyntaxHighlightEditBox, bool mNoAutoChanges, int mOnLoadAction, bool mMinor,
-            bool mWatch, bool mDoNotWatch, bool mTimerEnabled, bool mSortListAlphabetically, bool mAddIgnoredToLog, int mTextBoxSize,
+            bool mTimerEnabled, bool mSortListAlphabetically, bool mAddIgnoredToLog, int mTextBoxSize,
             string mTextBoxFont, bool mLowThreadPriority, bool mBeep, bool mFlash, bool mMinimize,
             bool autoSaveEditBoxEnabled, decimal autoSaveEditBoxPeriod,
             string autoSaveEditBoxFile, bool mLockSummary, bool mEditToolbarEnabled, bool mSuppressUsingAWB,
@@ -406,8 +406,6 @@ namespace WikiFunctions.AWBSettings
             NoAutoChanges = mNoAutoChanges;
             OnLoadAction = mOnLoadAction;
             Minor = mMinor;
-            Watch = mWatch;
-            DoNotWatch = mDoNotWatch;
             TimerEnabled = mTimerEnabled;
             SortListAlphabetically = mSortListAlphabetically;
             AddIgnoredToLog = mAddIgnoredToLog;
@@ -455,8 +453,6 @@ namespace WikiFunctions.AWBSettings
         public bool NoAutoChanges = false;
         public int OnLoadAction = 0;
         public bool Minor = false;
-        public bool Watch = false;
-        public bool DoNotWatch = false;
         public bool TimerEnabled = false;
         public bool SortListAlphabetically = false;
         public bool AddIgnoredToLog = false;

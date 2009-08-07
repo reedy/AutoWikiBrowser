@@ -4237,12 +4237,6 @@ window.scrollTo(0, diffTopY);
             MainFormProgressBar.Style = ProgressBarStyle.Continuous;
         }
 
-        private void addAllToWatchlistToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (dontAddToWatchlistToolStripMenuItem.Checked)
-                dontAddToWatchlistToolStripMenuItem.Checked = false;
-        }
-
         private void scrollToUnbalancedBracketsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
@@ -4253,12 +4247,6 @@ window.scrollTo(0, diffTopY);
         {
             if (focusAtEndOfEditTextBoxToolStripMenuItem.Checked)
                 scrollToUnbalancedBracketsToolStripMenuItem.Checked = false;
-        }
-
-        private void dontAddToWatchlistToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (addAllToWatchlistToolStripMenuItem.Checked)
-                addAllToWatchlistToolStripMenuItem.Checked = false;
         }
 
         private void BotImage_Click(object sender, EventArgs e)
