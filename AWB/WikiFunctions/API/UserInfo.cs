@@ -96,8 +96,8 @@ namespace WikiFunctions.API
         /// <returns></returns>
         public bool CanEditPage(PageInfo page)
         {
-            return (IsInGroup(page.EditProtection) || HasRight(page.EditProtection)) && !(page.NamespaceID == Namespace.MediaWiki &&
-                !HasRight("editinterface"));
+            return (IsInGroup(page.EditProtection) || HasRight(page.EditProtection)) 
+                && !(page.NamespaceID == Namespace.MediaWiki && !HasRight("editinterface"));
         }
 
         /// <summary>
@@ -107,7 +107,8 @@ namespace WikiFunctions.API
         /// <returns></returns>
         public bool CanMovePage(PageInfo page)
         {
-            return page.NamespaceID != Namespace.MediaWiki && IsInGroup(page.MoveProtection);
+            return page.NamespaceID != Namespace.MediaWiki 
+                && (IsInGroup(page.MoveProtection) || HasRight(page.MoveProtection));
         }
 
         /// <summary>
