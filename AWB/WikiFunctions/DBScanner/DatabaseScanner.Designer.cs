@@ -989,7 +989,7 @@ namespace WikiFunctions.DBScanner
             // gbAWBSpecific
             // 
             this.gbAWBSpecific.Controls.Add(this.flwAWB);
-            this.gbAWBSpecific.Location = new System.Drawing.Point(3, 6);
+            this.gbAWBSpecific.Location = new System.Drawing.Point(3, 3);
             this.gbAWBSpecific.Name = "gbAWBSpecific";
             this.gbAWBSpecific.Padding = new System.Windows.Forms.Padding(2);
             this.gbAWBSpecific.Size = new System.Drawing.Size(327, 159);
@@ -1011,7 +1011,7 @@ namespace WikiFunctions.DBScanner
             this.flwAWB.Controls.Add(this.chkCiteTemplateDates);
             this.flwAWB.Controls.Add(this.chkUnbalancedBrackets);
             this.flwAWB.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flwAWB.Location = new System.Drawing.Point(3, 16);
+            this.flwAWB.Location = new System.Drawing.Point(3, 13);
             this.flwAWB.Name = "flwAWB";
             this.flwAWB.Size = new System.Drawing.Size(321, 140);
             this.flwAWB.TabIndex = 5;
