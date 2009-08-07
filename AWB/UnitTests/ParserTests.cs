@@ -1971,6 +1971,14 @@ http://example.com }}");
         }
 
         [Test]
+        public void FixCategories()
+        {
+            Assert.AreEqual(@"[[Category:Foo bar]]", Parsers.FixCategories(@"[[Category:Foo_bar]]"));
+            Assert.AreEqual(@"[[Category:Foo bar]]", Parsers.FixCategories(@"[[category:Foo bar]]"));
+            Assert.AreEqual(@"[[Category:Foo bar]]", Parsers.FixCategories(@"[[Category  :  Foo_bar  ]]"));
+        }
+
+        [Test]
         public void TestFixEmptyLinksAndTemplates()
         {
             Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates(""));
