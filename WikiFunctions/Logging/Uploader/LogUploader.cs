@@ -122,7 +122,7 @@ namespace WikiFunctions.Logging.Uploader
                 editor.Open(uploadToNoSpaces);
                 editor.Wait();
 
-                SaveInfo save = editor.SynchronousEditor.Save(strLogText, editSummary, false, addToWatchlist);
+                SaveInfo save = editor.SynchronousEditor.Save(strLogText, editSummary, false, WatchOptions.NoChange);
 
                 retval.Add(new EditPageRetvals
                                {
@@ -185,7 +185,7 @@ namespace WikiFunctions.Logging.Uploader
 
                 if (strExistingText.Contains(BotTag))
                 {
-                    save = editor.SynchronousEditor.Save(strExistingText.Replace(BotTag, tableAddition), editSummary, false, false);
+                    save = editor.SynchronousEditor.Save(strExistingText.Replace(BotTag, tableAddition), editSummary, false, WatchOptions.NoChange);
                 }
                 else
                 {
@@ -193,7 +193,7 @@ namespace WikiFunctions.Logging.Uploader
                                 Environment.NewLine + "{| class=\"wikitable\" width=\"100%\"" +
                                 Environment.NewLine +
                                 (logEntry.LogUserName ? TableHeaderUserName : TableHeaderNoUserName) +
-                                Environment.NewLine + tableAddition, editSummary, false, false);
+                                Environment.NewLine + tableAddition, editSummary, false, WatchOptions.NoChange);
                 }
 
                 EditPageRetvals retval = new EditPageRetvals

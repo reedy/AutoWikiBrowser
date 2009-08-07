@@ -528,7 +528,7 @@ namespace WikiFunctions.API
                     { "action", "edit" },
                     { "title", Page.Title },
                     { minor ? "minor" : null, null },
-                    { WatchToParam(watch) , null },
+                    { WatchOptionsToParam(watch) , null },
                     { User.IsBot ? "bot" : null, null }
                 },
                 new[,]

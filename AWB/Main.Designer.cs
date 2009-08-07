@@ -1407,7 +1407,8 @@ namespace AutoWikiBrowser
             this.addToWatchList.Items.AddRange(new object[] {
             "Add all to watchlist",
             "Remove all from watchlist",
-            "Leave watchlist unchanged"});
+            "Leave watchlist unchanged",
+            "Use MW preferences"});
             this.addToWatchList.Name = "addToWatchList";
             this.addToWatchList.Size = new System.Drawing.Size(121, 23);
             this.addToWatchList.Text = "Add all to watchlist";

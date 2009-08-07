@@ -89,7 +89,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             Next
 
             editor.Save(articleText.Replace(Microsoft.VisualBasic.vbCrLf & conPlaceholder, ""), conWikiPluginBrackets & "Article assessment comments", _
-                        False, False)
+                        False, WatchOptions.NoChange)
 
             editor.Wait()
         End Sub

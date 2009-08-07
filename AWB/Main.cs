@@ -1474,11 +1474,26 @@ window.scrollTo(0, diffTopY);
                 StopSaveInterval();
                 Ticker += SaveInterval;
             }
+            WatchOptions opt;
 
-            //This can only be used to add to watchlist (therefore comparison with 1)
-            //TODO:Remove from watchlist
+            switch (addToWatchList.SelectedIndex)
+            {
+                case 1:
+                    opt = WatchOptions.Watch;
+                    break;
+                case 2:
+                    opt = WatchOptions.Unwatch;
+                    break;
+                case 4:
+                    opt = WatchOptions.UsePreferences;
+                    break;
+                default:
+                    opt = WatchOptions.NoChange;
+                    break;
+            }
+
             TheSession.Editor.Save(txtEdit.Text, MakeSummary(), markAllAsMinorToolStripMenuItem.Checked,
-                                   (addToWatchList.SelectedIndex == 1));
+                                   opt);
         }
 
         #endregion
