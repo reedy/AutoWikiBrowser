@@ -299,7 +299,7 @@ namespace AutoWikiBrowser
                               Skip.SelectedItems, chkSkipIfRedirect.Checked, chkSkipIfNoAlerts.Checked),
 
                 new GeneralPrefs(SaveArticleList, IgnoreNoBots, cmboEditSummary.Items,
-                                 cmboEditSummary.Text, new string[]
+                                 cmboEditSummary.Text, new[]
                                                            {
                                                                (string) PasteMore1.Tag,
                                                                (string) PasteMore2.Tag,
@@ -334,7 +334,8 @@ namespace AutoWikiBrowser
                                  alphaSortInterwikiLinksToolStripMenuItem.Checked,
                                  replaceReferenceTagsToolStripMenuItem.Checked,
                                  focusAtEndOfEditTextBoxToolStripMenuItem.Checked,
-                                 scrollToUnbalancedBracketsToolStripMenuItem.Checked),
+                                 scrollToUnbalancedBracketsToolStripMenuItem.Checked,
+                                 addToWatchList.SelectedIndex),
 
 
                 new DabPrefs
@@ -531,6 +532,7 @@ namespace AutoWikiBrowser
             automaticallyDoAnythingToolStripMenuItem.Checked = !p.General.NoAutoChanges;
             toolStripComboOnLoad.SelectedIndex = p.General.OnLoadAction;
             chkMinor.Checked = p.General.Minor;
+            addToWatchList.SelectedIndex = p.General.AddToWatchlist;
             ShowMovingAverageTimer = p.General.TimerEnabled;
 
             sortAlphabeticallyToolStripMenuItem.Checked = p.General.SortListAlphabetically;

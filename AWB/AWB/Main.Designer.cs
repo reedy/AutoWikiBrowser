@@ -162,6 +162,7 @@ namespace AutoWikiBrowser
             this.scrollToUnbalancedBracketsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.markAllAsMinorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addToWatchList = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.alphaSortInterwikiLinksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.replaceReferenceTagsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1241,21 +1242,21 @@ namespace AutoWikiBrowser
             // loadPluginToolStripMenuItem
             // 
             this.loadPluginToolStripMenuItem.Name = "loadPluginToolStripMenuItem";
-            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.loadPluginToolStripMenuItem.Text = "&Load...";
             this.loadPluginToolStripMenuItem.Click += new System.EventHandler(this.loadPluginToolStripMenuItem_Click);
             // 
             // managePluginsToolStripMenuItem
             // 
             this.managePluginsToolStripMenuItem.Name = "managePluginsToolStripMenuItem";
-            this.managePluginsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.managePluginsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.managePluginsToolStripMenuItem.Text = "&Manager...";
             this.managePluginsToolStripMenuItem.Click += new System.EventHandler(this.managePluginsToolStripMenuItem_Click);
             // 
             // toolStripSeparator26
             // 
             this.toolStripSeparator26.Name = "toolStripSeparator26";
-            this.toolStripSeparator26.Size = new System.Drawing.Size(127, 6);
+            this.toolStripSeparator26.Size = new System.Drawing.Size(149, 6);
             // 
             // ToolStripMenuGeneral
             // 
@@ -1276,6 +1277,7 @@ namespace AutoWikiBrowser
             this.scrollToUnbalancedBracketsToolStripMenuItem,
             this.toolStripSeparator6,
             this.markAllAsMinorToolStripMenuItem,
+            this.addToWatchList,
             this.toolStripSeparator7,
             this.alphaSortInterwikiLinksToolStripMenuItem,
             this.replaceReferenceTagsToolStripMenuItem});
@@ -1399,6 +1401,16 @@ namespace AutoWikiBrowser
             this.markAllAsMinorToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
             this.markAllAsMinorToolStripMenuItem.Text = "Mark all as &minor";
             this.markAllAsMinorToolStripMenuItem.Click += new System.EventHandler(this.markAllAsMinorToolStripMenuItem_Click);
+            // 
+            // addToWatchList
+            // 
+            this.addToWatchList.Items.AddRange(new object[] {
+            "Add all to watchlist",
+            "Remove all from watchlist",
+            "Leave watchlist unchanged"});
+            this.addToWatchList.Name = "addToWatchList";
+            this.addToWatchList.Size = new System.Drawing.Size(121, 23);
+            this.addToWatchList.Text = "Add all to watchlist";
             // 
             // toolStripSeparator7
             // 
@@ -3811,6 +3823,7 @@ namespace AutoWikiBrowser
             this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
             this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
             this.loggingSettings1.Name = "loggingSettings1";
+            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
             this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
             this.loggingSettings1.TabIndex = 0;
             // 
@@ -4541,5 +4554,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem PasteMore10;
         private System.Windows.Forms.ToolStripStatusLabel lblPagesPerMin;
         private System.Windows.Forms.ToolStripMenuItem profileTyposToolStripMenuItem;
+        private System.Windows.Forms.ToolStripComboBox addToWatchList;
     }
 }
