@@ -368,7 +368,7 @@ namespace WikiFunctions.API
             InvokeFunction("Open", title);
         }
 
-        public void Save(string pageText, string summary, bool minor, bool watch)
+        public void Save(string pageText, string summary, bool minor, WatchOptions watch)
         {
             InvokeFunction("Save", pageText, summary, minor, watch);
         }
