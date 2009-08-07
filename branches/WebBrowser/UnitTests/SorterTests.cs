@@ -469,6 +469,18 @@ blah";
             string p = o;
 
             Assert.AreEqual(o + "\r\n", parser2.Sorter.RemoveCats(ref p, "test"));
+
+            // comments beside a category are not moved
+            string q = @"#REDIRECT [[Alton Railroad]]
+
+";
+            string r = @"{{DEFAULTSORT:Joliet Chicago  Railroad}}
+[[Category:Predecessors of the Alton Railroad]]
+[[Category:Railway companies established in 1855]]
+[[Category:Railway companies disestablished in 1950]]<!--http://bulk.resource.org/courts.gov/c/F2/264/264.F2d.445.12430_1.html-->
+[[Category:Defunct Illinois railroads]]";
+            string s = q + r;
+            Assert.AreEqual(r + "\r\n", parser2.Sorter.RemoveCats(ref s, "test"));
         }
 
         [Test]
