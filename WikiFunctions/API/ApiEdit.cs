@@ -308,6 +308,7 @@ namespace WikiFunctions.API
             catch (WebException ex)
             {
                 var resp = (HttpWebResponse)ex.Response;
+                if (resp == null) throw;
                 switch (resp.StatusCode)
                 {
                     case HttpStatusCode.NotFound /*404*/:
