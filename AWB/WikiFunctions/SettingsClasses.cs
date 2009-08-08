@@ -233,37 +233,6 @@ namespace WikiFunctions.AWBSettings
     [Serializable]
     public class EditPrefs
     {
-        internal EditPrefs() { }
-
-        /// <summary>
-        /// Fill the object with settings from UI
-        /// </summary>
-        public EditPrefs(bool mGeneralFixes, bool mTagger, bool mUnicodify, int mRecategorisation,
-            string mNewCategory, string mNewCategory2, int mReImage, string mImageFind, string mReplace,
-            bool mSkipIfNoCatChange, bool mRemoveSortKey, bool mSkipIfNoImgChange, bool mAppendText, bool mAppend, string mText,
-            int mNewlines, int mAutoDelay, bool mSuppressTag, bool mRegexTypoFix)
-        {
-            GeneralFixes = mGeneralFixes;
-            Tagger = mTagger;
-            Unicodify = mUnicodify;
-            Recategorisation = mRecategorisation;
-            NewCategory = mNewCategory;
-            NewCategory2 = mNewCategory2;
-            ReImage = mReImage;
-            ImageFind = mImageFind;
-            Replace = mReplace;
-            SkipIfNoCatChange = mSkipIfNoCatChange;
-            RemoveSortKey = mRemoveSortKey;
-            SkipIfNoImgChange = mSkipIfNoImgChange;
-            AppendText = mAppendText;
-            Append = mAppend;
-            Text = mText;
-            Newlines = mNewlines;
-            AutoDelay = mAutoDelay;
-            SupressTag = mSuppressTag;
-            RegexTypoFix = mRegexTypoFix;
-        }
-
         public bool GeneralFixes = true;
         public bool Tagger = true;
         public bool Unicodify = true;
@@ -295,38 +264,6 @@ namespace WikiFunctions.AWBSettings
     [Serializable]
     public class SkipPrefs
     {
-        internal SkipPrefs() { }
-        public SkipPrefs(bool mSkipNonexistent, bool mSkipexistent, bool mSkipWhenNoChanges, bool mSkipWhenSpamFilterBlocked, bool mSkipInuse, bool mSkipDoes,
-            bool mSkipDoesNot, string mSkipDoesText, string mSkipDoesNotText, bool mRegex, bool mCaseSensitive, bool mAfterProcessing,
-            bool mSkipNoFindAndReplace, bool mSkipNoRegexTypoFix, bool mSkipNoDisambiguation,
-            bool mSkipWhitespaceOnly, bool mSkipCasingOnly, bool mSkipOnlyGeneralFixChanges, bool mSkipOnlyMinorGeneralFixChanges, bool mSkipNoLinksOnPage,
-            List<int> mGeneralSkipList, bool mSkipIfRedirect, bool mSkipIfNoAlerts)
-        {
-            SkipNonexistent = mSkipNonexistent;
-            Skipexistent = mSkipexistent;
-            SkipWhenNoChanges = mSkipWhenNoChanges;
-            SkipSpamFilterBlocked = mSkipWhenSpamFilterBlocked;
-            SkipInuse = mSkipInuse;
-            SkipDoes = mSkipDoes;
-            SkipDoesNot = mSkipDoesNot;
-            SkipDoesText = mSkipDoesText;
-            SkipDoesNotText = mSkipDoesNotText;
-            Regex = mRegex;
-            CaseSensitive = mCaseSensitive;
-            AfterProcessing = mAfterProcessing;
-            SkipNoFindAndReplace = mSkipNoFindAndReplace;
-            SkipNoRegexTypoFix = mSkipNoRegexTypoFix;
-            SkipNoDisambiguation = mSkipNoDisambiguation;
-            GeneralSkipList = mGeneralSkipList;
-            SkipWhenOnlyWhitespaceChanged = mSkipWhitespaceOnly;
-            SkipOnlyCasingChanged = mSkipCasingOnly;
-            SkipOnlyGeneralFixChanges = mSkipOnlyGeneralFixChanges;
-            SkipOnlyMinorGeneralFixChanges = mSkipOnlyMinorGeneralFixChanges;
-            SkipNoLinksOnPage = mSkipNoLinksOnPage;
-            SkipIfRedirect = mSkipIfRedirect;
-            SkipIfNoAlerts = mSkipIfNoAlerts;
-        }
-
         public bool SkipNonexistent = true;
         public bool Skipexistent = false;
         public bool SkipWhenNoChanges = false;
@@ -347,7 +284,6 @@ namespace WikiFunctions.AWBSettings
 
         public bool Regex = false;
         public bool CaseSensitive = false;
-        public bool AfterProcessing = false;
 
         public bool SkipNoFindAndReplace = false;
         public bool SkipNoRegexTypoFix = false;

@@ -275,28 +275,56 @@ namespace AutoWikiBrowser
                         Enabled = chkFindandReplace.Checked,
                     },
 
-                new EditPrefs(chkGeneralFixes.Checked, chkAutoTagger.Checked,
-                              chkUnicodifyWhole.Checked, cmboCategorise.SelectedIndex, txtNewCategory.Text,
-                              txtNewCategory2.Text, cmboImages.SelectedIndex, txtImageReplace.Text, txtImageWith.Text,
-                              chkSkipNoCatChange.Checked, chkRemoveSortKey.Checked, chkSkipNoImgChange.Checked,
-                              chkAppend.Checked,
-                              !rdoPrepend.Checked,
-                              txtAppendMessage.Text, (int) udNewlineChars.Value, (int) nudBotSpeed.Value,
-                              chkSuppressTag.Checked,
-                              chkRegExTypo.Checked),
+                new EditPrefs
+                    {
+                        GeneralFixes = chkGeneralFixes.Checked,
+                        Tagger = chkAutoTagger.Checked,
+                        Unicodify = chkUnicodifyWhole.Checked,
+                        Recategorisation = cmboCategorise.SelectedIndex,
+                        NewCategory = txtNewCategory.Text,
+                        NewCategory2 = txtNewCategory2.Text,
+                        ReImage = cmboImages.SelectedIndex,
+                        ImageFind = txtImageReplace.Text,
+                        Replace = txtImageWith.Text,
+                        SkipIfNoCatChange = chkSkipNoCatChange.Checked,
+                        RemoveSortKey = chkRemoveSortKey.Checked,
+                        SkipIfNoImgChange = chkSkipNoImgChange.Checked,
+                        AppendText = chkAppend.Checked,
+                        Append = !rdoPrepend.Checked,
+                        Text = txtAppendMessage.Text,
+                        Newlines = (int) udNewlineChars.Value,
+                        AutoDelay = (int) nudBotSpeed.Value,
+                        SupressTag = chkSuppressTag.Checked,
+                        RegexTypoFix = chkRegExTypo.Checked
+                    },
 
                 new ListPrefs(listMaker, SaveArticleList),
 
-                new SkipPrefs(radSkipNonExistent.Checked, radSkipExistent.Checked, chkSkipNoChanges.Checked,
-                              chkSkipSpamFilter.Checked,
-                              chkSkipIfInuse.Checked, chkSkipIfContains.Checked, chkSkipIfNotContains.Checked,
-                              txtSkipIfContains.Text,
-                              txtSkipIfNotContains.Text, chkSkipIsRegex.Checked, chkSkipCaseSensitive.Checked,
-                              chkSkipAfterProcessing.Checked,
-                              chkSkipWhenNoFAR.Checked, chkSkipIfNoRegexTypo.Checked, chkSkipNoDab.Checked,
-                              chkSkipWhitespace.Checked, chkSkipCasing.Checked,
-                              chkSkipGeneralFixes.Checked, chkSkipMinorGeneralFixes.Checked, chkSkipNoPageLinks.Checked,
-                              Skip.SelectedItems, chkSkipIfRedirect.Checked, chkSkipIfNoAlerts.Checked),
+                new SkipPrefs
+                    {
+                        SkipNonexistent = radSkipNonExistent.Checked,
+                        Skipexistent = radSkipExistent.Checked,
+                        SkipWhenNoChanges = chkSkipNoChanges.Checked,
+                        SkipSpamFilterBlocked = chkSkipSpamFilter.Checked,
+                        SkipInuse = chkSkipIfInuse.Checked,
+                        SkipDoes = chkSkipIfContains.Checked,
+                        SkipDoesNot = chkSkipIfNotContains.Checked,
+                        SkipDoesText = txtSkipIfContains.Text,
+                        SkipDoesNotText = txtSkipIfNotContains.Text,
+                        Regex = chkSkipIsRegex.Checked,
+                        CaseSensitive = chkSkipCaseSensitive.Checked,
+                        SkipNoFindAndReplace = chkSkipWhenNoFAR.Checked,
+                        SkipNoRegexTypoFix = chkSkipIfNoRegexTypo.Checked,
+                        SkipNoDisambiguation = chkSkipNoDab.Checked,
+                        GeneralSkipList = Skip.SelectedItems,
+                        SkipWhenOnlyWhitespaceChanged = chkSkipWhitespace.Checked,
+                        SkipOnlyCasingChanged = chkSkipCasing.Checked,
+                        SkipOnlyGeneralFixChanges = chkSkipGeneralFixes.Checked,
+                        SkipOnlyMinorGeneralFixChanges = chkSkipMinorGeneralFixes.Checked,
+                        SkipNoLinksOnPage = chkSkipNoPageLinks.Checked,
+                        SkipIfRedirect = chkSkipIfRedirect.Checked,
+                        SkipIfNoAlerts = chkSkipIfNoAlerts.Checked
+                    },
 
                 new GeneralPrefs(SaveArticleList, IgnoreNoBots, cmboEditSummary.Items,
                                  cmboEditSummary.Text, new[]
@@ -489,7 +517,6 @@ namespace AutoWikiBrowser
 
             chkSkipIsRegex.Checked = p.SkipOptions.Regex;
             chkSkipCaseSensitive.Checked = p.SkipOptions.CaseSensitive;
-            chkSkipAfterProcessing.Checked = p.SkipOptions.AfterProcessing;
 
             chkSkipWhenNoFAR.Checked = p.SkipOptions.SkipNoFindAndReplace;
             chkSkipIfNoRegexTypo.Checked = p.SkipOptions.SkipNoRegexTypoFix;
