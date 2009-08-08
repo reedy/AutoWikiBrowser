@@ -515,6 +515,7 @@ namespace AutoWikiBrowser
 
         private void StartApiTextLoad(string title)
         {
+            StatusLabelText = "Loading...";
             TheSession.Editor.Open(title);
 
             TheSession.Editor.Wait();
@@ -928,6 +929,7 @@ namespace AutoWikiBrowser
                         HighlightUnbalancedBrackets();
                     }
                 }
+                StatusLabelText = "Ready to save";
             }
             else
             {
@@ -1454,6 +1456,7 @@ window.scrollTo(0, diffTopY);
 
         private void Save()
         {
+            StatusLabelText = "Saving...";
             DisableButtons();
             if (txtEdit.Text.Length > 0)
                 SaveArticle();
@@ -2418,12 +2421,15 @@ window.scrollTo(0, diffTopY);
                 btnIgnore.Enabled = false;
 
             if (cmboEditSummary.Focused) txtEdit.Focus();
+
+            txtEdit.Enabled = false;
         }
 
         private void EnableButtons()
         {
             UpdateButtons(null, null);
             SetButtons(true);
+            txtEdit.Enabled = true;
         }
 
         private void SetButtons(bool enabled)
