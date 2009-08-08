@@ -1404,14 +1404,14 @@ namespace AutoWikiBrowser
             // 
             // addToWatchList
             // 
+            this.addToWatchList.DropDownWidth = 160;
             this.addToWatchList.Items.AddRange(new object[] {
             "Add all to watchlist",
             "Remove all from watchlist",
             "Leave watchlist unchanged",
             "Use MW preferences"});
             this.addToWatchList.Name = "addToWatchList";
-            this.addToWatchList.Size = new System.Drawing.Size(121, 23);
-            this.addToWatchList.Text = "Add all to watchlist";
+            this.addToWatchList.Size = new System.Drawing.Size(160, 23);
             // 
             // toolStripSeparator7
             // 
