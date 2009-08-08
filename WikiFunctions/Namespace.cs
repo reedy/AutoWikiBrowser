@@ -159,7 +159,7 @@ namespace WikiFunctions
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="articleTitle"></param>
+        /// <param name="articleTitle">Title of the article</param>
         /// <returns></returns>
         public static bool IsUserTalk(string articleTitle)
         {
@@ -170,7 +170,7 @@ namespace WikiFunctions
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="articleTitle"></param>
+        /// <param name="articleTitle">Title of the article</param>
         /// <returns></returns>
         public static bool IsUserPage(string articleTitle)
         {

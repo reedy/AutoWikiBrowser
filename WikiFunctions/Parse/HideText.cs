@@ -29,7 +29,7 @@ namespace WikiFunctions.Parse
         /// 
         /// </summary>
         /// <param name="matches"></param>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         private void Replace(IEnumerable matches, ref string articleText)
         {
             foreach (Match m in matches)
@@ -43,7 +43,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
         public string Hide(string articleText)
         {
@@ -85,7 +85,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
         public string AddBack(string articleText)
         {
@@ -104,7 +104,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
         public string HideUnformatted(string articleText)
         {
@@ -126,7 +126,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
         public string AddBackUnformatted(string articleText)
         {
@@ -147,7 +147,7 @@ namespace WikiFunctions.Parse
         /// 
         /// </summary>
         /// <param name="matches"></param>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         private void ReplaceMore(ICollection matches, ref string articleText)
         {
             StringBuilder sb = new StringBuilder((int)(articleText.Length * 1.1));

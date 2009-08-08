@@ -54,7 +54,7 @@ namespace WikiFunctions.Disambiguation
         /// if no disambiguation needed, immediately returns
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
-        /// <param name="articleTitle"></param>
+        /// <param name="articleTitle">Title of the article</param>
         /// <param name="dabLink">link to be disambiguated</param>
         /// <param name="dabVariants">variants of disambiguation</param>
         /// <param name="contextChars">number of chars each side from link in the context box</param>
