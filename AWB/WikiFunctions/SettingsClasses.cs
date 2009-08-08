@@ -217,14 +217,11 @@ namespace WikiFunctions.AWBSettings
         /// <summary>
         /// Fill the object with settings from UI
         /// </summary>
-        public ListPrefs(WikiFunctions.Controls.Lists.ListMaker listMaker, bool SaveArticleList)
+        public ListPrefs(Controls.Lists.ListMaker listMaker, bool saveArticleList)
         {
             ListSource = listMaker.SourceText;
             SourceIndex = listMaker.SelectedSource;
-            if (SaveArticleList)
-                ArticleList = listMaker.GetArticleList();
-            else
-                ArticleList = new List<Article>();
+            ArticleList = saveArticleList ? listMaker.GetArticleList() : new List<Article>();
         }
 
         public string ListSource = "";
@@ -436,7 +433,7 @@ namespace WikiFunctions.AWBSettings
         public string SelectedSummary = "Clean up";
         public List<string> Summaries = new List<string>();
 
-        public string[] PasteMore = new string[10] { "", "", "", "", "", "", "", "", "", "" };
+        public string[] PasteMore = new [] { "", "", "", "", "", "", "", "", "", "" };
 
         public string FindText = "";
         public bool FindRegex = false;
@@ -454,7 +451,7 @@ namespace WikiFunctions.AWBSettings
         public bool NoAutoChanges = false;
         public int OnLoadAction = 0;
         public bool Minor = false;
-        public int AddToWatchlist = 0;
+        public int AddToWatchlist = 2; //No change
         public bool TimerEnabled = false;
         public bool SortListAlphabetically = false;
         public bool AddIgnoredToLog = false;
@@ -613,7 +610,7 @@ namespace WikiFunctions.AWBSettings
     public class PrefsKeyPair
     {
         public string Name = "";
-        public object Setting = null;
+        public object Setting = null; 
 
         internal PrefsKeyPair() { }
 

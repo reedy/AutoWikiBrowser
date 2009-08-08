@@ -1481,13 +1481,13 @@ window.scrollTo(0, diffTopY);
 
             switch (addToWatchList.SelectedIndex)
             {
-                case 1:
+                case 0:
                     opt = WatchOptions.Watch;
                     break;
-                case 2:
+                case 1:
                     opt = WatchOptions.Unwatch;
                     break;
-                case 4:
+                case 3:
                     opt = WatchOptions.UsePreferences;
                     break;
                 default:
