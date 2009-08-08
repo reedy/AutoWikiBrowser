@@ -2451,7 +2451,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return "";
         }
 
-        private static Dictionary<string, Regex> CachedGetTemplatesRegexes = new Dictionary<string, Regex>();
+        private static readonly Dictionary<string, Regex> CachedGetTemplatesRegexes = new Dictionary<string, Regex>();
         /// <summary>
         /// Finds every occurrence of a given template in article text.
         /// Handles nested templates correctly.
@@ -3421,6 +3421,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
         /// </summary>
         /// <param name="articleText"></param>
+        /// <param name="articleTitle"></param>
         /// <param name="noChange"></param>
         /// <returns></returns>
         public string FixPeopleCategories(string articleText, string articleTitle, out bool noChange)
@@ -3448,6 +3449,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
         /// </summary>
         /// <param name="articleText"></param>
+        /// <param name="articleTitle"></param>
         /// <returns></returns>
         public static string FixPeopleCategories(string articleText, string articleTitle)
         {
