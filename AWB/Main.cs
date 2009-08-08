@@ -3711,7 +3711,7 @@ window.scrollTo(0, diffTopY);
                 string text;
                 try
                 {
-                    text = Tools.GetArticleText("Project:AutoWikiBrowser/User talk templates");
+                    text = TheSession.Editor.SynchronousEditor.Open("Project:AutoWikiBrowser/User talk templates");
                 }
                 catch
                 {
