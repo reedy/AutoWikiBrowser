@@ -240,8 +240,8 @@ en, sq, ru
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="articleText"></param>
-        /// <param name="articleTitle"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">Title of the article</param>
         /// <returns></returns>
         internal string Sort(string articleText, string articleTitle)
         {
@@ -316,8 +316,8 @@ en, sq, ru
         /// <summary>
         /// Extracts categories from the article text; removes duplicate categories, cleans whitespace and underscores
         /// </summary>
-        /// <param name="articleText"></param>
-        /// <param name="articleTitle"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">Title of the article</param>
         /// <returns></returns>
         public string RemoveCats(ref string articleText, string articleTitle)
         {
@@ -385,7 +385,7 @@ en, sq, ru
         /// <summary>
         /// Extracts the persondata template from the articleText, along with the persondata comment, if present on the line before
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
         public static string RemovePersonData(ref string articleText)
         {
@@ -410,7 +410,7 @@ en, sq, ru
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
         public static string RemoveStubs(ref string articleText)
         {
@@ -444,7 +444,7 @@ en, sq, ru
         /// <summary>
         /// Removes any disambiguation templates from the article text, to be added at bottom later
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>Article text stripped of disambiguation templates</returns>
         public static string RemoveDisambig(ref string articleText)
         {
@@ -464,7 +464,7 @@ en, sq, ru
         /// <summary>
         /// Moves any disambiguation links in the zeroth section to the top of the article (en only)
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>Article text with disambiguation links at top</returns>
         public static string MoveDablinks(string articleText)
         {
@@ -519,7 +519,7 @@ en, sq, ru
         /// <summary>
         /// Moves any {{XX portal}} templates to the 'see also' section, if present (en only)
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>Article text with {{XX portal}} template correctly placed</returns>
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Placement_of_portal_template
         public static string MovePortalTemplates(string articleText)
@@ -555,7 +555,7 @@ en, sq, ru
         /// <summary>
         /// Moves any {{nofootnotes}} or {{morefootnotes}} to the references section from the zeroth section, if present (en only)
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>Article text with {{nofootnotes}} or {{morefootnotes}} template correctly placed</returns>
         public static string MoveMoreNoFootnotes(string articleText)
         {
@@ -614,7 +614,7 @@ en, sq, ru
         /// <summary>
         /// Ensures the external links section of an article is after the references section
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>Article text with external links section below the references section</returns>
         public static string MoveExternalLinks(string articleText)
         {
@@ -638,7 +638,7 @@ en, sq, ru
         /// <summary>
         /// Moves the 'see also' section to be above the 'references' section, subject to the limitation that the 'see also' section can't be the last level-2 section
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
         public static string MoveSeeAlso(string articleText)
         {
@@ -658,7 +658,7 @@ en, sq, ru
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
         private static List<string> RemoveLinkFGAs(ref string articleText)
         {

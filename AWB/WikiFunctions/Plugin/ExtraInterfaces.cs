@@ -27,8 +27,8 @@ namespace WikiFunctions.Plugin
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="articleText"></param>
-        /// <param name="articleTitle"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">Title of the article</param>
         /// <param name="namespace"></param>
         /// <param name="summary"></param>
         /// <param name="skip"></param>

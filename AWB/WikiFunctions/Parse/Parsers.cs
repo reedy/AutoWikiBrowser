@@ -1725,7 +1725,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Applies various formatting fixes to citation templates
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
         public static string FixCitationTemplates(string articleText)
         {
@@ -1992,7 +1992,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
         public static string FixLinkWhitespace(string articleText)
         {
@@ -2004,7 +2004,7 @@ namespace WikiFunctions.Parse
         /// Fixes link syntax, including removal of self links
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
-        /// <param name="articleTitle"></param>
+        /// <param name="articleTitle">Title of the article</param>
         /// <param name="noChange">Value that indicated whether no change was made.</param>
         /// <returns>The modified article text.</returns>
         public static string FixLinks(string articleText, string articleTitle, out bool noChange)
@@ -2052,8 +2052,8 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Converts self links for the 'this single/album' field of 'infobox single/album' to bold
         /// </summary>
-        /// <param name="articleText"></param>
-        /// <param name="articleTitle"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">Title of the article</param>
         /// <returns></returns>
         private static string FixLinksInfoBoxSingleAlbum(string articleText, string articleTitle)
         {
@@ -2347,7 +2347,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// Returns whether the article text has a &lt;noinclude&gt; or &lt;includeonly&gt; or '{{{1}}}' etc. which should not appear on the mainspace
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
         public static bool NoIncludeIncludeOnlyProgrammingElement(string articleText)
         {
@@ -2579,8 +2579,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// Delinks all bolded self links in the article
         /// </summary>
-        /// <param name="articleTitle"></param>
-        /// <param name="articleText"></param>
+        /// <param name="articleTitle">Title of the article</param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
         private static string BoldedSelfLinks(string articleTitle, string articleText)
         {
@@ -2864,7 +2864,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="newCategory">The new category.</param>
-        /// <param name="articleTitle"></param>
+        /// <param name="articleTitle">Title of the article</param>
         /// <param name="noChange"></param>
         /// <returns>The article text.</returns>
         public string AddCategory(string newCategory, string articleText, string articleTitle, out bool noChange)
@@ -2882,7 +2882,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="newCategory">The new category.</param>
-        /// <param name="articleTitle"></param>
+        /// <param name="articleTitle">Title of the article</param>
         /// <returns>The article text.</returns>
         public string AddCategory(string newCategory, string articleText, string articleTitle)
         {
@@ -3047,7 +3047,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// * no {{DEFAULTSORT}} in article
         /// Otherwise returns null
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
         public static string GetCategorySort(string articleText)
         {
@@ -3066,8 +3066,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// Returns the sortkey used by all categories, if all categories use the same sortkey
         /// Where no sortkey is used for all categories, returns the articletitle
         /// </summary>
-        /// <param name="articleText"></param>
-        /// <param name="articleTitle"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">Title of the article</param>
         /// <param name="matches"></param>
         /// <returns></returns>
         public static string GetCategorySort(string articleText, string articleTitle, out int matches)
@@ -3266,7 +3266,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// determines whether the article is about a person by looking for persondata/birth death categories, bio stub etc. for en wiki only
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
         [Obsolete]
         public static bool IsArticleAboutAPerson(string articleText)
@@ -3277,8 +3277,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// determines whether the article is about a person by looking for persondata/birth death categories, bio stub etc. for en wiki only
         /// </summary>
-        /// <param name="articleText"></param>
-        /// <param name="articleTitle"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">Title of the article</param>
         /// <returns></returns>
         public static bool IsArticleAboutAPerson(string articleText, string articleTitle)
         {
@@ -3408,7 +3408,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="noChange"></param>
         /// <returns></returns>
         [Obsolete]
@@ -3420,8 +3420,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
         /// </summary>
-        /// <param name="articleText"></param>
-        /// <param name="articleTitle"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">Title of the article</param>
         /// <param name="noChange"></param>
         /// <returns></returns>
         public string FixPeopleCategories(string articleText, string articleTitle, out bool noChange)
@@ -3448,8 +3448,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
         /// </summary>
-        /// <param name="articleText"></param>
-        /// <param name="articleTitle"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">Title of the article</param>
         /// <returns></returns>
         public static string FixPeopleCategories(string articleText, string articleTitle)
         {
@@ -3654,7 +3654,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// Returns the value of the given field from the page's infobox, where available
         /// Returns a null string if the input article has no infobox, or the input field regex doesn't match on the infobox found
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="fieldRegex">Regular expression of field names, must not contain regex groups</param>
         /// <returns></returns>
         public static string GetInfoBoxFieldValue(string articleText, string fieldRegex)
@@ -3905,8 +3905,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="articleText"></param>
-        /// <param name="articleTitle"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">Title of the article</param>
         /// <param name="summary"></param>
         /// <returns></returns>
         private string TagOrphans(string articleText, string articleTitle, ref string summary)
@@ -3954,7 +3954,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
         public static string TagUpdater(string articleText)
         {
@@ -4013,7 +4013,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
         public static string ExternalURLToInternalLink(string articleText)
         {
@@ -4084,7 +4084,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// Returns whether the input article text contains any {{dead link}} templates, ignoring comments
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
         public static bool HasDeadLinks(string articleText)
         {
@@ -4127,7 +4127,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <summary>
         /// Returns true if the article contains bare external links in the references section (just the URL link on a line with no description/name)
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Format_references
         public static bool HasBareReferences(string articleText)

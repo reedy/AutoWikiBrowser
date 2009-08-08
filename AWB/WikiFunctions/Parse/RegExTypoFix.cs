@@ -215,10 +215,10 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Applies a given typo fix to the article provided the typo does not also match the article title
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="summary"></param>
         /// <param name="typo"></param>
-        /// <param name="articleTitle"></param>
+        /// <param name="articleTitle">Title of the article</param>
         private void FixTypo(ref string articleText, ref string summary, KeyValuePair<Regex, string> typo, string articleTitle)
         {
             // don't apply the typo if it matches on the Article's title
@@ -425,10 +425,10 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="noChange"></param>
         /// <param name="summary"></param>
-        /// <param name="articleTitle"></param>
+        /// <param name="articleTitle">Title of the article</param>
         /// <returns></returns>
         public string PerformTypoFixes(string articleText, out bool noChange, out string summary, string articleTitle)
         {
@@ -473,8 +473,8 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="articleText"></param>
-        /// <param name="articleTitle"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">Title of the article</param>
         /// <returns></returns>
         public bool DetectTypo(string articleText, string articleTitle)
         {
