@@ -3862,6 +3862,29 @@ fish | name = Bert }} ''Bert'' is a good fish."));
         }
 
         [Test]
+        public void HasStubTemplate()
+        {
+            Assert.IsTrue(Parsers.HasStubTemplate(@"foo {{foo stub}}"));
+            Assert.IsTrue(Parsers.HasStubTemplate(@"foo {{foo-stub}}"));
+
+            Assert.IsFalse(Parsers.HasStubTemplate(@"foo {{foo tubs}}"));
+        }
+
+        [Test]
+        public void IsStub()
+        {
+            Assert.IsTrue(Parsers.IsStub(@"foo {{foo stub}}"));
+            Assert.IsTrue(Parsers.IsStub(@"foo {{foo-stub}}"));
+
+            // short article
+            Assert.IsTrue(Parsers.IsStub(@"foo {{foo tubs}}"));
+
+            const string a = @"fooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo";
+            const string b = a + a + a + a + a + a;
+            Assert.IsFalse(Parsers.IsStub(b + b + b + b));
+        }
+
+        [Test]
         public void NoBotsTests()
         {
             Assert.IsTrue(Parsers.CheckNoBots("", ""));
