@@ -326,45 +326,67 @@ namespace AutoWikiBrowser
                         SkipIfNoAlerts = chkSkipIfNoAlerts.Checked
                     },
 
-                new GeneralPrefs(SaveArticleList, IgnoreNoBots, cmboEditSummary.Items,
-                                 cmboEditSummary.Text, new[]
-                                                           {
-                                                               (string) PasteMore1.Tag,
-                                                               (string) PasteMore2.Tag,
-                                                               (string) PasteMore3.Tag,
-                                                               (string) PasteMore4.Tag,
-                                                               (string) PasteMore5.Tag,
-                                                               (string) PasteMore6.Tag,
-                                                               (string) PasteMore7.Tag,
-                                                               (string) PasteMore8.Tag,
-                                                               (string) PasteMore9.Tag,
-                                                               (string) PasteMore10.Tag
-                                                           }, txtFind.Text, chkFindRegex.Checked,
-                                 chkFindCaseSensitive.Checked, wordWrapToolStripMenuItem1.Checked, EnableToolBar,
-                                 bypassRedirectsToolStripMenuItem.Checked, autoSaveSettingsToolStripMenuItem.Checked,
-                                 preParseModeToolStripMenuItem.Checked,
-                                 noSectionEditSummaryToolStripMenuItem.Checked,
-                                 restrictDefaultsortChangesToolStripMenuItem.Checked,
-                                 noMOSComplianceFixesToolStripMenuItem.Checked,
-                                 syntaxHighlightEditBoxToolStripMenuItem.Checked,
-                                 !automaticallyDoAnythingToolStripMenuItem.Checked,
-                                 toolStripComboOnLoad.SelectedIndex, chkMinor.Checked,
-                                 ShowMovingAverageTimer,
-                                 sortAlphabeticallyToolStripMenuItem.Checked,
-                                 displayfalsePositivesButtonToolStripMenuItem.Checked, (int) txtEdit.Font.Size,
-                                 txtEdit.Font.Name,
-                                 LowThreadPriority, Beep, Flash, Minimize, AutoSaveEditBoxEnabled,
-                                 AutoSaveEditBoxPeriod,
-                                 AutoSaveEditBoxFile, chkLock.Checked, EditToolBarVisible, SuppressUsingAWB,
-                                 Article.AddUsingAWBOnArticleAction,
-                                 filterOutNonMainSpaceToolStripMenuItem.Checked,
-                                 removeDuplicatesToolStripMenuItem.Checked,
-                                 alphaSortInterwikiLinksToolStripMenuItem.Checked,
-                                 replaceReferenceTagsToolStripMenuItem.Checked,
-                                 focusAtEndOfEditTextBoxToolStripMenuItem.Checked,
-                                 scrollToUnbalancedBracketsToolStripMenuItem.Checked,
-                                 addToWatchList.SelectedIndex),
+                new GeneralPrefs(cmboEditSummary.Items)
+                    {
+                        SaveArticleList = SaveArticleList,
+                        IgnoreNoBots = IgnoreNoBots,
 
+                        PasteMore = new[]
+                                        {
+                                            (string) PasteMore1.Tag,
+                                            (string) PasteMore2.Tag,
+                                            (string) PasteMore3.Tag,
+                                            (string) PasteMore4.Tag,
+                                            (string) PasteMore5.Tag,
+                                            (string) PasteMore6.Tag,
+                                            (string) PasteMore7.Tag,
+                                            (string) PasteMore8.Tag,
+                                            (string) PasteMore9.Tag,
+                                            (string) PasteMore10.Tag
+                                        },
+                        FindText = txtFind.Text,
+                        FindRegex = chkFindRegex.Checked,
+                        FindCaseSensitive = chkFindCaseSensitive.Checked,
+                        WordWrap = wordWrapToolStripMenuItem1.Checked,
+                        ToolBarEnabled = EnableToolBar,
+                        BypassRedirect = bypassRedirectsToolStripMenuItem.Checked,
+                        AutoSaveSettings = autoSaveSettingsToolStripMenuItem.Checked,
+                        PreParseMode = preParseModeToolStripMenuItem.Checked,
+                        noSectionEditSummary = noSectionEditSummaryToolStripMenuItem.Checked,
+                        restrictDefaultsortAddition = restrictDefaultsortChangesToolStripMenuItem.Checked,
+                        noMOSComplianceFixes = noMOSComplianceFixesToolStripMenuItem.Checked,
+                        syntaxHighlightEditBox = syntaxHighlightEditBoxToolStripMenuItem.Checked,
+                        NoAutoChanges = !automaticallyDoAnythingToolStripMenuItem.Checked,
+                        OnLoadAction = toolStripComboOnLoad.SelectedIndex,
+                        Minor = chkMinor.Checked,
+                        AddToWatchlist = addToWatchList.SelectedIndex,
+                        TimerEnabled = ShowMovingAverageTimer,
+                        SortListAlphabetically = sortAlphabeticallyToolStripMenuItem.Checked,
+                        AddIgnoredToLog = Article.AddUsingAWBOnArticleAction,
+                        TextBoxSize = (int) txtEdit.Font.Size,
+                        TextBoxFont = txtEdit.Font.Name,
+                        LowThreadPriority = LowThreadPriority,
+                        Beep = Beep,
+                        Flash = Flash,
+                        Minimize = Minimize,
+                        AutoSaveEdit = new EditBoxAutoSavePrefs
+                                           {
+                                               Enabled = AutoSaveEditBoxEnabled,
+                                               SavePeriod = AutoSaveEditBoxPeriod,
+                                               SaveFile = AutoSaveEditBoxFile
+                                           },
+                        LockSummary = chkLock.Checked,
+                        EditToolbarEnabled = EditToolBarVisible,
+                        SuppressUsingAWB = SuppressUsingAWB,
+                        AddUsingAWBToActionSummaries = Article.AddUsingAWBOnArticleAction,
+                        filterNonMainSpace = filterOutNonMainSpaceToolStripMenuItem.Checked,
+                        AutoFilterDuplicates = removeDuplicatesToolStripMenuItem.Checked,
+                        FocusAtEndOfEditBox = focusAtEndOfEditTextBoxToolStripMenuItem.Checked,
+                        scrollToUnbalancedBrackets = scrollToUnbalancedBracketsToolStripMenuItem.Checked,
+
+                        SortInterWikiOrder = alphaSortInterwikiLinksToolStripMenuItem.Checked,
+                        ReplaceReferenceTags = replaceReferenceTagsToolStripMenuItem.Checked
+                    },
 
                 new DabPrefs
                     {
@@ -373,7 +395,6 @@ namespace AutoWikiBrowser
                         Variants = txtDabVariants.Lines,
                         ContextChars = (int) udContextChars.Value
                     },
-
 
                 new ModulePrefs
                     {

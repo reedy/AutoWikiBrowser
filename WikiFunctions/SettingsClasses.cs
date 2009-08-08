@@ -302,70 +302,13 @@ namespace WikiFunctions.AWBSettings
             AutoSaveEdit = new EditBoxAutoSavePrefs();
         }
 
-        /// <summary>
-        /// Fill the object with settings from UI
-        /// </summary>
-        public GeneralPrefs(bool mSaveArticleList, bool mIgnoreNoBots,
-            System.Windows.Forms.ComboBox.ObjectCollection mSummaries, string mSelectedSummary,
-            string[] mPasteMore, string mFindText, bool mFindRegex, bool mFindCaseSensitive, bool mWordWrap,
-            bool mToolBarEnabled, bool mBypassRedirect, bool mAutoSaveSettings, bool mPreParseMode, bool mNoSectionEditSummary, bool mRestrictDefaultsortAddition, bool mNoMOSComplianceFixes, bool mSyntaxHighlightEditBox, bool mNoAutoChanges, int mOnLoadAction, bool mMinor,
-            bool mTimerEnabled, bool mSortListAlphabetically, bool mAddIgnoredToLog, int mTextBoxSize,
-            string mTextBoxFont, bool mLowThreadPriority, bool mBeep, bool mFlash, bool mMinimize,
-            bool autoSaveEditBoxEnabled, decimal autoSaveEditBoxPeriod,
-            string autoSaveEditBoxFile, bool mLockSummary, bool mEditToolbarEnabled, bool mSuppressUsingAWB,
-            bool mAddUsingAWBToActionSummaries, bool mfilterNonMainSpace, bool mAutoFilterDupes, bool mSortInterWikiOrder,
-            bool mReplaceReferenceTags, bool mFocusAtEndOfEditBox, bool mscrollToUnbalancedBrackets, int addToWatchlist)
+        public GeneralPrefs(System.Windows.Forms.ComboBox.ObjectCollection mSummaries)
         {
-            SaveArticleList = mSaveArticleList;
-            IgnoreNoBots = mIgnoreNoBots;
-
             foreach (object s in mSummaries)
                 Summaries.Add(s.ToString());
-
-            SelectedSummary = mSelectedSummary;
-            PasteMore = mPasteMore;
-            FindText = mFindText;
-            FindRegex = mFindRegex;
-            FindCaseSensitive = mFindCaseSensitive;
-            WordWrap = mWordWrap;
-            ToolBarEnabled = mToolBarEnabled;
-            BypassRedirect = mBypassRedirect;
-            AutoSaveSettings = mAutoSaveSettings;
-            PreParseMode = mPreParseMode;
-            noSectionEditSummary = mNoSectionEditSummary;
-            restrictDefaultsortAddition = mRestrictDefaultsortAddition;
-            noMOSComplianceFixes = mNoMOSComplianceFixes;
-            syntaxHighlightEditBox = mSyntaxHighlightEditBox;
-            NoAutoChanges = mNoAutoChanges;
-            OnLoadAction = mOnLoadAction;
-            Minor = mMinor;
-            AddToWatchlist = addToWatchlist;
-            TimerEnabled = mTimerEnabled;
-            SortListAlphabetically = mSortListAlphabetically;
-            AddIgnoredToLog = mAddIgnoredToLog;
-            TextBoxSize = mTextBoxSize;
-            TextBoxFont = mTextBoxFont;
-            LowThreadPriority = mLowThreadPriority;
-            Beep = mBeep;
-            Flash = mFlash;
-            Minimize = mMinimize;
-            AutoSaveEdit = new EditBoxAutoSavePrefs(autoSaveEditBoxEnabled, autoSaveEditBoxPeriod,
-                autoSaveEditBoxFile);
-            LockSummary = mLockSummary;
-            EditToolbarEnabled = mEditToolbarEnabled;
-            SuppressUsingAWB = mSuppressUsingAWB;
-            AddUsingAWBToActionSummaries = mAddUsingAWBToActionSummaries;
-            filterNonMainSpace = mfilterNonMainSpace;
-            AutoFilterDuplicates = mAutoFilterDupes;
-            FocusAtEndOfEditBox = mFocusAtEndOfEditBox;
-            scrollToUnbalancedBrackets = mscrollToUnbalancedBrackets;
-
-            SortInterWikiOrder = mSortInterWikiOrder;
-            ReplaceReferenceTags = mReplaceReferenceTags;
         }
 
         public EditBoxAutoSavePrefs AutoSaveEdit;
-
         public string SelectedSummary = "Clean up";
         public List<string> Summaries = new List<string>();
 
@@ -416,15 +359,9 @@ namespace WikiFunctions.AWBSettings
     [Serializable]
     public class EditBoxAutoSavePrefs
     {
-        internal EditBoxAutoSavePrefs()
+        public EditBoxAutoSavePrefs()
         {
             SavePeriod = 30;
-        }
-        internal EditBoxAutoSavePrefs(bool mEnabled, decimal mPeriod, string mFile)
-        {
-            Enabled = mEnabled;
-            SavePeriod = mPeriod;
-            SaveFile = mFile;
         }
 
         public bool Enabled = false;
