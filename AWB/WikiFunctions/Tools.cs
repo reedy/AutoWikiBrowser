@@ -375,13 +375,14 @@ namespace WikiFunctions
             return text;
         }
 
+        //TODO: replace all usages with ApiEdit
         /// <summary>
         /// Gets the wiki text of the given article.
         /// </summary>
         /// <param name="articleTitle">The name of the article.</param>
         /// <param name="returnNullStringOnException"></param>
         /// <returns>The wiki text of the article.</returns>
-        [Obsolete("Should be replaced with usage of ApiEdit")]
+        //[Obsolete("Should be replaced with usage of ApiEdit")]
         public static string GetArticleText(string articleTitle, bool returnNullStringOnException)
         {
             if (!IsValidTitle(articleTitle))
@@ -406,7 +407,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="articleTitle"></param>
         /// <returns></returns>
-        [Obsolete("Should be replaced with usage of ApiEdit")]
+        //[Obsolete("Should be replaced with usage of ApiEdit")]
         public static string GetArticleText(string articleTitle)
         {
             return GetArticleText(articleTitle, false);
