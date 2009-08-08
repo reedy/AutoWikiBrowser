@@ -2304,6 +2304,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// Fix common spacing/capitalisation errors in categories; remove diacritics and trailing whitespace from sortkeys (not leading whitespace)
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="isMainSpace"></param>
         /// <returns>The modified article text.</returns>
         public static string FixCategories(string articleText, bool isMainSpace)
         {
@@ -2602,7 +2603,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         private static readonly Regex BracketedAtEndOfLine = new Regex(@" \(.*?\)$", RegexOptions.Compiled);
-        private static readonly Regex boldTitleAlready3 = new Regex(@"^\s*({{[^\{\}]+}}\s*)*'''('')?\s*\w", RegexOptions.Compiled);
+        private static readonly Regex BoldTitleAlready3 = new Regex(@"^\s*({{[^\{\}]+}}\s*)*'''('')?\s*\w", RegexOptions.Compiled);
         // Covered by: BoldTitleTests
         /// <summary>
         /// '''Emboldens''' the first occurrence of the article title, if not already bold
@@ -2664,7 +2665,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             //if title in bold already exists in article, or page starts with something in bold, don't change anything
             if (boldTitleAlready1.IsMatch(articleText) || boldTitleAlready2.IsMatch(articleText)
-                || boldTitleAlready3.IsMatch(articleText))
+                || BoldTitleAlready3.IsMatch(articleText))
                 return articleTextAtStart;
 
             Regex regexBold = new Regex(@"([^\[]|^)(" + escTitle + "|" + Tools.TurnFirstToLower(escTitle) + ")([ ,.:;])");
@@ -3277,6 +3278,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// determines whether the article is about a person by looking for persondata/birth death categories, bio stub etc. for en wiki only
         /// </summary>
         /// <param name="articleText"></param>
+        /// <param name="articleTitle"></param>
         /// <returns></returns>
         public static bool IsArticleAboutAPerson(string articleText, string articleTitle)
         {
