@@ -3329,7 +3329,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     || WikiRegexes.BirthsCategory.IsMatch(articleText)
                     || WikiRegexes.BLPSources.IsMatch(articleText)
                     || RefImprove.IsMatch(articleText) 
-                    || (!String.IsNullOrEmpty(articleTitle) && Tools.GetArticleText(@"Talk:" + articleTitle, true).Contains(@"{{WPBiography"));           
+                    || (!string.IsNullOrEmpty(articleTitle) &&
+                        Tools.GetArticleText(Variables.Namespaces[1] + articleTitle, true).Contains(@"{{WPBiography"));           
         }
 
         /// <summary>
