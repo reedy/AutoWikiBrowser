@@ -859,7 +859,7 @@ namespace AutoWikiBrowser
             if (!Abort)
             {
                 bool diffInBotMode = (toolStripDiffInBotMode.Enabled && toolStripDiffInBotMode.Checked &&
-                                      (int) nudBotSpeed.Value > 5);
+                                      (int) nudBotSpeed.Value >= 5);
                 if (BotMode)
                 {
                     StartDelayedAutoSaveTimer();
