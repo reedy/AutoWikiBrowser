@@ -675,38 +675,42 @@ namespace WikiFunctions.Parse
 
             int j = 0;
 
-            foreach (Match m in DuplicateUnnamedRef.Matches(articleText))
+            // loop to catch duplicate references in the wikitext between other duplicate references
+            for (int i = 0; i < 5; i++)
             {
-                string articleTextBefore = articleText;
-                string multiref = String.Format(@"multiref{0}", j);
-                string multirefRefString = m.Groups[2].Value;
-
-                // ref contains ibid/op cit, don't combine it, could refer to any ref on page
-                if (WikiRegexes.IbidOpCitation.IsMatch(multirefRefString))
+                foreach (Match m in DuplicateUnnamedRef.Matches(articleText))
                 {
-                    articleText = articleTextBefore;
+                    string articleTextBefore = articleText;
+                    string multiref = String.Format(@"multiref{0}", j);
+                    string multirefRefString = m.Groups[2].Value;
+
+                    // ref contains ibid/op cit, don't combine it, could refer to any ref on page
+                    if (WikiRegexes.IbidOpCitation.IsMatch(multirefRefString))
+                    {
+                        articleText = articleTextBefore;
+                        j++;
+                        continue;
+                    }
+
+                    Regex multirefReplace = new Regex(@"(?s)(<\s*ref\s*>\s*(" + Regex.Escape(multirefRefString) + @")\s*<\s*/\s*ref>)(.*?)(<\s*ref\s*>\s*\2\s*<\s*/\s*ref>)");
+                    articleText = multirefReplace.Replace(articleText, String.Format(@"<ref name=""multiref{0}"">$2</ref>$3<ref name=""multiref{0}""/>", j));
+
+                    // get the reference name to use
+                    string friendlyName = DeriveReferenceName(articleText, multirefRefString);
+
+                    // check reference name not already in use for some other reference
+                    if (friendlyName.Length > 3 && !Regex.IsMatch(articleText, RefName + Regex.Escape(friendlyName) + @"""\s*/?\s*>"))
+                        articleText = Regex.Replace(articleText, @"(?si)(<ref name="")" + multiref + @"(""/?>)", @"${1}" + friendlyName + @"${2}");
+                    else
+                    // either derived reference name too short, or already in use
+                    {
+                        articleText = articleTextBefore;
+                        j++;
+                        continue;
+                    }
+
                     j++;
-                    continue;
                 }
-
-                Regex multirefReplace = new Regex(@"(?s)(<\s*ref\s*>\s*(" + Regex.Escape(multirefRefString) + @")\s*<\s*/\s*ref>)(.*?)(<\s*ref\s*>\s*\2\s*<\s*/\s*ref>)");
-                articleText = multirefReplace.Replace(articleText, String.Format(@"<ref name=""multiref{0}"">$2</ref>$3<ref name=""multiref{0}""/>", j));
-
-                // get the reference name to use
-                string friendlyName = DeriveReferenceName(articleText, multirefRefString);
-
-                // check reference name not already in use for some other reference
-                if (friendlyName.Length > 3 && !Regex.IsMatch(articleText, RefName + Regex.Escape(friendlyName) + @"""\s*/?\s*>"))
-                    articleText = Regex.Replace(articleText, @"(?si)(<ref name="")" + multiref + @"(""/?>)", @"${1}" + friendlyName + @"${2}");
-                else
-                // either derived reference name too short, or already in use
-                {
-                    articleText = articleTextBefore;
-                    j++;
-                    continue;
-                }
-
-                j++;
             }
 
             return articleText;
