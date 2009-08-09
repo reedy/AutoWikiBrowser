@@ -344,7 +344,7 @@ namespace WikiFunctions.Lists
         }
 
         public override string DisplayText
-        { get { return base.DisplayText + " (and to Redirects)"; } }
+        { get { return base.DisplayText + " (and to redirects)"; } }
     }
 
     /// <summary>
@@ -365,7 +365,7 @@ namespace WikiFunctions.Lists
         }
 
         public override string DisplayText
-        { get { return base.DisplayText + " (and to Redirects)"; } }
+        { get { return base.DisplayText + " (and to redirects)"; } }
     }
 
     /// <summary>
@@ -386,7 +386,7 @@ namespace WikiFunctions.Lists
         }
 
         public override string DisplayText
-        { get { return base.DisplayText + " (No Redirects) (Links to Redirects)"; } }
+        { get { return base.DisplayText + " directly"; } }
     }
 
     /// <summary>
