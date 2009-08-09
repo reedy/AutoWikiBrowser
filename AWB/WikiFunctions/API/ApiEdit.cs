@@ -234,7 +234,7 @@ namespace WikiFunctions.API
         /// 
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="autoParams"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
         protected string BuildUrl(string[,] request, ActionOptions options)
         {
@@ -331,7 +331,7 @@ namespace WikiFunctions.API
         /// </summary>
         /// <param name="get"></param>
         /// <param name="post"></param>
-        /// <param name="autoParams"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
         protected string HttpPost(string[,] get, string[,] post, ActionOptions options)
         {
@@ -366,7 +366,7 @@ namespace WikiFunctions.API
         /// 
         /// </summary>
         /// <param name="request"></param>
-        /// <param name="autoParams"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
         protected string HttpGet(string[,] request, ActionOptions options)
         {
@@ -894,8 +894,7 @@ namespace WikiFunctions.API
                         throw new ApiErrorException(this, errorCode, errorMessage);
                 }
             }
-            else
-                if (string.IsNullOrEmpty(action)) return doc; // no action to check
+            if (string.IsNullOrEmpty(action)) return doc; // no action to check
 
             var api = doc["api"];
             if (api == null) return doc;
