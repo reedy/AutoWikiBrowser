@@ -49,6 +49,7 @@ namespace WikiFunctions.Lists
                 ListItems.Add(new ProtectedPagesSpecialPageProvider());
                 ListItems.Add(new GalleryNewFilesSpecialPageProvider());
                 ListItems.Add(new DisambiguationPagesSpecialPageProvider());
+                ListItems.Add(new WhatTranscludesPageListProvider());
             }
 
             cmboSourceSelect.DataSource = ListItems;
