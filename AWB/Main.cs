@@ -465,7 +465,6 @@ namespace AutoWikiBrowser
         {
             if (ex is InterwikiException)
                 SkipPage(ex.Message);
-
             else if (ex is SpamlistException)
             {
                 string message = "Text '" + (ex as SpamlistException).URL + "' is blocked by spam blacklist";
@@ -482,14 +481,13 @@ namespace AutoWikiBrowser
                 }
                 SkipPage(message);
             }
-
             else if (ex is ApiErrorException)
             {
                 switch ((ex as ApiErrorException).ErrorCode)
                 {
                     case "editconflict":
                         //TODO: must be a less crude way
-                        MessageBox.Show(this, "There has been an edit conflict. AWB will now re-apply its changes on the updated page. \n\r Please re-review the changes before saving. Any Custom edits will be lost, and have to be re-added manually.", "Edit conflict");
+                        MessageBox.Show(this, "There has been an edit conflict. AWB will now re-apply its changes on the updated page. \r\n Please re-review the changes before saving. Any Custom edits will be lost, and have to be re-added manually.", "Edit conflict");
                         NudgeTimer.Stop();
                         Start();
                         break;
@@ -499,12 +497,10 @@ namespace AutoWikiBrowser
                         break;
                 }
             }
-
             else if (ex is NewMessagesException)
             {
                 WeHaveNewMessages();
             }
-
             else
             {
                 Stop();
