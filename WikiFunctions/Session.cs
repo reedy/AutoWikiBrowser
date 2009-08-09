@@ -342,7 +342,7 @@ namespace WikiFunctions
                 Regex username = new Regex(@"^\*\s*" + Tools.CaseInsensitive(Editor.User.Name)
                                            + @"\s*$", RegexOptions.Multiline);
 
-                if (IsSysop)
+                if (IsSysop && Variables.Project != ProjectEnum.wikia)
                 {
                     IsBot = username.IsMatch(strBotUsers);
                     return WikiStatusResult.Registered;
