@@ -1,1 +1,1 @@
-<?php header('Location:http://toolserver.org/~maxsem/typoscan/?' . $_SERVER['QUERY_STRING']);?>
+<?php header('Location:http://toolserver.org/~awb/typoscan/?' . $_SERVER['QUERY_STRING']);?>
