@@ -283,8 +283,6 @@ namespace WikiFunctions.Background
             InitThread(BypassRedirectsFunc);
         }
 
-        private readonly Regex WikiLinksOnly = new Regex("\\[\\[([^:|]*?)\\]\\]", RegexOptions.Compiled);
-
         /// <summary>
         /// 
         /// </summary>
@@ -298,7 +296,7 @@ namespace WikiFunctions.Background
             {
                 if (HasUI) UI.Status = "Loading links";
 
-                MatchCollection simple = WikiLinksOnly.Matches(StrParam);
+                MatchCollection simple = WikiRegexes.WikiLinksOnly.Matches(StrParam);
                 MatchCollection piped = WikiRegexes.PipedWikiLink.Matches(StrParam);
 
                 if (HasUI)
