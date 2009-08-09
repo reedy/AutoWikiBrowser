@@ -46,7 +46,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
             using (
                 XmlTextReader reader =
-                    new XmlTextReader(new StringReader(Tools.GetHTML(Common.GetUrlFor("displayarticles") + "count=" + Count))))
+                    new XmlTextReader(new StringReader(Tools.GetHTML(Common.GetUrlFor("displayarticles") + "&count=" + Count))))
             {
                 while (reader.Read())
                 {
