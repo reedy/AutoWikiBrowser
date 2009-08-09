@@ -2290,8 +2290,7 @@ window.scrollTo(0, diffTopY);
         [Conditional("RELEASE")]
         private void Release()
         {
-            //TODO:
-            if (MainTab.Contains(tpBots))
+            if (MainTab.Contains(tpBots) && !Variables.UsingMono)
                 MainTab.Controls.Remove(tpBots);
         }
 
