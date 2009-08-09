@@ -180,9 +180,9 @@ namespace AutoWikiBrowser
             this.profileTyposToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UsageStatsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runUpdaterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.StatusMain = new System.Windows.Forms.StatusStrip();
             this.MainFormProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.lblStatusText = new System.Windows.Forms.ToolStripStatusLabel();
@@ -1342,12 +1342,13 @@ namespace AutoWikiBrowser
             // toolStripSeparator31
             // 
             this.toolStripSeparator31.Name = "toolStripSeparator31";
-            this.toolStripSeparator31.Size = new System.Drawing.Size(301, 6);
+            this.toolStripSeparator31.Size = new System.Drawing.Size(293, 6);
             // 
             // toolStripDiffInBotMode
             // 
+            this.toolStripDiffInBotMode.CheckOnClick = true;
             this.toolStripDiffInBotMode.Name = "toolStripDiffInBotMode";
-            this.toolStripDiffInBotMode.Size = new System.Drawing.Size(304, 22);
+            this.toolStripDiffInBotMode.Size = new System.Drawing.Size(296, 22);
             this.toolStripDiffInBotMode.Text = "Preview the Diff in Bot Mode";
             // 
             // toolStripComboOnLoad
@@ -1364,7 +1365,7 @@ namespace AutoWikiBrowser
             // toolStripSeparator21
             // 
             this.toolStripSeparator21.Name = "toolStripSeparator21";
-            this.toolStripSeparator21.Size = new System.Drawing.Size(301, 6);
+            this.toolStripSeparator21.Size = new System.Drawing.Size(293, 6);
             // 
             // focusAtEndOfEditTextBoxToolStripMenuItem
             // 
@@ -1553,13 +1554,6 @@ namespace AutoWikiBrowser
             this.helpToolStripMenuItem1.Text = "&Help";
             this.helpToolStripMenuItem1.Click += new System.EventHandler(this.helpToolStripMenuItem1_Click);
             // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.aboutToolStripMenuItem.Text = "&About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
-            // 
             // UsageStatsMenuItem
             // 
             this.UsageStatsMenuItem.Name = "UsageStatsMenuItem";
@@ -1573,6 +1567,13 @@ namespace AutoWikiBrowser
             this.runUpdaterToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.runUpdaterToolStripMenuItem.Text = "Check for &updates";
             this.runUpdaterToolStripMenuItem.Click += new System.EventHandler(this.runUpdaterToolStripMenuItem_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.aboutToolStripMenuItem.Text = "&About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // StatusMain
             // 
