@@ -3,11 +3,11 @@
 if (isset($_SERVER) && array_key_exists('REQUEST_METHOD', $_SERVER))
 {
 	//require_once('common.php');
-	die ('This is a command-line script');
+	die ('This is a command-line script\n');
 }
 
-if ((!isset($argv[1]) && ! isset($argv[2])) || count($argv) != 2)
-	die ('Parameters: <filename> <wiki>');
+if ((!isset($argv[1]) && !isset($argv[2])))
+	die ('Parameters: <filename> <wiki>\n');
 
 echo "Connecting to MySQL...\n";
 require_once('typo-db.php');	
@@ -34,4 +34,4 @@ while(!feof($f))
 	//echo $name . "\n";
 }
 
-echo 'Success!';
+echo 'Success!\n';
