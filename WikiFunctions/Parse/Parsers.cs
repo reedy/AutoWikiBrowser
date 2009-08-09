@@ -660,7 +660,7 @@ namespace WikiFunctions.Parse
         }
 
         private const string RefName = @"(?si)<\s*ref\s+name\s*=\s*""";
-        private static readonly Regex DuplicateUnnamedRef = new Regex(@"(?s)(<\s*ref\s*>\s*([^<>]+)\s*<\s*/\s*ref>)(.*?)(<\s*ref\s*>\s*\2\s*<\s*/\s*ref>)", RegexOptions.Compiled);
+        private static readonly Regex DuplicateUnnamedRef = new Regex(@"(<\s*ref\s*>\s*([^<>]+)\s*<\s*/\s*ref>)(.*?)(<\s*ref\s*>\s*\2\s*<\s*/\s*ref>)", RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
         /// Derives and sets a reference name per [[WP:REFNAME]] for duplicate &lt;ref&gt;s
