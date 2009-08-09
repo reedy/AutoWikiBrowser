@@ -153,7 +153,10 @@ namespace AutoWikiBrowser
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
             this.bypassRedirectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.automaticallyDoAnythingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator31 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripDiffInBotMode = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripComboOnLoad = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
             this.focusAtEndOfEditTextBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.noSectionEditSummaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.restrictDefaultsortChangesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1266,7 +1269,10 @@ namespace AutoWikiBrowser
             this.toolStripSeparator14,
             this.bypassRedirectsToolStripMenuItem,
             this.automaticallyDoAnythingToolStripMenuItem,
+            this.toolStripSeparator31,
+            this.toolStripDiffInBotMode,
             this.toolStripComboOnLoad,
+            this.toolStripSeparator21,
             this.focusAtEndOfEditTextBoxToolStripMenuItem,
             this.noSectionEditSummaryToolStripMenuItem,
             this.restrictDefaultsortChangesToolStripMenuItem,
@@ -1333,6 +1339,17 @@ namespace AutoWikiBrowser
             this.automaticallyDoAnythingToolStripMenuItem.Size = new System.Drawing.Size(296, 22);
             this.automaticallyDoAnythingToolStripMenuItem.Text = "Apply &changes automatically";
             // 
+            // toolStripSeparator31
+            // 
+            this.toolStripSeparator31.Name = "toolStripSeparator31";
+            this.toolStripSeparator31.Size = new System.Drawing.Size(301, 6);
+            // 
+            // toolStripDiffInBotMode
+            // 
+            this.toolStripDiffInBotMode.Name = "toolStripDiffInBotMode";
+            this.toolStripDiffInBotMode.Size = new System.Drawing.Size(304, 22);
+            this.toolStripDiffInBotMode.Text = "Preview the Diff in Bot Mode";
+            // 
             // toolStripComboOnLoad
             // 
             this.toolStripComboOnLoad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -1342,6 +1359,12 @@ namespace AutoWikiBrowser
             "On load: Show edit page"});
             this.toolStripComboOnLoad.Name = "toolStripComboOnLoad";
             this.toolStripComboOnLoad.Size = new System.Drawing.Size(160, 21);
+            this.toolStripComboOnLoad.SelectedIndexChanged += new System.EventHandler(this.toolStripComboOnLoad_SelectedIndexChanged);
+            // 
+            // toolStripSeparator21
+            // 
+            this.toolStripSeparator21.Name = "toolStripSeparator21";
+            this.toolStripSeparator21.Size = new System.Drawing.Size(301, 6);
             // 
             // focusAtEndOfEditTextBoxToolStripMenuItem
             // 
@@ -4536,5 +4559,8 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripStatusLabel lblPagesPerMin;
         private System.Windows.Forms.ToolStripMenuItem profileTyposToolStripMenuItem;
         private System.Windows.Forms.ToolStripComboBox addToWatchList;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator31;
+        private System.Windows.Forms.ToolStripMenuItem toolStripDiffInBotMode;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator21;
     }
 }

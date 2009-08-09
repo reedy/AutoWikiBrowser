@@ -858,16 +858,24 @@ namespace AutoWikiBrowser
 
             if (!Abort)
             {
+                bool diffInBotMode = (toolStripDiffInBotMode.Enabled && toolStripDiffInBotMode.Checked &&
+                                      (int) nudBotSpeed.Value > 5);
                 if (BotMode)
                 {
                     StartDelayedAutoSaveTimer();
-                    return;
+
+                    if (!diffInBotMode)
+                        return;
                 }
 
                 switch (toolStripComboOnLoad.SelectedIndex)
                 {
                     case 0:
                         GetDiff();
+
+                        if (diffInBotMode)
+                            return;
+
                         break;
                     case 1:
                         GetPreview();
@@ -4305,6 +4313,11 @@ window.scrollTo(0, diffTopY);
         private void chkSkipCaseSensitive_CheckedChanged(object sender, EventArgs e)
         {
             InvalidateSkipChecks();
+        }
+
+        private void toolStripComboOnLoad_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            toolStripDiffInBotMode.Enabled = (toolStripComboOnLoad.SelectedIndex == 0);
         }
     }
         #endregion
