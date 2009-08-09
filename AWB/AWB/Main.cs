@@ -108,7 +108,7 @@ namespace AutoWikiBrowser
         private bool ShuttingDown { get; set; }
 
         private readonly ToolStripMenuItem[] PasteMoreItems;
-        private readonly string[] PasteMoreItemsPrefixes = new [] {
+        private readonly string[] PasteMoreItemsPrefixes = new[] {
             "&1. ", "&2. ", "&3. ", "&4. ", "&5. ", "&6. ", "&7. ", "&8. ", "&9. ", "1&0. ", 
         };
         #endregion
@@ -177,7 +177,7 @@ namespace AutoWikiBrowser
                 };
 
                 // to avoid saving to app data
-                saveXML.InitialDirectory = openXML.InitialDirectory = 
+                saveXML.InitialDirectory = openXML.InitialDirectory =
                     Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             }
             catch (Exception ex)
@@ -197,7 +197,7 @@ namespace AutoWikiBrowser
                         {
                             string fileName = args[i + 1];
 
-                            if (string.IsNullOrEmpty(Path.GetExtension(fileName)) && !File.Exists(fileName)) 
+                            if (string.IsNullOrEmpty(Path.GetExtension(fileName)) && !File.Exists(fileName))
                                 fileName += ".xml";
 
                             if (File.Exists(fileName))
@@ -691,7 +691,7 @@ namespace AutoWikiBrowser
                     {
                         listMaker.Remove(TheArticle); // or we get stuck in a loop
                         TheArticle = redirect;
-                            // if we didn't do this, we were writing the SkipPage info to the AWBLogListener belonging to the object redirect and resident in the MyTrace collection, but then attempting to add TheArticle's log listener to the logging tab
+                        // if we didn't do this, we were writing the SkipPage info to the AWBLogListener belonging to the object redirect and resident in the MyTrace collection, but then attempting to add TheArticle's log listener to the logging tab
                         SkipPage("Page is not in mainspace");
                         return;
                     }
@@ -849,7 +849,7 @@ namespace AutoWikiBrowser
 
             if (syntaxHighlightEditBoxToolStripMenuItem.Checked)
                 txtEdit.Visible = false;
-            
+
             txtEdit.Text = TheArticle.ArticleText;
 
             //Update statistics and alerts
@@ -858,8 +858,7 @@ namespace AutoWikiBrowser
 
             if (!Abort)
             {
-                bool diffInBotMode = (toolStripDiffInBotMode.Enabled && toolStripDiffInBotMode.Checked &&
-                                      (int) nudBotSpeed.Value >= 5);
+                bool diffInBotMode = (toolStripDiffInBotMode.Enabled && toolStripDiffInBotMode.Checked);
                 if (BotMode)
                 {
                     StartDelayedAutoSaveTimer();
@@ -893,7 +892,7 @@ namespace AutoWikiBrowser
                 txtReviewEditSummary.Text = MakeSummary();
 
                 Variables.Profiler.Profile("Make Edit summary");
-                
+
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Working_with_Alerts
                 if (chkSkipIfNoAlerts.Checked && lblWarn.Text.Length == 0)
                 {
@@ -902,12 +901,12 @@ namespace AutoWikiBrowser
                 }
 
                 Variables.Profiler.Profile("Alerts");
-                
+
                 // syntax highlighting of edit box based on m:extension:wikEd standards
                 if (syntaxHighlightEditBoxToolStripMenuItem.Checked)
-                {                    
+                {
                     txtEdit.Visible = false;
-                    
+
                     HighlightSyntax();
                     Variables.Profiler.Profile("Syntax highlighting");
 
@@ -980,17 +979,17 @@ namespace AutoWikiBrowser
 
             if (checkContainsNotContains)
             {
-            if (chkSkipIfContains.Checked && ContainsComparer.Matches(TheArticle))
-            {
-                SkipPage("Page contains: " + txtSkipIfContains.Text);
-                return true;
-            }
+                if (chkSkipIfContains.Checked && ContainsComparer.Matches(TheArticle))
+                {
+                    SkipPage("Page contains: " + txtSkipIfContains.Text);
+                    return true;
+                }
 
-            if (chkSkipIfNotContains.Checked && !NotContainsComparer.Matches(TheArticle))
-            {
-                SkipPage("Page does not contain: " + txtSkipIfNotContains.Text);
-                return true;
-            }
+                if (chkSkipIfNotContains.Checked && !NotContainsComparer.Matches(TheArticle))
+                {
+                    SkipPage("Page does not contain: " + txtSkipIfNotContains.Text);
+                    return true;
+                }
             }
 
             if (!Skip.SkipIf(TheArticle.OriginalArticleText))
@@ -1551,7 +1550,7 @@ window.scrollTo(0, diffTopY);
             {
                 int caretPosition = txtEdit.SelectionStart;
                 GetDiff(); // to pick up any manual changes from edit box
-                
+
                 switch (changeType)
                 {
                     case DiffChangeMode.Change:
@@ -1604,7 +1603,7 @@ window.scrollTo(0, diffTopY);
 
                 if (destLine == 0) txtEdit.Select(0, 0);
                 else
-                    txtEdit.Select(mc[destLine - 1].Index + 2 -destLine, 0);
+                    txtEdit.Select(mc[destLine - 1].Index + 2 - destLine, 0);
                 txtEdit.ScrollToCaret();
             }
             catch (Exception ex)
@@ -1930,7 +1929,7 @@ window.scrollTo(0, diffTopY);
 
         private void UpdateAdminStatus()
         {
-            btnProtect.Enabled = btnMove.Enabled = btnDelete.Enabled = btntsDelete.Enabled = 
+            btnProtect.Enabled = btnMove.Enabled = btnDelete.Enabled = btntsDelete.Enabled =
                 TheSession.IsSysop && btnSave.Enabled && (TheArticle != null);
         }
 
@@ -3050,7 +3049,7 @@ window.scrollTo(0, diffTopY);
 
         private void ReparseEditBox()
         {
-            ArticleEX a = new ArticleEX(TheArticle.Name) {OriginalArticleText = txtEdit.Text};
+            ArticleEX a = new ArticleEX(TheArticle.Name) { OriginalArticleText = txtEdit.Text };
             ArticleEX theArtricleOriginal = TheArticle;
             ErrorHandler.CurrentPage = TheArticle.Name;
             ProcessPage(a, false);
@@ -3091,7 +3090,7 @@ window.scrollTo(0, diffTopY);
             ToolStripMenuItem item = (sender as ToolStripMenuItem);
 
             if (item != null)
-                txtEdit.SelectedText = (string) item.Tag;
+                txtEdit.SelectedText = (string)item.Tag;
 
             mnuTextBox.Hide();
         }
@@ -3110,7 +3109,7 @@ window.scrollTo(0, diffTopY);
                                                                       (string)PasteMore10.Tag);
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                string[] dlgStrings = new [] {
+                string[] dlgStrings = new[] {
                     dlg.String1, dlg.String2, dlg.String3, dlg.String4, dlg.String5, dlg.String6, dlg.String7, dlg.String8, dlg.String9, dlg.String10, 
                 };
                 for (int i = 0; i < 10; ++i)
@@ -3656,7 +3655,7 @@ window.scrollTo(0, diffTopY);
                 {
                     bool cancel;
                     a.Value.Nudge(out cancel);
-                    
+
                     if (cancel)
                     {
                         e.Cancel = true;
@@ -3905,7 +3904,7 @@ window.scrollTo(0, diffTopY);
 
         private bool CanShutdown
         {
-            get { return (chkShutdown.Checked && listMaker.Count == 0); }   
+            get { return (chkShutdown.Checked && listMaker.Count == 0); }
         }
 
         private void Shutdown()
@@ -3913,7 +3912,7 @@ window.scrollTo(0, diffTopY);
             if (CanShutdown)
             {
                 ShutdownTimer.Enabled = true;
-                ShutdownNotification shut = new ShutdownNotification {ShutdownType = GetShutdownType()};
+                ShutdownNotification shut = new ShutdownNotification { ShutdownType = GetShutdownType() };
 
                 switch (shut.ShowDialog(this))
                 {
