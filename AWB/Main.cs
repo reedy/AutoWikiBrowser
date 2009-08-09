@@ -1627,15 +1627,15 @@ window.scrollTo(0, diffTopY);
         private void ParametersShowHide()
         {
             enlargeEditAreaToolStripMenuItem.Checked = !enlargeEditAreaToolStripMenuItem.Checked;
-            if (groupBox2.Visible)
+            if (listMaker.Visible)
             {
                 btntsShowHideParameters.Image = Resources.Showhideparameters2;
 
                 OldPosition = EditBoxTab.Location;
-                EditBoxTab.Location = new Point(groupBox2.Location.X, groupBox2.Location.Y - 5);
+                EditBoxTab.Location = new Point(listMaker.Location.X, listMaker.Location.Y - 5);
 
                 OldSize = EditBoxTab.Size;
-                EditBoxTab.Size = new Size((EditBoxTab.Size.Width + MainTab.Size.Width + groupBox2.Size.Width + 8), EditBoxTab.Size.Height);
+                EditBoxTab.Size = new Size((EditBoxTab.Size.Width + MainTab.Size.Width + listMaker.Size.Width + 8), EditBoxTab.Size.Height);
             }
             else
             {
@@ -1644,7 +1644,7 @@ window.scrollTo(0, diffTopY);
                 EditBoxTab.Location = OldPosition;
                 EditBoxTab.Size = OldSize;
             }
-            groupBox2.Visible = MainTab.Visible = !groupBox2.Visible;
+            listMaker.Visible = MainTab.Visible = !listMaker.Visible;
         }
 
         private void UpdateStatusUI()

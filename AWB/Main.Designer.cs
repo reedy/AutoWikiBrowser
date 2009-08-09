@@ -299,7 +299,6 @@ namespace AutoWikiBrowser
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.EditBoxSaveTimer = new System.Windows.Forms.Timer(this.components);
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.listMaker = new WikiFunctions.Controls.Lists.ListMaker();
             this.MainTab = new System.Windows.Forms.TabControl();
             this.tpOptions = new System.Windows.Forms.TabPage();
@@ -398,6 +397,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
             this.ShutdownTimer = new System.Windows.Forms.Timer(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label8 = new System.Windows.Forms.Label();
             this.mnuMakeFromTextBox = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuitemMakeFromTextBoxUndo = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator27 = new System.Windows.Forms.ToolStripSeparator();
@@ -426,7 +426,6 @@ namespace AutoWikiBrowser
             this.mnuHistory.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.mnuNotify.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.MainTab.SuspendLayout();
             this.tpOptions.SuspendLayout();
             this.groupBox13.SuspendLayout();
@@ -2813,25 +2812,14 @@ namespace AutoWikiBrowser
             this.EditBoxSaveTimer.Interval = 1000;
             this.EditBoxSaveTimer.Tick += new System.EventHandler(this.EditBoxSaveTimer_Tick);
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.listMaker);
-            this.groupBox2.Location = new System.Drawing.Point(2, 7);
-            this.groupBox2.MaximumSize = new System.Drawing.Size(210, 372);
-            this.groupBox2.MinimumSize = new System.Drawing.Size(210, 372);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(210, 372);
-            this.groupBox2.TabIndex = 0;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Make list";
-            // 
             // listMaker
             // 
-            this.listMaker.Location = new System.Drawing.Point(1, 16);
+            this.listMaker.Location = new System.Drawing.Point(6, 19);
             this.listMaker.Margin = new System.Windows.Forms.Padding(4);
+            this.listMaker.MinimumSize = new System.Drawing.Size(202, 212);
             this.listMaker.Name = "listMaker";
             this.listMaker.SelectedSource = 0;
-            this.listMaker.Size = new System.Drawing.Size(205, 349);
+            this.listMaker.Size = new System.Drawing.Size(209, 356);
             this.listMaker.SourceText = "";
             this.listMaker.SpecialFilterSettings = ((WikiFunctions.AWBSettings.SpecialFilterPrefs)(resources.GetObject("listMaker.SpecialFilterSettings")));
             this.listMaker.TabIndex = 0;
@@ -4012,13 +4000,24 @@ namespace AutoWikiBrowser
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.label8);
+            this.panel1.Controls.Add(this.listMaker);
             this.panel1.Controls.Add(this.MainTab);
-            this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.EditBoxTab);
             this.panel1.Location = new System.Drawing.Point(0, 268);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(907, 386);
             this.panel1.TabIndex = 1;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.label8.Location = new System.Drawing.Point(3, 2);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(49, 13);
+            this.label8.TabIndex = 3;
+            this.label8.Text = "Make list";
             // 
             // mnuMakeFromTextBox
             // 
@@ -4131,7 +4130,6 @@ namespace AutoWikiBrowser
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.mnuNotify.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
             this.MainTab.ResumeLayout(false);
             this.tpOptions.ResumeLayout(false);
             this.groupBox13.ResumeLayout(false);
@@ -4197,6 +4195,7 @@ namespace AutoWikiBrowser
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.mnuMakeFromTextBox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -4320,7 +4319,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Timer EditBoxSaveTimer;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator22;
         private System.Windows.Forms.ToolStripMenuItem saveTextToFileToolStripMenuItem;
-        private System.Windows.Forms.GroupBox groupBox2;
         private WikiFunctions.Controls.Lists.ListMaker listMaker;
         private System.Windows.Forms.TabControl MainTab;
         private System.Windows.Forms.TabPage tpOptions;
@@ -4563,5 +4561,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator31;
         private System.Windows.Forms.ToolStripMenuItem toolStripDiffInBotMode;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator21;
+        private System.Windows.Forms.Label label8;
     }
 }

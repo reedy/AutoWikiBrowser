@@ -505,7 +505,7 @@ namespace WikiFunctions.Controls.Lists
             // 
             // btnFilter
             // 
-            this.btnFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnFilter.Location = new System.Drawing.Point(107, 321);
             this.btnFilter.Name = "btnFilter";
             this.btnFilter.Size = new System.Drawing.Size(98, 25);
@@ -516,6 +516,7 @@ namespace WikiFunctions.Controls.Lists
             // 
             // btnRemove
             // 
+            this.btnRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnRemove.Location = new System.Drawing.Point(3, 321);
             this.btnRemove.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
             this.btnRemove.Name = "btnRemove";
@@ -534,6 +535,7 @@ namespace WikiFunctions.Controls.Lists
             this.lbArticles.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.lbArticles.FormattingEnabled = true;
             this.lbArticles.Location = new System.Drawing.Point(3, 105);
+            this.lbArticles.MinimumSize = new System.Drawing.Size(202, 212);
             this.lbArticles.Name = "lbArticles";
             this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lbArticles.Size = new System.Drawing.Size(202, 212);
