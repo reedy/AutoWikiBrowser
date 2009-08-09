@@ -1639,17 +1639,31 @@ window.scrollTo(0, diffTopY);
             groupBox2.Visible = MainTab.Visible = !groupBox2.Visible;
         }
 
+        private void UpdateStatusUI()
+        {
+            UpdateUserName();
+            UpdateBotStatus();
+            UpdateAdminStatus();
+        }
+
         private void UpdateUserName()
         {
             if (string.IsNullOrEmpty(TheSession.User.Name))
             {
-                lblUserName.BackColor = Color.Red;
                 lblUserName.Text = Variables.Namespaces[Namespace.User];
             }
             else
             {
-                lblUserName.BackColor = Color.Green;
                 lblUserName.Text = TheSession.User.Name;
+            }
+
+            if (TheSession.Status == WikiStatusResult.Registered)
+            {
+                lblUserName.BackColor = Color.Green;
+            }
+            else
+            {
+                lblUserName.BackColor = Color.Red;
             }
         }
 
@@ -1957,21 +1971,16 @@ window.scrollTo(0, diffTopY);
             switch (TheSession.Update())
             {
                 case WikiStatusResult.Error:
-                    lblUserName.BackColor = Color.Red;
-                    lblUserName.Text = "User:";
                     MessageBox.Show("Check page failed to load.\r\n\r\nCheck your Internet is working and that the Wikipedia servers are online.", "User check problem", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
 
                 case WikiStatusResult.NotLoggedIn:
-                    lblUserName.BackColor = Color.Red;
-                    lblUserName.Text = "User:";
                     if (!login)
                         MessageBox.Show("You are not logged in. The profile screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.", "Not logged in", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Profiles.ShowDialog();
                     break;
 
                 case WikiStatusResult.NotRegistered:
-                    lblUserName.BackColor = Color.Red;
                     MessageBox.Show(TheSession.User.Name + " is not enabled to use this.", "Not enabled", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     Tools.OpenURLInBrowser(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage");
                     break;
@@ -1983,7 +1992,6 @@ window.scrollTo(0, diffTopY);
                 case WikiStatusResult.Registered:
                     b = true;
                     label = string.Format("Logged in, user and software enabled. Bot = {0}, Admin = {1}", TheSession.User.IsBot, TheSession.User.IsSysop);
-                    lblUserName.BackColor = Color.LightGreen;
 
                     //Get list of articles not to apply general fixes to.
                     Match n = WikiRegexes.NoGeneralFixes.Match(TheSession.CheckPageText);
@@ -2000,6 +2008,7 @@ window.scrollTo(0, diffTopY);
             RightToLeft = Variables.RTL ? RightToLeft.Yes : RightToLeft.No;
 
             StatusLabelText = label;
+            UpdateStatusUI();
             UpdateButtons(null, null);
 
             return b;
@@ -2270,10 +2279,8 @@ window.scrollTo(0, diffTopY);
             Tools.WriteDebugEnabled = true;
             listMaker.Add("Project:AutoWikiBrowser/Sandbox");
             lblOnlyBots.Visible = false;
-            logOutDebugToolStripMenuItem.Visible = true;
             bypassAllRedirectsToolStripMenuItem.Enabled = true;
             profileTyposToolStripMenuItem.Visible = true;
-            toolStripSeparator29.Visible = true;
 
 #if DEBUG
             Variables.Profiler = new Profiler("profiling.txt", true);
@@ -2283,6 +2290,7 @@ window.scrollTo(0, diffTopY);
         [Conditional("RELEASE")]
         private void Release()
         {
+            //TODO:
             if (MainTab.Contains(tpBots))
                 MainTab.Controls.Remove(tpBots);
         }
@@ -2350,8 +2358,6 @@ window.scrollTo(0, diffTopY);
             {
                 //set namespaces
                 Variables.SetProject(code, project, customProject);
-
-                //TheSession.Update();
 
                 //set interwikiorder
                 switch (Variables.LangCode)
@@ -3212,13 +3218,6 @@ window.scrollTo(0, diffTopY);
             Tools.OpenENArticleInBrowser("Wikipedia:AutoWikiBrowser/Typos", false);
         }
 
-        private void logOutDebugToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            TheSession.Editor.Logout();
-            TheSession.Editor.Wait();
-            TheSession.Update();
-        }
-
         private void summariesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (SummaryEditor se = new SummaryEditor())
@@ -3868,11 +3867,9 @@ window.scrollTo(0, diffTopY);
             if (!string.IsNullOrEmpty(Profiles.SettingsToLoad))
                 LoadPrefs(Profiles.SettingsToLoad);
 
-            TheSession.Update();
+            CheckStatus(true);
 
-            UpdateUserName();
-            UpdateBotStatus();
-            UpdateAdminStatus();
+            UpdateStatusUI();
 
             StopProgressBar();
         }

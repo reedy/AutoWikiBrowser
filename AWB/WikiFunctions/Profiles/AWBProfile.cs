@@ -39,7 +39,7 @@ namespace WikiFunctions.Profiles
 
         public AWBProfile() { }
 
-        public int ID;
+        public int ID = -1;
         public string DefaultSettings, Notes;
 
         public string Username, Password;
