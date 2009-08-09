@@ -101,7 +101,7 @@
 			if (empty($wiki))
 				ReturnError('No project defined', 'project');
 				
-			$count = (!isset($_GET['count'])) ? $_GET['count'] : 100;
+			$count = (isset($_GET['count'])) ? $_GET['count'] : 100;
 			
 			if(!is_numeric($count))
 				ReturnError('Count is not a number', 'count');
