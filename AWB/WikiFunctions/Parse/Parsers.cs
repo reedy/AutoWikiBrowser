@@ -1984,19 +1984,25 @@ namespace WikiFunctions.Parse
             articleText = DateLinkWhitespace2.Replace(articleText, "$1 $2");
 
             // correct [[page# section]] to [[page#section]]
-            Regex sectionLinkWhitespace = new Regex(@"(\[\[" + Regex.Escape(articleTitle) + @"\#)\s+([^\[\]]+\]\])");
+            if (articleTitle.Length > 0)
+            {
+                Regex sectionLinkWhitespace = new Regex(@"(\[\[" + Regex.Escape(articleTitle) + @"\#)\s+([^\[\]]+\]\])");
 
-            return sectionLinkWhitespace.Replace(articleText, "$1$2");
+                return sectionLinkWhitespace.Replace(articleText, "$1$2");
+            }
+
+            return articleText;
         }
 
         /// <summary>
-        /// 
+        /// Fix leading, trailing and middle spaces in Wikilinks
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
-        /// <returns></returns>
+        /// <returns>The modified article text.</returns>
+        [Obsolete]
         public static string FixLinkWhitespace(string articleText)
         {
-            return FixLinkWhitespace(articleText, "test");
+            return FixLinkWhitespace(articleText, "");
         }
 
         // Partially covered by FixMainArticleTests.SelfLinkRemoval()
