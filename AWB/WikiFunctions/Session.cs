@@ -187,8 +187,6 @@ namespace WikiFunctions
         {
             try
             {
-                string typoPostfix = "";
-
                 IsBot = false;
 
                 Site = new SiteInfo(Editor.SynchronousEditor);
@@ -225,6 +223,7 @@ namespace WikiFunctions
                     }
                 }
 
+                string typoPostfix = "";
                 if (Variables.IsWikia)
                 {
                     typoPostfix = "-" + Variables.LangCode;
