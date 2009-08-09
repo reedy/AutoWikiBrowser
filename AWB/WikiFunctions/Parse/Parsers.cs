@@ -675,9 +675,13 @@ namespace WikiFunctions.Parse
 
             int j = 0;
 
+            string prev;
+
             // loop to catch duplicate references in the wikitext between other duplicate references
-            for (int i = 0; i < 5; i++)
+            do
             {
+                prev = articleText;
+
                 foreach (Match m in DuplicateUnnamedRef.Matches(articleText))
                 {
                     string articleTextBefore = articleText;
@@ -711,7 +715,7 @@ namespace WikiFunctions.Parse
 
                     j++;
                 }
-            }
+            } while (prev != articleText);
 
             return articleText;
         }
