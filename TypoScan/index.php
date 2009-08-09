@@ -96,14 +96,19 @@
 		
 		case 'displayarticles':
 			header("Content-type: text/xml; charset=utf-8");
-			
+
 			$wiki = @$_GET['wiki'];
 			if (empty($wiki))
 				ReturnError('No project defined', 'project');
+				
+			$count = (!isset($_GET['count'])) ? $_GET['count'] : 100;
+			
+			if(!is_numeric($count))
+				ReturnError('Count is not a number', 'count');
 					
 			$siteid = GetOrAddSite($wiki);
 
-			$query = 'SELECT articleid, title FROM articles, site WHERE (site.siteid = articles.siteid) AND (site.address = "' . $wiki . '") AND (checkedout < DATE_SUB(NOW(), INTERVAL 3 HOUR)) AND (userid = 0) LIMIT 100';
+			$query = 'SELECT articleid, title FROM articles, site WHERE (site.siteid = articles.siteid) AND (site.address = "' . $wiki . '") AND (checkedout < DATE_SUB(NOW(), INTERVAL 3 HOUR)) AND (userid = 0) LIMIT ' . $count;
 			
 			$result = mysql_query($query) or ReturnError('Error: '.mysql_error(), 'query');
 			
