@@ -3981,6 +3981,13 @@ asdfasdf}} was here", "foo"));
             templates = Parsers.GetTemplates(@"now " + foo3 + @" there", "fo");
             Assert.AreEqual(0, templates.Count);
         }
+
+        [Test]
+        public void FixUnicode()
+        {
+            // http://en.wikipedia.org/wiki/Wikipedia:AWB/B#Line_break_insertion
+            Assert.AreEqual("foo bar", parser.FixUnicode("foo\x2028bar"));
+        }
     }
 
     [TestFixture]
