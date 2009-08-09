@@ -2528,6 +2528,17 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         #region other functions
 
         /// <summary>
+        /// Performs transformations related to Unicode characters that may cause problems for different clients
+        /// </summary>
+        public string FixUnicode(string articleText)
+        {
+            // http://en.wikipedia.org/wiki/Wikipedia:AWB/B#Line_break_insertion
+            // most brosers handle Unicode line separator as whitespace, so should we
+            // looks like paragraph separator is properly converted by RichEdit itself
+            return articleText.Replace('\x2028', ' ');
+        }
+
+        /// <summary>
         /// Converts HTML entities to unicode, with some deliberate exceptions
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
