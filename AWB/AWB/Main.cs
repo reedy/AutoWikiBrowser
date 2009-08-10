@@ -534,6 +534,7 @@ namespace AutoWikiBrowser
 
         private void Start()
         {
+            if (TheSession.Status != WikiStatusResult.Registered) return;
             if (InStart)
             {
                 StartAgain = true;
@@ -1663,10 +1664,12 @@ window.scrollTo(0, diffTopY);
             if (TheSession.Status == WikiStatusResult.Registered)
             {
                 lblUserName.BackColor = Color.Green;
+                btnStart.Enabled = true;
             }
             else
             {
                 lblUserName.BackColor = Color.Red;
+                btnStart.Enabled = false;
             }
         }
 
@@ -2409,6 +2412,7 @@ window.scrollTo(0, diffTopY);
 
         #endregion
 
+        //TODO: Cleanup/refactor UI update functions
         #region Enabling/Disabling of buttons
 
         private void UpdateButtons(object sender, EventArgs e)
