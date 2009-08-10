@@ -430,7 +430,7 @@ namespace AutoWikiBrowser
                 MessageBox.Show("You've been logged off, probably due to loss of session data.\r\n" +
                     "Please relogin.", "Logged off", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 Stop();
-                CheckStatus(true);
+                CheckStatus(false);
                 return false;
             }
             return true;
@@ -1964,7 +1964,7 @@ window.scrollTo(0, diffTopY);
             new AboutBox(webBrowserHistory.Version.ToString(), time, NumberOfEdits).Show();
         }
 
-        public bool CheckStatus(bool login)
+        public bool CheckStatus(bool fromLoginForm)
         {
             StatusLabelText = "Loading page to check if we are logged in.";
 
@@ -1978,9 +1978,11 @@ window.scrollTo(0, diffTopY);
                     break;
 
                 case WikiStatusResult.NotLoggedIn:
-                    if (!login)
+                    if (!fromLoginForm)
+                    {
                         MessageBox.Show("You are not logged in. The profile screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.", "Not logged in", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Profiles.ShowDialog();
+                        Profiles.ShowDialog();
+                    }
                     break;
 
                 case WikiStatusResult.NotRegistered:
