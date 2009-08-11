@@ -450,11 +450,11 @@ namespace WikiFunctions.API
 
             Reset();
             string result = HttpGet(new[,]
-                {
-                    {"action", "watch"},
-                    {"title", title},
-                    {"unwatch", null}
-                });
+                                        {
+                                            {"action", "watch"},
+                                            {"title", title},
+                                            {"unwatch", null}
+                                        });
             CheckForErrors(result, "watch");
         }
 
@@ -494,7 +494,7 @@ namespace WikiFunctions.API
                 { "titles", title },
                 { "inprop", "protection" },
                 { "rvprop", "content|timestamp" } // timestamp|user|comment|
-            }, 
+            },
             ActionOptions.All);
 
             CheckForErrors(result, "query");
@@ -869,12 +869,12 @@ namespace WikiFunctions.API
             //TODO: can't figure out the best time for this check
             bool prevMessages = User.HasMessages;
             User.Update(doc);
-            if (action != "login" 
-                && action != "userinfo" 
+            if (action != "login"
+                && action != "userinfo"
                 && NewMessageThrows
-                && User.HasMessages 
+                && User.HasMessages
                 && !prevMessages)
-                    throw new NewMessagesException(this);
+                throw new NewMessagesException(this);
 
             var errors = doc.GetElementsByTagName("error");
 
@@ -922,7 +922,7 @@ namespace WikiFunctions.API
             }
 
             string result = actionElement.GetAttribute("result");
-            if (!string.IsNullOrEmpty(result) && result != "Success") 
+            if (!string.IsNullOrEmpty(result) && result != "Success")
                 throw new OperationFailedException(this, action, result);
 
             return doc;

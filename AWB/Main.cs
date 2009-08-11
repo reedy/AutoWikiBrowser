@@ -4111,8 +4111,14 @@ window.scrollTo(0, diffTopY);
 
         private void btnWatch_Click(object sender, EventArgs e)
         {
-            //webBrowserEdit.WatchUnwatch();
-            //SetWatchButton(btnWatch.Text == "Watch");
+            bool watch = (btnWatch.Text == "Watch");
+
+            if (watch)
+                TheSession.Editor.Watch(TheArticle.Name);
+            else
+                TheSession.Editor.Unwatch(TheArticle.Name);
+
+            SetWatchButton(watch);
         }
 
         private void SetWatchButton(bool watch)
