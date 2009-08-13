@@ -782,8 +782,6 @@ namespace WikiFunctions.API
                 extracted.Append("\n");
             }
 
-            //string server = "http://" + new Uri(URL).Host;
-
             HtmlHeaders = ExpandRelativeUrls(extracted.ToString());
         }
 
