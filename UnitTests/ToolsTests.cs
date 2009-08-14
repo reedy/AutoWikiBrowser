@@ -870,5 +870,23 @@ Jones", "*"));
             Assert.AreEqual(4, Tools.RegexMatchCount("a", "aAAa", RegexOptions.IgnoreCase));
             Assert.AreEqual(2, Tools.RegexMatchCount("\\w+", "test case"));
         }
+
+        [Test]
+        public void InterwikiCount()
+        {
+            SiteMatrix.Languages = new System.Collections.Generic.List<string> { "de", "es", "fr", "it", "sv" };
+            Assert.AreEqual(0, Tools.InterwikiCount(@"now [[foo]] was great"));
+            Assert.AreEqual(1, Tools.InterwikiCount(@"now [[de:foo]] was great"));
+            Assert.AreEqual(1, Tools.InterwikiCount(@"now [[de:foo]] was great [[aa:now]] here"));
+            Assert.AreEqual(2, Tools.InterwikiCount(@"now [[de:foo]] was great [[aa:now]] here [[fr:bye]]"));
+        }
+
+        [Test]
+        public void LinkCountTests()
+        {
+            Assert.AreEqual(0, Tools.LinkCount(@"foo"));
+            Assert.AreEqual(1, Tools.LinkCount(@"[[foo]]"));
+            Assert.AreEqual(2, Tools.LinkCount(@"[[foo]]s and [[barbie|bar]]"));
+        }
     }
 }
