@@ -589,7 +589,7 @@ namespace WikiFunctions
             return words;
         }
 
-        // Not Covered
+        // Covered by ToolsTests.InterwikiCount
         /// <summary>
         /// Returns number of interwiki links in the text
         /// </summary>
@@ -603,7 +603,7 @@ namespace WikiFunctions
             return count;
         }
 
-        // Not Covered
+        // Covered by ToolsTests.LinkCountTests
         /// <summary>
         /// Returns the number of [[links]] in the string
         /// </summary>
