@@ -2408,6 +2408,10 @@ foo2";
             Assert.AreEqual("55–57&nbsp;kg", parser.Mdashes("55-57&nbsp;kg", "test", 0));
             Assert.AreEqual("55–57 Hz", parser.Mdashes("55-57 Hz", "test", 0));
             Assert.AreEqual("55–57 GHz", parser.Mdashes("55-57 GHz", "test", 0));
+            Assert.AreEqual("55 – 57 in", parser.Mdashes("55 - 57 in", "test", 0));
+            Assert.AreEqual("55 – 57 m long", parser.Mdashes("55 - 57 m long", "test", 0));
+            Assert.AreEqual("55 – 57 feet", parser.Mdashes("55 - 57 feet", "test", 0));
+            Assert.AreEqual("55 – 57 foot", parser.Mdashes("55 - 57 foot", "test", 0));
 
             Assert.AreEqual("$55–57", parser.Mdashes("$55-57", "test", 0));
             Assert.AreEqual("$55 – 57", parser.Mdashes("$55 - 57", "test", 0));
