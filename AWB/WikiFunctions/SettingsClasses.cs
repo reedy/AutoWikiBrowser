@@ -30,6 +30,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
+using System.Windows.Forms;
 
 using System.IO;
 
@@ -119,8 +120,16 @@ namespace WikiFunctions.AWBSettings
             if (settings.Contains("<projectlang proj="))
                 throw new Exception("This file uses old settings format unsupported by this version of AWB.");
 
-            XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), new [] { typeof(PrefsKeyPair) });
+            // check for empty settings file
+            if (settings.Trim().Length == 0)
+            {
+                MessageBox.Show("The settings file " + file + " is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return (new UserPrefs());
+            }
+
+            XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), new[] { typeof(PrefsKeyPair) });
             return (UserPrefs)xs.Deserialize(new StringReader(settings));
+
         }
 
         /// <summary>
