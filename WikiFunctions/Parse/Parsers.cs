@@ -4097,7 +4097,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         public static bool IsInUse(string articleText)
         {
-            return (Variables.LangCode != LangCodeEnum.en) ? false : Variables.InUse.IsMatch(WikiRegexes.Comments.Replace(articleText, ""));
+            return (Variables.LangCode != LangCodeEnum.en)
+                       ? false
+                       : WikiRegexes.InUse.IsMatch(WikiRegexes.Comments.Replace(articleText, ""));
         }
 
         /// <summary>
@@ -4121,7 +4123,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         /// <summary>
-        /// Check if the article contains a {{nofootnotes}} or {{morefootnotes}} template but has 5+ <ref>...</ref> references
+        /// Check if the article contains a {{nofootnotes}} or {{morefootnotes}} template but has 5+ &lt;ref>...&lt;/ref> references
         /// </summary>
         public static bool HasMorefootnotesAndManyReferences(string articleText)
         {
@@ -4141,7 +4143,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         /// <summary>
-        /// Check if the article contains a <ref>...</ref> reference after the {{reflist}} to show them
+        /// Check if the article contains a &lt;ref>...&lt;/ref> reference after the {{reflist}} to show them
         /// </summary>
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
         public static bool HasRefAfterReflist(string articleText)

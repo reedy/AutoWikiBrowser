@@ -708,7 +708,18 @@ namespace WikiFunctions
         public static readonly Regex RefAfterEquals = new Regex("(==*)<ref", RegexOptions.Compiled);
         #endregion
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static readonly Regex MultirefRefname = new Regex(@"<ref name=""multiref\d+""/?>", RegexOptions.Compiled);
+        /// <summary>
+        /// 
+        /// </summary>
         public static readonly Regex IbidOpCitation = new Regex(@"(?is)\b(ibid|op.{1,4}cit)\b", RegexOptions.Compiled);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly Regex InUse = new Regex(@"{{\s*[Ii]nuse\s*[\}\|]", RegexOptions.Compiled);
     }
 }
