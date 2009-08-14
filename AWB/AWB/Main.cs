@@ -50,7 +50,6 @@ namespace AutoWikiBrowser
     //TODO:Move any Regexes to WikiRegexes as required
 
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-    [System.Runtime.InteropServices.ComVisibleAttribute(true)]
     public sealed partial class MainForm : Form, IAutoWikiBrowser
     { // this class needs to be public, otherwise we get an exception which recommends setting ComVisibleAttribute to true (which we've already done)
         #region Fields
@@ -101,6 +100,7 @@ namespace AutoWikiBrowser
         private readonly Help HelpForm = new Help();
 
         private readonly WikiDiff Diff = new WikiDiff();
+        private readonly JsAdapter DiffScriptingAdapter;
 
         /// <summary>
         /// Whether AWB is currently shutting down
@@ -119,6 +119,8 @@ namespace AutoWikiBrowser
         #region Constructor and MainForm load/resize
         public MainForm()
         {
+            DiffScriptingAdapter = new JsAdapter(this);
+
             SplashScreen.Show(this);
             RightToLeft = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft
                 ? RightToLeft.Yes : RightToLeft.No;
@@ -256,7 +258,7 @@ namespace AutoWikiBrowser
                 }
 
                 webBrowser.Navigate("about:blank");
-                webBrowser.ObjectForScripting = this;
+                webBrowser.ObjectForScripting = DiffScriptingAdapter;
 
                 SplashScreen.SetProgress(35);
                 if (Properties.Settings.Default.LogInOnStart)
@@ -1513,27 +1515,61 @@ window.scrollTo(0, diffTopY);
         #region extra stuff
 
         #region Diff
-        /// <summary>
-        /// Reverses the changes to a line of text in the page
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        public void UndoChange(int left, int right)
-        {
-            UndoChangeGeneric(DiffChangeMode.Change, left, right);
-        }
-
-        /// <summary>
-        /// Reverses the deletion of a line of text from the page
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        public void UndoDeletion(int left, int right)
-        {
-            UndoChangeGeneric(DiffChangeMode.Deletion, left, right);
-        }
 
         private enum DiffChangeMode { Deletion, Change, Addition };
+
+        /// <summary>
+        /// This class serves as a proxy between the main window and WebBrowser, isolating the former
+        /// from malicious site JS calls of window.external.
+        /// </summary>
+        [System.Runtime.InteropServices.ComVisibleAttribute(true)]
+        public class JsAdapter
+        {
+            MainForm Owner;
+
+            internal JsAdapter(MainForm owner)
+            {
+                Owner = owner;
+            }
+
+            /// <summary>
+            /// Reverses the changes to a line of text in the page
+            /// </summary>
+            /// <param name="left"></param>
+            /// <param name="right"></param>
+            public void UndoChange(int left, int right)
+            {
+                Owner.UndoChangeGeneric(DiffChangeMode.Change, left, right);
+            }
+
+            /// <summary>
+            /// Reverses the deletion of a line of text from the page
+            /// </summary>
+            /// <param name="left"></param>
+            /// <param name="right"></param>
+            public void UndoDeletion(int left, int right)
+            {
+                Owner.UndoChangeGeneric(DiffChangeMode.Deletion, left, right);
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="right"></param>
+            public void UndoAddition(int right)
+            {
+                Owner.UndoChangeGeneric(DiffChangeMode.Addition, 0, right);
+            }
+
+            /// <summary>
+            /// Moves the caret to the input line within the article text box
+            /// </summary>
+            /// <param name="destLine">the line number the caret should be moved to</param>
+            public void GoTo(int destLine)
+            {
+                Owner.GoTo(destLine);
+            }
+        }
 
         /// <summary>
         /// Reverses the change, addition or deletion of a line of text in the page
@@ -1575,19 +1611,10 @@ window.scrollTo(0, diffTopY);
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="right"></param>
-        public void UndoAddition(int right)
-        {
-            UndoChangeGeneric(DiffChangeMode.Addition, 0, right);
-        }
-
-        /// <summary>
         /// Moves the caret to the input line within the article text box
         /// </summary>
         /// <param name="destLine">the line number the caret should be moved to</param>
-        public void GoTo(int destLine)
+        private void GoTo(int destLine)
         {
             try
             {
