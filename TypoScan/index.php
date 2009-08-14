@@ -57,28 +57,20 @@
 			{
 				$userid = GetOrAddUser($user);
 				
-				if (!$articlesempty && preg_match("/^\d+(,\s*\d+)*$/", $articlesempty))
+				if (!$articlesempty)
 				{
 					$query = 'UPDATE articles SET finished = 1, checkedin = NOW(), userid = "' . $userid . '" WHERE articleid IN (' . $articles . ')';
 					$result = mysql_query($query) or ReturnError('Error: '.mysql_error()  /*. '\nQuery: ' . $query*/, 'query');
 				}
 				
 				if (!$skippedempty)
-				{
-					//echo 'sa: ' . $skippedarticles;
-					//echo 'sr: ' . $skippedreason;
-					//Deal with Ignored
-					
+				{			
 					$skippedarticles = explode(",", $skippedarticles);
 					$skippedreason = explode(",", $skippedreason);
-					
-					//echo 'sa size: ' . count($skippedarticles);
-									
+													
 					for ($i=0; $i < count($skippedarticles); $i++)
 					{
-						if (!is_int($skippedarticles[$i])) continue;
 						$query = 'UPDATE articles SET skipid = "' . GetOrAddIgnoreReason($skippedreason[$i]) . '", checkedin = NOW(), userid = "' . $userid . '" WHERE (articleid = "' . $skippedarticles[$i] . '")';
-						//echo $query;
 					    $result = mysql_query($query) or ReturnError('Error: '.mysql_error()  /*. '\nQuery: ' . $query*/, 'query');
 					}
 				}
@@ -86,7 +78,7 @@
 			}
 			else
 			{
-				ReturnError('Request misses essential data', 'request');
+				ReturnError('Request missing essential data', 'request');
 			}
 		break;
 		
