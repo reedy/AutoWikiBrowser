@@ -49,18 +49,14 @@
 			$skippedarticles = @$_POST['skipped'];
 			$skippedreason = @$_POST['skipreason'];
 			$user = @$_POST['user'];
-			$wiki = @$_GET['wiki'];
 			
 			$articlesempty = empty($articles);
 			$skippedempty = empty($skippedarticles);
 			
-			if ((!$articlesempty || !$skippedempty) && $user && $wiki)
+			if ((!$articlesempty || !$skippedempty) && $user)
 			{
 				$userid = GetOrAddUser($user);
-				$siteid = GetOrAddSite($site);
 				
-				if (empty($wiki)) ReturnError('No project defined', 'project');
-
 				if (!$articlesempty && preg_match("/^\d+(,\s*\d+)*$/", $articlesempty))
 				{
 					$query = 'UPDATE articles SET finished = 1, checkedin = NOW(), userid = "' . $userid . '" WHERE articleid IN (' . $articles . ')';
