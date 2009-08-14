@@ -2410,7 +2410,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             // hide items in quotes etc., though this may also hide items within infoboxes etc.
             articleText = HideMoreText(articleText);
 
-            articleText = WikiRegexes.SiUnitsWithoutNonBreakingSpaces.Replace(articleText, "$1&nbsp;$2");
+            articleText = WikiRegexes.UnitsWithoutNonBreakingSpaces.Replace(articleText, "$1&nbsp;$2");
+
+            articleText = WikiRegexes.ImperialUnitsInBracketsWithoutNonBreakingSpaces.Replace(articleText, "$1&nbsp;$2");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Pagination
             // add non-breaking space after pp. abbreviation for pages.
