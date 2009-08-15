@@ -283,12 +283,36 @@ namespace AutoWikiBrowser
                 LoadRecentSettingsList(); // progress 89-94 in LoadRecentSettingsList()
                 SplashScreen.SetProgress(95);
 
-                switch (TheSession.Update())
+                if (Updater.Result == Updater.AWBEnabledStatus.None || Updater.Result == Updater.AWBEnabledStatus.Error)
+                    Updater.Update();
+
+                Updater.WaitForCompletion();
+
+                switch (Updater.Result)
                 {
-                    case WikiStatusResult.OldVersion:
+                    case Updater.AWBEnabledStatus.OptionalUpdate:
+                        if (
+                            MessageBox.Show(
+                                "This version has been superceeded by a new version. You may continue to use this version or update to the newest version.\r\n\r\nWould you like to automatically upgrade to the newest version?",
+                                "Upgrade?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            Updater.RunUpdater();
+                            CloseAWB();
+                        }
+                        break;
+
+                    case Updater.AWBEnabledStatus.UpdaterUpdate:
+                        MessageBox.Show("There is an Update to the AWB updater. Updating Now", "Updater update",
+                                        MessageBoxButtons.YesNo);
+                        Updater.RunUpdater();
+                        CloseAWB();
+                        break;
+
+                    case Updater.AWBEnabledStatus.Disabled:
                         OldVersion();
                         break;
-                    case WikiStatusResult.Error:
+
+                    case Updater.AWBEnabledStatus.Error:
                         lblUserName.BackColor = Color.Red;
                         MessageBox.Show(this, "Cannot load version check page from Wikipedia. "
                                               + "Please verify that you're connected to Internet.", "Error",
@@ -2066,6 +2090,11 @@ window.scrollTo(0, diffTopY);
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CloseAWB();
+        }
+
+        private void CloseAWB()
         {
             Close();
             Application.Exit();
