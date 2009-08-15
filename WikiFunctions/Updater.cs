@@ -25,8 +25,34 @@ using WikiFunctions.Background;
 
 namespace WikiFunctions
 {
+    //TODO: refactor
     public static class Updater
     {
+        public static void CheckForUpdates(Session session)
+        {
+            if (session.VersionCheckPage.Contains(Session.AWBVersion + " enabled (old)"))
+            {
+                if (
+                    MessageBox.Show(
+                        "This version has been superceeded by a new version.  You may continue to use this version or update to the newest version.\r\n\r\nWould you like to automatically upgrade to the newest version?",
+                        "Upgrade?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    Match version = Regex.Match(session.VersionCheckPage, @"<!-- Current version: (.*?) -->");
+                    if (version.Success && version.Groups[1].Value.Length == 4)
+                    {
+                        System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) +
+                                                         "\\AWBUpdater.exe");
+                    }
+                    else if (
+                        MessageBox.Show("Error automatically updating AWB. Load the download page instead?",
+                                        "Load download page?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=158332");
+                    }
+                }
+            }
+        }
+
         private static void UpdateFunc()
         {
             try

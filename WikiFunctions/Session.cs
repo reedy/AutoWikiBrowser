@@ -55,6 +55,9 @@ namespace WikiFunctions
         public string CheckPageText
         { get; private set; }
 
+        public string VersionCheckPage
+        { get; private set; }
+
         #endregion
 
         readonly Control parentControl;
@@ -177,7 +180,7 @@ namespace WikiFunctions
             return Status;
         }
 
-        private static string AWBVersion
+        public static string AWBVersion
         { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }
 
         /// <summary>
@@ -245,36 +248,11 @@ namespace WikiFunctions
                 }
 
                 versionRequest.Wait();
-                string strVersionPage = (string)versionRequest.Result;
+                VersionCheckPage = (string)versionRequest.Result;
 
                 //see if this version is enabled
-                if (!strVersionPage.Contains(AWBVersion + " enabled"))
+                if (!VersionCheckPage.Contains(AWBVersion + " enabled"))
                     return WikiStatusResult.OldVersion;
-
-                //TODO:
-                // else
-                //if (!WeAskedAboutUpdate && strVersionPage.Contains(AWBVersion + " enabled (old)"))
-                //{
-                //    WeAskedAboutUpdate = true;
-                //    if (
-                //        MessageBox.Show(
-                //            "This version has been superceeded by a new version.  You may continue to use this version or update to the newest version.\r\n\r\nWould you like to automatically upgrade to the newest version?",
-                //            "Upgrade?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                //    {
-                //        Match version = Regex.Match(strVersionPage, @"<!-- Current version: (.*?) -->");
-                //        if (version.Success && version.Groups[1].Value.Length == 4)
-                //        {
-                //            System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) +
-                //                                             "\\AWBUpdater.exe");
-                //        }
-                //        else if (
-                //            MessageBox.Show("Error automatically updating AWB. Load the download page instead?",
-                //                            "Load download page?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                //        {
-                //            Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=158332");
-                //        }
-                //    }
-                //}
 
                 CheckPageText = strText;
 
@@ -287,7 +265,7 @@ namespace WikiFunctions
 
                 // check if username is globally blacklisted
                 foreach (
-                    Match m3 in Regex.Matches(strVersionPage, @"badname:\s*(.*)\s*(:?|#.*)$", RegexOptions.IgnoreCase))
+                    Match m3 in Regex.Matches(VersionCheckPage, @"badname:\s*(.*)\s*(:?|#.*)$", RegexOptions.IgnoreCase))
                 {
                     if (!string.IsNullOrEmpty(m3.Groups[1].Value.Trim()) &&
                         !string.IsNullOrEmpty(Editor.User.Name) &&
