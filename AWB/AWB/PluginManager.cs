@@ -245,12 +245,12 @@ namespace AutoWikiBrowser
             /// <param name="splash">Splash Screen instance</param>
             internal static void LoadPluginsStartup(IAutoWikiBrowser awb, Splash splash)
             {
-                splash.SetProgress(75);
+                splash.SetProgress(25);
                 string path = Application.StartupPath;
                 string[] pluginFiles = Directory.GetFiles(path, "*.DLL");
 
                 LoadPlugins(awb, pluginFiles, false);
-                splash.SetProgress(89);
+                splash.SetProgress(50);
             }
 
             public static void PluginObsolete(IAWBPlugin plugin)
