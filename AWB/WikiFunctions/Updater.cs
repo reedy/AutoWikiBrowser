@@ -40,7 +40,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// 
+        /// Available Enabled status' for AWB
         /// </summary>
         [Flags]
         public enum AWBEnabledStatus
@@ -54,12 +54,12 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// 
+        /// Last AWBEnabledStatus Result from Checkpage Check
         /// </summary>
         public static AWBEnabledStatus Result { get; private set; }
 
         /// <summary>
-        /// 
+        /// Text of the Current AWB Global Checkpage (en.wp)
         /// </summary>
         public static string GlobalVersionPage { get; private set; }
 
