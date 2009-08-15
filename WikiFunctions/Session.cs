@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using WikiFunctions.Background;
 using WikiFunctions.API;
 
 namespace WikiFunctions
@@ -198,8 +197,9 @@ namespace WikiFunctions
 
                 Site = new SiteInfo(Editor.SynchronousEditor);
 
-                //load version check page
-                Updater.Update();
+                //load version check page if no status set
+                if (Updater.Result == Updater.AWBEnabledStatus.None || Updater.Result == Updater.AWBEnabledStatus.Error)
+                    Updater.Update();
 
                 //load check page
                 string url;
