@@ -543,7 +543,6 @@ namespace WikiFunctions.API
 
             CheckForErrors(result, "edit");
             Reset();
-
             return new SaveInfo(result);
         }
 
@@ -745,6 +744,22 @@ namespace WikiFunctions.API
             CheckForErrors(result);
 
             Reset();
+        }
+
+        #endregion
+
+        #region Query Api
+        public string QueryApi(string[,] args)
+        {
+            if (args == null) throw new ArgumentNullException("args", "args array cannot be null");
+
+            Reset();
+
+            string result = HttpGet(args, ActionOptions.None); //Should we be checking for maxlag?
+
+            CheckForErrors(result, "query");
+
+            return result;
         }
 
         #endregion

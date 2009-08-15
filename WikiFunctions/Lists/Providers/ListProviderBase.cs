@@ -69,7 +69,7 @@ namespace WikiFunctions.Lists
 
             while (list.Count + haveSoFar < Limit)
             {
-                string text = Tools.GetHTML(newUrl + postfix);
+                string text = Variables.MainForm.TheSession.Editor.SynchronousEditor.HttpGet(newUrl + postfix); //Hacky hack hack
 
                 XmlTextReader xml = new XmlTextReader(new StringReader(text));
                 xml.MoveToContent();
@@ -111,7 +111,6 @@ namespace WikiFunctions.Lists
                         else
                             list.Add(new Article(name));
                     }
-
                 }
                 if (string.IsNullOrEmpty(postfix)) break;
             }
