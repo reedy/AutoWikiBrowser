@@ -15,6 +15,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+using System;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Diagnostics;
@@ -41,6 +42,7 @@ namespace WikiFunctions
         /// <summary>
         /// 
         /// </summary>
+        [Flags]
         public enum AWBEnabledStatus
         {
             None = 0,
