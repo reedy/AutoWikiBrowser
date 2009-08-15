@@ -1231,15 +1231,18 @@ namespace WikiFunctions.Parse
             // remove reflist comment
             return ReflistByScript.Replace(articleText, "$1");
         }
-
+        
+        private static readonly RegexReplacement[] RefWhitespace = new[] {
         // whitespace cleaning
-        private static readonly RegexReplacement[] RefWhitespace = new [] {
             new RegexReplacement(new Regex(@"<\s*(?:\s+ref\s*|\s*ref\s+)>", RegexOptions.Compiled | RegexOptions.Singleline), "<ref>"),
             new RegexReplacement(new Regex(@"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>", RegexOptions.Compiled | RegexOptions.Singleline), "</ref>"),
-        // remove any whitespace between consecutive references
+        
+        // remove any spaces between consecutive references -- WP:REFPUNC
             new RegexReplacement(new Regex(@"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>) +(?=<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)", RegexOptions.Compiled), "$1"),
-        // ensure a space between a reference and text (reference within a paragraph)
+        // ensure a space between a reference and text (reference within a paragraph) -- WP:REFPUNC
             new RegexReplacement(new Regex(@"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>)(\w)", RegexOptions.Compiled), "$1 $2"),
+        // remove spaces between punctuation and references -- WP:REFPUNC
+            new RegexReplacement(new Regex(@"([,\.:;]) +(?=<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)", RegexOptions.Compiled), "$1"),
 
         // <ref name="Fred" /ref> --> <ref name="Fred"/>
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?"")\s*/\s*ref\s*>", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase), "$1/>"),
@@ -1289,7 +1292,7 @@ namespace WikiFunctions.Parse
         };
         // Covered by TestFixReferenceTags
         /// <summary>
-        /// Various fixes to the formatting of <ref> reference tags
+        /// Various fixes to the formatting of &lt;ref&gt; reference tags
         /// </summary>
         /// <param name="articleText">The wiki text of the article</param>
         /// <returns>The modified article text.</returns>
