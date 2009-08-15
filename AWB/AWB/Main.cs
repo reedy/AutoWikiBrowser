@@ -125,8 +125,9 @@ namespace AutoWikiBrowser
             RightToLeft = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft
                 ? RightToLeft.Yes : RightToLeft.No;
 
-            InitializeComponent();
+            SplashScreen.SetProgress(1);
 
+            InitializeComponent();
 
             SplashScreen.SetProgress(5);
             try
@@ -291,36 +292,46 @@ namespace AutoWikiBrowser
 
                 SplashScreen.SetProgress(80);
 
-                switch (Updater.Result)
-                {
-                    case Updater.AWBEnabledStatus.OptionalUpdate:
-                        if (
-                            MessageBox.Show(
-                                "This version has been superceeded by a new version. You may continue to use this version or update to the newest version.\r\n\r\nWould you like to automatically upgrade to the newest version?",
-                                "Upgrade?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        {
-                            Updater.RunUpdater();
-                            CloseAWB();
-                        }
-                        break;
+                bool optUpdate = ((Updater.Result & Updater.AWBEnabledStatus.OptionalUpdate) ==
+                                 Updater.AWBEnabledStatus.OptionalUpdate),
+                     updaterUpdate = ((Updater.Result & Updater.AWBEnabledStatus.UpdaterUpdate) ==
+                                     Updater.AWBEnabledStatus.UpdaterUpdate);
 
-                    case Updater.AWBEnabledStatus.UpdaterUpdate:
+                if (optUpdate || updaterUpdate)
+                {
+                    bool runUpdater = false;
+
+                    if (updaterUpdate)
+                    {
                         MessageBox.Show("There is an Update to the AWB updater. Updating Now", "Updater update",
                                         MessageBoxButtons.YesNo);
+                        runUpdater = true;
+                    }
+
+                    if (!runUpdater &&
+                        MessageBox.Show(
+                            "This version has been superceeded by a new version. You may continue to use this version or update to the newest version.\r\n\r\nWould you like to automatically upgrade to the newest version?",
+                            "Upgrade?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        runUpdater = true;
+
+                    if (runUpdater)
+                    {
                         Updater.RunUpdater();
+            			SplashScreen.Close();
                         CloseAWB();
-                        break;
+                        return;
+                    }
+                }
 
-                    case Updater.AWBEnabledStatus.Disabled:
-                        OldVersion();
-                        break;
+                if ((Updater.Result & Updater.AWBEnabledStatus.Disabled) == Updater.AWBEnabledStatus.Disabled)
+                    OldVersion();
 
-                    case Updater.AWBEnabledStatus.Error:
-                        lblUserName.BackColor = Color.Red;
-                        MessageBox.Show(this, "Cannot load version check page from Wikipedia. "
-                                              + "Please verify that you're connected to Internet.", "Error",
-                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        break;
+                if ((Updater.Result & Updater.AWBEnabledStatus.Error) == Updater.AWBEnabledStatus.Error)
+                {
+                    lblUserName.BackColor = Color.Red;
+                    MessageBox.Show(this, "Cannot load version check page from Wikipedia. "
+                                          + "Please verify that you're connected to Internet.", "Error",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
                 SplashScreen.SetProgress(90);
