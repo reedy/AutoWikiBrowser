@@ -139,11 +139,10 @@ namespace WikiFunctions
         public static void UpdateUpdaterFile(Tools.SetProgress setProgress)
         {
             setProgress(67);
-            string awbDirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\";
-            if (File.Exists(awbDirectory + "AWBUpdater.exe.new"))
+            if (File.Exists(AWBDirectory + "AWBUpdater.exe.new"))
             {
-                File.Copy(awbDirectory + "AWBUpdater.exe.new", awbDirectory + "AWBUpdater.exe", true);
-                File.Delete(awbDirectory + "AWBUpdater.exe.new");
+                File.Copy(AWBDirectory + "AWBUpdater.exe.new", AWBDirectory + "AWBUpdater.exe", true);
+                File.Delete(AWBDirectory + "AWBUpdater.exe.new");
             }
             setProgress(70);
         }
