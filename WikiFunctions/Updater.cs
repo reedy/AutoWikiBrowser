@@ -64,7 +64,7 @@ namespace WikiFunctions
         public static string GlobalVersionPage { get; private set; }
 
         /// <summary>
-        /// 
+        /// Do the actual checking for enabledness etc
         /// </summary>
         private static void UpdateFunc()
         {
@@ -118,10 +118,10 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// 
+        /// Change a string version (x.x.x.x) to a version number (xxxx)
         /// </summary>
-        /// <param name="version"></param>
-        /// <returns></returns>
+        /// <param name="version">Version String</param>
+        /// <returns>Version Number</returns>
         private static int StringToVersion(string version)
         {
             int res;
