@@ -33,6 +33,7 @@ namespace WikiFunctions
         {
             Comparator = comparator;
         }
+
         public bool Matches(Article article)
         {
             return Comparator.IsMatch(article.ArticleText);
@@ -49,10 +50,11 @@ namespace WikiFunctions
         public DynamicRegexArticleComparer(string comparator, RegexOptions options)
         {
             Comparator = comparator;
-            Options = options;
+            Options = (options & ~RegexOptions.Compiled);
             // Create a regex to try it out. Throws an exception if there's a regex error
-            Regex re = new Regex(Tools.ApplyKeyWords("a", comparator), options);
+            new Regex(Tools.ApplyKeyWords("a", comparator), options);
         }
+
         public bool Matches(Article article)
         {
             return Regex.IsMatch(article.ArticleText, Tools.ApplyKeyWords(article.Name, Comparator), Options);

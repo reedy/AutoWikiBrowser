@@ -39,6 +39,9 @@ namespace WikiFunctions
         /// <returns>An instance of IArticleComparer which can carry out the specified comparison</returns>
         public static IArticleComparer Create(string comparator, bool isCaseSensitive, bool isRegex, bool isSingleLine, bool isMultiLine)
         {
+            if (comparator == null)
+                throw new ArgumentNullException("comparator");
+
             if (isRegex)
             {
                 try
@@ -62,7 +65,7 @@ namespace WikiFunctions
                 {
                     //TODO: handle things like "bad regex" here
                     // For now, tell the user then let normal exception handling process it as well
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(ex.Message, "Bad Regex");
                     throw;
                 }
             }
