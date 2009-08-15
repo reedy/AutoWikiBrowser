@@ -240,8 +240,8 @@ namespace AutoWikiBrowser
             SplashScreen.SetProgress(20);
             Variables.MainForm = this;
             lblOnlyBots.BringToFront();
-            Updater.UpdateUpdaterFile(SplashScreen.SetProgress); // progress 22-29 in UpdateUpdaterFile()
-            SplashScreen.SetProgress(30);
+
+            SplashScreen.SetProgress(22);
 
             Program.MyTrace.LS = loggingSettings1;
 
@@ -260,7 +260,7 @@ namespace AutoWikiBrowser
                 webBrowser.Navigate("about:blank");
                 webBrowser.ObjectForScripting = DiffScriptingAdapter;
 
-                SplashScreen.SetProgress(35);
+                SplashScreen.SetProgress(25);
 
                 logControl.Initialise(listMaker);
 
@@ -273,20 +273,23 @@ namespace AutoWikiBrowser
                 Debug();
                 Release();
 
-                Plugin.LoadPluginsStartup(this, SplashScreen); // progress 65-79 in LoadPlugins()
+                Plugin.LoadPluginsStartup(this, SplashScreen); // progress 25-50 in LoadPlugins()
 
-                LoadPrefs(); // progress 80-85 in LoadPrefs()
+                LoadPrefs(); // progress 50-59 in LoadPrefs()
 
-                SplashScreen.SetProgress(86);
+                SplashScreen.SetProgress(60);
                 UpdateButtons(null, null);
-                SplashScreen.SetProgress(88);
-                LoadRecentSettingsList(); // progress 89-94 in LoadRecentSettingsList()
-                SplashScreen.SetProgress(95);
+                SplashScreen.SetProgress(62);
+                LoadRecentSettingsList(); // progress 63-66 in LoadRecentSettingsList()
+
+                Updater.UpdateUpdaterFile(SplashScreen.SetProgress); // progress 67-70 in UpdateUpdaterFile()
 
                 if (Updater.Result == Updater.AWBEnabledStatus.None || Updater.Result == Updater.AWBEnabledStatus.Error)
                     Updater.Update();
 
                 Updater.WaitForCompletion();
+
+                SplashScreen.SetProgress(80);
 
                 switch (Updater.Result)
                 {
@@ -320,7 +323,11 @@ namespace AutoWikiBrowser
                         break;
                 }
 
+                SplashScreen.SetProgress(90);
+
                 Profiles.Login(ProfileToLoad);
+
+                SplashScreen.SetProgress(95);
             }
             catch (Exception ex)
             {
