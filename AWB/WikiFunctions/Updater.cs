@@ -24,14 +24,18 @@ using WikiFunctions.Background;
 
 namespace WikiFunctions
 {
-    //TODO: refactor
     public static class Updater
     {
         private static readonly string AWBDirectory;
 
+        /// <summary>
+        /// Runs Update() at creation time
+        /// </summary>
         static Updater()
         {
             AWBDirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\";
+            Result = AWBEnabledStatus.None;
+            Update();
         }
 
         /// <summary>
@@ -39,10 +43,12 @@ namespace WikiFunctions
         /// </summary>
         public enum AWBEnabledStatus
         {
-            Disabled,
-            Enabled,
-            UpdaterUpdate,
-            OptionalUpdate
+            None = 0,
+            Error = 1,
+            Disabled = 2,
+            Enabled = 4,
+            UpdaterUpdate = 8,
+            OptionalUpdate = 12
         }
 
         /// <summary>
@@ -105,6 +111,7 @@ namespace WikiFunctions
             }
             catch
             {
+                Result = AWBEnabledStatus.Error;
             }
         }
 
