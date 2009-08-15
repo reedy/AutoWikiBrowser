@@ -183,6 +183,8 @@ namespace WikiFunctions
         public static string AWBVersion
         { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }
 
+        private static Regex BadName = new Regex(@"badname:\s*(.*)\s*(:?|#.*)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
         /// <summary>
         /// Checks log in status, registered and version.
         /// </summary>
@@ -195,9 +197,7 @@ namespace WikiFunctions
                 Site = new SiteInfo(Editor.SynchronousEditor);
 
                 //load version check page
-                BackgroundRequest versionRequest = new BackgroundRequest();
-                versionRequest.GetHTML(
-                    "http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
+                Updater.Update();
 
                 //load check page
                 string url;
@@ -247,25 +247,23 @@ namespace WikiFunctions
 
                 }
 
-                versionRequest.Wait();
-                VersionCheckPage = (string)versionRequest.Result;
+                Updater.WaitForCompletion();
+                Updater.AWBEnabledStatus versionStatus = Updater.Result;
 
+                //TODO:Deal with other results..
                 //see if this version is enabled
-                if (!VersionCheckPage.Contains(AWBVersion + " enabled"))
+                if (versionStatus == Updater.AWBEnabledStatus.Disabled)
                     return WikiStatusResult.OldVersion;
 
                 CheckPageText = strText;
 
-                bool loggedIn = Editor.User.IsLoggedIn;
-
-                if (!loggedIn)
+                if (!Editor.User.IsLoggedIn)
                     return WikiStatusResult.NotLoggedIn;
 
                 Editor.Maxlag = Editor.User.IsBot ? 5 : 20;
 
                 // check if username is globally blacklisted
-                foreach (
-                    Match m3 in Regex.Matches(VersionCheckPage, @"badname:\s*(.*)\s*(:?|#.*)$", RegexOptions.IgnoreCase))
+                foreach (Match m3 in BadName.Matches(Updater.GlobalVersionPage))
                 {
                     if (!string.IsNullOrEmpty(m3.Groups[1].Value.Trim()) &&
                         !string.IsNullOrEmpty(Editor.User.Name) &&

@@ -15,7 +15,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-using System;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Diagnostics;
@@ -28,77 +27,85 @@ namespace WikiFunctions
     //TODO: refactor
     public static class Updater
     {
-        public static void CheckForUpdates(Session session)
+        private static readonly string AWBDirectory;
+
+        static Updater()
         {
-            if (session.VersionCheckPage.Contains(Session.AWBVersion + " enabled (old)"))
-            {
-                if (
-                    MessageBox.Show(
-                        "This version has been superceeded by a new version.  You may continue to use this version or update to the newest version.\r\n\r\nWould you like to automatically upgrade to the newest version?",
-                        "Upgrade?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    Match version = Regex.Match(session.VersionCheckPage, @"<!-- Current version: (.*?) -->");
-                    if (version.Success && version.Groups[1].Value.Length == 4)
-                    {
-                        System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) +
-                                                         "\\AWBUpdater.exe");
-                    }
-                    else if (
-                        MessageBox.Show("Error automatically updating AWB. Load the download page instead?",
-                                        "Load download page?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=158332");
-                    }
-                }
-            }
+            AWBDirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\";
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public enum AWBEnabledStatus
+        {
+            Disabled,
+            Enabled,
+            UpdaterUpdate,
+            OptionalUpdate
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static AWBEnabledStatus Result { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static string GlobalVersionPage { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         private static void UpdateFunc()
         {
             try
             {
-                string AWBDirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\";
-                if (File.Exists(AWBDirectory + "AWBUpdater.exe.new"))
+                string text =
+                    Tools.GetHTML(
+                        "http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
+                GlobalVersionPage = text;
+
+                int awbCurrentVersion =
+                    StringToVersion(Regex.Match(text, @"<!-- Current version: (.*?) -->").Groups[1].Value);
+
+                int awbNewestVersion =
+                    StringToVersion(Regex.Match(text, @"<!-- Newest version: (.*?) -->").Groups[1].Value);
+
+                int updaterVersion =
+                    StringToVersion(Regex.Match(text, @"<!-- Updater version: (.*?) -->").Groups[1].Value);
+
+                if ((awbCurrentVersion > 4000) || (awbNewestVersion > 4000))
                 {
-                    File.Copy(AWBDirectory + "AWBUpdater.exe.new", AWBDirectory + "AWBUpdater.exe", true);
-                    File.Delete(AWBDirectory + "AWBUpdater.exe.new");
-                }
-                else
-                {
-                    bool update = false;
+                    FileVersionInfo awbVersionInfo =
+                        FileVersionInfo.GetVersionInfo(AWBDirectory + "AutoWikiBrowser.exe");
+                    int awbFileVersion = StringToVersion(awbVersionInfo.FileVersion);
 
-                    string text = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
-
-                    int awbCurrentVersion =
-    StringToVersion(Regex.Match(text, @"<!-- Current version: (.*?) -->").Groups[1].Value);
-                    int awbNewestVersion =
-                        StringToVersion(Regex.Match(text, @"<!-- Newest version: (.*?) -->").Groups[1].Value);
-                    int updaterVersion = StringToVersion(Regex.Match(text, @"<!-- Updater version: (.*?) -->").Groups[1].Value);
-
-                    if ((awbCurrentVersion > 4000) || (awbNewestVersion > 4000))
+                    if (awbFileVersion < awbCurrentVersion)
                     {
-                        FileVersionInfo awbVersionInfo = FileVersionInfo.GetVersionInfo(AWBDirectory + "AutoWikiBrowser.exe");
-                        int awbFileVersion = StringToVersion(awbVersionInfo.FileVersion);
+                        Result = AWBEnabledStatus.Disabled;
+                        return;
+                    }
 
-                        if (awbFileVersion < awbCurrentVersion)
-                            update = true;
-                        else if ((awbFileVersion >= awbCurrentVersion) && (awbFileVersion < awbNewestVersion) &&
-                            MessageBox.Show("There is an optional update to AutoWikiBrowser. Would you like to upgrade?", "Optional update", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                            update = true;
+                    Result = AWBEnabledStatus.Enabled;
 
-                        if (!update && (updaterVersion > 1400) &&
-                    (updaterVersion > StringToVersion(FileVersionInfo.GetVersionInfo(AWBDirectory + "AWBUpdater.exe").FileVersion)))
-                        {
-                            MessageBox.Show("There is an Update to the AWB updater. Updating Now", "Updater update", MessageBoxButtons.YesNo);
-                            update = true;
-                        }
+                    if ((updaterVersion > 1400) &&
+                        (updaterVersion >
+                         StringToVersion(FileVersionInfo.GetVersionInfo(AWBDirectory + "AWBUpdater.exe").FileVersion)))
+                    {
+                        Result |= AWBEnabledStatus.UpdaterUpdate;
+                    }
 
-                        if (update)
-                            Process.Start(AWBDirectory + "AWBUpdater.exe");
+                    if ((awbFileVersion >= awbCurrentVersion) && (awbFileVersion < awbNewestVersion))
+                    {
+                        Result |= AWBEnabledStatus.OptionalUpdate;
                     }
                 }
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         /// <summary>
@@ -119,17 +126,21 @@ namespace WikiFunctions
 
         /// <summary>
         /// Checks to see if AWBUpdater.exe.new exists, if it does, replace it.
-        /// If not, see if the version of AWB Updater is older than the version on the checkpage, and run AWBUpdater if so
         /// </summary>
-        public static void UpdateAWB(Tools.SetProgress setProgress)
+        public static void UpdateUpdaterFile(Tools.SetProgress setProgress)
         {
             setProgress(22);
-            Update();
+            string awbDirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\";
+            if (File.Exists(awbDirectory + "AWBUpdater.exe.new"))
+            {
+                File.Copy(awbDirectory + "AWBUpdater.exe.new", awbDirectory + "AWBUpdater.exe", true);
+                File.Delete(awbDirectory + "AWBUpdater.exe.new");
+            }
             setProgress(29);
         }
+
         /// <summary>
-        /// Checks to see if AWBUpdater.exe.new exists, if it does, replace it.
-        /// If not, see if the version of AWB Updater is older than the version on the checkpage, and run AWBUpdater if so
+        /// Background request to check enabled state of AWB
         /// </summary>
         public static void Update()
         {
@@ -138,7 +149,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Waits for background AWBUpdater.exe update to complete
+        /// Waits for background enabled check to complete
         /// </summary>
         public static void WaitForCompletion()
         {
@@ -147,30 +158,12 @@ namespace WikiFunctions
             Request = null;
         }
 
-        //TODO: find some use/reimpliment for this. Maybe merge with Updater.cs? (we need to check version enabling)
         /// <summary>
-        /// Checks if the current version of AWB is enabled
+        /// Runs the Updater program
         /// </summary>
-        public static WikiStatusResult CheckEnabled()
+        public static void RunUpdater()
         {
-            try
-            {
-                string strText = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
-
-                if (string.IsNullOrEmpty(strText))
-                {
-                    Tools.WriteDebug("Updater", "Empty version checkpage");
-                    return WikiStatusResult.Error;
-                }
-
-                return !strText.Contains(""/*Variables.AWBVersion*/ + " enabled") ? WikiStatusResult.OldVersion : WikiStatusResult.Null;
-            }
-            catch (Exception ex)
-            {
-                Tools.WriteDebug("Updater", ex.Message);
-                Tools.WriteDebug("Updater", ex.StackTrace);
-                return WikiStatusResult.Error;
-            }
+            Process.Start(AWBDirectory + "AWBUpdater.exe");
         }
     }
 }

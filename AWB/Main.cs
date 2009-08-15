@@ -240,7 +240,7 @@ namespace AutoWikiBrowser
             SplashScreen.SetProgress(20);
             Variables.MainForm = this;
             lblOnlyBots.BringToFront();
-            Updater.UpdateAWB(SplashScreen.SetProgress); // progress 22-29 in UpdateAWB()
+            Updater.UpdateUpdaterFile(SplashScreen.SetProgress); // progress 22-29 in UpdateUpdaterFile()
             SplashScreen.SetProgress(30);
 
             Program.MyTrace.LS = loggingSettings1;
