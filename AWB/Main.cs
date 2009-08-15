@@ -261,8 +261,6 @@ namespace AutoWikiBrowser
                 webBrowser.ObjectForScripting = DiffScriptingAdapter;
 
                 SplashScreen.SetProgress(35);
-                if (Properties.Settings.Default.LogInOnStart)
-                    CheckStatus(false);
 
                 logControl.Initialise(listMaker);
 
