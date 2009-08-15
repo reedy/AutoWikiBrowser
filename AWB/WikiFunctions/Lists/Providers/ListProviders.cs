@@ -909,7 +909,6 @@ namespace WikiFunctions.Lists
         { get { return "Wiki search (title)"; } }
     }
 
-    //TODO:We need to pass in the editor.. Or something to use it to get the watchlist for the currently logged in user (Most queries need to use the editor..)
     /// <summary>
     /// Gets all the pages from the current user's watchlist
     /// </summary>
@@ -931,9 +930,7 @@ namespace WikiFunctions.Lists
 
         public override List<Article> MakeList(params string[] searchCriteria)
         {
-            string url = Variables.URLApi + "?action=query&list=watchlistraw&wrlimit=max&format=xml";
-
-            return ApiMakeList(url, 0);
+            return ApiMakeList(Variables.URLApi + "?action=query&list=watchlistraw&wrlimit=max&format=xml", 0);
         }
 
         #region ListMaker properties

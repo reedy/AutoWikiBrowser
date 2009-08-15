@@ -241,5 +241,12 @@ namespace WikiFunctions.API
         /// Aborts the current operation
         /// </summary>
         void Abort();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        string QueryApi(string[,] args);
     }
 }
