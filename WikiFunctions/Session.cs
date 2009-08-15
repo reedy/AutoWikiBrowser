@@ -71,9 +71,11 @@ namespace WikiFunctions
 
         private AsyncApiEdit CreateEditor()
         {
-            AsyncApiEdit edit = new AsyncApiEdit(Variables.URLLong, parentControl, Variables.PHP5);
+            AsyncApiEdit edit = new AsyncApiEdit(Variables.URLLong, parentControl, Variables.PHP5)
+                                    {
+                                        NewMessageThrows = false
+                                    };
 
-            edit.NewMessageThrows = false;
             edit.SaveComplete += OnSaveComplete;
             edit.PreviewComplete += OnPreviewComplete;
             edit.ExceptionCaught += OnExceptionCaught;
@@ -142,7 +144,7 @@ namespace WikiFunctions
 
                 return status;
             }
-            set
+            private set
             {
                 status = value;
             }
@@ -183,7 +185,7 @@ namespace WikiFunctions
         public static string AWBVersion
         { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }
 
-        private static Regex BadName = new Regex(@"badname:\s*(.*)\s*(:?|#.*)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex BadName = new Regex(@"badname:\s*(.*)\s*(:?|#.*)$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
         /// Checks log in status, registered and version.
