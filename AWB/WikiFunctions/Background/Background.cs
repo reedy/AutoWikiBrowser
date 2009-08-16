@@ -23,6 +23,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Web;
+using WikiFunctions.API;
 
 namespace WikiFunctions.Background
 {
@@ -270,9 +271,10 @@ namespace WikiFunctions.Background
         /// <summary>
         /// Bypasses all redirects in the article
         /// </summary>
-        public void BypassRedirects(string article)
+        public void BypassRedirects(string article, IApiEdit editor)
         {
             Result = StrParam = article;
+            ObjParam1 = editor;
 
             if (HasUI)
             {
@@ -291,6 +293,15 @@ namespace WikiFunctions.Background
             Dictionary<string, string> knownLinks = new Dictionary<string, string>();
 
             if (HasUI) UI.Worker = Thread.CurrentThread;
+
+            IApiEdit editor = ObjParam1 as IApiEdit;
+
+            if (editor == null)
+            {
+                Result = "";
+                InvokeOnError();
+                return;
+            }
 
             try
             {
@@ -319,7 +330,7 @@ namespace WikiFunctions.Background
                         string text;
                         try
                         {
-                            text = Tools.GetArticleText(article);
+                            text = editor.Open(article);
                         }
                         catch
                         {
@@ -361,7 +372,7 @@ namespace WikiFunctions.Background
                         string text;
                         try
                         {
-                            text = Tools.GetArticleText(article);
+                            text = editor.Open(article);
                         }
                         catch
                         {

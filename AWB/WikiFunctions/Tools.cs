@@ -407,7 +407,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="articleTitle">Title of the article</param>
         /// <returns></returns>
-        //[Obsolete("Should be replaced with usage of ApiEdit")]
+        [Obsolete("Should be replaced with usage of ApiEdit")]
         public static string GetArticleText(string articleTitle)
         {
             return GetArticleText(articleTitle, false);
