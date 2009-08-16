@@ -1222,25 +1222,4 @@ Bert").Groups[2].Value, "foo bar\r");
             Assert.AreEqual(WikiRegexes.StarRows.Match(@" *foo bar").Groups[2].Value, @"foo bar");
         }
     }
-
-    [TestFixture]
-    public class DynamicRegexTests : RequiresInitialization
-    {
-        [Test]
-        public void CategoryTests()
-        {
-            CatTests(WikiRegexes.Category);
-        }
-
-        [Test]
-        public void CatRegexTests()
-        {
-            CatTests(WikiRegexes.CatRegex);
-        }
-
-        public void CatTests(Regex reg)
-        {
-            RegexAssert.IsMatch(reg, "[[Category:Test]]");
-        }
-    }
 }
