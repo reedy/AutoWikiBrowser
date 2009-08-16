@@ -935,7 +935,7 @@ namespace WikiFunctions.Lists
 
         #region ListMaker properties
         public override string DisplayText
-        { get { return "My Watchlist"; } }
+        { get { return "My watchlist"; } }
 
         public override string UserInputTextBoxText
         { get { return ""; } }
@@ -1029,7 +1029,7 @@ namespace WikiFunctions.Lists
 
         #region ListMaker properties
         public override string DisplayText
-        { get { return "Random Pages"; } }
+        { get { return "Random pages"; } }
 
         public override string UserInputTextBoxText
         { get { return ""; } }
@@ -1058,7 +1058,7 @@ namespace WikiFunctions.Lists
         }
 
         public override string DisplayText
-        { get { return "Random Redirects"; } }
+        { get { return "Random redirects"; } }
     }
 
     /// <summary>
