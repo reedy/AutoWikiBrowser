@@ -28,7 +28,6 @@ namespace WikiFunctions.Controls
     /// </summary>
     public partial class Help : Form
     {
-        // TODO: Add menu and buttons for back, forward, home (=URL property), etc
         protected Help()
         {
             InitializeComponent();

@@ -28,7 +28,6 @@ namespace AutoWikiBrowser
             Text = "AWB Help";
         }
 
-        // TODO: convert hyperlinks in the page to use the simple skin too.
         protected override string URL
         {
             get { return Tools.GetENLinkWithSimpleSkinAndLocalLanguage("Wikipedia:AutoWikiBrowser/User_manual"); }

@@ -313,7 +313,7 @@ namespace WikiFunctions.Controls
                 {
                     TreeNode n = Captures.Nodes.Add("{" + ReplaceNewLines(m.Value) + "}");
                     foreach (Group g in m.Groups)
-                    { // TODO: Is there any way to get the name of the group when explicit capture is on?
+                    {
                         if (g.Captures.Count > 1)
                         {
                             TreeNode nn = n.Nodes.Add("...");

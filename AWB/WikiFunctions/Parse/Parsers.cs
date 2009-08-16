@@ -1851,7 +1851,8 @@ namespace WikiFunctions.Parse
         {
             //TODO: move everything possible to the parent function, however, it shouldn't be performed blindly,
             //without a performance review
-            if (Regex.Matches(articleText, Regex.Escape(openingBrackets)).Count != Regex.Matches(articleText, Regex.Escape(closingBrackets)).Count)
+            if (Regex.Matches(articleText, Regex.Escape(openingBrackets)).Count !=
+                Regex.Matches(articleText, Regex.Escape(closingBrackets)).Count)
             {
                 // remove all <math>, <code> stuff etc. where curly brackets are used in singles and pairs
                 foreach (Match m in WikiRegexes.MathPreSourceCodeComments.Matches(articleText))
