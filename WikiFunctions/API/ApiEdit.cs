@@ -26,11 +26,7 @@ using System.Xml;
 using System.Threading;
 using System.Text.RegularExpressions;
 
-/// MediaWiki API manual: http://www.mediawiki.org/wiki/API
-/// Site prerequisites: MediaWiki 1.13+ with the following settings:
-/// * $wgEnableAPI = true; (enabled by default in DefaultSettings.php)
-/// * $wgEnableWriteAPI = true;
-/// * AssertEdit extension installed (http://www.mediawiki.org/wiki/Extension:Assert_Edit)
+
 
 namespace WikiFunctions.API
 {
@@ -39,6 +35,13 @@ namespace WikiFunctions.API
     /// <summary>
     /// This class edits MediaWiki sites using api.php
     /// </summary>
+    /// <remarks>
+    /// MediaWiki API manual: http://www.mediawiki.org/wiki/API
+    /// Site prerequisites: MediaWiki 1.13+ with the following settings:
+    /// * $wgEnableAPI = true; (enabled by default in DefaultSettings.php)
+    /// * $wgEnableWriteAPI = true;
+    /// * AssertEdit extension installed (http://www.mediawiki.org/wiki/Extension:Assert_Edit)
+    /// </remarks>
     public class ApiEdit : IApiEdit
     {
         private ApiEdit()
