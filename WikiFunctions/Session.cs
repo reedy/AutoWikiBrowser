@@ -238,7 +238,8 @@ namespace WikiFunctions
                         //load a local checkpage on Wikia
                         //it cannot be used to approve users, but it could be used to set some settings
                         //such as underscores and pages to ignore
-                        string s = Tools.GetArticleText("Project:AutoWikiBrowser/CheckPage");
+
+                        string s = Editor.SynchronousEditor.Open("Project:AutoWikiBrowser/CheckPage");
 
                         // selectively add content of the local checkpage to the global one
                         strText += Message.Match(s).Value
@@ -252,7 +253,6 @@ namespace WikiFunctions
                 Updater.WaitForCompletion();
                 Updater.AWBEnabledStatus versionStatus = Updater.Result;
 
-                //TODO:Deal with other results..
                 //see if this version is enabled
                 if (versionStatus == Updater.AWBEnabledStatus.Disabled)
                     return WikiStatusResult.OldVersion;
