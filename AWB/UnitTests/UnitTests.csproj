@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DiffTests.cs" />
+    <Compile Include="DynamicRegexTests.cs" />
     <Compile Include="GenfixesTests.cs" />
     <Compile Include="MiscellaneousTests.cs" />
     <Compile Include="Mocks.cs" />
