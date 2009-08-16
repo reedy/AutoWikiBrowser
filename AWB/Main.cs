@@ -2958,7 +2958,7 @@ window.scrollTo(0, diffTopY);
             BackgroundRequest r = new BackgroundRequest();
 
             Enabled = false;
-            r.BypassRedirects(txtEdit.Text);
+            r.BypassRedirects(txtEdit.Text, TheSession.Editor.SynchronousEditor.Clone());
             r.Wait();
             Enabled = true;
 
