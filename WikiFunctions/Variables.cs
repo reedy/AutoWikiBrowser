@@ -466,7 +466,6 @@ namespace WikiFunctions
         public static string Stub;
         public static string SectStub;
         public static Regex SectStubRegex = null;
-        public static readonly Regex InUse = new Regex(@"{{\s*[Ii]nuse\s*[\}\|]", RegexOptions.Compiled);
 
         /// <summary>
         /// Sets different language variables, such as namespaces. Default is english Wikipedia

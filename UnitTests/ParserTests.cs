@@ -2036,6 +2036,7 @@ http://example.com }}");
         public void TestFixNonBreakingSpaces()
         {
             Assert.AreEqual(@"a 50&nbsp;km road", parser.FixNonBreakingSpaces(@"a 50 km road"));
+            Assert.AreEqual(@"a long (50&nbsp;km) road", parser.FixNonBreakingSpaces(@"a long (50 km) road"));
             Assert.AreEqual(@"a 50&nbsp;km road", parser.FixNonBreakingSpaces(@"a 50km road"));
             Assert.AreEqual(@"a 50&nbsp;kg dog", parser.FixNonBreakingSpaces(@"a 50 kg dog"));
             Assert.AreEqual(@"a 50&nbsp;kg dog", parser.FixNonBreakingSpaces(@"a 50kg dog"));
@@ -2055,7 +2056,9 @@ http://example.com }}");
 
             // no changes for these
             Assert.AreEqual(@"nearly 5m people", parser.FixNonBreakingSpaces(@"nearly 5m people"));
+            Assert.AreEqual(@"nearly 5 in 10 people", parser.FixNonBreakingSpaces(@"nearly 5 in 10 people"));
             Assert.AreEqual(@"a 3CD set", parser.FixNonBreakingSpaces(@"a 3CD set"));
+            Assert.AreEqual(@"its 3 feet are", parser.FixNonBreakingSpaces(@"its 3 feet are"));
             Assert.AreEqual(@"http://site.com/View/3356 A show", parser.FixNonBreakingSpaces(@"http://site.com/View/3356 A show"));
             Assert.AreEqual(@"a 50&nbsp;km road", parser.FixNonBreakingSpaces(@"a 50&nbsp;km road"));
             Assert.AreEqual(@"over $200K in cash", parser.FixNonBreakingSpaces(@"over $200K in cash"));
@@ -2068,6 +2071,18 @@ http://example.com }}");
 
             // firearms articles don't use spaces for ammo sizes
             Assert.AreEqual(@"the 50mm gun", parser.FixNonBreakingSpaces(@"the 50mm gun"));
+
+            // Imperial units
+            Assert.AreEqual(@"a long (50&nbsp;in) toad", parser.FixNonBreakingSpaces(@"a long (50 in) toad"));
+            Assert.AreEqual(@"a long (50&nbsp;ft) toad", parser.FixNonBreakingSpaces(@"a long (50 ft) toad"));
+            Assert.AreEqual(@"a long (50&nbsp;feet) toad", parser.FixNonBreakingSpaces(@"a long (50 feet) toad"));
+            Assert.AreEqual(@"a long (50&nbsp;foot) toad", parser.FixNonBreakingSpaces(@"a long (50 foot) toad"));
+            Assert.AreEqual(@"a long (50&nbsp;in) toad", parser.FixNonBreakingSpaces(@"a long (50in) toad"));
+            Assert.AreEqual(@"a long (50-52&nbsp;in) toad", parser.FixNonBreakingSpaces(@"a long (50-52in) toad"));
+            Assert.AreEqual(@"a long (50–52&nbsp;in) toad", parser.FixNonBreakingSpaces(@"a long (50–52in) toad"));
+            Assert.AreEqual(@"a long (50&nbsp;inches) toad", parser.FixNonBreakingSpaces(@"a long (50 inches) toad"));
+            Assert.AreEqual(@"a long 50&nbsp;inches toad", parser.FixNonBreakingSpaces(@"a long 50 inches toad"));
+            Assert.AreEqual(@"a long 50&nbsp;inch toad", parser.FixNonBreakingSpaces(@"a long 50 inch toad"));
         }
 
         [Test]
@@ -2393,6 +2408,10 @@ foo2";
             Assert.AreEqual("55–57&nbsp;kg", parser.Mdashes("55-57&nbsp;kg", "test", 0));
             Assert.AreEqual("55–57 Hz", parser.Mdashes("55-57 Hz", "test", 0));
             Assert.AreEqual("55–57 GHz", parser.Mdashes("55-57 GHz", "test", 0));
+            Assert.AreEqual("55 – 57 in", parser.Mdashes("55 - 57 in", "test", 0));
+            Assert.AreEqual("55 – 57 m long", parser.Mdashes("55 - 57 m long", "test", 0));
+            Assert.AreEqual("55 – 57 feet", parser.Mdashes("55 - 57 feet", "test", 0));
+            Assert.AreEqual("55 – 57 foot", parser.Mdashes("55 - 57 foot", "test", 0));
 
             Assert.AreEqual("$55–57", parser.Mdashes("$55-57", "test", 0));
             Assert.AreEqual("$55 – 57", parser.Mdashes("$55 - 57", "test", 0));
