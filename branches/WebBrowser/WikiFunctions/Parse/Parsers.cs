@@ -806,7 +806,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex CiteTemplatePublisherParameter = new Regex(@"(?<=\s*publisher\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
         private static readonly Regex URLShortDescription = new Regex(@"\s*[^{}<>\n]*?\s*\[*(?:http://www\.|http://|www\.)[^\[\]<>""\s]+?\s+([^{}<>\[\]]{4,35}?)\s*(?:\]|<!--|\u230A\u230A\u230A\u230A)", RegexOptions.Compiled);
         private static readonly Regex URLDomain = new Regex(@"\s*\w*?[^{}<>]{0,4}?\s*(?:\[?|\{\{\s*cit[^{}<>]*\|\s*url\s*=\s*)\s*(?:http://www\.|http://|www\.)([^\[\]<>""\s\/:]+)", RegexOptions.Compiled);
-        private static readonly Regex HarvnbTemplate = new Regex(@"\s*{{[Hh]arv(?:(?:col)?nb)?\s*\|\s*([^{}\|]+?)\s*\|\s*(\d{4})\s*\|\s*([^{}\|]+?)\s*}}\s*", RegexOptions.Compiled);
+        private static readonly Regex HarvnbTemplate = new Regex(@"\s*{{[Hh]arv(?:(?:col)?nb)?\s*\|\s*([^{}\|]+?)\s*\|\s*(\d{4})\s*(?:\|\s*(?:pp?\s*=\s*)?([^{}\|]+?)\s*)?}}\s*", RegexOptions.Compiled);
         private static readonly Regex WholeShortReference = new Regex(@"\s*([^<>{}]{4,35})\s*", RegexOptions.Compiled);
         private static readonly Regex CiteTemplateURL = new Regex(@"\s*\{\{\s*cit[^{}<>]*\|\s*url\s*=\s*([^\/<>{}\|]{4,35})", RegexOptions.Compiled);
         private static readonly Regex NameYearPage = new Regex(NameMask + YearMask + @"[^{}<>\n]*?" + PageMask + @"\s*", RegexOptions.Compiled);
@@ -1251,15 +1251,18 @@ namespace WikiFunctions.Parse
             // remove reflist comment
             return ReflistByScript.Replace(articleText, "$1");
         }
-
+        
+        private static readonly RegexReplacement[] RefWhitespace = new[] {
         // whitespace cleaning
-        private static readonly RegexReplacement[] RefWhitespace = new [] {
             new RegexReplacement(new Regex(@"<\s*(?:\s+ref\s*|\s*ref\s+)>", RegexOptions.Compiled | RegexOptions.Singleline), "<ref>"),
             new RegexReplacement(new Regex(@"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>", RegexOptions.Compiled | RegexOptions.Singleline), "</ref>"),
-        // remove any whitespace between consecutive references
+        
+        // remove any spaces between consecutive references -- WP:REFPUNC
             new RegexReplacement(new Regex(@"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>) +(?=<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)", RegexOptions.Compiled), "$1"),
-        // ensure a space between a reference and text (reference within a paragraph)
+        // ensure a space between a reference and text (reference within a paragraph) -- WP:REFPUNC
             new RegexReplacement(new Regex(@"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>)(\w)", RegexOptions.Compiled), "$1 $2"),
+        // remove spaces between punctuation and references -- WP:REFPUNC
+            new RegexReplacement(new Regex(@"([,\.:;]) +(?=<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)", RegexOptions.Compiled), "$1"),
 
         // <ref name="Fred" /ref> --> <ref name="Fred"/>
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?"")\s*/\s*ref\s*>", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase), "$1/>"),
@@ -1309,7 +1312,7 @@ namespace WikiFunctions.Parse
         };
         // Covered by TestFixReferenceTags
         /// <summary>
-        /// Various fixes to the formatting of <ref> reference tags
+        /// Various fixes to the formatting of &lt;ref&gt; reference tags
         /// </summary>
         /// <param name="articleText">The wiki text of the article</param>
         /// <returns>The modified article text.</returns>
@@ -2427,7 +2430,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             // hide items in quotes etc., though this may also hide items within infoboxes etc.
             articleText = HideMoreText(articleText);
 
-            articleText = WikiRegexes.SiUnitsWithoutNonBreakingSpaces.Replace(articleText, "$1&nbsp;$2");
+            articleText = WikiRegexes.UnitsWithoutNonBreakingSpaces.Replace(articleText, "$1&nbsp;$2");
+
+            articleText = WikiRegexes.ImperialUnitsInBracketsWithoutNonBreakingSpaces.Replace(articleText, "$1&nbsp;$2");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Pagination
             // add non-breaking space after pp. abbreviation for pages.
@@ -4104,7 +4109,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         public static bool IsInUse(string articleText)
         {
-            return (Variables.LangCode != LangCodeEnum.en) ? false : Variables.InUse.IsMatch(WikiRegexes.Comments.Replace(articleText, ""));
+            return (Variables.LangCode != LangCodeEnum.en)
+                       ? false
+                       : WikiRegexes.InUse.IsMatch(WikiRegexes.Comments.Replace(articleText, ""));
         }
 
         /// <summary>
