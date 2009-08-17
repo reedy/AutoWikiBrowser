@@ -105,7 +105,8 @@ namespace WikiFunctions.Controls.Lists
                 ListItems.Add(new UserContribsListProvider());
                 ListItems.Add(new UserContribUserDefinedNumberListProvider());
                 ListItems.Add(new SpecialPageListProvider(WhatLinksHereLProvider, NewPagesLProvider,
-                                                          CategoriesOnPageLProvider, RandomPagesLProvider));
+                                                          CategoriesOnPageLProvider, RandomPagesLProvider,
+                                                          WhatTranscludesLProvider));
                 ListItems.Add(ImageFileLinksLProvider);
                 ListItems.Add(new DatabaseScannerListProvider(this));
                 ListItems.Add(new MyWatchlistListProvider());

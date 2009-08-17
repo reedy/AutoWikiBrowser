@@ -680,7 +680,7 @@ namespace WikiFunctions.Parse
         }
 
         private const string RefName = @"(?si)<\s*ref\s+name\s*=\s*""";
-        private static readonly Regex DuplicateUnnamedRef = new Regex(@"(?s)(<\s*ref\s*>\s*([^<>]+)\s*<\s*/\s*ref>)(.*?)(<\s*ref\s*>\s*\2\s*<\s*/\s*ref>)", RegexOptions.Compiled);
+        private static readonly Regex DuplicateUnnamedRef = new Regex(@"(<\s*ref\s*>\s*([^<>]+)\s*<\s*/\s*ref>)(.*?)(<\s*ref\s*>\s*\2\s*<\s*/\s*ref>)", RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
         /// Derives and sets a reference name per [[WP:REFNAME]] for duplicate &lt;ref&gt;s
@@ -695,39 +695,47 @@ namespace WikiFunctions.Parse
 
             int j = 0;
 
-            foreach (Match m in DuplicateUnnamedRef.Matches(articleText))
+            string prev;
+
+            // loop to catch duplicate references in the wikitext between other duplicate references
+            do
             {
-                string articleTextBefore = articleText;
-                string multiref = String.Format(@"multiref{0}", j);
-                string multirefRefString = m.Groups[2].Value;
+                prev = articleText;
 
-                // ref contains ibid/op cit, don't combine it, could refer to any ref on page
-                if (Regex.IsMatch(multirefRefString, @"(?is)\b(ibid|op.{1,4}cit)\b"))
+                foreach (Match m in DuplicateUnnamedRef.Matches(articleText))
                 {
-                    articleText = articleTextBefore;
+                    string articleTextBefore = articleText;
+                    string multiref = String.Format(@"multiref{0}", j);
+                    string multirefRefString = m.Groups[2].Value;
+
+                    // ref contains ibid/op cit, don't combine it, could refer to any ref on page
+                    if (WikiRegexes.IbidOpCitation.IsMatch(multirefRefString))
+                    {
+                        articleText = articleTextBefore;
+                        j++;
+                        continue;
+                    }
+
+                    Regex multirefReplace = new Regex(@"(?s)(<\s*ref\s*>\s*(" + Regex.Escape(multirefRefString) + @")\s*<\s*/\s*ref>)(.*?)(<\s*ref\s*>\s*\2\s*<\s*/\s*ref>)");
+                    articleText = multirefReplace.Replace(articleText, String.Format(@"<ref name=""multiref{0}"">$2</ref>$3<ref name=""multiref{0}""/>", j));
+
+                    // get the reference name to use
+                    string friendlyName = DeriveReferenceName(articleText, multirefRefString);
+
+                    // check reference name not already in use for some other reference
+                    if (friendlyName.Length > 3 && !Regex.IsMatch(articleText, RefName + Regex.Escape(friendlyName) + @"""\s*/?\s*>"))
+                        articleText = Regex.Replace(articleText, @"(?si)(<ref name="")" + multiref + @"(""/?>)", @"${1}" + friendlyName + @"${2}");
+                    else
+                    // either derived reference name too short, or already in use
+                    {
+                        articleText = articleTextBefore;
+                        j++;
+                        continue;
+                    }
+
                     j++;
-                    continue;
                 }
-
-                Regex multirefReplace = new Regex(@"(?s)(<\s*ref\s*>\s*(" + Regex.Escape(multirefRefString) + @")\s*<\s*/\s*ref>)(.*?)(<\s*ref\s*>\s*\2\s*<\s*/\s*ref>)", RegexOptions.Compiled);
-                articleText = multirefReplace.Replace(articleText, String.Format(@"<ref name=""multiref{0}"">$2</ref>$3<ref name=""multiref{0}""/>", j));
-
-                // get the reference name to use
-                string friendlyName = DeriveReferenceName(articleText, multirefRefString);
-
-                // check reference name not already in use for some other reference
-                if (friendlyName.Length > 3 && !Regex.IsMatch(articleText, RefName + Regex.Escape(friendlyName) + @"""\s*/?\s*>"))
-                    articleText = Regex.Replace(articleText, @"(?si)(<ref name="")" + multiref + @"(""/?>)", @"${1}" + friendlyName + @"${2}");
-                else
-                // either derived reference name too short, or already in use
-                {
-                    articleText = articleTextBefore;
-                    j++;
-                    continue;
-                }
-
-                j++;
-            }
+            } while (prev != articleText);
 
             return articleText;
         }
@@ -2004,19 +2012,24 @@ namespace WikiFunctions.Parse
             articleText = DateLinkWhitespace2.Replace(articleText, "$1 $2");
 
             // correct [[page# section]] to [[page#section]]
-            Regex sectionLinkWhitespace = new Regex(@"(\[\[" + Regex.Escape(articleTitle) + @"\#)\s+([^\[\]]+\]\])");
+            if (articleTitle.Length > 0)
+            {
+                Regex sectionLinkWhitespace = new Regex(@"(\[\[" + Regex.Escape(articleTitle) + @"\#)\s+([^\[\]]+\]\])");
 
-            return sectionLinkWhitespace.Replace(articleText, "$1$2");
+                return sectionLinkWhitespace.Replace(articleText, "$1$2");
+            }
+
+            return articleText;
         }
 
         /// <summary>
-        /// 
+        /// Fix leading, trailing and middle spaces in Wikilinks
         /// </summary>
         /// <param name="articleText"></param>
-        /// <returns></returns>
+        /// <returns>The modified article text.</returns>
         public static string FixLinkWhitespace(string articleText)
         {
-            return FixLinkWhitespace(articleText, "test");
+            return FixLinkWhitespace(articleText, "");
         }
 
         // Partially covered by FixMainArticleTests.SelfLinkRemoval()
@@ -2540,6 +2553,17 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         #endregion
 
         #region other functions
+
+        /// <summary>
+        /// Performs transformations related to Unicode characters that may cause problems for different clients
+        /// </summary>
+        public string FixUnicode(string articleText)
+        {
+            // http://en.wikipedia.org/wiki/Wikipedia:AWB/B#Line_break_insertion
+            // most brosers handle Unicode line separator as whitespace, so should we
+            // looks like paragraph separator is properly converted by RichEdit itself
+            return articleText.Replace('\x2028', ' ');
+        }
 
         /// <summary>
         /// Converts HTML entities to unicode, with some deliberate exceptions
@@ -3341,7 +3365,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     || WikiRegexes.BirthsCategory.IsMatch(articleText)
                     || WikiRegexes.BLPSources.IsMatch(articleText)
                     || RefImprove.IsMatch(articleText) 
-                    || (!String.IsNullOrEmpty(articleTitle) && Tools.GetArticleText(@"Talk:" + articleTitle, true).Contains(@"{{WPBiography"));           
+                    || (!string.IsNullOrEmpty(articleTitle) &&
+                        Tools.GetArticleText(Variables.Namespaces[1] + articleTitle, true).Contains(@"{{WPBiography"));           
         }
 
         /// <summary>
