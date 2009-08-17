@@ -239,15 +239,10 @@ namespace WikiFunctions
 
         private static string URLEnd = "/w/";
 
-        static string strURL = "http://en.wikipedia.org";
         /// <summary>
         /// Gets a URL of the site, e.g. "http://en.wikipedia.org".
         /// </summary>
-        public static string URL
-        {
-            get { return strURL; }
-            private set { strURL = value; }
-        }
+        public static string URL = "http://en.wikipedia.org";
 
         /// <summary>
         /// Returns the script path of the site, e.g. /w

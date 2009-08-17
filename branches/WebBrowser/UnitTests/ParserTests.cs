@@ -2604,6 +2604,13 @@ was"));
             // no changes should be made to this one
             Assert.AreEqual(@"[[Image:Diamminesilver(I)-3D-balls.png|thumb|right|200px|Ball-and-stick model of the diamminesilver(I) cation, [Ag(NH<sub>3</sub>)<sub>2</sub>]<sup>+</sup>]]",
                 Parsers.FixImages(@"[[Image:Diamminesilver(I)-3D-balls.png|thumb|right|200px|Ball-and-stick model of the diamminesilver(I) cation, [Ag(NH<sub>3</sub>)<sub>2</sub>]<sup>+</sup>]]"));
+
+            const string a = @"[[Image:End CEST Transparent.png|thumb|left|120px|
+alt=Diagram of a clock showing a transition from 3:00 to 2:00.|
+When DST ends in central Europe, clocks retreat from 03:00 CEST to 02:00 CET. Other regions switch at different times.]]";
+
+            Assert.AreEqual(a, Parsers.FixSyntax(a));
+
         }
 
         [Test]

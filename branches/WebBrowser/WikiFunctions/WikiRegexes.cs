@@ -636,5 +636,75 @@ namespace WikiFunctions
         /// Matches the external links level 2 heading
         /// </summary>
         public static readonly Regex ExternalLinksRegex = new Regex(@"== *External +links? *==", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly Regex ArticleIssuesInTitleCase = new Regex(@"({{[Aa]rticle ?issues\|\s*(?:[^{}]+?\|\s*)?)([A-Z])([a-z]+(?: [a-z]+)?\s*=)", RegexOptions.Compiled);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly Regex ArticleIssuesRegexExpert = new Regex(@"{{\s*[Aa]rticle ?issues[^{}]+?expert", RegexOptions.Compiled);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly Regex ArticleIssuesRegexWithDate = new Regex(@"({{\s*[Aa]rticle ?issues\s*(?:\|[^{}]*?)?)\|\s*date\s*=[^{}\|]{0,20}?(\||}})", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Matches a number between 1000 and 2999
+        /// </summary>
+        public static readonly Regex GregorianYear = new Regex(@"\b[12]\d{3}\b", RegexOptions.Compiled);
+
+        #region Parsers.FixFootnotes **NOT READY FOR PRODUCTION**
+        // One space/linefeed
+        public static readonly Regex WhitespaceRef = new Regex("[\\n\\r\\f\\t ]+?<ref([ >])", RegexOptions.Compiled);
+        // remove trailing spaces from named refs
+        public static readonly Regex RefTagWithParams = new Regex("<ref ([^>]*[^>])[ ]*>", RegexOptions.Compiled);
+        // removed superscripted punctuation between refs
+        public static readonly Regex SuperscriptedPunctuationBetweenRefs = new Regex("(</ref>|<ref[^>]*?/>)<sup>[ ]*[,;-]?[ ]*</sup><ref", RegexOptions.Compiled);
+        public static readonly Regex PunctuationBetweenRefs = new Regex("(</ref>|<ref[^>]*?/>)[ ]*[,;-]?[ ]*<ref", RegexOptions.Compiled);
+
+        public const string FactTag = "{{[ ]*(fact|fact[ ]*[\\|][^}]*|facts|citequote|citation needed|cn|verification needed|verify source|verify credibility|who|failed verification|nonspecific|dubious|or|lopsided|GR[ ]*[\\|][ ]*[^ ]+|[c]?r[e]?f[ ]*[\\|][^}]*|ref[ _]label[ ]*[\\|][^}]*|ref[ _]num[ ]*[\\|][^}]*)[ ]*}}";
+        public static readonly Regex WhitespaceFactTag = new Regex("[\\n\\r\\f\\t ]+?" + FactTag, RegexOptions.Compiled);
+
+        public const string lacksPunctuation = "([^\\.,;:!\\?\"'’])";
+        public const string questionOrExclam = "([!\\?])";
+        public const string minorPunctuation = "([\\.,;:])";
+        public const string anyPunctuation = "([\\.,;:!\\?])";
+        public const string majorPunctuation = "([,;:!\\?])";
+        public const string period = "([\\.])";
+        public const string quote = "([\"'’]*)";
+        public const string space = "[ ]*";
+
+        public const string refTag = "(<ref>([^<]|<[^/]|</[^r]|</r[^e]|</re[^f]|</ref[^>])*?</ref>" + "|<ref[^>]*?[^/]>([^<]|<[^/]|</[^r]|</r[^e]|</re[^f]" + "|</ref[^>])*?</ref>|<ref[^>]*?/>)";
+
+        public static readonly Regex match0A = new Regex(lacksPunctuation + quote + FactTag + space + anyPunctuation, RegexOptions.Compiled);
+        public static readonly Regex match0B = new Regex(questionOrExclam + quote + FactTag + space + majorPunctuation, RegexOptions.Compiled);
+        //public static readonly Regex match0C = new Regex(minorPunctuation + quote + FactTag + space + anyPunctuation, RegexOptions.Compiled);
+        public static readonly Regex match0D = new Regex(questionOrExclam + quote + FactTag + space + period, RegexOptions.Compiled);
+
+        public static readonly Regex match1A = new Regex(lacksPunctuation + quote + refTag + space + anyPunctuation, RegexOptions.Compiled);
+        public static readonly Regex match1B = new Regex(questionOrExclam + quote + refTag + space + majorPunctuation, RegexOptions.Compiled);
+        //public static readonly Regex match1C = new Regex(minorPunctuation + quote + refTag + space + anyPunctuation, RegexOptions.Compiled);
+        public static readonly Regex match1D = new Regex(questionOrExclam + quote + refTag + space + period, RegexOptions.Compiled);
+
+        public static readonly Regex RefAfterEquals = new Regex("(==*)<ref", RegexOptions.Compiled);
+        #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly Regex MultirefRefname = new Regex(@"<ref name=""multiref\d+""/?>", RegexOptions.Compiled);
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly Regex IbidOpCitation = new Regex(@"(?is)\b(ibid|op.{1,4}cit)\b", RegexOptions.Compiled);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly Regex InUse = new Regex(@"{{\s*[Ii]nuse\s*[\}\|]", RegexOptions.Compiled);
     }
 }
