@@ -393,7 +393,12 @@ namespace WikiFunctions
         /// Matches abbreviated SI units without a non-breaking space, notably does not correct millimetres without a space due to firearms articles using this convention
         /// </summary>
         /// http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Non_breaking_spaces
-        public static readonly Regex SiUnitsWithoutNonBreakingSpaces = new Regex(@"\b(\d?\.?\d+)\s*((?:[cmknuµ])(?:[mgWN])|m?mol|cd|mi|lb[fs]?|b?hp|mph)\b(?<!(\d?\.?\d+)mm)", RegexOptions.Compiled);
+        public static readonly Regex UnitsWithoutNonBreakingSpaces = new Regex(@"\b(\d?\.?\d+)\s*((?:[cmknuµ])(?:[mgWN])|m?mol|cd|mi|lb[fs]?|b?hp|mph|inch(?:es)?|ft)\b(?<!(\d?\.?\d+)mm)", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Matches abbreviated in, feet or foot when in brackets e.g. (3 in); avoids false positives such as "3 in 4..."
+        /// </summary>
+        public static readonly Regex ImperialUnitsInBracketsWithoutNonBreakingSpaces = new Regex(@"(\(\d+(?:\s*(?:-|–|&mdash;)\s*\d+)?)\s*((?:in|feet|foot)\))", RegexOptions.Compiled);
 
         #region en only
         /// <summary>
