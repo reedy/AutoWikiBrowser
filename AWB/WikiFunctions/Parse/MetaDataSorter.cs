@@ -671,6 +671,7 @@ en, sq, ru
                 articleText = articleText.Replace(x, "");
             }
 
+            linkFGAList.Reverse();
             return linkFGAList;
         }
 
