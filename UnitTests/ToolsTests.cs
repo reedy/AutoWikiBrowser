@@ -245,7 +245,6 @@ bar"));
         [Test]
         public void ServerName()
         {
-            Assert.AreEqual("", Tools.ServerName(""));
             Assert.AreEqual("foo", Tools.ServerName("http://foo"));
             Assert.AreEqual("foo", Tools.ServerName("http://foo/"));
             Assert.AreEqual("foo.bar.com", Tools.ServerName("http://foo.bar.com/path/script?a=foo/bar"));
@@ -454,13 +453,13 @@ bar"));
 
         const string _100 = "123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 1234567890";
 
-        [Test, Ignore] // TODO: fix failing tests
+        [Test, Ignore("Known Failing")] // TODO: fix failing tests
         public void TrimEditSummary()
         {
             Assert.AreEqual("test using [[WP:AWB]]", Tools.TrimEditSummary("test", " using [[WP:AWB]]"));
             Assert.AreEqual("test", Tools.TrimEditSummary("test", ""));
 
-            Assert.That(Parsers.IsCorrectEditSummary(
+            Assert.IsFalse(Parsers.IsCorrectEditSummary(
                 Tools.TrimEditSummary("[[" + _100 + "|" + _100 + "]] [[" + _100 + "]]", "[[WP:AWB]]")));
         }
 
@@ -644,7 +643,7 @@ Jones", "*"));
 * Jones", Tools.HTMLListToWiki(@"(998) Fred
 (999) Jones", "*"));
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Text_deleted_by_.22convert_list_to.22_.22.2A_list.22
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Text_deleted_by_.22convert_list_to.22_.22.2A_list.22
             Assert.AreEqual(@"*1980 Fred
 *2004 Jones", Tools.HTMLListToWiki(@"1980 Fred
 2004 Jones", "*"));
@@ -719,7 +718,7 @@ Jones", "*"));
                 Assert.AreEqual(kvp.Value, Tools.RemoveDiacritics(kvp.Key));
             }
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Leaving_foreign_characters_in_DEFAULTSORT
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Leaving_foreign_characters_in_DEFAULTSORT
             Assert.AreEqual(@"aaaaa eee ii oooo uuu y", Tools.RemoveDiacritics(@"ắạảằẩ ếễệ ịỉ ỏøờồ ụủữ ỳ"));
         }
         
@@ -748,7 +747,7 @@ Jones", "*"));
             Assert.AreEqual(@"Oneworditem", Tools.FixupDefaultSort(@"OneWordItem"));
             Assert.AreEqual(@"2007 Fifa Women World Cup Squads", Tools.FixupDefaultSort(@"2007 Fifa women world cup squads"));
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#DEFAULTSORT_capitalization_after_apostrophes
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#DEFAULTSORT_capitalization_after_apostrophes
             Assert.AreEqual("Kwakwaka'wakw Mythology", Tools.FixupDefaultSort("Kwakwaka'wakw mythology"));
             Assert.AreEqual(@"Peewee's Playhouse", Tools.FixupDefaultSort(@"Peewee's Playhouse"));
         }
@@ -773,7 +772,6 @@ Jones", "*"));
                 for (int j = 0; j < rnd.Next(45); j++) name += allowedChars[rnd.Next(allowedChars.Length)];
                 name = Regex.Replace(name, @"\s{2,}", " ").Trim(new[] { ' ', ',' });
 
-                //System.Diagnostics.Trace.WriteLine(name);
                 name = Tools.MakeHumanCatKey(name);
 
                 Assert.IsFalse(name.Contains("  "), "Sorting key shouldn't contain consecutive spaces - it breaks the sorting ({0})", name);
@@ -871,6 +869,29 @@ Jones", "*"));
             Assert.AreEqual(5, Tools.RegexMatchCount("\\w", "abcde"));
             Assert.AreEqual(4, Tools.RegexMatchCount("a", "aAAa", RegexOptions.IgnoreCase));
             Assert.AreEqual(2, Tools.RegexMatchCount("\\w+", "test case"));
+        }
+
+        [Test]
+        public void InterwikiCount()
+        {
+            SiteMatrix.Languages = new List<string> { "de", "es", "fr", "it", "sv" };
+
+            Assert.AreEqual(0, Tools.InterwikiCount(@"now [[foo]] was great"));
+            Assert.AreEqual(0, Tools.LinkCount(@"now [[lol:foo]] was great"));
+
+            Assert.AreEqual(1, Tools.InterwikiCount(@"now [[de:foo]] was great"));
+            Assert.AreEqual(1, Tools.InterwikiCount(@"now [[de:foo]] was great [[aa:now]] here"));
+
+            Assert.AreEqual(2, Tools.InterwikiCount(@"now [[de:foo]] was great [[aa:now]] here [[fr:bye]]"));
+        }
+
+        [Test]
+        public void LinkCountTests()
+        {
+            Assert.AreEqual(0, Tools.LinkCount(@"foo"));
+            Assert.AreEqual(0, Tools.LinkCount(@"[foo]"));
+            Assert.AreEqual(1, Tools.LinkCount(@"[[foo]]"));
+            Assert.AreEqual(2, Tools.LinkCount(@"[[foo]]s and [[barbie|bar]]"));
         }
     }
 }

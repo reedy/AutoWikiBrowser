@@ -2692,11 +2692,16 @@ window.scrollTo(0, diffTopY);
             IntStartInSeconds = IntRestartDelay;
         }
 
+        private void UpdateBotTimer()
+        {
+            lblBotTimer.Text = chkAutoMode.Checked ? "" : "Bot timer: " + IntTimer;
+        }
+
         private void StopDelayedAutoSaveTimer()
         {
             Ticker -= DelayedAutoSave;
             IntTimer = 0;
-            lblBotTimer.Text = "Bot timer: " + IntTimer;
+			UpdateBotTimer();
         }
 
         private void StartDelayedAutoSaveTimer()
@@ -2718,7 +2723,7 @@ window.scrollTo(0, diffTopY);
                 SaveArticle();
             }
 
-            lblBotTimer.Text = "Bot timer: " + IntTimer;
+            UpdateBotTimer();
         }
 
         private void ShowTimer()

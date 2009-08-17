@@ -534,7 +534,6 @@ namespace AutoWikiBrowser
             // chkShowTimer
             // 
             this.chkShowTimer.AutoSize = true;
-            this.chkShowTimer.Enabled = false;
             this.chkShowTimer.Location = new System.Drawing.Point(6, 82);
             this.chkShowTimer.Name = "chkShowTimer";
             this.chkShowTimer.Size = new System.Drawing.Size(164, 17);
