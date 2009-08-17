@@ -98,7 +98,7 @@ namespace AutoWikiBrowser
         {
             get
             {
-                LoggingPrefs prefs = new LoggingPrefs
+                return new LoggingPrefs
                     {
                         LogFolder = FolderTextBox.Text,
                         LogVerbose = VerboseCheckBox.Checked,
@@ -114,7 +114,6 @@ namespace AutoWikiBrowser
                         UploadYN = UploadCheckBox.Checked,
                         DebugUploading = DebugUploadingCheckBox.Checked
                     };
-                return prefs;
             }
             set
             {
