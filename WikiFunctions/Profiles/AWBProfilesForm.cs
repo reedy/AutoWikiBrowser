@@ -23,7 +23,6 @@ using WikiFunctions.API;
 
 namespace WikiFunctions.Profiles
 {
-    //TODO: needs to save last account and other usefulties
     public partial class AWBProfilesForm : AWBLogUploadProfilesForm
     {
         private readonly Session TheSession;
@@ -66,7 +65,7 @@ namespace WikiFunctions.Profiles
 
             if (TheSession.User.IsLoggedIn) Close();
         }
-        
+
         private void btnLogin_Click(object sender, EventArgs e)
         {
             Login();
@@ -106,6 +105,9 @@ namespace WikiFunctions.Profiles
                     if (password.ShowDialog(this) == DialogResult.OK)
                         PerformLogin(password.GetPassword);
                 }
+
+                AWBProfiles.LastUsedAccount = lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text;
+
                 Cursor = Cursors.Default;
             }
             catch (Exception ex)
@@ -173,6 +175,7 @@ namespace WikiFunctions.Profiles
                 AWBProfiles.AddEditProfile(profile);
             }
 
+            AWBProfiles.LastUsedAccount = user;
             PerformLogin(user, password);
         }
 
@@ -180,6 +183,18 @@ namespace WikiFunctions.Profiles
         {
             chkSavePassword.Enabled = chkSaveProfile.Checked;
         }
+
+        private void AWBProfilesForm_Load(object sender, EventArgs e)
+        {
+            string lua = AWBProfiles.LastUsedAccount;
+
+            if (!string.IsNullOrEmpty(lua))
+            {
+                int id;
+                int.TryParse(lua, out id);
+
+                txtUsername.Text = (id > 0) ? AWBProfiles.GetProfile(id).Username : lua;
+            }
+        }
     }
 }
-

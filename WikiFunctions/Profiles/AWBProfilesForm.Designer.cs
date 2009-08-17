@@ -43,18 +43,6 @@
             // 
             this.lvAccounts.Size = new System.Drawing.Size(496, 117);
             // 
-            // colAccountName
-            // 
-            this.colAccountName.Width = 63;
-            // 
-            // colPasswordSaved
-            // 
-            this.colPasswordSaved.Width = 99;
-            // 
-            // colProfileSettings
-            // 
-            this.colProfileSettings.Width = 88;
-            // 
             // colNotes
             // 
             this.colNotes.Width = 118;
@@ -186,6 +174,7 @@
             this.Controls.Add(this.groupBox1);
             this.MinimumSize = new System.Drawing.Size(450, 272);
             this.Name = "AWBProfilesForm";
+            this.Load += new System.EventHandler(this.AWBProfilesForm_Load);
             this.Controls.SetChildIndex(this.btnDelete, 0);
             this.Controls.SetChildIndex(this.BtnEdit, 0);
             this.Controls.SetChildIndex(this.btnAdd, 0);
