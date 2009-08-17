@@ -244,6 +244,8 @@ namespace WikiFunctions
         /// </summary>
         public static string URL = "http://en.wikipedia.org";
 
+        public static string Host { get { return new Uri(URL).Host; } }
+
         /// <summary>
         /// Returns the script path of the site, e.g. /w
         /// </summary>
