@@ -23,6 +23,7 @@ using System.Reflection;
 namespace WikiFunctions.API
 {
     public delegate void AsyncEventHandler(AsyncApiEdit sender);
+    public delegate void AsyncOpenEditHandler(AsyncApiEdit sender, PageInfo pageInfo);
     public delegate void AsyncSaveEventHandler(AsyncApiEdit sender, SaveInfo saveInfo);
     public delegate void AsyncStringEventHandler(AsyncApiEdit sender, string result);
     public delegate void AsyncExceptionEventHandler(AsyncApiEdit sender, Exception ex);
@@ -147,6 +148,7 @@ namespace WikiFunctions.API
 
         #region Events
 
+        public event AsyncOpenEditHandler OpenComplete;
         public event AsyncSaveEventHandler SaveComplete;
         public event AsyncStringEventHandler PreviewComplete;
 
@@ -167,6 +169,9 @@ namespace WikiFunctions.API
         {
             switch (operation)
             {
+                case "Open":
+                    if (OpenComplete != null) OpenComplete(this, Page);
+                    break;
                 case "Save":
                     if (SaveComplete != null) SaveComplete(this, (SaveInfo)result);
                     break;
