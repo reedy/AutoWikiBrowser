@@ -453,6 +453,7 @@ namespace WikiFunctions.AWBSettings
         public bool PreParseMode = false;
         public bool NoAutoChanges = false;
         public int OnLoadAction = 0;
+        public bool DiffInBotMode = false;
         public bool Minor = false;
         public bool Watch = false;
         public bool DoNotWatch = false;
