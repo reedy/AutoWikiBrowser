@@ -96,7 +96,7 @@ namespace AutoWikiBrowser.Logging
                 sender.PageName.Replace(LoggingSettings.Props.ConUploadCategoryIsJobName, 
                 LoggingSettings.Settings.Category), LoggingSettings.Settings.LinksToLog(), 
                 LoggingSettings.Settings.UploadOpenInBrowser, LoggingSettings.Settings.UploadAddToWatchlist, 
-                LoggingSettings.Props.UserName, Variables.AWBVersionString(Program.AWB.AWBVersionString) +
+                Variables.User.Name, Variables.AWBVersionString(Program.AWB.AWBVersionString) +
                 Plugins.Plugin.GetPluginsWikiTextBlock(), Variables.AWBLoggingEditSummary +
                 Variables.UploadingLogDefaultEditSummary, Variables.AWBLoggingEditSummary +
                 Variables.UploadingLogEntryDefaultEditSummary, Program.AWB, LoggingSettings.LoginDetails);
