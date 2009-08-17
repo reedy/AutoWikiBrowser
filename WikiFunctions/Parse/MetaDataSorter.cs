@@ -656,10 +656,10 @@ en, sq, ru
         }
 
         /// <summary>
-        /// 
+        /// Gets a list of Link FA/GA's from the article
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
-        /// <returns></returns>
+        /// <returns>The List of {{Link [FG]A}}'s from the article</returns>
         private static List<string> RemoveLinkFGAs(ref string articleText)
         {
             List<string> linkFGAList = new List<string>();
