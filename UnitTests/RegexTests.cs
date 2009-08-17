@@ -92,9 +92,17 @@ namespace UnitTests
 
             TestMatch(WikiRegexes.SimpleWikiLink, "[[foo]]]", "[[foo]]", "foo");
 
-
             TestMatch(WikiRegexes.SimpleWikiLink, "[[foo [[bar]] here]]", "[[foo [[bar]] here]]", "foo [[bar]] here");
             TestMatch(WikiRegexes.SimpleWikiLink, "[[[foo]]", "[[foo]]", "foo");
+
+            TestMatch(WikiRegexes.SimpleWikiLink, "[[foo|bar]]");
+
+            TestMatch(WikiRegexes.SimpleWikiLink, "[[Image:Foo.jpg]]");
+            TestMatch(WikiRegexes.SimpleWikiLink, "[[Image:Bar.jpg|Bar]]");
+            TestMatch(WikiRegexes.SimpleWikiLink, "[[Image:Bar.jpg|Bar|20px]]");
+
+            TestMatch(WikiRegexes.SimpleWikiLink, "[[Category:Foo]]");
+            TestMatch(WikiRegexes.SimpleWikiLink, "[[Category:Foo|Bar]]");
         }
 
         [Test]

@@ -663,14 +663,20 @@ en, sq, ru
         private static List<string> RemoveLinkFGAs(ref string articleText)
         {
             List<string> linkFGAList = new List<string>();
-            foreach (Match m in WikiRegexes.LinkFGAs.Matches(articleText))
+
+            MatchCollection matches = WikiRegexes.LinkFGAs.Matches(articleText);
+
+            if (matches.Count == 0)
+                return linkFGAList;
+
+            foreach (Match m in matches)
             {
-                string x = m.Value;
-                linkFGAList.Add(x);
-                //remove old LinkFA
-                articleText = articleText.Replace(x, "");
+                linkFGAList.Add(m.Value);
             }
 
+            articleText = Tools.RemoveMatches(articleText, matches);
+
+            linkFGAList.Reverse();
             return linkFGAList;
         }
 
@@ -683,13 +689,13 @@ en, sq, ru
         public string Interwikis(ref string articleText)
         {
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Interwiki_links_moved_out_of_comment
-            HideText Hider = new HideText(false, true, false);
+            HideText hider = new HideText(false, true, false);
 
-            articleText = Hider.Hide(articleText);
+            articleText = hider.Hide(articleText);
 
             string interWikis = ListToString(RemoveLinkFGAs(ref articleText)) + ListToString(RemoveInterWikis(ref articleText));
 
-            articleText = Hider.AddBack(articleText);
+            articleText = hider.AddBack(articleText);
 
             return interWikis;
         }
@@ -748,7 +754,7 @@ en, sq, ru
         /// </summary>
         /// <param name="items"></param>
         /// <returns></returns>
-        private static string ListToString(List<string> items)
+        private static string ListToString(ICollection<string> items)
         {//remove duplicates, and return List as string.
 
             if (items.Count == 0)
@@ -779,7 +785,7 @@ en, sq, ru
         /// <param name="list"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        private static List<string> CatKeyer(List<string> list, string name)
+        private static List<string> CatKeyer(IEnumerable<string> list, string name)
         {
             name = Tools.MakeHumanCatKey(name); // make key
 

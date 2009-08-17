@@ -25,6 +25,7 @@ using System.Windows.Forms;
 using WikiFunctions.Logging.Uploader;
 using WikiFunctions;
 using WikiFunctions.AWBSettings;
+using WikiFunctions.Plugin;
 
 namespace AutoWikiBrowser
 {
@@ -49,15 +50,23 @@ namespace AutoWikiBrowser
         {
             set { Settings.LogFolder = FolderTextBox.Text = value; }
         }
+
         internal bool Initialised
         {
             get { return mInitialised; }
             set { mInitialised = value; }
         }
+
         internal bool IgnoreEvents
         {
             set { StartingUp = value; }
         }
+
+        internal IAutoWikiBrowserForm AWB
+        {
+            get { return (IAutoWikiBrowserForm)Parent; }
+        }
+
         internal WikiFunctions.Controls.Colour LedColour
         {
             get { return Led1.Colour; }
@@ -89,21 +98,22 @@ namespace AutoWikiBrowser
         {
             get
             {
-                LoggingPrefs prefs = new LoggingPrefs();
-                prefs.LogFolder = FolderTextBox.Text;
-                prefs.LogVerbose = VerboseCheckBox.Checked;
-                prefs.LogWiki = WikiLogCheckBox.Checked;
-                prefs.LogXHTML = XHTMLLogCheckBox.Checked;
-                prefs.LogCategoryName = LoggingCategoryTextBox.Text;
-                prefs.UploadJobName = UploadJobNameTextBox.Text;
-                prefs.UploadLocation = UploadLocationTextBox.Text;
-                prefs.UploadMaxLines = int.Parse(UploadMaxLinesControl.Value.ToString());
-                prefs.UploadOpenInBrowser = UploadOpenInBrowserCheckBox.Checked;
-                prefs.UploadToWikiProjects = UploadWikiProjectCheckBox.Checked;
-                prefs.UploadAddToWatchlist = UploadWatchlistCheckBox.Checked;
-                prefs.UploadYN = UploadCheckBox.Checked;
-                prefs.DebugUploading = DebugUploadingCheckBox.Checked;
-                return prefs;
+                return new LoggingPrefs
+                    {
+                        LogFolder = FolderTextBox.Text,
+                        LogVerbose = VerboseCheckBox.Checked,
+                        LogWiki = WikiLogCheckBox.Checked,
+                        LogXHTML = XHTMLLogCheckBox.Checked,
+                        LogCategoryName = LoggingCategoryTextBox.Text,
+                        UploadJobName = UploadJobNameTextBox.Text,
+                        UploadLocation = UploadLocationTextBox.Text,
+                        UploadMaxLines = int.Parse(UploadMaxLinesControl.Value.ToString()),
+                        UploadOpenInBrowser = UploadOpenInBrowserCheckBox.Checked,
+                        UploadToWikiProjects = UploadWikiProjectCheckBox.Checked,
+                        UploadAddToWatchlist = UploadWatchlistCheckBox.Checked,
+                        UploadYN = UploadCheckBox.Checked,
+                        DebugUploading = DebugUploadingCheckBox.Checked
+                    };
             }
             set
             {
@@ -375,15 +385,18 @@ namespace AutoWikiBrowser
             {
                 get { return mUploadLocation.Replace("$USER", "User:" + UserName); }
             }
-            internal static string UserName
+
+            internal string UserName
             {
                 get { return Variables.User.Name; }
             }
+
             internal string Category
             {
                 get { return mCategory; }
                 set { mCategory = value; }
             }
+
             internal string WikifiedCategory
             {
                 get
