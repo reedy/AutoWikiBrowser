@@ -243,24 +243,24 @@ namespace WikiFunctions.Profiles
         /// <summary>
         /// 
         /// </summary>
-        internal static int LastUsedAccount
+        internal static string LastUsedAccount
         {
             get
             {
                 try
                 {
-                    return int.Parse(RegistryUtils.GetValue(ProfileRegistryString + "LastUsedAccount", -1));
+                    return RegistryUtils.GetValue(ProfileRegistryString + "LastUsedAccount", "");
                 }
                 catch
                 {
-                    return -1;
+                    return "";
                 }
             }
             set
             {
                 try
                 {
-                    RegistryUtils.SetValue(ProfileRegistryString, "LastUsedAccount", value.ToString());
+                    RegistryUtils.SetValue(ProfileRegistryString, "LastUsedAccount", value);
                 }
                 catch { }
             }
