@@ -75,6 +75,7 @@ namespace WikiFunctions
                                         NewMessageThrows = false
                                     };
 
+            edit.OpenComplete += OnOpenComplete;
             edit.SaveComplete += OnSaveComplete;
             edit.PreviewComplete += OnPreviewComplete;
             edit.ExceptionCaught += OnExceptionCaught;
@@ -87,6 +88,7 @@ namespace WikiFunctions
 
         #region Events
 
+        public event AsyncOpenEditHandler OpenComplete;
         public event AsyncSaveEventHandler SaveComplete;
         public event AsyncStringEventHandler PreviewComplete;
 
@@ -96,6 +98,11 @@ namespace WikiFunctions
 
         public event AsyncEventHandler StateChanged;
 
+
+        void OnOpenComplete(AsyncApiEdit sender, PageInfo pageInfo)
+        {
+            if (OpenComplete != null) OpenComplete(sender, pageInfo);
+        }
 
         void OnSaveComplete(AsyncApiEdit sender, SaveInfo saveInfo)
         {
