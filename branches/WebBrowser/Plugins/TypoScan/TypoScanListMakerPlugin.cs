@@ -33,7 +33,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
     /// </summary>
     public class TypoScanListMakerPlugin : IListMakerPlugin
     {
-        protected int Iterations = 1;
+        protected int Count = 100;
 
         public virtual string Name
         {
@@ -44,31 +44,31 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         {
             List<Article> articles = new List<Article>();
 
-            // TODO: must support other wikis
-            if (Variables.Project != ProjectEnum.wikipedia || Variables.LangCode != LangCodeEnum.en)
+            using (
+                XmlTextReader reader =
+                    new XmlTextReader(new StringReader(Tools.GetHTML(Common.GetUrlFor("displayarticles") + "&count=" + Count))))
             {
-                MessageBox.Show("This plugin currently supports only English Wikipedia",
-                    "TypoScan", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                return articles;
-            }
-
-            for (int i = 0; i < Iterations; i++)
-            {
-                using (
-                    XmlTextReader reader =
-                        new XmlTextReader(new StringReader(Tools.GetHTML(Common.GetUrlFor("displayarticles")))))
+                while (reader.Read())
                 {
-                    while (reader.Read())
+                    if (reader.Name.Equals("site"))
                     {
-                        if (reader.Name.Equals("article"))
+                        reader.MoveToAttribute("address");
+                        string site = reader.Value;
+
+                        if (site != Common.GetSite())
+                        //Probably shouldnt get this as the wanted site was sent to the server
                         {
-                            reader.MoveToAttribute("id");
-                            int id = int.Parse(reader.Value);
-                            string title = reader.ReadString();
-                            articles.Add(new Article(title));
-                            if (!TypoScanAWBPlugin.PageList.ContainsKey(title))
-                                TypoScanAWBPlugin.PageList.Add(title, id);
+                            MessageBox.Show("Wrong Site");
                         }
+                    }
+                    else if (reader.Name.Equals("article"))
+                    {
+                        reader.MoveToAttribute("id");
+                        int id = int.Parse(reader.Value);
+                        string title = reader.ReadString();
+                        articles.Add(new Article(title));
+                        if (!TypoScanAWBPlugin.PageList.ContainsKey(title))
+                            TypoScanAWBPlugin.PageList.Add(title, id);
                     }
                 }
             }
@@ -99,7 +99,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
     {
         public TypoScanListMakerPlugin500()
         {
-            Iterations = 5;
+            Count = 500;
         }
 
         public override string DisplayText

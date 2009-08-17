@@ -28,13 +28,13 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         /// <summary>
         /// The URL, script and action=
         /// </summary>
-        private const string Url = "http://toolserver.org/~maxsem/typoscan/index.php?action=";
+        private const string Url = "http://toolserver.org/~awb/typoscan/index.php?action=";
+
+        private static readonly Regex UrlRegex = new Regex(@"^https?://([-a-z0-9\.]+).*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         internal static string GetUrlFor(string action)
         {
-            string wiki = Regex.Replace(Variables.URLLong, @"^https?://([-a-z0-9\.]+).*$", "$1", RegexOptions.IgnoreCase);
-
-            return Url + action + "&wiki=" + wiki;
+            return Url + action + "&wiki=" + GetSite();
         }
 
         public static string CheckOperation(string xml)
@@ -48,11 +48,13 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                     return null;
 
                 string s = r.GetAttribute("error");
-                if (!string.IsNullOrEmpty(s))
-                    return s;
-
-                return r.ReadString();
+                return !string.IsNullOrEmpty(s) ? s : r.ReadString();
             }
+        }
+
+        internal static string GetSite()
+        {
+            return UrlRegex.Replace(Variables.URLLong, "$1");
         }
     }
 }

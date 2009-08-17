@@ -1356,6 +1356,11 @@ namespace AutoWikiBrowser
 
             try
             {
+                // Must be performed regardless of general fixes, otherwise there may be breakage
+                theArticle.AWBChangeArticleText("Fixes for Unicode comaptibility",
+                    Parser.FixUnicode(theArticle.ArticleText),
+                    true);
+
                 if (NoParse.Contains(theArticle.Name))
                     process = false;
 

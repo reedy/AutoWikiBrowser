@@ -798,11 +798,11 @@ namespace WikiFunctions.DBScanner
             // 
             this.lblLimitResutls.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblLimitResutls.AutoSize = true;
-            this.lblLimitResutls.Location = new System.Drawing.Point(349, 9);
+            this.lblLimitResutls.Location = new System.Drawing.Point(339, 75);
             this.lblLimitResutls.Name = "lblLimitResutls";
-            this.lblLimitResutls.Size = new System.Drawing.Size(73, 13);
+            this.lblLimitResutls.Size = new System.Drawing.Size(76, 13);
             this.lblLimitResutls.TabIndex = 2;
-            this.lblLimitResutls.Text = "Limit results to";
+            this.lblLimitResutls.Text = "Limit results to:";
             // 
             // nudLimitResults
             // 
@@ -812,7 +812,7 @@ namespace WikiFunctions.DBScanner
             0,
             0,
             0});
-            this.nudLimitResults.Location = new System.Drawing.Point(428, 6);
+            this.nudLimitResults.Location = new System.Drawing.Point(421, 71);
             this.nudLimitResults.Maximum = new decimal(new int[] {
             10000000,
             0,
@@ -824,7 +824,7 @@ namespace WikiFunctions.DBScanner
             0,
             0});
             this.nudLimitResults.Name = "nudLimitResults";
-            this.nudLimitResults.Size = new System.Drawing.Size(75, 20);
+            this.nudLimitResults.Size = new System.Drawing.Size(93, 20);
             this.nudLimitResults.TabIndex = 3;
             this.nudLimitResults.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.nudLimitResults.Value = new decimal(new int[] {
@@ -988,10 +988,10 @@ namespace WikiFunctions.DBScanner
             // gbAWBSpecific
             // 
             this.gbAWBSpecific.Controls.Add(this.flwAWB);
-            this.gbAWBSpecific.Location = new System.Drawing.Point(6, 6);
+            this.gbAWBSpecific.Location = new System.Drawing.Point(3, 6);
             this.gbAWBSpecific.Name = "gbAWBSpecific";
             this.gbAWBSpecific.Padding = new System.Windows.Forms.Padding(2);
-            this.gbAWBSpecific.Size = new System.Drawing.Size(327, 153);
+            this.gbAWBSpecific.Size = new System.Drawing.Size(327, 159);
             this.gbAWBSpecific.TabIndex = 3;
             this.gbAWBSpecific.TabStop = false;
             this.gbAWBSpecific.Text = "A&WB specific";
@@ -1472,10 +1472,10 @@ namespace WikiFunctions.DBScanner
             // tabAWB
             // 
             this.tabAWB.Controls.Add(this.gbAWBSpecific);
-            this.tabAWB.Controls.Add(this.lblLimitResutls);
             this.tabAWB.Controls.Add(this.nudLimitResults);
             this.tabAWB.Controls.Add(this.lblStartFrom);
             this.tabAWB.Controls.Add(this.txtStartFrom);
+            this.tabAWB.Controls.Add(this.lblLimitResutls);
             this.tabAWB.Location = new System.Drawing.Point(4, 22);
             this.tabAWB.Name = "tabAWB";
             this.tabAWB.Padding = new System.Windows.Forms.Padding(3);
