@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using WikiFunctions;
+﻿using WikiFunctions;
 using NUnit.Framework;
 
 namespace UnitTests
@@ -13,18 +12,11 @@ namespace UnitTests
         [Test]
         public void CategoryTests()
         {
-            CatTests(WikiRegexes.Category);
-        }
+            RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test]]");
+            RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test|Key]]");
 
-        [Test]
-        public void CatRegexTests()
-        {
-            CatTests(WikiRegexes.CatRegex);
-        }
-
-        public void CatTests(Regex reg)
-        {
-            RegexAssert.IsMatch(reg, "[[Category:Test]]");
+            RegexAssert.NoMatch(WikiRegexes.Category, "[[Test]]");
+            RegexAssert.NoMatch(WikiRegexes.Category, "[[Image:Test.jpg]]");
         }
     }
 }

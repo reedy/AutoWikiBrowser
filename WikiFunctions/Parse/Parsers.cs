@@ -3107,7 +3107,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             bool allsame = true;
             matches = 0;
 
-            foreach (Match m in WikiRegexes.CatRegex.Matches(articleText))
+            foreach (Match m in WikiRegexes.Category.Matches(articleText))
             {
                 string explicitKey = m.Groups[2].Value;
                 if (explicitKey.Length == 0)
@@ -3203,7 +3203,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 if (sort.Length > 4 && matches > 1 && !sort.StartsWith(" "))
                 {
                     // remove keys from categories
-                    articleText = WikiRegexes.CatRegex.Replace(articleText, "[["
+                    articleText = WikiRegexes.Category.Replace(articleText, "[["
                         + Variables.Namespaces[Namespace.Category] + "$1]]");
 
                     // set the defaultsort to the existing unique category sort value
@@ -3243,7 +3243,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns>The article text.</returns>
         private static string ExplicitCategorySortkeys(string articleText, string defaultsortKey)
         {
-            foreach (Match m in WikiRegexes.CatRegex.Matches(articleText))
+            foreach (Match m in WikiRegexes.Category.Matches(articleText))
             {
                 string explicitKey = m.Groups[2].Value;
                 if (explicitKey.Length == 0)

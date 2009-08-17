@@ -38,7 +38,7 @@ namespace WikiFunctions.Lists
 
         /// <summary>
         /// Gets the list of XML elements that represent pages,
-        /// e.g. <p>, <cm>, <bl> etc
+        /// e.g. &lt;p>, &lt;cm>, &lt;bl> etc
         /// </summary>
         protected abstract ICollection<string> PageElements { get; }
 
@@ -49,7 +49,7 @@ namespace WikiFunctions.Lists
         /// </summary>
         public int Limit
         {
-            get { return m_Limit; }
+            get { return m_Limit;}
             set { m_Limit = value; }
         }
 
