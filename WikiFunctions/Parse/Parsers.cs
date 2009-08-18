@@ -4016,9 +4016,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static bool CheckNoBots(string articleText, string user)
         {
             return
-                !Regex.Match(articleText,
+                !Regex.IsMatch(articleText,
                              @"\{\{(nobots|bots\|(allow=none|deny=(?!none).*(" + user.Normalize() +
-                             @"|awb|all).*|optout=all))\}\}", RegexOptions.IgnoreCase).Success;
+                             @"|awb|all).*|optout=all))\}\}", RegexOptions.IgnoreCase);
         }
 
         private static readonly Regex DuplicatePipedLinks = new Regex(@"\[\[([^\]\|]+)\|([^\]]*)\]\](.*[.\n]*)\[\[\1\|\2\]\]", RegexOptions.Compiled);
