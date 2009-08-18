@@ -527,7 +527,6 @@ namespace WikiFunctions.DBScanner
         }
     }
 
-    //TODO:Fixup and enable
     /// <summary>
     /// Returns whether the article matches the specified move and edit restrictions
     /// </summary>
