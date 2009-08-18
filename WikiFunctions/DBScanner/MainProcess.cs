@@ -189,6 +189,9 @@ namespace WikiFunctions.DBScanner
                         //move to start from article
                         while (Run && reader.Read())
                         {
+                            if (reader.NodeType != XmlNodeType.Element)
+                                continue;
+
                             if (reader.Name != "title")
                             {
                                 reader.ReadToFollowing("page");
@@ -205,6 +208,9 @@ namespace WikiFunctions.DBScanner
 
                     while (Run && reader.Read())
                     {
+                        if (reader.NodeType != XmlNodeType.Element)
+                            continue;
+
                         if (reader.Name != "title")
                         {
                             reader.ReadToFollowing("page");
@@ -224,13 +230,8 @@ namespace WikiFunctions.DBScanner
                         reader.ReadToFollowing("text");
                         ai.Text = reader.ReadString();
 
-                        if (MultiThreaded)
-                        {
-                            if (PendingArticles.Count < ProcessorCount * 4 + 5)
-                                PendingArticles.Add(ai);
-                            else
-                                ScanArticle(ai);
-                        }
+                        if (MultiThreaded && (PendingArticles.Count < ProcessorCount*4 + 5))
+                            PendingArticles.Add(ai);
                         else
                             ScanArticle(ai);
                     }
