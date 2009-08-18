@@ -206,6 +206,7 @@ namespace WikiFunctions.DBScanner
                         }
                     }
 
+                    //TODO:Improve code
                     while (Run && reader.Read())
                     {
                         if (reader.NodeType != XmlNodeType.Element)
@@ -218,10 +219,10 @@ namespace WikiFunctions.DBScanner
                         }
 
                         ArticleInfo ai = new ArticleInfo
-                                             {
-                                                 Title = articleTitle = reader.ReadString(),
-                                                 Restrictions = reader.Name == "restrictions" ? reader.ReadString() : ""
-                                             };
+                        {
+                            Title = articleTitle = reader.ReadString(),
+                            Restrictions = reader.Name == "restrictions" ? reader.ReadString() : "" //TODO:FIX ME
+                        };
 
                         //reader.ReadToFollowing("title");
 
