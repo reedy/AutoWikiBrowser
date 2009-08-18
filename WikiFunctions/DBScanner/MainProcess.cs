@@ -30,10 +30,7 @@ namespace WikiFunctions.DBScanner
 
     internal class ArticleInfo
     {
-        public string Title;
-        public string Text;
-        public string Timestamp;
-        public string Restrictions;
+        public string Title, Text, Timestamp, Restrictions;
     }
 
     class MainProcess
