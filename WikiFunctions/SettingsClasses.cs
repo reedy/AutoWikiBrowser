@@ -311,7 +311,7 @@ namespace WikiFunctions.AWBSettings
             AutoSaveEdit = new EditBoxAutoSavePrefs();
         }
 
-        public GeneralPrefs(System.Windows.Forms.ComboBox.ObjectCollection mSummaries)
+        public GeneralPrefs(ComboBox.ObjectCollection mSummaries)
         {
             foreach (object s in mSummaries)
                 Summaries.Add(s.ToString());
