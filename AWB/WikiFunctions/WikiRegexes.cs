@@ -712,5 +712,10 @@ namespace WikiFunctions
         /// 
         /// </summary>
         public static readonly Regex InUse = new Regex(@"{{\s*[Ii]nuse\s*[\}\|]", RegexOptions.Compiled);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly Regex WhiteSpace = new Regex(@"\s+", RegexOptions.Compiled);
     }
 }

@@ -280,7 +280,12 @@ namespace WikiFunctions
         /// </summary>
         public bool OnlyWhiteSpaceChanged
         {
-            get { return (string.Compare(Regex.Replace(mOriginalArticleText, @"\s+", ""), Regex.Replace(mArticleText, @"\s+", "")) == 0); }
+            get
+            {
+                return
+                    (string.Compare(WikiRegexes.WhiteSpace.Replace(mOriginalArticleText, ""),
+                                    WikiRegexes.WhiteSpace.Replace(mArticleText, "")) == 0);
+            }
         }
 
         /// <summary>

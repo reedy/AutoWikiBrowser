@@ -27,6 +27,7 @@ using System.Text.RegularExpressions;
 
 // AutoWikiBrowser plugin support:
 //using WikiFunctions;
+using WikiFunctions;
 using WikiFunctions.AWBSettings;
 //using WikiFunctions.Parse;
 //using WikiFunctions.Plugin;
@@ -309,7 +310,7 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
 
                 // Check for only whitespace difference between old and new
                 //TODO: re-check this:
-                if (whiteSpaceRegex.Replace(paramSegments, "") == whiteSpaceRegex.Replace(paramReplacement, ""))
+                if (WikiRegexes.WhiteSpace.Replace(paramSegments, "") == WikiRegexes.WhiteSpace.Replace(paramReplacement, ""))
                     continue;
 
 #if DEBUG_OUTPUT_DIALOG
@@ -417,13 +418,13 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
                     // We keep the whole of parameter value as a named match, but don't keep the components of it:
                     + @"(?<_" + name + ">("
                     // comments, HTML-type tags, etc:
-                    + WikiFunctions.WikiRegexes.UnFormattedText
+                    + WikiRegexes.UnFormattedText
                     + @"|"
                     // templates inside this template:
-                    + WikiFunctions.WikiRegexes.NestedTemplates
+                    + WikiRegexes.NestedTemplates
                     + @"|"
                     // wikilinks in the parameter value:
-                    + WikiFunctions.WikiRegexes.SimpleWikiLink
+                    + WikiRegexes.SimpleWikiLink
                     + @"|"
                     // external links, or just text in square brackets:
                     + BorkedExternalLinks
@@ -442,11 +443,11 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
                 = @"(\|\s*)"
                 + @"(([^=\s]*)\s*=\s*(?=\S))?"
                 + @"("
-                + WikiFunctions.WikiRegexes.UnFormattedText
+                + WikiRegexes.UnFormattedText
                 + @"|"
-                + WikiFunctions.WikiRegexes.NestedTemplates
+                + WikiRegexes.NestedTemplates
                 + @"|"
-                + WikiFunctions.WikiRegexes.SimpleWikiLink
+                + WikiRegexes.SimpleWikiLink
                 + @"|"
                 + BorkedExternalLinks
                 + @"|"
@@ -463,11 +464,11 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
                         = @"(\|\s*"
                         + param.Key + @"\s*=\s*(?=\S)"
                         + @"("
-                        + WikiFunctions.WikiRegexes.UnFormattedText
+                        + WikiRegexes.UnFormattedText
                         + @"|"
-                        + WikiFunctions.WikiRegexes.NestedTemplates
+                        + WikiRegexes.NestedTemplates
                         + @"|"
-                        + WikiFunctions.WikiRegexes.SimpleWikiLink
+                        + WikiRegexes.SimpleWikiLink
                         + @"|"
                         + BorkedExternalLinks
                         + @"|"
@@ -490,9 +491,11 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
                                                       Settings.Parameters,
                                                       Settings.Replacements,
                                                       Settings.SkipIfNoTemplates,
-                                                      Settings.RemoveExcessPipes);
-            dlg.Width = Settings.dlgWidth;
-            dlg.Height = Settings.dlgHeight;
+                                                      Settings.RemoveExcessPipes)
+                                      {
+                                          Width = Settings.dlgWidth,
+                                          Height = Settings.dlgHeight
+                                      };
             dlg.paramName.Width = dlg.replacementParamName.Width = Settings.dlgCol0;
             dlg.paramRegex.Width = dlg.replacementExpression.Width = Settings.dlgCol1;
             if (dlg.ShowDialog() == DialogResult.OK)
@@ -546,9 +549,6 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
 
         // 3. To transform a template parameter name into a valid regex named group
         internal static readonly Regex nonIdentiferCharsRegex = new Regex("[^a-z0-9_]", RegexOptions.Compiled);
-
-        // 4. To ignore whitespace
-        internal static readonly Regex whiteSpaceRegex = new Regex(@"\s*", RegexOptions.Compiled);
 
         // 5. To remove spare pipes, either two together or a spare at the end
         // CAUTION: this would be acceptable in a wikitable
