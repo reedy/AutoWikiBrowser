@@ -947,10 +947,10 @@ namespace WikiFunctions.Parse
             return newText;
         }
 
-        private const string siCitStart = @"(?si)(\{\{\s*cit[^{}]*\|\s*";
-        private const string citAccessdate = siCitStart + @"(?:access|archive)date\s*=\s*";
-        private const string citDate = siCitStart + @"(?:archive|air)?date2?\s*=\s*";
-        private const string citYMonthD = siCitStart + @"(?:archive|air)?date2?\s*=\s*\d{4})[-/\s]";
+        private const string SiCitStart = @"(?si)(\{\{\s*cit[^{}]*\|\s*";
+        private const string CitAccessdate = SiCitStart + @"(?:access|archive)date\s*=\s*";
+        private const string CitDate = SiCitStart + @"(?:archive|air)?date2?\s*=\s*";
+        private const string CitYMonthD = SiCitStart + @"(?:archive|air)?date2?\s*=\s*\d{4})[-/\s]";
         private const string dTemEnd = @"?[-/\s]([0-3]?\d\s*(?:\||}}))";
 
         struct RegexReplacement {
@@ -962,72 +962,72 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex AccessOrArchiveDate = new Regex(@"\b(access|archive)date\s*=", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly RegexReplacement[] CiteTemplateIncorrectISOAccessdates = new [] {
-            new RegexReplacement(new Regex(citAccessdate + @")(1[0-2])[/_\-\.]?(1[3-9])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$2-$3"),
-            new RegexReplacement(new Regex(citAccessdate + @")(1[0-2])[/_\-\.]?([2-3]\d)[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$2-$3"),
-            new RegexReplacement(new Regex(citAccessdate + @")(1[0-2])[/_\-\.]?\2[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$3-$2-$2"), // nn-nn-2004 and nn-nn-04 to ISO format (both nn the same)
-            new RegexReplacement(new Regex(citAccessdate + @")(1[3-9])[/_\-\.]?(1[0-2])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$3-$2"),
-            new RegexReplacement(new Regex(citAccessdate + @")(1[3-9])[/_\-\.]?0?([1-9])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-0$3-$2"),
-            new RegexReplacement(new Regex(citAccessdate + @")(20[01]\d)0?([01]\d)[/_\-\.]([0-3]\d\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-$4"),
-            new RegexReplacement(new Regex(citAccessdate + @")(20[01]\d)[/_\-\.]([01]\d)0?([0-3]\d\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-$4"),
-            new RegexReplacement(new Regex(citAccessdate + @")(20[01]\d)[/_\-\.]?([01]\d)[/_\-\.]?([1-9]\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-0$4"),
-            new RegexReplacement(new Regex(citAccessdate + @")(20[01]\d)[/_\-\.]?([1-9])[/_\-\.]?([0-3]\d\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-0$3-$4"),
-            new RegexReplacement(new Regex(citAccessdate + @")(20[01]\d)[/_\-\.]?([1-9])[/_\-\.]0?([1-9]\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-0$3-0$4"),
-            new RegexReplacement(new Regex(citAccessdate + @")(20[01]\d)[/_\-\.]0?([1-9])[/_\-\.]([1-9]\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-0$3-0$4"),
-            new RegexReplacement(new Regex(citAccessdate + @")(20[01]\d)[/_\.]?([01]\d)[/_\.]?([0-3]\d\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-$4"),
+            new RegexReplacement(new Regex(CitAccessdate + @")(1[0-2])[/_\-\.]?(1[3-9])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$2-$3"),
+            new RegexReplacement(new Regex(CitAccessdate + @")(1[0-2])[/_\-\.]?([2-3]\d)[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$2-$3"),
+            new RegexReplacement(new Regex(CitAccessdate + @")(1[0-2])[/_\-\.]?\2[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$3-$2-$2"), // nn-nn-2004 and nn-nn-04 to ISO format (both nn the same)
+            new RegexReplacement(new Regex(CitAccessdate + @")(1[3-9])[/_\-\.]?(1[0-2])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$3-$2"),
+            new RegexReplacement(new Regex(CitAccessdate + @")(1[3-9])[/_\-\.]?0?([1-9])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-0$3-$2"),
+            new RegexReplacement(new Regex(CitAccessdate + @")(20[01]\d)0?([01]\d)[/_\-\.]([0-3]\d\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-$4"),
+            new RegexReplacement(new Regex(CitAccessdate + @")(20[01]\d)[/_\-\.]([01]\d)0?([0-3]\d\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-$4"),
+            new RegexReplacement(new Regex(CitAccessdate + @")(20[01]\d)[/_\-\.]?([01]\d)[/_\-\.]?([1-9]\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-0$4"),
+            new RegexReplacement(new Regex(CitAccessdate + @")(20[01]\d)[/_\-\.]?([1-9])[/_\-\.]?([0-3]\d\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-0$3-$4"),
+            new RegexReplacement(new Regex(CitAccessdate + @")(20[01]\d)[/_\-\.]?([1-9])[/_\-\.]0?([1-9]\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-0$3-0$4"),
+            new RegexReplacement(new Regex(CitAccessdate + @")(20[01]\d)[/_\-\.]0?([1-9])[/_\-\.]([1-9]\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-0$3-0$4"),
+            new RegexReplacement(new Regex(CitAccessdate + @")(20[01]\d)[/_\.]?([01]\d)[/_\.]?([0-3]\d\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-$4"),
 
-            new RegexReplacement(new Regex(citAccessdate + @")([2-3]\d)[/_\-\.]?(1[0-2])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$3-$2"),
-            new RegexReplacement(new Regex(citAccessdate + @")([2-3]\d)[/_\-\.]0?([1-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-0$3-$2"),
-            new RegexReplacement(new Regex(citAccessdate + @")0?([1-9])[/_\-\.]?(1[3-9]|[2-3]\d)[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-0$2-$3"),
-            new RegexReplacement(new Regex(citAccessdate + @")0?([1-9])[/_\-\.]?0?\2[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$3-0$2-0$2"), // n-n-2004 and n-n-04 to ISO format (both n the same)
+            new RegexReplacement(new Regex(CitAccessdate + @")([2-3]\d)[/_\-\.]?(1[0-2])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$3-$2"),
+            new RegexReplacement(new Regex(CitAccessdate + @")([2-3]\d)[/_\-\.]0?([1-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-0$3-$2"),
+            new RegexReplacement(new Regex(CitAccessdate + @")0?([1-9])[/_\-\.]?(1[3-9]|[2-3]\d)[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-0$2-$3"),
+            new RegexReplacement(new Regex(CitAccessdate + @")0?([1-9])[/_\-\.]?0?\2[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$3-0$2-0$2"), // n-n-2004 and n-n-04 to ISO format (both n the same)
         };
 
         private static readonly Regex CiteTemplateArchiveAirDate = new Regex(@"{{\s*cit[^{}]*\|\s*(?:archive|air)?date2?\s*=", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly RegexReplacement[] CiteTemplateIncorrectISODates = new [] {
-            new RegexReplacement(new Regex(citDate + @"\[?\[?)(200\d|19[7-9]\d)[/_]?([0-1]\d)[/_]?([0-3]\d\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-$4"),
-            new RegexReplacement(new Regex(citDate + @"\[?\[?)(1[0-2])[/_\-\.]?([2-3]\d)[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-$2-$3"),
-            new RegexReplacement(new Regex(citDate + @"\[?\[?)0?([1-9])[/_\-\.]?([2-3]\d)[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-0$2-$3"),
-            new RegexReplacement(new Regex(citDate + @"\[?\[?)([2-3]\d)[/_\-\.]?0?([1-9])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-0$3-$2"),
-            new RegexReplacement(new Regex(citDate + @"\[?\[?)([2-3]\d)[/_\-\.]?(1[0-2])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-$3-$2"),
-            new RegexReplacement(new Regex(citDate + @"\[?\[?)(1[0-2])[/_\-\.]([2-3]\d)[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$2-$3"),
-            new RegexReplacement(new Regex(citDate + @"\[?\[?)0?([1-9])[/_\-\.]([2-3]\d)[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-0$2-$3"),
-            new RegexReplacement(new Regex(citDate + @"\[?\[?)([2-3]\d)[/_\-\.]0?([1-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-0$3-$2"),
-            new RegexReplacement(new Regex(citDate + @"\[?\[?)([2-3]\d)[/_\-\.]?(1[0-2])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$3-$2"),
-            new RegexReplacement(new Regex(citDate + @"\[?\[?)(1[0-2])[/_\-\.]?(1[3-9])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-$2-$3"),
-            new RegexReplacement(new Regex(citDate + @"\[?\[?)0?([1-9])[/_\-\.](1[3-9])[/_\-\.](19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-0$2-$3"),
-            new RegexReplacement(new Regex(citDate + @"\[?\[?)(1[3-9])[/_\-\.]?0?([1-9])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-0$3-$2"),
-            new RegexReplacement(new Regex(citDate + @"\[?\[?)(1[3-9])[/_\-\.]?(1[0-2])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-$3-$2"),
-            new RegexReplacement(new Regex(citDate + @"\[?\[?)(1[0-2])[/_\-\.]?(1[3-9])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$2-$3"),
-            new RegexReplacement(new Regex(citDate + @"\[?\[?)([1-9])[/_\-\.](1[3-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-0$2-$3"),
-            new RegexReplacement(new Regex(citDate + @"\[?\[?)(1[3-9])[/_\-\.]?([1-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-0$3-$2"),
-            new RegexReplacement(new Regex(citDate + @"\[?\[?)(1[3-9])[/_\-\.](1[0-2])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$3-$2"),
-            new RegexReplacement(new Regex(citDate + @")0?([1-9])[/_\-\.]0?\2[/_\-\.](200\d|19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$3-0$2-0$2"), // n-n-2004 and n-n-1980 to ISO format (both n the same)
-            new RegexReplacement(new Regex(citDate + @")0?([1-9])[/_\-\.]0?\2[/_\-\.]([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$3-0$2-0$2"), // n-n-04 to ISO format (both n the same)
-            new RegexReplacement(new Regex(citDate + @")(1[0-2])[/_\-\.]?\2[/_\-\.]?(200\d|19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$3-$2-$2"), // nn-nn-2004 and nn-nn-1980 to ISO format (both nn the same)
-            new RegexReplacement(new Regex(citDate + @")(1[0-2])[/_\-\.]?\2[/_\-\.]?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$3-$2-$2"), // nn-nn-04 to ISO format (both nn the same)
-            new RegexReplacement(new Regex(citDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]([1-9])[/_\-\.]0?([1-9](?:\]\])?\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-0$3-0$4"),
-            new RegexReplacement(new Regex(citDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]0?([1-9])[/_\-\.]([1-9](?:\]\])?\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-0$3-0$4"),
-            new RegexReplacement(new Regex(citDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]?([0-1]\d)[/_\-\.]?([1-9](?:\]\])?\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-0$4"),
-            new RegexReplacement(new Regex(citDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]?([1-9])[/_\-\.]?([0-3]\d(?:\]\])?\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-0$3-$4"),
-            new RegexReplacement(new Regex(citDate + @")((?:\[\[)?200\d|19[7-9]\d)([0-1]\d)[/_\-\.]([0-3]\d(?:\]\])?\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-$4"),
-            new RegexReplacement(new Regex(citDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]([0-1]\d)0?([0-3]\d(?:\]\])?\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-$4"),
+            new RegexReplacement(new Regex(CitDate + @"\[?\[?)(200\d|19[7-9]\d)[/_]?([0-1]\d)[/_]?([0-3]\d\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-$4"),
+            new RegexReplacement(new Regex(CitDate + @"\[?\[?)(1[0-2])[/_\-\.]?([2-3]\d)[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-$2-$3"),
+            new RegexReplacement(new Regex(CitDate + @"\[?\[?)0?([1-9])[/_\-\.]?([2-3]\d)[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-0$2-$3"),
+            new RegexReplacement(new Regex(CitDate + @"\[?\[?)([2-3]\d)[/_\-\.]?0?([1-9])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-0$3-$2"),
+            new RegexReplacement(new Regex(CitDate + @"\[?\[?)([2-3]\d)[/_\-\.]?(1[0-2])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-$3-$2"),
+            new RegexReplacement(new Regex(CitDate + @"\[?\[?)(1[0-2])[/_\-\.]([2-3]\d)[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$2-$3"),
+            new RegexReplacement(new Regex(CitDate + @"\[?\[?)0?([1-9])[/_\-\.]([2-3]\d)[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-0$2-$3"),
+            new RegexReplacement(new Regex(CitDate + @"\[?\[?)([2-3]\d)[/_\-\.]0?([1-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-0$3-$2"),
+            new RegexReplacement(new Regex(CitDate + @"\[?\[?)([2-3]\d)[/_\-\.]?(1[0-2])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$3-$2"),
+            new RegexReplacement(new Regex(CitDate + @"\[?\[?)(1[0-2])[/_\-\.]?(1[3-9])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-$2-$3"),
+            new RegexReplacement(new Regex(CitDate + @"\[?\[?)0?([1-9])[/_\-\.](1[3-9])[/_\-\.](19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-0$2-$3"),
+            new RegexReplacement(new Regex(CitDate + @"\[?\[?)(1[3-9])[/_\-\.]?0?([1-9])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-0$3-$2"),
+            new RegexReplacement(new Regex(CitDate + @"\[?\[?)(1[3-9])[/_\-\.]?(1[0-2])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-$3-$2"),
+            new RegexReplacement(new Regex(CitDate + @"\[?\[?)(1[0-2])[/_\-\.]?(1[3-9])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$2-$3"),
+            new RegexReplacement(new Regex(CitDate + @"\[?\[?)([1-9])[/_\-\.](1[3-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-0$2-$3"),
+            new RegexReplacement(new Regex(CitDate + @"\[?\[?)(1[3-9])[/_\-\.]?([1-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-0$3-$2"),
+            new RegexReplacement(new Regex(CitDate + @"\[?\[?)(1[3-9])[/_\-\.](1[0-2])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$3-$2"),
+            new RegexReplacement(new Regex(CitDate + @")0?([1-9])[/_\-\.]0?\2[/_\-\.](200\d|19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$3-0$2-0$2"), // n-n-2004 and n-n-1980 to ISO format (both n the same)
+            new RegexReplacement(new Regex(CitDate + @")0?([1-9])[/_\-\.]0?\2[/_\-\.]([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$3-0$2-0$2"), // n-n-04 to ISO format (both n the same)
+            new RegexReplacement(new Regex(CitDate + @")(1[0-2])[/_\-\.]?\2[/_\-\.]?(200\d|19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$3-$2-$2"), // nn-nn-2004 and nn-nn-1980 to ISO format (both nn the same)
+            new RegexReplacement(new Regex(CitDate + @")(1[0-2])[/_\-\.]?\2[/_\-\.]?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$3-$2-$2"), // nn-nn-04 to ISO format (both nn the same)
+            new RegexReplacement(new Regex(CitDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]([1-9])[/_\-\.]0?([1-9](?:\]\])?\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-0$3-0$4"),
+            new RegexReplacement(new Regex(CitDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]0?([1-9])[/_\-\.]([1-9](?:\]\])?\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-0$3-0$4"),
+            new RegexReplacement(new Regex(CitDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]?([0-1]\d)[/_\-\.]?([1-9](?:\]\])?\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-0$4"),
+            new RegexReplacement(new Regex(CitDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]?([1-9])[/_\-\.]?([0-3]\d(?:\]\])?\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-0$3-$4"),
+            new RegexReplacement(new Regex(CitDate + @")((?:\[\[)?200\d|19[7-9]\d)([0-1]\d)[/_\-\.]([0-3]\d(?:\]\])?\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-$4"),
+            new RegexReplacement(new Regex(CitDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]([0-1]\d)0?([0-3]\d(?:\]\])?\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-$4"),
         };
 
         private static readonly RegexReplacement[] CiteTemplateAbbreviatedMonths = new [] {
-            new RegexReplacement(new Regex(citYMonthD + @"Jan(?:uary|\.)" + dTemEnd, RegexOptions.Compiled), "$1-01-$2"),
-            new RegexReplacement(new Regex(citYMonthD + @"Feb(?:r?uary|\.)" + dTemEnd, RegexOptions.Compiled), "$1-02-$2"),
-            new RegexReplacement(new Regex(citYMonthD + @"Mar(?:ch|\.)" + dTemEnd, RegexOptions.Compiled), "$1-03-$2"),
-            new RegexReplacement(new Regex(citYMonthD + @"Apr(?:il|\.)" + dTemEnd, RegexOptions.Compiled), "$1-04-$2"),
-            new RegexReplacement(new Regex(citYMonthD + @"May\." + dTemEnd, RegexOptions.Compiled), "$1-05-$2"),
-            new RegexReplacement(new Regex(citYMonthD + @"Jun(?:e|\.)" + dTemEnd, RegexOptions.Compiled), "$1-06-$2"),
-            new RegexReplacement(new Regex(citYMonthD + @"Jul(?:y|\.)" + dTemEnd, RegexOptions.Compiled), "$1-07-$2"),
-            new RegexReplacement(new Regex(citYMonthD + @"Aug(?:ust|\.)" + dTemEnd, RegexOptions.Compiled), "$1-08-$2"),
-            new RegexReplacement(new Regex(citYMonthD + @"Sep(?:tember|\.)" + dTemEnd, RegexOptions.Compiled), "$1-09-$2"),
-            new RegexReplacement(new Regex(citYMonthD + @"Oct(?:ober|\.)" + dTemEnd, RegexOptions.Compiled), "$1-10-$2"),
-            new RegexReplacement(new Regex(citYMonthD + @"Nov(?:ember|\.)" + dTemEnd, RegexOptions.Compiled), "$1-11-$2"),
-            new RegexReplacement(new Regex(citYMonthD + @"Dec(?:ember|\.)" + dTemEnd, RegexOptions.Compiled), "$1-12-$2"),
+            new RegexReplacement(new Regex(CitYMonthD + @"Jan(?:uary|\.)" + dTemEnd, RegexOptions.Compiled), "$1-01-$2"),
+            new RegexReplacement(new Regex(CitYMonthD + @"Feb(?:r?uary|\.)" + dTemEnd, RegexOptions.Compiled), "$1-02-$2"),
+            new RegexReplacement(new Regex(CitYMonthD + @"Mar(?:ch|\.)" + dTemEnd, RegexOptions.Compiled), "$1-03-$2"),
+            new RegexReplacement(new Regex(CitYMonthD + @"Apr(?:il|\.)" + dTemEnd, RegexOptions.Compiled), "$1-04-$2"),
+            new RegexReplacement(new Regex(CitYMonthD + @"May\." + dTemEnd, RegexOptions.Compiled), "$1-05-$2"),
+            new RegexReplacement(new Regex(CitYMonthD + @"Jun(?:e|\.)" + dTemEnd, RegexOptions.Compiled), "$1-06-$2"),
+            new RegexReplacement(new Regex(CitYMonthD + @"Jul(?:y|\.)" + dTemEnd, RegexOptions.Compiled), "$1-07-$2"),
+            new RegexReplacement(new Regex(CitYMonthD + @"Aug(?:ust|\.)" + dTemEnd, RegexOptions.Compiled), "$1-08-$2"),
+            new RegexReplacement(new Regex(CitYMonthD + @"Sep(?:tember|\.)" + dTemEnd, RegexOptions.Compiled), "$1-09-$2"),
+            new RegexReplacement(new Regex(CitYMonthD + @"Oct(?:ober|\.)" + dTemEnd, RegexOptions.Compiled), "$1-10-$2"),
+            new RegexReplacement(new Regex(CitYMonthD + @"Nov(?:ember|\.)" + dTemEnd, RegexOptions.Compiled), "$1-11-$2"),
+            new RegexReplacement(new Regex(CitYMonthD + @"Dec(?:ember|\.)" + dTemEnd, RegexOptions.Compiled), "$1-12-$2"),
         };
 
-        private static readonly Regex CiteTemplateDateYYYYDDMMFormat = new Regex(siCitStart + @"(?:archive|air|access)?date2?\s*=\s*(?:\[\[)?200\d)-([2-3]\d|1[3-9])-(0[1-9]|1[0-2])(\]\])?", RegexOptions.Compiled);
+        private static readonly Regex CiteTemplateDateYYYYDDMMFormat = new Regex(SiCitStart + @"(?:archive|air|access)?date2?\s*=\s*(?:\[\[)?200\d)-([2-3]\d|1[3-9])-(0[1-9]|1[0-2])(\]\])?", RegexOptions.Compiled);
         private static readonly Regex CiteTemplateTimeInDateParameter = new Regex(@"(\{\{\s*cite[^\{\}]*\|\s*(?:archive|air|access)?date2?\s*=\s*(?:(?:200\d|19[7-9]\d)-[01]?\d-[0-3]?\d|[0-3]?\d\s*\w+,?\s*(?:200\d|19[7-9]\d)|\w+\s*[0-3]?\d,?\s*(?:200\d|19[7-9]\d)))(\s*[,-:]?\s+[0-2]?\d\:?[0-5]\d(?:\:?[0-5]\d)?\s*[^\|\}]*)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
@@ -1305,11 +1305,11 @@ namespace WikiFunctions.Parse
         }
 
         // don't match on 'in the June of 2007', 'on the 11th May 2008' etc. as these won't read well if changed
-        private static readonly Regex ofBetweenMonthAndYear = new Regex(@"\b" + WikiRegexes.Months + @"\s+of\s+(200\d|1[89]\d\d)\b(?<!\b[Tt]he\s{1,5}\w{3,15}\s{1,5}of\s{1,5}(200\d|1[89]\d\d))", RegexOptions.Compiled);
-        private static readonly Regex ordinalsInDatesAm = new Regex(@"(?<!\b[1-3]\d +)\b" + WikiRegexes.Months + @"\s+([0-3]?\d)(?:st|nd|rd|th)\b(?<!\b[Tt]he\s+\w{3,10}\s+(?:[0-3]?\d)(?:st|nd|rd|th)\b)(?:(\s*(?:to|and|.|&.dash;)\s*[0-3]?\d)(?:st|nd|rd|th)\b)?", RegexOptions.Compiled);
-        private static readonly Regex ordinalsInDatesInt = new Regex(@"(?:\b([0-3]?\d)(?:st|nd|rd|th)(\s*(?:to|and|.|&.dash;)\s*))?\b([0-3]?\d)(?:st|nd|rd|th)\s+" + WikiRegexes.Months + @"\b(?<!\b[Tt]he\s+(?:[0-3]?\d)(?:st|nd|rd|th)\s+\w{3,10})", RegexOptions.Compiled);
-        private static readonly Regex dateLeadingZerosAm = new Regex(@"\b" + WikiRegexes.Months + @"\s+0([1-9])" + @"\b", RegexOptions.Compiled);
-        private static readonly Regex dateLeadingZerosInt = new Regex(@"\b" + @"0([1-9])\s+" + WikiRegexes.Months + @"\b", RegexOptions.Compiled);
+        private static readonly Regex OfBetweenMonthAndYear = new Regex(@"\b" + WikiRegexes.Months + @"\s+of\s+(200\d|1[89]\d\d)\b(?<!\b[Tt]he\s{1,5}\w{3,15}\s{1,5}of\s{1,5}(200\d|1[89]\d\d))", RegexOptions.Compiled);
+        private static readonly Regex OrdinalsInDatesAm = new Regex(@"(?<!\b[1-3]\d +)\b" + WikiRegexes.Months + @"\s+([0-3]?\d)(?:st|nd|rd|th)\b(?<!\b[Tt]he\s+\w{3,10}\s+(?:[0-3]?\d)(?:st|nd|rd|th)\b)(?:(\s*(?:to|and|.|&.dash;)\s*[0-3]?\d)(?:st|nd|rd|th)\b)?", RegexOptions.Compiled);
+        private static readonly Regex OrdinalsInDatesInt = new Regex(@"(?:\b([0-3]?\d)(?:st|nd|rd|th)(\s*(?:to|and|.|&.dash;)\s*))?\b([0-3]?\d)(?:st|nd|rd|th)\s+" + WikiRegexes.Months + @"\b(?<!\b[Tt]he\s+(?:[0-3]?\d)(?:st|nd|rd|th)\s+\w{3,10})", RegexOptions.Compiled);
+        private static readonly Regex DateLeadingZerosAm = new Regex(@"\b" + WikiRegexes.Months + @"\s+0([1-9])" + @"\b", RegexOptions.Compiled);
+        private static readonly Regex DateLeadingZerosInt = new Regex(@"\b" + @"0([1-9])\s+" + WikiRegexes.Months + @"\b", RegexOptions.Compiled);
         private static readonly Regex MonthsRegex = new Regex(@"\b" + Months + @"\b", RegexOptions.Compiled);
         // Covered by TestFixDateOrdinalsAndOf
         /// <summary>
@@ -1326,17 +1326,17 @@ namespace WikiFunctions.Parse
             // hide items in quotes etc., though this may also hide items within infoboxes etc.
             articleText = HideMoreText(articleText);
 
-            articleText = ofBetweenMonthAndYear.Replace(articleText, "$1 $2");
+            articleText = OfBetweenMonthAndYear.Replace(articleText, "$1 $2");
 
             // don't apply if article title has a month in it (e.g. [[6th of October City]])
             if (!MonthsRegex.IsMatch(articleTitle))
             {
-                articleText = ordinalsInDatesAm.Replace(articleText, "$1 $2$3");
-                articleText = ordinalsInDatesInt.Replace(articleText, "$1$2$3 $4");
+                articleText = OrdinalsInDatesAm.Replace(articleText, "$1 $2$3");
+                articleText = OrdinalsInDatesInt.Replace(articleText, "$1$2$3 $4");
             }
 
-            articleText = dateLeadingZerosAm.Replace(articleText, "$1 $2");
-            articleText = dateLeadingZerosInt.Replace(articleText, "$1 $2");
+            articleText = DateLeadingZerosAm.Replace(articleText, "$1 $2");
+            articleText = DateLeadingZerosInt.Replace(articleText, "$1 $2");
 
             return AddBackMoreText(articleText);
         }
@@ -1791,7 +1791,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex DoubleSquareBrackets = new Regex(@"\[\[((?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\]\])", RegexOptions.Compiled);
         private static readonly Regex SingleSquareBrackets = new Regex(@"\[((?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])", RegexOptions.Compiled);
         private static readonly Regex SingleRoundBrackets = new Regex(@"\(((?>[^\(\)]+|\((?<DEPTH>)|\)(?<-DEPTH>))*(?(DEPTH)(?!))\))", RegexOptions.Compiled);
-        private static readonly Regex Tags = new Regex(@"\<((?>[^\<\>]+|\<(?<DEPTH>)|\>(?<-DEPTH>))*(?(DEPTH)(?!))\>)");
+        private static readonly Regex Tags = new Regex(@"\<((?>[^\<\>]+|\<(?<DEPTH>)|\>(?<-DEPTH>))*(?(DEPTH)(?!))\>)", RegexOptions.Compiled);
         private static readonly Regex HideNestedBrackets = new Regex(@"[^\[\]{}<>]\[[^\[\]{}<>]*?&#93;", RegexOptions.Compiled);
 
         /// <summary>
@@ -2039,13 +2039,15 @@ namespace WikiFunctions.Parse
             // TODO, better to not apply to text within imagemaps
             if (!WikiRegexes.ImageMap.IsMatch(articleText) && !WikiRegexes.Noinclude.IsMatch(articleText) && !WikiRegexes.Includeonly.IsMatch(articleText))
             {
+                string firstAsLower = Tools.TurnFirstToLower(escTitle);
+
                 // remove any self-links, but not other links with different capitaliastion e.g. [[Foo]] vs [[FOO]]
                 articleText = Regex.Replace(articleText, @"\[\[\s*" + escTitle + @"\s*\]\]", articleTitle);
-                articleText = Regex.Replace(articleText, @"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]", Tools.TurnFirstToLower(articleTitle));
+                articleText = Regex.Replace(articleText, @"\[\[\s*" + firstAsLower + @"\s*\]\]", firstAsLower);
 
                 // remove piped self links by leaving target
                 articleText = Regex.Replace(articleText, @"\[\[\s*" + escTitle + @"\s*\|\s*([^\]]+)\s*\]\]", "$1");
-                articleText = Regex.Replace(articleText, @"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\|\s*([^\]]+)\s*\]\]", "$1");
+                articleText = Regex.Replace(articleText, @"\[\[\s*" + firstAsLower + @"\s*\|\s*([^\]]+)\s*\]\]", "$1");
             }
 
             // clean up wikilinks: replace underscores, percentages and URL encoded accents etc.
