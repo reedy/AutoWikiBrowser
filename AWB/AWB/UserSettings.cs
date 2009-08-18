@@ -330,6 +330,7 @@ namespace AutoWikiBrowser
                     {
                         SaveArticleList = SaveArticleList,
                         IgnoreNoBots = IgnoreNoBots,
+                        SelectedSummary = cmboEditSummary.Text,
 
                         PasteMore = new[]
                                         {
