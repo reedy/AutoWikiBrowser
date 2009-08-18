@@ -998,8 +998,8 @@ namespace AutoWikiBrowser
             txtEdit.TextChanged += txtEdit_TextChanged;
         }
 
-        private IArticleComparer ContainsComparer = null;
-        private IArticleComparer NotContainsComparer = null;
+        private IArticleComparer ContainsComparer;
+        private IArticleComparer NotContainsComparer;
         /// <summary>
         /// Skips the article based on protection level and contains/not contains logic
         /// </summary>
@@ -1565,7 +1565,7 @@ window.scrollTo(0, diffTopY);
         [System.Runtime.InteropServices.ComVisibleAttribute(true)]
         public class JsAdapter
         {
-            MainForm Owner;
+            readonly MainForm Owner;
 
             internal JsAdapter(MainForm owner)
             {
@@ -2005,7 +2005,7 @@ window.scrollTo(0, diffTopY);
             {
                 SetBotModeEnabled(true);
                 chkNudge.Checked = true;
-                chkNudgeSkip.Checked = false; // default to false until such time as the settings file has this! mets! :P
+                chkNudgeSkip.Checked = false;
 
                 if (chkRegExTypo.Checked)
                 {
@@ -2982,7 +2982,7 @@ window.scrollTo(0, diffTopY);
             txtEdit.SelectedText = "{{DEFAULTSORT:" + Tools.MakeHumanCatKey(TheArticle.Name) + "}}";
         }
 
-        private readonly Regex RegexDates = new Regex("[1-2][0-9]{3}");
+        private readonly Regex RegexDates = new Regex("[1-2][0-9]{3}", RegexOptions.Compiled);
 
         private void birthdeathCatsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -3083,7 +3083,7 @@ window.scrollTo(0, diffTopY);
             FindAndReplace.ShowDialog(this);
         }
 
-        //FIXME: Doesn't always stop
+        //TODO: Doesn't always stop
         private void Stop()
         {
             Retries = 0;
