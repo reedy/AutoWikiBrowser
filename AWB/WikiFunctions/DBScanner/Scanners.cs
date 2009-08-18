@@ -361,7 +361,10 @@ namespace WikiFunctions.DBScanner
         }
 
     }
-
+    
+    /// <summary>
+    /// 
+    /// </summary>
     public class UnbalancedBrackets : Scan
     {
         public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
@@ -530,8 +533,6 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public class Restriction : Scan
     {
-        private readonly string[] Restrictions = new [] { "autoconfirmed", "sysop" };
-
         private const string EditRest = "edit=", MoveRest = "move=";
 
         private readonly string Edit, Move;
