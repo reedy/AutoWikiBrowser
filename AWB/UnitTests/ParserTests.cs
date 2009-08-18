@@ -3736,14 +3736,27 @@ Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
         {
             //TODO:MOAR
             Assert.AreEqual("", Parsers.ExternalURLToInternalLink(""));
-            Assert.AreEqual("%20", Parsers.ExternalURLToInternalLink("%20"));
+            Assert.AreEqual(" ", Parsers.ExternalURLToInternalLink("%20"));
 
             // ExtToInt1
             Assert.AreEqual("https://secure.wikimedia.org/otrs/index.pl?Action=AgentTicketQueue",
-                Parsers.ExternalURLToInternalLink("https://secure.wikimedia.org/otrs/index.pl?Action=AgentTicketQueue"));
+                            Parsers.ExternalURLToInternalLink(
+                                "https://secure.wikimedia.org/otrs/index.pl?Action=AgentTicketQueue"));
 
             // ExtToInt2
-            Assert.AreEqual("[[:ru:????|Foo]]", Parsers.ExternalURLToInternalLink("[http://ru.wikipedia.org/wiki/???? Foo]"));
+            Assert.AreEqual("[[:ru:????|Foo]]",
+                            Parsers.ExternalURLToInternalLink("[http://ru.wikipedia.org/wiki/???? Foo]"));
+
+            Assert.AreEqual("[[m:Test]]", Parsers.ExternalURLToInternalLink("http://meta.wikimedia.org/wiki/Test"));
+            Assert.AreEqual("[[commons:Test]]",
+                            Parsers.ExternalURLToInternalLink("http://commons.wikimedia.org/wiki/Test"));
+            Assert.AreEqual("[[w:Test]]", Parsers.ExternalURLToInternalLink("http://en.wikipedia.org/wiki/Test"));
+            Assert.AreEqual("[[wikt:Test]]", Parsers.ExternalURLToInternalLink("http://en.wiktionary.org/wiki/Test"));
+            Assert.AreEqual("[[n:Test]]", Parsers.ExternalURLToInternalLink("http://en.wikinews.org/wiki/Test"));
+            Assert.AreEqual("[[b:Test]]", Parsers.ExternalURLToInternalLink("http://en.wikibooks.org/wiki/Test"));
+            Assert.AreEqual("[[q:Test]]", Parsers.ExternalURLToInternalLink("http://en.wikiquote.org/wiki/Test"));
+            Assert.AreEqual("[[s:Test]]", Parsers.ExternalURLToInternalLink("http://en.wikisource.org/wiki/Test"));
+            Assert.AreEqual("[[v:Test]]", Parsers.ExternalURLToInternalLink("http://en.wikiversity.org/wiki/Test"));
         }
 
         [Test]
