@@ -26,8 +26,6 @@ using System.Xml;
 using System.Threading;
 using System.Text.RegularExpressions;
 
-
-
 namespace WikiFunctions.API
 {
     //TODO: refactor XML parsing

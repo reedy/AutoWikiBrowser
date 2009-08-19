@@ -3494,6 +3494,14 @@ window.scrollTo(0, diffTopY);
         {
             try
             {
+                if (!TheSession.User.CanMovePage(TheSession.Page))
+                {
+                    MessageBox.Show(
+                        "Current user doesn't have enough rights to move \"" + TheSession.Page.Title + "\"",
+                        "User rights not sufficient");
+                    return;
+                }
+
                 TheArticle.Move(TheSession);
             }
             catch (Exception ex)
