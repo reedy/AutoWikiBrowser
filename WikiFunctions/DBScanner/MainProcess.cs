@@ -31,6 +31,16 @@ namespace WikiFunctions.DBScanner
     internal class ArticleInfo
     {
         public string Title, Text, Timestamp, Restrictions;
+
+        public bool IsFullyRead
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(Title)
+                && !string.IsNullOrEmpty(Timestamp)
+                && Text != null;
+            }
+        }
     }
 
     class MainProcess
@@ -182,6 +192,7 @@ namespace WikiFunctions.DBScanner
             {
                 using (XmlTextReader reader = new XmlTextReader(stream))
                 {
+                    int count = 0;
                     reader.WhitespaceHandling = WhitespaceHandling.None;
 
                     if (From.Length > 0)
@@ -206,20 +217,17 @@ namespace WikiFunctions.DBScanner
                         }
                     }
 
-                    while (Run && reader.Read())
+                    while (Run)
                     {
-                        if (reader.NodeType != XmlNodeType.Element)
-                            continue;
+                        ArticleInfo ai = ReadArticle(reader);
+                        if (ai == null) break;
+                        articleTitle = ai.Title;
 
-                        //if (reader.Name != "title")
-                        //{
-                        //    reader.ReadToFollowing("page");
-                        //    continue;
-                        //}
+                        count++;
 
-                        ArticleInfo ai = ProcessArticle(reader);
-
-                        if (MultiThreaded && (PendingArticles.Count < ProcessorCount*4 + 5))
+                        // we must maintain a huge enough buffer to safeguard against fluctuations
+                        // of page size
+                        if (MultiThreaded && (PendingArticles.Count < ProcessorCount * 10))
                             PendingArticles.Add(ai);
                         else
                             ScanArticle(ai);
@@ -256,37 +264,40 @@ namespace WikiFunctions.DBScanner
             }
         }
 
-        private ArticleInfo ProcessArticle(XmlTextReader reader)
+        /// <summary>
+        /// Reads a page from the reader, returns ArticleInfo or null if EOF
+        /// </summary>
+        private ArticleInfo ReadArticle(XmlReader reader)
         {
+            do 
+                if (!reader.ReadToFollowing("page")) return null;
+            while (!reader.IsStartElement());
+
             ArticleInfo ai = new ArticleInfo();
-
-            while (Run && reader.Read())
+            while (reader.Read() && reader.Name != "page") // stop on closing element
             {
-                if (reader.NodeType != XmlNodeType.Element)
-                    continue;
-
+                if (!reader.IsStartElement()) continue;
                 switch (reader.Name)
                 {
                     case "title":
                         ai.Title = reader.ReadString();
-
-                        continue;
+                        break;
+                    case "timestamp":
+                        ai.Timestamp = reader.ReadString();
+                        break;
                     case "restrictions":
                         ai.Restrictions = reader.ReadString();
-                        continue;
-
-                    case "revision":
-                        {
-                            reader.ReadToFollowing("timestamp");
-                            ai.Timestamp = reader.ReadString();
-                            reader.ReadToFollowing("text");
-                            ai.Text = reader.ReadString();
-                            return ai;
-                        }
+                        break;
+                    case "text":
+                        ai.Text = reader.ReadString();
+                        break;
                 }
             }
 
-            return ai;
+            if (ai.IsFullyRead)
+                return ai;
+            else
+                return null;
         }
 
         private void SecondaryThread()
