@@ -192,7 +192,6 @@ namespace WikiFunctions.DBScanner
             {
                 using (XmlTextReader reader = new XmlTextReader(stream))
                 {
-                    int count = 0;
                     reader.WhitespaceHandling = WhitespaceHandling.None;
 
                     if (From.Length > 0)
@@ -222,8 +221,6 @@ namespace WikiFunctions.DBScanner
                         ArticleInfo ai = ReadArticle(reader);
                         if (ai == null) break;
                         articleTitle = ai.Title;
-
-                        count++;
 
                         // we must maintain a huge enough buffer to safeguard against fluctuations
                         // of page size
