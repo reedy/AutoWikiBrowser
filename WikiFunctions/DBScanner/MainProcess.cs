@@ -28,7 +28,7 @@ namespace WikiFunctions.DBScanner
 {
     public delegate void StopDel();
 
-    internal class ArticleInfo
+    public class ArticleInfo
     {
         public string Title, Text, Timestamp, Restrictions;
 
@@ -175,7 +175,7 @@ namespace WikiFunctions.DBScanner
 
             foreach (Scan z in Scanners)
             {
-                if (!z.Check(ref ai.Text, ref ai.Title, ai.Timestamp, ai.Restrictions))
+                if (!z.Check(ai))
                 {
                     return;
                 }
@@ -291,10 +291,7 @@ namespace WikiFunctions.DBScanner
                 }
             }
 
-            if (ai.IsFullyRead)
-                return ai;
-            else
-                return null;
+            return ai.IsFullyRead ? ai : null;
         }
 
         private void SecondaryThread()

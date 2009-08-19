@@ -29,7 +29,7 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public abstract class Scan
     {
-        public virtual bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public virtual bool Check(ArticleInfo article)
         {
             return true;
         }
@@ -40,9 +40,9 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public class IsNotRedirect : Scan
     {
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
-            return (!Tools.IsRedirect(articleText));
+            return (!Tools.IsRedirect(article.Text));
         }
     }
 	
@@ -60,12 +60,12 @@ namespace WikiFunctions.DBScanner
             Conditions = conditions;
         }
 
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
             foreach(KeyValuePair<string, bool> p in Conditions)
             {
-                if (articleText.IndexOf(
-                    Tools.ApplyKeyWords(articleTitle, p.Key), p.Value ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase) < 0)
+                if (article.Text.IndexOf(
+                    Tools.ApplyKeyWords(article.Title, p.Key), p.Value ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase) < 0)
                 {
                     return false;
                 }
@@ -87,13 +87,13 @@ namespace WikiFunctions.DBScanner
             Conditions = conditions;
         }
 
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
             foreach (KeyValuePair<string, bool> p in Conditions)
             {
                 // TODO: other types of comparison may be more appropriate
-                if (articleText.IndexOf(
-                    Tools.ApplyKeyWords(articleTitle, p.Key), p.Value ? StringComparison.InvariantCulture : StringComparison.InvariantCultureIgnoreCase) >= 0)
+                if (article.Text.IndexOf(
+                    Tools.ApplyKeyWords(article.Title, p.Key), p.Value ? StringComparison.InvariantCulture : StringComparison.InvariantCultureIgnoreCase) >= 0)
                 {
                     return false;
                 }
@@ -115,11 +115,11 @@ namespace WikiFunctions.DBScanner
 
         private readonly Regex[] Contains;
 
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
             foreach (Regex r in Contains)
             {
-                if (!r.IsMatch(articleText))
+                if (!r.IsMatch(article.Text))
                     return false;
             }
 
@@ -139,11 +139,11 @@ namespace WikiFunctions.DBScanner
 
         private readonly Regex[] NotContains;
 
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
             foreach (Regex r in NotContains)
             {
-                if (r.IsMatch(articleText))
+                if (r.IsMatch(article.Text))
                     return false;
             }
 
@@ -163,9 +163,9 @@ namespace WikiFunctions.DBScanner
 
         private readonly Regex Contains;
 
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
-            return (Contains.IsMatch(articleTitle));
+            return (Contains.IsMatch(article.Title));
         }
     }
 
@@ -181,9 +181,9 @@ namespace WikiFunctions.DBScanner
 
         private readonly Regex NotContains;
 
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
-            return (!NotContains.IsMatch(articleTitle));
+            return (!NotContains.IsMatch(article.Title));
         }
     }
 
@@ -204,9 +204,9 @@ namespace WikiFunctions.DBScanner
         private readonly int Test;
         private int Actual;
 
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
-            Actual = articleText.Length;
+            Actual = article.Text.Length;
 
             if (M == MoreLessThan.MoreThan)
                 return (Actual > Test);
@@ -232,9 +232,9 @@ namespace WikiFunctions.DBScanner
         private readonly int Test;
         private int Actual;
 
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
-            Actual = WikiRegexes.SimpleWikiLink.Matches(articleText).Count;
+            Actual = WikiRegexes.SimpleWikiLink.Matches(article.Text).Count;
 
             if (M == MoreLessThan.MoreThan)
                 return (Actual > Test);
@@ -259,9 +259,9 @@ namespace WikiFunctions.DBScanner
         private readonly int Test;
         private int Actual;
 
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
-            Actual = Tools.WordCount(articleText);
+            Actual = Tools.WordCount(article.Text);
 
             if (M == MoreLessThan.MoreThan)
                 return (Actual > Test);
@@ -283,9 +283,9 @@ namespace WikiFunctions.DBScanner
 
         private readonly List<int> Namespaces;
 
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
-            return (Namespaces.Contains(Namespace.Determine(articleTitle)));
+            return (Namespaces.Contains(Namespace.Determine(article.Title)));
         }
     }
 
@@ -294,9 +294,9 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public class HasBadLinks : Scan
     {
-        private static bool FixLinks(string articleText)
+        public override bool Check(ArticleInfo article)
         {
-            foreach (Match m in WikiRegexes.SimpleWikiLink.Matches(articleText))
+            foreach (Match m in WikiRegexes.SimpleWikiLink.Matches(article.Text))
             {
                 string y = System.Web.HttpUtility.UrlDecode(m.Value.Replace("+", "%2B"));
 
@@ -305,11 +305,6 @@ namespace WikiFunctions.DBScanner
             }
 
             return true;
-        }
-
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
-        {
-            return FixLinks(articleText);
         }
     }
 
@@ -321,9 +316,9 @@ namespace WikiFunctions.DBScanner
         private readonly Parsers P = new Parsers();
         private bool Skip;
 
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
-            P.BoldTitle(articleText, articleTitle, out Skip);
+            P.BoldTitle(article.Text, article.Title, out Skip);
 
             return !Skip;
         }
@@ -337,9 +332,9 @@ namespace WikiFunctions.DBScanner
         private readonly Parsers P = new Parsers();
         private bool Skip;
 
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
-            P.CiteTemplateDates(articleText, out Skip);
+            P.CiteTemplateDates(article.Text, out Skip);
 
             return !Skip;
         }
@@ -353,9 +348,9 @@ namespace WikiFunctions.DBScanner
         private readonly Parsers P = new Parsers();
         private bool Skip;
 
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
-            P.FixPeopleCategories(articleText, articleTitle, out Skip);
+            P.FixPeopleCategories(article.Text, article.Title, out Skip);
 
             return !Skip;
         }
@@ -367,11 +362,11 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public class UnbalancedBrackets : Scan
     {
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
             int bracketLength = 0;
 
-            return (Parsers.UnbalancedBrackets(articleText, ref bracketLength) != -1);
+            return (Parsers.UnbalancedBrackets(article.Text, ref bracketLength) != -1);
         }
     }
 
@@ -383,9 +378,9 @@ namespace WikiFunctions.DBScanner
         private readonly Parsers P = new Parsers();
         private bool Skip;
 
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
-            P.Unicodify(articleText, out Skip);
+            P.Unicodify(article.Text, out Skip);
 
             return !Skip;
         }
@@ -396,9 +391,9 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public class HasSimpleLinks : Scan
     {
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
-            foreach (Match m in WikiRegexes.PipedWikiLink.Matches(articleText))
+            foreach (Match m in WikiRegexes.PipedWikiLink.Matches(article.Text))
             {
                 string a = m.Groups[1].Value;
                 string b = m.Groups[2].Value;
@@ -419,9 +414,9 @@ namespace WikiFunctions.DBScanner
     {
         private bool Skip = true;
 
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
-            Parsers.FixHeadings(articleText, articleTitle, out Skip);
+            Parsers.FixHeadings(article.Text, article.Title, out Skip);
 
             return !Skip;
         }
@@ -435,9 +430,9 @@ namespace WikiFunctions.DBScanner
         private readonly Regex BulletRegex = new Regex(@"External [Ll]inks? ? ?={1,4} ? ?(
 ){0,3}\[?http", RegexOptions.Compiled);
 
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
-            return (BulletRegex.IsMatch(articleText));
+            return (BulletRegex.IsMatch(article.Text));
         }
     }
 
@@ -448,9 +443,9 @@ namespace WikiFunctions.DBScanner
     {
         private bool Skip = true;
 
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
-            Parsers.LivingPeople(articleText, out Skip);
+            Parsers.LivingPeople(article.Text, out Skip);
 
             return !Skip;
         }
@@ -463,9 +458,9 @@ namespace WikiFunctions.DBScanner
     {
         private bool Skip = true;
 
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
-            Parsers.ChangeToDefaultSort(articleText, articleTitle, out Skip);
+            Parsers.ChangeToDefaultSort(article.Text, article.Title, out Skip);
 
             return !Skip;
         }
@@ -478,9 +473,9 @@ namespace WikiFunctions.DBScanner
     {
         private readonly RegExTypoFix Retf = new RegExTypoFix(false);
 
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
-            return Retf.DetectTypo(articleText, articleTitle);
+            return Retf.DetectTypo(article.Text, article.Title);
         }
     }
 
@@ -489,12 +484,12 @@ namespace WikiFunctions.DBScanner
     /// </summary>
     public class UnCategorised : Scan
     {
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
-            if (WikiRegexes.Category.IsMatch(articleText))
+            if (WikiRegexes.Category.IsMatch(article.Text))
                 return false;
 
-            foreach (Match m in WikiRegexes.Template.Matches(articleText))
+            foreach (Match m in WikiRegexes.Template.Matches(article.Text))
             {
                 if (!m.Value.Contains("stub"))
                     return false;
@@ -517,10 +512,10 @@ namespace WikiFunctions.DBScanner
             To = to;
         }
 
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
             DateTime timestamp;
-            if (DateTime.TryParse(articleTimestamp, out timestamp))
+            if (DateTime.TryParse(article.Timestamp, out timestamp))
                 return ((DateTime.Compare(timestamp, From) >= 0) && (DateTime.Compare(timestamp, To) <= 0));
             return false;
         }
@@ -541,9 +536,9 @@ namespace WikiFunctions.DBScanner
             Move = moveLevel;
         }
 
-        public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
+        public override bool Check(ArticleInfo article)
         {
-            bool restrictionStringEmpty = (string.IsNullOrEmpty(articleRestrictions));
+            bool restrictionStringEmpty = (string.IsNullOrEmpty(article.Restrictions));
             bool noEditRestriction = string.IsNullOrEmpty(Edit);
             bool noMoveRestriction = string.IsNullOrEmpty(Move);
 
@@ -552,10 +547,10 @@ namespace WikiFunctions.DBScanner
                 return (noEditRestriction && noMoveRestriction);
             }
 
-            if (!noEditRestriction && !articleRestrictions.Contains(EditRest + Edit))
+            if (!noEditRestriction && !article.Restrictions.Contains(EditRest + Edit))
                 return false;
 
-            return noMoveRestriction || articleRestrictions.Contains(MoveRest + Move);
+            return noMoveRestriction || article.Restrictions.Contains(MoveRest + Move);
         }
     }
 }
