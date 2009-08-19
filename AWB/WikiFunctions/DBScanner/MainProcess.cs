@@ -206,30 +206,18 @@ namespace WikiFunctions.DBScanner
                         }
                     }
 
-                    //TODO:Improve code
                     while (Run && reader.Read())
                     {
                         if (reader.NodeType != XmlNodeType.Element)
                             continue;
 
-                        if (reader.Name != "title")
-                        {
-                            reader.ReadToFollowing("page");
-                            continue;
-                        }
+                        //if (reader.Name != "title")
+                        //{
+                        //    reader.ReadToFollowing("page");
+                        //    continue;
+                        //}
 
-                        ArticleInfo ai = new ArticleInfo
-                        {
-                            Title = articleTitle = reader.ReadString(),
-                            Restrictions = reader.Name == "restrictions" ? reader.ReadString() : "" //TODO:FIX ME
-                        };
-
-                        //reader.ReadToFollowing("title");
-
-                        reader.ReadToFollowing("timestamp");
-                        ai.Timestamp = reader.ReadString();
-                        reader.ReadToFollowing("text");
-                        ai.Text = reader.ReadString();
+                        ArticleInfo ai = ProcessArticle(reader);
 
                         if (MultiThreaded && (PendingArticles.Count < ProcessorCount*4 + 5))
                             PendingArticles.Add(ai);
@@ -266,6 +254,39 @@ namespace WikiFunctions.DBScanner
                 if (Message)
                     Context.Post(SOPCstopped, articleTitle);
             }
+        }
+
+        private ArticleInfo ProcessArticle(XmlTextReader reader)
+        {
+            ArticleInfo ai = new ArticleInfo();
+
+            while (Run && reader.Read())
+            {
+                if (reader.NodeType != XmlNodeType.Element)
+                    continue;
+
+                switch (reader.Name)
+                {
+                    case "title":
+                        ai.Title = reader.ReadString();
+
+                        continue;
+                    case "restrictions":
+                        ai.Restrictions = reader.ReadString();
+                        continue;
+
+                    case "revision":
+                        {
+                            reader.ReadToFollowing("timestamp");
+                            ai.Timestamp = reader.ReadString();
+                            reader.ReadToFollowing("text");
+                            ai.Text = reader.ReadString();
+                            return ai;
+                        }
+                }
+            }
+
+            return ai;
         }
 
         private void SecondaryThread()
