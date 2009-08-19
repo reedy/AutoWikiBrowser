@@ -179,7 +179,9 @@ namespace WikiFunctions.DBScanner
             StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
             Limit = (int)nudLimitResults.Value;
 
-            List<Scan> s = new List<Scan> { new CheckNamespace(Namespaces) };
+            List<Scan> s = new List<Scan>();
+
+            if (Namespaces.Count > 0) s.Add(new CheckNamespace(Namespaces));
 
             if (chkIgnoreRedirects.Checked)
                 s.Add(new IsNotRedirect());
