@@ -363,16 +363,15 @@ namespace WikiFunctions.DBScanner
     }
     
     /// <summary>
-    /// 
+    /// Returns whether the article has unbalanced brackets
     /// </summary>
     public class UnbalancedBrackets : Scan
     {
         public override bool Check(ref string articleText, ref string articleTitle, string articleTimestamp, string articleRestrictions)
         {
             int bracketLength = 0;
-            int position = Parsers.UnbalancedBrackets(articleText, ref bracketLength);
 
-            return (position != -1);
+            return (Parsers.UnbalancedBrackets(articleText, ref bracketLength) != -1);
         }
     }
 
@@ -443,7 +442,7 @@ namespace WikiFunctions.DBScanner
     }
 
     /// <summary>
-    /// Returns whether the article is of a living person
+    /// Returns whether AWB would make changes to an article, adding [[Category:Living people]] to with a [[Category:XXXX births]] and no living people/deaths category
     /// </summary>
     public class LivingPerson : Scan
     {
