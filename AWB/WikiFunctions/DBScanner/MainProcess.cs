@@ -1,5 +1,5 @@
 /*
-DumpSearcher
+Database Scanner
 Copyright (C) 2007 Martin Richards
 
 This program is free software; you can redistribute it and/or modify
@@ -298,10 +298,9 @@ namespace WikiFunctions.DBScanner
         {
             try
             {
-                bool sleep;
-                //int sleeps = 0;
                 while (Run)
                 {
+                    bool sleep;
                     if (PendingArticles.Count > 0) lock (PendingArticles)
                         {
                             if (PendingArticles.Count > 0)
@@ -317,12 +316,8 @@ namespace WikiFunctions.DBScanner
                         sleep = true;
 
                     if (sleep)
-                    {
                         Thread.Sleep(1);
-                        //sleeps++;
-                    }
                 }
-                //System.Windows.Forms.MessageBox.Show(sleeps.ToString());
             }
             catch (ThreadAbortException)
             { }
