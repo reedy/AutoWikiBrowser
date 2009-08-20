@@ -141,7 +141,7 @@ namespace WikiFunctions.Parse
             RegexConversion.Add(new Regex(@"(?<={{[Aa]rticle)i(?=ssues.*}})", RegexOptions.Compiled), " i");
 
             // http://en.wikipedia.org/wiki/Template_talk:Citation_needed#Requested_move
-            if(Variables.LangCode == LangCodeEnum.en)
+            if (Variables.LangCode == LangCodeEnum.en)
                 RegexConversion.Add(new Regex(@"{{\s*(?:[Cc]n|[Ff]act|[Pp]roveit|[Cc]iteneeded|[Uu]ncited)(?=\s*[\|}])", RegexOptions.Compiled), @"{{citation needed");
         }
 
@@ -466,11 +466,23 @@ namespace WikiFunctions.Parse
             return AddBackMoreText(articleText);
         }
 
-        private static readonly string Months = @"(?:" + string.Join("|", Variables.MonthNames) + ")";
+        private static readonly Regex DiedDateRegex =
+            new Regex(
+                @"('''[^']+'''\s*\()d\.(\s+\[*(?:" + WikiRegexes.Months + @"\s+0?([1-3]?[0-9])|0?([1-3]?[0-9])\s*" +
+                WikiRegexes.Months + @")?\]*\s*\[*[1-2]?\d{3}\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private static readonly Regex DiedDateRegex = new Regex(@"('''[^']+'''\s*\()d\.(\s+\[*(?:" + Months + @"\s+0?([1-3]?[0-9])|0?([1-3]?[0-9])\s*" + Months + @")?\]*\s*\[*[1-2]?\d{3}\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex DOBRegex = new Regex(@"('''[^']+'''\s*\()b\.(\s+\[*(?:" + Months + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" + Months + @")?\]*\s*\[*[1-2]?\d{3}\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex BornDeathRegex = new Regex(@"('''[^']+'''\s*\()(?:[Bb]orn|b\.)\s+(\[*(?:" + Months + @"\s+0?(?:[1-3]?\d)|0?(?:[1-3]?\d)\s*" + Months + @")?\]*,?\s*\[*[1-2]?\d{3}\]*)\s*(.|&.dash;)\s*(?:[Dd]ied|d\.)\s+(\[*(?:" + Months + @"\s+0?(?:[1-3]?\d)|0?(?:[1-3]?\d)\s*" + Months + @")\]*,?\s*\[*[1-2]?\d{3}\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex DOBRegex =
+            new Regex(
+                @"('''[^']+'''\s*\()b\.(\s+\[*(?:" + WikiRegexes.Months + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
+                WikiRegexes.Months + @")?\]*\s*\[*[1-2]?\d{3}\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+        private static readonly Regex BornDeathRegex =
+            new Regex(
+                @"('''[^']+'''\s*\()(?:[Bb]orn|b\.)\s+(\[*(?:" + WikiRegexes.Months +
+                @"\s+0?(?:[1-3]?\d)|0?(?:[1-3]?\d)\s*" + WikiRegexes.Months +
+                @")?\]*,?\s*\[*[1-2]?\d{3}\]*)\s*(.|&.dash;)\s*(?:[Dd]ied|d\.)\s+(\[*(?:" + WikiRegexes.Months +
+                @"\s+0?(?:[1-3]?\d)|0?(?:[1-3]?\d)\s*" + WikiRegexes.Months + @")\]*,?\s*\[*[1-2]?\d{3}\]*\)\s*)",
+                RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         //Covered by: LinkTests.FixLivingThingsRelatedDates()
         /// <summary>
@@ -953,15 +965,16 @@ namespace WikiFunctions.Parse
         private const string CitYMonthD = SiCitStart + @"(?:archive|air)?date2?\s*=\s*\d{4})[-/\s]";
         private const string dTemEnd = @"?[-/\s]([0-3]?\d\s*(?:\||}}))";
 
-        struct RegexReplacement {
-            public RegexReplacement(Regex regex, string replacement) { Regex=regex; Replacement=replacement; }
+        struct RegexReplacement
+        {
+            public RegexReplacement(Regex regex, string replacement) { Regex = regex; Replacement = replacement; }
             public readonly Regex Regex;
             public readonly string Replacement;
             // This could get extended to be a class with some of the Regex methods, such as IsMatch, Replace, etc, but there's little point
         }
 
         private static readonly Regex AccessOrArchiveDate = new Regex(@"\b(access|archive)date\s*=", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private static readonly RegexReplacement[] CiteTemplateIncorrectISOAccessdates = new [] {
+        private static readonly RegexReplacement[] CiteTemplateIncorrectISOAccessdates = new[] {
             new RegexReplacement(new Regex(CitAccessdate + @")(1[0-2])[/_\-\.]?(1[3-9])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$2-$3"),
             new RegexReplacement(new Regex(CitAccessdate + @")(1[0-2])[/_\-\.]?([2-3]\d)[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$4-$2-$3"),
             new RegexReplacement(new Regex(CitAccessdate + @")(1[0-2])[/_\-\.]?\2[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "${1}20$3-$2-$2"), // nn-nn-2004 and nn-nn-04 to ISO format (both nn the same)
@@ -982,7 +995,7 @@ namespace WikiFunctions.Parse
         };
 
         private static readonly Regex CiteTemplateArchiveAirDate = new Regex(@"{{\s*cit[^{}]*\|\s*(?:archive|air)?date2?\s*=", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
-        private static readonly RegexReplacement[] CiteTemplateIncorrectISODates = new [] {
+        private static readonly RegexReplacement[] CiteTemplateIncorrectISODates = new[] {
             new RegexReplacement(new Regex(CitDate + @"\[?\[?)(200\d|19[7-9]\d)[/_]?([0-1]\d)[/_]?([0-3]\d\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-$4"),
             new RegexReplacement(new Regex(CitDate + @"\[?\[?)(1[0-2])[/_\-\.]?([2-3]\d)[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-$2-$3"),
             new RegexReplacement(new Regex(CitDate + @"\[?\[?)0?([1-9])[/_\-\.]?([2-3]\d)[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", RegexOptions.Compiled), "$1$4-0$2-$3"),
@@ -1012,7 +1025,7 @@ namespace WikiFunctions.Parse
             new RegexReplacement(new Regex(CitDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]([0-1]\d)0?([0-3]\d(?:\]\])?\s*(?:\||}}))", RegexOptions.Compiled), "$1$2-$3-$4"),
         };
 
-        private static readonly RegexReplacement[] CiteTemplateAbbreviatedMonths = new [] {
+        private static readonly RegexReplacement[] CiteTemplateAbbreviatedMonths = new[] {
             new RegexReplacement(new Regex(CitYMonthD + @"Jan(?:uary|\.)" + dTemEnd, RegexOptions.Compiled), "$1-01-$2"),
             new RegexReplacement(new Regex(CitYMonthD + @"Feb(?:r?uary|\.)" + dTemEnd, RegexOptions.Compiled), "$1-02-$2"),
             new RegexReplacement(new Regex(CitYMonthD + @"Mar(?:ch|\.)" + dTemEnd, RegexOptions.Compiled), "$1-03-$2"),
@@ -1180,13 +1193,13 @@ namespace WikiFunctions.Parse
             return EmptyReferences.Replace(articleText, @"$1 />");
         }
 
-        private static readonly Regex LinksHeading=new Regex(@"(?sim)(==+\s*)Links(\s*==+\s*(?:^(?:\*|\d\.?)?\s*\[?\s*http://))", RegexOptions.Compiled);
-        private static readonly Regex ReferencesHeadingLevel2=new Regex(@"(?i)==\s*'*\s*References?\s*'*\s*==", RegexOptions.Compiled);
-        private static readonly Regex ReferencesHeadingLevelLower=new Regex(@"(?i)(==+\s*'*\s*References?\s*'*\s*==+)", RegexOptions.Compiled);
-        private static readonly Regex ExternalLinksHeading=new Regex(@"(?im)(^\s*=+\s*(?:External\s+link|Source|Web\s*link)s?\s*=)", RegexOptions.Compiled);
-        private static readonly Regex ExternalLinksToReferences=new Regex(@"(?sim)(^\s*=+\s*(?:External\s+link|Source|Web\s*link)s?\s*=+.*?)(\r\n==+References==+\r\n{{Reflist}}<!--added above External links/Sources by script-assisted edit-->)", RegexOptions.Compiled);
-        private static readonly Regex Category=new Regex(@"(?im)(^\s*\[\[\s*Category\s*:)", RegexOptions.Compiled);
-        private static readonly Regex CategoryToReferences=new Regex(@"(?sim)((?:^\{\{[^{}]+?\}\}\s*)*)(^\s*\[\[\s*Category\s*:.*?)(\r\n==+References==+\r\n{{Reflist}}<!--added above categories/infobox footers by script-assisted edit-->)", RegexOptions.Compiled);
+        private static readonly Regex LinksHeading = new Regex(@"(?sim)(==+\s*)Links(\s*==+\s*(?:^(?:\*|\d\.?)?\s*\[?\s*http://))", RegexOptions.Compiled);
+        private static readonly Regex ReferencesHeadingLevel2 = new Regex(@"(?i)==\s*'*\s*References?\s*'*\s*==", RegexOptions.Compiled);
+        private static readonly Regex ReferencesHeadingLevelLower = new Regex(@"(?i)(==+\s*'*\s*References?\s*'*\s*==+)", RegexOptions.Compiled);
+        private static readonly Regex ExternalLinksHeading = new Regex(@"(?im)(^\s*=+\s*(?:External\s+link|Source|Web\s*link)s?\s*=)", RegexOptions.Compiled);
+        private static readonly Regex ExternalLinksToReferences = new Regex(@"(?sim)(^\s*=+\s*(?:External\s+link|Source|Web\s*link)s?\s*=+.*?)(\r\n==+References==+\r\n{{Reflist}}<!--added above External links/Sources by script-assisted edit-->)", RegexOptions.Compiled);
+        private static readonly Regex Category = new Regex(@"(?im)(^\s*\[\[\s*Category\s*:)", RegexOptions.Compiled);
+        private static readonly Regex CategoryToReferences = new Regex(@"(?sim)((?:^\{\{[^{}]+?\}\}\s*)*)(^\s*\[\[\s*Category\s*:.*?)(\r\n==+References==+\r\n{{Reflist}}<!--added above categories/infobox footers by script-assisted edit-->)", RegexOptions.Compiled);
         //private static readonly Regex AMR8 = new Regex(@"(?sim)(^==.*?)(^\{\{[^{}]+?\}\}.*?)(\r\n==+References==+\r\n{{Reflist}}<!--added to end of article by script-assisted edit-->)", RegexOptions.Compiled);
         private static readonly Regex ReflistByScript = new Regex(@"(\{\{Reflist\}\})<!--added[^<>]+by script-assisted edit-->", RegexOptions.Compiled);
 
@@ -1231,7 +1244,7 @@ namespace WikiFunctions.Parse
             // remove reflist comment
             return ReflistByScript.Replace(articleText, "$1");
         }
-        
+
         private static readonly RegexReplacement[] RefWhitespace = new[] {
         // whitespace cleaning
             new RegexReplacement(new Regex(@"<\s*(?:\s+ref\s*|\s*ref\s+)>", RegexOptions.Compiled | RegexOptions.Singleline), "<ref>"),
@@ -1310,7 +1323,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex OrdinalsInDatesInt = new Regex(@"(?:\b([0-3]?\d)(?:st|nd|rd|th)(\s*(?:to|and|.|&.dash;)\s*))?\b([0-3]?\d)(?:st|nd|rd|th)\s+" + WikiRegexes.Months + @"\b(?<!\b[Tt]he\s+(?:[0-3]?\d)(?:st|nd|rd|th)\s+\w{3,10})", RegexOptions.Compiled);
         private static readonly Regex DateLeadingZerosAm = new Regex(@"\b" + WikiRegexes.Months + @"\s+0([1-9])" + @"\b", RegexOptions.Compiled);
         private static readonly Regex DateLeadingZerosInt = new Regex(@"\b" + @"0([1-9])\s+" + WikiRegexes.Months + @"\b", RegexOptions.Compiled);
-        private static readonly Regex MonthsRegex = new Regex(@"\b" + Months + @"\b", RegexOptions.Compiled);
+        private static readonly Regex MonthsRegex = new Regex(@"\b" + WikiRegexes.Months + @"\b", RegexOptions.Compiled);
         // Covered by TestFixDateOrdinalsAndOf
         /// <summary>
         /// Removes ordinals, leading zeros from dates and 'of' between a month and a year, per [[WP:MOSDATE]]; on en wiki only
@@ -1341,18 +1354,18 @@ namespace WikiFunctions.Parse
             return AddBackMoreText(articleText);
         }
 
-        private static readonly Regex BrTwoNewlines=new Regex("<br ?/?>\r\n\r\n", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private static readonly Regex ThreeOrMoreNewlines=new Regex("\r\n(\r\n)+", RegexOptions.Compiled);
-        private static readonly Regex TwoNewlinesInBlankSection=new Regex("== ? ?\r\n\r\n==", RegexOptions.Compiled);
-        private static readonly Regex NewlinesBelowExternalLinks=new Regex(@"==External links==[\r\n\s]*\*", RegexOptions.Compiled);
-        private static readonly Regex NewlinesBeforeURL=new Regex(@"\r\n\r\n(\* ?\[?http)", RegexOptions.Compiled);
-        private static readonly Regex HorizontalRule=new Regex("----+$", RegexOptions.Compiled);
-        private static readonly Regex MultipleTabs=new Regex("  +", RegexOptions.Compiled);
-        private static readonly Regex SpaceThenNewline=new Regex(" \r\n", RegexOptions.Compiled);
-        private static readonly Regex WikiListWithMultipleSpaces=new Regex(@"^([\*#]+) +", RegexOptions.Compiled | RegexOptions.Multiline);
-        private static readonly Regex WikiList=new Regex(@"^([\*#]+)", RegexOptions.Compiled | RegexOptions.Multiline);
-        private static readonly Regex SpacedHeadings=new Regex("^(={1,4}) ?(.*?) ?(={1,4})$", RegexOptions.Compiled| RegexOptions.Multiline);
-        private static readonly Regex SpacedDashes=new Regex(" (–|—|&#15[01];|&[nm]dash;|&#821[12];|&#x201[34];) ", RegexOptions.Compiled);
+        private static readonly Regex BrTwoNewlines = new Regex("<br ?/?>\r\n\r\n", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex ThreeOrMoreNewlines = new Regex("\r\n(\r\n)+", RegexOptions.Compiled);
+        private static readonly Regex TwoNewlinesInBlankSection = new Regex("== ? ?\r\n\r\n==", RegexOptions.Compiled);
+        private static readonly Regex NewlinesBelowExternalLinks = new Regex(@"==External links==[\r\n\s]*\*", RegexOptions.Compiled);
+        private static readonly Regex NewlinesBeforeURL = new Regex(@"\r\n\r\n(\* ?\[?http)", RegexOptions.Compiled);
+        private static readonly Regex HorizontalRule = new Regex("----+$", RegexOptions.Compiled);
+        private static readonly Regex MultipleTabs = new Regex("  +", RegexOptions.Compiled);
+        private static readonly Regex SpaceThenNewline = new Regex(" \r\n", RegexOptions.Compiled);
+        private static readonly Regex WikiListWithMultipleSpaces = new Regex(@"^([\*#]+) +", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex WikiList = new Regex(@"^([\*#]+)", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex SpacedHeadings = new Regex("^(={1,4}) ?(.*?) ?(={1,4})$", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex SpacedDashes = new Regex(" (–|—|&#15[01];|&[nm]dash;|&#821[12];|&#x201[34];) ", RegexOptions.Compiled);
 
         // Covered by: FormattingTests.TestFixWhitespace(), incomplete
         /// <summary>
@@ -1507,7 +1520,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegex17 = new Regex("(^==?[^=]*==?)\r\n(\r\n)?----+", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SyntaxRegex18 = new Regex(@"HTTP/\d\.", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegex19 = new Regex("ISBN: ?([0-9])", RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegex20 = new Regex(@"^\[(\s*http.*?)\]$", RegexOptions.Compiled| RegexOptions.Singleline);
+        private static readonly Regex SyntaxRegex20 = new Regex(@"^\[(\s*http.*?)\]$", RegexOptions.Compiled | RegexOptions.Singleline);
         private static readonly Regex SyntaxRegex21 = new Regex(@"([^]])\]([^]]|$)", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegex22 = new Regex("\\[\\[[Ii]mage:[^]]*http", RegexOptions.Compiled);
 
@@ -3171,7 +3184,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             int matches;
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#defaultsort_adding_namespace
-            if(!Namespace.IsMainSpace(articleTitle))
+            if (!Namespace.IsMainSpace(articleTitle))
                 articleTitle = Tools.RemoveNamespaceString(articleTitle);
 
             string sort = GetCategorySort(articleText, articleTitle, out matches);
@@ -3384,9 +3397,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     || WikiRegexes.LivingPeopleRegex2.IsMatch(articleText)
                     || WikiRegexes.BirthsCategory.IsMatch(articleText)
                     || WikiRegexes.BLPSources.IsMatch(articleText)
-                    || RefImprove.IsMatch(articleText) 
+                    || RefImprove.IsMatch(articleText)
                     || (!string.IsNullOrEmpty(articleTitle) &&
-                        Tools.GetArticleText(Variables.Namespaces[Namespace.Talk] + articleTitle, true).Contains(@"{{WPBiography"));           
+                        Tools.GetArticleText(Variables.Namespaces[Namespace.Talk] + articleTitle, true).Contains(@"{{WPBiography"));
         }
 
         /// <summary>
