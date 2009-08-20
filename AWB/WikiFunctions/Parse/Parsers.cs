@@ -1793,7 +1793,7 @@ namespace WikiFunctions.Parse
         public static string CanonicalizeTitleAggressively(string title)
         {
             title = Tools.RemoveHashFromPageTitle(title);
-            title = HttpUtility.UrlDecode(title).Replace('_', ' ').Trim();
+            title = Tools.WikiDecode(title).Trim();
             title = Tools.TurnFirstToUpper(title);
 
             if (!title.Contains(":")) return title;
