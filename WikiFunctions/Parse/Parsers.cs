@@ -1787,6 +1787,29 @@ namespace WikiFunctions.Parse
             return s;
         }
 
+        /// <summary>
+        /// Turns a title into its canonical form, could be slow
+        /// </summary>
+        public static string CanonicalizeTitleAggressively(string title)
+        {
+            title = Tools.RemoveHashFromPageTitle(title);
+            title = HttpUtility.UrlDecode(title).Replace('_', ' ').Trim();
+            title = Tools.TurnFirstToUpper(title);
+
+            if (!title.Contains(":")) return title;
+
+            string prevTitle = title;
+            foreach (var p in Variables.NamespacesCaseInsensitive)
+            {
+                title = Regex.Replace(title, @"^\s*" + p.Value + @"\s*", "");
+                if (title == prevTitle) continue;
+
+                title = Variables.Namespaces[p.Key] + Tools.TurnFirstToUpper(title);
+                break;
+            }
+            return title;
+        }
+
         private static readonly Regex SingleCurlyBrackets = new Regex(@"{((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))})", RegexOptions.Compiled);
         private static readonly Regex DoubleSquareBrackets = new Regex(@"\[\[((?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\]\])", RegexOptions.Compiled);
         private static readonly Regex SingleSquareBrackets = new Regex(@"\[((?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])", RegexOptions.Compiled);
