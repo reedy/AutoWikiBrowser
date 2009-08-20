@@ -37,8 +37,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             ' Argument should NOT contain the default name at this stage; should contain spaces not [ _] or _
             If SenderIsGenericTemplateForm Then
                 AlternateNames = AlternateNames.Replace("_", " ")
-            Else
-                CheckNoUnderscores(AlternateNames)
             End If
 
             AlternateNames = AlternateNames.Trim
@@ -106,10 +104,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
 #End If
             End Get
         End Property
-        Private Sub CheckNoUnderscores(ByVal text As String)
-            ' TODO: Once verified that code is good, this can be removed
-            If text.Contains("_") Then Throw New ArgumentException("AlternateNames string should not contain underscores at this stage. Please make a note of exactly what you were doing and report this as a bug")
-        End Sub
 
         ' Get the redirects from Wikipedia:
         ''' <summary>
@@ -188,7 +182,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             ' Generic templates already support AlternateNames property so will override this
             Dim Redirs As String = PluginManager.XMLReadString(Reader, RedirectsParm, mLastKnownGoodRedirects)
 
-            CheckNoUnderscores(Redirs)
             If Not Redirs = "" Then mLastKnownGoodRedirects = Redirs
         End Sub
         Friend Overridable Sub WriteXMLRedirects(ByVal Writer As System.Xml.XmlTextWriter)
