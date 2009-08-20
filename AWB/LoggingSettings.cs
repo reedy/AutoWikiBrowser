@@ -373,7 +373,6 @@ namespace AutoWikiBrowser
             internal List<LogEntry> LinksToLog()
             {
                 List<LogEntry> tempLinksToLog = new List<LogEntry> {new LogEntry(GlobbedUploadLocation, false)};
-                // TODO: We could create a temporary AWB logs page and have alpha version upload to that?
 
                 // If "uploading to WikiProjects" (or other plugin-specified locations), get details from plugins:
                 if (mUploadToWikiProjects)

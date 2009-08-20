@@ -109,7 +109,6 @@ namespace AutoWikiBrowser
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.replaceTextWithLastEditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undoAllChangesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reloadEditPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MnuMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadDefaultSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -504,8 +503,7 @@ namespace AutoWikiBrowser
             this.openSelectionInBrowserToolStripMenuItem,
             this.toolStripSeparator9,
             this.replaceTextWithLastEditToolStripMenuItem,
-            this.undoAllChangesToolStripMenuItem,
-            this.reloadEditPageToolStripMenuItem});
+            this.undoAllChangesToolStripMenuItem});
             this.mnuTextBox.Name = "contextMenuStrip1";
             this.mnuTextBox.Size = new System.Drawing.Size(296, 574);
             this.mnuTextBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuTextBox_Opening);
@@ -963,15 +961,6 @@ namespace AutoWikiBrowser
             this.undoAllChangesToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
             this.undoAllChangesToolStripMenuItem.Text = "Un&do all changes";
             this.undoAllChangesToolStripMenuItem.Click += new System.EventHandler(this.undoAllChangesToolStripMenuItem_Click);
-            // 
-            // reloadEditPageToolStripMenuItem
-            // 
-            this.reloadEditPageToolStripMenuItem.Name = "reloadEditPageToolStripMenuItem";
-            this.reloadEditPageToolStripMenuItem.ShortcutKeyDisplayString = "F5";
-            this.reloadEditPageToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.reloadEditPageToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
-            this.reloadEditPageToolStripMenuItem.Text = "Reload edit page";
-            this.reloadEditPageToolStripMenuItem.Click += new System.EventHandler(this.reloadEditPageToolStripMenuItem_Click);
             // 
             // MnuMain
             // 
@@ -3818,6 +3807,7 @@ namespace AutoWikiBrowser
             this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
             this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
             this.loggingSettings1.Name = "loggingSettings1";
+            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
             this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
             this.loggingSettings1.TabIndex = 0;
             // 
@@ -4418,7 +4408,6 @@ namespace AutoWikiBrowser
         private WikiFunctions.Logging.LogControl logControl;
         private System.Windows.Forms.WebBrowser webBrowser;
         private System.Windows.Forms.ToolStripMenuItem undoAllChangesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem reloadEditPageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openTalkPageInBrowserToolStripMenuItem;
         private System.Windows.Forms.TabPage tpHistory;
         private System.Windows.Forms.WebBrowser webBrowserHistory;

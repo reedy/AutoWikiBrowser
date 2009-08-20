@@ -178,7 +178,6 @@ namespace WikiFunctions.Logging
             bool retval = false;
 			if (Upload != null)	Upload(this, ref retval);
 
-			// TODO: Logging: Get result, reset TraceStatus, write success/failure to log
 			if (newJob)
 			{
 				mTraceStatus.PageNumber = 1;

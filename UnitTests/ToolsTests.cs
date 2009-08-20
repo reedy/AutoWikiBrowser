@@ -62,8 +62,7 @@ namespace UnitTests
             Assert.IsFalse(Tools.IsRomanNumber(""));
         }
 
-        [Test, Category("Incomplete")]
-        //TODO: address the need of escaped string as argument
+        [Test, Category("Incomplete")] //TODO: address the need of escaped string as argument
         public void CaseInsensitive()
         {
             Assert.AreEqual("", Tools.CaseInsensitive(""));
@@ -453,7 +452,7 @@ bar"));
 
         const string _100 = "123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 1234567890";
 
-        [Test, Ignore("Known Failing")] // TODO: fix failing tests
+        [Test, Ignore("Known Failing")] //TODO: fix failing tests
         public void TrimEditSummary()
         {
             Assert.AreEqual("test using [[WP:AWB]]", Tools.TrimEditSummary("test", " using [[WP:AWB]]"));
