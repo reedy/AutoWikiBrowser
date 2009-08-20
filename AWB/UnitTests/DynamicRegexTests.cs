@@ -82,11 +82,26 @@ namespace UnitTests
         [Test, Ignore("Incomplete")]
         public void EmptyLinkTests()
         {
+            RegexAssert.IsMatch(WikiRegexes.EmptyLink, "[[]]");
+            RegexAssert.IsMatch(WikiRegexes.EmptyLink, "[[   ]]");
+            RegexAssert.IsMatch(WikiRegexes.EmptyLink, "[[|]]");
+            RegexAssert.IsMatch(WikiRegexes.EmptyLink, "[[       |    ]]");
         }
 
-        [Test, Ignore("Incomplete")]
+        [Test]
         public void EmptyTemplateTests()
         {
+            RegexAssert.NoMatch(WikiRegexes.EmptyTemplate, "{{TemplateTest}}");
+            RegexAssert.NoMatch(WikiRegexes.EmptyTemplate, "{{Test}}");
+            RegexAssert.NoMatch(WikiRegexes.EmptyTemplate, "{{Test|Parameter}}");
+            RegexAssert.NoMatch(WikiRegexes.EmptyTemplate, "{{Test|}}");
+
+            RegexAssert.IsMatch(WikiRegexes.EmptyTemplate, "{{Template:}}");
+            RegexAssert.IsMatch(WikiRegexes.EmptyTemplate, "{{}}");
+            RegexAssert.IsMatch(WikiRegexes.EmptyTemplate, "{{|}}");
+            RegexAssert.IsMatch(WikiRegexes.EmptyTemplate, "{{          }}");
+            RegexAssert.IsMatch(WikiRegexes.EmptyTemplate, "{{|||||}}");
+            RegexAssert.IsMatch(WikiRegexes.EmptyTemplate, "{{       || }}");
         }
     }
 }

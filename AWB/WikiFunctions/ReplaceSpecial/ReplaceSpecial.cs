@@ -26,7 +26,7 @@ using System.Windows.Forms;
 
 namespace WikiFunctions.ReplaceSpecial
 {
-    //TODO: User IArticleComparer derivatives where possible
+    //TODO: Use IArticleComparer derivatives where possible
 
     public partial class ReplaceSpecial : Form, IRuleControlOwner
     {
