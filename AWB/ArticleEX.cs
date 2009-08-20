@@ -1,4 +1,5 @@
 using WikiFunctions.Logging;
+using WikiFunctions.API;
 
 namespace AutoWikiBrowser
 {
@@ -16,9 +17,17 @@ namespace AutoWikiBrowser
             return mAWBLogListener;
         }
 
-        public ArticleEX(string mName)
-            : base(mName)
-        { InitialiseLogListener(); }
+        public ArticleEX(string title, string text)
+            : base(title, text)
+        {
+            InitialiseLogListener();
+        }
+
+        public ArticleEX(PageInfo page)
+            : base(page)
+        {
+            InitialiseLogListener();
+        }
 
         // be careful to call this before creating the next ArticleWithLogging
         // An alternative approach would be to call Close() from the other Log tab, where the AWBLogListener

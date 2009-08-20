@@ -27,6 +27,7 @@ using WikiFunctions.Options;
 using WikiFunctions.Parse;
 using WikiFunctions.Controls;
 using System.Windows.Forms;
+using WikiFunctions.API;
 
 namespace WikiFunctions
 {
@@ -48,6 +49,8 @@ namespace WikiFunctions
         protected string mPluginEditSummary = "";
         protected bool mPluginSkip;
 
+        private PageInfo mPage;
+
         private bool noChange;
 
         public virtual IAWBTraceListener Trace
@@ -58,7 +61,6 @@ namespace WikiFunctions
         #region Constructors
         public Article()
         {
-            EditSummary = "";
             Exists = Exists.Unknown;
         }
 
@@ -72,6 +74,20 @@ namespace WikiFunctions
             mName = name.Contains("#") ? name.Substring(0, name.IndexOf('#')) : name;
 
             NameSpaceKey = nameSpaceKey;
+        }
+
+        public Article(string name, string text)
+            : this(name)
+        {
+            mOriginalArticleText = mArticleText = text;
+        }
+
+        public Article(PageInfo page)
+            : this(page.Title, page.NamespaceID)
+        {
+            mPage = page;
+            mArticleText = page.Text;
+            Exists = page.Exists ? Exists.Yes : Exists.No;
         }
 
         public virtual AWBLogListener InitialiseLogListener()
@@ -148,7 +164,9 @@ namespace WikiFunctions
         /// </summary>
         [XmlIgnore]
         public string OriginalArticleText
-        { get { return mOriginalArticleText.Trim(); } set { mOriginalArticleText = value; mArticleText = value; } }
+        { 
+            get { return mPage == null ? mOriginalArticleText : mPage.Text; }
+        }
 
         /// <summary>
         /// Edit summary proposed for article
@@ -911,7 +929,7 @@ namespace WikiFunctions
         bool IProcessArticleEventArgs.Skip
         { get { return mPluginSkip; } set { mPluginSkip = value; } }
 
-        public Exists Exists { get; set; }
+        public Exists Exists { get; protected set; }
 
         // and NamespaceKey
 

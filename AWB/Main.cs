@@ -42,6 +42,7 @@ using WikiFunctions.Background;
 using System.Security.Permissions;
 using WikiFunctions.Controls.Lists;
 using AutoWikiBrowser.Plugins;
+using System.Web;
 
 namespace AutoWikiBrowser
 {
@@ -484,6 +485,12 @@ namespace AutoWikiBrowser
             TheSession.ExceptionCaught += ApiEditExceptionCaught;
             TheSession.SaveComplete += CaseWasSaved;
             TheSession.MaxlagExceeded += MaxlagExceeded;
+            TheSession.OpenComplete += OpenComplete;
+        }
+
+        private void OpenComplete(AsyncApiEdit editor, PageInfo page)
+        {
+            PageLoaded(page);
         }
 
         private void MaxlagExceeded(AsyncApiEdit sender, int maxlag, int retryAfter)
@@ -551,24 +558,10 @@ namespace AutoWikiBrowser
             }
         }
 
-        private void StartApiTextLoad(string title)
+        private void OpenPage(string title)
         {
             StatusLabelText = "Loading...";
             TheSession.Editor.Open(title);
-
-            TheSession.Editor.Wait();
-
-            // if MAXLAG exceeded then API will report error, so AWB should go into restart timer to try again in a few seconds
-            if (TheSession.Editor.State == AsyncApiEdit.EditState.Failed)
-            {
-                StartDelayedRestartTimer();
-                return;
-            }
-
-            if (!LoadSuccessApi())
-                return;
-
-            CaseWasLoad(TheSession.Page.Text);
         }
 
         private bool StopProcessing;
@@ -641,22 +634,31 @@ namespace AutoWikiBrowser
                     return;
                 }
 
-                if (!Tools.IsValidTitle(listMaker.SelectedArticle().Name))
+                string title = listMaker.SelectedArticle().Name;
+
+                if (!Tools.IsValidTitle(title))
                 {
                     SkipPage("Invalid page title");
                     return;
                 }
 
+                string fixedTitle = Parsers.CanonicalizeTitleAggressively(title);
+                if (fixedTitle != title)
+                {
+                    listMaker.ReplaceArticle(listMaker.SelectedArticle(), new Article(fixedTitle));
+                    title = fixedTitle;
+                }
+
                 if (BotMode)
                     NudgeTimer.StartMe();
 
-                TheArticle = new ArticleEX(listMaker.SelectedArticle().Name);
+                TheArticle = new ArticleEX(title, "");
 
                 //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#.27Find.27_sometimes_fails_to_use_the_search_key
                 txtEdit.ResetFind();
 
-                NewHistory();
-                NewWhatLinksHere();
+                NewHistory(title);
+                NewWhatLinksHere(title);
 
                 EditBoxSaveTimer.Enabled = AutoSaveEditBoxEnabled;
 
@@ -666,7 +668,7 @@ namespace AutoWikiBrowser
                 StartProgressBar();
 
                 //Navigate to edit page
-                StartApiTextLoad(TheArticle.Name);
+                OpenPage(title);
             }
             catch (Exception ex)
             {
@@ -687,14 +689,27 @@ namespace AutoWikiBrowser
         private int Redirects;
         private int UnbalancedBracket, BracketLength;
 
-        private void CaseWasLoad(string articleText)
+        private void SkipRedirect(string redirectTitle, string reason)
         {
+            listMaker.Remove(TheArticle); // or we get stuck in a loop
+            TheArticle = new ArticleEX(redirectTitle, "");
+            // if we didn't do this, we were writing the SkipPage info to the AWBLogListener belonging to the object redirect and resident in the MyTrace collection, but then attempting to add TheArticle's log listener to the logging tab
+            SkipPage(reason);
+        }
+
+        private void PageLoaded(PageInfo page)
+        {
+            if (!LoadSuccessApi())
+                return;
+
             Retries = 0;
 
             StopProgressBar();
 
             if (StopProcessing)
                 return;
+
+            TheArticle = new ArticleEX(page);
 
             if (!preParseModeToolStripMenuItem.Checked && !CheckLoginStatus()) return;
 
@@ -703,9 +718,9 @@ namespace AutoWikiBrowser
             else
                 Program.MyTrace.Initialise();
 
-            Text = SettingsFileDisplay + " - " + TheArticle.Name;
+            Text = SettingsFileDisplay + " - " + page.Title;
 
-            bool articleIsRedirect = Tools.IsRedirect(articleText);
+            bool articleIsRedirect = Tools.IsRedirect(page.Text);
 
             if (chkSkipIfRedirect.Checked && articleIsRedirect)
             {
@@ -722,32 +737,29 @@ namespace AutoWikiBrowser
             if (bypassRedirectsToolStripMenuItem.Checked && articleIsRedirect && !PageReload)
             {
                 // Warning: Creating an ArticleEX causes a new AWBLogListener to be created and it becomes the active listener in MyTrace; be careful we're writing to the correct log listener
-                ArticleEX redirect = new ArticleEX(Tools.RedirectTarget(articleText));
+                string redirect = Parsers.CanonicalizeTitleAggressively(Tools.RedirectTarget(page.Text));
 
-                if (redirect.Name.Trim() != "" && Tools.IsValidTitle(redirect.Name))
+                if (redirect != "" && Tools.IsValidTitle(redirect))
                 {
-                    if (filterOutNonMainSpaceToolStripMenuItem.Checked && (redirect.NameSpaceKey != 0))
+                    if (filterOutNonMainSpaceToolStripMenuItem.Checked 
+                        && (Namespace.Determine(redirect) != Namespace.Article))
                     {
-                        listMaker.Remove(TheArticle); // or we get stuck in a loop
-                        TheArticle = redirect;
-                        // if we didn't do this, we were writing the SkipPage info to the AWBLogListener belonging to the object redirect and resident in the MyTrace collection, but then attempting to add TheArticle's log listener to the logging tab
-                        SkipPage("Page is not in mainspace");
+                        SkipRedirect(redirect, "Page is not in mainspace");
                         return;
                     }
 
-                    if (redirect.Name == TheArticle.Name)
+                    if (redirect == TheArticle.Name)
                     {
                         //ignore recursive redirects
-                        TheArticle = redirect;
-                        SkipPage("Recursive redirect");
+                        SkipRedirect(redirect, "Recursive redirect");
                         return;
                     }
 
                     if (ArticleWasRedirected != null)
-                        ArticleWasRedirected(TheArticle.Name, redirect.Name);
+                        ArticleWasRedirected(TheArticle.Name, redirect);
 
-                    listMaker.ReplaceArticle(TheArticle, new Article(redirect.Name));
-                    TheArticle = new ArticleEX(redirect.Name);
+                    listMaker.ReplaceArticle(TheArticle, new Article(redirect));
+                    TheArticle = new ArticleEX(redirect, "");
 
                     // don't allow redirects to a redirect as we could go round in circles
                     if (Redirects > 1)
@@ -756,15 +768,13 @@ namespace AutoWikiBrowser
                         return;
                     }
 
-                    StartApiTextLoad(redirect.Name);
+                    OpenPage(redirect);
 
                     return;
                 }
             }
 
-            TheArticle.OriginalArticleText = articleText;
-            TheArticle.Exists = (TheSession.Page.Exists) ? Exists.Yes : Exists.No;
-            ErrorHandler.CurrentRevision = TheSession.Page.RevisionID;
+            ErrorHandler.CurrentRevision = page.RevisionID;
 
             if (PageReload)
             {
@@ -845,7 +855,8 @@ namespace AutoWikiBrowser
                         return;
                     }
 
-                    if (chkSkipNoPageLinks.Checked && (WikiRegexes.WikiLinksOnly.Matches(articleText).Count == 0))
+                    if (chkSkipNoPageLinks.Checked 
+                        && (WikiRegexes.WikiLinksOnly.Matches(TheArticle.ArticleText).Count == 0))
                     {
                         SkipPage("Page contains no links");
                         return;
@@ -1507,6 +1518,10 @@ window.scrollTo(0, diffTopY);
 
         private void Save()
         {
+            // Fail-safe against http://es.wikipedia.org/w/index.php?diff=28114575
+            if (TheArticle == null || TheArticle.Name != TheSession.Page.Title)
+                throw new Exception("Attempted to save a wrong page");
+
             StatusLabelText = "Saving...";
             DisableButtons();
             if (txtEdit.Text.Length > 0)
@@ -3125,7 +3140,7 @@ window.scrollTo(0, diffTopY);
 
         private void ReparseEditBox()
         {
-            ArticleEX a = new ArticleEX(TheArticle.Name) { OriginalArticleText = txtEdit.Text };
+            ArticleEX a = new ArticleEX(TheArticle.Name, txtEdit.Text);
             ArticleEX theArtricleOriginal = TheArticle;
             ErrorHandler.CurrentPage = TheArticle.Name;
             ProcessPage(a, false);
@@ -3837,30 +3852,35 @@ window.scrollTo(0, diffTopY);
             TheArticle.EditSummary = "";
         }
 
+        //TODO: fix or remove
         private void reloadEditPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PageReload = true;
-            TheSession.Editor.Open(TheArticle.Name);
-            TheArticle.OriginalArticleText = TheSession.Page.Text;
+            //PageReload = true;
+            //TheSession.Editor.Open(TheArticle.Name);
+            //TheArticle.OriginalArticleText = TheSession.Page.Text;
         }
 
         #region History
         private void tabControl2_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (EditBoxTab.SelectedTab == tpHistory)
-                NewHistory();
+                NewHistory(TheArticle.Name);
             else if (EditBoxTab.SelectedTab == tpLinks)
-                NewWhatLinksHere();
+                NewWhatLinksHere(TheArticle.Name);
         }
 
-        private void NewHistory()
+        private void NewHistory(string pageTitle)
         {
             try
             {
-                if (EditBoxTab.SelectedTab == tpHistory && TheArticle != null)
+                if (EditBoxTab.SelectedTab == tpHistory && pageTitle != null)
                 {
-                    if (webBrowserHistory.Url != new Uri(Variables.URLIndex + "?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin") && !string.IsNullOrEmpty(TheArticle.URLEncodedName))
-                        webBrowserHistory.Navigate(Variables.URLIndex + "?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin");
+                    string name = HttpUtility.UrlEncode(pageTitle);
+                    if (webBrowserHistory.Url != new Uri(Variables.URLIndex + "?title=" + name
+                        + "&action=history&useskin=myskin") && !string.IsNullOrEmpty(pageTitle)
+                        )
+                        webBrowserHistory.Navigate(Variables.URLIndex + "?title=" + name 
+                            + "&action=history&useskin=myskin");
                 }
                 else
                     webBrowserHistory.Navigate("about:blank");
@@ -3880,17 +3900,18 @@ window.scrollTo(0, diffTopY);
                 webBrowserHistory.Document.Body.InnerHtml = ProcessHTMLForDisplay(webBrowserHistory.DocumentText);
         }
 
-        private void NewWhatLinksHere()
+        private void NewWhatLinksHere(string title)
         {
             try
             {
-                if (EditBoxTab.SelectedTab == tpLinks && TheArticle != null)
+                if (EditBoxTab.SelectedTab == tpLinks && title != null)
                 {
+                    title = HttpUtility.UrlEncode(title);
                     if (webBrowserLinks.Url !=
-                        new Uri(Variables.URLIndex + "?title=Special:WhatLinksHere/" + TheArticle.URLEncodedName +
-                                "&useskin=myskin") && !string.IsNullOrEmpty(TheArticle.URLEncodedName))
+                        new Uri(Variables.URLIndex + "?title=Special:WhatLinksHere/" + title +
+                                "&useskin=myskin") && !string.IsNullOrEmpty(title))
                         webBrowserLinks.Navigate(Variables.URLIndex + "?title=Special:WhatLinksHere/" +
-                                                 TheArticle.URLEncodedName + "&useskin=myskin");
+                                                 title + "&useskin=myskin");
                 }
                 else
                     webBrowserLinks.Navigate("about:blank");
@@ -3917,8 +3938,8 @@ window.scrollTo(0, diffTopY);
             if (linksHtml.Contains(StartMark) && linksHtml.Contains(EndMark))
                 linksHtml = Tools.StringBetween(linksHtml, StartMark, EndMark);
 
-            linksHtml = linksHtml.Replace("<A ", "<a target=\"blank\" ");
-            linksHtml = linksHtml.Replace("<FORM ", "<form target=\"blank\" ");
+            linksHtml = linksHtml.Replace("<A ", "<a target=\"_blank\" ");
+            linksHtml = linksHtml.Replace("<FORM ", "<form target=\"_blank\" ");
             return "<h3>" + TheArticle.Name + "</h3>" + linksHtml;
         }
 
