@@ -281,6 +281,7 @@ namespace WikiFunctions
         /// <summary>
         /// Returns true if the article uses cite references but has no recognised template to display the references
         /// </summary>
+        [XmlIgnore]
         public bool IsMissingReferencesDisplay
         { get { return Parsers.IsMissingReferencesDisplay(mArticleText); } }
         #endregion
@@ -296,6 +297,7 @@ namespace WikiFunctions
         /// <summary>
         /// Returns whether the only change between the current article text and the original article text is whitespace changes
         /// </summary>
+        [XmlIgnore]
         public bool OnlyWhiteSpaceChanged
         {
             get
@@ -309,6 +311,7 @@ namespace WikiFunctions
         /// <summary>
         /// Does a case-insensitive comparison of the text, returning true if the same
         /// </summary>
+        [XmlIgnore]
         public bool OnlyCasingChanged
         {
             get { return Tools.CaseInsensitiveStringCompare(OriginalArticleText, mArticleText); }
@@ -317,6 +320,7 @@ namespace WikiFunctions
         /// <summary>
         /// Returns whether the only change between the current article text and the original article text is whitespace and casing changes
         /// </summary>
+        [XmlIgnore]
         public bool OnlyWhiteSpaceAndCasingChanged
         {
             get { return Tools.CaseInsensitiveStringCompare(Regex.Replace(OriginalArticleText, @"\s+", ""), Regex.Replace(mArticleText, @"\s+", "")); }
@@ -325,6 +329,7 @@ namespace WikiFunctions
         /// <summary>
         /// Returns whether the only change between the current article text and the original article text was by the general fixes
         /// </summary>
+        [XmlIgnore]
         public bool OnlyGeneralFixesChanged
         {
             get { return (GeneralFixesCausedChange && (ArticleText == AfterGeneralFixesArticleText)); }
@@ -333,6 +338,7 @@ namespace WikiFunctions
         /// <summary>
         /// Returns whether the only general fix changes are minor ones
         /// </summary>
+        [XmlIgnore]
         public bool OnlyMinorGeneralFixesChanged
         {
             get { return (OnlyGeneralFixesChanged && !GeneralFixesSignificantChange); }
@@ -341,6 +347,7 @@ namespace WikiFunctions
         /// <summary>
         /// Returns whether the current article text is the same as the original article text
         /// </summary>
+        [XmlIgnore]
         public bool NoArticleTextChanged
         {
             get { return (string.Compare(OriginalArticleText, mArticleText) == 0); }
@@ -391,6 +398,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="bracketLength">integer to hold length of unbalanced bracket found</param>
         /// <returns>Index of any unbalanced brackets found</returns>
+        [XmlIgnore]
         public int UnbalancedBrackets(ref int bracketLength)
         {
             return Parsers.UnbalancedBrackets(ArticleText, ref bracketLength);
