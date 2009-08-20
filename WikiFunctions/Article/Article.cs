@@ -398,7 +398,6 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="bracketLength">integer to hold length of unbalanced bracket found</param>
         /// <returns>Index of any unbalanced brackets found</returns>
-        [XmlIgnore]
         public int UnbalancedBrackets(ref int bracketLength)
         {
             return Parsers.UnbalancedBrackets(ArticleText, ref bracketLength);
@@ -945,12 +944,6 @@ namespace WikiFunctions
         Article IArticleSimple.Article { get { return this; } }
         #endregion
 
-        public static IArticleSimple GetReadOnlyArticle(string title)
-        {
-            // TODO: See Parsers.HasInfobox
-            return null;
-        }
-
         #region General fixes
         private bool GeneralFixesCausedChange, TextAlreadyChanged, GeneralFixesSignificantChange;
         private string AfterGeneralFixesArticleText;
@@ -1153,6 +1146,7 @@ namespace WikiFunctions
         /// <summary>
         /// Returns true if the article is a redirect page
         /// </summary>
+        [XmlIgnore]
         public bool IsRedirect
         {
             get { return Tools.IsRedirect(ArticleText); }
