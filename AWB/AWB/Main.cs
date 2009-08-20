@@ -3852,14 +3852,6 @@ window.scrollTo(0, diffTopY);
             TheArticle.EditSummary = "";
         }
 
-        //TODO: fix or remove
-        private void reloadEditPageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //PageReload = true;
-            //TheSession.Editor.Open(TheArticle.Name);
-            //TheArticle.OriginalArticleText = TheSession.Page.Text;
-        }
-
         #region History
         private void tabControl2_SelectedIndexChanged(object sender, EventArgs e)
         {
