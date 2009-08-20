@@ -1931,6 +1931,15 @@ http://example.com }}");
             // it may or may not fix it, but shouldn't break anything
             StringAssert.Contains("{{bar_boz}}", Parsers.CanonicalizeTitle("foo_bar{{bar_boz}}"));
         }
+
+        [Test]
+        public void CanonicalizeTitleAggressively()
+        {
+            Assert.AreEqual("Foo (bar)", Parsers.CanonicalizeTitleAggressively("foo_%28bar%29"));
+            Assert.AreEqual("Wikipedia:Foo", Parsers.CanonicalizeTitleAggressively("project : foo"));
+            Assert.AreEqual("File:Foo.jpg", Parsers.CanonicalizeTitleAggressively("Image: foo.jpg "));
+        }
+
         [Test]
         public void TestFixCategories()
         {
