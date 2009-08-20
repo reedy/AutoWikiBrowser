@@ -311,7 +311,7 @@ namespace WikiFunctions
         /// </summary>
         public bool OnlyCasingChanged
         {
-            get { return Tools.CaseInsensitiveStringCompare(mOriginalArticleText, mArticleText); }
+            get { return Tools.CaseInsensitiveStringCompare(OriginalArticleText, mArticleText); }
         }
 
         /// <summary>
@@ -319,7 +319,7 @@ namespace WikiFunctions
         /// </summary>
         public bool OnlyWhiteSpaceAndCasingChanged
         {
-            get { return Tools.CaseInsensitiveStringCompare(Regex.Replace(mOriginalArticleText, @"\s+", ""), Regex.Replace(mArticleText, @"\s+", "")); }
+            get { return Tools.CaseInsensitiveStringCompare(Regex.Replace(OriginalArticleText, @"\s+", ""), Regex.Replace(mArticleText, @"\s+", "")); }
         }
 
         /// <summary>
@@ -343,7 +343,7 @@ namespace WikiFunctions
         /// </summary>
         public bool NoArticleTextChanged
         {
-            get { return (string.Compare(mOriginalArticleText, mArticleText) == 0); }
+            get { return (string.Compare(OriginalArticleText, mArticleText) == 0); }
         }
 
         /// <summary>
@@ -928,7 +928,8 @@ namespace WikiFunctions
 
         bool IProcessArticleEventArgs.Skip
         { get { return mPluginSkip; } set { mPluginSkip = value; } }
-
+        
+        [XmlIgnore]
         public Exists Exists { get; protected set; }
 
         // and NamespaceKey
