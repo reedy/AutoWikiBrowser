@@ -3855,6 +3855,9 @@ window.scrollTo(0, diffTopY);
         #region History
         private void tabControl2_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (TheArticle == null)
+                return;
+
             if (EditBoxTab.SelectedTab == tpHistory)
                 NewHistory(TheArticle.Name);
             else if (EditBoxTab.SelectedTab == tpLinks)
