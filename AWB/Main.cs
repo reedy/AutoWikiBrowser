@@ -483,7 +483,7 @@ namespace AutoWikiBrowser
         {
             TheSession.PreviewComplete += PreviewComplete;
             TheSession.ExceptionCaught += ApiEditExceptionCaught;
-            TheSession.SaveComplete += CaseWasSaved;
+            TheSession.SaveComplete += PageSaved;
             TheSession.MaxlagExceeded += MaxlagExceeded;
             TheSession.OpenComplete += OpenComplete;
         }
@@ -1140,15 +1140,7 @@ namespace AutoWikiBrowser
             return true;
         }
 
-        private void CaseWasDiff()
-        {
-            txtEdit.Focus();
-            txtEdit.SelectionLength = 0;
-
-            GuiUpdateAfterProcessing();
-        }
-
-        private void CaseWasSaved(AsyncApiEdit sender, SaveInfo saveInfo)
+        private void PageSaved(AsyncApiEdit sender, SaveInfo saveInfo)
         {
             ClearBrowser();
 
@@ -1475,7 +1467,10 @@ window.scrollTo(0, diffTopY);
 </script>--></body></html>");
                 }
 
-                CaseWasDiff();
+                txtEdit.Focus();
+                txtEdit.SelectionLength = 0;
+
+                GuiUpdateAfterProcessing();
             }
             catch (Exception ex)
             {
