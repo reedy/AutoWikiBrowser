@@ -1126,6 +1126,7 @@ namespace WikiFunctions
             return s;
         }
 
+        // Covered by HumanCatKeyTests.HasDiacritics
         /// <summary>
         /// Returns whether the given string contains recognised diacritics
         /// </summary>
@@ -1277,9 +1278,10 @@ Message: {2}
             return IPAddress.TryParse(s, out dummy);
         }
 
-        // Not Covered
+        // Covered by ToolsTests.StringBetween
         /// <summary>
         /// returns content of a given string that lies between two other strings
+        /// where there are multiple matches for one or more of the other strings, the shortest matching portion of the source string is returned
         /// </summary>
         public static string StringBetween(string source, string start, string end)
         {

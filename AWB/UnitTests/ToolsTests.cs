@@ -660,12 +660,22 @@ Jones", "*"));
             Assert.AreEqual(@"foo&bar", Tools.RemoveSyntax(@"foo&amp;bar"));
             Assert.AreEqual(@"http://site.com words", Tools.RemoveSyntax(@"* [http://site.com words]"));
         }
+
+        [Test]
+        public void StringBetween()
+        {
+            Assert.AreEqual("foo", Tools.StringBetween("now foo here", "now ", " here"));
+            Assert.AreEqual(" foo", Tools.StringBetween("now foo here foo", "now", " here"));
+
+            // returns shortest matching string
+            Assert.AreEqual("foo", Tools.StringBetween("now foo here blah here", "now ", " here"));
+            Assert.AreEqual("foo", Tools.StringBetween("now foo here now foo2 here", "now ", " here"));
+        }
     }
 
     [TestFixture]
     public class HumanCatKeyTests : RequiresInitialization
     {
-
         [Test]
         public void OneWordNames()
         {
