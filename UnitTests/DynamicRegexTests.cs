@@ -1,5 +1,6 @@
 ﻿using WikiFunctions;
 using NUnit.Framework;
+using System.Text.RegularExpressions;
 
 namespace UnitTests
 {
@@ -102,6 +103,16 @@ namespace UnitTests
             RegexAssert.IsMatch(WikiRegexes.EmptyTemplate, "{{          }}");
             RegexAssert.IsMatch(WikiRegexes.EmptyTemplate, "{{|||||}}");
             RegexAssert.IsMatch(WikiRegexes.EmptyTemplate, "{{       || }}");
+        }
+
+        [Test]
+        public void MonthsTests()
+        {
+            Regex mo = new Regex(WikiRegexes.Months);
+            Assert.AreEqual("January", mo.Match(@"in January there").Groups[1].Value);
+
+            Regex mong = new Regex(WikiRegexes.MonthsNoGroup);
+            Assert.AreEqual("", mong.Match(@"in January there").Groups[1].Value);
         }
     }
 }
