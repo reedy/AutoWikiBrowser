@@ -647,6 +647,19 @@ Jones", "*"));
 *2004 Jones", Tools.HTMLListToWiki(@"1980 Fred
 2004 Jones", "*"));
         }
+
+        [Test]
+        public void RemoveSyntax()
+        {
+            Assert.AreEqual(@"foo", Tools.RemoveSyntax(@"* foo"));
+            Assert.AreEqual(@"foo", Tools.RemoveSyntax(@"# foo"));
+            Assert.AreEqual(@"foo", Tools.RemoveSyntax(@":foo"));
+            Assert.AreEqual(@"foo bar", Tools.RemoveSyntax(@"foo_bar"));
+            Assert.AreEqual(@"foo bar:the great", Tools.RemoveSyntax(@"foo_bar:the great"));
+            Assert.AreEqual(@"foo", Tools.RemoveSyntax(@"[foo]"));
+            Assert.AreEqual(@"foo&bar", Tools.RemoveSyntax(@"foo&amp;bar"));
+            Assert.AreEqual(@"http://site.com words", Tools.RemoveSyntax(@"* [http://site.com words]"));
+        }
     }
 
     [TestFixture]

@@ -610,7 +610,7 @@ namespace WikiFunctions
         public static int LinkCount(string text)
         { return WikiRegexes.WikiLinksOnly.Matches(text).Count; }
 
-        // Not Covered
+        // Covered by ToolsTests.RemoveSyntax
         /// <summary>
         /// Removes underscores and wiki syntax from links
         /// </summary>
