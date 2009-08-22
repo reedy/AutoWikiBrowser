@@ -63,6 +63,7 @@ namespace WikiFunctions
                 RegexOptions.Compiled);
 
             Months = "(" + string.Join("|", Variables.MonthNames) + ")";
+            MonthsNoGroup = "(?:" + string.Join("|", Variables.MonthNames) + ")";
 
             Dates = new Regex("^(0?[1-9]|[12][0-9]|3[01]) " + Months + "$", RegexOptions.Compiled);
             Dates2 = new Regex("^" + Months + " (0?[1-9]|[12][0-9]|3[01])$", RegexOptions.Compiled);
@@ -112,7 +113,15 @@ namespace WikiFunctions
             EmptyTemplate = new Regex(@"{{(" + Variables.NamespacesCaseInsensitive[Namespace.Template] + @")?[|\s]*}}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         }
 
+        /// <summary>
+        /// Matches the month names and provides a capturing group when used in a regular expression
+        /// </summary>
         public static string Months;
+
+        /// <summary>
+        /// Matches the month names, without providing a capturing group when used in a regular expression
+        /// </summary>
+        public static string MonthsNoGroup;
 
         // Covered by RegexTests.GenerateNamespaceRegex()
         /// <summary>
@@ -384,7 +393,7 @@ namespace WikiFunctions
         /// Matches abbreviated SI units without a non-breaking space, notably does not correct millimetres without a space due to firearms articles using this convention
         /// </summary>
         /// http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Non_breaking_spaces
-        public static readonly Regex UnitsWithoutNonBreakingSpaces = new Regex(@"\b(\d?\.?\d+)\s*((?:[cmknuµ])(?:[mgWN])|m?mol|cd|mi|lb[fs]?|b?hp|mph|inch(?:es)?|ft)\b(?<!(\d?\.?\d+)mm)", RegexOptions.Compiled);
+        public static readonly Regex UnitsWithoutNonBreakingSpaces = new Regex(@"\b(\d?\.?\d+)\s*((?:[cmknuµ])(?:[mgWN])|m?mol|cd|mi|lb[fs]?|b?hp|mph|inch(?:es)?|ft|[kGM]Hz)\b(?<!(\d?\.?\d+)mm)", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches abbreviated in, feet or foot when in brackets e.g. (3 in); avoids false positives such as "3 in 4..."
