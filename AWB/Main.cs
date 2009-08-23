@@ -2586,7 +2586,7 @@ window.scrollTo(0, diffTopY);
 
         private void UpdateBotTimer()
         {
-            lblBotTimer.Text = chkAutoMode.Checked ? "" : "Bot timer: " + IntTimer;
+            lblBotTimer.Text = chkAutoMode.Checked ? "Bot timer: " + IntTimer : "";
         }
 
         private void StopDelayedAutoSaveTimer()
