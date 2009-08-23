@@ -597,7 +597,7 @@ namespace AutoWikiBrowser
             Article.AddUsingAWBOnArticleAction = p.General.AddUsingAWBToActionSummaries;
 
             filterOutNonMainSpaceToolStripMenuItem.Checked = p.General.filterNonMainSpace;
-            removeDuplicatesToolStripMenuItem.Checked = p.General.AutoFilterDuplicates;
+            removeDuplicatesToolStripMenuItem.Checked = listMaker.FilterDuplicates = p.General.AutoFilterDuplicates;
 
             alphaSortInterwikiLinksToolStripMenuItem.Checked = p.General.SortInterWikiOrder;
             replaceReferenceTagsToolStripMenuItem.Checked = p.General.ReplaceReferenceTags;
