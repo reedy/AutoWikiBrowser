@@ -1380,7 +1380,7 @@ namespace AutoWikiBrowser
                 if (chkAppend.Checked)
                 {
                     // customized number of newlines
-                    String newlines = "";
+                    string newlines = "";
                     for (int i = 0; i < (int)udNewlineChars.Value; i++)
                         newlines += "\r\n";
 
