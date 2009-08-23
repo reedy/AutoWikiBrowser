@@ -4545,13 +4545,13 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         public void CitationNeededRedirectTests()
         {
             Assert.AreEqual(@"{{citation needed}}", Parsers.Conversions(@"{{citation needed}}"));
-            Assert.AreEqual(@"{{citation needed}}", Parsers.Conversions(@"{{fact}}"));
-            Assert.AreEqual(@"{{citation needed}}", Parsers.Conversions(@"{{ Fact}}"));
-            Assert.AreEqual(@"{{citation needed}}", Parsers.Conversions(@"{{Cn}}"));
-            Assert.AreEqual(@"{{citation needed}}", Parsers.Conversions(@"{{proveit}}"));
-            Assert.AreEqual(@"{{citation needed}}", Parsers.Conversions(@"{{citeneeded}}"));
-            Assert.AreEqual(@"{{citation needed|date=May 2009}}", Parsers.Conversions(@"{{fact|date=May 2009}}"));
-            Assert.AreEqual(@"{{citation needed
+            Assert.AreEqual(@"{{Citation needed}}", Parsers.Conversions(@"{{fact}}"));
+            Assert.AreEqual(@"{{Citation needed}}", Parsers.Conversions(@"{{ Fact}}"));
+            Assert.AreEqual(@"{{Citation needed}}", Parsers.Conversions(@"{{Cn}}"));
+            Assert.AreEqual(@"{{Citation needed}}", Parsers.Conversions(@"{{proveit}}"));
+            Assert.AreEqual(@"{{Citation needed}}", Parsers.Conversions(@"{{citeneeded}}"));
+            Assert.AreEqual(@"{{Citation needed|date=May 2009}}", Parsers.Conversions(@"{{fact|date=May 2009}}"));
+            Assert.AreEqual(@"{{Citation needed
 |date=May 2009}}", Parsers.Conversions(@"{{fact
 |date=May 2009}}"));
         }

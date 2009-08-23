@@ -142,7 +142,7 @@ namespace WikiFunctions.Parse
 
             // http://en.wikipedia.org/wiki/Template_talk:Citation_needed#Requested_move
             if (Variables.LangCode == LangCodeEnum.en)
-                RegexConversion.Add(new Regex(@"{{\s*(?:[Cc]n|[Ff]act|[Pp]roveit|[Cc]iteneeded|[Uu]ncited)(?=\s*[\|}])", RegexOptions.Compiled), @"{{citation needed");
+                RegexConversion.Add(new Regex(@"{{\s*(?:[Cc]n|[Ff]act|[Pp]roveit|[Cc]iteneeded|[Uu]ncited)(?=\s*[\|}])", RegexOptions.Compiled), @"{{Citation needed");
         }
 
         private static readonly Dictionary<Regex, string> RegexUnicode = new Dictionary<Regex, string>();
