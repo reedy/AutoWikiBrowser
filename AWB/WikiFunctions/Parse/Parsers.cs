@@ -3591,7 +3591,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                                 yearstring = m.Groups[1].Value;
                     }
                 }
-                if (!string.IsNullOrEmpty(yearstring) && yearstring.Length > 2)
+                // if DOB < 1910 and living person then don't apply birth category
+                if (!string.IsNullOrEmpty(yearstring) && yearstring.Length > 2
+                    && !(articleText.Contains(@"[[Category:Living people") && Convert.ToInt32(yearstring) < 1910))
                     articleText += "\r\n" + @"[[Category:" + yearstring + " births" + CatEnd(sort);
             }
 

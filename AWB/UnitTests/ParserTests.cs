@@ -573,6 +573,11 @@ End of.";
             const string b6 = @"'''Fred Lerdahl''' (born [[March 10]] [[1960]]) [[Category:Living people]]";
             Assert.AreEqual(b6 + "\r\n" + b2, Parsers.FixPeopleCategories(b6, "foo"));
 
+            // catch living person and very old birth date
+            const string b6a = @"'''Fred Lerdahl''' (born [[March 10]] [[1860]]) [[Category:Living people]]";
+            Assert.AreEqual(b6a, Parsers.FixPeopleCategories(b6a, "foo"));
+
+
             const string b7 = @"'''William Arthur O'Donnell''' (born May 4, 1960 in [[Springhill, Nova Scotia]], Canada) is [[Category:Living people]]";
             Assert.AreEqual(b7 + "\r\n" + b2, Parsers.FixPeopleCategories(b7, "foo"));
 
