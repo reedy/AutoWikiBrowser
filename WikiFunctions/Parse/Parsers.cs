@@ -3992,12 +3992,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             {
                 try
                 {
-                    foreach (Article a in WlhProv.MakeList(Namespace.Article, articleTitle))
-                        if (Namespace.IsMainSpace(a.Name))
-                        {
-                            orphaned = false;
-                            break;
-                        }
+                    if (WlhProv.MakeList(Namespace.Article, articleTitle).Count > 0)
+	                orphaned = false;
                 }
                 catch (Exception ex)
                 {
