@@ -3849,7 +3849,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         private static readonly CategoriesOnPageNoHiddenListProvider CategoryProv = new CategoriesOnPageNoHiddenListProvider();
-        private static readonly WhatLinksHereExcludingPageRedirectsListProvider WlhProv = new WhatLinksHereExcludingPageRedirectsListProvider(1);
+        private static readonly WhatLinksHereExcludingPageRedirectsListProvider WlhProv = new WhatLinksHereExcludingPageRedirectsListProvider(1/*Limit*/);
 
         //TODO:Needs re-write
         /// <summary>
@@ -3992,7 +3992,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             {
                 try
                 {
-                    foreach (Article a in WlhProv.MakeList(0, articleTitle))
+                    foreach (Article a in WlhProv.MakeList(Namespace.Article, articleTitle))
                         if (Namespace.IsMainSpace(a.Name))
                         {
                             orphaned = false;
