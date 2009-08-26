@@ -39,21 +39,21 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
         private const string AppId = "3mG9u3PV34GC4rnRXJlID0_3aUb0.XVxGZYrbFcYClzQYUqtlkn0u6iXVwYVv9sW1Q--";
         #region IListMakerPlugin Members
 
-        private readonly string BaseUrl = "http://search.yahooapis.com/WebSearchService/V1/webSearch?appid=" + AppId + "&query={0}&results={1}&site=" + Variables.URL + "&start={2}";
-        private const int NoResults = 100;
+        private const string BaseUrl = "http://search.yahooapis.com/WebSearchService/V1/webSearch?appid=" + AppId + "&query={0}&results=100&site={1}&start={2}";
+
+        private const int TotalResults = 1000;
 
         public List<Article> MakeList(string[] searchCriteria)
         {
             List<Article> articles = new List<Article>();
-            int start = 1;
+            int start = 0;
 
             foreach (string s in searchCriteria)
             {
-                string url = string.Format(BaseUrl, s, NoResults, start);
-                int resultsReturned = 0, totalResults = 0;
-
                 do
                 {
+                    string url = string.Format(BaseUrl, s, Variables.URL, start);
+
                     using (XmlTextReader reader = new XmlTextReader(new StringReader(Tools.GetHTML(url))))
                     {
                         while (reader.Read())
@@ -61,47 +61,28 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
                             if (reader.Name.Equals("Message"))
                             {
                                 if (string.Compare(reader.ToString(), "limit exceeded", true) == 0)
-                                {
                                     Tools.MessageBox("Query limit for Yahoo Exceeded. Please try again later");
-                                    return articles;
-                                }
+                                return articles;
                             }
 
                             if (reader.Name.Equals("ResultSet"))
                             {
                                 reader.MoveToAttribute("totalResultsAvailable");
-                                string val = reader.Value;
 
-                                if (!string.IsNullOrEmpty(val))
-                                    totalResults = int.Parse(val);
-
-                                reader.MoveToAttribute("totalResultsReturned");
-                                val = reader.Value;
-
-                                if (!string.IsNullOrEmpty(val))
-                                    resultsReturned = int.Parse(val);
+                                if (!string.IsNullOrEmpty(reader.Value) && int.Parse(reader.Value) > articles.Count)
+                                    start += 100;
                             }
 
-                            if (reader.Name.Equals("DisplayUrl"))
+                            if (reader.Name.Equals("ClickUrl"))
                             {
-                                string title = Tools.GetTitleFromURL("http://" + reader.ReadString());
+                                string title = Tools.GetTitleFromURL(reader.ReadString());
 
                                 if (!string.IsNullOrEmpty(title))
                                     articles.Add(new Article(title));
                             }
                         }
                     }
-
-                    if (resultsReturned < 100)
-                        break;
-
-                    if ((articles.Count < totalResults) && (articles.Count <= 900))
-                        start += NoResults;
-                    else
-                        break;
-
-                    url = string.Format(BaseUrl, s, NoResults, start);
-                } while (true);
+                } while (articles.Count < TotalResults);
             }
 
             return articles;
