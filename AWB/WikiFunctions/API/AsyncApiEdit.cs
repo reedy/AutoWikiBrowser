@@ -438,9 +438,9 @@ namespace WikiFunctions.API
             InvokeFunction("Preview", title, text);
         }
 
-        public void QueryApi(string[,] args)
+        public void QueryApi(string queryParameters)
         {
-            InvokeFunction("QueryApi", args);
+            InvokeFunction("QueryApi", queryParameters);
         }
 
         public void ExpandTemplates(string title, string text)

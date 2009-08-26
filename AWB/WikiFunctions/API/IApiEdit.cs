@@ -245,8 +245,8 @@ namespace WikiFunctions.API
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="args"></param>
+        /// <param name="queryParameters"></param>
         /// <returns></returns>
-        string QueryApi(string[,] args);
+        string QueryApi(string queryParameters);
     }
 }
