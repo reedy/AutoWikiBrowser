@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WikiFunctions.Plugins.ListMaker.BingSearch</RootNamespace>
-    <AssemblyName>BingSearch</AssemblyName>
+    <AssemblyName>BingSearchPlugin</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
