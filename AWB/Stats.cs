@@ -173,10 +173,10 @@ namespace AutoWikiBrowser
             // Site/project name:
             // TODO: Here or in PHP: tl.wikipedia.org  	CUS: Translate to site name/lang code any Wikimedia site set up as custom
             if (Variables.IsCustomProject || Variables.IsWikia)
-                postvars.Add("Wiki", new Uri(Variables.URL).Host);
+                postvars.Add("Wiki", Variables.Host);
             else
                 postvars.Add("Wiki", Variables.Project.ToString());
-                    // This returns a short string such as "wikipedia"; may want to convert to int and then to string so we store less in the db
+            // This returns a short string such as "wikipedia"; may want to convert to int and then to string so we store less in the db
 
             // Language code:
             if (Variables.IsWikia)
@@ -202,7 +202,7 @@ namespace AutoWikiBrowser
             postvars.Add("Saves", Program.AWB.NumberOfEdits.ToString());
             postvars.Add("OS", Environment.OSVersion.VersionString);
 #if DEBUG
-                postvars.Add("Debug", "Y");
+            postvars.Add("Debug", "Y");
 #else
             postvars.Add("Debug", "N");
 #endif
