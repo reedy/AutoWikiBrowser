@@ -756,7 +756,7 @@ namespace WikiFunctions.API
 
             Reset();
 
-            string result = HttpGet(URL + "api.php" + (PHP5 ? "5" : "") + "?format=xml" + queryParamters); //Should we be checking for maxlag?
+            string result = HttpGet(URL + "api.php" + (PHP5 ? "5" : "") + "?action=query&format=xml&" + queryParamters); //Should we be checking for maxlag?
 
             CheckForErrors(result, "query");
 
