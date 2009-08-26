@@ -22,6 +22,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml;
 using System.IO;
+using WikiFunctions.API;
 
 namespace WikiFunctions.Lists
 {
@@ -67,9 +68,11 @@ namespace WikiFunctions.Lists
 
             string newUrl = url;
 
+            ApiEdit editor = Variables.MainForm.TheSession.Editor.SynchronousEditor;
+
             while (list.Count + haveSoFar < Limit)
             {
-                string text = Variables.MainForm.TheSession.Editor.SynchronousEditor.HttpGet(newUrl + postfix); //Hacky hack hack
+                string text = editor.HttpGet(Variables.URLApi + newUrl + postfix); //Hacky hack hack
 
                 XmlTextReader xml = new XmlTextReader(new StringReader(text));
                 xml.MoveToContent();
@@ -183,8 +186,7 @@ namespace WikiFunctions.Lists
         {
             string title = HttpUtility.UrlEncode(category);
 
-            string url = Variables.URLApi + 
-                "?action=query&list=categorymembers&cmtitle=Category:" + title + "&cmcategory=" + title 
+            string url = "?action=query&list=categorymembers&cmtitle=Category:" + title + "&cmcategory=" + title 
                 + "&format=xml&cmlimit=max";
 
             return ApiMakeList(url, 0);
