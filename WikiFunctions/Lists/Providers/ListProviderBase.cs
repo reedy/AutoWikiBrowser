@@ -72,7 +72,7 @@ namespace WikiFunctions.Lists
 
             while (list.Count + haveSoFar < Limit)
             {
-                string text = editor.HttpGet(Variables.URLApi + newUrl + postfix); //Hacky hack hack
+                string text = editor.QueryApi(newUrl + postfix); //Hacky hack hack
 
                 XmlTextReader xml = new XmlTextReader(new StringReader(text));
                 xml.MoveToContent();
@@ -187,7 +187,7 @@ namespace WikiFunctions.Lists
             string title = HttpUtility.UrlEncode(category);
 
             string url = "?action=query&list=categorymembers&cmtitle=Category:" + title + "&cmcategory=" + title 
-                + "&format=xml&cmlimit=max";
+                + "&cmlimit=max";
 
             return ApiMakeList(url, 0);
         }

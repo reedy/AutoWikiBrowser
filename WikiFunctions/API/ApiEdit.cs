@@ -750,13 +750,13 @@ namespace WikiFunctions.API
         #endregion
 
         #region Query Api
-        public string QueryApi(string[,] args)
+        public string QueryApi(string queryParamters)
         {
-            if (args == null) throw new ArgumentNullException("args", "args array cannot be null");
+            if (string.IsNullOrEmpty(queryParamters)) throw new ArgumentException("queryParamters cannot be null/empty", "queryParamters");
 
             Reset();
 
-            string result = HttpGet(args, ActionOptions.None); //Should we be checking for maxlag?
+            string result = HttpGet(URL + "api.php" + (PHP5 ? "5" : "") + "?format=xml" + queryParamters); //Should we be checking for maxlag?
 
             CheckForErrors(result, "query");
 
