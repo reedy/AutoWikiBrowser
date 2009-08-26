@@ -71,6 +71,7 @@ namespace WikiFunctions.API
 
             URL = url;
             PHP5 = usePHP5;
+            ApiURL = URL + "api.php" + (PHP5 ? "5" : "");
             Maxlag = 5;
 
             if (ProxyCache.ContainsKey(url))
@@ -93,6 +94,7 @@ namespace WikiFunctions.API
             return new ApiEdit
                        {
                            URL = URL,
+                           ApiURL = ApiURL,
                            PHP5 = PHP5,
                            Maxlag = Maxlag,
                            Cookies = Cookies,
@@ -108,9 +110,20 @@ namespace WikiFunctions.API
         /// </summary>
         public string URL { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public string ApiURL { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         private string Server
         { get { return "http://" + new Uri(URL).Host; } }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool PHP5 { get; private set; }
 
         /// <summary>
@@ -118,6 +131,9 @@ namespace WikiFunctions.API
         /// </summary>
         public int Maxlag { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool NewMessageThrows
         { get; set; }
 
@@ -132,6 +148,9 @@ namespace WikiFunctions.API
         public PageInfo Page
         { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string HtmlHeaders
         { get; private set; }
 
@@ -239,7 +258,7 @@ namespace WikiFunctions.API
         /// <returns></returns>
         protected string BuildUrl(string[,] request, ActionOptions options)
         {
-            string url = URL + "api.php" + (PHP5 ? "5" : "") + "?format=xml" + BuildQuery(request);
+            string url = ApiURL + "?format=xml" + BuildQuery(request);
 
             return AppendOptions(url, options);
         }
@@ -756,7 +775,7 @@ namespace WikiFunctions.API
 
             Reset();
 
-            string result = HttpGet(URL + "api.php" + (PHP5 ? "5" : "") + "?action=query&format=xml&" + queryParamters); //Should we be checking for maxlag?
+            string result = HttpGet(ApiURL + "?action=query&format=xml&" + queryParamters); //Should we be checking for maxlag?
 
             CheckForErrors(result, "query");
 

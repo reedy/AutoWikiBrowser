@@ -315,6 +315,11 @@ namespace WikiFunctions.API
             get { return SynchronousEditor.URL; }
         }
 
+        public string ApiURL
+        {
+            get { return SynchronousEditor.ApiURL; }
+        }
+
         public bool PHP5
         {
             get { return SynchronousEditor.PHP5; }
