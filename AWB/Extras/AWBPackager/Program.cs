@@ -89,6 +89,9 @@ Is this SVN (1) or a release (2)? ");
                 Directory.CreateDirectory(tmp + "Plugins\\Yahoo Search Plugin\\");
                 File.Copy(currFolder + "YahooSearchPlugin.dll", tmp + "Plugins\\Yahoo Search Plugin\\YahooSearchPlugin.dll", true);
 
+                Directory.CreateDirectory(tmp + "Plugins\\Bing Search Plugin\\");
+                File.Copy(currFolder + "BingSearchPlugin.dll", tmp + "Plugins\\Bing Search Plugin\\BingSearchPlugin.dll", true);
+
                 Directory.CreateDirectory(tmp + "Plugins\\TypoScan Plugin\\");
                 File.Copy(currFolder + "TypoScan.dll", tmp + "Plugins\\TypoScan Plugin\\TypoScan.dll", true);
 
@@ -111,9 +114,7 @@ Is this SVN (1) or a release (2)? ");
 
                 Console.WriteLine("Files copied to temporary directory");
 
-                FastZip zip = new FastZip();
-
-                zip.CreateZip(filename, tmp, true, null);
+                new FastZip().CreateZip(filename, tmp, true, null);
 
                 Directory.Delete(tmp, true);
 
