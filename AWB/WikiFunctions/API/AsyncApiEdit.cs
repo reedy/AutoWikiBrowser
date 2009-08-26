@@ -136,7 +136,7 @@ namespace WikiFunctions.API
             {
                 if (ParentControl != null && !ParentControl.InvokeRequired)
                 {
-                    // simple Thread.Joid() from UI thread would deadlock
+                    // simple Thread.Join() from UI thread would deadlock
                     while (IsActive) Application.DoEvents();
                 }
                 else
