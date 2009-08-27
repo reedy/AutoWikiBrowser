@@ -332,7 +332,7 @@ namespace WikiFunctions.AWBSettings
         public bool BypassRedirect = true;
         public bool AutoSaveSettings = false;
         public bool noSectionEditSummary = false;
-        public bool restrictDefaultsortAddition = false;
+        public bool restrictDefaultsortAddition = true;
         public bool noMOSComplianceFixes = false;
         public bool syntaxHighlightEditBox = false;
         public bool PreParseMode = false;
