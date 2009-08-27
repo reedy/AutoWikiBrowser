@@ -35,10 +35,11 @@ namespace WikiFunctions.Plugins.ListMaker.BingSearch
     {
         private const string AppId = "56218EEF0B712AA9E56CEBA0FFE1B79E55E92FFA";
 
-        private const string BaseUrl = "http://api.search.live.net/xml.aspx?Appid=" + AppId + 
-            "&query={0}(site:{1})&sources=web&web.count=50&web.offset={2}";
+        private const string BaseUrl = "http://api.search.live.net/xml.aspx?Appid=" + AppId +
+                                       "&query={0}(site:{1})&sources=web&web.count={2}&web.offset={3}";
 
-        private const int TotalResults = 500;
+        private const int TotalResults = 500,
+            NoOfResultsPerRequest = 50;
 
         public List<Article> MakeList(params string[] searchCriteria)
         {
@@ -49,7 +50,7 @@ namespace WikiFunctions.Plugins.ListMaker.BingSearch
                 int start = 0;
                 do
                 {
-                    string url = string.Format(BaseUrl, s, Variables.URL, start);
+                    string url = string.Format(BaseUrl, s, Variables.URL, NoOfResultsPerRequest, start);
 
                     using (XmlTextReader reader = new XmlTextReader(new StringReader(Tools.GetHTML(url))))
                     {
@@ -67,7 +68,7 @@ namespace WikiFunctions.Plugins.ListMaker.BingSearch
                             if (reader.Name.Equals("web:Total"))
                             {
                                 if (int.Parse(reader.ReadString()) > TotalResults)
-                                    start += 50;
+                                    start += NoOfResultsPerRequest;
                             }
 
                             if (reader.Name.Equals("web:Url"))

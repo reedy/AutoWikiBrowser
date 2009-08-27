@@ -39,9 +39,12 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
         private const string AppId = "3mG9u3PV34GC4rnRXJlID0_3aUb0.XVxGZYrbFcYClzQYUqtlkn0u6iXVwYVv9sW1Q--";
         #region IListMakerPlugin Members
 
-        private const string BaseUrl = "http://search.yahooapis.com/WebSearchService/V1/webSearch?appid=" + AppId + "&query={0}&results=100&site={1}&start={2}";
+        private const string BaseUrl =
+            "http://search.yahooapis.com/WebSearchService/V1/webSearch?appid=" + AppId +
+            "&query={0}&results={2}&site={1}&start={3}";
 
-        private const int TotalResults = 1000;
+        private const int TotalResults = 500,
+            NoOfResultsPerRequest = 100;
 
         public List<Article> MakeList(string[] searchCriteria)
         {
@@ -52,7 +55,7 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
             {
                 do
                 {
-                    string url = string.Format(BaseUrl, s, Variables.URL, start);
+                    string url = string.Format(BaseUrl, s, Variables.URL, NoOfResultsPerRequest, start);
 
                     using (XmlTextReader reader = new XmlTextReader(new StringReader(Tools.GetHTML(url))))
                     {
@@ -69,8 +72,8 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
                             {
                                 reader.MoveToAttribute("totalResultsAvailable");
 
-                                if (!string.IsNullOrEmpty(reader.Value) && int.Parse(reader.Value) > articles.Count)
-                                    start += 100;
+                                if (!string.IsNullOrEmpty(reader.Value) && int.Parse(reader.Value) > TotalResults)
+                                    start += NoOfResultsPerRequest;
                             }
 
                             if (reader.Name.Equals("ClickUrl"))
