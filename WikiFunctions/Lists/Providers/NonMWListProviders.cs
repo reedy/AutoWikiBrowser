@@ -61,6 +61,7 @@ namespace WikiFunctions.Lists
         protected virtual string ModifyArticleName(string title)
         {
             title = title.Replace(@"&amp;", "&");
+            title = title.Replace(@"&quot;", @"""");
             return title.Replace("<br />", "");
         }
 
