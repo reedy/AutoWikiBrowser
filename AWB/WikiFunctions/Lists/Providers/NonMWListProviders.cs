@@ -259,5 +259,4 @@ namespace WikiFunctions.Lists
         { get { return false; } }
         #endregion
     }
-
 }

@@ -259,6 +259,7 @@ namespace WikiFunctions
 
                 Updater.WaitForCompletion();
                 Updater.AWBEnabledStatus versionStatus = Updater.Result;
+                VersionCheckPage = Updater.GlobalVersionPage;
 
                 //see if this version is enabled
                 if (versionStatus == Updater.AWBEnabledStatus.Disabled)
