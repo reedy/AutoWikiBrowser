@@ -1188,6 +1188,7 @@ namespace AutoWikiBrowser
         {
             try
             {
+                TheSession.Editor.Reset();
                 //reset timer.
                 NumberOfIgnoredEdits++;
                 StopDelayedAutoSaveTimer();
