@@ -622,6 +622,7 @@ namespace WikiFunctions
             text = text.Replace("_", " ").Trim();
             text = text.Trim('[', ']');
             text = text.Replace(@"&amp;", @"&");
+            text = text.Replace(@"&quot;", @"""");
 
             return text.TrimStart(':');
         }
