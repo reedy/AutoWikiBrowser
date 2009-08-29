@@ -773,8 +773,6 @@ namespace WikiFunctions.API
         {
             if (string.IsNullOrEmpty(queryParamters)) throw new ArgumentException("queryParamters cannot be null/empty", "queryParamters");
 
-            Reset();
-
             string result = HttpGet(ApiURL + "?action=query&format=xml&" + queryParamters); //Should we be checking for maxlag?
 
             CheckForErrors(result, "query");
