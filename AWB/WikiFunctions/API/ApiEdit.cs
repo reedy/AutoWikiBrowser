@@ -396,10 +396,10 @@ namespace WikiFunctions.API
         }
 
         /// <summary>
-        /// 
+        /// Performs a HTTP request
         /// </summary>
         /// <param name="request"></param>
-        /// <returns></returns>
+        /// <returns>Text received</returns>
         protected string HttpGet(string[,] request)
         {
             return HttpGet(request, ActionOptions.None);
@@ -419,6 +419,9 @@ namespace WikiFunctions.API
         #region Login / user props
         public void Login(string username, string password)
         {
+            if (string.IsNullOrEmpty(username)) throw new ArgumentException("Username required", "username");
+            if (string.IsNullOrEmpty(password)) throw new ArgumentException("Password required", "password");
+
             Reset();
             User = new UserInfo(); // we don't know for sure what will be our status in case of exception
 
@@ -711,7 +714,7 @@ namespace WikiFunctions.API
         {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page title required", "title");
             if (string.IsNullOrEmpty(newTitle)) throw new ArgumentException("Target page title required", "newTitle");
-            if (string.IsNullOrEmpty(reason)) throw new ArgumentException("Page rename reason required");
+            if (string.IsNullOrEmpty(reason)) throw new ArgumentException("Page rename reason required", "reason");
 
             Reset();
             Action = "move";
