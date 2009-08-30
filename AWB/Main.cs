@@ -2068,7 +2068,10 @@ window.scrollTo(0, diffTopY);
 
                 case WikiStatusResult.NotRegistered:
                     MessageBox.Show(TheSession.User.Name + " is not enabled to use this.", "Not enabled", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    Tools.OpenURLInBrowser(Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage");
+                    string site = Variables.Project == ProjectEnum.wikia
+                        ? "http://www.wikia.com/wiki/"
+                        : Variables.URLIndex + "?title=";
+                    Tools.OpenURLInBrowser(site + "Project:AutoWikiBrowser/CheckPage");
                     break;
 
                 case WikiStatusResult.OldVersion:
