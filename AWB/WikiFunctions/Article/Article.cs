@@ -197,7 +197,7 @@ namespace WikiFunctions
             get
             {
                 return Variables.Project == ProjectEnum.wikipedia
-                    && Variables.LangCode == LangCodeEnum.en
+                    && Variables.LangCode == "en"
                     && Parsers.IsArticleAboutAPerson(mArticleText, Name);
             }
         }
@@ -586,9 +586,9 @@ namespace WikiFunctions
         /// <param name="parsers"></param>
         /// <param name="langCode">The wiki's language code</param>
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
-        protected void FixHeaderErrors(Parsers parsers, LangCodeEnum langCode, bool skipIfNoChange)
+        protected void FixHeaderErrors(Parsers parsers, string langCode, bool skipIfNoChange)
         {
-            if (langCode == LangCodeEnum.en)
+            if (langCode == "en")
             {
                 string strTemp = Parsers.Conversions(mArticleText);
 
@@ -621,9 +621,9 @@ namespace WikiFunctions
         /// <param name="langCode">The wiki's language code</param>
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         /// <param name="restrictDefaultsortAddition"></param>
-        public void SetDefaultSort(LangCodeEnum langCode, bool skipIfNoChange, bool restrictDefaultsortAddition)
+        public void SetDefaultSort(string langCode, bool skipIfNoChange, bool restrictDefaultsortAddition)
         {
-            if (langCode == LangCodeEnum.en && Variables.IsWikimediaProject && !Variables.IsWikimediaMonolingualProject)
+            if (langCode == "en" && Variables.IsWikimediaProject && !Variables.IsWikimediaMonolingualProject)
             {
                 string strTemp = Parsers.ChangeToDefaultSort(mArticleText, mName, out noChange, restrictDefaultsortAddition);
 
@@ -639,7 +639,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="langCode">The wiki's language code</param>
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
-        public void SetDefaultSort(LangCodeEnum langCode, bool skipIfNoChange)
+        public void SetDefaultSort(string langCode, bool skipIfNoChange)
         {
             SetDefaultSort(langCode, skipIfNoChange, true);
         }

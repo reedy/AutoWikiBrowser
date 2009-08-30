@@ -71,14 +71,14 @@ namespace WikiFunctions.Parse
             RegexUnicode.Add(new Regex("&#(0?13|126|x5[BD]|x7[bcd]|0?9[13]|0?12[345]|0?0?3[92]);", RegexOptions.Compiled | RegexOptions.IgnoreCase), "&amp;#$1;");
 
             RegexTagger.Add(new Regex(@"\{\{(template:)?(wikify(-date)?|wfy|wiki)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-            if (Variables.LangCode != LangCodeEnum.nl)
+            if (Variables.LangCode != "nl")
                 RegexTagger.Add(new Regex(@"\{\{(template:)?(Clean( ?up)?|CU|Tidy)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Cleanup|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
             RegexTagger.Add(new Regex(@"\{\{(template:)?(Linkless|Orphan)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
             RegexTagger.Add(new Regex(@"\{\{(template:)?(Uncategori[sz]ed|Uncat|Classify|Category needed|Catneeded|categori[zs]e|nocats?)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Uncategorized|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser#AWB_problems
             // on en wiki {{references}} is a cleanup tag meaning 'this article needs more references' (etc.) whereas on nl wiki (Sjabloon:References) {{references}} acts like <references/>
-            if (Variables.LangCode != LangCodeEnum.nl)
+            if (Variables.LangCode != "nl")
                 RegexTagger.Add(new Regex(@"\{\{(template:)?(Unreferenced(sect)?|add references|cite[ -]sources?|cleanup-sources?|needs? references|no sources|no references?|not referenced|references|unref|unsourced)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Unreferenced|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
             RegexTagger.Add(new Regex(@"\{\{(template:)?(Trivia2?|Too ?much ?trivia|Trivia section|Cleanup-trivia)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Trivia|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
             RegexTagger.Add(new Regex(@"\{\{(template:)?(deadend|DEP)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Deadend|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
@@ -141,7 +141,7 @@ namespace WikiFunctions.Parse
             RegexConversion.Add(new Regex(@"(?<={{[Aa]rticle)i(?=ssues.*}})", RegexOptions.Compiled), " i");
 
             // http://en.wikipedia.org/wiki/Template_talk:Citation_needed#Requested_move
-            if (Variables.LangCode == LangCodeEnum.en)
+            if (Variables.LangCode == "en")
                 RegexConversion.Add(new Regex(@"{{\s*(?:[Cc]n|[Ff]act|[Pp]roveit|[Cc]iteneeded|[Uu]ncited)(?=\s*[\|}])", RegexOptions.Compiled), @"{{Citation needed");
         }
 
@@ -287,7 +287,7 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string ArticleIssues(string articleText)
         {
-            if (Variables.LangCode != LangCodeEnum.en)
+            if (Variables.LangCode != "en")
                 return articleText;
 
             // convert title case parameters within {{Article issues}} to lower case
@@ -1066,7 +1066,7 @@ namespace WikiFunctions.Parse
                     articleText = rr.Regex.Replace(articleText, rr.Replacement);
 
                 // date = YYYY-Month-DD fix, on en-wiki only
-                if (Variables.LangCode == LangCodeEnum.en)
+                if (Variables.LangCode == "en")
                     foreach (RegexReplacement rr in CiteTemplateAbbreviatedMonths)
                         articleText = rr.Regex.Replace(articleText, rr.Replacement);
             }
@@ -1333,7 +1333,7 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string FixDateOrdinalsAndOf(string articleText, string articleTitle)
         {
-            if (Variables.LangCode != LangCodeEnum.en)
+            if (Variables.LangCode != "en")
                 return articleText;
 
             // hide items in quotes etc., though this may also hide items within infoboxes etc.
@@ -1589,7 +1589,7 @@ namespace WikiFunctions.Parse
             // {{cite web}} needs lower case field names; two loops in case a single template has multiple uppercase fields
             // restrict to en-wiki
             // exceptionally, 'ISBN' is allowed
-            while (Variables.LangCode == LangCodeEnum.en)
+            while (Variables.LangCode == "en")
             {
                 foreach (Match m in UppercaseCiteFields.Matches(articleText))
                 {
@@ -1761,7 +1761,7 @@ namespace WikiFunctions.Parse
                 newValue = CiteTemplateFormatHTML.Replace(newValue, "");
 
                 // remove language=English on en-wiki
-                if (Variables.LangCode == LangCodeEnum.en)
+                if (Variables.LangCode == "en")
                     newValue = CiteTemplateLangEnglish.Replace(newValue, "");
 
                 // remove format= field with null value when URL is HTML page
@@ -3351,7 +3351,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public static bool IsArticleAboutAPerson(string articleText, string articleTitle)
         {
-            if (Variables.LangCode != LangCodeEnum.en
+            if (Variables.LangCode != "en"
                     || articleText.Contains(@"[[Category:Multiple people]]")
                     || articleText.Contains(@"[[Category:Married couples")
                     || articleText.Contains(@"[[Category:Fictional")
@@ -3522,7 +3522,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public static string FixPeopleCategories(string articleText, string articleTitle)
         {
-            if (Variables.LangCode != LangCodeEnum.en || WikiRegexes.Lifetime.IsMatch(articleText) || !IsArticleAboutAPerson(articleText, articleTitle))
+            if (Variables.LangCode != "en" || WikiRegexes.Lifetime.IsMatch(articleText) || !IsArticleAboutAPerson(articleText, articleTitle))
                 return YearOfBirthMissingCategory(articleText);
 
             // over 20 references or long and not DOB/DOD categorised at all yet: implausible
@@ -3696,7 +3696,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
         private static string YearOfBirthMissingCategory(string articleText)
         {
-            if (Variables.LangCode != LangCodeEnum.en)
+            if (Variables.LangCode != "en")
                 return articleText;
 
             // if there is a 'year of birth missing' and a year of birth, remove the 'missing' category
@@ -3875,7 +3875,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             // on en wiki, remove expand template when a stub template exists
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.7B.7Bexpand.7D.7D_when_a_stub_template_exists
-            if (Variables.LangCode == LangCodeEnum.en && WikiRegexes.Stub.IsMatch(commentsStripped) && WikiRegexes.Expand.IsMatch(commentsStripped))
+            if (Variables.LangCode == "en" && WikiRegexes.Stub.IsMatch(commentsStripped) && WikiRegexes.Expand.IsMatch(commentsStripped))
             {
                 articleText = WikiRegexes.Expand.Replace(articleText, "");
 
@@ -3913,7 +3913,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Archive_19#AWB_problems
             // nl wiki doesn't use {{Uncategorized}} template
             if (words > 6 && totalCategories == 0
-                && !WikiRegexes.Uncat.IsMatch(articleText) && Variables.LangCode != LangCodeEnum.nl)
+                && !WikiRegexes.Uncat.IsMatch(articleText) && Variables.LangCode != "nl")
             {
                 if (WikiRegexes.Stub.IsMatch(commentsStripped))
                 {
@@ -4123,7 +4123,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         public static bool HasInfobox(string articleText)
         {
-            if (Variables.LangCode != LangCodeEnum.en)
+            if (Variables.LangCode != "en")
                 return false;
 
             articleText = WikiRegexes.Nowiki.Replace(articleText, "");
@@ -4137,7 +4137,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         public static bool IsInUse(string articleText)
         {
-            return (Variables.LangCode != LangCodeEnum.en)
+            return (Variables.LangCode != "en")
                        ? false
                        : WikiRegexes.InUse.IsMatch(WikiRegexes.Comments.Replace(articleText, ""));
         }
@@ -4176,7 +4176,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
         public static bool IsMissingReferencesDisplay(string articleText)
         {
-            if (Variables.LangCode != LangCodeEnum.en)
+            if (Variables.LangCode != "en")
                 return false;
 
             return !WikiRegexes.ReferencesTemplate.IsMatch(articleText) && Regex.IsMatch(articleText, WikiRegexes.ReferenceEndGR);

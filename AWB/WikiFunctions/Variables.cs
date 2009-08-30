@@ -28,36 +28,6 @@ using System.Threading;
 
 namespace WikiFunctions
 {
-    public enum LangCodeEnum
-    {
-        en, aa, ab, af, ak, als, am, an, ang, ar, arc, arz, As, ast, av, ay, az,
-        ba, bar, bat_smg, bcl, be, bg, bh, bi, bn, bm, bo, bpy, br, bs, bug, bxr,
-        ca, cbk_zam, cdo, ce, ceb, ch, cho, chr, chy, co, cr, crh, cs, csb, cu, cv, cy, cz,
-        da, de, diq, dk, dsb, dv, dz,
-        ee, el, eml, eo, epo, es, et, eu, ext,
-        fa, ff, fi, fiu_vro, fj, fo, fr, frp, fur, fy,
-        ga, gan, gd, gl, glk, gn, got, gu, gv,
-        ha, hak, haw, he, hi, hif, ho, hr, hsb, ht, hu, hy, hz,
-        ia, id, ie, ig, ii, ik, ilo, io, Is, it, iu,
-        ja, jbo, jp, jv,
-        ka, kaa, kab, kg, ki, kj, kk, kl, km, kn, ko, kr, ks, ksh, ku, kv, kw, ky,
-        la, lad, lb, lbe, lg, li, lij, lmo, lm, ln, lo, lt, lv,
-        map_bms, mdf, mg, mh, mi, minnan, mk, ml, mn, mo, mr, ms, mt, mus, my, myv, mzn,
-        na, nah, nan, nap, nb, nds, nds_nl, ne, New, ng, nl, nn, no, nov, nrm, nv, ny,
-        oc, om, or, os,
-        pa, pag, pam, pap, pdc, pi, pih, pl, pms, pnt, ps, pt,
-        qu,
-        rm, rmy, rn, ro, roa_rup, roa_tara, ru, rw,
-        sa, sah, sc, scn, sco, sd, se, sg, sh, si, simple, sk, sl, sm, sn, so, sq, sr, srn, ss, st, stq, su, sv, sw, szl,
-        ta, te, tet, tg, th, ti, tk, tl, tn, to, tokipona, tp, tpi, tr, ts, tt, tum, tw, ty,
-        udm, ug, uk, ur, uz,
-        ve, vec, vi, vls, vo,
-        wa, war, wo, wuu,
-        xal, xh,
-        yi, yo,
-        za, zea, zh, zh_cfr, zh_classical, zh_min_nan, zh_yue, zu
-    }
-
     public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, species, commons, meta, mediawiki, wikia, custom }
 
     /// <summary>
@@ -114,7 +84,7 @@ namespace WikiFunctions
             CanonicalNamespaceAliases[7].Add("Image talk:");
 
             if (!Globals.UnitTestMode)
-                SetProject(LangCodeEnum.en, ProjectEnum.wikipedia); //Shouldn't have to load en defaults...
+                SetProject("en", ProjectEnum.wikipedia); //Shouldn't have to load en defaults...
             else
             {
                 SetToEnglish("Wikipedia:", "Wikipedia talk:");
@@ -122,27 +92,6 @@ namespace WikiFunctions
             }
 
             PHP5 = false;
-        }
-
-        /// <summary>
-        /// Returns the provided language code as a string
-        /// (Underscore as shown in enum, to hyphen representation)
-        /// </summary>
-        /// <param name="lang">Language Code to convert to string</param>
-        /// <returns>String representation of the current language code</returns>
-        public static string LangCodeEnumString(LangCodeEnum lang)
-        {
-            return lang.ToString().Replace('_', '-').ToLower();
-        }
-
-        /// <summary>
-        /// Returns the current project set language code as a string
-        /// (Underscore as shown in enum, to hyphen representation)
-        /// </summary>
-        /// <returns>String representation of the current language code</returns>
-        public static string LangCodeEnumString()
-        {
-            return LangCodeEnumString(LangCode);
         }
 
         /// <summary>
@@ -259,7 +208,7 @@ namespace WikiFunctions
         /// <summary>
         /// Gets the language code, e.g. "en".
         /// </summary>
-        public static LangCodeEnum LangCode { get; internal set; }// = LangCodeEnum.en;
+        public static string LangCode { get; internal set; }// = "en;
 
         /// <summary>
         /// Returns true if we are currently editing a WMF wiki
@@ -271,7 +220,7 @@ namespace WikiFunctions
         /// Returns true if we are currently editing the English Wikipedia
         /// </summary>
         public static bool IsWikipediaEN
-        { get { return (Project == ProjectEnum.wikipedia && LangCode == LangCodeEnum.en); } }
+        { get { return (Project == ProjectEnum.wikipedia && LangCode == "en"); } }
 
         /// <summary>
         /// Returns true if we are currently a monolingual Wikimedia project
@@ -471,7 +420,7 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="langCode">The language code, default is en</param>
         /// <param name="projectName">The project name default is Wikipedia</param>
-        public static void SetProject(LangCodeEnum langCode, ProjectEnum projectName)
+        public static void SetProject(string langCode, ProjectEnum projectName)
         {
             SetProject(langCode, projectName, "");
         }
@@ -482,7 +431,7 @@ namespace WikiFunctions
         /// <param name="langCode">The language code, default is en</param>
         /// <param name="projectName">The project name default is Wikipedia</param>
         /// <param name="customProject">Script path of a custom project or ""</param>
-        public static void SetProject(LangCodeEnum langCode, ProjectEnum projectName, string customProject)
+        public static void SetProject(string langCode, ProjectEnum projectName, string customProject)
         {
             Namespaces.Clear();
             CancelBackgroundRequests();
@@ -513,7 +462,7 @@ namespace WikiFunctions
 
             if (IsCustomProject)
             {
-                LangCode = LangCodeEnum.en;
+                LangCode = "en";
                 int x = customProject.IndexOf('/');
 
                 if (x > 0)
@@ -525,7 +474,7 @@ namespace WikiFunctions
                 URL = "http://" + CustomProject;
             }
             else
-                URL = "http://" + LangCodeEnumString() + "." + Project + ".org";
+                URL = "http://" + LangCode + "." + Project + ".org";
 
             switch (projectName)
             {
@@ -538,92 +487,92 @@ namespace WikiFunctions
                 case ProjectEnum.wikiversity:
                     switch (langCode)
                     {
-                        case LangCodeEnum.en:
+                        case "en":
                             SetToEnglish();
                             break;
 
-                        case LangCodeEnum.ar:
+                        case "ar":
                             mSummaryTag = " ";
                             strWPAWB = "باستخدام [[ويكيبيديا:أوب|الأوتوويكي براوزر]]";
                             strTypoSummaryTag = ".الأخطاء المصححة: ";
                             break;
 
-                        case LangCodeEnum.bg:
+                        case "bg":
                             mSummaryTag = " редактирано с ";
                             strWPAWB = "AWB";
                             break;
 
-                        case LangCodeEnum.ca:
+                        case "ca":
                             mSummaryTag = " ";
                             strWPAWB = "[[Viquipèdia:AutoWikiBrowser|AWB]]";
                             break;
 
-                        case LangCodeEnum.da:
+                        case "da":
                             mSummaryTag = " ved brug af ";
                             strWPAWB = "[[en:Wikipedia:AutoWikiBrowser|AWB]]";
                             break;
 
-                        case LangCodeEnum.de:
+                        case "de":
                             mSummaryTag = " mit ";
                             strTypoSummaryTag = ", Schreibweise:";
                             break;
 						
-						case LangCodeEnum.el:
+						case "el":
 							mSummaryTag = " με τη χρήση ";
 							strWPAWB = "[[Βικιπαίδεια:AutoWikiBrowser|AWB]]";
 							break;
 
-                        case LangCodeEnum.eo:
+                        case "eo":
                             mSummaryTag = " ";
                             strWPAWB = "[[Vikipedio:AutoWikiBrowser|AWB]]";
                             break;
 
-                        case LangCodeEnum.hu:
+                        case "hu":
                             mSummaryTag = " ";
                             strWPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
                             break;
 
-                        case LangCodeEnum.ku:
+                        case "ku":
                             mSummaryTag = " ";
                             strWPAWB = "[[Wîkîpediya:AutoWikiBrowser|AWB]]";
                             break;
 
-                        case LangCodeEnum.nl:
+                        case "nl":
                             mSummaryTag = " met ";
                             break;
 
-                        case LangCodeEnum.pl:
+                        case "pl":
                             SectStub = @"\{\{[Ss]ek";
                             SectStubRegex = new Regex(SectStub, RegexOptions.Compiled);
                             break;
 
-                        case LangCodeEnum.pt:
+                        case "pt":
                             mSummaryTag = " utilizando ";
                             break;
 
-                        case LangCodeEnum.ru:
+                        case "ru":
                             mSummaryTag = " с помощью ";
                             Stub = "(?:[Ss]tub|[Зз]аготовка)";
                             break;
 
-                        case LangCodeEnum.sk:
+                        case "sk":
                             mSummaryTag = " ";
                             strWPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
                             break;
 
-                        case LangCodeEnum.sl:
+                        case "sl":
                             mSummaryTag = " ";
                             strWPAWB = "[[Wikipedija:AutoWikiBrowser|AWB]]";
                             Stub = "(?:[Ss]tub|[Šš]krbina)";
                             break;
 
-                        case LangCodeEnum.uk:
+                        case "uk":
                             Stub = "(?:[Ss]tub|[Дд]оробити)";
                             mSummaryTag = " за допомогою ";
                             strWPAWB = "[[Вікіпедія:AutoWikiBrowser|AWB]]";
                             break;
 
-                        // case LangCodeEnum.xx:
+                        // case "xx:
                         // strsummarytag = " ";
                         // strWPAWB = "";
                         // break;
@@ -634,19 +583,19 @@ namespace WikiFunctions
                     break;
                 case ProjectEnum.commons:
                     URL = "http://commons.wikimedia.org";
-                    LangCode = LangCodeEnum.en;
+                    LangCode = "en";
                     break;
                 case ProjectEnum.meta:
                     URL = "http://meta.wikimedia.org";
-                    LangCode = LangCodeEnum.en;
+                    LangCode = "en";
                     break;
                 case ProjectEnum.mediawiki:
                     URL = "http://www.mediawiki.org";
-                    LangCode = LangCodeEnum.en;
+                    LangCode = "en";
                     break;
                 case ProjectEnum.species:
                     URL = "http://species.wikimedia.org";
-                    LangCode = LangCodeEnum.en;
+                    LangCode = "en";
                     break;
                 case ProjectEnum.wikia:
                     URL = "http://" + customProject + ".wikia.com";
@@ -703,7 +652,7 @@ namespace WikiFunctions
         private static void SetDefaults()
         {
             Project = ProjectEnum.wikipedia;
-            LangCode = LangCodeEnum.en;
+            LangCode = "en";
             mSummaryTag = " using ";
             strWPAWB = "[[Project:AWB|AWB]]";
 
@@ -757,20 +706,6 @@ namespace WikiFunctions
 
             RTL = false;
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="lang"></param>
-        /// <returns></returns>
-        public static LangCodeEnum ParseLanguage(string lang)
-        {
-            if (string.Compare(lang, "is", true) == 0) return LangCodeEnum.Is;
-            if (string.Compare(lang, "as", true) == 0) return LangCodeEnum.As;
-            if (string.Compare(lang, "new", true) == 0) return LangCodeEnum.New;
-            return (LangCodeEnum)Enum.Parse(typeof(LangCodeEnum), lang.Replace('-', '_'));
-        }
-
         #endregion
 
         #region URL Builders

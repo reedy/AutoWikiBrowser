@@ -260,14 +260,14 @@ en, sq, ru
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Move_orphan_tags_on_the_top
                 // Dablinks above orphan tags per [[WP:LAYOUT]]
-                if(Variables.LangCode == LangCodeEnum.en)
+                if(Variables.LangCode == "en")
                     articleText = MoveOrphanTags(articleText);
 
                 articleText = MoveDablinks(articleText);
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Placement_of_portal_template
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests.html#Move_nofootnotes_to_the_references_section
-                if (Variables.LangCode == LangCodeEnum.en)
+                if (Variables.LangCode == "en")
                 {
                     articleText = MovePortalTemplates(articleText);
                     articleText = MoveMoreNoFootnotes(articleText);
@@ -278,7 +278,7 @@ en, sq, ru
                 // two newlines here per http://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser&oldid=243224092#Blank_lines_before_stubs
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Two_empty_lines_before_stub-templates
                 // Russian wiki uses only one newline
-                string strStub = Newline(RemoveStubs(ref articleText), Variables.LangCode == LangCodeEnum.ru ? 1 : 2);
+                string strStub = Newline(RemoveStubs(ref articleText), Variables.LangCode == "ru" ? 1 : 2);
 
                 //filter out excess white space and remove "----" from end of article
                 articleText = Parsers.RemoveWhiteSpace(articleText) + "\r\n";
@@ -286,18 +286,18 @@ en, sq, ru
 
                 switch (Variables.LangCode)
                 {
-                    case LangCodeEnum.de:
-                    case LangCodeEnum.sl:
+                    case "de":
+                    case "sl":
                         articleText += strStub + strCategories + strPersonData;
 
                         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser#Removal_of_blank_lines
                         // on de wiki a blank line is desired between persondata and interwikis
-                        if (Variables.LangCode == LangCodeEnum.de && strPersonData.Length > 0 && strInterwikis.Length > 0)
+                        if (Variables.LangCode == "de" && strPersonData.Length > 0 && strInterwikis.Length > 0)
                             articleText += "\r\n";
                         break;
-                    case LangCodeEnum.pl:
-                    case LangCodeEnum.ru:
-                    case LangCodeEnum.simple:
+                    case "pl":
+                    case "ru":
+                    case "simple":
                         articleText += strPersonData + strStub + strCategories;
                         break;
                     default:
@@ -366,7 +366,7 @@ en, sq, ru
 
             // on en-wiki find any {{Lifetime}} template and move directly after categories
             string lifetime = "";
-            if (Variables.LangCode == LangCodeEnum.en)
+            if (Variables.LangCode == "en")
             {
                 lifetime = WikiRegexes.Lifetime.Match(articleText).Value;
 
@@ -389,7 +389,7 @@ en, sq, ru
         /// <returns></returns>
         public static string RemovePersonData(ref string articleText)
         {
-            string strPersonData = (Variables.LangCode == LangCodeEnum.de)
+            string strPersonData = (Variables.LangCode == "de")
                                 ? Parsers.GetTemplate(articleText, "[Pp]ersonendaten")
                                 : Parsers.GetTemplate(articleText, "[Pp]ersondata");
 
@@ -398,7 +398,7 @@ en, sq, ru
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Persondata_comments
             // catch the persondata comment the line before it so that the comment and template aren't separated
-            if (articleText.Contains(WikiRegexes.PersonDataCommentEN) && Variables.LangCode == LangCodeEnum.en)
+            if (articleText.Contains(WikiRegexes.PersonDataCommentEN) && Variables.LangCode == "en")
             {
                 articleText = articleText.Replace(WikiRegexes.PersonDataCommentEN, "");
                 strPersonData = WikiRegexes.PersonDataCommentEN + strPersonData;
@@ -416,7 +416,7 @@ en, sq, ru
         {
             // Per http://ru.wikipedia.org/wiki/Википедия:Опросы/Использование_служебных_разделов/Этап_2#.D0.A1.D0.BB.D1.83.D0.B6.D0.B5.D0.B1.D0.BD.D1.8B.D0.B5_.D1.88.D0.B0.D0.B1.D0.BB.D0.BE.D0.BD.D1.8B
             // Russian Wikipedia places stubs before navboxes
-            if (Variables.LangCode == LangCodeEnum.ru) return "";
+            if (Variables.LangCode == "ru") return "";
 
             List<string> stubList = new List<string>();
             MatchCollection matches = WikiRegexes.PossiblyCommentedStub.Matches(articleText);
@@ -448,7 +448,7 @@ en, sq, ru
         /// <returns>Article text stripped of disambiguation templates</returns>
         public static string RemoveDisambig(ref string articleText)
         {
-            if (Variables.LangCode != LangCodeEnum.en)
+            if (Variables.LangCode != "en")
                 return "";
 
             string strDisambig = "";
@@ -472,7 +472,7 @@ en, sq, ru
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
 
             // avoid moving commented out Dablinks
-            if (Variables.LangCode != LangCodeEnum.en || !WikiRegexes.Dablinks.IsMatch(WikiRegexes.Comments.Replace(zerothSection, "")))
+            if (Variables.LangCode != "en" || !WikiRegexes.Dablinks.IsMatch(WikiRegexes.Comments.Replace(zerothSection, "")))
                 return articleText;
 
             // get the rest of the article including first heading (may be null if article has no headings)

@@ -32,7 +32,7 @@ namespace AutoWikiBrowser
 {
     internal sealed partial class MyPreferences : Form
     {
-        public MyPreferences(LangCodeEnum lang, ProjectEnum proj, string customproj,
+        public MyPreferences(string lang, ProjectEnum proj, string customproj,
             Font textFont, bool lowPriority, bool flash, bool beep, bool minimize,
             bool saveArticleList, bool autoSaveEditBox,
             string autoSaveEditBoxFile, decimal autoSaveEditBoxPeriod, bool suppressUsingAWB,
@@ -47,7 +47,7 @@ namespace AutoWikiBrowser
 
             cmboProject_SelectedIndexChanged(null, null);
 
-            cmboLang.SelectedItem = lang.ToString().ToLower();
+            cmboLang.SelectedItem = lang.ToLower();
 
             cmboCustomProject.Items.Clear();
             foreach (string s in Properties.Settings.Default.CustomWikis.Split('|'))
@@ -90,9 +90,9 @@ namespace AutoWikiBrowser
 
         #region Language and project
 
-        public LangCodeEnum Language
+        public string Language
         {
-            get { return Variables.ParseLanguage(cmboLang.SelectedItem.ToString()); }
+            get { return cmboLang.SelectedItem.ToString(); }
         }
 
         public ProjectEnum Project

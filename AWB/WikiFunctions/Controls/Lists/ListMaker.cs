@@ -181,7 +181,7 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public static void AddRemoveRedirects()
         {
-            if (Variables.LangCode != LangCodeEnum.en && ListItems.Contains(RedirectLProvider))
+            if (Variables.LangCode != "en" && ListItems.Contains(RedirectLProvider))
                 ListItems.Remove(RedirectLProvider);
             else if (!ListItems.Contains(RedirectLProvider))
                 ListItems.Add(RedirectLProvider);
