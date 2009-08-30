@@ -465,6 +465,8 @@ namespace AutoWikiBrowser
         {
             SetProject(p.LanguageCode, p.Project, p.CustomProject);
 
+            Variables.PHP5 = p.PHP5;
+
             FindAndReplace.Clear();
             chkFindandReplace.Checked = p.FindAndReplace.Enabled;
             FindAndReplace.IgnoreLinks = p.FindAndReplace.IgnoreSomeText;
