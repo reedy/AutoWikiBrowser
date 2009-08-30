@@ -533,15 +533,15 @@ namespace WikiFunctions.Parse
             while (oldArticleText != articleText)
             { // repeat for multiple refs together
                 oldArticleText = articleText;
-                articleText = WikiRegexes.match0A.Replace(articleText, "$1$2$4$3");
-                articleText = WikiRegexes.match0B.Replace(articleText, "$1$2$4$3");
+                articleText = WikiRegexes.Match0A.Replace(articleText, "$1$2$4$3");
+                articleText = WikiRegexes.Match0B.Replace(articleText, "$1$2$4$3");
                 //articleText = WikiRegexes.match0C.Replace(articleText, "$2$4$3");
-                articleText = WikiRegexes.match0D.Replace(articleText, "$1$2$3");
+                articleText = WikiRegexes.Match0D.Replace(articleText, "$1$2$3");
 
-                articleText = WikiRegexes.match1A.Replace(articleText, "$1$2$6$3");
-                articleText = WikiRegexes.match1B.Replace(articleText, "$1$2$6$3");
+                articleText = WikiRegexes.Match1A.Replace(articleText, "$1$2$6$3");
+                articleText = WikiRegexes.Match1B.Replace(articleText, "$1$2$6$3");
                 //articleText = WikiRegexes.match1C.Replace(articleText, "$2$6$3");
-                articleText = WikiRegexes.match1D.Replace(articleText, "$1$2$3");
+                articleText = WikiRegexes.Match1D.Replace(articleText, "$1$2$3");
             }
 
             //articleText = WikiRegexes.RefAfterEquals.Replace(articleText, "$1\r\n<ref");

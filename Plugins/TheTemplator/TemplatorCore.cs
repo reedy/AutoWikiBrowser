@@ -574,11 +574,11 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
         // 11. To extract the whitespace pattern which follows the value
         internal static readonly Regex trailingWhiteSpaceRegex = new Regex(@"(?<=\S)\s*$", RegexOptions.Compiled | RegexOptions.Singleline);
 
-        internal static WikiFunctions.Plugin.IAutoWikiBrowser AWB;
+        private static WikiFunctions.Plugin.IAutoWikiBrowser AWB;
         internal static TemplatorSettings Settings = new TemplatorSettings();
-        private static TemplatorSettings defaultSettings = new TemplatorSettings();
+        private static readonly TemplatorSettings defaultSettings = new TemplatorSettings();
 
-        static internal string PluginName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
-        static internal string Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        private static readonly string PluginName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+        private static readonly string Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
     }
 }
