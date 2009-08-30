@@ -761,6 +761,6 @@ namespace WikiFunctions
         }
     }
 
-    public enum WikiStatusResult { Error, NotLoggedIn, NotRegistered, OldVersion, Registered, Null, PendingUpdate }
+    public enum WikiStatusResult { Error, NotLoggedIn, NotRegistered, OldVersion, Registered, /*Null,*/ PendingUpdate }
 }
 
