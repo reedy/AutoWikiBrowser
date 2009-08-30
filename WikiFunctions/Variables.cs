@@ -92,6 +92,8 @@ namespace WikiFunctions
             }
 
             PHP5 = false;
+            TypoSummaryTag = ", typos fixed: ";
+            WPAWB = "[[Project:AWB|AWB]]";
         }
 
         /// <summary>
@@ -208,7 +210,7 @@ namespace WikiFunctions
         /// <summary>
         /// Gets the language code, e.g. "en".
         /// </summary>
-        public static string LangCode { get; internal set; }// = "en;
+        public static string LangCode { get; internal set; }
 
         /// <summary>
         /// Returns true if we are currently editing a WMF wiki
@@ -262,37 +264,34 @@ namespace WikiFunctions
         /// </summary>
         public static string ApiPHP { get; private set; }
 
-        private static bool UsePHP5;
+        private static bool usePHP5;
         /// <summary>
         /// Whether the current wiki uses the .php5 extension
         /// </summary>
         public static bool PHP5
         {
-            get { return UsePHP5; }
+            get { return usePHP5; }
             set
             {
-                UsePHP5 = value;
+                usePHP5 = value;
                 IndexPHP = value ? "index.php5" : "index.php";
                 ApiPHP = value ? "api.php5" : "api.php";
             }
         }
 
         private static string mSummaryTag = " using ";
-        private static string strWPAWB = "[[Project:AWB|AWB]]";
-
-        private static string strTypoSummaryTag = ", typos fixed: ";
 
         public static string TypoSummaryTag
-        { get { return strTypoSummaryTag; } }
+        { get; private set; }
 
         /// <summary>
         /// Gets the tag to add to the edit summary, e.g. " using [[Wikipedia:AutoWikiBrowser|AWB]]".
         /// </summary>
         public static string SummaryTag
-        { get { return mSummaryTag + strWPAWB; } }
+        { get { return mSummaryTag + WPAWB; } }
 
         public static string WPAWB
-        { get { return strWPAWB; } }
+        { get; private set; }
 
         internal static Dictionary<int, List<string>> PrepareAliases(Dictionary<int, string> namespaces)
         {
@@ -310,7 +309,7 @@ namespace WikiFunctions
         private static void AWBDefaultSummaryTag()
         {
             mSummaryTag = " using ";
-            strWPAWB = "[[Project:AutoWikiBrowser|AWB]]";
+            WPAWB = "[[Project:AutoWikiBrowser|AWB]]";
         }
 
         #region Delayed load stuff
@@ -482,48 +481,48 @@ namespace WikiFunctions
 
                         case "ar":
                             mSummaryTag = " ";
-                            strWPAWB = "باستخدام [[ويكيبيديا:أوب|الأوتوويكي براوزر]]";
-                            strTypoSummaryTag = ".الأخطاء المصححة: ";
+                            WPAWB = "باستخدام [[ويكيبيديا:أوب|الأوتوويكي براوزر]]";
+                            TypoSummaryTag = ".الأخطاء المصححة: ";
                             break;
 
                         case "bg":
                             mSummaryTag = " редактирано с ";
-                            strWPAWB = "AWB";
+                            WPAWB = "AWB";
                             break;
 
                         case "ca":
                             mSummaryTag = " ";
-                            strWPAWB = "[[Viquipèdia:AutoWikiBrowser|AWB]]";
+                            WPAWB = "[[Viquipèdia:AutoWikiBrowser|AWB]]";
                             break;
 
                         case "da":
                             mSummaryTag = " ved brug af ";
-                            strWPAWB = "[[en:Wikipedia:AutoWikiBrowser|AWB]]";
+                            WPAWB = "[[en:Wikipedia:AutoWikiBrowser|AWB]]";
                             break;
 
                         case "de":
                             mSummaryTag = " mit ";
-                            strTypoSummaryTag = ", Schreibweise:";
+                            TypoSummaryTag = ", Schreibweise:";
                             break;
 						
 						case "el":
 							mSummaryTag = " με τη χρήση ";
-							strWPAWB = "[[Βικιπαίδεια:AutoWikiBrowser|AWB]]";
+                            WPAWB = "[[Βικιπαίδεια:AutoWikiBrowser|AWB]]";
 							break;
 
                         case "eo":
                             mSummaryTag = " ";
-                            strWPAWB = "[[Vikipedio:AutoWikiBrowser|AWB]]";
+                            WPAWB = "[[Vikipedio:AutoWikiBrowser|AWB]]";
                             break;
 
                         case "hu":
                             mSummaryTag = " ";
-                            strWPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
+                            WPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
                             break;
 
                         case "ku":
                             mSummaryTag = " ";
-                            strWPAWB = "[[Wîkîpediya:AutoWikiBrowser|AWB]]";
+                            WPAWB = "[[Wîkîpediya:AutoWikiBrowser|AWB]]";
                             break;
 
                         case "nl":
@@ -546,19 +545,19 @@ namespace WikiFunctions
 
                         case "sk":
                             mSummaryTag = " ";
-                            strWPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
+                            WPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
                             break;
 
                         case "sl":
                             mSummaryTag = " ";
-                            strWPAWB = "[[Wikipedija:AutoWikiBrowser|AWB]]";
+                            WPAWB = "[[Wikipedija:AutoWikiBrowser|AWB]]";
                             Stub = "(?:[Ss]tub|[Šš]krbina)";
                             break;
 
                         case "uk":
                             Stub = "(?:[Ss]tub|[Дд]оробити)";
                             mSummaryTag = " за допомогою ";
-                            strWPAWB = "[[Вікіпедія:AutoWikiBrowser|AWB]]";
+                            WPAWB = "[[Вікіпедія:AutoWikiBrowser|AWB]]";
                             break;
 
                         // case "xx:
