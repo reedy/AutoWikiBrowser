@@ -400,17 +400,6 @@ namespace WikiFunctions
             return "*" + WPAWB + " version " + version + Environment.NewLine;
         }
 
-        public static string AWBLoggingEditSummary
-        { get { return "(" + WPAWB + " Logging) "; } }
-
-        public const string UploadingLogEntryDefaultEditSummary = "Adding log entry";
-        public const string UploadingLogDefaultEditSummary = "Uploading log";
-        public const string LoggingStartButtonClicked = "Initialising log.";
-        public const string StringUser = "User";
-        public const string StringUserSkipped = "Clicked ignore";
-        public const string StringPlugin = "Plugin";
-        public const string StringPluginSkipped = "Plugin sent skip event";
-
         public static string Stub;
         public static string SectStub;
         public static Regex SectStubRegex;

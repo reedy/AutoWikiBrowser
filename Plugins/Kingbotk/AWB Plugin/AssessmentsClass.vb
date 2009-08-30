@@ -252,7 +252,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                     LoadTalkPage()
                 Else
                     LoadArticle()
-                    PluginManager.AWBForm.TraceManager.SkippedArticle("User", Variables.StringUserSkipped)
+                    PluginManager.AWBForm.TraceManager.SkippedArticle("User", WikiFunctions.Logging.AWBLogListener.StringUserSkipped)
                     PluginSettings.PluginStats.SkippedMiscellaneousIncrement(True)
                 End If
 

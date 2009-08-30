@@ -32,6 +32,17 @@ namespace WikiFunctions.Logging
          * Handle double click event (open article in browser)
         */
 
+        public const string UploadingLogEntryDefaultEditSummary = "Adding log entry",
+                     UploadingLogDefaultEditSummary = "Uploading log",
+                     LoggingStartButtonClicked = "Initialising log.",
+                     StringUser = "User",
+                     StringUserSkipped = "Clicked ignore",
+                     StringPlugin = "Plugin",
+                     StringPluginSkipped = "Plugin sent skip event";
+        
+        public static string AWBLoggingEditSummary
+        { get { return "(" + Variables.WPAWB + " Logging) "; } }
+
         private bool Datestamped, HaveSkipInfo;
 
         #region AWB Interface
@@ -45,7 +56,7 @@ namespace WikiFunctions.Logging
 
         public void UserSkipped()
         {
-            Skip(Variables.StringUser, Variables.StringUserSkipped);
+            Skip(StringUser, StringUserSkipped);
         }
 
         public void AWBSkipped(string reason)
@@ -55,7 +66,7 @@ namespace WikiFunctions.Logging
 
         public void PluginSkipped()
         {
-            Skip(Variables.StringPlugin, Variables.StringPluginSkipped);
+            Skip(StringPlugin, StringPluginSkipped);
         }
 
         public void OpenInBrowser()
