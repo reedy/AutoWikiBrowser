@@ -81,7 +81,7 @@ namespace WikiFunctions.AWBSettings
         }
 
         [XmlAttribute("xml:space")]
-        public String SpacePreserve = "preserve";
+        public string SpacePreserve = "preserve";
 
         [XmlAttribute]
         public string Version = Tools.VersionString;
@@ -265,7 +265,6 @@ namespace WikiFunctions.AWBSettings
 
         public int AutoDelay = 10;
         public bool SupressTag = false;
-        public bool OverrideWatchlist = false;
         public bool RegexTypoFix = false;
     }
 
@@ -300,7 +299,6 @@ namespace WikiFunctions.AWBSettings
         public bool SkipNoLinksOnPage = false;
 
         public List<int> GeneralSkipList = new List<int>();
-        public string GeneralSkip = ""; //to be removed at later date
     }
 
     [Serializable]
@@ -440,21 +438,7 @@ namespace WikiFunctions.AWBSettings
     [Serializable]
     public class SpecialFilterPrefs
     {
-        internal SpecialFilterPrefs() { } // Use default values
-        public SpecialFilterPrefs(List<int> nameValues, bool RemoveDupes, bool SortListAZ,
-            bool FilterTitlesThatContain, bool FilterTitlesThatDontContain, bool AreRegex,
-            int OpType, List<string> Remove)
-        {
-            // Create object and initialise values
-            namespaceValues = nameValues;
-            remDupes = RemoveDupes;
-            sortAZ = SortListAZ;
-            filterTitlesThatContain = FilterTitlesThatContain;
-            filterTitlesThatDontContain = FilterTitlesThatDontContain;
-            areRegex = AreRegex;
-            opType = OpType;
-            remove = Remove;
-        }
+        internal SpecialFilterPrefs() { }
 
         public List<int> namespaceValues;
 
