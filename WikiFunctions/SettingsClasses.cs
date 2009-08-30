@@ -86,7 +86,7 @@ namespace WikiFunctions.AWBSettings
         [XmlAttribute]
         public string Version = Tools.VersionString;
         public ProjectEnum Project = ProjectEnum.wikipedia;
-        public LangCodeEnum LanguageCode = LangCodeEnum.en;
+        public string LanguageCode = "en";
         public string CustomProject = "";
         public bool PHP5;
 

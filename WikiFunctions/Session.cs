@@ -212,7 +212,7 @@ namespace WikiFunctions
                 string url;
                 if (Variables.IsWikia)
                     url = "http://www.wikia.com/index.php?title=Wikia:AutoWikiBrowser/CheckPage&action=raw";
-                else if ((Variables.Project == ProjectEnum.wikipedia) && (Variables.LangCode == LangCodeEnum.ar))
+                else if ((Variables.Project == ProjectEnum.wikipedia) && (Variables.LangCode == "ar"))
                     url = "http://ar.wikipedia.org/w/index.php?title=%D9%88%D9%8A%D9%83%D9%8A%D8%A8%D9%8A%D8%AF%D9%8A%D8%A7:%D8%A7%D9%84%D8%A3%D9%88%D8%AA%D9%88%D9%88%D9%8A%D9%83%D9%8A_%D8%A8%D8%B1%D8%A7%D9%88%D8%B2%D8%B1/%D9%85%D8%B3%D9%85%D9%88%D8%AD&action=raw";
                 else
                     url = Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=raw";
@@ -223,16 +223,7 @@ namespace WikiFunctions
 
                 if (Variables.IsCustomProject || Variables.IsWikia)
                 {
-                    try
-                    {
-                        Variables.LangCode =
-                            Variables.ParseLanguage(Site.Language);
-                    }
-                    catch
-                    {
-                        // use English if language not recognized
-                        Variables.LangCode = LangCodeEnum.en;
-                    }
+                    Variables.LangCode = Site.Language;
                 }
 
                 string typoPostfix = "";

@@ -151,8 +151,8 @@ namespace AutoWikiBrowser.Plugins.Delinker
             }
             else
             {
-                if (RemoveEmptiedSections && (Variables.LangCode == LangCodeEnum.en ||
-                    Variables.LangCode == LangCodeEnum.de || Variables.LangCode == LangCodeEnum.ru))
+                if (RemoveEmptiedSections && (Variables.LangCode == "en" ||
+                    Variables.LangCode == "de" || Variables.LangCode == "ru"))
                     ArticleText = RemoveSection(ArticleText);
             }
 

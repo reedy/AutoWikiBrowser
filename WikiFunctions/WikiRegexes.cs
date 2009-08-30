@@ -76,7 +76,7 @@ namespace WikiFunctions
 
             switch (Variables.LangCode)
             {
-                case LangCodeEnum.ru:
+                case "ru":
                     s = "([Dd]isambiguation|[Dd]isambig|[Нн]еоднозначность)";
                     break;
                 default:
@@ -88,7 +88,7 @@ namespace WikiFunctions
             if (Variables.MagicWords.ContainsKey("defaultsort"))
                 s = "(?i:" + string.Join("|", Variables.MagicWords["defaultsort"].ToArray()).Replace(":", "") + ")";
             else
-                s = (Variables.LangCode == LangCodeEnum.en)
+                s = (Variables.LangCode == "en")
                     ? "(?:(?i:defaultsort(key|CATEGORYSORT)?))"
                     : "(?i:defaultsort)";
 

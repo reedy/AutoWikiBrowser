@@ -182,7 +182,7 @@ namespace WikiFunctions
         {
             name = RemoveNamespaceString(Regex.Replace(RemoveDiacritics(name), @"\(.*?\)$", "").Replace("'", "").Trim()).Trim();
             string origName = name;
-            if (!name.Contains(" ") || Variables.LangCode == LangCodeEnum.uk)
+            if (!name.Contains(" ") || Variables.LangCode == "uk")
                 return FixupDefaultSort(origName);
             // ukwiki uses "Lastname Firstname Patronymic" convention, nothing more is needed
 
@@ -190,7 +190,7 @@ namespace WikiFunctions
             int pos = name.IndexOf(',');
 
             // ruwiki has "Lastname, Firstname Patronymic" convention
-            if (pos >= 0 && Variables.LangCode != LangCodeEnum.ru)
+            if (pos >= 0 && Variables.LangCode != "ru")
             {
                 suffix = name.Substring(pos + 1).Trim();
                 name = name.Substring(0, pos).Trim();
@@ -1367,7 +1367,7 @@ Message: {2}
         public static string GetENLinkWithSimpleSkinAndLocalLanguage(string article)
         {
             return "http://en.wikipedia.org/w/index.php?title=" + WikiEncode(article) + "&useskin=simple&uselang=" +
-              Variables.LangCodeEnumString();
+              Variables.LangCode;
         }
 
         /// <summary>

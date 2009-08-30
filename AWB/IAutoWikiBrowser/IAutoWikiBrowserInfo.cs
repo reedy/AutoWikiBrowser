@@ -29,7 +29,7 @@ namespace AutoWikiBrowser
         string IAutoWikiBrowserInfo.AWBVersionString { get { return Program.VersionString; } }
         string IAutoWikiBrowserInfo.WikiFunctionsVersionString { get { return Tools.VersionString; } }
         string IAutoWikiBrowserInfo.WikiDiffVersionString { get { return "(internal)"; } }
-        LangCodeEnum IAutoWikiBrowserInfo.LangCode { get { return Variables.LangCode; } }
+        string IAutoWikiBrowserInfo.LangCode { get { return Variables.LangCode; } }
         ProjectEnum IAutoWikiBrowserInfo.Project { get { return Variables.Project; } }
 
         bool IAutoWikiBrowserInfo.Privacy { get { return Properties.Settings.Default.Privacy; } }

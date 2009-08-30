@@ -2441,7 +2441,7 @@ window.scrollTo(0, diffTopY);
                 LoadUserTalkWarnings();
         }
 
-        private void SetProject(LangCodeEnum code, ProjectEnum project, string customProject)
+        private void SetProject(string code, ProjectEnum project, string customProject)
         {
             SplashScreen.SetProgress(81);
             try
@@ -2452,14 +2452,14 @@ window.scrollTo(0, diffTopY);
                 //set interwikiorder
                 switch (Variables.LangCode)
                 {
-                    case LangCodeEnum.en:
-                    case LangCodeEnum.pl:
-                    case LangCodeEnum.simple:
+                    case "en":
+                    case "pl":
+                    case "simple":
                         Parser.InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
                         break;
 
-                    case LangCodeEnum.he:
-                    case LangCodeEnum.hu:
+                    case "he":
+                    case "hu":
                         Parser.InterWikiOrder = InterWikiOrderEnum.AlphabeticalEnFirst;
                         break;
 
@@ -2482,7 +2482,7 @@ window.scrollTo(0, diffTopY);
                 UserTalkWarningsLoaded = false; // force reload
 
                 if (!Variables.IsCustomProject && !Variables.IsWikia && !Variables.IsWikimediaMonolingualProject)
-                    lblProject.Text = Variables.LangCodeEnumString() + "." + Variables.Project;
+                    lblProject.Text = Variables.LangCode + "." + Variables.Project;
                 else lblProject.Text = Variables.IsWikimediaMonolingualProject ? Variables.Project.ToString() : Variables.URL;
 
                 ResetTypoStats();

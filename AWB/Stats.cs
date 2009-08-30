@@ -189,7 +189,7 @@ namespace AutoWikiBrowser
             }
             else
             {
-                postvars.Add("Language", Variables.LangCodeEnumString());
+                postvars.Add("Language", Variables.LangCode);
             }
 
             // UI culture:

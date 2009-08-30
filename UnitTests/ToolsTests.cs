@@ -126,7 +126,7 @@ namespace UnitTests
             Assert.AreEqual("%test", Tools.TurnFirstToUpper("%test"));
             Assert.AreEqual("Ыыыы", Tools.TurnFirstToUpper("ыыыы"));
 
-            Variables.SetProject(LangCodeEnum.en, ProjectEnum.wiktionary);
+            Variables.SetProject("en", ProjectEnum.wiktionary);
             Assert.AreEqual("test", Tools.TurnFirstToUpper("test"));
             Assert.AreEqual("Test", Tools.TurnFirstToUpper("Test"));
         }

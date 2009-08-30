@@ -94,7 +94,7 @@ namespace WikiFunctions.Plugin
         int NumberOfPagesPerMinute { get; }
         int Nudges { get; }
         ProjectEnum Project { get; }
-        LangCodeEnum LangCode { get; }
+        string LangCode { get; }
         bool CheckStatus(bool login);
         bool Privacy { get; }
         bool Shutdown { get; }
