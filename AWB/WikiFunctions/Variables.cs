@@ -704,6 +704,8 @@ namespace WikiFunctions
             SectStubRegex = new Regex(SectStub, RegexOptions.Compiled);
             Stub = "[Ss]tub";
 
+            LangCode = "en";
+
             RTL = false;
         }
         #endregion
