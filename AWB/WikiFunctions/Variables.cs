@@ -87,7 +87,7 @@ namespace WikiFunctions
                 SetProject("en", ProjectEnum.wikipedia); //Shouldn't have to load en defaults...
             else
             {
-                SetToEnglish("Wikipedia:", "Wikipedia talk:");
+                SetToEnglish();
                 RegenerateRegexes();
             }
 
@@ -315,7 +315,7 @@ namespace WikiFunctions
 
         #region Delayed load stuff
         public static readonly List<string> UnderscoredTitles = new List<string>();
-        public static readonly List<BackgroundRequest> DelayedRequests = new List<BackgroundRequest>();
+        private static readonly List<BackgroundRequest> DelayedRequests = new List<BackgroundRequest>();
 
         static void CancelBackgroundRequests()
         {
@@ -413,7 +413,7 @@ namespace WikiFunctions
 
         public static string Stub;
         public static string SectStub;
-        public static Regex SectStubRegex = null;
+        public static Regex SectStubRegex;
 
         /// <summary>
         /// Sets different language variables, such as namespaces. Default is english Wikipedia
@@ -642,22 +642,6 @@ namespace WikiFunctions
             }
 
             WikiRegexes.MakeLangSpecificRegexes();
-        }
-
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private static void SetDefaults()
-        {
-            Project = ProjectEnum.wikipedia;
-            LangCode = "en";
-            mSummaryTag = " using ";
-            strWPAWB = "[[Project:AWB|AWB]]";
-
-            Namespaces.Clear();
-            SetToEnglish();
         }
 
         /// <summary>
