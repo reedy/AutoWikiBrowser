@@ -71,7 +71,7 @@ namespace AutoWikiBrowser.Logging
                 foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
                 {
                     if(t.Key != "AWB")
-                        t.Value.WriteBulletedLine(Variables.LoggingStartButtonClicked, true, false, true);
+                        t.Value.WriteBulletedLine(AWBLogListener.LoggingStartButtonClicked, true, false, true);
                 }
                 ValidateUploadProfile();
             }
@@ -97,9 +97,9 @@ namespace AutoWikiBrowser.Logging
                 LoggingSettings.Settings.Category), LoggingSettings.Settings.LinksToLog(), 
                 LoggingSettings.Settings.UploadOpenInBrowser, LoggingSettings.Settings.UploadAddToWatchlist, 
                 LoggingSettings.Settings.UserName, Variables.AWBVersionString(Program.AWB.AWBVersionString) +
-                Plugins.Plugin.GetPluginsWikiTextBlock(), Variables.AWBLoggingEditSummary +
-                Variables.UploadingLogDefaultEditSummary, Variables.AWBLoggingEditSummary +
-                Variables.UploadingLogEntryDefaultEditSummary, Program.AWB, LoggingSettings.LoginDetails);
+                Plugins.Plugin.GetPluginsWikiTextBlock(), AWBLogListener.AWBLoggingEditSummary +
+                AWBLogListener.UploadingLogDefaultEditSummary, AWBLogListener.AWBLoggingEditSummary +
+                AWBLogListener.UploadingLogEntryDefaultEditSummary, Program.AWB, LoggingSettings.LoginDetails);
             success = retval.Success;
 
             if (success)
@@ -538,10 +538,10 @@ namespace AutoWikiBrowser.Logging
             }
 
             public void UserSkipped()
-            { SkippedArticle(Variables.StringUser, Variables.StringUserSkipped); }
+            { SkippedArticle(AWBLogListener.StringUser, AWBLogListener.StringUserSkipped); }
 
             public void PluginSkipped()
-            { SkippedArticle(Variables.StringPlugin, Variables.StringPluginSkipped); }
+            { SkippedArticle(AWBLogListener.StringPlugin, AWBLogListener.StringPluginSkipped); }
         }
 
         /// <summary>
@@ -559,9 +559,9 @@ namespace AutoWikiBrowser.Logging
                 SkippedArticle("AWB", reason);
             }
             public void UserSkipped()
-            { SkippedArticle(Variables.StringUser, Variables.StringUserSkipped); }
+            { SkippedArticle(AWBLogListener.StringUser, AWBLogListener.StringUserSkipped); }
             public void PluginSkipped()
-            { SkippedArticle(Variables.StringPlugin, Variables.StringPluginSkipped); }
+            { SkippedArticle(AWBLogListener.StringPlugin, AWBLogListener.StringPluginSkipped); }
         }
 
         internal LoggingSettings LS
