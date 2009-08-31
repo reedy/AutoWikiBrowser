@@ -3457,8 +3457,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             if (ThreeOrMoreDigits.IsMatch(byear))
                 birthYear = int.Parse(byear);
 
-            // if born < 1910 they're likely dead
-            if (birthYear < 1910)
+            // per [[:Category:Living people]], don't apply if born > 121 years ago
+            if (birthYear < (System.DateTime.Now.Year-121))
                 return articleText;
 
             // use any sortkey from 'XXXX births' category
@@ -3591,9 +3591,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                                 yearstring = m.Groups[1].Value;
                     }
                 }
-                // if DOB < 1910 and living person then don't apply birth category
+                // per [[:Category:Living people]], don't apply birth category if born > 121 years ago 
                 if (!string.IsNullOrEmpty(yearstring) && yearstring.Length > 2
-                    && !(articleText.Contains(@"[[Category:Living people") && Convert.ToInt32(yearstring) < 1910))
+                    && !(articleText.Contains(@"[[Category:Living people") && Convert.ToInt32(yearstring) < (System.DateTime.Now.Year - 121)))
                     articleText += "\r\n" + @"[[Category:" + yearstring + " births" + CatEnd(sort);
             }
 
