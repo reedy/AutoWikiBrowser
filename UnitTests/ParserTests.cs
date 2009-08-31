@@ -577,7 +577,6 @@ End of.";
             const string b6a = @"'''Fred Lerdahl''' (born [[March 10]] [[1860]]) [[Category:Living people]]";
             Assert.AreEqual(b6a, Parsers.FixPeopleCategories(b6a, "foo"));
 
-
             const string b7 = @"'''William Arthur O'Donnell''' (born May 4, 1960 in [[Springhill, Nova Scotia]], Canada) is [[Category:Living people]]";
             Assert.AreEqual(b7 + "\r\n" + b2, Parsers.FixPeopleCategories(b7, "foo"));
 
@@ -1154,9 +1153,9 @@ was [[foo|bar]] too"));
             Assert.AreEqual(g, Parsers.LivingPeople(g));
             Assert.AreEqual(h, Parsers.LivingPeople(h));
 
-            // assume dead if born earlier than 1910, so no change
-            const string d1 = @"'''Fred Smith''' (born 1960) is a bloke.
-[[Category:1909 births|Smith, Fred]]";
+            // assume dead if born earlier than 121 years ago, so no change
+            const string d1 = @"'''Fred Smith''' (born 1879) is a bloke.
+[[Category:1879 births|Smith, Fred]]";
             Assert.AreEqual(d1, Parsers.LivingPeople(d1));
 
             // check correctly handles birth category with no year to parse
