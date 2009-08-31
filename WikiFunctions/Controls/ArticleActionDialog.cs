@@ -103,8 +103,8 @@ namespace WikiFunctions.Controls
                     messages[21] = "[[WP:CSD#U1|User request]]";
                     messages[22] = "[[WP:CSD#U2|Nonexistent user]]";
                 }
-                cmboSummary.Items.AddRange(messages);
             }
+            cmboSummary.Items.AddRange(messages);
         }
 
         private void MoveDelete_TextBoxIndexChanged(object sender, EventArgs e)
