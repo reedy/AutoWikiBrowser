@@ -107,6 +107,8 @@ namespace WikiFunctions
                 if (!string.IsNullOrEmpty(Variables.URL))
                     errorMessage.Append("\r\n | site = " + Variables.URL);
 
+                errorMessage.Append("\r\n | workaround     = <!-- Any workaround for the problem -->");
+                errorMessage.Append("\r\n | fix_version    = <!-- Version of AWB the fix will be included in; AWB developer will complete when it's fixed -->");
                 errorMessage.Append("\r\n}}");
 
                 handler.txtDetails.Text = errorMessage.ToString();
