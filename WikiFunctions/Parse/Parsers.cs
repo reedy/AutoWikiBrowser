@@ -120,10 +120,10 @@ namespace WikiFunctions.Parse
             RegexConversion.Add(new Regex(@"\{\{[Aa]rticle ?issues(?:\s*\|\s*(?:section|article)\s*=\s*[Yy])?\s*\}\}", RegexOptions.Compiled), "");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.7B.7Bcommons.7CCategory:XXX.7D.7D_.3E_.7B.7Bcommonscat.7CXXX.7D.7D
-            RegexConversion.Add(new Regex(@"\{\{[Cc]ommons\|\s*[Cc]ategory:\s*([^{}]+?)\s*\}\}", RegexOptions.Compiled), @"{{commons cat|$1}}");
+            RegexConversion.Add(new Regex(@"\{\{[Cc]ommons\|\s*[Cc]ategory:\s*([^{}]+?)\s*\}\}", RegexOptions.Compiled), @"{{Commons category|$1}}");
 
             //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Commons_category
-            RegexConversion.Add(new Regex(@"(?<={{[Cc]ommons cat\|\s*)([^{}\|]+?)\s*\|\s*\1\s*}}", RegexOptions.Compiled), @"$1}}");
+            RegexConversion.Add(new Regex(@"(?<={{[Cc]ommons cat(?:egory)?\|\s*)([^{}\|]+?)\s*\|\s*\1\s*}}", RegexOptions.Compiled), @"$1}}");
 
             // tidy up || or |}} (maybe with whitespace between) within templates that don't use null parameters
             RegexConversion.Add(new Regex(@"(\{\{\s*(?:[Cc]it|[Aa]rticle ?issues)[^{}]*)\|\s*(\}\}|\|)", RegexOptions.Compiled), "$1$2");
@@ -1714,6 +1714,8 @@ namespace WikiFunctions.Parse
 
                     // external link missing opening [
                     articleTextTemp = ExternalLinkMissingOpening.Replace(articleTextTemp, " [");
+
+                    articleTextTemp = articleTextTemp.Replace(@"）", @")");
                 }
 
                 if (bracketLength == 2)
@@ -1728,6 +1730,9 @@ namespace WikiFunctions.Parse
                     if (articleTextTemp.Substring(unbalancedBracket, Math.Min(4, articleTextTemp.Length - unbalancedBracket)).Equals("[[[[")
                         || articleTextTemp.Substring(Math.Max(0, unbalancedBracket - 2), Math.Min(4, articleTextTemp.Length - unbalancedBracket)).Equals("]]]]"))
                         articleTextTemp = articleTextTemp.Remove(unbalancedBracket, 2);
+
+                    // {{Category: ?
+                    articleTextTemp = articleTextTemp.Replace(@"{{" + Variables.Namespaces[Namespace.Category], @"[[" + Variables.Namespaces[Namespace.Category]);
                 }
 
                 unbalancedBracket = UnbalancedBrackets(articleTextTemp, ref bracketLength);
