@@ -1503,7 +1503,7 @@ window.scrollTo(0, diffTopY);
                     + result
                     + "</html>"
                     );
-                webBrowser.BringToFront();
+                //webBrowser.BringToFront();
             }
 
             StatusLabelText = "";
