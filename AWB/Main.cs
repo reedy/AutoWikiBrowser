@@ -1481,8 +1481,11 @@ window.scrollTo(0, diffTopY);
 
         private void GetPreview()
         {
-            //TODO:We need some GUI feedback that preview is happening.. Status label and bar thingy?
-            if (!TheSession.Editor.IsActive) TheSession.Editor.Preview(TheArticle.Name, txtEdit.Text);
+            if (!TheSession.Editor.IsActive)
+            {
+                StatusLabelText = "Previewing...";
+                TheSession.Editor.Preview(TheArticle.Name, txtEdit.Text);
+            }
         }
 
         private void PreviewComplete(AsyncApiEdit sender, string result)
@@ -1502,6 +1505,8 @@ window.scrollTo(0, diffTopY);
                     );
                 webBrowser.BringToFront();
             }
+
+            StatusLabelText = "";
 
             GuiUpdateAfterProcessing();
         }
