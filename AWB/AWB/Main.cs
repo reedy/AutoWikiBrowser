@@ -222,7 +222,7 @@ namespace AutoWikiBrowser
             set
             {
                 mSettingsFile = value;
-                SettingsFileDisplay = Program.NAME;
+                SettingsFileDisplay = Program.Name;
                 if (!string.IsNullOrEmpty(value))
                     SettingsFileDisplay += " - " + value.Remove(0, value.LastIndexOf("\\") + 1);
                 Text = SettingsFileDisplay;
@@ -429,7 +429,7 @@ namespace AutoWikiBrowser
                 }
 
                 if (string.IsNullOrEmpty(value))
-                    lblStatusText.Text = Program.NAME + " " + Program.VersionString;
+                    lblStatusText.Text = Program.Name + " " + Program.VersionString;
                 else
                     lblStatusText.Text = value;
                 Application.DoEvents();
@@ -629,7 +629,7 @@ namespace AutoWikiBrowser
                     StopSaveInterval();
                     lblTimer.Text = "";
                     StatusLabelText = "No articles in list, you need to use the Make list";
-                    Text = Program.NAME;
+                    Text = Program.Name;
                     listMaker.MakeListEnabled = true;
                     return;
                 }
@@ -1481,6 +1481,7 @@ window.scrollTo(0, diffTopY);
 
         private void GetPreview()
         {
+            //TODO:We need some GUI feedback that preview is happening.. Status label and bar thingy?
             if (!TheSession.Editor.IsActive) TheSession.Editor.Preview(TheArticle.Name, txtEdit.Text);
         }
 
