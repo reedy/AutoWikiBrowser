@@ -643,7 +643,7 @@ namespace AutoWikiBrowser
         private void SetPasteMoreText(int item, string s)
         {
             PasteMoreItems[item].Tag = s;
-            PasteMoreItems[item].Text = PasteMoreItemsPrefixes[item] + s.Replace("&", "&&");
+            PasteMoreItems[item].Text = PasteMoreItemsPrefixes[item] +(string.IsNullOrEmpty(s) ? "" : s.Replace("&", "&&"));
             PasteMoreItems[item].Visible = s != "";
         }
     }
