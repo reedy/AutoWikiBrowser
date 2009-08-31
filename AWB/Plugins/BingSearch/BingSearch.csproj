@@ -40,7 +40,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WikiFunctions\WikiFunctions.csproj">
+    <ProjectReference Include="..\..\WikiFunctions\WikiFunctions.csproj">
       <Project>{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}</Project>
       <Name>WikiFunctions</Name>
     </ProjectReference>

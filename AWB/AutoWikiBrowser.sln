@@ -30,7 +30,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fronds", "Plugins\Fronds\Fr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheTemplator", "Plugins\TheTemplator\TheTemplator.csproj", "{2F4D67B0-F9DA-4EB2-9CEA-20FBC19ADABC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BingSearch", "BingSearch\BingSearch.csproj", "{51A3220E-CD72-42D6-B544-735AC9166DE8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BingSearch", "Plugins\BingSearch\BingSearch.csproj", "{51A3220E-CD72-42D6-B544-735AC9166DE8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
