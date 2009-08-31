@@ -139,7 +139,7 @@ namespace WikiFunctions.Controls
 
         public override string ToString()
         {
-            return Display;
+            return string.IsNullOrEmpty(Display) ? "" : Display;
         }
 
         public override bool Equals(object obj)
