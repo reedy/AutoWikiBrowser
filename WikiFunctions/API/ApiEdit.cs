@@ -988,7 +988,7 @@ namespace WikiFunctions.API
                 case WatchOptions.Unwatch:
                     return "watchlist=unwatch&unwatch";
                 default:
-                    return null;
+                    return "watchlist=nochange";
             }
         }
 
