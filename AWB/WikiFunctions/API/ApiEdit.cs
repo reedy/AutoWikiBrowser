@@ -551,7 +551,7 @@ namespace WikiFunctions.API
                     { "action", "edit" },
                     { "title", Page.Title },
                     { minor ? "minor" : null, null },
-                    { WatchOptionsToParam(watch) , null },
+                    { "watchlist" , WatchOptionsToParam(watch) },
                     { User.IsBot ? "bot" : null, null }
                 },
                 new[,]
@@ -982,13 +982,13 @@ namespace WikiFunctions.API
             switch (watch)
             {
                 case WatchOptions.UsePreferences:
-                    return "watchlist=preferences";
+                    return "preferences";
                 case WatchOptions.Watch:
-                    return "watchlist=watch&watch";
+                    return "watch&watch";
                 case WatchOptions.Unwatch:
-                    return "watchlist=unwatch&unwatch";
+                    return "unwatch&unwatch";
                 default:
-                    return "watchlist=nochange";
+                    return "nochange";
             }
         }
 
