@@ -2008,6 +2008,8 @@ window.scrollTo(0, diffTopY);
                         MainTab.Controls.Remove(tpBots);
                 }
             }
+
+            UpdateBotTimer();
         }
 
         private void UpdateAdminStatus()
