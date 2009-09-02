@@ -1528,7 +1528,7 @@ window.scrollTo(0, diffTopY);
             DisableButtons();
             if (txtEdit.Text.Length > 0)
                 SaveArticle();
-            else if (MessageBox.Show("Do you really want to save a blank page?", "Save?",
+            else if (TheArticle.Exists == Exists.Yes && MessageBox.Show("Do you really want to save a blank page?", "Save?",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 SaveArticle();
             else
@@ -1537,6 +1537,8 @@ window.scrollTo(0, diffTopY);
 
         private void SaveArticle()
         {
+            //if (txtEdit.Text.Length == 0) //TODO: Do something when its blank/at least check it
+
             //remember article text in case it is lost, this is set to "" again when the article title is removed
             LastArticle = txtEdit.Text;
 
@@ -1736,14 +1738,9 @@ window.scrollTo(0, diffTopY);
 
         private void UpdateUserName()
         {
-            if (string.IsNullOrEmpty(TheSession.User.Name))
-            {
-                lblUserName.Text = Variables.Namespaces[Namespace.User];
-            }
-            else
-            {
-                lblUserName.Text = TheSession.User.Name;
-            }
+            lblUserName.Text = string.IsNullOrEmpty(TheSession.User.Name)
+                                   ? Variables.Namespaces[Namespace.User]
+                                   : TheSession.User.Name;
 
             if (TheSession.Status == WikiStatusResult.Registered)
             {
@@ -2057,7 +2054,7 @@ window.scrollTo(0, diffTopY);
         {
             StatusLabelText = "Loading page to check if we are logged in.";
 
-            bool b = false;
+            bool status = false;
             string label = "Software disabled";
 
             switch (TheSession.Update())
@@ -2087,7 +2084,7 @@ window.scrollTo(0, diffTopY);
                     break;
 
                 case WikiStatusResult.Registered:
-                    b = true;
+                    status = true;
                     label = string.Format("Logged in, user and software enabled. Bot = {0}, Admin = {1}", TheSession.User.IsBot, TheSession.User.IsSysop);
 
                     //Get list of articles not to apply general fixes to.
@@ -2108,7 +2105,7 @@ window.scrollTo(0, diffTopY);
             UpdateStatusUI();
             UpdateButtons(null, null);
 
-            return b;
+            return status;
         }
 
         private void OldVersion()
