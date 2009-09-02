@@ -2719,7 +2719,7 @@ window.scrollTo(0, diffTopY);
             Stop();
         }
 
-        private void btnApply_Click(object sender, EventArgs e)
+        private void btnSave_Click(object sender, EventArgs e)
         {
             Save();
         }

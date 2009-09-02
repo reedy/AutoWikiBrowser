@@ -1700,7 +1700,7 @@ namespace AutoWikiBrowser
             this.btnSave.Text = "&Save";
             this.ToolTip.SetToolTip(this.btnSave, "Save the changes and continue  (Ctrl + S)");
             this.btnSave.UseVisualStyleBackColor = false;
-            this.btnSave.Click += new System.EventHandler(this.btnApply_Click);
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnPreview
             // 
