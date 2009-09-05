@@ -1370,6 +1370,8 @@ world</font>"));
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#second_pair_of_brackets_added_to_https_links
             Assert.AreEqual("[https://example.com] site", Parsers.FixSyntax("[https://example.com]] site"));
             Assert.AreEqual("[https://example.com] site", Parsers.FixSyntax("[[https://example.com] site"));
+
+            Assert.AreEqual(@"[[foo|bar]]", Parsers.FixSyntax(@"[[foo||bar]]"));
         }
 
         [Test]

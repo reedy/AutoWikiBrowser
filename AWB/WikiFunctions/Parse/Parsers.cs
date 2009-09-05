@@ -1524,6 +1524,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegex21 = new Regex(@"([^]])\]([^]]|$)", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegex22 = new Regex("\\[\\[[Ii]mage:[^]]*http", RegexOptions.Compiled);
 
+        private static readonly Regex DoublePipeInWikiLink = new Regex(@"(?<=\[\[[^\[\[\r\n\|{}]+)\|\|(?=[^\[\[\r\n\|{}]+\]\])", RegexOptions.Compiled);
+
         // Covered by: LinkTests.TestFixSyntax(), incomplete
         /// <summary>
         /// Fixes and improves syntax (such as html markup)
@@ -1543,6 +1545,9 @@ namespace WikiFunctions.Parse
 
             //remove appearance of double line break
             articleText = SyntaxRegex17.Replace(articleText, "$1");
+
+            // double piped links e.g. [[foo||bar]]
+            articleText = DoublePipeInWikiLink.Replace(articleText, "|");
 
             //remove unnecessary namespace
             articleText = SyntaxRegexTemplate.Replace(articleText, "$1$2");
