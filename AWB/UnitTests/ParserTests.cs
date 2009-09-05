@@ -544,6 +544,13 @@ End of.";
         }
 
         [Test]
+        public void FixDatesRaw()
+        {
+            Assert.AreEqual("the later 1990s", Parsers.FixDatesRaw("the later 1990's"));
+            Assert.AreEqual("the 1980s and 1990s were", Parsers.FixDatesRaw("the 1980's and 1990's were"));
+        }
+
+        [Test]
         public void FixLivingThingsRelatedDates()
         {
             Assert.AreEqual("test text", Parsers.FixLivingThingsRelatedDates("test text"));
