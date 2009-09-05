@@ -4621,6 +4621,14 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             const string bug1 = @"{{article issues|disputed=June 2009|primarysources=June 2009}}
 {{Expert}}";
             Assert.AreEqual(bug1, parser.ArticleIssues(bug1));
+
+            const string bug2 = @"{{article issues|article=y
+|update=November 2008
+|out of date=July 2009
+|cleanup=July 2009
+|wikify=July 2009}}";
+
+            Assert.AreEqual(bug2, Parsers.Conversions(bug2));
         }
 
         [Test]
