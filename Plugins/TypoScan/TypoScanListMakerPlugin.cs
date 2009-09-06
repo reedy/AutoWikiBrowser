@@ -67,12 +67,12 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                         int id = int.Parse(reader.Value);
                         string title = reader.ReadString();
                         articles.Add(new Article(title));
-                        if (!TypoScanAWBBasePlugin.PageList.ContainsKey(title))
-                            TypoScanAWBBasePlugin.PageList.Add(title, id);
+                        if (!TypoScanBasePlugin.PageList.ContainsKey(title))
+                            TypoScanBasePlugin.PageList.Add(title, id);
                     }
                 }
             }
-            TypoScanAWBBasePlugin.CheckoutTime = DateTime.Now;
+            TypoScanBasePlugin.CheckoutTime = DateTime.Now;
             return articles;
         }
 
