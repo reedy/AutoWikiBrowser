@@ -43,13 +43,8 @@ namespace WikiFunctions.Controls.Lists
         #region ListProviders
 
         private static readonly IListProvider RedirectLProvider = new RedirectsListProvider(),
-                                              CategoryLProvider = new CategoryListProvider(),
-                                              CategoryRecursiveLProvider = new CategoryRecursiveListProvider(),
                                               WhatLinksHereLProvider = new WhatLinksHereListProvider(),
                                               WhatTranscludesLProvider = new WhatTranscludesPageListProvider(),
-                                              LinksOnPageLProvider = new LinksOnPageListProvider(),
-                                              ImageFileLinksLProvider = new ImageFileLinksListProvider(),
-                                              ImagesOnPageLProvider = new ImagesOnPageListProvider(),
                                               CategoriesOnPageLProvider = new CategoriesOnPageListProvider(),
                                               NewPagesLProvider = new NewPagesListProvider(),
                                               RandomPagesLProvider = new RandomPagesSpecialPageProvider();
@@ -81,8 +76,8 @@ namespace WikiFunctions.Controls.Lists
 
             if (ListItems.Count == 0)
             {
-                ListItems.Add(CategoryLProvider);
-                ListItems.Add(CategoryRecursiveLProvider);
+                ListItems.Add(new CategoryListProvider());
+                ListItems.Add(new CategoryRecursiveListProvider());
                 ListItems.Add(new CategoryRecursiveOneLevelListProvider());
                 ListItems.Add(new CategoryRecursiveUserDefinedLevelListProvider());
                 ListItems.Add(CategoriesOnPageLProvider);
@@ -96,9 +91,9 @@ namespace WikiFunctions.Controls.Lists
                 ListItems.Add(new WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider());
                 ListItems.Add(WhatTranscludesLProvider);
                 ListItems.Add(new WhatTranscludesPageAllNSListProvider());
-                ListItems.Add(LinksOnPageLProvider);
+                ListItems.Add(new LinksOnPageListProvider());
                 ListItems.Add(new LinksOnPageExcludingRedLinksListProvider());
-                ListItems.Add(ImagesOnPageLProvider);
+                ListItems.Add(new ImagesOnPageListProvider());
                 ListItems.Add(new TransclusionsOnPageListProvider());
                 ListItems.Add(new TextFileListProvider());
                 ListItems.Add(new GoogleSearchListProvider());
@@ -107,7 +102,7 @@ namespace WikiFunctions.Controls.Lists
                 ListItems.Add(new SpecialPageListProvider(WhatLinksHereLProvider, NewPagesLProvider,
                                                           CategoriesOnPageLProvider, RandomPagesLProvider,
                                                           WhatTranscludesLProvider));
-                ListItems.Add(ImageFileLinksLProvider);
+                ListItems.Add(new ImageFileLinksListProvider());
                 ListItems.Add(new DatabaseScannerListProvider(this));
                 ListItems.Add(new MyWatchlistListProvider());
                 ListItems.Add(new WikiSearchListProvider());
@@ -115,6 +110,18 @@ namespace WikiFunctions.Controls.Lists
                 ListItems.Add(RandomPagesLProvider);
                 ListItems.Add(RedirectLProvider);
                 ListItems.Add(NewPagesLProvider);
+
+                foreach (IListProvider prov in ListItems)
+                {
+                    if (!prov.UserInputTextBoxEnabled) continue;
+
+                    ToolStripMenuItem addToFromSelectedListFrom = new ToolStripMenuItem(prov.DisplayText) { Tag = prov };
+                    addToFromSelectedListFrom.Click += AddToFromSelectedListFrom;
+
+                    addSelectedToListToolStripMenuItem.DropDownItems.Add(addToFromSelectedListFrom);
+                }
+
+                //Add these 2 list providers later, we dont really need/want them on the Right click "Add to list from.." menu
                 ListItems.Add(new HTMLPageScraperListProvider());
                 ListItems.Add(new CheckWikiListProvider());
             }
@@ -129,6 +136,11 @@ namespace WikiFunctions.Controls.Lists
 
             //Dictionary to ComboBox (Maybe change at later date?)
             //http://steve-fair-dev.blogspot.com/2008/04/bind-dictionary-to-winform-combobox.html
+        }
+
+        private void AddToFromSelectedListFrom(object sender, EventArgs e)
+        {
+            AddFromSelectedList((IListProvider)((ToolStripMenuItem)sender).Tag);
         }
 
         new public static void Refresh() { }
@@ -1053,51 +1065,6 @@ namespace WikiFunctions.Controls.Lists
                 lbArticles.SetSelected(i, selected);
 
             lbArticles.EndUpdate();
-        }
-
-        private void categoriesOnPageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AddFromSelectedList(CategoriesOnPageLProvider);
-        }
-
-        private void fromCategoryToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AddFromSelectedList(CategoryLProvider);
-        }
-
-        private void fromCategoryrecursiveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AddFromSelectedList(CategoryRecursiveLProvider);
-        }
-
-        private void fromWhatlinkshereToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AddFromSelectedList(WhatLinksHereLProvider);
-        }
-
-        private void fromTranscludesHereToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AddFromSelectedList(WhatTranscludesLProvider);
-        }
-
-        private void fromLinksOnPageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AddFromSelectedList(LinksOnPageLProvider);
-        }
-
-        private void fromImageLinksToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AddFromSelectedList(ImageFileLinksLProvider);
-        }
-
-        private void imagesOnPageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AddFromSelectedList(ImagesOnPageLProvider);
-        }
-
-        private void fromRedirectsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AddFromSelectedList(RedirectLProvider);
         }
 
         private void AddFromSelectedList(IListProvider provider)
