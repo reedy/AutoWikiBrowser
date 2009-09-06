@@ -832,7 +832,7 @@ namespace WikiFunctions.Lists
         { get { return "Image file links"; } }
 
         public override string UserInputTextBoxText
-        { get { return Variables.Namespaces[Namespace.File] + ":"; } }
+        { get { return Variables.Namespaces[Namespace.File]; } }
 
         public override bool UserInputTextBoxEnabled
         { get { return true; } }
