@@ -36,7 +36,7 @@ namespace WikiFunctions
             return Comparator.IsMatch(article.ArticleText);
         }
 
-        readonly Regex Comparator;
+        private readonly Regex Comparator;
     }
 
     /// <summary>
@@ -57,7 +57,7 @@ namespace WikiFunctions
             return Regex.IsMatch(article.ArticleText, Tools.ApplyKeyWords(article.Name, Comparator), Options);
         }
 
-        readonly string Comparator;
-        readonly RegexOptions Options;
+        private readonly string Comparator;
+        private readonly RegexOptions Options;
     }
 }
