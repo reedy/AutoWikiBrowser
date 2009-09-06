@@ -75,6 +75,7 @@ namespace AutoWikiBrowser
             Plugin.LoadPlugins(awb, pluginOpen.FileNames, true);
         }
 
+        //TODO:Use Utils
         static void LoadLastPluginLoadedLocation()
         {
             try
@@ -117,9 +118,13 @@ namespace AutoWikiBrowser
 
         private void LoadLoadedPluginList()
         {
-            foreach (string pluginName in Plugin.GetPluginList())
+            foreach (string pluginName in Plugin.GetAWBPluginList())
             {
-                lvPlugin.Items.Add(new ListViewItem(pluginName) {Group = lvPlugin.Groups["groupArticleLoaded"]});
+                lvPlugin.Items.Add(new ListViewItem(pluginName) { Group = lvPlugin.Groups["groupAWBLoaded"] });
+            }
+            foreach (string pluginName in Plugin.GetBasePluginList())
+            {
+                lvPlugin.Items.Add(new ListViewItem(pluginName) { Group = lvPlugin.Groups["groupBaseLoaded"] });
             }
             foreach (string pluginName in Plugin.GetListMakerPluginList())
             {
@@ -136,7 +141,7 @@ namespace AutoWikiBrowser
         //        if (System.IO.File.Exists(pluginName))
         //        {
         //            lvi = new ListViewItem(pluginName);
-        //            lvi.Group = lvPlugin.Groups["groupArticlePrevious"];
+        //            lvi.Group = lvPlugin.Groups["groupAWBPrevious"];
         //            lvPlugin.Items.Add(lvi);
         //        }
         //    }
@@ -145,7 +150,7 @@ namespace AutoWikiBrowser
         //        if (System.IO.File.Exists(pluginName))
         //        {
         //            lvi = new ListViewItem(pluginName);
-        //            lvi.Group = lvPlugin.Groups["groupArticlePrevious"];
+        //            lvi.Group = lvPlugin.Groups["groupLMPrevious"];
         //            lvPlugin.Items.Add(lvi);
         //        }
         //    }
@@ -155,7 +160,7 @@ namespace AutoWikiBrowser
         {
             //foreach (ListViewItem item in lvPlugin.SelectedItems)
             //{
-            //    if (item.Group == lvPlugin.Groups["groupArticleLoaded"])
+            //    if (item.Group == lvPlugin.Groups["groupAWBLoaded"])
             //    {
             //        loadPluginToolStripMenuItem.Enabled = false;
             //        return;
@@ -226,7 +231,7 @@ namespace AutoWikiBrowser
             /// Gets a List of all the plugin names currently loaded
             /// </summary>
             /// <returns>List of Plugin Names</returns>
-            internal static List<string> GetPluginList()
+            internal static List<string> GetAWBPluginList()
             {
                 List<string> plugins = new List<string>();
 
@@ -240,6 +245,22 @@ namespace AutoWikiBrowser
 
             /// <summary>
             /// Gets a List of all the plugin names currently loaded
+            /// </summary>
+            /// <returns>List of Plugin Names</returns>
+            internal static List<string> GetBasePluginList()
+            {
+                List<string> plugins = new List<string>();
+
+                foreach (KeyValuePair<string, IAWBBasePlugin> a in AWBBasePlugins)
+                {
+                    plugins.Add(a.Key);
+                }
+
+                return plugins;
+            }
+
+            /// <summary>
+            /// Gets a list of all the List Maker Plugins currently loaded
             /// </summary>
             /// <returns>List of Plugin Names</returns>
             internal static List<string> GetListMakerPluginList()
