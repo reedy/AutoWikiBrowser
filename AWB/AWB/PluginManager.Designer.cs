@@ -86,7 +86,7 @@ namespace AutoWikiBrowser
             // colName
             // 
             this.colName.Text = "Plugin Name";
-            this.colName.Width = 379;
+            this.colName.Width = 357;
             // 
             // contextMenuStrip1
             // 
