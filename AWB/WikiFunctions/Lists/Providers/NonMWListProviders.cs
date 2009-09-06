@@ -40,8 +40,9 @@ namespace WikiFunctions.Lists
             {
                 foreach (
                     string entry in
-                        Tools.StringBetween(Tools.GetHTML(url), "<body>", "</body>").Split(new[] { "\r\n", "\n" },
-                                                                                           StringSplitOptions.RemoveEmptyEntries))
+                        Tools.StringBetween(Tools.GetHTML(url.Contains("http") ? url : "http://" + url), "<body>",
+                                            "</body>").Split(new[] {"\r\n", "\n"},
+                                                             StringSplitOptions.RemoveEmptyEntries))
                 {
                     if (entry.Length > 0 && CheckExtra(entry))
                     {
@@ -52,7 +53,7 @@ namespace WikiFunctions.Lists
 
             return list;
         }
-
+        
         protected virtual bool CheckExtra(string entry)
         {
             return !entry.StartsWith(@"<h1>");
