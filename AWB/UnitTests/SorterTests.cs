@@ -500,7 +500,7 @@ blah";
         {
             parser2.SortInterwikis = false;
 
-            parser2.Sorter.PossibleInterwikis = new System.Collections.Generic.List<string> { "de", "es", "fr", "it", "sv" };
+            parser2.Sorter.PossibleInterwikis = new System.Collections.Generic.List<string> { "de", "es", "fr", "it", "sv", "ar", "bs", "br" };
 
             string a = @"[[de:Canadian National Railway]]
 [[es:Canadian National]]
@@ -527,6 +527,20 @@ The following links are here to prevent the interwiki bot from adding them to th
 [[fr:Canadien National]]";
 
             Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref d));
+
+            string e1 = @"{{DEFAULTSORT:Boleyn, Anne}}
+
+", e2 = @"{{Link FA|bs}}
+{{Link FA|no}}
+{{Link FA|sv}}
+[[ar:آن بولين]]
+[[bs:Anne Boleyn]]
+[[br:Anne Boleyn]]";
+
+            string f = e2;
+            string g = e1 + e2;
+
+            Assert.AreEqual(f + "\r\n", parser2.Sorter.Interwikis(ref g));
         } 
 
         [Test]

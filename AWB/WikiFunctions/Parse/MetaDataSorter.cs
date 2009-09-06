@@ -673,10 +673,10 @@ en, sq, ru
 
             foreach (Match m in matches)
             {
-                linkFGAList.Add(m.Value);
+                string FGAlink = m.Value;
+                linkFGAList.Add(FGAlink);
+                articleText = articleText.Replace(FGAlink, "");
             }
-
-            articleText = Tools.RemoveMatches(articleText, matches);
 
             linkFGAList.Reverse();
             return linkFGAList;
