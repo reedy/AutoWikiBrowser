@@ -358,6 +358,8 @@ function PluginType($plugintype)
 			return "AWB Plugin";
 		case 1:
 			return "ListMaker Plugin";
+		case 2:
+			return "AWB Base Plugin";
 		default:
 			return "unknown";
 	}

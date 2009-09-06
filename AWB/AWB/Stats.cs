@@ -102,6 +102,7 @@ namespace AutoWikiBrowser
         private static int LastEditCount;
         private static bool SentUserName;
         private static readonly List<IAWBPlugin> NewAWBPlugins = new List<IAWBPlugin>();
+        private static readonly List<IAWBBasePlugin> NewAWBBasePlugins = new List<IAWBBasePlugin>();
         private static readonly List<IListMakerPlugin> NewListMakerPlugins = new List<IListMakerPlugin>();
 
         private static string UserName
@@ -142,6 +143,14 @@ namespace AutoWikiBrowser
         {
             // if we've already written to the remote database, we'll need to add details of this plugin when we next contact it, otherwise do nothing
             if (EstablishedContact) NewAWBPlugins.Add(plugin);
+        }
+
+        /// <summary>
+        /// Call when a plugin was added *after* application startup
+        /// </summary>
+        internal static void AddedPlugin(IAWBBasePlugin plugin)
+        {
+            if (EstablishedContact) NewAWBBasePlugins.Add(plugin);
         }
 
         /// <summary>
@@ -206,8 +215,10 @@ namespace AutoWikiBrowser
 #else
             postvars.Add("Debug", "N");
 #endif
-            EnumeratePlugins(postvars, Plugins.Plugin.AWBPlugins.Values,
-                             WikiFunctions.Controls.Lists.ListMaker.GetListMakerPlugins());
+            EnumeratePlugins(postvars,
+                             Plugins.Plugin.AWBPlugins.Values,
+                             Plugins.Plugin.AWBBasePlugins.Values,
+                             Plugins.Plugin.ListMakerPlugins.Values);
 
             ReadXML(PostData(postvars));
         }
@@ -224,7 +235,7 @@ namespace AutoWikiBrowser
                                                    {"Verify", SecretNumber.ToString()}
                                                };
 
-            EnumeratePlugins(postvars, NewAWBPlugins, NewListMakerPlugins);
+            EnumeratePlugins(postvars, NewAWBPlugins, NewAWBBasePlugins, NewListMakerPlugins);
             ProcessUsername(postvars);
 
             if (Program.AWB.NumberOfEdits > LastEditCount)
@@ -277,11 +288,11 @@ namespace AutoWikiBrowser
         #region Helper routines
         private static string StatusLabelText { set { Program.AWB.StatusLabelText = value; } }
 
-        private static void EnumeratePlugins(NameValueCollection postvars, ICollection<IAWBPlugin> awbPlugins, ICollection<IListMakerPlugin> listLakerPlugins)
+        private static void EnumeratePlugins(NameValueCollection postvars, ICollection<IAWBPlugin> awbPlugins, ICollection<IAWBBasePlugin> awbBasePlugins, ICollection<IListMakerPlugin> listMakerPlugins)
         {
             int i = 0;
 
-            postvars.Add("PluginCount", (awbPlugins.Count + listLakerPlugins.Count).ToString());
+            postvars.Add("PluginCount", (awbPlugins.Count + awbBasePlugins.Count + listMakerPlugins.Count).ToString());
 
             foreach (IAWBPlugin plugin in awbPlugins)
             {
@@ -292,13 +303,22 @@ namespace AutoWikiBrowser
                 postvars.Add(p + "T", "0");
             }
 
-            foreach (IListMakerPlugin plugin in listLakerPlugins)
+            foreach (IListMakerPlugin plugin in listMakerPlugins)
             {
                 i++;
                 string p = "P" + i;
                 postvars.Add(p + "N", plugin.Name);
                 postvars.Add(p + "V", Plugins.Plugin.GetPluginVersionString(plugin));
                 postvars.Add(p + "T", "1");
+            }
+
+            foreach (IAWBPlugin plugin in awbBasePlugins)
+            {
+                i++;
+                string p = "P" + i;
+                postvars.Add(p + "N", plugin.Name);
+                postvars.Add(p + "V", Plugins.Plugin.GetPluginVersionString(plugin));
+                postvars.Add(p + "T", "2");
             }
         }
 
