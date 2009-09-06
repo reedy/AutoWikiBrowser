@@ -1669,6 +1669,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex TemplateIncorrectClosingBraces = new Regex(@"(?<={{[^{}<>]{1,400}[^{}<>\|])(?:\]}|}\]?)(?=[^{}])", RegexOptions.Compiled);
         private static readonly Regex TemplateMissingOpeningBrace = new Regex(@"(?<=[^{}<>\|]){(?=[^{}<>]{1,400}}})", RegexOptions.Compiled);
 
+        private static readonly Regex QuadrupleCurlyBrackets = new Regex(@"(?<=^{{[^{}\r\n]+}})}}(\s)$", RegexOptions.Multiline | RegexOptions.Compiled);
+
         /// <summary>
         /// Applies some fixes for unbalanced brackets, applied if there are unbalanced brackets
         /// </summary>
@@ -1743,8 +1745,6 @@ namespace WikiFunctions.Parse
 
                     // {{Category: ?
                     articleTextTemp = articleTextTemp.Replace(@"{{" + Variables.Namespaces[Namespace.Category], @"[[" + Variables.Namespaces[Namespace.Category]);
-
-                    Regex QuadrupleCurlyBrackets = new Regex(@"(?<=^{{[^{}\r\n]+}})}}(\s)$", RegexOptions.Multiline);
                     articleTextTemp = QuadrupleCurlyBrackets.Replace(articleTextTemp, "$1");                  
                 }
 
