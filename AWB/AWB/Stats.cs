@@ -312,7 +312,7 @@ namespace AutoWikiBrowser
                 postvars.Add(p + "T", "1");
             }
 
-            foreach (IAWBPlugin plugin in awbBasePlugins)
+            foreach (IAWBBasePlugin plugin in awbBasePlugins)
             {
                 i++;
                 string p = "P" + i;

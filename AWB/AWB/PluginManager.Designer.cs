@@ -29,10 +29,12 @@ namespace AutoWikiBrowser
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Loaded Article Plugins", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Previously Loaded Article Plugins", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Loaded AWBPlugins", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Previously Loaded AWB Plugins", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Loaded ListMaker Plugins", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Previously Loaded ListMaker Plugins", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Loaded Base Plugins", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Previously Loaded Base Plugins", System.Windows.Forms.HorizontalAlignment.Left);
             this.lvPlugin = new WikiFunctions.Controls.NoFlickerExtendedListView();
             this.colName = new System.Windows.Forms.ColumnHeader();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -55,19 +57,25 @@ namespace AutoWikiBrowser
             this.colName});
             this.lvPlugin.ComparerFactory = this.lvPlugin;
             this.lvPlugin.ContextMenuStrip = this.contextMenuStrip1;
-            listViewGroup1.Header = "Loaded Article Plugins";
-            listViewGroup1.Name = "groupArticleLoaded";
-            listViewGroup2.Header = "Previously Loaded Article Plugins";
-            listViewGroup2.Name = "groupArticlePrevious";
+            listViewGroup1.Header = "Loaded AWBPlugins";
+            listViewGroup1.Name = "groupAWBLoaded";
+            listViewGroup2.Header = "Previously Loaded AWB Plugins";
+            listViewGroup2.Name = "groupAWBPrevious";
             listViewGroup3.Header = "Loaded ListMaker Plugins";
             listViewGroup3.Name = "groupLMLoaded";
             listViewGroup4.Header = "Previously Loaded ListMaker Plugins";
             listViewGroup4.Name = "groupLMPrevious";
+            listViewGroup5.Header = "Loaded Base Plugins";
+            listViewGroup5.Name = "groupBaseLoaded";
+            listViewGroup6.Header = "Previously Loaded Base Plugins";
+            listViewGroup6.Name = "groupBasePrevious";
             this.lvPlugin.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
             listViewGroup1,
             listViewGroup2,
             listViewGroup3,
-            listViewGroup4});
+            listViewGroup4,
+            listViewGroup5,
+            listViewGroup6});
             this.lvPlugin.Location = new System.Drawing.Point(12, 47);
             this.lvPlugin.Name = "lvPlugin";
             this.lvPlugin.Size = new System.Drawing.Size(384, 231);
@@ -85,13 +93,13 @@ namespace AutoWikiBrowser
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadPluginToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(184, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(185, 26);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // loadPluginToolStripMenuItem
             // 
             this.loadPluginToolStripMenuItem.Name = "loadPluginToolStripMenuItem";
-            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.loadPluginToolStripMenuItem.Text = "Load Selected Plugin";
             this.loadPluginToolStripMenuItem.Click += new System.EventHandler(this.loadPluginToolStripMenuItem_Click);
             // 
@@ -110,7 +118,7 @@ namespace AutoWikiBrowser
             this.pluginToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.loadNewPluginsToolStripMenuItem});
             this.pluginToolStripMenuItem.Name = "pluginToolStripMenuItem";
-            this.pluginToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.pluginToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.pluginToolStripMenuItem.Text = "&Plugin";
             // 
             // loadNewPluginsToolStripMenuItem
