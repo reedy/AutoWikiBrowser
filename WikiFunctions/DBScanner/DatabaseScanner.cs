@@ -184,7 +184,8 @@ namespace WikiFunctions.DBScanner
 
             List<Scan> s = new List<Scan>();
 
-            if (Namespaces.Count > 0) s.Add(new CheckNamespace(Namespaces));
+            if (Namespaces.Count > 0)
+                s.Add(new CheckNamespace(Namespaces));
 
             if (chkIgnoreRedirects.Checked)
                 s.Add(new IsNotRedirect());
@@ -217,41 +218,66 @@ namespace WikiFunctions.DBScanner
             if (chkProtection.Checked)
                 s.Add(new Restriction(MoveDelete.EditProtectionLevel, MoveDelete.MoveProtectionLevel));
 
-            if (cmboLength.SelectedIndex == 1)
-                s.Add(new CountCharacters(MoreLessThan.MoreThan, (int)nudLength.Value));
-            else if (cmboLength.SelectedIndex == 2)
-                s.Add(new CountCharacters(MoreLessThan.LessThan, (int)nudLength.Value));
+            switch (cmboLength.SelectedIndex)
+            {
+                case 1:
+                    s.Add(new CountCharacters(MoreLessThan.MoreThan, (int)nudLength.Value));
+                    break;
+                case 2:
+                    s.Add(new CountCharacters(MoreLessThan.LessThan, (int)nudLength.Value));
+                    break;
+            }
 
-            if (cmboLinks.SelectedIndex == 1)
-                s.Add(new CountLinks(MoreLessThan.MoreThan, (int)nudLinks.Value));
-            else if (cmboLinks.SelectedIndex == 2)
-                s.Add(new CountLinks(MoreLessThan.LessThan, (int)nudLinks.Value));
+            switch (cmboLinks.SelectedIndex)
+            {
+                case 1:
+                    s.Add(new CountLinks(MoreLessThan.MoreThan, (int)nudLinks.Value));
+                    break;
+                case 2:
+                    s.Add(new CountLinks(MoreLessThan.LessThan, (int)nudLinks.Value));
+                    break;
+            }
 
-            if (cmboWords.SelectedIndex == 1)
-                s.Add(new CountWords(MoreLessThan.MoreThan, (int)nudWords.Value));
-            else if (cmboWords.SelectedIndex == 2)
-                s.Add(new CountWords(MoreLessThan.LessThan, (int)nudWords.Value));
+            switch (cmboWords.SelectedIndex)
+            {
+                case 1:
+                    s.Add(new CountWords(MoreLessThan.MoreThan, (int)nudWords.Value));
+                    break;
+                case 2:
+                    s.Add(new CountWords(MoreLessThan.LessThan, (int)nudWords.Value));
+                    break;
+            }
 
             if (chkBadLinks.Checked)
                 s.Add(new HasBadLinks());
+
             if (chkNoBold.Checked)
                 s.Add(new HasNoBoldTitle());
+
             if (chkCiteTemplateDates.Checked)
                 s.Add(new CiteTemplateDates());
+
             if (chkPeopleCategories.Checked)
                 s.Add(new PeopleCategories());
+
             if (chkUnbalancedBrackets.Checked)
                 s.Add(new UnbalancedBrackets());
+
             if (chkSimpleLinks.Checked)
                 s.Add(new HasSimpleLinks());
+
             if (chkHasHTML.Checked)
                 s.Add(new HasHTMLEntities());
+
             if (chkHeaderError.Checked)
                 s.Add(new HasSectionError());
+
             if (chkUnbulletedLinks.Checked)
                 s.Add(new HasUnbulletedLinks());
+
             if (chkTypo.Checked)
                 s.Add(new Typo());
+
             if (chkDefaultSort.Checked)
                 s.Add(new MissingDefaultsort());
 
