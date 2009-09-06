@@ -25,6 +25,9 @@ namespace UnitTests
         public bool SkipNoDefaultSortAdded
         { get; set; }
 
+        public bool SkipNoUserTalkTemplatesSubstd
+        { get; set; }
+
         public bool SkipNoCiteTemplateDatesFixed
         { get; set; }
 

@@ -1355,7 +1355,10 @@ namespace AutoWikiBrowser
 
                     if (process && chkGeneralFixes.Checked)
                     {
-                        theArticle.PerformGeneralFixes(Parser, RemoveText, Skip, replaceReferenceTagsToolStripMenuItem.Checked, restrictDefaultsortChangesToolStripMenuItem.Checked, noMOSComplianceFixesToolStripMenuItem.Checked);
+                        theArticle.PerformGeneralFixes(Parser, RemoveText, Skip,
+                                                       replaceReferenceTagsToolStripMenuItem.Checked,
+                                                       restrictDefaultsortChangesToolStripMenuItem.Checked,
+                                                       noMOSComplianceFixesToolStripMenuItem.Checked);
                     }
                 }
                 else if (process && chkGeneralFixes.Checked && theArticle.NameSpaceKey == 3)
