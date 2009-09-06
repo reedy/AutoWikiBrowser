@@ -32,6 +32,7 @@ namespace WikiFunctions.Parse
         public static List<string> WikisourceLanguages = new List<string>();
         public static List<string> WikiquoteLanguages = new List<string>();
         public static List<string> WikiversityLanguages = new List<string>();
+        public static List<string> Specials = new List<string>();
         public static readonly Dictionary<string, string> LanguageNames = new Dictionary<string, string>();
 
         static SiteMatrix()
@@ -46,6 +47,7 @@ namespace WikiFunctions.Parse
                 WikisourceLanguages.AddRange(Languages);
                 WikiquoteLanguages.AddRange(Languages);
                 WikiversityLanguages.AddRange(Languages);
+                Specials.AddRange(Languages);
             }
             else
             {
@@ -64,6 +66,7 @@ namespace WikiFunctions.Parse
                 WikisourceLanguages.Sort();
                 WikiquoteLanguages.Sort();
                 WikiversityLanguages.Sort();
+                Specials.Sort();
             }
         }
 
@@ -96,6 +99,7 @@ namespace WikiFunctions.Parse
             WikisourceLanguages = Load("WikisourceLanguages");
             WikiquoteLanguages = Load("WikiquoteLanguages");
             WikiversityLanguages = Load("WikiversityLanguages");
+            Specials = Load("Specials");
             return Loaded;
         }
 
@@ -106,6 +110,11 @@ namespace WikiFunctions.Parse
             XmlDocument matrix = new XmlDocument();
             matrix.LoadXml(strMatrix);
 
+            foreach (XmlNode spec in matrix.GetElementsByTagName("special"))
+            {
+                Specials.Add(spec.Attributes["url"].Value.Replace("http://", ""));
+            }
+            
             foreach (XmlNode lang in matrix.GetElementsByTagName("language"))
             {
                 string langCode = lang.Attributes["code"].Value;
@@ -156,6 +165,7 @@ namespace WikiFunctions.Parse
             ObjectCache.Global.Set(Key("WikisourceLanguages"), WikisourceLanguages);
             ObjectCache.Global.Set(Key("WikiquoteLanguages"), WikiquoteLanguages);
             ObjectCache.Global.Set(Key("WikiversityLanguages"), WikiversityLanguages);
+            ObjectCache.Global.Set(Key("Specials"), Specials);
         }
 
         /// <summary>
