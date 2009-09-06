@@ -506,6 +506,7 @@ namespace WikiFunctions.API
         public string Open(string title)
         {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
+            if (!User.IsLoggedIn) throw new LoggedOffException(this);
 
             Reset();
 
@@ -942,7 +943,11 @@ namespace WikiFunctions.API
 
             if (actionElement.HasAttribute("assert"))
             {
-                throw new AssertionFailedException(this, actionElement.GetAttribute("assert"));
+                string what = actionElement.GetAttribute("assert");
+                if (what == "user")
+                    throw new LoggedOffException(this);
+                else
+                    throw new AssertionFailedException(this, what);
             }
 
             if (actionElement.HasAttribute("spamblacklist"))
