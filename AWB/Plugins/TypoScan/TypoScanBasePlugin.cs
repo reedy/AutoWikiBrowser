@@ -27,7 +27,7 @@ using WikiFunctions.Plugin;
 
 namespace WikiFunctions.Plugins.ListMaker.TypoScan
 {
-    class TypoScanAWBBasePlugin : IAWBBasePlugin
+    class TypoScanBasePlugin : IAWBBasePlugin
     {
         #region IAWBPlugin Members
         private static IAutoWikiBrowser AWB;
@@ -121,7 +121,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         public string Name
         {
-            get { return "TypoScan AWB Plugin"; }
+            get { return "TypoScan Plugin"; }
         }
 
         public string WikiName

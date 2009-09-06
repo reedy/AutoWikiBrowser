@@ -44,7 +44,7 @@
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
     <Compile Include="Common.cs" />
-    <Compile Include="TypoScanAWBBasePlugin.cs" />
+    <Compile Include="TypoScanBasePlugin.cs" />
     <Compile Include="TypoScanListMakerPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
