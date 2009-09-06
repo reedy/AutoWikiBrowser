@@ -127,10 +127,6 @@ namespace WikiFunctions.DBScanner
         {
             string strTitleNot = Convert(txtTitleNotContains.Text);
             string strTitle = Convert(txtTitleContains.Text);
-
-            ArticleContains = Convert(txtArticleDoesContain.Text);
-            ArticleDoesNotContain = Convert(txtArticleDoesNotContain.Text);
-
             RegexOptions articleRegOptions = RegexOptions.Compiled;
             RegexOptions titleRegOptions = RegexOptions.Compiled;
 
@@ -149,6 +145,13 @@ namespace WikiFunctions.DBScanner
                 ArticleDoesNotRegex = new Regex(ArticleDoesNotContain, articleRegOptions);
                 ArticleContains = null;
                 ArticleDoesNotContain = null;
+            }
+            else
+            {
+                ArticleDoesRegex = null;
+                ArticleDoesNotRegex = null;
+                ArticleContains = Convert(txtArticleDoesContain.Text);
+                ArticleDoesNotContain = Convert(txtArticleDoesNotContain.Text);
             }
 
             if (!chkTitleRegex.Checked)
