@@ -183,6 +183,27 @@ namespace WikiFunctions.API
             Aborting = false;
         }
 
+        /// <summary>
+        /// This is a hack required for some multilingual Wikimedia projects,
+        /// where CentralAuth returns cookies with a redundant domain restriction.
+        /// </summary>
+        private void AdjustCookies()
+        {
+            string host = new Uri(URL).Host;
+            var newCookies = new CookieContainer();
+            var urls = new string[] { URL, "http://fnord." + host };
+            foreach (string u in urls)
+            {
+                foreach (Cookie c in Cookies.GetCookies(new Uri(u)))
+                {
+                    c.Domain = host;
+                    newCookies.Add(c);
+                }
+            }
+
+            Cookies = newCookies;
+        }
+
         #region URL stuff
         /// <summary>
         /// 
@@ -442,6 +463,7 @@ namespace WikiFunctions.API
             }
 
             CheckForErrors(result, "login");
+            AdjustCookies();
 
             RefreshUserInfo();
         }
