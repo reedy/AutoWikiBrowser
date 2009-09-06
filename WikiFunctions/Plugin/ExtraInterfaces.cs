@@ -87,6 +87,12 @@ namespace WikiFunctions.Plugin
         /// <summary>
         /// 
         /// </summary>
+        bool SkipNoUserTalkTemplatesSubstd
+        { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         bool SkipNoCiteTemplateDatesFixed
         { get; }
 

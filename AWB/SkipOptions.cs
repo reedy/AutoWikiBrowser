@@ -44,27 +44,27 @@ namespace AutoWikiBrowser
             get { return chkNoTag.Checked; }
         }
 
-        public bool SkipNoHeaderError //TODO: Not used
+        public bool SkipNoHeaderError
         {
             get { return chkNoHeaderError.Checked; }
         }
 
-        public bool SkipNoBoldTitle //TODO: Not used
+        public bool SkipNoBoldTitle
         {
             get { return chkNoBoldTitle.Checked; }
         }
 
-        public bool SkipNoBulletedLink //TODO: Not used
+        public bool SkipNoBulletedLink
         {
             get { return chkNoBulletedLink.Checked; }
         }
 
-        public bool SkipNoBadLink //TODO: Not used
+        public bool SkipNoBadLink
         {
             get { return chkNoBadLink.Checked; }
         }
 
-        public bool SkipNoDefaultSortAdded //TODO: Not used
+        public bool SkipNoDefaultSortAdded
         {
             get { return chkDefaultSortAdded.Checked; }
         }
@@ -74,12 +74,12 @@ namespace AutoWikiBrowser
             get { return chkUserTalkTemplates.Checked; }
         }
 
-        public bool SkipNoCiteTemplateDatesFixed //TODO: Not used
+        public bool SkipNoCiteTemplateDatesFixed
         {
             get { return chkCiteTemplateDates.Checked; }
         }
 
-        public bool SkipNoPeopleCategoriesFixed //TODO: Not used
+        public bool SkipNoPeopleCategoriesFixed
         {
             get { return chkPeopleCategories.Checked; }
         }
@@ -100,7 +100,7 @@ namespace AutoWikiBrowser
 
         public List<int> SelectedItems
         {
-            get 
+            get
             {
                 List<int> ret = new List<int>();
                 foreach (CheckBox chk in gbOptions.Controls)
@@ -117,7 +117,7 @@ namespace AutoWikiBrowser
                 {
                     foreach (CheckBox chk in gbOptions.Controls)
                     {
-                        chk.Checked = value.Contains((int) chk.Tag);
+                        chk.Checked = value.Contains((int)chk.Tag);
                     }
                 }
             }
