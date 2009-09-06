@@ -78,27 +78,15 @@ namespace WikiFunctions.DBScanner
 	/// <summary>
     /// 
     /// </summary>
-    public class TextDoesNotContain : Scan
+    public class TextDoesNotContain : TextContains
     {
-        private readonly Dictionary<string, bool> Conditions;
-
         public TextDoesNotContain(Dictionary<string, bool> conditions)
-        {
-            Conditions = conditions;
-        }
+            : base(conditions)
+        { }
 
         public override bool Check(ArticleInfo article)
         {
-            foreach (KeyValuePair<string, bool> p in Conditions)
-            {
-                if (article.Text.IndexOf(
-                    Tools.ApplyKeyWords(article.Title, p.Key), p.Value ? StringComparison.InvariantCulture : StringComparison.InvariantCultureIgnoreCase) >= 0)
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return !base.Check(article);
         }
     }
 
@@ -129,24 +117,15 @@ namespace WikiFunctions.DBScanner
     /// <summary>
     /// Returns whether the article doesn't match the provided regexes
     /// </summary>
-    public class TextDoesNotContainRegex : Scan
+    public class TextDoesNotContainRegex : TextContainsRegex
     {
         public TextDoesNotContainRegex(params Regex[] notContainsR)
-        {
-            NotContains = notContainsR;
-        }
-
-        private readonly Regex[] NotContains;
+            : base(notContainsR)
+        { }
 
         public override bool Check(ArticleInfo article)
         {
-            foreach (Regex r in NotContains)
-            {
-                if (r.IsMatch(article.Text))
-                    return false;
-            }
-
-            return true;
+            return !base.Check(article);
         }
     }
 
@@ -171,18 +150,15 @@ namespace WikiFunctions.DBScanner
     /// <summary>
     /// Returns whether the article title doesn't match the provided regexes
     /// </summary>
-    public class TitleDoesNotContain : Scan
+    public class TitleDoesNotContain : TitleContains
     {
         public TitleDoesNotContain(Regex notContainsR)
-        {
-            NotContains = notContainsR;
-        }
-
-        private readonly Regex NotContains;
+            : base(notContainsR)
+        { }
 
         public override bool Check(ArticleInfo article)
         {
-            return (!NotContains.IsMatch(article.Title));
+            return !base.Check(article);
         }
     }
 
