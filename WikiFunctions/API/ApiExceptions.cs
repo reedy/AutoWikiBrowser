@@ -244,7 +244,7 @@ namespace WikiFunctions.API
     public class LoggedOffException : ApiException
     {
         public LoggedOffException(ApiEdit editor)
-            : base(editor, "You are currently logged off")
+            : base(editor, "User is logged off")
         {
         }
     }

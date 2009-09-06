@@ -470,13 +470,18 @@ namespace AutoWikiBrowser
         {
             if (!TheSession.User.IsLoggedIn)
             {
-                MessageBox.Show("You've been logged off, probably due to loss of session data.\r\n" +
-                    "Please relogin.", "Logged off", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                Stop();
-                CheckStatus(false);
+                HandleLogoff();
                 return false;
             }
             return true;
+        }
+
+        private void HandleLogoff()
+        {
+            MessageBox.Show("You've been logged off, probably due to loss of session data.\r\n" +
+                "Please relogin.", "Logged off", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            Stop();
+            CheckStatus(false);
         }
 
         private void CreateEditor()
@@ -549,6 +554,10 @@ namespace AutoWikiBrowser
             else if (ex is NewMessagesException)
             {
                 WeHaveNewMessages();
+            }
+            else if (ex is LoggedOffException)
+            {
+                HandleLogoff();
             }
             else
             {
