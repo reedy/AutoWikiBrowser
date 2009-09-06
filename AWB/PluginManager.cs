@@ -38,7 +38,6 @@ namespace AutoWikiBrowser
         private readonly IAutoWikiBrowser AWB;
         //List<string> prevArticlePlugins;
         //List<string> prevLMPlugins;
-        private ListViewItem Lvi;
 
         private static string LastPluginLoadedLocation;
 
@@ -120,13 +119,11 @@ namespace AutoWikiBrowser
         {
             foreach (string pluginName in Plugin.GetPluginList())
             {
-                Lvi = new ListViewItem(pluginName) {Group = lvPlugin.Groups["groupArticleLoaded"]};
-                lvPlugin.Items.Add(Lvi);
+                lvPlugin.Items.Add(new ListViewItem(pluginName) {Group = lvPlugin.Groups["groupArticleLoaded"]});
             }
-            foreach (string pluginName in WikiFunctions.Controls.Lists.ListMaker.GetListMakerPluginNames())
+            foreach (string pluginName in Plugin.GetListMakerPluginList())
             {
-                Lvi = new ListViewItem(pluginName) {Group = lvPlugin.Groups["groupLMLoaded"]};
-                lvPlugin.Items.Add(Lvi);
+                lvPlugin.Items.Add(new ListViewItem(pluginName) {Group = lvPlugin.Groups["groupLMLoaded"]});
             }
 
             UpdatePluginCount();
@@ -194,7 +191,10 @@ namespace AutoWikiBrowser
             /// Dictionary of Plugins, name, and reference to AWB Plugin
             /// </summary>
             internal static readonly Dictionary<string, IAWBPlugin> AWBPlugins = new Dictionary<string, IAWBPlugin>();
-            internal static readonly Dictionary<string, IListMakerPlugin> LMPlugins = new Dictionary<string, IListMakerPlugin>();
+
+            internal static readonly Dictionary<string, IAWBBasePlugin> AWBBasePlugins = new Dictionary<string, IAWBBasePlugin>();
+
+            internal static readonly Dictionary<string, IListMakerPlugin> ListMakerPlugins = new Dictionary<string, IListMakerPlugin>();
 
             public static readonly List<IAWBPlugin> FailedPlugins = new List<IAWBPlugin>();
 
@@ -231,6 +231,22 @@ namespace AutoWikiBrowser
                 List<string> plugins = new List<string>();
 
                 foreach (KeyValuePair<string, IAWBPlugin> a in AWBPlugins)
+                {
+                    plugins.Add(a.Key);
+                }
+
+                return plugins;
+            }
+
+            /// <summary>
+            /// Gets a List of all the plugin names currently loaded
+            /// </summary>
+            /// <returns>List of Plugin Names</returns>
+            internal static List<string> GetListMakerPluginList()
+            {
+                List<string> plugins = new List<string>();
+
+                foreach (KeyValuePair<string, IListMakerPlugin> a in ListMakerPlugins)
                 {
                     plugins.Add(a.Key);
                 }
@@ -337,19 +353,23 @@ namespace AutoWikiBrowser
 
                                     if (afterStartup) UsageStats.AddedPlugin(awbPlugin);
                                 }
-                                else if (t.GetInterface("IAWBBasePlugin") != null) //IAWBBasePlugin needs to be checked after IAWBPlugin, as IAWBPlugin extends IAWBBasePlugin
+                                else if (t.GetInterface("IAWBBasePlugin") != null)
+                                    //IAWBBasePlugin needs to be checked after IAWBPlugin, as IAWBPlugin extends IAWBBasePlugin
                                 {
-                                    IAWBBasePlugin awbBasePlugin = (IAWBBasePlugin)Activator.CreateInstance(t);
+                                    IAWBBasePlugin awbBasePlugin = (IAWBBasePlugin) Activator.CreateInstance(t);
 
-                                    //bool isNotJustBase = awbBasePlugin is IAWBPlugin;
+                                    AWBBasePlugins.Add(awbBasePlugin.Name, awbBasePlugin);
 
                                     InitialisePlugin(awbBasePlugin, awb);
+
+                                    if (afterStartup) UsageStats.AddedPlugin(awbBasePlugin);
                                 }
                                 else if (t.GetInterface("IListMakerPlugin") != null)
                                 {
-                                    IListMakerPlugin listMakerPlugin = (IListMakerPlugin) Activator.CreateInstance(t);
+                                    IListMakerPlugin listMakerPlugin =
+                                        (IListMakerPlugin) Activator.CreateInstance(t);
 
-                                    if (LMPlugins.ContainsKey(listMakerPlugin.Name))
+                                    if (ListMakerPlugins.ContainsKey(listMakerPlugin.Name))
                                     {
                                         MessageBox.Show(
                                             "A plugin with the name \"" + listMakerPlugin.Name +
@@ -360,7 +380,7 @@ namespace AutoWikiBrowser
 
                                     WikiFunctions.Controls.Lists.ListMaker.AddProvider(listMakerPlugin);
 
-                                    LMPlugins.Add(listMakerPlugin.Name, listMakerPlugin);
+                                    ListMakerPlugins.Add(listMakerPlugin.Name, listMakerPlugin);
 
                                     if (afterStartup) UsageStats.AddedPlugin(listMakerPlugin);
                                 }
@@ -402,11 +422,11 @@ namespace AutoWikiBrowser
             }
 
             /// <summary>
-            /// Gets the Version string of a IAWBPlugin
+            /// Gets the Version string of a IAWBBasePlugin
             /// </summary>
-            /// <param name="plugin">IAWBPlugin to get Version of</param>
+            /// <param name="plugin">IAWBBasePlugin to get Version of</param>
             /// <returns>Version String</returns>
-            internal static string GetPluginVersionString(IAWBPlugin plugin)
+            internal static string GetPluginVersionString(IAWBBasePlugin plugin)
             { return Assembly.GetAssembly(plugin.GetType()).GetName().Version.ToString(); }
 
             /// <summary>

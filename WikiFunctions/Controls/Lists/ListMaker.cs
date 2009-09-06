@@ -1186,50 +1186,6 @@ namespace WikiFunctions.Controls.Lists
         }
 
         /// <summary>
-        /// Gets the Number of IListMakerPlugins currently loaded
-        /// </summary>
-        /// <returns>Number of IListmakerPlugins loaded into the ListMaker</returns>
-        public static int GetListMakerPluginCount()
-        {
-            return GetListMakerPlugins().Count;
-        }
-
-        /// <summary>
-        /// Gets a list of all the IListMakerPlugin Names
-        /// </summary>
-        /// <returns>List of IListMakerPlugin Names</returns>
-        public static List<string> GetListMakerPluginNames()
-        {
-            List<string> ret = new List<string>();
-
-            foreach (Plugin.IListMakerPlugin p in GetListMakerPlugins())
-            {
-                ret.Add(p.Name);
-            }
-
-            return ret;
-        }
-
-        /// <summary>
-        /// Gets all the IListMakerPlugins from the list of IListProviders
-        /// </summary>
-        /// <returns>List of IListMakerPlugins currently loaded</returns>
-        public static List<Plugin.IListMakerPlugin> GetListMakerPlugins()
-        {
-            List<Plugin.IListMakerPlugin> plugins = new List<Plugin.IListMakerPlugin>();
-
-            foreach (IListProvider p in ListItems)
-            {
-                Plugin.IListMakerPlugin plugin = (p as Plugin.IListMakerPlugin);
-
-                if (plugin != null)
-                    plugins.Add(plugin);
-            }
-
-            return plugins;
-        }
-
-        /// <summary>
         /// Returns a new DatabaseScanner tied to an instance of the current Articles List Box
         /// </summary>
         /// <returns></returns>
