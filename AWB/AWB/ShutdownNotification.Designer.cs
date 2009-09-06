@@ -38,13 +38,13 @@ namespace AutoWikiBrowser
             // 
             // btnOk
             // 
+            this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnOk.Location = new System.Drawing.Point(87, 76);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 1;
             this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = true;
-            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // btnCancel
             // 
@@ -55,7 +55,6 @@ namespace AutoWikiBrowser
             this.btnCancel.TabIndex = 2;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // txtPrompt
             // 
@@ -66,13 +65,13 @@ namespace AutoWikiBrowser
             this.txtPrompt.Name = "txtPrompt";
             this.txtPrompt.Size = new System.Drawing.Size(306, 61);
             this.txtPrompt.TabIndex = 3;
-            this.txtPrompt.Text = "AutoWikiBrowser has finished processing all pages and has been set to %s. If you " +
-                "would like to stop this, press cancel.";
+            this.txtPrompt.Text = "AutoWikiBrowser has finished processing all pages and has been set to {0}. If you" +
+                " would like to stop this, press cancel. Ok will {0} the computer now. ";
             // 
             // lblTimer
             // 
             this.lblTimer.AutoSize = true;
-            this.lblTimer.Location = new System.Drawing.Point(97, 51);
+            this.lblTimer.Location = new System.Drawing.Point(77, 60);
             this.lblTimer.Name = "lblTimer";
             this.lblTimer.Size = new System.Drawing.Size(176, 13);
             this.lblTimer.TabIndex = 4;

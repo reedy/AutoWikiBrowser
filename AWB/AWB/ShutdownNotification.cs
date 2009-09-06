@@ -17,7 +17,7 @@ namespace AutoWikiBrowser
         {
             set {
                 SType = value;
-                txtPrompt.Text = @"AutoWikiBrowser has finished processing all pages and has been set to " + value + @". If you would like to stop this, press cancel.";
+                txtPrompt.Text = string.Format(txtPrompt.Text, value);
                 SetShutdownLabel(Counter);
             }
         }
@@ -25,16 +25,6 @@ namespace AutoWikiBrowser
         private void SetShutdownLabel(int time)
         {
             lblTimer.Text = "Time until " + SType + ": " + time;
-        }
-
-        private void btnOk_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Yes;
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
         }
 
         private void CountdownTimer_Tick(object sender, EventArgs e)
