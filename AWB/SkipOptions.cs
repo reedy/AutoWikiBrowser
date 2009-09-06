@@ -44,27 +44,27 @@ namespace AutoWikiBrowser
             get { return chkNoTag.Checked; }
         }
 
-        public bool SkipNoHeaderError
+        public bool SkipNoHeaderError //TODO: Not used
         {
             get { return chkNoHeaderError.Checked; }
         }
 
-        public bool SkipNoBoldTitle
+        public bool SkipNoBoldTitle //TODO: Not used
         {
             get { return chkNoBoldTitle.Checked; }
         }
 
-        public bool SkipNoBulletedLink
+        public bool SkipNoBulletedLink //TODO: Not used
         {
             get { return chkNoBulletedLink.Checked; }
         }
 
-        public bool SkipNoBadLink
+        public bool SkipNoBadLink //TODO: Not used
         {
             get { return chkNoBadLink.Checked; }
         }
 
-        public bool SkipNoDefaultSortAdded
+        public bool SkipNoDefaultSortAdded //TODO: Not used
         {
             get { return chkDefaultSortAdded.Checked; }
         }
@@ -74,23 +74,18 @@ namespace AutoWikiBrowser
             get { return chkUserTalkTemplates.Checked; }
         }
 
-        public bool SkipNoCiteTemplateDatesFixed
+        public bool SkipNoCiteTemplateDatesFixed //TODO: Not used
         {
             get { return chkCiteTemplateDates.Checked; }
         }
 
-        public bool SkipNoPeopleCategoriesFixed
+        public bool SkipNoPeopleCategoriesFixed //TODO: Not used
         {
             get { return chkPeopleCategories.Checked; }
         }
         #endregion
 
         #region Methods
-
-        public bool SkipIf(string articleText)
-        {//custom code to skip articles can be added here
-            return true;
-        }
 
         private void SkipOptions_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -122,8 +117,7 @@ namespace AutoWikiBrowser
                 {
                     foreach (CheckBox chk in gbOptions.Controls)
                     {
-                        if (value.Contains((int)chk.Tag))
-                            chk.Checked = true;
+                        chk.Checked = value.Contains((int) chk.Tag);
                     }
                 }
             }
