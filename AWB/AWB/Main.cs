@@ -1051,12 +1051,6 @@ namespace AutoWikiBrowser
                 }
             }
 
-            if (!Skip.SkipIf(TheArticle.OriginalArticleText))
-            {
-                SkipPage("skipIf custom code");
-                return true;
-            }
-
             return false;
         }
 
