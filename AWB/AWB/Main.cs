@@ -3464,7 +3464,7 @@ window.scrollTo(0, diffTopY);
                     }
                 case 1:
                     {
-                        lblImageWith.Text = "With Image:";
+                        lblImageWith.Text = "&With " + Variables.Namespaces[Namespace.File];
 
                         txtImageWith.Enabled = txtImageReplace.Enabled = chkSkipNoImgChange.Enabled = true;
                         break;
