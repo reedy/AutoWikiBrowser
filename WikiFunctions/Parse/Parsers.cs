@@ -1722,6 +1722,7 @@ namespace WikiFunctions.Parse
 
                     // strange bracket
                     articleTextTemp = articleTextTemp.Replace(@"）", @")");
+                    articleTextTemp = articleTextTemp.Replace(@"（", @"(");
 
                     // <ref>>
                     articleTextTemp = articleTextTemp.Replace(@"<ref>>", @"<ref>");
@@ -1742,6 +1743,9 @@ namespace WikiFunctions.Parse
 
                     // {{Category: ?
                     articleTextTemp = articleTextTemp.Replace(@"{{" + Variables.Namespaces[Namespace.Category], @"[[" + Variables.Namespaces[Namespace.Category]);
+
+                    Regex QuadrupleCurlyBrackets = new Regex(@"(?<=^{{[^{}\r\n]+}})}}(\s)$", RegexOptions.Multiline);
+                    articleTextTemp = QuadrupleCurlyBrackets.Replace(articleTextTemp, "$1");                  
                 }
 
                 unbalancedBracket = UnbalancedBrackets(articleTextTemp, ref bracketLength);
