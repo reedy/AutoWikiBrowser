@@ -4025,24 +4025,20 @@ window.scrollTo(0, diffTopY);
             if (CanShutdown)
             {
                 ShutdownTimer.Enabled = true;
+                ShutdownTimer.Start();
                 ShutdownNotification shut = new ShutdownNotification { ShutdownType = GetShutdownType() };
 
                 switch (shut.ShowDialog(this))
                 {
                     case DialogResult.Cancel:
+                        ShutdownTimer.Stop();
                         ShutdownTimer.Enabled = false;
                         MessageBox.Show(GetShutdownType() + " aborted!");
-                        break;
-                    case DialogResult.Yes:
-                        if (GetShutdownType() == "Standby" || GetShutdownType() == "Hibernate")
-                        {
-                            shut.Close();
-                            shut.Dispose();
-                            ShutdownTimer.Enabled = false;
-                        }
+                        return;
+                    case DialogResult.OK:
+                        ShutdownComputer();
                         break;
                 }
-                ShutdownComputer();
             }
         }
 
@@ -4060,6 +4056,9 @@ window.scrollTo(0, diffTopY);
 
         private void ShutdownComputer()
         {
+            if (!ShutdownTimer.Enabled)
+                return;
+
             if (radHibernate.Checked)
                 Application.SetSuspendState(PowerState.Hibernate, true, true);
             else if (radRestart.Checked)
