@@ -1,5 +1,4 @@
 ﻿/*
-
 Copyright (C) 2009
 
 This program is free software; you can redistribute it and/or modify
@@ -21,7 +20,6 @@ using System;
 
 namespace WikiFunctions
 {
-
     /// <summary>
     /// 
     /// </summary>
@@ -31,12 +29,13 @@ namespace WikiFunctions
         {
             Comparator = comparator;
         }
+
         public bool Matches(Article article)
         {
             return article.ArticleText.Contains(Comparator);
         }
 
-        readonly string Comparator;
+        private readonly string Comparator;
     }
 
     /// <summary>
@@ -48,13 +47,14 @@ namespace WikiFunctions
         {
             Comparator = comparator;
         }
+
         public bool Matches(Article article)
         {
             return article.ArticleText.IndexOf(Comparator, StringComparison.CurrentCultureIgnoreCase) >= 0;
             // or should that be OrdinalIgnoreCase?
         }
 
-        readonly string Comparator;
+        private readonly string Comparator;
     }
 
     /// <summary>
@@ -66,12 +66,13 @@ namespace WikiFunctions
         {
             Comparator = comparator;
         }
+
         public bool Matches(Article article)
         {
             return article.ArticleText.Contains(Tools.ApplyKeyWords(article.Name, Comparator));
         }
 
-        readonly string Comparator;
+        private readonly string Comparator;
     }
 
     /// <summary>
@@ -83,12 +84,13 @@ namespace WikiFunctions
         {
             Comparator = comparator;
         }
+
         public bool Matches(Article article)
         {
             return article.ArticleText.IndexOf(Tools.ApplyKeyWords(article.Name, Comparator), StringComparison.CurrentCultureIgnoreCase) >= 0;
             // or should that be OrdinalIgnoreCase?
         }
 
-        readonly string Comparator;
+        private readonly string Comparator;
     }
 }

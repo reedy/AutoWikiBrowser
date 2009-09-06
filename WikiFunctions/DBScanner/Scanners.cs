@@ -353,7 +353,6 @@ namespace WikiFunctions.DBScanner
 
             return !Skip;
         }
-
     }
     
     /// <summary>
