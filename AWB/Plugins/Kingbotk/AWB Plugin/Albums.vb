@@ -140,8 +140,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         ' Article processing:
         Protected Overrides Function SkipIfContains() As Boolean
-            ' Skip if contains {{WPBeatles}} or {{KLF}}
-            Return (BeatlesKLFSkipRegex.Matches(Article.AlteredArticleText).Count > 0)
+            Return False
         End Function
         Protected Overrides Sub ProcessArticleFinish()
             StubClass()
