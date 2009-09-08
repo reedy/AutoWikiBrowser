@@ -315,7 +315,7 @@ namespace WikiFunctions
                 strText = Tools.StringBetween(strText, "<!--enabledusersbegins-->", "<!--enabledusersends-->");
 
                 string strBotUsers = Tools.StringBetween(strText, "<!--enabledbots-->", "<!--enabledbotsends-->");
-                Regex username = new Regex(@"^\*\s*" + Tools.CaseInsensitive(Editor.User.Name)
+                Regex username = new Regex(@"^\*\s*" + Tools.CaseInsensitive(Regex.Escape(Editor.User.Name))
                                            + @"\s*$", RegexOptions.Multiline);
 
                 if (IsSysop && Variables.Project != ProjectEnum.wikia)
