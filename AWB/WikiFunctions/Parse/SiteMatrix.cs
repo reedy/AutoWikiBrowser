@@ -226,7 +226,8 @@ namespace WikiFunctions.Parse
             foreach (string s in languages)
                 if (!order.Contains(s)) unordered.Add(s);
 
-            if (unordered.Count == 0) output = order;
+            if (unordered.Count == 0) 
+                output = order;
             else for (int i = 0; i < languages.Count; i++)
             {
                 if (unordered.Contains(languages[i]))
@@ -236,16 +237,22 @@ namespace WikiFunctions.Parse
                 }
                 else
                 {
-                    output.Add(order[0]);
-                    order.RemoveAt(0);
+                    if (order.Count > 0)
+                    {
+                        output.Add(order[0]);
+                        order.RemoveAt(0);
+                    }
                 }
             }
 
             int n = 0;
             foreach (string s in output)
             {
-                Order.Add("[[" + s, n);
-                n++;
+                if (!Order.ContainsKey("[[" + s))
+                {
+                    Order.Add("[[" + s, n);
+                    n++;
+                }
             }
         }
 
