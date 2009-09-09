@@ -27,7 +27,6 @@ namespace WikiFunctions
     public static class RegistryUtils
     {
         private const string KeyPrefix = "Software\\AutoWikiBrowser\\";
-        private readonly static RegistryKey RegistryKey = new Microsoft.VisualBasic.Devices.Computer().Registry.CurrentUser;
 
         /// <summary>
         /// Gets a string value from an AWB registry subkey
@@ -38,7 +37,7 @@ namespace WikiFunctions
         public static string GetValue(string keyNameSuffix, object defaultValue)
         {
             string wantedKey = keyNameSuffix.Substring(keyNameSuffix.LastIndexOf("\\"));
-            RegistryKey regKey = RegistryKey.OpenSubKey(BuildKeyName(keyNameSuffix.Replace(wantedKey, "")));
+            RegistryKey regKey = Registry.CurrentUser.OpenSubKey(BuildKeyName(keyNameSuffix.Replace(wantedKey, "")));
             return (regKey != null) ? regKey.GetValue(wantedKey.Replace("\\", ""), defaultValue).ToString() : "";
         }
 
@@ -49,7 +48,9 @@ namespace WikiFunctions
         /// <param name="valueName"></param>
         /// <param name="value"></param>
         public static void SetValue(string keyNameSuffix, string valueName, string value)
-        { GetWritableKey(keyNameSuffix).SetValue(valueName, value); }
+        {
+            GetWritableKey(keyNameSuffix).SetValue(valueName, value);
+        }
 
         /// <summary>
         /// Opens or creates a writable registry key from the AWB registry area
@@ -59,7 +60,7 @@ namespace WikiFunctions
         public static RegistryKey GetWritableKey(string keyNameSuffix)
         {
             // CreateSubKey() creates a new subkey *or opens an existing key for write access*
-            return RegistryKey.CreateSubKey(BuildKeyName(keyNameSuffix));
+            return Registry.CurrentUser.CreateSubKey(BuildKeyName(keyNameSuffix));
         }
 
         /// <summary>
@@ -68,22 +69,26 @@ namespace WikiFunctions
         /// <param name="keyNameSuffix"></param>
         /// <returns></returns>
         public static RegistryKey OpenSubKey(string keyNameSuffix)
-        { return RegistryKey.OpenSubKey(BuildKeyName(keyNameSuffix)); }
+        { return Registry.CurrentUser.OpenSubKey(BuildKeyName(keyNameSuffix)); }
 
         /// <summary>
         /// Deletes a sub key
         /// </summary>
         public static void DeleteSubKey(string keyNameSuffix, bool throwOnMissingSubKey)
-        { RegistryKey.DeleteSubKey(BuildKeyName(keyNameSuffix), throwOnMissingSubKey); }
+        { Registry.CurrentUser.DeleteSubKey(BuildKeyName(keyNameSuffix), throwOnMissingSubKey); }
 
         /// <summary>
         /// Deletes a sub key
         /// </summary>
         public static void DeleteSubKey(string keyNameSuffix)
-        { RegistryKey.DeleteSubKey(BuildKeyName(keyNameSuffix)); }
+        {
+            Registry.CurrentUser.DeleteSubKey(BuildKeyName(keyNameSuffix));
+        }
 
         private static string BuildKeyName(string keyNameSuffix)
-        { return KeyPrefix + keyNameSuffix; }
+        {
+            return KeyPrefix + keyNameSuffix; 
+        }
     }
 
     namespace Encryption
