@@ -58,6 +58,8 @@ namespace WikiFunctions
             }
         }
 
+        private static bool? mSpecialMedia;
+
         /// <summary>
         /// Whether we are running from a media that requires special handling
         /// </summary>
@@ -65,10 +67,14 @@ namespace WikiFunctions
         {
             get
             {
+                if (mSpecialMedia != null) return (bool)mSpecialMedia;
+
                 string drive = Path.GetPathRoot(Application.ExecutablePath);
                 if (drive.StartsWith("\\")) return true;
                 DriveInfo di = new DriveInfo(drive.Substring(0, 1));
-                return di.DriveType == DriveType.Removable || di.DriveType == DriveType.Network;
+                mSpecialMedia = (di.DriveType == DriveType.Removable || di.DriveType == DriveType.Network);
+
+                return (bool)mSpecialMedia;
             }
         }
 
