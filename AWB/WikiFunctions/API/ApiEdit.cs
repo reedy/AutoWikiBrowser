@@ -191,7 +191,7 @@ namespace WikiFunctions.API
         {
             string host = new Uri(URL).Host;
             var newCookies = new CookieContainer();
-            var urls = new string[] { URL, "http://fnord." + host };
+            var urls = new[] { URL, "http://fnord." + host };
             foreach (string u in urls)
             {
                 foreach (Cookie c in Cookies.GetCookies(new Uri(u)))
