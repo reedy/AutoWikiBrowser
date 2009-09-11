@@ -47,7 +47,7 @@ namespace WikiFunctions
                 try
                 {
                     RegexOptions opts = RegexOptions.None;
-                    if (isCaseSensitive)
+                    if (!isCaseSensitive)
                         opts |= RegexOptions.IgnoreCase;
 
                     if (isSingleLine)
@@ -55,7 +55,6 @@ namespace WikiFunctions
 
                     if (isMultiLine)
                         opts |= RegexOptions.Multiline;
-
 
                     return comparator.Contains("%%")
                                ? (IArticleComparer)new DynamicRegexArticleComparer(comparator, opts)
