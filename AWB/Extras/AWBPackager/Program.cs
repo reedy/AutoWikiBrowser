@@ -73,7 +73,9 @@ Is this SVN (1) or a release (2)? ");
                 File.Copy(currFolder + "AutoWikiBrowser.exe.config", tmp + "AutoWikiBrowser.exe.config", true);
                 File.Copy(currFolder + "WikiFunctions.dll", tmp + "WikiFunctions.dll", true);
                 File.Copy(currFolder + "AWBUpdater.exe", tmp + "AWBUpdater.exe", true);
-                File.Copy(currFolder + "Diff.dll", tmp + "Diff.dll", true);
+
+                CreateTextFile(tmp + "Diff.dll", "This file is not used anymore, but is preserved for compatibility "
+                    + "with older versions of AWBUpdater.");
 
                 Directory.CreateDirectory(tmp + "Plugins\\");
 
@@ -141,6 +143,14 @@ Is this SVN (1) or a release (2)? ");
                 res = 0;
 
             return res;
+        }
+
+        static void CreateTextFile(string fileName, string content)
+        {
+            using (TextWriter tw = new StreamWriter(fileName))
+            {
+                tw.WriteLine(content);
+            }
         }
     }
 }

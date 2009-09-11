@@ -328,6 +328,13 @@ namespace AwbUpdater
             progressUpdate.Value = 75;
         }
 
+        void DeleteIfExists(string name)
+        {
+            string path = Path.Combine(AWBdirectory, name);
+            if (File.Exists(path))
+                File.Delete(path);
+        }
+
         /// <summary>
         /// Copies files from the temporary to the working directory
         /// </summary>
@@ -339,14 +346,13 @@ namespace AwbUpdater
             if (AWBUpdate)
             {
                 //Explicit Deletions (Remove these if they exist!!)
-                if (File.Exists(AWBdirectory + "Wikidiff2.dll"))
-                    File.Delete(AWBdirectory + "Wikidiff2.dll");
+                DeleteIfExists("Wikidiff2.dll");
 
-                if (File.Exists(AWBdirectory + "WikiFunctions2.dll"))
-                    File.Delete(AWBdirectory + "WikiFunctions2.dll");
+                DeleteIfExists("Diff.dll");
 
-                if (File.Exists(AWBdirectory + "WPAssessmentsCatCreator.dll"))
-                    File.Delete(AWBdirectory + "WPAssessmentsCatCreator.dll");
+                DeleteIfExists("WikiFunctions2.dll");
+
+                DeleteIfExists("WPAssessmentsCatCreator.dll");
 
                 if (Directory.Exists(AWBdirectory + "\\Plugins\\WPAssessmentsCatCreator"))
                     Directory.Delete(AWBdirectory + "\\Plugins\\WPAssessmentsCatCreator", true);
