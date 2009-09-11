@@ -68,6 +68,7 @@
     <Compile Include="Controls\NamespacesControl.Designer.cs">
       <DependentUpon>NamespacesControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomModuleProviders.cs" />
     <Compile Include="Lists\Providers\NonMWListProviders.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="Controls\Lists\ProtectionLevel.cs">
