@@ -250,7 +250,7 @@ namespace AutoWikiBrowser
             try
             {
                 //check that we are not using an old OS. 98 seems to mangled some unicode
-                if (Environment.OSVersion.Version.Major < 5)
+                if (Environment.OSVersion.Version.Major < 5 && Environment.OSVersion.ToString().Contains("Windows"))
                 {
                     MessageBox.Show(
                         "You appear to be using an older operating system, this software may have trouble with some unicode fonts on operating systems older than Windows 2000, the start button has been disabled.",
