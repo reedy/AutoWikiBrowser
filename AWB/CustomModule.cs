@@ -121,7 +121,8 @@ namespace AutoWikiBrowser
 
                 foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
                 {
-                    cp.ReferencedAssemblies.Add(asm.Location);
+                    var path = asm.Location;
+                    if (!string.IsNullOrEmpty(path)) cp.ReferencedAssemblies.Add(path);
                 }
 
                 CompilerResults results = Compiler.Compile(txtCode.Text, cp);

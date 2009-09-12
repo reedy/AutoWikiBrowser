@@ -46,7 +46,6 @@ namespace WikiFunctions.CustomModules
             var src = CodeStart + sourceCode + "\r\n" + CodeEnd;
 
             return Compiler.CompileAssemblyFromSource(parameters, src);
-            //return Compiler.CompileAssemblyFromSource(parameters, CodeStart, sourceCode, CodeEnd);
         }
 
         /// <summary>
