@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Web;
-using Algorithm.Diff;
 using System.Collections;
 
 namespace WikiFunctions
@@ -113,7 +112,7 @@ namespace WikiFunctions
             List<Word> leftList = Word.SplitString(LeftLines[leftLine]);
             List<Word> rightList = Word.SplitString(RightLines[rightLine]);
 
-            diff = new Diff(leftList, rightList, Word.Comparer, Word.Comparer);
+            diff = new Diff(leftList, rightList, Word.Comparer);
 
             foreach (Diff.Hunk h in diff)
             {
@@ -176,7 +175,7 @@ namespace WikiFunctions
                 char[] leftChars = left.Whitespace.ToCharArray();
                 char[] rightChars = right.Whitespace.ToCharArray();
 
-                Diff diff = new Diff(leftChars, rightChars, Word.Comparer, Word.Comparer);
+                Diff diff = new Diff(leftChars, rightChars, Word.Comparer);
                 foreach (Diff.Hunk h in diff)
                 {
                     if (h.Same)
@@ -444,7 +443,7 @@ td.diff-addedline span.diffchange {
             m_HashCode = (word/* + white*/).GetHashCode();
         }
 
-        public static WordComparer Comparer = new WordComparer();
+        public static readonly IEqualityComparer Comparer = new WordComparer();
 
         /// borrowed from wikidiff2 for consistency
         private static bool IsText(char ch)
@@ -534,17 +533,17 @@ td.diff-addedline span.diffchange {
         #endregion
     }
 
-#pragma warning disable 0618
-    public class WordComparer : IComparer, IHashCodeProvider
+    internal class WordComparer : IEqualityComparer
     {
-        public int GetHashCode(object obj)
+        int IEqualityComparer.GetHashCode(object obj)
         {
             return obj.GetHashCode();
         }
 
-        public int Compare(object x, object y)
+        bool IEqualityComparer.Equals(object x, object y)
         {
-            return x.Equals(y) ? 0 : 1;
+            return x.Equals(y);
         }
+
     }
 }

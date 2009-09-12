@@ -7,7 +7,7 @@ using System.Collections;
 using System.IO;
 using System.Text;
 
-namespace Algorithm.Diff {
+namespace WikiFunctions {
 	
 	public class UnifiedDiff {
 		private UnifiedDiff() {
