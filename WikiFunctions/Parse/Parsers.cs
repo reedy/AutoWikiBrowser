@@ -962,7 +962,7 @@ namespace WikiFunctions.Parse
         private const string SiCitStart = @"(?si)(\{\{\s*cit[^{}]*\|\s*";
         private const string CitAccessdate = SiCitStart + @"(?:access|archive)date\s*=\s*";
         private const string CitDate = SiCitStart + @"(?:archive|air)?date2?\s*=\s*";
-        private const string CitYMonthD = SiCitStart + @"(?:archive|air)?date2?\s*=\s*\d{4})[-/\s]";
+        private const string CitYMonthD = SiCitStart + @"(?:archive|air|access)?date2?\s*=\s*\d{4})[-/\s]";
         private const string dTemEnd = @"?[-/\s]([0-3]?\d\s*(?:\||}}))";
 
         struct RegexReplacement
@@ -1052,28 +1052,37 @@ namespace WikiFunctions.Parse
         {
             // note some incorrect date formats such as 3-2-2009 are ambiguous as could be 3-FEB-2009 or MAR-2-2009
             // these fixes don't address such errors
+            string articleTextlocal = "";
 
-            // convert invalid date formats like DD-MM-YYYY, MM-DD-YYYY, YYYY-D-M, YYYY-DD-MM, YYYY_MM_DD etc. to iso format of YYYY-MM-DD
-            // for accessdate= and archivedate=
-            if (AccessOrArchiveDate.IsMatch(articleText))
-                foreach (RegexReplacement rr in CiteTemplateIncorrectISOAccessdates)
-                    articleText = rr.Regex.Replace(articleText, rr.Replacement);
-
-            // date=, archivedate=, airdate=, date2=
-            if (CiteTemplateArchiveAirDate.IsMatch(articleText))
+            // loop in case a single citation has multiple dates to be fixed
+            while (!articleTextlocal.Equals(articleText))
             {
-                foreach (RegexReplacement rr in CiteTemplateIncorrectISODates)
-                    articleText = rr.Regex.Replace(articleText, rr.Replacement);
+                articleTextlocal = articleText;
 
-                // date = YYYY-Month-DD fix, on en-wiki only
-                if (Variables.LangCode == "en")
-                    foreach (RegexReplacement rr in CiteTemplateAbbreviatedMonths)
+                // convert invalid date formats like DD-MM-YYYY, MM-DD-YYYY, YYYY-D-M, YYYY-DD-MM, YYYY_MM_DD etc. to iso format of YYYY-MM-DD
+                // for accessdate= and archivedate=
+                if (AccessOrArchiveDate.IsMatch(articleText))
+                    foreach (RegexReplacement rr in CiteTemplateIncorrectISOAccessdates)
                         articleText = rr.Regex.Replace(articleText, rr.Replacement);
+
+                // date=, archivedate=, airdate=, date2=
+                if (CiteTemplateArchiveAirDate.IsMatch(articleText))
+                {
+                    foreach (RegexReplacement rr in CiteTemplateIncorrectISODates)
+                        articleText = rr.Regex.Replace(articleText, rr.Replacement);
+
+                    // date = YYYY-Month-DD fix, on en-wiki only
+                    if (Variables.LangCode == "en")
+                        foreach (RegexReplacement rr in CiteTemplateAbbreviatedMonths)
+                            articleText = rr.Regex.Replace(articleText, rr.Replacement);
+                }
+
+                // all citation dates
+                articleText = CiteTemplateDateYYYYDDMMFormat.Replace(articleText, "$1-$3-$2$4"); // YYYY-DD-MM to YYYY-MM-DD
+                articleText = CiteTemplateTimeInDateParameter.Replace(articleText, "$1<!--$2-->"); // Removes time from date fields
             }
 
-            // all citation dates
-            articleText = CiteTemplateDateYYYYDDMMFormat.Replace(articleText, "$1-$3-$2$4"); // YYYY-DD-MM to YYYY-MM-DD
-            return CiteTemplateTimeInDateParameter.Replace(articleText, "$1<!--$2-->"); // Removes time from date fields
+            return articleText;
         }
 
         // Covered by: FormattingTests.TestMdashes()
