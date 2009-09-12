@@ -25,18 +25,15 @@
  * as Perl itself" on CPAN it has been deduced that we could use it as Perl is currently
  * multi-licensed under Artistic and GPL.
  */
-
-
 using System;
 using System.Collections;
 using System.Text;
 
 using IntList = System.Collections.Generic.List<int>;
 //using TrioList = System.Collections.Generic.List<Algorithm.Diff.Trio>;
-//using IntList = System.Collections.ArrayList;
 using TrioList = System.Collections.ArrayList;
 
-namespace Algorithm.Diff {
+namespace WikiFunctions {
 	public interface IDiff : IEnumerable {
 		IList Left { get; }
 		IList Right { get; }
@@ -66,8 +63,7 @@ namespace Algorithm.Diff {
 	
 	public class Diff : IDiff {
 		internal IList left, right;
-		IComparer comparer;
-		IHashCodeProvider hashcoder;
+        IEqualityComparer comparer;
 		
 		public IList Left { get { return left; } }
 		public  IList Right { get { return right; } }
@@ -82,7 +78,7 @@ namespace Algorithm.Diff {
 			}
 		}
 		
-		public class Hunk : Algorithm.Diff.Hunk {
+		public class Hunk : WikiFunctions.Hunk {
 			IList left, right;
 			int s1start, s1end, s2start, s2end;
 			bool same;
@@ -187,13 +183,12 @@ namespace Algorithm.Diff {
 			}
 		}
 	
-		public Diff(IList left, IList right, IComparer comparer, IHashCodeProvider hashcoder) {
+		public Diff(IList left, IList right, IEqualityComparer comparer) {
 			if (left == null) throw new ArgumentNullException("left");
 			if (right == null) throw new ArgumentNullException("right");
 			this.left = left;
 			this.right = right;
 			this.comparer = comparer;
-			this.hashcoder = hashcoder;
 			init();
 		}
 		
@@ -205,8 +200,7 @@ namespace Algorithm.Diff {
 			: this(
 				StripWhitespace(left, !compareWhitespace),
 				StripWhitespace(right, !compareWhitespace),
-				caseSensitive ? (IComparer)Comparer.Default : (IComparer)CaseInsensitiveComparer.Default,
-				caseSensitive ? null : CaseInsensitiveHashCodeProvider.Default
+                caseSensitive ? StringComparer.Ordinal : StringComparer.OrdinalIgnoreCase
 				) {
 		}
 		
@@ -282,7 +276,7 @@ namespace Algorithm.Diff {
 		*/
 
 		Hashtable _withPositionsOfInInterval(IList aCollection, int start, int end) {
-			Hashtable d = new Hashtable(hashcoder, comparer);
+			Hashtable d = new Hashtable(comparer);
 			for (int index = start; index <= end; index++) {
 				object element = aCollection[index];
 				if (d.ContainsKey(element)) {
@@ -362,7 +356,7 @@ namespace Algorithm.Diff {
 		
 		bool compare(object a, object b) {
 			if (comparer == null) return a.Equals(b);
-			return comparer.Compare(a, b) == 0;
+			return comparer.Equals(a, b);
 		}
 		
 		bool IsPrepared(out Hashtable bMatches) {

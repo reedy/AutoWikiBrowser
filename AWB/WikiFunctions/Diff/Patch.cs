@@ -8,7 +8,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 
-namespace Algorithm.Diff {
+namespace WikiFunctions {
 	
 	public class Patch : IEnumerable {
 		Hunk[] hunks;
