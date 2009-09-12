@@ -3270,7 +3270,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Add_defaultsort_to_pages_with_special_letters_and_no_defaultsort
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Human_DEFAULTSORT
-                articleText = DefaultsortTitlesWithDiacritics(articleText, articleTitle, matches, IsArticleAboutAPerson(articleText, articleTitle));
+                articleText = DefaultsortTitlesWithDiacritics(articleText, articleTitle, matches, IsArticleAboutAPerson(articleText, articleTitle, true));
             }
             else if (ds.Count == 1) // already has DEFAULTSORT
             {
@@ -3358,7 +3358,18 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         [Obsolete]
         public static bool IsArticleAboutAPerson(string articleText)
         {
-            return IsArticleAboutAPerson(articleText, "");
+            return IsArticleAboutAPerson(articleText, "", false);
+        }
+
+                /// <summary>
+        /// determines whether the article is about a person by looking for persondata/birth death categories, bio stub etc. for en wiki only
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">Title of the article</param>
+        /// <returns></returns>
+        public static bool IsArticleAboutAPerson(string articleText, string articleTitle)
+        {
+            return IsArticleAboutAPerson(articleText, articleTitle, false);
         }
 
         /// <summary>
@@ -3367,7 +3378,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
         /// <returns></returns>
-        public static bool IsArticleAboutAPerson(string articleText, string articleTitle)
+        public static bool IsArticleAboutAPerson(string articleText, string articleTitle, bool parseTalkPage)
         {
             if (Variables.LangCode != "en"
                     || articleText.Contains(@"[[Category:Multiple people]]")
@@ -3416,7 +3427,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     || WikiRegexes.BirthsCategory.IsMatch(articleText)
                     || WikiRegexes.BLPSources.IsMatch(articleText)
                     || RefImprove.IsMatch(articleText)
-                    || (!string.IsNullOrEmpty(articleTitle) &&
+                    || (!string.IsNullOrEmpty(articleTitle) && parseTalkPage &&
                         Tools.GetArticleText(Variables.Namespaces[Namespace.Talk] + articleTitle, true).Contains(@"{{WPBiography"));
         }
 
@@ -3501,7 +3512,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         [Obsolete]
         public string FixPeopleCategories(string articleText, out bool noChange)
         {
-            return FixPeopleCategories(articleText, "", out noChange);
+            return FixPeopleCategories(articleText, "", false, out noChange);
         }
 
         /// <summary>
@@ -3511,9 +3522,26 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="articleTitle">Title of the article</param>
         /// <param name="noChange"></param>
         /// <returns></returns>
+        [Obsolete]
         public string FixPeopleCategories(string articleText, string articleTitle, out bool noChange)
         {
             string newText = FixPeopleCategories(articleText, articleTitle);
+
+            noChange = (newText == articleText);
+
+            return newText;
+        }
+
+        /// <summary>
+        /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">Title of the article</param>
+        /// <param name="noChange"></param>
+        /// <returns></returns>
+        public string FixPeopleCategories(string articleText, string articleTitle, bool parseTalkPage, out bool noChange)
+        {
+            string newText = FixPeopleCategories(articleText, articleTitle, parseTalkPage);
 
             noChange = (newText == articleText);
 
@@ -3540,7 +3568,18 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public static string FixPeopleCategories(string articleText, string articleTitle)
         {
-            if (Variables.LangCode != "en" || WikiRegexes.Lifetime.IsMatch(articleText) || !IsArticleAboutAPerson(articleText, articleTitle))
+            return FixPeopleCategories(articleText, articleTitle, false);
+        }
+
+        /// <summary>
+        /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">Title of the article</param>
+        /// <returns></returns>
+        public static string FixPeopleCategories(string articleText, string articleTitle, bool parseTalkPage)
+        {
+            if (Variables.LangCode != "en" || WikiRegexes.Lifetime.IsMatch(articleText) || !IsArticleAboutAPerson(articleText, articleTitle, parseTalkPage))
                 return YearOfBirthMissingCategory(articleText);
 
             // over 20 references or long and not DOB/DOD categorised at all yet: implausible

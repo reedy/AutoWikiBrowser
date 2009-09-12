@@ -198,7 +198,7 @@ namespace WikiFunctions
             {
                 return Variables.Project == ProjectEnum.wikipedia
                     && Variables.LangCode == "en"
-                    && Parsers.IsArticleAboutAPerson(mArticleText, Name);
+                    && Parsers.IsArticleAboutAPerson(mArticleText, Name, true);
             }
         }
 
@@ -667,7 +667,7 @@ namespace WikiFunctions
         public void FixPeopleCategories(Parsers parsers, bool skipIfNoChange)
         {
             bool noChange2;
-            string strTemp = parsers.FixPeopleCategories(mArticleText, Name, out noChange);
+            string strTemp = parsers.FixPeopleCategories(mArticleText, Name, true, out noChange);
             strTemp = Parsers.LivingPeople(strTemp, out noChange2);
 
             if (!noChange2)
