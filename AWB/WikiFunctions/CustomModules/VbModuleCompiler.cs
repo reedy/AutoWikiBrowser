@@ -30,6 +30,7 @@ namespace WikiFunctions.CustomModules
 Imports System.Collections.Generic
 Imports System.Text
 Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic
 Imports WikiFunctions
 
 Namespace AutoWikiBrowser.CustomModules
@@ -67,12 +68,6 @@ End Namespace";
             Return ArticleText
         End Function";
             }
-        }
-
-        public override CompilerResults Compile(string sourceCode, CompilerParameters parameters)
-        {
-            sourceCode = Regex.Replace(sourceCode, "VbCrLf", "\"/r/n\"", RegexOptions.IgnoreCase);
-            return base.Compile(sourceCode, parameters);
         }
     }
 }
