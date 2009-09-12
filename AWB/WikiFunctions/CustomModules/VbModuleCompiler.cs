@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.CodeDom.Compiler;
-using System.Text.RegularExpressions;
 using System.Collections;
 
 namespace WikiFunctions.CustomModules
@@ -11,10 +10,16 @@ namespace WikiFunctions.CustomModules
     {
         public VbModuleCompiler()
         {
-            // TODO: for compatibility reasons we must not use the Microsoft.VisualBasic
+            // For compatibility reasons we can't not use the Microsoft.VisualBasic
             // namespace directly, as some Linux systems may come without the mono-vbnc package,
             // and this may result in "assembly not found" exception where it could be avoided.
-            Compiler = new Microsoft.VisualBasic.VBCodeProvider();
+
+            // We assume here that VBCodeProvider is in the same DLL as Component (System.dll) for
+            // Windows. Seems to be the case for Mono on Linux, too.
+            var asm = typeof(System.ComponentModel.Component).Assembly;
+            var type = asm.GetType("Microsoft.VisualBasic.VBCodeProvider");
+
+            Compiler = (CodeDomProvider)type.GetConstructor(new Type[]{}).Invoke(new Type[]{});
         }
 
         public override string Name
