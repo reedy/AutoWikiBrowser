@@ -1829,6 +1829,16 @@ Some artists represented by Zach Feuer Gallery are [[Phoebe Washburn]], [[Jules 
 
             // no change – ambiguous between Am and Int date format
             Assert.AreEqual(@"<ref>{{cite web|url=http://www.nuclearweaponarchive.org/Russia/TsarBomba.html|title=The Tsar Bomba (King of Bombs)|accessdate=11-05-2006}}</ref>", Parsers.CiteTemplateDates(@"<ref>{{cite web|url=http://www.nuclearweaponarchive.org/Russia/TsarBomba.html|title=The Tsar Bomba (King of Bombs)|accessdate=11-05-2006}}</ref>"));
+
+            // cite podcast is non-compliant to citation core standards
+            const string CitePodcast = @"{{cite podcast
+| url =http://www.heretv.com/APodcastDetailPage.php?id=24
+| title =The Ben and Dave Show
+| host =Harvey, Ben and Rubin, Dave
+| accessdate =11-08
+| accessyear =2007
+}}";
+            Assert.AreEqual(CitePodcast, Parsers.CiteTemplateDates(CitePodcast));
         }
 
         [Test]

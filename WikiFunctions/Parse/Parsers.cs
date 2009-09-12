@@ -959,7 +959,8 @@ namespace WikiFunctions.Parse
             return newText;
         }
 
-        private const string SiCitStart = @"(?si)(\{\{\s*cit[^{}]*\|\s*";
+        // cite podcast is non-compliant to citation core standards
+        private const string SiCitStart = @"(?si)(\{\{\s*cit[^{}]*\|(?<!cite podcast.*\|)\s*";
         private const string CitAccessdate = SiCitStart + @"(?:access|archive)date\s*=\s*";
         private const string CitDate = SiCitStart + @"(?:archive|air)?date2?\s*=\s*";
         private const string CitYMonthD = SiCitStart + @"(?:archive|air|access)?date2?\s*=\s*\d{4})[-/\s]";
