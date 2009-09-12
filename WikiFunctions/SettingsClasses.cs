@@ -409,7 +409,7 @@ namespace WikiFunctions.AWBSettings
     public class ModulePrefs
     {
         public bool Enabled = false;
-        public int Language = 0;
+        public string Language = ""; // should correspond to C# by default
         public string Code = @"        public string ProcessArticle(string ArticleText, string ArticleTitle, int wikiNamespace, out string Summary, out bool Skip)
         {
             Skip = false;
