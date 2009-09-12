@@ -67,7 +67,9 @@
     <Compile Include="Controls\NamespacesControl.Designer.cs">
       <DependentUpon>NamespacesControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomModuleProviders.cs" />
+    <Compile Include="CustomModules\CSharpModuleCompiler.cs" />
+    <Compile Include="CustomModules\CustomModuleCompiler.cs" />
+    <Compile Include="CustomModules\VbModuleCompiler.cs" />
     <Compile Include="Diff\Diff.cs" />
     <Compile Include="Diff\Patch.cs" />
     <Compile Include="Diff\UnifiedDiff.cs" />

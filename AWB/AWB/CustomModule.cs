@@ -27,6 +27,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using WikiFunctions.Plugin;
 using WikiFunctions;
+using WikiFunctions.CustomModules;
 
 namespace AutoWikiBrowser
 {
@@ -35,6 +36,8 @@ namespace AutoWikiBrowser
         public CustomModule()
         {
             InitializeComponent();
+            cmboLang.Items.Clear();
+            cmboLang.Items.AddRange(CustomModuleCompiler.GetList());
             cmboLang.SelectedIndex = 0;
             txtCode.Text = CodeExample;
         }
@@ -45,10 +48,29 @@ namespace AutoWikiBrowser
             set { txtCode.Text = value.Replace("\r\n\r\n", "\r\n"); }
         }
 
-        public int Language
+        public string Language
         {
-            get { return cmboLang.SelectedIndex; }
-            set { cmboLang.SelectedIndex = value; }
+            get { return cmboLang.SelectedItem.ToString(); }
+            set
+            {
+                foreach (CustomModuleCompiler c in cmboLang.Items)
+                {
+                    if (c.Name == value)
+                    {
+                        cmboLang.SelectedItem = c;
+                        return;
+                    }
+                }
+
+                // All older configs that specified index instead of language name
+                // could have used only C#.
+                cmboLang.SelectedIndex = 0;
+            }
+        }
+
+        public CustomModuleCompiler Compiler
+        {
+            get { return (CustomModuleCompiler)cmboLang.SelectedItem; }
         }
 
         public bool ModuleEnabled
@@ -102,16 +124,7 @@ namespace AutoWikiBrowser
                     cp.ReferencedAssemblies.Add(asm.Location);
                 }
 
-                string code = CodeStart + Regex.Replace(txtCode.Text, "VbCrLf", "\"/r/n\"", RegexOptions.IgnoreCase) + "\r\n" + CodeEnd;
-
-                CodeDomProvider codeProvider;
-
-                if (cmboLang.SelectedIndex == 0)
-                    codeProvider = new Microsoft.CSharp.CSharpCodeProvider();
-                else
-                    codeProvider = new Microsoft.VisualBasic.VBCodeProvider();
-
-                CompilerResults results = codeProvider.CompileAssemblyFromSource(cp, code);
+                CompilerResults results = Compiler.Compile(txtCode.Text, cp);
 
                 if (results.Errors.Count > 0)
                 {
@@ -163,68 +176,10 @@ namespace AutoWikiBrowser
 
         private void cmboLang_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmboLang.SelectedIndex == 0)
-            {
-                CodeStart = @"using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
-using WikiFunctions;
-
-namespace AutoWikiBrowser.CustomModules
-{
-    class CustomModule : WikiFunctions.Plugin.IModule
-    {
-        WikiFunctions.Plugin.IAutoWikiBrowser awb;
-
-        public CustomModule(WikiFunctions.Plugin.IAutoWikiBrowser mAWB)
-        {
-           awb =  mAWB;
-        }
-";
-                CodeExample = @"        public string ProcessArticle(string ArticleText, string ArticleTitle, int wikiNamespace, out string Summary, out bool Skip)
-        {
-            Skip = false;
-            Summary = ""test"";
-
-            ArticleText = ""test \r\n\r\n"" + ArticleText;
-
-            return ArticleText;
-        }";
-                CodeEnd = @"    }
-}";
-            }
-            else
-            {
-                CodeStart = @"Imports System
-Imports System.Collections.Generic
-Imports System.Text
-Imports System.Text.RegularExpressions
-Imports WikiFunctions
-
-Namespace AutoWikiBrowser.CustomModules
-    Class CustomModule
-        Implements WikiFunctions.Plugin.IModule
-
-        Dim awb As WikiFunctions.Plugin.IAutoWikiBrowser
-
-        Public Sub New(ByRef mAWB As WikiFunctions.Plugin.IAutoWikiBrowser)
-            awb = mAWB
-        End Sub
-";
-
-                CodeExample = @"        Public Function ProcessArticle(ByVal ArticleText As String, ByVal ArticleTitle As String, ByVal wikiNamespace As Integer, ByRef Summary As String, ByRef Skip As Boolean) As String Implements WikiFunctions.Plugin.IModule.ProcessArticle
-            Skip = False
-            Summary = ""test""
-
-            ArticleText = ""test "" & VbCrLf & VbCrLf & ArticleText
-            
-            Return ArticleText
-        End Function";
-
-                CodeEnd = @"     End Class
-End Namespace";
-            }
+            var c = Compiler;
+            CodeStart = c.CodeStart;
+            CodeExample = c.CodeExample;
+            CodeEnd = c.CodeEnd;
 
             lblStart.Text = CodeStart;
             txtCode.Text = CodeExample;
