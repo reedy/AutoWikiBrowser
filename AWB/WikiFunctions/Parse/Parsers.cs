@@ -62,6 +62,10 @@ namespace WikiFunctions.Parse
             //IE6 does like these
             RegexUnicode.Add(new Regex("&#(705|803|596|620|699|700|8652|9408|9848|12288|160|61|x27|39);", RegexOptions.Compiled), "&amp;#$1;");
 
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Line_break_insertion
+            // replace LS:    Line Separator, U+2028 with a space
+            RegexUnicode.Add(new Regex(@" "), " ");
+
             //Decoder doesn't like these
             RegexUnicode.Add(new Regex("&#(x109[0-9A-Z]{2});", RegexOptions.Compiled), "&amp;#$1;");
             RegexUnicode.Add(new Regex("&#((?:277|119|84|x1D|x100)[A-Z0-9a-z]{2,3});", RegexOptions.Compiled), "&amp;#$1;");
