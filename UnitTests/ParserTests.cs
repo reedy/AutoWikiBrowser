@@ -3345,6 +3345,16 @@ foo
         {
             Assert.AreEqual("<math>&laquo;</math>", parser.Unicodify("<math>&laquo;</math>"));
         }
+
+        [Test]
+        public void LineBreaks()
+        {
+            Assert.AreEqual(@"an age", parser.Unicodify(@"an age"));
+
+            Assert.AreEqual(@"an
+age", parser.Unicodify(@"an
+age"));
+        }
     }
 
     [TestFixture]
