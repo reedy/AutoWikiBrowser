@@ -67,6 +67,9 @@
     <Compile Include="Controls\NamespacesControl.Designer.cs">
       <DependentUpon>NamespacesControl.cs</DependentUpon>
     </Compile>
+    <None Include="CustomModules\CppModuleCompiler.cs">
+	  <SubType>Code</SubType>
+	</None>
     <Compile Include="CustomModules\CSharpModuleCompiler.cs" />
     <Compile Include="CustomModules\CustomModuleCompiler.cs" />
     <None Include="CustomModules\NemerleModuleCompiler.cs">

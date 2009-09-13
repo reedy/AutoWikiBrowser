@@ -24,7 +24,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.CodeDom.Compiler;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using WikiFunctions.Plugin;
 using WikiFunctions;
 using WikiFunctions.CustomModules;
