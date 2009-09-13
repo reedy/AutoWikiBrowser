@@ -959,8 +959,7 @@ namespace WikiFunctions.Parse
             return newText;
         }
 
-        // cite podcast is non-compliant to citation core standards
-        private const string SiCitStart = @"(?si)(\{\{\s*cit[^{}]*\|(?<!cite podcast.*\|)\s*";
+        private const string SiCitStart = @"(?si)(\{\{\s*cit[^{}]*\|\s*";
         private const string CitAccessdate = SiCitStart + @"(?:access|archive)date\s*=\s*";
         private const string CitDate = SiCitStart + @"(?:archive|air)?date2?\s*=\s*";
         private const string CitYMonthD = SiCitStart + @"(?:archive|air|access)?date2?\s*=\s*\d{4})[-/\s]";
@@ -1051,6 +1050,10 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string CiteTemplateDates(string articleText)
         {
+            // cite podcast is non-compliant to citation core standards
+            if (Regex.IsMatch(articleText, @"({{\s*[Cc]ite podcast\s*\|)"))
+                return articleText;
+
             // note some incorrect date formats such as 3-2-2009 are ambiguous as could be 3-FEB-2009 or MAR-2-2009
             // these fixes don't address such errors
             string articleTextlocal = "";
