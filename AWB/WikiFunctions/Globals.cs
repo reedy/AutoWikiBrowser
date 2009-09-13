@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace WikiFunctions
 {
@@ -14,9 +12,16 @@ namespace WikiFunctions
         /// Whether we are running under Windows
         /// </summary>
         public static bool RunningOnWindows
-        { get { return windows; } }
+        { get { return Windows; } }
 
-        static readonly bool windows = Environment.OSVersion.VersionString.Contains("Windows");
+        private static readonly bool Windows = Environment.OSVersion.VersionString.Contains("Windows");
+
+        private static readonly bool Mono = Type.GetType("Mono.Runtime") != null;
+        /// <summary>
+        /// Returns whether we are using the Mono Runtime
+        /// </summary>
+        public static bool UsingMono
+        { get { return Mono; } }
 
         #region Unit tests support
         /// <summary>

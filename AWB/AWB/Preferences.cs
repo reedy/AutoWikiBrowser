@@ -81,7 +81,7 @@ namespace AutoWikiBrowser
             chkAlwaysConfirmExit.Checked = Properties.Settings.Default.AskForTerminate;
             chkPrivacy.Checked = !Properties.Settings.Default.Privacy;
 
-            if (Variables.UsingMono)
+            if (Globals.UsingMono)
             {
                 chkFlash.Enabled = false;
                 chkFlash.Checked = false;
