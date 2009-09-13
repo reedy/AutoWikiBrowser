@@ -67,9 +67,10 @@
     <Compile Include="Controls\NamespacesControl.Designer.cs">
       <DependentUpon>NamespacesControl.cs</DependentUpon>
     </Compile>
+    <None Include="CustomModules\BooModuleCompiler.cs" />
     <None Include="CustomModules\CppModuleCompiler.cs">
-	  <SubType>Code</SubType>
-	</None>
+      <SubType>Code</SubType>
+    </None>
     <Compile Include="CustomModules\CSharpModuleCompiler.cs" />
     <Compile Include="CustomModules\CustomModuleCompiler.cs" />
     <None Include="CustomModules\NemerleModuleCompiler.cs">
@@ -79,6 +80,7 @@
     <Compile Include="Diff\Diff.cs" />
     <Compile Include="Diff\Patch.cs" />
     <Compile Include="Diff\UnifiedDiff.cs" />
+    <Compile Include="Globals.cs" />
     <Compile Include="Lists\Providers\NonMWListProviders.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="Controls\Lists\ProtectionLevel.cs">

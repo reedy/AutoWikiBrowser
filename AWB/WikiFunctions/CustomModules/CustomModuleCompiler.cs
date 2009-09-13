@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.CodeDom.Compiler;
 using System.Reflection;
+using System.IO;
 
 namespace WikiFunctions.CustomModules
 {
@@ -10,6 +11,10 @@ namespace WikiFunctions.CustomModules
     /// </summary>
     public abstract class CustomModuleCompiler
     {
+        static CustomModuleCompiler()
+        {
+            AppDomain.CurrentDomain.AssemblyResolve += ResolveAssembly;
+        }
         /// <summary>
         /// Human-readable language name
         /// </summary>
@@ -86,6 +91,7 @@ namespace WikiFunctions.CustomModules
             AddToList(modules, typeof(VbModuleCompiler));
             //AddToList(modules, typeof(NemerleModuleCompiler));
             //AddToList(modules, typeof(CppModuleCompiler));
+            //AddToList(modules, typeof(BooModuleCompiler));
 
             return modules.ToArray();
         }
@@ -107,14 +113,37 @@ namespace WikiFunctions.CustomModules
             return type.GetConstructor(new Type[] { }).Invoke(new Type[] { });
         }
 
-        protected static T Instantiate<T>()
-        {
-            return (T)Instantiate(typeof(T));
-        }
-
         protected static object Instantiate(Assembly asm, string typeName)
         {
-            return Instantiate(asm.GetType(typeName, true));
+            return asm.CreateInstance(typeName);
+        }
+
+        static Dictionary<string, string> ResolvablePaths = new Dictionary<string, string>();
+
+        protected static Assembly LoadAssembly(string path, string dependantAssembliesPrefix)
+        {
+            var dir = Path.GetDirectoryName(path);
+
+            // Let the dumb CLR know where the other needed assemblies are
+            ResolvablePaths[dependantAssembliesPrefix] = dir;
+
+            var asm = Assembly.LoadFile(path);
+            if (asm == null) throw new FileNotFoundException("Can't find assembly", path);
+
+            return asm;
+        }
+
+        static Assembly ResolveAssembly(Object sender, ResolveEventArgs args)
+        {
+            var name = new AssemblyName(args.Name);
+
+            foreach (var p in ResolvablePaths)
+            {
+                if (name.Name.StartsWith(p.Key))
+                    return Assembly.LoadFile(Path.Combine(p.Value, name.Name + ".dll"));
+            }
+
+            return null;
         }
 
         #endregion
