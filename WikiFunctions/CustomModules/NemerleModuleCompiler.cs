@@ -23,7 +23,6 @@ namespace WikiFunctions.CustomModules
             var path = "C:\\Program Files\\Nemerle";
             var asm = Assembly.LoadFile(System.IO.Path.Combine(path, "Nemerle.Compiler.dll"));
             Compiler = (CodeDomProvider)Instantiate(asm, "Nemerle.Compiler.NemerleCodeProvider");
-
         }
 
         public override string Name

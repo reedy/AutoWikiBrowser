@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.CodeDom.Compiler;
-using System.Collections;
+﻿using System.CodeDom.Compiler;
 
 namespace WikiFunctions.CustomModules
 {

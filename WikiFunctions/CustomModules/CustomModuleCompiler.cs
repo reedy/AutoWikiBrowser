@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.CodeDom.Compiler;
 using System.Reflection;
 
@@ -86,6 +85,7 @@ namespace WikiFunctions.CustomModules
 
             AddToList(modules, typeof(VbModuleCompiler));
             //AddToList(modules, typeof(NemerleModuleCompiler));
+            //AddToList(modules, typeof(CppModuleCompiler));
 
             return modules.ToArray();
         }
