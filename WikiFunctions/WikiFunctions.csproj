@@ -76,6 +76,7 @@
     <None Include="CustomModules\NemerleModuleCompiler.cs">
       <SubType>Code</SubType>
     </None>
+    <None Include="CustomModules\JSharpModuleCompiler.cs" />
     <Compile Include="CustomModules\VbModuleCompiler.cs" />
     <Compile Include="Diff\Diff.cs" />
     <Compile Include="Diff\Patch.cs" />
