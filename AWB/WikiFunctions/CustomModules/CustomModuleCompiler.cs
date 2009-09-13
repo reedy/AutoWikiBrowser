@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.CodeDom.Compiler;
+using System.Reflection;
 
 namespace WikiFunctions.CustomModules
 {
@@ -33,6 +34,18 @@ namespace WikiFunctions.CustomModules
         /// </summary>
         public abstract string CodeExample
         { get; }
+
+        /// <summary>
+        /// This function checks if the current compiler can compile sources in a given language.
+        /// By default, the language should match the current compiler's language name exactly,
+        /// but descendants can override it so that, for example, C# 4.0 compiler could accept
+        /// C# 2.0 cources.
+        /// </summary>
+        /// <param name="language">Language name to check</param>
+        public virtual bool CanHandleLanguage(string language)
+        {
+            return Name == language;
+        }
 
         /// <summary>
         /// Compiles given source code
@@ -71,14 +84,39 @@ namespace WikiFunctions.CustomModules
             // for compatibility and user experience reason, we should maintain this order
             modules.Add(new CSharpCustomModule());
 
-            // If an exception is thrown, VB is unavailable - ignore silently
-            try
-            {
-                modules.Add(new VbModuleCompiler());
-            }
-            catch { }
+            AddToList(modules, typeof(VbModuleCompiler));
+            //AddToList(modules, typeof(NemerleModuleCompiler));
 
             return modules.ToArray();
         }
+
+        #region Helpers
+
+        private static void AddToList(List<CustomModuleCompiler> modules, Type type)
+        {
+            // If an exception is thrown, the language is unavailable - ignore silently
+            try
+            {
+                modules.Add((CustomModuleCompiler)Instantiate(type));
+            }
+            catch { }
+        }
+
+        protected static object Instantiate(Type type)
+        {
+            return type.GetConstructor(new Type[] { }).Invoke(new Type[] { });
+        }
+
+        protected static T Instantiate<T>()
+        {
+            return (T)Instantiate(typeof(T));
+        }
+
+        protected static object Instantiate(Assembly asm, string typeName)
+        {
+            return Instantiate(asm.GetType(typeName, true));
+        }
+
+        #endregion
     }
 }

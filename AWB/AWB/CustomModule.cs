@@ -55,7 +55,7 @@ namespace AutoWikiBrowser
             {
                 foreach (CustomModuleCompiler c in cmboLang.Items)
                 {
-                    if (c.Name == value)
+                    if (c.CanHandleLanguage(value))
                     {
                         cmboLang.SelectedItem = c;
                         return;

@@ -69,6 +69,9 @@
     </Compile>
     <Compile Include="CustomModules\CSharpModuleCompiler.cs" />
     <Compile Include="CustomModules\CustomModuleCompiler.cs" />
+    <None Include="CustomModules\NemerleModuleCompiler.cs">
+      <SubType>Code</SubType>
+    </None>
     <Compile Include="CustomModules\VbModuleCompiler.cs" />
     <Compile Include="Diff\Diff.cs" />
     <Compile Include="Diff\Patch.cs" />

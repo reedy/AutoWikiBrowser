@@ -17,9 +17,8 @@ namespace WikiFunctions.CustomModules
             // We assume here that VBCodeProvider is in the same DLL as Component (System.dll) for
             // Windows. Seems to be the case for Mono on Linux, too.
             var asm = typeof(System.ComponentModel.Component).Assembly;
-            var type = asm.GetType("Microsoft.VisualBasic.VBCodeProvider");
 
-            Compiler = (CodeDomProvider)type.GetConstructor(new Type[]{}).Invoke(new Type[]{});
+            Compiler = (CodeDomProvider)Instantiate(asm, "Microsoft.VisualBasic.VBCodeProvider");
         }
 
         public override string Name
