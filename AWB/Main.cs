@@ -1997,7 +1997,7 @@ window.scrollTo(0, diffTopY);
 
             lblOnlyBots.Visible = !bot;
 
-            if (!Variables.UsingMono) // fails unexplainably under Mono
+            if (!Globals.UsingMono) // fails unexplainably under Mono
             {
                 if (bot)
                 {
@@ -2395,7 +2395,7 @@ window.scrollTo(0, diffTopY);
         [Conditional("RELEASE")]
         private void Release()
         {
-            if (MainTab.Contains(tpBots) && !Variables.UsingMono)
+            if (MainTab.Contains(tpBots) && !Globals.UsingMono)
                 MainTab.Controls.Remove(tpBots);
         }
 

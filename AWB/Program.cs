@@ -39,7 +39,7 @@ namespace AutoWikiBrowser
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.ThreadException += ApplicationThreadException;
 
-                if (Variables.UsingMono)
+                if (Globals.UsingMono)
                 {
                     MessageBox.Show("AWB is not currently supported by mono. You may use it for testing purposes, but functionality is not guaranteed.",
                         "Not supported",
