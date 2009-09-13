@@ -1,9 +1,8 @@
 ﻿// EXCLUDED FROM COMPILATION
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Reflection;
 using System.CodeDom.Compiler;
+using System.IO;
 
 namespace WikiFunctions.CustomModules
 {
@@ -15,14 +14,10 @@ namespace WikiFunctions.CustomModules
     {
         public NemerleModuleCompiler()
         {
-//#pragma warning disable 0618
-//            var asm = Assembly.LoadWithPartialName("Nemerle.Compiler");
-//#pragma warning restore 0618
-//            Compiler = (CodeDomProvider)Instantiate(asm, "Nemerle.Compiler.NemerleCodeProvider");
-
-            var path = "C:\\Program Files\\Nemerle";
-            var asm = Assembly.LoadFile(System.IO.Path.Combine(path, "Nemerle.Compiler.dll"));
-            Compiler = (CodeDomProvider)Instantiate(asm, "Nemerle.Compiler.NemerleCodeProvider");
+            var asm = LoadAssembly(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+                "Nemerle\\Nemerle.Compiler.dll"),
+                "Nemerle.");
+            Compiler = (CodeDomProvider)asm.CreateInstance("Nemerle.Compiler.NemerleCodeProvider");
         }
 
         public override string Name

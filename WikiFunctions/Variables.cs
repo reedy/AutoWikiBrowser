@@ -31,29 +31,6 @@ namespace WikiFunctions
     public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, species, commons, meta, mediawiki, wikia, custom }
 
     /// <summary>
-    /// Holds some deepest-level things to be initialised prior to most other static classes,
-    /// including Variables
-    /// </summary>
-    public static class Globals
-    {
-        /// <summary>
-        /// Set this to true in unit tests, to disable checkpage loading and other slow stuff.
-        /// This disables some functions, however.
-        /// </summary>
-        public static bool UnitTestMode;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public static int UnitTestIntValue;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public static bool UnitTestBoolValue;
-    }
-
-    /// <summary>
     /// Holds static variables, to allow functionality on different wikis.
     /// </summary>
     public static partial class Variables
