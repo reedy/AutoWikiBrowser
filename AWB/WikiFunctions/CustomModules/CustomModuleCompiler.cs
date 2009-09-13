@@ -92,6 +92,7 @@ namespace WikiFunctions.CustomModules
             //AddToList(modules, typeof(NemerleModuleCompiler));
             //AddToList(modules, typeof(CppModuleCompiler));
             //AddToList(modules, typeof(BooModuleCompiler));
+            //AddToList(modules, typeof(JSharpModuleCompiler));
 
             return modules.ToArray();
         }
@@ -118,7 +119,7 @@ namespace WikiFunctions.CustomModules
             return asm.CreateInstance(typeName);
         }
 
-        static Dictionary<string, string> ResolvablePaths = new Dictionary<string, string>();
+        static readonly Dictionary<string, string> ResolvablePaths = new Dictionary<string, string>();
 
         protected static Assembly LoadAssembly(string path, string dependantAssembliesPrefix)
         {
