@@ -116,70 +116,64 @@ namespace WikiFunctions.DBScanner
         }
 
         private Regex TitleDoesRegex, TitleDoesNotRegex;
-        private Regex ArticleDoesRegex, ArticleDoesNotRegex;
-        private string ArticleContains, ArticleDoesNotContain;
+        private Regex ArticleDoesContain, ArticleDoesNotContain;
         private readonly List<int> Namespaces = new List<int>();
-        private bool ArticleCaseSensitive;
 
         private readonly CrossThreadQueue<string> Queue = new CrossThreadQueue<string>();
 
         private void MakePatterns()
         {
-            string strTitleNot = Convert(txtTitleNotContains.Text);
-            string strTitle = Convert(txtTitleContains.Text);
             RegexOptions articleRegOptions = RegexOptions.Compiled;
-            RegexOptions titleRegOptions = RegexOptions.Compiled;
 
-            if (!chkCaseSensitive.Checked)
+            if (!chkArticleCaseSensitive.Checked)
                 articleRegOptions |= RegexOptions.IgnoreCase;
-            if (chkMulti.Checked)
-                articleRegOptions |= RegexOptions.Multiline;
-            if (chkSingle.Checked)
-                articleRegOptions |= RegexOptions.Singleline;
 
-            ArticleCaseSensitive = chkCaseSensitive.Checked;
+            string articleContains = Convert(txtArticleDoesContain.Text);
+            string articleDoesNotContain = Convert(txtArticleDoesNotContain.Text);
 
-            if (chkRegex.Checked)
+            if (!chkArticleRegex.Checked)
             {
-                ArticleDoesRegex = new Regex(ArticleContains, articleRegOptions);
-                ArticleDoesNotRegex = new Regex(ArticleDoesNotContain, articleRegOptions);
-                ArticleContains = null;
-                ArticleDoesNotContain = null;
+                articleContains = Regex.Escape(articleContains);
+                articleDoesNotContain = Regex.Escape(articleDoesNotContain);
             }
             else
             {
-                ArticleDoesRegex = null;
-                ArticleDoesNotRegex = null;
-                ArticleContains = Convert(txtArticleDoesContain.Text);
-                ArticleDoesNotContain = Convert(txtArticleDoesNotContain.Text);
+                if (chkMulti.Checked)
+                    articleRegOptions |= RegexOptions.Multiline;
+                if (chkSingle.Checked)
+                    articleRegOptions |= RegexOptions.Singleline;
             }
+
+            ArticleDoesContain = new Regex(articleContains, articleRegOptions);
+            ArticleDoesNotContain = new Regex(articleDoesNotContain, articleRegOptions);
+
+            string titleNotContain = Convert(txtTitleNotContains.Text);
+            string titleContains = Convert(txtTitleContains.Text);
 
             if (!chkTitleRegex.Checked)
             {
-                strTitle = Regex.Escape(strTitle);
-                strTitleNot = Regex.Escape(strTitleNot);
+                titleContains = Regex.Escape(titleContains);
+                titleNotContain = Regex.Escape(titleNotContain);
             }
 
-            if (!chkTitleCase.Checked)
+            RegexOptions titleRegOptions = RegexOptions.Compiled;
+
+            if (!chkTitleCaseSensitive.Checked)
                 titleRegOptions = titleRegOptions | RegexOptions.IgnoreCase;
 
-            TitleDoesRegex = new Regex(strTitle, titleRegOptions);
-            TitleDoesNotRegex = new Regex(strTitleNot, titleRegOptions);
+            TitleDoesRegex = new Regex(titleContains, titleRegOptions);
+            TitleDoesNotRegex = new Regex(titleNotContain, titleRegOptions);
 
             Namespaces.Clear();
             Namespaces.AddRange(pageNamespaces.GetSelectedNamespaces());
-        }
-
-        private static Dictionary<string, bool> MakeReplacementDictionary(string rule, bool caseSensitive)
-        {
-            return new Dictionary<string, bool>(1) {{rule, caseSensitive}};
         }
 
         private void Start()
         {
             MakePatterns();
 
-            StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
+            StartTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second,
+                                     DateTime.Now.Millisecond);
             Limit = (int)nudLimitResults.Value;
 
             List<Scan> s = new List<Scan>();
@@ -191,20 +185,10 @@ namespace WikiFunctions.DBScanner
                 s.Add(new IsNotRedirect());
 
             if (chkArticleDoesContain.Checked)
-            {
-                if (ArticleContains != null) // simple search
-                    s.Add(new TextContains(MakeReplacementDictionary(ArticleContains, ArticleCaseSensitive)));
-                else // regex
-                    s.Add(new TextContainsRegex(ArticleDoesRegex));
-            }
+                s.Add(new TextContainsRegex(ArticleDoesContain));
 
             if (chkArticleDoesNotContain.Checked)
-            {
-                if (ArticleDoesNotContain != null)
-                    s.Add(new TextDoesNotContain(MakeReplacementDictionary(ArticleDoesNotContain, ArticleCaseSensitive)));
-                else
-                    s.Add(new TextDoesNotContainRegex(ArticleDoesNotRegex));
-            }
+                s.Add(new TextDoesNotContainRegex(ArticleDoesNotContain));
 
             if (chkTitleContains.Checked)
                 s.Add(new TitleContains(TitleDoesRegex));
@@ -282,9 +266,9 @@ namespace WikiFunctions.DBScanner
                 s.Add(new MissingDefaultsort());
 
             Main = new MainProcess(s, FileName, Priority, chkIgnoreComments.Checked, txtStartFrom.Text)
-            {
-                OutputQueue = Queue
-            };
+                       {
+                           OutputQueue = Queue
+                       };
 
             progressBar.Value = 0;
             Main.StoppedEvent += Stopped;
@@ -454,7 +438,7 @@ namespace WikiFunctions.DBScanner
 
         private void chkRegex_CheckedChanged(object sender, EventArgs e)
         {
-            bool regex = chkRegex.Checked;
+            bool regex = chkArticleRegex.Checked;
             chkMulti.Enabled = regex;
             chkSingle.Enabled = regex;
         }
@@ -709,8 +693,8 @@ namespace WikiFunctions.DBScanner
             chkArticleDoesContain.Checked = false;
             chkArticleDoesNotContain.Checked = false;
 
-            chkRegex.Checked = false;
-            chkCaseSensitive.Checked = false;
+            chkArticleRegex.Checked = false;
+            chkArticleCaseSensitive.Checked = false;
             chkMulti.Checked = false;
             chkSingle.Checked = false;
 

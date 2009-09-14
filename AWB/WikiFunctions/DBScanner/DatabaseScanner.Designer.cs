@@ -41,8 +41,8 @@ namespace WikiFunctions.DBScanner
             this.txtArticleDoesContain = new System.Windows.Forms.TextBox();
             this.chkArticleDoesNotContain = new System.Windows.Forms.CheckBox();
             this.txtArticleDoesNotContain = new System.Windows.Forms.TextBox();
-            this.chkRegex = new System.Windows.Forms.CheckBox();
-            this.chkCaseSensitive = new System.Windows.Forms.CheckBox();
+            this.chkArticleRegex = new System.Windows.Forms.CheckBox();
+            this.chkArticleCaseSensitive = new System.Windows.Forms.CheckBox();
             this.chkSingle = new System.Windows.Forms.CheckBox();
             this.chkMulti = new System.Windows.Forms.CheckBox();
             this.chkIgnoreComments = new System.Windows.Forms.CheckBox();
@@ -130,7 +130,7 @@ namespace WikiFunctions.DBScanner
             this.pageNamespaces = new WikiFunctions.Controls.NamespacesControl();
             this.tabTitle = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.chkTitleCase = new System.Windows.Forms.CheckBox();
+            this.chkTitleCaseSensitive = new System.Windows.Forms.CheckBox();
             this.chkTitleContains = new System.Windows.Forms.CheckBox();
             this.chkTitleRegex = new System.Windows.Forms.CheckBox();
             this.txtTitleContains = new System.Windows.Forms.TextBox();
@@ -236,8 +236,8 @@ namespace WikiFunctions.DBScanner
             this.tableLayoutPanel3.Controls.Add(this.txtArticleDoesContain, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.chkArticleDoesNotContain, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.txtArticleDoesNotContain, 1, 1);
-            this.tableLayoutPanel3.Controls.Add(this.chkRegex, 1, 2);
-            this.tableLayoutPanel3.Controls.Add(this.chkCaseSensitive, 1, 3);
+            this.tableLayoutPanel3.Controls.Add(this.chkArticleRegex, 1, 2);
+            this.tableLayoutPanel3.Controls.Add(this.chkArticleCaseSensitive, 1, 3);
             this.tableLayoutPanel3.Controls.Add(this.chkSingle, 2, 2);
             this.tableLayoutPanel3.Controls.Add(this.chkMulti, 2, 3);
             this.tableLayoutPanel3.Controls.Add(this.chkIgnoreComments, 1, 4);
@@ -298,25 +298,25 @@ namespace WikiFunctions.DBScanner
             this.txtArticleDoesNotContain.Size = new System.Drawing.Size(171, 20);
             this.txtArticleDoesNotContain.TabIndex = 3;
             // 
-            // chkRegex
+            // chkArticleRegex
             // 
-            this.chkRegex.AutoSize = true;
-            this.chkRegex.Location = new System.Drawing.Point(98, 55);
-            this.chkRegex.Name = "chkRegex";
-            this.chkRegex.Size = new System.Drawing.Size(57, 17);
-            this.chkRegex.TabIndex = 4;
-            this.chkRegex.Text = "&Regex";
-            this.chkRegex.CheckedChanged += new System.EventHandler(this.chkRegex_CheckedChanged);
+            this.chkArticleRegex.AutoSize = true;
+            this.chkArticleRegex.Location = new System.Drawing.Point(98, 55);
+            this.chkArticleRegex.Name = "chkArticleRegex";
+            this.chkArticleRegex.Size = new System.Drawing.Size(57, 17);
+            this.chkArticleRegex.TabIndex = 4;
+            this.chkArticleRegex.Text = "&Regex";
+            this.chkArticleRegex.CheckedChanged += new System.EventHandler(this.chkRegex_CheckedChanged);
             // 
-            // chkCaseSensitive
+            // chkArticleCaseSensitive
             // 
-            this.chkCaseSensitive.AutoSize = true;
-            this.chkCaseSensitive.Location = new System.Drawing.Point(98, 78);
-            this.chkCaseSensitive.Name = "chkCaseSensitive";
-            this.chkCaseSensitive.Size = new System.Drawing.Size(94, 17);
-            this.chkCaseSensitive.TabIndex = 5;
-            this.chkCaseSensitive.Text = "Case &sensitive";
-            this.tooltip.SetToolTip(this.chkCaseSensitive, "Changes case sensitivity");
+            this.chkArticleCaseSensitive.AutoSize = true;
+            this.chkArticleCaseSensitive.Location = new System.Drawing.Point(98, 78);
+            this.chkArticleCaseSensitive.Name = "chkArticleCaseSensitive";
+            this.chkArticleCaseSensitive.Size = new System.Drawing.Size(94, 17);
+            this.chkArticleCaseSensitive.TabIndex = 5;
+            this.chkArticleCaseSensitive.Text = "Case &sensitive";
+            this.tooltip.SetToolTip(this.chkArticleCaseSensitive, "Changes case sensitivity");
             // 
             // chkSingle
             // 
@@ -1277,7 +1277,7 @@ namespace WikiFunctions.DBScanner
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel2.Controls.Add(this.chkTitleCase, 2, 2);
+            this.tableLayoutPanel2.Controls.Add(this.chkTitleCaseSensitive, 2, 2);
             this.tableLayoutPanel2.Controls.Add(this.chkTitleContains, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.chkTitleRegex, 1, 2);
             this.tableLayoutPanel2.Controls.Add(this.txtTitleContains, 1, 0);
@@ -1293,16 +1293,16 @@ namespace WikiFunctions.DBScanner
             this.tableLayoutPanel2.Size = new System.Drawing.Size(517, 159);
             this.tableLayoutPanel2.TabIndex = 7;
             // 
-            // chkTitleCase
+            // chkTitleCaseSensitive
             // 
-            this.chkTitleCase.AutoSize = true;
-            this.chkTitleCase.Checked = true;
-            this.chkTitleCase.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkTitleCase.Location = new System.Drawing.Point(161, 55);
-            this.chkTitleCase.Name = "chkTitleCase";
-            this.chkTitleCase.Size = new System.Drawing.Size(94, 17);
-            this.chkTitleCase.TabIndex = 5;
-            this.chkTitleCase.Text = "Case &sensitive";
+            this.chkTitleCaseSensitive.AutoSize = true;
+            this.chkTitleCaseSensitive.Checked = true;
+            this.chkTitleCaseSensitive.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkTitleCaseSensitive.Location = new System.Drawing.Point(161, 55);
+            this.chkTitleCaseSensitive.Name = "chkTitleCaseSensitive";
+            this.chkTitleCaseSensitive.Size = new System.Drawing.Size(94, 17);
+            this.chkTitleCaseSensitive.TabIndex = 5;
+            this.chkTitleCaseSensitive.Text = "Case &sensitive";
             // 
             // chkTitleContains
             // 
@@ -1711,8 +1711,8 @@ namespace WikiFunctions.DBScanner
         private ToolStripStatusLabel lblCount;
         private ToolStripMenuItem removeToolStripMenuItem;
         private GroupBox gbAWBSpecific;
-        private CheckBox chkCaseSensitive;
-        private CheckBox chkRegex;
+        private CheckBox chkArticleCaseSensitive;
+        private CheckBox chkArticleRegex;
         private NumericUpDown nudLength;
         private Label lblLinks;
         private ComboBox cmboLength;
@@ -1805,7 +1805,7 @@ namespace WikiFunctions.DBScanner
         private CheckBox chkProtection;
         private TabPage tabTitle;
         private TableLayoutPanel tableLayoutPanel2;
-        private CheckBox chkTitleCase;
+        private CheckBox chkTitleCaseSensitive;
         private CheckBox chkTitleContains;
         private CheckBox chkTitleRegex;
         private TextBox txtTitleContains;
