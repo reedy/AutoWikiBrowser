@@ -616,6 +616,9 @@ namespace WikiFunctions
         /// </summary>
         public static string RemoveSyntax(string text)
         {
+            if (string.IsNullOrEmpty(text))
+                return text;
+
             if (text[0] == '#' || text[0] == '*')
                 text = text.Substring(1);
 
