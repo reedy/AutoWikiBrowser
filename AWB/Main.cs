@@ -4440,7 +4440,7 @@ window.scrollTo(0, diffTopY);
             {
                 // What, no <big>, <font color="red"> and <blink>?
                 MessageBox.Show(this, "Please review the custom module code and save the config on your PC manually.\r\n"
-                    + "DON'T TRUST ANYTNING YOU FIND ONT THE INTERNET UNLESS YOU UNDERSTAND WHAT IT DOES.\r\n"
+                    + "DON'T TRUST ANYTHING YOU FIND ON THE INTERNET UNLESS YOU UNDERSTAND WHAT IT DOES.\r\n"
                     + "Failure to abide by this may result in arbitrary code execution on your machine.",
                     "Security warning - READ THIS", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 e.Cancel = true;
