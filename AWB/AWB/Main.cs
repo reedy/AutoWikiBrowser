@@ -3983,6 +3983,9 @@ window.scrollTo(0, diffTopY);
             if (!string.IsNullOrEmpty(Profiles.SettingsToLoad))
                 LoadPrefs(Profiles.SettingsToLoad);
 
+            TheArticle = null;
+            txtEdit.Text = "";
+
             CheckStatus(true);
 
             UpdateStatusUI();
