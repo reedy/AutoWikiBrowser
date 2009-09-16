@@ -33,14 +33,8 @@ namespace WikiFunctions
         /// </summary>
         public static string ListMakerText;
 
-        /// <summary>
-        /// Displays exception information. Should be called from try...catch handlers
-        /// </summary>
-        /// <param name="ex">Exception object to handle</param>
-        new public static void Handle(Exception ex)
+        private static bool HandleKnownExceptions(Exception ex)
         {
-            if (ex == null) return;
-
             // invalid regex - only ArgumentException, without subclasses
             if (ex is ArgumentException && ex.StackTrace.Contains("System.Text.RegularExpressions"))
             {
@@ -60,63 +54,75 @@ namespace WikiFunctions
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             // disk writer error / full
-            else if (ex is System.IO.IOException || ex is ConfigurationErrorsException 
-                && (ex.InnerException != null && ex.InnerException.InnerException != null 
+            else if (ex is System.IO.IOException || ex is ConfigurationErrorsException
+                && (ex.InnerException != null && ex.InnerException.InnerException != null
                 && ex.InnerException.InnerException is System.IO.IOException))
             {
                 MessageBox.Show(ex.Message, "Disk write error - is disk full?",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            else // suggest a bug report for other exceptions
+            else
+                return false;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Displays exception information. Should be called from try...catch handlers
+        /// </summary>
+        /// <param name="ex">Exception object to handle</param>
+        new public static void Handle(Exception ex)
+        {
+            if (ex == null || HandleKnownExceptions(ex)) return;
+
+            // suggest a bug report for other exceptions
+            ErrorHandler handler = new ErrorHandler { txtError = { Text = ex.Message } };
+
+            StringBuilder errorMessage = new StringBuilder("{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = ");
+
+            if (Thread.CurrentThread.Name != "Main thread")
+                errorMessage.Append("\r\nThread: " + Thread.CurrentThread.Name);
+
+            errorMessage.Append("<table>");
+            FormatException(ex, errorMessage, ExceptionKind.TopLevel);
+            errorMessage.Append("</table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version);
+
+            // suppress unhandled exception if Variables constructor says 'ouch'
+            string revision;
+            try
             {
-                ErrorHandler handler = new ErrorHandler {txtError = {Text = ex.Message}};
-
-                StringBuilder errorMessage = new StringBuilder("{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = ");
-
-                if (Thread.CurrentThread.Name != "Main thread")
-                    errorMessage.Append("\r\nThread: " + Thread.CurrentThread.Name);
-
-                errorMessage.Append("<table>");
-                FormatException(ex, errorMessage, ExceptionKind.TopLevel);
-                errorMessage.Append("</table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version);
-
-                // suppress unhandled exception if Variables constructor says 'ouch'
-                string revision;
-                try
-                {
-                    revision = Variables.Revision;
-                }
-                catch
-                {
-                    revision = "?";
-                }
-
-                if (!revision.Contains("?")) errorMessage.Append(", revision " + revision);
-
-                if (!string.IsNullOrEmpty(CurrentPage))
-                {
-                    // don't use Tools.WikiEncode here, to keep code portable to updater
-                    // as it's not a pretty URL, we don't need to follow the MediaWiki encoding rules
-                    string link = "[" + Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(CurrentPage) + "&oldid=" + CurrentRevision + "]";
-
-                    errorMessage.Append("\r\n | duplicate = [encountered while processing page ''" + link + "'']");
-                }
-                else if (!string.IsNullOrEmpty(ListMakerText))
-                    errorMessage.Append("\r\n | duplicate = '''ListMaker Text:''' " + ListMakerText);
-
-                if (!string.IsNullOrEmpty(Variables.URL))
-                    errorMessage.Append("\r\n | site = " + Variables.URL);
-
-                errorMessage.Append("\r\n | workaround     = <!-- Any workaround for the problem -->");
-                errorMessage.Append("\r\n | fix_version    = <!-- Version of AWB the fix will be included in; AWB developer will complete when it's fixed -->");
-                errorMessage.Append("\r\n}}");
-
-                handler.txtDetails.Text = errorMessage.ToString();
-
-                handler.txtSubject.Text = ex.GetType().Name + " in " + Thrower(ex);
-
-                handler.ShowDialog();
+                revision = Variables.Revision;
             }
+            catch
+            {
+                revision = "?";
+            }
+
+            if (!revision.Contains("?")) errorMessage.Append(", revision " + revision);
+
+            if (!string.IsNullOrEmpty(CurrentPage))
+            {
+                // don't use Tools.WikiEncode here, to keep code portable to updater
+                // as it's not a pretty URL, we don't need to follow the MediaWiki encoding rules
+                string link = "[" + Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(CurrentPage) + "&oldid=" + CurrentRevision + "]";
+
+                errorMessage.Append("\r\n | duplicate = [encountered while processing page ''" + link + "'']");
+            }
+            else if (!string.IsNullOrEmpty(ListMakerText))
+                errorMessage.Append("\r\n | duplicate = '''ListMaker Text:''' " + ListMakerText);
+
+            if (!string.IsNullOrEmpty(Variables.URL))
+                errorMessage.Append("\r\n | site = " + Variables.URL);
+
+            errorMessage.Append("\r\n | workaround     = <!-- Any workaround for the problem -->");
+            errorMessage.Append("\r\n | fix_version    = <!-- Version of AWB the fix will be included in; AWB developer will complete when it's fixed -->");
+            errorMessage.Append("\r\n}}");
+
+            handler.txtDetails.Text = errorMessage.ToString();
+
+            handler.txtSubject.Text = ex.GetType().Name + " in " + Thrower(ex);
+
+            handler.ShowDialog();
         }
 
         #region Static helper functions
