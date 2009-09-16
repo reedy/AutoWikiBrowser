@@ -30,15 +30,15 @@ import System.Text.*;
 import System.Text.RegularExpressions.*;
 import WikiFunctions.*;
 
-class CustomModule extends WikiFunctions.Plugin.IModule
+class CustomModule implements WikiFunctions.Plugin.IModule
 {
-	WikiFunctions.Plugin.IAutoWikiBrowser awb = null;
+    WikiFunctions.Plugin.IAutoWikiBrowser awb = null;
 
-	public CustomModule(WikiFunctions.Plugin.IAutoWikiBrowser mAWB)
-	{
-	   awb = mAWB;
-	}
-	";
+    public CustomModule(WikiFunctions.Plugin.IAutoWikiBrowser mAWB)
+    {
+       awb = mAWB;
+    }
+";
             }
         }
 
@@ -52,7 +52,7 @@ class CustomModule extends WikiFunctions.Plugin.IModule
         {
             get
             {
-                return @"	public String ProcessArticle(String ArticleText, String ArticleTitle, int wikiNamespace, String Summary, out Boolean Skip)
+                return @"	public String ProcessArticle(String ArticleText, String ArticleTitle, int wikiNamespace, String Summary, boolean Skip)
 	{
             Skip = false;
             Summary = ""test"";
