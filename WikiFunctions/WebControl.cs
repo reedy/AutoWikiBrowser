@@ -419,8 +419,9 @@ namespace WikiFunctions.Browser
 
             try
             {
-                Regex r = new Regex("var " + name + " = (.*?);\n");
-                Match m = r.Match(GetHead());
+                Regex r = new Regex(@"^\s*(?:var )?\s*" + name + @"\s*=\s*(.*)[;,]", RegexOptions.Multiline);
+                var head = GetHead();
+                Match m = r.Match(head);
 
                 if (!m.Groups[1].Success)
                     return "";
