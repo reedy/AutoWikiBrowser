@@ -337,7 +337,7 @@ namespace AutoWikiBrowser
                 txtAutosave.Text = saveFile.FileName;
         }
 
-        private void btnApply_Click(object sender, EventArgs e)
+        private void btnOk_Click(object sender, EventArgs e)
         {
             bool save = false;
 

@@ -103,7 +103,7 @@ namespace AutoWikiBrowser
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 2;
             this.btnOK.Text = "OK";
-            this.btnOK.Click += new System.EventHandler(this.btnApply_Click);
+            this.btnOK.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // cmboProject
             // 
