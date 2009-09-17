@@ -3592,13 +3592,15 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public static string FixPeopleCategories(string articleText, string articleTitle, bool parseTalkPage)
         {
-            if (Variables.LangCode != "en" || WikiRegexes.Lifetime.IsMatch(articleText) || !IsArticleAboutAPerson(articleText, articleTitle, parseTalkPage))
+            if (Variables.LangCode != "en" || WikiRegexes.Lifetime.IsMatch(articleText))
                 return YearOfBirthMissingCategory(articleText);
 
             // over 20 references or long and not DOB/DOD categorised at all yet: implausible
             if (WikiRegexes.Refs.Matches(articleText).Count > 20 || (articleText.Length > 15000 && !WikiRegexes.BirthsCategory.IsMatch(articleText)
                 && !WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)))
                 return YearOfBirthMissingCategory(articleText);
+
+            string articleTextBefore = articleText;
 
             // get the zeroth section (text upto first heading)
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
@@ -3744,6 +3746,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             }
 
             // TODO: check for lifetime and explicit XXX births/deaths categories and remove the categories if they co-incide
+
+            // do this check last as IsArticleAboutAPerson can be relatively slow
+            if (!articleText.Equals(articleTextBefore) && !IsArticleAboutAPerson(articleTextBefore, articleTitle, parseTalkPage))
+                return YearOfBirthMissingCategory(articleTextBefore);
 
             return YearOfBirthMissingCategory(articleText);
         }
