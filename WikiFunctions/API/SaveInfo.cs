@@ -51,6 +51,18 @@ namespace WikiFunctions.API
         { get; private set; }
 
         /// <summary>
+        /// Whether the save operation actually didn't change anything
+        /// </summary>
+        public bool NoChange
+        { get; private set; }
+
+        /// <summary>
+        /// true if we've just created a page
+        /// </summary>
+        public bool IsNewPage
+        { get; private set; }
+
+        /// <summary>
         /// 
         /// </summary>
         public string ResponseText
@@ -62,12 +74,16 @@ namespace WikiFunctions.API
             var xr = XmlReader.Create(new StringReader(xml));
             xr.ReadToFollowing("edit");
             // result="Success" should already be checked before
+            NoChange = xr.GetAttribute("nochange") != null;
+            IsNewPage = xr.GetAttribute("new") != null;
             Title = xr.GetAttribute("title");
             PageId = int.Parse(xr.GetAttribute("pageid"));
-            NewId = int.Parse(xr.GetAttribute("newrevid"));
-            int old;
-            int.TryParse(xr.GetAttribute("oldrevid"), out old); // will be absent on page creation
-            OldId = old;
+
+            int rev;
+            int.TryParse(xr.GetAttribute("newrevid"), out rev); // will be absent on null edits
+            NewId = rev;
+            int.TryParse(xr.GetAttribute("oldrevid"), out rev); // will be absent on page creation too
+            OldId = rev;
         }
     }
 }
