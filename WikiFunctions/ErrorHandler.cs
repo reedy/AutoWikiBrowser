@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading;
 using System.Text.RegularExpressions;
 using System.Web;
+using WikiFunctions.API;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 /// Don't use anything WikiFunctions-specific here, for source-compatibility with Updater  ///
@@ -80,8 +81,9 @@ namespace WikiFunctions
 
             StringBuilder errorMessage = new StringBuilder("{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = ");
 
-            if (Thread.CurrentThread.Name != "Main thread")
-                errorMessage.Append("\r\nThread: " + Thread.CurrentThread.Name);
+            var thread = ex is ApiException ? (ex as ApiException).ThrowingThread : Thread.CurrentThread;
+            if (thread.Name != "Main thread")
+                errorMessage.Append("\r\nThread: " + thread.Name);
 
             errorMessage.Append("<table>");
             FormatException(ex, errorMessage, ExceptionKind.TopLevel);

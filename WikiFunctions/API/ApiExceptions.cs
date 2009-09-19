@@ -16,6 +16,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 using System;
+using System.Threading;
 
 namespace WikiFunctions.API
 {
@@ -30,16 +31,24 @@ namespace WikiFunctions.API
         public ApiEdit Editor
         { get; private set; }
 
+        /// <summary>
+        /// Thread in which the exception was thrown
+        /// </summary>
+        public Thread ThrowingThread
+        { get; private set; }
+
         public ApiException(ApiEdit editor, string message)
             : base(message)
         {
             Editor = editor;
+            ThrowingThread = Thread.CurrentThread;
         }
 
         public ApiException(ApiEdit editor, string message, Exception innerException)
             : base(message, innerException)
         {
             Editor = editor;
+            ThrowingThread = Thread.CurrentThread;
         }
     }
 
