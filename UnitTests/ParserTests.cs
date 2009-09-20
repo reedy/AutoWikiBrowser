@@ -1960,9 +1960,13 @@ http://example.com }}");
         [Test]
         public void CanonicalizeTitleAggressively()
         {
+            Assert.AreEqual("Foo", Parsers.CanonicalizeTitleAggressively("Foo"));
+
             Assert.AreEqual("Foo (bar)", Parsers.CanonicalizeTitleAggressively("foo_%28bar%29#anchor"));
             Assert.AreEqual("Wikipedia:Foo", Parsers.CanonicalizeTitleAggressively("project : foo"));
             Assert.AreEqual("File:Foo.jpg", Parsers.CanonicalizeTitleAggressively("Image: foo.jpg "));
+
+            Assert.AreEqual("Faith + Hope + Love", Parsers.CanonicalizeTitleAggressively("Faith + Hope + Love"));
         }
 
         [Test]
