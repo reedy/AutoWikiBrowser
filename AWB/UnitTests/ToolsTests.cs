@@ -263,6 +263,11 @@ bar"));
         }
 
         [Test]
+        public void WikiDecode()
+        {
+        }
+
+        [Test]
         public void SplitToSections()
         {
             string[] sections = Tools.SplitToSections("foo\r\n==bar=\r\nboo\r\n\r\n= boz =\r\n==quux==");
