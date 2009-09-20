@@ -35,26 +35,26 @@ namespace AutoWikiBrowser
 {
     internal sealed partial class PluginManager : Form
     {
-        private readonly IAutoWikiBrowser AWB;
+        private readonly IAutoWikiBrowser _awb;
         //List<string> prevArticlePlugins;
         //List<string> prevLMPlugins;
 
-        private static string LastPluginLoadedLocation;
+        private static string _lastPluginLoadedLocation;
 
         public PluginManager(IAutoWikiBrowser awb) //, List<string> previousPlugins)
         {
             InitializeComponent();
-            AWB = awb;
+            _awb = awb;
             //prevPlugins = previousPlugins;
         }
 
         public static void LoadNewPlugin(IAutoWikiBrowser awb)
         {
             OpenFileDialog pluginOpen = new OpenFileDialog();
-            if (string.IsNullOrEmpty(LastPluginLoadedLocation))
+            if (string.IsNullOrEmpty(_lastPluginLoadedLocation))
                 LoadLastPluginLoadedLocation();
 
-            pluginOpen.InitialDirectory = string.IsNullOrEmpty(LastPluginLoadedLocation) ? Application.StartupPath : LastPluginLoadedLocation;
+            pluginOpen.InitialDirectory = string.IsNullOrEmpty(_lastPluginLoadedLocation) ? Application.StartupPath : _lastPluginLoadedLocation;
             
             pluginOpen.DefaultExt = "dll";
             pluginOpen.Filter = "DLL files|*.dll";
@@ -65,9 +65,9 @@ namespace AutoWikiBrowser
             if (!string.IsNullOrEmpty(pluginOpen.FileName))
             {
                 string newPath = Path.GetDirectoryName(pluginOpen.FileName);
-                if (LastPluginLoadedLocation != newPath)
+                if (_lastPluginLoadedLocation != newPath)
                 {
-                    LastPluginLoadedLocation = newPath;
+                    _lastPluginLoadedLocation = newPath;
                     SaveLastPluginLoadedLocation();
                 }
             }
@@ -84,7 +84,7 @@ namespace AutoWikiBrowser
                     OpenSubKey("Software\\AutoWikiBrowser");
 
                 if (reg != null)
-                    LastPluginLoadedLocation = reg.GetValue("RecentPluginLoadedLocation", "").ToString();
+                    _lastPluginLoadedLocation = reg.GetValue("RecentPluginLoadedLocation", "").ToString();
             }
             catch { }
         }
@@ -97,7 +97,7 @@ namespace AutoWikiBrowser
             CreateSubKey("Software\\AutoWikiBrowser");
 
                 if (reg != null)
-                    reg.SetValue("RecentPluginLoadedLocation", LastPluginLoadedLocation);
+                    reg.SetValue("RecentPluginLoadedLocation", _lastPluginLoadedLocation);
             }
             catch { }
         }
@@ -110,7 +110,7 @@ namespace AutoWikiBrowser
 
         private void loadNewPluginsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            LoadNewPlugin(AWB);
+            LoadNewPlugin(_awb);
             lvPlugin.Items.Clear();
             LoadLoadedPluginList();
             //LoadPreviouslyLoadedPluginList();
@@ -179,7 +179,7 @@ namespace AutoWikiBrowser
                 plugins[i] = lvPlugin.Items[lvPlugin.SelectedIndices[i]].Text;
             }
 
-            Plugin.LoadPlugins(AWB, plugins, true);
+            Plugin.LoadPlugins(_awb, plugins, true);
         }
 
         private void UpdatePluginCount()
@@ -224,7 +224,7 @@ namespace AutoWikiBrowser
             /// <returns>Number of Plugins</returns>
             internal static int Count()
             {
-                return AWBPlugins.Count;
+                return AWBPlugins.Count + AWBBasePlugins.Count + ListMakerPlugins.Count;
             }
 
             /// <summary>
@@ -295,12 +295,14 @@ namespace AutoWikiBrowser
                 if (!FailedPlugins.Contains(plugin))
                     FailedPlugins.Add(plugin);
 
-                PluginObsolete(plugin.GetType().Assembly.Location);
+                PluginObsolete(plugin.GetType().Assembly.Location, plugin.GetType().Assembly.GetName().Version.ToString());
             }
 
-            static void PluginObsolete(string name)
+            static void PluginObsolete(string name, string version)
             {
-                MessageBox.Show("The plugin '" + name + "' is out-of date and needs to be updated.",
+                MessageBox.Show(
+                    "The plugin '" + name + "' " + (!string.IsNullOrEmpty(name) ? "(" + version + ")" : "") +
+                    "is out-of date and needs to be updated.",
                     "Plugin error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
@@ -409,11 +411,11 @@ namespace AutoWikiBrowser
                         }
                         catch (ReflectionTypeLoadException)
                         {
-                            PluginObsolete(plugin);
+                            PluginObsolete(plugin, asm.GetName().Version.ToString());
                         }
                         catch (MissingMemberException)
                         {
-                            PluginObsolete(plugin);
+                            PluginObsolete(plugin, asm.GetName().Version.ToString());
                         }
                         catch (Exception ex)
                         {
