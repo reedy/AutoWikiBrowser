@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System;
+using System.Security;
 using System.Windows.Forms;
 using WikiFunctions;
 
@@ -56,7 +57,10 @@ namespace AutoWikiBrowser
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                if (ex is SecurityException) //"Fix" - http://geekswithblogs.net/TimH/archive/2006/03/08/71714.aspx
+                    MessageBox.Show("AWB is unable to start up from the current location due to lack of permissions.\r\nPlease try on a local drive or simiar.", "Permissions Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                    ErrorHandler.Handle(ex);
             }
         }
 
