@@ -4057,7 +4057,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         private string TagOrphans(string articleText, string articleTitle, ref string summary)
         {
             // check if not orphaned
-            bool orphaned = true;
+            bool orphaned;
             if (Globals.UnitTestMode)
             {
                 orphaned = Globals.UnitTestBoolValue;
@@ -4066,8 +4066,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             {
                 try
                 {
-                    if (WlhProv.MakeList(Namespace.Article, articleTitle).Count > 0)
-	                orphaned = false;
+                    orphaned = (WlhProv.MakeList(Namespace.Article, articleTitle).Count > 0);
                 }
                 catch (Exception ex)
                 {
