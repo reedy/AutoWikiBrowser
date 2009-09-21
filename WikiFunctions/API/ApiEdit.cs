@@ -911,6 +911,8 @@ namespace WikiFunctions.API
             return CheckForErrors(xml, null);
         }
 
+        private static readonly Regex MaxLag = new Regex(@": (\d+) seconds lagged", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
         /// <summary>
         /// Checks the XML returned by the server for error codes and throws an appropriate exception
         /// </summary>
@@ -945,7 +947,7 @@ namespace WikiFunctions.API
                 {
                     case "maxlag": //guessing
                         int maxlag;
-                        int.TryParse(Regex.Match(xml, @": (\d+) seconds lagged").Groups[1].Value, out maxlag);
+                        int.TryParse(MaxLag.Match(xml).Groups[1].Value, out maxlag);
                         throw new MaxlagException(this, maxlag, 10);
                     default:
                         throw new ApiErrorException(this, errorCode, errorMessage);
