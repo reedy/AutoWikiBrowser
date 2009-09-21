@@ -38,19 +38,19 @@ namespace WikiFunctions.Parse
             InitializeComponent();
         }
 
-        private string EditSummary = "";
+        private string _editSummary = "";
 
-        private readonly HideText Remove = new HideText(true, false, true);
+        private readonly HideText _remove = new HideText(true, false, true);
 
-        private readonly List<Replacement> ReplacementList = new List<Replacement>();
+        private readonly List<Replacement> _replacementList = new List<Replacement>();
 
-        private bool ApplyDefault;
+        private bool _applyDefault;
         private bool ApplyDefaultFormatting
         {
-            get { return ApplyDefault; }
+            get { return _applyDefault; }
             set
             {
-                ApplyDefault = value;
+                _applyDefault = value;
                 dataGridView1.AllowUserToAddRows = value;
             }
         }
@@ -108,7 +108,7 @@ namespace WikiFunctions.Parse
 
         public void MakeList()
         {
-            ReplacementList.Clear();
+            _replacementList.Clear();
 
             foreach (DataGridViewRow dataGridRow in dataGridView1.Rows)
             {
@@ -118,7 +118,7 @@ namespace WikiFunctions.Parse
                 if (dataGridRow.Cells["find"].Value == null)
                     continue;
 
-                ReplacementList.Add(RowToReplacement(dataGridRow));
+                _replacementList.Add(RowToReplacement(dataGridRow));
             }
         }
 
@@ -134,7 +134,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// 
         /// </summary>
-        public int NoOfReplacements { get { return ReplacementList.Count; } }
+        public int NoOfReplacements { get { return _replacementList.Count; } }
 
         /// <summary>
         /// 
@@ -153,15 +153,15 @@ namespace WikiFunctions.Parse
             if (!HasReplacements)
                 return articleText;
 
-            EditSummary = "";
-            RemovedSummary = "";
+            _editSummary = "";
+            _removedSummary = "";
 
             if (chkIgnoreMore.Checked)
-                articleText = Remove.HideMore(articleText);
+                articleText = _remove.HideMore(articleText);
             else if (chkIgnoreLinks.Checked)
-                articleText = Remove.Hide(articleText);
+                articleText = _remove.Hide(articleText);
 
-            foreach (Replacement rep in ReplacementList)
+            foreach (Replacement rep in _replacementList)
             {
                 if (!rep.Enabled)
                     continue;
@@ -170,25 +170,33 @@ namespace WikiFunctions.Parse
             }
 
             if (chkIgnoreMore.Checked)
-                articleText = Remove.AddBackMore(articleText);
+                articleText = _remove.AddBackMore(articleText);
             else if (chkIgnoreLinks.Checked)
-                articleText = Remove.AddBack(articleText);
+                articleText = _remove.AddBack(articleText);
 
             if (chkAddToSummary.Checked) 
             {
-              if (!string.IsNullOrEmpty(EditSummary))
-                  editSummary = ", Replaced: " + EditSummary.Trim();
+              if (!string.IsNullOrEmpty(_editSummary))
+                  editSummary = ", Replaced: " + _editSummary.Trim();
                   
-              if (!string.IsNullOrEmpty(RemovedSummary))
-                  editSummary += ", Removed: " + RemovedSummary.Trim();
+              if (!string.IsNullOrEmpty(_removedSummary))
+                  editSummary += ", Removed: " + _removedSummary.Trim();
             }
 
             return articleText;
         }
 
-        private string Summary = "";
-        private string RemovedSummary = "";
+        private string _summary = "", _removedSummary = "";
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="findThis"></param>
+        /// <param name="replaceWith"></param>
+        /// <param name="articleText"></param>
+        /// <param name="articleTitle"></param>
+        /// <param name="rOptions"></param>
+        /// <returns></returns>
         private string PerformFindAndReplace(string findThis, string replaceWith, string articleText, string articleTitle, RegexOptions rOptions)
         {
             findThis = Tools.ApplyKeyWords(articleTitle, findThis);
@@ -205,21 +213,21 @@ namespace WikiFunctions.Parse
                 {
                     if (!string.IsNullOrEmpty(matches[0].Result(replaceWith)))
                     {
-                        Summary = matches[0].Value + Arrow + matches[0].Result(replaceWith);
+                        _summary = matches[0].Value + Arrow + matches[0].Result(replaceWith);
 
                         if (matches.Count > 1)
-                            Summary += " (" + matches.Count + ")";
+                            _summary += " (" + matches.Count + ")";
 
-                        EditSummary += Summary + ", ";
+                        _editSummary += _summary + ", ";
                     }
                     else
                     {
-                        RemovedSummary += matches[0].Value;
+                        _removedSummary += matches[0].Value;
                         
                         if (matches.Count > 1)
-                            RemovedSummary += " (" + matches.Count + ")";
+                            _removedSummary += " (" + matches.Count + ")";
                             
-                        RemovedSummary += ", ";
+                        _removedSummary += ", ";
                     }
                 }
             }
@@ -256,7 +264,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         public void Clear()
         {
-            ReplacementList.Clear();
+            _replacementList.Clear();
             dataGridView1.Rows.Clear();
         }
 
@@ -310,7 +318,7 @@ namespace WikiFunctions.Parse
             if (!r.Enabled)
                 dataGridView1.Rows[dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGray;
 
-            ReplacementList.Add(r);
+            _replacementList.Add(r);
         }
 
         /// <summary>
@@ -330,7 +338,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         public List<Replacement> GetList()
         {
-            return ReplacementList;
+            return _replacementList;
         }
 
         /// <summary>
