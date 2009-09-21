@@ -2439,7 +2439,6 @@ window.scrollTo(0, diffTopY);
                     //CreateEditor();
                 }
             }
-            ListMaker.AddRemoveRedirects();
         }
 
         private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
