@@ -873,8 +873,8 @@ namespace WikiFunctions.Lists
 
             foreach (string page in searchCriteria)
             {
-                string url = "list=search&srwhat=" + Srwhat + "&srsearch=all:\""
-                    + HttpUtility.UrlEncode(page) + "\"&srlimit=max";
+                string url = "list=search&srwhat=" + Srwhat + "&srsearch=all:'"
+                    + HttpUtility.UrlEncode(page) + "'&srlimit=max";
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
