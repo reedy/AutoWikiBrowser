@@ -27,6 +27,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 using System.Text.RegularExpressions;
+using WikiFunctions.API;
 using WikiFunctions.Lists;
 
 namespace WikiFunctions.Controls.Lists
@@ -736,10 +737,17 @@ namespace WikiFunctions.Controls.Lists
             {
                 BusyStatus = true;
 
-                if (!provider.UserInputTextBoxEnabled)
-                    Add(ProviderToRun.MakeList(new string[0]));
-                else
-                    Add(ProviderToRun.MakeList(sourceValues));
+                try
+                {
+                    if (!provider.UserInputTextBoxEnabled)
+                        Add(ProviderToRun.MakeList(new string[0]));
+                    else
+                        Add(ProviderToRun.MakeList(sourceValues));
+                }
+                catch (FeatureDisabledException fde)
+                {
+                    DisabledListProvider(fde);
+                }
 
                 BusyStatus = false;
                 UpdateNumberOfArticles();
@@ -761,6 +769,10 @@ namespace WikiFunctions.Controls.Lists
                 Add(ProviderToRun.MakeList(Source));
             }
             catch (ThreadAbortException) { }
+            catch (FeatureDisabledException fde)
+            {
+                DisabledListProvider(fde);
+            }
             catch (Exception ex)
             {
                 ErrorHandler.ListMakerText = UserInputTextBox.Text;
@@ -775,6 +787,14 @@ namespace WikiFunctions.Controls.Lists
                     RemoveListDuplicates();
                 StopProgressBar();
             }
+        }
+
+        private void DisabledListProvider(FeatureDisabledException fde)
+        {
+            MessageBox.Show(
+                "Unable to generate lists using " + ProviderToRun.DisplayText +
+                ". Removing from the list of providers during this session", fde.DisabledFeature + "is disabled");
+            ListItems.Remove(ProviderToRun);
         }
 
         private void RemoveSelectedArticle()
