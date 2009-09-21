@@ -218,7 +218,7 @@ namespace WikiFunctions.Controls.Lists
 
         public void CopyTo(Article[] array, int arrayIndex)
         {
-            throw new Exception("The method or operation is not implemented.");
+            lbArticles.Items.CopyTo(array, arrayIndex);
         }
 
         /// <summary>
