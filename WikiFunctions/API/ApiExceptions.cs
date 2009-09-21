@@ -80,12 +80,28 @@ namespace WikiFunctions.API
         public string ApiErrorMessage
         { get; private set; }
 
+
         public ApiErrorException(ApiEdit editor, string errorCode, string errorMessage)
             : base(editor, "Bot API returned the following error: '" + errorMessage + "'")
         {
             ErrorCode = errorCode;
             ApiErrorMessage = errorMessage;
         }
+    }
+
+    /// <summary>
+    /// Thrown when a feature in the Api is disabled
+    /// </summary>
+    public class FeatureDisabledException : ApiErrorException
+    {
+        public FeatureDisabledException(ApiEdit editor, string errorCode, string errorMessage)
+            : base(editor, errorCode, errorMessage)
+        {
+            DisabledFeature = errorCode.Replace("-disabled", "");
+        }
+
+        public string DisabledFeature
+        { get; private set; }
     }
 
 
@@ -101,8 +117,7 @@ namespace WikiFunctions.API
             Result = result;
         }
 
-        public readonly string Action;
-        public readonly string Result;
+        public readonly string Action, Result;
     };
 
     /// <summary>
