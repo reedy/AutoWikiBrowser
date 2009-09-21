@@ -120,7 +120,7 @@ namespace WikiFunctions
         {
             get
             {
-                if (NameSpaceKey == 0) return mName;
+                if (NameSpaceKey == Namespace.Article) return mName;
 
                 int pos = mName.IndexOf(':');
                 return pos < 0 ? mName : mName.Substring(pos + 1).Trim();

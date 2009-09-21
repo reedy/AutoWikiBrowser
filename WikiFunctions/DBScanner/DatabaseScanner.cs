@@ -365,7 +365,7 @@ namespace WikiFunctions.DBScanner
                 foreach (Article a in lbArticles.Items)
                 {
                     s = a.ToString().Replace("&amp;", "&");
-                    if (a.NameSpaceKey == 6) s = ":" + s; //images should be inlined
+                    if (a.NameSpaceKey == Namespace.File) s = ":" + s; //images should be inlined
 
                     strbList.AppendLine(strBullet + " [[" + s + "]]");
 
