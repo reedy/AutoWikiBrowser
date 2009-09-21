@@ -165,7 +165,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             ConvertRedirectsToString = ""
 
             For Each redirect As WikiFunctions.Article In Redirects
-                If redirect.NameSpaceKey = 10 Then
+                If redirect.NameSpaceKey = [Namespace].Template Then
                     ConvertRedirectsToString += redirect.Name.Remove(0, 9) & "|"
                     tmp.Add(redirect)
                 End If
