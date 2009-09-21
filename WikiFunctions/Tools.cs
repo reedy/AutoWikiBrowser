@@ -1430,7 +1430,7 @@ Message: {2}
         /// <param name="title">Page title to decode</param>
         public static string WikiDecode(string title)
         {
-            return HttpUtility.UrlDecode(title).Replace('_', ' ');
+            return HttpUtility.UrlDecode(title.Replace("+", "%2B")).Replace('_', ' ');
         }
 
         // Covered by ToolsTests.RemoveHashFromPageTitle()
