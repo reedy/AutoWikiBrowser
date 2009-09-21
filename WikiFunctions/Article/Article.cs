@@ -332,7 +332,7 @@ namespace WikiFunctions
         [XmlIgnore]
         public bool OnlyGeneralFixesChanged
         {
-            get { return (GeneralFixesCausedChange && (ArticleText == AfterGeneralFixesArticleText)); }
+            get { return (_generalFixesCausedChange && (ArticleText == _afterGeneralFixesArticleText)); }
         }
 
         /// <summary>
@@ -341,7 +341,7 @@ namespace WikiFunctions
         [XmlIgnore]
         public bool OnlyMinorGeneralFixesChanged
         {
-            get { return (OnlyGeneralFixesChanged && !GeneralFixesSignificantChange); }
+            get { return (OnlyGeneralFixesChanged && !_generalFixesSignificantChange); }
         }
 
         /// <summary>
@@ -828,7 +828,7 @@ namespace WikiFunctions
         public void AWBChangeArticleText(string reason, string newText, bool checkIfChanged, bool performsSignificantChanges)
         {
             if (performsSignificantChanges && (newText != mArticleText))
-                GeneralFixesSignificantChange = true;
+                _generalFixesSignificantChange = true;
 
             AWBChangeArticleText(reason, newText, checkIfChanged);
         }
@@ -945,8 +945,8 @@ namespace WikiFunctions
         #endregion
 
         #region General fixes
-        private bool GeneralFixesCausedChange, TextAlreadyChanged, GeneralFixesSignificantChange;
-        private string AfterGeneralFixesArticleText;
+        private bool _generalFixesCausedChange, _textAlreadyChanged, _generalFixesSignificantChange;
+        private string _afterGeneralFixesArticleText;
 
         /// <summary>
         /// Performs numerous minor improvements to the page text
@@ -956,6 +956,7 @@ namespace WikiFunctions
         /// <param name="skip">Skip options</param>
         /// <param name="replaceReferenceTags">If true, &lt;div class="references-small">&lt;references/>&lt;/div> and so on
         /// <param name="restrictDefaultsortAddition"></param>
+        /// <param name="noMOSComplianceFixes"></param>
         /// will be replaced with {{reflist}}</param>
         public void PerformGeneralFixes(Parsers parsers, HideText removeText, ISkipOptions skip, bool replaceReferenceTags, bool restrictDefaultsortAddition, bool noMOSComplianceFixes)
         { //TODO: 2009-01-28 review which of the genfixes below should be labelled 'significant'
@@ -1099,7 +1100,7 @@ namespace WikiFunctions
         /// </summary>
         private void BeforeGeneralFixesTextChanged()
         {
-            TextAlreadyChanged = (ArticleText != OriginalArticleText);
+            _textAlreadyChanged = (ArticleText != OriginalArticleText);
         }
 
         /// <summary>
@@ -1108,12 +1109,12 @@ namespace WikiFunctions
         /// </summary>
         private void AfterGeneralFixesTextChanged()
         {
-            if (!TextAlreadyChanged)
+            if (!_textAlreadyChanged)
             {
-                GeneralFixesCausedChange = (ArticleText != OriginalArticleText);
+                _generalFixesCausedChange = (ArticleText != OriginalArticleText);
 
-                if (GeneralFixesCausedChange)
-                    AfterGeneralFixesArticleText = ArticleText;
+                if (_generalFixesCausedChange)
+                    _afterGeneralFixesArticleText = ArticleText;
             }
         }
 
