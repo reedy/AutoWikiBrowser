@@ -2106,15 +2106,13 @@ namespace WikiFunctions.Parse
             // TODO, better to not apply to text within imagemaps
             if (!WikiRegexes.ImageMap.IsMatch(articleText) && !WikiRegexes.Noinclude.IsMatch(articleText) && !WikiRegexes.Includeonly.IsMatch(articleText))
             {
-                string firstAsLower = Tools.TurnFirstToLower(escTitle);
-
                 // remove any self-links, but not other links with different capitaliastion e.g. [[Foo]] vs [[FOO]]
-                articleText = Regex.Replace(articleText, @"\[\[\s*" + escTitle + @"\s*\]\]", articleTitle);
-                articleText = Regex.Replace(articleText, @"\[\[\s*" + firstAsLower + @"\s*\]\]", firstAsLower);
+                articleText = Regex.Replace(articleText, @"\[\[\s*(" + Tools.CaseInsensitive(escTitle)
+                    + @")\s*\]\]", "$1");
 
                 // remove piped self links by leaving target
-                articleText = Regex.Replace(articleText, @"\[\[\s*" + escTitle + @"\s*\|\s*([^\]]+)\s*\]\]", "$1");
-                articleText = Regex.Replace(articleText, @"\[\[\s*" + firstAsLower + @"\s*\|\s*([^\]]+)\s*\]\]", "$1");
+                articleText = Regex.Replace(articleText, @"\[\[\s*" + Tools.CaseInsensitive(escTitle)
+                    + @"\s*\|\s*([^\]]+)\s*\]\]", "$1");
             }
 
             // clean up wikilinks: replace underscores, percentages and URL encoded accents etc.
