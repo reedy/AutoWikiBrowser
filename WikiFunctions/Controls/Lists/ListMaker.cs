@@ -38,7 +38,7 @@ namespace WikiFunctions.Controls.Lists
     {
         private readonly static SaveFileDialog SaveListDialog;
         private readonly static BindingList<IListProvider> ListItems = new BindingList<IListProvider>();
-        private readonly ListFilterForm SpecialFilter;
+        private readonly ListFilterForm _specialFilter;
 
         //used to keep easy track of providers for add/remove/(re)use in code
         #region ListProviders
@@ -102,7 +102,7 @@ namespace WikiFunctions.Controls.Lists
                 ListItems.Add(new UserContribUserDefinedNumberListProvider());
                 ListItems.Add(new SpecialPageListProvider(WhatLinksHereLProvider, NewPagesLProvider,
                                                           CategoriesOnPageLProvider, RandomPagesLProvider,
-                                                          WhatTranscludesLProvider));
+                                                          WhatTranscludesLProvider, RedirectLProvider));
                 ListItems.Add(new ImageFileLinksListProvider());
                 ListItems.Add(new DatabaseScannerListProvider(this));
                 ListItems.Add(new MyWatchlistListProvider());
@@ -127,7 +127,7 @@ namespace WikiFunctions.Controls.Lists
                 ListItems.Add(new CheckWikiListProvider());
             }
 
-            SpecialFilter = new ListFilterForm(lbArticles);
+            _specialFilter = new ListFilterForm(lbArticles);
 
             // We'll manage our own collection of list items:
             cmboSourceSelect.DataSource = ListItems;
@@ -187,17 +187,6 @@ namespace WikiFunctions.Controls.Lists
         {
             lbArticles.Items.Clear();
             UpdateNumberOfArticles();
-        }
-
-        /// <summary>
-        /// Removes/Adds the "Redirects" option from/to the list
-        /// </summary>
-        public static void AddRemoveRedirects()
-        {
-            if (Variables.LangCode != "en" && ListItems.Contains(RedirectLProvider))
-                ListItems.Remove(RedirectLProvider);
-            else if (!ListItems.Contains(RedirectLProvider))
-                ListItems.Add(RedirectLProvider);
         }
 
         /// <summary>
@@ -706,7 +695,7 @@ namespace WikiFunctions.Controls.Lists
                 ListFinished(null, null);
         }
 
-        private Thread ListerThread;
+        private Thread _listerThread;
 
         public void MakeList()
         {
@@ -728,10 +717,10 @@ namespace WikiFunctions.Controls.Lists
             if (_providerToRun.RunOnSeparateThread)
             {
                 _source = sourceValues;
-                ListerThread = new Thread(MakeListPlugin);
-                ListerThread.SetApartmentState(ApartmentState.STA);
-                ListerThread.IsBackground = true;
-                ListerThread.Start();
+                _listerThread = new Thread(MakeListPlugin);
+                _listerThread.SetApartmentState(ApartmentState.STA);
+                _listerThread.IsBackground = true;
+                _listerThread.Start();
             }
             else
             {
@@ -808,7 +797,7 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public void Filter()
         {
-            SpecialFilter.ShowDialog(this);
+            _specialFilter.ShowDialog(this);
         }
 
         /// <summary>
@@ -822,8 +811,8 @@ namespace WikiFunctions.Controls.Lists
                 return;
             }
 
-            SpecialFilter.Clear();
-            SpecialFilter.RemoveDuplicates();
+            _specialFilter.Clear();
+            _specialFilter.RemoveDuplicates();
 
             UpdateNumberOfArticles();
         }
@@ -941,8 +930,8 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public void Stop()
         {
-            if (ListerThread != null)
-                ListerThread.Abort();
+            if (_listerThread != null)
+                _listerThread.Abort();
 
             StopProgressBar();
         }
@@ -1187,12 +1176,12 @@ namespace WikiFunctions.Controls.Lists
         [Localizable(false)]
         public AWBSettings.SpecialFilterPrefs SpecialFilterSettings
         {
-            get { return SpecialFilter.Settings; }
+            get { return _specialFilter.Settings; }
             set
             {
                 if (DesignMode)
                     return;
-                SpecialFilter.Settings = value;
+                _specialFilter.Settings = value;
             }
         }
 
