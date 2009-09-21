@@ -512,31 +512,31 @@ namespace WikiFunctions.Controls.Lists
             get { return lbArticles.Items.Count; }
         }
 
-        string strStatus = "";
+        string _status = "";
         /// <summary>
         /// The status of the process
         /// </summary>        
         public string Status
         {
-            get { return strStatus; }
+            get { return _status; }
             private set
             {
-                strStatus = value;
+                _status = value;
                 if (StatusTextChanged != null)
                     StatusTextChanged(null, null);
             }
         }
 
-        bool bBusyStatus;
+        bool _busyStatus;
         /// <summary>
         /// Gets a value indicating whether the process is busy
         /// </summary>
         public bool BusyStatus
         {
-            get { return bBusyStatus; }
+            get { return _busyStatus; }
             private set
             {
-                bBusyStatus = value;
+                _busyStatus = value;
                 if (BusyStateChanged != null)
                     BusyStateChanged(null, null);
             }
@@ -545,7 +545,7 @@ namespace WikiFunctions.Controls.Lists
         /// <summary>
         /// The file the list was made from
         /// </summary>
-        static string ListFile = "";
+        static string _listFile = "";
 
         /// <summary>
         /// Returns the selected article
@@ -723,11 +723,11 @@ namespace WikiFunctions.Controls.Lists
         {
             btnStop.Visible = true;
 
-            ProviderToRun = provider;
+            _providerToRun = provider;
 
-            if (ProviderToRun.RunOnSeparateThread)
+            if (_providerToRun.RunOnSeparateThread)
             {
-                Source = sourceValues;
+                _source = sourceValues;
                 ListerThread = new Thread(MakeListPlugin);
                 ListerThread.SetApartmentState(ApartmentState.STA);
                 ListerThread.IsBackground = true;
@@ -740,9 +740,9 @@ namespace WikiFunctions.Controls.Lists
                 try
                 {
                     if (!provider.UserInputTextBoxEnabled)
-                        Add(ProviderToRun.MakeList(new string[0]));
+                        Add(_providerToRun.MakeList(new string[0]));
                     else
-                        Add(ProviderToRun.MakeList(sourceValues));
+                        Add(_providerToRun.MakeList(sourceValues));
                 }
                 catch (FeatureDisabledException fde)
                 {
@@ -755,18 +755,18 @@ namespace WikiFunctions.Controls.Lists
             }
         }
 
-        string[] Source;
-        IListProvider ProviderToRun;
+        string[] _source;
+        IListProvider _providerToRun;
 
         private void MakeListPlugin()
         {
-            Thread.CurrentThread.Name = "ListMaker (" + ProviderToRun.GetType().Name + ": "
+            Thread.CurrentThread.Name = "ListMaker (" + _providerToRun.GetType().Name + ": "
                 + UserInputTextBox.Text + ")";
             StartProgressBar();
 
             try
             {
-                Add(ProviderToRun.MakeList(Source));
+                Add(_providerToRun.MakeList(_source));
             }
             catch (ThreadAbortException) { }
             catch (FeatureDisabledException fde)
@@ -792,9 +792,9 @@ namespace WikiFunctions.Controls.Lists
         private void DisabledListProvider(FeatureDisabledException fde)
         {
             MessageBox.Show(
-                "Unable to generate lists using " + ProviderToRun.DisplayText +
+                "Unable to generate lists using " + _providerToRun.DisplayText +
                 ". Removing from the list of providers during this session", fde.DisabledFeature + "is disabled");
-            ListItems.Remove(ProviderToRun);
+            ListItems.Remove(_providerToRun);
         }
 
         private void RemoveSelectedArticle()
@@ -845,7 +845,7 @@ namespace WikiFunctions.Controls.Lists
             {
                 StringBuilder strList = new StringBuilder();
 
-                if (ListFile.Length > 0) SaveListDialog.FileName = ListFile;
+                if (_listFile.Length > 0) SaveListDialog.FileName = _listFile;
 
                 if (SaveListDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -870,9 +870,9 @@ namespace WikiFunctions.Controls.Lists
                             strList = strList.Remove(strList.Length - 2, 2);
                             break;
                     }
-                    ListFile = SaveListDialog.FileName;
+                    _listFile = SaveListDialog.FileName;
 
-                    Tools.WriteTextFileAbsolutePath(strList, ListFile, false);
+                    Tools.WriteTextFileAbsolutePath(strList, _listFile, false);
                 }
             }
             catch (Exception ex)
