@@ -104,7 +104,6 @@ namespace WikiFunctions.API
         { get; private set; }
     }
 
-
     /// <summary>
     /// Thrown when an operation is ended with result other than "Success"
     /// </summary>
