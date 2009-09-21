@@ -65,7 +65,7 @@ namespace WikiFunctions.TalkPages
            @"\{\{\s*(template *:)?\s*(skiptotoctalk|Skiptotoc|Skiptotoc-talk)\s*\}\}\s*",
            RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
         private static readonly Regex TalkHeaderTemplateRegex = new Regex(
-           @"\{\{\s*(template *:)?\s*(talkheader|talkpage|Talkheaderlong|Comment Guidelines|Categorytalkheader|Newtalk|Templatetalkheader|Talkheader2|Talkheader3|Talkpagelong|Talk box|Talkpageheader|User Talkheader)\s*\}\}\s*", 
+           @"\{\{\s*(template *:)?\s*((Category|Template)?talkheader[2-3]?|talkpage(long|header)?|Talkheaderlong|Comment Guidelines|Newtalk|Talk box|User Talkheader)\s*\}\}\s*", 
            RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
 
         public static bool ContainsDefaultSortKeywordOrTemplate(string articleText)
@@ -78,13 +78,13 @@ namespace WikiFunctions.TalkPages
             ProcessTalkPage(ref articleText, null, DEFAULTSORT.NoChange, pluginName);
         }
 
-        public static void ProcessTalkPage(ref string articleText, DEFAULTSORT moveDEFAULTSORT, string pluginName)
+        public static void ProcessTalkPage(ref string articleText, DEFAULTSORT moveDefaultsort, string pluginName)
         {
-            ProcessTalkPage(ref articleText, null, moveDEFAULTSORT, pluginName);
+            ProcessTalkPage(ref articleText, null, moveDefaultsort, pluginName);
         }
 
         public static bool ProcessTalkPage(ref string articleText, IMyTraceListener trace, 
-        DEFAULTSORT moveDEFAULTSORT, string pluginName)
+        DEFAULTSORT moveDefaultsort, string pluginName)
         {
             Processor pr = new Processor();
             articleText = TalkHeaderTemplateRegex.Replace(articleText, 
@@ -95,7 +95,7 @@ namespace WikiFunctions.TalkPages
                 WriteHeaderTemplate("talkheader", ref articleText, trace, pluginName);
             if (pr.FoundSkipTOC)
                 WriteHeaderTemplate("skiptotoctalk", ref articleText, trace, pluginName);
-            if (moveDEFAULTSORT != DEFAULTSORT.NoChange)
+            if (moveDefaultsort != DEFAULTSORT.NoChange)
             {
                 articleText = WikiRegexes.Defaultsort.Replace(articleText, 
                     new MatchEvaluator(pr.DefaultSortMatchEvaluator), 1);
@@ -108,7 +108,7 @@ namespace WikiFunctions.TalkPages
                     }
                     else
                     {
-                        articleText = SetDefaultSort(pr.DefaultSortKey, moveDEFAULTSORT, trace, pluginName, articleText);
+                        articleText = SetDefaultSort(pr.DefaultSortKey, moveDefaultsort, trace, pluginName, articleText);
                     }
                 }
             }
@@ -123,19 +123,24 @@ namespace WikiFunctions.TalkPages
         // Helper routines:
         private static string SetDefaultSort(string key, DEFAULTSORT location, IMyTraceListener trace, string pluginName, string articleText)
         {
-            string strMovedTo;
-            if (location == DEFAULTSORT.MoveToTop)
+            string movedTo;
+            switch (location)
             {
-                articleText = "{{DEFAULTSORT:" + key + "}}\r\n" + articleText;
-                strMovedTo = " given top billing";
+                case DEFAULTSORT.MoveToTop:
+                    articleText = "{{DEFAULTSORT:" + key + "}}\r\n" + articleText;
+                    movedTo = " given top billing";
+                    break;
+                case DEFAULTSORT.MoveToBottom:
+                    articleText = articleText + "\r\n{{DEFAULTSORT:" + key + "}}";
+                    movedTo = " sent to the bottom";
+                    break;
+                default:
+                    movedTo = "";
+                    break;
             }
-            else
-            {
-                articleText = articleText + "\r\n{{DEFAULTSORT:" + key + "}}";
-                strMovedTo = " sent to the bottom";
-            }
-            if (trace != null)
-                trace.WriteArticleActionLine("DEFAULTSORT" + strMovedTo, pluginName, false);
+
+            if (location != DEFAULTSORT.NoChange && trace != null)
+                trace.WriteArticleActionLine("DEFAULTSORT" + movedTo, pluginName, false);
 
             return articleText;
         }
