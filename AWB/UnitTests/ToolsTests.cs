@@ -260,6 +260,8 @@ bar"));
             Assert.AreEqual("foo:bar", Tools.WikiEncode("foo:bar"));
             StringAssert.AreEqualIgnoringCase("Caf%C3%A9", Tools.WikiEncode("Café"));
             StringAssert.AreEqualIgnoringCase("%D1%82%D0%B5%D1%81%D1%82:%D1%82%D0%B5%D1%81%D1%82", Tools.WikiEncode("тест:тест"));
+
+            Assert.AreEqual("foo%2bbar", Tools.WikiEncode("foo+bar"));
         }
 
         [Test]
@@ -271,6 +273,9 @@ bar"));
             Assert.AreEqual("foo bar", Tools.WikiDecode("foo bar"));
             Assert.AreEqual("foo/bar", Tools.WikiDecode("foo/bar"));
             Assert.AreEqual("foo:bar", Tools.WikiDecode("foo:bar"));
+
+            Assert.AreEqual("foo+bar", Tools.WikiDecode("foo+bar"));
+            Assert.AreEqual("foo+bar", Tools.WikiDecode("foo%2bbar"));
         }
 
         [Test]
