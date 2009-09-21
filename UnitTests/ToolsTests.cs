@@ -265,6 +265,12 @@ bar"));
         [Test]
         public void WikiDecode()
         {
+            Assert.AreEqual("foo", Tools.WikiDecode("foo"));
+            Assert.AreEqual("Foo", Tools.WikiDecode("Foo"));
+            Assert.AreEqual("foo bar", Tools.WikiDecode("foo_bar"));
+            Assert.AreEqual("foo bar", Tools.WikiDecode("foo bar"));
+            Assert.AreEqual("foo/bar", Tools.WikiDecode("foo/bar"));
+            Assert.AreEqual("foo:bar", Tools.WikiDecode("foo:bar"));
         }
 
         [Test]
