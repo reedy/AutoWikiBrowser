@@ -1966,7 +1966,9 @@ http://example.com }}");
             Assert.AreEqual("Wikipedia:Foo", Parsers.CanonicalizeTitleAggressively("project : foo"));
             Assert.AreEqual("File:Foo.jpg", Parsers.CanonicalizeTitleAggressively("Image: foo.jpg "));
 
-            Assert.AreEqual("Faith + Hope + Love", Parsers.CanonicalizeTitleAggressively("Faith + Hope + Love"));
+            // a bit of ambiguousness here, but
+            // http://en.wikipedia.org/wiki/Wikipedia:AWB/B#Problem_.28on_runecape_wikia.29_with_articles_with_.2B_in_the_name.
+            Assert.AreEqual("Romeo+Juliet", Parsers.CanonicalizeTitleAggressively("Romeo+Juliet"));
         }
 
         [Test]
