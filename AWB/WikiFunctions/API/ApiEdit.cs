@@ -950,6 +950,9 @@ namespace WikiFunctions.API
                         int.TryParse(MaxLag.Match(xml).Groups[1].Value, out maxlag);
                         throw new MaxlagException(this, maxlag, 10);
                     default:
+                        if (errorCode.Contains("disabled"))
+                            throw new FeatureDisabledException(this, errorCode, errorMessage);
+
                         throw new ApiErrorException(this, errorCode, errorMessage);
                 }
             }
@@ -970,8 +973,7 @@ namespace WikiFunctions.API
                 string what = actionElement.GetAttribute("assert");
                 if (what == "user")
                     throw new LoggedOffException(this);
-                else
-                    throw new AssertionFailedException(this, what);
+                throw new AssertionFailedException(this, what);
             }
 
             if (actionElement.HasAttribute("spamblacklist"))
