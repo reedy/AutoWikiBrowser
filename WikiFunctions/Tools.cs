@@ -1170,17 +1170,10 @@ namespace WikiFunctions
         /// <param name="append"></param>
         public static void WriteTextFileAbsolutePath(string message, string file, bool append)
         {
-            try
+            using (StreamWriter writer = new StreamWriter(file, append, Encoding.UTF8))
             {
-                using (StreamWriter writer = new StreamWriter(file, append, Encoding.UTF8))
-                {
-                    writer.Write(message);
-                    writer.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                ErrorHandler.Handle(ex);
+                writer.Write(message);
+                writer.Close();
             }
         }
 
