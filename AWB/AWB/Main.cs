@@ -1361,7 +1361,7 @@ namespace AutoWikiBrowser
                                                        noMOSComplianceFixesToolStripMenuItem.Checked);
                     }
                 }
-                else if (process && chkGeneralFixes.Checked && theArticle.NameSpaceKey == 3)
+                else if (process && chkGeneralFixes.Checked && theArticle.NameSpaceKey == Namespace.UserTalk)
                 {
                     if (!UserTalkWarningsLoaded)
                     {
