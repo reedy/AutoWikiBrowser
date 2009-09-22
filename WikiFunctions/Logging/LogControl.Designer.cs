@@ -166,7 +166,7 @@ namespace WikiFunctions.Logging
             this.clearToolStripMenuItem,
             this.resetToolStripMenuItem});
             this.mnuListView.Name = "mnuListView";
-            this.mnuListView.Size = new System.Drawing.Size(204, 326);
+            this.mnuListView.Size = new System.Drawing.Size(204, 304);
             this.mnuListView.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListView_Opening);
             // 
             // addSelectedToArticleListToolStripMenuItem
@@ -292,6 +292,7 @@ namespace WikiFunctions.Logging
             this.colIgnoreTime,
             this.colSkippedBy,
             this.colSkipReason});
+            this.lvIgnored.ComparerFactory = this.lvIgnored;
             this.lvIgnored.ContextMenuStrip = this.mnuListView;
             this.lvIgnored.FullRowSelect = true;
             this.lvIgnored.Location = new System.Drawing.Point(6, 187);
@@ -331,6 +332,7 @@ namespace WikiFunctions.Logging
             this.lvSaved.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colSuccessSave,
             this.colSuccessTime});
+            this.lvSaved.ComparerFactory = this.lvSaved;
             this.lvSaved.ContextMenuStrip = this.mnuListView;
             this.lvSaved.FullRowSelect = true;
             this.lvSaved.Location = new System.Drawing.Point(6, 16);
@@ -363,8 +365,8 @@ namespace WikiFunctions.Logging
             this.Controls.Add(this.btnSaveIgnored);
             this.Controls.Add(this.btnSaveSaved);
             this.Controls.Add(this.btnClearIgnored);
-            this.Controls.Add(this.btnAddToList);
             this.Controls.Add(this.btnClearSaved);
+            this.Controls.Add(this.btnAddToList);
             this.Name = "LogControl";
             this.Size = new System.Drawing.Size(257, 341);
             this.mnuListView.ResumeLayout(false);

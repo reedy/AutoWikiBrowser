@@ -1165,7 +1165,7 @@ namespace WikiFunctions
                 if (dlgArticleAction.ShowDialog() == DialogResult.OK)
                 {
                     LastMove = dlgArticleAction.Summary;
-                    session.Editor.Move(Name, dlgArticleAction.NewTitle,
+                    session.Editor.SynchronousEditor.Move(Name, dlgArticleAction.NewTitle,
                                             ArticleActionSummary(dlgArticleAction), true /* probably wants dealing with on dialog*/,
                                             dlgArticleAction.NoRedirect, dlgArticleAction.Watch);
 
@@ -1184,7 +1184,7 @@ namespace WikiFunctions
                 if (dlgArticleAction.ShowDialog() == DialogResult.OK)
                 {
                     LastDelete = dlgArticleAction.Summary;
-                    session.Editor.Delete(Name, ArticleActionSummary(dlgArticleAction), dlgArticleAction.Watch);
+                    session.Editor.SynchronousEditor.Delete(Name, ArticleActionSummary(dlgArticleAction), dlgArticleAction.Watch);
 
                     return true;
                 }
@@ -1205,7 +1205,7 @@ namespace WikiFunctions
                 if (dlgArticleAction.ShowDialog() == DialogResult.OK)
                 {
                     LastProtect = dlgArticleAction.Summary;
-                    session.Editor.Protect(Name,
+                    session.Editor.SynchronousEditor.Protect(Name,
                                                 ArticleActionSummary(dlgArticleAction),
                                                 dlgArticleAction.ProtectExpiry,
                                                 dlgArticleAction.EditProtectionLevel,

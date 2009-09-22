@@ -739,6 +739,8 @@ namespace WikiFunctions.API
             if (string.IsNullOrEmpty(newTitle)) throw new ArgumentException("Target page title required", "newTitle");
             if (string.IsNullOrEmpty(reason)) throw new ArgumentException("Page rename reason required", "reason");
 
+            if (title == newTitle) throw new ArgumentException("Page cannot be moved to the same title");
+
             Reset();
             Action = "move";
 
