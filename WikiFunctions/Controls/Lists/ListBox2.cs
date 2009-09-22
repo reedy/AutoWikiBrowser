@@ -48,9 +48,11 @@ namespace WikiFunctions.Controls.Lists
 
         public new void Sort()
         {
+	    BeginUpdate();		
             Sorted = true;
             Sorted = false;
-        }
+	    EndUpdate();        
+	}
 
         public void RemoveSelected()
         {
