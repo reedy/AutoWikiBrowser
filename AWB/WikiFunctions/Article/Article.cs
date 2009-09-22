@@ -1154,23 +1154,26 @@ namespace WikiFunctions
         }
         
         
-        private static string LastMove = "", LastDelete = "", LastProtect = "" ;
-        public bool Move(Session session)
+        private static string _lastMove = "", _lastDelete = "", _lastProtect = "" ;
+        public bool Move(Session session, out string newTitle)
         {
             using (ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Move))
             {
                 dlgArticleAction.NewTitle = Name;
-                dlgArticleAction.Summary = LastMove;
+                dlgArticleAction.Summary = _lastMove;
 
                 if (dlgArticleAction.ShowDialog() == DialogResult.OK)
                 {
-                    LastMove = dlgArticleAction.Summary;
+                    _lastMove = dlgArticleAction.Summary;
                     session.Editor.SynchronousEditor.Move(Name, dlgArticleAction.NewTitle,
                                             ArticleActionSummary(dlgArticleAction), true /* probably wants dealing with on dialog*/,
                                             dlgArticleAction.NoRedirect, dlgArticleAction.Watch);
+                    
+                    newTitle = dlgArticleAction.NewTitle;
 
                     return true;
                 }
+                newTitle = "";
                 return false;
             }
         }
@@ -1179,11 +1182,11 @@ namespace WikiFunctions
         {
             using (ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Delete))
             {
-                dlgArticleAction.Summary = LastDelete;
+                dlgArticleAction.Summary = _lastDelete;
 
                 if (dlgArticleAction.ShowDialog() == DialogResult.OK)
                 {
-                    LastDelete = dlgArticleAction.Summary;
+                    _lastDelete = dlgArticleAction.Summary;
                     session.Editor.SynchronousEditor.Delete(Name, ArticleActionSummary(dlgArticleAction), dlgArticleAction.Watch);
 
                     return true;
@@ -1197,14 +1200,14 @@ namespace WikiFunctions
         {                    
             using (ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Protect))
             {
-                dlgArticleAction.Summary = LastProtect;
+                dlgArticleAction.Summary = _lastProtect;
 
                 dlgArticleAction.EditProtectionLevel = session.Page.EditProtection;
                 dlgArticleAction.MoveProtectionLevel = session.Page.MoveProtection;
 
                 if (dlgArticleAction.ShowDialog() == DialogResult.OK)
                 {
-                    LastProtect = dlgArticleAction.Summary;
+                    _lastProtect = dlgArticleAction.Summary;
                     session.Editor.SynchronousEditor.Protect(Name,
                                                 ArticleActionSummary(dlgArticleAction),
                                                 dlgArticleAction.ProtectExpiry,

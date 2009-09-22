@@ -2728,7 +2728,7 @@ namespace AutoWikiBrowser
             this.btntsDelete.Size = new System.Drawing.Size(23, 22);
             this.btntsDelete.Text = "Delete";
             this.btntsDelete.ToolTipText = "Delete this page";
-            this.btntsDelete.Click += new System.EventHandler(this.btntsDelete_Click);
+            this.btntsDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // toolStripSeparator23
             // 
