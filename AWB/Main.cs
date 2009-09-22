@@ -2736,16 +2736,19 @@ window.scrollTo(0, diffTopY);
         private void btnMove_Click(object sender, EventArgs e)
         {
             MoveArticle();
+            Start();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
             DeleteArticle();
+            Start();
         }
 
         private void btnProtect_Click(object sender, EventArgs e)
         {
             ProtectArticle();
+            Start();
         }
 
         private void filterOutNonMainSpaceToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3408,11 +3411,6 @@ window.scrollTo(0, diffTopY);
             GetDiff();
         }
 
-        private void btntsDelete_Click(object sender, EventArgs e)
-        {
-            DeleteArticle();
-        }
-
         private void SetBrowserSize()
         {
             if (toolStrip.Visible)
@@ -3528,7 +3526,13 @@ window.scrollTo(0, diffTopY);
                     return;
                 }
 
-                TheArticle.Move(TheSession);
+                string newTitle;
+
+                if (TheArticle.Move(TheSession, out newTitle))
+                {
+                    Article replacementArticle = new Article(newTitle);
+                    listMaker.ReplaceArticle(TheArticle, replacementArticle);
+                }
             }
             catch (Exception ex)
             {
@@ -3540,10 +3544,17 @@ window.scrollTo(0, diffTopY);
         {
             try
             {
+                if (!TheSession.User.IsSysop)
+                {
+                    MessageBox.Show(
+                        "Current user doesn't have enough rights to delete \"" + TheSession.Page.Title + "\"",
+                        "User rights not sufficient");
+                    return;
+                }
+
                 if (TheArticle.Delete(TheSession))
                 {
                     listMaker.Remove(TheArticle);
-                    Start();
                 }
             }
             catch (Exception ex)
@@ -3556,6 +3567,14 @@ window.scrollTo(0, diffTopY);
         {
             try
             {
+                if (!TheSession.User.IsSysop)
+                {
+                    MessageBox.Show(
+                        "Current user doesn't have enough rights to protect \"" + TheSession.Page.Title + "\"",
+                        "User rights not sufficient");
+                    return;
+                }
+
                 TheArticle.Protect(TheSession);
             }
             catch (Exception ex)
