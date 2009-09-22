@@ -54,6 +54,7 @@ namespace WikiFunctions.Logging
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lvSuccessful = new WikiFunctions.Logging.ArticleActionListView();
             this.lvFailed = new WikiFunctions.Logging.ArticleActionListView();
+            this.openLogInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuListView.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -149,10 +150,11 @@ namespace WikiFunctions.Logging
             this.toolStripSeparator4,
             this.openInBrowserToolStripMenuItem,
             this.openHistoryInBrowserToolStripMenuItem,
+            this.openLogInBrowserToolStripMenuItem,
             this.toolStripSeparator1,
             this.clearToolStripMenuItem});
             this.mnuListView.Name = "mnuListView";
-            this.mnuListView.Size = new System.Drawing.Size(204, 232);
+            this.mnuListView.Size = new System.Drawing.Size(204, 276);
             // 
             // addSelectedToArticleListToolStripMenuItem
             // 
@@ -276,6 +278,13 @@ namespace WikiFunctions.Logging
             this.lvFailed.View = System.Windows.Forms.View.Details;
             this.lvFailed.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
             // 
+            // openLogInBrowserToolStripMenuItem
+            // 
+            this.openLogInBrowserToolStripMenuItem.Name = "openLogInBrowserToolStripMenuItem";
+            this.openLogInBrowserToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.openLogInBrowserToolStripMenuItem.Text = "Open log in browser";
+            this.openLogInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openLogInBrowserToolStripMenuItem_Click);
+            // 
             // ArticleActionLogControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -324,5 +333,6 @@ namespace WikiFunctions.Logging
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
         private ArticleActionListView lvSuccessful;
         private ArticleActionListView lvFailed;
+        private System.Windows.Forms.ToolStripMenuItem openLogInBrowserToolStripMenuItem;
     }
 }
