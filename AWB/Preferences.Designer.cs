@@ -71,6 +71,9 @@ namespace AutoWikiBrowser
             this.chkIgnoreNoBots = new System.Windows.Forms.CheckBox();
             this.tabEditing = new System.Windows.Forms.TabPage();
             this.chkShowTimer = new System.Windows.Forms.CheckBox();
+            this.tabTools = new System.Windows.Forms.TabPage();
+            this.cmboListComparer = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.tabPrivacy = new System.Windows.Forms.TabPage();
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.lblSaveAsDefaultFile = new System.Windows.Forms.Label();
@@ -80,6 +83,7 @@ namespace AutoWikiBrowser
             this.tabGeneral.SuspendLayout();
             this.tabSite.SuspendLayout();
             this.tabEditing.SuspendLayout();
+            this.tabTools.SuspendLayout();
             this.tabPrivacy.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -404,6 +408,7 @@ namespace AutoWikiBrowser
             this.tbPrefs.Controls.Add(this.tabGeneral);
             this.tbPrefs.Controls.Add(this.tabSite);
             this.tbPrefs.Controls.Add(this.tabEditing);
+            this.tbPrefs.Controls.Add(this.tabTools);
             this.tbPrefs.Controls.Add(this.tabPrivacy);
             this.tbPrefs.Location = new System.Drawing.Point(12, 12);
             this.tbPrefs.Name = "tbPrefs";
@@ -495,6 +500,39 @@ namespace AutoWikiBrowser
             this.chkShowTimer.Text = "&Display moving average timer";
             this.chkShowTimer.UseVisualStyleBackColor = true;
             // 
+            // tabTools
+            // 
+            this.tabTools.Controls.Add(this.cmboListComparer);
+            this.tabTools.Controls.Add(this.label1);
+            this.tabTools.Location = new System.Drawing.Point(4, 22);
+            this.tabTools.Name = "tabTools";
+            this.tabTools.Padding = new System.Windows.Forms.Padding(3);
+            this.tabTools.Size = new System.Drawing.Size(382, 181);
+            this.tabTools.TabIndex = 5;
+            this.tabTools.Text = "Tools";
+            this.tabTools.UseVisualStyleBackColor = true;
+            // 
+            // cmboListComparer
+            // 
+            this.cmboListComparer.FormattingEnabled = true;
+            this.cmboListComparer.Items.AddRange(new object[] {
+            "Ask",
+            "Always",
+            "Never"});
+            this.cmboListComparer.Location = new System.Drawing.Point(202, 12);
+            this.cmboListComparer.Name = "cmboListComparer";
+            this.cmboListComparer.Size = new System.Drawing.Size(121, 21);
+            this.cmboListComparer.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(190, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Add current article list to List Comparer:";
+            // 
             // tabPrivacy
             // 
             this.tabPrivacy.Controls.Add(this.lblPrivacy);
@@ -544,6 +582,8 @@ namespace AutoWikiBrowser
             this.tabSite.PerformLayout();
             this.tabEditing.ResumeLayout(false);
             this.tabEditing.PerformLayout();
+            this.tabTools.ResumeLayout(false);
+            this.tabTools.PerformLayout();
             this.tabPrivacy.ResumeLayout(false);
             this.tabPrivacy.PerformLayout();
             this.ResumeLayout(false);
@@ -593,5 +633,8 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Label lblSaveAsDefaultFile;
         private System.Windows.Forms.CheckBox chkPHP5Ext;
         private System.Windows.Forms.ToolTip ToolTip;
+        private System.Windows.Forms.TabPage tabTools;
+        private System.Windows.Forms.ComboBox cmboListComparer;
+        private System.Windows.Forms.Label label1;
     }
 }

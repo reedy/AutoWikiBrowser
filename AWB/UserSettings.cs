@@ -408,6 +408,12 @@ namespace AutoWikiBrowser
                 ExtProgram.Settings,
                 loggingSettings1.SerialisableSettings,
                 listMaker.SpecialFilterSettings,
+
+                new ToolsPrefs
+                    {
+                        ListComparerUseCurrentArticleList = _listComparerUseCurrentArticleList
+                    },
+
                 Plugin.AWBPlugins
                 );
         }
@@ -632,6 +638,8 @@ namespace AutoWikiBrowser
                 CModule.SetModuleNotBuilt();
 
             ExtProgram.Settings = p.ExternalProgram;
+
+            _listComparerUseCurrentArticleList = p.Tool.ListComparerUseCurrentArticleList;
 
             foreach (PluginPrefs pp in p.Plugin)
             {

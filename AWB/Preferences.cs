@@ -267,6 +267,7 @@ namespace AutoWikiBrowser
             set { txtAutosave.Text = value; }
         }
 
+        //TODO:Reinstate/Use?
         public List<string> PrefCustomWikis
         {
             get
@@ -300,6 +301,12 @@ namespace AutoWikiBrowser
         {
             get { return chkShowTimer.Checked; }
             set { chkShowTimer.Checked = value; }
+        }
+
+        public int PrefListComparerUseCurrentArticleList
+        {
+            get { return cmboListComparer.SelectedIndex; }
+            set { cmboListComparer.SelectedIndex = value; }
         }
         #endregion
 
