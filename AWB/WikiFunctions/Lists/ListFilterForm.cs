@@ -76,10 +76,13 @@ namespace WikiFunctions.Lists
                 if (DestListBox.Items.Count > 0 && DestListBox.Items[0] is Article)
                     FilterNamespace();
 
+            	DestListBox.BeginUpdate();
                 DestListBox.Items.Clear();
 
                 foreach (Article a in List)
                     DestListBox.Items.Add(a);
+
+            	DestListBox.EndUpdate();
 
                 //Only try to update number of articles using listmaker method IF the parent is indeed a listmaker
                 //Causes exception on DBScanner otherwise
@@ -102,10 +105,13 @@ namespace WikiFunctions.Lists
                 if (!List.Contains(a))
                     List.Add(a);
             }
+		
+            DestListBox.BeginUpdate();
             DestListBox.Items.Clear();
 
             foreach (Article a in List)
                 DestListBox.Items.Add(a);
+            DestListBox.EndUpdate();
         }
 
         private void FilterNamespace()
