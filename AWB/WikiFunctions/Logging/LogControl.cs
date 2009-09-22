@@ -81,10 +81,10 @@ namespace WikiFunctions.Logging
 
             if (sender is ContextMenuStrip)
                 return ((ListView)((ContextMenuStrip)sender).SourceControl);
-            else if (sender is ToolStripMenuItem)
+            
+            if (sender is ToolStripMenuItem)
                 return (ListView)(((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl);
-            else
-                throw new ArgumentException("Object of unknown type passed to LogControl.MenuItemOwner()");
+            throw new ArgumentException("Object of unknown type passed to LogControl.MenuItemOwner()");
         }
 
         private LogFileType GetFilePrefs()

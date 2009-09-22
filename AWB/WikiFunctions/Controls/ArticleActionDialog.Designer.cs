@@ -168,7 +168,9 @@ namespace WikiFunctions.Controls
             // 
             // MoveDelete
             // 
+            this.MoveDelete.EditProtectionLevel = "";
             this.MoveDelete.Location = new System.Drawing.Point(62, 64);
+            this.MoveDelete.MoveProtectionLevel = "";
             this.MoveDelete.Name = "MoveDelete";
             this.MoveDelete.Size = new System.Drawing.Size(313, 101);
             this.MoveDelete.TabIndex = 6;
@@ -201,6 +203,7 @@ namespace WikiFunctions.Controls
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Enter details";
             this.Load += new System.EventHandler(this.ArticleActionDialog_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ArticleActionDialog_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

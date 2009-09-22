@@ -178,5 +178,14 @@ namespace WikiFunctions.Controls
                     break;
             }
         }
+
+        private void ArticleActionDialog_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (CurrentAction == ArticleAction.Move && string.IsNullOrEmpty(cmboSummary.Text))
+            {
+                MessageBox.Show("Please enter/select a move reason", "Move reason required");
+                e.Cancel = true;
+            }
+        }
     }
 }
