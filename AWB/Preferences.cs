@@ -32,11 +32,7 @@ namespace AutoWikiBrowser
 {
     internal sealed partial class MyPreferences : Form
     {
-        public MyPreferences(string lang, ProjectEnum proj, string customproj,
-            Font textFont, bool lowPriority, bool flash, bool beep, bool minimize,
-            bool saveArticleList, bool autoSaveEditBox,
-            string autoSaveEditBoxFile, decimal autoSaveEditBoxPeriod, bool suppressUsingAWB,
-            bool addUsingAWBOnArticleAction, bool ignoreNoBots, bool showTimer, bool usePHP5)
+        public MyPreferences(string lang, ProjectEnum proj, string customproj, bool usePHP5)
         {
             InitializeComponent();
 
@@ -58,25 +54,9 @@ namespace AutoWikiBrowser
 
             cmboCustomProject.Text = customproj;
 
-            chkPHP5Ext.Checked = usePHP5;
-
-            TextBoxFont = textFont;
-            LowThreadPriority = lowPriority;
-            PrefFlash = flash;
-            PrefBeep = beep;
-            PrefMinimize = minimize;
-            PrefSaveArticleList = saveArticleList;
-
-            PrefAutoSaveEditBoxEnabled = autoSaveEditBox;
-            PrefAutoSaveEditBoxFile = autoSaveEditBoxFile;
-            PrefAutoSaveEditBoxPeriod = autoSaveEditBoxPeriod;
-            PrefIgnoreNoBots = ignoreNoBots;
-            PrefShowTimer = showTimer;
-            PrefAddUsingAWBOnArticleAction = addUsingAWBOnArticleAction;
+            PrefPHP5 = usePHP5;
 
             chkSupressAWB.Enabled = (cmboProject.Text == "custom" || cmboProject.Text == "wikia");
-
-            PrefSuppressUsingAWB = chkSupressAWB.Enabled && suppressUsingAWB;
 
             chkAlwaysConfirmExit.Checked = Properties.Settings.Default.AskForTerminate;
             chkPrivacy.Checked = !Properties.Settings.Default.Privacy;
@@ -114,12 +94,11 @@ namespace AutoWikiBrowser
             FixCustomProject();
         }
 
+        private static readonly Regex CustomProjectRegex = new Regex(@"^.*?://(?:([\w/\.-]+?)/(?:index|api).php|([\w/\.-]+)).*$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
         private void FixCustomProject()
         {
-            string proj = Regex.Replace(cmboCustomProject.Text.Trim(),
-                @"^.*?://(?:([\w/\.-]+?)/(?:index|api).php|([\w/\.-]+)).*$",
-                "$1$2", 
-                RegexOptions.IgnoreCase);
+            string proj = CustomProjectRegex.Replace(cmboCustomProject.Text.Trim(), "$1$2");
 
             proj = proj.TrimEnd('/');
             if (Project == ProjectEnum.custom) // we shouldn't screw up Wikia
@@ -231,7 +210,7 @@ namespace AutoWikiBrowser
         public bool PrefSuppressUsingAWB
         {
             get { return chkSupressAWB.Checked; }
-            set { chkSupressAWB.Checked = value; }
+            set { chkSupressAWB.Checked = chkSupressAWB.Enabled && value; }
         }
 
         public bool PrefAddUsingAWBOnArticleAction

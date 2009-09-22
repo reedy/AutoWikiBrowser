@@ -2409,10 +2409,23 @@ window.scrollTo(0, diffTopY);
         private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MyPreferences myPrefs = new MyPreferences(Variables.LangCode, Variables.Project,
-                Variables.CustomProject, txtEdit.Font, LowThreadPriority, Flash, Beep,
-                Minimize, SaveArticleList, AutoSaveEditBoxEnabled, AutoSaveEditBoxFile,
-                AutoSaveEditBoxPeriod, SuppressUsingAWB, Article.AddUsingAWBOnArticleAction, IgnoreNoBots,
-                ShowMovingAverageTimer, Variables.PHP5);
+                                                      Variables.CustomProject, Variables.PHP5)
+                                        {
+                                            TextBoxFont = txtEdit.Font,
+                                            LowThreadPriority = LowThreadPriority,
+                                            PrefFlash = Flash,
+                                            PrefBeep = Beep,
+                                            PrefMinimize = Minimize,
+                                            PrefSaveArticleList = SaveArticleList,
+
+                                            PrefAutoSaveEditBoxEnabled = AutoSaveEditBoxEnabled,
+                                            PrefAutoSaveEditBoxFile = AutoSaveEditBoxFile,
+                                            PrefAutoSaveEditBoxPeriod = AutoSaveEditBoxPeriod,
+                                            PrefIgnoreNoBots = IgnoreNoBots,
+                                            PrefShowTimer = ShowMovingAverageTimer,
+                                            PrefAddUsingAWBOnArticleAction = Article.AddUsingAWBOnArticleAction,
+                                            PrefSuppressUsingAWB = SuppressUsingAWB
+                                        };
 
             if (myPrefs.ShowDialog(this) == DialogResult.OK)
             {
