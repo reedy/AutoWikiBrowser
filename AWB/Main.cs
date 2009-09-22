@@ -3518,6 +3518,12 @@ window.scrollTo(0, diffTopY);
         {
             try
             {
+                if (!TheSession.Page.Exists)
+                {
+                    MessageBox.Show("Cannot move a non-existant page");
+                    return;
+                }
+
                 if (!TheSession.User.CanMovePage(TheSession.Page))
                 {
                     MessageBox.Show(
@@ -3547,6 +3553,12 @@ window.scrollTo(0, diffTopY);
         {
             try
             {
+                if (!TheSession.Page.Exists)
+                {
+                    MessageBox.Show("Cannot delete a non-existant page");
+                    return;
+                }
+
                 if (!TheSession.User.IsSysop)
                 {
                     MessageBox.Show(

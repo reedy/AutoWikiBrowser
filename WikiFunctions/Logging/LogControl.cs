@@ -30,7 +30,7 @@ namespace WikiFunctions.Logging
     public partial class LogControl : UserControl
     {
         protected ListMaker listMaker;
-        protected List<AWBLogListener> FilteredItems = new List<AWBLogListener>();
+        protected readonly List<AWBLogListener> FilteredItems = new List<AWBLogListener>();
 
         #region Public
         public LogControl()
