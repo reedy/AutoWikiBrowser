@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Drawing;
+using System.Text;
 using System.Windows.Forms;
 
 namespace WikiFunctions.Controls
@@ -129,7 +130,7 @@ namespace WikiFunctions.Controls
 
         public string EditProtectionLevel
         {
-            get 
+            get
             {
                 return CurrentAction == ArticleAction.Protect ? MoveDelete.EditProtectionLevel : "";
             }
@@ -152,7 +153,7 @@ namespace WikiFunctions.Controls
         }
 
         public string ProtectExpiry
-        {get { return txtExpiry.Text; }}
+        { get { return txtExpiry.Text; } }
 
         public bool CascadingProtection
         { get { return chkCascadingProtection.Checked; } }
@@ -181,9 +182,46 @@ namespace WikiFunctions.Controls
 
         private void ArticleActionDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (CurrentAction == ArticleAction.Move && string.IsNullOrEmpty(cmboSummary.Text))
+            if (DialogResult != DialogResult.OK)
+                return;
+
+            string errorTitle = "";
+
+            StringBuilder errorMessage = new StringBuilder();
+
+            switch (CurrentAction)
             {
-                MessageBox.Show("Please enter/select a move reason", "Move reason required");
+                case ArticleAction.Move:
+                    errorTitle = "Move error";
+
+                    if (string.IsNullOrEmpty(cmboSummary.Text))
+                        errorMessage.AppendLine("Please enter/select a move reason.");
+
+                    if (string.IsNullOrEmpty(txtNewTitle.Text))
+                        errorMessage.AppendLine("Please enter a new/target title.");
+
+                    break;
+                case ArticleAction.Protect:
+                    errorTitle = "Protection error";
+
+                    if (string.IsNullOrEmpty(cmboSummary.Text))
+                        errorMessage.AppendLine("Please enter/select a protection reason.");
+
+                    if (string.IsNullOrEmpty(txtExpiry.Text))
+                        errorMessage.AppendLine("Please enter an expiry time.");
+                    break;
+                case ArticleAction.Delete:
+                    if (string.IsNullOrEmpty(cmboSummary.Text))
+                    {
+                        errorMessage.AppendLine("Please enter/select a deletion reason");
+                        errorTitle = "Deletion reason required";
+                    }
+                    break;
+            }
+
+            if (errorMessage.Length > 0)
+            {
+                MessageBox.Show(errorMessage.ToString(), errorTitle);
                 e.Cancel = true;
             }
         }
