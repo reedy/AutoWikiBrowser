@@ -1,6 +1,6 @@
 namespace WikiFunctions.Logging
 {
-    partial class LogControl
+    partial class ArticleActionLogControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,10 +30,10 @@ namespace WikiFunctions.Logging
         {
             this.components = new System.ComponentModel.Container();
             this.btnAddToList = new System.Windows.Forms.Button();
-            this.btnClearIgnored = new System.Windows.Forms.Button();
-            this.btnSaveIgnored = new System.Windows.Forms.Button();
-            this.btnClearSaved = new System.Windows.Forms.Button();
-            this.btnSaveSaved = new System.Windows.Forms.Button();
+            this.btnClearFailed = new System.Windows.Forms.Button();
+            this.btnSaveFailed = new System.Windows.Forms.Button();
+            this.btnClearSuccessful = new System.Windows.Forms.Button();
+            this.btnSaveSuccessful = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
@@ -51,19 +51,9 @@ namespace WikiFunctions.Logging
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openHistoryInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.filterShowOnlySelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.filterExcludeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lvIgnored = new WikiFunctions.Controls.NoFlickerExtendedListView();
-            this.colIgnoreArticle = new System.Windows.Forms.ColumnHeader();
-            this.colIgnoreTime = new System.Windows.Forms.ColumnHeader();
-            this.colSkippedBy = new System.Windows.Forms.ColumnHeader();
-            this.colSkipReason = new System.Windows.Forms.ColumnHeader();
-            this.lvSaved = new WikiFunctions.Controls.NoFlickerExtendedListView();
-            this.colSuccessSave = new System.Windows.Forms.ColumnHeader();
-            this.colSuccessTime = new System.Windows.Forms.ColumnHeader();
+            this.lvSuccessful = new WikiFunctions.Logging.ArticleActionListView();
+            this.lvFailed = new WikiFunctions.Logging.ArticleActionListView();
             this.mnuListView.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -77,65 +67,65 @@ namespace WikiFunctions.Logging
             this.btnAddToList.UseVisualStyleBackColor = true;
             this.btnAddToList.Click += new System.EventHandler(this.btnAddToList_Click);
             // 
-            // btnClearIgnored
+            // btnClearFailed
             // 
-            this.btnClearIgnored.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClearIgnored.Location = new System.Drawing.Point(177, 310);
-            this.btnClearIgnored.Name = "btnClearIgnored";
-            this.btnClearIgnored.Size = new System.Drawing.Size(75, 24);
-            this.btnClearIgnored.TabIndex = 18;
-            this.btnClearIgnored.Text = "Clear";
-            this.btnClearIgnored.UseVisualStyleBackColor = true;
-            this.btnClearIgnored.Click += new System.EventHandler(this.btnClearIgnored_Click);
+            this.btnClearFailed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClearFailed.Location = new System.Drawing.Point(177, 310);
+            this.btnClearFailed.Name = "btnClearFailed";
+            this.btnClearFailed.Size = new System.Drawing.Size(75, 24);
+            this.btnClearFailed.TabIndex = 18;
+            this.btnClearFailed.Text = "Clear";
+            this.btnClearFailed.UseVisualStyleBackColor = true;
+            this.btnClearFailed.Click += new System.EventHandler(this.btnClearIgnored_Click);
             // 
-            // btnSaveIgnored
+            // btnSaveFailed
             // 
-            this.btnSaveIgnored.Location = new System.Drawing.Point(6, 310);
-            this.btnSaveIgnored.Name = "btnSaveIgnored";
-            this.btnSaveIgnored.Size = new System.Drawing.Size(75, 24);
-            this.btnSaveIgnored.TabIndex = 17;
-            this.btnSaveIgnored.Text = "Save log";
-            this.btnSaveIgnored.UseVisualStyleBackColor = true;
-            this.btnSaveIgnored.Click += new System.EventHandler(this.btnSaveIgnored_Click);
+            this.btnSaveFailed.Location = new System.Drawing.Point(6, 310);
+            this.btnSaveFailed.Name = "btnSaveFailed";
+            this.btnSaveFailed.Size = new System.Drawing.Size(75, 24);
+            this.btnSaveFailed.TabIndex = 17;
+            this.btnSaveFailed.Text = "Save log";
+            this.btnSaveFailed.UseVisualStyleBackColor = true;
+            this.btnSaveFailed.Click += new System.EventHandler(this.btnSaveIgnored_Click);
             // 
-            // btnClearSaved
+            // btnClearSuccessful
             // 
-            this.btnClearSaved.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClearSaved.Location = new System.Drawing.Point(177, 137);
-            this.btnClearSaved.Name = "btnClearSaved";
-            this.btnClearSaved.Size = new System.Drawing.Size(75, 24);
-            this.btnClearSaved.TabIndex = 16;
-            this.btnClearSaved.Text = "Clear";
-            this.btnClearSaved.UseVisualStyleBackColor = true;
-            this.btnClearSaved.Click += new System.EventHandler(this.btnClearSaved_Click);
+            this.btnClearSuccessful.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClearSuccessful.Location = new System.Drawing.Point(177, 137);
+            this.btnClearSuccessful.Name = "btnClearSuccessful";
+            this.btnClearSuccessful.Size = new System.Drawing.Size(75, 24);
+            this.btnClearSuccessful.TabIndex = 16;
+            this.btnClearSuccessful.Text = "Clear";
+            this.btnClearSuccessful.UseVisualStyleBackColor = true;
+            this.btnClearSuccessful.Click += new System.EventHandler(this.btnClearSaved_Click);
             // 
-            // btnSaveSaved
+            // btnSaveSuccessful
             // 
-            this.btnSaveSaved.Location = new System.Drawing.Point(6, 137);
-            this.btnSaveSaved.Name = "btnSaveSaved";
-            this.btnSaveSaved.Size = new System.Drawing.Size(75, 24);
-            this.btnSaveSaved.TabIndex = 15;
-            this.btnSaveSaved.Text = "Save log";
-            this.btnSaveSaved.UseVisualStyleBackColor = true;
-            this.btnSaveSaved.Click += new System.EventHandler(this.btnSaveSaved_Click);
+            this.btnSaveSuccessful.Location = new System.Drawing.Point(6, 137);
+            this.btnSaveSuccessful.Name = "btnSaveSuccessful";
+            this.btnSaveSuccessful.Size = new System.Drawing.Size(75, 24);
+            this.btnSaveSuccessful.TabIndex = 15;
+            this.btnSaveSuccessful.Text = "Save log";
+            this.btnSaveSuccessful.UseVisualStyleBackColor = true;
+            this.btnSaveSuccessful.Click += new System.EventHandler(this.btnSaveSaved_Click);
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(3, 171);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(49, 13);
+            this.label8.Size = new System.Drawing.Size(38, 13);
             this.label8.TabIndex = 14;
-            this.label8.Text = "Skipped:";
+            this.label8.Text = "Failed:";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(3, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(101, 13);
+            this.label7.Size = new System.Drawing.Size(62, 13);
             this.label7.TabIndex = 13;
-            this.label7.Text = "Successfully saved:";
+            this.label7.Text = "Successful:";
             // 
             // saveListDialog
             // 
@@ -160,14 +150,9 @@ namespace WikiFunctions.Logging
             this.openInBrowserToolStripMenuItem,
             this.openHistoryInBrowserToolStripMenuItem,
             this.toolStripSeparator1,
-            this.filterShowOnlySelectedToolStripMenuItem,
-            this.filterExcludeToolStripMenuItem,
-            this.toolStripSeparator6,
-            this.clearToolStripMenuItem,
-            this.resetToolStripMenuItem});
+            this.clearToolStripMenuItem});
             this.mnuListView.Name = "mnuListView";
-            this.mnuListView.Size = new System.Drawing.Size(204, 304);
-            this.mnuListView.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListView_Opening);
+            this.mnuListView.Size = new System.Drawing.Size(204, 232);
             // 
             // addSelectedToArticleListToolStripMenuItem
             // 
@@ -250,25 +235,6 @@ namespace WikiFunctions.Logging
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(200, 6);
             // 
-            // filterShowOnlySelectedToolStripMenuItem
-            // 
-            this.filterShowOnlySelectedToolStripMenuItem.Name = "filterShowOnlySelectedToolStripMenuItem";
-            this.filterShowOnlySelectedToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.filterShowOnlySelectedToolStripMenuItem.Text = "Filter: Show only";
-            this.filterShowOnlySelectedToolStripMenuItem.Click += new System.EventHandler(this.filterShowOnlySelectedToolStripMenuItem_Click_1);
-            // 
-            // filterExcludeToolStripMenuItem
-            // 
-            this.filterExcludeToolStripMenuItem.Name = "filterExcludeToolStripMenuItem";
-            this.filterExcludeToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.filterExcludeToolStripMenuItem.Text = "Filter: Exclude";
-            this.filterExcludeToolStripMenuItem.Click += new System.EventHandler(this.filterExcludeToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator6
-            // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(200, 6);
-            // 
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
@@ -276,98 +242,54 @@ namespace WikiFunctions.Logging
             this.clearToolStripMenuItem.Text = "Clear";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
-            // resetToolStripMenuItem
+            // lvSuccessful
             // 
-            this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.resetToolStripMenuItem.Text = "Reset";
-            this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
-            // 
-            // lvIgnored
-            // 
-            this.lvIgnored.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.lvSuccessful.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.lvIgnored.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colIgnoreArticle,
-            this.colIgnoreTime,
-            this.colSkippedBy,
-            this.colSkipReason});
-            this.lvIgnored.ComparerFactory = this.lvIgnored;
-            this.lvIgnored.ContextMenuStrip = this.mnuListView;
-            this.lvIgnored.FullRowSelect = true;
-            this.lvIgnored.Location = new System.Drawing.Point(3, 187);
-            this.lvIgnored.Name = "lvIgnored";
-            this.lvIgnored.ShowItemToolTips = true;
-            this.lvIgnored.Size = new System.Drawing.Size(249, 117);
-            this.lvIgnored.SortColumnsOnClick = true;
-            this.lvIgnored.TabIndex = 21;
-            this.lvIgnored.UseCompatibleStateImageBehavior = false;
-            this.lvIgnored.View = System.Windows.Forms.View.Details;
-            this.lvIgnored.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
+            this.lvSuccessful.ComparerFactory = this.lvSuccessful;
+            this.lvSuccessful.ContextMenuStrip = this.mnuListView;
+            this.lvSuccessful.FullRowSelect = true;
+            this.lvSuccessful.Location = new System.Drawing.Point(3, 16);
+            this.lvSuccessful.Name = "lvSuccessful";
+            this.lvSuccessful.ShowItemToolTips = true;
+            this.lvSuccessful.Size = new System.Drawing.Size(249, 115);
+            this.lvSuccessful.SortColumnsOnClick = true;
+            this.lvSuccessful.TabIndex = 20;
+            this.lvSuccessful.UseCompatibleStateImageBehavior = false;
+            this.lvSuccessful.View = System.Windows.Forms.View.Details;
+            this.lvSuccessful.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
             // 
-            // colIgnoreArticle
+            // lvFailed
             // 
-            this.colIgnoreArticle.Text = "Page";
-            this.colIgnoreArticle.Width = 48;
-            // 
-            // colIgnoreTime
-            // 
-            this.colIgnoreTime.Text = "Time";
-            this.colIgnoreTime.Width = 42;
-            // 
-            // colSkippedBy
-            // 
-            this.colSkippedBy.Text = "Skipped By";
-            this.colSkippedBy.Width = 70;
-            // 
-            // colSkipReason
-            // 
-            this.colSkipReason.Text = "Skip Reason";
-            this.colSkipReason.Width = 81;
-            // 
-            // lvSaved
-            // 
-            this.lvSaved.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.lvFailed.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.lvSaved.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colSuccessSave,
-            this.colSuccessTime});
-            this.lvSaved.ComparerFactory = this.lvSaved;
-            this.lvSaved.ContextMenuStrip = this.mnuListView;
-            this.lvSaved.FullRowSelect = true;
-            this.lvSaved.Location = new System.Drawing.Point(3, 16);
-            this.lvSaved.Name = "lvSaved";
-            this.lvSaved.ShowItemToolTips = true;
-            this.lvSaved.Size = new System.Drawing.Size(249, 115);
-            this.lvSaved.SortColumnsOnClick = true;
-            this.lvSaved.TabIndex = 20;
-            this.lvSaved.UseCompatibleStateImageBehavior = false;
-            this.lvSaved.View = System.Windows.Forms.View.Details;
-            this.lvSaved.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
+            this.lvFailed.ComparerFactory = this.lvFailed;
+            this.lvFailed.ContextMenuStrip = this.mnuListView;
+            this.lvFailed.FullRowSelect = true;
+            this.lvFailed.Location = new System.Drawing.Point(3, 187);
+            this.lvFailed.Name = "lvFailed";
+            this.lvFailed.ShowItemToolTips = true;
+            this.lvFailed.Size = new System.Drawing.Size(249, 115);
+            this.lvFailed.SortColumnsOnClick = true;
+            this.lvFailed.TabIndex = 20;
+            this.lvFailed.UseCompatibleStateImageBehavior = false;
+            this.lvFailed.View = System.Windows.Forms.View.Details;
+            this.lvFailed.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
             // 
-            // colSuccessSave
-            // 
-            this.colSuccessSave.Text = "Page";
-            this.colSuccessSave.Width = 171;
-            // 
-            // colSuccessTime
-            // 
-            this.colSuccessTime.Text = "Time";
-            // 
-            // LogControl
+            // ArticleActionLogControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lvFailed);
+            this.Controls.Add(this.lvSuccessful);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.lvIgnored);
-            this.Controls.Add(this.btnSaveIgnored);
-            this.Controls.Add(this.lvSaved);
-            this.Controls.Add(this.btnSaveSaved);
-            this.Controls.Add(this.btnClearIgnored);
-            this.Controls.Add(this.btnClearSaved);
+            this.Controls.Add(this.btnSaveFailed);
+            this.Controls.Add(this.btnSaveSuccessful);
+            this.Controls.Add(this.btnClearFailed);
+            this.Controls.Add(this.btnClearSuccessful);
             this.Controls.Add(this.btnAddToList);
-            this.Name = "LogControl";
+            this.Name = "ArticleActionLogControl";
             this.Size = new System.Drawing.Size(257, 341);
             this.mnuListView.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -377,26 +299,17 @@ namespace WikiFunctions.Logging
 
         #endregion
 
-        private Controls.NoFlickerExtendedListView lvIgnored;
-        private System.Windows.Forms.ColumnHeader colIgnoreArticle;
-        private System.Windows.Forms.ColumnHeader colIgnoreTime;
-        private System.Windows.Forms.ColumnHeader colSkippedBy;
-        private System.Windows.Forms.ColumnHeader colSkipReason;
-        private Controls.NoFlickerExtendedListView lvSaved;
-        private System.Windows.Forms.ColumnHeader colSuccessSave;
-        private System.Windows.Forms.ColumnHeader colSuccessTime;
         private System.Windows.Forms.Button btnAddToList;
-        private System.Windows.Forms.Button btnClearIgnored;
-        private System.Windows.Forms.Button btnSaveIgnored;
-        private System.Windows.Forms.Button btnClearSaved;
-        private System.Windows.Forms.Button btnSaveSaved;
+        private System.Windows.Forms.Button btnClearFailed;
+        private System.Windows.Forms.Button btnSaveFailed;
+        private System.Windows.Forms.Button btnClearSuccessful;
+        private System.Windows.Forms.Button btnSaveSuccessful;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.SaveFileDialog saveListDialog;
         private System.Windows.Forms.ContextMenuStrip mnuListView;
         private System.Windows.Forms.ToolStripMenuItem addSelectedToArticleListToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem filterShowOnlySelectedToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem cutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
@@ -408,9 +321,8 @@ namespace WikiFunctions.Logging
         private System.Windows.Forms.ToolStripMenuItem openHistoryInBrowserToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem filterExcludeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem resetToolStripMenuItem;
+        private ArticleActionListView lvSuccessful;
+        private ArticleActionListView lvFailed;
     }
 }
