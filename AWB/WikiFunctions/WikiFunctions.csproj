@@ -83,6 +83,18 @@
     <Compile Include="Diff\UnifiedDiff.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Lists\Providers\NonMWListProviders.cs" />
+    <Compile Include="Logging\ArticleActionListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Logging\ArticleActionListView.Designer.cs">
+      <DependentUpon>ArticleActionListView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Logging\ArticleActionLogControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Logging\ArticleActionLogControl.Designer.cs">
+      <DependentUpon>ArticleActionLogControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Session.cs" />
     <Compile Include="Controls\Lists\ProtectionLevel.cs">
       <SubType>Form</SubType>
@@ -354,6 +366,13 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\NamespacesControl.resx">
       <DependentUpon>NamespacesControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logging\ArticleActionListView.resx">
+      <DependentUpon>ArticleActionListView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Logging\ArticleActionLogControl.resx">
+      <DependentUpon>ArticleActionLogControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Profiles\AWBProfilesForm.resx">
       <SubType>Designer</SubType>
