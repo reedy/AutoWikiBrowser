@@ -189,12 +189,14 @@ namespace WikiFunctions.Logging
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (AWBLogListener item in MenuItemOwner(sender).SelectedItems) { item.OpenInBrowser(); }
+            foreach (ListViewItem item in MenuItemOwner(sender).SelectedItems)
+                Tools.OpenArticleInBrowser(item.Text);
         }
 
         private void openHistoryInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Tools.OpenArticleHistoryInBrowser(SelectedItem(sender).Text);
+            foreach (ListViewItem item in MenuItemOwner(sender).SelectedItems)
+                Tools.OpenArticleHistoryInBrowser(item.Text);
         }
 
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -214,5 +216,11 @@ namespace WikiFunctions.Logging
             }
         }
         #endregion
+
+        private void openLogInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in MenuItemOwner(sender).SelectedItems)
+                Tools.OpenArticleLogInBrowser(item.Text);
+        }
     }
 }

@@ -1382,6 +1382,12 @@ Message: {2}
             OpenURLInBrowser(Variables.GetUserTalkURL(username));
         }
 
+        public static void OpenArticleLogInBrowser(string page)
+        {
+            OpenURLInBrowser(Variables.URLLong +
+                             "index.php?title=Special:Log&type=&user=&page=" + page + "&year=&month=-1&tagfilter=&hide_patrol_log=1");
+        }
+
         /// <summary>
         /// Opens the specified articles edit page
         /// </summary>
