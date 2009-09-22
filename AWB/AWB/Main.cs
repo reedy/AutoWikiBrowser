@@ -2385,7 +2385,10 @@ window.scrollTo(0, diffTopY);
             listMaker.Add("Project:AutoWikiBrowser/Sandbox");
             lblOnlyBots.Visible = false;
             bypassAllRedirectsToolStripMenuItem.Enabled = true;
+
             profileTyposToolStripMenuItem.Visible = true;
+            toolStripSeparator29.Visible = true;
+            invalidateCacheToolStripMenuItem.Visible = true;
 
 #if DEBUG
             Variables.Profiler = new Profiler("profiling.txt", true);
@@ -4487,6 +4490,11 @@ window.scrollTo(0, diffTopY);
                     "Security warning - READ THIS", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 e.Cancel = true;
             }
+        }
+
+        private void invalidateCacheToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ObjectCache.Global.Invalidate();
         }
     }
         #endregion

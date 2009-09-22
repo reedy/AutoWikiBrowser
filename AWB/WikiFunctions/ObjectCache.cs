@@ -348,6 +348,13 @@ namespace WikiFunctions
                 return false;
             }
         }
+
+        public void Invalidate()
+        {
+            Storage.Clear();
+            Save();
+            File.Delete(FileName);
+        }
     }
 
     namespace Internal
