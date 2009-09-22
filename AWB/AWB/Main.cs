@@ -3531,6 +3531,9 @@ window.scrollTo(0, diffTopY);
                 if (TheArticle.Move(TheSession, out newTitle))
                 {
                     Article replacementArticle = new Article(newTitle);
+
+                    StatusLabelText = "Moved " + TheArticle.Name + " to " + newTitle;
+
                     listMaker.ReplaceArticle(TheArticle, replacementArticle);
                 }
             }
@@ -3554,6 +3557,7 @@ window.scrollTo(0, diffTopY);
 
                 if (TheArticle.Delete(TheSession))
                 {
+                    StatusLabelText = "Deleted " + TheArticle.Name;
                     listMaker.Remove(TheArticle);
                 }
             }
@@ -3575,7 +3579,10 @@ window.scrollTo(0, diffTopY);
                     return;
                 }
 
-                TheArticle.Protect(TheSession);
+                if (TheArticle.Protect(TheSession))
+                {
+                    StatusLabelText = "Protected " + TheArticle.Name;
+                }
             }
             catch (Exception ex)
             {
