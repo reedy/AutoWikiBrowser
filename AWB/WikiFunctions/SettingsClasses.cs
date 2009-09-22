@@ -51,11 +51,12 @@ namespace WikiFunctions.AWBSettings
             Disambiguation = new DabPrefs();
             Module = new ModulePrefs();
             Logging = new LoggingPrefs();
+            Tool = new ToolsPrefs();
         }
 
         // the public constructors are used to create an object with settings from the UI
         public UserPrefs(FaRPrefs mFaRPrefs, EditPrefs mEditprefs, ListPrefs mList, SkipPrefs mSkipOptions,
-            GeneralPrefs mGeneral, DabPrefs mDisambiguation, ModulePrefs mModule, ExternalProgramPrefs mExternalProgram, LoggingPrefs mLogging, SpecialFilterPrefs mSpecial,
+            GeneralPrefs mGeneral, DabPrefs mDisambiguation, ModulePrefs mModule, ExternalProgramPrefs mExternalProgram, LoggingPrefs mLogging, SpecialFilterPrefs mSpecial, ToolsPrefs mTool,
             Dictionary<string, Plugin.IAWBPlugin> plugins)
         {
             LanguageCode = Variables.LangCode;
@@ -73,6 +74,8 @@ namespace WikiFunctions.AWBSettings
             ExternalProgram = mExternalProgram;
             Logging = mLogging;
             Special = mSpecial;
+
+            Tool = mTool;
 
             foreach (KeyValuePair<string, Plugin.IAWBPlugin> a in plugins)
             {
@@ -100,6 +103,7 @@ namespace WikiFunctions.AWBSettings
         public DabPrefs Disambiguation;
         public LoggingPrefs Logging;
         public SpecialFilterPrefs Special = new SpecialFilterPrefs();
+        public ToolsPrefs Tool;
 
         public List<PluginPrefs> Plugin = new List<PluginPrefs>();
 
@@ -438,8 +442,6 @@ namespace WikiFunctions.AWBSettings
     [Serializable]
     public class SpecialFilterPrefs
     {
-        internal SpecialFilterPrefs() { }
-
         public List<int> namespaceValues;
 
         public bool remDupes = true;
@@ -455,7 +457,13 @@ namespace WikiFunctions.AWBSettings
         public List<string> remove = new List<string>();
     }
 
-    [Serializable,]
+    [Serializable]
+    public class ToolsPrefs
+    {
+        public int ListComparerUseCurrentArticleList;
+    }
+
+    [Serializable]
     public class PluginPrefs
     {
         internal PluginPrefs() { }

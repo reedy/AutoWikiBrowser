@@ -390,6 +390,8 @@ namespace AutoWikiBrowser
             }
         }
 
+        private int _listComparerUseCurrentArticleList;
+
         private bool Flash;
         private bool Beep;
 
@@ -2424,7 +2426,9 @@ window.scrollTo(0, diffTopY);
                                             PrefIgnoreNoBots = IgnoreNoBots,
                                             PrefShowTimer = ShowMovingAverageTimer,
                                             PrefAddUsingAWBOnArticleAction = Article.AddUsingAWBOnArticleAction,
-                                            PrefSuppressUsingAWB = SuppressUsingAWB
+                                            PrefSuppressUsingAWB = SuppressUsingAWB,
+
+                                            PrefListComparerUseCurrentArticleList = _listComparerUseCurrentArticleList
                                         };
 
             if (myPrefs.ShowDialog(this) == DialogResult.OK)
@@ -2442,6 +2446,8 @@ window.scrollTo(0, diffTopY);
                 Article.AddUsingAWBOnArticleAction = myPrefs.PrefAddUsingAWBOnArticleAction;
                 IgnoreNoBots = myPrefs.PrefIgnoreNoBots;
                 ShowMovingAverageTimer = myPrefs.PrefShowTimer;
+
+                _listComparerUseCurrentArticleList = myPrefs.PrefListComparerUseCurrentArticleList;
 
                 if (myPrefs.Language != Variables.LangCode || myPrefs.Project != Variables.Project
                     || (myPrefs.CustomProject != Variables.CustomProject))
@@ -2813,10 +2819,24 @@ window.scrollTo(0, diffTopY);
 
         private void launchListComparerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (listMaker.Count > 0 && MessageBox.Show("Would you like to copy your current Article List to the ListComparer?", "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                Comparer = new ListComparer(listMaker.GetArticleList());
-            else
-                Comparer = new ListComparer();
+            switch (_listComparerUseCurrentArticleList)
+            {
+                case 0:
+                    if (listMaker.Count > 0 &&
+                        MessageBox.Show("Would you like to copy your current Article List to the ListComparer?",
+                                        "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        Comparer = new ListComparer(listMaker.GetArticleList());
+                    else
+                        Comparer = new ListComparer();
+                    break;
+                case 1:
+                    if (listMaker.Count > 0)
+                        Comparer = new ListComparer(listMaker.GetArticleList());
+                    break;
+                case 2:
+                    Comparer = new ListComparer();
+                    break;
+            }
 
             Comparer.Show(this);
         }
