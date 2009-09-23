@@ -1701,30 +1701,36 @@ namespace WikiFunctions.Parse
             {
                 int firstUnbalancedBracket = unbalancedBracket;
                 // if it's ]]_]_ then see if removing bracket makes it all balance
-                if (bracketLength == 1 && articleTextTemp[unbalancedBracket].ToString().Equals(@"]") &&
-                    articleTextTemp[unbalancedBracket - 1].ToString().Equals(@"]") && articleTextTemp[unbalancedBracket - 2].ToString().Equals(@"]"))
+                if (bracketLength == 1 
+                    && articleTextTemp[unbalancedBracket] == ']'
+                    && articleTextTemp[unbalancedBracket - 1] == ']'
+                    && articleTextTemp[unbalancedBracket - 2] == ']'
+                )
                     articleTextTemp = articleTextTemp.Remove(unbalancedBracket, 1);
 
                 if (bracketLength == 1)
                 {
                     // if it's [[blah blah}word]]
-                    articleTextTemp = CurlyBraceInsteadOfPipeInWikiLink.Replace(articleTextTemp, @"|");
+                    articleTextTemp = CurlyBraceInsteadOfPipeInWikiLink.Replace(articleTextTemp, "|");
 
                     // if it's (blah} then see if setting the } to a ) makes it all balance, but not |} which could be wikitables
-                    articleTextTemp = CurlyBraceInsteadOfBracketClosing.Replace(articleTextTemp, @")");
+                    articleTextTemp = CurlyBraceInsteadOfBracketClosing.Replace(articleTextTemp, ")");
 
                     // if it's [blah} then see if setting the } to a ] makes it all balance
-                    articleTextTemp = CurlyBraceInsteadOfSquareBracket.Replace(articleTextTemp, @"]");
+                    articleTextTemp = CurlyBraceInsteadOfSquareBracket.Replace(articleTextTemp, "]");
 
                     // if it's {blah) then see if setting the { to a ( makes it all balance, but not {| which could be wikitables
-                    articleTextTemp = CurlyBraceInsteadOfBracketOpening.Replace(articleTextTemp, @"(");
+                    articleTextTemp = CurlyBraceInsteadOfBracketOpening.Replace(articleTextTemp, "(");
 
                     // if it's ((word) then see if removing the extra opening round bracket makes it all balance
-                    if (articleTextTemp.Length > (unbalancedBracket + 1) && articleTextTemp[unbalancedBracket].ToString().Equals(@"(") && articleText[unbalancedBracket + 1].ToString().Equals(@"("))
+                    if (articleTextTemp.Length > (unbalancedBracket + 1) 
+                        && articleTextTemp[unbalancedBracket] == '(' 
+                        && articleText[unbalancedBracket + 1] == '('
+                    )
                         articleTextTemp = articleTextTemp.Remove(unbalancedBracket, 1);
 
                     // if it's {[link]] or {[[link]] or [[[link]] then see if setting to [[ makes it all balance
-                    articleTextTemp = ExtraBracketOnWikilinkOpening.Replace(articleTextTemp, @"[[");
+                    articleTextTemp = ExtraBracketOnWikilinkOpening.Replace(articleTextTemp, "[[");
 
                     // could be [[{link]]
                     articleTextTemp = ExtraBracketOnWikilinkOpening2.Replace(articleTextTemp, "");
@@ -1736,8 +1742,8 @@ namespace WikiFunctions.Parse
                     articleTextTemp = ExternalLinkMissingOpening.Replace(articleTextTemp, " [");
 
                     // strange bracket
-                    articleTextTemp = articleTextTemp.Replace(@"）", @")");
-                    articleTextTemp = articleTextTemp.Replace(@"（", @"(");
+                    articleTextTemp = articleTextTemp.Replace("）", ")");
+                    articleTextTemp = articleTextTemp.Replace("（", "(");
 
                     // <ref>>
                     articleTextTemp = articleTextTemp.Replace(@"<ref>>", @"<ref>");
