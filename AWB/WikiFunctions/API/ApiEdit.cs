@@ -951,6 +951,8 @@ namespace WikiFunctions.API
                         int maxlag;
                         int.TryParse(MaxLag.Match(xml).Groups[1].Value, out maxlag);
                         throw new MaxlagException(this, maxlag, 10);
+                    case "wrnotloggedin":
+                        throw new LoggedOffException(this);
                     default:
                         if (errorCode.Contains("disabled"))
                             throw new FeatureDisabledException(this, errorCode, errorMessage);
