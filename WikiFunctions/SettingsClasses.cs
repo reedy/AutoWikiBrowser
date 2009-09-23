@@ -51,7 +51,9 @@ namespace WikiFunctions.AWBSettings
             Disambiguation = new DabPrefs();
             Module = new ModulePrefs();
             Logging = new LoggingPrefs();
+            Special = new SpecialFilterPrefs();
             Tool = new ToolsPrefs();
+            ExternalProgram = new ExternalProgramPrefs();
         }
 
         // the public constructors are used to create an object with settings from the UI
@@ -99,10 +101,10 @@ namespace WikiFunctions.AWBSettings
         public GeneralPrefs General;
         public SkipPrefs SkipOptions;
         public ModulePrefs Module;
-        public ExternalProgramPrefs ExternalProgram = new ExternalProgramPrefs();
+        public ExternalProgramPrefs ExternalProgram;
         public DabPrefs Disambiguation;
         public LoggingPrefs Logging;
-        public SpecialFilterPrefs Special = new SpecialFilterPrefs();
+        public SpecialFilterPrefs Special;
         public ToolsPrefs Tool;
 
         public List<PluginPrefs> Plugin = new List<PluginPrefs>();
