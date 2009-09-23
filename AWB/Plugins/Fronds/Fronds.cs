@@ -45,18 +45,6 @@ namespace Fronds
             AWB.PluginsToolStripMenuItem.DropDownItems.Add(EnabledMenuItem);
             AWB.HelpToolStripMenuItem.DropDownItems.Add(AboutMenuItem);
 
-            string newVersion = Tools.GetHTML(BaseURL + "version.txt").Replace(".", "");
-            if (Int16.Parse(newVersion) > Int16.Parse(CurrentVersion.Replace(".", "")))
-            {
-                DialogResult result = MessageBox.Show(
-                    "A newer version of Fronds is available. Downloading it is advisable, as it may contain important bugfixes.\r\n\r\nLoad update page now?",
-                    "New version", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                if (result == DialogResult.Yes)
-                {
-                    Tools.OpenURLInBrowser("http://en.wikipedia.org/wiki/WP:FRONDS/U");
-                }
-            }
-
             XmlDocument xd = new XmlDocument();
             xd.LoadXml(Tools.GetHTML(BaseURL + "index.xml"));
 
