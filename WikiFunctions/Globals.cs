@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace WikiFunctions
 {
@@ -22,6 +23,14 @@ namespace WikiFunctions
         /// </summary>
         public static bool UsingMono
         { get { return Mono; } }
+
+        /// <summary>
+        /// Returns the WikiFunctions assembly version
+        /// </summary>
+        public static Version WikiFunctionsVersion
+        {
+            get { return Assembly.GetAssembly(typeof(Variables)).GetName().Version; }
+        }
 
         #region Unit tests support
         /// <summary>

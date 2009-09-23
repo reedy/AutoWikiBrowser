@@ -20,7 +20,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
-using System.Reflection;
 using WikiFunctions.Plugin;
 using WikiFunctions.Background;
 using System.Net;
@@ -722,14 +721,6 @@ namespace WikiFunctions
             return NonPrettifiedURL(title) + "&action=raw";
         }
         #endregion
-
-        /// <summary>
-        /// Returns the WikiFunctions assembly version
-        /// </summary>
-        public static Version WikiFunctionsVersion
-        {
-            get { return Assembly.GetAssembly(typeof(Variables)).GetName().Version; }
-        }
     }
 
     public enum WikiStatusResult { Error, NotLoggedIn, NotRegistered, OldVersion, Registered, /*Null,*/ PendingUpdate }

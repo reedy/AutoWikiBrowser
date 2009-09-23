@@ -316,7 +316,7 @@ namespace WikiFunctions
             try
             {
                 var loaded = (Internal.CacheRoot)Serializer.Deserialize(str);
-                if (loaded.Version != Variables.WikiFunctionsVersion.ToString()) return false;
+                if (loaded.Version != Globals.WikiFunctionsVersion.ToString()) return false;
 
                 lock (Storage)
                 {
@@ -393,7 +393,7 @@ namespace WikiFunctions
             }
 
             [XmlAttribute("version")]
-            public readonly string Version = Variables.WikiFunctionsVersion.ToString();
+            public readonly string Version = Globals.WikiFunctionsVersion.ToString();
 
             //[XmlText]
             [XmlArray("Types")]
