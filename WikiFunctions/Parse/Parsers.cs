@@ -4175,12 +4175,9 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return DuplicateUnpipedLinks.Replace(articleText, "[[$1]]$2$1");
         }
 
-        private static readonly Regex ExtToInt1 = new Regex(@"/\w+:\/\/secure\.wikimedia\.org\/(\w+)\/(\w+)\//", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex ExtToInt2 = new Regex(@"/http:\/\/(\w+)\.(\w+)\.org\/wiki\/([^#{|}\[\]]*).*REMOVEME/i", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex ExtToInt3 = new Regex(@"/http:\/\/(\w+)\.(\w+)\.org\/.*?title=([^#&{|}\[\]]*).*REMOVEME/i", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex ExtToInt4 = new Regex(@"/[^\n]*?\[\[([^[\]{|}]+)[^\n]*REMOVEME/g", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex ExtToInt5 = new Regex(@"/^ *(w:|wikipedia:|)(en:|([a-z\-]+:)) *REMOVEME/i", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex ExtToInt6 = new Regex(@"/^ *(?:wikimedia:(m)eta|wikimedia:(commons)|(wikt)ionary|wiki(?:(n)ews|(b)ooks|(q)uote|(s)ource|(v)ersity))(:[a-z\-]+:)/i", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        static readonly Regex ExtToIn = new Regex(@"(?<![*#:;]{2})\[http://([a-z0-9\-]{3})\.(?:(wikt)ionary|wiki(n)ews|wiki(b)ooks|wiki(q)uote|wiki(s)ource|wiki(v)ersity|(w)ikipedia)\.(?:com|net|org)/wiki/([^][{|}\s""]*) +([^\n\]]+)\]", RegexOptions.Compiled);
+        static readonly Regex ExtToIn2 = new Regex(@"(?<![*#:;]{2})\[http://(?:(m)eta|(commons)|(incubator)|(quality))\.wikimedia\.(?:com|net|org)/wiki/([^][{|}\s""]*) +([^\n\]]+)\]", RegexOptions.Compiled);
+        static readonly Regex ExtToIn3 = new Regex(@"(?<![*#:;]{2})\[http://([a-z0-9\-]+)\.wikia\.(?:com|net|org)/wiki/([^][{|}\s""]+) +([^\n\]]+)\]", RegexOptions.Compiled);
 
         // Covered by UtilityFunctionTests.ExternalURLToInternalLink(), incomplete
         /// <summary>
@@ -4190,21 +4187,11 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <returns></returns>
         public static string ExternalURLToInternalLink(string articleText)
         {
-            // Convert from the escaped UTF-8 byte code into Unicode
-            articleText = HttpUtility.UrlDecode(articleText);
-            // Convert secure URLs into non-secure equivalents (note the secure system is considered a 'hack')
-            articleText = ExtToInt1.Replace(articleText, "http://$2.$1.org/");
-            // Convert http://lang.domain.org/wiki/ into interwiki format
-            articleText = ExtToInt2.Replace(articleText, "$2:$1:$3");
-            // Scripts paths (/w/index.php?...) into interwiki format
-            articleText = ExtToInt3.Replace(articleText, "$2:$1:$3");
-            // Remove [[brackets]] from link
-            articleText = ExtToInt4.Replace(articleText, "$1");
-            // '_' -> ' ' and hard coded home wiki
-            articleText = ExtToInt5.Replace(articleText, "$3");
-            // Use short prefix form (wiktionary:en:Wiktionary:Main Page -> wikt:en:Wiktionary:Main Page)
-            return ExtToInt6.Replace(articleText, "$1$2$3$4$5$6$7$8$9");
+            articleText = ExtToIn.Replace(articleText, "[[$2$3$4$5$6$7:$1:$8|$9]]");
+            articleText = ExtToIn2.Replace(articleText, "[[$1$2$3$4:$5|$6]]");
+            return ExtToIn3.Replace(articleText, "[[wikia:$1:$2|$3]]");
         }
+
         #endregion
 
         #region Property checkers
