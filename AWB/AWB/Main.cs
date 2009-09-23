@@ -1494,6 +1494,8 @@ window.scrollTo(0, diffTopY);
                 StatusLabelText = "Previewing...";
                 TheSession.Editor.Preview(TheArticle.Name, txtEdit.Text);
             }
+            else
+                StatusLabelText = "Editor busy";
         }
 
         private void PreviewComplete(AsyncApiEdit sender, string result)
@@ -1532,7 +1534,14 @@ window.scrollTo(0, diffTopY);
             if (TheArticle == null || TheArticle.Name != TheSession.Page.Title)
                 throw new Exception("Attempted to save a wrong page");
 
-            StatusLabelText = "Saving...";
+            if (!TheSession.Editor.IsActive)
+                StatusLabelText = "Saving...";
+            else
+            {
+                StatusLabelText = "Editor busy";
+                return;
+            }
+
             DisableButtons();
             if (txtEdit.Text.Length > 0)
                 SaveArticle();
@@ -1573,8 +1582,14 @@ window.scrollTo(0, diffTopY);
                     break;
             }
 
-            TheSession.Editor.Save(txtEdit.Text, MakeSummary(), markAllAsMinorToolStripMenuItem.Checked,
+            if (!TheSession.Editor.IsActive)
+                TheSession.Editor.Save(txtEdit.Text, MakeSummary(), markAllAsMinorToolStripMenuItem.Checked,
                                    opt);
+            else
+            {
+                StatusLabelText = "Editor busy";
+                EnableButtons();
+            }
         }
 
         #endregion
