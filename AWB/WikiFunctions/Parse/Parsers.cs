@@ -4066,7 +4066,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             {
                 try
                 {
-                    orphaned = (WlhProv.MakeList(Namespace.Article, articleTitle).Count > 0);
+                    orphaned = (WlhProv.MakeList(Namespace.Article, articleTitle).Count > 3);
                 }
                 catch (Exception ex)
                 {
