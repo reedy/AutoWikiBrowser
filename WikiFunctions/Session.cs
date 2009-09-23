@@ -205,8 +205,8 @@ namespace WikiFunctions
                 Site = new SiteInfo(Editor.SynchronousEditor);
 
                 //load version check page if no status set
-                if (Updater.Result == Updater.AWBEnabledStatus.None || Updater.Result == Updater.AWBEnabledStatus.Error)
-                    Updater.Update();
+                if (Updater.Result == Updater.AWBEnabledStatus.None)
+                    Updater.CheckForUpdates();
 
                 //load check page
                 string url;

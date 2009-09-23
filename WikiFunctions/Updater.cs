@@ -36,7 +36,6 @@ namespace WikiFunctions
         {
             AWBDirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\";
             Result = AWBEnabledStatus.None;
-            Update();
         }
 
         /// <summary>
@@ -150,8 +149,10 @@ namespace WikiFunctions
         /// <summary>
         /// Background request to check enabled state of AWB
         /// </summary>
-        public static void Update()
+        public static void CheckForUpdates()
         {
+            if (Request != null) return;
+
             Request = new BackgroundRequest();
             Request.Execute(UpdateFunc);
         }

@@ -236,6 +236,8 @@ namespace AutoWikiBrowser
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            //Updater.CheckForUpdates(); // start background checks
+
             EditBoxTab.TabPages.Remove(tpTypos);
 
             StatusLabelText = "Initialising...";
@@ -285,9 +287,6 @@ namespace AutoWikiBrowser
                 LoadRecentSettingsList(); // progress 63-66 in LoadRecentSettingsList()
 
                 Updater.UpdateUpdaterFile(SplashScreen.SetProgress); // progress 67-70 in UpdateUpdaterFile()
-
-                if (Updater.Result == Updater.AWBEnabledStatus.None || Updater.Result == Updater.AWBEnabledStatus.Error)
-                    Updater.Update();
 
                 Updater.WaitForCompletion();
 
