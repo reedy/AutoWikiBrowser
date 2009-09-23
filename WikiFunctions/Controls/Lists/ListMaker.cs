@@ -737,6 +737,10 @@ namespace WikiFunctions.Controls.Lists
                 {
                     DisabledListProvider(fde);
                 }
+                catch (LoggedOffException)
+                {
+                    UserLoggedOff();
+                }
 
                 BusyStatus = false;
                 UpdateNumberOfArticles();
@@ -762,6 +766,10 @@ namespace WikiFunctions.Controls.Lists
             {
                 DisabledListProvider(fde);
             }
+            catch (LoggedOffException)
+            {
+                UserLoggedOff();
+            }
             catch (Exception ex)
             {
                 ErrorHandler.ListMakerText = UserInputTextBox.Text;
@@ -782,8 +790,15 @@ namespace WikiFunctions.Controls.Lists
         {
             MessageBox.Show(
                 "Unable to generate lists using " + _providerToRun.DisplayText +
-                ". Removing from the list of providers during this session", fde.DisabledFeature + "is disabled");
+                ". Removing from the list of providers during this session", fde.DisabledFeature + " is disabled");
             ListItems.Remove(_providerToRun);
+        }
+
+        private void UserLoggedOff()
+        {
+            MessageBox.Show(
+                "User must be logged in to use \"" + _providerToRun.DisplayText + "\". Please login and try again.",
+                "User logged out");   
         }
 
         private void RemoveSelectedArticle()
