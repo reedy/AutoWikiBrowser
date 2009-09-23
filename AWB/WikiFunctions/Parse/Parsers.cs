@@ -1700,70 +1700,94 @@ namespace WikiFunctions.Parse
             if (unbalancedBracket > -1)
             {
                 int firstUnbalancedBracket = unbalancedBracket;
+                char bracket = articleTextTemp[unbalancedBracket];
+
                 // if it's ]]_]_ then see if removing bracket makes it all balance
-                if (bracketLength == 1 
+                if (bracketLength == 1
                     && articleTextTemp[unbalancedBracket] == ']'
                     && articleTextTemp[unbalancedBracket - 1] == ']'
                     && articleTextTemp[unbalancedBracket - 2] == ']'
-                )
-                    articleTextTemp = articleTextTemp.Remove(unbalancedBracket, 1);
-
-                if (bracketLength == 1)
-                {
-                    // if it's [[blah blah}word]]
-                    articleTextTemp = CurlyBraceInsteadOfPipeInWikiLink.Replace(articleTextTemp, "|");
-
-                    // if it's (blah} then see if setting the } to a ) makes it all balance, but not |} which could be wikitables
-                    articleTextTemp = CurlyBraceInsteadOfBracketClosing.Replace(articleTextTemp, ")");
-
-                    // if it's [blah} then see if setting the } to a ] makes it all balance
-                    articleTextTemp = CurlyBraceInsteadOfSquareBracket.Replace(articleTextTemp, "]");
-
-                    // if it's {blah) then see if setting the { to a ( makes it all balance, but not {| which could be wikitables
-                    articleTextTemp = CurlyBraceInsteadOfBracketOpening.Replace(articleTextTemp, "(");
-
-                    // if it's ((word) then see if removing the extra opening round bracket makes it all balance
-                    if (articleTextTemp.Length > (unbalancedBracket + 1) 
-                        && articleTextTemp[unbalancedBracket] == '(' 
-                        && articleText[unbalancedBracket + 1] == '('
                     )
-                        articleTextTemp = articleTextTemp.Remove(unbalancedBracket, 1);
+                {
+                    articleTextTemp = articleTextTemp.Remove(unbalancedBracket, 1);
+                }
 
+                else if (bracketLength == 1)
+                {
                     // if it's {[link]] or {[[link]] or [[[link]] then see if setting to [[ makes it all balance
                     articleTextTemp = ExtraBracketOnWikilinkOpening.Replace(articleTextTemp, "[[");
 
-                    // could be [[{link]]
-                    articleTextTemp = ExtraBracketOnWikilinkOpening2.Replace(articleTextTemp, "");
+                    switch (bracket)
+                    {
+                        case '}':
+                            // if it's [[blah blah}word]]
+                            articleTextTemp = CurlyBraceInsteadOfPipeInWikiLink.Replace(articleTextTemp, "|");
 
-                    // external link missing closing ]
-                    articleTextTemp = ExternalLinkMissingClosing.Replace(articleTextTemp, "]$1");
+                            // if it's (blah} then see if setting the } to a ) makes it all balance, but not |} which could be wikitables
+                            articleTextTemp = CurlyBraceInsteadOfBracketClosing.Replace(articleTextTemp, ")");
 
-                    // external link missing opening [
-                    articleTextTemp = ExternalLinkMissingOpening.Replace(articleTextTemp, " [");
+                            // if it's [blah} then see if setting the } to a ] makes it all balance
+                            articleTextTemp = CurlyBraceInsteadOfSquareBracket.Replace(articleTextTemp, "]");
+                            break;
 
-                    // strange bracket
-                    articleTextTemp = articleTextTemp.Replace("）", ")");
-                    articleTextTemp = articleTextTemp.Replace("（", "(");
+                        case '{':
+                            // if it's {blah) then see if setting the { to a ( makes it all balance, but not {| which could be wikitables
+                            articleTextTemp = CurlyBraceInsteadOfBracketOpening.Replace(articleTextTemp, "(");
 
-                    // <ref>>
-                    articleTextTemp = articleTextTemp.Replace(@"<ref>>", @"<ref>");
+                            // could be [[{link]]
+                            articleTextTemp = ExtraBracketOnWikilinkOpening2.Replace(articleTextTemp, "");
+                            break;
+
+                        case '(':
+                            // if it's ((word) then see if removing the extra opening round bracket makes it all balance
+                            if (articleTextTemp.Length > (unbalancedBracket + 1)
+                                && articleText[unbalancedBracket + 1] == '('
+                                )
+                            {
+                                articleTextTemp = articleTextTemp.Remove(unbalancedBracket, 1);
+                            }
+                            break;
+
+                        case '[':
+                            // external link missing closing ]
+                            articleTextTemp = ExternalLinkMissingClosing.Replace(articleTextTemp, "]$1");
+                            break;
+
+                        case ']':
+                            // external link missing opening [
+                            articleTextTemp = ExternalLinkMissingOpening.Replace(articleTextTemp, " [");
+                            break;
+
+                        case '>':
+                            // <ref>>
+                            articleTextTemp = articleTextTemp.Replace(@"<ref>>", @"<ref>");
+                            break;
+
+                        default:
+                            // strange bracket
+                            articleTextTemp = articleTextTemp.Replace("）", ")");
+                            articleTextTemp = articleTextTemp.Replace("（", "(");
+                            break;
+                    }
                 }
 
                 if (bracketLength == 2)
                 {
                     // if it's on double curly brackets, see if one is missing e.g. {{foo} or {{foo]}
-                    articleTextTemp = TemplateIncorrectClosingBraces.Replace(articleTextTemp, @"}}");
+                    articleTextTemp = TemplateIncorrectClosingBraces.Replace(articleTextTemp, "}}");
 
                     // {foo}}
-                    articleTextTemp = TemplateMissingOpeningBrace.Replace(articleTextTemp, @"{{");
+                    articleTextTemp = TemplateMissingOpeningBrace.Replace(articleTextTemp, "{{");
 
                     // might be [[[[link]] or [[link]]]] so see if removing the two found square brackets makes it all balance
-                    if (articleTextTemp.Substring(unbalancedBracket, Math.Min(4, articleTextTemp.Length - unbalancedBracket)).Equals("[[[[")
-                        || articleTextTemp.Substring(Math.Max(0, unbalancedBracket - 2), Math.Min(4, articleTextTemp.Length - unbalancedBracket)).Equals("]]]]"))
+                    if (articleTextTemp.Substring(unbalancedBracket, Math.Min(4, articleTextTemp.Length - unbalancedBracket)) == "[[[["
+                        || articleTextTemp.Substring(Math.Max(0, unbalancedBracket - 2), Math.Min(4, articleTextTemp.Length - unbalancedBracket)) == "]]]]")
+                    {
                         articleTextTemp = articleTextTemp.Remove(unbalancedBracket, 2);
+                    }
 
                     // {{Category: ?
-                    articleTextTemp = articleTextTemp.Replace(@"{{" + Variables.Namespaces[Namespace.Category], @"[[" + Variables.Namespaces[Namespace.Category]);
+                    articleTextTemp = articleTextTemp.Replace("{{" + Variables.Namespaces[Namespace.Category], "[[" + Variables.Namespaces[Namespace.Category]);
                     articleTextTemp = QuadrupleCurlyBrackets.Replace(articleTextTemp, "$1");                  
                 }
 
