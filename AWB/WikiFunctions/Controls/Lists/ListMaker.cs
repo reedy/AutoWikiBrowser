@@ -790,7 +790,7 @@ namespace WikiFunctions.Controls.Lists
         {
             MessageBox.Show(
                 "Unable to generate lists using " + _providerToRun.DisplayText +
-                ". Removing from the list of providers during this session", fde.DisabledFeature + " is disabled");
+                ". Removing from the list of providers during this session", fde.ApiErrorMessage);
             ListItems.Remove(_providerToRun);
         }
 
