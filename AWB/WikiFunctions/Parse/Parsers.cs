@@ -3923,7 +3923,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         }
 
         private static readonly CategoriesOnPageNoHiddenListProvider CategoryProv = new CategoriesOnPageNoHiddenListProvider();
-        private static readonly WhatLinksHereExcludingPageRedirectsListProvider WlhProv = new WhatLinksHereExcludingPageRedirectsListProvider(1/*Limit*/);
 
         //TODO:Needs re-write
         /// <summary>
@@ -4047,6 +4046,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return TagOrphans(articleText, articleTitle, ref summary);
         }
 
+        private static readonly WhatLinksHereExcludingPageRedirectsListProvider WlhProv = new WhatLinksHereExcludingPageRedirectsListProvider(MinIncomingLinksToBeConsideredAnOrphan);
+
+        private const int MinIncomingLinksToBeConsideredAnOrphan = 3;
+
         /// <summary>
         /// 
         /// </summary>
@@ -4066,7 +4069,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             {
                 try
                 {
-                    orphaned = (WlhProv.MakeList(Namespace.Article, articleTitle).Count > 3);
+                    orphaned = (WlhProv.MakeList(Namespace.Article, articleTitle).Count < MinIncomingLinksToBeConsideredAnOrphan);
                 }
                 catch (Exception ex)
                 {
