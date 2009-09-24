@@ -1883,10 +1883,7 @@ Message: {2}
         /// <returns>input string with spaces instead of characters</returns>
         public static string ReplaceWithSpaces(string input)
         {
-            string output = "";
-            for (int a = 0; a < input.Length; a++)
-                output += " ";
-            return output;
+            return new String(' ', input.Length);
         }
     }
 }
