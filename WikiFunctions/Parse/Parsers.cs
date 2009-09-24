@@ -445,6 +445,9 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
+        // fixes extra comma in American format dates
+        private static Regex CommaDates = new Regex(WikiRegexes.Months + @" ?, *([1-3]?\d) ?, ?((?:200|19\d)\d)\b");
+
         // Covered by: LinkTests.FixDates()
         /// <summary>
         /// Fix date and decade formatting errors, and replace &lt;br&gt; and &lt;p&gt; HTML tags
@@ -453,6 +456,9 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string FixDates(string articleText)
         {
+            if(Variables.LangCode == "en")
+                articleText = CommaDates.Replace(articleText, @"$1 $2, $3");
+
             articleText = HideMoreText(articleText);
 
             articleText = FixDatesRaw(articleText);
