@@ -4,6 +4,7 @@ using NUnit.Framework;
 using WikiFunctions;
 using System.Text.RegularExpressions;
 using WikiFunctions.Parse;
+using System.Text;
 
 namespace UnitTests
 {
@@ -217,6 +218,22 @@ bar"));
             Assert.AreEqual("123", Tools.ReplacePartOfString("abc", 0, 3, "123"));
             Assert.AreEqual("1bc", Tools.ReplacePartOfString("abc", 0, 1, "1"));
             Assert.AreEqual("ab3", Tools.ReplacePartOfString("abc", 2, 1, "3"));
+        }
+
+        // Helper function
+        private string ReplaceOnce(string input, string oldValue, string newValue)
+        {
+            StringBuilder sb = new StringBuilder(input);
+            Tools.ReplaceOnce(sb, oldValue, newValue);
+            return sb.ToString();
+        }
+
+        [Test]
+        public void ReplaceOnce()
+        {
+            Assert.AreEqual("", ReplaceOnce("", "foo", "bar"));
+            Assert.AreEqual("test bar!", ReplaceOnce("test foo!", "foo", "bar"));
+            Assert.AreEqual("foobar", ReplaceOnce("barbar", "bar", "foo"));
         }
 
         [Test]

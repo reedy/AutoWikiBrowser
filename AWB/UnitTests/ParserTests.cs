@@ -380,7 +380,8 @@ End of.";
         [Test]
         public void DuplicateUnnamedReferences()
         {
-            Assert.AreEqual(@"<ref name=""bookrags.com"">""bookrags.com""</ref> foo <ref name=""bookrags.com""/>", Parsers.DuplicateUnnamedReferences(@"<ref>""bookrags.com""</ref> foo <ref>""bookrags.com""</ref>"));
+            Assert.AreEqual("", Parsers.DuplicateUnnamedReferences(""));
+            Assert.AreEqual(@"<ref name=""bookrags.com"">""bookrags.com""</ref> foo <ref name=""bookrags.com""/>", Parsers.DuplicateUnnamedReferences(@"<ref>""bookrags.com""</ref> foo <ref> ""bookrags.com"" </ref>"));
             Assert.AreEqual(@"<ref name=""bookrags.com"">""bookrags.com""</ref> foo bar <ref name=""abcde"">abcde</ref> now <ref name=""abcde""/>now <ref name=""bookrags.com""/>",
                 Parsers.DuplicateUnnamedReferences(@"<ref>""bookrags.com""</ref> foo bar <ref>abcde</ref> now <ref>abcde</ref>now <ref>""bookrags.com""</ref>"));
         }

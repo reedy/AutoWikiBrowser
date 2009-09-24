@@ -1305,6 +1305,24 @@ Message: {2}
             return source.Substring(0, position) + replace + source.Substring(position + length);
         }
 
+        // Covered by ToolsTests.ReplaceOnce()
+        /// <summary>
+        /// Replaces first occurence of a given text within a StringBuilder
+        /// </summary>
+        /// <param name="text">Text to be processed</param>
+        /// <param name="oldValue">Text to be replaced</param>
+        /// <param name="newValue">Replacement text</param>
+        /// <returns>Whether the replacement has been made</returns>
+        public static bool ReplaceOnce(StringBuilder text, string oldValue, string newValue)
+        {
+            int index = text.ToString().IndexOf(oldValue);
+            if (index < 0)
+                return false;
+
+            text.Replace(oldValue, newValue, index, oldValue.Length);
+            return true;
+        }
+
         // Covered by ToolsTests.FirstChars()
         /// <summary>
         /// Returns substring at the start of a given string
