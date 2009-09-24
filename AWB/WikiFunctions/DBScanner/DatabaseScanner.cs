@@ -779,6 +779,10 @@ namespace WikiFunctions.DBScanner
             }
 
             lblCount.Text = Matches.ToString();
+            lblCount.Text += " match";
+            if (Matches > 1)
+                lblCount.Text += "es";
+
             UpdateListMakerCount();
         }
 
@@ -796,6 +800,17 @@ namespace WikiFunctions.DBScanner
 
             progressBar.Value = (newValue < progressBar.Maximum) ? newValue : progressBar.Maximum;
             lblPercentageComplete.Text = progressBar.Value / 2 + "%";
+
+            if (completion > 0.001)
+            {
+                TimeSpan elapsedtime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute,
+                                    DateTime.Now.Second, DateTime.Now.Millisecond).Subtract(StartTime);
+
+                int minutesLeft = (int) (((elapsedtime.Ticks * (1 / completion)) - elapsedtime.Ticks) / TimeSpan.TicksPerMinute);
+
+                lblPercentageComplete.Text += " ETC: " + minutesLeft + " mins,";
+            }
+
         }
 
         private void btnOpen(object sender, EventArgs e)
