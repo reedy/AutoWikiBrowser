@@ -1341,6 +1341,9 @@ namespace WikiFunctions.Parse
 
         // <REF> and <Ref> to <ref>
             new RegexReplacement(new Regex(@"(<\s*\/?\s*)(?:R[Ee][Ff]|r[Ee]F)(\s*(?:>|name\s*=))"), "$1ref$2"),
+
+            // trailing spaces within ref
+            new RegexReplacement(new Regex(@" +</ref>"), "</ref>"),
         };
         // Covered by TestFixReferenceTags
         /// <summary>
