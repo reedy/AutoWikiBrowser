@@ -1211,7 +1211,7 @@ namespace AutoWikiBrowser
             this.specialFilterToolStripMenuItem1.Name = "specialFilterToolStripMenuItem1";
             this.specialFilterToolStripMenuItem1.Size = new System.Drawing.Size(206, 22);
             this.specialFilterToolStripMenuItem1.Text = "Fi&lter...";
-            this.specialFilterToolStripMenuItem1.Click += new System.EventHandler(this.specialFilterToolStripMenuItem1_Click);
+            this.specialFilterToolStripMenuItem1.Click += new System.EventHandler(this.specialFilterToolStripMenuItem_Click);
             // 
             // saveListToTextFileToolStripMenuItem
             // 
@@ -3227,7 +3227,7 @@ namespace AutoWikiBrowser
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(35, 13);
             this.label4.TabIndex = 2;
-            this.label4.Text = "Use Â±";
+            this.label4.Text = "Use ±";
             // 
             // chkSkipNoDab
             // 
