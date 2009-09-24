@@ -2805,7 +2805,7 @@ window.scrollTo(0, diffTopY);
                 listMaker.RemoveListDuplicates();
         }
 
-        private void specialFilterToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void specialFilterToolStripMenuItem_Click(object sender, EventArgs e)
         {
             listMaker.Filter();
         }
@@ -3206,6 +3206,9 @@ window.scrollTo(0, diffTopY);
 
         private void ReparseEditBox()
         {
+            if (TheArticle == null)
+                return;
+
             ArticleEX a = new ArticleEX(TheArticle.Name, txtEdit.Text);
             ArticleEX theArtricleOriginal = TheArticle;
             ErrorHandler.CurrentPage = TheArticle.Name;
