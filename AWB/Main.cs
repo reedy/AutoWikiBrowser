@@ -3606,6 +3606,8 @@ window.scrollTo(0, diffTopY);
 
                     listMaker.ReplaceArticle(TheArticle, replacementArticle);
                 }
+                else
+                    StatusLabelText = "Move of " + TheArticle.Name + " failed!";
             }
             catch (Exception ex)
             {
@@ -3636,6 +3638,8 @@ window.scrollTo(0, diffTopY);
                     StatusLabelText = "Deleted " + TheArticle.Name;
                     listMaker.Remove(TheArticle);
                 }
+                else
+                    StatusLabelText = "Deletion of " + TheArticle.Name + " failed!";
             }
             catch (Exception ex)
             {
@@ -3656,9 +3660,9 @@ window.scrollTo(0, diffTopY);
                 }
 
                 if (TheArticle.Protect(TheSession))
-                {
                     StatusLabelText = "Protected " + TheArticle.Name;
-                }
+                else
+                    StatusLabelText = "Protection of " + TheArticle.Name + " failed!";
             }
             catch (Exception ex)
             {
