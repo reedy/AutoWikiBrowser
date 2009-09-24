@@ -98,8 +98,7 @@ namespace UnitTests
             Assert.AreEqual("<references/>", Parsers.FixReferenceListTags("<references/>"));
             Assert.AreEqual("<div><references/></div>", Parsers.FixReferenceListTags("<div><references/></div>"));
 
-            Assert.AreEqual("<references/>", Parsers.FixReferenceListTags("<references>"));
-            Assert.AreEqual("<references/>", Parsers.FixReferenceListTags("<references></references>"));
+            Assert.AreEqual("<references>foo</references>", Parsers.FixReferenceListTags("<references>foo</references>"));
 
             Assert.AreEqual("{{reflist}}", Parsers.FixReferenceListTags("<div class=\"references-small\"><references/>\r\n</div>"));
             Assert.AreEqual("{{reflist|2}}", Parsers.FixReferenceListTags("<div class=\"references-2column\"><references/></div>"));
@@ -321,6 +320,20 @@ End of.";
             Assert.AreEqual(c, Parsers.ReorderReferences(c));
             Assert.AreEqual(d, Parsers.ReorderReferences(d));
             Assert.AreEqual(e, Parsers.ReorderReferences(e));
+
+            // not reordered in <references>...</references>
+
+            string f = @"
+<references>
+<ref>So says John</ref> 
+<ref name = ""Fred1"" />
+</references>";
+
+            Assert.AreEqual(@"'''Article''' is great.<ref name = ""Fred1"">So says Fred</ref>
+Article started off pretty good, <ref name = ""Fred1"" /> <ref>So says John</ref> and finished well.
+End of." + f, Parsers.ReorderReferences(@"'''Article''' is great.<ref name = ""Fred1"">So says Fred</ref>
+Article started off pretty good, <ref>So says John</ref> <ref name = ""Fred1"" /> and finished well.
+End of." + f));
         }
 
         [Test]
