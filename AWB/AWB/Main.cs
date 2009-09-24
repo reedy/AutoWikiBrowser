@@ -3067,13 +3067,16 @@ window.scrollTo(0, diffTopY);
 
         private void birthdeathCatsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //find first dates
-            string strBirth = "";
-            string strDeath = "";
+            if (TheArticle == null)
+                return;
 
             try
             {
                 MatchCollection m = RegexDates.Matches(txtEdit.Text);
+
+                //find first dates
+                string strBirth = "";
+                string strDeath = "";
 
                 if (m.Count >= 1)
                     strBirth = m[0].Value;
@@ -3085,7 +3088,7 @@ window.scrollTo(0, diffTopY);
 
                 string categories;
 
-                if (strDeath.Length == 0 || int.Parse(strDeath) < int.Parse(strBirth) + 20)
+                if (string.IsNullOrEmpty(strDeath) || int.Parse(strDeath) < int.Parse(strBirth) + 20)
                     categories = "[[Category:" + strBirth + " births|" + strName + "]]";
                 else
                     categories = "[[Category:" + strBirth + " births|" + strName + "]]\r\n[[Category:" + strDeath + " deaths|" + strName + "]]";
