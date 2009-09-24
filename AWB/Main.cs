@@ -4091,6 +4091,7 @@ window.scrollTo(0, diffTopY);
             UpdateStatusUI();
 
             StopProgressBar();
+            DisableButtons();
         }
 
         private void chkMinor_CheckedChanged(object sender, EventArgs e)
