@@ -3949,6 +3949,9 @@ window.scrollTo(0, diffTopY);
 
         private void undoAllChangesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (TheArticle == null)
+                return;
+
             txtEdit.Text = TheArticle.OriginalArticleText;
             TheArticle.EditSummary = "";
         }
