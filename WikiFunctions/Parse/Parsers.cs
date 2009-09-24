@@ -563,6 +563,12 @@ namespace WikiFunctions.Parse
         public static string ReorderReferences(string articleText)
         {
             string articleTextBefore;
+
+            // do not reorder stuff in the <references>...</references> section
+            int referencestags = articleText.IndexOf(@"<references>");
+            if (referencestags <= 0)
+                referencestags = articleText.Length;
+
             for (int i = 0; i < 5; i++) // allows for up to 5 consecutive references
             {
                 articleTextBefore = articleText;
@@ -571,9 +577,9 @@ namespace WikiFunctions.Parse
                 {
                     string ref1 = m.Groups[1].Value;
                     int ref1Index = Regex.Match(articleText, @"(?i)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[4].Value) + @"(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>").Index;
-                    int ref2Index = articleText.IndexOf(ref1);
+                    int ref2Index = articleText.IndexOf(ref1);                    
 
-                    if (ref1Index < ref2Index && ref2Index > 0)
+                    if (ref1Index < ref2Index && ref2Index > 0 && m.Groups[3].Index < referencestags)
                     {
                         string whitespace = m.Groups[2].Value;
                         string rptemplate = m.Groups[5].Value;
@@ -582,8 +588,8 @@ namespace WikiFunctions.Parse
                     }
                 }
 
-                articleText = ReorderRefs(articleText, OutofOrderRefs2);
-                articleText = ReorderRefs(articleText, OutofOrderRefs3);
+                articleText = ReorderRefs(articleText, OutofOrderRefs2, referencestags);
+                articleText = ReorderRefs(articleText, OutofOrderRefs3, referencestags);
 
                 if (articleTextBefore.Equals(articleText))
                     break;
@@ -598,20 +604,21 @@ namespace WikiFunctions.Parse
         /// <param name="articleText">the wiki text of the article</param>
         /// <param name="outofOrderRegex">a regular expression representing two references that are out of numerical order</param>
         /// <returns>the modified article text</returns>
-        private static string ReorderRefs(string articleText, Regex outofOrderRegex)
+        private static string ReorderRefs(string articleText, Regex outofOrderRegex, int referencestagindex)
         {
             foreach (Match m in outofOrderRegex.Matches(articleText))
             {
                 int ref1Index = Regex.Match(articleText, @"(?i)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[2].Value) + @"(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>").Index;
                 int ref2Index = Regex.Match(articleText, @"(?i)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[6].Value) + @"(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>").Index;
-
-                if (ref1Index > ref2Index && ref1Index > 0)
+                
+                if (ref1Index > ref2Index && ref1Index > 0 && m.Groups[5].Index < referencestagindex)
                 {
                     string ref1 = m.Groups[1].Value;
                     string ref2 = m.Groups[5].Value;
                     string whitespace = m.Groups[4].Value;
                     string rptemplate1 = m.Groups[3].Value;
                     string rptemplate2 = m.Groups[7].Value;
+                    
                     articleText = articleText.Replace(ref1 + rptemplate1 + whitespace + ref2 + rptemplate2, ref2 + rptemplate2 + whitespace + ref1 + rptemplate1);
                 }
             }
@@ -1197,8 +1204,6 @@ namespace WikiFunctions.Parse
         /// </summary>
         private static readonly Regex ReferenceListTags = new Regex(@"(<(span|div)( class=""(references-small|small|references-2column)|)?"">[\r\n\s]*){1,2}[\r\n\s]*<references[\s]?/>([\r\n\s]*</(span|div)>){1,2}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        private static readonly Regex BadReferenceListTags = new Regex(@"<references>(</references>)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
         private static readonly Regex DivStart = new Regex(@"<div\b.*?>", RegexOptions.Compiled);
         private static readonly Regex DivEnd = new Regex(@"< ?/ ?div\b.*?>", RegexOptions.Compiled);
 
@@ -1210,9 +1215,6 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string FixReferenceListTags(string articleText)
         {
-            if (BadReferenceListTags.IsMatch(articleText))
-                articleText = BadReferenceListTags.Replace(articleText, "<references/>");
-
             return ReferenceListTags.Replace(articleText, new MatchEvaluator(ReflistMatchEvaluator));
         }
 
