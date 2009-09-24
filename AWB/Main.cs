@@ -1211,6 +1211,8 @@ namespace AutoWikiBrowser
 
         private void SkipPage(string reason)
         {
+            if (TheArticle == null) return;
+
             switch (reason)
             {
                 case "user":
