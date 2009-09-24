@@ -492,6 +492,12 @@ namespace AutoWikiBrowser
             TheSession.SaveComplete += PageSaved;
             TheSession.MaxlagExceeded += MaxlagExceeded;
             TheSession.OpenComplete += OpenComplete;
+            TheSession.LoggedOff += LoggedOff;
+        }
+
+        private void LoggedOff(AsyncApiEdit sender)
+        {
+            DisableButtons();
         }
 
         private void OpenComplete(AsyncApiEdit editor, PageInfo page)
