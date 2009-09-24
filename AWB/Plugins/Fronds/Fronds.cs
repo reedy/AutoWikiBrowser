@@ -44,23 +44,6 @@ namespace Fronds
             EnabledMenuItem.DropDownItems.AddRange(new[] {ConfigMenuItem, PluginAboutMenuItem});
             AWB.PluginsToolStripMenuItem.DropDownItems.Add(EnabledMenuItem);
             AWB.HelpToolStripMenuItem.DropDownItems.Add(AboutMenuItem);
-
-            XmlDocument xd = new XmlDocument();
-            xd.LoadXml(Tools.GetHTML(BaseURL + "index.xml"));
-
-            if (xd["fronds"] == null)
-                return;
-
-            foreach (XmlNode xn in xd["fronds"].GetElementsByTagName("frond"))
-            {
-                if (xn.ChildNodes.Count != 2)
-                    continue;
-
-                PossibleFilenames.Add(xn.ChildNodes[0].InnerText);
-                PossibleFronds.Add(xn.ChildNodes[1].InnerText + " (" + xn.ChildNodes[0].InnerText + ")");
-            }
-
-            //TODO:We should probably load enabled Fronds when the plugin is enabled... (Probably in LoadSettings)
         }
 
         public string ProcessArticle(IAutoWikiBrowser sender, IProcessArticleEventArgs eventargs)
@@ -140,7 +123,13 @@ namespace Fronds
         private bool PluginEnabled
         {
             get { return EnabledMenuItem.Checked; }
-            set { EnabledMenuItem.Checked = value; }
+            set
+            {
+                EnabledMenuItem.Checked = value;
+
+                if (value && PossibleFilenames.Count == 0)
+                    LoadFronds();
+            }
         }
 
         private void PluginEnabledCheckedChange(object sender, EventArgs e)
@@ -180,5 +169,23 @@ namespace Fronds
         public void Nudge(out bool cancel) { cancel = false; }
         public void Nudged(int nudges) { }
         #endregion
+
+        private static void LoadFronds()
+        {
+            XmlDocument xd = new XmlDocument();
+            xd.LoadXml(Tools.GetHTML(BaseURL + "index.xml"));
+
+            if (xd["fronds"] == null)
+                return;
+
+            foreach (XmlNode xn in xd["fronds"].GetElementsByTagName("frond"))
+            {
+                if (xn.ChildNodes.Count != 2)
+                    continue;
+
+                PossibleFilenames.Add(xn.ChildNodes[0].InnerText);
+                PossibleFronds.Add(xn.ChildNodes[1].InnerText + " (" + xn.ChildNodes[0].InnerText + ")");
+            }
+        }
     }
 }
