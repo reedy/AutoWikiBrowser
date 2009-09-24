@@ -3584,7 +3584,7 @@ window.scrollTo(0, diffTopY);
             {
                 if (!TheSession.Page.Exists)
                 {
-                    MessageBox.Show("Cannot move a non-existant page");
+                    MessageBox.Show("Cannot move a non-existent page");
                     return;
                 }
 
@@ -3619,7 +3619,7 @@ window.scrollTo(0, diffTopY);
             {
                 if (!TheSession.Page.Exists)
                 {
-                    MessageBox.Show("Cannot delete a non-existant page");
+                    MessageBox.Show("Cannot delete a non-existent page");
                     return;
                 }
 
