@@ -135,6 +135,9 @@ namespace WikiFunctions.Controls.Lists
             cmboSourceSelect.DisplayMember = "DisplayText";
             cmboSourceSelect.ValueMember = "DisplayText";
 
+            // Use the long-time default, also being quite basic, instead of relying on alphasort
+            SelectedProvider = "CategoryListProvider";
+
             //Dictionary to ComboBox (Maybe change at later date?)
             //http://steve-fair-dev.blogspot.com/2008/04/bind-dictionary-to-winform-combobox.html
         }
@@ -461,18 +464,36 @@ namespace WikiFunctions.Controls.Lists
         }
 
         /// <summary>
-        /// Gets or sets the selected index
+        /// Gets or sets the selected provider type
         /// </summary>
-        public int SelectedSource
+        public string SelectedProvider
         {
-            get { return cmboSourceSelect.SelectedIndex; }
+            get { return cmboSourceSelect.SelectedItem.GetType().Name; }
             set
             {
-                if (value < (cmboSourceSelect.Items.Count - 1))
+                int index;
+                if (int.TryParse(value, out index))
                 {
-                    cmboSourceSelect.SelectedIndex = value;
-                    cmboSourceSelect_SelectedIndexChanged(null, null);
+                    // We're opening an old-style config where provider was set as an index
+                    if (index < (cmboSourceSelect.Items.Count - 1))
+                    {
+                        cmboSourceSelect.SelectedIndex = index;
+                    }
                 }
+                else
+                {
+                    // New settings format that specifies provider type name
+                    foreach (var provider in ListItems)
+                    {
+                        if (provider.GetType().Name == value)
+                        {
+                            cmboSourceSelect.SelectedItem = provider;
+                            break;
+                        }
+                    }
+                }
+
+                cmboSourceSelect_SelectedIndexChanged(null, null);
             }
         }
 
