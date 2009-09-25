@@ -2825,7 +2825,6 @@ namespace AutoWikiBrowser
             this.listMaker.Margin = new System.Windows.Forms.Padding(4);
             this.listMaker.MinimumSize = new System.Drawing.Size(202, 212);
             this.listMaker.Name = "listMaker";
-            this.listMaker.SelectedSource = 0;
             this.listMaker.Size = new System.Drawing.Size(209, 356);
             this.listMaker.SourceText = "";
             this.listMaker.SpecialFilterSettings = ((WikiFunctions.AWBSettings.SpecialFilterPrefs)(resources.GetObject("listMaker.SpecialFilterSettings")));

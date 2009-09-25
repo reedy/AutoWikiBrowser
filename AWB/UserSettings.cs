@@ -493,7 +493,7 @@ namespace AutoWikiBrowser
             FindAndReplace.MakeList();
 
             listMaker.SourceText = p.List.ListSource;
-            listMaker.SelectedSource = p.List.SourceIndex;
+            listMaker.SelectedProvider = p.List.SelectedProvider;
 
             SaveArticleList = p.General.SaveArticleList;
 

@@ -208,7 +208,6 @@ namespace WikiFunctions.Controls.Lists
             this.listMaker1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listMaker1.Location = new System.Drawing.Point(3, 16);
             this.listMaker1.Name = "listMaker1";
-            this.listMaker1.SelectedSource = 0;
             this.listMaker1.Size = new System.Drawing.Size(212, 358);
             this.listMaker1.SourceText = "";
             this.listMaker1.SpecialFilterSettings = ((WikiFunctions.AWBSettings.SpecialFilterPrefs)(resources.GetObject("listMaker1.SpecialFilterSettings")));
@@ -229,7 +228,6 @@ namespace WikiFunctions.Controls.Lists
             this.listMaker2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listMaker2.Location = new System.Drawing.Point(3, 16);
             this.listMaker2.Name = "listMaker2";
-            this.listMaker2.SelectedSource = 0;
             this.listMaker2.Size = new System.Drawing.Size(212, 358);
             this.listMaker2.SourceText = "";
             this.listMaker2.SpecialFilterSettings = ((WikiFunctions.AWBSettings.SpecialFilterPrefs)(resources.GetObject("listMaker2.SpecialFilterSettings")));

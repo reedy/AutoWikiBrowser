@@ -33,6 +33,7 @@ using System.Xml.Serialization;
 using System.Windows.Forms;
 
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace WikiFunctions.AWBSettings
 {
@@ -132,6 +133,8 @@ namespace WikiFunctions.AWBSettings
                 MessageBox.Show("The settings file " + file + " is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return (new UserPrefs());
             }
+
+            settings = Regex.Replace(settings, @"<(/?)\s*SourceIndex>", "<$1SelectedProvider>");
 
             XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), new[] { typeof(PrefsKeyPair) });
             return (UserPrefs)xs.Deserialize(new StringReader(settings));
@@ -235,12 +238,12 @@ namespace WikiFunctions.AWBSettings
         public ListPrefs(Controls.Lists.ListMaker listMaker, bool saveArticleList)
         {
             ListSource = listMaker.SourceText;
-            SourceIndex = listMaker.SelectedSource;
+            SelectedProvider = listMaker.SelectedProvider;
             ArticleList = saveArticleList ? listMaker.GetArticleList() : new List<Article>();
         }
 
         public string ListSource = "";
-        public int SourceIndex = 0;
+        public string SelectedProvider = "CategoryListProvider";
         public List<Article> ArticleList = new List<Article>();
     }
 
