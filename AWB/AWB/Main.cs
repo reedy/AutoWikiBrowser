@@ -3000,7 +3000,8 @@ window.scrollTo(0, diffTopY);
 
         private void humanNameDisambigTagToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = "{{Hndis|name=" + Tools.MakeHumanCatKey(TheArticle.Name) + "}}";
+            if (TheArticle != null)
+                txtEdit.SelectedText = "{{Hndis|name=" + Tools.MakeHumanCatKey(TheArticle.Name) + "}}";
         }
 
         private void wikifyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3066,7 +3067,8 @@ window.scrollTo(0, diffTopY);
 
         private void humanNameCategoryKeyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = "{{DEFAULTSORT:" + Tools.MakeHumanCatKey(TheArticle.Name) + "}}";
+            if (TheArticle != null)
+                txtEdit.SelectedText = "{{DEFAULTSORT:" + Tools.MakeHumanCatKey(TheArticle.Name) + "}}";
         }
 
         private readonly Regex RegexDates = new Regex("[1-2][0-9]{3}", RegexOptions.Compiled);
