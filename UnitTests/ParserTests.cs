@@ -4385,6 +4385,15 @@ asdfasdf}} was here", "foo"));
             Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(text));
         }
 
+        [Test]
+        public void AddOrphan()
+        {
+            // orphan not added if disambig found – skips since a template present
+            string text = parser.Tagger(ShortText + @"{{for|foo|bar}}", "Test", out noChange, ref summary);
+            //Stub, no existing stub tag. Needs all tags
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
+        }
+
         private const string ShortText =
             @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet tortor nec neque faucibus pharetra. Fusce lorem arcu, tempus et, imperdiet a, commodo a, pede. Nulla sit amet turpis gravida elit dictum cursus. Praesent tincidunt velit eu urna.";
 
