@@ -383,6 +383,16 @@ namespace WikiFunctions
             SetProject(langCode, projectName, "");
         }
 
+
+        static readonly string[] AttackSites = new[]
+            {
+                "encyclopediadramatica",
+                "conservapedia.com",
+                "traditio.",
+                "volgota.com",
+                "wikireality.ru"
+            };
+
         /// <summary>
         /// Sets different language variables, such as namespaces. Default is english Wikipedia
         /// </summary>
@@ -395,12 +405,12 @@ namespace WikiFunctions
             CancelBackgroundRequests();
             UnderscoredTitles.Clear();
 
-            if (customProject.Contains("traditio.") || customProject.Contains("volgota.com")
-                || customProject.Contains("encyclopediadramatica"))
-            {
-                MessageBox.Show("This software does not work on attack sites.");
-                Application.Exit();
-            }
+            foreach(var s in AttackSites)
+                if (customProject.Contains(s))
+                {
+                    MessageBox.Show("This software does not work on attack sites.");
+                    Application.ExitThread();
+                }
 
             Project = projectName;
             LangCode = langCode;
