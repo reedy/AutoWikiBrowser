@@ -1453,6 +1453,12 @@ namespace AutoWikiBrowser
 
         private void GetDiff()
         {
+            if (TheArticle == null)
+            {
+                DisableButtons();
+                return;
+            }
+
             try
             {
                 webBrowser.BringToFront();
@@ -1500,6 +1506,12 @@ window.scrollTo(0, diffTopY);
 
         private void GetPreview()
         {
+            if (TheArticle == null)
+            {
+                DisableButtons();
+                return;
+            }
+
             if (!TheSession.Editor.IsActive)
             {
                 StatusLabelText = "Previewing...";
@@ -1543,7 +1555,10 @@ window.scrollTo(0, diffTopY);
         {
             // Fail-safe against http://es.wikipedia.org/w/index.php?diff=28114575
             if (TheArticle == null || TheArticle.Name != TheSession.Page.Title)
+            {
+                DisableButtons();
                 throw new Exception("Attempted to save a wrong page");
+            }
 
             if (!TheSession.Editor.IsActive)
                 StatusLabelText = "Saving...";
@@ -3586,6 +3601,12 @@ window.scrollTo(0, diffTopY);
         #region ArticleActions
         private void MoveArticle()
         {
+            if (TheArticle == null)
+            {
+                DisableButtons();
+                return;
+            }
+
             try
             {
                 if (!TheSession.Page.Exists)
@@ -3623,6 +3644,12 @@ window.scrollTo(0, diffTopY);
 
         private void DeleteArticle()
         {
+            if (TheArticle == null)
+            {
+                DisableButtons();
+                return;
+            }
+
             try
             {
                 if (!TheSession.Page.Exists)
@@ -3655,6 +3682,12 @@ window.scrollTo(0, diffTopY);
 
         private void ProtectArticle()
         {
+            if (TheArticle == null)
+            {
+                DisableButtons();
+                return;
+            }
+
             try
             {
                 if (!TheSession.User.IsSysop)
@@ -4338,6 +4371,12 @@ window.scrollTo(0, diffTopY);
 
         private void btnWatch_Click(object sender, EventArgs e)
         {
+            if (TheArticle == null)
+            {
+                DisableButtons();
+                return;
+            }
+
             bool watch = (btnWatch.Text == "Watch");
 
             if (watch)
