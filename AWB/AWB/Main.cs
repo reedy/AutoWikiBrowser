@@ -1217,7 +1217,11 @@ namespace AutoWikiBrowser
 
         private void SkipPage(string reason)
         {
-            if (TheArticle == null) return;
+            if (TheArticle == null)
+            {
+                DisableButtons();
+                return;
+            }
 
             switch (reason)
             {
