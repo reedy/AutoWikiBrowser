@@ -142,9 +142,9 @@ namespace WikiFunctions.Lists
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.gbNamespaces.Controls.Add(this.pageNamespaces);
-            this.gbNamespaces.Location = new System.Drawing.Point(6, 3);
+            this.gbNamespaces.Location = new System.Drawing.Point(3, 0);
             this.gbNamespaces.Name = "gbNamespaces";
-            this.gbNamespaces.Size = new System.Drawing.Size(229, 278);
+            this.gbNamespaces.Size = new System.Drawing.Size(232, 267);
             this.gbNamespaces.TabIndex = 0;
             this.gbNamespaces.TabStop = false;
             this.gbNamespaces.Text = "Namespaces to keep";
@@ -156,7 +156,7 @@ namespace WikiFunctions.Lists
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.pageNamespaces.Location = new System.Drawing.Point(3, 16);
             this.pageNamespaces.Name = "pageNamespaces";
-            this.pageNamespaces.Size = new System.Drawing.Size(221, 253);
+            this.pageNamespaces.Size = new System.Drawing.Size(224, 242);
             this.pageNamespaces.TabIndex = 0;
             // 
             // gbSearch
@@ -184,7 +184,7 @@ namespace WikiFunctions.Lists
             this.gbSets.Controls.Add(this.cbOpType);
             this.gbSets.Location = new System.Drawing.Point(201, 3);
             this.gbSets.Name = "gbSets";
-            this.gbSets.Size = new System.Drawing.Size(206, 311);
+            this.gbSets.Size = new System.Drawing.Size(206, 264);
             this.gbSets.TabIndex = 3;
             this.gbSets.TabStop = false;
             this.gbSets.Text = "Set operations";
@@ -192,7 +192,7 @@ namespace WikiFunctions.Lists
             // btnClear
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.Location = new System.Drawing.Point(117, 282);
+            this.btnClear.Location = new System.Drawing.Point(117, 235);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(83, 23);
             this.btnClear.TabIndex = 3;
@@ -203,7 +203,7 @@ namespace WikiFunctions.Lists
             // btnGetList
             // 
             this.btnGetList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnGetList.Location = new System.Drawing.Point(6, 282);
+            this.btnGetList.Location = new System.Drawing.Point(6, 235);
             this.btnGetList.Name = "btnGetList";
             this.btnGetList.Size = new System.Drawing.Size(83, 23);
             this.btnGetList.TabIndex = 2;
@@ -219,7 +219,7 @@ namespace WikiFunctions.Lists
             this.lbRemove.FormattingEnabled = true;
             this.lbRemove.Location = new System.Drawing.Point(6, 44);
             this.lbRemove.Name = "lbRemove";
-            this.lbRemove.Size = new System.Drawing.Size(194, 225);
+            this.lbRemove.Size = new System.Drawing.Size(194, 173);
             this.lbRemove.TabIndex = 1;
             // 
             // cbOpType
@@ -298,7 +298,7 @@ namespace WikiFunctions.Lists
             this.splitContainer1.Panel2.Controls.Add(this.gbSearch);
             this.splitContainer1.Panel2.Controls.Add(this.gbMisc);
             this.splitContainer1.Panel2.Controls.Add(this.gbSets);
-            this.splitContainer1.Size = new System.Drawing.Size(648, 284);
+            this.splitContainer1.Size = new System.Drawing.Size(648, 282);
             this.splitContainer1.SplitterDistance = 237;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -308,7 +308,7 @@ namespace WikiFunctions.Lists
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(742, 286);
+            this.ClientSize = new System.Drawing.Size(742, 284);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
