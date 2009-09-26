@@ -333,7 +333,7 @@ namespace WikiFunctions.Parse
 
                 // expert must have a parameter
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#Article_Issues
-                if (singleTag.Equals(@"expert") && tagValue.Trim().Length == 0)
+                if (singleTag == "expert" && tagValue.Trim().Length == 0)
                     continue;
 
                 // for tags with a parameter, that parameter must be the date
@@ -597,7 +597,7 @@ namespace WikiFunctions.Parse
                 articleText = ReorderRefs(articleText, OutofOrderRefs2, referencestags);
                 articleText = ReorderRefs(articleText, OutofOrderRefs3, referencestags);
 
-                if (articleTextBefore.Equals(articleText))
+                if (articleTextBefore == articleText)
                     break;
             }
 
@@ -1096,7 +1096,7 @@ namespace WikiFunctions.Parse
             string articleTextlocal = "";
 
             // loop in case a single citation has multiple dates to be fixed
-            while (!articleTextlocal.Equals(articleText))
+            while (articleTextlocal != articleText)
             {
                 articleTextlocal = articleText;
 
@@ -2786,12 +2786,12 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Includes_and_selflinks
             // don't apply if bold in lead section already or some noinclude transclusion business
-            if (!Regex.IsMatch(zerothSection, @"'''" + escTitle + @"'''") && !WikiRegexes.Noinclude.IsMatch(articleText) && !WikiRegexes.Includeonly.IsMatch(articleText))
-                zerothSectionHidden = r1.Replace(zerothSectionHidden, @"'''" + articleTitle + @"'''");
-            if (zerothSectionHiddenOriginal.Equals(zerothSectionHidden) && !Regex.IsMatch(zerothSection, @"'''" + Tools.TurnFirstToLower(escTitle) + @"'''"))
-                zerothSectionHidden = r2.Replace(zerothSectionHidden, @"'''" + Tools.TurnFirstToLower(articleTitle) + @"'''");
+            if (!Regex.IsMatch(zerothSection, "'''" + escTitle + "'''") && !WikiRegexes.Noinclude.IsMatch(articleText) && !WikiRegexes.Includeonly.IsMatch(articleText))
+                zerothSectionHidden = r1.Replace(zerothSectionHidden, "'''" + articleTitle + @"'''");
+            if (zerothSectionHiddenOriginal == zerothSectionHidden && !Regex.IsMatch(zerothSection, @"'''" + Tools.TurnFirstToLower(escTitle) + @"'''"))
+                zerothSectionHidden = r2.Replace(zerothSectionHidden, "'''" + Tools.TurnFirstToLower(articleTitle) + @"'''");
 
-            if (!zerothSectionHiddenOriginal.Equals(zerothSectionHidden))
+            if (zerothSectionHiddenOriginal != zerothSectionHidden)
             {
                 noChange = false;
                 return (Hider.AddBackMore(zerothSectionHidden) + restOfArticle);
@@ -3209,7 +3209,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             string sort = GetCategorySort(articleText, dummy, out matches);
 
-            return sort.Equals(dummy) ? "" : sort;
+            return sort == dummy ? "" : sort;
         }
 
         /// <summary>
@@ -3288,7 +3288,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 // if all the defaultsorts are the same just remove all but one
                 foreach (Match m in WikiRegexes.Defaultsort.Matches(articleText))
                 {
-                    if (lastvalue.Equals(""))
+                    if (lastvalue.Length == 0)
                     {
                         lastvalue = m.Value;
                         allsame2 = true;
@@ -3327,7 +3327,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
                     // set the defaultsort to the existing unique category sort value
                     // don't add a defaultsort if cat sort was the same as article title
-                    if (!sort.Equals(articleTitle) && Tools.FixupDefaultSort(sort) != articleTitle)
+                    if (sort != articleTitle && Tools.FixupDefaultSort(sort) != articleTitle)
                         articleText = articleText + "\r\n{{DEFAULTSORT:" + Tools.FixupDefaultSort(sort) + "}}";
                 }
 
@@ -3797,7 +3797,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             // TODO: check for lifetime and explicit XXX births/deaths categories and remove the categories if they co-incide
 
             // do this check last as IsArticleAboutAPerson can be relatively slow
-            if (!articleText.Equals(articleTextBefore) && !IsArticleAboutAPerson(articleTextBefore, articleTitle, parseTalkPage))
+            if (articleText != articleTextBefore && !IsArticleAboutAPerson(articleTextBefore, articleTitle, parseTalkPage))
                 return YearOfBirthMissingCategory(articleTextBefore);
 
             return YearOfBirthMissingCategory(articleText);

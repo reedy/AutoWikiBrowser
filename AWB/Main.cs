@@ -1903,7 +1903,7 @@ window.scrollTo(0, diffTopY);
             {
                 string sectionEditText = SectionEditSummary(TheArticle.OriginalArticleText, txtEdit.Text);
 
-                if (!sectionEditText.Equals(""))
+                if (sectionEditText.Length > 0)
                     tag = @"/* " + sectionEditText + @" */" + tag;
             }
 
@@ -1949,7 +1949,7 @@ window.scrollTo(0, diffTopY);
                 articleTextLocal = articleTextLocal.Replace(zerothSectionAfter, "");
 
             // can't provide a section edit summary if there are changes in text before first level 2 heading
-            if (!string.IsNullOrEmpty(zerothSectionBefore) && !zerothSectionBefore.Equals(zerothSectionAfter))
+            if (!string.IsNullOrEmpty(zerothSectionBefore) && zerothSectionBefore != zerothSectionAfter)
                 return ("");
 
             // get sections for article text before any AWB changes

@@ -826,25 +826,25 @@ namespace WikiFunctions.DBScanner
                     {
                         while (reader.Read())
                         {
-                            if (reader.Name.Equals(""))
+                            if (reader.Name.Length == 0)
                                 continue;
 
-                            if (reader.Name.Equals("sitename"))
+                            if (reader.Name == "sitename")
                             {
                                 txtSitename.Text = reader.ReadString();
                                 dataFound++;
                             }
-                            else if (reader.Name.Equals("base"))
+                            else if (reader.Name == "base")
                             {
                                 lnkBase.Text = reader.ReadString();
                                 dataFound++;
                             }
-                            else if (reader.Name.Equals("generator"))
+                            else if (reader.Name == "generator")
                             {
                                 txtGenerator.Text = reader.ReadString();
                                 dataFound++;
                             }
-                            else if (reader.Name.Equals("case"))
+                            else if (reader.Name == "case")
                             {
                                 txtCase.Text = reader.ReadString();
                                 dataFound++;
