@@ -535,7 +535,7 @@ en, sq, ru
                     string seeAlsoSectionString = SeeAlsoSection.Match(articleText).Value;
 
                     // if SeeAlsoSection didn't match then 'see also' must be last section
-                    if (seeAlsoSectionString.Equals(""))
+                    if (seeAlsoSectionString.Length == 0)
                         seeAlsoSectionString = SeeAlsoToEnd.Match(articleText).Value;
 
                     // check portal template NOT currently in 'see also'
@@ -625,7 +625,7 @@ en, sq, ru
             string references = ReferencesSection.Match(articleText).Groups[1].Value;
 
             // references may be last section
-            if (references.Equals(""))
+            if (references.Length == 0)
                 references = ReferencesToEnd.Match(articleText).Value;
 
             if (articleText.IndexOf(externalLinks) < articleText.IndexOf(references) && references.Length > 0 && externalLinks.Length > 0)
