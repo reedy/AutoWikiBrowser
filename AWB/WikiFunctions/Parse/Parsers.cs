@@ -3467,7 +3467,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     || CategoryCharacters.IsMatch(articleText))
                 return false;
 
-            //TODO: this regex can be too slow and should be replaced
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
 
             // not about a person if it's not the principle article on the subject
