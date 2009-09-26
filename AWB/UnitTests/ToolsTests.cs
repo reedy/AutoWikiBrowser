@@ -625,12 +625,10 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
         [Test]
         public void ReplaceWithSpacesTests()
         {
-            Assert.AreEqual("   ", Tools.ReplaceWithSpaces("foo"));
-            Assert.AreEqual("   ", Tools.ReplaceWithSpaces("   "));
-            Assert.AreEqual("", Tools.ReplaceWithSpaces(""));
-            Assert.AreEqual("  ", Tools.ReplaceWithSpaces("fo"));
-            Assert.AreEqual("     ", Tools.ReplaceWithSpaces("foooo"));
-            Assert.AreEqual("       ", Tools.ReplaceWithSpaces("FOO BAR"));
+            var foo = new Regex("foo");
+            Assert.AreEqual("", Tools.ReplaceWithSpaces("", foo));
+            Assert.AreEqual("   ", Tools.ReplaceWithSpaces("foo", foo));
+            Assert.AreEqual("   bar   ", Tools.ReplaceWithSpaces("foobarfoo", foo));
         }
 
         [Test]

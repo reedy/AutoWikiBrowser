@@ -1939,32 +1939,35 @@ namespace WikiFunctions.Parse
             // replace [...&#93; with spaces to avoid matching as unbalanced brackets
             articleText = HideNestedBrackets.Replace(articleText, " ");
 
+            // remove all <math>, <code> stuff etc. where curly brackets are used in singles and pairs
+            articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.MathPreSourceCodeComments);
+            
             bracketLength = 2;
 
-            int unbalancedfound = UnbalancedBrackets(articleText, @"{{", @"}}", WikiRegexes.NestedTemplates);
+            int unbalancedfound = UnbalancedBrackets(articleText, "{{", "}}", WikiRegexes.NestedTemplates);
             if (unbalancedfound > -1)
                 return unbalancedfound;
 
-            unbalancedfound = UnbalancedBrackets(articleText, @"[[", @"]]", DoubleSquareBrackets);
+            unbalancedfound = UnbalancedBrackets(articleText, "[[", "]]", DoubleSquareBrackets);
             if (unbalancedfound > -1)
                 return unbalancedfound;
 
             bracketLength = 1;
 
-            unbalancedfound = UnbalancedBrackets(articleText, @"{", @"}", SingleCurlyBrackets);
+            unbalancedfound = UnbalancedBrackets(articleText, "{", "}", SingleCurlyBrackets);
             if (unbalancedfound > -1)
                 return unbalancedfound;
 
-            unbalancedfound = UnbalancedBrackets(articleText, @"[", @"]", SingleSquareBrackets);
+            unbalancedfound = UnbalancedBrackets(articleText, "[", "]", SingleSquareBrackets);
             if (unbalancedfound > -1)
                 return unbalancedfound;
 
-            unbalancedfound = UnbalancedBrackets(articleText, @"(", @")", SingleRoundBrackets);
+            unbalancedfound = UnbalancedBrackets(articleText, "(", ")", SingleRoundBrackets);
             if (unbalancedfound > -1)
                 return unbalancedfound;
 
             // look for unbalanced tags
-            unbalancedfound = UnbalancedBrackets(articleText, @"<", @">", Tags);
+            unbalancedfound = UnbalancedBrackets(articleText, "<", ">", Tags);
             if (unbalancedfound > -1)
                 return unbalancedfound;
 
@@ -1986,35 +1989,20 @@ namespace WikiFunctions.Parse
             if (Regex.Matches(articleText, Regex.Escape(openingBrackets)).Count !=
                 Regex.Matches(articleText, Regex.Escape(closingBrackets)).Count)
             {
-                // remove all <math>, <code> stuff etc. where curly brackets are used in singles and pairs
-                foreach (Match m in WikiRegexes.MathPreSourceCodeComments.Matches(articleText))
-                {
-                    articleText = articleText.Replace(m.Value, Tools.ReplaceWithSpaces(m.Value));
-                }
-
-                if (openingBrackets.Equals(@"["))
+                if (openingBrackets == "[")
                 {
                     // need to remove double square brackets first
-                    foreach (Match m in DoubleSquareBrackets.Matches(articleText))
-                    {
-                        articleText = articleText.Replace(m.Value, Tools.ReplaceWithSpaces(m.Value));
-                    }
+                    articleText = Tools.ReplaceWithSpaces(articleText, DoubleSquareBrackets);
                 }
 
-                if (openingBrackets.Equals(@"{"))
+                if (openingBrackets == "{")
                 {
                     // need to remove double curly brackets first
-                    foreach (Match m in WikiRegexes.NestedTemplates.Matches(articleText))
-                    {
-                        articleText = articleText.Replace(m.Value, Tools.ReplaceWithSpaces(m.Value));
-                    }
+                    articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.NestedTemplates);
                 }
 
                 // replace all the valid balanced bracket sets with spaces
-                foreach (Match m in bracketsRegex.Matches(articleText))
-                {
-                    articleText = articleText.Replace(m.Value, Tools.ReplaceWithSpaces(m.Value));
-                }
+                articleText = Tools.ReplaceWithSpaces(articleText, bracketsRegex);
 
                 // now return the unbalanced one that's left
                 int open = Regex.Matches(articleText, Regex.Escape(openingBrackets)).Count;
@@ -2614,8 +2602,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static MatchCollection GetTemplates(string articleText, string template)
         {
             // replace with spaces any commented out templates etc., this means index of real matches remains the same as in actual article text
-            foreach (Match m in WikiRegexes.UnFormattedText.Matches(articleText))
-                articleText = articleText.Replace(m.Value, Tools.ReplaceWithSpaces(m.Value));
+            articleText =  Tools.ReplaceWithSpaces(articleText,WikiRegexes.UnFormattedText);
 
             string ciTemplateName = Tools.CaseInsensitive(template);
             Regex search;
