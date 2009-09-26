@@ -425,7 +425,7 @@ namespace WikiFunctions.Parse
             articleTextLocal = ReferencesExternalLinksSeeAlso.Replace(articleTextLocal, "");
 
             // only apply if all level 3 headings and lower are before the fist of references/external links/see also
-            if (!WikiRegexes.HeadingLevelTwo.IsMatch(articleTextLocal))
+            if (!WikiRegexes.HeadingLevelTwo.IsMatch(articleTextLocal) && Namespace.IsMainSpace(articleTitle))
             {
                 int upone = 0;
                 foreach (Match m in RegexHeadingUpOneLevel.Matches(articleText))
