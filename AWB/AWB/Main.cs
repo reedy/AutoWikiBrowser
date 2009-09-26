@@ -1935,8 +1935,8 @@ window.scrollTo(0, diffTopY);
             if (!WikiRegexes.HeadingLevelTwo.IsMatch(TheArticle.OriginalArticleText))
                 return ("");
 
-            string[] levelTwoHeadingsBefore = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
-            string[] levelTwoHeadingsAfter = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
+            string[] levelTwoHeadingsBefore = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
+            string[] levelTwoHeadingsAfter = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
 
             int before = 0, after = 0;
 
@@ -1973,6 +1973,11 @@ window.scrollTo(0, diffTopY);
                 articleTextLocal = articleTextLocal.Replace(m.Value, "");
                 after++;
             }
+            
+            // handle the array not being big enough
+            if (levelTwoHeadingsAfter.Length < after)
+                return "";
+
             // add the last section to the array
             levelTwoHeadingsAfter[after] = articleTextLocal;
 
