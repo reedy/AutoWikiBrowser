@@ -1896,12 +1896,32 @@ Message: {2}
         }
 
         /// <summary>
-        /// replaces each character in the input string with spaces
+        /// 
         /// </summary>
-        /// <returns>input string with spaces instead of characters</returns>
-        public static string ReplaceWithSpaces(string input)
+        /// <param name="input"></param>
+        /// <param name="matches"></param>
+        /// <returns></returns>
+        public static string ReplaceWithSpaces(string input, MatchCollection matches)
         {
-            return new String(' ', input.Length);
+            StringBuilder sb = new StringBuilder(input.Length);
+            foreach (Match m in matches)
+            {
+                sb.Append(input, sb.Length, m.Index - sb.Length);
+                sb.Append(' ', m.Length);
+            }
+            sb.Append(input, sb.Length, input.Length - sb.Length);
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Replaces all matches of a given regex in a string with space character
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="regex"></param>
+        /// <returns></returns>
+        public static string ReplaceWithSpaces(string input, Regex regex)
+        {
+            return ReplaceWithSpaces(input, regex.Matches(input));
         }
     }
 }
