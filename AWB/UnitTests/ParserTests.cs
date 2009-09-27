@@ -2419,6 +2419,11 @@ foo
 ===bar===
 foo2";
             Assert.AreEqual(a2, Parsers.FixHeadings(a2, "a"));
+
+            // only apply on mainspace
+            Assert.AreEqual(@"====hello====
+text", Parsers.FixHeadings(@"====hello====
+text", "Talk:foo"));
         }
 
         [Test]
