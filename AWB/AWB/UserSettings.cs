@@ -411,7 +411,8 @@ namespace AutoWikiBrowser
 
                 new ToolsPrefs
                     {
-                        ListComparerUseCurrentArticleList = _listComparerUseCurrentArticleList
+                        ListComparerUseCurrentArticleList = _listComparerUseCurrentArticleList,
+                        ListSplitterUseCurrentArticleList = _listSplitterUseCurrentArticleList
                     },
 
                 Plugin.AWBPlugins
@@ -640,6 +641,7 @@ namespace AutoWikiBrowser
             ExtProgram.Settings = p.ExternalProgram;
 
             _listComparerUseCurrentArticleList = p.Tool.ListComparerUseCurrentArticleList;
+            _listSplitterUseCurrentArticleList = p.Tool.ListSplitterUseCurrentArticleList;
 
             foreach (PluginPrefs pp in p.Plugin)
             {

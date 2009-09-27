@@ -308,6 +308,12 @@ namespace AutoWikiBrowser
             get { return cmboListComparer.SelectedIndex; }
             set { cmboListComparer.SelectedIndex = value; }
         }
+
+        public int PrefListSplitterUseCurrentArticleList
+        {
+            get { return cmboListSplitter.SelectedIndex; }
+            set { cmboListSplitter.SelectedIndex = value; }
+        }
         #endregion
 
         private void chkAutoSaveEdit_CheckedChanged(object sender, EventArgs e)

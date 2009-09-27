@@ -466,6 +466,7 @@ namespace WikiFunctions.AWBSettings
     public class ToolsPrefs
     {
         public int ListComparerUseCurrentArticleList;
+        public int ListSplitterUseCurrentArticleList;
     }
 
     [Serializable]
