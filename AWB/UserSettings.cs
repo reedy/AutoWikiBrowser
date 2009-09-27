@@ -103,7 +103,7 @@ namespace AutoWikiBrowser
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Problem reseting plugin\r\n\r\n" + ex.Message);
+                    MessageBox.Show("Problem resetting plugin\r\n\r\n" + ex.Message);
                 }
 
                 CModule.ModuleEnabled = false;
