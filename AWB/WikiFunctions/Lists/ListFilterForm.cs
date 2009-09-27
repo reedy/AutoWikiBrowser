@@ -118,6 +118,9 @@ namespace WikiFunctions.Lists
         {
             List<int> selectedNS = pageNamespaces.GetSelectedNamespaces();
 
+            if (selectedNS.Count == 0)
+                return;
+
             int i = 0;
 
             while (i < _list.Count)
