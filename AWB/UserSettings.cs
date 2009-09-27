@@ -177,7 +177,7 @@ namespace AutoWikiBrowser
         private void FixupObsoleteRecentSettings()
         {
             RecentList.Remove("Default.xml");
-            RecentList.RemoveAll(x => string.Compare(x, "Default.xml", true) == 0 
+            RecentList.RemoveAll(x => string.Compare(x, "Default.xml", true) == 0
                 || string.Compare(x, AwbDirs.DefaultSettings, true) == 0);
 
             while (RecentList.Count > 5)
@@ -252,7 +252,7 @@ namespace AutoWikiBrowser
                 if (ex is UnauthorizedAccessException)
                 {
                     MessageBox.Show("Saving settings failed due to insufficient permissions.", "Error",
-                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                     ErrorHandler.Handle(ex);
@@ -292,8 +292,8 @@ namespace AutoWikiBrowser
                         AppendText = chkAppend.Checked,
                         Append = !rdoPrepend.Checked,
                         Text = txtAppendMessage.Text,
-                        Newlines = (int) udNewlineChars.Value,
-                        AutoDelay = (int) nudBotSpeed.Value,
+                        Newlines = (int)udNewlineChars.Value,
+                        AutoDelay = (int)nudBotSpeed.Value,
                         SupressTag = chkSuppressTag.Checked,
                         RegexTypoFix = chkRegExTypo.Checked
                     },
@@ -365,7 +365,7 @@ namespace AutoWikiBrowser
                         TimerEnabled = ShowMovingAverageTimer,
                         SortListAlphabetically = sortAlphabeticallyToolStripMenuItem.Checked,
                         AddIgnoredToLog = Article.AddUsingAWBOnArticleAction,
-                        TextBoxSize = (int) txtEdit.Font.Size,
+                        TextBoxSize = (int)txtEdit.Font.Size,
                         TextBoxFont = txtEdit.Font.Name,
                         LowThreadPriority = LowThreadPriority,
                         Beep = Beep,
@@ -395,7 +395,7 @@ namespace AutoWikiBrowser
                         Enabled = chkEnableDab.Checked,
                         Link = txtDabLink.Text,
                         Variants = txtDabVariants.Lines,
-                        ContextChars = (int) udContextChars.Value
+                        ContextChars = (int)udContextChars.Value
                     },
 
                 new ModulePrefs
@@ -428,14 +428,14 @@ namespace AutoWikiBrowser
 
             if (!string.IsNullOrEmpty(SettingsFile))
                 LoadPrefs(SettingsFile);
-            else 
+            else
                 if (File.Exists(AwbDirs.DefaultSettings))
                     LoadPrefs(AwbDirs.DefaultSettings);
-            else
-            {
-                LoadPrefs(new UserPrefs());
-                SettingsFile = "";
-            }
+                else
+                {
+                    LoadPrefs(new UserPrefs());
+                    SettingsFile = "";
+                }
 
             SplashScreen.SetProgress(60);
         }
