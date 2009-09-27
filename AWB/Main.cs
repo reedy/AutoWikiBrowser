@@ -389,7 +389,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        private int _listComparerUseCurrentArticleList;
+        private int _listComparerUseCurrentArticleList, _listSplitterUseCurrentArticleList;
 
         private bool Flash;
         private bool Beep;
@@ -2494,6 +2494,7 @@ window.scrollTo(0, diffTopY);
                 ShowMovingAverageTimer = myPrefs.PrefShowTimer;
 
                 _listComparerUseCurrentArticleList = myPrefs.PrefListComparerUseCurrentArticleList;
+                _listSplitterUseCurrentArticleList = myPrefs.PrefListSplitterUseCurrentArticleList;
 
                 if (myPrefs.Language != Variables.LangCode || myPrefs.Project != Variables.Project
                     || (myPrefs.CustomProject != Variables.CustomProject))
@@ -2876,8 +2877,7 @@ window.scrollTo(0, diffTopY);
                         Comparer = new ListComparer();
                     break;
                 case 1:
-                    if (listMaker.Count > 0)
-                        Comparer = new ListComparer(listMaker.GetArticleList());
+                    Comparer = new ListComparer(listMaker.GetArticleList());
                     break;
                 case 2:
                     Comparer = new ListComparer();
@@ -2891,10 +2891,25 @@ window.scrollTo(0, diffTopY);
         {
             WikiFunctions.AWBSettings.UserPrefs p = MakePrefs();
 
-            if (listMaker.Count > 0 && MessageBox.Show("Would you like to copy your current Article List to the ListSplitter?", "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                Splitter = new ListSplitter(p, WikiFunctions.AWBSettings.UserPrefs.SavePluginSettings(p), listMaker.GetArticleList());
-            else
-                Splitter = new ListSplitter(p, WikiFunctions.AWBSettings.UserPrefs.SavePluginSettings(p));
+            switch (_listSplitterUseCurrentArticleList)
+            {
+                case 0:
+                    if (listMaker.Count > 0 &&
+                        MessageBox.Show("Would you like to copy your current Article List to the ListSplitter?",
+                                        "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        Splitter = new ListSplitter(p, WikiFunctions.AWBSettings.UserPrefs.SavePluginSettings(p),
+                                                    listMaker.GetArticleList());
+                    else
+                        Splitter = new ListSplitter(p, WikiFunctions.AWBSettings.UserPrefs.SavePluginSettings(p));
+                    break;
+                case 1:
+                    Splitter = new ListSplitter(p, WikiFunctions.AWBSettings.UserPrefs.SavePluginSettings(p),
+                                                listMaker.GetArticleList());
+                    break;
+                case 2:
+                    Splitter = new ListSplitter(p, WikiFunctions.AWBSettings.UserPrefs.SavePluginSettings(p));
+                    break;
+            }
 
             Splitter.Show(this);
         }

@@ -72,6 +72,8 @@ namespace AutoWikiBrowser
             this.tabEditing = new System.Windows.Forms.TabPage();
             this.chkShowTimer = new System.Windows.Forms.CheckBox();
             this.tabTools = new System.Windows.Forms.TabPage();
+            this.cmboListSplitter = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.cmboListComparer = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPrivacy = new System.Windows.Forms.TabPage();
@@ -502,6 +504,8 @@ namespace AutoWikiBrowser
             // 
             // tabTools
             // 
+            this.tabTools.Controls.Add(this.cmboListSplitter);
+            this.tabTools.Controls.Add(this.label2);
             this.tabTools.Controls.Add(this.cmboListComparer);
             this.tabTools.Controls.Add(this.label1);
             this.tabTools.Location = new System.Drawing.Point(4, 22);
@@ -511,6 +515,27 @@ namespace AutoWikiBrowser
             this.tabTools.TabIndex = 5;
             this.tabTools.Text = "Tools";
             this.tabTools.UseVisualStyleBackColor = true;
+            // 
+            // cmboListSplitter
+            // 
+            this.cmboListSplitter.FormattingEnabled = true;
+            this.cmboListSplitter.Items.AddRange(new object[] {
+            "Ask",
+            "Always",
+            "Never"});
+            this.cmboListSplitter.Location = new System.Drawing.Point(202, 39);
+            this.cmboListSplitter.Name = "cmboListSplitter";
+            this.cmboListSplitter.Size = new System.Drawing.Size(121, 21);
+            this.cmboListSplitter.TabIndex = 3;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 42);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(177, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Add current article list to List Splitter:";
             // 
             // cmboListComparer
             // 
@@ -636,5 +661,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.TabPage tabTools;
         private System.Windows.Forms.ComboBox cmboListComparer;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cmboListSplitter;
+        private System.Windows.Forms.Label label2;
     }
 }
