@@ -2311,6 +2311,7 @@ window.scrollTo(0, diffTopY);
                 lbDuplicateWikilinks.Sorted = true;
 
                 //add the duplicate articles to the listbox
+                lbDuplicateWikilinks.BeginUpdate();
                 foreach (string z in arrayLinks)
                 {
                     if ((arrayLinks.IndexOf(z) < arrayLinks.LastIndexOf(z)) && (!arrayLinks2.Contains(z)))
@@ -2325,6 +2326,7 @@ window.scrollTo(0, diffTopY);
                                                                       @"(\|.*?)?\]\]").Count) + @")");
                     }
                 }
+                lbDuplicateWikilinks.EndUpdate();
             }
             lblDuplicateWikilinks.Visible = lbDuplicateWikilinks.Visible = btnRemove.Visible = (lbDuplicateWikilinks.Items.Count > 0);
         }
