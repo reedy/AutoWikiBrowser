@@ -32,12 +32,21 @@ namespace WikiFunctions.Parse
         /// <param name="articleText">The wiki text of the article.</param>
         private void Replace(IEnumerable matches, ref string articleText)
         {
+            StringBuilder sb = new StringBuilder((int)(articleText.Length * 1.1));
+            int pos = 0;
+
             foreach (Match m in matches)
             {
+                sb.Append(articleText, pos, m.Index - pos);
                 string s = "⌊⌊⌊⌊" + HiddenTokens.Count + "⌋⌋⌋⌋";
-                articleText = articleText.Replace(m.Value, s);
+                sb.Append(s);
+                pos = m.Index + m.Value.Length;
                 HiddenTokens.Add(new HideObject(s, m.Value));
             }
+
+            sb.Append(articleText, pos, articleText.Length - pos);
+
+            articleText = sb.ToString();
         }
 
         /// <summary>
@@ -51,16 +60,15 @@ namespace WikiFunctions.Parse
 
             Replace(WikiRegexes.Source.Matches(articleText), ref articleText);
 
+            var matches = new List<Match>();
             foreach (Match m in WikiRegexes.UnFormattedText.Matches(articleText))
             {
                 if (LeaveMetaHeadings && NoWikiIgnoreRegex.IsMatch(m.Value))
                     continue;
 
-                string s = "⌊⌊⌊⌊" + HiddenTokens.Count + "⌋⌋⌋⌋";
-
-                articleText = articleText.Replace(m.Value, s);
-                HiddenTokens.Add(new HideObject(s, m.Value));
+                matches.Add(m);
             }
+            Replace(matches, ref articleText);
 
             if (HideImages)
             {
@@ -70,13 +78,14 @@ namespace WikiFunctions.Parse
             if (HideExternalLinks)
             {
                 Replace(WikiRegexes.ExternalLinks.Matches(articleText), ref articleText);
-                List<Match> matches = new List<Match>();
+
+                List<Match> matches2 = new List<Match>();
                 foreach (Match m in WikiRegexes.PossibleInterwikis.Matches(articleText))
                 {
                     if (SiteMatrix.Languages.Contains(m.Groups[1].Value.ToLower()))
-                        matches.Add(m);
+                        matches2.Add(m);
                 }
-                Replace(matches, ref articleText);
+                Replace(matches2, ref articleText);
             }
 
             return articleText;
@@ -89,10 +98,24 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public string AddBack(string articleText)
         {
-            HiddenTokens.Reverse();
+            MatchCollection mc;
 
-            foreach (HideObject k in HiddenTokens)
-                articleText = articleText.Replace(k.Code, k.Text);
+            while ((mc = HiddenRegex.Matches(articleText)).Count > 0)
+            {
+                StringBuilder sb = new StringBuilder(articleText.Length * 2);
+                int pos = 0;
+
+                foreach (Match m in mc)
+                {
+                    sb.Append(articleText, pos, m.Index - pos);
+                    sb.Append(HiddenTokens[int.Parse(m.Groups[1].Value)].Text);
+                    pos = m.Index + m.Value.Length;
+                }
+
+                sb.Append(articleText, pos, articleText.Length - pos);
+
+                articleText = sb.ToString();
+            }
 
             HiddenTokens.Clear();
             return articleText;
@@ -167,6 +190,7 @@ namespace WikiFunctions.Parse
             articleText = sb.ToString();
         }
 
+        static readonly Regex HiddenRegex = new Regex("⌊⌊⌊⌊(\\d*)⌋⌋⌋⌋", RegexOptions.Compiled);
         static readonly Regex HiddenMoreRegex = new Regex("⌊⌊⌊⌊M(\\d*)⌋⌋⌋⌋", RegexOptions.Compiled);
 
         /// <summary>
