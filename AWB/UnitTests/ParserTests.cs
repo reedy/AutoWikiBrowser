@@ -1864,6 +1864,10 @@ Some artists represented by Zach Feuer Gallery are [[Phoebe Washburn]], [[Jules 
 | accessyear =2007
 }}";
             Assert.AreEqual(CitePodcast, Parsers.CiteTemplateDates(CitePodcast));
+
+            // more than one date in a citation
+            Assert.AreEqual("{{cite foo|date=2008-12-11|accessdate=2008-08-07}}", Parsers.CiteTemplateDates("{{cite foo|date=2008-December-11|accessdate=2008-Aug.-07}}"));
+            Assert.AreEqual("{{cite foo|date=2008-12-11|accessdate=2008-08-07}}", Parsers.CiteTemplateDates("{{cite foo|date=2008-Dec.-11|accessdate=2008-Aug.-07}}"));
         }
 
         [Test]
