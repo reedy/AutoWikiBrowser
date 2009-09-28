@@ -278,7 +278,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches unformatted text regions: nowiki, pre, math, html comments, timelines
         /// </summary>
-        public static readonly Regex UnFormattedText = new Regex(@"<nowiki>.*?</nowiki>|<pre>.*?</pre>|<math>.*?</math>|<!--.*?-->|<timeline>.*?</timeline>", RegexOptions.Singleline | RegexOptions.Compiled);
+        public static readonly Regex UnFormattedText = new Regex(@"<nowiki>.*?</\s*nowiki>|<pre\b.*?>.*?</\s*pre>|<math\b.*?>.*?</\s*math>|<!--.*?-->|<timeline\b.*?>.*?</\s*timeline>", RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
         /// Matches <blockquote> tags

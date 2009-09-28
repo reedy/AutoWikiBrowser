@@ -62,9 +62,14 @@ namespace UnitTests
             return Hider.Hide(text);
         }
 
+        private void AssertHidden(string text, bool hideExternalLinks, bool leaveMetaHeadings, bool hideImages)
+        {
+            RegexAssert.IsMatch(Hidden, Hide(text, hideExternalLinks, leaveMetaHeadings, hideImages));
+        }
+
         private void AssertHidden(string text)
         {
-            RegexAssert.IsMatch(Hidden, Hide(text));
+            AssertHidden(text, true, false, true);
         }
 
         private void AssertAllHidden(string text)
@@ -350,6 +355,39 @@ Image:quux[http://example.com]
         {
             AssertAllHiddenMore("[[Foo]]bar");
             AssertAllHiddenMore("[[Foo|test]]bar");
+        }
+
+        [Test]
+        public void SimpleHide()
+        {
+            AssertHidden("<source>foo</source>");
+            AssertHidden(@"<source  lang=""foo_bar"">\nfoo\n</source>");
+            AssertAllHidden("<source>\r\nfoo\r\n</source><source foo>bar</source>");
+
+            AssertHidden("<pre>foo\r\nbar</pre>");
+            AssertHidden("<pre style=quux>foo\r\nbar</pre>");
+            AssertHidden("<math>foo\r\nbar</math>");
+            AssertHidden("<timeline>foo\r\nbar</timeline>");
+            AssertHidden("<timeline foo=bar>foo\r\nbar</timeline>");
+            AssertHidden("<nowiki>foo\r\nbar</nowiki>");
+
+            AssertHidden("<!--foo-->");
+            AssertHidden("<!--foo\r\nbar-->");
+
+            // hideExternalLinks
+            AssertHidden("[http://foo]");
+            AssertHidden("[http://foo bar]");
+            AssertHidden("https://bar");
+            Assert.AreEqual("http://foo", Hide("http://foo", false, false, true));
+
+            // leaveMetaHeadings
+            AssertHidden("<!--Categories -->");
+            AssertHidden("<!--foo-->", true, true, true);
+            Assert.AreEqual("<!-- categories-->", Hide("<!-- categories-->", true, true, true));
+
+            // hideImages
+            AssertHidden("[[Image:foo.JPG]]");
+            Assert.AreEqual("[[Image:foo.jpg]]", Hide("[[Image:foo.jpg]]", true, false, false));
         }
     }
 
