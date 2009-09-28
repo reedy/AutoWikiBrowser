@@ -1153,6 +1153,7 @@ namespace AutoWikiBrowser
         private void PageSaved(AsyncApiEdit sender, SaveInfo saveInfo)
         {
             ClearBrowser();
+            txtEdit.Text = "";
 
             //TODO:Reinstate as needed
             //try
@@ -2227,7 +2228,6 @@ window.scrollTo(0, diffTopY);
 
         private void ArticleInfo(bool reset)
         {
-            lblWarn.Text = "";
             lbDuplicateWikilinks.Items.Clear();
 
             if (reset)
@@ -2238,6 +2238,7 @@ window.scrollTo(0, diffTopY);
                 lblImages.Text = "Images: ";
                 lblLinks.Text = "Links: ";
                 lblInterLinks.Text = "Interwiki links: ";
+                lblWarn.Text = "";
             }
             else
             {
@@ -2249,45 +2250,48 @@ window.scrollTo(0, diffTopY);
                 int intInterLinks = Tools.InterwikiCount(articleText);
                 int intLinks = WikiRegexes.WikiLinksOnly.Matches(articleText).Count;
 
+                StringBuilder warnings = new StringBuilder();
+
                 if (TheArticle.NameSpaceKey == Namespace.Article && WikiRegexes.Stub.IsMatch(articleText) &&
                     intWords > 500)
-                    lblWarn.Text = "Long article with a stub tag.\r\n";
+                    warnings.AppendLine("Long article with a stub tag.");
 
                 if (intCats == 0)
-                    lblWarn.Text += "No category (although one may be in a template)\r\n";
+                    warnings.AppendLine("No category (although one may be in a template)");
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Replace_nofootnotes_with_morefootnote_if_references_exists
                 if (TheArticle.HasMorefootnotesAndManyReferences)
-                    lblWarn.Text += @"Has 'No/More footnotes' template yet many references" + "\r\n";
+                    warnings.AppendLine("Has 'No/More footnotes' template yet many references");
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
                 if (TheArticle.HasRefAfterReflist)
-                    lblWarn.Text += @"Has a <ref> after <references/>" + "\r\n";
+                    warnings.AppendLine(@"Has a <ref> after <references/>");
 
                 if (articleText.StartsWith("=="))
-                    lblWarn.Text += "Starts with heading.";
+                    warnings.AppendLine("Starts with heading");
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Format_references
                 if (TheArticle.HasBareReferences)
-                    lblWarn.Text += @"Unformatted references found" + "\r\n";
+                    warnings.AppendLine("Unformatted references found");
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Detect_multiple_DEFAULTSORT
                 if (WikiRegexes.Defaultsort.Matches(txtEdit.Text).Count > 1)
-                    lblWarn.Text += "Multiple DEFAULTSORTs found\r\n";
+                    warnings.AppendLine("Multiple DEFAULTSORTs found");
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Some_additional_edits
                 if (TheArticle.HasDeadLinks)
-                    lblWarn.Text += "Dead links found\r\n";
+                    warnings.AppendLine("Dead links found");
 
                 UnbalancedBracket = TheArticle.UnbalancedBrackets(ref BracketLength);
                 if (UnbalancedBracket > 0)
-                    lblWarn.Text += "Unbalanced brackets found\r\n";
+                    warnings.AppendLine("Unbalanced brackets found");
 
                 lblWords.Text = "Words: " + intWords;
                 lblCats.Text = "Categories: " + intCats;
                 lblImages.Text = "Images: " + intImages;
                 lblLinks.Text = "Links: " + intLinks;
                 lblInterLinks.Text = "Interwiki links: " + intInterLinks;
+                lblWarn.Text = warnings.ToString();
 
                 //Find multiple links                
                 ArrayList arrayLinks = new ArrayList();
