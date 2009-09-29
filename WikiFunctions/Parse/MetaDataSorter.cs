@@ -666,7 +666,8 @@ en, sq, ru
         {
             List<string> linkFGAList = new List<string>();
 
-            MatchCollection matches = WikiRegexes.LinkFGAs.Matches(articleText);
+            MatchCollection matches = (Variables.LangCode == "fr") ?
+                WikiRegexes.LinkFGAsFrench.Matches(articleText) : WikiRegexes.LinkFGAs.Matches(articleText);
 
             if (matches.Count == 0)
                 return linkFGAList;

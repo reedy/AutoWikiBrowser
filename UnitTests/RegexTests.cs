@@ -1231,5 +1231,17 @@ Bert").Groups[2].Value, "foo bar\r");
             Assert.AreEqual(WikiRegexes.StarRows.Match(@"    *foo bar").Groups[1].Value, @"*");
             Assert.AreEqual(WikiRegexes.StarRows.Match(@" *foo bar").Groups[2].Value, @"foo bar");
         }
+
+        [Test]
+        public void LinkFGA()
+        {
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link FA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link GA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link FA|ar}}"));
+
+            Assert.IsTrue(WikiRegexes.LinkFGAsFrench.IsMatch(@"foo {{lien BA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAsFrench.IsMatch(@"foo {{Lien AdQ|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAsFrench.IsMatch(@"foo {{lien PdQ|ar}}"));
+        }
     }
 }
