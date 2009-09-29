@@ -3463,6 +3463,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     || articleText.Contains(@"[[Category:Multiple people]]")
                     || articleText.Contains(@"[[Category:Married couples")
                     || articleText.Contains(@"[[Category:Fictional")
+                    || Regex.IsMatch(articleText, @"\[\[Category:\d{4} animal")
                     || articleText.Contains(@"[[fictional character")
                     || InUniverse.IsMatch(articleText)
                     || articleText.Contains(@"[[Category:Presidencies")
