@@ -486,6 +486,11 @@ namespace WikiFunctions
         public static readonly Regex LinkFGAs = new Regex(@"{{[Ll]ink [FG]A\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
 
         /// <summary>
+        /// Matches {{Lien BA}}, {{Lien AdQ}}, {{Lien PdQ}} in French
+        /// </summary>
+        public static readonly Regex LinkFGAsFrench = new Regex(@"{{[Ll]ien (?:BA|[PA]dQ)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
+
+        /// <summary>
         /// Matches {{Deadend|xxx}} (en only)
         /// </summary>
         public static readonly Regex DeadEnd = new Regex(@"({{([Dd]ead ?end|[Ii]nternal ?links|[Nn]uevointernallinks|[Dd]ep)(\|(?:[^{}]+|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}))?}}|(?<={{[Aa]rticle\s*issues\b[^{}]*?)\|\s*deadend\s*=[^{}\|]+)", RegexOptions.Compiled);
