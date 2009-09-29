@@ -1879,8 +1879,9 @@ namespace WikiFunctions.Parse
                 if (CiteTemplateHTMLURL.IsMatch(newValue))
                     newValue = CiteTemplateFormatnull.Replace(newValue, "");
 
-                // page= and pages= fields don't need p. or pp. in them
-                newValue = CiteTemplatePagesPP.Replace(newValue, "");
+                // page= and pages= fields don't need p. or pp. in them when nopp not set
+                if(!Regex.IsMatch(newValue, @"\bnopp\s*=\s*"))
+                    newValue = CiteTemplatePagesPP.Replace(newValue, "");
 
                 articleText = articleText.Replace(m.Value, newValue);
             }
