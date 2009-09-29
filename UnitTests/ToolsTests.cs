@@ -548,6 +548,10 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
 %%servername%%"));
 
             //%%key%%, Tools.MakeHumanCatKey() - Covered by HumanCatKeyTests
+
+            Assert.AreEqual("", Tools.ApplyKeyWords("", ""));
+            Assert.AreEqual("", Tools.ApplyKeyWords(@"%%foo%%", ""));
+            Assert.AreEqual(@"%%foo%%", Tools.ApplyKeyWords("", @"%%foo%%"));
         }
 
         [Test]

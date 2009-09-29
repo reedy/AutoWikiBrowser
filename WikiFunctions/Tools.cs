@@ -485,7 +485,7 @@ namespace WikiFunctions
         /// http://meta.wikimedia.org/wiki/Help:Magic_words
         public static string ApplyKeyWords(string title, string text)
         {
-            if (text.Contains("%%"))
+            if (!string.IsNullOrEmpty(text) && !string.IsNullOrEmpty(title) && text.Contains("%%"))
             {
                 string titleEncoded = WikiEncode(title);
                 text = text.Replace("%%title%%", title);
