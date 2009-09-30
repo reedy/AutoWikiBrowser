@@ -27,7 +27,7 @@ namespace WikiFunctions.Logging
 {
     public partial class ArticleActionLogControl : UserControl
     {
-        private ListMaker listMaker;
+        private ListMaker _listMaker;
 
         #region Public
         public ArticleActionLogControl()
@@ -37,7 +37,7 @@ namespace WikiFunctions.Logging
 
         public void Initialise(ListMaker rlistMaker)
         {
-            listMaker = rlistMaker;
+            _listMaker = rlistMaker;
             ResizeListView(lvFailed);
             ResizeListView(lvSuccessful);
         }
@@ -63,9 +63,6 @@ namespace WikiFunctions.Logging
         #endregion
 
         #region Private/Protected
-        private static ListViewItem SelectedItem(object sender)
-        { return (MenuItemOwner(sender).SelectedItems[0]); }
-
         /// <summary>
         /// Returns the ListView object from which the menu item was clicked
         /// </summary>
@@ -80,7 +77,7 @@ namespace WikiFunctions.Logging
             
             if (sender is ToolStripMenuItem)
                 return (ListView)(((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl);
-            throw new ArgumentException("Object of unknown type passed to LogControl.MenuItemOwner()");
+            throw new ArgumentException("Object of unknown type passed to LogControl.MenuItemOwner()", "sender");
         }
 
         private LogFileType GetFilePrefs()
@@ -97,7 +94,7 @@ namespace WikiFunctions.Logging
         {
             foreach (ListViewItem item in MenuItemOwner(sender).SelectedItems)
             {
-                listMaker.Add(new Article(item.Text));
+                _listMaker.Add(new Article(item.Text));
             }
         }
 
@@ -122,9 +119,9 @@ namespace WikiFunctions.Logging
             {
                 StringBuilder strList = new StringBuilder();
 
-                foreach (AWBLogListener a in listview.Items)
+                foreach (ListViewItem lvi in listview.Items)
                 {
-                    strList.AppendLine(a.Output(logFileType));
+                    strList.AppendLine(lvi.Text);
                 }
                 Tools.WriteTextFileAbsolutePath(strList.ToString(), saveListDialog.FileName, false);
             }
@@ -133,7 +130,7 @@ namespace WikiFunctions.Logging
         private void btnAddToList_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem article in lvFailed.Items)
-                listMaker.Add(new Article(article.Text));
+                _listMaker.Add(new Article(article.Text));
         }
 
         private void btnSaveSaved_Click(object sender, EventArgs e)
