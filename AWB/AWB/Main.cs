@@ -267,6 +267,7 @@ namespace AutoWikiBrowser
                 SplashScreen.SetProgress(25);
 
                 logControl.Initialise(listMaker);
+                articleActionLogControl1.Initialise(listMaker);
 
                 Location = Properties.Settings.Default.WindowLocation;
 
@@ -3652,18 +3653,22 @@ window.scrollTo(0, diffTopY);
                     return;
                 }
 
-                string newTitle;
+                string newTitle, msg;
+                bool succeed = TheArticle.Move(TheSession, out newTitle);
 
-                if (TheArticle.Move(TheSession, out newTitle))
+                if (succeed)
                 {
                     Article replacementArticle = new Article(newTitle);
 
-                    StatusLabelText = "Moved " + TheArticle.Name + " to " + newTitle;
+                    msg = "Moved " + TheArticle.Name + " to " + newTitle;
 
                     listMaker.ReplaceArticle(TheArticle, replacementArticle);
                 }
                 else
-                    StatusLabelText = "Move of " + TheArticle.Name + " failed!";
+                    msg = "Move of " + TheArticle.Name + " failed!";
+
+                articleActionLogControl1.LogArticleAction(TheArticle.Name, succeed, ArticleAction.Move, msg);
+                StatusLabelText = msg;
             }
             catch (Exception ex)
             {
@@ -3695,13 +3700,19 @@ window.scrollTo(0, diffTopY);
                     return;
                 }
 
-                if (TheArticle.Delete(TheSession))
+                string msg;
+                bool succeed = TheArticle.Delete(TheSession);
+
+                if (succeed)
                 {
-                    StatusLabelText = "Deleted " + TheArticle.Name;
+                    msg = "Deleted " + TheArticle.Name;
                     listMaker.Remove(TheArticle);
                 }
                 else
-                    StatusLabelText = "Deletion of " + TheArticle.Name + " failed!";
+                    msg = "Deletion of " + TheArticle.Name + " failed!";
+
+                StatusLabelText = msg;
+                articleActionLogControl1.LogArticleAction(TheArticle.Name, succeed, ArticleAction.Delete, msg);
             }
             catch (Exception ex)
             {
@@ -3727,10 +3738,16 @@ window.scrollTo(0, diffTopY);
                     return;
                 }
 
-                if (TheArticle.Protect(TheSession))
-                    StatusLabelText = "Protected " + TheArticle.Name;
+                string msg;
+                bool succeed = TheArticle.Protect(TheSession);
+
+                if (succeed)
+                    msg = "Protected " + TheArticle.Name;
                 else
-                    StatusLabelText = "Protection of " + TheArticle.Name + " failed!";
+                    msg = "Protection of " + TheArticle.Name + " failed!";
+
+                articleActionLogControl1.LogArticleAction(TheArticle.Name, succeed, ArticleAction.Protect, msg);
+                StatusLabelText = msg;
             }
             catch (Exception ex)
             {

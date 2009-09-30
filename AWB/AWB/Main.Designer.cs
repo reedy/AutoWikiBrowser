@@ -380,6 +380,8 @@ namespace AutoWikiBrowser
             this.txtReviewEditSummary = new System.Windows.Forms.TextBox();
             this.tpLogs = new System.Windows.Forms.TabPage();
             this.logControl = new WikiFunctions.Logging.LogControl();
+            this.tpArticleActionLogs = new System.Windows.Forms.TabPage();
+            this.articleActionLogControl1 = new WikiFunctions.Logging.ArticleActionLogControl();
             this.tpLoggingOptions = new System.Windows.Forms.TabPage();
             this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
             this.tpTypos = new System.Windows.Forms.TabPage();
@@ -462,6 +464,7 @@ namespace AutoWikiBrowser
             this.tpLinks.SuspendLayout();
             this.tpEditSummary.SuspendLayout();
             this.tpLogs.SuspendLayout();
+            this.tpArticleActionLogs.SuspendLayout();
             this.tpLoggingOptions.SuspendLayout();
             this.tpTypos.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -3687,6 +3690,7 @@ namespace AutoWikiBrowser
             this.EditBoxTab.Controls.Add(this.tpLinks);
             this.EditBoxTab.Controls.Add(this.tpEditSummary);
             this.EditBoxTab.Controls.Add(this.tpLogs);
+            this.EditBoxTab.Controls.Add(this.tpArticleActionLogs);
             this.EditBoxTab.Controls.Add(this.tpLoggingOptions);
             this.EditBoxTab.Controls.Add(this.tpTypos);
             this.EditBoxTab.HotTrack = true;
@@ -3719,6 +3723,7 @@ namespace AutoWikiBrowser
             this.tpEdit.Size = new System.Drawing.Size(394, 351);
             this.tpEdit.TabIndex = 0;
             this.tpEdit.Text = "Edit box";
+            this.tpEdit.UseVisualStyleBackColor = true;
             // 
             // tpHistory
             // 
@@ -3807,6 +3812,24 @@ namespace AutoWikiBrowser
             this.logControl.Name = "logControl";
             this.logControl.Size = new System.Drawing.Size(388, 345);
             this.logControl.TabIndex = 0;
+            // 
+            // tpArticleActionLogs
+            // 
+            this.tpArticleActionLogs.Controls.Add(this.articleActionLogControl1);
+            this.tpArticleActionLogs.Location = new System.Drawing.Point(4, 22);
+            this.tpArticleActionLogs.Name = "tpArticleActionLogs";
+            this.tpArticleActionLogs.Size = new System.Drawing.Size(394, 351);
+            this.tpArticleActionLogs.TabIndex = 6;
+            this.tpArticleActionLogs.Text = "Article Logs";
+            this.tpArticleActionLogs.UseVisualStyleBackColor = true;
+            // 
+            // articleActionLogControl1
+            // 
+            this.articleActionLogControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.articleActionLogControl1.Location = new System.Drawing.Point(0, 0);
+            this.articleActionLogControl1.Name = "articleActionLogControl1";
+            this.articleActionLogControl1.Size = new System.Drawing.Size(394, 351);
+            this.articleActionLogControl1.TabIndex = 0;
             // 
             // tpLoggingOptions
             // 
@@ -4192,6 +4215,7 @@ namespace AutoWikiBrowser
             this.tpEditSummary.ResumeLayout(false);
             this.tpEditSummary.PerformLayout();
             this.tpLogs.ResumeLayout(false);
+            this.tpArticleActionLogs.ResumeLayout(false);
             this.tpLoggingOptions.ResumeLayout(false);
             this.tpTypos.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -4569,5 +4593,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator29;
         private System.Windows.Forms.ToolStripMenuItem invalidateCacheToolStripMenuItem;
+        private System.Windows.Forms.TabPage tpArticleActionLogs;
+        private WikiFunctions.Logging.ArticleActionLogControl articleActionLogControl1;
     }
 }
