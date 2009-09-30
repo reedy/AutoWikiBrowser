@@ -210,7 +210,7 @@ namespace AutoWikiBrowser
                         break;
                     case "/u":
                         if ((i + 1) < args.Length)
-                            ProfileToLoad = args[i + 1];
+                            _profileToLoad = args[i + 1];
                         break;
                 }
             }
@@ -232,7 +232,7 @@ namespace AutoWikiBrowser
             get { return mSettingsFile; }
         }
 
-        string ProfileToLoad = "";
+        string _profileToLoad = "";
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -290,6 +290,8 @@ namespace AutoWikiBrowser
 
                 Updater.WaitForCompletion();
 
+                ntfyTray.Visible = true;
+
                 SplashScreen.SetProgress(80);
 
                 bool optUpdate = ((Updater.Result & Updater.AWBEnabledStatus.OptionalUpdate) ==
@@ -336,7 +338,7 @@ namespace AutoWikiBrowser
 
                 SplashScreen.SetProgress(90);
 
-                Profiles.Login(ProfileToLoad);
+                Profiles.Login(_profileToLoad);
 
                 SplashScreen.SetProgress(95);
             }
@@ -1889,6 +1891,7 @@ window.scrollTo(0, diffTopY);
                 e.Cancel = true;
                 return;
             }
+            ntfyTray.Visible = false;
             ntfyTray.Dispose();
         }
 
