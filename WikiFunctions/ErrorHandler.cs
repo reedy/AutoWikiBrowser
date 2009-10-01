@@ -59,7 +59,7 @@ namespace WikiFunctions
                 && (ex.InnerException != null && ex.InnerException.InnerException != null
                 && ex.InnerException.InnerException is System.IO.IOException))
             {
-                MessageBox.Show(ex.Message, "Disk write error - is disk full?",
+                MessageBox.Show(ex.Message, "I/O error",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
