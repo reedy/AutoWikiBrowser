@@ -16,7 +16,7 @@ namespace WikiFunctions.CustomModules
         {
             var asm = LoadAssembly(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
                 "Nemerle\\Nemerle.Compiler.dll"),
-                "Nemerle.");
+                "Nemerle");
             Compiler = (CodeDomProvider)asm.CreateInstance("Nemerle.Compiler.NemerleCodeProvider");
         }
 
@@ -34,16 +34,17 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using WikiFunctions;
+using WikiFunctions.Plugin;
 
 namespace AutoWikiBrowser.CustomModules
 {
     class CustomModule : WikiFunctions.Plugin.IModule
     {
-        awb: WikiFunctions.Plugin.IAutoWikiBrowser;
+        mutable mAWB: WikiFunctions.Plugin.IAutoWikiBrowser;
 
-        public CustomModule(WikiFunctions.Plugin.IAutoWikiBrowser mAWB)
+        public CustomModule(awb: IAutoWikiBrowser)
         {
-           awb =  mAWB;
+           mAWB = awb;
         }
 ";
             }
@@ -62,14 +63,14 @@ namespace AutoWikiBrowser.CustomModules
         {
             get
             {
-                return @"        public ProcessArticle(ArticleText: string, ArticleTitle: string, wikiNamespace: int, out Summary: string, out Skip: bool): string
+                return @"        public ProcessArticle(ArticleText: string, ArticleTitle: string, wikiNamespace: int, Summary: out string, Skip: out bool): string
         {
             Skip = false;
             Summary = ""test"";
 
             ArticleText = ""test \r\n\r\n"" + ArticleText;
 
-            return ArticleText;
+            ArticleText;
         }";
             }
         }

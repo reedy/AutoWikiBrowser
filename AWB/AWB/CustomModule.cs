@@ -126,18 +126,32 @@ namespace AutoWikiBrowser
 
                 CompilerResults results = Compiler.Compile(txtCode.Text, cp);
 
+                bool hasErrors = false;
                 if (results.Errors.Count > 0)
                 {
-                    StringBuilder builder = new StringBuilder("Compilation failed:\r\n");
+                    StringBuilder builder = new StringBuilder();//"Compilation messages:\r\n");
                     foreach (CompilerError err in results.Errors)
                     {
-                        builder.AppendLine(String.Format("Error: {0}\r\nLine: {1}\r\nNumber: {2}\r\n", err.ErrorText, err.Line, err.ErrorNumber));
+                        hasErrors |= !err.IsWarning;
+
+                        if (err.Line > 0)
+                            builder.AppendFormat("Line {0}, col {1}: ", err.Line, err.Column);
+
+                        if (!string.IsNullOrEmpty(err.ErrorNumber))
+                            builder.AppendFormat("[{0}] ", err.ErrorNumber);
+
+                        builder.Append(err.ErrorText);
+                        builder.Append("\r\n");
                     }
 
-                    MessageBox.Show(this, builder.ToString(), "Compilation errors");
+                    MessageBox.Show(this, builder.ToString(), 
+                        "Compilation " + (hasErrors ? "errors" : "warnings"));
 
-                    Module = null;
-                    return;
+                    if (hasErrors)
+                    {
+                        Module = null;
+                        return;
+                    }
                 }
 
                 foreach (Type t in results.CompiledAssembly.GetTypes())
