@@ -80,8 +80,7 @@ namespace AutoWikiBrowser
         private readonly WikiFunctions.ReplaceSpecial.ReplaceSpecial RplcSpecial =
             new WikiFunctions.ReplaceSpecial.ReplaceSpecial();
         private readonly Parsers Parser;
-        private readonly TimeSpan StartTime =
-            new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+        private readonly TimeSpan StartTime = new TimeSpan(DateTime.Now.Ticks);
         private readonly List<string> RecentList = new List<string>();
         private readonly CustomModule CModule = new CustomModule();
         private readonly ExternalProgram ExtProgram = new ExternalProgram();
