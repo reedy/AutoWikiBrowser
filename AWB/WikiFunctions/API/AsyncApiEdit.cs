@@ -39,7 +39,7 @@ namespace WikiFunctions.API
         private bool InCrossThreadCall;
 
         public AsyncApiEdit(string url)
-            :this(url, null, false)
+            : this(url, null, false)
         {
         }
 
@@ -272,6 +272,7 @@ namespace WikiFunctions.API
             }
             catch (Exception ex)
             {
+                TheThread = null;
                 SynchronousEditor.Reset();
 
                 if (ex is TargetInvocationException) ex = ex.InnerException;
