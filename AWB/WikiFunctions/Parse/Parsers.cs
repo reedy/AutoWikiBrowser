@@ -1117,12 +1117,13 @@ namespace WikiFunctions.Parse
 
                 // convert invalid date formats like DD-MM-YYYY, MM-DD-YYYY, YYYY-D-M, YYYY-DD-MM, YYYY_MM_DD etc. to iso format of YYYY-MM-DD
                 // for accessdate= and archivedate=
-                if (AccessOrArchiveDate.IsMatch(articleText))
+                // provided no ambigyous ones
+                if (AccessOrArchiveDate.IsMatch(articleText) && !AmbiguousCiteTemplateDates(articleText))
                     foreach (RegexReplacement rr in CiteTemplateIncorrectISOAccessdates)
                         articleText = rr.Regex.Replace(articleText, rr.Replacement);
 
                 // date=, archivedate=, airdate=, date2=
-                if (CiteTemplateArchiveAirDate.IsMatch(articleText))
+                if (CiteTemplateArchiveAirDate.IsMatch(articleText) && !AmbiguousCiteTemplateDates(articleText))
                 {
                     foreach (RegexReplacement rr in CiteTemplateIncorrectISODates)
                         articleText = rr.Regex.Replace(articleText, rr.Replacement);
@@ -1139,6 +1140,21 @@ namespace WikiFunctions.Parse
             }
 
             return articleText;
+        }
+
+
+        private static readonly Regex PossibleAmbiguousCiteDate = new Regex(SiCitStart + @"(?:access|archive|air)?date2?\s*=\s*)(0?[1-9]|1[0-2])[/_\-\.](0?[1-9]|1[0-2])[/_\-\.](200\d|19[7-9]\d|[01]\d)(?=\s*(?:\||}}))");
+        
+        public static bool AmbiguousCiteTemplateDates(string articleText)
+        {
+            foreach (Match m in PossibleAmbiguousCiteDate.Matches(articleText))
+            {
+                // for YYYY-AA-BB date, ambiguous if AA and BB not the same
+                if (m.Groups[2].Value != m.Groups[3].Value)
+                    return true;
+            }
+
+            return false;
         }
 
         // Covered by: FormattingTests.TestMdashes()
