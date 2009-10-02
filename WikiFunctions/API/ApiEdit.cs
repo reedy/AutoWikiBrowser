@@ -581,8 +581,9 @@ namespace WikiFunctions.API
                 {// order matters here - https://bugzilla.wikimedia.org/show_bug.cgi?id=14210#c4
                     { "md5", MD5(pageText) },
                     { "summary", summary },
-                    { "timestamp", Page.Timestamp },
+                    { "basetimestamp", Page.Timestamp },
                     { "text", pageText },
+                    { "starttimestamp", Page.TokenTimestamp },
                     { "token", Page.EditToken }
                 },
                 ActionOptions.All);

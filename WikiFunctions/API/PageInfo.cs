@@ -30,6 +30,7 @@ namespace WikiFunctions.API
         {
         }
 
+        // TODO: adopt for retrieval of information for protection, deletion, etc.
         internal PageInfo(string xml)
         {
             XmlReader xr = XmlReader.Create(new StringReader(xml));
@@ -37,6 +38,7 @@ namespace WikiFunctions.API
 
             Exists = (xr.GetAttribute("missing") == null); //if null, page exists
             EditToken = xr.GetAttribute("edittoken");
+            TokenTimestamp = xr.GetAttribute("starttimestamp");
 
             long revId;
             RevisionID = long.TryParse(xr.GetAttribute("lastrevid"), out revId) ? revId : -1;
@@ -86,13 +88,13 @@ namespace WikiFunctions.API
         /// 
         /// </summary>
         public bool Exists
-        { get; internal set; }
+        { get; private set; }
 
         /// <summary>
         /// Revision ID, -1 if N/A
         /// </summary>
         public long RevisionID
-        { get; internal set; }
+        { get; private set; }
 
         /// <summary>
         /// Namespace number
@@ -101,7 +103,7 @@ namespace WikiFunctions.API
         { get; private set; }
 
         /// <summary>
-        /// 
+        /// Timestamp of the latest revision of the page
         /// </summary>
         public string Timestamp
         { get; private set; }
@@ -109,17 +111,26 @@ namespace WikiFunctions.API
         /// <summary>
         /// Edit token (http://www.mediawiki.org/wiki/Manual:Edit_token)
         /// </summary>
-        public string EditToken { get; internal set; }
+        public string EditToken
+        { get; internal set; }
+
+        /// <summary>
+        /// Time when the token was obtained. Used for deletion detection.
+        /// </summary>
+        public string TokenTimestamp
+        { get; private set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string EditProtection { get; private set; }
+        public string EditProtection
+        { get; private set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string MoveProtection { get; private set; }
+        public string MoveProtection
+        { get; private set; }
 
         //TODO: waiting for https://bugzilla.wikimedia.org/show_bug.cgi?id=19523
         /// <summary>
