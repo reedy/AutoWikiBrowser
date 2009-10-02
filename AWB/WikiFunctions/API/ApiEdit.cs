@@ -259,7 +259,7 @@ namespace WikiFunctions.API
 
         protected string AppendOptions(string url, ActionOptions options)
         {
-            if ((options & ActionOptions.CheckMaxlag) > 0)
+            if ((options & ActionOptions.CheckMaxlag) > 0 && Maxlag > 0)
                 url += "&maxlag=" + Maxlag;
 
             if ((options & ActionOptions.RequireLogin) > 0)

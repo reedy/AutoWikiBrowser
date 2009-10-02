@@ -262,7 +262,7 @@ namespace WikiFunctions
                     return WikiStatusResult.NotLoggedIn;
 
                 // TODO: assess the impact on servers later
-                Editor.Maxlag = /*Editor.User.IsBot ? 5 :*/ 20;
+                Editor.Maxlag = /*Editor.User.IsBot ? 5 :*/ -1;
 
                 // check if username is globally blacklisted
                 foreach (Match m3 in BadName.Matches(Updater.GlobalVersionPage))
