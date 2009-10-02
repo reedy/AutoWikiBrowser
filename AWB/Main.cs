@@ -1207,6 +1207,7 @@ namespace AutoWikiBrowser
                 NumberOfIgnoredEdits++;
                 StopDelayedAutoSaveTimer();
                 NudgeTimer.Stop();
+                txtEdit.Text = "";
                 listMaker.Remove(TheArticle);
                 SameArticleNudges = 0;
                 logControl.AddLog(true, TheArticle.LogListener);
