@@ -2404,6 +2404,7 @@ namespace AutoWikiBrowser
             this.chkSkipCaseSensitive.Text = "Case sens&itive";
             this.ToolTip.SetToolTip(this.chkSkipCaseSensitive, "Makes \"Skip if contains\" matches case-sensitive");
             this.chkSkipCaseSensitive.UseVisualStyleBackColor = true;
+            this.chkSkipCaseSensitive.CheckedChanged += new System.EventHandler(this.chkSkipCaseSensitive_CheckedChanged);
             // 
             // chkSkipNoPageLinks
             // 

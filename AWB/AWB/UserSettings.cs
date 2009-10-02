@@ -298,7 +298,7 @@ namespace AutoWikiBrowser
                         RegexTypoFix = chkRegExTypo.Checked
                     },
 
-                new ListPrefs(listMaker, SaveArticleList),
+                new ListPrefs(listMaker, _saveArticleList),
 
                 new SkipPrefs
                     {
@@ -328,7 +328,7 @@ namespace AutoWikiBrowser
 
                 new GeneralPrefs(cmboEditSummary.Items)
                     {
-                        SaveArticleList = SaveArticleList,
+                        SaveArticleList = _saveArticleList,
                         IgnoreNoBots = IgnoreNoBots,
                         SelectedSummary = cmboEditSummary.Text,
 
@@ -368,18 +368,18 @@ namespace AutoWikiBrowser
                         TextBoxSize = (int)txtEdit.Font.Size,
                         TextBoxFont = txtEdit.Font.Name,
                         LowThreadPriority = LowThreadPriority,
-                        Beep = Beep,
-                        Flash = Flash,
-                        Minimize = Minimize,
+                        Beep = _beep,
+                        Flash = _flash,
+                        Minimize = _minimize,
                         AutoSaveEdit = new EditBoxAutoSavePrefs
                                            {
-                                               Enabled = AutoSaveEditBoxEnabled,
+                                               Enabled = _autoSaveEditBoxEnabled,
                                                SavePeriod = AutoSaveEditBoxPeriod,
-                                               SaveFile = AutoSaveEditBoxFile
+                                               SaveFile = _autoSaveEditBoxFile
                                            },
                         LockSummary = chkLock.Checked,
                         EditToolbarEnabled = EditToolBarVisible,
-                        SuppressUsingAWB = SuppressUsingAWB,
+                        SuppressUsingAWB = _suppressUsingAWB,
                         AddUsingAWBToActionSummaries = Article.AddUsingAWBOnArticleAction,
                         filterNonMainSpace = filterOutNonMainSpaceToolStripMenuItem.Checked,
                         AutoFilterDuplicates = removeDuplicatesToolStripMenuItem.Checked,
@@ -496,7 +496,7 @@ namespace AutoWikiBrowser
             listMaker.SourceText = p.List.ListSource;
             listMaker.SelectedProvider = p.List.SelectedProvider;
 
-            SaveArticleList = p.General.SaveArticleList;
+            _saveArticleList = p.General.SaveArticleList;
 
             IgnoreNoBots = p.General.IgnoreNoBots;
 
@@ -598,11 +598,11 @@ namespace AutoWikiBrowser
             sortAlphabeticallyToolStripMenuItem.Checked = p.General.SortListAlphabetically;
             displayfalsePositivesButtonToolStripMenuItem.Checked = p.General.AddIgnoredToLog;
 
-            AutoSaveEditBoxEnabled = p.General.AutoSaveEdit.Enabled;
+            _autoSaveEditBoxEnabled = p.General.AutoSaveEdit.Enabled;
             AutoSaveEditBoxPeriod = p.General.AutoSaveEdit.SavePeriod;
-            AutoSaveEditBoxFile = p.General.AutoSaveEdit.SaveFile;
+            _autoSaveEditBoxFile = p.General.AutoSaveEdit.SaveFile;
 
-            SuppressUsingAWB = p.General.SuppressUsingAWB;
+            _suppressUsingAWB = p.General.SuppressUsingAWB;
             Article.AddUsingAWBOnArticleAction = p.General.AddUsingAWBToActionSummaries;
 
             filterOutNonMainSpaceToolStripMenuItem.Checked = p.General.filterNonMainSpace;
@@ -616,10 +616,10 @@ namespace AutoWikiBrowser
             txtEdit.Font = new System.Drawing.Font(p.General.TextBoxFont, p.General.TextBoxSize);
 
             LowThreadPriority = p.General.LowThreadPriority;
-            Flash = p.General.Flash;
-            Beep = p.General.Beep;
+            _flash = p.General.Flash;
+            _beep = p.General.Beep;
 
-            Minimize = p.General.Minimize;
+            _minimize = p.General.Minimize;
 
             chkEnableDab.Checked = p.Disambiguation.Enabled;
             txtDabLink.Text = p.Disambiguation.Link;
@@ -652,12 +652,12 @@ namespace AutoWikiBrowser
 
         private void SetPasteMoreText(int item, string s)
         {
-            if (item < PasteMoreItems.Length)
+            if (item < _pasteMoreItems.Length)
             {
-                PasteMoreItems[item].Tag = s;
-                PasteMoreItems[item].Text = PasteMoreItemsPrefixes[item] +
+                _pasteMoreItems[item].Tag = s;
+                _pasteMoreItems[item].Text = _pasteMoreItemsPrefixes[item] +
                                             (string.IsNullOrEmpty(s) ? "" : s.Replace("&", "&&"));
-                PasteMoreItems[item].Visible = s != "";
+                _pasteMoreItems[item].Visible = s != "";
             }
         }
     }

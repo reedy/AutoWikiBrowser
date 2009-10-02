@@ -108,8 +108,8 @@ namespace AutoWikiBrowser
         /// </summary>
         private bool ShuttingDown { get; set; }
 
-        private readonly ToolStripMenuItem[] PasteMoreItems;
-        private readonly string[] PasteMoreItemsPrefixes = new[] {
+        private readonly ToolStripMenuItem[] _pasteMoreItems;
+        private readonly string[] _pasteMoreItemsPrefixes = new[] {
             "&1. ", "&2. ", "&3. ", "&4. ", "&5. ", "&6. ", "&7. ", "&8. ", "&9. ", "1&0. ", 
         };
         #endregion
@@ -175,7 +175,7 @@ namespace AutoWikiBrowser
 
                 SplashScreen.SetProgress(15);
 
-                PasteMoreItems = new[]
+                _pasteMoreItems = new[]
                 {
                     PasteMore1, PasteMore2, PasteMore3, PasteMore4, PasteMore5, PasteMore6, PasteMore7, PasteMore8, PasteMore9, PasteMore10, 
                 };
@@ -216,18 +216,18 @@ namespace AutoWikiBrowser
             }
         }
 
-        private string SettingsFileDisplay;
+        private string _settingsFileDisplay;
         string SettingsFile
         {
             set
             {
                 mSettingsFile = value;
-                SettingsFileDisplay = Program.Name;
+                _settingsFileDisplay = Program.Name;
                 if (!string.IsNullOrEmpty(value))
-                    SettingsFileDisplay += " - " + value.Remove(0, value.LastIndexOf("\\") + 1);
-                Text = SettingsFileDisplay;
+                    _settingsFileDisplay += " - " + value.Remove(0, value.LastIndexOf("\\") + 1);
+                Text = _settingsFileDisplay;
 
-                ntfyTray.Text = (SettingsFileDisplay.Length > 64) ? SettingsFileDisplay.Substring(0, 63) : SettingsFileDisplay;
+                ntfyTray.Text = (_settingsFileDisplay.Length > 64) ? _settingsFileDisplay.Substring(0, 63) : _settingsFileDisplay;
             }
             get { return mSettingsFile; }
         }
@@ -361,7 +361,7 @@ namespace AutoWikiBrowser
         {
             if (WindowState == FormWindowState.Minimized)
             {
-                if (Minimize) Visible = false;
+                if (_minimize) Visible = false;
             }
             else
                 LastState = WindowState; // remember if maximised or normal so can restore same when dbl click tray icon
@@ -381,39 +381,38 @@ namespace AutoWikiBrowser
             set { chkAutoMode.Checked = value; }
         }
 
-        private bool LowThrdPriority;
+        private bool _lowThreadPriority;
         private bool LowThreadPriority
         {
-            get { return LowThrdPriority; }
+            get { return _lowThreadPriority; }
             set
             {
-                LowThrdPriority = value;
+                _lowThreadPriority = value;
                 Thread.CurrentThread.Priority = value ? ThreadPriority.Lowest : ThreadPriority.Normal;
             }
         }
 
         private int _listComparerUseCurrentArticleList, _listSplitterUseCurrentArticleList;
 
-        private bool Flash;
-        private bool Beep;
+        private bool _flash, _beep;
 
         /// <summary>
         /// True if AWB should be minimised to the system tray; False if it should minimise to the taskbar
         /// </summary>
-        private bool Minimize;
+        private bool _minimize;
 
-        private bool SaveArticleList = true;
-        private bool AutoSaveEditBoxEnabled;
+        private bool _saveArticleList = true;
+        private bool _autoSaveEditBoxEnabled;
 
-        private string AutoSaveEditBoxFile = Application.StartupPath + "\\Edit Box.txt";
+        private string _autoSaveEditBoxFile = Application.StartupPath + "\\Edit Box.txt";
 
-        private bool SuppressUsingAWB;
+        private bool _suppressUsingAWB;
 
-        private decimal ASEditPeriod = 60;
+        private decimal _asEditPeriod = 60;
         private decimal AutoSaveEditBoxPeriod
         {
-            get { return ASEditPeriod; }
-            set { ASEditPeriod = value; EditBoxSaveTimer.Interval = int.Parse((value * 1000).ToString()); }
+            get { return _asEditPeriod; }
+            set { _asEditPeriod = value; EditBoxSaveTimer.Interval = int.Parse((value * 1000).ToString()); }
         }
 
         private void SetStatusLabelText(string text)
@@ -451,15 +450,15 @@ namespace AutoWikiBrowser
             }
         }
 
-        bool TimerShown = true;
+        bool _timerShown = true;
         private bool ShowMovingAverageTimer
         {
             set
             {
-                TimerShown = value;
+                _timerShown = value;
                 ShowTimer();
             }
-            get { return TimerShown; }
+            get { return _timerShown; }
         }
 
         #endregion
@@ -583,24 +582,23 @@ namespace AutoWikiBrowser
             TheSession.Editor.Open(title);
         }
 
-        private bool StopProcessing;
-        private bool InStart, StartAgain;
+        private bool _stopProcessing, _inStart, _startAgain;
 
         private void Start()
         {
             if (TheSession.Status != WikiStatusResult.Registered) return;
-            if (InStart)
+            if (_inStart)
             {
-                StartAgain = true;
+                _startAgain = true;
                 return;
             }
-            InStart = true;
+            _inStart = true;
             do
             {
-                StartAgain = false;
+                _startAgain = false;
                 StartProcess();
-            } while (StartAgain);
-            InStart = false;
+            } while (_startAgain);
+            _inStart = false;
         }
 
         /// <summary>
@@ -608,7 +606,7 @@ namespace AutoWikiBrowser
         /// <returns>true if it is ok to call again, or false if processing should now stop</returns>
         private void StartProcess()
         {
-            if (StopProcessing)
+            if (_stopProcessing)
                 return;
 
             try
@@ -679,7 +677,7 @@ namespace AutoWikiBrowser
                 NewHistory(title);
                 NewWhatLinksHere(title);
 
-                EditBoxSaveTimer.Enabled = AutoSaveEditBoxEnabled;
+                EditBoxSaveTimer.Enabled = _autoSaveEditBoxEnabled;
 
                 //if (dlg != null && dlg.AutoProtectAll)
                 //    TheArticle.Protect(TheSession);
@@ -705,8 +703,7 @@ namespace AutoWikiBrowser
         }
 
         // counts number of redirects so that we catch double redirects
-        private int Redirects;
-        private int UnbalancedBracket, BracketLength;
+        private int _redirects, _unbalancedBracket, _bracketLength;
 
         private void SkipRedirect(string redirectTitle, string reason)
         {
@@ -725,7 +722,7 @@ namespace AutoWikiBrowser
 
             StopProgressBar();
 
-            if (StopProcessing)
+            if (_stopProcessing)
                 return;
 
             TheArticle = new ArticleEX(page);
@@ -737,7 +734,7 @@ namespace AutoWikiBrowser
             else
                 Program.MyTrace.Initialise();
 
-            Text = SettingsFileDisplay + " - " + page.Title;
+            Text = _settingsFileDisplay + " - " + page.Title;
 
             bool articleIsRedirect = Tools.IsRedirect(page.Text);
 
@@ -748,9 +745,9 @@ namespace AutoWikiBrowser
             }
 
             if (articleIsRedirect)
-                Redirects++;
+                _redirects++;
             else
-                Redirects = 0;
+                _redirects = 0;
 
             //check for redirect
             if (bypassRedirectsToolStripMenuItem.Checked && articleIsRedirect && !PageReload)
@@ -781,7 +778,7 @@ namespace AutoWikiBrowser
                     TheArticle = new ArticleEX(redirect, "");
 
                     // don't allow redirects to a redirect as we could go round in circles
-                    if (Redirects > 1)
+                    if (_redirects > 1)
                     {
                         SkipPage("Double redirect");
                         return;
@@ -996,7 +993,7 @@ namespace AutoWikiBrowser
                 }
                 else
                 {
-                    if (UnbalancedBracket < 0)
+                    if (_unbalancedBracket < 0)
                         btnSave.Focus();
                     else if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
                     {
@@ -1028,8 +1025,7 @@ namespace AutoWikiBrowser
             txtEdit.TextChanged += txtEdit_TextChanged;
         }
 
-        private IArticleComparer ContainsComparer;
-        private IArticleComparer NotContainsComparer;
+        private IArticleComparer _containsComparer, _notContainsComparer;
         /// <summary>
         /// Skips the article based on protection level and contains/not contains logic
         /// </summary>
@@ -1043,18 +1039,18 @@ namespace AutoWikiBrowser
                 return true;
             }
 
-            if (ContainsComparer == null)
+            if (_containsComparer == null)
                 MakeSkipChecks();
 
             if (checkContainsNotContains)
             {
-                if (chkSkipIfContains.Checked && ContainsComparer.Matches(TheArticle))
+                if (chkSkipIfContains.Checked && _containsComparer.Matches(TheArticle))
                 {
                     SkipPage("Page contains: " + txtSkipIfContains.Text);
                     return true;
                 }
 
-                if (chkSkipIfNotContains.Checked && !NotContainsComparer.Matches(TheArticle))
+                if (chkSkipIfNotContains.Checked && !_notContainsComparer.Matches(TheArticle))
                 {
                     SkipPage("Page does not contain: " + txtSkipIfNotContains.Text);
                     return true;
@@ -1066,18 +1062,18 @@ namespace AutoWikiBrowser
 
         private void InvalidateSkipChecks()
         {
-            ContainsComparer = null;
-            NotContainsComparer = null;
+            _containsComparer = null;
+            _notContainsComparer = null;
         }
 
         private void MakeSkipChecks()
         {
-            ContainsComparer = ArticleComparerFactory.Create(txtSkipIfContains.Text,
+            _containsComparer = ArticleComparerFactory.Create(txtSkipIfContains.Text,
                                                              chkSkipCaseSensitive.Checked,
                                                              chkSkipIsRegex.Checked,
                                                              false, // singleline
                                                              false); // multiline
-            NotContainsComparer = ArticleComparerFactory.Create(txtSkipIfNotContains.Text,
+            _notContainsComparer = ArticleComparerFactory.Create(txtSkipIfNotContains.Text,
                                                                 chkSkipCaseSensitive.Checked,
                                                                 chkSkipIsRegex.Checked,
                                                                 false, // singleline
@@ -1105,12 +1101,12 @@ namespace AutoWikiBrowser
         {
             if (ContainsFocus) return;
 #if !MONO
-            if (Flash) Tools.FlashWindow(this);
+            if (_flash) Tools.FlashWindow(this);
 #endif
-            if (Beep) Tools.Beep();
+            if (_beep) Tools.Beep();
         }
 
-        private readonly TalkMessage DlgTalk = new TalkMessage();
+        private readonly TalkMessage _dlgTalk = new TalkMessage();
 
         private void WeHaveNewMessages()
         {
@@ -1118,7 +1114,7 @@ namespace AutoWikiBrowser
             Focus();
             TheSession.RequireUpdate();
 
-            if (DlgTalk.ShowDialog() == DialogResult.Yes)
+            if (_dlgTalk.ShowDialog() == DialogResult.Yes)
                 Tools.OpenUserTalkInBrowser(TheSession.User.Name);
             else
                 Process.Start("iexplore", Variables.GetUserTalkURL(TheSession.User.Name));
@@ -1173,8 +1169,8 @@ namespace AutoWikiBrowser
             //}
 
             //lower restart delay
-            if (RestartDelay > 5)
-                RestartDelay -= 1;
+            if (_restartDelay > 5)
+                _restartDelay -= 1;
 
             NumberOfEdits++;
 
@@ -1187,7 +1183,7 @@ namespace AutoWikiBrowser
             logControl.AddLog(false, TheArticle.LogListener);
             UpdateOverallTypoStats();
 
-            if (listMaker.Count == 0 && AutoSaveEditBoxEnabled)
+            if (listMaker.Count == 0 && _autoSaveEditBoxEnabled)
                 EditBoxSaveTimer.Enabled = false;
             Retries = 0;
 
@@ -1638,11 +1634,11 @@ window.scrollTo(0, diffTopY);
         [System.Runtime.InteropServices.ComVisibleAttribute(true)]
         public class JsAdapter
         {
-            readonly MainForm Owner;
+            readonly MainForm _owner;
 
             internal JsAdapter(MainForm owner)
             {
-                Owner = owner;
+                _owner = owner;
             }
 
             /// <summary>
@@ -1652,7 +1648,7 @@ window.scrollTo(0, diffTopY);
             /// <param name="right"></param>
             public void UndoChange(int left, int right)
             {
-                Owner.UndoChangeGeneric(DiffChangeMode.Change, left, right);
+                _owner.UndoChangeGeneric(DiffChangeMode.Change, left, right);
             }
 
             /// <summary>
@@ -1662,7 +1658,7 @@ window.scrollTo(0, diffTopY);
             /// <param name="right"></param>
             public void UndoDeletion(int left, int right)
             {
-                Owner.UndoChangeGeneric(DiffChangeMode.Deletion, left, right);
+                _owner.UndoChangeGeneric(DiffChangeMode.Deletion, left, right);
             }
 
             /// <summary>
@@ -1671,7 +1667,7 @@ window.scrollTo(0, diffTopY);
             /// <param name="right"></param>
             public void UndoAddition(int right)
             {
-                Owner.UndoChangeGeneric(DiffChangeMode.Addition, 0, right);
+                _owner.UndoChangeGeneric(DiffChangeMode.Addition, 0, right);
             }
 
             /// <summary>
@@ -1680,7 +1676,7 @@ window.scrollTo(0, diffTopY);
             /// <param name="destLine">the line number the caret should be moved to</param>
             public void GoTo(int destLine)
             {
-                Owner.GoTo(destLine);
+                _owner.GoTo(destLine);
             }
         }
 
@@ -1758,8 +1754,8 @@ window.scrollTo(0, diffTopY);
             SetBrowserSize();
         }
 
-        private Point OldPosition;
-        private Size OldSize;
+        private Point _oldPosition;
+        private Size _oldSize;
         private void ParametersShowHide()
         {
             enlargeEditAreaToolStripMenuItem.Checked = !enlargeEditAreaToolStripMenuItem.Checked;
@@ -1767,18 +1763,18 @@ window.scrollTo(0, diffTopY);
             {
                 btntsShowHideParameters.Image = Resources.Showhideparameters2;
 
-                OldPosition = EditBoxTab.Location;
+                _oldPosition = EditBoxTab.Location;
                 EditBoxTab.Location = new Point(listMaker.Location.X, listMaker.Location.Y - 5);
 
-                OldSize = EditBoxTab.Size;
+                _oldSize = EditBoxTab.Size;
                 EditBoxTab.Size = new Size((EditBoxTab.Size.Width + MainTab.Size.Width + listMaker.Size.Width + 8), EditBoxTab.Size.Height);
             }
             else
             {
                 btntsShowHideParameters.Image = Resources.Showhideparameters;
 
-                EditBoxTab.Location = OldPosition;
-                EditBoxTab.Size = OldSize;
+                EditBoxTab.Location = _oldPosition;
+                EditBoxTab.Size = _oldSize;
             }
             listMaker.Visible = MainTab.Visible = !listMaker.Visible;
         }
@@ -1914,7 +1910,7 @@ window.scrollTo(0, diffTopY);
             }
 
             if ((TheSession.User.IsBot && chkSuppressTag.Checked)
-                || (!Variables.IsWikimediaProject && SuppressUsingAWB))
+                || (!Variables.IsWikimediaProject && _suppressUsingAWB))
                 return tag;
 
             int maxSummaryLength = (200 - (Variables.SummaryTag.Length + 1));
@@ -2287,8 +2283,8 @@ window.scrollTo(0, diffTopY);
                 if (TheArticle.HasDeadLinks)
                     warnings.AppendLine("Dead links found");
 
-                UnbalancedBracket = TheArticle.UnbalancedBrackets(ref BracketLength);
-                if (UnbalancedBracket > 0)
+                _unbalancedBracket = TheArticle.UnbalancedBrackets(ref _bracketLength);
+                if (_unbalancedBracket > 0)
                     warnings.AppendLine("Unbalanced brackets found");
 
                 lblWords.Text = "Words: " + intWords;
@@ -2472,18 +2468,18 @@ window.scrollTo(0, diffTopY);
                                         {
                                             TextBoxFont = txtEdit.Font,
                                             LowThreadPriority = LowThreadPriority,
-                                            PrefFlash = Flash,
-                                            PrefBeep = Beep,
-                                            PrefMinimize = Minimize,
-                                            PrefSaveArticleList = SaveArticleList,
+                                            PrefFlash = _flash,
+                                            PrefBeep = _beep,
+                                            PrefMinimize = _minimize,
+                                            PrefSaveArticleList = _saveArticleList,
 
-                                            PrefAutoSaveEditBoxEnabled = AutoSaveEditBoxEnabled,
-                                            PrefAutoSaveEditBoxFile = AutoSaveEditBoxFile,
+                                            PrefAutoSaveEditBoxEnabled = _autoSaveEditBoxEnabled,
+                                            PrefAutoSaveEditBoxFile = _autoSaveEditBoxFile,
                                             PrefAutoSaveEditBoxPeriod = AutoSaveEditBoxPeriod,
                                             PrefIgnoreNoBots = IgnoreNoBots,
                                             PrefShowTimer = ShowMovingAverageTimer,
                                             PrefAddUsingAWBOnArticleAction = Article.AddUsingAWBOnArticleAction,
-                                            PrefSuppressUsingAWB = SuppressUsingAWB,
+                                            PrefSuppressUsingAWB = _suppressUsingAWB,
 
                                             PrefListComparerUseCurrentArticleList = _listComparerUseCurrentArticleList
                                         };
@@ -2492,14 +2488,14 @@ window.scrollTo(0, diffTopY);
             {
                 txtEdit.Font = myPrefs.TextBoxFont;
                 LowThreadPriority = myPrefs.LowThreadPriority;
-                Flash = myPrefs.PrefFlash;
-                Beep = myPrefs.PrefBeep;
-                Minimize = myPrefs.PrefMinimize;
-                SaveArticleList = myPrefs.PrefSaveArticleList;
-                AutoSaveEditBoxEnabled = myPrefs.PrefAutoSaveEditBoxEnabled;
+                _flash = myPrefs.PrefFlash;
+                _beep = myPrefs.PrefBeep;
+                _minimize = myPrefs.PrefMinimize;
+                _saveArticleList = myPrefs.PrefSaveArticleList;
+                _autoSaveEditBoxEnabled = myPrefs.PrefAutoSaveEditBoxEnabled;
                 AutoSaveEditBoxPeriod = myPrefs.PrefAutoSaveEditBoxPeriod;
-                AutoSaveEditBoxFile = myPrefs.PrefAutoSaveEditBoxFile;
-                SuppressUsingAWB = myPrefs.PrefSuppressUsingAWB;
+                _autoSaveEditBoxFile = myPrefs.PrefAutoSaveEditBoxFile;
+                _suppressUsingAWB = myPrefs.PrefSuppressUsingAWB;
                 Article.AddUsingAWBOnArticleAction = myPrefs.PrefAddUsingAWBOnArticleAction;
                 IgnoreNoBots = myPrefs.PrefIgnoreNoBots;
                 ShowMovingAverageTimer = myPrefs.PrefShowTimer;
@@ -2642,26 +2638,25 @@ window.scrollTo(0, diffTopY);
 
         #region Timers
 
-        int RestartDelay = 5;
-        int StartInSeconds = 5;
+        int _restartDelay = 5, _startInSeconds = 5;
         private void DelayedRestart(object sender, EventArgs e)
         {
             StopDelayedAutoSaveTimer();
-            StatusLabelText = "Restarting in " + StartInSeconds;
+            StatusLabelText = "Restarting in " + _startInSeconds;
 
-            if (StartInSeconds == 0)
+            if (_startInSeconds == 0)
             {
                 StopDelayedRestartTimer();
                 Start();
             }
             else
-                StartInSeconds--;
+                _startInSeconds--;
         }
 
         private void StartDelayedRestartTimer()
         {
             //increase the restart delay each time, this is decreased by 1 on each successfull save
-            int delay = RestartDelay + 5;
+            int delay = _restartDelay + 5;
             if (delay > 60)
                 delay = 60;
 
@@ -2670,25 +2665,25 @@ window.scrollTo(0, diffTopY);
 
         private void StartDelayedRestartTimer(int delay)
         {
-            StartInSeconds = RestartDelay = delay;
+            _startInSeconds = _restartDelay = delay;
             Ticker += DelayedRestart;
         }
 
         private void StopDelayedRestartTimer()
         {
             Ticker -= DelayedRestart;
-            StartInSeconds = RestartDelay;
+            _startInSeconds = _restartDelay;
         }
 
         private void UpdateBotTimer()
         {
-            lblBotTimer.Text = chkAutoMode.Checked ? "Bot timer: " + IntTimer : "";
+            lblBotTimer.Text = chkAutoMode.Checked ? "Bot timer: " + _intTimer : "";
         }
 
         private void StopDelayedAutoSaveTimer()
         {
             Ticker -= DelayedAutoSave;
-            IntTimer = 0;
+            _intTimer = 0;
         }
 
         private void StartDelayedAutoSaveTimer()
@@ -2696,13 +2691,13 @@ window.scrollTo(0, diffTopY);
             Ticker += DelayedAutoSave;
         }
 
-        int IntTimer;
+        int _intTimer;
         private void DelayedAutoSave(object sender, EventArgs e)
         {
-            if (IntTimer < nudBotSpeed.Value)
+            if (_intTimer < nudBotSpeed.Value)
             {
-                IntTimer++;
-                lblBotTimer.BackColor = (IntTimer == 1) ? Color.Red : DefaultBackColor;
+                _intTimer++;
+                lblBotTimer.BackColor = (_intTimer == 1) ? Color.Red : DefaultBackColor;
             }
             else
             {
@@ -2719,16 +2714,16 @@ window.scrollTo(0, diffTopY);
             StopSaveInterval();
         }
 
-        int IntStartTimer;
+        int _intStartTimer;
         private void SaveInterval(object sender, EventArgs e)
         {
-            IntStartTimer++;
-            lblTimer.Text = "Timer: " + IntStartTimer;
+            _intStartTimer++;
+            lblTimer.Text = "Timer: " + _intStartTimer;
         }
 
         private void StopSaveInterval()
         {
-            IntStartTimer = 0;
+            _intStartTimer = 0;
             lblTimer.Text = "Timer: 0";
             Ticker -= SaveInterval;
         }
@@ -2740,21 +2735,21 @@ window.scrollTo(0, diffTopY);
             if (Ticker != null)
                 Ticker(null, null);
 
-            Seconds++;
-            if (Seconds == 60)
+            _seconds++;
+            if (_seconds == 60)
             {
-                Seconds = 0;
+                _seconds = 0;
                 GenerateEditStatistics();
             }
         }
 
-        int Seconds, LastEditsTotal, LastPagesTotal;
+        int _seconds, _lastEditsTotal, _lastPagesTotal;
         private void GenerateEditStatistics()
         {
-            NumberOfEditsPerMinute = (NumberOfEdits - LastEditsTotal); //Edits in the last minute
-            NumberOfPagesPerMinute = (NumberOfEdits + NumberOfIgnoredEdits - LastPagesTotal);
-            LastEditsTotal = NumberOfEdits;
-            LastPagesTotal = NumberOfEdits + NumberOfIgnoredEdits;
+            NumberOfEditsPerMinute = (NumberOfEdits - _lastEditsTotal); //Edits in the last minute
+            NumberOfPagesPerMinute = (NumberOfEdits + NumberOfIgnoredEdits - _lastPagesTotal);
+            _lastEditsTotal = NumberOfEdits;
+            _lastPagesTotal = NumberOfEdits + NumberOfIgnoredEdits;
         }
 
         #endregion
@@ -2794,7 +2789,7 @@ window.scrollTo(0, diffTopY);
                 Profiles.ShowDialog();
                 if (!TheSession.User.IsLoggedIn) return;
             }
-            StopProcessing = false;
+            _stopProcessing = false;
             Start();
         }
 
@@ -3229,11 +3224,11 @@ window.scrollTo(0, diffTopY);
         private void Stop()
         {
             Retries = 0;
-            StopProcessing = true;
+            _stopProcessing = true;
             PageReload = false;
             NudgeTimer.Stop();
             UpdateButtons(null, null);
-            if (IntTimer > 0)
+            if (_intTimer > 0)
             {//stop and reset the bot timer.
                 StopDelayedAutoSaveTimer();
                 EnableButtons();
@@ -3247,7 +3242,7 @@ window.scrollTo(0, diffTopY);
 
             listMaker.Stop();
 
-            if (AutoSaveEditBoxEnabled)
+            if (_autoSaveEditBoxEnabled)
                 EditBoxSaveTimer.Enabled = false;
 
             StatusLabelText = "Stopped";
@@ -3284,7 +3279,7 @@ window.scrollTo(0, diffTopY);
 
             txtEdit.Text = a.ArticleText;
 
-            if (UnbalancedBracket >= 0 && scrollToUnbalancedBracketsToolStripMenuItem.Checked)
+            if (_unbalancedBracket >= 0 && scrollToUnbalancedBracketsToolStripMenuItem.Checked)
             {
                 HighlightUnbalancedBrackets();
             }
@@ -3366,10 +3361,10 @@ window.scrollTo(0, diffTopY);
             UpdateButtons(null, null);
         }
 
-        bool LoadingTypos;
+        bool _loadingTypos;
         private void chkRegExTypo_CheckedChanged(object sender, EventArgs e)
         {
-            if (LoadingTypos)
+            if (_loadingTypos)
                 return;
 
             if (chkRegExTypo.Checked && BotMode)
@@ -3384,7 +3379,7 @@ window.scrollTo(0, diffTopY);
         {
             if (chkRegExTypo.Checked && (RegexTypos == null || reload))
             {
-                LoadingTypos = true;
+                _loadingTypos = true;
                 chkRegExTypo.Checked = false;
 
                 StatusLabelText = "Loading typos";
@@ -3437,7 +3432,7 @@ window.scrollTo(0, diffTopY);
                 if (EditBoxTab.TabPages.Contains(tpTypos)) EditBoxTab.TabPages.Remove(tpTypos);
             }
 
-            LoadingTypos = false;
+            _loadingTypos = false;
         }
 
         private void ProfileToLoad_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -3498,7 +3493,7 @@ window.scrollTo(0, diffTopY);
 
         private void btntsStart_Click(object sender, EventArgs e)
         {
-            StopProcessing = false;
+            _stopProcessing = false;
             Start();
         }
 
@@ -3992,7 +3987,7 @@ window.scrollTo(0, diffTopY);
         #region Edit Box Saver
         private void EditBoxSaveTimer_Tick(object sender, EventArgs e)
         {
-            if (AutoSaveEditBoxFile.Trim().Length > 0) SaveEditBoxText(AutoSaveEditBoxFile);
+            if (_autoSaveEditBoxFile.Trim().Length > 0) SaveEditBoxText(_autoSaveEditBoxFile);
         }
 
         private void SaveEditBoxText(string path)
@@ -4544,15 +4539,15 @@ window.scrollTo(0, diffTopY);
             ExtProgram.Show();
         }
 
-        private readonly CategoryNameForm CatName = new CategoryNameForm();
+        private readonly CategoryNameForm _catName = new CategoryNameForm();
 
         private void categoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CatName.ShowDialog();
+            _catName.ShowDialog();
 
-            if (string.IsNullOrEmpty(CatName.CategoryName)) return;
+            if (string.IsNullOrEmpty(_catName.CategoryName)) return;
 
-            txtEdit.Text += "\r\n\r\n[[" + CatName.CategoryName + "]]";
+            txtEdit.Text += "\r\n\r\n[[" + _catName.CategoryName + "]]";
             ReparseEditBox();
         }
 
@@ -4609,9 +4604,9 @@ window.scrollTo(0, diffTopY);
         {
             // indexes in articleText and txtEdit.Edit are offset by the number of newlines before the index of the unbalanced brackets
             // so allow for this when highlighting the unbalanced bracket
-            string a = txtEdit.Text.Substring(0, UnbalancedBracket);
+            string a = txtEdit.Text.Substring(0, _unbalancedBracket);
             int b = Regex.Matches(a, "\n").Count;
-            txtEdit.SetEditBoxSelection(UnbalancedBracket - b, BracketLength);
+            txtEdit.SetEditBoxSelection(_unbalancedBracket - b, _bracketLength);
             txtEdit.SelectionBackColor = Color.Red;
         }
 
