@@ -1871,7 +1871,28 @@ Some artists represented by Zach Feuer Gallery are [[Phoebe Washburn]], [[Jules 
             // more than one date in a citation
             Assert.AreEqual("{{cite foo|date=2008-12-11|accessdate=2008-08-07}}", Parsers.CiteTemplateDates("{{cite foo|date=2008-December-11|accessdate=2008-Aug.-07}}"));
             Assert.AreEqual("{{cite foo|date=2008-12-11|accessdate=2008-08-07}}", Parsers.CiteTemplateDates("{{cite foo|date=2008-Dec.-11|accessdate=2008-Aug.-07}}"));
+
+            // don't apply fixes when ambiguous dates present
+            string ambig = @"now {{cite web | url=http://site.it | title=hello|date = 5-4-1998}} was
+now {{cite web | url=http://site.it | title=hello|date = 5-5-1998}} was";
+
+            Assert.AreEqual(ambig, Parsers.CiteTemplateDates(ambig));
         }
+
+        [Test]
+        public void AmbiguousCiteTemplateDates()
+        {
+            Assert.IsTrue(Parsers.AmbiguousCiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 5-4-1998}} was"));
+            Assert.IsTrue(Parsers.AmbiguousCiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|accessdate = 5-4-1998}} was"));
+            Assert.IsTrue(Parsers.AmbiguousCiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 5/4/1998}} was"));
+            Assert.IsTrue(Parsers.AmbiguousCiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 05-04-1998}} was"));
+            Assert.IsTrue(Parsers.AmbiguousCiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 11-4-1998}} was"));
+            Assert.IsTrue(Parsers.AmbiguousCiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|archivedate = 11-4-2008}} was"));
+            Assert.IsTrue(Parsers.AmbiguousCiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 5-11-09}} was"));
+
+            Assert.IsFalse(Parsers.AmbiguousCiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 5-5-1998}} was"));
+        }
+
 
         [Test]
         public void ExtraBracketInExternalLink()
