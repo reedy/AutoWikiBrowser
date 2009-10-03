@@ -4002,6 +4002,10 @@ Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
             // this specifies to {{GR}} not to embed <ref></ref>
             Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello{{GR|r4}}"));
             Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello{{GR|India}}"));
+
+            Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"{{Reflist|refs=
+<ref name=modern>{{cite news |first=William }}
+        }}"));
         }
 
         [Test]

@@ -416,13 +416,13 @@ namespace WikiFunctions
         /// </summary>
         public static readonly Regex BLPSources = new Regex(@"{{\s*([Bb](LP|lp) ?(sources|[Uu]n(sourced|ref(?:erenced)?))|[Uu]n(sourced|referenced) ?[Bb](LP|lp))\b", RegexOptions.Compiled);
 
-        public const string ReferencesTemplates = @"(\{\{\s*ref(?:-?li(?:st|nk)|erence)[^{}]*\}\}|<references\s*/>|\{\{refs|<references>.*</references>)";
+        public const string ReferencesTemplates = @"(\{\{\s*ref(?:-?li(?:st|nk)|erence)(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))\}\}|<references\s*/>|\{\{refs|<references>.*</references>)";
         public const string ReferenceEndGR = @"</ref>|{{GR\|\d}}";
 
         /// <summary>
         /// Matches any of the recognised templates for displaying cite references
         /// </summary>
-        public static readonly Regex ReferencesTemplate = new Regex(ReferencesTemplates, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.RightToLeft);
+        public static readonly Regex ReferencesTemplate = new Regex(ReferencesTemplates, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
         /// Matches any of the recognised templates for displaying cite references followed by a &gt;ref&lt; reference
