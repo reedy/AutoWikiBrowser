@@ -1039,11 +1039,8 @@ namespace WikiFunctions
             Variables.Profiler.Profile("FixEmptyReferences");
 
             // does significant fixes
-            if (IsMissingReferencesDisplay)
-            {
-                AWBChangeArticleText("Add missing {{reflist}}", Parsers.AddMissingReflist(ArticleText), true, true);
-                Variables.Profiler.Profile("AddMissingReflist");
-            }
+            AWBChangeArticleText("Add missing {{reflist}}", Parsers.AddMissingReflist(ArticleText), true, true);
+            Variables.Profiler.Profile("AddMissingReflist");
 
             AWBChangeArticleText("Mdashes", parsers.Mdashes(ArticleText, Name, NameSpaceKey), true);
             Variables.Profiler.Profile("Mdashes");
