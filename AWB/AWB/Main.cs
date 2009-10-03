@@ -2282,6 +2282,9 @@ window.scrollTo(0, diffTopY);
                 if (TheArticle.HasDeadLinks)
                     warnings.AppendLine("Dead links found");
 
+                if (TheArticle.HasAmbiguousCiteTemplateDates)
+                    warnings.AppendLine("Ambiguous citation dates found");
+
                 _unbalancedBracket = TheArticle.UnbalancedBrackets(ref _bracketLength);
                 if (_unbalancedBracket > 0)
                     warnings.AppendLine("Unbalanced brackets found");
