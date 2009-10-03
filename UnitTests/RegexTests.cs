@@ -468,6 +468,10 @@ fast„ "));
             Assert.IsFalse(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref>"));
             Assert.IsFalse(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref name=""F"">Fred</ref>"));
             Assert.IsFalse(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello world"));
+
+            Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"{{Reflist|refs=
+<ref name=modern>{{cite news |first=William }}
+        }}"));
         }
 
         [Test]
