@@ -1287,7 +1287,8 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string AddMissingReflist(string articleText)
         {
-            // AddMissingReflist is only called if references template is missing
+            if (!IsMissingReferencesDisplay(articleText))
+                return articleText;
 
             // Rename ==Links== to ==External links==
             articleText = LinksHeading.Replace(articleText, "$1External links$2");
