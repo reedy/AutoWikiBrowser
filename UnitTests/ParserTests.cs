@@ -858,6 +858,9 @@ died 2002
             const string bd14a = @"'''Asclepigenia''' ([[floruit|fl]]. 430  – 485 AD) was {{persondata}}";
             Assert.AreEqual(bd14a, Parsers.FixPeopleCategories(bd14a, "foo"));
 
+            const string bd14b = @"'''Asclepigenia''' (flourished 430  – 485 AD) was {{persondata}}";
+            Assert.AreEqual(bd14b, Parsers.FixPeopleCategories(bd14b, "foo"));
+
             // no data to use here
             const string no1 = @"'''Bahram I''' (also spelled ''Varahran'' or ''Vahram'', ''r.'' 273&ndash;276) {{persondata}}";
             Assert.AreEqual(no1, Parsers.FixPeopleCategories(no1, "foo"));
