@@ -991,6 +991,14 @@ died 2002
 
 }} {{persondata}}";
             Assert.AreEqual(infob3, Parsers.FixPeopleCategories(infob3, "foo"));
+
+            string unc1 = @"'''Aaron Walden''' (born at [[Warsaw]] about 1835, died 1912) was a Polish Jewish [[Talmudist]], editor, and author. 
+{{DEFAULTSORT:Walden, Aaron}}
+[[Category:Polish Jews]]
+[[Category:1912 deaths]]
+[[Category:Year of birth uncertain]]";
+
+            Assert.AreEqual(unc1, Parsers.FixPeopleCategories(unc1, "Aaron Walden"));
         }
 
         [Test]
