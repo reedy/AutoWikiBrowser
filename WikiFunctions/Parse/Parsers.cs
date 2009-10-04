@@ -3738,8 +3738,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                         // when there's only an approximate birth year, add the appropriate cat rather than the xxxx birth one
                         if (UncertainWordings.IsMatch(birthpart) || alreadyUncertain)
                         {
-                            if (!CategoryMatch(articleText, YearOfBirthMissingLivingPeople))
-                                articleText += "\r\n" + @"[[Category:Year of birth uncertain" + CatEnd(sort);
+                            if (!CategoryMatch(articleText, YearOfBirthMissingLivingPeople) && !CategoryMatch(articleText, YearOfBirthUncertain))
+                                articleText += "\r\n" + @"[[Category:" + YearOfBirthUncertain + CatEnd(sort);
                         }
                         else // after removing dashes, birthpart must still contain year
                             if (!birthpart.Contains(@"?") && Regex.IsMatch(birthpart, @"\d{3,4}"))
