@@ -2195,6 +2195,7 @@ http://example.com }}");
             Assert.AreEqual(@"a long (50&nbsp;inches) toad", parser.FixNonBreakingSpaces(@"a long (50 inches) toad"));
             Assert.AreEqual(@"a long 50&nbsp;inches toad", parser.FixNonBreakingSpaces(@"a long 50 inches toad"));
             Assert.AreEqual(@"a long 50&nbsp;inch toad", parser.FixNonBreakingSpaces(@"a long 50 inch toad"));
+            Assert.AreEqual(@"a long (50.5&nbsp;in) toad", parser.FixNonBreakingSpaces(@"a long (50.5 in) toad"));
         }
 
         [Test]
