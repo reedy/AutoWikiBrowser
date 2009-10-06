@@ -585,7 +585,7 @@ namespace AutoWikiBrowser
 
         private void Start()
         {
-            if (TheSession.Status != WikiStatusResult.Registered) return;
+            if (TheSession.Status != WikiStatusResult.Registered || TheSession.IsBusy) return;
             if (_inStart)
             {
                 _startAgain = true;
