@@ -1113,6 +1113,7 @@ namespace AutoWikiBrowser
             Focus();
             TheSession.RequireUpdate();
 
+            if (_dlgTalk.Visible) return; // we are already displaying it
             if (_dlgTalk.ShowDialog() == DialogResult.Yes)
                 Tools.OpenUserTalkInBrowser(TheSession.User.Name);
             else
@@ -4185,6 +4186,8 @@ window.scrollTo(0, diffTopY);
 
             StopProgressBar();
             DisableButtons();
+            if (TheSession.User.HasMessages)
+                WeHaveNewMessages();
         }
 
         private void chkMinor_CheckedChanged(object sender, EventArgs e)
