@@ -18,6 +18,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace WikiFunctions
 {
@@ -53,6 +54,23 @@ namespace WikiFunctions
         public static readonly int Mainspace = Article;
         public static readonly int Image = File;
         public static readonly int ImageTalk = FileTalk;
+
+        /// <summary>
+        /// List of namespaces that we expect to be present in every wiki.
+        /// For compatibility with our practice with Variables.Namespaces et al, mainspace is not present.
+        /// </summary>
+        public static ReadOnlyCollection<int> StandardNamespaces
+        { get; private set; }
+        
+        static Namespace()
+        {
+            var ns = new List<int>();
+            ns.Add(Media);
+            ns.Add(Special);
+            for (int i = Talk; i <= CategoryTalk; i++)
+                ns.Add(i);
+            StandardNamespaces = new ReadOnlyCollection<int>(ns);
+        }
 
         // Covered by: NamespaceTests.Determine
         /// <summary>
@@ -206,6 +224,30 @@ namespace WikiFunctions
 
             // fail
             return ns;
+        }
+
+        /// <summary>
+        /// Checks if given namespaces are sufficient for AWB to function properly and 
+        /// that their format is expected.
+        /// </summary>
+        /// <param name="namespaces">namespaces to verify</param>
+        /// <returns>true if the namespace list is valid</returns>
+        public static bool VerifyNamespaces(Dictionary<int, string> namespaces)
+        {
+            foreach (var ns in StandardNamespaces)
+            {
+                if (!namespaces.ContainsKey(ns)) return false;
+            }
+
+            if (namespaces.ContainsKey(Mainspace)) return false;
+
+            foreach (var s in namespaces.Values)
+            {
+                if (s.Length < 2 || !s.EndsWith(":"))
+                    return false;
+            }
+
+            return true;
         }
     }
 }
