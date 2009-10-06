@@ -43,6 +43,14 @@ namespace WikiFunctions
         public SiteInfo Site
         { get; private set; }
 
+        public bool IsBusy
+        {
+            get
+            {
+                return Editor.IsActive;
+            }
+        }
+
         public bool IsBot
         { get; private set; }
 

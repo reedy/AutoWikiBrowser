@@ -117,7 +117,7 @@ namespace WikiFunctions.API
         }
 
         /// <summary>
-        /// True if the asynchronous
+        /// True if we are curently performing an operation
         /// </summary>
         public bool IsActive
         {
