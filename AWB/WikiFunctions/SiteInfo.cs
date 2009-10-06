@@ -75,7 +75,8 @@ namespace WikiFunctions
         public static SiteInfo CreateOrLoad(IApiEdit editor)
         {
             SiteInfo si = (SiteInfo)ObjectCache.Global.Get<SiteInfo>(Key(editor.URL));
-            if (si != null) return si;
+            if (si != null 
+                && Namespace.VerifyNamespaces(si.Namespaces)) return si;
 
             si = new SiteInfo(editor);
             ObjectCache.Global[Key(editor.URL)] = si;
@@ -127,6 +128,9 @@ namespace WikiFunctions
 
                 if (id != 0) namespaces[id] = xn.InnerText + ":";
             }
+
+            if (!Namespace.VerifyNamespaces(namespaces))
+                throw new Exception("Error loading namespaces from " + ApiPath);
 
             namespaceAliases = Variables.PrepareAliases(namespaces);
 

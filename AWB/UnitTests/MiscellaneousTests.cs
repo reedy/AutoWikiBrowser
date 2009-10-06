@@ -2,6 +2,7 @@
 using WikiFunctions.Parse;
 using NUnit.Framework;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace UnitTests
 {
@@ -532,6 +533,24 @@ Image:quux[http://example.com]
             Assert.AreEqual("Image:", Namespace.Normalize("image:", 6));
             Assert.AreEqual("File:", Namespace.Normalize("file:", 6));
             Assert.AreEqual("Image talk:", Namespace.Normalize("image talk:", 7));
+        }
+
+        [Test]
+        public void Verify()
+        {
+            Assert.IsTrue(Namespace.VerifyNamespaces(Variables.CanonicalNamespaces));
+
+            var ns = new Dictionary<int, string>(Variables.CanonicalNamespaces);
+            
+            ns[0] = "";
+            Assert.IsFalse(Namespace.VerifyNamespaces(ns));
+
+            ns.Remove(0);
+            ns[1] = "Talk";
+            Assert.IsFalse(Namespace.VerifyNamespaces(ns));
+            
+            ns.Remove(1);
+            Assert.IsFalse(Namespace.VerifyNamespaces(ns));
         }
     }
 
