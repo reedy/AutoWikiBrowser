@@ -65,7 +65,7 @@ namespace WikiFunctions.TalkPages
            @"\{\{\s*(template *:)?\s*(skiptotoctalk|Skiptotoc|Skiptotoc-talk)\s*\}\}\s*",
            RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
         private static readonly Regex TalkHeaderTemplateRegex = new Regex(
-           @"\{\{\s*(template *:)?\s*((Category|Template)?talkheader[2-3]?|talkpage(long|header)?|Talkheaderlong|Comment Guidelines|Newtalk|Talk box|User Talkheader)\s*\}\}\s*", 
+           @"\{\{\s*(template *:)?\s*(talk ?(page)?(header)?\s*\}\}\s*", 
            RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
 
         public static bool ContainsDefaultSortKeywordOrTemplate(string articleText)
