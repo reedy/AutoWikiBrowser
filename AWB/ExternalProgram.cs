@@ -118,7 +118,7 @@ namespace AutoWikiBrowser
             {
                 // Most, if not all exceptions here are related to user wrong user input
                 // or environment specifics, so ErrorHandler is not needed.
-                MessageBox.Show(Application.OpenForms[0], ex.Message, "External processing error", 
+                MessageBox.Show(Form.ActiveForm, ex.Message, "External processing error", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 return origText;
