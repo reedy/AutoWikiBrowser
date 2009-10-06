@@ -1,7 +1,7 @@
 /*
 
 Copyright (C) 2007 Martin Richards
-(C) 2007 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
+(C) 2009 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -66,22 +66,16 @@ namespace WikiFunctions.Controls
         {
             // Get all Description attributes on this assembly
             object[] attributes = Ass.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
-            // If there aren't any Description attributes, return an empty string
-            if (attributes.Length == 0)
-                return "";
-            // If there is a Description attribute, return its value
-            return ((AssemblyDescriptionAttribute)attributes[0]).Description;
+            // If there aren't any Description attributes, return an empty string. If there is a Description attribute, return its value.
+            return (attributes.Length == 0) ? "" : ((AssemblyDescriptionAttribute)attributes[0]).Description;
         }
 
         public static string AssemblyCopyright(Assembly Ass)
         {
             // Get all Copyright attributes on this assembly
             object[] attributes = Ass.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
-            // If there aren't any Copyright attributes, return an empty string
-            if (attributes.Length == 0)
-                return "";
-            // If there is a Copyright attribute, return its value
-            return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
+            // If there aren't any Copyright attributes, return an empty string. If there is a Copyright attribute, return its value.
+            return (attributes.Length == 0) ? "" : ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
         }
 
         public static string GetDetailedMessage(Assembly Ass)

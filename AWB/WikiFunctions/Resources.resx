@@ -125,14 +125,14 @@
     <value>Resources\filesave2.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GPL" xml:space="preserve">
-    <value>Copyright (c) 2008 Martin Richards, Max Semenik, Sam Reed and/or Stephen Kennedy, et al. Please refer to source code headers for author details and copyright claims.
+    <value>Copyright (c) 2009 Martin Richards, Max Semenik, Sam Reed and Stephen Kennedy, et al. Please refer to source code headers for author details and copyright claims.
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the license, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301,  USA.</value>
-    <comment>Copyright notice. Add your name if you wish. Don't remove other people's names or otherwise alter unless you know what you're doing.</comment>
+    <comment>Copyright notice. Add your name if you wish. Don't remove other people's names or otherwise alter unless you know what you're doing. (Steve says don't remove me from the copyright notice or I'll get mad! :P)</comment>
   </data>
   <data name="LeftArrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\GoRtl2.bmp;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
