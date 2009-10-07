@@ -4215,7 +4215,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             return
                 !Regex.IsMatch(articleText,
                              @"\{\{(nobots|bots\|(allow=none|deny=(?!none).*(" + user.Normalize() +
-                             @"|awb|all).*|optout=all))\}\}", RegexOptions.IgnoreCase);
+                             @"|awb|all)|optout=all))\}\}", RegexOptions.IgnoreCase);
         }
 
         private static readonly Regex DuplicatePipedLinks = new Regex(@"\[\[([^\]\|]+)\|([^\]]*)\]\](.*[.\n]*)\[\[\1\|\2\]\]", RegexOptions.Compiled);
