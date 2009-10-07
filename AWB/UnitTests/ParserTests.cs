@@ -2532,6 +2532,7 @@ text", "Talk:foo"));
             Assert.AreEqual("55 – 57 m long", parser.Mdashes("55 - 57 m long", "test", 0));
             Assert.AreEqual("55 – 57 feet", parser.Mdashes("55 - 57 feet", "test", 0));
             Assert.AreEqual("55 – 57 foot", parser.Mdashes("55 - 57 foot", "test", 0));
+            Assert.AreEqual("long (55 – 57 in) now", parser.Mdashes("long (55 - 57 in) now", "test", 0));
 
             Assert.AreEqual("$55–57", parser.Mdashes("$55-57", "test", 0));
             Assert.AreEqual("$55 – 57", parser.Mdashes("$55 - 57", "test", 0));
