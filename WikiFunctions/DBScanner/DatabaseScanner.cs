@@ -807,7 +807,8 @@ namespace WikiFunctions.DBScanner
 
                 int minutesLeft = (int) (((elapsedtime.Ticks * (1 / completion)) - elapsedtime.Ticks) / TimeSpan.TicksPerMinute);
 
-                lblPercentageComplete.Text += " ETC: " + minutesLeft + " mins,";
+                if(minutesLeft > 0)
+                    lblPercentageComplete.Text += " ETC: " + minutesLeft + " mins,";
             }
         }
 
