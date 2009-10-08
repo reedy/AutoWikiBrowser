@@ -1,7 +1,7 @@
 /*
 ListMaker
 (C) Martin Richards
-(C) Stephen Kennedy, Sam Reed 2008
+(C) Stephen Kennedy, Sam Reed 2009
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -34,11 +34,15 @@ namespace WikiFunctions.Controls.Lists
 {
     public delegate void ListMakerEventHandler(object sender, EventArgs e);
 
+    public delegate void ListMakerProviderAdded(IListProvider provider);
+
     public partial class ListMaker : UserControl, IList<Article>
     {
         private readonly static SaveFileDialog SaveListDialog;
-        private readonly static BindingList<IListProvider> ListItems = new BindingList<IListProvider>();
+        private readonly static BindingList<IListProvider> DefaultProviders = new BindingList<IListProvider>();
         private readonly ListFilterForm _specialFilter;
+
+        private readonly BindingList<IListProvider> _listProviders = new BindingList<IListProvider>();
 
         //used to keep easy track of providers for add/remove/(re)use in code
         #region ListProviders
@@ -48,7 +52,9 @@ namespace WikiFunctions.Controls.Lists
                                               WhatTranscludesLProvider = new WhatTranscludesPageListProvider(),
                                               CategoriesOnPageLProvider = new CategoriesOnPageListProvider(),
                                               NewPagesLProvider = new NewPagesListProvider(),
-                                              RandomPagesLProvider = new RandomPagesSpecialPageProvider();
+                                              RandomPagesLProvider = new RandomPagesSpecialPageProvider(),
+                                              HtmlScraperLProvider = new HTMLPageScraperListProvider(),
+                                              CheckWikiLProvider = new CheckWikiListProvider();
         #endregion
 
         public event ListMakerEventHandler StatusTextChanged,
@@ -60,6 +66,11 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public event ListMakerEventHandler ListFinished;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public static ListMakerProviderAdded ListProviderAdded;
+
         static ListMaker()
         {
             SaveListDialog = new SaveFileDialog
@@ -69,68 +80,80 @@ namespace WikiFunctions.Controls.Lists
                                          "Text file with wiki markup|*.txt|Plaintext list|*.txt|CSV (Comma Separated Values)|*.txt|CSV with Wikitext|*.txt",
                                      Title = "Save article list"
                                  };
+
+            if (DefaultProviders.Count == 0)
+            {
+                DefaultProviders.Add(new CategoryListProvider());
+                DefaultProviders.Add(new CategoryRecursiveListProvider());
+                DefaultProviders.Add(new CategoryRecursiveOneLevelListProvider());
+                DefaultProviders.Add(new CategoryRecursiveUserDefinedLevelListProvider());
+                DefaultProviders.Add(CategoriesOnPageLProvider);
+                DefaultProviders.Add(new CategoriesOnPageOnlyHiddenListProvider());
+                DefaultProviders.Add(new CategoriesOnPageNoHiddenListProvider());
+                DefaultProviders.Add(WhatLinksHereLProvider);
+                DefaultProviders.Add(new WhatLinksHereAllNSListProvider());
+                DefaultProviders.Add(new WhatLinksHereAndToRedirectsListProvider());
+                DefaultProviders.Add(new WhatLinksHereAndToRedirectsAllNSListProvider());
+                DefaultProviders.Add(new WhatLinksHereExcludingPageRedirectsListProvider());
+                DefaultProviders.Add(new WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider());
+                DefaultProviders.Add(WhatTranscludesLProvider);
+                DefaultProviders.Add(new WhatTranscludesPageAllNSListProvider());
+                DefaultProviders.Add(new LinksOnPageListProvider());
+                DefaultProviders.Add(new LinksOnPageExcludingRedLinksListProvider());
+                DefaultProviders.Add(new ImagesOnPageListProvider());
+                DefaultProviders.Add(new TransclusionsOnPageListProvider());
+                DefaultProviders.Add(new TextFileListProvider());
+                DefaultProviders.Add(new GoogleSearchListProvider());
+                DefaultProviders.Add(new UserContribsListProvider());
+                DefaultProviders.Add(new UserContribUserDefinedNumberListProvider());
+                DefaultProviders.Add(new SpecialPageListProvider(WhatLinksHereLProvider, NewPagesLProvider,
+                                                          CategoriesOnPageLProvider, RandomPagesLProvider,
+                                                          WhatTranscludesLProvider, RedirectLProvider));
+                DefaultProviders.Add(new ImageFileLinksListProvider());
+                DefaultProviders.Add(new MyWatchlistListProvider());
+                DefaultProviders.Add(new WikiSearchListProvider());
+                DefaultProviders.Add(new WikiTitleSearchListProvider());
+                DefaultProviders.Add(RandomPagesLProvider);
+                DefaultProviders.Add(RedirectLProvider);
+                DefaultProviders.Add(NewPagesLProvider);
+
+                //Add these 2 list providers later, we dont really need/want them on the Right click "Add to list from.." menu
+            }
         }
 
         public ListMaker()
         {
             InitializeComponent();
 
-            if (ListItems.Count == 0)
-            {
-                ListItems.Add(new CategoryListProvider());
-                ListItems.Add(new CategoryRecursiveListProvider());
-                ListItems.Add(new CategoryRecursiveOneLevelListProvider());
-                ListItems.Add(new CategoryRecursiveUserDefinedLevelListProvider());
-                ListItems.Add(CategoriesOnPageLProvider);
-                ListItems.Add(new CategoriesOnPageOnlyHiddenListProvider());
-                ListItems.Add(new CategoriesOnPageNoHiddenListProvider());
-                ListItems.Add(WhatLinksHereLProvider);
-                ListItems.Add(new WhatLinksHereAllNSListProvider());
-                ListItems.Add(new WhatLinksHereAndToRedirectsListProvider());
-                ListItems.Add(new WhatLinksHereAndToRedirectsAllNSListProvider());
-                ListItems.Add(new WhatLinksHereExcludingPageRedirectsListProvider());
-                ListItems.Add(new WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider());
-                ListItems.Add(WhatTranscludesLProvider);
-                ListItems.Add(new WhatTranscludesPageAllNSListProvider());
-                ListItems.Add(new LinksOnPageListProvider());
-                ListItems.Add(new LinksOnPageExcludingRedLinksListProvider());
-                ListItems.Add(new ImagesOnPageListProvider());
-                ListItems.Add(new TransclusionsOnPageListProvider());
-                ListItems.Add(new TextFileListProvider());
-                ListItems.Add(new GoogleSearchListProvider());
-                ListItems.Add(new UserContribsListProvider());
-                ListItems.Add(new UserContribUserDefinedNumberListProvider());
-                ListItems.Add(new SpecialPageListProvider(WhatLinksHereLProvider, NewPagesLProvider,
-                                                          CategoriesOnPageLProvider, RandomPagesLProvider,
-                                                          WhatTranscludesLProvider, RedirectLProvider));
-                ListItems.Add(new ImageFileLinksListProvider());
-                ListItems.Add(new DatabaseScannerListProvider(this));
-                ListItems.Add(new MyWatchlistListProvider());
-                ListItems.Add(new WikiSearchListProvider());
-                ListItems.Add(new WikiTitleSearchListProvider());
-                ListItems.Add(RandomPagesLProvider);
-                ListItems.Add(RedirectLProvider);
-                ListItems.Add(NewPagesLProvider);
-
-                foreach (IListProvider prov in ListItems)
-                {
-                    if (!prov.UserInputTextBoxEnabled) continue;
-
-                    ToolStripMenuItem addToFromSelectedListFrom = new ToolStripMenuItem(prov.DisplayText) { Tag = prov };
-                    addToFromSelectedListFrom.Click += AddToFromSelectedListFrom;
-
-                    addSelectedToListToolStripMenuItem.DropDownItems.Add(addToFromSelectedListFrom);
-                }
-
-                //Add these 2 list providers later, we dont really need/want them on the Right click "Add to list from.." menu
-                ListItems.Add(new HTMLPageScraperListProvider());
-                ListItems.Add(new CheckWikiListProvider());
-            }
+            ListProviderAdded += ProviderAdded;
 
             _specialFilter = new ListFilterForm(lbArticles);
 
+            foreach (IListProvider prov in DefaultProviders)
+            {
+                if (!prov.UserInputTextBoxEnabled) continue;
+
+                ToolStripMenuItem addToFromSelectedListFrom = new ToolStripMenuItem(prov.DisplayText) { Tag = prov };
+
+                addToFromSelectedListFrom.Click += AddToFromSelectedListFrom;
+
+                addSelectedToListToolStripMenuItem.DropDownItems.Add(addToFromSelectedListFrom);
+            }
+
+            _listProviders = new BindingList<IListProvider>
+                                 {
+                                     new DatabaseScannerListProvider(this)
+                                 };
+
+            foreach (IListProvider lvi in DefaultProviders)
+            {
+                _listProviders.Add(lvi);
+            }
+            _listProviders.Add(HtmlScraperLProvider);
+            _listProviders.Add(CheckWikiLProvider);
+
             // We'll manage our own collection of list items:
-            cmboSourceSelect.DataSource = ListItems;
+            cmboSourceSelect.DataSource = _listProviders;
             // Bind IListProvider.DisplayText to be the displayed text:
             cmboSourceSelect.DisplayMember = "DisplayText";
             cmboSourceSelect.ValueMember = "DisplayText";
@@ -145,6 +168,12 @@ namespace WikiFunctions.Controls.Lists
         private void AddToFromSelectedListFrom(object sender, EventArgs e)
         {
             AddFromSelectedList((IListProvider)((ToolStripMenuItem)sender).Tag);
+        }
+
+        private void ProviderAdded(IListProvider provider)
+        {
+            if (!_listProviders.Contains(provider))
+                _listProviders.Add(provider);
         }
 
         new public static void Refresh() { }
@@ -483,7 +512,7 @@ namespace WikiFunctions.Controls.Lists
                 else
                 {
                     // New settings format that specifies provider type name
-                    foreach (var provider in ListItems)
+                    foreach (var provider in _listProviders)
                     {
                         if (provider.GetType().Name == value)
                         {
@@ -812,7 +841,7 @@ namespace WikiFunctions.Controls.Lists
             MessageBox.Show(
                 "Unable to generate lists using " + _providerToRun.DisplayText +
                 ". Removing from the list of providers during this session", fde.ApiErrorMessage);
-            ListItems.Remove(_providerToRun);
+            _listProviders.Remove(_providerToRun);
         }
 
         private void UserLoggedOff()
@@ -1227,7 +1256,10 @@ namespace WikiFunctions.Controls.Lists
         /// <param name="provider">IListProvider/IListMakerPlugin to add</param>
         public static void AddProvider(IListProvider provider)
         {
-            ListItems.Add(provider);
+            DefaultProviders.Add(provider);
+
+            if (ListProviderAdded != null)
+                ListProviderAdded(provider);
         }
 
         /// <summary>
