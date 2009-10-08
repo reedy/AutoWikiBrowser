@@ -105,6 +105,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             End Get
         End Property
 
+        Private Shared ReadOnly rlp As New WikiFunctions.Lists.RedirectsListProvider()
+
         ' Get the redirects from Wikipedia:
         ''' <summary>
         ''' Load the redirects for a template from Wikipedia
@@ -118,7 +120,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             System.Windows.Forms.Application.DoEvents() ' the statusbar text wasn't updating without this; if happens elsewhere may need to write a small subroutine
 
             Try
-                Return New WikiFunctions.Lists.RedirectsListProvider().MakeList([Namespace].Template, New String() {"Template:" & Target})
+                Return rlp.MakeList([Namespace].Template, New String() {Variables.Namespaces([Namespace].Template) & Target})
             Catch
                 Throw
             Finally
