@@ -806,9 +806,9 @@ namespace WikiFunctions.DBScanner
                 TimeSpan elapsedtime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute,
                                     DateTime.Now.Second, DateTime.Now.Millisecond).Subtract(StartTime);
 
-                int minutesLeft = (int) (((elapsedtime.Ticks * (1 / completion)) - elapsedtime.Ticks) / TimeSpan.TicksPerMinute);
+                int minutesLeft = (int)(((elapsedtime.Ticks * (1 / completion)) - elapsedtime.Ticks) / TimeSpan.TicksPerMinute);
 
-                if(minutesLeft > 0)
+                if (minutesLeft > 0)
                     lblPercentageComplete.Text += " ETC: " + minutesLeft + " mins,";
             }
 
