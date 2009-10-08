@@ -116,8 +116,6 @@ namespace WikiFunctions.Controls.Lists
                 DefaultProviders.Add(RandomPagesLProvider);
                 DefaultProviders.Add(RedirectLProvider);
                 DefaultProviders.Add(NewPagesLProvider);
-
-                //Add these 2 list providers later, we dont really need/want them on the Right click "Add to list from.." menu
             }
         }
 
@@ -142,15 +140,17 @@ namespace WikiFunctions.Controls.Lists
 
             _listProviders = new BindingList<IListProvider>
                                  {
-                                     new DatabaseScannerListProvider(this)
+                                     new DatabaseScannerListProvider(this),
+
+                                     //Add these 2 list providers later, we dont really need/want them on the Right click "Add to list from.." menu
+                                     HtmlScraperLProvider,
+                                     CheckWikiLProvider
                                  };
 
             foreach (IListProvider lvi in DefaultProviders)
             {
                 _listProviders.Add(lvi);
             }
-            _listProviders.Add(HtmlScraperLProvider);
-            _listProviders.Add(CheckWikiLProvider);
 
             // We'll manage our own collection of list items:
             cmboSourceSelect.DataSource = _listProviders;
