@@ -333,7 +333,7 @@ namespace WikiFunctions.Lists
     public class WhatLinksHereAndToRedirectsAllNSListProvider : WhatLinksHereAllNSListProvider
     {
         public WhatLinksHereAndToRedirectsAllNSListProvider(int limit)
-            :this()
+            : this()
         {
             Limit = limit;
         }
