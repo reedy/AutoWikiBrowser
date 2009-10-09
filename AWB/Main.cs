@@ -1207,6 +1207,7 @@ namespace AutoWikiBrowser
                 listMaker.Remove(TheArticle);
                 SameArticleNudges = 0;
                 logControl.AddLog(true, TheArticle.LogListener);
+                TheArticle = null;
                 Retries = 0;
                 Start();
             }
