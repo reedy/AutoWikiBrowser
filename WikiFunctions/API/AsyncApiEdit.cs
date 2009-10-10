@@ -238,7 +238,7 @@ namespace WikiFunctions.API
                 Function = func;
                 Arguments = args;
             }
-        };
+        }
 
         private void InvokerThread(object genericArgs)
         {
