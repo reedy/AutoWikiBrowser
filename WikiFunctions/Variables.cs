@@ -733,6 +733,15 @@ namespace WikiFunctions
         #endregion
     }
 
-    public enum WikiStatusResult { Error, NotLoggedIn, NotRegistered, OldVersion, Registered, /*Null,*/ PendingUpdate }
+    public enum WikiStatusResult
+    {
+        Error, 
+        NotLoggedIn,
+        NotRegistered,
+        OldVersion,
+        NoRights,
+        Registered,
+        PendingUpdate
+    }
 }
 
