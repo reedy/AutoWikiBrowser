@@ -554,6 +554,10 @@ namespace AutoWikiBrowser
                         Start();
                         break;
 
+                    case "writeapidenied":
+                        NoWriteapiRight();
+                        break;
+
                     default:
                         StartDelayedRestartTimer();
                         break;
@@ -1118,6 +1122,15 @@ namespace AutoWikiBrowser
                 Tools.OpenUserTalkInBrowser(TheSession.User.Name);
             else
                 Process.Start("iexplore", Variables.GetUserTalkURL(TheSession.User.Name));
+        }
+
+        private void NoWriteapiRight()
+        {
+            Stop();
+            MessageBox.Show(this,
+                "This user doesn't have enough privileges to make automatic edits on this wiki.",
+                "Permission error",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private bool LoadSuccessApi()
@@ -2140,6 +2153,10 @@ window.scrollTo(0, diffTopY);
                     OldVersion();
                     break;
 
+                case WikiStatusResult.NoRights:
+                    NoWriteapiRight();
+                    break;
+
                 case WikiStatusResult.Registered:
                     status = true;
                     label = string.Format("Logged in, user and software enabled. Bot = {0}, Admin = {1}", TheSession.User.IsBot, TheSession.User.IsSysop);
@@ -2153,6 +2170,9 @@ window.scrollTo(0, diffTopY);
                                 NoParse.Add(link.Groups[1].Value);
                     }
                     break;
+
+                default:
+                    throw new Exception("Unknown WikiStatusResult value.");
             }
 
             // detect writing system

@@ -266,18 +266,21 @@ namespace WikiFunctions
 
                 CheckPageText = strText;
 
-                if (!Editor.User.IsLoggedIn)
+                if (!User.IsLoggedIn)
                     return WikiStatusResult.NotLoggedIn;
 
+                if (!User.HasRight("writeapi"))
+                    return WikiStatusResult.NoRights;
+
                 // TODO: assess the impact on servers later
-                Editor.Maxlag = /*Editor.User.IsBot ? 5 :*/ -1;
+                Editor.Maxlag = /*User.IsBot ? 5 : 20*/ -1;
 
                 // check if username is globally blacklisted
                 foreach (Match m3 in BadName.Matches(Updater.GlobalVersionPage))
                 {
                     if (!string.IsNullOrEmpty(m3.Groups[1].Value.Trim()) &&
-                        !string.IsNullOrEmpty(Editor.User.Name) &&
-                        Regex.IsMatch(Editor.User.Name, m3.Groups[1].Value.Trim(),
+                        !string.IsNullOrEmpty(User.Name) &&
+                        Regex.IsMatch(User.Name, m3.Groups[1].Value.Trim(),
                                       RegexOptions.IgnoreCase | RegexOptions.Multiline))
                         return WikiStatusResult.NotRegistered;
                 }
@@ -324,7 +327,7 @@ namespace WikiFunctions
                 strText = Tools.StringBetween(strText, "<!--enabledusersbegins-->", "<!--enabledusersends-->");
 
                 string strBotUsers = Tools.StringBetween(strText, "<!--enabledbots-->", "<!--enabledbotsends-->");
-                Regex username = new Regex(@"^\*\s*" + Tools.CaseInsensitive(Regex.Escape(Editor.User.Name))
+                Regex username = new Regex(@"^\*\s*" + Tools.CaseInsensitive(Regex.Escape(User.Name))
                                            + @"\s*$", RegexOptions.Multiline);
 
                 if (IsSysop && Variables.Project != ProjectEnum.wikia)
@@ -333,7 +336,7 @@ namespace WikiFunctions
                     return WikiStatusResult.Registered;
                 }
 
-                if (!string.IsNullOrEmpty(Editor.User.Name) && username.IsMatch(strText))
+                if (username.IsMatch(strText))
                 {
                     //enable bot mode
                     IsBot = username.IsMatch(strBotUsers);
