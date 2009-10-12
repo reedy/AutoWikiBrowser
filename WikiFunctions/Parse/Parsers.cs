@@ -830,7 +830,7 @@ namespace WikiFunctions.Parse
                 string refname = m.Groups[2].Value;
                 string refvalue = m.Groups[3].Value;
 
-                Regex ShortNamedReferences = new Regex(@"(<\s*ref\s+name\s*=\s*(?:""|')?(" + Regex.Escape(refname) + @")(?:""|')?\s*>\s*([^<>]{1,9}?)\s*<\s*/\s*ref>)", RegexOptions.Singleline | RegexOptions.Compiled);
+                Regex ShortNamedReferences = new Regex(@"(<\s*ref\s+name\s*=\s*(?:""|')?(" + Regex.Escape(refname) + @")(?:""|')?\s*>\s*([^<>]{1,9}?)\s*<\s*/\s*ref>)");
 
                 foreach (Match m2 in ShortNamedReferences.Matches(articleText))
                 {
