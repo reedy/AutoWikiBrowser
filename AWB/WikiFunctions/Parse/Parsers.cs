@@ -791,10 +791,9 @@ namespace WikiFunctions.Parse
                 foreach (Match m2 in AnotherNamedRef.Matches(articleText))
                 {
                     string refname2 = m2.Groups[2].Value;
-                    string refvalue2 = m2.Groups[3].Value;
 
                     // same ref, different name
-                    if (refvalue2 == refvalue && refname2 != refname && m.Index != m2.Index 
+                    if (refname2 != refname && m.Index != m2.Index 
                         && !WikiRegexes.IbidOpCitation.IsMatch(refvalue))
                     {
                         string newRefName = refname;
