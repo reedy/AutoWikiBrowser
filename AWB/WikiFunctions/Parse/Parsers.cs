@@ -780,15 +780,9 @@ namespace WikiFunctions.Parse
             // refs with same name, but one is very short, so just change to <ref name=foo/> notation
             articleText = SameNamedRefShortText(articleText);          
 
-            int i = 0;
-            int j = NamedReferences.Matches(articleText).Count;
-
             // refs with same text value but different names – choose to keep the longest name
             foreach (Match m in NamedReferences.Matches(articleText))
             {
-                if (i > (int)(j / 2))
-                    break;
-
                 string refname = m.Groups[2].Value;
                 string refvalue = m.Groups[3].Value;
 
@@ -820,7 +814,6 @@ namespace WikiFunctions.Parse
                         articleText = a.Replace(articleText, @"<ref name=""" + newRefName + @"""");
                     }
                 }
-                i++;
             }
 
             return DuplicateNamedReferences(articleText);
