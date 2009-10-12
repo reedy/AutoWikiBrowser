@@ -144,7 +144,19 @@ namespace UnitTests
             Typos["foo"] = "bar";
 
             AssertNoFix("[[foo]]");
-            AssertFix("[[foo|bar]]", "[[foo|foo]]");
+            AssertFix("[[Fred|bar]]", "[[Fred|foo]]");
+        }
+
+        [Test]
+        public void DontChangeWhenWikilinked()
+        {
+            Typos["foo"] = "bar";
+
+            AssertNoFix("now [[foo]] was foo here");
+            AssertNoFix("now [[foo|bo]] was foo here");
+            AssertNoFix("now [[Mr foo oft]] was foo here");
+
+            AssertFix("now bar [[Foo]] was", "now foo [[Foo]] was");
         }
 
         [Test]
@@ -173,6 +185,7 @@ namespace UnitTests
 
             AssertFix("teh bar", "teh foo", "teh");
             AssertFix("teh bar", "teh foo", "teh crap");
+            AssertNoFix("teh home", "teh");
         }
     }
 }

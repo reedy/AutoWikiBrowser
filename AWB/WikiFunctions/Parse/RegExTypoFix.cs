@@ -253,7 +253,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Fixes typos
         /// </summary>
-        public void FixTypos(ref string articleText, ref string summary, string articleTitle)
+        public void FixTypos(ref string articleText, ref string summary, string articleTitle, string originalArticleText)
         {
             Statistics.Clear();
             if (Groups != null)
@@ -263,7 +263,9 @@ namespace WikiFunctions.Parse
                     {
                         for (int j = 0; j < Math.Min(GroupSize, Typos.Count - i * GroupSize); j++)
                         {
-                            FixTypo(ref articleText, ref summary, Typos[i * GroupSize + j], articleTitle);
+                            // don't apply the typo if it matches on a link target
+                            if (!Regex.IsMatch(originalArticleText, @"\[\[[^\[\]\r\n\|]*?" + Typos[i * GroupSize + j].Key.ToString() + @"[^\[\]\r\n\|]*?(?:\]\]|\|)"))
+                                FixTypo(ref articleText, ref summary, Typos[i * GroupSize + j], articleTitle);
                         }
                     }
                 }
@@ -432,6 +434,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public string PerformTypoFixes(string articleText, out bool noChange, out string summary, string articleTitle)
         {
+            string originalArticleText = articleText;
             summary = "";
             if ((TypoCount == 0) || IgnoreRegex.IsMatch(articleText))
             {
@@ -454,7 +457,7 @@ namespace WikiFunctions.Parse
 
             foreach (TypoGroup grp in Groups)
             {
-                grp.FixTypos(ref articleText, ref strSummary, articleTitle);
+                grp.FixTypos(ref articleText, ref strSummary, articleTitle, originalArticleText);
             }
 
             noChange = (originalText == articleText);
