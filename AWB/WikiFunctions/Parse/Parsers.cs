@@ -1845,7 +1845,7 @@ namespace WikiFunctions.Parse
                 char bracket = articleTextTemp[unbalancedBracket];
 
                 // if it's ]]_]_ then see if removing bracket makes it all balance
-                if (bracketLength == 1
+                if (bracketLength == 1 && unbalancedBracket > 2
                     && articleTextTemp[unbalancedBracket] == ']'
                     && articleTextTemp[unbalancedBracket - 1] == ']'
                     && articleTextTemp[unbalancedBracket - 2] == ']'
