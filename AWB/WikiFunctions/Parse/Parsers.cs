@@ -773,8 +773,8 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Corrects named references where the reference is the same but the reference name is different
         /// </summary>
-        /// <param name="articleText"></param>
-        /// <returns></returns>
+        /// <param name="articleText">the wiki text of the page</param>
+        /// <returns>the update wiki text</returns>
         public static string SameRefDifferentName(string articleText)
         {
             // refs with same name, but one is very short, so just change to <ref name=foo/> notation
@@ -819,10 +819,10 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// refs with same name, but one is very short, so just change to <ref name=foo/> notation
+        /// refs with same name, but one is very short, so just change to &lt;ref name=foo/&gt; notation
         /// </summary>
-        /// <param name="articleText"></param>
-        /// <returns></returns>
+        /// <param name="articleText">the wiki text of the page</param>
+        /// <returns>the update wiki text</returns>
         private static string SameNamedRefShortText(string articleText)
         {
             foreach (Match m in LongNamedReferences.Matches(articleText))
