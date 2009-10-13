@@ -537,20 +537,21 @@ namespace WikiFunctions
         public static readonly Regex ArticleIssues = new Regex(@"({{\s*[Aa]rticle ?issues(?:\s*\|[^{}]*)?\s*)}}");
 
         /// <summary>
-        /// the cleanup templates that can be moved into the {{article issues}} template
+        /// The cleanup templates that can be moved into the {{article issues}} template
         /// </summary>
         public const string ArticleIssuesTemplatesString = @"(3O|[Aa]dvert|[Aa]utobiography|[Bb]iased|[Bb]lpdispute|BLPrefimprove|BLPsources|BLPunref(?:erenced)?|BLPunsourced|[Cc]itations missing|[Cc]itationstyle|[Cc]itecheck|[Cc]leanup|COI|[Cc]oi|[Cc]olloquial|[Cc]onfusing|[Cc]ontext|[Cc]ontradict|[Cc]opyedit|[Cc]riticisms|[Cc]rystal|[Dd]eadend|[Dd]isputed|[Dd]o-attempt|[Ee]ssay(?:\-like)?|[Ee]xamplefarm|[Ee]xpand|[Ee]xpert|[Ee]xternal links|[Ff]ancruft|[Ff]ansite|[Ff]iction|[Gg]ameguide|[Gg]lobalize|[Gg]rammar|[Hh]istinfo|[Hh]oax|[Hh]owto|[Ii]nappropriate person|[Ii]n-universe|[Ii]mportance|[Ii]ncomplete|[Ii]ntro(?: length|\-too(?:long|short))|[Ii]ntromissing|[Ii]ntrorewrite|[Jj]argon|[Ll]aundry(?:lists)?|[Ll]ikeresume|[Ll]ong|[Nn]ewsrelease|[Nn]otab(?:le|ility)|[Oo]nesource|OR|[Oo]riginal research|[Oo]rphan|[Oo]r|[Oo]ut of date|[Pp]eacock|[Pp]lot|N?POV|n?pov|[Pp]rimarysources|[Pp]rose(?:line)?|[Qq]uotefarm|[Rr]ecent|[Rr]efimprove(?:BLP)?|[Rr]estructure|[Rr]eview|[Rr]ewrite|[Rr]oughtranslation|[Ss]ections|[Ss]elf-published|[Ss]pam|[Ss]tory|[Ss]ynthesis|[Tt]echnical|[Tt]one|[Tt]oo(?:short|long)|[Tt]ravelguide|[Tt]rivia|[Uu]nbalanced|[Uu]nencyclopedic|[Uu]nref(?:erenced(?:BLP)?|BLP)?|[Uu]pdate|[Ww]easel|[Ww]ikify)";
 
         /// <summary>
-        /// Regex of ArticleIssuesTemplatesString
+        /// RMatches the cleanup templates that can be moved into the {{article issues}} template
         /// </summary>
         public static readonly Regex ArticleIssuesTemplateNameRegex = new Regex(ArticleIssuesTemplatesString, RegexOptions.Compiled);
 
+        /// <summary>
         /// Matches COI|OR|POV|BLP
         /// </summary>
         public static readonly Regex CoiOrPovBlp = new Regex("(COI|OR|POV|BLP)", RegexOptions.Compiled);
 
-        /// <summary>
+        
         /// <summary>
         /// matches the cleanup templates that can be moved into the {{article issues}} template, notably does not match templates with multiple parameters
         /// </summary>
@@ -664,12 +665,12 @@ namespace WikiFunctions
         public static readonly Regex ExternalLinksRegex = new Regex(@"== *External +links? *==", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
 
         /// <summary>
-        /// 
+        /// Matches parameters within the {{article issues}} template using title case (invalid casing)
         /// </summary>
         public static readonly Regex ArticleIssuesInTitleCase = new Regex(@"({{[Aa]rticle ?issues\|\s*(?:[^{}]+?\|\s*)?)([A-Z])([a-z]+(?: [a-z]+)?\s*=)", RegexOptions.Compiled);
 
         /// <summary>
-        /// 
+        /// Matches the {{article issues}} template using the 'expert' parameter
         /// </summary>
         public static readonly Regex ArticleIssuesRegexExpert = new Regex(@"{{\s*[Aa]rticle ?issues[^{}]+?expert", RegexOptions.Compiled);
 
@@ -722,17 +723,17 @@ namespace WikiFunctions
         #endregion
 
         /// <summary>
-        /// 
+        /// matches "ibid" and "op cit"
         /// </summary>
         public static readonly Regex IbidOpCitation = new Regex(@"(?is)\b(ibid|op.{1,4}cit)\b", RegexOptions.Compiled);
 
         /// <summary>
-        /// 
+        /// Matches the {{Inuse}} template
         /// </summary>
         public static readonly Regex InUse = new Regex(@"{{\s*[Ii]nuse\s*[\}\|]", RegexOptions.Compiled);
 
         /// <summary>
-        /// 
+        /// Matches consecutive whitespace
         /// </summary>
         public static readonly Regex WhiteSpace = new Regex(@"\s+", RegexOptions.Compiled);
     }
