@@ -1248,5 +1248,14 @@ Bert").Groups[2].Value, "foo bar\r");
             Assert.IsTrue(WikiRegexes.LinkFGAsFrench.IsMatch(@"foo {{Lien AdQ|ar}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAsFrench.IsMatch(@"foo {{lien PdQ|ar}}"));
         }
+
+        [Test]
+        public void CircaTemplate()
+        {
+            Assert.IsTrue(WikiRegexes.CircaTemplate.IsMatch(@"{{circa}}"));
+            Assert.IsTrue(WikiRegexes.CircaTemplate.IsMatch(@"{{ circa}}"));
+            Assert.IsTrue(WikiRegexes.CircaTemplate.IsMatch(@"{{Circa}}"));
+            Assert.IsTrue(WikiRegexes.CircaTemplate.IsMatch(@"{{circa|foo=yes}}"));
+        }
     }
 }

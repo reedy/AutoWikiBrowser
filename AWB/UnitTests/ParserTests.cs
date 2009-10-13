@@ -953,6 +953,15 @@ died 2002
             const string bug2 = @"'''Foo''' (born {{circa}} 1925) was {{persondata}}";
             Assert.AreEqual(bug2 + u, Parsers.FixPeopleCategories(bug2, "foo"));
 
+            const string bug3 = @"'''Joshua William Allen, 6th Viscount Allen''' [[Master of Arts (Oxbridge)|MA]] ({{circa}} [[1782]]–[[21 September]] [[1845]]) was an [[Irish peerage|Irish peer]].
+
+{{DEFAULTSORT:Allen, Joshua Allen, 6th Viscount}}
+[[Category:1845 deaths]]
+[[Category:Viscounts in the Peerage of Ireland]]
+[[Category:Year of birth uncertain]]";
+
+            Assert.AreEqual(bug3, Parsers.FixPeopleCategories(bug3, "foo"));
+
             // infobox scraping
             const string infob1 = @"{{Infobox Officeholder
 |honorific-prefix   = 
