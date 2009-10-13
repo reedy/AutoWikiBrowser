@@ -1934,7 +1934,7 @@ window.scrollTo(0, diffTopY);
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#Edit_summary_issue
                 // replace last wikilink with dots as an attempt to prevent broken wikilinks in edit summary
                 if (tag.EndsWith(@"]]"))
-                    tag = Regex.Replace(tag, @"\s*\[\[.+?\]\]$", "...");
+                    tag = Regex.Replace(tag, @"\s*\[\[[^\[\]\r\n]+?\]\]$", "...");
 
                 if (tag.Length >= maxSummaryLength)
                     tag = tag.Substring(0, maxSummaryLength);
