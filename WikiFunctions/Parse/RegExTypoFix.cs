@@ -253,6 +253,10 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Fixes typos
         /// </summary>
+        /// <param name="articleText">The wiki text to update</param>
+        /// <param name="articleTitle">The title of the wiki page</param>
+        /// <param name="originalArticleText">The wiki text of the page, without any typo fixes applied</param>
+        /// <param name="summary">The edit summary of the page changes</param>
         public void FixTypos(ref string articleText, ref string summary, string articleTitle, string originalArticleText)
         {
             Statistics.Clear();
