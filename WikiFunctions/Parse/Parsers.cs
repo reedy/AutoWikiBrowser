@@ -3725,7 +3725,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         private static readonly Regex YearPossiblyWithBC = new Regex(@"\d{3,4}(?![\ds])(?: BC)?", RegexOptions.Compiled);
         private static readonly Regex ThreeOrFourDigitNumber = new Regex(@"\d{3,4}", RegexOptions.Compiled);
         private static readonly Regex DiedOrBaptised = new Regex(@"(^.*?)((?:&[nm]dash;|—|–|;|[Dd](?:ied|\.)|baptised).*)", RegexOptions.Compiled);
-        private static readonly Regex CircaTemplate = new Regex(@"{{[Cc]irca}}", RegexOptions.Compiled);
+        private static readonly Regex NotCircaTemplate = new Regex(@"{{(?![Cc]irca)[^{]*?}}", RegexOptions.Compiled);
 
         [Obsolete]
         public static string FixPeopleCategories(string articleText)
@@ -3804,7 +3804,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     // remove part beyond dash or died
                     string birthpart = DiedOrBaptised.Replace(m.Value, "$1");
 
-                    if (CircaTemplate.IsMatch(birthpart))
+                    if (WikiRegexes.CircaTemplate.IsMatch(birthpart))
                         alreadyUncertain = true;
 
                     birthpart = WikiRegexes.TemplateMultiLine.Replace(birthpart, " ");
@@ -3865,7 +3865,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     articleText += "\r\n" + @"[[Category:" + yearstring + " deaths" + CatEnd(sort);
             }
 
-            zerothSection = WikiRegexes.TemplateMultiLine.Replace(zerothSection, " ");
+            zerothSection = NotCircaTemplate.Replace(zerothSection, " ");
             // birth and death combined
             // if not fully categorised, check it
             if (PersonYearOfBirthAndDeath.IsMatch(zerothSection) && (!WikiRegexes.BirthsCategory.IsMatch(articleText) || !WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)))
