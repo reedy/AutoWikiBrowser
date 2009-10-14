@@ -310,7 +310,7 @@ namespace WikiFunctions
             get
             {
                 return
-                    (string.Compare(WikiRegexes.WhiteSpace.Replace(mOriginalArticleText, ""),
+                    (string.Compare(WikiRegexes.WhiteSpace.Replace(OriginalArticleText, ""),
                                     WikiRegexes.WhiteSpace.Replace(mArticleText, "")) == 0);
             }
         }
@@ -330,7 +330,9 @@ namespace WikiFunctions
         [XmlIgnore]
         public bool OnlyWhiteSpaceAndCasingChanged
         {
-            get { return Tools.CaseInsensitiveStringCompare(Regex.Replace(OriginalArticleText, @"\s+", ""), Regex.Replace(mArticleText, @"\s+", "")); }
+            get { return Tools.CaseInsensitiveStringCompare(WikiRegexes.WhiteSpace.Replace(OriginalArticleText, ""),
+                WikiRegexes.WhiteSpace.Replace(mArticleText, ""));
+            }
         }
 
         /// <summary>
