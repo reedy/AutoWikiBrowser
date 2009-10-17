@@ -758,7 +758,7 @@ namespace AutoWikiBrowser
                 // Warning: Creating an ArticleEX causes a new AWBLogListener to be created and it becomes the active listener in MyTrace; be careful we're writing to the correct log listener
                 string redirect = Parsers.CanonicalizeTitleAggressively(Tools.RedirectTarget(page.Text));
 
-                if (redirect != "" && Tools.IsValidTitle(redirect))
+                if (!String.IsNullOrEmpty(redirect) && Tools.IsValidTitle(redirect))
                 {
                     if (filterOutNonMainSpaceToolStripMenuItem.Checked 
                         && (Namespace.Determine(redirect) != Namespace.Article))
