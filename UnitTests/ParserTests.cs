@@ -588,10 +588,16 @@ End of." + f));
 
             Assert.AreEqual(@"* {{Polish2|Krzepice (województwo dolnośląskie)|[[24 November]] [[2007]]}}
 ", parser.FixDates(@"* {{Polish2|Krzepice (województwo dolnośląskie)|[[24 November]] [[2007]]}}<br><br>  "));
+        }
 
+        [Test]
+        public void FixDatesCommaErrors()
+        {
             Assert.AreEqual(@"Retrieved on April 14, 2009 was", parser.FixDates(@"Retrieved on April, 14, 2009 was"));
             Assert.AreEqual(@"Retrieved on April 14, 2009 was", parser.FixDates(@"Retrieved on April , 14 , 2009 was"));
             Assert.AreEqual(@"Retrieved on April 14, 2009 was", parser.FixDates(@"Retrieved on April , 14 ,2009 was"));
+
+            Assert.AreEqual(@"Retrieved on April 14, 2009 was", parser.FixDates(@"Retrieved on April 14,2009 was"));
         }
 
         [Test]
