@@ -3611,6 +3611,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// <param name="articleTitle">Title of the article</param>
         /// <param name="matches">If there is no change (True if no Change)</param>
         /// <returns>The article text possibly using defaultsort.</returns>
+        [Obsolete]
         private static string DefaultsortTitlesWithDiacritics(string articleText, string articleTitle, int matches)
         {
             return DefaultsortTitlesWithDiacritics(articleText, articleTitle, matches, false);
