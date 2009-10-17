@@ -448,6 +448,9 @@ namespace WikiFunctions.Parse
         // fixes extra comma in American format dates
         private static Regex CommaDates = new Regex(WikiRegexes.Months + @" ?, *([1-3]?\d) ?, ?((?:200|19\d)\d)\b");
 
+        // fixes missing space in American format dates
+        private static Regex UnspacedAmericanDates = new Regex(@"\b(" + WikiRegexes.MonthsNoGroup + @" [1-3]?\d,)([12]\d{3})\b");
+
         // Covered by: LinkTests.FixDates()
         /// <summary>
         /// Fix date and decade formatting errors, and replace &lt;br&gt; and &lt;p&gt; HTML tags
@@ -456,8 +459,11 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string FixDates(string articleText)
         {
-            if(Variables.LangCode == "en")
+            if (Variables.LangCode == "en")
+            {
                 articleText = CommaDates.Replace(articleText, @"$1 $2, $3");
+                articleText = UnspacedAmericanDates.Replace(articleText, @"$1 $2");
+            }
 
             articleText = HideMoreText(articleText);
 
