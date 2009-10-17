@@ -3673,7 +3673,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         private static readonly Regex PersonYearOfDeath = new Regex(@"(?<='''.{0,100}?)\([^\(\)]*?[Dd]ied[^\)\.;]+?([12]?\d{3}(?: BC)?)\b", RegexOptions.Compiled);
         private static readonly Regex PersonYearOfBirthAndDeath = new Regex(@"^.{0,100}'''\s*\([^\)\r\n]*?(?<![Dd]ied)\b([12]?\d{3})\b[^\)\r\n]*?(-|–|—|&[nm]dash;)[^\)\r\n]*?([12]?\d{3})\b[^\)]{0,200}", RegexOptions.Singleline | RegexOptions.Compiled);
 
-        private static readonly Regex UncertainWordings = new Regex(@"(?:\b(about|before|after|either|prior to|around|late|[Cc]irca|between|\d{3,4}(?:\]\])?/(?:\[\[)?\d{1,4}|or +(?:\[\[)?\d{3,})\b|\d{3} *\?|\bca?(?:'')?\.|\bca\b|\b(bef|abt)\.|~)", RegexOptions.Compiled);
+        private static readonly Regex UncertainWordings = new Regex(@"(?:\b(about|before|after|either|prior to|around|late|[Cc]irca|between|[Bb]irth based on age as of date|\d{3,4}(?:\]\])?/(?:\[\[)?\d{1,4}|or +(?:\[\[)?\d{3,})\b|\d{3} *\?|\bca?(?:'')?\.|\bca\b|\b(bef|abt)\.|~)", RegexOptions.Compiled);
         private static readonly Regex ReignedRuledUnsure = new Regex(@"(?:\?|[Rr](?:uled|eign(?:ed)?\b)|\br\.|(chr|fl(?:\]\])?)\.|\b[Ff]lo(?:urished|ruit)\b)", RegexOptions.Compiled);
 
         /// <summary>
