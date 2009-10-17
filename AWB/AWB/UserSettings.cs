@@ -657,7 +657,7 @@ namespace AutoWikiBrowser
                 _pasteMoreItems[item].Tag = s;
                 _pasteMoreItems[item].Text = _pasteMoreItemsPrefixes[item] +
                                             (string.IsNullOrEmpty(s) ? "" : s.Replace("&", "&&"));
-                _pasteMoreItems[item].Visible = s != "";
+                _pasteMoreItems[item].Visible = !string.IsNullOrEmpty(s);
             }
         }
     }
