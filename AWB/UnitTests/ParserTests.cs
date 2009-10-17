@@ -2108,17 +2108,17 @@ http://example.com }}");
         public void SubstitutedTemplatesCategory()
         {
             Assert.AreEqual(@"<includeonly>foo</includeonly> foo
-[[Category:Substituted templates]]", Parsers.FixCategories(@"<includeonly>foo</includeonly> foo", true));
+[[Category:Substituted templates]]", Parsers.FixCategories(@"<includeonly>foo</includeonly> foo"));
             Assert.AreEqual(@"<noinclude>foo</noinclude> foo
-[[Category:Substituted templates]]", Parsers.FixCategories(@"<noinclude>foo</noinclude> foo", true));
+[[Category:Substituted templates]]", Parsers.FixCategories(@"<noinclude>foo</noinclude> foo"));
             Assert.AreEqual(@"{{{1}}} foo
-[[Category:Substituted templates]]", Parsers.FixCategories(@"{{{1}}} foo", true));
+[[Category:Substituted templates]]", Parsers.FixCategories(@"{{{1}}} foo"));
 
             Assert.AreEqual(@"{{{1}}} foo
 [[Category:Substituted templates]]", Parsers.FixCategories(@"{{{1}}} foo
-[[Category:Substituted templates]]", true));
+[[Category:Substituted templates]]"));
 
-            Assert.AreEqual(@"{{{1}}} foo", Parsers.FixCategories(@"{{{1}}} foo", false));
+            Assert.AreEqual(@"{{{1}}} foo", Parsers.FixCategories(@"{{{1}}} foo"));
         }
 
         [Test]

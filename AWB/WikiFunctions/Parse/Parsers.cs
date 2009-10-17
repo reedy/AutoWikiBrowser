@@ -525,14 +525,14 @@ namespace WikiFunctions.Parse
         public static string FixFootnotes(string articleText)
         {
             // One space/linefeed
-            articleText = WikiRegexes.WhitespaceRef.Replace(articleText, "<ref$1");
+            articleText = WikiRegexes.WhiteSpaceRef.Replace(articleText, "<ref$1");
             // remove trailing spaces from named refs
             articleText = WikiRegexes.RefTagWithParams.Replace(articleText, "<ref $1>");
             // removed superscripted punctuation between refs
             articleText = WikiRegexes.SuperscriptedPunctuationBetweenRefs.Replace(articleText, "$1<ref");
             articleText = WikiRegexes.PunctuationBetweenRefs.Replace(articleText, "$1<ref");
 
-            articleText = WikiRegexes.WhitespaceFactTag.Replace(articleText, "{{$1}}");
+            articleText = WikiRegexes.WhiteSpaceFactTag.Replace(articleText, "{{$1}}");
 
             string oldArticleText = "";
 
@@ -2550,9 +2550,8 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// Fix common spacing/capitalisation errors in categories; remove diacritics and trailing whitespace from sortkeys (not leading whitespace)
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
-        /// <param name="isMainSpace"></param>
         /// <returns>The modified article text.</returns>
-        public static string FixCategories(string articleText, bool isMainSpace)
+        public static string FixCategories(string articleText)
         {
             string cat = "[[" + Variables.Namespaces[Namespace.Category];
 
@@ -2585,9 +2584,10 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public static string FixCategories(string articleText)
+        [Obsolete]
+        public static string FixCategories(string articleText, bool isMainSpace)
         {
-            return FixCategories(articleText, false);
+            return FixCategories(articleText);
         }
 
         /// <summary>
@@ -2688,7 +2688,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             Regex search = new Regex(@"(\{\{\s*" + Tools.CaseInsensitive(template) + @"\s*)(?:\||\}|<)", RegexOptions.Singleline);
 
             // remove commented out templates etc. before searching
-            string articleTextCleaned = WikiRegexes.UnFormattedText.Replace(articleText, "");
+            string articleTextCleaned = WikiRegexes.UnformattedText.Replace(articleText, "");
 
             if (search.IsMatch(articleTextCleaned))
             {
@@ -2712,7 +2712,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         public static MatchCollection GetTemplates(string articleText, string template)
         {
             // replace with spaces any commented out templates etc., this means index of real matches remains the same as in actual article text
-            articleText =  Tools.ReplaceWithSpaces(articleText,WikiRegexes.UnFormattedText);
+            articleText =  Tools.ReplaceWithSpaces(articleText,WikiRegexes.UnformattedText);
 
             string ciTemplateName = Tools.CaseInsensitive(template);
             Regex search;
@@ -3148,7 +3148,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             string oldText = articleText;
 
-            articleText = FixCategories(articleText, Namespace.IsMainSpace(articleText));
+            articleText = FixCategories(articleText);
 
             if (Regex.IsMatch(articleText, @"\[\["
                 + Variables.NamespacesCaseInsensitive[Namespace.Category]
@@ -3420,7 +3420,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 return testText;
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_9#AWB_didn.27t_fix_special_characters_in_a_pipe
-            articleText = FixCategories(articleText, Namespace.IsMainSpace(articleTitle));
+            articleText = FixCategories(articleText);
 
             // AWB's generation of its own sortkey may be incorrect for people, provide option not to insert in this situation
             if (ds.Count == 0 && !restrictDefaultsortChanges)
@@ -3807,7 +3807,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                     if (WikiRegexes.CircaTemplate.IsMatch(birthpart))
                         alreadyUncertain = true;
 
-                    birthpart = WikiRegexes.TemplateMultiLine.Replace(birthpart, " ");
+                    birthpart = WikiRegexes.TemplateMultiline.Replace(birthpart, " ");
 
                     // check born info before any untemplated died info
                     if (!(m.Index > PersonYearOfDeath.Match(zerothSection).Index) || !PersonYearOfDeath.IsMatch(zerothSection))

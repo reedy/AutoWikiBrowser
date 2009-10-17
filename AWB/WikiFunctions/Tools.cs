@@ -82,7 +82,7 @@ namespace WikiFunctions
         /// <param name="text">Title of redirect target</param>
         public static string RedirectTarget(string text)
         {
-            Match m = WikiRegexes.Redirect.Match(WikiRegexes.UnFormattedText.Replace(FirstChars(text, 512), ""));
+            Match m = WikiRegexes.Redirect.Match(WikiRegexes.UnformattedText.Replace(FirstChars(text, 512), ""));
             return WikiDecode(m.Groups[1].Value).Trim();
         }
 
@@ -563,7 +563,7 @@ namespace WikiFunctions
         public static int WordCount(string text)
         {
             text = RegexWordCountTable.Replace(text, "");
-            text = WikiRegexes.TemplateMultiLine.Replace(text, " ");
+            text = WikiRegexes.TemplateMultiline.Replace(text, " ");
             text = WikiRegexes.Comments.Replace(text, "");
 
             int words = 0;
