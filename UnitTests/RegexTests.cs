@@ -143,10 +143,10 @@ namespace UnitTests
         [Test]
         public void UnformattedTextTests()
         {
-            Assert.IsTrue(WikiRegexes.UnFormattedText.IsMatch(@"<pre>{{abc}}</pre>"));
-            Assert.IsTrue(WikiRegexes.UnFormattedText.IsMatch(@"<math>{{abc}}</math>"));
-            Assert.IsTrue(WikiRegexes.UnFormattedText.IsMatch(@"<nowiki>{{abc}}</nowiki>"));
-            Assert.IsTrue(WikiRegexes.UnFormattedText.IsMatch(@"now hello {{bye}} <pre>{now}}</pre>"));
+            Assert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"<pre>{{abc}}</pre>"));
+            Assert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"<math>{{abc}}</math>"));
+            Assert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"<nowiki>{{abc}}</nowiki>"));
+            Assert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"now hello {{bye}} <pre>{now}}</pre>"));
         }
 
         [Test]
@@ -295,15 +295,15 @@ bar</ INCLUDEONLY>");
         [Test]
         public void Template()
         {
-            RegexAssert.Matches("{{foo}}", WikiRegexes.TemplateMultiLine, "{{foo}}");
-            RegexAssert.Matches("{{foo}}", WikiRegexes.TemplateMultiLine, "123{{foo}}test");
-            RegexAssert.Matches("{{foo|bar}}", WikiRegexes.TemplateMultiLine, "{{foo|bar}}");
-            RegexAssert.Matches("{{foo\r\n|bar=test}}", WikiRegexes.TemplateMultiLine, "{{foo\r\n|bar=test}}");
+            RegexAssert.Matches("{{foo}}", WikiRegexes.TemplateMultiline, "{{foo}}");
+            RegexAssert.Matches("{{foo}}", WikiRegexes.TemplateMultiline, "123{{foo}}test");
+            RegexAssert.Matches("{{foo|bar}}", WikiRegexes.TemplateMultiline, "{{foo|bar}}");
+            RegexAssert.Matches("{{foo\r\n|bar=test}}", WikiRegexes.TemplateMultiline, "{{foo\r\n|bar=test}}");
 
-            RegexAssert.Matches("Should match distinct templates", WikiRegexes.TemplateMultiLine, "{{foo}}{{bar}}", "{{foo}}", "{{bar}}");
+            RegexAssert.Matches("Should match distinct templates", WikiRegexes.TemplateMultiline, "{{foo}}{{bar}}", "{{foo}}", "{{bar}}");
 
             // regex won't match if nested template or curly-bracketed stuff
-            RegexAssert.NoMatch(WikiRegexes.TemplateMultiLine, "{{foo| {bar} }}");
+            RegexAssert.NoMatch(WikiRegexes.TemplateMultiline, "{{foo| {bar} }}");
         }
 
         [Test]

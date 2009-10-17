@@ -418,7 +418,7 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
                     // We keep the whole of parameter value as a named match, but don't keep the components of it:
                     + @"(?<_" + name + ">("
                     // comments, HTML-type tags, etc:
-                    + WikiRegexes.UnFormattedText
+                    + WikiRegexes.UnformattedText
                     + @"|"
                     // templates inside this template:
                     + WikiRegexes.NestedTemplates
@@ -443,7 +443,7 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
                 = @"(\|\s*)"
                 + @"(([^=\s]*)\s*=\s*(?=\S))?"
                 + @"("
-                + WikiRegexes.UnFormattedText
+                + WikiRegexes.UnformattedText
                 + @"|"
                 + WikiRegexes.NestedTemplates
                 + @"|"
@@ -464,7 +464,7 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
                         = @"(\|\s*"
                         + param.Key + @"\s*=\s*(?=\S)"
                         + @"("
-                        + WikiRegexes.UnFormattedText
+                        + WikiRegexes.UnformattedText
                         + @"|"
                         + WikiRegexes.NestedTemplates
                         + @"|"

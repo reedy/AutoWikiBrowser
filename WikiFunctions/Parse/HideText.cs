@@ -61,7 +61,7 @@ namespace WikiFunctions.Parse
             Replace(WikiRegexes.Source.Matches(articleText), ref articleText);
 
             var matches = new List<Match>();
-            foreach (Match m in WikiRegexes.UnFormattedText.Matches(articleText))
+            foreach (Match m in WikiRegexes.UnformattedText.Matches(articleText))
             {
                 if (LeaveMetaHeadings && NoWikiIgnoreRegex.IsMatch(m.Value))
                     continue;
@@ -134,7 +134,7 @@ namespace WikiFunctions.Parse
             HiddenUnformattedText.Clear();
 
             int i = 0;
-            foreach (Match m in WikiRegexes.UnFormattedText.Matches(articleText))
+            foreach (Match m in WikiRegexes.UnformattedText.Matches(articleText))
             {
                 string s = "⌊⌊⌊⌊" + i + "⌋⌋⌋⌋";
 
@@ -222,7 +222,7 @@ namespace WikiFunctions.Parse
 
             ReplaceMore(WikiRegexes.Headings.Matches(articleText), ref articleText);
 
-            ReplaceMore(WikiRegexes.UnFormattedText.Matches(articleText), ref articleText);
+            ReplaceMore(WikiRegexes.UnformattedText.Matches(articleText), ref articleText);
 
             ReplaceMore(WikiRegexes.IndentedText.Matches(articleText), ref articleText);
 

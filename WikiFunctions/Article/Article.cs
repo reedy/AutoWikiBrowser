@@ -988,7 +988,7 @@ namespace WikiFunctions
             SetDefaultSort(Variables.LangCode, skip.SkipNoDefaultSortAdded, restrictDefaultsortAddition);
             Variables.Profiler.Profile("SetDefaultSort");
 
-            AWBChangeArticleText("Fix categories", Parsers.FixCategories(ArticleText, Namespace.IsMainSpace(Name)), true);
+            AWBChangeArticleText("Fix categories", Parsers.FixCategories(ArticleText), true);
             Variables.Profiler.Profile("FixCategories");
 
             AWBChangeArticleText("Fix images", Parsers.FixImages(ArticleText), true);
