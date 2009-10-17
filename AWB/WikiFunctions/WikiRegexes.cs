@@ -253,7 +253,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches single and multiline templates, NOT nested templates
         /// </summary>
-        public static readonly Regex TemplateMultiLine = new Regex(@"{{[^{]*?}}", RegexOptions.Compiled);
+        public static readonly Regex TemplateMultiline = new Regex(@"{{[^{]*?}}", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches single and multiline templates, AND those with nested templates
@@ -278,7 +278,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches unformatted text regions: nowiki, pre, math, html comments, timelines
         /// </summary>
-        public static readonly Regex UnFormattedText = new Regex(@"<nowiki>.*?</\s*nowiki>|<pre\b.*?>.*?</\s*pre>|<math\b.*?>.*?</\s*math>|<!--.*?-->|<timeline\b.*?>.*?</\s*timeline>", RegexOptions.Singleline | RegexOptions.Compiled);
+        public static readonly Regex UnformattedText = new Regex(@"<nowiki>.*?</\s*nowiki>|<pre\b.*?>.*?</\s*pre>|<math\b.*?>.*?</\s*math>|<!--.*?-->|<timeline\b.*?>.*?</\s*timeline>", RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
         /// Matches <blockquote> tags
@@ -691,7 +691,7 @@ namespace WikiFunctions
 
         #region Parsers.FixFootnotes **NOT READY FOR PRODUCTION**
         // One space/linefeed
-        public static readonly Regex WhitespaceRef = new Regex("[\\n\\r\\f\\t ]+?<ref([ >])", RegexOptions.Compiled);
+        public static readonly Regex WhiteSpaceRef = new Regex("[\\n\\r\\f\\t ]+?<ref([ >])", RegexOptions.Compiled);
         // remove trailing spaces from named refs
         public static readonly Regex RefTagWithParams = new Regex("<ref ([^>]*[^>])[ ]*>", RegexOptions.Compiled);
         // removed superscripted punctuation between refs
@@ -699,7 +699,7 @@ namespace WikiFunctions
         public static readonly Regex PunctuationBetweenRefs = new Regex("(</ref>|<ref[^>]*?/>)[ ]*[,;-]?[ ]*<ref", RegexOptions.Compiled);
 
         private const string FactTag = "{{[ ]*(fact|fact[ ]*[\\|][^}]*|facts|citequote|citation needed|cn|verification needed|verify source|verify credibility|who|failed verification|nonspecific|dubious|or|lopsided|GR[ ]*[\\|][ ]*[^ ]+|[c]?r[e]?f[ ]*[\\|][^}]*|ref[ _]label[ ]*[\\|][^}]*|ref[ _]num[ ]*[\\|][^}]*)[ ]*}}";
-        public static readonly Regex WhitespaceFactTag = new Regex("[\\n\\r\\f\\t ]+?" + FactTag, RegexOptions.Compiled);
+        public static readonly Regex WhiteSpaceFactTag = new Regex("[\\n\\r\\f\\t ]+?" + FactTag, RegexOptions.Compiled);
 
         private const string LacksPunctuation = "([^\\.,;:!\\?\"'’])";
         private const string QuestionOrExclam = "([!\\?])";
