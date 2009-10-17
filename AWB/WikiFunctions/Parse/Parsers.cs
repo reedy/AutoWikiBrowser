@@ -3345,7 +3345,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 if (string.IsNullOrEmpty(sort))
                     sort = explicitKey;
 
-                if (sort != explicitKey && explicitKey != "")
+                if (sort != explicitKey && !String.IsNullOrEmpty(explicitKey))
                 {
                     allsame = false;
                     break;
