@@ -449,7 +449,7 @@ namespace WikiFunctions.Parse
         private static Regex CommaDates = new Regex(WikiRegexes.Months + @" ?, *([1-3]?\d) ?, ?((?:200|19\d)\d)\b");
 
         // fixes missing space in American format dates
-        private static Regex UnspacedAmericanDates = new Regex(@"\b(" + WikiRegexes.MonthsNoGroup + @" [1-3]?\d) *,([12]\d{3})\b");
+        private static Regex UnspacedAmericanDates = new Regex(@"\b(" + WikiRegexes.MonthsNoGroup + @" [1-3]?\d) *,?([12]\d{3})\b");
 
         // Covered by: LinkTests.FixDates()
         /// <summary>
