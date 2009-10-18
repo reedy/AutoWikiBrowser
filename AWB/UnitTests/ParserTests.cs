@@ -1771,9 +1771,15 @@ Some artists represented by Zach Feuer Gallery are [[Phoebe Washburn]], [[Jules 
             Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccesdate = 2008-04-23 }} was"));
             Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|access date = 2008-04-23 }} was"));
             Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accessdat = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accessdare = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accessdaye = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accessdaste = 2008-04-23 }} was"));
 
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23|publisher=BBC }} was", Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23|publisher=BBC }} was"));
             Assert.AreEqual(@"now {{Cite web | url=http://site.it | title=hello|accessdate = 2008-04-23  |publisher=BBC }} was", Parsers.FixSyntax(@"now {{Cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23  |publisher=BBC }} was"));
+
+            Assert.AreEqual(@"now {{cite web |accessdate = 2008-04-23| url=http://site.it | title=hello }} was", Parsers.FixSyntax(@"now {{cite web |accessdaye = 2008-04-23| url=http://site.it | title=hello }} was"));
 
             // no match
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|acccessdated = 2008-04-23 }} was", Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccessdated = 2008-04-23 }} was"));
