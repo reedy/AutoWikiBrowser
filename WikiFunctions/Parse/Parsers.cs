@@ -449,7 +449,7 @@ namespace WikiFunctions.Parse
         private static Regex CommaDates = new Regex(WikiRegexes.Months + @" ?, *([1-3]?\d) ?, ?((?:200|19\d)\d)\b");
 
         // fixes missing space in American format dates
-        private static Regex UnspacedAmericanDates = new Regex(@"\b(" + WikiRegexes.MonthsNoGroup + @" [1-3]?\d,)([12]\d{3})\b");
+        private static Regex UnspacedAmericanDates = new Regex(@"\b(" + WikiRegexes.MonthsNoGroup + @" [1-3]?\d) *,([12]\d{3})\b");
 
         // Covered by: LinkTests.FixDates()
         /// <summary>
@@ -462,7 +462,7 @@ namespace WikiFunctions.Parse
             if (Variables.LangCode == "en")
             {
                 articleText = CommaDates.Replace(articleText, @"$1 $2, $3");
-                articleText = UnspacedAmericanDates.Replace(articleText, @"$1 $2");
+                articleText = UnspacedAmericanDates.Replace(articleText, @"$1, $2");
             }
 
             articleText = HideMoreText(articleText);
@@ -1198,7 +1198,7 @@ namespace WikiFunctions.Parse
 
                 // convert invalid date formats like DD-MM-YYYY, MM-DD-YYYY, YYYY-D-M, YYYY-DD-MM, YYYY_MM_DD etc. to iso format of YYYY-MM-DD
                 // for accessdate= and archivedate=
-                // provided no ambigyous ones
+                // provided no ambiguous ones
                 if (AccessOrArchiveDate.IsMatch(articleText) && !AmbiguousCiteTemplateDates(articleText))
                     foreach (RegexReplacement rr in CiteTemplateIncorrectISOAccessdates)
                         articleText = rr.Regex.Replace(articleText, rr.Replacement);
@@ -1642,7 +1642,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex CellpaddingTypo = new Regex(@"({\s*\|\s*class\s*=\s*""wikitable[^}]*?)cel(?:lpa|pad?)ding\b", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
-        private static readonly Regex AccessdateTypo = new Regex(@"(\{\{\s*cit[^{}]*?\|\s*)ac(?:(?:ess?s?|cc?es|cess[es]|ccess)date|cessdare)(\s*=\s*)", RegexOptions.IgnoreCase);
+        private static readonly Regex AccessdateTypo = new Regex(@"(\{\{\s*cit[^{}]*?\|\s*)ac(?:(?:ess?s?|cc?es|cess[es]|ccess)date|cessda[ry]e)(\s*=\s*)", RegexOptions.IgnoreCase);
 
         private static readonly Regex AccessdateSynonyms = new Regex(@"(?<={{\s*[Cc]it[ae][^{}]*?\|\s*)(?:\s*date\s*)?(?:retrieved(?:\s+on)?|(?:last|date) *accessed|access\s+date)(?=\s*=\s*)", RegexOptions.Compiled);
 
