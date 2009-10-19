@@ -746,7 +746,7 @@ namespace WikiFunctions.Parse
                 string friendlyName = DeriveReferenceName(articleText, list[0].InnerText);
 
                 // check reference name not already in use for some other reference
-                if (friendlyName.Length <= 3 || Regex.IsMatch(articleText, RefName + Regex.Escape(friendlyName) + @"""\s*/?\s*>"))
+                if (friendlyName.Length <= 3 || Regex.IsMatch(result.ToString(), RefName + Regex.Escape(friendlyName) + @"""\s*/?\s*>"))
                     continue;
 
                 for (int i = 0; i < list.Count; i++)
