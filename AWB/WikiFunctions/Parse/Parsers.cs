@@ -1670,9 +1670,11 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex AccessdateSynonyms = new Regex(@"(?<={{\s*[Cc]it[ae][^{}]*?\|\s*)(?:\s*date\s*)?(?:retrieved(?:\s+on)?|(?:last|date) *accessed|access\s+date)(?=\s*=\s*)", RegexOptions.Compiled);
 
-        private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{(?:[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)|[Cc]itation)\b\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(?<!ISBN)(\s*=\s*[^{}\|]{3,})", RegexOptions.Compiled);
+        private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{(?:[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)|[Cc]itation)\b\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(?<!(?:ISBN|DOI))(\s*=\s*[^{}\|]{3,})", RegexOptions.Compiled);
 
-        private static readonly Regex CiteFormatFieldTypo = new Regex(@"(\{\{\s*[Cc]it[^{}]*?\|\s*)(?:fprmat)(\s*=\s*)", RegexOptions.Compiled);
+        private static readonly Regex CiteUrl = new Regex(@"url\s*=\s*[^\[\]<>""\s]+", RegexOptions.Compiled);
+
+        private static readonly Regex CiteFormatFieldTypo = new Regex(@"(\{\{\s*[Cc]it[^{}]*?\|\s*)(?i)(?:fprmat)(\s*=\s*)", RegexOptions.Compiled);
 
         //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.3Cfont.3E_tags
         private static readonly Regex RemoveNoPropertyFontTags = new Regex(@"<font>([^<>]+)</font>", RegexOptions.IgnoreCase);
@@ -1781,12 +1783,24 @@ namespace WikiFunctions.Parse
             // exceptionally, 'ISBN' is allowed
             while (Variables.LangCode == "en")
             {
+                int matchcount = UppercaseCiteFields.Matches(articleText).Count;
+                bool urlmatch;
+                int urlmatches = 0;
+
                 foreach (Match m in UppercaseCiteFields.Matches(articleText))
                 {
-                    articleText = articleText.Replace(m.Value, m.Groups[1].Value + m.Groups[2].Value.ToLower() + m.Groups[3].Value);
+                    urlmatches = 0;
+
+                    urlmatch = CiteUrl.Match(m.Value).Value.Contains(m.Groups[2].Value);
+
+                    // check not within URL
+                    if (!urlmatch)
+                        articleText = articleText.Replace(m.Value, m.Groups[1].Value + m.Groups[2].Value.ToLower() + m.Groups[3].Value);
+                    else
+                        urlmatches++;
                 }
 
-                if (!UppercaseCiteFields.IsMatch(articleText))
+                if (matchcount == 0 || matchcount == urlmatches)
                     break;
             }
 
