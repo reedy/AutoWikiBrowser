@@ -796,6 +796,11 @@ namespace WikiFunctions.Controls.Lists
                 UpdateNumberOfArticles();
                 btnStop.Visible = false;
             }
+
+            if (FilterNonMainAuto)
+                FilterNonMainArticles();
+            if (FilterDuplicates)
+                RemoveListDuplicates();
         }
 
         string[] _source;
