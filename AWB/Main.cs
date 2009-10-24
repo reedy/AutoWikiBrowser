@@ -1707,6 +1707,9 @@ window.scrollTo(0, diffTopY);
         /// <param name="right"></param>
         private void UndoChangeGeneric(DiffChangeMode changeType, int left, int right)
         {
+            if (!txtEdit.Enabled)
+                return;
+
             try
             {
                 int caretPosition = txtEdit.SelectionStart;
