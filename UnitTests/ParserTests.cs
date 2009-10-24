@@ -1440,15 +1440,20 @@ complementary and alternative medicine: evidence is a better friend than power. 
             Assert.AreEqual("[http://www.site.com]", Parsers.FixSyntax(@"[http/www.site.com]"));
 
             // these strings should not change
-            Assert.AreEqual("http://members.bib-arch.org/nph-proxy.pl/000000A/http/www.basarchive.org/bswbSearch",
-                            Parsers.FixSyntax(
-                                "http://members.bib-arch.org/nph-proxy.pl/000000A/http/www.basarchive.org/bswbSearch"));
-            Assert.AreEqual("http://sunsite.utk.edu/math_archives/.http/contests/",
-                            Parsers.FixSyntax("http://sunsite.utk.edu/math_archives/.http/contests/"));
-            Assert.AreEqual("HTTP/0.9", Parsers.FixSyntax("HTTP/0.9"));
-            Assert.AreEqual("HTTP/1.0", Parsers.FixSyntax("HTTP/1.0"));
-            Assert.AreEqual("HTTP/1.1", Parsers.FixSyntax("HTTP/1.1"));
-            Assert.AreEqual("HTTP/1.2", Parsers.FixSyntax("HTTP/1.2"));
+            string bug1 = @"now http://members.bib-arch.org/nph-proxy.pl/000000A/http/www.basarchive.org/bswbSearch was";
+            Assert.AreEqual(bug1, Parsers.FixSyntax(bug1));
+
+            string bug2 = @"now http://sunsite.utk.edu/math_archives/.http/contests/ was";
+            Assert.AreEqual(bug2, Parsers.FixSyntax(bug2));
+
+            Assert.AreEqual("the HTTP/0.9 was", Parsers.FixSyntax("the HTTP/0.9 was"));
+            Assert.AreEqual("the HTTP/1.0 was", Parsers.FixSyntax("the HTTP/1.0 was"));
+            Assert.AreEqual("the HTTP/1.1 was", Parsers.FixSyntax("the HTTP/1.1 was"));
+            Assert.AreEqual("the HTTP/1.2 was", Parsers.FixSyntax("the HTTP/1.2 was"));
+
+            string a = @"the HTTP/FTP was";
+            Assert.AreEqual(a, Parsers.FixSyntax(a));
+
             Assert.AreEqual("the HTTP/1.2 protocol", Parsers.FixSyntax("the HTTP/1.2 protocol"));
             Assert.AreEqual(@"<ref>[http://cdiac.esd.ornl.gov/ftp/cdiac74/a.pdf chapter 5]</ref>", Parsers.FixSyntax(@"<ref>[http://cdiac.esd.ornl.gov/ftp/cdiac74/a.pdf chapter 5]</ref>"));
 
