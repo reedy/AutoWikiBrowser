@@ -1753,6 +1753,12 @@ Some artists represented by Zach Feuer Gallery are [[Phoebe Washburn]], [[Jules 
 
             // ISBN is allowed to be uppercase
             Assert.AreEqual(@"{{cite book | author=Smith | title=Great Book | ISBN=15478454 | date=17 May 2004 }}", Parsers.FixSyntax(@"{{cite book | author=Smith | title=Great Book | ISBN=15478454 | date=17 May 2004 }}"));
+            Assert.AreEqual(@"{{cite journal| author=Smith | title=Great Book | DOI=15478454 | date=17 May 2004 }}", Parsers.FixSyntax(@"{{cite journal| author=Smith | title=Great Book | DOI=15478454 | date=17 May 2004 }}"));
+        
+            // don't match on URL
+            string URL = @"{{cite news|url=http://www.expressbuzz.com/edition/story.aspx?Title=Catching++them+young&artid=rPwTAv2l2BY=&SectionID=fxm0uEWnVpc=&MainSectionID=ngGbWGz5Z14=&SectionName=RtFD/|pZbbWSsbI0jf3F5Q==&SEO=|title=Catching them young|date=August 7, 2009|publisher=[[The Indian Express]]|accessdate=2009-08-07}}";
+            Assert.AreEqual(URL, Parsers.FixSyntax(URL));
+        
         }
 
         [Test]
