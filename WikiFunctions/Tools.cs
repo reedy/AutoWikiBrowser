@@ -223,7 +223,7 @@ namespace WikiFunctions
             }
             lastName = TurnFirstToUpper(lastName.ToLower());
 
-            name = (lastName + ", " + name + ", " + suffix).Trim(" ,".ToCharArray());
+            name = (lastName + ", " + (name.Length > 0 ? name + ", " : "") + suffix).Trim(" ,".ToCharArray());
 
             // set correct casing
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Correct_case_for_.25.25key.25.25
