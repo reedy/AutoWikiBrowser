@@ -755,6 +755,8 @@ Jones", "*"));
             Assert.AreEqual("Doe", Tools.MakeHumanCatKey("Ďöê"));
             Assert.AreEqual("Doe, John", Tools.MakeHumanCatKey("Ĵǒħń Ďöê"));
 
+            Assert.AreEqual(@"Gu, Prince Imperial Hoeun", Tools.MakeHumanCatKey("Gu, Prince Imperial Hoeun"));
+
             // Ё should be changed, but not Й
             Assert.AreEqual("Епрстий", Tools.MakeHumanCatKey("Ёпрстий"));
         }
