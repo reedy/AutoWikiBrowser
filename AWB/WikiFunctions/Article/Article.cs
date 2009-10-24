@@ -412,6 +412,11 @@ namespace WikiFunctions
             return Parsers.UnbalancedBrackets(ArticleText, ref bracketLength);
         }
 
+        public int BadCiteWeb(ref int parameterLength)
+        {
+            return Parsers.BadCiteParameters(ArticleText, ref parameterLength);
+        }
+
         /// <summary>
         /// Remove, replace or comment out a specified image
         /// </summary>

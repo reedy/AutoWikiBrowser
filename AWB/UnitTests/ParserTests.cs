@@ -61,7 +61,6 @@ namespace UnitTests
     [TestFixture]
     public class FootnotesTests : RequiresInitialization
     {
-
         [Test]
         public void PrecededByEqualSign()
         {
@@ -496,6 +495,17 @@ End of." + f));
             Assert.AreEqual(@"Foo<ref name=Jones>Jones 2005 extra words of interest</ref> and bar<ref name=""Jones""/> and bar2<ref name=""Jones""/>",
                 Parsers.SameRefDifferentName(@"Foo<ref name=Jones>Jones 2005 extra words of interest</ref> and bar<ref name=Jones>2</ref> and bar2<ref name=Jones>3</ref>"));
 
+        }
+
+        [Test]
+        public void BadCiteParameters()
+        {
+            int len = 0;
+            Assert.AreEqual(15, Parsers.BadCiteParameters(@"now {{cite web|foo=bar|date=2009}} was", ref len));
+            Assert.AreEqual(3, len);
+
+            Assert.AreEqual(15, Parsers.BadCiteParameters(@"now {{cite web|foodoo=bar|date=2009}} was", ref len));
+            Assert.AreEqual(6, len);
         }
     }
 
@@ -4731,6 +4741,8 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
             Assert.AreEqual(@"{{Article issues|wikify=May 2008|POV=May 2008|Expand=June 2008|Expand=June 2009}}", Parsers.Conversions(@"{{Article issues|wikify=May 2008|POV=May 2008|Expand=June 2008|Expand=June 2009}}"));
         }
+
+
 
         [Test]
         public void CitationNeededRedirectTests()

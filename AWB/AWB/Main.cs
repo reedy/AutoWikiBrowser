@@ -706,7 +706,7 @@ namespace AutoWikiBrowser
         }
 
         // counts number of redirects so that we catch double redirects
-        private int _redirects, _unbalancedBracket, _bracketLength;
+        private int _redirects, _unbalancedBracket, _bracketLength, _badCiteParameter, _badCiteParameterLength;
 
         private void SkipRedirect(string redirectTitle, string reason)
         {
@@ -996,15 +996,20 @@ namespace AutoWikiBrowser
                 }
                 else
                 {
-                    if (_unbalancedBracket < 0)
+                    if (_unbalancedBracket < 0 && _badCiteParameter == 0)
                         btnSave.Focus();
                     else if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
                     {
                         EditBoxTab.SelectedTab = tpEdit;
 
-                        HighlightUnbalancedBrackets();
+                        if (_unbalancedBracket >= 0)
+                            HighlightUnbalancedBrackets();
+
+                        if (_badCiteParameter > 0)
+                            HighlightBadCitationParameter();
                     }
                 }
+
                 StatusLabelText = "Ready to save";
             }
             else
@@ -2311,6 +2316,10 @@ window.scrollTo(0, diffTopY);
                 if (_unbalancedBracket > 0)
                     warnings.AppendLine("Unbalanced brackets found");
 
+                _badCiteParameter = TheArticle.BadCiteWeb(ref _badCiteParameterLength);
+                if (_badCiteParameter > 0)
+                    warnings.AppendLine("Invalid citation parameter found");
+
                 lblWords.Text = "Words: " + intWords;
                 lblCats.Text = "Categories: " + intCats;
                 lblImages.Text = "Images: " + intImages;
@@ -3303,9 +3312,13 @@ window.scrollTo(0, diffTopY);
 
             txtEdit.Text = a.ArticleText;
 
-            if (_unbalancedBracket >= 0 && scrollToUnbalancedBracketsToolStripMenuItem.Checked)
+            if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
             {
-                HighlightUnbalancedBrackets();
+                if (_unbalancedBracket >= 0)
+                    HighlightUnbalancedBrackets();
+
+                if (_badCiteParameter > 0)
+                    HighlightBadCitationParameter();
             }
 
             if (syntaxHighlightEditBoxToolStripMenuItem.Checked)
@@ -4628,11 +4641,21 @@ window.scrollTo(0, diffTopY);
 
         private void HighlightUnbalancedBrackets()
         {
+            RedSelection(_unbalancedBracket, _bracketLength);
+        }
+
+        private void HighlightBadCitationParameter()
+        {
+            RedSelection(_badCiteParameter, _badCiteParameterLength);
+        }
+
+        private void RedSelection(int index, int length)
+        {
             // indexes in articleText and txtEdit.Edit are offset by the number of newlines before the index of the unbalanced brackets
             // so allow for this when highlighting the unbalanced bracket
-            string a = txtEdit.Text.Substring(0, _unbalancedBracket);
+            string a = txtEdit.Text.Substring(0, index);
             int b = Regex.Matches(a, "\n").Count;
-            txtEdit.SetEditBoxSelection(_unbalancedBracket - b, _bracketLength);
+            txtEdit.SetEditBoxSelection(index - b, length);
             txtEdit.SelectionBackColor = Color.Red;
         }
 
