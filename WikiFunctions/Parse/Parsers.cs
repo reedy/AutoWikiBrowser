@@ -1077,6 +1077,30 @@ namespace WikiFunctions.Parse
             return newText;
         }
 
+        public static int BadCiteParameters(string articleText, ref int parameterLength)
+        {
+            Regex CiteWeb = new Regex(@"{{\s*[Cc]ite ?web\s*\|[^{}]+}}");
+
+            Regex Param = new Regex(@"\|\s*([a-z_]+)\s*=\s*([^\|}]{3,})");
+
+            Regex GoodParam = new Regex(@"\b(first|last|author|authorlink|coauthors|title|url|archiveurl|work|publisher|location|page|pages|language|trans_title|format|doi|date|month|year|archivedate|accessdate|quote|ref|separator|postscript)\b");
+
+            foreach (Match m in CiteWeb.Matches(articleText))
+            {
+
+                foreach (Match m2 in Param.Matches(m.Value))
+                {
+                    if (!GoodParam.IsMatch(m2.Groups[1].Value) && m2.Groups[2].Value.Trim().Length > 2)
+                    {
+                        parameterLength = m2.Groups[1].Length;
+                        return (m.Index + m2.Groups[1].Index);
+                    }
+                }
+            }
+            parameterLength = 0;
+            return 0;
+        }
+
         private const string SiCitStart = @"(?si)(\{\{\s*cit[^{}]*\|\s*";
         private const string CitAccessdate = SiCitStart + @"(?:access|archive)date\s*=\s*";
         private const string CitDate = SiCitStart + @"(?:archive|air)?date2?\s*=\s*";
