@@ -927,7 +927,7 @@ namespace AutoWikiBrowser
 
             if (!Abort)
             {
-                bool diffInBotMode = (toolStripDiffInBotMode.Enabled && toolStripDiffInBotMode.Checked);
+                bool diffInBotMode = (toolStripDiffInBotMode.Enabled && toolStripDiffInBotMode.Checked && BotMode);
                 if (BotMode)
                 {
                     StartDelayedAutoSaveTimer();
