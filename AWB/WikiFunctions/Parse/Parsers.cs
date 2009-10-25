@@ -3821,7 +3821,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             bool alreadyUncertain = false;
 
             // scrape any infobox for birth year
-            string fromInfoBox = GetInfoBoxFieldValue(zerothSection, @"(?:[Yy]earofbirth|Born|birth_?date)");
+            string fromInfoBox = GetInfoBoxFieldValue(zerothSection, @"(?:(?:[Yy]ear|[Dd]ate)ofbirth|Born|birth_?date)");
 
             if (fromInfoBox.Length > 0 && !UncertainWordings.IsMatch(fromInfoBox))
                 yearFromInfoBox = YearPossiblyWithBC.Match(fromInfoBox).Value;
@@ -3878,7 +3878,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
 
             // scrape any infobox
             yearFromInfoBox = "";
-            fromInfoBox = GetInfoBoxFieldValue(articleText, @"(?:[Yy]earofdeath|Died|death_?date)");
+            fromInfoBox = GetInfoBoxFieldValue(articleText, @"(?:(?:[Yy]ear|[Dd]ate)ofdeath|Died|death_?date)");
 
             if (fromInfoBox.Length > 0 && !UncertainWordings.IsMatch(fromInfoBox))
                 yearFromInfoBox = YearPossiblyWithBC.Match(fromInfoBox).Value;

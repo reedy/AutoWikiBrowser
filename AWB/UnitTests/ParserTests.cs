@@ -1014,12 +1014,32 @@ died 2002
 |alma_mater      = 
 |occupation      =brickmason, mercha
 
+}} {{persondata}}", infob1a = @"{{Infobox Officeholder
+|honorific-prefix   = 
+|name            = John C. Zimmerman, Sr.
+|term_start       = 1895
+|term_end         = 1896
+|predecessor      = [[Arthur C. McCall]]
+|successor        = [[Samuel C. Randall]]
+|dateofbirth     = May 12, 1835
+|birth_place     = [[Free City of Frankfurt]]
+|dateofdeath= October 26, 1935
+|death_place=      
+|restingplace = Glenwood Cemetery, Flint
+|restingplacecoordinates = 
+|alma_mater      = 
+|occupation      =brickmason, mercha
+
 }} {{persondata}}";
 
             // scraped from infobox
             Assert.AreEqual(infob1 + @"
 [[Category:1835 births]]
 [[Category:1935 deaths]]", Parsers.FixPeopleCategories(infob1, "foo"));
+
+            Assert.AreEqual(infob1a + @"
+[[Category:1835 births]]
+[[Category:1935 deaths]]", Parsers.FixPeopleCategories(infob1a, "foo"));
 
             Assert.AreEqual(infob2 + @"
 [[Category:193 BC births]]
