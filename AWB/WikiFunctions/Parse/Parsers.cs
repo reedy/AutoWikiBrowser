@@ -1974,7 +1974,12 @@ namespace WikiFunctions.Parse
 
                     // {{Category: ?
                     articleTextTemp = articleTextTemp.Replace("{{" + Variables.Namespaces[Namespace.Category], "[[" + Variables.Namespaces[Namespace.Category]);
-                    articleTextTemp = QuadrupleCurlyBrackets.Replace(articleTextTemp, "$1");                  
+                    articleTextTemp = QuadrupleCurlyBrackets.Replace(articleTextTemp, "$1");     
+             
+                    // defaultsort missing }} at end
+                    string defaultsort = WikiRegexes.Defaultsort.Match(articleTextTemp).Value;
+                    if (!string.IsNullOrEmpty(defaultsort))
+                        articleTextTemp = articleTextTemp.Replace(defaultsort.TrimEnd(), defaultsort.TrimEnd() + "}}");
                 }
 
                 unbalancedBracket = UnbalancedBrackets(articleTextTemp, ref bracketLength);

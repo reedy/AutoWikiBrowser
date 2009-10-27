@@ -1729,6 +1729,10 @@ Some artists represented by Zach Feuer Gallery are [[Phoebe Washburn]], [[Jules 
 
             //  IndexOutOfRangeException bug
             Assert.AreEqual(@"] now", Parsers.FixSyntax(@"] now"));
+
+            Assert.AreEqual(@"{{DEFAULTSORT:hello}}
+now", Parsers.FixSyntax(@"{{DEFAULTSORT:hello
+now"));
         }
 
         [Test]
