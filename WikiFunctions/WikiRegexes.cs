@@ -92,7 +92,7 @@ namespace WikiFunctions
                     ? "(?:(?i:defaultsort(key|CATEGORYSORT)?))"
                     : "(?i:defaultsort)";
 
-            Defaultsort = new Regex(TemplateStart + s + @"\s*[:|](?<key>[^\}]*)}}",
+            Defaultsort = new Regex(TemplateStart + s + @"\s*[:|](?<key>[^\}\r\n]*?)(?:}}|\r|\n)",
                                     RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 
             //if (Variables.URL == Variables.URLLong)
