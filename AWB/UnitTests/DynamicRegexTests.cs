@@ -71,11 +71,6 @@ namespace UnitTests
         }
 
         [Test, Ignore("Incomplete")]
-        public void DefaultsortTests()
-        {
-        }
-
-        [Test, Ignore("Incomplete")]
         public void ExtractTitleTests()
         {
         }
@@ -113,6 +108,22 @@ namespace UnitTests
 
             Regex mong = new Regex(WikiRegexes.MonthsNoGroup);
             Assert.AreEqual("", mong.Match(@"in January there").Groups[1].Value);
+        }
+
+        [Test]
+        public void DefaultsortTests()
+        {
+            RegexAssert.IsMatch(WikiRegexes.Defaultsort, "{{DEFAULTSORT:foo}}");
+            RegexAssert.IsMatch(WikiRegexes.Defaultsort, "{{DEFAULTSORT:foo bar}}");
+
+            RegexAssert.IsMatch(WikiRegexes.Defaultsort, @"{{DEFAULTSORT:foo
+");
+
+
+            Assert.AreEqual("{{DEFAULTSORT:foo}}", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo}}").Value);
+            Assert.AreEqual("{{DEFAULTSORT:foo\r", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo
+now").Value);
+
         }
     }
 }
