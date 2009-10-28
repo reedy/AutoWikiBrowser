@@ -1401,7 +1401,7 @@ namespace AutoWikiBrowser
             this.scrollToUnbalancedBracketsToolStripMenuItem.CheckOnClick = true;
             this.scrollToUnbalancedBracketsToolStripMenuItem.Name = "scrollToUnbalancedBracketsToolStripMenuItem";
             this.scrollToUnbalancedBracketsToolStripMenuItem.Size = new System.Drawing.Size(304, 22);
-            this.scrollToUnbalancedBracketsToolStripMenuItem.Text = "Highlight first unbalanced &brackets if found";
+            this.scrollToUnbalancedBracketsToolStripMenuItem.Text = "Highlight errors if found";
             this.scrollToUnbalancedBracketsToolStripMenuItem.Click += new System.EventHandler(this.scrollToUnbalancedBracketsToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
