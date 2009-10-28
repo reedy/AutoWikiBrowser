@@ -802,7 +802,7 @@ namespace AutoWikiBrowser
                 return;
             }
 
-            if (!preParseModeToolStripMenuItem.Checked && SkipChecks(!chkSkipAfterProcessing.Checked)) // normal mode, pre-processing of article
+            if (SkipChecks(!chkSkipAfterProcessing.Checked)) // pre-processing of article
                 return;
 
             //check not in use
@@ -893,9 +893,6 @@ namespace AutoWikiBrowser
 
             if (preParseModeToolStripMenuItem.Checked)
             {
-                if (SkipChecks())
-                    return;
-
                 // if we reach here the article has valid changes, so move on to next article
 
                 // if user has loaded a settings file, save it every 10 ignored edits
