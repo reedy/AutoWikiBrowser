@@ -32,7 +32,7 @@ namespace WikiFunctions.Parse
     //TODO:Move regexes declared in method bodies (if not dynamic based on article title, etc), into class body
 
     /// <summary>
-    /// Provides functions for editting wiki text, such as formatting and re-categorisation.
+    /// Provides functions for editing wiki text, such as formatting and re-categorisation.
     /// </summary>
     public class Parsers
     {
