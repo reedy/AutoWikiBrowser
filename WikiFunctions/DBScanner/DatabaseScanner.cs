@@ -314,7 +314,7 @@ namespace WikiFunctions.DBScanner
                 {
                     TimeSpan endTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute,
                                 DateTime.Now.Second, DateTime.Now.Millisecond).Subtract(StartTime);
-                    MessageBox.Show(lbArticles.Items.Count + " matches in " + endTime.ToString().TrimEnd('0'));
+                    lblCount.Text += " in " + endTime.ToString().TrimEnd('0');
                 }
 
                 Main = null;
