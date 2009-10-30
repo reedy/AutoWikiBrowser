@@ -571,6 +571,11 @@ namespace AutoWikiBrowser
             {
                 HandleLogoff();
             }
+            else if (ex is CaptchaException)
+            {
+                MessageBox.Show("Captcha required, is the user account autoconfirmed etc?", "Captcha Required");
+                Stop();
+            }
             else
             {
                 Stop();
