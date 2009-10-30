@@ -72,7 +72,15 @@ namespace WikiFunctions.API
         {
             ResponseText = xml;
             var xr = XmlReader.Create(new StringReader(xml));
-            xr.ReadToFollowing("edit");
+            if (xr.ReadToFollowing("warnings"))
+            {
+                xr.ReadToNextSibling("edit");
+            }
+            else
+            {
+                xr.ReadToFollowing("edit");
+            }
+
             // result="Success" should already be checked before
             NoChange = xr.GetAttribute("nochange") != null;
             IsNewPage = xr.GetAttribute("new") != null;
