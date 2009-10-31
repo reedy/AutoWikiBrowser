@@ -1978,7 +1978,7 @@ namespace WikiFunctions.Parse
              
                     // defaultsort missing }} at end
                     string defaultsort = WikiRegexes.Defaultsort.Match(articleTextTemp).Value;
-                    if (!string.IsNullOrEmpty(defaultsort))
+                    if (!string.IsNullOrEmpty(defaultsort) && !defaultsort.Contains("}}"))
                         articleTextTemp = articleTextTemp.Replace(defaultsort.TrimEnd(), defaultsort.TrimEnd() + "}}");
                 }
 
