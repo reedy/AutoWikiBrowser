@@ -167,6 +167,7 @@ namespace UnitTests
         public void WikiLinksOnly()
         {
             TestMatch(WikiRegexes.WikiLinksOnly, "[[foo]]", "[[foo]]");
+            TestMatch(WikiRegexes.WikiLinksOnly, "[[:foo]]", "[[:foo]]");
             TestMatch(WikiRegexes.WikiLinksOnly, "[[a:foo]]", "[[a:foo]]");
             TestMatch(WikiRegexes.WikiLinksOnly, "[[FOO:BAR]]", "[[FOO:BAR]]");
             TestMatch(WikiRegexes.WikiLinksOnly, "[[foo bar:world series]]", "[[foo bar:world series]]");
@@ -188,6 +189,8 @@ namespace UnitTests
             TestMatches(WikiRegexes.WikiLinksOnly, "[[Category:Test]]", 0);
             TestMatches(WikiRegexes.WikiLinksOnly, "[[de:Test]]", 0);
             TestMatches(WikiRegexes.WikiLinksOnly, "[[Image:Test,]]", 0);
+
+            //Assert.AreEqual("Test", WikiRegexes.WikiLinksOnly.Matches("[[Test]]")[0].Groups[1].Value);
         }
 
         [Test]
