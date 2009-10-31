@@ -307,9 +307,7 @@ namespace WikiFunctions.Background
             {
                 if (HasUI) UI.Status = "Loading links";
 
-                //TODO:Known broken, needs replacing for a regex that matches piped and unpiped, but not images/cats
-                //One group for the target, and one group (if not null || empty) for the text
-                MatchCollection links = WikiRegexes.PipedWikiLink.Matches(StrParam);
+                MatchCollection links = WikiRegexes.WikiLinksOnlyPossiblePipe.Matches(StrParam);
 
                 if (HasUI)
                 {
@@ -321,9 +319,10 @@ namespace WikiFunctions.Background
 
                 foreach (Match m in links)
                 {
-                    //make link
                     string link = m.Value;
                     string article = m.Groups[1].Value;
+
+                    // if the link is unpiped, use the target as the new link's pipe text
                     string linkText = (!string.IsNullOrEmpty(m.Groups[2].Value)) ? m.Groups[2].Value : article;
 
                     string ftu = Tools.TurnFirstToUpper(article);
