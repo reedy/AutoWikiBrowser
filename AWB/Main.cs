@@ -94,6 +94,7 @@ namespace AutoWikiBrowser
 
         private ListComparer Comparer;
         private ListSplitter Splitter;
+        private WikiFunctions.DBScanner.DatabaseScanner DBScanner;
 
         List<TypoStat> TypoStats;
 
@@ -391,7 +392,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        private int _listComparerUseCurrentArticleList, _listSplitterUseCurrentArticleList;
+        private int _listComparerUseCurrentArticleList, _listSplitterUseCurrentArticleList, _dbScannerUseCurrentArticleList;
 
         private bool _flash, _beep;
 
@@ -2520,7 +2521,8 @@ window.scrollTo(0, diffTopY);
                                             PrefSuppressUsingAWB = _suppressUsingAWB,
 
                                             PrefListComparerUseCurrentArticleList = _listComparerUseCurrentArticleList,
-                                            PrefListSplitterUseCurrentArticleList = _listSplitterUseCurrentArticleList
+                                            PrefListSplitterUseCurrentArticleList = _listSplitterUseCurrentArticleList,
+                                            PrefDBScannerUseCurrentArticleList = _dbScannerUseCurrentArticleList
                                         };
 
             if (myPrefs.ShowDialog(this) == DialogResult.OK)
@@ -2541,6 +2543,7 @@ window.scrollTo(0, diffTopY);
 
                 _listComparerUseCurrentArticleList = myPrefs.PrefListComparerUseCurrentArticleList;
                 _listSplitterUseCurrentArticleList = myPrefs.PrefListSplitterUseCurrentArticleList;
+                _dbScannerUseCurrentArticleList = myPrefs.PrefDBScannerUseCurrentArticleList;
 
                 if (myPrefs.Language != Variables.LangCode || myPrefs.Project != Variables.Project
                     || (myPrefs.CustomProject != Variables.CustomProject))
@@ -2913,7 +2916,7 @@ window.scrollTo(0, diffTopY);
         {
             switch (_listComparerUseCurrentArticleList)
             {
-                case 0:
+                case 0: //Ask
                     if (listMaker.Count > 0 &&
                         MessageBox.Show("Would you like to copy your current Article List to the ListComparer?",
                                         "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -2921,10 +2924,10 @@ window.scrollTo(0, diffTopY);
                     else
                         Comparer = new ListComparer();
                     break;
-                case 1:
+                case 1: //Always
                     Comparer = new ListComparer(listMaker.GetArticleList());
                     break;
-                case 2:
+                case 2: //Never
                     Comparer = new ListComparer();
                     break;
             }
@@ -2938,7 +2941,7 @@ window.scrollTo(0, diffTopY);
 
             switch (_listSplitterUseCurrentArticleList)
             {
-                case 0:
+                case 0: //Ask
                     if (listMaker.Count > 0 &&
                         MessageBox.Show("Would you like to copy your current Article List to the ListSplitter?",
                                         "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -2947,11 +2950,11 @@ window.scrollTo(0, diffTopY);
                     else
                         Splitter = new ListSplitter(p, WikiFunctions.AWBSettings.UserPrefs.SavePluginSettings(p));
                     break;
-                case 1:
+                case 1: //Always
                     Splitter = new ListSplitter(p, WikiFunctions.AWBSettings.UserPrefs.SavePluginSettings(p),
                                                 listMaker.GetArticleList());
                     break;
-                case 2:
+                case 2: //Never
                     Splitter = new ListSplitter(p, WikiFunctions.AWBSettings.UserPrefs.SavePluginSettings(p));
                     break;
             }
@@ -2966,13 +2969,24 @@ window.scrollTo(0, diffTopY);
 
         private void LaunchDumpSearcher()
         {
-            WikiFunctions.DBScanner.DatabaseScanner ds =
-                MessageBox.Show("Would you like the results to be added to the ListMaker Article List?",
-                                "Add to ListMaker?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
-                DialogResult.Yes
-                    ? listMaker.DBScanner()
-                    : new WikiFunctions.DBScanner.DatabaseScanner();
-            ds.Show();
+            switch(_dbScannerUseCurrentArticleList)
+            {
+                case 0: //Ask
+                    DBScanner = (MessageBox.Show("Would you like the results to be added to the ListMaker Article List?",
+                                          "Add to ListMaker?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
+                          DialogResult.Yes)
+                             ? listMaker.DBScanner()
+                             : new WikiFunctions.DBScanner.DatabaseScanner();
+                    break;
+                case 1: //Always
+                    DBScanner = listMaker.DBScanner();
+                    break;
+                case 2: //Never
+                    DBScanner = new WikiFunctions.DBScanner.DatabaseScanner();
+                    break;
+            }
+
+            DBScanner.Show();
             UpdateButtons(null, null);
         }
 
