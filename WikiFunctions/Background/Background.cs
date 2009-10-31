@@ -286,7 +286,7 @@ namespace WikiFunctions.Background
         }
 
         /// <summary>
-        /// 
+        /// checks wikilinks to make them bypass redirects 
         /// </summary>
         private void BypassRedirectsFunc()
         {//checks links to make them bypass redirects and (TODO) disambigs
