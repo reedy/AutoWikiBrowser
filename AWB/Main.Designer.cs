@@ -153,9 +153,6 @@ namespace AutoWikiBrowser
             this.bypassRedirectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.automaticallyDoAnythingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator31 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripDiffInBotMode = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripComboOnLoad = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
             this.focusAtEndOfEditTextBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.noSectionEditSummaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.restrictDefaultsortChangesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1236,21 +1233,21 @@ namespace AutoWikiBrowser
             // loadPluginToolStripMenuItem
             // 
             this.loadPluginToolStripMenuItem.Name = "loadPluginToolStripMenuItem";
-            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.loadPluginToolStripMenuItem.Text = "&Load...";
             this.loadPluginToolStripMenuItem.Click += new System.EventHandler(this.loadPluginToolStripMenuItem_Click);
             // 
             // managePluginsToolStripMenuItem
             // 
             this.managePluginsToolStripMenuItem.Name = "managePluginsToolStripMenuItem";
-            this.managePluginsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.managePluginsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.managePluginsToolStripMenuItem.Text = "&Manager...";
             this.managePluginsToolStripMenuItem.Click += new System.EventHandler(this.managePluginsToolStripMenuItem_Click);
             // 
             // toolStripSeparator26
             // 
             this.toolStripSeparator26.Name = "toolStripSeparator26";
-            this.toolStripSeparator26.Size = new System.Drawing.Size(127, 6);
+            this.toolStripSeparator26.Size = new System.Drawing.Size(149, 6);
             // 
             // ToolStripMenuGeneral
             // 
@@ -1263,9 +1260,6 @@ namespace AutoWikiBrowser
             this.bypassRedirectsToolStripMenuItem,
             this.automaticallyDoAnythingToolStripMenuItem,
             this.toolStripSeparator31,
-            this.toolStripDiffInBotMode,
-            this.toolStripComboOnLoad,
-            this.toolStripSeparator21,
             this.focusAtEndOfEditTextBoxToolStripMenuItem,
             this.noSectionEditSummaryToolStripMenuItem,
             this.restrictDefaultsortChangesToolStripMenuItem,
@@ -1327,7 +1321,9 @@ namespace AutoWikiBrowser
             // 
             // automaticallyDoAnythingToolStripMenuItem
             // 
+            this.automaticallyDoAnythingToolStripMenuItem.Checked = true;
             this.automaticallyDoAnythingToolStripMenuItem.CheckOnClick = true;
+            this.automaticallyDoAnythingToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.automaticallyDoAnythingToolStripMenuItem.Name = "automaticallyDoAnythingToolStripMenuItem";
             this.automaticallyDoAnythingToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
             this.automaticallyDoAnythingToolStripMenuItem.Text = "Apply &changes automatically";
@@ -1336,29 +1332,6 @@ namespace AutoWikiBrowser
             // 
             this.toolStripSeparator31.Name = "toolStripSeparator31";
             this.toolStripSeparator31.Size = new System.Drawing.Size(298, 6);
-            // 
-            // toolStripDiffInBotMode
-            // 
-            this.toolStripDiffInBotMode.CheckOnClick = true;
-            this.toolStripDiffInBotMode.Name = "toolStripDiffInBotMode";
-            this.toolStripDiffInBotMode.Size = new System.Drawing.Size(301, 22);
-            this.toolStripDiffInBotMode.Text = "Preview the Diff in Bot Mode";
-            // 
-            // toolStripComboOnLoad
-            // 
-            this.toolStripComboOnLoad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.toolStripComboOnLoad.Items.AddRange(new object[] {
-            "On load: Show changes",
-            "On load: Show preview",
-            "On load: Show edit page"});
-            this.toolStripComboOnLoad.Name = "toolStripComboOnLoad";
-            this.toolStripComboOnLoad.Size = new System.Drawing.Size(160, 23);
-            this.toolStripComboOnLoad.SelectedIndexChanged += new System.EventHandler(this.toolStripComboOnLoad_SelectedIndexChanged);
-            // 
-            // toolStripSeparator21
-            // 
-            this.toolStripSeparator21.Name = "toolStripSeparator21";
-            this.toolStripSeparator21.Size = new System.Drawing.Size(298, 6);
             // 
             // focusAtEndOfEditTextBoxToolStripMenuItem
             // 
@@ -4332,7 +4305,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem convertFromTalkPagesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bypassAllRedirectsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openHistoryMenuItem;
-        private System.Windows.Forms.ToolStripComboBox toolStripComboOnLoad;
         private System.Windows.Forms.ToolStripMenuItem summariesToolStripMenuItem;
         private System.Windows.Forms.NotifyIcon ntfyTray;
         private System.Windows.Forms.ContextMenuStrip mnuNotify;
@@ -4590,8 +4562,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem profileTyposToolStripMenuItem;
         private System.Windows.Forms.ToolStripComboBox addToWatchList;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator31;
-        private System.Windows.Forms.ToolStripMenuItem toolStripDiffInBotMode;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator21;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator29;
         private System.Windows.Forms.ToolStripMenuItem invalidateCacheToolStripMenuItem;

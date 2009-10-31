@@ -320,6 +320,18 @@ namespace AutoWikiBrowser
             get { return cmboDBScanner.SelectedIndex; }
             set { cmboDBScanner.SelectedIndex = value; }
         }
+
+        public int PrefOnLoad
+        {
+            get { return cmboOnLoad.SelectedIndex; }   
+            set { cmboOnLoad.SelectedIndex = value;}
+        }
+
+        public bool PrefDiffInBotMode
+        {
+            get { return chkDiffInBotMode.Checked; }
+            set { chkDiffInBotMode.Checked = value; }
+        }
         #endregion
 
         private void chkAutoSaveEdit_CheckedChanged(object sender, EventArgs e)
@@ -373,6 +385,11 @@ namespace AutoWikiBrowser
             }
 
             if (save) Properties.Settings.Default.Save();
+        }
+
+        private void cmboOnLoad_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            chkDiffInBotMode.Enabled = (cmboOnLoad.SelectedIndex == 0);
         }
     }
 }

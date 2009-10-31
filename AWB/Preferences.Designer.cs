@@ -66,12 +66,17 @@ namespace AutoWikiBrowser
             this.lblPrivacy = new System.Windows.Forms.Label();
             this.tbPrefs = new System.Windows.Forms.TabControl();
             this.tabGeneral = new System.Windows.Forms.TabPage();
+            this.chkDiffInBotMode = new System.Windows.Forms.CheckBox();
+            this.cmboOnLoad = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.tabSite = new System.Windows.Forms.TabPage();
             this.chkPHP5Ext = new System.Windows.Forms.CheckBox();
             this.chkIgnoreNoBots = new System.Windows.Forms.CheckBox();
             this.tabEditing = new System.Windows.Forms.TabPage();
             this.chkShowTimer = new System.Windows.Forms.CheckBox();
             this.tabTools = new System.Windows.Forms.TabPage();
+            this.cmboDBScanner = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.cmboListSplitter = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.cmboListComparer = new System.Windows.Forms.ComboBox();
@@ -79,8 +84,6 @@ namespace AutoWikiBrowser
             this.tabPrivacy = new System.Windows.Forms.TabPage();
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.lblSaveAsDefaultFile = new System.Windows.Forms.Label();
-            this.cmboDBScanner = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.AutoSaveEditBoxGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudEditBoxAutosave)).BeginInit();
             this.tbPrefs.SuspendLayout();
@@ -422,6 +425,9 @@ namespace AutoWikiBrowser
             // 
             // tabGeneral
             // 
+            this.tabGeneral.Controls.Add(this.chkDiffInBotMode);
+            this.tabGeneral.Controls.Add(this.cmboOnLoad);
+            this.tabGeneral.Controls.Add(this.label4);
             this.tabGeneral.Controls.Add(this.chkMinimize);
             this.tabGeneral.Controls.Add(this.chkLowPriority);
             this.tabGeneral.Controls.Add(this.chkSaveArticleList);
@@ -433,6 +439,38 @@ namespace AutoWikiBrowser
             this.tabGeneral.TabIndex = 4;
             this.tabGeneral.Text = "General";
             this.tabGeneral.UseVisualStyleBackColor = true;
+            // 
+            // chkDiffInBotMode
+            // 
+            this.chkDiffInBotMode.AutoSize = true;
+            this.chkDiffInBotMode.Location = new System.Drawing.Point(8, 125);
+            this.chkDiffInBotMode.Name = "chkDiffInBotMode";
+            this.chkDiffInBotMode.Size = new System.Drawing.Size(161, 17);
+            this.chkDiffInBotMode.TabIndex = 7;
+            this.chkDiffInBotMode.Text = "Preview the Diff in Bot Mode";
+            this.chkDiffInBotMode.UseVisualStyleBackColor = true;
+            // 
+            // cmboOnLoad
+            // 
+            this.cmboOnLoad.FormattingEnabled = true;
+            this.cmboOnLoad.Items.AddRange(new object[] {
+            "Show changes",
+            "Show preview",
+            "Show edit page"});
+            this.cmboOnLoad.Location = new System.Drawing.Point(58, 98);
+            this.cmboOnLoad.Name = "cmboOnLoad";
+            this.cmboOnLoad.Size = new System.Drawing.Size(121, 21);
+            this.cmboOnLoad.TabIndex = 6;
+            this.cmboOnLoad.SelectedIndexChanged += new System.EventHandler(this.cmboOnLoad_SelectedIndexChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(5, 101);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(47, 13);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "On load:";
             // 
             // tabSite
             // 
@@ -520,6 +558,27 @@ namespace AutoWikiBrowser
             this.tabTools.Text = "Tools";
             this.tabTools.UseVisualStyleBackColor = true;
             // 
+            // cmboDBScanner
+            // 
+            this.cmboDBScanner.FormattingEnabled = true;
+            this.cmboDBScanner.Items.AddRange(new object[] {
+            "Ask",
+            "Always",
+            "Never"});
+            this.cmboDBScanner.Location = new System.Drawing.Point(227, 66);
+            this.cmboDBScanner.Name = "cmboDBScanner";
+            this.cmboDBScanner.Size = new System.Drawing.Size(121, 21);
+            this.cmboDBScanner.TabIndex = 5;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 69);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(215, 13);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Add current article list to Database Scanner:";
+            // 
             // cmboListSplitter
             // 
             this.cmboListSplitter.FormattingEnabled = true;
@@ -583,27 +642,6 @@ namespace AutoWikiBrowser
             this.lblSaveAsDefaultFile.Size = new System.Drawing.Size(205, 13);
             this.lblSaveAsDefaultFile.TabIndex = 1;
             this.lblSaveAsDefaultFile.Text = "\"Save settings as default\" to retain values";
-            // 
-            // cmboDBScanner
-            // 
-            this.cmboDBScanner.FormattingEnabled = true;
-            this.cmboDBScanner.Items.AddRange(new object[] {
-            "Ask",
-            "Always",
-            "Never"});
-            this.cmboDBScanner.Location = new System.Drawing.Point(227, 66);
-            this.cmboDBScanner.Name = "cmboDBScanner";
-            this.cmboDBScanner.Size = new System.Drawing.Size(121, 21);
-            this.cmboDBScanner.TabIndex = 5;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 69);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(215, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Add current article list to Database Scanner:";
             // 
             // MyPreferences
             // 
@@ -690,5 +728,8 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cmboDBScanner;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox cmboOnLoad;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.CheckBox chkDiffInBotMode;
     }
 }

@@ -358,8 +358,8 @@ namespace AutoWikiBrowser
                         noMOSComplianceFixes = noMOSComplianceFixesToolStripMenuItem.Checked,
                         syntaxHighlightEditBox = syntaxHighlightEditBoxToolStripMenuItem.Checked,
                         NoAutoChanges = !automaticallyDoAnythingToolStripMenuItem.Checked,
-                        OnLoadAction = toolStripComboOnLoad.SelectedIndex,
-                        DiffInBotMode = toolStripDiffInBotMode.Checked,
+                        OnLoadAction = actionOnLoad,
+                        DiffInBotMode = doDiffInBotMode,
                         Minor = chkMinor.Checked,
                         AddToWatchlist = addToWatchList.SelectedIndex,
                         TimerEnabled = ShowMovingAverageTimer,
@@ -590,8 +590,8 @@ namespace AutoWikiBrowser
             noMOSComplianceFixesToolStripMenuItem.Checked = p.General.noMOSComplianceFixes;
             syntaxHighlightEditBoxToolStripMenuItem.Checked = p.General.syntaxHighlightEditBox;
             automaticallyDoAnythingToolStripMenuItem.Checked = !p.General.NoAutoChanges;
-            toolStripComboOnLoad.SelectedIndex = p.General.OnLoadAction;
-            toolStripDiffInBotMode.Checked = p.General.DiffInBotMode;
+            actionOnLoad = p.General.OnLoadAction;
+            doDiffInBotMode = p.General.DiffInBotMode;
             chkMinor.Checked = p.General.Minor;
             addToWatchList.SelectedIndex = p.General.AddToWatchlist;
             ShowMovingAverageTimer = p.General.TimerEnabled;
