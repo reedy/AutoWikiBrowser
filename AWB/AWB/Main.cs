@@ -3121,10 +3121,12 @@ window.scrollTo(0, diffTopY);
 
         private void bypassAllRedirectsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+#if !DEBUG
             if (MessageBox.Show("Replacement of links to redirects with direct links is strongly discouraged, " +
                 "however it could be useful in some circumstances. Are you sure you want to continue?",
                 "Bypass redirects", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
                 return;
+#endif
 
             BackgroundRequest r = new BackgroundRequest();
 
@@ -3133,7 +3135,7 @@ window.scrollTo(0, diffTopY);
             r.Wait();
             Enabled = true;
 
-            txtEdit.Text = (string)r.Result;
+            txtEdit.Text = (string) r.Result;
         }
 
         private void unicodifyToolStripMenuItem_Click(object sender, EventArgs e)
