@@ -194,6 +194,39 @@ namespace UnitTests
         }
 
         [Test]
+        public void WikiLinksOnlyPossiblePipe()
+        {
+            TestMatch(WikiRegexes.WikiLinksOnlyPossiblePipe, "[[foo]]", "[[foo]]");
+            TestMatch(WikiRegexes.WikiLinksOnlyPossiblePipe, "[[:foo]]", "[[:foo]]");
+            TestMatch(WikiRegexes.WikiLinksOnlyPossiblePipe, "[[a:foo]]", "[[a:foo]]");
+            TestMatch(WikiRegexes.WikiLinksOnlyPossiblePipe, "[[FOO:BAR]]", "[[FOO:BAR]]");
+            TestMatch(WikiRegexes.WikiLinksOnlyPossiblePipe, "[[foo bar:world series]]", "[[foo bar:world series]]");
+            TestMatch(WikiRegexes.WikiLinksOnlyPossiblePipe, "[[foo bar]]", "[[foo bar]]");
+            TestMatches(WikiRegexes.WikiLinksOnlyPossiblePipe, "[[foo\r\nbar]]", 0);
+            TestMatches(WikiRegexes.WikiLinksOnlyPossiblePipe, "[foo]]", 0);
+
+            TestMatch(WikiRegexes.WikiLinksOnlyPossiblePipe, "[[foo|bar]]", "[[foo|bar]]");
+            TestMatch(WikiRegexes.WikiLinksOnlyPossiblePipe, "[[foo]] [[bar]]", "[[foo]]");
+            TestMatches(WikiRegexes.WikiLinksOnlyPossiblePipe, "[[foo]] [[bar]]", 2);
+
+            TestMatch(WikiRegexes.WikiLinksOnlyPossiblePipe, "[[foo]]]", "[[foo]]");
+            TestMatch(WikiRegexes.WikiLinksOnlyPossiblePipe, "[[[foo]]", "[[foo]]");
+
+            TestMatches(WikiRegexes.WikiLinksOnlyPossiblePipe, "[[foo[]]", 0);
+            TestMatch(WikiRegexes.WikiLinksOnlyPossiblePipe, "[[foo [[bar]] here]", "[[bar]]");
+
+            // don't consider Categories, Images and IW to be "WikiLinks Only"
+            TestMatches(WikiRegexes.WikiLinksOnlyPossiblePipe, "[[Category:Test]]", 0);
+            TestMatches(WikiRegexes.WikiLinksOnlyPossiblePipe, "[[de:Test]]", 0);
+            TestMatches(WikiRegexes.WikiLinksOnlyPossiblePipe, "[[Image:Test,]]", 0);
+
+            Assert.AreEqual("foo", WikiRegexes.WikiLinksOnlyPossiblePipe.Match("[[foo|bar]]").Groups[1].Value);
+            Assert.AreEqual("foo", WikiRegexes.WikiLinksOnlyPossiblePipe.Match("[[foo]]").Groups[1].Value);
+            Assert.AreEqual("foo smith:the great", WikiRegexes.WikiLinksOnlyPossiblePipe.Match("[[foo smith:the great|bar]]").Groups[1].Value);
+            Assert.AreEqual("bar here", WikiRegexes.WikiLinksOnlyPossiblePipe.Match("[[foo|bar here]]").Groups[2].Value);
+        }
+
+        [Test]
         public void DeadLinkTests()
         {
             TestMatch(WikiRegexes.DeadLink, "{{dead link}}", "{{dead link}}");
@@ -230,6 +263,9 @@ namespace UnitTests
             TestMatch(WikiRegexes.PipedWikiLink, "[[foo\r\n|bar]]", false);
             TestMatch(WikiRegexes.PipedWikiLink, "[[foo]] | bar]]", false);
             TestMatch(WikiRegexes.PipedWikiLink, "[[foo | [[bar]]", false);
+
+            Assert.AreEqual("foo", WikiRegexes.PipedWikiLink.Match("[[foo|bar]]").Groups[1].Value);
+            Assert.AreEqual("bar", WikiRegexes.PipedWikiLink.Match("[[foo|bar]]").Groups[2].Value);
         }
 
         [Test]
