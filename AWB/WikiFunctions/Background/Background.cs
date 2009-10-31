@@ -320,7 +320,7 @@ namespace WikiFunctions.Background
                 foreach (Match m in links)
                 {
                     string link = m.Value;
-                    string article = m.Groups[1].Value;
+                    string article = m.Groups[1].Value.TrimStart(new[] {':'});
 
                     // if the link is unpiped, use the target as the new link's pipe text
                     string linkText = (!string.IsNullOrEmpty(m.Groups[2].Value)) ? m.Groups[2].Value : article;
