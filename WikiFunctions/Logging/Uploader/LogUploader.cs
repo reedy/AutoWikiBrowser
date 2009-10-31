@@ -128,7 +128,7 @@ namespace WikiFunctions.Logging.Uploader
                                {
                                    Article = uploadToNoSpaces,
                                    DiffLink = editor.URL + "index.php?oldid=" + save.NewId + "&diff=prev",
-                                   ResponseText = save.ResponseText
+                                   ResponseText = save.ResponseXml.OuterXml
                                });
             }
             catch (Exception ex)
@@ -200,7 +200,7 @@ namespace WikiFunctions.Logging.Uploader
                 {
                     Article = logEntry.Location,
                     DiffLink = editor.URL + "index.php?oldid=" + save.NewId + "&diff=prev",
-                    ResponseText = save.ResponseText
+                    ResponseText = save.ResponseXml.OuterXml
                 };
 
                 try

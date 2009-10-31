@@ -588,9 +588,9 @@ namespace WikiFunctions.API
                 },
                 ActionOptions.All);
 
-            CheckForErrors(result, "edit");
+            var xml = CheckForErrors(result, "edit");
             Reset();
-            return new SaveInfo(result);
+            return new SaveInfo(xml);
         }
 
         public void Delete(string title, string reason)
