@@ -307,66 +307,28 @@ namespace WikiFunctions.Background
             {
                 if (HasUI) UI.Status = "Loading links";
 
-                MatchCollection simple = WikiRegexes.WikiLinksOnly.Matches(StrParam);
-                MatchCollection piped = WikiRegexes.PipedWikiLink.Matches(StrParam);
+                //TODO:Known broken, needs replacing for a regex that matches piped and unpiped, but not images/cats
+                //One group for the target, and one group (if not null || empty) for the text
+                MatchCollection links = WikiRegexes.PipedWikiLink.Matches(StrParam);
 
                 if (HasUI)
                 {
                     UI.Status = "Processing links";
 
-                    UI.SetProgress(0, simple.Count + piped.Count);
+                    UI.SetProgress(0, links.Count);
                 }
                 int n = 0;
-                string link, article;
-                foreach (Match m in simple)
+
+                foreach (Match m in links)
                 {
                     //make link
-                    link = m.Value;
-                    article = m.Groups[1].Value;
+                    string link = m.Value;
+                    string article = m.Groups[1].Value;
+                    string linkText = (!string.IsNullOrEmpty(m.Groups[2].Value)) ? m.Groups[2].Value : article;
 
-                    if (!knownLinks.ContainsKey(Tools.TurnFirstToUpper(article)))
-                    {
-                        //get text
-                        string text;
-                        try
-                        {
-                            text = editor.Open(article);
-                        }
-                        catch
-                        {
-                            continue;
-                        }
+                    string ftu = Tools.TurnFirstToUpper(article);
 
-                        string dest = article;
-
-                        //test if redirect
-                        if (Tools.IsRedirect(text))
-                        {
-                            dest = HttpUtility.UrlDecode(Tools.RedirectTarget(text).Replace("_", " "));
-                            string directLink = "[[" + dest + "|" + article + "]]";
-
-                            StrParam = StrParam.Replace(link, directLink);
-                        }
-                        knownLinks.Add(Tools.TurnFirstToUpper(article), Tools.TurnFirstToUpper(dest));
-                    }
-                    else if (knownLinks[Tools.TurnFirstToUpper(article)] != Tools.TurnFirstToUpper(article))
-                    {
-                        string directLink = "[[" + knownLinks[Tools.TurnFirstToUpper(article)] + "|" + article + "]]";
-
-                        StrParam = StrParam.Replace(link, directLink);
-                    }
-                    n++;
-                    if (HasUI) UI.SetProgress(n, simple.Count + piped.Count);
-                }
-
-                foreach (Match m in piped)
-                {
-                    //make link
-                    link = m.Value;
-                    article = m.Groups[1].Value;
-                    string linkText = m.Groups[2].Value;
-
-                    if (!knownLinks.ContainsKey(Tools.TurnFirstToUpper(article)))
+                    if (!knownLinks.ContainsKey(ftu))
                     {
                         //get text
                         string text;
@@ -389,18 +351,17 @@ namespace WikiFunctions.Background
 
                             StrParam = StrParam.Replace(link, directLink);
                         }
-                        knownLinks.Add(Tools.TurnFirstToUpper(article), Tools.TurnFirstToUpper(dest));
+                        knownLinks.Add(ftu, Tools.TurnFirstToUpper(dest));
                     }
-                    else if (knownLinks[Tools.TurnFirstToUpper(article)] != Tools.TurnFirstToUpper(article))
+                    else if (knownLinks[ftu] != ftu)
                     {
-                        string directLink = "[[" + knownLinks[Tools.TurnFirstToUpper(article)] + "|" + linkText + "]]";
+                        string directLink = "[[" + knownLinks[ftu] + "|" + linkText + "]]";
 
                         StrParam = StrParam.Replace(link, directLink);
                     }
                     n++;
-                    if (HasUI) UI.SetProgress(n, simple.Count + piped.Count);
+                    if (HasUI) UI.SetProgress(n, links.Count);
                 }
-
 
                 Result = StrParam;
                 InvokeOnComplete();
