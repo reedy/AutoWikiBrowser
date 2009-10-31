@@ -71,6 +71,9 @@ namespace AutoWikiBrowser
         private bool PageReload;
         private int SameArticleNudges;
 
+        private int actionOnLoad;
+        private bool doDiffInBotMode;
+
         private readonly HideText RemoveText = new HideText(false, true, false);
         private readonly List<string> NoParse = new List<string>();
         private readonly FindandReplace FindAndReplace = new FindandReplace();
@@ -156,7 +159,7 @@ namespace AutoWikiBrowser
                     ErrorHandler.Handle(ex);
                 }
 
-                toolStripComboOnLoad.SelectedIndex = 0;
+                actionOnLoad = 0;
                 addToWatchList.SelectedIndex = 3;
                 cmboCategorise.SelectedIndex = 0;
                 cmboImages.SelectedIndex = 0;
@@ -930,7 +933,7 @@ namespace AutoWikiBrowser
 
             if (!Abort)
             {
-                bool diffInBotMode = (toolStripDiffInBotMode.Enabled && toolStripDiffInBotMode.Checked && BotMode);
+                bool diffInBotMode = (BotMode && doDiffInBotMode);
                 if (BotMode)
                 {
                     StartDelayedAutoSaveTimer();
@@ -939,7 +942,7 @@ namespace AutoWikiBrowser
                         return;
                 }
 
-                switch (toolStripComboOnLoad.SelectedIndex)
+                switch (actionOnLoad)
                 {
                     case 0:
                         GetDiff();
@@ -2522,7 +2525,10 @@ window.scrollTo(0, diffTopY);
 
                                             PrefListComparerUseCurrentArticleList = _listComparerUseCurrentArticleList,
                                             PrefListSplitterUseCurrentArticleList = _listSplitterUseCurrentArticleList,
-                                            PrefDBScannerUseCurrentArticleList = _dbScannerUseCurrentArticleList
+                                            PrefDBScannerUseCurrentArticleList = _dbScannerUseCurrentArticleList,
+
+                                            PrefDiffInBotMode = doDiffInBotMode,
+                                            PrefOnLoad = actionOnLoad
                                         };
 
             if (myPrefs.ShowDialog(this) == DialogResult.OK)
@@ -2544,6 +2550,9 @@ window.scrollTo(0, diffTopY);
                 _listComparerUseCurrentArticleList = myPrefs.PrefListComparerUseCurrentArticleList;
                 _listSplitterUseCurrentArticleList = myPrefs.PrefListSplitterUseCurrentArticleList;
                 _dbScannerUseCurrentArticleList = myPrefs.PrefDBScannerUseCurrentArticleList;
+
+                doDiffInBotMode = myPrefs.PrefDiffInBotMode;
+                actionOnLoad = myPrefs.PrefOnLoad;
 
                 if (myPrefs.Language != Variables.LangCode || myPrefs.Project != Variables.Project
                     || (myPrefs.CustomProject != Variables.CustomProject))
@@ -4699,11 +4708,6 @@ window.scrollTo(0, diffTopY);
         private void chkSkipCaseSensitive_CheckedChanged(object sender, EventArgs e)
         {
             InvalidateSkipChecks();
-        }
-
-        private void toolStripComboOnLoad_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            toolStripDiffInBotMode.Enabled = (toolStripComboOnLoad.SelectedIndex == 0);
         }
 
         private void openXML_FileOk(object sender, CancelEventArgs e)
