@@ -65,33 +65,30 @@ namespace WikiFunctions.API
         /// <summary>
         /// 
         /// </summary>
-        public string ResponseText
+        public XmlDocument ResponseXml
         { get; private set; }
 
-        internal SaveInfo(string xml)
+        internal SaveInfo(XmlDocument doc)
         {
-            ResponseText = xml;
-            var xr = XmlReader.Create(new StringReader(xml));
-            if (xr.ReadToFollowing("warnings"))
-            {
-                xr.ReadToNextSibling("edit");
-            }
-            else
-            {
-                xr.ReadToFollowing("edit");
-            }
+            ResponseXml = doc;
 
-            // result="Success" should already be checked before
-            NoChange = xr.GetAttribute("nochange") != null;
-            IsNewPage = xr.GetAttribute("new") != null;
-            Title = xr.GetAttribute("title");
-            PageId = int.Parse(xr.GetAttribute("pageid"));
+            try 
+            {
+                var edit = doc["api"]["edit"];
 
-            int rev;
-            int.TryParse(xr.GetAttribute("newrevid"), out rev); // will be absent on null edits
-            NewId = rev;
-            int.TryParse(xr.GetAttribute("oldrevid"), out rev); // will be absent on page creation too
-            OldId = rev;
+                NoChange = edit.HasAttribute("nochange");
+                IsNewPage = edit.HasAttribute("new");
+                Title = edit.GetAttribute("title");
+                PageId = int.Parse(edit.GetAttribute("pageid"));
+
+                int rev;
+                int.TryParse(edit.GetAttribute("newrevid"), out rev); // will be absent on null edits
+                NewId = rev;
+                int.TryParse(edit.GetAttribute("oldrevid"), out rev); // will be absent on page creation too
+                OldId = rev;
+            }
+            catch
+            { }
         }
     }
 }
