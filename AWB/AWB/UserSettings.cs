@@ -292,8 +292,8 @@ namespace AutoWikiBrowser
                         AppendText = chkAppend.Checked,
                         Append = !rdoPrepend.Checked,
                         Text = txtAppendMessage.Text,
-                        Newlines = (int)udNewlineChars.Value,
-                        AutoDelay = (int)nudBotSpeed.Value,
+                        Newlines = (int) udNewlineChars.Value,
+                        AutoDelay = (int) nudBotSpeed.Value,
                         SupressTag = chkSuppressTag.Checked,
                         RegexTypoFix = chkRegExTypo.Checked
                     },
@@ -365,7 +365,7 @@ namespace AutoWikiBrowser
                         TimerEnabled = ShowMovingAverageTimer,
                         SortListAlphabetically = sortAlphabeticallyToolStripMenuItem.Checked,
                         AddIgnoredToLog = Article.AddUsingAWBOnArticleAction,
-                        TextBoxSize = (int)txtEdit.Font.Size,
+                        TextBoxSize = (int) txtEdit.Font.Size,
                         TextBoxFont = txtEdit.Font.Name,
                         LowThreadPriority = LowThreadPriority,
                         Beep = _beep,
@@ -395,7 +395,7 @@ namespace AutoWikiBrowser
                         Enabled = chkEnableDab.Checked,
                         Link = txtDabLink.Text,
                         Variants = txtDabVariants.Lines,
-                        ContextChars = (int)udContextChars.Value
+                        ContextChars = (int) udContextChars.Value
                     },
 
                 new ModulePrefs
@@ -412,7 +412,8 @@ namespace AutoWikiBrowser
                 new ToolsPrefs
                     {
                         ListComparerUseCurrentArticleList = _listComparerUseCurrentArticleList,
-                        ListSplitterUseCurrentArticleList = _listSplitterUseCurrentArticleList
+                        ListSplitterUseCurrentArticleList = _listSplitterUseCurrentArticleList,
+                        DatabaseScannerUseCurrentArticleList = _dbScannerUseCurrentArticleList
                     },
 
                 Plugin.AWBPlugins
@@ -642,6 +643,7 @@ namespace AutoWikiBrowser
 
             _listComparerUseCurrentArticleList = p.Tool.ListComparerUseCurrentArticleList;
             _listSplitterUseCurrentArticleList = p.Tool.ListSplitterUseCurrentArticleList;
+            _dbScannerUseCurrentArticleList = p.Tool.DatabaseScannerUseCurrentArticleList;
 
             foreach (PluginPrefs pp in p.Plugin)
             {

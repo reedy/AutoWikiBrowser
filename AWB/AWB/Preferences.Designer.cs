@@ -79,6 +79,8 @@ namespace AutoWikiBrowser
             this.tabPrivacy = new System.Windows.Forms.TabPage();
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.lblSaveAsDefaultFile = new System.Windows.Forms.Label();
+            this.cmboDBScanner = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.AutoSaveEditBoxGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudEditBoxAutosave)).BeginInit();
             this.tbPrefs.SuspendLayout();
@@ -504,6 +506,8 @@ namespace AutoWikiBrowser
             // 
             // tabTools
             // 
+            this.tabTools.Controls.Add(this.cmboDBScanner);
+            this.tabTools.Controls.Add(this.label3);
             this.tabTools.Controls.Add(this.cmboListSplitter);
             this.tabTools.Controls.Add(this.label2);
             this.tabTools.Controls.Add(this.cmboListComparer);
@@ -523,7 +527,7 @@ namespace AutoWikiBrowser
             "Ask",
             "Always",
             "Never"});
-            this.cmboListSplitter.Location = new System.Drawing.Point(202, 39);
+            this.cmboListSplitter.Location = new System.Drawing.Point(227, 39);
             this.cmboListSplitter.Name = "cmboListSplitter";
             this.cmboListSplitter.Size = new System.Drawing.Size(121, 21);
             this.cmboListSplitter.TabIndex = 3;
@@ -544,7 +548,7 @@ namespace AutoWikiBrowser
             "Ask",
             "Always",
             "Never"});
-            this.cmboListComparer.Location = new System.Drawing.Point(202, 12);
+            this.cmboListComparer.Location = new System.Drawing.Point(227, 12);
             this.cmboListComparer.Name = "cmboListComparer";
             this.cmboListComparer.Size = new System.Drawing.Size(121, 21);
             this.cmboListComparer.TabIndex = 1;
@@ -579,6 +583,27 @@ namespace AutoWikiBrowser
             this.lblSaveAsDefaultFile.Size = new System.Drawing.Size(205, 13);
             this.lblSaveAsDefaultFile.TabIndex = 1;
             this.lblSaveAsDefaultFile.Text = "\"Save settings as default\" to retain values";
+            // 
+            // cmboDBScanner
+            // 
+            this.cmboDBScanner.FormattingEnabled = true;
+            this.cmboDBScanner.Items.AddRange(new object[] {
+            "Ask",
+            "Always",
+            "Never"});
+            this.cmboDBScanner.Location = new System.Drawing.Point(227, 66);
+            this.cmboDBScanner.Name = "cmboDBScanner";
+            this.cmboDBScanner.Size = new System.Drawing.Size(121, 21);
+            this.cmboDBScanner.TabIndex = 5;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 69);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(215, 13);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Add current article list to Database Scanner:";
             // 
             // MyPreferences
             // 
@@ -663,5 +688,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cmboListSplitter;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox cmboDBScanner;
+        private System.Windows.Forms.Label label3;
     }
 }

@@ -467,6 +467,7 @@ namespace WikiFunctions.AWBSettings
     {
         public int ListComparerUseCurrentArticleList;
         public int ListSplitterUseCurrentArticleList;
+        public int DatabaseScannerUseCurrentArticleList;
     }
 
     [Serializable]
