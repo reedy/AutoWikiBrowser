@@ -2519,7 +2519,8 @@ window.scrollTo(0, diffTopY);
                                             PrefAddUsingAWBOnArticleAction = Article.AddUsingAWBOnArticleAction,
                                             PrefSuppressUsingAWB = _suppressUsingAWB,
 
-                                            PrefListComparerUseCurrentArticleList = _listComparerUseCurrentArticleList
+                                            PrefListComparerUseCurrentArticleList = _listComparerUseCurrentArticleList,
+                                            PrefListSplitterUseCurrentArticleList = _listSplitterUseCurrentArticleList
                                         };
 
             if (myPrefs.ShowDialog(this) == DialogResult.OK)
