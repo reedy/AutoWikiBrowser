@@ -814,7 +814,7 @@ namespace WikiFunctions.Parse
                             oldRefName = refname;
                         }
                    
-                        Regex a = new Regex(@"<\s*ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(oldRefName) + @"(?:""|')?\s*(?=/\s*>|>" + Regex.Escape(refvalue) + @"</ref>)");
+                        Regex a = new Regex(@"<\s*ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(oldRefName) + @"(?:""|')?\s*(?=/\s*>|>\s*" + Regex.Escape(refvalue) + @"\s*</ref>)");
 
                         articleText = a.Replace(articleText, @"<ref name=""" + newRefName + @"""");
                     }
