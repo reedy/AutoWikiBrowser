@@ -20,12 +20,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text.RegularExpressions;
 using ICSharpCode.SharpZipLib.Zip;
 
 namespace AWBPackager
 {
     class Program
     {
+        static readonly Regex SvnVersion = new Regex(@"""(\d+).*?""", RegexOptions.Compiled);
+
         static void Main()
         {
             string tmp = "temp\\";
@@ -47,19 +50,23 @@ Is this SVN (1) or a release (2)? ");
                     return;
                 }
 
-                if (selection == 1)
-                {
-                    Console.Write("Please enter the current SVN revision: ");
-                    string svnRev = Console.ReadLine();
-                    filename += "_rev" + svnRev;
-                }
-
-                filename += ".zip";
-
                 string awbDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase).Replace("file:\\", "");
                 tmp = awbDir + "\\" + tmp;
                 awbDir = awbDir.Remove(awbDir.IndexOf("Extras"));
                 Directory.CreateDirectory(tmp);
+
+                if (selection == 1)
+                {
+                    using (StreamReader reader = new StreamReader(awbDir + "\\WikiFunctions\\SvnInfo.cs"))
+                    {
+                        string text = reader.ReadToEnd();
+                        filename += "_rev" + SvnVersion.Match(text).Groups[1].Value;
+
+                        reader.Close();
+                    }
+                }
+
+                filename += ".zip";
 
                 string currFolder = awbDir + "AWB\\bin\\Release\\";
 
