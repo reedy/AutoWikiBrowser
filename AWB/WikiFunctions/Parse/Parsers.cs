@@ -1668,6 +1668,8 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex AccessdateTypo = new Regex(@"(\{\{\s*cit[^{}]*?\|\s*)ac(?:(?:ess?s?|cc?es|cess[es]|ccess)date|cessda[ry]e|c?essdat|cess(?:daste|ate))(\s*=\s*)", RegexOptions.IgnoreCase);
 
+        private static readonly Regex PublisherTypo = new Regex(@"(?<={{\s*[Cc]it[ae][^{}\|]*?\|(?:[^{}]+\|)?\s*)(?:p(?:u[ns]|oub)lisher|publihser|pub(?:lication)?|pubslisher|puablisher|publicher|ublisher|publsiher|pusliher|pblisher|publsher|pubilsher|publishet|puiblisher|puplisher|publiisher|publiser|pulisher|publishser|pulbisher|publisber|publoisher|publishier)(\s*=)", RegexOptions.Compiled);
+        
         private static readonly Regex AccessdateSynonyms = new Regex(@"(?<={{\s*[Cc]it[ae][^{}]*?\|\s*)(?:\s*date\s*)?(?:retrieved(?:\s+on)?|(?:last|date) *accessed|access\s+date)(?=\s*=\s*)", RegexOptions.Compiled);
 
         private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{(?:[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)|[Cc]itation)\b\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(?<!(?:IS[BS]N|DOI|PMID))(\s*=\s*[^{}\|]{3,})", RegexOptions.Compiled);
@@ -1775,6 +1777,8 @@ namespace WikiFunctions.Parse
             articleText = CellpaddingTypo.Replace(articleText, "$1cellpadding");
 
             articleText = AccessdateTypo.Replace(articleText, "$1accessdate$2");
+
+            articleText = PublisherTypo.Replace(articleText, @"publisher$1");
 
             articleText = AccessdateSynonyms.Replace(articleText, "accessdate");
 
