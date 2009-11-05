@@ -1487,6 +1487,9 @@ namespace WikiFunctions.Parse
 
             // trailing spaces within ref
             new RegexReplacement(new Regex(@" +</ref>"), "</ref>"),
+
+            // empty <ref>...</ref> tags
+            new RegexReplacement(new Regex(@"<ref>\s*</ref>"), ""),
         };
         // Covered by TestFixReferenceTags
         /// <summary>
