@@ -836,13 +836,13 @@ namespace WikiFunctions.Parse
                 string refname = m.Groups[2].Value;
                 string refvalue = m.Groups[3].Value;
 
-                Regex ShortNamedReferences = new Regex(@"(<\s*ref\s+name\s*=\s*(?:""|')?(" + Regex.Escape(refname) + @")(?:""|')?\s*>\s*([^<>]{1,9}?)\s*<\s*/\s*ref>)");
+                Regex ShortNamedReferences = new Regex(@"(<\s*ref\s+name\s*=\s*(?:""|')?(" + Regex.Escape(refname) + @")(?:""|')?\s*>\s*([^<>]{1,9}?|\[?[Ss]ee above\]?)\s*<\s*/\s*ref>)");
 
                 foreach (Match m2 in ShortNamedReferences.Matches(articleText))
                 {
                     string refvalue2 = m2.Groups[3].Value;
 
-                    if (refvalue.Length > 30 && refvalue2.Length < 10)
+                    if (refvalue.Length > 30)
                         articleText = articleText.Replace(m2.Value, @"<ref name=""" + refname + @"""/>");
                 }
             } 
