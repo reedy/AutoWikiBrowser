@@ -158,6 +158,7 @@ namespace AutoWikiBrowser
             this.restrictDefaultsortChangesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.noMOSComplianceFixesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.syntaxHighlightEditBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.highlightAllFindToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scrollToUnbalancedBracketsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.markAllAsMinorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1265,6 +1266,7 @@ namespace AutoWikiBrowser
             this.restrictDefaultsortChangesToolStripMenuItem,
             this.noMOSComplianceFixesToolStripMenuItem,
             this.syntaxHighlightEditBoxToolStripMenuItem,
+            this.highlightAllFindToolStripMenuItem,
             this.scrollToUnbalancedBracketsToolStripMenuItem,
             this.toolStripSeparator6,
             this.markAllAsMinorToolStripMenuItem,
@@ -1368,6 +1370,13 @@ namespace AutoWikiBrowser
             this.syntaxHighlightEditBoxToolStripMenuItem.Name = "syntaxHighlightEditBoxToolStripMenuItem";
             this.syntaxHighlightEditBoxToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
             this.syntaxHighlightEditBoxToolStripMenuItem.Text = "Highlight s&yntax in edit box";
+            //
+            // highlightAllFindToolStripMenuItem
+            //
+            this.highlightAllFindToolStripMenuItem.CheckOnClick = true;
+            this.highlightAllFindToolStripMenuItem.Name = "highlightAllFindToolStripMenuItem";
+            this.highlightAllFindToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
+            this.highlightAllFindToolStripMenuItem.Text = "Highlight Find matches";
             // 
             // scrollToUnbalancedBracketsToolStripMenuItem
             // 
@@ -4497,6 +4506,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem restrictDefaultsortChangesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem noMOSComplianceFixesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem syntaxHighlightEditBoxToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem highlightAllFindToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem scrollToUnbalancedBracketsToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.GroupBox gbPageExisting;

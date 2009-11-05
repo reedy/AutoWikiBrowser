@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Drawing;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace WikiFunctions.Controls
@@ -143,6 +144,35 @@ namespace WikiFunctions.Controls
             }
             Focus();
             ScrollToCaret();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="strRegex"></param>
+        /// <param name="isRegex"></param>
+        /// <param name="caseSensitive"></param>
+        /// <param name="articleName"></param>
+        public Dictionary<int, int> FindAll(string strRegex, bool isRegex, bool caseSensitive, string articleName)
+        {
+            string articleText = RawText;
+
+            Dictionary<int, int> Founds = new Dictionary<int, int>();
+
+            RegexOptions regOptions = caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase;
+
+            strRegex = Tools.ApplyKeyWords(articleName, strRegex);
+
+            if (!isRegex)
+                strRegex = Regex.Escape(strRegex);
+
+            RegexObj = new Regex(strRegex, regOptions);
+            foreach (Match MatchObj in RegexObj.Matches(articleText))
+            {
+                Founds.Add(MatchObj.Index, MatchObj.Length);
+            }
+
+            return Founds;
         }
 
         /// <summary>
