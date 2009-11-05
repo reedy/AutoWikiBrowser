@@ -342,6 +342,7 @@ namespace WikiFunctions.AWBSettings
         public bool restrictDefaultsortAddition = true;
         public bool noMOSComplianceFixes = false;
         public bool syntaxHighlightEditBox = false;
+        public bool highlightAllFind = false;
         public bool PreParseMode = false;
         public bool NoAutoChanges = false;
         public int OnLoadAction = 0;

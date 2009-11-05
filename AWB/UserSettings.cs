@@ -357,6 +357,7 @@ namespace AutoWikiBrowser
                         restrictDefaultsortAddition = restrictDefaultsortChangesToolStripMenuItem.Checked,
                         noMOSComplianceFixes = noMOSComplianceFixesToolStripMenuItem.Checked,
                         syntaxHighlightEditBox = syntaxHighlightEditBoxToolStripMenuItem.Checked,
+                        highlightAllFind = highlightAllFindToolStripMenuItem.Checked,
                         NoAutoChanges = !automaticallyDoAnythingToolStripMenuItem.Checked,
                         OnLoadAction = actionOnLoad,
                         DiffInBotMode = doDiffInBotMode,
@@ -589,6 +590,7 @@ namespace AutoWikiBrowser
             restrictDefaultsortChangesToolStripMenuItem.Checked = p.General.restrictDefaultsortAddition;
             noMOSComplianceFixesToolStripMenuItem.Checked = p.General.noMOSComplianceFixes;
             syntaxHighlightEditBoxToolStripMenuItem.Checked = p.General.syntaxHighlightEditBox;
+            highlightAllFindToolStripMenuItem.Checked = p.General.highlightAllFind;
             automaticallyDoAnythingToolStripMenuItem.Checked = !p.General.NoAutoChanges;
             actionOnLoad = p.General.OnLoadAction;
             doDiffInBotMode = p.General.DiffInBotMode;

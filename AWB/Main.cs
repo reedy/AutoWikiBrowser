@@ -995,6 +995,9 @@ namespace AutoWikiBrowser
                     txtEdit.Visible = true;
                 }
 
+                if (highlightAllFindToolStripMenuItem.Checked)
+                    HighlightAllFind();
+
                 if (focusAtEndOfEditTextBoxToolStripMenuItem.Checked)
                 {
                     txtEdit.Select(txtEdit.Text.Length, 0);
@@ -3343,6 +3346,9 @@ window.scrollTo(0, diffTopY);
 
             txtEdit.Text = a.ArticleText;
 
+            if (highlightAllFindToolStripMenuItem.Checked)
+                HighlightAllFind();
+
             if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
             {
                 if (_unbalancedBracket >= 0)
@@ -4688,6 +4694,24 @@ window.scrollTo(0, diffTopY);
             int b = Regex.Matches(a, "\n").Count;
             txtEdit.SetEditBoxSelection(index - b, length);
             txtEdit.SelectionBackColor = Color.Red;
+        }
+
+        private void YellowSelection(int index, int length)
+        {
+            txtEdit.SetEditBoxSelection(index, length);
+            txtEdit.SelectionBackColor = Color.Yellow;
+        }
+
+        private void HighlightAllFind()
+        {
+            Dictionary<int, int> Founds = txtEdit.FindAll(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, TheArticle.Name);
+
+            foreach (KeyValuePair<int, int> a in Founds)
+                YellowSelection(a.Key, a.Value);
+
+            txtEdit.SetEditBoxSelection(0, 0);
+            txtEdit.Select(0, 0);
+            txtEdit.ScrollToCaret();
         }
 
         private void txtSkipIfContains_TextChanged(object sender, EventArgs e)
