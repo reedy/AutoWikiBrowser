@@ -780,7 +780,7 @@ namespace WikiFunctions.Parse
         /// Corrects named references where the reference is the same but the reference name is different
         /// </summary>
         /// <param name="articleText">the wiki text of the page</param>
-        /// <returns>the update wiki text</returns>
+        /// <returns>the updated wiki text</returns>
         public static string SameRefDifferentName(string articleText)
         {
             // refs with same name, but one is very short, so just change to <ref name=foo/> notation
