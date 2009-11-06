@@ -1413,13 +1413,10 @@ complementary and alternative medicine: evidence is a better friend than power. 
             // don't catch two bare links
             Assert.AreEqual(@"<ref>[http://www.nps.gov/history] [http://www.nps.gov/history/nr/travel/cumberland/ber.htm]</ref>", Parsers.FixSyntax(@"<ref>[http://www.nps.gov/history] [http://www.nps.gov/history/nr/travel/cumberland/ber.htm]</ref>"));
         }
-
-
-        [Test, Category("Incomplete")]
-        public void TestFixSyntax()
+        
+        [Test]
+        public void FixSyntaxExternalLinkBrackets()
         {
-            bool noChange;
-
             Assert.AreEqual("[http://example.com] site", Parsers.FixSyntax("[http://example.com] site"));
             Assert.AreEqual("[http://example.com] site", Parsers.FixSyntax("[[http://example.com] site"));
             Assert.AreEqual("[http://example.com] site", Parsers.FixSyntax("[http://example.com]] site"));
@@ -1428,23 +1425,15 @@ complementary and alternative medicine: evidence is a better friend than power. 
             Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://test.com]"));
             Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://http://test.com]"));
             Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://http://http://test.com]"));
-
-            Assert.AreEqual("[http://www.site.com ''my cool site'']", Parsers.FixSyntax("[http://www.site.com|''my cool site'']"));
-            Assert.AreEqual("[http://www.site.com/here/there.html ''my cool site'']", Parsers.FixSyntax("[http://www.site.com/here/there.html|''my cool site'']"));
-
-            Assert.AreEqual(@"port [http://www.atoc.org/general/ConnectingCommunitiesReport_S10.pdf ""Connecting Communities - Expanding Access to the Rail Network""] consid", 
-                Parsers.FixSyntax(@"port [[http://www.atoc.org/general/ConnectingCommunitiesReport_S10.pdf |""Connecting Communities - Expanding Access to the Rail Network""]] consid"));
-
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#NEsted_square_brackets_again.
-            Assert.AreEqual("[[Image:foo.jpg|Some [http://some_crap.com]]]",
-                            Parsers.FixSyntax("[[Image:foo.jpg|Some [http://some_crap.com]]]"));
-
-            Assert.AreEqual("Image:foo.jpg|{{{some_crap}}}]]", Parsers.FixSyntax("Image:foo.jpg|{{{some_crap}}}]]"));
-
-            Assert.AreEqual("[[somelink]]", Parsers.FixSyntax("[somelink]]"));
-            Assert.AreEqual("[[somelink]]", Parsers.FixSyntax("[[somelink]"));
-            Assert.AreNotEqual("[[somelink]]", Parsers.FixSyntax("[somelink]"));
-
+            
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#second_pair_of_brackets_added_to_https_links
+            Assert.AreEqual("[https://example.com] site", Parsers.FixSyntax("[https://example.com]] site"));
+            Assert.AreEqual("[https://example.com] site", Parsers.FixSyntax("[[https://example.com] site"));
+        }
+        
+        [Test]
+        public void FixSyntaxHTMLTags()
+        {
             Assert.AreEqual("'''foo''' bar", Parsers.FixSyntax("<b>foo</b> bar"));
             Assert.AreEqual("'''foo''' bar", Parsers.FixSyntax("< b >foo</b> bar"));
             Assert.AreEqual("'''foo''' bar", Parsers.FixSyntax("<b>foo< /b > bar"));
@@ -1454,26 +1443,34 @@ complementary and alternative medicine: evidence is a better friend than power. 
             Assert.AreEqual("''foo'' bar", Parsers.FixSyntax("< i >foo</i> bar"));
             Assert.AreEqual("''foo'' bar", Parsers.FixSyntax("<i>foo< /i > bar"));
             Assert.AreEqual("<i>foo<i> bar", Parsers.FixSyntax("<i>foo<i> bar"));
-
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Erroneously_removing_pipe
-            Assert.AreEqual("[[|foo]]", Parsers.FixSyntax("[[|foo]]"));
-
-            //Double Spaces
+        }
+        
+        [Test]
+        public void FixSyntaxSpacing()
+        {
             Assert.AreEqual("[[Foo]]", Parsers.FixSyntax("[[Foo]]"));
             Assert.AreEqual("[[Foo Bar]]", Parsers.FixSyntax("[[Foo Bar]]"));
             Assert.AreEqual("[[Foo Bar]]", Parsers.FixSyntax("[[Foo  Bar]]"));
             Assert.AreEqual("[[Foo Bar|Bar]]", Parsers.FixSyntax("[[Foo  Bar|Bar]]"));
+        }
+        
+        [Test]
+        public void FixSyntaxPipesInExternalLinks()
+        {
+            Assert.AreEqual("[http://www.site.com ''my cool site'']", Parsers.FixSyntax("[http://www.site.com|''my cool site'']"));
+            Assert.AreEqual("[http://www.site.com/here/there.html ''my cool site'']", Parsers.FixSyntax("[http://www.site.com/here/there.html|''my cool site'']"));
 
-            //TODO: move it to parts testing specific functions, when they're covered
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_4#Bug_encountered_when_perusing_Sonorous_Susurrus
-            Parsers.CanonicalizeTitle("[[|foo]]"); // shouldn't throw exceptions
-            Assert.AreEqual("[[|foo]]", Parsers.FixLinks("[[|foo]]", "bar", out noChange));
-
-            // string before and after
+            Assert.AreEqual(@"port [http://www.atoc.org/general/ConnectingCommunitiesReport_S10.pdf ""Connecting Communities - Expanding Access to the Rail Network""] consid", 
+                Parsers.FixSyntax(@"port [[http://www.atoc.org/general/ConnectingCommunitiesReport_S10.pdf |""Connecting Communities - Expanding Access to the Rail Network""]] consid"));
+        }
+        
+        [Test]
+        public void FixSyntaxHTTPFormat()
+        {
             Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http//www.site.com</ref>"));
             Assert.AreEqual("at http://www.site.com", Parsers.FixSyntax(@"at http//www.site.com"));
             Assert.AreEqual("<ref>[http://www.site.com a website]</ref>",
-                            Parsers.FixSyntax(@"<ref>[http:/www.site.com a website]</ref>"));
+                Parsers.FixSyntax(@"<ref>[http:/www.site.com a website]</ref>"));
             Assert.AreEqual("*[http://www.site.com a website]", Parsers.FixSyntax(@"*[http//www.site.com a website]"));
             Assert.AreEqual("|url=http://www.site.com", Parsers.FixSyntax(@"|url=http//www.site.com"));
             Assert.AreEqual("|url = http://www.site.com", Parsers.FixSyntax(@"|url = http:/www.site.com"));
@@ -1495,9 +1492,38 @@ complementary and alternative medicine: evidence is a better friend than power. 
             Assert.AreEqual(a, Parsers.FixSyntax(a));
 
             Assert.AreEqual("the HTTP/1.2 protocol", Parsers.FixSyntax("the HTTP/1.2 protocol"));
-            Assert.AreEqual(@"<ref>[http://cdiac.esd.ornl.gov/ftp/cdiac74/a.pdf chapter 5]</ref>", Parsers.FixSyntax(@"<ref>[http://cdiac.esd.ornl.gov/ftp/cdiac74/a.pdf chapter 5]</ref>"));
+            Assert.AreEqual(@"<ref>[http://cdiac.esd.ornl.gov/ftp/cdiac74/a.pdf chapter 5]</ref>", 
+                Parsers.FixSyntax(@"<ref>[http://cdiac.esd.ornl.gov/ftp/cdiac74/a.pdf chapter 5]</ref>"));
+        }
 
-            // <font> tag removal
+        [Test, Category("Incomplete")]
+        public void TestFixSyntax()
+        {
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#NEsted_square_brackets_again.
+            Assert.AreEqual("[[Image:foo.jpg|Some [http://some_crap.com]]]",
+                            Parsers.FixSyntax("[[Image:foo.jpg|Some [http://some_crap.com]]]"));
+
+            Assert.AreEqual("Image:foo.jpg|{{{some_crap}}}]]", Parsers.FixSyntax("Image:foo.jpg|{{{some_crap}}}]]"));
+
+            Assert.AreEqual("[[somelink]]", Parsers.FixSyntax("[somelink]]"));
+            Assert.AreEqual("[[somelink]]", Parsers.FixSyntax("[[somelink]"));
+            Assert.AreNotEqual("[[somelink]]", Parsers.FixSyntax("[somelink]"));
+            
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Erroneously_removing_pipe
+            Assert.AreEqual("[[|foo]]", Parsers.FixSyntax("[[|foo]]"));
+
+            bool noChange;
+            //TODO: move it to parts testing specific functions, when they're covered
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_4#Bug_encountered_when_perusing_Sonorous_Susurrus
+            Parsers.CanonicalizeTitle("[[|foo]]"); // shouldn't throw exceptions
+            Assert.AreEqual("[[|foo]]", Parsers.FixLinks("[[|foo]]", "bar", out noChange));
+
+            Assert.AreEqual(@"[[foo|bar]]", Parsers.FixSyntax(@"[[foo||bar]]"));
+        }
+        
+        [Test]
+        public void FixSyntaxFontTags()
+        {
             Assert.AreEqual("hello", Parsers.FixSyntax(@"<font>hello</font>"));
             Assert.AreEqual("hello", Parsers.FixSyntax(@"<font>hello</FONT>"));
             Assert.AreEqual(@"hello
@@ -1506,24 +1532,18 @@ world</font>"));
 
             // only changing font tags without properties
             Assert.AreEqual(@"<font name=ab>hello</font>", Parsers.FixSyntax(@"<font name=ab>hello</font>"));
-
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#second_pair_of_brackets_added_to_https_links
-            Assert.AreEqual("[https://example.com] site", Parsers.FixSyntax("[https://example.com]] site"));
-            Assert.AreEqual("[https://example.com] site", Parsers.FixSyntax("[[https://example.com] site"));
-
-            Assert.AreEqual(@"[[foo|bar]]", Parsers.FixSyntax(@"[[foo||bar]]"));
         }
 
         [Test]
         public void TestFixIncorrectBr()
         {
-            // fix incorrect <br>
             Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br.>"));
             Assert.AreEqual("<br />", Parsers.FixSyntax(@"<BR.>"));
             Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br\>"));
             Assert.AreEqual("<br />", Parsers.FixSyntax(@"<BR\>"));
             Assert.AreEqual("<br />", Parsers.FixSyntax(@"<\br>"));
 
+            // these are already correct
             Assert.AreEqual("<br/>", Parsers.FixSyntax(@"<br/>"));
             Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br />"));
         }
@@ -1800,7 +1820,7 @@ now"));
             // no match if value of field uppercase
             Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello | publisher=BBC}}", Parsers.FixSyntax(@"{{cite web|url=http://members.bib-arch.org|title=hello | publisher=BBC}}"));
 
-            // ISBN is allowed to be uppercase
+            // ISBN, DOI, PMID is allowed to be uppercase
             string ISBN = @"{{cite book | author=Smith | title=Great Book | ISBN=15478454 | date=17 May 2004 }}";
             Assert.AreEqual(ISBN, Parsers.FixSyntax(ISBN));
             string DOI = @"{{cite journal| author=Smith | title=Great Book | DOI=15478454 | date=17 May 2004 }}";
@@ -1809,10 +1829,9 @@ now"));
             string PMID = @"{{cite journal| author=Smith | title=Great Book | PMID=15478454 | date=17 May 2004 }}";
             Assert.AreEqual(PMID, Parsers.FixSyntax(PMID));
         
-            // don't match on URL
+            // don't match on part of URL
             string URL = @"{{cite news|url=http://www.expressbuzz.com/edition/story.aspx?Title=Catching++them+young&artid=rPwTAv2l2BY=&SectionID=fxm0uEWnVpc=&MainSectionID=ngGbWGz5Z14=&SectionName=RtFD/|pZbbWSsbI0jf3F5Q==&SEO=|title=Catching them young|date=August 7, 2009|publisher=[[The Indian Express]]|accessdate=2009-08-07}}";
-            Assert.AreEqual(URL, Parsers.FixSyntax(URL));
-        
+            Assert.AreEqual(URL, Parsers.FixSyntax(URL));        
         }
 
         [Test]
@@ -2455,7 +2474,6 @@ Some news here.", "test"));
         [Test]
         public void TestFixHeadingsDelinking()
         {
-
             // tests for regexRemoveHeadingsInLinks
             Assert.AreEqual("==foo==", Parsers.FixHeadings("==[[foo]]==", "test"));
             Assert.AreEqual("== foo ==", Parsers.FixHeadings("== [[foo]] ==", "test"));
