@@ -3740,6 +3740,18 @@ window.scrollTo(0, diffTopY);
                 articleActionLogControl1.LogArticleAction(TheArticle.Name, succeed, ArticleAction.Move, msg);
                 StatusLabelText = msg;
             }
+            catch (ApiErrorException ae)
+            {
+                if (ae.ErrorCode == "missingtitle")
+                {
+                    StatusLabelText = "Article deleted, cannot move";
+                    listMaker.Remove(TheArticle);
+
+                    articleActionLogControl1.LogArticleAction(TheArticle.Name, false, ArticleAction.Move, "Article already deleted, cannot move");
+                }
+                else
+                    ErrorHandler.Handle(ae);
+            }
             catch (Exception ex)
             {
                 ErrorHandler.Handle(ex);
@@ -3788,7 +3800,7 @@ window.scrollTo(0, diffTopY);
             {
                 if (ae.ErrorCode == "missingtitle")
                 {
-                    StatusLabelText = "Article already delete";
+                    StatusLabelText = "Article already deleted";
                     listMaker.Remove(TheArticle);
 
                     articleActionLogControl1.LogArticleAction(TheArticle.Name, false, ArticleAction.Delete, "Article already deleted");
