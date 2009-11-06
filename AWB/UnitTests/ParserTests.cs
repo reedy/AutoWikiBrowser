@@ -2902,7 +2902,7 @@ was"));
             //    Parsers.FixImages("[[image:foo_bar|http://some_link]]"));
 
             // no changes should be made to this one
-            const string Diamminesilver = @"[[Image:Diamminesilver(I)-3D-balls.png|thumb|right|200px|Ball-and-stick model of the diamminesilver(I) cation, [Ag(NH<sub>3</sub>)<sub>2</sub>]<sup>+</sup>]]"
+            const string Diamminesilver = @"[[Image:Diamminesilver(I)-3D-balls.png|thumb|right|200px|Ball-and-stick model of the diamminesilver(I) cation, [Ag(NH<sub>3</sub>)<sub>2</sub>]<sup>+</sup>]]";
             Assert.AreEqual(Diamminesilver, Parsers.FixImages(Diamminesilver));
 
             const string a = @"[[Image:End CEST Transparent.png|thumb|left|120px|
