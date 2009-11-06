@@ -1093,6 +1093,12 @@ namespace WikiFunctions.Parse
                     if (!GoodParam.IsMatch(m2.Groups[1].Value) && m2.Groups[2].Value.Trim().Length > 2)
                     {
                         parameterLength = m2.Groups[1].Length;
+
+                        System.IO.StreamWriter writer = new System.IO.StreamWriter("Module.log", true); // specifies append mode
+                        writer.WriteLine(m2.Groups[1].Value + "@@@@" + m2.Groups[2].Value); // + "@@@" + DateTime.Now
+                        writer.Close();
+
+
                         return (m.Index + m2.Groups[1].Index);
                     }
                 }
@@ -1662,7 +1668,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRemoveBr = new Regex(@"(?<!^[!\|].*)(<br[\s/]*> *){2,}", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
 
         private static readonly Regex MultipleHttpInLink = new Regex(@"([\s\[>=])((?:ht|f)tp:?/+)(\2)+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex PipedExternalLink = new Regex(@"(\[\w+://[^\]\[<>\""\s]*?)\|''", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex PipedExternalLink = new Regex(@"(\[\w+://[^\]\[<>\""\s]*?\s*)(?: +\||\|([ ']))", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private static readonly Regex MissingColonInHttpLink = new Regex(@"([\s\[>=](?:ht|f))tp//?:?(\w+)", RegexOptions.Compiled);
         private static readonly Regex SingleTripleSlashInHttpLink = new Regex(@"([\s\[>=](?:ht|f))tp:(?:/|///)(\w+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -1758,7 +1764,7 @@ namespace WikiFunctions.Parse
 
             articleText = MultipleHttpInLink.Replace(articleText, "$1$2");
 
-            articleText = PipedExternalLink.Replace(articleText, "$1 ''");
+            articleText = PipedExternalLink.Replace(articleText, "$1 $2");
 
             //repair bad external links
             articleText = SyntaxRegex6.Replace(articleText, "[$1]");
