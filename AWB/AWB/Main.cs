@@ -3784,6 +3784,18 @@ window.scrollTo(0, diffTopY);
                 StatusLabelText = msg;
                 articleActionLogControl1.LogArticleAction(TheArticle.Name, succeed, ArticleAction.Delete, msg);
             }
+            catch (ApiErrorException ae)
+            {
+                if (ae.ErrorCode == "missingtitle")
+                {
+                    StatusLabelText = "Article already delete";
+                    listMaker.Remove(TheArticle);
+
+                    articleActionLogControl1.LogArticleAction(TheArticle.Name, false, ArticleAction.Delete, "Article already deleted");
+                }
+                else
+                    ErrorHandler.Handle(ae);
+            }
             catch (Exception ex)
             {
                 ErrorHandler.Handle(ex);
