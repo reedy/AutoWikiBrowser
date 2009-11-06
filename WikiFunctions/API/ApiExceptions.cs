@@ -61,7 +61,7 @@ namespace WikiFunctions.API
             : base(editor, "API operation aborted")
         {
         }
-    };
+    }
 
     /// <summary>
     /// Thrown when an API call returned an <error> tag.
@@ -117,7 +117,7 @@ namespace WikiFunctions.API
         }
 
         public readonly string Action, Result;
-    };
+    }
 
     /// <summary>
     /// Thrown when an API call returns a zero-size reply. Most likely, this indicates a server internal error.
