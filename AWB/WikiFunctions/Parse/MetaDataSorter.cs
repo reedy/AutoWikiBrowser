@@ -323,12 +323,11 @@ en, sq, ru
         {
             List<string> categoryList = new List<string>();
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Comments_get_removed_from_between_categories
             // allow comments between categories, and keep them in the same place, but don't grab any comment just after the last category
-            Regex r = new Regex("<!-- ? ?\\[\\[" + Variables.NamespacesCaseInsensitive[Namespace.Category]
-                + ".*?(\\]\\]|\\|.*?\\]\\]).*?-->|\\[\\["
+            Regex r = new Regex(@"<!-- *\[\[" + Variables.NamespacesCaseInsensitive[Namespace.Category]
+                + @".*?(\]\]|\|.*?\]\]).*?-->|\[\["
                 + Variables.NamespacesCaseInsensitive[Namespace.Category]
-                + ".*?(\\]\\]|\\|.*?\\]\\])( {0,4}⌊⌊⌊⌊[0-9]{1,4}⌋⌋⌋⌋|\\s*<!--.*?-->(?=\r\n\\[\\[))?", RegexOptions.Singleline);
+                + @".*?(\]\]|\|.*?\]\])( {0,4}⌊⌊⌊⌊[0-9]{1,4}⌋⌋⌋⌋|\s*<!--.*?-->(?=\r\n\[\[))?", RegexOptions.Singleline);
 
             MatchCollection matches = r.Matches(articleText);
             foreach (Match m in matches)
