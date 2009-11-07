@@ -494,6 +494,14 @@ blah";
             string t = bug1a + bug1b;
 
             Assert.AreEqual(bug1a + "\r\n", parser2.Sorter.RemoveCats(ref t, "test"));
+
+            string bug1c = @"<!-- foo bar-->
+{{info}}
+text
+";
+            t = bug1c + bug1a + bug1b;
+
+            Assert.AreEqual(bug1a + "\r\n", parser2.Sorter.RemoveCats(ref t, "test"));
         }
 
         [Test]
