@@ -588,6 +588,9 @@ Jones 2005</ref>"));
             Assert.AreEqual("[[foo|bar]]", Parsers.SimplifyLinks("[[foo| bar ]]"));
             Assert.AreEqual("[[Category:foo| bar]]", Parsers.SimplifyLinks("[[Category:foo| bar]]"));
             Assert.AreEqual("[[Category:foo| bar]]", Parsers.SimplifyLinks("[[Category:foo| bar ]]"));
+            
+            // nothing to do here
+            Assert.AreEqual("[[dog|]]", Parsers.SimplifyLinks("[[dog|]]"));
         }
 
         [Test]
@@ -1121,6 +1124,11 @@ died 2002
             Assert.AreEqual(@"", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
 |  Year  =  1990  |some=where
 |other=great}} now", @"[Yy]ear"));
+            
+            // invalid regex caught
+            Assert.AreEqual(@"", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
+|  Year  =  1990  |some=where
+|other=great}} now", @"(Yy]ear"));
         }
 
         [Test]
@@ -4074,6 +4082,8 @@ foo {{persondata}}
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Fictional blah]] {{persondata|name=smith}}", "foo"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[fictional character]] {{persondata|name=smith}}", "foo"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[fictional character|character]] {{persondata|name=smith}}", "foo"));
+            
+            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{Infobox fraternity|f=a}} {{Lifetime|||smith}}", "foo"));
 
             // multiple birth dates means not about one person
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"{{nat fs player|no=1|pos=GK|name=[[Meg]]|age={{Birth date|1956|01|01}} ({{Age at date|1956|01|01|1995|6|5}})|caps=|club=|clubnat=}}
@@ -4502,6 +4512,10 @@ asdfasdf}} was here", "foo"));
             Assert.IsFalse(noChange);
 
             Assert.AreEqual("[[Category:Bar]]", Parsers.ReCategoriser("Foo", "Bar", "[[Category:Foo|key here]]", out noChange, true));
+            Assert.IsFalse(noChange);
+            
+            //
+            Assert.AreEqual(" [[Category:Bar|key]]", Parsers.ReCategoriser("Foo", "Bar", "[[Category:Foo|key]] [[Category:Bar|key]]", out noChange));
             Assert.IsFalse(noChange);
         }
 
