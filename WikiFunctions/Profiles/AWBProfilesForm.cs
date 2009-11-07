@@ -193,7 +193,15 @@ namespace WikiFunctions.Profiles
                 int id;
                 int.TryParse(lua, out id);
 
-                txtUsername.Text = (id > 0) ? AWBProfiles.GetProfile(id).Username : lua;
+                AWBProfile p = AWBProfiles.GetProfile(id);
+
+                if (p == null)
+                {
+                    txtUsername.Text = lua;
+                    return;
+                }
+
+                txtUsername.Text = (id > 0) ? p.Username : lua;
             }
         }
     }
