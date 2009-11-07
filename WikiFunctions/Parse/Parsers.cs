@@ -2009,6 +2009,9 @@ namespace WikiFunctions.Parse
         private static readonly Regex CiteTemplateLangEnglish = new Regex(@"\|\s*language\s*=\s*(?:[Ee]nglish)\s*(?=\||}})", RegexOptions.Compiled);
         private static readonly Regex CiteTemplatePagesPP = new Regex(@"(?<=\|\s*pages?\s*=\s*)pp?\.\s*(?=[^{}\|]+(?:\||}}))", RegexOptions.Compiled);
         private static readonly Regex CiteTemplateHTMLURL = new Regex(@"\|\s*url\s*=\s*[^<>{}\s\|]+?\.(?:HTML?|html?)\s*(?:\||}})", RegexOptions.Compiled);
+        private static readonly Regex CiteTemplatesJournalVolume = new Regex(@"(?<=\|s*volume\s*=\s*)vol(?:ume|\.)?(?:&nbsp;|:)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex CiteTemplatesJournalVolumeAndIssue = new Regex(@"(?<=\|s*volume\s*=[^{}\|]+?)(?:[;,]?\s*(?:no[\.:;]?|(?:number|issue|iss)\s*[:;]?))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex CiteTemplatesJournalIssue = new Regex(@"(?<=\|s*issue\s*=\s*)(?:issue|(?:nos?|iss)(?:[\.,;:]|\b)|number)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex CiteTemplates = new Regex(@"{{\s*[Cc]it[ae]((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})", RegexOptions.Compiled);
 
         /// <summary>
@@ -2036,6 +2039,14 @@ namespace WikiFunctions.Parse
                 // page= and pages= fields don't need p. or pp. in them when nopp not set
                 if(!Regex.IsMatch(newValue, @"\bnopp\s*=\s*"))
                     newValue = CiteTemplatePagesPP.Replace(newValue, "");
+
+                // correct volume=vol 7... and issue=no. 8 for {{cite journal}} only
+                if (Regex.IsMatch(newValue, @"\b[Cc]ite journal\b"))
+                {
+                    newValue = CiteTemplatesJournalVolume.Replace(newValue, "");
+                    newValue = CiteTemplatesJournalIssue.Replace(newValue, "");
+                    newValue = CiteTemplatesJournalVolumeAndIssue.Replace(newValue, @"| issue = ");
+                }
 
                 articleText = articleText.Replace(m.Value, newValue);
             }
