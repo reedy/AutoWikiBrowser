@@ -481,6 +481,19 @@ blah";
 [[Category:Defunct Illinois railroads]]";
             string s = q + r;
             Assert.AreEqual(r + "\r\n", parser2.Sorter.RemoveCats(ref s, "test"));
+
+            string bug1a = @"[[Category:Emory University]]
+[[Category:Law schools in Georgia (U.S. state)]]
+<!-- A work in progress to incorporate into nav
+[[Category:Southern Law Schools]]
+[[Category:South Atlantic Law Schools]]
+ -->", bug1b = @"
+
+{{lawschool-stub}}";
+
+            string t = bug1a + bug1b;
+
+            Assert.AreEqual(bug1a + "\r\n", parser2.Sorter.RemoveCats(ref t, "test"));
         }
 
         [Test]

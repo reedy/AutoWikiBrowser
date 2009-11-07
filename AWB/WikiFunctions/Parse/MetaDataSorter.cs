@@ -324,7 +324,7 @@ en, sq, ru
             List<string> categoryList = new List<string>();
 
             // allow comments between categories, and keep them in the same place, but don't grab any comment just after the last category
-            Regex r = new Regex(@"<!-- *\[\[" + Variables.NamespacesCaseInsensitive[Namespace.Category]
+            Regex r = new Regex(@"<!-- .*?\[\[" + Variables.NamespacesCaseInsensitive[Namespace.Category]
                 + @".*?(\]\]|\|.*?\]\]).*?-->|\[\["
                 + Variables.NamespacesCaseInsensitive[Namespace.Category]
                 + @".*?(\]\]|\|.*?\]\])( {0,4}⌊⌊⌊⌊[0-9]{1,4}⌋⌋⌋⌋|\s*<!--.*?-->(?=\r\n\[\[))?", RegexOptions.Singleline);
