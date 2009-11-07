@@ -67,7 +67,7 @@ namespace WikiFunctions
         public Article(string name)
             : this(name, Namespace.Determine(name))
         { }
-       
+
         public Article(string name, int nameSpaceKey)
             : this()
         {
@@ -164,7 +164,7 @@ namespace WikiFunctions
         /// </summary>
         [XmlIgnore]
         public string OriginalArticleText
-        { 
+        {
             get { return mPage == null ? mOriginalArticleText : mPage.Text; }
         }
 
@@ -186,7 +186,7 @@ namespace WikiFunctions
         /// </summary>
         [XmlIgnore]
         public bool HasDiacriticsInTitle
-            { get { return (Tools.RemoveDiacritics(Name) != Name);} }
+        { get { return (Tools.RemoveDiacritics(Name) != Name); } }
 
         /// <summary>
         /// returns whether the article is about a person
@@ -330,8 +330,10 @@ namespace WikiFunctions
         [XmlIgnore]
         public bool OnlyWhiteSpaceAndCasingChanged
         {
-            get { return Tools.CaseInsensitiveStringCompare(WikiRegexes.WhiteSpace.Replace(OriginalArticleText, ""),
-                WikiRegexes.WhiteSpace.Replace(mArticleText, ""));
+            get
+            {
+                return Tools.CaseInsensitiveStringCompare(WikiRegexes.WhiteSpace.Replace(OriginalArticleText, ""),
+                    WikiRegexes.WhiteSpace.Replace(mArticleText, ""));
             }
         }
 
@@ -648,7 +650,7 @@ namespace WikiFunctions
             }
         }
 
-         /// <summary>
+        /// <summary>
         /// Sets Default Sort on Article if Necessary / clean diacritics, in restricted addition mode
         /// </summary>
         /// <param name="langCode">The wiki's language code</param>
@@ -946,7 +948,7 @@ namespace WikiFunctions
 
         bool IProcessArticleEventArgs.Skip
         { get { return mPluginSkip; } set { mPluginSkip = value; } }
-        
+
         [XmlIgnore]
         public Exists Exists { get; protected set; }
 
@@ -1166,9 +1168,9 @@ namespace WikiFunctions
         {
             get { return Tools.IsRedirect(ArticleText); }
         }
-        
-        
-        private static string _lastMove = "", _lastDelete = "", _lastProtect = "" ;
+
+
+        private static string _lastMove = "", _lastDelete = "", _lastProtect = "";
         public bool Move(Session session, out string newTitle)
         {
             using (ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Move))
@@ -1182,7 +1184,7 @@ namespace WikiFunctions
                     session.Editor.SynchronousEditor.Move(Name, dlgArticleAction.NewTitle,
                                             ArticleActionSummary(dlgArticleAction), true /* probably wants dealing with on dialog*/,
                                             dlgArticleAction.NoRedirect, dlgArticleAction.Watch);
-                    
+
                     newTitle = dlgArticleAction.NewTitle;
 
                     return true;
@@ -1211,7 +1213,7 @@ namespace WikiFunctions
         }
 
         public bool Protect(Session session)
-        {                    
+        {
             using (ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Protect))
             {
                 dlgArticleAction.Summary = _lastProtect;
