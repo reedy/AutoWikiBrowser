@@ -2745,6 +2745,10 @@ text", "Talk:foo"));
 			Assert.AreEqual("55 – 57 feet", parser.Mdashes("55 - 57 feet", "test", 0));
 			Assert.AreEqual("55 – 57 foot", parser.Mdashes("55 - 57 foot", "test", 0));
 			Assert.AreEqual("long (55 – 57 in) now", parser.Mdashes("long (55 - 57 in) now", "test", 0));
+			
+			// dimensions, not range
+			const string dimensions = @"around 34-24-34 in (86-60-86&nbsp;cm) and";
+			Assert.AreEqual(dimensions, parser.Mdashes(dimensions, "test", 0));
 
 			Assert.AreEqual("$55–57", parser.Mdashes("$55-57", "test", 0));
 			Assert.AreEqual("$55 – 57", parser.Mdashes("$55 - 57", "test", 0));
