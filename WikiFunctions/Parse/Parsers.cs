@@ -2010,8 +2010,9 @@ namespace WikiFunctions.Parse
         private static readonly Regex CiteTemplatePagesPP = new Regex(@"(?<=\|\s*pages?\s*=\s*)pp?\.\s*(?=[^{}\|]+(?:\||}}))", RegexOptions.Compiled);
         private static readonly Regex CiteTemplateHTMLURL = new Regex(@"\|\s*url\s*=\s*[^<>{}\s\|]+?\.(?:HTML?|html?)\s*(?:\||}})", RegexOptions.Compiled);
         private static readonly Regex CiteTemplatesJournalVolume = new Regex(@"(?<=\|s*volume\s*=\s*)vol(?:ume|\.)?(?:&nbsp;|:)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private static readonly Regex CiteTemplatesJournalVolumeAndIssue = new Regex(@"(?<=\|s*volume\s*=[^{}\|]+?)(?:[;,]?\s*(?:no[\.:;]?|(?:number|issue|iss)\s*[:;]?))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private static readonly Regex CiteTemplatesJournalIssue = new Regex(@"(?<=\|s*issue\s*=\s*)(?:issue|(?:nos?|iss)(?:[\.,;:]|\b)|number)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex CiteTemplatesJournalVolumeAndIssue = new Regex(@"(?<=\|s*volume\s*=\s*[0-9VXMILC]+?)(?:[;,]?\s*(?:no[\.:;]?|(?:numbers?|issue|iss)\s*[:;]?))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex CiteTemplatesJournalIssue = new Regex(@"(?<=\|s*issue\s*=\s*)(?:issue|(?:nos?|iss)(?:[\.,;:]|\b)|numbers?)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex CiteTemplatesPageRange = new Regex(@"(?<=\|\s*pages?\s*=\s*(?:p?p\.?)?\s*\d+)\s*[-—]\s*(\d)", RegexOptions.Compiled);
         private static readonly Regex CiteTemplates = new Regex(@"{{\s*[Cc]it[ae]((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})", RegexOptions.Compiled);
 
         /// <summary>
@@ -2047,6 +2048,9 @@ namespace WikiFunctions.Parse
                     newValue = CiteTemplatesJournalIssue.Replace(newValue, "");
                     newValue = CiteTemplatesJournalVolumeAndIssue.Replace(newValue, @"| issue = ");
                 }
+
+                // page range should have unspaced en-dash
+                newValue = CiteTemplatesPageRange.Replace(newValue, @"–$1");
 
                 articleText = articleText.Replace(m.Value, newValue);
             }
