@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections;
@@ -167,7 +167,7 @@ namespace WikiFunctions.Parse
         private readonly List<HideObject> MoreHide = new List<HideObject>(32);
 
         /// <summary>
-        /// 
+        /// Replaces back hidden images, external links, templates, headings etc.
         /// </summary>
         /// <param name="matches"></param>
         /// <param name="articleText">The wiki text of the article.</param>
