@@ -777,10 +777,7 @@ namespace WikiFunctions
                 if (!regEx)
                     findText = Regex.Escape(findText);
 
-                if (Regex.IsMatch(OriginalArticleText, findText, regexOptions))
-                    return doesContain;
-
-                return !doesContain;
+                return (Regex.IsMatch(OriginalArticleText, findText, regexOptions)) ? doesContain : !doesContain;
             }
 
             return false;
