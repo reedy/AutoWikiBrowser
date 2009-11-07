@@ -982,7 +982,7 @@ died 2002
 [[Category:People from St. John's, Newfoundland and Labrador]]", miss2 = @"[[Category:Year of birth missing]]";
 
 			Assert.AreEqual(miss1 + u, Parsers.FixPeopleCategories(miss1 + "\r\n" + miss2, "foo"));
-
+			
 			const string both1 = @"'''Mary Ellen Wilson''' (1864–1956)<ref name=""amhum"">{{foo}}</ref> {{persondata}}", both2 = @"[[Category:1864 births]]
 [[Category:1956 deaths]]";
 
@@ -1496,8 +1496,10 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3| pages = 140   - 148}}")); // hyphe
 
 			Assert.AreEqual("''foo'' bar", Parsers.FixSyntax("<i>foo</i> bar"));
 			Assert.AreEqual("''foo'' bar", Parsers.FixSyntax("< i >foo</i> bar"));
+			Assert.AreEqual("''foo'' bar", Parsers.FixSyntax("< i >foo< / i   > bar"));
 			Assert.AreEqual("''foo'' bar", Parsers.FixSyntax("<i>foo< /i > bar"));
 			Assert.AreEqual("<i>foo<i> bar", Parsers.FixSyntax("<i>foo<i> bar"));
+			
 		}
 		
 		[Test]

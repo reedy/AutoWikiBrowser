@@ -1661,8 +1661,8 @@ namespace WikiFunctions.Parse
         // make double spaces within wikilinks just single spaces
         private static readonly Regex SyntaxRegex12 = new Regex(@"(\[\[[^\[\]]+?) {2,}([^\[\]]+\]\])", RegexOptions.Compiled);
 
-        private static readonly Regex SyntaxRegexItalic = new Regex("< ?i ?>(.*?)< ?/ ?i ?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegexBold = new Regex("< ?b ?>(.*?)< ?/ ?b ?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexItalic = new Regex("< *i *>(.*?)< */ *i *>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexBold = new Regex("< *b *>(.*?)< */ *b *>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         // Matches <p> tags only if current line does not start from ! or | (indicator of table cells)
         private static readonly Regex SyntaxRemoveParagraphs = new Regex(@"(?<!^[!\|].*)</? ?[Pp]>", RegexOptions.Multiline | RegexOptions.Compiled);
@@ -1714,8 +1714,6 @@ namespace WikiFunctions.Parse
         // fix incorrect <br> of <br.>, <\br> and <br\>
         private static readonly Regex IncorrectBr = new Regex(@"< *br\. *>|<\\ *br *>|< *br *\\ *>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private static readonly Regex SyntaxRegex14 = new Regex("</?i>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private static readonly Regex SyntaxRegex15 = new Regex("</?b>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex SyntaxRegex16 = new Regex("^<hr>|^----+", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SyntaxRegex17 = new Regex("(^==?[^=]*==?)\r\n(\r\n)?----+", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SyntaxRegex18 = new Regex(@"HTTP/\d\.", RegexOptions.Compiled);
@@ -1735,11 +1733,9 @@ namespace WikiFunctions.Parse
         public static string FixSyntax(string articleText)
         {
             //replace html with wiki syntax
-            if (SyntaxRegex14.IsMatch(articleText))
-                articleText = SyntaxRegexItalic.Replace(articleText, "''$1''");
+            articleText = SyntaxRegexItalic.Replace(articleText, "''$1''");
 
-            if (SyntaxRegex15.IsMatch(articleText))
-                articleText = SyntaxRegexBold.Replace(articleText, "'''$1'''");
+            articleText = SyntaxRegexBold.Replace(articleText, "'''$1'''");
 
             articleText = SyntaxRegex16.Replace(articleText, "----");
 
