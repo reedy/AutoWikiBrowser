@@ -381,9 +381,18 @@ namespace AutoWikiBrowser
                                 {
                                     IAWBBasePlugin awbBasePlugin = (IAWBBasePlugin) Activator.CreateInstance(t);
 
-                                    AWBBasePlugins.Add(awbBasePlugin.Name, awbBasePlugin);
+                                    if (AWBBasePlugins.ContainsKey(awbBasePlugin.Name))
+                                    {
+                                        MessageBox.Show(
+                                            "A plugin with the name \"" + awbBasePlugin.Name +
+                                            "\", has already been added.\r\nPlease remove old duplicates from your AutoWikiBrowser Directory, and restart AWB.\r\nThis was loaded from the plugin file \"" +
+                                            plugin + "\".", "Duplicate AWB Base Plugin");
+                                        break;
+                                    }
 
                                     InitialisePlugin(awbBasePlugin, awb);
+
+                                    AWBBasePlugins.Add(awbBasePlugin.Name, awbBasePlugin);
 
                                     if (afterStartup) UsageStats.AddedPlugin(awbBasePlugin);
                                 }
