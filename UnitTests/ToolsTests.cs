@@ -124,6 +124,7 @@ namespace UnitTests
             Assert.AreEqual("", Tools.TurnFirstToUpper(""));
             Assert.AreEqual("ASDA", Tools.TurnFirstToUpper("ASDA"));
             Assert.AreEqual("ASDA", Tools.TurnFirstToUpper("aSDA"));
+            Assert.AreEqual("Test", Tools.TurnFirstToUpper("test"));
             Assert.AreEqual("%test", Tools.TurnFirstToUpper("%test"));
             Assert.AreEqual("Ыыыы", Tools.TurnFirstToUpper("ыыыы"));
 
@@ -478,6 +479,7 @@ bar"));
             Assert.AreEqual(1, Tools.FirstDifference("aa", "ab"));
             Assert.AreEqual(1, Tools.FirstDifference("ab", "aa"));
             Assert.AreEqual(3, Tools.FirstDifference("foo", "foobar"));
+            Assert.AreEqual(3, Tools.FirstDifference("football", "foobar"));
 
             // beyond the end
             Assert.AreEqual(3, Tools.FirstDifference("foo", "foo"));
@@ -703,6 +705,8 @@ Jones", "*"));
         {
             Assert.AreEqual("foo", Tools.StringBetween("now foo here", "now ", " here"));
             Assert.AreEqual(" foo", Tools.StringBetween("now foo here foo", "now", " here"));
+            
+            Assert.AreEqual("", Tools.StringBetween("now foo av", "now ", " here"));
 
             // returns shortest matching string
             Assert.AreEqual("foo", Tools.StringBetween("now foo here blah here", "now ", " here"));

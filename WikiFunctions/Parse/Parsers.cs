@@ -691,7 +691,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private const string RefName = @"(?si)<\s*ref\s+name\s*=\s*""";
+        private const string RefName = @"(?si)<\s*ref\s+name\s*=\s*(?:""|')?";
         private static readonly Regex UnnamedRef = new Regex(@"<\s*ref\s*>\s*([^<>]+)\s*<\s*/\s*ref>", RegexOptions.Singleline | RegexOptions.Compiled);
 
         private struct Ref
@@ -1045,13 +1045,13 @@ namespace WikiFunctions.Parse
             if (ReferenceNameValid(articleText, derivedReferenceName))
                 return derivedReferenceName;
 
-            // generic ReferenceA
+            // generic ReferenceB
             derivedReferenceName = @"ReferenceB";
 
             if (ReferenceNameValid(articleText, derivedReferenceName))
                 return derivedReferenceName;
 
-            // generic ReferenceA
+            // generic ReferenceC
             derivedReferenceName = @"ReferenceC";
 
             return ReferenceNameValid(articleText, derivedReferenceName) ? derivedReferenceName : "";
@@ -1059,7 +1059,7 @@ namespace WikiFunctions.Parse
 
         private static bool ReferenceNameValid(string articleText, string derivedReferenceName)
         {
-            return !Regex.IsMatch(articleText, RefName + Regex.Escape(derivedReferenceName) + @"""\s*/?\s*>") && derivedReferenceName.Length >= 3;
+            return !Regex.IsMatch(articleText, RefName + Regex.Escape(derivedReferenceName) + @"(?:""|')?\s*/?\s*>") && derivedReferenceName.Length >= 3;
         }
 
         /// <summary>
@@ -1326,8 +1326,6 @@ namespace WikiFunctions.Parse
             return AddBackMoreText(articleText);
         }
 
-        private static readonly Regex RME_ColumnCount = new Regex(@"[^-]column-count:[\s]*?(\d*)", RegexOptions.Compiled);
-        private static readonly Regex RME_MozColumnCount = new Regex(@"-moz-column-count:[\s]*?(\d*)", RegexOptions.Compiled);
         // Covered by: FootnotesTests.TestFixReferenceListTags()
         private static string ReflistMatchEvaluator(Match m)
         {
@@ -1337,14 +1335,6 @@ namespace WikiFunctions.Parse
 
             if (m.Value.Contains("references-2column"))
                 return "{{reflist|2}}";
-
-            string s = RME_ColumnCount.Match(m.Value).Groups[1].Value;
-            if (s.Length > 0)
-                return "{{reflist|" + s + "}}";
-
-            s = RME_MozColumnCount.Match(m.Value).Groups[1].Value;
-            if (s.Length > 0)
-                return "{{reflist|" + s + "}}";
 
             return "{{reflist}}";
         }
@@ -2062,8 +2052,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         public static string CanonicalizeTitle(string title)
         {
-            // visible parts of links may contain crap we shouldn't modify, such as
-            // refs and external links
+            // visible parts of links may contain crap we shouldn't modify, such as refs and external links
             if (!Tools.IsValidTitle(title) || title.Contains(":/"))
                 return title;
 
@@ -2169,36 +2158,31 @@ namespace WikiFunctions.Parse
         {
             //TODO: move everything possible to the parent function, however, it shouldn't be performed blindly,
             //without a performance review
-            if (Regex.Matches(articleText, Regex.Escape(openingBrackets)).Count !=
-                Regex.Matches(articleText, Regex.Escape(closingBrackets)).Count)
+
+            if (openingBrackets == "[")
             {
-                if (openingBrackets == "[")
-                {
-                    // need to remove double square brackets first
-                    articleText = Tools.ReplaceWithSpaces(articleText, DoubleSquareBrackets);
-                }
-
-                if (openingBrackets == "{")
-                {
-                    // need to remove double curly brackets first
-                    articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.NestedTemplates);
-                }
-
-                // replace all the valid balanced bracket sets with spaces
-                articleText = Tools.ReplaceWithSpaces(articleText, bracketsRegex);
-
-                // now return the unbalanced one that's left
-                int open = Regex.Matches(articleText, Regex.Escape(openingBrackets)).Count;
-                int closed = Regex.Matches(articleText, Regex.Escape(closingBrackets)).Count;
-
-                if (open == 0 && closed >= 1)
-                    return articleText.IndexOf(closingBrackets);
-
-                if (open >= 1 && closed == 0)
-                    return articleText.IndexOf(openingBrackets);
-
-                return -1;
+                // need to remove double square brackets first
+                articleText = Tools.ReplaceWithSpaces(articleText, DoubleSquareBrackets);
             }
+
+            if (openingBrackets == "{")
+            {
+                // need to remove double curly brackets first
+                articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.NestedTemplates);
+            }
+
+            // replace all the valid balanced bracket sets with spaces
+            articleText = Tools.ReplaceWithSpaces(articleText, bracketsRegex);
+
+            // now return the unbalanced one that's left
+            int open = Regex.Matches(articleText, Regex.Escape(openingBrackets)).Count;
+            int closed = Regex.Matches(articleText, Regex.Escape(closingBrackets)).Count;
+
+            if (open == 0 && closed >= 1)
+                return articleText.IndexOf(closingBrackets);
+
+            if (open >= 1 && closed == 0)
+                return articleText.IndexOf(openingBrackets);
 
             return -1;
         }
@@ -2445,52 +2429,44 @@ namespace WikiFunctions.Parse
         {
             string a = "", b = "";
 
-            try
+            foreach (Match m in WikiRegexes.PipedWikiLink.Matches(articleText))
             {
-                foreach (Match m in WikiRegexes.PipedWikiLink.Matches(articleText))
+                string n = m.Value;
+                a = m.Groups[1].Value.Trim();
+
+                b = (Namespace.Determine(a) != Namespace.Category)
+                    ? m.Groups[2].Value.Trim()
+                    : m.Groups[2].Value.TrimEnd(new[] { ' ' });
+
+                if (b.Length == 0)
+                    continue;
+
+                if (a == b || Tools.TurnFirstToLower(a) == b)
                 {
-                    string n = m.Value;
-                    a = m.Groups[1].Value.Trim();
-
-                    b = (Namespace.Determine(a) != Namespace.Category)
-                            ? m.Groups[2].Value.Trim()
-                            : m.Groups[2].Value.TrimEnd(new[] { ' ' });
-
-                    if (b.Length == 0)
-                        continue;
-
-                    if (a == b || Tools.TurnFirstToLower(a) == b)
-                    {
-                        articleText = articleText.Replace(n, "[[" + b + "]]");
-                    }
-                    else if (Tools.TurnFirstToLower(b).StartsWith(Tools.TurnFirstToLower(a), StringComparison.Ordinal))
-                    {
-                        bool doBreak = false;
-                        foreach (char ch in b.Remove(0, a.Length))
-                        {
-                            if (!char.IsLower(ch))
-                            {
-                                doBreak = true;
-                                break;
-                            }
-                        }
-                        if (doBreak)
-                            continue;
-                        articleText = articleText.Replace(n, "[[" + b.Substring(0, a.Length) + "]]" + b.Substring(a.Length));
-                    }
-                    else
-                    {
-                        string newlink = "[[" + a + "|" + b + "]]";
-
-                        if (newlink != n)
-                            articleText = articleText.Replace(n, newlink);
-                    }
+                    articleText = articleText.Replace(n, "[[" + b + "]]");
                 }
-            }
-            catch (Exception ex)
-            {
-                System.Windows.Forms.MessageBox.Show(ex.Message + @"
-a='" + a + "',  b='" + b + "'", "SimplifyLinks error");
+                else if (Tools.TurnFirstToLower(b).StartsWith(Tools.TurnFirstToLower(a), StringComparison.Ordinal))
+                {
+                    bool doBreak = false;
+                    foreach (char ch in b.Remove(0, a.Length))
+                    {
+                        if (!char.IsLower(ch))
+                        {
+                            doBreak = true;
+                            break;
+                        }
+                    }
+                    if (doBreak)
+                        continue;
+                    articleText = articleText.Replace(n, "[[" + b.Substring(0, a.Length) + "]]" + b.Substring(a.Length));
+                }
+                else
+                {
+                    string newlink = "[[" + a + "|" + b + "]]";
+
+                    if (newlink != n)
+                        articleText = articleText.Replace(n, newlink);
+                }
             }
 
             return articleText;
@@ -2506,33 +2482,26 @@ a='" + a + "',  b='" + b + "'", "SimplifyLinks error");
         public static string StickyLinks(string articleText)
         {
             string a = "", b = "";
-            try
+            
+            foreach (Match m in WikiRegexes.PipedWikiLink.Matches(articleText))
             {
-                foreach (Match m in WikiRegexes.PipedWikiLink.Matches(articleText))
+                a = m.Groups[1].Value;
+                b = m.Groups[2].Value;
+
+                if (b.Trim().Length == 0 || a.Contains(","))
+                    continue;
+
+                if (Tools.TurnFirstToLower(a).StartsWith(Tools.TurnFirstToLower(b), StringComparison.Ordinal))
                 {
-                    a = m.Groups[1].Value;
-                    b = m.Groups[2].Value;
+                    bool hasSpace = a[b.Length] == ' ';
+                    string search = @"\[\[" + Regex.Escape(a) + @"\|" + Regex.Escape(b) +
+                        @"\]\]" + (hasSpace ? "[ ]+" : "") + Regex.Escape(a.Remove(0,
+                                                                                   b.Length + (hasSpace ? 1 : 0))) + @"\b";
 
-                    if (b.Trim().Length == 0 || a.Contains(","))
-                        continue;
-
-                    if (Tools.TurnFirstToLower(a).StartsWith(Tools.TurnFirstToLower(b), StringComparison.Ordinal))
-                    {
-                        bool hasSpace = a[b.Length] == ' ';
-                        string search = @"\[\[" + Regex.Escape(a) + @"\|" + Regex.Escape(b) +
-                            @"\]\]" + (hasSpace ? "[ ]+" : "") + Regex.Escape(a.Remove(0,
-                            b.Length + (hasSpace ? 1 : 0))) + @"\b";
-
-                        //first char should be capitalized like in the visible part of the link
-                        a = a.Remove(0, 1).Insert(0, b[0] + "");
-                        articleText = Regex.Replace(articleText, search, "[[" + a + @"]]");
-                    }
+                    //first char should be capitalized like in the visible part of the link
+                    a = a.Remove(0, 1).Insert(0, b[0] + "");
+                    articleText = Regex.Replace(articleText, search, "[[" + a + @"]]");
                 }
-            }
-            catch (Exception ex)
-            {
-                System.Windows.Forms.MessageBox.Show(ex.Message + @"
-a='" + a + "',  b='" + b + "'", "StickyLinks error");
             }
 
             return articleText;
@@ -3003,7 +2972,6 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
                 || BoldTitleAlready3.IsMatch(articleText))
                 return articleTextAtStart;
 
-            Regex regexBold = new Regex(@"([^\[]|^)(" + escTitle + "|" + Tools.TurnFirstToLower(escTitle) + ")([ ,.:;])");
             Regex regexBoldNoBrackets = new Regex(@"([^\[]|^)(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + ")([ ,.:;])");
 
             articleTextHidden = HideMoreText(articleText);
@@ -3013,29 +2981,15 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
             {
                 articleText = regexBoldNoBrackets.Replace(articleTextHidden, "$1'''$2'''$3", 1);
                 articleText = AddBackMoreText(articleText);
-
-                // check that the bold added is the first bit in bold in the main body of the article
-                if (AddedBoldIsValid(articleText, escTitleNoBrackets))
-                {
-                    noChange = false;
-                    return articleText;
-                }
-                return articleTextAtStart;
             }
-
-            if (regexBold.IsMatch(articleTextHidden))
+            
+            // check that the bold added is the first bit in bold in the main body of the article
+            if (AddedBoldIsValid(articleText, escTitleNoBrackets))
             {
-                articleText = regexBold.Replace(articleTextHidden, "$1'''$2'''$3", 1);
-                articleText = AddBackMoreText(articleText);
-
-                // check that the bold added is the first bit in bold in the main body of the article
-                if (AddedBoldIsValid(articleText, escTitle))
-                {
-                    noChange = false;
-                    return articleText;
-                }
-                return articleTextAtStart;
+                noChange = false;
+                return articleText;
             }
+
             return articleTextAtStart;
         }
 
@@ -4100,7 +4054,7 @@ a='" + a + "',  b='" + b + "'", "StickyLinks error");
         {
             //Use proper codes
             //checking first instead of substituting blindly saves some
-            //time due to low occurence rate
+            //time due to low occurrence rate
             if (articleText.Contains("[[zh-tw:"))
                 articleText = articleText.Replace("[[zh-tw:", "[[zh:");
             if (articleText.Contains("[[nb:"))
