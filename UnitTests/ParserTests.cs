@@ -1428,18 +1428,18 @@ complementary and alternative medicine: evidence is a better friend than power. 
         [Test]
         public void TestCiteFormatFieldTypo()
         {
-            Assert.AreEqual(@"now {{cite web| url=a.com|title=hello|format=PDF}} was", Parsers.FixSyntax(@"now {{cite web| url=a.com|title=hello|fprmat=PDF}} was"));
-            Assert.AreEqual(@"now {{cite web| url=a.com|title=hello| format=PDF}} was", Parsers.FixSyntax(@"now {{cite web| url=a.com|title=hello| fprmat=PDF}} was"));
-            Assert.AreEqual(@"now {{cite web| url=a.com|title=hello|format = PDF}} was", Parsers.FixSyntax(@"now {{cite web| url=a.com|title=hello|Fprmat = PDF}} was"));
-            Assert.AreEqual(@"now {{Cite web| url=a.com|title=hello|format=DOC}} was", Parsers.FixSyntax(@"now {{Cite web| url=a.com|title=hello|fprmat=DOC}} was"));
+            Assert.AreEqual(@"now {{cite web| url=a.com|title=hello|format=PDF}} was", Parsers.FixCitationTemplates(@"now {{cite web| url=a.com|title=hello|fprmat=PDF}} was"));
+            Assert.AreEqual(@"now {{cite web| url=a.com|title=hello| format=PDF}} was", Parsers.FixCitationTemplates(@"now {{cite web| url=a.com|title=hello| fprmat=PDF}} was"));
+            Assert.AreEqual(@"now {{cite web| url=a.com|title=hello|format = PDF}} was", Parsers.FixCitationTemplates(@"now {{cite web| url=a.com|title=hello|Fprmat = PDF}} was"));
+            Assert.AreEqual(@"now {{Cite web| url=a.com|title=hello|format=DOC}} was", Parsers.FixCitationTemplates(@"now {{Cite web| url=a.com|title=hello|fprmat=DOC}} was"));
             Assert.AreEqual(@"now {{Cite web| url=a.com|title=hello|
-          format=DOC|publisher=BBC}} was", Parsers.FixSyntax(@"now {{Cite web| url=a.com|title=hello|
+          format=DOC|publisher=BBC}} was", Parsers.FixCitationTemplates(@"now {{Cite web| url=a.com|title=hello|
           fprmat=DOC|publisher=BBC}} was"));
 
             // no Matches
-            Assert.AreEqual(@"now {{cite web| url=http://site.net|title=okay}} fprmat of PDF", Parsers.FixSyntax(@"now {{cite web| url=http://site.net|title=okay}} fprmat of PDF"));
-            Assert.AreEqual(@"now {{cite web| url=http://site.net/1.pdf|format=PDF}} was", Parsers.FixSyntax(@"now {{cite web| url=http://site.net/1.pdf|format=PDF}} was"));
-            Assert.AreEqual(@"now {{cite web|\r\nurl=http://site.net/1.pdf|format=PDF|title=okay}} was", Parsers.FixSyntax(@"now {{cite web|\r\nurl=http://site.net/1.pdf|format=PDF|title=okay}} was"));
+            Assert.AreEqual(@"now {{cite web| url=http://site.net|title=okay}} fprmat of PDF", Parsers.FixCitationTemplates(@"now {{cite web| url=http://site.net|title=okay}} fprmat of PDF"));
+            Assert.AreEqual(@"now {{cite web| url=http://site.net/1.pdf|format=PDF}} was", Parsers.FixCitationTemplates(@"now {{cite web| url=http://site.net/1.pdf|format=PDF}} was"));
+            Assert.AreEqual(@"now {{cite web|\r\nurl=http://site.net/1.pdf|format=PDF|title=okay}} was", Parsers.FixCitationTemplates(@"now {{cite web|\r\nurl=http://site.net/1.pdf|format=PDF|title=okay}} was"));
         }
 
         [Test]
@@ -1938,59 +1938,59 @@ now"));
         public void UppercaseCiteFields()
         {
             // single uppercase field
-            Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{cite web|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{cite web|uRL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{citeweb|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{citeweb|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{cite web|UrL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{cite web|Url=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{Cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{Cite web|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{cite web | url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{cite web | URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{cite web| url = http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{cite web| URL = http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{cite web|url =http://members.bib-arch.org|title=HELLO}}", Parsers.FixSyntax(@"{{cite web|URL =http://members.bib-arch.org|title=HELLO}}"));
+            Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web|uRL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{citeweb|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{citeweb|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web|UrL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web|Url=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{Cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite web|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{cite web | url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web | URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{cite web| url = http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web| URL = http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{cite web|url =http://members.bib-arch.org|title=HELLO}}", Parsers.FixCitationTemplates(@"{{cite web|URL =http://members.bib-arch.org|title=HELLO}}"));
 
             // multiple uppercase fields
-            Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{cite web|URL=http://members.bib-arch.org|Title=hello}}"));
-            Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{cite web|URL=http://members.bib-arch.org|TITLE=hello}}"));
-            Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello | publisher=BBC}}", Parsers.FixSyntax(@"{{cite web|URL=http://members.bib-arch.org|TITLE=hello | Publisher=BBC}}"));
+            Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web|URL=http://members.bib-arch.org|Title=hello}}"));
+            Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web|URL=http://members.bib-arch.org|TITLE=hello}}"));
+            Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello | publisher=BBC}}", Parsers.FixCitationTemplates(@"{{cite web|URL=http://members.bib-arch.org|TITLE=hello | Publisher=BBC}}"));
 
             //other templates
-            Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{cite web|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{cite book|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{cite book|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{cite news|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{cite news|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{cite journal|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{cite journal|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{cite paper|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{cite paper|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{cite press release|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{cite press release|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{cite hansard|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{cite hansard|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{cite encyclopedia|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{cite encyclopedia|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{citation|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{citation|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{cite book|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite book|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{cite news|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite news|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{cite journal|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite journal|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{cite paper|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite paper|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{cite press release|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite press release|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{cite hansard|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite hansard|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{cite encyclopedia|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite encyclopedia|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{citation|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{citation|URL=http://members.bib-arch.org|title=hello}}"));
 
-            Assert.AreEqual(@"{{Cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{Cite web|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{Cite book|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{Cite book|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{Cite news|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{Cite news|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{Cite journal|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{Cite journal|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{Cite paper|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{Cite paper|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{Cite press release|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{Cite press release|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{Cite hansard|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{Cite hansard|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{Cite encyclopedia|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{Cite encyclopedia|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{Citation|url=http://members.bib-arch.org|title=hello}}", Parsers.FixSyntax(@"{{Citation|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{Cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite web|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{Cite book|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite book|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{Cite news|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite news|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{Cite journal|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite journal|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{Cite paper|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite paper|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{Cite press release|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite press release|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{Cite hansard|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite hansard|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{Cite encyclopedia|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite encyclopedia|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{Citation|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{Citation|URL=http://members.bib-arch.org|title=hello}}"));
 
-            Assert.AreEqual(@"{{cite book | author=Smith | title=Great Book | ISBN=15478454 | date=17 May 2004 }}", Parsers.FixSyntax(@"{{cite book | author=Smith | Title=Great Book | ISBN=15478454 | date=17 May 2004 }}"));
+            Assert.AreEqual(@"{{cite book | author=Smith | title=Great Book | ISBN=15478454 | date=17 May 2004 }}", Parsers.FixCitationTemplates(@"{{cite book | author=Smith | Title=Great Book | ISBN=15478454 | date=17 May 2004 }}"));
 
             // no match if value of field uppercase
-            Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello | publisher=BBC}}", Parsers.FixSyntax(@"{{cite web|url=http://members.bib-arch.org|title=hello | publisher=BBC}}"));
+            Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello | publisher=BBC}}", Parsers.FixCitationTemplates(@"{{cite web|url=http://members.bib-arch.org|title=hello | publisher=BBC}}"));
 
             // ISBN, DOI, PMID is allowed to be uppercase
             string ISBN = @"{{cite book | author=Smith | title=Great Book | ISBN=15478454 | date=17 May 2004 }}";
-            Assert.AreEqual(ISBN, Parsers.FixSyntax(ISBN));
+            Assert.AreEqual(ISBN, Parsers.FixCitationTemplates(ISBN));
             string DOI = @"{{cite journal| author=Smith | title=Great Book | DOI=15478454 | date=17 May 2004 }}";
-            Assert.AreEqual(DOI, Parsers.FixSyntax(DOI));
+            Assert.AreEqual(DOI, Parsers.FixCitationTemplates(DOI));
 
             string PMID = @"{{cite journal| author=Smith | title=Great Book | PMID=15478454 | date=17 May 2004 }}";
-            Assert.AreEqual(PMID, Parsers.FixSyntax(PMID));
+            Assert.AreEqual(PMID, Parsers.FixCitationTemplates(PMID));
             
             // don't match on part of URL
             string URL = @"{{cite news|url=http://www.expressbuzz.com/edition/story.aspx?Title=Catching++them+young&artid=rPwTAv2l2BY=&SectionID=fxm0uEWnVpc=&MainSectionID=ngGbWGz5Z14=&SectionName=RtFD/|pZbbWSsbI0jf3F5Q==&SEO=|title=Catching them young|date=August 7, 2009|publisher=[[The Indian Express]]|accessdate=2009-08-07}}";
-            Assert.AreEqual(URL, Parsers.FixSyntax(URL));
+            Assert.AreEqual(URL, Parsers.FixCitationTemplates(URL));
         }
 
         [Test]
@@ -2009,48 +2009,48 @@ now"));
         public void TestAccessdateTypo()
         {
             const string correct = @"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23 }} was";
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acessdate = 2008-04-23 }} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accessedate = 2008-04-23 }} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|date accessed = 2008-04-23 }} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|retrieved = 2008-04-23 }} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|retrieved on = 2008-04-23 }} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accesdate = 2008-04-23 }} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|Acessdate = 2008-04-23 }} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|Accesdate = 2008-04-23 }} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|Acesdate = 2008-04-23 }} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acesdate = 2008-04-23 }} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccesdate = 2008-04-23 }} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|access date = 2008-04-23 }} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23 }} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accessdat = 2008-04-23 }} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accessdare = 2008-04-23 }} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accessdaye = 2008-04-23 }} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accessdaste = 2008-04-23 }} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accessate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|acessdate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|accessedate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|date accessed = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|retrieved = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|retrieved on = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|accesdate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|Acessdate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|Accesdate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|Acesdate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|acesdate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|acccesdate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|access date = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|accessdat = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|accessdare = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|accessdaye = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|accessdaste = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|accessate = 2008-04-23 }} was"));
 
-            Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23|publisher=BBC }} was", Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23|publisher=BBC }} was"));
-            Assert.AreEqual(@"now {{Cite web | url=http://site.it | title=hello|accessdate = 2008-04-23  |publisher=BBC }} was", Parsers.FixSyntax(@"now {{Cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23  |publisher=BBC }} was"));
+            Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23|publisher=BBC }} was", Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23|publisher=BBC }} was"));
+            Assert.AreEqual(@"now {{Cite web | url=http://site.it | title=hello|accessdate = 2008-04-23  |publisher=BBC }} was", Parsers.FixCitationTemplates(@"now {{Cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23  |publisher=BBC }} was"));
 
-            Assert.AreEqual(@"now {{cite web |accessdate = 2008-04-23| url=http://site.it | title=hello }} was", Parsers.FixSyntax(@"now {{cite web |accessdaye = 2008-04-23| url=http://site.it | title=hello }} was"));
+            Assert.AreEqual(@"now {{cite web |accessdate = 2008-04-23| url=http://site.it | title=hello }} was", Parsers.FixCitationTemplates(@"now {{cite web |accessdaye = 2008-04-23| url=http://site.it | title=hello }} was"));
 
             // no match
-            Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|acccessdated = 2008-04-23 }} was", Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|acccessdated = 2008-04-23 }} was"));
-            Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|accessed = 2008-04-23 }} was", Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accessed = 2008-04-23 }} was"));
-            Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23 }} was", Parsers.FixSyntax(@"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23 }} was"));
+            Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|acccessdated = 2008-04-23 }} was", Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|acccessdated = 2008-04-23 }} was"));
+            Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|accessed = 2008-04-23 }} was", Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|accessed = 2008-04-23 }} was"));
+            Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23 }} was", Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23 }} was"));
         }
 
         [Test]
         public void PublisherTypo()
         {
             const string correct = @"now {{cite web | url=http://site.it |publisher=hello|accessdate = 2008-04-23 }} was";
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it |ublisher=hello|acessdate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it |ublisher=hello|acessdate = 2008-04-23 }} was"));
 
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it |pubslisher=hello|acessdate = 2008-04-23 }} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it |puablisher=hello|acessdate = 2008-04-23 }} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it |publsiher=hello|acessdate = 2008-04-23 }} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it |pblisher=hello|acessdate = 2008-04-23 }} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it |publishet=hello|acessdate = 2008-04-23 }} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web | url=http://site.it |puiblisher=hello|acessdate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it |pubslisher=hello|acessdate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it |puablisher=hello|acessdate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it |publsiher=hello|acessdate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it |pblisher=hello|acessdate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it |publishet=hello|acessdate = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it |puiblisher=hello|acessdate = 2008-04-23 }} was"));
         }
 
         [Test]
