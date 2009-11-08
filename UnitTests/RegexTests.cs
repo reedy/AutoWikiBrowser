@@ -513,6 +513,15 @@ fast„ "));
 <ref name=modern>{{cite news |first=William }}
         }}"));
         }
+        
+        [Test]
+        public void CiteTemplate()
+        {
+            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite web|url=a|title=b}}"));
+            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{ cite web|url=a|title=b}}"));
+            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{Citeweb|url=a|title=b}}"));
+            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{Citeweb|url=a|title=b and {{foo}} there}}"));
+        }
 
         [Test]
         public void RefAfterReflist()

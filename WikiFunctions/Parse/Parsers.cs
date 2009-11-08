@@ -1081,7 +1081,7 @@ namespace WikiFunctions.Parse
         {
             Regex CiteWeb = new Regex(@"{{\s*[Cc]ite ?web\s*\|[^{}]+}}");
 
-            Regex Param = new Regex(@"\|\s*([a-z_]+)\s*=\s*([^\|}]{3,})");
+            Regex Param = new Regex(@"\|\s*([a-z_0-9-]+)\s*=\s*([^\|}]{3,})");
 
             Regex GoodParam = new Regex(@"\b(first|last|author|authorlink|coauthors|title|url|archiveurl|work|publisher|location|page|pages|language|trans_title|format|doi|date|month|year|archivedate|accessdate|quote|ref|separator|postscript)\b");
 
@@ -1093,12 +1093,6 @@ namespace WikiFunctions.Parse
                     if (!GoodParam.IsMatch(m2.Groups[1].Value) && m2.Groups[2].Value.Trim().Length > 2)
                     {
                         parameterLength = m2.Groups[1].Length;
-
-                        System.IO.StreamWriter writer = new System.IO.StreamWriter("Module.log", true); // specifies append mode
-                        writer.WriteLine(m2.Groups[1].Value + "@@@@" + m2.Groups[2].Value); // + "@@@" + DateTime.Now
-                        writer.Close();
-
-
                         return (m.Index + m2.Groups[1].Index);
                     }
                 }
@@ -2001,16 +1995,15 @@ namespace WikiFunctions.Parse
         private static readonly Regex CiteTemplatesJournalVolumeAndIssue = new Regex(@"(?<=\|\s*volume\s*=\s*[0-9VXMILC]+?)(?:[;,]?\s*(?:no[\.:;]?|(?:numbers?|issue|iss)\s*[:;]?))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex CiteTemplatesJournalIssue = new Regex(@"(?<=\|\s*issue\s*=\s*)(?:issues?|(?:nos?|iss)(?:[\.,;:]|\b)|numbers?[\.,;:]?)(?:&nbsp;)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex CiteTemplatesPageRange = new Regex(@"(?<=\|\s*pages?\s*=\s*(?:p?p\.?)?\s*\d+)\s*[-—]\s*(\d)", RegexOptions.Compiled);
-        private static readonly Regex CiteTemplates = new Regex(@"{{\s*[Cc]it[ae]((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})", RegexOptions.Compiled);
 
         /// <summary>
         /// Applies various formatting fixes to citation templates
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
-        /// <returns></returns>
+        /// <returns>The updated wiki text</returns>
         public static string FixCitationTemplates(string articleText)
         {
-            foreach (Match m in CiteTemplates.Matches(articleText))
+            foreach (Match m in WikiRegexes.CiteTemplate.Matches(articleText))
             {
                 string newValue = m.Value;
                 // remove the unneeded 'format=HTML' field
