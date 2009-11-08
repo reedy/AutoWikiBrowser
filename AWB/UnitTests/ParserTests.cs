@@ -21,12 +21,13 @@ Copyright © 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov or
 Copyright © 2000-2002 Philip A. Craig
 
  */
-
+ 
 using System.Text;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using WikiFunctions;
 using WikiFunctions.Parse;
+using System.Collections.Generic;
 
 namespace UnitTests
 {
@@ -527,20 +528,29 @@ Jones 2005</ref>"));
                             Parsers.SameRefDifferentName(@"Foo<ref name=Jones>Jones 2005 extra words of interest</ref> and bar2<ref name=Jones>[see above]</ref>"));
 
         }
-
+        
         [Test]
         public void BadCiteParameters()
         {
-            int len = 0;
-            Assert.AreEqual(15, Parsers.BadCiteParameters(@"now {{cite web|foo=bar|date=2009}} was", ref len));
-            Assert.AreEqual(3, len);
+            Dictionary<int, int> Found = new Dictionary<int, int>();
 
-            Assert.AreEqual(15, Parsers.BadCiteParameters(@"now {{cite web|foodoo=bar|date=2009}} was", ref len));
-            Assert.AreEqual(6, len);
+            // standard cases
+            Found.Add(15, 3);
+            Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|foo=bar|date=2009}} was"));
+            
+            Found.Remove(15);
+            Found.Add(15, 6);
+            Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|foodoo=bar|date=2009}} was"));
+            
+            Found.Remove(15);
             
             // no errors here
-            Assert.AreEqual(0, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009}} was", ref len));
-            Assert.AreEqual(0, len);
+            Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009}} was"));
+            
+            // multiple errors
+            Found.Add(15, 6);
+            Found.Add(36, 4);
+            Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|foodoo=bar|date=2009|bert= false}} was"));            
         }
         
         [Test]

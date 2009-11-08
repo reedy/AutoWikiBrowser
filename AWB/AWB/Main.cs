@@ -715,7 +715,9 @@ namespace AutoWikiBrowser
         }
 
         // counts number of redirects so that we catch double redirects
-        private int _redirects, _unbalancedBracket, _bracketLength, _badCiteParameter, _badCiteParameterLength;
+        private int _redirects, _unbalancedBracket, _bracketLength;
+        
+        private Dictionary<int, int> badCiteParameters = new Dictionary<int, int>();
 
         private void SkipRedirect(string redirectTitle, string reason)
         {
@@ -1005,7 +1007,7 @@ namespace AutoWikiBrowser
                 }
                 else
                 {
-                    if (_unbalancedBracket < 0 && _badCiteParameter == 0)
+                    if (_unbalancedBracket < 0 && badCiteParameters.Count == 0)
                         btnSave.Focus();
                     else if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
                     {
@@ -1014,7 +1016,7 @@ namespace AutoWikiBrowser
                         if (_unbalancedBracket >= 0)
                             HighlightUnbalancedBrackets();
 
-                        if (_badCiteParameter > 0)
+                        if (badCiteParameters.Count > 0)
                             HighlightBadCitationParameter();
                     }
                 }
@@ -2328,8 +2330,8 @@ window.scrollTo(0, diffTopY);
                 if (_unbalancedBracket > 0)
                     warnings.AppendLine("Unbalanced brackets found");
 
-                _badCiteParameter = TheArticle.BadCiteWeb(ref _badCiteParameterLength);
-                if (_badCiteParameter > 0)
+                badCiteParameters = TheArticle.BadCiteParameters();
+                if (badCiteParameters.Count > 0)
                     warnings.AppendLine("Invalid citation parameter found");
 
                 lblWords.Text = "Words: " + intWords;
@@ -3354,7 +3356,7 @@ window.scrollTo(0, diffTopY);
                 if (_unbalancedBracket >= 0)
                     HighlightUnbalancedBrackets();
 
-                if (_badCiteParameter > 0)
+                if (badCiteParameters.Count > 0)
                     HighlightBadCitationParameter();
             }
 
@@ -4707,7 +4709,8 @@ window.scrollTo(0, diffTopY);
 
         private void HighlightBadCitationParameter()
         {
-            RedSelection(_badCiteParameter, _badCiteParameterLength);
+            foreach (KeyValuePair<int, int> a in badCiteParameters)
+                RedSelection(a.Key, a.Value);
         }
 
         private void RedSelection(int index, int length)

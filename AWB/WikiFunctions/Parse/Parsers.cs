@@ -1076,29 +1076,29 @@ namespace WikiFunctions.Parse
 
             return newText;
         }
-
-        public static int BadCiteParameters(string articleText, ref int parameterLength)
+        
+        private static Regex CiteWeb = new Regex(@"{{\s*[Cc]ite ?web\s*\|[^{}]+}}", RegexOptions.Compiled);
+        private static Regex CitationPopulatedParameter = new Regex(@"\|\s*([a-z_0-9-]+)\s*=\s*([^\|}]{3,}?)\s*");
+       
+        /// <summary>
+        /// Searches for unknown/invalid parameters within citation templates
+        /// </summary>
+        /// <param name="articleText">the wiki text to search</param>
+        /// <returns>Dictionary of parameter index in wiki text, and parameter length</returns>
+        public static Dictionary<int, int> BadCiteParameters(string articleText)
         {
-            Regex CiteWeb = new Regex(@"{{\s*[Cc]ite ?web\s*\|[^{}]+}}");
+            Regex CiteWebParameters = new Regex(@"\b(first|last|author|authorlink|coauthors|title|url|archiveurl|work|publisher|location|page|pages|language|trans_title|format|doi|date|month|year|archivedate|accessdate|quote|ref|separator|postscript)\b");
 
-            Regex Param = new Regex(@"\|\s*([a-z_0-9-]+)\s*=\s*([^\|}]{3,})");
-
-            Regex GoodParam = new Regex(@"\b(first|last|author|authorlink|coauthors|title|url|archiveurl|work|publisher|location|page|pages|language|trans_title|format|doi|date|month|year|archivedate|accessdate|quote|ref|separator|postscript)\b");
-
+            Dictionary<int, int> Found = new Dictionary<int, int>();
             foreach (Match m in CiteWeb.Matches(articleText))
             {
-
-                foreach (Match m2 in Param.Matches(m.Value))
+                foreach (Match m2 in CitationPopulatedParameter.Matches(m.Value))
                 {
-                    if (!GoodParam.IsMatch(m2.Groups[1].Value) && m2.Groups[2].Value.Trim().Length > 2)
-                    {
-                        parameterLength = m2.Groups[1].Length;
-                        return (m.Index + m2.Groups[1].Index);
-                    }
+                    if (!CiteWebParameters.IsMatch(m2.Groups[1].Value) && m2.Groups[2].Value.Trim().Length > 2)
+                        Found.Add(m.Index + m2.Groups[1].Index, m2.Groups[1].Length);
                 }
             }
-            parameterLength = 0;
-            return 0;
+            return Found;
         }
 
         private const string SiCitStart = @"(?si)(\{\{\s*cit[^{}]*\|\s*";
