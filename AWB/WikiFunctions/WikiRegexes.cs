@@ -446,6 +446,11 @@ namespace WikiFunctions
         public static readonly Regex BareExternalLink = new Regex(@"^ *\*? *(?:[Hh]ttp|[Hh]ttps|[Ff]tp|[Mm]ailto)://[^\ \n\r<>]+\s+$", RegexOptions.Multiline);
 
         /// <summary>
+        /// Matches the various citation templates {{citation}}, {{cite web}} etc. on en-wiki
+        /// </summary>
+        public static readonly Regex CiteTemplate = new Regex(@"{{\s*[Cc]it[ae]((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})", RegexOptions.Compiled);
+        
+        /// <summary>
         /// Matches {{lifetime}} and its aliases
         /// </summary>
         public static readonly Regex Lifetime = new Regex(@"{{(?:[Ll]ifetime|BIRTH-DEATH-SORT|BD)\s*\|[^\}]*}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
