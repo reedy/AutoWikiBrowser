@@ -542,6 +542,33 @@ Jones 2005</ref>"));
             Assert.AreEqual(0, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009}} was", ref len));
             Assert.AreEqual(0, len);
         }
+        
+        [Test]
+        public void AddMissingReflist()
+        {
+            // above cats
+            const string SingleRef = @"now <ref>foo</ref>", Cat = @"
+[[Category:Here]]", ExtLinks = @"==External links==
+*[http://www.site.com hello]";
+            Assert.AreEqual(SingleRef + "\r\n\r\n" + @"==References==
+{{Reflist}}" + Cat, Parsers.AddMissingReflist(SingleRef + Cat));
+            
+            // above references section
+            const string References = @"==References==
+{{portal|foo}}";
+            Assert.AreEqual(SingleRef + "\r\n" + @"==References==
+{{Reflist}}
+{{portal|foo}}" + Cat, Parsers.AddMissingReflist(SingleRef + "\r\n" + References + Cat));
+            
+            // above external links
+            Assert.AreEqual(SingleRef + "\r\n\r\n" + @"==References==
+{{Reflist}}" + "\r\n" + ExtLinks, Parsers.AddMissingReflist(SingleRef + "\r\n" + ExtLinks));
+            
+            // reflist already present
+            Assert.AreEqual(SingleRef + "\r\n\r\n" + @"==References==
+{{Reflist}}" + Cat, Parsers.AddMissingReflist(SingleRef + "\r\n\r\n" + @"==References==
+{{Reflist}}" + Cat));
+        }
     }
 
     [TestFixture]
@@ -1117,7 +1144,7 @@ died 2002
             // too many refs for it to be plausible that the cats are missing
             const string Refs = @"<ref>a</ref> <ref>a</ref> <ref>a</ref> <ref>a</ref> <ref>a</ref> <ref>a</ref> <ref>a</ref>";
             Assert.AreEqual(a1 + Refs + Refs + Refs, Parsers.FixPeopleCategories(a1 + Refs + Refs + Refs, "foo"));
-        }
+        }       
 
         [Test]
         public void GetInfoBoxFieldValue()
@@ -1182,6 +1209,10 @@ died 2002
 [[Category:Attorneys General of Pakistan]]
 [[Category:Living people]]
 [[Category:1944 births]]", "foo"));
+            
+             const string a = @"Mr foo {{persondata}} was great
+[[Category:1960 deaths]]";
+            Assert.AreEqual(a+ "\r\n", Parsers.FixPeopleCategories(a + "\r\n" + @"[[Category:Year of death missing]]", "test"));
 
         }
 
@@ -4801,6 +4832,15 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         public void RemoveExpand()
         {
             Assert.IsFalse(WikiRegexes.Expand.IsMatch(parser.Tagger(@"foo {{expand}} {{bio-stub}}", "Test", out noChange, ref summary)));
+        }
+        
+        [Test]
+        public void RemoveDeadEnd()
+        {
+            Globals.UnitTestIntValue = 0;
+            
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo {{deadend}} [[a]] and [[b]] and [[b]]", "Test", out noChange, ref summary)));
+            Assert.IsTrue(summary.Contains("removed deadend tag"));
         }
 
         [Test]

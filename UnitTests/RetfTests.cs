@@ -91,6 +91,7 @@ namespace UnitTests
             AssertNoFix("test");
 
             AssertFix("the bars are cute", FixTypos("the foos are cute"));
+            AssertFix("the bars are cute bars", FixTypos("the foos are cute foos"));
         }
 
         [Test]
