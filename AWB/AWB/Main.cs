@@ -998,7 +998,11 @@ namespace AutoWikiBrowser
                 }
 
                 if (highlightAllFindToolStripMenuItem.Checked)
+                {
+                    txtEdit.Visible = false;
                     HighlightAllFind();
+                    txtEdit.Visible = true;
+                }
 
                 if (focusAtEndOfEditTextBoxToolStripMenuItem.Checked)
                 {
