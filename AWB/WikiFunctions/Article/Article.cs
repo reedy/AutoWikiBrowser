@@ -1010,7 +1010,7 @@ namespace WikiFunctions
             AWBChangeArticleText("Fix syntax", Parsers.FixSyntax(ArticleText), true, true);
             Variables.Profiler.Profile("FixSyntax");
 
-            AWBChangeArticleText("Fix citation templates", Parsers.FixCitationTemplates(ArticleText), true, false);
+            AWBChangeArticleText("Fix citation templates", Parsers.FixCitationTemplates(ArticleText), true, true);
             Variables.Profiler.Profile("FixCitationTemplates");
 
             AWBChangeArticleText("Fix temperatures", Parsers.FixTemperatures(ArticleText), true);

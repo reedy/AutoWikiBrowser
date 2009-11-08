@@ -1661,18 +1661,6 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex CellpaddingTypo = new Regex(@"({\s*\|\s*class\s*=\s*""wikitable[^}]*?)cel(?:lpa|pad?)ding\b", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
-        private static readonly Regex AccessdateTypo = new Regex(@"(\{\{\s*cit[^{}]*?\|\s*)ac(?:(?:ess?s?|cc?es|cess[es]|ccess)date|cessda[ry]e|c?essdat|cess(?:daste|ate)|cdessdate|cess?data|cesdsate|cessdaet|cessdatge|cesseddate|accessedon)(\s*=\s*)", RegexOptions.IgnoreCase);
-
-        private static readonly Regex PublisherTypo = new Regex(@"(?<={{\s*[Cc]it[ae][^{}\|]*?\|(?:[^{}]+\|)?\s*)(?:p(?:u[ns]|oub)lisher|publihser|pub(?:lication)?|pubslisher|puablisher|publicher|ublisher|publsiher|pusliher|pblisher|pubi?lsher|publishet|puiblisher|puplisher|publiisher|publiser|pulisher|publishser|pulbisher|publisber|publoisher|publishier|pubhlisher|publiaher|publicser|publicsher|publidsherr|publiher|publihsher|publilsher|publiosher|publisaher|publischer|publiseher|publisehr|publiserh|publisger|publishe?|publishey|publlisher|publusher|pubsliher)(\s*=)", RegexOptions.Compiled);
-        
-        private static readonly Regex AccessdateSynonyms = new Regex(@"(?<={{\s*[Cc]it[ae][^{}]*?\|\s*)(?:\s*date\s*)?(?:retrieved(?:\s+on)?|(?:last|date) *accessed|access\s+date)(?=\s*=\s*)", RegexOptions.Compiled);
-
-        private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{(?:[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)|[Cc]itation)\b\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(?<!(?:IS[BS]N|DOI|PMID))(\s*=\s*[^{}\|]{3,})", RegexOptions.Compiled);
-
-        private static readonly Regex CiteUrl = new Regex(@"url\s*=\s*[^\[\]<>""\s]+", RegexOptions.Compiled);
-
-        private static readonly Regex CiteFormatFieldTypo = new Regex(@"(\{\{\s*[Cc]it[^{}]*?\|\s*)(?i)(?:fprmat)(\s*=\s*)", RegexOptions.Compiled);
-
         //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.3Cfont.3E_tags
         private static readonly Regex RemoveNoPropertyFontTags = new Regex(@"<font>([^<>]+)</font>", RegexOptions.IgnoreCase);
 
@@ -1766,40 +1754,6 @@ namespace WikiFunctions.Parse
             articleText = SyntaxRegex19.Replace(articleText, "ISBN $1");
 
             articleText = CellpaddingTypo.Replace(articleText, "$1cellpadding");
-
-            articleText = AccessdateTypo.Replace(articleText, "$1accessdate$2");
-
-            articleText = PublisherTypo.Replace(articleText, @"publisher$1");
-
-            articleText = AccessdateSynonyms.Replace(articleText, "accessdate");
-
-            // {{cite web}} needs lower case field names; two loops in case a single template has multiple uppercase fields
-            // restrict to en-wiki
-            // exceptionally, 'ISBN' is allowed
-            while (Variables.LangCode == "en")
-            {
-                int matchcount = UppercaseCiteFields.Matches(articleText).Count;
-                bool urlmatch;
-                int urlmatches = 0;
-
-                foreach (Match m in UppercaseCiteFields.Matches(articleText))
-                {
-                    urlmatches = 0;
-
-                    urlmatch = CiteUrl.Match(m.Value).Value.Contains(m.Groups[2].Value);
-
-                    // check not within URL
-                    if (!urlmatch)
-                        articleText = articleText.Replace(m.Value, m.Groups[1].Value + m.Groups[2].Value.ToLower() + m.Groups[3].Value);
-                    else
-                        urlmatches++;
-                }
-
-                if (matchcount == 0 || matchcount == urlmatches)
-                    break;
-            }
-
-            articleText = CiteFormatFieldTypo.Replace(articleText, "$1format$2");
 
             articleText = RemoveNoPropertyFontTags.Replace(articleText, "$1");
 
@@ -1986,6 +1940,18 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
+        private static readonly Regex AccessdateTypo = new Regex(@"(\{\{\s*cit[^{}]*?\|\s*)ac(?:(?:ess?s?|cc?es|cess[es]|ccess)date|cessda[ry]e|c?essdat|cess(?:daste|ate)|cdessdate|cess?data|cesdsate|cessdaet|cessdatge|cesseddate|accessedon)(\s*=\s*)", RegexOptions.IgnoreCase);
+
+        private static readonly Regex PublisherTypo = new Regex(@"(?<={{\s*[Cc]it[ae][^{}\|]*?\|(?:[^{}]+\|)?\s*)(?:p(?:u[ns]|oub)lisher|publihser|pub(?:lication)?|pubslisher|puablisher|publicher|ublisher|publsiher|pusliher|pblisher|pubi?lsher|publishet|puiblisher|puplisher|publiisher|publiser|pulisher|publishser|pulbisher|publisber|publoisher|publishier|pubhlisher|publiaher|publicser|publicsher|publidsherr|publiher|publihsher|publilsher|publiosher|publisaher|publischer|publiseher|publisehr|publiserh|publisger|publishe?|publishey|publlisher|publusher|pubsliher)(\s*=)", RegexOptions.Compiled);
+
+        private static readonly Regex AccessdateSynonyms = new Regex(@"(?<={{\s*[Cc]it[ae][^{}]*?\|\s*)(?:\s*date\s*)?(?:retrieved(?:\s+on)?|(?:last|date) *accessed|access\s+date)(?=\s*=\s*)", RegexOptions.Compiled);
+
+        private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{(?:[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)|[Cc]itation)\b\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(?<!(?:IS[BS]N|DOI|PMID))(\s*=\s*[^{}\|]{3,})", RegexOptions.Compiled);
+
+        private static readonly Regex CiteUrl = new Regex(@"url\s*=\s*[^\[\]<>""\s]+", RegexOptions.Compiled);
+
+        private static readonly Regex CiteFormatFieldTypo = new Regex(@"(\{\{\s*[Cc]it[^{}]*?\|\s*)(?i)(?:fprmat)(\s*=\s*)", RegexOptions.Compiled);
+
         private static readonly Regex CiteTemplateFormatHTML = new Regex(@"\|\s*format\s*=\s*(?:HTML?|\[\[HTML?\]\]|html?)\s*(?=\||}})", RegexOptions.Compiled);
         private static readonly Regex CiteTemplateFormatnull = new Regex(@"\|\s*format\s*=\s*(?=\||}})", RegexOptions.Compiled);
         private static readonly Regex CiteTemplateLangEnglish = new Regex(@"\|\s*language\s*=\s*(?:[Ee]nglish)\s*(?=\||}})", RegexOptions.Compiled);
@@ -2003,6 +1969,40 @@ namespace WikiFunctions.Parse
         /// <returns>The updated wiki text</returns>
         public static string FixCitationTemplates(string articleText)
         {
+            articleText = AccessdateTypo.Replace(articleText, "$1accessdate$2");
+
+            articleText = PublisherTypo.Replace(articleText, @"publisher$1");
+
+            articleText = AccessdateSynonyms.Replace(articleText, "accessdate");
+
+            // {{cite web}} needs lower case field names; two loops in case a single template has multiple uppercase fields
+            // restrict to en-wiki
+            // exceptionally, 'ISBN' is allowed
+            while (Variables.LangCode == "en")
+            {
+                int matchcount = UppercaseCiteFields.Matches(articleText).Count;
+                bool urlmatch;
+                int urlmatches = 0;
+
+                foreach (Match m in UppercaseCiteFields.Matches(articleText))
+                {
+                    urlmatches = 0;
+
+                    urlmatch = CiteUrl.Match(m.Value).Value.Contains(m.Groups[2].Value);
+
+                    // check not within URL
+                    if (!urlmatch)
+                        articleText = articleText.Replace(m.Value, m.Groups[1].Value + m.Groups[2].Value.ToLower() + m.Groups[3].Value);
+                    else
+                        urlmatches++;
+                }
+
+                if (matchcount == 0 || matchcount == urlmatches)
+                    break;
+            }
+
+            articleText = CiteFormatFieldTypo.Replace(articleText, "$1format$2");
+
             foreach (Match m in WikiRegexes.CiteTemplate.Matches(articleText))
             {
                 string newValue = m.Value;
