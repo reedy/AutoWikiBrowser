@@ -410,6 +410,13 @@ End of." + f));
 
             Assert.AreEqual(@"<ref name=""ecomodder.com"">http://ecomodder.com/forum/showthread.php/obd-mpguino-gauge-2702.html</ref> foo bar <ref>http://ecomodder.com/wiki/index.php/MPGuino</ref> now <ref>http://ecomodder.com/wiki/index.php/MPGuino</ref>now <ref name=""ecomodder.com""/>",
                             Parsers.DuplicateUnnamedReferences(@"<ref>http://ecomodder.com/forum/showthread.php/obd-mpguino-gauge-2702.html</ref> foo bar <ref>http://ecomodder.com/wiki/index.php/MPGuino</ref> now <ref>http://ecomodder.com/wiki/index.php/MPGuino</ref>now <ref>http://ecomodder.com/forum/showthread.php/obd-mpguino-gauge-2702.html</ref>"));
+            
+            const string Ibid = @"now <ref>ibid</ref> was<ref>ibid</ref> there";
+            Assert.AreEqual(Ibid, Parsers.DuplicateUnnamedReferences(Ibid));
+            
+            // nothing to do here
+            const string SingleRef = @"now <ref>first</ref> was";
+            Assert.AreEqual(SingleRef, Parsers.DuplicateUnnamedReferences(SingleRef));
         }
 
         [Test]
@@ -424,6 +431,7 @@ End of." + f));
             Assert.AreEqual("Oldani 1982: p.8", Parsers.DeriveReferenceName("a", @"Oldani (1982: p.8)"));
             Assert.AreEqual("elections.sos.state.tx.us", Parsers.DeriveReferenceName("a", @"http://elections.sos.state.tx.us/elchist.exe"));
             Assert.AreEqual("imdb.com", Parsers.DeriveReferenceName("a", @"{{cite web | url=http://www.imdb.com/title/tt0120992/crazycredits | title=Hypnotist The Incredible BORIS is Boris Cherniak | accessdate=2007-10-15 }}"));
+            Assert.AreEqual("hello.imdb.com", Parsers.DeriveReferenceName("a", @"{{cite web | url=hello.imdb.com/tt0120992/ | title=Hypnotist The Incredible BORIS is Boris Cherniak | accessdate=2007-10-15 }}"));
             Assert.AreEqual("Caroline Humphrey p.27", Parsers.DeriveReferenceName("a", @"Caroline Humphrey, David Sneath-The end of Nomadism?, p.27"));
             Assert.AreEqual("Dennis, Peter 1995 Page 440", Parsers.DeriveReferenceName("a", @"Dennis, Peter (et al.) (1995) The Oxford Companion to Australian Military History, Melbourne: Oxford University Press, Page 440."));
             Assert.AreEqual("Sepkoski 2002 p.560", Parsers.DeriveReferenceName("a", @"{{cite journal
@@ -441,7 +449,8 @@ End of." + f));
 
             Assert.AreEqual("ReferenceA", Parsers.DeriveReferenceName("a", @""));
 
-            Assert.AreEqual("ReferenceA", Parsers.DeriveReferenceName("a", @"* Cf. Ezriel Carlebach entry in the Hebrew Wikipedia"));
+            Assert.AreEqual("ReferenceA", Parsers.DeriveReferenceName("a", @"* Cf. Ezriel Carlebach entry in the Hebrew Wikipedia"));         
+            
             Assert.AreEqual("Bray, Warwick 1968 93-96", Parsers.DeriveReferenceName("a", @"{{cite book |author=Bray, Warwick |year=1968 |chapter=Everyday Life of The Aztecs |pages=93-96}}"));
             Assert.AreEqual("Olson 2000 84", Parsers.DeriveReferenceName("a", @"{{harv|Olson|2000|p=84}}"));
             Assert.AreEqual("Olson 2000 84", Parsers.DeriveReferenceName("a", @"{{harv|Olson|2000|pp =84}}"));
@@ -475,6 +484,11 @@ End of." + f));
             Assert.AreEqual(@"Bajanov 2003: 2-3", Parsers.DeriveReferenceName("a", @"[[#Banj1930|Bajanov 2003]]: 2-3"));
 
             // doesn't provide what's already in use
+            Assert.AreEqual("ReferenceB", Parsers.DeriveReferenceName("a<ref name=ReferenceA>foo</ref> now", @"* Cf. Ezriel Carlebach entry in the Hebrew Wikipedia"));
+            Assert.AreEqual("ReferenceC", Parsers.DeriveReferenceName("a<ref name=ReferenceA>foo</ref> now <ref name=ReferenceB>foo</ref>", @"* Cf. Ezriel Carlebach entry in the Hebrew Wikipedia"));
+            
+            Assert.AreEqual(@"books.Google.com", Parsers.DeriveReferenceName(@"a <ref name=""Smither Bee 2008"">a</ref> was", @"{{Cite book|title=hello|year=2008|last=Smither Bee|foo=bar|url = http://books.Google.com/special}}"));
+            Assert.AreEqual(@"books.Google.com", Parsers.DeriveReferenceName(@"a <ref name='Smither Bee 2008'>a</ref> was", @"{{Cite book|title=hello|year=2008|last=Smither Bee|foo=bar|url = http://books.Google.com/special}}"));
         }
 
         [Test]
@@ -523,6 +537,10 @@ Jones 2005</ref>"));
 
             Assert.AreEqual(15, Parsers.BadCiteParameters(@"now {{cite web|foodoo=bar|date=2009}} was", ref len));
             Assert.AreEqual(6, len);
+            
+            // no errors here
+            Assert.AreEqual(0, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009}} was", ref len));
+            Assert.AreEqual(0, len);
         }
     }
 
@@ -1095,6 +1113,10 @@ died 2002
 [[Category:Year of birth uncertain]]";
 
             Assert.AreEqual(unc1, Parsers.FixPeopleCategories(unc1, "Aaron Walden"));
+            
+            // too many refs for it to be plausible that the cats are missing
+            const string Refs = @"<ref>a</ref> <ref>a</ref> <ref>a</ref> <ref>a</ref> <ref>a</ref> <ref>a</ref> <ref>a</ref>";
+            Assert.AreEqual(a1 + Refs + Refs + Refs, Parsers.FixPeopleCategories(a1 + Refs + Refs + Refs, "foo"));
         }
 
         [Test]
@@ -1359,7 +1381,7 @@ complementary and alternative medicine: evidence is a better friend than power. 
             Assert.AreEqual(1, bracketLength);
 
             Assert.AreEqual(27, Parsers.UnbalancedBrackets(@"<a>asdf</a> now <b>hello /b>", ref bracketLength));
-            Assert.AreEqual(1, bracketLength);
+            Assert.AreEqual(1, bracketLength);            
         }
 
         [Test]
@@ -1584,6 +1606,14 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3| pages = 140   - 148}}")); // hyphe
             Assert.AreEqual("[[|foo]]", Parsers.FixLinks("[[|foo]]", "bar", out noChange));
 
             Assert.AreEqual(@"[[foo|bar]]", Parsers.FixSyntax(@"[[foo||bar]]"));
+        }
+        
+        [Test]
+        public void FixLink()
+        {
+            bool nochange;
+            Assert.AreEqual(@"[[Foo bar]]", Parsers.FixLinks(@"[[Foo_bar]]", "a", out nochange));
+            Assert.IsFalse(nochange);
         }
         
         [Test]
@@ -3123,6 +3153,10 @@ When DST ends in central Europe, clocks retreat from 03:00 CEST to 02:00 CET. Ot
 | age=11}}{{box2}}} '''John David Smith''' is a bar", parser.BoldTitle(@"{{Infobox
 | age=11}}{{box2}}} '''John David Smith''' is a bar", "John Smith", out noChangeBack));
             Assert.IsTrue(noChangeBack);
+            
+             Assert.AreEqual("'''Now''' Foo is a bar While remaining upright may be the primary goal of beginning riders",
+                            parser.BoldTitle("'''Now''' Foo is a bar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
+            Assert.IsTrue(noChangeBack);
 
             // won't change if italics either
             Assert.AreEqual("''Foo'' is this one", parser.BoldTitle("''Foo'' is this one", "Foo", out noChangeBack));
@@ -3139,6 +3173,14 @@ When DST ends in central Europe, clocks retreat from 03:00 CEST to 02:00 CET. Ot
         {
             Assert.AreEqual("'''Foo''' is a bar While remaining upright may be the primary goal of beginning riders",
                             parser.BoldTitle("Foo is a bar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
+            
+            Assert.AreEqual("'''Foo''' (here) is a bar While remaining upright may be the primary goal of beginning riders",
+                            parser.BoldTitle("Foo (here) is a bar While remaining upright may be the primary goal of beginning riders", "Foo (here)", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
+            
+            Assert.AreEqual("'''Foo.(here)''' is a bar While remaining upright may be the primary goal of beginning riders",
+                            parser.BoldTitle("Foo.(here) is a bar While remaining upright may be the primary goal of beginning riders", "Foo.(here)", out noChangeBack));
             Assert.IsFalse(noChangeBack);
 
             // only first instance bolded
@@ -4754,6 +4796,12 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             text = parser.Tagger("{{orphan}}", "Test", out noChange, ref summary);
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
         }
+        
+        [Test]
+        public void RemoveExpand()
+        {
+            Assert.IsFalse(WikiRegexes.Expand.IsMatch(parser.Tagger(@"foo {{expand}} {{bio-stub}}", "Test", out noChange, ref summary)));
+        }
 
         [Test]
         public void Update()
@@ -4864,6 +4912,14 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"{{article issues|sections=May 2008|POV=March 2008|COI=May 2009}}", Parsers.Conversions(@"{{articleissues|sections=May 2008|POV=March 2008|COI=May 2009}}"));
         }
 
+        [Test]
+         public void ConversionTestsInterwikiMigration()
+         {
+                Assert.AreEqual(@"{{hello}}", Parsers.Conversions(@"{{msg:hello}}"));
+                Assert.AreEqual(@"[[zh:foo]]", Parsers.Conversions(@"[[zh-tw:foo]]"));
+                Assert.AreEqual(@"[[no:foo]]", Parsers.Conversions(@"[[nb:foo]]"));
+                Assert.AreEqual(@"[[da:foo]]", Parsers.Conversions(@"[[dk:foo]]"));
+         }
         [Test]
         public void PageNameTests()
         {
