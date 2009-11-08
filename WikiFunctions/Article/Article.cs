@@ -28,6 +28,7 @@ using WikiFunctions.Parse;
 using WikiFunctions.Controls;
 using System.Windows.Forms;
 using WikiFunctions.API;
+using System.Collections.Generic;
 
 namespace WikiFunctions
 {
@@ -413,10 +414,14 @@ namespace WikiFunctions
         {
             return Parsers.UnbalancedBrackets(ArticleText, ref bracketLength);
         }
-
-        public int BadCiteWeb(ref int parameterLength)
+        
+        /// <summary>
+        /// Returns the index and length of any invalid or unknown citation parameters within a citation template
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<int, int> BadCiteParameters()
         {
-            return Parsers.BadCiteParameters(ArticleText, ref parameterLength);
+            return Parsers.BadCiteParameters(ArticleText);
         }
 
         /// <summary>
