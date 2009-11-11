@@ -178,9 +178,13 @@ namespace WikiFunctions.Parse
             {
               if (!string.IsNullOrEmpty(_editSummary))
                   editSummary = ", Replaced: " + _editSummary.Trim();
-                  
+
               if (!string.IsNullOrEmpty(_removedSummary))
-                  editSummary += ", Removed: " + _removedSummary.Trim();
+              {
+                  if (string.IsNullOrEmpty(_editSummary))
+                      editSummary += ", ";
+                  editSummary += "Removed: " + _removedSummary.Trim();
+              }
             }
 
             return articleText;
