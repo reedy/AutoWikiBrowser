@@ -539,7 +539,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.PluginMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PluginToolStripMenuItem, Me.MenuAbout, Me.MenuHelp})
             Me.PluginMenuStrip.Location = New System.Drawing.Point(0, 0)
             Me.PluginMenuStrip.Name = "PluginMenuStrip"
-            Me.PluginMenuStrip.Size = New System.Drawing.Size(534, 24)
+            Me.PluginMenuStrip.Size = New System.Drawing.Size(442, 24)
             Me.PluginMenuStrip.TabIndex = 42
             Me.PluginMenuStrip.Text = "MenuStrip1"
             Me.PluginMenuStrip.Visible = False
@@ -554,7 +554,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             'SetAWBToolStripMenuItem
             '
             Me.SetAWBToolStripMenuItem.Name = "SetAWBToolStripMenuItem"
-            Me.SetAWBToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.SetAWBToolStripMenuItem.Size = New System.Drawing.Size(119, 22)
             Me.SetAWBToolStripMenuItem.Text = "Set AWB"
             Me.SetAWBToolStripMenuItem.ToolTipText = "Reset AWB to default values suitable for use with the plugin"
             '
