@@ -48,7 +48,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                     return null;
 
                 string s = r.GetAttribute("error");
-                return !string.IsNullOrEmpty(s) ? s : r.ReadString();
+                return string.IsNullOrEmpty(s) ? r.ReadString() : s;
             }
         }
 
