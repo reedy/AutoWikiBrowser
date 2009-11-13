@@ -369,7 +369,8 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Gets a list of non redirect pages which link to the Named Pages
+    /// (If linking page is a redirect, get pages which link to that also)
     /// </summary>
     public class WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider : WhatLinksHereListProvider
     {
@@ -390,7 +391,7 @@ namespace WikiFunctions.Lists
     }
 
     /// <summary>
-    /// 
+    /// Gets a list of pages (excluding redirects) which link to the Named Pages
     /// </summary>
     public class WhatLinksHereExcludingPageRedirectsListProvider : WhatLinksHereListProvider
     {
