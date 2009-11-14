@@ -62,6 +62,8 @@ namespace WikiFunctions
         /// </summary>
         public static string GlobalVersionPage { get; private set; }
 
+        private static readonly Regex EnabledVersions = new Regex(@"\*(.*?) enabled", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
         /// <summary>
         /// Do the actual checking for enabledness etc
         /// </summary>
@@ -80,22 +82,31 @@ namespace WikiFunctions
                 int awbNewestVersion =
                     StringToVersion(Regex.Match(text, @"<!-- Newest version: (.*?) -->").Groups[1].Value);
 
-                int updaterVersion =
-                    StringToVersion(Regex.Match(text, @"<!-- Updater version: (.*?) -->").Groups[1].Value);
-
                 if ((awbCurrentVersion > 4000) || (awbNewestVersion > 4000))
                 {
+                    int updaterVersion =
+                        StringToVersion(Regex.Match(text, @"<!-- Updater version: (.*?) -->").Groups[1].Value);
+
                     FileVersionInfo awbVersionInfo =
                         FileVersionInfo.GetVersionInfo(AWBDirectory + "AutoWikiBrowser.exe");
                     int awbFileVersion = StringToVersion(awbVersionInfo.FileVersion);
 
+                    Result = AWBEnabledStatus.Disabled; //Disabled till proven enabled
+
                     if (awbFileVersion < awbCurrentVersion)
-                    {
-                        Result = AWBEnabledStatus.Disabled;
                         return;
+
+                    foreach (Match m in EnabledVersions.Matches(text))
+                    {
+                        if (StringToVersion(m.Groups[1].Value) == awbFileVersion)
+                        {
+                            Result = AWBEnabledStatus.Enabled;
+                            break;
+                        }
                     }
 
-                    Result = AWBEnabledStatus.Enabled;
+                    if (Result == AWBEnabledStatus.Disabled)
+                        return;
 
                     if ((updaterVersion > 1400) &&
                         (updaterVersion >
