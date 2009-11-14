@@ -2015,6 +2015,9 @@ window.scrollTo(0, diffTopY);
                 levelTwoHeadingsAfter[after] = m.Value;
                 articleTextLocal = articleTextLocal.Replace(m.Value, "");
                 after++;
+                
+                if (after == 20)
+                    return ("");
             }
             
             // handle the array not being big enough
