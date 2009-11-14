@@ -330,7 +330,11 @@ namespace AutoWikiBrowser
                 }
 
                 if ((Updater.Result & Updater.AWBEnabledStatus.Disabled) == Updater.AWBEnabledStatus.Disabled)
+                {
                     OldVersion();
+                    SplashScreen.Close();
+                    return;
+                }
 
                 if ((Updater.Result & Updater.AWBEnabledStatus.Error) == Updater.AWBEnabledStatus.Error)
                 {
@@ -2211,6 +2215,7 @@ window.scrollTo(0, diffTopY);
         private void OldVersion()
         {
             lblUserName.BackColor = Color.Red;
+            DisableButtons();
 
             switch (
                 MessageBox.Show(
