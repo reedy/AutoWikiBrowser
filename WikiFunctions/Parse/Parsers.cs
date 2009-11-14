@@ -4129,14 +4129,14 @@ namespace WikiFunctions.Parse
             // bulleted or indented text should weigh less than simple text.
             // for example, actor stubs may contain large filmographies
             string crapStripped = WikiRegexes.BulletedText.Replace(commentsStripped, "");
-            int words = (Tools.WordCount(commentsStripped) + Tools.WordCount(crapStripped)) / 2;
+            int words = (Tools.WordCount(commentsStripped) + Tools.WordCount(crapStripped))/2;
 
             // on en wiki, remove expand template when a stub template exists
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.7B.7Bexpand.7D.7D_when_a_stub_template_exists
-            if (Variables.LangCode == "en" && WikiRegexes.Stub.IsMatch(commentsStripped) && WikiRegexes.Expand.IsMatch(commentsStripped))
+            if (Variables.LangCode == "en" && WikiRegexes.Stub.IsMatch(commentsStripped) &&
+                WikiRegexes.Expand.IsMatch(commentsStripped))
             {
                 articleText = WikiRegexes.Expand.Replace(articleText, "");
-
                 summary += ", removed expand tag";
             }
 
@@ -4152,12 +4152,12 @@ namespace WikiFunctions.Parse
             foreach (Match m in WikiRegexes.Template.Matches(articleText))
             {
                 if (!(WikiRegexes.Stub.IsMatch(m.Value)
-                    || WikiRegexes.Uncat.IsMatch(m.Value)
-                    || WikiRegexes.DeadEnd.IsMatch(m.Value)
-                    || WikiRegexes.Wikify.IsMatch(m.Value)
-                    || WikiRegexes.Orphan.IsMatch(m.Value)
-                    || WikiRegexes.ReferenceList.IsMatch(m.Value)
-                    || m.Value.Contains("subst")))
+                      || WikiRegexes.Uncat.IsMatch(m.Value)
+                      || WikiRegexes.DeadEnd.IsMatch(m.Value)
+                      || WikiRegexes.Wikify.IsMatch(m.Value)
+                      || WikiRegexes.Orphan.IsMatch(m.Value)
+                      || WikiRegexes.ReferenceList.IsMatch(m.Value)
+                      || m.Value.Contains("subst")))
                     return articleText;
             }
 
@@ -4165,7 +4165,7 @@ namespace WikiFunctions.Parse
                    linkCount = Tools.LinkCount(commentsStripped);
 
             int totalCategories = (!Globals.UnitTestMode)
-                                      ? CategoryProv.MakeList(new[] { articleTitle }).Count
+                                      ? CategoryProv.MakeList(new[] {articleTitle}).Count
                                       : Globals.UnitTestIntValue;
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Archive_19#AWB_problems
@@ -4207,21 +4207,21 @@ namespace WikiFunctions.Parse
                 articleText = "{{deadend|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
                 summary += ", added [[:Category:Dead-end pages|deadend]] tag";
             }
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.7B.7BDeadend.7D.7D_gets_removed_from_categorized_pages
-            // don't include categories as 'links'
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.7B.7BDeadend.7D.7D_gets_removed_from_categorized_pages
+                // don't include categories as 'links'
             else if ((linkCount - totalCategories) > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
             {
                 articleText = WikiRegexes.DeadEnd.Replace(articleText, "");
                 summary += ", removed deadend tag";
             }
 
-            if (linkCount < 3 && ((linkCount / length) < 0.0025) && !WikiRegexes.Wikify.IsMatch(articleText))
+            if (linkCount < 3 && ((linkCount/length) < 0.0025) && !WikiRegexes.Wikify.IsMatch(articleText))
             {
                 // add wikify tag
                 articleText = "{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
                 summary += ", added [[:Category:Articles that need to be wikified|wikify]] tag";
             }
-            else if (linkCount > 3 && ((linkCount / length) > 0.0025) &&
+            else if (linkCount > 3 && ((linkCount/length) > 0.0025) &&
                      WikiRegexes.Wikify.IsMatch(articleText))
             {
                 articleText = WikiRegexes.Wikify.Replace(articleText, "");
