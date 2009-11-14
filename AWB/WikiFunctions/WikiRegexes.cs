@@ -548,7 +548,12 @@ namespace WikiFunctions
         /// <summary>
         /// matches {{Article issues}} template
         /// </summary>
-        public static readonly Regex ArticleIssues = new Regex(@"({{\s*[Aa]rticle ?issues(?:\s*\|[^{}]*)?\s*)}}");
+        public static readonly Regex ArticleIssues = new Regex(@"({{\s*[Aa]rticle ?issues(?:\s*\|[^{}]*)?\s*)}}", RegexOptions.Compiled);
+
+        /// <summary>
+        /// matches {{New unreviewed article}} template
+        /// </summary>
+        public static readonly Regex NewUnReviewedArticle = new Regex(@"({{\s*[Nn]ew unreviewed article(?:\s*\|[^{}]*)?\s*)}}", RegexOptions.Compiled);
 
         /// <summary>
         /// The cleanup templates that can be moved into the {{article issues}} template

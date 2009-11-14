@@ -4157,6 +4157,7 @@ namespace WikiFunctions.Parse
                       || WikiRegexes.Wikify.IsMatch(m.Value)
                       || WikiRegexes.Orphan.IsMatch(m.Value)
                       || WikiRegexes.ReferenceList.IsMatch(m.Value)
+                      || WikiRegexes.NewUnReviewedArticle.IsMatch(m.Value)
                       || m.Value.Contains("subst")))
                     return articleText;
             }
