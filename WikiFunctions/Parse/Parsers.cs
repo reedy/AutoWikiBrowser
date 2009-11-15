@@ -1963,6 +1963,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex CiteTemplatesPageRange = new Regex(@"(?<=\|\s*pages?\s*=\s*(?:p?p\.?)?\s*\d+)\s*[-—]\s*(\d)", RegexOptions.Compiled);
         
         private static readonly Regex AccessDateYear = new Regex(@"(?<=\|\s*accessdate\s*=\s*(?:[1-3]?\d\s+" + WikiRegexes.MonthsNoGroup + @"|\s*" + WikiRegexes.MonthsNoGroup + @"\s+[1-3]?\d))(\s*)\|\s*accessyear\s*=\s*(20[01]\d)\s*(\||}})", RegexOptions.Compiled);
+        private static readonly Regex AccessDayMonthDay = new Regex(@"\|\s*access(?:daymonth|monthday)\s*=\s*(?=\||}})", RegexOptions.Compiled);
 
         /// <summary>
         /// Applies various formatting fixes to citation templates
@@ -2037,8 +2038,10 @@ namespace WikiFunctions.Parse
                     newValue = Regex.Replace(newValue, @"^{{\s*[Cc]ite ?web(?=\s*\|)", @"{{cite book");
                 
                 // merge accessdate and accessyear in cite web
+                // remove any empty accessdaymonth and accessmonthday
                 if (Regex.IsMatch(newValue, @"^{{\s*[Cc]ite ?web\s*\|"))
-                {
+                {                    
+                    newValue = AccessDayMonthDay.Replace(newValue, "");
                     newValue = AccessDateYear.Replace(newValue, @" $2$1$3");
                 }
 
