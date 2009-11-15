@@ -577,7 +577,7 @@ namespace WikiFunctions.Parse
             string articleTextBefore;
 
             // do not reorder stuff in the <references>...</references> section
-            int referencestags = articleText.IndexOf(@"<references>");
+            int referencestags = WikiRegexes.ReferencesTemplate.Match(articleText).Index;
             if (referencestags <= 0)
                 referencestags = articleText.Length;
 
