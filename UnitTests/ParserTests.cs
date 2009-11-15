@@ -331,20 +331,27 @@ End of.";
             Assert.AreEqual(c, Parsers.ReorderReferences(c));
             Assert.AreEqual(d, Parsers.ReorderReferences(d));
             Assert.AreEqual(e, Parsers.ReorderReferences(e));
+        }
+        
+        [Test]
+        public void ReorderReferencesNotWithinReflist()
+        {
+            // not reordered in <references>...</references> etc.
 
-            // not reordered in <references>...</references>
-
-            string f = @"
+            string a = @"
 <references>
 <ref>So says John</ref>
 <ref name = ""Fred1"" />
-</references>";
-
-            Assert.AreEqual(@"'''Article''' is great.<ref name = ""Fred1"">So says Fred</ref>
+</references>",  b = @"{{reflist|3|refs=
+<ref>So says John</ref>
+<ref name = ""Fred1"" />
+}}";
+            string correctpart = @"'''Article''' is great.<ref name = ""Fred1"">So says Fred</ref>
 Article started off pretty good, <ref name = ""Fred1"" /> <ref>So says John</ref> and finished well.
-End of." + f, Parsers.ReorderReferences(@"'''Article''' is great.<ref name = ""Fred1"">So says Fred</ref>
-Article started off pretty good, <ref>So says John</ref> <ref name = ""Fred1"" /> and finished well.
-End of." + f));
+End of.";
+
+            Assert.AreEqual(correctpart + a, Parsers.ReorderReferences(correctpart + a));
+            Assert.AreEqual(correctpart + b, Parsers.ReorderReferences(correctpart + b));            
         }
 
         [Test]
