@@ -2035,14 +2035,15 @@ namespace WikiFunctions.Parse
 
                 // {{cite web}} for Google books -> {{cite book}}
                 if (Regex.IsMatch(newValue, @"^{{\s*[Cc]ite ?web\s*\|") && newValue.Contains("http://books.google.com"))
-                    newValue = Regex.Replace(newValue, @"^{{\s*[Cc]ite ?web(?=\s*\|)", @"{{cite book");
+                	newValue = Regex.Replace(newValue, @"^{{\s*[Cc]ite ?web(?=\s*\|)", @"{{cite book");
                 
-                // merge accessdate and accessyear in cite web
-                // remove any empty accessdaymonth and accessmonthday
                 if (Regex.IsMatch(newValue, @"^{{\s*[Cc]ite ?web\s*\|"))
-                {                    
-                    newValue = AccessDayMonthDay.Replace(newValue, "");
-                    newValue = AccessDateYear.Replace(newValue, @" $2$1$3");
+                {
+                	// remove any empty accessdaymonth and accessmonthday
+                	newValue = AccessDayMonthDay.Replace(newValue, "");
+                	
+                	// merge accessdate of 'DD Month' or 'Month DD' and accessyear of 'YYYY' in cite web
+                	newValue = AccessDateYear.Replace(newValue, @" $2$1$3");
                 }
 
                 // page range should have unspaced en-dash
