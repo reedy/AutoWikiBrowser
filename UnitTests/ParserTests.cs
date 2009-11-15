@@ -1451,6 +1451,26 @@ complementary and alternative medicine: evidence is a better friend than power. 
         	Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{citeweb|title=a |url=http://books.google.com/foo | year=2009}}"));
         	Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{Cite web|title=a |url=http://books.google.com/foo | year=2009}}"));
         }
+        
+        [Test]
+        public void MergeCiteWebAccessDateYear()
+        {
+            string correct = @"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008}}";
+            string correct2 = @"{{cite web|url=a |title=b |date=2008 | accessdate=May 11 2008}}";
+            string correct3 = @"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008 |work=c}}";
+            
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May| accessyear=2008}}"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May| accessyear = 2008  }}"));
+            Assert.AreEqual(correct2, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=May 11| accessyear=2008}}"));
+            Assert.AreEqual(correct2, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=May 11| accessyear = 2008  }}"));
+            Assert.AreEqual(correct3, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May | accessyear = 2008 |work=c}}"));
+            
+            // don't combine when year already given; only for cite web
+            string nochange1 = @"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008 |accessyear=2008 |work=c}}";
+            string nochange2 = @"{{cite news|url=a |title=b |date=2008 | accessdate=11 May |accessyear=2008 |work=c}}";
+            Assert.AreEqual(nochange1, Parsers.FixCitationTemplates(nochange1));
+            Assert.AreEqual(nochange2, Parsers.FixCitationTemplates(nochange2));
+        }
 
         [Test]
         public void FixCitationTemplates()
