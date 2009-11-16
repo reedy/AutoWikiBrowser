@@ -21,7 +21,7 @@ Copyright © 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov or
 Copyright © 2000-2002 Philip A. Craig
 
  */
- 
+
 using System.Text;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
@@ -351,7 +351,7 @@ Article started off pretty good, <ref name = ""Fred1"" /> <ref>So says John</ref
 End of.";
 
             Assert.AreEqual(correctpart + a, Parsers.ReorderReferences(correctpart + a));
-            Assert.AreEqual(correctpart + b, Parsers.ReorderReferences(correctpart + b));            
+            Assert.AreEqual(correctpart + b, Parsers.ReorderReferences(correctpart + b));
         }
 
         [Test]
@@ -457,7 +457,7 @@ End of.";
 
             Assert.AreEqual("ReferenceA", Parsers.DeriveReferenceName("a", @""));
 
-            Assert.AreEqual("ReferenceA", Parsers.DeriveReferenceName("a", @"* Cf. Ezriel Carlebach entry in the Hebrew Wikipedia"));         
+            Assert.AreEqual("ReferenceA", Parsers.DeriveReferenceName("a", @"* Cf. Ezriel Carlebach entry in the Hebrew Wikipedia"));
             
             Assert.AreEqual("Bray, Warwick 1968 93-96", Parsers.DeriveReferenceName("a", @"{{cite book |author=Bray, Warwick |year=1968 |chapter=Everyday Life of The Aztecs |pages=93-96}}"));
             Assert.AreEqual("Olson 2000 84", Parsers.DeriveReferenceName("a", @"{{harv|Olson|2000|p=84}}"));
@@ -557,7 +557,7 @@ Jones 2005</ref>"));
             // multiple errors
             Found.Add(15, 6);
             Found.Add(36, 4);
-            Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|foodoo=bar|date=2009|bert= false}} was"));            
+            Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|foodoo=bar|date=2009|bert= false}} was"));
         }
         
         [Test]
@@ -1161,7 +1161,7 @@ died 2002
             // too many refs for it to be plausible that the cats are missing
             const string Refs = @"<ref>a</ref> <ref>a</ref> <ref>a</ref> <ref>a</ref> <ref>a</ref> <ref>a</ref> <ref>a</ref>";
             Assert.AreEqual(a1 + Refs + Refs + Refs, Parsers.FixPeopleCategories(a1 + Refs + Refs + Refs, "foo"));
-        }       
+        }
 
         [Test]
         public void GetInfoBoxFieldValue()
@@ -1227,7 +1227,7 @@ died 2002
 [[Category:Living people]]
 [[Category:1944 births]]", "foo"));
             
-             const string a = @"Mr foo {{persondata}} was great
+            const string a = @"Mr foo {{persondata}} was great
 [[Category:1960 deaths]]";
             Assert.AreEqual(a+ "\r\n", Parsers.FixPeopleCategories(a + "\r\n" + @"[[Category:Year of death missing]]", "test"));
 
@@ -1429,7 +1429,7 @@ complementary and alternative medicine: evidence is a better friend than power. 
             Assert.AreEqual(1, bracketLength);
 
             Assert.AreEqual(27, Parsers.UnbalancedBrackets(@"<a>asdf</a> now <b>hello /b>", ref bracketLength));
-            Assert.AreEqual(1, bracketLength);            
+            Assert.AreEqual(1, bracketLength);
         }
 
         [Test]
@@ -1452,25 +1452,27 @@ complementary and alternative medicine: evidence is a better friend than power. 
         [Test]
         public void FixCitationGoogleBooks()
         {
-        	string correct = @"now {{cite book|title=a |url=http://books.google.com/foo | year=2009}}";
-        	Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web|title=a |url=http://books.google.com/foo | year=2009}}"));
-        	Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{ cite web|title=a |url=http://books.google.com/foo | year=2009}}"));
-        	Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{citeweb|title=a |url=http://books.google.com/foo | year=2009}}"));
-        	Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{Cite web|title=a |url=http://books.google.com/foo | year=2009}}"));
+            string correct = @"now {{cite book|title=a |url=http://books.google.com/foo | year=2009}}";
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web|title=a |url=http://books.google.com/foo | year=2009}}"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{ cite web|title=a |url=http://books.google.com/foo | year=2009}}"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{citeweb|title=a |url=http://books.google.com/foo | year=2009}}"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{Cite web|title=a |url=http://books.google.com/foo | year=2009}}"));
         }
         
         [Test]
         public void MergeCiteWebAccessDateYear()
         {
             string correct = @"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008}}";
-            string correct2 = @"{{cite web|url=a |title=b |date=2008 | accessdate=May 11 2008}}";
+            string correct2 = @"{{cite web|url=a |title=b |date=2008 | accessdate=May 11, 2008}}";
             string correct3 = @"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008 |work=c}}";
+            string correct4 = @"{{cite book|url=a |title=b |date=2008 | accessdate=11 May 2008 |work=c}}";
             
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May| accessyear=2008}}"));
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May| accessyear = 2008  }}"));
             Assert.AreEqual(correct2, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=May 11| accessyear=2008}}"));
             Assert.AreEqual(correct2, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=May 11| accessyear = 2008  }}"));
             Assert.AreEqual(correct3, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May | accessyear = 2008 |work=c}}"));
+            Assert.AreEqual(correct4, Parsers.FixCitationTemplates(@"{{cite book|url=a |title=b |date=2008 | accessdate=11 May | accessyear = 2008 |work=c}}"));
             
             // don't combine when year already given; only for cite web
             string nochange1 = @"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008 |accessyear=2008 |work=c}}";
@@ -1482,10 +1484,27 @@ complementary and alternative medicine: evidence is a better friend than power. 
         [Test]
         public void AccessDayMonthDay()
         {
-        	string a = @"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008}}";
-        	Assert.AreEqual(a, Parsers.FixCitationTemplates( @"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|accessdaymonth=   }}"));
-        	Assert.AreEqual(a, Parsers.FixCitationTemplates( @"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|accessmonthday  =   }}"));
-        	Assert.AreEqual(a, Parsers.FixCitationTemplates( @"{{cite web|url=a |title=b |date=2008 |accessmonthday  = | accessdate=11 May 2008}}"));
+            string a = @"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008}}";
+            Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|accessdaymonth=   }}"));
+            Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|accessmonthday  =   }}"));
+            Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 |accessmonthday  = | accessdate=11 May 2008}}"));
+        }
+        
+        [Test]
+        public void DateLeadingZero()
+        {
+            string a = @"{{cite web|url=a |title=b |date=2008 | accessdate=1 May 2008}}";
+            Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=01 May 2008}}"));
+            
+            string b = @"{{cite book|url=a |title=b |date=2008 | date=May 1, 2008}}";
+            Assert.AreEqual(b, Parsers.FixCitationTemplates(@"{{cite book|url=a |title=b |date=2008 | date=May 01, 2008}}"));
+            Assert.AreEqual(b, Parsers.FixCitationTemplates(@"{{cite book|url=a |title=b |date=2008 | date=May 01 2008}}"));
+            
+            string c = @"{{cite book|url=a |title=b |date=2008 | date=May 1, 2008|author=Lee}}";
+            Assert.AreEqual(c, Parsers.FixCitationTemplates(@"{{cite book|url=a |title=b |date=2008 | date=May 01, 2008|author=Lee}}"));
+            
+            string d = @"{{cite book|url=a |title=b |date=2008 | date=May 1|author=Lee}}";
+            Assert.AreEqual(d, Parsers.FixCitationTemplates(@"{{cite book|url=a |title=b |date=2008 | date=May 01|author=Lee}}"));
         }
 
         [Test]
@@ -1530,7 +1549,7 @@ journal=Crypt of Cthulhu #19: A Pulp Thriller and Theological Journal |volume= 3
             Assert.AreEqual(correct,
                             Parsers.FixCitationTemplates(@"*{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
 journal=Crypt of Cthulhu #19: A Pulp Thriller and Theological Journal |volume=Vol. 3|issue=No. 3|url=http://www.clare.ltd.new.net/cryptofcthulhu/blreanimator.htm}} Robert M. Price (ed.), Bloomfield, NJ"));
-             Assert.AreEqual(correct,
+            Assert.AreEqual(correct,
                             Parsers.FixCitationTemplates(@"*{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
 journal=Crypt of Cthulhu #19: A Pulp Thriller and Theological Journal |volume=Volumes 3|issue=No. 3|url=http://www.clare.ltd.new.net/cryptofcthulhu/blreanimator.htm}} Robert M. Price (ed.), Bloomfield, NJ"));
 
@@ -1542,7 +1561,7 @@ journal=Crypt of Cthulhu #19: A Pulp Thriller and Theological Journal |volume=vo
                             Parsers.FixCitationTemplates(@"*{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
 journal=Crypt of Cthulhu #19: A Pulp Thriller and Theological Journal |volume=volume 3|issue=Issue 3|url=http://www.clare.ltd.new.net/cryptofcthulhu/blreanimator.htm}} Robert M. Price (ed.), Bloomfield, NJ"));
             
-                        Assert.AreEqual(correct,
+            Assert.AreEqual(correct,
                             Parsers.FixCitationTemplates(@"*{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
 journal=Crypt of Cthulhu #19: A Pulp Thriller and Theological Journal |volume=volume 3|issue=Issues 3|url=http://www.clare.ltd.new.net/cryptofcthulhu/blreanimator.htm}} Robert M. Price (ed.), Bloomfield, NJ"));
 
@@ -1974,11 +1993,11 @@ now"));
             Assert.AreEqual(@"now <ref>foo</ref>", Parsers.FixSyntax(@"now <ref>>foo</ref>"));
         }
         
-           [Test]
-           public void FixUnbalancedBracketsStrangeBrackets()
-           {
-               Assert.AreEqual(@"now (there) was", Parsers.FixSyntax(@"now （there) was"));
-           }
+        [Test]
+        public void FixUnbalancedBracketsStrangeBrackets()
+        {
+            Assert.AreEqual(@"now (there) was", Parsers.FixSyntax(@"now （there) was"));
+        }
 
         [Test]
         public void UppercaseCiteFields()
@@ -3248,7 +3267,7 @@ When DST ends in central Europe, clocks retreat from 03:00 CEST to 02:00 CET. Ot
 | age=11}}{{box2}}} '''John David Smith''' is a bar", "John Smith", out noChangeBack));
             Assert.IsTrue(noChangeBack);
             
-             Assert.AreEqual("'''Now''' Foo is a bar While remaining upright may be the primary goal of beginning riders",
+            Assert.AreEqual("'''Now''' Foo is a bar While remaining upright may be the primary goal of beginning riders",
                             parser.BoldTitle("'''Now''' Foo is a bar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsTrue(noChangeBack);
 
@@ -5016,13 +5035,13 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         }
 
         [Test]
-         public void ConversionTestsInterwikiMigration()
-         {
-                Assert.AreEqual(@"{{hello}}", Parsers.Conversions(@"{{msg:hello}}"));
-                Assert.AreEqual(@"[[zh:foo]]", Parsers.Conversions(@"[[zh-tw:foo]]"));
-                Assert.AreEqual(@"[[no:foo]]", Parsers.Conversions(@"[[nb:foo]]"));
-                Assert.AreEqual(@"[[da:foo]]", Parsers.Conversions(@"[[dk:foo]]"));
-         }
+        public void ConversionTestsInterwikiMigration()
+        {
+            Assert.AreEqual(@"{{hello}}", Parsers.Conversions(@"{{msg:hello}}"));
+            Assert.AreEqual(@"[[zh:foo]]", Parsers.Conversions(@"[[zh-tw:foo]]"));
+            Assert.AreEqual(@"[[no:foo]]", Parsers.Conversions(@"[[nb:foo]]"));
+            Assert.AreEqual(@"[[da:foo]]", Parsers.Conversions(@"[[dk:foo]]"));
+        }
         [Test]
         public void PageNameTests()
         {
