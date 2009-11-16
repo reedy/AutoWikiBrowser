@@ -81,6 +81,12 @@ namespace WikiFunctions.Controls.Lists
                 if (list2.Contains(a))
                 {
                     lb3.Items.Add(a.Name);
+
+                    foreach (Article a2 in list2.GetRange(0, list2.IndexOf(a) - 1))
+                    {
+                        lb2.Items.Add(a2.Name);
+                    }
+
                     list2.RemoveRange(0, list2.IndexOf(a));
                 }
                 else
