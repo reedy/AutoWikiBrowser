@@ -177,32 +177,21 @@ namespace WikiFunctions.Controls.Lists
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (string article in lbBoth.SelectedItems)
-                Tools.OpenArticleInBrowser(article);
-        }
-
-        private void openInBrowserToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
             foreach (string article in MenuItemOwner(sender).SelectedItems)
                 Tools.OpenArticleInBrowser(article);
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Tools.Copy(lbBoth);
-        }
-
-        private void copySelectedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
             Tools.Copy(MenuItemOwner(sender));
         }
 
-        private static ListBox MenuItemOwner(object sender)
+        private static ListBox2 MenuItemOwner(object sender)
         {
-            try { return ((ListBox)((ContextMenuStrip)sender).SourceControl); }
+            try { return ((ListBox2)((ContextMenuStrip)sender).SourceControl); }
             catch
             {
-                return (ListBox)(((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl);
+                return (ListBox2)(((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl);
             }
         }
 
@@ -222,6 +211,17 @@ namespace WikiFunctions.Controls.Lists
         {
             foreach (string a in lbNo2.Items)
                 listMaker1.Add(a);
+        }
+
+        private void mnuList_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            transferDuplicatesToList1ToolStripMenuItem.Visible = toolStripSeparator1.Visible = (MenuItemOwner(sender) == lbBoth);
+        }
+
+        private void removeSelectedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MenuItemOwner(sender).RemoveSelected();
+            UpdateCounts();
         }
     }
 }
