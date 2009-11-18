@@ -2347,7 +2347,7 @@ window.scrollTo(0, diffTopY);
 
                 badCiteParameters = TheArticle.BadCiteParameters();
                 if (badCiteParameters.Count > 0)
-                    warnings.AppendLine("Invalid citation parameter found");
+                    warnings.AppendLine("Invalid citation parameter(s) found");
 
                 lblWords.Text = "Words: " + intWords;
                 lblCats.Text = "Categories: " + intCats;
