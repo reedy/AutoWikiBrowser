@@ -1994,7 +1994,6 @@ namespace AutoWikiBrowser
             this.btnWatch.TabIndex = 11;
             this.btnWatch.Text = "&Watch";
             this.ToolTip.SetToolTip(this.btnWatch, "Add this page to your watchlist");
-            this.btnWatch.Visible = false;
             this.btnWatch.Click += new System.EventHandler(this.btnWatch_Click);
             // 
             // imgSub
@@ -3831,6 +3830,7 @@ namespace AutoWikiBrowser
             this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
             this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
             this.loggingSettings1.Name = "loggingSettings1";
+            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
             this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
             this.loggingSettings1.TabIndex = 0;
             // 
