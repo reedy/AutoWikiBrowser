@@ -538,7 +538,7 @@ namespace WikiFunctions.API
                 { "prop", "info|revisions" },
                 { "intoken","edit" },
                 { "titles", title },
-                { "inprop", "protection" },
+                { "inprop", "protection|watched" },
                 { "rvprop", "content|timestamp" } // timestamp|user|comment|
             },
             ActionOptions.All);

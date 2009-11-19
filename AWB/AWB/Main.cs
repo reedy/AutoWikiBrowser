@@ -563,7 +563,7 @@ namespace AutoWikiBrowser
                         break;
 
                     case "writeapidenied":
-                        NoWriteapiRight();
+                        NoWriteApiRight();
                         break;
 
                     default:
@@ -742,7 +742,6 @@ namespace AutoWikiBrowser
 
             if (_stopProcessing)
                 return;
-
             TheArticle = new ArticleEX(page);
 
             if (!preParseModeToolStripMenuItem.Checked && !CheckLoginStatus()) return;
@@ -932,6 +931,7 @@ namespace AutoWikiBrowser
                 txtEdit.Visible = false;
 
             txtEdit.Text = TheArticle.ArticleText;
+            SetWatchButton(page.Watched);
 
             //Update statistics and alerts
             if (!BotMode)
@@ -1148,7 +1148,7 @@ namespace AutoWikiBrowser
                 Process.Start("iexplore", Variables.GetUserTalkURL(TheSession.User.Name));
         }
 
-        private void NoWriteapiRight()
+        private void NoWriteApiRight()
         {
             Stop();
             MessageBox.Show(this,
@@ -2187,7 +2187,7 @@ window.scrollTo(0, diffTopY);
                     break;
 
                 case WikiStatusResult.NoRights:
-                    NoWriteapiRight();
+                    NoWriteApiRight();
                     break;
 
                 case WikiStatusResult.Registered:
