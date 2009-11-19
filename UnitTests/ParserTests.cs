@@ -1992,6 +1992,12 @@ Some artists represented by Zach Feuer Gallery are [[Phoebe Washburn]], [[Jules 
             Assert.AreEqual(@"{{DEFAULTSORT:hello}}
 now", Parsers.FixSyntax(@"{{DEFAULTSORT:hello
 now"));
+            
+            Assert.AreEqual(@"|[[Belmont (Durham) railway station|Belmont]] ([[Durham]])
+|[[North Eastern Railway (UK)|NER]]
+|1857", Parsers.FixSyntax(@"|[[Belmont (Durham) railway station|Belmont]] {[[Durham]])
+|[[North Eastern Railway (UK)|NER]]
+|1857"));
         }
         
         [Test]
