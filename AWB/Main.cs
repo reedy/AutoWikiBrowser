@@ -931,7 +931,6 @@ namespace AutoWikiBrowser
                 txtEdit.Visible = false;
 
             txtEdit.Text = TheArticle.ArticleText;
-            SetWatchButton(page.Watched);
 
             //Update statistics and alerts
             if (!BotMode)
@@ -968,7 +967,7 @@ namespace AutoWikiBrowser
                         break;
                 }
 
-                SetWatchButton(TheSession.Page.IsWatched);
+                PageWatched = TheSession.Page.IsWatched;
 
                 txtReviewEditSummary.Text = MakeSummary();
 
@@ -4536,19 +4535,21 @@ window.scrollTo(0, diffTopY);
                 return;
             }
 
-            bool watch = (btnWatch.Text == "Watch");
-
-            if (watch)
+            if (PageWatched)
                 TheSession.Editor.Watch(TheArticle.Name);
             else
                 TheSession.Editor.Unwatch(TheArticle.Name);
 
-            SetWatchButton(watch);
+            PageWatched = !PageWatched;
         }
 
-        private void SetWatchButton(bool watch)
+        /// <summary>
+        /// 
+        /// </summary>
+        private bool PageWatched
         {
-            btnWatch.Text = watch ? "Unwatch" : "Watch";
+            get { return btnWatch.Text == "Watch"; }
+            set { btnWatch.Text = value ? "Unwatch" : "Watch"; }
         }
 
         private static int CompareRegexPairs(KeyValuePair<int, string> x, KeyValuePair<int, string> y)

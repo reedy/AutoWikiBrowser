@@ -37,7 +37,7 @@ namespace WikiFunctions.API
             if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
 
             Exists = (xr.GetAttribute("missing") == null); //if null, page exists
-            Watched = (xr.GetAttribute("watched") != null);
+            IsWatched = (xr.GetAttribute("watched") != null);
             EditToken = xr.GetAttribute("edittoken");
             TokenTimestamp = xr.GetAttribute("starttimestamp");
 
@@ -92,12 +92,6 @@ namespace WikiFunctions.API
         { get; private set; }
 
         /// <summary>
-        /// 
-        /// </summary>
-        public bool Watched
-        { get; private set; }
-
-        /// <summary>
         /// Revision ID, -1 if N/A
         /// </summary>
         public long RevisionID
@@ -139,11 +133,10 @@ namespace WikiFunctions.API
         public string MoveProtection
         { get; private set; }
 
-        //TODO: waiting for https://bugzilla.wikimedia.org/show_bug.cgi?id=19523
         /// <summary>
         /// 
         /// </summary>
         public bool IsWatched
-        { get { return false; } }
+        { get; set; }
     }
 }
