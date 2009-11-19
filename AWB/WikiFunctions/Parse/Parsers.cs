@@ -1852,9 +1852,6 @@ namespace WikiFunctions.Parse
 
                 else if (bracketLength == 1)
                 {
-                    // if it's {[link]] or {[[link]] or [[[link]] then see if setting to [[ makes it all balance
-                    articleTextTemp = ExtraBracketOnWikilinkOpening.Replace(articleTextTemp, "[[");
-
                     switch (bracket)
                     {
                         case '}':
@@ -1907,6 +1904,9 @@ namespace WikiFunctions.Parse
                             articleTextTemp = articleTextTemp.Replace("（", "(");
                             break;
                     }
+                    
+                    // if it's {[link]] or {[[link]] or [[[link]] then see if setting to [[ makes it all balance
+                    articleTextTemp = ExtraBracketOnWikilinkOpening.Replace(articleTextTemp, "[[");
                 }
 
                 if (bracketLength == 2)
