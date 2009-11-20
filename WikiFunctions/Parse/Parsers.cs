@@ -448,8 +448,8 @@ namespace WikiFunctions.Parse
         // fixes extra comma in American format dates
         private static Regex CommaDates = new Regex(WikiRegexes.Months + @" ?, *([1-3]?\d) ?, ?((?:200|19\d)\d)\b");
 
-        // fixes missing space in American format dates
-        private static Regex UnspacedAmericanDates = new Regex(@"\b(" + WikiRegexes.MonthsNoGroup + @" [1-3]?\d) *,?([12]\d{3})\b");
+        // fixes missing comma or space in American format dates
+        private static Regex NoCommaAmericanDates = new Regex(@"\b(" + WikiRegexes.MonthsNoGroup + @" [1-3]?\d) *,?([12]\d{3})\b");
 
         // Covered by: LinkTests.FixDates()
         /// <summary>
@@ -462,7 +462,7 @@ namespace WikiFunctions.Parse
             if (Variables.LangCode == "en")
             {
                 articleText = CommaDates.Replace(articleText, @"$1 $2, $3");
-                articleText = UnspacedAmericanDates.Replace(articleText, @"$1, $2");
+                articleText = NoCommaAmericanDates.Replace(articleText, @"$1, $2");
             }
 
             articleText = HideMoreText(articleText);
@@ -2054,7 +2054,7 @@ namespace WikiFunctions.Parse
                 }
                 
                 // catch after any other fixes
-                newValue = UnspacedAmericanDates.Replace(newValue, @"$1, $2");
+                newValue = NoCommaAmericanDates.Replace(newValue, @"$1, $2");
 
                 // page range should have unspaced en-dash
                 newValue = CiteTemplatesPageRange.Replace(newValue, @"–$1");
