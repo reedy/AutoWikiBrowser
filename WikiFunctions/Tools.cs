@@ -1196,7 +1196,10 @@ namespace WikiFunctions
         /// <param name="append"></param>
         public static void WriteTextFile(string message, string file, bool append)
         {
-            WriteTextFileAbsolutePath(message, Application.StartupPath + "\\" + file, append);
+            if (file.Contains(":")) //If another drive, dont append startup path
+                WriteTextFileAbsolutePath(message, file, append);
+            else
+                WriteTextFileAbsolutePath(message, Application.StartupPath + "\\" + file, append);
         }
 
         /// <summary>

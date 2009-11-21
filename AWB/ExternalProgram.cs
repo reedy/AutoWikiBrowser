@@ -43,7 +43,6 @@ namespace AutoWikiBrowser
                 {
                     Enabled = chkEnabled.Checked,
                     Skip = chkSkip.Checked,
-                    WorkingDir = txtWorkingDir.Text,
                     Program = txtProgram.Text,
                     Parameters = txtParameters.Text,
                     PassAsFile = radFile.Checked,
@@ -54,8 +53,6 @@ namespace AutoWikiBrowser
             {
                 chkEnabled.Checked = value.Enabled;
                 chkSkip.Checked = value.Skip;
-
-                txtWorkingDir.Text = value.WorkingDir;
                 txtProgram.Text = value.Program;
                 txtParameters.Text = value.Parameters;
 
@@ -77,19 +74,24 @@ namespace AutoWikiBrowser
             skip = false;
             summary = "";
 
-            string ioFile = txtWorkingDir.Text + "\\" + txtFile.Text;
+            string ioFile = txtFile.Text;
 
             try
             {
                 System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo
                                                               {
-                                                                  WorkingDirectory = txtWorkingDir.Text,
-                                                                  FileName = txtProgram.Text,
+                                                                  WorkingDirectory = Path.GetDirectoryName(txtProgram.Text),
+                                                                  FileName = Path.GetFileName(txtProgram.Text),
                                                                   Arguments = txtParameters.Text.Replace("%%file%%", txtFile.Text)
                                                               };
 
                 if (radFile.Checked)
-                    WikiFunctions.Tools.WriteTextFile(articleText, ioFile, false);
+                {
+                    if (txtFile.Text.Contains("\\"))
+                        WikiFunctions.Tools.WriteTextFileAbsolutePath(articleText, ioFile, false);
+                    else
+                        WikiFunctions.Tools.WriteTextFile(articleText, ioFile, false);
+                }
                 else
                     psi.Arguments = psi.Arguments.Replace("%%articletext%%", articleText);
 
@@ -97,7 +99,7 @@ namespace AutoWikiBrowser
 
                 if (p == null)
                     return origText;
-                
+
                 p.WaitForExit();
 
                 if (File.Exists(ioFile))
@@ -118,7 +120,7 @@ namespace AutoWikiBrowser
             {
                 // Most, if not all exceptions here are related to user wrong user input
                 // or environment specifics, so ErrorHandler is not needed.
-                MessageBox.Show(Form.ActiveForm, ex.Message, "External processing error", 
+                MessageBox.Show(ActiveForm, ex.Message, "External processing error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 return origText;
@@ -141,10 +143,10 @@ namespace AutoWikiBrowser
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            if (!chkEnabled.Checked || !string.IsNullOrEmpty(txtWorkingDir.Text) && !string.IsNullOrEmpty(txtProgram.Text) && !string.IsNullOrEmpty(txtFile.Text) || (radParameter.Checked && !string.IsNullOrEmpty(txtParameters.Text)))
+            if (!chkEnabled.Checked || !string.IsNullOrEmpty(txtProgram.Text) && !string.IsNullOrEmpty(txtFile.Text) || (radParameter.Checked && !string.IsNullOrEmpty(txtParameters.Text)))
                 Close();
             else
-                MessageBox.Show("Please make sure all relevant fields are completed"); 
+                MessageBox.Show("Please make sure all relevant fields are completed");
         }
 
         private void ExternalProgram_FormClosing(object sender, FormClosingEventArgs e)
@@ -153,15 +155,25 @@ namespace AutoWikiBrowser
             Hide();
         }
 
-        private void btnSelect_Click(object sender, EventArgs e)
+        private void btnSelectProgram_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(openFileDialog.InitialDirectory))
-                openFileDialog.InitialDirectory = Application.StartupPath;
+            if (string.IsNullOrEmpty(openProgram.InitialDirectory))
+                openProgram.InitialDirectory = Application.StartupPath;
 
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            if (openProgram.ShowDialog() == DialogResult.OK)
             {
-                txtProgram.Text = Path.GetFileName(openFileDialog.FileName);
-                txtWorkingDir.Text = Path.GetDirectoryName(openFileDialog.FileName);
+                txtProgram.Text = openProgram.FileName;
+            }
+        }
+
+        private void btnSelectIO_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(openIO.InitialDirectory))
+                openIO.InitialDirectory = Application.StartupPath;
+
+            if (openIO.ShowDialog() == DialogResult.OK)
+            {
+                txtFile.Text = openIO.FileName;
             }
         }
     }
