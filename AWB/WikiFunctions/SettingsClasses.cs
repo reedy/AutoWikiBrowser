@@ -437,7 +437,6 @@ namespace WikiFunctions.AWBSettings
         public bool Enabled = false;
         public bool Skip = false;
 
-        public string WorkingDir = "";
         public string Program = "";
         public string Parameters = "";
 
