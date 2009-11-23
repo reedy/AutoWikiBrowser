@@ -4132,7 +4132,7 @@ window.scrollTo(0, diffTopY);
                 string text;
                 try
                 {
-                    text = TheSession.Editor.SynchronousEditor.Open("Project:AutoWikiBrowser/User talk templates");
+                    text = TheSession.Editor.SynchronousEditor.Clone().Open("Project:AutoWikiBrowser/User talk templates");
                 }
                 catch
                 {
