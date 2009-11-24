@@ -29,15 +29,24 @@ namespace WikiFunctions.Controls.Lists
     /// </summary>
     public partial class ListComparer : Form
     {
-        public ListComparer()
+        private readonly ListMaker _mainFormListMaker;
+
+        public ListComparer(ListMaker lmMain)
         {
             InitializeComponent();
+
+            if (lmMain != null)
+            {
+                btnMoveOnly1.Enabled = btnMoveOnly2.Enabled = btnMoveCommon.Enabled = true;
+                _mainFormListMaker = lmMain;
+            }
+
             listMaker1.MakeListEnabled = true;
             listMaker2.MakeListEnabled = true;
         }
 
-        public ListComparer(List<Article> list)
-            : this()
+        public ListComparer(List<Article> list, ListMaker lmMain)
+            : this(lmMain)
         {
             listMaker1.Add(list);
         }
@@ -198,19 +207,19 @@ namespace WikiFunctions.Controls.Lists
         private void btnMoveOnly1_Click(object sender, EventArgs e)
         {
             foreach (string a in lbNo1.Items)
-                listMaker1.Add(a);
+                _mainFormListMaker.Add(a);
         }
 
         private void btnMoveCommon_Click(object sender, EventArgs e)
         {
             foreach (string a in lbBoth.Items)
-                listMaker1.Add(a);
+                _mainFormListMaker.Add(a);
         }
 
         private void btnMoveOnly2_Click(object sender, EventArgs e)
         {
             foreach (string a in lbNo2.Items)
-                listMaker1.Add(a);
+                _mainFormListMaker.Add(a);
         }
 
         private void mnuList_Opening(object sender, System.ComponentModel.CancelEventArgs e)
