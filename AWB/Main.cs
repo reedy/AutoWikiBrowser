@@ -2623,6 +2623,8 @@ window.scrollTo(0, diffTopY);
                     //English link is first and the rest are sorted alphabetically by language code
                     case "he":
                     case "hu":
+                    case "te":
+                    case "yi":
                         Parser.InterWikiOrder = InterWikiOrderEnum.AlphabeticalEnFirst;
                         break;
 
