@@ -2611,17 +2611,30 @@ window.scrollTo(0, diffTopY);
                 //set interwikiorder
                 switch (Variables.LangCode)
                 {
+                    //By order of alphabet, based on local language
                     case "en":
+                    case "lb":
                     case "pl":
+                    case "no":
                     case "simple":
                         Parser.InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
                         break;
 
+                    //English link is first and the rest are sorted alphabetically by language code
                     case "he":
                     case "hu":
                         Parser.InterWikiOrder = InterWikiOrderEnum.AlphabeticalEnFirst;
                         break;
 
+                    //By order of alphabet, based on local language (by first word)
+                    case "ms":
+                    case "et":
+                    case "fi":
+                    case "vi":
+                        Parser.InterWikiOrder = InterWikiOrderEnum.LocalLanguageFirstWord;
+                        break;
+
+                    //By order of alphabet, based on language code
                     default:
                         Parser.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
                         break;
