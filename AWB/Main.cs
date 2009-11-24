@@ -323,7 +323,7 @@ namespace AutoWikiBrowser
                     if (runUpdater)
                     {
                         Updater.RunUpdater();
-            			SplashScreen.Close();
+                        SplashScreen.Close();
                         CloseAWB();
                         return;
                     }
@@ -720,7 +720,7 @@ namespace AutoWikiBrowser
 
         // counts number of redirects so that we catch double redirects
         private int _redirects, _unbalancedBracket, _bracketLength;
-        
+
         private Dictionary<int, int> badCiteParameters = new Dictionary<int, int>();
 
         private void SkipRedirect(string redirectTitle, string reason)
@@ -774,7 +774,7 @@ namespace AutoWikiBrowser
 
                 if (!String.IsNullOrEmpty(redirect) && Tools.IsValidTitle(redirect))
                 {
-                    if (filterOutNonMainSpaceToolStripMenuItem.Checked 
+                    if (filterOutNonMainSpaceToolStripMenuItem.Checked
                         && (Namespace.Determine(redirect) != Namespace.Article))
                     {
                         SkipRedirect(redirect, "Page is not in mainspace");
@@ -888,7 +888,7 @@ namespace AutoWikiBrowser
                         return;
                     }
 
-                    if (chkSkipNoPageLinks.Checked 
+                    if (chkSkipNoPageLinks.Checked
                         && (WikiRegexes.WikiLinksOnly.Matches(TheArticle.ArticleText).Count == 0))
                     {
                         SkipPage("Page contains no links");
@@ -2017,11 +2017,11 @@ window.scrollTo(0, diffTopY);
                 levelTwoHeadingsAfter[after] = m.Value;
                 articleTextLocal = articleTextLocal.Replace(m.Value, "");
                 after++;
-                
+
                 if (after == 20)
                     return ("");
             }
-            
+
             // handle the array not being big enough
             if (levelTwoHeadingsAfter.Length < after)
                 return "";
@@ -3012,7 +3012,7 @@ window.scrollTo(0, diffTopY);
 
         private void LaunchDumpSearcher()
         {
-            switch(_dbScannerUseCurrentArticleList)
+            switch (_dbScannerUseCurrentArticleList)
             {
                 case 0: //Ask
                     DBScanner = (MessageBox.Show("Would you like the results to be added to the ListMaker Article List?",
@@ -3193,7 +3193,7 @@ window.scrollTo(0, diffTopY);
             r.Wait();
             Enabled = true;
 
-            txtEdit.Text = (string) r.Result;
+            txtEdit.Text = (string)r.Result;
         }
 
         private void unicodifyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4204,7 +4204,7 @@ window.scrollTo(0, diffTopY);
                     if (webBrowserHistory.Url != new Uri(Variables.URLIndex + "?title=" + name
                         + "&action=history&useskin=myskin") && !string.IsNullOrEmpty(pageTitle)
                         )
-                        webBrowserHistory.Navigate(Variables.URLIndex + "?title=" + name 
+                        webBrowserHistory.Navigate(Variables.URLIndex + "?title=" + name
                             + "&action=history&useskin=myskin");
                 }
                 else
@@ -4808,6 +4808,13 @@ window.scrollTo(0, diffTopY);
         private void invalidateCacheToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ObjectCache.Global.Invalidate();
+        }
+
+        private void clearCurrentListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show(this, "Do you want to clear the current list?", "Clear current list", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                    == DialogResult.Yes)
+                listMaker.Clear();
         }
     }
         #endregion
