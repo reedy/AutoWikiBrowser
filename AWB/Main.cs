@@ -2963,15 +2963,15 @@ window.scrollTo(0, diffTopY);
                     if (listMaker.Count > 0 &&
                         MessageBox.Show("Would you like to copy your current Article List to the ListComparer?",
                                         "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        Comparer = new ListComparer(listMaker.GetArticleList());
+                        Comparer = new ListComparer(listMaker.GetArticleList(), listMaker);
                     else
-                        Comparer = new ListComparer();
+                        Comparer = new ListComparer(listMaker);
                     break;
                 case 1: //Always
-                    Comparer = new ListComparer(listMaker.GetArticleList());
+                    Comparer = new ListComparer(listMaker.GetArticleList(), listMaker);
                     break;
                 case 2: //Never
-                    Comparer = new ListComparer();
+                    Comparer = new ListComparer(listMaker);
                     break;
             }
 
