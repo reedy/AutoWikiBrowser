@@ -347,9 +347,14 @@ namespace WikiFunctions
                     return WikiStatusResult.Registered;
                 }
 
-                string globalUsers = Tools.StringBetween(VersionCheckPage, "<!--globalusers-->", "<!--globalusersend-->");
+                if (Variables.Project != ProjectEnum.custom)
+                {
+                    string globalUsers = Tools.StringBetween(VersionCheckPage, "<!--globalusers-->", "<!--globalusersend-->");
 
-                return username.IsMatch(globalUsers) ? WikiStatusResult.Registered : WikiStatusResult.NotRegistered;
+                    if (username.IsMatch(globalUsers))
+                        return WikiStatusResult.Registered;
+                }
+                return WikiStatusResult.NotRegistered;
             }
             catch (Exception ex)
             {
