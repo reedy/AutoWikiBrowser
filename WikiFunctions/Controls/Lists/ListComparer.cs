@@ -218,20 +218,32 @@ namespace WikiFunctions.Controls.Lists
 
         private void btnMoveOnly1_Click(object sender, EventArgs e)
         {
+            _mainFormListMaker.BeginUpdate();
+
             foreach (string a in lbNo1.Items)
                 _mainFormListMaker.Add(a);
+
+            _mainFormListMaker.EndUpdate();
         }
 
         private void btnMoveCommon_Click(object sender, EventArgs e)
         {
+            _mainFormListMaker.BeginUpdate();
+
             foreach (string a in lbBoth.Items)
                 _mainFormListMaker.Add(a);
+
+            _mainFormListMaker.EndUpdate();
         }
 
         private void btnMoveOnly2_Click(object sender, EventArgs e)
         {
+            _mainFormListMaker.BeginUpdate();
+
             foreach (string a in lbNo2.Items)
                 _mainFormListMaker.Add(a);
+
+            _mainFormListMaker.EndUpdate();
         }
 
         private void removeSelectedToolStripMenuItem_Click(object sender, EventArgs e)
