@@ -317,6 +317,7 @@ namespace WikiFunctions.Controls.Lists
             // 
             // btnMoveOnly2
             // 
+            this.btnMoveOnly2.Enabled = false;
             this.btnMoveOnly2.Location = new System.Drawing.Point(69, 3);
             this.btnMoveOnly2.Name = "btnMoveOnly2";
             this.btnMoveOnly2.Size = new System.Drawing.Size(60, 27);
@@ -349,6 +350,7 @@ namespace WikiFunctions.Controls.Lists
             // 
             // btnMoveCommon
             // 
+            this.btnMoveCommon.Enabled = false;
             this.btnMoveCommon.Location = new System.Drawing.Point(69, 3);
             this.btnMoveCommon.Name = "btnMoveCommon";
             this.btnMoveCommon.Size = new System.Drawing.Size(60, 27);
@@ -419,6 +421,7 @@ namespace WikiFunctions.Controls.Lists
             // 
             // btnMoveOnly1
             // 
+            this.btnMoveOnly1.Enabled = false;
             this.btnMoveOnly1.Location = new System.Drawing.Point(69, 3);
             this.btnMoveOnly1.Name = "btnMoveOnly1";
             this.btnMoveOnly1.Size = new System.Drawing.Size(60, 27);
