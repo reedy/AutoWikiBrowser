@@ -1223,7 +1223,7 @@ namespace WikiFunctions.Parse
                 // convert invalid date formats like DD-MM-YYYY, MM-DD-YYYY, YYYY-D-M, YYYY-DD-MM, YYYY_MM_DD etc. to iso format of YYYY-MM-DD
                 // for accessdate= and archivedate=
                 // provided no ambiguous ones
-                if (AccessOrArchiveDate.IsMatch(articleText) && !AmbiguousCiteTemplateDates(articleText))
+                if (AccessOrArchiveDate.IsMatch(articleText) && !AmbiguousCiteTemplateDates(articleText) && Variables.LangCode == "en")
                     foreach (RegexReplacement rr in CiteTemplateIncorrectISOAccessdates)
                         articleText = rr.Regex.Replace(articleText, rr.Replacement);
 
