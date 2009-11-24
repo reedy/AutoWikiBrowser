@@ -408,6 +408,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
+            this.clearCurrentListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTextBox.SuspendLayout();
             this.MnuMain.SuspendLayout();
             this.StatusMain.SuspendLayout();
@@ -1152,7 +1153,8 @@ namespace AutoWikiBrowser
             this.convertFromTalkPagesToolStripMenuItem,
             this.toolStripSeparator30,
             this.specialFilterToolStripMenuItem1,
-            this.saveListToTextFileToolStripMenuItem});
+            this.saveListToTextFileToolStripMenuItem,
+            this.clearCurrentListToolStripMenuItem});
             this.generalToolStripMenuItem.Name = "generalToolStripMenuItem";
             this.generalToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.generalToolStripMenuItem.Text = "&List";
@@ -3830,7 +3832,6 @@ namespace AutoWikiBrowser
             this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
             this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
             this.loggingSettings1.Name = "loggingSettings1";
-            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
             this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
             this.loggingSettings1.TabIndex = 0;
             // 
@@ -4097,6 +4098,13 @@ namespace AutoWikiBrowser
             // 
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
+            // 
+            // clearCurrentListToolStripMenuItem
+            // 
+            this.clearCurrentListToolStripMenuItem.Name = "clearCurrentListToolStripMenuItem";
+            this.clearCurrentListToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.clearCurrentListToolStripMenuItem.Text = "Clear current list";
+            this.clearCurrentListToolStripMenuItem.Click += new System.EventHandler(this.clearCurrentListToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -4576,5 +4584,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem invalidateCacheToolStripMenuItem;
         private System.Windows.Forms.TabPage tpArticleActionLogs;
         private WikiFunctions.Logging.ArticleActionLogControl articleActionLogControl1;
+        private System.Windows.Forms.ToolStripMenuItem clearCurrentListToolStripMenuItem;
     }
 }
