@@ -32,7 +32,7 @@ namespace WikiFunctions.Controls.Lists
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ListComparer));
             this.lbBoth = new WikiFunctions.Controls.Lists.ListBox2();
             this.mnuList = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.transferDuplicatesToList1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.transferToListMaker1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -67,6 +67,7 @@ namespace WikiFunctions.Controls.Lists
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnSaveOnly1 = new System.Windows.Forms.Button();
             this.btnMoveOnly1 = new System.Windows.Forms.Button();
+            this.transferToListMaker2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuList.SuspendLayout();
             this.gbList1.SuspendLayout();
             this.gbList2.SuspendLayout();
@@ -92,53 +93,51 @@ namespace WikiFunctions.Controls.Lists
             // mnuList
             // 
             this.mnuList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.transferDuplicatesToList1ToolStripMenuItem,
+            this.transferToListMaker1ToolStripMenuItem,
+            this.transferToListMaker2ToolStripMenuItem,
             this.toolStripSeparator1,
             this.openInBrowserToolStripMenuItem,
             this.toolStripSeparator2,
             this.copyToolStripMenuItem,
             this.removeSelectedToolStripMenuItem});
             this.mnuList.Name = "mnuDuplicates";
-            this.mnuList.Size = new System.Drawing.Size(220, 104);
-            this.mnuList.Opening += new System.ComponentModel.CancelEventHandler(this.mnuList_Opening);
+            this.mnuList.Size = new System.Drawing.Size(195, 148);
             // 
-            // transferDuplicatesToList1ToolStripMenuItem
+            // transferToListMaker1ToolStripMenuItem
             // 
-            this.transferDuplicatesToList1ToolStripMenuItem.Name = "transferDuplicatesToList1ToolStripMenuItem";
-            this.transferDuplicatesToList1ToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
-            this.transferDuplicatesToList1ToolStripMenuItem.Text = "Transfer Duplicates to List 1";
-            this.transferDuplicatesToList1ToolStripMenuItem.Visible = false;
-            this.transferDuplicatesToList1ToolStripMenuItem.Click += new System.EventHandler(this.transferDuplicatesToList1ToolStripMenuItem_Click);
+            this.transferToListMaker1ToolStripMenuItem.Name = "transferToListMaker1ToolStripMenuItem";
+            this.transferToListMaker1ToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.transferToListMaker1ToolStripMenuItem.Text = "Transfer to ListMaker 1";
+            this.transferToListMaker1ToolStripMenuItem.Click += new System.EventHandler(this.transferDuplicatesToList1ToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(216, 6);
-            this.toolStripSeparator1.Visible = false;
+            this.toolStripSeparator1.Size = new System.Drawing.Size(194, 6);
             // 
             // openInBrowserToolStripMenuItem
             // 
             this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
-            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.openInBrowserToolStripMenuItem.Text = "Open in Browser";
             this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(216, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(194, 6);
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.copyToolStripMenuItem.Text = "Copy selected";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // removeSelectedToolStripMenuItem
             // 
             this.removeSelectedToolStripMenuItem.Name = "removeSelectedToolStripMenuItem";
-            this.removeSelectedToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.removeSelectedToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.removeSelectedToolStripMenuItem.Text = "Remove selected";
             this.removeSelectedToolStripMenuItem.Click += new System.EventHandler(this.removeSelectedToolStripMenuItem_Click);
             // 
@@ -430,6 +429,13 @@ namespace WikiFunctions.Controls.Lists
             this.btnMoveOnly1.UseVisualStyleBackColor = true;
             this.btnMoveOnly1.Click += new System.EventHandler(this.btnMoveOnly1_Click);
             // 
+            // transferToListMaker2ToolStripMenuItem
+            // 
+            this.transferToListMaker2ToolStripMenuItem.Name = "transferToListMaker2ToolStripMenuItem";
+            this.transferToListMaker2ToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.transferToListMaker2ToolStripMenuItem.Text = "Transfer to ListMaker 2";
+            this.transferToListMaker2ToolStripMenuItem.Click += new System.EventHandler(this.transferToListMaker2ToolStripMenuItem_Click);
+            // 
             // ListComparer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -487,7 +493,7 @@ namespace WikiFunctions.Controls.Lists
         private System.Windows.Forms.Label lblNo1;
         private ListBox2 lbNo1;
         private System.Windows.Forms.ContextMenuStrip mnuList;
-        private System.Windows.Forms.ToolStripMenuItem transferDuplicatesToList1ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem transferToListMaker1ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
@@ -502,6 +508,7 @@ namespace WikiFunctions.Controls.Lists
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.Button btnMoveCommon;
         private System.Windows.Forms.ToolStripMenuItem removeSelectedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem transferToListMaker2ToolStripMenuItem;
     }
 }
 

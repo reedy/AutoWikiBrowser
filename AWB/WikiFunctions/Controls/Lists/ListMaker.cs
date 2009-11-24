@@ -853,7 +853,7 @@ namespace WikiFunctions.Controls.Lists
         {
             MessageBox.Show(
                 "User must be logged in to use \"" + _providerToRun.DisplayText + "\". Please login and try again.",
-                "User logged out");   
+                "User logged out");
         }
 
         private void RemoveSelectedArticle()
@@ -1299,6 +1299,16 @@ namespace WikiFunctions.Controls.Lists
                                   StringFormat.GenericDefault);
 
             e.DrawFocusRectangle();
+        }
+
+        public void BeginUpdate()
+        {
+            lbArticles.BeginUpdate();
+        }
+
+        public void EndUpdate()
+        {
+            lbArticles.EndUpdate();
         }
     }
 }

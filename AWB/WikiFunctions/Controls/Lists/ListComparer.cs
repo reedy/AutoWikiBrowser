@@ -178,10 +178,22 @@ namespace WikiFunctions.Controls.Lists
 
         private void transferDuplicatesToList1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            listMaker1.Clear();
-            
-            foreach (string str in lbBoth.Items)
+            listMaker1.BeginUpdate();
+
+            foreach (string str in MenuItemOwner(sender).Items)
                 listMaker1.Add(str);
+
+            listMaker1.EndUpdate();
+        }
+
+        private void transferToListMaker2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listMaker2.BeginUpdate();
+
+            foreach (string str in MenuItemOwner(sender).Items)
+                listMaker2.Add(str);
+
+            listMaker2.EndUpdate();
         }
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
@@ -220,11 +232,6 @@ namespace WikiFunctions.Controls.Lists
         {
             foreach (string a in lbNo2.Items)
                 _mainFormListMaker.Add(a);
-        }
-
-        private void mnuList_Opening(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            transferDuplicatesToList1ToolStripMenuItem.Visible = toolStripSeparator1.Visible = (MenuItemOwner(sender) == lbBoth);
         }
 
         private void removeSelectedToolStripMenuItem_Click(object sender, EventArgs e)
