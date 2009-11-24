@@ -194,6 +194,7 @@ namespace AutoWikiBrowser
             this.lblEditsPerMin = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblPagesPerMin = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblTimer = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblNewArticles = new System.Windows.Forms.ToolStripStatusLabel();
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.btnIgnore = new System.Windows.Forms.Button();
             this.btnDiff = new System.Windows.Forms.Button();
@@ -1243,21 +1244,21 @@ namespace AutoWikiBrowser
             // loadPluginToolStripMenuItem
             // 
             this.loadPluginToolStripMenuItem.Name = "loadPluginToolStripMenuItem";
-            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.loadPluginToolStripMenuItem.Text = "&Load...";
             this.loadPluginToolStripMenuItem.Click += new System.EventHandler(this.loadPluginToolStripMenuItem_Click);
             // 
             // managePluginsToolStripMenuItem
             // 
             this.managePluginsToolStripMenuItem.Name = "managePluginsToolStripMenuItem";
-            this.managePluginsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.managePluginsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.managePluginsToolStripMenuItem.Text = "&Manager...";
             this.managePluginsToolStripMenuItem.Click += new System.EventHandler(this.managePluginsToolStripMenuItem_Click);
             // 
             // toolStripSeparator26
             // 
             this.toolStripSeparator26.Name = "toolStripSeparator26";
-            this.toolStripSeparator26.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator26.Size = new System.Drawing.Size(127, 6);
             // 
             // ToolStripMenuGeneral
             // 
@@ -1583,6 +1584,7 @@ namespace AutoWikiBrowser
             this.lblBotTimer,
             this.lblUserName,
             this.lblProject,
+            this.lblNewArticles,
             this.lblIgnoredArticles,
             this.lblEditCount,
             this.lblEditsPerMin,
@@ -1674,6 +1676,13 @@ namespace AutoWikiBrowser
             this.lblTimer.Size = new System.Drawing.Size(54, 17);
             this.lblTimer.Text = "Timer: 0";
             this.lblTimer.Visible = false;
+            // 
+            // lblNewArticles
+            // 
+            this.lblNewArticles.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.lblNewArticles.Name = "lblNewArticles";
+            this.lblNewArticles.Size = new System.Drawing.Size(43, 17);
+            this.lblNewArticles.Text = "New: 0";
             // 
             // btnIgnore
             // 
@@ -3839,7 +3848,6 @@ namespace AutoWikiBrowser
             this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
             this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
             this.loggingSettings1.Name = "loggingSettings1";
-            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
             this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
             this.loggingSettings1.TabIndex = 0;
             // 
@@ -4586,5 +4594,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.TabPage tpArticleActionLogs;
         private WikiFunctions.Logging.ArticleActionLogControl articleActionLogControl1;
         private System.Windows.Forms.ToolStripMenuItem clearCurrentListToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel lblNewArticles;
     }
 }
