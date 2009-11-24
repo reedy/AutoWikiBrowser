@@ -50,6 +50,17 @@ namespace AutoWikiBrowser
             }
         }
 
+        private int NoNewPages;
+        public int NumberOfNewPages
+        {
+            get { return NoNewPages; }
+            private set
+            {
+                NoNewPages = value;
+                lblNewArticles.Text = "New: " + value;
+            }
+        }
+
         private int NoIgnoredEdits;
         public int NumberOfIgnoredEdits
         {
@@ -58,7 +69,6 @@ namespace AutoWikiBrowser
             {
                 NoIgnoredEdits = value;
                 lblIgnoredArticles.Text = "Ignored: " + value;
-                //UpdateNotifyIconTooltip();
             }
         }
 
@@ -70,7 +80,6 @@ namespace AutoWikiBrowser
             {
                 NoEditsPerMin = value;
                 lblEditsPerMin.Text = "Edits/min: " + value;
-                //UpdateNotifyIconTooltip();
             }
         }
 

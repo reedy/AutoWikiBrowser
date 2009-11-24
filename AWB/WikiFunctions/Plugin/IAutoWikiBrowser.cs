@@ -89,6 +89,7 @@ namespace WikiFunctions.Plugin
         string WikiFunctionsVersionString { get; }
         string WikiDiffVersionString { get; }
         int NumberOfEdits { get; }
+        int NumberOfNewPages { get;  }
         int NumberOfIgnoredEdits { get; }
         int NumberOfEditsPerMinute { get; }
         int NumberOfPagesPerMinute { get; }

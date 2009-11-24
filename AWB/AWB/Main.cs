@@ -1609,6 +1609,9 @@ window.scrollTo(0, diffTopY);
                 return;
             }
 
+            if (!TheSession.Page.Exists)
+                NumberOfNewPages++;
+
             DisableButtons();
             if (txtEdit.Text.Length > 0)
                 SaveArticle();
