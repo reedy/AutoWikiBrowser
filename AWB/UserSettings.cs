@@ -439,7 +439,7 @@ namespace AutoWikiBrowser
                     SettingsFile = "";
                 }
 
-            SplashScreen.SetProgress(60);
+            SplashScreen.SetProgress(59);
         }
 
         /// <summary>
