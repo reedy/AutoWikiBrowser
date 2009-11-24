@@ -344,6 +344,11 @@ namespace WikiFunctions
                     return WikiStatusResult.Registered;
                 }
 
+                string globalUsers = Tools.StringBetween(VersionCheckPage, "<!--globalusers-->", "<!--globalusersend-->");
+
+                if (username.IsMatch(globalUsers))
+                    return WikiStatusResult.Registered;
+
                 return WikiStatusResult.NotRegistered;
             }
             catch (Exception ex)
