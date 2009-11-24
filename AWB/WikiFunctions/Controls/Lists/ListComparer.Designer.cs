@@ -30,13 +30,14 @@ namespace WikiFunctions.Controls.Lists
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ListComparer));
-            this.lbBoth = new ListBox2();
+            this.lbBoth = new WikiFunctions.Controls.Lists.ListBox2();
             this.mnuList = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.transferDuplicatesToList1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnGo = new System.Windows.Forms.Button();
             this.openListDialog = new System.Windows.Forms.OpenFileDialog();
             this.lblNoBoth = new System.Windows.Forms.Label();
@@ -52,7 +53,7 @@ namespace WikiFunctions.Controls.Lists
             this.flwDiff2 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblOnly2 = new System.Windows.Forms.Label();
             this.lblNo2 = new System.Windows.Forms.Label();
-            this.lbNo2 = new ListBox2();
+            this.lbNo2 = new WikiFunctions.Controls.Lists.ListBox2();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnSaveOnly2 = new System.Windows.Forms.Button();
             this.btnMoveOnly2 = new System.Windows.Forms.Button();
@@ -62,11 +63,10 @@ namespace WikiFunctions.Controls.Lists
             this.flwDiff1 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblOnly1 = new System.Windows.Forms.Label();
             this.lblNo1 = new System.Windows.Forms.Label();
-            this.lbNo1 = new ListBox2();
+            this.lbNo1 = new WikiFunctions.Controls.Lists.ListBox2();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnSaveOnly1 = new System.Windows.Forms.Button();
             this.btnMoveOnly1 = new System.Windows.Forms.Button();
-            this.removeSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuList.SuspendLayout();
             this.gbList1.SuspendLayout();
             this.gbList2.SuspendLayout();
@@ -86,7 +86,7 @@ namespace WikiFunctions.Controls.Lists
             this.lbBoth.Location = new System.Drawing.Point(3, 29);
             this.lbBoth.Name = "lbBoth";
             this.lbBoth.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.lbBoth.Size = new System.Drawing.Size(130, 264);
+            this.lbBoth.Size = new System.Drawing.Size(133, 264);
             this.lbBoth.TabIndex = 2;
             // 
             // mnuList
@@ -99,7 +99,7 @@ namespace WikiFunctions.Controls.Lists
             this.copyToolStripMenuItem,
             this.removeSelectedToolStripMenuItem});
             this.mnuList.Name = "mnuDuplicates";
-            this.mnuList.Size = new System.Drawing.Size(220, 126);
+            this.mnuList.Size = new System.Drawing.Size(220, 104);
             this.mnuList.Opening += new System.ComponentModel.CancelEventHandler(this.mnuList_Opening);
             // 
             // transferDuplicatesToList1ToolStripMenuItem
@@ -134,6 +134,13 @@ namespace WikiFunctions.Controls.Lists
             this.copyToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.copyToolStripMenuItem.Text = "Copy selected";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            // 
+            // removeSelectedToolStripMenuItem
+            // 
+            this.removeSelectedToolStripMenuItem.Name = "removeSelectedToolStripMenuItem";
+            this.removeSelectedToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
+            this.removeSelectedToolStripMenuItem.Text = "Remove selected";
+            this.removeSelectedToolStripMenuItem.Click += new System.EventHandler(this.removeSelectedToolStripMenuItem_Click);
             // 
             // btnGo
             // 
@@ -285,7 +292,7 @@ namespace WikiFunctions.Controls.Lists
             this.lbNo2.Location = new System.Drawing.Point(3, 29);
             this.lbNo2.Name = "lbNo2";
             this.lbNo2.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.lbNo2.Size = new System.Drawing.Size(130, 264);
+            this.lbNo2.Size = new System.Drawing.Size(133, 264);
             this.lbNo2.TabIndex = 18;
             // 
             // flowLayoutPanel3
@@ -387,7 +394,7 @@ namespace WikiFunctions.Controls.Lists
             this.lbNo1.Location = new System.Drawing.Point(3, 29);
             this.lbNo1.Name = "lbNo1";
             this.lbNo1.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.lbNo1.Size = new System.Drawing.Size(130, 264);
+            this.lbNo1.Size = new System.Drawing.Size(133, 264);
             this.lbNo1.TabIndex = 14;
             // 
             // flowLayoutPanel1
@@ -419,13 +426,6 @@ namespace WikiFunctions.Controls.Lists
             this.btnMoveOnly1.Text = "Use list";
             this.btnMoveOnly1.UseVisualStyleBackColor = true;
             this.btnMoveOnly1.Click += new System.EventHandler(this.btnMoveOnly1_Click);
-            // 
-            // removeSelectedToolStripMenuItem
-            // 
-            this.removeSelectedToolStripMenuItem.Name = "removeSelectedToolStripMenuItem";
-            this.removeSelectedToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
-            this.removeSelectedToolStripMenuItem.Text = "Remove selected";
-            this.removeSelectedToolStripMenuItem.Click += new System.EventHandler(this.removeSelectedToolStripMenuItem_Click);
             // 
             // ListComparer
             // 
