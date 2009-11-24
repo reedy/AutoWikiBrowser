@@ -140,6 +140,7 @@ namespace AutoWikiBrowser
             this.toolStripSeparator30 = new System.Windows.Forms.ToolStripSeparator();
             this.specialFilterToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.saveListToTextFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearCurrentListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadPluginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.managePluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -408,7 +409,6 @@ namespace AutoWikiBrowser
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
-            this.clearCurrentListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTextBox.SuspendLayout();
             this.MnuMain.SuspendLayout();
             this.StatusMain.SuspendLayout();
@@ -1223,6 +1223,13 @@ namespace AutoWikiBrowser
             this.saveListToTextFileToolStripMenuItem.Text = "&Save list...";
             this.saveListToTextFileToolStripMenuItem.Click += new System.EventHandler(this.saveListToTextFileToolStripMenuItem_Click);
             // 
+            // clearCurrentListToolStripMenuItem
+            // 
+            this.clearCurrentListToolStripMenuItem.Name = "clearCurrentListToolStripMenuItem";
+            this.clearCurrentListToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.clearCurrentListToolStripMenuItem.Text = "Clear current list";
+            this.clearCurrentListToolStripMenuItem.Click += new System.EventHandler(this.clearCurrentListToolStripMenuItem_Click);
+            // 
             // pluginsToolStripMenuItem
             // 
             this.pluginsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1236,21 +1243,21 @@ namespace AutoWikiBrowser
             // loadPluginToolStripMenuItem
             // 
             this.loadPluginToolStripMenuItem.Name = "loadPluginToolStripMenuItem";
-            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.loadPluginToolStripMenuItem.Text = "&Load...";
             this.loadPluginToolStripMenuItem.Click += new System.EventHandler(this.loadPluginToolStripMenuItem_Click);
             // 
             // managePluginsToolStripMenuItem
             // 
             this.managePluginsToolStripMenuItem.Name = "managePluginsToolStripMenuItem";
-            this.managePluginsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.managePluginsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.managePluginsToolStripMenuItem.Text = "&Manager...";
             this.managePluginsToolStripMenuItem.Click += new System.EventHandler(this.managePluginsToolStripMenuItem_Click);
             // 
             // toolStripSeparator26
             // 
             this.toolStripSeparator26.Name = "toolStripSeparator26";
-            this.toolStripSeparator26.Size = new System.Drawing.Size(127, 6);
+            this.toolStripSeparator26.Size = new System.Drawing.Size(149, 6);
             // 
             // ToolStripMenuGeneral
             // 
@@ -1385,7 +1392,7 @@ namespace AutoWikiBrowser
             this.scrollToUnbalancedBracketsToolStripMenuItem.CheckOnClick = true;
             this.scrollToUnbalancedBracketsToolStripMenuItem.Name = "scrollToUnbalancedBracketsToolStripMenuItem";
             this.scrollToUnbalancedBracketsToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
-            this.scrollToUnbalancedBracketsToolStripMenuItem.Text = "Highlight errors if found";
+            this.scrollToUnbalancedBracketsToolStripMenuItem.Text = "Highlight errors";
             this.scrollToUnbalancedBracketsToolStripMenuItem.Click += new System.EventHandler(this.scrollToUnbalancedBracketsToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
@@ -3832,6 +3839,7 @@ namespace AutoWikiBrowser
             this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
             this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
             this.loggingSettings1.Name = "loggingSettings1";
+            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
             this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
             this.loggingSettings1.TabIndex = 0;
             // 
@@ -4098,13 +4106,6 @@ namespace AutoWikiBrowser
             // 
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
-            // 
-            // clearCurrentListToolStripMenuItem
-            // 
-            this.clearCurrentListToolStripMenuItem.Name = "clearCurrentListToolStripMenuItem";
-            this.clearCurrentListToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
-            this.clearCurrentListToolStripMenuItem.Text = "Clear current list";
-            this.clearCurrentListToolStripMenuItem.Click += new System.EventHandler(this.clearCurrentListToolStripMenuItem_Click);
             // 
             // MainForm
             // 
