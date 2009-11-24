@@ -253,10 +253,10 @@ en, sq, ru
             {
                 articleText = Regex.Replace(articleText, "<!-- ?\\[\\[en:.*?\\]\\] ?-->", "");
 
-                string strPersonData = Newline(RemovePersonData(ref articleText));
-                string strDisambig = Newline(RemoveDisambig(ref articleText));
-                string strCategories = Newline(RemoveCats(ref articleText, articleTitle));
-                string strInterwikis = Newline(Interwikis(ref articleText));
+                string personData = Newline(RemovePersonData(ref articleText));
+                string disambig = Newline(RemoveDisambig(ref articleText));
+                string categories = Newline(RemoveCats(ref articleText, articleTitle));
+                string interwikis = Newline(Interwikis(ref articleText));
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Move_orphan_tags_on_the_top
                 // Dablinks above orphan tags per [[WP:LAYOUT]]
@@ -282,29 +282,29 @@ en, sq, ru
 
                 //filter out excess white space and remove "----" from end of article
                 articleText = Parsers.RemoveWhiteSpace(articleText) + "\r\n";
-                articleText += strDisambig;
+                articleText += disambig;
 
                 switch (Variables.LangCode)
                 {
                     case "de":
                     case "sl":
-                        articleText += strStub + strCategories + strPersonData;
+                        articleText += strStub + categories + personData;
 
                         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser#Removal_of_blank_lines
                         // on de wiki a blank line is desired between persondata and interwikis
-                        if (Variables.LangCode == "de" && strPersonData.Length > 0 && strInterwikis.Length > 0)
+                        if (Variables.LangCode == "de" && personData.Length > 0 && interwikis.Length > 0)
                             articleText += "\r\n";
                         break;
                     case "pl":
                     case "ru":
                     case "simple":
-                        articleText += strPersonData + strStub + strCategories;
+                        articleText += personData + strStub + categories;
                         break;
                     default:
-                        articleText += strPersonData + strCategories + strStub;
+                        articleText += personData + categories + strStub;
                         break;
                 }
-                return (articleText + strInterwikis);
+                return (articleText + interwikis);
             }
             catch (Exception ex)
             {
