@@ -201,6 +201,16 @@ namespace WikiFunctions.Parse
         {
             return Hider.AddBack(articleText);
         }
+        
+        public string HideTextImages(string articleText)
+        {
+            return HiderHideExtLinksImages.Hide(articleText);
+        }
+        
+        public string AddBackTextImages(string articleText)
+        {
+            return HiderHideExtLinksImages.AddBack(articleText);
+        }
 
         public string HideMoreText(string articleText, bool hideOnlyTargetOfWikilink)
         {
@@ -458,17 +468,17 @@ namespace WikiFunctions.Parse
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
         public string FixDates(string articleText)
-        {
+        {            
             if (Variables.LangCode == "en")
             {
-                HideText h = new HideText(false, true, true);
+                articleText = HideTextImages(articleText);
                 
-                articleText = h.Hide(articleText);
                 articleText = CommaDates.Replace(articleText, @"$1 $2, $3");
-                articleText = NoCommaAmericanDates.Replace(articleText, @"$1, $2");                
-                articleText = h.AddBack(articleText);
+                articleText = NoCommaAmericanDates.Replace(articleText, @"$1, $2");
+                
+                articleText = AddBackTextImages(articleText);
             }
-
+            
             articleText = HideMoreText(articleText);
 
             articleText = FixDatesRaw(articleText);
@@ -521,7 +531,7 @@ namespace WikiFunctions.Parse
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
         public static string FixDatesRaw(string articleText)
-        {
+        {            
             return ApostropheInDecades.Replace(articleText, "s");
         }
 
