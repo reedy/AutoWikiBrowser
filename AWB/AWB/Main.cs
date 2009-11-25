@@ -1908,8 +1908,6 @@ window.scrollTo(0, diffTopY);
                 Properties.Settings.Default.WindowLocation = RestoreBounds.Location;
             }
 
-            Properties.Settings.Default.Save();
-
             if (Properties.Settings.Default.AskForTerminate)
             {
                 TimeSpan time = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
@@ -1919,11 +1917,12 @@ window.scrollTo(0, diffTopY);
                 Properties.Settings.Default.AskForTerminate = !dlg.CheckBoxDontAskAgain;
             }
 
+            // save user persistent settings
+            Properties.Settings.Default.Save();
+
             if (!Properties.Settings.Default.AskForTerminate || (dlg != null && dlg.DialogResult == DialogResult.OK))
             {
                 ShuttingDown = true;
-                // save user persistent settings
-                Properties.Settings.Default.Save();
 
                 TheSession.Editor.Abort();
 
