@@ -158,13 +158,11 @@ namespace WikiFunctions.Controls.Lists
 
         private void SaveList(ListBox lb)
         {
-            int i = 0;
             StringBuilder strList = new StringBuilder();
 
-            while (i < lb.Items.Count)
+            foreach(string s in lb.Items)
             {
-                strList.AppendLine("# [[" + lb.Items[i] + "]]");
-                i++;
+                strList.AppendLine("# [[" + s + "]]");
             }
             SaveList(strList);
         }
