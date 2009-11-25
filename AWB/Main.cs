@@ -1944,7 +1944,7 @@ window.scrollTo(0, diffTopY);
             if (TheArticle == null)
                 return "";
 
-            string tag = cmboEditSummary.Text + TheArticle.EditSummary;
+            string summary = cmboEditSummary.Text + TheArticle.EditSummary;
 
             // check to see if we have only edited one level 2 section
             if (!noSectionEditSummaryToolStripMenuItem.Checked)
@@ -1952,27 +1952,34 @@ window.scrollTo(0, diffTopY);
                 string sectionEditText = SectionEditSummary(TheArticle.OriginalArticleText, txtEdit.Text);
 
                 if (sectionEditText.Length > 0)
-                    tag = @"/* " + sectionEditText + @" */" + tag;
+                    summary = @"/* " + sectionEditText + @" */" + summary;
             }
 
             if ((TheSession.User.IsBot && chkSuppressTag.Checked)
                 || (!Variables.IsWikimediaProject && _suppressUsingAWB))
-                return tag;
+                return summary;
 
-            int maxSummaryLength = (200 - (Variables.SummaryTag.Length + 1));
+            int maxAvailableSummaryLength = ((Parsers.MaxSummaryLength - 5) - (Variables.SummaryTag.Length + 1));
 
-            if (tag.Length >= maxSummaryLength)
+            if (Encoding.UTF8.GetByteCount(summary) >= maxAvailableSummaryLength)
             {
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#Edit_summary_issue
                 // replace last wikilink with dots as an attempt to prevent broken wikilinks in edit summary
-                if (tag.EndsWith(@"]]"))
-                    tag = Regex.Replace(tag, @"\s*\[\[[^\[\]\r\n]+?\]\]$", "...");
+                if (summary.EndsWith(@"]]"))
+                    summary = Regex.Replace(summary, @"\s*\[\[[^\[\]\r\n]+?\]\]$", "...");
 
-                if (tag.Length >= maxSummaryLength)
-                    tag = tag.Substring(0, maxSummaryLength);
+                if (summary.Length >= maxAvailableSummaryLength)
+                    summary = summary.Substring(0, maxAvailableSummaryLength);
             }
 
-            return tag + Variables.SummaryTag;
+#if DEBUG
+            if (!Parsers.IsCorrectEditSummary(summary + Variables.SummaryTag))
+            {
+                Tools.WriteDebug("edit summary not correct", summary + Variables.SummaryTag);
+            }
+#endif
+
+            return summary + Variables.SummaryTag;
         }
 
         private string SectionEditSummary(string originalArticleTextLocal, string articleTextLocal)
