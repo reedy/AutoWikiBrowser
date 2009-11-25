@@ -428,7 +428,7 @@ namespace WikiFunctions
         public static readonly Regex BLPSources = new Regex(@"{{\s*([Bb](LP|lp) ?(sources|[Uu]n(sourced|ref(?:erenced)?))|[Uu]n(sourced|referenced) ?[Bb](LP|lp))\b", RegexOptions.Compiled);
 
         public const string ReferencesTemplates = @"(\{\{\s*ref(?:-?li(?:st|nk)|erence)(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))\}\}|<references\s*/>|\{\{refs|<references>.*</references>)";
-        public const string ReferenceEndGR = @"</ref>|{{GR\|\d}}";
+        public const string ReferenceEndGR = @"(?:</ref>|{{GR\|\d}})";
 
         /// <summary>
         /// Matches any of the recognised templates for displaying cite references
