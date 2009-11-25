@@ -4399,6 +4399,23 @@ foo {{persondata}}
             // 'r' in argument means no embedded <ref></ref>
             Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} {{GR|r4}}"));
             Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} {{GR|India}}"));
+        
+            string bug1 = @"
+==References==
+<references />
+
+{{Northampton County, Pennsylvania}}
+
+[[Category:Boroughs in Pennsylvania]]
+[[Category:Northampton County, Pennsylvania]]
+[[Category:Settlements established in 1790]]
+
+[[ht:Tatamy, Pennsilvani]]
+[[nl:Tatamy]]
+[[pt:Tatamy]]
+[[vo:Tatamy]]";
+            Assert.IsFalse(Parsers.HasRefAfterReflist(bug1));
+                
         }
 
         [Test]

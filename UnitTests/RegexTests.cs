@@ -74,7 +74,7 @@ namespace UnitTests
             Assert.AreEqual("Wikipedia|Project", WikiRegexes.GenerateNamespaceRegex(Namespace.Project));
 
             Assert.AreEqual("Media|File|Image",
-                WikiRegexes.GenerateNamespaceRegex(Namespace.Media, Namespace.File));
+                            WikiRegexes.GenerateNamespaceRegex(Namespace.Media, Namespace.File));
         }
 
         [Test]
@@ -184,8 +184,8 @@ namespace UnitTests
 
             TestMatches(WikiRegexes.WikiLinksOnly, "[[foo[]]", 0);
             TestMatch(WikiRegexes.WikiLinksOnly, "[[foo [[bar]] here]", "[[bar]]");
-			
-			// don't consider Categories, Images and IW to be "WikiLinks Only"
+            
+            // don't consider Categories, Images and IW to be "WikiLinks Only"
             TestMatches(WikiRegexes.WikiLinksOnly, "[[Category:Test]]", 0);
             TestMatches(WikiRegexes.WikiLinksOnly, "[[de:Test]]", 0);
             TestMatches(WikiRegexes.WikiLinksOnly, "[[Image:Test,]]", 0);
@@ -440,8 +440,8 @@ bar</ INCLUDEONLY>");
             Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast ” ", "").Contains(@"“ very fast ”"));
             Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ` very fast ` ", "").Contains(@"` very fast `"));
             Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ’ very fast ‘ ", "").Contains(@"’ very fast ‘"));
-            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" „very 
-fast„ ", "").Contains(@" „very 
+            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" „very
+fast„ ", "").Contains(@" „very
 fast„ "));
 
             Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@" “ very fast ” but not pretty ", "").Contains("but not pretty"));
@@ -531,7 +531,7 @@ fast„ "));
             Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{Reflist}} <ref>b</ref>"));
             Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflink}} <ref>b</ref>"));
             Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{ref-list}} <ref>b</ref>"));
-            Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> 
+            Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref>
 ==references== {{reflist}} <ref>b</ref>"));
             Assert.IsTrue(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}} blah
 <ref>b</ref>"));
@@ -544,6 +544,23 @@ fast„ "));
 
             // this is correct syntax
             Assert.IsFalse(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}}"));
+            
+            string bug1 = @"
+==References==
+<references />
+
+{{Northampton County, Pennsylvania}}
+
+[[Category:Boroughs in Pennsylvania]]
+[[Category:Northampton County, Pennsylvania]]
+[[Category:Settlements established in 1790]]
+
+[[ht:Tatamy, Pennsilvani]]
+[[nl:Tatamy]]
+[[pt:Tatamy]]
+[[vo:Tatamy]]";
+            
+            Assert.IsFalse(WikiRegexes.RefAfterReflist.IsMatch(bug1));
         }
 
         [Test]
@@ -577,15 +594,15 @@ fast„ "));
         [Test]
         public void PortalTemplateTests()
         {
-          Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal}}"));
-          Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{Portal}}"));
-          Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Science}}"));
-          Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Spaceflight|RocketSunIcon.svg|break=yes}}"));
-          
-          Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{PORTAL}}"));
-          Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{portalos}}"));
-          Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{Spanish portal|game}}"));
-          Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Bert|{{here}}}}"));
+            Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal}}"));
+            Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{Portal}}"));
+            Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Science}}"));
+            Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Spaceflight|RocketSunIcon.svg|break=yes}}"));
+            
+            Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{PORTAL}}"));
+            Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{portalos}}"));
+            Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{Spanish portal|game}}"));
+            Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Bert|{{here}}}}"));
         }
 
         [Test]
@@ -704,23 +721,23 @@ article words, '''bold''' blah.
         [Test]
         public void HeadingLevelTwoTests()
         {
-            Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article 
+            Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
 ==heading==
 a"));
-            Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article 
+            Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
 == heading ==
 a"));
-            Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article 
+            Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
 == heading ==
 words"));
 
             // no matches
             Assert.IsFalse(WikiRegexes.HeadingLevelTwo.IsMatch(@"article ==
 heading=="));
-            Assert.IsFalse(WikiRegexes.HeadingLevelTwo.IsMatch(@"article 
+            Assert.IsFalse(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
 ==heading== words"));
             Assert.IsFalse(WikiRegexes.HeadingLevelTwo.IsMatch(@"article ===heading=="));
-            Assert.IsFalse(WikiRegexes.HeadingLevelTwo.IsMatch(@"article 
+            Assert.IsFalse(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
 ====heading===
 words"));
         }
@@ -1207,7 +1224,7 @@ words2"));
             Assert.AreEqual("1975", WikiRegexes.DeathDate.Match(@"{{death-date|1975}}").Groups[1].Value);
             Assert.AreEqual("1975", WikiRegexes.DeathDate.Match(@"{{death-date|   1975}}").Groups[1].Value);
             Assert.AreEqual("1984", WikiRegexes.DeathDate.Match(@"{{death date and age|year=1984|month=2|day=6}}").Groups[1].Value);
-            Assert.AreEqual("1911", WikiRegexes.DeathDate.Match(@"{{death date and age|1911|12|12|1821|10|02}}").Groups[1].Value);          
+            Assert.AreEqual("1911", WikiRegexes.DeathDate.Match(@"{{death date and age|1911|12|12|1821|10|02}}").Groups[1].Value);
         }
 
         [Test]
@@ -1245,9 +1262,9 @@ words2"));
         {
             Assert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"* http://www.site.com
 "));
-            Assert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"* http://www.site.com 
+            Assert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"* http://www.site.com
 "));
-            Assert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"*   http://www.site.com 
+            Assert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"*   http://www.site.com
 "));
             Assert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"* http://www.site.com/great/a.htm
 "));
