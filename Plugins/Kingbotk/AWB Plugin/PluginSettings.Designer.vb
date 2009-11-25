@@ -40,11 +40,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.lblLinks = New System.Windows.Forms.Label
             Me.lblTagged = New System.Windows.Forms.Label
             Me.lblSkipped = New System.Windows.Forms.Label
-            Me.Label6 = New System.Windows.Forms.Label
             Me.lblNoChange = New System.Windows.Forms.Label
             Me.lblBadTag = New System.Windows.Forms.Label
             Me.lblNamespace = New System.Windows.Forms.Label
-            Me.lblNew = New System.Windows.Forms.Label
             Me.Label5 = New System.Windows.Forms.Label
             Me.Label4 = New System.Windows.Forms.Label
             Me.Label3 = New System.Windows.Forms.Label
@@ -197,11 +195,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.GroupBox2.Controls.Add(Me.ArticleStatsGroupBox)
             Me.GroupBox2.Controls.Add(Me.lblTagged)
             Me.GroupBox2.Controls.Add(Me.lblSkipped)
-            Me.GroupBox2.Controls.Add(Me.Label6)
             Me.GroupBox2.Controls.Add(Me.lblNoChange)
             Me.GroupBox2.Controls.Add(Me.lblBadTag)
             Me.GroupBox2.Controls.Add(Me.lblNamespace)
-            Me.GroupBox2.Controls.Add(Me.lblNew)
             Me.GroupBox2.Controls.Add(Me.Label5)
             Me.GroupBox2.Controls.Add(Me.Label4)
             Me.GroupBox2.Controls.Add(Me.Label3)
@@ -310,17 +306,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.lblSkipped.TabIndex = 38
             Me.ToolTip1.SetToolTip(Me.lblSkipped, "Number of articles skipped")
             '
-            'Label6
-            '
-            Me.Label6.AutoSize = True
-            Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.Label6.Location = New System.Drawing.Point(3, 130)
-            Me.Label6.Name = "Label6"
-            Me.Label6.Size = New System.Drawing.Size(36, 13)
-            Me.Label6.TabIndex = 5
-            Me.Label6.Text = "New:"
-            Me.ToolTip1.SetToolTip(Me.Label6, "Number of redlink pages turned blue")
-            '
             'lblNoChange
             '
             Me.lblNoChange.AutoSize = True
@@ -348,15 +333,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.lblNamespace.TabIndex = 41
             Me.ToolTip1.SetToolTip(Me.lblNamespace, "Number of articles skipped because they were in an incorrect namespace (e.g. we w" & _
                     "on't tag articles with talk page templates)")
-            '
-            'lblNew
-            '
-            Me.lblNew.AutoSize = True
-            Me.lblNew.Location = New System.Drawing.Point(73, 130)
-            Me.lblNew.Name = "lblNew"
-            Me.lblNew.Size = New System.Drawing.Size(0, 13)
-            Me.lblNew.TabIndex = 42
-            Me.ToolTip1.SetToolTip(Me.lblNew, "Number of redlink pages turned blue")
             '
             'Label5
             '
@@ -820,7 +796,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Friend WithEvents btnDiff As System.Windows.Forms.Button
         Friend WithEvents btnIgnore As System.Windows.Forms.Button
         Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
-        Friend WithEvents Label6 As System.Windows.Forms.Label
         Friend WithEvents Label5 As System.Windows.Forms.Label
         Friend WithEvents Label4 As System.Windows.Forms.Label
         Friend WithEvents Label3 As System.Windows.Forms.Label
@@ -830,7 +805,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Friend WithEvents lblNoChange As System.Windows.Forms.Label
         Friend WithEvents lblBadTag As System.Windows.Forms.Label
         Friend WithEvents lblNamespace As System.Windows.Forms.Label
-        Friend WithEvents lblNew As System.Windows.Forms.Label
         Friend WithEvents lblTagged As System.Windows.Forms.Label
         Friend WithEvents ArticleStatsGroupBox As System.Windows.Forms.GroupBox
         Friend WithEvents lblWords As System.Windows.Forms.Label
