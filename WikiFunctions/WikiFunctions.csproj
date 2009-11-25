@@ -95,6 +95,7 @@
     <Compile Include="Logging\ArticleActionLogControl.Designer.cs">
       <DependentUpon>ArticleActionLogControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Parse\RegexReplacement.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="Controls\Lists\ProtectionLevel.cs">
       <SubType>Form</SubType>
