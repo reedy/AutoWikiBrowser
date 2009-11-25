@@ -91,12 +91,13 @@ namespace WikiFunctions.Controls.Lists
                 {
                     lb3.Items.Add(a.Name);
 
-                    foreach (Article a2 in list2.GetRange(0, list2.IndexOf(a) - 1))
+                    foreach (Article a2 in list2.GetRange(0, Math.Max(list2.IndexOf(a) - 1, 0)))
                     {
                         lb2.Items.Add(a2.Name);
+                        list2.Remove(a2);
                     }
 
-                    list2.RemoveRange(0, list2.IndexOf(a));
+                    list2.Remove(a);
                 }
                 else
                     lb1.Items.Add(a.Name);
