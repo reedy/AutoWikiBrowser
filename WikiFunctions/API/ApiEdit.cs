@@ -562,7 +562,7 @@ namespace WikiFunctions.API
         public SaveInfo Save(string pageText, string summary, bool minor, WatchOptions watch)
         {
             if (string.IsNullOrEmpty(pageText) && !Page.Exists) throw new ArgumentException("Can't save empty pages", "pageText");
-            if (string.IsNullOrEmpty(summary)) throw new ArgumentException("Edit summary required", "summary");
+            //if (string.IsNullOrEmpty(summary)) throw new ArgumentException("Edit summary required", "summary");
             if (Action != "edit") throw new ApiException(this, "This page is not opened properly for editing");
             if (string.IsNullOrEmpty(Page.EditToken)) throw new ApiException(this, "Edit token is needed to edit pages");
 
