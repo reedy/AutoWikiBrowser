@@ -2395,13 +2395,15 @@ namespace WikiFunctions.Parse
             return trim ? title.Trim() : title;
         }
 
+        public const int MaxSummaryLength = 255;
+
         // Covered by: UtilityFunctionTests.IsCorrectEditSummary()
         /// <summary>
         /// returns true if given string has matching double square brackets
         /// </summary>
         public static bool IsCorrectEditSummary(string s)
         {
-            if (s.Length > 255)
+            if (Encoding.UTF8.GetByteCount(s) > MaxSummaryLength)
                 return false;
 
             bool res = true;
