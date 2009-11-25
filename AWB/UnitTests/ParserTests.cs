@@ -702,6 +702,10 @@ Jones 2005</ref>"));
             Assert.AreEqual(@"Retrieved on April 14, 2009 was", parser.FixDates(@"Retrieved on April 14,2009 was"));
             Assert.AreEqual(@"Retrieved on April 14, 2009 was", parser.FixDates(@"Retrieved on April 14 ,2009 was"));
             Assert.AreEqual(@"Retrieved on April 14, 2009 was", parser.FixDates(@"Retrieved on April 14 2009 was"));
+            
+            // don't change image names
+            string image1 = @"now foo [[Image:Foo July 24 2009.png]] was";
+            Assert.AreEqual(image1, parser.FixDates(image1));
         }
 
         [Test]

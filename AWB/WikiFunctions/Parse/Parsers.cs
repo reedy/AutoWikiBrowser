@@ -461,8 +461,12 @@ namespace WikiFunctions.Parse
         {
             if (Variables.LangCode == "en")
             {
+                HideText h = new HideText(false, true, true);
+                
+                articleText = h.Hide(articleText);
                 articleText = CommaDates.Replace(articleText, @"$1 $2, $3");
-                articleText = NoCommaAmericanDates.Replace(articleText, @"$1, $2");
+                articleText = NoCommaAmericanDates.Replace(articleText, @"$1, $2");                
+                articleText = h.AddBack(articleText);
             }
 
             articleText = HideMoreText(articleText);
