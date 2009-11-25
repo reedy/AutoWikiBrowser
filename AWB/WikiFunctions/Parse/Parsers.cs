@@ -4173,9 +4173,18 @@ namespace WikiFunctions.Parse
             double length = articleText.Length + 1,
             linkCount = Tools.LinkCount(commentsStripped);
 
-            int totalCategories = (!Globals.UnitTestMode)
-                ? CategoryProv.MakeList(new[] { articleTitle }).Count
-                : Globals.UnitTestIntValue;
+            int totalCategories;
+
+#if DEBUG
+            if (Globals.UnitTestMode)
+            {
+                totalCategories = Globals.UnitTestIntValue;
+            }
+            else
+#endif
+            {
+                totalCategories = CategoryProv.MakeList(new[] {articleTitle}).Count;
+            }
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Archive_19#AWB_problems
             // nl wiki doesn't use {{Uncategorized}} template
@@ -4255,11 +4264,13 @@ namespace WikiFunctions.Parse
         {
             // check if not orphaned
             bool orphaned;
+#if DEBUG
             if (Globals.UnitTestMode)
             {
                 orphaned = Globals.UnitTestBoolValue;
             }
             else
+#endif
             {
                 try
                 {
