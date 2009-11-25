@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ */
 
 using System;
 using System.Xml.Serialization;
@@ -280,9 +280,9 @@ namespace WikiFunctions
             get
             {
                 return (NameSpaceKey == Namespace.Article
-                    || NameSpaceKey == Namespace.Category
-                    || Name.Contains("Sandbox"))
-                        || Name.Contains("/doc");
+                        || NameSpaceKey == Namespace.Category
+                        || Name.Contains("Sandbox"))
+                    || Name.Contains("/doc");
             }
         }
 
@@ -334,7 +334,7 @@ namespace WikiFunctions
             get
             {
                 return Tools.CaseInsensitiveStringCompare(WikiRegexes.WhiteSpace.Replace(OriginalArticleText, ""),
-                    WikiRegexes.WhiteSpace.Replace(mArticleText, ""));
+                                                          WikiRegexes.WhiteSpace.Replace(mArticleText, ""));
             }
         }
 
@@ -432,7 +432,7 @@ namespace WikiFunctions
         /// <param name="imageWithText">Replacement text (if applicable)</param>
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         public void UpdateImages(ImageReplaceOptions option,
-            string imageReplaceText, string imageWithText, bool skipIfNoChange)
+                                 string imageReplaceText, string imageWithText, bool skipIfNoChange)
         {
             string strTemp = "";
 
@@ -441,25 +441,25 @@ namespace WikiFunctions
 
             if (imageReplaceText.Length > 0)
                 switch (option)
-                {
-                    case ImageReplaceOptions.NoAction:
-                        return;
+            {
+                case ImageReplaceOptions.NoAction:
+                    return;
 
-                    case ImageReplaceOptions.Replace:
-                        if (imageWithText.Length > 0) strTemp = Parsers.ReplaceImage(imageReplaceText, imageWithText, mArticleText, out noChange);
-                        break;
+                case ImageReplaceOptions.Replace:
+                    if (imageWithText.Length > 0) strTemp = Parsers.ReplaceImage(imageReplaceText, imageWithText, mArticleText, out noChange);
+                    break;
 
-                    case ImageReplaceOptions.Remove:
-                        strTemp = Parsers.RemoveImage(imageReplaceText, mArticleText, false, imageWithText, out noChange);
-                        break;
+                case ImageReplaceOptions.Remove:
+                    strTemp = Parsers.RemoveImage(imageReplaceText, mArticleText, false, imageWithText, out noChange);
+                    break;
 
-                    case ImageReplaceOptions.Comment:
-                        strTemp = Parsers.RemoveImage(imageReplaceText, mArticleText, true, imageWithText, out noChange);
-                        break;
+                case ImageReplaceOptions.Comment:
+                    strTemp = Parsers.RemoveImage(imageReplaceText, mArticleText, true, imageWithText, out noChange);
+                    break;
 
-                    default:
-                        throw new ArgumentOutOfRangeException("option");
-                }
+                default:
+                    throw new ArgumentOutOfRangeException("option");
+            }
 
             if (noChange && skipIfNoChange)
                 Trace.AWBSkipped("No File Changed");
@@ -477,7 +477,7 @@ namespace WikiFunctions
         /// <param name="categoryText2">The name of the replacement category (recat mode only)</param>
         /// <param name="removeSortKey"></param>
         public void Categorisation(CategorisationOptions option, Parsers parsers,
-            bool skipIfNoChange, string categoryText, string categoryText2, bool removeSortKey)
+                                   bool skipIfNoChange, string categoryText, string categoryText2, bool removeSortKey)
         {
             string strTemp, action = "";
 
@@ -521,7 +521,7 @@ namespace WikiFunctions
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         /// <param name="newCategoryText">The category to add or remove</param>
         public void Categorisation(CategorisationOptions option, Parsers parsers,
-            bool skipIfNoChange, string newCategoryText)
+                                   bool skipIfNoChange, string newCategoryText)
         {
             if (option == CategorisationOptions.ReCat)
                 throw new ArgumentException("This overload has no CategoryText2 argument");
@@ -536,14 +536,14 @@ namespace WikiFunctions
         /// <param name="replaceSpecial">An MWB ReplaceSpecial object</param>
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         public void PerformFindAndReplace(FindandReplace findAndReplace, SubstTemplates substTemplates,
-            ReplaceSpecial.ReplaceSpecial replaceSpecial, bool skipIfNoChange)
+                                          ReplaceSpecial.ReplaceSpecial replaceSpecial, bool skipIfNoChange)
         {
             if (!findAndReplace.HasReplacements && !replaceSpecial.HasRules && !substTemplates.HasSubstitutions)
                 return;
 
             string strTemp = Tools.ConvertFromLocalLineEndings(mArticleText),
-                   testText = strTemp,
-                   tmpEditSummary = "";
+            testText = strTemp,
+            tmpEditSummary = "";
 
             strTemp = findAndReplace.MultipleFindAndReplace(strTemp, mName, ref tmpEditSummary);
             strTemp = replaceSpecial.ApplyRules(strTemp, mName);
@@ -612,8 +612,6 @@ namespace WikiFunctions
             if (langCode == "en")
             {
                 string strTemp = Parsers.Conversions(mArticleText);
-
-                strTemp = parsers.FixDates(strTemp);
                 strTemp = Parsers.FixLivingThingsRelatedDates(strTemp);
                 strTemp = Parsers.FixHeadings(strTemp, mName, out noChange);
 
@@ -751,7 +749,7 @@ namespace WikiFunctions
             bool skipArticle;
 
             string strTemp = module.ProcessArticle(processArticleEventArgs.ArticleText,
-                processArticleEventArgs.ArticleTitle, NameSpaceKey, out strEditSummary, out skipArticle);
+                                                   processArticleEventArgs.ArticleTitle, NameSpaceKey, out strEditSummary, out skipArticle);
 
             if (!skipArticle)
             {
@@ -795,11 +793,11 @@ namespace WikiFunctions
         /// </summary>
         /// <returns>True if OK to proceed, false to abort</returns>
         public bool Disambiguate(Session session, string dabLinkText, string[] dabVariantsLines, bool botMode, int context,
-            bool skipIfNoChange)
+                                 bool skipIfNoChange)
         {
             Disambiguation.DabForm df = new Disambiguation.DabForm(session);
             string strTemp = df.Disambiguate(mArticleText, mName, dabLinkText,
-                dabVariantsLines, context, botMode, out noChange);
+                                             dabVariantsLines, context, botMode, out noChange);
 
             if (df.Abort) return false;
 
@@ -979,6 +977,10 @@ namespace WikiFunctions
         public void PerformGeneralFixes(Parsers parsers, HideText removeText, ISkipOptions skip, bool replaceReferenceTags, bool restrictDefaultsortAddition, bool noMOSComplianceFixes)
         { //TODO: 2009-01-28 review which of the genfixes below should be labelled 'significant'
             BeforeGeneralFixesTextChanged();
+            
+            // FixDates does its own hiding
+            AWBChangeArticleText("Fix dates", parsers.FixDates(ArticleText), false);
+            Variables.Profiler.Profile("FixDates");
 
             HideText(removeText);
 
@@ -1091,7 +1093,7 @@ namespace WikiFunctions
                 // pass unhidden text to MetaDataSorter so that it can allow for comments around persondata, categories etc.
                 UnHideText(removeText);
                 AWBChangeArticleText("Sort meta data",
-                    parsers.SortMetaData(ArticleText, Name), true);
+                                     parsers.SortMetaData(ArticleText, Name), true);
                 HideText(removeText);
 
                 Variables.Profiler.Profile("Metadata");
@@ -1104,7 +1106,7 @@ namespace WikiFunctions
             Variables.Profiler.Profile("FixLinks");
 
             AWBChangeArticleText("Format sticky links",
-                Parsers.StickyLinks(Parsers.SimplifyLinks(ArticleText)), true);
+                                 Parsers.StickyLinks(Parsers.SimplifyLinks(ArticleText)), true);
 
             //AWBChangeArticleText("Remove duplicate wikilink", parsers.RemoveDuplicateWikiLinks(articleText), true);
 
@@ -1152,7 +1154,7 @@ namespace WikiFunctions
             Variables.Profiler.Profile("HideText");
 
             AWBChangeArticleText("Subst user talk warnings",
-                Parsers.SubstUserTemplates(ArticleText, Name, userTalkTemplatesRegex), true);
+                                 Parsers.SubstUserTemplates(ArticleText, Name, userTalkTemplatesRegex), true);
 
             Variables.Profiler.Profile("SubstUserTemplates");
 
@@ -1187,8 +1189,8 @@ namespace WikiFunctions
                 {
                     _lastMove = dlgArticleAction.Summary;
                     session.Editor.SynchronousEditor.Move(Name, dlgArticleAction.NewTitle,
-                                            ArticleActionSummary(dlgArticleAction), true /* probably wants dealing with on dialog*/,
-                                            dlgArticleAction.NoRedirect, dlgArticleAction.Watch);
+                                                          ArticleActionSummary(dlgArticleAction), true /* probably wants dealing with on dialog*/,
+                                                          dlgArticleAction.NoRedirect, dlgArticleAction.Watch);
 
                     newTitle = dlgArticleAction.NewTitle;
 
@@ -1230,12 +1232,12 @@ namespace WikiFunctions
                 {
                     _lastProtect = dlgArticleAction.Summary;
                     session.Editor.SynchronousEditor.Protect(Name,
-                                                ArticleActionSummary(dlgArticleAction),
-                                                dlgArticleAction.ProtectExpiry,
-                                                dlgArticleAction.EditProtectionLevel,
-                                                dlgArticleAction.MoveProtectionLevel,
-                                                dlgArticleAction.CascadingProtection,
-                                                dlgArticleAction.Watch);
+                                                             ArticleActionSummary(dlgArticleAction),
+                                                             dlgArticleAction.ProtectExpiry,
+                                                             dlgArticleAction.EditProtectionLevel,
+                                                             dlgArticleAction.MoveProtectionLevel,
+                                                             dlgArticleAction.CascadingProtection,
+                                                             dlgArticleAction.Watch);
 
                     return true;
                 }
@@ -1252,8 +1254,8 @@ namespace WikiFunctions
         private static string ArticleActionSummary(ArticleActionDialog dlgArticleAction)
         {
             return AddUsingAWBOnArticleAction
-                       ? dlgArticleAction.Summary + " (" + Variables.SummaryTag.Trim() + ")"
-                       : dlgArticleAction.Summary;
+                ? dlgArticleAction.Summary + " (" + Variables.SummaryTag.Trim() + ")"
+                : dlgArticleAction.Summary;
         }
     }
 

@@ -469,15 +469,15 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string FixDates(string articleText)
         {            
-            if (Variables.LangCode == "en")
-            {
-                articleText = HideTextImages(articleText);
-                
-                articleText = CommaDates.Replace(articleText, @"$1 $2, $3");
-                articleText = NoCommaAmericanDates.Replace(articleText, @"$1, $2");
-                
-                articleText = AddBackTextImages(articleText);
-            }
+            if (Variables.LangCode != "en")
+                return articleText;
+            
+            articleText = HideTextImages(articleText);
+            
+            articleText = CommaDates.Replace(articleText, @"$1 $2, $3");
+            articleText = NoCommaAmericanDates.Replace(articleText, @"$1, $2");
+            
+            articleText = AddBackTextImages(articleText);
             
             articleText = HideMoreText(articleText);
 
