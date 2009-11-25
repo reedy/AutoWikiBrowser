@@ -279,7 +279,7 @@ namespace WikiFunctions
         private static void AWBDefaultSummaryTag()
         {
             mSummaryTag = " using ";
-            WPAWB = "[[Project:AutoWikiBrowser|AWB]]";
+            WPAWB = "[[Project:AWB]]";
         }
 
         #region Delayed load stuff
