@@ -49,8 +49,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
                 AddHandler .SkipNoChangesCheckBox.CheckedChanged, AddressOf Me.SkipNoChangesCheckBoxCheckedChanged
             End With
 
-            StatLabels.AddRange(New Label() {lblTagged, lblSkipped, lblNoChange, lblBadTag, lblNamespace, lblNew, _
-               lblRedlink})
+            StatLabels.AddRange(New Label() {lblTagged, lblSkipped, lblNoChange, lblBadTag, lblNamespace, lblRedlink})
 
             ' Initialise enabled state of our replica buttons:
             AWBButtonsEnabledHandler(PluginManager.AWBForm.StartTab.Controls("btnDiff"), Nothing)
@@ -280,9 +279,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             BotCheckBox.Visible = PluginManager.AWBForm.TheSession.User.IsBot
         End Sub
         ' Event handlers - plugin stats:
-        Private Sub PluginStats_New(ByVal val As Integer) Handles PluginStats.New
-            lblNew.Text = val.ToString
-        End Sub
         Private Sub PluginStats_SkipBadTag(ByVal val As Integer) Handles PluginStats.SkipBadTag
             lblBadTag.Text = val.ToString
         End Sub
@@ -370,7 +366,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 
         ' Statistics:
         Friend NotInheritable Class Stats
-            Private mTagged As Integer, mNewArticles As Integer, mSkipped As Integer, mSkippedNoChange As Integer
+            Private mTagged As Integer, mSkipped As Integer, mSkippedNoChange As Integer
             Private mSkippedBadTag As Integer, mSkippedNamespace As Integer, mRedLinks As Integer
 
             Friend Event SkipMisc(ByVal val As Integer)
@@ -378,7 +374,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Friend Event SkipBadTag(ByVal val As Integer)
             Friend Event SkipNamespace(ByVal val As Integer)
             Friend Event evTagged(ByVal val As Integer)
-            Friend Event [New](ByVal val As Integer)
             Friend Event RedLink(ByVal val As Integer)
 
             Friend Property Tagged() As Integer
@@ -388,15 +383,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
                 Set(ByVal value As Integer)
                     mTagged = value
                     RaiseEvent evTagged(value)
-                End Set
-            End Property
-            Friend Property NewArticles() As Integer
-                Get
-                    Return mNewArticles
-                End Get
-                Set(ByVal value As Integer)
-                    mNewArticles = value
-                    RaiseEvent [New](value)
                 End Set
             End Property
             Friend Property Skipped() As Integer
@@ -473,7 +459,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
                 SkippedBadTag = 0
                 SkippedNamespace = 0
                 SkippedNoChange = 0
-                NewArticles = 0
                 Tagged = 0
                 SkippedRedLink = 0
             End Sub
