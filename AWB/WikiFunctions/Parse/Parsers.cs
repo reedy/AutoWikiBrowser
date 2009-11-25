@@ -839,8 +839,6 @@ namespace WikiFunctions.Parse
 
                 foreach (Match m2 in shortNamedReferences.Matches(articleText))
                 {
-                    string refvalue2 = m2.Groups[3].Value; //TODO: I'm unused, am i supposed to be?
-
                     if (refvalue.Length > 30)
                         articleText = articleText.Replace(m2.Value, @"<ref name=""" + refname + @"""/>");
                 }
