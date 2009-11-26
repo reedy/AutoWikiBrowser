@@ -1173,6 +1173,15 @@ died 2002
             const string Refs = @"<ref>a</ref> <ref>a</ref> <ref>a</ref> <ref>a</ref> <ref>a</ref> <ref>a</ref> <ref>a</ref>";
             Assert.AreEqual(a1 + Refs + Refs + Refs, Parsers.FixPeopleCategories(a1 + Refs + Refs + Refs, "foo"));
         }
+        
+        [Test]
+        public void FixPeopleCategoriesFutureTest()
+        {
+            // birth
+            const string a1 = @"'''Fred Smith''' (born 2060) is a bloke. {{Persondata}}";
+            const string b2 = @"[[Category:1960 births]]";
+            Assert.AreEqual(a1, Parsers.FixPeopleCategories(a1, "foo"));
+        }
 
         [Test]
         public void GetInfoBoxFieldValue()
