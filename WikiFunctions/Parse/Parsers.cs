@@ -3865,7 +3865,9 @@ namespace WikiFunctions.Parse
                     }
                 }
                 // per [[:Category:Living people]], don't apply birth category if born > 121 years ago
+                // validate a YYYY date is not in the future
                 if (!string.IsNullOrEmpty(yearstring) && yearstring.Length > 2
+                    && (!Regex.IsMatch(yearstring, @"\d{4}") || Convert.ToInt32(yearstring) <= DateTime.Now.Year)
                     && !(articleText.Contains(@"[[Category:Living people") && Convert.ToInt32(yearstring) < (DateTime.Now.Year - 121)))
                     articleText += "\r\n" + @"[[Category:" + yearstring + " births" + CatEnd(sort);
             }
@@ -3902,7 +3904,9 @@ namespace WikiFunctions.Parse
                     }
                 }
 
-                if (!string.IsNullOrEmpty(yearstring) && yearstring.Length > 2)
+                // validate a YYYY date is not in the future
+                if (!string.IsNullOrEmpty(yearstring) && yearstring.Length > 2
+                    && (!Regex.IsMatch(yearstring, @"\d{4}") || Convert.ToInt32(yearstring) <= DateTime.Now.Year))
                     articleText += "\r\n" + @"[[Category:" + yearstring + " deaths" + CatEnd(sort);
             }
 
