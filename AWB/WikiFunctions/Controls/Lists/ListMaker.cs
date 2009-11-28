@@ -38,7 +38,6 @@ namespace WikiFunctions.Controls.Lists
 
     public partial class ListMaker : UserControl, IList<Article>
     {
-        private readonly static SaveFileDialog SaveListDialog;
         private readonly static BindingList<IListProvider> DefaultProviders = new BindingList<IListProvider>();
         private readonly ListFilterForm _specialFilter;
 
@@ -73,14 +72,6 @@ namespace WikiFunctions.Controls.Lists
 
         static ListMaker()
         {
-            SaveListDialog = new SaveFileDialog
-                                 {
-                                     DefaultExt = "txt",
-                                     Filter =
-                                         "Text file with wiki markup|*.txt|Plaintext list|*.txt|CSV (Comma Separated Values)|*.txt|CSV with Wikitext|*.txt",
-                                     Title = "Save article list"
-                                 };
-
             if (DefaultProviders.Count == 0)
             {
                 DefaultProviders.Add(new CategoryListProvider());
@@ -582,11 +573,6 @@ namespace WikiFunctions.Controls.Lists
         }
 
         /// <summary>
-        /// The file the list was made from
-        /// </summary>
-        static string _listFile = "";
-
-        /// <summary>
         /// Returns the selected article
         /// </summary>
         public Article SelectedArticle()
@@ -892,52 +878,7 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public void SaveList()
         {
-            SaveList(lbArticles);
-        }
-
-        /// <summary>
-        /// Saves the list from the passed ListBox2 to the specified text file.
-        /// </summary>
-        public static void SaveList(ListBox2 articlesListBox)
-        {
-            try
-            {
-                StringBuilder strList = new StringBuilder();
-
-                if (_listFile.Length > 0) SaveListDialog.FileName = _listFile;
-
-                if (SaveListDialog.ShowDialog() == DialogResult.OK)
-                {
-                    switch (SaveListDialog.FilterIndex)
-                    {
-                        case 1: //wikitext
-                            foreach (Article a in articlesListBox)
-                                strList.AppendLine("# [[:" + a.Name + "]]");
-                            break;
-                        case 2: //plaintext
-                            foreach (Article a in articlesListBox)
-                                strList.AppendLine(a.Name);
-                            break;
-                        case 3: //CSV
-                            foreach (Article a in articlesListBox)
-                                strList.Append(a.Name + ", ");
-                            strList = strList.Remove(strList.Length - 2, 2);
-                            break;
-                        case 4: //CSV with wikitext
-                            foreach (Article a in articlesListBox)
-                                strList.Append("[[:" + a.Name + "]], ");
-                            strList = strList.Remove(strList.Length - 2, 2);
-                            break;
-                    }
-                    _listFile = SaveListDialog.FileName;
-
-                    Tools.WriteTextFileAbsolutePath(strList, _listFile, false);
-                }
-            }
-            catch (Exception ex)
-            {
-                ErrorHandler.Handle(ex);
-            }
+            lbArticles.SaveList();
         }
 
         private delegate void GenericDelegate();
