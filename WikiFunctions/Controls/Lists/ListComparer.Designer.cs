@@ -40,7 +40,6 @@ namespace WikiFunctions.Controls.Lists
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeSelectedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnGo = new System.Windows.Forms.Button();
-            this.openListDialog = new System.Windows.Forms.OpenFileDialog();
             this.lblNoBoth = new System.Windows.Forms.Label();
             this.btnSaveBoth = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
@@ -156,11 +155,6 @@ namespace WikiFunctions.Controls.Lists
             this.btnGo.Text = "Compare";
             this.btnGo.UseVisualStyleBackColor = true;
             this.btnGo.Click += new System.EventHandler(this.btnGo_Click);
-            // 
-            // openListDialog
-            // 
-            this.openListDialog.Filter = "Text files|*.txt";
-            this.openListDialog.SupportMultiDottedExtensions = true;
             // 
             // lblNoBoth
             // 
@@ -467,7 +461,6 @@ namespace WikiFunctions.Controls.Lists
 
         private ListBox2 lbBoth;
         private System.Windows.Forms.Button btnGo;
-        private System.Windows.Forms.OpenFileDialog openListDialog;
         private System.Windows.Forms.Label lblNoBoth;
         private System.Windows.Forms.Button btnSaveBoth;
         private System.Windows.Forms.Button btnClear;
