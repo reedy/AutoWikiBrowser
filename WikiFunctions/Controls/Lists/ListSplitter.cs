@@ -117,8 +117,8 @@ namespace WikiFunctions.Controls.Lists
                         Tools.WriteTextFileAbsolutePath(strList.ToString(), path.Replace(".txt", " " + (i + 1) + ".txt"),
                                                         false);
                     }
+                    MessageBox.Show("Lists saved to text files");
                 }
-                MessageBox.Show("Lists saved to text files");
             }
             catch (IOException ex)
             {
