@@ -156,23 +156,9 @@ namespace WikiFunctions.Controls.Lists
             SaveList(lbBoth);
         }
 
-        private void SaveList(ListBox lb)
+        private static void SaveList(ListBox2 lb)
         {
-            StringBuilder strList = new StringBuilder();
-
-            foreach(string s in lb.Items)
-            {
-                strList.AppendLine("# [[" + s + "]]");
-            }
-            SaveList(strList);
-        }
-
-        private void SaveList(StringBuilder strList)
-        {
-            if (saveListDialog.ShowDialog() == DialogResult.OK)
-            {
-                Tools.WriteTextFileAbsolutePath(strList, saveListDialog.FileName, false);
-            }
+            lb.SaveList();
         }
 
         private void transferDuplicatesToList1ToolStripMenuItem_Click(object sender, EventArgs e)

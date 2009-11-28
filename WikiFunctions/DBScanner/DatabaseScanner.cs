@@ -899,7 +899,7 @@ namespace WikiFunctions.DBScanner
 
         private void btnSaveArticleList_Click(object sender, EventArgs e)
         {
-            ListMaker.SaveList(lbArticles);
+            lbArticles.SaveList();
         }
 
         private void chkProtection_CheckedChanged(object sender, EventArgs e)
