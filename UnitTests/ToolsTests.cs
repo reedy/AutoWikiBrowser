@@ -698,6 +698,7 @@ Jones", "*"));
             Assert.AreEqual(@"foo&bar", Tools.RemoveSyntax(@"foo&amp;bar"));
             Assert.AreEqual(@"http://site.com words", Tools.RemoveSyntax(@"* [http://site.com words]"));
             Assert.AreEqual(@"foo ""bar"" here", Tools.RemoveSyntax(@"foo &quot;bar&quot; here"));
+            Assert.AreEqual(@"foobar", Tools.RemoveSyntax(@"foo�bar"));
         }
 
         [Test]
