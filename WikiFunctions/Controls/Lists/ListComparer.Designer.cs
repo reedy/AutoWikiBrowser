@@ -33,6 +33,7 @@ namespace WikiFunctions.Controls.Lists
             this.lbBoth = new WikiFunctions.Controls.Lists.ListBox2();
             this.mnuList = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.transferToListMaker1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.transferToListMaker2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -41,7 +42,6 @@ namespace WikiFunctions.Controls.Lists
             this.btnGo = new System.Windows.Forms.Button();
             this.openListDialog = new System.Windows.Forms.OpenFileDialog();
             this.lblNoBoth = new System.Windows.Forms.Label();
-            this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
             this.btnSaveBoth = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.lblBoth = new System.Windows.Forms.Label();
@@ -67,7 +67,6 @@ namespace WikiFunctions.Controls.Lists
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnSaveOnly1 = new System.Windows.Forms.Button();
             this.btnMoveOnly1 = new System.Windows.Forms.Button();
-            this.transferToListMaker2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuList.SuspendLayout();
             this.gbList1.SuspendLayout();
             this.gbList2.SuspendLayout();
@@ -110,34 +109,41 @@ namespace WikiFunctions.Controls.Lists
             this.transferToListMaker1ToolStripMenuItem.Text = "Transfer to ListMaker 1";
             this.transferToListMaker1ToolStripMenuItem.Click += new System.EventHandler(this.transferDuplicatesToList1ToolStripMenuItem_Click);
             // 
+            // transferToListMaker2ToolStripMenuItem
+            // 
+            this.transferToListMaker2ToolStripMenuItem.Name = "transferToListMaker2ToolStripMenuItem";
+            this.transferToListMaker2ToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.transferToListMaker2ToolStripMenuItem.Text = "Transfer to ListMaker 2";
+            this.transferToListMaker2ToolStripMenuItem.Click += new System.EventHandler(this.transferToListMaker2ToolStripMenuItem_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(194, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(191, 6);
             // 
             // openInBrowserToolStripMenuItem
             // 
             this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
-            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.openInBrowserToolStripMenuItem.Text = "Open in Browser";
             this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(194, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(191, 6);
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.copyToolStripMenuItem.Text = "Copy selected";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // removeSelectedToolStripMenuItem
             // 
             this.removeSelectedToolStripMenuItem.Name = "removeSelectedToolStripMenuItem";
-            this.removeSelectedToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.removeSelectedToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.removeSelectedToolStripMenuItem.Text = "Remove selected";
             this.removeSelectedToolStripMenuItem.Click += new System.EventHandler(this.removeSelectedToolStripMenuItem_Click);
             // 
@@ -164,11 +170,6 @@ namespace WikiFunctions.Controls.Lists
             this.lblNoBoth.Size = new System.Drawing.Size(13, 13);
             this.lblNoBoth.TabIndex = 8;
             this.lblNoBoth.Text = "0";
-            // 
-            // saveListDialog
-            // 
-            this.saveListDialog.Filter = "Text files|*.txt";
-            this.saveListDialog.SupportMultiDottedExtensions = true;
             // 
             // btnSaveBoth
             // 
@@ -429,13 +430,6 @@ namespace WikiFunctions.Controls.Lists
             this.btnMoveOnly1.UseVisualStyleBackColor = true;
             this.btnMoveOnly1.Click += new System.EventHandler(this.btnMoveOnly1_Click);
             // 
-            // transferToListMaker2ToolStripMenuItem
-            // 
-            this.transferToListMaker2ToolStripMenuItem.Name = "transferToListMaker2ToolStripMenuItem";
-            this.transferToListMaker2ToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
-            this.transferToListMaker2ToolStripMenuItem.Text = "Transfer to ListMaker 2";
-            this.transferToListMaker2ToolStripMenuItem.Click += new System.EventHandler(this.transferToListMaker2ToolStripMenuItem_Click);
-            // 
             // ListComparer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -475,7 +469,6 @@ namespace WikiFunctions.Controls.Lists
         private System.Windows.Forms.Button btnGo;
         private System.Windows.Forms.OpenFileDialog openListDialog;
         private System.Windows.Forms.Label lblNoBoth;
-        private System.Windows.Forms.SaveFileDialog saveListDialog;
         private System.Windows.Forms.Button btnSaveBoth;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Label lblBoth;
