@@ -4974,18 +4974,35 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         }
 
         [Test]
-        public void Update()
+        public void UpdateFactTag()
         {
             //Test of updating some of the non dated tags
             string text = parser.Tagger("{{fact}}", "Test", out noChange, ref summary);
 
-            Assert.IsTrue(text.Contains("{{Fact|date={{subst:CURRENTMONTHNAME}}"));
+            Assert.IsTrue(text.Contains("{{fact|date={{subst:CURRENTMONTHNAME}}"));
             Assert.IsFalse(text.Contains("{{fact}}"));
 
             text = parser.Tagger("{{template:fact}}", "Test", out noChange, ref summary);
 
-            Assert.IsTrue(text.Contains("{{Fact|date={{subst:CURRENTMONTHNAME}}"));
+            Assert.IsTrue(text.Contains("{{fact|date={{subst:CURRENTMONTHNAME}}"));
             Assert.IsFalse(text.Contains("{{fact}}"));
+        }
+        
+        [Test]
+        public void UpdateCitationNeededTag()
+        {
+            
+                        //Test of updating some of the non dated tags
+            string text = parser.Tagger("{{citation needed}}", "Test", out noChange, ref summary);
+
+             Assert.AreEqual(text, @"{{citation needed|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            Assert.IsTrue(text.Contains("{{citation needed|date={{subst:CURRENTMONTHNAME}}"));
+            Assert.IsFalse(text.Contains("{{citation needed}}"));
+
+            text = parser.Tagger("{{template:citation needed  }}", "Test", out noChange, ref summary);
+
+            Assert.IsTrue(text.Contains("{{citation needed|date={{subst:CURRENTMONTHNAME}}"));
+            Assert.IsFalse(text.Contains("{{citation needed}}"));
         }
 
         [Test]
