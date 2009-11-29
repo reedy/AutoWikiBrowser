@@ -4216,7 +4216,7 @@ namespace WikiFunctions.Parse
                 {
                     // add uncategorized tag
                     articleText += "\r\n\r\n{{Uncategorized|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
-                    summary += ", added [[:Category:Category needed|uncategorised]] tag";
+                    summary += ", added [[CAT:UNCAT|uncategorised]] tag";
                 }
             }
             else if (totalCategories > 0
@@ -4251,7 +4251,7 @@ namespace WikiFunctions.Parse
             {
                 // add wikify tag
                 articleText = "{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
-                summary += ", added [[:Category:Articles that need to be wikified|wikify]] tag";
+                summary += ", added [[WP:WFY|wikify]] tag";
             }
             else if (linkCount > 3 && ((linkCount / length) > 0.0025) &&
                      WikiRegexes.Wikify.IsMatch(articleText))
@@ -4303,7 +4303,7 @@ namespace WikiFunctions.Parse
             if (orphaned && !WikiRegexes.Orphan.IsMatch(articleText) && !WikiRegexes.OrphanArticleIssues.IsMatch(articleText))
             {
                 articleText = "{{orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
-                summary += ", added [[:Category:Orphaned articles|orphan]] tag";
+                summary += ", added [[CAT:O|orphan]] tag";
             }
             else if (!orphaned && WikiRegexes.Orphan.IsMatch(articleText))
             {
