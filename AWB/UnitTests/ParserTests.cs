@@ -1554,6 +1554,8 @@ complementary and alternative medicine: evidence is a better friend than power. 
             Assert.AreEqual(@"{{cite book|author=Smith|title=Great|pages= 57–59}}", Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|pages= pp. 57–59}}"));
             Assert.AreEqual(@"{{cite book|author=Smith|title=Great|pages=57–59|year=2007}}", Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|pages=pp. 57-59|year=2007}}"));
             Assert.AreEqual(@"{{cite book|author=Smith|title=Great|page=57}}", Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|page=p. 57}}"));
+            Assert.AreEqual(@"{{cite book|author=Smith|title=Great|page=57}}", Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|page=p 57}}"));
+            Assert.AreEqual(@"{{cite book|author=Smith|title=Great|page=57}}", Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|page=pp 57}}"));
 
             Assert.AreEqual(@"{{cite book|author=Smith|title=Great|page= 57}}", Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|page= 57}}"));
 
@@ -4412,7 +4414,7 @@ foo {{persondata}}
             // 'r' in argument means no embedded <ref></ref>
             Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} {{GR|r4}}"));
             Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref> ==references== {{reflist}} {{GR|India}}"));
-        
+            
             string bug1 = @"
 ==References==
 <references />
@@ -4428,7 +4430,7 @@ foo {{persondata}}
 [[pt:Tatamy]]
 [[vo:Tatamy]]";
             Assert.IsFalse(Parsers.HasRefAfterReflist(bug1));
-                
+            
         }
 
         [Test]
@@ -4992,10 +4994,10 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         public void UpdateCitationNeededTag()
         {
             
-                        //Test of updating some of the non dated tags
+            //Test of updating some of the non dated tags
             string text = parser.Tagger("{{citation needed}}", "Test", out noChange, ref summary);
 
-             Assert.AreEqual(text, @"{{citation needed|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            Assert.AreEqual(text, @"{{citation needed|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
             Assert.IsTrue(text.Contains("{{citation needed|date={{subst:CURRENTMONTHNAME}}"));
             Assert.IsFalse(text.Contains("{{citation needed}}"));
 
