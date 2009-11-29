@@ -2016,7 +2016,7 @@ namespace WikiFunctions.Parse
                     newValue = CiteTemplateFormatnull.Replace(newValue, "");
 
                 // page= and pages= fields don't need p. or pp. in them when nopp not set
-                if (!Regex.IsMatch(newValue, @"\bnopp\s*=\s*"))
+                if (!Regex.IsMatch(newValue, @"\bnopp\s*=\s*") && !Regex.IsMatch(newValue, @"^{{\s*[Cc]ite journal\s*\|"))
                     newValue = CiteTemplatePagesPP.Replace(newValue, "");
 
                 // correct volume=vol 7... and issue=no. 8 for {{cite journal}} only
