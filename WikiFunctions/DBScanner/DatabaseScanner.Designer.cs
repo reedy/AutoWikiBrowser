@@ -159,7 +159,6 @@ namespace WikiFunctions.DBScanner
             this.tabConvert = new System.Windows.Forms.TabPage();
             this.btnPause = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.saveListDialog = new System.Windows.Forms.SaveFileDialog();
             this.gbText.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLength)).BeginInit();
@@ -916,7 +915,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.lblCount.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblCount.Name = "lblCount";
-            this.lblCount.Size = new System.Drawing.Size(263, 17);
+            this.lblCount.Size = new System.Drawing.Size(232, 17);
             this.lblCount.Spring = true;
             this.lblCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -1616,13 +1615,6 @@ namespace WikiFunctions.DBScanner
             this.splitContainer1.SplitterDistance = 308;
             this.splitContainer1.TabIndex = 5;
             // 
-            // saveListDialog
-            // 
-            this.saveListDialog.DefaultExt = "txt";
-            this.saveListDialog.Filter = "Text file with wiki markup|*.txt|Plaintext list|*.txt|CSV (Comma Separated Values" +
-                ")|*.txt";
-            this.saveListDialog.Title = "Save article list";
-            // 
             // DatabaseScanner
             // 
             this.AcceptButton = this.btnStart;
@@ -1800,7 +1792,6 @@ namespace WikiFunctions.DBScanner
         private ToolStripStatusLabel toolStripStatusLabel1;
         private Button btnSaveTxtList;
         private Button btnSaveArticleList;
-        private SaveFileDialog saveListDialog;
         private WikiFunctions.Controls.EditProtectControl MoveDelete;
         private CheckBox chkProtection;
         private TabPage tabTitle;
