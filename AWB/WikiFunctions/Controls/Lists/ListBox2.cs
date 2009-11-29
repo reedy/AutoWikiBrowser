@@ -84,7 +84,7 @@ namespace WikiFunctions.Controls.Lists
             if (Items.Count > i)
                 SelectedIndex = i;
             else
-                SelectedIndex = System.Math.Min(i, Items.Count) - 1;
+                SelectedIndex = Math.Min(i, Items.Count) - 1;
 
             EndUpdate();
         }
@@ -95,8 +95,8 @@ namespace WikiFunctions.Controls.Lists
         {
             WikiText = 1,
             PlainText = 2,
-            CSV = 3,
-            CSVWikiText = 4
+            Csv = 3,
+            CsvWikiText = 4
         }
 
         public void SaveList()
@@ -126,12 +126,12 @@ namespace WikiFunctions.Controls.Lists
                         foreach (Article a in this)
                             list.AppendLine(a.Name);
                         break;
-                    case OutputFormat.CSV:
+                    case OutputFormat.Csv:
                         foreach (Article a in this)
                             list.Append(a.Name + ", ");
                         list = list.Remove(list.Length - 2, 2);
                         break;
-                    case OutputFormat.CSVWikiText:
+                    case OutputFormat.CsvWikiText:
                         foreach (Article a in this)
                             list.Append("[[:" + a.Name + "]], ");
                         list = list.Remove(list.Length - 2, 2);
