@@ -1962,13 +1962,7 @@ window.scrollTo(0, diffTopY);
 
             if (Encoding.UTF8.GetByteCount(summary) >= maxAvailableSummaryLength)
             {
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#Edit_summary_issue
-                // replace last wikilink with dots as an attempt to prevent broken wikilinks in edit summary
-                if (summary.EndsWith(@"]]"))
-                    summary = Regex.Replace(summary, @"\s*\[\[[^\[\]\r\n]+?\]\]$", "...");
-
-                if (summary.Length >= maxAvailableSummaryLength)
-                    summary = summary.Substring(0, maxAvailableSummaryLength);
+                summary = Tools.TrimEditSummary(summary);
             }
 
 #if DEBUG

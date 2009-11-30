@@ -2409,7 +2409,7 @@ namespace WikiFunctions.Parse
 
         // Covered by: UtilityFunctionTests.IsCorrectEditSummary()
         /// <summary>
-        /// returns true if given string has matching double square brackets
+        /// returns true if given string has matching double square brackets and is within the maximum permitted length
         /// </summary>
         public static bool IsCorrectEditSummary(string s)
         {
