@@ -4992,18 +4992,26 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         [Test]
         public void UpdateCitationNeededTag()
         {
-            
-            //Test of updating some of the non dated tags
             string text = parser.Tagger("{{citation needed}}", "Test", out noChange, ref summary);
-
             Assert.AreEqual(text, @"{{citation needed|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-            Assert.IsTrue(text.Contains("{{citation needed|date={{subst:CURRENTMONTHNAME}}"));
-            Assert.IsFalse(text.Contains("{{citation needed}}"));
 
             text = parser.Tagger("{{template:citation needed  }}", "Test", out noChange, ref summary);
+            Assert.AreEqual(text, @"{{citation needed|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+        }
+        
+        [Test]
+        public void UpdateWikifyTag()
+        {
+            string correct =  @"{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
+            string text = parser.Tagger("{{wikify}}", "Test", out noChange, ref summary);
+            Assert.IsTrue(text.Contains(correct));
+            Assert.IsFalse(text.Contains("{{wikify}}"));
 
-            Assert.IsTrue(text.Contains("{{citation needed|date={{subst:CURRENTMONTHNAME}}"));
-            Assert.IsFalse(text.Contains("{{citation needed}}"));
+            text = parser.Tagger("{{template:wikify  }}", "Test", out noChange, ref summary);
+            Assert.IsTrue(text.Contains(correct));
+            
+            text = parser.Tagger("{{wikify|section}}", "Test", out noChange, ref summary);
+            Assert.IsTrue(text.Contains(@"{{Wikify|section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
         }
 
         [Test]
