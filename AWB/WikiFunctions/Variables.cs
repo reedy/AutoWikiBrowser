@@ -255,7 +255,7 @@ namespace WikiFunctions
         { get; private set; }
 
         /// <summary>
-        /// Gets the tag to add to the edit summary, e.g. " using [[Wikipedia:AutoWikiBrowser|AWB]]".
+        /// Gets the tag to add to the edit summary, e.g. " using [[Project:AWB]]".
         /// </summary>
         public static string SummaryTag
         { get { return mSummaryTag + WPAWB; } }

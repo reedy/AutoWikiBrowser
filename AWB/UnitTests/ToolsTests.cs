@@ -301,29 +301,29 @@ bar"));
         {
             string[] sections = Tools.SplitToSections("foo\r\n==bar=\r\nboo\r\n\r\n= boz =\r\n==quux==");
             CollectionAssert.AreEqual(new[]
-            {
-                "foo\r\n",
-                "==bar=\r\nboo\r\n\r\n",
-                "= boz =\r\n",
-                "==quux==\r\n"
-            }, sections);
+                                      {
+                                          "foo\r\n",
+                                          "==bar=\r\nboo\r\n\r\n",
+                                          "= boz =\r\n",
+                                          "==quux==\r\n"
+                                      }, sections);
 
             sections = Tools.SplitToSections("==bar=\r\nboo\r\n\r\n= boz =\r\n==quux==");
             CollectionAssert.AreEqual(new[]
-            {
-                "==bar=\r\nboo\r\n\r\n",
-                "= boz =\r\n",
-                "==quux==\r\n"
-            }, sections);
+                                      {
+                                          "==bar=\r\nboo\r\n\r\n",
+                                          "= boz =\r\n",
+                                          "==quux==\r\n"
+                                      }, sections);
 
             sections = Tools.SplitToSections("\r\n==bar=\r\nboo\r\n\r\n= boz =\r\n==quux==");
             CollectionAssert.AreEqual(new[]
-            {
-                "\r\n",
-                "==bar=\r\nboo\r\n\r\n",
-                "= boz =\r\n",
-                "==quux==\r\n"
-            }, sections);
+                                      {
+                                          "\r\n",
+                                          "==bar=\r\nboo\r\n\r\n",
+                                          "= boz =\r\n",
+                                          "==quux==\r\n"
+                                      }, sections);
 
             sections = Tools.SplitToSections("");
             CollectionAssert.AreEqual(new[] { "\r\n" }, sections);
@@ -485,16 +485,17 @@ bar"));
             Assert.AreEqual(3, Tools.FirstDifference("foo", "foo"));
         }
 
-        const string _100 = "123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 1234567890";
-
-        [Test, Ignore("Known Failing")] //TODO: fix failing tests
+        [Test]
         public void TrimEditSummary()
         {
-            Assert.AreEqual("test using [[WP:AWB]]", Tools.TrimEditSummary("test", " using [[WP:AWB]]"));
-            Assert.AreEqual("test", Tools.TrimEditSummary("test", ""));
-
-            Assert.IsFalse(Parsers.IsCorrectEditSummary(
-                Tools.TrimEditSummary("[[" + _100 + "|" + _100 + "]] [[" + _100 + "]]", "[[WP:AWB]]")));
+            Assert.AreEqual("test", Tools.TrimEditSummary("test"));
+            
+            string bug1 = @"replaced category 'Actual event ballads' → 'Songs based on actual events' per [[Wikipedia:Categories for discussion/Log/2009 November 6|CfD 2009 Nov 6]]";
+            string waffle = @"some waffle here to make the edit summary too long";
+            
+            Assert.AreEqual(bug1, Tools.TrimEditSummary(bug1));
+            Assert.AreEqual(waffle + bug1, Tools.TrimEditSummary(waffle + bug1));
+            Assert.AreEqual(waffle + waffle + @"replaced category 'Actual event ballads' → 'Songs based on actual events' per...", Tools.TrimEditSummary(waffle + waffle + bug1));            
         }
 
         [Test]
@@ -519,7 +520,7 @@ Wikipedia_talk:AutoWikiBrowser/Sandbox
 Wikipedia talk:AutoWikiBrowser/Sandbox
 Wikipedia talk",
 
-            Tools.ApplyKeyWords("Wikipedia talk:AutoWikiBrowser/Sandbox", @"%%pagename%%
+                            Tools.ApplyKeyWords("Wikipedia talk:AutoWikiBrowser/Sandbox", @"%%pagename%%
 %%pagenamee%%
 
 %%basepagename%%
@@ -608,12 +609,12 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
         public void FilterSomeArticles()
         {
             List<Article> articles = new List<Article>(new[]
-                                                           {
-                                                               new Article("Test"), new Article("Commons:Test"),
-                                                               new Article("MediaWiki:Test"),
-                                                               new Article("MediaWiki talk: test"),
-                                                               new Article("User talk:Test")
-                                                           });
+                                                       {
+                                                           new Article("Test"), new Article("Commons:Test"),
+                                                           new Article("MediaWiki:Test"),
+                                                           new Article("MediaWiki talk: test"),
+                                                           new Article("User talk:Test")
+                                                       });
 
             List<Article> res = Tools.FilterSomeArticles(articles);
 
@@ -888,14 +889,14 @@ Jones", "*"));
         public void ToTalkOnList()
         {
             List<Article> l = new List<Article>
-                                  {
-                                      new Article("Foo"),
-                                      new Article("Talk:Foo bar"),
-                                      new Article("File:Foo"),
-                                      new Article("Special:Foo")
-                                  };
+            {
+                new Article("Foo"),
+                new Article("Talk:Foo bar"),
+                new Article("File:Foo"),
+                new Article("Special:Foo")
+            };
             CollectionAssert.AreEquivalent(Tools.ConvertToTalk(l),
-                new[] { "Talk:Foo", "Talk:Foo bar", "File talk:Foo", "Special:Foo" });
+                                           new[] { "Talk:Foo", "Talk:Foo bar", "File talk:Foo", "Special:Foo" });
         }
 
         [Test]
@@ -917,14 +918,14 @@ Jones", "*"));
         public void FromTalkOnList()
         {
             List<Article> l = new List<Article>
-                                  {
-                                      new Article("Foo"),
-                                      new Article("Talk:Foo bar"),
-                                      new Article("User talk:Foo"),
-                                      new Article("Special:Foo")
-                                  };
+            {
+                new Article("Foo"),
+                new Article("Talk:Foo bar"),
+                new Article("User talk:Foo"),
+                new Article("Special:Foo")
+            };
             CollectionAssert.AreEquivalent(Tools.ConvertFromTalk(l),
-                new[] { "Foo", "Foo bar", "User:Foo", "Special:Foo" });
+                                           new[] { "Foo", "Foo bar", "User:Foo", "Special:Foo" });
         }
         #endregion
 
