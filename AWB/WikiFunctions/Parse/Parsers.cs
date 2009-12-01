@@ -468,7 +468,7 @@ namespace WikiFunctions.Parse
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
         public string FixDates(string articleText)
-        {            
+        {
             if (Variables.LangCode != "en")
                 return articleText;
             
@@ -531,7 +531,7 @@ namespace WikiFunctions.Parse
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
         public static string FixDatesRaw(string articleText)
-        {            
+        {
             return ApostropheInDecades.Replace(articleText, "s");
         }
 
@@ -1959,6 +1959,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex AccessDateYear = new Regex(@"(?<=\|\s*accessdate\s*=\s*(?:[1-3]?\d\s+" + WikiRegexes.MonthsNoGroup + @"|\s*" + WikiRegexes.MonthsNoGroup + @"\s+[1-3]?\d))(\s*)\|\s*accessyear\s*=\s*(20[01]\d)\s*(\||}})", RegexOptions.Compiled);
         private static readonly Regex AccessDayMonthDay = new Regex(@"\|\s*access(?:daymonth|monthday)\s*=\s*(?=\||}})", RegexOptions.Compiled);
         private static readonly Regex DateLeadingZero = new Regex(@"(?<=\|\s*(?:access|archive)?date\s*=\s*)(?:0([1-9]\s+" + WikiRegexes.MonthsNoGroup + @")|(\s*" + WikiRegexes.MonthsNoGroup + @"\s)+0([1-9],?))(\s+20[01]\d)?(\s*\||}})", RegexOptions.Compiled);
+        private static readonly Regex AccessYear = new Regex(@"\|\s*accessyear\s*=\s*(20\d\d)\s*(?=\||}})", RegexOptions.Compiled);
 
         /// <summary>
         /// Applies various formatting fixes to citation templates
@@ -2042,7 +2043,12 @@ namespace WikiFunctions.Parse
                     // merge accessdate of 'D Month' or 'Month D' and accessyear of 'YYYY' in cite web
                     newValue = AccessDateYear.Replace(newValue, @" $2$1$3");
                 }
-
+                
+                // remove accessyear where accessdate is present and contains said year
+                string year = AccessYear.Match(newValue).Groups[1].Value;
+                if(year.Length > 0 && Regex.IsMatch(newValue, @"\|\s*accessdate\s*=[^{}\|]*\b" + year + @"\b"))
+                    newValue = AccessYear.Replace(newValue, "");
+                
                 // catch after any other fixes
                 newValue = NoCommaAmericanDates.Replace(newValue, @"$1, $2");
 
@@ -4189,13 +4195,13 @@ namespace WikiFunctions.Parse
 
             int totalCategories;
 
-#if DEBUG
+            #if DEBUG
             if (Globals.UnitTestMode)
             {
                 totalCategories = Globals.UnitTestIntValue;
             }
             else
-#endif
+                #endif
             {
                 totalCategories = CategoryProv.MakeList(new[] {articleTitle}).Count;
             }
@@ -4278,13 +4284,13 @@ namespace WikiFunctions.Parse
         {
             // check if not orphaned
             bool orphaned;
-#if DEBUG
+            #if DEBUG
             if (Globals.UnitTestMode)
             {
                 orphaned = Globals.UnitTestBoolValue;
             }
             else
-#endif
+                #endif
             {
                 try
                 {
