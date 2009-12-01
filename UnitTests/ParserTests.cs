@@ -1493,10 +1493,8 @@ complementary and alternative medicine: evidence is a better friend than power. 
             Assert.AreEqual(correct3, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May | accessyear = 2008 |work=c}}"));
             Assert.AreEqual(correct4, Parsers.FixCitationTemplates(@"{{cite book|url=a |title=b |date=2008 | accessdate=11 May | accessyear = 2008 |work=c}}"));
             
-            // don't combine when year already given; only for cite web
-            string nochange1 = @"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008 |accessyear=2008 |work=c}}";
+            // only for cite web
             string nochange2 = @"{{cite news|url=a |title=b |date=2008 | accessdate=11 May |accessyear=2008 |work=c}}";
-            Assert.AreEqual(nochange1, Parsers.FixCitationTemplates(nochange1));
             Assert.AreEqual(nochange2, Parsers.FixCitationTemplates(nochange2));
         }
         
@@ -1507,6 +1505,15 @@ complementary and alternative medicine: evidence is a better friend than power. 
             Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|accessdaymonth=   }}"));
             Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|accessmonthday  =   }}"));
             Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 |accessmonthday  = | accessdate=11 May 2008}}"));
+        }
+        
+        [Test]
+        public void AccessYear()
+        {
+            string a = @"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008}}";
+            Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|accessyear=2008   }}"));
+            Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008| accessyear =  2008   }}"));
+            Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 |accessyear=2008   | accessdate=11 May 2008}}"));
         }
         
         [Test]
