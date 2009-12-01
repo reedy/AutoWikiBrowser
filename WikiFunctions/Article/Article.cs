@@ -1185,7 +1185,8 @@ namespace WikiFunctions
                 dlgArticleAction.NewTitle = Name;
                 dlgArticleAction.Summary = _lastMove;
 
-                if (dlgArticleAction.ShowDialog() == DialogResult.OK)
+                if (dlgArticleAction.ShowDialog() == DialogResult.OK
+                   && Name != dlgArticleAction.NewTitle)
                 {
                     _lastMove = dlgArticleAction.Summary;
                     session.Editor.SynchronousEditor.Move(Name, dlgArticleAction.NewTitle,
