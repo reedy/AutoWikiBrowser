@@ -2869,7 +2869,7 @@ window.scrollTo(0, diffTopY);
 
         private void FalsePositiveClick(object sender, EventArgs e)
         {
-            if (TheArticle.Name.Length > 0)
+            if (TheArticle != null && TheArticle.Name.Length > 0)
                 Tools.WriteTextFile("#[[" + TheArticle.Name + "]]\r\n", @"False positives.txt", true);
         }
 
