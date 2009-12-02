@@ -3787,6 +3787,7 @@ window.scrollTo(0, diffTopY);
                         articleActionLogControl1.LogArticleAction(TheArticle.Name, false, ArticleAction.Move, "Article already deleted, cannot move");
                         break;
                     case "articleexists":
+                        StatusLabelText = "Target exists, cannot move";
                         MessageBox.Show(
                             "The destination article already exists and is not a redirect to the source article.\r\nMove not completed", "Target exists");
                         articleActionLogControl1.LogArticleAction(TheArticle.Name, false, ArticleAction.Move, "Target exists");
