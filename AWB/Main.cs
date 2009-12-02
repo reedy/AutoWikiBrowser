@@ -3807,8 +3807,7 @@ window.scrollTo(0, diffTopY);
                     MessageBox.Show("Target title is invalid", "Invalid Target page");
                     return;
                 }
-                else
-                    ErrorHandler.Handle(ae);
+                ErrorHandler.Handle(ae);
             }
             catch (Exception ex)
             {
@@ -3861,10 +3860,11 @@ window.scrollTo(0, diffTopY);
                     StatusLabelText = "Article already deleted";
                     listMaker.Remove(TheArticle);
 
-                    articleActionLogControl1.LogArticleAction(TheArticle.Name, false, ArticleAction.Delete, "Article already deleted");
+                    articleActionLogControl1.LogArticleAction(TheArticle.Name, false, ArticleAction.Delete,
+                                                              "Article already deleted");
+                    return;
                 }
-                else
-                    ErrorHandler.Handle(ae);
+                ErrorHandler.Handle(ae);
             }
             catch (Exception ex)
             {
