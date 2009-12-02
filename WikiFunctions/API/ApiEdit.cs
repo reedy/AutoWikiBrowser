@@ -712,7 +712,7 @@ namespace WikiFunctions.API
                         { "token", Page.EditToken },
                         { "reason", reason },
                         { "protections", "edit=" + edit + "|move=" + move },
-                        { "expiry", expiry + "|" + expiry },
+                        { string.IsNullOrEmpty(expiry) ? "" : "expiry", string.IsNullOrEmpty(expiry) ? "" : expiry + "|" + expiry },
                         { cascade ? "cascade" : null, null },
                         //{ User.IsBot ? "bot" : null, null },
                         { watch ? "watch" : null, null }

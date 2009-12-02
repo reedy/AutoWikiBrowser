@@ -156,7 +156,7 @@ namespace WikiFunctions.Controls
             return Group.GetHashCode();
         }
 
-        public static ProtectionLevel[] Levels = new[]
+        public static readonly ProtectionLevel[] Levels = new[]
             {
                 new ProtectionLevel("", "Unprotected"),
                 new ProtectionLevel("autoconfirmed", "Semi-protected"),

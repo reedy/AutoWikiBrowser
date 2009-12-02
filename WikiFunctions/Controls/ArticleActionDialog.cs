@@ -207,7 +207,8 @@ namespace WikiFunctions.Controls
                     if (string.IsNullOrEmpty(cmboSummary.Text))
                         errorMessage.AppendLine("Please enter/select a protection reason.");
 
-                    if (string.IsNullOrEmpty(txtExpiry.Text))
+                    if ((MoveProtectionLevel != "" || EditProtectionLevel != "") &&
+                        string.IsNullOrEmpty(txtExpiry.Text))
                         errorMessage.AppendLine("Please enter an expiry time.");
                     break;
                 case ArticleAction.Delete:
