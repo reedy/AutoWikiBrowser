@@ -3861,6 +3861,12 @@ window.scrollTo(0, diffTopY);
 
             try
             {
+                if (!TheSession.Page.Exists)
+                {
+                    MessageBox.Show("Cannot protect a non-existent page");
+                    return;
+                }
+
                 if (!TheSession.User.IsSysop)
                 {
                     MessageBox.Show(
