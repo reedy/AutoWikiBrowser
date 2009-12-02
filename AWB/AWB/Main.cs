@@ -3784,18 +3784,31 @@ window.scrollTo(0, diffTopY);
                     case "missingtitle":
                         StatusLabelText = "Article deleted, cannot move";
                         listMaker.Remove(TheArticle);
-                        articleActionLogControl1.LogArticleAction(TheArticle.Name, false, ArticleAction.Move, "Article already deleted, cannot move");
+                        articleActionLogControl1.LogArticleAction(TheArticle.Name, false, ArticleAction.Move,
+                                                                  "Article already deleted, cannot move");
                         break;
                     case "articleexists":
                         StatusLabelText = "Target exists, cannot move";
                         MessageBox.Show(
-                            "The destination article already exists and is not a redirect to the source article.\r\nMove not completed", "Target exists");
-                        articleActionLogControl1.LogArticleAction(TheArticle.Name, false, ArticleAction.Move, "Target exists");
+                            "The destination article already exists and is not a redirect to the source article.\r\nMove not completed",
+                            "Target exists");
+                        articleActionLogControl1.LogArticleAction(TheArticle.Name, false, ArticleAction.Move,
+                                                                  "Target exists");
                         break;
                     default:
                         ErrorHandler.Handle(ae);
                         break;
                 }
+            }
+            catch (ApiException ae)
+            {
+                if (ae.Message == "invalidnewtitle")
+                {
+                    MessageBox.Show("Target title is invalid", "Invalid Target page");
+                    return;
+                }
+                else
+                    ErrorHandler.Handle(ae);
             }
             catch (Exception ex)
             {
