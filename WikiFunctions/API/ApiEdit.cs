@@ -758,10 +758,14 @@ namespace WikiFunctions.API
 
             CheckForErrors(result);
 
+            bool invalid;
             try
             {
                 XmlReader xr = XmlReader.Create(new StringReader(result));
                 if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
+
+                invalid = xr.MoveToAttribute("invalid");
+
                 Page.EditToken = xr.GetAttribute("movetoken");
             }
             catch (Exception ex)
@@ -770,6 +774,8 @@ namespace WikiFunctions.API
             }
 
             if (Aborting) throw new AbortedException(this);
+
+            if (invalid) throw new ApiException(this, "invalidnewtitle", new ArgumentException("Target page invalid", "newTitle"));
 
             result = HttpPost(
                 new[,]

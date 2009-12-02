@@ -76,16 +76,19 @@ namespace WikiFunctions.API
             {
                 var edit = doc["api"]["edit"];
 
-                NoChange = edit.HasAttribute("nochange");
-                IsNewPage = edit.HasAttribute("new");
-                Title = edit.GetAttribute("title");
-                PageId = int.Parse(edit.GetAttribute("pageid"));
+                if (edit != null)
+                {
+                    NoChange = edit.HasAttribute("nochange");
+                    IsNewPage = edit.HasAttribute("new");
+                    Title = edit.GetAttribute("title");
+                    PageId = int.Parse(edit.GetAttribute("pageid"));
 
-                int rev;
-                int.TryParse(edit.GetAttribute("newrevid"), out rev); // will be absent on null edits
-                NewId = rev;
-                int.TryParse(edit.GetAttribute("oldrevid"), out rev); // will be absent on page creation too
-                OldId = rev;
+                    int rev;
+                    int.TryParse(edit.GetAttribute("newrevid"), out rev); // will be absent on null edits
+                    NewId = rev;
+                    int.TryParse(edit.GetAttribute("oldrevid"), out rev); // will be absent on page creation too
+                    OldId = rev;
+                }
             }
             catch
             { }
