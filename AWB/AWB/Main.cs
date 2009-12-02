@@ -3779,15 +3779,22 @@ window.scrollTo(0, diffTopY);
             }
             catch (ApiErrorException ae)
             {
-                if (ae.ErrorCode == "missingtitle")
+                switch (ae.ErrorCode)
                 {
-                    StatusLabelText = "Article deleted, cannot move";
-                    listMaker.Remove(TheArticle);
-
-                    articleActionLogControl1.LogArticleAction(TheArticle.Name, false, ArticleAction.Move, "Article already deleted, cannot move");
+                    case "missingtitle":
+                        StatusLabelText = "Article deleted, cannot move";
+                        listMaker.Remove(TheArticle);
+                        articleActionLogControl1.LogArticleAction(TheArticle.Name, false, ArticleAction.Move, "Article already deleted, cannot move");
+                        break;
+                    case "articleexists":
+                        MessageBox.Show(
+                            "The destination article already exists and is not a redirect to the source article.\r\nMove not completed", "Target exists");
+                        articleActionLogControl1.LogArticleAction(TheArticle.Name, false, ArticleAction.Move, "Target exists");
+                        break;
+                    default:
+                        ErrorHandler.Handle(ae);
+                        break;
                 }
-                else
-                    ErrorHandler.Handle(ae);
             }
             catch (Exception ex)
             {
