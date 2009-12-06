@@ -90,10 +90,11 @@ namespace WikiFunctions.Controls.Lists
                 {
                     lb3.Items.Add(a.Name);
 
-                    foreach (Article a2 in list2.GetRange(0, Math.Max(list2.IndexOf(a) - 1, 0)))
+                    Article a2 = list2[0];
+                    while (a2 != a)
                     {
-                        lb2.Items.Add(a2.Name);
-                        list2.Remove(a2);
+                    	list2.Remove(a2);
+                    	a2 = list2[0];                   		
                     }
 
                     list2.Remove(a);
