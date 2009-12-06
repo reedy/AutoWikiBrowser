@@ -1,17 +1,4 @@
--- phpMyAdmin SQL Dump
--- version 2.11.2.1
--- http://www.phpmyadmin.net
---
--- Host: mysql.kingboyk.com
--- Generation Time: Jun 06, 2008 at 04:26 AM
--- Server version: 5.0.24
--- PHP Version: 4.4.7
-
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-
---
--- Database: `awb`
---
 
 -- --------------------------------------------------------
 
@@ -206,7 +193,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 DROP TABLE IF EXISTS `FriendlyLog`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`kingboyk`@`64.111.96.0/255.255.224.0` SQL SECURITY DEFINER VIEW `awb`.`FriendlyLog` AS select `awb`.`log`.`LogID` AS `LogID`,`awb`.`log`.`Operation` AS `Operation`,`awb`.`log`.`DateTime` AS `DateTime`,if(`awb`.`log`.`SuccessYN`,_utf8'Yes',_utf8'No') AS `SuccessYN`,if(`awb`.`log`.`ErrorFixed`,_utf8'Yes',_utf8'No') AS `ErrorFixed`,ifnull(`awb`.`log`.`Message`,_utf8'') AS `Message`,`awb`.`log`.`SessionID` AS `SessionID`,ifnull(`awb`.`lkpUsers`.`User`,_utf8'<Not recorded>') AS `User`,`awb`.`sessions`.`Saves` AS `Saves`,`awb`.`log`.`ScriptMajor` AS `ScriptMajor`,`awb`.`log`.`ScriptMinor` AS `ScriptMinor` from (`awb`.`log` left join (`awb`.`sessions` left join `awb`.`lkpUsers` on((`awb`.`sessions`.`User` = `awb`.`lkpUsers`.`UserID`))) on((`awb`.`log`.`SessionID` = `awb`.`sessions`.`SessionID`))) order by `awb`.`log`.`LogID`;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `awb`.`FriendlyLog` AS select `awb`.`log`.`LogID` AS `LogID`,`awb`.`log`.`Operation` AS `Operation`,`awb`.`log`.`DateTime` AS `DateTime`,if(`awb`.`log`.`SuccessYN`,_utf8'Yes',_utf8'No') AS `SuccessYN`,if(`awb`.`log`.`ErrorFixed`,_utf8'Yes',_utf8'No') AS `ErrorFixed`,ifnull(`awb`.`log`.`Message`,_utf8'') AS `Message`,`awb`.`log`.`SessionID` AS `SessionID`,ifnull(`awb`.`lkpUsers`.`User`,_utf8'<Not recorded>') AS `User`,`awb`.`sessions`.`Saves` AS `Saves`,`awb`.`log`.`ScriptMajor` AS `ScriptMajor`,`awb`.`log`.`ScriptMinor` AS `ScriptMinor` from (`awb`.`log` left join (`awb`.`sessions` left join `awb`.`lkpUsers` on((`awb`.`sessions`.`User` = `awb`.`lkpUsers`.`UserID`))) on((`awb`.`log`.`SessionID` = `awb`.`sessions`.`SessionID`))) order by `awb`.`log`.`LogID`;
 
 -- --------------------------------------------------------
 
@@ -215,7 +202,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`kingboyk`@`64.111.96.0/255.255.224.0` SQL SE
 --
 DROP TABLE IF EXISTS `FriendlySessions`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`kingboyk`@`%` SQL SECURITY DEFINER VIEW `awb`.`FriendlySessions` AS select `awb`.`sessions`.`SessionID` AS `SessionID`,`awb`.`sessions`.`DateTime` AS `DateTime`,ifnull(`awb`.`lkpUsers`.`User`,_utf8'<Not recorded>') AS `User`,`awb`.`sessions`.`Saves` AS `Saves`,`awb`.`lkpWikis`.`Site` AS `Site`,`awb`.`lkpWikis`.`LangCode` AS `LangCode`,concat(`awb`.`lkpVersions`.`Major`,_utf8'.',`awb`.`lkpVersions`.`Minor`,_utf8'.',`awb`.`lkpVersions`.`Build`,_utf8'.',`awb`.`lkpVersions`.`Revision`) AS `Version`,if(`awb`.`sessions`.`Debug`,_utf8'Yes',_utf8'No') AS `DebugBuild`,count(`awb`.`plugins`.`PluginID`) AS `Plugins`,concat(`awb`.`lkpCultures`.`Language`,_latin1'-',`awb`.`lkpCultures`.`Country`) AS `Culture` from (((((`awb`.`sessions` left join `awb`.`plugins` on((`awb`.`sessions`.`SessionID` = `awb`.`plugins`.`SessionID`))) left join `awb`.`lkpVersions` on((`awb`.`sessions`.`Version` = `awb`.`lkpVersions`.`VersionID`))) left join `awb`.`lkpUsers` on((`awb`.`sessions`.`User` = `awb`.`lkpUsers`.`UserID`))) left join `awb`.`lkpWikis` on((`awb`.`sessions`.`Site` = `awb`.`lkpWikis`.`SiteID`))) left join `awb`.`lkpCultures` on((`awb`.`sessions`.`Culture` = `awb`.`lkpCultures`.`CultureID`))) group by `awb`.`sessions`.`SessionID`,`awb`.`sessions`.`DateTime`,`awb`.`lkpUsers`.`User`,`awb`.`sessions`.`Saves`,`awb`.`lkpWikis`.`Site`,`awb`.`lkpWikis`.`LangCode`,`awb`.`lkpVersions`.`Major`,`awb`.`lkpVersions`.`Minor`,`awb`.`lkpVersions`.`Build`,`awb`.`lkpVersions`.`Revision`,`awb`.`sessions`.`Debug`,`awb`.`lkpCultures`.`Language`,`awb`.`lkpCultures`.`Country` order by `awb`.`sessions`.`SessionID`;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `awb`.`FriendlySessions` AS select `awb`.`sessions`.`SessionID` AS `SessionID`,`awb`.`sessions`.`DateTime` AS `DateTime`,ifnull(`awb`.`lkpUsers`.`User`,_utf8'<Not recorded>') AS `User`,`awb`.`sessions`.`Saves` AS `Saves`,`awb`.`lkpWikis`.`Site` AS `Site`,`awb`.`lkpWikis`.`LangCode` AS `LangCode`,concat(`awb`.`lkpVersions`.`Major`,_utf8'.',`awb`.`lkpVersions`.`Minor`,_utf8'.',`awb`.`lkpVersions`.`Build`,_utf8'.',`awb`.`lkpVersions`.`Revision`) AS `Version`,if(`awb`.`sessions`.`Debug`,_utf8'Yes',_utf8'No') AS `DebugBuild`,count(`awb`.`plugins`.`PluginID`) AS `Plugins`,concat(`awb`.`lkpCultures`.`Language`,_latin1'-',`awb`.`lkpCultures`.`Country`) AS `Culture` from (((((`awb`.`sessions` left join `awb`.`plugins` on((`awb`.`sessions`.`SessionID` = `awb`.`plugins`.`SessionID`))) left join `awb`.`lkpVersions` on((`awb`.`sessions`.`Version` = `awb`.`lkpVersions`.`VersionID`))) left join `awb`.`lkpUsers` on((`awb`.`sessions`.`User` = `awb`.`lkpUsers`.`UserID`))) left join `awb`.`lkpWikis` on((`awb`.`sessions`.`Site` = `awb`.`lkpWikis`.`SiteID`))) left join `awb`.`lkpCultures` on((`awb`.`sessions`.`Culture` = `awb`.`lkpCultures`.`CultureID`))) group by `awb`.`sessions`.`SessionID`,`awb`.`sessions`.`DateTime`,`awb`.`lkpUsers`.`User`,`awb`.`sessions`.`Saves`,`awb`.`lkpWikis`.`Site`,`awb`.`lkpWikis`.`LangCode`,`awb`.`lkpVersions`.`Major`,`awb`.`lkpVersions`.`Minor`,`awb`.`lkpVersions`.`Build`,`awb`.`lkpVersions`.`Revision`,`awb`.`sessions`.`Debug`,`awb`.`lkpCultures`.`Language`,`awb`.`lkpCultures`.`Country` order by `awb`.`sessions`.`SessionID`;
 
 --
 -- Constraints for dumped tables
