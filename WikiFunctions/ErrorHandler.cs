@@ -87,7 +87,10 @@ namespace WikiFunctions
 
             errorMessage.Append("<table>");
             FormatException(ex, errorMessage, ExceptionKind.TopLevel);
-            errorMessage.Append("</table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version);
+            errorMessage.AppendLine("</table>\r\n~~~~");
+            errorMessage.AppendLine(" | OS          = " + Environment.OSVersion);
+            errorMessage.AppendLine(" | version     = " + Assembly.GetExecutingAssembly().GetName().Version);
+            errorMessage.AppendLine(" | net = " + Environment.Version);
 
             // suppress unhandled exception if Variables constructor says 'ouch'
             string revision;

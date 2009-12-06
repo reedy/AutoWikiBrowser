@@ -124,20 +124,20 @@ namespace WikiFunctions.Controls.Lists
                 switch (format)
                 {
                     case OutputFormat.WikiText:
-                        foreach (T a in this)
+                        foreach (var a in this)
                             list.AppendLine("# [[:" + a + "]]");
                         break;
                     case OutputFormat.PlainText:
-                        foreach (T a in this)
+                        foreach (var a in this)
                             list.AppendLine(a.ToString());
                         break;
                     case OutputFormat.Csv:
-                        foreach (T a in this)
+                        foreach (var a in this)
                             list.Append(a + ", ");
                         list = list.Remove(list.Length - 2, 2);
                         break;
                     case OutputFormat.CsvWikiText:
-                        foreach (T a in this)
+                        foreach (var a in this)
                             list.Append("[[:" + a + "]], ");
                         list = list.Remove(list.Length - 2, 2);
                         break;
