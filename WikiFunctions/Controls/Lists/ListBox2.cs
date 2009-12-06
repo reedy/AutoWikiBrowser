@@ -26,7 +26,15 @@ using System.Windows.Forms;
 
 namespace WikiFunctions.Controls.Lists
 {
-    public class ListBox2 : ListBox, IEnumerable<Article>
+    public class ListBoxString : ListBox2<string>
+    {  
+    }
+
+    public class ListBoxArticle : ListBox2<Article>
+    {
+    }
+
+    public class ListBox2<T> : ListBox, IEnumerable<T>
     {
         private readonly static SaveFileDialog SaveListDialog;
 
@@ -41,12 +49,13 @@ namespace WikiFunctions.Controls.Lists
                                  };
         }
 
-        public IEnumerator<Article> GetEnumerator()
+
+        public IEnumerator<T> GetEnumerator()
         {
             int i = 0;
             while (i < Items.Count)
             {
-                yield return (Article)Items[i];
+                yield return (T)Items[i];
                 i++;
             }
         }
@@ -119,21 +128,21 @@ namespace WikiFunctions.Controls.Lists
                 switch (format)
                 {
                     case OutputFormat.WikiText:
-                        foreach (Article a in this)
-                            list.AppendLine("# [[:" + a.Name + "]]");
+                        foreach (T a in this)
+                            list.AppendLine("# [[:" + a + "]]");
                         break;
                     case OutputFormat.PlainText:
-                        foreach (Article a in this)
-                            list.AppendLine(a.Name);
+                        foreach (T a in this)
+                            list.AppendLine(a.ToString());
                         break;
                     case OutputFormat.Csv:
-                        foreach (Article a in this)
-                            list.Append(a.Name + ", ");
+                        foreach (T a in this)
+                            list.Append(a + ", ");
                         list = list.Remove(list.Length - 2, 2);
                         break;
                     case OutputFormat.CsvWikiText:
-                        foreach (Article a in this)
-                            list.Append("[[:" + a.Name + "]], ");
+                        foreach (T a in this)
+                            list.Append("[[:" + a + "]], ");
                         list = list.Remove(list.Length - 2, 2);
                         break;
                 }

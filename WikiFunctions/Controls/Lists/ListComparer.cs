@@ -156,7 +156,7 @@ namespace WikiFunctions.Controls.Lists
             SaveList(lbBoth);
         }
 
-        private static void SaveList(ListBox2 lb)
+        private static void SaveList(ListBoxString lb)
         {
             lb.SaveList();
         }
@@ -192,12 +192,12 @@ namespace WikiFunctions.Controls.Lists
             Tools.Copy(MenuItemOwner(sender));
         }
 
-        private static ListBox2 MenuItemOwner(object sender)
+        private static ListBoxString MenuItemOwner(object sender)
         {
-            try { return ((ListBox2)((ContextMenuStrip)sender).SourceControl); }
+            try { return ((ListBoxString)((ContextMenuStrip)sender).SourceControl); }
             catch
             {
-                return (ListBox2)(((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl);
+                return (ListBoxString)(((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl);
             }
         }
 

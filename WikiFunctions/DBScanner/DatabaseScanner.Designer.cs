@@ -81,7 +81,7 @@ namespace WikiFunctions.DBScanner
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gbOutput = new System.Windows.Forms.GroupBox();
             this.btnSaveArticleList = new System.Windows.Forms.Button();
-            this.lbArticles = new WikiFunctions.Controls.Lists.ListBox2();
+            this.lbArticles = new WikiFunctions.Controls.Lists.ListBoxArticle();
             this.btnFilter = new System.Windows.Forms.Button();
             this.lblStartFrom = new System.Windows.Forms.Label();
             this.lblLimitResutls = new System.Windows.Forms.Label();
@@ -1722,7 +1722,7 @@ namespace WikiFunctions.DBScanner
         private NumericUpDown nudWords;
         private Label lblWords;
         private Button btnFilter;
-        private WikiFunctions.Controls.Lists.ListBox2 lbArticles;
+        private WikiFunctions.Controls.Lists.ListBoxArticle lbArticles;
         private CheckBox chkUnbulletedLinks;
         private CheckBox chkHeaderError;
         private CheckBox chkHasHTML;
