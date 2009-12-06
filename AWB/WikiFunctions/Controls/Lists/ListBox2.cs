@@ -26,14 +26,10 @@ using System.Windows.Forms;
 
 namespace WikiFunctions.Controls.Lists
 {
-    public class ListBoxString : ListBox2<string>
-    {  
-    }
-
-    public class ListBoxArticle : ListBox2<Article>
-    {
-    }
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class ListBox2<T> : ListBox, IEnumerable<T>
     {
         private readonly static SaveFileDialog SaveListDialog;
@@ -153,6 +149,20 @@ namespace WikiFunctions.Controls.Lists
             {
                 ErrorHandler.Handle(ex);
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public class ListBoxString : ListBox2<string>
+        {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public class ListBoxArticle : ListBox2<Article>
+        {
         }
     }
 }
