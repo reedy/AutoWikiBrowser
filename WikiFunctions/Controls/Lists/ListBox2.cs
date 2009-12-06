@@ -150,19 +150,19 @@ namespace WikiFunctions.Controls.Lists
                 ErrorHandler.Handle(ex);
             }
         }
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public class ListBoxString : ListBox2<string>
-        {
-        }
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ListBoxString : ListBox2<string>
+    {
+    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public class ListBoxArticle : ListBox2<Article>
-        {
-        }
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ListBoxArticle : ListBox2<Article>
+    {
     }
 }
