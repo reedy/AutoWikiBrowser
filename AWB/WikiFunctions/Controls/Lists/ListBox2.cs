@@ -27,9 +27,9 @@ using System.Windows.Forms;
 namespace WikiFunctions.Controls.Lists
 {
     /// <summary>
-    /// 
+    /// Enhanced list box
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Type of items in the list</typeparam>
     public class ListBox2<T> : ListBox, IEnumerable<T>
     {
         private readonly static SaveFileDialog SaveListDialog;
@@ -153,14 +153,14 @@ namespace WikiFunctions.Controls.Lists
     }
 
     /// <summary>
-    /// 
+    /// Version of ListBox2 that is defined to take strings
     /// </summary>
     public class ListBoxString : ListBox2<string>
     {
     }
 
     /// <summary>
-    /// 
+    /// Version of ListBox2 that is defined to take Articles
     /// </summary>
     public class ListBoxArticle : ListBox2<Article>
     {
