@@ -74,7 +74,7 @@ namespace WikiFunctions.Controls.Lists
             this.btnStop = new System.Windows.Forms.Button();
             this.btnFilter = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
-            this.lbArticles = new WikiFunctions.Controls.Lists.ListBox2();
+            this.lbArticles = new WikiFunctions.Controls.Lists.ListBoxArticle();
             this.mnuListBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -489,7 +489,7 @@ namespace WikiFunctions.Controls.Lists
 
         #endregion
 
-        private WikiFunctions.Controls.Lists.ListBox2 lbArticles;
+        private WikiFunctions.Controls.Lists.ListBoxArticle lbArticles;
         private System.Windows.Forms.Label lblNumOfPages;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.TextBox txtPage;

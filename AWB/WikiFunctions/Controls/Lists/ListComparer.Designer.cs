@@ -30,7 +30,7 @@ namespace WikiFunctions.Controls.Lists
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ListComparer));
-            this.lbBoth = new WikiFunctions.Controls.Lists.ListBox2();
+            this.lbBoth = new WikiFunctions.Controls.Lists.ListBoxString();
             this.mnuList = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.transferToListMaker1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.transferToListMaker2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,7 +52,7 @@ namespace WikiFunctions.Controls.Lists
             this.flwDiff2 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblOnly2 = new System.Windows.Forms.Label();
             this.lblNo2 = new System.Windows.Forms.Label();
-            this.lbNo2 = new WikiFunctions.Controls.Lists.ListBox2();
+            this.lbNo2 = new WikiFunctions.Controls.Lists.ListBoxString();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnSaveOnly2 = new System.Windows.Forms.Button();
             this.btnMoveOnly2 = new System.Windows.Forms.Button();
@@ -62,7 +62,7 @@ namespace WikiFunctions.Controls.Lists
             this.flwDiff1 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblOnly1 = new System.Windows.Forms.Label();
             this.lblNo1 = new System.Windows.Forms.Label();
-            this.lbNo1 = new WikiFunctions.Controls.Lists.ListBox2();
+            this.lbNo1 = new WikiFunctions.Controls.Lists.ListBoxString();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnSaveOnly1 = new System.Windows.Forms.Button();
             this.btnMoveOnly1 = new System.Windows.Forms.Button();
@@ -459,7 +459,7 @@ namespace WikiFunctions.Controls.Lists
 
         #endregion
 
-        private ListBox2 lbBoth;
+        private ListBoxString lbBoth;
         private System.Windows.Forms.Button btnGo;
         private System.Windows.Forms.Label lblNoBoth;
         private System.Windows.Forms.Button btnSaveBoth;
@@ -473,11 +473,11 @@ namespace WikiFunctions.Controls.Lists
         private System.Windows.Forms.Label lblOnly2;
         private System.Windows.Forms.Button btnSaveOnly2;
         private System.Windows.Forms.Label lblNo2;
-        private ListBox2 lbNo2;
+        private ListBoxString lbNo2;
         private System.Windows.Forms.Label lblOnly1;
         private System.Windows.Forms.Button btnSaveOnly1;
         private System.Windows.Forms.Label lblNo1;
-        private ListBox2 lbNo1;
+        private ListBoxString lbNo1;
         private System.Windows.Forms.ContextMenuStrip mnuList;
         private System.Windows.Forms.ToolStripMenuItem transferToListMaker1ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem;

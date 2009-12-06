@@ -29,11 +29,11 @@ namespace WikiFunctions.Lists
 {
     public partial class ListFilterForm : Form
     {
-        private readonly ListBox2 _destListBox;
+        private readonly ListBoxArticle _destListBox;
 
         string _project = Variables.URL;
 
-        public ListFilterForm(ListBox2 lb)
+        public ListFilterForm(ListBoxArticle lb)
         {
             InitializeComponent();
 
