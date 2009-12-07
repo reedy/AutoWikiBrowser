@@ -1563,8 +1563,9 @@ complementary and alternative medicine: evidence is a better friend than power. 
             Assert.AreEqual(@"{{cite book|author=Smith|title=Great|page=57}}", Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|page=p 57}}"));
             Assert.AreEqual(@"{{cite book|author=Smith|title=Great|page=57}}", Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|page=pp 57}}"));
 
-            Assert.AreEqual(@"{{cite book|author=Smith|title=Great|page= 57}}", Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|page= 57}}"));
-            Assert.AreEqual(@"{{cite book|author=Smith|title=Great|page= para 57}}", Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|page= para 57}}"));
+            const string nochange0 = @"{{cite book|author=Smith|title=Great|page= 57}}", nochange1 = @"{{cite book|author=Smith|title=Great|page= para 57}}";
+            Assert.AreEqual(nochange0, Parsers.FixCitationTemplates(nochange0));
+            Assert.AreEqual(nochange1, Parsers.FixCitationTemplates(nochange1));
 
             // not when nopp
             Assert.AreEqual(@"{{cite book|author=Smith|title=Great|pages=pp. 57–59|nopp=yes}}", Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|pages=pp. 57-59|nopp=yes}}"));
