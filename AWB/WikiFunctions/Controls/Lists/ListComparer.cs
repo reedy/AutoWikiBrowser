@@ -94,6 +94,7 @@ namespace WikiFunctions.Controls.Lists
                     while (a2 != a)
                     {
                     	list2.Remove(a2);
+                        lb2.Items.Add(a2.Name);
                     	a2 = list2[0];                   		
                     }
 
