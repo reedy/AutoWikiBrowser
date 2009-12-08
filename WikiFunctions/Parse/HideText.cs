@@ -249,7 +249,6 @@ namespace WikiFunctions.Parse
             if(hideWikiLinks)
                 ReplaceMore(WikiRegexes.WikiLink.Matches(articleText), ref articleText);
 
-            //TODO: replace with gallery-only regex, all normal images should be hidden by now as simple wikilinks
             ReplaceMore(WikiRegexes.Images.Matches(articleText), ref articleText);
 
             // hide untemplated quotes between some form of quotation marks (most particularly for typo fixing)
