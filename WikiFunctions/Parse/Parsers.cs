@@ -1986,8 +1986,6 @@ namespace WikiFunctions.Parse
 
                 foreach (Match m in UppercaseCiteFields.Matches(articleText))
                 {
-                    urlmatches = 0;
-
                     bool urlmatch = CiteUrl.Match(m.Value).Value.Contains(m.Groups[2].Value);
 
                     // check not within URL
