@@ -129,9 +129,9 @@ namespace WikiFunctions.Parse
             RegexConversion.Add(new Regex(@"(\{\{\s*(?:[Cc]it|[Aa]rticle ?issues)[^{}]*)\|\s*(\}\}|\|)", RegexOptions.Compiled), "$1$2");
 
             // remove duplicate / populated and null fields in cite/article issues templates
-            RegexConversion.Add(new Regex(@"({{\s*(?:[Cc]it|[Aa]rticle ?issues)[^{}]*\|\s*)(\w+)\s*=\s*([^\|}{]+?)\s*\|((?:[^{}]*?\|)?\s*)\2(\s*=\s*)\3(\s*(\||\}\}))", RegexOptions.Compiled), "$1$4$2$5$3$6"); // duplicate field remover for cite templates
-            RegexConversion.Add(new Regex(@"(\{\{\s*(?:[Cc]it|[Aa]rticle ?issues)[^{}]*\|\s*)(\w+)(\s*=\s*[^\|}{]+(?:\|[^{}]+?)?)\|\s*\2\s*=\s*(\||\}\})", RegexOptions.Compiled), "$1$2$3$4"); // 'field=populated | field=null' drop field=null
-            RegexConversion.Add(new Regex(@"(\{\{\s*(?:[Cc]it|[Aa]rticle ?issues)[^{}]*\|\s*)(\w+)\s*=\s*\|\s*((?:[^{}]+?\|)?\s*\2\s*=\s*[^\|}{\s])", RegexOptions.Compiled), "$1$3"); // 'field=null | field=populated' drop field=null
+            RegexConversion.Add(new Regex(@"({{\s*[Aa]rticle ?issues[^{}]*\|\s*)(\w+)\s*=\s*([^\|}{]+?)\s*\|((?:[^{}]*?\|)?\s*)\2(\s*=\s*)\3(\s*(\||\}\}))", RegexOptions.Compiled), "$1$4$2$5$3$6"); // duplicate field remover for cite templates
+            RegexConversion.Add(new Regex(@"(\{\{\s*[Aa]rticle ?issues[^{}]*\|\s*)(\w+)(\s*=\s*[^\|}{]+(?:\|[^{}]+?)?)\|\s*\2\s*=\s*(\||\}\})", RegexOptions.Compiled), "$1$2$3$4"); // 'field=populated | field=null' drop field=null
+            RegexConversion.Add(new Regex(@"(\{\{\s*[Aa]rticle ?issues[^{}]*\|\s*)(\w+)\s*=\s*\|\s*((?:[^{}]+?\|)?\s*\2\s*=\s*[^\|}{\s])", RegexOptions.Compiled), "$1$3"); // 'field=null | field=populated' drop field=null
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Add_.7B.7Botheruse.7D.7D_and_.7B.7B2otheruses.7D.7D_in_the_supported_DABlinks
             RegexConversion.Add(new Regex(@"({{)2otheruses(\s*(?:\|[^{}]*}}|}}))", RegexOptions.Compiled), "$1Two other uses$2");
@@ -1960,6 +1960,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex AccessDayMonthDay = new Regex(@"\|\s*access(?:daymonth|monthday)\s*=\s*(?=\||}})", RegexOptions.Compiled);
         private static readonly Regex DateLeadingZero = new Regex(@"(?<=\|\s*(?:access|archive)?date\s*=\s*)(?:0([1-9]\s+" + WikiRegexes.MonthsNoGroup + @")|(\s*" + WikiRegexes.MonthsNoGroup + @"\s)+0([1-9],?))(\s+20[01]\d)?(\s*\||}})", RegexOptions.Compiled);
         private static readonly Regex AccessYear = new Regex(@"\|\s*accessyear\s*=\s*(20\d\d)\s*(?=\||}})", RegexOptions.Compiled);
+        
+        private static readonly Regex DupeFields = new Regex(@"((\|\s*([a-z\d]+)\s*=\s*([^\{\}\|]*?))\s*(?:\|.*?)?)\|\s*\3\s*=\s*([^\{\}\|]*?)\s*(\||}})", RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
         /// Applies various formatting fixes to citation templates
@@ -2019,44 +2021,69 @@ namespace WikiFunctions.Parse
                 // page= and pages= fields don't need p. or pp. in them when nopp not set
                 if (!Regex.IsMatch(newValue, @"\bnopp\s*=\s*") && !Regex.IsMatch(newValue, @"^{{\s*[Cc]ite journal\s*\|"))
                     newValue = CiteTemplatePagesPP.Replace(newValue, "");
-
-                // correct volume=vol 7... and issue=no. 8 for {{cite journal}} only
-                if (Regex.IsMatch(newValue, @"\b[Cc]ite journal\b"))
+                
+                // remove duplicated fields, ensure the URL is not touched (may have pipes in)                
+                if(DupeFields.IsMatch(newValue))
                 {
-                    newValue = CiteTemplatesJournalVolume.Replace(newValue, "");
-                    newValue = CiteTemplatesJournalIssue.Replace(newValue, "");
-                    newValue = CiteTemplatesJournalVolumeAndIssue.Replace(newValue, @"| issue = ");
+                    string URL = CiteUrl.Match(newValue).Value;
+                    string newvaluetemp = newValue;
+                    Match m2 = DupeFields.Match(newValue);
+                    
+                    string val1 = m2.Groups[4].Value.Trim();
+                    string val2 = m2.Groups[5].Value.Trim();
+                    string firstfieldandvalue = m2.Groups[2].Value;
+                    
+                    // get rid of second one if second is zero length or contained in first, provided first one not in URL
+                    if(val2.Length == 0 || (val1.Length > 0 && val1.Contains(val2))
+                       && !URL.Contains(firstfieldandvalue))
+                        newvaluetemp = DupeFields.Replace(newValue, @"$1$6", 1);
+                    // get rid of first one if firs is zero length or contains second, provided second one not in URL
+                    else if(val1.Length == 0 || (val2.Length > 0 && val2.Contains(val1))
+                            && !URL.Contains(firstfieldandvalue))
+                        newvaluetemp = newValue.Remove(m2.Groups[2].Index, m2.Groups[2].Length);
+                    
+                    // ensure URL not changed
+                    if(newvaluetemp != newValue && (URL.Length == 0 || newvaluetemp.Contains(URL)))
+                        newValue = newvaluetemp;
                 }
 
-                // {{cite web}} for Google books -> {{cite book}}
-                if (Regex.IsMatch(newValue, @"^{{\s*[Cc]ite ?web\s*\|") && newValue.Contains("http://books.google.com"))
-                    newValue = Regex.Replace(newValue, @"^{{\s*[Cc]ite ?web(?=\s*\|)", @"{{cite book");
+                   // correct volume=vol 7... and issue=no. 8 for {{cite journal}} only
+                   if (Regex.IsMatch(newValue, @"\b[Cc]ite journal\b"))
+                   {
+                       newValue = CiteTemplatesJournalVolume.Replace(newValue, "");
+                       newValue = CiteTemplatesJournalIssue.Replace(newValue, "");
+                       newValue = CiteTemplatesJournalVolumeAndIssue.Replace(newValue, @"| issue = ");
+                   }
 
-                // remove leading zero in day of month
-                newValue = DateLeadingZero.Replace(newValue, @"$1$2$3$4$5");
+                   // {{cite web}} for Google books -> {{cite book}}
+                   if (Regex.IsMatch(newValue, @"^{{\s*[Cc]ite ?web\s*\|") && newValue.Contains("http://books.google.com"))
+                       newValue = Regex.Replace(newValue, @"^{{\s*[Cc]ite ?web(?=\s*\|)", @"{{cite book");
 
-                if (Regex.IsMatch(newValue, @"^{{\s*[Cc]ite(?: ?web| book)\s*\|"))
-                {
-                    // remove any empty accessdaymonth and accessmonthday
-                    newValue = AccessDayMonthDay.Replace(newValue, "");
+                   // remove leading zero in day of month
+                   newValue = DateLeadingZero.Replace(newValue, @"$1$2$3$4$5");
 
-                    // merge accessdate of 'D Month' or 'Month D' and accessyear of 'YYYY' in cite web
-                    newValue = AccessDateYear.Replace(newValue, @" $2$1$3");
+                   if (Regex.IsMatch(newValue, @"^{{\s*[Cc]ite(?: ?web| book)\s*\|"))
+                   {
+                       // remove any empty accessdaymonth and accessmonthday
+                       newValue = AccessDayMonthDay.Replace(newValue, "");
+
+                       // merge accessdate of 'D Month' or 'Month D' and accessyear of 'YYYY' in cite web
+                       newValue = AccessDateYear.Replace(newValue, @" $2$1$3");
+                   }
+                   
+                   // remove accessyear where accessdate is present and contains said year
+                   string year = AccessYear.Match(newValue).Groups[1].Value;
+                   if(year.Length > 0 && Regex.IsMatch(newValue, @"\|\s*accessdate\s*=[^{}\|]*\b" + year + @"\b"))
+                       newValue = AccessYear.Replace(newValue, "");
+                   
+                   // catch after any other fixes
+                   newValue = NoCommaAmericanDates.Replace(newValue, @"$1, $2");
+
+                   // page range should have unspaced en-dash
+                   newValue = CiteTemplatesPageRange.Replace(newValue, @"–$1");
+
+                   articleText = articleText.Replace(m.Value, newValue);
                 }
-                
-                // remove accessyear where accessdate is present and contains said year
-                string year = AccessYear.Match(newValue).Groups[1].Value;
-                if(year.Length > 0 && Regex.IsMatch(newValue, @"\|\s*accessdate\s*=[^{}\|]*\b" + year + @"\b"))
-                    newValue = AccessYear.Replace(newValue, "");
-                
-                // catch after any other fixes
-                newValue = NoCommaAmericanDates.Replace(newValue, @"$1, $2");
-
-                // page range should have unspaced en-dash
-                newValue = CiteTemplatesPageRange.Replace(newValue, @"–$1");
-
-                articleText = articleText.Replace(m.Value, newValue);
-            }
 
             return articleText;
         }
