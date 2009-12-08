@@ -200,8 +200,9 @@ image = AmorMexicanaThalia.jpg |"), Hidden + @"\|"));
 |"), Hidden + @"\|"));
             Assert.IsTrue(Regex.IsMatch(Hide(@"| image name = Fred Astaire.jpg |"), Hidden + @"\|"));
             Assert.IsTrue(Regex.IsMatch(Hide(@"|image2 = AmorMexicanaThalia.jpg |"), Hidden + @"\|"));
+            Assert.IsTrue(Regex.IsMatch(Hide(@"|map = AmorMexicanaThalia.jpg |"), Hidden + @"\|"));
+            
             // in tests below no text is hidden
-
             Assert.AreEqual(Caption1, Hide(Caption1));
             Assert.AreEqual(Caption2, Hide(Caption2));
             Assert.AreEqual(Caption3, Hide(Caption3));
