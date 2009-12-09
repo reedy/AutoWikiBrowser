@@ -707,6 +707,11 @@ namespace WikiFunctions.Parse
         private const string RefName = @"(?si)<\s*ref\s+name\s*=\s*(?:""|')?";
         private static readonly Regex UnnamedRef = new Regex(@"<\s*ref\s*>\s*([^<>]+)\s*<\s*/\s*ref>", RegexOptions.Singleline | RegexOptions.Compiled);
 
+        public static bool HasNamedReferences(string articleText)
+        {
+            return NamedReferences.IsMatch(WikiRegexes.Comments.Replace(articleText, ""));
+        }
+        
         private struct Ref
         {
             public string Text;
@@ -720,6 +725,11 @@ namespace WikiFunctions.Parse
         /// <returns>the modified article text</returns>
         public static string DuplicateUnnamedReferences(string articleText)
         {
+            /* AWB is asked not to add named references to an article if there are none currently, as some users feel 
+             * this is a change of citation style, so is against the [[WP:CITE]] "don't change established style" guidelines */
+            if(!HasNamedReferences(articleText))
+                return articleText;
+            
             var refs = new Dictionary<int, List<Ref>>();
             bool haveRefsToFix = false;
             foreach (Match m in UnnamedRef.Matches(articleText))
