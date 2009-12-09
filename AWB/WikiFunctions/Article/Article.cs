@@ -252,6 +252,13 @@ namespace WikiFunctions
         [XmlIgnore]
         public bool HasRefAfterReflist
         { get { return Parsers.HasRefAfterReflist(mArticleText); } }
+        
+        /// <summary>
+        /// Returns true if the article uses named references ([[WP:REFNAME]])
+        /// </summary>
+        [XmlIgnore]
+        public bool HasNamedReferences
+        {get { return Parsers.HasNamedReferences(mArticleText); } }
 
         /// <summary>
         /// Returns true if the article contains bare references (just the URL link on a line with no description/name)
@@ -1186,7 +1193,7 @@ namespace WikiFunctions
                 dlgArticleAction.Summary = _lastMove;
 
                 if (dlgArticleAction.ShowDialog() == DialogResult.OK
-                   && Name != dlgArticleAction.NewTitle)
+                    && Name != dlgArticleAction.NewTitle)
                 {
                     _lastMove = dlgArticleAction.Summary;
                     session.Editor.SynchronousEditor.Move(Name, dlgArticleAction.NewTitle,
