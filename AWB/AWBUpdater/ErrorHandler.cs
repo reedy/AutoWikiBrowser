@@ -42,13 +42,17 @@ namespace AwbUpdater
                 StringBuilder errorMessage = new StringBuilder("{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = ");
 
                 if (Thread.CurrentThread.Name != "Main thread")
-                    errorMessage.Append("\r\nThread: " + Thread.CurrentThread.Name);
+                    errorMessage.AppendLine("Thread: " + Thread.CurrentThread.Name);
 
                 errorMessage.Append("<table>");
-                FormatException(ex, errorMessage, true);
-                errorMessage.Append("</table>\r\n~~~~\r\n | OS          = " + Environment.OSVersion + "\r\n | version     = " + Assembly.GetExecutingAssembly().GetName().Version);
-
-                errorMessage.Append("\r\n}}");
+                FormatException(ex, errorMessage, ExceptionKind.TopLevel);
+                errorMessage.AppendLine("</table>\r\n~~~~");
+                errorMessage.AppendLine(" | OS          = " + Environment.OSVersion);
+                errorMessage.AppendLine(" | version     = " + Assembly.GetExecutingAssembly().GetName().Version);
+                errorMessage.AppendLine(" | net = " + Environment.Version);
+                errorMessage.AppendLine(" | workaround     = <!-- Any workaround for the problem -->");
+                errorMessage.AppendLine(" | fix_version    = <!-- Version of AWB the fix will be included in; AWB developer will complete when it's fixed -->");
+                errorMessage.AppendLine("}}");
 
                 handler.txtDetails.Text = errorMessage.ToString();
 
@@ -58,22 +62,44 @@ namespace AwbUpdater
             }
         }
 
+        enum ExceptionKind { TopLevel, Inner, LoaderException };
+
         #region Static helper functions
         /// <summary>
         /// Formats exception information for bug report
         /// </summary>
         /// <param name="ex">Exception to process</param>
         /// <param name="sb">StringBuilder used for output</param>
-        /// <param name="topLevel">false if exception is nested, true otherwise</param>
-        private static void FormatException(Exception ex, StringBuilder sb, bool topLevel)
+        /// <param name="kind">what kind of exception is thise</param>
+        private static void FormatException(Exception ex, StringBuilder sb, ExceptionKind kind)
         {
-            sb.Append("<tr><td>" + (topLevel ? "Exception" : "Inner exception") + ":<td><code>"
+            sb.Append("<tr><td>" + KindToString(kind) + ":<td><code>"
                 + ex.GetType().Name + "</code><tr><td>Message:<td><code>"
                 + ex.Message + "</code><tr><td>Call stack:<td><pre>" + ex.StackTrace + "</pre></tr>\r\n");
 
             if (ex.InnerException != null)
             {
-                FormatException(ex.InnerException, sb, false);
+                FormatException(ex.InnerException, sb, ExceptionKind.Inner);
+            }
+            if (ex is ReflectionTypeLoadException)
+            {
+                foreach (Exception e in ((ReflectionTypeLoadException)ex).LoaderExceptions)
+                {
+                    FormatException(e, sb, ExceptionKind.LoaderException);
+                }
+            }
+        }
+
+        private static string KindToString(ExceptionKind ek)
+        {
+            switch (ek)
+            {
+                case ExceptionKind.Inner:
+                    return "Inner exception";
+                case ExceptionKind.LoaderException:
+                    return "Loader exception";
+                default:
+                    return "Exception";
             }
         }
 
