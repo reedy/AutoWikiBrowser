@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using System.Windows.Forms;
 using System.IO;
@@ -51,18 +52,43 @@ namespace WikiFunctions.Controls.Lists
             listMaker1.MakeListEnabled = true;
         }
 
+        private readonly Regex _nonText = new Regex("[^a-z0-9 -_&]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private void btnSave_Click(object sender, EventArgs e)
         {
-            saveTXT.FileName = listMaker1.SourceText;
+            if (listMaker1.Count == 0)
+            {
+                MessageBox.Show("Nothing to save", "No items in List Maker");
+                return;
+            }
+
+            saveTXT.FileName = RemoveBadChars();
+
             if (saveTXT.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(saveTXT.FileName))
                 Save(saveTXT.FileName, false);
         }
 
         private void btnXMLSave_Click(object sender, EventArgs e)
         {
-            saveXML.FileName = listMaker1.SourceText;
+            if (listMaker1.Count == 0)
+            {
+                MessageBox.Show("Nothing to save", "No items in List Maker");
+                return;
+            }
+
+            saveTXT.FileName = RemoveBadChars();
+
             if (saveXML.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(saveXML.FileName))
                 Save(saveXML.FileName, true);
+        }
+
+        private string RemoveBadChars()
+        {
+            string text = listMaker1.SourceText;
+            foreach (Match m in _nonText.Matches(listMaker1.SourceText))
+            {
+                text = text.Replace(m.Value, "");
+            }
+            return text;
         }
 
         private void Save(string path, bool xml)
