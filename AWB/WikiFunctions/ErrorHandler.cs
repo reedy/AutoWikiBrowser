@@ -90,7 +90,6 @@ namespace WikiFunctions
             errorMessage.AppendLine("</table>\r\n~~~~");
             errorMessage.AppendLine(" | OS          = " + Environment.OSVersion);
             errorMessage.AppendLine(" | version     = " + Assembly.GetExecutingAssembly().GetName().Version);
-            errorMessage.AppendLine(" | net = " + Environment.Version);
 
             // suppress unhandled exception if Variables constructor says 'ouch'
             string revision;
@@ -104,6 +103,8 @@ namespace WikiFunctions
             }
 
             if (!revision.Contains("?")) errorMessage.Append(", revision " + revision);
+
+            errorMessage.AppendLine(" | net = " + Environment.Version);
 
             if (!string.IsNullOrEmpty(CurrentPage))
             {
