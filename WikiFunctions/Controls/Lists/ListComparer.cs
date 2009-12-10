@@ -89,13 +89,13 @@ namespace WikiFunctions.Controls.Lists
                 if (list2.Contains(a))
                 {
                     lb3.Items.Add(a.Name);
-
-                    Article a2 = list2[0];
-                    while (a2 != a)
+                    if (list2.IndexOf(a) > 0)
                     {
-                    	list2.Remove(a2);
-                        lb2.Items.Add(a2.Name);
-                    	a2 = list2[0];                   		
+                    	foreach (Article a2 in list2.GetRange(0, list2.IndexOf(a) - 1))
+                    	{
+                    	  lb2.Items.Add(a2.Name);
+                          list2.Remove(a2);
+                    	}
                     }
 
                     list2.Remove(a);
