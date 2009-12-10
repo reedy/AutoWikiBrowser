@@ -30,6 +30,10 @@ namespace WikiFunctions.Controls.Lists
     {
         private readonly ListMaker _mainFormListMaker;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lmMain"></param>
         public ListComparer(ListMaker lmMain)
         {
             InitializeComponent();
@@ -44,7 +48,12 @@ namespace WikiFunctions.Controls.Lists
             listMaker2.MakeListEnabled = true;
         }
 
-        public ListComparer(List<Article> list, ListMaker lmMain)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lmMain"></param>
+        /// <param name="list"></param>
+        public ListComparer(ListMaker lmMain, List<Article> list)
             : this(lmMain)
         {
             listMaker1.Add(list);
