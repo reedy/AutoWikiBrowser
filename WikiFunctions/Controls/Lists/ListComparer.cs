@@ -157,8 +157,14 @@ namespace WikiFunctions.Controls.Lists
             SaveList(lbBoth);
         }
 
-        private static void SaveList(ListBoxString lb)
+        private static void SaveList(ListBox2<string> lb)
         {
+            if (lb.Items.Count == 0)
+            {
+                MessageBox.Show("Nothing to save", "No items in List Boxes");
+                return;
+            }
+
             lb.SaveList();
         }
 
