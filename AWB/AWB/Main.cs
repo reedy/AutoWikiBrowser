@@ -2589,6 +2589,7 @@ window.scrollTo(0, diffTopY);
                     lblOnlyBots.Visible = true;
 
                     //CreateEditor();
+                    DisableButtons();
                 }
             }
         }
