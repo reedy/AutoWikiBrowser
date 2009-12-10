@@ -31,16 +31,27 @@ namespace WikiFunctions.Controls.Lists
 {
     public partial class ListSplitter : Form
     {
-        readonly UserPrefs P;
-        readonly List<Type> Types;
+        private readonly UserPrefs _p;
+        private readonly List<Type> _types;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="prefs"></param>
+        /// <param name="type"></param>
         public ListSplitter(UserPrefs prefs, List<Type> type)
         {
             InitializeComponent();
-            P = prefs;
-            Types = type;
+            _p = prefs;
+            _types = type;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="prefs"></param>
+        /// <param name="type"></param>
+        /// <param name="list"></param>
         public ListSplitter(UserPrefs prefs, List<Type> type, List<Article> list)
             : this(prefs, type)
         {
@@ -52,7 +63,7 @@ namespace WikiFunctions.Controls.Lists
             listMaker1.MakeListEnabled = true;
         }
 
-        private readonly Regex _nonText = new Regex("[^a-z0-9 -_&]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private readonly Regex _characterBlacklist = new Regex(@"[/:*?<>|.]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (listMaker1.Count == 0)
@@ -84,7 +95,7 @@ namespace WikiFunctions.Controls.Lists
         private string RemoveBadChars()
         {
             string text = listMaker1.SourceText;
-            foreach (Match m in _nonText.Matches(listMaker1.SourceText))
+            foreach (Match m in _characterBlacklist.Matches(listMaker1.SourceText))
             {
                 text = text.Replace(m.Value, "");
             }
@@ -98,13 +109,13 @@ namespace WikiFunctions.Controls.Lists
                 listMaker1.AlphaSortList();
                 int noA = listMaker1.Count;
 
-                int roundlimit = Convert.ToInt32(numSplitAmount.Value/2);
+                int roundlimit = Convert.ToInt32(numSplitAmount.Value / 2);
 
-                if ((noA%numSplitAmount.Value) <= roundlimit)
+                if ((noA % numSplitAmount.Value) <= roundlimit)
                     noA += roundlimit;
 
                 int noGroups =
-                    Convert.ToInt32((Math.Round(noA/numSplitAmount.Value)*numSplitAmount.Value)/numSplitAmount.Value);
+                    Convert.ToInt32((Math.Round(noA / numSplitAmount.Value) * numSplitAmount.Value) / numSplitAmount.Value);
 
                 if (xml)
                 {
@@ -117,14 +128,14 @@ namespace WikiFunctions.Controls.Lists
                             listMaker1.Remove(listMaker1.SelectedArticle());
                         }
 
-                        P.List.ArticleList = listart;
+                        _p.List.ArticleList = listart;
 
                         using (
                             FileStream fStream = new FileStream(path.Replace(".xml", " " + (i + 1) + ".xml"),
                                                                 FileMode.Create))
                         {
-                            XmlSerializer xs = new XmlSerializer(typeof (UserPrefs), Types.ToArray());
-                            xs.Serialize(fStream, P);
+                            XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), _types.ToArray());
+                            xs.Serialize(fStream, _p);
                         }
                     }
                     MessageBox.Show("Lists Saved to AWB Settings Files");
