@@ -63,7 +63,7 @@ namespace WikiFunctions.Controls.Lists
             listMaker1.MakeListEnabled = true;
         }
 
-        private readonly Regex _characterBlacklist = new Regex(@"[/:*?<>|.]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private readonly Regex _characterBlacklist = new Regex(@"[""/:*?<>|.]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (listMaker1.Count == 0)
