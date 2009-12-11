@@ -117,11 +117,12 @@ namespace WikiFunctions.Lists
             {
                 int intStart = 0;
                 string google = HttpUtility.UrlEncode(g);
-                string url = "http://www.google.com/search?q=" + google + "+site:" + Variables.URL +
-                             "&num=100&hl=en&lr=&start=0&sa=N&filter=0";
 
                 do
                 {
+                    string url = "http://www.google.com/search?q=" + google + "+site:" + Variables.URL +
+                                 "&num=100&hl=en&lr=&start=" + intStart + "&sa=N&filter=0";
+
                     string googleText = Tools.GetHTML(url, Encoding.Default);
 
                     //Find each match to the pattern
@@ -137,8 +138,6 @@ namespace WikiFunctions.Lists
                         break;
 
                     intStart += 100;
-                    url = "http://www.google.com/search?q=" + google + "+site:" + Variables.URL +
-                          "&num=100&hl=en&lr=&start=" + intStart + "&sa=N&filter=0";
 
                 } while (true);
             }
