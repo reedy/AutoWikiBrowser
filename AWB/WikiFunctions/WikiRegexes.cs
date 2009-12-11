@@ -416,6 +416,9 @@ namespace WikiFunctions
         /// Matches sic either in template or as bracketed text, also related {{typo}} template
         /// </summary>
         public static readonly Regex SicTag = new Regex(@"({{(?:[Ss]ic|[Tt]ypo)(?:\||}})|([\(\[{]\s*[Ss]ic!?\s*[\)\]}]))", RegexOptions.Compiled);
+        
+        public static readonly Regex TalkHeaderTemplate = new Regex(@"\{\{\s*(template *:)?\s*(talk[ _]?(page)?(header)?)\s*\}\}\s*", 
+           RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Matches {{nofootnotes}} OR {{morefootnotes}} templates

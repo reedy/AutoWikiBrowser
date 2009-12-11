@@ -64,9 +64,6 @@ namespace WikiFunctions.TalkPages
         private static readonly Regex SkipTOCTemplateRegex = new Regex(
            @"\{\{\s*(template *:)?\s*(skiptotoctalk|Skiptotoc|Skiptotoc-talk)\s*\}\}\s*",
            RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
-        private static readonly Regex TalkHeaderTemplateRegex = new Regex(
-           @"\{\{\s*(template *:)?\s*(talk[ _]?(page)?(header)?)\s*\}\}\s*", 
-           RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
 
         public static bool ContainsDefaultSortKeywordOrTemplate(string articleText)
         {
@@ -87,7 +84,7 @@ namespace WikiFunctions.TalkPages
         DEFAULTSORT moveDefaultsort, string pluginName)
         {
             Processor pr = new Processor();
-            articleText = TalkHeaderTemplateRegex.Replace(articleText, 
+            articleText = WikiRegexes.TalkHeaderTemplate.Replace(articleText, 
                 new MatchEvaluator(pr.TalkHeaderMatchEvaluator),
                 1);
             articleText = SkipTOCTemplateRegex.Replace(articleText, new MatchEvaluator(pr.SkipTOCMatchEvaluator), 1);
