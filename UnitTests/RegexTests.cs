@@ -116,6 +116,20 @@ namespace UnitTests
 
             TestMatches(WikiRegexes.Redirect, "[foo]]", 0);
         }
+        
+        [Test]
+        public void TalkpageHeader()
+        {
+            TestMatches(WikiRegexes.TalkHeaderTemplate, @"{{talk header|foo}}", 1);
+            TestMatches(WikiRegexes.TalkHeaderTemplate, @"{{ talk header}}", 1);
+            TestMatches(WikiRegexes.TalkHeaderTemplate, @"{{Talk header|foo}}", 1);
+            TestMatches(WikiRegexes.TalkHeaderTemplate, @"{{Talkheader|foo}}", 1);
+            TestMatches(WikiRegexes.TalkHeaderTemplate, @"{{Talkpageheader|foo}}", 1);
+            TestMatches(WikiRegexes.TalkHeaderTemplate, @"{{talkheader|foo}}", 1);
+            TestMatches(WikiRegexes.TalkHeaderTemplate, @"{{talkheader
+|foo|bar
+|here}}", 1);
+        }
 
         [Test]
         public void BLPUnsourced()
