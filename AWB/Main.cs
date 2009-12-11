@@ -359,9 +359,9 @@ namespace AutoWikiBrowser
             SplashScreen.SetProgress(100);
             SplashScreen.Close();
 
-            #if DEBUG && INSTASTATS
+#if DEBUG && INSTASTATS
             UsageStats.Do(false);
-            #endif
+#endif
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
@@ -822,12 +822,12 @@ namespace AutoWikiBrowser
             //check not in use
             if (TheArticle.IsInUse)
                 if (chkSkipIfInuse.Checked)
-            {
-                SkipPage("Page contains {{inuse}}");
-                return;
-            }
-            else if (!BotMode && !preParseModeToolStripMenuItem.Checked)
-                MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
+                {
+                    SkipPage("Page contains {{inuse}}");
+                    return;
+                }
+                else if (!BotMode && !preParseModeToolStripMenuItem.Checked)
+                    MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
 
             if (automaticallyDoAnythingToolStripMenuItem.Checked)
             {
@@ -1129,9 +1129,9 @@ namespace AutoWikiBrowser
         private void Bleepflash()
         {
             if (ContainsFocus) return;
-            #if !MONO
+#if !MONO
             if (_flash) Tools.FlashWindow(this);
-            #endif
+#endif
             if (_beep) Tools.Beep();
         }
 
@@ -1294,9 +1294,9 @@ namespace AutoWikiBrowser
             bool process = true;
             TypoStats = null;
 
-            #if DEBUG
+#if DEBUG
             Variables.Profiler.Start("ProcessPage(\"" + theArticle.Name + "\")");
-            #endif
+#endif
 
             try
             {
@@ -1968,12 +1968,12 @@ window.scrollTo(0, diffTopY);
                 summary = Tools.TrimEditSummary(summary);
             }
 
-            #if DEBUG
+#if DEBUG
             if (!Parsers.IsCorrectEditSummary(summary + Variables.SummaryTag))
             {
                 Tools.WriteDebug("edit summary not correct", summary + Variables.SummaryTag);
             }
-            #endif
+#endif
 
             return summary + Variables.SummaryTag;
         }
@@ -2512,9 +2512,9 @@ window.scrollTo(0, diffTopY);
             toolStripSeparator29.Visible = true;
             invalidateCacheToolStripMenuItem.Visible = true;
 
-            #if DEBUG
+#if DEBUG
             Variables.Profiler = new Profiler("profiling.txt", true);
-            #endif
+#endif
         }
 
         [Conditional("RELEASE")]
@@ -2618,7 +2618,7 @@ window.scrollTo(0, diffTopY);
                 //set interwikiorder
                 switch (Variables.LangCode)
                 {
-                        //By order of alphabet, based on local language
+                    //By order of alphabet, based on local language
                     case "en":
                     case "lb":
                     case "pl":
@@ -2627,7 +2627,7 @@ window.scrollTo(0, diffTopY);
                         Parser.InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
                         break;
 
-                        //English link is first and the rest are sorted alphabetically by language code
+                    //English link is first and the rest are sorted alphabetically by language code
                     case "he":
                     case "hu":
                     case "te":
@@ -2635,7 +2635,7 @@ window.scrollTo(0, diffTopY);
                         Parser.InterWikiOrder = InterWikiOrderEnum.AlphabeticalEnFirst;
                         break;
 
-                        //By order of alphabet, based on local language (by first word)
+                    //By order of alphabet, based on local language (by first word)
                     case "ms":
                     case "et":
                     case "fi":
@@ -2643,7 +2643,7 @@ window.scrollTo(0, diffTopY);
                         Parser.InterWikiOrder = InterWikiOrderEnum.LocalLanguageFirstWord;
                         break;
 
-                        //By order of alphabet, based on language code
+                    //By order of alphabet, based on language code
                     default:
                         Parser.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
                         break;
@@ -3030,7 +3030,7 @@ window.scrollTo(0, diffTopY);
                     }
 
                     goto case 2;
-                    break;
+
                 case 1: //Always
                     DBScanner = listMaker.DBScanner();
                     break;
@@ -3189,12 +3189,12 @@ window.scrollTo(0, diffTopY);
 
         private void bypassAllRedirectsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            #if !DEBUG
+#if !DEBUG
             if (MessageBox.Show("Replacement of links to redirects with direct links is strongly discouraged, " +
                                 "however it could be useful in some circumstances. Are you sure you want to continue?",
                                 "Bypass redirects", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
                 return;
-            #endif
+#endif
 
             BackgroundRequest r = new BackgroundRequest();
 
@@ -3499,7 +3499,7 @@ window.scrollTo(0, diffTopY);
 
                 StatusLabelText = "Loading typos";
 
-                #if !DEBUG
+#if !DEBUG
                 string message = @"1. Check each edit before you make it. Although this has been built to be very accurate there will be errors.
 
 2. Optional: Select [[WP:AWB/T|Typo fixing]] as the edit summary. This lets everyone know where to bring issues with the typo correction.";
@@ -3515,7 +3515,7 @@ window.scrollTo(0, diffTopY);
                 }
 
                 MessageBox.Show(message, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                #endif
+#endif
 
                 RegexTypos = new RegExTypoFix();
                 RegexTypos.Complete += RegexTyposComplete;
@@ -4190,6 +4190,7 @@ window.scrollTo(0, diffTopY);
                 {
                     return;
                 }
+
                 foreach (Match m in userTalkTemplate.Matches(text))
                 {
                     builder.Append(Regex.Escape(m.Groups[1].Value) + "|");
@@ -4200,13 +4201,14 @@ window.scrollTo(0, diffTopY);
                 ErrorHandler.Handle(ex);
                 UserTalkWarningsLoaded = false;
             }
+
             if (builder.Length > 1)
             {
                 builder.Remove((builder.Length - 1), 1);
                 UserTalkTemplatesRegex =
                     new Regex(
                         @"\{\{ ?(" + Variables.NamespacesCaseInsensitive[Namespace.Template] + ")? ?((" + builder +
-                        ") ?(\\|.*?)?) ?\\}\\}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                        @") ?(\|.*?)?) ?\}\}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             }
         }
 
@@ -4722,7 +4724,9 @@ window.scrollTo(0, diffTopY);
         }
 
         private void UsageStatsMenuItem_Click(object sender, EventArgs e)
-        { UsageStats.OpenUsageStatsURL(); }
+        {
+            UsageStats.OpenUsageStatsURL();
+        }
 
         private void StartProgressBar()
         {
@@ -4799,9 +4803,9 @@ window.scrollTo(0, diffTopY);
 
         private void HighlightAllFind()
         {
-            Dictionary<int, int> Founds = txtEdit.FindAll(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, TheArticle.Name);
+            Dictionary<int, int> found = txtEdit.FindAll(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, TheArticle.Name);
 
-            foreach (KeyValuePair<int, int> a in Founds)
+            foreach (KeyValuePair<int, int> a in found)
                 YellowSelection(a.Key, a.Value);
 
             txtEdit.SetEditBoxSelection(0, 0);
@@ -4854,5 +4858,5 @@ window.scrollTo(0, diffTopY);
                 listMaker.Clear();
         }
     }
-    #endregion
+        #endregion
 }
