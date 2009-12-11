@@ -3236,23 +3236,22 @@ window.scrollTo(0, diffTopY);
                 MatchCollection m = RegexDates.Matches(txtEdit.Text);
 
                 //find first dates
-                string strBirth = "";
-                string strDeath = "";
+                string births = "", deaths = "";
 
                 if (m.Count >= 1)
-                    strBirth = m[0].Value;
+                    births = m[0].Value;
                 if (m.Count >= 2)
-                    strDeath = m[1].Value;
+                    deaths = m[1].Value;
 
                 //make name, surname, firstname
-                string strName = Tools.MakeHumanCatKey(TheArticle.Name);
+                string name = Tools.MakeHumanCatKey(TheArticle.Name);
 
                 string categories;
 
-                if (string.IsNullOrEmpty(strDeath) || int.Parse(strDeath) < int.Parse(strBirth) + 20)
-                    categories = "[[Category:" + strBirth + " births|" + strName + "]]";
+                if (string.IsNullOrEmpty(deaths) || int.Parse(deaths) < int.Parse(births) + 20)
+                    categories = "[[Category:" + births + " births|" + name + "]]";
                 else
-                    categories = "[[Category:" + strBirth + " births|" + strName + "]]\r\n[[Category:" + strDeath + " deaths|" + strName + "]]";
+                    categories = "[[Category:" + births + " births|" + name + "]]\r\n[[Category:" + deaths + " deaths|" + name + "]]";
 
                 txtEdit.SelectedText = categories;
 
@@ -3275,14 +3274,14 @@ window.scrollTo(0, diffTopY);
             txtEdit.Focus();
 
             cutToolStripMenuItem.Enabled = copyToolStripMenuItem.Enabled =
-                openSelectionInBrowserToolStripMenuItem.Enabled =
-                (!string.IsNullOrEmpty(txtEdit.SelectedText));
+                                           openSelectionInBrowserToolStripMenuItem.Enabled =
+                                           (!string.IsNullOrEmpty(txtEdit.SelectedText));
 
             undoToolStripMenuItem.Enabled = txtEdit.CanUndo;
 
             openPageInBrowserToolStripMenuItem.Enabled = openHistoryMenuItem.Enabled =
-                openTalkPageInBrowserToolStripMenuItem.Enabled =
-                (TheArticle != null && !string.IsNullOrEmpty(TheArticle.Name));
+                                                         openTalkPageInBrowserToolStripMenuItem.Enabled =
+                                                         (TheArticle != null && !string.IsNullOrEmpty(TheArticle.Name));
 
             replaceTextWithLastEditToolStripMenuItem.Enabled = (!string.IsNullOrEmpty(LastArticle));
         }
