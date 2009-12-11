@@ -32,28 +32,24 @@ namespace WikiFunctions.Controls.Lists
     public partial class ListSplitter : Form
     {
         private readonly UserPrefs _p;
-        private readonly List<Type> _types;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="prefs"></param>
-        /// <param name="type"></param>
-        public ListSplitter(UserPrefs prefs, List<Type> type)
+        public ListSplitter(UserPrefs prefs)
         {
             InitializeComponent();
             _p = prefs;
-            _types = type;
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="prefs"></param>
-        /// <param name="type"></param>
         /// <param name="list"></param>
-        public ListSplitter(UserPrefs prefs, List<Type> type, List<Article> list)
-            : this(prefs, type)
+        public ListSplitter(UserPrefs prefs, List<Article> list)
+            : this(prefs)
         {
             listMaker1.Add(list);
         }
@@ -130,13 +126,7 @@ namespace WikiFunctions.Controls.Lists
 
                         _p.List.ArticleList = listart;
 
-                        using (
-                            FileStream fStream = new FileStream(path.Replace(".xml", " " + (i + 1) + ".xml"),
-                                                                FileMode.Create))
-                        {
-                            XmlSerializer xs = new XmlSerializer(typeof(UserPrefs), _types.ToArray());
-                            xs.Serialize(fStream, _p);
-                        }
+                        UserPrefs.SavePrefs(_p, path.Replace(".xml", " " + (i + 1) + ".xml"));
                     }
                     MessageBox.Show("Lists Saved to AWB Settings Files");
                 }

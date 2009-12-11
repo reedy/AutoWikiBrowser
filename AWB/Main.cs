@@ -2970,10 +2970,12 @@ window.scrollTo(0, diffTopY);
                     if (listMaker.Count > 0 &&
                         MessageBox.Show("Would you like to copy your current Article List to the ListComparer?",
                                         "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        Comparer = new ListComparer(listMaker, listMaker.GetArticleList());
-                    else
-                        Comparer = new ListComparer(listMaker);
-                    break;
+                    {
+                        goto case 1;
+                    }
+
+                    goto case 2;
+
                 case 1: //Always
                     Comparer = new ListComparer(listMaker, listMaker.GetArticleList());
                     break;
@@ -2987,25 +2989,23 @@ window.scrollTo(0, diffTopY);
 
         private void launchListSplitterToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            WikiFunctions.AWBSettings.UserPrefs p = MakePrefs();
-
             switch (_listSplitterUseCurrentArticleList)
             {
                 case 0: //Ask
                     if (listMaker.Count > 0 &&
                         MessageBox.Show("Would you like to copy your current Article List to the ListSplitter?",
                                         "Copy Article List?", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        Splitter = new ListSplitter(p, WikiFunctions.AWBSettings.UserPrefs.SavePluginSettings(p),
-                                                    listMaker.GetArticleList());
-                    else
-                        Splitter = new ListSplitter(p, WikiFunctions.AWBSettings.UserPrefs.SavePluginSettings(p));
-                    break;
+                    {
+                        goto case 1;
+                    }
+
+                    goto case 2;
+
                 case 1: //Always
-                    Splitter = new ListSplitter(p, WikiFunctions.AWBSettings.UserPrefs.SavePluginSettings(p),
-                                                listMaker.GetArticleList());
+                    Splitter = new ListSplitter(MakePrefs(), listMaker.GetArticleList());
                     break;
                 case 2: //Never
-                    Splitter = new ListSplitter(p, WikiFunctions.AWBSettings.UserPrefs.SavePluginSettings(p));
+                    Splitter = new ListSplitter(MakePrefs());
                     break;
             }
 
@@ -3022,11 +3022,14 @@ window.scrollTo(0, diffTopY);
             switch (_dbScannerUseCurrentArticleList)
             {
                 case 0: //Ask
-                    DBScanner = (MessageBox.Show("Would you like the results to be added to the ListMaker Article List?",
-                                                 "Add to ListMaker?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
-                                 DialogResult.Yes)
-                        ? listMaker.DBScanner()
-                        : new WikiFunctions.DBScanner.DatabaseScanner();
+                    if (MessageBox.Show("Would you like the results to be added to the ListMaker Article List?",
+                                        "Add to ListMaker?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
+                        DialogResult.Yes)
+                    {
+                        goto case 1;
+                    }
+
+                    goto case 2;
                     break;
                 case 1: //Always
                     DBScanner = listMaker.DBScanner();
