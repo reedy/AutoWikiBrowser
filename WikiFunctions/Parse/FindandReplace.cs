@@ -177,13 +177,13 @@ namespace WikiFunctions.Parse
             if (chkAddToSummary.Checked) 
             {
               if (!string.IsNullOrEmpty(_editSummary))
-                  editSummary = ", Replaced: " + _editSummary.Trim();
+                  editSummary = ", replaced: " + _editSummary.Trim();
 
               if (!string.IsNullOrEmpty(_removedSummary))
               {
                   if (string.IsNullOrEmpty(_editSummary))
                       editSummary += ", ";
-                  editSummary += "Removed: " + _removedSummary.Trim();
+                  editSummary += "removed: " + _removedSummary.Trim();
               }
             }
 
