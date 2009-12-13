@@ -369,6 +369,7 @@ namespace WikiFunctions.AWBSettings
         public bool SuppressUsingAWB = false;
         public bool AddUsingAWBToActionSummaries = false;
         public bool IgnoreNoBots = false;
+        public bool ClearPageListOnProjectChange = false;
 
         public bool SortInterWikiOrder = true;
         public bool ReplaceReferenceTags = true;

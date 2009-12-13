@@ -84,6 +84,7 @@ namespace AutoWikiBrowser
             this.tabPrivacy = new System.Windows.Forms.TabPage();
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.lblSaveAsDefaultFile = new System.Windows.Forms.Label();
+            this.chkEmptyOnProjectChange = new System.Windows.Forms.CheckBox();
             this.AutoSaveEditBoxGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudEditBoxAutosave)).BeginInit();
             this.tbPrefs.SuspendLayout();
@@ -474,6 +475,7 @@ namespace AutoWikiBrowser
             // 
             // tabSite
             // 
+            this.tabSite.Controls.Add(this.chkEmptyOnProjectChange);
             this.tabSite.Controls.Add(this.chkPHP5Ext);
             this.tabSite.Controls.Add(this.chkSupressAWB);
             this.tabSite.Controls.Add(this.chkIgnoreNoBots);
@@ -643,6 +645,16 @@ namespace AutoWikiBrowser
             this.lblSaveAsDefaultFile.TabIndex = 1;
             this.lblSaveAsDefaultFile.Text = "\"Save settings as default\" to retain values";
             // 
+            // chkEmptyOnProjectChange
+            // 
+            this.chkEmptyOnProjectChange.AutoSize = true;
+            this.chkEmptyOnProjectChange.Location = new System.Drawing.Point(9, 125);
+            this.chkEmptyOnProjectChange.Name = "chkEmptyOnProjectChange";
+            this.chkEmptyOnProjectChange.Size = new System.Drawing.Size(186, 17);
+            this.chkEmptyOnProjectChange.TabIndex = 12;
+            this.chkEmptyOnProjectChange.Text = "Empty page list on project change";
+            this.chkEmptyOnProjectChange.UseVisualStyleBackColor = true;
+            // 
             // MyPreferences
             // 
             this.AcceptButton = this.btnOK;
@@ -731,5 +743,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ComboBox cmboOnLoad;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox chkDiffInBotMode;
+        private System.Windows.Forms.CheckBox chkEmptyOnProjectChange;
     }
 }

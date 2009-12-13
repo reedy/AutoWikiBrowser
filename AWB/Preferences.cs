@@ -32,6 +32,13 @@ namespace AutoWikiBrowser
 {
     internal sealed partial class MyPreferences : Form
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lang"></param>
+        /// <param name="proj"></param>
+        /// <param name="customproj"></param>
+        /// <param name="usePHP5"></param>
         public MyPreferences(string lang, ProjectEnum proj, string customproj, bool usePHP5)
         {
             InitializeComponent();
@@ -331,6 +338,12 @@ namespace AutoWikiBrowser
         {
             get { return chkDiffInBotMode.Checked; }
             set { chkDiffInBotMode.Checked = value; }
+        }
+
+        public bool PrefClearPageListOnProjectChange
+        {
+            get { return chkEmptyOnProjectChange.Checked; }
+            set { chkEmptyOnProjectChange.Checked = value; }
         }
         #endregion
 

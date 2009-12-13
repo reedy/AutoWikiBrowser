@@ -58,7 +58,7 @@ namespace AutoWikiBrowser
         private readonly WikiFunctions.Profiles.AWBProfilesForm Profiles;
 
         private bool Abort;
-        private bool IgnoreNoBots;
+        private bool IgnoreNoBots, ClearPageListOnProjectChange;
 
         private string LastArticle = "";
         private string mSettingsFile = "";
@@ -2544,7 +2544,10 @@ window.scrollTo(0, diffTopY);
                 PrefAutoSaveEditBoxEnabled = _autoSaveEditBoxEnabled,
                 PrefAutoSaveEditBoxFile = _autoSaveEditBoxFile,
                 PrefAutoSaveEditBoxPeriod = AutoSaveEditBoxPeriod,
+
                 PrefIgnoreNoBots = IgnoreNoBots,
+                PrefClearPageListOnProjectChange = ClearPageListOnProjectChange,
+
                 PrefShowTimer = ShowMovingAverageTimer,
                 PrefAddUsingAWBOnArticleAction = Article.AddUsingAWBOnArticleAction,
                 PrefSuppressUsingAWB = _suppressUsingAWB,
@@ -2570,7 +2573,10 @@ window.scrollTo(0, diffTopY);
                 _autoSaveEditBoxFile = myPrefs.PrefAutoSaveEditBoxFile;
                 _suppressUsingAWB = myPrefs.PrefSuppressUsingAWB;
                 Article.AddUsingAWBOnArticleAction = myPrefs.PrefAddUsingAWBOnArticleAction;
+
                 IgnoreNoBots = myPrefs.PrefIgnoreNoBots;
+                ClearPageListOnProjectChange = myPrefs.PrefClearPageListOnProjectChange;
+
                 ShowMovingAverageTimer = myPrefs.PrefShowTimer;
 
                 _listComparerUseCurrentArticleList = myPrefs.PrefListComparerUseCurrentArticleList;
@@ -2589,7 +2595,9 @@ window.scrollTo(0, diffTopY);
                     BotMode = false;
                     lblOnlyBots.Visible = true;
 
-                    //CreateEditor();
+                    if (ClearPageListOnProjectChange)
+                        listMaker.Clear();
+
                     DisableButtons();
                 }
             }

@@ -330,6 +330,7 @@ namespace AutoWikiBrowser
                     {
                         SaveArticleList = _saveArticleList,
                         IgnoreNoBots = IgnoreNoBots,
+                        ClearPageListOnProjectChange = ClearPageListOnProjectChange,
                         SelectedSummary = cmboEditSummary.Text,
 
                         PasteMore = new[]
@@ -501,6 +502,7 @@ namespace AutoWikiBrowser
             _saveArticleList = p.General.SaveArticleList;
 
             IgnoreNoBots = p.General.IgnoreNoBots;
+            ClearPageListOnProjectChange = p.General.ClearPageListOnProjectChange;
 
             listMaker.Add(p.List.ArticleList);
 
