@@ -72,7 +72,7 @@ namespace WikiFunctions.Parse
         {
             Replacement rep = new Replacement
                                   {
-                                      Enabled = ((bool) dataGridRow.Cells["enabled"].FormattedValue)
+                                      Enabled = ((bool)dataGridRow.Cells["enabled"].FormattedValue)
                                   };
 
             if (dataGridRow.Cells["replace"].Value == null)
@@ -174,17 +174,17 @@ namespace WikiFunctions.Parse
             else if (chkIgnoreLinks.Checked)
                 articleText = _remove.AddBack(articleText);
 
-            if (chkAddToSummary.Checked) 
+            if (chkAddToSummary.Checked)
             {
-              if (!string.IsNullOrEmpty(_editSummary))
-                  editSummary = ", replaced: " + _editSummary.Trim();
+                if (!string.IsNullOrEmpty(_editSummary))
+                    editSummary = ", replaced: " + _editSummary.Trim();
 
-              if (!string.IsNullOrEmpty(_removedSummary))
-              {
-                  if (string.IsNullOrEmpty(_editSummary))
-                      editSummary += ", ";
-                  editSummary += "removed: " + _removedSummary.Trim();
-              }
+                if (!string.IsNullOrEmpty(_removedSummary))
+                {
+                    if (string.IsNullOrEmpty(_editSummary))
+                        editSummary += ", ";
+                    editSummary += "removed: " + _removedSummary.Trim();
+                }
             }
 
             return articleText;
@@ -227,10 +227,10 @@ namespace WikiFunctions.Parse
                     else
                     {
                         _removedSummary += matches[0].Value;
-                        
+
                         if (matches.Count > 1)
                             _removedSummary += " (" + matches.Count + ")";
-                            
+
                         _removedSummary += ", ";
                     }
                 }
