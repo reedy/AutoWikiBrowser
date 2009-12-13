@@ -1913,8 +1913,8 @@ window.scrollTo(0, diffTopY);
 
             if (Properties.Settings.Default.AskForTerminate)
             {
-                TimeSpan time = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                time = time.Subtract(StartTime);
+                TimeSpan time =
+                    new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second).Subtract(StartTime);
                 dlg = new ExitQuestion(time, NumberOfEdits, "");
                 dlg.ShowDialog();
                 Properties.Settings.Default.AskForTerminate = !dlg.CheckBoxDontAskAgain;
@@ -1931,14 +1931,15 @@ window.scrollTo(0, diffTopY);
 
                 SaveRecentSettingsList();
                 UsageStats.Do(true);
+
+                ntfyTray.Visible = false;
+                ntfyTray.Dispose();
             }
             else
             {
                 e.Cancel = true;
                 return;
             }
-            ntfyTray.Visible = false;
-            ntfyTray.Dispose();
         }
 
         private string MakeSummary()
