@@ -576,6 +576,7 @@ Jones 2005</ref>"));
             
             // no errors here
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009}} was"));
+            Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009|first1=Foo|last1=Great |first2=Bar|title=here}} was"));
             
             // multiple errors
             Found.Add(15, 6);
@@ -1700,10 +1701,10 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3| pages = 140   - 148}}")); // hyphe
             
             // do not change page sections etc.
             const string nochange1 = @"{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
-journal=Crypt of Cthulhu |volume= 3|issue= 3|pages = 140–7-2}}", 
+journal=Crypt of Cthulhu |volume= 3|issue= 3|pages = 140–7-2}}",
             // non-breaking hyphens to represent page sections rather than ranges
             nochange2 = @"{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
-journal=Crypt of Cthulhu |volume= 3|issue= 3|pages = 140‑7}}", 
+journal=Crypt of Cthulhu |volume= 3|issue= 3|pages = 140‑7}}",
             nochange3 = @"{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
 journal=Crypt of Cthulhu |volume= 3|issue= 3|pages = 140&#8209;7}}";
             
@@ -1766,13 +1767,13 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3|pages = 140&#8209;7}}";
         [Test]
         public void FixSyntaxPipesInExternalLinks()
         {
-        	Assert.AreEqual("[http://www.site.com ''my cool site'']", Parsers.FixSyntax("[http://www.site.com|''my cool site'']"));
-        	Assert.AreEqual("[http://www.site.com/here/there.html ''my cool site'']", Parsers.FixSyntax("[http://www.site.com/here/there.html|''my cool site'']"));
+            Assert.AreEqual("[http://www.site.com ''my cool site'']", Parsers.FixSyntax("[http://www.site.com|''my cool site'']"));
+            Assert.AreEqual("[http://www.site.com/here/there.html ''my cool site'']", Parsers.FixSyntax("[http://www.site.com/here/there.html|''my cool site'']"));
 
-        	Assert.AreEqual(@"port [http://www.atoc.org/general/ConnectingCommunitiesReport_S10.pdf ""Connecting Communities - Expanding Access to the Rail Network""] consid",
-        	                Parsers.FixSyntax(@"port [[http://www.atoc.org/general/ConnectingCommunitiesReport_S10.pdf |""Connecting Communities - Expanding Access to the Rail Network""]] consid"));
-        	
-        	const string nochange1 = @"[http://www.site.com|''my cool site''", nochange2 = @"{{Infobox Singapore School
+            Assert.AreEqual(@"port [http://www.atoc.org/general/ConnectingCommunitiesReport_S10.pdf ""Connecting Communities - Expanding Access to the Rail Network""] consid",
+                            Parsers.FixSyntax(@"port [[http://www.atoc.org/general/ConnectingCommunitiesReport_S10.pdf |""Connecting Communities - Expanding Access to the Rail Network""]] consid"));
+            
+            const string nochange1 = @"[http://www.site.com|''my cool site''", nochange2 = @"{{Infobox Singapore School
 | name = Yuan Ching Secondary School
 | established = 1978
 | city/town = [[Jurong]]
@@ -1781,8 +1782,8 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3|pages = 140&#8209;7}}";
 | border_color = #330066
 | uniform_color = #66CCFF
 }}";
-        	Assert.AreEqual(nochange1, Parsers.FixSyntax(nochange1));
-        	Assert.AreEqual(nochange2, Parsers.FixSyntax(nochange2));
+            Assert.AreEqual(nochange1, Parsers.FixSyntax(nochange1));
+            Assert.AreEqual(nochange2, Parsers.FixSyntax(nochange2));
         }
         
         [Test]
