@@ -584,6 +584,13 @@ namespace AutoWikiBrowser
                 MessageBox.Show("Captcha required, is the user account autoconfirmed etc?", "Captcha Required");
                 Stop();
             }
+            else if (ex is System.Net.WebException)
+            {
+                // some 404 error or similar
+                StatusLabelText = ex.Message;                
+                StartDelayedRestartTimer();                
+            }
+            }
             else
             {
                 Stop();
