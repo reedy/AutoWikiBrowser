@@ -2523,10 +2523,13 @@ http://example.com }}");
             //disabled for the time being to avoid unnecesary clutter
         }
 
-        [Test, Category("Incomplete")]
         public void TestCanonicalizeTitle()
         {
+            Assert.AreEqual("foo bar", Parsers.CanonicalizeTitle("foo_bar"));
+            Assert.AreEqual("foo bar", Parsers.CanonicalizeTitle("foo bar"));
             Assert.AreEqual("foo (bar)", Parsers.CanonicalizeTitle("foo_%28bar%29"));
+            Assert.AreEqual(@"foo+bar", Parsers.CanonicalizeTitle(@"foo%2Bbar"));
+            Assert.AreEqual("foo (bar)", Parsers.CanonicalizeTitle("foo_(bar)"));
 
             // it may or may not fix it, but shouldn't break anything
             StringAssert.Contains("{{bar_boz}}", Parsers.CanonicalizeTitle("foo_bar{{bar_boz}}"));
