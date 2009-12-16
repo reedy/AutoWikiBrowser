@@ -460,6 +460,12 @@ namespace WikiFunctions.Parse
 
         // fixes missing comma or space in American format dates
         private static readonly Regex NoCommaAmericanDates = new Regex(@"\b(" + WikiRegexes.MonthsNoGroup + @" [1-3]?\d) *,?([12]\d{3})\b");
+        
+        // fix incorrect comma between month and year in Internaltional-format dates
+        private static readonly Regex IncorrectCommaInternationalDates = new Regex(@"\b((?:[1-3]?\d) +" + WikiRegexes.MonthsNoGroup + @") *, *(1\d{3}|20\d{2})\b", RegexOptions.Compiled);
+        
+        // date ranges use an en-dash per [[WP:MOSDATE]]
+        private static readonly Regex SameMonthInternationalDateRange = new Regex(@"\b([1-3]?\d) *- *([1-3]?\d +" + WikiRegexes.MonthsNoGroup + @")\b", RegexOptions.Compiled);
 
         // Covered by: LinkTests.FixDates()
         /// <summary>
@@ -476,6 +482,8 @@ namespace WikiFunctions.Parse
             
             articleText = CommaDates.Replace(articleText, @"$1 $2, $3");
             articleText = NoCommaAmericanDates.Replace(articleText, @"$1, $2");
+            articleText = IncorrectCommaInternationalDates.Replace(articleText, @"$1 $2");
+            articleText = SameMonthInternationalDateRange.Replace(articleText, @"$1–$2");
             
             articleText = AddBackTextImages(articleText);
             

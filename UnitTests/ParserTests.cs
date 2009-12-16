@@ -712,17 +712,35 @@ Jones 2005</ref>"));
         [Test]
         public void FixDatesCommaErrors()
         {
-            Assert.AreEqual(@"Retrieved on April 14, 2009 was", parser.FixDates(@"Retrieved on April, 14, 2009 was"));
-            Assert.AreEqual(@"Retrieved on April 14, 2009 was", parser.FixDates(@"Retrieved on April , 14 , 2009 was"));
-            Assert.AreEqual(@"Retrieved on April 14, 2009 was", parser.FixDates(@"Retrieved on April , 14 ,2009 was"));
+            const string correct1 = @"Retrieved on April 14, 2009 was";
+            Assert.AreEqual(correct1, parser.FixDates(@"Retrieved on April, 14, 2009 was"));
+            Assert.AreEqual(correct1, parser.FixDates(@"Retrieved on April , 14 , 2009 was"));
+            Assert.AreEqual(correct1, parser.FixDates(@"Retrieved on April , 14 ,2009 was"));
 
-            Assert.AreEqual(@"Retrieved on April 14, 2009 was", parser.FixDates(@"Retrieved on April 14,2009 was"));
-            Assert.AreEqual(@"Retrieved on April 14, 2009 was", parser.FixDates(@"Retrieved on April 14 ,2009 was"));
-            Assert.AreEqual(@"Retrieved on April 14, 2009 was", parser.FixDates(@"Retrieved on April 14 2009 was"));
+            Assert.AreEqual(correct1, parser.FixDates(@"Retrieved on April 14,2009 was"));
+            Assert.AreEqual(correct1, parser.FixDates(@"Retrieved on April 14 ,2009 was"));
+            Assert.AreEqual(correct1, parser.FixDates(@"Retrieved on April 14 2009 was"));
             
             // don't change image names
             string image1 = @"now foo [[Image:Foo July 24 2009.png]] was";
             Assert.AreEqual(image1, parser.FixDates(image1));
+            
+            const string correct2 = @"Retrieved on 14 April 2009 was";
+            Assert.AreEqual(correct2, parser.FixDates(@"Retrieved on 14 April, 2009 was"));
+            Assert.AreEqual(correct2, parser.FixDates(@"Retrieved on 14 April , 2009 was"));
+            Assert.AreEqual(correct2, parser.FixDates(@"Retrieved on 14 April,  2009 was"));
+            
+            const string nochange1 = @"On 14 April, 2590 people";
+            Assert.AreEqual(nochange1, parser.FixDates(nochange1));
+        }
+        
+        [Test]
+        public void FixDatesRanges()
+        {
+            const string correct1 = @"On 3–17 May 2009 a dog";
+            Assert.AreEqual(correct1, parser.FixDates(@"On 3-17 May 2009 a dog"));
+            Assert.AreEqual(correct1, parser.FixDates(@"On 3 - 17 May 2009 a dog"));
+            Assert.AreEqual(correct1, parser.FixDates(@"On 3 -17 May 2009 a dog"));
         }
 
         [Test]
