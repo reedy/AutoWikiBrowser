@@ -2656,6 +2656,11 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixCategories(string articleText)
         {
+            //Fix for http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#KeyNotFoundException
+            //Seems a bit hacky?
+            //if (!Variables.Namespaces.ContainsKey(Namespace.Category))
+            //    return articleText;
+
             string cat = "[[" + Variables.Namespaces[Namespace.Category];
 
             // fix extra brackets: three or more at end
