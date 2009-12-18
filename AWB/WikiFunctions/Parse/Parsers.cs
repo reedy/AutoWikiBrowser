@@ -733,7 +733,7 @@ namespace WikiFunctions.Parse
         /// <returns>the modified article text</returns>
         public static string DuplicateUnnamedReferences(string articleText)
         {
-            /* AWB is asked not to add named references to an article if there are none currently, as some users feel 
+            /* AWB is asked not to add named references to an article if there are none currently, as some users feel
              * this is a change of citation style, so is against the [[WP:CITE]] "don't change established style" guidelines */
             if(!HasNamedReferences(articleText))
                 return articleText;
@@ -2038,7 +2038,7 @@ namespace WikiFunctions.Parse
                 if (!Regex.IsMatch(newValue, @"\bnopp\s*=\s*") && !Regex.IsMatch(newValue, @"^{{\s*[Cc]ite journal\s*\|"))
                     newValue = CiteTemplatePagesPP.Replace(newValue, "");
                 
-                // remove duplicated fields, ensure the URL is not touched (may have pipes in)                
+                // remove duplicated fields, ensure the URL is not touched (may have pipes in)
                 if(DupeFields.IsMatch(newValue))
                 {
                     string URL = CiteUrl.Match(newValue).Value;
@@ -2063,43 +2063,43 @@ namespace WikiFunctions.Parse
                         newValue = newvaluetemp;
                 }
 
-                   // correct volume=vol 7... and issue=no. 8 for {{cite journal}} only
-                   if (Regex.IsMatch(newValue, @"\b[Cc]ite journal\b"))
-                   {
-                       newValue = CiteTemplatesJournalVolume.Replace(newValue, "");
-                       newValue = CiteTemplatesJournalIssue.Replace(newValue, "");
-                       newValue = CiteTemplatesJournalVolumeAndIssue.Replace(newValue, @"| issue = ");
-                   }
-
-                   // {{cite web}} for Google books -> {{cite book}}
-                   if (Regex.IsMatch(newValue, @"^{{\s*[Cc]ite ?web\s*\|") && newValue.Contains("http://books.google.com"))
-                       newValue = Regex.Replace(newValue, @"^{{\s*[Cc]ite ?web(?=\s*\|)", @"{{cite book");
-
-                   // remove leading zero in day of month
-                   newValue = DateLeadingZero.Replace(newValue, @"$1$2$3$4$5");
-
-                   if (Regex.IsMatch(newValue, @"^{{\s*[Cc]ite(?: ?web| book)\s*\|"))
-                   {
-                       // remove any empty accessdaymonth and accessmonthday
-                       newValue = AccessDayMonthDay.Replace(newValue, "");
-
-                       // merge accessdate of 'D Month' or 'Month D' and accessyear of 'YYYY' in cite web
-                       newValue = AccessDateYear.Replace(newValue, @" $2$1$3");
-                   }
-                   
-                   // remove accessyear where accessdate is present and contains said year
-                   string year = AccessYear.Match(newValue).Groups[1].Value;
-                   if(year.Length > 0 && Regex.IsMatch(newValue, @"\|\s*accessdate\s*=[^{}\|]*\b" + year + @"\b"))
-                       newValue = AccessYear.Replace(newValue, "");
-                   
-                   // catch after any other fixes
-                   newValue = NoCommaAmericanDates.Replace(newValue, @"$1, $2");
-
-                   // page range should have unspaced en-dash
-                   newValue = CiteTemplatesPageRange.Replace(newValue, @"–$1");
-
-                   articleText = articleText.Replace(m.Value, newValue);
+                // correct volume=vol 7... and issue=no. 8 for {{cite journal}} only
+                if (Regex.IsMatch(newValue, @"\b[Cc]ite journal\b"))
+                {
+                    newValue = CiteTemplatesJournalVolume.Replace(newValue, "");
+                    newValue = CiteTemplatesJournalIssue.Replace(newValue, "");
+                    newValue = CiteTemplatesJournalVolumeAndIssue.Replace(newValue, @"| issue = ");
                 }
+
+                // {{cite web}} for Google books -> {{cite book}}
+                if (Regex.IsMatch(newValue, @"^{{\s*[Cc]ite ?web\s*\|") && newValue.Contains("http://books.google.com"))
+                    newValue = Regex.Replace(newValue, @"^{{\s*[Cc]ite ?web(?=\s*\|)", @"{{cite book");
+
+                // remove leading zero in day of month
+                newValue = DateLeadingZero.Replace(newValue, @"$1$2$3$4$5");
+
+                if (Regex.IsMatch(newValue, @"^{{\s*[Cc]ite(?: ?web| book)\s*\|"))
+                {
+                    // remove any empty accessdaymonth and accessmonthday
+                    newValue = AccessDayMonthDay.Replace(newValue, "");
+
+                    // merge accessdate of 'D Month' or 'Month D' and accessyear of 'YYYY' in cite web
+                    newValue = AccessDateYear.Replace(newValue, @" $2$1$3");
+                }
+                
+                // remove accessyear where accessdate is present and contains said year
+                string year = AccessYear.Match(newValue).Groups[1].Value;
+                if(year.Length > 0 && Regex.IsMatch(newValue, @"\|\s*accessdate\s*=[^{}\|]*\b" + year + @"\b"))
+                    newValue = AccessYear.Replace(newValue, "");
+                
+                // catch after any other fixes
+                newValue = NoCommaAmericanDates.Replace(newValue, @"$1, $2");
+
+                // page range should have unspaced en-dash
+                newValue = CiteTemplatesPageRange.Replace(newValue, @"–$1");
+
+                articleText = articleText.Replace(m.Value, newValue);
+            }
 
             return articleText;
         }
@@ -3053,10 +3053,11 @@ namespace WikiFunctions.Parse
         private static readonly Regex RegexFirstBold = new Regex(@"^(.*?)'''", RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
-        /// Checks that the bold just added to the article is the first bold in the article, and that it's within the first 5% of the HideMore article
+        /// Checks that the bold just added to the article is the first bold in the article, and that it's within the first 5% of the HideMore article OR immediately after the infobox
         /// </summary>
         private bool AddedBoldIsValid(string articleText, string escapedTitle)
         {
+            string articletextoriginal = articleText;
             Regex regexBoldAdded = new Regex(@"^(.*?)'''" + escapedTitle, RegexOptions.Singleline);
 
             int boldAddedPos = regexBoldAdded.Match(articleText).Length - Regex.Unescape(escapedTitle).Length;
@@ -3069,8 +3070,14 @@ namespace WikiFunctions.Parse
             bool inFirst5Percent = articleText.Substring(0, articleText.Length / 20).Contains("'''");
 
             // check that the bold added is the first bit in bold in the main body of the article, and in first 5% of HideMore article
-            return inFirst5Percent && boldAddedPos <= firstBoldPos;
-        }
+            if(inFirst5Percent && boldAddedPos <= firstBoldPos)
+                return true;
+            
+            // second check: bold just after infobox
+            Regex BoldAfterInfobox = new Regex(WikiRegexes.InfoBox.ToString() + @"\s*'''" + escapedTitle);
+            
+            return BoldAfterInfobox.IsMatch(articletextoriginal);
+            }
 
         /// <summary>
         /// Replaces an image in the article.

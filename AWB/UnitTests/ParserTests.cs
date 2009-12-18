@@ -3479,6 +3479,12 @@ Foo is a bar While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsFalse(noChangeBack);
+            
+            // immediately after infobox – 5% rule does not apply
+             Assert.AreEqual(@"{{Infobox abc| name = Foo | age=11}}
+'''Foo''' is a bar", parser.BoldTitle(@"{{Infobox abc| name = Foo | age=11}}
+Foo is a bar", "Foo", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
 
             // brackets excluded from bolding
             Assert.AreEqual("'''Foo''' (Band album) is a CD While remaining upright may be the primary goal of beginning riders",
