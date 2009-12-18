@@ -2657,7 +2657,7 @@ namespace WikiFunctions.Parse
         public static string FixCategories(string articleText)
         {
             //Fix for http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#KeyNotFoundException
-            //Seems a bit hacky?
+            //Seems a bit hacky? Cause it shouldn't occur...
             //if (!Variables.Namespaces.ContainsKey(Namespace.Category))
             //    return articleText;
 
