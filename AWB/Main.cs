@@ -1940,6 +1940,8 @@ window.scrollTo(0, diffTopY);
 
             ntfyTray.Visible = false;
             ntfyTray.Dispose();
+
+            //Application.Exit();
         }
         else
         {
@@ -2257,7 +2259,6 @@ window.scrollTo(0, diffTopY);
     private void CloseAWB()
     {
         Close();
-        Application.Exit();
     }
 
     private void chkAppend_CheckedChanged(object sender, EventArgs e)
