@@ -1483,8 +1483,11 @@ namespace WikiFunctions.Parse
             // <REF> and <Ref> to <ref>
             new RegexReplacement(new Regex(@"(<\s*\/?\s*)(?:R[Ee][Ff]|r[Ee]F)(\s*(?:>|name\s*=))"), "$1ref$2"),
 
-            // trailing spaces within ref
+            // trailing spaces at the end of a reference, within the reference
             new RegexReplacement(new Regex(@" +</ref>"), "</ref>"),
+            
+            // Trailing spaces at the beginning of a reference, within the reference
+            new RegexReplacement(new Regex(@"(<ref[^<>\{\}\/]*>) +"), "$1"),
 
             // empty <ref>...</ref> tags
             new RegexReplacement(new Regex(@"<ref>\s*</ref>"), ""),
