@@ -273,8 +273,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         Private Sub EditorStatusChanged(ByVal sender As AsyncApiEdit)
             If PluginManager.AWBForm.TheSession.Editor.IsActive Then
                 LoadArticle()
-            Else
-                Reset()
             End If
         End Sub
 
