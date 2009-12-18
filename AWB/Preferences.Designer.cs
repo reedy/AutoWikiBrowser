@@ -70,6 +70,7 @@ namespace AutoWikiBrowser
             this.cmboOnLoad = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.tabSite = new System.Windows.Forms.TabPage();
+            this.chkEmptyOnProjectChange = new System.Windows.Forms.CheckBox();
             this.chkPHP5Ext = new System.Windows.Forms.CheckBox();
             this.chkIgnoreNoBots = new System.Windows.Forms.CheckBox();
             this.tabEditing = new System.Windows.Forms.TabPage();
@@ -84,7 +85,6 @@ namespace AutoWikiBrowser
             this.tabPrivacy = new System.Windows.Forms.TabPage();
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.lblSaveAsDefaultFile = new System.Windows.Forms.Label();
-            this.chkEmptyOnProjectChange = new System.Windows.Forms.CheckBox();
             this.AutoSaveEditBoxGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudEditBoxAutosave)).BeginInit();
             this.tbPrefs.SuspendLayout();
@@ -494,6 +494,16 @@ namespace AutoWikiBrowser
             this.tabSite.Text = "Site";
             this.tabSite.UseVisualStyleBackColor = true;
             // 
+            // chkEmptyOnProjectChange
+            // 
+            this.chkEmptyOnProjectChange.AutoSize = true;
+            this.chkEmptyOnProjectChange.Location = new System.Drawing.Point(9, 125);
+            this.chkEmptyOnProjectChange.Name = "chkEmptyOnProjectChange";
+            this.chkEmptyOnProjectChange.Size = new System.Drawing.Size(186, 17);
+            this.chkEmptyOnProjectChange.TabIndex = 12;
+            this.chkEmptyOnProjectChange.Text = "Empty page list on project change";
+            this.chkEmptyOnProjectChange.UseVisualStyleBackColor = true;
+            // 
             // chkPHP5Ext
             // 
             this.chkPHP5Ext.AutoSize = true;
@@ -577,9 +587,9 @@ namespace AutoWikiBrowser
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(6, 69);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(215, 13);
+            this.label3.Size = new System.Drawing.Size(214, 13);
             this.label3.TabIndex = 4;
-            this.label3.Text = "Add current article list to Database Scanner:";
+            this.label3.Text = "Add Database Scanner results to current list";
             // 
             // cmboListSplitter
             // 
@@ -644,16 +654,6 @@ namespace AutoWikiBrowser
             this.lblSaveAsDefaultFile.Size = new System.Drawing.Size(205, 13);
             this.lblSaveAsDefaultFile.TabIndex = 1;
             this.lblSaveAsDefaultFile.Text = "\"Save settings as default\" to retain values";
-            // 
-            // chkEmptyOnProjectChange
-            // 
-            this.chkEmptyOnProjectChange.AutoSize = true;
-            this.chkEmptyOnProjectChange.Location = new System.Drawing.Point(9, 125);
-            this.chkEmptyOnProjectChange.Name = "chkEmptyOnProjectChange";
-            this.chkEmptyOnProjectChange.Size = new System.Drawing.Size(186, 17);
-            this.chkEmptyOnProjectChange.TabIndex = 12;
-            this.chkEmptyOnProjectChange.Text = "Empty page list on project change";
-            this.chkEmptyOnProjectChange.UseVisualStyleBackColor = true;
             // 
             // MyPreferences
             // 
