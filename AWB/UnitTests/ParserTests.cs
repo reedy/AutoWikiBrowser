@@ -128,64 +128,64 @@ namespace UnitTests
             Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now <ref>[http://www.site.com a site]</ref > was"));
 
             // <ref name=foo bar> --> <ref name="foo bar">
-            Assert.AreEqual(@"now <ref name=""foo bar""> and", Parsers.FixReferenceTags(@"now <ref name=foo bar> and"));
+            Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=foo bar>and"));
             Assert.AreEqual(@"now <ref name=""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref name=foo bar /> and"));
-            Assert.AreEqual(@"now <ref name = ""foo bar"" > and", Parsers.FixReferenceTags(@"now <ref name = foo bar > and"));
+            Assert.AreEqual(@"now <ref name = ""foo bar"" >and", Parsers.FixReferenceTags(@"now <ref name = foo bar >and"));
 
             // <ref name=foo bar"> --> <ref name="foo bar">
-            Assert.AreEqual(@"now <ref name=""foo bar""> and", Parsers.FixReferenceTags(@"now <ref name=foo bar""> and"));
+            Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=foo bar"">and"));
             Assert.AreEqual(@"now <ref name=""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref name=foo bar"" /> and"));
-            Assert.AreEqual(@"now <ref name = ""foo bar"" > and", Parsers.FixReferenceTags(@"now <ref name = foo bar"" > and"));
+            Assert.AreEqual(@"now <ref name = ""foo bar"" >and", Parsers.FixReferenceTags(@"now <ref name = foo bar"" >and"));
 
             // <ref name="foo bar> --> <ref name="foo bar">
-            Assert.AreEqual(@"now <ref name=""foo bar""> and", Parsers.FixReferenceTags(@"now <ref name=""foo bar> and"));
+            Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=""foo bar>and"));
             Assert.AreEqual(@"now <ref name=""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref name=""foo bar /> and"));
-            Assert.AreEqual(@"now <ref name = ""foo bar"" > and", Parsers.FixReferenceTags(@"now <ref name = ""foo bar > and"));
+            Assert.AreEqual(@"now <ref name = ""foo bar"" >and", Parsers.FixReferenceTags(@"now <ref name = ""foo bar >and"));
 
             // <ref name = ''Fred'> --> <ref name="Fred"> (two apostrophes)
-            Assert.AreEqual(@"now <ref name=""foo bar""> and", Parsers.FixReferenceTags(@"now <ref name=''foo bar'> and"));
+            Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=''foo bar'>and"));
             Assert.AreEqual(@"now <ref name=""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref name='foo bar'' /> and"));
-            Assert.AreEqual(@"now <ref name = ""foo bar"" > and", Parsers.FixReferenceTags(@"now <ref name = ''foo bar'' > and"));
+            Assert.AreEqual(@"now <ref name = ""foo bar"" >and", Parsers.FixReferenceTags(@"now <ref name = ''foo bar'' >and"));
 
             // <ref name "foo bar"> --> <ref name="foo bar">
-            Assert.AreEqual(@"now <ref name =""foo bar""> and", Parsers.FixReferenceTags(@"now <ref name ""foo bar""> and"));
+            Assert.AreEqual(@"now <ref name =""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name ""foo bar"">and"));
             Assert.AreEqual(@"now <ref name =""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref name ""foo bar"" /> and"));
 
-            Assert.AreEqual(@"now <ref name =""foo bar""> and", Parsers.FixReferenceTags(@"now <ref name -""foo bar""> and"));
+            Assert.AreEqual(@"now <ref name =""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name -""foo bar"">and"));
             Assert.AreEqual(@"now <ref name =""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref name -""foo bar"" /> and"));
-            Assert.AreEqual(@"now <ref name =  ""foo bar"" > and", Parsers.FixReferenceTags(@"now <ref name -  ""foo bar"" > and"));
-            Assert.AreEqual(@"now <ref name =""foo bar""> and", Parsers.FixReferenceTags(@"now <ref name +""foo bar""> and"));
+            Assert.AreEqual(@"now <ref name =  ""foo bar"" >and", Parsers.FixReferenceTags(@"now <ref name -  ""foo bar"" >and"));
+            Assert.AreEqual(@"now <ref name =""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name +""foo bar"">and"));
             Assert.AreEqual(@"now <ref name =""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref name +""foo bar"" /> and"));
-            Assert.AreEqual(@"now <ref name =  ""foo bar"" > and", Parsers.FixReferenceTags(@"now <ref name +  ""foo bar"" > and"));
+            Assert.AreEqual(@"now <ref name =  ""foo bar"" >and", Parsers.FixReferenceTags(@"now <ref name +  ""foo bar"" >and"));
 
             // <ref "foo bar"> --> <ref name="foo bar">
-            Assert.AreEqual(@"now <ref name=""foo bar""> and", Parsers.FixReferenceTags(@"now <ref ""foo bar""> and"));
+            Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref ""foo bar"">and"));
             Assert.AreEqual(@"now <ref name=""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref ""foo bar"" /> and"));
 
             // <ref name="Fred" /ref> --> <ref name="Fred"/>
-            Assert.AreEqual(@"now <ref name=""Fred""/> was", Parsers.FixReferenceTags(@"now <ref name=""Fred"" /ref> was"));
-            Assert.AreEqual(@"now <ref name=""Fred A""/> was", Parsers.FixReferenceTags(@"now <ref name=""Fred A"" /ref> was"));
+            Assert.AreEqual(@"now <ref name=""Fred""/>was", Parsers.FixReferenceTags(@"now <ref name=""Fred"" /ref>was"));
+            Assert.AreEqual(@"now <ref name=""Fred A""/>was", Parsers.FixReferenceTags(@"now <ref name=""Fred A"" /ref>was"));
             Assert.AreEqual(@"now <ref name=""Fred A""/> was", Parsers.FixReferenceTags(@"now <ref name=""Fred A"" / /> was"));
 
             // <ref name="Fred".> --> <ref name="Fred"/>
-            Assert.AreEqual(@"now <ref name=""Fred"".> was", Parsers.FixReferenceTags(@"now <ref name=""Fred"".> was"));
-            Assert.AreEqual(@"now <ref name=""Fred""?> was", Parsers.FixReferenceTags(@"now <ref name=""Fred""?> was"));
+            Assert.AreEqual(@"now <ref name=""Fred"".>was", Parsers.FixReferenceTags(@"now <ref name=""Fred"".>was"));
+            Assert.AreEqual(@"now <ref name=""Fred""?>was", Parsers.FixReferenceTags(@"now <ref name=""Fred""?>was"));
 
             // <ref>...<ref/> --> <ref>...</ref>
             Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now <ref>[http://www.site.com a site]<ref/> was"));
-            Assert.AreEqual(@"now <ref> [http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now <ref> [http://www.site.com a site]<ref/> was"));
+            Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now <ref>[http://www.site.com a site]<ref/> was"));
 
             // <ref>...</red> --> <ref>...</ref>
-            Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now <ref>[http://www.site.com a site]</red> was"));
-            Assert.AreEqual(@"now <ref> [http://www.site.com a site]</ref> was", Parsers.FixReferenceTags(@"now <ref> [http://www.site.com a site]</red> was"));
+            Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref>was", Parsers.FixReferenceTags(@"now <ref>[http://www.site.com a site]</red>was"));
+            Assert.AreEqual(@"now <ref>[http://www.site.com a site]</ref>was", Parsers.FixReferenceTags(@"now <ref>[http://www.site.com a site]</red>was"));
 
             // no Matches
-            Assert.AreEqual(@"now <ref name=""foo bar""> and", Parsers.FixReferenceTags(@"now <ref name=""foo bar""> and"));
+            Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=""foo bar"">and"));
             Assert.AreEqual(@"now <ref name=""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref name=""foo bar"" /> and"));
-            Assert.AreEqual(@"now <ref name = ""foo bar"" > and", Parsers.FixReferenceTags(@"now <ref name = ""foo bar"" > and"));
-            Assert.AreEqual(@"now <ref name = 'foo bar' > and", Parsers.FixReferenceTags(@"now <ref name = 'foo bar' > and"));
+            Assert.AreEqual(@"now <ref name = ""foo bar"" >and", Parsers.FixReferenceTags(@"now <ref name = ""foo bar"" >and"));
+            Assert.AreEqual(@"now <ref name = 'foo bar' >and", Parsers.FixReferenceTags(@"now <ref name = 'foo bar' >and"));
 
-            // <REF> and <Ref> to <ref>
+            // <REF>and <Ref> to <ref>
             Assert.AreEqual(@"now <ref>Smith 2004</ref>", Parsers.FixReferenceTags(@"now <ref>Smith 2004</ref>"));
             Assert.AreEqual(@"now <ref>Smith 2004</ref>", Parsers.FixReferenceTags(@"now <Ref>Smith 2004</ref>"));
             Assert.AreEqual(@"now <ref>Smith 2004</ref>", Parsers.FixReferenceTags(@"now <REF>Smith 2004</REF>"));
@@ -204,7 +204,7 @@ namespace UnitTests
             Assert.AreEqual(@"<ref name=Tim/><ref name=Bert>Bert2</ref>", Parsers.FixReferenceTags(@"<ref name=Tim/> <ref name=Bert>Bert2</ref>"));
 
             // no matches on inalid ref format
-            Assert.AreEqual(@"<ref name=""Tim""> <ref>foo2</ref>", Parsers.FixReferenceTags(@"<ref name=""Tim""> <ref>foo2</ref>"));
+            Assert.AreEqual(@"<ref name=""Tim""><ref>foo2</ref>", Parsers.FixReferenceTags(@"<ref name=""Tim""><ref>foo2</ref>"));
 
             // ensure a space between a reference and text (reference within a paragrah)
             Assert.AreEqual(@"Now clearly,<ref>Smith 2004</ref> he was", Parsers.FixReferenceTags(@"Now clearly,<ref>Smith 2004</ref>he was"));
@@ -223,6 +223,7 @@ namespace UnitTests
             Assert.AreEqual(@"<ref>foo
 </ref>", Parsers.FixReferenceTags(@"<ref>foo
 </ref>"));
+            Assert.AreEqual(@"<ref>foo</ref>", Parsers.FixReferenceTags(@"<ref>  foo </ref>"));
 
             // empty tags
             Assert.AreEqual(@"", Parsers.FixReferenceTags(@"<ref> </ref>"));
