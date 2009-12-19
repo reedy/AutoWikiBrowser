@@ -55,13 +55,13 @@ namespace AutoWikiBrowser
                 LoadLastPluginLoadedLocation();
 
             pluginOpen.InitialDirectory = string.IsNullOrEmpty(_lastPluginLoadedLocation) ? Application.StartupPath : _lastPluginLoadedLocation;
-            
+
             pluginOpen.DefaultExt = "dll";
             pluginOpen.Filter = "DLL files|*.dll";
             pluginOpen.CheckFileExists = pluginOpen.Multiselect = /*pluginOpen.AutoUpgradeEnabled =*/ true;
 
             pluginOpen.ShowDialog();
-            
+
             if (!string.IsNullOrEmpty(pluginOpen.FileName))
             {
                 string newPath = Path.GetDirectoryName(pluginOpen.FileName);
@@ -86,7 +86,9 @@ namespace AutoWikiBrowser
                 if (reg != null)
                     _lastPluginLoadedLocation = reg.GetValue("RecentPluginLoadedLocation", "").ToString();
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         static void SaveLastPluginLoadedLocation()
@@ -94,12 +96,14 @@ namespace AutoWikiBrowser
             try
             {
                 Microsoft.Win32.RegistryKey reg = Microsoft.Win32.Registry.CurrentUser.
-            CreateSubKey("Software\\AutoWikiBrowser");
+                    CreateSubKey("Software\\AutoWikiBrowser");
 
                 if (reg != null)
                     reg.SetValue("RecentPluginLoadedLocation", _lastPluginLoadedLocation);
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         private void PluginManager_Load(object sender, EventArgs e)
@@ -128,7 +132,7 @@ namespace AutoWikiBrowser
             }
             foreach (string pluginName in Plugin.GetListMakerPluginList())
             {
-                lvPlugin.Items.Add(new ListViewItem(pluginName) {Group = lvPlugin.Groups["groupLMLoaded"]});
+                lvPlugin.Items.Add(new ListViewItem(pluginName) { Group = lvPlugin.Groups["groupLMLoaded"] });
             }
 
             UpdatePluginCount();
@@ -359,7 +363,7 @@ namespace AutoWikiBrowser
                                 if (t.GetInterface("IAWBPlugin") != null)
                                 {
                                     IAWBPlugin awbPlugin =
-                                        (IAWBPlugin) Activator.CreateInstance(t);
+                                        (IAWBPlugin)Activator.CreateInstance(t);
 
                                     if (AWBPlugins.ContainsKey(awbPlugin.Name))
                                     {
@@ -377,9 +381,9 @@ namespace AutoWikiBrowser
                                     if (afterStartup) UsageStats.AddedPlugin(awbPlugin);
                                 }
                                 else if (t.GetInterface("IAWBBasePlugin") != null)
-                                    //IAWBBasePlugin needs to be checked after IAWBPlugin, as IAWBPlugin extends IAWBBasePlugin
+                                //IAWBBasePlugin needs to be checked after IAWBPlugin, as IAWBPlugin extends IAWBBasePlugin
                                 {
-                                    IAWBBasePlugin awbBasePlugin = (IAWBBasePlugin) Activator.CreateInstance(t);
+                                    IAWBBasePlugin awbBasePlugin = (IAWBBasePlugin)Activator.CreateInstance(t);
 
                                     if (AWBBasePlugins.ContainsKey(awbBasePlugin.Name))
                                     {
@@ -399,7 +403,7 @@ namespace AutoWikiBrowser
                                 else if (t.GetInterface("IListMakerPlugin") != null)
                                 {
                                     IListMakerPlugin listMakerPlugin =
-                                        (IListMakerPlugin) Activator.CreateInstance(t);
+                                        (IListMakerPlugin)Activator.CreateInstance(t);
 
                                     if (ListMakerPlugins.ContainsKey(listMakerPlugin.Name))
                                     {
