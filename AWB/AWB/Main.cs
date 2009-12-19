@@ -1930,9 +1930,12 @@ window.scrollTo(0, diffTopY);
             // save user persistent settings
             Properties.Settings.Default.Save();
 
-            if (dlg != null && dlg.DialogResult == DialogResult.OK)
+            if (dlg != null)
             {
-                CloseDownAWB();
+                if (dlg.DialogResult == DialogResult.OK)
+                    CloseDownAWB();
+                else if (dlg.DialogResult == DialogResult.Cancel)
+                    e.Cancel = true;
             }
             else if (!Properties.Settings.Default.AskForTerminate)
             {
