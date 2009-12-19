@@ -23,7 +23,6 @@ using System.Collections.Generic;
 using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 using System.Text.RegularExpressions;
@@ -429,28 +428,28 @@ namespace WikiFunctions.Controls.Lists
         {
             // No selected pages
             openInBrowserToolStripMenuItem.Enabled =
-            openHistoryInBrowserToolStripMenuItem.Enabled =
-            cutToolStripMenuItem.Enabled =
-            copyToolStripMenuItem.Enabled =
+                openHistoryInBrowserToolStripMenuItem.Enabled =
+                cutToolStripMenuItem.Enabled =
+                copyToolStripMenuItem.Enabled =
                 //  Remove menu
                 selectedToolStripMenuItem.Enabled =
-            addSelectedToListToolStripMenuItem.Enabled =
-            moveToTopToolStripMenuItem.Enabled =
-            moveToBottomToolStripMenuItem.Enabled =
-            (lbArticles.SelectedItem != null);
+                addSelectedToListToolStripMenuItem.Enabled =
+                moveToTopToolStripMenuItem.Enabled =
+                moveToBottomToolStripMenuItem.Enabled =
+                (lbArticles.SelectedItem != null);
 
             // Single page
             specialFilterToolStripMenuItem.Enabled =
-            sortAlphaMenuItem.Enabled =
-            (lbArticles.Items.Count > 1);
+                sortAlphaMenuItem.Enabled =
+                (lbArticles.Items.Count > 1);
 
             // No pages
             selectMnu.Enabled =
-            removeToolStripMenuItem.Enabled =
-            convertToTalkPagesToolStripMenuItem.Enabled =
-            convertFromTalkPagesToolStripMenuItem.Enabled =
-            saveListToFileToolStripMenuItem.Enabled =
-            (lbArticles.Items.Count > 0);
+                removeToolStripMenuItem.Enabled =
+                convertToTalkPagesToolStripMenuItem.Enabled =
+                convertFromTalkPagesToolStripMenuItem.Enabled =
+                saveListToFileToolStripMenuItem.Enabled =
+                (lbArticles.Items.Count > 0);
         }
 
         private void txtNewArticle_DoubleClick(object sender, EventArgs e)

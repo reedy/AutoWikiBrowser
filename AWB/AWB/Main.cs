@@ -1932,10 +1932,15 @@ window.scrollTo(0, diffTopY);
 
             if (dlg != null)
             {
-                if (dlg.DialogResult == DialogResult.OK)
-                    CloseDownAWB();
-                else if (dlg.DialogResult == DialogResult.Cancel)
-                    e.Cancel = true;
+                switch (dlg.DialogResult)
+                {
+                    case DialogResult.OK:
+                        CloseDownAWB();
+                        break;
+                    case DialogResult.Cancel:
+                        e.Cancel = true;
+                        break;
+                }
             }
             else if (!Properties.Settings.Default.AskForTerminate)
             {
@@ -3362,7 +3367,10 @@ window.scrollTo(0, diffTopY);
             _stopProcessing = true;
             PageReload = false;
             NudgeTimer.Stop();
+            
             UpdateButtons(null, null);
+            DisableButtons();
+
             if (_intTimer > 0)
             {//stop and reset the bot timer.
                 StopDelayedAutoSaveTimer();
