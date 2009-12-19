@@ -4104,22 +4104,21 @@ window.scrollTo(0, diffTopY);
 
         private void RunUpdater()
         {
+            string file = Path.GetDirectoryName(Application.ExecutablePath) + "\\AWBUpdater.exe";
+
+            if (!File.Exists(file))
+            {
+                MessageBox.Show("Updater doesn't exist, therefore cannot be run");
+                return;
+            }
+
             if (MessageBox.Show("AWB needs to be closed. To do this now, click 'yes'. If you need to save your settings, do this now, the updater will not complete until AWB is closed.", "Close AWB?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 Updater.WaitForCompletion();
 
-                string file = Path.GetDirectoryName(Application.ExecutablePath) + "\\AWBUpdater.exe";
-
-                if (!File.Exists(file))
-                {
-                    MessageBox.Show("Updater doesn't exist, therefore cannot be run");
-                    return;
-                }
-
                 Process.Start(file);
 
                 Close();
-                Application.Exit();
             }
         }
 
