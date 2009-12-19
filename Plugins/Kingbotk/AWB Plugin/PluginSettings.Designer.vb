@@ -170,7 +170,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.btnIgnore.Name = "btnIgnore"
             Me.btnIgnore.Size = New System.Drawing.Size(102, 32)
             Me.btnIgnore.TabIndex = 31
-            Me.btnIgnore.Text = "Ignore"
+            Me.btnIgnore.Text = "Skip"
             Me.btnIgnore.UseVisualStyleBackColor = True
             '
             'AWBGroupBox

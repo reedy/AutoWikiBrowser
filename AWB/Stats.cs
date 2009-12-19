@@ -68,7 +68,7 @@ namespace AutoWikiBrowser
             private set
             {
                 NoIgnoredEdits = value;
-                lblIgnoredArticles.Text = "Ignored: " + value;
+                lblIgnoredArticles.Text = "Skipped: " + value;
             }
         }
 

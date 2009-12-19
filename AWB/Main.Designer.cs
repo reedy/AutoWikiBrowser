@@ -189,12 +189,12 @@ namespace AutoWikiBrowser
             this.lblBotTimer = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblUserName = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblProject = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblNewArticles = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblIgnoredArticles = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblEditCount = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblEditsPerMin = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblPagesPerMin = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblTimer = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblNewArticles = new System.Windows.Forms.ToolStripStatusLabel();
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.btnIgnore = new System.Windows.Forms.Button();
             this.btnDiff = new System.Windows.Forms.Button();
@@ -1636,13 +1636,20 @@ namespace AutoWikiBrowser
             this.lblProject.Size = new System.Drawing.Size(63, 17);
             this.lblProject.Text = "Wikipedia";
             // 
+            // lblNewArticles
+            // 
+            this.lblNewArticles.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.lblNewArticles.Name = "lblNewArticles";
+            this.lblNewArticles.Size = new System.Drawing.Size(43, 17);
+            this.lblNewArticles.Text = "New: 0";
+            // 
             // lblIgnoredArticles
             // 
             this.lblIgnoredArticles.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.lblIgnoredArticles.Name = "lblIgnoredArticles";
             this.lblIgnoredArticles.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblIgnoredArticles.Size = new System.Drawing.Size(64, 17);
-            this.lblIgnoredArticles.Text = "Ignored: 0";
+            this.lblIgnoredArticles.Size = new System.Drawing.Size(65, 17);
+            this.lblIgnoredArticles.Text = "Skipped: 0";
             // 
             // lblEditCount
             // 
@@ -1677,13 +1684,6 @@ namespace AutoWikiBrowser
             this.lblTimer.Text = "Timer: 0";
             this.lblTimer.Visible = false;
             // 
-            // lblNewArticles
-            // 
-            this.lblNewArticles.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.lblNewArticles.Name = "lblNewArticles";
-            this.lblNewArticles.Size = new System.Drawing.Size(43, 17);
-            this.lblNewArticles.Text = "New: 0";
-            // 
             // btnIgnore
             // 
             this.btnIgnore.Enabled = false;
@@ -1693,7 +1693,7 @@ namespace AutoWikiBrowser
             this.btnIgnore.Name = "btnIgnore";
             this.btnIgnore.Size = new System.Drawing.Size(117, 36);
             this.btnIgnore.TabIndex = 15;
-            this.btnIgnore.Text = "I&gnore";
+            this.btnIgnore.Text = "S&kip";
             this.ToolTip.SetToolTip(this.btnIgnore, "Skip this page without saving and continue on the next (Ctrl + I)");
             this.btnIgnore.Click += new System.EventHandler(this.btnIgnore_Click);
             // 
@@ -3848,6 +3848,7 @@ namespace AutoWikiBrowser
             this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
             this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
             this.loggingSettings1.Name = "loggingSettings1";
+            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
             this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
             this.loggingSettings1.TabIndex = 0;
             // 
