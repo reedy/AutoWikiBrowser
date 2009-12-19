@@ -4454,6 +4454,9 @@ window.scrollTo(0, diffTopY);
 
             Stop();
 
+            ShutdownTimer.Stop();
+            ShutdownTimer.Enabled = false;
+
             if (radHibernate.Checked)
                 Application.SetSuspendState(PowerState.Hibernate, true, true);
             else if (radRestart.Checked)
