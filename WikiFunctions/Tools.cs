@@ -1,5 +1,4 @@
 ﻿/*
-
 (C) 2007 Martin Richards
 (C) 2007 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 
@@ -1585,6 +1584,9 @@ Message: {2}
         }
         #endregion
 
+        private const char ReturnLine = '\r', NewLine = '\n';
+        private static readonly char[] Separators = new[] { ReturnLine, NewLine };
+
         // Covered by ToolsTests.SplitLines()
         /// <summary>
         /// Splits a string of text to separate lines. Supports every line ending possible - CRLF, CR, LF
@@ -1593,7 +1595,6 @@ Message: {2}
         /// <returns>Array of lines</returns>
         public static string[] SplitLines(string source)
         {
-            char[] separators = new[] { '\r', '\n' };
             List<string> res = new List<string>();
 
             int pos = 0;
@@ -1601,7 +1602,7 @@ Message: {2}
 
             while (pos < sourceLength)
             {
-                int eol = source.IndexOfAny(separators, pos);
+                int eol = source.IndexOfAny(Separators, pos);
                 string s;
                 if (eol < 0)
                 {
@@ -1613,9 +1614,9 @@ Message: {2}
                     s = source.Substring(pos, eol - pos);
                     char ch = source[eol];
                     eol++;
-                    if (ch == '\r' && eol < sourceLength)
+                    if (ch == ReturnLine && eol < sourceLength)
                     {
-                        if (source[eol] == '\n') eol++;
+                        if (source[eol] == NewLine) eol++;
                     }
                     pos = eol;
                 }
