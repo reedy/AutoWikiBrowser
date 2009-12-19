@@ -25,7 +25,28 @@ using WikiFunctions.TalkPages;
 
 namespace WikiFunctions.Parse
 {
-    public enum InterWikiOrderEnum { LocalLanguageAlpha, LocalLanguageFirstWord, Alphabetical, AlphabeticalEnFirst }
+    public enum InterWikiOrderEnum
+    {
+        /// <summary>
+        /// By order of alphabet, based on local language
+        /// </summary>
+        LocalLanguageAlpha,
+
+        /// <summary>
+        /// By order of alphabet, based on local language (by first word)
+        /// </summary>
+        LocalLanguageFirstWord,
+
+        /// <summary>
+        /// By order of alphabet, based on language code
+        /// </summary>
+        Alphabetical,
+
+        /// <summary>
+        /// English link is first and the rest are sorted alphabetically by language code
+        /// </summary>
+        AlphabeticalEnFirst
+    }
 
     public class MetaDataSorter
     {
