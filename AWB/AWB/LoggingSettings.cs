@@ -16,8 +16,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-// From the Kingbotk plugin. Converted from VB to C#
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,16 +32,15 @@ namespace AutoWikiBrowser
     /// </summary>
     internal sealed partial class LoggingSettings : UserControl
     {
-        private bool StartingUp;
+        private bool startingUp, initialised;
         internal UsernamePassword2 LoginDetails = new UsernamePassword2();
-        private bool mInitialised;
         internal Props Settings = new Props();
 
         public LoggingSettings()
         {
-            StartingUp = true;
+            startingUp = true;
             InitializeComponent();
-            StartingUp = false;
+            startingUp = false;
         }
 
         internal string LogFolder
@@ -53,13 +50,13 @@ namespace AutoWikiBrowser
 
         internal bool Initialised
         {
-            get { return mInitialised; }
-            set { mInitialised = value; }
+            get { return initialised; }
+            set { initialised = value; }
         }
 
         internal bool IgnoreEvents
         {
-            set { StartingUp = value; }
+            set { startingUp = value; }
         }
 
         internal IAutoWikiBrowserForm AWB
@@ -199,12 +196,12 @@ namespace AutoWikiBrowser
             Settings.UploadToWikiProjects = UploadWikiProjectCheckBox.Checked;
             Settings.DebugUploading = DebugUploadingCheckBox.Checked;
 
-            if (mInitialised)
+            if (initialised)
                 Program.MyTrace.PropertiesChange();
         }
         internal void WeHaveUnappliedChanges()
         {
-            if (!StartingUp)
+            if (!startingUp)
             {
                 if (Program.MyTrace.HaveOpenFile)
                 {
@@ -339,8 +336,8 @@ namespace AutoWikiBrowser
 
         internal sealed class Props : UploadableLogSettings2
         {
-            private bool mUploadToWikiProjects = true;
-            private string mCategory = "";
+            private bool uploadToWikiProjects = true;
+            private string category = "";
             internal const string ConUploadToUserSlashLogsToken = "$USER/Logs";
             internal const string ConUploadCategoryIsJobName = "$CATEGORY";
 
@@ -364,8 +361,8 @@ namespace AutoWikiBrowser
             #region Additional properties:
             internal bool UploadToWikiProjects
             {
-                get { return mUploadToWikiProjects; }
-                set { mUploadToWikiProjects = value; }
+                get { return uploadToWikiProjects; }
+                set { uploadToWikiProjects = value; }
             }
 
             internal bool DebugUploading { get; set; }
@@ -375,7 +372,7 @@ namespace AutoWikiBrowser
                 List<LogEntry> tempLinksToLog = new List<LogEntry> {new LogEntry(GlobbedUploadLocation, false)};
 
                 // If "uploading to WikiProjects" (or other plugin-specified locations), get details from plugins:
-                if (mUploadToWikiProjects)
+                if (uploadToWikiProjects)
                     ((MainForm)Program.AWB).GetLogUploadLocationsEvent(this, tempLinksToLog);
 
                 return tempLinksToLog;
@@ -392,24 +389,24 @@ namespace AutoWikiBrowser
 
             internal string Category
             {
-                get { return mCategory; }
-                set { mCategory = value; }
+                get { return category; }
+                set { category = value; }
             }
 
             internal string WikifiedCategory
             {
                 get
                 {
-                    if (string.IsNullOrEmpty(mCategory))
+                    if (string.IsNullOrEmpty(category))
                         return "";
 
-                    return "[[:" + Variables.Namespaces[Namespace.Category] + mCategory
-                        + "|" + mCategory + "]]";
+                    return "[[:" + Variables.Namespaces[Namespace.Category] + category
+                        + "|" + category + "]]";
                 }
             }
             internal string LogTitle
             {
-                get { return Tools.RemoveInvalidChars(mUploadJobName.Replace(ConUploadCategoryIsJobName, mCategory)); }
+                get { return Tools.RemoveInvalidChars(mUploadJobName.Replace(ConUploadCategoryIsJobName, category)); }
             }
             #endregion
         }
