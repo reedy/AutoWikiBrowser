@@ -910,15 +910,12 @@ namespace WikiFunctions
 
                 return false;
             }
-            return (mName == a.mName);
+            return (this == a);
         }
 
         public bool Equals(Article a)
         {
-            if (a == null)
-                return false;
-
-            return (mName == a.mName);
+            return (this == a);
         }
 
         public int CompareTo(Article other)
