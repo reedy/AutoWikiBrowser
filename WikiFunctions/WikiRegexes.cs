@@ -504,7 +504,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the {{death date and age}} template, group 1 being the year of death, group 2 being the year of birth
         /// </summary>
-        public static readonly Regex DeathDateAndAge = new Regex(@"{{ *[Dd](?:eath date and age|da)\s*\|(?:[^{}]*?\|)?\s*([12]\d{3})\s*\|[^{}]+?\|\s*([12]\d{3})\s*\|");
+        public static readonly Regex DeathDateAndAge = new Regex(@"{{ *[Dd](?:eath[ -]date and age|da)\s*\|(?:[^{}]*?\|)?\s*([12]\d{3})\s*\|[^{}]+?\|\s*([12]\d{3})\s*\|");
 
         /// <summary>
         /// Matches {{Link FA|xxx}}, {{Link GA|xxx}}

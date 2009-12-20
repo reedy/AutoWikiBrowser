@@ -1245,6 +1245,7 @@ words2"));
         public void DeathDateAndAge()
         {
             Assert.AreEqual("1911", WikiRegexes.DeathDateAndAge.Match(@"{{death date and age|1911|12|12|1821|10|02}}").Groups[1].Value);
+            Assert.AreEqual("1911", WikiRegexes.DeathDateAndAge.Match(@"{{death-date and age|1911|12|12|1821|10|02}}").Groups[1].Value);
             Assert.AreEqual("1911", WikiRegexes.DeathDateAndAge.Match(@"{{dda|1911|12|12|1821|10|02}}").Groups[1].Value);
             Assert.AreEqual("1821", WikiRegexes.DeathDateAndAge.Match(@"{{death date and age|1911|12|12|1821|10|02}}").Groups[2].Value);
         }
