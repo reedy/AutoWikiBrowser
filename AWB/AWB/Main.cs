@@ -4112,14 +4112,7 @@ window.scrollTo(0, diffTopY);
                 return;
             }
 
-            if (MessageBox.Show("AWB needs to be closed. To do this now, click 'yes'. If you need to save your settings, do this now, the updater will not complete until AWB is closed.", "Close AWB?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                Updater.WaitForCompletion();
-
-                Process.Start(file);
-
-                Close();
-            }
+            Process.Start(file);
         }
 
         private void btnResetNudges_Click(object sender, EventArgs e)
