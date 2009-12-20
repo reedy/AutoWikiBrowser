@@ -1519,7 +1519,7 @@ namespace AutoWikiBrowser
                         @"<h2 style='padding-top: .5em;
 padding-bottom: .17em;
 border-bottom: 1px solid #aaa;
-font-size: 150%;'>No changes</h2><p>Press the ""Ignore"" button below to skip to the next page.</p>");
+font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to the next page.</p>");
                 }
                 else
                 {
