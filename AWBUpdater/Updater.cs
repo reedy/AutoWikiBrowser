@@ -1,6 +1,6 @@
 /*
 AWBUpdater
-Copyright (C) 2008 Sam Reed, Max Semenik
+Copyright (C) 2009 Sam Reed, Max Semenik
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -34,9 +34,9 @@ namespace AwbUpdater
     {
         private readonly string AWBdirectory = "", TempDirectory = "";
         private string AWBZipName = "", AWBWebAddress = "";
-        string UpdaterZipName = "", UpdaterWebAddress = "";
+        private string UpdaterZipName = "", UpdaterWebAddress = "";
 
-        IWebProxy Proxy;
+        private IWebProxy Proxy;
 
         private bool UpdaterUpdate;
         private bool AWBUpdate;
@@ -79,7 +79,7 @@ namespace AwbUpdater
                     Proxy = null;
 
                 UpdateUI("Getting current AWB and Updater versions", true);
-                AWBversion();
+                AWBVersion();
 
                 if ((!UpdaterUpdate && !AWBUpdate) && string.IsNullOrEmpty(AWBWebAddress))
                     ExitEarly();
@@ -100,7 +100,6 @@ namespace AwbUpdater
                     UpdateUI("Copying AWB files from temp to AWB directory...", true);
                     CopyFiles();
                     UpdateUI("Update successful", true);
-
 
                     UpdateUI("Cleaning up from update", true);
                     KillTempDir();
@@ -185,7 +184,7 @@ namespace AwbUpdater
         /// <summary>
         /// Checks and compares the current AWB version with the version listed on the checkpage
         /// </summary>
-        private void AWBversion()
+        private void AWBVersion()
         {
             string text;
 
@@ -328,7 +327,7 @@ namespace AwbUpdater
             progressUpdate.Value = 75;
         }
 
-        void DeleteIfExists(string name)
+        private void DeleteIfExists(string name)
         {
             string path = Path.Combine(AWBdirectory, name);
             if (File.Exists(path))
@@ -496,7 +495,6 @@ namespace AwbUpdater
             Close();
         }
     }
-
 
     /// <summary>
     /// This exception stops processing and prepared the updater for exit
