@@ -367,14 +367,16 @@ namespace WikiFunctions.Parse
         public int TypoCount { get; private set; }
 
         /// <summary>
-        /// 
+        /// Whether the typos have been loaded successfully
         /// </summary>
         public bool TyposLoaded { get; private set; }
 
-        static readonly Regex IgnoreRegex = new Regex("133t|-ology|\\(sic\\)|\\[sic\\]|\\[''sic''\\]|\\{\\{sic\\}\\}|spellfixno", RegexOptions.Compiled);
+        /// <summary>
+        /// 
+        /// </summary>
+        private static readonly Regex IgnoreRegex = new Regex("133t|-ology|\\(sic\\)|\\[sic\\]|\\[''sic''\\]|\\{\\{sic\\}\\}|spellfixno", RegexOptions.Compiled);
         static readonly Regex RemoveTail = new Regex(@"(\s|\n|\r|\*|#|:|⌊⌊⌊⌊M?\d*⌋⌋⌋⌋)*$", RegexOptions.Compiled);
-
-        readonly List<TypoGroup> Groups = new List<TypoGroup>();
+        private readonly List<TypoGroup> Groups = new List<TypoGroup>();
 
         /// <summary>
         /// 
@@ -420,7 +422,8 @@ namespace WikiFunctions.Parse
                         }
                     }
 
-                    foreach (TypoGroup grp in Groups) grp.MakeGroups();
+                    foreach (TypoGroup grp in Groups)
+                        grp.MakeGroups();
                 }
             }
             catch (TypoException)
