@@ -742,6 +742,21 @@ Jones 2005</ref>"));
             Assert.AreEqual(correct1, parser.FixDates(@"On 3-17 May 2009 a dog"));
             Assert.AreEqual(correct1, parser.FixDates(@"On 3 - 17 May 2009 a dog"));
             Assert.AreEqual(correct1, parser.FixDates(@"On 3 -17 May 2009 a dog"));
+            Assert.AreEqual(correct1, parser.FixDates(@"On 3 May-17 May 2009 a dog"));
+            Assert.AreEqual(correct1, parser.FixDates(@"On 3 May - 17 May 2009 a dog"));
+            Assert.AreEqual(correct1, parser.FixDates(@"On 3 May – 17 May 2009 a dog"));
+            Assert.AreEqual(correct1, parser.FixDates(@"On 3 May – 17 May, 2009 a dog"));
+            
+            // American format
+            const string correct2 = @"On May 3–17, 2009 a dog";
+            Assert.AreEqual(correct2, parser.FixDates(@"On May 3-17, 2009 a dog"));
+            Assert.AreEqual(correct2, parser.FixDates(@"On May 3-17 2009 a dog"));
+            Assert.AreEqual(correct2, parser.FixDates(@"On May 3 - 17 2009 a dog"));
+            Assert.AreEqual(correct2, parser.FixDates(@"On May 3   -17 2009 a dog"));
+            Assert.AreEqual(correct2, parser.FixDates(@"On May 3 - May 17 2009 a dog"));
+            Assert.AreEqual(correct2, parser.FixDates(@"On May 3 - May 17, 2009 a dog"));
+            Assert.AreEqual(correct2, parser.FixDates(@"On May 3 – May 17 2009 a dog"));
+            Assert.AreEqual(correct2, parser.FixDates(@"On May 3 – May 17, 2009 a dog"));
         }
 
         [Test]
@@ -3482,7 +3497,7 @@ While remaining upright may be the primary goal of beginning riders", "Foo", out
             Assert.IsFalse(noChangeBack);
             
             // immediately after infobox – 5% rule does not apply
-             Assert.AreEqual(@"{{Infobox abc| name = Foo | age=11}}
+            Assert.AreEqual(@"{{Infobox abc| name = Foo | age=11}}
 '''Foo''' is a bar", parser.BoldTitle(@"{{Infobox abc| name = Foo | age=11}}
 Foo is a bar", "Foo", out noChangeBack));
             Assert.IsFalse(noChangeBack);

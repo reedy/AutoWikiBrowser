@@ -459,13 +459,19 @@ namespace WikiFunctions.Parse
         private static readonly Regex CommaDates = new Regex(WikiRegexes.Months + @" ?, *([1-3]?\d) ?, ?((?:200|19\d)\d)\b");
 
         // fixes missing comma or space in American format dates
-        private static readonly Regex NoCommaAmericanDates = new Regex(@"\b(" + WikiRegexes.MonthsNoGroup + @" [1-3]?\d) *,?([12]\d{3})\b");
+        private static readonly Regex NoCommaAmericanDates = new Regex(@"\b(" + WikiRegexes.MonthsNoGroup + @" [1-3]?\d(?:–[1-3]?\d)?) *,?([12]\d{3})\b");
         
         // fix incorrect comma between month and year in Internaltional-format dates
         private static readonly Regex IncorrectCommaInternationalDates = new Regex(@"\b((?:[1-3]?\d) +" + WikiRegexes.MonthsNoGroup + @") *, *(1\d{3}|20\d{2})\b", RegexOptions.Compiled);
         
         // date ranges use an en-dash per [[WP:MOSDATE]]
         private static readonly Regex SameMonthInternationalDateRange = new Regex(@"\b([1-3]?\d) *- *([1-3]?\d +" + WikiRegexes.MonthsNoGroup + @")\b", RegexOptions.Compiled);
+        private static readonly Regex SameMonthAmericanDateRange = new Regex(@"(" + WikiRegexes.MonthsNoGroup + @" *[1-3]?\d) *- *([1-3]?\d)\b", RegexOptions.Compiled);
+        
+        // 13 July -28 July 2009 -> 13–28 July 2009
+        // July 13 - July 28 2009 -> July 13–28, 2009
+        private static readonly Regex LongFormatInternationalDateRange = new Regex(@"\b([1-3]?\d) +" + WikiRegexes.Months + @" *(?:-|–|&nbsp;) *([1-3]?\d) +\2,? *([12]\d{3})\b", RegexOptions.Compiled);
+        private static readonly Regex LongFormatAmericanDateRange  = new Regex(WikiRegexes.Months + @" +([1-3]?\d) +" + @" *(?:-|–|&nbsp;) *\1 +([1-3]?\d) *,? *([12]\d{3})\b", RegexOptions.Compiled);
 
         // Covered by: LinkTests.FixDates()
         /// <summary>
@@ -481,9 +487,16 @@ namespace WikiFunctions.Parse
             articleText = HideTextImages(articleText);
             
             articleText = CommaDates.Replace(articleText, @"$1 $2, $3");
-            articleText = NoCommaAmericanDates.Replace(articleText, @"$1, $2");
             articleText = IncorrectCommaInternationalDates.Replace(articleText, @"$1 $2");
+            
             articleText = SameMonthInternationalDateRange.Replace(articleText, @"$1–$2");
+            articleText = SameMonthAmericanDateRange.Replace(articleText, @"$1–$2");
+            
+            articleText = LongFormatInternationalDateRange.Replace(articleText, @"$1–$3 $2 $4");
+            articleText = LongFormatAmericanDateRange.Replace(articleText, @"$1 $2–$3, $4");
+            
+            // run this after the date range fixes
+            articleText = NoCommaAmericanDates.Replace(articleText, @"$1, $2");
             
             articleText = AddBackTextImages(articleText);
             
@@ -3085,7 +3098,7 @@ namespace WikiFunctions.Parse
             Regex BoldAfterInfobox = new Regex(WikiRegexes.InfoBox.ToString() + @"\s*'''" + escapedTitle);
             
             return BoldAfterInfobox.IsMatch(articletextoriginal);
-            }
+        }
 
         /// <summary>
         /// Replaces an image in the article.
