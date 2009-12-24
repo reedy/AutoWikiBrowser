@@ -725,9 +725,10 @@ namespace AutoWikiBrowser
         }
 
         // counts number of redirects so that we catch double redirects
-        private int _redirects, _unbalancedBracket, _bracketLength;
+        private int _redirects, _unbalancedBracket, _bracketLength, _deadLinks;
 
         private Dictionary<int, int> badCiteParameters = new Dictionary<int, int>();
+        private Dictionary<int, int> deadLinks = new Dictionary<int, int>();
 
         private void SkipRedirect(string redirectTitle, string reason)
         {
@@ -1034,6 +1035,9 @@ namespace AutoWikiBrowser
 
                         if (badCiteParameters.Count > 0)
                             HighlightBadCitationParameter();
+                        
+                        if(deadLinks.Count > 0)
+                            HighlightDeadLinks();
                     }
                 }
 
@@ -2365,7 +2369,8 @@ window.scrollTo(0, diffTopY);
                     warnings.AppendLine("Multiple DEFAULTSORTs found");
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Some_additional_edits
-                if (TheArticle.HasDeadLinks)
+                deadLinks = TheArticle.DeadLinks();
+                if (deadLinks.Count > 0)
                     warnings.AppendLine("Dead links found");
 
                 if (TheArticle.HasAmbiguousCiteTemplateDates)
@@ -4810,6 +4815,12 @@ window.scrollTo(0, diffTopY);
         private void HighlightBadCitationParameter()
         {
             foreach (KeyValuePair<int, int> a in badCiteParameters)
+                RedSelection(a.Key, a.Value);
+        }
+        
+        private void HighlightDeadLinks()
+        {
+            foreach (KeyValuePair<int, int> a in deadLinks)
                 RedSelection(a.Key, a.Value);
         }
 

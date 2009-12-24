@@ -1142,6 +1142,24 @@ namespace WikiFunctions.Parse
             }
             return found;
         }
+        
+        /// <summary>
+        /// Searches for {{dead link}}s
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <returns>Dictionary of dead links found</returns>
+        public static Dictionary<int, int> DeadLinks(string articleText)
+        {
+            articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Comments);
+            Dictionary<int, int> found = new Dictionary<int, int>();
+
+            foreach (Match m in  WikiRegexes.DeadLink.Matches(articleText))
+            {
+                found.Add(m.Index, m.Length);
+            }
+            
+            return found;
+        }
 
         private const string SiCitStart = @"(?si)(\{\{\s*cit[^{}]*\|\s*";
         private const string CitAccessdate = SiCitStart + @"(?:access|archive)date\s*=\s*";
