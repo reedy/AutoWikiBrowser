@@ -2703,6 +2703,13 @@ http://example.com }}");
             Assert.AreEqual(@"a 50&nbsp;km road", parser.FixNonBreakingSpaces(@"a 50km road"));
             Assert.AreEqual(@"a 50&nbsp;kg dog", parser.FixNonBreakingSpaces(@"a 50 kg dog"));
             Assert.AreEqual(@"a 50&nbsp;kg dog", parser.FixNonBreakingSpaces(@"a 50kg dog"));
+            
+            Assert.AreEqual(@"a 50&nbsp;gram rod", parser.FixNonBreakingSpaces(@"a 50gram rod"));
+            Assert.AreEqual(@"a 50&nbsp;gram rod", parser.FixNonBreakingSpaces(@"a 50 gram rod"));
+            Assert.AreEqual(@"a 50&nbsp;gramme rod", parser.FixNonBreakingSpaces(@"a 50gramme rod"));
+            Assert.AreEqual(@"a 50&nbsp;grammes rod", parser.FixNonBreakingSpaces(@"a 50grammes rod"));
+            Assert.AreEqual(@"a 50&nbsp;grams rod", parser.FixNonBreakingSpaces(@"a 50grams rod"));
+            
             Assert.AreEqual(@"a 50&nbsp;cm road", parser.FixNonBreakingSpaces(@"a 50 cm road"));
             Assert.AreEqual(@"a 50&nbsp;cm road", parser.FixNonBreakingSpaces(@"a 50cm road"));
             Assert.AreEqual(@"a 50.247&nbsp;cm road", parser.FixNonBreakingSpaces(@"a 50.247cm road"));
