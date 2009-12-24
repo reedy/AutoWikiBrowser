@@ -430,6 +430,15 @@ namespace WikiFunctions
         {
             return Parsers.BadCiteParameters(ArticleText);
         }
+        
+        /// <summary>
+        /// Returns a dictionary of the index and length of any {{dead link}}s found
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<int, int> DeadLinks()
+        {
+            return Parsers.DeadLinks(ArticleText);
+        }
 
         /// <summary>
         /// Remove, replace or comment out a specified image
