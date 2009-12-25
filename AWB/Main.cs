@@ -76,6 +76,7 @@ namespace AutoWikiBrowser
 
         private readonly HideText RemoveText = new HideText(false, true, false);
         private readonly List<string> NoParse = new List<string>();
+        private readonly List<string> NoRetf = new List<string>();
         private readonly FindandReplace FindAndReplace = new FindandReplace();
         private readonly SubstTemplates SubstTemplates = new SubstTemplates();
         private RegExTypoFix RegexTypos;
@@ -1380,18 +1381,22 @@ namespace AutoWikiBrowser
                 // RegexTypoFix
                 if (chkRegExTypo.Checked && RegexTypos != null && !BotMode && !Namespace.IsTalk(theArticle.NameSpaceKey))
                 {
-                    theArticle.PerformTypoFixes(RegexTypos, chkSkipIfNoRegexTypo.Checked);
-                    Variables.Profiler.Profile("Typos");
-                    TypoStats = RegexTypos.GetStatistics();
-                    if (theArticle.SkipArticle)
+                    if (!NoRetf.Contains(theArticle.Name))
                     {
-                        if (mainProcess)
-                        {   // update stats only if not called from e.g. 'Re-parse' than could be clicked repeatedly
-                            OverallTypoStats.UpdateStats(TypoStats, true);
-                            UpdateTypoCount();
+                        theArticle.PerformTypoFixes(RegexTypos, chkSkipIfNoRegexTypo.Checked);
+                        Variables.Profiler.Profile("Typos");
+                        TypoStats = RegexTypos.GetStatistics();
+                        if (theArticle.SkipArticle)
+                        {
+                            if (mainProcess)
+                            {   // update stats only if not called from e.g. 'Re-parse' than could be clicked repeatedly
+                                OverallTypoStats.UpdateStats(TypoStats, true);
+                                UpdateTypoCount();
+                            }
+                            return;
                         }
-                        return;
                     }
+                    //TODO:If skip if no regextypo is checked, we need to skip if we haven't processed it
                 }
 
                 // replace/add/remove categories
@@ -2230,12 +2235,21 @@ window.scrollTo(0, diffTopY);
                     label = string.Format("Logged in, user and software enabled. Bot = {0}, Admin = {1}", TheSession.User.IsBot, TheSession.User.IsSysop);
 
                     //Get list of articles not to apply general fixes to.
-                    Match n = WikiRegexes.NoGeneralFixes.Match(TheSession.CheckPageText);
-                    if (n.Success)
+                    Match noGenFix = WikiRegexes.NoGeneralFixes.Match(TheSession.CheckPageText);
+                    if (noGenFix.Success)
                     {
-                        foreach (Match link in WikiRegexes.UnPipedWikiLink.Matches(n.Value))
+                        foreach (Match link in WikiRegexes.UnPipedWikiLink.Matches(noGenFix.Value))
                             if (!NoParse.Contains(link.Groups[1].Value))
                                 NoParse.Add(link.Groups[1].Value);
+                    }
+
+                    //Get list of articles not to apply RETF to.
+                    Match noRETF = WikiRegexes.NoGeneralFixes.Match(TheSession.CheckPageText);
+                    if (noRETF.Success)
+                    {
+                        foreach (Match link in WikiRegexes.UnPipedWikiLink.Matches(noRETF.Value))
+                            if (!NoRetf.Contains(link.Groups[1].Value))
+                                NoRetf.Add(link.Groups[1].Value);
                     }
                     break;
 
