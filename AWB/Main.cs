@@ -1355,7 +1355,7 @@ namespace AutoWikiBrowser
                 Variables.Profiler.Profile("Plugins");
 
                 // unicodify whole article
-                if (chkUnicodifyWhole.Checked && process)
+                if (process && chkUnicodifyWhole.Checked)
                 {
                     theArticle.HideMoreText(RemoveText);
                     Variables.Profiler.Profile("HideMoreText");
@@ -1411,10 +1411,10 @@ namespace AutoWikiBrowser
 
                 Variables.Profiler.Profile("Categories");
 
-                if (theArticle.CanDoGeneralFixes)
+                if (process && theArticle.CanDoGeneralFixes)
                 {
                     // auto tag
-                    if (process && chkAutoTagger.Checked)
+                    if (chkAutoTagger.Checked)
                     {
                         theArticle.AutoTag(Parser, Skip.SkipNoTag);
                         if (theArticle.SkipArticle) return;
@@ -1422,7 +1422,7 @@ namespace AutoWikiBrowser
 
                     Variables.Profiler.Profile("Auto-tagger");
 
-                    if (process && chkGeneralFixes.Checked)
+                    if (chkGeneralFixes.Checked)
                     {
                         theArticle.PerformGeneralFixes(Parser, RemoveText, Skip,
                                                        replaceReferenceTagsToolStripMenuItem.Checked,
