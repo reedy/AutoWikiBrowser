@@ -15,7 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ */
 
 using System;
 using System.Collections.Generic;
@@ -114,7 +114,7 @@ namespace WikiFunctions.Parse
                         break;
                     default:
                         throw new ArgumentOutOfRangeException("MetaDataSorter.InterWikiOrder",
-                            (Exception)null);
+                                                              (Exception)null);
                 }
                 PossibleInterwikis = SiteMatrix.GetProjectLanguages(Variables.Project);
                 Comparer = new InterWikiComparer(new List<string>(seq), PossibleInterwikis);
@@ -185,8 +185,8 @@ namespace WikiFunctions.Parse
         private void LoadInterWikiFromNetwork()
         {
             string text = !Globals.UnitTestMode
-                       ? Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/IW&action=raw")
-                       : @"<!--InterwikiLocalAlphaBegins-->
+                ? Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/IW&action=raw")
+                : @"<!--InterwikiLocalAlphaBegins-->
 ru, sq, en
 <!--InterwikiLocalAlphaEnds-->
 <!--InterwikiLocalFirstBegins-->
@@ -201,7 +201,7 @@ en, sq, ru
             InterwikiLocalAlpha = new List<string>();
 
             foreach (string s in interwikiLocalAlphaRaw.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
-                )
+                    )
             {
                 InterwikiLocalAlpha.Add(s.Trim().ToLower());
             }
@@ -209,7 +209,7 @@ en, sq, ru
             InterwikiLocalFirst = new List<string>();
 
             foreach (string s in interwikiLocalFirstRaw.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
-                )
+                    )
             {
                 InterwikiLocalFirst.Add(s.Trim().ToLower());
             }
@@ -343,21 +343,33 @@ en, sq, ru
         public string RemoveCats(ref string articleText, string articleTitle)
         {
             List<string> categoryList = new List<string>();
+            string originalArticleText = articleText;
 
             // allow comments between categories, and keep them in the same place, but don't grab any comment just after the last category
             Regex r = new Regex(@"<!-- [^<>]*?\[\[" + Variables.NamespacesCaseInsensitive[Namespace.Category]
-                + @".*?(\]\]|\|.*?\]\]).*?-->|\[\["
-                + Variables.NamespacesCaseInsensitive[Namespace.Category]
-                + @".*?(\]\]|\|.*?\]\])( {0,4}⌊⌊⌊⌊[0-9]{1,4}⌋⌋⌋⌋|\s*<!--.*?-->(?=\r\n\[\[))?", RegexOptions.Singleline);
+                                + @".*?(\]\]|\|.*?\]\]).*?-->|\[\["
+                                + Variables.NamespacesCaseInsensitive[Namespace.Category]
+                                + @".*?(\]\]|\|.*?\]\])( {0,4}⌊⌊⌊⌊[0-9]{1,4}⌋⌋⌋⌋|\s*<!--.*?-->(?=\r\n\[\[))?", RegexOptions.Singleline);
 
+            //      Regex CatOnly = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[Namespace.Category] + @".*?(\]\]|\|.*?\]\])", RegexOptions.Compiled);
+            
             MatchCollection matches = r.Matches(articleText);
             foreach (Match m in matches)
             {
+                string cat = WikiRegexes.Category.Match(m.Value).Value;
+                
                 if (!Regex.IsMatch(m.Value, "\\[\\[Category:(Pages|Categories|Articles) for deletion\\]\\]"))
                     categoryList.Add(m.Value);
             }
 
             articleText = Tools.RemoveMatches(articleText, matches);
+            
+            // if category tidying has changed comments return with no changes – we've pulled a cat from a comment
+            if(!CommentsNotChanged(originalArticleText, articleText))
+            {
+                articleText = originalArticleText;
+                return "";
+            }
 
             if (AddCatKey)
                 categoryList = CatKeyer(categoryList, articleTitle);
@@ -374,7 +386,7 @@ en, sq, ru
 
             string defaultSort = "";
             // ignore commented out DEFAULTSORT – http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Moving_DEFAULTSORT_in_HTML_comments
-            if (mc.Count > 0 && WikiRegexes.Defaultsort.Matches(WikiRegexes.Comments.Replace(articleText, "")).Count == mc.Count) 
+            if (mc.Count > 0 && WikiRegexes.Defaultsort.Matches(WikiRegexes.Comments.Replace(articleText, "")).Count == mc.Count)
                 defaultSort = mc[0].Value;
 
             if (!string.IsNullOrEmpty(defaultSort))
@@ -403,6 +415,31 @@ en, sq, ru
 
             return defaultSort + ListToString(categoryList) + lifetime;
         }
+        
+        /// <summary>
+        /// Returns whether the comments are the same in the two strings
+        /// </summary>
+        /// <param name="articleText">the first string to search</param>
+        /// <param name="category">the second string to search</param>
+        /// <returns>whether the comments are the same in the two strings</returns>
+        private bool CommentsNotChanged(string originalArticleText, string articleText)
+        {
+            if(WikiRegexes.Comments.Matches(originalArticleText).Count != WikiRegexes.Comments.Matches(articleText).Count)
+                return true;
+            
+            string before = "", after = "";
+            foreach(Match m in WikiRegexes.Comments.Matches(originalArticleText))
+            {
+                before += m.Value;
+            }            
+            
+            foreach(Match m in WikiRegexes.Comments.Matches(articleText))
+            {
+                after += m.Value;
+            }
+            
+            return(before.Length.Equals(after.Length));
+        }
 
         /// <summary>
         /// Extracts the persondata template from the articleText, along with the persondata comment, if present on the line before
@@ -412,8 +449,8 @@ en, sq, ru
         public static string RemovePersonData(ref string articleText)
         {
             string strPersonData = (Variables.LangCode == "de")
-                                ? Parsers.GetTemplate(articleText, "[Pp]ersonendaten")
-                                : Parsers.GetTemplate(articleText, "[Pp]ersondata");
+                ? Parsers.GetTemplate(articleText, "[Pp]ersonendaten")
+                : Parsers.GetTemplate(articleText, "[Pp]ersondata");
 
             if (!string.IsNullOrEmpty(strPersonData))
                 articleText = articleText.Replace(strPersonData, "");
@@ -589,7 +626,7 @@ en, sq, ru
             // find the template position
             int moreNoFootnotesPosition = WikiRegexes.MoreNoFootnotes.Match(articleText).Index;
 
-            // the template must be in one of the 'References', 'Notes' or 'Footnotes' section          
+            // the template must be in one of the 'References', 'Notes' or 'Footnotes' section
             int referencesSectionPosition = ReferencesSectionRegex.Match(articleText).Index;
 
             if (referencesSectionPosition > 0 && moreNoFootnotesPosition < referencesSectionPosition)

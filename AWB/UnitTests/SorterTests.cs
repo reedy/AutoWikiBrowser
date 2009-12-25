@@ -502,6 +502,14 @@ text
             t = bug1c + bug1a + bug1b;
 
             Assert.AreEqual(bug1a + "\r\n", parser2.Sorter.RemoveCats(ref t, "test"));
+            
+            string bug2 = @"{{The Surreal Life}}
+<!--The 1951 birth date has been upheld in court, please do not add this category.[[Category:1941 births]]--> 
+
+[[Category:Living People]]
+foo";
+            
+            Assert.IsFalse(parser2.Sorter.RemoveCats(ref bug2, "test").Contains(@"[[Category:Living People]]"));
         }
 
         [Test]
