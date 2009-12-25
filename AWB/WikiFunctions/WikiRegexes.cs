@@ -645,9 +645,14 @@ namespace WikiFunctions
         public static Regex TemplateCall;
 
         /// <summary>
-        /// for checkpage parsing
+        /// No General Fixes regex for checkpage parsing
         /// </summary>
         public static readonly Regex NoGeneralFixes = new Regex("<!--No general fixes:.*?-->", RegexOptions.Singleline | RegexOptions.Compiled);
+
+        /// <summary>
+        /// No RegexTypoFix regex for checkpage parsing
+        /// </summary>
+        public static readonly Regex NoRETF = new Regex("<!--No RETF:.*?-->", RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
         /// For extraction of page title from URLs
