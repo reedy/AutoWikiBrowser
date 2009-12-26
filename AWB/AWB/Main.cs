@@ -1386,17 +1386,19 @@ namespace AutoWikiBrowser
                         theArticle.PerformTypoFixes(RegexTypos, chkSkipIfNoRegexTypo.Checked);
                         Variables.Profiler.Profile("Typos");
                         TypoStats = RegexTypos.GetStatistics();
-                        if (theArticle.SkipArticle)
-                        {
-                            if (mainProcess)
-                            {   // update stats only if not called from e.g. 'Re-parse' than could be clicked repeatedly
-                                OverallTypoStats.UpdateStats(TypoStats, true);
-                                UpdateTypoCount();
-                            }
-                            return;
-                        }
                     }
-                    //TODO:If skip if no regextypo is checked, we need to skip if we haven't processed it
+                    else if (chkSkipIfNoRegexTypo.Checked)
+                        TheArticle.Trace.AWBSkipped("No typo fixes (Title blacklisted from RegExTypoFix Typo Fixing)");
+
+                    if (theArticle.SkipArticle)
+                    {
+                        if (mainProcess)
+                        {   // update stats only if not called from e.g. 'Re-parse' than could be clicked repeatedly
+                            OverallTypoStats.UpdateStats(TypoStats, true);
+                            UpdateTypoCount();
+                        }
+                        return;
+                    }
                 }
 
                 // replace/add/remove categories
