@@ -289,7 +289,7 @@ namespace WikiFunctions
                 return (NameSpaceKey == Namespace.Article
                         || NameSpaceKey == Namespace.Category
                         || Name.Contains("Sandbox"))
-                    || Name.Contains("/doc");
+                        || Name.Contains("/doc");
             }
         }
 
