@@ -32,27 +32,114 @@ namespace WikiFunctions.Logging
         // Please don't alter it unless absolutely necessary
 
         // Methods
+        /// <summary>
+        /// 
+        /// </summary>
         void Close();
+
+        /// <summary>
+        /// 
+        /// </summary>
         void Flush();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fullArticleTitle"></param>
+        /// <param name="ns"></param>
         void ProcessingArticle(string fullArticleTitle, int ns);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="skippedBy"></param>
+        /// <param name="reason"></param>
         void SkippedArticle(string skippedBy, string reason);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="skippedBy"></param>
+        /// <param name="fullArticleTitle"></param>
+        /// <param name="ns"></param>
         void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, int ns);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="skippedBy"></param>
+        /// <param name="fullArticleTitle"></param>
+        /// <param name="ns"></param>
         void SkippedArticleRedlink(string skippedBy, string fullArticleTitle, int ns);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
         void Write(string text);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="pluginName"></param>
         void WriteArticleActionLine(string line, string pluginName);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="pluginName"></param>
+        /// <param name="verboseOnly"></param>
         void WriteArticleActionLine(string line, string pluginName, bool verboseOnly);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="bold"></param>
+        /// <param name="verboseOnly"></param>
         void WriteBulletedLine(string line, bool bold, bool verboseOnly);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="bold"></param>
+        /// <param name="verboseOnly"></param>
+        /// <param name="dateStamp"></param>
         void WriteBulletedLine(string line, bool bold, bool verboseOnly, bool dateStamp);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="line"></param>
         void WriteComment(string line);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="line"></param>
         void WriteCommentAndNewLine(string line);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="line"></param>
         void WriteLine(string line);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="template"></param>
+        /// <param name="pluginName"></param>
         void WriteTemplateAdded(string template, string pluginName);
 
         // Properties
         /// <summary>
         /// Is this trace listener an upload client?
         /// </summary>
-        /// <returns><b>True</b> if the trace listener can upload to Wikipedia</returns>
+        /// <returns>&lt;b>True&lt;/b> if the trace listener can upload to Wikipedia</returns>
         bool Uploadable { get; }
     }
 
