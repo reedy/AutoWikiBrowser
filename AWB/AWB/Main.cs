@@ -726,7 +726,7 @@ namespace AutoWikiBrowser
         }
 
         // counts number of redirects so that we catch double redirects
-        private int _redirects, _unbalancedBracket, _bracketLength, _deadLinks;
+        private int _redirects, _unbalancedBracket, _bracketLength;
 
         private Dictionary<int, int> badCiteParameters = new Dictionary<int, int>();
         private Dictionary<int, int> deadLinks = new Dictionary<int, int>();
