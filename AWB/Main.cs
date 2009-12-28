@@ -57,22 +57,13 @@ namespace AutoWikiBrowser
         private readonly Splash SplashScreen = new Splash();
         private readonly WikiFunctions.Profiles.AWBProfilesForm Profiles;
 
-        private bool Abort;
-        private bool IgnoreNoBots, ClearPageListOnProjectChange;
+        private bool Abort, IgnoreNoBots, ClearPageListOnProjectChange, PageReload, doDiffInBotMode;
 
-        private string LastArticle = "";
-        private string mSettingsFile = "";
+        private string LastArticle = "", mSettingsFile = "";
 
         private const int MaxRetries = 10;
 
-        private int OldSelection;
-        private int Retries;
-
-        private bool PageReload;
-        private int SameArticleNudges;
-
-        private int actionOnLoad;
-        private bool doDiffInBotMode;
+        private int OldSelection, Retries, SameArticleNudges, actionOnLoad;
 
         private readonly HideText RemoveText = new HideText(false, true, false);
         private readonly List<string> NoParse = new List<string>();
@@ -100,7 +91,7 @@ namespace AutoWikiBrowser
         private ListSplitter Splitter;
         private WikiFunctions.DBScanner.DatabaseScanner DBScanner;
 
-        List<TypoStat> TypoStats;
+        private List<TypoStat> TypoStats;
 
         private readonly Help HelpForm = new Help();
 
@@ -2080,7 +2071,7 @@ window.scrollTo(0, diffTopY);
 
             for (int i = 0; i <= after; i++)
             {
-                if (!(levelTwoHeadingsBefore[i] == levelTwoHeadingsAfter[i]))
+                if (levelTwoHeadingsBefore[i] != levelTwoHeadingsAfter[i])
                 {
                     sectionsChanged++;
                     sectionChangeNumber = i;
