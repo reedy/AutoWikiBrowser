@@ -623,7 +623,7 @@ namespace WikiFunctions.ReplaceSpecial
 
             TreeNode draggedNode = (TreeNode)e.Data.GetData(typeof(TreeNode));
 
-            if (Utility.IsSubnodeOf(draggedNode, targetNode))
+            if (Tools.IsSubnodeOf(draggedNode, targetNode))
             {
                 e.Effect = DragDropEffects.None;
                 return;
@@ -640,7 +640,7 @@ namespace WikiFunctions.ReplaceSpecial
 
             TreeNode draggedNode = (TreeNode)e.Data.GetData(typeof(TreeNode));
 
-            if (Utility.IsSubnodeOf(draggedNode, targetNode))
+            if (Tools.IsSubnodeOf(draggedNode, targetNode))
             {
                 e.Effect = DragDropEffects.None;
                 return;

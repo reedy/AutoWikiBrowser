@@ -341,7 +341,6 @@
     <Compile Include="SvnInfo.cs" />
     <Compile Include="TalkPageHeaders.cs" />
     <Compile Include="Tools.cs" />
-    <Compile Include="ReplaceSpecial\Utility.cs" />
     <Compile Include="Updater.cs" />
     <Compile Include="Logging\LogControl.cs">
       <SubType>UserControl</SubType>
