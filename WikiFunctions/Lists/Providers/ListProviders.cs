@@ -616,7 +616,7 @@ namespace WikiFunctions.Lists.Providers
     }
 
     /// <summary>
-    /// 
+    /// Gets a list of all blue links on the Named Pages
     /// </summary>
     public class LinksOnPageOnlyBlueListProvider : LinksOnPageOnlyRedListProvider
     {
