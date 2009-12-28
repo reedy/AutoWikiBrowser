@@ -508,7 +508,7 @@ namespace WikiFunctions.Lists.Providers
     }
 
     /// <summary>
-    /// Gets a list of all links on the Named Pages
+    /// Gets a list of all (red && blue) links on the Named Pages
     /// </summary>
     public class LinksOnPageListProvider : ApiListProviderBase
     {
@@ -558,11 +558,11 @@ namespace WikiFunctions.Lists.Providers
     }
 
     /// <summary>
-    /// Gets a list of all non-redlink links on the Named Pages
+    /// Gets a list of all red links on the Named Pages
     /// </summary>
-    public class LinksOnPageExcludingRedLinksListProvider : ApiListProviderBase
+    public class LinksOnPageOnlyRedListProvider : ApiListProviderBase
     {
-        public LinksOnPageExcludingRedLinksListProvider()
+        public LinksOnPageOnlyRedListProvider()
         {
             Limit = 5000; //Cant imagine a page having more than 5000 links...
         }
@@ -600,11 +600,11 @@ namespace WikiFunctions.Lists.Providers
 
         protected override bool EvaluateXmlElement(XmlTextReader xml)
         {
-            return !xml.MoveToAttribute("missing");
+            return xml.MoveToAttribute("missing");
         }
 
         public override string DisplayText
-        { get { return "Links on page (no redlinks)"; } }
+        { get { return "Links on page (only redlinks)"; } }
 
         public override string UserInputTextBoxText
         { get { return "Links on"; } }
@@ -613,6 +613,20 @@ namespace WikiFunctions.Lists.Providers
         { get { return true; } }
 
         public override void Selected() { }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class LinksOnPageOnlyBlueListProvider : LinksOnPageOnlyRedListProvider
+    {
+        protected override bool EvaluateXmlElement(XmlTextReader xml)
+        {
+            return !base.EvaluateXmlElement(xml);
+        }
+
+        public override string DisplayText
+        { get { return "Links on page (only bluelinks)"; } }
     }
 
     /// <summary>
