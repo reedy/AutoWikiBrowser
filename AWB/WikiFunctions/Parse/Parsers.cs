@@ -602,14 +602,9 @@ namespace WikiFunctions.Parse
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
         public static string FixFootnotes(string articleText)
-        {
-            // One space/linefeed
-            articleText = WikiRegexes.WhiteSpaceRef.Replace(articleText, "<ref$1");
-            // remove trailing spaces from named refs
-            articleText = WikiRegexes.RefTagWithParams.Replace(articleText, "<ref $1>");
+        {     
             // removed superscripted punctuation between refs
             articleText = WikiRegexes.SuperscriptedPunctuationBetweenRefs.Replace(articleText, "$1<ref");
-            articleText = WikiRegexes.PunctuationBetweenRefs.Replace(articleText, "$1<ref");
 
             articleText = WikiRegexes.WhiteSpaceFactTag.Replace(articleText, "{{$1}}");
 
